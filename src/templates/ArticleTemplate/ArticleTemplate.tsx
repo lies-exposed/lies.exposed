@@ -24,8 +24,9 @@ interface ArticleTemplatePage {
   }
 }
 
-export default function ArticleTemplatePage({ data }: ArticleTemplatePage) {
-  const { markdownRemark, allMarkdownRemark } = data // data.markdownRemark holds your post data
+export default function ArticleTemplatePage(props: ArticleTemplatePage) {
+  const { markdownRemark, allMarkdownRemark } = props.data // data.markdownRemark holds your post data
+  console.log(allMarkdownRemark)
   const { frontmatter, html } = markdownRemark
   console.log(allMarkdownRemark)
   const articleItems = allMarkdownRemark.nodes.map(n => ({
@@ -71,19 +72,17 @@ export const pageQuery = graphql`
     }
 
     allMarkdownRemark(
-      filter: { frontmatter: {}, fileAbsolutePath: { glob: "**/pages/**" } }
+      filter: { fileAbsolutePath: { glob: "**/articles/**" } }
     ) {
-      edges {
-        node {
-          id
-          frontmatter {
-            path
-            type
-            title
-            date(formatString: "DD/MM/YYYY")
-          }
-          fileAbsolutePath
+      nodes {
+        id
+        frontmatter {
+          path
+          type
+          title
+          date(formatString: "DD/MM/YYYY")
         }
+        fileAbsolutePath
       }
     }
   }

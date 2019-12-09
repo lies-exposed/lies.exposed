@@ -2,7 +2,9 @@ const path = require("path")
 
 const createArticlePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
-  const postTemplate = path.resolve(`src/templates/articleTemplate.tsx`)
+  const postTemplate = path.resolve(
+    `src/templates/ArticleTemplate/ArticleTemplate.tsx`
+  )
 
   const result = await graphql(`
     {
@@ -75,8 +77,8 @@ const createTimelinePages = async ({ actions, graphql, reporter }) => {
   result.data.allMarkdownRemark.edges.forEach(({ node }) => {
     const fileDirGlob = `**/${path.dirname(
       path.relative(process.cwd(), node.fileAbsolutePath)
-    )}/**`
-    console.log(fileDirGlob)
+    )}/events/**`
+
     createPage({
       path: node.frontmatter.path,
       component: postTemplate,

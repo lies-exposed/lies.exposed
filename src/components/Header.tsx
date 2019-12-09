@@ -1,7 +1,7 @@
 import * as PropTypes from "prop-types"
 import React from "react"
 import { Navbar } from "react-bulma-components"
-import { Link } from "gatsby"
+import { Link, graphql, useStaticQuery } from "gatsby"
 
 const NavbarLink = Navbar.Link as any
 
@@ -15,10 +15,6 @@ interface SecondLevelMenuItem extends MenuItem {}
 
 export interface FirstLevelMenuItem extends MenuItem {
   items: SecondLevelMenuItem[]
-}
-
-interface HeaderProps {
-  siteTitle: string
 }
 
 const renderMenuLink = (i: MenuItem, itemsLength: number) => {
@@ -48,7 +44,21 @@ const renderNavBarItem = (i: FirstLevelMenuItem) => (
   </Navbar.Item>
 )
 
-const Header = ({ siteTitle }: HeaderProps) => {
+const Header = () => {
+  const {
+    site: {
+      siteMetadata: { title },
+    },
+  } = useStaticQuery(graphql`
+    query SiteTitleQuery {
+      site {
+        siteMetadata {
+          title
+        }
+      }
+    }
+  `)
+
   const items: FirstLevelMenuItem[] = [
     {
       id: "articles",
@@ -67,7 +77,7 @@ const Header = ({ siteTitle }: HeaderProps) => {
   const homeItem = {
     id: "home",
     path: "/",
-    title: siteTitle.toUpperCase(),
+    title: title.toUpperCase(),
     items: [],
   }
 

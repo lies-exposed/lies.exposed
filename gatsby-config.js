@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Fiume In Piena`,
+    title: `Post Antropocene`,
     description: `Emergenza planetaria a 360º.`,
     author: `@ascariandrea`,
   },
@@ -35,7 +35,12 @@ module.exports = {
       },
     },
     `gatsby-plugin-typescript`,
-    `gatsby-transformer-remark`,
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: ["gatsby-remark-numbered-footnotes"],
+      },
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {

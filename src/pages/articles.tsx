@@ -1,9 +1,9 @@
 import React from "react"
 import SEO from "../components/SEO"
 import Layout from "../components/Layout"
-import { Columns } from "react-bulma-components"
 import Menu from "../components/Menu"
 import { useStaticQuery, graphql } from "gatsby"
+import { Columns } from "../components/Common/Bulma"
 
 interface ArticlePageProps {}
 
@@ -28,10 +28,11 @@ const ArticlesPage = ({}: ArticlePageProps) => {
   const { articles, pageContent }: Results = useStaticQuery(graphql`
     query ArticlePage {
       articles: allMarkdownRemark(
-        filter: { frontmatter: { path: { ne: "/articles" } } }
+        filter: { fileAbsolutePath: { glob: "**/articles/**" } }
       ) {
         nodes {
           id
+          fileAbsolutePath
           frontmatter {
             title
             path
