@@ -2,9 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 import Header from "./Header"
-import Columns from "react-bulma-components/lib/components/columns"
 import Container from "react-bulma-components/lib/components/container"
-import Footer from "react-bulma-components/lib/components/footer"
 
 import "./layout.scss"
 
@@ -26,10 +24,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <Container>
       <Header siteTitle={data.site.siteMetadata.title} />
-
-      <div className="main-content">
-        <Columns>{children}</Columns>
-      </div>
+      <div className="main-content">{children}</div>
     </Container>
   )
 }

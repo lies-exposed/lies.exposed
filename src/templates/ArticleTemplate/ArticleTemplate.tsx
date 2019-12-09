@@ -1,10 +1,10 @@
 import React from "react"
 import { graphql } from "gatsby"
 import "./articleTemplate.scss"
-import Layout from "../components/Layout"
-import SEO from "../components/SEO"
+import Layout from "../../components/Layout"
+import SEO from "../../components/SEO"
 import { Columns } from "react-bulma-components"
-import Menu from "../components/Menu"
+import Menu from "../../components/Menu"
 
 interface ArticleTemplatePage {
   // `data` prop will be injected by the GraphQL query below.
@@ -27,7 +27,7 @@ interface ArticleTemplatePage {
 export default function ArticleTemplatePage({ data }: ArticleTemplatePage) {
   const { markdownRemark, allMarkdownRemark } = data // data.markdownRemark holds your post data
   const { frontmatter, html } = markdownRemark
-
+  console.log(allMarkdownRemark)
   const articleItems = allMarkdownRemark.nodes.map(n => ({
     id: n.id,
     path: n.frontmatter.path,
@@ -70,12 +70,19 @@ export const pageQuery = graphql`
       }
     }
 
-    allMarkdownRemark(filter: { frontmatter: { path: { ne: "/articles" } } }) {
-      nodes {
-        id
-        frontmatter {
-          title
-          path
+    allMarkdownRemark(
+      filter: { frontmatter: {}, fileAbsolutePath: { glob: "**/pages/**" } }
+    ) {
+      edges {
+        node {
+          id
+          frontmatter {
+            path
+            type
+            title
+            date(formatString: "DD/MM/YYYY")
+          }
+          fileAbsolutePath
         }
       }
     }

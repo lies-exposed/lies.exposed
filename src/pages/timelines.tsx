@@ -5,7 +5,7 @@ import { Columns } from "react-bulma-components"
 import Menu from "../components/Menu"
 import { useStaticQuery, graphql } from "gatsby"
 
-interface ArticlePageProps {}
+interface TimelinesPageProps {}
 
 interface Node {
   id: string
@@ -15,20 +15,21 @@ interface Node {
   }
 }
 
-interface ArticleNode {
+interface PageContentNode {
+  title: string
   html: string
 }
 
 interface Results {
-  articles: { nodes: Node[] }
-  pageContent: { nodes: ArticleNode[] }
+  timelines: { nodes: Node[] }
+  pageContent: { nodes: PageContentNode[] }
 }
 
-const ArticlesPage = ({}: ArticlePageProps) => {
-  const { articles, pageContent }: Results = useStaticQuery(graphql`
-    query ArticlePage {
-      articles: allMarkdownRemark(
-        filter: { frontmatter: { path: { ne: "/articles" } } }
+const TimelinesPage = ({}: TimelinesPageProps) => {
+  const { timelines, pageContent }: Results = useStaticQuery(graphql`
+    query TimelinesPage {
+      timelines: allMarkdownRemark(
+        filter: { fileAbsolutePath: { glob: "**/timelines/**/index.md" } }
       ) {
         nodes {
           id
@@ -40,30 +41,35 @@ const ArticlesPage = ({}: ArticlePageProps) => {
       }
 
       pageContent: allMarkdownRemark(
-        filter: { frontmatter: { path: { eq: "/articles" } } }
+        filter: { frontmatter: { path: { eq: "/timelines" } } }
       ) {
         nodes {
+          frontmatter {
+            title
+          }
           html
         }
       }
     }
   `)
 
-  const articleItems = articles.nodes.map(n => ({
+  const items = timelines.nodes.map(n => ({
     id: n.id,
     path: n.frontmatter.path,
     title: n.frontmatter.title,
     items: [],
   }))
 
-  const { html } = pageContent.nodes[0]
+  console.log(items)
+
+  const { title, html } = pageContent.nodes[0]
 
   return (
     <Layout>
-      <SEO title="Article" />
+      <SEO title={title} />
       <Columns>
         <Columns.Column size={3}>
-          <Menu items={articleItems} />
+          <Menu items={items} />
         </Columns.Column>
         <Columns.Column size={9}>
           <div
@@ -76,4 +82,4 @@ const ArticlesPage = ({}: ArticlePageProps) => {
   )
 }
 
-export default ArticlesPage
+export default TimelinesPage

@@ -3,6 +3,8 @@ import React from "react"
 import { Navbar } from "react-bulma-components"
 import { Link } from "gatsby"
 
+const NavbarLink = Navbar.Link as any
+
 interface MenuItem {
   id: string
   title: string
@@ -21,14 +23,14 @@ interface HeaderProps {
 
 const renderMenuLink = (i: MenuItem, itemsLength: number) => {
   return (
-    <Navbar.Link
+    <NavbarLink
       key={i.title}
       renderAs={Link}
       to={i.path}
       arrowless={itemsLength === 0}
     >
       {i.title}
-    </Navbar.Link>
+    </NavbarLink>
   )
 }
 
@@ -52,6 +54,12 @@ const Header = ({ siteTitle }: HeaderProps) => {
       id: "articles",
       path: "/articles",
       title: "Articoli",
+      items: [],
+    },
+    {
+      id: "timelines",
+      path: "/timelines",
+      title: "Timelines",
       items: [],
     },
   ]

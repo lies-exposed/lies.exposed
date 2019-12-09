@@ -29,9 +29,13 @@ function SEO({ description, lang, meta, title }: SEOProps) {
 
   return (
     <Helmet
-      htmlAttributes={{
-        lang,
-      }}
+      htmlAttributes={
+        lang
+          ? {
+              lang,
+            }
+          : undefined
+      }
       title={title}
       titleTemplate={`%s | ${site.siteMetadata.title}`}
       meta={[
