@@ -3,13 +3,14 @@ import { graphql } from "gatsby"
 import "./timelineTemplate.scss"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
-import { Columns, Container } from "react-bulma-components"
+import { Columns } from "react-bulma-components"
 import Menu from "../../components/Menu"
 import {
   Timeline,
   TimelineEvent,
   TimelineEventFrontmatter,
 } from "../../components/Common/Timeline"
+import FlexView from "react-flexview/lib"
 
 interface ArticleTemplatePage {
   // `data` prop will be injected by the GraphQL query below.
@@ -42,11 +43,10 @@ export default function TimelineTemplate({ data }: ArticleTemplatePage) {
     html: n.html,
   }))
 
-  console.log(timelineEvents)
   return (
     <Layout>
       <SEO title="Home" />
-      <Container>
+      <Columns>
         <Columns.Column size={3}>
           <Menu items={[]} />
         </Columns.Column>
@@ -63,14 +63,14 @@ export default function TimelineTemplate({ data }: ArticleTemplatePage) {
             </div>
           </div>
         </Columns.Column>
-      </Container>
-      <Container>
-        <Columns.Column size={12}>
+      </Columns>
+      <Columns>
+        <Columns.Column>
           <div>
             <Timeline events={timelineEvents} />
           </div>
         </Columns.Column>
-      </Container>
+      </Columns>
     </Layout>
   )
 }
