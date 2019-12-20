@@ -10,7 +10,6 @@ import {
   TimelineEvent,
   TimelineEventFrontmatter,
 } from "../../components/Common/Timeline"
-import FlexView from "react-flexview/lib"
 
 interface ArticleTemplatePage {
   // `data` prop will be injected by the GraphQL query below.

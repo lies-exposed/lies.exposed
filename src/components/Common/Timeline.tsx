@@ -91,7 +91,9 @@ export const Timeline = (props: TimelineProps) => {
             key={e.id}
             className="vertical-timeline-element--work"
             contentStyle={{
-              backgroundColor: color,
+              borderWidth: 1,
+              borderColor: color,
+              borderStyle: "solid",
             }}
             contentArrowStyle={{
               borderRight: "7px solid",

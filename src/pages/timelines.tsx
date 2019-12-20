@@ -60,8 +60,6 @@ const TimelinesPage = ({}: TimelinesPageProps) => {
     items: [],
   }))
 
-  console.log(items)
-
   const { title, html } = pageContent.nodes[0]
 
   return (
