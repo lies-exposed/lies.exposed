@@ -7,17 +7,18 @@
   "dependencies": {
     "@mdi/font": "4.7.95",
     "fp-ts": "2.3.1",
-    "gatsby": "2.18.15",
+    "gatsby": "2.18.17",
     "gatsby-image": "2.2.37",
-    "gatsby-plugin-manifest": "2.2.33",
-    "gatsby-plugin-offline": "3.0.29",
+    "gatsby-plugin-manifest": "2.2.34",
+    "gatsby-plugin-offline": "3.0.30",
     "gatsby-plugin-react-helmet": "3.1.18",
     "gatsby-plugin-sass": "2.1.26",
-    "gatsby-plugin-sharp": "2.3.9",
+    "gatsby-plugin-sharp": "2.3.10",
     "gatsby-plugin-typescript": "2.1.23",
-    "gatsby-source-filesystem": "2.1.42",
+    "gatsby-remark-numbered-footnotes": "1.0.1",
+    "gatsby-source-filesystem": "2.1.43",
     "gatsby-transformer-json": "2.2.22",
-    "gatsby-transformer-remark": "2.6.44",
+    "gatsby-transformer-remark": "2.6.45",
     "gatsby-transformer-sharp": "2.3.9",
     "io-ts": "2.0.2",
     "io-ts-types": "0.5.3",
@@ -40,7 +41,7 @@
     "husky": "3.1.0",
     "node-sass": "4.13.0",
     "prettier": "1.19.1",
-    "typescript": "3.7.3"
+    "typescript": "3.7.4"
   },
   "keywords": [
     "gatsby"
