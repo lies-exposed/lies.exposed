@@ -1,8 +1,8 @@
 ---
-path: /timelines
-title: Timelines
+title: trees
+path: /networks
 ---
 
-# Timelines
+# Networks
 
 Una serie di linee temporali che mostrano l'avanzamento nel contrasto all'emergenza climatica.

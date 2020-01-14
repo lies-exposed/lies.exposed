@@ -72,6 +72,12 @@ const Header = () => {
       title: "Timelines",
       items: [],
     },
+    {
+      id: "networks",
+      path: "/networks",
+      title: "Networks",
+      items: [],
+    },
   ]
 
   const homeItem = {
