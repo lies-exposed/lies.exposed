@@ -1,56 +1,130 @@
+import * as t from "io-ts"
 import React from "react"
 import { graphql } from "gatsby"
 import "./timelineTemplate.scss"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import { Columns } from "react-bulma-components"
-import Menu from "../../components/Menu"
 import {
-  Timeline,
   TimelineEvent,
-  TimelineEventFrontmatter,
-} from "../../components/Common/Timeline"
+  TimelineEventType,
+  TimelineEventIcon,
+} from "../../components/Common/Tree/Timeline/Timeline"
+import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
+import { ThrowReporter } from "io-ts/lib/ThrowReporter"
+import * as E from "fp-ts/lib/Either"
+import * as A from "fp-ts/lib/Array"
+import * as Eq from "fp-ts/lib/Eq"
+import { formatDate } from "../../utils/date"
+
+interface EventNode {
+  id: string
+  frontmatter: {
+    icon: TimelineEventIcon
+    title: string
+    date: string
+    type: TimelineEventType | null
+    cover: string | null
+  }
+  html: string
+}
+
+interface ImageNode {
+  childImageSharp: {
+    fixed: {
+      src: string
+    }
+  }
+  relativeDirectory: string
+  relativePath: string
+}
 
 interface ArticleTemplatePage {
   // `data` prop will be injected by the GraphQL query below.
   data: {
     pageContent: {
-      frontmatter: { path: string; title: string; date: string }
-      html: string
+      childMarkdownRemark: {
+        frontmatter: {
+          title: string
+          path: string
+          date: string
+          icon: string
+          cover: string
+          type: string
+        }
+        html: string
+      }
     }
     events: {
-      nodes: [
-        {
-          id: string
-          frontmatter: TimelineEventFrontmatter
-          html: string
-        }
-      ]
+      nodes: {
+        childMarkdownRemark: EventNode
+      }[]
+    }
+    eventsAsActor: {
+      nodes: EventNode[]
+    }
+    images: {
+      nodes: ImageNode[]
     }
   }
 }
 
+const byId = Eq.contramap((n: EventNode) => n.id)(Eq.eqString)
+
 export default function TimelineTemplate({ data }: ArticleTemplatePage) {
   const {
-    pageContent: { frontmatter, html },
+    pageContent: {
+      childMarkdownRemark: { frontmatter, html },
+    },
     events,
+    eventsAsActor,
+    images,
   } = data
 
-  const timelineEvents: TimelineEvent[] = events.nodes.map(n => ({
+  const totalEvents = A.union(byId)(
+    events.nodes.map(n => n.childMarkdownRemark),
+    eventsAsActor.nodes
+  )
+
+  console.log(totalEvents);
+
+  const results = totalEvents.map(n => ({
     id: n.id,
     ...n.frontmatter,
     html: n.html,
+    image: pipe(
+      O.fromNullable(n.frontmatter.cover),
+      O.chain(c =>
+        O.fromNullable(images.nodes.find(i => i.relativePath === c))
+      ),
+      O.map(i => i.childImageSharp.fixed),
+      O.toUndefined
+    ),
   }))
+
+  const timelineEvents = t.array(TimelineEvent).decode(results)
+  if (E.isLeft(timelineEvents)) {
+    console.log(ThrowReporter.report(timelineEvents))
+    return null
+  }
 
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO title={frontmatter.title} />
       <Columns>
         <Columns.Column size={3}>
-          <Menu items={[]} />
+          <ul>
+            {timelineEvents.right.map(e => (
+              <li>
+                {formatDate(e.date)} - {e.title}
+              </li>
+            ))}
+          </ul>
         </Columns.Column>
         <Columns.Column size={9}>
           <div className="content">
+            <div></div>
             <div className="blog-post-container">
               <div className="blog-post">
                 <h1>{frontmatter.title}</h1>
@@ -61,13 +135,20 @@ export default function TimelineTemplate({ data }: ArticleTemplatePage) {
               </div>
             </div>
           </div>
-        </Columns.Column>
-      </Columns>
-      <Columns>
-        <Columns.Column>
-          <div>
-            <Timeline events={timelineEvents} />
-          </div>
+          <Columns.Column>
+            <div>
+              {timelineEvents.right.map(event => (
+                <div>
+                  <div className="title">{event.title}</div>
+                  <div
+                    className="content"
+                    dangerouslySetInnerHTML={{ __html: event.html }}
+                  />
+                </div>
+              ))}
+              {/* <Timeline events={timelineEvents.right} /> */}
+            </div>
+          </Columns.Column>
         </Columns.Column>
       </Columns>
     </Layout>
@@ -75,19 +156,30 @@ export default function TimelineTemplate({ data }: ArticleTemplatePage) {
 }
 
 export const pageQuery = graphql`
-  query($fileDirGlob: String!, $URLPath: String!) {
-    pageContent: markdownRemark(frontmatter: { path: { glob: $URLPath } }) {
-      html
-      frontmatter {
-        title
-        icon
-        type
-        path
+  query TimelineTemplatePage(
+    $subject: String!
+    $relativeDirectory: String!
+    $imagesRelativeDirectoryGlob: String!
+  ) {
+    pageContent: file(
+      relativeDirectory: { eq: $relativeDirectory }
+      name: { eq: "index" }
+    ) {
+      childMarkdownRemark {
+        frontmatter {
+          title
+          path
+          date
+          icon
+          cover
+          type
+        }
+        html
       }
     }
-
-    events: allMarkdownRemark(
-      filter: { fileAbsolutePath: { glob: $fileDirGlob } }
+    
+    eventsAsActor: allMarkdownRemark(
+      filter: { frontmatter: { actors: { eq: $subject } } }
       sort: { order: DESC, fields: frontmatter___date }
     ) {
       nodes {
@@ -96,9 +188,45 @@ export const pageQuery = graphql`
           title
           icon
           type
-          date(formatString: "DD/MM/YYYY")
+          date
+          cover
+          actors
         }
         html
+      }
+    }
+    events: allFile(
+      filter: {
+        relativeDirectory: { eq: $relativeDirectory }
+        name: { ne: "index" }
+      }
+    ) {
+      nodes {
+        childMarkdownRemark {
+          id
+          frontmatter {
+            title
+            icon
+            type
+            date
+            cover
+            actors
+          }
+          html
+        }
+      }
+    }
+    images: allFile(
+      filter: { relativePath: { glob: $imagesRelativeDirectoryGlob } }
+    ) {
+      nodes {
+        childImageSharp {
+          fixed {
+            src
+          }
+        }
+        relativeDirectory
+        relativePath
       }
     }
   }

@@ -10,8 +10,7 @@ interface TimelinesPageProps {}
 interface Node {
   id: string
   frontmatter: {
-    path: string
-    title: string
+    actors: string[] | null
   }
 }
 
@@ -21,21 +20,20 @@ interface PageContentNode {
 }
 
 interface Results {
-  timelines: { nodes: Node[] }
+  timelineActors: { nodes: Node[] }
   pageContent: { nodes: PageContentNode[] }
 }
 
 const TimelinesPage = ({}: TimelinesPageProps) => {
-  const { timelines, pageContent }: Results = useStaticQuery(graphql`
+  const { timelineActors, pageContent }: Results = useStaticQuery(graphql`
     query TimelinesPage {
-      timelines: allMarkdownRemark(
-        filter: { fileAbsolutePath: { glob: "**/timelines/**/index.md" } }
+      timelineActors: allMarkdownRemark(
+        filter: { fileAbsolutePath: { glob: "**/events/**/*.md" } }
       ) {
         nodes {
           id
           frontmatter {
-            title
-            path
+            actors
           }
         }
       }
@@ -53,10 +51,18 @@ const TimelinesPage = ({}: TimelinesPageProps) => {
     }
   `)
 
-  const items = timelines.nodes.map(n => ({
-    id: n.id,
-    path: n.frontmatter.path,
-    title: n.frontmatter.title,
+
+  const actors = timelineActors.nodes.reduce<string[]>((acc, n) => {
+    if (n.frontmatter.actors) {
+      return acc.concat(...n.frontmatter.actors.filter(a => !acc.includes(a)))
+    }
+    return acc
+  }, [])
+
+  const items = actors.map(n => ({
+    id: n,
+    path: `/timelines/${n}`,
+    title: n,
     items: [],
   }))
 

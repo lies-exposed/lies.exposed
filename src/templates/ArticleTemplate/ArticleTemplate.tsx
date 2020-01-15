@@ -26,9 +26,7 @@ interface ArticleTemplatePage {
 
 export default function ArticleTemplatePage(props: ArticleTemplatePage) {
   const { markdownRemark, allMarkdownRemark } = props.data // data.markdownRemark holds your post data
-  console.log(allMarkdownRemark)
   const { frontmatter, html } = markdownRemark
-  console.log(allMarkdownRemark)
   const articleItems = allMarkdownRemark.nodes.map(n => ({
     id: n.id,
     path: n.frontmatter.path,
