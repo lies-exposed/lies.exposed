@@ -44,10 +44,10 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
   })
 }
 
-const createTimelinePages = async ({ actions, graphql, reporter }) => {
+const createActorTimelinePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
   const postTemplate = path.resolve(
-    `src/templates/TimelineTemplate/TimelineTemplate.tsx`
+    `src/templates/ActorTimelineTemplate/ActorTimelineTemplate.tsx`
   )
 
   const result = await graphql(`
@@ -68,12 +68,12 @@ const createTimelinePages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  const nodes = result.data.actors.nodes;
+  const nodes = result.data.actors.nodes
 
   nodes.forEach(node => {
     const nodePath = `/timelines/${node.name}`
-    const relativeDirectory = `events/networks/**/${node.name}`
-    const imagesRelativeDirectoryGlob = `${relativeDirectory}/**/images/**`
+    const relativeDirectory = `events/actors/${node.name}`
+    const imagesRelativeDirectoryGlob = `${relativeDirectory}/images/**`
 
     const context = {
       subject: node.name,
@@ -144,8 +144,69 @@ const createNetworkPages = async ({ actions, graphql, reporter }) => {
   })
 }
 
+const createNetworkTopicTimelinePages = async ({
+  actions,
+  graphql,
+  reporter,
+}) => {
+  const { createPage } = actions
+  const networkTopicTimelineTemplate = path.resolve(
+    `src/templates/NetworkTopicTimelineTemplate/NetworkTopicTimelineTemplate.tsx`
+  )
+
+  const result = await graphql(`
+    {
+      allDirectory(
+        filter: { relativeDirectory: { glob: "events/networks/*" } }
+      ) {
+        nodes {
+          relativeDirectory
+          name
+        }
+      }
+    }
+  `)
+
+  // Handle errors
+  if (result.errors) {
+    reporter.panicOnBuild(`Error while running createNetworkTopicTimelinePages query.`)
+    return
+  }
+
+  const nodes = result.data.allDirectory.nodes
+
+  nodes.forEach(node => {
+    const parentName = A.takeRight(1)(node.relativeDirectory.split('/'))[0]
+    const nodePath = `/timelines/${parentName}/${node.name}`
+    const relativeDirectory = `events/networks/${parentName}/${node.name}`
+    const imagesRelativeDirectoryPath = `${relativeDirectory}/images`
+
+    const context = {
+      relativeDirectory,
+      imagesRelativeDirectoryPath,
+    }
+
+    reporter.info(
+      `NetworkTopicTimeline [${node.name}] context: ${JSON.stringify(
+        context,
+        null,
+        4
+      )}`
+    )
+
+    console.log(nodePath)
+    createPage({
+      path: nodePath,
+      component: networkTopicTimelineTemplate,
+      // additional data can be passed via context
+      context,
+    })
+  })
+}
+
 exports.createPages = async ({ actions, graphql, reporter }) => {
   await createArticlePages({ actions, graphql, reporter })
-  await createTimelinePages({ actions, graphql, reporter })
+  await createActorTimelinePages({ actions, graphql, reporter })
   await createNetworkPages({ actions, graphql, reporter })
+  await createNetworkTopicTimelinePages({ actions, graphql, reporter })
 }

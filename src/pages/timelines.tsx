@@ -4,15 +4,9 @@ import Layout from "../components/Layout"
 import { Columns } from "react-bulma-components"
 import Menu from "../components/Menu"
 import { useStaticQuery, graphql } from "gatsby"
+import * as A from "fp-ts/lib/Array"
 
 interface TimelinesPageProps {}
-
-interface Node {
-  id: string
-  frontmatter: {
-    actors: string[] | null
-  }
-}
 
 interface PageContentNode {
   title: string
@@ -20,21 +14,25 @@ interface PageContentNode {
 }
 
 interface Results {
-  timelineActors: { nodes: Node[] }
+  actors: { distinct: string[] }
+  topics: { nodes: { relativeDirectory: string; base: string }[] }
   pageContent: { nodes: PageContentNode[] }
 }
 
 const TimelinesPage = ({}: TimelinesPageProps) => {
-  const { timelineActors, pageContent }: Results = useStaticQuery(graphql`
+  const { actors, topics, pageContent }: Results = useStaticQuery(graphql`
     query TimelinesPage {
-      timelineActors: allMarkdownRemark(
-        filter: { fileAbsolutePath: { glob: "**/events/**/*.md" } }
+      
+      actors: allFile {
+        distinct(field: childMarkdownRemark___frontmatter___actors)
+      }
+
+      topics: allDirectory(
+        filter: { relativeDirectory: { glob: "events/networks/**" } }
       ) {
         nodes {
-          id
-          frontmatter {
-            actors
-          }
+          relativeDirectory
+          base
         }
       }
 
@@ -51,20 +49,23 @@ const TimelinesPage = ({}: TimelinesPageProps) => {
     }
   `)
 
-
-  const actors = timelineActors.nodes.reduce<string[]>((acc, n) => {
-    if (n.frontmatter.actors) {
-      return acc.concat(...n.frontmatter.actors.filter(a => !acc.includes(a)))
-    }
-    return acc
-  }, [])
-
-  const items = actors.map(n => ({
+  const actorItems = actors.distinct.map(n => ({
     id: n,
     path: `/timelines/${n}`,
     title: n,
     items: [],
   }))
+
+  const topicItems = topics.nodes.map(t => {
+    const networkName = A.takeRight(1)(t.relativeDirectory.split("/"))[0]
+    const id = `${networkName}/${t.base}`
+    return {
+      id,
+      path: `/timelines/${id}`,
+      title: `${networkName} - ${t.base}`,
+      items: [],
+    }
+  })
 
   const { title, html } = pageContent.nodes[0]
 
@@ -73,7 +74,14 @@ const TimelinesPage = ({}: TimelinesPageProps) => {
       <SEO title={title} />
       <Columns>
         <Columns.Column size={3}>
-          <Menu items={items} />
+          <div>
+            Actors
+            <Menu items={actorItems} />
+          </div>
+          <div>
+            Topic
+            <Menu items={topicItems} />
+          </div>
         </Columns.Column>
         <Columns.Column size={9}>
           <div

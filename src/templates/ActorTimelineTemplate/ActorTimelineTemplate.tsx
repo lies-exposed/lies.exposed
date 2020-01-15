@@ -1,7 +1,7 @@
 import * as t from "io-ts"
 import React from "react"
 import { graphql } from "gatsby"
-import "./timelineTemplate.scss"
+import "./actorTimelineTemplate.scss"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import { Columns } from "react-bulma-components"
@@ -40,7 +40,7 @@ interface ImageNode {
   relativePath: string
 }
 
-interface ArticleTemplatePage {
+interface ActorTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
     pageContent: {
@@ -72,7 +72,7 @@ interface ArticleTemplatePage {
 
 const byId = Eq.contramap((n: EventNode) => n.id)(Eq.eqString)
 
-export default function TimelineTemplate({ data }: ArticleTemplatePage) {
+export default function ActorTimelineTemplate({ data }: ActorTimelineTemplatePageProps) {
   const {
     pageContent: {
       childMarkdownRemark: { frontmatter, html },
@@ -156,7 +156,7 @@ export default function TimelineTemplate({ data }: ArticleTemplatePage) {
 }
 
 export const pageQuery = graphql`
-  query TimelineTemplatePage(
+  query ActorTimelineTemplatePage(
     $subject: String!
     $relativeDirectory: String!
     $imagesRelativeDirectoryGlob: String!
@@ -216,6 +216,7 @@ export const pageQuery = graphql`
         }
       }
     }
+
     images: allFile(
       filter: { relativePath: { glob: $imagesRelativeDirectoryGlob } }
     ) {

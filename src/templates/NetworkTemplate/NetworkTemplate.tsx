@@ -16,6 +16,7 @@ import { ord, ordString, ordDate } from "fp-ts/lib/Ord"
 import * as O from "fp-ts/lib/Option"
 import * as Map from "fp-ts/lib/Map"
 import { Link } from "@vx/network/lib/types"
+import { withDashes } from "../../utils/string"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
@@ -33,7 +34,10 @@ interface NetworksPageProps {
         childImageSharp: { fluid: { src: string } }
       }[]
     }
-    pageContent: { childMarkdownRemark: PageContentNode }
+    pageContent: {
+      childMarkdownRemark: PageContentNode
+      relativeDirectory: string
+    }
   }
 }
 
@@ -124,6 +128,7 @@ const NetworksPage = ({
       frontmatter: { title },
       html,
     },
+    relativeDirectory,
   } = pageContent
 
   const width = 900
@@ -133,6 +138,7 @@ const NetworksPage = ({
 
   const initial: any[] = []
 
+  const networkName = A.takeRight(1)(relativeDirectory.split("/"))[0]
   const points = events.nodes.reduce<typeof initial>((acc, n) => {
     const event = A.takeRight(1)(n.relativeDirectory.split("/"))[0]
 
@@ -329,10 +335,14 @@ const NetworksPage = ({
                     eventLabels={eventLabels}
                     eventColors={A.takeLeft(eventLabels.length)(colors)}
                     onEventLabelClick={event => {
-                      navigate(`/timelines/${event}`)
+                      navigate(`/timelines/${networkName}/${event}`)
                     }}
                     onNodeClick={event => {
-                      navigate(`/networks/${event.data.event}`)
+                      navigate(
+                        `/timelines/${networkName}/${
+                          event.data.event
+                        }#${withDashes(event.data.frontmatter.title.toLowerCase())}`
+                      )
                     }}
                   />
                 </div>
