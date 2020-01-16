@@ -13,12 +13,12 @@ import NetworkNode, { NetworkNodeProps } from "./NetworkEventNode"
 import { Zoom } from "@vx/zoom"
 import { RectClipPath } from "@vx/clip-path"
 import { Legend } from "@vx/legend"
-import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { EventPoint } from "../../../types/event"
 import { formatDate } from "../../../utils/date"
 import LinkEvent, { LinkEventProps } from "./LinkEventNode"
+import { TopicPoint } from "../../../types/topic"
 
 function numTicksForWidth(width: number): number {
   if (width <= 300) return 2
@@ -26,20 +26,12 @@ function numTicksForWidth(width: number): number {
   return 10
 }
 
-interface EventLabel {
-  x: number
-  y: number
-  label: string
-  fill: string
-}
-
 interface NetworkProps extends Omit<WithTooltipProvidedProps, "tooltipData"> {
   width: number
   height: number
   minDate: Date
   maxDate: Date
-  eventLabels: EventLabel[]
-  eventColors: string[]
+  topics: TopicPoint[]
   graph: GraphType<LinkEventProps, NetworkNodeProps["node"]>
   tooltipData?: NetworkNodeProps["node"]["data"]
   onEventLabelClick: (event: string) => void;
@@ -93,9 +85,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
         graph,
         minDate,
         maxDate,
-        eventLabels,
-        eventColors,
-        onEventLabelClick,
+        topics,
         onNodeClick,
         hideTooltip,
         tooltipOpen,
@@ -107,8 +97,8 @@ class Network extends React.Component<NetworkProps, NetworkState> {
     } = this
 
     const eventsOrdinalScale = scaleOrdinal({
-      range: eventColors,
-      domain: eventLabels.map(e => e.label),
+      range: topics.map(t => t.fill),
+      domain: topics.map(t => t.label),
     })
 
     const getXScale = () =>
@@ -117,8 +107,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
         domain: [minDate, maxDate],
         nice: true,
       })
-
-    const eventColorPairs = A.zip(eventLabels, eventColors)
     
     return (
       <React.Fragment>
@@ -190,27 +178,12 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                       nodeComponent={props =>
                         NetworkNode({
                           ...props,
-                          fill: pipe(
-                            O.fromNullable(
-                              eventColorPairs.find(
-                                ([eventName, _color]) =>
-                                  eventName.label === props.node.data.event
-                              )
-                            ),
-                            O.map(([_eventName, color]) => color),
-                            O.getOrElse(() => "#FFF")
-                          ),
                           onMouseOver: this.handleMouseOver,
                           onMouseOut: hideTooltip,
                           onClick: onNodeClick,
                         })
                       }
                     />
-                    {eventLabels.map(l => (
-                      <text key={l.label} x={l.x} y={l.y} fill={l.fill} onClick={() => onEventLabelClick(l.label)}>
-                        {l.label}
-                      </text>
-                    ))}
                   </g>
                   {showMiniMap && (
                     <g

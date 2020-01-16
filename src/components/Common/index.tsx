@@ -10,6 +10,8 @@ import Heading, {
 import Section, {
   SectionProps,
 } from "react-bulma-components/lib/components/section"
+import Image, { ImageProps } from "react-bulma-components/lib/components/image"
+import List, { ListProps } from "react-bulma-components/lib/components/list"
 
 export {
   Columns,
@@ -18,6 +20,10 @@ export {
   ContainerProps,
   Heading,
   HeadingProps,
+  Image,
+  ImageProps,
+  List,
+  ListProps,
   Section,
   SectionProps,
 }

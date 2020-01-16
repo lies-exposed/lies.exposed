@@ -8,19 +8,29 @@ interface MenuItem {
   title: string
 }
 
-interface MenuProps {
+interface Section {
+  label?: string
   items: MenuItem[]
+}
+
+interface MenuProps {
+  sections: Section[]
 }
 const Menu = (props: MenuProps) => {
   return (
     <BMenu>
-      <BMenu.List>
-        {props.items.map(i => (
-          <BMenu.List.Item key={i.id} renderAs="div">
-            <Link to={i.path}>{i.title}</Link>
-          </BMenu.List.Item>
-        ))}
-      </BMenu.List>
+      {props.sections.map(({ label, items }) => (
+        <>
+          {label && <p className="menu-label">{label}</p>}
+          <BMenu.List>
+            {items.map(i => (
+              <BMenu.List.Item key={i.id} renderAs="div">
+                <Link to={i.path}>{i.title}</Link>
+              </BMenu.List.Item>
+            ))}
+          </BMenu.List>
+        </>
+      ))}
     </BMenu>
   )
 }

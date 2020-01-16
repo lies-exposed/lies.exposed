@@ -39,7 +39,7 @@ export default function ArticleTemplatePage(props: ArticleTemplatePage) {
       <SEO title="Home" />
       <Columns>
         <Columns.Column size={3}>
-          <Menu items={articleItems} />
+          <Menu sections={[{ items: articleItems }]} />
         </Columns.Column>
         <Columns.Column size={9}>
           <div className="content">

@@ -122,12 +122,12 @@ const createNetworkPages = async ({ actions, graphql, reporter }) => {
   )
 
   result.data.allDirectory.nodes.forEach(({ name }) => {
-    const pageContentRelativePath = `events/networks/${name}/index.md`
+    const relativeDirectory = `events/networks/${name}`
     const eventsRelativeDirectory = `events/networks/${name}/**`
     const imagesRelativeDirectory = `events/networks/${name}/**/images/**`
 
     const context = {
-      pageContentRelativePath,
+      relativeDirectory,
       eventsRelativeDirectory,
       imagesRelativeDirectory,
     }
@@ -169,14 +169,16 @@ const createNetworkTopicTimelinePages = async ({
 
   // Handle errors
   if (result.errors) {
-    reporter.panicOnBuild(`Error while running createNetworkTopicTimelinePages query.`)
+    reporter.panicOnBuild(
+      `Error while running createNetworkTopicTimelinePages query.`
+    )
     return
   }
 
   const nodes = result.data.allDirectory.nodes
 
   nodes.forEach(node => {
-    const parentName = A.takeRight(1)(node.relativeDirectory.split('/'))[0]
+    const parentName = A.takeRight(1)(node.relativeDirectory.split("/"))[0]
     const nodePath = `/timelines/${parentName}/${node.name}`
     const relativeDirectory = `events/networks/${parentName}/${node.name}`
     const imagesRelativeDirectoryPath = `${relativeDirectory}/images`

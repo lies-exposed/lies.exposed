@@ -22,7 +22,6 @@ interface Results {
 const TimelinesPage = ({}: TimelinesPageProps) => {
   const { actors, topics, pageContent }: Results = useStaticQuery(graphql`
     query TimelinesPage {
-      
       actors: allFile {
         distinct(field: childMarkdownRemark___frontmatter___actors)
       }
@@ -74,14 +73,18 @@ const TimelinesPage = ({}: TimelinesPageProps) => {
       <SEO title={title} />
       <Columns>
         <Columns.Column size={3}>
-          <div>
-            Actors
-            <Menu items={actorItems} />
-          </div>
-          <div>
-            Topic
-            <Menu items={topicItems} />
-          </div>
+          <Menu
+            sections={[
+              {
+                label: "Attori",
+                items: actorItems,
+              },
+              {
+                label: "Topic",
+                items: topicItems,
+              },
+            ]}
+          />
         </Columns.Column>
         <Columns.Column size={9}>
           <div

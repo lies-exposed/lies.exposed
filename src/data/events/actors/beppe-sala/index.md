@@ -1,6 +1,7 @@
 ---
 date: 2019-12-12
 title: Beppe Sala
+username: beppe-sala
 avatar: beppe-sala-avatar.jpeg
 ---
 
