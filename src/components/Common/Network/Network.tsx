@@ -8,17 +8,15 @@ import withTooltip, {
 import { TooltipWithBounds } from "@vx/tooltip"
 import { Group } from "@vx/group"
 import { AxisBottom } from "@vx/axis"
-import { scaleTime, scaleOrdinal } from "@vx/scale"
+import { scaleTime } from "@vx/scale"
 import NetworkNode, { NetworkNodeProps } from "./NetworkEventNode"
 import { Zoom } from "@vx/zoom"
 import { RectClipPath } from "@vx/clip-path"
-import { Legend } from "@vx/legend"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { EventPoint } from "../../../types/event"
 import { formatDate } from "../../../utils/date"
 import LinkEvent, { LinkEventProps } from "./LinkEventNode"
-import { TopicPoint } from "../../../types/topic"
 
 function numTicksForWidth(width: number): number {
   if (width <= 300) return 2
@@ -31,7 +29,6 @@ interface NetworkProps extends Omit<WithTooltipProvidedProps, "tooltipData"> {
   height: number
   minDate: Date
   maxDate: Date
-  topics: TopicPoint[]
   graph: GraphType<LinkEventProps, NetworkNodeProps["node"]>
   tooltipData?: NetworkNodeProps["node"]["data"]
   onEventLabelClick: (event: string) => void;
@@ -54,7 +51,7 @@ interface NetworkState {
 class Network extends React.Component<NetworkProps, NetworkState> {
   constructor(props: NetworkProps) {
     super(props)
-    this.state = { showMiniMap: true }
+    this.state = { showMiniMap: false }
   }
 
   handleMouseOver = (event: any, datum: any) => {
@@ -85,7 +82,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
         graph,
         minDate,
         maxDate,
-        topics,
         onNodeClick,
         hideTooltip,
         tooltipOpen,
@@ -96,10 +92,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
       state: { showMiniMap },
     } = this
 
-    const eventsOrdinalScale = scaleOrdinal({
-      range: topics.map(t => t.fill),
-      domain: topics.map(t => t.label),
-    })
 
     const getXScale = () =>
       scaleTime({
@@ -190,9 +182,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                       clipPath="url(#zoom-clip)"
                       transform={`
                       scale(0.25)
-                      translate(${width * 4 - width - 60}, ${height * 4 -
-                        height -
-                        60})
+                      translate(${width * 4 - width}, ${height * 4 - height})
                     `}
                     >
                       <rect width={width} height={height} fill="#1a1a1a" />
@@ -213,6 +203,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                     key={Math.random()}
                     top={tooltipTop}
                     left={tooltipLeft}
+                    style={{ maxWidth: 200 }}
                   >
                     <div>
                       <div>
@@ -273,15 +264,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
             )
           }}
         </Zoom>
-        <div>
-          <Legend
-            scale={eventsOrdinalScale}
-            direction="column-reverse"
-            itemDirection="row-reverse"
-            labelMargin="0 20px 0 0"
-            shapeMargin="1px 0 0"
-          />
-        </div>
       </React.Fragment>
     )
   }

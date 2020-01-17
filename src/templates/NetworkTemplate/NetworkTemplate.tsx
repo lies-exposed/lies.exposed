@@ -128,7 +128,7 @@ function addOneIfEqualTo(o: O.Option<string>, match: string): 0 | 1 {
 }
 
 const width = 800
-const height = 600
+const height = 400
 const marginVertical = 30
 const marginHorizontal = 30
 
@@ -236,8 +236,12 @@ export default class NetworkTemplate extends React.Component<
       E.map(events => {
         const eventsSortedByDate = pipe(events, A.sortBy([eventPointByDate]))
 
-        const minDate =
-          eventsSortedByDate[0].childMarkdownRemark.frontmatter.date
+        const minDate = pipe(
+          A.head(eventsSortedByDate),
+          O.map(e => e.childMarkdownRemark.frontmatter.date),
+          O.getOrElse(() => new Date("2018-01-01"))
+        )
+        
         const maxDate = pipe(
           A.last(eventsSortedByDate),
           O.map(e => e.childMarkdownRemark.frontmatter.date),
@@ -285,7 +289,10 @@ export default class NetworkTemplate extends React.Component<
             }))
           )
 
-          const isTopicSelected = A.elem(Eq.eqString)(topic.id, selectedTopicIds)
+          const isTopicSelected = A.elem(Eq.eqString)(
+            topic.id,
+            selectedTopicIds
+          )
 
           const eventPoint: EventPoint = {
             x:
@@ -403,7 +410,9 @@ export default class NetworkTemplate extends React.Component<
                         return {
                           ...item,
                           events: isTopicSelected ? events : [],
-                          links: isTopicSelected ? item.links.concat(link) : item.links,
+                          links: isTopicSelected
+                            ? item.links.concat(link)
+                            : item.links,
                           ecologicAct:
                             item.ecologicAct +
                             addOneIfEqualTo(
@@ -556,7 +565,6 @@ export default class NetworkTemplate extends React.Component<
                       minDate={minDate}
                       maxDate={maxDate}
                       graph={graph}
-                      topics={topics}
                       onEventLabelClick={event => {
                         navigate(`/timelines/${networkName}/${event}`)
                       }}
