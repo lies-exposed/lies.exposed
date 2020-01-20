@@ -34,13 +34,13 @@ function NetworkNode({
   
   return (
     <Group {...groupProps} onClick={() => onClick(node)}>
-      <circle r={12} fill={node.data.fill} />
       {O.fold(() => null, (type) => {
         if (type === 'AntiEcologicAct') {
-          return <circle r={8} fill="red" />
+          return <circle r={12} fill="red" />
         }
-        return <circle r={8} fill="green" />
+        return <circle r={12} fill="green" />
       })(node.data.frontmatter.type)}
+      <circle r={8} fill={node.data.fill} />
     </Group>
   )
 }

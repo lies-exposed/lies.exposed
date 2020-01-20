@@ -241,7 +241,7 @@ export default class NetworkTemplate extends React.Component<
           O.map(e => e.childMarkdownRemark.frontmatter.date),
           O.getOrElse(() => new Date("2018-01-01"))
         )
-        
+
         const maxDate = pipe(
           A.last(eventsSortedByDate),
           O.map(e => e.childMarkdownRemark.frontmatter.date),
@@ -315,15 +315,13 @@ export default class NetworkTemplate extends React.Component<
             },
           }
 
-          const eventNodes = isTopicSelected
-            ? pipe(
-                Map.lookup(Eq.eqString)(topic.id, acc.eventNodes),
-                O.fold(
-                  () => [eventPoint],
-                  events => events.concat(eventPoint)
-                )
-              )
-            : []
+          const eventNodes = pipe(
+            Map.lookup(Eq.eqString)(topic.id, acc.eventNodes),
+            O.fold(
+              () => [eventPoint],
+              events => events.concat(eventPoint)
+            )
+          )
 
           const eventLinks = isTopicSelected
             ? pipe(
@@ -384,7 +382,7 @@ export default class NetworkTemplate extends React.Component<
                             e.childMarkdownRemark.frontmatter.type,
                             "AntiEcologicAct"
                           ),
-                          events: isTopicSelected ? events : [],
+                          events: events,
                           links: [],
                           totalActs: 1,
                         }
@@ -409,10 +407,8 @@ export default class NetworkTemplate extends React.Component<
 
                         return {
                           ...item,
-                          events: isTopicSelected ? events : [],
-                          links: isTopicSelected
-                            ? item.links.concat(link)
-                            : item.links,
+                          events: events,
+                          links: item.links.concat(link),
                           ecologicAct:
                             item.ecologicAct +
                             addOneIfEqualTo(
@@ -589,7 +585,17 @@ export default class NetworkTemplate extends React.Component<
                         onClick={() => this.onTopicClick(t.id)}
                       >
                         <>
-                          <span style={{ color: t.fill }}>{t.label}</span>{" "}
+                          <span style={{ color: t.fill }}>
+                            <div
+                              style={{
+                                backgroundColor: t.label,
+                                borderRadius: 10,
+                                width: 20,
+                                height: 20,
+                              }}
+                            />
+                            {t.label}{" "}
+                          </span>{" "}
                           {/* <span>
                           {t.antiEcologicAct} / {t.totalActs}
                         </span> */}
