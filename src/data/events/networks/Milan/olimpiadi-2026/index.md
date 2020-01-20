@@ -1,5 +1,5 @@
 ---
-title: Olimpiadi Milano - Cortina
+title: Olimpiadi 2026
 icon: pencil-alt
 date: 2020-01-02
 slug: olimpiadi-2026

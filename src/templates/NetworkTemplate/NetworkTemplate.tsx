@@ -7,7 +7,7 @@ import * as t from "io-ts"
 import React from "react"
 import SEO from "../../components/SEO"
 import Layout from "../../components/Layout"
-import { Columns, List, Image } from "../../components/Common"
+import { Columns, List, Image, Tag } from "../../components/Common"
 import { graphql } from "gatsby"
 import { EventPoint, EventFileNode } from "../../types/event"
 import * as A from "fp-ts/lib/Array"
@@ -27,6 +27,7 @@ import { ImageNode } from "../../utils/image"
 import { TopicFileNode, TopicPoint } from "../../types/topic"
 import * as Eq from "fp-ts/lib/Eq"
 import moment from "moment"
+import { formatDate } from "../../utils/date"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
@@ -450,7 +451,7 @@ export default class NetworkTemplate extends React.Component<
               x: -100,
               y: -100,
               label: "fake",
-              slug: 'fake',
+              slug: "fake",
               fill: colors[0],
             }))
           )
@@ -472,7 +473,8 @@ export default class NetworkTemplate extends React.Component<
             y: yGetter(topic.slug),
             data: {
               ...e.childMarkdownRemark,
-              topic: topic.label,
+              topicLabel: topic.label,
+              topicFill: topic.fill,
               fill: topic.fill,
               frontmatter: {
                 ...e.childMarkdownRemark.frontmatter,
@@ -687,6 +689,7 @@ export default class NetworkTemplate extends React.Component<
           pageContent,
           minDate,
           maxDate,
+          scale,
           graph,
           actors,
           topics,
@@ -766,7 +769,7 @@ export default class NetworkTemplate extends React.Component<
                       }}
                       onNodeClick={event => {
                         const url = `/timelines/${networkName}/${
-                          event.data.topic
+                          event.data.topicLabel
                         }#${withDashes(
                           event.data.frontmatter.title.toLowerCase()
                         )}`
@@ -775,7 +778,10 @@ export default class NetworkTemplate extends React.Component<
                       onDoubleClick={this.onNetworkDoubleClick}
                     />
                   </div>
-                  <div>{scale}</div>
+                  <div>
+                    Scale: {scale}, Date Range: {formatDate(minDate)} -{" "}
+                    {formatDate(maxDate)}
+                  </div>
                 </Columns.Column>
                 <Columns.Column size={2}>
                   <List>
@@ -813,6 +819,9 @@ export default class NetworkTemplate extends React.Component<
                         <div className="subtitle">
                           {" "}
                           {n.data.frontmatter.title}
+                        </div>
+                        <div>
+                          <Tag style={{ backgroundColor: n.data.topicFill, color: 'white' }}>{n.data.topicLabel}</Tag>
                         </div>
                         <div
                           dangerouslySetInnerHTML={{ __html: n.data.html }}
@@ -855,7 +864,12 @@ export const pageQuery = graphql`
         html
       }
     }
-    topics: allFile(filter: {relativeDirectory: {glob: $eventsRelativeDirectory}, name: {eq: "index"}}) {
+    topics: allFile(
+      filter: {
+        relativeDirectory: { glob: $eventsRelativeDirectory }
+        name: { eq: "index" }
+      }
+    ) {
       nodes {
         id
         relativeDirectory
