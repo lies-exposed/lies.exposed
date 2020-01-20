@@ -10,13 +10,13 @@ import { Group } from "@vx/group"
 import { AxisBottom } from "@vx/axis"
 import { scaleTime } from "@vx/scale"
 import NetworkNode, { NetworkNodeProps } from "./NetworkEventNode"
-import { Zoom } from "@vx/zoom"
 import { RectClipPath } from "@vx/clip-path"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { EventPoint } from "../../../types/event"
 import { formatDate } from "../../../utils/date"
 import LinkEvent, { LinkEventProps } from "./LinkEventNode"
+import * as A from "fp-ts/lib/Array"
 
 function numTicksForWidth(width: number): number {
   if (width <= 300) return 2
@@ -24,34 +24,28 @@ function numTicksForWidth(width: number): number {
   return 10
 }
 
-interface NetworkProps extends Omit<WithTooltipProvidedProps, "tooltipData"> {
+export type NetworkScale = "all" | "year" | "month" | "week" | "day"
+
+export interface NetworkProps
+  extends Omit<WithTooltipProvidedProps, "tooltipData"> {
   width: number
   height: number
+  scale: NetworkScale
   minDate: Date
   maxDate: Date
   graph: GraphType<LinkEventProps, NetworkNodeProps["node"]>
   tooltipData?: NetworkNodeProps["node"]["data"]
   onEventLabelClick: (event: string) => void
   onNodeClick: (event: EventPoint) => void
+  onDoubleClick: (event: EventPoint, scale: NetworkScale) => void
 }
 
-const initialTransform = {
-  scaleX: 0.8,
-  scaleY: 0.8,
-  translateX: 0,
-  translateY: 0,
-  skewX: 0,
-  skewY: 0,
-}
-
-interface NetworkState {
-  showMiniMap: boolean
-}
+interface NetworkState {}
 
 class Network extends React.Component<NetworkProps, NetworkState> {
   constructor(props: NetworkProps) {
     super(props)
-    this.state = { showMiniMap: false }
+    this.state = {}
   }
 
   handleMouseOver = (event: any, datum: any) => {
@@ -64,14 +58,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
           tooltipData: datum,
         })
     }
-  }
-
-  toggleMiniMap = () => {
-    this.setState(prevState => {
-      return {
-        showMiniMap: !prevState.showMiniMap,
-      }
-    })
   }
 
   render() {
@@ -89,7 +75,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
         tooltipLeft,
         tooltipData,
       },
-      state: { showMiniMap },
     } = this
 
     const getXScale = () =>
@@ -101,168 +86,107 @@ class Network extends React.Component<NetworkProps, NetworkState> {
 
     return (
       <React.Fragment>
-        <Zoom
-          width={width}
-          height={height}
-          scaleXMin={1 / 2}
-          scaleXMax={4}
-          scaleYMin={1 / 2}
-          scaleYMax={4}
-          transformMatrix={initialTransform}
-        >
-          {zoom => {
-            return (
-              <Group>
-                <svg width={width} height={height} style={{ cursor: "grab" }}>
-                  <RectClipPath id="zoom-clip" width={300} height={200} />
-                  <rect width={width} height={height} rx={14} fill="#272b4d" />
-                  <rect
-                    width={width}
-                    height={height}
-                    rx={14}
-                    fill="transparent"
-                    onWheel={zoom.handleWheel}
-                    onMouseDown={zoom.dragStart}
-                    onMouseMove={zoom.dragMove}
-                    onMouseUp={zoom.dragEnd}
-                    onMouseLeave={() => {
-                      if (!zoom.isDragging) return
-                      zoom.dragEnd()
-                    }}
-                    onDoubleClick={event => {
-                      const point = localPoint(event)
-                      if (point) {
-                        zoom.scale({ scaleX: 1.4, scaleY: 1.4, point }) 
-                      }
-                    }}
-                  />
-                  <g transform={zoom.toString()}>
-                    <AxisBottom
-                      left={0}
-                      top={height - 30}
-                      scale={getXScale() as any}
-                      hideZero
-                      numTicks={numTicksForWidth(width)}
-                      label="Date"
-                      labelProps={{
-                        fill: "#fff",
-                        textAnchor: "middle",
-                        fontSize: 12,
-                        fontFamily: "Arial",
-                      }}
-                      stroke="#ff0"
-                      tickStroke="#ff0"
-                      tickLabelProps={(value, index) => ({
-                        fill: "#fff",
-                        textAnchor: "end",
-                        fontSize: 10,
-                        fontFamily: "Arial",
-                      })}
-                      tickComponent={({ formattedValue, ...tickProps }) => (
-                        <text {...tickProps}>{formattedValue}</text>
-                      )}
-                    />
+        <Group>
+          <svg width={width} height={height} style={{ cursor: "grab" }}>
+            <RectClipPath id="zoom-clip" width={300} height={200} />
+            <rect width={width} height={height} rx={14} fill="#272b4d" />
+            <rect
+              width={width}
+              height={height}
+              rx={14}
+              fill="transparent"
+              onDoubleClick={event => {
+                const point = localPoint(event)
+                if (point) {
+                  const [first, last] = A.splitAt(1)(graph.nodes)
+                  const nearestPoint = last.reduce<EventPoint>((acc, n) => {
+                    if (
+                      acc &&
+                      Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)
+                    ) {
+                      return acc
+                    }
+                    return n
+                  }, first[0])
 
-                    <Graph
-                      graph={graph}
-                      linkComponent={props => LinkEvent(props.link)}
-                      nodeComponent={props =>
-                        NetworkNode({
-                          ...props,
-                          onMouseOver: this.handleMouseOver,
-                          onMouseOut: hideTooltip,
-                          onClick: onNodeClick,
-                        })
-                      }
-                    />
-                  </g>
-                  {showMiniMap && (
-                    <g
-                      clipPath="url(#zoom-clip)"
-                      transform={`
-                      scale(0.25)
-                      translate(${width * 4 - width}, ${height * 4 - height})
-                    `}
-                    >
-                      <rect width={width} height={height} fill="#1a1a1a" />
-                      <rect
-                        width={width}
-                        height={height}
-                        fill="white"
-                        fillOpacity={0.2}
-                        stroke="white"
-                        strokeWidth={4}
-                        transform={zoom.toStringInvert()}
-                      />
-                    </g>
-                  )}
-                </svg>
-                {tooltipOpen && !!tooltipData && (
-                  <TooltipWithBounds
-                    key={Math.random()}
-                    top={tooltipTop}
-                    left={tooltipLeft}
-                    style={{ maxWidth: 200 }}
-                  >
-                    <div>
-                      <div>
-                        <strong>{tooltipData.frontmatter.title}</strong>
-                      </div>
-                      <div>
-                        Data: {formatDate(tooltipData.frontmatter.date)}
-                      </div>
-                      {pipe(
-                        tooltipData.frontmatter.actors,
-                        O.map(actors => <div>Actors: {actors.join(", ")}</div>),
-                        O.toNullable
-                      )}
-                      {pipe(
-                        tooltipData.frontmatter.cover,
-                        O.fold(
-                          () => null,
-                          c => (
-                            <div>
-                              {" "}
-                              <img width={300} height="auto" src={c} />
-                            </div>
-                          )
-                        )
-                      )}
-                    </div>
-                  </TooltipWithBounds>
-                )}
-                <div className="controls" style={{ display: "none" }}>
-                  <button
-                    className="btn btn-zoom"
-                    onClick={() => zoom.scale({ scaleX: 1.2, scaleY: 1.2 })}
-                  >
-                    +
-                  </button>
-                  <button
-                    className="btn btn-zoom btn-bottom"
-                    onClick={() => zoom.scale({ scaleX: 0.8, scaleY: 0.8 })}
-                  >
-                    -
-                  </button>
-                  <button className="btn btn-lg" onClick={zoom.center}>
-                    Center
-                  </button>
-                  <button className="btn btn-lg" onClick={zoom.reset}>
-                    Reset
-                  </button>
-                  <button className="btn btn-lg" onClick={zoom.clear}>
-                    Clear
-                  </button>
-                  <div className="mini-map">
-                    <button className="btn btn-lg" onClick={this.toggleMiniMap}>
-                      {showMiniMap ? "Hide" : "Show"} Mini Map
-                    </button>
-                  </div>
+                  if (nearestPoint) {
+                    this.props.onDoubleClick(nearestPoint, this.props.scale)
+                  }
+                }
+              }}
+            />
+            <AxisBottom
+              left={0}
+              top={height - 30}
+              scale={getXScale() as any}
+              hideZero
+              numTicks={numTicksForWidth(width)}
+              label="Date"
+              labelProps={{
+                fill: "#fff",
+                textAnchor: "middle",
+                fontSize: 12,
+                fontFamily: "Arial",
+              }}
+              stroke="#ff0"
+              tickStroke="#ff0"
+              tickLabelProps={(value, index) => ({
+                fill: "#fff",
+                textAnchor: "end",
+                fontSize: 10,
+                fontFamily: "Arial",
+              })}
+              tickComponent={({ formattedValue, ...tickProps }) => (
+                <text {...tickProps}>{formattedValue}</text>
+              )}
+            />
+
+            <Graph
+              graph={graph}
+              linkComponent={props => LinkEvent(props.link)}
+              nodeComponent={props =>
+                NetworkNode({
+                  ...props,
+                  onMouseOver: this.handleMouseOver,
+                  onMouseOut: hideTooltip,
+                  onClick: onNodeClick,
+                })
+              }
+            />
+          </svg>
+          {tooltipOpen && !!tooltipData && (
+            <TooltipWithBounds
+              key={Math.random()}
+              top={tooltipTop}
+              left={tooltipLeft}
+              style={{ maxWidth: 200 }}
+            >
+              <div>
+                <div>
+                  <strong>{tooltipData.frontmatter.title}</strong>
                 </div>
-              </Group>
-            )
-          }}
-        </Zoom>
+                <div>Data: {formatDate(tooltipData.frontmatter.date)}</div>
+                {pipe(
+                  tooltipData.frontmatter.actors,
+                  O.map(actors => <div>Actors: {actors.join(", ")}</div>),
+                  O.toNullable
+                )}
+                {pipe(
+                  tooltipData.frontmatter.cover,
+                  O.fold(
+                    () => null,
+                    c => (
+                      <div>
+                        {" "}
+                        <img width={300} height="auto" src={c} />
+                      </div>
+                    )
+                  )
+                )}
+              </div>
+            </TooltipWithBounds>
+          )}
+        </Group>
       </React.Fragment>
     )
   }

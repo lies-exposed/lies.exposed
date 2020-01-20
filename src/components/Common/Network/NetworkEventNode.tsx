@@ -2,7 +2,7 @@ import * as React from "react"
 import { Group } from "@vx/group"
 import { HierarchyPointNode } from "d3-hierarchy"
 import { EventPoint } from "../../../types/event"
-import * as O from 'fp-ts/lib/Option'
+import * as O from "fp-ts/lib/Option"
 
 export interface NetworkNodeProps {
   node: HierarchyPointNode<EventPoint["data"]>
@@ -18,7 +18,7 @@ function NetworkNode({
   node,
   onMouseOver,
   onMouseOut,
-  onClick
+  onClick,
 }: NetworkNodeProps) {
   const groupProps = {
     ...(onMouseOver
@@ -31,16 +31,22 @@ function NetworkNode({
     ...(onMouseOut ? { onMouseOut } : {}),
   }
 
-  
   return (
     <Group {...groupProps} onClick={() => onClick(node)}>
-      {O.fold(() => null, (type) => {
-        if (type === 'AntiEcologicAct') {
-          return <circle r={12} fill="red" />
+      {O.fold(
+        () => <circle r={12} fill={node.data.fill} />,
+        type => {
+          return (
+            <>
+              <circle
+                r={12}
+                fill={type === "AntiEcologicAct" ? "red" : "green"}
+              />
+              <circle r={8} fill={node.data.fill} />
+            </>
+          )
         }
-        return <circle r={12} fill="green" />
-      })(node.data.frontmatter.type)}
-      <circle r={8} fill={node.data.fill} />
+      )(node.data.frontmatter.type)}
     </Group>
   )
 }
