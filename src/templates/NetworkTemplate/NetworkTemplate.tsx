@@ -24,7 +24,7 @@ import { withDashes } from "../../utils/string"
 import "./networkTemplate.scss"
 import { ActorFileNode } from "../../types/actor"
 import { ImageNode } from "../../utils/image"
-import { TopicNode, TopicPoint } from "../../types/topic"
+import { TopicFileNode, TopicPoint } from "../../types/topic"
 import * as Eq from "fp-ts/lib/Eq"
 import moment from "moment"
 
@@ -36,7 +36,7 @@ interface NetworksPageProps {
       relativeDirectory: string
     }
     topics: {
-      nodes: TopicNode[]
+      nodes: TopicFileNode[]
     }
     actorsImages: {
       nodes: ImageNode[]
@@ -270,19 +270,20 @@ export default class NetworkTemplate extends React.Component<
     )[0]
 
     const yGetter = getY(
-      data.topics.nodes.map(n => n.name),
+      data.topics.nodes.map(n => n.childMarkdownRemark.frontmatter.slug),
       marginVertical,
       height
     )
 
     // create a topics map
     const topicsMap = data.topics.nodes.reduce<TopicsMap>((acc, t, i) => {
-      return Map.insertAt(Eq.eqString)(t.name, {
+      return Map.insertAt(Eq.eqString)(t.childMarkdownRemark.frontmatter.slug, {
         id: t.id,
-        label: t.name,
+        label: t.childMarkdownRemark.frontmatter.title,
+        slug: t.childMarkdownRemark.frontmatter.slug,
         fill: colors[i],
         x: 0,
-        y: yGetter(t.name),
+        y: yGetter(t.childMarkdownRemark.frontmatter.slug),
       })(acc)
     }, Map.empty)
 
@@ -449,6 +450,7 @@ export default class NetworkTemplate extends React.Component<
               x: -100,
               y: -100,
               label: "fake",
+              slug: 'fake',
               fill: colors[0],
             }))
           )
@@ -467,7 +469,7 @@ export default class NetworkTemplate extends React.Component<
                 maxDate,
                 width - marginHorizontal * 2
               ),
-            y: yGetter(topic.label),
+            y: yGetter(topic.slug),
             data: {
               ...e.childMarkdownRemark,
               topic: topic.label,
@@ -853,12 +855,16 @@ export const pageQuery = graphql`
         html
       }
     }
-    topics: allDirectory(
-      filter: { relativeDirectory: { eq: $relativeDirectory } }
-    ) {
+    topics: allFile(filter: {relativeDirectory: {glob: $eventsRelativeDirectory}, name: {eq: "index"}}) {
       nodes {
         id
-        name
+        relativeDirectory
+        childMarkdownRemark {
+          frontmatter {
+            title
+            slug
+          }
+        }
       }
     }
     actors: allFile(

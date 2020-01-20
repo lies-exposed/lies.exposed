@@ -1,6 +1,6 @@
 ---
 title: Piazzale Baiamonti
-path: piazzale-baiamonti
+slug: piazzale-baiamonti
 icon: pencil-alt
 date: 2020-01-13
 ---

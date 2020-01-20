@@ -1,6 +1,7 @@
 ---
 title: AQI - Indice di qualità dell'aria
 date: 2020-01-17
+slug: air-quality-index
 ---
 
 ###### Cos'è?

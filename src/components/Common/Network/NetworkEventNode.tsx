@@ -35,17 +35,15 @@ function NetworkNode({
     <Group {...groupProps} onClick={() => onClick(node)}>
       {O.fold(
         () => <circle r={12} fill={node.data.fill} />,
-        type => {
-          return (
-            <>
-              <circle
-                r={12}
-                fill={type === "AntiEcologicAct" ? "red" : "green"}
-              />
-              <circle r={8} fill={node.data.fill} />
-            </>
-          )
-        }
+        type => (
+          <>
+            <circle
+              r={12}
+              fill={type === "AntiEcologicAct" ? "red" : "green"}
+            />
+            <circle r={8} fill={node.data.fill} />
+          </>
+        )
       )(node.data.frontmatter.type)}
     </Group>
   )
