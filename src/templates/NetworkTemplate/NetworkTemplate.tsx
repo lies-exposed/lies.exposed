@@ -7,7 +7,7 @@ import * as t from "io-ts"
 import React from "react"
 import SEO from "../../components/SEO"
 import Layout from "../../components/Layout"
-import { Columns, List, Image } from "../../components/Common"
+import { Columns, List, Image, Tag } from "../../components/Common"
 import { graphql } from "gatsby"
 import { EventPoint, EventFileNode } from "../../types/event"
 import * as A from "fp-ts/lib/Array"
@@ -15,7 +15,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import * as E from "fp-ts/lib/Either"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import { PageContentNode } from "../../types/PageContent"
-import Network from "../../components/Common/Network/Network"
+import Network, { NetworkProps } from "../../components/Common/Network/Network"
 import * as Ord from "fp-ts/lib/Ord"
 import * as O from "fp-ts/lib/Option"
 import * as Map from "fp-ts/lib/Map"
@@ -24,8 +24,10 @@ import { withDashes } from "../../utils/string"
 import "./networkTemplate.scss"
 import { ActorFileNode } from "../../types/actor"
 import { ImageNode } from "../../utils/image"
-import { TopicNode, TopicPoint } from "../../types/topic"
+import { TopicFileNode, TopicPoint } from "../../types/topic"
 import * as Eq from "fp-ts/lib/Eq"
+import moment from "moment"
+import { formatDate } from "../../utils/date"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
@@ -35,7 +37,7 @@ interface NetworksPageProps {
       relativeDirectory: string
     }
     topics: {
-      nodes: TopicNode[]
+      nodes: TopicFileNode[]
     }
     actorsImages: {
       nodes: ImageNode[]
@@ -113,9 +115,14 @@ const getY = (topics: Array<string>, margin: number, height: number) => (
   return 0
 }
 
-const eventPointByDate = Ord.ord.contramap(
+const eventFileNodeByDate = Ord.ord.contramap(
   Ord.ordDate,
   (e: EventFileNode) => e.childMarkdownRemark.frontmatter.date
+)
+
+const eventPointByDate = Ord.ord.contramap(
+  Ord.ordDate,
+  (e: EventPoint) => e.data.frontmatter.date
 )
 
 function addOneIfEqualTo(o: O.Option<string>, match: string): 0 | 1 {
@@ -127,12 +134,70 @@ function addOneIfEqualTo(o: O.Option<string>, match: string): 0 | 1 {
     : 0
 }
 
+function getWeek(date: Date) {
+  var onejan = new Date(date.getFullYear(), 0, 1)
+  var millisecsInDay = 86400000
+  return Math.ceil(
+    ((date.getTime() - onejan.getTime()) / millisecsInDay +
+      onejan.getDay() +
+      1) /
+      7
+  )
+}
+
+function getMinDateByScale(scale: NetworkProps["scale"], event: EventPoint) {
+  if (scale === "year") {
+    return new Date(event.data.frontmatter.date.getFullYear(), 0, 1)
+  } else if (scale === "month") {
+    return new Date(
+      event.data.frontmatter.date.getFullYear(),
+      event.data.frontmatter.date.getMonth(),
+      1
+    )
+  } else if (scale === "week") {
+    return moment(event.data.frontmatter.date)
+      .subtract(1, "w")
+      .toDate()
+  }
+  return moment(event.data.frontmatter.date)
+    .hour(0)
+    .min(0)
+    .toDate()
+}
+
+function getMaxDateByScale(
+  scale: NetworkProps["scale"],
+  event: EventPoint
+): Date {
+  if (scale === "year") {
+    return new Date(event.data.frontmatter.date.getFullYear(), 11, 31)
+  } else if (scale === "month") {
+    return moment({
+      year: event.data.frontmatter.date.getFullYear(),
+      month: event.data.frontmatter.date.getMonth(),
+    })
+      .add(1, "month")
+      .subtract(1, "day")
+      .toDate()
+  } else if (scale === "week") {
+    return moment(event.data.frontmatter.date)
+      .add(1, "week")
+      .toDate()
+  }
+  return moment(event.data.frontmatter.date)
+    .hour(24)
+    .min(0)
+    .toDate()
+}
+
 const width = 800
 const height = 400
 const marginVertical = 30
 const marginHorizontal = 30
 
 interface NetworkTemplateState {
+  scale: NetworkProps["scale"]
+  scalePoint: O.Option<EventPoint>
   selectedActorIds: string[]
   selectedTopicIds: string[]
 }
@@ -142,6 +207,8 @@ export default class NetworkTemplate extends React.Component<
   NetworkTemplateState
 > {
   state: NetworkTemplateState = {
+    scale: "all",
+    scalePoint: O.none,
     selectedActorIds: [],
     selectedTopicIds: [],
   }
@@ -174,10 +241,29 @@ export default class NetworkTemplate extends React.Component<
     })
   }
 
+  onNetworkDoubleClick = (
+    scalePoint: EventPoint,
+    scale: NetworkProps["scale"]
+  ) => {
+    this.setState({
+      scalePoint: O.some(scalePoint),
+      scale:
+        scale === "all"
+          ? "year"
+          : scale === "year"
+          ? "month"
+          : scale === "month"
+          ? "week"
+          : scale === "week"
+          ? "day"
+          : "all",
+    })
+  }
+
   render() {
     const {
       props: { data, navigate },
-      state: { selectedActorIds, selectedTopicIds },
+      state: { scale, scalePoint, selectedActorIds, selectedTopicIds },
     } = this
 
     const networkName = A.takeRight(1)(
@@ -185,19 +271,20 @@ export default class NetworkTemplate extends React.Component<
     )[0]
 
     const yGetter = getY(
-      data.topics.nodes.map(n => n.name),
+      data.topics.nodes.map(n => n.childMarkdownRemark.frontmatter.slug),
       marginVertical,
       height
     )
 
     // create a topics map
     const topicsMap = data.topics.nodes.reduce<TopicsMap>((acc, t, i) => {
-      return Map.insertAt(Eq.eqString)(t.name, {
+      return Map.insertAt(Eq.eqString)(t.childMarkdownRemark.frontmatter.slug, {
         id: t.id,
-        label: t.name,
+        label: t.childMarkdownRemark.frontmatter.title,
+        slug: t.childMarkdownRemark.frontmatter.slug,
         fill: colors[i],
         x: 0,
-        y: yGetter(t.name),
+        y: yGetter(t.childMarkdownRemark.frontmatter.slug),
       })(acc)
     }, Map.empty)
 
@@ -209,7 +296,7 @@ export default class NetworkTemplate extends React.Component<
             `${imageNode.name}${imageNode.ext}`
         )
 
-        return Map.insertAt(Eq.eqString)(actor.id, {
+        const value: ActorsMapValue = {
           actor: {
             ...actor,
             childMarkdownRemark: {
@@ -221,32 +308,108 @@ export default class NetworkTemplate extends React.Component<
             },
           },
           color,
-          events: [] as EventPoint[],
-          links: [] as NetworkLink[],
+          events: [],
+          links: [],
           antiEcologicAct: 0,
           ecologicAct: 0,
           totalActs: 0,
-        })(acc)
+        }
+
+        return Map.insertAt(Eq.eqString)(actor.id, value)(acc)
       },
       Map.empty
     )
 
     return pipe(
       t.array(EventFileNode).decode(data.events.nodes),
+      E.map(events =>
+        scale === "all"
+          ? events
+          : pipe(
+              scalePoint,
+              O.map(p => {
+                const selectedFullYear = p.data.frontmatter.date.getFullYear()
+                const selectedMonth = p.data.frontmatter.date.getMonth()
+                const selectedWeek = getWeek(p.data.frontmatter.date)
+                const selectedDate = p.data.frontmatter.date.getDate()
+                console.log({
+                  selectedFullYear,
+                  selectedMonth,
+                  selectedWeek,
+                  selectedDate,
+                })
+                return events.filter(n => {
+                  const nodeFullYear = n.childMarkdownRemark.frontmatter.date.getFullYear()
+                  const nodeMonth = n.childMarkdownRemark.frontmatter.date.getMonth()
+                  const nodeWeek = getWeek(
+                    n.childMarkdownRemark.frontmatter.date
+                  )
+                  const nodeDate = n.childMarkdownRemark.frontmatter.date.getDate()
+
+                  console.log({ nodeFullYear, nodeMonth, nodeWeek, nodeDate })
+
+                  if (scale === "year") {
+                    return Eq.eqNumber.equals(nodeFullYear, selectedFullYear)
+                  }
+                  if (scale === "month") {
+                    return (
+                      Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
+                      Eq.eqNumber.equals(nodeMonth, selectedMonth)
+                    )
+                  }
+
+                  if (scale === "week") {
+                    return (
+                      Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
+                      Eq.eqNumber.equals(nodeMonth, selectedMonth) &&
+                      Eq.eqNumber.equals(nodeWeek, selectedWeek)
+                    )
+                  }
+
+                  if (scale === "day") {
+                    return (
+                      Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
+                      Eq.eqNumber.equals(nodeMonth, selectedMonth) &&
+                      Eq.eqNumber.equals(nodeWeek, selectedWeek) &&
+                      Eq.eqNumber.equals(nodeDate, selectedDate)
+                    )
+                  }
+                  return true
+                })
+              }),
+              O.getOrElse((): EventFileNode[] => [])
+            )
+      ),
       E.map(events => {
-        const eventsSortedByDate = pipe(events, A.sortBy([eventPointByDate]))
+        const eventsSortedByDate = pipe(events, A.sortBy([eventFileNodeByDate]))
 
-        const minDate = pipe(
-          A.head(eventsSortedByDate),
-          O.map(e => e.childMarkdownRemark.frontmatter.date),
-          O.getOrElse(() => new Date("2018-01-01"))
-        )
+        const minDate =
+          scale === "all"
+            ? pipe(
+                A.head(eventsSortedByDate),
+                O.map(e => e.childMarkdownRemark.frontmatter.date),
+                O.getOrElse(() => new Date("2018-01-01"))
+              )
+            : pipe(
+                scalePoint,
+                O.map(p => getMinDateByScale(scale, p)),
+                O.getOrElse(() => new Date("2018-01-01"))
+              )
 
-        const maxDate = pipe(
-          A.last(eventsSortedByDate),
-          O.map(e => e.childMarkdownRemark.frontmatter.date),
-          O.getOrElse(() => new Date())
-        )
+        const maxDate =
+          scale === "all"
+            ? pipe(
+                A.last(eventsSortedByDate),
+                O.map(e => e.childMarkdownRemark.frontmatter.date),
+                O.getOrElse(() => new Date())
+              )
+            : pipe(
+                scalePoint,
+                O.map(p => getMaxDateByScale(scale, p)),
+                O.getOrElse(() => new Date())
+              )
+
+        console.log({ minDate, maxDate, events })
 
         type Result = {
           eventNodes: Map<string, EventPoint[]>
@@ -288,6 +451,7 @@ export default class NetworkTemplate extends React.Component<
               x: -100,
               y: -100,
               label: "fake",
+              slug: "fake",
               fill: colors[0],
             }))
           )
@@ -306,10 +470,11 @@ export default class NetworkTemplate extends React.Component<
                 maxDate,
                 width - marginHorizontal * 2
               ),
-            y: yGetter(topic.label),
+            y: yGetter(topic.slug),
             data: {
               ...e.childMarkdownRemark,
-              topic: topic.label,
+              topicLabel: topic.label,
+              topicFill: topic.fill,
               fill: topic.fill,
               frontmatter: {
                 ...e.childMarkdownRemark.frontmatter,
@@ -469,6 +634,7 @@ export default class NetworkTemplate extends React.Component<
 
         type ActorsResults = {
           actors: Omit<ActorsMapValue, "events" | "links">[]
+          events: EventPoint[]
           links: NetworkLink[]
         }
         const actorResults = Map.toArray(Ord.ordString)(
@@ -482,9 +648,10 @@ export default class NetworkTemplate extends React.Component<
               totalActs: value.totalActs,
               color: value.color,
             }),
+            events: acc.events.concat(...value.events),
             links: acc.links.concat(...value.links),
           }),
-          { actors: [], links: [] }
+          { actors: [], events: [], links: [] }
         )
 
         const selectedNodesArray = Map.toArray(Ord.ordString)(
@@ -494,6 +661,7 @@ export default class NetworkTemplate extends React.Component<
         return {
           minDate,
           maxDate,
+          scale,
           pageContent: data.pageContent,
           topics: Map.toArray(Ord.ordString)(topicsMap).map(
             ([_, topic]) => topic
@@ -507,7 +675,9 @@ export default class NetworkTemplate extends React.Component<
             nodes,
             links: links.concat(...actorResults.links),
           },
-          selectedNodes: selectedNodesArray,
+          selectedNodes: A.sortBy([Ord.getDualOrd(eventPointByDate)])(
+            selectedNodesArray.concat(...actorResults.events)
+          ),
         }
       }),
       E.fold(
@@ -519,6 +689,7 @@ export default class NetworkTemplate extends React.Component<
           pageContent,
           minDate,
           maxDate,
+          scale,
           graph,
           actors,
           topics,
@@ -552,7 +723,7 @@ export default class NetworkTemplate extends React.Component<
                         style={{ cursor: "pointer" }}
                         onClick={() => this.onActorClick(a.actor.id)}
                       >
-                        <>
+                        <div>
                           {a.actor.childMarkdownRemark.frontmatter.cover && (
                             <span style={{ display: "inline-block" }}>
                               <Image
@@ -560,7 +731,16 @@ export default class NetworkTemplate extends React.Component<
                                 src={
                                   a.actor.childMarkdownRemark.frontmatter.cover
                                 }
+                                style={{ width: 32, height: 32 }}
                                 size={32}
+                              />
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  width: 20,
+                                  height: 3,
+                                  backgroundColor: a.color,
+                                }}
                               />
                             </span>
                           )}{" "}
@@ -568,17 +748,9 @@ export default class NetworkTemplate extends React.Component<
                             {a.actor.childMarkdownRemark.frontmatter.title}
                           </span>{" "}
                           <span>
-                            {a.antiEcologicAct} / {a.totalActs}
-                          </span>
-                          <span
-                            style={{
-                              display: "inline-block",
-                              width: 20,
-                              height: 10,
-                              backgroundColor: a.color,
-                            }}
-                          />
-                        </>
+                            {a.antiEcologicAct}/{a.totalActs}
+                          </span>{" "}
+                        </div>
                       </List.Item>
                     ))}
                   </List>
@@ -588,6 +760,7 @@ export default class NetworkTemplate extends React.Component<
                     <Network
                       width={width}
                       height={height}
+                      scale={scale}
                       minDate={minDate}
                       maxDate={maxDate}
                       graph={graph}
@@ -596,13 +769,18 @@ export default class NetworkTemplate extends React.Component<
                       }}
                       onNodeClick={event => {
                         const url = `/timelines/${networkName}/${
-                          event.data.topic
+                          event.data.topicLabel
                         }#${withDashes(
                           event.data.frontmatter.title.toLowerCase()
                         )}`
                         navigate(url)
                       }}
+                      onDoubleClick={this.onNetworkDoubleClick}
                     />
+                  </div>
+                  <div>
+                    Scale: {scale}, Date Range: {formatDate(minDate)} -{" "}
+                    {formatDate(maxDate)}
                   </div>
                 </Columns.Column>
                 <Columns.Column size={2}>
@@ -635,16 +813,23 @@ export default class NetworkTemplate extends React.Component<
                   </List>
                 </Columns.Column>
                 <Columns.Column size={12}>
-                  {selectedNodes.map(n => (
-                    <div>
-                      <div className="subtitle">
-                        {" "}
-                        {n.data.frontmatter.title}
+                  <div className="content">
+                    {selectedNodes.map(n => (
+                      <div>
+                        <div className="subtitle">
+                          {" "}
+                          {n.data.frontmatter.title}
+                        </div>
+                        <div>
+                          <Tag style={{ backgroundColor: n.data.topicFill, color: 'white' }}>{n.data.topicLabel}</Tag>
+                        </div>
+                        <div
+                          dangerouslySetInnerHTML={{ __html: n.data.html }}
+                        />
+                        <br />
                       </div>
-                      <div dangerouslySetInnerHTML={{ __html: n.data.html }} />
-                      <br />
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </Columns.Column>
               </Columns>
             </Layout>
@@ -679,12 +864,21 @@ export const pageQuery = graphql`
         html
       }
     }
-    topics: allDirectory(
-      filter: { relativeDirectory: { eq: $relativeDirectory } }
+    topics: allFile(
+      filter: {
+        relativeDirectory: { glob: $eventsRelativeDirectory }
+        name: { eq: "index" }
+      }
     ) {
       nodes {
         id
-        name
+        relativeDirectory
+        childMarkdownRemark {
+          frontmatter {
+            title
+            slug
+          }
+        }
       }
     }
     actors: allFile(

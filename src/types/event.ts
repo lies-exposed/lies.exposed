@@ -84,7 +84,8 @@ export const EventPoint = t.interface(
         id: t.string,
         frontmatter: EventFileNodeFrontmatter,
         html: t.string,
-        topic: t.string,
+        topicLabel: t.string,
+        topicFill: t.string,
         fill: t.string,
       },
       "EventPointData"
