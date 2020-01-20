@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "dependencies": {
-    "@mdi/font": "4.7.95",
+    "@mdi/font": "4.8.95",
     "@vx/axis": "0.0.193-alpha.2",
     "@vx/clip-path": "0.0.193-alpha.2",
     "@vx/event": "0.0.193-alpha.2",
@@ -21,11 +21,8 @@
     "@vx/tooltip": "0.0.193-alpha.2",
     "@vx/zoom": "0.0.193-alpha.2",
     "d3-array": "^2.4.0",
-    "fp-ts": "2.4.0",
-    "gatsby": "2.18.21",
-    "gatsby-image": "2.2.38",
+    "fp-ts": "2.4.1",
     "gatsby-plugin-manifest": "2.2.37",
-    "gatsby-plugin-offline": "3.0.31",
     "gatsby-plugin-react-helmet": "3.1.21",
     "gatsby-plugin-sass": "2.1.27",
     "gatsby-plugin-sharp": "2.3.13",
@@ -34,8 +31,7 @@
     "gatsby-source-filesystem": "2.1.46",
     "gatsby-transformer-json": "2.2.25",
     "gatsby-transformer-remark": "2.6.48",
-    "gatsby-transformer-sharp": "2.3.12",
-    "io-ts": "2.0.4",
+    "io-ts": "2.0.5",
     "io-ts-types": "0.5.5",
     "prop-types": "15.7.2",
     "react": "16.12.0",
@@ -47,17 +43,21 @@
     "react-vertical-timeline-component": "2.5.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "8.3.4",
+    "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "@types/d3-array": "^2.0.0",
     "@types/node": "12.12.21",
     "@types/react": "16.9.17",
     "@types/react-helmet": "5.0.15",
     "@types/react-vertical-timeline-component": "2.5.0",
-    "husky": "3.1.0",
-    "node-sass": "4.13.0",
+    "gatsby": "^2.18.25",
+    "gatsby-image": "^2.2.39",
+    "gatsby-plugin-offline": "^3.0.32",
+    "gatsby-transformer-sharp": "^2.3.13",
+    "husky": "^4.0.10",
+    "node-sass": "^4.13.1",
     "prettier": "1.19.1",
-    "typescript": "3.7.4"
+    "typescript": "^3.7.5"
   },
   "keywords": [
     "gatsby"
