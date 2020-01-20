@@ -109,6 +109,7 @@ const getX = (date: Date, minDate: Date, maxDate: Date, width: number) => {
 const getY = (topics: Array<string>, margin: number, height: number) => (
   key: string
 ) => {
+  console.log(topics, key)
   const pos = topics.findIndex(t => Eq.eqString.equals(t, key))
   if (pos > -1) {
     return margin + pos * ((height - margin * 2) / topics.length)
@@ -423,7 +424,7 @@ export default class NetworkTemplate extends React.Component<
             ),
             O.map(e => e.childImageSharp.fluid.src)
           )
-
+                console.log(A.takeRight(1)(e.relativeDirectory.split("/")))
           const topic = pipe(
             A.head(A.takeRight(1)(e.relativeDirectory.split("/"))),
             O.chain(t => Map.lookup(Eq.eqString)(t, topicsMap)),
@@ -436,6 +437,7 @@ export default class NetworkTemplate extends React.Component<
               fill: colors[0],
             }))
           )
+          console.log(topic)
 
           const isTopicSelected = A.elem(Eq.eqString)(
             topic.id,
@@ -676,6 +678,8 @@ export default class NetworkTemplate extends React.Component<
           topics,
           selectedNodes,
         }) => {
+
+          console.log(graph.nodes)
           return (
             <Layout>
               <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />

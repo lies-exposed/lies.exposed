@@ -4,6 +4,7 @@ icon: pencil-alt
 date: 2017-10-10
 actors:
  - eni-spa
+
 ---
 
 Accanto all’ingente sversamento di sostanze petrolifere, oggi si parla di rifiuti pericolosi smaltiti irregolarmente, per una portata di 854mila tonnellate. In 16 anni, sono stati contaminati 26mila metri quadri su un’area di 180mila.
