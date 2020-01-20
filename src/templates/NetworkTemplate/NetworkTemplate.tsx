@@ -28,6 +28,7 @@ import { TopicFileNode, TopicPoint } from "../../types/topic"
 import * as Eq from "fp-ts/lib/Eq"
 import moment from "moment"
 import { formatDate } from "../../utils/date"
+import { ordEventFileNodeDate, ordEventPointDate } from "../../utils/event"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
@@ -114,16 +115,6 @@ const getY = (topics: Array<string>, margin: number, height: number) => (
   }
   return 0
 }
-
-const eventFileNodeByDate = Ord.ord.contramap(
-  Ord.ordDate,
-  (e: EventFileNode) => e.childMarkdownRemark.frontmatter.date
-)
-
-const eventPointByDate = Ord.ord.contramap(
-  Ord.ordDate,
-  (e: EventPoint) => e.data.frontmatter.date
-)
 
 function addOneIfEqualTo(o: O.Option<string>, match: string): 0 | 1 {
   return pipe(
@@ -381,7 +372,7 @@ export default class NetworkTemplate extends React.Component<
             )
       ),
       E.map(events => {
-        const eventsSortedByDate = pipe(events, A.sortBy([eventFileNodeByDate]))
+        const eventsSortedByDate = pipe(events, A.sortBy([ordEventFileNodeDate]))
 
         const minDate =
           scale === "all"
@@ -675,7 +666,7 @@ export default class NetworkTemplate extends React.Component<
             nodes,
             links: links.concat(...actorResults.links),
           },
-          selectedNodes: A.sortBy([Ord.getDualOrd(eventPointByDate)])(
+          selectedNodes: A.sortBy([Ord.getDualOrd(ordEventPointDate)])(
             selectedNodesArray.concat(...actorResults.events)
           ),
         }

@@ -95,17 +95,3 @@ export const EventPoint = t.interface(
 )
 export type EventPoint = t.TypeOf<typeof EventPoint>
 
-export const EventImageNode = t.interface(
-  {
-    childImageSharp: t.interface({
-      fixed: t.interface({
-        src: t.string,
-      }),
-    }),
-    relativeDirectory: t.string,
-    relativePath: t.string,
-  },
-  "EventImageNode"
-)
-
-export type EventImageNode = t.TypeOf<typeof EventImageNode>

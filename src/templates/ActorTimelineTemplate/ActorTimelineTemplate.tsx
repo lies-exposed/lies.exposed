@@ -5,40 +5,17 @@ import "./actorTimelineTemplate.scss"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import { Columns } from "react-bulma-components"
-import {
-  TimelineEvent,
-  TimelineEventType,
-  TimelineEventIcon,
-} from "../../components/Common/Tree/Timeline/Timeline"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import * as E from "fp-ts/lib/Either"
 import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
-import { formatDate } from "../../utils/date"
-
-interface EventNode {
-  id: string
-  frontmatter: {
-    icon: TimelineEventIcon
-    title: string
-    date: string
-    type: TimelineEventType | null
-    cover: string | null
-  }
-  html: string
-}
-
-interface ImageNode {
-  childImageSharp: {
-    fixed: {
-      src: string
-    }
-  }
-  relativeDirectory: string
-  relativePath: string
-}
+import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
+import { EventFileNode } from "../../types/event"
+import { ImageFileNode } from "../../types/image"
+import { ordEventFileNodeDate } from "../../utils/event"
+import * as Ord from 'fp-ts/lib/Ord'
 
 interface ActorTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
@@ -57,22 +34,24 @@ interface ActorTimelineTemplatePageProps {
       }
     }
     events: {
-      nodes: {
-        childMarkdownRemark: EventNode
-      }[]
+      nodes: EventFileNode[]
     }
     eventsAsActor: {
-      nodes: EventNode[]
+      nodes: EventFileNode[]
     }
     images: {
-      nodes: ImageNode[]
+      nodes: ImageFileNode[]
     }
   }
 }
 
-const byId = Eq.contramap((n: EventNode) => n.id)(Eq.eqString)
+const byId = Eq.contramap((n: EventFileNode) => n.childMarkdownRemark.id)(
+  Eq.eqString
+)
 
-export default function ActorTimelineTemplate({ data }: ActorTimelineTemplatePageProps) {
+export default function ActorTimelineTemplate({
+  data,
+}: ActorTimelineTemplatePageProps) {
   const {
     pageContent: {
       childMarkdownRemark: { frontmatter, html },
@@ -82,76 +61,74 @@ export default function ActorTimelineTemplate({ data }: ActorTimelineTemplatePag
     images,
   } = data
 
-  const totalEvents = A.union(byId)(
-    events.nodes.map(n => n.childMarkdownRemark),
-    eventsAsActor.nodes
-  )
-
-  console.log(totalEvents);
-
-  const results = totalEvents.map(n => ({
-    id: n.id,
-    ...n.frontmatter,
-    html: n.html,
-    image: pipe(
-      O.fromNullable(n.frontmatter.cover),
-      O.chain(c =>
-        O.fromNullable(images.nodes.find(i => i.relativePath === c))
-      ),
-      O.map(i => i.childImageSharp.fixed),
-      O.toUndefined
+  return pipe(
+    E.right(A.union(byId)(events.nodes, eventsAsActor.nodes)),
+    E.chain(t.array(EventFileNode).decode),
+    E.map(events =>
+      A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
+        e => e.childMarkdownRemark
+      )
     ),
-  }))
+    E.fold(
+      errs => {
+        console.log(ThrowReporter.report(E.left(errs)))
+        return null
+      },
+      timelineEvents => {
+        const results = timelineEvents.map(n => ({
+          id: n.id,
+          ...n.frontmatter,
+          html: n.html,
+          image: pipe(
+            n.frontmatter.cover,
+            O.chain(c =>
+              O.fromNullable(images.nodes.find(i => i.relativeDirectory === c))
+            ),
+            O.map(i => i.childImageSharp.fixed),
+            O.toUndefined
+          ),
+        }))
 
-  const timelineEvents = t.array(TimelineEvent).decode(results)
-  if (E.isLeft(timelineEvents)) {
-    console.log(ThrowReporter.report(timelineEvents))
-    return null
-  }
-
-  return (
-    <Layout>
-      <SEO title={frontmatter.title} />
-      <Columns>
-        <Columns.Column size={3}>
-          <ul>
-            {timelineEvents.right.map(e => (
-              <li>
-                {formatDate(e.date)} - {e.title}
-              </li>
-            ))}
-          </ul>
-        </Columns.Column>
-        <Columns.Column size={9}>
-          <div className="content">
-            <div></div>
-            <div className="blog-post-container">
-              <div className="blog-post">
-                <h1>{frontmatter.title}</h1>
-                <div
-                  className="blog-post-content"
-                  dangerouslySetInnerHTML={{ __html: html }}
-                />
-              </div>
-            </div>
-          </div>
-          <Columns.Column>
-            <div>
-              {timelineEvents.right.map(event => (
-                <div>
-                  <div className="title">{event.title}</div>
-                  <div
-                    className="content"
-                    dangerouslySetInnerHTML={{ __html: event.html }}
-                  />
+        return (
+          <Layout>
+            <SEO title={frontmatter.title} />
+            <Columns>
+              <Columns.Column size={3}>
+                <TimelineNavigator events={timelineEvents} />
+              </Columns.Column>
+              <Columns.Column size={9}>
+                <div className="content">
+                  <div></div>
+                  <div className="blog-post-container">
+                    <div className="blog-post">
+                      <h1>{frontmatter.title}</h1>
+                      <div
+                        className="blog-post-content"
+                        dangerouslySetInnerHTML={{ __html: html }}
+                      />
+                    </div>
+                  </div>
                 </div>
-              ))}
-              {/* <Timeline events={timelineEvents.right} /> */}
-            </div>
-          </Columns.Column>
-        </Columns.Column>
-      </Columns>
-    </Layout>
+                <Columns.Column>
+                  <div>
+                    {results.map(event => (
+                      <div key={event.title}>
+                        <div className="title">{event.title}</div>
+                        <div
+                          className="content"
+                          dangerouslySetInnerHTML={{ __html: event.html }}
+                        />
+                      </div>
+                    ))}
+                    {/* <Timeline events={timelineEvents.right} /> */}
+                  </div>
+                </Columns.Column>
+              </Columns.Column>
+            </Columns>
+          </Layout>
+        )
+      }
+    )
   )
 }
 
@@ -177,24 +154,31 @@ export const pageQuery = graphql`
         html
       }
     }
-    
-    eventsAsActor: allMarkdownRemark(
-      filter: { frontmatter: { actors: { eq: $subject } } }
-      sort: { order: DESC, fields: frontmatter___date }
+
+    eventsAsActor: allFile(
+      filter: {
+        childMarkdownRemark: { frontmatter: { actors: { eq: $subject } } }
+      }
+      sort: { order: DESC, fields: childMarkdownRemark___frontmatter___date }
     ) {
       nodes {
         id
-        frontmatter {
-          title
-          icon
-          type
-          date
-          cover
-          actors
+        relativeDirectory
+        childMarkdownRemark {
+          id
+          frontmatter {
+            title
+            icon
+            type
+            date
+            cover
+            actors
+          }
+          html
         }
-        html
       }
     }
+
     events: allFile(
       filter: {
         relativeDirectory: { eq: $relativeDirectory }
@@ -202,6 +186,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
+        relativeDirectory
         childMarkdownRemark {
           id
           frontmatter {

@@ -5,6 +5,8 @@ import { Columns } from "react-bulma-components"
 import Menu from "../components/Menu"
 import { useStaticQuery, graphql } from "gatsby"
 import * as A from "fp-ts/lib/Array"
+import { TopicFileNode } from "../types/topic"
+import { ActorFileNode } from "../types/actor"
 
 interface TimelinesPageProps {}
 
@@ -14,24 +16,43 @@ interface PageContentNode {
 }
 
 interface Results {
-  actors: { distinct: string[] }
-  topics: { nodes: { relativeDirectory: string; base: string }[] }
+  actors: { nodes: ActorFileNode[] }
+  topics: { nodes: TopicFileNode[] }
   pageContent: { nodes: PageContentNode[] }
 }
 
 const TimelinesPage = ({}: TimelinesPageProps) => {
   const { actors, topics, pageContent }: Results = useStaticQuery(graphql`
     query TimelinesPage {
-      actors: allFile {
-        distinct(field: childMarkdownRemark___frontmatter___actors)
-      }
-
-      topics: allDirectory(
-        filter: { relativeDirectory: { glob: "events/networks/**" } }
+      actors: allFile(
+        filter: {
+          relativeDirectory: { glob: "events/actors/*" }
+          name: { eq: "index" }
+        }
       ) {
         nodes {
           relativeDirectory
-          base
+          name
+          childMarkdownRemark {
+            frontmatter {
+              title
+              username
+            }
+          }
+        }
+      }
+
+      topics: allFile(
+        filter: { relativePath: { glob: "events/networks/*/*/index.md" } }
+      ) {
+        nodes {
+          relativeDirectory
+          childMarkdownRemark {
+            frontmatter {
+              title
+              slug
+            }
+          }
         }
       }
 
@@ -48,20 +69,20 @@ const TimelinesPage = ({}: TimelinesPageProps) => {
     }
   `)
 
-  const actorItems = actors.distinct.map(n => ({
-    id: n,
-    path: `/timelines/${n}`,
-    title: n,
+  const actorItems = actors.nodes.map(n => ({
+    id: n.id,
+    path: `/timelines/${n.childMarkdownRemark.frontmatter.username}`,
+    title: n.childMarkdownRemark.frontmatter.title,
     items: [],
   }))
 
   const topicItems = topics.nodes.map(t => {
-    const networkName = A.takeRight(1)(t.relativeDirectory.split("/"))[0]
-    const id = `${networkName}/${t.base}`
+    const networkName = A.takeRight(2)(t.relativeDirectory.split("/"))[0]
+    const id = `${networkName}/${t.childMarkdownRemark.frontmatter.slug}`
     return {
       id,
       path: `/timelines/${id}`,
-      title: `${networkName} - ${t.base}`,
+      title: `${networkName} - ${t.childMarkdownRemark.frontmatter.title}`,
       items: [],
     }
   })
