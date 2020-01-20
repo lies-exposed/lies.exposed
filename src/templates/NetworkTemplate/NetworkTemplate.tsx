@@ -251,18 +251,21 @@ export default class NetworkTemplate extends React.Component<
         type Result = {
           eventNodes: Map<string, EventPoint[]>
           eventLinks: Map<string, NetworkLink[]>
+          selectedNodes: Map<string, EventPoint[]>
           actorsWithEventsAndLinksMap: ActorsMap
         }
 
         const result: Result = {
           eventNodes: Map.empty,
           eventLinks: Map.empty,
+          selectedNodes: Map.empty,
           actorsWithEventsAndLinksMap: Map.empty,
         }
 
         const {
           eventNodes,
           eventLinks,
+          selectedNodes,
           actorsWithEventsAndLinksMap,
         } = eventsSortedByDate.reduce<Result>((acc, e) => {
           // get topic from relative directory
@@ -322,6 +325,16 @@ export default class NetworkTemplate extends React.Component<
               events => events.concat(eventPoint)
             )
           )
+
+          const selectedNodes = isTopicSelected
+            ? pipe(
+                Map.lookup(Eq.eqString)(topic.id, acc.selectedNodes),
+                O.fold(
+                  () => [eventPoint],
+                  events => events.concat(eventPoint)
+                )
+              )
+            : []
 
           const eventLinks = isTopicSelected
             ? pipe(
@@ -432,14 +445,15 @@ export default class NetworkTemplate extends React.Component<
             O.getOrElse((): ActorsMap => acc.actorsWithEventsAndLinksMap)
           )
 
-          console.log(actorsMap)
-
           return {
             eventNodes: Map.insertAt(Eq.eqString)(topic.id, eventNodes)(
               acc.eventNodes
             ),
             eventLinks: Map.insertAt(Eq.eqString)(topic.id, eventLinks)(
               acc.eventLinks
+            ),
+            selectedNodes: Map.insertAt(Eq.eqString)(topic.id, selectedNodes)(
+              acc.selectedNodes
             ),
             actorsWithEventsAndLinksMap: actorsWithEventsAndLinksMap,
           }
@@ -473,6 +487,10 @@ export default class NetworkTemplate extends React.Component<
           { actors: [], links: [] }
         )
 
+        const selectedNodesArray = Map.toArray(Ord.ordString)(
+          selectedNodes
+        ).reduce<EventPoint[]>((acc, [_, nodes]) => acc.concat(...nodes), [])
+
         return {
           minDate,
           maxDate,
@@ -489,6 +507,7 @@ export default class NetworkTemplate extends React.Component<
             nodes,
             links: links.concat(...actorResults.links),
           },
+          selectedNodes: selectedNodesArray,
         }
       }),
       E.fold(
@@ -496,7 +515,15 @@ export default class NetworkTemplate extends React.Component<
           console.log(ThrowReporter.report(E.left(errs)))
           return null
         },
-        ({ pageContent, minDate, maxDate, graph, actors, topics }) => {
+        ({
+          pageContent,
+          minDate,
+          maxDate,
+          graph,
+          actors,
+          topics,
+          selectedNodes,
+        }) => {
           return (
             <Layout>
               <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
@@ -537,6 +564,9 @@ export default class NetworkTemplate extends React.Component<
                               />
                             </span>
                           )}{" "}
+                          <span>
+                            {a.actor.childMarkdownRemark.frontmatter.title}
+                          </span>{" "}
                           <span>
                             {a.antiEcologicAct} / {a.totalActs}
                           </span>
@@ -585,17 +615,17 @@ export default class NetworkTemplate extends React.Component<
                         onClick={() => this.onTopicClick(t.id)}
                       >
                         <>
-                          <span style={{ color: t.fill }}>
-                            <div
-                              style={{
-                                backgroundColor: t.label,
-                                borderRadius: 10,
-                                width: 20,
-                                height: 20,
-                              }}
-                            />
-                            {t.label}{" "}
-                          </span>{" "}
+                          <span
+                            style={{
+                              display: "inline-block",
+                              borderRadius: 10,
+                              width: 20,
+                              height: 20,
+                              backgroundColor: t.fill,
+                              marginRight: 5,
+                            }}
+                          />
+                          {t.label}{" "}
                           {/* <span>
                           {t.antiEcologicAct} / {t.totalActs}
                         </span> */}
@@ -603,6 +633,18 @@ export default class NetworkTemplate extends React.Component<
                       </List.Item>
                     ))}
                   </List>
+                </Columns.Column>
+                <Columns.Column size={12}>
+                  {selectedNodes.map(n => (
+                    <div>
+                      <div className="subtitle">
+                        {" "}
+                        {n.data.frontmatter.title}
+                      </div>
+                      <div dangerouslySetInnerHTML={{ __html: n.data.html }} />
+                      <br />
+                    </div>
+                  ))}
                 </Columns.Column>
               </Columns>
             </Layout>
@@ -661,6 +703,7 @@ export const pageQuery = graphql`
             avatar
             username
           }
+          html
         }
       }
     }
@@ -697,6 +740,7 @@ export const pageQuery = graphql`
             cover
             actors
           }
+          html
         }
       }
     }

@@ -31,7 +31,7 @@ interface NetworkProps extends Omit<WithTooltipProvidedProps, "tooltipData"> {
   maxDate: Date
   graph: GraphType<LinkEventProps, NetworkNodeProps["node"]>
   tooltipData?: NetworkNodeProps["node"]["data"]
-  onEventLabelClick: (event: string) => void;
+  onEventLabelClick: (event: string) => void
   onNodeClick: (event: EventPoint) => void
 }
 
@@ -92,14 +92,13 @@ class Network extends React.Component<NetworkProps, NetworkState> {
       state: { showMiniMap },
     } = this
 
-
     const getXScale = () =>
       scaleTime({
         range: [0, width],
         domain: [minDate, maxDate],
         nice: true,
       })
-    
+
     return (
       <React.Fragment>
         <Zoom
@@ -133,7 +132,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                     onDoubleClick={event => {
                       const point = localPoint(event)
                       if (point) {
-                        zoom.scale({ scaleX: 1.4, scaleY: 1.4, point })
+                        zoom.scale({ scaleX: 1.4, scaleY: 1.4, point }) 
                       }
                     }}
                   />
@@ -232,7 +231,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                     </div>
                   </TooltipWithBounds>
                 )}
-                <div className="controls">
+                <div className="controls" style={{ display: "none" }}>
                   <button
                     className="btn btn-zoom"
                     onClick={() => zoom.scale({ scaleX: 1.2, scaleY: 1.2 })}
@@ -254,11 +253,11 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                   <button className="btn btn-lg" onClick={zoom.clear}>
                     Clear
                   </button>
-                </div>
-                <div className="mini-map">
-                  <button className="btn btn-lg" onClick={this.toggleMiniMap}>
-                    {showMiniMap ? "Hide" : "Show"} Mini Map
-                  </button>
+                  <div className="mini-map">
+                    <button className="btn btn-lg" onClick={this.toggleMiniMap}>
+                      {showMiniMap ? "Hide" : "Show"} Mini Map
+                    </button>
+                  </div>
                 </div>
               </Group>
             )

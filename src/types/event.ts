@@ -49,10 +49,14 @@ export const EventFileNodeFrontmatter = t.interface(
 export const EventFileNode = t.interface(
   {
     relativeDirectory: t.string,
-    childMarkdownRemark: t.interface({
-      id: t.string,
-      frontmatter: EventFileNodeFrontmatter,
-    }),
+    childMarkdownRemark: t.interface(
+      {
+        id: t.string,
+        frontmatter: EventFileNodeFrontmatter,
+        html: t.string,
+      },
+      "ChildMarkdownRemark"
+    ),
   },
   "EventFileNode"
 )
@@ -79,6 +83,7 @@ export const EventPoint = t.interface(
       {
         id: t.string,
         frontmatter: EventFileNodeFrontmatter,
+        html: t.string,
         topic: t.string,
         fill: t.string,
       },
