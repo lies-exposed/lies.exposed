@@ -56,7 +56,7 @@ const NetworksPage = (props: NetworksPageProps) => {
       <SEO title={title} />
       <Columns>
         <Columns.Column size={3}>
-          <Menu items={items} />
+          <Menu sections={[{items}]} />
         </Columns.Column>
         <Columns.Column size={9}>
           <div

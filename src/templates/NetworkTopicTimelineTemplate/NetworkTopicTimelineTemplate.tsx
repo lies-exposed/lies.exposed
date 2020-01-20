@@ -130,7 +130,7 @@ export default function NetworkTopicTimelineTemplate({
             <div>
               {timelineEvents.right.map(event => (
                 <div>
-                  <div className="title">{event.title}</div>
+                  <div className="subtitle">{event.title}</div>
                   <div
                     className="content"
                     dangerouslySetInnerHTML={{ __html: event.html }}

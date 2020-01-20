@@ -8,12 +8,10 @@ import withTooltip, {
 import { TooltipWithBounds } from "@vx/tooltip"
 import { Group } from "@vx/group"
 import { AxisBottom } from "@vx/axis"
-import { scaleTime, scaleOrdinal } from "@vx/scale"
+import { scaleTime } from "@vx/scale"
 import NetworkNode, { NetworkNodeProps } from "./NetworkEventNode"
 import { Zoom } from "@vx/zoom"
 import { RectClipPath } from "@vx/clip-path"
-import { Legend } from "@vx/legend"
-import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { EventPoint } from "../../../types/event"
@@ -26,23 +24,14 @@ function numTicksForWidth(width: number): number {
   return 10
 }
 
-interface EventLabel {
-  x: number
-  y: number
-  label: string
-  fill: string
-}
-
 interface NetworkProps extends Omit<WithTooltipProvidedProps, "tooltipData"> {
   width: number
   height: number
   minDate: Date
   maxDate: Date
-  eventLabels: EventLabel[]
-  eventColors: string[]
   graph: GraphType<LinkEventProps, NetworkNodeProps["node"]>
   tooltipData?: NetworkNodeProps["node"]["data"]
-  onEventLabelClick: (event: string) => void;
+  onEventLabelClick: (event: string) => void
   onNodeClick: (event: EventPoint) => void
 }
 
@@ -62,7 +51,7 @@ interface NetworkState {
 class Network extends React.Component<NetworkProps, NetworkState> {
   constructor(props: NetworkProps) {
     super(props)
-    this.state = { showMiniMap: true }
+    this.state = { showMiniMap: false }
   }
 
   handleMouseOver = (event: any, datum: any) => {
@@ -93,9 +82,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
         graph,
         minDate,
         maxDate,
-        eventLabels,
-        eventColors,
-        onEventLabelClick,
         onNodeClick,
         hideTooltip,
         tooltipOpen,
@@ -106,11 +92,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
       state: { showMiniMap },
     } = this
 
-    const eventsOrdinalScale = scaleOrdinal({
-      range: eventColors,
-      domain: eventLabels.map(e => e.label),
-    })
-
     const getXScale = () =>
       scaleTime({
         range: [0, width],
@@ -118,8 +99,6 @@ class Network extends React.Component<NetworkProps, NetworkState> {
         nice: true,
       })
 
-    const eventColorPairs = A.zip(eventLabels, eventColors)
-    
     return (
       <React.Fragment>
         <Zoom
@@ -153,7 +132,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                     onDoubleClick={event => {
                       const point = localPoint(event)
                       if (point) {
-                        zoom.scale({ scaleX: 1.4, scaleY: 1.4, point })
+                        zoom.scale({ scaleX: 1.4, scaleY: 1.4, point }) 
                       }
                     }}
                   />
@@ -190,36 +169,19 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                       nodeComponent={props =>
                         NetworkNode({
                           ...props,
-                          fill: pipe(
-                            O.fromNullable(
-                              eventColorPairs.find(
-                                ([eventName, _color]) =>
-                                  eventName.label === props.node.data.event
-                              )
-                            ),
-                            O.map(([_eventName, color]) => color),
-                            O.getOrElse(() => "#FFF")
-                          ),
                           onMouseOver: this.handleMouseOver,
                           onMouseOut: hideTooltip,
                           onClick: onNodeClick,
                         })
                       }
                     />
-                    {eventLabels.map(l => (
-                      <text key={l.label} x={l.x} y={l.y} fill={l.fill} onClick={() => onEventLabelClick(l.label)}>
-                        {l.label}
-                      </text>
-                    ))}
                   </g>
                   {showMiniMap && (
                     <g
                       clipPath="url(#zoom-clip)"
                       transform={`
                       scale(0.25)
-                      translate(${width * 4 - width - 60}, ${height * 4 -
-                        height -
-                        60})
+                      translate(${width * 4 - width}, ${height * 4 - height})
                     `}
                     >
                       <rect width={width} height={height} fill="#1a1a1a" />
@@ -240,6 +202,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                     key={Math.random()}
                     top={tooltipTop}
                     left={tooltipLeft}
+                    style={{ maxWidth: 200 }}
                   >
                     <div>
                       <div>
@@ -268,7 +231,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                     </div>
                   </TooltipWithBounds>
                 )}
-                <div className="controls">
+                <div className="controls" style={{ display: "none" }}>
                   <button
                     className="btn btn-zoom"
                     onClick={() => zoom.scale({ scaleX: 1.2, scaleY: 1.2 })}
@@ -290,25 +253,16 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                   <button className="btn btn-lg" onClick={zoom.clear}>
                     Clear
                   </button>
-                </div>
-                <div className="mini-map">
-                  <button className="btn btn-lg" onClick={this.toggleMiniMap}>
-                    {showMiniMap ? "Hide" : "Show"} Mini Map
-                  </button>
+                  <div className="mini-map">
+                    <button className="btn btn-lg" onClick={this.toggleMiniMap}>
+                      {showMiniMap ? "Hide" : "Show"} Mini Map
+                    </button>
+                  </div>
                 </div>
               </Group>
             )
           }}
         </Zoom>
-        <div>
-          <Legend
-            scale={eventsOrdinalScale}
-            direction="column-reverse"
-            itemDirection="row-reverse"
-            labelMargin="0 20px 0 0"
-            shapeMargin="1px 0 0"
-          />
-        </div>
       </React.Fragment>
     )
   }

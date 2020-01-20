@@ -3,7 +3,7 @@ import SEO from "../components/SEO"
 import Layout from "../components/Layout"
 import Menu from "../components/Menu"
 import { useStaticQuery, graphql } from "gatsby"
-import { Columns } from "../components/Common/Bulma"
+import { Columns } from "../components/Common"
 
 interface ArticlePageProps {}
 
@@ -64,7 +64,7 @@ const ArticlesPage = ({}: ArticlePageProps) => {
       <SEO title="Article" />
       <Columns>
         <Columns.Column size={3}>
-          <Menu items={articleItems} />
+          <Menu sections={[{ items: articleItems}]} />
         </Columns.Column>
         <Columns.Column size={9}>
           <div

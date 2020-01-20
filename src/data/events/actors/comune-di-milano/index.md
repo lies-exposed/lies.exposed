@@ -2,5 +2,6 @@
 title: Comune di Milano
 icon: pencil-alt
 date: 2019-12-12
-path: comune-di-milano
+username: comune-di-milano
+avatar: comune-di-milano-avatar.png
 ---

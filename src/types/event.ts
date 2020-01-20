@@ -1,6 +1,7 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { option } from "io-ts-types/lib/option"
 import { date } from "io-ts-types/lib/date"
 
 export const Group = t.interface({
@@ -22,35 +23,57 @@ export const TreeEvent: t.Type<TreeEvent> = t.recursion("TreeEvent", () =>
   t.type({
     name: t.string,
     date: date,
-    // abstract: t.string,
-    // group: Group,
-    // subject: Subject,
     children: t.array(TreeEvent),
   })
 )
+export const EventType = t.keyof(
+  {
+    AntiEcologicAct: null,
+    EcologicAct: null,
+  },
+  "EventType"
+)
 
-export const EventFrontmatter = t.interface(
+export const EventFileNodeFrontmatter = t.interface(
   {
     icon: t.string,
     title: t.string,
     date: DateFromISOString,
     actors: optionFromNullable(t.array(t.string)),
-    type: optionFromNullable(t.string),
+    type: optionFromNullable(EventType),
     cover: optionFromNullable(t.string),
-    path: optionFromNullable(t.string),
   },
   "EventFrontmatter"
 )
 
-export const EventNode = t.interface(
+export const EventFileNode = t.interface(
   {
-    id: t.string,
-    frontmatter: EventFrontmatter,
+    relativeDirectory: t.string,
+    childMarkdownRemark: t.interface(
+      {
+        id: t.string,
+        frontmatter: EventFileNodeFrontmatter,
+        html: t.string,
+      },
+      "ChildMarkdownRemark"
+    ),
   },
-  "EventNode"
+  "EventFileNode"
 )
 
-export type EventNode = t.TypeOf<typeof EventNode>
+export type EventFileNode = t.TypeOf<typeof EventFileNode>
+
+export const EventPointFrontmatter = t.interface(
+  {
+    icon: t.string,
+    title: t.string,
+    date: date,
+    actors: option(t.array(t.string)),
+    type: option(EventType),
+    cover: option(t.string),
+  },
+  "EventFrontmatter"
+)
 
 export const EventPoint = t.interface(
   {
@@ -59,8 +82,10 @@ export const EventPoint = t.interface(
     data: t.interface(
       {
         id: t.string,
-        frontmatter: EventFrontmatter,
-        event: t.string,
+        frontmatter: EventFileNodeFrontmatter,
+        html: t.string,
+        topic: t.string,
+        fill: t.string,
       },
       "EventPointData"
     ),
