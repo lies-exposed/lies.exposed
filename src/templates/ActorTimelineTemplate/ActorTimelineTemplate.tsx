@@ -4,7 +4,7 @@ import { graphql } from "gatsby"
 import "./actorTimelineTemplate.scss"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
-import { Columns } from "react-bulma-components"
+import { Columns, Image } from "react-bulma-components"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
@@ -15,24 +15,13 @@ import TimelineNavigator from "../../components/TimelineNavigator/TimelineNaviga
 import { EventFileNode } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
 import { ordEventFileNodeDate } from "../../utils/event"
-import * as Ord from 'fp-ts/lib/Ord'
+import * as Ord from "fp-ts/lib/Ord"
+import { ActorPageContentFileNode } from "../../types/actor"
 
 interface ActorTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: {
-      childMarkdownRemark: {
-        frontmatter: {
-          title: string
-          path: string
-          date: string
-          icon: string
-          cover: string
-          type: string
-        }
-        html: string
-      }
-    }
+    pageContent: ActorPageContentFileNode
     events: {
       nodes: EventFileNode[]
     }
@@ -89,6 +78,10 @@ export default function ActorTimelineTemplate({
           ),
         }))
 
+        const coverImage = images.nodes.find(i =>
+          Eq.eqString.equals(`${i.name}${i.ext}`, frontmatter.avatar)
+        )
+
         return (
           <Layout>
             <SEO title={frontmatter.title} />
@@ -102,6 +95,14 @@ export default function ActorTimelineTemplate({
                   <div className="blog-post-container">
                     <div className="blog-post">
                       <h1>{frontmatter.title}</h1>
+                      {coverImage ? (
+                        <Image
+                          size={128}
+                          src={coverImage.childImageSharp.fixed.src}
+                        />
+                      ) : (
+                        <div />
+                      )}
                       <div
                         className="blog-post-content"
                         dangerouslySetInnerHTML={{ __html: html }}
@@ -116,7 +117,9 @@ export default function ActorTimelineTemplate({
                         <div className="title">{event.title}</div>
                         <div
                           className="content"
-                          dangerouslySetInnerHTML={{ __html: event.html }}
+                          dangerouslySetInnerHTML={{
+                            __html: event.html,
+                          }}
                         />
                       </div>
                     ))}
@@ -148,8 +151,7 @@ export const pageQuery = graphql`
           path
           date
           icon
-          cover
-          type
+          avatar
         }
         html
       }
@@ -213,6 +215,8 @@ export const pageQuery = graphql`
         }
         relativeDirectory
         relativePath
+        name
+        ext
       }
     }
   }

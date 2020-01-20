@@ -9,6 +9,8 @@ export const ImageFileNode = t.interface(
     }),
     relativeDirectory: t.string,
     relativePath: t.string,
+    name: t.string,
+    ext: t.string
   },
   "ImageFileNode"
 )

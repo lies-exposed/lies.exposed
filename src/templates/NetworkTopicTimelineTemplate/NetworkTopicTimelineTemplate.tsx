@@ -59,8 +59,6 @@ export default function NetworkTopicTimelineTemplate({
       events => {
         const totalEvents = events.map(n => n.childMarkdownRemark)
 
-        console.log(totalEvents)
-
         const results = totalEvents.map(n => ({
           id: n.id,
           ...n.frontmatter,

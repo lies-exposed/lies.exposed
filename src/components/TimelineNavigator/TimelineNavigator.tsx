@@ -23,8 +23,6 @@ export default function TimelineNavigator(props: TimelineNavigatorProps) {
       const year = e.frontmatter.date.getFullYear()
       const month = e.frontmatter.date.getUTCMonth()
 
-      console.log({ year, month })
-      console.log("acc", acc)
       const value = pipe(
         Map.lookup(Eq.eqNumber)(year, acc),
         O.fold(
@@ -35,7 +33,6 @@ export default function TimelineNavigator(props: TimelineNavigatorProps) {
               O.fold(
                 () => Map.insertAt(Eq.eqNumber)(month, [e])(monthMap),
                 ([monthKey, eventsInMonth]) => {
-                  console.log(`found entry per month: ${month}`, eventsInMonth)
                   return Map.insertAt(Eq.eqNumber)(
                     monthKey,
                     eventsInMonth.concat(e)
@@ -46,14 +43,10 @@ export default function TimelineNavigator(props: TimelineNavigatorProps) {
         )
       )
 
-      console.log("value", Map.toArray(Ord.ordNumber)(value))
-
       return Map.insertAt(Eq.eqNumber)(year, value)(acc)
     },
     initial
   )
-
-  console.log(eventsByYear)
 
   return (
     <div>

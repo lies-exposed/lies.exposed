@@ -323,12 +323,6 @@ export default class NetworkTemplate extends React.Component<
                 const selectedMonth = p.data.frontmatter.date.getMonth()
                 const selectedWeek = getWeek(p.data.frontmatter.date)
                 const selectedDate = p.data.frontmatter.date.getDate()
-                console.log({
-                  selectedFullYear,
-                  selectedMonth,
-                  selectedWeek,
-                  selectedDate,
-                })
                 return events.filter(n => {
                   const nodeFullYear = n.childMarkdownRemark.frontmatter.date.getFullYear()
                   const nodeMonth = n.childMarkdownRemark.frontmatter.date.getMonth()
@@ -336,8 +330,6 @@ export default class NetworkTemplate extends React.Component<
                     n.childMarkdownRemark.frontmatter.date
                   )
                   const nodeDate = n.childMarkdownRemark.frontmatter.date.getDate()
-
-                  console.log({ nodeFullYear, nodeMonth, nodeWeek, nodeDate })
 
                   if (scale === "year") {
                     return Eq.eqNumber.equals(nodeFullYear, selectedFullYear)
@@ -399,8 +391,6 @@ export default class NetworkTemplate extends React.Component<
                 O.map(p => getMaxDateByScale(scale, p)),
                 O.getOrElse(() => new Date())
               )
-
-        console.log({ minDate, maxDate, events })
 
         type Result = {
           eventNodes: Map<string, EventPoint[]>
