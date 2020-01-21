@@ -75,21 +75,26 @@ export const EventPointFrontmatter = t.interface(
   "EventFrontmatter"
 )
 
+export const EventPointData = t.interface(
+  {
+    id: t.string,
+    frontmatter: EventFileNodeFrontmatter,
+    html: t.string,
+    topicLabel: t.string,
+    topicFill: t.string,
+    topicSlug: t.string,
+    fill: t.string,
+  },
+  "EventPointData"
+)
+
+export type EventPointData = t.TypeOf<typeof EventPointData>
+
 export const EventPoint = t.interface(
   {
     x: t.number,
     y: t.number,
-    data: t.interface(
-      {
-        id: t.string,
-        frontmatter: EventFileNodeFrontmatter,
-        html: t.string,
-        topicLabel: t.string,
-        topicFill: t.string,
-        fill: t.string,
-      },
-      "EventPointData"
-    ),
+    data: EventPointData,
   },
   "EventPoint"
 )

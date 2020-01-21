@@ -1,3 +1,8 @@
+/**
+ * @TODO
+ * - add related topic to events
+ */
+
 import * as t from "io-ts"
 import React from "react"
 import { graphql } from "gatsby"
@@ -5,7 +10,6 @@ import "./actorTimelineTemplate.scss"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import { Columns, Image } from "react-bulma-components"
-import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import * as E from "fp-ts/lib/Either"
@@ -17,6 +21,7 @@ import { ImageFileNode } from "../../types/image"
 import { ordEventFileNodeDate } from "../../utils/event"
 import * as Ord from "fp-ts/lib/Ord"
 import { ActorPageContentFileNode } from "../../types/actor"
+import EventList from "../../components/EventList/EventList"
 
 interface ActorTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
@@ -64,19 +69,6 @@ export default function ActorTimelineTemplate({
         return null
       },
       timelineEvents => {
-        const results = timelineEvents.map(n => ({
-          id: n.id,
-          ...n.frontmatter,
-          html: n.html,
-          image: pipe(
-            n.frontmatter.cover,
-            O.chain(c =>
-              O.fromNullable(images.nodes.find(i => i.relativeDirectory === c))
-            ),
-            O.map(i => i.childImageSharp.fixed),
-            O.toUndefined
-          ),
-        }))
 
         const coverImage = images.nodes.find(i =>
           Eq.eqString.equals(`${i.name}${i.ext}`, frontmatter.avatar)
@@ -112,17 +104,7 @@ export default function ActorTimelineTemplate({
                 </div>
                 <Columns.Column>
                   <div>
-                    {results.map(event => (
-                      <div key={event.title}>
-                        <div className="title">{event.title}</div>
-                        <div
-                          className="content"
-                          dangerouslySetInnerHTML={{
-                            __html: event.html,
-                          }}
-                        />
-                      </div>
-                    ))}
+                    <EventList events={timelineEvents} />
                     {/* <Timeline events={timelineEvents.right} /> */}
                   </div>
                 </Columns.Column>
