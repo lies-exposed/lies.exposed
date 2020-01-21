@@ -1,5 +1,20 @@
 import * as t from 'io-ts'
 
+export const ActorPageContentFileNode = t.interface({
+  childMarkdownRemark: t.interface({
+    frontmatter: t.interface({
+      title: t.string,
+      path: t.string,
+      date: t.string,
+      icon: t.string,
+      avatar: t.string
+    }),
+    html: t.string
+  }, 'ActorPageContentFileNodeMarkdownRemark')
+}, 'ActorPageContentFileNode')
+
+export type ActorPageContentFileNode = t.TypeOf<typeof ActorPageContentFileNode>
+
 const ActorFrontmatter = t.interface({
     title: t.string,
     username: t.string,

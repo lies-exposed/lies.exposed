@@ -1,7 +1,7 @@
 import React from "react"
 import SEO from "../components/SEO"
 import Layout from "../components/Layout"
-import Menu from "../components/Menu"
+import Menu from "../components/Common/Menu"
 import { useStaticQuery, graphql } from "gatsby"
 import { Columns } from "../components/Common"
 

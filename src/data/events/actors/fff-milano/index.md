@@ -1,5 +1,5 @@
 ---
 title: Fridays For Future - Milano
-path: fff-milano
+username: fff-milano
 avatar: fff-milano-avatar.png
 ---

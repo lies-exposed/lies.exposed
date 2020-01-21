@@ -7,7 +7,7 @@ import * as t from "io-ts"
 import React from "react"
 import SEO from "../../components/SEO"
 import Layout from "../../components/Layout"
-import { Columns, List, Image, Tag } from "../../components/Common"
+import { Columns, List, Image } from "../../components/Common"
 import { graphql } from "gatsby"
 import { EventPoint, EventFileNode } from "../../types/event"
 import * as A from "fp-ts/lib/Array"
@@ -20,7 +20,6 @@ import * as Ord from "fp-ts/lib/Ord"
 import * as O from "fp-ts/lib/Option"
 import * as Map from "fp-ts/lib/Map"
 import { Link } from "@vx/network/lib/types"
-import { withDashes } from "../../utils/string"
 import "./networkTemplate.scss"
 import { ActorFileNode } from "../../types/actor"
 import { ImageNode } from "../../utils/image"
@@ -28,6 +27,10 @@ import { TopicFileNode, TopicPoint } from "../../types/topic"
 import * as Eq from "fp-ts/lib/Eq"
 import moment from "moment"
 import { formatDate } from "../../utils/date"
+import { ordEventFileNodeDate, ordEventPointDate } from "../../utils/event"
+import EventList from "../../components/EventList/EventList"
+import { ImageFileNode } from "../../types/image"
+import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
@@ -49,11 +52,7 @@ interface NetworksPageProps {
       nodes: EventFileNode[]
     }
     images: {
-      nodes: {
-        id: string
-        absolutePath: string
-        childImageSharp: { fluid: { src: string } }
-      }[]
+      nodes: ImageFileNode[]
     }
   }
 }
@@ -114,16 +113,6 @@ const getY = (topics: Array<string>, margin: number, height: number) => (
   }
   return 0
 }
-
-const eventFileNodeByDate = Ord.ord.contramap(
-  Ord.ordDate,
-  (e: EventFileNode) => e.childMarkdownRemark.frontmatter.date
-)
-
-const eventPointByDate = Ord.ord.contramap(
-  Ord.ordDate,
-  (e: EventPoint) => e.data.frontmatter.date
-)
 
 function addOneIfEqualTo(o: O.Option<string>, match: string): 0 | 1 {
   return pipe(
@@ -332,12 +321,6 @@ export default class NetworkTemplate extends React.Component<
                 const selectedMonth = p.data.frontmatter.date.getMonth()
                 const selectedWeek = getWeek(p.data.frontmatter.date)
                 const selectedDate = p.data.frontmatter.date.getDate()
-                console.log({
-                  selectedFullYear,
-                  selectedMonth,
-                  selectedWeek,
-                  selectedDate,
-                })
                 return events.filter(n => {
                   const nodeFullYear = n.childMarkdownRemark.frontmatter.date.getFullYear()
                   const nodeMonth = n.childMarkdownRemark.frontmatter.date.getMonth()
@@ -345,8 +328,6 @@ export default class NetworkTemplate extends React.Component<
                     n.childMarkdownRemark.frontmatter.date
                   )
                   const nodeDate = n.childMarkdownRemark.frontmatter.date.getDate()
-
-                  console.log({ nodeFullYear, nodeMonth, nodeWeek, nodeDate })
 
                   if (scale === "year") {
                     return Eq.eqNumber.equals(nodeFullYear, selectedFullYear)
@@ -381,7 +362,10 @@ export default class NetworkTemplate extends React.Component<
             )
       ),
       E.map(events => {
-        const eventsSortedByDate = pipe(events, A.sortBy([eventFileNodeByDate]))
+        const eventsSortedByDate = pipe(
+          events,
+          A.sortBy([ordEventFileNodeDate])
+        )
 
         const minDate =
           scale === "all"
@@ -409,8 +393,6 @@ export default class NetworkTemplate extends React.Component<
                 O.getOrElse(() => new Date())
               )
 
-        console.log({ minDate, maxDate, events })
-
         type Result = {
           eventNodes: Map<string, EventPoint[]>
           eventLinks: Map<string, NetworkLink[]>
@@ -437,7 +419,9 @@ export default class NetworkTemplate extends React.Component<
             e.childMarkdownRemark.frontmatter.cover,
             O.chain(c =>
               O.fromNullable(
-                data.images.nodes.find(e => e.absolutePath.indexOf(c))
+                data.images.nodes.find(e =>
+                  Eq.eqString.equals(`${e.name}${e.ext}`, c)
+                )
               )
             ),
             O.map(e => e.childImageSharp.fluid.src)
@@ -475,6 +459,7 @@ export default class NetworkTemplate extends React.Component<
               ...e.childMarkdownRemark,
               topicLabel: topic.label,
               topicFill: topic.fill,
+              topicSlug: topic.slug,
               fill: topic.fill,
               frontmatter: {
                 ...e.childMarkdownRemark.frontmatter,
@@ -675,7 +660,7 @@ export default class NetworkTemplate extends React.Component<
             nodes,
             links: links.concat(...actorResults.links),
           },
-          selectedNodes: A.sortBy([Ord.getDualOrd(eventPointByDate)])(
+          selectedNodes: A.sortBy([Ord.getDualOrd(ordEventPointDate)])(
             selectedNodesArray.concat(...actorResults.events)
           ),
         }
@@ -768,12 +753,9 @@ export default class NetworkTemplate extends React.Component<
                         navigate(`/timelines/${networkName}/${event}`)
                       }}
                       onNodeClick={event => {
-                        const url = `/timelines/${networkName}/${
-                          event.data.topicLabel
-                        }#${withDashes(
-                          event.data.frontmatter.title.toLowerCase()
-                        )}`
-                        navigate(url)
+                        navigate(
+                          `/timelines/${networkName}/${event.data.topicSlug}#${event.data.id}`
+                        )
                       }}
                       onDoubleClick={this.onNetworkDoubleClick}
                     />
@@ -813,23 +795,18 @@ export default class NetworkTemplate extends React.Component<
                   </List>
                 </Columns.Column>
                 <Columns.Column size={12}>
-                  <div className="content">
-                    {selectedNodes.map(n => (
-                      <div>
-                        <div className="subtitle">
-                          {" "}
-                          {n.data.frontmatter.title}
-                        </div>
-                        <div>
-                          <Tag style={{ backgroundColor: n.data.topicFill, color: 'white' }}>{n.data.topicLabel}</Tag>
-                        </div>
-                        <div
-                          dangerouslySetInnerHTML={{ __html: n.data.html }}
-                        />
-                        <br />
+                  <Columns>
+                    <Columns.Column size={3}>
+                      <TimelineNavigator
+                        events={selectedNodes.map(n => n.data)}
+                      />
+                    </Columns.Column>
+                    <Columns.Column size={9}>
+                      <div className="content">
+                        <EventList events={selectedNodes.map(n => n.data)} />
                       </div>
-                    ))}
-                  </div>
+                    </Columns.Column>
+                  </Columns>
                 </Columns.Column>
               </Columns>
             </Layout>
@@ -943,10 +920,14 @@ export const pageQuery = graphql`
     ) {
       nodes {
         childImageSharp {
+          fluid {
+            src
+          }
           fixed {
             src
           }
         }
+        absolutePath
         relativeDirectory
         relativePath
       }

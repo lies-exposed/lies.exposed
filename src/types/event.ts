@@ -75,37 +75,28 @@ export const EventPointFrontmatter = t.interface(
   "EventFrontmatter"
 )
 
+export const EventPointData = t.interface(
+  {
+    id: t.string,
+    frontmatter: EventFileNodeFrontmatter,
+    html: t.string,
+    topicLabel: t.string,
+    topicFill: t.string,
+    topicSlug: t.string,
+    fill: t.string,
+  },
+  "EventPointData"
+)
+
+export type EventPointData = t.TypeOf<typeof EventPointData>
+
 export const EventPoint = t.interface(
   {
     x: t.number,
     y: t.number,
-    data: t.interface(
-      {
-        id: t.string,
-        frontmatter: EventFileNodeFrontmatter,
-        html: t.string,
-        topicLabel: t.string,
-        topicFill: t.string,
-        fill: t.string,
-      },
-      "EventPointData"
-    ),
+    data: EventPointData,
   },
   "EventPoint"
 )
 export type EventPoint = t.TypeOf<typeof EventPoint>
 
-export const EventImageNode = t.interface(
-  {
-    childImageSharp: t.interface({
-      fixed: t.interface({
-        src: t.string,
-      }),
-    }),
-    relativeDirectory: t.string,
-    relativePath: t.string,
-  },
-  "EventImageNode"
-)
-
-export type EventImageNode = t.TypeOf<typeof EventImageNode>

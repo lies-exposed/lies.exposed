@@ -27,6 +27,8 @@
     "gatsby-plugin-sass": "2.1.27",
     "gatsby-plugin-sharp": "2.3.13",
     "gatsby-plugin-typescript": "2.1.26",
+    "gatsby-remark-copy-linked-files": "^2.1.36",
+    "gatsby-remark-images": "^3.1.42",
     "gatsby-remark-numbered-footnotes": "1.0.1",
     "gatsby-source-filesystem": "2.1.46",
     "gatsby-transformer-json": "2.2.25",

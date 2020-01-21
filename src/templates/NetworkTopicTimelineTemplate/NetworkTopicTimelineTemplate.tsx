@@ -5,38 +5,13 @@ import "./networkTopicTimelineTemplate.scss"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import { Columns } from "react-bulma-components"
-import {
-  TimelineEvent,
-  TimelineEventType,
-  TimelineEventIcon,
-} from "../../components/Common/Tree/Timeline/Timeline"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import * as E from "fp-ts/lib/Either"
-import { formatDate } from "../../utils/date"
-
-interface EventNode {
-  id: string
-  frontmatter: {
-    icon: TimelineEventIcon
-    title: string
-    date: string
-    type: TimelineEventType | null
-    cover: string | null
-  }
-  html: string
-}
-
-interface ImageNode {
-  childImageSharp: {
-    fixed: {
-      src: string
-    }
-  }
-  relativeDirectory: string
-  relativePath: string
-}
+import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
+import { ImageFileNode } from "../../types/image"
+import { EventFileNode } from "../../types/event"
 
 interface NetworkTopicTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
@@ -55,12 +30,10 @@ interface NetworkTopicTimelineTemplatePageProps {
       }
     }
     events: {
-      nodes: {
-        childMarkdownRemark: EventNode
-      }[]
+      nodes: EventFileNode[]
     }
     images: {
-      nodes: ImageNode[]
+      nodes: ImageFileNode[]
     }
   }
 }
@@ -76,73 +49,70 @@ export default function NetworkTopicTimelineTemplate({
     images,
   } = data
 
-  const totalEvents = events.nodes.map(n => n.childMarkdownRemark)
+  return pipe(
+    t.array(EventFileNode).decode(events.nodes),
+    E.fold(
+      errs => {
+        console.log(ThrowReporter.report(E.left(errs)))
+        return null
+      },
+      events => {
+        const totalEvents = events.map(n => n.childMarkdownRemark)
 
-  console.log(totalEvents)
+        const results = totalEvents.map(n => ({
+          id: n.id,
+          ...n.frontmatter,
+          html: n.html,
+          image: pipe(
+            n.frontmatter.cover,
+            O.chain(c =>
+              O.fromNullable(images.nodes.find(i => i.relativePath === c))
+            ),
+            O.map(i => i.childImageSharp.fixed),
+            O.toUndefined
+          ),
+        }))
 
-  const results = totalEvents.map(n => ({
-    id: n.id,
-    ...n.frontmatter,
-    html: n.html,
-    image: pipe(
-      O.fromNullable(n.frontmatter.cover),
-      O.chain(c =>
-        O.fromNullable(images.nodes.find(i => i.relativePath === c))
-      ),
-      O.map(i => i.childImageSharp.fixed),
-      O.toUndefined
-    ),
-  }))
-
-  const timelineEvents = t.array(TimelineEvent).decode(results)
-  if (E.isLeft(timelineEvents)) {
-    console.log(ThrowReporter.report(timelineEvents))
-    return null
-  }
-
-  return (
-    <Layout>
-      <SEO title={frontmatter.title} />
-      <Columns>
-        <Columns.Column size={3}>
-          <ul>
-            {timelineEvents.right.map(e => (
-              <li>
-                {formatDate(e.date)} - {e.title}
-              </li>
-            ))}
-          </ul>
-        </Columns.Column>
-        <Columns.Column size={9}>
-          <div className="content">
-            <div></div>
-            <div className="blog-post-container">
-              <div className="blog-post">
-                <h1>{frontmatter.title}</h1>
-                <div
-                  className="blog-post-content"
-                  dangerouslySetInnerHTML={{ __html: html }}
-                />
-              </div>
-            </div>
-          </div>
-          <Columns.Column>
-            <div>
-              {timelineEvents.right.map(event => (
-                <div>
-                  <div className="subtitle">{event.title}</div>
-                  <div
-                    className="content"
-                    dangerouslySetInnerHTML={{ __html: event.html }}
-                  />
+        return (
+          <Layout>
+            <SEO title={frontmatter.title} />
+            <Columns>
+              <Columns.Column size={3}>
+                <TimelineNavigator events={totalEvents} />
+              </Columns.Column>
+              <Columns.Column size={9}>
+                <div className="content">
+                  <div></div>
+                  <div className="blog-post-container">
+                    <div className="blog-post">
+                      <h1>{frontmatter.title}</h1>
+                      <div
+                        className="blog-post-content"
+                        dangerouslySetInnerHTML={{ __html: html }}
+                      />
+                    </div>
+                  </div>
                 </div>
-              ))}
-              {/* <Timeline events={timelineEvents.right} /> */}
-            </div>
-          </Columns.Column>
-        </Columns.Column>
-      </Columns>
-    </Layout>
+                <Columns.Column>
+                  <div>
+                    {results.map(event => (
+                      <div key={event.id} id={event.id}>
+                        <div className="subtitle">{event.title}</div>
+                        <div
+                          className="content"
+                          dangerouslySetInnerHTML={{ __html: event.html }}
+                        />
+                      </div>
+                    ))}
+                    {/* <Timeline events={timelineEvents.right} /> */}
+                  </div>
+                </Columns.Column>
+              </Columns.Column>
+            </Columns>
+          </Layout>
+        )
+      }
+    )
   )
 }
 
@@ -172,8 +142,10 @@ export const pageQuery = graphql`
         relativeDirectory: { eq: $relativeDirectory }
         name: { ne: "index" }
       }
+      sort: { order: DESC, fields: [childMarkdownRemark___frontmatter___date] }
     ) {
       nodes {
+        relativeDirectory
         childMarkdownRemark {
           id
           frontmatter {
