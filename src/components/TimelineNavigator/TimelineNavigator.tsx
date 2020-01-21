@@ -6,6 +6,8 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as Ord from "fp-ts/lib/Ord"
 import moment from "moment"
+import { Menu as BMenu } from "react-bulma-components"
+import { Link } from "gatsby"
 
 interface TimelineNavigatorProps {
   events: EventFileNode["childMarkdownRemark"][]
@@ -49,24 +51,28 @@ export default function TimelineNavigator(props: TimelineNavigatorProps) {
   )
 
   return (
-    <div>
+    <BMenu>
       {Map.toArray(Ord.getDualOrd(Ord.ordNumber))(eventsByYear).map(
-        ([key, eventsByMonth]) => (
-          <div key={key}>
-            <div>{key}</div>
+        ([year, eventsByMonth]) => (
+          <div key={year}>
+            <p className="menu-label">{year}</p>
             {Map.toArray(Ord.getDualOrd(Ord.ordNumber))(eventsByMonth).map(
               ([month, events]) => (
-                <div key={month}>
-                  <div>{moment({ month }).format("MMMM")}</div>
+                <BMenu.List key={month}>
+                  <p className="menu-label">
+                    {moment({ month }).format("MMMM")}
+                  </p>
                   {events.map(e => (
-                    <div key={e.frontmatter.title}>{e.frontmatter.title}</div>
+                    <BMenu.List.Item key={e.frontmatter.title}>
+                      <Link to={`${window.location.pathname}?#${e.id}`}>{e.frontmatter.title}</Link>
+                    </BMenu.List.Item>
                   ))}
-                </div>
+                </BMenu.List>
               )
             )}
           </div>
         )
       )}
-    </div>
+    </BMenu>
   )
 }

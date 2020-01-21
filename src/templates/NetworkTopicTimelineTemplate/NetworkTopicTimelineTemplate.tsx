@@ -96,7 +96,7 @@ export default function NetworkTopicTimelineTemplate({
                 <Columns.Column>
                   <div>
                     {results.map(event => (
-                      <div>
+                      <div key={event.id} id={event.id}>
                         <div className="subtitle">{event.title}</div>
                         <div
                           className="content"
@@ -142,6 +142,7 @@ export const pageQuery = graphql`
         relativeDirectory: { eq: $relativeDirectory }
         name: { ne: "index" }
       }
+      sort: { order: DESC, fields: [childMarkdownRemark___frontmatter___date] }
     ) {
       nodes {
         relativeDirectory

@@ -7,7 +7,7 @@ import * as t from "io-ts"
 import React from "react"
 import SEO from "../../components/SEO"
 import Layout from "../../components/Layout"
-import { Columns, List, Image, Tag } from "../../components/Common"
+import { Columns, List, Image } from "../../components/Common"
 import { graphql } from "gatsby"
 import { EventPoint, EventFileNode } from "../../types/event"
 import * as A from "fp-ts/lib/Array"
@@ -20,7 +20,6 @@ import * as Ord from "fp-ts/lib/Ord"
 import * as O from "fp-ts/lib/Option"
 import * as Map from "fp-ts/lib/Map"
 import { Link } from "@vx/network/lib/types"
-import { withDashes } from "../../utils/string"
 import "./networkTemplate.scss"
 import { ActorFileNode } from "../../types/actor"
 import { ImageNode } from "../../utils/image"
@@ -29,6 +28,9 @@ import * as Eq from "fp-ts/lib/Eq"
 import moment from "moment"
 import { formatDate } from "../../utils/date"
 import { ordEventFileNodeDate, ordEventPointDate } from "../../utils/event"
+import EventList from "../../components/EventList/EventList"
+import { ImageFileNode } from "../../types/image"
+import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
@@ -50,11 +52,7 @@ interface NetworksPageProps {
       nodes: EventFileNode[]
     }
     images: {
-      nodes: {
-        id: string
-        absolutePath: string
-        childImageSharp: { fluid: { src: string } }
-      }[]
+      nodes: ImageFileNode[]
     }
   }
 }
@@ -109,7 +107,6 @@ const getX = (date: Date, minDate: Date, maxDate: Date, width: number) => {
 const getY = (topics: Array<string>, margin: number, height: number) => (
   key: string
 ) => {
-  console.log(topics, key)
   const pos = topics.findIndex(t => Eq.eqString.equals(t, key))
   if (pos > -1) {
     return margin + pos * ((height - margin * 2) / topics.length)
@@ -365,7 +362,10 @@ export default class NetworkTemplate extends React.Component<
             )
       ),
       E.map(events => {
-        const eventsSortedByDate = pipe(events, A.sortBy([ordEventFileNodeDate]))
+        const eventsSortedByDate = pipe(
+          events,
+          A.sortBy([ordEventFileNodeDate])
+        )
 
         const minDate =
           scale === "all"
@@ -419,12 +419,14 @@ export default class NetworkTemplate extends React.Component<
             e.childMarkdownRemark.frontmatter.cover,
             O.chain(c =>
               O.fromNullable(
-                data.images.nodes.find(e => e.absolutePath.indexOf(c))
+                data.images.nodes.find(e =>
+                  Eq.eqString.equals(`${e.name}${e.ext}`, c)
+                )
               )
             ),
             O.map(e => e.childImageSharp.fluid.src)
           )
-                console.log(A.takeRight(1)(e.relativeDirectory.split("/")))
+
           const topic = pipe(
             A.head(A.takeRight(1)(e.relativeDirectory.split("/"))),
             O.chain(t => Map.lookup(Eq.eqString)(t, topicsMap)),
@@ -437,7 +439,6 @@ export default class NetworkTemplate extends React.Component<
               fill: colors[0],
             }))
           )
-          console.log(topic)
 
           const isTopicSelected = A.elem(Eq.eqString)(
             topic.id,
@@ -458,6 +459,7 @@ export default class NetworkTemplate extends React.Component<
               ...e.childMarkdownRemark,
               topicLabel: topic.label,
               topicFill: topic.fill,
+              topicSlug: topic.slug,
               fill: topic.fill,
               frontmatter: {
                 ...e.childMarkdownRemark.frontmatter,
@@ -678,8 +680,6 @@ export default class NetworkTemplate extends React.Component<
           topics,
           selectedNodes,
         }) => {
-
-          console.log(graph.nodes)
           return (
             <Layout>
               <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
@@ -753,12 +753,9 @@ export default class NetworkTemplate extends React.Component<
                         navigate(`/timelines/${networkName}/${event}`)
                       }}
                       onNodeClick={event => {
-                        const url = `/timelines/${networkName}/${
-                          event.data.topicLabel
-                        }#${withDashes(
-                          event.data.frontmatter.title.toLowerCase()
-                        )}`
-                        navigate(url)
+                        navigate(
+                          `/timelines/${networkName}/${event.data.topicSlug}#${event.data.id}`
+                        )
                       }}
                       onDoubleClick={this.onNetworkDoubleClick}
                     />
@@ -798,23 +795,18 @@ export default class NetworkTemplate extends React.Component<
                   </List>
                 </Columns.Column>
                 <Columns.Column size={12}>
-                  <div className="content">
-                    {selectedNodes.map(n => (
-                      <div>
-                        <div className="subtitle">
-                          {" "}
-                          {n.data.frontmatter.title}
-                        </div>
-                        <div>
-                          <Tag style={{ backgroundColor: n.data.topicFill, color: 'white' }}>{n.data.topicLabel}</Tag>
-                        </div>
-                        <div
-                          dangerouslySetInnerHTML={{ __html: n.data.html }}
-                        />
-                        <br />
+                  <Columns>
+                    <Columns.Column size={3}>
+                      <TimelineNavigator
+                        events={selectedNodes.map(n => n.data)}
+                      />
+                    </Columns.Column>
+                    <Columns.Column size={9}>
+                      <div className="content">
+                        <EventList events={selectedNodes.map(n => n.data)} />
                       </div>
-                    ))}
-                  </div>
+                    </Columns.Column>
+                  </Columns>
                 </Columns.Column>
               </Columns>
             </Layout>
@@ -928,10 +920,14 @@ export const pageQuery = graphql`
     ) {
       nodes {
         childImageSharp {
+          fluid {
+            src
+          }
           fixed {
             src
           }
         }
+        absolutePath
         relativeDirectory
         relativePath
       }

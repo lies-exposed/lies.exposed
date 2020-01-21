@@ -4,7 +4,7 @@ import Layout from "../components/Layout"
 import { Columns } from "react-bulma-components"
 import { useStaticQuery, graphql } from "gatsby"
 import { PageContentNode } from "../types/PageContent"
-import Menu from "../components/Menu"
+import Menu from "../components/Common/Menu"
 
 interface NetworksPageProps {
   navigate: (to: string) => void

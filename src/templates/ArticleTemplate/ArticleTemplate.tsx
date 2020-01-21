@@ -4,7 +4,7 @@ import "./articleTemplate.scss"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import { Columns } from "react-bulma-components"
-import Menu from "../../components/Menu"
+import Menu from "../../components/Common/Menu"
 
 interface ArticleTemplatePage {
   // `data` prop will be injected by the GraphQL query below.

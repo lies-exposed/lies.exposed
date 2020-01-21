@@ -123,8 +123,8 @@ const createNetworkPages = async ({ actions, graphql, reporter }) => {
 
   result.data.allDirectory.nodes.forEach(({ name }) => {
     const relativeDirectory = `events/networks/${name}`
-    const eventsRelativeDirectory = `events/networks/${name}/**`
-    const imagesRelativeDirectory = `events/networks/${name}/**/images/**`
+    const eventsRelativeDirectory = `events/networks/${name}/*`
+    const imagesRelativeDirectory = `events/networks/${name}/*/images`
 
     const context = {
       relativeDirectory,
