@@ -9,17 +9,19 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      allMarkdownRemark(
-        sort: { order: DESC, fields: [frontmatter___date] }
-        filter: { fileAbsolutePath: { glob: "**/articles/**" } }
+      allFile(
+        sort: {
+          order: DESC
+          fields: [childMarkdownRemark___frontmatter___date]
+        }
+        filter: { relativeDirectory: { eq: "articles" } }
         limit: 1000
       ) {
-        edges {
-          node {
+        nodes {
+          childMarkdownRemark {
             frontmatter {
               path
             }
-            fileAbsolutePath
           }
         }
       }
@@ -34,11 +36,11 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
 
   result.data.allMarkdownRemark.edges.forEach(({ node }) => {
     createPage({
-      path: node.frontmatter.path,
+      path: node.childMarkdownRemark.frontmatter.path,
       component: postTemplate,
       // additional data can be passed via context
       context: {
-        filePath: node.frontmatter.path,
+        filePath: node.childMarkdownRemark.frontmatter.path,
       },
     })
   })
