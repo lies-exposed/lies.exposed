@@ -1,15 +1,15 @@
-import * as React from "react"
+import * as O from "fp-ts/lib/Option"
 import * as t from "io-ts"
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import * as React from "react"
+import Heading from "react-bulma-components/lib/components/heading"
 import Icon from "react-bulma-components/lib/components/icon"
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component"
-import Heading from "react-bulma-components/lib/components/heading"
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import * as O from "fp-ts/lib/Option"
 import "react-vertical-timeline-component/style.min.css"
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 
 export const TimelineEventIcon = t.keyof(
   {
@@ -73,12 +73,15 @@ const getColorByType = (t: TimelineEventType): string => {
   }
 }
 
-const TimelineItem = (e: TimelineEvent) => {
-  const color = O.toUndefined(O.option.map(e.type, getColorByType))
+interface TimelineItemProps {
+  event: TimelineEvent
+}
+const TimelineItem: React.FC<TimelineItemProps> = ({ event }) => {
+  const color = O.toUndefined(O.option.map(event.type, getColorByType))
 
   return (
     <VerticalTimelineElement
-      key={e.id}
+      key={event.id}
       className="vertical-timeline-element--work"
       contentStyle={{
         borderWidth: 1,
@@ -89,23 +92,25 @@ const TimelineItem = (e: TimelineEvent) => {
         borderRight: "7px solid",
         borderRightColor: color,
       }}
-      date={e.date.toISOString()}
+      date={event.date.toISOString()}
       iconStyle={{}}
       icon={
         <Icon size={"large"} color={"black"} style={{ width: "100%" }}>
-          <i className={`fas fa-${e.icon}`} />
+          <i className={`fas fa-${event.icon}`} />
         </Icon>
       }
     >
-      <Heading size={6}>{e.title}</Heading>
-      {O.toNullable(O.option.map(e.image, i => <img src={i.src} />))}
-      <div dangerouslySetInnerHTML={{ __html: e.html }} />
+      <Heading size={6}>{event.title}</Heading>
+      {O.toNullable(O.option.map(event.image, i => <img src={i.src} />))}
+      <div dangerouslySetInnerHTML={{ __html: event.html }} />
     </VerticalTimelineElement>
   )
 }
 
-export const Timeline = ({ events }: TimelineProps) => (
+const Timeline: React.FC<TimelineProps> = ({ events }) => (
   <VerticalTimeline animate={false}>
-    {events.map(TimelineItem)}
+    {events.map(event => TimelineItem({ event }))}
   </VerticalTimeline>
 )
+
+export default Timeline

@@ -1,9 +1,9 @@
 import React from "react"
+import Columns from "react-bulma-components/lib/components/columns"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
-import Columns from "react-bulma-components/lib/components/columns"
 
-const SupportPage = () => (
+const SupportPage: React.FunctionComponent = () => (
   <Layout>
     <SEO title="Home" />
     <Columns>

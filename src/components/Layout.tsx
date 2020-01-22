@@ -1,13 +1,13 @@
-import React from "react"
 import PropTypes from "prop-types"
-import Header from "./Header"
+import React from "react"
 import FlexView from "react-flexview"
+import Header from "./Header"
 
 interface LayoutProps {
   children: PropTypes.ReactElementLike[]
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <FlexView>
       <Header />
@@ -21,10 +21,6 @@ const Layout = ({ children }: LayoutProps) => {
       </FlexView>
     </FlexView>
   )
-}
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 export default Layout

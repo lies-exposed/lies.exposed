@@ -1,14 +1,12 @@
+import * as A from "fp-ts/lib/Array"
+import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
-import SEO from "../components/SEO"
-import Layout from "../components/Layout"
 import { Columns } from "react-bulma-components"
 import Menu from "../components/Common/Menu"
-import { useStaticQuery, graphql } from "gatsby"
-import * as A from "fp-ts/lib/Array"
-import { TopicFileNode } from "../types/topic"
+import Layout from "../components/Layout"
+import SEO from "../components/SEO"
 import { ActorFileNode } from "../types/actor"
-
-interface TimelinesPageProps {}
+import { TopicFileNode } from "../types/topic"
 
 interface PageContentNode {
   title: string
@@ -21,7 +19,7 @@ interface Results {
   pageContent: { nodes: PageContentNode[] }
 }
 
-const TimelinesPage = ({}: TimelinesPageProps) => {
+const TimelinesPage = (): React.ReactElement => {
   const { actors, topics, pageContent }: Results = useStaticQuery(graphql`
     query TimelinesPage {
       actors: allFile(

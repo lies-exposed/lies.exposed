@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "standard-with-typescript",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "plugin:react/recommended"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "import/order": ["error", {
+      "alphabetize": {
+        "order": "asc"
+      }
+    }],
+    "react/prop-types": ["off"]
+  },
+  "settings": {
+    "react": {
+      "version": "16.12.0"
+    }
+  }
+}

@@ -1,10 +1,10 @@
-import * as t from "io-ts"
-import React from "react"
+import { LinearGradient } from "@vx/gradient"
 import { Group } from "@vx/group"
-import { Tree } from "@vx/hierarchy"
+import { Tree as VXTree } from "@vx/hierarchy"
 import { LinkHorizontal } from "@vx/shape"
 import { hierarchy, HierarchyPointNode } from "d3-hierarchy"
-import { LinearGradient } from "@vx/gradient"
+import * as t from "io-ts"
+import React from "react"
 import { TreeEvent } from "../../../types/event"
 
 const peach = "#fd9b93"
@@ -15,13 +15,13 @@ const lightpurple = "#374469"
 const white = "#ffffff"
 const bg = "#272b4d"
 
-function Node({ node }: { node: HierarchyPointNode<TreeEvent> }) {
+function Node({ node }: { node: HierarchyPointNode<TreeEvent> }): React.ReactElement {
   const width = 40
   const height = 20
   const centerX = -width / 2
   const centerY = -height / 2
   const isRoot = node.depth === 0
-  const isParent = !!node.children
+  const isParent = node.children !== undefined
 
   if (isRoot) return <Node node={node} />
   if (isParent) return <ParentNode node={node} />
@@ -57,7 +57,7 @@ function Node({ node }: { node: HierarchyPointNode<TreeEvent> }) {
   )
 }
 
-function ParentNode({ node }: { node: HierarchyPointNode<TreeEvent> }) {
+function ParentNode({ node }: { node: HierarchyPointNode<TreeEvent> }): React.ReactElement {
   const width = 40
   const height = 20
   const centerX = -width / 2
@@ -108,7 +108,7 @@ const TreeProps = t.interface(
 
 type TreeProps = t.TypeOf<typeof TreeProps>
 
-export default ({ width, height, margin, events }: TreeProps) => {
+const Tree: React.FC<TreeProps> = ({ width, height, margin, events }) => {
   
   const data = hierarchy(events)
 
@@ -119,14 +119,14 @@ export default ({ width, height, margin, events }: TreeProps) => {
     <svg width={width} height={height}>
       <LinearGradient id="lg" from={peach} to={pink} />
       <rect width={width} height={height} rx={14} fill={bg} />
-      <Tree root={data} size={[yMax, xMax]}>
+      <VXTree root={data} size={[yMax, xMax]}>
         {tree => {
           return (
             <Group top={margin.top} left={margin.left}>
               {tree.links().map((link, i) => {
                 return (
                   <LinkHorizontal
-                    key={`link-${i}`}
+                    key={`link-${i.toString()}`}
                     data={link}
                     stroke={lightpurple}
                     strokeWidth="1"
@@ -134,15 +134,17 @@ export default ({ width, height, margin, events }: TreeProps) => {
                   />
                 )
               })}
-              {((tree.descendants() as any) as HierarchyPointNode<
+              {((tree.descendants() as any) as Array<HierarchyPointNode<
                 TreeEvent
-              >[]).map((node: HierarchyPointNode<TreeEvent>, i) => {
-                return <Node key={`node-${i}`} node={node} />
+              >>).map((node: HierarchyPointNode<TreeEvent>, i) => {
+                return <Node key={`node-${i.toString()}`} node={node} />
               })}
             </Group>
           )
         }}
-      </Tree>
+      </VXTree>
     </svg>
   )
 }
+
+export default Tree

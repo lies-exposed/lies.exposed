@@ -2,35 +2,34 @@
  * @todo:
  * - show percentage of antiecologicalact/ecologicalact per topic
  */
-
-import * as t from "io-ts"
-import React from "react"
-import SEO from "../../components/SEO"
-import Layout from "../../components/Layout"
-import { Columns, List, Image } from "../../components/Common"
-import { graphql } from "gatsby"
-import { EventPoint, EventFileNode } from "../../types/event"
-import * as A from "fp-ts/lib/Array"
-import { pipe } from "fp-ts/lib/pipeable"
-import * as E from "fp-ts/lib/Either"
-import { ThrowReporter } from "io-ts/lib/ThrowReporter"
-import { PageContentNode } from "../../types/PageContent"
-import Network, { NetworkProps } from "../../components/Common/Network/Network"
-import * as Ord from "fp-ts/lib/Ord"
-import * as O from "fp-ts/lib/Option"
-import * as Map from "fp-ts/lib/Map"
 import { Link } from "@vx/network/lib/types"
-import "./networkTemplate.scss"
-import { ActorFileNode } from "../../types/actor"
-import { ImageNode } from "../../utils/image"
-import { TopicFileNode, TopicPoint } from "../../types/topic"
+import * as A from "fp-ts/lib/Array"
+import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
+import * as Map from "fp-ts/lib/Map"
+import * as O from "fp-ts/lib/Option"
+import * as Ord from "fp-ts/lib/Ord"
+import { pipe } from "fp-ts/lib/pipeable"
+import "./networkTemplate.scss"
+import { graphql } from "gatsby"
+import * as t from "io-ts"
+import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import moment from "moment"
+import React from "react"
+import { Columns, List, Image } from "../../components/Common"
+import Network, { NetworkProps } from "../../components/Common/Network/Network"
+import EventList from "../../components/EventList/EventList"
+import Layout from "../../components/Layout"
+import SEO from "../../components/SEO"
+import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
+import { PageContentNode } from "../../types/PageContent"
+import { ActorFileNode } from "../../types/actor"
+import { EventPoint, EventFileNode } from "../../types/event"
+import { ImageFileNode } from "../../types/image"
+import { TopicFileNode, TopicPoint } from "../../types/topic"
 import { formatDate } from "../../utils/date"
 import { ordEventFileNodeDate, ordEventPointDate } from "../../utils/event"
-import EventList from "../../components/EventList/EventList"
-import { ImageFileNode } from "../../types/image"
-import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
+import { ImageNode } from "../../utils/image"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
@@ -65,7 +64,7 @@ interface NetworkLink extends Link<EventPoint> {
 type TopicsMap = Map<string, TopicPoint>
 
 type ActorId = string
-type ActorsMapValue = {
+interface ActorsMapValue {
   actor: ActorFileNode
   color: string
   events: EventPoint[]
@@ -97,14 +96,19 @@ const actorColors = [blue, green, peach, lightpurple, pink, "#f0e345"]
 // calculate x based on date
 // (date - minDate) : (maxDate - minDate) = x : width
 // x = (date - minDate) * width / (maxDate - minDate)
-const getX = (date: Date, minDate: Date, maxDate: Date, width: number) => {
+const getX = (
+  date: Date,
+  minDate: Date,
+  maxDate: Date,
+  width: number
+): number => {
   return (
     ((date.getTime() - minDate.getTime()) * width) /
     (maxDate.getTime() - minDate.getTime())
   )
 }
 
-const getY = (topics: Array<string>, margin: number, height: number) => (
+const getY = (topics: string[], margin: number, height: number) => (
   key: string
 ) => {
   const pos = topics.findIndex(t => Eq.eqString.equals(t, key))
@@ -123,7 +127,7 @@ function addOneIfEqualTo(o: O.Option<string>, match: string): 0 | 1 {
     : 0
 }
 
-function getWeek(date: Date) {
+function getWeek(date: Date): number {
   var onejan = new Date(date.getFullYear(), 0, 1)
   var millisecsInDay = 86400000
   return Math.ceil(
@@ -134,7 +138,10 @@ function getWeek(date: Date) {
   )
 }
 
-function getMinDateByScale(scale: NetworkProps["scale"], event: EventPoint) {
+function getMinDateByScale(
+  scale: NetworkProps["scale"],
+  event: EventPoint
+): Date {
   if (scale === "year") {
     return new Date(event.data.frontmatter.date.getFullYear(), 0, 1)
   } else if (scale === "month") {
@@ -202,7 +209,7 @@ export default class NetworkTemplate extends React.Component<
     selectedTopicIds: [],
   }
 
-  onActorClick = (actorId: string) => {
+  onActorClick = (actorId: string): void => {
     this.setState({
       selectedActorIds: A.elem(Eq.eqString)(
         actorId,
@@ -216,7 +223,7 @@ export default class NetworkTemplate extends React.Component<
     })
   }
 
-  onTopicClick = (topicId: string) => {
+  onTopicClick = (topicId: string): void => {
     this.setState({
       selectedTopicIds: A.elem(Eq.eqString)(
         topicId,
@@ -233,7 +240,7 @@ export default class NetworkTemplate extends React.Component<
   onNetworkDoubleClick = (
     scalePoint: EventPoint,
     scale: NetworkProps["scale"]
-  ) => {
+  ): void => {
     this.setState({
       scalePoint: O.some(scalePoint),
       scale:
@@ -249,7 +256,7 @@ export default class NetworkTemplate extends React.Component<
     })
   }
 
-  render() {
+  render(): React.ReactElement | null {
     const {
       props: { data, navigate },
       state: { scale, scalePoint, selectedActorIds, selectedTopicIds },
@@ -292,7 +299,8 @@ export default class NetworkTemplate extends React.Component<
               ...actor.childMarkdownRemark,
               frontmatter: {
                 ...actor.childMarkdownRemark.frontmatter,
-                cover: cover ? cover.childImageSharp.fluid.src : null,
+                cover:
+                  cover !== undefined ? cover.childImageSharp.fluid.src : null,
               },
             },
           },
@@ -393,7 +401,7 @@ export default class NetworkTemplate extends React.Component<
                 O.getOrElse(() => new Date())
               )
 
-        type Result = {
+        interface Result {
           eventNodes: Map<string, EventPoint[]>
           eventLinks: Map<string, NetworkLink[]>
           selectedNodes: Map<string, EventPoint[]>
@@ -617,8 +625,8 @@ export default class NetworkTemplate extends React.Component<
           NetworkLink[]
         >((acc, [_, links]) => acc.concat(...links), [])
 
-        type ActorsResults = {
-          actors: Omit<ActorsMapValue, "events" | "links">[]
+        interface ActorsResults {
+          actors: Array<Omit<ActorsMapValue, "events" | "links">>
           events: EventPoint[]
           links: NetworkLink[]
         }
@@ -709,7 +717,8 @@ export default class NetworkTemplate extends React.Component<
                         onClick={() => this.onActorClick(a.actor.id)}
                       >
                         <div>
-                          {a.actor.childMarkdownRemark.frontmatter.cover && (
+                          {a.actor.childMarkdownRemark.frontmatter.cover !==
+                          null ? (
                             <span style={{ display: "inline-block" }}>
                               <Image
                                 rounded={true}
@@ -728,6 +737,8 @@ export default class NetworkTemplate extends React.Component<
                                 }}
                               />
                             </span>
+                          ) : (
+                            <div />
                           )}{" "}
                           <span>
                             {a.actor.childMarkdownRemark.frontmatter.title}

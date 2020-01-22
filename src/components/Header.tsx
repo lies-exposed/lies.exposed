@@ -1,7 +1,7 @@
+import { Link, graphql, useStaticQuery } from "gatsby"
 import * as PropTypes from "prop-types"
 import React from "react"
 import { Navbar } from "react-bulma-components"
-import { Link, graphql, useStaticQuery } from "gatsby"
 
 const NavbarLink = Navbar.Link as any
 
@@ -11,40 +11,50 @@ interface MenuItem {
   path: string
 }
 
-interface SecondLevelMenuItem extends MenuItem {}
+type SecondLevelMenuItem = MenuItem
 
 export interface FirstLevelMenuItem extends MenuItem {
   items: SecondLevelMenuItem[]
 }
 
-const renderMenuLink = (i: MenuItem, itemsLength: number) => {
+interface MenuItemProps {
+  item: MenuItem
+  pos: number
+}
+const renderMenuLink: React.FC<MenuItemProps> = ({ item, pos: total }) => {
   return (
     <NavbarLink
-      key={i.title}
+      key={item.title}
       renderAs={Link}
-      to={i.path}
-      arrowless={itemsLength === 0}
+      to={item.path}
+      arrowless={total === 0}
     >
-      {i.title}
+      {item.title}
     </NavbarLink>
   )
 }
 
-const renderNavBarItem = (i: FirstLevelMenuItem) => (
+interface NavBarItemProps {
+  item: FirstLevelMenuItem
+}
+
+const renderNavBarItem: React.FC<NavBarItemProps> = ({ item }) => (
   <Navbar.Item
     renderAs="div"
-    key={i.title}
+    key={item.title}
     hoverable={true}
-    dropdown={i.items.length > 0}
+    dropdown={item.items.length > 0}
   >
-    {renderMenuLink(i, i.items.length)}
-    {i.items.length > 0 ? (
-      <Navbar.Dropdown>{i.items.map(renderMenuLink)}</Navbar.Dropdown>
+    {renderMenuLink({ item, pos: item.items.length })}
+    {item.items.length > 0 ? (
+      <Navbar.Dropdown>
+        {item.items.map((item, k) => renderMenuLink({ item, pos: k }))}
+      </Navbar.Dropdown>
     ) : null}
   </Navbar.Item>
 )
 
-const Header = () => {
+const Header: React.FC = () => {
   const {
     site: {
       siteMetadata: { title },
@@ -97,11 +107,15 @@ const Header = () => {
   return (
     <Navbar color="success" fixed="top" active={true} transparent={true}>
       <Navbar.Brand>
-        <Navbar.Item renderAs="div">{renderNavBarItem(homeItem)}</Navbar.Item>
+        <Navbar.Item renderAs="div">
+          {renderNavBarItem({ item: homeItem })}
+        </Navbar.Item>
         <Navbar.Burger />
       </Navbar.Brand>
       <Navbar.Menu>
-        <Navbar.Container>{items.map(renderNavBarItem)}</Navbar.Container>
+        <Navbar.Container>
+          {items.map(item => renderNavBarItem({ item }))}
+        </Navbar.Container>
         {/* <Navbar.Container position="end">
           {renderNavBarItem(endItem)}
         </Navbar.Container> */}

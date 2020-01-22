@@ -1,17 +1,17 @@
-import * as t from "io-ts"
-import React from "react"
-import { graphql } from "gatsby"
-import "./networkTopicTimelineTemplate.scss"
-import Layout from "../../components/Layout"
-import SEO from "../../components/SEO"
-import { Columns } from "react-bulma-components"
+import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
+import { graphql } from "gatsby"
+import * as t from "io-ts"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
-import * as E from "fp-ts/lib/Either"
+import React from "react"
+import { Columns } from "react-bulma-components"
+import Layout from "../../components/Layout"
+import SEO from "../../components/SEO"
 import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
-import { ImageFileNode } from "../../types/image"
 import { EventFileNode } from "../../types/event"
+import { ImageFileNode } from "../../types/image"
+import "./networkTopicTimelineTemplate.scss"
 
 interface NetworkTopicTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
@@ -38,9 +38,9 @@ interface NetworkTopicTimelineTemplatePageProps {
   }
 }
 
-export default function NetworkTopicTimelineTemplate({
+export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicTimelineTemplatePageProps> = ({
   data,
-}: NetworkTopicTimelineTemplatePageProps) {
+}) => {
   const {
     pageContent: {
       childMarkdownRemark: { frontmatter, html },
@@ -175,3 +175,4 @@ export const pageQuery = graphql`
     }
   }
 `
+export default NetworkTopicTimelineTemplate

@@ -1,26 +1,27 @@
-import * as React from "react"
+import { AxisBottom } from "@vx/axis"
+import { RectClipPath } from "@vx/clip-path"
+import { localPoint } from "@vx/event"
+import { Group } from "@vx/group"
 import { Graph } from "@vx/network"
 import { Graph as GraphType } from "@vx/network/lib/types"
-import { localPoint } from "@vx/event"
+import { scaleTime } from "@vx/scale"
+import { TooltipWithBounds } from "@vx/tooltip"
 import withTooltip, {
   WithTooltipProvidedProps,
 } from "@vx/tooltip/lib/enhancers/withTooltip"
-import { TooltipWithBounds } from "@vx/tooltip"
-import { Group } from "@vx/group"
-import { AxisBottom } from "@vx/axis"
-import { scaleTime } from "@vx/scale"
-import NetworkNode, { NetworkNodeProps } from "./NetworkEventNode"
-import { RectClipPath } from "@vx/clip-path"
+import { ScaleTime } from "d3-scale"
+import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
+import * as React from "react"
 import { EventPoint } from "../../../types/event"
 import { formatDate } from "../../../utils/date"
 import LinkEvent, { LinkEventProps } from "./LinkEventNode"
-import * as A from "fp-ts/lib/Array"
+import NetworkNode, { NetworkNodeProps } from "./NetworkEventNode"
 
 function numTicksForWidth(width: number): number {
   if (width <= 300) return 2
-  if (300 < width && width <= 400) return 5
+  if (width > 300 && width <= 400) return 5
   return 10
 }
 
@@ -40,27 +41,26 @@ export interface NetworkProps
   onDoubleClick: (event: EventPoint, scale: NetworkScale) => void
 }
 
-interface NetworkState {}
-
-class Network extends React.Component<NetworkProps, NetworkState> {
+class Network extends React.Component<NetworkProps, {}> {
   constructor(props: NetworkProps) {
     super(props)
     this.state = {}
   }
 
-  handleMouseOver = (event: any, datum: any) => {
+  handleMouseOver = (event: any, datum: any): void => {
     const coords = localPoint(event.target.ownerSVGElement, event)
-    if (coords) {
-      this.props.showTooltip &&
+    if (coords !== null) {
+      if (this.props.showTooltip !== undefined) {
         this.props.showTooltip({
           tooltipLeft: coords.x,
           tooltipTop: coords.y,
           tooltipData: datum,
         })
+      }
     }
   }
 
-  render() {
+  render(): React.ReactElement | null {
     const {
       props: {
         width,
@@ -77,7 +77,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
       },
     } = this
 
-    const getXScale = () =>
+    const getXScale = (): ScaleTime<number, number> =>
       scaleTime({
         range: [0, width],
         domain: [minDate, maxDate],
@@ -97,19 +97,16 @@ class Network extends React.Component<NetworkProps, NetworkState> {
               fill="transparent"
               onDoubleClick={event => {
                 const point = localPoint(event)
-                if (point) {
+                if (point !== null) {
                   const [first, last] = A.splitAt(1)(graph.nodes)
                   const nearestPoint = last.reduce<EventPoint>((acc, n) => {
-                    if (
-                      acc &&
-                      Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)
-                    ) {
+                    if (Math.abs(acc.x - point.x) < Math.abs(n.x - point.x)) {
                       return acc
                     }
                     return n
                   }, first[0])
 
-                  if (nearestPoint) {
+                  if (nearestPoint !== undefined) {
                     this.props.onDoubleClick(nearestPoint, this.props.scale)
                   }
                 }
@@ -154,7 +151,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
               }
             />
           </svg>
-          {tooltipOpen && !!tooltipData && (
+          {tooltipOpen && tooltipData !== undefined ? (
             <TooltipWithBounds
               key={Math.random()}
               top={tooltipTop}
@@ -168,7 +165,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                 <div>Data: {formatDate(tooltipData.frontmatter.date)}</div>
                 {pipe(
                   tooltipData.frontmatter.actors,
-                  O.map(actors => <div>Actors: {actors.join(", ")}</div>),
+                  O.map(actors => <div key="actors">Actors: {actors.join(", ")}</div>),
                   O.toNullable
                 )}
                 {pipe(
@@ -185,7 +182,7 @@ class Network extends React.Component<NetworkProps, NetworkState> {
                 )}
               </div>
             </TooltipWithBounds>
-          )}
+          ) : null}
         </Group>
       </React.Fragment>
     )

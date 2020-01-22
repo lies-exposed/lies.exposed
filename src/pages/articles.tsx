@@ -1,11 +1,9 @@
-import React from "react"
-import SEO from "../components/SEO"
-import Layout from "../components/Layout"
-import Menu from "../components/Common/Menu"
 import { useStaticQuery, graphql } from "gatsby"
+import React from "react"
 import { Columns } from "../components/Common"
-
-interface ArticlePageProps {}
+import Menu from "../components/Common/Menu"
+import Layout from "../components/Layout"
+import SEO from "../components/SEO"
 
 interface Node {
   id: string
@@ -24,7 +22,7 @@ interface Results {
   pageContent: { nodes: ArticleNode[] }
 }
 
-const ArticlesPage = ({}: ArticlePageProps) => {
+const ArticlesPage: React.FunctionComponent = () => {
   const { articles, pageContent }: Results = useStaticQuery(graphql`
     query ArticlePage {
       articles: allMarkdownRemark(
@@ -64,7 +62,7 @@ const ArticlesPage = ({}: ArticlePageProps) => {
       <SEO title="Article" />
       <Columns>
         <Columns.Column size={3}>
-          <Menu sections={[{ items: articleItems}]} />
+          <Menu sections={[{ items: articleItems }]} />
         </Columns.Column>
         <Columns.Column size={9}>
           <div

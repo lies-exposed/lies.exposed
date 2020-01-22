@@ -3,7 +3,7 @@ import * as React from "react"
 interface Props {
   authorName: string
 }
-export function UnsplashCredit({ authorName }: Props) {
+const UnsplashCredit: React.FC<Props> = ({ authorName }) => {
   return (
     <a
       style={{
@@ -47,3 +47,5 @@ export function UnsplashCredit({ authorName }: Props) {
     </a>
   )
 }
+
+export default UnsplashCredit

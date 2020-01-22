@@ -1,13 +1,13 @@
-import * as React from "react"
-import { LinkVertical } from "@vx/shape"
-import { EventPoint } from "../../../types/event"
 import { Link } from "@vx/network/lib/types"
+import { LinkVertical } from "@vx/shape"
+import * as React from "react"
+import { EventPoint } from "../../../types/event"
 
 export interface LinkEventProps extends Link<EventPoint> {
   stroke: string
 }
 
-function LinkEvent({ source, target, stroke }: LinkEventProps) {
+const LinkEvent: React.FC<LinkEventProps> =({ source, target, stroke }) => {
   return (
     <LinkVertical
       key={`link-${source.data.id}-${target.data.id}`}

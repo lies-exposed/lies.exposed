@@ -3,25 +3,25 @@
  * - add related topic to events
  */
 
-import * as t from "io-ts"
-import React from "react"
+import * as A from "fp-ts/lib/Array"
+import * as E from "fp-ts/lib/Either"
+import * as Eq from "fp-ts/lib/Eq"
+import * as Ord from "fp-ts/lib/Ord"
+import { pipe } from "fp-ts/lib/pipeable"
 import { graphql } from "gatsby"
-import "./actorTimelineTemplate.scss"
+import * as t from "io-ts"
+import { ThrowReporter } from "io-ts/lib/ThrowReporter"
+import React from "react"
+import { Columns, Image } from "react-bulma-components"
+import EventList from "../../components/EventList/EventList"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
-import { Columns, Image } from "react-bulma-components"
-import { pipe } from "fp-ts/lib/pipeable"
-import { ThrowReporter } from "io-ts/lib/ThrowReporter"
-import * as E from "fp-ts/lib/Either"
-import * as A from "fp-ts/lib/Array"
-import * as Eq from "fp-ts/lib/Eq"
 import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
+import { ActorPageContentFileNode } from "../../types/actor"
 import { EventFileNode } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
 import { ordEventFileNodeDate } from "../../utils/event"
-import * as Ord from "fp-ts/lib/Ord"
-import { ActorPageContentFileNode } from "../../types/actor"
-import EventList from "../../components/EventList/EventList"
+import "./actorTimelineTemplate.scss"
 
 interface ActorTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
@@ -43,9 +43,9 @@ const byId = Eq.contramap((n: EventFileNode) => n.childMarkdownRemark.id)(
   Eq.eqString
 )
 
-export default function ActorTimelineTemplate({
+const  ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
   data,
-}: ActorTimelineTemplatePageProps) {
+}) => {
   const {
     pageContent: {
       childMarkdownRemark: { frontmatter, html },
@@ -69,7 +69,6 @@ export default function ActorTimelineTemplate({
         return null
       },
       timelineEvents => {
-
         const coverImage = images.nodes.find(i =>
           Eq.eqString.equals(`${i.name}${i.ext}`, frontmatter.avatar)
         )
@@ -87,7 +86,7 @@ export default function ActorTimelineTemplate({
                   <div className="blog-post-container">
                     <div className="blog-post">
                       <h1>{frontmatter.title}</h1>
-                      {coverImage ? (
+                      {coverImage !== undefined ? (
                         <Image
                           size={128}
                           src={coverImage.childImageSharp.fixed.src}
@@ -203,3 +202,5 @@ export const pageQuery = graphql`
     }
   }
 `
+
+export default ActorTimelineTemplate

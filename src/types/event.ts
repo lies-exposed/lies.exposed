@@ -1,8 +1,8 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { option } from "io-ts-types/lib/option"
 import { date } from "io-ts-types/lib/date"
+import { option } from "io-ts-types/lib/option"
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
 export const Group = t.interface({
   username: t.string,

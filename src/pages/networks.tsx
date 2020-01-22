@@ -1,21 +1,21 @@
-import React from "react"
-import SEO from "../components/SEO"
-import Layout from "../components/Layout"
-import { Columns } from "react-bulma-components"
 import { useStaticQuery, graphql } from "gatsby"
-import { PageContentNode } from "../types/PageContent"
+import React from "react"
+import { Columns } from "react-bulma-components"
 import Menu from "../components/Common/Menu"
+import Layout from "../components/Layout"
+import SEO from "../components/SEO"
+import { PageContentNode } from "../types/PageContent"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
 }
 
 interface Results {
-  networks: { nodes: { id: string; name: string }[] }
+  networks: { nodes: Array<{ id: string; name: string }> }
   pageContent: PageContentNode
 }
 
-const NetworksPage = (props: NetworksPageProps) => {
+const NetworksPage: React.FunctionComponent<NetworksPageProps> = _props => {
   const { networks, pageContent }: Results = useStaticQuery(graphql`
     query NetworksPage {
       networks: allDirectory(
@@ -56,7 +56,7 @@ const NetworksPage = (props: NetworksPageProps) => {
       <SEO title={title} />
       <Columns>
         <Columns.Column size={3}>
-          <Menu sections={[{items}]} />
+          <Menu sections={[{ items }]} />
         </Columns.Column>
         <Columns.Column size={9}>
           <div

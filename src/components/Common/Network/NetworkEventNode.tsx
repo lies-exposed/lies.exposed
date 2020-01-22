@@ -1,8 +1,8 @@
-import * as React from "react"
 import { Group } from "@vx/group"
 import { HierarchyPointNode } from "d3-hierarchy"
-import { EventPoint } from "../../../types/event"
 import * as O from "fp-ts/lib/Option"
+import * as React from "react"
+import { EventPoint } from "../../../types/event"
 
 export interface NetworkNodeProps {
   node: HierarchyPointNode<EventPoint["data"]>
@@ -14,21 +14,21 @@ export interface NetworkNodeProps {
   onClick: (event: EventPoint) => void
 }
 
-function NetworkNode({
+const NetworkNode: React.FC<NetworkNodeProps> = ({
   node,
   onMouseOver,
   onMouseOut,
   onClick,
-}: NetworkNodeProps) {
+}) => {
   const groupProps = {
-    ...(onMouseOver
+    ...(onMouseOver !== undefined
       ? {
           onMouseOver: (
             event: React.MouseEvent<SVGElement, React.MouseEvent>
           ) => onMouseOver(event, node.data),
         }
       : {}),
-    ...(onMouseOut ? { onMouseOut } : {}),
+    ...(onMouseOut !== undefined ? { onMouseOut } : {}),
   }
 
   return (

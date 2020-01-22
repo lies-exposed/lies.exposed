@@ -1,6 +1,6 @@
+import { Link } from "gatsby"
 import * as React from "react"
 import BMenu from "react-bulma-components/lib/components/menu"
-import { Link } from "gatsby"
 
 interface MenuItem {
   id: string
@@ -16,12 +16,12 @@ interface Section {
 interface MenuProps {
   sections: Section[]
 }
-const Menu = (props: MenuProps) => {
+const Menu: React.FC<MenuProps> = props => {
   return (
     <BMenu>
       {props.sections.map(({ label, items }) => (
         <>
-          {label && <p className="menu-label">{label}</p>}
+          {label !== undefined ? <p className="menu-label">{label}</p> : null}
           <BMenu.List>
             {items.map(i => (
               <BMenu.List.Item key={i.id} renderAs="div">

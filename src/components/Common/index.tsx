@@ -7,11 +7,11 @@ import Container, {
 import Heading, {
   HeadingProps,
 } from "react-bulma-components/lib/components/heading"
+import Image, { ImageProps } from "react-bulma-components/lib/components/image"
+import List, { ListProps } from "react-bulma-components/lib/components/list"
 import Section, {
   SectionProps,
 } from "react-bulma-components/lib/components/section"
-import Image, { ImageProps } from "react-bulma-components/lib/components/image"
-import List, { ListProps } from "react-bulma-components/lib/components/list"
 import Tag, { TagProps} from 'react-bulma-components/lib/components/tag'
 
 export {

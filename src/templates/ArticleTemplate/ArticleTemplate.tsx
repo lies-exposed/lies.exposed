@@ -1,10 +1,10 @@
-import React from "react"
 import { graphql } from "gatsby"
+import React from "react"
 import "./articleTemplate.scss"
-import Layout from "../../components/Layout"
-import SEO from "../../components/SEO"
 import { Columns } from "react-bulma-components"
 import Menu from "../../components/Common/Menu"
+import Layout from "../../components/Layout"
+import SEO from "../../components/SEO"
 
 interface ArticleTemplatePage {
   // `data` prop will be injected by the GraphQL query below.
@@ -24,7 +24,9 @@ interface ArticleTemplatePage {
   }
 }
 
-export default function ArticleTemplatePage(props: ArticleTemplatePage) {
+export default function ArticleTemplatePage(
+  props: ArticleTemplatePage
+): React.ReactElement {
   const { markdownRemark, allMarkdownRemark } = props.data // data.markdownRemark holds your post data
   const { frontmatter, html } = markdownRemark
   const articleItems = allMarkdownRemark.nodes.map(n => ({
