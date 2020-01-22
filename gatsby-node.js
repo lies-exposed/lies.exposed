@@ -17,10 +17,12 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
         filter: { relativeDirectory: { eq: "articles" } }
         limit: 1000
       ) {
-        nodes {
-          childMarkdownRemark {
-            frontmatter {
-              path
+        edges {
+          node {
+            childMarkdownRemark {
+              frontmatter {
+                path
+              }
             }
           }
         }
@@ -34,7 +36,7 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+  result.data.allFile.edges.forEach(({ node }) => {
     createPage({
       path: node.childMarkdownRemark.frontmatter.path,
       component: postTemplate,
