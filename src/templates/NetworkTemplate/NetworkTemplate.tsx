@@ -810,6 +810,7 @@ export default class NetworkTemplate extends React.Component<
                     <Columns.Column size={3}>
                       <TimelineNavigator
                         events={selectedNodes.map(n => n.data)}
+                        onEventClick={(e) => navigate(`${window.location.href}?#${e.id}`)}
                       />
                     </Columns.Column>
                     <Columns.Column size={9}>

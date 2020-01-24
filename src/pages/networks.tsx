@@ -6,16 +6,12 @@ import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import { PageContentNode } from "../types/PageContent"
 
-interface NetworksPageProps {
-  navigate: (to: string) => void
-}
-
 interface Results {
   networks: { nodes: Array<{ id: string; name: string }> }
   pageContent: PageContentNode
 }
 
-const NetworksPage: React.FunctionComponent<NetworksPageProps> = _props => {
+const NetworksPage: React.FunctionComponent<{}> = _props => {
   const { networks, pageContent }: Results = useStaticQuery(graphql`
     query NetworksPage {
       networks: allDirectory(

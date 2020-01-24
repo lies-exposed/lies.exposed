@@ -78,7 +78,12 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
             <SEO title={frontmatter.title} />
             <Columns>
               <Columns.Column size={3}>
-                <TimelineNavigator events={totalEvents} />
+                <TimelineNavigator
+                  events={totalEvents}
+                  onEventClick={e =>
+                    navigate(`${window.location.href}?#${e.id}`)
+                  }
+                />
               </Columns.Column>
               <Columns.Column size={9}>
                 <div className="content">

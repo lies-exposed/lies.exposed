@@ -8,7 +8,7 @@ import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
-import { graphql } from "gatsby"
+import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import React from "react"
@@ -24,6 +24,7 @@ import { ordEventFileNodeDate } from "../../utils/event"
 import "./actorTimelineTemplate.scss"
 
 interface ActorTimelineTemplatePageProps {
+  navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
     pageContent: ActorPageContentFileNode
@@ -43,8 +44,9 @@ const byId = Eq.contramap((n: EventFileNode) => n.childMarkdownRemark.id)(
   Eq.eqString
 )
 
-const  ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
+const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
   data,
+  navigate
 }) => {
   const {
     pageContent: {
@@ -55,12 +57,23 @@ const  ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
     images,
   } = data
 
+  const onEventClick = async (
+    e: EventFileNode["childMarkdownRemark"]
+  ): Promise<void> =>  navigate(`${window.location.href}?#${e.id}`)
+
   return pipe(
     E.right(A.union(byId)(events.nodes, eventsAsActor.nodes)),
     E.chain(t.array(EventFileNode).decode),
     E.map(events =>
       A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
-        e => e.childMarkdownRemark
+        e => ({
+          ...e.childMarkdownRemark,
+          topicFill: '#fff',
+          fill: '#fff',
+          topicLabel: 'fake',
+          topicSlug: 'fake'
+
+        })
       )
     ),
     E.fold(
@@ -78,11 +91,13 @@ const  ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
             <SEO title={frontmatter.title} />
             <Columns>
               <Columns.Column size={3}>
-                <TimelineNavigator events={timelineEvents} />
+                <TimelineNavigator
+                  events={timelineEvents}
+                  onEventClick={onEventClick}
+                />
               </Columns.Column>
               <Columns.Column size={9}>
                 <div className="content">
-                  <div></div>
                   <div className="blog-post-container">
                     <div className="blog-post">
                       <h1>{frontmatter.title}</h1>
@@ -103,7 +118,9 @@ const  ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
                 </div>
                 <Columns.Column>
                   <div>
-                    <EventList events={timelineEvents} />
+                    <EventList
+                      events={timelineEvents}
+                    />
                     {/* <Timeline events={timelineEvents.right} /> */}
                   </div>
                 </Columns.Column>
