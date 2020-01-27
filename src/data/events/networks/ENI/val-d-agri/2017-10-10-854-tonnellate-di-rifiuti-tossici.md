@@ -3,7 +3,9 @@ title: 854 tonnellate di rifiuti tossici
 icon: pencil-alt
 date: 2017-10-10
 actors:
- - eni-spa
+    - eni-spa
+links:
+    - https://www.ambientebio.it/ambiente/ecoreati/basilicata-disastro-ambientale-petrolio-rifiuti-tossici/
 
 ---
 
@@ -13,4 +15,3 @@ L’attività di estrazione petrolifera, produce ingenti quantitativi di metildi
 
 L’attività illecita ha permesso di far risparmiare alla multinazionale, tra i 34 e i 76 milioni di euro in un anno. L’Eni contesta sia l’allarme sanitario che il fatto di aver rilasciato inquinanti nell’atmosfera, stabilendo che le emissioni sono sempre state nella norma.
 
-https://www.ambientebio.it/ambiente/ecoreati/basilicata-disastro-ambientale-petrolio-rifiuti-tossici/
