@@ -5,9 +5,10 @@ import { PageContentNode } from "@models/PageContent"
 import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
+import { NetworkNode } from "types/networks"
 
 interface Results {
-  networks: { nodes: Array<{ id: string; name: string }> }
+  networks: { nodes: NetworkNode[] }
   pageContent: PageContentNode
 }
 
