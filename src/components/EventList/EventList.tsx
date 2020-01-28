@@ -1,7 +1,9 @@
+import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 import { EventPointData } from "../../types/event"
 import { formatDate } from "../../utils/date"
 import { Tag } from "../Common"
+
 
 interface EventListProps {
   events: EventPointData[]
@@ -23,6 +25,17 @@ const EventList: React.FC<EventListProps> = props => {
             className="content"
             dangerouslySetInnerHTML={{ __html: event.html }}
           />
+          {O.toNullable(
+            O.option.map(event.frontmatter.links, links => (
+              <ul>
+                {links.map((l, i) => (
+                  <li key={i}>
+                    <a href={l}>{l}</a>
+                  </li>
+                ))}
+              </ul>
+            ))
+          )}
         </div>
       ))}
     </div>

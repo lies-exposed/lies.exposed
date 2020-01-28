@@ -647,9 +647,13 @@ export default class NetworkTemplate extends React.Component<
           { actors: [], events: [], links: [] }
         )
 
-        const selectedNodesArray = Map.toArray(Ord.ordString)(
+        const selectedNodesArray: EventPoint[] = Map.toArray(Ord.ordString)(
           selectedNodes
         ).reduce<EventPoint[]>((acc, [_, nodes]) => acc.concat(...nodes), [])
+
+        const filteredActorEvents = actorResults.events.filter(
+          e => selectedNodesArray.find(s => s.data.id === e.data.id) === undefined
+        )
 
         return {
           minDate,
@@ -669,7 +673,7 @@ export default class NetworkTemplate extends React.Component<
             links: links.concat(...actorResults.links),
           },
           selectedNodes: A.sortBy([Ord.getDualOrd(ordEventPointDate)])(
-            selectedNodesArray.concat(...actorResults.events)
+            selectedNodesArray.concat(...filteredActorEvents)
           ),
         }
       }),
@@ -810,7 +814,9 @@ export default class NetworkTemplate extends React.Component<
                     <Columns.Column size={3}>
                       <TimelineNavigator
                         events={selectedNodes.map(n => n.data)}
-                        onEventClick={(e) => navigate(`${window.location.href}?#${e.id}`)}
+                        onEventClick={e =>
+                          navigate(`${window.location.href}?#${e.id}`)
+                        }
                       />
                     </Columns.Column>
                     <Columns.Column size={9}>
@@ -849,6 +855,7 @@ export const pageQuery = graphql`
           icon
           type
           cover
+          links
         }
         html
       }
@@ -922,6 +929,7 @@ export const pageQuery = graphql`
             type
             cover
             actors
+            links
           }
           html
         }

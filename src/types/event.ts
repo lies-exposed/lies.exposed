@@ -36,12 +36,12 @@ export const EventType = t.keyof(
 
 export const EventFileNodeFrontmatter = t.interface(
   {
-    icon: t.string,
     title: t.string,
     date: DateFromISOString,
     actors: optionFromNullable(t.array(t.string)),
     type: optionFromNullable(EventType),
     cover: optionFromNullable(t.string),
+    links: optionFromNullable(t.array(t.string))
   },
   "EventFrontmatter"
 )
