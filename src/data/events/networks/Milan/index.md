@@ -1,5 +1,5 @@
 ---
 title: Milano e l'emergenza climatica
+date: 2020-01-31
 ---
 
-La città piú green d'Italia
