@@ -9,7 +9,6 @@ actors:
 links:
   - http://www.milanotoday.it/video/parco-bassini-alberi-tagliati.html
 cover: 2020-01-02-polizia.jpg
-
 ---
 
 <gallery>
