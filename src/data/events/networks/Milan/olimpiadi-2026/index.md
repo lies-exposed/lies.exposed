@@ -8,4 +8,11 @@ links:
 ---
 
 La "vecchia giunta" di Milano-Cortina si aggiduica le Olimpiadi 2026.
-L'evento sarà a "impatto zero", come riportato nel [documento](./images/2019-03-31-candidatura-milano-cortina.pdf) di candidatura
+Un evento mondiale che richiederà l'ennesimo potenziamento di strutture che vedranno il loro abbandono da qui a breve, come è successo per le scorse Olimpiadi invernali ospitate in Italia, Torino 2006. 
+
+
+Come riportato nel [documento](./images/31-03-2019-candidatura-milano-cortina.pdf) di candidatura,queste Olimpiadi saranno a _impatto zero_
+
+> "Milano Cortina 2026 fa proprio l’impegno di mettere in atto ambiziosi piani di controllo delle emissioni di CO2 e di realizzare un evento a emissioni zero."
+
+Ma ci sono veramente le carte in regola per realizzare un evento ad impatto zero?

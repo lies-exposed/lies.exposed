@@ -3,8 +3,8 @@ date: 2019-12-12
 title: Beppe Sala
 username: beppe-sala
 avatar: beppe-sala-avatar.jpg
+color: "#000"
 ---
-
 
 L'opinione pubblica lo descrive come il Sindaco più verde d'Italia, ma basta osservare da un po' più vicino per capire che di verde ha solo un sottilissimo strato che lo ricopre, necessario per fare presa sulla maggior parte degli elettori.
 
