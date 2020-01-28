@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
 import { option } from "io-ts-types/lib/option"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { ActorFileNode } from "./actor"
 
 export const Group = t.interface({
   username: t.string,
@@ -65,20 +66,22 @@ export type EventFileNode = t.TypeOf<typeof EventFileNode>
 
 export const EventPointFrontmatter = t.interface(
   {
-    icon: t.string,
     title: t.string,
     date: date,
-    actors: option(t.array(t.string)),
+    actors: option(t.array(ActorFileNode)),
+    links: option(t.array(t.string)),
     type: option(EventType),
     cover: option(t.string),
   },
   "EventFrontmatter"
 )
 
+export type EventPointFrontmatter = t.TypeOf<typeof EventPointFrontmatter>
+
 export const EventPointData = t.interface(
   {
     id: t.string,
-    frontmatter: EventFileNodeFrontmatter,
+    frontmatter: EventPointFrontmatter,
     html: t.string,
     topicLabel: t.string,
     topicFill: t.string,

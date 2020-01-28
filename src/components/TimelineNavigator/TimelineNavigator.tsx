@@ -8,9 +8,11 @@ import * as React from "react"
 import { Menu as BMenu } from "react-bulma-components"
 import { EventFileNode } from "../../types/event"
 
+type TimelineEvent = EventFileNode["childMarkdownRemark"]
+
 interface TimelineNavigatorProps {
-  events: Array<EventFileNode["childMarkdownRemark"]>
-  onEventClick: (event: EventFileNode["childMarkdownRemark"]) => void
+  events: TimelineEvent[]
+  onEventClick: (event: TimelineEvent) => void
 }
 
 type TimelineNavigatorEventsMap = Map<

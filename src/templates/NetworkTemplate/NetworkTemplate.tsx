@@ -16,12 +16,14 @@ import * as t from "io-ts"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import moment from "moment"
 import React from "react"
-import { Columns, List, Image } from "../../components/Common"
+import ActorList, { ActorListActor } from "../../components/ActorList/ActorList"
+import { Columns } from "../../components/Common"
 import Network, { NetworkProps } from "../../components/Common/Network/Network"
 import EventList from "../../components/EventList/EventList"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
+import TopicList, { TopicListTopic } from "../../components/TopicList/TopicList"
 import { PageContentNode } from "../../types/PageContent"
 import { ActorFileNode } from "../../types/actor"
 import { EventPoint, EventFileNode } from "../../types/event"
@@ -186,7 +188,7 @@ function getMaxDateByScale(
     .toDate()
 }
 
-const width = 800
+const width = 1000
 const height = 400
 const marginVertical = 30
 const marginHorizontal = 30
@@ -209,31 +211,31 @@ export default class NetworkTemplate extends React.Component<
     selectedTopicIds: [],
   }
 
-  onActorClick = (actorId: string): void => {
+  onActorClick = (actor: ActorListActor): void => {
     this.setState({
       selectedActorIds: A.elem(Eq.eqString)(
-        actorId,
+        actor.id,
         this.state.selectedActorIds
       )
         ? A.array.filter(
             this.state.selectedActorIds,
-            a => !Eq.eqString.equals(a, actorId)
+            a => !Eq.eqString.equals(a, actor.id)
           )
-        : this.state.selectedActorIds.concat(actorId),
+        : this.state.selectedActorIds.concat(actor.id),
     })
   }
 
-  onTopicClick = (topicId: string): void => {
+  onTopicClick = (topic: TopicListTopic): void => {
     this.setState({
       selectedTopicIds: A.elem(Eq.eqString)(
-        topicId,
+        topic.id,
         this.state.selectedTopicIds
       )
         ? A.array.filter(
             this.state.selectedTopicIds,
-            a => !Eq.eqString.equals(a, topicId)
+            a => !Eq.eqString.equals(a, topic.id)
           )
-        : this.state.selectedTopicIds.concat(topicId),
+        : this.state.selectedTopicIds.concat(topic.id),
     })
   }
 
@@ -278,7 +280,7 @@ export default class NetworkTemplate extends React.Component<
         id: t.id,
         label: t.childMarkdownRemark.frontmatter.title,
         slug: t.childMarkdownRemark.frontmatter.slug,
-        fill: colors[i],
+        color: colors[i],
         x: 0,
         y: yGetter(t.childMarkdownRemark.frontmatter.slug),
       })(acc)
@@ -315,6 +317,10 @@ export default class NetworkTemplate extends React.Component<
         return Map.insertAt(Eq.eqString)(actor.id, value)(acc)
       },
       Map.empty
+    )
+
+    const actorsList = Map.toArray(Ord.ordString)(actorsMap).map(
+      ([_, actor]) => actor
     )
 
     return pipe(
@@ -444,7 +450,7 @@ export default class NetworkTemplate extends React.Component<
               y: -100,
               label: "fake",
               slug: "fake",
-              fill: colors[0],
+              color: colors[0],
             }))
           )
 
@@ -466,11 +472,23 @@ export default class NetworkTemplate extends React.Component<
             data: {
               ...e.childMarkdownRemark,
               topicLabel: topic.label,
-              topicFill: topic.fill,
+              topicFill: topic.color,
               topicSlug: topic.slug,
-              fill: topic.fill,
+              fill: topic.color,
               frontmatter: {
                 ...e.childMarkdownRemark.frontmatter,
+                actors: pipe(
+                  e.childMarkdownRemark.frontmatter.actors,
+                  O.map(actors =>
+                    actors.reduce<ActorFileNode[]>((acc, a) => {
+                      const actor = actorsList.find(
+                        _ =>
+                          _.actor.childMarkdownRemark.frontmatter.username === a
+                      )
+                      return actor !== undefined ? acc.concat(actor.actor) : acc
+                    }, [])
+                  )
+                ),
                 cover,
               },
             },
@@ -502,8 +520,8 @@ export default class NetworkTemplate extends React.Component<
                     {
                       source: eventPoint,
                       target: eventPoint,
-                      fill: topic.fill,
-                      stroke: topic.fill,
+                      fill: topic.color,
+                      stroke: topic.color,
                     },
                   ],
                   links => {
@@ -514,8 +532,8 @@ export default class NetworkTemplate extends React.Component<
                         O.getOrElse(() => eventPoint)
                       ),
                       target: eventPoint,
-                      stroke: topic.fill,
-                      fill: topic.fill,
+                      stroke: topic.color,
+                      fill: topic.color,
                     })
                   }
                 )
@@ -617,6 +635,13 @@ export default class NetworkTemplate extends React.Component<
           }
         }, result)
 
+        const topics = Map.toArray(Ord.ordString)(topicsMap).map(
+          ([_, topic]) => ({
+            ...topic,
+            selected: A.elem(Eq.eqString)(topic.id, selectedTopicIds),
+          })
+        )
+
         const nodes = Map.toArray(Ord.ordString)(eventNodes).reduce<
           EventPoint[]
         >((acc, [_, nodes]) => acc.concat(...nodes), [])
@@ -626,24 +651,41 @@ export default class NetworkTemplate extends React.Component<
         >((acc, [_, links]) => acc.concat(...links), [])
 
         interface ActorsResults {
-          actors: Array<Omit<ActorsMapValue, "events" | "links">>
+          actors: Array<
+            Omit<ActorsMapValue, "actor" | "events" | "links"> & {
+              actor: ActorListActor
+            }
+          >
           events: EventPoint[]
           links: NetworkLink[]
         }
         const actorResults = Map.toArray(Ord.ordString)(
           actorsWithEventsAndLinksMap
         ).reduce<ActorsResults>(
-          (acc, [_, value]) => ({
-            actors: acc.actors.concat({
-              actor: value.actor,
-              antiEcologicAct: value.antiEcologicAct,
-              ecologicAct: value.ecologicAct,
-              totalActs: value.totalActs,
-              color: value.color,
-            }),
-            events: acc.events.concat(...value.events),
-            links: acc.links.concat(...value.links),
-          }),
+          (acc, [_, value]) => {
+            console.log(
+              value.actor.childMarkdownRemark.frontmatter.title,
+              A.elem(Eq.eqString)(value.actor.id, selectedActorIds)
+            )
+            return {
+              actors: acc.actors.concat({
+                actor: {
+                  ...value.actor,
+                  selected: A.elem(Eq.eqString)(
+                    value.actor.id,
+                    selectedActorIds
+                  ),
+                  color: value.color,
+                },
+                antiEcologicAct: value.antiEcologicAct,
+                ecologicAct: value.ecologicAct,
+                totalActs: value.totalActs,
+                color: value.color,
+              }),
+              events: acc.events.concat(...value.events),
+              links: acc.links.concat(...value.links),
+            }
+          },
           { actors: [], events: [], links: [] }
         )
 
@@ -652,7 +694,22 @@ export default class NetworkTemplate extends React.Component<
         ).reduce<EventPoint[]>((acc, [_, nodes]) => acc.concat(...nodes), [])
 
         const filteredActorEvents = actorResults.events.filter(
-          e => selectedNodesArray.find(s => s.data.id === e.data.id) === undefined
+          e =>
+            selectedNodesArray.find(s => s.data.id === e.data.id) === undefined
+        )
+
+        const selectedNodesSorted = A.sortBy([
+          Ord.getDualOrd(ordEventPointDate),
+        ])(selectedNodesArray.concat(...filteredActorEvents))
+
+        const selectedEventsCounter = selectedNodesSorted.reduce(
+          (acc, n) =>
+            acc +
+            O.fold(
+              () => 0,
+              t => (t === "AntiEcologicalAct" ? -1 : 1)
+            )(n.data.frontmatter.type),
+          0
         )
 
         return {
@@ -660,9 +717,7 @@ export default class NetworkTemplate extends React.Component<
           maxDate,
           scale,
           pageContent: data.pageContent,
-          topics: Map.toArray(Ord.ordString)(topicsMap).map(
-            ([_, topic]) => topic
-          ),
+          topics,
           topicsColors: A.zip(
             data.topics.nodes.map(l => l.id),
             colors
@@ -672,9 +727,11 @@ export default class NetworkTemplate extends React.Component<
             nodes,
             links: links.concat(...actorResults.links),
           },
-          selectedNodes: A.sortBy([Ord.getDualOrd(ordEventPointDate)])(
-            selectedNodesArray.concat(...filteredActorEvents)
-          ),
+          selectedNodes: selectedNodesSorted,
+          selectedEventsCounter: {
+            counter: selectedEventsCounter,
+            total: selectedNodesSorted.length,
+          },
         }
       }),
       E.fold(
@@ -691,6 +748,7 @@ export default class NetworkTemplate extends React.Component<
           actors,
           topics,
           selectedNodes,
+          selectedEventsCounter,
         }) => {
           return (
             <Layout>
@@ -709,53 +767,17 @@ export default class NetworkTemplate extends React.Component<
                 </Columns.Column>
 
                 <Columns.Column size={2}>
-                  <List>
-                    {actors.map(a => (
-                      <List.Item
-                        key={a.actor.id}
-                        active={A.elem(Eq.eqString)(
-                          a.actor.id,
-                          selectedActorIds
-                        )}
-                        style={{ cursor: "pointer" }}
-                        onClick={() => this.onActorClick(a.actor.id)}
-                      >
-                        <div>
-                          {a.actor.childMarkdownRemark.frontmatter.cover !==
-                          null ? (
-                            <span style={{ display: "inline-block" }}>
-                              <Image
-                                rounded={true}
-                                src={
-                                  a.actor.childMarkdownRemark.frontmatter.cover
-                                }
-                                style={{ width: 32, height: 32 }}
-                                size={32}
-                              />
-                              <span
-                                style={{
-                                  display: "inline-block",
-                                  width: 20,
-                                  height: 3,
-                                  backgroundColor: a.color,
-                                }}
-                              />
-                            </span>
-                          ) : (
-                            <div />
-                          )}{" "}
-                          <span>
-                            {a.actor.childMarkdownRemark.frontmatter.title}
-                          </span>{" "}
-                          <span>
-                            {a.antiEcologicAct}/{a.totalActs}
-                          </span>{" "}
-                        </div>
-                      </List.Item>
-                    ))}
-                  </List>
+                  <TopicList topics={topics} onTopicClick={this.onTopicClick} />
+                  <ActorList
+                    actors={actors.map(a => a.actor)}
+                    onActorClick={this.onActorClick}
+                  />
+                  <div>
+                    {selectedEventsCounter.counter}/
+                    {selectedEventsCounter.total}
+                  </div>
                 </Columns.Column>
-                <Columns.Column size={8}>
+                <Columns.Column size={10}>
                   <div style={{ width, height }}>
                     <Network
                       width={width}
@@ -780,40 +802,17 @@ export default class NetworkTemplate extends React.Component<
                     {formatDate(maxDate)}
                   </div>
                 </Columns.Column>
-                <Columns.Column size={2}>
-                  <List>
-                    {topics.map(t => (
-                      <List.Item
-                        key={t.id}
-                        style={{ cursor: "pointer" }}
-                        active={A.elem(Eq.eqString)(t.id, selectedTopicIds)}
-                        onClick={() => this.onTopicClick(t.id)}
-                      >
-                        <>
-                          <span
-                            style={{
-                              display: "inline-block",
-                              borderRadius: 10,
-                              width: 20,
-                              height: 20,
-                              backgroundColor: t.fill,
-                              marginRight: 5,
-                            }}
-                          />
-                          {t.label}{" "}
-                          {/* <span>
-                          {t.antiEcologicAct} / {t.totalActs}
-                        </span> */}
-                        </>
-                      </List.Item>
-                    ))}
-                  </List>
-                </Columns.Column>
                 <Columns.Column size={12}>
                   <Columns>
                     <Columns.Column size={3}>
                       <TimelineNavigator
-                        events={selectedNodes.map(n => n.data)}
+                        events={selectedNodes.map(n => ({
+                          ...n.data,
+                          frontmatter: {
+                            ...n.data.frontmatter,
+                            actors: O.option.map(n.data.frontmatter.actors, a => a.map(_ => _.id))
+                          }
+                        }))}
                         onEventClick={e =>
                           navigate(`${window.location.href}?#${e.id}`)
                         }

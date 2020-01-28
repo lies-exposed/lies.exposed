@@ -23,7 +23,7 @@ export const TopicPoint = t.interface(
     y: t.number,
     label: t.string,
     slug: t.string,
-    fill: t.string,
+    color: t.string,
   },
   "TopicPoint"
 )
