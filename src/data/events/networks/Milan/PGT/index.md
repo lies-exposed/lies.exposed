@@ -1,6 +1,11 @@
 ---
 title: PGT
 slug: PGT
+links:
+    - http://www.rai.it/programmi/report/news/2019/12/Milano-e-la-trasformazione-urbanistica-degli-ex-scali-ferroviari-e8676230-fc0e-4227-94dc-7dba35b7518d.html
+    - https://www.ilfoglio.it/granmilano/2020/01/19/news/non-solo-gli-scali-di-milano-296818/
+    - https://www.arcipelagomilano.org/archives/52183
+    - https://www.arcipelagomilano.org/archives/50792
 ---
 
 Il PGT (Piano di Governo del Territorio) è il piano di trasformazione della città nei prossimi 10 anni.
