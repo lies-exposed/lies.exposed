@@ -14,7 +14,6 @@ interface ActorListProps {
 }
 
 const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick }) => {
-  console.log(actors.map(a => a.selected))
   return (
     <div className="actor-list">
       {actors.map(a => (

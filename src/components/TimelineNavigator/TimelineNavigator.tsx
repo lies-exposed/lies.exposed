@@ -6,9 +6,14 @@ import { pipe } from "fp-ts/lib/pipeable"
 import moment from "moment"
 import * as React from "react"
 import { Menu as BMenu } from "react-bulma-components"
-import { EventFileNode } from "../../types/event"
 
-type TimelineEvent = EventFileNode["childMarkdownRemark"]
+export interface TimelineEvent {
+  id: string;
+  frontmatter: {
+    date: Date;
+    title: string;
+  }
+}
 
 interface TimelineNavigatorProps {
   events: TimelineEvent[]
@@ -17,7 +22,7 @@ interface TimelineNavigatorProps {
 
 type TimelineNavigatorEventsMap = Map<
   number,
-  Map<number, Array<EventFileNode["childMarkdownRemark"]>>
+  Map<number, TimelineEvent[]>
 >
 
 const TimelineNavigator: React.FC<TimelineNavigatorProps> = ({

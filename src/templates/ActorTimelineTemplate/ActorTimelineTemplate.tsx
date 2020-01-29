@@ -6,6 +6,7 @@
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
+import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
@@ -16,8 +17,10 @@ import { Columns, Image } from "react-bulma-components"
 import EventList from "../../components/EventList/EventList"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
-import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
-import { ActorPageContentFileNode } from "../../types/actor"
+import TimelineNavigator, {
+  TimelineEvent,
+} from "../../components/TimelineNavigator/TimelineNavigator"
+import { ActorPageContentFileNode, ActorFileNode } from "../../types/actor"
 import { EventFileNode } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
 import { ordEventFileNodeDate } from "../../utils/event"
@@ -28,6 +31,9 @@ interface ActorTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
     pageContent: ActorPageContentFileNode
+    actors: {
+      nodes: ActorFileNode[]
+    }
     events: {
       nodes: EventFileNode[]
     }
@@ -46,38 +52,57 @@ const byId = Eq.contramap((n: EventFileNode) => n.childMarkdownRemark.id)(
 
 const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
   data,
-  navigate
+  navigate,
 }) => {
   const {
     pageContent: {
       childMarkdownRemark: { frontmatter, html },
     },
+    actors,
     events,
     eventsAsActor,
     images,
   } = data
 
-  const onEventClick = async (
-    e: EventFileNode["childMarkdownRemark"]
-  ): Promise<void> =>  navigate(`${window.location.href}?#${e.id}`)
+  const onEventClick = async (e: TimelineEvent): Promise<void> => {
+    await navigate(`${window.location.href}?#${e.id}`)
+  }
 
   return pipe(
     E.right(A.union(byId)(events.nodes, eventsAsActor.nodes)),
     E.chain(t.array(EventFileNode).decode),
     E.map(events =>
-      A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
-        e => ({
-          ...e.childMarkdownRemark,
-          topicFill: '#fff',
-          fill: '#fff',
-          topicLabel: 'fake',
-          topicSlug: 'fake'
-
-        })
-      )
+      A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(e => ({
+        ...e.childMarkdownRemark,
+        frontmatter: {
+          ...e.childMarkdownRemark.frontmatter,
+          type: O.fromNullable(e.childMarkdownRemark.frontmatter.type),
+          actors: pipe(
+            O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
+            O.map(actorIds =>
+              actors.nodes.reduce<ActorFileNode[]>(
+                (acc, n) =>  {
+                  const actor = actorIds.includes(
+                    n.childMarkdownRemark.frontmatter.username
+                  )
+                  return actor ? acc.concat(acc) : acc
+                },
+                []
+              )
+            )
+          ),
+          links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
+          cover: O.fromNullable(e.childMarkdownRemark.frontmatter.cover)
+        },
+        topicFill: "#fff",
+        fill: "#fff",
+        topicLabel: "fake",
+        topicSlug: "fake",
+      }))
     ),
     E.fold(
       errs => {
+        // eslint-disable-next-line no-console
         console.log(ThrowReporter.report(E.left(errs)))
         return null
       },
@@ -118,9 +143,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
                 </div>
                 <Columns.Column>
                   <div>
-                    <EventList
-                      events={timelineEvents}
-                    />
+                    <EventList events={timelineEvents} />
                     {/* <Timeline events={timelineEvents.right} /> */}
                   </div>
                 </Columns.Column>
@@ -152,6 +175,27 @@ export const pageQuery = graphql`
           avatar
         }
         html
+      }
+    }
+
+    actors: allFile(
+      filter: {
+        relativeDirectory: { glob: "events/actors/*" }
+        name: { eq: "index" }
+      }
+    ) {
+      nodes {
+        id
+        relativeDirectory
+        childMarkdownRemark {
+          frontmatter {
+            title
+            cover
+            avatar
+            username
+          }
+          html
+        }
       }
     }
 

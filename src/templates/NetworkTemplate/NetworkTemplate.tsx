@@ -430,7 +430,7 @@ export default class NetworkTemplate extends React.Component<
           // get topic from relative directory
 
           const cover = pipe(
-            e.childMarkdownRemark.frontmatter.cover,
+            O.fromNullable(e.childMarkdownRemark.frontmatter.cover),
             O.chain(c =>
               O.fromNullable(
                 data.images.nodes.find(e =>
@@ -459,6 +459,25 @@ export default class NetworkTemplate extends React.Component<
             selectedTopicIds
           )
 
+          const eventFrontmatterType = O.fromNullable(
+            e.childMarkdownRemark.frontmatter.type
+          )
+          const eventActors = pipe(
+            O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
+            O.map(actors =>
+              actors.reduce<ActorFileNode[]>((acc, a) => {
+                const actor = actorsList.find(
+                  _ => _.actor.childMarkdownRemark.frontmatter.username === a
+                )
+                return actor !== undefined ? acc.concat(actor.actor) : acc
+              }, [])
+            )
+          )
+
+          const eventFrontmatterLinks = O.fromNullable(
+            e.childMarkdownRemark.frontmatter.links
+          )
+
           const eventPoint: EventPoint = {
             x:
               marginHorizontal +
@@ -477,18 +496,9 @@ export default class NetworkTemplate extends React.Component<
               fill: topic.color,
               frontmatter: {
                 ...e.childMarkdownRemark.frontmatter,
-                actors: pipe(
-                  e.childMarkdownRemark.frontmatter.actors,
-                  O.map(actors =>
-                    actors.reduce<ActorFileNode[]>((acc, a) => {
-                      const actor = actorsList.find(
-                        _ =>
-                          _.actor.childMarkdownRemark.frontmatter.username === a
-                      )
-                      return actor !== undefined ? acc.concat(actor.actor) : acc
-                    }, [])
-                  )
-                ),
+                type: eventFrontmatterType,
+                links: eventFrontmatterLinks,
+                actors: eventActors,
                 cover,
               },
             },
@@ -541,13 +551,11 @@ export default class NetworkTemplate extends React.Component<
             : []
 
           const actorsWithEventsAndLinksMap = pipe(
-            e.childMarkdownRemark.frontmatter.actors,
+            eventActors,
             O.map(actors => {
               return Map.toArray(Ord.ordString)(actorsMap)
                 .filter(([_, a]) =>
-                  actors.includes(
-                    a.actor.childMarkdownRemark.frontmatter.username
-                  )
+                  actors.find(_ => _.id === a.actor.id)
                 )
                 .reduce<ActorsMap>((prev, [_, a]) => {
                   const actorData = pipe(
@@ -564,11 +572,11 @@ export default class NetworkTemplate extends React.Component<
                         return {
                           ...a,
                           ecologicAct: addOneIfEqualTo(
-                            e.childMarkdownRemark.frontmatter.type,
+                            eventFrontmatterType,
                             "EcologicAct"
                           ),
                           antiEcologicAct: addOneIfEqualTo(
-                            e.childMarkdownRemark.frontmatter.type,
+                            eventFrontmatterType,
                             "AntiEcologicAct"
                           ),
                           events: events,
@@ -601,13 +609,13 @@ export default class NetworkTemplate extends React.Component<
                           ecologicAct:
                             item.ecologicAct +
                             addOneIfEqualTo(
-                              e.childMarkdownRemark.frontmatter.type,
+                              eventFrontmatterType,
                               "EcologicAct"
                             ),
                           antiEcologicAct:
                             item.antiEcologicAct +
                             addOneIfEqualTo(
-                              e.childMarkdownRemark.frontmatter.type,
+                              eventFrontmatterType,
                               "AntiEcologicAct"
                             ),
                           totalActs: item.totalActs + 1,
@@ -663,10 +671,6 @@ export default class NetworkTemplate extends React.Component<
           actorsWithEventsAndLinksMap
         ).reduce<ActorsResults>(
           (acc, [_, value]) => {
-            console.log(
-              value.actor.childMarkdownRemark.frontmatter.title,
-              A.elem(Eq.eqString)(value.actor.id, selectedActorIds)
-            )
             return {
               actors: acc.actors.concat({
                 actor: {
@@ -736,6 +740,7 @@ export default class NetworkTemplate extends React.Component<
       }),
       E.fold(
         errs => {
+          // eslint-disable-next-line no-console
           console.log(ThrowReporter.report(E.left(errs)))
           return null
         },
@@ -785,7 +790,7 @@ export default class NetworkTemplate extends React.Component<
                       scale={scale}
                       minDate={minDate}
                       maxDate={maxDate}
-                      graph={graph}
+                      graph={graph as any}
                       onEventLabelClick={event => {
                         navigate(`/timelines/${networkName}/${event}`)
                       }}
@@ -810,8 +815,14 @@ export default class NetworkTemplate extends React.Component<
                           ...n.data,
                           frontmatter: {
                             ...n.data.frontmatter,
-                            actors: O.option.map(n.data.frontmatter.actors, a => a.map(_ => _.id))
-                          }
+                            actors: pipe(
+                              n.data.frontmatter.actors,
+                              O.fold(
+                                () => [],
+                                a => a.map(_ => _.id)
+                              )
+                            ),
+                          },
                         }))}
                         onEventClick={e =>
                           navigate(`${window.location.href}?#${e.id}`)
@@ -854,7 +865,6 @@ export const pageQuery = graphql`
           icon
           type
           cover
-          links
         }
         html
       }
@@ -928,7 +938,6 @@ export const pageQuery = graphql`
             type
             cover
             actors
-            links
           }
           html
         }

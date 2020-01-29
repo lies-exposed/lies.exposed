@@ -1,15 +1,17 @@
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import { graphql } from "gatsby"
+import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import React from "react"
 import { Columns } from "react-bulma-components"
+import EventList from "../../components/EventList/EventList"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
-import { EventFileNode } from "../../types/event"
+import { ActorFileNode } from "../../types/actor"
+import { EventFileNode, EventPointData } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
 import "./networkTopicTimelineTemplate.scss"
 
@@ -23,11 +25,15 @@ interface NetworkTopicTimelineTemplatePageProps {
           path: string
           date: string
           icon: string
+          slug: string
           cover: string
           type: string
         }
         html: string
       }
+    }
+    actors: {
+      nodes: ActorFileNode[]
     }
     events: {
       nodes: EventFileNode[]
@@ -45,26 +51,41 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
     pageContent: {
       childMarkdownRemark: { frontmatter, html },
     },
+    actors,
     events,
     images,
   } = data
 
   return pipe(
     t.array(EventFileNode).decode(events.nodes),
-    E.fold(
-      errs => {
-        console.log(ThrowReporter.report(E.left(errs)))
-        return null
-      },
-      events => {
-        const totalEvents = events.map(n => n.childMarkdownRemark)
-
-        const results = totalEvents.map(n => ({
-          id: n.id,
-          ...n.frontmatter,
-          html: n.html,
+    E.map(nodes =>
+      t.array(EventPointData).encode(
+        nodes.map(n => ({
+          id: n.childMarkdownRemark.id,
+          frontmatter: {
+            ...n.childMarkdownRemark.frontmatter,
+            links: O.fromNullable(n.childMarkdownRemark.frontmatter.links),
+            cover: O.fromNullable(n.childMarkdownRemark.frontmatter.cover),
+            actors: pipe(
+              O.fromNullable(n.childMarkdownRemark.frontmatter.actors),
+              O.map(actorIds =>
+                actors.nodes.reduce<ActorFileNode[]>((acc, n) => {
+                  const actor = actorIds.includes(
+                    n.childMarkdownRemark.frontmatter.username
+                  )
+                  return actor ? acc.concat(acc) : acc
+                }, [])
+              )
+            ),
+            type: O.fromNullable(n.childMarkdownRemark.frontmatter.type),
+          },
+          fill: "",
+          topicLabel: "",
+          topicSlug: "",
+          topicFill: "",
+          html: n.childMarkdownRemark.html,
           image: pipe(
-            n.frontmatter.cover,
+            O.fromNullable(n.childMarkdownRemark.frontmatter.cover),
             O.chain(c =>
               O.fromNullable(images.nodes.find(i => i.relativePath === c))
             ),
@@ -72,17 +93,25 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
             O.toUndefined
           ),
         }))
-
+      )
+    ),
+    E.fold(
+      errs => {
+        // eslint-disable-next-line no-console
+        console.log(ThrowReporter.report(E.left(errs)))
+        return null
+      },
+      events => {
         return (
           <Layout>
             <SEO title={frontmatter.title} />
             <Columns>
               <Columns.Column size={3}>
                 <TimelineNavigator
-                  events={totalEvents}
-                  onEventClick={e =>
-                    navigate(`${window.location.href}?#${e.id}`)
-                  }
+                  events={events}
+                  onEventClick={async e => {
+                    await navigate(`${window.location.href}?#${e.id}`)
+                  }}
                 />
               </Columns.Column>
               <Columns.Column size={9}>
@@ -99,18 +128,7 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
                   </div>
                 </div>
                 <Columns.Column>
-                  <div>
-                    {results.map(event => (
-                      <div key={event.id} id={event.id}>
-                        <div className="subtitle">{event.title}</div>
-                        <div
-                          className="content"
-                          dangerouslySetInnerHTML={{ __html: event.html }}
-                        />
-                      </div>
-                    ))}
-                    {/* <Timeline events={timelineEvents.right} /> */}
-                  </div>
+                  <EventList events={events} />
                 </Columns.Column>
               </Columns.Column>
             </Columns>
@@ -142,6 +160,27 @@ export const pageQuery = graphql`
         html
       }
     }
+    actors: allFile(
+      filter: {
+        relativeDirectory: { glob: "events/actors/*" }
+        name: { eq: "index" }
+      }
+    ) {
+      nodes {
+        id
+        relativeDirectory
+        childMarkdownRemark {
+          frontmatter {
+            title
+            cover
+            avatar
+            username
+          }
+          html
+        }
+      }
+    }
+
     events: allFile(
       filter: {
         relativeDirectory: { eq: $relativeDirectory }
@@ -160,6 +199,7 @@ export const pageQuery = graphql`
             date
             cover
             actors
+            links
           }
           html
         }

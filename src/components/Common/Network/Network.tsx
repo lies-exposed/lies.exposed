@@ -27,19 +27,19 @@ function numTicksForWidth(width: number): number {
 
 export type NetworkScale = "all" | "year" | "month" | "week" | "day"
 
-export interface NetworkProps
-  extends Omit<WithTooltipProvidedProps, "tooltipData"> {
+export interface NetworkBaseProps {
   width: number
   height: number
   scale: NetworkScale
   minDate: Date
   maxDate: Date
   graph: GraphType<LinkEventProps, NetworkNodeProps["node"]>
-  tooltipData?: NetworkNodeProps["node"]["data"]
   onEventLabelClick: (event: string) => void
   onNodeClick: (event: EventPoint) => void
   onDoubleClick: (event: EventPoint, scale: NetworkScale) => void
 }
+
+export type NetworkProps = NetworkBaseProps & WithTooltipProvidedProps<NetworkNodeProps["node"]["data"]>
 
 class Network extends React.Component<NetworkProps, {}> {
   constructor(props: NetworkProps) {
@@ -189,4 +189,4 @@ class Network extends React.Component<NetworkProps, {}> {
   }
 }
 
-export default withTooltip(Network)
+export default withTooltip<NetworkBaseProps, NetworkNodeProps["node"]["data"]>(Network)
