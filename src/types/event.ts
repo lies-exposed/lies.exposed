@@ -4,15 +4,6 @@ import { date } from "io-ts-types/lib/date"
 import { option } from "io-ts-types/lib/option"
 import { ActorFileNode } from "./actor"
 
-export const Group = t.interface({
-  username: t.string,
-  name: t.string,
-})
-
-export const Subject = t.interface({
-  tag: t.string,
-})
-
 export interface TreeEvent {
   name: string
   date: Date
@@ -77,7 +68,7 @@ export const EventPointFrontmatter = t.interface(
 
 export type EventPointFrontmatter = t.TypeOf<typeof EventPointFrontmatter>
 
-export const EventPointData = t.interface(
+export const EventData = t.interface(
   {
     id: t.string,
     frontmatter: EventPointFrontmatter,
@@ -87,16 +78,16 @@ export const EventPointData = t.interface(
     topicSlug: t.string,
     fill: t.string,
   },
-  "EventPointData"
+  "EventData"
 )
 
-export type EventPointData = t.TypeOf<typeof EventPointData>
+export type EventData = t.TypeOf<typeof EventData>
 
 export const EventPoint = t.interface(
   {
     x: t.number,
     y: t.number,
-    data: EventPointData,
+    data: EventData,
   },
   "EventPoint"
 )

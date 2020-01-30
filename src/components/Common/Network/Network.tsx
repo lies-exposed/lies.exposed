@@ -39,7 +39,8 @@ export interface NetworkBaseProps {
   onDoubleClick: (event: EventPoint, scale: NetworkScale) => void
 }
 
-export type NetworkProps = NetworkBaseProps & WithTooltipProvidedProps<NetworkNodeProps["node"]["data"]>
+export type NetworkProps = NetworkBaseProps &
+  WithTooltipProvidedProps<NetworkNodeProps["node"]["data"]>
 
 class Network extends React.Component<NetworkProps, {}> {
   constructor(props: NetworkProps) {
@@ -89,7 +90,7 @@ class Network extends React.Component<NetworkProps, {}> {
         <Group>
           <svg width={width} height={height} style={{ cursor: "grab" }}>
             <RectClipPath id="zoom-clip" width={300} height={200} />
-            <rect width={width} height={height} rx={14} fill="#272b4d" />
+            <rect width={width} height={height} rx={14} fill="#afd0d6" />
             <rect
               width={width}
               height={height}
@@ -163,9 +164,17 @@ class Network extends React.Component<NetworkProps, {}> {
                   <strong>{tooltipData.frontmatter.title}</strong>
                 </div>
                 <div>Data: {formatDate(tooltipData.frontmatter.date)}</div>
+                
                 {pipe(
                   tooltipData.frontmatter.actors,
-                  O.map(actors => <div key="actors">Actors: {actors.join(", ")}</div>),
+                  O.map(actors => (
+                    <div key="actors">
+                      Actors:{" "}
+                      {actors
+                        .map(a => a.childMarkdownRemark.frontmatter.title)
+                        .join(", ")}
+                    </div>
+                  )),
                   O.toNullable
                 )}
                 {pipe(
@@ -189,4 +198,6 @@ class Network extends React.Component<NetworkProps, {}> {
   }
 }
 
-export default withTooltip<NetworkBaseProps, NetworkNodeProps["node"]["data"]>(Network)
+export default withTooltip<NetworkBaseProps, NetworkNodeProps["node"]["data"]>(
+  Network
+)
