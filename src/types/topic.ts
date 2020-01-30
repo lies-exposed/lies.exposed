@@ -2,9 +2,9 @@ import * as t from "io-ts"
 
 export const TopicFileNode = t.interface(
   {
-    id: t.string,
     relativeDirectory: t.string,
     childMarkdownRemark: t.interface({
+      id: t.string,
       frontmatter: t.interface({
         title: t.string,
         slug: t.string,
@@ -16,14 +16,24 @@ export const TopicFileNode = t.interface(
 
 export type TopicFileNode = t.TypeOf<typeof TopicFileNode>
 
-export const TopicPoint = t.interface(
+export const TopicData = t.interface(
   {
     id: t.string,
-    x: t.number,
-    y: t.number,
     label: t.string,
     slug: t.string,
     color: t.string,
+    selected: t.boolean
+  },
+  "TopicData"
+)
+
+export type TopicData = t.TypeOf<typeof TopicData>
+
+export const TopicPoint = t.interface(
+  {
+    x: t.number,
+    y: t.number,
+    data: TopicData,
   },
   "TopicPoint"
 )

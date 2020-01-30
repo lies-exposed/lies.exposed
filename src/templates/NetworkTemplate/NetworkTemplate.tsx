@@ -11,7 +11,7 @@ import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import "./networkTemplate.scss"
-import { graphql } from "gatsby"
+import { graphql, replace } from "gatsby"
 import * as t from "io-ts"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import moment from "moment"
@@ -276,11 +276,14 @@ export default class NetworkTemplate extends React.Component<
 
     // create a topics map
     const topicsMap = data.topics.nodes.reduce<TopicsMap>((acc, t, i) => {
-      return Map.insertAt(Eq.eqString)(t.childMarkdownRemark.frontmatter.slug, {
-        id: t.id,
-        label: t.childMarkdownRemark.frontmatter.title,
-        slug: t.childMarkdownRemark.frontmatter.slug,
-        color: colors[i],
+      return Map.insertAt(Eq.eqString)(t.childMarkdownRemark.id, {
+        data: {
+          id: t.childMarkdownRemark.id,
+          label: t.childMarkdownRemark.frontmatter.title,
+          slug: t.childMarkdownRemark.frontmatter.slug,
+          color: colors[i],
+          selected: false,
+        },
         x: 0,
         y: yGetter(t.childMarkdownRemark.frontmatter.slug),
       })(acc)
@@ -441,23 +444,32 @@ export default class NetworkTemplate extends React.Component<
             O.map(e => e.childImageSharp.fluid.src)
           )
 
-          const topic = pipe(
+          const topicOpt = pipe(
             A.head(A.takeRight(1)(e.relativeDirectory.split("/"))),
-            O.chain(t => Map.lookup(Eq.eqString)(t, topicsMap)),
-            O.getOrElse(() => ({
-              id: "fake-id",
-              x: -100,
-              y: -100,
-              label: "fake",
-              slug: "fake",
-              color: colors[0],
-            }))
+            O.mapNullable(t => {
+              return Map.toArray(Ord.ordString)(topicsMap).find(
+                ([_, value]) => value.data.slug === t
+              )
+            }),
+            O.map(([_, topic]) => {
+              return {
+                ...topic,
+                data: {
+                  ...topic.data,
+                  selected: A.elem(Eq.eqString)(
+                    topic.data.id,
+                    selectedTopicIds
+                  ),
+                },
+              }
+            })
           )
 
-          const isTopicSelected = A.elem(Eq.eqString)(
-            topic.id,
-            selectedTopicIds
-          )
+          if (O.isNone(topicOpt)) {
+            return acc
+          }
+
+          const topic = topicOpt.value
 
           const eventFrontmatterType = O.fromNullable(
             e.childMarkdownRemark.frontmatter.type
@@ -487,13 +499,13 @@ export default class NetworkTemplate extends React.Component<
                 maxDate,
                 width - marginHorizontal * 2
               ),
-            y: yGetter(topic.slug),
+            y: yGetter(topic.data.slug),
             data: {
               ...e.childMarkdownRemark,
-              topicLabel: topic.label,
-              topicFill: topic.color,
-              topicSlug: topic.slug,
-              fill: topic.color,
+              topicLabel: topic.data.label,
+              topicFill: topic.data.color,
+              topicSlug: topic.data.slug,
+              fill: topic.data.color,
               frontmatter: {
                 ...e.childMarkdownRemark.frontmatter,
                 type: eventFrontmatterType,
@@ -505,16 +517,16 @@ export default class NetworkTemplate extends React.Component<
           }
 
           const eventNodes = pipe(
-            Map.lookup(Eq.eqString)(topic.id, acc.eventNodes),
+            Map.lookup(Eq.eqString)(topic.data.id, acc.eventNodes),
             O.fold(
               () => [eventPoint],
               events => events.concat(eventPoint)
             )
           )
 
-          const selectedNodes = isTopicSelected
+          const selectedNodes = topic.data.selected
             ? pipe(
-                Map.lookup(Eq.eqString)(topic.id, acc.selectedNodes),
+                Map.lookup(Eq.eqString)(topic.data.id, acc.selectedNodes),
                 O.fold(
                   () => [eventPoint],
                   events => events.concat(eventPoint)
@@ -522,16 +534,16 @@ export default class NetworkTemplate extends React.Component<
               )
             : []
 
-          const eventLinks = isTopicSelected
+          const eventLinks = topic.data.selected
             ? pipe(
-                Map.lookup(Eq.eqString)(topic.id, acc.eventLinks),
+                Map.lookup(Eq.eqString)(topic.data.id, acc.eventLinks),
                 O.fold(
                   () => [
                     {
                       source: eventPoint,
                       target: eventPoint,
-                      fill: topic.color,
-                      stroke: topic.color,
+                      fill: topic.data.color,
+                      stroke: topic.data.color,
                     },
                   ],
                   links => {
@@ -542,8 +554,8 @@ export default class NetworkTemplate extends React.Component<
                         O.getOrElse(() => eventPoint)
                       ),
                       target: eventPoint,
-                      stroke: topic.color,
-                      fill: topic.color,
+                      stroke: topic.data.color,
+                      fill: topic.data.color,
                     })
                   }
                 )
@@ -554,9 +566,7 @@ export default class NetworkTemplate extends React.Component<
             eventActors,
             O.map(actors => {
               return Map.toArray(Ord.ordString)(actorsMap)
-                .filter(([_, a]) =>
-                  actors.find(_ => _.id === a.actor.id)
-                )
+                .filter(([_, a]) => actors.find(_ => _.id === a.actor.id))
                 .reduce<ActorsMap>((prev, [_, a]) => {
                   const actorData = pipe(
                     Map.lookup(Eq.eqString)(a.actor.id, prev),
@@ -630,25 +640,21 @@ export default class NetworkTemplate extends React.Component<
           )
 
           return {
-            eventNodes: Map.insertAt(Eq.eqString)(topic.id, eventNodes)(
+            eventNodes: Map.insertAt(Eq.eqString)(topic.data.id, eventNodes)(
               acc.eventNodes
             ),
-            eventLinks: Map.insertAt(Eq.eqString)(topic.id, eventLinks)(
+            eventLinks: Map.insertAt(Eq.eqString)(topic.data.id, eventLinks)(
               acc.eventLinks
             ),
-            selectedNodes: Map.insertAt(Eq.eqString)(topic.id, selectedNodes)(
-              acc.selectedNodes
-            ),
+            selectedNodes: Map.insertAt(Eq.eqString)(
+              topic.data.id,
+              selectedNodes
+            )(acc.selectedNodes),
             actorsWithEventsAndLinksMap: actorsWithEventsAndLinksMap,
           }
         }, result)
 
-        const topics = Map.toArray(Ord.ordString)(topicsMap).map(
-          ([_, topic]) => ({
-            ...topic,
-            selected: A.elem(Eq.eqString)(topic.id, selectedTopicIds),
-          })
-        )
+        const topics = Map.toArray(Ord.ordString)(topicsMap).map(([_, t]) => t)
 
         const nodes = Map.toArray(Ord.ordString)(eventNodes).reduce<
           EventPoint[]
@@ -721,11 +727,10 @@ export default class NetworkTemplate extends React.Component<
           maxDate,
           scale,
           pageContent: data.pageContent,
-          topics,
-          topicsColors: A.zip(
-            data.topics.nodes.map(l => l.id),
-            colors
-          ),
+          topics: topics.map(t => ({
+            ...t.data,
+            selected: A.elem(Eq.eqString)(t.data.id, selectedTopicIds),
+          })),
           actors: actorResults.actors,
           graph: {
             nodes,
@@ -795,8 +800,8 @@ export default class NetworkTemplate extends React.Component<
                         navigate(`/timelines/${networkName}/${event}`)
                       }}
                       onNodeClick={event => {
-                        navigate(
-                          `/timelines/${networkName}/${event.data.topicSlug}#${event.data.id}`
+                        replace(
+                          `/networks/${networkName}/#${event.data.id}`
                         )
                       }}
                       onDoubleClick={this.onNetworkDoubleClick}
@@ -876,9 +881,9 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        id
         relativeDirectory
         childMarkdownRemark {
+          id
           frontmatter {
             title
             slug
@@ -938,6 +943,7 @@ export const pageQuery = graphql`
             type
             cover
             actors
+            links
           }
           html
         }

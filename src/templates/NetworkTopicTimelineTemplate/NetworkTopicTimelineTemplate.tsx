@@ -11,7 +11,7 @@ import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
 import TimelineNavigator from "../../components/TimelineNavigator/TimelineNavigator"
 import { ActorFileNode } from "../../types/actor"
-import { EventFileNode, EventPointData } from "../../types/event"
+import { EventFileNode, EventData } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
 import "./networkTopicTimelineTemplate.scss"
 
@@ -59,7 +59,7 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
   return pipe(
     t.array(EventFileNode).decode(events.nodes),
     E.map(nodes =>
-      t.array(EventPointData).encode(
+      t.array(EventData).encode(
         nodes.map(n => ({
           id: n.childMarkdownRemark.id,
           frontmatter: {

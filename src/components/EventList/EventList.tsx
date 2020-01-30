@@ -1,14 +1,14 @@
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
-import { EventPointData } from "../../types/event"
+import { EventData } from "../../types/event"
 import { formatDate } from "../../utils/date"
 import ActorList from "../ActorList/ActorList"
 import { Columns } from "../Common"
 import TopicList from "../TopicList/TopicList"
 
 interface EventListProps {
-  events: EventPointData[]
+  events: EventData[]
 }
 
 const EventList: React.FC<EventListProps> = props => {
@@ -19,14 +19,11 @@ const EventList: React.FC<EventListProps> = props => {
           <div className="subtitle">{event.frontmatter.title}</div>
           <div className="">{formatDate(event.frontmatter.date)}</div>
           <Columns>
-        
             <Columns.Column>
               <TopicList
                 topics={[
                   {
                     id: event.topicSlug,
-                    x: 0,
-                    y: 0,
                     label: event.topicLabel,
                     slug: event.topicSlug,
                     color: event.topicFill,
@@ -36,7 +33,7 @@ const EventList: React.FC<EventListProps> = props => {
                 onTopicClick={() => undefined}
               />
             </Columns.Column>
-            <Columns.Column offset={6} size={4} style={{ textAlign: 'right'}}>
+            <Columns.Column offset={6} size={4} style={{ textAlign: "right" }}>
               {pipe(
                 event.frontmatter.actors,
                 O.fold(

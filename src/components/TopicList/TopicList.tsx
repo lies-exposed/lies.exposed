@@ -1,8 +1,8 @@
 import * as React from "react"
-import { TopicPoint } from "../../types/topic"
+import { TopicData } from "../../types/topic"
 import { Tag } from "../Common"
 
-export interface TopicListTopic extends TopicPoint {
+export interface TopicListTopic extends TopicData {
   selected: boolean
   color: string
 }
