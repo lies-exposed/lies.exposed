@@ -4,6 +4,7 @@ import { Columns } from "../components/Common"
 import Menu from "../components/Common/Menu"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
+import renderMarkdownAST from "../utils/renderMarkdownAST"
 
 interface Node {
   id: string
@@ -14,7 +15,7 @@ interface Node {
 }
 
 interface ArticleNode {
-  html: string
+  htmlAst: string
 }
 
 interface Results {
@@ -42,7 +43,7 @@ const ArticlesPage: React.FunctionComponent = () => {
         filter: { frontmatter: { path: { eq: "/articles" } } }
       ) {
         nodes {
-          html
+          htmlAst
         }
       }
     }
@@ -55,7 +56,7 @@ const ArticlesPage: React.FunctionComponent = () => {
     items: [],
   }))
 
-  const { html } = pageContent.nodes[0]
+  const { htmlAst } = pageContent.nodes[0]
 
   return (
     <Layout>
@@ -65,10 +66,7 @@ const ArticlesPage: React.FunctionComponent = () => {
           <Menu sections={[{ items: articleItems }]} />
         </Columns.Column>
         <Columns.Column size={9}>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: html }}
-          ></div>
+          <div className="content">{renderMarkdownAST(htmlAst)}</div>
         </Columns.Column>
       </Columns>
     </Layout>

@@ -5,6 +5,7 @@ import Menu from "../components/Common/Menu"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import { PageContentNode } from "../types/PageContent"
+import renderMarkdownAST from "../utils/renderMarkdownAST"
 
 interface Results {
   networks: { nodes: Array<{ id: string; name: string }> }
@@ -26,7 +27,7 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
       pageContent: markdownRemark(
         fileAbsolutePath: { glob: "**/pages/networks.md" }
       ) {
-        html
+        htmlAst
         frontmatter {
           title
           path
@@ -37,7 +38,7 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
 
   const {
     frontmatter: { title },
-    html,
+    htmlAst,
   } = pageContent
 
   const items = networks.nodes.map(n => ({
@@ -55,10 +56,7 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
           <Menu sections={[{ items }]} />
         </Columns.Column>
         <Columns.Column size={9}>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: html }}
-          ></div>
+          <div className="content">{renderMarkdownAST(htmlAst)}</div>
         </Columns.Column>
       </Columns>
     </Layout>

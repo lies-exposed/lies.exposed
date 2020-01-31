@@ -13,6 +13,7 @@ import TimelineNavigator from "../../components/TimelineNavigator/TimelineNaviga
 import { ActorFileNode } from "../../types/actor"
 import { EventFileNode, EventData } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
+import renderMarkdownAST from "../../utils/renderMarkdownAST"
 import "./networkTopicTimelineTemplate.scss"
 
 interface NetworkTopicTimelineTemplatePageProps {
@@ -29,7 +30,7 @@ interface NetworkTopicTimelineTemplatePageProps {
           cover: string
           type: string
         }
-        html: string
+        htmlAst: object
       }
     }
     actors: {
@@ -49,7 +50,7 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
 }) => {
   const {
     pageContent: {
-      childMarkdownRemark: { frontmatter, html },
+      childMarkdownRemark: { frontmatter, htmlAst },
     },
     actors,
     events,
@@ -83,7 +84,7 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
           topicLabel: "",
           topicSlug: "",
           topicFill: "",
-          html: n.childMarkdownRemark.html,
+          htmlAst: n.childMarkdownRemark.htmlAst,
           image: pipe(
             O.fromNullable(n.childMarkdownRemark.frontmatter.cover),
             O.chain(c =>
@@ -120,10 +121,9 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
                   <div className="blog-post-container">
                     <div className="blog-post">
                       <h1>{frontmatter.title}</h1>
-                      <div
-                        className="blog-post-content"
-                        dangerouslySetInnerHTML={{ __html: html }}
-                      />
+                      <div className="blog-post-content">
+                        {renderMarkdownAST(htmlAst)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export const pageQuery = graphql`
           cover
           type
         }
-        html
+        htmlAst
       }
     }
     actors: allFile(
@@ -176,7 +176,7 @@ export const pageQuery = graphql`
             avatar
             username
           }
-          html
+          htmlAst
         }
       }
     }
@@ -201,7 +201,7 @@ export const pageQuery = graphql`
             actors
             links
           }
-          html
+          htmlAst
         }
       }
     }

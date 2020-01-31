@@ -7,10 +7,11 @@ import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import { ActorFileNode } from "../types/actor"
 import { TopicFileNode } from "../types/topic"
+import renderMarkdownAST from "../utils/renderMarkdownAST"
 
 interface PageContentNode {
   title: string
-  html: string
+  htmlAst: object
 }
 
 interface Results {
@@ -61,7 +62,7 @@ const TimelinesPage = (): React.ReactElement => {
           frontmatter {
             title
           }
-          html
+          htmlAst
         }
       }
     }
@@ -85,7 +86,7 @@ const TimelinesPage = (): React.ReactElement => {
     }
   })
 
-  const { title, html } = pageContent.nodes[0]
+  const { title, htmlAst } = pageContent.nodes[0]
 
   return (
     <Layout>
@@ -106,10 +107,7 @@ const TimelinesPage = (): React.ReactElement => {
           />
         </Columns.Column>
         <Columns.Column size={9}>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: html }}
-          ></div>
+          <div className="content">{renderMarkdownAST(htmlAst)}</div>
         </Columns.Column>
       </Columns>
     </Layout>

@@ -42,7 +42,8 @@
     "react-flexview": "4.0.4",
     "react-graph-vis": "1.0.5",
     "react-helmet": "5.2.1",
-    "react-vertical-timeline-component": "2.5.0"
+    "react-vertical-timeline-component": "2.5.0",
+    "rehype-react": "^4.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
@@ -52,6 +53,7 @@
     "@types/react": "16.9.19",
     "@types/react-helmet": "5.0.15",
     "@types/react-vertical-timeline-component": "2.5.0",
+    "@types/rehype-react": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
     "@typescript-eslint/parser": "^2.17.0",
     "eslint": "^6.8.0",

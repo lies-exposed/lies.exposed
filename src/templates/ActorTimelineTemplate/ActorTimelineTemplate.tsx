@@ -24,6 +24,7 @@ import { ActorPageContentFileNode, ActorFileNode } from "../../types/actor"
 import { EventFileNode } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
 import { ordEventFileNodeDate } from "../../utils/event"
+import renderMarkdownAST from "../../utils/renderMarkdownAST"
 import "./actorTimelineTemplate.scss"
 
 interface ActorTimelineTemplatePageProps {
@@ -56,7 +57,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
 }) => {
   const {
     pageContent: {
-      childMarkdownRemark: { frontmatter, html },
+      childMarkdownRemark: { frontmatter, htmlAst },
     },
     actors,
     events,
@@ -80,19 +81,16 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
           actors: pipe(
             O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
             O.map(actorIds =>
-              actors.nodes.reduce<ActorFileNode[]>(
-                (acc, n) =>  {
-                  const actor = actorIds.includes(
-                    n.childMarkdownRemark.frontmatter.username
-                  )
-                  return actor ? acc.concat(acc) : acc
-                },
-                []
-              )
+              actors.nodes.reduce<ActorFileNode[]>((acc, n) => {
+                const actor = actorIds.includes(
+                  n.childMarkdownRemark.frontmatter.username
+                )
+                return actor ? acc.concat(acc) : acc
+              }, [])
             )
           ),
           links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
-          cover: O.fromNullable(e.childMarkdownRemark.frontmatter.cover)
+          cover: O.fromNullable(e.childMarkdownRemark.frontmatter.cover),
         },
         topicFill: "#fff",
         fill: "#fff",
@@ -134,10 +132,9 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
                       ) : (
                         <div />
                       )}
-                      <div
-                        className="blog-post-content"
-                        dangerouslySetInnerHTML={{ __html: html }}
-                      />
+                      <div className="blog-post-content">
+                        {renderMarkdownAST(htmlAst)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -174,7 +171,7 @@ export const pageQuery = graphql`
           icon
           avatar
         }
-        html
+        htmlAst
       }
     }
 
@@ -194,7 +191,7 @@ export const pageQuery = graphql`
             avatar
             username
           }
-          html
+          htmlAst
         }
       }
     }
@@ -218,7 +215,7 @@ export const pageQuery = graphql`
             cover
             actors
           }
-          html
+          htmlAst
         }
       }
     }
@@ -241,7 +238,7 @@ export const pageQuery = graphql`
             cover
             actors
           }
-          html
+          htmlAst
         }
       }
     }
