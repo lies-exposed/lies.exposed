@@ -1,7 +1,7 @@
 import * as t from "io-ts"
 
 export const PageContentNode = t.interface({
-    html: t.string,
+    htmlAst: t.object,
     frontmatter: t.interface({
       title: t.string,
     }),
@@ -12,7 +12,7 @@ export const PageContentNode = t.interface({
 
 export const PageContent = t.interface({
   title: t.string,
-  html: t.string,
+  htmlAst: t.object,
 }, 'PageContent')
 
 export type PageContent = t.TypeOf<typeof PageContent>

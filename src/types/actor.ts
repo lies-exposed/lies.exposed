@@ -10,7 +10,7 @@ export const ActorPageContentFileNode = t.interface(
           date: t.string,
           avatar: t.string,
         }),
-        html: t.string,
+        htmlAst: t.object,
       },
       "ActorPageContentFileNodeMarkdownRemark"
     ),

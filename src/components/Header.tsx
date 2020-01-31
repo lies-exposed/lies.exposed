@@ -104,8 +104,9 @@ const Header: React.FC = () => {
   //   items: [],
   // }
 
+
   return (
-    <Navbar color="success" fixed="top" active={true} transparent={true}>
+    <Navbar color="success" fixed="top" active={false} transparent={true}>
       <Navbar.Brand>
         <Navbar.Item renderAs="div">
           {renderNavBarItem({ item: homeItem })}

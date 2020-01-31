@@ -32,6 +32,7 @@ import { TopicFileNode, TopicPoint } from "../../types/topic"
 import { formatDate } from "../../utils/date"
 import { ordEventFileNodeDate, ordEventPointDate } from "../../utils/event"
 import { ImageNode } from "../../utils/image"
+import renderMarkdownAST from "../../utils/renderMarkdownAST"
 
 interface NetworksPageProps {
   navigate: (to: string) => void
@@ -432,18 +433,6 @@ export default class NetworkTemplate extends React.Component<
         } = eventsSortedByDate.reduce<Result>((acc, e) => {
           // get topic from relative directory
 
-          const cover = pipe(
-            O.fromNullable(e.childMarkdownRemark.frontmatter.cover),
-            O.chain(c =>
-              O.fromNullable(
-                data.images.nodes.find(e =>
-                  Eq.eqString.equals(`${e.name}${e.ext}`, c)
-                )
-              )
-            ),
-            O.map(e => e.childImageSharp.fluid.src)
-          )
-
           const topicOpt = pipe(
             A.head(A.takeRight(1)(e.relativeDirectory.split("/"))),
             O.mapNullable(t => {
@@ -470,6 +459,18 @@ export default class NetworkTemplate extends React.Component<
           }
 
           const topic = topicOpt.value
+
+          const cover = pipe(
+            O.fromNullable(e.childMarkdownRemark.frontmatter.cover),
+            O.chain(c =>
+              O.fromNullable(
+                data.images.nodes.find(e => {
+                  return Eq.eqString.equals(`${e.name}${e.ext}`, c)
+                })
+              )
+            ),
+            O.map(e => e.childImageSharp.fluid.src)
+          )
 
           const eventFrontmatterType = O.fromNullable(
             e.childMarkdownRemark.frontmatter.type
@@ -768,12 +769,7 @@ export default class NetworkTemplate extends React.Component<
                   <div className="title">
                     {pageContent.childMarkdownRemark.frontmatter.title}
                   </div>
-                  <div
-                    className="content"
-                    dangerouslySetInnerHTML={{
-                      __html: pageContent.childMarkdownRemark.html,
-                    }}
-                  />
+                  {renderMarkdownAST(pageContent.childMarkdownRemark.htmlAst)}
                 </Columns.Column>
 
                 <Columns.Column size={2}>
@@ -800,9 +796,7 @@ export default class NetworkTemplate extends React.Component<
                         navigate(`/timelines/${networkName}/${event}`)
                       }}
                       onNodeClick={event => {
-                        replace(
-                          `/networks/${networkName}/#${event.data.id}`
-                        )
+                        replace(`/networks/${networkName}/#${event.data.id}`)
                       }}
                       onDoubleClick={this.onNetworkDoubleClick}
                     />
@@ -871,7 +865,7 @@ export const pageQuery = graphql`
           type
           cover
         }
-        html
+        htmlAst
       }
     }
     topics: allFile(
@@ -907,7 +901,7 @@ export const pageQuery = graphql`
             avatar
             username
           }
-          html
+          htmlAst
         }
       }
     }
@@ -944,8 +938,9 @@ export const pageQuery = graphql`
             cover
             actors
             links
+            cover
           }
-          html
+          htmlAst
         }
       }
     }
@@ -961,6 +956,8 @@ export const pageQuery = graphql`
             src
           }
         }
+        name
+        ext
         absolutePath
         relativeDirectory
         relativePath

@@ -10,6 +10,7 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component"
 import "react-vertical-timeline-component/style.min.css"
+import renderMarkdownAST from "../../../../utils/renderMarkdownAST"
 
 export const TimelineEventIcon = t.keyof(
   {
@@ -50,7 +51,7 @@ export const TimelineEvent = t.exact(
       TimelineEventFrontmatter,
       t.interface({
         id: t.string,
-        html: t.string,
+        htmlAst: t.object,
         image: optionFromNullable(t.interface({ src: t.string })),
       }),
     ],
@@ -102,7 +103,7 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ event }) => {
     >
       <Heading size={6}>{event.title}</Heading>
       {O.toNullable(O.option.map(event.image, i => <img src={i.src} />))}
-      <div dangerouslySetInnerHTML={{ __html: event.html }} />
+      {renderMarkdownAST(event.htmlAst)}
     </VerticalTimelineElement>
   )
 }

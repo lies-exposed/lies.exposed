@@ -44,7 +44,7 @@ export const EventFileNode = t.interface(
       {
         id: t.string,
         frontmatter: EventFileNodeFrontmatter,
-        html: t.string,
+        htmlAst: t.object,
       },
       "ChildMarkdownRemark"
     ),
@@ -72,7 +72,7 @@ export const EventData = t.interface(
   {
     id: t.string,
     frontmatter: EventPointFrontmatter,
-    html: t.string,
+    htmlAst: t.object,
     topicLabel: t.string,
     topicFill: t.string,
     topicSlug: t.string,

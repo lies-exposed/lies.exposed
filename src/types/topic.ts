@@ -1,9 +1,11 @@
 import * as t from "io-ts"
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
 export const TopicFrontmatter = t.interface(
   {
     label: t.string,
     slug: t.string,
+    cover: optionFromNullable(t.string),
   },
   "TopicFrontmatter"
 )
@@ -28,7 +30,7 @@ export const TopicData = t.interface(
     label: t.string,
     slug: t.string,
     color: t.string,
-    selected: t.boolean
+    selected: t.boolean,
   },
   "TopicData"
 )
