@@ -19,8 +19,8 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = props => {
   return (
     <BMenu>
-      {props.sections.map(({ label, items }) => (
-        <div key={label}>
+      {props.sections.map(({ label, items }, i) => (
+        <div key={i}>
           {label !== undefined ? <p className="menu-label">{label}</p> : null}
           <BMenu.List>
             {items.map(i => (
