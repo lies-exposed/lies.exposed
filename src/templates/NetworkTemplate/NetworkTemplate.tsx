@@ -795,9 +795,11 @@ export default class NetworkTemplate extends React.Component<
                       onEventLabelClick={event => {
                         navigate(`/timelines/${networkName}/${event}`)
                       }}
-                      onNodeClick={event => {
-                        replace(`/networks/${networkName}/#${event.data.id}`)
-                      }}
+                      onNodeClick={event => 
+                        replace(
+                          `/networks/${networkName}/#${event.data.id}`
+                        )
+                      }
                       onDoubleClick={this.onNetworkDoubleClick}
                     />
                   </div>
@@ -823,9 +825,9 @@ export default class NetworkTemplate extends React.Component<
                             ),
                           },
                         }))}
-                        onEventClick={e =>
-                          navigate(`${window.location.href}?#${e.id}`)
-                        }
+                        onEventClick={e => {
+                          navigate(`/networks/${networkName}?#${e.id}`)
+                        }}
                       />
                     </Columns.Column>
                     <Columns.Column size={9}>
