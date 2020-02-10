@@ -3,7 +3,8 @@ import * as React from "react"
 interface Props {
   authorName: string
 }
-const UnsplashCredit: React.FC<Props> = ({ authorName }) => {
+
+export const UnsplashCredit: React.FC<Props> = ({ authorName }) => {
   return (
     <a
       style={{
@@ -22,7 +23,7 @@ const UnsplashCredit: React.FC<Props> = ({ authorName }) => {
       href="https://unsplash.com/@mbaumi?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge"
       target="_blank"
       rel="noopener noreferrer"
-      title="Download free do whatever you want high-resolution photos from Mika Baumeister"
+      title={`Download free do whatever you want high-resolution photos from ${authorName}`}
     >
       <span style={{ display: "inline-block", padding: "2px 3px" }}>
         <svg
@@ -47,5 +48,3 @@ const UnsplashCredit: React.FC<Props> = ({ authorName }) => {
     </a>
   )
 }
-
-export default UnsplashCredit
