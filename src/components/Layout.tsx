@@ -9,13 +9,13 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <FlexView>
+    <FlexView height="100%">
       <Header />
       <FlexView
         className="main-content"
         grow={true}
-        style={{ marginTop: 40 }}
         column
+        height="100%"
       >
         {children}
       </FlexView>

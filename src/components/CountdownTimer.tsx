@@ -11,10 +11,18 @@ export const CountdownTimer: React.FC = () => {
   const [timeLeft, setTimeLeft] = React.useState(calculateTimeLeft())
 
   React.useEffect(() => {
-    setTimeout(() => {
+    const countdownTimer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft())
     }, 1000)
+    return () => clearTimeout(countdownTimer)
   })
 
-  return <div className="title" style={{ fontFamily: 'monospaced', fontSize: 160, color: '#fff' }}>{timeLeft}*</div>
+  return (
+    <div
+      className="title"
+      style={{ fontFamily: "monospaced", fontSize: 160, color: "#fff" }}
+    >
+      {timeLeft}*
+    </div>
+  )
 }
