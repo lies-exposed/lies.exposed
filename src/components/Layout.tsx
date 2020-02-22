@@ -1,7 +1,8 @@
 import { LightTheme, BaseProvider, styled } from "baseui"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import PropTypes from "prop-types"
-import React from "react"
+import * as React from "react"
+import { Footer } from "./Footer"
 import Header from "./Header"
 import '../scss/main.scss'
 
@@ -20,12 +21,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <BaseProvider theme={LightTheme}>
       <Centered>
-        <FlexGrid height="100%" width="100%" flexDirection="column">
-          <FlexGrid width="100%">
+        <FlexGrid height="100%" width="100%" flexDirection="column" margin="0">
+          <FlexGrid width="100%" margin="0">
             <Header />
-            <FlexGridItem height="100%" flexDirection="column">
+            <FlexGridItem width="100%" height="100%" flexDirection="column">
               {children}
             </FlexGridItem>
+            <Footer githubLink={'https://github.com/ascariandrea/fiume-in-piena'} />
           </FlexGrid>
         </FlexGrid>
       </Centered>
