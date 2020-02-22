@@ -29,6 +29,7 @@ module.exports = {
         includePaths: ["./src/scss"],
       },
     },
+    `gatsby-plugin-styletron`,
     `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-plugin-netlify-cms`,
