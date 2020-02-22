@@ -8,7 +8,8 @@
     "strict": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "skipLibCheck": true
   },
   "include": ["src", "typings"],
   "exclude": ["node_modules", "public", ".cache"]

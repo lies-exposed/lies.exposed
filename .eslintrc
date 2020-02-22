@@ -1,7 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "baseui"],
   "extends": [
     "standard-with-typescript",
     "prettier",
@@ -12,6 +12,9 @@
     "project": "./tsconfig.json"
   },
   "rules": {
+    "baseui/deprecated-theme-api": "warn",
+    "baseui/deprecated-component-api": "warn",
+    "baseui/no-deep-imports": "warn",
     "import/order": ["error", {
       "alphabetize": {
         "order": "asc"
