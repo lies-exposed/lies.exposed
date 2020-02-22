@@ -1,6 +1,7 @@
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
+import { Theme } from "baseui/theme"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
-import { Columns } from "../components/Common"
 import Menu from "../components/Common/Menu"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
@@ -61,14 +62,31 @@ const ArticlesPage: React.FunctionComponent = () => {
   return (
     <Layout>
       <SEO title="Article" />
-      <Columns>
-        <Columns.Column size={3}>
+      <FlexGrid
+        flexGridColumnCount={3}
+        flexGridColumnGap="scale800"
+        flexGridRowGap="scale800"
+        marginBottom="scale800"
+      >
+        <FlexGridItem display="flex">
           <Menu sections={[{ items: articleItems }]} />
-        </Columns.Column>
-        <Columns.Column size={9}>
+        </FlexGridItem>
+        <FlexGridItem display="none">
+          This invisible one is needed so the margins line up
+        </FlexGridItem>
+        <FlexGridItem
+          display="flex"
+          overrides={{
+            Block: {
+              style: ({ $theme }: { $theme: Theme }) => {
+                return { width: `calc((200% - ${$theme.sizing.scale800}) / 3)` }
+              },
+            },
+          }}
+        >
           <div className="content">{renderMarkdownAST(htmlAst)}</div>
-        </Columns.Column>
-      </Columns>
+        </FlexGridItem>
+      </FlexGrid>
     </Layout>
   )
 }
