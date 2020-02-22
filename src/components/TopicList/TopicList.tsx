@@ -1,6 +1,6 @@
+import { Tag, VARIANT, KIND } from "baseui/tag"
 import * as React from "react"
 import { TopicData } from "../../types/topic"
-import { Tag } from "../Common"
 
 export interface TopicListTopic extends TopicData {
   selected: boolean
@@ -15,19 +15,20 @@ interface TopicListProps {
 const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
   return (
     <div className="tags">
-      {topics.map(t => (
-        <Tag
-          key={t.id}
-          style={{
-            cursor: "pointer",
-            color: t.selected ? "white" : "black",
-            backgroundColor: t.selected ? t.color : undefined,
-          }}
-          onClick={() => onTopicClick(t)}
-        >
-          {t.label}
-        </Tag>
-      ))}
+      {topics.map(t => {
+        return (
+          <Tag
+            key={t.id}
+            kind={KIND.custom}
+            variant={t.selected ? VARIANT.solid : VARIANT.outlined}
+            color={t.color}
+            onClick={() => onTopicClick(t)}
+            closeable={false}
+          >
+            {t.label}
+          </Tag>
+        )
+      })}
     </div>
   )
 }

@@ -1,6 +1,6 @@
+import { ListItem, ListItemLabel } from "baseui/list"
 import { Link } from "gatsby"
 import * as React from "react"
-import BMenu from "react-bulma-components/lib/components/menu"
 
 interface MenuItem {
   id: string
@@ -16,22 +16,26 @@ interface Section {
 interface MenuProps {
   sections: Section[]
 }
+
 const Menu: React.FC<MenuProps> = props => {
+  const [open, setOpen] = React.useState(false)
   return (
-    <BMenu>
+    <ul onClick={() => setOpen(!open)}>
       {props.sections.map(({ label, items }, i) => (
-        <div key={i}>
+        <>
           {label !== undefined ? <p className="menu-label">{label}</p> : null}
-          <BMenu.List>
+          <ul key={i}>
             {items.map(i => (
-              <BMenu.List.Item key={i.id} renderAs="div">
-                <Link to={i.path}>{i.title}</Link>
-              </BMenu.List.Item>
+              <ListItem key={i.id}>
+                <ListItemLabel>
+                  <Link to={i.path}>{i.title}</Link>
+                </ListItemLabel>
+              </ListItem>
             ))}
-          </BMenu.List>
-        </div>
+          </ul>
+        </>
       ))}
-    </BMenu>
+    </ul>
   )
 }
 
