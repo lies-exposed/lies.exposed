@@ -1,7 +1,8 @@
+import { FlexGridItem, FlexGrid } from "baseui/flex-grid"
+import { Theme } from "baseui/theme"
 import * as A from "fp-ts/lib/Array"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
-import { Columns } from "react-bulma-components"
 import Menu from "../components/Common/Menu"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
@@ -91,8 +92,8 @@ const TimelinesPage = (): React.ReactElement => {
   return (
     <Layout>
       <SEO title={title} />
-      <Columns>
-        <Columns.Column size={3}>
+      <FlexGrid flexGridColumnCount={4}>
+        <FlexGridItem display="flex">
           <Menu
             sections={[
               {
@@ -105,11 +106,22 @@ const TimelinesPage = (): React.ReactElement => {
               },
             ]}
           />
-        </Columns.Column>
-        <Columns.Column size={9}>
+        </FlexGridItem>
+        <FlexGridItem
+          display="flex"
+          overrides={{
+            Block: {
+              style: ({ $theme }: { $theme: Theme }) => {
+                return { width: `calc((200% - ${$theme.sizing.scale800}) / 4)` }
+              },
+            },
+          }}
+        >
           <div className="content">{renderMarkdownAST(htmlAst)}</div>
-        </Columns.Column>
-      </Columns>
+        </FlexGridItem>
+        <FlexGridItem display="none" />
+        <FlexGridItem display="none" />
+      </FlexGrid>
     </Layout>
   )
 }

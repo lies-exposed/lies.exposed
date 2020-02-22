@@ -1,11 +1,10 @@
+import { FlexGridItem, FlexGrid } from "baseui/flex-grid"
 import React from "react"
-import FlexView from "react-flexview"
 import Helmet from "react-helmet"
 import { CountdownTimer } from "../components/CountdownTimer"
 import { HomeSlider } from "../components/HomeSlider"
 import Layout from "../components/Layout"
 import SEO from "../components/SEO"
-import '../scss/main.scss'
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const firstImage: string = require("../images/billy-clouse-781VLZjFR8g-unsplash.jpg")
@@ -47,27 +46,24 @@ const IndexPage: React.FC = () => {
         />
       </Helmet>
       <SEO title="Home" />
-      <div style={{ position: "relative", textAlign: "center", color: "#fff" }}>
-        <HomeSlider slides={slides} height={600} />
-        <FlexView
-          column
-          grow
-          height="100%"
-          vAlignContent="center"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            textAlign: "center",
-          }}
-        >
-          <CountdownTimer />
-          <span>
-            {`* Secondi che ci rimangono per poter mantenere l'innalzamento della temperatura globale entro il 1.5ºC`}
-          </span>
-        </FlexView>
-      </div>
+      <FlexGrid width="100%" flexGridColumnCount={1}>
+        <FlexGridItem position="relative">
+          <div>
+            <HomeSlider slides={slides} height={600} />
+          </div>
+          <FlexGrid position={"absolute"} top={0} left={0} right={0} bottom={0}>
+            <FlexGridItem
+              alignSelf="center"
+              justifyContent="center"
+              alignContent="center"
+              flexDirection="column"
+              position="relative"
+            >
+              <CountdownTimer message="Secondi che ci rimangono per poter mantenere l'innalzamento della temperatura globale entro il 1.5ºC" />
+            </FlexGridItem>
+          </FlexGrid>
+        </FlexGridItem>
+      </FlexGrid>
     </Layout>
   )
 }
