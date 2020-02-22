@@ -1,3 +1,6 @@
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
+import { Theme } from "baseui/theme"
+import { HeadingXLarge } from "baseui/typography"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -5,7 +8,6 @@ import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import React from "react"
-import { Columns } from "react-bulma-components"
 import EventList from "../../components/EventList/EventList"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
@@ -14,7 +16,6 @@ import { ActorFileNode } from "../../types/actor"
 import { EventFileNode, EventData } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
 import renderMarkdownAST from "../../utils/renderMarkdownAST"
-import "./networkTopicTimelineTemplate.scss"
 
 interface NetworkTopicTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
@@ -80,10 +81,10 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
             ),
             type: O.fromNullable(n.childMarkdownRemark.frontmatter.type),
           },
-          fill: "",
+          fill: "#fff",
           topicLabel: "",
           topicSlug: "",
-          topicFill: "",
+          topicFill: "#fff",
           htmlAst: n.childMarkdownRemark.htmlAst,
           image: pipe(
             O.fromNullable(n.childMarkdownRemark.frontmatter.cover),
@@ -106,32 +107,30 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
         return (
           <Layout>
             <SEO title={frontmatter.title} />
-            <Columns>
-              <Columns.Column size={3}>
+            <FlexGrid flexGridColumnCount={3}>
+              <FlexGridItem>
                 <TimelineNavigator
                   events={events}
                   onEventClick={async e => {
                     await navigate(`${window.location.href}?#${e.id}`)
                   }}
                 />
-              </Columns.Column>
-              <Columns.Column size={9}>
-                <div className="content">
-                  <div></div>
-                  <div className="blog-post-container">
-                    <div className="blog-post">
-                      <h1>{frontmatter.title}</h1>
-                      <div className="blog-post-content">
-                        {renderMarkdownAST(htmlAst)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <Columns.Column>
-                  <EventList events={events} />
-                </Columns.Column>
-              </Columns.Column>
-            </Columns>
+              </FlexGridItem>
+              <FlexGridItem
+                overrides={{
+                  Block: {
+                    style: ({ $theme }: { $theme: Theme }) => ({
+                      width: `calc((200% - ${$theme.sizing.scale800}) / 3)`,
+                    }),
+                  },
+                }}
+              >
+                <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
+                {renderMarkdownAST(htmlAst)}
+                <EventList events={events} />
+              </FlexGridItem>
+              <FlexGridItem display="none" />
+            </FlexGrid>
           </Layout>
         )
       }

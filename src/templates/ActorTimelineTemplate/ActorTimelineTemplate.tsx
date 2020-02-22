@@ -3,6 +3,9 @@
  * - add related topic to events
  */
 
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
+import { Theme } from "baseui/theme"
+import { HeadingXLarge } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
@@ -13,7 +16,6 @@ import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import React from "react"
-import { Columns, Image } from "react-bulma-components"
 import EventList from "../../components/EventList/EventList"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
@@ -25,7 +27,6 @@ import { EventFileNode } from "../../types/event"
 import { ImageFileNode } from "../../types/image"
 import { ordEventFileNodeDate } from "../../utils/event"
 import renderMarkdownAST from "../../utils/renderMarkdownAST"
-import "./actorTimelineTemplate.scss"
 
 interface ActorTimelineTemplatePageProps {
   navigate: typeof navigate
@@ -112,40 +113,35 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
         return (
           <Layout>
             <SEO title={frontmatter.title} />
-            <Columns>
-              <Columns.Column size={3}>
+            <FlexGrid flexGridColumnCount={3}>
+              <FlexGridItem>
                 <TimelineNavigator
                   events={timelineEvents}
                   onEventClick={onEventClick}
                 />
-              </Columns.Column>
-              <Columns.Column size={9}>
-                <div className="content">
-                  <div className="blog-post-container">
-                    <div className="blog-post">
-                      <h1>{frontmatter.title}</h1>
-                      {coverImage !== undefined ? (
-                        <Image
-                          size={128}
-                          src={coverImage.childImageSharp.fixed.src}
-                        />
-                      ) : (
-                        <div />
-                      )}
-                      <div className="blog-post-content">
-                        {renderMarkdownAST(htmlAst)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <Columns.Column>
-                  <div>
-                    <EventList events={timelineEvents} />
-                    {/* <Timeline events={timelineEvents.right} /> */}
-                  </div>
-                </Columns.Column>
-              </Columns.Column>
-            </Columns>
+              </FlexGridItem>
+              <FlexGridItem
+                overrides={{
+                  Block: {
+                    style: ({ $theme }: { $theme: Theme }) => {
+                      return {
+                        width: `calc((200% - ${$theme.sizing.scale800}) / 3)`,
+                      }
+                    },
+                  },
+                }}
+              >
+                <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
+                {coverImage !== undefined ? (
+                  <img src={coverImage.childImageSharp.fixed.src} />
+                ) : (
+                  <div />
+                )}
+                <div className="content">{renderMarkdownAST(htmlAst)}</div>
+                <EventList events={timelineEvents} />
+              </FlexGridItem>
+              <FlexGridItem display="none" />
+            </FlexGrid>
           </Layout>
         )
       }

@@ -1,7 +1,8 @@
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
+import { Theme } from "baseui/theme"
+import { HeadingXXLarge } from "baseui/typography"
 import { graphql } from "gatsby"
 import React from "react"
-import "./articleTemplate.scss"
-import { Columns } from "react-bulma-components"
 import Menu from "../../components/Common/Menu"
 import Layout from "../../components/Layout"
 import SEO from "../../components/SEO"
@@ -40,23 +41,24 @@ export default function ArticleTemplatePage(
   return (
     <Layout>
       <SEO title="Home" />
-      <Columns>
-        <Columns.Column size={3}>
+      <FlexGrid flexGridColumnCount={3}>
+        <FlexGridItem>
           <Menu sections={[{ items: articleItems }]} />
-        </Columns.Column>
-        <Columns.Column size={9}>
-          <div className="content">
-            <div className="blog-post-container">
-              <div className="blog-post">
-                <h1>{frontmatter.title}</h1>
-                <div className="blog-post-content">
-                  {renderMarkdownAST(htmlAst)}
-                </div>
-              </div>
-            </div>
-          </div>
-        </Columns.Column>
-      </Columns>
+        </FlexGridItem>
+        <FlexGridItem
+          overrides={{
+            Block: {
+              style: ({ $theme }: { $theme: Theme }) => ({
+                width: `calc((200% - ${$theme.sizing.scale800}) / 3)`,
+              }),
+            },
+          }}
+        >
+          <HeadingXXLarge>{frontmatter.title}</HeadingXXLarge>
+          {renderMarkdownAST(htmlAst)}
+        </FlexGridItem>
+        <FlexGridItem display="none" />
+      </FlexGrid>
     </Layout>
   )
 }
