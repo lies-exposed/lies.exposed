@@ -1,11 +1,15 @@
+import { Card, StyledBody } from "baseui/card"
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
+import { CheckIndeterminate } from "baseui/icon"
+import { ListItem, ListItemLabel } from "baseui/list"
+import { ParagraphSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
-import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
+import { ActorFileNode } from "../../types/actor"
 import { EventData } from "../../types/event"
 import { formatDate } from "../../utils/date"
 import renderMarkdownAST from "../../utils/renderMarkdownAST"
 import ActorList from "../ActorList/ActorList"
-import { Card, Content, Media, Heading } from "../Common"
 import TopicList from "../TopicList/TopicList"
 
 interface EventListProps {
@@ -14,21 +18,19 @@ interface EventListProps {
 
 const EventList: React.FC<EventListProps> = props => {
   return (
-    <div className="event-list">
+    <div className="events">
       {props.events.map(event => (
-        <Card key={event.id} id={event.id}>
-          {pipe(
-            event.frontmatter.cover,
-            O.map(coverSrc => {
-             return <Card.Image key={coverSrc} size="4by3" src={coverSrc} />
-            }),
-            O.toNullable
-          )}
-          <Card.Content>
-            <Media>
-              <Media.Item>
-                <Heading size={4}>{event.frontmatter.title}</Heading>
-                <Heading subtitle size={6}>
+        <div key={event.id} id={event.id}>
+          <Card
+            headerImage={{
+              src: O.toUndefined(event.frontmatter.cover),
+              width: "100%",
+            }}
+            title={event.frontmatter.title}
+          >
+            <StyledBody>
+              <FlexGrid flexGridColumnCount={2}>
+                <FlexGridItem display="flex" flexGridColumnCount={1} alignItems="center">
                   <TopicList
                     topics={[
                       {
@@ -41,14 +43,15 @@ const EventList: React.FC<EventListProps> = props => {
                     ]}
                     onTopicClick={() => undefined}
                   />
-                </Heading>
-              </Media.Item>
-              <Media.Item position="right">
-                {pipe(
-                  event.frontmatter.actors,
-                  O.fold(
+                </FlexGridItem>
+                <FlexGridItem
+                  flexGridColumnCount={1}
+                  display="flex"
+                  justifyContent="end"
+                >
+                  {O.fold(
                     () => null,
-                    actors => (
+                    (actors: ActorFileNode[]) => (
                       <ActorList
                         actors={actors.map(a => ({
                           ...a,
@@ -58,30 +61,36 @@ const EventList: React.FC<EventListProps> = props => {
                         onActorClick={() => undefined}
                       />
                     )
-                  )
-                )}
-              </Media.Item>
-            </Media>
-            <Content>
-              {renderMarkdownAST(event.htmlAst)}
-              <br />
-              <time dateTime={formatDate(event.frontmatter.date)}>
-                {formatDate(event.frontmatter.date)}
-              </time>
-              {O.toNullable(
-              O.option.map(event.frontmatter.links, links => (
-                <ul>
-                  {links.map((l, i) => (
-                    <li key={i}>
-                      <a href={l}>{l}</a>
-                    </li>
-                  ))}
-                </ul>
-              ))
-            )}
-            </Content>
-          </Card.Content>
-        </Card>
+                  )(event.frontmatter.actors)}
+                </FlexGridItem>
+
+                <FlexGridItem flexGridColumnCount={2}>
+                  {renderMarkdownAST(event.htmlAst)}
+                  <br />
+                  <time dateTime={formatDate(event.frontmatter.date)}>
+                    {formatDate(event.frontmatter.date)}
+                  </time>
+                  {O.toNullable(
+                    O.option.map(event.frontmatter.links, links => (
+                      <ul>
+                        {links.map((l, i) => (
+                          <ListItem key={i} artwork={CheckIndeterminate}>
+                            <ListItemLabel>
+                              <ParagraphSmall>
+                                <a href={l}>{l}</a>
+                              </ParagraphSmall>
+                            </ListItemLabel>
+                          </ListItem>
+                        ))}
+                      </ul>
+                    ))
+                  )}
+                </FlexGridItem>
+                <FlexGridItem display="none" />
+              </FlexGrid>
+            </StyledBody>
+          </Card>
+        </div>
       ))}
     </div>
   )

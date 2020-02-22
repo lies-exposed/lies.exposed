@@ -1,3 +1,7 @@
+import {
+  Unstable_TreeView as TreeView,
+  TreeNode,
+} from "baseui/tree-view"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
@@ -5,13 +9,12 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import moment from "moment"
 import * as React from "react"
-import { Menu as BMenu } from "react-bulma-components"
 
 export interface TimelineEvent {
-  id: string;
+  id: string
   frontmatter: {
-    date: Date;
-    title: string;
+    date: Date
+    title: string
   }
 }
 
@@ -20,17 +23,15 @@ interface TimelineNavigatorProps {
   onEventClick: (event: TimelineEvent) => void
 }
 
-type TimelineNavigatorEventsMap = Map<
-  number,
-  Map<number, TimelineEvent[]>
->
+type TimelineNavigatorEventsMap = Map<number, Map<number, TimelineEvent[]>>
 
 const TimelineNavigator: React.FC<TimelineNavigatorProps> = ({
   events,
   onEventClick,
 }) => {
   const initial: TimelineNavigatorEventsMap = Map.empty
-  const eventsByYear = events.reduce<TimelineNavigatorEventsMap>((acc, e) => {
+
+  const tree = events.reduce<TimelineNavigatorEventsMap>((acc, e) => {
     const year = e.frontmatter.date.getFullYear()
     const month = e.frontmatter.date.getUTCMonth()
 
@@ -57,34 +58,32 @@ const TimelineNavigator: React.FC<TimelineNavigatorProps> = ({
     return Map.insertAt(Eq.eqNumber)(year, value)(acc)
   }, initial)
 
-  return (
-    <BMenu>
-      {Map.toArray(Ord.getDualOrd(Ord.ordNumber))(eventsByYear).map(
-        ([year, eventsByMonth]) => (
-          <div key={year}>
-            <p className="menu-label">{year}</p>
-            {Map.toArray(Ord.getDualOrd(Ord.ordNumber))(eventsByMonth).map(
-              ([month, events]) => (
-                <BMenu.List key={month}>
-                  <p className="menu-label">
-                    {moment({ month }).format("MMMM")}
-                  </p>
-                  {events.map(e => (
-                    <BMenu.List.Item
-                      key={e.frontmatter.title}
-                      onClick={() => onEventClick(e)}
-                    >
-                      {e.frontmatter.title}
-                    </BMenu.List.Item>
-                  ))}
-                </BMenu.List>
-              )
-            )}
-          </div>
-        )
-      )}
-    </BMenu>
+  const initialData: TreeNode[] = []
+  const data = Map.toArray(Ord.ordNumber)(tree).reduce<TreeNode[]>(
+    (acc, [year, monthMap]) => {
+      const months = Map.toArray(Ord.ordNumber)(monthMap).reduce<TreeNode[]>(
+        (monthAcc, [month, events]) => {
+          return monthAcc.concat({
+            id: month,
+            label: moment({ month }).format('MMMM'),
+            isExpanded: true,
+            children: events.map(e => ({ label: e.frontmatter.title })),
+          })
+        },
+        []
+      )
+
+      return acc.concat({
+        id: year,
+        label: year.toString(),
+        isExpanded: true,
+        children: months,
+      })
+    },
+    initialData
   )
+
+  return <TreeView singleExpanded={true} data={data} />
 }
 
 export default TimelineNavigator

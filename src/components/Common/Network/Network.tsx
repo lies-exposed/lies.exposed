@@ -27,13 +27,15 @@ function numTicksForWidth(width: number): number {
 
 export type NetworkScale = "all" | "year" | "month" | "week" | "day"
 
+export type NetworkGraphType = GraphType<LinkEventProps, NetworkNodeProps["node"]>
+
 export interface NetworkBaseProps {
   width: number
   height: number
   scale: NetworkScale
   minDate: Date
   maxDate: Date
-  graph: GraphType<LinkEventProps, NetworkNodeProps["node"]>
+  graph: NetworkGraphType
   onEventLabelClick: (event: string) => void
   onNodeClick: (event: EventPoint) => void
   onDoubleClick: (event: EventPoint, scale: NetworkScale) => void

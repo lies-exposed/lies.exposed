@@ -3,8 +3,6 @@ import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import * as React from "react"
-import Heading from "react-bulma-components/lib/components/heading"
-import Icon from "react-bulma-components/lib/components/icon"
 import {
   VerticalTimeline,
   VerticalTimelineElement,
@@ -96,12 +94,10 @@ const TimelineItem: React.FC<TimelineItemProps> = ({ event }) => {
       date={event.date.toISOString()}
       iconStyle={{}}
       icon={
-        <Icon size={"large"} color={"black"} style={{ width: "100%" }}>
           <i className={`fas fa-${event.icon}`} />
-        </Icon>
       }
     >
-      <Heading size={6}>{event.title}</Heading>
+      <div>{event.title}</div>
       {O.toNullable(O.option.map(event.image, i => <img src={i.src} />))}
       {renderMarkdownAST(event.htmlAst)}
     </VerticalTimelineElement>
