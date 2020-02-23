@@ -2,20 +2,18 @@
 date: 2020-02-22
 ---
 
-This platform's aim is to give a different perspective of what we do for save what's left of the beauty of this planet.
+La strada per vincere gli enormi cambiamenti che abbiamo causato al pianeta richiede la volontà di tutti di seguire uno scopo comune, quello della vita.
 
-The path to defeat the magnitude of the changes we made to out planet needs everyone to be on the same side, the side of the life. 
-We can't let ourselves fight between each other for the each own selfishness, cause the only way we can solve this threat is by considering common interest in living above all the individual interests. We've caused this damage to the environment because of our impact as result of our actions and we need to stop pretending our own actions won't impact any other's life. 
+Non possiamo permetterci di continuare a combattere per i propri singoli interessi, mossi dall'egoismo e dalla realizzazione personale, senza considerare l'interesse comune, sopra a tutti i singoli interessi, di diritto alla vita.
 
-> If my actions can cause a loss of lifes somewhere else in the planet what kind of person I am when I perpetrate these actions?
+> Se le mie azioni possono causare una perdita di vita, anche da qualche altra parte del pianeta, che persona sono se continuo a perpetrarle? 
+ 
+Ci sono alcune persone che sono coscenti che le loro azioni possono avere un impatto negativo sul pianeta, quindi sulla società e quindi su loro stessi. Altre, invece, pensano di essere scollegati dal sistema in cui vivono e che le loro azioni non verranno sommate a quelle delle altre persone.
 
-Some people know they're choices would have a negative impact on our planet, our society and themselves eventually.
+Nel contesto del cambiamento climatico, essere qualcuno che non cerca di cooperare per il raggiungimento dell'obiettivo comune con il tentare di ridurre il proprio impatto sul pianeta e comunicando - a chi ancora non ha pienamente coscienza dell'immenso problema - i cambiamenti necessari da intraprendere, risulta essere un peso negativo per quella parte di popolazione che crede nella vita e spinge per essa. 
 
-When it comes to the climate change, being someone who don't try to cooperate to the common goal, by lowering their impact on the planet or communicate what we're facing to people that don't have the whole picture in mind, is a damaging and negative weight for the part of society that believes in life.
+I leader causano danni ancora maggiori quando fingono di adottare soluzioni efficaci, che provano a contrastare l'emergenza nel miglior modo possibile, mentre continuano a portare avanti le stesse azioni che - a livello sistemico - ci hanno portato a questo punto.
 
-For the leaders is even worse the damage they do by pretending to address the issues in the best way possible while they continue to perpetrate actions against the common interest of living.
+Ad ogni livello abbiamo dei leaders che continuano ad agire come se non ci fosse un'emergenza mondiale che sta avanzando e toccherà ogni angolo del globo se non lasciamo la nostra avidità color nero sotto terra.
 
-At every level we have leaders that continue to act like if there's no an humanity emergency already growing that will expand its damages to every corner of the planet if we don't leave our greedy in the ground.
-
-We want to give people a way to speak out a different truth, told by the other side of what mainstream communication gives audience, and cooperate to make the truth always bigger, till they can't more deny.
-Also helping the justice to connect the dots in some stories that don't react the mainstream communication level.
+Vogliamo dare alle persone la possibilità di dire una verità diversa da quella che viene proposta dai maggiori media, collaborando nel portare alla luce quello che sta succedendo, fino a che non sarà piuù possibile negare l'evidenza.
