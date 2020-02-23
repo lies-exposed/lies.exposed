@@ -22,7 +22,7 @@ interface MenuItemProps {
 }
 const renderMenuLink: React.FC<MenuItemProps> = ({ item, pos: total }) => {
   return (
-    <StyledNavigationItem key={item.title}>
+    <StyledNavigationItem key={item.title} path={item.path}> 
       <StyledLink href={item.path}>{item.title}</StyledLink>
     </StyledNavigationItem>
   )

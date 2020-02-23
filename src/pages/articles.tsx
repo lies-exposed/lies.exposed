@@ -1,11 +1,9 @@
-import Menu from "@components/Common/Menu"
-import Layout from "@components/Layout"
+import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
+import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { ArticleFileNode } from "@models/article"
 import { PageContent } from "@models/pageContent"
 import renderMarkdownAST from "@utils/renderMarkdownAST"
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { Theme } from "baseui/theme"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
@@ -41,10 +39,10 @@ const ArticlesPage: React.FunctionComponent = () => {
   `)
 
   const articleItems = articles.nodes.map(n => ({
-    id: n.childMarkdownRemark.id,
+    itemId: n.childMarkdownRemark.frontmatter.path,
     path: `/articles/${n.childMarkdownRemark.frontmatter.path}`,
     title: n.childMarkdownRemark.frontmatter.title,
-    items: [],
+    subNav: [],
   }))
 
   const { htmlAst } = pageContent.nodes[0]
@@ -52,31 +50,9 @@ const ArticlesPage: React.FunctionComponent = () => {
   return (
     <Layout>
       <SEO title="Article" />
-      <FlexGrid
-        flexGridColumnCount={3}
-        flexGridColumnGap="scale800"
-        flexGridRowGap="scale800"
-        marginBottom="scale800"
-      >
-        <FlexGridItem display="flex">
-          <Menu sections={[{ items: articleItems }]} />
-        </FlexGridItem>
-        <FlexGridItem display="none">
-          This invisible one is needed so the margins line up
-        </FlexGridItem>
-        <FlexGridItem
-          display="flex"
-          overrides={{
-            Block: {
-              style: ({ $theme }: { $theme: Theme }) => {
-                return { width: `calc((200% - ${$theme.sizing.scale800}) / 3)` }
-              },
-            },
-          }}
-        >
-          <div className="content">{renderMarkdownAST(htmlAst)}</div>
-        </FlexGridItem>
-      </FlexGrid>
+      <ContentWithSideNavigation items={articleItems}>
+        {renderMarkdownAST(htmlAst)}
+      </ContentWithSideNavigation>
     </Layout>
   )
 }

@@ -11,22 +11,19 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = props => {
   const [, theme] = useStyletron()
   return (
-    <FlexGridItem
-      padding="40px"
-      backgroundColor={theme.colors.positive400}
-    >
+    <FlexGridItem padding="40px" backgroundColor={theme.colors.positive400}>
       <footer>
         <FlexGrid flexGridColumnCount={3}>
           <FlexGridItem />
           <FlexGridItem />
           <FlexGridItem>
-            <ParagraphSmall color={theme.colors.white}>
-              <ul>
-                <li>
+            <ul>
+              <li>
+                <ParagraphSmall color={theme.colors.white}>
                   <StyledLink href={props.githubLink}>Github</StyledLink>
-                </li>
-              </ul>
-            </ParagraphSmall>
+                </ParagraphSmall>
+              </li>
+            </ul>
           </FlexGridItem>
         </FlexGrid>
       </footer>

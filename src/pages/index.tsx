@@ -1,6 +1,6 @@
 import { CountdownTimer } from "@components/CountdownTimer"
 import { HomeSlider } from "@components/HomeSlider"
-import Layout from "@components/Layout"
+import { Layout }from "@components/Layout"
 import SEO from "@components/SEO"
 import { PageContentNode } from "@models/pageContent"
 import renderMarkdownAST from "@utils/renderMarkdownAST"

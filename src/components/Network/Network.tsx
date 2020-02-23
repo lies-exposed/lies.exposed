@@ -27,7 +27,10 @@ function numTicksForWidth(width: number): number {
 
 export type NetworkScale = "all" | "year" | "month" | "week" | "day"
 
-export type NetworkGraphType = GraphType<LinkEventProps, NetworkNodeProps["node"]>
+export type NetworkGraphType = GraphType<
+  LinkEventProps,
+  NetworkNodeProps["node"]
+>
 
 export interface NetworkBaseProps {
   width: number
@@ -92,7 +95,14 @@ class Network extends React.Component<NetworkProps, {}> {
         <Group>
           <svg width={width} height={height} style={{ cursor: "grab" }}>
             <RectClipPath id="zoom-clip" width={300} height={200} />
-            <rect width={width} height={height} rx={14} fill="#afd0d6" />
+            <rect
+              width={width}
+              height={height}
+              rx={14}
+              fill="#111"
+              stroke='black'
+              strokeWidth="3"
+            />
             <rect
               width={width}
               height={height}
@@ -166,7 +176,7 @@ class Network extends React.Component<NetworkProps, {}> {
                   <strong>{tooltipData.frontmatter.title}</strong>
                 </div>
                 <div>Data: {formatDate(tooltipData.frontmatter.date)}</div>
-                
+
                 {pipe(
                   tooltipData.frontmatter.actors,
                   O.map(actors => (

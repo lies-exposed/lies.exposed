@@ -1,10 +1,8 @@
-import Menu from "@components/Common/Menu"
-import Layout from "@components/Layout"
+import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
+import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { PageContentNode } from "@models/PageContent"
 import renderMarkdownAST from "@utils/renderMarkdownAST"
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { Theme } from "baseui/theme"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
@@ -14,7 +12,7 @@ interface Results {
 }
 
 const NetworksPage: React.FunctionComponent<{}> = _props => {
-  const { networks, pageContent }: Results = useStaticQuery(graphql`
+  const { networks: items, pageContent }: Results = useStaticQuery(graphql`
     query NetworksPage {
       networks: allDirectory(
         filter: { relativeDirectory: { glob: "events/networks" } }
@@ -42,35 +40,24 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
     htmlAst,
   } = pageContent
 
-  const items = networks.nodes.map(n => ({
-    id: n.id,
-    path: `/networks/${n.name}`,
-    title: n.name,
-    items: [],
-  }))
+  const navigatorItems = [
+    {
+      itemId: "#networks-page-menu",
+      title: "Networs",
+      subNav: items.nodes.map(n => ({
+        itemId: `/networks/${n.name}`,
+        title: n.name,
+        subNav: [],
+      })),
+    },
+  ]
 
   return (
     <Layout>
       <SEO title={title} />
-      <FlexGrid flexGridColumnCount={3}>
-        <FlexGridItem>
-          <Menu sections={[{ items }]} />
-        </FlexGridItem>
-        <FlexGridItem display="none">
-          This invisible one is needed so the margins line up
-        </FlexGridItem>
-        <FlexGridItem
-          overrides={{
-            Block: {
-              style: ({ $theme }: { $theme: Theme }) => {
-                return { width: `calc((200% - ${$theme.sizing.scale800}) / 3)` }
-              },
-            },
-          }}
-        >
-          <div className="content">{renderMarkdownAST(htmlAst)}</div>
-        </FlexGridItem>
-      </FlexGrid>
+      <ContentWithSideNavigation items={navigatorItems}>
+        {renderMarkdownAST(htmlAst)}
+      </ContentWithSideNavigation>
     </Layout>
   )
 }

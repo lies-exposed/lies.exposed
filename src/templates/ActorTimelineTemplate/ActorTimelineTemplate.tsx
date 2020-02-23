@@ -1,22 +1,14 @@
-/**
- * @TODO
- * - add related topic to events
- */
-
-import EventList from "@components/EventList/EventList"
-import Layout from "@components/Layout"
+import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
+import EventList from "@components/EventList"
+import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
-import TimelineNavigator, {
-  TimelineEvent,
-} from "@components/TimelineNavigator/TimelineNavigator"
+import { eventsDataToNavigatorItems } from "@helpers/event"
 import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { ordEventFileNodeDate } from "@utils//event"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { Theme } from "baseui/theme"
 import { HeadingXLarge } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
@@ -66,10 +58,6 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
     images,
   } = data
 
-  const onEventClick = async (e: TimelineEvent): Promise<void> => {
-    await navigate(`${window.location.href}?#${e.id}`)
-  }
-
   return pipe(
     E.right(A.union(byId)(events.nodes, eventsAsActor.nodes)),
     E.chain(t.array(EventFileNode).decode),
@@ -99,49 +87,29 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
         topicSlug: "fake",
       }))
     ),
-    E.fold(
-      throwValidationErrors,
-      timelineEvents => {
-        const coverImage = images.nodes.find(i =>
-          Eq.eqString.equals(`${i.name}${i.ext}`, frontmatter.avatar)
-        )
+    E.fold(throwValidationErrors, timelineEvents => {
+      const coverImage = images.nodes.find(i =>
+        Eq.eqString.equals(`${i.name}${i.ext}`, frontmatter.avatar)
+      )
 
-        return (
-          <Layout>
-            <SEO title={frontmatter.title} />
-            <FlexGrid flexGridColumnCount={3}>
-              <FlexGridItem>
-                <TimelineNavigator
-                  events={timelineEvents}
-                  onEventClick={onEventClick}
-                />
-              </FlexGridItem>
-              <FlexGridItem
-                overrides={{
-                  Block: {
-                    style: ({ $theme }: { $theme: Theme }) => {
-                      return {
-                        width: `calc((200% - ${$theme.sizing.scale800}) / 3)`,
-                      }
-                    },
-                  },
-                }}
-              >
-                <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
-                {coverImage !== undefined ? (
-                  <img src={coverImage.childImageSharp.fixed.src} />
-                ) : (
-                  <div />
-                )}
-                <div className="content">{renderMarkdownAST(htmlAst)}</div>
-                <EventList events={timelineEvents} />
-              </FlexGridItem>
-              <FlexGridItem display="none" />
-            </FlexGrid>
-          </Layout>
-        )
-      }
-    )
+      return (
+        <Layout>
+          <SEO title={frontmatter.title} />
+          <ContentWithSideNavigation
+            items={eventsDataToNavigatorItems(timelineEvents)}
+          >
+            <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
+            {coverImage !== undefined ? (
+              <img src={coverImage.childImageSharp.fixed.src} />
+            ) : (
+              <div />
+            )}
+            <div className="content">{renderMarkdownAST(htmlAst)}</div>
+            <EventList events={timelineEvents} />
+          </ContentWithSideNavigation>
+        </Layout>
+      )
+    })
   )
 }
 

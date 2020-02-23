@@ -1,30 +1,29 @@
-import EventList from "@components/EventList/EventList"
-import Layout from "@components/Layout"
+import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
+import EventList from "@components/EventList"
+import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
-import TimelineNavigator from "@components/TimelineNavigator/TimelineNavigator"
-import { ActorPageContentFileNode } from "@models/actor"
+import { eventsDataToNavigatorItems } from "@helpers/event"
+import { ActorPageContentFileNode, ActorFileNode } from "@models/actor"
 import { EventFileNode, EventData } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { NetworkPageContentFileNode } from "@models/networks"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { Theme } from "baseui/theme"
 import { HeadingXLarge } from "baseui/typography"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import { graphql, navigate } from "gatsby"
+import { graphql } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
 
-interface NetworkTopicTimelineTemplatePageProps {
+interface TopicTemplateProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
     pageContent: NetworkPageContentFileNode
     actors: {
-      nodes: ActorPageContentFileNode[]
+      nodes: ActorFileNode[]
     }
     events: {
       nodes: EventFileNode[]
@@ -35,7 +34,7 @@ interface NetworkTopicTimelineTemplatePageProps {
   }
 }
 
-export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicTimelineTemplatePageProps> = ({
+export const TopicTemplate: React.FunctionComponent<TopicTemplateProps> = ({
   data,
 }) => {
   return pipe(
@@ -82,32 +81,13 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
-          <FlexGrid flexGridColumnCount={3}>
-            <FlexGridItem>
-              <TimelineNavigator
-                events={events}
-                onEventClick={async e => {
-                  await navigate(`${window.location.href}?#${e.id}`)
-                }}
-              />
-            </FlexGridItem>
-            <FlexGridItem
-              overrides={{
-                Block: {
-                  style: ({ $theme }: { $theme: Theme }) => ({
-                    width: `calc((200% - ${$theme.sizing.scale800}) / 3)`,
-                  }),
-                },
-              }}
-            >
-              <HeadingXLarge>
-                {pageContent.childMarkdownRemark.frontmatter.title}
-              </HeadingXLarge>
-              {renderMarkdownAST(pageContent.childMarkdownRemark.htmlAst)}
-              <EventList events={events} />
-            </FlexGridItem>
-            <FlexGridItem display="none" />
-          </FlexGrid>
+          <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
+            <HeadingXLarge>
+              {pageContent.childMarkdownRemark.frontmatter.title}
+            </HeadingXLarge>
+            {renderMarkdownAST(pageContent.childMarkdownRemark.htmlAst)}
+            <EventList events={events} />
+          </ContentWithSideNavigation>
         </Layout>
       )
     })
@@ -195,4 +175,4 @@ export const pageQuery = graphql`
     }
   }
 `
-export default NetworkTopicTimelineTemplate
+export default TopicTemplate

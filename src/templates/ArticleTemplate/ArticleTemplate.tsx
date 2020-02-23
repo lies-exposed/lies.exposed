@@ -1,11 +1,9 @@
-import Menu from "@components/Common/Menu"
-import Layout from "@components/Layout"
+import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { ArticleFileNodeChildMarkdownRemark } from "@models/article"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { Theme } from "baseui/theme"
+import { FlexGridItem } from "baseui/flex-grid"
 import { HeadingXXLarge } from "baseui/typography"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -48,24 +46,10 @@ const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = props => {
     E.fold(throwValidationErrors, ({ pageContent, articles }) => (
       <Layout>
         <SEO title="Home" />
-        <FlexGrid flexGridColumnCount={3}>
-          <FlexGridItem>
-            <Menu sections={[{ items: articles }]} />
-          </FlexGridItem>
-          <FlexGridItem
-            overrides={{
-              Block: {
-                style: ({ $theme }: { $theme: Theme }) => ({
-                  width: `calc((200% - ${$theme.sizing.scale800}) / 3)`,
-                }),
-              },
-            }}
-          >
-            <HeadingXXLarge>{pageContent.frontmatter.title}</HeadingXXLarge>
-            {renderMarkdownAST(pageContent.htmlAst)}
-          </FlexGridItem>
-          <FlexGridItem display="none" />
-        </FlexGrid>
+        <FlexGridItem>
+          <HeadingXXLarge>{pageContent.frontmatter.title}</HeadingXXLarge>
+          {renderMarkdownAST(pageContent.htmlAst)}
+        </FlexGridItem>
       </Layout>
     ))
   )
