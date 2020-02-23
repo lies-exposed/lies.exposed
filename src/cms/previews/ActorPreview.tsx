@@ -1,5 +1,5 @@
+import ActorList from "@components/ActorList"
 import * as React from "react"
-import ActorList from "../../components/ActorList/ActorList"
 
 export const ActorPreview: React.FC<any> = props => {
   const { entry } = props

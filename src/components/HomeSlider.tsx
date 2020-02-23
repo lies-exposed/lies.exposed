@@ -1,7 +1,7 @@
 import * as React from "react"
 import FlexView from "react-flexview"
 import Slider from "react-slick"
-import { UnsplashCredit } from "./Common/UnspashCredit"
+import { UnsplashCredit } from "./UnspashCredit"
 
 interface Slide {
   imageURL: string

@@ -13,6 +13,7 @@
     "baseUrl": "src",
     "paths": {
       "@components/*": ["components/*"],
+      "@helpers/*": ["helpers/*"],
       "@models/*": ["models/*"],
       "@utils/*": ["utils/*"]
     }

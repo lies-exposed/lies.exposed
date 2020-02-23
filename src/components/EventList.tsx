@@ -1,5 +1,5 @@
-import ActorList from "@components/ActorList/ActorList"
-import TopicList from "@components/TopicList/TopicList"
+import ActorList from "@components/ActorList"
+import TopicList from "@components/TopicList"
 import { EventData } from "@models/event"
 import { formatDate } from "@utils//date"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
@@ -49,8 +49,8 @@ const EventList: React.FC<EventListProps> = props => {
                   />
                 </FlexGridItem>
                 <FlexGridItem
+                display="flex"
                   flexGridColumnCount={1}
-                  display="flex"
                   justifyContent="end"
                 >
                   {pipe(
@@ -71,13 +71,14 @@ const EventList: React.FC<EventListProps> = props => {
                     )
                   )}
                 </FlexGridItem>
-
                 <FlexGridItem flexGridColumnCount={2}>
-                  {renderMarkdownAST(event.htmlAst)}
-                  <br />
                   <time dateTime={formatDate(event.frontmatter.date)}>
                     {formatDate(event.frontmatter.date)}
                   </time>
+                </FlexGridItem>
+                <FlexGridItem />
+                <FlexGridItem flexGridColumnCount={2}>
+                  {renderMarkdownAST(event.htmlAst)}
                   {O.toNullable(
                     O.option.map(event.frontmatter.links, links => (
                       <ul>

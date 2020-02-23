@@ -1,9 +1,9 @@
-import { ActorListActor } from "@components/ActorList/ActorList"
-import { NetworkProps, NetworkScale } from "@components/Common/Network/Network"
-import { TopicListTopic } from "@components/TopicList/TopicList"
+import { ActorListActor } from "@components/ActorList"
+import { NetworkProps, NetworkScale } from "@components/Network/Network"
+import { TopicListTopic } from "@components/TopicList"
 import { PageContentNode } from "@models/PageContent"
 import { ActorPageContentFileNode } from "@models/actor"
-import { EventPoint, EventFileNode } from "@models/event"
+import { EventPoint, EventFileNode, EventData } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { TopicPoint, TopicFileNode } from "@models/topic"
 import { ordEventFileNodeDate, ordEventPointDate } from "@utils//event"
@@ -198,7 +198,7 @@ export interface NetworkTemplateProps {
   graph: any
   actors: ActorsResults["actors"]
   topics: TopicListTopic[]
-  selectedNodes: EventPoint[]
+  selectedNodes: EventData[]
   selectedEventsCounter: { counter: number; total: number }
 }
 
@@ -641,7 +641,7 @@ export function createNetwork({
           nodes,
           links: links.concat(...actorResults.links),
         },
-        selectedNodes: selectedNodesSorted,
+        selectedNodes: selectedNodesSorted.map(n => n.data),
         selectedEventsCounter: {
           counter: selectedEventsCounter,
           total: selectedNodesSorted.length,

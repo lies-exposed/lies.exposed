@@ -1,5 +1,5 @@
+import TopicList from "@components/TopicList"
 import * as React from "react"
-import TopicList from "../../components/TopicList/TopicList"
 
 export const TopicPreview: React.FC<any> = props => {
   const { entry } = props

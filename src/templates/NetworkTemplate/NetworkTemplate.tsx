@@ -1,24 +1,24 @@
-import ActorList, { ActorListActor } from "@components/ActorList/ActorList"
-import Network, { NetworkProps } from "@components/Common/Network/Network"
-import EventList from "@components/EventList/EventList"
-import Layout from "@components/Layout"
+import ActorList, { ActorListActor } from "@components/ActorList"
+import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
+import EventList from "@components/EventList"
+import { Layout } from "@components/Layout"
+import Network, { NetworkProps } from "@components/Network/Network"
 import SEO from "@components/SEO"
-import TimelineNavigator from "@components/TimelineNavigator/TimelineNavigator"
-import TopicList, { TopicListTopic } from "@components/TopicList/TopicList"
+import TopicList, { TopicListTopic } from "@components/TopicList"
+import { eventsDataToNavigatorItems } from "@helpers/event"
 import { EventPoint } from "@models/event"
 import { formatDate } from "@utils//date"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingLevel, Heading } from "baseui/heading"
-import { Theme } from "baseui/theme"
 import { LabelMedium } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import { graphql, replace, navigate } from "gatsby"
+import { graphql, replace } from "gatsby"
 import React from "react"
 import {
   createNetwork,
@@ -47,64 +47,6 @@ const colors = {
     "#6de321",
   ],
   actors: [blue, green, peach, lightpurple, pink, "#f0e345"],
-}
-
-interface RenderEventsProps {
-  networkName: string
-  selectedNodes: EventPoint[]
-}
-
-const renderEvents: React.FC<RenderEventsProps> = ({
-  networkName,
-  selectedNodes,
-}) => {
-  return (
-    <FlexGrid
-      flexGridColumnCount={4}
-      flexGridColumnGap="scale800"
-      flexGridRowGap="scale800"
-      marginBottom="scale800"
-      alignItems="start"
-    >
-      <FlexGridItem display="flex" alignItems="center" justifyContent="center">
-        <TimelineNavigator
-          events={selectedNodes.map(n => ({
-            ...n.data,
-            frontmatter: {
-              ...n.data.frontmatter,
-              actors: pipe(
-                n.data.frontmatter.actors,
-                O.fold(
-                  () => [],
-                  a => a.map(_ => _.id)
-                )
-              ),
-            },
-          }))}
-          onEventClick={async e => {
-            await navigate(`/networks/${networkName}?#${e.id}`)
-          }}
-        />
-      </FlexGridItem>
-      <FlexGridItem
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        overrides={{
-          Block: {
-            style: ({ $theme }: { $theme: Theme }) => {
-              return { width: `calc((200% - ${$theme.sizing.scale800}) / 3)` }
-            },
-          },
-        }}
-      >
-        <EventList events={selectedNodes.map(n => n.data)} />
-      </FlexGridItem>
-      <FlexGridItem display="none">
-        This invisible one is needed so the margins line up
-      </FlexGridItem>
-    </FlexGrid>
-  )
 }
 
 const width = 1000
@@ -278,7 +220,11 @@ export default class NetworkTemplate extends React.Component<
                   </div>
                 </FlexGridItem>
                 <FlexGridItem>
-                  {renderEvents({ networkName, selectedNodes })}
+                  <ContentWithSideNavigation
+                    items={eventsDataToNavigatorItems(selectedNodes)}
+                  >
+                    <EventList events={selectedNodes} />
+                  </ContentWithSideNavigation>
                 </FlexGridItem>
               </FlexGrid>
             </Layout>
