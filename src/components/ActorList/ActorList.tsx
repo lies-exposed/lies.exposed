@@ -1,6 +1,6 @@
+import { ActorFrontmatter } from "@models/actor"
 import { Avatar } from "baseui/avatar"
 import * as React from "react"
-import { ActorFrontmatter } from "../../types/actor"
 
 export interface ActorListActor extends ActorFrontmatter {
   selected: boolean

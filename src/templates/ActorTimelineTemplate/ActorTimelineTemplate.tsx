@@ -3,6 +3,17 @@
  * - add related topic to events
  */
 
+import EventList from "@components/EventList/EventList"
+import Layout from "@components/Layout"
+import SEO from "@components/SEO"
+import TimelineNavigator, {
+  TimelineEvent,
+} from "@components/TimelineNavigator/TimelineNavigator"
+import { ActorPageContentFileNode, ActorFileNode } from "@models/actor"
+import { EventFileNode } from "@models/event"
+import { ImageFileNode } from "@models/image"
+import { ordEventFileNodeDate } from "@utils//event"
+import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { Theme } from "baseui/theme"
 import { HeadingXLarge } from "baseui/typography"
@@ -16,17 +27,6 @@ import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
 import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import React from "react"
-import EventList from "../../components/EventList/EventList"
-import Layout from "../../components/Layout"
-import SEO from "../../components/SEO"
-import TimelineNavigator, {
-  TimelineEvent,
-} from "../../components/TimelineNavigator/TimelineNavigator"
-import { ActorPageContentFileNode, ActorFileNode } from "../../types/actor"
-import { EventFileNode } from "../../types/event"
-import { ImageFileNode } from "../../types/image"
-import { ordEventFileNodeDate } from "../../utils/event"
-import renderMarkdownAST from "../../utils/renderMarkdownAST"
 
 interface ActorTimelineTemplatePageProps {
   navigate: typeof navigate

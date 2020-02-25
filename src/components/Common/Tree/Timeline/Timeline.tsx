@@ -1,3 +1,4 @@
+import renderMarkdownAST from "@utils/renderMarkdownAST"
 import * as O from "fp-ts/lib/Option"
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
@@ -8,7 +9,7 @@ import {
   VerticalTimelineElement,
 } from "react-vertical-timeline-component"
 import "react-vertical-timeline-component/style.min.css"
-import renderMarkdownAST from "../../../../utils/renderMarkdownAST"
+
 
 export const TimelineEventIcon = t.keyof(
   {

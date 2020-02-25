@@ -1,3 +1,16 @@
+import { ActorListActor } from "@components/ActorList/ActorList"
+import {
+  NetworkProps,
+  NetworkScale,
+} from "@components/Common/Network/Network"
+import { TopicListTopic } from "@components/TopicList/TopicList"
+import { PageContentNode } from "@models/PageContent"
+import { ActorFileNode } from "@models/actor"
+import { EventPoint, EventFileNode } from "@models/event"
+import { ImageFileNode } from "@models/image"
+import { TopicPoint, TopicFileNode } from "@models/topic"
+import { ordEventFileNodeDate, ordEventPointDate } from "@utils//event"
+import { ImageNode } from "@utils//image"
 import { Link } from "@vx/network/lib/types"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
@@ -8,19 +21,6 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as t from "io-ts"
 import moment from "moment"
-import { ActorListActor } from "../../components/ActorList/ActorList"
-import {
-  NetworkProps,
-  NetworkScale,
-} from "../../components/Common/Network/Network"
-import { TopicListTopic } from "../../components/TopicList/TopicList"
-import { PageContentNode } from "../../types/PageContent"
-import { ActorFileNode } from "../../types/actor"
-import { EventPoint, EventFileNode } from "../../types/event"
-import { ImageFileNode } from "../../types/image"
-import { TopicPoint, TopicFileNode } from "../../types/topic"
-import { ordEventFileNodeDate, ordEventPointDate } from "../../utils/event"
-import { ImageNode } from "../../utils/image"
 
 interface NetworkLink extends Link<EventPoint> {
   fill: string

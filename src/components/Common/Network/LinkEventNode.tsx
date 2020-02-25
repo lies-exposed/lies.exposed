@@ -1,7 +1,7 @@
+import { EventPoint } from "@models/event"
 import { Link } from "@vx/network/lib/types"
 import { LinkVertical } from "@vx/shape"
 import * as React from "react"
-import { EventPoint } from "../../../types/event"
 
 export interface LinkEventProps extends Link<EventPoint> {
   stroke: string

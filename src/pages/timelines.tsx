@@ -1,14 +1,14 @@
+import Menu from "@components/Common/Menu"
+import Layout from "@components/Layout"
+import SEO from "@components/SEO"
+import { ActorFileNode } from "@models/actor"
+import { TopicFileNode } from "@models/topic"
+import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { FlexGridItem, FlexGrid } from "baseui/flex-grid"
 import { Theme } from "baseui/theme"
 import * as A from "fp-ts/lib/Array"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
-import Menu from "../components/Common/Menu"
-import Layout from "../components/Layout"
-import SEO from "../components/SEO"
-import { ActorFileNode } from "../types/actor"
-import { TopicFileNode } from "../types/topic"
-import renderMarkdownAST from "../utils/renderMarkdownAST"
 
 interface PageContentNode {
   title: string

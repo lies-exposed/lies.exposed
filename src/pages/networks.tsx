@@ -1,12 +1,12 @@
+import Menu from "@components/Common/Menu"
+import Layout from "@components/Layout"
+import SEO from "@components/SEO"
+import { PageContentNode } from "@models/PageContent"
+import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { Theme } from "baseui/theme"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
-import Menu from "../components/Common/Menu"
-import Layout from "../components/Layout"
-import SEO from "../components/SEO"
-import { PageContentNode } from "../types/PageContent"
-import renderMarkdownAST from "../utils/renderMarkdownAST"
 
 interface Results {
   networks: { nodes: Array<{ id: string; name: string }> }

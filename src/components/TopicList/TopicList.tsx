@@ -1,6 +1,6 @@
+import { TopicFrontmatter } from "@models/topic"
 import { Tag, VARIANT, KIND } from "baseui/tag"
 import * as React from "react"
-import { TopicFrontmatter } from "../../types/topic"
 
 export interface TopicListTopic extends TopicFrontmatter {
   selected: boolean

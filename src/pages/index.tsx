@@ -1,13 +1,13 @@
+import { CountdownTimer } from "@components/CountdownTimer"
+import { HomeSlider } from "@components/HomeSlider"
+import Layout from "@components/Layout"
+import SEO from "@components/SEO"
+import { PageContentNode } from "@models/pageContent"
+import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { FlexGridItem, FlexGrid } from "baseui/flex-grid"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 import Helmet from "react-helmet"
-import { CountdownTimer } from "../components/CountdownTimer"
-import { HomeSlider } from "../components/HomeSlider"
-import Layout from "../components/Layout"
-import SEO from "../components/SEO"
-import { PageContentNode } from "../types/pageContent"
-import renderMarkdownAST from "../utils/renderMarkdownAST"
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 const firstImage: string = require("../images/billy-clouse-781VLZjFR8g-unsplash.jpg")

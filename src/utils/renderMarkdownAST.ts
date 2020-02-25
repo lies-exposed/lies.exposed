@@ -1,3 +1,5 @@
+import { BlockQuote } from "@components/BlockQuote"
+import Gallery from "@components/Gallery/Gallery"
 import {
   ParagraphMedium,
   HeadingXXLarge,
@@ -9,8 +11,6 @@ import {
 } from "baseui/typography"
 import * as React from "react"
 import RehypeReact from "rehype-react"
-import { BlockQuote } from "../components/BlockQuote"
-import Gallery from "../components/Gallery/Gallery"
 
 const renderMarkdownAST = new RehypeReact({
   createElement: React.createElement,

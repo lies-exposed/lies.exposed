@@ -20,6 +20,12 @@
         "order": "asc"
       }
     }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["../*"]
+      }
+    ],
     "react/prop-types": ["off"],
     "no-console": "error"
   },

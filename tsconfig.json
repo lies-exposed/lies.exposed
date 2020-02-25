@@ -9,7 +9,13 @@
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "lib": ["dom", "esnext"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@models/*": ["models/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
   "include": ["src", "typings"],
   "exclude": ["node_modules", "public", ".cache"]
