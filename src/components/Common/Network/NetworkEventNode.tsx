@@ -1,8 +1,8 @@
+import { EventPoint } from "@models/event"
 import { Group } from "@vx/group"
 import { HierarchyPointNode } from "d3-hierarchy"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
-import { EventPoint } from "../../../types/event"
 
 export interface NetworkNodeProps {
   node: HierarchyPointNode<EventPoint["data"]>
@@ -32,7 +32,7 @@ const NetworkNode: React.FC<NetworkNodeProps> = ({
   }
 
   return (
-    <Group {...groupProps} onClick={() => onClick(node)}>
+    <Group {...groupProps as any} onClick={() => onClick(node)}>
       {O.fold(
         () => <circle r={12} fill={node.data.fill} />,
         type => (

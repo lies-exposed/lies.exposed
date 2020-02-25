@@ -1,5 +1,5 @@
+import { EventFileNode, EventPoint } from "@models/event"
 import * as Ord from "fp-ts/lib/Ord"
-import { EventFileNode, EventPoint } from "../types/event"
 
 export const ordEventFileNodeDate = Ord.ord.contramap(
   Ord.ordDate,

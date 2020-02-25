@@ -1,12 +1,12 @@
+import Menu from "@components/Common/Menu"
+import Layout from "@components/Layout"
+import SEO from "@components/SEO"
+import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { Theme } from "baseui/theme"
 import { HeadingXXLarge } from "baseui/typography"
 import { graphql } from "gatsby"
 import React from "react"
-import Menu from "../../components/Common/Menu"
-import Layout from "../../components/Layout"
-import SEO from "../../components/SEO"
-import renderMarkdownAST from "../../utils/renderMarkdownAST"
 
 interface ArticleTemplatePage {
   // `data` prop will be injected by the GraphQL query below.

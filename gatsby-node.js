@@ -216,3 +216,15 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   await createNetworkPages({ actions, graphql, reporter })
   await createNetworkTopicTimelinePages({ actions, graphql, reporter })
 }
+
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      alias: {
+        "@components": path.resolve(__dirname, "src/components"),
+        "@models": path.resolve(__dirname, "src/models"),
+        "@utils": path.resolve(__dirname, "src/utils"),
+      },
+    },
+  })
+}

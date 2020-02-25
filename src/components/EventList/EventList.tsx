@@ -1,3 +1,9 @@
+import ActorList from "@components/ActorList/ActorList"
+import TopicList from "@components/TopicList/TopicList"
+import { ActorFileNode } from "@models/actor"
+import { EventData } from "@models/event"
+import { formatDate } from "@utils//date"
+import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { Card, StyledBody } from "baseui/card"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { CheckIndeterminate } from "baseui/icon"
@@ -5,12 +11,6 @@ import { ListItem, ListItemLabel } from "baseui/list"
 import { ParagraphSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
-import { ActorFileNode } from "../../types/actor"
-import { EventData } from "../../types/event"
-import { formatDate } from "../../utils/date"
-import renderMarkdownAST from "../../utils/renderMarkdownAST"
-import ActorList from "../ActorList/ActorList"
-import TopicList from "../TopicList/TopicList"
 
 interface EventListProps {
   events: EventData[]

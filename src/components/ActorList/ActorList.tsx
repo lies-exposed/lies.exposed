@@ -1,6 +1,6 @@
+import { ActorFileNode } from "@models/actor"
 import { Avatar } from "baseui/avatar"
 import * as React from "react"
-import { ActorFileNode } from "../../types/actor"
 
 export interface ActorListActor extends ActorFileNode {
   selected: boolean

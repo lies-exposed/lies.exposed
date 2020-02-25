@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import * as React from "react"
 import { Footer } from "./Footer"
 import Header from "./Header"
+// eslint-disable-next-line no-restricted-imports
 import '../scss/main.scss'
 
 interface LayoutProps {
