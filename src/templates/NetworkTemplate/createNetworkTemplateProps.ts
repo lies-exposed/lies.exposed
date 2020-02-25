@@ -1,8 +1,5 @@
 import { ActorListActor } from "@components/ActorList/ActorList"
-import {
-  NetworkProps,
-  NetworkScale,
-} from "@components/Common/Network/Network"
+import { NetworkProps, NetworkScale } from "@components/Common/Network/Network"
 import { TopicListTopic } from "@components/TopicList/TopicList"
 import { PageContentNode } from "@models/PageContent"
 import { ActorFileNode } from "@models/actor"
@@ -10,7 +7,6 @@ import { EventPoint, EventFileNode } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { TopicPoint, TopicFileNode } from "@models/topic"
 import { ordEventFileNodeDate, ordEventPointDate } from "@utils//event"
-import { ImageNode } from "@utils//image"
 import { Link } from "@vx/network/lib/types"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
@@ -162,7 +158,7 @@ export interface NetworkTemplateData {
     nodes: TopicFileNode[]
   }
   actorsImages: {
-    nodes: ImageNode[]
+    nodes: ImageFileNode[]
   }
   actors: {
     nodes: ActorFileNode[]
@@ -200,10 +196,10 @@ export interface NetworkTemplateProps {
   maxDate: Date
   scale: NetworkScale
   graph: any
-  actors: ActorsResults['actors']
-  topics: TopicListTopic[],
+  actors: ActorsResults["actors"]
+  topics: TopicListTopic[]
   selectedNodes: EventPoint[]
-  selectedEventsCounter: { counter: number, total: number}
+  selectedEventsCounter: { counter: number; total: number }
 }
 
 export function createNetwork({
