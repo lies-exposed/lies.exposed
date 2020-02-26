@@ -15,6 +15,7 @@ export const NetworkPageContentFileNodeFrontmatter = t.type(
 
 export const NetworkPageContentFileNode = t.type(
   {
+    relativeDirectory: t.string,
     childMarkdownRemark: t.type({
       frontmatter: NetworkPageContentFileNodeFrontmatter,
       htmlAst: t.any,

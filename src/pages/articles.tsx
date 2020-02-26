@@ -1,15 +1,15 @@
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { Layout } from "@components/Layout"
+import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { ArticleFileNode } from "@models/article"
-import { PageContent } from "@models/pageContent"
-import renderMarkdownAST from "@utils/renderMarkdownAST"
+import { PageContentFileNode } from "@models/page"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
 interface Results {
   articles: { nodes: ArticleFileNode[] }
-  pageContent: { nodes: PageContent[] }
+  pageContent: PageContentFileNode
 }
 
 const ArticlesPage: React.FunctionComponent = () => {
@@ -17,41 +17,27 @@ const ArticlesPage: React.FunctionComponent = () => {
     query ArticlePage {
       articles: allFile(filter: { relativeDirectory: { eq: "articles" } }) {
         nodes {
-          id
-          childMarkdownRemark {
-            frontmatter {
-              title
-              path
-            }
-            htmlAst
-          }
+          ...ArticleFileNode
         }
       }
 
-      pageContent: allMarkdownRemark(
-        filter: { frontmatter: { path: { eq: "/articles" } } }
-      ) {
-        nodes {
-          htmlAst
-        }
+      pageContent: file(relativePath: { eq: "pages/articles.md" }) {
+        ...PageContentFileNode
       }
     }
   `)
 
   const articleItems = articles.nodes.map(n => ({
-    itemId: n.childMarkdownRemark.frontmatter.path,
-    path: `/articles/${n.childMarkdownRemark.frontmatter.path}`,
+    itemId: `/articles/${n.childMarkdownRemark.frontmatter.path}`,
     title: n.childMarkdownRemark.frontmatter.title,
     subNav: [],
   }))
-
-  const { htmlAst } = pageContent.nodes[0]
 
   return (
     <Layout>
       <SEO title="Article" />
       <ContentWithSideNavigation items={articleItems}>
-        {renderMarkdownAST(htmlAst)}
+        <PageContent {...pageContent.childMarkdownRemark} />
       </ContentWithSideNavigation>
     </Layout>
   )

@@ -159,14 +159,14 @@ const createNetworkPages = async ({ actions, graphql, reporter }) => {
   })
 }
 
-const createNetworkTopicTimelinePages = async ({
+const createTopicTimelinePages = async ({
   actions,
   graphql,
   reporter,
 }) => {
   const { createPage } = actions
-  const networkTopicTimelineTemplate = path.resolve(
-    `src/templates/NetworkTopicTimelineTemplate/NetworkTopicTimelineTemplate.tsx`
+  const topicTimelineTemplate = path.resolve(
+    `src/templates/TopicTimelineTemplate/TopicTimelineTemplate.tsx`
   )
 
   const result = await graphql(`
@@ -214,7 +214,7 @@ const createNetworkTopicTimelinePages = async ({
     console.log(nodePath)
     createPage({
       path: nodePath,
-      component: networkTopicTimelineTemplate,
+      component: topicTimelineTemplate,
       // additional data can be passed via context
       context,
     })
@@ -224,8 +224,8 @@ const createNetworkTopicTimelinePages = async ({
 exports.createPages = async ({ actions, graphql, reporter }) => {
   await createArticlePages({ actions, graphql, reporter })
   await createActorTimelinePages({ actions, graphql, reporter })
+  await createTopicTimelinePages({ actions, graphql, reporter })
   await createNetworkPages({ actions, graphql, reporter })
-  await createNetworkTopicTimelinePages({ actions, graphql, reporter })
 }
 
 exports.onCreateWebpackConfig = ({ actions }) => {

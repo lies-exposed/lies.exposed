@@ -1,9 +1,9 @@
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { Layout } from "@components/Layout"
+import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import { PageContentNode } from "@models/PageContent"
 import { NetworkPageContentFileNode } from "@models/networks"
-import renderMarkdownAST from "@utils/renderMarkdownAST"
+import { PageContentNode } from "@models/page"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
@@ -24,22 +24,11 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
         }
       }
 
-      pageContent: markdownRemark(
-        fileAbsolutePath: { glob: "**/pages/networks.md" }
-      ) {
-        htmlAst
-        frontmatter {
-          title
-          path
-        }
+      pageContent: file(absolutePath: { glob: "**/pages/networks.md" }) {
+        ...PageContentFileNode
       }
     }
   `)
-
-  const {
-    frontmatter: { title },
-    htmlAst,
-  } = pageContent
 
   const navigatorItems = [
     {
@@ -55,9 +44,9 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
 
   return (
     <Layout>
-      <SEO title={title} />
+      <SEO title={pageContent.frontmatter.title} />
       <ContentWithSideNavigation items={navigatorItems}>
-        {renderMarkdownAST(htmlAst)}
+        <PageContent {...pageContent} />
       </ContentWithSideNavigation>
     </Layout>
   )

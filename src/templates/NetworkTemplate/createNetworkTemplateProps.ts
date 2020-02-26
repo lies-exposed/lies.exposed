@@ -1,10 +1,10 @@
 import { ActorListActor } from "@components/ActorList"
 import { NetworkProps, NetworkScale } from "@components/Network/Network"
 import { TopicListTopic } from "@components/TopicList"
-import { PageContentNode } from "@models/PageContent"
 import { ActorPageContentFileNode } from "@models/actor"
 import { EventPoint, EventFileNode, EventData } from "@models/event"
 import { ImageFileNode } from "@models/image"
+import { NetworkPageContentFileNode } from "@models/networks"
 import { TopicPoint, TopicFileNode } from "@models/topic"
 import { ordEventFileNodeDate, ordEventPointDate } from "@utils//event"
 import { Link } from "@vx/network/lib/types"
@@ -150,10 +150,7 @@ interface ActorsResults {
 }
 
 export interface NetworkTemplateData {
-  pageContent: {
-    childMarkdownRemark: PageContentNode
-    relativeDirectory: string
-  }
+  pageContent: NetworkPageContentFileNode
   topics: {
     nodes: TopicFileNode[]
   }
@@ -191,7 +188,7 @@ export interface CreateNetworkConfig {
 
 export interface NetworkTemplateProps {
   networkName: string
-  pageContent: PageContentNode
+  pageContent: NetworkPageContentFileNode
   minDate: Date
   maxDate: Date
   scale: NetworkScale
@@ -393,7 +390,7 @@ export function createNetwork({
         const eventFrontmatterType = O.fromNullable(
           e.childMarkdownRemark.frontmatter.type
         )
-        
+
         const eventActors = pipe(
           O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
           O.map(actors =>
@@ -654,7 +651,7 @@ export function createNetwork({
     props,
     E.map(p => ({
       ...p,
-      pageContent: data.pageContent.childMarkdownRemark,
+      pageContent: data.pageContent,
       networkName,
     }))
   )

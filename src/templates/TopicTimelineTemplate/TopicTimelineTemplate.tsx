@@ -2,14 +2,13 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
+import { TopicPageContent } from "@components/TopicPageContent"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { ActorPageContentFileNode } from "@models/actor"
+import { ActorPageContentFileNode, ActorFileNode } from "@models/actor"
 import { EventFileNode, EventData } from "@models/event"
 import { ImageFileNode } from "@models/image"
-import { NetworkPageContentFileNode } from "@models/networks"
-import renderMarkdownAST from "@utils//renderMarkdownAST"
+import { TopicPageContentFileNode } from "@models/topic"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { HeadingXLarge } from "baseui/typography"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
@@ -18,12 +17,12 @@ import { graphql } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
 
-interface TopicTemplateProps {
+interface TopicTimelineTemplateProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: NetworkPageContentFileNode
+    pageContent: TopicPageContentFileNode
     actors: {
-      nodes: ActorPageContentFileNode[]
+      nodes: ActorFileNode[]
     }
     events: {
       nodes: EventFileNode[]
@@ -34,14 +33,14 @@ interface TopicTemplateProps {
   }
 }
 
-export const TopicTemplate: React.FunctionComponent<TopicTemplateProps> = ({
+const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps> = ({
   data,
 }) => {
   return pipe(
     sequenceS(E.either)({
       events: t.array(EventFileNode).decode(data.events.nodes),
       actors: t.array(ActorPageContentFileNode).decode(data.actors.nodes),
-      pageContent: NetworkPageContentFileNode.decode(data.pageContent),
+      pageContent: TopicPageContentFileNode.decode(data.pageContent),
     }),
     E.map(({ pageContent, events, actors }) => {
       return {
@@ -82,10 +81,7 @@ export const TopicTemplate: React.FunctionComponent<TopicTemplateProps> = ({
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
-            <HeadingXLarge>
-              {pageContent.childMarkdownRemark.frontmatter.title}
-            </HeadingXLarge>
-            {renderMarkdownAST(pageContent.childMarkdownRemark.htmlAst)}
+            <TopicPageContent {...pageContent.childMarkdownRemark} />
             <EventList events={events} />
           </ContentWithSideNavigation>
         </Layout>
@@ -95,7 +91,7 @@ export const TopicTemplate: React.FunctionComponent<TopicTemplateProps> = ({
 }
 
 export const pageQuery = graphql`
-  query NetworkTopicTimelineTemplatePage(
+  query TopicTimelineTemplateQuery(
     $relativeDirectory: String!
     $imagesRelativeDirectoryPath: String!
   ) {
@@ -103,17 +99,7 @@ export const pageQuery = graphql`
       relativeDirectory: { eq: $relativeDirectory }
       name: { eq: "index" }
     ) {
-      childMarkdownRemark {
-        frontmatter {
-          title
-          date
-          icon
-          cover
-          type
-          slug
-        }
-        htmlAst
-      }
+      ...TopicPageContentFileNode
     }
     actors: allFile(
       filter: {
@@ -122,20 +108,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        id
-        relativeDirectory
-        childMarkdownRemark {
-          id
-          frontmatter {
-            title
-            cover
-            avatar
-            username
-            date
-            color
-          }
-          htmlAst
-        }
+        ...ActorFileNode
       }
     }
 
@@ -147,20 +120,7 @@ export const pageQuery = graphql`
       sort: { order: DESC, fields: [childMarkdownRemark___frontmatter___date] }
     ) {
       nodes {
-        relativeDirectory
-        childMarkdownRemark {
-          id
-          frontmatter {
-            title
-            icon
-            type
-            date
-            cover
-            actors
-            links
-          }
-          htmlAst
-        }
+        ...EventFileNode
       }
     }
     images: allFile(
@@ -178,4 +138,4 @@ export const pageQuery = graphql`
     }
   }
 `
-export default TopicTemplate
+export default TopicTimelineTemplate

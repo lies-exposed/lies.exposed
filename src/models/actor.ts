@@ -9,7 +9,7 @@ export const ActorPageContentFileNodeFrontmatter = t.type(
     avatar: optionFromNullable(t.string),
     username: t.string,
     color: t.string,
-    cover: optionFromNullable(t.string)
+    cover: optionFromNullable(t.interface({ url: t.string }))
   },
   "ActorPageContentFileNodeFrontmatter"
 )

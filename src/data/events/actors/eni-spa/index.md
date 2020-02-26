@@ -3,7 +3,7 @@ date: 2019-12-12
 title: Eni S.p.a
 username: eni-spa
 avatar: eni-logo.png
-color: "#374469"
+color: '#ffd41f'
 ---
 
 L'ENI (Ente Nazionale Idrocarburi) fu istituito dallo Stato italiano con legge numero 136 del 10 febbraio 1953. Con la creazione di ENI lo Stato non si limitava ad un intervento di restaurazione e “salvataggio” delle aziende private in crisi dopo la guerra, ma svolse un ruolo “strategico” e in parte di concorrenza alle industrie private. L’appoggio politico di De Gasperi e Vanoni fu determinante per l’istituzione dell’ente, che andò ad incorporare la già esistente AGIP. Enrico Mattei, che durante la seconda guerra mondiale combatté nella resistenza, diventò il primo presidente di ENI.
