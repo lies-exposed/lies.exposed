@@ -69,15 +69,7 @@ export const pageQuery = graphql`
 
     articles: allFile(filter: { relativeDirectory: { eq: "articles" } }) {
       nodes {
-        childMarkdownRemark {
-          id
-          frontmatter {
-            title
-            date
-            path
-          }
-          htmlAst
-        }
+        ...ArticleFileNode
       }
     }
   }

@@ -49,7 +49,7 @@ const EventList: React.FC<EventListProps> = props => {
                   />
                 </FlexGridItem>
                 <FlexGridItem
-                display="flex"
+                  display="flex"
                   flexGridColumnCount={1}
                   justifyContent="end"
                 >

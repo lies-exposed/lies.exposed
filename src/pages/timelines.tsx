@@ -1,22 +1,18 @@
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { Layout } from "@components/Layout"
+import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { ActorPageContentFileNode } from "@models/actor"
+import { PageContentFileNode } from "@models/page"
 import { TopicFileNode } from "@models/topic"
-import renderMarkdownAST from "@utils/renderMarkdownAST"
 import * as A from "fp-ts/lib/Array"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
-interface PageContentNode {
-  title: string
-  htmlAst: object
-}
-
 interface Results {
   actors: { nodes: ActorPageContentFileNode[] }
   topics: { nodes: TopicFileNode[] }
-  pageContent: { nodes: PageContentNode[] }
+  pageContent: PageContentFileNode
 }
 
 const TimelinesPage = (): React.ReactElement => {
@@ -29,17 +25,7 @@ const TimelinesPage = (): React.ReactElement => {
         }
       ) {
         nodes {
-          relativeDirectory
-          name
-          id
-          childMarkdownRemark {
-            id
-            frontmatter {
-              title
-              path
-              username
-            }
-          }
+          ...ActorFileNode
         }
       }
 
@@ -47,25 +33,12 @@ const TimelinesPage = (): React.ReactElement => {
         filter: { relativePath: { glob: "events/networks/*/*/index.md" } }
       ) {
         nodes {
-          relativeDirectory
-          childMarkdownRemark {
-            frontmatter {
-              title
-              slug
-            }
-          }
+          ...TopicFileNode
         }
       }
 
-      pageContent: allMarkdownRemark(
-        filter: { frontmatter: { path: { eq: "/timelines" } } }
-      ) {
-        nodes {
-          frontmatter {
-            title
-          }
-          htmlAst
-        }
+      pageContent: file(relativePath: { eq: "pages/timelines.md" }) {
+        ...PageContentFileNode
       }
     }
   `)
@@ -94,13 +67,12 @@ const TimelinesPage = (): React.ReactElement => {
     }),
   }
 
-  const { title, htmlAst } = pageContent.nodes[0]
 
   return (
     <Layout>
-      <SEO title={title} />
+      <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
       <ContentWithSideNavigation items={[actorItems, topicItems]}>
-        {renderMarkdownAST(htmlAst)}
+        <PageContent {...pageContent.childMarkdownRemark} />
       </ContentWithSideNavigation>
     </Layout>
   )

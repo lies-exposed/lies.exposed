@@ -3,27 +3,24 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import Network, { NetworkProps } from "@components/Network/Network"
+import { NetworkPageContent } from "@components/NetworkPageContent"
 import SEO from "@components/SEO"
 import TopicList, { TopicListTopic } from "@components/TopicList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { EventPoint } from "@models/event"
 import { formatDate } from "@utils//date"
-import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { HeadingLevel, Heading } from "baseui/heading"
+import { HeadingLevel} from "baseui/heading"
 import { LabelMedium } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import { graphql, replace } from "gatsby"
+import { replace, graphql } from "gatsby"
 import React from "react"
-import {
-  createNetwork,
-  NetworkTemplateData,
-} from "./createNetworkTemplateProps"
+import { createNetwork, NetworkTemplateData } from "./createNetworkTemplateProps"
 
 interface NetworkTemplateProps {
   navigate: (to: string) => void
@@ -152,7 +149,7 @@ export default class NetworkTemplate extends React.Component<
         }) => {
           return (
             <Layout>
-              <SEO title={pageContent.frontmatter.title} />
+              <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
               <FlexGrid
                 alignItems="center"
                 alignContent="center"
@@ -161,12 +158,7 @@ export default class NetworkTemplate extends React.Component<
               >
                 <FlexGridItem width="100%">
                   <HeadingLevel>
-                    <Heading $style={{ textAlign: "center" }}>
-                      {pageContent.frontmatter.title}
-                    </Heading>
-                    <div style={{ textAlign: "center" }}>
-                      {renderMarkdownAST(pageContent.htmlAst)}
-                    </div>
+                    <NetworkPageContent {...pageContent.childMarkdownRemark} />
                   </HeadingLevel>
                   <FlexGrid flexGridColumnCount={2}>
                     <FlexGridItem>
@@ -187,10 +179,10 @@ export default class NetworkTemplate extends React.Component<
                     </FlexGridItem>
                   </FlexGrid>
                   <LabelMedium>
-                  {selectedEventsCounter.counter}/{selectedEventsCounter.total}
+                    {selectedEventsCounter.counter}/
+                    {selectedEventsCounter.total}
                   </LabelMedium>
                   <LabelMedium>
-                  
                     Scale: {scale}, Date Range: {formatDate(minDate)} -{" "}
                     {formatDate(maxDate)}
                   </LabelMedium>
@@ -240,19 +232,7 @@ export const pageQuery = graphql`
       relativeDirectory: { eq: $relativeDirectory }
       name: { eq: "index" }
     ) {
-      relativeDirectory
-      childMarkdownRemark {
-        id
-        frontmatter {
-          title
-          path
-          date
-          icon
-          type
-          cover
-        }
-        htmlAst
-      }
+      ...NetworkPageContentFileNode
     }
     topics: allFile(
       filter: {
@@ -261,14 +241,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        relativeDirectory
-        childMarkdownRemark {
-          id
-          frontmatter {
-            title
-            slug
-          }
-        }
+        ...TopicFileNode
       }
     }
     actors: allFile(
@@ -278,17 +251,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        id
-        relativeDirectory
-        childMarkdownRemark {
-          frontmatter {
-            title
-            cover
-            avatar
-            username
-          }
-          htmlAst
-        }
+        ...ActorFileNode
       }
     }
     actorsImages: allFile(
@@ -312,22 +275,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        relativeDirectory
-        childMarkdownRemark {
-          id
-          frontmatter {
-            title
-            path
-            date
-            icon
-            type
-            cover
-            actors
-            links
-            cover
-          }
-          htmlAst
-        }
+        ...EventFileNode
       }
     }
     images: allFile(

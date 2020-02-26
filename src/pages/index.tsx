@@ -1,9 +1,9 @@
 import { CountdownTimer } from "@components/CountdownTimer"
 import { HomeSlider } from "@components/HomeSlider"
-import { Layout }from "@components/Layout"
+import { Layout } from "@components/Layout"
+import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import { PageContentNode } from "@models/pageContent"
-import renderMarkdownAST from "@utils/renderMarkdownAST"
+import { PageContentFileNode } from "@models/page"
 import { FlexGridItem, FlexGrid } from "baseui/flex-grid"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
@@ -34,19 +34,14 @@ const slides = [
 ]
 
 interface Results {
-  pageContent: { childMarkdownRemark: PageContentNode }
+  pageContent: PageContentFileNode
 }
 
 const IndexPage: React.FC = () => {
   const { pageContent }: Results = useStaticQuery(graphql`
     query IndexPage {
       pageContent: file(relativePath: { eq: "pages/index.md" }) {
-        childMarkdownRemark {
-          frontmatter {
-            title
-          }
-          htmlAst
-        }
+        ...PageContentFileNode
       }
     }
   `)
@@ -84,7 +79,7 @@ const IndexPage: React.FC = () => {
           </FlexGrid>
         </FlexGridItem>
         <FlexGridItem padding="70px">
-          {renderMarkdownAST(pageContent.childMarkdownRemark.htmlAst)}
+          <PageContent {...pageContent.childMarkdownRemark} />
         </FlexGridItem>
       </FlexGrid>
     </Layout>

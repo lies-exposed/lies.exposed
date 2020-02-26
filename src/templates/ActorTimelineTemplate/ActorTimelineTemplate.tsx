@@ -1,3 +1,4 @@
+import { ActorPageContent } from "@components/ActorPageContent"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
@@ -6,10 +7,8 @@ import { eventsDataToNavigatorItems } from "@helpers/event"
 import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode } from "@models/event"
 import { ImageFileNode } from "@models/image"
-import { ordEventFileNodeDate } from "@utils//event"
-import renderMarkdownAST from "@utils//renderMarkdownAST"
+import { ordEventFileNodeDate } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { HeadingXLarge } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
@@ -48,15 +47,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
   data,
   navigate,
 }) => {
-  const {
-    pageContent: {
-      childMarkdownRemark: { frontmatter, htmlAst },
-    },
-    actors,
-    events,
-    eventsAsActor,
-    images,
-  } = data
+  const { pageContent, actors, events, eventsAsActor, images } = data
 
   return pipe(
     E.right(A.union(byId)(events.nodes, eventsAsActor.nodes)),
@@ -89,22 +80,22 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
     ),
     E.fold(throwValidationErrors, timelineEvents => {
       const coverImage = images.nodes.find(i =>
-        Eq.eqString.equals(`${i.name}${i.ext}`, frontmatter.avatar)
+        Eq.eqString.equals(
+          `${i.name}${i.ext}`,
+          pageContent.childMarkdownRemark.frontmatter.avatar
+        )
       )
 
       return (
         <Layout>
-          <SEO title={frontmatter.title} />
+          <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
           <ContentWithSideNavigation
             items={eventsDataToNavigatorItems(timelineEvents)}
           >
-            <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
-            {coverImage !== undefined ? (
-              <img src={coverImage.childImageSharp.fixed.src} />
-            ) : (
-              <div />
-            )}
-            <div className="content">{renderMarkdownAST(htmlAst)}</div>
+            <ActorPageContent
+              {...pageContent.childMarkdownRemark}
+              coverImage={coverImage}
+            />
             <EventList events={timelineEvents} />
           </ContentWithSideNavigation>
         </Layout>
@@ -123,16 +114,7 @@ export const pageQuery = graphql`
       relativeDirectory: { eq: $relativeDirectory }
       name: { eq: "index" }
     ) {
-      childMarkdownRemark {
-        frontmatter {
-          title
-          path
-          date
-          icon
-          avatar
-        }
-        htmlAst
-      }
+      ...ActorPageContentFileNode
     }
 
     actors: allFile(
@@ -142,17 +124,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        id
-        relativeDirectory
-        childMarkdownRemark {
-          frontmatter {
-            title
-            cover
-            avatar
-            username
-          }
-          htmlAst
-        }
+        ...ActorFileNode
       }
     }
 
@@ -163,20 +135,7 @@ export const pageQuery = graphql`
       sort: { order: DESC, fields: childMarkdownRemark___frontmatter___date }
     ) {
       nodes {
-        id
-        relativeDirectory
-        childMarkdownRemark {
-          id
-          frontmatter {
-            title
-            icon
-            type
-            date
-            cover
-            actors
-          }
-          htmlAst
-        }
+        ...EventFileNode
       }
     }
 
@@ -187,19 +146,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        relativeDirectory
-        childMarkdownRemark {
-          id
-          frontmatter {
-            title
-            icon
-            type
-            date
-            cover
-            actors
-          }
-          htmlAst
-        }
+        ...EventFileNode
       }
     }
 
