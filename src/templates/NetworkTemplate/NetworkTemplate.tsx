@@ -8,6 +8,7 @@ import TopicList, { TopicListTopic } from "@components/TopicList/TopicList"
 import { EventPoint } from "@models/event"
 import { formatDate } from "@utils//date"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
+import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingLevel, Heading } from "baseui/heading"
 import { Theme } from "baseui/theme"
@@ -18,7 +19,6 @@ import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, replace, navigate } from "gatsby"
-import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import React from "react"
 import {
   createNetwork,
@@ -195,11 +195,7 @@ export default class NetworkTemplate extends React.Component<
         width,
       }),
       E.fold(
-        errs => {
-          // eslint-disable-next-line no-console
-          console.log(ThrowReporter.report(E.left(errs)))
-          return null
-        },
+        throwValidationErrors,
         ({
           networkName,
           pageContent,

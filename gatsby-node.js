@@ -37,13 +37,24 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
   }
 
   result.data.allFile.edges.forEach(({ node }) => {
+
+    const context = {
+      filePath: node.childMarkdownRemark.frontmatter.path,
+    }
+
+    reporter.info(
+      `article page [${node.name}] context: ${JSON.stringify(
+        context,
+        null,
+        4
+      )}`
+    )
+
     createPage({
-      path: node.childMarkdownRemark.frontmatter.path,
+      path: `/articles/${node.childMarkdownRemark.frontmatter.path}`,
       component: postTemplate,
       // additional data can be passed via context
-      context: {
-        filePath: node.childMarkdownRemark.frontmatter.path,
-      },
+      context,
     })
   })
 }
