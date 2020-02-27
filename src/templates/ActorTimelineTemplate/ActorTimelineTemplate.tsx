@@ -9,7 +9,7 @@ import SEO from "@components/SEO"
 import TimelineNavigator, {
   TimelineEvent,
 } from "@components/TimelineNavigator/TimelineNavigator"
-import { ActorPageContentFileNode, ActorFileNode } from "@models/actor"
+import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { ordEventFileNodeDate } from "@utils//event"
@@ -34,7 +34,7 @@ interface ActorTimelineTemplatePageProps {
   data: {
     pageContent: ActorPageContentFileNode
     actors: {
-      nodes: ActorFileNode[]
+      nodes: ActorPageContentFileNode[]
     }
     events: {
       nodes: EventFileNode[]
@@ -82,7 +82,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
           actors: pipe(
             O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
             O.map(actorIds =>
-              actors.nodes.reduce<ActorFileNode[]>((acc, n) => {
+              actors.nodes.reduce<ActorPageContentFileNode[]>((acc, n) => {
                 const actor = actorIds.includes(
                   n.childMarkdownRemark.frontmatter.username
                 )
@@ -91,7 +91,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
             )
           ),
           links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
-          cover: O.fromNullable(e.childMarkdownRemark.frontmatter.cover),
+          cover: e.childMarkdownRemark.frontmatter.cover,
         },
         topicFill: "#fff",
         fill: "#fff",

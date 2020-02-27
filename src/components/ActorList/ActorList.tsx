@@ -1,8 +1,10 @@
-import { ActorFileNode } from "@models/actor"
+import { ActorPageContentFileNode } from "@models/actor"
 import { Avatar } from "baseui/avatar"
+import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
-export interface ActorListActor extends ActorFileNode {
+export interface ActorListActor extends ActorPageContentFileNode {
   selected: boolean
   color: string
 }
@@ -21,13 +23,13 @@ const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick }) => {
           style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
           onClick={() => onActorClick(a)}
         >
-          {a.childMarkdownRemark.frontmatter.cover !== null ? (
-            <Avatar
-              name="Jane Doe"
-              size="scale1000"
-              src={a.childMarkdownRemark.frontmatter.cover}
-            />
-          ) : null}
+          {pipe(
+            a.childMarkdownRemark.frontmatter.cover,
+            O.map(src => (
+              <Avatar key={src} name="Jane Doe" size="scale1000" src={src} />
+            )),
+            O.toNullable
+          )}
           <div
             style={{
               width: "100%",

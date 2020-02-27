@@ -2,7 +2,7 @@ import { ActorListActor } from "@components/ActorList/ActorList"
 import { NetworkProps, NetworkScale } from "@components/Common/Network/Network"
 import { TopicListTopic } from "@components/TopicList/TopicList"
 import { PageContentNode } from "@models/PageContent"
-import { ActorFileNode } from "@models/actor"
+import { ActorPageContentFileNode } from "@models/actor"
 import { EventPoint, EventFileNode } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { TopicPoint, TopicFileNode } from "@models/topic"
@@ -26,7 +26,7 @@ interface NetworkLink extends Link<EventPoint> {
 type TopicsMap = Map<string, TopicPoint>
 
 interface ActorData {
-  actor: ActorFileNode
+  actor: ActorPageContentFileNode
   color: string
   events: EventPoint[]
   links: NetworkLink[]
@@ -161,7 +161,7 @@ export interface NetworkTemplateData {
     nodes: ImageFileNode[]
   }
   actors: {
-    nodes: ActorFileNode[]
+    nodes: ActorPageContentFileNode[]
   }
   events: {
     nodes: EventFileNode[]
@@ -253,8 +253,7 @@ export function createNetwork({
             ...actor.childMarkdownRemark,
             frontmatter: {
               ...actor.childMarkdownRemark.frontmatter,
-              cover:
-                cover !== undefined ? cover.childImageSharp.fluid.src : null,
+              cover: O.fromNullable(cover?.childImageSharp.fluid.src),
             },
           },
         },
@@ -394,7 +393,7 @@ export function createNetwork({
         const topic = topicOpt.value
 
         const cover = pipe(
-          O.fromNullable(e.childMarkdownRemark.frontmatter.cover),
+          e.childMarkdownRemark.frontmatter.cover,
           O.chain(c =>
             O.fromNullable(
               data.images.nodes.find(e => {
@@ -408,10 +407,11 @@ export function createNetwork({
         const eventFrontmatterType = O.fromNullable(
           e.childMarkdownRemark.frontmatter.type
         )
+        
         const eventActors = pipe(
           O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
           O.map(actors =>
-            actors.reduce<ActorFileNode[]>((acc, a) => {
+            actors.reduce<ActorPageContentFileNode[]>((acc, a) => {
               const actor = actorsList.find(
                 _ => _.actor.childMarkdownRemark.frontmatter.username === a
               )

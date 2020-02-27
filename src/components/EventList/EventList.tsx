@@ -1,6 +1,5 @@
 import ActorList from "@components/ActorList/ActorList"
 import TopicList from "@components/TopicList/TopicList"
-import { ActorFileNode } from "@models/actor"
 import { EventData } from "@models/event"
 import { formatDate } from "@utils//date"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
@@ -10,6 +9,7 @@ import { CheckIndeterminate } from "baseui/icon"
 import { ListItem, ListItemLabel } from "baseui/list"
 import { ParagraphSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
 interface EventListProps {
@@ -30,7 +30,11 @@ const EventList: React.FC<EventListProps> = props => {
           >
             <StyledBody>
               <FlexGrid flexGridColumnCount={2}>
-                <FlexGridItem display="flex" flexGridColumnCount={1} alignItems="center">
+                <FlexGridItem
+                  display="flex"
+                  flexGridColumnCount={1}
+                  alignItems="center"
+                >
                   <TopicList
                     topics={[
                       {
@@ -49,19 +53,23 @@ const EventList: React.FC<EventListProps> = props => {
                   display="flex"
                   justifyContent="end"
                 >
-                  {O.fold(
-                    () => null,
-                    (actors: ActorFileNode[]) => (
-                      <ActorList
-                        actors={actors.map(a => ({
-                          ...a,
-                          selected: false,
-                          color: "trasparent",
-                        }))}
-                        onActorClick={() => undefined}
-                      />
+                  {pipe(
+                    event.frontmatter.actors,
+
+                    O.fold(
+                      () => null,
+                      actors => (
+                        <ActorList
+                          actors={actors.map(a => ({
+                            ...a,
+                            selected: false,
+                            color: "trasparent",
+                          }))}
+                          onActorClick={() => undefined}
+                        />
+                      )
                     )
-                  )(event.frontmatter.actors)}
+                  )}
                 </FlexGridItem>
 
                 <FlexGridItem flexGridColumnCount={2}>

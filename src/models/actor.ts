@@ -1,15 +1,28 @@
 import * as t from "io-ts"
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
-export const ActorPageContentFileNode = t.interface(
+export const ActorPageContentFileNodeFrontmatter = t.type(
   {
-    childMarkdownRemark: t.interface(
+    title: t.string,
+    path: t.string,
+    date: t.string,
+    avatar: t.string,
+    username: t.string,
+    color: t.string,
+    cover: optionFromNullable(t.string)
+  },
+  "ActorPageContentFileNodeFrontmatter"
+)
+
+export type ActorPageContentFileNodeFrontmatter = t.TypeOf<typeof ActorPageContentFileNodeFrontmatter>
+
+export const ActorPageContentFileNode = t.type(
+  {
+    id: t.string,
+    childMarkdownRemark: t.type(
       {
-        frontmatter: t.interface({
-          title: t.string,
-          path: t.string,
-          date: t.string,
-          avatar: t.string,
-        }),
+        id: t.string,
+        frontmatter: ActorPageContentFileNodeFrontmatter,
         htmlAst: t.object,
       },
       "ActorPageContentFileNodeMarkdownRemark"
@@ -23,9 +36,7 @@ export type ActorPageContentFileNode = t.TypeOf<typeof ActorPageContentFileNode>
 const ActorFrontmatter = t.interface(
   {
     title: t.string,
-    username: t.string,
-    cover: t.union([t.null, t.string]),
-    avatar: t.string,
+    date: t.string,
   },
   "ActorFrontmatter"
 )
@@ -36,6 +47,7 @@ export const ActorFileNode = t.interface(
     relativeDirectory: t.string,
     childMarkdownRemark: t.interface(
       {
+        id: t.string,
         frontmatter: ActorFrontmatter,
       },
       "ActorFileNodeChildMarkdownRemark"

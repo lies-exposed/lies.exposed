@@ -1,7 +1,7 @@
 import Menu from "@components/Common/Menu"
 import Layout from "@components/Layout"
 import SEO from "@components/SEO"
-import { ActorFileNode } from "@models/actor"
+import {  ActorPageContentFileNode } from "@models/actor"
 import { TopicFileNode } from "@models/topic"
 import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { FlexGridItem, FlexGrid } from "baseui/flex-grid"
@@ -16,7 +16,7 @@ interface PageContentNode {
 }
 
 interface Results {
-  actors: { nodes: ActorFileNode[] }
+  actors: { nodes: ActorPageContentFileNode[] }
   topics: { nodes: TopicFileNode[] }
   pageContent: { nodes: PageContentNode[] }
 }

@@ -1,16 +1,22 @@
 import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
+export const TopicFileNodeFrontmatter = t.type(
+  {
+    title: t.string,
+    slug: t.string,
+    cover: optionFromNullable(t.string),
+    color: t.string,
+  },
+  "TopicFileNodeFrontmatter"
+)
+
 export const TopicFileNode = t.interface(
   {
     relativeDirectory: t.string,
     childMarkdownRemark: t.interface({
       id: t.string,
-      frontmatter: t.interface({
-        title: t.string,
-        slug: t.string,
-        cover: optionFromNullable(t.string),
-      }),
+      frontmatter: TopicFileNodeFrontmatter,
     }),
   },
   "TopicFileNode"

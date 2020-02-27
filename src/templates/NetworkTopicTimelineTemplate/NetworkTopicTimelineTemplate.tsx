@@ -2,9 +2,10 @@ import EventList from "@components/EventList/EventList"
 import Layout from "@components/Layout"
 import SEO from "@components/SEO"
 import TimelineNavigator from "@components/TimelineNavigator/TimelineNavigator"
-import { ActorFileNode } from "@models/actor"
+import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode, EventData } from "@models/event"
 import { ImageFileNode } from "@models/image"
+import { NetworkPageContentFileNode } from "@models/networks"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { Theme } from "baseui/theme"
@@ -20,22 +21,9 @@ import React from "react"
 interface NetworkTopicTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: {
-      childMarkdownRemark: {
-        frontmatter: {
-          title: string
-          path: string
-          date: string
-          icon: string
-          slug: string
-          cover: string
-          type: string
-        }
-        htmlAst: object
-      }
-    }
+    pageContent: NetworkPageContentFileNode
     actors: {
-      nodes: ActorFileNode[]
+      nodes: ActorPageContentFileNode[]
     }
     events: {
       nodes: EventFileNode[]
@@ -55,46 +43,41 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
     },
     actors,
     events,
-    images,
   } = data
 
   return pipe(
     t.array(EventFileNode).decode(events.nodes),
     E.map(nodes =>
       t.array(EventData).encode(
-        nodes.map(n => ({
-          id: n.childMarkdownRemark.id,
-          frontmatter: {
-            ...n.childMarkdownRemark.frontmatter,
-            links: O.fromNullable(n.childMarkdownRemark.frontmatter.links),
-            cover: O.fromNullable(n.childMarkdownRemark.frontmatter.cover),
-            actors: pipe(
-              O.fromNullable(n.childMarkdownRemark.frontmatter.actors),
-              O.map(actorIds =>
-                actors.nodes.reduce<ActorFileNode[]>((acc, n) => {
-                  const actor = actorIds.includes(
-                    n.childMarkdownRemark.frontmatter.username
-                  )
-                  return actor ? acc.concat(acc) : acc
-                }, [])
-              )
-            ),
-            type: O.fromNullable(n.childMarkdownRemark.frontmatter.type),
-          },
-          fill: "#fff",
-          topicLabel: "",
-          topicSlug: "",
-          topicFill: "#fff",
-          htmlAst: n.childMarkdownRemark.htmlAst,
-          image: pipe(
-            O.fromNullable(n.childMarkdownRemark.frontmatter.cover),
-            O.chain(c =>
-              O.fromNullable(images.nodes.find(i => i.relativePath === c))
-            ),
-            O.map(i => i.childImageSharp.fixed),
-            O.toUndefined
-          ),
-        }))
+        nodes.map(n => {
+          const eventDataNode: EventData = {
+            id: n.childMarkdownRemark.id,
+            frontmatter: {
+              ...n.childMarkdownRemark.frontmatter,
+              links: O.fromNullable(n.childMarkdownRemark.frontmatter.links),
+              cover: n.childMarkdownRemark.frontmatter.cover,
+              actors: pipe(
+                O.fromNullable(n.childMarkdownRemark.frontmatter.actors),
+                O.map(actorIds =>
+                  actors.nodes.reduce<ActorPageContentFileNode[]>((acc, n) => {
+                    const actor = actorIds.includes(
+                      n.childMarkdownRemark.frontmatter.username
+                    )
+                    return actor ? acc.concat(acc) : acc
+                  }, [])
+                )
+              ),
+              type: O.fromNullable(n.childMarkdownRemark.frontmatter.type),
+            },
+            fill: "#fff",
+            topicLabel: "",
+            topicSlug: "",
+            topicFill: "#fff",
+            htmlAst: n.childMarkdownRemark.htmlAst,
+          }
+
+          return eventDataNode
+        })
       )
     ),
     E.fold(
