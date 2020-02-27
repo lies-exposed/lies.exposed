@@ -132,28 +132,28 @@ export default class NetworkTemplate extends React.Component<
   onActorClick = (actor: ActorListActor): void => {
     this.setState({
       selectedActorIds: A.elem(Eq.eqString)(
-        actor.id,
+        actor.username,
         this.state.selectedActorIds
       )
         ? A.array.filter(
             this.state.selectedActorIds,
-            a => !Eq.eqString.equals(a, actor.id)
+            a => !Eq.eqString.equals(a, actor.username)
           )
-        : this.state.selectedActorIds.concat(actor.id),
+        : this.state.selectedActorIds.concat(actor.username),
     })
   }
 
   onTopicClick = (topic: TopicListTopic): void => {
     this.setState({
       selectedTopicIds: A.elem(Eq.eqString)(
-        topic.id,
+        topic.slug,
         this.state.selectedTopicIds
       )
         ? A.array.filter(
             this.state.selectedTopicIds,
-            a => !Eq.eqString.equals(a, topic.id)
+            a => !Eq.eqString.equals(a, topic.slug)
           )
-        : this.state.selectedTopicIds.concat(topic.id),
+        : this.state.selectedTopicIds.concat(topic.slug),
     })
   }
 

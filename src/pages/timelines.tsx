@@ -1,7 +1,7 @@
 import Menu from "@components/Common/Menu"
 import Layout from "@components/Layout"
 import SEO from "@components/SEO"
-import { ActorFileNode } from "@models/actor"
+import {  ActorPageContentFileNode } from "@models/actor"
 import { TopicFileNode } from "@models/topic"
 import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { FlexGridItem, FlexGrid } from "baseui/flex-grid"
@@ -16,7 +16,7 @@ interface PageContentNode {
 }
 
 interface Results {
-  actors: { nodes: ActorFileNode[] }
+  actors: { nodes: ActorPageContentFileNode[] }
   topics: { nodes: TopicFileNode[] }
   pageContent: { nodes: PageContentNode[] }
 }
@@ -72,7 +72,7 @@ const TimelinesPage = (): React.ReactElement => {
   const actorItems = actors.nodes.map(n => ({
     id: n.id,
     path: `/timelines/${n.childMarkdownRemark.frontmatter.username}`,
-    title: n.childMarkdownRemark.frontmatter.title,
+    title: n.childMarkdownRemark.frontmatter.fullName,
     items: [],
   }))
 
@@ -82,7 +82,7 @@ const TimelinesPage = (): React.ReactElement => {
     return {
       id,
       path: `/timelines/${id}`,
-      title: `${networkName} - ${t.childMarkdownRemark.frontmatter.title}`,
+      title: `${networkName} - ${t.childMarkdownRemark.frontmatter.label}`,
       items: [],
     }
   })

@@ -9,7 +9,7 @@ import SEO from "@components/SEO"
 import TimelineNavigator, {
   TimelineEvent,
 } from "@components/TimelineNavigator/TimelineNavigator"
-import { ActorPageContentFileNode, ActorFileNode } from "@models/actor"
+import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { ordEventFileNodeDate } from "@utils//event"
@@ -34,7 +34,7 @@ interface ActorTimelineTemplatePageProps {
   data: {
     pageContent: ActorPageContentFileNode
     actors: {
-      nodes: ActorFileNode[]
+      nodes: ActorPageContentFileNode[]
     }
     events: {
       nodes: EventFileNode[]
@@ -63,7 +63,6 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
     actors,
     events,
     eventsAsActor,
-    images,
   } = data
 
   const onEventClick = async (e: TimelineEvent): Promise<void> => {
@@ -82,7 +81,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
           actors: pipe(
             O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
             O.map(actorIds =>
-              actors.nodes.reduce<ActorFileNode[]>((acc, n) => {
+              actors.nodes.reduce<ActorPageContentFileNode[]>((acc, n) => {
                 const actor = actorIds.includes(
                   n.childMarkdownRemark.frontmatter.username
                 )
@@ -91,7 +90,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
             )
           ),
           links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
-          cover: O.fromNullable(e.childMarkdownRemark.frontmatter.cover),
+          cover: e.childMarkdownRemark.frontmatter.cover,
         },
         topicFill: "#fff",
         fill: "#fff",
@@ -106,13 +105,9 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
         return null
       },
       timelineEvents => {
-        const coverImage = images.nodes.find(i =>
-          Eq.eqString.equals(`${i.name}${i.ext}`, frontmatter.avatar)
-        )
-
         return (
           <Layout>
-            <SEO title={frontmatter.title} />
+            <SEO title={frontmatter.fullName} />
             <FlexGrid flexGridColumnCount={3}>
               <FlexGridItem>
                 <TimelineNavigator
@@ -131,11 +126,11 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
                   },
                 }}
               >
-                <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
-                {coverImage !== undefined ? (
-                  <img src={coverImage.childImageSharp.fixed.src} />
-                ) : (
-                  <div />
+                <HeadingXLarge>{frontmatter.fullName}</HeadingXLarge>
+                {pipe(
+                  frontmatter.avatar,
+                  O.map(src => <img key={`${frontmatter.username}-avatar`} src={src} />),
+                  O.toNullable
                 )}
                 <div className="content">{renderMarkdownAST(htmlAst)}</div>
                 <EventList events={timelineEvents} />
@@ -236,22 +231,6 @@ export const pageQuery = graphql`
           }
           htmlAst
         }
-      }
-    }
-
-    images: allFile(
-      filter: { relativePath: { glob: $imagesRelativeDirectoryGlob } }
-    ) {
-      nodes {
-        childImageSharp {
-          fixed {
-            src
-          }
-        }
-        relativeDirectory
-        relativePath
-        name
-        ext
       }
     }
   }

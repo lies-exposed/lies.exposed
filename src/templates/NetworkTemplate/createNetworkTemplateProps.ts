@@ -2,7 +2,7 @@ import { ActorListActor } from "@components/ActorList/ActorList"
 import { NetworkProps, NetworkScale } from "@components/Common/Network/Network"
 import { TopicListTopic } from "@components/TopicList/TopicList"
 import { PageContentNode } from "@models/PageContent"
-import { ActorFileNode } from "@models/actor"
+import { ActorPageContentFileNode } from "@models/actor"
 import { EventPoint, EventFileNode } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { TopicPoint, TopicFileNode } from "@models/topic"
@@ -26,7 +26,7 @@ interface NetworkLink extends Link<EventPoint> {
 type TopicsMap = Map<string, TopicPoint>
 
 interface ActorData {
-  actor: ActorFileNode
+  actor: ActorPageContentFileNode
   color: string
   events: EventPoint[]
   links: NetworkLink[]
@@ -161,7 +161,7 @@ export interface NetworkTemplateData {
     nodes: ImageFileNode[]
   }
   actors: {
-    nodes: ActorFileNode[]
+    nodes: ActorPageContentFileNode[]
   }
   events: {
     nodes: EventFileNode[]
@@ -225,12 +225,12 @@ export function createNetwork({
 
   // create a topics map
   const topicsMap = data.topics.nodes.reduce<TopicsMap>((acc, t, i) => {
-    return Map.insertAt(Eq.eqString)(t.childMarkdownRemark.id, {
+    return Map.insertAt(Eq.eqString)(t.childMarkdownRemark.frontmatter.slug, {
       data: {
-        id: t.childMarkdownRemark.id,
-        label: t.childMarkdownRemark.frontmatter.title,
+        label: t.childMarkdownRemark.frontmatter.label,
         slug: t.childMarkdownRemark.frontmatter.slug,
-        color: colors.topics[i],
+        color: t.childMarkdownRemark.frontmatter.color,
+        cover: t.childMarkdownRemark.frontmatter.cover,
         selected: false,
       },
       x: 0,
@@ -240,24 +240,9 @@ export function createNetwork({
 
   const actorsMap = A.zip(data.actors.nodes, colors.actors).reduce<ActorsMap>(
     (acc, [actor, color]) => {
-      const cover = data.actorsImages.nodes.find(
-        imageNode =>
-          actor.childMarkdownRemark.frontmatter.avatar ===
-          `${imageNode.name}${imageNode.ext}`
-      )
 
       const value: ActorData = {
-        actor: {
-          ...actor,
-          childMarkdownRemark: {
-            ...actor.childMarkdownRemark,
-            frontmatter: {
-              ...actor.childMarkdownRemark.frontmatter,
-              cover:
-                cover !== undefined ? cover.childImageSharp.fluid.src : null,
-            },
-          },
-        },
+        actor,
         color,
         events: [],
         links: [],
@@ -381,7 +366,7 @@ export function createNetwork({
               ...topic,
               data: {
                 ...topic.data,
-                selected: A.elem(Eq.eqString)(topic.data.id, selectedTopicIds),
+                selected: A.elem(Eq.eqString)(topic.data.slug, selectedTopicIds),
               },
             }
           })
@@ -394,7 +379,7 @@ export function createNetwork({
         const topic = topicOpt.value
 
         const cover = pipe(
-          O.fromNullable(e.childMarkdownRemark.frontmatter.cover),
+          e.childMarkdownRemark.frontmatter.cover,
           O.chain(c =>
             O.fromNullable(
               data.images.nodes.find(e => {
@@ -408,10 +393,11 @@ export function createNetwork({
         const eventFrontmatterType = O.fromNullable(
           e.childMarkdownRemark.frontmatter.type
         )
+        
         const eventActors = pipe(
           O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
           O.map(actors =>
-            actors.reduce<ActorFileNode[]>((acc, a) => {
+            actors.reduce<ActorPageContentFileNode[]>((acc, a) => {
               const actor = actorsList.find(
                 _ => _.actor.childMarkdownRemark.frontmatter.username === a
               )
@@ -451,7 +437,7 @@ export function createNetwork({
         }
 
         const eventNodes = pipe(
-          Map.lookup(Eq.eqString)(topic.data.id, acc.eventNodes),
+          Map.lookup(Eq.eqString)(topic.data.slug, acc.eventNodes),
           O.fold(
             () => [eventPoint],
             events => events.concat(eventPoint)
@@ -460,7 +446,7 @@ export function createNetwork({
 
         const selectedNodes = topic.data.selected
           ? pipe(
-              Map.lookup(Eq.eqString)(topic.data.id, acc.selectedNodes),
+              Map.lookup(Eq.eqString)(topic.data.slug, acc.selectedNodes),
               O.fold(
                 () => [eventPoint],
                 events => events.concat(eventPoint)
@@ -470,7 +456,7 @@ export function createNetwork({
 
         const eventLinks = topic.data.selected
           ? pipe(
-              Map.lookup(Eq.eqString)(topic.data.id, acc.eventLinks),
+              Map.lookup(Eq.eqString)(topic.data.slug, acc.eventLinks),
               O.fold(
                 () => [
                   {
@@ -571,14 +557,14 @@ export function createNetwork({
         )
 
         return {
-          eventNodes: Map.insertAt(Eq.eqString)(topic.data.id, eventNodes)(
+          eventNodes: Map.insertAt(Eq.eqString)(topic.data.slug, eventNodes)(
             acc.eventNodes
           ),
-          eventLinks: Map.insertAt(Eq.eqString)(topic.data.id, eventLinks)(
+          eventLinks: Map.insertAt(Eq.eqString)(topic.data.slug, eventLinks)(
             acc.eventLinks
           ),
           selectedNodes: Map.insertAt(Eq.eqString)(
-            topic.data.id,
+            topic.data.slug,
             selectedNodes
           )(acc.selectedNodes),
           actorsWithEventsAndLinksMap: actorsWithEventsAndLinksMap,
@@ -603,7 +589,7 @@ export function createNetwork({
           return {
             actors: acc.actors.concat({
               actor: {
-                ...value.actor,
+                ...value.actor.childMarkdownRemark.frontmatter,
                 selected: A.elem(Eq.eqString)(value.actor.id, selectedActorIds),
                 color: value.color,
               },
@@ -648,7 +634,7 @@ export function createNetwork({
         pageContent: data.pageContent,
         topics: topics.map(t => ({
           ...t.data,
-          selected: A.elem(Eq.eqString)(t.data.id, selectedTopicIds),
+          selected: A.elem(Eq.eqString)(t.data.slug, selectedTopicIds),
         })),
         actors: actorResults.actors,
         graph: {

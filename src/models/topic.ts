@@ -1,15 +1,15 @@
 import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
-export const TopicFrontmatter = t.interface(
+export const TopicFrontmatter = t.type(
   {
     label: t.string,
     slug: t.string,
     cover: optionFromNullable(t.string),
+    color: t.string,
   },
   "TopicFrontmatter"
 )
-
 export type TopicFrontmatter = t.TypeOf<typeof TopicFrontmatter>
 
 export const TopicFileNode = t.interface(
@@ -24,14 +24,13 @@ export const TopicFileNode = t.interface(
 
 export type TopicFileNode = t.TypeOf<typeof TopicFileNode>
 
-export const TopicData = t.interface(
-  {
-    id: t.string,
-    label: t.string,
-    slug: t.string,
-    color: t.string,
-    selected: t.boolean,
-  },
+export const TopicData = t.intersection(
+  [
+    TopicFrontmatter,
+    t.interface({
+      selected: t.boolean,
+    }),
+  ],
   "TopicData"
 )
 

@@ -173,7 +173,7 @@ class Network extends React.Component<NetworkProps, {}> {
                     <div key="actors">
                       Actors:{" "}
                       {actors
-                        .map(a => a.childMarkdownRemark.frontmatter.title)
+                        .map(a => a.childMarkdownRemark.frontmatter.fullName)
                         .join(", ")}
                     </div>
                   )),
