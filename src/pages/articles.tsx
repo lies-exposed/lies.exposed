@@ -1,41 +1,31 @@
 import Menu from "@components/Common/Menu"
 import Layout from "@components/Layout"
 import SEO from "@components/SEO"
+import { ArticleFileNode } from "@models/article"
+import { PageContent } from "@models/pageContent"
 import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { Theme } from "baseui/theme"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
-interface Node {
-  id: string
-  frontmatter: {
-    path: string
-    title: string
-  }
-}
-
-interface ArticleNode {
-  htmlAst: string
-}
-
 interface Results {
-  articles: { nodes: Node[] }
-  pageContent: { nodes: ArticleNode[] }
+  articles: { nodes: ArticleFileNode[] }
+  pageContent: { nodes: PageContent[] }
 }
 
 const ArticlesPage: React.FunctionComponent = () => {
   const { articles, pageContent }: Results = useStaticQuery(graphql`
     query ArticlePage {
-      articles: allMarkdownRemark(
-        filter: { fileAbsolutePath: { glob: "**/articles/**" } }
-      ) {
+      articles: allFile(filter: { relativeDirectory: { eq: "articles" } }) {
         nodes {
           id
-          fileAbsolutePath
-          frontmatter {
-            title
-            path
+          childMarkdownRemark {
+            frontmatter {
+              title
+              path
+            }
+            htmlAst
           }
         }
       }
@@ -51,9 +41,9 @@ const ArticlesPage: React.FunctionComponent = () => {
   `)
 
   const articleItems = articles.nodes.map(n => ({
-    id: n.id,
-    path: n.frontmatter.path,
-    title: n.frontmatter.title,
+    id: n.childMarkdownRemark.id,
+    path: `/articles/${n.childMarkdownRemark.frontmatter.path}`,
+    title: n.childMarkdownRemark.frontmatter.title,
     items: [],
   }))
 

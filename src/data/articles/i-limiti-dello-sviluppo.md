@@ -1,7 +1,7 @@
 ---
-path: articles/i-limiti-dello-sviluppo
 title: I limiti dello sviluppo
-date: "2019-10-26"
+path: i-limiti-dello-sviluppo
+date: 2019-10-26
 ---
 
 La Terra è quello che si chiama _sistema finito_: le risorse che circolano al suo interno sono risorse del sistema stesso, non provengono dallo scambio con altri sistemi e non sono sostituibili con nuove risorse provenienti dall'esterno una volta terminate.
