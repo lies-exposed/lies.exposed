@@ -7,15 +7,16 @@ import { EventFileNode, EventData } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { NetworkPageContentFileNode } from "@models/networks"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
+import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { Theme } from "baseui/theme"
 import { HeadingXLarge } from "baseui/typography"
+import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
-import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import React from "react"
 
 interface NetworkTopicTimelineTemplatePageProps {
@@ -37,19 +38,16 @@ interface NetworkTopicTimelineTemplatePageProps {
 export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicTimelineTemplatePageProps> = ({
   data,
 }) => {
-  const {
-    pageContent: {
-      childMarkdownRemark: { frontmatter, htmlAst },
-    },
-    actors,
-    events,
-  } = data
-
   return pipe(
-    t.array(EventFileNode).decode(events.nodes),
-    E.map(nodes =>
-      t.array(EventData).encode(
-        nodes.map(n => {
+    sequenceS(E.either)({
+      events: t.array(EventFileNode).decode(data.events.nodes),
+      actors: t.array(ActorPageContentFileNode).decode(data.actors.nodes),
+      pageContent: NetworkPageContentFileNode.decode(data.pageContent),
+    }),
+    E.map(({ pageContent, events, actors }) => {
+      return {
+        pageContent,
+        events: events.map(n => {
           const eventDataNode: EventData = {
             id: n.childMarkdownRemark.id,
             frontmatter: {
@@ -59,7 +57,7 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
               actors: pipe(
                 O.fromNullable(n.childMarkdownRemark.frontmatter.actors),
                 O.map(actorIds =>
-                  actors.nodes.reduce<ActorPageContentFileNode[]>((acc, n) => {
+                  actors.reduce<ActorPageContentFileNode[]>((acc, n) => {
                     const actor = actorIds.includes(
                       n.childMarkdownRemark.frontmatter.username
                     )
@@ -77,47 +75,42 @@ export const NetworkTopicTimelineTemplate: React.FunctionComponent<NetworkTopicT
           }
 
           return eventDataNode
-        })
-      )
-    ),
-    E.fold(
-      errs => {
-        // eslint-disable-next-line no-console
-        console.log(ThrowReporter.report(E.left(errs)))
-        return null
-      },
-      events => {
-        return (
-          <Layout>
-            <SEO title={frontmatter.title} />
-            <FlexGrid flexGridColumnCount={3}>
-              <FlexGridItem>
-                <TimelineNavigator
-                  events={events}
-                  onEventClick={async e => {
-                    await navigate(`${window.location.href}?#${e.id}`)
-                  }}
-                />
-              </FlexGridItem>
-              <FlexGridItem
-                overrides={{
-                  Block: {
-                    style: ({ $theme }: { $theme: Theme }) => ({
-                      width: `calc((200% - ${$theme.sizing.scale800}) / 3)`,
-                    }),
-                  },
-                }}
-              >
-                <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
-                {renderMarkdownAST(htmlAst)}
-                <EventList events={events} />
-              </FlexGridItem>
-              <FlexGridItem display="none" />
-            </FlexGrid>
-          </Layout>
-        )
+        }),
       }
-    )
+    }),
+    E.fold(throwValidationErrors, ({ pageContent, events }) => {
+      return (
+        <Layout>
+          <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+          <FlexGrid flexGridColumnCount={3}>
+            <FlexGridItem>
+              <TimelineNavigator
+                events={events}
+                onEventClick={async e => {
+                  await navigate(`${window.location.href}?#${e.id}`)
+                }}
+              />
+            </FlexGridItem>
+            <FlexGridItem
+              overrides={{
+                Block: {
+                  style: ({ $theme }: { $theme: Theme }) => ({
+                    width: `calc((200% - ${$theme.sizing.scale800}) / 3)`,
+                  }),
+                },
+              }}
+            >
+              <HeadingXLarge>
+                {pageContent.childMarkdownRemark.frontmatter.title}
+              </HeadingXLarge>
+              {renderMarkdownAST(pageContent.childMarkdownRemark.htmlAst)}
+              <EventList events={events} />
+            </FlexGridItem>
+            <FlexGridItem display="none" />
+          </FlexGrid>
+        </Layout>
+      )
+    })
   )
 }
 

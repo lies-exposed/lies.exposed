@@ -14,6 +14,7 @@ import { EventFileNode } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { ordEventFileNodeDate } from "@utils//event"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
+import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { Theme } from "baseui/theme"
 import { HeadingXLarge } from "baseui/typography"
@@ -25,7 +26,6 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
-import { ThrowReporter } from "io-ts/lib/ThrowReporter"
 import React from "react"
 
 interface ActorTimelineTemplatePageProps {
@@ -100,11 +100,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
       }))
     ),
     E.fold(
-      errs => {
-        // eslint-disable-next-line no-console
-        console.log(ThrowReporter.report(E.left(errs)))
-        return null
-      },
+      throwValidationErrors,
       timelineEvents => {
         const coverImage = images.nodes.find(i =>
           Eq.eqString.equals(`${i.name}${i.ext}`, frontmatter.avatar)
