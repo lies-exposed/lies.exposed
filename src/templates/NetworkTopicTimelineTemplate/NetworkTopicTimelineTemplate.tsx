@@ -3,7 +3,7 @@ import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { ActorPageContentFileNode, ActorFileNode } from "@models/actor"
+import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode, EventData } from "@models/event"
 import { ImageFileNode } from "@models/image"
 import { NetworkPageContentFileNode } from "@models/networks"
@@ -23,7 +23,7 @@ interface TopicTemplateProps {
   data: {
     pageContent: NetworkPageContentFileNode
     actors: {
-      nodes: ActorFileNode[]
+      nodes: ActorPageContentFileNode[]
     }
     events: {
       nodes: EventFileNode[]
@@ -106,11 +106,11 @@ export const pageQuery = graphql`
       childMarkdownRemark {
         frontmatter {
           title
-          path
           date
           icon
           cover
           type
+          slug
         }
         htmlAst
       }
@@ -125,11 +125,14 @@ export const pageQuery = graphql`
         id
         relativeDirectory
         childMarkdownRemark {
+          id
           frontmatter {
             title
             cover
             avatar
             username
+            date
+            color
           }
           htmlAst
         }

@@ -159,18 +159,14 @@ export default class NetworkTemplate extends React.Component<
                 justifyItems="center"
                 flexGridColumnCount={1}
               >
-                <FlexGridItem
-                  justifyItems="center"
-                  alignItems="center"
-                  alignContent="center"
-                  width="100%"
-                >
+                <FlexGridItem width="100%">
                   <HeadingLevel>
                     <Heading $style={{ textAlign: "center" }}>
                       {pageContent.frontmatter.title}
                     </Heading>
-
-                    {renderMarkdownAST(pageContent.htmlAst)}
+                    <div style={{ textAlign: "center" }}>
+                      {renderMarkdownAST(pageContent.htmlAst)}
+                    </div>
                   </HeadingLevel>
                   <FlexGrid flexGridColumnCount={2}>
                     <FlexGridItem>
@@ -190,17 +186,16 @@ export default class NetworkTemplate extends React.Component<
                       />
                     </FlexGridItem>
                   </FlexGrid>
-
-                  <div>
-                    {selectedEventsCounter.counter}/
-                    {selectedEventsCounter.total}
-                  </div>
                   <LabelMedium>
+                  {selectedEventsCounter.counter}/{selectedEventsCounter.total}
+                  </LabelMedium>
+                  <LabelMedium>
+                  
                     Scale: {scale}, Date Range: {formatDate(minDate)} -{" "}
                     {formatDate(maxDate)}
                   </LabelMedium>
                 </FlexGridItem>
-                <FlexGridItem display="flex" justifyContent="center">
+                <FlexGridItem display="none" justifyContent="center">
                   <div style={{ width, height, margin: 30 }}>
                     <Network
                       width={width}

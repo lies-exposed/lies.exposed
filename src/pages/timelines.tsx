@@ -31,9 +31,12 @@ const TimelinesPage = (): React.ReactElement => {
         nodes {
           relativeDirectory
           name
+          id
           childMarkdownRemark {
+            id
             frontmatter {
               title
+              path
               username
             }
           }
