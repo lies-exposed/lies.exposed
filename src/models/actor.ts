@@ -1,11 +1,11 @@
 import * as t from "io-ts"
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
 export const ActorPageContentFileNodeFrontmatter = t.type(
   {
     fullName: t.string,
-    path: t.string,
-    date: t.string,
+    date: DateFromISOString,
     avatar: optionFromNullable(t.string),
     username: t.string,
     color: t.string,
