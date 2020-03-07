@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Post Antropocene`,
+    title: `ECOnnessione`,
     description: `Emergenza planetaria a 360º.`,
     author: `@ascariandrea`,
   },
