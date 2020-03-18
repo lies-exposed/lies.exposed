@@ -2,13 +2,13 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { PageContentNode } from "@models/PageContent"
+import { NetworkPageContentFileNode } from "@models/networks"
 import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
-import { NetworkNode } from "types/networks"
 
 interface Results {
-  networks: { nodes: NetworkNode[] }
+  networks: { nodes: NetworkPageContentFileNode[] }
   pageContent: PageContentNode
 }
 
@@ -46,8 +46,8 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
       itemId: "#networks-page-menu",
       title: "Networs",
       subNav: items.nodes.map(n => ({
-        itemId: `/networks/${n.name}`,
-        title: n.name,
+        itemId: `/networks/${n.childMarkdownRemark.frontmatter.slug}`,
+        title: n.childMarkdownRemark.frontmatter.slug,
         subNav: [],
       })),
     },
