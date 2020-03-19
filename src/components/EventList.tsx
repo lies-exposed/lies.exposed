@@ -63,7 +63,6 @@ const EventList: React.FC<EventListProps> = props => {
                           actors={actors.map(a => ({
                             ...a.childMarkdownRemark.frontmatter,
                             selected: false,
-                            color: "trasparent",
                           }))}
                           onActorClick={() => undefined}
                         />

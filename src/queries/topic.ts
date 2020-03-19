@@ -9,20 +9,21 @@ export const TopicFileNodeQuery = graphql`
         title
         slug
       }
+      htmlAst
     }
   }
 `
 
 export const TopicPageContentFileNodeQuery = graphql`
   fragment TopicPageContentFileNode on File {
+    id
     childMarkdownRemark {
       frontmatter {
         title
-        path
         date
         icon
-        cover
         type
+        slug
       }
       htmlAst
     }

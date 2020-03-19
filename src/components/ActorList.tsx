@@ -6,7 +6,6 @@ import * as React from "react"
 
 export interface ActorListActor extends ActorPageContentFileNodeFrontmatter {
   selected: boolean
-  color: string
 }
 
 interface ActorListProps {
@@ -34,9 +33,10 @@ const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick }) => {
             style={{
               width: "100%",
               height: 3,
-              backgroundColor: a.selected ? a.color : "white",
+              backgroundColor:  a.selected ? pipe(a.color, O.getOrElse(() => 'white'))  : "white",
             }}
           />
+          
         </div>
       ))}
     </div>

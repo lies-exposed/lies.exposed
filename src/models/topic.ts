@@ -6,15 +6,15 @@ export const TopicPageContentFileNodeFrontmatter = t.type(
   {
     title: t.string,
     date: DateFromISOString,
-    avatar: t.string,
-    username: t.string,
-    color: t.string,
-    cover: optionFromNullable(t.string)
+    slug: t.string,
+    color: optionFromNullable(t.string),
   },
   "TopicPageContentFileNodeFrontmatter"
 )
 
-export type TopicPageContentFileNodeFrontmatter = t.TypeOf<typeof TopicPageContentFileNodeFrontmatter>
+export type TopicPageContentFileNodeFrontmatter = t.TypeOf<
+  typeof TopicPageContentFileNodeFrontmatter
+>
 
 export const TopicPageContentFileNode = t.type(
   {

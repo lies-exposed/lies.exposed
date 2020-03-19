@@ -15,6 +15,7 @@
       "@components/*": ["components/*"],
       "@helpers/*": ["helpers/*"],
       "@models/*": ["models/*"],
+      "@theme/*": ["theme/*"],
       "@utils/*": ["utils/*"]
     }
   },

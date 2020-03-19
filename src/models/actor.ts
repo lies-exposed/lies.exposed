@@ -8,13 +8,15 @@ export const ActorPageContentFileNodeFrontmatter = t.type(
     date: DateFromISOString,
     avatar: optionFromNullable(t.string),
     username: t.string,
-    color: t.string,
-    cover: optionFromNullable(t.interface({ url: t.string }))
+    color: optionFromNullable(t.string),
+    cover: optionFromNullable(t.interface({ url: t.string })),
   },
   "ActorPageContentFileNodeFrontmatter"
 )
 
-export type ActorPageContentFileNodeFrontmatter = t.TypeOf<typeof ActorPageContentFileNodeFrontmatter>
+export type ActorPageContentFileNodeFrontmatter = t.TypeOf<
+  typeof ActorPageContentFileNodeFrontmatter
+>
 
 export const ActorPageContentFileNode = t.type(
   {

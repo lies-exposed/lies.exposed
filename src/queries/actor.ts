@@ -5,11 +5,14 @@ export const query = graphql`
       id
       relativeDirectory
       childMarkdownRemark {
+        id
         frontmatter {
+          date
           title
           cover
           avatar
           username
+          color
         }
         htmlAst
       }

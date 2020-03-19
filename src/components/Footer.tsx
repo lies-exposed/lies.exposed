@@ -1,4 +1,4 @@
-import { useStyletron } from "baseui"
+import { themedUseStyletron } from "@theme/CustomeTheme"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { StyledLink } from "baseui/link"
 import { ParagraphSmall } from "baseui/typography"
@@ -9,9 +9,9 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = props => {
-  const [, theme] = useStyletron()
+  const [, theme] = themedUseStyletron()
   return (
-    <FlexGridItem padding="40px" backgroundColor={theme.colors.positive400}>
+    <FlexGridItem padding="40px" backgroundColor={theme.customColors.brandPrimary}>
       <footer>
         <FlexGrid flexGridColumnCount={3}>
           <FlexGridItem />

@@ -588,7 +588,6 @@ export function createNetwork({
               actor: {
                 ...value.actor.childMarkdownRemark.frontmatter,
                 selected: A.elem(Eq.eqString)(value.actor.id, selectedActorIds),
-                color: value.color,
               },
               antiEcologicAct: value.antiEcologicAct,
               ecologicAct: value.ecologicAct,

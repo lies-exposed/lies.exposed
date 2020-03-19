@@ -46,6 +46,8 @@
     "react-slick": "^0.25.2",
     "react-vertical-timeline-component": "2.5.0",
     "rehype-react": "5.0.0",
+    "source-serif-pro": "^3.1.0",
+    "styled-components": "^5.0.1",
     "styletron-engine-atomic": "^1.4.6",
     "styletron-react": "^5.2.7"
   },
@@ -59,6 +61,7 @@
     "@types/react-slick": "^0.23.4",
     "@types/react-vertical-timeline-component": "2.5.0",
     "@types/rehype-react": "^4.0.0",
+    "@types/styled-components": "^5.0.1",
     "@types/styletron-engine-atomic": "^1.1.0",
     "@types/styletron-react": "^5.0.2",
     "@types/styletron-standard": "^2.0.0",
