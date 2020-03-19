@@ -235,6 +235,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         "@components": path.resolve(__dirname, "src/components"),
         "@helpers": path.resolve(__dirname, "src/helpers"),
         "@models": path.resolve(__dirname, "src/models"),
+        "@theme": path.resolve(__dirname, 'src/theme'),
         "@utils": path.resolve(__dirname, "src/utils"),
       },
     },

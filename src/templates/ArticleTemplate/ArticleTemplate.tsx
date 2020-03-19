@@ -1,9 +1,9 @@
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { ArticleFileNodeChildMarkdownRemark } from "@models/article"
 import renderMarkdownAST from "@utils//renderMarkdownAST"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { FlexGridItem } from "baseui/flex-grid"
 import { HeadingXXLarge } from "baseui/typography"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -46,10 +46,11 @@ const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = props => {
     E.fold(throwValidationErrors, ({ pageContent, articles }) => (
       <Layout>
         <SEO title="Home" />
-        <FlexGridItem>
+
+        <MainContent>
           <HeadingXXLarge>{pageContent.frontmatter.title}</HeadingXXLarge>
           {renderMarkdownAST(pageContent.htmlAst)}
-        </FlexGridItem>
+        </MainContent>
       </Layout>
     ))
   )
