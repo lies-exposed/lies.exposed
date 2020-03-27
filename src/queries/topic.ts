@@ -2,12 +2,13 @@ import { graphql } from "gatsby";
 
 export const TopicFileNodeQuery = graphql`
   fragment TopicFileNode on File {
+    name
     relativeDirectory
     childMarkdownRemark {
       id
       frontmatter {
         title
-        slug
+        date
       }
       htmlAst
     }
@@ -17,13 +18,13 @@ export const TopicFileNodeQuery = graphql`
 export const TopicPageContentFileNodeQuery = graphql`
   fragment TopicPageContentFileNode on File {
     id
+    name
     childMarkdownRemark {
       frontmatter {
         title
         date
-        icon
         type
-        slug
+        color
       }
       htmlAst
     }

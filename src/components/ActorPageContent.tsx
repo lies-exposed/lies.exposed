@@ -1,45 +1,30 @@
 import { ActorPageContentFileNode } from "@models/actor"
-import { ImageFileNode } from "@models/image"
 import renderMarkdownAST from "@utils/renderMarkdownAST"
 import { HeadingXLarge } from "baseui/typography"
-import { graphql } from "gatsby"
+import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
+import Image from "gatsby-image"
 import * as React from "react"
 
-type APCFNCMR = ActorPageContentFileNode["childMarkdownRemark"]
-export interface ActorPageContentProps extends APCFNCMR {
-  coverImage?: ImageFileNode
-}
+export type ActorPageContentProps = ActorPageContentFileNode["childMarkdownRemark"]
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   frontmatter,
-  coverImage,
   htmlAst,
 }) => {
   return (
     <>
       <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
-      {coverImage !== undefined ? (
-        <img src={coverImage.childImageSharp.fixed.src} />
-      ) : (
-        <div />
+      {pipe(
+        frontmatter.avatar,
+        O.fold(
+          () => <div />,
+          i => (
+            <Image fluid={i.childImageSharp.fluid} style={{ width: "100px" }} />
+          )
+        )
       )}
       <div className="content">{renderMarkdownAST(htmlAst)}</div>
     </>
   )
 }
-
-export const query = graphql`
-  fragment ActorPageContentFileNode on File {
-    id
-    childMarkdownRemark {
-      frontmatter {
-        title
-        path
-        date
-        icon
-        avatar
-      }
-      htmlAst
-    }
-  }
-`

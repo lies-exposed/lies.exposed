@@ -10,9 +10,9 @@ import React from "react"
 import Helmet from "react-helmet"
 
 /* eslint-disable @typescript-eslint/no-var-requires */
-const firstImage: string = require("../images/billy-clouse-781VLZjFR8g-unsplash.jpg")
-const secondImage: string = require("../images/jordan-beltran-AxdlcxaModc-unsplash.jpg")
-const thirdImage: string = require("../images/markus-spiske-ur3wTilBmjQ-unsplash.jpg")
+const firstImage: string = require("../media/images/billy-clouse-781VLZjFR8g-unsplash.jpg")
+const secondImage: string = require("../media/images/jordan-beltran-AxdlcxaModc-unsplash.jpg")
+const thirdImage: string = require("../media/images/markus-spiske-ur3wTilBmjQ-unsplash.jpg")
 /* eslint-enable @typescript-eslint/no-var-requires */
 
 const slides = [

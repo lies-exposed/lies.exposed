@@ -9,7 +9,7 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      allFile(
+      articles: allFile(
         sort: {
           order: DESC
           fields: [childMarkdownRemark___frontmatter___date]
@@ -17,12 +17,10 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
         filter: { relativeDirectory: { eq: "articles" } }
         limit: 1000
       ) {
-        edges {
-          node {
-            childMarkdownRemark {
-              frontmatter {
-                path
-              }
+        nodes {
+          childMarkdownRemark {
+            frontmatter {
+              path
             }
           }
         }
@@ -36,18 +34,13 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  result.data.allFile.edges.forEach(({ node }) => {
-
+  result.data.articles.nodes.forEach(node => {
     const context = {
       filePath: node.childMarkdownRemark.frontmatter.path,
     }
 
     reporter.info(
-      `article page [${node.name}] context: ${JSON.stringify(
-        context,
-        null,
-        4
-      )}`
+      `article page [${node.name}] context: ${JSON.stringify(context, null, 4)}`
     )
 
     createPage({
@@ -67,9 +60,7 @@ const createActorTimelinePages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      actors: allDirectory(
-        filter: { relativeDirectory: { eq: "events/actors" } }
-      ) {
+      actors: allFile(filter: { relativeDirectory: { eq: "actors" } }) {
         nodes {
           name
         }
@@ -86,14 +77,10 @@ const createActorTimelinePages = async ({ actions, graphql, reporter }) => {
   const nodes = result.data.actors.nodes
 
   nodes.forEach(node => {
-    const nodePath = `/timelines/${node.name}`
-    const relativeDirectory = `events/actors/${node.name}`
-    const imagesRelativeDirectoryGlob = `${relativeDirectory}/images/**`
+    const nodePath = `/actors/${node.name}`
 
     const context = {
-      subject: node.name,
-      relativeDirectory,
-      imagesRelativeDirectoryGlob,
+      actor: node.name,
     }
 
     reporter.info(
@@ -159,11 +146,7 @@ const createNetworkPages = async ({ actions, graphql, reporter }) => {
   })
 }
 
-const createTopicTimelinePages = async ({
-  actions,
-  graphql,
-  reporter,
-}) => {
+const createTopicTimelinePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
   const topicTimelineTemplate = path.resolve(
     `src/templates/TopicTimelineTemplate/TopicTimelineTemplate.tsx`
@@ -171,11 +154,8 @@ const createTopicTimelinePages = async ({
 
   const result = await graphql(`
     {
-      allDirectory(
-        filter: { relativeDirectory: { glob: "events/networks/*" } }
-      ) {
+      topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
         nodes {
-          relativeDirectory
           name
         }
       }
@@ -190,28 +170,20 @@ const createTopicTimelinePages = async ({
     return
   }
 
-  const nodes = result.data.allDirectory.nodes
+  const nodes = result.data.topics.nodes
 
   nodes.forEach(node => {
-    const parentName = A.takeRight(1)(node.relativeDirectory.split("/"))[0]
-    const nodePath = `/timelines/${parentName}/${node.name}`
-    const relativeDirectory = `events/networks/${parentName}/${node.name}`
-    const imagesRelativeDirectoryPath = `${relativeDirectory}/images`
+    const nodePath = `/topics/${node.name}`
 
     const context = {
-      relativeDirectory,
-      imagesRelativeDirectoryPath,
+      topic: node.name,
     }
 
     reporter.info(
-      `NetworkTopicTimeline [${node.name}] context: ${JSON.stringify(
-        context,
-        null,
-        4
-      )}`
+      `Topic [${node.name}] context: ${JSON.stringify(context, null, 4)}`
     )
+    reporter.info(`Building to path: ${nodePath}`)
 
-    console.log(nodePath)
     createPage({
       path: nodePath,
       component: topicTimelineTemplate,
@@ -235,7 +207,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         "@components": path.resolve(__dirname, "src/components"),
         "@helpers": path.resolve(__dirname, "src/helpers"),
         "@models": path.resolve(__dirname, "src/models"),
-        "@theme": path.resolve(__dirname, 'src/theme'),
+        "@theme": path.resolve(__dirname, "src/theme"),
         "@utils": path.resolve(__dirname, "src/utils"),
       },
     },

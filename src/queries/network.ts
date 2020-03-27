@@ -11,7 +11,6 @@ export const query = graphql`
         date
         icon
         type
-        cover
       }
       htmlAst
     }

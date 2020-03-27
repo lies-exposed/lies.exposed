@@ -35,18 +35,26 @@ const EventList: React.FC<EventListProps> = props => {
                   flexGridColumnCount={1}
                   alignItems="center"
                 >
-                  <TopicList
-                    topics={[
-                      {
-                        id: event.topicSlug,
-                        label: event.topicLabel,
-                        slug: event.topicSlug,
-                        color: event.topicFill,
-                        selected: true,
-                      },
-                    ]}
-                    onTopicClick={() => undefined}
-                  />
+                  {pipe(
+                    event.frontmatter.topic,
+                    O.fold(
+                      () => null,
+                      (t) => (
+                        <TopicList
+                          topics={[
+                            {
+                              id: t.name,
+                              label: t.childMarkdownRemark.frontmatter.title,
+                              slug: t.name,
+                              color: t.childMarkdownRemark.frontmatter.color,
+                              selected: true,
+                            },
+                          ]}
+                          onTopicClick={() => undefined}
+                        />
+                      )
+                    )
+                  )}
                 </FlexGridItem>
                 <FlexGridItem
                   display="flex"
@@ -55,7 +63,6 @@ const EventList: React.FC<EventListProps> = props => {
                 >
                   {pipe(
                     event.frontmatter.actors,
-
                     O.fold(
                       () => null,
                       actors => (

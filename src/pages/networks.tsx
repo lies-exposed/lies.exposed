@@ -32,7 +32,7 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
   const navigatorItems = [
     {
       itemId: "#networks-page-menu",
-      title: "Networs",
+      title: "Networks",
       subNav: items.nodes.map(n => ({
         itemId: `/networks/${n.name}`,
         title: n.name,

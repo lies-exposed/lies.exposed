@@ -1,4 +1,5 @@
 import { ActorPageContent } from "@components/ActorPageContent"
+import { CalendarHeatmap } from "@components/CalendarHeatmap"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
@@ -6,12 +7,14 @@ import SEO from "@components/SEO"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode } from "@models/event"
-import { ImageFileNode } from "@models/image"
+import { TopicPageContentFileNode } from "@models/topic"
 import { ordEventFileNodeDate } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
+import { FlexGridItem } from "baseui/flex-grid"
+import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
-import * as Eq from "fp-ts/lib/Eq"
+import { eqString } from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -27,76 +30,73 @@ interface ActorTimelineTemplatePageProps {
     actors: {
       nodes: ActorPageContentFileNode[]
     }
+    topics: {
+      nodes: TopicPageContentFileNode[]
+    }
     events: {
       nodes: EventFileNode[]
     }
-    eventsAsActor: {
-      nodes: EventFileNode[]
-    }
-    images: {
-      nodes: ImageFileNode[]
-    }
   }
 }
-
-const byId = Eq.contramap((n: EventFileNode) => n.childMarkdownRemark.id)(
-  Eq.eqString
-)
 
 const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
   data,
   navigate,
 }) => {
-  const { pageContent, actors, events, eventsAsActor, images } = data
-
   return pipe(
-    E.right(A.union(byId)(events.nodes, eventsAsActor.nodes)),
-    E.chain(t.array(EventFileNode).decode),
-    E.map(events =>
-      A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(e => ({
-        ...e.childMarkdownRemark,
-        frontmatter: {
-          ...e.childMarkdownRemark.frontmatter,
-          type: O.fromNullable(e.childMarkdownRemark.frontmatter.type),
-          actors: pipe(
-            O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
-            O.map(actorIds =>
-              actors.nodes.reduce<ActorPageContentFileNode[]>((acc, n) => {
-                const actor = actorIds.includes(
-                  n.childMarkdownRemark.frontmatter.username
-                )
-                return actor ? acc.concat(acc) : acc
-              }, [])
-            )
-          ),
-          links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
-          cover: e.childMarkdownRemark.frontmatter.cover,
-        },
-        topicFill: "#fff",
-        fill: "#fff",
-        topicLabel: "fake",
-        topicSlug: "fake",
-      }))
-    ),
-    E.fold(throwValidationErrors, timelineEvents => {
-      const coverImage = images.nodes.find(i =>
-        Eq.eqString.equals(
-          `${i.name}${i.ext}`,
-          pageContent.childMarkdownRemark.frontmatter.avatar
-        )
-      )
-
+    sequenceS(E.either)({
+      pageContent: ActorPageContentFileNode.decode(data.pageContent),
+      actors: t.array(ActorPageContentFileNode).decode(data.actors.nodes),
+      topics: t.array(TopicPageContentFileNode).decode(data.topics.nodes),
+      events: t.array(EventFileNode).decode(data.events.nodes),
+    }),
+    E.map(({ pageContent, actors, topics, events }) => ({
+      pageContent,
+      events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
+        e => ({
+          ...e.childMarkdownRemark,
+          frontmatter: {
+            ...e.childMarkdownRemark.frontmatter,
+            type: O.fromNullable(e.childMarkdownRemark.frontmatter.type),
+            actors: pipe(
+              e.childMarkdownRemark.frontmatter.actors,
+              O.map(usernames =>
+                actors.reduce<ActorPageContentFileNode[]>((acc, actorNode) => {
+                  const actor = usernames.includes(
+                    actorNode.childMarkdownRemark.frontmatter.username
+                  )
+                  return actor ? acc.concat(actorNode) : acc
+                }, [])
+              )
+            ),
+            topic: O.fromNullable(
+              topics.find(t =>
+                eqString.equals(e.childMarkdownRemark.frontmatter.topic, t.name)
+              )
+            ),
+            links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
+            cover: e.childMarkdownRemark.frontmatter.cover,
+          },
+        })
+      ),
+    })),
+    E.fold(throwValidationErrors, ({ pageContent, events }) => {
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
-          <ContentWithSideNavigation
-            items={eventsDataToNavigatorItems(timelineEvents)}
-          >
-            <ActorPageContent
-              {...pageContent.childMarkdownRemark}
-              coverImage={coverImage}
+          <FlexGridItem>
+            <CalendarHeatmap
+              width={1000}
+              height={300}
+              events={events}
+              onCircleClick={async event => {
+                await navigate(`#${event.id}`)
+              }}
             />
-            <EventList events={timelineEvents} />
+          </FlexGridItem>
+          <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
+            <ActorPageContent {...pageContent.childMarkdownRemark} />
+            <EventList events={events} />
           </ContentWithSideNavigation>
         </Layout>
       )
@@ -105,64 +105,33 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
 }
 
 export const pageQuery = graphql`
-  query ActorTimelineTemplatePage(
-    $subject: String!
-    $relativeDirectory: String!
-    $imagesRelativeDirectoryGlob: String!
-  ) {
+  query ActorTimelineTemplatePage($actor: String!) {
     pageContent: file(
-      relativeDirectory: { eq: $relativeDirectory }
-      name: { eq: "index" }
+      relativeDirectory: { eq: "actors" }
+      name: { eq: $actor }
     ) {
       ...ActorPageContentFileNode
     }
 
-    actors: allFile(
-      filter: {
-        relativeDirectory: { glob: "events/actors/*" }
-        name: { eq: "index" }
-      }
-    ) {
+    actors: allFile(filter: { relativeDirectory: { eq: "actors" } }) {
       nodes {
-        ...ActorFileNode
+        ...ActorPageContentFileNode
       }
     }
 
-    eventsAsActor: allFile(
-      filter: {
-        childMarkdownRemark: { frontmatter: { actors: { eq: $subject } } }
-      }
-      sort: { order: DESC, fields: childMarkdownRemark___frontmatter___date }
-    ) {
+    topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
       nodes {
-        ...EventFileNode
+        ...TopicPageContentFileNode
       }
     }
 
     events: allFile(
       filter: {
-        relativeDirectory: { eq: $relativeDirectory }
-        name: { ne: "index" }
+        childMarkdownRemark: { frontmatter: { actors: { in: [$actor] } } }
       }
     ) {
       nodes {
         ...EventFileNode
-      }
-    }
-
-    images: allFile(
-      filter: { relativePath: { glob: $imagesRelativeDirectoryGlob } }
-    ) {
-      nodes {
-        childImageSharp {
-          fixed {
-            src
-          }
-        }
-        relativeDirectory
-        relativePath
-        name
-        ext
       }
     }
   }

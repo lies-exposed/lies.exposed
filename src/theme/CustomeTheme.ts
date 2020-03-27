@@ -92,10 +92,12 @@ const overrides = {
 
     /* Input */
     inputFill: 'transparent',
-    inputBorderError: customColors.red,
     inputFillError: customColors.white,
     inputFillActive: customColors.white,
     inputTextDisabled: customColors.secondaryLight,
+  },
+  typography: {
+    secondaryFont: 'Verdana'
   }
 };
 

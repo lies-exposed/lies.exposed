@@ -6,8 +6,7 @@ export const TopicPageContentFileNodeFrontmatter = t.type(
   {
     title: t.string,
     date: DateFromISOString,
-    slug: t.string,
-    color: optionFromNullable(t.string),
+    color: t.string,
   },
   "TopicPageContentFileNodeFrontmatter"
 )
@@ -19,6 +18,7 @@ export type TopicPageContentFileNodeFrontmatter = t.TypeOf<
 export const TopicPageContentFileNode = t.type(
   {
     id: t.string,
+    name: t.string,
     childMarkdownRemark: t.type(
       {
         frontmatter: TopicPageContentFileNodeFrontmatter,
@@ -44,6 +44,7 @@ export const TopicFileNodeFrontmatter = t.type(
 
 export const TopicFileNode = t.interface(
   {
+    name: t.string,
     relativeDirectory: t.string,
     childMarkdownRemark: t.interface({
       id: t.string,

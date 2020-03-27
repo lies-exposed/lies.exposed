@@ -24,9 +24,9 @@ const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick }) => {
           onClick={() => onActorClick(a)}
         >
           {pipe(
-            a.childMarkdownRemark.frontmatter.cover,
-            O.map(src => (
-              <Avatar key={src} name="Jane Doe" size="scale1000" src={src} />
+            a.childMarkdownRemark.frontmatter.avatar,
+            O.map(avatar => (
+              <Avatar key={a.id} name="Jane Doe" size="scale1000" src={avatar.childImageSharp.fluid.src} />
             )),
             O.toNullable
           )}

@@ -2,18 +2,22 @@ import * as t from "io-ts"
 
 export const ImageFileNode = t.interface(
   {
-    childImageSharp: t.interface({
-      fluid: t.interface({
-        src: t.string,
-      }),
-      fixed: t.interface({
-        src: t.string,
-      }),
-    }, 'ImageFileNodeChildImageSharp'),
-    relativeDirectory: t.string,
-    relativePath: t.string,
-    name: t.string,
-    ext: t.string,
+    childImageSharp: t.interface(
+      {
+        fluid: t.interface({
+          aspectRatio: t.number,
+          src: t.string,
+          srcSet: t.string,
+          sizes: t.string,
+          base64: t.union([t.undefined, t.string]),
+          tracedSVG: t.union([t.undefined, t.string]),
+          srcWebp: t.union([t.undefined, t.string]),
+          srcSetWebp: t.union([t.undefined, t.string]),
+          media: t.union([t.undefined, t.string]),
+        })
+      },
+      "ImageFileNodeChildImageSharp"
+    )
   },
   "ImageFileNode"
 )

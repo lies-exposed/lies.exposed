@@ -47,29 +47,25 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
         pageContent,
         events: events.map(n => {
           const eventDataNode: EventData = {
-            id: n.childMarkdownRemark.id,
+            ...n.childMarkdownRemark,
             frontmatter: {
               ...n.childMarkdownRemark.frontmatter,
               links: O.fromNullable(n.childMarkdownRemark.frontmatter.links),
               cover: n.childMarkdownRemark.frontmatter.cover,
               actors: pipe(
-                O.fromNullable(n.childMarkdownRemark.frontmatter.actors),
+                n.childMarkdownRemark.frontmatter.actors,
                 O.map(actorIds =>
                   actors.reduce<ActorPageContentFileNode[]>((acc, n) => {
                     const actor = actorIds.includes(
                       n.childMarkdownRemark.frontmatter.username
                     )
-                    return actor ? acc.concat(acc) : acc
+                    return actor ? acc.concat(n) : acc
                   }, [])
                 )
               ),
+              topic: O.some(pageContent),
               type: O.fromNullable(n.childMarkdownRemark.frontmatter.type),
-            },
-            fill: "#fff",
-            topicLabel: "",
-            topicSlug: "",
-            topicFill: "#fff",
-            htmlAst: n.childMarkdownRemark.htmlAst,
+            }
           }
 
           return eventDataNode
@@ -91,49 +87,29 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 }
 
 export const pageQuery = graphql`
-  query TopicTimelineTemplateQuery(
-    $relativeDirectory: String!
-    $imagesRelativeDirectoryPath: String!
-  ) {
+  query TopicTimelineTemplateQuery($topic: String!) {
     pageContent: file(
-      relativeDirectory: { eq: $relativeDirectory }
-      name: { eq: "index" }
+      relativeDirectory: { eq: "topics" }
+      name: { eq: $topic }
     ) {
       ...TopicPageContentFileNode
     }
+
     actors: allFile(
-      filter: {
-        relativeDirectory: { glob: "events/actors/*" }
-        name: { eq: "index" }
-      }
+      filter: { relativeDirectory: { eq: "actors" } }
     ) {
       nodes {
-        ...ActorFileNode
+        ...ActorPageContentFileNode
       }
     }
 
     events: allFile(
       filter: {
-        relativeDirectory: { eq: $relativeDirectory }
-        name: { ne: "index" }
+        childMarkdownRemark: { frontmatter: { topic: { eq: $topic } } }
       }
-      sort: { order: DESC, fields: [childMarkdownRemark___frontmatter___date] }
     ) {
       nodes {
         ...EventFileNode
-      }
-    }
-    images: allFile(
-      filter: { relativeDirectory: { eq: $imagesRelativeDirectoryPath } }
-    ) {
-      nodes {
-        childImageSharp {
-          fixed {
-            src
-          }
-        }
-        relativeDirectory
-        relativePath
       }
     }
   }
