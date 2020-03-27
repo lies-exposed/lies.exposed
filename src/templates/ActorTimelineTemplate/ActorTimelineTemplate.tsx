@@ -1,5 +1,4 @@
 import { ActorPageContent } from "@components/ActorPageContent"
-import { CalendarHeatmap } from "@components/CalendarHeatmap"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
@@ -10,7 +9,6 @@ import { EventFileNode } from "@models/event"
 import { TopicPageContentFileNode } from "@models/topic"
 import { ordEventFileNodeDate } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { FlexGridItem } from "baseui/flex-grid"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
@@ -90,7 +88,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.fullName} />
-          <FlexGridItem>
+          {/* <FlexGridItem>
             <CalendarHeatmap
               width={1000}
               height={300}
@@ -99,7 +97,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
                 await navigate(`#${event.id}`)
               }}
             />
-          </FlexGridItem>
+            </FlexGridItem> */}
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
             <ActorPageContent {...pageContent.childMarkdownRemark} />
             <EventList events={events} />
