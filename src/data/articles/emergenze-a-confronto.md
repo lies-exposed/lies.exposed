@@ -4,6 +4,7 @@ path: emergenze-a-confronto
 date: 2020-03-26
 links:
   - https://www.wired.it/attualita/politica/2020/03/12/tagli-sanita-italia-storia/
+  - https://ilmanifesto.it/david-quammen-questo-virus-e-piu-pericoloso-di-ebola-e-sars/
   - https://www.quotidianodelsud.it/laltravocedellitalia/litalia-rovesciata/saluteeassistenza/2020/03/16/gli-sbagli-del-passato-quei-tagli-mortali-alla-sanita
   - https://www.ilmessaggero.it/italia/coronavirus_bergamo_lombardia_news_giorgio_gori_quando_finira_cosa_succedera_morti_contagi_ultime-5131254.html
   - https://www.wumingfoundation.com/giap/2020/03/criminalizzare-il-jogging/
@@ -13,6 +14,7 @@ links:
   - https://theicct.org/publications/health-impacts-transport-emissions-2010-2015
   - http://www.ansa.it/sito/videogallery/mondo/2020/03/24/coronavirus-lonu-chiede-un-cessate-il-fuoco-mondiale-e-immediato_cd38d034-eba8-4173-b703-5cbfc04fa919.html
   - https://ilmanifesto.it/il-virus-mette-la-globalizzazione-con-i-piedi-per-terra/
+  - https://thegeckoproject.org/new-player-starts-clearing-rainforest-in-worlds-biggest-oil-palm-project-48214ebe21e9
 ---
 
 
@@ -39,16 +41,20 @@ Per gli Stati del mondo più inquinati, i 9.900.000 di morti a causa di inquinam
 Non lo sono per l'Italia i circa 80.000 che ogni anno muoiono per la stessa causa, 220 (duecentoventi) persone al giorno.
 
 Le morti ormai abituali per un virus che, ad oggi, ha fatto molte più vittime del Covid-19, chiamato inquinamento atmosferico da utilizzo spropositato di fonti fossili, non richiede una gestione emergenziale, nemmeno di urgenza.
-Persone che vengono coscientemente lasciate morire perché l’economia ha sempre avuto la priorità. Ciò che frutta alle grandi aziende, che rendono grande il loro Stato, deve proseguire anche davanti alla concretezza dell’impatto negativo che hanno sul sistema, che va oltre all’illusione di crescita percepita nel breve periodo.
+Persone che vengono coscientemente lasciate morire perché l’economia ha sempre avuto la priorità. Ciò che frutta alle grandi aziende, che rendono grande il loro Stato agli occhi degli altri, deve proseguire anche davanti alla concretezza dell’impatto negativo che hanno sul sistema, che va oltre all’illusione di crescita percepita nel breve periodo.
 
 I finanziamenti alle armi che non si fermano e la crescente militarizzazione sono un'altra dimostrazione del tipo di considerazione che i nostri leader hanno di noi individui: non c'è neanche spazio per un dialogo, l'impiego dell'esercito è l'unico mezzo con cui risolvere le cose.
 
 Il sistema sanitario ridotto all'osso dalle scelte politiche degli ultimi 40 anni da una parte, le bombe che vendiamo all'Arabia Saudita che vengono lanciate in Yemen dall'altra.
 Il cercare di salvare più persone possibili dal virus in questo momento, uccidendone consapevolemente molte di più con guerre e inquinamento.
 
-In un momento storico che dovrebbe farci capire il danno di guerre e devastazioni ambientali vediamo come gli interessi economici continuino a prevalere sull'ambiente e sulla corsa contro il tempo nel contenere l'innalzamento della temperatura: in Italia continuano gli abbattimenti degli alberi, il cantiere TAV
+In un momento storico che dovrebbe farci capire il danno di guerre e devastazioni ambientali vediamo come gli interessi economici continuino a prevalere sull'ambiente e sulla corsa contro il tempo nel mantenere questo pianeta vivibile: in Italia continua la produzione di armi, l'abbattimento sistemico degli alberi, il cantiere dell'inutile TAV e delle altre Grandi Opere, in Indonesia si sono disboscati 170 ettari di giungla per fare spazio al più grande progetto di produzione di olio di palma al mondo[^3], le banche coordinano un'azione di lobbying per far saltare le norme su trasparenza e sulle restrizioni agli investimenti nei combustibili fossili[^4] e chissà quante altre azioni controproducenti per la vita su questo pianeta stiamo portando avanti. 
+
+[...]
 
 
 
 [^1]: https://www.wired.it/attualita/politica/2020/03/12/tagli-sanita-italia-storia/
 [^2]: https://www.ilfattoquotidiano.it/2020/03/24/coronavirus-la-denuncia-dal-call-center-50-in-una-stanza-senza-precauzioni-a-1200-euro-al-mese-ma-per-il-governo-dobbiamo-restare-aperti-produciamo-un-servizio-essenziale-la-vendita-di-piani/5747074/
+[^3]: https://thegeckoproject.org/new-player-starts-clearing-rainforest-in-worlds-biggest-oil-palm-project-48214ebe21e9
+[^4]: https://www.recommon.org/le-grandi-banche-sfruttano-il-covid-19-via-le-norme-su-fossili-e-trasparenza/
