@@ -6,14 +6,12 @@ export const query = graphql`
       id
       frontmatter {
         title
-        path
         date
+        topic
         icon
         type
-        cover
         actors
         links
-        cover
       }
       htmlAst
     }

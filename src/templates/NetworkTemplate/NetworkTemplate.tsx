@@ -251,7 +251,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        ...ActorFileNode
+        ...ActorPageContentFileNode
       }
     }
     actorsImages: allFile(

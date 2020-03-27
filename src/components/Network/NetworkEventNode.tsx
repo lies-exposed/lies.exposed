@@ -4,6 +4,8 @@ import { HierarchyPointNode } from "d3-hierarchy"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
+
+
 export interface NetworkNodeProps {
   node: HierarchyPointNode<EventPoint["data"]>
   onMouseOver?: (
@@ -34,14 +36,14 @@ const NetworkNode: React.FC<NetworkNodeProps> = ({
   return (
     <Group {...groupProps as any} onClick={() => onClick(node)}>
       {O.fold(
-        () => <circle r={12} fill={node.data.fill} />,
+        () => <circle r={12} fill={'#fff'} />,
         type => (
           <>
             <circle
               r={12}
               fill={type === "AntiEcologicAct" ? "red" : "green"}
             />
-            <circle r={8} fill={node.data.fill} />
+            <circle r={8} fill={'#fff'} />
           </>
         )
       )(node.data.frontmatter.type)}

@@ -1,7 +1,7 @@
 import { BlockQuote } from "@components/BlockQuote"
 import Gallery from "@components/Gallery/Gallery"
 import {
-  ParagraphMedium,
+  ParagraphLarge,
   HeadingXXLarge,
   HeadingMedium,
   HeadingXSmall,
@@ -22,7 +22,7 @@ const renderMarkdownAST = new RehypeReact({
     h4: HeadingMedium,
     h5: HeadingSmall,
     h6: HeadingXSmall,
-    p: ParagraphMedium,
+    p: ParagraphLarge,
     blockquote: BlockQuote,
   },
 }).Compiler

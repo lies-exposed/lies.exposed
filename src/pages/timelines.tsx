@@ -5,7 +5,6 @@ import SEO from "@components/SEO"
 import { ActorPageContentFileNode } from "@models/actor"
 import { PageContentFileNode } from "@models/page"
 import { TopicFileNode } from "@models/topic"
-import * as A from "fp-ts/lib/Array"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
@@ -20,18 +19,16 @@ const TimelinesPage = (): React.ReactElement => {
     query TimelinesPage {
       actors: allFile(
         filter: {
-          relativeDirectory: { glob: "events/actors/*" }
-          name: { eq: "index" }
+          sourceInstanceName: { eq: "data" }
+          relativeDirectory: { eq: "actors" }
         }
       ) {
         nodes {
-          ...ActorFileNode
+          ...ActorPageContentFileNode
         }
       }
 
-      topics: allFile(
-        filter: { relativePath: { glob: "events/networks/*/*/index.md" } }
-      ) {
+      topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
         nodes {
           ...TopicFileNode
         }
@@ -47,7 +44,7 @@ const TimelinesPage = (): React.ReactElement => {
     itemId: "#actors-items",
     title: "Attori",
     subNav: actors.nodes.map(n => ({
-      itemId: `/timelines/${n.childMarkdownRemark.frontmatter.username}`,
+      itemId: `/actors/${n.childMarkdownRemark.frontmatter.username}`,
       title: n.childMarkdownRemark.frontmatter.fullName,
       subNav: [],
     })),
@@ -57,16 +54,13 @@ const TimelinesPage = (): React.ReactElement => {
     itemId: "#topics-items",
     title: "Topic",
     subNav: topics.nodes.map(t => {
-      const networkName = A.takeRight(2)(t.relativeDirectory.split("/"))[0]
-      const id = `${networkName}/${t.childMarkdownRemark.frontmatter.slug}`
       return {
-        itemId: `/timelines/${id}`,
-        title: `${networkName} - ${t.childMarkdownRemark.frontmatter.slug}`,
+        itemId: `/topics/${t.childMarkdownRemark.frontmatter.slug}`,
+        title: t.childMarkdownRemark.frontmatter.label,
         subNav: [],
       }
     }),
   }
-
 
   return (
     <Layout>

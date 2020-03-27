@@ -4,6 +4,7 @@ import { date } from "io-ts-types/lib/date"
 import { option } from "io-ts-types/lib/option"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { ActorPageContentFileNode } from "./actor"
+import { TopicFrontmatter } from "./topic"
 
 export interface TreeEvent {
   name: string
@@ -30,7 +31,8 @@ export const EventFileNodeFrontmatter = t.interface(
   {
     title: t.string,
     date: DateFromISOString,
-    actors: t.union([t.null, t.undefined, t.array(t.string)]),
+    topic: t.string,
+    actors: optionFromNullable(t.array(t.string)),
     type: t.union([t.null, t.undefined, EventType]),
     cover: optionFromNullable(t.string),
     links: t.union([t.null, t.undefined, t.array(t.string)]),
@@ -60,6 +62,7 @@ export const EventPointFrontmatter = t.interface(
     title: t.string,
     date: date,
     actors: option(t.array(ActorPageContentFileNode)),
+    topic: option(TopicFrontmatter),
     links: option(t.array(t.string)),
     type: option(EventType),
     cover: option(t.string),
@@ -74,10 +77,6 @@ export const EventData = t.interface(
     id: t.string,
     frontmatter: EventPointFrontmatter,
     htmlAst: t.object,
-    topicLabel: t.string,
-    topicFill: t.string,
-    topicSlug: t.string,
-    fill: t.string
   },
   "EventData"
 )

@@ -9,7 +9,7 @@ export const TopicPageContent: React.FC<TopicPageContentProps> = ({ frontmatter,
   return (
     <>
       <HeadingXLarge>
-        {frontmatter.title}
+        {frontmatter.label}
       </HeadingXLarge>
       {renderMarkdownAST(htmlAst)}
     </>

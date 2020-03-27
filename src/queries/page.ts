@@ -9,7 +9,6 @@ export const query = graphql`
         path
         date
         icon
-        avatar
       }
       htmlAst
     }

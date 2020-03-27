@@ -1,20 +1,25 @@
 import { graphql } from "gatsby"
 
 export const query = graphql`
-  fragment ActorFileNode on File {
+  fragment ActorPageContentFileNode on File {
+    id
+    relativeDirectory
+    childMarkdownRemark {
       id
-      relativeDirectory
-      childMarkdownRemark {
-        id
-        frontmatter {
-          date
-          title
-          cover
-          avatar
-          username
-          color
-        }
-        htmlAst
+      frontmatter {
+        date
+        title
+        username
+        avatar {
+          childImageSharp {
+            fluid(maxWidth: 600) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }   
+        color
       }
+      htmlAst
+    }
   }
 `

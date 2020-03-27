@@ -224,10 +224,7 @@ export function createNetwork({
   const topicsMap = data.topics.nodes.reduce<TopicsMap>((acc, t, i) => {
     return Map.insertAt(Eq.eqString)(t.childMarkdownRemark.frontmatter.slug, {
       data: {
-        label: t.childMarkdownRemark.frontmatter.label,
-        slug: t.childMarkdownRemark.frontmatter.slug,
-        color: t.childMarkdownRemark.frontmatter.color,
-        cover: t.childMarkdownRemark.frontmatter.cover,
+        ...t.childMarkdownRemark.frontmatter,
         selected: false,
       },
       x: 0,
@@ -237,7 +234,6 @@ export function createNetwork({
 
   const actorsMap = A.zip(data.actors.nodes, colors.actors).reduce<ActorsMap>(
     (acc, [actor, color]) => {
-
       const value: ActorData = {
         actor,
         color,
@@ -363,7 +359,10 @@ export function createNetwork({
               ...topic,
               data: {
                 ...topic.data,
-                selected: A.elem(Eq.eqString)(topic.data.slug, selectedTopicIds),
+                selected: A.elem(Eq.eqString)(
+                  topic.data.slug,
+                  selectedTopicIds
+                ),
               },
             }
           })
@@ -375,24 +374,14 @@ export function createNetwork({
 
         const topic = topicOpt.value
 
-        const cover = pipe(
-          e.childMarkdownRemark.frontmatter.cover,
-          O.chain(c =>
-            O.fromNullable(
-              data.images.nodes.find(e => {
-                return Eq.eqString.equals(`${e.name}${e.ext}`, c)
-              })
-            )
-          ),
-          O.map(e => e.childImageSharp.fluid.src)
-        )
+        const cover = pipe(e.childMarkdownRemark.frontmatter.cover)
 
         const eventFrontmatterType = O.fromNullable(
           e.childMarkdownRemark.frontmatter.type
         )
 
         const eventActors = pipe(
-          O.fromNullable(e.childMarkdownRemark.frontmatter.actors),
+          e.childMarkdownRemark.frontmatter.actors,
           O.map(actors =>
             actors.reduce<ActorPageContentFileNode[]>((acc, a) => {
               const actor = actorsList.find(
@@ -419,12 +408,16 @@ export function createNetwork({
           y: yGetter(topic.data.slug),
           data: {
             ...e.childMarkdownRemark,
-            topicLabel: topic.data.label,
-            topicFill: topic.data.color,
-            topicSlug: topic.data.slug,
-            fill: topic.data.color,
             frontmatter: {
               ...e.childMarkdownRemark.frontmatter,
+              topic: pipe(
+                O.fromNullable(
+                  topics.find(
+                    t => t.data.slug === e.childMarkdownRemark.frontmatter.topic
+                  )
+                ),
+                O.map(t => t.data)
+              ),
               type: eventFrontmatterType,
               links: eventFrontmatterLinks,
               actors: eventActors,
