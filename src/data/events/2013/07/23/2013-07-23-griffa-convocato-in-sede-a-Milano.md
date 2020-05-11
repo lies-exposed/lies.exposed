@@ -1,7 +1,6 @@
 ---
 title: Ing. Griffa convocato in sede a Milano
 date: 2013-07-23
-icon: pencil-alt
 topic: eni-val-d-agri
 actors:
     - gianluca-griffa

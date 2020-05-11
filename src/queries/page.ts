@@ -8,7 +8,6 @@ export const query = graphql`
         title
         path
         date
-        icon
       }
       htmlAst
     }

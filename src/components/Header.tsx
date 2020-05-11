@@ -58,7 +58,11 @@ const Header: React.FC = () => {
       id: "networks",
       path: "/networks",
       title: "Networks",
-    },
+    },{
+      id: 'groups',
+      path: '/groups',
+      title: 'Groups'
+    }
   ]
 
   return (

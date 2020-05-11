@@ -1,5 +1,4 @@
 ---
-icon: pencil-alt
 date: 2019-07-11
 title: Incontro con gli investitori cinesi per Milano-Cortina 2026
 type: AntiEcologicAct

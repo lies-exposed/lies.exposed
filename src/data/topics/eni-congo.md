@@ -1,7 +1,6 @@
 ---
-title: Congo
+title: ENI - Congo
 date: 2020-01-24
-icon: pencil-alt
 color: '#1dfe13'
 
 ---

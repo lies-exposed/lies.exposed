@@ -1,7 +1,6 @@
 ---
-title: Ecuador
+title: ENI - Ecuador
 date: 2020-01-24
-icon: pencil-alt
 color: '#ff2800'
 ---
 

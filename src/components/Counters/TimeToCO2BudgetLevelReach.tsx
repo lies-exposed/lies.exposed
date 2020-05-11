@@ -1,17 +1,19 @@
+import { themedUseStyletron} from '@theme/CustomeTheme'
 import { ParagraphMedium } from "baseui/typography"
 import moment from "moment"
 import * as React from "react"
 
+const END_DATE = new Date(2030, 11, 31)
 const calculateTimeLeft = (): number => {
-  const now = new Date()
-  const endDate = new Date(2028, 1, 1)
-  return moment(endDate).diff(moment(now), "s")
+  const now = new Date()  
+  return moment(END_DATE).diff(moment(now), "s")
 }
 
-interface CountdownTimerProps {
+interface TimeToCO2BudgetLevelReachProps {
   message?: string
 }
-export const CountdownTimer: React.FC<CountdownTimerProps> = props => {
+export const TimeToCO2BudgetLevelReach: React.FC<TimeToCO2BudgetLevelReachProps> = props => {
+  const [, $theme] = themedUseStyletron()
   const [timeLeft, setTimeLeft] = React.useState(calculateTimeLeft())
 
   React.useEffect(() => {
@@ -26,7 +28,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = props => {
       <div
         style={{
           fontSize: 160,
-          fontFamily: '"Lucida Console", Monaco, monospace',
+          fontFamily: $theme.typography.thirdaryFont
         }}
       >
         {timeLeft}

@@ -1,4 +1,5 @@
-import { CountdownTimer } from "@components/CountdownTimer"
+import { TimeToCO2BudgetLevelReach } from "@components/Counters/TimeToCO2BudgetLevelReach"
+import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { HomeSlider } from "@components/HomeSlider"
 import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
@@ -74,7 +75,11 @@ const IndexPage: React.FC = () => {
               flexDirection="column"
               position="relative"
             >
-              <CountdownTimer message="Secondi che ci rimangono per poter mantenere l'innalzamento della temperatura globale entro il 1.5ºC" />
+              <TimeToCO2BudgetLevelReach message="Secondi che ci rimangono per poter mantenere l'innalzamento della temperatura globale entro il 1.5ºC" />
+              <WorldPopulationCounter
+                count={7000000000}
+                label="World population"
+              />
             </FlexGridItem>
           </FlexGrid>
         </FlexGridItem>

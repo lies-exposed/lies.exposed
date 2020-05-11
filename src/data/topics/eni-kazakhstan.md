@@ -1,7 +1,6 @@
 ---
-title: Kazakhstan
+title: ENI - Kazakhstan
 date: 2020-01-24
-icon: pencil-alt
 color: '#ff5900'
 ---
 

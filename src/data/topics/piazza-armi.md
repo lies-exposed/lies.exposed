@@ -1,6 +1,5 @@
 ---
 title: Piazza d'Armi
-icon: pencil-alt
 date: 2020-01-30
 color: '#ff401d'
 links:

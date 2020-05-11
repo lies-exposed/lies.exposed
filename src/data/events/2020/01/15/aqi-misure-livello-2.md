@@ -1,7 +1,6 @@
 ---
 title: Entrano in vigore le misure di livello 2
 date: 2020-01-15
-icon: pencil-alt
 topic: air-quality-index
 actors:
     - comune-di-milano

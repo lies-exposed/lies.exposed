@@ -10,6 +10,7 @@ import { ListItem, ListItemLabel } from "baseui/list"
 import { ParagraphSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
+import { navigate } from "gatsby"
 import * as React from "react"
 
 interface EventListProps {
@@ -39,7 +40,7 @@ const EventList: React.FC<EventListProps> = props => {
                     event.frontmatter.topic,
                     O.fold(
                       () => null,
-                      (t) => (
+                      t => (
                         <TopicList
                           topics={[
                             {
@@ -72,7 +73,11 @@ const EventList: React.FC<EventListProps> = props => {
                             selected: false,
                             color: "trasparent",
                           }))}
-                          onActorClick={() => undefined}
+                          onActorClick={async actor => {
+                            await navigate(
+                              `/actors/${actor.childMarkdownRemark.frontmatter.username}`
+                            )
+                          }}
                         />
                       )
                     )

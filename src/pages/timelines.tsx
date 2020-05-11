@@ -3,6 +3,7 @@ import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { ActorPageContentFileNode } from "@models/actor"
+import { GroupFileNode } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { TopicFileNode } from "@models/topic"
 import { useStaticQuery, graphql } from "gatsby"
@@ -11,11 +12,12 @@ import React from "react"
 interface Results {
   actors: { nodes: ActorPageContentFileNode[] }
   topics: { nodes: TopicFileNode[] }
+  groups: { nodes: GroupFileNode[]}
   pageContent: PageContentFileNode
 }
 
 const TimelinesPage = (): React.ReactElement => {
-  const { actors, topics, pageContent }: Results = useStaticQuery(graphql`
+  const { actors, topics, groups, pageContent }: Results = useStaticQuery(graphql`
     query TimelinesPage {
       actors: allFile(
         filter: {
@@ -31,6 +33,12 @@ const TimelinesPage = (): React.ReactElement => {
       topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
         nodes {
           ...TopicFileNode
+        }
+      }
+
+      groups: allFile(filter: { relativeDirectory: { eq: "groups" } }) {
+        nodes {
+          ...GroupPageContentFileNode
         }
       }
 
@@ -52,7 +60,7 @@ const TimelinesPage = (): React.ReactElement => {
 
   const topicItems = {
     itemId: "#topics-items",
-    title: "Topic",
+    title: "Topics",
     subNav: topics.nodes.map(t => {
       return {
         itemId: `/topics/${t.name}`,
@@ -62,10 +70,21 @@ const TimelinesPage = (): React.ReactElement => {
     }),
   }
 
+  const groupItems = {
+    itemId: '#groups-items',
+    title: 'Groups',
+    subNav: groups.nodes.map(g => ({
+      itemId: `/topics/${g.name}`,
+      title: g.childMarkdownRemark.frontmatter.name,
+      subNav: [],
+    }))
+  
+  }
+
   return (
     <Layout>
       <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
-      <ContentWithSideNavigation items={[actorItems, topicItems]}>
+      <ContentWithSideNavigation items={[actorItems, topicItems, groupItems]}>
         <PageContent {...pageContent.childMarkdownRemark} />
       </ContentWithSideNavigation>
     </Layout>

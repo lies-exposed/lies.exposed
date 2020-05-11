@@ -1,5 +1,4 @@
 ---
-icon: pencil-alt
 date: 2019-07-11
 title: Commissione Urbanistica
 topic: DECA
