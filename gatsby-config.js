@@ -5,6 +5,7 @@ module.exports = {
     author: `@ascariandrea`,
   },
   plugins: [
+    `gatsby-plugin-netlify-cms`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
     {
