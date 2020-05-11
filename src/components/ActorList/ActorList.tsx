@@ -1,9 +1,9 @@
 import * as React from "react"
-import { ActorFileNode } from "../../types/actor"
+import { ActorFrontmatter } from "../../types/actor"
 import { Image } from "../Common"
 import "./actorList.scss"
 
-export interface ActorListActor extends ActorFileNode {
+export interface ActorListActor extends ActorFrontmatter {
   selected: boolean
   color: string
 }
@@ -18,16 +18,16 @@ const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick }) => {
     <div className="actor-list">
       {actors.map(a => (
         <span
-          key={a.id}
+          key={a.username}
           className={"actor-list-item is-light"}
           style={{ cursor: "pointer" }}
           onClick={() => onActorClick(a)}
         >
-          {a.childMarkdownRemark.frontmatter.cover !== null ? (
+          {a.avatar !== null ? (
             <span style={{ display: "inline-block" }}>
               <Image
                 rounded={true}
-                src={a.childMarkdownRemark.frontmatter.cover}
+                src={a.avatar}
                 style={{ width: 32, height: 32 }}
                 size={32}
               />

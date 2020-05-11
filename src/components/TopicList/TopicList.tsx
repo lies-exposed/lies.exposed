@@ -1,8 +1,8 @@
 import * as React from "react"
-import { TopicPoint } from "../../types/topic"
+import { TopicFrontmatter } from "../../types/topic"
 import { Tag } from "../Common"
 
-export interface TopicListTopic extends TopicPoint {
+export interface TopicListTopic extends TopicFrontmatter {
   selected: boolean
   color: string
 }
@@ -17,7 +17,7 @@ const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
     <div className="tags">
       {topics.map(t => (
         <Tag
-          key={t.id}
+          key={t.slug}
           style={{
             cursor: "pointer",
             color: t.selected ? "white" : "black",

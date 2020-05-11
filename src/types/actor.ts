@@ -20,7 +20,7 @@ export const ActorPageContentFileNode = t.interface(
 
 export type ActorPageContentFileNode = t.TypeOf<typeof ActorPageContentFileNode>
 
-const ActorFrontmatter = t.interface(
+export const ActorFrontmatter = t.interface(
   {
     title: t.string,
     username: t.string,
@@ -29,6 +29,7 @@ const ActorFrontmatter = t.interface(
   },
   "ActorFrontmatter"
 )
+export type ActorFrontmatter = t.TypeOf<typeof ActorFrontmatter>
 
 export const ActorFileNode = t.interface(
   {

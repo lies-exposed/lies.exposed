@@ -1,20 +1,57 @@
 backend:
   name: git-gateway
-  branch: master
+
+# when using the default proxy server port
+local_backend: true
+
+publish_mode: editorial_workflow
 
 media_folder: static/img
 public_folder: /img
 
 collections:
-  - name: "blog"
-    label: "Blog"
-    folder: "content/blog"
+  - name: "actors"
+    label: "Actor"
+    folder: "content/actors"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{username}}"
     editor:
-      preview: false
+      preview: true
     fields:
-      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Full Name", name: "fullName", widget: "string" }
+      - { label: "Username", name: "username", widget: "string" }
+      - { label: "Avatar", name: "avatar", widget: "image", required: false }
       - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "groups"
+    label: "Group"
+    folder: "content/groups"
+    create: true
+    slug: "{{name}}"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Avatar", name: "avatar", widget: "image" }
+      - {
+          label: "Members",
+          name: "members",
+          widget: "relation",
+          collection: "actors",
+          searchFields: ["username"],
+          valueField: "username",
+          multiple: true,
+          required: false
+        }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "topics"
+    label: "Topic"
+    folder: "content/topics"
+    create: true
+    slug: "{{name}}"
+    fields:
+      - { label: "Label", name: "label", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
       - { label: "Body", name: "body", widget: "markdown" }
