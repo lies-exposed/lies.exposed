@@ -1,5 +1,4 @@
 ---
-icon: pencil-alt
 date: 2020-01-02
 type: AntiEcologicAct
 title: Schieramento delle forze dell'ordine in tenuta antisommossa

@@ -52,6 +52,54 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
   })
 }
 
+const createGroupPages = async ({ actions, graphql, reporter }) => {
+  const { createPage} = actions
+  const groupTemplate = path.resolve(
+    `src/templates/GroupTemplate/GroupTemplate.tsx`
+  )
+
+  const result = await graphql(`
+    {
+      groups: allFile(filter: { relativeDirectory: { eq: "groups" } }) {
+        nodes {
+          name
+        }
+      }
+    }
+  `)
+
+  // Handle errors
+  if (result.errors) {
+    reporter.panicOnBuild(`Error while running createTimelinePages query.`)
+    return
+  }
+
+  const nodes = result.data.groups.nodes
+
+  nodes.forEach(node => {
+    const nodePath = `/groups/${node.name}`
+
+    const context = {
+      group: node.name,
+    }
+
+    reporter.info(
+      `Group template [${node.name}], context: ${JSON.stringify(
+        context,
+        null,
+        4
+      )}`
+    )
+
+    createPage({
+      path: nodePath,
+      component: groupTemplate,
+      // additional data can be passed via context
+      context,
+    })
+  })
+}
+
 const createActorTimelinePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
   const postTemplate = path.resolve(
@@ -194,6 +242,7 @@ const createTopicTimelinePages = async ({ actions, graphql, reporter }) => {
 }
 
 exports.createPages = async ({ actions, graphql, reporter }) => {
+  await createGroupPages({ actions, graphql, reporter})
   await createArticlePages({ actions, graphql, reporter })
   await createActorTimelinePages({ actions, graphql, reporter })
   await createTopicTimelinePages({ actions, graphql, reporter })

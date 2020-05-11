@@ -1,6 +1,5 @@
 ---
 title: 854 tonnellate di rifiuti tossici
-icon: pencil-alt
 date: 2017-10-10
 topic: eni-val-d-agri
 type: AntiEcologicAct

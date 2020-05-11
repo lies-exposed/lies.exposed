@@ -1,7 +1,6 @@
 ---
 title: Tavolo tecnico convocato dal Ministero dell’Ambiente con Regione Basilicata
 date: 2017-05-04
-icon: pencil-alt
 topic: eni-val-d-agri
 actors:
     - eni-spa

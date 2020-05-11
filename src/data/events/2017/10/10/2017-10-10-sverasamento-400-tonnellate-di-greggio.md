@@ -1,7 +1,6 @@
 ---
 title: Sversamento di 400 tonnellate di greggio
 date: 2017-10-10
-icon: pencil-alt
 topic: eni-val-d-agri
 type: AntiEcologicAct
 actors:

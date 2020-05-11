@@ -1,7 +1,6 @@
 ---
 title: "Livello: 185"
 date: 2020-01-27
-icon: pencil-alt
 ---
 
 I livelli di qualità continuano ad alzarsi, segnando un nuovo record negativo di 185.

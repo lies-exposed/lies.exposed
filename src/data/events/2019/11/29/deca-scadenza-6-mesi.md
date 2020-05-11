@@ -1,6 +1,5 @@
 ---
 title: Scadenza dei 6 mesi per la presentazione di azioni concrete dopo la DECA
-icon: pencil-alt
 date: 2019-11-29
 type: AntiEcologicAct
 topic: DECA

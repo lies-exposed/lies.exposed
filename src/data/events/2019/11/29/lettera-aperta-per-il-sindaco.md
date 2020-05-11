@@ -1,7 +1,6 @@
 ---
 title: Lettera aperta per il sindaco
 path: lettera-aperta-per-sala
-icon: pencil-alt
 date: 2019-11-29
 ---
 

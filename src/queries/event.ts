@@ -8,7 +8,6 @@ export const query = graphql`
         title
         date
         topic
-        icon
         type
         actors
         links

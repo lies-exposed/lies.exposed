@@ -1,6 +1,5 @@
 ---
 title: DECA
-icon: pencil-alt
 date: 2020-01-02
 color: '#541453'
 ---

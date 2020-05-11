@@ -1,7 +1,6 @@
 ---
 title: Il primo sciopero per il clima
 date: 2018-12-14
-icon: pencil-alt
 type: EcologicAct
 ---
 

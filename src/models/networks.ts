@@ -6,7 +6,6 @@ export const NetworkPageContentFileNodeFrontmatter = t.type(
   {
     title: t.string,
     date: DateFromISOString,
-    icon: t.string,
     slug: t.string,
     cover: optionFromNullable(t.string),
   },

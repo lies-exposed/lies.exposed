@@ -34,7 +34,7 @@ export const customColors = {
     40: '#66E0A3',
     60: '#99EBC2',
     80: '#CCF5E0',
-  },
+  }
   
 };
 
@@ -53,7 +53,7 @@ export const GlobalStyle = createGlobalStyle`
 
 const primitives: ThemePrimitives = {
   ...lightThemePrimitives,
-  primaryFontFamily: 'Source Serif Pro'
+  primaryFontFamily: 'Source Serif Pro',
 };
 
 const overrides = {
@@ -97,7 +97,8 @@ const overrides = {
     inputTextDisabled: customColors.secondaryLight,
   },
   typography: {
-    secondaryFont: 'Verdana'
+    secondaryFont: 'Verdana',
+    thirdaryFont: '"Lucida Console", Monaco, monospace',
   }
 };
 

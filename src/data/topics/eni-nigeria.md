@@ -1,7 +1,6 @@
 ---
-title: Nigeria
+title: ENI - Nigeria
 date: 2020-01-20
-icon: pencil-alt
 color: '#2ca100'
 ---
 
