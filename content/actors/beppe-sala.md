@@ -1,7 +1,7 @@
 ---
 fullName: Beppe Sala
 username: beppe-sala
-avatar: /img/beppe-sala-avatar.jpg
+avatar: /media/img/actors/beppe-sala/beppe-sala-avatar.jpg
 date: 2020-05-11T13:53:06.340Z
 ---
 L'opinione pubblica lo descrive come il Sindaco più verde d'Italia, ma basta osservare da un po' più vicino per capire che di verde ha solo un sottilissimo strato che lo ricopre, necessario per fare presa sulla maggior parte degli elettori.
