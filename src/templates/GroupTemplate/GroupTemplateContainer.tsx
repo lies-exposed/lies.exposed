@@ -20,7 +20,7 @@ export const flattenT = (
 
   const actorsMap = events.reduce<Map<string, ActorFileNode>>(
     (acc, e) =>
-      e.childMarkdownRemark.frontmatter.actors.reduce<
+      e.childMarkdownRemark.frontmatter.members.reduce<
         Map<string, ActorFileNode>
       >((_, a) => {
         return pipe(

@@ -3,7 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
 import { option } from "io-ts-types/lib/option"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { ActorPageContentFileNode } from "./actor"
+import {  ActorPageContentFileNodeFrontmatter } from "./actor"
 import { TopicFrontmatter } from "./topic"
 
 export interface TreeEvent {
@@ -23,6 +23,8 @@ export const EventType = t.keyof(
   {
     AntiEcologicAct: null,
     EcologicAct: null,
+    Declaration: null,
+    Fact: null,
   },
   "EventType"
 )
@@ -31,7 +33,7 @@ export const EventFileNodeFrontmatter = t.interface(
   {
     title: t.string,
     date: DateFromISOString,
-    topic: t.string,
+    topic: t.array(t.string),
     actors: optionFromNullable(t.array(t.string)),
     type: t.union([t.null, t.undefined, EventType]),
     cover: optionFromNullable(t.string),
@@ -61,8 +63,8 @@ export const EventPointFrontmatter = t.interface(
   {
     title: t.string,
     date: date,
-    actors: option(t.array(ActorPageContentFileNode)),
-    topic: option(TopicFrontmatter),
+    actors: option(t.array(ActorPageContentFileNodeFrontmatter)),
+    topic: t.array(TopicFrontmatter),
     links: option(t.array(t.string)),
     type: option(EventType),
     cover: option(t.string),

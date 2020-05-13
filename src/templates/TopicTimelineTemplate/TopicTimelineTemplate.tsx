@@ -3,10 +3,10 @@ import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { TopicPageContent } from "@components/TopicPageContent"
+import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { ActorPageContentFileNode, ActorFileNode } from "@models/actor"
+import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode, EventData } from "@models/event"
-import { ImageFileNode } from "@models/image"
 import { TopicPageContentFileNode } from "@models/topic"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -22,13 +22,10 @@ interface TopicTimelineTemplateProps {
   data: {
     pageContent: TopicPageContentFileNode
     actors: {
-      nodes: ActorFileNode[]
+      nodes: ActorPageContentFileNode[]
     }
     events: {
       nodes: EventFileNode[]
-    }
-    images: {
-      nodes: ImageFileNode[]
     }
   }
 }
@@ -43,6 +40,9 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
       pageContent: TopicPageContentFileNode.decode(data.pageContent),
     }),
     E.map(({ pageContent, events, actors }) => {
+      const actorsGetter = getActors(
+        actors.map(a => a.childMarkdownRemark.frontmatter)
+      )
       return {
         pageContent,
         events: events.map(n => {
@@ -54,18 +54,11 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
               cover: n.childMarkdownRemark.frontmatter.cover,
               actors: pipe(
                 n.childMarkdownRemark.frontmatter.actors,
-                O.map(actorIds =>
-                  actors.reduce<ActorPageContentFileNode[]>((acc, n) => {
-                    const actor = actorIds.includes(
-                      n.childMarkdownRemark.frontmatter.username
-                    )
-                    return actor ? acc.concat(n) : acc
-                  }, [])
-                )
+                O.map(actorsGetter)
               ),
-              topic: O.some(pageContent.childMarkdownRemark.frontmatter),
+              topic: [pageContent.childMarkdownRemark.frontmatter],
               type: O.fromNullable(n.childMarkdownRemark.frontmatter.type),
-            }
+            },
           }
 
           return eventDataNode
@@ -87,7 +80,7 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 }
 
 export const pageQuery = graphql`
-  query TopicTimelineTemplateQuery($topic: String!) {
+  query TopicTemplateQuery($topic: String!) {
     pageContent: file(
       relativeDirectory: { eq: "topics" }
       name: { eq: $topic }
@@ -96,7 +89,10 @@ export const pageQuery = graphql`
     }
 
     actors: allFile(
-      filter: { relativeDirectory: { eq: "actors" } }
+      filter: {
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { eq: "actors" }
+      }
     ) {
       nodes {
         ...ActorPageContentFileNode
@@ -105,7 +101,7 @@ export const pageQuery = graphql`
 
     events: allFile(
       filter: {
-        childMarkdownRemark: { frontmatter: { topic: { eq: $topic } } }
+        childMarkdownRemark: { frontmatter: { topic: { in: [$topic] } } }
       }
     ) {
       nodes {

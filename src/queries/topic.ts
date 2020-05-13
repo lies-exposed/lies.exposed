@@ -7,7 +7,8 @@ export const TopicFileNodeQuery = graphql`
     childMarkdownRemark {
       id
       frontmatter {
-        title
+        label
+        slug
         date
       }
       htmlAst
@@ -21,9 +22,9 @@ export const TopicPageContentFileNodeQuery = graphql`
     name
     childMarkdownRemark {
       frontmatter {
-        title
+        label
+        slug
         date
-        type
         color
       }
       htmlAst

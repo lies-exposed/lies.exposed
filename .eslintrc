@@ -1,12 +1,12 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "baseui"],
+  "plugins": ["@typescript-eslint", "baseui", "graphql"],
   "extends": [
     "standard-with-typescript",
     "prettier",
     "prettier/@typescript-eslint",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
   ],
   "parserOptions": {
     "project": "./tsconfig.json"

@@ -10,15 +10,16 @@ export const query = graphql`
       frontmatter {
         date
         name
+        members
+        color
         avatar {
           childImageSharp {
             fluid(maxWidth: 600) {
               ...GatsbyImageSharpFluid
             }
           }
-        }   
-        actors
-        color
+        }
+        
       }
       htmlAst
     }

@@ -20,7 +20,7 @@ const GroupsPage: React.FC<PageProps> = (props) => {
     query GroupsPage {
       groups: allFile(
         filter: {
-          sourceInstanceName: { eq: "data" }
+          sourceInstanceName: { eq: "content" }
           relativeDirectory: { eq: "groups" }
         }
       ) {
@@ -29,20 +29,14 @@ const GroupsPage: React.FC<PageProps> = (props) => {
         }
       }
 
-      topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
-        nodes {
-          ...TopicFileNode
-        }
-      }
-
-      pageContent: file(relativePath: { eq: "pages/timelines.md" }) {
+      pageContent: file(relativePath: { eq: "pages/groups.md" }) {
         ...PageContentFileNode
       }
     }
   `)
 
 
-  const actorItems = {
+  const groupsItems = {
     itemId: "#groups-items",
     title: "Gruppi",
     subNav: groups.nodes.map(n => ({
@@ -56,7 +50,7 @@ const GroupsPage: React.FC<PageProps> = (props) => {
   return (
     <Layout>
       <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
-      <ContentWithSideNavigation items={[actorItems]}>
+      <ContentWithSideNavigation items={[groupsItems]}>
         <PageContent {...pageContent.childMarkdownRemark} />
       </ContentWithSideNavigation>
     </Layout>

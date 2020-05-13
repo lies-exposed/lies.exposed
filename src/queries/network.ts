@@ -7,9 +7,9 @@ export const query = graphql`
       id
       frontmatter {
         title
+        topic
         path
         date
-        type
       }
       htmlAst
     }

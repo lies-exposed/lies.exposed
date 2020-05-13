@@ -50,18 +50,24 @@ const Header: React.FC = () => {
       title: "Articoli",
     },
     {
-      id: "timelines",
-      path: "/timelines",
-      title: "Timelines",
+      id: "actors",
+      path: "/actors",
+      title: "Attori",
+    },
+    {
+      id: 'groups',
+      path: '/groups',
+      title: 'Groups'
+    },
+    {
+      id: "topics",
+      path: "/topics",
+      title: "Topics",
     },
     {
       id: "networks",
       path: "/networks",
       title: "Networks",
-    },{
-      id: 'groups',
-      path: '/groups',
-      title: 'Groups'
     }
   ]
 

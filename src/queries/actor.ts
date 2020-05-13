@@ -8,8 +8,9 @@ export const query = graphql`
       id
       frontmatter {
         date
-        title
+        fullName
         username
+        color
         avatar {
           childImageSharp {
             fluid(maxWidth: 600) {
@@ -17,7 +18,6 @@ export const query = graphql`
             }
           }
         }
-        color
       }
       htmlAst
     }

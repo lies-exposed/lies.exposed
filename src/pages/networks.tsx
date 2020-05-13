@@ -3,13 +3,13 @@ import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { NetworkPageContentFileNode } from "@models/networks"
-import { PageContentNode } from "@models/page"
+import { PageContentFileNode } from "@models/page"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
 interface Results {
   networks: { nodes: NetworkPageContentFileNode[] }
-  pageContent: PageContentNode
+  pageContent: PageContentFileNode
 }
 
 const NetworksPage: React.FunctionComponent<{}> = _props => {
@@ -24,7 +24,10 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
         }
       }
 
-      pageContent: file(absolutePath: { glob: "**/pages/networks.md" }) {
+      pageContent: file(
+        relativeDirectory: { eq: "pages" }
+        name: { eq: "networks" }
+      ) {
         ...PageContentFileNode
       }
     }
@@ -44,9 +47,9 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
 
   return (
     <Layout>
-      <SEO title={pageContent.frontmatter.title} />
+      <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
       <ContentWithSideNavigation items={navigatorItems}>
-        <PageContent {...pageContent} />
+        <PageContent {...pageContent.childMarkdownRemark} />
       </ContentWithSideNavigation>
     </Layout>
   )

@@ -1,5 +1,6 @@
 const path = require("path")
 const A = require("fp-ts/lib/Array")
+const { fmImagesToRelative } = require("gatsby-remark-relative-images")
 
 const createArticlePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
@@ -53,7 +54,7 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
 }
 
 const createGroupPages = async ({ actions, graphql, reporter }) => {
-  const { createPage} = actions
+  const { createPage } = actions
   const groupTemplate = path.resolve(
     `src/templates/GroupTemplate/GroupTemplate.tsx`
   )
@@ -153,7 +154,7 @@ const createNetworkPages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      allDirectory(filter: { relativeDirectory: { glob: "events/networks" } }) {
+      allDirectory(filter: { relativeDirectory: { glob: "networks" } }) {
         nodes {
           name
         }
@@ -242,23 +243,13 @@ const createTopicTimelinePages = async ({ actions, graphql, reporter }) => {
 }
 
 exports.createPages = async ({ actions, graphql, reporter }) => {
-  await createGroupPages({ actions, graphql, reporter})
+  await createGroupPages({ actions, graphql, reporter })
   await createArticlePages({ actions, graphql, reporter })
   await createActorTimelinePages({ actions, graphql, reporter })
   await createTopicTimelinePages({ actions, graphql, reporter })
   await createNetworkPages({ actions, graphql, reporter })
 }
 
-exports.onCreateWebpackConfig = ({ actions }) => {
-  actions.setWebpackConfig({
-    resolve: {
-      alias: {
-        "@components": path.resolve(__dirname, "src/components"),
-        "@helpers": path.resolve(__dirname, "src/helpers"),
-        "@models": path.resolve(__dirname, "src/models"),
-        "@theme": path.resolve(__dirname, "src/theme"),
-        "@utils": path.resolve(__dirname, "src/utils"),
-      },
-    },
-  })
-}
+// exports.onCreateNode = ({ node }) => {
+//   fmImagesToRelative(node)
+// }

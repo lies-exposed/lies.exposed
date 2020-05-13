@@ -20,7 +20,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
         O.fold(
           () => <div />,
           i => (
-            <Image fluid={{ src: i } as any} style={{ width: "100px" }} />
+            <Image fluid={i.childImageSharp.fluid} style={{ width: "100px" }} />
           )
         )
       )}

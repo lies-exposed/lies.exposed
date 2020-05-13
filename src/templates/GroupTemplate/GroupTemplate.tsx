@@ -3,7 +3,9 @@ import EventList from "@components/EventList"
 import { GroupPageContent } from "@components/GroupPageContent"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
+import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
+import { getTopics } from "@helpers/topic"
 import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode } from "@models/event"
 import { GroupFileNode } from "@models/group"
@@ -13,7 +15,6 @@ import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
-import { eqString } from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -52,42 +53,33 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
       topics: t.array(TopicPageContentFileNode).decode(data.topics.nodes),
       events: t.array(EventFileNode).decode(data.events.nodes),
     }),
-    E.map(({ pageContent, actors, topics, events }) => ({
-      pageContent,
-      events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
-        e => ({
-          ...e.childMarkdownRemark,
-          frontmatter: {
-            ...e.childMarkdownRemark.frontmatter,
-            type: O.fromNullable(e.childMarkdownRemark.frontmatter.type),
-            actors: pipe(
-              e.childMarkdownRemark.frontmatter.actors,
-              O.map(usernames =>
-                actors.reduce<ActorPageContentFileNode[]>((acc, actorNode) => {
-                  const actor = usernames.includes(
-                    actorNode.childMarkdownRemark.frontmatter.username
-                  )
-                  return actor ? acc.concat(actorNode) : acc
-                }, [])
-              )
-            ),
-            topic: pipe(
-              O.fromNullable(
-                topics.find(t =>
-                  eqString.equals(
-                    e.childMarkdownRemark.frontmatter.topic,
-                    t.name
-                  )
-                )
+    E.map(({ pageContent, actors, topics, events }) => {
+      const actorsGetter = getActors(
+        actors.map(a => a.childMarkdownRemark.frontmatter)
+      )
+      return {
+        pageContent,
+        events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
+          e => ({
+            ...e.childMarkdownRemark,
+            frontmatter: {
+              ...e.childMarkdownRemark.frontmatter,
+              type: O.fromNullable(e.childMarkdownRemark.frontmatter.type),
+              actors: pipe(
+                e.childMarkdownRemark.frontmatter.actors,
+                O.map(actorsGetter)
               ),
-              O.map(t => t.childMarkdownRemark.frontmatter)
-            ),
-            links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
-            cover: e.childMarkdownRemark.frontmatter.cover,
-          },
-        })
-      ),
-    })),
+              topic: getTopics(
+                e.childMarkdownRemark.frontmatter.topic,
+                topics.map(t => t.childMarkdownRemark.frontmatter)
+              ),
+              links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
+              cover: e.childMarkdownRemark.frontmatter.cover,
+            },
+          })
+        ),
+      }
+    }),
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
       return (
         <Layout>
@@ -121,7 +113,12 @@ export const pageQuery = graphql`
       ...GroupPageContentFileNode
     }
 
-    actors: allFile(filter: { relativeDirectory: { eq: "actors" } }) {
+    actors: allFile(
+      filter: {
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { eq: "actors" }
+      }
+    ) {
       nodes {
         ...ActorPageContentFileNode
       }

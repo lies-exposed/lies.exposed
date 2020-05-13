@@ -1,0 +1,10 @@
+---
+title: Multa di 5 milioni di euro per "greenwashing"
+date: 2020-01-15
+topic:
+    - greenwashing
+actors:
+    - eni-spa
+---
+
+ENI è stata accusata di aver falsamente promosso il suo biocarburante

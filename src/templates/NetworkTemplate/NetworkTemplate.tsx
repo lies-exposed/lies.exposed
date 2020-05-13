@@ -11,7 +11,7 @@ import { EventPoint } from "@models/event"
 import { formatDate } from "@utils//date"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { HeadingLevel} from "baseui/heading"
+import { HeadingLevel } from "baseui/heading"
 import { LabelMedium } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
@@ -20,7 +20,10 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { replace, graphql } from "gatsby"
 import React from "react"
-import { createNetwork, NetworkTemplateData } from "./createNetworkTemplateProps"
+import {
+  createNetwork,
+  NetworkTemplateData,
+} from "./createNetworkTemplateProps"
 
 interface NetworkTemplateProps {
   navigate: (to: string) => void
@@ -223,78 +226,39 @@ export default class NetworkTemplate extends React.Component<
 }
 
 export const pageQuery = graphql`
-  query(
-    $relativeDirectory: String!
-    $eventsRelativeDirectory: String!
-    $imagesRelativeDirectory: String!
-  ) {
+  query NetworkTemplateQuery {
     pageContent: file(
-      relativeDirectory: { eq: $relativeDirectory }
-      name: { eq: "index" }
+      relativeDirectory: { eq: "pages" }
+      name: { eq: "networks" }
     ) {
-      ...NetworkPageContentFileNode
+      ...PageContentFileNode
     }
-    topics: allFile(
-      filter: {
-        relativeDirectory: { glob: $eventsRelativeDirectory }
-        name: { eq: "index" }
-      }
-    ) {
+
+    topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
       nodes {
         ...TopicFileNode
       }
     }
+
     actors: allFile(
       filter: {
-        relativeDirectory: { glob: "events/actors/*" }
-        name: { eq: "index" }
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { eq: "actors" }
       }
     ) {
       nodes {
         ...ActorPageContentFileNode
       }
     }
-    actorsImages: allFile(
-      filter: { relativeDirectory: { glob: "events/actors/**/images" } }
-    ) {
-      nodes {
-        relativeDirectory
-        name
-        ext
-        childImageSharp {
-          fluid {
-            src
-          }
-        }
-      }
-    }
+
     events: allFile(
       filter: {
-        relativeDirectory: { glob: $eventsRelativeDirectory }
-        name: { ne: "index" }
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { glob: "events/**/**" }
       }
     ) {
       nodes {
         ...EventFileNode
-      }
-    }
-    images: allFile(
-      filter: { relativeDirectory: { glob: $imagesRelativeDirectory } }
-    ) {
-      nodes {
-        childImageSharp {
-          fluid {
-            src
-          }
-          fixed {
-            src
-          }
-        }
-        name
-        ext
-        absolutePath
-        relativeDirectory
-        relativePath
       }
     }
   }

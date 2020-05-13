@@ -1,6 +1,8 @@
 import { ActorListActor } from "@components/ActorList"
 import { NetworkProps, NetworkScale } from "@components/Network/Network"
 import { TopicListTopic } from "@components/TopicList"
+import { getActors } from "@helpers/actor"
+import { getTopics } from "@helpers/topic"
 import { ActorPageContentFileNode } from "@models/actor"
 import { EventPoint, EventFileNode, EventData } from "@models/event"
 import { ImageFileNode } from "@models/image"
@@ -339,6 +341,10 @@ export function createNetwork({
         actorsWithEventsAndLinksMap: Map.empty,
       }
 
+      const actorsGetter = getActors(
+        actorsList.map(a => a.actor.childMarkdownRemark.frontmatter)
+      )
+
       const {
         eventNodes,
         eventLinks,
@@ -382,14 +388,7 @@ export function createNetwork({
 
         const eventActors = pipe(
           e.childMarkdownRemark.frontmatter.actors,
-          O.map(actors =>
-            actors.reduce<ActorPageContentFileNode[]>((acc, a) => {
-              const actor = actorsList.find(
-                _ => _.actor.childMarkdownRemark.frontmatter.username === a
-              )
-              return actor !== undefined ? acc.concat(actor.actor) : acc
-            }, [])
-          )
+          O.map(actorsGetter)
         )
 
         const eventFrontmatterLinks = O.fromNullable(
@@ -410,13 +409,9 @@ export function createNetwork({
             ...e.childMarkdownRemark,
             frontmatter: {
               ...e.childMarkdownRemark.frontmatter,
-              topic: pipe(
-                O.fromNullable(
-                  topics.find(
-                    t => t.data.slug === e.childMarkdownRemark.frontmatter.topic
-                  )
-                ),
-                O.map(t => t.data)
+              topic: getTopics(
+                e.childMarkdownRemark.frontmatter.topic,
+                topics.map(t => t.data)
               ),
               type: eventFrontmatterType,
               links: eventFrontmatterLinks,
@@ -476,7 +471,13 @@ export function createNetwork({
           eventActors,
           O.map(actors => {
             return Map.toArray(Ord.ordString)(actorsMap)
-              .filter(([_, a]) => actors.find(_ => _.id === a.actor.id))
+              .filter(([_, a]) =>
+                actors.find(
+                  _ =>
+                    _.username ===
+                    a.actor.childMarkdownRemark.frontmatter.username
+                )
+              )
               .reduce<ActorsMap>((prev, [_, a]) => {
                 const actorData = pipe(
                   Map.lookup(Eq.eqString)(a.actor.id, prev),

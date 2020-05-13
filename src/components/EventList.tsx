@@ -36,23 +36,13 @@ const EventList: React.FC<EventListProps> = props => {
                   flexGridColumnCount={1}
                   alignItems="center"
                 >
-                  {pipe(
-                    event.frontmatter.topic,
-                    O.fold(
-                      () => null,
-                      t => (
-                        <TopicList
-                          topics={[
-                            {
-                              ...t,
-                              selected: true,
-                            },
-                          ]}
-                          onTopicClick={() => undefined}
-                        />
-                      )
-                    )
-                  )}
+                  <TopicList
+                    topics={event.frontmatter.topic.map(t => ({
+                      ...t,
+                      selected: true,
+                    }))}
+                    onTopicClick={() => undefined}
+                  />
                 </FlexGridItem>
                 <FlexGridItem
                   display="flex"
@@ -66,13 +56,11 @@ const EventList: React.FC<EventListProps> = props => {
                       actors => (
                         <ActorList
                           actors={actors.map(a => ({
-                            ...a.childMarkdownRemark.frontmatter,
+                            ...a,
                             selected: false,
                           }))}
                           onActorClick={async actor => {
-                            await navigate(
-                              `/actors/${actor.username}`
-                            )
+                            await navigate(`/actors/${actor.username}`)
                           }}
                         />
                       )

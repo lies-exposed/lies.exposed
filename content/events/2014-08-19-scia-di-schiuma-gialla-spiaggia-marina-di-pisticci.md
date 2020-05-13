@@ -1,0 +1,11 @@
+---
+title: Scia di schiuma gialla imperversa sulla spiaggia di Marina di Pisticci
+date: 2014-08-19T00:00:00.000Z
+type: Fact
+topic:
+  - eni-val-d-agri
+links:
+  - https://www.basilicata24.it/2014/08/se-questo-e-un-mare-14840/
+---
+
+"Da giorni una strana scia di schiuma gialla imperversa nella marina di Pisticci, Tra San Basilio e San Teodoro."

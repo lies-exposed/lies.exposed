@@ -28,6 +28,7 @@ export const TimeToCO2BudgetLevelReach: React.FC<TimeToCO2BudgetLevelReachProps>
       <div
         style={{
           fontSize: 160,
+          lineHeight: 1.2,
           fontFamily: $theme.typography.thirdaryFont
         }}
       >
