@@ -1,20 +1,19 @@
-import { Link, graphql, useStaticQuery } from "gatsby"
+import { FlexGridItem } from "baseui/flex-grid"
+import {
+  HeaderNavigation,
+  ALIGN,
+  StyledNavigationList,
+  StyledNavigationItem,
+} from "baseui/header-navigation"
+import { StyledLink } from "baseui/link"
+import { graphql, useStaticQuery } from "gatsby"
 import * as PropTypes from "prop-types"
 import React from "react"
-import { Navbar } from "react-bulma-components"
-
-const NavbarLink = Navbar.Link as any
 
 interface MenuItem {
   id: string
   title: string
   path: string
-}
-
-type SecondLevelMenuItem = MenuItem
-
-export interface FirstLevelMenuItem extends MenuItem {
-  items: SecondLevelMenuItem[]
 }
 
 interface MenuItemProps {
@@ -23,36 +22,11 @@ interface MenuItemProps {
 }
 const renderMenuLink: React.FC<MenuItemProps> = ({ item, pos: total }) => {
   return (
-    <NavbarLink
-      key={item.title}
-      renderAs={Link}
-      to={item.path}
-      arrowless={total === 0}
-    >
-      {item.title}
-    </NavbarLink>
+    <StyledNavigationItem key={item.title} path={item.path}> 
+      <StyledLink href={item.path}>{item.title}</StyledLink>
+    </StyledNavigationItem>
   )
 }
-
-interface NavBarItemProps {
-  item: FirstLevelMenuItem
-}
-
-const renderNavBarItem: React.FC<NavBarItemProps> = ({ item }) => (
-  <Navbar.Item
-    renderAs="div"
-    key={item.title}
-    hoverable={true}
-    dropdown={item.items.length > 0}
-  >
-    {renderMenuLink({ item, pos: item.items.length })}
-    {item.items.length > 0 ? (
-      <Navbar.Dropdown>
-        {item.items.map((item, k) => renderMenuLink({ item, pos: k }))}
-      </Navbar.Dropdown>
-    ) : null}
-  </Navbar.Item>
-)
 
 const Header: React.FC = () => {
   const {
@@ -69,58 +43,49 @@ const Header: React.FC = () => {
     }
   `)
 
-  const items: FirstLevelMenuItem[] = [
+  const items: MenuItem[] = [
     {
       id: "articles",
       path: "/articles",
       title: "Articoli",
-      items: [],
     },
     {
-      id: "timelines",
-      path: "/timelines",
-      title: "Timelines",
-      items: [],
+      id: "actors",
+      path: "/actors",
+      title: "Attori",
+    },
+    {
+      id: 'groups',
+      path: '/groups',
+      title: 'Groups'
+    },
+    {
+      id: "topics",
+      path: "/topics",
+      title: "Topics",
     },
     {
       id: "networks",
       path: "/networks",
       title: "Networks",
-      items: [],
-    },
+    }
   ]
 
-  const homeItem = {
-    id: "home",
-    path: "/",
-    title: title.toUpperCase(),
-    items: [],
-  }
-
-  // const endItem = {
-  //   id: "support",
-  //   path: "/support",
-  //   title: "Support Us",
-  //   items: [],
-  // }
-
   return (
-    <Navbar color="success" fixed="top" active={true} transparent={true}>
-      <Navbar.Brand>
-        <Navbar.Item renderAs="div">
-          {renderNavBarItem({ item: homeItem })}
-        </Navbar.Item>
-        <Navbar.Burger />
-      </Navbar.Brand>
-      <Navbar.Menu>
-        <Navbar.Container>
-          {items.map(item => renderNavBarItem({ item }))}
-        </Navbar.Container>
-        {/* <Navbar.Container position="end">
-          {renderNavBarItem(endItem)}
-        </Navbar.Container> */}
-      </Navbar.Menu>
-    </Navbar>
+    <FlexGridItem>
+      <HeaderNavigation>
+        <StyledNavigationList $align={ALIGN.left}>
+          {renderMenuLink({
+            item: { id: "home", title: title, path: "/" },
+            pos: 0,
+          })}
+        </StyledNavigationList>
+        <StyledNavigationList $align={ALIGN.center} />
+        <StyledNavigationList $align={ALIGN.right}>
+          {items.map((i, k) => renderMenuLink({ item: i, pos: k }))}
+        </StyledNavigationList>
+      </HeaderNavigation>
+    </FlexGridItem>
   )
 }
 

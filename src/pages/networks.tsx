@@ -1,18 +1,19 @@
+import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
+import { Layout } from "@components/Layout"
+import { PageContent } from "@components/PageContent"
+import SEO from "@components/SEO"
+import { NetworkPageContentFileNode } from "@models/networks"
+import { PageContentFileNode } from "@models/page"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
-import { Columns } from "react-bulma-components"
-import Menu from "../components/Common/Menu"
-import Layout from "../components/Layout"
-import SEO from "../components/SEO"
-import { PageContentNode } from "../types/PageContent"
 
 interface Results {
-  networks: { nodes: Array<{ id: string; name: string }> }
-  pageContent: PageContentNode
+  networks: { nodes: NetworkPageContentFileNode[] }
+  pageContent: PageContentFileNode
 }
 
 const NetworksPage: React.FunctionComponent<{}> = _props => {
-  const { networks, pageContent }: Results = useStaticQuery(graphql`
+  const { networks: items, pageContent }: Results = useStaticQuery(graphql`
     query NetworksPage {
       networks: allDirectory(
         filter: { relativeDirectory: { glob: "events/networks" } }
@@ -23,44 +24,33 @@ const NetworksPage: React.FunctionComponent<{}> = _props => {
         }
       }
 
-      pageContent: markdownRemark(
-        fileAbsolutePath: { glob: "**/pages/networks.md" }
+      pageContent: file(
+        relativeDirectory: { eq: "pages" }
+        name: { eq: "networks" }
       ) {
-        html
-        frontmatter {
-          title
-          path
-        }
+        ...PageContentFileNode
       }
     }
   `)
 
-  const {
-    frontmatter: { title },
-    html,
-  } = pageContent
-
-  const items = networks.nodes.map(n => ({
-    id: n.id,
-    path: `/networks/${n.name}`,
-    title: n.name,
-    items: [],
-  }))
+  const navigatorItems = [
+    {
+      itemId: "#networks-page-menu",
+      title: "Networks",
+      subNav: items.nodes.map(n => ({
+        itemId: `/networks/${n.childMarkdownRemark.frontmatter.slug}`,
+        title: n.childMarkdownRemark.frontmatter.slug,
+        subNav: [],
+      })),
+    },
+  ]
 
   return (
     <Layout>
-      <SEO title={title} />
-      <Columns>
-        <Columns.Column size={3}>
-          <Menu sections={[{ items }]} />
-        </Columns.Column>
-        <Columns.Column size={9}>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: html }}
-          ></div>
-        </Columns.Column>
-      </Columns>
+      <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+      <ContentWithSideNavigation items={navigatorItems}>
+        <PageContent {...pageContent.childMarkdownRemark} />
+      </ContentWithSideNavigation>
     </Layout>
   )
 }

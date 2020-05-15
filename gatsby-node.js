@@ -1,5 +1,6 @@
 const path = require("path")
 const A = require("fp-ts/lib/Array")
+const { fmImagesToRelative } = require("gatsby-remark-relative-images")
 
 const createArticlePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
@@ -9,7 +10,7 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      allFile(
+      articles: allFile(
         sort: {
           order: DESC
           fields: [childMarkdownRemark___frontmatter___date]
@@ -17,12 +18,10 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
         filter: { relativeDirectory: { eq: "articles" } }
         limit: 1000
       ) {
-        edges {
-          node {
-            childMarkdownRemark {
-              frontmatter {
-                path
-              }
+        nodes {
+          childMarkdownRemark {
+            frontmatter {
+              path
             }
           }
         }
@@ -36,14 +35,68 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  result.data.allFile.edges.forEach(({ node }) => {
+  result.data.articles.nodes.forEach(node => {
+    const context = {
+      filePath: node.childMarkdownRemark.frontmatter.path,
+    }
+
+    reporter.info(
+      `article page [${node.name}] context: ${JSON.stringify(context, null, 4)}`
+    )
+
     createPage({
-      path: node.childMarkdownRemark.frontmatter.path,
+      path: `/articles/${node.childMarkdownRemark.frontmatter.path}`,
       component: postTemplate,
       // additional data can be passed via context
-      context: {
-        filePath: node.childMarkdownRemark.frontmatter.path,
-      },
+      context,
+    })
+  })
+}
+
+const createGroupPages = async ({ actions, graphql, reporter }) => {
+  const { createPage } = actions
+  const groupTemplate = path.resolve(
+    `src/templates/GroupTemplate/GroupTemplate.tsx`
+  )
+
+  const result = await graphql(`
+    {
+      groups: allFile(filter: { relativeDirectory: { eq: "groups" } }) {
+        nodes {
+          name
+        }
+      }
+    }
+  `)
+
+  // Handle errors
+  if (result.errors) {
+    reporter.panicOnBuild(`Error while running createTimelinePages query.`)
+    return
+  }
+
+  const nodes = result.data.groups.nodes
+
+  nodes.forEach(node => {
+    const nodePath = `/groups/${node.name}`
+
+    const context = {
+      group: node.name,
+    }
+
+    reporter.info(
+      `Group template [${node.name}], context: ${JSON.stringify(
+        context,
+        null,
+        4
+      )}`
+    )
+
+    createPage({
+      path: nodePath,
+      component: groupTemplate,
+      // additional data can be passed via context
+      context,
     })
   })
 }
@@ -56,9 +109,7 @@ const createActorTimelinePages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      actors: allDirectory(
-        filter: { relativeDirectory: { eq: "events/actors" } }
-      ) {
+      actors: allFile(filter: { relativeDirectory: { eq: "actors" } }) {
         nodes {
           name
         }
@@ -75,14 +126,10 @@ const createActorTimelinePages = async ({ actions, graphql, reporter }) => {
   const nodes = result.data.actors.nodes
 
   nodes.forEach(node => {
-    const nodePath = `/timelines/${node.name}`
-    const relativeDirectory = `events/actors/${node.name}`
-    const imagesRelativeDirectoryGlob = `${relativeDirectory}/images/**`
+    const nodePath = `/actors/${node.name}`
 
     const context = {
-      subject: node.name,
-      relativeDirectory,
-      imagesRelativeDirectoryGlob,
+      actor: node.name,
     }
 
     reporter.info(
@@ -107,7 +154,7 @@ const createNetworkPages = async ({ actions, graphql, reporter }) => {
 
   const result = await graphql(`
     {
-      allDirectory(filter: { relativeDirectory: { glob: "events/networks" } }) {
+      allDirectory(filter: { relativeDirectory: { glob: "networks" } }) {
         nodes {
           name
         }
@@ -148,23 +195,16 @@ const createNetworkPages = async ({ actions, graphql, reporter }) => {
   })
 }
 
-const createNetworkTopicTimelinePages = async ({
-  actions,
-  graphql,
-  reporter,
-}) => {
+const createTopicTimelinePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
-  const networkTopicTimelineTemplate = path.resolve(
-    `src/templates/NetworkTopicTimelineTemplate/NetworkTopicTimelineTemplate.tsx`
+  const topicTimelineTemplate = path.resolve(
+    `src/templates/TopicTimelineTemplate/TopicTimelineTemplate.tsx`
   )
 
   const result = await graphql(`
     {
-      allDirectory(
-        filter: { relativeDirectory: { glob: "events/networks/*" } }
-      ) {
+      topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
         nodes {
-          relativeDirectory
           name
         }
       }
@@ -179,31 +219,23 @@ const createNetworkTopicTimelinePages = async ({
     return
   }
 
-  const nodes = result.data.allDirectory.nodes
+  const nodes = result.data.topics.nodes
 
   nodes.forEach(node => {
-    const parentName = A.takeRight(1)(node.relativeDirectory.split("/"))[0]
-    const nodePath = `/timelines/${parentName}/${node.name}`
-    const relativeDirectory = `events/networks/${parentName}/${node.name}`
-    const imagesRelativeDirectoryPath = `${relativeDirectory}/images`
+    const nodePath = `/topics/${node.name}`
 
     const context = {
-      relativeDirectory,
-      imagesRelativeDirectoryPath,
+      topic: node.name,
     }
 
     reporter.info(
-      `NetworkTopicTimeline [${node.name}] context: ${JSON.stringify(
-        context,
-        null,
-        4
-      )}`
+      `Topic [${node.name}] context: ${JSON.stringify(context, null, 4)}`
     )
+    reporter.info(`Building to path: ${nodePath}`)
 
-    console.log(nodePath)
     createPage({
       path: nodePath,
-      component: networkTopicTimelineTemplate,
+      component: topicTimelineTemplate,
       // additional data can be passed via context
       context,
     })
@@ -211,8 +243,13 @@ const createNetworkTopicTimelinePages = async ({
 }
 
 exports.createPages = async ({ actions, graphql, reporter }) => {
+  await createGroupPages({ actions, graphql, reporter })
   await createArticlePages({ actions, graphql, reporter })
   await createActorTimelinePages({ actions, graphql, reporter })
+  await createTopicTimelinePages({ actions, graphql, reporter })
   await createNetworkPages({ actions, graphql, reporter })
-  await createNetworkTopicTimelinePages({ actions, graphql, reporter })
 }
+
+// exports.onCreateNode = ({ node }) => {
+//   fmImagesToRelative(node)
+// }

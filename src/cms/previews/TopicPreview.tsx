@@ -1,10 +1,11 @@
+import TopicList from "@components/TopicList"
 import * as React from "react"
-import TopicList from "../../components/TopicList/TopicList"
 
 export const TopicPreview: React.FC<any> = props => {
   const { entry } = props
+  const data = entry.getIn(["data"]).toObject()
   const topic = {
-    ...entry.getIn(["data"]).toObject(),
+    ...data,
     selected: true
   }
 

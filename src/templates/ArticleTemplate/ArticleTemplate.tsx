@@ -1,89 +1,79 @@
+import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
+import SEO from "@components/SEO"
+import { ArticleFileNodeChildMarkdownRemark } from "@models/article"
+import renderMarkdownAST from "@utils//renderMarkdownAST"
+import { throwValidationErrors } from "@utils/throwValidationErrors"
+import { HeadingXXLarge } from "baseui/typography"
+import { sequenceS } from "fp-ts/lib/Apply"
+import * as E from "fp-ts/lib/Either"
+import { pipe } from "fp-ts/lib/pipeable"
 import { graphql } from "gatsby"
+import * as t from "io-ts"
 import React from "react"
-import "./articleTemplate.scss"
-import { Columns } from "react-bulma-components"
-import Menu from "../../components/Common/Menu"
-import Layout from "../../components/Layout"
-import SEO from "../../components/SEO"
 
-interface ArticleTemplatePage {
+interface ArticleTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    markdownRemark: {
-      frontmatter: { path: string; title: string; date: string }
-      html: string
-    }
-    allMarkdownRemark: {
-      nodes: [
-        {
-          id: string
-          frontmatter: { path: string; title: string }
-        }
-      ]
+    pageContent: unknown
+    articles: {
+      nodes: Array<{ childMarkdownRemark: { frontmatter: unknown } }>
     }
   }
 }
 
-export default function ArticleTemplatePage(
-  props: ArticleTemplatePage
-): React.ReactElement {
-  const { markdownRemark, allMarkdownRemark } = props.data // data.markdownRemark holds your post data
-  const { frontmatter, html } = markdownRemark
-  const articleItems = allMarkdownRemark.nodes.map(n => ({
-    id: n.id,
-    path: n.frontmatter.path,
-    title: n.frontmatter.title,
-    items: [],
-  }))
+const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = props => {
+  return pipe(
+    sequenceS(E.either)({
+      pageContent: ArticleFileNodeChildMarkdownRemark.decode(
+        props.data.pageContent
+      ),
+      articles: t
+        .array(ArticleFileNodeChildMarkdownRemark)
+        .decode(props.data.articles.nodes.map(n => n.childMarkdownRemark)),
+    }),
+    E.map(({ articles, ...props }) => {
+      return {
+        ...props,
+        articles: articles.map(n => ({
+          id: n.id,
+          path: n.frontmatter.path,
+          title: n.frontmatter.title,
+          items: [],
+        })),
+      }
+    }),
+    E.fold(throwValidationErrors, ({ pageContent, articles }) => (
+      <Layout>
+        <SEO title="Home" />
 
-  return (
-    <Layout>
-      <SEO title="Home" />
-      <Columns>
-        <Columns.Column size={3}>
-          <Menu sections={[{ items: articleItems }]} />
-        </Columns.Column>
-        <Columns.Column size={9}>
-          <div className="content">
-            <div className="blog-post-container">
-              <div className="blog-post">
-                <h1>{frontmatter.title}</h1>
-                <div
-                  className="blog-post-content"
-                  dangerouslySetInnerHTML={{ __html: html }}
-                />
-              </div>
-            </div>
-          </div>
-        </Columns.Column>
-      </Columns>
-    </Layout>
+        <MainContent>
+          <HeadingXXLarge>{pageContent.frontmatter.title}</HeadingXXLarge>
+          {renderMarkdownAST(pageContent.htmlAst)}
+        </MainContent>
+      </Layout>
+    ))
   )
 }
 
 export const pageQuery = graphql`
   query($filePath: String!) {
-    markdownRemark(frontmatter: { path: { eq: $filePath } }) {
-      html
+    pageContent: markdownRemark(frontmatter: { path: { eq: $filePath } }) {
+      id
+      htmlAst
       frontmatter {
         path
         title
+        date
       }
     }
 
-    allMarkdownRemark(
-      filter: { fileAbsolutePath: { glob: "**/articles/**" } }
-    ) {
+    articles: allFile(filter: { relativeDirectory: { eq: "articles" } }) {
       nodes {
-        id
-        frontmatter {
-          path
-          type
-          title
-          date(formatString: "DD/MM/YYYY")
-        }
-        fileAbsolutePath
+        ...ArticleFileNode
       }
     }
   }
 `
+
+export default ArticleTemplatePage

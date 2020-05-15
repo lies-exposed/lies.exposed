@@ -8,7 +8,16 @@
     "strict": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
-    "lib": ["dom", "esnext"]
+    "lib": ["dom", "esnext"],
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@helpers/*": ["helpers/*"],
+      "@models/*": ["models/*"],
+      "@theme/*": ["theme/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
   "include": ["src", "typings"],
   "exclude": ["node_modules", "public", ".cache"]

@@ -1,6 +1,7 @@
 ---
 fullName: Gianluca Griffa
 username: gianluca-griffa
+avatar: ../../static/media/actors/gianluca-griffa/gianluca-griffa.jpg
 date: 2020-05-11T13:35:04.593Z
 ---
 Gianluca Griffa è stato il responsabile del COVA (Centro Oli di Val d'Agri) fino a Luglio 2013, quando è stato sollevato dall'incarico perché preoccupato per gli sversamenti dai serbatoi del COVA già iniziati nel 2012.

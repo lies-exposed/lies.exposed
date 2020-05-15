@@ -1,76 +1,44 @@
+import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
+import { Layout } from "@components/Layout"
+import { PageContent } from "@components/PageContent"
+import SEO from "@components/SEO"
+import { ArticleFileNode } from "@models/article"
+import { PageContentFileNode } from "@models/page"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
-import { Columns } from "../components/Common"
-import Menu from "../components/Common/Menu"
-import Layout from "../components/Layout"
-import SEO from "../components/SEO"
-
-interface Node {
-  id: string
-  frontmatter: {
-    path: string
-    title: string
-  }
-}
-
-interface ArticleNode {
-  html: string
-}
 
 interface Results {
-  articles: { nodes: Node[] }
-  pageContent: { nodes: ArticleNode[] }
+  articles: { nodes: ArticleFileNode[] }
+  pageContent: PageContentFileNode
 }
 
 const ArticlesPage: React.FunctionComponent = () => {
   const { articles, pageContent }: Results = useStaticQuery(graphql`
     query ArticlePage {
-      articles: allMarkdownRemark(
-        filter: { fileAbsolutePath: { glob: "**/articles/**" } }
-      ) {
+      articles: allFile(filter: { relativeDirectory: { eq: "articles" } }) {
         nodes {
-          id
-          fileAbsolutePath
-          frontmatter {
-            title
-            path
-          }
+          ...ArticleFileNode
         }
       }
 
-      pageContent: allMarkdownRemark(
-        filter: { frontmatter: { path: { eq: "/articles" } } }
-      ) {
-        nodes {
-          html
-        }
+      pageContent: file(relativePath: { eq: "pages/articles.md" }) {
+        ...PageContentFileNode
       }
     }
   `)
 
   const articleItems = articles.nodes.map(n => ({
-    id: n.id,
-    path: n.frontmatter.path,
-    title: n.frontmatter.title,
-    items: [],
+    itemId: `/articles/${n.childMarkdownRemark.frontmatter.path}`,
+    title: n.childMarkdownRemark.frontmatter.title,
+    subNav: [],
   }))
-
-  const { html } = pageContent.nodes[0]
 
   return (
     <Layout>
       <SEO title="Article" />
-      <Columns>
-        <Columns.Column size={3}>
-          <Menu sections={[{ items: articleItems }]} />
-        </Columns.Column>
-        <Columns.Column size={9}>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: html }}
-          ></div>
-        </Columns.Column>
-      </Columns>
+      <ContentWithSideNavigation items={articleItems}>
+        <PageContent {...pageContent.childMarkdownRemark} />
+      </ContentWithSideNavigation>
     </Layout>
   )
 }

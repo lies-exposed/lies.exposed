@@ -1,3 +1,4 @@
+import { TreeEvent } from "@models/event"
 import { LinearGradient } from "@vx/gradient"
 import { Group } from "@vx/group"
 import { Tree as VXTree } from "@vx/hierarchy"
@@ -5,7 +6,6 @@ import { LinkHorizontal } from "@vx/shape"
 import { hierarchy, HierarchyPointNode } from "d3-hierarchy"
 import * as t from "io-ts"
 import React from "react"
-import { TreeEvent } from "../../../types/event"
 
 const peach = "#fd9b93"
 const pink = "#fe6e9e"
