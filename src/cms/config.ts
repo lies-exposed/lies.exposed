@@ -186,7 +186,7 @@ export const config: CmsConfigV2 = {
   backend: {
     name: "git-gateway",
   },
-  local_backend: true,
+  local_backend: process.env.NODE_ENV === 'development',
   publish_mode: "editorial_workflow",
   media_folder: "static/media",
   public_folder: "media",
