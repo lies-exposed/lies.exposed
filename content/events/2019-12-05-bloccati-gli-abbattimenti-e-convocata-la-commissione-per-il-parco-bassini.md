@@ -1,6 +1,8 @@
 ---
 title: Blocco abbattimenti e commissione
 date: 2019-12-05
+topic:
+    - parco-bassini
 links:
     - https://www.articolo21.org/2019/12/il-giallo-di-parco-bassini/
 ---

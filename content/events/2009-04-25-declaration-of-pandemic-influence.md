@@ -1,6 +1,6 @@
 ---
 title: WHO dichiara l'H1N1 pandemia influenzale
-date: 2009-04-25T00:00:00.000Z
+date: 2009-04-25
 actors:
   - WHO
 type: Declaration

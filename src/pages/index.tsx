@@ -47,6 +47,7 @@ const IndexPage: React.FC = () => {
     }
   `)
 
+
   return (
     <Layout>
       <Helmet>
