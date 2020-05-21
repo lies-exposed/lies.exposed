@@ -2,9 +2,9 @@
 
 ---
 
-This platform's aim is to give a different perspective of what we do for save what's left of the beauty of this planet.
+This platform's aim is to give a different perspective of what we do for saving what's left of the beauty of this planet.
 
-The path to defeat the magnitude of the changes we made to out planet needs everyone to be on the same side, the side of the life. 
+The path to defeat the magnitude of the changes we made to our planet needs everyone to be on the same side, the side of the life. 
 We can't let ourselves fight between each other for the each own selfishness, cause the only way we can solve this threat is by considering common interest in living above all the individual interests. We've caused this damage to the environment because of our impact as result of our actions and we need to stop pretending our own actions won't impact any other's life. 
 
 > If my actions can cause a loss of lifes somewhere else in the planet what kind of person I am when I perpetrate these actions?
