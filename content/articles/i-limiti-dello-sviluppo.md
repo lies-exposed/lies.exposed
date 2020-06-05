@@ -10,6 +10,7 @@ Il _sistema economico_ attuale non considera questi limiti, anche se la logica �
 
 Il Club di Roma[^limits-to-growth], fondato nel 1968, ha pubblicato nel 1972 quello che è stato il report scientifico sull'ambiente più venduto di sempre, intitolato [The Limits to Growth](http://www.donellameadows.org/wp-content/userfiles/Limits-to-Growth-digital-scan-version.pdf).
 
+
 <!-- Grafico dei limiti dello sviluppo qui -->
 
 [^limits-to-growth]: https://it.wikipedia.org/wiki/Club_di_Roma

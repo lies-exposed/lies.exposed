@@ -1,5 +1,6 @@
 import { BlockQuote } from "@components/BlockQuote"
 import Gallery from "@components/Gallery/Gallery"
+import { HumanPopulationGrowthGraph } from "@components/HumanPopulationGrowthGraph"
 import {
   ParagraphLarge,
   HeadingXXLarge,
@@ -24,6 +25,7 @@ const renderMarkdownAST = new RehypeReact({
     h6: HeadingXSmall,
     p: ParagraphLarge,
     blockquote: BlockQuote,
+    "human-population-growth-graph": HumanPopulationGrowthGraph,
   },
 }).Compiler
 
