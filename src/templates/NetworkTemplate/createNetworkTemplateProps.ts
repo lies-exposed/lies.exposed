@@ -10,6 +10,7 @@ import { NetworkPageContentFileNode } from "@models/networks"
 import { TopicPoint, TopicFileNode } from "@models/topic"
 import { ordEventFileNodeDate, ordEventPointDate } from "@utils//event"
 import { Link } from "@vx/network/lib/types"
+import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
@@ -26,6 +27,7 @@ interface NetworkLink extends Link<EventPoint> {
 }
 
 type TopicsMap = Map<string, TopicPoint>
+type TopicEventsMap = Map<string, TopicPoint & { events: EventPoint[] }>
 
 interface ActorData {
   actor: ActorPageContentFileNode
@@ -138,10 +140,11 @@ interface Result {
   eventNodes: Map<string, EventPoint[]>
   eventLinks: Map<string, NetworkLink[]>
   selectedNodes: Map<string, EventPoint[]>
+  topicEventsMap: TopicEventsMap
   actorsWithEventsAndLinksMap: ActorsMap
 }
 
-interface ActorsResults {
+interface Results {
   actors: Array<
     Omit<ActorData, "actor" | "events" | "links"> & {
       actor: ActorListActor
@@ -182,23 +185,20 @@ export interface CreateNetworkConfig {
   }
   height: number
   width: number
-  colors: {
-    topics: string[]
-    actors: string[]
-  }
 }
 
 export interface NetworkTemplateProps {
-  networkName: string
+  // networkName: string
   pageContent: NetworkPageContentFileNode
   minDate: Date
   maxDate: Date
   scale: NetworkScale
   graph: any
-  actors: ActorsResults["actors"]
+  actors: Results["actors"]
   topics: TopicListTopic[]
   selectedNodes: EventData[]
   selectedEventsCounter: { counter: number; total: number }
+  topicEventsMap: TopicEventsMap
 }
 
 export function createNetwork({
@@ -210,442 +210,494 @@ export function createNetwork({
   height,
   width,
   margin,
-  colors,
 }: CreateNetworkConfig): E.Either<t.Errors, NetworkTemplateProps> {
-  const networkName = A.takeRight(1)(
-    data.pageContent.relativeDirectory.split("/")
-  )[0]
-
-  const yGetter = getY(
-    data.topics.nodes.map(n => n.childMarkdownRemark.frontmatter.slug),
-    margin.vertical,
-    height
-  )
-
-  // create a topics map
-  const topicsMap = data.topics.nodes.reduce<TopicsMap>((acc, t, i) => {
-    return Map.insertAt(Eq.eqString)(t.childMarkdownRemark.frontmatter.slug, {
-      data: {
-        ...t.childMarkdownRemark.frontmatter,
-        selected: false,
-      },
-      x: 0,
-      y: yGetter(t.childMarkdownRemark.frontmatter.slug),
-    })(acc)
-  }, Map.empty)
-
-  const actorsMap = A.zip(data.actors.nodes, colors.actors).reduce<ActorsMap>(
-    (acc, [actor, color]) => {
-      const value: ActorData = {
-        actor,
-        color,
-        events: [],
-        links: [],
-        antiEcologicAct: 0,
-        ecologicAct: 0,
-        totalActs: 0,
-      }
-
-      return Map.insertAt(Eq.eqString)(actor.id, value)(acc)
-    },
-    Map.empty
-  )
-
-  const actorsList = Map.toArray(Ord.ordString)(actorsMap).map(
-    ([_, actor]) => actor
-  )
-
-  const props = pipe(
-    t.array(EventFileNode).decode(data.events.nodes),
-    E.map(events =>
-      scale === "all"
-        ? events
-        : pipe(
-            scalePoint,
-            O.map(p => {
-              const selectedFullYear = p.data.frontmatter.date.getFullYear()
-              const selectedMonth = p.data.frontmatter.date.getMonth()
-              const selectedWeek = getWeek(p.data.frontmatter.date)
-              const selectedDate = p.data.frontmatter.date.getDate()
-              return events.filter(n => {
-                const nodeFullYear = n.childMarkdownRemark.frontmatter.date.getFullYear()
-                const nodeMonth = n.childMarkdownRemark.frontmatter.date.getMonth()
-                const nodeWeek = getWeek(n.childMarkdownRemark.frontmatter.date)
-                const nodeDate = n.childMarkdownRemark.frontmatter.date.getDate()
-
-                if (scale === "year") {
-                  return Eq.eqNumber.equals(nodeFullYear, selectedFullYear)
-                }
-                if (scale === "month") {
-                  return (
-                    Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
-                    Eq.eqNumber.equals(nodeMonth, selectedMonth)
-                  )
-                }
-
-                if (scale === "week") {
-                  return (
-                    Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
-                    Eq.eqNumber.equals(nodeMonth, selectedMonth) &&
-                    Eq.eqNumber.equals(nodeWeek, selectedWeek)
-                  )
-                }
-
-                if (scale === "day") {
-                  return (
-                    Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
-                    Eq.eqNumber.equals(nodeMonth, selectedMonth) &&
-                    Eq.eqNumber.equals(nodeWeek, selectedWeek) &&
-                    Eq.eqNumber.equals(nodeDate, selectedDate)
-                  )
-                }
-                return true
-              })
-            }),
-            O.getOrElse((): EventFileNode[] => [])
-          )
-    ),
-    E.map(events => {
-      const eventsSortedByDate = pipe(events, A.sortBy([ordEventFileNodeDate]))
-
-      const minDate =
-        scale === "all"
-          ? pipe(
-              A.head(eventsSortedByDate),
-              O.map(e => e.childMarkdownRemark.frontmatter.date),
-              O.getOrElse(() => new Date("2018-01-01"))
-            )
-          : pipe(
-              scalePoint,
-              O.map(p => getMinDateByScale(scale, p)),
-              O.getOrElse(() => new Date("2018-01-01"))
-            )
-
-      const maxDate =
-        scale === "all"
-          ? pipe(
-              A.last(eventsSortedByDate),
-              O.map(e => e.childMarkdownRemark.frontmatter.date),
-              O.getOrElse(() => new Date())
-            )
-          : pipe(
-              scalePoint,
-              O.map(p => getMaxDateByScale(scale, p)),
-              O.getOrElse(() => new Date())
-            )
-
-      const result: Result = {
-        eventNodes: Map.empty,
-        eventLinks: Map.empty,
-        selectedNodes: Map.empty,
-        actorsWithEventsAndLinksMap: Map.empty,
-      }
-
-      const actorsGetter = getActors(
-        actorsList.map(a => a.actor.childMarkdownRemark.frontmatter)
+  return pipe(
+    sequenceS(E.either)({
+      topics: t.array(TopicFileNode).decode(data.topics.nodes),
+      actors: t.array(ActorPageContentFileNode).decode(data.actors.nodes),
+      events: t.array(EventFileNode).decode(data.events.nodes),
+    }),
+    E.chain(({ actors, topics, events }) => {
+      const yGetter = getY(
+        topics.map(n => n.childMarkdownRemark.frontmatter.slug),
+        margin.vertical,
+        height
       )
 
-      const {
-        eventNodes,
-        eventLinks,
-        selectedNodes,
-        actorsWithEventsAndLinksMap,
-      } = eventsSortedByDate.reduce<Result>((acc, e) => {
-        // get topic from relative directory
+      // create a topics map
+      const topicsMap = topics.reduce<TopicsMap>((acc, t, i) => {
+        return Map.insertAt(Eq.eqString)(
+          t.childMarkdownRemark.frontmatter.slug,
+          {
+            data: {
+              ...t.childMarkdownRemark.frontmatter,
+              selected: false,
+            },
+            x: 0,
+            y: yGetter(t.childMarkdownRemark.frontmatter.slug),
+          }
+        )(acc)
+      }, Map.empty)
 
-        const topicOpt = pipe(
-          A.head(A.takeRight(1)(e.relativeDirectory.split("/"))),
-          O.mapNullable(t => {
-            return Map.toArray(Ord.ordString)(topicsMap).find(
-              ([_, value]) => value.data.slug === t
+      const actorsMap = A.reduce<ActorPageContentFileNode, ActorsMap>(
+        Map.empty,
+        (acc, actor) => {
+          const value: ActorData = {
+            actor,
+            events: [],
+            links: [],
+            antiEcologicAct: 0,
+            ecologicAct: 0,
+            totalActs: 0,
+            color: O.getOrElse(() => "#F00")(
+              actor.childMarkdownRemark.frontmatter.color
+            ),
+          }
+
+          return Map.insertAt(Eq.eqString)(
+            actor.childMarkdownRemark.frontmatter.username,
+            value
+          )(acc)
+        }
+      )(actors)
+
+      const actorsList = Map.toArray(Ord.ordString)(actorsMap).map(
+        ([_, actor]) => actor
+      )
+
+      const props = pipe(
+        E.right<t.Errors, EventFileNode[]>(events),
+        E.map(events =>
+          scale === "all"
+            ? events
+            : pipe(
+                scalePoint,
+                O.map(p => {
+                  const selectedFullYear = p.data.frontmatter.date.getFullYear()
+                  const selectedMonth = p.data.frontmatter.date.getMonth()
+                  const selectedWeek = getWeek(p.data.frontmatter.date)
+                  const selectedDate = p.data.frontmatter.date.getDate()
+
+                  return events.filter(n => {
+                    const nodeFullYear = n.childMarkdownRemark.frontmatter.date.getFullYear()
+                    const nodeMonth = n.childMarkdownRemark.frontmatter.date.getMonth()
+                    const nodeWeek = getWeek(
+                      n.childMarkdownRemark.frontmatter.date
+                    )
+                    const nodeDate = n.childMarkdownRemark.frontmatter.date.getDate()
+
+                    if (scale === "year") {
+                      return Eq.eqNumber.equals(nodeFullYear, selectedFullYear)
+                    }
+                    if (scale === "month") {
+                      return (
+                        Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
+                        Eq.eqNumber.equals(nodeMonth, selectedMonth)
+                      )
+                    }
+
+                    if (scale === "week") {
+                      return (
+                        Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
+                        Eq.eqNumber.equals(nodeMonth, selectedMonth) &&
+                        Eq.eqNumber.equals(nodeWeek, selectedWeek)
+                      )
+                    }
+
+                    if (scale === "day") {
+                      return (
+                        Eq.eqNumber.equals(nodeFullYear, selectedFullYear) &&
+                        Eq.eqNumber.equals(nodeMonth, selectedMonth) &&
+                        Eq.eqNumber.equals(nodeWeek, selectedWeek) &&
+                        Eq.eqNumber.equals(nodeDate, selectedDate)
+                      )
+                    }
+                    return true
+                  })
+                }),
+                O.getOrElse((): EventFileNode[] => [])
+              )
+        ),
+        E.map(events => {
+          const eventsSortedByDate = pipe(
+            events,
+            A.sortBy([ordEventFileNodeDate])
+          )
+
+          const minDate =
+            scale === "all"
+              ? pipe(
+                  A.head(eventsSortedByDate),
+                  O.map(e => e.childMarkdownRemark.frontmatter.date),
+                  O.getOrElse(() => new Date("2018-01-01"))
+                )
+              : pipe(
+                  scalePoint,
+                  O.map(p => getMinDateByScale(scale, p)),
+                  O.getOrElse(() => new Date("2018-01-01"))
+                )
+
+          const maxDate =
+            scale === "all"
+              ? pipe(
+                  A.last(eventsSortedByDate),
+                  O.map(e => e.childMarkdownRemark.frontmatter.date),
+                  O.getOrElse(() => new Date())
+                )
+              : pipe(
+                  scalePoint,
+                  O.map(p => getMaxDateByScale(scale, p)),
+                  O.getOrElse(() => new Date())
+                )
+
+          const result: Result = {
+            eventNodes: Map.empty,
+            eventLinks: Map.empty,
+            selectedNodes: Map.empty,
+            actorsWithEventsAndLinksMap: Map.empty,
+            topicEventsMap: pipe(
+              topicsMap,
+              Map.map(t => ({
+                ...t,
+                events: [],
+              }))
+            ),
+          }
+
+          const actorsGetter = getActors(
+            actorsList.map(a => a.actor.childMarkdownRemark.frontmatter)
+          )
+
+          const {
+            eventNodes,
+            eventLinks,
+            selectedNodes,
+            actorsWithEventsAndLinksMap,
+            topicEventsMap,
+          } = eventsSortedByDate.reduce<Result>((acc, e) => {
+            // get topic from relative directory
+
+            const topicOpt = pipe(
+              A.head(e.childMarkdownRemark.frontmatter.topic),
+              O.chain(t => Map.lookupWithKey(Eq.eqString)(t, topicsMap)),
+              O.map(([_, topic]) => {
+                return {
+                  ...topic,
+                  data: {
+                    ...topic.data,
+                    selected: A.elem(Eq.eqString)(
+                      topic.data.slug,
+                      selectedTopicIds
+                    ),
+                  },
+                }
+              })
             )
-          }),
-          O.map(([_, topic]) => {
-            return {
-              ...topic,
-              data: {
-                ...topic.data,
-                selected: A.elem(Eq.eqString)(
-                  topic.data.slug,
-                  selectedTopicIds
+
+            if (O.isNone(topicOpt)) {
+              return acc
+            }
+
+            const topic = topicOpt.value
+
+            const cover = pipe(e.childMarkdownRemark.frontmatter.cover)
+
+            const eventFrontmatterType = O.fromNullable(
+              e.childMarkdownRemark.frontmatter.type
+            )
+
+            const eventActors = pipe(
+              e.childMarkdownRemark.frontmatter.actors,
+              O.map(actorsGetter)
+            )
+
+            const eventFrontmatterLinks = O.fromNullable(
+              e.childMarkdownRemark.frontmatter.links
+            )
+
+            const eventPoint: EventPoint = {
+              x:
+                margin.horizontal +
+                getX(
+                  e.childMarkdownRemark.frontmatter.date,
+                  minDate,
+                  maxDate,
+                  width - margin.horizontal * 2
                 ),
+              y: yGetter(topic.data.slug),
+              data: {
+                ...e.childMarkdownRemark,
+                frontmatter: {
+                  ...e.childMarkdownRemark.frontmatter,
+                  topic: getTopics(
+                    e.childMarkdownRemark.frontmatter.topic,
+                    topics.map(t => t.childMarkdownRemark.frontmatter)
+                  ),
+                  type: eventFrontmatterType,
+                  links: eventFrontmatterLinks,
+                  actors: eventActors,
+                  cover,
+                },
               },
             }
-          })
-        )
 
-        if (O.isNone(topicOpt)) {
-          return acc
-        }
-
-        const topic = topicOpt.value
-
-        const cover = pipe(e.childMarkdownRemark.frontmatter.cover)
-
-        const eventFrontmatterType = O.fromNullable(
-          e.childMarkdownRemark.frontmatter.type
-        )
-
-        const eventActors = pipe(
-          e.childMarkdownRemark.frontmatter.actors,
-          O.map(actorsGetter)
-        )
-
-        const eventFrontmatterLinks = O.fromNullable(
-          e.childMarkdownRemark.frontmatter.links
-        )
-
-        const eventPoint: EventPoint = {
-          x:
-            margin.horizontal +
-            getX(
-              e.childMarkdownRemark.frontmatter.date,
-              minDate,
-              maxDate,
-              width - margin.horizontal * 2
-            ),
-          y: yGetter(topic.data.slug),
-          data: {
-            ...e.childMarkdownRemark,
-            frontmatter: {
-              ...e.childMarkdownRemark.frontmatter,
-              topic: getTopics(
-                e.childMarkdownRemark.frontmatter.topic,
-                topics.map(t => t.data)
-              ),
-              type: eventFrontmatterType,
-              links: eventFrontmatterLinks,
-              actors: eventActors,
-              cover,
-            },
-          },
-        }
-
-        const eventNodes = pipe(
-          Map.lookup(Eq.eqString)(topic.data.slug, acc.eventNodes),
-          O.fold(
-            () => [eventPoint],
-            events => events.concat(eventPoint)
-          )
-        )
-
-        const selectedNodes = topic.data.selected
-          ? pipe(
-              Map.lookup(Eq.eqString)(topic.data.slug, acc.selectedNodes),
+            const eventNodes = pipe(
+              Map.lookup(Eq.eqString)(topic.data.slug, acc.eventNodes),
               O.fold(
                 () => [eventPoint],
                 events => events.concat(eventPoint)
               )
             )
-          : []
 
-        const eventLinks = topic.data.selected
-          ? pipe(
-              Map.lookup(Eq.eqString)(topic.data.slug, acc.eventLinks),
-              O.fold(
-                () => [
-                  {
-                    source: eventPoint,
-                    target: eventPoint,
-                    fill: topic.data.color,
-                    stroke: topic.data.color,
-                  },
-                ],
-                links => {
-                  return links.concat({
-                    source: pipe(
-                      A.last(links),
-                      O.map(l => l.target),
-                      O.getOrElse(() => eventPoint)
-                    ),
-                    target: eventPoint,
-                    stroke: topic.data.color,
-                    fill: topic.data.color,
-                  })
-                }
-              )
-            )
-          : []
-
-        const actorsWithEventsAndLinksMap = pipe(
-          eventActors,
-          O.map(actors => {
-            return Map.toArray(Ord.ordString)(actorsMap)
-              .filter(([_, a]) =>
-                actors.find(
-                  _ =>
-                    _.username ===
-                    a.actor.childMarkdownRemark.frontmatter.username
-                )
-              )
-              .reduce<ActorsMap>((prev, [_, a]) => {
-                const actorData = pipe(
-                  Map.lookup(Eq.eqString)(a.actor.id, prev),
+            const selectedNodes = topic.data.selected
+              ? pipe(
+                  Map.lookup(Eq.eqString)(topic.data.slug, acc.selectedNodes),
                   O.fold(
-                    (): ActorData => {
-                      const events = A.elem(Eq.eqString)(
-                        a.actor.id,
-                        selectedActorIds
-                      )
-                        ? [eventPoint]
-                        : []
+                    () => [eventPoint],
+                    events => events.concat(eventPoint)
+                  )
+                )
+              : []
 
-                      return {
-                        ...a,
-                        ecologicAct: addOneIfEqualTo(
-                          eventFrontmatterType,
-                          "EcologicAct"
-                        ),
-                        antiEcologicAct: addOneIfEqualTo(
-                          eventFrontmatterType,
-                          "AntiEcologicAct"
-                        ),
-                        events: events,
-                        links: [],
-                        totalActs: 1,
-                      }
-                    },
-                    (item): ActorData => {
-                      const link = {
+            const eventLinks = topic.data.selected
+              ? pipe(
+                  Map.lookup(Eq.eqString)(topic.data.slug, acc.eventLinks),
+                  O.fold(
+                    () => [
+                      {
+                        source: eventPoint,
+                        target: eventPoint,
+                        fill: topic.data.color,
+                        stroke: topic.data.color,
+                      },
+                    ],
+                    links => {
+                      return links.concat({
                         source: pipe(
-                          A.last(item.events),
+                          A.last(links),
+                          O.map(l => l.target),
                           O.getOrElse(() => eventPoint)
                         ),
                         target: eventPoint,
-                        fill: a.color,
-                        stroke: a.color,
-                      }
-
-                      const events = A.elem(Eq.eqString)(
-                        a.actor.id,
-                        selectedActorIds
-                      )
-                        ? item.events.concat(eventPoint)
-                        : []
-
-                      return {
-                        ...item,
-                        events: events,
-                        links: item.links.concat(link),
-                        ecologicAct:
-                          item.ecologicAct +
-                          addOneIfEqualTo(eventFrontmatterType, "EcologicAct"),
-                        antiEcologicAct:
-                          item.antiEcologicAct +
-                          addOneIfEqualTo(
-                            eventFrontmatterType,
-                            "AntiEcologicAct"
-                          ),
-                        totalActs: item.totalActs + 1,
-                      }
+                        stroke: topic.data.color,
+                        fill: topic.data.color,
+                      })
                     }
                   )
                 )
-                return Map.insertAt(Eq.eqString)(a.actor.id, actorData)(prev)
-              }, acc.actorsWithEventsAndLinksMap)
-          }),
-          O.getOrElse((): ActorsMap => acc.actorsWithEventsAndLinksMap)
-        )
+              : []
 
-        return {
-          eventNodes: Map.insertAt(Eq.eqString)(topic.data.slug, eventNodes)(
-            acc.eventNodes
-          ),
-          eventLinks: Map.insertAt(Eq.eqString)(topic.data.slug, eventLinks)(
-            acc.eventLinks
-          ),
-          selectedNodes: Map.insertAt(Eq.eqString)(
-            topic.data.slug,
-            selectedNodes
-          )(acc.selectedNodes),
-          actorsWithEventsAndLinksMap: actorsWithEventsAndLinksMap,
-        }
-      }, result)
+            const actorsWithEventsAndLinksMap = pipe(
+              eventActors,
+              O.map(actors => {
+                return Map.toArray(Ord.ordString)(actorsMap)
+                  .filter(([_, a]) =>
+                    actors.find(
+                      _ =>
+                        _.username ===
+                        a.actor.childMarkdownRemark.frontmatter.username
+                    )
+                  )
+                  .reduce<ActorsMap>((prev, [_, a]) => {
+                    const actorData = pipe(
+                      Map.lookup(Eq.eqString)(
+                        a.actor.childMarkdownRemark.frontmatter.username,
+                        prev
+                      ),
+                      O.fold(
+                        (): ActorData => {
+                          const events = A.elem(Eq.eqString)(
+                            a.actor.childMarkdownRemark.frontmatter.username,
+                            selectedActorIds
+                          )
+                            ? [eventPoint]
+                            : []
 
-      const topics = Map.toArray(Ord.ordString)(topicsMap).map(([_, t]) => t)
+                          return {
+                            ...a,
+                            ecologicAct: addOneIfEqualTo(
+                              eventFrontmatterType,
+                              "EcologicAct"
+                            ),
+                            antiEcologicAct: addOneIfEqualTo(
+                              eventFrontmatterType,
+                              "AntiEcologicAct"
+                            ),
+                            events: events,
+                            links: [],
+                            totalActs: 1,
+                          }
+                        },
+                        (item): ActorData => {
+                          const link = {
+                            source: pipe(
+                              A.last(item.events),
+                              O.getOrElse(() => eventPoint)
+                            ),
+                            target: eventPoint,
+                            fill: a.color,
+                            stroke: a.color,
+                          }
 
-      const nodes = Map.toArray(Ord.ordString)(eventNodes).reduce<EventPoint[]>(
-        (acc, [_, nodes]) => acc.concat(...nodes),
-        []
-      )
+                          const events = A.elem(Eq.eqString)(
+                            a.actor.childMarkdownRemark.frontmatter.username,
+                            selectedActorIds
+                          )
+                            ? item.events.concat(eventPoint)
+                            : []
 
-      const links = Map.toArray(Ord.ordString)(eventLinks).reduce<
-        NetworkLink[]
-      >((acc, [_, links]) => acc.concat(...links), [])
+                          return {
+                            ...item,
+                            events: events,
+                            links: item.links.concat(link),
+                            ecologicAct:
+                              item.ecologicAct +
+                              addOneIfEqualTo(
+                                eventFrontmatterType,
+                                "EcologicAct"
+                              ),
+                            antiEcologicAct:
+                              item.antiEcologicAct +
+                              addOneIfEqualTo(
+                                eventFrontmatterType,
+                                "AntiEcologicAct"
+                              ),
+                            totalActs: item.totalActs + 1,
+                          }
+                        }
+                      )
+                    )
+                    return Map.insertAt(Eq.eqString)(
+                      a.actor.childMarkdownRemark.frontmatter.username,
+                      actorData
+                    )(prev)
+                  }, acc.actorsWithEventsAndLinksMap)
+              }),
+              O.getOrElse((): ActorsMap => acc.actorsWithEventsAndLinksMap)
+            )
 
-      const actorResults = Map.toArray(Ord.ordString)(
-        actorsWithEventsAndLinksMap
-      ).reduce<ActorsResults>(
-        (acc, [_, value]) => {
-          return {
-            actors: acc.actors.concat({
-              actor: {
-                ...value.actor.childMarkdownRemark.frontmatter,
-                selected: A.elem(Eq.eqString)(value.actor.id, selectedActorIds),
+            const topicEventsMap = e.childMarkdownRemark.frontmatter.topic.reduce(
+              (topicAcc, t) => {
+                return pipe(
+                  Map.lookup(Eq.eqString)(t, topicAcc),
+                  O.map(datum => ({
+                    ...datum,
+                    events: datum.events.concat(eventPoint),
+                  })),
+                  O.map(d => Map.insertAt(Eq.eqString)(t, d)(topicAcc)),
+                  O.getOrElse(() => topicAcc)
+                )
               },
-              antiEcologicAct: value.antiEcologicAct,
-              ecologicAct: value.ecologicAct,
-              totalActs: value.totalActs,
-              color: value.color,
-            }),
-            events: acc.events.concat(...value.events),
-            links: acc.links.concat(...value.links),
+              acc.topicEventsMap
+            )
+
+            return {
+              eventNodes: Map.insertAt(Eq.eqString)(
+                topic.data.slug,
+                eventNodes
+              )(acc.eventNodes),
+              eventLinks: Map.insertAt(Eq.eqString)(
+                topic.data.slug,
+                eventLinks
+              )(acc.eventLinks),
+              selectedNodes: Map.insertAt(Eq.eqString)(
+                topic.data.slug,
+                selectedNodes
+              )(acc.selectedNodes),
+              actorsWithEventsAndLinksMap: actorsWithEventsAndLinksMap,
+              topicEventsMap,
+            }
+          }, result)
+
+          const nodes = Map.toArray(Ord.ordString)(eventNodes).reduce<
+            EventPoint[]
+          >((acc, [_, nodes]) => acc.concat(...nodes), [])
+
+          const links = Map.toArray(Ord.ordString)(eventLinks).reduce<
+            NetworkLink[]
+          >((acc, [_, links]) => acc.concat(...links), [])
+
+          const actorResults = Map.toArray(Ord.ordString)(
+            actorsWithEventsAndLinksMap
+          ).reduce<Results>(
+            (acc, [_, value]) => {
+              return {
+                actors: acc.actors.concat({
+                  actor: {
+                    ...value.actor.childMarkdownRemark.frontmatter,
+                    selected: A.elem(Eq.eqString)(
+                      value.actor.childMarkdownRemark.frontmatter.username,
+                      selectedActorIds
+                    ),
+                  },
+                  antiEcologicAct: value.antiEcologicAct,
+                  ecologicAct: value.ecologicAct,
+                  totalActs: value.totalActs,
+                  color: value.color,
+                }),
+                events: acc.events.concat(...value.events),
+                links: acc.links.concat(...value.links),
+              }
+            },
+            { actors: [], events: [], links: [] }
+          )
+
+          const selectedNodesArray: EventPoint[] = Map.toArray(Ord.ordString)(
+            selectedNodes
+          ).reduce<EventPoint[]>((acc, [_, nodes]) => acc.concat(...nodes), [])
+
+          const filteredActorEvents = actorResults.events.filter(
+            e =>
+              selectedNodesArray.find(s => s.data.id === e.data.id) ===
+              undefined
+          )
+
+          const selectedNodesSorted = A.sortBy([
+            Ord.getDualOrd(ordEventPointDate),
+          ])(selectedNodesArray.concat(...filteredActorEvents))
+
+          const selectedEventsCounter = selectedNodesSorted.reduce(
+            (acc, n) =>
+              acc +
+              O.fold(
+                () => 0,
+                t => (t === "AntiEcologicalAct" ? -1 : 1)
+              )(n.data.frontmatter.type),
+            0
+          )
+
+          return {
+            minDate,
+            maxDate,
+            scale,
+            pageContent: data.pageContent,
+            topics: topics.map(t => ({
+              ...t.childMarkdownRemark.frontmatter,
+              selected: A.elem(Eq.eqString)(
+                t.childMarkdownRemark.frontmatter.slug,
+                selectedTopicIds
+              ),
+            })),
+            topicEventsMap,
+            actors: actorResults.actors,
+            graph: {
+              nodes,
+              links: links.concat(...actorResults.links),
+            },
+            selectedNodes: selectedNodesSorted.map(n => n.data),
+            selectedEventsCounter: {
+              counter: selectedEventsCounter,
+              total: selectedNodesSorted.length,
+            },
           }
-        },
-        { actors: [], events: [], links: [] }
+        })
       )
 
-      const selectedNodesArray: EventPoint[] = Map.toArray(Ord.ordString)(
-        selectedNodes
-      ).reduce<EventPoint[]>((acc, [_, nodes]) => acc.concat(...nodes), [])
-
-      const filteredActorEvents = actorResults.events.filter(
-        e => selectedNodesArray.find(s => s.data.id === e.data.id) === undefined
-      )
-
-      const selectedNodesSorted = A.sortBy([Ord.getDualOrd(ordEventPointDate)])(
-        selectedNodesArray.concat(...filteredActorEvents)
-      )
-
-      const selectedEventsCounter = selectedNodesSorted.reduce(
-        (acc, n) =>
-          acc +
-          O.fold(
-            () => 0,
-            t => (t === "AntiEcologicalAct" ? -1 : 1)
-          )(n.data.frontmatter.type),
-        0
-      )
-
-      return {
-        minDate,
-        maxDate,
-        scale,
-        pageContent: data.pageContent,
-        topics: topics.map(t => ({
-          ...t.data,
-          selected: A.elem(Eq.eqString)(t.data.slug, selectedTopicIds),
-        })),
-        actors: actorResults.actors,
-        graph: {
-          nodes,
-          links: links.concat(...actorResults.links),
-        },
-        selectedNodes: selectedNodesSorted.map(n => n.data),
-        selectedEventsCounter: {
-          counter: selectedEventsCounter,
-          total: selectedNodesSorted.length,
-        },
-      }
-    })
-  )
-
-  return pipe(
-    props,
+      return props
+    }),
     E.map(p => ({
       ...p,
       pageContent: data.pageContent,
-      networkName,
     }))
   )
 }

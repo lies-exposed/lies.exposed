@@ -254,7 +254,7 @@ export const pageQuery = graphql`
     events: allFile(
       filter: {
         sourceInstanceName: { eq: "content" }
-        relativeDirectory: { glob: "events/**/**" }
+        relativeDirectory: { eq: "events" }
       }
     ) {
       nodes {

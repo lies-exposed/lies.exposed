@@ -1,6 +1,8 @@
 ---
 title: PGT depositato in visione al pubblico per osservazioni
 date: 2019-05-15
+topic:
+    - PGT
 links:
     - https://www.pgt.comune.milano.it/sites/default/files/allegati%20home/Avviso_AdozionePGT_20190515_0_1.pdf
 ---

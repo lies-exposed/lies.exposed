@@ -1,58 +1,279 @@
+import ActorList, { ActorListActor } from "@components/ActorList"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
+import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
-import { PageContent } from "@components/PageContent"
+import Network, { NetworkProps } from "@components/Network/Network"
+import { NetworkPageContent } from "@components/NetworkPageContent"
 import SEO from "@components/SEO"
-import { NetworkPageContentFileNode } from "@models/networks"
-import { PageContentFileNode } from "@models/page"
-import { useStaticQuery, graphql } from "gatsby"
+import TopicList, { TopicListTopic } from "@components/TopicList"
+import { BubbleGraph } from "@components/graph/BubbleGraph"
+import { eventsDataToNavigatorItems } from "@helpers/event"
+import { EventPoint } from "@models/event"
+import {
+  createNetwork,
+  NetworkTemplateData,
+} from "@templates/NetworkTemplate/createNetworkTemplateProps"
+import { formatDate } from "@utils//date"
+import { throwValidationErrors } from "@utils/throwValidationErrors"
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
+import { HeadingLevel } from "baseui/heading"
+import { LabelMedium } from "baseui/typography"
+import * as A from "fp-ts/lib/Array"
+import * as E from "fp-ts/lib/Either"
+import * as Eq from "fp-ts/lib/Eq"
+import * as Map from "fp-ts/lib/Map"
+import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
+import { replace, graphql } from "gatsby"
 import React from "react"
 
-interface Results {
-  networks: { nodes: NetworkPageContentFileNode[] }
-  pageContent: PageContentFileNode
+interface NetworkTemplateProps {
+  navigate: (to: string) => void
+  data: NetworkTemplateData
 }
 
-const NetworksPage: React.FunctionComponent<{}> = _props => {
-  const { networks: items, pageContent }: Results = useStaticQuery(graphql`
-    query NetworksPage {
-      networks: allDirectory(
-        filter: { relativeDirectory: { glob: "events/networks" } }
-      ) {
-        nodes {
-          id
-          name
-        }
-      }
+// const green = "#26deb0"
 
-      pageContent: file(
-        relativeDirectory: { eq: "pages" }
-        name: { eq: "networks" }
-      ) {
-        ...PageContentFileNode
+// const colors = {
+//   topics: [
+//     "#abe188",
+//     ,
+//     "#0256a1",
+//     "#8ccc00",
+//     "#fdb833",
+//     "#fd6d34",
+//     "#f0e345",
+//     "#6de321",
+//   ],
+//   actors: [blue, green, peach, lightpurple, pink, "#f0e345"],
+// }
+
+const width = 1000
+const height = 400
+const margin = { vertical: 30, horizontal: 30 }
+
+interface NetworkTemplateState {
+  scale: NetworkProps["scale"]
+  scalePoint: O.Option<EventPoint>
+  selectedActorIds: string[]
+  selectedTopicIds: string[]
+}
+
+export default class NetworkTemplate extends React.Component<
+  NetworkTemplateProps,
+  NetworkTemplateState
+> {
+  state: NetworkTemplateState = {
+    scale: "all",
+    scalePoint: O.none,
+    selectedActorIds: [],
+    selectedTopicIds: [],
+  }
+
+  onActorClick = (actor: ActorListActor): void => {
+    this.setState({
+      selectedActorIds: A.elem(Eq.eqString)(
+        actor.username,
+        this.state.selectedActorIds
+      )
+        ? A.array.filter(
+            this.state.selectedActorIds,
+            a => !Eq.eqString.equals(a, actor.username)
+          )
+        : this.state.selectedActorIds.concat(actor.username),
+    })
+  }
+
+  onTopicClick = (topic: TopicListTopic): void => {
+    this.setState({
+      selectedTopicIds: A.elem(Eq.eqString)(
+        topic.slug,
+        this.state.selectedTopicIds
+      )
+        ? A.array.filter(
+            this.state.selectedTopicIds,
+            a => !Eq.eqString.equals(a, topic.slug)
+          )
+        : this.state.selectedTopicIds.concat(topic.slug),
+    })
+  }
+
+  onNetworkDoubleClick = (
+    scalePoint: EventPoint,
+    scale: NetworkProps["scale"]
+  ): void => {
+    this.setState({
+      scalePoint: O.some(scalePoint),
+      scale:
+        scale === "all"
+          ? "year"
+          : scale === "year"
+          ? "month"
+          : scale === "month"
+          ? "week"
+          : scale === "week"
+          ? "day"
+          : "all",
+    })
+  }
+
+  render(): React.ReactElement | null {
+    const {
+      props: { data, navigate },
+      state: { scale, scalePoint, selectedActorIds, selectedTopicIds },
+    } = this
+
+    return pipe(
+      createNetwork({
+        data,
+        scale,
+        scalePoint,
+        selectedActorIds,
+        selectedTopicIds,
+        margin,
+        height,
+        width,
+      }),
+      E.fold(
+        throwValidationErrors,
+        ({
+          pageContent,
+          minDate,
+          maxDate,
+          scale,
+          graph,
+          actors,
+          topics,
+          selectedNodes,
+          selectedEventsCounter,
+          topicEventsMap,
+        }) => {
+          return (
+            <Layout>
+              <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+              <FlexGrid
+                alignItems="center"
+                alignContent="center"
+                justifyItems="center"
+                flexGridColumnCount={1}
+              >
+                <FlexGridItem width="100%">
+                  <HeadingLevel>
+                    <NetworkPageContent {...pageContent.childMarkdownRemark} />
+                  </HeadingLevel>
+                  <FlexGrid flexGridColumnCount={2}>
+                    <FlexGridItem>
+                      <TopicList
+                        topics={topics}
+                        onTopicClick={this.onTopicClick}
+                      />
+                    </FlexGridItem>
+                    <FlexGridItem
+                      display="flex"
+                      flexGridColumnCount={1}
+                      justifyContent="end"
+                    >
+                      <ActorList
+                        actors={actors.map(a => a.actor)}
+                        onActorClick={this.onActorClick}
+                      />
+                    </FlexGridItem>
+                  </FlexGrid>
+                  <LabelMedium>
+                    {selectedEventsCounter.counter}/
+                    {selectedEventsCounter.total}
+                  </LabelMedium>
+                  <LabelMedium>
+                    Scale: {scale}, Date Range: {formatDate(minDate)} -{" "}
+                    {formatDate(maxDate)}
+                  </LabelMedium>
+                </FlexGridItem>
+                <FlexGridItem justifyContent="center">
+                  <div style={{ width, height, margin: 30 }}>
+                    <Network
+                      width={width}
+                      height={height}
+                      scale={scale}
+                      minDate={minDate}
+                      maxDate={maxDate}
+                      graph={graph}
+                      onEventLabelClick={event => {
+                        navigate(`/events/${event}`)
+                      }}
+                      onNodeClick={event =>
+                        replace(`/networks/#${event.data.id}`)
+                      }
+                      onDoubleClick={this.onNetworkDoubleClick}
+                    />
+                  </div>
+                </FlexGridItem>
+                <FlexGridItem justifyContent="center">
+                  <div style={{ width, height, margin: 30 }}>
+                    <BubbleGraph
+                      width={width}
+                      height={height}
+                      data={pipe(
+                        topicEventsMap,
+                        Map.map(topic => ({
+                          label: topic.data.label,
+                          count: topic.events.length,
+                          color: topic.data.color,
+                        }))
+                      )}
+                    />
+                  </div>
+                </FlexGridItem>
+                <FlexGridItem>
+                  <ContentWithSideNavigation
+                    items={eventsDataToNavigatorItems(selectedNodes)}
+                  >
+                    <EventList events={selectedNodes} />
+                  </ContentWithSideNavigation>
+                </FlexGridItem>
+              </FlexGrid>
+            </Layout>
+          )
+        }
+      )
+    )
+  }
+}
+
+export const pageQuery = graphql`
+  query Network {
+    pageContent: file(
+      relativeDirectory: { eq: "pages" }
+      name: { eq: "networks" }
+    ) {
+      ...PageContentFileNode
+    }
+
+    topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
+      nodes {
+        ...TopicFileNode
       }
     }
-  `)
 
-  const navigatorItems = [
-    {
-      itemId: "#networks-page-menu",
-      title: "Networks",
-      subNav: items.nodes.map(n => ({
-        itemId: `/networks/${n.childMarkdownRemark.frontmatter.slug}`,
-        title: n.childMarkdownRemark.frontmatter.slug,
-        subNav: [],
-      })),
-    },
-  ]
+    actors: allFile(
+      filter: {
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { eq: "actors" }
+      }
+    ) {
+      nodes {
+        ...ActorPageContentFileNode
+      }
+    }
 
-  return (
-    <Layout>
-      <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
-      <ContentWithSideNavigation items={navigatorItems}>
-        <PageContent {...pageContent.childMarkdownRemark} />
-      </ContentWithSideNavigation>
-    </Layout>
-  )
-}
-
-export default NetworksPage
+    events: allFile(
+      filter: {
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { eq: "events" }
+      }
+    ) {
+      nodes {
+        ...EventFileNode
+      }
+    }
+  }
+`

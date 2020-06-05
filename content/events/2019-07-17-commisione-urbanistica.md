@@ -1,6 +1,9 @@
 ---
 title: Commissione urbanistica
 date: 2019-07-17
+topic:
+  - PGT
+  - DECA
 ---
 
 La prima commissione che il Comune ha organizzato per trattare il tema dell'emergenza climatica.

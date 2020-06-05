@@ -1,7 +1,7 @@
 ---
 fullName: Enrico Trovato
 username: enrico-trovato
-avatar: ../../static/media/actors/enrico-trovato/ferruccio-resta.jpg
+color: "#1789fc"
 date: 2020-03-19T00:00:00.000Z
 ---
 

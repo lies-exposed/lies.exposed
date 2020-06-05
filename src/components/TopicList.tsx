@@ -15,6 +15,7 @@ interface TopicListProps {
 
 const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
   const [, $theme] = themedUseStyletron()
+
   return (
     <div className="tags">
       {topics.map(t => {

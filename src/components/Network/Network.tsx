@@ -99,8 +99,8 @@ class Network extends React.Component<NetworkProps, {}> {
               width={width}
               height={height}
               rx={14}
-              fill="#111"
-              stroke='black'
+              fill="#654abc"
+              stroke="#654abc"
               strokeWidth="3"
             />
             <rect
@@ -181,10 +181,7 @@ class Network extends React.Component<NetworkProps, {}> {
                   tooltipData.frontmatter.actors,
                   O.map(actors => (
                     <div key="actors">
-                      Actors:{" "}
-                      {actors
-                        .map(a => a.fullName)
-                        .join(", ")}
+                      Actors: {actors.map(a => a.fullName).join(", ")}
                     </div>
                   )),
                   O.toNullable

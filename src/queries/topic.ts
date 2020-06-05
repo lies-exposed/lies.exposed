@@ -10,6 +10,7 @@ export const TopicFileNodeQuery = graphql`
         label
         slug
         date
+        color
       }
       htmlAst
     }

@@ -1,6 +1,8 @@
 ---
 title: Lettera aperta a Maran e Sala 
 date: 2019-12-04
+topic:
+  - parco-bassini
 ---
 
 Nonostante le diffide a procedere da parte dei Codacons, la richiesta di sospensione da parte del consiglio di zona, e le richieste di chiarimento, approfondimento e ripensamento sul progetto (da voci sia interne che esterne all'Ateneo), hanno iniziato a tagliare gli alberi.
