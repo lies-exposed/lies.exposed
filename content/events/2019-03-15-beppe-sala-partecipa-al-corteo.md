@@ -5,6 +5,7 @@ topic:
   - scioperi-per-il-clima
 actors:
   - beppe-sala
+type: Fact
 ---
 Il primo sciopero mondiale per il clima porta nelle strade di Milano circa 100 mila persone - giovani studenti e studentesse soprattutto - a chiedere che vengano applicate delle misure adeguate per far fronte alla crisi climatica e ambientale.
 
@@ -14,4 +15,4 @@ Il Sindaco non poteva farsi sfuggire l'occasione di partecipare al corteo del pr
 
 
 
-![](../../../../../static/media/events/2019/03/15/partecipazione-al-corteo/2019-03-15-beppe-sala.jpg)
+![](../../static/media/events/2019-03-15-partecipazione-al-corteo/2019-03-15-beppe-sala.jpg)

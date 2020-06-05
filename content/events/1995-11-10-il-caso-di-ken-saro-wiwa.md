@@ -1,7 +1,7 @@
 ---
 title: Il caso di Ken Saro-Wiwa
 slug: il-caso-di-ken-saro-wiwa
-date: 1995/10/11
+date: 1995-10-11
 actors:
   - eni-spa
 type: Declaration

@@ -1,7 +1,7 @@
 ---
 label: Bosco "La Goccia"
 slug: bosco-la-goccia
-date: 2020-03-23T00:00:00.000Z
+date: 2020-03-23
 color: "#1e7b15"
 ---
 

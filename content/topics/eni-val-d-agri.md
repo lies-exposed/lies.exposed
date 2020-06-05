@@ -1,5 +1,5 @@
 ---
-date: 2020-01-20T00:00:00.000Z
+date: 2020-01-20
 slug: eni-val-d-agri
 color: "#a18a00"
 links:

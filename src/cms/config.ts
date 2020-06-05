@@ -176,7 +176,7 @@ const topicCollection: CmsCollectionV2 = {
     { label: "Label", name: "label", widget: "string" },
     { label: "Slug", name: "slug", widget: "string" },
     { label: "Color", name: "color", widget: "string" },
-    { label: "Publish Date", name: "date", widget: "datetime" },
+    { label: "Publish Date", name: "date", widget: "date" },
     { label: "Body", name: "body", widget: "markdown" },
   ],
 }
