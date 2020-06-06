@@ -58,6 +58,7 @@ const actorsCollection: CmsCollectionV2 = {
     { label: "Username", name: "username", widget: "string" },
     { label: "Avatar", name: "avatar", widget: "image", required: false },
     { label: "Publish Date", name: "date", widget: "datetime" },
+    { label: "Color", name: "color", widget: "string" },
     { label: "Body", name: "body", widget: "markdown" },
   ],
 }
@@ -97,7 +98,7 @@ const eventCollection: CmsCollectionV2 = {
   editor: {
     preview: true,
   },
-  slug: '{{fields.date}}-{{slug}}',
+  slug: "{{fields.date}}-{{slug}}",
   summary: "[{{fields.date}}] {{slug}}",
   fields: [
     { label: "Title", name: "title", widget: "string" },

@@ -3,6 +3,7 @@ name: Eni S.p.a
 members:
   - gianluca-griffa
   - claudio-descalzi
+  - enrico-trovato
 date: 2020-04-30T00:00:00.000Z
 ---
 

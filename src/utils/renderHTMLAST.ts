@@ -13,7 +13,7 @@ import {
 import * as React from "react"
 import RehypeReact from "rehype-react"
 
-const renderMarkdownAST = new RehypeReact({
+const renderHTMLAST = new RehypeReact({
   createElement: React.createElement,
   components: {
     gallery: Gallery,
@@ -29,4 +29,4 @@ const renderMarkdownAST = new RehypeReact({
   },
 }).Compiler
 
-export default renderMarkdownAST
+export default renderHTMLAST

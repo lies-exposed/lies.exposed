@@ -1,5 +1,5 @@
 import { NetworkPageContentFileNode } from "@models/networks"
-import renderMarkdownAST from "@utils/renderMarkdownAST"
+import renderHTMLAST from "@utils/renderHTMLAST"
 import { Heading } from "baseui/heading"
 import * as React from "react"
 
@@ -15,7 +15,7 @@ export const NetworkPageContent: React.FC<NetworkPageContentProps> = ({
         {frontmatter.title}
       </Heading>
       <div style={{ textAlign: "center" }}>
-        {renderMarkdownAST(htmlAst)}
+        {renderHTMLAST(htmlAst)}
       </div>
     </>
   )

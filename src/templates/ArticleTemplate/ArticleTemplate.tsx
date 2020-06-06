@@ -2,7 +2,7 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { ArticleFileNodeChildMarkdownRemark } from "@models/article"
-import renderMarkdownAST from "@utils//renderMarkdownAST"
+import renderHTMLAST from "@utils/renderHTMLAST"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { HeadingXXLarge } from "baseui/typography"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -49,7 +49,7 @@ const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = props => {
 
         <MainContent>
           <HeadingXXLarge>{pageContent.frontmatter.title}</HeadingXXLarge>
-          {renderMarkdownAST(pageContent.htmlAst)}
+          {renderHTMLAST(pageContent.htmlAst)}
         </MainContent>
       </Layout>
     ))

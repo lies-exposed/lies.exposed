@@ -4,6 +4,8 @@ import { StyleSheetManager } from "styled-components"
 import { Client as Styletron } from "styletron-engine-atomic"
 import { Provider as StyletronProvider } from "styletron-react"
 import { theme, GlobalStyle } from "theme/CustomeTheme"
+// eslint-disable-next-line no-restricted-imports
+import '../scss/main.scss';
 
 const engine = new Styletron()
 

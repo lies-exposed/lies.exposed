@@ -1,5 +1,5 @@
 import { PageContentFileNode } from "@models/page"
-import renderMarkdownAST from "@utils/renderMarkdownAST"
+import renderHTMLAST from "@utils/renderHTMLAST"
 import * as React from "react"
 
 type APCFNCMR = PageContentFileNode["childMarkdownRemark"]
@@ -10,7 +10,7 @@ export const PageContent: React.FC<PageContentProps> = ({
 }) => {
   return (
     <>
-      {renderMarkdownAST(htmlAst)}
+      {renderHTMLAST(htmlAst)}
     </>
   )
 }

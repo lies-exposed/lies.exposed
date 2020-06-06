@@ -2,7 +2,7 @@ import ActorList from "@components/ActorList"
 import TopicList from "@components/TopicList"
 import { EventData } from "@models/event"
 import { formatDate } from "@utils//date"
-import renderMarkdownAST from "@utils//renderMarkdownAST"
+import renderHTMLAST from "@utils/renderHTMLAST"
 import { Card, StyledBody } from "baseui/card"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { CheckIndeterminate } from "baseui/icon"
@@ -74,7 +74,7 @@ const EventList: React.FC<EventListProps> = props => {
                 </FlexGridItem>
                 <FlexGridItem />
                 <FlexGridItem flexGridColumnCount={2}>
-                  {renderMarkdownAST(event.htmlAst)}
+                  {renderHTMLAST(event.htmlAst)}
                   {O.toNullable(
                     O.option.map(event.frontmatter.links, links => (
                       <ul>

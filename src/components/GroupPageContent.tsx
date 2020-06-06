@@ -1,5 +1,5 @@
 import { GroupFileNode } from "@models/group"
-import renderMarkdownAST from "@utils/renderMarkdownAST"
+import renderHTMLAST from "@utils/renderHTMLAST"
 import { HeadingXLarge } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -24,7 +24,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           )
         )
       )}
-      <div className="content">{renderMarkdownAST(htmlAst)}</div>
+      <div className="content">{renderHTMLAST(htmlAst)}</div>
     </>
   )
 }

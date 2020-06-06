@@ -1,7 +1,7 @@
 import { EventPoint } from "@models/event"
 import { formatDate } from "@utils/date"
 import { AxisBottom } from "@vx/axis"
-import { RectClipPath } from "@vx/clip-path"
+// import { RectClipPath } from "@vx/clip-path"
 import { localPoint } from "@vx/event"
 import { Group } from "@vx/group"
 import { Graph } from "@vx/network"
@@ -93,8 +93,15 @@ class Network extends React.Component<NetworkProps, {}> {
     return (
       <React.Fragment>
         <Group>
-          <svg width={width} height={height} style={{ cursor: "grab" }}>
-            <RectClipPath id="zoom-clip" width={300} height={200} />
+          <svg
+            width={width}
+            height={height}
+            style={{ cursor: "grab" }}
+            onScroll={e => {
+              e.stopPropagation()
+            }}
+          >
+            {/* <RectClipPath id="zoom-clip" width={300} height={200} /> */}
             <rect
               width={width}
               height={height}

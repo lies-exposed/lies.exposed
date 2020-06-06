@@ -132,7 +132,6 @@ export default class NetworkTemplate extends React.Component<
         selectedTopicIds,
         margin,
         height,
-        width,
       }),
       E.fold(
         throwValidationErrors,
@@ -147,6 +146,7 @@ export default class NetworkTemplate extends React.Component<
           selectedNodes,
           selectedEventsCounter,
           topicEventsMap,
+          networkWidth,
         }) => {
           return (
             <Layout>
@@ -188,24 +188,22 @@ export default class NetworkTemplate extends React.Component<
                     {formatDate(maxDate)}
                   </LabelMedium>
                 </FlexGridItem>
-                <FlexGridItem justifyContent="center">
-                  <div style={{ width, height, margin: 30 }}>
-                    <Network
-                      width={width}
-                      height={height}
-                      scale={scale}
-                      minDate={minDate}
-                      maxDate={maxDate}
-                      graph={graph}
-                      onEventLabelClick={event => {
-                        navigate(`/events/${event}`)
-                      }}
-                      onNodeClick={event =>
-                        replace(`/networks/#${event.data.id}`)
-                      }
-                      onDoubleClick={this.onNetworkDoubleClick}
-                    />
-                  </div>
+                <FlexGridItem justifyContent="center" overflow={"scrollX"}>
+                  <Network
+                    width={networkWidth}
+                    height={height}
+                    scale={scale}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    graph={graph}
+                    onEventLabelClick={event => {
+                      navigate(`/events/${event}`)
+                    }}
+                    onNodeClick={event =>
+                      replace(`/networks/#${event.data.id}`)
+                    }
+                    onDoubleClick={this.onNetworkDoubleClick}
+                  />
                 </FlexGridItem>
                 <FlexGridItem justifyContent="center">
                   <div style={{ width, height, margin: 30 }}>

@@ -1,13 +1,15 @@
 import CMS from "netlify-cms-app"
 import { config } from "./config"
 import { EditorYoutube } from "./editor/EditorYoutube"
-import mainCSS from "./previewStyle"
 import { ActorPreview } from "./previews/ActorPreview"
 import { GroupPreview } from "./previews/GroupPreview"
 import { TopicPreview } from "./previews/TopicPreview"
 import { withStyletron } from "./withStyletron"
 
-CMS.registerPreviewStyle(mainCSS, { raw: true })
+// eslint-disable-next-line import/no-webpack-loader-syntax, @typescript-eslint/no-var-requires
+// const styles = require("!css-loader!sass-loader!../scss/main.scss")
+// CMS.registerPreviewStyle(styles.toString(), { raw: true })
+
 CMS.registerPreviewTemplate("actors", withStyletron(ActorPreview))
 CMS.registerPreviewTemplate("groups", withStyletron(GroupPreview))
 CMS.registerPreviewTemplate("topics", withStyletron(TopicPreview))

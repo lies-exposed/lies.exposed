@@ -1,5 +1,5 @@
 import { TopicPageContentFileNode } from "@models/topic"
-import renderMarkdownAST from "@utils/renderMarkdownAST"
+import renderHTMLAST from "@utils/renderHTMLAST"
 import { HeadingXLarge } from "baseui/typography"
 import * as React from "react"
 
@@ -11,7 +11,7 @@ export const TopicPageContent: React.FC<TopicPageContentProps> = ({ frontmatter,
       <HeadingXLarge>
         {frontmatter.label}
       </HeadingXLarge>
-      {renderMarkdownAST(htmlAst)}
+      {renderHTMLAST(htmlAst)}
     </>
   )
 }

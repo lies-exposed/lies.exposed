@@ -50,14 +50,6 @@ module.exports = {
         path: `${__dirname}/static/media/`,
       },
     },
-    
-    {
-      resolve: `gatsby-plugin-netlify-cms`,
-      options: {
-        modulePath: `${__dirname}/src/cms/cms.ts`,
-        manualInit: true
-      },
-    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-manifest`,
@@ -65,11 +57,18 @@ module.exports = {
         name: `ECOnessione`,
         short_name: `econessione`,
         start_url: `/`,
-        lang: 'it',
+        lang: "it",
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `static/media/img/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-plugin-netlify-cms`,
+      options: {
+        modulePath: `${__dirname}/src/cms/cms.ts`,
+        manualInit: true,
       },
     },
     `gatsby-plugin-offline`,

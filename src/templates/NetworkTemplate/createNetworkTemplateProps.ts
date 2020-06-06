@@ -184,7 +184,6 @@ export interface CreateNetworkConfig {
     horizontal: number
   }
   height: number
-  width: number
 }
 
 export interface NetworkTemplateProps {
@@ -199,6 +198,7 @@ export interface NetworkTemplateProps {
   selectedNodes: EventData[]
   selectedEventsCounter: { counter: number; total: number }
   topicEventsMap: TopicEventsMap
+  networkWidth: number
 }
 
 export function createNetwork({
@@ -208,7 +208,7 @@ export function createNetwork({
   selectedActorIds,
   selectedTopicIds,
   height,
-  width,
+  // width,
   margin,
 }: CreateNetworkConfig): E.Either<t.Errors, NetworkTemplateProps> {
   return pipe(
@@ -350,6 +350,9 @@ export function createNetwork({
                   O.getOrElse(() => new Date())
                 )
 
+          const networkWidth =
+            moment(maxDate).diff(moment(minDate), "days") * 10
+
           const result: Result = {
             eventNodes: Map.empty,
             eventLinks: Map.empty,
@@ -422,7 +425,7 @@ export function createNetwork({
                   e.childMarkdownRemark.frontmatter.date,
                   minDate,
                   maxDate,
-                  width - margin.horizontal * 2
+                  networkWidth - margin.horizontal * 2
                 ),
               y: yGetter(topic.data.slug),
               data: {
@@ -689,6 +692,7 @@ export function createNetwork({
               counter: selectedEventsCounter,
               total: selectedNodesSorted.length,
             },
+            networkWidth,
           }
         })
       )
