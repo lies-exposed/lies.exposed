@@ -193,7 +193,7 @@ export interface NetworkTemplateProps {
   maxDate: Date
   scale: NetworkScale
   graph: any
-  actors: Results["actors"]
+  actors: ActorListActor[]
   topics: TopicListTopic[]
   selectedNodes: EventData[]
   selectedEventsCounter: { counter: number; total: number }
@@ -350,8 +350,7 @@ export function createNetwork({
                   O.getOrElse(() => new Date())
                 )
 
-          const networkWidth =
-            moment(maxDate).diff(moment(minDate), "days") * 10
+          const networkWidth = moment(maxDate).diff(moment(minDate), "days")
 
           const result: Result = {
             eventNodes: Map.empty,
@@ -682,7 +681,12 @@ export function createNetwork({
               ),
             })),
             topicEventsMap,
-            actors: actorResults.actors,
+            actors: actorsList.map(a => ({
+              ...a.actor.childMarkdownRemark.frontmatter,
+              selected: selectedActorIds.some(
+                id => id === a.actor.childMarkdownRemark.frontmatter.username
+              ),
+            })),
             graph: {
               nodes,
               links: links.concat(...actorResults.links),

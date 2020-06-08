@@ -174,7 +174,7 @@ export default class NetworkTemplate extends React.Component<
                       justifyContent="end"
                     >
                       <ActorList
-                        actors={actors.map(a => a.actor)}
+                        actors={actors}
                         onActorClick={this.onActorClick}
                       />
                     </FlexGridItem>

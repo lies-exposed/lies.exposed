@@ -93,14 +93,7 @@ class Network extends React.Component<NetworkProps, {}> {
     return (
       <React.Fragment>
         <Group>
-          <svg
-            width={width}
-            height={height}
-            style={{ cursor: "grab" }}
-            onScroll={e => {
-              e.stopPropagation()
-            }}
-          >
+          <svg width={width} height={height} style={{ cursor: "grab" }}>
             {/* <RectClipPath id="zoom-clip" width={300} height={200} /> */}
             <rect
               width={width}
@@ -176,7 +169,11 @@ class Network extends React.Component<NetworkProps, {}> {
               key={Math.random()}
               top={tooltipTop}
               left={tooltipLeft}
-              style={{ maxWidth: 200 }}
+              style={{
+                maxWidth: 200,
+                position: "absolute",
+                backgroundColor: "white",
+              }}
             >
               <div>
                 <div>
