@@ -6,9 +6,7 @@ export const ArticlePreview: React.FC<any> = props => {
   const { entry } = props
   const { body, ...article } = entry.getIn(["data"]).toJS()
 
-  console.log({ body: HTMLtoAST(body) })
   const htmlAst = HTMLtoAST(MDtoHTML(body))
-  console.log("htmlAst", htmlAst)
 
   return (
     <ArticlePage

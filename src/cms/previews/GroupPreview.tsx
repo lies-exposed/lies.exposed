@@ -1,5 +1,6 @@
 import { GroupPageContent } from "@components/GroupPageContent"
 import { GroupFrontmatter } from "@models/group"
+import { MDtoHTML, HTMLtoAST } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -46,9 +47,9 @@ export const GroupPreview: React.FC<any> = ({
         <GroupPageContent
           id="group-page-content-preview"
           frontmatter={f}
-          htmlAst={{ type: "root", children: [] }}
+          htmlAst={HTMLtoAST(MDtoHTML(body))}
         />
-        {widgetFor("body")}
+        
       </>
     ))
   )
