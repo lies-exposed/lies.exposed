@@ -1,5 +1,5 @@
 import { ActorPageContent } from "@components/ActorPageContent"
-import { toAST } from "@utils/markdownHTML"
+import { HTMLtoAST } from "@utils/markdownHTML"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
@@ -36,7 +36,7 @@ export const ActorPreview: React.FC<any> = props => {
     <ActorPageContent
       id={""}
       frontmatter={actor}
-      htmlAst={toAST(body)}
+      htmlAst={HTMLtoAST(body)}
     />
   )
 }

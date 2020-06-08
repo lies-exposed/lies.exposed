@@ -1,24 +1,21 @@
+import { ArticlePage } from "@components/ArticlePage"
 import { Layout } from "@components/Layout"
-import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { ArticleFileNodeChildMarkdownRemark } from "@models/article"
-import renderHTMLAST from "@utils/renderHTMLAST"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { HeadingXXLarge } from "baseui/typography"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql } from "gatsby"
-import * as t from "io-ts"
 import React from "react"
 
 interface ArticleTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
     pageContent: unknown
-    articles: {
-      nodes: Array<{ childMarkdownRemark: { frontmatter: unknown } }>
-    }
+    // articles: {
+    //   nodes: Array<{ childMarkdownRemark: { frontmatter: unknown } }>
+    // }
   }
 }
 
@@ -28,29 +25,29 @@ const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = props => {
       pageContent: ArticleFileNodeChildMarkdownRemark.decode(
         props.data.pageContent
       ),
-      articles: t
-        .array(ArticleFileNodeChildMarkdownRemark)
-        .decode(props.data.articles.nodes.map(n => n.childMarkdownRemark)),
+      // articles: t
+      //   .array(ArticleFileNodeChildMarkdownRemark)
+      //   .decode(props.data.articles.nodes.map(n => n.childMarkdownRemark)),
     }),
-    E.map(({ articles, ...props }) => {
+    E.map(({ pageContent }) => {
       return {
-        ...props,
-        articles: articles.map(n => ({
-          id: n.id,
-          path: n.frontmatter.path,
-          title: n.frontmatter.title,
-          items: [],
-        })),
+        pageContent,
+        // articles: articles.map(n => ({
+        //   id: n.id,
+        //   path: n.frontmatter.path,
+        //   title: n.frontmatter.title,
+        //   items: [],
+        // })),
       }
     }),
-    E.fold(throwValidationErrors, ({ pageContent, articles }) => (
+    E.fold(throwValidationErrors, ({ pageContent }) => (
       <Layout>
         <SEO title="Home" />
 
-        <MainContent>
-          <HeadingXXLarge>{pageContent.frontmatter.title}</HeadingXXLarge>
-          {renderHTMLAST(pageContent.htmlAst)}
-        </MainContent>
+        <ArticlePage
+          {...pageContent.frontmatter}
+          htmlAst={pageContent.htmlAst}
+        />
       </Layout>
     ))
   )
