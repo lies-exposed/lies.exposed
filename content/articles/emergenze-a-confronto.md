@@ -1,7 +1,7 @@
 ---
 title: Emergenze a confronto
 path: emergenze-a-confronto
-date: 2020-03-26
+date: 2020-03-26T00:00:00.000Z
 links:
   - https://www.wired.it/attualita/politica/2020/03/12/tagli-sanita-italia-storia/
   - https://ilmanifesto.it/david-quammen-questo-virus-e-piu-pericoloso-di-ebola-e-sars/
@@ -16,8 +16,6 @@ links:
   - https://ilmanifesto.it/il-virus-mette-la-globalizzazione-con-i-piedi-per-terra/
   - https://thegeckoproject.org/new-player-starts-clearing-rainforest-in-worlds-biggest-oil-palm-project-48214ebe21e9
 ---
-
-
 L’emergenza Covid-19 ha mostrato i diversi approcci che ogni singolo Stato ritiene adottare per salvaguardare la salute dei propri cittadini. Gli Stati che possono contare su un sistema sanitario pubblico resiliente riescono a trattare più pazienti, impedendo una veloce espansione del virus, mentre quelli che hanno un sistema sanitario debole o che riserva un costo spropositato per il trattamento per il cittadino medio risulta poco efficace nel gestire il contenimento del virus e le sue vittime.
 Il Sistema Sanitario Nazionale italiano è uno tra i migliori al mondo, ma i tagli degli ultimi 40 anni ne hanno ridotto la resilienza:
  

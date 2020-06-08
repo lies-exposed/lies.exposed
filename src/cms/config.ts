@@ -185,8 +185,10 @@ const topicCollection: CmsCollectionV2 = {
 export const config: CmsConfigV2 = {
   backend: {
     name: "git-gateway",
+    repo: "ascariandrea/econnessione",
+    open_authoring: true,
   },
-  local_backend: process.env.NODE_ENV === 'development',
+  local_backend: process.env.NODE_ENV === "development",
   publish_mode: "editorial_workflow",
   media_folder: "static/media",
   public_folder: "media",
