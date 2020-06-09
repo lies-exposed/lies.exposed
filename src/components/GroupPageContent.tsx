@@ -24,7 +24,6 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           )
         )
       )}
-      <div className="members">{frontmatter.members.map()}</div>
       <div className="content">{renderHTMLAST(htmlAst)}</div>
     </>
   )
