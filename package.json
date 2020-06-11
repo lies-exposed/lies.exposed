@@ -48,7 +48,8 @@
     "source-serif-pro": "3.1.0",
     "styled-components": "5.1.1",
     "styletron-engine-atomic": "1.4.6",
-    "styletron-react": "5.2.7"
+    "styletron-react": "5.2.7",
+    "throttle-debounce": "^2.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
@@ -65,6 +66,7 @@
     "@types/styletron-engine-atomic": "1.1.0",
     "@types/styletron-react": "5.0.2",
     "@types/styletron-standard": "2.0.0",
+    "@types/throttle-debounce": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "2.24.0",
     "@typescript-eslint/parser": "2.24.0",
     "@vx/mock-data": "0.0.195",
@@ -112,7 +114,8 @@
   "scripts": {
     "clean": "gatsby clean",
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "develop": "gatsby develop -p 8002",
+    "proxy-server": "PORT=8082 npx netlify-cms-proxy-server",
     "info": "gatsby info",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "npm run develop",

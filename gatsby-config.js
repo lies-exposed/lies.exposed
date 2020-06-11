@@ -33,6 +33,9 @@ module.exports = {
               showCaptions: ["title", "alt"],
             },
           },
+          {
+            resolve: "gatsby-remark-component",
+          },
         ],
       },
     },
