@@ -1,12 +1,15 @@
 import {
   createTheme,
+  LightTheme,
   lightThemePrimitives,
   createThemedUseStyletron,
 } from "baseui"
-import { ThemePrimitives } from "baseui/theme"
+import { ThemePrimitives, Theme } from "baseui/theme"
 import { createGlobalStyle } from "styled-components"
 // eslint-disable-next-line no-restricted-imports
 import "../scss/main.scss"
+// eslint-disable-next-line no-restricted-imports
+import "../scss/gatsby-image.scss"
 
 export const customColors = {
   brandPrimary: "#ff4e50",
@@ -47,20 +50,34 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Source Serif Pro';
     font-style: normal;
     font-weight: normal;
-    font-size: 16px;
-    line-height: 24px;
     color: ${customColors.primaryDark};
 
     caret-color: red;
   }
 `
 
+const primaryFontFamily = "Source Serif Pro"
+const secondaryFontFamily = "Verdana"
+const thirdaryFontFamily = '"Lucida Console", Monaco, monospace'
+
 const primitives: ThemePrimitives = {
   ...lightThemePrimitives,
-  primaryFontFamily: "Source Serif Pro",
+  primaryFontFamily,
 }
 
-const overrides = {
+const headerFont = {
+  fontFamily: secondaryFontFamily,
+  fontWeight: 700,
+  lineHeight: 1.6,
+}
+
+type Overrides = {
+  [K in keyof Pick<Theme, "colors" | "typography">]: Partial<Theme[K]> & {
+    [x: string]: any
+  }
+} & { customColors: typeof customColors }
+
+const overrides: Overrides = {
   customColors,
   colors: {
     /* Radio / Checkbox */
@@ -101,8 +118,40 @@ const overrides = {
     inputTextDisabled: customColors.secondaryLight,
   },
   typography: {
-    secondaryFont: "Verdana",
-    thirdaryFont: '"Lucida Console", Monaco, monospace',
+    secondaryFont: secondaryFontFamily,
+    thirdaryFont: thirdaryFontFamily,
+    DisplayMedium: {
+      fontFamily: primaryFontFamily,
+      fontWeight: 300,
+      fontSize: "16px",
+      lineHeight: "1.6",
+    },
+    HeadingSmall: {
+      ...headerFont,
+      fontSize: LightTheme.typography.HeadingSmall.fontSize,
+    },
+    HeadingMedium: {
+      ...headerFont,
+      fontSize: LightTheme.typography.HeadingMedium.fontSize,
+    },
+    HeadingLarge: {
+      ...headerFont,
+      fontSize: LightTheme.typography.HeadingLarge.fontSize,
+    },
+    HeadingXLarge: {
+      ...headerFont,
+      fontSize: LightTheme.typography.HeadingXLarge.fontSize,
+    },
+    HeadingXXLarge: {
+      ...headerFont,
+      fontSize: LightTheme.typography.HeadingXXLarge.fontSize,
+    },
+    ParagraphMedium: {
+      fontFamily: primaryFontFamily,
+      fontWeight: 300,
+      fontSize: "16px",
+      lineHeight: "1.6",
+    },
   },
 }
 

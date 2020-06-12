@@ -1,4 +1,4 @@
-@import '../../node_modules/source-serif-pro/source-serif-pro.css';
+@import "../../node_modules/source-serif-pro/source-serif-pro.css";
 
 html,
 body,
@@ -10,7 +10,23 @@ body > div > div {
   margin: 0;
 }
 
+h1 {
+  text-transform: uppercase;
+}
 
-.footnotes ol li p {
-  display: inline;
+.footnotes ol li {
+  font-size: 12px;
+  p,
+  a {
+    font-size: 12px;
+    display: inline;
+  }
+}
+
+em {
+  font-style: italic;
+}
+
+.blockquote p {
+  margin: 0;
 }

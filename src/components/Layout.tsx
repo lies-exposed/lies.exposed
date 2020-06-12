@@ -5,7 +5,11 @@ import * as React from "react"
 import { Footer } from "./Footer"
 import Header from "./Header"
 
-export const Layout: React.FC = ({ children }) => {
+interface LayoutProps {
+  style?: React.CSSProperties
+}
+
+export const Layout: React.FC<LayoutProps> = ({ children, style }) => {
   return (
     <BaseProvider
       theme={theme}
@@ -19,7 +23,18 @@ export const Layout: React.FC = ({ children }) => {
       }}
     >
       <GlobalStyle />
-      <FlexGrid width="100%" minHeight="100%" margin="0">
+      <FlexGrid
+        width="100%"
+        minHeight="100%"
+        margin="0"
+        overrides={{
+          Block: {
+            style: () => ({
+              ...style,
+            }),
+          },
+        }}
+      >
         <FlexGridItem width="100%" minHeight="100%" flexDirection="column">
           <Header />
           {children}

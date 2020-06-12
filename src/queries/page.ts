@@ -1,4 +1,4 @@
-import { graphql } from "gatsby";
+import { graphql } from "gatsby"
 
 export const query = graphql`
   fragment PageContentFileNode on File {
@@ -9,8 +9,10 @@ export const query = graphql`
         title
         path
         date
+        slug
       }
       htmlAst
+      tableOfContents(absolute: false, maxDepth: 6)
     }
   }
 `

@@ -4,13 +4,11 @@ import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { GroupFileNode } from "@models/group"
 import { PageContentFileNode } from "@models/page"
-import { TopicFileNode } from "@models/topic"
 import { useStaticQuery, graphql, PageProps } from "gatsby"
 import React from "react"
 
 interface Results {
   groups: { nodes: GroupFileNode[]}
-  topics: { nodes: TopicFileNode[] }
   pageContent: PageContentFileNode
 }
 

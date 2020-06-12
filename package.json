@@ -21,7 +21,7 @@
     "@vx/shape": "0.0.197",
     "@vx/tooltip": "0.0.197",
     "@vx/zoom": "0.0.197",
-    "baseui": "^9.84.1",
+    "baseui": "9.85.3",
     "d3-array": "2.4.0",
     "fp-ts": "^2.6.0",
     "gatsby": "^2.23.1",
@@ -74,7 +74,7 @@
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-config-standard-with-typescript": "15.0.0",
-    "eslint-plugin-baseui": "9.84.1",
+    "eslint-plugin-baseui": "9.85.2",
     "eslint-plugin-graphql": "3.1.1",
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-node": "11.0.0",
@@ -96,6 +96,7 @@
     "gatsby-remark-images": "3.3.9",
     "gatsby-remark-numbered-footnotes": "1.0.1",
     "gatsby-remark-relative-images": "0.3.0",
+    "gatsby-remark-relative-source": "0.0.4",
     "gatsby-source-filesystem": "2.3.10",
     "gatsby-transformer-json": "2.4.4",
     "gatsby-transformer-csv": "2.3.10",
@@ -131,7 +132,7 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "src/.{ts,tsx}": [
       "./node_modules/.bin/eslint --fix"
     ]
   },

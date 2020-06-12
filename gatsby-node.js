@@ -250,6 +250,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   await createNetworkPages({ actions, graphql, reporter })
 }
 
-// exports.onCreateNode = ({ node }) => {
-//   fmImagesToRelative(node)
+// exports.onCreateNode = ({node}) => {
+//   console.log(node)
 // }

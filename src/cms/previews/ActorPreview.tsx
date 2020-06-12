@@ -17,14 +17,6 @@ export const ActorPreview: React.FC<any> = props => {
             childImageSharp: {
               fluid: {
                 src: avatar.url,
-                aspectRatio: 1,
-                srcSet: avatar.url,
-                sizes: "",
-                base64: "",
-                tracedSVG: "",
-                srcWebp: undefined,
-                srcSetWebp: undefined,
-                media: undefined,
               },
             },
           })

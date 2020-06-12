@@ -13,6 +13,7 @@ export const query = graphql`
         members
         color
         avatar {
+          publicURL
           childImageSharp {
             fluid(maxWidth: 600) {
               ...GatsbyImageSharpFluid

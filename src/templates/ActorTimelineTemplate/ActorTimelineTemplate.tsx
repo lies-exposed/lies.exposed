@@ -105,6 +105,12 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
         ).length,
         color: "blue",
       })(factMap)
+
+      const bubbleGraphData = pipe(
+        eventsBubbles,
+        Map.toArray(Ord.ordString),
+        A.map(e => e[1])
+      )
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.fullName} />
@@ -120,7 +126,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
             </FlexGridItem> */}
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
             <ActorPageContent {...pageContent.childMarkdownRemark} />
-            <BubbleGraph width={600} height={400} data={eventsBubbles} />
+            <BubbleGraph width={600} height={400} data={bubbleGraphData} />
             <EventList events={events} />
           </ContentWithSideNavigation>
         </Layout>

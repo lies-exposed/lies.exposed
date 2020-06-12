@@ -23,6 +23,7 @@ import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
+import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { replace, graphql } from "gatsby"
 import React from "react"
@@ -207,7 +208,7 @@ export default class NetworkTemplate extends React.Component<
                 </FlexGridItem>
                 <FlexGridItem justifyContent="center">
                   <div style={{ width, height, margin: 30 }}>
-                    <BubbleGraph
+                    <BubbleGraph<{label: string; count: number; color: string}>
                       width={width}
                       height={height}
                       data={pipe(
@@ -216,7 +217,9 @@ export default class NetworkTemplate extends React.Component<
                           label: topic.data.label,
                           count: topic.events.length,
                           color: topic.data.color,
-                        }))
+                        })),
+                        Map.toArray(Ord.ordString),
+                        A.map(e => e[1])
                       )}
                     />
                   </div>

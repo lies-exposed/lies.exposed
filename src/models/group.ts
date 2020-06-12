@@ -1,7 +1,7 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { ImageFileNode } from "./image"
+import { ImageFileNode } from "./Image"
 
 export const GroupFrontmatter = t.interface(
   {
