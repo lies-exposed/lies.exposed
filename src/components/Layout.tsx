@@ -21,7 +21,6 @@ export const Layout: React.FC = ({ children }) => {
       >
         <GlobalStyle />
         <FlexGrid width="100%" minHeight="100%" margin="0">
-          <FlexGrid width="100%" minHeight="100%">
             <FlexGridItem width="100%" minHeight="100%" flexDirection="column">
               <Header />
               {children}
@@ -29,7 +28,6 @@ export const Layout: React.FC = ({ children }) => {
             <Footer
               githubLink={"https://github.com/ascariandrea/econessione"}
             />
-          </FlexGrid>
         </FlexGrid>
       </BaseProvider>
   )
