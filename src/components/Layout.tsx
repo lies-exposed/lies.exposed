@@ -6,29 +6,26 @@ import { Footer } from "./Footer"
 import Header from "./Header"
 
 export const Layout: React.FC = ({ children }) => {
-
   return (
-      <BaseProvider
-        theme={theme}
-        overrides={{
-          AppContainer: {
-            style: () => ({
-              minHeight: "100%",
-              display: "flex",
-            }),
-          },
-        }}
-      >
-        <GlobalStyle />
-        <FlexGrid width="100%" minHeight="100%" margin="0">
-            <FlexGridItem width="100%" minHeight="100%" flexDirection="column">
-              <Header />
-              {children}
-            </FlexGridItem>
-            <Footer
-              githubLink={"https://github.com/ascariandrea/econessione"}
-            />
-        </FlexGrid>
-      </BaseProvider>
+    <BaseProvider
+      theme={theme}
+      overrides={{
+        AppContainer: {
+          style: () => ({
+            minHeight: "100%",
+            display: "flex",
+          }),
+        },
+      }}
+    >
+      <GlobalStyle />
+      <FlexGrid width="100%" minHeight="100%" margin="0">
+        <FlexGridItem width="100%" minHeight="100%" flexDirection="column">
+          <Header />
+          {children}
+        </FlexGridItem>
+        <Footer githubLink={"https://github.com/ascariandrea/econessione"} />
+      </FlexGrid>
+    </BaseProvider>
   )
 }
