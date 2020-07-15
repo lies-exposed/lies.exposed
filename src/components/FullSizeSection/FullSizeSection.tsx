@@ -6,7 +6,7 @@ import { throttle } from "throttle-debounce"
 
 interface FullSizeSectionProps {
   id: string
-  backgroundcolor?: string
+  'background-color'?: string
   'background-image'?: string
 }
 
@@ -14,7 +14,7 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = props => {
   
   const {
     id,
-    backgroundcolor: backgroundColor,
+    'background-color': backgroundColor,
     'background-image': backgroundImage,
     children,
   } = props
@@ -52,7 +52,7 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = props => {
         width,
         minHeight,
         maxWidth,
-        backgroundColor,
+        backgroundColor: backgroundColor ?? 'transparent',
         backgroundImage: backgroundImage !== undefined ? `url(${backgroundImage})`: undefined,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',

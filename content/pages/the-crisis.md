@@ -21,9 +21,10 @@ Vivere nella consapevolezza che non avremmo, in un futuro vicino, le caratterist
 Sono molti gli strumenti di misurazione che la Scienza fornisce per poter predirre con accurata certezza che il tempo che abbiamo, prima di raggiungere il punto di non ritorno, non è molto e passarlo comporterebbe una condanna a morte della gran parte della popolazione mondiale.
 Eppure per 70 anni non è stato dato credito a quello che la Scienza ha provato a dimostrare attraverso i più svariati studi, ritrovandoci adesso impreparati all'impegno necessario per trasformare il nostro modello *socio-culturale-economico*.
 
-[^collapse-of-civilization]: https://voiceofaction.org/collapse-of-civilisation-is-the-most-likely-outcome-top-climate-scientists/
+[^collapse-of-civilization]: [Collapse of civilisation is the most likely outcome](https://voiceofaction.org/collapse-of-civilisation-is-the-most-likely-outcome-top-climate-scientists/)
 
 </full-size-section>
+
 <full-size-section id="premesse">
 
 ## Premesse
@@ -39,7 +40,7 @@ Eppure per 70 anni non è stato dato credito a quello che la Scienza ha provato 
 
 </full-size-section>
 
-<full-size-section id="clima" backgroundColor="white" background-image="/media/img/felix-mittermeier-L4-16dmZ-1c-unsplash.jpg">
+<full-size-section id="clima" background-color="white" background-image="/media/img/felix-mittermeier-L4-16dmZ-1c-unsplash.jpg">
 
 ## Clima
 
@@ -87,7 +88,8 @@ Le misurazioni della concentrazione della CO2 negli ultimi 800 mila anni non han
 
 L'ultima volta che si è registrata una concentrazione simile di CO2 è stato durante il Pliocene, da 5.3 a 2.6 milioni di anni fa, quando la temperatura era 3º-4ºC più alta e gli oceani erano più alti di 20 metri[^co2-hits-400].
 
-[^co2-hits-400]: https://climate.nasa.gov/climate_resources/7/graphic-carbon-dioxide-hits-new-high/
+[^co2-hits-400]: [Graphic carbon dioxide hits new high](https://climate.nasa.gov/climate_resources/7/graphic-carbon-dioxide-hits-new-high/)
+
 </full-size-section>
 
 <full-size-section id="acqua">
@@ -143,7 +145,7 @@ La deforestazione in Amazzonia nel mese di marzo del 2020 è aumentata del 279% 
 
 Gli incendi distruggono interi ecosistemi nella maniera più violenta: bruciando e soffocando tutta la vita che incontrano. Mentre si ha una perdita di biodiversità incalcolcabile si springionano una quanità di emissioni climalteranti di cui si può avere una stima.
 
-[^amazon-fires]: [](https://news.mongabay.com/2020/05/amazon-fires-may-be-worse-in-2020-as-deforestation-and-land-grabbing-spikes/)
+[^amazon-fires]: [Amazon fires may be forse in 2020 as deforestation and land grabbing spikes](https://news.mongabay.com/2020/05/amazon-fires-may-be-worse-in-2020-as-deforestation-and-land-grabbing-spikes/)
 
 </full-size-section>
 
@@ -175,6 +177,7 @@ La perdita di habitat da parte della biodiversità, la presenza di specie invasi
 
 <!-- [^6th-mass-extinction]: https://www.biologicaldiversity.org/programs/population_and_sustainability/extinction/pdfs/Eldridge-6th-extinction.pdf -->
 [^biodiversity-loss]: https://www.britannica.com/science/biodiversity-loss
+
 </full-size-section>
 
 <full-size-section id="population-growth">
@@ -199,12 +202,6 @@ Il mondo non può supportare 8 miliardi di persone che hanno l'impatto di un abi
 [^world_population_milestones_by_the_billions]: [World Population - Milestones By The Billions](https://en.wikipedia.org/wiki/World_population#Milestones_by_the_billions)
 
 </full-size-section>
-
-<!-- <full-size-section id="">
-
-## Il ruolo dell'economia
-
-</full-size-section> -->
 
 <full-size-section id="i-limiti-dello-sviluppo">
 

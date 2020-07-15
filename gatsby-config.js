@@ -28,11 +28,9 @@ module.exports = {
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-numbered-footnotes`,
           {
-            resolve: `gatsby-remark-relative-source`,
+            resolve: "gatsby-remark-component",
             options: {
-              name: `media`,
-              // full-size-section is a component referenced later by gatsby-remark-custom-image-component
-              htmlSources: [{tagName: `full-size-section`, attributes: [`background-image`]}] 
+              components: ["full-size-section", "graph-selector"],
             },
           },
           {
@@ -43,12 +41,6 @@ module.exports = {
               // base for generating different widths of each image.
               maxWidth: 600,
               showCaptions: ["title", "alt"],
-            },
-          },
-          {
-            resolve: "gatsby-remark-component",
-            options: {
-              components: ["full-size-section", "graph-selector"],
             },
           },
         ],
