@@ -145,7 +145,10 @@ La deforestazione in Amazzonia nel mese di marzo del 2020 è aumentata del 279% 
 
 Gli incendi distruggono interi ecosistemi nella maniera più violenta: bruciando e soffocando tutta la vita che incontrano. Mentre si ha una perdita di biodiversità incalcolcabile si springionano una quanità di emissioni climalteranti di cui si può avere una stima.
 
+Gli incendi avvenuti in Australia nel 2019 hanno causato un innalzamento della concentrazione di CO2 in atmosfera, alzando la media annua di 2.74 +_ 0.57 ppm[^australian-bushfires-co2-concentration]
+
 [^amazon-fires]: [Amazon fires may be forse in 2020 as deforestation and land grabbing spikes](https://news.mongabay.com/2020/05/amazon-fires-may-be-worse-in-2020-as-deforestation-and-land-grabbing-spikes/)
+[^australian-bushfires-co2-concentration]: [Australian bushfires contribute to big rise in global co2 levels](https://www.reuters.com/article/us-climate-change-australia-emissions/australia-bushfires-contribute-to-big-rise-in-global-co2-levels-uks-met-office-idUSKBN1ZN0BT)
 
 </full-size-section>
 
