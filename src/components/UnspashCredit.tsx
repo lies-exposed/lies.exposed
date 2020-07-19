@@ -20,7 +20,7 @@ export const UnsplashCredit: React.FC<Props> = ({ authorName }) => {
         display: "inline-block",
         borderRadius: "3px",
       }}
-      href="https://unsplash.com/@mbaumi?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge"
+      href={`https://unsplash.com/@4{authorName}?utm_medium=referral&amp;utm_campaign=photographer-credit&amp;utm_content=creditBadge`}
       target="_blank"
       rel="noopener noreferrer"
       title={`Download free do whatever you want high-resolution photos from ${authorName}`}

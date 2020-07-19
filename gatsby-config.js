@@ -18,18 +18,28 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-transformer-json`,
     {
+      resolve: `gatsby-transformer-csv`,
+      options: { typeName: () => `csvData`, nodePerFile: `csvData` },
+    },
+    {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-numbered-footnotes`,
           {
+            resolve: "gatsby-remark-component",
+            options: {
+              components: ["full-size-section", "graph-selector"],
+            },
+          },
+          {
             resolve: `gatsby-remark-images`,
             options: {
               // It's important to specify the maxWidth (in pixels) of
               // the content container as this plugin uses this as the
               // base for generating different widths of each image.
-              maxWidth: 590,
+              maxWidth: 600,
               showCaptions: ["title", "alt"],
             },
           },
@@ -48,6 +58,13 @@ module.exports = {
       options: {
         name: "media",
         path: `${__dirname}/static/media/`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: "data",
+        path: `${__dirname}/static/data/`,
       },
     },
     `gatsby-plugin-react-helmet`,

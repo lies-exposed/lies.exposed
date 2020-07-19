@@ -1,26 +1,21 @@
-import { hierarchy } from "d3-hierarchy"
-import * as Map from "fp-ts/lib/Map"
-import * as Ord from "fp-ts/lib/Ord"
+import { hierarchy } from "@vx/hierarchy"
 import * as React from "react"
-import { Pack, PackDatum } from "./Pack"
+import Pack, { PackDatum } from "./Pack"
 
-interface BubbleGraphProps {
+interface BubbleGraphProps<D extends PackDatum> {
   width: number
   height: number
-  data: Map<string, PackDatum>
+  data: D[]
 }
 
-export const BubbleGraph: React.FC<BubbleGraphProps> = ({
+export const BubbleGraph = <D extends PackDatum>({
   width,
   height,
   data,
-}) => {
-  const children = Map.toArray(Ord.ordString)(data).map(([label, datum]) => ({
-    label,
-    ...datum,
-  }))
-
-  const pack = hierarchy({ children: [{ children }] }).sum(n => n.count)
+}: BubbleGraphProps<D>): JSX.Element => {
+  const pack = hierarchy<D>({ children: [{ children: data }] } as any).sum(
+    n => n.count
+  )
 
   return <Pack width={width} height={height} pack={pack} />
 }

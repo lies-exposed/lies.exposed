@@ -1,10 +1,10 @@
 import { AxisLeft, AxisRight, AxisBottom } from "@vx/axis"
 import { curveBasis } from "@vx/curve"
-import { GradientOrangeRed } from "@vx/gradient"
+import { GradientOrangeRed, GradientTealBlue } from "@vx/gradient"
 import { Grid } from "@vx/grid"
 import { Group } from "@vx/group"
 import { scaleLinear } from "@vx/scale"
-import { Area, LinePath, Line } from "@vx/shape"
+import { Bar, LinePath, Line } from "@vx/shape"
 import { extent } from "d3-array"
 import React from "react"
 
@@ -22,12 +22,17 @@ function numTicksForWidth(width: number): number {
   if (width > 300 && width <= 400) return 5
   return 10
 }
-interface AxisProps {
+interface AxisProps<D> {
   width: number
   height: number
-  data: any[]
-  getX: (e: any) => number
-  getY: (e: any) => number
+  data: D[]
+  minX?: number;
+  minY?: number;
+  getX: (e: D) => number
+  axisLeftLabel: string
+  axisRightLabel: string
+  axisBottomLabel: string
+  getY: (e: D) => number
   margin: {
     top: number
     left: number
@@ -36,14 +41,19 @@ interface AxisProps {
   }
 }
 
-export const Axis: React.FC<AxisProps> = ({
+export const Axis = <D extends any>({
   data,
   width,
   height,
   margin,
+  minX = 0,
+  minY = 0,
   getX,
   getY,
-}) => {
+  axisLeftLabel,
+  axisRightLabel,
+  axisBottomLabel,
+}: AxisProps<D>): JSX.Element => {
   // bounds
   const xMax = width - margin.left - margin.right
   const yMax = height - margin.top - margin.bottom
@@ -56,7 +66,7 @@ export const Axis: React.FC<AxisProps> = ({
 
   const yScale = scaleLinear({
     range: [yMax, 0],
-    domain: [0, Math.max(...data.map(getY))],
+    domain: [minY, Math.max(...data.map(getY))],
     nice: true,
   })
 
@@ -64,11 +74,25 @@ export const Axis: React.FC<AxisProps> = ({
     <svg width={width} height={height}>
       <GradientOrangeRed
         id="linear"
-        vertical={false}
-        fromOpacity={0.8}
-        toOpacity={0.3}
+        vertical={true}
+        fromOpacity={0.5}
+        toOpacity={1}
       />
-      <rect x={0} y={0} width={width} height={height} fill="#f4419f" rx={14} />
+
+      <GradientTealBlue id={"background"} vertical={false} />
+
+      {/** And are then referenced for a style attribute. */}
+      <Bar
+        fill={`url(#linear)`}
+        x={0}
+        y={0}
+        width={width}
+        height={height}
+        stroke="#ffffff"
+        strokeWidth={8}
+        rx={7}
+      />
+
       <Grid
         top={margin.top}
         left={margin.left}
@@ -81,22 +105,12 @@ export const Axis: React.FC<AxisProps> = ({
         numTicksColumns={numTicksForWidth(width)}
       />
       <Group top={margin.top} left={margin.left}>
-        <Area
-          data={data}
-          x={d => xScale(getX(d))}
-          y0={d => yScale.range()[0]}
-          y1={d => yScale(getY(d))}
-          strokeWidth={2}
-          stroke={"transparent"}
-          fill={"url(#linear)"}
-          curve={curveBasis}
-        />
         <LinePath
           data={data}
           x={d => xScale(getX(d))}
           y={d => yScale(getY(d))}
-          stroke={"url('#linear')"}
-          strokeWidth={2}
+          stroke={"url('#background')"}
+          strokeWidth={3}
           curve={curveBasis}
         />
       </Group>
@@ -107,7 +121,7 @@ export const Axis: React.FC<AxisProps> = ({
           scale={yScale}
           hideZero
           numTicks={numTicksForHeight(height)}
-          label="Axis Left Label"
+          label={axisLeftLabel}
           labelProps={{
             fill: "#8e205f",
             textAnchor: "middle",
@@ -134,7 +148,7 @@ export const Axis: React.FC<AxisProps> = ({
           scale={yScale}
           hideZero
           numTicks={numTicksForHeight(height)}
-          label="Axis Right Label"
+          label={axisRightLabel}
           labelProps={{
             fill: "#8e205f",
             textAnchor: "middle",
@@ -157,7 +171,7 @@ export const Axis: React.FC<AxisProps> = ({
           left={0}
           scale={xScale}
           numTicks={numTicksForWidth(width)}
-          label="Time"
+          label={axisBottomLabel}
         >
           {axis => {
             const tickLabelSize = 10
@@ -181,7 +195,7 @@ export const Axis: React.FC<AxisProps> = ({
                         textAnchor="middle"
                         fill={tickColor}
                       >
-                        {tick.formattedValue}
+                        {tick.value}
                       </text>
                     </Group>
                   )

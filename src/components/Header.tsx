@@ -22,7 +22,7 @@ interface MenuItemProps {
 }
 const renderMenuLink: React.FC<MenuItemProps> = ({ item, pos: total }) => {
   return (
-    <StyledNavigationItem key={item.title} path={item.path}> 
+    <StyledNavigationItem key={item.title} path={item.path}>
       <StyledLink href={item.path}>{item.title}</StyledLink>
     </StyledNavigationItem>
   )
@@ -45,6 +45,11 @@ const Header: React.FC = () => {
 
   const items: MenuItem[] = [
     {
+      id: "the-crisis",
+      path: "/the-crisis",
+      title: "La Crisi",
+    },
+    {
       id: "articles",
       path: "/articles",
       title: "Articoli",
@@ -55,9 +60,9 @@ const Header: React.FC = () => {
       title: "Attori",
     },
     {
-      id: 'groups',
-      path: '/groups',
-      title: 'Groups'
+      id: "groups",
+      path: "/groups",
+      title: "Groups",
     },
     {
       id: "topics",
@@ -68,7 +73,7 @@ const Header: React.FC = () => {
       id: "networks",
       path: "/networks",
       title: "Networks",
-    }
+    },
   ]
 
   return (

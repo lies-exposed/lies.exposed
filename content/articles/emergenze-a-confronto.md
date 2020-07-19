@@ -18,7 +18,7 @@ links:
 ---
 L’emergenza Covid-19 ha mostrato i diversi approcci che ogni singolo Stato ritiene adottare per salvaguardare la salute dei propri cittadini. Gli Stati che possono contare su un sistema sanitario pubblico resiliente riescono a trattare più pazienti, impedendo una veloce espansione del virus, mentre quelli che hanno un sistema sanitario debole o che riserva un costo spropositato per il trattamento per il cittadino medio risulta poco efficace nel gestire il contenimento del virus e le sue vittime.
 Il Sistema Sanitario Nazionale italiano è uno tra i migliori al mondo, ma i tagli degli ultimi 40 anni ne hanno ridotto la resilienza:
- 
+
 > “Secondo l’Organizzazione mondiale della sanità, l’Italia ha a disposizione 164mila posti letto per pazienti acuti (272 ogni centomila abitanti), dato calato di un terzo dal 1980 a oggi. I posti in terapia intensiva sono invece poco più di 3.700, che diventano 5.300 (8,4 ogni 100mila abitanti) se consideriamo anche le strutture private. Attualmente, sul territorio nazionale, i pazienti ricoverati in terapia intensiva a causa del Covid-19 sono 1.028, di cui 560 nella sola Lombardia.”[^1]
 
 Così, a Bergamo, le persone che contraggono il virus, spesso muoiono a casa.
@@ -49,8 +49,6 @@ Il cercare di salvare più persone possibili dal virus in questo momento, uccide
 In un momento storico che dovrebbe farci capire il danno di guerre e devastazioni ambientali vediamo come gli interessi economici continuino a prevalere sull'ambiente e sulla corsa contro il tempo nel mantenere questo pianeta vivibile: in Italia continua la produzione di armi, l'abbattimento sistemico degli alberi, il cantiere dell'inutile TAV e delle altre Grandi Opere, in Indonesia si sono disboscati 170 ettari di giungla per fare spazio al più grande progetto di produzione di olio di palma al mondo[^3], le banche coordinano un'azione di lobbying per far saltare le norme su trasparenza e sulle restrizioni agli investimenti nei combustibili fossili[^4] e chissà quante altre azioni controproducenti per la vita su questo pianeta stiamo portando avanti. 
 
 [...]
-
-
 
 [^1]: https://www.wired.it/attualita/politica/2020/03/12/tagli-sanita-italia-storia/
 [^2]: https://www.ilfattoquotidiano.it/2020/03/24/coronavirus-la-denuncia-dal-call-center-50-in-una-stanza-senza-precauzioni-a-1200-euro-al-mese-ma-per-il-governo-dobbiamo-restare-aperti-produciamo-un-servizio-essenziale-la-vendita-di-piani/5747074/

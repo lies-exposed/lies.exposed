@@ -29,25 +29,6 @@ interface NetworkTemplateProps {
   navigate: (to: string) => void
   data: NetworkTemplateData
 }
-const peach = "#fd9b93"
-const pink = "#fe6e9e"
-const blue = "#03c0dc"
-const green = "#26deb0"
-const lightpurple = "#374469"
-
-const colors = {
-  topics: [
-    "#abe188",
-    "#1789fc",
-    "#0256a1",
-    "#8ccc00",
-    "#fdb833",
-    "#fd6d34",
-    "#f0e345",
-    "#6de321",
-  ],
-  actors: [blue, green, peach, lightpurple, pink, "#f0e345"],
-}
 
 const width = 1000
 const height = 400
@@ -132,14 +113,11 @@ export default class NetworkTemplate extends React.Component<
         selectedActorIds,
         selectedTopicIds,
         margin,
-        colors,
         height,
-        width,
       }),
       E.fold(
         throwValidationErrors,
         ({
-          networkName,
           pageContent,
           minDate,
           maxDate,
@@ -150,6 +128,7 @@ export default class NetworkTemplate extends React.Component<
           selectedNodes,
           selectedEventsCounter,
         }) => {
+          const networkName = "network"
           return (
             <Layout>
               <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
@@ -176,7 +155,7 @@ export default class NetworkTemplate extends React.Component<
                       justifyContent="end"
                     >
                       <ActorList
-                        actors={actors.map(a => a.actor)}
+                        actors={actors}
                         onActorClick={this.onActorClick}
                       />
                     </FlexGridItem>

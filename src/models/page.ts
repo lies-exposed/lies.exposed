@@ -1,22 +1,25 @@
 import * as t from "io-ts"
+// import { Section } from "./layout/Section"
 
-export const PageContentChildMarkdownRemarkFileNode = t.interface(
+export const PageContentMarkdownRemark = t.interface(
   {
     htmlAst: t.object,
+    tableOfContents: t.string,
     frontmatter: t.interface({
       title: t.string,
+      // sections: t.array(Section),
     }),
   },
-  "PageContentNode"
+  "PageContentMarkdownRemark"
 )
 
-export type PageContentNode = t.TypeOf<
-  typeof PageContentChildMarkdownRemarkFileNode
+export type PageContentMarkdownRemark = t.TypeOf<
+  typeof PageContentMarkdownRemark
 >
 
 export const PageContentFileNode = t.strict(
   {
-    childMarkdownRemark: PageContentChildMarkdownRemarkFileNode,
+    childMarkdownRemark: PageContentMarkdownRemark,
   },
   "PageContentFileNode"
 )

@@ -1,10 +1,10 @@
-import { ActorPageContentFileNodeFrontmatter } from "@models/actor"
+import { ActorFrontmatter } from "@models/actor"
 import { Avatar } from "baseui/avatar"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
-export interface ActorListActor extends ActorPageContentFileNodeFrontmatter {
+export interface ActorListActor extends ActorFrontmatter {
   selected: boolean
 }
 

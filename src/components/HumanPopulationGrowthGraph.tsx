@@ -1,6 +1,10 @@
 import * as React from "react"
 import { Axis } from "./graph/Axis"
 
+interface HumanPopulationGrowthGraphProps {
+  width: number
+  height: number
+}
 const data = [
   {
     year: -1000,
@@ -8,11 +12,11 @@ const data = [
   },
   {
     year: -500,
-    population: 100
+    population: 100,
   },
   {
     year: 1,
-    population: 200
+    population: 200,
   },
   {
     year: 1000,
@@ -55,20 +59,54 @@ const data = [
     population: 2758,
   },
   {
-    year: 2015,
-    population: 7349
-  }
+    year: 1960,
+    population: 3018,
+  },
+  {
+    year: 1965,
+    population: 3322,
+  },
+  {
+    year: 1970,
+    population: 3682,
+  },
+  {
+    year: 1975,
+    population: 4061,
+  },
+  {
+    year: 1980,
+    population: 4440,
+  },
+  {
+    year: 1985,
+    population: 4853,
+  },
+  { year: 1990, population: 5310 },
+  { year: 1995, population: 5735 },
+  { year: 2000, population: 6127 },
+  { year: 2005, population: 6520 },
+  { year: 2010, population: 6930 },
+  { year: 2015, population: 7349 },
 ]
 
-export const HumanPopulationGrowthGraph: React.FC = () => {
+export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProps> = ({
+  width,
+  height,
+}) => {
+  const filteredData = data
+  // .filter(d => d.year > 1800 && d.year < 2020)
   return (
     <Axis
-      width={1000}
-      height={600}
-      margin={{ top: 100, right: 100, bottom: 100, left: 100 }}
-      data={data}
-      getX={(d) => d.year}
+      width={width}
+      height={height}
+      margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+      data={filteredData}
+      getX={d => d.year}
       getY={d => d.population}
+      axisLeftLabel={"Millions of people"}
+      axisRightLabel={"Millions of people"}
+      axisBottomLabel={"Year"}
     />
   )
 }
