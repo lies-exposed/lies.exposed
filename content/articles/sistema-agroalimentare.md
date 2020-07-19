@@ -35,7 +35,7 @@ C'è bisogno di riscoprire quel rispetto verso le altre forme di vita e per lo s
 
 
 [^1]: https://ipbes.net/sites/default/files/ipbes_7_10_add.1_en_1.pdf
-[^2]: http://www.fao.org/3/I9540EN/i9540en.pdf#page=56
+[^2]: https://www.fao.org/3/I9540EN/i9540en.pdf#page=56
 [^3]: http://www.isprambiente.gov.it/files2020/area-stampa/comunicati-stampa/comunicato-emissioni-2020.pdf
 [^4]: https://www.greenpeace.org/italy/storia/4813/gli-allevamenti-intensivi-seconda-causa-di-inquinamento-da-polveri-sottili/
 [^5]: http://www.isprambiente.gov.it/files2020/pubblicazioni/rapporti/Rapporto_319_2020.pdf
