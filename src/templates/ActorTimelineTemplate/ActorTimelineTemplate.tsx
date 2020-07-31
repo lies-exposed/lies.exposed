@@ -3,7 +3,6 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
-import { BubbleGraph } from "@components/graph/BubbleGraph"
 import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { getTopics } from "@helpers/topic"
@@ -15,8 +14,6 @@ import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
-import * as Eq from "fp-ts/lib/Eq"
-import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -79,38 +76,6 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
       }
     }),
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
-      const declarationMap = Map.singleton("Declaration", {
-        label: "Declaration",
-        count: events.filter(e =>
-          O.exists(s => s === "Declaration")(e.frontmatter.type)
-        ).length,
-        color: "red",
-      })
-
-      const factMap = Map.insertAt(Eq.eqString)("Fact", {
-        label: "Fact",
-        count: events.filter(e =>
-          pipe(
-            e.frontmatter.type,
-            O.exists(s => s === "Fact")
-          )
-        ).length,
-        color: "blue",
-      })(declarationMap)
-
-      const eventsBubbles = Map.insertAt(Eq.eqString)("AntiEcological", {
-        label: "AntiEcological",
-        count: events.filter(e =>
-          O.exists(s => s === "AntiEcological")(e.frontmatter.type)
-        ).length,
-        color: "blue",
-      })(factMap)
-
-      const bubbleGraphData = pipe(
-        eventsBubbles,
-        Map.toArray(Ord.ordString),
-        A.map(e => e[1])
-      )
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.fullName} />
@@ -126,7 +91,6 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
             </FlexGridItem> */}
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
             <ActorPageContent {...pageContent.childMarkdownRemark} />
-            <BubbleGraph width={600} height={400} data={bubbleGraphData} />
             <EventList events={events} />
           </ContentWithSideNavigation>
         </Layout>
