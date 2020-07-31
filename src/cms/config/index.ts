@@ -93,7 +93,7 @@ const eventCollection: CmsCollectionV2 = {
     {
       label: "Date",
       name: "date",
-      widget: "date",
+      widget: "datetime",
       format: "YYYY-MM-DD",
     },
     {
