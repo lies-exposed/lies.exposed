@@ -1,7 +1,7 @@
 import * as React from "react"
-import FlexView from "react-flexview"
 import Slider from "react-slick"
 import { UnsplashCredit } from "./UnspashCredit"
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 
 interface Slide {
   imageURL: string
@@ -10,35 +10,42 @@ interface Slide {
 }
 
 interface HomeSliderProps {
-  height: number | string
+  height: number
   slides: Slide[]
 }
 
-export const HomeSlider: React.FC<HomeSliderProps> = props => {
+export const HomeSlider: React.FC<HomeSliderProps> = (props) => {
+  const height = `${props.height}px`;
   return (
-    <Slider
-      autoplay={true}
-      autoplaySpeed={3000}
-      arrows={false}
-      infinite={true}
-    >
-      {props.slides.map(s => (
-        <div key={s.imageURL}>
-          <FlexView
-            style={{
-              background: `url(${s.imageURL})`,
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              height: props.height,
+    <Slider autoplay={true} autoplaySpeed={3000} arrows={false} infinite={true}>
+      {props.slides.map((s) => (
+        <FlexGrid
+          key={s.imageURL}
+          overrides={{
+            Block: {
+              style: {
+                height,
+              },
+            },
+          }}
+        >
+          <FlexGridItem
+            overrides={{
+              Block: {
+                style: {
+                  backgroundImage: `url(${s.imageURL})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  height,
+                },
+              },
             }}
-            vAlignContent="bottom"
-            hAlignContent="right"
           >
             <div style={{ padding: 10 }}>
               <UnsplashCredit authorName={s.authorName} />
             </div>
-          </FlexView>
-        </div>
+          </FlexGridItem>
+        </FlexGrid>
       ))}
     </Slider>
   )
