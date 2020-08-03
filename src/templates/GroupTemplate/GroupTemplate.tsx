@@ -27,9 +27,6 @@ interface GroupTimelineTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
     pageContent: GroupFileNode
-    groups: {
-      nodes: GroupFileNode[]
-    }
     actors: {
       nodes: ActorPageContentFileNode[]
     }
@@ -54,13 +51,16 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
       events: t.array(EventFileNode).decode(data.events.nodes),
     }),
     E.map(({ pageContent, actors, topics, events }) => {
-      const actorsGetter = getActors(
-        actors.map(a => a.childMarkdownRemark.frontmatter)
+      const actorsFrontmatter = actors.map(
+        (a) => a.childMarkdownRemark.frontmatter
       )
+      const actorsGetter = getActors(actorsFrontmatter)
+
       return {
         pageContent,
+        members: actorsFrontmatter,
         events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
-          e => ({
+          (e) => ({
             ...e.childMarkdownRemark,
             frontmatter: {
               ...e.childMarkdownRemark.frontmatter,
@@ -71,7 +71,7 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
               ),
               topic: getTopics(
                 e.childMarkdownRemark.frontmatter.topic,
-                topics.map(t => t.childMarkdownRemark.frontmatter)
+                topics.map((t) => t.childMarkdownRemark.frontmatter)
               ),
               links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
               cover: e.childMarkdownRemark.frontmatter.cover,
@@ -80,7 +80,7 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
         ),
       }
     }),
-    E.fold(throwValidationErrors, ({ pageContent, events }) => {
+    E.fold(throwValidationErrors, ({ pageContent, events, members }) => {
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.name} />
@@ -95,7 +95,10 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
             />
             </FlexGridItem> */}
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
-            <GroupPageContent {...pageContent.childMarkdownRemark} />
+            <GroupPageContent
+              {...pageContent.childMarkdownRemark}
+              members={members}
+            />
             <EventList events={events} />
           </ContentWithSideNavigation>
         </Layout>
@@ -105,7 +108,7 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
 }
 
 export const pageQuery = graphql`
-  query GroupTimelineTemplatePage($group: String!) {
+  query GroupTimelineTemplatePage($group: String!, $members: [String]!) {
     pageContent: file(
       relativeDirectory: { eq: "groups" }
       name: { eq: $group }
@@ -115,18 +118,15 @@ export const pageQuery = graphql`
 
     actors: allFile(
       filter: {
-        sourceInstanceName: { eq: "content" }
-        relativeDirectory: { eq: "actors" }
+        sourceInstanceName: {eq: "content"},
+        relativeDirectory: {eq: "actors"},
+        childMarkdownRemark: {
+          frontmatter: {username: {in: $members}}
+        }
       }
     ) {
       nodes {
         ...ActorPageContentFileNode
-      }
-    }
-
-    groups: allFile(filter: { relativeDirectory: { eq: "groups" } }) {
-      nodes {
-        ...GroupPageContentFileNode
       }
     }
 

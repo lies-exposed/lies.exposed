@@ -35,7 +35,7 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  result.data.articles.nodes.forEach(node => {
+  result.data.articles.nodes.forEach((node) => {
     const context = {
       filePath: node.childMarkdownRemark.frontmatter.path,
     }
@@ -64,6 +64,11 @@ const createGroupPages = async ({ actions, graphql, reporter }) => {
       groups: allFile(filter: { relativeDirectory: { eq: "groups" } }) {
         nodes {
           name
+          childMarkdownRemark {
+            frontmatter {
+              members
+            }
+          }
         }
       }
     }
@@ -77,11 +82,12 @@ const createGroupPages = async ({ actions, graphql, reporter }) => {
 
   const nodes = result.data.groups.nodes
 
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     const nodePath = `/groups/${node.name}`
 
     const context = {
       group: node.name,
+      members: node.childMarkdownRemark.frontmatter.members
     }
 
     reporter.info(
@@ -125,7 +131,7 @@ const createActorTimelinePages = async ({ actions, graphql, reporter }) => {
 
   const nodes = result.data.actors.nodes
 
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     const nodePath = `/actors/${node.name}`
 
     const context = {
@@ -221,7 +227,7 @@ const createTopicTimelinePages = async ({ actions, graphql, reporter }) => {
 
   const nodes = result.data.topics.nodes
 
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     const nodePath = `/topics/${node.name}`
 
     const context = {
