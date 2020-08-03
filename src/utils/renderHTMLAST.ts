@@ -3,7 +3,8 @@ import { ListItem } from "@components/Common/ListItem"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
 import Gallery from "@components/Gallery/Gallery"
 import { GraphSelector } from "@components/GraphSelector"
-import {  H1, H2, H3, H5, H6, H4, ParagraphMedium } from "baseui/typography"
+import { Video } from "@components/Video"
+import { H1, H2, H3, H5, H6, H4, ParagraphMedium } from "baseui/typography"
 import * as React from "react"
 import RehypeReact from "rehype-react"
 
@@ -23,6 +24,16 @@ const renderHTMLAST = new RehypeReact({
     // table: Table,
     "full-size-section": FullSizeSection,
     "graph-selector": GraphSelector,
+    video: (props) => {
+      console.log(props)
+     return Video({
+        ...props,
+        video: {
+          publicURL: props.src,
+          extension: props.src !== undefined ? props.src.split(".")[1] : "mp4",
+        },
+      })
+    }
   },
 }).Compiler
 
