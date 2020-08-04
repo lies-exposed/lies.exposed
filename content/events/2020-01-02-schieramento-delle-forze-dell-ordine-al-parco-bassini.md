@@ -1,6 +1,7 @@
 ---
 title: Schieramento delle forze dell'ordine in tenuta antisommossa
-date: 2020-01-02T00:00:00.000Z
+date: 2020-01-02
+type: AntiEcologicAct
 members:
   - anna-scavuzzo
   - comune-di-milano
@@ -8,7 +9,6 @@ topic:
   - parco-bassini
 links:
   - http://www.milanotoday.it/video/parco-bassini-alberi-tagliati.html
-type: AntiEcologicAct
 ---
 Stamattina intorno alle 6 e 30 uno schieramento di *forze dell'ordine* in tenuta anti sommossa ha circondato il parco Bassini per permettere l’abbattimento degli alberi da parte degli operai addetti ai lavori di costruzione del nuovo dipartimento di chimica. Un centinaio tra polizia, carabinieri, agenti in borghese pronti ad usare la forza per fermare la protesta di una ventina di persone tra studenti, docenti, abitanti della zona e non che denunciano la privazione dell’ennesimo spazio verde per l’ennesima colata di cemento inutile.
 

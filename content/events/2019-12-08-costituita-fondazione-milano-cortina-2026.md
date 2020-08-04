@@ -1,6 +1,6 @@
 ---
 title: Fondazione Milano Cortina 2026
-date: 2019-12-08T00:00:00.000Z
+date: 2019-12-08
 type: Fact
 topic:
   - olimpiadi-2026

@@ -1,7 +1,8 @@
 ---
-title: Lettera aperta per il sindaco
+title: Lettera aperta per il sindaco Beppe Sala
 path: lettera-aperta-per-sala
 date: 2019-11-29
+type: Fact
 topic:
   - DECA
 ---
