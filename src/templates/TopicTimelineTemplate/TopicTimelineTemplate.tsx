@@ -41,11 +41,11 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
     }),
     E.map(({ pageContent, events, actors }) => {
       const actorsGetter = getActors(
-        actors.map(a => a.childMarkdownRemark.frontmatter)
+        actors.map((a) => a.childMarkdownRemark.frontmatter)
       )
       return {
         pageContent,
-        events: events.map(n => {
+        events: events.map((n) => {
           const eventDataNode: EventData = {
             ...n.childMarkdownRemark,
             frontmatter: {

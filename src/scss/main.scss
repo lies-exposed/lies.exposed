@@ -1,5 +1,11 @@
 @import "../../node_modules/source-serif-pro/source-serif-pro.css";
 
+html {
+  font-family: 'Source Serif Pro';
+  font-style: normal;
+  font-weight: normal;
+}
+
 html,
 body,
 body > div,
@@ -9,6 +15,9 @@ body > div > div {
   width: 100%;
   margin: 0;
 }
+
+
+
 
 h1 {
   text-transform: uppercase;

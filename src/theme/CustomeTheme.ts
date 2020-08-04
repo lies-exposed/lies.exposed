@@ -46,14 +46,7 @@ export const customColors = {
 
 export const GlobalStyle = createGlobalStyle`
 
-  html {
-    font-family: 'Source Serif Pro';
-    font-style: normal;
-    font-weight: normal;
-    color: ${customColors.primaryDark};
-
-    caret-color: red;
-  }
+  
 `
 
 const primaryFontFamily = "Source Serif Pro"

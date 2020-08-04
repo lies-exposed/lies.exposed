@@ -2,6 +2,7 @@ import CMS from "netlify-cms-app"
 import { config } from "./config/index"
 import { ActorPreview } from "./previews/ActorPreview"
 import { ArticlePreview } from "./previews/ArticlePreview"
+import { EventPreview } from "./previews/EventPreview"
 import { GroupPreview } from "./previews/GroupPreview"
 import { PagePreview } from "./previews/PagePreview"
 import { TopicPreview } from "./previews/TopicPreview"
@@ -16,6 +17,7 @@ CMS.registerPreviewTemplate("articles", withStyletron(ArticlePreview))
 CMS.registerPreviewTemplate("groups", withStyletron(GroupPreview))
 CMS.registerPreviewTemplate("pages", withStyletron(PagePreview))
 CMS.registerPreviewTemplate("topics", withStyletron(TopicPreview))
+CMS.registerPreviewTemplate("events", withStyletron(EventPreview))
 
 CMS.init({
   config,

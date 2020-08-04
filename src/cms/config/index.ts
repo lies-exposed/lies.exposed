@@ -180,7 +180,7 @@ export const config: CmsConfigV2 = {
           url: "http://localhost:8082/api/v1",
         },
   publish_mode:
-    process.env.NODE_ENV === "development" ? "editorial_workflow" : "simple",
+    process.env.NODE_ENV === "development" ? "simple" : "editorial_workflow",
   media_folder: "static/media",
   public_folder: "media",
   collections: [

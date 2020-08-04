@@ -25,7 +25,6 @@ const renderHTMLAST = new RehypeReact({
     "full-size-section": FullSizeSection,
     "graph-selector": GraphSelector,
     video: (props) => {
-      console.log(props)
      return Video({
         ...props,
         video: {
