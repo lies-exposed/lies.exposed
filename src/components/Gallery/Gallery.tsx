@@ -1,13 +1,10 @@
 import * as React from "react"
 
-interface GalleryProps {
-  images: any[]
-}
-
-const Gallery: React.FC<GalleryProps> = props => {
+const Gallery: React.FC = props => {
   const children = Array.isArray(props.children)
     ? props.children
     : [props.children]
+    
   return (
     <div className="gallery">
       {children

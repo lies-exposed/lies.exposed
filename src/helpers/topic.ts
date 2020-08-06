@@ -5,11 +5,11 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 
 export const getTopics = (
-  topicSlugs: string[],
+  topicUUIDs: string[],
   allTopics: TopicFrontmatter[]
 ): TopicFrontmatter[] => {
   const topicOption = (t: string): O.Option<TopicFrontmatter> =>
     O.fromNullable(allTopics.find(_ => eqString.equals(t, _.slug)))
 
-  return pipe(A.map(topicOption)(topicSlugs), A.compact)
+  return pipe(A.map(topicOption)(topicUUIDs), A.compact)
 }

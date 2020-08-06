@@ -13,11 +13,14 @@ export const EventPreview: React.FC<any> = (props) => {
 
   const cover = O.none
   const links = O.fromNullable(frontmatter.links)
-  const topic: TopicData = frontmatter.topic.map((t: string) => ({
-    label: t,
-    slug: t,
-    color: "#FFF",
-  }))
+  const topic: TopicData =
+    frontmatter.topic !== undefined
+      ? frontmatter.topic.map((t: string) => ({
+          label: t,
+          slug: t,
+          color: "#FFF",
+        }))
+      : [{ label: "not-a-real-topic", slug: "not-a-real-topic", color: "#FFF" }]
 
   const actors = pipe(
     O.fromNullable<ActorFrontmatter[]>(frontmatter.actors),

@@ -53,30 +53,32 @@ export default class NetworkTemplate extends React.Component<
   }
 
   onActorClick = (actor: ActorListActor): void => {
+    console.log("hereee")
     this.setState({
       selectedActorIds: A.elem(Eq.eqString)(
-        actor.username,
+        actor.uuid,
         this.state.selectedActorIds
       )
         ? A.array.filter(
             this.state.selectedActorIds,
-            a => !Eq.eqString.equals(a, actor.username)
+            (a) => !Eq.eqString.equals(a, actor.uuid)
           )
-        : this.state.selectedActorIds.concat(actor.username),
+        : this.state.selectedActorIds.concat(actor.uuid),
     })
   }
 
   onTopicClick = (topic: TopicListTopic): void => {
+    console.log('on topic click')
     this.setState({
       selectedTopicIds: A.elem(Eq.eqString)(
-        topic.slug,
+        topic.uuid,
         this.state.selectedTopicIds
       )
         ? A.array.filter(
             this.state.selectedTopicIds,
-            a => !Eq.eqString.equals(a, topic.slug)
+            (t) => !Eq.eqString.equals(t, topic.uuid)
           )
-        : this.state.selectedTopicIds.concat(topic.slug),
+        : this.state.selectedTopicIds.concat(topic.uuid),
     })
   }
 
@@ -104,6 +106,8 @@ export default class NetworkTemplate extends React.Component<
       props: { data, navigate },
       state: { scale, scalePoint, selectedActorIds, selectedTopicIds },
     } = this
+
+    console.log({ selectedActorIds, selectedTopicIds })
 
     return pipe(
       createNetwork({
@@ -178,10 +182,10 @@ export default class NetworkTemplate extends React.Component<
                       minDate={minDate}
                       maxDate={maxDate}
                       graph={graph}
-                      onEventLabelClick={event => {
+                      onEventLabelClick={(event) => {
                         navigate(`/timelines/${networkName}/${event}`)
                       }}
-                      onNodeClick={event =>
+                      onNodeClick={(event) =>
                         replace(`/networks/${networkName}/#${event.data.id}`)
                       }
                       onDoubleClick={this.onNetworkDoubleClick}

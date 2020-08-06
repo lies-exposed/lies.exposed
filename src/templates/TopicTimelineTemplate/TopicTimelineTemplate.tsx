@@ -50,14 +50,11 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
             ...n.childMarkdownRemark,
             frontmatter: {
               ...n.childMarkdownRemark.frontmatter,
-              links: O.fromNullable(n.childMarkdownRemark.frontmatter.links),
-              cover: n.childMarkdownRemark.frontmatter.cover,
               actors: pipe(
                 n.childMarkdownRemark.frontmatter.actors,
-                O.map(actorsGetter)
+                O.map(actorsGetter),
               ),
               topic: [pageContent.childMarkdownRemark.frontmatter],
-              type: O.fromNullable(n.childMarkdownRemark.frontmatter.type),
             },
           }
 

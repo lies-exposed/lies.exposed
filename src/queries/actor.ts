@@ -2,11 +2,11 @@ import { graphql } from "gatsby"
 
 export const query = graphql`
   fragment ActorPageContentFileNode on File {
-    id
     relativeDirectory
     childMarkdownRemark {
       id
       frontmatter {
+        uuid
         date
         fullName
         username

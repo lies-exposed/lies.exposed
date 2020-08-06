@@ -16,16 +16,23 @@ interface ActorListProps {
 const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick }) => {
   return (
     <div>
-      {actors.map(a => (
+      {actors.map((a) => (
         <div
-          key={a.username}
+          key={a.uuid}
           style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
-          onClick={() => onActorClick(a)}
+          onClick={() => {
+            onActorClick(a)
+          }}
         >
           {pipe(
             a.avatar,
-            O.map(src => (
-              <Avatar key={a.username} name={a.fullName} size="scale1000" src={src.childImageSharp.fluid.src} />
+            O.map((src) => (
+              <Avatar
+                key={a.username}
+                name={a.fullName}
+                size="scale1600"
+                src={src.childImageSharp.fluid.src}
+              />
             )),
             O.toNullable
           )}
@@ -33,10 +40,14 @@ const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick }) => {
             style={{
               width: "100%",
               height: 3,
-              backgroundColor:  a.selected ? pipe(a.color, O.getOrElse(() => 'white'))  : "white",
+              backgroundColor: a.selected
+                ? pipe(
+                    a.color,
+                    O.getOrElse(() => "white")
+                  )
+                : "white",
             }}
           />
-          
         </div>
       ))}
     </div>

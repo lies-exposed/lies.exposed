@@ -5,6 +5,7 @@ export const query = graphql`
     childMarkdownRemark {
       id
       frontmatter {
+        uuid
         title
         date
         topic

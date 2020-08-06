@@ -22,6 +22,7 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
           childMarkdownRemark {
             frontmatter {
               path
+              title
             }
           }
         }
@@ -41,7 +42,7 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
     }
 
     reporter.info(
-      `article page [${node.name}] context: ${JSON.stringify(context, null, 4)}`
+      `article page [${node.childMarkdownRemark.frontmatter.title}] context: ${JSON.stringify(context, null, 4)}`
     )
 
     createPage({
@@ -63,9 +64,10 @@ const createGroupPages = async ({ actions, graphql, reporter }) => {
     {
       groups: allFile(filter: { relativeDirectory: { eq: "groups" } }) {
         nodes {
-          name
           childMarkdownRemark {
             frontmatter {
+              uuid
+              name
               members
             }
           }
@@ -81,17 +83,19 @@ const createGroupPages = async ({ actions, graphql, reporter }) => {
   }
 
   const nodes = result.data.groups.nodes
+  
 
   nodes.forEach((node) => {
-    const nodePath = `/groups/${node.name}`
+    const groupUUID = node.childMarkdownRemark.frontmatter.uuid
+    const nodePath = `/groups/${groupUUID}`
 
     const context = {
-      group: node.name,
+      group: groupUUID,
       members: node.childMarkdownRemark.frontmatter.members
     }
 
     reporter.info(
-      `Group template [${node.name}], context: ${JSON.stringify(
+      `Group template [${groupUUID}], context: ${JSON.stringify(
         context,
         null,
         4

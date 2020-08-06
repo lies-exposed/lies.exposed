@@ -64,7 +64,6 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
             ...e.childMarkdownRemark,
             frontmatter: {
               ...e.childMarkdownRemark.frontmatter,
-              type: O.fromNullable(e.childMarkdownRemark.frontmatter.type),
               actors: pipe(
                 e.childMarkdownRemark.frontmatter.actors,
                 O.map(actorsGetter)
@@ -73,8 +72,6 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
                 e.childMarkdownRemark.frontmatter.topic,
                 topics.map((t) => t.childMarkdownRemark.frontmatter)
               ),
-              links: O.fromNullable(e.childMarkdownRemark.frontmatter.links),
-              cover: e.childMarkdownRemark.frontmatter.cover,
             },
           })
         ),
@@ -111,18 +108,20 @@ export const pageQuery = graphql`
   query GroupTimelineTemplatePage($group: String!, $members: [String]!) {
     pageContent: file(
       relativeDirectory: { eq: "groups" }
-      name: { eq: $group }
+      childMarkdownRemark: {
+        frontmatter: {
+          uuid: { eq: $group }
+        }
+      }
     ) {
       ...GroupPageContentFileNode
     }
 
     actors: allFile(
       filter: {
-        sourceInstanceName: {eq: "content"},
-        relativeDirectory: {eq: "actors"},
-        childMarkdownRemark: {
-          frontmatter: {username: {in: $members}}
-        }
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { eq: "actors" }
+        childMarkdownRemark: { frontmatter: { username: { in: $members } } }
       }
     ) {
       nodes {

@@ -4,6 +4,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
 export const TopicFrontmatter = t.type(
   {
+    uuid: t.string,
     label: t.string,
     slug: t.string,
     date: DateFromISOString,
@@ -17,8 +18,6 @@ export type TopicFrontmatter = t.TypeOf<typeof TopicFrontmatter>
 
 export const TopicPageContentFileNode = t.type(
   {
-    id: t.string,
-    name: t.string,
     childMarkdownRemark: t.type(
       {
         frontmatter: TopicFrontmatter,
@@ -36,7 +35,6 @@ export type TopicPageContentFileNode = t.TypeOf<typeof TopicPageContentFileNode>
 
 export const TopicFileNode = t.interface(
   {
-    name: t.string,
     relativeDirectory: t.string,
     childMarkdownRemark: t.interface({
       frontmatter: TopicFrontmatter,

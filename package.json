@@ -72,7 +72,8 @@
     "styled-components": "5.1.1",
     "styletron-engine-atomic": "1.4.6",
     "styletron-react": "5.2.7",
-    "throttle-debounce": "^2.2.1"
+    "throttle-debounce": "^2.2.1",
+    "uuid": "8.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
@@ -90,6 +91,7 @@
     "@types/styletron-react": "5.0.2",
     "@types/styletron-standard": "2.0.0",
     "@types/throttle-debounce": "^2.1.0",
+    "@types/uuid": "8.0.1",
     "@typescript-eslint/eslint-plugin": "3.7.1",
     "@typescript-eslint/parser": "3.7.1",
     "@vx/mock-data": "0.0.195",

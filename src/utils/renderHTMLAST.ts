@@ -27,6 +27,9 @@ const renderHTMLAST = new RehypeReact({
     video: (props) => {
      return Video({
         ...props,
+        style: {
+          maxHeight: 600
+        },
         video: {
           publicURL: props.src,
           extension: props.src !== undefined ? props.src.split(".")[1] : "mp4",
