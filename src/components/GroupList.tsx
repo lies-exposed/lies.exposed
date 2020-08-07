@@ -1,37 +1,37 @@
-import { ActorFrontmatter } from "@models/actor"
+import { GroupFrontmatter } from "@models/group"
 import { Avatar } from "baseui/avatar"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
+import { AvatarScale } from "./ActorList"
 
-export interface ActorListActor extends ActorFrontmatter {
+export interface Group extends GroupFrontmatter {
   selected: boolean
 }
 
-export type AvatarScale = 'scale1600' | 'scale1000'
-interface ActorListProps {
-  actors: ActorListActor[]
-  onActorClick: (actor: ActorListActor) => void
+interface GroupListProps {
+  groups: Group[]
+  onGroupClick: (actor: Group) => void
   avatarScale: AvatarScale
 }
 
-const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick, avatarScale }) => {
+const GroupList: React.FC<GroupListProps> = ({ groups, onGroupClick, avatarScale }) => {
   return (
     <div>
-      {actors.map((a) => (
+      {groups.map((g) => (
         <div
-          key={a.uuid}
+          key={g.uuid}
           style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
           onClick={() => {
-            onActorClick(a)
+            onGroupClick(g)
           }}
         >
           {pipe(
-            a.avatar,
+            g.avatar,
             O.map((src) => (
               <Avatar
-                key={a.uuid}
-                name={a.fullName}
+                key={g.uuid}
+                name={g.name}
                 size={avatarScale}
                 src={src.childImageSharp.fluid.src}
               />
@@ -42,9 +42,9 @@ const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick, avatarScale
             style={{
               width: "100%",
               height: 3,
-              backgroundColor: a.selected
+              backgroundColor: g.selected
                 ? pipe(
-                    a.color,
+                    g.color,
                     O.getOrElse(() => "white")
                   )
                 : "white",
@@ -56,4 +56,4 @@ const ActorList: React.FC<ActorListProps> = ({ actors, onActorClick, avatarScale
   )
 }
 
-export default ActorList
+export default GroupList

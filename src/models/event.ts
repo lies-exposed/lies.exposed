@@ -4,6 +4,7 @@ import { date } from "io-ts-types/lib/date"
 import { option } from "io-ts-types/lib/option"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { ActorFrontmatter } from "./actor"
+import { GroupFrontmatter } from "./group"
 import { TopicFrontmatter } from "./topic"
 
 export interface TreeEvent {
@@ -70,6 +71,7 @@ export const EventData = t.interface(
         title: t.string,
         date: date,
         actors: option(t.array(ActorFrontmatter)),
+        groups: option(t.array(GroupFrontmatter)),
         topic: t.array(TopicFrontmatter),
         links: option(t.array(t.string)),
         type: option(EventType),

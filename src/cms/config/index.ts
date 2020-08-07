@@ -106,6 +106,7 @@ const eventCollection: CmsCollectionV2 = {
       name: "type",
       widget: "select",
       options: ["Declaration", "Fact"],
+      required: false
     },
     {
       label: "Actors",
@@ -114,6 +115,17 @@ const eventCollection: CmsCollectionV2 = {
       collection: "actors",
       searchFields: ["username", "fullName"],
       displayFields: ["fullName"],
+      valueField: "uuid",
+      multiple: true,
+      required: false,
+    },
+    {
+      label: "Groups",
+      name: "groups",
+      widget: "relation",
+      collection: "groups",
+      searchFields: ["name"],
+      displayFields: ["name"],
       valueField: "uuid",
       multiple: true,
       required: false,
@@ -157,7 +169,7 @@ const topicCollection: CmsCollectionV2 = {
   name: "topics",
   label: "Topic",
   folder: "content/topics",
-  identifier_field: "slug",
+  identifier_field: "uuid",
   media_folder: "../../static/media/topics/{{fields.uuid}}",
   create: true,
   editor: {

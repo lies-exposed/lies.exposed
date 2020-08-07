@@ -35,6 +35,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
       <ActorList
         actors={actors}
         onActorClick={() => {}}
+        avatarScale="scale1000"
       />
       <div className="content">{renderHTMLAST(htmlAst)}</div>
     </>

@@ -5,6 +5,7 @@ import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
+import { getGroups } from "@helpers/group"
 import { getTopics } from "@helpers/topic"
 import { ActorPageContentFileNode } from "@models/actor"
 import { EventFileNode } from "@models/event"
@@ -30,6 +31,9 @@ interface GroupTimelineTemplatePageProps {
     actors: {
       nodes: ActorPageContentFileNode[]
     }
+    groups: {
+      nodes: GroupFileNode[]
+    }
     topics: {
       nodes: TopicPageContentFileNode[]
     }
@@ -47,14 +51,19 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
     sequenceS(E.either)({
       pageContent: GroupFileNode.decode(data.pageContent),
       actors: t.array(ActorPageContentFileNode).decode(data.actors.nodes),
+      groups: t.array(GroupFileNode).decode(data.groups.nodes),
       topics: t.array(TopicPageContentFileNode).decode(data.topics.nodes),
       events: t.array(EventFileNode).decode(data.events.nodes),
     }),
-    E.map(({ pageContent, actors, topics, events }) => {
+    E.map(({ pageContent, actors, groups, topics, events }) => {
       const actorsFrontmatter = actors.map(
         (a) => a.childMarkdownRemark.frontmatter
       )
+      const groupsFrontmatter = groups.map(
+        (g) => g.childMarkdownRemark.frontmatter
+      )
       const actorsGetter = getActors(actorsFrontmatter)
+      const groupsGetter = getGroups(groupsFrontmatter)
 
       return {
         pageContent,
@@ -71,6 +80,10 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
               topic: getTopics(
                 e.childMarkdownRemark.frontmatter.topic,
                 topics.map((t) => t.childMarkdownRemark.frontmatter)
+              ),
+              groups: pipe(
+                e.childMarkdownRemark.frontmatter.groups,
+                O.map(groupsGetter)
               ),
             },
           })
@@ -108,11 +121,7 @@ export const pageQuery = graphql`
   query GroupTimelineTemplatePage($group: String!, $members: [String]!) {
     pageContent: file(
       relativeDirectory: { eq: "groups" }
-      childMarkdownRemark: {
-        frontmatter: {
-          uuid: { eq: $group }
-        }
-      }
+      childMarkdownRemark: { frontmatter: { uuid: { eq: $group } } }
     ) {
       ...GroupPageContentFileNode
     }
@@ -121,11 +130,22 @@ export const pageQuery = graphql`
       filter: {
         sourceInstanceName: { eq: "content" }
         relativeDirectory: { eq: "actors" }
-        childMarkdownRemark: { frontmatter: { username: { in: $members } } }
+        childMarkdownRemark: { frontmatter: { uuid: { in: $members } } }
       }
     ) {
       nodes {
         ...ActorPageContentFileNode
+      }
+    }
+
+    groups: allFile(
+      filter: {
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { eq: "groups" }
+      }
+    ) {
+      nodes {
+        ...GroupPageContentFileNode
       }
     }
 
@@ -137,7 +157,7 @@ export const pageQuery = graphql`
 
     events: allFile(
       filter: {
-        childMarkdownRemark: { frontmatter: { actors: { in: [$group] } } }
+        childMarkdownRemark: { frontmatter: { groups: { in: [$group] } } }
       }
     ) {
       nodes {

@@ -5,6 +5,7 @@ import { ImageFileNode } from "./image"
 
 export const GroupFrontmatter = t.interface(
   {
+    uuid: t.string,
     name: t.string,
     date: DateFromISOString,
     avatar: optionFromNullable(ImageFileNode),
@@ -18,12 +19,8 @@ export type GroupFrontmatter = t.TypeOf<typeof GroupFrontmatter>
 
 export const GroupFileNode = t.interface(
   {
-    id: t.string,
-    relativeDirectory: t.string,
-    name: t.string,
     childMarkdownRemark: t.interface(
       {
-        id: t.string,
         frontmatter: GroupFrontmatter,
         htmlAst: t.object,
       },

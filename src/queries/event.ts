@@ -11,6 +11,7 @@ export const query = graphql`
         topic
         type
         actors
+        groups
         links
       }
       htmlAst

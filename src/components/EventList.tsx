@@ -12,15 +12,16 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { navigate } from "gatsby"
 import * as React from "react"
+import GroupList from "./GroupList"
 
 interface EventListProps {
   events: EventData[]
 }
 
-const EventList: React.FC<EventListProps> = props => {
+const EventList: React.FC<EventListProps> = (props) => {
   return (
     <div className="events">
-      {props.events.map(event => (
+      {props.events.map((event) => (
         <div key={event.id} id={event.id}>
           <Card
             headerImage={{
@@ -37,7 +38,7 @@ const EventList: React.FC<EventListProps> = props => {
                   alignItems="center"
                 >
                   <TopicList
-                    topics={event.frontmatter.topic.map(t => ({
+                    topics={event.frontmatter.topic.map((t) => ({
                       ...t,
                       selected: true,
                     }))}
@@ -47,21 +48,41 @@ const EventList: React.FC<EventListProps> = props => {
                 <FlexGridItem
                   display="flex"
                   flexGridColumnCount={1}
-                  justifyContent="end"
+                  alignItems="flex-end"
+                  flexDirection="column"
                 >
+                  {pipe(
+                    event.frontmatter.groups,
+                    O.fold(
+                      () => null,
+                      (groups) => (
+                        <GroupList
+                          groups={groups.map((g) => ({
+                            ...g,
+                            selected: false,
+                          }))}
+                          onGroupClick={async (group) => {
+                            await navigate(`/groups/${group.uuid}`)
+                          }}
+                          avatarScale="scale1000"
+                        />
+                      )
+                    )
+                  )}
                   {pipe(
                     event.frontmatter.actors,
                     O.fold(
                       () => null,
-                      actors => (
+                      (actors) => (
                         <ActorList
-                          actors={actors.map(a => ({
+                          actors={actors.map((a) => ({
                             ...a,
                             selected: false,
                           }))}
-                          onActorClick={async actor => {
-                            await navigate(`/actors/${actor.username}`)
+                          onActorClick={async (actor) => {
+                            await navigate(`/actors/${actor.uuid}`)
                           }}
+                          avatarScale="scale1000"
                         />
                       )
                     )
@@ -76,7 +97,7 @@ const EventList: React.FC<EventListProps> = props => {
                 <FlexGridItem flexGridColumnCount={2}>
                   {renderHTMLAST(event.htmlAst)}
                   {O.toNullable(
-                    O.option.map(event.frontmatter.links, links => (
+                    O.option.map(event.frontmatter.links, (links) => (
                       <ul>
                         {links.map((l, i) => (
                           <ListItem key={i} artwork={CheckIndeterminate}>

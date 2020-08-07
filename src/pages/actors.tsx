@@ -56,7 +56,6 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
 
       const acts = actors.map((a) => ({
         ...a.childMarkdownRemark.frontmatter,
-        avatar: a.childMarkdownRemark.frontmatter.avatar,
         selected: false,
       }))
 
@@ -70,6 +69,7 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
               onActorClick={async (a) => {
                 await navigate(`/actors/${a.uuid}`)
               }}
+              avatarScale='scale1600'
             />
           </ContentWithSideNavigation>
         </Layout>
