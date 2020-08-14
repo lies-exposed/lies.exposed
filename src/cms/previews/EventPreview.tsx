@@ -1,4 +1,4 @@
-import EventList from "@components/EventList"
+import EventList from "@components/lists/EventList"
 import { ActorFrontmatter } from "@models/actor"
 import { EventData } from "@models/event"
 import { TopicData } from "@models/topic"

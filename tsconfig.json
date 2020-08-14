@@ -20,6 +20,6 @@
       "@utils/*": ["utils/*"]
     }
   },
-  "include": ["src", "typings"],
+  "include": ["src", "plugins", "typings"],
   "exclude": ["node_modules", "public", ".cache"]
 }

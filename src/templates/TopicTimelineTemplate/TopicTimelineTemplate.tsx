@@ -1,8 +1,8 @@
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
-import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { TopicPageContent } from "@components/TopicPageContent"
+import EventList from "@components/lists/EventList"
 import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { ActorPageContentFileNode } from "@models/actor"
@@ -54,6 +54,7 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
                 n.childMarkdownRemark.frontmatter.actors,
                 O.map(actorsGetter),
               ),
+              groups: O.none,
               topic: [pageContent.childMarkdownRemark.frontmatter],
             },
           }

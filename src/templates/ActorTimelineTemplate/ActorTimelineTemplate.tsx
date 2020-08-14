@@ -1,8 +1,8 @@
 import { ActorPageContent } from "@components/ActorPageContent"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
-import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
+import EventList from "@components/lists/EventList"
 import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { getTopics } from "@helpers/topic"
@@ -63,6 +63,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
                 e.childMarkdownRemark.frontmatter.actors,
                 O.map(actorsGetter),
               ),
+              groups: O.none,
               topic: getTopics(
                 e.childMarkdownRemark.frontmatter.topic,
                 topics.map(t => t.childMarkdownRemark.frontmatter)

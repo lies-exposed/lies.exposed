@@ -1,5 +1,5 @@
-import ActorList from "@components/ActorList"
-import TopicList from "@components/TopicList"
+import ActorList from "@components/lists/ActorList"
+import TopicList from "@components/lists/TopicList"
 import { EventData } from "@models/event"
 import { formatDate } from "@utils//date"
 import renderHTMLAST from "@utils/renderHTMLAST"

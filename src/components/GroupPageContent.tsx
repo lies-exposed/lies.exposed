@@ -6,7 +6,7 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import Image from "gatsby-image"
 import * as React from "react"
-import ActorList from "./ActorList"
+import ActorList from "./lists/ActorList"
 
 interface GroupPageContentProps {
   frontmatter: Omit<GroupFrontmatter, "members">

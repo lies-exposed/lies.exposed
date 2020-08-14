@@ -2,7 +2,7 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import TopicList from "@components/TopicList"
+import TopicList from "@components/lists/TopicList"
 import { PageContentFileNode } from "@models/page"
 import { TopicFileNode } from "@models/topic"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
