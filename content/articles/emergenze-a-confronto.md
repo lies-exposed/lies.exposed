@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Emergenze a confronto
 path: emergenze-a-confronto
 date: 2020-03-26T00:00:00.000Z

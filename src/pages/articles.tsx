@@ -15,7 +15,12 @@ interface Results {
 const ArticlesPage: React.FunctionComponent = () => {
   const { articles, pageContent }: Results = useStaticQuery(graphql`
     query ArticlePage {
-      articles: allFile(filter: { relativeDirectory: { eq: "articles" } }) {
+      articles: allFile(
+        filter: {
+          relativeDirectory: { eq: "articles" }
+          childMarkdownRemark: { frontmatter: { draft: { eq: false } } }
+        }
+      ) {
         nodes {
           ...ArticleFileNode
         }
@@ -27,7 +32,7 @@ const ArticlesPage: React.FunctionComponent = () => {
     }
   `)
 
-  const articleItems = articles.nodes.map(n => ({
+  const articleItems = articles.nodes.map((n) => ({
     itemId: `/articles/${n.childMarkdownRemark.frontmatter.path}`,
     title: n.childMarkdownRemark.frontmatter.title,
     subNav: [],

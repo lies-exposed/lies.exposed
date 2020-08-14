@@ -24,6 +24,7 @@ const articleCollection: CmsCollectionV2 = {
     preview: true,
   },
   fields: [
+    { label: "Draft", name: "draft", widget: "boolean" },
     { label: "Title", name: "title", widget: "string" },
     { label: "Path", name: "path", widget: "string" },
     { label: "Publish Date", name: "date", widget: "datetime" },
@@ -59,7 +60,7 @@ const groupCollection: CmsCollectionV2 = {
   folder: "content/groups",
   media_folder: "../../static/media/groups/{{fields.uuid}}",
   summary: "[{{fields.uuid}}] {{fields.name}}",
-  slug: '{{fields.uuid}}',
+  slug: "{{fields.uuid}}",
   create: true,
   fields: [
     { label: "UUID", name: "uuid", widget: "uuid" },
@@ -90,8 +91,7 @@ const eventCollection: CmsCollectionV2 = {
     preview: true,
   },
   slug: "{{fields.uuid}}",
-  summary:
-    "[{{fields.uuid}}] {{slug}}",
+  summary: "[{{fields.uuid}}] {{slug}}",
   fields: [
     { label: "UUID", name: "uuid", widget: "uuid" },
     { label: "Title", name: "title", widget: "string" },
@@ -106,7 +106,7 @@ const eventCollection: CmsCollectionV2 = {
       name: "type",
       widget: "select",
       options: ["Declaration", "Fact"],
-      required: false
+      required: false,
     },
     {
       label: "Actors",

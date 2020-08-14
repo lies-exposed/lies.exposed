@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Gestione di una pandemia
 path: gestione-di-una-pandemia
 date: 2020-04-15

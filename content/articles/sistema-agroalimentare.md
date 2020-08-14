@@ -1,4 +1,5 @@
 ---
+draft: true
 date: 2020-05-03
 title: Sistema agroalimentare
 path: sistema-agroalimentare

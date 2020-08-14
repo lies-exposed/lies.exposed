@@ -2,6 +2,7 @@
 title: Milano e la distruzione ambientale nel 2020
 path: milano-e-la-distruzione-ambientale-nel-2020
 date: 2020-07-28T15:28:03.931Z
+draft: true
 ---
 *Come sta affrontando l'emergenza climatica la città di Milano?*
 
