@@ -23,7 +23,7 @@ import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
 
-interface GroupTimelineTemplatePageProps {
+interface GroupTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
@@ -43,9 +43,8 @@ interface GroupTimelineTemplatePageProps {
   }
 }
 
-const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
+const GroupTemplate: React.FC<GroupTemplatePageProps> = ({
   data,
-  navigate,
 }) => {
   return pipe(
     sequenceS(E.either)({
@@ -118,8 +117,9 @@ const GroupTimelineTemplate: React.FC<GroupTimelineTemplatePageProps> = ({
 }
 
 export const pageQuery = graphql`
-  query GroupTimelineTemplatePage($group: String!, $members: [String]!) {
+  query GroupTemplateQuery($group: String!, $members: [String]!) {
     pageContent: file(
+      sourceInstanceName: { eq: "content" }
       relativeDirectory: { eq: "groups" }
       childMarkdownRemark: { frontmatter: { uuid: { eq: $group } } }
     ) {
@@ -167,4 +167,4 @@ export const pageQuery = graphql`
   }
 `
 
-export default GroupTimelineTemplate
+export default GroupTemplate

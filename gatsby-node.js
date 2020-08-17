@@ -1,6 +1,5 @@
 const path = require("path")
 const A = require("fp-ts/lib/Array")
-const { fmImagesToRelative } = require("gatsby-remark-relative-images")
 
 const createArticlePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
