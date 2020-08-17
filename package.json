@@ -56,6 +56,7 @@
     "io-ts-types": "0.5.6",
     "moment": "2.24.0",
     "netlify-cms-app": "2.12.19",
+    "node-sass": "4.14.1",
     "npm": "6.14.7",
     "prop-types": "15.7.2",
     "react": "16.13.1",
@@ -108,7 +109,6 @@
     "eslint-plugin-standard": "4.0.1",
     "husky": "4.2.3",
     "lint-staged": "10.0.8",
-    "node-sass": "^4.14.1",
     "prettier": "2.0.5",
     "typescript": "3.8.3"
   },
