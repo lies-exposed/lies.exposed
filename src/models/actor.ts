@@ -5,6 +5,7 @@ import { ImageFileNode } from "./image"
 
 export const ActorFrontmatter = t.type(
   {
+    uuid: t.string,
     fullName: t.string,
     date: DateFromISOString,
     username: t.string,
@@ -20,7 +21,6 @@ export type ActorFrontmatter = t.TypeOf<
 
 export const ActorPageContentFileNode = t.type(
   {
-    id: t.string,
     childMarkdownRemark: t.type(
       {
         id: t.string,

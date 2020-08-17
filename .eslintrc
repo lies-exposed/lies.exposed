@@ -6,7 +6,7 @@
     "standard-with-typescript",
     "prettier",
     "prettier/@typescript-eslint",
-    "plugin:react/recommended",
+    "plugin:react/recommended"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
@@ -15,11 +15,14 @@
     "baseui/deprecated-theme-api": "warn",
     "baseui/deprecated-component-api": "warn",
     "baseui/no-deep-imports": "warn",
-    "import/order": ["error", {
-      "alphabetize": {
-        "order": "asc"
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        }
       }
-    }],
+    ],
     "no-restricted-imports": [
       "error",
       {

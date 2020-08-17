@@ -1,4 +1,4 @@
-import theme, { GlobalStyle } from "@theme/CustomeTheme"
+import theme from "@theme/CustomeTheme"
 import { BaseProvider } from "baseui"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import * as React from "react"
@@ -22,7 +22,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, style }) => {
         },
       }}
     >
-      <GlobalStyle />
       <FlexGrid
         width="100%"
         minHeight="100%"

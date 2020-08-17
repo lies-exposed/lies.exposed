@@ -1,12 +1,13 @@
-import ActorList, { ActorListActor } from "@components/ActorList"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
-import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import Network, { NetworkProps } from "@components/Network/Network"
 import { NetworkPageContent } from "@components/NetworkPageContent"
 import SEO from "@components/SEO"
-import TopicList, { TopicListTopic } from "@components/TopicList"
 import { BubbleGraph } from "@components/graph/BubbleGraph"
+import ActorList, { ActorListActor } from "@components/lists/ActorList"
+import EventList from "@components/lists/EventList"
+import GroupList, { Group } from "@components/lists/GroupList"
+import TopicList, { TopicListTopic } from "@components/lists/TopicList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { EventPoint } from "@models/event"
 import {
@@ -57,6 +58,7 @@ interface NetworkTemplateState {
   scale: NetworkProps["scale"]
   scalePoint: O.Option<EventPoint>
   selectedActorIds: string[]
+  selectedGroupIds: string[]
   selectedTopicIds: string[]
 }
 
@@ -68,34 +70,49 @@ export default class NetworkTemplate extends React.Component<
     scale: "all",
     scalePoint: O.none,
     selectedActorIds: [],
+    selectedGroupIds: [],
     selectedTopicIds: [],
   }
 
   onActorClick = (actor: ActorListActor): void => {
     this.setState({
       selectedActorIds: A.elem(Eq.eqString)(
-        actor.username,
+        actor.uuid,
         this.state.selectedActorIds
       )
         ? A.array.filter(
             this.state.selectedActorIds,
-            a => !Eq.eqString.equals(a, actor.username)
+            a => !Eq.eqString.equals(a, actor.uuid)
           )
-        : this.state.selectedActorIds.concat(actor.username),
+        : this.state.selectedActorIds.concat(actor.uuid),
+    })
+  }
+
+  onGroupClick = (g: Group): void => {
+    this.setState({
+      selectedGroupIds: A.elem(Eq.eqString)(
+        g.uuid,
+        this.state.selectedGroupIds
+      )
+        ? A.array.filter(
+            this.state.selectedGroupIds,
+            a => !Eq.eqString.equals(a, g.uuid)
+          )
+        : this.state.selectedGroupIds.concat(g.uuid),
     })
   }
 
   onTopicClick = (topic: TopicListTopic): void => {
     this.setState({
       selectedTopicIds: A.elem(Eq.eqString)(
-        topic.slug,
+        topic.uuid,
         this.state.selectedTopicIds
       )
         ? A.array.filter(
             this.state.selectedTopicIds,
-            a => !Eq.eqString.equals(a, topic.slug)
+            a => !Eq.eqString.equals(a, topic.uuid)
           )
-        : this.state.selectedTopicIds.concat(topic.slug),
+        : this.state.selectedTopicIds.concat(topic.uuid),
     })
   }
 
@@ -121,7 +138,7 @@ export default class NetworkTemplate extends React.Component<
   render(): React.ReactElement | null {
     const {
       props: { data, navigate },
-      state: { scale, scalePoint, selectedActorIds, selectedTopicIds },
+      state: { scale, scalePoint, selectedActorIds, selectedGroupIds, selectedTopicIds },
     } = this
 
     return pipe(
@@ -130,6 +147,7 @@ export default class NetworkTemplate extends React.Component<
         scale,
         scalePoint,
         selectedActorIds,
+        selectedGroupIds,
         selectedTopicIds,
         margin,
         height,
@@ -143,6 +161,7 @@ export default class NetworkTemplate extends React.Component<
           scale,
           graph,
           actors,
+          groups,
           topics,
           selectedNodes,
           selectedEventsCounter,
@@ -173,11 +192,14 @@ export default class NetworkTemplate extends React.Component<
                       display="flex"
                       flexGridColumnCount={1}
                       justifyContent="end"
+                      flexDirection="column"
                     >
                       <ActorList
                         actors={actors}
                         onActorClick={this.onActorClick}
+                        avatarScale='scale1600'
                       />
+                      <GroupList groups={groups} onGroupClick={this.onGroupClick} avatarScale='scale1600' />
                     </FlexGridItem>
                   </FlexGrid>
                   <LabelMedium>
@@ -263,6 +285,16 @@ export const pageQuery = graphql`
     ) {
       nodes {
         ...ActorPageContentFileNode
+      }
+    }
+
+    groups: allFile(filter: {
+        sourceInstanceName: { eq: "content" }
+        relativeDirectory: { eq: "groups" }
+      }
+    ) {
+      nodes {
+        ...GroupPageContentFileNode
       }
     }
 

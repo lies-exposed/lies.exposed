@@ -7,7 +7,7 @@ slug: the-crisis
 
 # La Crisi del nostro tempo
 
-La Scienza è d'accordo nell'affermare che il clima è stato profondamento sconvolto dalle attività antropiche che sono state attuate dall'inizio della rivoluzione industriale, dando origine ad un nuovo periodo storico chiamato ***Antropocene***.
+La Scienza è d'accordo nell'affermare che il clima è stato profondamento sconvolto dalle attività antropiche che sono state attuate dall'inizio della rivoluzione industriale, dando origine ad un nuovo periodo storico chiamato ***Antropocene***[^anthropocene].
 
 L'aver impostato l'economia su un modello di crescita infinita che frutta senza sosta le riserve energetiche fossili del pianeta, la artificializzazione dell'ambiente a tappeto ha compromesso il delicato equilibrio che si era venuto a creare nell'arco di miliardi di anni.
 
@@ -18,9 +18,10 @@ Interi ecosistemi sono già compromessi e inizieranno a collassare nei prossimi 
 
 Vivere nella consapevolezza che non avremmo, in un futuro vicino, le caratteristiche minime necessarie per abitare questo pianeta è frutto di una profonda analisi della situazione attuale in tutti i suoi aspetti: sociale, economico, culturale e morale.
 
-Sono molti gli strumenti di misurazione che la Scienza fornisce per poter predirre con accurata certezza che il tempo che abbiamo, prima di raggiungere il punto di non ritorno, non è molto e passarlo comporterebbe una condanna a morte della gran parte della popolazione mondiale.
-Eppure per 70 anni non è stato dato credito a quello che la Scienza ha provato a dimostrare attraverso i più svariati studi, ritrovandoci adesso impreparati all'impegno necessario per trasformare il nostro modello *socio-culturale-economico*.
+Sono molti gli strumenti di misurazione che la Scienza fornisce per poter predirre con accurata certezza che il tempo che abbiamo, prima di raggiungere il punto di non ritorno, non è molto e passarlo comporterebbe una condanna a morte della gran parte della popolazione mondiale[^collapse-of-civilization].
+Eppure per 70 anni non è stato dato credito alla Scienza che ha provato a dimostrare attraverso i più svariati studi di come il nostro stile di vita impatta il Pianeta, ritrovandoci adesso impreparati all'impegno necessario per trasformare il nostro modello *socio-culturale-economico*.
 
+[^anthropocene]: [Antropocene](https://en.wikipedia.org/wiki/Anthropocene)
 [^collapse-of-civilization]: [Collapse of civilisation is the most likely outcome](https://voiceofaction.org/collapse-of-civilisation-is-the-most-likely-outcome-top-climate-scientists/)
 
 </full-size-section>

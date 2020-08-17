@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Maran risponde al corteo contro il consumo di suolo
 date: 2020-01-10
 path: risposta-maran-corteo-parco-bassini

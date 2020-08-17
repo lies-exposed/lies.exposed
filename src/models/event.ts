@@ -3,7 +3,8 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
 import { option } from "io-ts-types/lib/option"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import {  ActorFrontmatter } from "./actor"
+import { ActorFrontmatter } from "./actor"
+import { GroupFrontmatter } from "./group"
 import { TopicFrontmatter } from "./topic"
 
 export interface TreeEvent {
@@ -29,20 +30,22 @@ export const EventType = t.keyof(
   "EventType"
 )
 
-export const EventFileNodeFrontmatter = t.interface(
+export const EventFileNodeFrontmatter = t.strict(
   {
+    uuid: t.string,
     title: t.string,
     date: DateFromISOString,
     topic: t.array(t.string),
     actors: optionFromNullable(t.array(t.string)),
-    type: t.union([t.null, t.undefined, EventType]),
+    groups: optionFromNullable(t.array(t.string)),
+    type: optionFromNullable(EventType),
     cover: optionFromNullable(t.string),
-    links: t.union([t.null, t.undefined, t.array(t.string)]),
+    links: optionFromNullable(t.array(t.string)),
   },
   "EventFrontmatter"
 )
 
-export const EventFileNode = t.interface(
+export const EventFileNode = t.strict(
   {
     relativeDirectory: t.string,
     childMarkdownRemark: t.interface(
@@ -59,25 +62,23 @@ export const EventFileNode = t.interface(
 
 export type EventFileNode = t.TypeOf<typeof EventFileNode>
 
-export const EventPointFrontmatter = t.interface(
-  {
-    title: t.string,
-    date: date,
-    actors: option(t.array(ActorFrontmatter)),
-    topic: t.array(TopicFrontmatter),
-    links: option(t.array(t.string)),
-    type: option(EventType),
-    cover: option(t.string),
-  },
-  "EventFrontmatter"
-)
-
-export type EventPointFrontmatter = t.TypeOf<typeof EventPointFrontmatter>
-
 export const EventData = t.interface(
   {
     id: t.string,
-    frontmatter: EventPointFrontmatter,
+    frontmatter: t.strict(
+      {
+        uuid: t.string,
+        title: t.string,
+        date: date,
+        actors: option(t.array(ActorFrontmatter)),
+        groups: option(t.array(GroupFrontmatter)),
+        topic: t.array(TopicFrontmatter),
+        links: option(t.array(t.string)),
+        type: option(EventType),
+        cover: option(t.string),
+      },
+      "EventFrontmatter"
+    ),
     htmlAst: t.object,
   },
   "EventData"

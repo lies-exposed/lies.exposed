@@ -27,6 +27,9 @@ module.exports = {
         plugins: [
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-numbered-footnotes`,
+          `gatsby-plugin-instagram-embed`,
+          `gatsby-plugin-twitter`,
+          `gatsby-remark-embedder`,
           {
             resolve: "gatsby-remark-component",
             options: {

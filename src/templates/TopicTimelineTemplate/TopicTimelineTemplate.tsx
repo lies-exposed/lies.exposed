@@ -1,8 +1,8 @@
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
-import EventList from "@components/EventList"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { TopicPageContent } from "@components/TopicPageContent"
+import EventList from "@components/lists/EventList"
 import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { ActorPageContentFileNode } from "@models/actor"
@@ -41,23 +41,21 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
     }),
     E.map(({ pageContent, events, actors }) => {
       const actorsGetter = getActors(
-        actors.map(a => a.childMarkdownRemark.frontmatter)
+        actors.map((a) => a.childMarkdownRemark.frontmatter)
       )
       return {
         pageContent,
-        events: events.map(n => {
+        events: events.map((n) => {
           const eventDataNode: EventData = {
             ...n.childMarkdownRemark,
             frontmatter: {
               ...n.childMarkdownRemark.frontmatter,
-              links: O.fromNullable(n.childMarkdownRemark.frontmatter.links),
-              cover: n.childMarkdownRemark.frontmatter.cover,
               actors: pipe(
                 n.childMarkdownRemark.frontmatter.actors,
-                O.map(actorsGetter)
+                O.map(actorsGetter),
               ),
+              groups: O.none,
               topic: [pageContent.childMarkdownRemark.frontmatter],
-              type: O.fromNullable(n.childMarkdownRemark.frontmatter.type),
             },
           }
 

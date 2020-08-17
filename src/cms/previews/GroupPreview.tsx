@@ -45,8 +45,8 @@ export const GroupPreview: React.FC<any> = ({
     E.fold(renderValidationErrors, f => (
       <>
         <GroupPageContent
-          id="group-page-content-preview"
           frontmatter={f}
+          members={[]}
           htmlAst={HTMLtoAST(MDtoHTML(body))}
         />
         

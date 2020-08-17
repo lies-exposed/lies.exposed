@@ -2,12 +2,9 @@ import { graphql } from "gatsby"
 
 export const query = graphql`
   fragment GroupPageContentFileNode on File {
-    id
-    name
-    relativeDirectory
     childMarkdownRemark {
-      id
       frontmatter {
+        uuid
         date
         name
         members

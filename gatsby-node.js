@@ -1,6 +1,5 @@
 const path = require("path")
 const A = require("fp-ts/lib/Array")
-const { fmImagesToRelative } = require("gatsby-remark-relative-images")
 
 const createArticlePages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
@@ -22,6 +21,7 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
           childMarkdownRemark {
             frontmatter {
               path
+              title
             }
           }
         }
@@ -35,13 +35,13 @@ const createArticlePages = async ({ actions, graphql, reporter }) => {
     return
   }
 
-  result.data.articles.nodes.forEach(node => {
+  result.data.articles.nodes.forEach((node) => {
     const context = {
       filePath: node.childMarkdownRemark.frontmatter.path,
     }
 
     reporter.info(
-      `article page [${node.name}] context: ${JSON.stringify(context, null, 4)}`
+      `article page [${node.childMarkdownRemark.frontmatter.title}] context: ${JSON.stringify(context, null, 4)}`
     )
 
     createPage({
@@ -63,7 +63,13 @@ const createGroupPages = async ({ actions, graphql, reporter }) => {
     {
       groups: allFile(filter: { relativeDirectory: { eq: "groups" } }) {
         nodes {
-          name
+          childMarkdownRemark {
+            frontmatter {
+              uuid
+              name
+              members
+            }
+          }
         }
       }
     }
@@ -76,16 +82,19 @@ const createGroupPages = async ({ actions, graphql, reporter }) => {
   }
 
   const nodes = result.data.groups.nodes
+  
 
-  nodes.forEach(node => {
-    const nodePath = `/groups/${node.name}`
+  nodes.forEach((node) => {
+    const groupUUID = node.childMarkdownRemark.frontmatter.uuid
+    const nodePath = `/groups/${groupUUID}`
 
     const context = {
-      group: node.name,
+      group: groupUUID,
+      members: node.childMarkdownRemark.frontmatter.members
     }
 
     reporter.info(
-      `Group template [${node.name}], context: ${JSON.stringify(
+      `Group template [${groupUUID}], context: ${JSON.stringify(
         context,
         null,
         4
@@ -125,7 +134,7 @@ const createActorTimelinePages = async ({ actions, graphql, reporter }) => {
 
   const nodes = result.data.actors.nodes
 
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     const nodePath = `/actors/${node.name}`
 
     const context = {
@@ -221,7 +230,7 @@ const createTopicTimelinePages = async ({ actions, graphql, reporter }) => {
 
   const nodes = result.data.topics.nodes
 
-  nodes.forEach(node => {
+  nodes.forEach((node) => {
     const nodePath = `/topics/${node.name}`
 
     const context = {
