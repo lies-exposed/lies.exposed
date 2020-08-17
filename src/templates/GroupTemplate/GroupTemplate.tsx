@@ -119,8 +119,6 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({
 export const pageQuery = graphql`
   query GroupTemplateQuery($group: String!, $members: [String]!) {
     pageContent: file(
-      sourceInstanceName: { eq: "content" }
-      relativeDirectory: { eq: "groups" }
       childMarkdownRemark: { frontmatter: { uuid: { eq: $group } } }
     ) {
       ...GroupPageContentFileNode
