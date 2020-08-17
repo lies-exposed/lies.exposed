@@ -43,9 +43,7 @@ interface GroupTemplatePageProps {
   }
 }
 
-const GroupTemplate: React.FC<GroupTemplatePageProps> = ({
-  data,
-}) => {
+const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
   return pipe(
     sequenceS(E.either)({
       pageContent: GroupFileNode.decode(data.pageContent),
@@ -118,9 +116,7 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({
 
 export const pageQuery = graphql`
   query GroupTemplateQuery($group: String!, $members: [String]!) {
-    pageContent: file(
-      childMarkdownRemark: { frontmatter: { uuid: { eq: $group } } }
-    ) {
+    pageContent: file(name: { eq: $group }) {
       ...GroupPageContentFileNode
     }
 
