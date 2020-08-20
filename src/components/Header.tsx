@@ -34,7 +34,7 @@ const Header: React.FC = () => {
       siteMetadata: { title },
     },
   } = useStaticQuery(graphql`
-    query SiteTitleQuery {
+    query HeaderQuery {
       site {
         siteMetadata {
           title

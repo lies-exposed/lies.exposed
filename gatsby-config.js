@@ -3,6 +3,7 @@ module.exports = {
     title: `ECOnnessione`,
     description: `Emergenza planetaria a 360º.`,
     author: `@ascariandrea`,
+    githubLink: `https://github.com/ascariandrea/econnessione`,
   },
   plugins: [
     `gatsby-plugin-tsconfig-paths`,

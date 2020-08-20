@@ -1,26 +1,40 @@
 import { themedUseStyletron } from "@theme/CustomeTheme"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { StyledLink } from "baseui/link"
-import { ParagraphSmall } from "baseui/typography"
+import { ParagraphSmall, HeadingXSmall } from "baseui/typography"
+import { useStaticQuery, graphql } from "gatsby"
 import * as React from "react"
 
-interface FooterProps {
-  githubLink: string
-}
 
-export const Footer: React.FC<FooterProps> = props => {
+export const Footer: React.FC = () => {
   const [, theme] = themedUseStyletron()
+  const {
+    site: {
+      siteMetadata: { title, githubLink },
+    },
+  } = useStaticQuery(graphql`
+    query FooterQuery {
+      site {
+        siteMetadata {
+          title
+          githubLink
+        }
+      }
+    }
+  `)
   return (
     <FlexGridItem padding="40px" backgroundColor={theme.customColors.brandPrimary}>
       <footer>
         <FlexGrid flexGridColumnCount={3}>
-          <FlexGridItem />
+          <FlexGridItem>
+            <HeadingXSmall>{title}</HeadingXSmall>
+            </FlexGridItem>
           <FlexGridItem />
           <FlexGridItem>
             <ul>
               <li>
                 <ParagraphSmall color={theme.colors.white}>
-                  <StyledLink href={props.githubLink}>Github</StyledLink>
+                  <StyledLink href={githubLink}>Github</StyledLink>
                 </ParagraphSmall>
               </li>
             </ul>
