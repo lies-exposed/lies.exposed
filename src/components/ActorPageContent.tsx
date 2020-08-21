@@ -1,4 +1,4 @@
-import { ActorPageContentFileNode } from "@models/actor"
+import { ActorMarkdownRemark } from "@models/actor"
 import renderHTMLAST from "@utils/renderHTMLAST"
 import { HeadingXLarge } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
@@ -6,7 +6,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import Image from "gatsby-image"
 import * as React from "react"
 
-export type ActorPageContentProps = ActorPageContentFileNode["childMarkdownRemark"]
+export type ActorPageContentProps = ActorMarkdownRemark
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   frontmatter,

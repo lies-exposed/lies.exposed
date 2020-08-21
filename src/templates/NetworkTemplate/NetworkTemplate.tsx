@@ -228,7 +228,7 @@
 //       }
 //     ) {
 //       nodes {
-//         ...ActorPageContentFileNode
+//         ...ActorFileNode
 //       }
 //     }
 

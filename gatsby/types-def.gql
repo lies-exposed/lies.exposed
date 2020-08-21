@@ -1,0 +1,138 @@
+# Articles
+type Article implements Node @dontInfer {
+  uuid: String
+  draft: Boolean!
+  title: String!
+  path: String!
+  date: Date!
+  links: [String!]
+}
+
+# type ArticleMarkdownRemark implements Node {
+#   frontmatter: Article!
+#   htmlAst: JSON!
+# }
+
+# # type ArticleFile implements Node {
+# #   sourceInstanceName: String
+# #   relativeDirectory: String
+# #   childMarkdownRemark: ArticleMarkdownRemark!
+# # }
+
+# Actors
+type Actor implements Node {
+  uuid: String!
+  fullName: String
+  username: String
+  avatar: File!
+  color: String
+  date: Date!
+}
+
+# type ActorMarkdownRemark implements Node {
+#   frontmatter: Actor!
+#   htmlAst: JSON!
+# }
+
+# # type ActorFile implements Node @dontInfer {
+# #   sourceInstanceName: String
+# #   relativeDirectory: String
+# #   childMarkdownRemark: ActorMarkdownRemark!
+# # }
+
+type Group implements Node @dontInfer {
+  uuid: String!
+  name: String!
+  avatar: File!
+  members: [String]
+  date: Date!
+  color: String
+}
+
+# type GroupMarkdownRemark implements Node {
+#   frontmatter: Group!
+#   htmlAst: JSON
+# }
+
+# # type GroupFile implements Node {
+# #   sourceInstanceName: String
+# #   relativeDirectory: String
+# #   childMarkdownRemark: GroupMarkdownRemark!
+# # }
+
+type Page implements Node {
+  title: String!
+  path: String!
+  date: Date!
+  slug: String!
+}
+
+# type PageMarkdownRemark implements Node {
+#   frontmatter: Page!
+#   htmlAst: JSON!
+# }
+
+# Topics
+type Topic implements Node @dontInfer {
+  uuid: String!
+  slug: String!
+  label: String!
+  date: Date!
+  color: String
+}
+
+# type TopicMarkdownRemark implements Node {
+#   frontmatter: Topic!
+#   htmlAst: JSON!
+# }
+
+# # type TopicFile implements Node @dontInfer {
+# #   sourceInstanceName: String
+# #   relativeDirectory: String
+# #   childMarkdownRemark: TopicMarkdownRemark!
+# # }
+
+# Events
+type Event implements Node @dontInfer {
+  uuid: String!
+  title: String!
+  date: Date!
+  type: String
+  groups: [String]
+  topics: [String]
+  actors: [String]
+  links: [String]
+}
+
+# type EventMarkdownRemark implements Node {
+#   frontmatter: Event!
+#   htmlAst: JSON
+# }
+
+# # type EventFile implements Node {
+# #   sourceInstanceName: String
+# #   relativeDirectory: String
+# #   childMarkdownRemark: EventMarkdownRemark!
+# # }
+
+
+type MarkdownRemark {
+  frontmatter: Frontmatter
+}
+
+type MarkdownRemark implements Node {
+  frontmatter: MarkdownRemarkFrontmatter
+}
+
+type MarkdownRemarkFrontmatter {
+  uuid: String
+  username: String
+  fullName: String
+}
+
+# type MarkdownRemarkFields {
+#   actors: [Actor] @link(by: "uuid")
+#   # groups: [Group] @link(by: "uuid")
+#   # topics: [Topic] @link(by: "uuid")
+#   # members: [Actor] @link(by: "uuid", from: "frontmatter.uuid")
+# }

@@ -3,7 +3,7 @@ import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import ActorList from "@components/lists/ActorList"
-import { ActorPageContentFileNode } from "@models/actor"
+import { ActorMarkdownRemark } from "@models/actor"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -14,33 +14,33 @@ import * as t from "io-ts"
 import React from "react"
 
 interface Results {
-  actors: { nodes: ActorPageContentFileNode[] }
+  actors: { nodes: ActorMarkdownRemark[] }
   pageContent: PageContentFileNode
 }
 
 const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
   const results: Results = useStaticQuery(graphql`
     query ActorsPage {
-      actors: allFile(
-        filter: {
-          sourceInstanceName: { eq: "content" }
-          relativeDirectory: { eq: "actors" }
-        }
+      pageContent: file(
+        sourceInstanceName: { eq: "pages" }
+        name: { eq: "actors" }
       ) {
-        nodes {
-          ...ActorPageContentFileNode
-        }
+        ...PageContentFileNode
       }
 
-      pageContent: file(relativePath: { eq: "pages/actors.md" }) {
-        ...PageContentFileNode
+      actors: allMarkdownRemark(
+        filter: { fields: { collection: { eq: "actors" } } }
+      ) {
+        nodes {
+          ...ActorMarkdownRemark
+        }
       }
     }
   `)
 
   return pipe(
     sequenceS(E.either)({
-      actors: t.array(ActorPageContentFileNode).decode(results.actors.nodes),
+      actors: t.array(ActorMarkdownRemark).decode(results.actors.nodes),
       pageContent: PageContentFileNode.decode(results.pageContent),
     }),
     E.fold(throwValidationErrors, ({ actors, pageContent }) => {
@@ -48,14 +48,14 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
         itemId: "#actors-items",
         title: "Attori",
         subNav: actors.map((n) => ({
-          itemId: `/actors/${n.childMarkdownRemark.frontmatter.username}`,
-          title: n.childMarkdownRemark.frontmatter.fullName,
+          itemId: `/actors/${n.frontmatter.username}`,
+          title: n.frontmatter.fullName,
           subNav: [],
         })),
       }
 
       const acts = actors.map((a) => ({
-        ...a.childMarkdownRemark.frontmatter,
+        ...a.frontmatter,
         selected: false,
       }))
 
@@ -69,7 +69,7 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
               onActorClick={async (a) => {
                 await navigate(`/actors/${a.uuid}`)
               }}
-              avatarScale='scale1600'
+              avatarScale="scale1600"
             />
           </ContentWithSideNavigation>
         </Layout>

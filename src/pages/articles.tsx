@@ -2,39 +2,42 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import { ArticleFileNode } from "@models/article"
+import { ArticleMarkdownRemark } from "@models/article"
 import { PageContentFileNode } from "@models/page"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 
 interface Results {
-  articles: { nodes: ArticleFileNode[] }
+  articles: { nodes: ArticleMarkdownRemark[] }
   pageContent: PageContentFileNode
 }
 
 const ArticlesPage: React.FunctionComponent = () => {
   const { articles, pageContent }: Results = useStaticQuery(graphql`
     query ArticlePage {
-      articles: allFile(
+      articles: allMarkdownRemark(
         filter: {
-          relativeDirectory: { eq: "articles" }
-          childMarkdownRemark: { frontmatter: { draft: { eq: false } } }
+          frontmatter: { draft: { eq: false } }
+          fields: { collection: { eq: "articles" } }
         }
       ) {
         nodes {
-          ...ArticleFileNode
+          ...ArticleMarkdownRemark
         }
       }
 
-      pageContent: file(relativePath: { eq: "pages/articles.md" }) {
+      pageContent: file(
+        sourceInstanceName: { eq: "pages" }
+        name: { eq: "articles" }
+      ) {
         ...PageContentFileNode
       }
     }
   `)
 
   const articleItems = articles.nodes.map((n) => ({
-    itemId: `/articles/${n.childMarkdownRemark.frontmatter.path}`,
-    title: n.childMarkdownRemark.frontmatter.title,
+    itemId: `/articles/${n.frontmatter.path}`,
+    title: n.frontmatter.title,
     subNav: [],
   }))
 

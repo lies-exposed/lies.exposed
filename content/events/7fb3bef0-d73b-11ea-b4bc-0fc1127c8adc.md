@@ -3,9 +3,9 @@ uuid: 7fb3bef0-d73b-11ea-b4bc-0fc1127c8adc
 title: Approvato il PGT
 date: 2019-10-14
 type: AntiEcologicAct
-topic:
+topics:
     - 04a266a0-d757-11ea-9d44-af2b696b45de
-actors:
+groups:
     - ca6c9af0-d742-11ea-83a8-47271feea2c9
 links:
     - https://www.milanotoday.it/attualita/approvato-pgt.html

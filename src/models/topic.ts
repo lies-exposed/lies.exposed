@@ -15,35 +15,15 @@ export const TopicFrontmatter = t.type(
 )
 export type TopicFrontmatter = t.TypeOf<typeof TopicFrontmatter>
 
-
-export const TopicPageContentFileNode = t.type(
+export const TopicMarkdownRemark = t.type(
   {
-    childMarkdownRemark: t.type(
-      {
-        frontmatter: TopicFrontmatter,
-        htmlAst: t.object,
-      },
-      "TopicPageContentFileNodeMarkdownRemark"
-    ),
+    frontmatter: TopicFrontmatter,
+    htmlAst: t.object,
   },
-  "TopicPageContentFileNode"
+  "TopicMarkdownRemark"
 )
 
-export type TopicPageContentFileNode = t.TypeOf<typeof TopicPageContentFileNode>
-
-
-
-export const TopicFileNode = t.interface(
-  {
-    relativeDirectory: t.string,
-    childMarkdownRemark: t.interface({
-      frontmatter: TopicFrontmatter,
-    }),
-  },
-  "TopicFileNode"
-)
-
-export type TopicFileNode = t.TypeOf<typeof TopicFileNode>
+export type TopicMarkdownRemark = t.TypeOf<typeof TopicMarkdownRemark>
 
 export const TopicData = t.intersection(
   [

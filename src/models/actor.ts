@@ -15,22 +15,14 @@ export const ActorFrontmatter = t.type(
   "ActorFrontmatter"
 )
 
-export type ActorFrontmatter = t.TypeOf<
-  typeof ActorFrontmatter
->
+export type ActorFrontmatter = t.TypeOf<typeof ActorFrontmatter>
 
-export const ActorPageContentFileNode = t.type(
+export const ActorMarkdownRemark = t.type(
   {
-    childMarkdownRemark: t.type(
-      {
-        id: t.string,
-        frontmatter: ActorFrontmatter,
-        htmlAst: t.object,
-      },
-      "ActorPageContentFileNodeMarkdownRemark"
-    ),
+    frontmatter: ActorFrontmatter,
+    htmlAst: t.object,
   },
-  "ActorPageContentFileNode"
+  "ActorMarkdownRemark"
 )
 
-export type ActorPageContentFileNode = t.TypeOf<typeof ActorPageContentFileNode>
+export type ActorMarkdownRemark = t.TypeOf<typeof ActorMarkdownRemark>

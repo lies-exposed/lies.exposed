@@ -10,16 +10,16 @@
     "noUnusedLocals": true,
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@helpers/*": ["helpers/*"],
-      "@models/*": ["models/*"],
-      "@templates/*": ["templates/*"],
-      "@theme/*": ["theme/*"],
-      "@utils/*": ["utils/*"]
+      "@components/*": ["./components/*"],
+      "@helpers/*": ["./helpers/*"],
+      "@models/*": ["./models/*"],
+      "@templates/*": ["./templates/*"],
+      "@theme/*": ["./theme/*"],
+      "@utils/*": ["./utils/*"]
     }
   },
-  "include": ["src", "plugins", "typings"],
-  "exclude": ["node_modules", "public", ".cache"]
+  "include": ["gatsby", "src", "plugins", "typings"],
+  "exclude": ["content", "node_modules", "public", ".cache"]
 }

@@ -21,6 +21,7 @@
     "@vx/shape": "0.0.198",
     "@vx/tooltip": "0.0.198",
     "@vx/zoom": "0.0.198",
+    "@zerollup/ts-transform-paths": "1.7.18",
     "baseui": "9.91.0",
     "d3-array": "2.4.0",
     "fp-ts": "2.6.0",
@@ -74,6 +75,7 @@
     "styletron-engine-atomic": "1.4.6",
     "styletron-react": "5.2.7",
     "throttle-debounce": "^2.2.1",
+    "ts-node": "8.10.2",
     "uuid": "8.3.0"
   },
   "devDependencies": {

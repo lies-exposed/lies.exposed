@@ -82,7 +82,7 @@ export default class NetworkTemplate extends React.Component<
       )
         ? A.array.filter(
             this.state.selectedActorIds,
-            a => !Eq.eqString.equals(a, actor.uuid)
+            (a) => !Eq.eqString.equals(a, actor.uuid)
           )
         : this.state.selectedActorIds.concat(actor.uuid),
     })
@@ -90,13 +90,10 @@ export default class NetworkTemplate extends React.Component<
 
   onGroupClick = (g: Group): void => {
     this.setState({
-      selectedGroupIds: A.elem(Eq.eqString)(
-        g.uuid,
-        this.state.selectedGroupIds
-      )
+      selectedGroupIds: A.elem(Eq.eqString)(g.uuid, this.state.selectedGroupIds)
         ? A.array.filter(
             this.state.selectedGroupIds,
-            a => !Eq.eqString.equals(a, g.uuid)
+            (a) => !Eq.eqString.equals(a, g.uuid)
           )
         : this.state.selectedGroupIds.concat(g.uuid),
     })
@@ -110,7 +107,7 @@ export default class NetworkTemplate extends React.Component<
       )
         ? A.array.filter(
             this.state.selectedTopicIds,
-            a => !Eq.eqString.equals(a, topic.uuid)
+            (a) => !Eq.eqString.equals(a, topic.uuid)
           )
         : this.state.selectedTopicIds.concat(topic.uuid),
     })
@@ -138,7 +135,13 @@ export default class NetworkTemplate extends React.Component<
   render(): React.ReactElement | null {
     const {
       props: { data, navigate },
-      state: { scale, scalePoint, selectedActorIds, selectedGroupIds, selectedTopicIds },
+      state: {
+        scale,
+        scalePoint,
+        selectedActorIds,
+        selectedGroupIds,
+        selectedTopicIds,
+      },
     } = this
 
     return pipe(
@@ -197,9 +200,13 @@ export default class NetworkTemplate extends React.Component<
                       <ActorList
                         actors={actors}
                         onActorClick={this.onActorClick}
-                        avatarScale='scale1600'
+                        avatarScale="scale1600"
                       />
-                      <GroupList groups={groups} onGroupClick={this.onGroupClick} avatarScale='scale1600' />
+                      <GroupList
+                        groups={groups}
+                        onGroupClick={this.onGroupClick}
+                        avatarScale="scale1600"
+                      />
                     </FlexGridItem>
                   </FlexGrid>
                   <LabelMedium>
@@ -219,10 +226,10 @@ export default class NetworkTemplate extends React.Component<
                     minDate={minDate}
                     maxDate={maxDate}
                     graph={graph}
-                    onEventLabelClick={event => {
+                    onEventLabelClick={(event) => {
                       navigate(`/events/${event}`)
                     }}
-                    onNodeClick={event =>
+                    onNodeClick={(event) =>
                       replace(`/networks/#${event.data.id}`)
                     }
                     onDoubleClick={this.onNetworkDoubleClick}
@@ -230,18 +237,22 @@ export default class NetworkTemplate extends React.Component<
                 </FlexGridItem>
                 <FlexGridItem justifyContent="center">
                   <div style={{ width, height, margin: 30 }}>
-                    <BubbleGraph<{label: string; count: number; color: string}>
+                    <BubbleGraph<{
+                      label: string
+                      count: number
+                      color: string
+                    }>
                       width={width}
                       height={height}
                       data={pipe(
                         topicEventsMap,
-                        Map.map(topic => ({
+                        Map.map((topic) => ({
                           label: topic.data.label,
                           count: topic.events.length,
                           color: topic.data.color,
                         })),
                         Map.toArray(Ord.ordString),
-                        A.map(e => e[1])
+                        A.map((e) => e[1])
                       )}
                     />
                   </div>
@@ -265,47 +276,40 @@ export default class NetworkTemplate extends React.Component<
 export const pageQuery = graphql`
   query Network {
     pageContent: file(
-      relativeDirectory: { eq: "pages" }
-      name: { eq: "networks" }
+      childMarkdownRemark: { frontmatter: { slug: { eq: "networks" } } }
     ) {
       ...PageContentFileNode
     }
 
-    topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
+    topics: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "topics" } } }
+    ) {
       nodes {
-        ...TopicFileNode
+        ...TopicMarkdownRemark
       }
     }
 
-    actors: allFile(
-      filter: {
-        sourceInstanceName: { eq: "content" }
-        relativeDirectory: { eq: "actors" }
-      }
+    actors: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "actors" } } }
     ) {
       nodes {
-        ...ActorPageContentFileNode
+        ...ActorMarkdownRemark
       }
     }
 
-    groups: allFile(filter: {
-        sourceInstanceName: { eq: "content" }
-        relativeDirectory: { eq: "groups" }
-      }
+    groups: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "groups" } } }
     ) {
       nodes {
-        ...GroupPageContentFileNode
+        ...GroupMarkdownRemark
       }
     }
 
-    events: allFile(
-      filter: {
-        sourceInstanceName: { eq: "content" }
-        relativeDirectory: { eq: "events" }
-      }
+    events: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "events" } } }
     ) {
       nodes {
-        ...EventFileNode
+        ...EventMarkdownRemark
       }
     }
   }

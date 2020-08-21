@@ -3,36 +3,36 @@ import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import GroupList from "@components/lists/GroupList"
-import { GroupFileNode } from "@models/group"
+import { GroupMarkdownRemark } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
-import * as E from 'fp-ts/lib/Either'
+import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
 import { useStaticQuery, graphql, PageProps } from "gatsby"
-import * as t from 'io-ts'
+import * as t from "io-ts"
 import React from "react"
 
 interface Results {
-  groups: { nodes: GroupFileNode[] }
+  groups: { nodes: GroupMarkdownRemark[] }
   pageContent: PageContentFileNode
 }
 
 const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
-  const results: Results = useStaticQuery(graphql`
+  const results = useStaticQuery<Results>(graphql`
     query GroupsPage {
-      groups: allFile(
-        filter: {
-          sourceInstanceName: { eq: "content" }
-          relativeDirectory: { eq: "groups" }
-        }
+      groups: allMarkdownRemark(
+        filter: { fields: { collection: { eq: "groups" } } }
       ) {
         nodes {
-          ...GroupPageContentFileNode
+          ...GroupMarkdownRemark
         }
       }
 
-      pageContent: file(relativePath: { eq: "pages/groups.md" }) {
+      pageContent: file(
+        sourceInstanceName: { eq: "pages" }
+        name: { eq: "groups" }
+      ) {
         ...PageContentFileNode
       }
     }
@@ -40,21 +40,20 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
 
   return pipe(
     sequenceS(E.either)({
-      groups: t.array(GroupFileNode).decode(results.groups.nodes),
-      pageContent: PageContentFileNode.decode(results.pageContent)
+      groups: t.array(GroupMarkdownRemark).decode(results.groups.nodes),
+      pageContent: PageContentFileNode.decode(results.pageContent),
     }),
-    E.fold(throwValidationErrors, ({ groups, pageContent}) => {
+    E.fold(throwValidationErrors, ({ groups, pageContent }) => {
       const groupsItems = {
         itemId: "#groups-items",
         title: "Gruppi",
         subNav: results.groups.nodes.map((n) => ({
-          itemId: `/groups/${n.childMarkdownRemark.frontmatter.uuid}`,
-          title: n.childMarkdownRemark.frontmatter.name,
+          itemId: `/groups/${n.frontmatter.uuid}`,
+          title: n.frontmatter.name,
           subNav: [],
         })),
       }
-  
-    
+
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
@@ -62,7 +61,7 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
             <PageContent {...pageContent.childMarkdownRemark} />
             <GroupList
               groups={groups.map((a) => ({
-                ...a.childMarkdownRemark.frontmatter,
+                ...a.frontmatter,
                 selected: false,
               }))}
               onGroupClick={async (a) => {
@@ -75,8 +74,6 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
       )
     })
   )
-
-  
 }
 
 export default GroupsPage

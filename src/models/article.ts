@@ -1,34 +1,26 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 
-export const ArticleFileNodeFrontmatter = t.type(
+export const ArticleFrontmatter = t.type(
   {
     title: t.string,
     date: DateFromISOString,
     path: t.string,
   },
-  "ArticleFileNodeFrontmatter"
+  "ArticleFrontmatter"
 )
 
-export type ArticleFileNodeFrontmatter = t.TypeOf<
-  typeof ArticleFileNodeFrontmatter
+export type ArticleFrontmatter = t.TypeOf<
+  typeof ArticleFrontmatter
 >
 
-export const ArticleFileNodeChildMarkdownRemark = t.type(
+export const ArticleMarkdownRemark = t.type(
   {
     id: t.string,
-    frontmatter: ArticleFileNodeFrontmatter,
+    frontmatter: ArticleFrontmatter,
     htmlAst: t.object,
   },
-  "ArticleFileNodeChildMarkdownRemark"
+  "ArticleMarkdownRemark"
 )
 
-export const ArticleFileNode = t.type(
-  {
-    id: t.string,
-    childMarkdownRemark: ArticleFileNodeChildMarkdownRemark,
-  },
-  "ArticleFileNode"
-)
-
-export type ArticleFileNode = t.TypeOf<typeof ArticleFileNode>
+export type ArticleMarkdownRemark = t.TypeOf<typeof ArticleMarkdownRemark>
