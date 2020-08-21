@@ -1,13 +1,32 @@
 import { graphql } from "gatsby"
 
 export const query = graphql`
-  fragment GroupPageContentFileNode on File {
-    childMarkdownRemark {
-      frontmatter {
+  fragment Group on MarkdownRemarkFrontmatter {
+    uuid
+    date
+    name
+    members
+    color
+    avatar {
+      publicURL
+      childImageSharp {
+        fluid(maxWidth: 600) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
+  }
+
+  fragment GroupMarkdownRemark on MarkdownRemark {
+    frontmatter {
+      ...Group
+    }
+    fields {
+      members {
         uuid
         date
-        name
-        members
+        fullName
+        username
         color
         avatar {
           publicURL
@@ -17,9 +36,8 @@ export const query = graphql`
             }
           }
         }
-        
       }
-      htmlAst
     }
+    htmlAst
   }
 `

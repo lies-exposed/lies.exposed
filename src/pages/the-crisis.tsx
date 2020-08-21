@@ -13,10 +13,13 @@ interface Results {
   pageContent: PageContentFileNode
 }
 
-const CrisisPage: React.FC<PageProps> = props => {
+const CrisisPage: React.FC<PageProps> = (props) => {
   const { pageContent }: Results = useStaticQuery(graphql`
     query ProjectPage {
-      pageContent: file(relativePath: { eq: "pages/the-crisis.md" }) {
+      pageContent: file(
+        sourceInstanceName: { eq: "pages" }
+        name: { eq: "the-crisis" }
+      ) {
         ...PageContentFileNode
       }
     }

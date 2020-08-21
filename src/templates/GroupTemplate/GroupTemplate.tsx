@@ -7,10 +7,10 @@ import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { getGroups } from "@helpers/group"
 import { getTopics } from "@helpers/topic"
-import { ActorPageContentFileNode } from "@models/actor"
-import { EventFileNode } from "@models/event"
-import { GroupFileNode } from "@models/group"
-import { TopicPageContentFileNode } from "@models/topic"
+import { ActorMarkdownRemark } from "@models/actor"
+import { EventMarkdownRemark } from "@models/event"
+import { GroupMarkdownRemark } from "@models/group"
+import { TopicMarkdownRemark } from "@models/topic"
 import { ordEventFileNodeDate } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -27,18 +27,18 @@ interface GroupTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: GroupFileNode
+    pageContent: GroupMarkdownRemark
     actors: {
-      nodes: ActorPageContentFileNode[]
+      nodes: ActorMarkdownRemark[]
     }
     groups: {
-      nodes: GroupFileNode[]
+      nodes: GroupMarkdownRemark[]
     }
     topics: {
-      nodes: TopicPageContentFileNode[]
+      nodes: TopicMarkdownRemark[]
     }
     events: {
-      nodes: EventFileNode[]
+      nodes: EventMarkdownRemark[]
     }
   }
 }
@@ -46,19 +46,15 @@ interface GroupTemplatePageProps {
 const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
   return pipe(
     sequenceS(E.either)({
-      pageContent: GroupFileNode.decode(data.pageContent),
-      actors: t.array(ActorPageContentFileNode).decode(data.actors.nodes),
-      groups: t.array(GroupFileNode).decode(data.groups.nodes),
-      topics: t.array(TopicPageContentFileNode).decode(data.topics.nodes),
-      events: t.array(EventFileNode).decode(data.events.nodes),
+      pageContent: GroupMarkdownRemark.decode(data.pageContent),
+      actors: t.array(ActorMarkdownRemark).decode(data.actors.nodes),
+      groups: t.array(GroupMarkdownRemark).decode(data.groups.nodes),
+      topics: t.array(TopicMarkdownRemark).decode(data.topics.nodes),
+      events: t.array(EventMarkdownRemark).decode(data.events.nodes),
     }),
     E.map(({ pageContent, actors, groups, topics, events }) => {
-      const actorsFrontmatter = actors.map(
-        (a) => a.childMarkdownRemark.frontmatter
-      )
-      const groupsFrontmatter = groups.map(
-        (g) => g.childMarkdownRemark.frontmatter
-      )
+      const actorsFrontmatter = actors.map((a) => a.frontmatter)
+      const groupsFrontmatter = groups.map((g) => g.frontmatter)
       const actorsGetter = getActors(actorsFrontmatter)
       const groupsGetter = getGroups(groupsFrontmatter)
 
@@ -67,21 +63,15 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
         members: actorsFrontmatter,
         events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
           (e) => ({
-            ...e.childMarkdownRemark,
+            ...e,
             frontmatter: {
-              ...e.childMarkdownRemark.frontmatter,
-              actors: pipe(
-                e.childMarkdownRemark.frontmatter.actors,
-                O.map(actorsGetter)
-              ),
+              ...e.frontmatter,
+              actors: pipe(e.frontmatter.actors, O.map(actorsGetter)),
               topic: getTopics(
-                e.childMarkdownRemark.frontmatter.topic,
-                topics.map((t) => t.childMarkdownRemark.frontmatter)
+                e.frontmatter.topic,
+                topics.map((t) => t.frontmatter)
               ),
-              groups: pipe(
-                e.childMarkdownRemark.frontmatter.groups,
-                O.map(groupsGetter)
-              ),
+              groups: pipe(e.frontmatter.groups, O.map(groupsGetter)),
             },
           })
         ),
@@ -90,7 +80,7 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
     E.fold(throwValidationErrors, ({ pageContent, events, members }) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.name} />
+          <SEO title={pageContent.frontmatter.name} />
           {/* <FlexGridItem>
             <CalendarHeatmap
               width={1000}
@@ -102,10 +92,7 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
             />
             </FlexGridItem> */}
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
-            <GroupPageContent
-              {...pageContent.childMarkdownRemark}
-              members={members}
-            />
+            <GroupPageContent {...pageContent} members={members} />
             <EventList events={events} />
           </ContentWithSideNavigation>
         </Layout>
@@ -116,46 +103,42 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
 
 export const pageQuery = graphql`
   query GroupTemplateQuery($group: String!, $members: [String]!) {
-    pageContent: file(name: { eq: $group }) {
-      ...GroupPageContentFileNode
+    pageContent: markdownRemark(frontmatter: { uuid: { eq: $group } }) {
+      ...GroupMarkdownRemark
     }
 
-    actors: allFile(
+    actors: allMarkdownRemark(
+      filter: { frontmatter: { uuid: { in: $members } } }
+    ) {
+      nodes {
+        ...ActorMarkdownRemark
+      }
+    }
+
+    groups: allMarkdownRemark(filter: { fields: { collection: { eq: "groups" } } }) {
+      nodes {
+        ...GroupMarkdownRemark
+      }
+    }
+
+    topics: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "topics" } } }
+    ) {
+      nodes {
+        ...TopicMarkdownRemark
+      }
+    }
+
+    events: allMarkdownRemark(
       filter: {
-        sourceInstanceName: { eq: "content" }
-        relativeDirectory: { eq: "actors" }
-        childMarkdownRemark: { frontmatter: { uuid: { in: $members } } }
+        fields: {
+          collection: { eq: "events" }
+          groups: { elemMatch: { uuid: { in: [$group] } } }
+        }
       }
     ) {
       nodes {
-        ...ActorPageContentFileNode
-      }
-    }
-
-    groups: allFile(
-      filter: {
-        sourceInstanceName: { eq: "content" }
-        relativeDirectory: { eq: "groups" }
-      }
-    ) {
-      nodes {
-        ...GroupPageContentFileNode
-      }
-    }
-
-    topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
-      nodes {
-        ...TopicPageContentFileNode
-      }
-    }
-
-    events: allFile(
-      filter: {
-        childMarkdownRemark: { frontmatter: { groups: { in: [$group] } } }
-      }
-    ) {
-      nodes {
-        ...EventFileNode
+        ...EventMarkdownRemark
       }
     }
   }

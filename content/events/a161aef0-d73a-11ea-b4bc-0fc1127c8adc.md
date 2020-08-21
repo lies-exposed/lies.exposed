@@ -3,11 +3,9 @@ uuid: a161aef0-d73a-11ea-b4bc-0fc1127c8adc
 title: Sversamento di 400 tonnellate di greggio
 date: 2017-10-10
 type: AntiEcologicAct
-actors:
-  - 0b36e8b0-d743-11ea-accf-91b459e4aeb4
 groups:
   - 0b36e8b0-d743-11ea-accf-91b459e4aeb4
-topic:
+topics:
   - bd0c54d0-d757-11ea-83c3-43a36ca50240
 links:
   - https://www.ambientebio.it/ambiente/ecoreati/basilicata-disastro-ambientale-petrolio-rifiuti-tossici/

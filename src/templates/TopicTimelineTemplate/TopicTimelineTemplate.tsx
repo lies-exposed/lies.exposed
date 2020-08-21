@@ -5,9 +5,9 @@ import { TopicPageContent } from "@components/TopicPageContent"
 import EventList from "@components/lists/EventList"
 import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { ActorPageContentFileNode } from "@models/actor"
-import { EventFileNode, EventData } from "@models/event"
-import { TopicPageContentFileNode } from "@models/topic"
+import { ActorMarkdownRemark } from "@models/actor"
+import { EventMarkdownRemark, EventData } from "@models/event"
+import { TopicMarkdownRemark } from "@models/topic"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -20,12 +20,12 @@ import React from "react"
 interface TopicTimelineTemplateProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: TopicPageContentFileNode
+    pageContent: TopicMarkdownRemark
     actors: {
-      nodes: ActorPageContentFileNode[]
+      nodes: ActorMarkdownRemark[]
     }
     events: {
-      nodes: EventFileNode[]
+      nodes: EventMarkdownRemark[]
     }
   }
 }
@@ -35,27 +35,22 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 }) => {
   return pipe(
     sequenceS(E.either)({
-      events: t.array(EventFileNode).decode(data.events.nodes),
-      actors: t.array(ActorPageContentFileNode).decode(data.actors.nodes),
-      pageContent: TopicPageContentFileNode.decode(data.pageContent),
+      events: t.array(EventMarkdownRemark).decode(data.events.nodes),
+      actors: t.array(ActorMarkdownRemark).decode(data.actors.nodes),
+      pageContent: TopicMarkdownRemark.decode(data.pageContent),
     }),
     E.map(({ pageContent, events, actors }) => {
-      const actorsGetter = getActors(
-        actors.map((a) => a.childMarkdownRemark.frontmatter)
-      )
+      const actorsGetter = getActors(actors.map((a) => a.frontmatter))
       return {
         pageContent,
         events: events.map((n) => {
           const eventDataNode: EventData = {
-            ...n.childMarkdownRemark,
+            ...n,
             frontmatter: {
-              ...n.childMarkdownRemark.frontmatter,
-              actors: pipe(
-                n.childMarkdownRemark.frontmatter.actors,
-                O.map(actorsGetter),
-              ),
+              ...n.frontmatter,
+              actors: pipe(n.frontmatter.actors, O.map(actorsGetter)),
               groups: O.none,
-              topic: [pageContent.childMarkdownRemark.frontmatter],
+              topic: [pageContent.frontmatter],
             },
           }
 
@@ -66,9 +61,9 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.label} />
+          <SEO title={pageContent.frontmatter.label} />
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
-            <TopicPageContent {...pageContent.childMarkdownRemark} />
+            <TopicPageContent {...pageContent} />
             <EventList events={events} />
           </ContentWithSideNavigation>
         </Layout>
@@ -79,31 +74,30 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 
 export const pageQuery = graphql`
   query TopicTemplateQuery($topic: String!) {
-    pageContent: file(
-      relativeDirectory: { eq: "topics" }
-      name: { eq: $topic }
-    ) {
-      ...TopicPageContentFileNode
-    }
-
-    actors: allFile(
-      filter: {
-        sourceInstanceName: { eq: "content" }
-        relativeDirectory: { eq: "actors" }
-      }
-    ) {
-      nodes {
-        ...ActorPageContentFileNode
+    pageContent: markdownRemark(frontmatter: { uuid: { eq: $topic } }) {
+      frontmatter {
+        ...Topic
       }
     }
 
-    events: allFile(
+    actors: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "actors" } } }
+    ) {
+      nodes {
+        ...ActorMarkdownRemark
+      }
+    }
+
+    events: allMarkdownRemark(
       filter: {
-        childMarkdownRemark: { frontmatter: { topic: { in: [$topic] } } }
+        fields: {
+          collection: { eq: "events" }
+          topics: { elemMatch: { uuid: { in: [$topic] } } }
+        }
       }
     ) {
       nodes {
-        ...EventFileNode
+        ...EventMarkdownRemark
       }
     }
   }

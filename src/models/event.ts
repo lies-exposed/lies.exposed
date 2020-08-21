@@ -30,12 +30,12 @@ export const EventType = t.keyof(
   "EventType"
 )
 
-export const EventFileNodeFrontmatter = t.strict(
+export const EventFrontmatter = t.strict(
   {
     uuid: t.string,
     title: t.string,
     date: DateFromISOString,
-    topic: t.array(t.string),
+    topics: t.array(t.string),
     actors: optionFromNullable(t.array(t.string)),
     groups: optionFromNullable(t.array(t.string)),
     type: optionFromNullable(EventType),
@@ -45,26 +45,25 @@ export const EventFileNodeFrontmatter = t.strict(
   "EventFrontmatter"
 )
 
-export const EventFileNode = t.strict(
+export type EventFrontmatter = t.TypeOf<typeof EventFrontmatter>
+
+export const EventMarkdownRemark = t.interface(
   {
-    relativeDirectory: t.string,
-    childMarkdownRemark: t.interface(
-      {
-        id: t.string,
-        frontmatter: EventFileNodeFrontmatter,
-        htmlAst: t.object,
-      },
-      "ChildMarkdownRemark"
-    ),
+    frontmatter: EventFrontmatter,
+    fields: t.interface({
+      actors: optionFromNullable(t.array(ActorFrontmatter)),
+      groups: optionFromNullable(t.array(GroupFrontmatter)),
+      topics: optionFromNullable(t.array(TopicFrontmatter)),
+    }),
+    htmlAst: t.object,
   },
-  "EventFileNode"
+  "EventMarkdownRemark"
 )
 
-export type EventFileNode = t.TypeOf<typeof EventFileNode>
+export type EventMarkdownRemark = t.TypeOf<typeof EventMarkdownRemark>
 
 export const EventData = t.interface(
   {
-    id: t.string,
     frontmatter: t.strict(
       {
         uuid: t.string,

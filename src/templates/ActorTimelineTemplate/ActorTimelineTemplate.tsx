@@ -6,9 +6,9 @@ import EventList from "@components/lists/EventList"
 import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { getTopics } from "@helpers/topic"
-import { ActorPageContentFileNode } from "@models/actor"
-import { EventFileNode } from "@models/event"
-import { TopicPageContentFileNode } from "@models/topic"
+import { ActorMarkdownRemark } from "@models/actor"
+import { EventMarkdownRemark } from "@models/event"
+import { TopicMarkdownRemark } from "@models/topic"
 import { ordEventFileNodeDate } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -25,15 +25,15 @@ interface ActorTimelineTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: ActorPageContentFileNode
+    pageContent: ActorMarkdownRemark
     actors: {
-      nodes: ActorPageContentFileNode[]
+      nodes: ActorMarkdownRemark[]
     }
     topics: {
-      nodes: TopicPageContentFileNode[]
+      nodes: TopicMarkdownRemark[]
     }
     events: {
-      nodes: EventFileNode[]
+      nodes: EventMarkdownRemark[]
     }
   }
 }
@@ -43,30 +43,25 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
 }) => {
   return pipe(
     sequenceS(E.either)({
-      pageContent: ActorPageContentFileNode.decode(data.pageContent),
-      actors: t.array(ActorPageContentFileNode).decode(data.actors.nodes),
-      topics: t.array(TopicPageContentFileNode).decode(data.topics.nodes),
-      events: t.array(EventFileNode).decode(data.events.nodes),
+      pageContent: ActorMarkdownRemark.decode(data.pageContent),
+      actors: t.array(ActorMarkdownRemark).decode(data.actors.nodes),
+      topics: t.array(TopicMarkdownRemark).decode(data.topics.nodes),
+      events: t.array(EventMarkdownRemark).decode(data.events.nodes),
     }),
     E.map(({ pageContent, actors, topics, events }) => {
-      const actorsGetter = getActors(
-        actors.map(a => a.childMarkdownRemark.frontmatter)
-      )
+      const actorsGetter = getActors(actors.map((a) => a.frontmatter))
       return {
         pageContent,
         events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
-          e => ({
-            ...e.childMarkdownRemark,
+          (e) => ({
+            ...e,
             frontmatter: {
-              ...e.childMarkdownRemark.frontmatter,
-              actors: pipe(
-                e.childMarkdownRemark.frontmatter.actors,
-                O.map(actorsGetter),
-              ),
+              ...e.frontmatter,
+              actors: pipe(e.frontmatter.actors, O.map(actorsGetter)),
               groups: O.none,
               topic: getTopics(
-                e.childMarkdownRemark.frontmatter.topic,
-                topics.map(t => t.childMarkdownRemark.frontmatter)
+                e.frontmatter.topics,
+                topics.map((t) => t.frontmatter)
               ),
             },
           })
@@ -76,7 +71,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.fullName} />
+          <SEO title={pageContent.frontmatter.fullName} />
           {/* <FlexGridItem>
             <CalendarHeatmap
               width={1000}
@@ -88,7 +83,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
             />
             </FlexGridItem> */}
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
-            <ActorPageContent {...pageContent.childMarkdownRemark} />
+            <ActorPageContent {...pageContent} />
             <EventList events={events} />
           </ContentWithSideNavigation>
         </Layout>
@@ -98,40 +93,39 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
 }
 
 export const pageQuery = graphql`
-  query ActorTimelineTemplatePage($actor: String!) {
-    pageContent: file(
-      sourceInstanceName: { eq: "content" }
-      relativeDirectory: { eq: "actors" }
-      name: { eq: $actor }
-    ) {
-      ...ActorPageContentFileNode
+  query ActorTimelineTemplatePage($actorUUID: String!) {
+    pageContent: markdownRemark(frontmatter: { uuid: { eq: $actorUUID } }) {
+      frontmatter {
+        ...Actor
+      }
     }
 
-    actors: allFile(
+    actors: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "actors" } } }
+    ) {
+      nodes {
+        ...ActorMarkdownRemark
+      }
+    }
+
+    topics: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "topics" } } }
+    ) {
+      nodes {
+        ...TopicMarkdownRemark
+      }
+    }
+
+    events: allMarkdownRemark(
       filter: {
-        sourceInstanceName: { eq: "content" }
-        relativeDirectory: { eq: "actors" }
+        fields: {
+          collection: { eq: "events" }
+          actors: { elemMatch: { uuid: { in: [$actorUUID] } } }
+        }
       }
     ) {
       nodes {
-        ...ActorPageContentFileNode
-      }
-    }
-
-    topics: allFile(filter: { relativeDirectory: { eq: "topics" } }) {
-      nodes {
-        ...TopicPageContentFileNode
-      }
-    }
-
-    events: allFile(
-      filter: {
-        relativeDirectory: { eq: "events" }
-        childMarkdownRemark: { frontmatter: { actors: { in: [$actor] } } }
-      }
-    ) {
-      nodes {
-        ...EventFileNode
+        ...EventMarkdownRemark
       }
     }
   }

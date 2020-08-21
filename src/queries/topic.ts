@@ -1,34 +1,18 @@
-import { graphql } from "gatsby";
+import { graphql } from "gatsby"
 
 export const TopicFileNodeQuery = graphql`
-  fragment TopicFileNode on File {
-    relativeDirectory
-    childMarkdownRemark {
-      id
-      frontmatter {
-        uuid
-        label
-        slug
-        date
-        color
-      }
-      htmlAst
+  fragment Topic on MarkdownRemarkFrontmatter {
+    uuid
+    label
+    slug
+    date
+    color
+  }
+
+  fragment TopicMarkdownRemark on MarkdownRemark {
+    frontmatter {
+      ...Topic
     }
+    htmlAst
   }
 `
-
-export const TopicPageContentFileNodeQuery = graphql`
-  fragment TopicPageContentFileNode on File {
-    childMarkdownRemark {
-      frontmatter {
-        uuid
-        label
-        slug
-        date
-        color
-      }
-      htmlAst
-    }
-  }
-`
-

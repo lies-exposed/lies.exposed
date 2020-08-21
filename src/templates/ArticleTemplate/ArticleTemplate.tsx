@@ -1,7 +1,7 @@
 import { ArticlePage } from "@components/ArticlePage"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
-import { ArticleFileNodeChildMarkdownRemark } from "@models/article"
+import { ArticleMarkdownRemark } from "@models/article"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -12,19 +12,17 @@ import React from "react"
 interface ArticleTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: unknown
+    pageContent: ArticleMarkdownRemark
     // articles: {
     //   nodes: Array<{ childMarkdownRemark: { frontmatter: unknown } }>
     // }
   }
 }
 
-const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = props => {
+const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = (props) => {
   return pipe(
     sequenceS(E.either)({
-      pageContent: ArticleFileNodeChildMarkdownRemark.decode(
-        props.data.pageContent
-      ),
+      pageContent: ArticleMarkdownRemark.decode(props.data.pageContent),
       // articles: t
       //   .array(ArticleFileNodeChildMarkdownRemark)
       //   .decode(props.data.articles.nodes.map(n => n.childMarkdownRemark)),
@@ -43,11 +41,7 @@ const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = props => {
     E.fold(throwValidationErrors, ({ pageContent }) => (
       <Layout>
         <SEO title="Home" />
-
-        <ArticlePage
-          {...pageContent.frontmatter}
-          htmlAst={pageContent.htmlAst}
-        />
+        <ArticlePage {...pageContent} />
       </Layout>
     ))
   )
@@ -55,19 +49,15 @@ const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = props => {
 
 export const pageQuery = graphql`
   query($filePath: String!) {
-    pageContent: markdownRemark(frontmatter: { path: { eq: $filePath } }) {
-      id
-      htmlAst
-      frontmatter {
-        path
-        title
-        date
-      }
+    pageContent: markdownRemark(
+      frontmatter: { path: { eq: $filePath } }
+    ) {
+      ...ArticleMarkdownRemark
     }
 
-    articles: allFile(filter: { relativeDirectory: { eq: "articles" } }) {
+    articles: allMarkdownRemark {
       nodes {
-        ...ArticleFileNode
+        ...ArticleMarkdownRemark
       }
     }
   }

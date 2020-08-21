@@ -1,16 +1,16 @@
 import { graphql } from "gatsby"
 
 export const query = graphql`
-  fragment ArticleFileNode on File {
-    id
-    childMarkdownRemark {
-      id
-      frontmatter {
-        title
-        path
-        date
-      }
-      htmlAst
+  fragment Article on MarkdownRemarkFrontmatter {
+    title
+    path
+    date
+  }
+
+  fragment ArticleMarkdownRemark on MarkdownRemark {
+    frontmatter {
+      ...Article
     }
+    htmlAst
   }
 `

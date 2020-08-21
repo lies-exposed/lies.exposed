@@ -4,11 +4,9 @@ uuid: 1ff7ccf0-d73a-11ea-b4bc-0fc1127c8adc
 title: Il caso di Ken Saro-Wiwa
 date: 1995-10-11
 type: Declaration
-actors:
-  - 0b36e8b0-d743-11ea-accf-91b459e4aeb4
 groups:
   - 0b36e8b0-d743-11ea-accf-91b459e4aeb4
-topic:
+topics:
   - b26c73c0-d757-11ea-9870-fd103bfd82e4
 ---
 Ken Saro-Wiwa, militante antimperialista, ecologista, si batté contro le multinazionali petrolifere Shell e ENI. Il 10 novembre 1995 il militante nigeriano veniva ucciso, al termine di un processo considerato una farsa da buona parte della comunità internazionale e delle organizzazioni che difendono i diritti umani. Saro-Wiwa, scrittore e poeta, aveva denunciato i gravi problemi ambientali causati dallo sfruttamento petrolifero nel delta del Niger. A più di vent'anni di distanza, i rischi denunciati dall'attivista si sono trasformati in realtà: la popolazione locale è sempre più colpita da problemi di salute, e vive in condizioni di miseria, circondata da oleodotti e piattaforme petrolifere. Malgrado le promesse di bonificare le zone inquinate a causa dell'estrazione, le grandi multinazionali tra cui ENI E SHELL continuano ad incassare profitti, il cui costo sociale e ambientale è pagato dalla popolazione. “Viviamo in un inferno di povertà. La crescita della vegetazione e degli animali è bloccata. E i pesci sono morti”. Raccontava nell'aprile del 2008 ad Amnesty International uno dei trenta milioni di abitanti della regione. Saro- Wiwa sapeva che il futuro dei nigeriani sarebbe stato questo. Ebbe il coraggio di denunciare, a nome della minoranza ogoni, popolazione particolarmente colpita dalle attività dei petrolieri. Organizzò proteste, chiese risarcimenti al governo. Fondò un movimento, il Mosop,e riuscì ad organizzare manifestazioni popolari oceaniche. Fu arrestato una prima volta nel 1993, ma un anno più tardi finì di nuovo in manette, stavolta con l'istigazione all'omicidio: per questo fu condannato a morte, e impiccato nella prigione dov'era detenuto.

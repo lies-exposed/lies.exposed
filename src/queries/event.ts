@@ -1,20 +1,60 @@
 import { graphql } from "gatsby"
 export const query = graphql`
-  fragment EventFileNode on File {
-    relativeDirectory
-    childMarkdownRemark {
-      id
-      frontmatter {
-        uuid
-        title
-        date
-        topic
-        type
-        actors
-        groups
-        links
-      }
-      htmlAst
+  fragment Event on MarkdownRemarkFrontmatter {
+    uuid
+    title
+    date
+    topics
+    type
+    actors
+    groups
+    links
+  }
+
+  fragment EventMarkdownRemark on MarkdownRemark {
+    frontmatter {
+      ...Event
     }
+    fields {
+      topics {
+        uuid
+        label
+        slug
+        date
+        color
+      }
+
+      actors {
+        uuid
+        date
+        fullName
+        username
+        color
+        avatar {
+          publicURL
+          childImageSharp {
+            fluid(maxWidth: 600) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
+      }
+      groups {
+        uuid
+        date
+        name
+        members
+        color
+        avatar {
+          publicURL
+          childImageSharp {
+            fluid(maxWidth: 600) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
+      }
+    }
+    htmlAst
   }
 `

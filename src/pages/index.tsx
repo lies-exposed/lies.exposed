@@ -41,12 +41,14 @@ interface Results {
 const IndexPage: React.FC = () => {
   const { pageContent }: Results = useStaticQuery(graphql`
     query IndexPage {
-      pageContent: file(relativePath: { eq: "pages/index.md" }) {
+      pageContent: file(
+        sourceInstanceName: { eq: "pages" }
+        name: { eq: "index" }
+      ) {
         ...PageContentFileNode
       }
     }
   `)
-
 
   return (
     <Layout>

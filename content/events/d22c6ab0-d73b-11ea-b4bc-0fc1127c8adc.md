@@ -2,7 +2,7 @@
 uuid: d22c6ab0-d73b-11ea-b4bc-0fc1127c8adc
 title: Lettera aperta a Maran e Sala 
 date: 2019-12-04
-topic:
+topics:
   - 56e8c510-d7d6-11ea-8315-417e20cd1794
 ---
 
