@@ -486,7 +486,7 @@ export function createNetwork({
                 ...e,
                 frontmatter: {
                   ...e.frontmatter,
-                  topic: getTopics(
+                  topics: getTopics(
                     e.frontmatter.topics,
                     topics.map((t) => t.frontmatter)
                   ),

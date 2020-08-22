@@ -38,7 +38,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                   alignItems="center"
                 >
                   <TopicList
-                    topics={event.frontmatter.topic.map((t) => ({
+                    topics={event.frontmatter.topics.map((t) => ({
                       ...t,
                       selected: true,
                     }))}

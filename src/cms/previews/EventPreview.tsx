@@ -16,7 +16,7 @@ export const EventPreview: React.FC<any> = (props) => {
 
   const cover = O.none
   const links = O.fromNullable(frontmatter.links)
-  const topic: TopicData =
+  const topics: TopicData[] =
     frontmatter.topic !== undefined
       ? frontmatter.topic.map((t: string) => ({
           uuid: t,
@@ -52,7 +52,7 @@ export const EventPreview: React.FC<any> = (props) => {
         cover,
         links,
         actors,
-        topic,
+        topics,
         groups,
         type,
       },

@@ -50,7 +50,7 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
               ...n.frontmatter,
               actors: pipe(n.frontmatter.actors, O.map(actorsGetter)),
               groups: O.none,
-              topic: [pageContent.frontmatter],
+              topics: [pageContent.frontmatter],
             },
           }
 
