@@ -230,7 +230,7 @@ export default class NetworkTemplate extends React.Component<
                       navigate(`/events/${event}`)
                     }}
                     onNodeClick={(event) =>
-                      replace(`/networks/#${event.data.id}`)
+                      replace(`/networks/#${event.data.frontmatter.uuid}`)
                     }
                     onDoubleClick={this.onNetworkDoubleClick}
                   />

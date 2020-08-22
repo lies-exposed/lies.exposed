@@ -1,4 +1,4 @@
-import { EventMarkdownRemark, EventPoint, EventData } from "@models/event"
+import { EventMarkdownRemark, EventPoint } from "@models/event"
 import * as Ord from "fp-ts/lib/Ord"
 
 export const ordEventFileNodeDate = Ord.ord.contramap(
@@ -13,5 +13,5 @@ export const ordEventPointDate = Ord.ord.contramap(
 
 export const ordEventData = Ord.ord.contramap(
   Ord.ordDate,
-  (e: EventData) => e.frontmatter.date
+  (e: EventMarkdownRemark) => e.frontmatter.date
 )

@@ -3,9 +3,7 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
-import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { getTopics } from "@helpers/topic"
 import { ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
 import { TopicMarkdownRemark } from "@models/topic"
@@ -14,7 +12,6 @@ import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
-import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
@@ -44,28 +41,14 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
   return pipe(
     sequenceS(E.either)({
       pageContent: ActorMarkdownRemark.decode(data.pageContent),
-      actors: t.array(ActorMarkdownRemark).decode(data.actors.nodes),
-      topics: t.array(TopicMarkdownRemark).decode(data.topics.nodes),
+      // actors: t.array(ActorMarkdownRemark).decode(data.actors.nodes),
+      // topics: t.array(TopicMarkdownRemark).decode(data.topics.nodes),
       events: t.array(EventMarkdownRemark).decode(data.events.nodes),
     }),
-    E.map(({ pageContent, actors, topics, events }) => {
-      const actorsGetter = getActors(actors.map((a) => a.frontmatter))
+    E.map(({ pageContent, events }) => {
       return {
         pageContent,
-        events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
-          (e) => ({
-            ...e,
-            frontmatter: {
-              ...e.frontmatter,
-              actors: pipe(e.frontmatter.actors, O.map(actorsGetter)),
-              groups: O.none,
-              topic: getTopics(
-                e.frontmatter.topics,
-                topics.map((t) => t.frontmatter)
-              ),
-            },
-          })
-        ),
+        events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events),
       }
     }),
     E.fold(throwValidationErrors, ({ pageContent, events }) => {

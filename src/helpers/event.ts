@@ -1,4 +1,4 @@
-import { EventData } from "@models/event"
+import { EventMarkdownRemark } from "@models/event"
 import { Item } from "baseui/side-navigation"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
@@ -7,9 +7,11 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import moment from "moment"
 
-type EventsByYearMap = Map<number, Map<number, EventData[]>>
+type EventsByYearMap = Map<number, Map<number, EventMarkdownRemark[]>>
 
-export const eventsDataToNavigatorItems = (events: EventData[]): Item[] => {
+export const eventsDataToNavigatorItems = (
+  events: EventMarkdownRemark[]
+): Item[] => {
   const initial: EventsByYearMap = Map.empty
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
@@ -20,7 +22,7 @@ export const eventsDataToNavigatorItems = (events: EventData[]): Item[] => {
       Map.lookup(Eq.eqNumber)(year, acc),
       O.fold(
         () => Map.singleton(month, [e]),
-        monthMap =>
+        (monthMap) =>
           pipe(
             Map.lookupWithKey(Eq.eqNumber)(month, monthMap),
             O.fold(
@@ -47,7 +49,7 @@ export const eventsDataToNavigatorItems = (events: EventData[]): Item[] => {
           return monthAcc.concat({
             itemId: `#m-${month.toString()}`,
             title: moment({ month }).format("MMMM"),
-            subNav: events.map(e => ({
+            subNav: events.map((e) => ({
               title: e.frontmatter.title,
               itemId: `#${e.frontmatter.title}`,
             })),

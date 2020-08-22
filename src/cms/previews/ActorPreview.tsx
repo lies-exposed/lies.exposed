@@ -26,7 +26,6 @@ export const ActorPreview: React.FC<any> = props => {
 
   return (
     <ActorPageContent
-      id={""}
       frontmatter={actor}
       htmlAst={HTMLtoAST(MDtoHTML(body))}
     />

@@ -4,13 +4,12 @@ import { Group } from "@components/lists/GroupList"
 import { TopicListTopic } from "@components/lists/TopicList"
 import { getActors } from "@helpers/actor"
 import { getGroups } from "@helpers/group"
-import { getTopics } from "@helpers/topic"
 import { ImageFileNode } from "@models/Image"
 import { ActorMarkdownRemark } from "@models/actor"
-import { EventPoint, EventMarkdownRemark, EventData } from "@models/event"
+import { EventMarkdownRemark, EventPoint } from "@models/event"
 import { GroupMarkdownRemark } from "@models/group"
 import { NetworkPageContentFileNode } from "@models/networks"
-import { TopicPoint, TopicMarkdownRemark } from "@models/topic"
+import { TopicMarkdownRemark, TopicPoint } from "@models/topic"
 import { ordEventFileNodeDate, ordEventPointDate } from "@utils//event"
 import { Link } from "@vx/network/lib/types"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -213,7 +212,7 @@ export interface NetworkTemplateProps {
   actors: ActorListActor[]
   topics: TopicListTopic[]
   groups: Group[]
-  selectedNodes: EventData[]
+  selectedNodes: EventMarkdownRemark[]
   selectedEventsCounter: { counter: number; total: number }
   topicEventsMap: TopicEventsMap
   networkWidth: number
@@ -455,8 +454,6 @@ export function createNetwork({
 
             const topic = topicOpt.value
 
-            const cover = e.frontmatter.cover
-
             const eventFrontmatterType = e.frontmatter.type
 
             const eventActors = pipe(
@@ -468,9 +465,6 @@ export function createNetwork({
               e.frontmatter.groups,
               O.map(groupsGetter)
             )
-
-            const eventFrontmatterLinks =
-              e.frontmatter.links
 
             const eventPoint: EventPoint = {
               x:
@@ -484,18 +478,6 @@ export function createNetwork({
               y: yGetter(topic.data.uuid),
               data: {
                 ...e,
-                frontmatter: {
-                  ...e.frontmatter,
-                  topics: getTopics(
-                    e.frontmatter.topics,
-                    topics.map((t) => t.frontmatter)
-                  ),
-                  type: eventFrontmatterType,
-                  links: eventFrontmatterLinks,
-                  actors: eventActors,
-                  groups: eventGroups,
-                  cover,
-                },
               },
             }
 

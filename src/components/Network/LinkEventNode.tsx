@@ -10,7 +10,7 @@ export interface LinkEventProps extends Link<EventPoint> {
 const LinkEvent: React.FC<LinkEventProps> =({ source, target, stroke }) => {
   return (
     <LinkVertical
-      key={`link-${source.data.id}-${target.data.id}`}
+      key={`link-${source.data.frontmatter.uuid}-${target.data.frontmatter.uuid}`}
       data={{ source, target }}
       stroke={stroke}
       strokeWidth="2"
