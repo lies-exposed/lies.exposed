@@ -102,6 +102,12 @@ const eventCollection: CmsCollectionV2 = {
       format: "YYYY-MM-DD",
     },
     {
+      label: "Location",
+      name: "location",
+      widget: "map",
+      required: false,
+    },
+    {
       label: "Type",
       name: "type",
       widget: "select",

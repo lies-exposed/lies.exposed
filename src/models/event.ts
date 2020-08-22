@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
 import { option } from "io-ts-types/lib/option"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { ObjectFromString } from "./ObjectFromString"
 import { ActorFrontmatter } from "./actor"
 import { GroupFrontmatter } from "./group"
 import { TopicFrontmatter } from "./topic"
@@ -30,11 +31,32 @@ export const EventType = t.keyof(
   "EventType"
 )
 
+export const BoundingBoxIO = t.union(
+  [t.array(t.array(t.number)), t.array(t.array(t.array(t.number)))],
+  "BoundingBoxIO"
+)
+
+const PositionIO = t.array(t.number, "PositionIO")
+
+const PointIO = t.intersection(
+  [
+    t.interface({
+      type: t.literal("Point"),
+      coordinates: PositionIO,
+    }),
+    t.partial({
+      bbox: BoundingBoxIO,
+    }),
+  ],
+  "PointIO"
+)
+
 export const EventFrontmatter = t.strict(
   {
     uuid: t.string,
     title: t.string,
     date: DateFromISOString,
+    location: optionFromNullable(ObjectFromString.pipe(PointIO)),
     topics: t.array(t.string),
     actors: optionFromNullable(t.array(t.string)),
     groups: optionFromNullable(t.array(t.string)),
