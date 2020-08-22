@@ -78,25 +78,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
 export const pageQuery = graphql`
   query ActorTimelineTemplatePage($actorUUID: String!) {
     pageContent: markdownRemark(frontmatter: { uuid: { eq: $actorUUID } }) {
-      frontmatter {
-        ...Actor
-      }
-    }
-
-    actors: allMarkdownRemark(
-      filter: { fields: { collection: { eq: "actors" } } }
-    ) {
-      nodes {
-        ...ActorMarkdownRemark
-      }
-    }
-
-    topics: allMarkdownRemark(
-      filter: { fields: { collection: { eq: "topics" } } }
-    ) {
-      nodes {
-        ...TopicMarkdownRemark
-      }
+      ...ActorMarkdownRemark
     }
 
     events: allMarkdownRemark(

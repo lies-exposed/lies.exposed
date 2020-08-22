@@ -46,7 +46,7 @@ const createArticlePages = async ({
           order: DESC
           fields: [childMarkdownRemark___frontmatter___date]
         }
-        filter: { relativeDirectory: { eq: "articles" } }
+        filter: { sourceInstanceName: { eq: "articles" } }
         limit: 1000
       ) {
         nodes {
@@ -106,7 +106,7 @@ const createGroupPages = async ({
     groups: { nodes: { childMarkdownRemark: GroupMarkdownRemark }[] }
   }>(`
     {
-      groups: allFile(filter: { relativeDirectory: { eq: "groups" } }) {
+      groups: allFile(filter: { sourceInstanceName: { eq: "groups" } }) {
         nodes {
           childMarkdownRemark {
             frontmatter {
@@ -174,7 +174,7 @@ const createActorTimelinePages = async ({
 
   const result = await graphql<{ actors: { nodes: Array<{ name: string }> } }>(`
     {
-      actors: allFile(filter: { relativeDirectory: { eq: "actors" } }) {
+      actors: allFile(filter: { sourceInstanceName: { eq: "actors" } }) {
         nodes {
           name
         }
@@ -288,8 +288,7 @@ const createTopicTimelinePages = async ({
     {
       topics: allFile(
         filter: {
-          sourceInstanceName: { eq: "content" }
-          relativeDirectory: { eq: "topics" }
+          sourceInstanceName: { eq: "topics" }
         }
       ) {
         nodes {
