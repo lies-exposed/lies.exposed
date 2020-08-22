@@ -1,7 +1,7 @@
 import EventList from "@components/lists/EventList"
 import { ActorFrontmatter } from "@models/actor"
-import { EventData } from "@models/event"
-import { TopicData } from "@models/topic"
+import { EventMarkdownRemark } from "@models/event"
+import { TopicFrontmatter } from "@models/topic"
 import { HTMLtoAST, MDtoHTML } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
@@ -12,11 +12,13 @@ import * as React from "react"
 
 export const EventPreview: React.FC<any> = (props) => {
   const { entry } = props
-  const { body, uuid, title, ...frontmatter } = entry.getIn(["data"]).toJS()
+  const { body, uuid, title, location, ...frontmatter } = entry
+    .getIn(["data"])
+    .toJS()
 
   const cover = O.none
   const links = O.fromNullable(frontmatter.links)
-  const topics: TopicData[] =
+  const topics: TopicFrontmatter[] =
     frontmatter.topic !== undefined
       ? frontmatter.topic.map((t: string) => ({
           uuid: t,
@@ -24,7 +26,7 @@ export const EventPreview: React.FC<any> = (props) => {
           slug: t,
           date: new Date().toISOString(),
           color: "#FFF",
-          selected: false
+          selected: false,
         }))
       : [{ label: "not-a-real-topic", slug: "not-a-real-topic", color: "#FFF" }]
 
@@ -42,26 +44,31 @@ export const EventPreview: React.FC<any> = (props) => {
   const groups = O.none
   const type = O.none
 
-  const events: EventData[] = [
+  const events: EventMarkdownRemark[] = [
     {
-      id: "event-preview",
       frontmatter: {
         uuid,
         title,
         date: new Date(frontmatter.date),
         cover,
         links,
-        actors,
-        topics,
+        location: O.fromNullable(location),
+        actors: O.none,
+        topics: [],
         groups,
         type,
+      },
+      fields: {
+        actors,
+        topics: O.some(topics),
+        groups,
       },
       htmlAst: HTMLtoAST(MDtoHTML(body)),
     },
   ]
 
   return pipe(
-    t.array(EventData).decode(events),
+    t.array(EventMarkdownRemark).decode(events),
     E.fold(renderValidationErrors, (events) => <EventList events={events} />)
   )
 }

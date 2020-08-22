@@ -1,11 +1,13 @@
 import ActorList from "@components/lists/ActorList"
 import TopicList from "@components/lists/TopicList"
-import { EventData } from "@models/event"
+import { EventMarkdownRemark } from "@models/event"
 import { formatDate } from "@utils//date"
 import renderHTMLAST from "@utils/renderHTMLAST"
+import { Block } from "baseui/block"
 import { Card, StyledBody } from "baseui/card"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { CheckIndeterminate } from "baseui/icon"
+import { CheckIndeterminate, Overflow } from "baseui/icon"
+import { StyledLink } from "baseui/link"
 import { ListItem, ListItemLabel } from "baseui/list"
 import { ParagraphSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
@@ -15,14 +17,14 @@ import * as React from "react"
 import GroupList from "./GroupList"
 
 interface EventListProps {
-  events: EventData[]
+  events: EventMarkdownRemark[]
 }
 
 const EventList: React.FC<EventListProps> = (props) => {
   return (
     <div className="events">
       {props.events.map((event) => (
-        <div key={event.id} id={event.id}>
+        <div key={event.frontmatter.uuid} id={event.frontmatter.uuid}>
           <Card
             headerImage={{
               src: O.toUndefined(event.frontmatter.cover),
@@ -31,19 +33,36 @@ const EventList: React.FC<EventListProps> = (props) => {
             title={event.frontmatter.title}
           >
             <StyledBody>
+              <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
+                <StyledLink
+                  href={`/admin/#/collections/events/entries/${event.frontmatter.uuid}`}
+                  target="_blank"
+                >
+                  <Overflow size={24} />
+                </StyledLink>
+              </Block>
               <FlexGrid flexGridColumnCount={2}>
                 <FlexGridItem
                   display="flex"
                   flexGridColumnCount={1}
                   alignItems="center"
                 >
-                  <TopicList
-                    topics={event.frontmatter.topics.map((t) => ({
-                      ...t,
-                      selected: true,
-                    }))}
-                    onTopicClick={() => undefined}
-                  />
+                  {pipe(
+                    event.fields.topics,
+                    O.fold(
+                      () => null,
+                      (topics) => (
+                        // eslint-disable-next-line react/jsx-key
+                        <TopicList
+                          topics={topics.map((t) => ({
+                            ...t,
+                            selected: true,
+                          }))}
+                          onTopicClick={() => undefined}
+                        />
+                      )
+                    )
+                  )}
                 </FlexGridItem>
                 <FlexGridItem
                   display="flex"
@@ -52,7 +71,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                   flexDirection="column"
                 >
                   {pipe(
-                    event.frontmatter.groups,
+                    event.fields.groups,
                     O.fold(
                       () => null,
                       (groups) => (
@@ -70,7 +89,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                     )
                   )}
                   {pipe(
-                    event.frontmatter.actors,
+                    event.fields.actors,
                     O.fold(
                       () => null,
                       (actors) => (

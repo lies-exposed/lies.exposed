@@ -20,7 +20,7 @@ export const flattenT = (
   const actorsMap = events.reduce<Map<string, ActorMarkdownRemark>>(
     (acc, e) =>
       pipe(
-        e.frontmatter.members,
+        e.fields.members,
         O.map(A.map(m => m.uuid)),
         O.getOrElse((): string[] => [])
       )

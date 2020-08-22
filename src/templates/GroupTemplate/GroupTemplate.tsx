@@ -3,10 +3,7 @@ import { GroupPageContent } from "@components/GroupPageContent"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
-import { getActors } from "@helpers/actor"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { getGroups } from "@helpers/group"
-import { getTopics } from "@helpers/topic"
 import { ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
 import { GroupMarkdownRemark } from "@models/group"
@@ -16,7 +13,6 @@ import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
-import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
@@ -54,27 +50,11 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
     }),
     E.map(({ pageContent, actors, groups, topics, events }) => {
       const actorsFrontmatter = actors.map((a) => a.frontmatter)
-      const groupsFrontmatter = groups.map((g) => g.frontmatter)
-      const actorsGetter = getActors(actorsFrontmatter)
-      const groupsGetter = getGroups(groupsFrontmatter)
 
       return {
         pageContent,
         members: actorsFrontmatter,
-        events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events).map(
-          (e) => ({
-            ...e,
-            frontmatter: {
-              ...e.frontmatter,
-              actors: pipe(e.frontmatter.actors, O.map(actorsGetter)),
-              topic: getTopics(
-                e.frontmatter.topic,
-                topics.map((t) => t.frontmatter)
-              ),
-              groups: pipe(e.frontmatter.groups, O.map(groupsGetter)),
-            },
-          })
-        ),
+        events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events),
       }
     }),
     E.fold(throwValidationErrors, ({ pageContent, events, members }) => {
@@ -115,7 +95,9 @@ export const pageQuery = graphql`
       }
     }
 
-    groups: allMarkdownRemark(filter: { fields: { collection: { eq: "groups" } } }) {
+    groups: allMarkdownRemark(
+      filter: { fields: { collection: { eq: "groups" } } }
+    ) {
       nodes {
         ...GroupMarkdownRemark
       }

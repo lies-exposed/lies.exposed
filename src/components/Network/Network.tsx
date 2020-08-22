@@ -182,7 +182,7 @@ class Network extends React.Component<NetworkProps, {}> {
                 <div>Data: {formatDate(tooltipData.frontmatter.date)}</div>
 
                 {pipe(
-                  tooltipData.frontmatter.actors,
+                  tooltipData.fields.actors,
                   O.map(actors => (
                     <div key="actors">
                       Actors: {actors.map(a => a.fullName).join(", ")}

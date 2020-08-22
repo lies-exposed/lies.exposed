@@ -1,4 +1,4 @@
-import { EventData } from "@models/event"
+import { EventMarkdownRemark } from "@models/event"
 import { formatDate } from "@utils/date"
 import { ordEventData } from "@utils/event"
 import { Group } from "@vx/group"
@@ -27,7 +27,7 @@ const min = (data: any, f: (d: any) => number): number =>
   Math.min(...data.map(f))
 
 interface TooltipData {
-  event: O.Option<EventData>
+  event: O.Option<EventMarkdownRemark>
   date: Date
 }
 
@@ -47,8 +47,8 @@ interface CalendarHeatmapProps {
     right: number
     bottom: number
   }
-  events: EventData[]
-  onCircleClick: (e: EventData) => void
+  events: EventMarkdownRemark[]
+  onCircleClick: (e: EventMarkdownRemark) => void
 }
 
 const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &

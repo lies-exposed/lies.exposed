@@ -1,3 +1,4 @@
+import { EventTypeKeys } from "@models/event"
 import { CmsConfig, CmsCollection } from "netlify-cms-core"
 import { CmsFieldV2 } from "./field"
 
@@ -111,7 +112,7 @@ const eventCollection: CmsCollectionV2 = {
       label: "Type",
       name: "type",
       widget: "select",
-      options: ["Declaration", "Fact"],
+      options: Object.keys(EventTypeKeys),
       required: false,
     },
     {
@@ -138,7 +139,7 @@ const eventCollection: CmsCollectionV2 = {
     },
     {
       label: "Topic",
-      name: "topic",
+      name: "topics",
       widget: "relation",
       collection: "topics",
       searchFields: ["label"],
