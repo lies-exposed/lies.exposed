@@ -3,9 +3,11 @@ import TopicList from "@components/lists/TopicList"
 import { EventMarkdownRemark } from "@models/event"
 import { formatDate } from "@utils//date"
 import renderHTMLAST from "@utils/renderHTMLAST"
+import { Block } from "baseui/block"
 import { Card, StyledBody } from "baseui/card"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { CheckIndeterminate } from "baseui/icon"
+import { CheckIndeterminate, Overflow } from "baseui/icon"
+import { StyledLink } from "baseui/link"
 import { ListItem, ListItemLabel } from "baseui/list"
 import { ParagraphSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
@@ -31,6 +33,14 @@ const EventList: React.FC<EventListProps> = (props) => {
             title={event.frontmatter.title}
           >
             <StyledBody>
+              <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
+                <StyledLink
+                  href={`/admin/#/collections/events/entries/${event.frontmatter.uuid}`}
+                  target="_blank"
+                >
+                  <Overflow size={24} />
+                </StyledLink>
+              </Block>
               <FlexGrid flexGridColumnCount={2}>
                 <FlexGridItem
                   display="flex"
