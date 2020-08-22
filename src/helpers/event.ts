@@ -51,7 +51,7 @@ export const eventsDataToNavigatorItems = (
             title: moment({ month }).format("MMMM"),
             subNav: events.map((e) => ({
               title: e.frontmatter.title,
-              itemId: `#${e.frontmatter.title}`,
+              itemId: `#${e.frontmatter.uuid}`,
             })),
           })
         },
