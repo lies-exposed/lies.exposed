@@ -4,8 +4,9 @@ export const query = graphql`
     uuid
     title
     date
-    topics
     type
+    location
+    topics
     actors
     groups
     links

@@ -12,7 +12,9 @@ import * as React from "react"
 
 export const EventPreview: React.FC<any> = (props) => {
   const { entry } = props
-  const { body, uuid, title, ...frontmatter } = entry.getIn(["data"]).toJS()
+  const { body, uuid, title, location, ...frontmatter } = entry
+    .getIn(["data"])
+    .toJS()
 
   const cover = O.none
   const links = O.fromNullable(frontmatter.links)
@@ -50,6 +52,7 @@ export const EventPreview: React.FC<any> = (props) => {
         date: new Date(frontmatter.date),
         cover,
         links,
+        location: O.fromNullable(location),
         actors: O.none,
         topics: [],
         groups,

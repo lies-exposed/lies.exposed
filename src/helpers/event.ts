@@ -42,21 +42,20 @@ export const eventsDataToNavigatorItems = (
   }, initial)
 
   const initialData: Item[] = []
-  return Map.toArray(Ord.ordNumber)(yearItems).reduce<Item[]>(
+  return Map.toArray(Ord.getDualOrd(Ord.ordNumber))(yearItems).reduce<Item[]>(
     (acc, [year, monthMap]) => {
-      const months = Map.toArray(Ord.ordNumber)(monthMap).reduce<Item[]>(
-        (monthAcc, [month, events]) => {
-          return monthAcc.concat({
-            itemId: `#m-${month.toString()}`,
-            title: moment({ month }).format("MMMM"),
-            subNav: events.map((e) => ({
-              title: e.frontmatter.title,
-              itemId: `#${e.frontmatter.uuid}`,
-            })),
-          })
-        },
-        []
-      )
+      const months = Map.toArray(Ord.getDualOrd(Ord.ordNumber))(
+        monthMap
+      ).reduce<Item[]>((monthAcc, [month, events]) => {
+        return monthAcc.concat({
+          itemId: `#m-${month.toString()}`,
+          title: moment({ month }).format("MMMM"),
+          subNav: events.map((e) => ({
+            title: e.frontmatter.title,
+            itemId: `#${e.frontmatter.uuid}`,
+          })),
+        })
+      }, [])
 
       return acc.concat({
         itemId: `#y-${year.toString()}`,

@@ -4,7 +4,7 @@ import remarkHTML from "remark-html"
 
 export const MDtoHTML = (value: string): string =>
   remark()
-    .use(remarkHTML)
+    .use(remarkHTML as any)
     .processSync(value)
     .toString()
 

@@ -25,17 +25,20 @@ const renderHTMLAST = new RehypeReact({
     "full-size-section": FullSizeSection,
     "graph-selector": GraphSelector,
     video: (props) => {
-     return Video({
+      return Video({
         ...props,
+        ...(props.controls !== undefined
+          ? { controls: Boolean(props.control) }
+          : {}),  
         style: {
-          maxHeight: 600
+          maxHeight: 600,
         },
         video: {
           publicURL: props.src,
           extension: props.src !== undefined ? props.src.split(".")[1] : "mp4",
         },
       })
-    }
+    },
   },
 }).Compiler
 

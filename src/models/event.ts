@@ -36,26 +36,24 @@ export const EventTypeKeys = {
 }
 
 export const EventType = t.keyof(EventTypeKeys, "EventType")
+export type EventType = t.TypeOf<typeof EventType>
 
 export const BoundingBoxIO = t.union(
-  [t.array(t.array(t.number)), t.array(t.array(t.array(t.number)))],
+  [t.tuple([t.number, t.number, t.number, t.number]), t.array(t.number)],
   "BoundingBoxIO"
 )
 
-const PositionIO = t.array(t.number, "PositionIO")
+const PositionIO = t.tuple([t.number, t.number], "PositionIO")
 
-const PointIO = t.intersection(
-  [
-    t.interface({
-      type: t.literal("Point"),
-      coordinates: PositionIO,
-    }),
-    t.partial({
-      bbox: BoundingBoxIO,
-    }),
-  ],
+export const PointIO = t.interface(
+  {
+    type: t.literal("Point"),
+    coordinates: PositionIO,
+  },
   "PointIO"
 )
+
+export type PointIO = t.TypeOf<typeof PointIO>
 
 export const EventFrontmatter = t.strict(
   {
