@@ -53,9 +53,7 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 export const pageQuery = graphql`
   query TopicTemplateQuery($topic: String!) {
     pageContent: markdownRemark(frontmatter: { uuid: { eq: $topic } }) {
-      frontmatter {
-        ...Topic
-      }
+      ...TopicMarkdownRemark
     }
 
     events: allMarkdownRemark(

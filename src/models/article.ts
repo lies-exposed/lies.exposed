@@ -16,7 +16,6 @@ export type ArticleFrontmatter = t.TypeOf<
 
 export const ArticleMarkdownRemark = t.type(
   {
-    id: t.string,
     frontmatter: ArticleFrontmatter,
     htmlAst: t.object,
   },
