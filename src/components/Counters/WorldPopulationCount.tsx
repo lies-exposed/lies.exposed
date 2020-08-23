@@ -8,12 +8,13 @@ interface WorldPopulationCounterProps {
 }
 
 const calculatePopulation = () : number => {
-  const startValue = 7621018958; //value on 1 January 2020
+  const startValue = 7794798739; //value on 1 January 2020
   const yearlyGrowRate = 0.0105;
-  const time = new Date().getTime() - new Date(2020,1,1,0,0,0,0).getTime();
-  const msRate = yearlyGrowRate / (365*86400*1000);
+  const deltaValue = startValue* yearlyGrowRate;
+  const time = new Date().getTime() - new Date(2020,7,1,0,0,0,0).getTime();
+  const actualPop = startValue + deltaValue*(time/(365*86400*1000));
   
-  return parseInt((startValue*Math.pow(2.71828,msRate*time)).toString()); //calcolo da sistemare
+  return parseInt(actualPop.toString()); //calcolo da sistemare
 
 }
 
