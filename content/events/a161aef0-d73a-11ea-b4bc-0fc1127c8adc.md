@@ -7,6 +7,7 @@ groups:
   - 0b36e8b0-d743-11ea-accf-91b459e4aeb4
 topics:
   - bd0c54d0-d757-11ea-83c3-43a36ca50240
+  - ff9f9de0-e4ac-11ea-86ca-c5708f5d287e
 links:
   - https://www.ambientebio.it/ambiente/ecoreati/basilicata-disastro-ambientale-petrolio-rifiuti-tossici/
   - https://www.ilfattoquotidiano.it/2019/04/24/eni-viggiano-linchiesta-in-val-dagri-ci-dice-che-e-stato-giusto-combattere-per-la-legge-ecoreati/5132552/
