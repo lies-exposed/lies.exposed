@@ -1,3 +1,4 @@
+import DatePicker from "@components/Common/DatePicker"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import EventsMap from "@components/EventsMap"
 import { Layout } from "@components/Layout"
@@ -26,6 +27,7 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql } from "gatsby"
 import * as t from "io-ts"
+import moment from "moment"
 import React from "react"
 
 const width = 1000
@@ -48,6 +50,7 @@ interface EventsPageState {
   selectedActorIds: string[]
   selectedGroupIds: string[]
   selectedTopicIds: string[]
+  dateRange: Date[]
 }
 
 export default class EventsPage extends React.Component<
@@ -60,6 +63,7 @@ export default class EventsPage extends React.Component<
     selectedActorIds: [],
     selectedGroupIds: [],
     selectedTopicIds: [],
+    dateRange: [moment().subtract(10, "years").toDate(), new Date()],
   }
 
   onActorClick = (actor: ActorListActor): void => {
@@ -101,6 +105,14 @@ export default class EventsPage extends React.Component<
     })
   }
 
+  setDateRange = (value: { date: Date | Date[] }): void => {
+    if (Array.isArray(value.date)) {
+      this.setState({
+        dateRange: value.date,
+      })
+    }
+  }
+
   render(): React.ReactElement | null {
     const {
       props: { data },
@@ -110,8 +122,15 @@ export default class EventsPage extends React.Component<
         selectedActorIds,
         selectedGroupIds,
         selectedTopicIds,
+        dateRange,
       },
     } = this
+
+    const minDate = dateRange[0]
+    const maxDate = pipe(
+      O.fromNullable(dateRange[1]),
+      O.getOrElse(() => new Date())
+    )
 
     return pipe(
       sequenceS(E.either)({
@@ -125,6 +144,10 @@ export default class EventsPage extends React.Component<
         throwValidationErrors,
         ({ pageContent, events, actors, topics, groups }) => {
           const filteredEvents = events.filter((e) => {
+            const isBetweenDateRange = moment(e.frontmatter.date).isBetween(
+              moment(minDate),
+              moment(maxDate)
+            )
             const hasActor = pipe(
               e.frontmatter.actors,
               O.map((actors) =>
@@ -149,7 +172,7 @@ export default class EventsPage extends React.Component<
               O.getOrElse(() => false)
             )
 
-            return hasActor || hasGroup || hasTopic
+            return isBetweenDateRange && (hasActor || hasGroup || hasTopic)
           })
 
           return (
@@ -165,7 +188,15 @@ export default class EventsPage extends React.Component<
                   <HeadingLevel>
                     <PageContent {...pageContent.childMarkdownRemark} />
                   </HeadingLevel>
-                  <FlexGrid flexGridColumnCount={2}>
+                  <FlexGrid flexGridColumnCount={4} alignItems="start">
+                    <FlexGridItem>
+                      <DatePicker
+                        value={dateRange}
+                        range={true}
+                        quickSelect={true}
+                        onChange={(date) => this.setDateRange(date)}
+                      />
+                    </FlexGridItem>
                     <FlexGridItem>
                       <TopicList
                         topics={topics.map((t) => ({
@@ -206,8 +237,9 @@ export default class EventsPage extends React.Component<
                     </FlexGridItem>
                   </FlexGrid>
                   <LabelMedium>Scale: {scale}</LabelMedium>
+                  <LabelMedium>Nº Eventi: {filteredEvents.length}</LabelMedium>
                 </FlexGridItem>
-                <FlexGridItem justifyContent="center" overflow={"scrollX"}>
+                <FlexGridItem alignItems="center">
                   <EventsMap
                     width={width}
                     height={height}

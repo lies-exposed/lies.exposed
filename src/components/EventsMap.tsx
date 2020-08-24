@@ -71,7 +71,14 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
   const data = topojson.feature(eventPoints, eventPoints.objects.points)
 
   return (
-    <div>
+    <div
+      style={{
+        marginLeft: `auto`,
+        marginRight: "auto",
+        marginTop: 20,
+        marginBottom: 20,
+      }}
+    >
       <GeoCustom<GEOJSONEventPoint>
         projection="equalEarth"
         width={width}
