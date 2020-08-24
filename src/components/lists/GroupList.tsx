@@ -16,14 +16,9 @@ interface GroupListProps {
   avatarScale: AvatarScale
 }
 
-const GroupListItem: ({
-  avatarScale,
-}: {
-  avatarScale: AvatarScale
-}) => React.FC<ListItemProps<Group>> = ({ avatarScale }) => ({
-  item,
-  onClick,
-}) => {
+export const GroupListItem: React.FC<
+  ListItemProps<Group> & { avatarScale: AvatarScale }
+> = ({ item, avatarScale, onClick }) => {
   return (
     <div
       key={item.uuid}
@@ -69,7 +64,7 @@ const GroupList: React.FC<GroupListProps> = ({
       filter={(_) => true}
       onItemClick={onGroupClick}
       getKey={(g) => g.uuid}
-      ListItem={GroupListItem({ avatarScale })}
+      ListItem={(p) => <GroupListItem avatarScale={avatarScale} {...p} />}
     />
   )
 }

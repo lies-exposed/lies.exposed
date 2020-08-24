@@ -5,16 +5,16 @@ import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import SearchableInput from "@components/SearchableInput"
-import ActorList, { Actor } from "@components/lists/ActorList"
+import { ActorListItem } from "@components/lists/ActorList"
 import EventList from "@components/lists/EventList"
-import GroupList, { Group } from "@components/lists/GroupList"
-import { TopicListTopic, TopicListItem } from "@components/lists/TopicList"
+import { GroupListItem } from "@components/lists/GroupList"
+import { TopicListItem } from "@components/lists/TopicList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { ActorMarkdownRemark } from "@models/actor"
+import { ActorMarkdownRemark, ActorFrontmatter } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
-import { GroupMarkdownRemark } from "@models/group"
+import { GroupMarkdownRemark, GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
-import { TopicMarkdownRemark } from "@models/topic"
+import { TopicMarkdownRemark, TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
@@ -54,7 +54,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
     new Date(),
   ])
 
-  const onActorClick = (actor: Actor): void => {
+  const onActorClick = (actor: ActorFrontmatter): void => {
     setSelectedActorIds(
       A.elem(Eq.eqString)(actor.uuid, selectedActorIds)
         ? A.array.filter(
@@ -65,7 +65,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
     )
   }
 
-  const onGroupClick = (g: Group): void => {
+  const onGroupClick = (g: GroupFrontmatter): void => {
     setSelectedGroupIds(
       A.elem(Eq.eqString)(g.uuid, selectedGroupIds)
         ? A.array.filter(
@@ -76,7 +76,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
     )
   }
 
-  const onTopicClick = (topic: TopicListTopic): void => {
+  const onTopicClick = (topic: TopicFrontmatter): void => {
     setSelectedTopicIds(
       A.elem(Eq.eqString)(topic.uuid, selectedTopicIds)
         ? A.array.filter(
@@ -160,33 +160,26 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
                   </FlexGridItem>
                   <FlexGridItem>
                     <SearchableInput
+                      placeholder="Topics..."
                       items={topics.map((t) => t.frontmatter)}
-                      itemRenderer={(item, itemProps, index) => {
-                        return (
-                          <TopicListItem
-                            $theme={theme}
-                            key={item.uuid}
-                            index={index}
-                            item={{
-                              ...item,
-                              selected: selectedTopicIds.includes(item.uuid),
-                            }}
-                            onClick={(item) => itemProps.onClick(item)}
-                          />
-                        )
-                      }}
-                      onSelectItem={(item, items) => {
-                        onTopicClick({ ...item, selected: false })
-                      }}
                       getValue={(item) => item.label}
+                      itemRenderer={(item, itemProps, index) => (
+                        <TopicListItem
+                          $theme={theme}
+                          key={item.uuid}
+                          index={index}
+                          item={{
+                            ...item,
+                            selected: selectedTopicIds.includes(item.uuid),
+                          }}
+                          onClick={(item) => itemProps.onClick(item)}
+                        />
+                      )}
+                      onSelectItem={(item, items) => {
+                        onTopicClick(item)
+                      }}
+                      onUnselectItem={(item) => onTopicClick(item)}
                     />
-                    {/* <TopicList
-                      topics={topics.map((t) => ({
-                        ...t.frontmatter,
-                        selected: selectedTopicIds.includes(t.frontmatter.uuid),
-                      }))}
-                      onTopicClick={onTopicClick}
-                    /> */}
                   </FlexGridItem>
                   <FlexGridItem
                     display="flex"
@@ -194,21 +187,53 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
                     justifyContent="end"
                     flexDirection="column"
                   >
-                    <GroupList
-                      groups={groups.map((g) => ({
-                        ...g.frontmatter,
-                        selected: selectedGroupIds.includes(g.frontmatter.uuid),
-                      }))}
-                      onGroupClick={onGroupClick}
-                      avatarScale="scale1000"
+                    <SearchableInput
+                      placeholder="Gruppi..."
+                      items={groups.map((t) => t.frontmatter)}
+                      itemRenderer={(item, itemProps, index) => {
+                        return (
+                          <GroupListItem
+                            key={item.uuid}
+                            index={index}
+                            item={{
+                              ...item,
+                              selected: selectedGroupIds.includes(item.uuid),
+                            }}
+                            onClick={(item) => itemProps.onClick(item)}
+                            avatarScale="scale1000"
+                          />
+                        )
+                      }}
+                      onSelectItem={(item) => {
+                        onGroupClick(item)
+                      }}
+                      onUnselectItem={(item) => {
+                        onGroupClick(item)
+                      }}
+                      getValue={(item) => item.name}
                     />
-                    <ActorList
-                      actors={actors.map((a) => ({
-                        ...a.frontmatter,
-                        selected: selectedActorIds.includes(a.frontmatter.uuid),
-                      }))}
-                      onActorClick={onActorClick}
-                      avatarScale="scale1000"
+                  </FlexGridItem>
+                  <FlexGridItem>
+                    <SearchableInput
+                      placeholder="Attori..."
+                      items={actors.map((t) => t.frontmatter)}
+                      itemRenderer={(item, itemProps, index) => {
+                        return (
+                          <ActorListItem
+                            key={item.uuid}
+                            index={index}
+                            item={{
+                              ...item,
+                              selected: selectedActorIds.includes(item.uuid),
+                            }}
+                            onClick={(item) => itemProps.onClick(item)}
+                            avatarScale="scale1000"
+                          />
+                        )
+                      }}
+                      onSelectItem={(item) => onActorClick(item)}
+                      onUnselectItem={(item) => onActorClick(item)}
+                      getValue={(item) => item.username}
                     />
                   </FlexGridItem>
                 </FlexGrid>

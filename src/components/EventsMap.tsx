@@ -73,7 +73,7 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
   return (
     <div
       style={{
-        marginLeft: `auto`,
+        marginLeft: "auto",
         marginRight: "auto",
         marginTop: 20,
         marginBottom: 20,

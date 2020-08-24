@@ -62,7 +62,7 @@ const InputReplacement = React.forwardRef<
             {
               ...restProps,
               onClick: (item) => {
-                selectItem(item)
+                removeItem(item)
                 setValue("")
               },
             },
@@ -76,7 +76,7 @@ const InputReplacement = React.forwardRef<
           )}
           getKey={getValue}
           filter={(i) => true}
-          ListItem={({ item, onClick, index }) =>
+          ListItem={({ item, index }) =>
             itemRenderer(
               item,
               {
@@ -100,6 +100,7 @@ interface SearchableInputProps<I extends SearchableItem> {
   getValue: (i: I) => string
   itemRenderer: (item: I, props: ItemProps<I>, index: number) => JSX.Element
   onSelectItem: (item: I, selectedItems: I[]) => void
+  onUnselectItem: (item: I, selectedItems: I[]) => void
 }
 
 const SearchableInput = <I extends SearchableItem>(
@@ -107,17 +108,17 @@ const SearchableInput = <I extends SearchableItem>(
 ): JSX.Element => {
   const [value, setValue] = React.useState("")
   const [items, setItems] = React.useState<I[]>([])
-  const selectItem = (item: I): void => {
-    setItems([...items, item])
-  }
-  const unselectItem = (item: I): void => {
-    setItems(items.filter((t) => props.getValue(t) !== props.getValue(item)))
-  }
 
   const setItemAndClearValue = (item: I): void => {
-    selectItem(item)
+    setItems([...items, item])
     setValue("")
     props.onSelectItem(item, [...items, item])
+  }
+
+  const unsetItemAndClearValue = (item: I): void => {
+    setItems(items.filter((t) => props.getValue(t) !== props.getValue(item)))
+    setValue("")
+    props.onUnselectItem(item, [...items, item])
   }
 
   const handleKeyDown = (
@@ -137,7 +138,7 @@ const SearchableInput = <I extends SearchableItem>(
       // Backspace
       case 8: {
         if (value === undefined || items.length === 0) return
-        unselectItem(items[items.length - 1])
+        unsetItemAndClearValue(items[items.length - 1])
       }
     }
   }
@@ -146,19 +147,21 @@ const SearchableInput = <I extends SearchableItem>(
 
   const inputReplacementProps: InputReplacementProps<I> = {
     value: value,
-    items: props.items,
+    items: props.items.filter(
+      (i) => !items.map((ii) => props.getValue(ii)).includes(props.getValue(i))
+    ),
     getValue: props.getValue,
-    removeItem: unselectItem,
     onKeyDown: handleKeyDown,
     itemRenderer: props.itemRenderer,
     selectedItems: items,
     setValue,
     selectItem: setItemAndClearValue,
+    removeItem: unsetItemAndClearValue,
   }
 
   return (
     <Input
-      placeholder={items.length === 0 ? "" : placehoder}
+      placeholder={placehoder}
       value={value}
       onChange={(e) => setValue(e.currentTarget.value)}
       onBlur={(e) => {

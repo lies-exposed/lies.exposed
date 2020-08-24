@@ -10,28 +10,15 @@ export interface Actor extends ActorFrontmatter {
 }
 
 export type AvatarScale = "scale1600" | "scale1000"
-interface ActorListOptions {
-  avatarScale: AvatarScale
-}
 
-interface ActorListProps extends ActorListOptions {
-  actors: Actor[]
-  onActorClick: (actor: Actor) => void
-}
-
-const ActorListItem: (
-  opts: ActorListOptions
-) => React.FC<ListItemProps<Actor>> = ({ avatarScale }) => ({
-  item,
-  onClick,
-}) => {
+export const ActorListItem: React.FC<
+  ListItemProps<Actor> & { avatarScale: AvatarScale }
+> = ({ item, avatarScale, onClick }) => {
   return (
     <div
       key={item.uuid}
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
-      onClick={() => 
-        onClick?.(item)
-      }
+      onClick={() => onClick?.(item)}
     >
       {pipe(
         item.avatar,
@@ -61,6 +48,12 @@ const ActorListItem: (
   )
 }
 
+interface ActorListProps {
+  actors: Actor[]
+  onActorClick: (actor: Actor) => void
+  avatarScale: AvatarScale
+}
+
 const ActorList: React.FC<ActorListProps> = ({
   actors,
   onActorClick,
@@ -72,7 +65,7 @@ const ActorList: React.FC<ActorListProps> = ({
       getKey={(a) => a.uuid}
       filter={(a) => true}
       onItemClick={onActorClick}
-      ListItem={ActorListItem({ avatarScale })}
+      ListItem={(p) => <ActorListItem avatarScale={avatarScale} {...p} />}
     />
   )
 }
