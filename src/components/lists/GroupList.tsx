@@ -28,9 +28,7 @@ const GroupListItem: ({
     <div
       key={item.uuid}
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
-      onClick={() => {
-        onClick(item)
-      }}
+      onClick={() => onClick?.(item)}
     >
       {pipe(
         item.avatar,

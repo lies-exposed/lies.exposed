@@ -1,6 +1,6 @@
 import { List, ListItemProps } from "@components/Common/List"
 import { TopicFrontmatter } from "@models/topic"
-import { themedUseStyletron, CustomTheme } from "@theme/CustomeTheme"
+import theme, {  CustomTheme } from "@theme/CustomeTheme"
 import { Tag, VARIANT, KIND } from "baseui/tag"
 import * as React from "react"
 
@@ -14,19 +14,16 @@ interface TopicListProps {
   onTopicClick: (t: TopicListTopic) => void
 }
 
-const TopicListItem: (opts: {
-  $theme: CustomTheme
-}) => React.FC<ListItemProps<TopicListTopic>> = ({ $theme }) => ({
-  item: t,
-  onClick,
-}) => (
+export const TopicListItem: React.FC<
+  ListItemProps<TopicListTopic> & { $theme: CustomTheme }
+> = ({ item: t, $theme, onClick }) => (
   <Tag
     key={t.slug}
     kind={KIND.custom}
     variant={t.selected ? VARIANT.solid : VARIANT.outlined}
     color={t.color}
     title={t.label}
-    onClick={() => onClick(t)}
+    onClick={() => onClick?.(t)}
     closeable={false}
     overrides={{
       Text: {
@@ -41,7 +38,6 @@ const TopicListItem: (opts: {
 )
 
 const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
-  const [, $theme] = themedUseStyletron()
 
   return (
     <List<TopicListTopic>
@@ -49,7 +45,7 @@ const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
       filter={(_) => true}
       onItemClick={onTopicClick}
       getKey={(t) => t.uuid}
-      ListItem={TopicListItem({ $theme })}
+      ListItem={(p) => <TopicListItem $theme={theme} {...p} />}
     />
   )
 }
