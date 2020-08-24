@@ -70,9 +70,9 @@ const Header: React.FC = () => {
       title: "Topics",
     },
     {
-      id: "networks",
-      path: "/networks",
-      title: "Networks",
+      id: "events",
+      path: "/events",
+      title: "Events",
     },
   ]
 
