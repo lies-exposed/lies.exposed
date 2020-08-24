@@ -1,5 +1,5 @@
 import { NetworkProps, NetworkScale } from "@components/Network/Network"
-import { ActorListActor } from "@components/lists/ActorList"
+import { Actor } from "@components/lists/ActorList"
 import { Group } from "@components/lists/GroupList"
 import { TopicListTopic } from "@components/lists/TopicList"
 import { getActors } from "@helpers/actor"
@@ -152,7 +152,7 @@ interface Result {
 interface ActorResults {
   actors: Array<
     Omit<ActorData, "actor" | "events" | "links"> & {
-      actor: ActorListActor
+      actor: Actor
     }
   >
   events: EventPoint[]
@@ -209,7 +209,7 @@ export interface NetworkTemplateProps {
   maxDate: Date
   scale: NetworkScale
   graph: any
-  actors: ActorListActor[]
+  actors: Actor[]
   topics: TopicListTopic[]
   groups: Group[]
   selectedNodes: EventMarkdownRemark[]

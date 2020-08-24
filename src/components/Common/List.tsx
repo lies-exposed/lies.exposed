@@ -3,7 +3,8 @@ import * as React from "react"
 
 export interface ListItemProps<A> {
   item: A
-  onClick: (a: A) => void
+  index: number
+  onClick?: (a: A) => void
 }
 
 interface ListProps<A> {
@@ -11,7 +12,7 @@ interface ListProps<A> {
   getKey: (a: A) => string
   ListItem: React.FC<ListItemProps<A>>
   filter: (a: A) => boolean
-  onItemClick: (a: A) => void
+  onItemClick?: (a: A) => void
 }
 
 export const List = <A extends any>({
@@ -22,8 +23,8 @@ export const List = <A extends any>({
 }: ListProps<A>): JSX.Element => {
   return (
     <Block>
-      {data.map((d) => (
-        <ListItem key={getKey(d)} item={d} onClick={onItemClick} />
+      {data.map((d, i) => (
+        <ListItem key={getKey(d)} item={d} onClick={onItemClick} index={i} />
       ))}
     </Block>
   )

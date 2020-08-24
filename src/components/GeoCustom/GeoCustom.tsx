@@ -8,10 +8,7 @@ import { scaleQuantize } from "@vx/scale"
 import { Zoom } from "@vx/zoom"
 import * as React from "react"
 import * as topojson from "topojson-client"
-import {
-  Topology,
-  GeometryCollection,
-} from "topojson-specification"
+import { Topology, GeometryCollection } from "topojson-specification"
 import worldTopology from "./world-topo.json"
 
 export const mapBackground = "#FFF"
@@ -63,7 +60,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
   const initialScale = (width / 630) * 100
 
   return (
-    <div style={{ height, width }}>
+    <div style={{ height, width, marginLeft: "auto", marginRight: "auto" }}>
       <Zoom
         width={width}
         height={height}

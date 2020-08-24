@@ -1,42 +1,24 @@
-import { List } from "@components/Common/List"
+import { List, ListItemProps } from "@components/Common/List"
 import { ActorFrontmatter } from "@models/actor"
 import { Avatar } from "baseui/avatar"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
-export interface ActorListActor extends ActorFrontmatter {
+export interface Actor extends ActorFrontmatter {
   selected: boolean
 }
 
 export type AvatarScale = "scale1600" | "scale1000"
-interface ActorListOptions {
-  avatarScale: AvatarScale
-}
 
-interface ActorListProps extends ActorListOptions {
-  actors: ActorListActor[]
-  onActorClick: (actor: ActorListActor) => void
-}
-
-interface ActorListItemProps {
-  item: ActorListActor
-  onClick: (actor: ActorListActor) => void
-}
-
-const ActorListItem: (
-  opts: ActorListOptions
-) => React.FC<ActorListItemProps> = ({ avatarScale }) => ({
-  item,
-  onClick,
-}) => {
+export const ActorListItem: React.FC<
+  ListItemProps<Actor> & { avatarScale: AvatarScale }
+> = ({ item, avatarScale, onClick }) => {
   return (
     <div
       key={item.uuid}
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
-      onClick={() => {
-        onClick(item)
-      }}
+      onClick={() => onClick?.(item)}
     >
       {pipe(
         item.avatar,
@@ -66,6 +48,12 @@ const ActorListItem: (
   )
 }
 
+interface ActorListProps {
+  actors: Actor[]
+  onActorClick: (actor: Actor) => void
+  avatarScale: AvatarScale
+}
+
 const ActorList: React.FC<ActorListProps> = ({
   actors,
   onActorClick,
@@ -77,7 +65,7 @@ const ActorList: React.FC<ActorListProps> = ({
       getKey={(a) => a.uuid}
       filter={(a) => true}
       onItemClick={onActorClick}
-      ListItem={ActorListItem({ avatarScale })}
+      ListItem={(p) => <ActorListItem avatarScale={avatarScale} {...p} />}
     />
   )
 }

@@ -4,7 +4,7 @@ import Network, { NetworkProps } from "@components/Network/Network"
 import { NetworkPageContent } from "@components/NetworkPageContent"
 import SEO from "@components/SEO"
 import { BubbleGraph } from "@components/graph/BubbleGraph"
-import ActorList, { ActorListActor } from "@components/lists/ActorList"
+import ActorList, { Actor } from "@components/lists/ActorList"
 import EventList from "@components/lists/EventList"
 import GroupList, { Group } from "@components/lists/GroupList"
 import TopicList, { TopicListTopic } from "@components/lists/TopicList"
@@ -74,7 +74,7 @@ export default class NetworkTemplate extends React.Component<
     selectedTopicIds: [],
   }
 
-  onActorClick = (actor: ActorListActor): void => {
+  onActorClick = (actor: Actor): void => {
     this.setState({
       selectedActorIds: A.elem(Eq.eqString)(
         actor.uuid,
