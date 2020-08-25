@@ -2,7 +2,7 @@ import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
-export const NetworkPageContentFileNodeFrontmatter = t.type(
+export const NetworkPageFrontmatter = t.type(
   {
     title: t.string,
     date: DateFromISOString,
@@ -12,17 +12,15 @@ export const NetworkPageContentFileNodeFrontmatter = t.type(
   "NetworkPageContentFileNodeFrontmatter"
 )
 
-export const NetworkPageContentFileNode = t.type(
+export const NetworkPageMarkdownRemark = t.type(
   {
-    relativeDirectory: t.string,
-    childMarkdownRemark: t.type({
-      frontmatter: NetworkPageContentFileNodeFrontmatter,
+    
+      frontmatter: NetworkPageFrontmatter,
       htmlAst: t.any,
-    }),
   },
-  "NetworkPageContentFileNode"
+  "NetworkPageMarkdownRemark"
 )
 
-export type NetworkPageContentFileNode = t.TypeOf<
-  typeof NetworkPageContentFileNode
+export type NetworkPageMarkdownRemark = t.TypeOf<
+  typeof NetworkPageMarkdownRemark
 >

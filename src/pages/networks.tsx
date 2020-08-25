@@ -9,9 +9,12 @@ import EventList from "@components/lists/EventList"
 import GroupList, { Group } from "@components/lists/GroupList"
 import TopicList, { TopicListTopic } from "@components/lists/TopicList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
+import { ActorFrontmatter } from "@models/actor"
 import { EventPoint } from "@models/event"
+import { NetworkPageMarkdownRemark } from "@models/networks"
+import { TopicFrontmatter } from "@models/topic"
 import {
-  createNetwork,
+  createNetworkTemplateProps,
   NetworkTemplateData,
 } from "@templates/NetworkTemplate/createNetworkTemplateProps"
 import { formatDate } from "@utils//date"
@@ -19,14 +22,14 @@ import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingLevel } from "baseui/heading"
 import { LabelMedium } from "baseui/typography"
+import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
-import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
-import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { replace, graphql } from "gatsby"
+import * as t from 'io-ts'
 import React from "react"
 
 interface NetworkTemplateProps {
@@ -145,35 +148,41 @@ export default class NetworkTemplate extends React.Component<
     } = this
 
     return pipe(
-      createNetwork({
-        data,
-        scale,
-        scalePoint,
-        selectedActorIds,
-        selectedGroupIds,
-        selectedTopicIds,
-        margin,
-        height,
+      sequenceS(E.either)({
+        pageContent: NetworkPageMarkdownRemark.decode(data.pageContent),
+        actors: t.array(ActorFrontmatter).decode(data.actors.nodes),
+        topics: t.array(TopicFrontmatter).decode(data.topics.nodes),
+        networksProps: createNetworkTemplateProps({
+          data,
+          scale,
+          scalePoint,
+          selectedActorIds,
+          selectedGroupIds,
+          selectedTopicIds,
+          margin,
+          height,
+        }),
       }),
       E.fold(
         throwValidationErrors,
         ({
           pageContent,
-          minDate,
-          maxDate,
-          scale,
-          graph,
           actors,
-          groups,
           topics,
-          selectedNodes,
-          selectedEventsCounter,
-          topicEventsMap,
-          networkWidth,
+          networksProps: {
+            minDate,
+            maxDate,
+            scale,
+            graph,
+            groups,
+            selectedNodes,
+            selectedEventsCounter,
+            networkWidth,
+          },
         }) => {
           return (
             <Layout>
-              <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+              <SEO title={pageContent.frontmatter.title} />
               <FlexGrid
                 alignItems="center"
                 alignContent="center"
@@ -182,12 +191,15 @@ export default class NetworkTemplate extends React.Component<
               >
                 <FlexGridItem width="100%">
                   <HeadingLevel>
-                    <NetworkPageContent {...pageContent.childMarkdownRemark} />
+                    <NetworkPageContent {...pageContent} />
                   </HeadingLevel>
                   <FlexGrid flexGridColumnCount={2}>
                     <FlexGridItem>
                       <TopicList
-                        topics={topics}
+                        topics={topics.map((t) => ({
+                          ...t,
+                          selected: selectedTopicIds.includes(t.uuid),
+                        }))}
                         onTopicClick={this.onTopicClick}
                       />
                     </FlexGridItem>
@@ -198,7 +210,10 @@ export default class NetworkTemplate extends React.Component<
                       flexDirection="column"
                     >
                       <ActorList
-                        actors={actors}
+                        actors={actors.map((a) => ({
+                          ...a,
+                          selected: selectedActorIds.includes(a.uuid),
+                        }))}
                         onActorClick={this.onActorClick}
                         avatarScale="scale1600"
                       />
@@ -245,14 +260,12 @@ export default class NetworkTemplate extends React.Component<
                       width={width}
                       height={height}
                       data={pipe(
-                        topicEventsMap,
-                        Map.map((topic) => ({
-                          label: topic.data.label,
-                          count: topic.events.length,
-                          color: topic.data.color,
+                        topics,
+                        A.map((topic) => ({
+                          label: topic.label,
+                          count: 1,
+                          color: topic.color,
                         })),
-                        Map.toArray(Ord.ordString),
-                        A.map((e) => e[1])
                       )}
                     />
                   </div>

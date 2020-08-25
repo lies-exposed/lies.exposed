@@ -1,6 +1,7 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
+import {nonEmptyArray} from 'io-ts-types/lib/nonEmptyArray'
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { ObjectFromString } from "./ObjectFromString"
 import { ActorFrontmatter } from "./actor"
@@ -61,7 +62,7 @@ export const EventFrontmatter = t.strict(
     title: t.string,
     date: DateFromISOString,
     location: optionFromNullable(ObjectFromString.pipe(PointIO)),
-    topics: t.array(t.string),
+    topics: nonEmptyArray(t.string),
     actors: optionFromNullable(t.array(t.string)),
     groups: optionFromNullable(t.array(t.string)),
     type: optionFromNullable(EventType),
@@ -79,7 +80,7 @@ export const EventMarkdownRemark = t.interface(
     fields: t.interface({
       actors: optionFromNullable(t.array(ActorFrontmatter)),
       groups: optionFromNullable(t.array(GroupFrontmatter)),
-      topics: optionFromNullable(t.array(TopicFrontmatter)),
+      topics: nonEmptyArray(TopicFrontmatter),
     }),
     htmlAst: t.object,
   },

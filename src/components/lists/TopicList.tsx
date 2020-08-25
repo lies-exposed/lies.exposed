@@ -1,6 +1,7 @@
 import { List, ListItemProps } from "@components/Common/List"
 import { TopicFrontmatter } from "@models/topic"
 import theme, {  CustomTheme } from "@theme/CustomeTheme"
+import { StyledLink } from "baseui/link"
 import { Tag, VARIANT, KIND } from "baseui/tag"
 import * as React from "react"
 
@@ -17,6 +18,7 @@ interface TopicListProps {
 export const TopicListItem: React.FC<
   ListItemProps<TopicListTopic> & { $theme: CustomTheme }
 > = ({ item: t, $theme, onClick }) => (
+  <StyledLink href={`/topics/${t.uuid}`}>
   <Tag
     key={t.slug}
     kind={KIND.custom}
@@ -35,6 +37,7 @@ export const TopicListItem: React.FC<
   >
     {t.label}
   </Tag>
+  </StyledLink>
 )
 
 const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {

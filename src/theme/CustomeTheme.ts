@@ -60,7 +60,7 @@ const primitives: ThemePrimitives = {
 
 const headerFont = {
   fontFamily: secondaryFontFamily,
-  fontWeight: 700,
+  fontWeight: 800,
   lineHeight: 1.6,
 }
 
@@ -119,6 +119,10 @@ const overrides: Overrides = {
       fontSize: "16px",
       lineHeight: "1.6",
     },
+    HeadingXSmall :{
+      ...headerFont,
+      fontSize: LightTheme.typography.HeadingXSmall.fontSize,
+    },
     HeadingSmall: {
       ...headerFont,
       fontSize: LightTheme.typography.HeadingSmall.fontSize,
@@ -139,6 +143,7 @@ const overrides: Overrides = {
       ...headerFont,
       fontSize: LightTheme.typography.HeadingXXLarge.fontSize,
     },
+    
     ParagraphMedium: {
       fontFamily: primaryFontFamily,
       fontWeight: 300,

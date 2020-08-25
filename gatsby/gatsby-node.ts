@@ -450,6 +450,7 @@ export const sourceNodes = ({
   }, initial)
 
   Map.toArray(Ord.ordString)(nodes.events).forEach(([eventId, resources]) => {
+    console.log(eventId, resources)
     createNodeField({
       node: getNode(eventId),
       name: `actors`,

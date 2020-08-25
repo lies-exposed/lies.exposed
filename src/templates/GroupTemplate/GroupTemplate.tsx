@@ -1,23 +1,21 @@
-import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { GroupPageContent } from "@components/GroupPageContent"
 import { Layout } from "@components/Layout"
+import Network from "@components/Network/Network"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
-import { eventsDataToNavigatorItems } from "@helpers/event"
-import { ActorMarkdownRemark, ActorFrontmatter } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
 import { GroupMarkdownRemark } from "@models/group"
-import { TopicMarkdownRemark } from "@models/topic"
-import { ordEventFileNodeDate } from "@utils/event"
+import { TopicFrontmatter } from "@models/topic"
+import { createNetworkTemplateProps } from "@templates/NetworkTemplate/createNetworkTemplateProps"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
+import { Block } from "baseui/block"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
-import * as O from 'fp-ts/lib/Option'
-import * as Ord from "fp-ts/lib/Ord"
+import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
-import * as t from "io-ts"
+import moment from "moment"
 import React from "react"
 
 interface GroupTemplatePageProps {
@@ -25,15 +23,6 @@ interface GroupTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
     pageContent: GroupMarkdownRemark
-    actors: {
-      nodes: ActorMarkdownRemark[]
-    }
-    groups: {
-      nodes: GroupMarkdownRemark[]
-    }
-    topics: {
-      nodes: TopicMarkdownRemark[]
-    }
     events: {
       nodes: EventMarkdownRemark[]
     }
@@ -42,24 +31,48 @@ interface GroupTemplatePageProps {
 
 const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
   return pipe(
-    sequenceS(E.either)({
-      pageContent: GroupMarkdownRemark.decode(data.pageContent),
-      // actors: t.array(ActorMarkdownRemark).decode(data.actors.nodes),
-      // groups: t.array(GroupMarkdownRemark).decode(data.groups.nodes),
-      // topics: t.array(TopicMarkdownRemark).decode(data.topics.nodes),
-      events: t.array(EventMarkdownRemark).decode(data.events.nodes),
+    GroupMarkdownRemark.decode(data.pageContent),
+    E.chain((pageContent) => {
+      const selectedGroupIds = [pageContent.frontmatter.uuid]
+      const selectedActorIds = pipe(
+        pageContent.frontmatter.members,
+        O.getOrElse((): string[] => [])
+      )
+
+      const topics = data.events.nodes.reduce<TopicFrontmatter[]>(
+        (acc, e) =>
+          pipe(
+            (e.fields.topics as any) as TopicFrontmatter[],
+            A.filter((t) => acc.find((_) => _.uuid === t.uuid) === undefined),
+            (topics) => [...acc, ...topics]
+          ),
+        []
+      )
+
+      console.log(topics, data.events.nodes)
+      const selectedTopicIds = topics.map((t) => t.uuid)
+
+      
+      return sequenceS(E.either)({
+        pageContent: E.right(pageContent),
+        networkProps: createNetworkTemplateProps({
+          data: {
+            events: data.events,
+            actors: { nodes: [] },
+            groups: { nodes: [data.pageContent] },
+          },
+          margin: { vertical: 20, horizontal: 20 },
+          height: 200,
+          scale: "all",
+          scalePoint: O.none,
+          selectedGroupIds,
+          selectedActorIds,
+          selectedTopicIds,
+        }),
+      })
     }),
-    E.map(({ pageContent, events }) => {
-      return {
-        pageContent,
-        members: pipe(
-          pageContent.fields.members,
-          O.getOrElse((): ActorFrontmatter[] => [])
-        ),
-        events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events),
-      }
-    }),
-    E.fold(throwValidationErrors, ({ pageContent, events, members }) => {
+    E.fold(throwValidationErrors, ({ pageContent, networkProps }) => {
+      const { selectedNodes, graph, networkWidth } = networkProps
       return (
         <Layout>
           <SEO title={pageContent.frontmatter.name} />
@@ -73,10 +86,42 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
               }}
             />
             </FlexGridItem> */}
-          <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
-            <GroupPageContent {...pageContent} members={members} />
-            <EventList events={events} />
-          </ContentWithSideNavigation>
+          <Block
+            overrides={{
+              Block: {
+                style: {
+                  overflow: "scroll",
+                  width: "100%",
+                },
+              },
+            }}
+          >
+            <Network
+              width={networkWidth}
+              height={200}
+              minDate={moment().subtract(1, "y").toDate()}
+              maxDate={new Date()}
+              graph={graph}
+              scale="all"
+              onDoubleClick={() => {}}
+              onNodeClick={() => {}}
+              onEventLabelClick={() => {}}
+            />
+          </Block>
+          <GroupPageContent
+            {...pageContent}
+            members={pipe(
+              pageContent.fields.members,
+              O.map((members) =>
+                members.map((m) => ({
+                  ...m,
+                  selected: true,
+                }))
+              )
+            )}
+            onMemberClick={() => {}}
+          />
+          <EventList events={selectedNodes} />
         </Layout>
       )
     })

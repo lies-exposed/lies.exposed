@@ -17,9 +17,7 @@ import { PageContentFileNode } from "@models/page"
 import { TopicMarkdownRemark, TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { HeadingLevel } from "baseui/heading"
 import { LabelMedium } from "baseui/typography"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
@@ -148,7 +146,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
             >
               <FlexGridItem width="100%">
                 <PageContent {...pageContent.childMarkdownRemark} />
-                <FlexGrid flexGridColumnCount={4} alignItems="start">
+                <FlexGrid flexGridColumnCount={4} alignItems="start" maxHeight="200">
                   <FlexGridItem>
                     <DatePicker
                       value={dateRange}

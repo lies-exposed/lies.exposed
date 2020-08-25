@@ -2,10 +2,9 @@ import {
   EventMarkdownRemark,
   PointIO,
   EventFrontmatter,
-  EventType,
 } from "@models/event"
+import { getColorByEventType } from "@utils/event"
 import * as O from "fp-ts/lib/Option"
-import { pipe } from "fp-ts/lib/pipeable"
 import { navigate } from "gatsby"
 import * as React from "react"
 import * as topojson from "topojson-client"
@@ -20,26 +19,6 @@ interface EventsMapProps {
 
 interface GEOJSONEventPoint extends PointIO {
   properties: EventFrontmatter
-}
-
-const colorMap: Record<EventType, string> = {
-  AntiEcologicAct: "brown",
-  AnthropicDisaster: "red",
-  NaturalDisaster: "yellow",
-  Fact: "blue",
-  EcologicAct: "green",
-  War: "black",
-  Migration: "orange",
-  CivilConflict: "grey",
-  Declaration: "lightgreen",
-}
-
-const getColor = (e: EventFrontmatter): string => {
-  return pipe(
-    e.type,
-    O.map((type) => colorMap[type]),
-    O.getOrElse(() => "white")
-  )
 }
 
 const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
@@ -85,7 +64,7 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
         height={height}
         data={data as any}
         featureRenderer={(f, i) => {
-          const color = getColor(f.feature.properties)
+          const color = getColorByEventType(f.feature.properties)
           return (
             <path
               key={`map-feature-${i}`}
