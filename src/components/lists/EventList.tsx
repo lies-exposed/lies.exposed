@@ -3,6 +3,7 @@ import TopicList from "@components/lists/TopicList"
 import { EventMarkdownRemark } from "@models/event"
 import { formatDate } from "@utils//date"
 import renderHTMLAST from "@utils/renderHTMLAST"
+import { Accordion, Panel } from "baseui/accordion"
 import { Block } from "baseui/block"
 import { Card, StyledBody } from "baseui/card"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
@@ -47,19 +48,16 @@ const EventList: React.FC<EventListProps> = (props) => {
                   flexGridColumnCount={1}
                   alignItems="center"
                 >
-                  {pipe(
-                    event.fields.topics,
-                    (topics) => (
-                      // eslint-disable-next-line react/jsx-key
-                      <TopicList
-                        topics={topics.map((t) => ({
-                          ...t,
-                          selected: true,
-                        }))}
-                        onTopicClick={() => undefined}
-                      />
-                    )
-                  )}
+                  {pipe(event.fields.topics, (topics) => (
+                    // eslint-disable-next-line react/jsx-key
+                    <TopicList
+                      topics={topics.map((t) => ({
+                        ...t,
+                        selected: true,
+                      }))}
+                      onTopicClick={() => undefined}
+                    />
+                  ))}
                 </FlexGridItem>
                 <FlexGridItem
                   display="flex"
@@ -112,20 +110,28 @@ const EventList: React.FC<EventListProps> = (props) => {
                 <FlexGridItem />
                 <FlexGridItem flexGridColumnCount={2}>
                   {renderHTMLAST(event.htmlAst)}
-                  {O.toNullable(
-                    O.option.map(event.frontmatter.links, (links) => (
-                      <ul>
-                        {links.map((l, i) => (
-                          <ListItem key={i} artwork={CheckIndeterminate}>
-                            <ListItemLabel>
-                              <ParagraphSmall>
-                                <a href={l}>{l}</a>
-                              </ParagraphSmall>
-                            </ListItemLabel>
-                          </ListItem>
-                        ))}
-                      </ul>
-                    ))
+
+                  {pipe(
+                    event.frontmatter.links,
+                    O.map((links) => (
+                      // eslint-disable-next-line react/jsx-key
+                      <Accordion>
+                        <Panel title={`Links (${links.length})`}>
+                          <ul>
+                            {links.map((l, i) => (
+                              <ListItem key={i} artwork={CheckIndeterminate}>
+                                <ListItemLabel>
+                                  <ParagraphSmall>
+                                    <a href={l}>{l}</a>
+                                  </ParagraphSmall>
+                                </ListItemLabel>
+                              </ListItem>
+                            ))}
+                          </ul>
+                        </Panel>
+                      </Accordion>
+                    )),
+                    O.toNullable
                   )}
                 </FlexGridItem>
                 <FlexGridItem display="none" />
