@@ -475,8 +475,8 @@ export function createNetworkTemplateProps({
                       {
                         source: eventPoint,
                         target: eventPoint,
-                        fill: topic.data.color,
-                        stroke: topic.data.color,
+                        fill: 'transparent',
+                        stroke: 'transparent',
                       },
                     ],
                     (links) => {
@@ -487,12 +487,13 @@ export function createNetworkTemplateProps({
                           O.getOrElse(() => eventPoint)
                         ),
                         target: eventPoint,
-                        stroke: topic.data.color,
-                        fill: topic.data.color,
+                        stroke: 'transparent',
+                        fill: 'transparent',
                       })
                     }
                   )
                 )
+              
 
             const actorsGraph = pipe(
               eventActors,

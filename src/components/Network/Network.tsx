@@ -1,4 +1,5 @@
 import ActorList from "@components/lists/ActorList"
+import TopicList from "@components/lists/TopicList"
 import { EventPoint } from "@models/event"
 import { formatDate } from "@utils/date"
 import { AxisBottom } from "@vx/axis"
@@ -8,7 +9,7 @@ import { Group } from "@vx/group"
 import { Graph } from "@vx/network"
 import { Graph as GraphType } from "@vx/network/lib/types"
 import { scaleTime } from "@vx/scale"
-import { TooltipWithBounds } from "@vx/tooltip"
+import { Tooltip } from "@vx/tooltip"
 import withTooltip, {
   WithTooltipProvidedProps,
 } from "@vx/tooltip/lib/enhancers/withTooltip"
@@ -172,15 +173,18 @@ class Network extends React.Component<NetworkProps, {}> {
               }
             />
           </svg>
-          {tooltipOpen && tooltipData !== undefined ? (
-            <TooltipWithBounds
+        </Group>
+        {tooltipOpen && tooltipData !== undefined ? (
+            <Tooltip
               key={Math.random()}
               top={tooltipTop}
               left={tooltipLeft}
               style={{
                 maxWidth: 300,
+                minWidth: 300,
                 position: "absolute",
                 backgroundColor: "white",
+                zIndex: 100
               }}
             >
               <div>
@@ -188,6 +192,15 @@ class Network extends React.Component<NetworkProps, {}> {
                 <LabelSmall>
                   Data: {formatDate(tooltipData.frontmatter.date)}
                 </LabelSmall>
+                <div>
+                  <TopicList
+                    topics={tooltipData.fields.topics.map((t) => ({
+                      ...t,
+                      selected: false,
+                    }))}
+                    onTopicClick={() => {}}
+                  />
+                </div>
                 {pipe(
                   tooltipData.fields.actors,
                   O.map((actors) => (
@@ -201,9 +214,8 @@ class Network extends React.Component<NetworkProps, {}> {
                   O.toNullable
                 )}
               </div>
-            </TooltipWithBounds>
+            </Tooltip>
           ) : null}
-        </Group>
       </React.Fragment>
     )
   }
