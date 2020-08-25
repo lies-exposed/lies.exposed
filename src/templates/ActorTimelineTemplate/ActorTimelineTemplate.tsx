@@ -8,6 +8,7 @@ import { EventMarkdownRemark } from "@models/event"
 import { TopicMarkdownRemark } from "@models/topic"
 import { createNetworkTemplateProps } from "@templates/NetworkTemplate/createNetworkTemplateProps"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
+import { Block } from "baseui/block"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
@@ -15,7 +16,6 @@ import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
 import moment from "moment"
 import React from "react"
-import { Block } from "baseui/block"
 
 interface ActorTimelineTemplatePageProps {
   navigate: typeof navigate
@@ -83,6 +83,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
               },
             }}
           >
+
             <Network
               width={networkWidth}
               height={200}
@@ -91,7 +92,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
               graph={graph}
               scale="all"
               onDoubleClick={() => {}}
-              onNodeClick={() => {}}
+              onNodeClick={async (e) => await navigate(`/actors/${pageContent.frontmatter.uuid}/#${e.data.frontmatter.uuid}`)}
               onEventLabelClick={() => {}}
             />
           </Block>
