@@ -49,7 +49,6 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
         []
       )
 
-      console.log(topics, data.events.nodes)
       const selectedTopicIds = topics.map((t) => t.uuid)
 
       

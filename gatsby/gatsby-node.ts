@@ -215,64 +215,64 @@ const createActorTimelinePages = async ({
   })
 }
 
-const createNetworkPages = async ({
-  actions,
-  graphql,
-  reporter,
-}: CreatePagesArgs): Promise<void> => {
-  const { createPage } = actions
+// const createNetworkPages = async ({
+//   actions,
+//   graphql,
+//   reporter,
+// }: CreatePagesArgs): Promise<void> => {
+//   const { createPage } = actions
 
-  const result = await graphql<{
-    networks: { nodes: Array<{ name: string }> }
-  }>(`
-    {
-      networks: allDirectory(
-        filter: { relativeDirectory: { glob: "networks" } }
-      ) {
-        nodes {
-          name
-        }
-      }
-    }
-  `)
+//   const result = await graphql<{
+//     networks: { nodes: Array<{ name: string }> }
+//   }>(`
+//     {
+//       networks: allDirectory(
+//         filter: { relativeDirectory: { glob: "networks" } }
+//       ) {
+//         nodes {
+//           name
+//         }
+//       }
+//     }
+//   `)
 
-  // Handle errors
-  if (result.errors !== undefined) {
-    reporter.panicOnBuild(`Error while running GraphQL allNetworks query.`)
-    return
-  }
+//   // Handle errors
+//   if (result.errors !== undefined) {
+//     reporter.panicOnBuild(`Error while running GraphQL allNetworks query.`)
+//     return
+//   }
 
-  const component = path.resolve(
-    `src/templates/NetworkTemplate/NetworkTemplate.tsx`
-  )
+//   const component = path.resolve(
+//     `src/templates/NetworkTemplate/NetworkTemplate.tsx`
+//   )
 
-  if (result.data === undefined) {
-    reporter.panicOnBuild(`No data for networks pages`)
-    return
-  }
+//   if (result.data === undefined) {
+//     reporter.panicOnBuild(`No data for networks pages`)
+//     return
+//   }
 
-  result.data.networks.nodes.forEach(({ name }) => {
-    const relativeDirectory = `events/networks/${name}`
-    const eventsRelativeDirectory = `events/networks/${name}/*`
-    const imagesRelativeDirectory = `events/networks/${name}/*/images`
+//   result.data.networks.nodes.forEach(({ name }) => {
+//     const relativeDirectory = `events/networks/${name}`
+//     const eventsRelativeDirectory = `events/networks/${name}/*`
+//     const imagesRelativeDirectory = `events/networks/${name}/*/images`
 
-    const context = {
-      relativeDirectory,
-      eventsRelativeDirectory,
-      imagesRelativeDirectory,
-    }
-    reporter.info(
-      `network page [${name}] context: ${JSON.stringify(context, null, 4)}`
-    )
+//     const context = {
+//       relativeDirectory,
+//       eventsRelativeDirectory,
+//       imagesRelativeDirectory,
+//     }
+//     reporter.info(
+//       `network page [${name}] context: ${JSON.stringify(context, null, 4)}`
+//     )
 
-    createPage({
-      path: `/networks/${name}`,
-      component,
-      // additional data can be passed via context
-      context,
-    })
-  })
-}
+//     createPage({
+//       path: `/networks/${name}`,
+//       component,
+//       // additional data can be passed via context
+//       context,
+//     })
+//   })
+// }
 
 const createTopicTimelinePages = async ({
   actions,
@@ -286,11 +286,7 @@ const createTopicTimelinePages = async ({
 
   const result = await graphql<{ topics: { nodes: Array<{ name: string }> } }>(`
     {
-      topics: allFile(
-        filter: {
-          sourceInstanceName: { eq: "topics" }
-        }
-      ) {
+      topics: allFile(filter: { sourceInstanceName: { eq: "topics" } }) {
         nodes {
           name
         }
@@ -339,7 +335,7 @@ export const createPages = async (options: CreatePagesArgs) => {
   await createArticlePages(options)
   await createActorTimelinePages(options)
   await createTopicTimelinePages(options)
-  await createNetworkPages(options)
+  // await createNetworkPages(options)
 }
 export const createSchemaCustomization = async ({
   actions,
@@ -450,7 +446,7 @@ export const sourceNodes = ({
   }, initial)
 
   Map.toArray(Ord.ordString)(nodes.events).forEach(([eventId, resources]) => {
-    console.log(eventId, resources)
+    console.log({ eventId, topics: resources.topics })
     createNodeField({
       node: getNode(eventId),
       name: `actors`,
