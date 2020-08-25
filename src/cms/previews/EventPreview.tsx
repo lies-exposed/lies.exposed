@@ -5,6 +5,7 @@ import { TopicFrontmatter } from "@models/topic"
 import { HTMLtoAST, MDtoHTML } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
+import * as NEA from "fp-ts/lib/NonEmptyArray"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as t from "io-ts"
@@ -18,7 +19,7 @@ export const EventPreview: React.FC<any> = (props) => {
 
   const cover = O.none
   const links = O.fromNullable(frontmatter.links)
-  const topics: TopicFrontmatter[] =
+  const topics: NEA.NonEmptyArray<TopicFrontmatter> =
     frontmatter.topic !== undefined
       ? frontmatter.topic.map((t: string) => ({
           uuid: t,
@@ -54,13 +55,16 @@ export const EventPreview: React.FC<any> = (props) => {
         links,
         location: O.fromNullable(location),
         actors: O.none,
-        topics: [],
+        topics: pipe(
+          topics,
+          NEA.map((t) => t.uuid)
+        ),
         groups,
         type,
       },
       fields: {
         actors,
-        topics: O.some(topics),
+        topics,
         groups,
       },
       htmlAst: HTMLtoAST(MDtoHTML(body)),

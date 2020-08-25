@@ -1,9 +1,9 @@
-import { NetworkPageContentFileNode } from "@models/networks"
+import { NetworkPageMarkdownRemark } from "@models/networks"
 import renderHTMLAST from "@utils/renderHTMLAST"
 import { Heading } from "baseui/heading"
 import * as React from "react"
 
-type NetworkPageContentProps = NetworkPageContentFileNode["childMarkdownRemark"]
+type NetworkPageContentProps = NetworkPageMarkdownRemark
 
 export const NetworkPageContent: React.FC<NetworkPageContentProps> = ({
   frontmatter,

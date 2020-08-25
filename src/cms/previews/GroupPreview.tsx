@@ -3,6 +3,7 @@ import { GroupFrontmatter } from "@models/group"
 import { MDtoHTML, HTMLtoAST } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
+import * as O from 'fp-ts/lib/Option'
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
@@ -46,8 +47,9 @@ export const GroupPreview: React.FC<any> = ({
       <>
         <GroupPageContent
           frontmatter={f}
-          members={[]}
+          members={O.none}
           htmlAst={HTMLtoAST(MDtoHTML(body))}
+          onMemberClick={() => {}}
         />
         
       </>

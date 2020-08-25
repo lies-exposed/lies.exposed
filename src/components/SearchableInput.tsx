@@ -72,7 +72,7 @@ const InputReplacement = React.forwardRef<
         <StyledInput ref={ref} value={value} {...restProps} />
         <List<SearchableItem>
           data={items.filter(
-            (i) => value !== "" && getValue(i).startsWith(value)
+            (i) => getValue(i).startsWith(value)
           )}
           getKey={getValue}
           filter={(i) => true}
@@ -164,6 +164,7 @@ const SearchableInput = <I extends SearchableItem>(
       placeholder={placehoder}
       value={value}
       onChange={(e) => setValue(e.currentTarget.value)}
+      // onFocus={}
       onBlur={(e) => {
         if (e.currentTarget.value !== "") {
           pipe(

@@ -49,18 +49,15 @@ const EventList: React.FC<EventListProps> = (props) => {
                 >
                   {pipe(
                     event.fields.topics,
-                    O.fold(
-                      () => null,
-                      (topics) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <TopicList
-                          topics={topics.map((t) => ({
-                            ...t,
-                            selected: true,
-                          }))}
-                          onTopicClick={() => undefined}
-                        />
-                      )
+                    (topics) => (
+                      // eslint-disable-next-line react/jsx-key
+                      <TopicList
+                        topics={topics.map((t) => ({
+                          ...t,
+                          selected: true,
+                        }))}
+                        onTopicClick={() => undefined}
+                      />
                     )
                   )}
                 </FlexGridItem>

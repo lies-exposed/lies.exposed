@@ -17,6 +17,7 @@ export const query = graphql`
       ...Event
     }
     fields {
+
       topics {
         uuid
         label
