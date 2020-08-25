@@ -1,22 +1,21 @@
 import { ActorPageContent } from "@components/ActorPageContent"
-import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { Layout } from "@components/Layout"
+import Network from "@components/Network/Network"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
-import { eventsDataToNavigatorItems } from "@helpers/event"
 import { ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
 import { TopicMarkdownRemark } from "@models/topic"
-import { ordEventFileNodeDate } from "@utils/event"
+import { createNetworkTemplateProps } from "@templates/NetworkTemplate/createNetworkTemplateProps"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
-import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
-import * as Ord from "fp-ts/lib/Ord"
+import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
-import * as t from "io-ts"
+import moment from "moment"
 import React from "react"
+import { Block } from "baseui/block"
 
 interface ActorTimelineTemplatePageProps {
   navigate: typeof navigate
@@ -39,19 +38,28 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
   data,
 }) => {
   return pipe(
-    sequenceS(E.either)({
-      pageContent: ActorMarkdownRemark.decode(data.pageContent),
-      // actors: t.array(ActorMarkdownRemark).decode(data.actors.nodes),
-      // topics: t.array(TopicMarkdownRemark).decode(data.topics.nodes),
-      events: t.array(EventMarkdownRemark).decode(data.events.nodes),
-    }),
-    E.map(({ pageContent, events }) => {
-      return {
-        pageContent,
-        events: A.sortBy([Ord.getDualOrd(ordEventFileNodeDate)])(events),
-      }
-    }),
-    E.fold(throwValidationErrors, ({ pageContent, events }) => {
+    ActorMarkdownRemark.decode(data.pageContent),
+    E.chain((pageContent) =>
+      sequenceS(E.either)({
+        pageContent: E.right(pageContent),
+        networkProps: createNetworkTemplateProps({
+          data: {
+            events: data.events,
+            actors: { nodes: [] },
+            groups: { nodes: [] },
+          },
+          height: 200,
+          margin: { vertical: 20, horizontal: 20 },
+          scale: "all",
+          scalePoint: O.none,
+          selectedActorIds: [pageContent.frontmatter.uuid],
+          selectedTopicIds: [],
+          selectedGroupIds: [],
+        }),
+      })
+    ),
+    E.fold(throwValidationErrors, ({ pageContent, networkProps }) => {
+      const { selectedNodes, networkWidth, graph } = networkProps
       return (
         <Layout>
           <SEO title={pageContent.frontmatter.fullName} />
@@ -65,10 +73,30 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
               }}
             />
             </FlexGridItem> */}
-          <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
-            <ActorPageContent {...pageContent} />
-            <EventList events={events} />
-          </ContentWithSideNavigation>
+          <Block
+            overrides={{
+              Block: {
+                style: {
+                  overflow: "scroll",
+                  width: "100%",
+                },
+              },
+            }}
+          >
+            <Network
+              width={networkWidth}
+              height={200}
+              minDate={moment().subtract(1, "y").toDate()}
+              maxDate={new Date()}
+              graph={graph}
+              scale="all"
+              onDoubleClick={() => {}}
+              onNodeClick={() => {}}
+              onEventLabelClick={() => {}}
+            />
+          </Block>
+          <ActorPageContent {...pageContent} />
+          <EventList events={selectedNodes} />
         </Layout>
       )
     })
