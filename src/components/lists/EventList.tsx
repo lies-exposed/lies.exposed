@@ -55,7 +55,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                         ...t,
                         selected: true,
                       }))}
-                      onTopicClick={() => undefined}
+                      onTopicClick={async (t) => await navigate(`/topics/${t.uuid}`)}
                     />
                   ))}
                 </FlexGridItem>

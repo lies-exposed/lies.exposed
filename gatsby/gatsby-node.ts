@@ -477,14 +477,21 @@ export const sourceNodes = ({
   return Promise.resolve(undefined as any)
 }
 
-export const onCreateNode = ({ node, actions, getNode }: CreateNodeArgs) => {
+export const onCreateNode = ({
+  node,
+  actions,
+  getNode,
+  getNodes,
+}: CreateNodeArgs) => {
   const { createNodeField } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
+    const collection = getNode(node.parent).sourceInstanceName
+
     createNodeField({
       name: `collection`,
       node,
-      value: getNode(node.parent).sourceInstanceName,
+      value: collection,
     })
   }
 }
