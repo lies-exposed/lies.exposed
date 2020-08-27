@@ -1,6 +1,6 @@
 import { graphql } from "gatsby"
 export const query = graphql`
-  fragment Event on MarkdownRemarkFrontmatter {
+  fragment Event on Frontmatter {
     uuid
     title
     date
@@ -14,10 +14,11 @@ export const query = graphql`
 
   fragment EventMarkdownRemark on MarkdownRemark {
     frontmatter {
-      ...Event
+      ... on Event {
+        ...Event
+      }
     }
     fields {
-
       topics {
         uuid
         label

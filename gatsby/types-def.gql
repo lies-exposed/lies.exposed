@@ -1,5 +1,15 @@
 # Articles
-type Article implements Node @dontInfer {
+# interface Article @nodeInterface{
+#   id: ID!
+#   uuid: String
+#   draft: Boolean!
+#   title: String!
+#   path: String!
+#   date: Date!
+#   links: [String!]
+# }
+
+type ArticleFrontmatter implements Node {
   uuid: String
   draft: Boolean!
   title: String!
@@ -20,11 +30,21 @@ type Article implements Node @dontInfer {
 # # }
 
 # Actors
-type Actor implements Node {
+# interface Actor @nodeInterface {
+#   id: ID!
+#   uuid: String!
+#   fullName: String
+#   username: String
+#   avatar: File!
+#   color: String
+#   date: Date!
+# }
+
+type ActorFrontmatter implements Node {
   uuid: String!
   fullName: String
   username: String
-  avatar: File!
+  avatar: File
   color: String
   date: Date!
 }
@@ -40,11 +60,12 @@ type Actor implements Node {
 # #   childMarkdownRemark: ActorMarkdownRemark!
 # # }
 
-type Group implements Node @dontInfer {
+type GroupFrontmatter implements Node @dontInfer {
+  id: ID!
   uuid: String!
   name: String!
   avatar: File!
-  members: [String]
+  members: [String!]
   date: Date!
   color: String
 }
@@ -60,7 +81,7 @@ type Group implements Node @dontInfer {
 # #   childMarkdownRemark: GroupMarkdownRemark!
 # # }
 
-type Page implements Node {
+type PageFrontmatter implements Node @dontInfer {
   title: String!
   path: String!
   date: Date!
@@ -73,7 +94,7 @@ type Page implements Node {
 # }
 
 # Topics
-type Topic implements Node @dontInfer {
+type TopicFrontmatter implements Node @dontInfer {
   uuid: String!
   slug: String!
   label: String!
@@ -93,7 +114,7 @@ type Topic implements Node @dontInfer {
 # # }
 
 # Events
-type Event implements Node @dontInfer {
+type EventFrontmatter implements Node @dontInfer {
   uuid: String!
   title: String!
   date: Date!
@@ -115,24 +136,12 @@ type Event implements Node @dontInfer {
 # #   childMarkdownRemark: EventMarkdownRemark!
 # # }
 
-
-type MarkdownRemark {
-  frontmatter: Frontmatter
+type MarkdownRemarkFrontmatter {
+  uuid: String!
 }
 
 type MarkdownRemark implements Node {
-  frontmatter: MarkdownRemarkFrontmatter
+  frontmatter: Frontmatter
 }
 
-type MarkdownRemarkFrontmatter {
-  uuid: String
-  username: String
-  fullName: String
-}
 
-# type MarkdownRemarkFields {
-#   actors: [Actor] @link(by: "uuid")
-#   # groups: [Group] @link(by: "uuid")
-#   # topics: [Topic] @link(by: "uuid")
-#   # members: [Actor] @link(by: "uuid", from: "frontmatter.uuid")
-# }

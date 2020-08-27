@@ -1,24 +1,33 @@
 /* eslint-disable no-restricted-imports */
 import * as Eq from "fp-ts/lib/Eq"
+import * as t from "io-ts"
 import fs from "fs"
 import path from "path"
 import * as Ord from "fp-ts/lib/Ord"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
+import * as E from "fp-ts/lib/Either"
 import {
   CreatePagesArgs,
   CreateSchemaCustomizationArgs,
   SourceNodesArgs,
   Node,
   CreateNodeArgs,
+  CreateResolversArgs,
   // NodeInput,
 } from "gatsby"
 import { GroupMarkdownRemark, GroupFrontmatter } from "../src/models/group"
-import { ArticleMarkdownRemark } from "../src/models/article"
+import {
+  ArticleMarkdownRemark,
+  ArticleFrontmatter,
+} from "../src/models/article"
 import * as Map from "fp-ts/lib/Map"
-import { ActorFrontmatter } from "@models/actor"
-import { TopicFrontmatter } from "@models/topic"
+import { ActorFrontmatter } from "../src/models/actor"
+import { TopicFrontmatter } from "../src/models/topic"
 import { pipe } from "fp-ts/lib/pipeable"
+import { EventFrontmatter } from "../src/models/event"
+import { PageFrontmatter } from "../src/models/page"
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
 const group = <A>(S: Eq.Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
   return A.chop((as) => {
@@ -52,8 +61,10 @@ const createArticlePages = async ({
         nodes {
           childMarkdownRemark {
             frontmatter {
-              path
-              title
+              ... on Article {
+                path
+                title
+              }
             }
           }
         }
@@ -337,15 +348,208 @@ export const createPages = async (options: CreatePagesArgs) => {
   await createTopicTimelinePages(options)
   // await createNetworkPages(options)
 }
+
+const { avatar, ...ActorFrontmatterProps } = ActorFrontmatter.props
+const ActorF = t.type({
+  ...ActorFrontmatterProps,
+  avatar: optionFromNullable(t.string),
+})
+
 export const createSchemaCustomization = async ({
   actions,
+  getNode,
+  schema,
 }: CreateSchemaCustomizationArgs) => {
   const { createTypes } = actions
   const typeDefs = fs.readFileSync(`${__dirname}/types-def.gql`, {
     encoding: "utf-8",
   })
-  createTypes(typeDefs, { name: "default-site-plugin" })
+
+  createTypes(
+    [
+      typeDefs as any,
+      schema.buildUnionType({
+        name: "Frontmatter",
+        types: [
+          "ArticleFrontmatter",
+          "ActorFrontmatter",
+          "GroupFrontmatter",
+          "EventFrontmatter",
+          "TopicFrontmatter",
+          "PageFrontmatter",
+          "MarkdownRemarkFrontmatter",
+        ],
+        resolveType: async (source, context, info, abstractType) => {
+          console.log({
+            source,
+            ActorFrontmatter: E.isRight(ActorF.decode(source)),
+            GroupFrontmatter: E.isRight(GroupFrontmatter.decode(source)),
+            EventFrontmatter: E.isRight(EventFrontmatter.decode(source)),
+            TopicFrontmatter: E.isRight(TopicFrontmatter.decode(source)),
+            PageFrontmatter: E.isRight(PageFrontmatter.decode(source)),
+            ArticleFrontmatter: E.isRight(ArticleFrontmatter.decode(source)),
+          })
+          if (E.isRight(ActorF.decode(source))) {
+            return "ActorFrontmatter"
+          }
+
+          if (E.isRight(GroupFrontmatter.decode(source))) {
+            return "GroupFrontmatter"
+          }
+
+          if (E.isRight(EventFrontmatter.decode(source))) {
+            return "EventFrontmatter"
+          }
+
+          if (E.isRight(TopicFrontmatter.decode(source))) {
+            return "TopicFrontmatter"
+          }
+
+          if (E.isRight(PageFrontmatter.decode(source))) {
+            return "PageFrontmatter"
+          }
+
+          if (E.isRight(ArticleFrontmatter.decode(source))) {
+            return "ArticleFrontmatter"
+          }
+
+          return "MarkdownRemarkFrontmatter"
+        },
+      }),
+      // schema.buildObjectType({
+      //   name: "GroupFrontmatter",
+      //   interfaces: ["Node", "Group"],
+      //   extensions: {
+      //     childOf: ["MarkdownRemark"],
+      //   },
+      //   fields: {
+      //     uuid: { type: "String!" },
+      //     name: {
+      //       type: "String!",
+      //     },
+      //     avatar: { type: "File!" },
+      //     members: { type: "[String!]" },
+      //     date: { type: "Date!" },
+      //   },
+      // }),
+      // schema.buildObjectType({
+      //   name: "ActorMarkdown",
+      //   interfaces: ["Node"],
+      //   fields: {
+      //     username: {
+      //       type: "String",
+      //       resolve: (source, args, context) => {
+      //         const parent = context.nodeModel.getNodeById({ id: source.parent })
+      //         return parent.frontmatter.username
+      //       },
+      //     },
+      //   },
+      // }),
+      // schema.buildObjectType({
+      //   name: "GroupMarkdown",
+      //   interfaces: ["Node", "Group"],
+      //   fields: {
+      //     id: {
+      //       type: "ID!",
+      //     },
+      //     uuid: {
+      //       type: "String!",
+      //       resolve: (source, args, context) => {
+      //         const parent = context.nodeModel.getNodeById({
+      //           id: source.parent,
+      //         })
+      //         return parent.frontmatter.uuid
+      //       },
+      //     },
+      //     name: {
+      //       type: "String!",
+      //       resolve: (source, args, context) => {
+      //         const parent = context.nodeModel.getNodeById({
+      //           id: source.parent,
+      //         })
+      //         return parent.frontmatter.name
+      //       },
+      //     },
+      //     date: {
+      //       type: "Date!",
+      //     },
+      //     avatar: {
+      //       type: "File!",
+      //       resolve: (source, args, context) => {
+      //         const parent = context.nodeModel.getNodeById({
+      //           id: source.parent,
+      //         })
+      //         return parent.frontmatter.avatar
+      //       },
+      //     },
+      //     color: {
+      //       type: "String!",
+      //       resolve: (source, args, context) => {
+      //         const parent = context.nodeModel.getNodeById({
+      //           id: source.parent,
+      //         })
+      //         return parent.frontmatter.color
+      //       },
+      //     },
+      //     members: {
+      //       type: "[Actor!]",
+      //       resolve: async (source, args, context) => {
+      //         console.log({ source, args })
+      //         const parent = context.nodeModel.getNodeById({
+      //           id: source.parent,
+      //         })
+      //         const memberIds = parent.frontmatter.members ??[]
+      //         const members = context.nodeModel
+      //           .getAllNodes({
+      //             type: "Actor",
+      //           })
+      //           .filter((m: any) => {
+      //             console.log(m)
+      //             const actorParentNode = context.nodeModel.getNodeById({
+      //               id: m.parent
+      //             })
+      //             console.log(actorParentNode)
+      //             return memberIds.includes(actorParentNode.frontmatter.uuid)
+      //           })
+
+      //         return members
+      //       },
+      //     },
+      //   },
+      // }),
+    ],
+    { name: "default-site-plugin" }
+  )
 }
+
+export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
+  const resolvers = {
+    GroupFrontmatter: {
+      uuid: {
+        type: "String!",
+        resolve: (source: any) => source.uuid,
+      },
+      members: {
+        type: "[String!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const memberIds = source.members ?? []
+          const members = context.nodeModel
+            .getAllNodes({
+              type: "ActorFrontmatter",
+            })
+            .filter((m: any) => {
+              console.log(m)
+              return memberIds.includes(m.uuid)
+            })
+
+          return members
+        },
+      },
+    },
+  }
+  createResolvers(resolvers)
+}
+
 export const sourceNodes = ({
   boundActionCreators,
   getNodes,
@@ -446,7 +650,7 @@ export const sourceNodes = ({
   }, initial)
 
   Map.toArray(Ord.ordString)(nodes.events).forEach(([eventId, resources]) => {
-    console.log({ eventId, topics: resources.topics })
+    // console.log({ eventId, topics: resources.topics })
     createNodeField({
       node: getNode(eventId),
       name: `actors`,
@@ -477,21 +681,52 @@ export const sourceNodes = ({
   return Promise.resolve(undefined as any)
 }
 
+type Collection =
+  | "actors"
+  | "articles"
+  | "groups"
+  | "events"
+  | "pages"
+  | "topics"
+
+const collectionToTypeMap: Record<Collection, string> = {
+  actors: "ActorFrontmatter",
+  articles: "ArticleFrontmatter",
+  groups: "GroupFrontmatter",
+  events: "EventFrontmatter",
+  pages: "PageFrontmatter",
+  topics: "TopicFrontmatter",
+}
+
 export const onCreateNode = ({
   node,
   actions,
   getNode,
-  getNodes,
+  createNodeId,
 }: CreateNodeArgs) => {
-  const { createNodeField } = actions
+  const { createNodeField, createNode } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
-    const collection = getNode(node.parent).sourceInstanceName
+    const collection = getNode(node.parent).sourceInstanceName as Collection
 
     createNodeField({
       name: `collection`,
       node,
       value: collection,
+    })
+
+    const type = collectionToTypeMap[collection]
+    const nodeId = createNodeId(`${type}-${node.id}`)
+    console.log(`Creating ${type} node`, nodeId)
+    createNode({
+      ...(node.frontmatter as any),
+      __type: type,
+      id: nodeId,
+      parent: node.id,
+      internal: {
+        type,
+        contentDigest: node.internal.contentDigest,
+      },
     })
   }
 }

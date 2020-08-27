@@ -1,25 +1,29 @@
 import * as t from "io-ts"
-// import { Section } from "./layout/Section"
+import { date } from "io-ts-types/lib/date"
 
-export const PageContentMarkdownRemark = t.interface(
+export const PageFrontmatter = t.interface({
+  title: t.string,
+  date: date
+}, 'PageFrontmatter')
+
+export type PageFrontmatter = t.TypeOf<typeof PageFrontmatter>
+
+export const PageMarkdownRemark = t.interface(
   {
     htmlAst: t.object,
     tableOfContents: t.string,
-    frontmatter: t.interface({
-      title: t.string,
-      // sections: t.array(Section),
-    }),
+    frontmatter: PageFrontmatter,
   },
-  "PageContentMarkdownRemark"
+  "PageMarkdownRemark"
 )
 
-export type PageContentMarkdownRemark = t.TypeOf<
-  typeof PageContentMarkdownRemark
+export type PageMarkdownRemark = t.TypeOf<
+  typeof PageMarkdownRemark
 >
 
 export const PageContentFileNode = t.strict(
   {
-    childMarkdownRemark: PageContentMarkdownRemark,
+    childMarkdownRemark: PageMarkdownRemark,
   },
   "PageContentFileNode"
 )

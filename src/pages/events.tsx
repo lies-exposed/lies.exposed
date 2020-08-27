@@ -274,23 +274,19 @@ export const pageQuery = graphql`
       }
     }
 
-    actors: allMarkdownRemark(
-      filter: { fields: { collection: { eq: "actors" } } }
-    ) {
+    actors: allActorFrontmatter {
       nodes {
         ...ActorMarkdownRemark
       }
     }
 
-    groups: allMarkdownRemark(
-      filter: { fields: { collection: { eq: "groups" } } }
-    ) {
+    groups: allGroups {
       nodes {
         ...GroupMarkdownRemark
       }
     }
 
-    events: allMarkdownRemark(
+    events: allEvents(
       filter: { fields: { collection: { eq: "events" } } }
       sort: { fields: frontmatter___date, order: DESC }
     ) {
