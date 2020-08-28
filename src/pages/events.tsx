@@ -10,12 +10,13 @@ import EventList from "@components/lists/EventList"
 import { GroupListItem } from "@components/lists/GroupList"
 import { TopicListItem } from "@components/lists/TopicList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { ActorMarkdownRemark, ActorFrontmatter } from "@models/actor"
+import { ActorFrontmatter } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
-import { GroupMarkdownRemark, GroupFrontmatter } from "@models/group"
+import { GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
-import { TopicMarkdownRemark, TopicFrontmatter } from "@models/topic"
+import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
+import { ordEventFileNodeDate } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { LabelMedium } from "baseui/typography"
@@ -24,6 +25,7 @@ import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
+import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql } from "gatsby"
 import * as t from "io-ts"
@@ -101,34 +103,42 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
   return pipe(
     sequenceS(E.either)({
       pageContent: PageContentFileNode.decode(data.pageContent),
-      topics: t.array(TopicMarkdownRemark).decode(data.topics.nodes),
-      actors: t.array(ActorMarkdownRemark).decode(data.actors.nodes),
-      groups: t.array(GroupMarkdownRemark).decode(data.groups.nodes),
+      topics: t.array(TopicFrontmatter).decode(data.topics.nodes),
+      actors: t.array(ActorFrontmatter).decode(data.actors.nodes),
+      groups: t.array(GroupFrontmatter).decode(data.groups.nodes),
       events: t.array(EventMarkdownRemark).decode(data.events.nodes),
     }),
     E.fold(
       throwValidationErrors,
       ({ pageContent, events, actors, topics, groups }) => {
-        const filteredEvents = events.filter((e) => {
+        const filteredEvents = A.sort(Ord.getDualOrd(ordEventFileNodeDate))(
+          events
+        ).filter((e) => {
           const isBetweenDateRange = moment(e.frontmatter.date).isBetween(
             moment(minDate),
             moment(maxDate)
           )
           const hasActor = pipe(
             e.frontmatter.actors,
-            O.map((actors) => actors.some((i) => selectedActorIds.includes(i))),
+            O.map((actors) =>
+              actors.some((i) => selectedActorIds.includes(i.uuid))
+            ),
             O.getOrElse(() => false)
           )
 
           const hasGroup = pipe(
             e.frontmatter.groups,
-            O.map((actors) => actors.some((i) => selectedGroupIds.includes(i))),
+            O.map((actors) =>
+              actors.some((i) => selectedGroupIds.includes(i.uuid))
+            ),
             O.getOrElse(() => false)
           )
 
           const hasTopic = pipe(
             O.some(e.frontmatter.topics),
-            O.map((actors) => actors.some((i) => selectedTopicIds.includes(i))),
+            O.map((actors) =>
+              actors.some((i) => selectedTopicIds.includes(i.uuid))
+            ),
             O.getOrElse(() => false)
           )
 
@@ -146,7 +156,11 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
             >
               <FlexGridItem width="100%">
                 <PageContent {...pageContent.childMarkdownRemark} />
-                <FlexGrid flexGridColumnCount={4} alignItems="start" maxHeight="200">
+                <FlexGrid
+                  flexGridColumnCount={4}
+                  alignItems="start"
+                  maxHeight="200"
+                >
                   <FlexGridItem>
                     <DatePicker
                       value={dateRange}
@@ -158,7 +172,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
                   <FlexGridItem>
                     <SearchableInput
                       placeholder="Topics..."
-                      items={topics.map((t) => t.frontmatter)}
+                      items={topics}
                       getValue={(item) => item.label}
                       itemRenderer={(item, itemProps, index) => (
                         <TopicListItem
@@ -186,7 +200,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
                   >
                     <SearchableInput
                       placeholder="Gruppi..."
-                      items={groups.map((t) => t.frontmatter)}
+                      items={groups}
                       itemRenderer={(item, itemProps, index) => {
                         return (
                           <GroupListItem
@@ -213,7 +227,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
                   <FlexGridItem>
                     <SearchableInput
                       placeholder="Attori..."
-                      items={actors.map((t) => t.frontmatter)}
+                      items={actors}
                       itemRenderer={(item, itemProps, index) => {
                         return (
                           <ActorListItem
@@ -261,34 +275,32 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
 export const pageQuery = graphql`
   query EventsQuery {
     pageContent: file(
-      childMarkdownRemark: { frontmatter: { slug: { eq: "events" } } }
+      childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
+      name: { eq: "actors" }
     ) {
-      ...PageContentFileNode
+      ...PageFileNode
     }
 
-    topics: allMarkdownRemark(
-      filter: { fields: { collection: { eq: "topics" } } }
-    ) {
+    topics: allTopicFrontmatter {
       nodes {
-        ...TopicMarkdownRemark
+        ...Topic
       }
     }
 
     actors: allActorFrontmatter {
       nodes {
-        ...ActorMarkdownRemark
+        ...Actor
       }
     }
 
-    groups: allGroups {
+    groups: allGroupFrontmatter {
       nodes {
-        ...GroupMarkdownRemark
+        ...Group
       }
     }
 
-    events: allEvents(
+    events: allMarkdownRemark(
       filter: { fields: { collection: { eq: "events" } } }
-      sort: { fields: frontmatter___date, order: DESC }
     ) {
       nodes {
         ...EventMarkdownRemark

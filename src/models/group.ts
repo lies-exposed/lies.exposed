@@ -11,9 +11,9 @@ export const GroupFrontmatter = t.interface(
     date: DateFromISOString,
     avatar: optionFromNullable(ImageFileNode),
     color: optionFromNullable(t.string),
-    members: optionFromNullable(t.array(t.string)),
+    members: optionFromNullable(t.array(ActorFrontmatter)),
   },
-  "ActorFrontmatter"
+  "GroupFrontmatter"
 )
 
 export type GroupFrontmatter = t.TypeOf<typeof GroupFrontmatter>
@@ -21,9 +21,6 @@ export type GroupFrontmatter = t.TypeOf<typeof GroupFrontmatter>
 export const GroupMarkdownRemark = t.strict(
   {
     frontmatter: GroupFrontmatter,
-    fields: t.interface({
-      members: optionFromNullable(t.array(ActorFrontmatter)),
-    }),
     htmlAst: t.object,
   },
   "GroupMarkdownRemark"

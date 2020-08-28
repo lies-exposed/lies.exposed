@@ -5,7 +5,6 @@ import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
 import { ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
-import { TopicMarkdownRemark } from "@models/topic"
 import { createNetworkTemplateProps } from "@templates/NetworkTemplate/createNetworkTemplateProps"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { Block } from "baseui/block"
@@ -21,13 +20,7 @@ interface ActorTimelineTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: ActorMarkdownRemark
-    actors: {
-      nodes: ActorMarkdownRemark[]
-    }
-    topics: {
-      nodes: TopicMarkdownRemark[]
-    }
+    pageContent: { childMarkdownRemark: ActorMarkdownRemark }
     events: {
       nodes: EventMarkdownRemark[]
     }
@@ -38,7 +31,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
   data,
 }) => {
   return pipe(
-    ActorMarkdownRemark.decode(data.pageContent),
+    ActorMarkdownRemark.decode(data.pageContent.childMarkdownRemark),
     E.chain((pageContent) =>
       sequenceS(E.either)({
         pageContent: E.right(pageContent),
@@ -83,7 +76,6 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
               },
             }}
           >
-
             <Network
               width={networkWidth}
               height={200}
@@ -92,7 +84,11 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
               graph={graph}
               scale="all"
               onDoubleClick={() => {}}
-              onNodeClick={async (e) => await navigate(`/actors/${pageContent.frontmatter.uuid}/#${e.data.frontmatter.uuid}`)}
+              onNodeClick={async (e) =>
+                await navigate(
+                  `/actors/${pageContent.frontmatter.uuid}/#${e.data.frontmatter.uuid}`
+                )
+              }
               onEventLabelClick={() => {}}
             />
           </Block>
@@ -106,17 +102,17 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
 
 export const pageQuery = graphql`
   query ActorTimelineTemplatePage($actorUUID: String!) {
-    pageContent: markdownRemark(frontmatter: { uuid: { eq: $actorUUID } }) {
-      ...ActorMarkdownRemark
+    pageContent: file(
+      sourceInstanceName: { eq: "actors" }
+      name: { eq: $actorUUID }
+    ) {
+      childMarkdownRemark {
+        ...ActorMarkdownRemark
+      }
     }
 
     events: allMarkdownRemark(
-      filter: {
-        fields: {
-          collection: { eq: "events" }
-          actors: { elemMatch: { uuid: { in: [$actorUUID] } } }
-        }
-      }
+      filter: { fields: { actors: { in: [$actorUUID] } } }
     ) {
       nodes {
         ...EventMarkdownRemark

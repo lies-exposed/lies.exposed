@@ -22,7 +22,7 @@ interface GroupTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: GroupMarkdownRemark
+    pageContent: { childMarkdownRemark: GroupMarkdownRemark }
     events: {
       nodes: EventMarkdownRemark[]
     }
@@ -30,19 +30,21 @@ interface GroupTemplatePageProps {
 }
 
 const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
+  console.log(data.pageContent.childMarkdownRemark)
   return pipe(
-    GroupMarkdownRemark.decode(data.pageContent),
+    GroupMarkdownRemark.decode(data.pageContent.childMarkdownRemark),
     E.chain((pageContent) => {
       const selectedGroupIds = [pageContent.frontmatter.uuid]
       const selectedActorIds = pipe(
         pageContent.frontmatter.members,
+        O.map((members) => members.map((m) => m.uuid)),
         O.getOrElse((): string[] => [])
       )
 
       const topics = data.events.nodes.reduce<TopicFrontmatter[]>(
         (acc, e) =>
           pipe(
-            (e.fields.topics as any) as TopicFrontmatter[],
+            (e.frontmatter.topics as any) as TopicFrontmatter[],
             A.filter((t) => acc.find((_) => _.uuid === t.uuid) === undefined),
             (topics) => [...acc, ...topics]
           ),
@@ -51,14 +53,13 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
 
       const selectedTopicIds = topics.map((t) => t.uuid)
 
-      
       return sequenceS(E.either)({
         pageContent: E.right(pageContent),
         networkProps: createNetworkTemplateProps({
           data: {
             events: data.events,
             actors: { nodes: [] },
-            groups: { nodes: [data.pageContent] },
+            groups: { nodes: [data.pageContent.childMarkdownRemark] },
           },
           margin: { vertical: 20, horizontal: 20 },
           height: 200,
@@ -110,7 +111,7 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
           <GroupPageContent
             {...pageContent}
             members={pipe(
-              pageContent.fields.members,
+              pageContent.frontmatter.members,
               O.map((members) =>
                 members.map((m) => ({
                   ...m,
@@ -129,17 +130,17 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
 
 export const pageQuery = graphql`
   query GroupTemplateQuery($group: String!) {
-    pageContent: markdownRemark(frontmatter: { uuid: { eq: $group } }) {
-      ...GroupMarkdownRemark
+    pageContent: file(
+      name: { eq: $group }
+      sourceInstanceName: { eq: "groups" }
+    ) {
+      childMarkdownRemark {
+        ...GroupMarkdownRemark
+      }
     }
 
     events: allMarkdownRemark(
-      filter: {
-        fields: {
-          collection: { eq: "events" }
-          groups: { elemMatch: { uuid: { in: [$group] } } }
-        }
-      }
+      filter: { fields: { groups: { in: [$group] } } }
     ) {
       nodes {
         ...EventMarkdownRemark

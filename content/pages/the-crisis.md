@@ -1,6 +1,7 @@
 ---
 title: La Crisi del nostro tempo
-slug: the-crisis
+path: /the-crisis
+date: 2020-08-27
 ---
 
 <full-size-section id="la-crisi-del-nostro-tempo">

@@ -1,5 +1,4 @@
 import EventList from "@components/lists/EventList"
-import { ActorFrontmatter } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
 import { TopicFrontmatter } from "@models/topic"
 import { HTMLtoAST, MDtoHTML } from "@utils/markdownHTML"
@@ -31,17 +30,6 @@ export const EventPreview: React.FC<any> = (props) => {
         }))
       : [{ label: "not-a-real-topic", slug: "not-a-real-topic", color: "#FFF" }]
 
-  const actors = pipe(
-    O.fromNullable<ActorFrontmatter[]>(frontmatter.actors),
-    O.map((aa) =>
-      aa.map((a) => ({
-        ...a,
-        avatar: O.none,
-        color: O.none,
-      }))
-    )
-  )
-
   const groups = O.none
   const type = O.none
 
@@ -55,17 +43,9 @@ export const EventPreview: React.FC<any> = (props) => {
         links,
         location: O.fromNullable(location),
         actors: O.none,
-        topics: pipe(
-          topics,
-          NEA.map((t) => t.uuid)
-        ),
-        groups,
-        type,
-      },
-      fields: {
-        actors,
         topics,
         groups,
+        type,
       },
       htmlAst: HTMLtoAST(MDtoHTML(body)),
     },

@@ -4,7 +4,6 @@ import SEO from "@components/SEO"
 import { TopicPageContent } from "@components/TopicPageContent"
 import EventList from "@components/lists/EventList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
 import { TopicMarkdownRemark } from "@models/topic"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -18,10 +17,7 @@ import React from "react"
 interface TopicTimelineTemplateProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: TopicMarkdownRemark
-    actors: {
-      nodes: ActorMarkdownRemark[]
-    }
+    pageContent: { childMarkdownRemark: TopicMarkdownRemark}
     events: {
       nodes: EventMarkdownRemark[]
     }
@@ -34,7 +30,7 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
   return pipe(
     sequenceS(E.either)({
       events: t.array(EventMarkdownRemark).decode(data.events.nodes),
-      pageContent: TopicMarkdownRemark.decode(data.pageContent),
+      pageContent: TopicMarkdownRemark.decode(data.pageContent.childMarkdownRemark),
     }),
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
       return (
@@ -52,16 +48,18 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 
 export const pageQuery = graphql`
   query TopicTemplateQuery($topic: String!) {
-    pageContent: markdownRemark(frontmatter: { uuid: { eq: $topic } }) {
-      ...TopicMarkdownRemark
+    pageContent: file(
+      sourceInstanceName: { eq: "topics" }
+      name: { eq: $topic }
+    ) {
+      childMarkdownRemark {
+        ...TopicMarkdownRemark
+      }
     }
 
     events: allMarkdownRemark(
       filter: {
-        fields: {
-          collection: { eq: "events" }
-          topics: { elemMatch: { uuid: { in: [$topic] } } }
-        }
+        fields: { collection: { eq: "events" }, topics: { in: [$topic] } }
       }
     ) {
       nodes {

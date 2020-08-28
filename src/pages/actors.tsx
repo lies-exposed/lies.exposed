@@ -3,7 +3,7 @@ import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import ActorList from "@components/lists/ActorList"
-import { ActorMarkdownRemark } from "@models/actor"
+import { ActorFrontmatter } from "@models/actor"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -14,7 +14,7 @@ import * as t from "io-ts"
 import React from "react"
 
 interface Results {
-  actors: { nodes: ActorMarkdownRemark[] }
+  actors: { nodes: unknown[] }
   pageContent: PageContentFileNode
 }
 
@@ -22,17 +22,15 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
   const results: Results = useStaticQuery(graphql`
     query ActorsPage {
       pageContent: file(
-        sourceInstanceName: { eq: "pages" }
+        childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
         name: { eq: "actors" }
       ) {
-        ...PageContentFileNode
+        ...PageFileNode
       }
 
-      actors: allMarkdownRemark(
-        filter: { fields: { collection: { eq: "actors" } } }
-      ) {
+      actors: allActorFrontmatter {
         nodes {
-          ...ActorMarkdownRemark
+          ...Actor
         }
       }
     }
@@ -40,7 +38,7 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
 
   return pipe(
     sequenceS(E.either)({
-      actors: t.array(ActorMarkdownRemark).decode(results.actors.nodes),
+      actors: t.array(ActorFrontmatter).decode(results.actors.nodes),
       pageContent: PageContentFileNode.decode(results.pageContent),
     }),
     E.fold(throwValidationErrors, ({ actors, pageContent }) => {
@@ -48,14 +46,14 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
         itemId: "#actors-items",
         title: "Attori",
         subNav: actors.map((n) => ({
-          itemId: `/actors/${n.frontmatter.username}`,
-          title: n.frontmatter.fullName,
+          itemId: `/actors/${n.username}`,
+          title: n.fullName,
           subNav: [],
         })),
       }
 
       const acts = actors.map((a) => ({
-        ...a.frontmatter,
+        ...a,
         selected: false,
       }))
 

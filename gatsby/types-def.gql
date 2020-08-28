@@ -1,16 +1,10 @@
-# Articles
-# interface Article @nodeInterface{
-#   id: ID!
-#   uuid: String
-#   draft: Boolean!
-#   title: String!
-#   path: String!
-#   date: Date!
-#   links: [String!]
-# }
+interface BaseFrontmatter {
+  uuid: String!
+  date: Date!
+}
 
-type ArticleFrontmatter implements Node {
-  uuid: String
+type ArticleFrontmatter implements Node & BaseFrontmatter @dontInfer {
+  uuid: String!
   draft: Boolean!
   title: String!
   path: String!
@@ -18,83 +12,34 @@ type ArticleFrontmatter implements Node {
   links: [String!]
 }
 
-# type ArticleMarkdownRemark implements Node {
-#   frontmatter: Article!
-#   htmlAst: JSON!
-# }
-
-# # type ArticleFile implements Node {
-# #   sourceInstanceName: String
-# #   relativeDirectory: String
-# #   childMarkdownRemark: ArticleMarkdownRemark!
-# # }
-
-# Actors
-# interface Actor @nodeInterface {
-#   id: ID!
-#   uuid: String!
-#   fullName: String
-#   username: String
-#   avatar: File!
-#   color: String
-#   date: Date!
-# }
-
-type ActorFrontmatter implements Node {
+type ActorFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   fullName: String
   username: String
-  avatar: File
+  avatar: File! @fileByRelativePath
   color: String
   date: Date!
 }
 
-# type ActorMarkdownRemark implements Node {
-#   frontmatter: Actor!
-#   htmlAst: JSON!
-# }
-
-# # type ActorFile implements Node @dontInfer {
-# #   sourceInstanceName: String
-# #   relativeDirectory: String
-# #   childMarkdownRemark: ActorMarkdownRemark!
-# # }
-
-type GroupFrontmatter implements Node @dontInfer {
-  id: ID!
+type GroupFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   name: String!
-  avatar: File!
-  members: [String!]
+  avatar: File! @fileByRelativePath
+  members: [ActorFrontmatter!]
   date: Date!
   color: String
 }
 
-# type GroupMarkdownRemark implements Node {
-#   frontmatter: Group!
-#   htmlAst: JSON
-# }
-
-# # type GroupFile implements Node {
-# #   sourceInstanceName: String
-# #   relativeDirectory: String
-# #   childMarkdownRemark: GroupMarkdownRemark!
-# # }
-
-type PageFrontmatter implements Node @dontInfer {
+type PageFrontmatter implements Node & BaseFrontmatter @dontInfer {
+  uuid: String!
   title: String!
   path: String!
   date: Date!
   slug: String!
 }
 
-# type PageMarkdownRemark implements Node {
-#   frontmatter: Page!
-#   htmlAst: JSON!
-# }
-
 # Topics
-type TopicFrontmatter implements Node @dontInfer {
+type TopicFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   slug: String!
   label: String!
@@ -102,46 +47,25 @@ type TopicFrontmatter implements Node @dontInfer {
   color: String
 }
 
-# type TopicMarkdownRemark implements Node {
-#   frontmatter: Topic!
-#   htmlAst: JSON!
-# }
-
-# # type TopicFile implements Node @dontInfer {
-# #   sourceInstanceName: String
-# #   relativeDirectory: String
-# #   childMarkdownRemark: TopicMarkdownRemark!
-# # }
-
 # Events
-type EventFrontmatter implements Node @dontInfer {
+type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   title: String!
   date: Date!
   type: String
-  groups: [String]
-  topics: [String]
-  actors: [String]
-  links: [String]
+  location: String
+  groups: [GroupFrontmatter!]
+  topics: [TopicFrontmatter!]
+  actors: [ActorFrontmatter!]
+  links: [String!]
 }
 
-# type EventMarkdownRemark implements Node {
-#   frontmatter: Event!
-#   htmlAst: JSON
-# }
 
-# # type EventFile implements Node {
-# #   sourceInstanceName: String
-# #   relativeDirectory: String
-# #   childMarkdownRemark: EventMarkdownRemark!
-# # }
-
-type MarkdownRemarkFrontmatter {
+type MarkdownRemarkFrontmatter implements BaseFrontmatter {
   uuid: String!
+  date: Date!
 }
 
 type MarkdownRemark implements Node {
   frontmatter: Frontmatter
 }
-
-

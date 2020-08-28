@@ -20,7 +20,7 @@ const CrisisPage: React.FC<PageProps> = (props) => {
         sourceInstanceName: { eq: "pages" }
         name: { eq: "the-crisis" }
       ) {
-        ...PageContentFileNode
+        ...PageFileNode
       }
     }
   `)

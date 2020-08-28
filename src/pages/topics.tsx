@@ -4,7 +4,7 @@ import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import TopicList from "@components/lists/TopicList"
 import { PageContentFileNode } from "@models/page"
-import { TopicMarkdownRemark } from "@models/topic"
+import { TopicFrontmatter } from "@models/topic"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -14,7 +14,7 @@ import * as t from "io-ts"
 import React from "react"
 
 interface Results {
-  topics: { nodes: TopicMarkdownRemark[] }
+  topics: { nodes: unknown[] }
   pageContent: PageContentFileNode
 }
 
@@ -22,17 +22,15 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
   const results = useStaticQuery<Results>(graphql`
     query TopicsPage {
       pageContent: file(
-        sourceInstanceName: { eq: "pages" }
+        childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
         name: { eq: "topics" }
       ) {
-        ...PageContentFileNode
+        ...PageFileNode
       }
 
-      topics: allMarkdownRemark(
-        filter: { fields: { collection: { eq: "topics" } } }
-      ) {
+      topics: allTopicFrontmatter {
         nodes {
-          ...TopicMarkdownRemark
+          ...Topic
         }
       }
     }
@@ -40,7 +38,7 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
 
   return pipe(
     sequenceS(E.either)({
-      topics: t.array(TopicMarkdownRemark).decode(results.topics.nodes),
+      topics: t.array(TopicFrontmatter).decode(results.topics.nodes),
       pageContent: PageContentFileNode.decode(results.pageContent),
     }),
     E.fold(throwValidationErrors, ({ pageContent, topics }) => {
@@ -49,8 +47,8 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
         title: "Topics",
         subNav: topics.map((t) => {
           return {
-            itemId: `/topics/${t.frontmatter.uuid}`,
-            title: t.frontmatter.label,
+            itemId: `/topics/${t.uuid}`,
+            title: t.label,
             subNav: [],
           }
         }),
@@ -63,7 +61,7 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
             <PageContent {...pageContent.childMarkdownRemark} />
             <TopicList
               topics={topics.map((t) => ({
-                ...t.frontmatter,
+                ...t,
                 selected: false,
               }))}
               onTopicClick={async (t) => await navigate(`/topics/${t.uuid}`)}

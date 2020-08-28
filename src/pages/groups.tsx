@@ -3,7 +3,7 @@ import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import GroupList from "@components/lists/GroupList"
-import { GroupMarkdownRemark } from "@models/group"
+import { GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -14,42 +14,40 @@ import * as t from "io-ts"
 import React from "react"
 
 interface Results {
-  groups: { nodes: GroupMarkdownRemark[] }
+  groups: { nodes: unknown[] }
   pageContent: PageContentFileNode
 }
 
 const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
   const results = useStaticQuery<Results>(graphql`
     query GroupsPage {
-      groups: allMarkdownRemark(
-        filter: { fields: { collection: { eq: "groups" } } }
-      ) {
+      groups: allGroupFrontmatter {
         nodes {
-          ...GroupMarkdownRemark
+          ...Group
         }
       }
 
       pageContent: file(
-        sourceInstanceName: { eq: "pages" }
+        childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
         name: { eq: "groups" }
       ) {
-        ...PageContentFileNode
+        ...PageFileNode
       }
     }
   `)
 
   return pipe(
     sequenceS(E.either)({
-      groups: t.array(GroupMarkdownRemark).decode(results.groups.nodes),
+      groups: t.array(GroupFrontmatter).decode(results.groups.nodes),
       pageContent: PageContentFileNode.decode(results.pageContent),
     }),
     E.fold(throwValidationErrors, ({ groups, pageContent }) => {
       const groupsItems = {
         itemId: "#groups-items",
         title: "Gruppi",
-        subNav: results.groups.nodes.map((n) => ({
-          itemId: `/groups/${n.frontmatter.uuid}`,
-          title: n.frontmatter.name,
+        subNav: groups.map((n) => ({
+          itemId: `/groups/${n.uuid}`,
+          title: n.name,
           subNav: [],
         })),
       }
@@ -61,7 +59,7 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
             <PageContent {...pageContent.childMarkdownRemark} />
             <GroupList
               groups={groups.map((a) => ({
-                ...a.frontmatter,
+                ...a,
                 selected: false,
               }))}
               onGroupClick={async (a) => {

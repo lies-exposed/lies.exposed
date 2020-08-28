@@ -1,11 +1,13 @@
 import { graphql } from "gatsby"
 
 export const query = graphql`
-  fragment Group on MarkdownRemarkFrontmatter {
+  fragment Group on GroupFrontmatter {
     uuid
     date
     name
-    members
+    members {
+      ...Actor
+    }
     color
     avatar {
       publicURL
@@ -19,23 +21,8 @@ export const query = graphql`
 
   fragment GroupMarkdownRemark on MarkdownRemark {
     frontmatter {
-      ...Group
-    }
-    fields {
-      members {
-        uuid
-        date
-        fullName
-        username
-        color
-        avatar {
-          publicURL
-          childImageSharp {
-            fluid(maxWidth: 600) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-        }
+      ... on GroupFrontmatter {
+        ...Group
       }
     }
     htmlAst

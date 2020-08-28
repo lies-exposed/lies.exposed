@@ -1,6 +1,7 @@
 ---
 title: Eventi
-slug: events
+path: /events
+date: 2020-08-27
 ---
 
 Le persone comuni sono soggette alle decisioni e le azioni di aziende o istituzioni ([Gruppi](/groups)) e delle persone che le compongono ([Attori](/actors)).

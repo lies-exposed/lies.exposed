@@ -45,7 +45,7 @@ const IndexPage: React.FC = () => {
         sourceInstanceName: { eq: "pages" }
         name: { eq: "index" }
       ) {
-        ...PageContentFileNode
+        ...PageFileNode
       }
     }
   `)

@@ -1,7 +1,7 @@
 import { graphql } from "gatsby"
 
 export const query = graphql`
-  fragment Actor on MarkdownRemarkFrontmatter {
+  fragment Actor on ActorFrontmatter {
     uuid
     date
     fullName
@@ -19,7 +19,9 @@ export const query = graphql`
 
   fragment ActorMarkdownRemark on MarkdownRemark {
     frontmatter {
-      ...Actor
+      ... on ActorFrontmatter {
+        ...Actor
+      }
     }
     htmlAst
   }

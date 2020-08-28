@@ -1,6 +1,7 @@
 ---
-path: /topics
 title: Topics
+path: /topics
+date: 2020-08-27
 ---
 
 

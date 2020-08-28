@@ -1,9 +1,10 @@
 import * as t from "io-ts"
-import { date } from "io-ts-types/lib/date"
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 
-export const PageFrontmatter = t.interface({
+export const PageFrontmatter = t.type({
   title: t.string,
-  date: date
+  date: DateFromISOString,
+  path: t.string
 }, 'PageFrontmatter')
 
 export type PageFrontmatter = t.TypeOf<typeof PageFrontmatter>

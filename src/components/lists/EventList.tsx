@@ -48,7 +48,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                   flexGridColumnCount={1}
                   alignItems="center"
                 >
-                  {pipe(event.fields.topics, (topics) => (
+                  {pipe(event.frontmatter.topics, (topics) => (
                     // eslint-disable-next-line react/jsx-key
                     <TopicList
                       topics={topics.map((t) => ({
@@ -66,7 +66,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                   flexDirection="column"
                 >
                   {pipe(
-                    event.fields.groups,
+                    event.frontmatter.groups,
                     O.fold(
                       () => null,
                       (groups) => (
@@ -84,7 +84,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                     )
                   )}
                   {pipe(
-                    event.fields.actors,
+                    event.frontmatter.actors,
                     O.fold(
                       () => null,
                       (actors) => (

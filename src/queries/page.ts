@@ -1,19 +1,18 @@
 import { graphql } from "gatsby"
 
 export const query = graphql`
-  fragment Page on MarkdownRemarkFrontmatter {
+  fragment Page on PageFrontmatter {
     title
     path
     date
-    slug
   }
 
-  fragment PageContentFileNode on File {
-    id
-    relativeDirectory
+  fragment PageFileNode on File {
     childMarkdownRemark {
       frontmatter {
-        ...Page
+        ... on PageFrontmatter {
+          ...Page
+        }
       }
       htmlAst
       tableOfContents(absolute: false, maxDepth: 6)

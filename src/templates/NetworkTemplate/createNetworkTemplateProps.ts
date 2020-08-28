@@ -248,7 +248,7 @@ export function createNetworkTemplateProps({
       const topics = events.reduce<TopicFrontmatter[]>(
         (acc, e) => [
           ...acc,
-          ...e.fields.topics.filter(
+          ...e.frontmatter.topics.filter(
             (t) =>
               acc.find((i) => Eq.eqString.equals(i.uuid, t.uuid)) === undefined
           ),
@@ -421,7 +421,7 @@ export function createNetworkTemplateProps({
             // get topic from relative directory
 
             const topic = pipe(
-              e.fields.topics,
+              e.frontmatter.topics,
               NEA.map((topic) => {
                 return {
                   ...topic,
@@ -435,9 +435,9 @@ export function createNetworkTemplateProps({
 
             const eventFrontmatterType = e.frontmatter.type
 
-            const eventActors = e.fields.actors
+            const eventActors = e.frontmatter.actors
 
-            const eventGroups = e.fields.groups
+            const eventGroups = e.frontmatter.groups
 
             const eventPoint: EventPoint = {
               x:

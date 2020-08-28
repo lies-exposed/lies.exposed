@@ -194,7 +194,7 @@ class Network extends React.Component<NetworkProps, {}> {
                 </LabelSmall>
                 <div>
                   <TopicList
-                    topics={tooltipData.fields.topics.map((t) => ({
+                    topics={tooltipData.frontmatter.topics.map((t) => ({
                       ...t,
                       selected: false,
                     }))}
@@ -202,7 +202,7 @@ class Network extends React.Component<NetworkProps, {}> {
                   />
                 </div>
                 {pipe(
-                  tooltipData.fields.actors,
+                  tooltipData.frontmatter.actors,
                   O.map((actors) => (
                     <ActorList
                       key="actors"

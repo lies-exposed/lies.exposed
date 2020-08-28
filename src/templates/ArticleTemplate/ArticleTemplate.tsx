@@ -12,7 +12,7 @@ import React from "react"
 interface ArticleTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: ArticleMarkdownRemark
+    pageContent: { childMarkdownRemark: ArticleMarkdownRemark }
     // articles: {
     //   nodes: Array<{ childMarkdownRemark: { frontmatter: unknown } }>
     // }
@@ -20,9 +20,10 @@ interface ArticleTemplatePageProps {
 }
 
 const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = (props) => {
+  console.log(props.data.pageContent)
   return pipe(
     sequenceS(E.either)({
-      pageContent: ArticleMarkdownRemark.decode(props.data.pageContent),
+      pageContent: ArticleMarkdownRemark.decode(props.data.pageContent.childMarkdownRemark),
       // articles: t
       //   .array(ArticleFileNodeChildMarkdownRemark)
       //   .decode(props.data.articles.nodes.map(n => n.childMarkdownRemark)),
@@ -48,16 +49,18 @@ const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = (props) => {
 }
 
 export const pageQuery = graphql`
-  query($filePath: String!) {
-    pageContent: markdownRemark(
-      frontmatter: { path: { eq: $filePath } }
+  query($articleUUID: String!) {
+    pageContent: file(
+      name: { eq: $articleUUID }
     ) {
-      ...ArticleMarkdownRemark
+      childMarkdownRemark {
+        ...ArticleMarkdownRemark
+      }
     }
 
-    articles: allMarkdownRemark {
+    articles: allArticleFrontmatter {
       nodes {
-        ...ArticleMarkdownRemark
+        ...Article
       }
     }
   }

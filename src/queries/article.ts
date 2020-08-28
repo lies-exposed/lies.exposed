@@ -1,15 +1,19 @@
 import { graphql } from "gatsby"
 
 export const query = graphql`
-  fragment Article on MarkdownRemarkFrontmatter {
+  fragment Article on ArticleFrontmatter {
+    uuid
     title
     path
     date
+    draft
   }
 
   fragment ArticleMarkdownRemark on MarkdownRemark {
     frontmatter {
-      ...Article
+      ... on ArticleFrontmatter {
+        ...Article
+      }
     }
     htmlAst
   }

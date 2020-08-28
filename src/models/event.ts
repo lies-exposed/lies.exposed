@@ -1,7 +1,7 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
-import {nonEmptyArray} from 'io-ts-types/lib/nonEmptyArray'
+import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { ObjectFromString } from "./ObjectFromString"
 import { ActorFrontmatter } from "./actor"
@@ -62,12 +62,12 @@ export const EventFrontmatter = t.strict(
     title: t.string,
     date: DateFromISOString,
     location: optionFromNullable(ObjectFromString.pipe(PointIO)),
-    topics: nonEmptyArray(t.string),
-    actors: optionFromNullable(t.array(t.string)),
-    groups: optionFromNullable(t.array(t.string)),
     type: optionFromNullable(EventType),
     cover: optionFromNullable(t.string),
     links: optionFromNullable(t.array(t.string)),
+    actors: optionFromNullable(t.array(ActorFrontmatter)),
+    groups: optionFromNullable(t.array(GroupFrontmatter)),
+    topics: nonEmptyArray(TopicFrontmatter),
   },
   "EventFrontmatter"
 )
@@ -77,11 +77,11 @@ export type EventFrontmatter = t.TypeOf<typeof EventFrontmatter>
 export const EventMarkdownRemark = t.interface(
   {
     frontmatter: EventFrontmatter,
-    fields: t.interface({
-      actors: optionFromNullable(t.array(ActorFrontmatter)),
-      groups: optionFromNullable(t.array(GroupFrontmatter)),
-      topics: nonEmptyArray(TopicFrontmatter),
-    }),
+    // fields: t.interface({
+    //   actors: optionFromNullable(t.array(ActorFrontmatter)),
+    //   groups: optionFromNullable(t.array(GroupFrontmatter)),
+    //   topics: nonEmptyArray(TopicFrontmatter),
+    // }),
     htmlAst: t.object,
   },
   "EventMarkdownRemark"

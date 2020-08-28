@@ -3,7 +3,6 @@ import * as Eq from "fp-ts/lib/Eq"
 import * as t from "io-ts"
 import fs from "fs"
 import path from "path"
-import * as Ord from "fp-ts/lib/Ord"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import * as E from "fp-ts/lib/Either"
@@ -14,14 +13,11 @@ import {
   Node,
   CreateNodeArgs,
   CreateResolversArgs,
-  // NodeInput,
 } from "gatsby"
 import { GroupMarkdownRemark, GroupFrontmatter } from "../src/models/group"
 import {
-  ArticleMarkdownRemark,
   ArticleFrontmatter,
 } from "../src/models/article"
-import * as Map from "fp-ts/lib/Map"
 import { ActorFrontmatter } from "../src/models/actor"
 import { TopicFrontmatter } from "../src/models/topic"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -47,26 +43,14 @@ const createArticlePages = async ({
   )
 
   const result = await graphql<{
-    articles: { nodes: { childMarkdownRemark: ArticleMarkdownRemark }[] }
+    articles: { nodes: ArticleFrontmatter[] }
   }>(`
     {
-      articles: allFile(
-        sort: {
-          order: DESC
-          fields: [childMarkdownRemark___frontmatter___date]
-        }
-        filter: { sourceInstanceName: { eq: "articles" } }
-        limit: 1000
-      ) {
+      articles: allArticleFrontmatter {
         nodes {
-          childMarkdownRemark {
-            frontmatter {
-              ... on Article {
-                path
-                title
-              }
-            }
-          }
+          uuid
+          title
+          path
         }
       }
     }
@@ -85,17 +69,17 @@ const createArticlePages = async ({
 
   result.data.articles.nodes.forEach((node) => {
     const context = {
-      filePath: node.childMarkdownRemark.frontmatter.path,
+      articleUUID: node.uuid,
     }
 
     reporter.info(
       `article page [${
-        node.childMarkdownRemark.frontmatter.title
+        node.title
       }] context: ${JSON.stringify(context, null, 4)}`
     )
 
     createPage({
-      path: `/articles/${node.childMarkdownRemark.frontmatter.path}`,
+      path: `/articles/${node.path}`,
       component: postTemplate,
       // additional data can be passed via context
       context,
@@ -121,9 +105,13 @@ const createGroupPages = async ({
         nodes {
           childMarkdownRemark {
             frontmatter {
-              uuid
-              name
-              members
+              ... on GroupFrontmatter {
+                uuid
+                name
+                members {
+                  uuid
+                }
+              }
             }
           }
         }
@@ -153,7 +141,9 @@ const createGroupPages = async ({
 
     const context = {
       group: groupUUID,
-      members: node.childMarkdownRemark.frontmatter.members,
+      members: (node.childMarkdownRemark.frontmatter.members as any).map(
+        (m: any) => m.uuid
+      ),
     }
 
     reporter.info(
@@ -355,9 +345,32 @@ const ActorF = t.type({
   avatar: optionFromNullable(t.string),
 })
 
+const {
+  avatar: _groupAvatar,
+  members,
+  ...GroupFrontmatterProps
+} = GroupFrontmatter.props
+const GroupF = t.type({
+  ...GroupFrontmatterProps,
+  avatar: optionFromNullable(t.string),
+  members: optionFromNullable(t.array(t.string)),
+})
+const {
+  groups,
+  topics,
+  actors,
+  ...EventFrontmatterProps
+} = EventFrontmatter.type.props
+
+const EventF = t.type({
+  ...EventFrontmatterProps,
+  groups: optionFromNullable(t.array(t.string)),
+  topics: optionFromNullable(t.array(t.string)),
+  actors: optionFromNullable(t.array(t.string)),
+})
+
 export const createSchemaCustomization = async ({
   actions,
-  getNode,
   schema,
 }: CreateSchemaCustomizationArgs) => {
   const { createTypes } = actions
@@ -379,144 +392,44 @@ export const createSchemaCustomization = async ({
           "PageFrontmatter",
           "MarkdownRemarkFrontmatter",
         ],
-        resolveType: async (source, context, info, abstractType) => {
-          console.log({
-            source,
-            ActorFrontmatter: E.isRight(ActorF.decode(source)),
-            GroupFrontmatter: E.isRight(GroupFrontmatter.decode(source)),
-            EventFrontmatter: E.isRight(EventFrontmatter.decode(source)),
-            TopicFrontmatter: E.isRight(TopicFrontmatter.decode(source)),
-            PageFrontmatter: E.isRight(PageFrontmatter.decode(source)),
-            ArticleFrontmatter: E.isRight(ArticleFrontmatter.decode(source)),
-          })
+        resolveType: async (source) => {
+          // console.log({
+          //   source,
+          //   ActorFrontmatter: ActorF.decode(source),
+          //   GroupFrontmatter: GroupF.decode(source),
+          //   EventFrontmatter: EventF.decode(source),
+          //   TopicFrontmatter: TopicFrontmatter.decode(source),
+          //   ArticleFrontmatter: ArticleFrontmatter.decode(source),
+          //   PageFrontmatter: PageFrontmatter.decode(source)
+          // })
+
           if (E.isRight(ActorF.decode(source))) {
             return "ActorFrontmatter"
           }
 
-          if (E.isRight(GroupFrontmatter.decode(source))) {
+          if (E.isRight(GroupF.decode(source))) {
             return "GroupFrontmatter"
-          }
-
-          if (E.isRight(EventFrontmatter.decode(source))) {
-            return "EventFrontmatter"
           }
 
           if (E.isRight(TopicFrontmatter.decode(source))) {
             return "TopicFrontmatter"
           }
 
-          if (E.isRight(PageFrontmatter.decode(source))) {
-            return "PageFrontmatter"
-          }
-
           if (E.isRight(ArticleFrontmatter.decode(source))) {
             return "ArticleFrontmatter"
+          }
+
+          if (E.isRight(EventF.decode(source))) {
+            return "EventFrontmatter"
+          }
+
+          if (E.isRight(PageFrontmatter.decode(source))) {
+            return "PageFrontmatter"
           }
 
           return "MarkdownRemarkFrontmatter"
         },
       }),
-      // schema.buildObjectType({
-      //   name: "GroupFrontmatter",
-      //   interfaces: ["Node", "Group"],
-      //   extensions: {
-      //     childOf: ["MarkdownRemark"],
-      //   },
-      //   fields: {
-      //     uuid: { type: "String!" },
-      //     name: {
-      //       type: "String!",
-      //     },
-      //     avatar: { type: "File!" },
-      //     members: { type: "[String!]" },
-      //     date: { type: "Date!" },
-      //   },
-      // }),
-      // schema.buildObjectType({
-      //   name: "ActorMarkdown",
-      //   interfaces: ["Node"],
-      //   fields: {
-      //     username: {
-      //       type: "String",
-      //       resolve: (source, args, context) => {
-      //         const parent = context.nodeModel.getNodeById({ id: source.parent })
-      //         return parent.frontmatter.username
-      //       },
-      //     },
-      //   },
-      // }),
-      // schema.buildObjectType({
-      //   name: "GroupMarkdown",
-      //   interfaces: ["Node", "Group"],
-      //   fields: {
-      //     id: {
-      //       type: "ID!",
-      //     },
-      //     uuid: {
-      //       type: "String!",
-      //       resolve: (source, args, context) => {
-      //         const parent = context.nodeModel.getNodeById({
-      //           id: source.parent,
-      //         })
-      //         return parent.frontmatter.uuid
-      //       },
-      //     },
-      //     name: {
-      //       type: "String!",
-      //       resolve: (source, args, context) => {
-      //         const parent = context.nodeModel.getNodeById({
-      //           id: source.parent,
-      //         })
-      //         return parent.frontmatter.name
-      //       },
-      //     },
-      //     date: {
-      //       type: "Date!",
-      //     },
-      //     avatar: {
-      //       type: "File!",
-      //       resolve: (source, args, context) => {
-      //         const parent = context.nodeModel.getNodeById({
-      //           id: source.parent,
-      //         })
-      //         return parent.frontmatter.avatar
-      //       },
-      //     },
-      //     color: {
-      //       type: "String!",
-      //       resolve: (source, args, context) => {
-      //         const parent = context.nodeModel.getNodeById({
-      //           id: source.parent,
-      //         })
-      //         return parent.frontmatter.color
-      //       },
-      //     },
-      //     members: {
-      //       type: "[Actor!]",
-      //       resolve: async (source, args, context) => {
-      //         console.log({ source, args })
-      //         const parent = context.nodeModel.getNodeById({
-      //           id: source.parent,
-      //         })
-      //         const memberIds = parent.frontmatter.members ??[]
-      //         const members = context.nodeModel
-      //           .getAllNodes({
-      //             type: "Actor",
-      //           })
-      //           .filter((m: any) => {
-      //             console.log(m)
-      //             const actorParentNode = context.nodeModel.getNodeById({
-      //               id: m.parent
-      //             })
-      //             console.log(actorParentNode)
-      //             return memberIds.includes(actorParentNode.frontmatter.uuid)
-      //           })
-
-      //         return members
-      //       },
-      //     },
-      //   },
-      // }),
     ],
     { name: "default-site-plugin" }
   )
@@ -524,25 +437,71 @@ export const createSchemaCustomization = async ({
 
 export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
   const resolvers = {
+    ArticleFrontmatter: {
+      date: {
+        type: "Date!",
+      },
+    },
+    ActorFrontmatter: {
+      date: {
+        type: "Date!",
+      },
+      avatar: {
+        type: "File",
+      },
+    },
     GroupFrontmatter: {
       uuid: {
         type: "String!",
         resolve: (source: any) => source.uuid,
       },
+      avatar: {
+        type: "File!",
+      },
       members: {
-        type: "[String!]",
+        type: "[ActorFrontmatter!]",
         resolve: async (source: any, args: any, context: any) => {
           const memberIds = source.members ?? []
-          const members = context.nodeModel
+          return context.nodeModel
             .getAllNodes({
               type: "ActorFrontmatter",
             })
-            .filter((m: any) => {
-              console.log(m)
-              return memberIds.includes(m.uuid)
+            .filter((m: any) => memberIds.includes(m.uuid))
+        },
+      },
+    },
+    EventFrontmatter: {
+      actors: {
+        type: "[ActorFrontmatter!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const actorIds = source.actors ?? []
+          return context.nodeModel
+            .getAllNodes({
+              type: "ActorFrontmatter",
             })
-
-          return members
+            .filter((m: any) => actorIds.includes(m.uuid))
+        },
+      },
+      groups: {
+        type: "[GroupFrontmatter!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const groupIds = source.groups ?? []
+          return context.nodeModel
+            .getAllNodes({
+              type: "GroupFrontmatter",
+            })
+            .filter((m: any) => groupIds.includes(m.uuid))
+        },
+      },
+      topics: {
+        type: "[TopicFrontmatter!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const topicIds = source.topics ?? []
+          return context.nodeModel
+            .getAllNodes({
+              type: "TopicFrontmatter",
+            })
+            .filter((m: any) => topicIds.includes(m.uuid))
         },
       },
     },
@@ -552,131 +511,58 @@ export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
 
 export const sourceNodes = ({
   boundActionCreators,
-  getNodes,
+  getNodesByType,
   getNode,
 }: SourceNodesArgs) => {
   const { createNodeField } = boundActionCreators
 
-  const mdNodes = pipe(
-    getNodes(),
-    A.filter((n) => n.internal.type === "MarkdownRemark")
-  )
-
-  const groupedNodes = pipe(
-    mdNodes,
+  pipe(
+    getNodesByType("MarkdownRemark"),
     group(
       Eq.contramap<string, Node>((n) => (n.fields as any).collection as string)(
         Eq.eqString
       )
-    )
-  )
+    ),
+    A.map((n) => {
+      const firstNode = A.head(n)
+      if (O.isSome(firstNode)) {
+        const collection = (firstNode.value as any).fields.collection
+        switch (collection) {
+          case "events": {
+            n.forEach((e) => {
+              createNodeField({
+                node: e,
+                name: `actors`,
+                value: (e.frontmatter as any).actors || [],
+              })
 
-  const getNodeByUUID = (uuids: string[]) =>
-    mdNodes.filter((n) => uuids.includes((n.frontmatter as any).uuid))
+              createNodeField({
+                node: e,
+                name: `groups`,
+                value: (e.frontmatter as any).groups || [],
+              })
 
-  type EventsMap = Map<
-    string,
-    {
-      actors: ActorFrontmatter[]
-      groups: GroupFrontmatter[]
-      topics: TopicFrontmatter[]
-    }
-  >
-
-  type GroupsMap = Map<
-    string,
-    {
-      members: ActorFrontmatter[]
-    }
-  >
-
-  interface Results {
-    events: EventsMap
-    groups: GroupsMap
-  }
-
-  const initial: Results = { events: Map.empty, groups: Map.empty }
-
-  const nodes = groupedNodes.reduce<Results>((acc, n) => {
-    const firstNode = A.head(n)
-    if (O.isSome(firstNode)) {
-      const collection = (firstNode.value as any).fields.collection
-      switch (collection) {
-        case "events": {
-          const eventsMap = n.reduce<EventsMap>((acc1, e) => {
-            const actorNodes = getNodeByUUID(
-              (e.frontmatter as any).actors || []
-            )
-
-            const groupNodes = getNodeByUUID(
-              (e.frontmatter as any).groups || []
-            )
-            const topicNodes = getNodeByUUID(
-              (e.frontmatter as any).topics || []
-            )
-
-            return Map.insertAt(Eq.eqString)(e.id, {
-              actors: actorNodes.map((n: any) => n.frontmatter),
-              groups: groupNodes.map((n: any) => n.frontmatter),
-              topics: topicNodes.map((n: any) => n.frontmatter),
-            })(acc1)
-          }, acc.events)
-
-          return {
-            ...acc,
-            events: eventsMap,
+              createNodeField({
+                node: e,
+                name: `topics`,
+                value: (e.frontmatter as any).topics || [],
+              })
+            })
           }
-        }
 
-        case "groups": {
-          const groupsMap = n.reduce<GroupsMap>((acc1, e) => {
-            const memberNodes = getNodeByUUID(
-              (e.frontmatter as any).members || []
-            )
-
-            return Map.insertAt(Eq.eqString)(e.id, {
-              members: memberNodes.map((n: any) => n.frontmatter),
-            })(acc1)
-          }, acc.groups)
-
-          return {
-            ...acc,
-            groups: groupsMap,
+          case "groups": {
+            n.forEach((e) => {
+              createNodeField({
+                node: e,
+                name: `members`,
+                value: (e.frontmatter as any).members || [],
+              })
+            })
           }
         }
       }
-    }
-    return acc
-  }, initial)
-
-  Map.toArray(Ord.ordString)(nodes.events).forEach(([eventId, resources]) => {
-    // console.log({ eventId, topics: resources.topics })
-    createNodeField({
-      node: getNode(eventId),
-      name: `actors`,
-      value: resources.actors,
     })
-
-    createNodeField({
-      node: getNode(eventId),
-      name: `groups`,
-      value: resources.groups,
-    })
-
-    createNodeField({
-      node: getNode(eventId),
-      name: `topics`,
-      value: resources.topics,
-    })
-  })
-
-  Map.toArray(Ord.ordString)(nodes.groups).forEach(([groupId, resources]) => {
-    createNodeField({
-      node: getNode(groupId),
-      name: `members`,
-      value: resources.members,
-    })
-  })
+  )
 
   return Promise.resolve(undefined as any)
 }
@@ -702,6 +588,7 @@ export const onCreateNode = ({
   node,
   actions,
   getNode,
+  getNodesByType,
   createNodeId,
 }: CreateNodeArgs) => {
   const { createNodeField, createNode } = actions
@@ -715,12 +602,41 @@ export const onCreateNode = ({
       value: collection,
     })
 
+    switch (collection) {
+      case "events": {
+        createNodeField({
+          name: "actors",
+          node,
+          value: (node.frontmatter as any).actors ?? [],
+        })
+
+        createNodeField({
+          name: "groups",
+          node,
+          value: (node.frontmatter as any).groups ?? [],
+        })
+
+        createNodeField({
+          name: "topics",
+          node,
+          value: (node.frontmatter as any).topics ?? [],
+        })
+      }
+
+      case "groups": {
+        createNodeField({
+          name: "members",
+          node,
+          value: (node.frontmatter as any).members ?? [],
+        })
+      }
+    }
+
     const type = collectionToTypeMap[collection]
     const nodeId = createNodeId(`${type}-${node.id}`)
-    console.log(`Creating ${type} node`, nodeId)
+
     createNode({
       ...(node.frontmatter as any),
-      __type: type,
       id: nodeId,
       parent: node.id,
       internal: {

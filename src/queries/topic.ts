@@ -1,7 +1,7 @@
 import { graphql } from "gatsby"
 
 export const TopicFileNodeQuery = graphql`
-  fragment Topic on MarkdownRemarkFrontmatter {
+  fragment Topic on TopicFrontmatter {
     uuid
     label
     slug
@@ -11,7 +11,9 @@ export const TopicFileNodeQuery = graphql`
 
   fragment TopicMarkdownRemark on MarkdownRemark {
     frontmatter {
-      ...Topic
+      ... on TopicFrontmatter {
+        ...Topic
+      }
     }
     htmlAst
   }

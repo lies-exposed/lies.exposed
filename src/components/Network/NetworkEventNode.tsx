@@ -35,7 +35,7 @@ const NetworkNode: React.FC<NetworkNodeProps> = ({
       : {}),
   }
 
-  const outerCircleColor = node.data.fields.topics[0].color
+  const outerCircleColor = node.data.frontmatter.topics[0].color
   const circleColor =  getColorByEventType({
     type: node.data.frontmatter.type,
   })
