@@ -25,10 +25,10 @@ export const EventPreview: React.FC<any> = (props) => {
           label: t,
           slug: t,
           date: new Date().toISOString(),
-          color: "#FFF",
+          color: "FFF",
           selected: false,
         }))
-      : [{ label: "not-a-real-topic", slug: "not-a-real-topic", color: "#FFF" }]
+      : [{ label: "not-a-real-topic", slug: "not-a-real-topic", color: "FFF" }]
 
   const groups = O.none
   const type = O.none

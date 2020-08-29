@@ -1,22 +1,19 @@
 import * as t from "io-ts"
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { Frontmatter } from "./Frontmatter"
 
-export const ArticleFrontmatter = t.type(
+export const ArticleFrontmatter = t.strict(
   {
-    uuid: t.string,
+    ...Frontmatter.props,
     title: t.string,
-    date: DateFromISOString,
     path: t.string,
     draft: t.boolean,
-    links: optionFromNullable(t.array(t.string))
+    links: optionFromNullable(t.array(t.string)),
   },
   "ArticleFrontmatter"
 )
 
-export type ArticleFrontmatter = t.TypeOf<
-  typeof ArticleFrontmatter
->
+export type ArticleFrontmatter = t.TypeOf<typeof ArticleFrontmatter>
 
 export const ArticleMarkdownRemark = t.type(
   {

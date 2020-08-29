@@ -2,7 +2,7 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import { ArticleMarkdownRemark, ArticleFrontmatter } from "@models/article"
+import { ArticleFrontmatter } from "@models/article"
 import { PageContentFileNode } from "@models/page"
 import { useStaticQuery, graphql } from "gatsby"
 import React from "react"

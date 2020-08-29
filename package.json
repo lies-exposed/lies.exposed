@@ -116,7 +116,6 @@
     "eslint-plugin-standard": "4.0.1",
     "husky": "4.2.3",
     "lint-staged": "10.0.8",
-    "netlify-cli": "2.59.1",
     "prettier": "2.0.5",
     "typescript": "3.8.3"
   },
@@ -135,9 +134,7 @@
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "netlify:build": "netlify build",
-    "netlify:deploy": "netlify deploy"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
   },
   "husky": {
     "hooks": {

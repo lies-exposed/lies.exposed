@@ -58,7 +58,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                       r={circle.r}
                       cx={circle.x}
                       cy={circle.y}
-                      fill={circle.data.color}
+                      fill={`#${circle.data.color}`}
                       onMouseLeave={hideTooltip}
                       onMouseOver={handleMouseOver(circle.data)}
                     />

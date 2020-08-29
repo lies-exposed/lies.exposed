@@ -1,16 +1,15 @@
 import { GroupPageContent } from "@components/GroupPageContent"
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import Network from "@components/Network/Network"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
 import { EventMarkdownRemark } from "@models/event"
 import { GroupMarkdownRemark } from "@models/group"
-import { TopicFrontmatter } from "@models/topic"
 import { createNetworkTemplateProps } from "@templates/NetworkTemplate/createNetworkTemplateProps"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { Block } from "baseui/block"
 import { sequenceS } from "fp-ts/lib/Apply"
-import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -30,39 +29,24 @@ interface GroupTemplatePageProps {
 }
 
 const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
-  console.log(data.pageContent.childMarkdownRemark)
   return pipe(
     GroupMarkdownRemark.decode(data.pageContent.childMarkdownRemark),
     E.chain((pageContent) => {
       const selectedGroupIds = [pageContent.frontmatter.uuid]
-      const selectedActorIds = pipe(
-        pageContent.frontmatter.members,
-        O.map((members) => members.map((m) => m.uuid)),
-        O.getOrElse((): string[] => [])
-      )
-
-      const topics = data.events.nodes.reduce<TopicFrontmatter[]>(
-        (acc, e) =>
-          pipe(
-            (e.frontmatter.topics as any) as TopicFrontmatter[],
-            A.filter((t) => acc.find((_) => _.uuid === t.uuid) === undefined),
-            (topics) => [...acc, ...topics]
-          ),
-        []
-      )
-
-      const selectedTopicIds = topics.map((t) => t.uuid)
+      const selectedActorIds: string[] = []
+      const selectedTopicIds: string[] = []
 
       return sequenceS(E.either)({
         pageContent: E.right(pageContent),
         networkProps: createNetworkTemplateProps({
+          minDate: O.none,
+          maxDate: O.none,
           data: {
             events: data.events,
-            actors: { nodes: [] },
-            groups: { nodes: [data.pageContent.childMarkdownRemark] },
           },
           margin: { vertical: 20, horizontal: 20 },
           height: 200,
+          width: 1300,
           scale: "all",
           scalePoint: O.none,
           selectedGroupIds,
@@ -108,20 +92,22 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
               onEventLabelClick={() => {}}
             />
           </Block>
-          <GroupPageContent
-            {...pageContent}
-            members={pipe(
-              pageContent.frontmatter.members,
-              O.map((members) =>
-                members.map((m) => ({
-                  ...m,
-                  selected: true,
-                }))
-              )
-            )}
-            onMemberClick={() => {}}
-          />
-          <EventList events={selectedNodes} />
+          <MainContent>
+            <GroupPageContent
+              {...pageContent}
+              members={pipe(
+                pageContent.frontmatter.members,
+                O.map((members) =>
+                  members.map((m) => ({
+                    ...m,
+                    selected: true,
+                  }))
+                )
+              )}
+              onMemberClick={() => {}}
+            />
+            <EventList events={selectedNodes} />
+          </MainContent>
         </Layout>
       )
     })

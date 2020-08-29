@@ -1,11 +1,10 @@
 import { EventPoint } from "@models/event"
 import { getColorByEventType } from "@utils/event"
 import { Group } from "@vx/group"
-import { HierarchyPointNode } from "d3-hierarchy"
 import * as React from "react"
 
 export interface NetworkNodeProps {
-  node: HierarchyPointNode<EventPoint["data"]>
+  node: EventPoint
   onMouseOver?: (
     event: React.MouseEvent<SVGElement, React.MouseEvent>,
     data: EventPoint["data"]
@@ -20,6 +19,7 @@ const NetworkNode: React.FC<NetworkNodeProps> = ({
   onMouseOut,
   onClick,
 }) => {
+
   const groupProps = {
     ...(onMouseOver !== undefined
       ? {
@@ -35,8 +35,8 @@ const NetworkNode: React.FC<NetworkNodeProps> = ({
       : {}),
   }
 
-  const outerCircleColor = node.data.frontmatter.topics[0].color
-  const circleColor =  getColorByEventType({
+  const innerCircleColor = node.color
+  const outerCircleColor =  getColorByEventType({
     type: node.data.frontmatter.type,
   })
 
@@ -44,7 +44,7 @@ const NetworkNode: React.FC<NetworkNodeProps> = ({
     <Group {...(groupProps as any)} onClick={() => onClick(node)}>
       <>
         <circle r={8} fill={outerCircleColor} />
-        <circle r={3} fill={circleColor} />
+        <circle r={6} fill={`#${innerCircleColor}`} />
       </>
     </Group>
   )

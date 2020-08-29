@@ -20,7 +20,6 @@ interface ArticleTemplatePageProps {
 }
 
 const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = (props) => {
-  console.log(props.data.pageContent)
   return pipe(
     sequenceS(E.either)({
       pageContent: ArticleMarkdownRemark.decode(props.data.pageContent.childMarkdownRemark),

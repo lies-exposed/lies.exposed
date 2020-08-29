@@ -4,13 +4,13 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { ActorFrontmatter } from "./actor"
 import { ImageFileNode } from "./image"
 
-export const GroupFrontmatter = t.interface(
+export const GroupFrontmatter = t.strict(
   {
     uuid: t.string,
     name: t.string,
     date: DateFromISOString,
     avatar: optionFromNullable(ImageFileNode),
-    color: optionFromNullable(t.string),
+    color: t.string,
     members: optionFromNullable(t.array(ActorFrontmatter)),
   },
   "GroupFrontmatter"

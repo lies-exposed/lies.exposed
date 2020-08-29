@@ -339,7 +339,7 @@ export const createPages = async (options: CreatePagesArgs) => {
   // await createNetworkPages(options)
 }
 
-const { avatar, ...ActorFrontmatterProps } = ActorFrontmatter.props
+const { avatar, ...ActorFrontmatterProps } = ActorFrontmatter.type.props
 const ActorF = t.type({
   ...ActorFrontmatterProps,
   avatar: optionFromNullable(t.string),
@@ -349,7 +349,7 @@ const {
   avatar: _groupAvatar,
   members,
   ...GroupFrontmatterProps
-} = GroupFrontmatter.props
+} = GroupFrontmatter.type.props
 const GroupF = t.type({
   ...GroupFrontmatterProps,
   avatar: optionFromNullable(t.string),
