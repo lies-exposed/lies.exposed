@@ -1,5 +1,6 @@
 import { ActorPageContent } from "@components/ActorPageContent"
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import Network from "@components/Network/Network"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
@@ -38,11 +39,12 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
         networkProps: createNetworkTemplateProps({
           data: {
             events: data.events,
-            actors: { nodes: [] },
-            groups: { nodes: [] },
           },
+          minDate: O.none,
+          maxDate: O.none,
           height: 200,
           margin: { vertical: 20, horizontal: 20 },
+          width: 1300,
           scale: "all",
           scalePoint: O.none,
           selectedActorIds: [pageContent.frontmatter.uuid],
@@ -92,8 +94,10 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
               onEventLabelClick={() => {}}
             />
           </Block>
-          <ActorPageContent {...pageContent} />
-          <EventList events={selectedNodes} />
+          <MainContent>
+            <ActorPageContent {...pageContent} />
+            <EventList events={selectedNodes} />
+          </MainContent>
         </Layout>
       )
     })

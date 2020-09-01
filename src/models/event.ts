@@ -77,11 +77,6 @@ export type EventFrontmatter = t.TypeOf<typeof EventFrontmatter>
 export const EventMarkdownRemark = t.interface(
   {
     frontmatter: EventFrontmatter,
-    // fields: t.interface({
-    //   actors: optionFromNullable(t.array(ActorFrontmatter)),
-    //   groups: optionFromNullable(t.array(GroupFrontmatter)),
-    //   topics: nonEmptyArray(TopicFrontmatter),
-    // }),
     htmlAst: t.object,
   },
   "EventMarkdownRemark"
@@ -89,33 +84,11 @@ export const EventMarkdownRemark = t.interface(
 
 export type EventMarkdownRemark = t.TypeOf<typeof EventMarkdownRemark>
 
-// export const EventData = t.interface(
-//   {
-//     frontmatter: t.strict(
-//       {
-//         uuid: t.string,
-//         title: t.string,
-//         date: date,
-//         actors: option(t.array(ActorFrontmatter)),
-//         groups: option(t.array(GroupFrontmatter)),
-//         topics: t.array(TopicFrontmatter),
-//         links: option(t.array(t.string)),
-//         type: option(EventType),
-//         cover: option(t.string),
-//       },
-//       "EventFrontmatter"
-//     ),
-//     htmlAst: t.object,
-//   },
-//   "EventData"
-// )
-
-// export type EventData = t.TypeOf<typeof EventData>
-
 export const EventPoint = t.interface(
   {
     x: t.number,
     y: t.number,
+    color: t.string,
     data: EventMarkdownRemark,
   },
   "EventPoint"

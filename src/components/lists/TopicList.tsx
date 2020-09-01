@@ -21,7 +21,7 @@ export const TopicListItem: React.FC<
     key={t.slug}
     kind={KIND.custom}
     variant={t.selected ? VARIANT.solid : VARIANT.outlined}
-    color={t.color}
+    color={`#${t.color}`}
     title={t.label}
     onClick={() => onClick?.(t)}
     closeable={false}
@@ -38,7 +38,6 @@ export const TopicListItem: React.FC<
 )
 
 const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
-
   return (
     <List<TopicListTopic>
       data={topics}

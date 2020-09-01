@@ -8,11 +8,6 @@ import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 
-export const ordEventFileNodeDate = Ord.ord.contramap(
-  Ord.ordDate,
-  (e: EventMarkdownRemark) => e.frontmatter.date
-)
-
 export const ordEventPointDate = Ord.ord.contramap(
   Ord.ordDate,
   (e: EventPoint) => e.data.frontmatter.date

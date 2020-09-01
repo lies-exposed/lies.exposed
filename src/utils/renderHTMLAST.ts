@@ -26,10 +26,15 @@ const renderHTMLAST = new RehypeReact({
     "graph-selector": GraphSelector,
     video: (props) => {
       return Video({
+        ...{
+          muted: false,
+          autoPlay: false,
+          loop: false
+        },
         ...props,
-        ...(props.controls !== undefined
-          ? { controls: Boolean(props.control) }
-          : {}),  
+        ...(props.controls === "true" || props.controls === "false"
+          ? { controls: props.controls === "true" }
+          : {}),
         style: {
           maxHeight: 600,
         },

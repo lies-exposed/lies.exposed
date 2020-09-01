@@ -49,7 +49,7 @@ const actorsCollection: CmsCollectionV2 = {
     { label: "Username", name: "username", widget: "string" },
     { label: "Avatar", name: "avatar", widget: "image", required: false },
     { label: "Publish Date", name: "date", widget: "datetime" },
-    { label: "Color", name: "color", widget: "string" },
+    { label: "Color", name: "color", widget: "color" },
     { label: "Body", name: "body", widget: "markdown" },
   ],
 }
@@ -67,6 +67,7 @@ const groupCollection: CmsCollectionV2 = {
     { label: "UUID", name: "uuid", widget: "uuid" },
     { label: "Name", name: "name", widget: "string" },
     { label: "Avatar", name: "avatar", widget: "image", required: false },
+    { label: "Color", name: "color", widget: "color" },
     {
       label: "Members",
       name: "members",
@@ -188,8 +189,8 @@ const topicCollection: CmsCollectionV2 = {
     { label: "UUID", name: "uuid", widget: "uuid" },
     { label: "Label", name: "label", widget: "string" },
     { label: "Slug", name: "slug", widget: "string" },
-    { label: "Color", name: "color", widget: "string" },
-    { label: "Publish Date", name: "date", widget: "date" },
+    { label: "Color", name: "color", widget: "color" },
+    { label: "Publish Date", name: "date", widget: "datetime" },
     { label: "Body", name: "body", widget: "markdown" },
   ],
 }

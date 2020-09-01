@@ -6,9 +6,12 @@ import EventList from "@components/lists/EventList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { EventMarkdownRemark } from "@models/event"
 import { TopicMarkdownRemark } from "@models/topic"
+import { ordEventData } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
+import * as A from 'fp-ts/lib/Array'
 import * as E from "fp-ts/lib/Either"
+import * as Ord from 'fp-ts/lib/Ord'
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql } from "gatsby"
 import * as t from "io-ts"
@@ -17,7 +20,7 @@ import React from "react"
 interface TopicTimelineTemplateProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMarkdownRemark: TopicMarkdownRemark}
+    pageContent: { childMarkdownRemark: TopicMarkdownRemark }
     events: {
       nodes: EventMarkdownRemark[]
     }
@@ -30,7 +33,9 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
   return pipe(
     sequenceS(E.either)({
       events: t.array(EventMarkdownRemark).decode(data.events.nodes),
-      pageContent: TopicMarkdownRemark.decode(data.pageContent.childMarkdownRemark),
+      pageContent: TopicMarkdownRemark.decode(
+        data.pageContent.childMarkdownRemark
+      ),
     }),
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
       return (
@@ -38,7 +43,7 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
           <SEO title={pageContent.frontmatter.label} />
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
             <TopicPageContent {...pageContent} />
-            <EventList events={events} />
+            <EventList events={A.sort(Ord.getDualOrd(ordEventData))(events)} />
           </ContentWithSideNavigation>
         </Layout>
       )

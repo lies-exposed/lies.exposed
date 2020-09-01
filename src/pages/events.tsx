@@ -16,7 +16,7 @@ import { GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
-import { ordEventFileNodeDate } from "@utils/event"
+import { ordEventData } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { LabelMedium } from "baseui/typography"
@@ -111,7 +111,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
     E.fold(
       throwValidationErrors,
       ({ pageContent, events, actors, topics, groups }) => {
-        const filteredEvents = A.sort(Ord.getDualOrd(ordEventFileNodeDate))(
+        const filteredEvents = A.sort(Ord.getDualOrd(ordEventData))(
           events
         ).filter((e) => {
           const isBetweenDateRange = moment(e.frontmatter.date).isBetween(

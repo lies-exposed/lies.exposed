@@ -198,7 +198,7 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
                             cx={bin.cx}
                             cy={bin.cy}
                             r={bin.r}
-                            fill={bin.color}
+                            fill={`#${bin.color}`}
                             fillOpacity={bin.opacity}
                             stroke={O.toUndefined(bin.bin.stroke)}
                             strokeWidth="2"

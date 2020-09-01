@@ -41,12 +41,7 @@ export const GroupListItem: React.FC<
         style={{
           width: "100%",
           height: 3,
-          backgroundColor: item.selected
-            ? pipe(
-                item.color,
-                O.getOrElse(() => "white")
-              )
-            : "white",
+          backgroundColor: item.selected ? item.color : "white",
         }}
       />
     </div>

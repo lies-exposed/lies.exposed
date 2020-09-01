@@ -6,10 +6,12 @@ import { EventPreview } from "./previews/EventPreview"
 import { GroupPreview } from "./previews/GroupPreview"
 import { PagePreview } from "./previews/PagePreview"
 import { TopicPreview } from "./previews/TopicPreview"
+import { ColorWidgetControl, ColorWidgetPreview } from "./widgets/Color"
 import {UUIDWidgetControl, UUIDWidgetPreview} from './widgets/UUID'
 import { withStyletron } from "./withStyletron"
 
 CMS.registerWidget('uuid', UUIDWidgetControl, UUIDWidgetPreview)
+CMS.registerWidget('color', ColorWidgetControl, ColorWidgetPreview)
 
 // eslint-disable-next-line import/no-webpack-loader-syntax, @typescript-eslint/no-var-requires
 const styles = require("!css-loader!sass-loader!../scss/main.scss")

@@ -1,16 +1,15 @@
 import * as t from "io-ts"
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { Frontmatter } from "./Frontmatter"
 import { ImageFileNode } from "./image"
 
-export const ActorFrontmatter = t.type(
+export const ActorFrontmatter = t.strict(
   {
-    uuid: t.string,
+    ...Frontmatter.props,
     fullName: t.string,
-    date: DateFromISOString,
     username: t.string,
     avatar: optionFromNullable(ImageFileNode),
-    color: optionFromNullable(t.string),
+    color: t.string,
   },
   "ActorFrontmatter"
 )
