@@ -7,8 +7,8 @@ import * as E from "fp-ts/lib/Either"
 import * as NEA from "fp-ts/lib/NonEmptyArray"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import * as t from "io-ts"
 import * as React from "react"
+import { GroupFrontmatter } from "@models/group"
 
 export const EventPreview: React.FC<any> = (props) => {
   const { entry } = props
@@ -30,10 +30,10 @@ export const EventPreview: React.FC<any> = (props) => {
         }))
       : [{ label: "not-a-real-topic", slug: "not-a-real-topic", color: "FFF" }]
 
-  const groups = O.none
+  const groups: GroupFrontmatter = [] as any
   const type = O.none
 
-  const events: EventMarkdownRemark[] = [
+  const event= 
     {
       frontmatter: {
         uuid,
@@ -48,11 +48,10 @@ export const EventPreview: React.FC<any> = (props) => {
         type,
       },
       htmlAst: HTMLtoAST(MDtoHTML(body)),
-    },
-  ]
+    }
 
   return pipe(
-    t.array(EventMarkdownRemark).decode(events),
-    E.fold(renderValidationErrors, (events) => <EventList events={events} />)
+    EventMarkdownRemark.decode(event),
+    E.fold(renderValidationErrors, (event) => <EventList events={[event]} />)
   )
 }
