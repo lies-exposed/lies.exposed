@@ -1,5 +1,3 @@
-import { TimeToCO2BudgetLevelReach } from "@components/Counters/TimeToCO2BudgetLevelReach"
-import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { HomeSlider } from "@components/HomeSlider"
 import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
@@ -70,22 +68,6 @@ const IndexPage: React.FC = () => {
           <div>
             <HomeSlider slides={slides} height={600} />
           </div>
-        </FlexGridItem>
-
-        <FlexGridItem
-          alignSelf="center"
-          justifyContent="center"
-          alignContent="center"
-          position="relative"
-        >
-          <FlexGrid flexDirection="column" flexGridColumnCount={2}>
-            <FlexGridItem>
-              <TimeToCO2BudgetLevelReach />
-            </FlexGridItem>
-            <FlexGridItem>
-              <WorldPopulationCounter />
-            </FlexGridItem>
-          </FlexGrid>
         </FlexGridItem>
 
         <FlexGridItem padding="70px">

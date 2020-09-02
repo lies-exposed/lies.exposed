@@ -17,7 +17,7 @@ export const customColors = {
   red: "#ff4e50",
   yellow: "#f9d62e",
   black: "#141618",
-  secondaryBlack: "#eae374",
+  secondaryBlack: "#333333",
   primaryDark: "#3E4348",
   secondaryGray: "#7F8893",
   tertiaryGray: "#C4CBD5",
@@ -149,7 +149,7 @@ const overrides: Overrides = {
 
     ParagraphMedium: {
       fontFamily: primaryFontFamily,
-      fontWeight: 300,
+      fontWeight: 400,
       fontSize: "16px",
       lineHeight: "1.6",
     },

@@ -8,8 +8,8 @@ const calculateTimeLeft = (): number => {
   return moment(END_DATE).diff(moment(now), "s")
 }
 
-export const TimeToCO2BudgetLevelReach: React.FC = (
-  props
+export const CO2LeftBudgetCounter: React.FC = (
+  
 ) => {
   return (
     <Counter

@@ -7,6 +7,8 @@ import { Video } from "@components/Video"
 import { H1, H2, H3, H5, H6, H4, ParagraphMedium } from "baseui/typography"
 import * as React from "react"
 import RehypeReact from "rehype-react"
+import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
+import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 
 const renderHTMLAST = new RehypeReact({
   createElement: React.createElement,
@@ -44,6 +46,8 @@ const renderHTMLAST = new RehypeReact({
         },
       })
     },
+    'world-population-counter': WorldPopulationCounter,
+    'co2-left-budget-counter': CO2LeftBudgetCounter
   },
 }).Compiler
 

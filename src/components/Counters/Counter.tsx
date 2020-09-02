@@ -24,8 +24,10 @@ export const Counter: React.FC<CounterProps> = (props) => {
       <div
         style={{
           fontSize: $theme.typography.font1250.fontSize,
+          fontWeight: $theme.typography.font850.fontWeight,
           lineHeight: 1.2,
           fontFamily: $theme.typography.thirdaryFont,
+          color: $theme.colors.brandPrimary
         }}
       >
         {count.toLocaleString()}
@@ -33,7 +35,10 @@ export const Counter: React.FC<CounterProps> = (props) => {
       </div>
       {props.message !== undefined ? (
         <ParagraphMedium
-          $style={{ fontFamily: $theme.typography.thirdaryFont }}
+          $style={{
+            fontFamily: $theme.typography.thirdaryFont,
+            color: $theme.colors.secondaryBlack
+          }}
         >{`* ${props.message}`}</ParagraphMedium>
       ) : null}
       <ParagraphXSmall $style={{ fontFamily: $theme.typography.thirdaryFont }}>
