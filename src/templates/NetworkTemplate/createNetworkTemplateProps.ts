@@ -1,9 +1,6 @@
 import { NetworkScale } from "@components/Network/Network"
 import { ActorFrontmatter, ActorMarkdownRemark } from "@models/actor"
-import {
-  EventMarkdownRemark,
-  EventPoint,
-} from "@models/event"
+import { EventMarkdownRemark, EventPoint } from "@models/event"
 import { Frontmatter } from "@models/Frontmatter"
 import { GroupFrontmatter, GroupMarkdownRemark } from "@models/group"
 import { NetworkPageMarkdownRemark } from "@models/networks"
@@ -161,11 +158,10 @@ export function createNetworkTemplateProps({
 }: CreateNetworkConfig): E.Either<t.Errors, NetworkTemplateProps> {
   return pipe(
     t.array(EventMarkdownRemark).decode(data.events.nodes),
-
     E.chain((events) => {
-      const orderedEvents = pipe(events, A.sort(ordEventData))
+      const orderedEvents = pipe(events, A.sort(Ord.getDualOrd(ordEventData)))
       const eventMinDate = pipe(
-        A.head(orderedEvents),
+        A.last(orderedEvents),
         O.map((e) => e.frontmatter.date)
       )
 
@@ -176,7 +172,7 @@ export function createNetworkTemplateProps({
       )
 
       const eventMaxDate = pipe(
-        A.last(orderedEvents),
+        A.head(orderedEvents),
         O.map((e) => e.frontmatter.date)
       )
       const maxDate = pipe(
@@ -187,7 +183,7 @@ export function createNetworkTemplateProps({
 
       const networkWidth = moment(maxDate).diff(moment(minDate), "days") * 5
 
-      const topics = events.reduce<TopicFrontmatter[]>(
+      const topics = orderedEvents.reduce<TopicFrontmatter[]>(
         (acc, e) => [
           ...acc,
           ...e.frontmatter.topics.filter(
@@ -201,7 +197,7 @@ export function createNetworkTemplateProps({
       const yGetter = getY(topics, margin.vertical, height)
 
       const props = pipe(
-        E.right<t.Errors, EventMarkdownRemark[]>(events),
+        E.right<t.Errors, EventMarkdownRemark[]>(orderedEvents),
         E.map((events) => {
           const result: Result = {
             eventNodes: [],
@@ -219,14 +215,12 @@ export function createNetworkTemplateProps({
             groupLinks,
           } = pipe(
             events,
-            A.sort(Ord.getDualOrd(ordEventData)),
             A.reduce(result, (acc, e) => {
               // get topic from relative directory
 
-              const isBetweenDateRange = moment(e.frontmatter.date).isBetween(
-                moment(minDate),
-                moment(maxDate)
-              )
+              const eventDate = moment(e.frontmatter.date)
+              const isBetweenDateRange = eventDate.isSameOrAfter(minDate) && eventDate.isSameOrBefore(maxDate)
+
               const hasActor = pipe(
                 e.frontmatter.actors,
                 O.map((actors) =>
@@ -252,6 +246,7 @@ export function createNetworkTemplateProps({
               )
 
               if (isBetweenDateRange && (hasActor || hasGroup || hasTopic)) {
+                
                 const eventNodes: EventPoint[] = pipe(
                   e.frontmatter.topics,
                   NEA.map((t) => ({
