@@ -54,7 +54,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
       })
     ),
     E.fold(throwValidationErrors, ({ pageContent, networkProps }) => {
-      const { selectedNodes, networkWidth, graph } = networkProps
+      const { selectedEvents, networkWidth, graph } = networkProps
       return (
         <Layout>
           <SEO title={pageContent.frontmatter.fullName} />
@@ -96,7 +96,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
           </Block>
           <MainContent>
             <ActorPageContent {...pageContent} />
-            <EventList events={selectedNodes} />
+            <EventList events={selectedEvents} />
           </MainContent>
         </Layout>
       )

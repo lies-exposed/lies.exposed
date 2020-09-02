@@ -56,7 +56,7 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
       })
     }),
     E.fold(throwValidationErrors, ({ pageContent, networkProps }) => {
-      const { selectedNodes, graph, networkWidth } = networkProps
+      const { selectedEvents, graph, networkWidth } = networkProps
       return (
         <Layout>
           <SEO title={pageContent.frontmatter.name} />
@@ -104,9 +104,11 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
                   }))
                 )
               )}
-              onMemberClick={() => {}}
+              onMemberClick={async (a) => {
+                await navigate(`/actors/${a.uuid}`)
+              }}
             />
-            <EventList events={selectedNodes} />
+            <EventList events={selectedEvents} />
           </MainContent>
         </Layout>
       )

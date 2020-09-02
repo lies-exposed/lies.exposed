@@ -1,6 +1,9 @@
 import { NetworkScale } from "@components/Network/Network"
 import { ActorFrontmatter, ActorMarkdownRemark } from "@models/actor"
-import { EventMarkdownRemark, EventPoint } from "@models/event"
+import {
+  EventMarkdownRemark,
+  EventPoint,
+} from "@models/event"
 import { Frontmatter } from "@models/Frontmatter"
 import { GroupFrontmatter, GroupMarkdownRemark } from "@models/group"
 import { NetworkPageMarkdownRemark } from "@models/networks"
@@ -94,7 +97,7 @@ interface Result {
   topicLinks: Map<string, NetworkLink[]>
   actorLinks: Map<string, NetworkLink[]>
   groupLinks: Map<string, NetworkLink[]>
-  selectedNodes: EventPoint[]
+  selectedEvents: EventMarkdownRemark[]
 }
 
 export interface NetworkTemplateData {
@@ -138,13 +141,8 @@ export interface NetworkTemplateProps {
   minDate: Date
   maxDate: Date
   scale: NetworkScale
-  graph: any
-  // actors: Actor[]
-  // topics: TopicListTopic[]
-  // groups: Group[]
-  selectedNodes: EventMarkdownRemark[]
-  // selectedEventsCounter: { counter: number; total: number }
-  // topicEventsMap: TopicEventsMap
+  graph: { nodes: EventPoint[]; links: NetworkLink[] }
+  selectedEvents: EventMarkdownRemark[]
   networkWidth: number
 }
 
@@ -210,18 +208,18 @@ export function createNetworkTemplateProps({
             topicLinks: Map.empty,
             actorLinks: Map.empty,
             groupLinks: Map.empty,
-            selectedNodes: [],
+            selectedEvents: [],
           }
 
           const {
             eventNodes,
-            selectedNodes,
+            selectedEvents: selectedEvents,
             topicLinks,
             actorLinks,
             groupLinks,
           } = pipe(
             events,
-            A.sortBy([ordEventData]),
+            A.sort(Ord.getDualOrd(ordEventData)),
             A.reduce(result, (acc, e) => {
               // get topic from relative directory
 
@@ -287,23 +285,12 @@ export function createNetworkTemplateProps({
                   getLinks(eventNodes, acc.groupLinks)
                 )
 
-                const eqUUID = pipe(
-                  Eq.eqString,
-                  Eq.contramap((e: EventPoint) => e.data.frontmatter.uuid)
-                )
-
                 return {
                   eventNodes: [...acc.eventNodes, ...eventNodes],
                   actorLinks: actorLinks,
                   topicLinks: topicLinks,
                   groupLinks: groupLinks,
-                  selectedNodes: pipe(
-                    acc.selectedNodes,
-                    A.filter((e) =>
-                      eventNodes.some((n) => eqUUID.equals(e, n))
-                    ),
-                    (events) => [...events, ...eventNodes]
-                  ),
+                  selectedEvents: [...acc.selectedEvents, e],
                 }
               }
               return acc
@@ -314,10 +301,6 @@ export function createNetworkTemplateProps({
             minDate,
             maxDate,
             scale,
-            // groups: groupsList.map((a) => ({
-            //   ...a.group,
-            //   selected: selectedGroupIds.some((id) => id === a.group.uuid),
-            // })),
             graph: {
               nodes: eventNodes,
               links: [
@@ -332,7 +315,7 @@ export function createNetworkTemplateProps({
                 ),
               ],
             },
-            selectedNodes: selectedNodes.map((e) => e.data),
+            selectedEvents,
             networkWidth,
           }
         })

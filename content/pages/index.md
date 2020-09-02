@@ -17,7 +17,6 @@ Il tempo che rimane per evitare l'estinzione di gran parte della vita di questo 
 Il mito della crescita infinita ha spinto la nostra società a considerare che l'aumento demografico sia un indice di successo nella conduzione della società stessa, non considerando minimamente le condizioni di vita in cui, sistematicamente, vive una parte della popolazione.
 Ad oggi l'aumento della popolazione pone pressione su ogni singolo suo componente perché le risorse iniziano a scarseggiare: gli abitanti del Bangladesh che sono costretti a migrare perché il loro territorio è colpito a rotazione da gravi inondazioni e periodi di siccità estrema ma che sono quelli che meno hanno influito sulle cause dei cambiamenti climatici e l'Europeo responsabile di aver promosso un modello economico fallimentare dagli effetti devastanti che dovrà imparare a condividere le risorse che ha con il migrante che sta arrivando dal Bangladesh.
 
-
 La strada per vincere gli enormi cambiamenti che abbiamo causato al pianeta richiede la volontà di tutti di seguire uno scopo comune, quello della vita.
 
 Non possiamo permetterci di continuare a combattere per i propri singoli interessi, mossi dall'egoismo e dalla realizzazione personale, senza considerare l'interesse comune, sopra a tutti i singoli interessi, di diritto alla vita.
