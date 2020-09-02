@@ -1,51 +1,32 @@
-import { themedUseStyletron } from "@theme/CustomeTheme"
-import { ParagraphMedium } from "baseui/typography"
 import * as React from "react"
+import { Counter } from "./Counter"
 
-interface WorldPopulationCounterProps {
-  label: string
-}
-
-const startValue = 7794798739 //value on 1 January 2020
-const yearlyGrowRate = 0.0105
+const populationOnFirstJanuary = 7794798739 //value on 1 January 2020
+const firstJanuaryDate = new Date("2020/01/01")
+const yearlyGrowPercentage = 0.98
+const deltaValue = (populationOnFirstJanuary * yearlyGrowPercentage) / 100
 
 const calculatePopulation = (): number => {
-  const deltaValue = startValue * yearlyGrowRate
-  const time = new Date().getTime() - new Date(2020, 7, 1, 0, 0, 0, 0).getTime()
-  const actualPop = startValue + deltaValue * (time / (365 * 86400 * 1000))
+  const yearTime = Date.now() - firstJanuaryDate.getTime()
+  const populationIncrement = deltaValue * (yearTime / (365 * 86400 * 1000))
+  const actualPop = populationOnFirstJanuary + populationIncrement
 
-  return parseInt(actualPop.toString(), 10) //calcolo da sistemare
+  return parseInt(actualPop.toString(), 10)
 }
 
-export const WorldPopulationCounter: React.FC<WorldPopulationCounterProps> = (
+export const WorldPopulationCounter: React.FC = (
   props
 ) => {
-  const [, $theme] = themedUseStyletron()
-  const [worldPopulation, setWorldPopulation] = React.useState(
-    calculatePopulation()
-  )
-
-  React.useEffect(() => {
-    const countdownTimer = setTimeout(() => {
-      setWorldPopulation(calculatePopulation())
-    }, 500)
-    return () => clearTimeout(countdownTimer)
-  })
-
   return (
-    <div style={{ color: "white", textAlign: "center" }}>
-      <div
-        style={{
-          fontSize: 180,
-          fontWeight: $theme.typography.font400.fontWeight,
-          fontFamily: $theme.typography.thirdaryFont,
-        }}
-      >
-        {worldPopulation}
-      </div>
-      <ParagraphMedium font={$theme.typography.thirdaryFont} color="white">
-        {props.label}
-      </ParagraphMedium>
-    </div>
+    <Counter
+      message="World population"
+      getCount={calculatePopulation}
+      sources={[
+        {
+          label: "World Population Prospect 2019",
+          url: "https://population.un.org/wpp/",
+        },
+      ]}
+    />
   )
 }

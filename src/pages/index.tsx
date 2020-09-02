@@ -70,19 +70,24 @@ const IndexPage: React.FC = () => {
           <div>
             <HomeSlider slides={slides} height={600} />
           </div>
-          <FlexGrid position={"absolute"} top={0} left={0} right={0} bottom={0}>
-            <FlexGridItem
-              alignSelf="center"
-              justifyContent="center"
-              alignContent="center"
-              flexDirection="column"
-              position="relative"
-            >
-              <TimeToCO2BudgetLevelReach message="Secondi che ci rimangono per poter mantenere l'innalzamento della temperatura globale entro il 1.5ºC" />
-              <WorldPopulationCounter label="World population" />
+        </FlexGridItem>
+
+        <FlexGridItem
+          alignSelf="center"
+          justifyContent="center"
+          alignContent="center"
+          position="relative"
+        >
+          <FlexGrid flexDirection="column" flexGridColumnCount={2}>
+            <FlexGridItem>
+              <TimeToCO2BudgetLevelReach />
+            </FlexGridItem>
+            <FlexGridItem>
+              <WorldPopulationCounter />
             </FlexGridItem>
           </FlexGrid>
         </FlexGridItem>
+
         <FlexGridItem padding="70px">
           <PageContent {...pageContent.childMarkdownRemark} />
         </FlexGridItem>
