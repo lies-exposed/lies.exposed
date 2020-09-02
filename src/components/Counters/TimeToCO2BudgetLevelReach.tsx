@@ -1,43 +1,23 @@
-import { themedUseStyletron} from '@theme/CustomeTheme'
-import { ParagraphMedium } from "baseui/typography"
 import moment from "moment"
 import * as React from "react"
+import { Counter } from "./Counter"
 
-const END_DATE = new Date(2030, 11, 31)
+const END_DATE = new Date(2029, 11, 31)
 const calculateTimeLeft = (): number => {
-  const now = new Date()  
+  const now = new Date()
   return moment(END_DATE).diff(moment(now), "s")
 }
 
-interface TimeToCO2BudgetLevelReachProps {
-  message?: string
-}
-export const TimeToCO2BudgetLevelReach: React.FC<TimeToCO2BudgetLevelReachProps> = props => {
-  const [, $theme] = themedUseStyletron()
-  const [timeLeft, setTimeLeft] = React.useState(calculateTimeLeft())
-
-  React.useEffect(() => {
-    const countdownTimer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft())
-    }, 1000)
-    return () => clearTimeout(countdownTimer)
-  })
-
+export const TimeToCO2BudgetLevelReach: React.FC = (
+  props
+) => {
   return (
-    <div style={{ color: "white", textAlign: "center" }}>
-      <div
-        style={{
-          fontSize: 160,
-          lineHeight: 1.2,
-          fontFamily: $theme.typography.thirdaryFont
-        }}
-      >
-        {timeLeft}
-        {props.message !== undefined ? "*" : ""}
-      </div>
-      {props.message !== undefined ? (
-        <ParagraphMedium color="white">{`* ${props.message}`}</ParagraphMedium>
-      ) : null}
-    </div>
+    <Counter
+      getCount={calculateTimeLeft}
+      message={
+        "Secondi che ci rimangono per poter mantenere l'innalzamento della temperatura globale entro il 1.5ºC"
+      }
+      sources={[]}
+    />
   )
 }

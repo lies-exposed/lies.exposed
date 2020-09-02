@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
     }
   `)
   return (
-    <FlexGridItem padding="40px" backgroundColor={theme.customColors.brandPrimary}>
+    <FlexGridItem padding="40px" backgroundColor={theme.colors.brandPrimary}>
       <footer>
         <FlexGrid flexGridColumnCount={3}>
           <FlexGridItem>

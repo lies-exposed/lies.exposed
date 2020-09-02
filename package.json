@@ -78,13 +78,12 @@
     "styletron-react": "5.2.7",
     "throttle-debounce": "^2.2.1",
     "topojson-client": "3.1.0",
-    "ts-node": "8.10.2",
     "uuid": "8.3.0",
     "world-atlas": "2.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "8.3.4",
+    "@commitlint/config-conventional": "10.0.0",
     "@types/d3-array": "2.0.0",
     "@types/node": "13",
     "@types/react": "16.9.35",
@@ -117,6 +116,7 @@
     "husky": "4.2.3",
     "lint-staged": "10.0.8",
     "prettier": "2.0.5",
+    "ts-node": "8.10.2",
     "typescript": "3.8.3"
   },
   "keywords": [

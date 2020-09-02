@@ -8,7 +8,7 @@ export const BlockQuote: React.FC = ({ children }) => {
       style={{
         fontFamily: $theme.typography.thirdaryFont,
         borderLeft: 3,
-        borderLeftColor: $theme.customColors.red,
+        borderLeftColor: $theme.colors.red,
         borderLeftStyle: 'solid',
         padding: 20,
         marginLeft: 0,
