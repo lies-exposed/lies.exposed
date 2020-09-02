@@ -64,15 +64,19 @@ const headerFont = {
   lineHeight: 1.6,
 }
 
-type Overrides = {
-  [K in keyof Pick<Theme, "colors" | "typography">]: Partial<Theme[K]> & {
-    [x: string]: any
-  }
-} & { customColors: typeof customColors }
+const typography = {
+  secondaryFont: secondaryFontFamily,
+  thirdaryFont: thirdaryFontFamily,
+}
+
+interface Overrides {
+  colors: Partial<Theme["colors"]> & typeof customColors
+  typography: Partial<Theme["typography"]> & typeof typography
+}
 
 const overrides: Overrides = {
-  customColors,
   colors: {
+    ...customColors,
     /* Radio / Checkbox */
     tickFill: customColors.white,
     tickFillHover: customColors.white,
@@ -111,15 +115,14 @@ const overrides: Overrides = {
     inputTextDisabled: customColors.secondaryLight,
   },
   typography: {
-    secondaryFont: secondaryFontFamily,
-    thirdaryFont: thirdaryFontFamily,
+    ...typography,
     DisplayMedium: {
       fontFamily: primaryFontFamily,
       fontWeight: 300,
       fontSize: "16px",
       lineHeight: "1.6",
     },
-    HeadingXSmall :{
+    HeadingXSmall: {
       ...headerFont,
       fontSize: LightTheme.typography.HeadingXSmall.fontSize,
     },
@@ -143,7 +146,7 @@ const overrides: Overrides = {
       ...headerFont,
       fontSize: LightTheme.typography.HeadingXXLarge.fontSize,
     },
-    
+
     ParagraphMedium: {
       fontFamily: primaryFontFamily,
       fontWeight: 300,

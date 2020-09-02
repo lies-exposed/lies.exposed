@@ -79,10 +79,7 @@ const IndexPage: React.FC = () => {
               position="relative"
             >
               <TimeToCO2BudgetLevelReach message="Secondi che ci rimangono per poter mantenere l'innalzamento della temperatura globale entro il 1.5ºC" />
-              <WorldPopulationCounter
-                count={7000000000}
-                label="World population"
-              />
+              <WorldPopulationCounter label="World population" />
             </FlexGridItem>
           </FlexGrid>
         </FlexGridItem>
