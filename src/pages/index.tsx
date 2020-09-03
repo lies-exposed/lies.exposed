@@ -1,5 +1,6 @@
 import { HomeSlider } from "@components/HomeSlider"
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { PageContentFileNode } from "@models/page"
@@ -70,8 +71,10 @@ const IndexPage: React.FC = () => {
           </div>
         </FlexGridItem>
 
-        <FlexGridItem padding="70px">
+        <FlexGridItem paddingTop="70px">
+          <MainContent>
           <PageContent {...pageContent.childMarkdownRemark} />
+          </MainContent>
         </FlexGridItem>
       </FlexGrid>
     </Layout>
