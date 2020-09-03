@@ -1,7 +1,7 @@
 import { NetworkScale } from "@components/Network/Network"
+import { Frontmatter } from "@models/Frontmatter"
 import { ActorFrontmatter, ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark, EventPoint } from "@models/event"
-import { Frontmatter } from "@models/Frontmatter"
 import { GroupFrontmatter, GroupMarkdownRemark } from "@models/group"
 import { NetworkPageMarkdownRemark } from "@models/networks"
 import { TopicFrontmatter, TopicMarkdownRemark } from "@models/topic"
@@ -9,6 +9,7 @@ import { ordEventData } from "@utils//event"
 import { Link } from "@vx/network/lib/types"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
+import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
 import * as NEA from "fp-ts/lib/NonEmptyArray"
 import * as O from "fp-ts/lib/Option"
@@ -16,7 +17,6 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as t from "io-ts"
 import moment from "moment"
-import * as Eq from "fp-ts/lib/Eq"
 
 interface NetworkLink extends Link<EventPoint> {
   fill: string
@@ -209,7 +209,7 @@ export function createNetworkTemplateProps({
 
           const {
             eventNodes,
-            selectedEvents: selectedEvents,
+            selectedEvents,
             topicLinks,
             actorLinks,
             groupLinks,

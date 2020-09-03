@@ -1,5 +1,6 @@
 import EventList from "@components/lists/EventList"
 import { EventMarkdownRemark } from "@models/event"
+import { GroupFrontmatter } from "@models/group"
 import { TopicFrontmatter } from "@models/topic"
 import { HTMLtoAST, MDtoHTML } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
@@ -8,7 +9,6 @@ import * as NEA from "fp-ts/lib/NonEmptyArray"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
-import { GroupFrontmatter } from "@models/group"
 
 export const EventPreview: React.FC<any> = (props) => {
   const { entry } = props

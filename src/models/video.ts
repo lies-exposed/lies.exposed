@@ -1,6 +1,6 @@
 import * as t from "io-ts"
 
-export const VideoFileNode = t.interface(
+const VideoFileNode = t.interface(
   {
     publicURL: t.string,
     extension: t.string,
@@ -8,4 +8,6 @@ export const VideoFileNode = t.interface(
   "VideoFileNode"
 )
 
-export type VideoFileNode = t.TypeOf<typeof VideoFileNode>
+type VideoFileNode = t.TypeOf<typeof VideoFileNode>
+
+export { VideoFileNode }

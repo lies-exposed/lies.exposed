@@ -1,10 +1,10 @@
 import { TopicMarkdownRemark } from "@models/topic"
 import renderHTMLAST from "@utils/renderHTMLAST"
+import { Block } from "baseui/block"
+import { Overflow } from "baseui/icon"
 import { StyledLink } from "baseui/link"
 import { HeadingXLarge } from "baseui/typography"
 import * as React from "react"
-import { Block } from "baseui/block"
-import { Overflow } from "baseui/icon"
 
 interface TopicPageContentProps extends TopicMarkdownRemark {}
 

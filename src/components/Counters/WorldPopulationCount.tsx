@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Counter } from "./Counter"
 
-const populationOnFirstJanuary = 7794798739 //value on 1 January 2020
+const populationOnFirstJanuary = 7794798739 // value on 1 January 2020
 const firstJanuaryDate = new Date("2020/01/01")
 const yearlyGrowPercentage = 0.98
 const deltaValue = (populationOnFirstJanuary * yearlyGrowPercentage) / 100

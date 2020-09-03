@@ -1,5 +1,7 @@
 import { BlockQuote } from "@components/BlockQuote"
 import { ListItem } from "@components/Common/ListItem"
+import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
+import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
 import Gallery from "@components/Gallery/Gallery"
 import { GraphSelector } from "@components/GraphSelector"
@@ -7,8 +9,6 @@ import { Video } from "@components/Video"
 import { H1, H2, H3, H5, H6, H4, ParagraphMedium } from "baseui/typography"
 import * as React from "react"
 import RehypeReact from "rehype-react"
-import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
-import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 
 const renderHTMLAST = new RehypeReact({
   createElement: React.createElement,

@@ -1,7 +1,7 @@
 import { themedUseStyletron } from "@theme/CustomeTheme"
+import { Block } from "baseui/block"
 import { ParagraphMedium, ParagraphXSmall } from "baseui/typography"
 import * as React from "react"
-import { Block } from "baseui/block"
 
 interface CounterProps {
   message?: string
@@ -20,7 +20,7 @@ export const Counter: React.FC<CounterProps> = (props) => {
   })
 
   return (
-    <Block $style={{ textAlign: "center" }}>
+    <Block overrides={{ Block: { style:{ textAlign: "center"} }}}>
       <div
         style={{
           fontSize: $theme.typography.font1250.fontSize,
@@ -43,7 +43,7 @@ export const Counter: React.FC<CounterProps> = (props) => {
       ) : null}
       <ParagraphXSmall $style={{ fontFamily: $theme.typography.thirdaryFont }}>
         {props.sources.map((s) => (
-          <a href={s.url}>{s.label}</a>
+          <a key={s.label} href={s.url}>{s.label}</a>
         ))}
       </ParagraphXSmall>
     </Block>

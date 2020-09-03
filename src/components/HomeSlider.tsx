@@ -1,7 +1,7 @@
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import * as React from "react"
 import Slider from "react-slick"
 import { UnsplashCredit } from "./UnspashCredit"
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 
 interface Slide {
   imageURL: string
