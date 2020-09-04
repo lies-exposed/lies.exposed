@@ -71,9 +71,7 @@ const InputReplacement = React.forwardRef<
         )}
         <StyledInput ref={ref} value={value} {...restProps} />
         <List<SearchableItem>
-          data={items.filter(
-            (i) => getValue(i).startsWith(value)
-          )}
+          data={items.filter((i) => getValue(i).startsWith(value))}
           getKey={getValue}
           filter={(i) => true}
           ListItem={({ item, index }) =>
@@ -130,7 +128,9 @@ const SearchableInput = <I extends SearchableItem>(
         if (value === undefined || value === "") return
         pipe(
           props.items,
-          A.findFirst((a) => props.getValue(a).startsWith(value)),
+          A.findFirst((a) =>
+            props.getValue(a).toLowerCase().includes(value.toLowerCase())
+          ),
           O.map((i) => setItemAndClearValue(i))
         )
         return
@@ -170,7 +170,10 @@ const SearchableInput = <I extends SearchableItem>(
           pipe(
             props.items,
             A.findFirst((a) =>
-              props.getValue(a).startsWith(e.currentTarget.value)
+              props
+                .getValue(a)
+                .toLowerCase()
+                .includes(e.currentTarget.value.toLowerCase())
             ),
             O.map((i) => setItemAndClearValue(i))
           )
