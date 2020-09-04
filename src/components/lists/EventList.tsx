@@ -42,6 +42,11 @@ const EventList: React.FC<EventListProps> = (props) => {
                   <Overflow size={24} />
                 </StyledLink>
               </Block>
+              {pipe(
+                event.frontmatter.images,
+                O.map(images => images.map((i,k) =>
+                <img key={k} src={i.childImageSharp.fluid.src} />
+              )))}
               <FlexGrid flexGridColumnCount={2}>
                 <FlexGridItem
                   display="flex"

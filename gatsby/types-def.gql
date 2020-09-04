@@ -47,6 +47,11 @@ type TopicFrontmatter implements Node & BaseFrontmatter @dontInfer {
   color: String
 }
 
+type ImageWithDescription {
+  description: String
+  image: File!
+}
+
 # Events
 type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
@@ -58,6 +63,7 @@ type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   topics: [TopicFrontmatter!]
   actors: [ActorFrontmatter!]
   links: [String!]
+  images: [ImageWithDescription!]
 }
 
 

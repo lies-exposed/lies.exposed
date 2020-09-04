@@ -77,10 +77,7 @@ export const ColorField: GetField = field =>
   StringField({
     label: "Color",
     name: "color",
-    // collection: "colors",
-    // valueField: "color",
-    // searchFields: ["color", "name"],
-    // displayFields: ["{{name}} [{{color}}]"],
+    widget: 'color',
     ...field,
   })
 

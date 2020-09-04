@@ -15,9 +15,7 @@ import {
   CreateResolversArgs,
 } from "gatsby"
 import { GroupMarkdownRemark, GroupFrontmatter } from "../src/models/group"
-import {
-  ArticleFrontmatter,
-} from "../src/models/article"
+import { ArticleFrontmatter } from "../src/models/article"
 import { ActorFrontmatter } from "../src/models/actor"
 import { TopicFrontmatter } from "../src/models/topic"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -73,9 +71,11 @@ const createArticlePages = async ({
     }
 
     reporter.info(
-      `article page [${
-        node.title
-      }] context: ${JSON.stringify(context, null, 4)}`
+      `article page [${node.title}] context: ${JSON.stringify(
+        context,
+        null,
+        4
+      )}`
     )
 
     createPage({
@@ -359,6 +359,7 @@ const {
   groups,
   topics,
   actors,
+  images,
   ...EventFrontmatterProps
 } = EventFrontmatter.type.props
 
@@ -367,6 +368,14 @@ const EventF = t.type({
   groups: optionFromNullable(t.array(t.string)),
   topics: optionFromNullable(t.array(t.string)),
   actors: optionFromNullable(t.array(t.string)),
+  images: optionFromNullable(
+    t.array(
+      t.type({
+        description: t.string,
+        image: t.string,
+      })
+    )
+  ),
 })
 
 export const createSchemaCustomization = async ({
@@ -504,6 +513,48 @@ export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
             .filter((m: any) => topicIds.includes(m.uuid))
         },
       },
+      images: {
+        type: "[ImageWithDescription!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const images: Array<{
+            description?: string
+            image: string
+          }> = pipe(
+            source.images ?? [],
+            A.map((i: any) => ({
+              ...i,
+              image: path.join(process.cwd(), i.image.replace("../../", "/")),
+            }))
+          )
+
+          const imagesPaths = images.map((i) => i.image)
+
+          const results = await context.nodeModel.runQuery({
+            type: "File",
+            query: {
+              filter: { absolutePath: { in: imagesPaths } },
+            },
+            firstOnly: false,
+          })
+
+          if (results === null) {
+            return null
+          }
+
+          return pipe(
+            results,
+            A.map((image: any) => ({
+              description: pipe(
+                images,
+                A.findFirst((i) => i.image === image.absolutePath),
+                O.mapNullable(i => i.description),
+                O.toNullable
+              ),
+              image: image,
+            }))
+          )
+        },
+      },
     },
   }
   createResolvers(resolvers)
@@ -512,7 +563,6 @@ export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
 export const sourceNodes = ({
   boundActionCreators,
   getNodesByType,
-  getNode,
 }: SourceNodesArgs) => {
   const { createNodeField } = boundActionCreators
 
