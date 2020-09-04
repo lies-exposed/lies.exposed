@@ -27,7 +27,7 @@ import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
-import { graphql } from "gatsby"
+import { graphql, PageProps } from "gatsby"
 import * as t from "io-ts"
 import moment from "moment"
 import React from "react"
@@ -36,7 +36,7 @@ const width = 1000
 const height = 400
 // const margin = { vertical: 30, horizontal: 30 }
 
-interface EventsPageProps {
+interface EventsPageProps extends PageProps{
   data: {
     pageContent: unknown
     events: { nodes: unknown }
@@ -46,7 +46,7 @@ interface EventsPageProps {
   }
 }
 
-const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
+const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
   const [selectedGroupIds, setSelectedGroupIds] = React.useState<string[]>([])
   const [selectedActorIds, setSelectedActorIds] = React.useState<string[]>([])
   const [selectedTopicIds, setSelectedTopicIds] = React.useState<string[]>([])
@@ -56,13 +56,14 @@ const EventsPage: React.FC<EventsPageProps> = ({ data }) => {
   ])
 
   const onActorClick = (actor: ActorFrontmatter): void => {
+    const newSelectedActorIds = A.elem(Eq.eqString)(actor.uuid, selectedActorIds)
+    ? A.array.filter(
+        selectedActorIds,
+        (a) => !Eq.eqString.equals(a, actor.uuid)
+      )
+    : selectedActorIds.concat(actor.uuid)
     setSelectedActorIds(
-      A.elem(Eq.eqString)(actor.uuid, selectedActorIds)
-        ? A.array.filter(
-            selectedActorIds,
-            (a) => !Eq.eqString.equals(a, actor.uuid)
-          )
-        : selectedActorIds.concat(actor.uuid)
+      newSelectedActorIds
     )
   }
 

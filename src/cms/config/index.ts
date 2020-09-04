@@ -1,6 +1,6 @@
 import { EventTypeKeys } from "@models/event"
 import { CmsConfig, CmsCollection } from "netlify-cms-core"
-import { CmsFieldV2 } from "./field"
+import { CmsFieldV2, MarkdownField, ColorField, StringField, ImageField } from "./field"
 
 interface CmsCollectionV2 extends CmsCollection {
   path?: string
@@ -13,7 +13,7 @@ interface CmsConfigV2 extends CmsConfig {
   local_backend?: boolean | { url: string }
 }
 
-const articleCollection: CmsCollectionV2 = {
+const articles: CmsCollectionV2 = {
   name: "articles",
   label: "Articoli",
   label_singular: "Articolo",
@@ -33,7 +33,7 @@ const articleCollection: CmsCollectionV2 = {
   ],
 }
 
-const actorsCollection: CmsCollectionV2 = {
+const actors: CmsCollectionV2 = {
   name: "actors",
   label: "Actor",
   slug: "{{username}}",
@@ -49,12 +49,12 @@ const actorsCollection: CmsCollectionV2 = {
     { label: "Username", name: "username", widget: "string" },
     { label: "Avatar", name: "avatar", widget: "image", required: false },
     { label: "Publish Date", name: "date", widget: "datetime" },
-    { label: "Color", name: "color", widget: "color" },
-    { label: "Body", name: "body", widget: "markdown" },
+    ColorField({}),
+    MarkdownField({}),
   ],
 }
 
-const groupCollection: CmsCollectionV2 = {
+const groups: CmsCollectionV2 = {
   name: "groups",
   label: "Groups",
   label_singular: "Group",
@@ -80,11 +80,11 @@ const groupCollection: CmsCollectionV2 = {
       required: false,
     },
     { label: "Publish Date", name: "date", widget: "datetime" },
-    { label: "Body", name: "body", widget: "markdown" },
+    MarkdownField({}),
   ],
 }
 
-const eventCollection: CmsCollectionV2 = {
+const events: CmsCollectionV2 = {
   name: "events",
   label: "Event",
   folder: "content/events",
@@ -158,11 +158,19 @@ const eventCollection: CmsCollectionV2 = {
       summary: "{{fields.link}}",
       field: { label: "Link", name: "link", widget: "string" },
     },
-    { label: "Body", name: "body", widget: "markdown" },
+    {
+      label: 'Images',
+      name: 'images',
+      required: false,
+      collapsed: true,
+      widget: 'list',
+      fields: [ImageField({ label: 'Image', name: 'image' }), StringField({ label: 'Description', name: 'description'})]
+    },
+    MarkdownField({}),
   ],
 }
 
-const pageCollection: CmsCollectionV2 = {
+const pages: CmsCollectionV2 = {
   name: "pages",
   label: "Page",
   folder: "content/pages",
@@ -171,10 +179,10 @@ const pageCollection: CmsCollectionV2 = {
   editor: {
     preview: true,
   },
-  fields: [{ label: "Title", name: "title", widget: "string" }],
+  fields: [{ label: "Title", name: "title", widget: "string" }, MarkdownField({})],
 }
 
-const topicCollection: CmsCollectionV2 = {
+const topics: CmsCollectionV2 = {
   name: "topics",
   label: "Topic",
   folder: "content/topics",
@@ -188,11 +196,11 @@ const topicCollection: CmsCollectionV2 = {
   summary: "[{{fields.uuid}}] {{fields.label}}",
   fields: [
     { label: "UUID", name: "uuid", widget: "uuid" },
-    { label: "Label", name: "label", widget: "string" },
-    { label: "Slug", name: "slug", widget: "string" },
-    { label: "Color", name: "color", widget: "color" },
+    StringField({ label: "Label", name: "label"}),
+    StringField({ label: "Slug", name: "slug"}),
+    ColorField({}),
     { label: "Publish Date", name: "date", widget: "datetime" },
-    { label: "Body", name: "body", widget: "markdown" },
+    MarkdownField({}),
   ],
 }
 
@@ -213,11 +221,11 @@ export const config: CmsConfigV2 = {
   media_folder: "static/media",
   public_folder: "media",
   collections: [
-    eventCollection,
-    articleCollection,
-    actorsCollection,
-    groupCollection,
-    pageCollection,
-    topicCollection,
+    events,
+    articles,
+    actors,
+    groups,
+    pages,
+    topics,
   ],
 }

@@ -15,6 +15,17 @@ export const query = graphql`
     groups {
       ...Group
     }
+    images {
+      description
+      image {
+        publicURL
+        childImageSharp {
+          fluid(maxWidth: 600) {
+            ...GatsbyImageSharpFluid
+          }
+        }
+      }
+    }
     links
   }
 

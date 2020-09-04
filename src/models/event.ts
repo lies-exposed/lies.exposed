@@ -6,6 +6,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { ObjectFromString } from "./ObjectFromString"
 import { ActorFrontmatter } from "./actor"
 import { GroupFrontmatter } from "./group"
+import { ImageFileNode } from "./image"
 import { TopicFrontmatter } from "./topic"
 
 export interface TreeEvent {
@@ -64,6 +65,14 @@ export const EventFrontmatter = t.strict(
     location: optionFromNullable(ObjectFromString.pipe(PointIO)),
     type: optionFromNullable(EventType),
     cover: optionFromNullable(t.string),
+    images: optionFromNullable(
+      nonEmptyArray(
+        t.type({
+          description: optionFromNullable(t.string),
+          image: ImageFileNode,
+        })
+      )
+    ),
     links: optionFromNullable(t.array(t.string)),
     actors: optionFromNullable(t.array(ActorFrontmatter)),
     groups: optionFromNullable(t.array(GroupFrontmatter)),

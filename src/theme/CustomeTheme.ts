@@ -149,8 +149,8 @@ const overrides: Overrides = {
 
     ParagraphMedium: {
       fontFamily: primaryFontFamily,
-      fontWeight: 400,
-      fontSize: "16px",
+      fontWeight: 300,
+      fontSize: "18px",
       lineHeight: "1.6",
     },
   },
