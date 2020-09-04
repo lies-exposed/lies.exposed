@@ -64,7 +64,6 @@ export const EventFrontmatter = t.strict(
     date: DateFromISOString,
     location: optionFromNullable(ObjectFromString.pipe(PointIO)),
     type: optionFromNullable(EventType),
-    cover: optionFromNullable(t.string),
     images: optionFromNullable(
       nonEmptyArray(
         t.type({
