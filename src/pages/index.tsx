@@ -1,8 +1,8 @@
-import { HomeSlider } from "@components/HomeSlider"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
+import { Slider } from "@components/Slider/Slider"
 import { PageContentFileNode } from "@models/page"
 import { FlexGridItem, FlexGrid } from "baseui/flex-grid"
 import { useStaticQuery, graphql } from "gatsby"
@@ -67,13 +67,21 @@ const IndexPage: React.FC = () => {
       <FlexGrid width="100%" flexGridColumnCount={1}>
         <FlexGridItem position="relative">
           <div>
-            <HomeSlider slides={slides} height={600} />
+            <Slider
+              slides={slides}
+              height={600}
+              autoplay={true}
+              autoplaySpeed={3000}
+              arrows={false}
+              infinite={true}
+              size="cover"
+            />
           </div>
         </FlexGridItem>
 
         <FlexGridItem paddingTop="70px">
           <MainContent>
-          <PageContent {...pageContent.childMarkdownRemark} />
+            <PageContent {...pageContent.childMarkdownRemark} />
           </MainContent>
         </FlexGridItem>
       </FlexGrid>
