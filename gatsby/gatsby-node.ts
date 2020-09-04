@@ -36,7 +36,7 @@ const createArticlePages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const postTemplate = path.resolve(
+  const articleTemplate = path.resolve(
     `src/templates/ArticleTemplate/ArticleTemplate.tsx`
   )
 
@@ -80,7 +80,7 @@ const createArticlePages = async ({
 
     createPage({
       path: `/articles/${node.path}`,
-      component: postTemplate,
+      component: articleTemplate,
       // additional data can be passed via context
       context,
     })
@@ -163,14 +163,14 @@ const createGroupPages = async ({
   })
 }
 
-const createActorTimelinePages = async ({
+const createActorPages = async ({
   actions,
   graphql,
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const postTemplate = path.resolve(
-    `src/templates/ActorTimelineTemplate/ActorTimelineTemplate.tsx`
+  const actorTemplate = path.resolve(
+    `src/templates/ActorTemplate/ActorTemplate.tsx`
   )
 
   const result = await graphql<{ actors: { nodes: Array<{ name: string }> } }>(`
@@ -185,7 +185,7 @@ const createActorTimelinePages = async ({
 
   // Handle errors
   if (result.errors !== undefined) {
-    reporter.panicOnBuild(`Error while running createTimelinePages query.`)
+    reporter.panicOnBuild(`Error while running createActorPages query.`)
     return
   }
 
@@ -209,7 +209,7 @@ const createActorTimelinePages = async ({
 
     createPage({
       path: nodePath,
-      component: postTemplate,
+      component: actorTemplate,
       // additional data can be passed via context
       context,
     })
@@ -326,14 +326,14 @@ const createEventPages = async ({
 //   })
 // }
 
-const createTopicTimelinePages = async ({
+const createTopicPages = async ({
   actions,
   graphql,
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const topicTimelineTemplate = path.resolve(
-    `src/templates/TopicTimelineTemplate/TopicTimelineTemplate.tsx`
+  const topicTemplate = path.resolve(
+    `src/templates/TopicTemplate/TopicTemplate.tsx`
   )
 
   const result = await graphql<{ topics: { nodes: Array<{ name: string }> } }>(`
@@ -348,9 +348,7 @@ const createTopicTimelinePages = async ({
 
   // Handle errors
   if (result.errors !== undefined) {
-    reporter.panicOnBuild(
-      `Error while running createNetworkTopicTimelinePages query.`
-    )
+    reporter.panicOnBuild(`Error while running createTopicPages query.`)
     return
   }
 
@@ -375,7 +373,7 @@ const createTopicTimelinePages = async ({
 
     createPage({
       path: nodePath,
-      component: topicTimelineTemplate,
+      component: topicTemplate,
       // additional data can be passed via context
       context,
     })
@@ -383,10 +381,10 @@ const createTopicTimelinePages = async ({
 }
 
 export const createPages = async (options: CreatePagesArgs) => {
-  await createGroupPages(options)
   await createArticlePages(options)
-  await createActorTimelinePages(options)
-  await createTopicTimelinePages(options)
+  await createActorPages(options)
+  await createGroupPages(options)
+  await createTopicPages(options)
   await createEventPages(options)
   // await createNetworkPages(options)
 }
@@ -568,12 +566,13 @@ export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
       images: {
         type: "[ImageWithDescription!]",
         resolve: async (source: any, args: any, context: any) => {
-          const images: Array<{
+          const sourceImages: Array<{
             description?: string
             image: string
-          }> = pipe(
-            source.images ?? [],
-            A.map((i: any) => ({
+          }> = source.images ?? []
+          const images = pipe(
+            sourceImages,
+            A.map((i) => ({
               ...i,
               image: path.join(process.cwd(), i.image.replace("../../", "/")),
             }))
@@ -600,7 +599,7 @@ export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
                 images,
                 A.findFirst((i) => i.image === image.absolutePath),
                 O.mapNullable((i) => i.description),
-                O.toNullable
+                O.toUndefined
               ),
               image: image,
             }))
