@@ -57,7 +57,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                           slides={images.map((i) => ({
                             authorName: "",
                             info: O.getOrElse(() => "")(i.description),
-                            imageURL: i.image.childImageSharp.fluid.src,
+                            imageURL: i.image.publicURL,
                           }))}
                           arrows={true}
                           adaptiveHeight={true}
