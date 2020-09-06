@@ -95,6 +95,7 @@ const InputReplacement = React.forwardRef<
 interface SearchableInputProps<I extends SearchableItem> {
   placeholder?: string
   items: I[]
+  selectedItems: I[]
   getValue: (i: I) => string
   itemRenderer: (item: I, props: ItemProps<I>, index: number) => JSX.Element
   onSelectItem: (item: I, selectedItems: I[]) => void
@@ -105,18 +106,15 @@ const SearchableInput = <I extends SearchableItem>(
   props: SearchableInputProps<I>
 ): JSX.Element => {
   const [value, setValue] = React.useState("")
-  const [items, setItems] = React.useState<I[]>([])
 
   const setItemAndClearValue = (item: I): void => {
-    setItems([...items, item])
     setValue("")
-    props.onSelectItem(item, [...items, item])
+    props.onSelectItem(item, [...props.selectedItems, item])
   }
 
   const unsetItemAndClearValue = (item: I): void => {
-    setItems(items.filter((t) => props.getValue(t) !== props.getValue(item)))
     setValue("")
-    props.onUnselectItem(item, [...items, item])
+    props.onUnselectItem(item, [...props.selectedItems, item])
   }
 
   const handleKeyDown = (
@@ -137,8 +135,8 @@ const SearchableInput = <I extends SearchableItem>(
       }
       // Backspace
       case 8: {
-        if (value === undefined || items.length === 0) return
-        unsetItemAndClearValue(items[items.length - 1])
+        if (value === undefined || props.selectedItems.length === 0) return
+        unsetItemAndClearValue(props.selectedItems[props.selectedItems.length - 1])
       }
     }
   }
@@ -147,13 +145,11 @@ const SearchableInput = <I extends SearchableItem>(
 
   const inputReplacementProps: InputReplacementProps<I> = {
     value: value,
-    items: props.items.filter(
-      (i) => !items.map((ii) => props.getValue(ii)).includes(props.getValue(i))
-    ),
+    items: props.items,
     getValue: props.getValue,
     onKeyDown: handleKeyDown,
     itemRenderer: props.itemRenderer,
-    selectedItems: items,
+    selectedItems: props.selectedItems,
     setValue,
     selectItem: setItemAndClearValue,
     removeItem: unsetItemAndClearValue,
@@ -164,7 +160,6 @@ const SearchableInput = <I extends SearchableItem>(
       placeholder={placehoder}
       value={value}
       onChange={(e) => setValue(e.currentTarget.value)}
-      // onFocus={}
       onBlur={(e) => {
         if (e.currentTarget.value !== "") {
           pipe(

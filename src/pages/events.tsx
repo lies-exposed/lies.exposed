@@ -17,13 +17,14 @@ import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
 import { ordEventData } from "@utils/event"
+import { eqByUUID } from "@utils/frontmatter"
+import { parseSearch, Routes, updateSearch } from "@utils/routes"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { LabelMedium } from "baseui/typography"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
-import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -36,7 +37,7 @@ const width = 1000
 const height = 400
 // const margin = { vertical: 30, horizontal: 30 }
 
-interface EventsPageProps extends PageProps{
+interface EventsPageProps extends PageProps {
   data: {
     pageContent: unknown
     events: { nodes: unknown }
@@ -46,61 +47,11 @@ interface EventsPageProps extends PageProps{
   }
 }
 
-const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
-  const [selectedGroupIds, setSelectedGroupIds] = React.useState<string[]>([])
-  const [selectedActorIds, setSelectedActorIds] = React.useState<string[]>([])
-  const [selectedTopicIds, setSelectedTopicIds] = React.useState<string[]>([])
-  const [dateRange, setDateRange] = React.useState<Date[]>([
-    moment().subtract(10, "years").toDate(),
-    new Date(),
-  ])
-
-  const onActorClick = (actor: ActorFrontmatter): void => {
-    const newSelectedActorIds = A.elem(Eq.eqString)(actor.uuid, selectedActorIds)
-    ? A.array.filter(
-        selectedActorIds,
-        (a) => !Eq.eqString.equals(a, actor.uuid)
-      )
-    : selectedActorIds.concat(actor.uuid)
-    setSelectedActorIds(
-      newSelectedActorIds
-    )
-  }
-
-  const onGroupClick = (g: GroupFrontmatter): void => {
-    setSelectedGroupIds(
-      A.elem(Eq.eqString)(g.uuid, selectedGroupIds)
-        ? A.array.filter(
-            selectedGroupIds,
-            (a) => !Eq.eqString.equals(a, g.uuid)
-          )
-        : selectedGroupIds.concat(g.uuid)
-    )
-  }
-
-  const onTopicClick = (topic: TopicFrontmatter): void => {
-    setSelectedTopicIds(
-      A.elem(Eq.eqString)(topic.uuid, selectedTopicIds)
-        ? A.array.filter(
-            selectedTopicIds,
-            (a) => !Eq.eqString.equals(a, topic.uuid)
-          )
-        : selectedTopicIds.concat(topic.uuid)
-    )
-  }
-
-  const onDatePickerChange = (value: { date: Date | Date[] }): void => {
-    if (Array.isArray(value.date)) {
-      setDateRange(value.date)
-    }
-  }
-
-  const minDate = dateRange[0]
-  const maxDate = pipe(
-    O.fromNullable(dateRange[1]),
-    O.getOrElse(() => new Date())
-  )
-
+const EventsPage: React.FC<EventsPageProps> = ({
+  data,
+  navigate,
+  ...props
+}) => {
   return pipe(
     sequenceS(E.either)({
       pageContent: PageContentFileNode.decode(data.pageContent),
@@ -112,6 +63,98 @@ const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
     E.fold(
       throwValidationErrors,
       ({ pageContent, events, actors, topics, groups }) => {
+        const {
+          actors: actorUUIDS = [],
+          topics: topicUUIDS = [],
+          groups: groupUUIDs = [],
+        } = pipe(
+          parseSearch(props.location, "events"),
+          E.getOrElse((): Routes["events"] => ({
+            actors: [],
+            topics: [],
+            groups: [],
+          }))
+        )
+
+        const [selectedGroups, setSelectedGroups] = React.useState(
+          groups.filter((g) => groupUUIDs.includes(g.uuid))
+        )
+
+        const [selectedActors, setSelectedActors] = React.useState(
+          actors.filter((a) => actorUUIDS.includes(a.uuid))
+        )
+        const [selectedTopics, setSelectedTopicIds] = React.useState(
+          topics.filter((t) => topicUUIDS.includes(t.uuid))
+        )
+        
+        const selectedActorIds = selectedActors.map(a => a.uuid)
+        const selectedGroupIds = selectedGroups.map(g => g.uuid)
+        const selectedTopicIds = selectedTopics.map(t => t.uuid)
+        
+
+        const [dateRange, setDateRange] = React.useState<Date[]>([
+          moment().subtract(10, "years").toDate(),
+          new Date(),
+        ])
+
+        const onActorClick = (actor: ActorFrontmatter): void => {
+          const newSelectedActorIds = A.elem(eqByUUID)(actor, selectedActors)
+            ? A.array.filter(selectedActors, (a) => !eqByUUID.equals(a, actor))
+            : selectedActors.concat(actor)
+          setSelectedActors(newSelectedActorIds)
+
+          pipe(
+            updateSearch(
+              props.location,
+              "events"
+            )({ actors: newSelectedActorIds.map((s) => s.uuid) }),
+            E.map(async (url) => await navigate(url))
+          )
+        }
+
+        const onGroupClick = (g: GroupFrontmatter): void => {
+          const newSelectedGroupIds = A.elem(eqByUUID)(g, selectedGroups)
+            ? A.array.filter(selectedGroups, (a) => !eqByUUID.equals(a, g))
+            : selectedGroups.concat(g)
+          setSelectedGroups(newSelectedGroupIds)
+
+          pipe(
+            updateSearch(
+              props.location,
+              "events"
+            )({ groups: newSelectedGroupIds.map((s) => s.uuid) }),
+            E.map(async (url) => await navigate(url))
+          )
+        }
+
+        const onTopicClick = (topic: TopicFrontmatter): void => {
+          const newSelectedTopics = A.elem(eqByUUID)(topic, selectedTopics)
+            ? A.array.filter(selectedTopics, (a) => !eqByUUID.equals(a, topic))
+            : selectedTopics.concat(topic)
+
+          setSelectedTopicIds(newSelectedTopics)
+
+          pipe(
+            updateSearch(
+              props.location,
+              "events"
+            )({ topics: newSelectedTopics.map((s) => s.uuid) }),
+            E.map(async (url) => await navigate(url))
+          )
+        }
+
+        const onDatePickerChange = (value: { date: Date | Date[] }): void => {
+          if (Array.isArray(value.date)) {
+            setDateRange(value.date)
+          }
+        }
+
+        const minDate = dateRange[0]
+        const maxDate = pipe(
+          O.fromNullable(dateRange[1]),
+          O.getOrElse(() => new Date())
+        )
+
         const filteredEvents = A.sort(Ord.getDualOrd(ordEventData))(
           events
         ).filter((e) => {
@@ -122,23 +165,29 @@ const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
           const hasActor = pipe(
             e.frontmatter.actors,
             O.map((actors) =>
-              actors.some((i) => selectedActorIds.includes(i.uuid))
+              actors.some((i) =>
+                selectedActors.some((a) => eqByUUID.equals(a, i))
+              )
             ),
             O.getOrElse(() => false)
           )
 
           const hasGroup = pipe(
             e.frontmatter.groups,
-            O.map((actors) =>
-              actors.some((i) => selectedGroupIds.includes(i.uuid))
+            O.map((groups) =>
+              groups.some((i) =>
+                selectedGroups.some((a) => eqByUUID.equals(a, i))
+              )
             ),
             O.getOrElse(() => false)
           )
 
           const hasTopic = pipe(
             O.some(e.frontmatter.topics),
-            O.map((actors) =>
-              actors.some((i) => selectedTopicIds.includes(i.uuid))
+            O.map((topics) =>
+              topics.some((i) =>
+                selectedTopics.some((a) => eqByUUID.equals(a, i))
+              )
             ),
             O.getOrElse(() => false)
           )
@@ -173,7 +222,8 @@ const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
                   <FlexGridItem>
                     <SearchableInput
                       placeholder="Topics..."
-                      items={topics}
+                      items={topics.filter(t => !selectedTopicIds.includes(t.uuid))}
+                      selectedItems={selectedTopics}
                       getValue={(item) => item.label}
                       itemRenderer={(item, itemProps, index) => (
                         <TopicListItem
@@ -182,7 +232,9 @@ const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
                           index={index}
                           item={{
                             ...item,
-                            selected: selectedTopicIds.includes(item.uuid),
+                            selected: selectedTopics.some((t) =>
+                              eqByUUID.equals(t, item)
+                            ),
                           }}
                           onClick={(item) => itemProps.onClick(item)}
                         />
@@ -201,7 +253,8 @@ const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
                   >
                     <SearchableInput
                       placeholder="Gruppi..."
-                      items={groups}
+                      items={groups.filter(g => !selectedGroupIds.includes(g.uuid))}
+                      selectedItems={selectedGroups}
                       itemRenderer={(item, itemProps, index) => {
                         return (
                           <GroupListItem
@@ -209,7 +262,9 @@ const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
                             index={index}
                             item={{
                               ...item,
-                              selected: selectedGroupIds.includes(item.uuid),
+                              selected: selectedGroups.some((g) =>
+                                eqByUUID.equals(g, item)
+                              ),
                             }}
                             onClick={(item) => itemProps.onClick(item)}
                             avatarScale="scale1000"
@@ -228,7 +283,8 @@ const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
                   <FlexGridItem>
                     <SearchableInput
                       placeholder="Attori..."
-                      items={actors}
+                      items={actors.filter(a => !selectedActorIds.includes(a.uuid))}
+                      selectedItems={selectedActors}
                       itemRenderer={(item, itemProps, index) => {
                         return (
                           <ActorListItem
@@ -236,7 +292,9 @@ const EventsPage: React.FC<EventsPageProps> = ({ data, ...props }) => {
                             index={index}
                             item={{
                               ...item,
-                              selected: selectedActorIds.includes(item.uuid),
+                              selected: selectedActors.some((a) =>
+                                eqByUUID.equals(a, item)
+                              ),
                             }}
                             onClick={(item) => itemProps.onClick(item)}
                             avatarScale="scale1000"
