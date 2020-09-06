@@ -30,7 +30,13 @@ const EventList: React.FC<EventListProps> = (props) => {
         props.events,
         A.map((event) => (
           <div key={event.frontmatter.uuid} id={event.frontmatter.uuid}>
-            <Card title={event.frontmatter.title}>
+            <Card
+              title={
+                <StyledLink href={`/events/${event.frontmatter.uuid}`}>
+                  {event.frontmatter.title}
+                </StyledLink>
+              }
+            >
               <StyledBody>
                 <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
                   <StyledLink
