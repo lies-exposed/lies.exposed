@@ -17,7 +17,7 @@ import { graphql, navigate } from "gatsby"
 import moment from "moment"
 import React from "react"
 
-interface ActorTimelineTemplatePageProps {
+interface ActorTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
@@ -28,7 +28,7 @@ interface ActorTimelineTemplatePageProps {
   }
 }
 
-const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
+const ActorTemplate: React.FC<ActorTemplatePageProps> = ({
   data,
 }) => {
   return pipe(
@@ -105,7 +105,7 @@ const ActorTimelineTemplate: React.FC<ActorTimelineTemplatePageProps> = ({
 }
 
 export const pageQuery = graphql`
-  query ActorTimelineTemplatePage($actorUUID: String!) {
+  query ActorTemplatePage($actorUUID: String!) {
     pageContent: file(
       sourceInstanceName: { eq: "actors" }
       name: { eq: $actorUUID }
@@ -125,4 +125,4 @@ export const pageQuery = graphql`
   }
 `
 
-export default ActorTimelineTemplate
+export default ActorTemplate

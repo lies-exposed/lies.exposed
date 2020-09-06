@@ -21,7 +21,7 @@ export interface CmsFieldV2 extends CmsField {
 
 type GetField = (field: Partial<CmsFieldV2>) => CmsFieldV2
 
-const makeField = (obj: Partial<CmsFieldV2>): GetField => field =>
+const makeField = (obj: Partial<CmsFieldV2>): GetField => (field) =>
   ({
     ...obj,
     ...field,
@@ -49,6 +49,12 @@ export const MarkdownField = makeField({
   widget: "markdown",
 })
 
+export const DateField = makeField({
+  label: "Date",
+  name: "date",
+  widget: "datetime",
+})
+
 export const NumberField = makeField({
   label: "Number",
   widget: "number",
@@ -73,43 +79,10 @@ export const VideoField = makeField({
   widget: "file",
 })
 
-export const ColorField: GetField = field =>
+export const ColorField: GetField = (field) =>
   StringField({
     label: "Color",
     name: "color",
-    widget: 'color',
+    widget: "color",
     ...field,
   })
-
-/**
- * Type Fields
- */
-
-export const ImageTypeField = (field: CmsFieldV2): CmsFieldV2 =>
-  makeField({
-    label: "Image Type",
-    widget: "object",
-    fields: [ImageField(field)],
-  })({ name: "image_type" })
-
-export const MarkdownTypeField: GetField = field =>
-  makeField({
-    label: "Markdown",
-    widget: "object",
-    fields: [
-      ColorField({ name: "textColor", label: "Text Color", required: false }),
-      ColorField({
-        name: "backgroundColor",
-        label: "Background Color",
-        required: false,
-      }),
-      MarkdownField(field),
-    ],
-  })({ name: "markdown_type" })
-
-export const VideoTypeField: GetField = field =>
-  makeField({
-    label: "Video Type",
-    widget: "object",
-    fields: [VideoField(field)],
-  })({ name: "video_type" })

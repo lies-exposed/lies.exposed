@@ -1,6 +1,14 @@
 import { EventTypeKeys } from "@models/event"
 import { CmsConfig, CmsCollection } from "netlify-cms-core"
-import { CmsFieldV2, MarkdownField, ColorField, StringField, ImageField } from "./field"
+import {
+  CmsFieldV2,
+  MarkdownField,
+  ColorField,
+  StringField,
+  ImageField,
+  RelationField,
+  DateField,
+} from "./field"
 
 interface CmsCollectionV2 extends CmsCollection {
   path?: string
@@ -36,7 +44,7 @@ const articles: CmsCollectionV2 = {
 const actors: CmsCollectionV2 = {
   name: "actors",
   label: "Actor",
-  slug: "{{username}}",
+  slug: "{{fields.uuid}}",
   folder: "content/actors",
   media_folder: "../../static/media/actors/{{fields.uuid}}",
   create: true,
@@ -45,9 +53,9 @@ const actors: CmsCollectionV2 = {
   },
   fields: [
     { label: "UUID", name: "uuid", widget: "uuid" },
-    { label: "Full Name", name: "fullName", widget: "string" },
-    { label: "Username", name: "username", widget: "string" },
-    { label: "Avatar", name: "avatar", widget: "image", required: false },
+    StringField({ label: "Full Name", name: "fullName" }),
+    StringField({ label: "Username", name: "username" }),
+    ImageField({ label: "Avatar", name: "avatar", required: false }),
     { label: "Publish Date", name: "date", widget: "datetime" },
     ColorField({}),
     MarkdownField({}),
@@ -65,21 +73,20 @@ const groups: CmsCollectionV2 = {
   create: true,
   fields: [
     { label: "UUID", name: "uuid", widget: "uuid" },
-    { label: "Name", name: "name", widget: "string" },
-    { label: "Avatar", name: "avatar", widget: "image", required: false },
-    { label: "Color", name: "color", widget: "color" },
-    {
+    StringField({ label: "Name", name: "name" }),
+    ImageField({ label: "Avatar", name: "avatar", required: false }),
+    ColorField({}),
+    RelationField({
       label: "Members",
       name: "members",
-      widget: "relation",
       collection: "actors",
-      searchFields: ["username"],
-      displayFields: ["username"],
+      searchFields: ["fullName", "username"],
+      displayFields: ["fullName"],
       valueField: "uuid",
       multiple: true,
       required: false,
-    },
-    { label: "Publish Date", name: "date", widget: "datetime" },
+    }),
+    DateField({ label: "Publish Date" }),
     MarkdownField({}),
   ],
 }
@@ -159,12 +166,15 @@ const events: CmsCollectionV2 = {
       field: { label: "Link", name: "link", widget: "string" },
     },
     {
-      label: 'Images',
-      name: 'images',
+      label: "Images",
+      name: "images",
       required: false,
       collapsed: true,
-      widget: 'list',
-      fields: [ImageField({ label: 'Image', name: 'image' }), StringField({ label: 'Description', name: 'description'})]
+      widget: "list",
+      fields: [
+        ImageField({ label: "Image", name: "image" }),
+        StringField({ label: "Description", name: "description" }),
+      ],
     },
     MarkdownField({}),
   ],
@@ -179,7 +189,7 @@ const pages: CmsCollectionV2 = {
   editor: {
     preview: true,
   },
-  fields: [{ label: "Title", name: "title", widget: "string" }, MarkdownField({})],
+  fields: [StringField({ label: "Title", name: "title" }), MarkdownField({})],
 }
 
 const topics: CmsCollectionV2 = {
@@ -196,8 +206,8 @@ const topics: CmsCollectionV2 = {
   summary: "[{{fields.uuid}}] {{fields.label}}",
   fields: [
     { label: "UUID", name: "uuid", widget: "uuid" },
-    StringField({ label: "Label", name: "label"}),
-    StringField({ label: "Slug", name: "slug"}),
+    StringField({ label: "Label", name: "label" }),
+    StringField({ label: "Slug", name: "slug" }),
     ColorField({}),
     { label: "Publish Date", name: "date", widget: "datetime" },
     MarkdownField({}),
@@ -220,12 +230,5 @@ export const config: CmsConfigV2 = {
     process.env.NODE_ENV === "development" ? "simple" : "editorial_workflow",
   media_folder: "static/media",
   public_folder: "media",
-  collections: [
-    events,
-    articles,
-    actors,
-    groups,
-    pages,
-    topics,
-  ],
+  collections: [events, articles, actors, groups, pages, topics],
 }
