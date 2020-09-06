@@ -216,6 +216,57 @@ const createActorTimelinePages = async ({
   })
 }
 
+const createEventPages = async ({
+  actions,
+  graphql,
+  reporter,
+}: CreatePagesArgs): Promise<void> => {
+  const { createPage } = actions
+  const postTemplate = path.resolve(`src/templates/EventTemplate.tsx`)
+
+  const result = await graphql<{ events: { nodes: Array<{ name: string }> } }>(`
+    {
+      events: allFile(filter: { sourceInstanceName: { eq: "events" } }) {
+        nodes {
+          name
+        }
+      }
+    }
+  `)
+
+  // Handle errors
+  if (result.errors !== undefined) {
+    reporter.panicOnBuild(`Error while running createEventPages query.`)
+    return
+  }
+
+  if (result.data === undefined) {
+    reporter.panicOnBuild(`No data for actor pages`)
+    return
+  }
+
+  const nodes = result.data.events.nodes
+  nodes.forEach((node) => {
+    const eventUUID = node.name
+    const nodePath = `/events/${eventUUID}`
+
+    const context = {
+      eventUUID,
+    }
+
+    reporter.info(
+      `Event page [${nodePath}] context: ${JSON.stringify(context, null, 4)}`
+    )
+
+    createPage({
+      path: nodePath,
+      component: postTemplate,
+      // additional data can be passed via context
+      context,
+    })
+  })
+}
+
 // const createNetworkPages = async ({
 //   actions,
 //   graphql,
@@ -336,6 +387,7 @@ export const createPages = async (options: CreatePagesArgs) => {
   await createArticlePages(options)
   await createActorTimelinePages(options)
   await createTopicTimelinePages(options)
+  await createEventPages(options)
   // await createNetworkPages(options)
 }
 
@@ -547,7 +599,7 @@ export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
               description: pipe(
                 images,
                 A.findFirst((i) => i.image === image.absolutePath),
-                O.mapNullable(i => i.description),
+                O.mapNullable((i) => i.description),
                 O.toNullable
               ),
               image: image,
