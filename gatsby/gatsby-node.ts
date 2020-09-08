@@ -486,6 +486,8 @@ export const createSchemaCustomization = async ({
             return "PageFrontmatter"
           }
 
+          console.log(source)
+
           return "MarkdownRemarkFrontmatter"
         },
       }),

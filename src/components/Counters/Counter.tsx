@@ -1,6 +1,6 @@
 import { themedUseStyletron } from "@theme/CustomeTheme"
 import { Block } from "baseui/block"
-import { ParagraphMedium, ParagraphXSmall } from "baseui/typography"
+import { ParagraphXSmall } from "baseui/typography"
 import * as React from "react"
 
 interface CounterProps {
@@ -20,30 +20,38 @@ export const Counter: React.FC<CounterProps> = (props) => {
   })
 
   return (
-    <Block overrides={{ Block: { style:{ textAlign: "center"} }}}>
+    <Block overrides={{ Block: { style: { textAlign: "center" } } }}>
       <div
         style={{
-          fontSize: $theme.typography.font1250.fontSize,
-          fontWeight: $theme.typography.font850.fontWeight,
-          lineHeight: 1.2,
+          ...$theme.typography.font1250,
           fontFamily: $theme.typography.thirdaryFont,
-          color: $theme.colors.brandPrimary
+          color: $theme.colors.brandPrimary,
         }}
       >
         {count.toLocaleString()}
-        {props.message !== undefined ? "*" : ""}
+        <span
+          style={{
+            verticalAlign: 'top',
+            fontSize: $theme.typography.font550.fontSize,
+            lineHeight: $theme.typography.font550.lineHeight,
+          }}
+        >
+          {props.message !== undefined ? "*" : ""}
+        </span>
       </div>
       {props.message !== undefined ? (
-        <ParagraphMedium
+        <ParagraphXSmall
           $style={{
             fontFamily: $theme.typography.thirdaryFont,
-            color: $theme.colors.secondaryBlack
+            color: $theme.colors.secondaryBlack,
           }}
-        >{`* ${props.message}`}</ParagraphMedium>
+        >{`* ${props.message}`}</ParagraphXSmall>
       ) : null}
       <ParagraphXSmall $style={{ fontFamily: $theme.typography.thirdaryFont }}>
         {props.sources.map((s) => (
-          <a key={s.label} href={s.url}>{s.label}</a>
+          <a key={s.label} href={s.url}>
+            {s.label}
+          </a>
         ))}
       </ParagraphXSmall>
     </Block>

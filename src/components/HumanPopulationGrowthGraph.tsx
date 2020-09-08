@@ -1,3 +1,9 @@
+import {
+  GradientPurpleOrange,
+  GradientPinkBlue,
+  GradientTealBlue,
+  LinearGradient,
+} from "@vx/gradient"
 import * as React from "react"
 import { Axis } from "./graph/Axis"
 
@@ -98,12 +104,35 @@ export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProp
   // .filter(d => d.year > 1800 && d.year < 2020)
   return (
     <Axis
+      id="human-population-growth"
       width={width}
       height={height}
       margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+      linePathElement={(id) => (
+        <LinearGradient
+          id={id}
+          vertical={true}
+          to={"#23cbd4"}
+          from={"#d42626"}
+          fromOpacity={1}
+          fromOffset={"60%"}
+          toOpacity={0.5}
+        />
+      )}
+      background={(id) => (
+        <LinearGradient
+          id={id}
+          to={"#ffc096"}
+          from={"#d42323"}
+          vertical={true}
+          rotate={0}
+          fromOpacity={0.5}
+          toOpacity={1}
+        />
+      )}
       data={filteredData}
-      getX={d => d.year}
-      getY={d => d.population}
+      getX={(d) => d.year}
+      getY={(d) => d.population}
       axisLeftLabel={"Millions of people"}
       axisRightLabel={"Millions of people"}
       axisBottomLabel={"Year"}

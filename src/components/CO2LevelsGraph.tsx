@@ -1,4 +1,5 @@
 import { throwValidationErrors } from "@utils/throwValidationErrors"
+import { GradientLightgreenGreen, GradientOrangeRed, LinearGradient } from "@vx/gradient"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -130,31 +131,54 @@ export const CO2LevelsGraph: React.FC<HumanPopulationGrowthGraphProps> = ({
         .decode(EPAData.childCsvData.csvData),
     }),
     E.map(({ CO2EarthData, EPAData }) => {
-      const measurements = EPAData.map(d => ({
+      const measurements = EPAData.map((d) => ({
         year: d.field1,
         value: Math.max(
           ...[d.field2, d.field3, d.field4, d.field5, d.field6, d.field7]
-            .filter(e => e !== "")
-            .map(d => parseInt(d, 10))
+            .filter((e) => e !== "")
+            .map((d) => parseInt(d, 10))
         ),
       }))
 
       return measurements.concat(
-        CO2EarthData.map(d => ({
+        CO2EarthData.map((d) => ({
           year: d.year,
           value: d.data_mean_global,
         }))
       )
     }),
-    E.fold(throwValidationErrors, data => (
+    E.fold(throwValidationErrors, (data) => (
       <Axis<CO2LevelDatum>
+        id="co2-levels"
         width={width}
         height={height}
         margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+        linePathElement={(id) => (
+          <LinearGradient
+            id={id}
+            vertical={true}
+            fromOpacity={1}
+            toOpacity={0.8}
+            to="#fcc317"
+            from="#fc2317"
+            fromOffset="40%"
+            toOffset="80%"
+          />
+        )}
+        background={(id) => (
+          <LinearGradient
+            id={id}
+            vertical={true}
+            from={"#de8cf3"}
+            to={"#177ffc"}
+            fromOpacity={1}
+            toOpacity={0.5}
+          />
+        )}
         data={data}
         minY={150}
-        getX={d => d.year}
-        getY={d => d.value}
+        getX={(d) => d.year}
+        getY={(d) => d.value}
         axisLeftLabel={"CO2 cocentration (part per million)"}
         axisRightLabel={"CO2 cocentration (part per million)"}
         axisBottomLabel={"Date"}

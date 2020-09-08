@@ -1,6 +1,5 @@
 import { AxisLeft, AxisRight, AxisBottom } from "@vx/axis"
 import { curveBasis } from "@vx/curve"
-import { GradientOrangeRed, GradientTealBlue } from "@vx/gradient"
 import { Grid } from "@vx/grid"
 import { Group } from "@vx/group"
 import { scaleLinear } from "@vx/scale"
@@ -23,11 +22,14 @@ function numTicksForWidth(width: number): number {
   return 10
 }
 interface AxisProps<D> {
+  id: string
+  background: (id: string) => JSX.Element 
+  linePathElement: (id: string) => JSX.Element
   width: number
   height: number
   data: D[]
-  minX?: number;
-  minY?: number;
+  minX?: number
+  minY?: number
   getX: (e: D) => number
   axisLeftLabel: string
   axisRightLabel: string
@@ -42,10 +44,13 @@ interface AxisProps<D> {
 }
 
 export const Axis = <D extends any>({
+  id,
   data,
   width,
   height,
   margin,
+  background,
+  linePathElement,
   minX = 0,
   minY = 0,
   getX,
@@ -70,20 +75,17 @@ export const Axis = <D extends any>({
     nice: true,
   })
 
+  const linePathId = `line-path-${id}`
+  const backgroundId = `background-${id}`;
+
   return (
     <svg width={width} height={height}>
-      <GradientOrangeRed
-        id="linear"
-        vertical={true}
-        fromOpacity={0.5}
-        toOpacity={1}
-      />
-
-      <GradientTealBlue id={"background"} vertical={false} />
+      {background(backgroundId)}
+      {linePathElement(linePathId)}
 
       {/** And are then referenced for a style attribute. */}
       <Bar
-        fill={`url(#linear)`}
+        fill={`url(#${backgroundId})`}
         x={0}
         y={0}
         width={width}
@@ -107,9 +109,9 @@ export const Axis = <D extends any>({
       <Group top={margin.top} left={margin.left}>
         <LinePath
           data={data}
-          x={d => xScale(getX(d))}
-          y={d => yScale(getY(d))}
-          stroke={"url('#background')"}
+          x={(d) => xScale(getX(d))}
+          y={(d) => yScale(getY(d))}
+          stroke={`url('#${linePathId}')`}
           strokeWidth={3}
           curve={curveBasis}
         />
@@ -173,7 +175,7 @@ export const Axis = <D extends any>({
           numTicks={numTicksForWidth(width)}
           label={axisBottomLabel}
         >
-          {axis => {
+          {(axis) => {
             const tickLabelSize = 10
             const tickRotate = 45
             const tickColor = "#8e205f"
