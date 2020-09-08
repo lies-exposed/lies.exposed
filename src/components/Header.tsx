@@ -5,8 +5,7 @@ import {
   StyledNavigationList,
   StyledNavigationItem,
 } from "baseui/header-navigation"
-import { StyledLink } from "baseui/link"
-import { graphql, useStaticQuery } from "gatsby"
+import { graphql, useStaticQuery, Link } from "gatsby"
 import * as PropTypes from "prop-types"
 import React from "react"
 
@@ -20,10 +19,10 @@ interface MenuItemProps {
   item: MenuItem
   pos: number
 }
-const renderMenuLink: React.FC<MenuItemProps> = ({ item, pos: total }) => {
+const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
   return (
     <StyledNavigationItem key={item.title} path={item.path}>
-      <StyledLink href={item.path}>{item.title}</StyledLink>
+      <Link to={item.path}>{item.title}</Link>
     </StyledNavigationItem>
   )
 }
