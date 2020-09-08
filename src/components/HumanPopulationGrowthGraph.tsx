@@ -1,9 +1,4 @@
-import {
-  GradientPurpleOrange,
-  GradientPinkBlue,
-  GradientTealBlue,
-  LinearGradient,
-} from "@vx/gradient"
+import { LinearGradient } from "@vx/gradient"
 import * as React from "react"
 import { Axis } from "./graph/Axis"
 
