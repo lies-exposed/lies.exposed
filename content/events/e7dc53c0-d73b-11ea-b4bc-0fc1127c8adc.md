@@ -2,7 +2,7 @@
 uuid: e7dc53c0-d73b-11ea-b4bc-0fc1127c8adc
 title: Fondazione Milano Cortina 2026
 date: 2019-12-08
-type: Fact
+type: Act
 topics:
   - cd04ec80-d757-11ea-83c3-43a36ca50240
 links:

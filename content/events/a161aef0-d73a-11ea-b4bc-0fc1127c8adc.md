@@ -2,7 +2,7 @@
 uuid: a161aef0-d73a-11ea-b4bc-0fc1127c8adc
 title: Sversamento di 400 tonnellate di greggio
 date: 2017-10-10
-type: AntiEcologicAct
+type: AnthropicDisaster
 groups:
   - 0b36e8b0-d743-11ea-accf-91b459e4aeb4
 topics:

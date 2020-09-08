@@ -2,7 +2,7 @@
 uuid: cafd7800-d73c-11ea-b4bc-0fc1127c8adc
 title: Abbattimento degli alberi del parco nord
 date: 2020-08-03
-type: Fact
+type: Act
 groups:
   - ca6c9af0-d742-11ea-83a8-47271feea2c9
 topics:

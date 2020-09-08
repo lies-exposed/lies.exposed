@@ -19,11 +19,9 @@ export const ordEventData = Ord.ord.contramap(
 )
 
 const colorMap: Record<EventType, string> = {
-  AntiEcologicAct: "brown",
   AnthropicDisaster: "red",
   NaturalDisaster: "yellow",
-  Fact: "blue",
-  EcologicAct: "green",
+  Act: "blue",
   War: "black",
   Migration: "orange",
   CivilConflict: "grey",

@@ -25,10 +25,8 @@ export const TreeEvent: t.Type<TreeEvent> = t.recursion("TreeEvent", () =>
 
 export const EventTypeKeys = {
   // old types
-  AntiEcologicAct: null,
-  EcologicAct: null,
   Declaration: null,
-  Fact: null,
+  Act: null,
   // new event types
   AnthropicDisaster: null,
   NaturalDisaster: null,

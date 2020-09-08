@@ -2,7 +2,7 @@
 uuid: 7fb3bef0-d73b-11ea-b4bc-0fc1127c8adc
 title: Approvato il PGT
 date: 2019-10-14
-type: AntiEcologicAct
+type: Declaration
 topics:
     - 04a266a0-d757-11ea-9d44-af2b696b45de
 groups:
