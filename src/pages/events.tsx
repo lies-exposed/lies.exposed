@@ -32,6 +32,7 @@ import { graphql, PageProps } from "gatsby"
 import * as t from "io-ts"
 import moment from "moment"
 import React from "react"
+import Helmet from "react-helmet"
 
 const width = 1000
 const height = 400
@@ -197,7 +198,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
 
         return (
           <Layout>
-            <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+            <Helmet>
+              <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+            </Helmet>
             <FlexGrid
               alignItems="center"
               alignContent="center"
