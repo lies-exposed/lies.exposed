@@ -29,7 +29,13 @@ const EventList: React.FC<EventListProps> = (props) => {
       {pipe(
         props.events,
         A.map((event) => (
-          <div key={event.frontmatter.uuid} id={event.frontmatter.uuid}>
+          <div
+            key={event.frontmatter.uuid}
+            id={event.frontmatter.uuid}
+            style={{
+              marginBottom: 40,
+            }}
+          >
             <Card
               title={
                 <StyledLink href={`/events/${event.frontmatter.uuid}`}>

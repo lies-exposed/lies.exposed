@@ -1,6 +1,5 @@
 import { ContentWithSidebar } from "@components/ContentWithSidebar"
 import { Layout } from "@components/Layout"
-import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { PageContentFileNode } from "@models/page"
@@ -11,39 +10,39 @@ import { useStaticQuery, graphql, PageProps } from "gatsby"
 import React from "react"
 
 interface Results {
-  pageContent: PageContentFileNode
+  pageContent: unknown
 }
 
-const CrisisPage: React.FC<PageProps> = (props) => {
+const ProjectPage: React.FC<PageProps> = (props) => {
   const { pageContent }: Results = useStaticQuery(graphql`
-    query CrisisQuery {
+    query ProjectPage {
       pageContent: file(
         sourceInstanceName: { eq: "pages" }
-        name: { eq: "the-crisis" }
+        name: { eq: "project" }
       ) {
         ...PageFileNode
       }
     }
   `)
 
+  console.log({ pageContent})
+
   return pipe(
     PageContentFileNode.decode(pageContent),
-    E.fold(throwValidationErrors, () => {
+    E.fold(throwValidationErrors, (page) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+          <SEO title={page.childMarkdownRemark.frontmatter.title} />
           <ContentWithSidebar
             sidebar={
               <div
                 dangerouslySetInnerHTML={{
-                  __html: pageContent.childMarkdownRemark.tableOfContents,
+                  __html: page.childMarkdownRemark.tableOfContents,
                 }}
               />
             }
           >
-            <MainContent>
-              <PageContent {...pageContent.childMarkdownRemark} />
-            </MainContent>
+            <PageContent {...page.childMarkdownRemark} />
           </ContentWithSidebar>
         </Layout>
       )
@@ -51,4 +50,4 @@ const CrisisPage: React.FC<PageProps> = (props) => {
   )
 }
 
-export default CrisisPage
+export default ProjectPage
