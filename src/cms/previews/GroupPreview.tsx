@@ -3,7 +3,7 @@ import { GroupFrontmatter } from "@models/group"
 import { MDtoHTML, HTMLtoAST } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
-import * as O from 'fp-ts/lib/Option'
+import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
@@ -20,11 +20,12 @@ export const GroupPreview: React.FC<any> = ({
     ...frontmatter,
     date: frontmatter.date.toISOString(),
     avatar:
-      frontmatter.avatar !== undefined
+      avatar !== undefined
         ? {
+            publicURL: avatar.path,
             childImageSharp: {
               fluid: {
-                src: avatar.url,
+                src: avatar.path,
                 aspectRatio: 1,
                 srcSet: avatar.url,
                 sizes: "",
@@ -37,13 +38,20 @@ export const GroupPreview: React.FC<any> = ({
             },
           }
         : undefined,
-    members:
-      frontmatter.members !== undefined ? frontmatter.members.toJS() : [],
+    members: Array.isArray(frontmatter.members)
+      ? frontmatter.members.map((mId: string, i: number) => ({
+          uuid: mId,
+          fullName: i,
+          username: i,
+          date: new Date().toISOString(),
+          avatar: undefined,
+        }))
+      : [],
   }
 
   return pipe(
     GroupFrontmatter.decode(group),
-    E.fold(renderValidationErrors, f => (
+    E.fold(renderValidationErrors, (f) => (
       <>
         <GroupPageContent
           frontmatter={f}
@@ -51,7 +59,6 @@ export const GroupPreview: React.FC<any> = ({
           htmlAst={HTMLtoAST(MDtoHTML(body))}
           onMemberClick={() => {}}
         />
-        
       </>
     ))
   )

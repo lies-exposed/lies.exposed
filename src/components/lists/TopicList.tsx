@@ -1,6 +1,6 @@
 import { List, ListItemProps } from "@components/Common/List"
 import { TopicFrontmatter } from "@models/topic"
-import theme, {  CustomTheme } from "@theme/CustomeTheme"
+import { theme, CustomTheme } from "@theme/CustomeTheme"
 import { Tag, VARIANT, KIND } from "baseui/tag"
 import * as React from "react"
 

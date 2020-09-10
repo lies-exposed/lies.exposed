@@ -1,4 +1,4 @@
-import theme from "@theme/CustomeTheme"
+import {theme} from "@theme/CustomeTheme"
 import { BaseProvider } from "baseui"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import * as React from "react"

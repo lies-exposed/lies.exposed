@@ -10,7 +10,7 @@ export const ArticlePreview: React.FC<any> = (props) => {
 
   return (
     <ArticlePage
-      {...{
+      frontmatter={{
         ...article,
         date: article.date.toISOString(),
       }}

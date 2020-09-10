@@ -46,7 +46,6 @@ export const customColors = {
 
 export const GlobalStyle = createGlobalStyle`
 
-  
 `
 
 const primaryFontFamily = "Source Serif Pro"
@@ -166,5 +165,3 @@ export interface CustomOverrides {
 }
 
 export const themedUseStyletron = createThemedUseStyletron<CustomTheme>()
-
-export default theme
