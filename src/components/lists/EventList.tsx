@@ -46,11 +46,91 @@ const EventList: React.FC<EventListProps> = (props) => {
                     <Overflow size={24} />
                   </StyledLink>
                 </Block>
-                <FlexGrid flexDirection="row">
-                  <FlexGridItem>
-                    {pipe(
-                      event.frontmatter.images,
-                      O.map((images) => (
+
+                <FlexGrid flexGridColumnCount={1} flexDirection="column">
+                  <FlexGridItem display="flex" flexGridItemCount={1}>
+                    <FlexGridItem
+                      display="flex"
+                      flexGridItemCount={1}
+                      alignItems="center"
+                    >
+                      {pipe(event.frontmatter.topics, (topics) => (
+                        // eslint-disable-next-line react/jsx-key
+                        <TopicList
+                          topics={topics.map((t) => ({
+                            ...t,
+                            selected: true,
+                          }))}
+                          onTopicClick={async (t) =>
+                            await navigate(`/topics/${t.uuid}`)
+                          }
+                        />
+                      ))}
+                    </FlexGridItem>
+                    <FlexGridItem
+                      display="flex"
+                      flexGridColumnCount={1}
+                      alignItems="flex-end"
+                      flexDirection="column"
+                    >
+                      {pipe(
+                        event.frontmatter.groups,
+                        O.fold(
+                          () => null,
+                          (groups) => (
+                            <GroupList
+                              groups={groups.map((g) => ({
+                                ...g,
+                                selected: false,
+                              }))}
+                              onGroupClick={async (group) => {
+                                await navigate(`/groups/${group.uuid}`)
+                              }}
+                              avatarScale="scale1000"
+                            />
+                          )
+                        )
+                      )}
+                    </FlexGridItem>
+                    <FlexGridItem
+                      display="flex"
+                      alignItems="flex-end"
+                      flexDirection="column"
+                      flexGridColumnCount={1}
+                    >
+                      {pipe(
+                        event.frontmatter.actors,
+                        O.fold(
+                          () => null,
+                          (actors) => (
+                            <ActorList
+                              actors={actors.map((a) => ({
+                                ...a,
+                                selected: false,
+                              }))}
+                              onActorClick={async (actor) => {
+                                await navigate(`/actors/${actor.uuid}`)
+                              }}
+                              avatarScale="scale1000"
+                            />
+                          )
+                        )
+                      )}
+                    </FlexGridItem>
+                  </FlexGridItem>
+
+                  <FlexGridItem display="flex" flexGridColumnCount={3}>
+                    <time dateTime={formatDate(event.frontmatter.date)}>
+                      {formatDate(event.frontmatter.date)}
+                    </time>
+                  </FlexGridItem>
+
+                  {pipe(
+                    event.frontmatter.images,
+                    O.map((images) => (
+                      // eslint-disable-next-line react/jsx-key
+                      <FlexGridItem
+                      >
                         <Slider
                           key="home-slider"
                           height={600}
@@ -64,106 +144,41 @@ const EventList: React.FC<EventListProps> = (props) => {
                           dots={true}
                           size="contain"
                         />
-                      )),
-                      O.toNullable
-                    )}
-                  </FlexGridItem>
-                </FlexGrid>
-                <FlexGrid flexGridColumnCount={2}>
-                  <FlexGridItem
-                    display="flex"
-                    flexGridColumnCount={1}
-                    alignItems="center"
-                  >
-                    {pipe(event.frontmatter.topics, (topics) => (
-                      // eslint-disable-next-line react/jsx-key
-                      <TopicList
-                        topics={topics.map((t) => ({
-                          ...t,
-                          selected: true,
-                        }))}
-                        onTopicClick={async (t) =>
-                          await navigate(`/topics/${t.uuid}`)
-                        }
-                      />
-                    ))}
-                  </FlexGridItem>
-                  <FlexGridItem
-                    display="flex"
-                    flexGridColumnCount={1}
-                    alignItems="flex-end"
-                    flexDirection="column"
-                  >
-                    {pipe(
-                      event.frontmatter.groups,
-                      O.fold(
-                        () => null,
-                        (groups) => (
-                          <GroupList
-                            groups={groups.map((g) => ({
-                              ...g,
-                              selected: false,
-                            }))}
-                            onGroupClick={async (group) => {
-                              await navigate(`/groups/${group.uuid}`)
-                            }}
-                            avatarScale="scale1000"
-                          />
-                        )
-                      )
-                    )}
-                    {pipe(
-                      event.frontmatter.actors,
-                      O.fold(
-                        () => null,
-                        (actors) => (
-                          <ActorList
-                            actors={actors.map((a) => ({
-                              ...a,
-                              selected: false,
-                            }))}
-                            onActorClick={async (actor) => {
-                              await navigate(`/actors/${actor.uuid}`)
-                            }}
-                            avatarScale="scale1000"
-                          />
-                        )
-                      )
-                    )}
-                  </FlexGridItem>
-                  <FlexGridItem flexGridColumnCount={2}>
-                    <time dateTime={formatDate(event.frontmatter.date)}>
-                      {formatDate(event.frontmatter.date)}
-                    </time>
-                  </FlexGridItem>
-                  <FlexGridItem />
-                  <FlexGridItem flexGridColumnCount={2}>
-                    {renderHTMLAST(event.htmlAst)}
+                      </FlexGridItem>
+                    )),
+                    O.toNullable
+                  )}
+                  <FlexGrid flexGridColumnCount={3}>
+                    <FlexGridItem display="flex" flexDirection="column">
+                      {renderHTMLAST(event.htmlAst)}
 
-                    {pipe(
-                      event.frontmatter.links,
-                      O.map((links) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <Accordion>
-                          <Panel title={`Links (${links.length})`}>
-                            <ul>
-                              {links.map((l, i) => (
-                                <ListItem key={i} artwork={CheckIndeterminate}>
-                                  <ListItemLabel>
-                                    <ParagraphSmall>
-                                      <a href={l}>{l}</a>
-                                    </ParagraphSmall>
-                                  </ListItemLabel>
-                                </ListItem>
-                              ))}
-                            </ul>
-                          </Panel>
-                        </Accordion>
-                      )),
-                      O.toNullable
-                    )}
-                  </FlexGridItem>
-                  <FlexGridItem display="none" />
+                      {pipe(
+                        event.frontmatter.links,
+                        O.map((links) => (
+                          // eslint-disable-next-line react/jsx-key
+                          <Accordion>
+                            <Panel title={`Links (${links.length})`}>
+                              <ul>
+                                {links.map((l, i) => (
+                                  <ListItem
+                                    key={i}
+                                    artwork={CheckIndeterminate}
+                                  >
+                                    <ListItemLabel>
+                                      <ParagraphSmall>
+                                        <a href={l}>{l}</a>
+                                      </ParagraphSmall>
+                                    </ListItemLabel>
+                                  </ListItem>
+                                ))}
+                              </ul>
+                            </Panel>
+                          </Accordion>
+                        )),
+                        O.toNullable
+                      )}
+                    </FlexGridItem>
+                  </FlexGrid>
                 </FlexGrid>
               </StyledBody>
             </Card>
