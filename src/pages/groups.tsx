@@ -1,8 +1,9 @@
-import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import GroupList from "@components/lists/GroupList"
+import SearchableInput from "@components/SearchableInput"
+import { GroupListItem } from "@components/lists/GroupList"
 import { GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -42,32 +43,32 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
       pageContent: PageContentFileNode.decode(results.pageContent),
     }),
     E.fold(throwValidationErrors, ({ groups, pageContent }) => {
-      const groupsItems = {
-        itemId: "#groups-items",
-        title: "Gruppi",
-        subNav: groups.map((n) => ({
-          itemId: `/groups/${n.uuid}`,
-          title: n.name,
-          subNav: [],
-        })),
-      }
 
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
-          <ContentWithSideNavigation items={[groupsItems]}>
+          <MainContent>
             <PageContent {...pageContent.childMarkdownRemark} />
-            <GroupList
-              groups={groups.map((a) => ({
+            <SearchableInput
+              items={groups.map((a) => ({
                 ...a,
                 selected: false,
               }))}
-              onGroupClick={async (a) => {
-                await navigate(`/groups/${a.uuid}`)
+              selectedItems={[]}
+              getValue={g => g.name}
+              onSelectItem={async (item) => {
+                await navigate(`/groups/${item.uuid}`)
               }}
-              avatarScale="scale1600"
+              onUnselectItem={() => {}}
+              itemRenderer={(item, props, index) => (
+                <GroupListItem
+                  item={item}
+                  index={index}
+                  avatarScale="scale1600"
+                />
+              )}
             />
-          </ContentWithSideNavigation>
+          </MainContent>
         </Layout>
       )
     })

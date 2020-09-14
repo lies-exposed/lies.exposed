@@ -71,7 +71,9 @@ const InputReplacement = React.forwardRef<
         )}
         <StyledInput ref={ref} value={value} {...restProps} />
         <List<SearchableItem>
-          data={items.filter((i) => getValue(i).startsWith(value))}
+          data={items.filter((i) =>
+            getValue(i).toLowerCase().includes(value.toLowerCase())
+          )}
           getKey={getValue}
           filter={(i) => true}
           ListItem={({ item, index }) =>
@@ -136,7 +138,9 @@ const SearchableInput = <I extends SearchableItem>(
       // Backspace
       case 8: {
         if (value === undefined || props.selectedItems.length === 0) return
-        unsetItemAndClearValue(props.selectedItems[props.selectedItems.length - 1])
+        unsetItemAndClearValue(
+          props.selectedItems[props.selectedItems.length - 1]
+        )
       }
     }
   }

@@ -1,8 +1,9 @@
-import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import ActorList from "@components/lists/ActorList"
+import SearchableInput from "@components/SearchableInput"
+import ActorList, { ActorListItem } from "@components/lists/ActorList"
 import { ActorFrontmatter } from "@models/actor"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -42,16 +43,6 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
       pageContent: PageContentFileNode.decode(results.pageContent),
     }),
     E.fold(throwValidationErrors, ({ actors, pageContent }) => {
-      const actorItems = {
-        itemId: "#actors-items",
-        title: "Attori",
-        subNav: actors.map((n) => ({
-          itemId: `/actors/${n.username}`,
-          title: n.fullName,
-          subNav: [],
-        })),
-      }
-
       const acts = actors.map((a) => ({
         ...a,
         selected: false,
@@ -60,16 +51,21 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
-          <ContentWithSideNavigation items={[actorItems]}>
+          <MainContent>
             <PageContent {...pageContent.childMarkdownRemark} />
-            <ActorList
-              actors={acts}
-              onActorClick={async (a) => {
+            <SearchableInput
+              items={acts}
+              selectedItems={[]}
+              getValue={(a) => a.fullName}
+              onSelectItem={async (a) => {
                 await navigate(`/actors/${a.uuid}`)
               }}
-              avatarScale="scale1600"
+              onUnselectItem={() => {}}
+              itemRenderer={(item, _, index) => (
+                <ActorListItem index={index} item={item} avatarScale="scale1600" />
+              )}
             />
-          </ContentWithSideNavigation>
+          </MainContent>
         </Layout>
       )
     })
