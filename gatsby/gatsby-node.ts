@@ -36,7 +36,7 @@ const createArticlePages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const articleTemplate = path.resolve(
+  const BlogPostTemplate = path.resolve(
     `src/templates/ArticleTemplate/ArticleTemplate.tsx`
   )
 
@@ -79,8 +79,8 @@ const createArticlePages = async ({
     )
 
     createPage({
-      path: `/articles/${node.path}`,
-      component: articleTemplate,
+      path: `/blog/${node.path}`,
+      component: BlogPostTemplate,
       // additional data can be passed via context
       context,
     })

@@ -49,9 +49,14 @@ const Header: React.FC = () => {
       title: "La Crisi",
     },
     {
-      id: "articles",
-      path: "/articles",
-      title: "Articoli",
+      id: 'project',
+      path: '/project',
+      title: 'Progetto'
+    },
+    {
+      id: "blog",
+      path: "/blog",
+      title: "Blog",
     },
     {
       id: "actors",
