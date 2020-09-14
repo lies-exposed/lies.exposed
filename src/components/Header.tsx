@@ -5,14 +5,20 @@ import {
   StyledNavigationList,
   StyledNavigationItem,
 } from "baseui/header-navigation"
-import { graphql, useStaticQuery, Link } from "gatsby"
-import * as PropTypes from "prop-types"
+import { StatefulMenu } from "baseui/menu"
+import {
+  StatefulPopover,
+  PLACEMENT as PopoverPlacement,
+  TRIGGER_TYPE,
+} from "baseui/popover"
+import { graphql, useStaticQuery, Link, navigate } from "gatsby"
 import React from "react"
 
 interface MenuItem {
   id: string
-  title: string
+  label: string
   path: string
+  subItems: Array<Omit<MenuItem, "subItems">>
 }
 
 interface MenuItemProps {
@@ -21,8 +27,28 @@ interface MenuItemProps {
 }
 const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
   return (
-    <StyledNavigationItem key={item.title} path={item.path}>
-      <Link to={item.path}>{item.title}</Link>
+    <StyledNavigationItem key={item.label} path={item.path}>
+      {item.subItems.length > 0 ? (
+        <StatefulPopover
+          placement={PopoverPlacement.bottomLeft}
+          autoFocus={true}
+          focusLock={true}
+          triggerType={TRIGGER_TYPE.hover}
+          content={({ close }) => (
+            <StatefulMenu
+              items={item.subItems}
+              onItemSelect={async ({ item }) => {
+                await navigate(item.path)
+                close()
+              }}
+            />
+          )}
+        >
+          <Link to={item.path}>{item.label}</Link>
+        </StatefulPopover>
+      ) : (
+        <Link to={item.path}>{item.label}</Link>
+      )}
     </StyledNavigationItem>
   )
 }
@@ -46,37 +72,42 @@ const Header: React.FC = () => {
     {
       id: "the-crisis",
       path: "/the-crisis",
-      title: "La Crisi",
+      label: "La Crisi",
+      subItems: [],
     },
     {
-      id: 'project',
-      path: '/project',
-      title: 'Progetto'
+      id: "project",
+      path: "/project",
+      label: "Progetto",
+      subItems: [],
     },
     {
       id: "blog",
       path: "/blog",
-      title: "Blog",
+      label: "Blog",
+      subItems: [],
     },
     {
-      id: "actors",
-      path: "/actors",
-      title: "Attori",
-    },
-    {
-      id: "groups",
-      path: "/groups",
-      title: "Groups",
-    },
-    {
-      id: "topics",
-      path: "/topics",
-      title: "Topics",
-    },
-    {
-      id: "events",
-      path: "/events",
-      title: "Events",
+      id: "timelines",
+      path: "/timelines",
+      label: "Timelines",
+      subItems: [
+        {
+          id: "actors",
+          path: "/actors",
+          label: "Attori",
+        },
+        {
+          id: "groups",
+          path: "/groups",
+          label: "Groups",
+        },
+        {
+          id: "topics",
+          path: "/topics",
+          label: "Topics",
+        },
+      ],
     },
   ]
 
@@ -85,7 +116,7 @@ const Header: React.FC = () => {
       <HeaderNavigation>
         <StyledNavigationList $align={ALIGN.left}>
           {renderMenuLink({
-            item: { id: "home", title: title, path: "/" },
+            item: { id: "home", label: title, path: "/", subItems: [] },
             pos: 0,
           })}
         </StyledNavigationList>
@@ -96,14 +127,6 @@ const Header: React.FC = () => {
       </HeaderNavigation>
     </FlexGridItem>
   )
-}
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
 }
 
 export default Header

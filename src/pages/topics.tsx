@@ -1,15 +1,17 @@
-import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import TopicList from "@components/lists/TopicList"
+import SearchableInput from "@components/SearchableInput"
+import { TopicListItem } from "@components/lists/TopicList"
 import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
+import theme from "@theme/CustomeTheme"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
-import { useStaticQuery, graphql, PageProps } from "gatsby"
+import { graphql, PageProps, useStaticQuery } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
 
@@ -42,31 +44,27 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
       pageContent: PageContentFileNode.decode(results.pageContent),
     }),
     E.fold(throwValidationErrors, ({ pageContent, topics }) => {
-      const topicItems = {
-        itemId: "#topics-items",
-        title: "Topics",
-        subNav: topics.map((t) => {
-          return {
-            itemId: `/topics/${t.uuid}`,
-            title: t.label,
-            subNav: [],
-          }
-        }),
-      }
-
       return (
         <Layout>
           <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
-          <ContentWithSideNavigation items={[topicItems]}>
+          <MainContent>
             <PageContent {...pageContent.childMarkdownRemark} />
-            <TopicList
-              topics={topics.map((t) => ({
+            <SearchableInput
+              items={topics.map((t) => ({
                 ...t,
                 selected: false,
               }))}
-              onTopicClick={async (t) => await navigate(`/topics/${t.uuid}`)}
+              selectedItems={[]}
+              getValue={(t) => t.label}
+              itemRenderer={(item, props, index) => (
+                <TopicListItem item={item} index={index} $theme={theme} />
+              )}
+              onSelectItem={async (item) => {
+                await navigate(`/topics/${item.uuid}`)
+              }}
+              onUnselectItem={() => {}}
             />
-          </ContentWithSideNavigation>
+          </MainContent>
         </Layout>
       )
     })
