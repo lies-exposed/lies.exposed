@@ -128,7 +128,7 @@
   "scripts": {
     "clean": "gatsby clean",
     "build": "gatsby build",
-    "develop": "gatsby develop -p 8002",
+    "develop": "NODE_ENV=development gatsby develop -p 8002",
     "proxy-server": "PORT=8082 npx netlify-cms-proxy-server",
     "info": "gatsby info",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
