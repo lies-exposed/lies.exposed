@@ -1,15 +1,15 @@
 import { EventFrontmatter } from "@models/event"
 import renderHTMLAST from "@utils/renderHTMLAST"
 import { Block } from "baseui/block"
-import { Overflow } from "baseui/icon"
-import { StyledLink } from "baseui/link"
 import { HeadingXLarge, HeadingXSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 import { Slider } from "./Slider/Slider"
+import EditButton from "./buttons/EditButton"
 import ActorList from "./lists/ActorList"
 import GroupList from "./lists/GroupList"
+
 
 interface EventPageContentProps {
   frontmatter: EventFrontmatter
@@ -23,12 +23,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   return (
     <>
       <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
-        <StyledLink
-          href={`/admin/#/collections/groups/entries/${frontmatter.uuid}`}
-          target="_blank"
-        >
-          <Overflow size={24} />
-        </StyledLink>
+        <EditButton resourceName="events" resource={frontmatter} />
       </Block>
       <HeadingXLarge>{frontmatter.title}</HeadingXLarge>
       <Block>

@@ -2,13 +2,12 @@ import { ActorFrontmatter } from "@models/actor"
 import { GroupFrontmatter } from "@models/group"
 import renderHTMLAST from "@utils/renderHTMLAST"
 import { Block } from "baseui/block"
-import { Overflow } from "baseui/icon"
-import { StyledLink } from "baseui/link"
 import { HeadingXLarge, HeadingXSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import Image from "gatsby-image"
 import * as React from "react"
+import EditButton from "./buttons/EditButton"
 import ActorList, { Actor } from "./lists/ActorList"
 
 interface GroupPageContentProps {
@@ -27,12 +26,9 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   return (
     <>
       <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
-        <StyledLink
-          href={`/admin/#/collections/groups/entries/${frontmatter.uuid}`}
-          target="_blank"
-        >
-          <Overflow size={24} />
-        </StyledLink>
+      <div style={{ textAlign: "right", padding: 10 }}>
+        <EditButton resourceName="groups" resource={frontmatter} />
+      </div>
       </Block>
       <HeadingXLarge>{frontmatter.name}</HeadingXLarge>
       {pipe(
