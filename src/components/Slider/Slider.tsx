@@ -1,8 +1,7 @@
-import { UnsplashCredit } from "@components/UnspashCredit"
 import { Block } from "baseui/block"
 import * as React from "react"
 import * as SlickSlider from "react-slick"
-import './slider.scss'
+import "./slider.scss"
 
 interface Slide {
   imageURL: string
@@ -13,7 +12,7 @@ interface Slide {
 interface SliderProps extends SlickSlider.Settings {
   height: number
   slides: Slide[]
-  size: 'contain' | 'cover'
+  size: "contain" | "cover"
 }
 
 export const Slider: React.FC<SliderProps> = ({
@@ -40,13 +39,7 @@ export const Slider: React.FC<SliderProps> = ({
               },
             },
           }}
-        >
-          <div
-            style={{ padding: 10, position: "absolute", right: 0, bottom: 0 }}
-          >
-            <UnsplashCredit authorName={s.authorName} />
-          </div>
-        </Block>
+        />
       ))}
     </SlickSlider.default>
   )
