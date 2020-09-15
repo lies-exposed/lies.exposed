@@ -10,18 +10,18 @@ date: 2020-08-27
 
 La Scienza è d'accordo nell'affermare che il clima è stato profondamento sconvolto dalle attività antropiche che sono state attuate dall'inizio della rivoluzione industriale, dando origine ad un nuovo periodo storico chiamato ***Antropocene***[^anthropocene].
 
-L'aver impostato l'economia su un modello di crescita infinita che frutta senza sosta le riserve energetiche fossili del pianeta, la artificializzazione dell'ambiente a tappeto ha compromesso il delicato equilibrio che si era venuto a creare nell'arco di miliardi di anni.
+L'aver impostato l'economia su un modello di crescita infinita che frutta senza sosta le riserve energetiche fossili del pianeta e la artificializzazione a tappeto dell'ambiente hanno compromesso il delicato equilibrio che si era venuto a creare nell'arco di miliardi di anni.
 
-Interi ecosistemi sono già compromessi e inizieranno a collassare nei prossimi 10 anni:
+Il Pianeta Terra è un complesso insieme di ecosistemi, alcuni già compromessi che collasseranno nei prossimi 10 anni:
 
 - l'[Amazzonia](https://www.theguardian.com/environment/2020/mar/04/tropical-forests-losing-their-ability-to-absorb-carbon-study-finds) rischia di trasformarsi in una savana
 - i [ghiacciai dell'Himalaya vanno riducendosi](https://www.nationalgeographic.com/magazine/2020/07/water-crisis-looms-for-270-million-people-south-asia-perpetual-feature/), minacciando le popolazioni del territorio sottostante
 - il ghiaccio che ricopriva la [Groelandia ha passato il punto di non ritorno](https://scienze.fanpage.it/groenlandia-superato-punto-di-non-ritorno-per-lo-scioglimento-della-calotta-e-destinata-a-sparire/p2/)
 
-Vivere nella consapevolezza che non avremmo, in un futuro vicino, le caratteristiche minime necessarie per abitare questo pianeta è frutto di una profonda analisi della situazione attuale in tutti i suoi aspetti: sociale, economico, culturale e morale.
+Vivere nella consapevolezza che non avremmo, in un futuro vicino, le caratteristiche minime necessarie per abitare questo pianeta è frutto di una profonda analisi della situazione attuale in molti dei suoi aspetti: sociale, economico, culturale e morale.
 
 Sono molti gli strumenti di misurazione che la Scienza fornisce per poter predirre con accurata certezza che il tempo che abbiamo, prima di raggiungere il punto di non ritorno, non è molto e passarlo comporterebbe una condanna a morte della gran parte della popolazione mondiale[^collapse-of-civilization].
-Eppure per 70 anni non è stato dato credito alla Scienza che ha provato a dimostrare attraverso i più svariati studi di come il nostro stile di vita impatta il Pianeta, ritrovandoci adesso impreparati all'impegno necessario per trasformare il nostro modello *socio-culturale-economico*.
+Eppure **per 70 anni non è stato dato credito alla Scienza** che ha provato a dimostrare attraverso i più svariati studi di come il nostro stile di vita impatta il pianeta, ritrovandoci adesso impreparati all'impegno necessario per trasformare il nostro modello *socio-culturale-economico*.
 
 [^anthropocene]: [Antropocene](https://en.wikipedia.org/wiki/Anthropocene)
 [^collapse-of-civilization]: [Collapse of civilisation is the most likely outcome](https://voiceofaction.org/collapse-of-civilisation-is-the-most-likely-outcome-top-climate-scientists/)
@@ -31,6 +31,8 @@ Eppure per 70 anni non è stato dato credito alla Scienza che ha provato a dimos
 <full-size-section id="premesse">
 
 ## Premesse
+
+Per sviluppare un'analisi delle cause che ci hanno portato al prossimo collasso ecosistemico, poniamo delle *premesse* partendo dalla letterattura scientifica:
 
 - il livello di [concentrazione di CO2](#concentrazione-di-co2) di oggi non veniva registrato da [15 milioni di anni](https://www.theguardian.com/environment/2020/jul/09/co2-in-earths-atmosphere-nearing-levels-of-15m-years-ago)
 
@@ -171,7 +173,7 @@ Nella storia si contano 5 **estinzioni di massa**:
 
 Le cause delle prime *Grandi estinzioni di massa* variano dai cambiamenti climatici, a collissioni con asteroidi e a forti esplosioni vulcaniche.
 
-Le cause della **Sesta estinzione di messa** sono invece di origine *antropica*.
+Le cause della **Sesta estinzione di massa** sono invece di origine *antropica*.
 La perdita di habitat da parte della biodiversità, la presenza di specie invasive come quella dell'*Homo Sapiens*, lo sfruttamento delle risorse, l'inquinamento e il cambiamento climatico - anche quello di origine antropica - sono le cause principali della perdità di biodiversità.
 
 ![Drivers biodiversity loss](../../static/media/img/drivers-biodiversity-loss-human-population-growth-consumption.jpg)
