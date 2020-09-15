@@ -7,6 +7,7 @@ import { TopicListItem } from "@components/lists/TopicList"
 import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
+import { navigateTo } from "@utils/links"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -57,10 +58,15 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
               selectedItems={[]}
               getValue={(t) => t.label}
               itemRenderer={(item, props, index) => (
-                <TopicListItem item={item} index={index} $theme={theme} />
+                <TopicListItem
+                  item={item}
+                  index={index}
+                  $theme={theme}
+                  onClick={async (t) => await navigateTo(navigate, 'topics', t)}
+                />
               )}
               onSelectItem={async (item) => {
-                await navigate(`/topics/${item.uuid}`)
+                await navigateTo(navigate, 'topics', item)
               }}
               onUnselectItem={() => {}}
             />

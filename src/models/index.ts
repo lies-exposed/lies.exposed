@@ -1,11 +1,11 @@
 import * as t from 'io-ts'
 
-export const ResourcesKeys = t.keyof({
+export const ResourcesNames = t.keyof({
   events: null,
   topics: null,
   actors: null,
   groups: null,
   articles: null
-}, 'ResourcesKeys')
+}, 'ResourcesNames')
 
-export type ResourcesKeys = t.TypeOf<typeof ResourcesKeys>
+export type ResourcesNames = t.TypeOf<typeof ResourcesNames>
