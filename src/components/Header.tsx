@@ -1,17 +1,18 @@
+import { themedUseStyletron } from "@theme/CustomeTheme"
 import { FlexGridItem } from "baseui/flex-grid"
 import {
-  HeaderNavigation,
-  ALIGN,
-  StyledNavigationList,
-  StyledNavigationItem,
+  ALIGN, HeaderNavigation,
+
+
+  StyledNavigationItem, StyledNavigationList
 } from "baseui/header-navigation"
 import { StatefulMenu } from "baseui/menu"
 import {
-  StatefulPopover,
-  PLACEMENT as PopoverPlacement,
-  TRIGGER_TYPE,
+  PLACEMENT as PopoverPlacement, StatefulPopover,
+
+  TRIGGER_TYPE
 } from "baseui/popover"
-import { graphql, useStaticQuery, Link, navigate } from "gatsby"
+import { graphql, Link, navigate, useStaticQuery } from "gatsby"
 import React from "react"
 
 interface MenuItem {
@@ -56,13 +57,17 @@ const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
 const Header: React.FC = () => {
   const {
     site: {
-      siteMetadata: { title },
+      siteMetadata: { title, github },
     },
   } = useStaticQuery(graphql`
     query HeaderQuery {
       site {
         siteMetadata {
           title
+          github {
+            user
+            repo
+          }
         }
       }
     }
@@ -111,14 +116,35 @@ const Header: React.FC = () => {
     },
   ]
 
+  const [, $theme] = themedUseStyletron()
+
   return (
     <FlexGridItem>
-      <HeaderNavigation>
+      <HeaderNavigation
+        overrides={{
+          Root: {
+            style: {
+              backgroundColor: $theme.colors.brandPrimary,
+            },
+          },
+        }}
+      >
         <StyledNavigationList $align={ALIGN.left}>
           {renderMenuLink({
             item: { id: "home", label: title, path: "/", subItems: [] },
             pos: 0,
           })}
+          <StyledNavigationItem>
+            <iframe
+              src={`https://ghbtns.com/github-btn.html?user=${github.user}&repo=${github.repo}&type=star&count=true&size=small`}
+              frameBorder="0"
+              scrolling="0"
+              width="100"
+              height="20"
+              title="GitHub"
+              style={{ verticalAlign: "middle" }}
+            />
+          </StyledNavigationItem>
         </StyledNavigationList>
         <StyledNavigationList $align={ALIGN.center} />
         <StyledNavigationList $align={ALIGN.right}>

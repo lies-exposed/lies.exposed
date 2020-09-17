@@ -5,7 +5,11 @@ const config: GatsbyConfig = {
     title: `ECOnnessione`,
     description: `Emergenza planetaria a 360º.`,
     author: `@ascariandrea`,
-    githubLink: `https://github.com/ascariandrea/econnessione`,
+    github: {
+      user: 'ascariandrea',
+      repo: 'econnessione',
+      link: `https://github.com/ascariandrea/econnessione`
+    }
   },
   plugins: [
     {
