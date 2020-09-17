@@ -1,18 +1,20 @@
-import { themedUseStyletron } from "@theme/CustomeTheme"
+import { themedUseStyletron, CustomTheme } from "@theme/CustomeTheme"
+import { withStyle } from "baseui"
 import { FlexGridItem } from "baseui/flex-grid"
 import {
-  ALIGN, HeaderNavigation,
-
-
-  StyledNavigationItem, StyledNavigationList
+  ALIGN,
+  HeaderNavigation,
+  StyledNavigationItem,
+  StyledNavigationList,
 } from "baseui/header-navigation"
+import { StyledLink } from "baseui/link"
 import { StatefulMenu } from "baseui/menu"
 import {
-  PLACEMENT as PopoverPlacement, StatefulPopover,
-
-  TRIGGER_TYPE
+  PLACEMENT as PopoverPlacement,
+  StatefulPopover,
+  TRIGGER_TYPE,
 } from "baseui/popover"
-import { graphql, Link, navigate, useStaticQuery } from "gatsby"
+import { graphql, navigate, useStaticQuery } from "gatsby"
 import React from "react"
 
 interface MenuItem {
@@ -26,9 +28,31 @@ interface MenuItemProps {
   item: MenuItem
   pos: number
 }
+
+const NavigationItem = withStyle(
+  StyledNavigationItem,
+  ({ $theme }: { $theme: CustomTheme }) => {
+    return {
+      fontFamily: $theme.typography.secondaryFont,
+      color: $theme.colors.white,
+
+    }
+  }
+)
+
+const Link = withStyle(StyledLink, ({ $theme }: { $theme: CustomTheme }) => {
+  return {
+    fontFamily: $theme.typography.secondaryFont,
+    color: $theme.colors.white,
+    textDecoration: 'none',
+    textTransform: 'uppercase',
+    cursor: 'pointer'
+    
+  }
+})
 const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
   return (
-    <StyledNavigationItem key={item.label} path={item.path}>
+    <NavigationItem key={item.label} path={item.path}>
       {item.subItems.length > 0 ? (
         <StatefulPopover
           placement={PopoverPlacement.bottomLeft}
@@ -50,7 +74,7 @@ const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
       ) : (
         <Link to={item.path}>{item.label}</Link>
       )}
-    </StyledNavigationItem>
+    </NavigationItem>
   )
 }
 
@@ -134,7 +158,7 @@ const Header: React.FC = () => {
             item: { id: "home", label: title, path: "/", subItems: [] },
             pos: 0,
           })}
-          <StyledNavigationItem>
+          <NavigationItem>
             <iframe
               src={`https://ghbtns.com/github-btn.html?user=${github.user}&repo=${github.repo}&type=star&count=true&size=small`}
               frameBorder="0"
@@ -144,7 +168,7 @@ const Header: React.FC = () => {
               title="GitHub"
               style={{ verticalAlign: "middle" }}
             />
-          </StyledNavigationItem>
+          </NavigationItem>
         </StyledNavigationList>
         <StyledNavigationList $align={ALIGN.center} />
         <StyledNavigationList $align={ALIGN.right}>
