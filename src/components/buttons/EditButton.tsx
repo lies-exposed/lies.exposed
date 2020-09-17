@@ -1,13 +1,13 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Frontmatter } from "@models/Frontmatter"
-import { ResourcesKeys } from "@models/index"
+import { ResourcesNames } from "@models/index"
 import { getAdminLink } from "@utils/links"
 import { StyledLink } from "baseui/link"
 import * as React from 'react'
 
 interface EditButtonProps {
-  resourceName: ResourcesKeys
+  resourceName: ResourcesNames
   resource: Frontmatter
 }
 

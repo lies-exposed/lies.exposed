@@ -11,14 +11,16 @@ export const Footer: React.FC = () => {
   const [, theme] = themedUseStyletron()
   const {
     site: {
-      siteMetadata: { title, githubLink },
+      siteMetadata: { title, github },
     },
   } = useStaticQuery(graphql`
     query FooterQuery {
       site {
         siteMetadata {
           title
-          githubLink
+          github {
+            link
+          }
         }
       }
     }
@@ -35,7 +37,7 @@ export const Footer: React.FC = () => {
             <ul style={{ listStyle: 'none'}}>
               <li>
                 <ParagraphSmall color={theme.colors.white}>
-                  <StyledLink href={githubLink}>
+                  <StyledLink href={github.link}>
                     <FontAwesomeIcon icon={faGithub} /> Github
                   </StyledLink>
                 </ParagraphSmall>
