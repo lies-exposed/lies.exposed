@@ -42,7 +42,7 @@ Eppure per 70 anni non è stato dato credito alla Scienza che ha provato a dimos
 
 </full-size-section>
 
-<full-size-section id="clima" background-color="white" background-image="/media/img/felix-mittermeier-L4-16dmZ-1c-unsplash.jpg">
+<full-size-section id="clima" background-color="white">
 
 ## Clima
 
