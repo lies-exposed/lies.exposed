@@ -9,10 +9,15 @@
 - [neural graph](https://observablehq.com/@d3/force-directed-graph)
 - [Bilevel Edge Bundling](https://observablehq.com/@d3/bilevel-edge-bundling?collection=@d3/d3-hierarchy)
 - [fisheye distortion](https://bost.ocks.org/mike/fisheye/)
+- [calcolare l'impronta ecologica](https://www.wwf.ch/it/vivere-sostenibile/calcolatore-dell-impronta-ecologica)
 
 ## Topics
 
 ### Milano - ATM
 
 - [Bellini: "Lo facevano in tanti"](https://www.osservatoremeneghino.info/27/08/2020/tangenti-atm-bellini-nei-verbali-secretati-lo-facevano-in-tanti/)
-- 
+
+## Climate crisis is a threat to human rights
+
+- [Michelle Bachelet UN - Climate Crisis threat to human rights](https://www.theguardian.com/law/2019/sep/09/climate-crisis-human-rights-un-michelle-bachelet-united-nations)
+- [](https://www.un.org/en/chronicle/article/greatest-threat-global-security-climate-change-not-merely-environmental-problem)
