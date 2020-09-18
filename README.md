@@ -1,5 +1,7 @@
 # ECOnnessione
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/afcdb4f9-1027-4d05-b59a-4a8dfa473808/deploy-status)](https://app.netlify.com/sites/econnessione/deploys)
+
 ---
 
 This platform's aim is to give a different perspective of what we do for saving what's left of the beauty of this planet.
