@@ -53,6 +53,13 @@ export const PointIO = t.interface(
   "PointIO"
 )
 
+export const PolygonIO = t.strict({
+  type: t.literal('Polygon'),
+  coordinates: t.array(t.array(PositionIO))
+}, 'PolygonIO')
+
+export type PolygonIO = t.TypeOf<typeof PolygonIO>
+
 export type PointIO = t.TypeOf<typeof PointIO>
 
 export const EventFrontmatter = t.strict(

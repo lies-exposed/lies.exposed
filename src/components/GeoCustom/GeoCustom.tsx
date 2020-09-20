@@ -53,7 +53,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
   height,
   projection,
   data,
-  featureRenderer: featurRenderer,
+  featureRenderer,
 }: GeoCustomProps<P>): JSX.Element => {
   const centerX = width / 2
   const centerY = height / 2
@@ -134,7 +134,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                 ]}
               >
                 {(mercator) => {
-                  return <g>{mercator.features.map(featurRenderer)}</g>
+                  return <g>{mercator.features.map(featureRenderer)}</g>
                 }}
               </CustomProjection>
               {/* <rect
