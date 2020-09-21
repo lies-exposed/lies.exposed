@@ -52,6 +52,16 @@ type ImageWithDescription {
   image: File!
 }
 
+type AreaFrontmatter implements Node & BaseFrontmatter @dontInfer {
+  uuid: String!
+  label: String!
+  color: String!
+  groups: [GroupFrontmatter!]
+  topics: [TopicFrontmatter!]
+  polygon: String!
+  date: Date!
+}
+
 # Events
 type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!

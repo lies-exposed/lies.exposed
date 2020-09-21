@@ -1,18 +1,18 @@
-import { themedUseStyletron, CustomTheme } from "@theme/CustomeTheme"
+import { CustomTheme, themedUseStyletron } from "@theme/CustomeTheme"
 import { withStyle } from "baseui"
 import { FlexGridItem } from "baseui/flex-grid"
 import {
   ALIGN,
   HeaderNavigation,
   StyledNavigationItem,
-  StyledNavigationList,
+  StyledNavigationList
 } from "baseui/header-navigation"
 import { StyledLink } from "baseui/link"
 import { StatefulMenu } from "baseui/menu"
 import {
   PLACEMENT as PopoverPlacement,
   StatefulPopover,
-  TRIGGER_TYPE,
+  TRIGGER_TYPE
 } from "baseui/popover"
 import { graphql, navigate, useStaticQuery } from "gatsby"
 import React from "react"
@@ -40,7 +40,7 @@ const NavigationItem = withStyle(
   }
 )
 
-const Link = withStyle(StyledLink, ({ $theme }: { $theme: CustomTheme }) => {
+const NavigationLink = withStyle(StyledLink as any, ({ $theme }: { $theme: CustomTheme }) => {
   return {
     fontFamily: $theme.typography.secondaryFont,
     color: $theme.colors.white,
@@ -69,10 +69,10 @@ const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
             />
           )}
         >
-          <Link to={item.path}>{item.label}</Link>
+          <NavigationLink href={item.path}>{item.label}</NavigationLink>
         </StatefulPopover>
       ) : (
-        <Link to={item.path}>{item.label}</Link>
+        <NavigationLink href={item.path}>{item.label}</NavigationLink>
       )}
     </NavigationItem>
   )
@@ -136,6 +136,11 @@ const Header: React.FC = () => {
           path: "/topics",
           label: "Topics",
         },
+        {
+          id: 'areas',
+          path: '/areas',
+          label: 'Aree'
+        }
       ],
     },
   ]

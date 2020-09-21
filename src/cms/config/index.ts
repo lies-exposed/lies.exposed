@@ -214,6 +214,43 @@ const topics: CmsCollectionV2 = {
   ],
 }
 
+const areas: CmsCollectionV2 = {
+  name: "areas",
+  label: "Area",
+  folder: "content/areas",
+  identifier_field: "uuid",
+  media_folder: "../../static/media/areas/{{fields.uuid}}",
+  create: true,
+  editor: {
+    preview: true,
+  },
+  delete: false,
+  summary: "[{{fields.uuid}}] {{fields.label}}",
+  fields: [
+    { label: "UUID", name: "uuid", widget: "uuid" },
+    StringField({ label: "Label", name: "label" }),
+    ColorField({}),
+    RelationField({
+      name: "groups",
+      collection: "groups",
+      searchFields: ["name", 'uuid'],
+      displayFields: ['name'],
+      valueField: "uuid",
+      multiple: true,
+    }),
+    RelationField({
+      name: 'topics',
+      collection: 'topics',
+      searchFields: ['label', 'uuid'],
+      displayFields: ['label'],
+      valueField: 'uuid',
+      multiple: true,
+    }),
+    { label: "Date", name: "date", widget: "datetime" },
+    { label: "Polygon", name: "polygon", widget: "map", type: "Polygon" },
+  ],
+}
+
 export const config: CmsConfigV2 = {
   backend: {
     name: "git-gateway",
@@ -230,5 +267,5 @@ export const config: CmsConfigV2 = {
     process.env.NODE_ENV === "development" ? "simple" : "editorial_workflow",
   media_folder: "static/media",
   public_folder: "media",
-  collections: [events, articles, actors, groups, pages, topics],
+  collections: [events, articles, actors, groups, pages, topics, areas],
 }

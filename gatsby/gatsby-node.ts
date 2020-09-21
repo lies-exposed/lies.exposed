@@ -22,6 +22,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import { EventFrontmatter } from "../src/models/event"
 import { PageFrontmatter } from "../src/models/page"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { AreaFrontmatter } from "../src/models/area"
 
 const group = <A>(S: Eq.Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
   return A.chop((as) => {
@@ -380,12 +381,84 @@ const createTopicPages = async ({
   })
 }
 
+const createAreasPages = async ({
+  actions,
+  graphql,
+  reporter,
+}: CreatePagesArgs): Promise<void> => {
+  const { createPage } = actions
+  const areaTemplate = path.resolve(`src/templates/AreaTemplate.tsx`)
+
+  const result = await graphql<{
+    areas: {
+      nodes: Array<{
+        name: string
+        childMarkdownRemark: { frontmatter: AreaFrontmatter }
+      }>
+    }
+  }>(`
+    {
+      areas: allFile(filter: { sourceInstanceName: { eq: "areas" } }) {
+        nodes {
+          name
+          childMarkdownRemark {
+            frontmatter {
+              ... on AreaFrontmatter {
+                groups {
+                  uuid
+                }
+                topics {
+                  uuid
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  // Handle errors
+  if (result.errors !== undefined) {
+    reporter.panicOnBuild(`Error while running createTopicPages query.`)
+    return
+  }
+
+  if (result.data === undefined) {
+    reporter.panicOnBuild(`No data for topics pages`)
+    return
+  }
+
+  const nodes = result.data.areas.nodes
+
+  nodes.forEach((node) => {
+    const nodePath = `/areas/${node.name}`
+
+    const context = {
+      areaUUID: node.name,
+      groupUUIDs: node.childMarkdownRemark.frontmatter.groups.map(g => g.uuid),
+      topicUUIDs: node.childMarkdownRemark.frontmatter.topics.map(t => t.uuid)
+    }
+
+    reporter.info(`Area context: ${JSON.stringify(context, null, 4)}`)
+    reporter.info(`Building to path: ${nodePath}`)
+
+    createPage({
+      path: nodePath,
+      component: areaTemplate,
+      // additional data can be passed via context
+      context,
+    })
+  })
+}
+
 export const createPages = async (options: CreatePagesArgs) => {
   await createArticlePages(options)
   await createActorPages(options)
   await createGroupPages(options)
   await createTopicPages(options)
   await createEventPages(options)
+  await createAreasPages(options)
   // await createNetworkPages(options)
 }
 
@@ -428,6 +501,13 @@ const EventF = t.type({
   ),
 })
 
+const { groups: _groups, topics: _topics, ...Area } = AreaFrontmatter.type.props
+const AreaF = t.strict({
+  ...Area,
+  groups: t.array(t.string),
+  topics: t.array(t.string),
+})
+
 export const createSchemaCustomization = async ({
   actions,
   schema,
@@ -448,20 +528,11 @@ export const createSchemaCustomization = async ({
           "GroupFrontmatter",
           "EventFrontmatter",
           "TopicFrontmatter",
+          "AreaFrontmatter",
           "PageFrontmatter",
           "MarkdownRemarkFrontmatter",
         ],
         resolveType: async (source) => {
-          // console.log({
-          //   source,
-          //   ActorFrontmatter: ActorF.decode(source),
-          //   GroupFrontmatter: GroupF.decode(source),
-          //   EventFrontmatter: EventF.decode(source),
-          //   TopicFrontmatter: TopicFrontmatter.decode(source),
-          //   ArticleFrontmatter: ArticleFrontmatter.decode(source),
-          //   PageFrontmatter: PageFrontmatter.decode(source)
-          // })
-
           if (E.isRight(ActorF.decode(source))) {
             return "ActorFrontmatter"
           }
@@ -476,6 +547,10 @@ export const createSchemaCustomization = async ({
 
           if (E.isRight(ArticleFrontmatter.decode(source))) {
             return "ArticleFrontmatter"
+          }
+
+          if (E.isRight(AreaF.decode(source))) {
+            return "AreaFrontmatter"
           }
 
           if (E.isRight(EventF.decode(source))) {
@@ -528,6 +603,30 @@ export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
               type: "ActorFrontmatter",
             })
             .filter((m: any) => memberIds.includes(m.uuid))
+        },
+      },
+    },
+    AreaFrontmatter: {
+      groups: {
+        type: "[GroupFrontmatter!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const groupIds = source.groups ?? []
+          return context.nodeModel
+            .getAllNodes({
+              type: "GroupFrontmatter",
+            })
+            .filter((m: any) => groupIds.includes(m.uuid))
+        },
+      },
+      topics: {
+        type: "[TopicFrontmatter!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const topicIds = source.topics ?? []
+          return context.nodeModel
+            .getAllNodes({
+              type: "TopicFrontmatter",
+            })
+            .filter((m: any) => topicIds.includes(m.uuid))
         },
       },
     },
@@ -662,6 +761,22 @@ export const sourceNodes = ({
               })
             })
           }
+
+          case "areas": {
+            n.forEach((e) => {
+              createNodeField({
+                node: e,
+                name: `topics`,
+                value: (e.frontmatter as any).topics || [],
+              })
+
+              createNodeField({
+                node: e,
+                name: `groups`,
+                value: (e.frontmatter as any).groups || [],
+              })
+            })
+          }
         }
       }
     })
@@ -677,6 +792,7 @@ type Collection =
   | "events"
   | "pages"
   | "topics"
+  | "areas"
 
 const collectionToTypeMap: Record<Collection, string> = {
   actors: "ActorFrontmatter",
@@ -685,6 +801,7 @@ const collectionToTypeMap: Record<Collection, string> = {
   events: "EventFrontmatter",
   pages: "PageFrontmatter",
   topics: "TopicFrontmatter",
+  areas: "AreaFrontmatter",
 }
 
 export const onCreateNode = ({
@@ -699,6 +816,7 @@ export const onCreateNode = ({
   if (node.internal.type === `MarkdownRemark`) {
     const collection = getNode(node.parent).sourceInstanceName as Collection
 
+    const frontmatter = node.frontmatter as any
     createNodeField({
       name: `collection`,
       node,
@@ -710,19 +828,19 @@ export const onCreateNode = ({
         createNodeField({
           name: "actors",
           node,
-          value: (node.frontmatter as any).actors ?? [],
+          value: frontmatter.actors ?? [],
         })
 
         createNodeField({
           name: "groups",
           node,
-          value: (node.frontmatter as any).groups ?? [],
+          value: frontmatter.groups ?? [],
         })
 
         createNodeField({
           name: "topics",
           node,
-          value: (node.frontmatter as any).topics ?? [],
+          value: frontmatter.topics ?? [],
         })
       }
 
@@ -730,7 +848,15 @@ export const onCreateNode = ({
         createNodeField({
           name: "members",
           node,
-          value: (node.frontmatter as any).members ?? [],
+          value: frontmatter.members ?? [],
+        })
+      }
+
+      case "areas": {
+        createNodeField({
+          name: "topics",
+          node,
+          value: frontmatter.topics ?? [],
         })
       }
     }
@@ -739,7 +865,7 @@ export const onCreateNode = ({
     const nodeId = createNodeId(`${type}-${node.id}`)
 
     createNode({
-      ...(node.frontmatter as any),
+      ...frontmatter,
       id: nodeId,
       parent: node.id,
       internal: {

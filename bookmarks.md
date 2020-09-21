@@ -21,3 +21,7 @@
 
 - [Michelle Bachelet UN - Climate Crisis threat to human rights](https://www.theguardian.com/law/2019/sep/09/climate-crisis-human-rights-un-michelle-bachelet-united-nations)
 - [](https://www.un.org/en/chronicle/article/greatest-threat-global-security-climate-change-not-merely-environmental-problem)
+
+## Areas
+
+- [Italy GEOJSON](https://github.com/openpolis/geojson-italy)
