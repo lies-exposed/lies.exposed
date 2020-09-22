@@ -58,7 +58,7 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
         backgroundPosition: "center",
       }}
     >
-      <MainContent>{children}</MainContent>
+      {children}
     </div>
   )
 }

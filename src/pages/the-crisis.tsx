@@ -1,5 +1,6 @@
 import { ContentWithSidebar } from "@components/ContentWithSidebar"
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { PageContentFileNode } from "@models/page"
@@ -40,7 +41,9 @@ const CrisisPage: React.FC<PageProps> = (props) => {
               />
             }
           >
-            <PageContent {...pageContent.childMarkdownRemark} />
+            <MainContent>
+              <PageContent {...pageContent.childMarkdownRemark} />
+            </MainContent>
           </ContentWithSidebar>
         </Layout>
       )
