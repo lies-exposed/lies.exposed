@@ -23,6 +23,8 @@ export const query = graphql`
         ...Actor
       }
     }
+    timeToRead
+    tableOfContents(absolute: false)
     htmlAst
   }
 `

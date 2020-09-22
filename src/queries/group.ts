@@ -25,6 +25,8 @@ export const query = graphql`
         ...Group
       }
     }
+    timeToRead
+    tableOfContents(absolute: false)
     htmlAst
   }
 `

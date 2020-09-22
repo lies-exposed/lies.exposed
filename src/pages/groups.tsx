@@ -52,7 +52,7 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
             <SearchableInput
               items={groups.map((a) => ({
                 ...a,
-                selected: false,
+                selected: true,
               }))}
               selectedItems={[]}
               getValue={(g) => g.name}

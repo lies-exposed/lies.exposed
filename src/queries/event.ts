@@ -36,6 +36,7 @@ export const query = graphql`
       }
     }
     tableOfContents(absolute: false)
+    timeToRead
     htmlAst
   }
 `

@@ -15,6 +15,8 @@ export const TopicFileNodeQuery = graphql`
         ...Topic
       }
     }
+    tableOfContents(absolute: false)
+    timeToRead
     htmlAst
   }
 `

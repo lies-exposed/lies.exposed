@@ -69,8 +69,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
           topics: topicUUIDS = [],
           groups: groupUUIDs = [],
         } = pipe(
-          parseSearch(props.location, "events"),
-          E.getOrElse((): Routes["events"] => ({
+          parseSearch(props.location, "timelines"),
+          E.getOrElse((): Routes["timelines"] => ({
             actors: [],
             topics: [],
             groups: [],
@@ -107,7 +107,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
           pipe(
             updateSearch(
               props.location,
-              "events"
+              "timelines"
             )({ actors: newSelectedActorIds.map((s) => s.uuid) }),
             E.map(async (url) => await navigate(url))
           )
@@ -122,7 +122,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
           pipe(
             updateSearch(
               props.location,
-              "events"
+              "timelines"
             )({ groups: newSelectedGroupIds.map((s) => s.uuid) }),
             E.map(async (url) => await navigate(url))
           )
@@ -138,7 +138,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
           pipe(
             updateSearch(
               props.location,
-              "events"
+              "timelines"
             )({ topics: newSelectedTopics.map((s) => s.uuid) }),
             E.map(async (url) => await navigate(url))
           )
