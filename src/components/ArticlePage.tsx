@@ -1,7 +1,6 @@
 import { ArticleMarkdownRemark } from "@models/article"
 import { formatDate } from "@utils/date"
 import renderHTMLAST from "@utils/renderHTMLAST"
-import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingXXLarge, LabelSmall } from "baseui/typography"
 import * as React from "react"
@@ -19,6 +18,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = (props) => {
           height="400px"
           display="flex"
           alignItems="end"
+          width="100%"
           overrides={{
             Block: {
               style: {
@@ -29,19 +29,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = (props) => {
             },
           }}
         >
-          <Block>
-            <MainContent>
-              <HeadingXXLarge
-                $style={{
-                  background: `rgba(255, 255, 255, 0.5)`,
-                  width: "100%",
-                }}
-                width="100%"
-              >
-                {props.frontmatter.title}
-              </HeadingXXLarge>
-            </MainContent>
-          </Block>
+          <MainContent>
+            <HeadingXXLarge
+              $style={{
+                background: `rgba(255, 255, 255, 0.5)`,
+                width: "100%",
+              }}
+              width="100%"
+            >
+              {props.frontmatter.title}
+            </HeadingXXLarge>
+          </MainContent>
         </FlexGridItem>
       </FlexGrid>
       <ContentWithSidebar

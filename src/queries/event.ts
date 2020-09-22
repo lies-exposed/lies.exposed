@@ -35,6 +35,7 @@ export const query = graphql`
         ...Event
       }
     }
+    tableOfContents(absolute: false)
     htmlAst
   }
 `
