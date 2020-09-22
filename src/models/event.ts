@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { markdownRemark } from "./MarkdownRemark"
 import { ObjectFromString } from "./ObjectFromString"
 import { ActorFrontmatter } from "./actor"
 import { GroupFrontmatter } from "./group"
@@ -53,10 +54,13 @@ export const PointIO = t.interface(
   "PointIO"
 )
 
-export const PolygonIO = t.strict({
-  type: t.literal('Polygon'),
-  coordinates: t.array(t.array(PositionIO))
-}, 'PolygonIO')
+export const PolygonIO = t.strict(
+  {
+    type: t.literal("Polygon"),
+    coordinates: t.array(t.array(PositionIO)),
+  },
+  "PolygonIO"
+)
 
 export type PolygonIO = t.TypeOf<typeof PolygonIO>
 
@@ -87,11 +91,8 @@ export const EventFrontmatter = t.strict(
 
 export type EventFrontmatter = t.TypeOf<typeof EventFrontmatter>
 
-export const EventMarkdownRemark = t.interface(
-  {
-    frontmatter: EventFrontmatter,
-    htmlAst: t.object,
-  },
+export const EventMarkdownRemark = markdownRemark(
+  EventFrontmatter,
   "EventMarkdownRemark"
 )
 

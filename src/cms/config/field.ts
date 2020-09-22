@@ -12,14 +12,14 @@ export interface CmsFieldV2 extends CmsField {
   field?: CmsFieldV2
   fields?: CmsFieldV2[]
   format?: string
-  default?: string | { label: string; value: string } | number
+  default?: string | { label: string; value: string } | number | boolean
   types?: CmsFieldV2[]
   valueType?: "int"
   min?: number
   max?: number
 }
 
-type GetField = (field: Partial<CmsFieldV2>) => CmsFieldV2
+type GetField = (field: { name: string } & Partial<CmsFieldV2>) => CmsFieldV2
 
 const makeField = (obj: Partial<CmsFieldV2>): GetField => (field) =>
   ({
@@ -30,6 +30,17 @@ const makeField = (obj: Partial<CmsFieldV2>): GetField => (field) =>
 /**
  * Fields
  */
+
+export const BooleanField = makeField({
+  widget: "boolean",
+  default: false,
+})
+export const DateField = makeField({
+  label: "Date",
+  name: "date",
+  widget: "datetime",
+})
+
 export const ImageField = makeField({
   label: "Image",
   name: "image",
@@ -47,12 +58,6 @@ export const MarkdownField = makeField({
   label: "Body",
   name: "body",
   widget: "markdown",
-})
-
-export const DateField = makeField({
-  label: "Date",
-  name: "date",
-  widget: "datetime",
 })
 
 export const NumberField = makeField({
@@ -79,10 +84,14 @@ export const VideoField = makeField({
   widget: "file",
 })
 
-export const ColorField: GetField = (field) =>
-  StringField({
-    label: "Color",
-    name: "color",
-    widget: "color",
-    ...field,
-  })
+export const ColorField = {
+  label: "Color",
+  name: "color",
+  widget: "color",
+}
+
+export const UUIDField: CmsFieldV2 = {
+  label: "uuid",
+  name: "uuid",
+  widget: "uuid",
+}

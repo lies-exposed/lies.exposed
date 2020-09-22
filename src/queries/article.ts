@@ -15,6 +15,8 @@ export const query = graphql`
         ...Article
       }
     }
+    timeToRead
+    tableOfContents(absolute: false)
     htmlAst
   }
 `

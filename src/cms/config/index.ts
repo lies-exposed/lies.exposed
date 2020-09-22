@@ -8,6 +8,8 @@ import {
   ImageField,
   RelationField,
   DateField,
+  UUIDField,
+  BooleanField,
 } from "./field"
 
 interface CmsCollectionV2 extends CmsCollection {
@@ -33,12 +35,12 @@ const articles: CmsCollectionV2 = {
     preview: true,
   },
   fields: [
-    { label: "UUID", name: "uuid", widget: "uuid" },
-    { label: "Draft", name: "draft", widget: "boolean" },
-    { label: "Title", name: "title", widget: "string" },
-    { label: "Path", name: "path", widget: "string" },
+    UUIDField,
+    BooleanField({ label: "Draft", name: "draft" }),
+    StringField({ label: "Title", name: "title" }),
+    StringField({ label: "Path", name: "path" }),
     { label: "Publish Date", name: "date", widget: "datetime" },
-    { label: "Body", name: "body", widget: "markdown" },
+    MarkdownField({ name: "body" }),
   ],
 }
 
@@ -53,13 +55,13 @@ const actors: CmsCollectionV2 = {
     preview: true,
   },
   fields: [
-    { label: "UUID", name: "uuid", widget: "uuid" },
+    UUIDField,
     StringField({ label: "Full Name", name: "fullName" }),
     StringField({ label: "Username", name: "username" }),
     ImageField({ label: "Avatar", name: "avatar", required: false }),
     { label: "Publish Date", name: "date", widget: "datetime" },
-    ColorField({}),
-    MarkdownField({}),
+    ColorField,
+    MarkdownField({ name: "body" }),
   ],
 }
 
@@ -73,10 +75,10 @@ const groups: CmsCollectionV2 = {
   slug: "{{fields.uuid}}",
   create: true,
   fields: [
-    { label: "UUID", name: "uuid", widget: "uuid" },
+    UUIDField,
     StringField({ label: "Name", name: "name" }),
     ImageField({ label: "Avatar", name: "avatar", required: false }),
-    ColorField({}),
+    ColorField,
     RelationField({
       label: "Members",
       name: "members",
@@ -87,8 +89,8 @@ const groups: CmsCollectionV2 = {
       multiple: true,
       required: false,
     }),
-    DateField({ label: "Publish Date" }),
-    MarkdownField({}),
+    DateField({ label: "Publish Date", name: 'date' }),
+    MarkdownField({ name: 'body'}),
   ],
 }
 
@@ -177,7 +179,7 @@ const events: CmsCollectionV2 = {
         StringField({ label: "Description", name: "description" }),
       ],
     },
-    MarkdownField({}),
+    MarkdownField({name: 'body'}),
   ],
 }
 
@@ -190,7 +192,7 @@ const pages: CmsCollectionV2 = {
   editor: {
     preview: true,
   },
-  fields: [StringField({ label: "Title", name: "title" }), MarkdownField({})],
+  fields: [StringField({ label: "Title", name: "title" }), MarkdownField({name: 'body'})],
 }
 
 const topics: CmsCollectionV2 = {
@@ -206,12 +208,12 @@ const topics: CmsCollectionV2 = {
   delete: false,
   summary: "[{{fields.uuid}}] {{fields.label}}",
   fields: [
-    { label: "UUID", name: "uuid", widget: "uuid" },
+    UUIDField,
     StringField({ label: "Label", name: "label" }),
     StringField({ label: "Slug", name: "slug" }),
-    ColorField({}),
+    ColorField,
     { label: "Publish Date", name: "date", widget: "datetime" },
-    MarkdownField({}),
+    MarkdownField({ name: 'body'}),
   ],
 }
 
@@ -228,23 +230,23 @@ const areas: CmsCollectionV2 = {
   delete: false,
   summary: "[{{fields.uuid}}] {{fields.label}}",
   fields: [
-    { label: "UUID", name: "uuid", widget: "uuid" },
+    UUIDField,
     StringField({ label: "Label", name: "label" }),
-    ColorField({}),
+    ColorField,
     RelationField({
       name: "groups",
       collection: "groups",
-      searchFields: ["name", 'uuid'],
-      displayFields: ['name'],
+      searchFields: ["name", "uuid"],
+      displayFields: ["name"],
       valueField: "uuid",
       multiple: true,
     }),
     RelationField({
-      name: 'topics',
-      collection: 'topics',
-      searchFields: ['label', 'uuid'],
-      displayFields: ['label'],
-      valueField: 'uuid',
+      name: "topics",
+      collection: "topics",
+      searchFields: ["label", "uuid"],
+      displayFields: ["label"],
+      valueField: "uuid",
       multiple: true,
     }),
     { label: "Date", name: "date", widget: "datetime" },

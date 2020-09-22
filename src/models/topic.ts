@@ -1,6 +1,7 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { markdownRemark } from "./MarkdownRemark"
 
 export const TopicFrontmatter = t.type(
   {
@@ -15,11 +16,8 @@ export const TopicFrontmatter = t.type(
 )
 export type TopicFrontmatter = t.TypeOf<typeof TopicFrontmatter>
 
-export const TopicMarkdownRemark = t.type(
-  {
-    frontmatter: TopicFrontmatter,
-    htmlAst: t.object,
-  },
+export const TopicMarkdownRemark = markdownRemark(
+  TopicFrontmatter,
   "TopicMarkdownRemark"
 )
 
