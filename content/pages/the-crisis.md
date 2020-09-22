@@ -16,6 +16,7 @@ Interi ecosistemi sono già compromessi e inizieranno a collassare nei prossimi 
 
 - l'[Amazzonia](https://www.theguardian.com/environment/2020/mar/04/tropical-forests-losing-their-ability-to-absorb-carbon-study-finds) rischia di trasformarsi in una savana
 - i [ghiacciai dell'Himalaya vanno riducendosi](https://www.nationalgeographic.com/magazine/2020/07/water-crisis-looms-for-270-million-people-south-asia-perpetual-feature/), minacciando le popolazioni del territorio sottostante
+- il ghiaccio che ricopriva la [Groelandia ha passato il punto di non ritorno](https://scienze.fanpage.it/groenlandia-superato-punto-di-non-ritorno-per-lo-scioglimento-della-calotta-e-destinata-a-sparire/p2/)
 
 Vivere nella consapevolezza che non avremmo, in un futuro vicino, le caratteristiche minime necessarie per abitare questo pianeta è frutto di una profonda analisi della situazione attuale in tutti i suoi aspetti: sociale, economico, culturale e morale.
 
