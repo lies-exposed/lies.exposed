@@ -1,4 +1,3 @@
-import { MainContent } from "@components/MainContent"
 import { isServer } from "@utils/isServer"
 import * as React from "react"
 import { throttle } from "throttle-debounce"

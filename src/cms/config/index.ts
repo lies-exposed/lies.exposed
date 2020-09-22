@@ -39,6 +39,7 @@ const articles: CmsCollectionV2 = {
     BooleanField({ label: "Draft", name: "draft" }),
     StringField({ label: "Title", name: "title" }),
     StringField({ label: "Path", name: "path" }),
+    ImageField({ label: "Featured Image", name: "featuredImage" }),
     { label: "Publish Date", name: "date", widget: "datetime" },
     MarkdownField({ name: "body" }),
   ],

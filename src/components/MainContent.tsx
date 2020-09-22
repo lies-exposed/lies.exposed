@@ -4,7 +4,7 @@ import * as React from "react"
 
 export const MainContent: React.FC = ({ children }) => {
   return (
-    <FlexGrid flexDirection="column" flexGridColumnCount={4} alignItems="center">
+    <FlexGrid flexDirection="column" flexGridColumnCount={4} alignItems="center" width="100%">
       <FlexGridItem />
       <FlexGridItem
         overrides={{

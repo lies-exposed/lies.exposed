@@ -6,6 +6,14 @@ export const query = graphql`
     title
     path
     date
+    featuredImage {
+      publicURL
+      childImageSharp {
+        fluid(maxWidth: 600) {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    }
     draft
   }
 

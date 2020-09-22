@@ -10,6 +10,7 @@ type ArticleFrontmatter implements Node & BaseFrontmatter @dontInfer {
   path: String!
   date: Date!
   links: [String!]
+  featuredImage: File! @fileByRelativePath
 }
 
 type ActorFrontmatter implements Node & BaseFrontmatter @dontInfer {

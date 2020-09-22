@@ -436,8 +436,12 @@ const createAreasPages = async ({
 
     const context = {
       areaUUID: node.name,
-      groupUUIDs: node.childMarkdownRemark.frontmatter.groups.map(g => g.uuid),
-      topicUUIDs: node.childMarkdownRemark.frontmatter.topics.map(t => t.uuid)
+      groupUUIDs: node.childMarkdownRemark.frontmatter.groups.map(
+        (g) => g.uuid
+      ),
+      topicUUIDs: node.childMarkdownRemark.frontmatter.topics.map(
+        (t) => t.uuid
+      ),
     }
 
     reporter.info(`Area context: ${JSON.stringify(context, null, 4)}`)
@@ -461,6 +465,18 @@ export const createPages = async (options: CreatePagesArgs) => {
   await createAreasPages(options)
   // await createNetworkPages(options)
 }
+
+const {
+  featuredImage,
+  ...ArticleFrontmatterProps
+} = ArticleFrontmatter.type.props
+const ArticleF = t.strict(
+  {
+    ...ArticleFrontmatterProps,
+    featuredImage: t.string,
+  },
+  "ArticleF"
+)
 
 const { avatar, ...ActorFrontmatterProps } = ActorFrontmatter.type.props
 const ActorF = t.type({
@@ -545,7 +561,7 @@ export const createSchemaCustomization = async ({
             return "TopicFrontmatter"
           }
 
-          if (E.isRight(ArticleFrontmatter.decode(source))) {
+          if (E.isRight(ArticleF.decode(source))) {
             return "ArticleFrontmatter"
           }
 
@@ -574,6 +590,9 @@ export const createSchemaCustomization = async ({
 export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
   const resolvers = {
     ArticleFrontmatter: {
+      featuredImage: {
+        type: 'File!'
+      },
       date: {
         type: "Date!",
       },

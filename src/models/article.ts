@@ -2,6 +2,7 @@ import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Frontmatter } from "./Frontmatter"
 import { markdownRemark } from "./MarkdownRemark"
+import { ImageFileNode } from "./image"
 
 export const ArticleFrontmatter = t.strict(
   {
@@ -9,6 +10,7 @@ export const ArticleFrontmatter = t.strict(
     title: t.string,
     path: t.string,
     draft: t.boolean,
+    featuredImage: ImageFileNode,
     links: optionFromNullable(t.array(t.string)),
   },
   "ArticleFrontmatter"

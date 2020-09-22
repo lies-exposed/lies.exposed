@@ -15,6 +15,7 @@ export const PagePreview: React.FC<any> = props => {
           frontmatter={frontmatter}
           htmlAst={HTMLtoAST(MDtoHTML(body))}
           tableOfContents={""}
+          timeToRead={2}
         />
       )
     })

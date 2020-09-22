@@ -28,6 +28,8 @@ export const ActorPreview: React.FC<any> = props => {
     <ActorPageContent
       frontmatter={actor}
       htmlAst={HTMLtoAST(MDtoHTML(body))}
+      timeToRead={2}
+      tableOfContents={""}
     />
   )
 }
