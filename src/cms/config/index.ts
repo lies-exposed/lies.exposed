@@ -26,13 +26,14 @@ const articles: CmsCollectionV2 = {
   label: "Articoli",
   label_singular: "Articolo",
   folder: "content/articles",
-  media_folder: "../../static/media/articles/{{slug}}",
+  media_folder: "../../static/media/articles/{{fields.uuid}}",
   create: true,
-  slug: "{{fields.path}}",
+  slug: "{{fields.uuid}}",
   editor: {
     preview: true,
   },
   fields: [
+    { label: "UUID", name: "uuid", widget: "uuid" },
     { label: "Draft", name: "draft", widget: "boolean" },
     { label: "Title", name: "title", widget: "string" },
     { label: "Path", name: "path", widget: "string" },
