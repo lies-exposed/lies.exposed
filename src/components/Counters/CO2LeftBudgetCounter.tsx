@@ -14,9 +14,6 @@ export const CO2LeftBudgetCounter: React.FC = () => {
   return (
     <Counter
       getCount={calculateTimeLeft}
-      message={
-        "Secondi che ci rimangono per poter mantenere l'innalzamento della temperatura globale entro il 1.5ºC"
-      }
       sources={[]}
     />
   )

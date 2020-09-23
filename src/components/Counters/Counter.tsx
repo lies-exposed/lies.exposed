@@ -26,6 +26,7 @@ export const Counter: React.FC<CounterProps> = (props) => {
           ...$theme.typography.font1250,
           fontFamily: $theme.typography.thirdaryFont,
           color: $theme.colors.brandPrimary,
+          fontWeight: $theme.typography.font550.fontWeight
         }}
       >
         {count.toLocaleString()}
