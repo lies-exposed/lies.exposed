@@ -1,7 +1,5 @@
 import * as React from "react"
-
-const generateRandomColor = (): string =>
-  Math.floor(Math.random() * 16777215).toString(16)
+import { generateRandomColor } from "@utils/colors"
 
 interface ColorWidgetControlProps {
   forID: string

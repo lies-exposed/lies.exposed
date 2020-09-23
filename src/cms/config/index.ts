@@ -193,7 +193,12 @@ const pages: CmsCollectionV2 = {
   editor: {
     preview: true,
   },
-  fields: [StringField({ label: "Title", name: "title" }), MarkdownField({name: 'body'})],
+  fields: [
+    StringField({ label: "Title", name: "title" }),
+    StringField({ label: "path", name: "path" }),
+    DateField({ label: "Date", name: "date" }),
+    MarkdownField({ name: 'body'}),
+  ],
 }
 
 const topics: CmsCollectionV2 = {

@@ -6,9 +6,11 @@ import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
 import Gallery from "@components/Gallery/Gallery"
 import { GraphSelector } from "@components/GraphSelector"
 import { Video } from "@components/Video"
+import NetworkExample from "@components/graph/NetworkExample"
 import { H1, H2, H3, H5, H6, H4, ParagraphMedium } from "baseui/typography"
 import * as React from "react"
 import RehypeReact from "rehype-react"
+import BubbleGraphExample from "@components/BubbleGraphExample"
 
 const renderHTMLAST = new RehypeReact({
   createElement: React.createElement,
@@ -26,6 +28,8 @@ const renderHTMLAST = new RehypeReact({
     // table: Table,
     "full-size-section": FullSizeSection,
     "graph-selector": GraphSelector,
+    'network-example': NetworkExample,
+    'bubble-graph-example': BubbleGraphExample,
     video: (props) => {
       return Video({
         ...{
