@@ -1,3 +1,4 @@
+import { Image } from "@components/Image/Image"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
@@ -13,6 +14,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, Link, useStaticQuery } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 
 interface Results {
   articles: { nodes: unknown[] }
@@ -48,14 +50,19 @@ const ArticlesPage: React.FunctionComponent = () => {
         <MainContent>
           <PageContent {...pageContent.childMarkdownRemark} />
           <Block>
-            {articles.map((a) => (
-              <Card
-                key={a.uuid}
-                title={<Link to={`/blog/${a.path}`}>{a.title}</Link>}
-              >
-                <StyledBody>{a.title}</StyledBody>
-              </Card>
-            ))}
+            <FlexGrid flexGridColumnCount={2}>
+              {articles.map((a) => (
+                <FlexGridItem>
+                  <Card
+                    key={a.uuid}
+                    title={<Link to={`/blog/${a.path}`}>{a.title}</Link>}
+                    headerImage={a.featuredImage.publicURL}
+                  >
+                    <StyledBody>{a.title}</StyledBody>
+                  </Card>
+                </FlexGridItem>
+              ))}
+            </FlexGrid>
           </Block>
         </MainContent>
       </Layout>
