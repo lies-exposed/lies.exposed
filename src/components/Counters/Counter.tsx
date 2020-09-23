@@ -6,7 +6,7 @@ import * as React from "react"
 interface CounterProps {
   message?: string
   sources: Array<{ label: string; url: string }>
-  getCount: () => number
+  getCount: () => number | string
 }
 export const Counter: React.FC<CounterProps> = (props) => {
   const [, $theme] = themedUseStyletron()
@@ -31,7 +31,7 @@ export const Counter: React.FC<CounterProps> = (props) => {
         {count.toLocaleString()}
         <span
           style={{
-            verticalAlign: 'top',
+            verticalAlign: "top",
             fontSize: $theme.typography.font550.fontSize,
             lineHeight: $theme.typography.font550.lineHeight,
           }}
