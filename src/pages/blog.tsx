@@ -1,4 +1,3 @@
-import { Image } from "@components/Image/Image"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
@@ -8,13 +7,13 @@ import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { Block } from "baseui/block"
 import { Card, StyledBody } from "baseui/card"
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, Link, useStaticQuery } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 
 interface Results {
   articles: { nodes: unknown[] }
@@ -52,7 +51,7 @@ const ArticlesPage: React.FunctionComponent = () => {
           <Block>
             <FlexGrid flexGridColumnCount={2}>
               {articles.map((a) => (
-                <FlexGridItem>
+                <FlexGridItem key={a.uuid}>
                   <Card
                     key={a.uuid}
                     title={<Link to={`/blog/${a.path}`}>{a.title}</Link>}
