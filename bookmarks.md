@@ -10,6 +10,7 @@
 - [Bilevel Edge Bundling](https://observablehq.com/@d3/bilevel-edge-bundling?collection=@d3/d3-hierarchy)
 - [fisheye distortion](https://bost.ocks.org/mike/fisheye/)
 - [calcolare l'impronta ecologica](https://www.wwf.ch/it/vivere-sostenibile/calcolatore-dell-impronta-ecologica)
+- [World economy is reaching growth limits](https://ourfiniteworld.com/2019/01/09/2019-world-economy-is-reaching-growth-limits-expect-low-oil-prices-financial-turbulence/)
 
 ## Topics
 

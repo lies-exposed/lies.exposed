@@ -115,6 +115,8 @@ const events = [
 ].map((e) => ({
   frontmatter: e,
   htmlAst: {},
+  tableOfContents: "",
+  timeToRead: 1,
 }))
 
 const NetworkExample: React.FC = () => {

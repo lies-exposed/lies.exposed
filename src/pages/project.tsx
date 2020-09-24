@@ -25,8 +25,6 @@ const ProjectPage: React.FC<PageProps> = (props) => {
     }
   `)
 
-  console.log({ pageContent})
-
   return pipe(
     PageContentFileNode.decode(pageContent),
     E.fold(throwValidationErrors, (page) => {
