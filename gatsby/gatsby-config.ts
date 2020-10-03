@@ -6,10 +6,10 @@ const config: GatsbyConfig = {
     description: `Emergenza planetaria a 360º.`,
     author: `@ascariandrea`,
     github: {
-      user: 'ascariandrea',
-      repo: 'econnessione',
-      link: `https://github.com/ascariandrea/econnessione`
-    }
+      user: "ascariandrea",
+      repo: "econnessione",
+      link: `https://github.com/ascariandrea/econnessione`,
+    },
   },
   plugins: [
     {
@@ -54,6 +54,16 @@ const config: GatsbyConfig = {
               // base for generating different widths of each image.
               maxWidth: 600,
               showCaptions: ["title", "alt"],
+            },
+          },
+          {
+            resolve: `gatsby-remark-mermaid`,
+            options: {
+              theme: "forest",
+              viewport: {
+                width: 600,
+                height: 300
+            },
             },
           },
         ],

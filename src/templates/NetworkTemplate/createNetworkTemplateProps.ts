@@ -1,4 +1,4 @@
-import { NetworkScale } from "@components/Network/Network"
+import { NetworkScale } from "@components/graph/Network/Network"
 import { Frontmatter } from "@models/Frontmatter"
 import { ActorFrontmatter, ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark, EventPoint } from "@models/event"
@@ -160,7 +160,8 @@ export interface NetworkTemplateProps {
   scale: NetworkScale
   graph: { nodes: EventPoint[]; links: NetworkLink[] }
   selectedEvents: EventMarkdownRemark[]
-  networkWidth: number
+  width: number
+  height: number
   topicsScale: ScaleOrdinal<string, string>
   actorsScale: ScaleOrdinal<string, string>
   groupsScale: ScaleOrdinal<string, string>
@@ -448,7 +449,8 @@ export function createNetworkTemplateProps({
             actorsScale,
             groupsScale,
             selectedEvents,
-            networkWidth: width > networkWidth ? width : networkWidth,
+            width: width > networkWidth ? width : networkWidth,
+            height: height
           }
         })
       )

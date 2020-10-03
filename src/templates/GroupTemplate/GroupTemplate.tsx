@@ -1,8 +1,8 @@
 import { GroupPageContent } from "@components/GroupPageContent"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
-import Network from "@components/Network/Network"
 import SEO from "@components/SEO"
+import Network from "@components/graph/Network/Network"
 import EventList from "@components/lists/EventList"
 import { EventMarkdownRemark } from "@models/event"
 import { GroupMarkdownRemark } from "@models/group"
@@ -56,7 +56,7 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
       })
     }),
     E.fold(throwValidationErrors, ({ pageContent, networkProps }) => {
-      const { selectedEvents, graph, networkWidth } = networkProps
+      const { selectedEvents, graph, width, height } = networkProps
       return (
         <Layout>
           <SEO title={pageContent.frontmatter.name} />
@@ -81,8 +81,8 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
             }}
           >
             <Network
-              width={networkWidth}
-              height={200}
+              width={width}
+              height={height}
               minDate={moment().subtract(1, "y").toDate()}
               maxDate={new Date()}
               graph={graph}

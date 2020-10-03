@@ -1,4 +1,4 @@
-import Network from "@components/Network/Network"
+import Network from "@components/graph/Network/Network"
 import { createNetworkTemplateProps } from "@templates/NetworkTemplate/createNetworkTemplateProps"
 import { generateRandomColor } from "@utils/colors"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -162,7 +162,7 @@ const NetworkExample: React.FC = () => {
     E.fold(
       throwValidationErrors,
       ({
-        networkWidth,
+        width: networkWidth,
         scale,
         minDate,
         maxDate,

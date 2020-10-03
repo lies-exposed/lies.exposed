@@ -99,6 +99,7 @@ class Network extends React.Component<NetworkProps, {}> {
         nice: true,
       })
 
+    console.log({ width, height })
     return (
       <React.Fragment>
         <Group>
@@ -175,47 +176,47 @@ class Network extends React.Component<NetworkProps, {}> {
           </svg>
         </Group>
         {tooltipOpen && tooltipData !== undefined ? (
-            <Tooltip
-              key={Math.random()}
-              top={tooltipTop}
-              left={tooltipLeft}
-              style={{
-                maxWidth: 300,
-                minWidth: 300,
-                position: "absolute",
-                backgroundColor: "white",
-                zIndex: 100
-              }}
-            >
+          <Tooltip
+            key={Math.random()}
+            top={tooltipTop}
+            left={tooltipLeft}
+            style={{
+              maxWidth: 300,
+              minWidth: 300,
+              position: "absolute",
+              backgroundColor: "white",
+              zIndex: 100,
+            }}
+          >
+            <div>
+              <LabelMedium>{tooltipData.frontmatter.title}</LabelMedium>
+              <LabelSmall>
+                Data: {formatDate(tooltipData.frontmatter.date)}
+              </LabelSmall>
               <div>
-                <LabelMedium>{tooltipData.frontmatter.title}</LabelMedium>
-                <LabelSmall>
-                  Data: {formatDate(tooltipData.frontmatter.date)}
-                </LabelSmall>
-                <div>
-                  <TopicList
-                    topics={tooltipData.frontmatter.topics.map((t) => ({
-                      ...t,
-                      selected: false,
-                    }))}
-                    onTopicClick={() => {}}
-                  />
-                </div>
-                {pipe(
-                  tooltipData.frontmatter.actors,
-                  O.map((actors) => (
-                    <ActorList
-                      key="actors"
-                      actors={actors.map((a) => ({ ...a, selected: false }))}
-                      onActorClick={() => {}}
-                      avatarScale="scale1000"
-                    />
-                  )),
-                  O.toNullable
-                )}
+                <TopicList
+                  topics={tooltipData.frontmatter.topics.map((t) => ({
+                    ...t,
+                    selected: false,
+                  }))}
+                  onTopicClick={() => {}}
+                />
               </div>
-            </Tooltip>
-          ) : null}
+              {pipe(
+                tooltipData.frontmatter.actors,
+                O.map((actors) => (
+                  <ActorList
+                    key="actors"
+                    actors={actors.map((a) => ({ ...a, selected: false }))}
+                    onActorClick={() => {}}
+                    avatarScale="scale1000"
+                  />
+                )),
+                O.toNullable
+              )}
+            </div>
+          </Tooltip>
+        ) : null}
       </React.Fragment>
     )
   }

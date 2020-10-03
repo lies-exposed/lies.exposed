@@ -12,6 +12,7 @@
     "@fortawesome/react-fontawesome": "0.1.11",
     "@mdi/font": "5.0.45",
     "@vx/axis": "0.0.198",
+    "@vx/chord": "0.0.199",
     "@vx/clip-path": "0.0.198",
     "@vx/event": "0.0.198",
     "@vx/geo": "0.0.198",
@@ -29,6 +30,7 @@
     "@vx/zoom": "0.0.198",
     "@zerollup/ts-transform-paths": "1.7.18",
     "baseui": "9.99.0",
+    "d3": "6.2.0",
     "d3-array": "2.4.0",
     "date-fns": "2.15.0",
     "fp-ts": "2.6.0",
@@ -50,6 +52,7 @@
     "gatsby-remark-copy-linked-files": "2.3.13",
     "gatsby-remark-embedder": "3.0.0",
     "gatsby-remark-images": "3.3.28",
+    "gatsby-remark-mermaid": "2.1.0",
     "gatsby-remark-numbered-footnotes": "1.0.1",
     "gatsby-remark-relative-images": "2.0.2",
     "gatsby-remark-relative-source": "0.0.4",
@@ -68,6 +71,7 @@
     "npm": "6.14.7",
     "ol": "6.4.3",
     "prop-types": "15.7.2",
+    "puppeteer": "5.3.1",
     "query-string": "6.13.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -91,8 +95,15 @@
     "world-atlas": "2.0.2"
   },
   "devDependencies": {
+    "@babel/core": "7.11.6",
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "10.0.0",
+    "@storybook/addon-actions": "6.0.22",
+    "@storybook/addon-essentials": "6.0.22",
+    "@storybook/addon-links": "6.0.22",
+    "@storybook/preset-typescript": "3.0.0",
+    "@storybook/react": "6.0.22",
+    "@types/d3": "5.16.2",
     "@types/d3-array": "2.0.0",
     "@types/node": "13",
     "@types/ol": "6.4.1",
@@ -113,6 +124,8 @@
     "@typescript-eslint/eslint-plugin": "4.0.1",
     "@typescript-eslint/parser": "4.0.1",
     "@vx/mock-data": "0.0.195",
+    "babel-loader": "8.1.0",
+    "core-js": "3.6.5",
     "dotenv": "^8.2.0",
     "eslint": "7.8.1",
     "eslint-config-prettier": "6.11.0",
@@ -124,10 +137,14 @@
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-standard": "4.0.1",
+    "fork-ts-checker-webpack-plugin": "5.2.0",
     "husky": "4.2.3",
     "lint-staged": "10.0.8",
     "prettier": "2.1.1",
+    "react-is": "16.13.1",
+    "ts-loader": "8.0.4",
     "ts-node": "8.10.2",
+    "tsconfig-paths-webpack-plugin": "3.3.0",
     "typescript": "3.8.3"
   },
   "keywords": [
@@ -145,7 +162,9 @@
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "type-check": "tsc --noEmit",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "husky": {
     "hooks": {

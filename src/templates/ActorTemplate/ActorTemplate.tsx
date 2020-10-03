@@ -1,8 +1,8 @@
 import { ActorPageContent } from "@components/ActorPageContent"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
-import Network from "@components/Network/Network"
 import SEO from "@components/SEO"
+import Network from "@components/graph/Network/Network"
 import EventList from "@components/lists/EventList"
 import { ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
@@ -54,7 +54,7 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({
       })
     ),
     E.fold(throwValidationErrors, ({ pageContent, networkProps }) => {
-      const { selectedEvents, networkWidth, graph } = networkProps
+      const { selectedEvents, width: networkWidth, graph } = networkProps
       return (
         <Layout>
           <SEO title={pageContent.frontmatter.fullName} />
