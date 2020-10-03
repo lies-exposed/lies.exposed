@@ -109,7 +109,9 @@ export function HierarchicalEdgeBundling({
           d3.ascending(a.height, b.height) ?? d3.ascending(a.data.id, b.data.id)
       )
 
-    const root = tree(bilink(hierarchy as any)) as HierarchyLinkedNode< d3.HierarchyPointNode<Datum>>
+    const root = tree(bilink(hierarchy as any)) as HierarchyLinkedNode<
+      d3.HierarchyPointNode<Datum>
+    >
 
     const svg = d3
       .select(`#${SVG_ID}`)
@@ -138,7 +140,7 @@ export function HierarchicalEdgeBundling({
       d: HierarchyLinkedNode<d3.HierarchyPointNode<Datum>>
     ): void {
       link.style("mix-blend-mode", null)
-      d3.select(this).attr("font-weight", "bold")
+      d3.select(this).attr("font-weight", "bold").attr("cursor", "pointer")
       d3.selectAll(d.incoming.map((d: any) => d.path))
         .attr("stroke", colorin)
         .raise()
@@ -161,9 +163,7 @@ export function HierarchicalEdgeBundling({
       .attr("font-family", "sans-serif")
       .attr("font-size", 10)
       .selectAll("g")
-      .data(
-        root.leaves()
-      )
+      .data(root.leaves())
       .join("g")
       .attr(
         "transform",

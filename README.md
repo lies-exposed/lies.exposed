@@ -36,6 +36,14 @@ It requires `node` and `npm` to be installed on your machine.
 npm run develop
 ```
 
+#### Storybook
+
+`Storybook` is available to develop new components:
+
+```sh
+npm run storybook
+```
+
 ### Build
 
 ```sh
