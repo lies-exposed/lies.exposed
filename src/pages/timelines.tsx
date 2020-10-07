@@ -1,11 +1,11 @@
 import DatePicker from "@components/Common/DatePicker"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
-import EventsMap from "@components/EventsMap"
+// import EventsMap from "@components/EventsMap"
 import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import SearchableInput from "@components/SearchableInput"
-import {HierarchicalEdgeBundling} from "@components/graph/HierarchicalEdgeBundling"
+import { HierarchicalEdgeBundling } from "@components/graph/HierarchicalEdgeBundling"
 import { ActorListItem } from "@components/lists/ActorList"
 import EventList from "@components/lists/EventList"
 import { GroupListItem } from "@components/lists/GroupList"
@@ -17,6 +17,7 @@ import { GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
+import { createHierarchicalEdgeBundling } from "@utils/createHierarchicalEdgeBundlingData"
 import { ordEventData } from "@utils/event"
 import { eqByUUID } from "@utils/frontmatter"
 import { parseSearch, Routes, updateSearch } from "@utils/routes"
@@ -34,10 +35,6 @@ import * as t from "io-ts"
 import moment from "moment"
 import React from "react"
 import Helmet from "react-helmet"
-
-const width = 1000
-const height = 400
-// const margin = { vertical: 30, horizontal: 30 }
 
 interface EventsPageProps extends PageProps {
   data: {
@@ -88,11 +85,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
         const [selectedTopics, setSelectedTopicIds] = React.useState(
           topics.filter((t) => topicUUIDS.includes(t.uuid))
         )
-        
-        const selectedActorIds = selectedActors.map(a => a.uuid)
-        const selectedGroupIds = selectedGroups.map(g => g.uuid)
-        const selectedTopicIds = selectedTopics.map(t => t.uuid)
-        
+
+        const selectedActorIds = selectedActors.map((a) => a.uuid)
+        const selectedGroupIds = selectedGroups.map((g) => g.uuid)
+        const selectedTopicIds = selectedTopics.map((t) => t.uuid)
 
         const [dateRange, setDateRange] = React.useState<Date[]>([
           moment().subtract(10, "years").toDate(),
@@ -197,6 +193,15 @@ const EventsPage: React.FC<EventsPageProps> = ({
           return isBetweenDateRange && (hasActor || hasGroup || hasTopic)
         })
 
+        const hierarchicalEdgeBundlingProps = createHierarchicalEdgeBundling({
+          events: filteredEvents.map((e) => e.frontmatter),
+          groups,
+        })
+        
+        const hierarchicalEdgeBundling = A.isEmpty(filteredEvents) ? null : (
+          <HierarchicalEdgeBundling {...hierarchicalEdgeBundlingProps} />
+        )
+
         return (
           <Layout>
             <Helmet>
@@ -226,7 +231,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   <FlexGridItem>
                     <SearchableInput
                       placeholder="Topics..."
-                      items={topics.filter(t => !selectedTopicIds.includes(t.uuid))}
+                      items={topics.filter(
+                        (t) => !selectedTopicIds.includes(t.uuid)
+                      )}
                       selectedItems={selectedTopics}
                       getValue={(item) => item.label}
                       itemRenderer={(item, itemProps, index) => (
@@ -257,7 +264,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   >
                     <SearchableInput
                       placeholder="Gruppi..."
-                      items={groups.filter(g => !selectedGroupIds.includes(g.uuid))}
+                      items={groups.filter(
+                        (g) => !selectedGroupIds.includes(g.uuid)
+                      )}
                       selectedItems={selectedGroups}
                       itemRenderer={(item, itemProps, index) => {
                         return (
@@ -287,7 +296,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   <FlexGridItem>
                     <SearchableInput
                       placeholder="Attori..."
-                      items={actors.filter(a => !selectedActorIds.includes(a.uuid))}
+                      items={actors.filter(
+                        (a) => !selectedActorIds.includes(a.uuid)
+                      )}
                       selectedItems={selectedActors}
                       itemRenderer={(item, itemProps, index) => {
                         return (
@@ -314,11 +325,16 @@ const EventsPage: React.FC<EventsPageProps> = ({
                 <LabelMedium>Nº Eventi: {filteredEvents.length}</LabelMedium>
               </FlexGridItem>
               <FlexGridItem alignItems="center">
-                <EventsMap
+                <div style={{ width: 600, margin: "auto" }}>
+                  {hierarchicalEdgeBundling}
+                </div>
+              </FlexGridItem>
+              <FlexGridItem alignItems="center">
+                {/* <EventsMap
                   width={width}
                   height={height}
                   events={filteredEvents}
-                />
+                /> */}
               </FlexGridItem>
               <FlexGridItem>
                 <ContentWithSideNavigation

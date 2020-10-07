@@ -6,10 +6,11 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
-interface Datum {
+export interface HierarchicalEdgeBundlingDatum {
   id: string
+  label: string
   text?: string
-  group: number
+  group: string
   targets: string[]
 }
 
@@ -21,7 +22,7 @@ interface Link {
 
 export interface HierarchicalEdgeBundlingProps {
   width: number
-  graph: Graph<Link, Datum>
+  graph: Graph<Link, HierarchicalEdgeBundlingDatum>
 }
 
 type HierarchyLinkedNode<N> = N & {
@@ -30,17 +31,20 @@ type HierarchyLinkedNode<N> = N & {
 }
 
 function bilink(
-  root: HierarchyLinkedNode<d3.HierarchyNode<Datum>>
-): HierarchyLinkedNode<d3.HierarchyNode<Datum>> {
+  root: HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>>
+): HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>> {
   const map: Map<
     string,
-    HierarchyLinkedNode<d3.HierarchyNode<Datum>>
+    HierarchyLinkedNode<d3.HierarchyNode<HierarchicalEdgeBundlingDatum>>
   > = new Map(root.leaves().map((d) => [d.data.id, d]))
-  for (const d of root.leaves()) {
+  const leaves = root.leaves()
+  for (const d of leaves) {
     d.incoming = []
-    d.outgoing = d.data.targets.map((i) => [
+    d.outgoing = (d.data.targets || []).map((i) => [
       d,
-      map.get(i) as HierarchyLinkedNode<d3.HierarchyNode<Datum>>,
+      map.get(i) as HierarchyLinkedNode<
+        d3.HierarchyNode<HierarchicalEdgeBundlingDatum>
+      >,
     ])
   }
   for (const d of root.leaves())
@@ -54,7 +58,7 @@ function bilink(
 }
 
 const line = d3
-  .lineRadial<d3.HierarchyPointNode<Datum>>()
+  .lineRadial<d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>>()
   .curve(d3.curveBundle.beta(0.85))
   .radius((d) => d.y)
   .angle((d) => d.x)
@@ -74,10 +78,13 @@ export function HierarchicalEdgeBundling({
   const tree = d3.cluster().size([2 * Math.PI, radius - 100])
 
   const getData = (): {
-    children: Array<{ id: string; children: Datum[] }>
+    children: Array<{ id: string; children: HierarchicalEdgeBundlingDatum[] }>
   } => {
     const { nodes, links } = graph
-    const groupById: Map<number, { id: string; children: Datum[] }> = new Map()
+    const groupById: Map<
+      string,
+      { id: string; children: HierarchicalEdgeBundlingDatum[] }
+    > = new Map()
     const nodeById = new Map(nodes.map((node) => [node.id, node]))
 
     for (const node of nodes) {
@@ -85,9 +92,9 @@ export function HierarchicalEdgeBundling({
         O.fromNullable(groupById.get(node.group)),
         O.getOrElse(() => ({
           id: node.group.toString(),
-          children: [] as Datum[],
+          children: [] as HierarchicalEdgeBundlingDatum[],
         })),
-        (g) => ({ ...g, children: [...g.children, node] })
+        (g) => ({ ...g, children: [...g.children, node], targets: [] })
       )
       groupById.set(node.group, group)
     }
@@ -103,49 +110,39 @@ export function HierarchicalEdgeBundling({
     const data = getData()
 
     const hierarchy = d3
-      .hierarchy<Datum>(data as any)
+      .hierarchy<HierarchicalEdgeBundlingDatum>(data as any)
       .sort(
         (a, b) =>
           d3.ascending(a.height, b.height) ?? d3.ascending(a.data.id, b.data.id)
       )
 
     const root = tree(bilink(hierarchy as any)) as HierarchyLinkedNode<
-      d3.HierarchyPointNode<Datum>
+      d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
     >
 
     const svg = d3
       .select(`#${SVG_ID}`)
       .attr("viewBox", [-width / 2, -width / 2, width, width] as any)
 
-    const outed = function (
-      this: SVGTextElement,
-      _: React.SyntheticEvent<SVGTextElement>,
-      d: HierarchyLinkedNode<d3.HierarchyPointNode<Datum>>
-    ): void {
-      link.style("mix-blend-mode", "multiply")
-      d3.select(this).attr("font-weight", null)
-      d3.selectAll(d.incoming.map((d: any) => d.path)).attr("stroke", null)
-      d3.selectAll(d.incoming.map(([d]: [any, any]) => d.text))
-        .attr("fill", null)
-        .attr("font-weight", null)
-      d3.selectAll(d.outgoing.map((d: any) => d.path)).attr("stroke", null)
-      d3.selectAll(d.outgoing.map(([, d]: [any, any]) => d.text))
-        .attr("fill", null)
-        .attr("font-weight", null)
-    }
-
     const hovered = function (
       this: SVGTextElement,
-      _: React.SyntheticEvent<SVGTextElement>,
-      d: HierarchyLinkedNode<d3.HierarchyPointNode<Datum>>
+      d: HierarchyLinkedNode<
+        d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
+      >
     ): void {
       link.style("mix-blend-mode", null)
-      d3.select(this).attr("font-weight", "bold").attr("cursor", "pointer")
-      d3.selectAll(d.incoming.map((d: any) => d.path))
-        .attr("stroke", colorin)
-        .raise()
 
-      d3.selectAll(d.incoming.map(([d]: [any, any]) => d.text))
+      const incoming = d.incoming || []
+
+      const incomingPaths = incoming.map((d: any) => d.path)
+
+      const incomingTexts = incoming.map(([d]: [any, any]) => d.text)
+
+      d3.select(this).attr("font-weight", "bold")
+      d3.select(this).attr("cursor", "pointer")
+      d3.selectAll(incomingPaths).attr("stroke", colorin).raise()
+
+      d3.selectAll(incomingTexts)
         .attr("fill", colorin)
         .attr("font-weight", "bold")
 
@@ -156,6 +153,24 @@ export function HierarchicalEdgeBundling({
       d3.selectAll(d.outgoing.map(([, d]: [any, any]) => d.text))
         .attr("fill", colorout)
         .attr("font-weight", "bold")
+    }
+    const outed = function (
+      this: SVGTextElement,
+      d: HierarchyLinkedNode<
+        d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
+      >
+    ): void {
+      link.style("mix-blend-mode", "multiply")
+
+      d3.select(this).attr("font-weight", null)
+      d3.selectAll(d.incoming.map((d: any) => d.path)).attr("stroke", null)
+      d3.selectAll(d.incoming.map(([d]: [any, any]) => d.text))
+        .attr("fill", null)
+        .attr("font-weight", null)
+      d3.selectAll(d.outgoing.map((d: any) => d.path)).attr("stroke", null)
+      d3.selectAll(d.outgoing.map(([, d]: [any, any]) => d.text))
+        .attr("fill", null)
+        .attr("font-weight", null)
     }
 
     svg
@@ -174,12 +189,12 @@ export function HierarchicalEdgeBundling({
       .attr("x", (d) => (d.x < Math.PI ? 6 : -6))
       .attr("text-anchor", (d) => (d.x < Math.PI ? "start" : "end"))
       .attr("transform", (d) => (d.x >= Math.PI ? "rotate(180)" : null))
-      .text((d) => d.data.id)
+      .text((d) => d.data.label)
       .each(function (d: any) {
-        d.text = this.textContent
+        d.text = this
       })
-      .on("mouseover", hovered as any)
-      .on("mouseout", outed as any)
+      .on("mouseover", hovered)
+      .on("mouseout", outed)
       .call((text) =>
         text
           .append("title")
@@ -201,7 +216,7 @@ export function HierarchicalEdgeBundling({
       .each(function (d: any) {
         d.path = this
       })
-  })
+  }, [graph.nodes.length])
 
   return <svg id={SVG_ID} />
 }
