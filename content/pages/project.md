@@ -79,6 +79,36 @@ La costruzione di una linea temporale che evidenzi le decisioni e la narrativa d
 
 <NetworkExample />
 
+#### Architecture
+
+```mermaid
+classDiagram
+  class Topic
+  Topic : String uuid
+  
+  class Actor
+  Actor : String uuid
+  Actor : String username
+
+  class Group
+  Group : String uuid
+  Group : Actor[] members
+
+  class EventType {
+    <<enumeration>>
+    NATURAL_DISASTER
+  }
+  
+
+  class Event
+  Event : String uuid
+  Event : EventType type
+  Event : Location location
+  Event --> "1..+" Topic: topics
+  Event --> "0..+" Group: groups
+  Event --> "0..+" Actor: actors
+```
+
 #### Eventi
 
 Gli eventi di cui viene tenuto traccia sono di diversi tipi e inidicano un avvenimento in un determinato arco temporale, in cui possono essere coinvolti diversi [*gruppi*](/groups) e/o [*attori*](/actors).
