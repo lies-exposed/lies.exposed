@@ -25,10 +25,10 @@ const Template: Story<HierarchicalEdgeBundlingProps> = (args) => (
   <HierarchicalEdgeBundling {...args} />
 )
 
-const actors = A.range(0, 60).map((n) => uuid().substr(0, 8))
+const actors = A.range(0, 60).map(() => uuid().substr(0, 8))
 const nodes = actors.map((a) => ({
   id: a,
-  group: Math.floor(Math.random() * 10),
+  group: Math.floor(Math.random() * 10).toString(),
   targets: A.range(0, Math.floor(Math.random() * 5)).map(
     () => actors[Math.floor(Math.random() * actors.length)]
   ),
