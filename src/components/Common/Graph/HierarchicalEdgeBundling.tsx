@@ -40,7 +40,7 @@ function bilink(
   const leaves = root.leaves()
   for (const d of leaves) {
     d.incoming = []
-    d.outgoing = (d.data.targets || []).map((i) => [
+    d.outgoing = d.data.targets.map((i) => [
       d,
       map.get(i) as HierarchyLinkedNode<
         d3.HierarchyNode<HierarchicalEdgeBundlingDatum>
@@ -122,6 +122,7 @@ export function HierarchicalEdgeBundling({
 
     const svg = d3
       .select(`#${SVG_ID}`)
+      .html(null)
       .attr("viewBox", [-width / 2, -width / 2, width, width] as any)
 
     const hovered = function (
@@ -132,7 +133,7 @@ export function HierarchicalEdgeBundling({
     ): void {
       link.style("mix-blend-mode", null)
 
-      const incoming = d.incoming || []
+      const incoming = d.incoming
 
       const incomingPaths = incoming.map((d: any) => d.path)
 

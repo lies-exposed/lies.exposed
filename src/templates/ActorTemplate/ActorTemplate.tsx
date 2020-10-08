@@ -1,20 +1,19 @@
 import { ActorPageContent } from "@components/ActorPageContent"
+import { EventsNetwork } from "@components/Graph/EventsNetwork"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
-import Network from "@components/graph/Network/Network"
 import EventList from "@components/lists/EventList"
 import { ActorMarkdownRemark } from "@models/actor"
 import { EventMarkdownRemark } from "@models/event"
-import { createNetworkTemplateProps } from "@templates/NetworkTemplate/createNetworkTemplateProps"
+import { eventsInDateRange } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { Block } from "baseui/block"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
-import moment from "moment"
+import * as t from "io-ts"
 import React from "react"
 
 interface ActorTemplatePageProps {
@@ -28,75 +27,41 @@ interface ActorTemplatePageProps {
   }
 }
 
-const ActorTemplate: React.FC<ActorTemplatePageProps> = ({
-  data,
-}) => {
+const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
+  const minDate = O.none
+  const maxDate = O.none
+
   return pipe(
-    ActorMarkdownRemark.decode(data.pageContent.childMarkdownRemark),
-    E.chain((pageContent) =>
-      sequenceS(E.either)({
-        pageContent: E.right(pageContent),
-        networkProps: createNetworkTemplateProps({
-          data: {
-            events: data.events,
-          },
-          minDate: O.none,
-          maxDate: O.none,
-          height: 200,
-          margin: { vertical: 20, horizontal: 20 },
-          width: 1300,
-          scale: "all",
-          scalePoint: O.none,
-          selectedActorIds: [pageContent.frontmatter.uuid],
-          selectedTopicIds: [],
-          selectedGroupIds: [],
-        }),
-      })
-    ),
-    E.fold(throwValidationErrors, ({ pageContent, networkProps }) => {
-      const { selectedEvents, width: networkWidth, graph } = networkProps
+    sequenceS(E.either)({
+      pageContent: ActorMarkdownRemark.decode(
+        data.pageContent.childMarkdownRemark
+      ),
+      events: pipe(
+        t.array(EventMarkdownRemark).decode(data.events.nodes),
+        E.map(eventsInDateRange({ minDate, maxDate }))
+      ),
+    }),
+
+    E.fold(throwValidationErrors, ({ pageContent, events }) => {
       return (
         <Layout>
           <SEO title={pageContent.frontmatter.fullName} />
-          {/* <FlexGridItem>
-            <CalendarHeatmap
-              width={1000}
-              height={300}
-              events={events}
-              onCircleClick={async event => {
-                await navigate(`#${event.id}`)
-              }}
-            />
-            </FlexGridItem> */}
-          <Block
-            overrides={{
-              Block: {
-                style: {
-                  overflow: "scroll",
-                  width: "100%",
-                },
-              },
-            }}
-          >
-            <Network
-              width={networkWidth}
-              height={200}
-              minDate={moment().subtract(1, "y").toDate()}
-              maxDate={new Date()}
-              graph={graph}
-              scale="all"
-              onDoubleClick={() => {}}
-              onNodeClick={async (e) =>
-                await navigate(
-                  `/actors/${pageContent.frontmatter.uuid}/#${e.data.frontmatter.uuid}`
-                )
-              }
-              onEventLabelClick={() => {}}
-            />
-          </Block>
           <MainContent>
             <ActorPageContent {...pageContent} />
-            <EventList events={selectedEvents} />
+              <EventsNetwork
+                width={1000}
+                height={200}
+                events={events}
+                selectedActorIds={[pageContent.frontmatter.uuid]}
+                selectedGroupIds={[]}
+                selectedTopicIds={[]}
+                scale="all"
+                scalePoint={O.none}
+                margin={{ vertical: 30, horizontal: 20 }}
+              />
+            
+
+            <EventList events={events} />
           </MainContent>
         </Layout>
       )

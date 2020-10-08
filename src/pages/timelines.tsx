@@ -1,11 +1,11 @@
 import DatePicker from "@components/Common/DatePicker"
+import { HierarchicalEdgeBundling } from "@components/Common/Graph/HierarchicalEdgeBundling"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 // import EventsMap from "@components/EventsMap"
 import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import SearchableInput from "@components/SearchableInput"
-import { HierarchicalEdgeBundling } from "@components/graph/HierarchicalEdgeBundling"
 import { ActorListItem } from "@components/lists/ActorList"
 import EventList from "@components/lists/EventList"
 import { GroupListItem } from "@components/lists/GroupList"
@@ -18,7 +18,7 @@ import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
 import { createHierarchicalEdgeBundling } from "@utils/createHierarchicalEdgeBundlingData"
-import { ordEventData } from "@utils/event"
+import { ordEventDate } from "@utils/event"
 import { eqByUUID } from "@utils/frontmatter"
 import { parseSearch, Routes, updateSearch } from "@utils/routes"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -153,7 +153,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
           O.getOrElse(() => new Date())
         )
 
-        const filteredEvents = A.sort(Ord.getDualOrd(ordEventData))(
+        const filteredEvents = A.sort(Ord.getDualOrd(ordEventDate))(
           events
         ).filter((e) => {
           const isBetweenDateRange = moment(e.frontmatter.date).isBetween(

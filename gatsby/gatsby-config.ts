@@ -157,4 +157,4 @@ const config: GatsbyConfig = {
   ],
 }
 
-export default config
+module.exports = config

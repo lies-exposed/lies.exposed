@@ -1,6 +1,6 @@
 import { EventMarkdownRemark } from "@models/event"
 import { formatDate } from "@utils/date"
-import { ordEventData } from "@utils/event"
+import { ordEventDate } from "@utils/event"
 import { Group } from "@vx/group"
 import { HeatmapCircle } from "@vx/heatmap"
 import { scaleLinear } from "@vx/scale"
@@ -79,7 +79,7 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
   const xMax = size
   const yMax = height - margin.bottom - margin.top
 
-  const eventsSortedByDate = A.sortBy([getDualOrd(ordEventData)])(events)
+  const eventsSortedByDate = A.sortBy([getDualOrd(ordEventDate)])(events)
   const firstEvent = A.last(eventsSortedByDate)
   const lastEvent = A.head(eventsSortedByDate)
 

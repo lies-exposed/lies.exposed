@@ -1,7 +1,7 @@
 import {
   HierarchicalEdgeBundling,
   HierarchicalEdgeBundlingProps,
-} from "@components/graph/HierarchicalEdgeBundling"
+} from "@components/Common/Graph/HierarchicalEdgeBundling"
 import { Story, Meta } from "@storybook/react/types-6-0"
 import uuid from "@utils/uuid"
 import * as A from "fp-ts/lib/Array"
@@ -28,6 +28,7 @@ const Template: Story<HierarchicalEdgeBundlingProps> = (args) => (
 const actors = A.range(0, 60).map(() => uuid().substr(0, 8))
 const nodes = actors.map((a) => ({
   id: a,
+  label: a,
   group: Math.floor(Math.random() * 10).toString(),
   targets: A.range(0, Math.floor(Math.random() * 5)).map(
     () => actors[Math.floor(Math.random() * actors.length)]

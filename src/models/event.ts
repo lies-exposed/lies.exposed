@@ -97,14 +97,3 @@ export const EventMarkdownRemark = markdownRemark(
 )
 
 export type EventMarkdownRemark = t.TypeOf<typeof EventMarkdownRemark>
-
-export const EventPoint = t.interface(
-  {
-    x: t.number,
-    y: t.number,
-    color: t.string,
-    data: EventMarkdownRemark,
-  },
-  "EventPoint"
-)
-export type EventPoint = t.TypeOf<typeof EventPoint>

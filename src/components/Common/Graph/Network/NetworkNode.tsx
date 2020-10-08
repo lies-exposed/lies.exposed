@@ -1,25 +1,35 @@
-import { EventPoint } from "@models/event"
-import { getColorByEventType } from "@utils/event"
 import { Group } from "@vx/group"
 import * as React from "react"
 
-export interface NetworkNodeProps {
-  node: EventPoint
-  onMouseOver?: (
-    event: React.MouseEvent<SVGElement, React.MouseEvent>,
-    data: EventPoint["data"]
-  ) => void
-  onMouseOut?: (event: React.MouseEvent<SVGElement, React.MouseEvent>) => void
-  onClick: (event: EventPoint) => void
+export interface NetworkNodeDatum {
+  uuid: string
+  label: string
+  innerColor: string
+  outerColor: string
 }
 
-const NetworkNode: React.FC<NetworkNodeProps> = ({
+export interface NetworkPointNode<N extends NetworkNodeDatum>  {
+  x: number
+  y: number
+  data: N
+}
+
+export interface NetworkNodeProps<Datum extends NetworkNodeDatum> {
+  node: NetworkPointNode<Datum>
+  onMouseOver?: (
+    event: React.MouseEvent<SVGElement, React.MouseEvent>,
+    data: Datum
+  ) => void
+  onMouseOut?: (event: React.MouseEvent<SVGElement, React.MouseEvent>) => void
+  onClick: (event: NetworkPointNode<Datum>) => void
+}
+
+export const NetworkNode = <D extends NetworkNodeDatum>({
   node,
+  onClick,
   onMouseOver,
   onMouseOut,
-  onClick,
-}) => {
-
+}: NetworkNodeProps<D>): JSX.Element => {
   const groupProps = {
     ...(onMouseOver !== undefined
       ? {
@@ -35,10 +45,8 @@ const NetworkNode: React.FC<NetworkNodeProps> = ({
       : {}),
   }
 
-  const innerCircleColor = node.color
-  const outerCircleColor =  getColorByEventType({
-    type: node.data.frontmatter.type,
-  })
+  const innerCircleColor = node.data.innerColor
+  const outerCircleColor = node.data.outerColor
 
   return (
     <Group {...(groupProps as any)} onClick={() => onClick(node)}>
@@ -49,4 +57,3 @@ const NetworkNode: React.FC<NetworkNodeProps> = ({
     </Group>
   )
 }
-export default NetworkNode

@@ -1,6 +1,6 @@
 import { LinearGradient } from "@vx/gradient"
 import * as React from "react"
-import { Axis } from "./graph/Axis"
+import { Axis } from "./Common/Graph/Axis"
 
 interface HumanPopulationGrowthGraphProps {
   width: number

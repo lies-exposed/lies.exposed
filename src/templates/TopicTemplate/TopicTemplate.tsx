@@ -6,7 +6,7 @@ import EventList from "@components/lists/EventList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { EventMarkdownRemark } from "@models/event"
 import { TopicMarkdownRemark } from "@models/topic"
-import { ordEventData } from "@utils/event"
+import { ordEventDate } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from 'fp-ts/lib/Array'
@@ -43,7 +43,7 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
           <SEO title={pageContent.frontmatter.label} />
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
             <TopicPageContent {...pageContent} />
-            <EventList events={A.sort(Ord.getDualOrd(ordEventData))(events)} />
+            <EventList events={A.sort(Ord.getDualOrd(ordEventDate))(events)} />
           </ContentWithSideNavigation>
         </Layout>
       )

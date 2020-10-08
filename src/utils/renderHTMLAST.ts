@@ -1,16 +1,16 @@
 import { BlockQuote } from "@components/BlockQuote"
+import BubbleGraphExample from "@components/BubbleGraphExample"
 import { ListItem } from "@components/Common/ListItem"
 import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
 import Gallery from "@components/Gallery/Gallery"
+import NetworkExample from "@components/Graph/NetworkExample"
 import { GraphSelector } from "@components/GraphSelector"
 import { Video } from "@components/Video"
-import NetworkExample from "@components/graph/NetworkExample"
 import { H1, H2, H3, H5, H6, H4, ParagraphMedium } from "baseui/typography"
 import * as React from "react"
 import RehypeReact from "rehype-react"
-import BubbleGraphExample from "@components/BubbleGraphExample"
 
 const renderHTMLAST = new RehypeReact({
   createElement: React.createElement,
