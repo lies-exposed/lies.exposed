@@ -1,11 +1,11 @@
 import { EventMarkdownRemark } from "@models/event"
 import { Item } from "baseui/side-navigation"
+import { format } from "date-fns"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
-import moment from "moment"
 
 type EventsByYearMap = Map<number, Map<number, EventMarkdownRemark[]>>
 
@@ -49,7 +49,7 @@ export const eventsDataToNavigatorItems = (
       ).reduce<Item[]>((monthAcc, [month, events]) => {
         return monthAcc.concat({
           itemId: `#m-${month.toString()}`,
-          title: moment({ month }).format("MMMM"),
+          title: format(new Date().setMonth(month), "MMMM"),
           subNav: events.map((e) => ({
             title: e.frontmatter.title,
             itemId: `#${e.frontmatter.uuid}`,

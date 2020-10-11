@@ -26,7 +26,7 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["../*"]
+        "patterns": ["moment", "../*"]
       }
     ],
     "react/prop-types": ["off"],
