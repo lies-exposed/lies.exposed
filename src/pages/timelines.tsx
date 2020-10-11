@@ -24,6 +24,7 @@ import { parseSearch, Routes, updateSearch } from "@utils/routes"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { LabelMedium } from "baseui/typography"
+import { subYears } from "date-fns"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
@@ -32,7 +33,6 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, PageProps } from "gatsby"
 import * as t from "io-ts"
-import moment from "moment"
 import React from "react"
 import Helmet from "react-helmet"
 
@@ -91,7 +91,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
         const selectedTopicIds = selectedTopics.map((t) => t.uuid)
 
         const [dateRange, setDateRange] = React.useState<Date[]>([
-          moment().subtract(10, "years").toDate(),
+          subYears(new Date(), 10),
           new Date(),
         ])
 
@@ -156,9 +156,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
         const filteredEvents = A.sort(Ord.getDualOrd(ordEventDate))(
           events
         ).filter((e) => {
-          const isBetweenDateRange = moment(e.frontmatter.date).isBetween(
-            moment(minDate),
-            moment(maxDate)
+          const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
+            e.frontmatter.date
           )
           const hasActor = pipe(
             e.frontmatter.actors,
@@ -197,7 +196,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
           events: filteredEvents.map((e) => e.frontmatter),
           groups,
         })
-        
+
         const hierarchicalEdgeBundling = A.isEmpty(filteredEvents) ? null : (
           <HierarchicalEdgeBundling {...hierarchicalEdgeBundlingProps} />
         )

@@ -1,5 +1,5 @@
-import * as React from "react"
 import { generateRandomColor } from "@utils/colors"
+import * as React from "react"
 
 interface ColorWidgetControlProps {
   forID: string

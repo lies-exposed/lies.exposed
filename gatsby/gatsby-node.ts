@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-imports */
-import * as Eq from "fp-ts/lib/Eq"
-import * as t from "io-ts"
 import fs from "fs"
 import path from "path"
 import * as A from "fp-ts/lib/Array"
-import * as O from "fp-ts/lib/Option"
 import * as E from "fp-ts/lib/Either"
+import * as Eq from "fp-ts/lib/Eq"
+import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
 import {
   CreatePagesArgs,
   CreateSchemaCustomizationArgs,
@@ -13,18 +13,20 @@ import {
   Node,
   CreateNodeArgs,
   CreateResolversArgs,
+  // CreateWebpackConfigArgs,
 } from "gatsby"
-import { GroupMarkdownRemark, GroupFrontmatter } from "../src/models/group"
-import { ArticleFrontmatter } from "../src/models/article"
-import { ActorFrontmatter } from "../src/models/actor"
-import { TopicFrontmatter } from "../src/models/topic"
-import { pipe } from "fp-ts/lib/pipeable"
-import { EventFrontmatter } from "../src/models/event"
-import { PageFrontmatter } from "../src/models/page"
+import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+// import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer"
+import { ActorFrontmatter } from "../src/models/actor"
 import { AreaFrontmatter } from "../src/models/area"
+import { ArticleFrontmatter } from "../src/models/article"
+import { EventFrontmatter } from "../src/models/event"
+import { GroupMarkdownRemark, GroupFrontmatter } from "../src/models/group"
+import { PageFrontmatter } from "../src/models/page"
+import { TopicFrontmatter } from "../src/models/topic"
 
-const group = <A>(S: Eq.Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
+const group = <A>(S: Eq.Eq<A>): ((as: A[]) => A[][]) => {
   return A.chop((as) => {
     const { init, rest } = A.spanLeft((a: A) => S.equals(a, as[0]))(as)
     return [init, rest]
@@ -99,7 +101,7 @@ const createGroupPages = async ({
   )
 
   const result = await graphql<{
-    groups: { nodes: { childMarkdownRemark: GroupMarkdownRemark }[] }
+    groups: { nodes: Array<{ childMarkdownRemark: GroupMarkdownRemark }> }
   }>(`
     {
       groups: allFile(filter: { sourceInstanceName: { eq: "groups" } }) {
@@ -456,7 +458,7 @@ const createAreasPages = async ({
   })
 }
 
-export const createPages = async (options: CreatePagesArgs) => {
+export const createPages = async (options: CreatePagesArgs): Promise<void> => {
   await createArticlePages(options)
   await createActorPages(options)
   await createGroupPages(options)
@@ -527,7 +529,7 @@ const AreaF = t.strict({
 export const createSchemaCustomization = async ({
   actions,
   schema,
-}: CreateSchemaCustomizationArgs) => {
+}: CreateSchemaCustomizationArgs): Promise<void> => {
   const { createTypes } = actions
   const typeDefs = fs.readFileSync(`${__dirname}/types-def.gql`, {
     encoding: "utf-8",
@@ -577,6 +579,7 @@ export const createSchemaCustomization = async ({
             return "PageFrontmatter"
           }
 
+          // eslint-disable-next-line no-console
           console.log(source)
 
           return "MarkdownRemarkFrontmatter"
@@ -587,11 +590,13 @@ export const createSchemaCustomization = async ({
   )
 }
 
-export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
+export const createResolvers = ({
+  createResolvers,
+}: CreateResolversArgs): void => {
   const resolvers = {
     ArticleFrontmatter: {
       featuredImage: {
-        type: 'File!'
+        type: "File!",
       },
       date: {
         type: "Date!",
@@ -734,7 +739,7 @@ export const createResolvers = ({ createResolvers }: CreateResolversArgs) => {
 export const sourceNodes = ({
   boundActionCreators,
   getNodesByType,
-}: SourceNodesArgs) => {
+}: SourceNodesArgs): void => {
   const { createNodeField } = boundActionCreators
 
   pipe(
@@ -754,21 +759,22 @@ export const sourceNodes = ({
               createNodeField({
                 node: e,
                 name: `actors`,
-                value: (e.frontmatter as any).actors || [],
+                value: (e.frontmatter as any).actors ?? [],
               })
 
               createNodeField({
                 node: e,
                 name: `groups`,
-                value: (e.frontmatter as any).groups || [],
+                value: (e.frontmatter as any).groups ?? [],
               })
 
               createNodeField({
                 node: e,
                 name: `topics`,
-                value: (e.frontmatter as any).topics || [],
+                value: (e.frontmatter as any).topics ?? [],
               })
             })
+            break
           }
 
           case "groups": {
@@ -776,9 +782,10 @@ export const sourceNodes = ({
               createNodeField({
                 node: e,
                 name: `members`,
-                value: (e.frontmatter as any).members || [],
+                value: (e.frontmatter as any).members ?? [],
               })
             })
+            break
           }
 
           case "areas": {
@@ -786,22 +793,21 @@ export const sourceNodes = ({
               createNodeField({
                 node: e,
                 name: `topics`,
-                value: (e.frontmatter as any).topics || [],
+                value: (e.frontmatter as any).topics ?? [],
               })
 
               createNodeField({
                 node: e,
                 name: `groups`,
-                value: (e.frontmatter as any).groups || [],
+                value: (e.frontmatter as any).groups ?? [],
               })
             })
+            break
           }
         }
       }
     })
   )
-
-  return Promise.resolve(undefined as any)
 }
 
 type Collection =
@@ -827,9 +833,8 @@ export const onCreateNode = ({
   node,
   actions,
   getNode,
-  getNodesByType,
   createNodeId,
-}: CreateNodeArgs) => {
+}: CreateNodeArgs): void => {
   const { createNodeField, createNode } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
@@ -861,6 +866,7 @@ export const onCreateNode = ({
           node,
           value: frontmatter.topics ?? [],
         })
+        break
       }
 
       case "groups": {
@@ -869,6 +875,7 @@ export const onCreateNode = ({
           node,
           value: frontmatter.members ?? [],
         })
+        break
       }
 
       case "areas": {
@@ -877,6 +884,7 @@ export const onCreateNode = ({
           node,
           value: frontmatter.topics ?? [],
         })
+        break
       }
     }
 
@@ -894,3 +902,15 @@ export const onCreateNode = ({
     })
   }
 }
+
+// export const onCreateWebpackConfig = ({
+//   actions,
+// }: CreateWebpackConfigArgs): void => {
+//   const analyserPlugin = new BundleAnalyzerPlugin({
+//     analyzerMode: "json",
+//     generateStatsFile: true,
+//   })
+//   actions.setWebpackConfig({
+//     plugins: [analyserPlugin],
+//   })
+// }

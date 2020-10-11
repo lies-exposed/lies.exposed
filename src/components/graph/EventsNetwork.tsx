@@ -1,5 +1,8 @@
 import Network, { NetworkScale } from "@components/Common/Graph/Network/Network"
-import { NetworkNodeDatum, NetworkPointNode } from "@components/Common/Graph/Network/NetworkNode"
+import {
+  NetworkNodeDatum,
+  NetworkPointNode
+} from "@components/Common/Graph/Network/NetworkNode"
 import ActorList from "@components/lists/ActorList"
 import TopicList from "@components/lists/TopicList"
 import { Frontmatter } from "@models/Frontmatter"
@@ -12,11 +15,13 @@ import { ordEventDate } from "@utils//event"
 import { formatDate } from "@utils/date"
 import { eqByUUID } from "@utils/frontmatter"
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend"
-import { ScaleOrdinal } from "@vx/legend/lib/types"
 import { Link } from "@vx/network/lib/types"
 import ordinalScale from "@vx/scale/lib/scales/ordinal"
 import { Block } from "baseui/block"
 import { LabelMedium, LabelSmall } from "baseui/typography"
+import { ScaleOrdinal } from "d3"
+import { subWeeks } from "date-fns"
+import { differenceInDays } from "date-fns/esm"
 import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
@@ -24,7 +29,6 @@ import * as NEA from "fp-ts/lib/NonEmptyArray"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
-import moment from "moment"
 import * as React from "react"
 
 interface EventNetworkDatum extends NetworkNodeDatum {
@@ -160,7 +164,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
           </LegendOrdinal>
         </LegendDemo>
         <LegendDemo title="Groups">
-          <LegendOrdinal<string, string>
+          <LegendOrdinal<typeof networkProps.groupsScale>
             scale={networkProps.groupsScale}
             labelFormat={(datum) => {
               return datum
@@ -382,7 +386,7 @@ export function createNetworkTemplateProps({
   const minDate = pipe(
     A.last(orderedEvents),
     O.map((e) => e.frontmatter.date),
-    O.getOrElse(() => moment().subtract(1, "week").toDate())
+    O.getOrElse(() => subWeeks(new Date(), 1))
   )
 
   const maxDate = pipe(
@@ -391,7 +395,7 @@ export function createNetworkTemplateProps({
     O.getOrElse(() => new Date())
   )
 
-  const networkWidth = moment(maxDate).diff(moment(minDate), "days") * 5
+  const networkWidth = differenceInDays(minDate, maxDate) * 5
 
   const topicsList = orderedEvents.reduce<TopicFrontmatter[]>(
     (acc, e) => [
@@ -430,37 +434,34 @@ export function createNetworkTemplateProps({
     A.reduce(result, (acc, e) => {
       // get topic from relative directory
 
-      const eventDate = moment(e.frontmatter.date)
-      const isBetweenDateRange =
-        eventDate.isSameOrAfter(minDate) && eventDate.isSameOrBefore(maxDate)
+      const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
+        e.frontmatter.date
+      )
 
       if (isBetweenDateRange) {
         const eventNodes: NEA.NonEmptyArray<NetworkPointNode<
           EventNetworkDatum
         >> = pipe(
           e.frontmatter.topics,
-          NEA.map(
-            (t) =>
-              ({
-                x:
-                  margin.horizontal +
-                  getX(
-                    e.frontmatter.date,
-                    minDate,
-                    maxDate,
-                    networkWidth - margin.horizontal * 2
-                  ),
-                y: yGetter(t.uuid),
-                data: {
-                  ...e.frontmatter,
-                  label: e.frontmatter.title,
-                  color: t.color,
-                  topics: [t],
-                  innerColor: t.color,
-                  outerColor: t.color
-                },
-              })
-          )
+          NEA.map((t) => ({
+            x:
+              margin.horizontal +
+              getX(
+                e.frontmatter.date,
+                minDate,
+                maxDate,
+                networkWidth - margin.horizontal * 2
+              ),
+            y: yGetter(t.uuid),
+            data: {
+              ...e.frontmatter,
+              label: e.frontmatter.title,
+              color: t.color,
+              topics: [t],
+              innerColor: t.color,
+              outerColor: t.color,
+            },
+          }))
         )
 
         const hasActor = pipe(

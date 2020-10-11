@@ -7,13 +7,14 @@ import { scaleLinear } from "@vx/scale"
 import { withTooltip, TooltipWithBounds } from "@vx/tooltip"
 import { WithTooltipProvidedProps } from "@vx/tooltip/lib/enhancers/withTooltip"
 import { ParagraphXSmall } from "baseui/typography"
+import { addDays } from "date-fns"
+import { differenceInDays } from "date-fns/esm"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { getDualOrd } from "fp-ts/lib/Ord"
 import { identity } from "fp-ts/lib/function"
 import { pipe } from "fp-ts/lib/pipeable"
-import moment from "moment"
 import React from "react"
 
 const green = "#21f440"
@@ -51,8 +52,9 @@ interface CalendarHeatmapProps {
   onCircleClick: (e: EventMarkdownRemark) => void
 }
 
-const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
-  WithTooltipProvidedProps<TooltipData>> = ({
+const CalendarHeatmapComponent: React.FC<
+  CalendarHeatmapProps & WithTooltipProvidedProps<TooltipData>
+> = ({
   width,
   height,
   separation = 5,
@@ -93,22 +95,20 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
       () => null,
       ({ events, firstEvent, lastEvent }) => {
         const bucketSizeMax = 52 // week in year
-        const firstDateM = moment(firstEvent.frontmatter.date)
-        const eventsWithDiff = events.map(e => ({
+        const firstEventDate = firstEvent.frontmatter.date
+        const eventsWithDiff = events.map((e) => ({
           ...e,
-          days: moment(e.frontmatter.date).diff(firstDateM, "days"),
+          days: differenceInDays(firstEvent.frontmatter.date, e.frontmatter.date),
         }))
 
         const weekBins = (_week: number): BinDatum[] => {
           const week = _week > 0 ? _week * 7 : _week
-          return A.range(0, 6).map(n => {
+          return A.range(0, 6).map((n) => {
             const currentDay = n + week
-            const currentDate = moment(firstDateM)
-              .add(currentDay, "days")
-              .toDate()
+            const currentDate = addDays(firstEventDate, currentDay)
             const result = pipe(
               eventsWithDiff,
-              A.findFirst(e => e.days === currentDay),
+              A.findFirst((e) => e.days === currentDay),
               O.fold(
                 () => ({
                   bin: n,
@@ -117,12 +117,12 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
                   date: currentDate,
                   stroke: O.none,
                 }),
-                e => {
+                (e) => {
                   return {
                     bin: n,
                     count: O.fold(
                       () => 5,
-                      t => (t === "EcologicAct" ? 0 : 10)
+                      (t) => (t === "EcologicAct" ? 0 : 10)
                     )(e.frontmatter.type),
                     event: O.some(e),
                     date: e.frontmatter.date,
@@ -135,7 +135,7 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
           })
         }
 
-        const data = A.range(0, bucketSizeMax - 1).map(n => ({
+        const data = A.range(0, bucketSizeMax - 1).map((n) => ({
           bin: n,
           bins: weekBins(n),
         }))
@@ -170,13 +170,7 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
         return (
           <React.Fragment>
             <svg width={width} height={height}>
-              <rect
-                x={0}
-                y={0}
-                width={width}
-                height={height}
-                fill={bg}
-              />
+              <rect x={0} y={0} width={width} height={height} fill={bg} />
               <Group top={margin.top} left={margin.left}>
                 <HeatmapCircle<typeof data[0], BinDatum>
                   data={data}
@@ -186,9 +180,9 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
                   radius={radius}
                   gap={1}
                 >
-                  {heatmap => {
-                    return heatmap.map(bins => {
-                      return bins.map(bin => {
+                  {(heatmap) => {
+                    return heatmap.map((bins) => {
+                      return bins.map((bin) => {
                         const row = bin.row.toString()
                         const column = bin.column.toString()
                         return (
@@ -202,7 +196,7 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
                             fillOpacity={bin.opacity}
                             stroke={O.toUndefined(bin.bin.stroke)}
                             strokeWidth="2"
-                            onClick={event => {
+                            onClick={(event) => {
                               if (O.isSome(bin.bin.event)) {
                                 onCircleClick(bin.bin.event.value)
                               }
@@ -242,7 +236,7 @@ const CalendarHeatmapComponent: React.FC<CalendarHeatmapProps &
                   tooltipData.event,
                   O.fold(
                     () => null,
-                    e => {
+                    (e) => {
                       return (
                         <ParagraphXSmall>{e.frontmatter.title}</ParagraphXSmall>
                       )

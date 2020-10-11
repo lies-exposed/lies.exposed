@@ -1,8 +1,8 @@
 import { EventFrontmatter } from '@models/event'
 import uuid from '@utils/uuid'
+import { subMonths, subWeeks } from 'date-fns'
 import * as NEA from 'fp-ts/lib/NonEmptyArray'
 import * as O from 'fp-ts/lib/Option'
-import moment from 'moment'
 import { firstActor, secondActor } from './actors'
 import { firstGroup, secondGroup } from './groups'
 import { firstTopic, secondTopic, thirdTopic } from './topics'
@@ -17,7 +17,7 @@ export const firstEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   location: O.none,
-  date: moment().subtract(2, "month").toDate(),
+  date: subMonths(new Date(), 2),
 }
 
 export const secondEvent: EventFrontmatter = {
@@ -30,7 +30,7 @@ export const secondEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   location: O.none,
-  date: moment().subtract(2, "month").toDate(),
+  date: subMonths(new Date(), 2),
 }
 
 export const thirdEvent: EventFrontmatter = {
@@ -43,7 +43,7 @@ export const thirdEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   location: O.none,
-  date: moment().subtract(3, "week").toDate(),
+  date: subWeeks(new Date(), 3),
 }
 
 export const fourthEvent: EventFrontmatter = {

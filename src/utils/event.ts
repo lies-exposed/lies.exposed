@@ -1,10 +1,9 @@
 import { EventFrontmatter, EventMarkdownRemark, EventType } from "@models/event"
+import { subWeeks } from "date-fns"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
-import moment from "moment"
-
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
   (e: EventMarkdownRemark) => e.frontmatter.date
@@ -50,7 +49,7 @@ export const eventsInDateRange = (props: EventsInDateRangeProps) => (
             O.map((e) => e.frontmatter.date)
           )
         ),
-        O.getOrElse(() => moment().subtract(1, "week").toDate())
+        O.getOrElse(() => subWeeks(new Date(), 1))
       )
 
       const maxDate = pipe(
@@ -67,12 +66,9 @@ export const eventsInDateRange = (props: EventsInDateRangeProps) => (
       return { events: orderedEvents, minDate, maxDate }
     },
     ({ events, minDate, maxDate }) => {
-      return A.array.filter(events, (e) => {
-        const eventDate = moment(e.frontmatter.date)
-        return (
-          eventDate.isSameOrAfter(minDate) && eventDate.isSameOrBefore(maxDate)
-        )
-      })
+      return A.array.filter(events, (e) =>
+        Ord.between(Ord.ordDate)(minDate, maxDate)(e.frontmatter.date)
+      )
     }
   )
 }
