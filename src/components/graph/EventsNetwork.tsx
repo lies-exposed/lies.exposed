@@ -12,11 +12,11 @@ import { ordEventDate } from "@utils//event"
 import { formatDate } from "@utils/date"
 import { eqByUUID } from "@utils/frontmatter"
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend"
-import { ScaleOrdinal } from "@vx/legend/lib/types"
 import { Link } from "@vx/network/lib/types"
 import ordinalScale from "@vx/scale/lib/scales/ordinal"
 import { Block } from "baseui/block"
 import { LabelMedium, LabelSmall } from "baseui/typography"
+import { ScaleOrdinal } from "d3"
 import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
@@ -160,7 +160,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
           </LegendOrdinal>
         </LegendDemo>
         <LegendDemo title="Groups">
-          <LegendOrdinal<string, string>
+          <LegendOrdinal<typeof networkProps.groupsScale>
             scale={networkProps.groupsScale}
             labelFormat={(datum) => {
               return datum

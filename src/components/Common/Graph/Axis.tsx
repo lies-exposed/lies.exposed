@@ -184,7 +184,7 @@ export const Axis = <D extends any>({
               <g className="my-custom-bottom-axis">
                 {axis.ticks.map((tick, i) => {
                   const tickX = tick.to.x
-                  const tickY = tick.to.y + tickLabelSize + axis.tickLength
+                  const tickY = tick.to.y + tickLabelSize + (axis.tickLength ?? 0)
                   return (
                     <Group
                       key={`vx-tick-${String(tick.value)}-${i}`}
