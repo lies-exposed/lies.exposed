@@ -1,4 +1,4 @@
-import { EventsNetwork } from "@components/Graph/EventsNetwork"
+import { EventsNetwork } from "@components/graph/EventsNetwork"
 import { GroupPageContent } from "@components/GroupPageContent"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"

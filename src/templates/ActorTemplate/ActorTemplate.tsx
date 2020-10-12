@@ -1,5 +1,5 @@
 import { ActorPageContent } from "@components/ActorPageContent"
-import { EventsNetwork } from "@components/Graph/EventsNetwork"
+import { EventsNetwork } from "@components/graph/EventsNetwork"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"

@@ -7,7 +7,7 @@ import { graphql, useStaticQuery } from "gatsby"
 import * as t from "io-ts"
 import { NumberFromString } from "io-ts-types/lib/NumberFromString"
 import * as React from "react"
-import { Axis } from "./Common/Graph/Axis"
+import { Axis } from "./Common/graph/Axis"
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets
  * EPA - Climate Change Indicators: https://www.epa.gov/climate-indicators/climate-change-indicators-atmospheric-concentrations-greenhouse-gases

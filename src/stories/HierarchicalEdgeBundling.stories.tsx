@@ -1,7 +1,7 @@
 import {
   HierarchicalEdgeBundling,
   HierarchicalEdgeBundlingProps,
-} from "@components/Common/Graph/HierarchicalEdgeBundling"
+} from "@components/Common/graph/HierarchicalEdgeBundling"
 import { Story, Meta } from "@storybook/react/types-6-0"
 import uuid from "@utils/uuid"
 import * as A from "fp-ts/lib/Array"

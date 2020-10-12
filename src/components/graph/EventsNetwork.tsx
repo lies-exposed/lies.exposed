@@ -1,8 +1,8 @@
-import Network, { NetworkScale } from "@components/Common/Graph/Network/Network"
+import Network, { NetworkScale } from "@components/Common/graph/Network/Network"
 import {
   NetworkNodeDatum,
   NetworkPointNode,
-} from "@components/Common/Graph/Network/NetworkNode"
+} from "@components/Common/graph/Network/NetworkNode"
 import ActorList from "@components/lists/ActorList"
 import TopicList from "@components/lists/TopicList"
 import { Frontmatter } from "@models/Frontmatter"
