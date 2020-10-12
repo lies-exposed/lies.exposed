@@ -1,5 +1,6 @@
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { LinearGradient } from "@vx/gradient"
+import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -8,6 +9,7 @@ import * as t from "io-ts"
 import { NumberFromString } from "io-ts-types/lib/NumberFromString"
 import * as React from "react"
 import { Axis } from "./Common/Graph/Axis"
+
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets
  * EPA - Climate Change Indicators: https://www.epa.gov/climate-indicators/climate-change-indicators-atmospheric-concentrations-greenhouse-gases
@@ -79,10 +81,7 @@ const CO2LevelDatum = t.type(
 
 type CO2LevelDatum = t.TypeOf<typeof CO2LevelDatum>
 
-export const CO2LevelsGraph: React.FC<HumanPopulationGrowthGraphProps> = ({
-  width,
-  height,
-}) => {
+export const CO2LevelsGraph: React.FC<HumanPopulationGrowthGraphProps> = () => {
   const { CO2EarthData, EPAData }: QueryResults = useStaticQuery(graphql`
     query CO2LevelsGraph {
       CO2EarthData: file(
@@ -148,41 +147,45 @@ export const CO2LevelsGraph: React.FC<HumanPopulationGrowthGraphProps> = ({
       )
     }),
     E.fold(throwValidationErrors, (data) => (
-      <Axis<CO2LevelDatum>
-        id="co2-levels"
-        width={width}
-        height={height}
-        margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
-        linePathElement={(id) => (
-          <LinearGradient
-            id={id}
-            vertical={true}
-            fromOpacity={1}
-            toOpacity={0.8}
-            to="#fcc317"
-            from="#fc2317"
-            fromOffset="40%"
-            toOffset="80%"
+      <ParentSize style={{ height: 400 }} debounceTime={30}>
+        {({ width, height }) => (
+          <Axis<CO2LevelDatum>
+            id="co2-levels"
+            width={width}
+            height={height}
+            margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+            linePathElement={(id) => (
+              <LinearGradient
+                id={id}
+                vertical={true}
+                fromOpacity={1}
+                toOpacity={0.8}
+                to="#fcc317"
+                from="#fc2317"
+                fromOffset="40%"
+                toOffset="80%"
+              />
+            )}
+            background={(id) => (
+              <LinearGradient
+                id={id}
+                vertical={true}
+                from={"#de8cf3"}
+                to={"#177ffc"}
+                fromOpacity={1}
+                toOpacity={0.5}
+              />
+            )}
+            data={data}
+            minY={150}
+            getX={(d) => d.year}
+            getY={(d) => d.value}
+            axisLeftLabel={"CO2 cocentration (part per million)"}
+            axisRightLabel={"CO2 cocentration (part per million)"}
+            axisBottomLabel={"Date"}
           />
         )}
-        background={(id) => (
-          <LinearGradient
-            id={id}
-            vertical={true}
-            from={"#de8cf3"}
-            to={"#177ffc"}
-            fromOpacity={1}
-            toOpacity={0.5}
-          />
-        )}
-        data={data}
-        minY={150}
-        getX={(d) => d.year}
-        getY={(d) => d.value}
-        axisLeftLabel={"CO2 cocentration (part per million)"}
-        axisRightLabel={"CO2 cocentration (part per million)"}
-        axisBottomLabel={"Date"}
-      />
+      </ParentSize>
     ))
   )
 }

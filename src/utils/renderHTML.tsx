@@ -4,9 +4,9 @@ import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
 import NetworkExample from "@components/Graph/NetworkExample"
+import { Video } from "@components/Video"
 import { MDXProvider, MDXProviderComponentsProp } from "@mdx-js/react"
 import {
-  HeadingXXLarge,
   ParagraphMedium,
 } from "baseui/typography"
 import { Link } from "gatsby"
@@ -21,7 +21,7 @@ const shortcodes: MDXProviderComponentsProp = {
   WorldPopulationCounter,
   NetworkExample,
   BubbleGraphExample,
-  h1: HeadingXXLarge,
+  Video: Video,
   p: ParagraphMedium,
 }
 
