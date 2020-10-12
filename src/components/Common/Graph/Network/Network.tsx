@@ -3,6 +3,7 @@ import { localPoint } from "@vx/event"
 import { Group } from "@vx/group"
 import { Graph } from "@vx/network"
 import { Graph as GraphType } from "@vx/network/lib/types"
+import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import { scaleTime } from "@vx/scale"
 import { Tooltip } from "@vx/tooltip"
 import withTooltip, {
@@ -24,7 +25,10 @@ function numTicksForWidth(width: number): number {
 
 export type NetworkScale = "all" | "year" | "month" | "week" | "day"
 
-export type NetworkGraphType<L, N extends NetworkNodeDatum> = GraphType<L, NetworkPointNode<N>>
+export type NetworkGraphType<L, N extends NetworkNodeDatum> = GraphType<
+  L,
+  NetworkPointNode<N>
+>
 
 export interface NetworkBaseProps<
   L extends NetworkLinkProps<N>,
@@ -47,10 +51,7 @@ export type NetworkProps<
   N extends NetworkNodeDatum
 > = NetworkBaseProps<L, N> & WithTooltipProvidedProps<N>
 
-const Network = <
-  L extends NetworkLinkProps<N>,
-  N extends NetworkNodeDatum
->(
+const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   props: NetworkProps<L, N>
 ): JSX.Element => {
   const handleMouseOver = (event: any, datum: any): void => {
@@ -84,12 +85,11 @@ const Network = <
     tooltipData,
   } = props
 
-  const getXScale = (): ScaleTime<number, number> =>
-    scaleTime({
-      range: [0, width],
-      domain: [minDate, maxDate],
-      nice: true,
-    })
+  const bottomScale = scaleTime({
+    range: [0, width],
+    domain: [minDate, maxDate],
+    nice: true,
+  })
 
   return (
     <React.Fragment>
@@ -129,7 +129,7 @@ const Network = <
           <AxisBottom
             left={0}
             top={height - 30}
-            scale={getXScale() as any}
+            scale={bottomScale}
             hideZero
             numTicks={numTicksForWidth(width)}
             label="Date"

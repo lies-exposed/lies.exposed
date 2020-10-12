@@ -2,6 +2,7 @@ import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { Item, Navigation } from "baseui/side-navigation"
 import { Theme } from "baseui/theme"
 import * as React from "react"
+import { MainContent } from "./MainContent"
 
 interface ContentWithSideNavigation {
   items: Item[]
@@ -43,7 +44,7 @@ export const ContentWithSideNavigation: React.FC<ContentWithSideNavigation> = ({
           },
         }}
       >
-        {children}
+        <MainContent>{children}</MainContent>
       </FlexGridItem>
       <FlexGridItem display="none" />
       <FlexGridItem display="none" />

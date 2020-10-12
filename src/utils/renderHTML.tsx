@@ -3,12 +3,11 @@ import { CO2LevelsGraph } from "@components/CO2LevelsGraph"
 import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
+import { HumanPopulationGrowthGraph } from "@components/Graph/HumanPopulationGrowthGraph"
 import NetworkExample from "@components/Graph/NetworkExample"
 import { Video } from "@components/Video"
 import { MDXProvider, MDXProviderComponentsProp } from "@mdx-js/react"
-import {
-  ParagraphMedium,
-} from "baseui/typography"
+import { ParagraphMedium } from "baseui/typography"
 import { Link } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import * as React from "react"
@@ -18,6 +17,7 @@ const shortcodes: MDXProviderComponentsProp = {
   FullSizeSection,
   CO2LevelsGraph,
   CO2LeftBudgetCounter,
+  HumanPopulationGrowthGraph: HumanPopulationGrowthGraph,
   WorldPopulationCounter,
   NetworkExample,
   BubbleGraphExample,
@@ -25,9 +25,7 @@ const shortcodes: MDXProviderComponentsProp = {
   p: ParagraphMedium,
 }
 
-export const renderHTML = (md: {
-  body: string
-}): JSX.Element => (
+export const renderHTML = (md: { body: string }): JSX.Element => (
   <MDXProvider components={shortcodes}>
     <MDXRenderer>{md.body}</MDXRenderer>
   </MDXProvider>

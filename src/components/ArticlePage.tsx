@@ -3,6 +3,7 @@ import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingXXLarge, LabelSmall } from "baseui/typography"
+import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 import { ContentWithSidebar } from "./ContentWithSidebar"
 import { MainContent } from "./MainContent"
@@ -44,19 +45,17 @@ export const ArticlePage: React.FC<ArticlePageProps> = (props) => {
         </FlexGridItem>
       </FlexGrid>
       <ContentWithSidebar
-        sidebar={
-          <TableOfContents {...props.tableOfContents} />
-        }
+        sidebar={<TableOfContents {...props.tableOfContents} />}
       >
-        <MainContent>
-          <div style={{ textAlign: "right", padding: 10 }}>
-            <EditButton resourceName="articles" resource={props.frontmatter} />
-          </div>
+        <div style={{ textAlign: "right", padding: 10 }}>
+          <EditButton resourceName="articles" resource={props.frontmatter} />
+        </div>
 
-          <LabelSmall>{formatDate(props.frontmatter.date)}</LabelSmall>
-          <LabelSmall>Tempo di lettura: {props.timeToRead} min</LabelSmall>
-          {renderHTML({ body: props.body })}
-        </MainContent>
+        <LabelSmall>{formatDate(props.frontmatter.date)}</LabelSmall>
+        <LabelSmall>
+          Tempo di lettura: {O.getOrElse(() => 1)(props.timeToRead)} min
+        </LabelSmall>
+        {renderHTML({ body: props.body })}
       </ContentWithSidebar>
     </>
   )

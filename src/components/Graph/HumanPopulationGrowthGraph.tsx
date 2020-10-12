@@ -1,6 +1,7 @@
+import { Axis } from "@components/Common/Graph/Axis"
 import { LinearGradient } from "@vx/gradient"
+import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as React from "react"
-import { Axis } from "./Common/Graph/Axis"
 
 interface HumanPopulationGrowthGraphProps {
   width: number
@@ -97,40 +98,45 @@ export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProp
 }) => {
   const filteredData = data
   // .filter(d => d.year > 1800 && d.year < 2020)
+  
   return (
-    <Axis
-      id="human-population-growth"
-      width={width}
-      height={height}
-      margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
-      linePathElement={(id) => (
-        <LinearGradient
-          id={id}
-          vertical={true}
-          to={"#23cbd4"}
-          from={"#d42626"}
-          fromOpacity={1}
-          fromOffset={"60%"}
-          toOpacity={0.5}
+    <ParentSize style={{ height: 400, width: '100%' }}>
+      {({ width, height }) => (
+        <Axis
+          id="human-population-growth"
+          width={width}
+          height={height}
+          margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
+          linePathElement={(id) => (
+            <LinearGradient
+              id={id}
+              vertical={true}
+              to={"#23cbd4"}
+              from={"#d42626"}
+              fromOpacity={1}
+              fromOffset={"60%"}
+              toOpacity={0.5}
+            />
+          )}
+          background={(id) => (
+            <LinearGradient
+              id={id}
+              to={"#ffc096"}
+              from={"#d42323"}
+              vertical={true}
+              rotate={0}
+              fromOpacity={0.5}
+              toOpacity={1}
+            />
+          )}
+          data={filteredData}
+          getX={(d) => d.year}
+          getY={(d) => d.population}
+          axisLeftLabel={"Millions of people"}
+          axisRightLabel={"Millions of people"}
+          axisBottomLabel={"Year"}
         />
       )}
-      background={(id) => (
-        <LinearGradient
-          id={id}
-          to={"#ffc096"}
-          from={"#d42323"}
-          vertical={true}
-          rotate={0}
-          fromOpacity={0.5}
-          toOpacity={1}
-        />
-      )}
-      data={filteredData}
-      getX={(d) => d.year}
-      getY={(d) => d.population}
-      axisLeftLabel={"Millions of people"}
-      axisRightLabel={"Millions of people"}
-      axisBottomLabel={"Year"}
-    />
+    </ParentSize>
   )
 }

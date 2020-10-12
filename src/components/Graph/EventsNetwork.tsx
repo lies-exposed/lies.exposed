@@ -16,8 +16,8 @@ import { formatDate } from "@utils/date"
 import { eqByUUID } from "@utils/frontmatter"
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend"
 import { Link } from "@vx/network/lib/types"
+import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import ordinalScale from "@vx/scale/lib/scales/ordinal"
-import { Block } from "baseui/block"
 import { LabelMedium, LabelSmall } from "baseui/typography"
 import { ScaleOrdinal } from "d3"
 import { subWeeks } from "date-fns"
@@ -50,153 +50,169 @@ export interface EventsNetworkProps {
   selectedTopicIds: string[]
   scale: NetworkScale
   scalePoint: O.Option<NetworkPointNode<EventNetworkDatum>>
-  margin: {
-    vertical: number
-    horizontal: number
-  }
-  height: number
-  width: number
 }
 
 export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
-  const networkProps = createNetworkTemplateProps(props)
   return (
     <>
-      <Block
-        overrides={{
-          Block: {
-            style: {
-              overflow: "scroll",
-              width: "100%",
-            },
-          },
-        }}
-      >
-        <Network<NetworkLink, EventNetworkDatum>
-          onDoubleClick={() => {}}
-          onNodeClick={() => {}}
-          onEventLabelClick={() => {}}
-          tooltipRenderer={(tooltipData) => {
-            return (
-              <div>
-                <LabelMedium>{tooltipData.title}</LabelMedium>
-                <LabelSmall>Data: {formatDate(tooltipData.date)}</LabelSmall>
-                <div>
-                  <TopicList
-                    topics={tooltipData.topics.map((t) => ({
-                      ...t,
-                      selected: false,
-                    }))}
-                    onTopicClick={() => {}}
-                  />
-                </div>
-                {pipe(
-                  tooltipData.actors,
-                  O.map((actors) => (
-                    <ActorList
-                      key="actors"
-                      actors={actors.map((a) => ({ ...a, selected: false }))}
-                      onActorClick={() => {}}
-                      avatarScale="scale1000"
-                    />
-                  )),
-                  O.toNullable
-                )}
-              </div>
-            )
-          }}
-          {...networkProps}
-        />
-      </Block>
-      <div className="legends">
-        <LegendDemo title="Topics">
-          <LegendOrdinal
-            scale={networkProps.topicsScale}
-            labelFormat={(datum) => datum}
-          >
-            {(labels) => {
-              return (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {labels.map((label, i) => (
-                    <LegendItem
-                      key={`legend-quantile-${i}`}
-                      margin="0 5px"
-                      onClick={() => {}}
-                    >
-                      <svg width={10} height={10}>
-                        <circle fill={`#${label.value}`} r={4} cy={4} cx={4} />
-                      </svg>
-                      <LegendLabel align="left" margin="0 0 0 4px">
-                        {label.text}
-                      </LegendLabel>
-                    </LegendItem>
-                  ))}
-                </div>
-              )
-            }}
-          </LegendOrdinal>
-        </LegendDemo>
-        <LegendDemo title="Actors">
-          <LegendOrdinal
-            scale={networkProps.actorsScale}
-            labelFormat={(datum) => datum}
-          >
-            {(labels) => {
-              return (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {labels.map((label, i) => (
-                    <LegendItem
-                      key={`legend-quantile-${i}`}
-                      margin="0 5px"
-                      onClick={() => {}}
-                    >
-                      <svg width={10} height={2}>
-                        <rect fill={`#${label.value}`} width={10} height={2} />
-                      </svg>
-                      <LegendLabel align="left" margin="0 0 0 4px">
-                        {label.text}
-                      </LegendLabel>
-                    </LegendItem>
-                  ))}
-                </div>
-              )
-            }}
-          </LegendOrdinal>
-        </LegendDemo>
-        <LegendDemo title="Groups">
-          <LegendOrdinal<typeof networkProps.groupsScale>
-            scale={networkProps.groupsScale}
-            labelFormat={(datum) => {
-              return datum
-            }}
-          >
-            {(labels) => {
-              return (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {labels.map((label, i) => (
-                    <LegendItem
-                      key={`legend-quantile-${i}`}
-                      margin="0 5px"
-                      onClick={() => {}}
-                    >
-                      <svg width={10} height={2}>
-                        <rect fill={`#${label.value}`} width={10} height={2} />
-                      </svg>
-                      <LegendLabel align="left" margin="0 0 0 4px">
-                        {label.text}
-                      </LegendLabel>
-                    </LegendItem>
-                  ))}
-                </div>
-              )
-            }}
-          </LegendOrdinal>
-        </LegendDemo>
-        <style>{`
+      <ParentSize style={{ minHeight: 400 }}>
+        {({ width, height }) => {
+          const networkProps = createNetworkTemplateProps({
+            ...props,
+            width,
+            height: 400,
+            margin: { vertical: 40, horizontal: 40 }
+          })
+          return (
+            <div>
+              <Network<NetworkLink, EventNetworkDatum>
+                onDoubleClick={() => {}}
+                onNodeClick={() => {}}
+                onEventLabelClick={() => {}}
+                tooltipRenderer={(tooltipData) => {
+                  return (
+                    <div>
+                      <LabelMedium>{tooltipData.title}</LabelMedium>
+                      <LabelSmall>
+                        Data: {formatDate(tooltipData.date)}
+                      </LabelSmall>
+                      <div>
+                        <TopicList
+                          topics={tooltipData.topics.map((t) => ({
+                            ...t,
+                            selected: false,
+                          }))}
+                          onTopicClick={() => {}}
+                        />
+                      </div>
+                      {pipe(
+                        tooltipData.actors,
+                        O.map((actors) => (
+                          <ActorList
+                            key="actors"
+                            actors={actors.map((a) => ({
+                              ...a,
+                              selected: false,
+                            }))}
+                            onActorClick={() => {}}
+                            avatarScale="scale1000"
+                          />
+                        )),
+                        O.toNullable
+                      )}
+                    </div>
+                  )
+                }}
+                {...networkProps}
+              />
+              <div className="legends">
+                <LegendDemo title="Topics">
+                  <LegendOrdinal
+                    scale={networkProps.topicsScale}
+                    labelFormat={(datum) => datum}
+                  >
+                    {(labels) => {
+                      return (
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          {labels.map((label, i) => (
+                            <LegendItem
+                              key={`legend-quantile-${i}`}
+                              margin="0 5px"
+                              onClick={() => {}}
+                            >
+                              <svg width={10} height={10}>
+                                <circle
+                                  fill={`#${label.value}`}
+                                  r={4}
+                                  cy={4}
+                                  cx={4}
+                                />
+                              </svg>
+                              <LegendLabel align="left" margin="0 0 0 4px">
+                                {label.text}
+                              </LegendLabel>
+                            </LegendItem>
+                          ))}
+                        </div>
+                      )
+                    }}
+                  </LegendOrdinal>
+                </LegendDemo>
+                <LegendDemo title="Actors">
+                  <LegendOrdinal
+                    scale={networkProps.actorsScale}
+                    labelFormat={(datum) => datum}
+                  >
+                    {(labels) => {
+                      return (
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          {labels.map((label, i) => (
+                            <LegendItem
+                              key={`legend-quantile-${i}`}
+                              margin="0 5px"
+                              onClick={() => {}}
+                            >
+                              <svg width={10} height={2}>
+                                <rect
+                                  fill={`#${label.value}`}
+                                  width={10}
+                                  height={2}
+                                />
+                              </svg>
+                              <LegendLabel align="left" margin="0 0 0 4px">
+                                {label.text}
+                              </LegendLabel>
+                            </LegendItem>
+                          ))}
+                        </div>
+                      )
+                    }}
+                  </LegendOrdinal>
+                </LegendDemo>
+                <LegendDemo title="Groups">
+                  <LegendOrdinal<typeof networkProps.groupsScale>
+                    scale={networkProps.groupsScale}
+                    labelFormat={(datum) => {
+                      return datum
+                    }}
+                  >
+                    {(labels) => {
+                      return (
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          {labels.map((label, i) => (
+                            <LegendItem
+                              key={`legend-quantile-${i}`}
+                              margin="0 5px"
+                              onClick={() => {}}
+                            >
+                              <svg width={10} height={2}>
+                                <rect
+                                  fill={`#${label.value}`}
+                                  width={10}
+                                  height={2}
+                                />
+                              </svg>
+                              <LegendLabel align="left" margin="0 0 0 4px">
+                                {label.text}
+                              </LegendLabel>
+                            </LegendItem>
+                          ))}
+                        </div>
+                      )
+                    }}
+                  </LegendOrdinal>
+                </LegendDemo>
+                <style>{`
               .legends {
                 font-family: arial;
                 font-weight: 900;
-                background-color: black;
+                background-color: white;
                 border-radius: 14px;
                 padding: 24px 24px 24px 32px;
                 overflow-y: auto;
@@ -206,7 +222,11 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
                 margin-left: 10px;
               }
             `}</style>
-      </div>
+              </div>
+            </div>
+          )
+        }}
+      </ParentSize>
     </>
   )
 }
@@ -225,12 +245,12 @@ function LegendDemo({
       <style>{`
         .legend {
           line-height: 0.9em;
-          color: #efefef;
+          color: darkgrey;
           font-size: 10px;
           font-family: arial;
           padding: 10px 10px;
           float: left;
-          border: 1px solid rgba(255, 255, 255, 0.3);
+          border: 1px solid rgba(100, 100, 100, 0.3);
           border-radius: 8px;
           margin: 5px 5px;
         }
@@ -379,8 +399,12 @@ export function createNetworkTemplateProps({
   selectedTopicIds,
   height,
   width,
-  margin,
-}: EventsNetworkProps): NetworkTemplateProps {
+  margin
+}: EventsNetworkProps & {
+  width: number
+  height: number
+  margin: { vertical: number; horizontal: number }
+}): NetworkTemplateProps {
   const orderedEvents = pipe(events, A.sort(Ord.getDualOrd(ordEventDate)))
 
   const minDate = pipe(

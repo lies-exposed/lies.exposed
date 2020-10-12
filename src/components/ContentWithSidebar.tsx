@@ -1,7 +1,8 @@
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import {ChevronLeft, ChevronRight} from "baseui/icon"
+import { ChevronLeft, ChevronRight } from "baseui/icon"
 import { Theme } from "baseui/theme"
 import * as React from "react"
+import { MainContent } from "./MainContent"
 
 interface ContentWithSidebarProps {
   sidebar: React.ReactElement
@@ -11,7 +12,7 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
   sidebar,
   children,
 }) => {
-  const [showSidebar, toggleSidebar] = React.useState(true)
+  const [showSidebar, toggleSidebar] = React.useState(false)
 
   return (
     <FlexGrid flexGridColumnCount={4} height="100%">
@@ -29,7 +30,10 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
           </div>
         </FlexGridItem>
       ) : (
-        <div onClick={() => toggleSidebar(!showSidebar)} style={{ position: 'absolute'}}>
+        <div
+          onClick={() => toggleSidebar(!showSidebar)}
+          style={{ position: "absolute" }}
+        >
           <ChevronRight size={48} />
         </div>
       )}
@@ -46,7 +50,7 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
           },
         }}
       >
-        {children}
+        <MainContent>{children}</MainContent>
       </FlexGridItem>
       <FlexGridItem display="none" />
       <FlexGridItem display="none" />

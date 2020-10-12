@@ -11,7 +11,6 @@ import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
-import { logInPipe } from "./logger"
 
 interface CreateHierarchicalEdgeBundlingData {
   events: EventFrontmatter[]
@@ -122,7 +121,6 @@ export const createHierarchicalEdgeBundling = (
           )(links).map(([kk, value]) => ({ ...kk, value })),
         },
       }
-    },
-    logInPipe("props")
+    }
   )
 }
