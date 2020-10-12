@@ -1,5 +1,5 @@
 import { AxisLeft, AxisRight, AxisBottom } from "@vx/axis"
-import { curveBasis } from "@vx/curve"
+import { curveBasis, curveMonotoneX } from "@vx/curve"
 import { Grid } from "@vx/grid"
 import { Group } from "@vx/group"
 import { scaleLinear } from "@vx/scale"
@@ -23,11 +23,12 @@ function numTicksForWidth(width: number): number {
 }
 interface AxisProps<D> {
   id: string
-  background: (id: string) => JSX.Element 
+  background: (id: string) => JSX.Element
   linePathElement: (id: string) => JSX.Element
   width: number
   height: number
   data: D[]
+  points?: { data: D[] }
   minX?: number
   minY?: number
   getX: (e: D) => number
@@ -35,6 +36,7 @@ interface AxisProps<D> {
   axisRightLabel: string
   axisBottomLabel: string
   getY: (e: D) => number
+  showPoints: boolean
   margin: {
     top: number
     left: number
@@ -46,6 +48,7 @@ interface AxisProps<D> {
 export const Axis = <D extends any>({
   id,
   data,
+  points,
   width,
   height,
   margin,
@@ -55,6 +58,7 @@ export const Axis = <D extends any>({
   minY = 0,
   getX,
   getY,
+  showPoints,
   axisLeftLabel,
   axisRightLabel,
   axisBottomLabel,
@@ -76,8 +80,9 @@ export const Axis = <D extends any>({
   })
 
   const linePathId = `line-path-${id}`
-  const backgroundId = `background-${id}`;
+  const backgroundId = `background-${id}`
 
+  const labelColor = "#8e205f"
   return (
     <svg width={width} height={height}>
       {background(backgroundId)}
@@ -113,8 +118,18 @@ export const Axis = <D extends any>({
           y={(d) => yScale(getY(d))}
           stroke={`url('#${linePathId}')`}
           strokeWidth={3}
-          curve={curveBasis}
+          curve={curveMonotoneX}
         />
+        {points !== undefined ?
+          points.data.map((d, i) => (
+            <circle
+              key={i}
+              cx={xScale(getX(d))}
+              cy={yScale(getY(d))}
+              r={3}
+              fill={"black"}
+            />
+          )) : null}
       </Group>
       <Group left={margin.left}>
         <AxisLeft
@@ -125,15 +140,15 @@ export const Axis = <D extends any>({
           numTicks={numTicksForHeight(height)}
           label={axisLeftLabel}
           labelProps={{
-            fill: "#8e205f",
+            fill: labelColor,
             textAnchor: "middle",
             fontSize: 12,
             fontFamily: "Arial",
           }}
           stroke="#1b1a1e"
           tickStroke="#8e205f"
-          tickLabelProps={(value, index) => ({
-            fill: "#8e205f",
+          tickLabelProps={() => ({
+            fill: labelColor,
             textAnchor: "end",
             fontSize: 10,
             fontFamily: "Arial",
@@ -152,15 +167,15 @@ export const Axis = <D extends any>({
           numTicks={numTicksForHeight(height)}
           label={axisRightLabel}
           labelProps={{
-            fill: "#8e205f",
+            fill: labelColor,
             textAnchor: "middle",
-            fontSize: 12,
+            fontSize: 10,
             fontFamily: "Arial",
           }}
           stroke="#1b1a1e"
           tickStroke="#8e205f"
           tickLabelProps={(value, index) => ({
-            fill: "#8e205f",
+            fill: labelColor,
             textAnchor: "start",
             fontSize: 10,
             fontFamily: "Arial",
@@ -176,15 +191,16 @@ export const Axis = <D extends any>({
           label={axisBottomLabel}
         >
           {(axis) => {
-            const tickLabelSize = 10
+            const tickLabelSize = 8
             const tickRotate = 45
-            const tickColor = "#8e205f"
+            const tickColor = labelColor
             const axisCenter = (axis.axisToPoint.x - axis.axisFromPoint.x) / 2
             return (
               <g className="my-custom-bottom-axis">
                 {axis.ticks.map((tick, i) => {
                   const tickX = tick.to.x
-                  const tickY = tick.to.y + tickLabelSize + (axis.tickLength ?? 0)
+                  const tickY =
+                    tick.to.y + tickLabelSize + (axis.tickLength ?? 0)
                   return (
                     <Group
                       key={`vx-tick-${String(tick.value)}-${i}`}
@@ -196,8 +212,9 @@ export const Axis = <D extends any>({
                         fontSize={tickLabelSize}
                         textAnchor="middle"
                         fill={tickColor}
+                        fontFamily={"Arial"}
                       >
-                        {tick.value}
+                        {tick.formattedValue}
                       </text>
                     </Group>
                   )
@@ -206,6 +223,8 @@ export const Axis = <D extends any>({
                   textAnchor="middle"
                   transform={`translate(${axisCenter}, 50)`}
                   fontSize="8"
+                  fontFamily="Arial"
+                  fill={tickColor}
                 >
                   {axis.label}
                 </text>

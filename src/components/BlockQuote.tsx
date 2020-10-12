@@ -6,7 +6,6 @@ export const BlockQuote: React.FC = ({ children }) => {
   return (
     <blockquote
       style={{
-        fontFamily: $theme.typography.thirdaryFont,
         borderLeft: 3,
         borderLeftColor: $theme.colors.red,
         borderLeftStyle: 'solid',

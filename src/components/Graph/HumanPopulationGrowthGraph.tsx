@@ -92,15 +92,31 @@ const data = [
   { year: 2015, population: 7349 },
 ]
 
-export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProps> = ({
-  width,
-  height,
-}) => {
+const pointsData = [
+  {
+    year: 1804,
+    population: 1000,
+  },
+  {
+    year: 1927,
+    population: 2000,
+  },
+  {
+    year: 1960,
+    population: 3000,
+  },
+  { year: 1974, population: 4000 },
+  { year: 1987, population: 5000 },
+  { year: 1999, population: 6000 },
+  { year: 2011, population: 7000 },
+]
+
+export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProps> = () => {
   const filteredData = data
   // .filter(d => d.year > 1800 && d.year < 2020)
-  
+
   return (
-    <ParentSize style={{ height: 400, width: '100%' }}>
+    <ParentSize style={{ height: 400, width: "100%" }}>
       {({ width, height }) => (
         <Axis
           id="human-population-growth"
@@ -130,8 +146,10 @@ export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProp
             />
           )}
           data={filteredData}
+          points={{ data: pointsData }}
           getX={(d) => d.year}
           getY={(d) => d.population}
+          showPoints={true}
           axisLeftLabel={"Millions of people"}
           axisRightLabel={"Millions of people"}
           axisBottomLabel={"Year"}

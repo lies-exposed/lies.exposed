@@ -1,3 +1,4 @@
+import { BlockQuote } from "@components/BlockQuote"
 import BubbleGraphExample from "@components/BubbleGraphExample"
 import { CO2LevelsGraph } from "@components/CO2LevelsGraph"
 import { ListItem } from "@components/Common/ListItem"
@@ -24,7 +25,8 @@ const shortcodes: MDXProviderComponentsProp = {
   BubbleGraphExample,
   Video: Video,
   p: ParagraphMedium,
-  li: ListItem
+  li: ListItem,
+  blockquote: BlockQuote
 }
 
 export const renderHTML = (md: { body: string }): JSX.Element => (
