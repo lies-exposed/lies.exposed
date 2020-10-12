@@ -44,7 +44,7 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
   return (
     <div
       id={id}
-      className="full-size-section"
+      className="FullSizeSection"
       style={{
         width,
         minHeight,

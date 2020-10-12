@@ -1,15 +1,15 @@
-import { TopicMarkdownRemark } from "@models/topic"
-import renderHTMLAST from "@utils/renderHTMLAST"
+import { TopicMD } from "@models/topic"
+import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { HeadingXLarge } from "baseui/typography"
 import * as React from "react"
 import EditButton from "./buttons/EditButton"
 
-interface TopicPageContentProps extends TopicMarkdownRemark {}
+interface TopicPageContentProps extends TopicMD {}
 
 export const TopicPageContent: React.FC<TopicPageContentProps> = ({
   frontmatter,
-  htmlAst,
+  body,
 }) => {
   return (
     <>
@@ -17,7 +17,7 @@ export const TopicPageContent: React.FC<TopicPageContentProps> = ({
         <EditButton resourceName="topics" resource={frontmatter} />
       </Block>
       <HeadingXLarge>{frontmatter.label}</HeadingXLarge>
-      {renderHTMLAST(htmlAst)}
+      {renderHTML({body})}
     </>
   )
 }

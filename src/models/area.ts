@@ -1,6 +1,6 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
-import { markdownRemark } from "./MarkdownRemark"
+import { mdx } from "./Mdx"
 import { ObjectFromString } from "./ObjectFromString"
 import { PolygonIO } from "./event"
 import { GroupFrontmatter } from "./group"
@@ -21,6 +21,6 @@ export const AreaFrontmatter = t.strict(
 
 export type AreaFrontmatter = t.TypeOf<typeof AreaFrontmatter>
 
-export const AreaMarkdownRemark = markdownRemark(AreaFrontmatter, 'AreaFrontmatter')
+export const AreaMD = mdx(AreaFrontmatter, 'AreaFrontmatter')
 
-export type AreaMarkdownRemark = t.TypeOf<typeof AreaMarkdownRemark>
+export type AreaMD = t.TypeOf<typeof AreaMD>

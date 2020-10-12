@@ -1,14 +1,15 @@
-import { ArticleMarkdownRemark } from "@models/article"
+import { ArticleMD } from "@models/article"
 import { formatDate } from "@utils/date"
-import renderHTMLAST from "@utils/renderHTMLAST"
+import { renderHTML } from "@utils/renderHTML"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingXXLarge, LabelSmall } from "baseui/typography"
 import * as React from "react"
 import { ContentWithSidebar } from "./ContentWithSidebar"
 import { MainContent } from "./MainContent"
+import { TableOfContents } from "./TableOfContents"
 import EditButton from "./buttons/EditButton"
 
-type ArticlePageProps = ArticleMarkdownRemark
+type ArticlePageProps = ArticleMD
 
 export const ArticlePage: React.FC<ArticlePageProps> = (props) => {
   return (
@@ -44,11 +45,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = (props) => {
       </FlexGrid>
       <ContentWithSidebar
         sidebar={
-          <div
-            dangerouslySetInnerHTML={{
-              __html: props.tableOfContents,
-            }}
-          />
+          <TableOfContents {...props.tableOfContents} />
         }
       >
         <MainContent>
@@ -58,7 +55,7 @@ export const ArticlePage: React.FC<ArticlePageProps> = (props) => {
 
           <LabelSmall>{formatDate(props.frontmatter.date)}</LabelSmall>
           <LabelSmall>Tempo di lettura: {props.timeToRead} min</LabelSmall>
-          {renderHTMLAST(props.htmlAst)}
+          {renderHTML({ body: props.body })}
         </MainContent>
       </ContentWithSidebar>
     </>

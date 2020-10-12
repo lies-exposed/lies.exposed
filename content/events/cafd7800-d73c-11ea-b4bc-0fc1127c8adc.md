@@ -13,11 +13,11 @@ images: []
 ---
 Nonostante sia vietato dalla legge abbattere gli alberi fino a ottobre per favorire la nidificazione di alcune specie protette, inizia l'abbattimento del bosco del Parco Nord per dare inizio ai lavori della vasca di laminazione. 
 
-<video controls="true" src="../../static/media/events/cafd7800-d73c-11ea-b4bc-0fc1127c8adc/abbattimento-alberi-parco-nord.mp4" />
+<Video controls="true" src="../../static/media/events/cafd7800-d73c-11ea-b4bc-0fc1127c8adc/abbattimento-alberi-parco-nord.mp4" />
 
-<video controls="true" src="../../static/media/events/cafd7800-d73c-11ea-b4bc-0fc1127c8adc/abbattimento-alberi-parco-nord-2.mp4" />
+<Video controls="true" src="../../static/media/events/cafd7800-d73c-11ea-b4bc-0fc1127c8adc/abbattimento-alberi-parco-nord-2.mp4" />
 
-<video controls="true" src="../../static/media/events/cafd7800-d73c-11ea-b4bc-0fc1127c8adc/abbattimento-alberi-parco-nord-3.mp4" />
+<Video controls="true" src="../../static/media/events/cafd7800-d73c-11ea-b4bc-0fc1127c8adc/abbattimento-alberi-parco-nord-3.mp4" />
 
-<video controls="true" src="../../static/media/events/cafd7800-d73c-11ea-b4bc-0fc1127c8adc/abbattimento-alberi-parco-nord-4.mp4" />
+<Video controls="true" src="../../static/media/events/cafd7800-d73c-11ea-b4bc-0fc1127c8adc/abbattimento-alberi-parco-nord-4.mp4" />
 

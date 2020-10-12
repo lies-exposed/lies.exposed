@@ -4,8 +4,8 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
-import { EventMarkdownRemark } from "@models/event"
-import { GroupMarkdownRemark } from "@models/group"
+import { EventMD } from "@models/event"
+import { GroupMdx } from "@models/group"
 import { eventsInDateRange } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -20,9 +20,9 @@ interface GroupTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMarkdownRemark: GroupMarkdownRemark }
+    pageContent: { childMdx: GroupMdx }
     events: {
-      nodes: EventMarkdownRemark[]
+      nodes: Array<{ childMdx: EventMD }>
     }
   }
 }
@@ -33,16 +33,13 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
 
   return pipe(
     sequenceS(E.either)({
-      pageContent: GroupMarkdownRemark.decode(
-        data.pageContent.childMarkdownRemark
-      ),
+      pageContent: GroupMdx.decode(data.pageContent.childMdx),
       events: pipe(
-        t.array(EventMarkdownRemark).decode(data.events.nodes),
+        t.array(EventMD).decode(data.events.nodes.map(n => n.childMdx)),
         E.map(eventsInDateRange({ minDate, maxDate }))
       ),
     }),
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
-
       return (
         <Layout>
           <SEO title={pageContent.frontmatter.name} />
@@ -59,15 +56,6 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
           <MainContent>
             <GroupPageContent
               {...pageContent}
-              members={pipe(
-                pageContent.frontmatter.members,
-                O.map((members) =>
-                  members.map((m) => ({
-                    ...m,
-                    selected: true,
-                  }))
-                )
-              )}
               onMemberClick={async (a) => {
                 await navigate(`/actors/${a.uuid}`)
               }}
@@ -97,16 +85,21 @@ export const pageQuery = graphql`
       name: { eq: $group }
       sourceInstanceName: { eq: "groups" }
     ) {
-      childMarkdownRemark {
-        ...GroupMarkdownRemark
+      childMdx {
+        ...GroupMD
       }
     }
 
-    events: allMarkdownRemark(
-      filter: { fields: { groups: { in: [$group] } } }
+    events: allFile(
+      filter: {
+        sourceInstanceName: { eq: "events" }
+        childMdx: { fields: { groups: { in: [$group] } } }
+      }
     ) {
       nodes {
-        ...EventMarkdownRemark
+        childMdx {
+          ...EventMDRemark
+        }
       }
     }
   }

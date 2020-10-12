@@ -17,14 +17,14 @@ export const query = graphql`
     }
   }
 
-  fragment ActorMarkdownRemark on MarkdownRemark {
+  fragment ActorMD on Mdx {
     frontmatter {
       ... on ActorFrontmatter {
         ...Actor
       }
     }
     timeToRead
-    tableOfContents(absolute: false)
-    htmlAst
+    tableOfContents
+    body
   }
 `

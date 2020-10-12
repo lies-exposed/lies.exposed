@@ -1,6 +1,6 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
-import { markdownRemark } from "./MarkdownRemark"
+import { mdx } from "./Mdx"
 
 export const PageFrontmatter = t.type(
   {
@@ -13,16 +13,16 @@ export const PageFrontmatter = t.type(
 
 export type PageFrontmatter = t.TypeOf<typeof PageFrontmatter>
 
-export const PageMarkdownRemark = markdownRemark(
+export const PageMD = mdx(
   PageFrontmatter,
-  "PageMarkdownRemark"
+  "PageMD"
 )
 
-export type PageMarkdownRemark = t.TypeOf<typeof PageMarkdownRemark>
+export type PageMD = t.TypeOf<typeof PageMD>
 
 export const PageContentFileNode = t.strict(
   {
-    childMarkdownRemark: PageMarkdownRemark,
+    childMdx: PageMD,
   },
   "PageContentFileNode"
 )

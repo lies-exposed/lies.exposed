@@ -30,7 +30,7 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
       }
 
       pageContent: file(
-        childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
+        childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "groups" }
       ) {
         ...PageFileNode
@@ -46,9 +46,9 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
     E.fold(throwValidationErrors, ({ groups, pageContent }) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+          <SEO title={pageContent.childMdx.frontmatter.title} />
           <MainContent>
-            <PageContent {...pageContent.childMarkdownRemark} />
+            <PageContent {...pageContent.childMdx} />
             <SearchableInput
               items={groups.map((a) => ({
                 ...a,

@@ -28,7 +28,7 @@ const AreasPage: React.FC<PageProps> = ({ navigate }) => {
       }
 
       pageContent: file(
-        childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
+        childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "areas" }
       ) {
         ...PageFileNode
@@ -45,9 +45,9 @@ const AreasPage: React.FC<PageProps> = ({ navigate }) => {
 
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+          <SEO title={pageContent.childMdx.frontmatter.title} />
           <MainContent>
-            <PageContent {...pageContent.childMarkdownRemark} />
+            <PageContent {...pageContent.childMdx} />
             <AreasMap areas={areas} width={800} height={400} />
           </MainContent>
         </Layout>

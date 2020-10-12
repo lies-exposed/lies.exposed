@@ -19,14 +19,14 @@ export const query = graphql`
     }
   }
 
-  fragment GroupMarkdownRemark on MarkdownRemark {
+  fragment GroupMD on Mdx {
     frontmatter {
       ... on GroupFrontmatter {
         ...Group
       }
     }
     timeToRead
-    tableOfContents(absolute: false)
-    htmlAst
+    tableOfContents
+    body
   }
 `

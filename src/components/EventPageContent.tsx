@@ -1,5 +1,5 @@
-import { EventFrontmatter } from "@models/event"
-import renderHTMLAST from "@utils/renderHTMLAST"
+import { EventMD } from "@models/event"
+import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { HeadingXLarge, HeadingXSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
@@ -11,14 +11,11 @@ import ActorList from "./lists/ActorList"
 import GroupList from "./lists/GroupList"
 
 
-interface EventPageContentProps {
-  frontmatter: EventFrontmatter
-  htmlAst: object
-}
+interface EventPageContentProps extends EventMD {}
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   frontmatter,
-  htmlAst,
+  body,
 }) => {
   return (
     <>
@@ -79,7 +76,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           )
         )
       )}
-      <div className="content">{renderHTMLAST(htmlAst)}</div>
+      <div className="content">{renderHTML({body})}</div>
     </>
   )
 }

@@ -1,7 +1,7 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { markdownRemark } from "./MarkdownRemark"
+import { mdx } from "./Mdx"
 
 export const TopicFrontmatter = t.type(
   {
@@ -16,12 +16,12 @@ export const TopicFrontmatter = t.type(
 )
 export type TopicFrontmatter = t.TypeOf<typeof TopicFrontmatter>
 
-export const TopicMarkdownRemark = markdownRemark(
+export const TopicMD = mdx(
   TopicFrontmatter,
-  "TopicMarkdownRemark"
+  "TopicMD"
 )
 
-export type TopicMarkdownRemark = t.TypeOf<typeof TopicMarkdownRemark>
+export type TopicMD = t.TypeOf<typeof TopicMD>
 
 export const TopicData = t.intersection(
   [

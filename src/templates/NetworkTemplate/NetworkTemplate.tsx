@@ -133,7 +133,7 @@
 //           const networkName = "network"
 //           return (
 //             <Layout>
-//               <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+//               <SEO title={pageContent.childMdx.frontmatter.title} />
 //               <FlexGrid
 //                 alignItems="center"
 //                 alignContent="center"
@@ -142,7 +142,7 @@
 //               >
 //                 <FlexGridItem width="100%">
 //                   <HeadingLevel>
-//                     <NetworkPageContent {...pageContent.childMarkdownRemark} />
+//                     <NetworkPageContent {...pageContent.childMdx} />
 //                   </HeadingLevel>
 //                   <FlexGrid flexGridColumnCount={2}>
 //                     <FlexGridItem>

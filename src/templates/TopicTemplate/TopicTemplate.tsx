@@ -4,8 +4,8 @@ import SEO from "@components/SEO"
 import { TopicPageContent } from "@components/TopicPageContent"
 import EventList from "@components/lists/EventList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
-import { EventMarkdownRemark } from "@models/event"
-import { TopicMarkdownRemark } from "@models/topic"
+import { EventMD } from "@models/event"
+import { TopicMD } from "@models/topic"
 import { ordEventDate } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -20,9 +20,9 @@ import React from "react"
 interface TopicTimelineTemplateProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMarkdownRemark: TopicMarkdownRemark }
+    pageContent: { childMdx: TopicMD }
     events: {
-      nodes: EventMarkdownRemark[]
+      nodes: EventMD[]
     }
   }
 }
@@ -32,9 +32,9 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 }) => {
   return pipe(
     sequenceS(E.either)({
-      events: t.array(EventMarkdownRemark).decode(data.events.nodes),
-      pageContent: TopicMarkdownRemark.decode(
-        data.pageContent.childMarkdownRemark
+      events: t.array(EventMD).decode(data.events.nodes),
+      pageContent: TopicMD.decode(
+        data.pageContent.childMdx
       ),
     }),
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
@@ -57,18 +57,18 @@ export const pageQuery = graphql`
       sourceInstanceName: { eq: "topics" }
       name: { eq: $topic }
     ) {
-      childMarkdownRemark {
-        ...TopicMarkdownRemark
+      childMdx {
+        ...TopicMD
       }
     }
 
-    events: allMarkdownRemark(
+    events: allMdx(
       filter: {
         fields: { collection: { eq: "events" }, topics: { in: [$topic] } }
       }
     ) {
       nodes {
-        ...EventMarkdownRemark
+        ...EventMDRemark
       }
     }
   }

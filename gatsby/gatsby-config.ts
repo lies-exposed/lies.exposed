@@ -32,20 +32,13 @@ const config: GatsbyConfig = {
       options: { typeName: () => `csvData`, nodePerFile: `csvData` },
     },
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: `gatsby-plugin-mdx`,
       options: {
-        plugins: [
+        extensions: [`.mdx`, `.md`],
+        gatsbyRemarkPlugins: [
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-numbered-footnotes`,
-          `gatsby-plugin-instagram-embed`,
-          `gatsby-plugin-twitter`,
           `gatsby-remark-embedder`,
-          {
-            resolve: "gatsby-remark-component",
-            options: {
-              components: ["full-size-section", "graph-selector"],
-            },
-          },
           {
             resolve: `gatsby-remark-images`,
             options: {
@@ -62,13 +55,15 @@ const config: GatsbyConfig = {
               theme: "forest",
               viewport: {
                 width: 600,
-                height: 300
-            },
+                height: 300,
+              },
             },
           },
         ],
       },
     },
+    `gatsby-plugin-instagram-embed`,
+    `gatsby-plugin-twitter`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {

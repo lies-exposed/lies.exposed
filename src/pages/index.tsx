@@ -80,7 +80,7 @@ const IndexPage: React.FC = () => {
 
         <FlexGridItem paddingTop="70px">
           <MainContent>
-            <PageContent {...pageContent.childMarkdownRemark} />
+            <PageContent {...pageContent.childMdx} />
           </MainContent>
         </FlexGridItem>
       </FlexGrid>

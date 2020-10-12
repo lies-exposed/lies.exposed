@@ -1,6 +1,5 @@
 import { GroupPageContent } from "@components/GroupPageContent"
 import { GroupFrontmatter } from "@models/group"
-import { MDtoHTML, HTMLtoAST } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
 import * as O from 'fp-ts/lib/Option'
@@ -43,15 +42,15 @@ export const GroupPreview: React.FC<any> = ({
 
   return pipe(
     GroupFrontmatter.decode(group),
-    E.fold(renderValidationErrors, f => (
+    E.fold(renderValidationErrors, (f) => (
       <>
         <GroupPageContent
           frontmatter={f}
-          members={O.none}
-          htmlAst={HTMLtoAST(MDtoHTML(body))}
+          body={body}
+          tableOfContents={{}}
+          timeToRead={O.some(1)}
           onMemberClick={() => {}}
         />
-        
       </>
     ))
   )

@@ -6,7 +6,7 @@ export const ArticlePreview: React.FC<any> = (props) => {
   const { entry } = props
   const { body, ...article } = entry.getIn(["data"]).toJS()
 
-  const htmlAst = HTMLtoAST(MDtoHTML(body))
+  const mdxAST = HTMLtoAST(MDtoHTML(body))
 
   return (
     <ArticlePage
@@ -14,7 +14,7 @@ export const ArticlePreview: React.FC<any> = (props) => {
         ...article,
         date: article.date.toISOString(),
       }}
-      htmlAst={htmlAst}
+      mdxAST={mdxAST}
     />
   )
 }

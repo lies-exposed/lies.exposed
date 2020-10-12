@@ -1,4 +1,4 @@
-import { EventMarkdownRemark } from "@models/event"
+import { EventMD } from "@models/event"
 import { Item } from "baseui/side-navigation"
 import { format } from "date-fns"
 import * as Eq from "fp-ts/lib/Eq"
@@ -7,10 +7,10 @@ import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 
-type EventsByYearMap = Map<number, Map<number, EventMarkdownRemark[]>>
+type EventsByYearMap = Map<number, Map<number, EventMD[]>>
 
 export const eventsDataToNavigatorItems = (
-  events: EventMarkdownRemark[]
+  events: EventMD[]
 ): Item[] => {
   const initial: EventsByYearMap = Map.empty
 

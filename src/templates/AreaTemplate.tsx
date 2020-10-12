@@ -3,8 +3,8 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
-import { AreaMarkdownRemark } from "@models/area"
-import { EventMarkdownRemark } from "@models/event"
+import { AreaMD } from "@models/area"
+import { EventMD } from "@models/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -17,7 +17,7 @@ interface GroupTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMarkdownRemark: unknown }
+    pageContent: { childMdx: unknown }
     events: { nodes: unknown[] }
   }
 }
@@ -25,8 +25,8 @@ interface GroupTemplatePageProps {
 const AreaTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
   return pipe(
     sequenceS(E.either)({
-      area: AreaMarkdownRemark.decode(data.pageContent.childMarkdownRemark),
-      events: t.array(EventMarkdownRemark).decode(data.events.nodes),
+      area: AreaMD.decode(data.pageContent.childMdx),
+      events: t.array(EventMD).decode(data.events.nodes),
     }),
     E.fold(throwValidationErrors, ({ area, events }) => {
       return (
@@ -62,11 +62,11 @@ export const pageQuery = graphql`
       name: { eq: $areaUUID }
       sourceInstanceName: { eq: "areas" }
     ) {
-      childMarkdownRemark {
-        ...AreaMarkdownRemark
+      childMdx {
+        ...AreaMD
       }
     }
-    events: allMarkdownRemark(
+    events: allMdx(
       filter: {
         fields: {
           collection: { eq: "events" }
@@ -76,7 +76,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        ...EventMarkdownRemark
+        ...EventMDRemark
       }
     }
   }

@@ -4,8 +4,8 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
-import { ActorMarkdownRemark } from "@models/actor"
-import { EventMarkdownRemark } from "@models/event"
+import { ActorMD } from "@models/actor"
+import { EventMD } from "@models/event"
 import { eventsInDateRange } from "@utils/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -20,9 +20,9 @@ interface ActorTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMarkdownRemark: ActorMarkdownRemark }
+    pageContent: { childMdx: ActorMD }
     events: {
-      nodes: EventMarkdownRemark[]
+      nodes: EventMD[]
     }
   }
 }
@@ -33,11 +33,11 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
 
   return pipe(
     sequenceS(E.either)({
-      pageContent: ActorMarkdownRemark.decode(
-        data.pageContent.childMarkdownRemark
+      pageContent: ActorMD.decode(
+        data.pageContent.childMdx
       ),
       events: pipe(
-        t.array(EventMarkdownRemark).decode(data.events.nodes),
+        t.array(EventMD).decode(data.events.nodes),
         E.map(eventsInDateRange({ minDate, maxDate }))
       ),
     }),
@@ -75,16 +75,16 @@ export const pageQuery = graphql`
       sourceInstanceName: { eq: "actors" }
       name: { eq: $actorUUID }
     ) {
-      childMarkdownRemark {
-        ...ActorMarkdownRemark
+      childMdx {
+        ...ActorMD
       }
     }
 
-    events: allMarkdownRemark(
+    events: allMdx(
       filter: { fields: { actors: { in: [$actorUUID] } } }
     ) {
       nodes {
-        ...EventMarkdownRemark
+        ...EventMDRemark
       }
     }
   }

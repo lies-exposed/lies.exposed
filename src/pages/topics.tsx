@@ -25,7 +25,7 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
   const results = useStaticQuery<Results>(graphql`
     query TopicsPage {
       pageContent: file(
-        childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
+        childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "topics" }
       ) {
         ...PageFileNode
@@ -47,9 +47,9 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
     E.fold(throwValidationErrors, ({ pageContent, topics }) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+          <SEO title={pageContent.childMdx.frontmatter.title} />
           <MainContent>
-            <PageContent {...pageContent.childMarkdownRemark} />
+            <PageContent {...pageContent.childMdx} />
             <SearchableInput
               items={topics.map((t) => ({
                 ...t,

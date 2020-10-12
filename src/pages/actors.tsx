@@ -24,7 +24,7 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
   const results: Results = useStaticQuery(graphql`
     query ActorsPage {
       pageContent: file(
-        childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
+        childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "actors" }
       ) {
         ...PageFileNode
@@ -51,9 +51,9 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
 
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+          <SEO title={pageContent.childMdx.frontmatter.title} />
           <MainContent>
-            <PageContent {...pageContent.childMarkdownRemark} />
+            <PageContent {...pageContent.childMdx} />
             <SearchableInput
               items={acts}
               selectedItems={[]}

@@ -1,9 +1,9 @@
-import { PageMarkdownRemark } from "@models/page"
-import renderHTMLAST from "@utils/renderHTMLAST"
+import { PageMD } from "@models/page"
+import { renderHTML } from "@utils/renderHTML"
 import * as React from "react"
 
-export type PageContentProps = PageMarkdownRemark
+export type PageContentProps = PageMD
 
-export const PageContent: React.FC<PageContentProps> = ({ htmlAst }) => {
-  return <div className="page-content">{renderHTMLAST(htmlAst)}</div>
+export const PageContent: React.FC<PageContentProps> = ({ body }) => {
+  return <div className="page-content">{renderHTML({ body })}</div>
 }

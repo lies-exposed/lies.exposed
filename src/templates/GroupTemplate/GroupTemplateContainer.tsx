@@ -1,5 +1,5 @@
-import { ActorMarkdownRemark } from "@models/actor"
-import { GroupMarkdownRemark } from "@models/group"
+import { ActorMD } from "@models/actor"
+import { GroupMdx } from "@models/group"
 import * as A from 'fp-ts/lib/Array'
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
@@ -8,23 +8,23 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 
 export const flattenT = (
-  events: GroupMarkdownRemark[],
-  actors: ActorMarkdownRemark[]
-): ActorMarkdownRemark[] => {
-  const totalActorsMap = actors.reduce<Map<string, ActorMarkdownRemark>>(
+  events: GroupMdx[],
+  actors: ActorMD[]
+): ActorMD[] => {
+  const totalActorsMap = actors.reduce<Map<string, ActorMD>>(
     (acc, a) =>
       Map.insertAt(Eq.eqString)(a.frontmatter.uuid, a)(acc),
     Map.empty
   )
 
-  const actorsMap = events.reduce<Map<string, ActorMarkdownRemark>>(
+  const actorsMap = events.reduce<Map<string, ActorMD>>(
     (acc, e) =>
       pipe(
         e.frontmatter.members,
         O.map(A.map(m => m.uuid)),
         O.getOrElse((): string[] => [])
       )
-      .reduce<Map<string, ActorMarkdownRemark>>((_, a) => {
+      .reduce<Map<string, ActorMD>>((_, a) => {
         return pipe(
           Map.lookup(Eq.eqString)(a, totalActorsMap),
           O.map((actor) => Map.insertAt(Eq.eqString)(a, actor)(_)),
@@ -35,7 +35,7 @@ export const flattenT = (
   )
 
   return Map.values(
-    Ord.contramap((a: ActorMarkdownRemark) => a.frontmatter.uuid)(
+    Ord.contramap((a: ActorMD) => a.frontmatter.uuid)(
       Ord.ordString
     )
   )(actorsMap)

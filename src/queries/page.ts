@@ -8,15 +8,15 @@ export const query = graphql`
   }
 
   fragment PageFileNode on File {
-    childMarkdownRemark {
+    childMdx {
       frontmatter {
         ... on PageFrontmatter {
           ...Page
         }
       }
-      htmlAst
+      body
       timeToRead
-      tableOfContents(absolute: false, maxDepth: 6)
+      tableOfContents
     }
   }
 `

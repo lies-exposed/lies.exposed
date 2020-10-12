@@ -17,14 +17,14 @@ export const query = graphql`
     draft
   }
 
-  fragment ArticleMarkdownRemark on MarkdownRemark {
+  fragment ArticleMD on Mdx {
     frontmatter {
       ... on ArticleFrontmatter {
         ...Article
       }
     }
     timeToRead
-    tableOfContents(absolute: false)
-    htmlAst
+    tableOfContents
+    body
   }
 `

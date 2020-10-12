@@ -49,15 +49,15 @@ const NetworkExample: React.FC = () => {
         scale={"all"}
         scalePoint={O.none}
         events={events.map((f) => ({
-          tableOfContents: "",
+          tableOfContents: {},
           frontmatter: f,
-          timeToRead: 1,
-          htmlAst: {},
+          timeToRead: O.some(1),
+          body: "",
         }))}
         selectedActorIds={selectedActorIds}
         selectedGroupIds={selectedGroupIds}
         selectedTopicIds={selectedTopicIds}
-        margin={{ vertical: 10, horizontal: 10}}
+        margin={{ vertical: 10, horizontal: 10 }}
       />
     </>
   )

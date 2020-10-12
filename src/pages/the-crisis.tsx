@@ -3,6 +3,7 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
+import { TableOfContents } from "@components/TableOfContents"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import * as E from "fp-ts/lib/Either"
@@ -31,18 +32,14 @@ const CrisisPage: React.FC<PageProps> = (props) => {
     E.fold(throwValidationErrors, () => {
       return (
         <Layout>
-          <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+          <SEO title={pageContent.childMdx.frontmatter.title} />
           <ContentWithSidebar
             sidebar={
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: pageContent.childMarkdownRemark.tableOfContents,
-                }}
-              />
+              <TableOfContents {...pageContent.childMdx.tableOfContents} />
             }
           >
             <MainContent>
-              <PageContent {...pageContent.childMarkdownRemark} />
+              <PageContent {...pageContent.childMdx} />
             </MainContent>
           </ContentWithSidebar>
         </Layout>

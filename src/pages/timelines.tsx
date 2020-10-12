@@ -12,7 +12,7 @@ import { GroupListItem } from "@components/lists/GroupList"
 import { TopicListItem } from "@components/lists/TopicList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { ActorFrontmatter } from "@models/actor"
-import { EventMarkdownRemark } from "@models/event"
+import { EventMD } from "@models/event"
 import { GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
@@ -51,13 +51,14 @@ const EventsPage: React.FC<EventsPageProps> = ({
   navigate,
   ...props
 }) => {
+  console.log(data.events.nodes);
   return pipe(
     sequenceS(E.either)({
       pageContent: PageContentFileNode.decode(data.pageContent),
       topics: t.array(TopicFrontmatter).decode(data.topics.nodes),
       actors: t.array(ActorFrontmatter).decode(data.actors.nodes),
       groups: t.array(GroupFrontmatter).decode(data.groups.nodes),
-      events: t.array(EventMarkdownRemark).decode(data.events.nodes),
+      events: t.array(EventMD).decode(data.events.nodes),
     }),
     E.fold(
       throwValidationErrors,
@@ -204,7 +205,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
         return (
           <Layout>
             <Helmet>
-              <SEO title={pageContent.childMarkdownRemark.frontmatter.title} />
+              <SEO title={pageContent.childMdx.frontmatter.title} />
             </Helmet>
             <FlexGrid
               alignItems="center"
@@ -213,7 +214,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
               flexGridColumnCount={1}
             >
               <FlexGridItem width="100%">
-                <PageContent {...pageContent.childMarkdownRemark} />
+                <PageContent {...pageContent.childMdx} />
                 <FlexGrid
                   flexGridColumnCount={4}
                   alignItems="start"
@@ -353,7 +354,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
 export const pageQuery = graphql`
   query EventsQuery {
     pageContent: file(
-      childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
+      childMdx: { fields: { collection: { eq: "pages" } } }
       name: { eq: "actors" }
     ) {
       ...PageFileNode
@@ -377,11 +378,11 @@ export const pageQuery = graphql`
       }
     }
 
-    events: allMarkdownRemark(
+    events: allMdx(
       filter: { fields: { collection: { eq: "events" } } }
     ) {
       nodes {
-        ...EventMarkdownRemark
+        ...EventMDRemark
       }
     }
   }

@@ -1,6 +1,6 @@
-import { AreaFrontmatter } from "@models/area"
+import { AreaMD } from "@models/area"
 import { navigateTo } from "@utils/links"
-import renderHTMLAST from "@utils/renderHTMLAST"
+import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { HeadingXLarge, HeadingXSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
@@ -12,14 +12,11 @@ import EditButton from "./buttons/EditButton"
 import GroupList from "./lists/GroupList"
 import TopicList from "./lists/TopicList"
 
-interface AreaPageContentProps {
-  frontmatter: AreaFrontmatter
-  htmlAst: object
-}
+interface AreaPageContentProps extends AreaMD {}
 
 export const AreaPageContent: React.FC<AreaPageContentProps> = ({
   frontmatter,
-  htmlAst,
+  body,
 }) => {
   const featureCollection = {
     type: `FeatureCollection` as "FeatureCollection",
@@ -32,10 +29,11 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
     ],
   }
 
-
   return (
     <>
-      <Block overrides={{ Block: { style: { textAlign: "right", margin: 10 } } }}>
+      <Block
+        overrides={{ Block: { style: { textAlign: "right", margin: 10 } } }}
+      >
         <div style={{ textAlign: "right", padding: 10 }}>
           <EditButton resourceName="areas" resource={frontmatter} />
         </div>
@@ -86,7 +84,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
           )
         )
       )}
-      <div className="content">{renderHTMLAST(htmlAst)}</div>
+      <div className="content">{renderHTML({ body })}</div>
     </>
   )
 }

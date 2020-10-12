@@ -30,7 +30,7 @@ const ArticlesPage: React.FunctionComponent = () => {
       }
 
       pageContent: file(
-        childMarkdownRemark: { fields: { collection: { eq: "pages" } } }
+        childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "blog" }
       ) {
         ...PageFileNode
@@ -47,7 +47,7 @@ const ArticlesPage: React.FunctionComponent = () => {
       <Layout>
         <SEO title="Article" />
         <MainContent>
-          <PageContent {...pageContent.childMarkdownRemark} />
+          <PageContent {...pageContent.childMdx} />
           <Block>
             <FlexGrid flexGridColumnCount={2}>
               {articles.map((a) => (

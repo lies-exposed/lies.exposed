@@ -1,5 +1,5 @@
 import EventList from "@components/lists/EventList"
-import { EventMarkdownRemark } from "@models/event"
+import { EventMD } from "@models/event"
 import { GroupFrontmatter } from "@models/group"
 import { TopicFrontmatter } from "@models/topic"
 import { HTMLtoAST, MDtoHTML } from "@utils/markdownHTML"
@@ -47,11 +47,11 @@ export const EventPreview: React.FC<any> = (props) => {
         groups,
         type,
       },
-      htmlAst: HTMLtoAST(MDtoHTML(body)),
+      mdxAST: HTMLtoAST(MDtoHTML(body)),
     }
 
   return pipe(
-    EventMarkdownRemark.decode(event),
+    EventMD.decode(event),
     E.fold(renderValidationErrors, (event) => <EventList events={[event]} />)
   )
 }

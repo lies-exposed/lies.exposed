@@ -9,14 +9,14 @@ export const TopicFileNodeQuery = graphql`
     color
   }
 
-  fragment TopicMarkdownRemark on MarkdownRemark {
+  fragment TopicMD on Mdx {
     frontmatter {
       ... on TopicFrontmatter {
         ...Topic
       }
     }
-    tableOfContents(absolute: false)
+    tableOfContents
     timeToRead
-    htmlAst
+    body
   }
 `

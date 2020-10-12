@@ -3,7 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { markdownRemark } from "./MarkdownRemark"
+import { mdx } from "./Mdx"
 import { ObjectFromString } from "./ObjectFromString"
 import { ActorFrontmatter } from "./actor"
 import { GroupFrontmatter } from "./group"
@@ -91,9 +91,9 @@ export const EventFrontmatter = t.strict(
 
 export type EventFrontmatter = t.TypeOf<typeof EventFrontmatter>
 
-export const EventMarkdownRemark = markdownRemark(
+export const EventMD = mdx(
   EventFrontmatter,
-  "EventMarkdownRemark"
+  "EventMD"
 )
 
-export type EventMarkdownRemark = t.TypeOf<typeof EventMarkdownRemark>
+export type EventMD = t.TypeOf<typeof EventMD>

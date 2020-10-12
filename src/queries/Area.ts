@@ -15,14 +15,14 @@ export const query = graphql`
     polygon
   }
 
-  fragment AreaMarkdownRemark on MarkdownRemark {
+  fragment AreaMD on Mdx {
     frontmatter {
       ... on AreaFrontmatter {
         ...Area
       }
     }
-    tableOfContents(absolute: false)
+    tableOfContents
     timeToRead
-    htmlAst
+    body
   }
 `

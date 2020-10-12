@@ -16,9 +16,9 @@ export default meta
 
 const eventsMD = events.map((e) => ({
   frontmatter: e,
-  htmlAst: {},
-  tableOfContents: "",
-  timeToRead: 1,
+  body: () => "",
+  tableOfContents: {},
+  timeToRead: O.some(1),
 }))
 
 const Template: Story<EventsNetworkProps> = (props) => {

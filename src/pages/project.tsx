@@ -2,6 +2,7 @@ import { ContentWithSidebar } from "@components/ContentWithSidebar"
 import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
+import { TableOfContents } from "@components/TableOfContents"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import * as E from "fp-ts/lib/Either"
@@ -30,17 +31,13 @@ const ProjectPage: React.FC<PageProps> = (props) => {
     E.fold(throwValidationErrors, (page) => {
       return (
         <Layout>
-          <SEO title={page.childMarkdownRemark.frontmatter.title} />
+          <SEO title={page.childMdx.frontmatter.title} />
           <ContentWithSidebar
             sidebar={
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: page.childMarkdownRemark.tableOfContents,
-                }}
-              />
+              <TableOfContents {...page.childMdx.tableOfContents} />
             }
           >
-            <PageContent {...page.childMarkdownRemark} />
+            <PageContent {...page.childMdx} />
           </ContentWithSidebar>
         </Layout>
       )

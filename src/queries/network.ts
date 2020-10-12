@@ -3,14 +3,14 @@ import { graphql } from "gatsby";
 export const query = graphql`
   fragment NetworkPageContentFileNode on File {
     relativeDirectory
-    childMarkdownRemark {
+    childMdx {
       frontmatter {
         title
         topic
         path
         date
       }
-      htmlAst
+      body
     }
   }
 `

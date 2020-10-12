@@ -1,5 +1,5 @@
-import { ActorMarkdownRemark } from "@models/actor"
-import renderHTMLAST from "@utils/renderHTMLAST"
+import { ActorMD } from "@models/actor"
+import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { HeadingXLarge } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
@@ -8,11 +8,11 @@ import Image from "gatsby-image"
 import * as React from "react"
 import EditButton from "./buttons/EditButton"
 
-export type ActorPageContentProps = ActorMarkdownRemark
+export type ActorPageContentProps = ActorMD
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   frontmatter,
-  htmlAst,
+  body,
 }) => {
   return (
     <>
@@ -31,7 +31,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           )
         )
       )}
-      <div className="content">{renderHTMLAST(htmlAst)}</div>
+      <div className="content">{renderHTML({ body })}</div>
     </>
   )
 }

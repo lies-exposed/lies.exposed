@@ -1,16 +1,16 @@
 import Network, { NetworkScale } from "@components/Common/Graph/Network/Network"
 import {
   NetworkNodeDatum,
-  NetworkPointNode
+  NetworkPointNode,
 } from "@components/Common/Graph/Network/NetworkNode"
 import ActorList from "@components/lists/ActorList"
 import TopicList from "@components/lists/TopicList"
 import { Frontmatter } from "@models/Frontmatter"
-import { ActorFrontmatter, ActorMarkdownRemark } from "@models/actor"
-import { EventMarkdownRemark } from "@models/event"
-import { GroupFrontmatter, GroupMarkdownRemark } from "@models/group"
-import { NetworkPageMarkdownRemark } from "@models/networks"
-import { TopicFrontmatter, TopicMarkdownRemark } from "@models/topic"
+import { ActorFrontmatter, ActorMD } from "@models/actor"
+import { EventMD } from "@models/event"
+import { GroupFrontmatter, GroupMdx } from "@models/group"
+import { NetworkPageMD } from "@models/networks"
+import { TopicFrontmatter, TopicMD } from "@models/topic"
 import { ordEventDate } from "@utils//event"
 import { formatDate } from "@utils/date"
 import { eqByUUID } from "@utils/frontmatter"
@@ -44,7 +44,7 @@ interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
 }
 
 export interface EventsNetworkProps {
-  events: EventMarkdownRemark[]
+  events: EventMD[]
   selectedActorIds: string[]
   selectedGroupIds: string[]
   selectedTopicIds: string[]
@@ -332,25 +332,25 @@ interface Result {
   topicLinks: Map<string, NetworkLink[]>
   actorLinks: Map<string, NetworkLink[]>
   groupLinks: Map<string, NetworkLink[]>
-  selectedEvents: EventMarkdownRemark[]
+  selectedEvents: EventMD[]
   topics: Map<string, TopicFrontmatter>
   actors: Map<string, ActorFrontmatter>
   groups: Map<string, GroupFrontmatter>
 }
 
 export interface NetworkTemplateData {
-  pageContent: NetworkPageMarkdownRemark
+  pageContent: NetworkPageMD
   topics: {
-    nodes: TopicMarkdownRemark[]
+    nodes: TopicMD[]
   }
   actors: {
-    nodes: ActorMarkdownRemark[]
+    nodes: ActorMD[]
   }
   groups: {
-    nodes: GroupMarkdownRemark[]
+    nodes: GroupMdx[]
   }
   events: {
-    nodes: EventMarkdownRemark[]
+    nodes: EventMD[]
   }
 }
 
@@ -362,7 +362,7 @@ export interface NetworkTemplateProps {
     nodes: Array<NetworkPointNode<EventNetworkDatum>>
     links: NetworkLink[]
   }
-  selectedEvents: EventMarkdownRemark[]
+  selectedEvents: EventMD[]
   width: number
   height: number
   topicsScale: ScaleOrdinal<string, string>
@@ -395,7 +395,7 @@ export function createNetworkTemplateProps({
     O.getOrElse(() => new Date())
   )
 
-  const networkWidth = differenceInDays(minDate, maxDate) * 5
+  const networkWidth = differenceInDays(maxDate, minDate) * 5
 
   const topicsList = orderedEvents.reduce<TopicFrontmatter[]>(
     (acc, e) => [
@@ -434,9 +434,11 @@ export function createNetworkTemplateProps({
     A.reduce(result, (acc, e) => {
       // get topic from relative directory
 
+      // console.log({ eventDate: e.frontmatter.date, minDate, maxDate })
       const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
         e.frontmatter.date
       )
+      // console.log({isBetweenDateRange, networkWidth})
 
       if (isBetweenDateRange) {
         const eventNodes: NEA.NonEmptyArray<NetworkPointNode<

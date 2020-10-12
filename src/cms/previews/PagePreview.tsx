@@ -1,7 +1,7 @@
 import { PageContent } from "@components/PageContent"
-import { MDtoHTML, HTMLtoAST } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
+import * as O from 'fp-ts/lib/Option'
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
@@ -13,9 +13,9 @@ export const PagePreview: React.FC<any> = props => {
       return (
         <PageContent
           frontmatter={frontmatter}
-          htmlAst={HTMLtoAST(MDtoHTML(body))}
-          tableOfContents={""}
-          timeToRead={2}
+          body={(body)}
+          tableOfContents={{}}
+          timeToRead={O.some(2)}
         />
       )
     })

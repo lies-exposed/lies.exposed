@@ -2,7 +2,7 @@ import { EventPageContent } from "@components/EventPageContent"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
-import { EventMarkdownRemark } from "@models/event"
+import { EventMD } from "@models/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -13,13 +13,13 @@ interface GroupTemplatePageProps {
   navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMarkdownRemark: unknown }
+    pageContent: { childMdx: unknown }
   }
 }
 
 const EventTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
   return pipe(
-    EventMarkdownRemark.decode(data.pageContent.childMarkdownRemark),
+    EventMD.decode(data.pageContent.childMdx),
     E.fold(throwValidationErrors, (pageContent) => {
       return (
         <Layout>
@@ -49,8 +49,8 @@ export const pageQuery = graphql`
       name: { eq: $eventUUID }
       sourceInstanceName: { eq: "events" }
     ) {
-      childMarkdownRemark {
-        ...EventMarkdownRemark
+      childMdx {
+        ...EventMDRemark
       }
     }
   }

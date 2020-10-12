@@ -1,9 +1,8 @@
 import { ActorPageContent } from "@components/ActorPageContent"
-import { HTMLtoAST, MDtoHTML } from "@utils/markdownHTML"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
-export const ActorPreview: React.FC<any> = props => {
+export const ActorPreview: React.FC<any> = (props) => {
   const { entry } = props
   const { body, ...frontmatter } = entry.getIn(["data"]).toJS()
   const avatar = props.getAsset(frontmatter.avatar)
@@ -27,9 +26,9 @@ export const ActorPreview: React.FC<any> = props => {
   return (
     <ActorPageContent
       frontmatter={actor}
-      htmlAst={HTMLtoAST(MDtoHTML(body))}
-      timeToRead={2}
-      tableOfContents={""}
+      body={body}
+      timeToRead={O.some(2)}
+      tableOfContents={{}}
     />
   )
 }

@@ -78,11 +78,11 @@ type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
 }
 
 
-type MarkdownRemarkFrontmatter implements BaseFrontmatter {
+type MdxFrontmatter implements BaseFrontmatter {
   uuid: String!
   date: Date!
 }
 
-type MarkdownRemark implements Node {
+type Mdx implements Node {
   frontmatter: Frontmatter
 }

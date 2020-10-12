@@ -1,22 +1,18 @@
-import { NetworkPageMarkdownRemark } from "@models/networks"
-import renderHTMLAST from "@utils/renderHTMLAST"
+import { NetworkPageMD } from "@models/networks"
+import { renderHTML } from "@utils/renderHTML"
 import { Heading } from "baseui/heading"
 import * as React from "react"
 
-type NetworkPageContentProps = NetworkPageMarkdownRemark
+type NetworkPageContentProps = NetworkPageMD
 
 export const NetworkPageContent: React.FC<NetworkPageContentProps> = ({
   frontmatter,
-  htmlAst,
+  body,
 }) => {
   return (
     <>
-      <Heading $style={{ textAlign: "center" }}>
-        {frontmatter.title}
-      </Heading>
-      <div style={{ textAlign: "center" }}>
-        {renderHTMLAST(htmlAst)}
-      </div>
+      <Heading $style={{ textAlign: "center" }}>{frontmatter.title}</Heading>
+      <div style={{ textAlign: "center" }}>{renderHTML({ body })}</div>
     </>
   )
 }

@@ -1,9 +1,9 @@
 import { Slider } from "@components/Slider/Slider"
 import ActorList from "@components/lists/ActorList"
 import TopicList from "@components/lists/TopicList"
-import { EventMarkdownRemark } from "@models/event"
+import { EventMD } from "@models/event"
 import { formatDate } from "@utils//date"
-import renderHTMLAST from "@utils/renderHTMLAST"
+import { renderHTML } from "@utils/renderHTML"
 import { Accordion, Panel } from "baseui/accordion"
 import { Block } from "baseui/block"
 import { Card, StyledBody } from "baseui/card"
@@ -20,7 +20,7 @@ import * as React from "react"
 import GroupList from "./GroupList"
 
 interface EventListProps {
-  events: EventMarkdownRemark[]
+  events: EventMD[]
 }
 
 const EventList: React.FC<EventListProps> = (props) => {
@@ -135,8 +135,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                     event.frontmatter.images,
                     O.map((images) => (
                       // eslint-disable-next-line react/jsx-key
-                      <FlexGridItem
-                      >
+                      <FlexGridItem>
                         <Slider
                           key="home-slider"
                           height={600}
@@ -156,8 +155,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                   )}
                   <FlexGrid flexGridColumnCount={3}>
                     <FlexGridItem display="flex" flexDirection="column">
-                      {renderHTMLAST(event.htmlAst)}
-
+                      {renderHTML({ body: event.body })}
                       {pipe(
                         event.frontmatter.links,
                         O.map((links) => (

@@ -29,14 +29,14 @@ export const query = graphql`
     links
   }
 
-  fragment EventMarkdownRemark on MarkdownRemark {
+  fragment EventMDRemark on Mdx {
     frontmatter {
       ... on EventFrontmatter {
         ...Event
       }
     }
-    tableOfContents(absolute: false)
+    tableOfContents
     timeToRead
-    htmlAst
+    body
   }
 `

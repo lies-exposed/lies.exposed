@@ -1,4 +1,4 @@
-import { EventFrontmatter, EventMarkdownRemark, EventType } from "@models/event"
+import { EventFrontmatter, EventMD, EventType } from "@models/event"
 import { subWeeks } from "date-fns"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
@@ -6,7 +6,7 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
-  (e: EventMarkdownRemark) => e.frontmatter.date
+  (e: EventMD) => e.frontmatter.date
 )
 
 const colorMap: Record<EventType, string> = {
@@ -35,8 +35,8 @@ interface EventsInDateRangeProps {
 }
 
 export const eventsInDateRange = (props: EventsInDateRangeProps) => (
-  events: EventMarkdownRemark[]
-): EventMarkdownRemark[] => {
+  events: EventMD[]
+): EventMD[] => {
   return pipe(
     events,
     A.sort(Ord.getDualOrd(ordEventDate)),

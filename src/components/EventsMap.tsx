@@ -1,5 +1,5 @@
 import {
-  EventMarkdownRemark,
+  EventMD,
   PointIO,
   EventFrontmatter,
 } from "@models/event"
@@ -12,7 +12,7 @@ import { Topology, GeometryCollection } from "topojson-specification"
 import GeoCustom from "./GeoCustom/GeoCustom"
 
 interface EventsMapProps {
-  events: EventMarkdownRemark[]
+  events: EventMD[]
   width: number
   height: number
 }

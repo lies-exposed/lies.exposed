@@ -1,4 +1,4 @@
-import { EventMarkdownRemark } from "@models/event"
+import { EventMD } from "@models/event"
 import { formatDate } from "@utils/date"
 import { ordEventDate } from "@utils/event"
 import { Group } from "@vx/group"
@@ -28,7 +28,7 @@ const min = (data: any, f: (d: any) => number): number =>
   Math.min(...data.map(f))
 
 interface TooltipData {
-  event: O.Option<EventMarkdownRemark>
+  event: O.Option<EventMD>
   date: Date
 }
 
@@ -48,8 +48,8 @@ interface CalendarHeatmapProps {
     right: number
     bottom: number
   }
-  events: EventMarkdownRemark[]
-  onCircleClick: (e: EventMarkdownRemark) => void
+  events: EventMD[]
+  onCircleClick: (e: EventMD) => void
 }
 
 const CalendarHeatmapComponent: React.FC<
@@ -98,7 +98,7 @@ const CalendarHeatmapComponent: React.FC<
         const firstEventDate = firstEvent.frontmatter.date
         const eventsWithDiff = events.map((e) => ({
           ...e,
-          days: differenceInDays(firstEvent.frontmatter.date, e.frontmatter.date),
+          days: differenceInDays(e.frontmatter.date, firstEvent.frontmatter.date),
         }))
 
         const weekBins = (_week: number): BinDatum[] => {

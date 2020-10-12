@@ -1,7 +1,7 @@
 import { ArticlePage } from "@components/ArticlePage"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
-import { ArticleMarkdownRemark } from "@models/article"
+import { ArticleMD } from "@models/article"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -12,9 +12,9 @@ import React from "react"
 interface ArticleTemplatePageProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMarkdownRemark: ArticleMarkdownRemark }
+    pageContent: { childMdx: ArticleMD }
     // articles: {
-    //   nodes: Array<{ childMarkdownRemark: { frontmatter: unknown } }>
+    //   nodes: Array<{ childMdx: { frontmatter: unknown } }>
     // }
   }
 }
@@ -22,10 +22,10 @@ interface ArticleTemplatePageProps {
 const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = (props) => {
   return pipe(
     sequenceS(E.either)({
-      pageContent: ArticleMarkdownRemark.decode(props.data.pageContent.childMarkdownRemark),
+      pageContent: ArticleMD.decode(props.data.pageContent.childMdx),
       // articles: t
-      //   .array(ArticleFileNodeChildMarkdownRemark)
-      //   .decode(props.data.articles.nodes.map(n => n.childMarkdownRemark)),
+      //   .array(ArticleFileNodechildMdx)
+      //   .decode(props.data.articles.nodes.map(n => n.childMdx)),
     }),
     E.map(({ pageContent }) => {
       return {
@@ -52,8 +52,8 @@ export const pageQuery = graphql`
     pageContent: file(
       name: { eq: $articleUUID }
     ) {
-      childMarkdownRemark {
-        ...ArticleMarkdownRemark
+      childMdx {
+        ...ArticleMD
       }
     }
 
