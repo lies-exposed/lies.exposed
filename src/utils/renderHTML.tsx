@@ -3,7 +3,7 @@ import { CO2LevelsGraph } from "@components/CO2LevelsGraph"
 import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
-import NetworkExample from "@components/graph/NetworkExample"
+import NetworkExample from "@components/Graph/NetworkExample"
 import { MDXProvider, MDXProviderComponentsProp } from "@mdx-js/react"
 import {
   HeadingXXLarge,

@@ -1,4 +1,4 @@
-import { EventsNetwork } from "@components/graph/EventsNetwork"
+import { EventsNetwork } from "@components/Graph/EventsNetwork"
 import { actors } from "data/actors"
 import { events } from "data/events"
 import { groups } from "data/groups"

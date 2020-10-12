@@ -1,7 +1,7 @@
 import {
   HierarchicalEdgeBundlingDatum,
   HierarchicalEdgeBundlingProps,
-} from "@components/Common/graph/HierarchicalEdgeBundling"
+} from "@components/Common/Graph/HierarchicalEdgeBundling"
 import { ActorFrontmatter } from "@models/actor"
 import { EventFrontmatter } from "@models/event"
 import { GroupFrontmatter } from "@models/group"

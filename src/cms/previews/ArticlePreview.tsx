@@ -1,12 +1,9 @@
 import { ArticlePage } from "@components/ArticlePage"
-import { HTMLtoAST, MDtoHTML } from "@utils/markdownHTML"
 import * as React from "react"
 
 export const ArticlePreview: React.FC<any> = (props) => {
   const { entry } = props
   const { body, ...article } = entry.getIn(["data"]).toJS()
-
-  const mdxAST = HTMLtoAST(MDtoHTML(body))
 
   return (
     <ArticlePage
@@ -14,7 +11,7 @@ export const ArticlePreview: React.FC<any> = (props) => {
         ...article,
         date: article.date.toISOString(),
       }}
-      mdxAST={mdxAST}
+      body={body}
     />
   )
 }

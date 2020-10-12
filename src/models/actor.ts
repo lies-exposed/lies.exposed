@@ -1,8 +1,8 @@
 import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Frontmatter } from "./Frontmatter"
+import { ImageFileNode } from "./Image"
 import { mdx } from "./Mdx"
-import { ImageFileNode } from "./image"
 
 export const ActorFrontmatter = t.strict(
   {

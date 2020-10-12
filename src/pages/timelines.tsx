@@ -1,5 +1,5 @@
 import DatePicker from "@components/Common/DatePicker"
-import { HierarchicalEdgeBundling } from "@components/Common/graph/HierarchicalEdgeBundling"
+import { HierarchicalEdgeBundling } from "@components/Common/Graph/HierarchicalEdgeBundling"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 // import EventsMap from "@components/EventsMap"
 import { Layout } from "@components/Layout"

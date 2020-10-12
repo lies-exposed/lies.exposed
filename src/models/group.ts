@@ -1,9 +1,9 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { ImageFileNode } from "./Image"
 import { mdx } from "./Mdx"
 import { ActorFrontmatter } from "./actor"
-import { ImageFileNode } from "./image"
 
 export const GroupFrontmatter = t.strict(
   {

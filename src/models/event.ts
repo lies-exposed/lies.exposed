@@ -3,11 +3,11 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { ImageFileNode } from "./Image"
 import { mdx } from "./Mdx"
 import { ObjectFromString } from "./ObjectFromString"
 import { ActorFrontmatter } from "./actor"
 import { GroupFrontmatter } from "./group"
-import { ImageFileNode } from "./image"
 import { TopicFrontmatter } from "./topic"
 
 export interface TreeEvent {

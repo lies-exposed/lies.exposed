@@ -2,7 +2,6 @@ import EventList from "@components/lists/EventList"
 import { EventMD } from "@models/event"
 import { GroupFrontmatter } from "@models/group"
 import { TopicFrontmatter } from "@models/topic"
-import { HTMLtoAST, MDtoHTML } from "@utils/markdownHTML"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
 import * as NEA from "fp-ts/lib/NonEmptyArray"
@@ -47,7 +46,7 @@ export const EventPreview: React.FC<any> = (props) => {
         groups,
         type,
       },
-      mdxAST: HTMLtoAST(MDtoHTML(body)),
+      body,
     }
 
   return pipe(

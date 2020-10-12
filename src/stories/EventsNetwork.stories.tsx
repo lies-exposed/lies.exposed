@@ -1,7 +1,7 @@
 import {
   EventsNetwork,
   EventsNetworkProps
-} from "@components/graph/EventsNetwork"
+} from "@components/Graph/EventsNetwork"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import { events } from "data/events"
 import * as O from "fp-ts/lib/Option"
