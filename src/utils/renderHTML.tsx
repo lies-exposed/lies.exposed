@@ -1,5 +1,6 @@
 import BubbleGraphExample from "@components/BubbleGraphExample"
 import { CO2LevelsGraph } from "@components/CO2LevelsGraph"
+import { ListItem } from "@components/Common/ListItem"
 import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
@@ -23,6 +24,7 @@ const shortcodes: MDXProviderComponentsProp = {
   BubbleGraphExample,
   Video: Video,
   p: ParagraphMedium,
+  li: ListItem
 }
 
 export const renderHTML = (md: { body: string }): JSX.Element => (
