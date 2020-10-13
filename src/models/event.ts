@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { date } from "io-ts-types/lib/date"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { Point } from "./Common/Point"
 import { ImageFileNode } from "./Image"
 import { mdx } from "./Mdx"
 import { ObjectFromString } from "./ObjectFromString"
@@ -39,39 +40,12 @@ export const EventTypeKeys = {
 export const EventType = t.keyof(EventTypeKeys, "EventType")
 export type EventType = t.TypeOf<typeof EventType>
 
-export const BoundingBoxIO = t.union(
-  [t.tuple([t.number, t.number, t.number, t.number]), t.array(t.number)],
-  "BoundingBoxIO"
-)
-
-const PositionIO = t.tuple([t.number, t.number], "PositionIO")
-
-export const PointIO = t.interface(
-  {
-    type: t.literal("Point"),
-    coordinates: PositionIO,
-  },
-  "PointIO"
-)
-
-export const PolygonIO = t.strict(
-  {
-    type: t.literal("Polygon"),
-    coordinates: t.array(t.array(PositionIO)),
-  },
-  "PolygonIO"
-)
-
-export type PolygonIO = t.TypeOf<typeof PolygonIO>
-
-export type PointIO = t.TypeOf<typeof PointIO>
-
 export const EventFrontmatter = t.strict(
   {
     uuid: t.string,
     title: t.string,
     date: DateFromISOString,
-    location: optionFromNullable(ObjectFromString.pipe(PointIO)),
+    location: optionFromNullable(ObjectFromString.pipe(Point)),
     type: optionFromNullable(EventType),
     images: optionFromNullable(
       nonEmptyArray(
