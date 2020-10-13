@@ -1,7 +1,6 @@
 import { EventTypeKeys } from "@models/event"
 import { CmsConfig, CmsCollection } from "netlify-cms-core"
 import {
-  CmsFieldV2,
   MarkdownField,
   ColorField,
   StringField,
@@ -10,13 +9,14 @@ import {
   DateField,
   UUIDField,
   BooleanField,
+  PolygonField,MapField
 } from "./field"
 
 interface CmsCollectionV2 extends CmsCollection {
-  path?: string
-  media_folder?: string
-  fields: CmsFieldV2[]
-  delete?: boolean
+  // path?: string
+  // media_folder?: string
+  // fields: CmsFieldV2[]
+  // delete?: boolean
 }
 
 interface CmsConfigV2 extends CmsConfig {
@@ -31,9 +31,6 @@ const articles: CmsCollectionV2 = {
   media_folder: "../../static/media/articles/{{fields.uuid}}",
   create: true,
   slug: "{{fields.uuid}}",
-  editor: {
-    preview: true,
-  },
   fields: [
     UUIDField,
     BooleanField({ label: "Draft", name: "draft" }),
@@ -41,7 +38,7 @@ const articles: CmsCollectionV2 = {
     StringField({ label: "Path", name: "path" }),
     ImageField({ label: "Featured Image", name: "featuredImage" }),
     { label: "Publish Date", name: "date", widget: "datetime" },
-    MarkdownField({ name: "body" }),
+    MarkdownField({ name: "body", label: 'body' }),
   ],
 }
 
@@ -52,9 +49,6 @@ const actors: CmsCollectionV2 = {
   folder: "content/actors",
   media_folder: "../../static/media/actors/{{fields.uuid}}",
   create: true,
-  editor: {
-    preview: true,
-  },
   fields: [
     UUIDField,
     StringField({ label: "Full Name", name: "fullName" }),
@@ -62,7 +56,7 @@ const actors: CmsCollectionV2 = {
     ImageField({ label: "Avatar", name: "avatar", required: false }),
     { label: "Publish Date", name: "date", widget: "datetime" },
     ColorField,
-    MarkdownField({ name: "body" }),
+    MarkdownField({ name: "body", label: 'body' }),
   ],
 }
 
@@ -90,8 +84,30 @@ const groups: CmsCollectionV2 = {
       multiple: true,
       required: false,
     }),
-    DateField({ label: "Publish Date", name: 'date' }),
-    MarkdownField({ name: 'body'}),
+    DateField({ label: "Publish Date", name: "date" }),
+    MarkdownField({ name: "body" }),
+  ],
+}
+
+const projects: CmsCollectionV2 = {
+  name: "projects",
+  label: "Project",
+  label_singular: "Project",
+  folder: "content/projects",
+  media_folder: "../../static/media/projects/{{fields.uuid}}",
+  summary: "[{{fields.uuid}}] {{fields.name}}",
+  slug: "{{fields.uuid}}",
+  create: true,
+  fields: [
+    UUIDField,
+    StringField({ label: "Name", name: "name" }),
+    ColorField,
+    PolygonField({ label: 'area', name: 'area'}),
+
+    DateField({ label: "Start Date", name: "startDate" }),
+    DateField({ label: "End Date", name: "endDate" }),
+    DateField({ label: "Publish Date", name: "date" }),
+    MarkdownField({ name: "body" }),
   ],
 }
 
@@ -101,26 +117,13 @@ const events: CmsCollectionV2 = {
   folder: "content/events",
   media_folder: "../../static/media/events/{{fields.uuid}}",
   create: true,
-  editor: {
-    preview: true,
-  },
   slug: "{{fields.uuid}}",
   summary: "[{{fields.uuid}}] {{slug}}",
   fields: [
-    { label: "UUID", name: "uuid", widget: "uuid" },
-    { label: "Title", name: "title", widget: "string" },
-    {
-      label: "Date",
-      name: "date",
-      widget: "datetime",
-      format: "YYYY-MM-DD",
-    },
-    {
-      label: "Location",
-      name: "location",
-      widget: "map",
-      required: false,
-    },
+    UUIDField,
+    StringField({ label: 'Title', name: 'title',}),
+    DateField({ name: 'date'}),
+    MapField({ name: 'location', required: false}),
     {
       label: "Type",
       name: "type",
@@ -128,29 +131,26 @@ const events: CmsCollectionV2 = {
       options: Object.keys(EventTypeKeys),
       required: false,
     },
-    {
-      label: "Actors",
-      name: "actors",
-      widget: "relation",
-      collection: "actors",
+    RelationField({
+      name: 'actors',
+      collection: 'actors',
       searchFields: ["username", "fullName"],
       displayFields: ["fullName"],
       valueField: "uuid",
       multiple: true,
       required: false,
-    },
-    {
-      label: "Groups",
-      name: "groups",
-      widget: "relation",
-      collection: "groups",
-      searchFields: ["name"],
-      displayFields: ["name"],
-      valueField: "uuid",
-      multiple: true,
-      required: false,
-    },
-    {
+    }),
+    RelationField({
+      
+        label: "Groups",
+        name: "groups",
+        collection: "groups",
+        searchFields: ["name"],
+        displayFields: ["name"],
+        multiple: true,
+        required: false,
+    }),
+    RelationField({
       label: "Topic",
       name: "topics",
       widget: "relation",
@@ -159,7 +159,7 @@ const events: CmsCollectionV2 = {
       displayFields: ["label"],
       valueField: "uuid",
       multiple: true,
-    },
+    }),
     {
       label: "Links",
       name: "links",
@@ -180,7 +180,7 @@ const events: CmsCollectionV2 = {
         StringField({ label: "Description", name: "description" }),
       ],
     },
-    MarkdownField({name: 'body'}),
+    MarkdownField({ name: "body" }),
   ],
 }
 
@@ -190,14 +190,11 @@ const pages: CmsCollectionV2 = {
   folder: "content/pages",
   media_folder: "../../static/media/pages/{{slug}}",
   create: true,
-  editor: {
-    preview: true,
-  },
   fields: [
     StringField({ label: "Title", name: "title" }),
     StringField({ label: "path", name: "path" }),
     DateField({ label: "Date", name: "date" }),
-    MarkdownField({ name: 'body'}),
+    MarkdownField({ name: "body" }),
   ],
 }
 
@@ -208,9 +205,6 @@ const topics: CmsCollectionV2 = {
   identifier_field: "uuid",
   media_folder: "../../static/media/topics/{{fields.uuid}}",
   create: true,
-  editor: {
-    preview: true,
-  },
   delete: false,
   summary: "[{{fields.uuid}}] {{fields.label}}",
   fields: [
@@ -218,8 +212,8 @@ const topics: CmsCollectionV2 = {
     StringField({ label: "Label", name: "label" }),
     StringField({ label: "Slug", name: "slug" }),
     ColorField,
-    { label: "Publish Date", name: "date", widget: "datetime" },
-    MarkdownField({ name: 'body'}),
+    DateField({ name: 'date'}),
+    MarkdownField({ name: "body" }),
   ],
 }
 
@@ -230,9 +224,6 @@ const areas: CmsCollectionV2 = {
   identifier_field: "uuid",
   media_folder: "../../static/media/areas/{{fields.uuid}}",
   create: true,
-  editor: {
-    preview: true,
-  },
   delete: false,
   summary: "[{{fields.uuid}}] {{fields.label}}",
   fields: [
@@ -255,8 +246,8 @@ const areas: CmsCollectionV2 = {
       valueField: "uuid",
       multiple: true,
     }),
-    { label: "Date", name: "date", widget: "datetime" },
-    { label: "Polygon", name: "polygon", widget: "map", type: "Polygon" },
+    DateField({ name: "date" }),
+    PolygonField({ name: "polygon" }),
   ],
 }
 
@@ -276,5 +267,14 @@ export const config: CmsConfigV2 = {
     process.env.NODE_ENV === "development" ? "simple" : "editorial_workflow",
   media_folder: "static/media",
   public_folder: "media",
-  collections: [events, articles, actors, groups, pages, topics, areas],
+  collections: [
+    events,
+    articles,
+    actors,
+    groups,
+    pages,
+    topics,
+    areas,
+    projects,
+  ],
 }

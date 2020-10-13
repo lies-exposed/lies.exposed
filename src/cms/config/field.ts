@@ -1,38 +1,25 @@
-import { CmsField } from "netlify-cms-core"
+import { CmsField as NCMSField } from "netlify-cms-core"
 
-export interface CmsFieldV2 extends CmsField {
-  collection?: string
-  searchFields?: string[]
-  displayFields?: string[]
-  valueField?: string
-  multiple?: boolean
-  options?: string[]
-  collapsed?: boolean
-  summary?: string
-  field?: CmsFieldV2
-  fields?: CmsFieldV2[]
-  format?: string
-  default?: string | { label: string; value: string } | number | boolean
-  types?: CmsFieldV2[]
-  valueType?: "int"
-  min?: number
-  max?: number
+export interface CmsField extends Omit<NCMSField, "label"> {
+  label: string
 }
 
-type GetField = (field: { name: string } & Partial<CmsFieldV2>) => CmsFieldV2
+type GetField = (field: Partial<CmsField>) => CmsField
 
-const makeField = (obj: Partial<CmsFieldV2>): GetField => (field) =>
-  ({
-    ...obj,
-    ...field,
-  } as any)
-
+const makeField = (
+  obj: { name: string; label: string; widget: string } & Partial<CmsField>
+): GetField => (field) => ({
+  ...obj,
+  ...field,
+})
 /**
  * Fields
  */
 
 export const BooleanField = makeField({
   widget: "boolean",
+  name: 'boolean',
+  label: 'boolean',
   default: false,
 })
 export const DateField = makeField({
@@ -62,19 +49,25 @@ export const MarkdownField = makeField({
 
 export const NumberField = makeField({
   label: "Number",
+  name: 'number',
   widget: "number",
 })
 
 export const RelationField = makeField({
   widget: "relation",
+  name: 'relation',
+  label: 'Relation',
+  valueField: "uuid",
 })
 export const StringField = makeField({
   label: "Title",
+  name: 'string',
   widget: "string",
 })
 
 export const TextField = makeField({
   label: "Title",
+  name: 'text',
   widget: "text",
 })
 
@@ -90,8 +83,15 @@ export const ColorField = {
   widget: "color",
 }
 
-export const UUIDField: CmsFieldV2 = {
+export const UUIDField: CmsField = {
   label: "uuid",
   name: "uuid",
   widget: "uuid",
 }
+
+export const PolygonField = makeField({
+  label: "Polygon",
+  name: "polygon",
+  widget: "map",
+  type: "Polygon",
+})
