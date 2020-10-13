@@ -131,7 +131,6 @@
     "@typescript-eslint/parser": "4.4.0",
     "@vx/mock-data": "0.0.199",
     "babel-loader": "8.1.0",
-    "babel-preset-react-app": "9.1.2",
     "core-js": "3.6.5",
     "dotenv": "^8.2.0",
     "eslint": "7.11.0",

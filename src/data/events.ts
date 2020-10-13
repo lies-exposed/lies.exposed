@@ -58,4 +58,4 @@ export const fourthEvent: EventFrontmatter = {
   images: O.none,
   date: new Date(),
 }
-export const events = [firstEvent, secondEvent, thirdEvent, fourthEvent]
+export const events: EventFrontmatter[] = [firstEvent, secondEvent, thirdEvent, fourthEvent]

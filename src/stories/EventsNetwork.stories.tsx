@@ -2,6 +2,7 @@ import {
   EventsNetwork,
   EventsNetworkProps,
 } from "@components/Graph/EventsNetwork"
+import { EventMD } from "@models/event"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import { actors } from "data/actors"
 import { events } from "data/events"
@@ -15,7 +16,7 @@ const meta: Meta = {
 
 export default meta
 
-const eventsMD = events.map((e) => ({
+const eventsMD: EventMD[] = events.map((e) => ({
   frontmatter: e,
   body: () => "",
   tableOfContents: { items: [] },
@@ -42,7 +43,6 @@ NetworkGraphExample.args = args
 NetworkGraphExample.argTypes = {
   minDate: { control: "date" },
   maxDate: { control: "date" },
-  graph: { control: "object" },
   selectedEvents: { control: "object" },
 }
 
