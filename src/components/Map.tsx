@@ -86,7 +86,12 @@ const Map: React.FC<MapProps> = ({
       })
     })
 
-    return () => {}
+    return () => {
+      const mapDiv = document.querySelector('#map')
+      if (mapDiv !== null) {
+        mapDiv.innerHTML = ""
+      }
+    }
   })
 
   return <div id="map" style={{ width, height }} />

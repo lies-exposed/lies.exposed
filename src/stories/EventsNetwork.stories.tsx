@@ -2,15 +2,15 @@ import {
   EventsNetwork,
   EventsNetworkProps,
 } from "@components/Graph/EventsNetwork"
+import { actors } from "@mock-data/actors"
+import { events } from "@mock-data/events"
 import { EventMD } from "@models/event"
 import { Meta, Story } from "@storybook/react/types-6-0"
-import { actors } from "data/actors"
-import { events } from "data/events"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
 const meta: Meta = {
-  title: "Example/Graph/EventsNetwork",
+  title: "Components/Graph/EventsNetwork",
   component: EventsNetwork,
 }
 

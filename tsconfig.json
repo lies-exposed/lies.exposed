@@ -19,6 +19,7 @@
       "@models/*": ["./models/*"],
       "@templates/*": ["./templates/*"],
       "@theme/*": ["./theme/*"],
+      "@mock-data/*": ["./mock-data/*"],
       "@utils/*": ["./utils/*"]
     },
   },
