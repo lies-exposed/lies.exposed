@@ -1,8 +1,8 @@
+import { EventsNetwork } from "@components/Graph/EventsNetwork"
 import { GroupPageContent } from "@components/GroupPageContent"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
-import { EventsNetwork } from "@components/Graph/EventsNetwork"
 import EventList from "@components/lists/EventList"
 import { EventMD } from "@models/event"
 import { GroupMdx } from "@models/group"
@@ -65,9 +65,6 @@ const GroupTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
               selectedGroupIds={[pageContent.frontmatter.uuid]}
               selectedActorIds={[]}
               selectedTopicIds={[]}
-              margin={{ vertical: 20, horizontal: 20 }}
-              height={200}
-              width={1000}
               scale={"all"}
               scalePoint={O.none}
             />

@@ -44,12 +44,10 @@ const NetworkExample: React.FC = () => {
         {!showGroupLinks ? "show" : "hide"} groups links
       </button>
       <EventsNetwork
-        width={1000}
-        height={300}
         scale={"all"}
         scalePoint={O.none}
         events={events.map((f) => ({
-          tableOfContents: {},
+          tableOfContents: { items: [] },
           frontmatter: f,
           timeToRead: O.some(1),
           body: "",
@@ -57,7 +55,6 @@ const NetworkExample: React.FC = () => {
         selectedActorIds={selectedActorIds}
         selectedGroupIds={selectedGroupIds}
         selectedTopicIds={selectedTopicIds}
-        margin={{ vertical: 10, horizontal: 10 }}
       />
     </>
   )

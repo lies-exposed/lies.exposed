@@ -3,13 +3,11 @@ import { localPoint } from "@vx/event"
 import { Group } from "@vx/group"
 import { Graph } from "@vx/network"
 import { Graph as GraphType } from "@vx/network/lib/types"
-import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import { scaleTime } from "@vx/scale"
 import { Tooltip } from "@vx/tooltip"
 import withTooltip, {
   WithTooltipProvidedProps,
 } from "@vx/tooltip/lib/enhancers/withTooltip"
-import { ScaleTime } from "d3-scale"
 import * as A from "fp-ts/lib/Array"
 import * as React from "react"
 import NetworkLink, { NetworkLinkProps } from "./NetworkLink"

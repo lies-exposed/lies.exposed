@@ -1,6 +1,6 @@
+import { Point } from "@models/Common/Point"
 import {
   EventMD,
-  PointIO,
   EventFrontmatter,
 } from "@models/event"
 import { getColorByEventType } from "@utils/event"
@@ -17,7 +17,7 @@ interface EventsMapProps {
   height: number
 }
 
-interface GEOJSONEventPoint extends PointIO {
+interface GEOJSONEventPoint extends Point {
   properties: EventFrontmatter
 }
 

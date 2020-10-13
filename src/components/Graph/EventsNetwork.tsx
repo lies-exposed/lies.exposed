@@ -61,50 +61,52 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
             ...props,
             width,
             height: 400,
-            margin: { vertical: 40, horizontal: 40 }
+            margin: { vertical: 40, horizontal: 40 },
           })
           return (
             <div>
-              <Network<NetworkLink, EventNetworkDatum>
-                onDoubleClick={() => {}}
-                onNodeClick={() => {}}
-                onEventLabelClick={() => {}}
-                tooltipRenderer={(tooltipData) => {
-                  return (
-                    <div>
-                      <LabelMedium>{tooltipData.title}</LabelMedium>
-                      <LabelSmall>
-                        Data: {formatDate(tooltipData.date)}
-                      </LabelSmall>
+              <div style={{ overflow: "auto" }}>
+                <Network<NetworkLink, EventNetworkDatum>
+                  onDoubleClick={() => {}}
+                  onNodeClick={() => {}}
+                  onEventLabelClick={() => {}}
+                  tooltipRenderer={(tooltipData) => {
+                    return (
                       <div>
-                        <TopicList
-                          topics={tooltipData.topics.map((t) => ({
-                            ...t,
-                            selected: false,
-                          }))}
-                          onTopicClick={() => {}}
-                        />
-                      </div>
-                      {pipe(
-                        tooltipData.actors,
-                        O.map((actors) => (
-                          <ActorList
-                            key="actors"
-                            actors={actors.map((a) => ({
-                              ...a,
+                        <LabelMedium>{tooltipData.title}</LabelMedium>
+                        <LabelSmall>
+                          Data: {formatDate(tooltipData.date)}
+                        </LabelSmall>
+                        <div>
+                          <TopicList
+                            topics={tooltipData.topics.map((t) => ({
+                              ...t,
                               selected: false,
                             }))}
-                            onActorClick={() => {}}
-                            avatarScale="scale1000"
+                            onTopicClick={() => {}}
                           />
-                        )),
-                        O.toNullable
-                      )}
-                    </div>
-                  )
-                }}
-                {...networkProps}
-              />
+                        </div>
+                        {pipe(
+                          tooltipData.actors,
+                          O.map((actors) => (
+                            <ActorList
+                              key="actors"
+                              actors={actors.map((a) => ({
+                                ...a,
+                                selected: false,
+                              }))}
+                              onActorClick={() => {}}
+                              avatarScale="scale1000"
+                            />
+                          )),
+                          O.toNullable
+                        )}
+                      </div>
+                    )
+                  }}
+                  {...networkProps}
+                />
+              </div>
               <div className="legends">
                 <LegendDemo title="Topics">
                   <LegendOrdinal
@@ -399,7 +401,7 @@ export function createNetworkTemplateProps({
   selectedTopicIds,
   height,
   width,
-  margin
+  margin,
 }: EventsNetworkProps & {
   width: number
   height: number

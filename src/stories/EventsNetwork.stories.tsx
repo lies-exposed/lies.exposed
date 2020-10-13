@@ -1,8 +1,9 @@
 import {
   EventsNetwork,
-  EventsNetworkProps
+  EventsNetworkProps,
 } from "@components/Graph/EventsNetwork"
 import { Meta, Story } from "@storybook/react/types-6-0"
+import { actors } from "data/actors"
 import { events } from "data/events"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
@@ -17,7 +18,7 @@ export default meta
 const eventsMD = events.map((e) => ({
   frontmatter: e,
   body: () => "",
-  tableOfContents: {},
+  tableOfContents: { items: [] },
   timeToRead: O.some(1),
 }))
 
@@ -28,22 +29,15 @@ const Template: Story<EventsNetworkProps> = (props) => {
 const NetworkGraphExample = Template.bind({})
 
 const args: EventsNetworkProps = {
-  width: 600,
-  height: 300,
   scale: "all" as "all",
   scalePoint: O.none,
   events: eventsMD,
-  selectedActorIds: [],
+  selectedActorIds: actors.map((a) => a.uuid),
   selectedGroupIds: [],
   selectedTopicIds: [],
-  margin: { horizontal: 30, vertical: 30 },
 }
 
-NetworkGraphExample.args = {
-  ...args,
-  width: args.width,
-  height: args.height,
-}
+NetworkGraphExample.args = args
 
 NetworkGraphExample.argTypes = {
   minDate: { control: "date" },

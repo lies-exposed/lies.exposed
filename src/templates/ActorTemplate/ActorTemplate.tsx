@@ -49,15 +49,12 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
           <MainContent>
             <ActorPageContent {...pageContent} />
               <EventsNetwork
-                width={1000}
-                height={200}
                 events={events}
                 selectedActorIds={[pageContent.frontmatter.uuid]}
                 selectedGroupIds={[]}
                 selectedTopicIds={[]}
                 scale="all"
                 scalePoint={O.none}
-                margin={{ vertical: 30, horizontal: 20 }}
               />
             
 
