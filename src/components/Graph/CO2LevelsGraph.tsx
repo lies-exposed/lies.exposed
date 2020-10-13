@@ -1,3 +1,4 @@
+import { AxisGraph } from "@components/Common/Graph/AxisGraph"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { LinearGradient } from "@vx/gradient"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
@@ -8,17 +9,11 @@ import { graphql, useStaticQuery } from "gatsby"
 import * as t from "io-ts"
 import { NumberFromString } from "io-ts-types/lib/NumberFromString"
 import * as React from "react"
-import { Axis } from "./Common/Graph/Axis"
 
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets
  * EPA - Climate Change Indicators: https://www.epa.gov/climate-indicators/climate-change-indicators-atmospheric-concentrations-greenhouse-gases
  */
-
-interface HumanPopulationGrowthGraphProps {
-  width: number
-  height: number
-}
 
 const CO2EarthDataEntry = t.type(
   {
@@ -81,7 +76,13 @@ const CO2LevelDatum = t.type(
 
 type CO2LevelDatum = t.TypeOf<typeof CO2LevelDatum>
 
-export const CO2LevelsGraph: React.FC<HumanPopulationGrowthGraphProps> = () => {
+export interface CO2LevelsGraphProps {
+  showPoints: boolean
+}
+
+export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
+  showPoints,
+}) => {
   const { CO2EarthData, EPAData }: QueryResults = useStaticQuery(graphql`
     query CO2LevelsGraph {
       CO2EarthData: file(
@@ -149,7 +150,7 @@ export const CO2LevelsGraph: React.FC<HumanPopulationGrowthGraphProps> = () => {
     E.fold(throwValidationErrors, (data) => (
       <ParentSize style={{ height: 400 }} debounceTime={30}>
         {({ width, height }) => (
-          <Axis<CO2LevelDatum>
+          <AxisGraph<CO2LevelDatum>
             id="co2-levels"
             width={width}
             height={height}
@@ -176,6 +177,7 @@ export const CO2LevelsGraph: React.FC<HumanPopulationGrowthGraphProps> = () => {
                 toOpacity={0.5}
               />
             )}
+            showPoints={showPoints}
             data={data}
             minY={150}
             getX={(d) => d.year}

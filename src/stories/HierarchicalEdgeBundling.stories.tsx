@@ -8,7 +8,7 @@ import * as A from "fp-ts/lib/Array"
 import React from "react"
 
 const meta: Meta = {
-  title: "Example/HierarchicalEdgeBundling",
+  title: "Example/Graph/HierarchicalEdgeBundling",
   component: HierarchicalEdgeBundling,
   parameters: {
     docs: {

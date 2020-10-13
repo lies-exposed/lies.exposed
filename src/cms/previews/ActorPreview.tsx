@@ -28,7 +28,7 @@ export const ActorPreview: React.FC<any> = (props) => {
       frontmatter={actor}
       body={body}
       timeToRead={O.some(2)}
-      tableOfContents={{}}
+      tableOfContents={{ items: [] }}
     />
   )
 }

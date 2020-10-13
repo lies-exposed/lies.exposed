@@ -36,6 +36,7 @@ const config: GatsbyConfig = {
       options: {
         extensions: [`.mdx`, `.md`],
         gatsbyRemarkPlugins: [
+          `gatsby-remark-autolink-headers`,
           `gatsby-remark-copy-linked-files`,
           `gatsby-remark-numbered-footnotes`,
           `gatsby-remark-embedder`,

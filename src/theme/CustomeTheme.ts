@@ -59,7 +59,7 @@ const primitives: ThemePrimitives = {
 }
 
 const headerFont = {
-  fontFamily: secondaryFontFamily,
+  fontFamily: primaryFontFamily,
   fontWeight: 800,
   lineHeight: 1.6,
 }

@@ -1,5 +1,5 @@
 import { AxisLeft, AxisRight, AxisBottom } from "@vx/axis"
-import { curveBasis, curveMonotoneX } from "@vx/curve"
+import { curveMonotoneX } from "@vx/curve"
 import { Grid } from "@vx/grid"
 import { Group } from "@vx/group"
 import { scaleLinear } from "@vx/scale"
@@ -21,7 +21,7 @@ function numTicksForWidth(width: number): number {
   if (width > 300 && width <= 400) return 5
   return 10
 }
-interface AxisProps<D> {
+interface AxisGraphProps<D> {
   id: string
   background: (id: string) => JSX.Element
   linePathElement: (id: string) => JSX.Element
@@ -45,7 +45,7 @@ interface AxisProps<D> {
   }
 }
 
-export const Axis = <D extends any>({
+export const AxisGraph = <D extends any>({
   id,
   data,
   points,
@@ -62,7 +62,7 @@ export const Axis = <D extends any>({
   axisLeftLabel,
   axisRightLabel,
   axisBottomLabel,
-}: AxisProps<D>): JSX.Element => {
+}: AxisGraphProps<D>): JSX.Element => {
   // bounds
   const xMax = width - margin.left - margin.right
   const yMax = height - margin.top - margin.bottom

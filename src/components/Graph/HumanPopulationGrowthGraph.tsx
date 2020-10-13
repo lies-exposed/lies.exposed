@@ -1,12 +1,12 @@
-import { Axis } from "@components/Common/Graph/Axis"
+import { AxisGraph } from "@components/Common/Graph/AxisGraph"
 import { LinearGradient } from "@vx/gradient"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as React from "react"
 
-interface HumanPopulationGrowthGraphProps {
-  width: number
-  height: number
+export interface HumanPopulationGrowthGraphProps {
+  showPoints: boolean
 }
+
 const data = [
   {
     year: -1000,
@@ -111,14 +111,16 @@ const pointsData = [
   { year: 2011, population: 7000 },
 ]
 
-export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProps> = () => {
+export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProps> = ({
+  showPoints,
+}) => {
   const filteredData = data
   // .filter(d => d.year > 1800 && d.year < 2020)
 
   return (
     <ParentSize style={{ height: 400, width: "100%" }}>
       {({ width, height }) => (
-        <Axis
+        <AxisGraph
           id="human-population-growth"
           width={width}
           height={height}
@@ -146,10 +148,10 @@ export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProp
             />
           )}
           data={filteredData}
-          points={{ data: pointsData }}
+          points={showPoints ? { data: pointsData } : undefined}
           getX={(d) => d.year}
           getY={(d) => d.population}
-          showPoints={true}
+          showPoints={showPoints}
           axisLeftLabel={"Millions of people"}
           axisRightLabel={"Millions of people"}
           axisBottomLabel={"Year"}
