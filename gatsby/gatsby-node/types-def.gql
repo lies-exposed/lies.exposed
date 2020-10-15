@@ -48,7 +48,7 @@ type TopicFrontmatter implements Node & BaseFrontmatter @dontInfer {
   color: String
 }
 
-type ImageWithDescription {
+type ImageAndDescription {
   description: String
   image: File!
 }
@@ -63,6 +63,15 @@ type AreaFrontmatter implements Node & BaseFrontmatter @dontInfer {
   date: Date!
 }
 
+type ProjectFrontmatter implements Node & BaseFrontmatter @dontInfer {
+  uuid: String!
+  name: String!
+  date: Date!
+  startDate: Date!
+  endDate: Date
+  images: [ImageAndDescription]
+}
+
 # Events
 type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
@@ -74,9 +83,8 @@ type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   topics: [TopicFrontmatter!]
   actors: [ActorFrontmatter!]
   links: [String!]
-  images: [ImageWithDescription!]
+  images: [ImageAndDescription!]
 }
-
 
 type MdxFrontmatter implements BaseFrontmatter {
   uuid: String!

@@ -103,7 +103,7 @@ export const createResolvers = ({
         },
       },
       images: {
-        type: "[ImageWithDescription!]",
+        type: "[ImageAndDescription!]",
         resolve: async (source: any, args: any, context: any) => {
           const sourceImages: Array<{
             description?: string
@@ -145,7 +145,7 @@ export const createResolvers = ({
           )
         },
       },
-    },
+    }
   }
   createResolvers(resolvers)
 }
