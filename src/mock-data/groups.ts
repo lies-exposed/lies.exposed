@@ -9,6 +9,7 @@ export const firstGroup: GroupFrontmatter = {
   name: "First Group",
   date: new Date(),
   avatar: O.none,
+  subGroups: O.none,
   members: O.some([firstActor, secondActor]),
   color: generateRandomColor(),
 }
@@ -18,6 +19,7 @@ export const secondGroup: GroupFrontmatter = {
   name: "Second Group",
   date: new Date(),
   avatar: O.none,
+  subGroups: O.none,
   members: O.some([secondActor]),
   color: generateRandomColor(),
 }

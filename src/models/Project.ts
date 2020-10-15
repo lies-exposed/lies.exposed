@@ -1,21 +1,21 @@
-import * as Show from "fp-ts/lib/Show"
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Polygon } from "./Common/Polygon"
+import { ImageFileNode } from "./Image"
+import { JSONFromString } from "./JSONFromString"
 
-export const Project = t.strict(
+export const ProjectFrontmatter = t.strict(
   {
     uuid: t.string,
     name: t.string,
-    areas: t.array(Polygon),
+    areas: t.array(JSONFromString.pipe(Polygon)),
+    images: t.array(ImageFileNode),
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
     date: DateFromISOString,
   },
-  "Project"
+  "ProjectFrontmatter"
 )
 
-export type Project = t.TypeOf<typeof Project>
-
-export const ProjectShow = Show.getStructShow({ name: Show.showString })
+export type ProjectFrontmatter = t.TypeOf<typeof ProjectFrontmatter>

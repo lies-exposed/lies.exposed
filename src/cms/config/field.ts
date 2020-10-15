@@ -30,13 +30,6 @@ export const ImageField = makeField({
   widget: "image",
 })
 
-export const MapField = makeField({
-  label: "Map",
-  summary: "Map",
-  name: "map",
-  widget: "map",
-})
-
 export const MarkdownField = makeField({
   label: "Body",
   name: "body",
@@ -78,7 +71,7 @@ export const UUIDField: CmsField = {
   widget: "uuid",
 }
 
-export const PolygonField = makeField<'type'>({
+export const MapField = makeField({
   widget: "map",
 })
 

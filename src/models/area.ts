@@ -2,7 +2,7 @@ import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { Polygon } from "./Common/Polygon"
 import { mdx } from "./Mdx"
-import { ObjectFromString } from "./ObjectFromString"
+import { JSONFromString } from "./JSONFromString"
 import { GroupFrontmatter } from "./group"
 import { TopicFrontmatter } from "./topic"
 
@@ -14,7 +14,7 @@ export const AreaFrontmatter = t.strict(
     groups: t.array(GroupFrontmatter),
     color: t.string,
     date: DateFromISOString,
-    polygon: ObjectFromString.pipe(Polygon),
+    polygon: JSONFromString.pipe(Polygon),
   },
   "Area"
 )

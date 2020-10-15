@@ -1,7 +1,7 @@
 import {
   ColorField,
   DateField,
-  PolygonField,
+  MapField,
   RelationField,
   StringField,
   UUIDField,
@@ -41,6 +41,6 @@ export const areas: CmsCollection = {
       multiple: true,
     }),
     DateField({ name: "date", label: "Date" }),
-    PolygonField({ name: "polygon", label: "Polygon" }),
+    MapField({ name: "polygon", label: "Polygon" }),
   ],
 }

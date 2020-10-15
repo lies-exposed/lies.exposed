@@ -1,11 +1,7 @@
-import { Project } from "@models/Project";
+import { ProjectFrontmatter } from "@models/Project";
 import { IOTSTypeToCMSFields } from "cms/utils";
 import { CmsCollection } from "netlify-cms-core"
 
-
-const fields = IOTSTypeToCMSFields(Project)
-
-console.log(fields)
 
 export const projects: CmsCollection = {
   name: "projects",
@@ -16,5 +12,5 @@ export const projects: CmsCollection = {
   summary: "[{{fields.uuid}}] {{fields.name}}",
   slug: "{{fields.uuid}}",
   create: true,
-  fields,
+  fields: IOTSTypeToCMSFields(ProjectFrontmatter)
 }

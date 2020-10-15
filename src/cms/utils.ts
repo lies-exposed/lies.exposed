@@ -10,7 +10,7 @@ import {
   DateField,
   ImageField,
   ListField,
-  PolygonField,
+  MapField,
   RelationField,
   SelectField,
   StringField,
@@ -28,8 +28,8 @@ const camelCaseToSentenceCase = (str: string): string => {
 
 const groupRelationField = (name: string): CmsField =>
   RelationField({
-    label: camelCaseToSentenceCase(name),
     name: name,
+    label: camelCaseToSentenceCase(name),
     collection: "groups",
     search_fields: ["uuid"],
     display_fields: ["name"],
@@ -65,8 +65,8 @@ const isStringType = (io: unknown): io is t.StringType =>
 const isBooleanType = (io: unknown): io is t.BooleanType =>
   (io as any)._tag !== undefined && (io as any)._tag === "BooleanType"
 
-const isLiteralType = (io: unknown): io is t.LiteralType<string> =>
-  (io as any)._tag !== undefined && (io as any)._tag === "LiteralType"
+const isRecursiveType = (io: unknown): io is t.RecursiveType<t.Any> =>
+  (io as any)._tag !== undefined && (io as any)._tag === "RecursiveType"
 
 const isInterfaceType = (io: unknown): io is t.InterfaceType<any> =>
   (io as any)._tag !== undefined && (io as any)._tag === "InterfaceType"
@@ -78,9 +78,9 @@ const isExactType = (io: unknown): io is t.ExactType<any> =>
   (io as any)._tag !== undefined && (io as any)._tag === "ExactType"
 
 export const IOTSTypeToCMSFields = <T extends t.Props>(
-  ioType: t.ExactC<t.TypeC<T>>
+  ioType: t.ExactType<t.InterfaceType<T>>
 ): CmsCollection["fields"] => {
-  console.log("type", ioType)
+  // console.log("type", ioType)
 
   const traverseStruct = (acc: CmsField[]) => <C extends t.HasProps>(
     key: string,
@@ -91,10 +91,14 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
 
     if (isExactType(props)) {
       if (props.name === "Polygon") {
-        return acc.concat([PolygonField({ name, label })])
+        return acc.concat([MapField({ name, label, type: "Polygon" })])
       }
 
-      return acc.concat(traverseStruct([])(key, props.type))
+      return traverseStruct(acc)(key, props.type)
+    }
+
+    if (isRecursiveType(props)) {
+      return traverseStruct(acc)(key, props.type)
     }
 
     if (isInterfaceType(props)) {
@@ -112,9 +116,6 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
       )
     }
 
-    if (isLiteralType(props)) {
-    }
-
     if (isArrayType(props)) {
       if (isExactType(props.type)) {
         if (props.type.name === "Polygon") {
@@ -125,7 +126,7 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
               widget: "list",
               search_fields: ["uuid"],
               value_field: "uuid",
-              field: PolygonField({
+              field: MapField({
                 name,
                 label,
               }),
@@ -133,13 +134,39 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
           ])
         }
       }
+
+      if (props.name === "Array<pipe(JSONFromString, Polygon)>") {
+        return acc.concat(
+          ListField({
+            name,
+            label,
+            multiple: true,
+            field: MapField({ name, label, type: "Polygon" }),
+          })
+        )
+      }
+
+      if (props.name === "Array<ImageFileNode>") {
+        return acc.concat(
+          ListField({
+            name,
+            label,
+            search_fields: [],
+            multiple: true,
+            field: ImageField({ name, label }),
+          })
+        )
+      }
+
+      // console.log({ key, props })
+
       return acc.concat(
         ListField({
           name,
           label,
           search_fields: ["uuid"],
           value_field: "uuid",
-          fields: traverseStruct([])(props.type.name, props.type),
+          fields: traverseStruct([])(key, props.type),
         })
       )
     }
@@ -196,7 +223,7 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
               name: key,
               label: camelCaseToSentenceCase(key),
               options: Object.keys(EventTypeKeys),
-              required: false
+              required: false,
             })
           )
       }
@@ -208,12 +235,12 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
         case "Array<string>": {
           return acc.concat(
             ListField({
-              name: key,
-              label: camelCaseToSentenceCase(key),
+              name,
+              label,
               multiple: true,
               field: StringField({
-                name: key,
-                label: camelCaseToSentenceCase(key),
+                name,
+                label,
               }),
             })
           )
@@ -224,9 +251,22 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
         case "Array<GroupFrontmatter>": {
           return acc.concat(groupRelationField(key))
         }
+        case "NonEmptyArray<ImageAndDescription>": {
+          return acc.concat({
+            name,
+            label,
+            required: false,
+            collapsed: true,
+            widget: "list",
+            fields: [
+              ImageField({ label: "Image", name: "image" }),
+              StringField({ label: "Description", name: "description" }),
+            ],
+          })
+        }
       }
 
-      console.log(optionMatch[0], { key, optionMatch })
+      // console.log(optionMatch[0], { key, optionMatch })
     }
 
     // matches NonEmptyArray<*>
@@ -239,17 +279,21 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
           return acc.concat(topicRelationField(key))
         }
       }
-      console.log(neaMatch[0], { key, optionMatch })
+      // console.log(neaMatch[0], { key, optionMatch })
     }
 
-    if (props.name === "Option<pipe(ObjectFromString, Point)>") {
+    if (props.name === "Option<pipe(JSONFromString, Point)>") {
       return acc.concat(
-        PolygonField({ name, label, type: "Point", required: false })
+        MapField({ name, label, type: "Point", required: false })
       )
     }
 
+    if (props.name === "pipe(JSONFromString, Polygon)") {
+      return acc.concat(MapField({ name, label, type: "Polygon" }))
+    }
+
     if (props.name === "Polygon") {
-      return acc.concat([PolygonField({ name, label, type: "Polygon" })])
+      return acc.concat([MapField({ name, label, type: "Polygon" })])
     }
 
     if (isStringType(props)) {
@@ -261,7 +305,7 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
       ])
     }
 
-    console.log({ key, props })
+    // console.log({ key, props })
 
     return acc
   }
@@ -276,7 +320,7 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
       const fieldsWithBody = fields
         .reverse()
         .concat({ label: "Body", name: "body", widget: "markdown" })
-      console.log({ fieldsWithBody })
+      // console.log({ fieldsWithBody })
       return fieldsWithBody
     }
   )
