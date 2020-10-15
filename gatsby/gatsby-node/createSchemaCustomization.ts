@@ -76,7 +76,12 @@ const AreaF = t.strict({
 const { images: _images, ...Project } = ProjectFrontmatter.type.props
 const ProjectF = t.strict({
   ...Project,
-  images: t.array(t.string),
+  images: t.array(
+    t.type({
+      description: t.string,
+      image: t.string,
+    })
+  ),
 })
 
 export const createSchemaCustomization = async ({

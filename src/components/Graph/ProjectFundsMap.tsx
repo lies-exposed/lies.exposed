@@ -1,6 +1,6 @@
 import { PieChartGraph } from "@components/Common/Graph/PieChartGraph"
 import Map from "@components/Map"
-import { Project } from "@models/Project"
+import { ProjectFrontmatter } from "@models/Project"
 import { Fund } from "@models/events/Fund"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as React from "react"
@@ -14,7 +14,7 @@ const getLabelForBy = (fund: Fund): string => {
   }
 }
 export interface ProjectFundsMapProps {
-  project: Project
+  project: ProjectFrontmatter
   funds: Fund[]
 }
 

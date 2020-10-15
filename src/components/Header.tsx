@@ -5,14 +5,14 @@ import {
   ALIGN,
   HeaderNavigation,
   StyledNavigationItem,
-  StyledNavigationList
+  StyledNavigationList,
 } from "baseui/header-navigation"
 import { StyledLink } from "baseui/link"
 import { StatefulMenu } from "baseui/menu"
 import {
   PLACEMENT as PopoverPlacement,
   StatefulPopover,
-  TRIGGER_TYPE
+  TRIGGER_TYPE,
 } from "baseui/popover"
 import { graphql, navigate, useStaticQuery } from "gatsby"
 import React from "react"
@@ -35,21 +35,22 @@ const NavigationItem = withStyle(
     return {
       fontFamily: $theme.typography.secondaryFont,
       color: $theme.colors.white,
-
     }
   }
 )
 
-const NavigationLink = withStyle(StyledLink as any, ({ $theme }: { $theme: CustomTheme }) => {
-  return {
-    fontFamily: $theme.typography.secondaryFont,
-    color: $theme.colors.white,
-    textDecoration: 'none',
-    textTransform: 'uppercase',
-    cursor: 'pointer'
-    
+const NavigationLink = withStyle(
+  StyledLink as any,
+  ({ $theme }: { $theme: CustomTheme }) => {
+    return {
+      fontFamily: $theme.typography.secondaryFont,
+      color: $theme.colors.white,
+      textDecoration: "none",
+      textTransform: "uppercase",
+      cursor: "pointer",
+    }
   }
-})
+)
 const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
   return (
     <NavigationItem key={item.label} path={item.path}>
@@ -137,10 +138,15 @@ const Header: React.FC = () => {
           label: "Topics",
         },
         {
-          id: 'areas',
-          path: '/areas',
-          label: 'Aree'
-        }
+          id: "areas",
+          path: "/areas",
+          label: "Aree",
+        },
+        {
+          id: "projects",
+          path: "/projects",
+          label: "Progetti",
+        },
       ],
     },
   ]
