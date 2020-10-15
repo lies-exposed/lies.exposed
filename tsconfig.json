@@ -20,8 +20,9 @@
       "@templates/*": ["./templates/*"],
       "@theme/*": ["./theme/*"],
       "@mock-data/*": ["./mock-data/*"],
-      "@utils/*": ["./utils/*"]
-    },
+      "@utils/*": ["./utils/*"],
+      "@cms/*": ["./cms/*"]
+    }
   },
   "include": ["gatsby", "src", "plugins", "typings"],
   "exclude": ["content", "node_modules", "public", ".cache"]
