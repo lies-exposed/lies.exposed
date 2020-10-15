@@ -4,7 +4,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Polygon } from "./Common/Polygon"
 
-export const Project = t.type(
+export const Project = t.strict(
   {
     uuid: t.string,
     name: t.string,

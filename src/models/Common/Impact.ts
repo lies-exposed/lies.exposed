@@ -27,8 +27,16 @@ const BiodiversityLoss = t.type(
   "BiodiversityLoss"
 )
 
+const PublicOpinion = t.type(
+  {
+    convincedOf: t.string,
+    insteadOf: t.string,
+  },
+  "PublicOpinion"
+)
+
 export const Impact = t.union(
-  [LandUsed, CO2Emitted, BiodiversityLoss],
+  [LandUsed, CO2Emitted, BiodiversityLoss, PublicOpinion],
   "Impact"
 )
 export type Impact = t.TypeOf<typeof Impact>

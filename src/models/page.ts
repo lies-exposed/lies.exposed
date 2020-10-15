@@ -2,7 +2,7 @@ import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { mdx } from "./Mdx"
 
-export const PageFrontmatter = t.type(
+export const PageFrontmatter = t.strict(
   {
     title: t.string,
     date: DateFromISOString,
