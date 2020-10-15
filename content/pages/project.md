@@ -2,7 +2,6 @@
 title: Project
 path: /project
 date: 2020-09-08T12:00:00.000Z
-"date ": 2020-09-09T13:58:31.653Z
 ---
 
 <FullSizeSection id="the-project">
