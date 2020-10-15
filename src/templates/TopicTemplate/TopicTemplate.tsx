@@ -2,7 +2,7 @@ import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { TopicPageContent } from "@components/TopicPageContent"
-import EventList from "@components/lists/EventList"
+import EventList from "@components/lists/EventList/EventList"
 import { eventsDataToNavigatorItems } from "@helpers/event"
 import { EventMD } from "@models/event"
 import { TopicMD } from "@models/topic"

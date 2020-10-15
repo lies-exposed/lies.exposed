@@ -147,13 +147,12 @@ function AnimatedPie<Datum>({
   const transitions = useTransition<PieArcDatum<Datum>, AnimatedStyles>(
     arcs,
     getKey,
-    // @ts-expect-error 
     {
       from: animate !== null ? fromLeaveTransition : enterUpdateTransition,
       enter: enterUpdateTransition,
       update: enterUpdateTransition,
       leave: animate !== null ? fromLeaveTransition : enterUpdateTransition,
-    }
+    } as any
   )
   return (
     <>

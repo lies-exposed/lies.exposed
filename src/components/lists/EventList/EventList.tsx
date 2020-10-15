@@ -1,5 +1,6 @@
 import { Slider } from "@components/Slider/Slider"
 import ActorList from "@components/lists/ActorList"
+import GroupList from "@components/lists/GroupList"
 import TopicList from "@components/lists/TopicList"
 import { EventMD } from "@models/event"
 import { formatDate } from "@utils//date"
@@ -17,9 +18,8 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { navigate } from "gatsby"
 import * as React from "react"
-import GroupList from "./GroupList"
 
-interface EventListProps {
+export interface EventListProps {
   events: EventMD[]
 }
 

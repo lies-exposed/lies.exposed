@@ -83,6 +83,7 @@ export interface CO2LevelsGraphProps {
 export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
   showPoints,
 }) => {
+  
   const { CO2EarthData, EPAData }: QueryResults = useStaticQuery(graphql`
     query CO2LevelsGraph {
       CO2EarthData: file(
