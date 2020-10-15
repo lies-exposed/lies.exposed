@@ -1,16 +1,17 @@
 import { CmsField as NCMSField } from "netlify-cms-core"
 
-export interface CmsField extends Omit<NCMSField, "label"> {
-  label: string
+export interface CmsField extends Omit<NCMSField, "name" | "label"> {
+  name: string
+  label?: string
 }
 
-type GetField = (field: Partial<CmsField>) => CmsField
+export type GetField<R extends Partial<CmsField>> = (field: R) => CmsField
 
-const makeField = (
-  obj: { name: string; label: string; widget: string } & Partial<CmsField>
-): GetField => (field) => ({
-  ...obj,
+const makeField = <R extends keyof CmsField>(
+  obj: { widget: string } & Partial<CmsField>
+): GetField<Pick<CmsField, R> & CmsField> => (field) => ({
   ...field,
+  ...obj,
 })
 /**
  * Fields
@@ -18,19 +19,14 @@ const makeField = (
 
 export const BooleanField = makeField({
   widget: "boolean",
-  name: 'boolean',
-  label: 'boolean',
   default: false,
 })
 export const DateField = makeField({
-  label: "Date",
-  name: "date",
   widget: "datetime",
 })
 
 export const ImageField = makeField({
   label: "Image",
-  name: "image",
   widget: "image",
 })
 
@@ -49,25 +45,20 @@ export const MarkdownField = makeField({
 
 export const NumberField = makeField({
   label: "Number",
-  name: 'number',
   widget: "number",
 })
 
 export const RelationField = makeField({
   widget: "relation",
-  name: 'relation',
-  label: 'Relation',
-  valueField: "uuid",
+  value_field: "uuid",
 })
 export const StringField = makeField({
-  label: "Title",
-  name: 'string',
   widget: "string",
 })
 
 export const TextField = makeField({
   label: "Title",
-  name: 'text',
+  name: "text",
   widget: "text",
 })
 
@@ -77,11 +68,9 @@ export const VideoField = makeField({
   widget: "file",
 })
 
-export const ColorField = {
-  label: "Color",
-  name: "color",
+export const ColorField = makeField({
   widget: "color",
-}
+})
 
 export const UUIDField: CmsField = {
   label: "uuid",
@@ -89,9 +78,15 @@ export const UUIDField: CmsField = {
   widget: "uuid",
 }
 
-export const PolygonField = makeField({
-  label: "Polygon",
-  name: "polygon",
+export const PolygonField = makeField<'type'>({
   widget: "map",
-  type: "Polygon",
+})
+
+export const ListField = makeField<"field">({
+  widget: "list",
+})
+
+export const SelectField = makeField<"options">({
+  widget: "select",
+  value_field: 'uuid'
 })
