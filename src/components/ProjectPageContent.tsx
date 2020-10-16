@@ -11,7 +11,7 @@ import { ProjectFundsMap } from "./Graph/ProjectFundsMap"
 import { Slider } from "./Slider/Slider"
 import EditButton from "./buttons/EditButton"
 
-interface ProjectPageContentProps extends ProjectMD {
+export interface ProjectPageContentProps extends ProjectMD {
   funds: FundFrontmatter[]
 }
 

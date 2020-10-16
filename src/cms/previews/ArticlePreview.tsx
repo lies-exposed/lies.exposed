@@ -1,4 +1,4 @@
-import { ArticlePage } from "@components/ArticlePage"
+import { ArticlePageContent } from "@components/ArticlePageContent"
 import * as React from "react"
 
 export const ArticlePreview: React.FC<any> = (props) => {
@@ -6,7 +6,7 @@ export const ArticlePreview: React.FC<any> = (props) => {
   const { body, ...article } = entry.getIn(["data"]).toJS()
 
   return (
-    <ArticlePage
+    <ArticlePageContent
       {...{
         ...article,
         date: article.date.toISOString(),

@@ -1,4 +1,4 @@
-import { ArticlePage } from "@components/ArticlePage"
+import { ArticlePageContent } from "@components/ArticlePageContent"
 import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { ArticleMD } from "@models/article"
@@ -41,7 +41,7 @@ const ArticleTemplatePage: React.FC<ArticleTemplatePageProps> = (props) => {
     E.fold(throwValidationErrors, ({ pageContent }) => (
       <Layout>
         <SEO title="Home" />
-        <ArticlePage {...pageContent} />
+        <ArticlePageContent {...pageContent} />
       </Layout>
     ))
   )

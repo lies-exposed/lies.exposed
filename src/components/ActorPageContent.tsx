@@ -1,6 +1,7 @@
 import { ActorMD } from "@models/actor"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingXLarge } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -15,7 +16,8 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   body,
 }) => {
   return (
-    <>
+    <FlexGrid width="100%">
+      <FlexGridItem width="100%">
       <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
         <div style={{ textAlign: "right", padding: 10 }}>
           <EditButton resourceName="actors" resource={frontmatter} />
@@ -32,6 +34,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
         )
       )}
       <div className="content">{renderHTML({ body })}</div>
-    </>
+      </FlexGridItem>
+    </FlexGrid>
   )
 }

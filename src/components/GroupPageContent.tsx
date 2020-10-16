@@ -14,7 +14,7 @@ import EditButton from "./buttons/EditButton"
 import ActorList from "./lists/ActorList"
 // import EventList from "./lists/EventList/EventList"
 
-interface GroupPageContentProps extends GroupMD {
+export interface GroupPageContentProps extends GroupMD {
   events: EventMD[]
   onMemberClick: (m: ActorFrontmatter) => void
 }

@@ -1,4 +1,3 @@
-import { Link } from "gatsby"
 import * as React from "react"
 
 interface Item {
@@ -16,9 +15,9 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({ items }) => {
 
 const renderItem = (i: Item): JSX.Element => (
   <li key={i.url}>
-    <Link to={i.url} key={i.url}>
+    <a href={i.url} key={i.url}>
       {i.title}
-    </Link>
+    </a>
     {i.items !== undefined ? <ul>{i.items.map(renderItem)}</ul> : null}
   </li>
 )
