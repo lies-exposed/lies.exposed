@@ -43,7 +43,11 @@ const AreaTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
             />
             </FlexGridItem> */}
           <MainContent>
-            <AreaPageContent {...area} />
+            <AreaPageContent
+              {...area}
+              onGroupClick={() => {}}
+              onTopicClick={() => {}}
+            />
             <EventList events={events} />
           </MainContent>
         </Layout>

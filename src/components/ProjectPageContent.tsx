@@ -30,13 +30,17 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             <EditButton resourceName="areas" resource={frontmatter} />
           </div>
         </Block>
-        <HeadingXLarge>{frontmatter.name}</HeadingXLarge>
-        <FlexGridItem>
-          {pipe(
-            frontmatter.images,
-            O.map((images) => (
+        <Block>
+          <HeadingXLarge>{frontmatter.name}</HeadingXLarge>
+        </Block>
+      </FlexGridItem>
+      <FlexGridItem>
+        {pipe(
+          frontmatter.images,
+          O.map((images) => (
+            <Block key={`project-${frontmatter.uuid}`}>
               <Slider
-                key="home-slider"
+                key={`project-${frontmatter.uuid}-slider`}
                 height={400}
                 slides={images.map((i) => ({
                   authorName: "",
@@ -48,12 +52,16 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
                 dots={true}
                 size="contain"
               />
-            )),
-            O.toNullable
-          )}
-        </FlexGridItem>
+            </Block>
+          )),
+          O.toNullable
+        )}
+      </FlexGridItem>
+      <FlexGridItem>
+        <Block>
+          <ProjectFundsMap project={frontmatter} funds={funds} />
+        </Block>
 
-        <ProjectFundsMap project={frontmatter} funds={funds} />
         <div className="content">{renderHTML({ body })}</div>
       </FlexGridItem>
     </FlexGrid>
