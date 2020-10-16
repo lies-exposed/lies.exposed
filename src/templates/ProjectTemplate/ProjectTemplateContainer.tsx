@@ -1,10 +1,7 @@
 import { Layout } from "@components/Layout"
-import { MainContent } from "@components/MainContent"
-import { ProjectPageContent } from "@components/ProjectPageContent"
 import SEO from "@components/SEO"
-import EventList from "@components/lists/EventList/EventList"
 import { ProjectMD } from "@models/Project"
-import { EventMD } from "@models/event"
+import { FundFrontmatter } from "@models/events/Fund"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -12,32 +9,31 @@ import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, PageProps } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
+import { ProjectTemplate } from "./ProjectTemplate"
 
 interface ProjectData {
   pageContent: { childMdx: unknown }
-  events: { nodes: unknown[] }
+  funds: { nodes: unknown[] }
 }
 
-interface GroupTemplatePageProps extends PageProps<ProjectData> {}
+export interface ProjectTemplatePageProps extends PageProps<ProjectData> {}
 
-const ProjectTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
-
-
+const ProjectTemplateContainer: React.FC<ProjectTemplatePageProps> = ({
+  data,
+}) => {
   return pipe(
     sequenceS(E.either)({
       project: ProjectMD.decode(data.pageContent.childMdx),
-      events: t.array(EventMD).decode(data.events.nodes),
+      funds: t.array(FundFrontmatter).decode(data.funds.nodes),
     }),
-    E.fold(throwValidationErrors, ({ project, events }) => {
+    E.fold(throwValidationErrors, ({ project, funds }) => {
       return (
         <Layout>
           <SEO title={project.frontmatter.name} />
-          <MainContent>
-            <ProjectPageContent {...project} />
-            <EventList events={events} />
-          </MainContent>
+          <ProjectTemplate project={project} funds={funds} />
         </Layout>
       )
+      
     })
   )
 }
@@ -61,4 +57,4 @@ export const pageQuery = graphql`
   }
 `
 
-export default ProjectTemplate
+export default ProjectTemplateContainer

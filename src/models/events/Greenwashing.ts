@@ -3,7 +3,7 @@ import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 
 /**
- *
+ * Greenwashing
  */
 export const GreenWashing = t.type(
   {

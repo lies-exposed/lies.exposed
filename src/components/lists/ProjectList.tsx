@@ -2,6 +2,7 @@ import { List, ListItemProps } from "@components/Common/List"
 import { ProjectFrontmatter } from "@models/Project"
 import { Avatar } from "baseui/avatar"
 import * as A from "fp-ts/lib/Array"
+import * as O from 'fp-ts/lib/Option'
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 import { AvatarScale } from "./ActorList"
@@ -27,14 +28,15 @@ export const ProjectListItem: React.FC<
     >
       {pipe(
         item.images,
-        A.map((src) => (
+        O.map(A.map((src) => (
           <Avatar
             key={item.uuid}
             name={item.name}
             size={avatarScale}
             src={src.image.childImageSharp.fluid.src}
           />
-        ))
+        ))),
+        O.toNullable        
       )}
       <div
         style={{

@@ -8,6 +8,7 @@ export const getAdminLink = <K extends ResourcesNames>(
 ): string => {
   switch (key) {
     case "articles":
+    case "projects":
     case "events":
     case "topics":
     case "actors":

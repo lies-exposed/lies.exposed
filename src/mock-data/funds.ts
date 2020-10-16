@@ -1,31 +1,41 @@
-import { Fund } from "@models/events/Fund"
+import { FundFrontmatter } from "@models/events/Fund"
 import uuid from "@utils/uuid"
 import { subYears } from "date-fns"
 import { firstActor, secondActor } from "./actors"
 import { firstGroup } from "./groups"
+import { firstProject } from "./projects"
 
-export const firstFund: Fund = {
+export const firstFund: FundFrontmatter = {
   uuid: uuid(),
   amount: 100000,
-  by: { __type: 'Actor', actor: firstActor },
+  type: "Fund",
+  project: firstProject,
+  by: { __type: "Actor", actor: firstActor },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
+  sources: ["first source"],
 }
 
-export const secondFund: Fund = {
+export const secondFund: FundFrontmatter = {
   uuid: uuid(),
   amount: 40000,
-  by: { __type: 'Actor', actor: secondActor },
+  type: "Fund",
+  project: firstProject,
+  by: { __type: "Actor", actor: secondActor },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
+  sources: ["second source"]
 }
 
-export const thirdFund: Fund = {
+export const thirdFund: FundFrontmatter = {
   uuid: uuid(),
   amount: 150000,
-  by: { __type: 'Group', group: firstGroup },
+  type: 'Fund',
+  project: firstProject,
+  by: { __type: "Group", group: firstGroup },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
+  sources: ["third sources"]
 }
 
-export const funds: Fund[] = [firstFund, secondFund, thirdFund]
+export const funds: FundFrontmatter[] = [firstFund, secondFund, thirdFund]

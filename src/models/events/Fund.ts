@@ -1,16 +1,20 @@
 import { ByEitherGroupOrActor } from "@models/Common/By"
+import { ProjectFrontmatter } from "@models/Project"
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 
-export const Fund = t.type(
+export const FundFrontmatter = t.type(
   {
     uuid: t.string,
+    type: t.literal('Fund'),
     amount: t.number,
+    project: ProjectFrontmatter,
     by: ByEitherGroupOrActor,
+    sources: t.array(t.string),
     date: DateFromISOString,
     createdAt: DateFromISOString
   },
-  "Fund"
+  "FundFrontmatter"
 )
 
-export type Fund = t.TypeOf<typeof Fund>
+export type FundFrontmatter = t.TypeOf<typeof FundFrontmatter>

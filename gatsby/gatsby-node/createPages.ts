@@ -426,16 +426,20 @@ const createAreasPages = async ({
   })
 }
 
+/**
+ * Projects
+ * 
+ * */
 const createProjectPages = async ({
   actions,
   graphql,
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const projectTemplate = path.resolve(`src/templates/ProjectTemplate.tsx`)
+  const projectTemplate = path.resolve(`src/templates/ProjectTemplate/ProjectTemplateContainer.tsx`)
 
   const result = await graphql<{
-    areas: {
+    projects: {
       nodes: Array<{
         name: string
         childMdx: { frontmatter: ProjectFrontmatter }
@@ -443,7 +447,7 @@ const createProjectPages = async ({
     }
   }>(`
     {
-      areas: allFile(filter: { sourceInstanceName: { eq: "projects" } }) {
+      projects: allFile(filter: { sourceInstanceName: { eq: "projects" } }) {
         nodes {
           name
           childMdx {
@@ -470,7 +474,7 @@ const createProjectPages = async ({
     return
   }
 
-  const nodes = result.data.areas.nodes
+  const nodes = result.data.projects.nodes
 
   nodes.forEach((node) => {
     const nodePath = `/projects/${node.name}`
@@ -478,7 +482,7 @@ const createProjectPages = async ({
     const context = {
       projectUUID: node.name,
     }
-    reporter.info(`Area context: ${JSON.stringify(context, null, 4)}`)
+    reporter.info(`Project context: ${JSON.stringify(context, null, 4)}`)
     reporter.info(`Building to path: ${nodePath}`)
 
     createPage({

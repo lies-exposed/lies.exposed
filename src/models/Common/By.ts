@@ -7,9 +7,9 @@ export const ByGroup = t.type(
     __type: t.literal('Group'),
     group: GroupFrontmatter,
   },
-  "ByGroupMembers"
+  "ByGroup"
 )
-export type ByGroupMembers = t.TypeOf<typeof ByGroup>
+export type ByGroup = t.TypeOf<typeof ByGroup>
 
 export const ByActor = t.type(
   {

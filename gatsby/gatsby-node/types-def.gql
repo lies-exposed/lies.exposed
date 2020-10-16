@@ -50,7 +50,7 @@ type TopicFrontmatter implements Node & BaseFrontmatter @dontInfer {
 
 type ImageAndDescription {
   description: String
-  image: File!
+  image: File! @fileByRelativePath
 }
 
 type AreaFrontmatter implements Node & BaseFrontmatter @dontInfer {
@@ -67,9 +67,11 @@ type ProjectFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   name: String!
   date: Date!
+  color: String!
   startDate: Date!
   endDate: Date
-  images: [ImageAndDescription]
+  areas: [String!]
+  images: [ImageAndDescription!]
 }
 
 # Events

@@ -1,25 +1,21 @@
 import { ProjectMD } from "@models/Project"
+import { FundFrontmatter } from "@models/events/Fund"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { HeadingXLarge } from "baseui/typography"
 import * as React from "react"
-import Map from "./Map"
+import { ProjectFundsMap } from "./Graph/ProjectFundsMap"
 import EditButton from "./buttons/EditButton"
 
-interface ProjectPageContentProps extends ProjectMD {}
+interface ProjectPageContentProps extends ProjectMD {
+  funds: FundFrontmatter[]
+}
 
 export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   frontmatter,
   body,
+  funds,
 }) => {
-  const featureCollection = {
-    type: `FeatureCollection` as "FeatureCollection",
-    features: frontmatter.areas.map((p) => ({
-      type: `Feature` as "Feature",
-      geometry: p,
-      properties: frontmatter,
-    })),
-  }
 
   return (
     <>
@@ -31,14 +27,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
         </div>
       </Block>
       <HeadingXLarge>{frontmatter.name}</HeadingXLarge>
-      <Map
-        width={600}
-        height={300}
-        featureCollection={featureCollection}
-        center={featureCollection.features[0].geometry.coordinates[0][0]}
-        zoom={6}
-        onMapClick={() => {}}
-      />
+      <ProjectFundsMap project={frontmatter} funds={funds}  />
       <div className="content">{renderHTML({ body })}</div>
     </>
   )

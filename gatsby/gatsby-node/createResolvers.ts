@@ -68,6 +68,51 @@ export const createResolvers = ({
         },
       },
     },
+    ProjectFrontmatter: {
+      images: {
+        type: "[ImageAndDescription!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const sourceImages: Array<{
+            description?: string
+            image: string
+          }> = source.images ?? []
+          const images = pipe(
+            sourceImages,
+            A.map((i) => ({
+              ...i,
+              image: path.join(process.cwd(), i.image.replace("../../", "/")),
+            }))
+          )
+
+          const imagesPaths = images.map((i) => i.image)
+
+          const results = await context.nodeModel.runQuery({
+            type: "File",
+            query: {
+              filter: { absolutePath: { in: imagesPaths } },
+            },
+            firstOnly: false,
+          })
+
+          if (results === null) {
+            return null
+          }
+
+          return pipe(
+            results,
+            A.map((image: any) => ({
+              description: pipe(
+                images,
+                A.findFirst((i) => i.image === image.absolutePath),
+                O.mapNullable((i) => i.description),
+                O.toUndefined
+              ),
+              image: image,
+            }))
+          )
+        },
+      },
+    },
     EventFrontmatter: {
       actors: {
         type: "[ActorFrontmatter!]",

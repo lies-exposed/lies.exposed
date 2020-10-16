@@ -52,7 +52,7 @@ export class ColorWidgetControl extends React.Component<
               color: "rgb(58, 105, 199)",
               fontSize: 13,
               height: 23,
-              lineHeight: 23,
+              lineHeight: '23px',
             }}
           >
             New color

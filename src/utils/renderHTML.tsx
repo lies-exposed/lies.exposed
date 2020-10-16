@@ -35,8 +35,8 @@ const shortcodes: MDXProviderComponentsProp = {
   h6: HeadingXSmall
 }
 
-export const renderHTML = (md: { body: string }): JSX.Element => (
+export const renderHTML = (md: { body: string | null }): JSX.Element => (
   <MDXProvider components={shortcodes}>
-    <MDXRenderer>{md.body}</MDXRenderer>
+    { md.body !== null ? <MDXRenderer>{md.body}</MDXRenderer> : "No body given"}
   </MDXProvider>
 )

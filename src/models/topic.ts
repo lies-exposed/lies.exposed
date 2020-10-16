@@ -1,6 +1,5 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Color } from "./Common/Color"
 import { mdx } from "./Mdx"
 
@@ -10,7 +9,6 @@ export const TopicFrontmatter = t.strict(
     label: t.string,
     slug: t.string,
     date: DateFromISOString,
-    cover: optionFromNullable(t.string),
     color: Color,
   },
   "TopicFrontmatter"
