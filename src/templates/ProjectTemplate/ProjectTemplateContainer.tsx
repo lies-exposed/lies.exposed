@@ -1,4 +1,5 @@
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { ProjectMD } from "@models/Project"
 import { FundFrontmatter } from "@models/events/Fund"
@@ -30,10 +31,11 @@ const ProjectTemplateContainer: React.FC<ProjectTemplatePageProps> = ({
       return (
         <Layout>
           <SEO title={project.frontmatter.name} />
-          <ProjectTemplate project={project} funds={funds} />
+          <MainContent>
+            <ProjectTemplate project={project} funds={funds} />
+          </MainContent>
         </Layout>
       )
-      
     })
   )
 }

@@ -18,6 +18,6 @@ export const GroupFrontmatter = t.strict({
 
 export type GroupFrontmatter = t.TypeOf<typeof GroupFrontmatter>
 
-export const GroupMdx = mdx(GroupFrontmatter, "GroupMdx")
+export const GroupMD = mdx(GroupFrontmatter, "GroupMdx")
 
-export type GroupMdx = t.TypeOf<typeof GroupMdx>
+export type GroupMD = t.TypeOf<typeof GroupMD>

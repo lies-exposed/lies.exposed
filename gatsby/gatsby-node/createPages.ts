@@ -2,7 +2,7 @@ import * as path from "path"
 import { ProjectFrontmatter } from "@models/Project"
 import { AreaFrontmatter } from "@models/area"
 import { ArticleFrontmatter } from "@models/article"
-import { GroupMdx } from "@models/group"
+import { GroupMD } from "@models/group"
 import { CreatePagesArgs } from "gatsby"
 
 const createArticlePages = async ({
@@ -69,11 +69,11 @@ const createGroupPages = async ({
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
   const groupTemplate = path.resolve(
-    `src/templates/GroupTemplate/GroupTemplate.tsx`
+    `src/templates/GroupTemplate/GroupTemplateContainer.tsx`
   )
 
   const result = await graphql<{
-    groups: { nodes: Array<{ childMdx: GroupMdx }> }
+    groups: { nodes: Array<{ childMdx: GroupMD }> }
   }>(`
     {
       groups: allFile(filter: { sourceInstanceName: { eq: "groups" } }) {
