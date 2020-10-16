@@ -1,5 +1,6 @@
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
+import { ProjectPageContent } from "@components/ProjectPageContent"
 import SEO from "@components/SEO"
 import { ProjectMD } from "@models/Project"
 import { FundFrontmatter } from "@models/events/Fund"
@@ -10,7 +11,6 @@ import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, PageProps } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
-import { ProjectTemplate } from "./ProjectTemplate"
 
 interface ProjectData {
   pageContent: { childMdx: unknown }
@@ -32,7 +32,7 @@ const ProjectTemplateContainer: React.FC<ProjectTemplatePageProps> = ({
         <Layout>
           <SEO title={project.frontmatter.name} />
           <MainContent>
-            <ProjectTemplate project={project} funds={funds} />
+            <ProjectPageContent {...project} funds={funds} />
           </MainContent>
         </Layout>
       )

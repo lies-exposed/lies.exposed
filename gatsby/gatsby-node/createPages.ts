@@ -12,7 +12,7 @@ const createArticlePages = async ({
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
   const BlogPostTemplate = path.resolve(
-    `src/templates/ArticleTemplate/ArticleTemplate.tsx`
+    `src/templates/ArticleTemplate.tsx`
   )
 
   const result = await graphql<{
@@ -69,7 +69,7 @@ const createGroupPages = async ({
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
   const groupTemplate = path.resolve(
-    `src/templates/GroupTemplate/GroupTemplateContainer.tsx`
+    `src/templates/GroupTemplate.tsx`
   )
 
   const result = await graphql<{
@@ -145,7 +145,7 @@ const createActorPages = async ({
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
   const actorTemplate = path.resolve(
-    `src/templates/ActorTemplate/ActorTemplate.tsx`
+    `src/templates/ActorTemplate.tsx`
   )
 
   const result = await graphql<{ actors: { nodes: Array<{ name: string }> } }>(`
@@ -242,65 +242,6 @@ const createEventPages = async ({
   })
 }
 
-// const createNetworkPages = async ({
-//   actions,
-//   graphql,
-//   reporter,
-// }: CreatePagesArgs): Promise<void> => {
-//   const { createPage } = actions
-
-//   const result = await graphql<{
-//     networks: { nodes: Array<{ name: string }> }
-//   }>(`
-//     {
-//       networks: allDirectory(
-//         filter: { relativeDirectory: { glob: "networks" } }
-//       ) {
-//         nodes {
-//           name
-//         }
-//       }
-//     }
-//   `)
-
-//   // Handle errors
-//   if (result.errors !== undefined) {
-//     reporter.panicOnBuild(`Error while running GraphQL allNetworks query.`)
-//     return
-//   }
-
-//   const component = path.resolve(
-//     `src/templates/NetworkTemplate/NetworkTemplate.tsx`
-//   )
-
-//   if (result.data === undefined) {
-//     reporter.panicOnBuild(`No data for networks pages`)
-//     return
-//   }
-
-//   result.data.networks.nodes.forEach(({ name }) => {
-//     const relativeDirectory = `events/networks/${name}`
-//     const eventsRelativeDirectory = `events/networks/${name}/*`
-//     const imagesRelativeDirectory = `events/networks/${name}/*/images`
-
-//     const context = {
-//       relativeDirectory,
-//       eventsRelativeDirectory,
-//       imagesRelativeDirectory,
-//     }
-//     reporter.info(
-//       `network page [${name}] context: ${JSON.stringify(context, null, 4)}`
-//     )
-
-//     createPage({
-//       path: `/networks/${name}`,
-//       component,
-//       // additional data can be passed via context
-//       context,
-//     })
-//   })
-// }
-
 const createTopicPages = async ({
   actions,
   graphql,
@@ -308,7 +249,7 @@ const createTopicPages = async ({
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
   const topicTemplate = path.resolve(
-    `src/templates/TopicTemplate/TopicTemplate.tsx`
+    `src/templates/TopicTemplate.tsx`
   )
 
   const result = await graphql<{ topics: { nodes: Array<{ name: string }> } }>(`
@@ -436,7 +377,7 @@ const createProjectPages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const projectTemplate = path.resolve(`src/templates/ProjectTemplate/ProjectTemplateContainer.tsx`)
+  const projectTemplate = path.resolve(`src/templates/ProjectTemplate.tsx`)
 
   const result = await graphql<{
     projects: {
