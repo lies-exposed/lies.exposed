@@ -39,8 +39,6 @@ const ProjectsPage: React.FC<PageProps> = (props) => {
       }
     }
   `)
-
-  console.log({ data })
   
   return pipe(
     sequenceS(E.either)({

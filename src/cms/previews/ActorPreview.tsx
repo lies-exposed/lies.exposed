@@ -26,6 +26,7 @@ export const ActorPreview: React.FC<any> = (props) => {
   return (
     <ActorPageContent
       frontmatter={actor}
+      funds={[]}
       body={body}
       timeToRead={O.some(2)}
       tableOfContents={{ items: [] }}

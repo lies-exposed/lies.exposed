@@ -23,4 +23,20 @@ export const firstProject: ProjectFrontmatter = {
   endDate: O.none,
 }
 
-export const projects = [firstProject]
+export const secondProject: ProjectFrontmatter = {
+  uuid: uuid(),
+  name: "Second Project",
+  areas: O.none,
+  images: O.some([
+    {
+      description: O.some("first image"),
+      image: firstImage,
+    },
+  ]),
+  startDate: subYears(new Date(), 3),
+  date: subDays(new Date(), 7),
+  color: generateRandomColor(),
+  endDate: O.none,
+}
+
+export const projects = [firstProject, secondProject]

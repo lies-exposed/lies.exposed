@@ -3,7 +3,7 @@ import uuid from "@utils/uuid"
 import { subYears } from "date-fns"
 import { firstActor, secondActor } from "./actors"
 import { firstGroup } from "./groups"
-import { firstProject } from "./projects"
+import { firstProject, secondProject } from "./projects"
 
 export const firstFund: FundFrontmatter = {
   uuid: uuid(),
@@ -49,4 +49,15 @@ export const fourthFund: FundFrontmatter = {
   sources: ["third sources"]
 }
 
-export const funds: FundFrontmatter[] = [firstFund, secondFund, thirdFund, fourthFund]
+export const fifthFund: FundFrontmatter = {
+  uuid: uuid(),
+  amount: 200000,
+  type: 'Fund',
+  project: secondProject,
+  by: { __type: "Actor", actor: firstActor },
+  date: subYears(new Date(), 1),
+  createdAt: new Date(),
+  sources: ["third sources"]
+}
+
+export const funds: FundFrontmatter[] = [firstFund, secondFund, thirdFund, fourthFund, fifthFund]

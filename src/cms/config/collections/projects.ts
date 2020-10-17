@@ -4,8 +4,6 @@ import { CmsCollection } from "netlify-cms-core"
 
 const fields = IOTSTypeToCMSFields(ProjectFrontmatter)
 
-console.log({ fields })
-
 export const projects: CmsCollection = {
   name: "projects",
   label: "Project",

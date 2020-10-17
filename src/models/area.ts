@@ -1,8 +1,8 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { Polygon } from "./Common/Polygon"
-import { mdx } from "./Mdx"
 import { JSONFromString } from "./JSONFromString"
+import { mdx } from "./Mdx"
 import { GroupFrontmatter } from "./group"
 import { TopicFrontmatter } from "./topic"
 

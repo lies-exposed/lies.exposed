@@ -8,6 +8,7 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 import { ProjectFundsMap } from "./Graph/ProjectFundsMap"
+import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph"
 import { Slider } from "./Slider/Slider"
 import EditButton from "./buttons/EditButton"
 
@@ -53,10 +54,11 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
           {pipe(
             frontmatter.images,
             O.map((images) => (
-              <Block key={`project-${frontmatter.uuid}`}>
+              <Block key={`project-${frontmatter.uuid}`} width="100%">
                 <Slider
                   key={`project-${frontmatter.uuid}-slider`}
                   height={400}
+              
                   slides={images.map((i) => ({
                     authorName: "",
                     info: O.getOrElse(() => "")(i.description),
@@ -77,6 +79,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             Block: { style: { flexGrow: 0 } },
           }}
         >
+          <ProjectFundsPieGraph funds={funds} />
           <ProjectFundsMap project={frontmatter} funds={funds} />
         </FlexGridItem>
       </FlexGridItem>

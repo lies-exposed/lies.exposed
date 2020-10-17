@@ -52,11 +52,7 @@ export const PieChartGraph = <S extends any>({
   return (
     <svg width={width} height={height}>
       <GradientPinkBlue id="vx-pie-gradient" />
-      <rect
-        width={width}
-        height={height}
-        fill="url('#vx-pie-gradient')"
-      />
+      <rect width={width} height={height} fill="url('#vx-pie-gradient')" />
       <Group top={centerY + margin.top} left={centerX + margin.left}>
         <Pie
           data={
@@ -113,13 +109,18 @@ interface AnimatedStyles {
   opacity: number
 }
 
-const fromLeaveTransition = ({ endAngle }: PieArcDatum<any>): AnimatedStyles => ({
+const fromLeaveTransition = ({
+  endAngle,
+}: PieArcDatum<any>): AnimatedStyles => ({
   // enter from 360° if end angle is > 180°
   startAngle: endAngle > Math.PI ? 2 * Math.PI : 0,
   endAngle: endAngle > Math.PI ? 2 * Math.PI : 0,
   opacity: 0,
 })
-const enterUpdateTransition = ({ startAngle, endAngle }: PieArcDatum<any>): AnimatedStyles => ({
+const enterUpdateTransition = ({
+  startAngle,
+  endAngle,
+}: PieArcDatum<any>): AnimatedStyles => ({
   startAngle,
   endAngle,
   opacity: 1,

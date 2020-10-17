@@ -4,6 +4,8 @@ import {
 } from "@components/AreaPageContent"
 import { firstArea } from "@mock-data/areas"
 import { Meta, Story } from "@storybook/react/types-6-0"
+import { Block } from "baseui/block"
+import { HeadingLarge } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
@@ -15,7 +17,15 @@ const meta: Meta = {
 export default meta
 
 const Template: Story<AreaPageContentProps> = (props) => {
-  return <AreaPageContent {...props} />
+  return (
+    <Block overrides={{ Block: { style: { width: '100%'}}}}>
+      <HeadingLarge>TODO:</HeadingLarge>
+      <ul>
+        <li>Lista dei progetti in questa area</li>
+      </ul>
+      <AreaPageContent {...props} />
+    </Block>
+  )
 }
 
 const AreaPageContentExample = Template.bind({})
@@ -26,9 +36,9 @@ const args: AreaPageContentProps = {
   tableOfContents: { items: undefined },
   timeToRead: O.none,
   onGroupClick: () => {},
-  onTopicClick: () => {}
+  onTopicClick: () => {},
 }
 
 AreaPageContentExample.args = args
 
-export { AreaPageContentExample as EventPageContentExample }
+export { AreaPageContentExample }

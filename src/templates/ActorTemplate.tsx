@@ -33,9 +33,7 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
 
   return pipe(
     sequenceS(E.either)({
-      pageContent: ActorMD.decode(
-        data.pageContent.childMdx
-      ),
+      pageContent: ActorMD.decode(data.pageContent.childMdx),
       events: pipe(
         t.array(EventMD).decode(data.events.nodes),
         E.map(eventsInDateRange({ minDate, maxDate }))
@@ -47,16 +45,15 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
         <Layout>
           <SEO title={pageContent.frontmatter.fullName} />
           <MainContent>
-            <ActorPageContent {...pageContent} />
-              <EventsNetwork
-                events={events}
-                selectedActorIds={[pageContent.frontmatter.uuid]}
-                selectedGroupIds={[]}
-                selectedTopicIds={[]}
-                scale="all"
-                scalePoint={O.none}
-              />
-            
+            <ActorPageContent {...pageContent} funds={[]} />
+            <EventsNetwork
+              events={events}
+              selectedActorIds={[pageContent.frontmatter.uuid]}
+              selectedGroupIds={[]}
+              selectedTopicIds={[]}
+              scale="all"
+              scalePoint={O.none}
+            />
 
             <EventList events={events} />
           </MainContent>
@@ -77,9 +74,7 @@ export const pageQuery = graphql`
       }
     }
 
-    events: allMdx(
-      filter: { fields: { actors: { in: [$actorUUID] } } }
-    ) {
+    events: allMdx(filter: { fields: { actors: { in: [$actorUUID] } } }) {
       nodes {
         ...EventMDRemark
       }
