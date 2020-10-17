@@ -1,16 +1,9 @@
 import { PieChartGraph } from "@components/Common/Graph/PieChartGraph"
 import Map from "@components/Map"
-import ByEitherGroupOrActorList from "@components/lists/ByEitherGroupOrActorList"
-import { funds } from "@mock-data/funds"
 import { ProjectFrontmatter } from "@models/Project"
 import { FundFrontmatter } from "@models/events/Fund"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
-import { Block } from "baseui/block"
-import {
-  HeadingMedium,
-  ParagraphMedium
-} from "baseui/typography"
-import * as A from "fp-ts/lib/Array"
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
@@ -29,21 +22,17 @@ export interface ProjectFundsMapProps {
 }
 
 export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {
-  const projectAmount = A.array.reduce(
-    props.funds,
-    0,
-    (acc, f) => acc + f.amount
-  )
-
   return (
-    <div>
-      <ParentSize style={{ height: 300 }}>
-        {({ width, height }) => {
-          const mapWidth = (width * 2) / 3
-          const pieWidth = (width * 1) / 3
+    <ParentSize style={{ height: 600 }}>
+      {({ width, height }) => {
+        const mapWidth = width
+        const mapHeight = height / 2
+        const pieWidth = width
+        const pieHeight = height / 2
 
-          return (
-            <div style={{ display: "flex", flexDirection: "row" }}>
+        return (
+          <FlexGrid>
+            <FlexGridItem>
               {pipe(
                 props.project.areas,
                 O.fold(
@@ -61,7 +50,7 @@ export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {
                     return (
                       <Map
                         width={mapWidth}
-                        height={height}
+                        height={mapHeight}
                         featureCollection={featureCollection}
                         center={
                           featureCollection.features[0].geometry
@@ -74,29 +63,20 @@ export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {
                   }
                 )
               )}
+            </FlexGridItem>
+            <FlexGridItem>
               <PieChartGraph<FundFrontmatter>
                 width={pieWidth}
-                height={height}
+                height={pieHeight}
                 slices={props.funds}
                 getLabel={(f) => getLabelForBy(f)}
                 getKey={(f) => f.uuid}
                 getValue={(f) => f.amount}
               />
-            </div>
-          )
-        }}
-      </ParentSize>
-      <Block>
-        <ParagraphMedium>
-          Fondi <strong>{projectAmount}</strong> euro
-        </ParagraphMedium>
-        <HeadingMedium>Lista di finanziatori</HeadingMedium>
-        <ByEitherGroupOrActorList
-          by={funds.map((f) => f.by)}
-          avatarScale="scale1000"
-          onByClick={() => {}}
-        />
-      </Block>
-    </div>
+            </FlexGridItem>
+          </FlexGrid>
+        )
+      }}
+    </ParentSize>
   )
 }

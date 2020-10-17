@@ -34,34 +34,53 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
           <HeadingXLarge>{frontmatter.name}</HeadingXLarge>
         </Block>
       </FlexGridItem>
-      <FlexGridItem>
-        {pipe(
-          frontmatter.images,
-          O.map((images) => (
-            <Block key={`project-${frontmatter.uuid}`}>
-              <Slider
-                key={`project-${frontmatter.uuid}-slider`}
-                height={400}
-                slides={images.map((i) => ({
-                  authorName: "",
-                  info: O.getOrElse(() => "")(i.description),
-                  imageURL: i.image.publicURL,
-                }))}
-                arrows={true}
-                adaptiveHeight={true}
-                dots={true}
-                size="contain"
-              />
-            </Block>
-          )),
-          O.toNullable
-        )}
+      <FlexGridItem
+        flexGridColumnCount={2}
+        flexGridColumnGap="scale800"
+        gridColumnGap="scale800"
+        display="flex"
+      >
+        <FlexGridItem
+          display="flex"
+          overrides={{
+            Block: {
+              style: ({ $theme }) => ({
+                width: `calc((200% - ${$theme.sizing.scale800}))`,
+              }),
+            },
+          }}
+        >
+          {pipe(
+            frontmatter.images,
+            O.map((images) => (
+              <Block key={`project-${frontmatter.uuid}`}>
+                <Slider
+                  key={`project-${frontmatter.uuid}-slider`}
+                  height={400}
+                  slides={images.map((i) => ({
+                    authorName: "",
+                    info: O.getOrElse(() => "")(i.description),
+                    imageURL: i.image.publicURL,
+                  }))}
+                  arrows={true}
+                  adaptiveHeight={true}
+                  dots={true}
+                  size="contain"
+                />
+              </Block>
+            )),
+            O.toNullable
+          )}
+        </FlexGridItem>
+        <FlexGridItem
+          overrides={{
+            Block: { style: { flexGrow: 0 } },
+          }}
+        >
+          <ProjectFundsMap project={frontmatter} funds={funds} />
+        </FlexGridItem>
       </FlexGridItem>
       <FlexGridItem>
-        <Block>
-          <ProjectFundsMap project={frontmatter} funds={funds} />
-        </Block>
-
         <div className="content">{renderHTML({ body })}</div>
       </FlexGridItem>
     </FlexGrid>

@@ -38,4 +38,15 @@ export const thirdFund: FundFrontmatter = {
   sources: ["third sources"]
 }
 
-export const funds: FundFrontmatter[] = [firstFund, secondFund, thirdFund]
+export const fourthFund: FundFrontmatter = {
+  uuid: uuid(),
+  amount: 200000,
+  type: 'Fund',
+  project: firstProject,
+  by: { __type: "Group", group: firstGroup },
+  date: subYears(new Date(), 1),
+  createdAt: new Date(),
+  sources: ["third sources"]
+}
+
+export const funds: FundFrontmatter[] = [firstFund, secondFund, thirdFund, fourthFund]

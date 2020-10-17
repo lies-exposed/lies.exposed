@@ -22,3 +22,5 @@ export const firstProject: ProjectFrontmatter = {
   color: generateRandomColor(),
   endDate: O.none,
 }
+
+export const projects = [firstProject]

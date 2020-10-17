@@ -50,6 +50,8 @@ const GroupTemplateContainer: React.FC<PageProps<GroupTemplateData>> = ({ data, 
             <GroupPageContent
               {...pageContent}
               events={events}
+              funds={[]}
+              projects={[]}
               onMemberClick={async (a) => {
                 await navigate(`/actors/${a.uuid}`)
               }}

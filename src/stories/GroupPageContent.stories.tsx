@@ -3,7 +3,9 @@ import {
   GroupPageContentProps,
 } from "@components/GroupPageContent"
 import { events } from "@mock-data/events"
+import { funds } from "@mock-data/funds"
 import { firstGroup } from "@mock-data/groups"
+import { projects } from "@mock-data/projects"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
@@ -21,6 +23,12 @@ const Template: Story<GroupPageContentProps> = (props) => {
 
 const GroupPageContentExample = Template.bind({})
 
+const groupFunds = funds.filter(
+  (f) => f.by.__type === "Group" && f.by.group.uuid === firstGroup.uuid
+)
+const fundedProjectIds = groupFunds.map( f => f.project.uuid)
+
+console.log(groupFunds)
 const args: GroupPageContentProps = {
   frontmatter: firstGroup,
   body: null,
@@ -32,6 +40,8 @@ const args: GroupPageContentProps = {
     timeToRead: O.none,
     tableOfContents: { items: undefined },
   })),
+  projects: projects.filter((p) => fundedProjectIds.includes(p.uuid)),
+  funds: groupFunds,
   onMemberClick: () => {},
 }
 

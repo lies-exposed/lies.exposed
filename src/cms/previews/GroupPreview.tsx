@@ -51,6 +51,8 @@ export const GroupPreview: React.FC<any> = ({
           timeToRead={O.some(1)}
           onMemberClick={() => {}}
           events={[]}
+          funds={[]}
+          projects={[]}
         />
       </>
     ))

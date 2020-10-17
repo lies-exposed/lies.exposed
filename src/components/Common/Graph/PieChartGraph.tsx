@@ -53,7 +53,6 @@ export const PieChartGraph = <S extends any>({
     <svg width={width} height={height}>
       <GradientPinkBlue id="vx-pie-gradient" />
       <rect
-        rx={14}
         width={width}
         height={height}
         fill="url('#vx-pie-gradient')"
