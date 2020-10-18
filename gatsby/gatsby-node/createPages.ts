@@ -11,9 +11,7 @@ const createArticlePages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const BlogPostTemplate = path.resolve(
-    `src/templates/ArticleTemplate.tsx`
-  )
+  const BlogPostTemplate = path.resolve(`src/templates/ArticleTemplate.tsx`)
 
   const result = await graphql<{
     articles: { nodes: ArticleFrontmatter[] }
@@ -68,9 +66,7 @@ const createGroupPages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const groupTemplate = path.resolve(
-    `src/templates/GroupTemplate.tsx`
-  )
+  const groupTemplate = path.resolve(`src/templates/GroupTemplate.tsx`)
 
   const result = await graphql<{
     groups: { nodes: Array<{ childMdx: GroupMD }> }
@@ -110,13 +106,14 @@ const createGroupPages = async ({
 
   const nodes = result.data.groups.nodes
 
+  
   nodes.forEach((node) => {
     const groupUUID = node.childMdx.frontmatter.uuid
     const nodePath = `/groups/${groupUUID}`
 
     const context = {
       group: groupUUID,
-      members: (node.childMdx.frontmatter.members as any).map(
+      members: ((node.childMdx.frontmatter.members as any) ?? []).map(
         (m: any) => m.uuid
       ),
     }
@@ -144,9 +141,7 @@ const createActorPages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const actorTemplate = path.resolve(
-    `src/templates/ActorTemplate.tsx`
-  )
+  const actorTemplate = path.resolve(`src/templates/ActorTemplate.tsx`)
 
   const result = await graphql<{ actors: { nodes: Array<{ name: string }> } }>(`
     {
@@ -248,9 +243,7 @@ const createTopicPages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const topicTemplate = path.resolve(
-    `src/templates/TopicTemplate.tsx`
-  )
+  const topicTemplate = path.resolve(`src/templates/TopicTemplate.tsx`)
 
   const result = await graphql<{ topics: { nodes: Array<{ name: string }> } }>(`
     {
@@ -369,7 +362,7 @@ const createAreasPages = async ({
 
 /**
  * Projects
- * 
+ *
  * */
 const createProjectPages = async ({
   actions,
@@ -443,5 +436,4 @@ export const createPages = async (options: CreatePagesArgs): Promise<void> => {
   await createEventPages(options)
   await createAreasPages(options)
   await createProjectPages(options)
-  // await createNetworkPages(options)
 }

@@ -160,7 +160,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "gatsby clean",
-    "build": "gatsby build",
+    "build": "npm run build-storybook && gatsby build",
     "develop": "NODE_ENV=development gatsby develop -p 8002",
     "proxy-server": "PORT=8082 npx netlify-cms-proxy-server",
     "info": "gatsby info",
@@ -171,7 +171,7 @@
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "build-storybook -o ./static/storybook",
     "stats": "webpack-bundle-analyzer public/stats.json"
   },
   "husky": {

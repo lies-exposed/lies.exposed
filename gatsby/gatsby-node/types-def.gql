@@ -17,7 +17,7 @@ type ActorFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   fullName: String
   username: String
-  avatar: File! @fileByRelativePath
+  avatar: File @fileByRelativePath
   color: String
   date: Date!
 }
@@ -25,6 +25,7 @@ type ActorFrontmatter implements Node & BaseFrontmatter @dontInfer {
 type GroupFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   name: String!
+  type: String!
   avatar: File! @fileByRelativePath
   members: [ActorFrontmatter!]
   date: Date!

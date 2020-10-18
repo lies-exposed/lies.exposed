@@ -67,7 +67,7 @@ const ProjectsPage: React.FC<PageProps> = (props) => {
               selectedItems={[]}
               getValue={(g) => g.name}
               onSelectItem={async (item) => {
-                await navigateTo(props.navigate, "groups", item)
+                await navigateTo(props.navigate, "projects", item)
               }}
               onUnselectItem={() => {}}
               itemRenderer={(item, itemProps, index) => (

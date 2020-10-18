@@ -5,6 +5,7 @@ export const query = graphql`
     uuid
     date
     name
+    type
     members {
       ...Actor
     }

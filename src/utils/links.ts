@@ -30,6 +30,7 @@ export const navigateTo = async <K extends ResourcesNames>(
     case "events":
     case "actors":
     case "topics":
+    case "projects":
     case "groups": {
       await nav(`/${resourceName}/${f.uuid}`)
       break

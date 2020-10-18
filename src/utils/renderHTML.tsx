@@ -4,6 +4,7 @@ import { ListItem } from "@components/Common/ListItem"
 import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
+import { CO2LevelsGraph } from "@components/Graph/CO2LevelsGraph"
 import { HumanPopulationGrowthGraph } from "@components/Graph/HumanPopulationGrowthGraph"
 import NetworkExample from "@components/Graph/NetworkExample"
 import { Video } from "@components/Video"
@@ -15,6 +16,7 @@ import * as React from "react"
 const shortcodes: MDXProviderComponentsProp = {
   FullSizeSection,
   CO2LeftBudgetCounter,
+  CO2LevelsGraph,
   HumanPopulationGrowthGraph: HumanPopulationGrowthGraph,
   WorldPopulationCounter,
   NetworkExample,

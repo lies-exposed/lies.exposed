@@ -73,16 +73,21 @@ const AreaF = t.strict({
   topics: t.array(t.string),
 })
 
-const { images: _images, ...Project } = ProjectFrontmatter.type.props
+const {
+  images: _images,
+  ...Project
+} = ProjectFrontmatter.type.props
 const ProjectF = t.strict({
   ...Project,
-  images: t.array(
-    t.type({
-      description: t.string,
-      image: t.string,
-    })
+  images: optionFromNullable(
+    t.array(
+      t.type({
+        description: t.string,
+        image: t.string,
+      })
+    )
   ),
-})
+}, 'ProjectF')
 
 export const createSchemaCustomization = async ({
   actions,
@@ -109,17 +114,20 @@ export const createSchemaCustomization = async ({
           "ProjectFrontmatter",
           MD_FRONTMATTER_TYPE,
         ],
-        resolveType: async (source) => {
-          if (E.isRight(ProjectF.decode(source))) {
-            return "ProjectFrontmatter"
-          }
+        resolveType: async (source, context, info) => {
           if (E.isRight(ActorF.decode(source))) {
             return "ActorFrontmatter"
+          }
+
+          if (E.isRight(ProjectF.decode(source))) {
+            return "ProjectFrontmatter"
           }
 
           if (E.isRight(GroupF.decode(source))) {
             return "GroupFrontmatter"
           }
+
+          
 
           if (E.isRight(TopicFrontmatter.decode(source))) {
             return "TopicFrontmatter"

@@ -22,10 +22,11 @@ export interface ProjectTemplatePageProps extends PageProps<ProjectData> {}
 const ProjectTemplateContainer: React.FC<ProjectTemplatePageProps> = ({
   data,
 }) => {
+  console.log({ data })
   return pipe(
     sequenceS(E.either)({
       project: ProjectMD.decode(data.pageContent.childMdx),
-      funds: t.array(FundFrontmatter).decode(data.funds.nodes),
+      funds: t.array(FundFrontmatter).decode([]),
     }),
     E.fold(throwValidationErrors, ({ project, funds }) => {
       return (

@@ -6,9 +6,12 @@ import { ImageFileNode } from "./Image"
 import { mdx } from "./Mdx"
 import { ActorFrontmatter } from "./actor"
 
+const GroupType = t.union([t.literal('Public'), t.literal('Private')])
+
 export const GroupFrontmatter = t.strict({
   uuid: t.string,
   name: t.string,
+  type: GroupType,
   date: DateFromISOString,
   avatar: optionFromNullable(ImageFileNode),
   color: Color,

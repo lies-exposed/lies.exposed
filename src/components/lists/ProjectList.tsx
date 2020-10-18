@@ -20,6 +20,7 @@ interface ProjectListProps {
 export const ProjectListItem: React.FC<
   ListItemProps<Project> & { avatarScale: AvatarScale }
 > = ({ item, avatarScale, onClick }) => {
+  
   return (
     <div
       key={item.uuid}
@@ -38,6 +39,7 @@ export const ProjectListItem: React.FC<
         ))),
         O.toNullable        
       )}
+      {item.name}
       <div
         style={{
           width: "100%",

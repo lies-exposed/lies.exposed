@@ -8,7 +8,7 @@ date: 2020-08-27
 
 # La Crisi del nostro tempo
 
-La Scienza è d'accordo nell'affermare che il clima è stato profondamento sconvolto dalle attività antropiche che sono state attuate dall'inizio della rivoluzione industriale, dando origine ad un nuovo periodo storico chiamato ***Antropocene***[^anthropocene].
+La Scienza è d'accordo nell'affermare che il clima è stato profondamento sconvolto dalle attività antropiche che sono state attuate dall'inizio della rivoluzione industriale, dando origine ad un nuovo periodo storico chiamato **_Antropocene_**[^anthropocene].
 
 L'aver impostato l'economia su un modello di crescita infinita che frutta senza sosta le riserve energetiche fossili del pianeta e la artificializzazione a tappeto dell'ambiente hanno compromesso il delicato equilibrio che si era venuto a creare nell'arco di miliardi di anni.
 
@@ -21,7 +21,7 @@ Il Pianeta Terra è un complesso insieme di ecosistemi, alcuni già compromessi 
 Vivere nella consapevolezza che non avremmo, in un futuro vicino, le caratteristiche minime necessarie per abitare questo pianeta è frutto di una profonda analisi della situazione attuale in molti dei suoi aspetti: sociale, economico, culturale e morale.
 
 Sono molti gli strumenti di misurazione che la Scienza fornisce per poter predirre con accurata certezza che il tempo che abbiamo, prima di raggiungere il punto di non ritorno, non è molto e passarlo comporterebbe una condanna a morte della gran parte della popolazione mondiale[^collapse-of-civilization].
-Eppure **per 70 anni non è stato dato credito alla Scienza** che ha provato a dimostrare attraverso i più svariati studi di come il nostro stile di vita impatta il pianeta, ritrovandoci adesso impreparati all'impegno necessario per trasformare il nostro modello *socio-culturale-economico*.
+Eppure **per 70 anni non è stato dato credito alla Scienza** che ha provato a dimostrare attraverso i più svariati studi di come il nostro stile di vita impatta il pianeta, ritrovandoci adesso impreparati all'impegno necessario per trasformare il nostro modello _socio-culturale-economico_.
 
 [^anthropocene]: [Antropocene](https://en.wikipedia.org/wiki/Anthropocene)
 [^collapse-of-civilization]: [Collapse of civilisation is the most likely outcome](https://voiceofaction.org/collapse-of-civilisation-is-the-most-likely-outcome-top-climate-scientists/)
@@ -32,7 +32,7 @@ Eppure **per 70 anni non è stato dato credito alla Scienza** che ha provato a d
 
 ## Premesse
 
-Per sviluppare un'analisi delle cause che ci hanno portato al prossimo collasso ecosistemico, poniamo delle *premesse* partendo dalla letterattura scientifica:
+Per sviluppare un'analisi delle cause che ci hanno portato al prossimo collasso ecosistemico, poniamo delle _premesse_ partendo dalla letterattura scientifica:
 
 - il livello di [concentrazione di CO2](#concentrazione-di-co2) di oggi **non veniva registrato** da [15 milioni di anni](https://www.theguardian.com/environment/2020/jul/09/co2-in-earths-atmosphere-nearing-levels-of-15m-years-ago)
 - è in atto la [sesta estinzione di massa](#sesta-estinzione-di-massa), che è causata prevalentemente dall'uomo
@@ -65,7 +65,7 @@ Gli elementi principali di un ecosistema sono:
 
 Lʼanidride carbonica **(CO2)** è un ossido acido la cui molecola è formata da un atomo di carbonio legato a due atomi di ossigeno.
 Passa dal suolo all'atmosfera e viceversa, definendo il **ciclo del carbonio**.
-Il *ciclo del carbonio* può essere scomposto in *naturale* e *antropico*:
+Il _ciclo del carbonio_ può essere scomposto in _naturale_ e _antropico_:
 
 - **NATURALE**
 
@@ -88,7 +88,7 @@ Il *ciclo del carbonio* può essere scomposto in *naturale* e *antropico*:
 ### Concentrazione di CO2 nella storia
 
 Negli ultimi 1000 anni il livello di concentrazione di CO2 è rimasto pressochè invariato, fino a poco prima del 1800, quando - per l'inizio della rivoluzione industriale - ha iniziato a salire inesorabilmente.
-Il livello prima della rivoluzione industriale era *circa* 280 ppm.
+Il livello prima della rivoluzione industriale era _circa_ 280 ppm.
 Le misurazioni della concentrazione della CO2 negli ultimi 800 mila anni non hanno rilevato un valore così alto come quello che registriamo oggi di **416.13ppm**.
 
 <CO2LevelsGraph />
@@ -112,7 +112,7 @@ L'acidità degli oceani si sta intensificando andando a compromettere la vita di
 
 ![Nariman Mesharrafa @ Unsplash](../../static/media/img/nariman-mesharrafa-9KmXAmgFBg4-unsplash.jpg)
 
-In particolare il *fitoplancton* - gli organismi alla base di molte catene alimentari acquatiche - rischiano di danni sostanziali dall'innalzamento della temperatura, andando così a rompere gli equilibri - già in decadimento - di tutta la vita acquatica[^phitoplankton-linked-to-temperatures].
+In particolare il _fitoplancton_ - gli organismi alla base di molte catene alimentari acquatiche - rischiano di danni sostanziali dall'innalzamento della temperatura, andando così a rompere gli equilibri - già in decadimento - di tutta la vita acquatica[^phitoplankton-linked-to-temperatures].
 
 Ad aggravarsi al problema climatico c'è anche il problema dell'iperconsumo che - come popolazione - perpetriamo ai danni dalle "risorse ittiche" non attribuendogli neanche la soggettività dell'essere misurandone la quantità in tonnellate.
 
@@ -152,7 +152,7 @@ La deforestazione in Amazzonia nel mese di marzo del 2020 è aumentata del 279% 
 
 Gli incendi distruggono interi ecosistemi nella maniera più violenta: bruciando e soffocando tutta la vita che incontrano. Mentre si ha una perdita di biodiversità incalcolcabile si springionano una quanità di emissioni climalteranti di cui si può avere una stima.
 
-Gli incendi avvenuti in Australia nel 2019 hanno causato un innalzamento della concentrazione di CO2 in atmosfera, alzando la media annua di 2.74 +_ 0.57 ppm[^australian-bushfires-co2-concentration]
+Gli incendi avvenuti in Australia nel 2019 hanno causato un innalzamento della concentrazione di CO2 in atmosfera, alzando la media annua di 2.74 +\_ 0.57 ppm[^australian-bushfires-co2-concentration]
 
 [^amazon-fires]: [Amazon fires may be forse in 2020 as deforestation and land grabbing spikes](https://news.mongabay.com/2020/05/amazon-fires-may-be-worse-in-2020-as-deforestation-and-land-grabbing-spikes/)
 [^australian-bushfires-co2-concentration]: [Australian bushfires contribute to big rise in global co2 levels](https://www.reuters.com/article/us-climate-change-australia-emissions/australia-bushfires-contribute-to-big-rise-in-global-co2-levels-uks-met-office-idUSKBN1ZN0BT)
@@ -173,10 +173,10 @@ Nella storia si contano 5 **estinzioni di massa**:
 
 ![Five major extinctions](../../static/media/img/5-mass-extinctions.jpg)
 
-Le cause delle prime *Grandi estinzioni di massa* variano dai cambiamenti climatici, a collissioni con asteroidi e a forti esplosioni vulcaniche.
+Le cause delle prime _Grandi estinzioni di massa_ variano dai cambiamenti climatici, a collissioni con asteroidi e a forti esplosioni vulcaniche.
 
-Le cause della **Sesta estinzione di massa** sono invece di origine *antropica*.
-La perdita di habitat da parte della biodiversità, la presenza di specie invasive come quella dell'*Homo Sapiens*, lo sfruttamento delle risorse, l'inquinamento e il cambiamento climatico - anche quello di origine antropica - sono le cause principali della perdità di biodiversità.
+Le cause della **Sesta estinzione di massa** sono invece di origine _antropica_.
+La perdita di habitat da parte della biodiversità, la presenza di specie invasive come quella dell'_Homo Sapiens_, lo sfruttamento delle risorse, l'inquinamento e il cambiamento climatico - anche quello di origine antropica - sono le cause principali della perdità di biodiversità.
 
 ![Drivers biodiversity loss](../../static/media/img/drivers-biodiversity-loss-human-population-growth-consumption.jpg)
 
@@ -187,6 +187,7 @@ La perdita di habitat da parte della biodiversità, la presenza di specie invasi
 > _Encyclopædia Britannica, Inc./Patrick O'Neill Riley_ [^biodiversity-loss]
 
 <!-- [^6th-mass-extinction]: https://www.biologicaldiversity.org/programs/population_and_sustainability/extinction/pdfs/Eldridge-6th-extinction.pdf -->
+
 [^biodiversity-loss]: https://www.britannica.com/science/biodiversity-loss
 
 </FullSizeSection>
@@ -238,19 +239,19 @@ L'edizione del 1972 si conclude con:
 
 <img width="200" src="../../static/media/img/ego-pyramid.jpg" alt="Ego Pyramid" />
 
-L'**Antropocentrismo** è la tendenza a considerare l'*Homo Sapiens* al centro dell'Universo.
-Ne deriva quindi, che tutto quello che è l'*Universo* - il Pianeta, gli Animali, le risorse - sono considerate a disposizione dell'*Homo Sapiens*.
+L'**Antropocentrismo** è la tendenza a considerare l'_Homo Sapiens_ al centro dell'Universo.
+Ne deriva quindi, che tutto quello che è l'_Universo_ - il Pianeta, gli Animali, le risorse - sono considerate a disposizione dell'_Homo Sapiens_.
 
-La nostra cultura occidentale - giudaico-cristiana - è fortemente *antropocentrica* e il mito delle sue origini è la Genesi dell'Antico Testamento[^genesi-la-sacra-bibbia].
+La nostra cultura occidentale - giudaico-cristiana - è fortemente _antropocentrica_ e il mito delle sue origini è la Genesi dell'Antico Testamento[^genesi-la-sacra-bibbia].
 
->Dio disse: "La terra produca esseri viventi secondo la loro specie". E così avvenne: Dio fece le fiere della terra secondo la loro specie e il bestiame secondo la sua specie e tutti i rettili del suolo secondo la loro specie. E Dio video che ciò era buono.<br />
->Dio disse: "Facciamo l'uomo a nostra immmagine, secondo la nostra somiglianza, e abbia dominio sui pesci del mare e sui volatili del cielo, sul bestiame, su tutte le fiere della terra e su tuti i rettili che strisciano sulla terra".<br />
->Dio creò l'uomo a sua immagine, a immagine di Dio lo creò maschio e femmina li creò.<br />
->Dio li benedisse e Dio disse loro: "Siate fecondi e moltiplicativi, riempite la terra e soggiogatela e abbiate dominio sui pesci del mare e sui volatili del cielo, sul bestiame, su tutte le fiere della terra e su tuti i rettili che strisciano sulla terra".<br />
->Poi Dio disse: "Ecco, io vi do ogni sorta di graminacee produttrici di semente, che sono sulla superficie di tutta la terra, e anche ogni sorta di alberi in cui vi sono frutti portatori di seme: costituiranno il vostro nutrimento. Ma a tutte le fiere della terra, a tutti i volatili del cielo e a tutti gli esseri che strisciano sulla terra e nei quali è l'alito di vita, io do come nutrimento le erbe verdi". È così avvenne. E Dio vide tutto ciò che aveva fatto ed, ecco, era molto buono. E fu sera, e fu mattina: il sesto giorno. <br />
+> Dio disse: "La terra produca esseri viventi secondo la loro specie". E così avvenne: Dio fece le fiere della terra secondo la loro specie e il bestiame secondo la sua specie e tutti i rettili del suolo secondo la loro specie. E Dio video che ciò era buono.<br />
+> Dio disse: "Facciamo l'uomo a nostra immmagine, secondo la nostra somiglianza, e abbia dominio sui pesci del mare e sui volatili del cielo, sul bestiame, su tutte le fiere della terra e su tuti i rettili che strisciano sulla terra".<br />
+> Dio creò l'uomo a sua immagine, a immagine di Dio lo creò maschio e femmina li creò.<br />
+> Dio li benedisse e Dio disse loro: "Siate fecondi e moltiplicativi, riempite la terra e soggiogatela e abbiate dominio sui pesci del mare e sui volatili del cielo, sul bestiame, su tutte le fiere della terra e su tuti i rettili che strisciano sulla terra".<br />
+> Poi Dio disse: "Ecco, io vi do ogni sorta di graminacee produttrici di semente, che sono sulla superficie di tutta la terra, e anche ogni sorta di alberi in cui vi sono frutti portatori di seme: costituiranno il vostro nutrimento. Ma a tutte le fiere della terra, a tutti i volatili del cielo e a tutti gli esseri che strisciano sulla terra e nei quali è l'alito di vita, io do come nutrimento le erbe verdi". È così avvenne. E Dio vide tutto ciò che aveva fatto ed, ecco, era molto buono. E fu sera, e fu mattina: il sesto giorno. <br />
 > Così furono terminati il cielo e la terra e tutto il loro esercito. <br />
->Allora Dio nel settimo giorno volle concluso il lavoro che aveva fatto e cessò da ogni lavoro.<br />
->Dio benedisse il settimo giorno e lo consacrò.
+> Allora Dio nel settimo giorno volle concluso il lavoro che aveva fatto e cessò da ogni lavoro.<br />
+> Dio benedisse il settimo giorno e lo consacrò.
 
 Questa visione non tiene conto però della funzione che hanno nel sistema che permette la vita alla specie umana. Non tendiamo a preoccuparci se una determinata specie di pesce si estingue perché la domanda che ne facciamo è troppa o se un qualche ecosistema viene distrutto dall'avanzare della cementificazione o degli allevamenti intensivi, ma dovremmo.
 Ogni forma di vita su questo pianeta ha un'importante ruolo nel mantenere l'equilibrio che il Pianeta aveva raggiunto prima che fosse compromesso dal nostro fare.
@@ -258,6 +259,6 @@ Ogni forma di vita su questo pianeta ha un'importante ruolo nel mantenere l'equi
 In questo sistema, la nostra specie non può sopravvivere senza l'intenso lavoro che svolgono tutte le altre forme di vita e questo ci lega in maniera indissolubile con la vita che ci circonda.
 Se veramente pensiamo di poter aver controllo su questo Pianeta dobbiamo assumerci il dovere di includere tutte le forme di vita nella nostra visione di "progresso" di questo Pianeta.
 
-[^genesi-la-sacra-bibbia]: *Genesi*. La Sacra Bibbia, Ed. Marietti 1970.
+[^genesi-la-sacra-bibbia]: _Genesi_. La Sacra Bibbia, Ed. Marietti 1970.
 
 </FullSizeSection>

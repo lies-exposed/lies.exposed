@@ -20,9 +20,6 @@ export const createResolvers = ({
       date: {
         type: "Date!",
       },
-      avatar: {
-        type: "File",
-      },
     },
     GroupFrontmatter: {
       uuid: {
