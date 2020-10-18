@@ -1,19 +1,19 @@
 /* eslint-disable no-restricted-imports */
 
-import * as fs from 'fs'
-import * as E from 'fp-ts/lib/Either'
-import { CreateSchemaCustomizationArgs } from 'gatsby'
-import * as t from 'io-ts'
-import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
-import { ActorFrontmatter } from '../../src/models/actor'
-import { AreaFrontmatter } from '../../src/models/area'
-import { ArticleFrontmatter } from '../../src/models/article'
-import { EventFrontmatter } from '../../src/models/event'
-import { GroupFrontmatter } from '../../src/models/group'
-import { PageFrontmatter } from '../../src/models/page'
-import { TopicFrontmatter } from '../../src/models/topic'
-import { MD_FRONTMATTER_TYPE } from './consts'
-
+import * as fs from "fs"
+import * as E from "fp-ts/lib/Either"
+import { CreateSchemaCustomizationArgs } from "gatsby"
+import * as t from "io-ts"
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { ProjectFrontmatter } from "../../src/models/Project"
+import { ActorFrontmatter } from "../../src/models/actor"
+import { AreaFrontmatter } from "../../src/models/area"
+import { ArticleFrontmatter } from "../../src/models/article"
+import { EventFrontmatter } from "../../src/models/event"
+import { GroupFrontmatter } from "../../src/models/group"
+import { PageFrontmatter } from "../../src/models/page"
+import { TopicFrontmatter } from "../../src/models/topic"
+import { MD_FRONTMATTER_TYPE } from "./consts"
 
 const {
   featuredImage,
@@ -73,6 +73,22 @@ const AreaF = t.strict({
   topics: t.array(t.string),
 })
 
+const {
+  images: _images,
+  ...Project
+} = ProjectFrontmatter.type.props
+const ProjectF = t.strict({
+  ...Project,
+  images: optionFromNullable(
+    t.array(
+      t.type({
+        description: t.string,
+        image: t.string,
+      })
+    )
+  ),
+}, 'ProjectF')
+
 export const createSchemaCustomization = async ({
   actions,
   schema,
@@ -95,16 +111,23 @@ export const createSchemaCustomization = async ({
           "TopicFrontmatter",
           "AreaFrontmatter",
           "PageFrontmatter",
+          "ProjectFrontmatter",
           MD_FRONTMATTER_TYPE,
         ],
-        resolveType: async (source) => {
+        resolveType: async (source, context, info) => {
           if (E.isRight(ActorF.decode(source))) {
             return "ActorFrontmatter"
+          }
+
+          if (E.isRight(ProjectF.decode(source))) {
+            return "ProjectFrontmatter"
           }
 
           if (E.isRight(GroupF.decode(source))) {
             return "GroupFrontmatter"
           }
+
+          
 
           if (E.isRight(TopicFrontmatter.decode(source))) {
             return "TopicFrontmatter"

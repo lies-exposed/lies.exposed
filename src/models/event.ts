@@ -4,9 +4,9 @@ import { date } from "io-ts-types/lib/date"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Point } from "./Common/Point"
-import { ImageFileNode } from "./Image"
+import { ImageAndDescription } from "./Image"
+import { JSONFromString } from "./JSONFromString"
 import { mdx } from "./Mdx"
-import { ObjectFromString } from "./ObjectFromString"
 import { ActorFrontmatter } from "./actor"
 import { GroupFrontmatter } from "./group"
 import { TopicFrontmatter } from "./topic"
@@ -45,16 +45,9 @@ export const EventFrontmatter = t.strict(
     uuid: t.string,
     title: t.string,
     date: DateFromISOString,
-    location: optionFromNullable(ObjectFromString.pipe(Point)),
+    location: optionFromNullable(JSONFromString.pipe(Point)),
     type: optionFromNullable(EventType),
-    images: optionFromNullable(
-      nonEmptyArray(
-        t.type({
-          description: optionFromNullable(t.string),
-          image: ImageFileNode,
-        })
-      )
-    ),
+    images: optionFromNullable(nonEmptyArray(ImageAndDescription)),
     links: optionFromNullable(t.array(t.string)),
     actors: optionFromNullable(t.array(ActorFrontmatter)),
     groups: optionFromNullable(t.array(GroupFrontmatter)),
@@ -65,9 +58,6 @@ export const EventFrontmatter = t.strict(
 
 export type EventFrontmatter = t.TypeOf<typeof EventFrontmatter>
 
-export const EventMD = mdx(
-  EventFrontmatter,
-  "EventMD"
-)
+export const EventMD = mdx(EventFrontmatter, "EventMD")
 
 export type EventMD = t.TypeOf<typeof EventMD>

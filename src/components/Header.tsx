@@ -1,18 +1,17 @@
-import { CustomTheme, themedUseStyletron } from "@theme/CustomeTheme"
+import { CustomTheme } from "@theme/CustomeTheme"
 import { withStyle } from "baseui"
-import { FlexGridItem } from "baseui/flex-grid"
 import {
   ALIGN,
   HeaderNavigation,
   StyledNavigationItem,
-  StyledNavigationList
+  StyledNavigationList,
 } from "baseui/header-navigation"
 import { StyledLink } from "baseui/link"
 import { StatefulMenu } from "baseui/menu"
 import {
   PLACEMENT as PopoverPlacement,
   StatefulPopover,
-  TRIGGER_TYPE
+  TRIGGER_TYPE,
 } from "baseui/popover"
 import { graphql, navigate, useStaticQuery } from "gatsby"
 import React from "react"
@@ -34,22 +33,23 @@ const NavigationItem = withStyle(
   ({ $theme }: { $theme: CustomTheme }) => {
     return {
       fontFamily: $theme.typography.secondaryFont,
-      color: $theme.colors.white,
-
+      color: $theme.colors.brandSecondary,
     }
   }
 )
 
-const NavigationLink = withStyle(StyledLink as any, ({ $theme }: { $theme: CustomTheme }) => {
-  return {
-    fontFamily: $theme.typography.secondaryFont,
-    color: $theme.colors.white,
-    textDecoration: 'none',
-    textTransform: 'uppercase',
-    cursor: 'pointer'
-    
+const NavigationLink = withStyle(
+  StyledLink as any,
+  ({ $theme }: { $theme: CustomTheme }) => {
+    return {
+      fontFamily: $theme.typography.secondaryFont,
+      color: $theme.colors.brandSecondary,
+      textDecoration: "none",
+      textTransform: "uppercase",
+      cursor: "pointer",
+    }
   }
-})
+)
 const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
   return (
     <NavigationItem key={item.label} path={item.path}>
@@ -137,50 +137,51 @@ const Header: React.FC = () => {
           label: "Topics",
         },
         {
-          id: 'areas',
-          path: '/areas',
-          label: 'Aree'
-        }
+          id: "areas",
+          path: "/areas",
+          label: "Aree",
+        },
+        {
+          id: "projects",
+          path: "/projects",
+          label: "Progetti",
+        },
       ],
     },
   ]
 
-  const [, $theme] = themedUseStyletron()
+  // const [, $theme] = themedUseStyletron()
 
   return (
-    <FlexGridItem>
-      <HeaderNavigation
-        overrides={{
-          Root: {
-            style: {
-              backgroundColor: $theme.colors.brandPrimary,
-            },
-          },
-        }}
-      >
-        <StyledNavigationList $align={ALIGN.left}>
-          {renderMenuLink({
-            item: { id: "home", label: title, path: "/", subItems: [] },
-            pos: 0,
-          })}
-          <NavigationItem>
-            <iframe
-              src={`https://ghbtns.com/github-btn.html?user=${github.user}&repo=${github.repo}&type=star&count=true&size=small`}
-              frameBorder="0"
-              scrolling="0"
-              width="100"
-              height="20"
-              title="GitHub"
-              style={{ verticalAlign: "middle" }}
-            />
-          </NavigationItem>
-        </StyledNavigationList>
-        <StyledNavigationList $align={ALIGN.center} />
-        <StyledNavigationList $align={ALIGN.right}>
-          {items.map((i, k) => renderMenuLink({ item: i, pos: k }))}
-        </StyledNavigationList>
-      </HeaderNavigation>
-    </FlexGridItem>
+    <HeaderNavigation
+      overrides={{
+        Root: {
+          style: {},
+        },
+      }}
+    >
+      <StyledNavigationList $align={ALIGN.left}>
+        {renderMenuLink({
+          item: { id: "home", label: title, path: "/", subItems: [] },
+          pos: 0,
+        })}
+        <NavigationItem>
+          <iframe
+            src={`https://ghbtns.com/github-btn.html?user=${github.user}&repo=${github.repo}&type=star&count=true&size=small`}
+            frameBorder="0"
+            scrolling="0"
+            width="100"
+            height="20"
+            title="GitHub"
+            style={{ verticalAlign: "middle" }}
+          />
+        </NavigationItem>
+      </StyledNavigationList>
+      <StyledNavigationList $align={ALIGN.center} />
+      <StyledNavigationList $align={ALIGN.right}>
+        {items.map((i, k) => renderMenuLink({ item: i, pos: k }))}
+      </StyledNavigationList>
+    </HeaderNavigation>
   )
 }
 

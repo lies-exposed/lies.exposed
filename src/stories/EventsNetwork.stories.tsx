@@ -2,20 +2,21 @@ import {
   EventsNetwork,
   EventsNetworkProps,
 } from "@components/Graph/EventsNetwork"
+import { actors } from "@mock-data/actors"
+import { events } from "@mock-data/events"
+import { EventMD } from "@models/event"
 import { Meta, Story } from "@storybook/react/types-6-0"
-import { actors } from "data/actors"
-import { events } from "data/events"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
 const meta: Meta = {
-  title: "Example/Graph/EventsNetwork",
+  title: "Components/Graph/EventsNetwork",
   component: EventsNetwork,
 }
 
 export default meta
 
-const eventsMD = events.map((e) => ({
+const eventsMD: EventMD[] = events.map((e) => ({
   frontmatter: e,
   body: () => "",
   tableOfContents: { items: [] },
@@ -42,7 +43,6 @@ NetworkGraphExample.args = args
 NetworkGraphExample.argTypes = {
   minDate: { control: "date" },
   maxDate: { control: "date" },
-  graph: { control: "object" },
   selectedEvents: { control: "object" },
 }
 

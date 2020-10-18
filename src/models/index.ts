@@ -6,7 +6,8 @@ export const ResourcesNames = t.keyof({
   actors: null,
   groups: null,
   articles: null,
-  areas: null
+  areas: null,
+  projects: null
 }, 'ResourcesNames')
 
 export type ResourcesNames = t.TypeOf<typeof ResourcesNames>

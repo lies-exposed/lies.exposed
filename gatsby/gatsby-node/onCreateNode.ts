@@ -9,6 +9,7 @@ type Collection =
   | "pages"
   | "topics"
   | "areas"
+  | 'projects'
 
 const collectionToTypeMap: Record<Collection, string> = {
   actors: "ActorFrontmatter",
@@ -18,6 +19,7 @@ const collectionToTypeMap: Record<Collection, string> = {
   pages: "PageFrontmatter",
   topics: "TopicFrontmatter",
   areas: "AreaFrontmatter",
+  projects: 'ProjectFrontmatter'
 }
 
 export const onCreateNode = ({

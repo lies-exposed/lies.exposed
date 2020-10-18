@@ -1,9 +1,9 @@
 import { EventsNetwork } from "@components/Graph/EventsNetwork"
-import { actors } from "data/actors"
-import { events } from "data/events"
-import { groups } from "data/groups"
-import { topics } from "data/topics"
 import * as O from "fp-ts/lib/Option"
+import { actors } from "mock-data/actors"
+import { events } from "mock-data/events"
+import { groups } from "mock-data/groups"
+import { topics } from "mock-data/topics"
 import * as React from "react"
 
 const NetworkExample: React.FC = () => {

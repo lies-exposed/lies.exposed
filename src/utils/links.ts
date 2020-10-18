@@ -8,6 +8,7 @@ export const getAdminLink = <K extends ResourcesNames>(
 ): string => {
   switch (key) {
     case "articles":
+    case "projects":
     case "events":
     case "topics":
     case "actors":
@@ -29,6 +30,7 @@ export const navigateTo = async <K extends ResourcesNames>(
     case "events":
     case "actors":
     case "topics":
+    case "projects":
     case "groups": {
       await nav(`/${resourceName}/${f.uuid}`)
       break

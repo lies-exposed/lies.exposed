@@ -50,6 +50,9 @@ export const GroupPreview: React.FC<any> = ({
           tableOfContents={{ items: [] }}
           timeToRead={O.some(1)}
           onMemberClick={() => {}}
+          events={[]}
+          funds={[]}
+          projects={[]}
         />
       </>
     ))

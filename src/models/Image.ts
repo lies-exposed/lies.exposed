@@ -1,4 +1,5 @@
 import * as t from "io-ts"
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
 export const ImageFileNode = t.interface(
   {
@@ -24,3 +25,13 @@ export const ImageFileNode = t.interface(
 )
 
 export type ImageFileNode = t.TypeOf<typeof ImageFileNode>
+
+export const ImageAndDescription = t.strict(
+  {
+    description: optionFromNullable(t.string),
+    image: ImageFileNode,
+  },
+  "ImageAndDescription"
+)
+
+export type ImageAndDescription = t.TypeOf<typeof ImageAndDescription>

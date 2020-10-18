@@ -75,6 +75,13 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
+        name: "projects",
+        path: `${process.cwd()}/content/projects`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
         name: "articles",
         path: `${process.cwd()}/content/articles`,
       },

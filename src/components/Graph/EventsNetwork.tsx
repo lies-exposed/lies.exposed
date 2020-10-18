@@ -8,7 +8,7 @@ import TopicList from "@components/lists/TopicList"
 import { Frontmatter } from "@models/Frontmatter"
 import { ActorFrontmatter, ActorMD } from "@models/actor"
 import { EventMD } from "@models/event"
-import { GroupFrontmatter, GroupMdx } from "@models/group"
+import { GroupFrontmatter, GroupMD } from "@models/group"
 import { NetworkPageMD } from "@models/networks"
 import { TopicFrontmatter, TopicMD } from "@models/topic"
 import { ordEventDate } from "@utils//event"
@@ -369,7 +369,7 @@ export interface NetworkTemplateData {
     nodes: ActorMD[]
   }
   groups: {
-    nodes: GroupMdx[]
+    nodes: GroupMD[]
   }
   events: {
     nodes: EventMD[]

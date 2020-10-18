@@ -6,6 +6,7 @@ import { TableOfContents } from "@components/TableOfContents"
 import { PageContentFileNode } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import * as E from "fp-ts/lib/Either"
+import * as O from 'fp-ts/lib/Option'
 import { pipe } from "fp-ts/lib/pipeable"
 import { useStaticQuery, graphql, PageProps } from "gatsby"
 import React from "react"
@@ -33,9 +34,13 @@ const ProjectPage: React.FC<PageProps> = (props) => {
         <Layout>
           <SEO title={page.childMdx.frontmatter.title} />
           <ContentWithSidebar
-            sidebar={
-              <TableOfContents {...page.childMdx.tableOfContents} />
-            }
+            sidebar={pipe(
+              O.fromNullable(page.childMdx.tableOfContents.items),
+              O.fold(
+                () => <div />,
+                (items) => <TableOfContents items={items} />
+              )
+            )}
           >
             <PageContent {...page.childMdx} />
           </ContentWithSidebar>

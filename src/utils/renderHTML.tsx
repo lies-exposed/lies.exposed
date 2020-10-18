@@ -10,15 +10,13 @@ import NetworkExample from "@components/Graph/NetworkExample"
 import { Video } from "@components/Video"
 import { MDXProvider, MDXProviderComponentsProp } from "@mdx-js/react"
 import { HeadingLarge, HeadingMedium, HeadingSmall, HeadingXLarge, HeadingXSmall, HeadingXXLarge, ParagraphMedium } from "baseui/typography"
-import { Link } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import * as React from "react"
 
 const shortcodes: MDXProviderComponentsProp = {
-  Link,
   FullSizeSection,
-  CO2LevelsGraph,
   CO2LeftBudgetCounter,
+  CO2LevelsGraph,
   HumanPopulationGrowthGraph: HumanPopulationGrowthGraph,
   WorldPopulationCounter,
   NetworkExample,
@@ -35,8 +33,8 @@ const shortcodes: MDXProviderComponentsProp = {
   h6: HeadingXSmall
 }
 
-export const renderHTML = (md: { body: string }): JSX.Element => (
+export const renderHTML = (md: { body: string | null }): JSX.Element => (
   <MDXProvider components={shortcodes}>
-    <MDXRenderer>{md.body}</MDXRenderer>
+    { md.body !== null ? <MDXRenderer>{md.body}</MDXRenderer> : "No body given"}
   </MDXProvider>
 )

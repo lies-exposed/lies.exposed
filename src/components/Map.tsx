@@ -52,7 +52,7 @@ const Map: React.FC<MapProps> = ({
         const area = feature.getProperties() as AreaFrontmatter
         return new Style({
           fill: new Fill({
-            color: "rgba(255, 255, 255, 0.6)",
+            color: `#${area.color}`,
           }),
           stroke: new Stroke({
             color: `#${area.color}`,
@@ -86,7 +86,12 @@ const Map: React.FC<MapProps> = ({
       })
     })
 
-    return () => {}
+    return () => {
+      const mapDiv = document.querySelector('#map')
+      if (mapDiv !== null) {
+        mapDiv.innerHTML = ""
+      }
+    }
   })
 
   return <div id="map" style={{ width, height }} />

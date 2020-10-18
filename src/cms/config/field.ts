@@ -1,32 +1,18 @@
-import { CmsField } from "netlify-cms-core"
+import { CmsField as NCMSField } from "netlify-cms-core"
 
-export interface CmsFieldV2 extends CmsField {
-  collection?: string
-  searchFields?: string[]
-  displayFields?: string[]
-  valueField?: string
-  multiple?: boolean
-  options?: string[]
-  collapsed?: boolean
-  summary?: string
-  field?: CmsFieldV2
-  fields?: CmsFieldV2[]
-  format?: string
-  default?: string | { label: string; value: string } | number | boolean
-  types?: CmsFieldV2[]
-  valueType?: "int"
-  min?: number
-  max?: number
+export interface CmsField extends Omit<NCMSField, "name" | "label"> {
+  name: string
+  label?: string
 }
 
-type GetField = (field: { name: string } & Partial<CmsFieldV2>) => CmsFieldV2
+export type GetField<R extends Partial<CmsField>> = (field: R) => CmsField
 
-const makeField = (obj: Partial<CmsFieldV2>): GetField => (field) =>
-  ({
-    ...obj,
-    ...field,
-  } as any)
-
+const makeField = <R extends keyof CmsField>(
+  obj: { widget: string } & Partial<CmsField>
+): GetField<Pick<CmsField, R> & CmsField> => (field) => ({
+  ...field,
+  ...obj,
+})
 /**
  * Fields
  */
@@ -36,22 +22,12 @@ export const BooleanField = makeField({
   default: false,
 })
 export const DateField = makeField({
-  label: "Date",
-  name: "date",
   widget: "datetime",
 })
 
 export const ImageField = makeField({
   label: "Image",
-  name: "image",
   widget: "image",
-})
-
-export const MapField = makeField({
-  label: "Map",
-  summary: "Map",
-  name: "map",
-  widget: "map",
 })
 
 export const MarkdownField = makeField({
@@ -67,14 +43,15 @@ export const NumberField = makeField({
 
 export const RelationField = makeField({
   widget: "relation",
+  value_field: "uuid",
 })
 export const StringField = makeField({
-  label: "Title",
   widget: "string",
 })
 
 export const TextField = makeField({
   label: "Title",
+  name: "text",
   widget: "text",
 })
 
@@ -84,14 +61,25 @@ export const VideoField = makeField({
   widget: "file",
 })
 
-export const ColorField = {
-  label: "Color",
-  name: "color",
+export const ColorField = makeField({
   widget: "color",
-}
+})
 
-export const UUIDField: CmsFieldV2 = {
+export const UUIDField: CmsField = {
   label: "uuid",
   name: "uuid",
   widget: "uuid",
 }
+
+export const MapField = makeField({
+  widget: "map",
+})
+
+export const ListField = makeField<"field">({
+  widget: "list",
+})
+
+export const SelectField = makeField<"options">({
+  widget: "select",
+  value_field: 'uuid'
+})

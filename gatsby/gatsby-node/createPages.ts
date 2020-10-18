@@ -1,7 +1,8 @@
-import * as path from 'path'
-import { AreaFrontmatter } from '@models/area'
+import * as path from "path"
+import { ProjectFrontmatter } from "@models/Project"
+import { AreaFrontmatter } from "@models/area"
 import { ArticleFrontmatter } from "@models/article"
-import { GroupMdx } from '@models/group'
+import { GroupMD } from "@models/group"
 import { CreatePagesArgs } from "gatsby"
 
 const createArticlePages = async ({
@@ -10,9 +11,7 @@ const createArticlePages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const BlogPostTemplate = path.resolve(
-    `src/templates/ArticleTemplate/ArticleTemplate.tsx`
-  )
+  const BlogPostTemplate = path.resolve(`src/templates/ArticleTemplate.tsx`)
 
   const result = await graphql<{
     articles: { nodes: ArticleFrontmatter[] }
@@ -67,12 +66,10 @@ const createGroupPages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const groupTemplate = path.resolve(
-    `src/templates/GroupTemplate/GroupTemplate.tsx`
-  )
+  const groupTemplate = path.resolve(`src/templates/GroupTemplate.tsx`)
 
   const result = await graphql<{
-    groups: { nodes: Array<{ childMdx: GroupMdx }> }
+    groups: { nodes: Array<{ childMdx: GroupMD }> }
   }>(`
     {
       groups: allFile(filter: { sourceInstanceName: { eq: "groups" } }) {
@@ -109,13 +106,14 @@ const createGroupPages = async ({
 
   const nodes = result.data.groups.nodes
 
+  
   nodes.forEach((node) => {
     const groupUUID = node.childMdx.frontmatter.uuid
     const nodePath = `/groups/${groupUUID}`
 
     const context = {
       group: groupUUID,
-      members: (node.childMdx.frontmatter.members as any).map(
+      members: ((node.childMdx.frontmatter.members as any) ?? []).map(
         (m: any) => m.uuid
       ),
     }
@@ -143,9 +141,7 @@ const createActorPages = async ({
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const actorTemplate = path.resolve(
-    `src/templates/ActorTemplate/ActorTemplate.tsx`
-  )
+  const actorTemplate = path.resolve(`src/templates/ActorTemplate.tsx`)
 
   const result = await graphql<{ actors: { nodes: Array<{ name: string }> } }>(`
     {
@@ -241,74 +237,13 @@ const createEventPages = async ({
   })
 }
 
-// const createNetworkPages = async ({
-//   actions,
-//   graphql,
-//   reporter,
-// }: CreatePagesArgs): Promise<void> => {
-//   const { createPage } = actions
-
-//   const result = await graphql<{
-//     networks: { nodes: Array<{ name: string }> }
-//   }>(`
-//     {
-//       networks: allDirectory(
-//         filter: { relativeDirectory: { glob: "networks" } }
-//       ) {
-//         nodes {
-//           name
-//         }
-//       }
-//     }
-//   `)
-
-//   // Handle errors
-//   if (result.errors !== undefined) {
-//     reporter.panicOnBuild(`Error while running GraphQL allNetworks query.`)
-//     return
-//   }
-
-//   const component = path.resolve(
-//     `src/templates/NetworkTemplate/NetworkTemplate.tsx`
-//   )
-
-//   if (result.data === undefined) {
-//     reporter.panicOnBuild(`No data for networks pages`)
-//     return
-//   }
-
-//   result.data.networks.nodes.forEach(({ name }) => {
-//     const relativeDirectory = `events/networks/${name}`
-//     const eventsRelativeDirectory = `events/networks/${name}/*`
-//     const imagesRelativeDirectory = `events/networks/${name}/*/images`
-
-//     const context = {
-//       relativeDirectory,
-//       eventsRelativeDirectory,
-//       imagesRelativeDirectory,
-//     }
-//     reporter.info(
-//       `network page [${name}] context: ${JSON.stringify(context, null, 4)}`
-//     )
-
-//     createPage({
-//       path: `/networks/${name}`,
-//       component,
-//       // additional data can be passed via context
-//       context,
-//     })
-//   })
-// }
-
 const createTopicPages = async ({
   actions,
   graphql,
   reporter,
 }: CreatePagesArgs): Promise<void> => {
   const { createPage } = actions
-  const topicTemplate = path.resolve(
-    `src/templates/TopicTemplate/TopicTemplate.tsx`
-  )
+  const topicTemplate = path.resolve(`src/templates/TopicTemplate.tsx`)
 
   const result = await graphql<{ topics: { nodes: Array<{ name: string }> } }>(`
     {
@@ -409,12 +344,8 @@ const createAreasPages = async ({
 
     const context = {
       areaUUID: node.name,
-      groupUUIDs: node.childMdx.frontmatter.groups.map(
-        (g) => g.uuid
-      ),
-      topicUUIDs: node.childMdx.frontmatter.topics.map(
-        (t) => t.uuid
-      ),
+      groupUUIDs: node.childMdx.frontmatter.groups.map((g) => g.uuid),
+      topicUUIDs: node.childMdx.frontmatter.topics.map((t) => t.uuid),
     }
 
     reporter.info(`Area context: ${JSON.stringify(context, null, 4)}`)
@@ -429,6 +360,74 @@ const createAreasPages = async ({
   })
 }
 
+/**
+ * Projects
+ *
+ * */
+const createProjectPages = async ({
+  actions,
+  graphql,
+  reporter,
+}: CreatePagesArgs): Promise<void> => {
+  const { createPage } = actions
+  const projectTemplate = path.resolve(`src/templates/ProjectTemplate.tsx`)
+
+  const result = await graphql<{
+    projects: {
+      nodes: Array<{
+        name: string
+        childMdx: { frontmatter: ProjectFrontmatter }
+      }>
+    }
+  }>(`
+    {
+      projects: allFile(filter: { sourceInstanceName: { eq: "projects" } }) {
+        nodes {
+          name
+          childMdx {
+            frontmatter {
+              ... on ProjectFrontmatter {
+                uuid
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  // Handle errors
+  if (result.errors !== undefined) {
+    reporter.panicOnBuild(`Error while running createTopicPages query.`)
+    return
+  }
+
+  if (result.data === undefined) {
+    reporter.panicOnBuild(`No data for topics pages`)
+    return
+  }
+
+  const nodes = result.data.projects.nodes
+
+  nodes.forEach((node) => {
+    const nodePath = `/projects/${node.name}`
+
+    const context = {
+      projectUUID: node.name,
+    }
+    reporter.info(`Project context: ${JSON.stringify(context, null, 4)}`)
+    reporter.info(`Building to path: ${nodePath}`)
+
+    createPage({
+      path: nodePath,
+      component: projectTemplate,
+      // additional data can be passed via context
+      context,
+    })
+  })
+}
+
 export const createPages = async (options: CreatePagesArgs): Promise<void> => {
   await createArticlePages(options)
   await createActorPages(options)
@@ -436,5 +435,5 @@ export const createPages = async (options: CreatePagesArgs): Promise<void> => {
   await createTopicPages(options)
   await createEventPages(options)
   await createAreasPages(options)
-  // await createNetworkPages(options)
+  await createProjectPages(options)
 }

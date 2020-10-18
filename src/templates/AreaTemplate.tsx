@@ -2,7 +2,7 @@ import { AreaPageContent } from "@components/AreaPageContent"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
-import EventList from "@components/lists/EventList"
+import EventList from "@components/lists/EventList/EventList"
 import { AreaMD } from "@models/area"
 import { EventMD } from "@models/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -43,7 +43,11 @@ const AreaTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
             />
             </FlexGridItem> */}
           <MainContent>
-            <AreaPageContent {...area} />
+            <AreaPageContent
+              {...area}
+              onGroupClick={() => {}}
+              onTopicClick={() => {}}
+            />
             <EventList events={events} />
           </MainContent>
         </Layout>

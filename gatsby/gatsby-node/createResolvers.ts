@@ -20,9 +20,6 @@ export const createResolvers = ({
       date: {
         type: "Date!",
       },
-      avatar: {
-        type: "File",
-      },
     },
     GroupFrontmatter: {
       uuid: {
@@ -68,42 +65,9 @@ export const createResolvers = ({
         },
       },
     },
-    EventFrontmatter: {
-      actors: {
-        type: "[ActorFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const actorIds = source.actors ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "ActorFrontmatter",
-            })
-            .filter((m: any) => actorIds.includes(m.uuid))
-        },
-      },
-      groups: {
-        type: "[GroupFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const groupIds = source.groups ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "GroupFrontmatter",
-            })
-            .filter((m: any) => groupIds.includes(m.uuid))
-        },
-      },
-      topics: {
-        type: "[TopicFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const topicIds = source.topics ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "TopicFrontmatter",
-            })
-            .filter((m: any) => topicIds.includes(m.uuid))
-        },
-      },
+    ProjectFrontmatter: {
       images: {
-        type: "[ImageWithDescription!]",
+        type: "[ImageAndDescription!]",
         resolve: async (source: any, args: any, context: any) => {
           const sourceImages: Array<{
             description?: string
@@ -146,6 +110,84 @@ export const createResolvers = ({
         },
       },
     },
+    EventFrontmatter: {
+      actors: {
+        type: "[ActorFrontmatter!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const actorIds = source.actors ?? []
+          return context.nodeModel
+            .getAllNodes({
+              type: "ActorFrontmatter",
+            })
+            .filter((m: any) => actorIds.includes(m.uuid))
+        },
+      },
+      groups: {
+        type: "[GroupFrontmatter!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const groupIds = source.groups ?? []
+          return context.nodeModel
+            .getAllNodes({
+              type: "GroupFrontmatter",
+            })
+            .filter((m: any) => groupIds.includes(m.uuid))
+        },
+      },
+      topics: {
+        type: "[TopicFrontmatter!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const topicIds = source.topics ?? []
+          return context.nodeModel
+            .getAllNodes({
+              type: "TopicFrontmatter",
+            })
+            .filter((m: any) => topicIds.includes(m.uuid))
+        },
+      },
+      images: {
+        type: "[ImageAndDescription!]",
+        resolve: async (source: any, args: any, context: any) => {
+          const sourceImages: Array<{
+            description?: string
+            image: string
+          }> = source.images ?? []
+          const images = pipe(
+            sourceImages,
+            A.map((i) => ({
+              ...i,
+              image: path.join(process.cwd(), i.image.replace("../../", "/")),
+            }))
+          )
+
+          const imagesPaths = images.map((i) => i.image)
+
+          const results = await context.nodeModel.runQuery({
+            type: "File",
+            query: {
+              filter: { absolutePath: { in: imagesPaths } },
+            },
+            firstOnly: false,
+          })
+
+          if (results === null) {
+            return null
+          }
+
+          return pipe(
+            results,
+            A.map((image: any) => ({
+              description: pipe(
+                images,
+                A.findFirst((i) => i.image === image.absolutePath),
+                O.mapNullable((i) => i.description),
+                O.toUndefined
+              ),
+              image: image,
+            }))
+          )
+        },
+      },
+    }
   }
   createResolvers(resolvers)
 }
