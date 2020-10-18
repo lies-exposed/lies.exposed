@@ -8,6 +8,7 @@ import { firstGroupAvatar } from "./avatars"
 export const firstGroup: GroupFrontmatter = {
   uuid: uuid(),
   name: "First Group",
+  type: 'Public',
   date: new Date(),
   avatar: O.some(firstGroupAvatar),
   subGroups: O.none,
@@ -18,6 +19,7 @@ export const firstGroup: GroupFrontmatter = {
 export const secondGroup: GroupFrontmatter = {
   uuid: uuid(),
   name: "Second Group",
+  type: 'Private',
   date: new Date(),
   avatar: O.none,
   subGroups: O.none,
