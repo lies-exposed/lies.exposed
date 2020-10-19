@@ -1,10 +1,9 @@
 import { AxisLeft, AxisRight, AxisBottom } from "@vx/axis"
-import { curveMonotoneX } from "@vx/curve"
+import { curveBasis } from "@vx/curve"
 import { Grid } from "@vx/grid"
 import { Group } from "@vx/group"
 import { scaleLinear } from "@vx/scale"
 import { Bar, LinePath, Line } from "@vx/shape"
-import { extent } from "d3-array"
 import React from "react"
 
 // accessors
@@ -29,8 +28,8 @@ interface AxisGraphProps<D> {
   height: number
   data: D[]
   points?: { data: D[] }
-  minX?: number
-  minY?: number
+  minXRange?: number
+  minYRange?: number
   getX: (e: D) => number
   axisLeftLabel: string
   axisRightLabel: string
@@ -54,8 +53,8 @@ export const AxisGraph = <D extends any>({
   margin,
   background,
   linePathElement,
-  minX = 0,
-  minY = 0,
+  minXRange = 0,
+  minYRange = 0,
   getX,
   getY,
   showPoints,
@@ -64,18 +63,22 @@ export const AxisGraph = <D extends any>({
   axisBottomLabel,
 }: AxisGraphProps<D>): JSX.Element => {
   // bounds
-  const xMax = width - margin.left - margin.right
-  const yMax = height - margin.top - margin.bottom
+  const maxX = width - margin.left - margin.right
+  const maxY = height - margin.top - margin.bottom
 
   // scales
+  const xDomain = [Math.min(...data.map(getX)), Math.max(...data.map(getX))]
+  
   const xScale = scaleLinear({
-    range: [0, xMax],
-    domain: extent(data, getX) as any,
+    range: [0, maxX],
+    domain: xDomain,
   })
 
+  const yDomain = [Math.min(...data.map(getY)), Math.max(...data.map(getY))]
+
   const yScale = scaleLinear({
-    range: [yMax, 0],
-    domain: [minY, Math.max(...data.map(getY))],
+    range: [maxY, 0],
+    domain: yDomain,
     nice: true,
   })
 
@@ -106,8 +109,8 @@ export const AxisGraph = <D extends any>({
         xScale={xScale}
         yScale={yScale}
         stroke="rgba(142, 32, 95, 0.9)"
-        width={xMax}
-        height={yMax}
+        width={maxX}
+        height={maxY}
         numTicksRows={numTicksForHeight(height)}
         numTicksColumns={numTicksForWidth(width)}
       />
@@ -118,18 +121,19 @@ export const AxisGraph = <D extends any>({
           y={(d) => yScale(getY(d))}
           stroke={`url('#${linePathId}')`}
           strokeWidth={3}
-          curve={curveMonotoneX}
+          curve={curveBasis}
         />
-        {points !== undefined ?
-          points.data.map((d, i) => (
-            <circle
-              key={i}
-              cx={xScale(getX(d))}
-              cy={yScale(getY(d))}
-              r={3}
-              fill={"black"}
-            />
-          )) : null}
+        {points !== undefined
+          ? points.data.map((d, i) => (
+              <circle
+                key={i}
+                cx={xScale(getX(d))}
+                cy={yScale(getY(d))}
+                r={3}
+                fill={"black"}
+              />
+            ))
+          : null}
       </Group>
       <Group left={margin.left}>
         <AxisLeft
@@ -161,7 +165,7 @@ export const AxisGraph = <D extends any>({
         />
         <AxisRight
           top={margin.top}
-          left={xMax}
+          left={maxX}
           scale={yScale}
           hideZero
           numTicks={numTicksForHeight(height)}

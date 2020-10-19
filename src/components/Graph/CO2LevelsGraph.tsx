@@ -147,7 +147,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
               )}
               showPoints={showPoints}
               data={data}
-              minY={150}
+              minYRange={toggleData === 'last-2000-years' ?  240 : 150}
               getX={(d) => d.year}
               getY={(d) => d.value}
               axisLeftLabel={"CO2 cocentration (part per million)"}

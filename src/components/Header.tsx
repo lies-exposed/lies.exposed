@@ -1,4 +1,4 @@
-import { CustomTheme } from "@theme/CustomeTheme"
+import { CustomTheme, themedUseStyletron } from "@theme/CustomeTheme"
 import { withStyle } from "baseui"
 import {
   ALIGN,
@@ -43,14 +43,18 @@ const NavigationLink = withStyle(
   ({ $theme }: { $theme: CustomTheme }) => {
     return {
       fontFamily: $theme.typography.secondaryFont,
+      fontWeight: $theme.typography.HeadingLarge.fontWeight,
       color: $theme.colors.brandSecondary,
+      textTransform: 'uppercase',
       textDecoration: "none",
-      textTransform: "uppercase",
       cursor: "pointer",
     }
   }
 )
-const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
+// eslint-disable-next-line react/display-name
+const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
+  item,
+}) => {
   return (
     <NavigationItem key={item.label} path={item.path}>
       {item.subItems.length > 0 ? (
@@ -62,6 +66,22 @@ const renderMenuLink: React.FC<MenuItemProps> = ({ item }) => {
           content={({ close }) => (
             <StatefulMenu
               items={item.subItems}
+              overrides={{
+                List: {
+                  style: {
+                    border: 'none'
+                  }
+                },
+                ListItem: {
+                  style: {
+                    fontFamily: $theme.typography.secondaryFont,
+                    fontWeight: $theme.typography.HeadingLarge.fontWeight,
+                    color: $theme.colors.brandSecondary,
+                    textTransform: "uppercase",
+                    textAlign: "right",
+                  },
+                },
+              }}
               onItemSelect={async ({ item }) => {
                 await navigate(item.path)
                 close()
@@ -150,8 +170,9 @@ const Header: React.FC = () => {
     },
   ]
 
-  // const [, $theme] = themedUseStyletron()
+  const [, $theme] = themedUseStyletron()
 
+  const menuLinkRenderer = renderMenuLink($theme)
   return (
     <HeaderNavigation
       overrides={{
@@ -161,7 +182,7 @@ const Header: React.FC = () => {
       }}
     >
       <StyledNavigationList $align={ALIGN.left}>
-        {renderMenuLink({
+        {menuLinkRenderer({
           item: { id: "home", label: title, path: "/", subItems: [] },
           pos: 0,
         })}
@@ -179,7 +200,7 @@ const Header: React.FC = () => {
       </StyledNavigationList>
       <StyledNavigationList $align={ALIGN.center} />
       <StyledNavigationList $align={ALIGN.right}>
-        {items.map((i, k) => renderMenuLink({ item: i, pos: k }))}
+        {items.map((i, k) => menuLinkRenderer({ item: i, pos: k }))}
       </StyledNavigationList>
     </HeaderNavigation>
   )
