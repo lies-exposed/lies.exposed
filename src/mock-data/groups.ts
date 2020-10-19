@@ -2,29 +2,31 @@ import { GroupFrontmatter } from "@models/group"
 import { generateRandomColor } from "@utils/colors"
 import uuid from "@utils/uuid"
 import * as O from 'fp-ts/lib/Option'
-import { firstActor, secondActor } from "./actors"
+import { goodActor, badActor } from "./actors"
 import { firstGroupAvatar } from "./avatars"
 
-export const firstGroup: GroupFrontmatter = {
+export const goodGroup: GroupFrontmatter = {
   uuid: uuid(),
-  name: "First Group",
+  name: "Good Group",
   type: 'Public',
-  date: new Date(),
   avatar: O.some(firstGroupAvatar),
   subGroups: O.none,
-  members: O.some([firstActor, secondActor]),
+  members: O.some([goodActor, badActor]),
   color: generateRandomColor(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
-export const secondGroup: GroupFrontmatter = {
+export const badGroup: GroupFrontmatter = {
   uuid: uuid(),
-  name: "Second Group",
+  name: "Bad Group",
   type: 'Private',
-  date: new Date(),
   avatar: O.none,
   subGroups: O.none,
-  members: O.some([secondActor]),
+  members: O.some([badActor]),
   color: generateRandomColor(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
-export const groups = [firstGroup, secondGroup]
+export const groups: GroupFrontmatter[] = [goodGroup, badGroup]

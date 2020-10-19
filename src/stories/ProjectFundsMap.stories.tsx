@@ -1,6 +1,6 @@
 import { ProjectFundsMap, ProjectFundsMapProps } from "@components/Graph/ProjectFundsMap"
 import { funds } from "@mock-data/funds"
-import { firstProject } from "@mock-data/projects"
+import { firstGoodProject } from "@mock-data/projects"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import * as React from "react"
 
@@ -18,7 +18,7 @@ const Template: Story<ProjectFundsMapProps> = (props) => {
 const ProjectFundsMapExample = Template.bind({})
 
 const args: ProjectFundsMapProps = {
-  project: firstProject,
+  project: firstGoodProject,
   funds: funds
 }
 

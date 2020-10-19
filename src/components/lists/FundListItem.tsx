@@ -1,5 +1,5 @@
 import { ListItem } from "@components/Common/ListItem"
-import { FundFrontmatter } from "@models/Events/Fund"
+import { FundFrontmatter } from "@models/Fund"
 import * as React from "react"
 
 interface FundListItemProps {

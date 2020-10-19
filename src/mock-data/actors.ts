@@ -5,22 +5,24 @@ import * as O from "fp-ts/lib/Option"
 import { firstActorAvatar, secondActorAvatar } from "./avatars"
 
 
-export const firstActor: ActorFrontmatter = {
+export const goodActor: ActorFrontmatter = {
   uuid: uuid(),
-  fullName: "First Actor",
-  username: "first-actor",
-  date: new Date(),
+  fullName: "Good Actor",
+  username: "good-actor",
   avatar: O.some(firstActorAvatar),
   color: generateRandomColor(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
-export const secondActor: ActorFrontmatter = {
+export const badActor: ActorFrontmatter = {
   uuid: uuid(),
-  fullName: "Second Actor",
-  username: "second-actor",
-  date: new Date(),
+  fullName: "Bad Actor",
+  username: "bad-actor",
   avatar: O.some(secondActorAvatar),
   color: generateRandomColor(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
-export const actors = [firstActor, secondActor]
+export const actors: ActorFrontmatter[] = [goodActor, badActor]

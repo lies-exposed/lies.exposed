@@ -8,7 +8,8 @@ export const firstTopic: TopicFrontmatter = {
   label: "First Topic",
   slug: "first-topic",
   color: generateRandomColor(),
-  date: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
 export const secondTopic: TopicFrontmatter = {
@@ -16,7 +17,8 @@ export const secondTopic: TopicFrontmatter = {
   label: "Second Topic",
   slug: "second-topic",
   color: generateRandomColor(),
-  date: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
 export const thirdTopic: TopicFrontmatter = {
@@ -24,7 +26,8 @@ export const thirdTopic: TopicFrontmatter = {
   label: "Third Topic",
   slug: "third-topic",
   color: generateRandomColor(),
-  date: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
 export const topics = [firstTopic, secondTopic, thirdTopic]

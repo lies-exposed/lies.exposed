@@ -2,7 +2,7 @@ import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Frontmatter } from "./Frontmatter"
 import { ImageFileNode } from "./Image"
-import { mdx } from "./Mdx"
+import { markdownRemark } from "./Markdown"
 
 export const ArticleFrontmatter = t.strict(
   {
@@ -18,6 +18,6 @@ export const ArticleFrontmatter = t.strict(
 
 export type ArticleFrontmatter = t.TypeOf<typeof ArticleFrontmatter>
 
-export const ArticleMD = mdx(ArticleFrontmatter, 'ArticleMD')
+export const ArticleMD = markdownRemark(ArticleFrontmatter, 'ArticleMD')
 
 export type ArticleMD = t.TypeOf<typeof ArticleMD>

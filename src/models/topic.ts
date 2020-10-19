@@ -1,21 +1,20 @@
 import * as t from "io-ts"
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { Color } from "./Common/Color"
-import { mdx } from "./Mdx"
+import { Frontmatter } from "./Frontmatter"
+import { markdownRemark } from "./Markdown"
 
 export const TopicFrontmatter = t.strict(
   {
-    uuid: t.string,
+    ...Frontmatter.props,
     label: t.string,
     slug: t.string,
-    date: DateFromISOString,
     color: Color,
   },
   "TopicFrontmatter"
 )
 export type TopicFrontmatter = t.TypeOf<typeof TopicFrontmatter>
 
-export const TopicMD = mdx(
+export const TopicMD = markdownRemark(
   TopicFrontmatter,
   "TopicMD"
 )

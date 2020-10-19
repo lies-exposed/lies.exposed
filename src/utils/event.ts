@@ -1,33 +1,27 @@
-import { EventFrontmatter, EventMD, EventType } from "@models/event"
+import { EventMetadata } from "@models/EventMetadata"
+import { EventMD } from "@models/event"
 import { subWeeks } from "date-fns"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
+
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
   (e: EventMD) => e.frontmatter.date
 )
 
-const colorMap: Record<EventType, string> = {
-  AnthropicDisaster: "red",
-  NaturalDisaster: "yellow",
-  Act: "blue",
-  War: "black",
-  Migration: "orange",
-  CivilConflict: "grey",
-  Declaration: "lightgreen",
+const colorMap: Record<EventMetadata['type'], string> = {
+  Protest: "red",
+  ProjectFund: 'blue',
+  ProjectImpact: 'orange'
 }
 export const getColorByEventType = ({
   type,
 }: {
-  type: EventFrontmatter["type"]
+  type: EventMetadata["type"]
 }): string => {
-  return pipe(
-    type,
-    O.map((t) => colorMap[t]),
-    O.getOrElse(() => "white")
-  )
+  return colorMap[type]
 }
 interface EventsInDateRangeProps {
   minDate: O.Option<Date>

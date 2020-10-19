@@ -20,5 +20,6 @@ export const firstArea: AreaFrontmatter = {
       ],
     ],
   },
-  date: new Date(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }

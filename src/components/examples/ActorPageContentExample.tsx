@@ -1,5 +1,5 @@
 import { ActorPageContent, ActorPageContentProps } from "@components/ActorPageContent"
-import { firstActor } from "@mock-data/actors"
+import { goodActor } from "@mock-data/actors"
 import { funds } from "@mock-data/funds"
 import { Card } from "baseui/card"
 import * as O from "fp-ts/lib/Option"
@@ -7,11 +7,11 @@ import * as R from "fp-ts/lib/Record"
 import * as React from "react"
 
 const actorFunds = funds.filter(
-  (f) => f.by.__type === "Actor" && f.by.actor.uuid === firstActor.uuid
+  (f) => f.by.__type === "Actor" && f.by.actor.uuid === goodActor.uuid
 )
 
 export const actorPageContentArgs: ActorPageContentProps = {
-  frontmatter: firstActor,
+  frontmatter: goodActor,
   body: null,
   tableOfContents: { items: undefined },
   timeToRead: O.none,

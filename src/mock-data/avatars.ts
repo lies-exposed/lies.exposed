@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-
 import { ImageFileNode } from "@models/Image"
 
 const fileNodeFromPath = (path: string): ImageFileNode => {

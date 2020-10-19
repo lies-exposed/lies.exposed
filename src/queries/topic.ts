@@ -5,8 +5,9 @@ export const TopicFileNodeQuery = graphql`
     uuid
     label
     slug
-    date
     color
+    createdAt
+    updatedAt
   }
 
   fragment TopicMD on Mdx {

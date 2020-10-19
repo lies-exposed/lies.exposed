@@ -5,6 +5,9 @@
   "version": "0.1.0",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "dependencies": {
+    "@dicebear/avatars": "4.2.5",
+    "@dicebear/avatars-avataaars-sprites": "4.2.5",
+    "@dicebear/avatars-bottts-sprites": "4.2.5",
     "@fortawesome/fontawesome-svg-core": "1.2.30",
     "@fortawesome/free-brands-svg-icons": "5.14.0",
     "@fortawesome/free-regular-svg-icons": "5.14.0",
@@ -151,6 +154,7 @@
     "prettier": "2.1.2",
     "react-is": "16.13.1",
     "ts-loader": "8.0.5",
+    "tsconfig-paths": "3.9.0",
     "tsconfig-paths-webpack-plugin": "3.3.0",
     "typescript": "3.8.3",
     "webpack-bundle-analyzer": "3.9.0"

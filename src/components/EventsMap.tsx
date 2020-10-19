@@ -3,7 +3,6 @@ import {
   EventMD,
   EventFrontmatter,
 } from "@models/event"
-import { getColorByEventType } from "@utils/event"
 import * as O from "fp-ts/lib/Option"
 import { navigate } from "gatsby"
 import * as React from "react"
@@ -64,7 +63,7 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
         height={height}
         data={data as any}
         featureRenderer={(f, i) => {
-          const color = getColorByEventType(f.feature.properties)
+          const color = 'white'
           return (
             <path
               key={`map-feature-${i}`}

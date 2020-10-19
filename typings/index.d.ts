@@ -10,3 +10,10 @@ declare module "*.png" {
   export = png;
   export default png;
 }
+
+declare module "*.svg" {
+  const svg: string;
+  export = svg;
+  export default svg;
+}
+

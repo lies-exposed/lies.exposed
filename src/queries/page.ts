@@ -2,9 +2,11 @@ import { graphql } from "gatsby"
 
 export const query = graphql`
   fragment Page on PageFrontmatter {
+    uuid
     title
     path
-    date
+    createdAt
+    updatedAt
   }
 
   fragment PageFileNode on File {
