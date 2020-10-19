@@ -1,5 +1,6 @@
 import { Block } from "baseui/block"
 import * as React from "react"
+import { StyleObject } from "styletron-react"
 
 export interface ListItemProps<A> {
   item: A
@@ -13,16 +14,18 @@ interface ListProps<A> {
   ListItem: React.FC<ListItemProps<A>>
   filter: (a: A) => boolean
   onItemClick?: (a: A) => void
+  style?: StyleObject
 }
 
 export const List = <A extends any>({
   ListItem,
   data,
+  style = {},
   getKey,
   onItemClick,
 }: ListProps<A>): JSX.Element => {
   return (
-    <Block>
+    <Block overrides={{ Block: { style }}}>
       {data.map((d, i) => (
         <ListItem key={getKey(d)} item={d} onClick={onItemClick} index={i} />
       ))}

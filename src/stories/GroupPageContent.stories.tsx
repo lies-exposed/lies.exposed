@@ -28,7 +28,6 @@ const groupFunds = funds.filter(
 )
 const fundedProjectIds = groupFunds.map( f => f.project.uuid)
 
-console.log(groupFunds)
 const args: GroupPageContentProps = {
   frontmatter: firstGroup,
   body: null,

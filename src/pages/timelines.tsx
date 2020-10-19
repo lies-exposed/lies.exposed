@@ -1,5 +1,4 @@
 import DatePicker from "@components/Common/DatePicker"
-import { HierarchicalEdgeBundling } from "@components/Common/Graph/HierarchicalEdgeBundling"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 // import EventsMap from "@components/EventsMap"
 import { Layout } from "@components/Layout"
@@ -17,7 +16,6 @@ import { GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
-import { createHierarchicalEdgeBundling } from "@utils/createHierarchicalEdgeBundlingData"
 import { ordEventDate } from "@utils/event"
 import { eqByUUID } from "@utils/frontmatter"
 import { parseSearch, Routes, updateSearch } from "@utils/routes"
@@ -192,15 +190,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
           return isBetweenDateRange && (hasActor || hasGroup || hasTopic)
         })
 
-        const hierarchicalEdgeBundlingProps = createHierarchicalEdgeBundling({
-          events: filteredEvents.map((e) => e.frontmatter),
-          groups,
-        })
-
-        const hierarchicalEdgeBundling = A.isEmpty(filteredEvents) ? null : (
-          <HierarchicalEdgeBundling {...hierarchicalEdgeBundlingProps} />
-        )
-
         return (
           <Layout>
             <Helmet>
@@ -217,9 +206,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
                 <FlexGrid
                   flexGridColumnCount={4}
                   alignItems="start"
-                  maxHeight="200"
+                  height="300px"
                 >
-                  <FlexGridItem>
+                  <FlexGridItem height="100%" display="flex">
                     <DatePicker
                       value={dateRange}
                       range={true}
@@ -227,7 +216,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                       onChange={onDatePickerChange}
                     />
                   </FlexGridItem>
-                  <FlexGridItem>
+                  <FlexGridItem height="100%" display="flex">
                     <SearchableInput
                       placeholder="Topics..."
                       items={topics.filter(
@@ -255,11 +244,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
                       onUnselectItem={(item) => onTopicClick(item)}
                     />
                   </FlexGridItem>
-                  <FlexGridItem
+                  <FlexGridItem height="100%"
                     display="flex"
                     flexGridColumnCount={1}
-                    justifyContent="end"
-                    flexDirection="column"
                   >
                     <SearchableInput
                       placeholder="Gruppi..."
@@ -292,7 +279,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                       getValue={(item) => item.name}
                     />
                   </FlexGridItem>
-                  <FlexGridItem>
+                  <FlexGridItem height="100%" display="flex">
                     <SearchableInput
                       placeholder="Attori..."
                       items={actors.filter(
@@ -322,18 +309,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   </FlexGridItem>
                 </FlexGrid>
                 <LabelMedium>Nº Eventi: {filteredEvents.length}</LabelMedium>
-              </FlexGridItem>
-              <FlexGridItem alignItems="center">
-                <div style={{ width: 600, margin: "auto" }}>
-                  {hierarchicalEdgeBundling}
-                </div>
-              </FlexGridItem>
-              <FlexGridItem alignItems="center">
-                {/* <EventsMap
-                  width={width}
-                  height={height}
-                  events={filteredEvents}
-                /> */}
               </FlexGridItem>
               <FlexGridItem>
                 <ContentWithSideNavigation

@@ -6,6 +6,7 @@ import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 
 export const Protest = t.strict({
   uuid: t.string,
+  type: t.literal('Protest'),
   projectId: t.string,
   images: optionFromNullable(nonEmptyArray(ImageFileNode)),
   createdAt: DateFromISOString,

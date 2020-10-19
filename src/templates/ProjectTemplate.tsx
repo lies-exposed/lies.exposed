@@ -22,7 +22,6 @@ export interface ProjectTemplatePageProps extends PageProps<ProjectData> {}
 const ProjectTemplateContainer: React.FC<ProjectTemplatePageProps> = ({
   data,
 }) => {
-  console.log({ data })
   return pipe(
     sequenceS(E.either)({
       project: ProjectMD.decode(data.pageContent.childMdx),

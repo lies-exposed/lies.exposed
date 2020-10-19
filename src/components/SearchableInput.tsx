@@ -51,9 +51,11 @@ const InputReplacement = React.forwardRef<
       <div
         className={css({
           flex: "1 1 0%",
+          height: '100%',
           flexWrap: "wrap",
           display: "flex",
           alignItems: "center",
+          overflow: "scroll",
         })}
       >
         {selectedItems.map((item: SearchableItem, index: number) =>
@@ -71,6 +73,7 @@ const InputReplacement = React.forwardRef<
         )}
         <StyledInput ref={ref} value={value} {...restProps} />
         <List<SearchableItem>
+          style={{ flexGrow: 1, height: '100%' }}
           data={items.filter((i) =>
             getValue(i).toLowerCase().includes(value.toLowerCase())
           )}
@@ -180,7 +183,10 @@ const SearchableInput = <I extends SearchableItem>(
       }}
       overrides={{
         Input: {
-          style: { width: "auto", flexGrow: 1 },
+          style: {
+            width: "auto",
+            flexGrow: 0
+          },
           component: InputReplacement as any,
           props: inputReplacementProps,
         },
