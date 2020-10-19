@@ -17,7 +17,8 @@ export const ProjectFrontmatter = t.strict(
     images: optionFromNullable(t.array(ImageAndDescription)),
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
-    date: DateFromISOString,
+    createdAt: DateFromISOString,
+    updatedAt: DateFromISOString
   },
   "ProjectFrontmatter"
 )

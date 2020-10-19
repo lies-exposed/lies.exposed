@@ -8,7 +8,7 @@ import { firstProject, secondProject } from "./projects"
 export const firstFund: FundFrontmatter = {
   uuid: uuid(),
   amount: 100000,
-  type: "Fund",
+  __type: "Fund",
   project: firstProject,
   by: { __type: "Actor", actor: firstActor },
   date: subYears(new Date(), 1),
@@ -19,7 +19,7 @@ export const firstFund: FundFrontmatter = {
 export const secondFund: FundFrontmatter = {
   uuid: uuid(),
   amount: 40000,
-  type: "Fund",
+  __type: "Fund",
   project: firstProject,
   by: { __type: "Actor", actor: secondActor },
   date: subYears(new Date(), 1),
@@ -30,7 +30,7 @@ export const secondFund: FundFrontmatter = {
 export const thirdFund: FundFrontmatter = {
   uuid: uuid(),
   amount: 150000,
-  type: 'Fund',
+  __type: 'Fund',
   project: firstProject,
   by: { __type: "Group", group: firstGroup },
   date: subYears(new Date(), 1),
@@ -41,7 +41,7 @@ export const thirdFund: FundFrontmatter = {
 export const fourthFund: FundFrontmatter = {
   uuid: uuid(),
   amount: 200000,
-  type: 'Fund',
+  __type: 'Fund',
   project: firstProject,
   by: { __type: "Group", group: firstGroup },
   date: subYears(new Date(), 1),
@@ -52,7 +52,7 @@ export const fourthFund: FundFrontmatter = {
 export const fifthFund: FundFrontmatter = {
   uuid: uuid(),
   amount: 200000,
-  type: 'Fund',
+  __type: 'Fund',
   project: secondProject,
   by: { __type: "Actor", actor: firstActor },
   date: subYears(new Date(), 1),

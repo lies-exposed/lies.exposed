@@ -10,6 +10,7 @@ import { firstPolygon } from "./polygons"
 export const firstProject: ProjectFrontmatter = {
   uuid: uuid(),
   name: "First Project",
+  color: generateRandomColor(),
   areas: O.some(NEA.of(firstPolygon)),
   images: O.some([
     {
@@ -18,9 +19,9 @@ export const firstProject: ProjectFrontmatter = {
     },
   ]),
   startDate: subYears(new Date(), 3),
-  date: subDays(new Date(), 7),
-  color: generateRandomColor(),
   endDate: O.none,
+  createdAt: subDays(new Date(), 7),
+  updatedAt: new Date(),
 }
 
 export const secondProject: ProjectFrontmatter = {
@@ -34,7 +35,8 @@ export const secondProject: ProjectFrontmatter = {
     },
   ]),
   startDate: subYears(new Date(), 3),
-  date: subDays(new Date(), 7),
+  createdAt: subDays(new Date(), 7),
+  updatedAt: new Date(),
   color: generateRandomColor(),
   endDate: O.none,
 }

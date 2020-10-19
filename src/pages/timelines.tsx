@@ -2,6 +2,7 @@ import DatePicker from "@components/Common/DatePicker"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 // import EventsMap from "@components/EventsMap"
 import { Layout } from "@components/Layout"
+import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import SearchableInput from "@components/SearchableInput"
@@ -202,7 +203,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
               flexGridColumnCount={1}
             >
               <FlexGridItem width="100%">
-                <PageContent {...pageContent.childMdx} />
+                <MainContent>
+                  <PageContent {...pageContent.childMdx} />
+                </MainContent>
+
                 <FlexGrid
                   flexGridColumnCount={4}
                   alignItems="start"
@@ -244,7 +248,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
                       onUnselectItem={(item) => onTopicClick(item)}
                     />
                   </FlexGridItem>
-                  <FlexGridItem height="100%"
+                  <FlexGridItem
+                    height="100%"
                     display="flex"
                     flexGridColumnCount={1}
                   >
@@ -352,9 +357,7 @@ export const pageQuery = graphql`
       }
     }
 
-    events: allMdx(
-      filter: { fields: { collection: { eq: "events" } } }
-    ) {
+    events: allMdx(filter: { fields: { collection: { eq: "events" } } }) {
       nodes {
         ...EventMDRemark
       }

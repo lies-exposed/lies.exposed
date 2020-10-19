@@ -1,4 +1,5 @@
-import { FundFrontmatter } from "@models/Fund"
+import { ListItem } from "@components/Common/ListItem"
+import { FundFrontmatter } from "@models/Events/Fund"
 import * as React from "react"
 
 interface FundListItemProps {
@@ -6,5 +7,5 @@ interface FundListItemProps {
 }
 
 export const FundListItem: React.FC<FundListItemProps> = ({ fund }) => {
-  return <>{fund.amount}</>
+  return <ListItem>{fund.amount}</ListItem>
 }

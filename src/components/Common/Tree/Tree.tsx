@@ -1,11 +1,25 @@
-import { TreeEvent } from "@models/event"
 import { LinearGradient } from "@vx/gradient"
 import { Group } from "@vx/group"
 import { Tree as VXTree } from "@vx/hierarchy"
 import { LinkHorizontal } from "@vx/shape"
 import { hierarchy, HierarchyPointNode } from "d3-hierarchy"
 import * as t from "io-ts"
+import { date } from "io-ts-types/lib/date"
 import React from "react"
+
+export interface TreeEvent {
+  name: string
+  date: Date
+  children: TreeEvent[]
+}
+
+export const TreeEvent: t.Type<TreeEvent> = t.recursion("TreeEvent", () =>
+  t.type({
+    name: t.string,
+    date: date,
+    children: t.array(TreeEvent),
+  })
+)
 
 const peach = "#fd9b93"
 const pink = "#fe6e9e"
