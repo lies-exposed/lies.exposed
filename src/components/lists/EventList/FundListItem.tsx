@@ -1,4 +1,4 @@
-import { FundFrontmatter } from "@models/events/Fund"
+import { FundFrontmatter } from "@models/Fund"
 import * as React from "react"
 
 interface FundListItemProps {

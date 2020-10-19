@@ -1,7 +1,7 @@
+import { FundFrontmatter } from "@models/Fund"
 import { ProjectFrontmatter } from "@models/Project"
 import { ActorFrontmatter } from "@models/actor"
 import { EventMD } from "@models/event"
-import { FundFrontmatter } from "@models/events/Fund"
 import { GroupMD } from "@models/group"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"

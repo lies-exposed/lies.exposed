@@ -1,6 +1,6 @@
 import Map from "@components/Map"
+import { FundFrontmatter } from "@models/Fund"
 import { ProjectFrontmatter } from "@models/Project"
-import { FundFrontmatter } from "@models/events/Fund"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"

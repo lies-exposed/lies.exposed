@@ -1,5 +1,5 @@
+import { FundFrontmatter } from "@models/Fund"
 import { ProjectMD } from "@models/Project"
-import { FundFrontmatter } from "@models/events/Fund"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"

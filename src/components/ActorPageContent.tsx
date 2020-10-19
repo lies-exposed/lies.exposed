@@ -1,14 +1,14 @@
+import { FundFrontmatter } from "@models/Fund"
 import { ActorMD } from "@models/actor"
-import { FundFrontmatter } from "@models/events/Fund"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingXLarge, HeadingXSmall, LabelMedium } from "baseui/typography"
-import * as A from 'fp-ts/lib/Array'
-import * as Eq from 'fp-ts/lib/Eq'
-import * as Map from 'fp-ts/lib/Map'
+import * as A from "fp-ts/lib/Array"
+import * as Eq from "fp-ts/lib/Eq"
+import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
-import * as Ord from 'fp-ts/lib/Ord'
+import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import Image from "gatsby-image"
 import * as React from "react"
@@ -30,11 +30,10 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
       return pipe(
         acc,
         Map.lookup(Eq.eqString)(f.project.name),
-        O.map(amount => amount + f.amount),
+        O.map((amount) => amount + f.amount),
         O.getOrElse(() => f.amount),
         (value) => Map.insertAt(Eq.eqString)(f.project.name, value)(acc)
       )
-      
     })
   )
 

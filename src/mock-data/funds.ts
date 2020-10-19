@@ -1,4 +1,4 @@
-import { FundFrontmatter } from "@models/events/Fund"
+import { FundFrontmatter } from "@models/Fund"
 import uuid from "@utils/uuid"
 import { subYears } from "date-fns"
 import { firstActor, secondActor } from "./actors"

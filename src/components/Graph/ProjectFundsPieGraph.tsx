@@ -1,5 +1,5 @@
 import { PieChartGraph } from "@components/Common/Graph/PieChartGraph"
-import { FundFrontmatter } from "@models/events/Fund"
+import { FundFrontmatter } from "@models/Fund"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as Array from "fp-ts/lib/Array"
 import { eqString } from "fp-ts/lib/Eq"
