@@ -71,6 +71,7 @@
     "gatsby-transformer-csv": "2.3.13",
     "gatsby-transformer-json": "2.4.14",
     "gatsby-transformer-sharp": "2.5.18",
+    "graphql-voyager": "1.0.0-rc.31",
     "ink": "2.7.1",
     "install": "0.13.0",
     "io-ts": "2.2.11",

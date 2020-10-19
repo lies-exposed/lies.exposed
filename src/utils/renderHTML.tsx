@@ -4,6 +4,7 @@ import { ListItem } from "@components/Common/ListItem"
 import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
+import { GQLVoyager } from "@components/GQLVoyager"
 import { CO2LevelsGraph } from "@components/Graph/CO2LevelsGraph"
 import { HumanPopulationGrowthGraph } from "@components/Graph/HumanPopulationGrowthGraph"
 import NetworkExample from "@components/Graph/NetworkExample"
@@ -21,7 +22,8 @@ const shortcodes: MDXProviderComponentsProp = {
   WorldPopulationCounter,
   NetworkExample,
   BubbleGraphExample,
-  Video: Video,
+  Video,
+  GQLVoyager,
   p: ParagraphMedium,
   li: ListItem,
   blockquote: BlockQuote,

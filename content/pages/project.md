@@ -26,7 +26,7 @@ Il **ruolo dell'informazione** dovrebbe essere quello di fornire alle persone gl
 
 <FullSizeSection id="the-problem">
 
-### Corpetura dei media insufficiente
+### Copertura dei media insufficiente
 
 La comunicazione *mainstream* non tratta in maniera adeguata l'emergenza climatica e ambientale in atto, impedendo che la società percepisca la gravità e le mille sfaccettature in cui si presenta la pressione del clima che sta velocemente collassando.
 
@@ -81,33 +81,9 @@ La costruzione di una linea temporale che evidenzi le decisioni e la narrativa d
 
 #### Architecture
 
-```mermaid
-classDiagram
-  class Topic
-  Topic : String uuid
-  
-  class Actor
-  Actor : String uuid
-  Actor : String username
+Nel diagramma qui sotto sono rappresentate le relazioni tra le varie entità della piattaforma.
 
-  class Group
-  Group : String uuid
-  Group : Actor[] members
-
-  class EventType {
-    <<enumeration>>
-    NATURAL_DISASTER
-  }
-  
-
-  class Event
-  Event : String uuid
-  Event : EventType type
-  Event : Location location
-  Event --> "1..+" Topic: topics
-  Event --> "0..+" Group: groups
-  Event --> "0..+" Actor: actors
-```
+<GQLVoyager />
 
 #### Eventi
 
@@ -125,9 +101,9 @@ Ogni evento ha almeno un [*topic*](/project/#topic) di riferimento, mentre il ti
 
 La definizione dei tipi di evento è in *work in progress* al momento poiché richiede un'analisi approfondita su quali siano davvero le metriche da considerare.
 
-#### Opere
+#### Progetti
 
-Le opere sono quelle trasformazioni che vengono apportate al territorio per continuare ad alimentare l'economia estrattivista.
+I _progetti_ sono quelle trasformazioni che vengono apportate al territorio per continuare ad alimentare l'economia estrattivista.
 
 
 #### Topic
