@@ -329,7 +329,7 @@ export const pageQuery = graphql`
   query EventsQuery {
     pageContent: file(
       childMdx: { fields: { collection: { eq: "pages" } } }
-      name: { eq: "actors" }
+      name: { eq: "timelines" }
     ) {
       ...PageFileNode
     }
