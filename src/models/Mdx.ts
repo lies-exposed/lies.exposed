@@ -5,13 +5,13 @@ import {
 } from "io-ts-types/lib/optionFromNullable"
 
 interface TOCItem {
-  url: string
-  title: string
-  items: TOCItem[] | undefined
+  url?: string
+  title?: string
+  items?: TOCItem[] | undefined
 }
 
 const TOCItem: t.Type<TOCItem> = t.recursion("TOCItem", () =>
-  t.type(
+  t.partial(
     {
       url: t.string,
       title: t.string,
