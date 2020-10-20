@@ -28,7 +28,6 @@ const DocsPage: React.FC<PageProps> = (props) => {
     }
   `)
 
-console.log(pageContent)
   return pipe(
     PageContentFileNode.decode(pageContent),
     logInPipe('pageContent'),
