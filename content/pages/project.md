@@ -73,17 +73,9 @@ L'inserimento - o la modifica - può avvenire tramite l'interfaccia disponibile 
 
 <FullSizeSection id="timelines">
 
-### Timelines
+### Relazioni e entità
 
-La costruzione di una linea temporale che evidenzi le decisioni e la narrativa di attori/gruppi richiede una classificazione della tipologia degli eventi in cui questi attori - o gruppi - possono essere coinvolti.
-
-<NetworkExample />
-
-#### Architecture
-
-Nel diagramma qui sotto sono rappresentate le relazioni tra le varie entità della piattaforma.
-
-<GQLVoyager />
+Per tenere traccia dell'evoluzione temporale delle scelte che la nostra società compie, è necessario individuare quali sono le variabili da tenere in considerazione, oltre alle relazioni che intercorrono tra le stesse.
 
 #### Eventi
 
