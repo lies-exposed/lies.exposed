@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { themedUseStyletron } from "@theme/CustomeTheme"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { StyledLink } from "baseui/link"
+import { Menu } from "baseui/menu"
 import { ParagraphSmall, HeadingXSmall } from "baseui/typography"
 import { useStaticQuery, graphql } from "gatsby"
 import * as React from "react"
+import { mainMenu } from "./Header"
 
 export const Footer: React.FC = () => {
   const [, theme] = themedUseStyletron()
@@ -32,9 +34,21 @@ export const Footer: React.FC = () => {
           <FlexGridItem>
             <HeadingXSmall>{title}</HeadingXSmall>
           </FlexGridItem>
-          <FlexGridItem />
           <FlexGridItem>
-            <ul style={{ listStyle: 'none'}}>
+            <Menu
+              overrides={{
+                List: {
+                  style: { backgroundColor: "trasparent", boxShadow: "none" },
+                },
+                ListItem: {
+                  style: { color: theme.colors.primary },
+                },
+              }}
+              items={mainMenu}
+            />
+          </FlexGridItem>
+          <FlexGridItem>
+            <ul style={{ listStyle: "none" }}>
               <li>
                 <ParagraphSmall color={theme.colors.white}>
                   <StyledLink href={github.link}>

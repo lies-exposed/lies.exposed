@@ -19,7 +19,7 @@ import React from "react"
 interface MenuItem {
   id: string
   label: string
-  path: string
+  href: string
   subItems: Array<Omit<MenuItem, "subItems">>
 }
 
@@ -45,7 +45,7 @@ const NavigationLink = withStyle(
       fontFamily: $theme.typography.secondaryFont,
       fontWeight: $theme.typography.HeadingLarge.fontWeight,
       color: $theme.colors.brandSecondary,
-      textTransform: 'uppercase',
+      // textTransform: 'uppercase',
       textDecoration: "none",
       cursor: "pointer",
     }
@@ -56,7 +56,7 @@ const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
   item,
 }) => {
   return (
-    <NavigationItem key={item.label} path={item.path}>
+    <NavigationItem key={item.label} path={item.href}>
       {item.subItems.length > 0 ? (
         <StatefulPopover
           placement={PopoverPlacement.bottomLeft}
@@ -69,8 +69,8 @@ const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
               overrides={{
                 List: {
                   style: {
-                    border: 'none'
-                  }
+                    border: "none",
+                  },
                 },
                 ListItem: {
                   style: {
@@ -89,14 +89,73 @@ const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
             />
           )}
         >
-          <NavigationLink href={item.path}>{item.label}</NavigationLink>
+          <NavigationLink href={item.href}>{item.label}</NavigationLink>
         </StatefulPopover>
       ) : (
-        <NavigationLink href={item.path}>{item.label}</NavigationLink>
+        <NavigationLink href={item.href}>{item.label}</NavigationLink>
       )}
     </NavigationItem>
   )
 }
+
+export const mainMenu: MenuItem[] = [
+  {
+    id: "the-crisis",
+    href: "/the-crisis",
+    label: "La Crisi",
+    subItems: [],
+  },
+  {
+    id: "project",
+    href: "/project",
+    label: "Progetto",
+    subItems: [],
+  },
+  {
+    id: "blog",
+    href: "/blog",
+    label: "Blog",
+    subItems: [],
+  },
+  {
+    id: "docs",
+    href: "/docs",
+    label: "Docs",
+    subItems: [],
+  },
+  {
+    id: "timelines",
+    href: "/timelines",
+    label: "Timelines",
+    subItems: [
+      {
+        id: "actors",
+        href: "/actors",
+        label: "Attori",
+      },
+      {
+        id: "groups",
+        href: "/groups",
+        label: "Groups",
+      },
+      {
+        id: "topics",
+        href: "/topics",
+        label: "Topics",
+      },
+      {
+        id: "areas",
+        href: "/areas",
+        label: "Aree",
+      },
+      {
+        id: "projects",
+        href: "/projects",
+        label: "Progetti",
+      },
+    ],
+  },
+]
 
 const Header: React.FC = () => {
   const {
@@ -117,59 +176,6 @@ const Header: React.FC = () => {
     }
   `)
 
-  const items: MenuItem[] = [
-    {
-      id: "the-crisis",
-      path: "/the-crisis",
-      label: "La Crisi",
-      subItems: [],
-    },
-    {
-      id: "project",
-      path: "/project",
-      label: "Progetto",
-      subItems: [],
-    },
-    {
-      id: "blog",
-      path: "/blog",
-      label: "Blog",
-      subItems: [],
-    },
-    {
-      id: "timelines",
-      path: "/timelines",
-      label: "Timelines",
-      subItems: [
-        {
-          id: "actors",
-          path: "/actors",
-          label: "Attori",
-        },
-        {
-          id: "groups",
-          path: "/groups",
-          label: "Groups",
-        },
-        {
-          id: "topics",
-          path: "/topics",
-          label: "Topics",
-        },
-        {
-          id: "areas",
-          path: "/areas",
-          label: "Aree",
-        },
-        {
-          id: "projects",
-          path: "/projects",
-          label: "Progetti",
-        },
-      ],
-    },
-  ]
-
   const [, $theme] = themedUseStyletron()
 
   const menuLinkRenderer = renderMenuLink($theme)
@@ -183,7 +189,7 @@ const Header: React.FC = () => {
     >
       <StyledNavigationList $align={ALIGN.left}>
         {menuLinkRenderer({
-          item: { id: "home", label: title, path: "/", subItems: [] },
+          item: { id: "home", label: title, href: "/", subItems: [] },
           pos: 0,
         })}
         <NavigationItem>
@@ -200,7 +206,7 @@ const Header: React.FC = () => {
       </StyledNavigationList>
       <StyledNavigationList $align={ALIGN.center} />
       <StyledNavigationList $align={ALIGN.right}>
-        {items.map((i, k) => menuLinkRenderer({ item: i, pos: k }))}
+        {mainMenu.map((i, k) => menuLinkRenderer({ item: i, pos: k }))}
       </StyledNavigationList>
     </HeaderNavigation>
   )
