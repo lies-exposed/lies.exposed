@@ -8,30 +8,6 @@ import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 import Helmet from "react-helmet"
 
-/* eslint-disable @typescript-eslint/no-var-requires */
-// const firstImage: string = require("../../static/media/img/billy-clouse-781VLZjFR8g-unsplash.jpg")
-// const secondImage: string = require("../../static/media/img/jordan-beltran-AxdlcxaModc-unsplash.jpg")
-// const thirdImage: string = require("../../static/media/img/markus-spiske-ur3wTilBmjQ-unsplash.jpg")
-/* eslint-enable @typescript-eslint/no-var-requires */
-
-// const slides = [
-//   {
-//     authorName: "Billy Clouse",
-//     imageURL: firstImage,
-//     info: "Bingham Canyon Mine, Salt Lake City, Utah, United States",
-//   },
-//   {
-//     authorName: "Jordan Beltran",
-//     imageURL: secondImage,
-//     info: "Av Pachacutec, Villa EL Salvador 15816, Peru, Villa EL Salvador",
-//   },
-//   {
-//     authorName: "Markus Spiske",
-//     imageURL: thirdImage,
-//     info: "Lorenzer Platz, Nuremberg, Bavaria, Germany",
-//   },
-// ]
-
 interface Results {
   pageContent: PageContentFileNode
 }

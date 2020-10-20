@@ -38,7 +38,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, style }) => {
           <Header />
           {children}
         </FlexGridItem>
-        <Footer  />
+        <Footer />
       </FlexGrid>
     </BaseProvider>
   )
