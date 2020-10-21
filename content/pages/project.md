@@ -6,11 +6,11 @@ date: 2020-09-08T12:00:00.000Z
 
 <FullSizeSection id="the-project">
 
-# Il progetto
+# Il progetto "ECOnnessione"
 
 **ECOnnessione** nasce come contenitore di diversi contenuti che cercano di raccontare la storia dei nostri giorni in maniera più scientifica, più strutturata, più chiara nei legami e negli interessi che spingono le decisioni di chi ricopre un ruolo nelle istituzioni, nelle amministrazioni e nelle aziende.
 
-Non c'è un solo modo di raccontare la crisi climatica in atto, le implicazioni sulle nostre vite e le cause che hanno accelerato il collasso ecosistemico, ma c'è un disperato bisogno che questi argomenti diventino il nostro focus principale, per poter comprendere le azioni da dover intraprendere per evitare il collasso.
+Non c'è un solo modo di raccontare la crisi climatica in atto, le implicazioni sulle nostre vite e le cause che hanno accelerato il collasso ecosistemico, ma c'è un disperato bisogno che questi argomenti diventino il nostro focus principale, per poter comprendere le azioni da intraprendere per evitare il collasso ecologico.
 
 </FullSizeSection>
 
@@ -55,7 +55,7 @@ L'effetto che questo modo di fare informazione - *grenwashing* in questo caso - 
 
 L'idea alla base del progetto è quella di costruire una piattaforma che diventi un punto di riferimento per conoscere la situazione attuale e comprendere come cambiarne il corso.
 
-Unendo l'approccio scientifico a quello filosofico le risorse contenute saranno rappresentate tramite grafici, diagrammi e altri strumenti visuali utili per rappresentare dati.
+Unendo l'approccio scientifico a quello filosofico si rappresenteranno le risorse tramite grafici, diagrammi e altri strumenti visuali utili per visualizzare dati.
 
 Un forte peso avrà la mappatura di eventi relativi a determinate tematiche che coinvolgono attori e/o gruppi, con lo scopo di tracciare la linea temporale delle azioni svolte dai *leader* - che siano essi politici o di aziende.
 
@@ -79,36 +79,53 @@ Per tenere traccia dell'evoluzione temporale delle scelte che la nostra società
 
 #### Eventi
 
+<EventPageContentExample />
+
 Gli eventi di cui viene tenuto traccia sono di diversi tipi e inidicano un avvenimento in un determinato arco temporale, in cui possono essere coinvolti diversi [*gruppi*](/groups) e/o [*attori*](/actors).
 
-Ogni evento ha almeno un [*topic*](/project/#topic) di riferimento, mentre il tipo di evento può essere:
-
-- Declaration
-- Act
-- AnthropicDisaster
-- NaturalDisaster
-- CivilConflict
-- Migration
-- War
-
-La definizione dei tipi di evento è in *work in progress* al momento poiché richiede un'analisi approfondita su quali siano davvero le metriche da considerare.
+Ogni evento può contenere dei metadati, che si riferiscono ad una o più delle seguenti entità:
+- Aggiornamento di un progetto
+- Esecuzione di un pagamento
+- Protesta in opposizione ad un progetto
+- Annuncio Pubblico da parte di un attore
+- Annuncio Pubblico da parte di un gruppo
+- Aggiornamento di sentenza
+- Pubblicazione di una risorsa (immagini, report scientifici)
+- [WIP]
 
 #### Progetti
 
-I _progetti_ sono quelle trasformazioni che vengono apportate al territorio per continuare ad alimentare l'economia estrattivista.
+<ProjectPageContentExample />
 
+I _progetti_ rappresentano quei piani concreti che impattano il territorio e l'ambiente il generale.
+
+Esempi di _progetti_ possono essere:
+- la costruzione di un impianto petrolifero
+- la costruzione di una strada
+- l'abbattimento di un bosco
 
 #### Topic
 
-I [topic](/topics) indicano un tema o un argomento specifico a cui gli eventi possono appartenere.
+<TopicPageContentExample />
 
 <BubbleGraphExample />
 
+I [topic](/topics) indicano un tema o un argomento che fa riferimento a specifici progetti, attori, e gruppi.
+
+Alcuni _topic_ possibili sono: 
+- Olimpiadi 2026
+- Greenwashing
+
+
 #### Attori
+
+<ActorPageContentExample />
 
 Per *attori* si intendono quelle persone fisiche che possono essere collegate ad un evento.
 
 #### Gruppi
+
+<GroupPageContentExample />
 
 Per *gruppi* si intendono gli insiemi di *attori* che identificano istituzioni e aziende.
 
