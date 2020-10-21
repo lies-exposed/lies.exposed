@@ -4,6 +4,8 @@ path: /docs
 date: 2020-08-27
 ---
 
+<FullSizeSection>
+
 # ECONNESSIONE
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/afcdb4f9-1027-4d05-b59a-4a8dfa473808/deploy-status)](https://app.netlify.com/sites/econnessione/deploys)
@@ -30,3 +32,29 @@ La piattaforma è sviluppata con le seguenti tecnologie:
 Nel diagramma qui sotto sono rappresentate le relazioni tra le varie entità della piattaforma.
 
 <GQLVoyager />
+
+#### Entitità
+
+##### Attore
+
+##### Gruppo
+
+##### Tag (topic)
+
+##### Progetto
+
+##### Area
+
+##### Eventi
+
+##### Pagamento (fund)
+
+[TBD]
+
+##### Sentenze
+
+[TBD]
+
+
+
+</FullSizeSection>

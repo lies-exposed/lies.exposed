@@ -11,11 +11,14 @@ async function introspectionProvider(query: any): Promise<any> {
 }
 
 export const GQLVoyager: React.FC = (props) => {
-  let Component: undefined | React.FC<any>
-
+  const [Component, setComponent] = React.useState<React.FC<any> | undefined>(
+    undefined
+  )
   React.useEffect((): void => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    import("graphql-voyager").then((c) => (Component = c.default as any))
+    import("graphql-voyager").then((c) => {
+      setComponent(c.default as any)
+    })
   })
 
   if (typeof window === "undefined") {
