@@ -1,3 +1,4 @@
+import { MainContent } from "@components/MainContent"
 import { isServer } from "@utils/isServer"
 import * as React from "react"
 import { throttle } from "throttle-debounce"
@@ -9,12 +10,7 @@ interface FullSizeSectionProps {
 }
 
 export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
-  const {
-    id,
-    backgroundColor,
-    backgroundImage,
-    children,
-  } = props
+  const { id, backgroundColor, backgroundImage, children } = props
   const [{ width, minHeight, maxWidth }, setPageSize] = React.useState({
     minHeight: isServer ? 800 : window.innerHeight,
     width: isServer ? "auto" : "100%",
@@ -41,6 +37,11 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
     }
   }, [children?.toString()])
 
+  const bgColor = backgroundColor ?? "transparent"
+
+  const bgImage =
+    backgroundImage !== undefined ? `url(${backgroundImage})` : undefined
+
   return (
     <div
       id={id}
@@ -49,15 +50,25 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
         width,
         minHeight,
         maxWidth,
-        backgroundColor: backgroundColor ?? "transparent",
-        backgroundImage:
-          backgroundImage !== undefined ? `url(${backgroundImage})` : undefined,
+        backgroundColor: bgColor,
+        backgroundImage: bgImage,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
+        paddingTop: 60,
+        paddingBottom: 60,
       }}
     >
-      {children}
+      <MainContent
+        style={{
+          backgroundColor:
+            backgroundImage !== undefined ? "rgba(255, 255, 255, 0.8)" : "trasparent",
+          paddingLeft: "30px",
+          paddingRight: "30px"
+        }}
+      >
+        {children}
+      </MainContent>
     </div>
   )
 }

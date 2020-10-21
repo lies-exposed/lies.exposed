@@ -2,7 +2,6 @@ import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { ChevronLeft, ChevronRight } from "baseui/icon"
 import { Theme } from "baseui/theme"
 import * as React from "react"
-import { MainContent } from "./MainContent"
 
 interface ContentWithSidebarProps {
   sidebar: React.ReactElement
@@ -50,7 +49,7 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
           },
         }}
       >
-        <MainContent>{children}</MainContent>
+        {children}
       </FlexGridItem>
       <FlexGridItem display="none" />
       <FlexGridItem display="none" />

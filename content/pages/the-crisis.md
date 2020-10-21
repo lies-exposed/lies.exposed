@@ -4,7 +4,7 @@ path: /the-crisis
 date: 2020-08-27
 ---
 
-<FullSizeSection id="la-crisi-del-nostro-tempo">
+<FullSizeSection id="la-crisi-del-nostro-tempo" backgroundImage="/media/img/australian-bushfires.jpg">
 
 # La Crisi del nostro tempo
 
