@@ -6,7 +6,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 export const FundFrontmatter = t.type(
   {
     uuid: t.string,
-    __type: t.literal('Fund'),
+    // __type: t.literal('Fund'),
     amount: t.number,
     project: ProjectFrontmatter,
     by: ByEitherGroupOrActor,

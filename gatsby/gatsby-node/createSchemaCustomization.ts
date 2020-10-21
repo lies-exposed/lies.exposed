@@ -38,7 +38,8 @@ const {
   avatar: _groupAvatar,
   members,
   ...GroupFrontmatterProps
-} = GroupFrontmatter.type.props
+} = GroupFrontmatter.type.type.props
+
 const GroupF = t.type({
   ...GroupFrontmatterProps,
   avatar: optionFromNullable(t.string),

@@ -175,6 +175,7 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "scripts:make-avatars-mock": "ts-node ./scripts/make-avatars-mock.ts",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook -o ./static/storybook",
     "stats": "webpack-bundle-analyzer public/stats.json"

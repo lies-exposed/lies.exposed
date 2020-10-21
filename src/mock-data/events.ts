@@ -7,6 +7,7 @@ import { goodActor, badActor } from "./actors"
 import { goodGroup, badGroup } from "./groups"
 import { firstGoodProject } from "./projects"
 import { firstTopic, secondTopic, thirdTopic } from "./topics"
+
 // events
 export const firstEvent: EventFrontmatter = {
   uuid: uuid(),
@@ -80,6 +81,7 @@ export const fourthEvent: EventFrontmatter = {
   createdAt: new Date(),
   updatedAt: new Date(),
 }
+
 export const events: EventFrontmatter[] = [
   firstEvent,
   secondEvent,

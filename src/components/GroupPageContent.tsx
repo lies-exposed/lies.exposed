@@ -11,13 +11,14 @@ import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
-import * as Ord from 'fp-ts/lib/Ord'
+import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import Image from "gatsby-image"
 import * as React from "react"
 import { EventsNetwork } from "./Graph/EventsNetwork"
 import EditButton from "./buttons/EditButton"
 import ActorList from "./lists/ActorList"
+import GroupList from "./lists/GroupList"
 
 export interface GroupPageContentProps extends GroupMD {
   events: EventMD[]
@@ -41,11 +42,10 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
       return pipe(
         acc,
         Map.lookup(Eq.eqString)(f.project.name),
-        O.map(amount => amount + f.amount),
+        O.map((amount) => amount + f.amount),
         O.getOrElse(() => f.amount),
         (value) => Map.insertAt(Eq.eqString)(f.project.name, value)(acc)
       )
-      
     })
   )
 
@@ -94,6 +94,21 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           </Block>
         </FlexGridItem>
         <FlexGridItem>
+          <Block>
+            <HeadingXSmall>Sotto Gruppi</HeadingXSmall>
+            {pipe(
+              frontmatter.subGroups,
+              O.map((groups) => (
+                // eslint-disable-next-line react/jsx-key
+                <GroupList
+                  avatarScale="scale1000"
+                  groups={groups.map((g) => ({ ...g, selected: true }))}
+                  onGroupClick={() => {}}
+                />
+              )),
+              O.toNullable
+            )}
+          </Block>
           <Block>
             {pipe(
               frontmatter.members,

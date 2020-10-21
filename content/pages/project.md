@@ -108,8 +108,6 @@ Esempi di _progetti_ possono essere:
 
 <TopicPageContentExample />
 
-<BubbleGraphExample />
-
 I [topic](/topics) indicano un tema o un argomento che fa riferimento a specifici progetti, attori, e gruppi.
 
 Alcuni _topic_ possibili sono: 
@@ -128,5 +126,7 @@ Per *attori* si intendono quelle persone fisiche che possono essere collegate ad
 <GroupPageContentExample />
 
 Per *gruppi* si intendono gli insiemi di *attori* che identificano istituzioni e aziende.
+
+#### Pagamenti
 
 </FullSizeSection>
