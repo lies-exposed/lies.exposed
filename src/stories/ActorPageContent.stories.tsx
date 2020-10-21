@@ -2,12 +2,10 @@ import {
   ActorPageContent,
   ActorPageContentProps,
 } from "@components/ActorPageContent"
-import { firstActor } from "@mock-data/actors"
-import { funds } from "@mock-data/funds"
+import { actorPageContentArgs } from "@components/examples/ActorPageContentExample"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import { Block } from "baseui/block"
 import { HeadingLarge } from "baseui/typography"
-import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
 const meta: Meta = {
@@ -31,14 +29,6 @@ const Template: Story<ActorPageContentProps> = (props) => {
 
 const ActorPageExample = Template.bind({})
 
-const args: ActorPageContentProps = {
-  frontmatter: firstActor,
-  funds: funds.filter(f => f.by.__type === 'Actor' && f.by.actor.uuid === firstActor.uuid),
-  body: null,
-  tableOfContents: { items: undefined },
-  timeToRead: O.none,
-}
-
-ActorPageExample.args = args
+ActorPageExample.args = actorPageContentArgs
 
 export { ActorPageExample }

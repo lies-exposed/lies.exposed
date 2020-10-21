@@ -2,9 +2,8 @@ import {
   TopicPageContent,
   TopicPageContentProps
 } from "@components/TopicPageContent"
-import { firstTopic } from "@mock-data/topics"
+import { topicPageContentArgs } from "@components/examples/TopicPageContentExample"
 import { Meta, Story } from "@storybook/react/types-6-0"
-import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
 const meta: Meta = {
@@ -20,13 +19,6 @@ const Template: Story<TopicPageContentProps> = (props) => {
 
 const TopicPageContentExample = Template.bind({})
 
-const args: TopicPageContentProps = {
-  frontmatter: firstTopic,
-  body: null,
-  tableOfContents: { items: undefined },
-  timeToRead: O.none,
-}
-
-TopicPageContentExample.args = args
+TopicPageContentExample.args = topicPageContentArgs
 
 export { TopicPageContentExample }

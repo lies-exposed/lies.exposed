@@ -1,6 +1,6 @@
+import { BubbleGraph } from "@components/Common/Graph/BubbleGraph"
 import { generateRandomColor } from "@utils/colors"
 import * as React from "react"
-import { BubbleGraph } from "./Common/Graph/BubbleGraph"
 
 function getRandomArbitrary(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min) + min)

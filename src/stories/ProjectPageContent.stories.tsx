@@ -1,13 +1,10 @@
+import { ProjectPageContent, ProjectPageContentProps } from "@components/ProjectPageContent"
 import {
-  ProjectPageContent,
-  ProjectPageContentProps,
-} from "@components/ProjectPageContent"
-import { funds } from "@mock-data/funds"
-import { firstProject } from "@mock-data/projects"
+  projectPageContentExampleArgs,
+} from "@components/examples/ProjectPageContentExample"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import { Block } from "baseui/block"
 import { HeadingLarge } from "baseui/typography"
-import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
 const meta: Meta = {
@@ -33,14 +30,6 @@ const Template: Story<ProjectPageContentProps> = (props) => {
 
 const ProjectPageContentExample = Template.bind({})
 
-const args: ProjectPageContentProps = {
-  frontmatter: firstProject,
-  body: null,
-  tableOfContents: { items: undefined },
-  timeToRead: O.none,
-  funds,
-}
-
-ProjectPageContentExample.args = args
+ProjectPageContentExample.args = projectPageContentExampleArgs
 
 export { ProjectPageContentExample }
