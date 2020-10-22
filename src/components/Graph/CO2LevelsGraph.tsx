@@ -3,7 +3,10 @@ import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { LinearGradient } from "@vx/gradient"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import { Block } from "baseui/block"
-import {Button} from "baseui/button"
+import {
+  Checkbox, STYLE_TYPE,
+  LABEL_PLACEMENT
+} from "baseui/checkbox"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -117,11 +120,11 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
     E.fold(throwValidationErrors, (data) => (
       <ParentSize style={{ height: 400 }} debounceTime={30}>
         {({ width, height }) => (
-          <Block overrides={{ Block: { style: { height }}}}>
+          <Block overrides={{ Block: { style: { height } } }}>
             <AxisGraph<CO2LevelDatum>
               id="co2-levels"
               width={width}
-              height={height -50}
+              height={height - 50}
               margin={{ top: 60, right: 60, bottom: 60, left: 60 }}
               linePathElement={(id) => (
                 <LinearGradient
@@ -147,15 +150,18 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
               )}
               showPoints={showPoints}
               data={data}
-              minYRange={toggleData === 'last-2000-years' ?  240 : 150}
+              minYRange={toggleData === 'last-2000-years' ? 240 : 150}
               getX={(d) => d.year}
               getY={(d) => d.value}
               axisLeftLabel={"CO2 cocentration (part per million)"}
               axisRightLabel={"CO2 cocentration (part per million)"}
               axisBottomLabel={"Date"}
             />
-            <Button
-              onClick={() => {
+            <Checkbox
+              checkmarkType={STYLE_TYPE.toggle_round}
+              labelPlacement={LABEL_PLACEMENT.right}
+              checked={toggleData === "last-2000-years"}
+              onChange={() => {
                 setToggleData(
                   toggleData === "last-2000-years"
                     ? "last-800k-years"
@@ -164,7 +170,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
               }}
             >
               {toggleData}
-            </Button>
+            </Checkbox>
           </Block>
         )}
       </ParentSize>
