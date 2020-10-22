@@ -131,8 +131,6 @@ export const createSchemaCustomization = async ({
             return "GroupFrontmatter"
           }
 
-          
-
           if (E.isRight(TopicFrontmatter.decode(source))) {
             return "TopicFrontmatter"
           }

@@ -8,8 +8,6 @@ import { ThemePrimitives, Theme } from "baseui/theme"
 import { createGlobalStyle } from "styled-components"
 // eslint-disable-next-line no-restricted-imports
 import "../scss/main.scss"
-// eslint-disable-next-line no-restricted-imports
-import "../scss/gatsby-image.scss"
 
 export const customColors = {
   brandPrimary: "#ff4e50",

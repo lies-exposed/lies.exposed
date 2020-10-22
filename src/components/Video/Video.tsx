@@ -1,6 +1,5 @@
 import { VideoFileNode } from "@models/Video";
 import * as React from "react";
-import "./video.scss";
 
 
 interface VideoProps {

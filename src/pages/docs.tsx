@@ -4,7 +4,6 @@ import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { TableOfContents } from "@components/TableOfContents"
 import { PageContentFileNode } from "@models/page"
-import { logInPipe } from "@utils/logger"
 import { renderValidationErrors } from "@utils/renderValidationErrors"
 import * as E from "fp-ts/lib/Either"
 import * as O from 'fp-ts/lib/Option'
@@ -30,7 +29,6 @@ const DocsPage: React.FC<PageProps> = (props) => {
 
   return pipe(
     PageContentFileNode.decode(pageContent),
-    logInPipe('pageContent'),
     E.fold(renderValidationErrors, (page) => {
       return (
         <Layout>

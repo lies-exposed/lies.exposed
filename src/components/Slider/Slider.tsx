@@ -1,7 +1,6 @@
 import { Block } from "baseui/block"
 import * as React from "react"
 import * as SlickSlider from "react-slick"
-import "./slider.scss"
 
 interface Slide {
   imageURL: string

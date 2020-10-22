@@ -13,7 +13,7 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
   const { id, backgroundColor, backgroundImage, children } = props
   const [{ width, minHeight, maxWidth }, setPageSize] = React.useState({
     minHeight: isServer ? 800 : window.innerHeight,
-    width: isServer ? "auto" : "100%",
+    width: "100%",
     maxWidth: isServer ? 800 : window.innerWidth,
   })
 
@@ -62,9 +62,12 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
       <MainContent
         style={{
           backgroundColor:
-            backgroundImage !== undefined ? "rgba(255, 255, 255, 0.8)" : "trasparent",
+            backgroundImage !== undefined
+              ? "rgba(255, 255, 255, 0.8)"
+              : "trasparent",
+          width: "100%",
           paddingLeft: "30px",
-          paddingRight: "30px"
+          paddingRight: "30px",
         }}
       >
         {children}

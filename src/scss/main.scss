@@ -1,6 +1,7 @@
-@import "../../node_modules/source-serif-pro/source-serif-pro.css";
+@import "~source-serif-pro/source-serif-pro.css";
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
+
 
 html {
   font-family: "Source Serif Pro";
@@ -37,4 +38,11 @@ em {
 
 .anchor svg {
   margin-right: 10px
+}
+
+.gatsby-resp-image-figure {
+
+  .gatsby-resp-image-figcaption {
+    text-align: center;
+  }
 }
