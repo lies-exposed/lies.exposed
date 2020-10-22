@@ -53,7 +53,7 @@ export const thirdEvent: EventFrontmatter = {
       type: "ProjectFund",
       project: firstGoodProject,
       by: { __type: "Group", group: goodGroup },
-    },
+    }
   ]),
   date: subWeeks(new Date(), 3),
   createdAt: new Date(),
@@ -76,6 +76,7 @@ export const fourthEvent: EventFrontmatter = {
       by: [{ __type: "Group", group: goodGroup }],
       for: { __type: "ForProject", uuid: firstGoodProject.uuid },
       images: O.none,
+      date: new Date()
     },
   ]),
   createdAt: new Date(),
