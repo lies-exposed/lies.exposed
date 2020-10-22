@@ -42,5 +42,5 @@ export const ProjectImpact = t.strict(
 export type ProjectImpact = t.TypeOf<typeof ProjectImpact>
 
 
-export const EventMetadata = t.union([Protest, ProjectImpact, ProjectFund], "Event")
+export const EventMetadata = t.union([Protest, ProjectImpact, ProjectFund], "EventMetadata")
 export type EventMetadata = t.TypeOf<typeof EventMetadata>

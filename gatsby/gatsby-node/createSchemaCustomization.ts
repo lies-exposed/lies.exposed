@@ -44,7 +44,8 @@ const GroupF = t.type({
   ...GroupFrontmatterProps,
   avatar: optionFromNullable(t.string),
   members: optionFromNullable(t.array(t.string)),
-})
+}, 'GroupF')
+
 const {
   groups,
   topics,
