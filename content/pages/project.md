@@ -1,7 +1,9 @@
 ---
+uuid: 0b842bdb-c413-4f15-ad15-16ab7ba8d4ac
 title: Project
 path: /project
-date: 2020-09-08T12:00:00.000Z
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 <FullSizeSection id="the-project">

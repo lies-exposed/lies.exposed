@@ -11,6 +11,8 @@ topics:
 links:
   - https://www.ragusanews.com/2019/04/23/giudiziaria/sversamento-di-petrolio-arrestato-lo-sciclitano-enrico-trovato/98718
   - https://www.ilfattoquotidiano.it/2019/04/24/eni-viggiano-il-manager-suicida-denuncio-nel-2013-il-giudice-lo-isolarono-se-ascoltato-disastro-ambientale-evitabile/5130329/
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 È finito agli arresti domicialiri il dirigente dell'Eni Enrico Trovato.
