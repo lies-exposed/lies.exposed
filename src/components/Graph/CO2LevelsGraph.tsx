@@ -75,11 +75,18 @@ const CO2LevelDatum = t.type(
 
 type CO2LevelDatum = t.TypeOf<typeof CO2LevelDatum>
 
+
+
 export interface CO2LevelsGraphProps {
   showPoints: boolean
 }
 
 type ToggleKey = "last-2000-years" | "last-800k-years"
+
+const localiseToggleKey: Record<ToggleKey, string> = {
+  "last-2000-years": "Last 2000 years",
+  "last-800k-years": "Last 800k years",
+}
 
 export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
   showPoints,
@@ -169,7 +176,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
                 )
               }}
             >
-              {toggleData}
+              {localiseToggleKey[toggleData]}
             </Checkbox>
           </Block>
         )}
