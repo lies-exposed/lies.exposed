@@ -2,25 +2,37 @@ import { ActorFrontmatter } from "@models/actor"
 import { generateRandomColor } from "@utils/colors"
 import uuid from "@utils/uuid"
 import * as O from "fp-ts/lib/Option"
-import { firstActorAvatar, secondActorAvatar } from "./avatars"
+import { avatars } from "./avatars"
 
 
-export const firstActor: ActorFrontmatter = {
+export const goodActor: ActorFrontmatter = {
   uuid: uuid(),
-  fullName: "First Actor",
-  username: "first-actor",
-  date: new Date(),
-  avatar: O.some(firstActorAvatar),
+  fullName: "Good Actor",
+  username: "good-actor",
+  avatar: O.some(avatars.actors[0]),
   color: generateRandomColor(),
+  createdAt: new Date(),
+  updatedAt: new Date()
+}
+
+export const badActor: ActorFrontmatter = {
+  uuid: uuid(),
+  fullName: "Bad Actor",
+  username: "bad-actor",
+  avatar: O.some(avatars.actors[1]),
+  color: generateRandomColor(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
 export const secondActor: ActorFrontmatter = {
   uuid: uuid(),
   fullName: "Second Actor",
   username: "second-actor",
-  date: new Date(),
-  avatar: O.some(secondActorAvatar),
+  avatar: O.some(avatars.actors[2]),
   color: generateRandomColor(),
+  createdAt: new Date(),
+  updatedAt: new Date()
 }
 
-export const actors = [firstActor, secondActor]
+export const actors: ActorFrontmatter[] = [goodActor, badActor]

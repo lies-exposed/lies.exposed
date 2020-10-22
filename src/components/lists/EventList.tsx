@@ -16,8 +16,9 @@ import { ParagraphSmall } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import { navigate } from "gatsby"
+// import { navigate } from "gatsby"
 import * as React from "react"
+import { EventMetadataList } from "./EventMetadataList"
 
 export interface EventListProps {
   events: EventMD[]
@@ -25,7 +26,7 @@ export interface EventListProps {
 
 const EventList: React.FC<EventListProps> = (props) => {
   return (
-    <div className="events">
+    <div className="events" style={{ width: "100%" }}>
       {pipe(
         props.events,
         A.map((event) => (
@@ -67,9 +68,10 @@ const EventList: React.FC<EventListProps> = (props) => {
                             ...t,
                             selected: true,
                           }))}
-                          onTopicClick={async (t) =>
-                            await navigate(`/topics/${t.uuid}`)
-                          }
+                          onTopicClick={async (t) => {
+                            // await navigate(`/topics/${t.uuid}`)
+                            return undefined
+                          }}
                         />
                       ))}
                     </FlexGridItem>
@@ -90,7 +92,7 @@ const EventList: React.FC<EventListProps> = (props) => {
                                 selected: false,
                               }))}
                               onGroupClick={async (group) => {
-                                await navigate(`/groups/${group.uuid}`)
+                                // await navigate(`/groups/${group.uuid}`)
                               }}
                               avatarScale="scale1000"
                             />
@@ -115,7 +117,8 @@ const EventList: React.FC<EventListProps> = (props) => {
                                 selected: false,
                               }))}
                               onActorClick={async (actor) => {
-                                await navigate(`/actors/${actor.uuid}`)
+                                // await navigate(`/actors/${actor.uuid}`)
+                                return undefined
                               }}
                               avatarScale="scale1000"
                             />
@@ -183,6 +186,16 @@ const EventList: React.FC<EventListProps> = (props) => {
                       )}
                     </FlexGridItem>
                   </FlexGrid>
+                  {pipe(
+                    event.frontmatter.metadata,
+                    O.map((metadata) => (
+                      // eslint-disable-next-line react/jsx-key
+                      <FlexGridItem>
+                        <EventMetadataList metadata={metadata} />
+                      </FlexGridItem>
+                    )),
+                    O.toNullable
+                  )}
                 </FlexGrid>
               </StyledBody>
             </Card>

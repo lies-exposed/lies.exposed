@@ -1,5 +1,7 @@
 ---
-date: 2020-02-22T00:00:00.000Z
+uuid: 912ac6de-8201-44fa-a61c-c0be1be8256f
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 path: /
 title: Home
 ---

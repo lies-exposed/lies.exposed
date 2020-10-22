@@ -1,7 +1,7 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { mdx } from "./Mdx"
+import { markdownRemark } from "./Markdown"
 
 export const NetworkPageFrontmatter = t.type(
   {
@@ -13,7 +13,7 @@ export const NetworkPageFrontmatter = t.type(
   "NetworkPageContentFileNodeFrontmatter"
 )
 
-export const NetworkPageMD = mdx(NetworkPageFrontmatter,
+export const NetworkPageMD = markdownRemark(NetworkPageFrontmatter,
   "NetworkPageMD"
 )
 

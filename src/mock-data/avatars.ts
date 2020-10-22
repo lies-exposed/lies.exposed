@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-
 import { ImageFileNode } from "@models/Image"
+import * as A from "fp-ts/lib/Array"
+import { pipe } from "fp-ts/lib/pipeable"
 
 const fileNodeFromPath = (path: string): ImageFileNode => {
   return {
@@ -21,20 +22,36 @@ const fileNodeFromPath = (path: string): ImageFileNode => {
   }
 }
 
-// Actors
+interface Avatars {
+  actors: {
+    [key: number]: ImageFileNode
+  },
+  groups: {
+    [key: number]: ImageFileNode
+  }
+}
 
-export const firstActorAvatar = fileNodeFromPath(
-  require("./assets/actors/first-actor.svg")
-)
-export const secondActorAvatar = fileNodeFromPath(
-  require("./assets/actors/second-actor.svg")
-)
-export const thirdActorAvatar = fileNodeFromPath(
-  require("./assets/actors/third-actor.svg")
-)
-
-// Groups
-
-export const firstGroupAvatar = fileNodeFromPath(
-  require("./assets/groups/first-group.svg")
-)
+export const avatars: Avatars = {
+  // Actors
+  actors: pipe(
+    A.range(0, 10),
+    A.map((number) =>
+      fileNodeFromPath(require(`./assets/actors/actor-${number}.svg`))
+    ),
+    A.reduceWithIndex({}, (number, acc, asset) => ({
+      ...acc,
+      [number]: asset,
+    }))
+  ),
+  // Groups
+  groups: pipe(
+    A.range(0, 10),
+    A.map((number) =>
+      fileNodeFromPath(require(`./assets/groups/group-${number}.svg`))
+    ),
+    A.reduceWithIndex({}, (number, acc, asset) => ({
+      ...acc,
+      [number]: asset,
+    }))
+  ),
+}

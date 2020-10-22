@@ -4,7 +4,6 @@ export const query = graphql`
   fragment Area on AreaFrontmatter {
     uuid
     label
-    date
     color
     groups {
       ...Group
@@ -13,6 +12,8 @@ export const query = graphql`
       ...Topic
     }
     polygon
+    createdAt
+    updatedAt
   }
 
   fragment AreaMD on Mdx {

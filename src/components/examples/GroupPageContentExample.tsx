@@ -1,7 +1,7 @@
 import { GroupPageContent, GroupPageContentProps } from "@components/GroupPageContent"
 import { events } from "@mock-data/events"
 import { funds } from "@mock-data/funds"
-import { firstGroup } from "@mock-data/groups"
+import { goodGroup } from "@mock-data/groups"
 import { projects } from "@mock-data/projects"
 import { Card } from "baseui/card"
 import * as O from "fp-ts/lib/Option"
@@ -9,12 +9,12 @@ import * as R from "fp-ts/lib/Record"
 import * as React from "react"
 
 const groupFunds = funds.filter(
-  (f) => f.by.__type === "Group" && f.by.group.uuid === firstGroup.uuid
+  (f) => f.by.__type === "Group" && f.by.group.uuid === goodGroup.uuid
 )
 const fundedProjectIds = groupFunds.map( f => f.project.uuid)
 
 export const groupPageContentArgs: GroupPageContentProps = {
-  frontmatter: firstGroup,
+  frontmatter: goodGroup,
   body: null,
   tableOfContents: { items: undefined },
   timeToRead: O.none,

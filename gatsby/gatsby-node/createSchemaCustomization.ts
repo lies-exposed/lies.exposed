@@ -33,16 +33,19 @@ const ActorF = t.type({
   avatar: optionFromNullable(t.string),
 })
 
+
 const {
   avatar: _groupAvatar,
   members,
   ...GroupFrontmatterProps
-} = GroupFrontmatter.type.props
+} = GroupFrontmatter.type.type.props
+
 const GroupF = t.type({
   ...GroupFrontmatterProps,
   avatar: optionFromNullable(t.string),
   members: optionFromNullable(t.array(t.string)),
-})
+}, 'GroupF')
+
 const {
   groups,
   topics,
@@ -115,6 +118,7 @@ export const createSchemaCustomization = async ({
           MD_FRONTMATTER_TYPE,
         ],
         resolveType: async (source, context, info) => {
+          // todo: use info.rootValue.path instead decoding each source
           if (E.isRight(ActorF.decode(source))) {
             return "ActorFrontmatter"
           }

@@ -1,6 +1,7 @@
 interface BaseFrontmatter {
   uuid: String!
-  date: Date!
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type ArticleFrontmatter implements Node & BaseFrontmatter @dontInfer {
@@ -8,7 +9,8 @@ type ArticleFrontmatter implements Node & BaseFrontmatter @dontInfer {
   draft: Boolean!
   title: String!
   path: String!
-  date: Date!
+  createdAt: Date!
+  updatedAt: Date!
   links: [String!]
   featuredImage: File! @fileByRelativePath
 }
@@ -19,7 +21,8 @@ type ActorFrontmatter implements Node & BaseFrontmatter @dontInfer {
   username: String
   avatar: File @fileByRelativePath
   color: String
-  date: Date!
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type GroupFrontmatter implements Node & BaseFrontmatter @dontInfer {
@@ -28,16 +31,18 @@ type GroupFrontmatter implements Node & BaseFrontmatter @dontInfer {
   type: String!
   avatar: File! @fileByRelativePath
   members: [ActorFrontmatter!]
-  date: Date!
   color: String
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type PageFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   title: String!
   path: String!
-  date: Date!
   slug: String!
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 # Topics
@@ -45,8 +50,9 @@ type TopicFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   slug: String!
   label: String!
-  date: Date!
   color: String
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type ImageAndDescription {
@@ -61,7 +67,8 @@ type AreaFrontmatter implements Node & BaseFrontmatter @dontInfer {
   groups: [GroupFrontmatter!]
   topics: [TopicFrontmatter!]
   polygon: String!
-  date: Date!
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type ProjectFrontmatter implements Node & BaseFrontmatter @dontInfer {
@@ -73,6 +80,8 @@ type ProjectFrontmatter implements Node & BaseFrontmatter @dontInfer {
   endDate: Date
   areas: [String!]
   images: [ImageAndDescription!]
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 # Events
@@ -87,11 +96,14 @@ type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   actors: [ActorFrontmatter!]
   links: [String!]
   images: [ImageAndDescription!]
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type MdxFrontmatter implements BaseFrontmatter {
   uuid: String!
-  date: Date!
+  createdAt: Date!
+  updatedAt: Date!
 }
 
 type Mdx implements Node {

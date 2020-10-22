@@ -1,4 +1,4 @@
-import EventList from "@components/lists/EventList/EventList"
+import EventList from "@components/lists/EventList"
 import { EventMD } from "@models/event"
 import { GroupFrontmatter } from "@models/group"
 import { TopicFrontmatter } from "@models/topic"

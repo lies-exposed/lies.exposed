@@ -6,7 +6,7 @@ import { Color } from "./Common/Color"
 import { Polygon } from "./Common/Polygon"
 import { ImageAndDescription } from "./Image"
 import { JSONFromString } from "./JSONFromString"
-import { mdx } from "./Mdx"
+import { markdownRemark } from "./Markdown"
 
 export const ProjectFrontmatter = t.strict(
   {
@@ -17,12 +17,13 @@ export const ProjectFrontmatter = t.strict(
     images: optionFromNullable(t.array(ImageAndDescription)),
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
-    date: DateFromISOString,
+    createdAt: DateFromISOString,
+    updatedAt: DateFromISOString
   },
   "ProjectFrontmatter"
 )
 
 export type ProjectFrontmatter = t.TypeOf<typeof ProjectFrontmatter>
 
-export const ProjectMD = mdx(ProjectFrontmatter, "ProjectMD")
+export const ProjectMD = markdownRemark(ProjectFrontmatter, "ProjectMD")
 export type ProjectMD = t.TypeOf<typeof ProjectMD>

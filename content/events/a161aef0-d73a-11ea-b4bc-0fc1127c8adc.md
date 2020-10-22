@@ -11,6 +11,8 @@ topics:
 links:
   - https://www.ambientebio.it/ambiente/ecoreati/basilicata-disastro-ambientale-petrolio-rifiuti-tossici/
   - https://www.ilfattoquotidiano.it/2019/04/24/eni-viggiano-linchiesta-in-val-dagri-ci-dice-che-e-stato-giusto-combattere-per-la-legge-ecoreati/5132552/
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 Sono ben 400 le tonnellate di petrolio sversate dal Centro oli della Val d’Agri tra agosto e novembre 2016, per un’area contaminata di 6000 metri quadri. La perdita non era al serbatoio A del Cova di Viggiano, come si pensava finora, ma a quello D. Eni ammette il disastro ambientale che ha provocato al tavolo tecnico voluto dal Governo nel 2017. Un incontro istituzionale a cui hanno partecipato la Regione Basilicata, l’Arpa locale e Unmig per conto del ministero dello Sviluppo Economico.

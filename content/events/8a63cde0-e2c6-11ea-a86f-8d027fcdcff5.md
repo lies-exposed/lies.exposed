@@ -7,5 +7,7 @@ topics:
 links:
   - https://www.ilfattoquotidiano.it/2020/08/16/jova-beach-party-il-caso-di-roccella-jonica-dimostra-quanto-poco-valgano-i-vincoli-ambientali/5898354/
   - https://augustodesanctis.wordpress.com/2020/08/10/jova-beach-party-dopo-un-anno-si-scopre-che/
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 Un anno dopo l'evento compaiono le comunicazioni dove veniva richiesto di sbancare le dune per permettere lo svolgimento del concerto.

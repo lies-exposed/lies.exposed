@@ -5,7 +5,6 @@ export const query = graphql`
     uuid
     title
     path
-    date
     featuredImage {
       publicURL
       childImageSharp {
@@ -15,6 +14,8 @@ export const query = graphql`
       }
     }
     draft
+    createdAt
+    updatedAt
   }
 
   fragment ArticleMD on Mdx {

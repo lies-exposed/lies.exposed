@@ -1,7 +1,9 @@
 ---
+uuid: 0b842bdb-c413-4f15-ad15-16ab7ba8d4ac
 title: Project
 path: /project
-date: 2020-09-08T12:00:00.000Z
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 <FullSizeSection id="the-project">
@@ -108,12 +110,10 @@ Esempi di _progetti_ possono essere:
 
 <TopicPageContentExample />
 
-<BubbleGraphExample />
-
 I [topic](/topics) indicano un tema o un argomento che fa riferimento a specifici progetti, attori, e gruppi.
 
 Alcuni _topic_ possibili sono: 
-- Olimpiadi 2026
+- Covid
 - Greenwashing
 
 
@@ -128,5 +128,7 @@ Per *attori* si intendono quelle persone fisiche che possono essere collegate ad
 <GroupPageContentExample />
 
 Per *gruppi* si intendono gli insiemi di *attori* che identificano istituzioni e aziende.
+
+#### Pagamenti
 
 </FullSizeSection>

@@ -27,6 +27,8 @@ export const query = graphql`
       }
     }
     links
+    createdAt
+    updatedAt
   }
 
   fragment EventMDRemark on Mdx {

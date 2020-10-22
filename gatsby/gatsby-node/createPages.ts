@@ -339,6 +339,7 @@ const createAreasPages = async ({
 
   const nodes = result.data.areas.nodes
 
+  
   nodes.forEach((node) => {
     const nodePath = `/areas/${node.name}`
 

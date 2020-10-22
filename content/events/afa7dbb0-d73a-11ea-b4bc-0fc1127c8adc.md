@@ -5,6 +5,8 @@ date: 2018-12-14T00:00:00.000Z
 type: Act
 topics:
   - 7b25cef0-d7d6-11ea-8315-417e20cd1794
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 Il 14 Dicembre Milano vede la sua prima scioperante per il clima.

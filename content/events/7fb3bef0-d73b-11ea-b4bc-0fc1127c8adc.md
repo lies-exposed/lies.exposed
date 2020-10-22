@@ -10,6 +10,8 @@ groups:
 links:
     - https://www.milanotoday.it/attualita/approvato-pgt.html
     - https://www.trasporti-italia.com/treno/ambiente-ecco-cosa-diventeranno-gli-scali-ferroviari-di-milano/41555
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 È stato approvato con 26 voti favorevoli e 12 contrari in Consiglio Comunale.

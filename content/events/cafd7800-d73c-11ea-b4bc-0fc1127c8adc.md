@@ -10,6 +10,8 @@ topics:
 links:
   - https://www.ilgiorno.it/sesto/cronaca/bresso-vasca-strage-alberi-1.5382049
 images: []
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 Nonostante sia vietato dalla legge abbattere gli alberi fino a ottobre per favorire la nidificazione di alcune specie protette, inizia l'abbattimento del bosco del Parco Nord per dare inizio ai lavori della vasca di laminazione.

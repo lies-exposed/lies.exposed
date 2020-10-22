@@ -20,5 +20,5 @@ export const ByActor = t.type(
 )
 export type ByActor = t.TypeOf<typeof ByActor>
 
-export const ByEitherGroupOrActor = t.union([ByGroup, ByActor])
+export const ByEitherGroupOrActor = t.union([ByGroup, ByActor], 'ByEitherGroupOrActor')
 export type ByEitherGroupOrActor =t.TypeOf<typeof ByEitherGroupOrActor>

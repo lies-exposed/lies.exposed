@@ -20,7 +20,8 @@ export const query = graphql`
       }
     }
 
-    date
+    createdAt
+    updatedAt
   }
 
   fragment ProjectMD on Mdx {

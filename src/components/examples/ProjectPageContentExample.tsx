@@ -3,14 +3,14 @@ import {
   ProjectPageContentProps
 } from "@components/ProjectPageContent"
 import { funds } from "@mock-data/funds"
-import { firstProject } from "@mock-data/projects"
+import { firstGoodProject } from "@mock-data/projects"
 import { Card } from "baseui/card"
 import * as O from "fp-ts/lib/Option"
 import * as R from "fp-ts/lib/Record"
 import * as React from "react"
 
 export const projectPageContentExampleArgs: ProjectPageContentProps = {
-  frontmatter: firstProject,
+  frontmatter: firstGoodProject,
   body: null,
   tableOfContents: { items: undefined },
   timeToRead: O.none,

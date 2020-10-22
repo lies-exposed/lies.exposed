@@ -8,5 +8,7 @@ topics:
   - 5fcaf090-d7d6-11ea-8315-417e20cd1794
 links:
   - https://milano.corriere.it/notizie/cronaca/20_luglio_21/08-milano-documentoacorriere-web-milano-b3510a74-cac5-11ea-b15c-cd9b33ddf899.shtml
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 Respinto il fronte del "No" dal tribunale delle acque.

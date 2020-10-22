@@ -3,7 +3,6 @@ import { graphql } from "gatsby"
 export const query = graphql`
   fragment Group on GroupFrontmatter {
     uuid
-    date
     name
     type
     members {
@@ -18,6 +17,8 @@ export const query = graphql`
         }
       }
     }
+    createdAt
+    updatedAt
   }
 
   fragment GroupMD on Mdx {

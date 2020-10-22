@@ -25,5 +25,5 @@
     }
   },
   "include": ["gatsby", "src", "plugins", "typings"],
-  "exclude": ["content", "node_modules", "public", ".cache"]
+  "exclude": ["content", "scripts", "node_modules", "public", ".cache"]
 }

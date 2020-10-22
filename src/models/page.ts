@@ -1,11 +1,11 @@
 import * as t from "io-ts"
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
-import { mdx } from "./Mdx"
+import { Frontmatter } from "./Frontmatter"
+import { markdownRemark } from "./Markdown"
 
 export const PageFrontmatter = t.strict(
   {
+    ...Frontmatter.props,
     title: t.string,
-    date: DateFromISOString,
     path: t.string,
   },
   "PageFrontmatter"
@@ -13,7 +13,7 @@ export const PageFrontmatter = t.strict(
 
 export type PageFrontmatter = t.TypeOf<typeof PageFrontmatter>
 
-export const PageMD = mdx(
+export const PageMD = markdownRemark(
   PageFrontmatter,
   "PageMD"
 )

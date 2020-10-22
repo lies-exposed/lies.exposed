@@ -12,7 +12,7 @@ export const groups: CmsCollection = {
   summary: "[{{fields.uuid}}] {{fields.name}}",
   slug: "{{fields.uuid}}",
   create: true,
-  fields: IOTSTypeToCMSFields(GroupFrontmatter)
+  fields: IOTSTypeToCMSFields(GroupFrontmatter.type) 
   // fields: [
   //   UUIDField,
   //   StringField({ label: "Name", name: "name" }),

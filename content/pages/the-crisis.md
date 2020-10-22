@@ -1,7 +1,9 @@
 ---
+uuid: 4b2ff2a0-f509-4735-8003-07ce25016c8c
 title: La Crisi del nostro tempo
 path: /the-crisis
-date: 2020-08-27
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 <FullSizeSection id="la-crisi-del-nostro-tempo" backgroundImage="/media/img/australian-bushfires.jpg">

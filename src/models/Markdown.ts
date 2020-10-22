@@ -34,7 +34,7 @@ type MdxC<F extends t.Mixed> = t.ExactC<
   }>
 >
 
-export const mdx = <F extends t.Mixed>(f: F, name: string): MdxC<F> =>
+export const markdownRemark = <F extends t.Mixed>(f: F, name: string): MdxC<F> =>
   t.strict(
     {
       frontmatter: f,

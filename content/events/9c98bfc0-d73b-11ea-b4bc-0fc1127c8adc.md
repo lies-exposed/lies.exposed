@@ -8,6 +8,8 @@ groups:
   - 0b36e8b0-d743-11ea-accf-91b459e4aeb4
 topics:
   - b26c73c0-d757-11ea-9870-fd103bfd82e4
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 
 La Nigera è riuscita a vincere la causa contro ENI, per i danni sociali e ambientali che i suoi impianti hanno portato a quelle persone che vivono vicino alla foce del Niger.

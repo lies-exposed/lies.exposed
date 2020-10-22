@@ -10,5 +10,7 @@ links:
   - https://processsafety.events/events/1976-07-10_seveso/
   - https://milano.repubblica.it/cronaca/2016/07/10/news/disastro_seveso-143783879/
   - https://cultura.biografieonline.it/disastro-di-seveso-1976/
+updatedAt: 2020-10-22T07:56:17.196Z
+createdAt: 2020-10-22T07:56:17.355Z
 ---
 Alle 12:28 del 10 Luglio del 1976 un incidente provoca la fuoriuscita di diossina dallo stabilimento dell'ICMESA a Meda, spargendosi per svariati chilometri.

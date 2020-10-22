@@ -3,7 +3,6 @@ import { graphql } from "gatsby"
 export const query = graphql`
   fragment Actor on ActorFrontmatter {
     uuid
-    date
     fullName
     username
     color
@@ -15,6 +14,8 @@ export const query = graphql`
         }
       }
     }
+    createdAt
+    updatedAt
   }
 
   fragment ActorMD on Mdx {

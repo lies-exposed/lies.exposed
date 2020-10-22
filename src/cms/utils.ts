@@ -65,6 +65,9 @@ const isStringType = (io: unknown): io is t.StringType =>
 const isBooleanType = (io: unknown): io is t.BooleanType =>
   (io as any)._tag !== undefined && (io as any)._tag === "BooleanType"
 
+const isUnionType = (io: unknown): io is t.UnionType<any> =>
+  (io as any)._tag !== undefined && (io as any)._tag === "UnionType"
+
 const isRecursiveType = (io: unknown): io is t.RecursiveType<t.Any> =>
   (io as any)._tag !== undefined && (io as any)._tag === "RecursiveType"
 
@@ -146,6 +149,21 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
         )
       }
 
+      if (props.name === "Array<ByEitherGroupOrActor>") {
+        const type = props.type as t.UnionType<[t.Any]>
+        return acc.concat(
+          ListField({
+            name,
+            label,
+            search_fields: [],
+            types: type.types.map((t) => ({
+              name: t.name,
+              fields: traverseStruct([])(name, t),
+            })),
+          })
+        )
+      }
+
       if (props.name === "Array<ImageFileNode>") {
         return acc.concat(
           ListField({
@@ -154,6 +172,25 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
             search_fields: [],
             multiple: true,
             field: ImageField({ name, label }),
+          })
+        )
+      }
+
+      // console.log(props)
+
+      if (props.name === "Array<EventMetadata>" && isUnionType(props.type)) {
+        const type = props.type as t.UnionType<[t.Any]>
+
+        return acc.concat(
+          ListField({
+            name,
+            label,
+            search_fields: [],
+            multiple: true,
+            types: type.types.map((t) => ({
+              name: t.name,
+              fields: traverseStruct([])(key, t),
+            })),
           })
         )
       }
@@ -230,7 +267,7 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
 
       switch (optionMatch[2]) {
         case "CMSRelation<actors>": {
-          return acc.concat(actorRelationField(key))
+          return acc.concat({ ...actorRelationField(key), required: false })
         }
         case "Array<string>": {
           return acc.concat(
@@ -238,6 +275,7 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
               name,
               label,
               multiple: true,
+              required: false,
               field: StringField({
                 name,
                 label,
@@ -246,10 +284,10 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
           )
         }
         case "Array<ActorFrontmatter>": {
-          return acc.concat(actorRelationField(key))
+          return acc.concat({ ...actorRelationField(key), required: false })
         }
         case "Array<GroupFrontmatter>": {
-          return acc.concat(groupRelationField(key))
+          return acc.concat({ ...groupRelationField(key), required: false })
         }
         case "NonEmptyArray<ImageAndDescription>": {
           return acc.concat({

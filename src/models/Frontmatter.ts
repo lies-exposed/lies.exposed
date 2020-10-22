@@ -3,7 +3,8 @@ import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 
 export const Frontmatter = t.interface({
   uuid: t.string,
-  date: DateFromISOString
+  createdAt: DateFromISOString,
+  updatedAt: DateFromISOString
 }, 'Frontmatter')
 
 export type Frontmatter = t.TypeOf<typeof Frontmatter>

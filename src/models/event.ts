@@ -1,29 +1,16 @@
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
-import { date } from "io-ts-types/lib/date"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Point } from "./Common/Point"
+import { EventMetadata } from "./EventMetadata"
+import { Frontmatter } from "./Frontmatter"
 import { ImageAndDescription } from "./Image"
 import { JSONFromString } from "./JSONFromString"
-import { mdx } from "./Mdx"
+import { markdownRemark } from "./Markdown"
 import { ActorFrontmatter } from "./actor"
 import { GroupFrontmatter } from "./group"
 import { TopicFrontmatter } from "./topic"
-
-export interface TreeEvent {
-  name: string
-  date: Date
-  children: TreeEvent[]
-}
-
-export const TreeEvent: t.Type<TreeEvent> = t.recursion("TreeEvent", () =>
-  t.type({
-    name: t.string,
-    date: date,
-    children: t.array(TreeEvent),
-  })
-)
 
 export const EventTypeKeys = {
   // old types
@@ -42,13 +29,14 @@ export type EventType = t.TypeOf<typeof EventType>
 
 export const EventFrontmatter = t.strict(
   {
-    uuid: t.string,
+    ...Frontmatter.props,
     title: t.string,
     date: DateFromISOString,
     location: optionFromNullable(JSONFromString.pipe(Point)),
-    type: optionFromNullable(EventType),
     images: optionFromNullable(nonEmptyArray(ImageAndDescription)),
     links: optionFromNullable(t.array(t.string)),
+    metadata: optionFromNullable(t.array(EventMetadata)),
+    // todo: remove
     actors: optionFromNullable(t.array(ActorFrontmatter)),
     groups: optionFromNullable(t.array(GroupFrontmatter)),
     topics: nonEmptyArray(TopicFrontmatter),
@@ -58,6 +46,6 @@ export const EventFrontmatter = t.strict(
 
 export type EventFrontmatter = t.TypeOf<typeof EventFrontmatter>
 
-export const EventMD = mdx(EventFrontmatter, "EventMD")
+export const EventMD = markdownRemark(EventFrontmatter, "EventMD")
 
 export type EventMD = t.TypeOf<typeof EventMD>

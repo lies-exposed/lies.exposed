@@ -120,10 +120,7 @@ const CalendarHeatmapComponent: React.FC<
                 (e) => {
                   return {
                     bin: n,
-                    count: O.fold(
-                      () => 5,
-                      (t) => (t === "EcologicAct" ? 0 : 10)
-                    )(e.frontmatter.type),
+                    count: 0,
                     event: O.some(e),
                     date: e.frontmatter.date,
                     stroke: O.some("#c33bff"),
