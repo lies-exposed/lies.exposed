@@ -165,7 +165,9 @@
   "license": "MIT",
   "scripts": {
     "clean": "gatsby clean",
-    "build": "npm run build-storybook && gatsby build",
+    "build:storybook": "npm run build-storybook",
+    "build:gatsby": "gatsby build",
+    "build": "npm run build:storybook && npm run build:gatsby",
     "develop": "NODE_ENV=development gatsby develop -p 8002",
     "proxy-server": "PORT=8082 npx netlify-cms-proxy-server",
     "info": "gatsby info",
