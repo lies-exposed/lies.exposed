@@ -1,5 +1,5 @@
 import { List } from "@components/Common/List"
-import { ByEitherGroupOrActor, ByGroup } from "@models/Common/By"
+import { ByGroupOrActor, ByGroup } from "@models/Common/ByGroupOrActor"
 import { GroupFrontmatter } from "@models/group"
 import * as React from "react"
 import { ActorListItem, AvatarScale } from "./ActorList"
@@ -14,19 +14,19 @@ export interface Group extends GroupFrontmatter {
 }
 
 interface ByEitherGroupOrActorListProps {
-  by: ByEitherGroupOrActor[]
-  onByClick: (by: ByEitherGroupOrActor) => void
+  by: ByGroupOrActor[]
+  onByClick: (by: ByGroupOrActor) => void
   avatarScale: AvatarScale
 }
 
-const ByEitherGroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
+const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
   by,
   onByClick,
   avatarScale,
 }) => {
 
   return (
-    <List<ByEitherGroupOrActor>
+    <List<ByGroupOrActor>
       data={by}
       filter={(_) => true}
       onItemClick={onByClick}
@@ -63,4 +63,4 @@ const ByEitherGroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
   )
 }
 
-export default ByEitherGroupOrActorList
+export default GroupOrActorList
