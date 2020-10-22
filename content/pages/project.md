@@ -113,7 +113,7 @@ Esempi di _progetti_ possono essere:
 I [topic](/topics) indicano un tema o un argomento che fa riferimento a specifici progetti, attori, e gruppi.
 
 Alcuni _topic_ possibili sono: 
-- Olimpiadi 2026
+- Covid
 - Greenwashing
 
 
