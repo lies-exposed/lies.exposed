@@ -1,3 +1,5 @@
+import { EventMetadata } from "@models/EventMetadata"
+import { ProjectFrontmatter } from "@models/Project"
 import { EventMD } from "@models/event"
 import { Item } from "baseui/side-navigation"
 import { format } from "date-fns"
@@ -9,9 +11,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 
 type EventsByYearMap = Map<number, Map<number, EventMD[]>>
 
-export const eventsDataToNavigatorItems = (
-  events: EventMD[]
-): Item[] => {
+export const eventsDataToNavigatorItems = (events: EventMD[]): Item[] => {
   const initial: EventsByYearMap = Map.empty
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
@@ -65,4 +65,23 @@ export const eventsDataToNavigatorItems = (
     },
     initialData
   )
+}
+
+export const filterMetadataFroProject = (project: ProjectFrontmatter) => (
+  metadata: EventMetadata
+) => {
+  switch (metadata.type) {
+    case "ProjectFund":
+      return metadata.project.uuid === project.uuid
+    case "ProjectImpact":
+      return metadata.project.uuid === project.uuid
+    case "Protest": {
+      if (metadata.for.__type === "ForProject") {
+        return metadata.for.uuid === project.uuid
+      }
+      return false
+    }
+    default:
+      return false
+  }
 }
