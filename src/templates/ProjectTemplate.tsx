@@ -32,7 +32,7 @@ const ProjectTemplateContainer: React.FC<ProjectTemplatePageProps> = ({
         <Layout>
           <SEO title={project.frontmatter.name} />
           <MainContent>
-            <ProjectPageContent {...project} funds={funds} />
+            <ProjectPageContent {...project} metadata={{} as any} />
           </MainContent>
         </Layout>
       )

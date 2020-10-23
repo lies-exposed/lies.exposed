@@ -1,6 +1,6 @@
+import { ordEventDate } from "@helpers/event"
 import { EventMD } from "@models/event"
 import { formatDate } from "@utils/date"
-import { ordEventDate } from "@utils/event"
 import { Group } from "@vx/group"
 import { HeatmapCircle } from "@vx/heatmap"
 import { scaleLinear } from "@vx/scale"

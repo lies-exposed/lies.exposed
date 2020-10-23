@@ -24,7 +24,6 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
   onByClick,
   avatarScale,
 }) => {
-
   return (
     <List<ByGroupOrActor>
       data={by}

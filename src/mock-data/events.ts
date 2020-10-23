@@ -4,9 +4,11 @@ import { subMonths, subWeeks } from "date-fns"
 import * as NEA from "fp-ts/lib/NonEmptyArray"
 import * as O from "fp-ts/lib/Option"
 import { goodActor, badActor } from "./actors"
+import { firstEventMetadata, fourthEventMetadata, secondEventMetadata, thirdEventMetadata } from "./events-metadata"
 import { goodGroup, badGroup } from "./groups"
-import { firstGoodProject } from "./projects"
 import { firstTopic, secondTopic, thirdTopic } from "./topics"
+
+const today = new Date()
 
 // events
 export const firstEvent: EventFrontmatter = {
@@ -18,10 +20,10 @@ export const firstEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   location: O.none,
-  date: subMonths(new Date(), 2),
-  metadata: O.none,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  date: subMonths(today, 2),
+  metadata: O.some(firstEventMetadata),
+  createdAt: today,
+  updatedAt: today,
 }
 
 export const secondEvent: EventFrontmatter = {
@@ -33,10 +35,10 @@ export const secondEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   location: O.none,
-  date: subMonths(new Date(), 2),
-  metadata: O.none,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  date: subMonths(today, 2),
+  metadata: O.some(secondEventMetadata),
+  createdAt: today,
+  updatedAt: today,
 }
 
 export const thirdEvent: EventFrontmatter = {
@@ -48,16 +50,10 @@ export const thirdEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   location: O.none,
-  metadata: O.some([
-    {
-      type: "ProjectFund",
-      project: firstGoodProject,
-      by: { __type: "Group", group: goodGroup },
-    }
-  ]),
-  date: subWeeks(new Date(), 3),
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  metadata: O.some(thirdEventMetadata),
+  date: subWeeks(today, 3),
+  createdAt: today,
+  updatedAt: today,
 }
 
 export const fourthEvent: EventFrontmatter = {
@@ -69,19 +65,16 @@ export const fourthEvent: EventFrontmatter = {
   location: O.none,
   links: O.none,
   images: O.none,
-  date: new Date(),
-  metadata: O.some([
-    {
-      type: "Protest",
-      by: [{ __type: "Group", group: goodGroup }],
-      for: { __type: "ForProject", uuid: firstGoodProject.uuid },
-      images: O.none,
-      date: new Date()
-    },
-  ]),
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  date: today,
+  metadata: O.some(fourthEventMetadata),
+  createdAt: today,
+  updatedAt: today,
 }
+
+export const firstGoodProjectEvents: EventFrontmatter[] = [
+  thirdEvent,
+  fourthEvent
+]
 
 export const events: EventFrontmatter[] = [
   firstEvent,

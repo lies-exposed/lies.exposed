@@ -1,8 +1,9 @@
-import { EventMetadata } from "@models/EventMetadata"
+import { EventMetadata, EventMetadataMap } from "@models/EventMetadata"
 import { ProjectFrontmatter } from "@models/Project"
-import { EventMD } from "@models/event"
+import { EventFrontmatter, EventMD } from "@models/event"
 import { Item } from "baseui/side-navigation"
-import { format } from "date-fns"
+import { format, subWeeks } from "date-fns"
+import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
@@ -69,19 +70,142 @@ export const eventsDataToNavigatorItems = (events: EventMD[]): Item[] => {
 
 export const filterMetadataFroProject = (project: ProjectFrontmatter) => (
   metadata: EventMetadata
-) => {
+): boolean => {
   switch (metadata.type) {
     case "ProjectFund":
       return metadata.project.uuid === project.uuid
     case "ProjectImpact":
       return metadata.project.uuid === project.uuid
     case "Protest": {
-      if (metadata.for.__type === "ForProject") {
-        return metadata.for.uuid === project.uuid
-      }
-      return false
+      return (
+        metadata.for.__type === "ForProject" &&
+        metadata.for.uuid === project.uuid
+      )
+    }
+    case "Arrest": {
+      return metadata.for.some(
+        (f) => f.__type === "ForProject" && f.uuid === project.uuid
+      )
     }
     default:
       return false
   }
+}
+
+export const ordEventDate = Ord.ord.contramap(
+  Ord.ordDate,
+  (e: EventMD) => e.frontmatter.date
+)
+
+const colorMap: Record<EventMetadata["type"], string> = {
+  Protest: "red",
+  ProjectFund: "blue",
+  ProjectImpact: "orange",
+  StudyPublished: "green",
+  Death: "black",
+  Arrest: "lightred",
+  Condamned: "lightred",
+  PublicAnnouncement: "lightgreen",
+  Uncategorized: "grey",
+}
+export const getColorByEventType = ({
+  type,
+}: {
+  type: EventMetadata["type"]
+}): string => {
+  return colorMap[type]
+}
+interface EventsInDateRangeProps {
+  minDate: O.Option<Date>
+  maxDate: O.Option<Date>
+}
+
+export const eventsInDateRange = (props: EventsInDateRangeProps) => (
+  events: EventMD[]
+): EventMD[] => {
+  return pipe(
+    events,
+    A.sort(Ord.getDualOrd(ordEventDate)),
+    (orderedEvents) => {
+      const minDate = pipe(
+        props.minDate,
+        O.alt(() =>
+          pipe(
+            A.last(orderedEvents),
+            O.map((e) => e.frontmatter.date)
+          )
+        ),
+        O.getOrElse(() => subWeeks(new Date(), 1))
+      )
+
+      const maxDate = pipe(
+        props.maxDate,
+        O.alt(() =>
+          pipe(
+            A.head(orderedEvents),
+            O.map((e) => e.frontmatter.date)
+          )
+        ),
+        O.getOrElse(() => new Date())
+      )
+
+      return { events: orderedEvents, minDate, maxDate }
+    },
+    ({ events, minDate, maxDate }) => {
+      return A.array.filter(events, (e) =>
+        Ord.between(Ord.ordDate)(minDate, maxDate)(e.frontmatter.date)
+      )
+    }
+  )
+}
+
+export const extractEventsMetadata = (
+  type: "Project",
+  elem: ProjectFrontmatter
+) => (events: EventFrontmatter[]): EventMetadataMap => {
+  const init: Map<string, EventMetadata[]> = Map.empty
+  const eventMetadataInit: EventMetadataMap = {
+    PublicAnnouncement: [],
+    ProjectFund: [],
+    ProjectImpact: [],
+    Protest: [],
+    StudyPublished: [],
+    Arrest: [],
+    Death: [],
+    Condamned: [],
+    Uncategorized: [],
+  }
+  const results = pipe(
+    events,
+    A.map((e) => {
+      switch (type) {
+        case "Project":
+        default: {
+          return pipe(
+            e.metadata,
+            O.map((metadata) =>
+              metadata.filter(filterMetadataFroProject(elem))
+            ),
+            O.getOrElse((): EventMetadata[] => [])
+          )
+        }
+      }
+    }),
+    A.flatten,
+    A.reduce(init, (acc, m) => {
+      return pipe(
+        Map.lookup(Eq.eqString)(m.type, acc),
+        O.getOrElse((): EventMetadata[] => []),
+        (storedMeta) =>
+          Map.insertAt(Eq.eqString)(m.type, storedMeta.concat(m))(acc)
+      )
+    }),
+    Map.toArray(Ord.ordString),
+    A.reduce(eventMetadataInit, (acc, [index, m]) => ({
+      ...acc,
+      [index]: m,
+    }))
+  )
+
+  return results
 }

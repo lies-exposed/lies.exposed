@@ -37,17 +37,18 @@ const Protest = t.strict(
 )
 type Protest = t.TypeOf<typeof Protest>
 
-const ProjectFund = t.strict(
+export const ProjectFund = t.strict(
   {
     type: t.literal("ProjectFund"),
     project: ProjectFrontmatter,
-    by: t.array(ByGroupOrActor),
+    amount: t.number,
+    by: ByGroupOrActor,
     date: DateFromISOString,
   },
   "ProjectFund"
 )
 
-type ProjectFund = t.TypeOf<typeof ProjectFund>
+export type ProjectFund = t.TypeOf<typeof ProjectFund>
 
 const ProjectImpact = t.strict(
   {
@@ -145,3 +146,15 @@ export const EventMetadata = t.union(
   "EventMetadata"
 )
 export type EventMetadata = t.TypeOf<typeof EventMetadata>
+
+export interface EventMetadataMap {
+  StudyPublished: StudyPublished[],
+  Protest: Protest[],
+  ProjectImpact:   ProjectImpact[],
+  ProjectFund: ProjectFund[],
+  Condamned: Condamned[],
+  Arrest: Arrest[],
+  Death: Death[],
+  PublicAnnouncement: PublicAnnouncement[],
+  Uncategorized: Uncategorized[],
+}

@@ -1,5 +1,4 @@
 import Map from "@components/Map"
-import { FundFrontmatter } from "@models/Fund"
 import { ProjectFrontmatter } from "@models/Project"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as O from "fp-ts/lib/Option"
@@ -8,7 +7,6 @@ import * as React from "react"
 
 export interface ProjectFundsMapProps {
   project: ProjectFrontmatter
-  funds: FundFrontmatter[]
 }
 
 export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {

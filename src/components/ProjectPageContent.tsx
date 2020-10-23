@@ -1,15 +1,10 @@
-import { FundFrontmatter } from "@models/Fund"
+import { EventMetadataMap } from "@models/EventMetadata"
 import { ProjectMD } from "@models/Project"
 import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import {
-  HeadingSmall,
-  HeadingXLarge,
-  LabelMedium,
-  LabelXSmall,
-} from "baseui/typography"
+import { HeadingSmall, HeadingXLarge, LabelXSmall } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -21,23 +16,37 @@ import EditButton from "./buttons/EditButton"
 import GroupOrActorList from "./lists/GroupAndActorList"
 
 export interface ProjectPageContentProps extends ProjectMD {
-  funds: FundFrontmatter[]
+  metadata: EventMetadataMap
 }
 
 export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   frontmatter,
   body,
-  funds,
+  metadata,
 }) => {
+  console.log(metadata)
+
   const totalFunded = pipe(
-    funds,
+    metadata.ProjectFund,
     A.reduce(0, (acc, f) => f.amount + acc)
   )
 
   const investors = pipe(
-    funds,
-    A.map((f) => f.by)
+    metadata.ProjectFund,
+    A.map((f) => f.by),
   )
+
+  const arrested = pipe(
+    metadata.Arrest,
+    A.map((a) => a.who)
+  )
+
+  const protesters = pipe(
+    metadata.Protest,
+    A.map((p) => p.by),
+    A.flatten
+  )
+
   return (
     <FlexGrid width="100%">
       <FlexGridItem width="100%">
@@ -101,6 +110,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             )),
             O.toNullable
           )}
+          <ProjectFundsMap project={frontmatter} />
         </FlexGridItem>
         <FlexGridItem
           overrides={{
@@ -114,9 +124,25 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
               onByClick={() => {}}
               avatarScale="scale1000"
             />
+            <ProjectFundsPieGraph funds={metadata.ProjectFund} />
           </Block>
-          <ProjectFundsPieGraph funds={funds} />
-          <ProjectFundsMap project={frontmatter} funds={funds} />
+          <Block>
+            <HeadingSmall>Proteste {metadata.Protest.length}</HeadingSmall>
+            <GroupOrActorList
+              by={protesters}
+              onByClick={() => {}}
+              avatarScale="scale1000"
+            />
+          </Block>
+          <Block>
+            <HeadingSmall>Arresti: {metadata.Arrest.length}</HeadingSmall>
+            <GroupOrActorList
+              by={arrested}
+              onByClick={() => {}}
+              avatarScale="scale1000"
+            />
+          </Block>
+          
         </FlexGridItem>
       </FlexGridItem>
       <FlexGridItem>

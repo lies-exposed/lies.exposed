@@ -1,16 +1,17 @@
 import { EventMetadata } from "@models/EventMetadata"
 import { subDays } from "date-fns"
 import * as O from "fp-ts/lib/Option"
-import { badActor, goodActor, goodSecondActor } from "./actors"
+import { badActor, goodActor, goodSecondActor, badSecondActor } from "./actors"
 import { badGroup, goodGroup, secondBadGroup } from "./groups"
-import { firstBadProject } from "./projects"
+import { firstBadProject, firstGoodProject } from "./projects"
 
 const now = new Date()
 
-export const firstMetadata: EventMetadata[] = [
+export const firstEventMetadata: EventMetadata[] = [
   {
     type: "ProjectFund",
-    by: [{ __type: "Group", group: badGroup }],
+    by: { __type: "Group", group: badGroup },
+    amount: 1000000,
     project: firstBadProject,
     date: subDays(now, 20),
   },
@@ -43,7 +44,7 @@ export const firstMetadata: EventMetadata[] = [
   },
 ]
 
-export const secondMetadata: EventMetadata[] = [
+export const secondEventMetadata: EventMetadata[] = [
   {
     type: "StudyPublished",
     by: [{ __type: "Actor", actor: goodSecondActor }],
@@ -56,4 +57,52 @@ export const secondMetadata: EventMetadata[] = [
     killer: O.none,
     date: subDays(now, 22),
   },
+]
+
+export const thirdEventMetadata: EventMetadata[] = [
+  {
+    type: "ProjectFund",
+    by: { __type: "Actor", actor: goodActor },
+    amount: 350000,
+    project: firstGoodProject,
+    date: subDays(now, 10),
+  },
+  {
+    type: "ProjectFund",
+    by: { __type: "Group", group: badActor },
+    amount: 100000,
+    project: firstBadProject,
+    date: subDays(now, 10),
+  },
+  {
+    type: "ProjectFund",
+    by: { __type: "Actor", actor: badSecondActor },
+    amount: 100000,
+    project: firstBadProject,
+    date: subDays(now, 10),
+  },
+  {
+    type: "Protest",
+    by: [{ __type: "Actor", actor: goodActor }],
+    for: { __type: "ForProject", uuid: firstBadProject.uuid },
+    images: O.none,
+    date: subDays(now, 8),
+  },
+]
+
+export const fourthEventMetadata: EventMetadata[] = [
+  {
+    type: "Protest",
+    by: [{ __type: "Group", group: goodGroup }],
+    for: { __type: "ForProject", uuid: firstGoodProject.uuid },
+    images: O.none,
+    date: subDays(now, 5),
+  },
+]
+
+export const eventMetadata: EventMetadata[] = [
+  ...firstEventMetadata,
+  ...secondEventMetadata,
+  ...thirdEventMetadata,
+  ...fourthEventMetadata,
 ]
