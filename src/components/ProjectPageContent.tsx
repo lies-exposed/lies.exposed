@@ -24,7 +24,6 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   body,
   metadata,
 }) => {
-  console.log(metadata)
 
   const totalFunded = pipe(
     metadata.ProjectFund,

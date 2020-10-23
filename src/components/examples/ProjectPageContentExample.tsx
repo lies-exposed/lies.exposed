@@ -16,7 +16,10 @@ export const projectPageContentExampleArgs: ProjectPageContentProps = {
   body: null,
   tableOfContents: { items: undefined },
   timeToRead: O.none,
-  metadata: pipe(events, extractEventsMetadata("Project", firstBadProject)),
+  metadata: pipe(
+    events,
+    extractEventsMetadata({ type: "Project", elem: firstBadProject })
+  ),
 }
 
 export const ProjectPageContentExample: React.FC<ProjectPageContentProps> = (

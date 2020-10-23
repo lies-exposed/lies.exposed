@@ -45,8 +45,6 @@ export const ProjectFundsPieGraph: React.FC<ProjectFundsPieGraphProps> = (
     Array.map(Tuple.snd)
   )
 
-  console.log(data)
-
   return (
     <ParentSize style={{ width: "100%", height: 200 }}>
       {({ width, height }) => (

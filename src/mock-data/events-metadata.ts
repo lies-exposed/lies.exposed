@@ -1,4 +1,4 @@
-import { EventMetadata } from "@models/EventMetadata"
+import { EventMetadata, EventMetadataMap } from "@models/EventMetadata"
 import { subDays } from "date-fns"
 import * as O from "fp-ts/lib/Option"
 import { badActor, goodActor, goodSecondActor, badSecondActor } from "./actors"
@@ -106,3 +106,15 @@ export const eventMetadata: EventMetadata[] = [
   ...thirdEventMetadata,
   ...fourthEventMetadata,
 ]
+
+export const eventMetadataMapEmpty: EventMetadataMap = {
+  PublicAnnouncement: [],
+  ProjectFund: [],
+  ProjectImpact: [],
+  Protest: [],
+  StudyPublished: [],
+  Arrest: [],
+  Death: [],
+  Condamned: [],
+  Uncategorized: [],
+}

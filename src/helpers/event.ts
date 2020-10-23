@@ -1,5 +1,7 @@
+import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
 import { EventMetadata, EventMetadataMap } from "@models/EventMetadata"
 import { ProjectFrontmatter } from "@models/Project"
+import { ActorFrontmatter } from "@models/actor"
 import { EventFrontmatter, EventMD } from "@models/event"
 import { Item } from "baseui/side-navigation"
 import { format, subWeeks } from "date-fns"
@@ -9,6 +11,7 @@ import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
+import { isByActor } from "./actor"
 
 type EventsByYearMap = Map<number, Map<number, EventMD[]>>
 
@@ -66,6 +69,32 @@ export const eventsDataToNavigatorItems = (events: EventMD[]): Item[] => {
     },
     initialData
   )
+}
+
+export const filterMetadataForActor = (actor: ActorFrontmatter) => (
+  metadata: EventMetadata
+): boolean => {
+  const byActor = isByActor(actor)
+  switch (metadata.type) {
+    case "ProjectFund": {
+      return metadata.by.__type === "Actor" && byActor(metadata.by)
+    }
+    case "ProjectImpact": {
+      return (
+        metadata.approvedBy.some(byActor) ?? metadata.executedBy.some(byActor)
+      )
+    }
+    case "Condamned":
+    case "Death":
+    case "Arrest": {
+      return byActor(metadata.who)
+    }
+    case 'Protest': {
+      return metadata.by.some(byActor)
+    }
+    default:
+      return false
+  }
 }
 
 export const filterMetadataFroProject = (project: ProjectFrontmatter) => (
@@ -160,36 +189,29 @@ export const eventsInDateRange = (props: EventsInDateRangeProps) => (
 }
 
 export const extractEventsMetadata = (
-  type: "Project",
-  elem: ProjectFrontmatter
+  opts:
+    | { type: "Project"; elem: ProjectFrontmatter }
+    | { type: "Actor"; elem: ActorFrontmatter }
 ) => (events: EventFrontmatter[]): EventMetadataMap => {
   const init: Map<string, EventMetadata[]> = Map.empty
-  const eventMetadataInit: EventMetadataMap = {
-    PublicAnnouncement: [],
-    ProjectFund: [],
-    ProjectImpact: [],
-    Protest: [],
-    StudyPublished: [],
-    Arrest: [],
-    Death: [],
-    Condamned: [],
-    Uncategorized: [],
-  }
   const results = pipe(
     events,
     A.map((e) => {
-      switch (type) {
-        case "Project":
-        default: {
-          return pipe(
-            e.metadata,
-            O.map((metadata) =>
-              metadata.filter(filterMetadataFroProject(elem))
-            ),
-            O.getOrElse((): EventMetadata[] => [])
-          )
-        }
-      }
+      return pipe(
+        e.metadata,
+        O.map((metadata) => {
+          switch (opts.type) {
+            case "Actor": {
+              return metadata.filter(filterMetadataForActor(opts.elem))
+            }
+            case "Project":
+            default: {
+              return metadata.filter(filterMetadataFroProject(opts.elem))
+            }
+          }
+        }),
+        O.getOrElse((): EventMetadata[] => [])
+      )
     }),
     A.flatten,
     A.reduce(init, (acc, m) => {
@@ -201,7 +223,7 @@ export const extractEventsMetadata = (
       )
     }),
     Map.toArray(Ord.ordString),
-    A.reduce(eventMetadataInit, (acc, [index, m]) => ({
+    A.reduce(eventMetadataMapEmpty, (acc, [index, m]) => ({
       ...acc,
       [index]: m,
     }))

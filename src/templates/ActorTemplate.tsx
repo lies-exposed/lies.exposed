@@ -5,6 +5,7 @@ import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList"
 import { eventsInDateRange } from "@helpers/event"
+import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
 import { ActorMD } from "@models/actor"
 import { EventMD } from "@models/event"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -45,7 +46,7 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
         <Layout>
           <SEO title={pageContent.frontmatter.fullName} />
           <MainContent>
-            <ActorPageContent {...pageContent} funds={[]} />
+            <ActorPageContent {...pageContent} metadata={eventMetadataMapEmpty}  />
             <EventsNetwork
               events={events}
               selectedActorIds={[pageContent.frontmatter.uuid]}

@@ -1,23 +1,22 @@
-import { ActorPageContent, ActorPageContentProps } from "@components/ActorPageContent"
+import {
+  ActorPageContent,
+  ActorPageContentProps,
+} from "@components/ActorPageContent"
+import { extractEventsMetadata } from "@helpers/event"
 import { goodActor } from "@mock-data/actors"
-import { funds } from "@mock-data/funds"
+import { events } from "@mock-data/events"
 import { Card } from "baseui/card"
 import * as O from "fp-ts/lib/Option"
 import * as R from "fp-ts/lib/Record"
 import * as React from "react"
-
-const actorFunds = funds.filter(
-  (f) => f.by.__type === "Actor" && f.by.actor.uuid === goodActor.uuid
-)
 
 export const actorPageContentArgs: ActorPageContentProps = {
   frontmatter: goodActor,
   body: null,
   tableOfContents: { items: undefined },
   timeToRead: O.none,
-  funds: actorFunds,
+  metadata: extractEventsMetadata({ type: "Actor", elem: goodActor })(events),
 }
-
 
 export const ActorPageContentExample: React.FC<ActorPageContentProps> = (
   props
