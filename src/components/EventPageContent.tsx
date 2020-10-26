@@ -1,4 +1,4 @@
-import { EventMD } from "@models/event"
+import { EventMD } from "@models/events/EventMetadata"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"

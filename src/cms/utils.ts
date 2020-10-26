@@ -1,4 +1,4 @@
-import { EventTypeKeys } from "@models/event"
+import { EventMap as EventTypeKeys } from "@models/events/EventMetadata"
 import * as A from "fp-ts/lib/Array"
 import * as R from "fp-ts/lib/Record"
 import { pipe } from "fp-ts/lib/pipeable"

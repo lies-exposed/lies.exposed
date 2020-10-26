@@ -1,4 +1,4 @@
-import { EventMetadata, EventMetadataMap } from "@models/EventMetadata"
+import { EventFrontmatter, EventListMap } from "@models/events/EventMetadata"
 import { subDays } from "date-fns"
 import * as O from "fp-ts/lib/Option"
 import { badActor, goodActor, goodSecondActor, badSecondActor } from "./actors"
@@ -7,7 +7,7 @@ import { firstBadProject, firstGoodProject } from "./projects"
 
 const now = new Date()
 
-export const firstEventMetadata: EventMetadata[] = [
+export const firstEventMetadata: EventFrontmatter[] = [
   {
     type: "ProjectFund",
     by: { __type: "Group", group: badGroup },
@@ -44,7 +44,7 @@ export const firstEventMetadata: EventMetadata[] = [
   },
 ]
 
-export const secondEventMetadata: EventMetadata[] = [
+export const secondEventMetadata: EventFrontmatter[] = [
   {
     type: "StudyPublished",
     by: [{ __type: "Actor", actor: goodSecondActor }],
@@ -59,7 +59,7 @@ export const secondEventMetadata: EventMetadata[] = [
   },
 ]
 
-export const thirdEventMetadata: EventMetadata[] = [
+export const thirdEventMetadata: EventFrontmatter[] = [
   {
     type: "ProjectFund",
     by: { __type: "Actor", actor: goodActor },
@@ -90,7 +90,7 @@ export const thirdEventMetadata: EventMetadata[] = [
   },
 ]
 
-export const fourthEventMetadata: EventMetadata[] = [
+export const fourthEventMetadata: EventFrontmatter[] = [
   {
     type: "Protest",
     by: [{ __type: "Group", group: goodGroup }],
@@ -100,14 +100,14 @@ export const fourthEventMetadata: EventMetadata[] = [
   },
 ]
 
-export const eventMetadata: EventMetadata[] = [
+export const eventMetadata: EventFrontmatter[] = [
   ...firstEventMetadata,
   ...secondEventMetadata,
   ...thirdEventMetadata,
   ...fourthEventMetadata,
 ]
 
-export const eventMetadataMapEmpty: EventMetadataMap = {
+export const eventMetadataMapEmpty: EventListMap = {
   PublicAnnouncement: [],
   ProjectFund: [],
   ProjectImpact: [],

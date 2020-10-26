@@ -1,4 +1,5 @@
-import { EventFrontmatter } from "@models/event"
+import { EventFrontmatter } from "@models/events/EventMetadata"
+import { Uncategorized } from "@models/events/UncategorizedEvent"
 import uuid from "@utils/uuid"
 import { subMonths, subWeeks } from "date-fns"
 import * as NEA from "fp-ts/lib/NonEmptyArray"
@@ -11,8 +12,9 @@ import { firstTopic, secondTopic, thirdTopic } from "./topics"
 const today = new Date()
 
 // events
-export const firstEvent: EventFrontmatter = {
+export const firstEvent: Uncategorized = {
   uuid: uuid(),
+  // type: 'Uncategorized',
   title: "First Event",
   topics: NEA.of(firstTopic),
   actors: O.some([goodActor]),
@@ -21,13 +23,13 @@ export const firstEvent: EventFrontmatter = {
   images: O.none,
   location: O.none,
   date: subMonths(today, 2),
-  metadata: O.some(firstEventMetadata),
   createdAt: today,
   updatedAt: today,
 }
 
-export const secondEvent: EventFrontmatter = {
+export const secondEvent: Uncategorized = {
   uuid: uuid(),
+  // type: 'Uncategorized',
   title: "Second Event",
   topics: NEA.concat([thirdTopic], NEA.of(secondTopic)),
   actors: O.some([badActor]),
@@ -36,28 +38,28 @@ export const secondEvent: EventFrontmatter = {
   images: O.none,
   location: O.none,
   date: subMonths(today, 2),
-  metadata: O.some(secondEventMetadata),
   createdAt: today,
   updatedAt: today,
 }
 
-export const thirdEvent: EventFrontmatter = {
+export const thirdEvent: Uncategorized = {
   uuid: uuid(),
   title: "Third Event",
+  // type: 'Uncategorized',
   topics: NEA.of(secondTopic),
   actors: O.some([badActor]),
   groups: O.some([goodGroup]),
   links: O.none,
   images: O.none,
   location: O.none,
-  metadata: O.some(thirdEventMetadata),
   date: subWeeks(today, 3),
   createdAt: today,
   updatedAt: today,
 }
 
-export const fourthEvent: EventFrontmatter = {
+export const fourthEvent: Uncategorized = {
   uuid: uuid(),
+  // type: 'Uncategorized',
   title: "Fourth Event",
   topics: NEA.concat([secondTopic], NEA.of(firstTopic)),
   actors: O.some([goodActor]),
@@ -66,19 +68,25 @@ export const fourthEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   date: today,
-  metadata: O.some(fourthEventMetadata),
   createdAt: today,
   updatedAt: today,
 }
 
-export const firstGoodProjectEvents: EventFrontmatter[] = [
+export const firstGoodProjectEvents: Uncategorized[] = [
   thirdEvent,
   fourthEvent
 ]
 
-export const events: EventFrontmatter[] = [
+export const uncategorizedEvents: Uncategorized[] = [
   firstEvent,
   secondEvent,
   thirdEvent,
   fourthEvent,
+]
+
+export const events: EventFrontmatter[] = [
+  ...firstEventMetadata,
+  ...secondEventMetadata,
+  ...thirdEventMetadata,
+  ...fourthEventMetadata,
 ]

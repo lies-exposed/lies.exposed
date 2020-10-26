@@ -1,5 +1,5 @@
-import { EventMetadataMap } from "@models/EventMetadata"
 import { ProjectMD } from "@models/Project"
+import { EventListMap } from "@models/events/EventMetadata"
 import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -16,7 +16,7 @@ import EditButton from "./buttons/EditButton"
 import GroupOrActorList from "./lists/GroupAndActorList"
 
 export interface ProjectPageContentProps extends ProjectMD {
-  metadata: EventMetadataMap
+  metadata: EventListMap
 }
 
 export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({

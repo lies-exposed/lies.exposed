@@ -40,7 +40,7 @@ I canali principali sono di proprietà di grandi imprenditori - o gruppi di impr
 
 La linea editoriale è definita dagli interessi economici dei propri finanziatori che si cerca di tutelare, ma questo fa si che l'informazione sia viziata, filtrata, mistificata quando deve trattare argomenti che mettono in discussione questi interessi.
 
-![Il Corriere "verde" di venerdì 5 giugno](../../static/media/events/83ce81e0-d73c-11ea-b4bc-0fc1127c8adc/bispensiero..jpg)
+![Il Corriere "verde" di venerdì 5 giugno](../../static/media/events/uncategorized/83ce81e0-d73c-11ea-b4bc-0fc1127c8adc/bispensiero..jpg)
 
 Ne è un esempio questo numero tutto verde del [Corriere della Sera](/groups/ff477d30-d742-11ea-accf-91b459e4aeb4) in partnership con [Eni](/groups/0b36e8b0-d743-11ea-accf-91b459e4aeb4) che, dall'alto del suo 30º posto di maggiore emittore di CO2[^carbon-major-report], ci insegna la sostenibilità e l'ecologia.
 
@@ -81,19 +81,27 @@ Per tenere traccia dell'evoluzione temporale delle scelte che la nostra società
 
 #### Eventi
 
-<EventPageContentExample />
+<EventSliderExample />
 
 Gli eventi di cui viene tenuto traccia sono di diversi tipi e inidicano un avvenimento in un determinato arco temporale, in cui possono essere coinvolti diversi [*gruppi*](/groups) e/o [*attori*](/actors).
 
 Ogni evento può contenere dei metadati, che si riferiscono ad una o più delle seguenti entità:
-- Aggiornamento di un progetto
-- Esecuzione di un pagamento
-- Protesta in opposizione ad un progetto
-- Annuncio Pubblico da parte di un attore
-- Annuncio Pubblico da parte di un gruppo
-- Aggiornamento di sentenza
-- Pubblicazione di una risorsa (immagini, report scientifici)
-- [WIP]
+
+- Progetti
+  - Aggiornamento del un progetto
+  - Impatto di un progetto
+  - Protesta in opposizione al progetto
+- Gruppi
+  - Annuncio Pubblico
+  - Pagamenti
+  - Aggiornamento di sentenza
+- Attori
+  - Annuncio Pubblico
+  - Pagamenti
+  - Aggiornamento di sentenza
+- Fonti
+  - Pubblicazione di una risorsa
+
 
 #### Progetti
 
@@ -105,6 +113,9 @@ Esempi di _progetti_ possono essere:
 - la costruzione di un impianto petrolifero
 - la costruzione di una strada
 - l'abbattimento di un bosco
+
+I progetti possono avere delle relazioni con progetti simili.
+Gli obiettivi dei progetti dovrebbero essere contenuti nella risorsa, in modo da compararli a quelli che saranno gli sviluppi reali.
 
 #### Topic
 

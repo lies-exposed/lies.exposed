@@ -1,8 +1,11 @@
 import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
-import { EventMetadata, EventMetadataMap } from "@models/EventMetadata"
 import { ProjectFrontmatter } from "@models/Project"
 import { ActorFrontmatter } from "@models/actor"
-import { EventFrontmatter, EventMD } from "@models/event"
+import {
+  EventFrontmatter,
+  EventListMap,
+  EventMD,
+} from "@models/events/EventMetadata"
 import { Item } from "baseui/side-navigation"
 import { format, subWeeks } from "date-fns"
 import * as A from "fp-ts/lib/Array"
@@ -19,8 +22,9 @@ export const eventsDataToNavigatorItems = (events: EventMD[]): Item[] => {
   const initial: EventsByYearMap = Map.empty
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
-    const year = e.frontmatter.date.getFullYear()
-    const month = e.frontmatter.date.getUTCMonth()
+    const frontmatter = e.frontmatter
+    const year = frontmatter.date.getFullYear()
+    const month = frontmatter.date.getUTCMonth()
 
     const value = pipe(
       Map.lookup(Eq.eqNumber)(year, acc),
@@ -72,9 +76,10 @@ export const eventsDataToNavigatorItems = (events: EventMD[]): Item[] => {
 }
 
 export const filterMetadataForActor = (actor: ActorFrontmatter) => (
-  metadata: EventMetadata
+  metadata: EventFrontmatter
 ): boolean => {
   const byActor = isByActor(actor)
+
   switch (metadata.type) {
     case "ProjectFund": {
       return metadata.by.__type === "Actor" && byActor(metadata.by)
@@ -89,7 +94,7 @@ export const filterMetadataForActor = (actor: ActorFrontmatter) => (
     case "Arrest": {
       return byActor(metadata.who)
     }
-    case 'Protest': {
+    case "Protest": {
       return metadata.by.some(byActor)
     }
     default:
@@ -98,7 +103,7 @@ export const filterMetadataForActor = (actor: ActorFrontmatter) => (
 }
 
 export const filterMetadataFroProject = (project: ProjectFrontmatter) => (
-  metadata: EventMetadata
+  metadata: EventFrontmatter
 ): boolean => {
   switch (metadata.type) {
     case "ProjectFund":
@@ -126,7 +131,7 @@ export const ordEventDate = Ord.ord.contramap(
   (e: EventMD) => e.frontmatter.date
 )
 
-const colorMap: Record<EventMetadata["type"], string> = {
+const colorMap: Record<EventFrontmatter["type"], string> = {
   Protest: "red",
   ProjectFund: "blue",
   ProjectImpact: "orange",
@@ -135,12 +140,12 @@ const colorMap: Record<EventMetadata["type"], string> = {
   Arrest: "lightred",
   Condamned: "lightred",
   PublicAnnouncement: "lightgreen",
-  Uncategorized: "grey",
+  // Uncategorized: "grey",
 }
 export const getColorByEventType = ({
   type,
 }: {
-  type: EventMetadata["type"]
+  type: EventFrontmatter["type"]
 }): string => {
   return colorMap[type]
 }
@@ -192,32 +197,25 @@ export const extractEventsMetadata = (
   opts:
     | { type: "Project"; elem: ProjectFrontmatter }
     | { type: "Actor"; elem: ActorFrontmatter }
-) => (events: EventFrontmatter[]): EventMetadataMap => {
-  const init: Map<string, EventMetadata[]> = Map.empty
+) => (events: EventFrontmatter[]): EventListMap => {
+  const init: Map<string, EventFrontmatter[]> = Map.empty
   const results = pipe(
     events,
-    A.map((e) => {
-      return pipe(
-        e.metadata,
-        O.map((metadata) => {
-          switch (opts.type) {
-            case "Actor": {
-              return metadata.filter(filterMetadataForActor(opts.elem))
-            }
-            case "Project":
-            default: {
-              return metadata.filter(filterMetadataFroProject(opts.elem))
-            }
-          }
-        }),
-        O.getOrElse((): EventMetadata[] => [])
-      )
+    A.filter((e) => {
+      switch (opts.type) {
+        case "Actor": {
+          return filterMetadataForActor(opts.elem)(e)
+        }
+        case "Project":
+        default: {
+          return filterMetadataFroProject(opts.elem)(e)
+        }
+      }
     }),
-    A.flatten,
     A.reduce(init, (acc, m) => {
       return pipe(
         Map.lookup(Eq.eqString)(m.type, acc),
-        O.getOrElse((): EventMetadata[] => []),
+        O.getOrElse((): EventFrontmatter[] => []),
         (storedMeta) =>
           Map.insertAt(Eq.eqString)(m.type, storedMeta.concat(m))(acc)
       )

@@ -2,7 +2,7 @@ import { CmsConfig } from "netlify-cms-core"
 import { actors } from "./collections/actors"
 import { areas } from "./collections/areas"
 import { articles } from "./collections/articles"
-import { events } from "./collections/events"
+import { uncategorizedEvents } from "./collections/events/UncategorizedEvents"
 import { groups } from "./collections/groups"
 import { pages } from "./collections/pages"
 import { projects } from "./collections/projects"
@@ -13,7 +13,7 @@ interface CmsConfigV2 extends CmsConfig {
 }
 
 const collections = [
-  events,
+  uncategorizedEvents,
   articles,
   actors,
   groups,

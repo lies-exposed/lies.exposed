@@ -4,13 +4,13 @@ import {
   faUserShield,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { EventMetadata } from "@models/EventMetadata"
+import { EventFrontmatter } from "@models/events/EventMetadata"
 import { themedUseStyletron } from "@theme/CustomeTheme"
 import { Block } from "baseui/block"
 import * as React from "react"
 
 export interface EventMetadataListProps {
-  metadata: EventMetadata[]
+  metadata: EventFrontmatter[]
 }
 
 export const EventMetadataList: React.FC<EventMetadataListProps> = (props) => {

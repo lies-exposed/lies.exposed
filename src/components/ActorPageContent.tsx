@@ -1,6 +1,6 @@
 import ProjectFundList from "@components/lists/ProjectFundList"
 import { ActorMD } from "@models/actor"
-import { EventMetadataMap } from "@models/EventMetadata"
+import { EventListMap } from "@models/events/EventMetadata"
 import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -11,11 +11,11 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import Image from "gatsby-image"
 import * as React from "react"
-import EditButton from "./buttons/EditButton"
 import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph"
+import EditButton from "./buttons/EditButton"
 
 export interface ActorPageContentProps extends ActorMD {
-  metadata: EventMetadataMap
+  metadata: EventListMap
 }
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({

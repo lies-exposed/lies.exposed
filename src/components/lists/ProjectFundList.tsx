@@ -1,5 +1,5 @@
 import { List, ListItemProps } from "@components/Common/List"
-import { ProjectFund } from "@models/EventMetadata"
+import { ProjectFund } from "@models/events/EventMetadata"
 import * as React from "react"
 
 interface ProjectFundItem extends ProjectFund {
