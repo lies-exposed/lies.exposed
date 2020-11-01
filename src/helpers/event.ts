@@ -3,9 +3,9 @@ import { ProjectFrontmatter } from "@models/Project"
 import { ActorFrontmatter } from "@models/actor"
 import {
   EventFrontmatter,
-  EventListMap,
-  EventMD,
+  EventListMap
 } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { Item } from "baseui/side-navigation"
 import { format, subWeeks } from "date-fns"
 import * as A from "fp-ts/lib/Array"
@@ -16,9 +16,9 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { isByActor } from "./actor"
 
-type EventsByYearMap = Map<number, Map<number, EventMD[]>>
+type EventsByYearMap = Map<number, Map<number, UncategorizedMD[]>>
 
-export const eventsDataToNavigatorItems = (events: EventMD[]): Item[] => {
+export const eventsDataToNavigatorItems = (events: UncategorizedMD[]): Item[] => {
   const initial: EventsByYearMap = Map.empty
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
@@ -81,8 +81,8 @@ export const filterMetadataForActor = (actor: ActorFrontmatter) => (
   const byActor = isByActor(actor)
 
   switch (metadata.type) {
-    case "ProjectFund": {
-      return metadata.by.__type === "Actor" && byActor(metadata.by)
+    case "ProjectTransaction": {
+      return metadata.transaction.by.__type === "Actor" && byActor(metadata.transaction.by)
     }
     case "ProjectImpact": {
       return (
@@ -106,19 +106,19 @@ export const filterMetadataFroProject = (project: ProjectFrontmatter) => (
   metadata: EventFrontmatter
 ): boolean => {
   switch (metadata.type) {
-    case "ProjectFund":
+    case "ProjectTransaction":
       return metadata.project.uuid === project.uuid
     case "ProjectImpact":
       return metadata.project.uuid === project.uuid
     case "Protest": {
       return (
         metadata.for.__type === "ForProject" &&
-        metadata.for.uuid === project.uuid
+        metadata.for.project.uuid === project.uuid
       )
     }
     case "Arrest": {
       return metadata.for.some(
-        (f) => f.__type === "ForProject" && f.uuid === project.uuid
+        (f) => f.__type === "ForProject" && f.project.uuid === project.uuid
       )
     }
     default:
@@ -128,19 +128,19 @@ export const filterMetadataFroProject = (project: ProjectFrontmatter) => (
 
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
-  (e: EventMD) => e.frontmatter.date
+  (e: UncategorizedMD) => e.frontmatter.date
 )
 
 const colorMap: Record<EventFrontmatter["type"], string> = {
   Protest: "red",
-  ProjectFund: "blue",
+  ProjectTransaction: "blue",
   ProjectImpact: "orange",
   StudyPublished: "green",
   Death: "black",
   Arrest: "lightred",
   Condamned: "lightred",
   PublicAnnouncement: "lightgreen",
-  // Uncategorized: "grey",
+  Uncategorized: "grey",
 }
 export const getColorByEventType = ({
   type,
@@ -155,8 +155,8 @@ interface EventsInDateRangeProps {
 }
 
 export const eventsInDateRange = (props: EventsInDateRangeProps) => (
-  events: EventMD[]
-): EventMD[] => {
+  events: UncategorizedMD[]
+): UncategorizedMD[] => {
   return pipe(
     events,
     A.sort(Ord.getDualOrd(ordEventDate)),

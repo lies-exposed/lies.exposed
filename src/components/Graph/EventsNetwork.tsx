@@ -8,7 +8,7 @@ import TopicList from "@components/lists/TopicList"
 import { ordEventDate } from "@helpers/event"
 import { Frontmatter } from "@models/Frontmatter"
 import { ActorFrontmatter, ActorMD } from "@models/actor"
-import { EventMD } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { GroupFrontmatter, GroupMD } from "@models/group"
 import { NetworkPageMD } from "@models/networks"
 import { TopicFrontmatter, TopicMD } from "@models/topic"
@@ -44,7 +44,7 @@ interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
 }
 
 export interface EventsNetworkProps {
-  events: EventMD[]
+  events: UncategorizedMD[]
   selectedActorIds: string[]
   selectedGroupIds: string[]
   selectedTopicIds: string[]
@@ -354,7 +354,7 @@ interface Result {
   topicLinks: Map<string, NetworkLink[]>
   actorLinks: Map<string, NetworkLink[]>
   groupLinks: Map<string, NetworkLink[]>
-  selectedEvents: EventMD[]
+  selectedEvents: UncategorizedMD[]
   topics: Map<string, TopicFrontmatter>
   actors: Map<string, ActorFrontmatter>
   groups: Map<string, GroupFrontmatter>
@@ -372,7 +372,7 @@ export interface NetworkTemplateData {
     nodes: GroupMD[]
   }
   events: {
-    nodes: EventMD[]
+    nodes: UncategorizedMD[]
   }
 }
 
@@ -384,7 +384,7 @@ export interface NetworkTemplateProps {
     nodes: Array<NetworkPointNode<EventNetworkDatum>>
     links: NetworkLink[]
   }
-  selectedEvents: EventMD[]
+  selectedEvents: UncategorizedMD[]
   width: number
   height: number
   topicsScale: ScaleOrdinal<string, string>

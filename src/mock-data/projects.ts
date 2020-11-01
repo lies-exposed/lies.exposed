@@ -16,6 +16,7 @@ export const firstGoodProject: ProjectFrontmatter = {
   areas: O.none,
   images: O.some([
     {
+      author: 'Unknown',
       description: O.some("first image"),
       image: firstImage,
     },
@@ -32,6 +33,7 @@ export const firstBadProject: ProjectFrontmatter = {
   areas: O.some(NEA.of(firstPolygon)),
   images: O.some([
     {
+      author: 'Unknown',
       description: O.some("first image"),
       image: firstImage,
     },

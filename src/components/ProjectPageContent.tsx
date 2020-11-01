@@ -1,3 +1,4 @@
+import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
 import { ProjectMD } from "@models/Project"
 import { EventListMap } from "@models/events/EventMetadata"
 import { formatDate } from "@utils/date"
@@ -6,12 +7,13 @@ import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingSmall, HeadingXLarge, LabelXSmall } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
+import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
+import { Slider } from "./Common/Slider/Slider"
 import { ProjectFundsMap } from "./Graph/ProjectFundsMap"
 import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph"
-import { Slider } from "./Slider/Slider"
 import EditButton from "./buttons/EditButton"
 import GroupOrActorList from "./lists/GroupAndActorList"
 
@@ -26,13 +28,14 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
 }) => {
 
   const totalFunded = pipe(
-    metadata.ProjectFund,
-    A.reduce(0, (acc, f) => f.amount + acc)
+    metadata.ProjectTransaction,
+    A.reduce(0, (acc, f) => f.transaction.amount + acc)
   )
 
   const investors = pipe(
-    metadata.ProjectFund,
-    A.map((f) => f.by),
+    metadata.ProjectTransaction,
+    A.map((f) => f.transaction.by),
+    A.uniq(Eq.eq.contramap(Eq.eqString, (e: ByGroupOrActor) => e.__type === 'Group' ? e.group.uuid : e.actor.uuid))
   )
 
   const arrested = pipe(
@@ -123,7 +126,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
               onByClick={() => {}}
               avatarScale="scale1000"
             />
-            <ProjectFundsPieGraph funds={metadata.ProjectFund} />
+            <ProjectFundsPieGraph funds={metadata.ProjectTransaction} />
           </Block>
           <Block>
             <HeadingSmall>Proteste {metadata.Protest.length}</HeadingSmall>
@@ -141,7 +144,13 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
               avatarScale="scale1000"
             />
           </Block>
-          
+          <Block>
+            <HeadingSmall>Impacts: {metadata.ProjectImpact.length}</HeadingSmall>
+            [tabella degli impatti del progetto]
+          </Block>
+          <Block>
+            <HeadingSmall display="inline">Indagati:</HeadingSmall> [totale contributori / contributori indagati]
+          </Block>
         </FlexGridItem>
       </FlexGridItem>
       <FlexGridItem>

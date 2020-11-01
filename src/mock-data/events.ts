@@ -14,7 +14,7 @@ const today = new Date()
 // events
 export const firstEvent: Uncategorized = {
   uuid: uuid(),
-  // type: 'Uncategorized',
+  type: 'Uncategorized',
   title: "First Event",
   topics: NEA.of(firstTopic),
   actors: O.some([goodActor]),
@@ -29,7 +29,7 @@ export const firstEvent: Uncategorized = {
 
 export const secondEvent: Uncategorized = {
   uuid: uuid(),
-  // type: 'Uncategorized',
+  type: 'Uncategorized',
   title: "Second Event",
   topics: NEA.concat([thirdTopic], NEA.of(secondTopic)),
   actors: O.some([badActor]),
@@ -45,7 +45,7 @@ export const secondEvent: Uncategorized = {
 export const thirdEvent: Uncategorized = {
   uuid: uuid(),
   title: "Third Event",
-  // type: 'Uncategorized',
+  type: 'Uncategorized',
   topics: NEA.of(secondTopic),
   actors: O.some([badActor]),
   groups: O.some([goodGroup]),
@@ -59,7 +59,7 @@ export const thirdEvent: Uncategorized = {
 
 export const fourthEvent: Uncategorized = {
   uuid: uuid(),
-  // type: 'Uncategorized',
+  type: 'Uncategorized',
   title: "Fourth Event",
   topics: NEA.concat([secondTopic], NEA.of(firstTopic)),
   actors: O.some([goodActor]),
@@ -89,4 +89,5 @@ export const events: EventFrontmatter[] = [
   ...secondEventMetadata,
   ...thirdEventMetadata,
   ...fourthEventMetadata,
+  ...uncategorizedEvents
 ]

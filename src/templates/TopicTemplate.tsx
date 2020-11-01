@@ -3,8 +3,9 @@ import { Layout } from "@components/Layout"
 import SEO from "@components/SEO"
 import { TopicPageContent } from "@components/TopicPageContent"
 import EventList from "@components/lists/EventList/EventList"
-import { ordEventDate, eventsDataToNavigatorItems } from "@helpers/event"
+import { eventsDataToNavigatorItems, ordEventDate } from "@helpers/event"
 import { EventMD } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { TopicMD } from "@models/topic"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -31,7 +32,7 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 }) => {
   return pipe(
     sequenceS(E.either)({
-      events: t.array(EventMD).decode(data.events.nodes),
+      events: t.array(UncategorizedMD).decode(data.events.nodes),
       pageContent: TopicMD.decode(
         data.pageContent.childMdx
       ),

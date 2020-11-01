@@ -1,8 +1,59 @@
 import * as path from 'path'
+import { ImageSource } from '@models/Image'
 import * as A from 'fp-ts/lib/Array'
 import * as O from 'fp-ts/lib/Option'
 import { pipe } from "fp-ts/lib/pipeable"
 import { CreateResolversArgs } from "gatsby"
+
+type GQLImageSource = Omit<ImageSource, 'description'> & { description?: string}
+
+const resolveImageSource = async (source: any, args: any, context: any): Promise<GQLImageSource[] | null> => {
+    const sourceImages: Array<{
+      author: string
+      description?: string
+      image: string
+    }> = source.images ?? []
+    const images = pipe(
+      sourceImages,
+      A.map((i) => ({
+        ...i,
+        image: path.join(process.cwd(), i.image.replace("../../", "/")),
+      }))
+    )
+
+    const imagesPaths = images.map((i) => i.image)
+
+    if (A.isEmpty(imagesPaths)) {
+      return null
+    }
+
+    const results = await context.nodeModel.runQuery({
+      type: "File",
+      query: {
+        filter: { absolutePath: { in: imagesPaths } },
+      },
+      firstOnly: false,
+    })
+
+    if (results === null) {
+      return null
+    }
+
+    return pipe(
+      results,
+      A.map((result: any) =>
+        pipe(
+          images,
+          A.findFirst((i) => i.image === result.absolutePath),
+          O.map(image => ({
+            ...image,
+            image: result
+          }))
+        )
+      ),
+      A.compact
+    )
+  }
 
 export const createResolvers = ({
   createResolvers,
@@ -67,50 +118,11 @@ export const createResolvers = ({
     },
     ProjectFrontmatter: {
       images: {
-        type: "[ImageAndDescription!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const sourceImages: Array<{
-            description?: string
-            image: string
-          }> = source.images ?? []
-          const images = pipe(
-            sourceImages,
-            A.map((i) => ({
-              ...i,
-              image: path.join(process.cwd(), i.image.replace("../../", "/")),
-            }))
-          )
-
-          const imagesPaths = images.map((i) => i.image)
-
-          const results = await context.nodeModel.runQuery({
-            type: "File",
-            query: {
-              filter: { absolutePath: { in: imagesPaths } },
-            },
-            firstOnly: false,
-          })
-
-          if (results === null) {
-            return null
-          }
-
-          return pipe(
-            results,
-            A.map((image: any) => ({
-              description: pipe(
-                images,
-                A.findFirst((i) => i.image === image.absolutePath),
-                O.mapNullable((i) => i.description),
-                O.toUndefined
-              ),
-              image: image,
-            }))
-          )
-        },
+        type: "[ImageSource!]",
+        resolve: resolveImageSource
       },
     },
-    EventFrontmatter: {
+    UncategorizedEventFrontmatter: {
       actors: {
         type: "[ActorFrontmatter!]",
         resolve: async (source: any, args: any, context: any) => {
@@ -145,47 +157,8 @@ export const createResolvers = ({
         },
       },
       images: {
-        type: "[ImageAndDescription!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const sourceImages: Array<{
-            description?: string
-            image: string
-          }> = source.images ?? []
-          const images = pipe(
-            sourceImages,
-            A.map((i) => ({
-              ...i,
-              image: path.join(process.cwd(), i.image.replace("../../", "/")),
-            }))
-          )
-
-          const imagesPaths = images.map((i) => i.image)
-
-          const results = await context.nodeModel.runQuery({
-            type: "File",
-            query: {
-              filter: { absolutePath: { in: imagesPaths } },
-            },
-            firstOnly: false,
-          })
-
-          if (results === null) {
-            return null
-          }
-
-          return pipe(
-            results,
-            A.map((image: any) => ({
-              description: pipe(
-                images,
-                A.findFirst((i) => i.image === image.absolutePath),
-                O.mapNullable((i) => i.description),
-                O.toUndefined
-              ),
-              image: image,
-            }))
-          )
-        },
+        type: "[ImageSource!]",
+        resolve: resolveImageSource
       },
     }
   }

@@ -1,6 +1,6 @@
 import { Point } from '@models/Common/Point'
 import { Frontmatter } from '@models/Frontmatter'
-import { ImageAndDescription } from '@models/Image'
+import { ImageSource } from '@models/Image'
 import { JSONFromString } from '@models/JSONFromString'
 import { markdownRemark } from '@models/Markdown'
 import { ActorFrontmatter } from '@models/actor'
@@ -14,11 +14,11 @@ import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 export const Uncategorized = t.strict(
   {
     ...Frontmatter.props,
-    // type: t.literal("Uncategorized"),
+    type: t.literal("Uncategorized"),
     title: t.string,
     date: DateFromISOString,
     location: optionFromNullable(JSONFromString.pipe(Point)),
-    images: optionFromNullable(nonEmptyArray(ImageAndDescription)),
+    images: optionFromNullable(nonEmptyArray(ImageSource)),
     links: optionFromNullable(t.array(t.string)),
     // todo: remove
     actors: optionFromNullable(t.array(ActorFrontmatter)),

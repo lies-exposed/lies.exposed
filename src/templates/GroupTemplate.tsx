@@ -2,9 +2,9 @@ import { GroupPageContent } from "@components/GroupPageContent"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
-import EventList from "@components/lists/EventList/EventList"
+import { EventSlider } from "@components/sliders/EventSlider"
 import { eventsInDateRange } from "@helpers/event"
-import { EventMD } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { GroupMD } from "@models/group"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -28,7 +28,7 @@ const GroupTemplateContainer: React.FC<PageProps<GroupTemplateData>> = ({ data, 
     sequenceS(E.either)({
       pageContent: GroupMD.decode(data.pageContent.childMdx),
       events: pipe(
-        t.array(EventMD).decode(data.events.nodes.map(n => n.childMdx)),
+        t.array(UncategorizedMD).decode(data.events.nodes.map(n => n.childMdx)),
         E.map(eventsInDateRange({ minDate, maxDate }))
       ),
     }),
@@ -56,7 +56,7 @@ const GroupTemplateContainer: React.FC<PageProps<GroupTemplateData>> = ({ data, 
                 await navigate(`/actors/${a.uuid}`)
               }}
             />
-            <EventList events={events} />
+            <EventSlider events={events}/>
           </MainContent>
         </Layout>
       )
@@ -79,7 +79,7 @@ export const pageQuery = graphql`
 
     events: allFile(
       filter: {
-        sourceInstanceName: { eq: "events" }
+        sourceInstanceName: { eq: "uncategorized-events" }
         childMdx: { fields: { groups: { in: [$group] } } }
       }
     ) {

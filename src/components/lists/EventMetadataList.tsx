@@ -21,7 +21,7 @@ export const EventMetadataList: React.FC<EventMetadataListProps> = (props) => {
   const protests = props.metadata.filter((m) => m.type === "Protest").length
 
   const fundIcon = <FontAwesomeIcon icon={faMoneyBillWave} />
-  const funds = props.metadata.filter((m) => m.type === "ProjectFund").length
+  const funds = props.metadata.filter((m) => m.type === "ProjectTransaction").length
 
   const impactIcon = (
     <FontAwesomeIcon icon={faHouseDamage} color={$theme.colors.negative} />

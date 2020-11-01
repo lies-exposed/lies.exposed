@@ -79,13 +79,20 @@ L'inserimento - o la modifica - può avvenire tramite l'interfaccia disponibile 
 
 Per tenere traccia dell'evoluzione temporale delle scelte che la nostra società compie, è necessario individuare quali sono le variabili da tenere in considerazione, oltre alle relazioni che intercorrono tra le stesse.
 
+Le entità considerate sono:
+- Attori
+- Gruppi
+- Progetti
+- Transazioni
+
+Le relazioni tra queste entità sono definite negli eventi, che possono essere di diverso tipo.
+
 #### Eventi
 
 <EventSliderExample />
 
-Gli eventi di cui viene tenuto traccia sono di diversi tipi e inidicano un avvenimento in un determinato arco temporale, in cui possono essere coinvolti diversi [*gruppi*](/groups) e/o [*attori*](/actors).
-
-Ogni evento può contenere dei metadati, che si riferiscono ad una o più delle seguenti entità:
+Gli eventi di cui viene tenuto traccia sono di diversi tipi e inidicano un avvenimento in un determinato arco temporale relativo ad una - o più - entità.
+Degli esempi di eventi possono essere:
 
 - Progetti
   - Aggiornamento del un progetto
@@ -101,7 +108,6 @@ Ogni evento può contenere dei metadati, che si riferiscono ad una o più delle 
   - Aggiornamento di sentenza
 - Fonti
   - Pubblicazione di una risorsa
-
 
 #### Progetti
 

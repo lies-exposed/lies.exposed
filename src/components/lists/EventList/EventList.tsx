@@ -1,4 +1,5 @@
 import { EventMD } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import * as A from "fp-ts/lib/Array"
 import { pipe } from "fp-ts/lib/pipeable"
 // import { navigate } from "gatsby"
@@ -14,9 +15,17 @@ const EventList: React.FC<EventListProps> = (props) => {
     <div className="events" style={{ width: "100%" }}>
       {pipe(
         props.events,
-        A.map((event) => (
-          <UncategorizedListItem key={event.frontmatter.uuid} item={event}/>
-        ))
+        A.map((event) => {
+          if (UncategorizedMD.is(event)) {
+            return (
+              <UncategorizedListItem
+                key={event.frontmatter.uuid}
+                item={event}
+              />
+            )
+          }
+          return "Not implemented"
+        })
       )}
     </div>
   )

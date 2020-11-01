@@ -3,6 +3,7 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { EventMD } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -20,6 +21,7 @@ interface GroupTemplatePageProps {
 const EventTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
   return pipe(
     EventMD.decode(data.pageContent.childMdx),
+    E.chain(UncategorizedMD.decode),
     E.fold(throwValidationErrors, (pageContent) => {
       return (
         <Layout>

@@ -3,17 +3,23 @@ import {
   GroupPageContentProps,
 } from "@components/GroupPageContent"
 import { uncategorizedEvents } from "@mock-data/events"
-import { funds } from "@mock-data/funds"
+import { eventMetadata } from "@mock-data/events-metadata"
 import { goodGroup } from "@mock-data/groups"
 import { projects } from "@mock-data/projects"
+import { ProjectTransaction } from "@models/events/EventMetadata"
 import { Card } from "baseui/card"
+import * as A from 'fp-ts/lib/Array'
 import * as O from "fp-ts/lib/Option"
 import * as R from "fp-ts/lib/Record"
+import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
-const groupFunds = funds.filter(
-  (f) => f.by.__type === "Group" && f.by.group.uuid === goodGroup.uuid
-)
+const groupFunds = pipe(
+  eventMetadata,
+  A.filter(ProjectTransaction.is),
+  A.filter(
+  (f) => f.transaction.by.__type === "Group" && f.transaction.by.group.uuid === goodGroup.uuid
+))
 const fundedProjectIds = groupFunds.map((f) => f.project.uuid)
 
 export const groupPageContentArgs: GroupPageContentProps = {

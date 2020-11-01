@@ -1,4 +1,4 @@
-import { Slider } from "@components/Slider/Slider"
+import { Slider } from "@components/Common/Slider/Slider"
 import ActorList from "@components/lists/ActorList"
 import GroupList from "@components/lists/GroupList"
 import TopicList from "@components/lists/TopicList"

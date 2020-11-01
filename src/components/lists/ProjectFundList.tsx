@@ -1,36 +1,12 @@
-import { List, ListItemProps } from "@components/Common/List"
-import { ProjectFund } from "@models/events/EventMetadata"
+import { List } from "@components/Common/List"
+import { ProjectTransaction } from "@models/events/EventMetadata"
 import * as React from "react"
+import { ProjectTransactionListItem } from "./EventList/ProjectTransactionListItem"
 
-interface ProjectFundItem extends ProjectFund {
-  selected: boolean
-}
 
 interface ProjectListProps {
-  funds: ProjectFundItem[]
-  onClickItem: (item: ProjectFund) => void
-}
-
-export const ProjectListItem: React.FC<ListItemProps<ProjectFundItem>> = ({
-  item,
-  onClick,
-}) => {
-  return (
-    <div
-      key={item.project.uuid}
-      style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
-      onClick={() => onClick?.(item)}
-    >
-      {item.project.name} - {item.amount} euro
-      <div
-        style={{
-          width: "100%",
-          height: 3,
-          backgroundColor: item.selected ? item.project.color : "white",
-        }}
-      />
-    </div>
-  )
+  funds: ProjectTransactionListItem[]
+  onClickItem: (item: ProjectTransaction) => void
 }
 
 const ProjectFundList: React.FC<ProjectListProps> = ({
@@ -42,8 +18,8 @@ const ProjectFundList: React.FC<ProjectListProps> = ({
       data={funds}
       filter={(_) => true}
       onItemClick={onClickItem}
-      getKey={(g) => g.project.uuid}
-      ListItem={(p) => <ProjectListItem {...p} />}
+      getKey={(g) => `${g.project.uuid}-${g.date.toISOString()}`}
+      ListItem={(p) => <ProjectTransactionListItem {...p} />}
     />
   )
 }

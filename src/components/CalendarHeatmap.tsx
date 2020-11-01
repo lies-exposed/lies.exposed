@@ -1,5 +1,5 @@
 import { ordEventDate } from "@helpers/event"
-import { EventMD } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { formatDate } from "@utils/date"
 import { Group } from "@vx/group"
 import { HeatmapCircle } from "@vx/heatmap"
@@ -28,7 +28,7 @@ const min = (data: any, f: (d: any) => number): number =>
   Math.min(...data.map(f))
 
 interface TooltipData {
-  event: O.Option<EventMD>
+  event: O.Option<UncategorizedMD>
   date: Date
 }
 
@@ -48,8 +48,8 @@ interface CalendarHeatmapProps {
     right: number
     bottom: number
   }
-  events: EventMD[]
-  onCircleClick: (e: EventMD) => void
+  events: UncategorizedMD[]
+  onCircleClick: (e: UncategorizedMD) => void
 }
 
 const CalendarHeatmapComponent: React.FC<

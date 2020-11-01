@@ -1,6 +1,6 @@
 import { Point } from "@models/Common/Point"
 import { EventMD } from "@models/events/EventMetadata"
-import { Uncategorized } from "@models/events/UncategorizedEvent"
+import { Uncategorized, UncategorizedMD } from "@models/events/UncategorizedEvent"
 import * as O from "fp-ts/lib/Option"
 import { navigate } from "gatsby"
 import * as React from "react"
@@ -29,7 +29,7 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
     objects: {
       points: {
         type: "GeometryCollection",
-        geometries: events.filter(Uncategorized.is).reduce((acc, e) => {
+        geometries: events.filter(UncategorizedMD.is).reduce((acc, e) => {
           if (O.isNone(e.frontmatter.location)) {
             return acc
           }

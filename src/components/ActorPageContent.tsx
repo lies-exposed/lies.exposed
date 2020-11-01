@@ -23,7 +23,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   metadata,
   body,
 }) => {
-  const projectFunds = metadata.ProjectFund
+  const projectFunds = metadata.ProjectTransaction
   const arrests = metadata.Arrest
   const protests = metadata.Protest
 
@@ -66,7 +66,13 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                   {formatDate(value.date)}
                 </LabelMedium>{" "}
                 <span>
-                  <span key={value.for.uuid}>{value.for.uuid}</span>
+                  {value.for.__type === "ForProject" ? (
+                    <span key={value.for.project.uuid}>
+                      {value.for.project.name}
+                    </span>
+                  ) : (
+                    <span key={value.for.__type}>{value.for.__type}</span>
+                  )}
                 </span>
               </div>
             ))
@@ -82,9 +88,13 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                   {formatDate(value.date)}
                 </LabelMedium>
                 <span>
-                  {value.for.map((f) => (
-                    <span key={f.uuid}>{f.uuid}</span>
-                  ))}
+                  {value.for.map((f) => {
+                    return f.__type === "ForProject" ? (
+                      <span key={f.project.uuid}>{f.project.name}</span>
+                    ) : (
+                      <span key={f.__type}>{f.__type}</span>
+                    )
+                  })}
                 </span>
               </>
             ))

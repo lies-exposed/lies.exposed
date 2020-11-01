@@ -9,7 +9,7 @@ import { ProjectFrontmatter } from "../../src/models/Project"
 import { ActorFrontmatter } from "../../src/models/actor"
 import { AreaFrontmatter } from "../../src/models/area"
 import { ArticleFrontmatter } from "../../src/models/article"
-import { Uncategorized as EventFrontmatter } from "../../src/models/events/UncategorizedEvent"
+import { Uncategorized } from "../../src/models/events/UncategorizedEvent"
 import { GroupFrontmatter } from "../../src/models/group"
 import { PageFrontmatter } from "../../src/models/page"
 import { TopicFrontmatter } from "../../src/models/topic"
@@ -33,18 +33,20 @@ const ActorF = t.type({
   avatar: optionFromNullable(t.string),
 })
 
-
 const {
   avatar: _groupAvatar,
   members,
   ...GroupFrontmatterProps
 } = GroupFrontmatter.type.type.props
 
-const GroupF = t.type({
-  ...GroupFrontmatterProps,
-  avatar: optionFromNullable(t.string),
-  members: optionFromNullable(t.array(t.string)),
-}, 'GroupF')
+const GroupF = t.type(
+  {
+    ...GroupFrontmatterProps,
+    avatar: optionFromNullable(t.string),
+    members: optionFromNullable(t.array(t.string)),
+  },
+  "GroupF"
+)
 
 const {
   groups,
@@ -52,7 +54,7 @@ const {
   actors,
   images,
   ...EventFrontmatterProps
-} = EventFrontmatter.type.props
+} = Uncategorized.type.props
 
 const EventF = t.type({
   ...EventFrontmatterProps,
@@ -76,21 +78,21 @@ const AreaF = t.strict({
   topics: t.array(t.string),
 })
 
-const {
-  images: _images,
-  ...Project
-} = ProjectFrontmatter.type.props
-const ProjectF = t.strict({
-  ...Project,
-  images: optionFromNullable(
-    t.array(
-      t.type({
-        description: t.string,
-        image: t.string,
-      })
-    )
-  ),
-}, 'ProjectF')
+const { images: _images, ...Project } = ProjectFrontmatter.type.props
+const ProjectF = t.strict(
+  {
+    ...Project,
+    images: optionFromNullable(
+      t.array(
+        t.type({
+          description: t.string,
+          image: t.string,
+        })
+      )
+    ),
+  },
+  "ProjectF"
+)
 
 export const createSchemaCustomization = async ({
   actions,
@@ -110,7 +112,7 @@ export const createSchemaCustomization = async ({
           "ArticleFrontmatter",
           "ActorFrontmatter",
           "GroupFrontmatter",
-          "EventFrontmatter",
+          "UncategorizedEventFrontmatter",
           "TopicFrontmatter",
           "AreaFrontmatter",
           "PageFrontmatter",
@@ -119,6 +121,7 @@ export const createSchemaCustomization = async ({
         ],
         resolveType: async (source, context, info) => {
           // todo: use info.rootValue.path instead decoding each source
+
           if (E.isRight(ActorF.decode(source))) {
             return "ActorFrontmatter"
           }
@@ -144,7 +147,7 @@ export const createSchemaCustomization = async ({
           }
 
           if (E.isRight(EventF.decode(source))) {
-            return "EventFrontmatter"
+            return "UncategorizedEventFrontmatter"
           }
 
           if (E.isRight(PageFrontmatter.decode(source))) {

@@ -35,6 +35,7 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
         return isByGroup(item) ? (
           <GroupListItem
             {...p.item}
+            key={`group-${item.group.uuid}`}
             index={p.index}
             avatarScale={avatarScale}
             item={{ ...item.group, selected: true }}
@@ -47,6 +48,7 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
         ) : (
           <ActorListItem
             {...p.item}
+            key={`actor-${item.actor.uuid}`}
             index={p.index}
             avatarScale={avatarScale}
             onClick={(a) =>

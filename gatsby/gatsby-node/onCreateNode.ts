@@ -5,7 +5,7 @@ type Collection =
   | "actors"
   | "articles"
   | "groups"
-  | "events"
+  | "uncategorized-events"
   | "pages"
   | "topics"
   | "areas"
@@ -15,7 +15,7 @@ const collectionToTypeMap: Record<Collection, string> = {
   actors: "ActorFrontmatter",
   articles: "ArticleFrontmatter",
   groups: "GroupFrontmatter",
-  events: "EventFrontmatter",
+  'uncategorized-events': "UncategorizedEventFrontmatter",
   pages: "PageFrontmatter",
   topics: "TopicFrontmatter",
   areas: "AreaFrontmatter",
@@ -41,7 +41,7 @@ export const onCreateNode = ({
     })
 
     switch (collection) {
-      case "events": {
+      case "uncategorized-events": {
         createNodeField({
           name: "actors",
           node,

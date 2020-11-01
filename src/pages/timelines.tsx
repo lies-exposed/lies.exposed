@@ -1,6 +1,5 @@
 import DatePicker from "@components/Common/DatePicker"
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
-// import EventsMap from "@components/EventsMap"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
@@ -12,7 +11,7 @@ import { GroupListItem } from "@components/lists/GroupList"
 import { TopicListItem } from "@components/lists/TopicList"
 import { eventsDataToNavigatorItems, ordEventDate } from "@helpers/event"
 import { ActorFrontmatter } from "@models/actor"
-import { EventMD } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { GroupFrontmatter } from "@models/group"
 import { PageContentFileNode } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
@@ -49,13 +48,15 @@ const EventsPage: React.FC<EventsPageProps> = ({
   navigate,
   ...props
 }) => {
+
+  console.log(data.events.nodes)
   return pipe(
     sequenceS(E.either)({
       pageContent: PageContentFileNode.decode(data.pageContent),
       topics: t.array(TopicFrontmatter).decode(data.topics.nodes),
       actors: t.array(ActorFrontmatter).decode(data.actors.nodes),
       groups: t.array(GroupFrontmatter).decode(data.groups.nodes),
-      events: t.array(EventMD).decode(data.events.nodes),
+      events: t.array(UncategorizedMD).decode(data.events.nodes),
     }),
     E.fold(
       throwValidationErrors,
@@ -356,7 +357,7 @@ export const pageQuery = graphql`
       }
     }
 
-    events: allMdx(filter: { fields: { collection: { eq: "events" } } }) {
+    events: allMdx(filter: { fields: { collection: { eq: "uncategorized-events" } } }) {
       nodes {
         ...EventMDRemark
       }

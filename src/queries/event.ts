@@ -1,6 +1,6 @@
 import { graphql } from "gatsby"
 export const query = graphql`
-  fragment Event on EventFrontmatter {
+  fragment Event on UncategorizedEventFrontmatter {
     uuid
     title
     date
@@ -16,6 +16,7 @@ export const query = graphql`
       ...Group
     }
     images {
+      author
       description
       image {
         publicURL
@@ -33,7 +34,7 @@ export const query = graphql`
 
   fragment EventMDRemark on Mdx {
     frontmatter {
-      ... on EventFrontmatter {
+      ... on UncategorizedEventFrontmatter {
         ...Event
       }
     }

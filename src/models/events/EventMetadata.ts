@@ -1,14 +1,28 @@
 import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
-import { For } from "@models/Common/For"
 import { Impact } from "@models/Common/Impact"
-import { ImageFileNode } from "@models/Image"
+import { Frontmatter } from "@models/Frontmatter"
+import { ImageSource,ImageFileNode } from "@models/Image"
 import { markdownRemark } from "@models/Markdown"
 import { ProjectFrontmatter } from "@models/Project"
+import { TransactionFrontmatter } from "@models/Transaction"
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Uncategorized } from "./UncategorizedEvent"
+
+export const ForProject = t.strict({
+  __type: t.literal('ForProject'),
+  project: ProjectFrontmatter
+}, 'ForProject')
+
+export const ForAny = t.strict({
+  __type: t.literal('ForAny'),
+}, 'ForProject')
+
+
+export const For = t.union([ForProject, ForAny], 'For')
+export type For = t.TypeOf<typeof For>
 
 const StudyPublished = t.strict(
   {
@@ -22,30 +36,38 @@ const StudyPublished = t.strict(
 
 type StudyPublished = t.TypeOf<typeof StudyPublished>
 
-const Protest = t.strict(
+export const Protest = t.strict(
   {
+    ...Frontmatter.props,
     type: t.literal("Protest"),
     for: For,
     by: t.array(ByGroupOrActor),
-    images: optionFromNullable(nonEmptyArray(ImageFileNode)),
+    images: optionFromNullable(nonEmptyArray(ImageSource)),
     date: DateFromISOString,
   },
   "Protest"
 )
-type Protest = t.TypeOf<typeof Protest>
+export type Protest = t.TypeOf<typeof Protest>
 
-export const ProjectFund = t.strict(
+export const ProtestMD = markdownRemark(Protest, 'ProtestMD')
+export type ProtestMD = t.TypeOf<typeof ProtestMD>
+
+export const ProjectTransaction = t.strict(
   {
-    type: t.literal("ProjectFund"),
+    ...Frontmatter.props,
+    type: t.literal("ProjectTransaction"),
     project: ProjectFrontmatter,
-    amount: t.number,
-    by: ByGroupOrActor,
+    transaction: TransactionFrontmatter,
     date: DateFromISOString,
   },
-  "ProjectFund"
+  "ProjectTransaction"
 )
 
-export type ProjectFund = t.TypeOf<typeof ProjectFund>
+
+export type ProjectTransaction = t.TypeOf<typeof ProjectTransaction>
+
+export const ProjectTransactionMD = markdownRemark(ProjectTransaction, 'ProjectTransactionMD');
+export type ProjectTransactionMD = t.TypeOf<typeof ProjectTransactionMD>
 
 const ProjectImpact = t.strict(
   {
@@ -102,7 +124,7 @@ const PublicAnnouncement = t.strict(
     type: t.literal("PublicAnnouncement"),
     by: t.array(ByGroupOrActor),
     publishedBy: t.array(ByGroupOrActor),
-    // opposedTo: optionFromNullable(PublicAnnouncement),
+    for: For,
     date: DateFromISOString,
   },
   "PublicAnnouncement"
@@ -117,12 +139,12 @@ export const EventFrontmatter = t.union(
     StudyPublished,
     Protest,
     ProjectImpact,
-    ProjectFund,
+    ProjectTransaction,
     Condamned,
     Arrest,
     Death,
     PublicAnnouncement,
-    // Uncategorized,
+    Uncategorized,
   ],
   "EventMetadata"
 )
@@ -132,7 +154,7 @@ export interface EventListMap {
   StudyPublished: StudyPublished[],
   Protest: Protest[],
   ProjectImpact:   ProjectImpact[],
-  ProjectFund: ProjectFund[],
+  ProjectTransaction: ProjectTransaction[],
   Condamned: Condamned[],
   Arrest: Arrest[],
   Death: Death[],
@@ -143,8 +165,8 @@ export interface EventListMap {
 export const EventMap = {
   StudyPublished: StudyPublished,
   Protest: Protest,
-  ProjectImpact:   ProjectImpact,
-  ProjectFund: ProjectFund,
+  ProjectImpact: ProjectImpact,
+  ProjectFund: ProjectTransaction,
   Condamned: Condamned,
   Arrest: Arrest,
   Death: Death,
@@ -152,6 +174,6 @@ export const EventMap = {
   Uncategorized: Uncategorized,
 }
 
-export const EventMD = markdownRemark(Uncategorized, "EventMD")
+export const EventMD = markdownRemark(EventFrontmatter, "EventMD")
 
 export type EventMD = t.TypeOf<typeof EventMD>

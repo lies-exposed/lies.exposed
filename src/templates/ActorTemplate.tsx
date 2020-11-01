@@ -8,6 +8,7 @@ import { eventsInDateRange } from "@helpers/event"
 import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
 import { ActorMD } from "@models/actor"
 import { EventMD } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -36,7 +37,7 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
     sequenceS(E.either)({
       pageContent: ActorMD.decode(data.pageContent.childMdx),
       events: pipe(
-        t.array(EventMD).decode(data.events.nodes),
+        t.array(UncategorizedMD).decode(data.events.nodes),
         E.map(eventsInDateRange({ minDate, maxDate }))
       ),
     }),

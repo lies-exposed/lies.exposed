@@ -289,7 +289,7 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
         case "Array<GroupFrontmatter>": {
           return acc.concat({ ...groupRelationField(key), required: false })
         }
-        case "NonEmptyArray<ImageAndDescription>": {
+        case "NonEmptyArray<ImageSource>": {
           return acc.concat({
             name,
             label,

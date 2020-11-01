@@ -1,10 +1,10 @@
-import { faGithub } from "@fortawesome/free-brands-svg-icons"
+import { faSlack, faGithub } from "@fortawesome/free-brands-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { themedUseStyletron } from "@theme/CustomeTheme"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { StyledLink } from "baseui/link"
 import { Menu } from "baseui/menu"
-import { ParagraphSmall, HeadingXSmall } from "baseui/typography"
+import { HeadingXSmall } from "baseui/typography"
 import { useStaticQuery, graphql } from "gatsby"
 import * as React from "react"
 import { mainMenu } from "./Header"
@@ -50,11 +50,14 @@ export const Footer: React.FC = () => {
           <FlexGridItem>
             <ul style={{ listStyle: "none" }}>
               <li>
-                <ParagraphSmall color={theme.colors.white}>
-                  <StyledLink href={github.link}>
-                    <FontAwesomeIcon icon={faGithub} /> Github
-                  </StyledLink>
-                </ParagraphSmall>
+                <StyledLink href={github.link}>
+                  <FontAwesomeIcon icon={faGithub} /> Github
+                </StyledLink>
+              </li>
+              <li>
+                <StyledLink>
+                  <FontAwesomeIcon icon={faSlack} /> Slack
+                </StyledLink>
               </li>
             </ul>
           </FlexGridItem>

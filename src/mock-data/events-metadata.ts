@@ -1,31 +1,40 @@
 import { EventFrontmatter, EventListMap } from "@models/events/EventMetadata"
+import uuid from "@utils/uuid"
 import { subDays } from "date-fns"
 import * as O from "fp-ts/lib/Option"
-import { badActor, goodActor, goodSecondActor, badSecondActor } from "./actors"
+import { badActor, goodActor, goodSecondActor } from "./actors"
+import { firstFund, secondFund, thirdFund } from "./funds"
 import { badGroup, goodGroup, secondBadGroup } from "./groups"
+import { thirdImage } from "./images"
 import { firstBadProject, firstGoodProject } from "./projects"
 
 const now = new Date()
 
 export const firstEventMetadata: EventFrontmatter[] = [
   {
-    type: "ProjectFund",
-    by: { __type: "Group", group: badGroup },
-    amount: 1000000,
+    uuid: uuid(),
+    type: "ProjectTransaction",
+    transaction: firstFund,
     project: firstBadProject,
     date: subDays(now, 20),
+    createdAt: subDays(now, 1),
+    updatedAt: subDays(now, 1)
   },
   {
+    uuid: uuid(),
     type: "Protest",
-    for: { __type: "ForProject", uuid: firstBadProject.uuid },
+    for: { __type: "ForProject", project: firstBadProject },
     by: [{ __type: "Group", group: goodGroup }],
     images: O.none,
     date: subDays(now, 14),
+    createdAt: subDays(now, 1),
+    updatedAt: subDays(now, 1)
   },
   {
     type: "PublicAnnouncement",
     by: [{ __type: "Group", group: badGroup }],
     publishedBy: [{ __type: "Group", group: badGroup }],
+    for: { __type: "ForProject", project: firstBadProject },
     date: subDays(now, 13),
   },
   {
@@ -39,7 +48,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
   {
     type: "Arrest",
     who: { __type: "Actor", actor: badActor },
-    for: [{ __type: "ForProject", uuid: firstBadProject.uuid }],
+    for: [{ __type: "ForProject", project: firstBadProject }],
     date: subDays(now, 7),
   },
 ]
@@ -61,42 +70,58 @@ export const secondEventMetadata: EventFrontmatter[] = [
 
 export const thirdEventMetadata: EventFrontmatter[] = [
   {
-    type: "ProjectFund",
-    by: { __type: "Actor", actor: goodActor },
-    amount: 350000,
+    uuid: uuid(),
+    type: "ProjectTransaction",
+    transaction: secondFund,
     project: firstGoodProject,
     date: subDays(now, 10),
+    createdAt: subDays(now, 1),
+    updatedAt: subDays(now, 1)
   },
   {
-    type: "ProjectFund",
-    by: { __type: "Group", group: badActor },
-    amount: 100000,
+    uuid: uuid(),
+    type: "ProjectTransaction",
+    transaction: firstFund,
     project: firstBadProject,
     date: subDays(now, 10),
+    createdAt: subDays(now, 1),
+    updatedAt: subDays(now, 1)
   },
   {
-    type: "ProjectFund",
-    by: { __type: "Actor", actor: badSecondActor },
-    amount: 100000,
+    uuid: uuid(),
+    type: "ProjectTransaction",
+    transaction: thirdFund,
     project: firstBadProject,
     date: subDays(now, 10),
+    createdAt: subDays(now, 1),
+    updatedAt: subDays(now, 1)
   },
   {
+    uuid: uuid(),
     type: "Protest",
     by: [{ __type: "Actor", actor: goodActor }],
-    for: { __type: "ForProject", uuid: firstBadProject.uuid },
+    for: { __type: "ForProject", project: firstBadProject },
     images: O.none,
     date: subDays(now, 8),
+    createdAt: subDays(now, 1),
+    updatedAt: subDays(now, 1)
   },
 ]
 
 export const fourthEventMetadata: EventFrontmatter[] = [
   {
+    uuid: uuid(),
     type: "Protest",
     by: [{ __type: "Group", group: goodGroup }],
-    for: { __type: "ForProject", uuid: firstGoodProject.uuid },
-    images: O.none,
+    for: { __type: "ForProject", project: firstGoodProject },
+    images: O.some([{
+      author: 'Unknown',
+      description: O.some('Protest image'),
+      image: thirdImage
+    }]),
     date: subDays(now, 5),
+    createdAt: subDays(now, 1),
+    updatedAt: subDays(now, 1)
   },
 ]
 
@@ -109,7 +134,7 @@ export const eventMetadata: EventFrontmatter[] = [
 
 export const eventMetadataMapEmpty: EventListMap = {
   PublicAnnouncement: [],
-  ProjectFund: [],
+  ProjectTransaction: [],
   ProjectImpact: [],
   Protest: [],
   StudyPublished: [],

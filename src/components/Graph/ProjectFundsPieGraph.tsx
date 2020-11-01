@@ -1,5 +1,5 @@
 import { PieChartGraph } from "@components/Common/Graph/PieChartGraph"
-import { ProjectFund } from "@models/events/EventMetadata"
+import { ProjectTransaction } from "@models/events/EventMetadata"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as Array from "fp-ts/lib/Array"
 import { eqString } from "fp-ts/lib/Eq"
@@ -11,7 +11,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import React from "react"
 
 interface ProjectFundsPieGraphProps {
-  funds: ProjectFund[]
+  funds: ProjectTransaction[]
 }
 
 interface FundSlice {
@@ -37,7 +37,7 @@ export const ProjectFundsPieGraph: React.FC<ProjectFundsPieGraphProps> = (
         (d) =>
           Map.insertAt(eqString)(key, {
             ...d,
-            amount: d.amount + f.amount,
+            amount: d.amount + f.transaction.amount,
           })(acc)
       )
     }),
@@ -61,20 +61,20 @@ export const ProjectFundsPieGraph: React.FC<ProjectFundsPieGraphProps> = (
   )
 }
 
-const getUUIDForBy = (fund: ProjectFund): string => {
-  switch (fund.by.__type) {
+const getUUIDForBy = (fund: ProjectTransaction): string => {
+  switch (fund.transaction.by.__type) {
     case "Actor":
-      return fund.by.actor.uuid
+      return fund.transaction.by.actor.uuid
     case "Group":
-      return fund.by.group.uuid
+      return fund.transaction.by.group.uuid
   }
 }
 
-const getLabelForBy = (fund: ProjectFund): string => {
-  switch (fund.by.__type) {
+const getLabelForBy = (fund: ProjectTransaction): string => {
+  switch (fund.transaction.by.__type) {
     case "Actor":
-      return fund.by.actor.fullName
+      return fund.transaction.by.actor.fullName
     case "Group":
-      return fund.by.group.name
+      return fund.transaction.by.group.name
   }
 }
