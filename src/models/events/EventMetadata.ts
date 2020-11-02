@@ -26,6 +26,7 @@ export type For = t.TypeOf<typeof For>
 
 const StudyPublished = t.strict(
   {
+    title: t.string,
     type: t.literal("StudyPublished"),
     by: t.array(ByGroupOrActor),
     source: t.string,
@@ -39,6 +40,7 @@ type StudyPublished = t.TypeOf<typeof StudyPublished>
 export const Protest = t.strict(
   {
     ...Frontmatter.props,
+    title: t.string,
     type: t.literal("Protest"),
     for: For,
     by: t.array(ByGroupOrActor),
@@ -55,6 +57,7 @@ export type ProtestMD = t.TypeOf<typeof ProtestMD>
 export const ProjectTransaction = t.strict(
   {
     ...Frontmatter.props,
+    title: t.string,
     type: t.literal("ProjectTransaction"),
     project: ProjectFrontmatter,
     transaction: TransactionFrontmatter,
@@ -71,6 +74,7 @@ export type ProjectTransactionMD = t.TypeOf<typeof ProjectTransactionMD>
 
 const ProjectImpact = t.strict(
   {
+    title: t.string,
     type: t.literal("ProjectImpact"),
     project: ProjectFrontmatter,
     approvedBy: t.array(ByGroupOrActor),
@@ -85,6 +89,7 @@ type ProjectImpact = t.TypeOf<typeof ProjectImpact>
 
 const Condamned = t.strict(
   {
+    title: t.string,
     type: t.literal("Condamned"),
     who: ByGroupOrActor,
     by: ByGroupOrActor,
@@ -97,6 +102,7 @@ type Condamned = t.TypeOf<typeof Condamned>
 
 const Arrest = t.strict(
   {
+    title: t.string,
     type: t.literal("Arrest"),
     who: ByGroupOrActor,
     for: t.array(For),
@@ -109,6 +115,7 @@ type Arrest = t.TypeOf<typeof Arrest>
 
 const Death = t.strict(
   {
+    title: t.string,
     type: t.literal("Death"),
     who: ByGroupOrActor,
     killer: optionFromNullable(ByGroupOrActor),
@@ -121,6 +128,7 @@ type Death = t.TypeOf<typeof Death>
 
 const PublicAnnouncement = t.strict(
   {
+    title: t.string,
     type: t.literal("PublicAnnouncement"),
     by: t.array(ByGroupOrActor),
     publishedBy: t.array(ByGroupOrActor),

@@ -13,6 +13,7 @@ const now = new Date()
 export const firstEventMetadata: EventFrontmatter[] = [
   {
     uuid: uuid(),
+    title: '',
     type: "ProjectTransaction",
     transaction: firstFund,
     project: firstBadProject,
@@ -23,6 +24,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
   {
     uuid: uuid(),
     type: "Protest",
+    title: 'Protest for bad project',
     for: { __type: "ForProject", project: firstBadProject },
     by: [{ __type: "Group", group: goodGroup }],
     images: O.none,
@@ -31,6 +33,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1)
   },
   {
+    title: '',
     type: "PublicAnnouncement",
     by: [{ __type: "Group", group: badGroup }],
     publishedBy: [{ __type: "Group", group: badGroup }],
@@ -38,6 +41,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
     date: subDays(now, 13),
   },
   {
+    title: '',
     type: "ProjectImpact",
     approvedBy: [{ __type: "Group", group: badGroup }],
     executedBy: [{ __type: "Group", group: secondBadGroup }],
@@ -46,6 +50,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
     project: firstBadProject,
   },
   {
+    title: '',
     type: "Arrest",
     who: { __type: "Actor", actor: badActor },
     for: [{ __type: "ForProject", project: firstBadProject }],
@@ -55,12 +60,14 @@ export const firstEventMetadata: EventFrontmatter[] = [
 
 export const secondEventMetadata: EventFrontmatter[] = [
   {
+    title: '',
     type: "StudyPublished",
     by: [{ __type: "Actor", actor: goodSecondActor }],
     date: subDays(now, 30),
     source: "http://source.to.study",
   },
   {
+    title: '',
     type: "Death",
     who: { __type: "Actor", actor: goodActor },
     killer: O.none,
@@ -70,6 +77,7 @@ export const secondEventMetadata: EventFrontmatter[] = [
 
 export const thirdEventMetadata: EventFrontmatter[] = [
   {
+    title: '',
     uuid: uuid(),
     type: "ProjectTransaction",
     transaction: secondFund,
@@ -79,6 +87,7 @@ export const thirdEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1)
   },
   {
+    title: '',
     uuid: uuid(),
     type: "ProjectTransaction",
     transaction: firstFund,
@@ -88,6 +97,7 @@ export const thirdEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1)
   },
   {
+    title: '',
     uuid: uuid(),
     type: "ProjectTransaction",
     transaction: thirdFund,
@@ -99,6 +109,7 @@ export const thirdEventMetadata: EventFrontmatter[] = [
   {
     uuid: uuid(),
     type: "Protest",
+    title: 'Second protest form bad project',
     by: [{ __type: "Actor", actor: goodActor }],
     for: { __type: "ForProject", project: firstBadProject },
     images: O.none,
@@ -112,6 +123,7 @@ export const fourthEventMetadata: EventFrontmatter[] = [
   {
     uuid: uuid(),
     type: "Protest",
+    title: 'Protest for good project',
     by: [{ __type: "Group", group: goodGroup }],
     for: { __type: "ForProject", project: firstGoodProject },
     images: O.some([{

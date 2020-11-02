@@ -2,7 +2,7 @@ import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 
-export const TransactionFrontmatter = t.type(
+export const TransactionFrontmatter = t.strict(
   {
     uuid: t.string,
     amount: t.number,
