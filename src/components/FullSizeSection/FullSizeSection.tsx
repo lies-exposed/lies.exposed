@@ -3,25 +3,29 @@ import { isServer } from "@utils/isServer"
 import * as React from "react"
 import { throttle } from "throttle-debounce"
 
-interface FullSizeSectionProps {
+interface Viewport {
+  width: number
+  height: number
+}
+
+export interface FullSizeViewportProps {
   id: string
   backgroundColor?: string
   backgroundImage?: string
+  children: (viewport: Viewport) => React.ReactElement
 }
 
-export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
+export const FullSizeViewport: React.FC<FullSizeViewportProps> = (props) => {
   const { id, backgroundColor, backgroundImage, children } = props
-  const [{ width, minHeight, maxWidth }, setPageSize] = React.useState({
-    minHeight: isServer ? 800 : window.innerHeight,
-    width: "100%",
-    maxWidth: isServer ? 800 : window.innerWidth,
+  const [{ width, height }, setPageSize] = React.useState({
+    height: isServer ? 800 : window.innerHeight,
+    width: isServer ? 800 : window.innerWidth,
   })
 
   function updatePageSize(): void {
     setPageSize({
-      minHeight: window.innerHeight,
-      width: "100%",
-      maxWidth: window.innerWidth,
+      height: window.innerHeight,
+      width: window.innerWidth,
     })
   }
 
@@ -48,21 +52,30 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
       className="FullSizeSection"
       style={{
         width,
-        minHeight,
-        maxWidth,
+        minHeight: height,
+        maxWidth: "100%",
         backgroundColor: bgColor,
         backgroundImage: bgImage,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        paddingTop: 60,
-        paddingBottom: 60,
       }}
     >
+      {children({ height, width })}
+    </div>
+  )
+}
+
+export const FullSizeSection: React.FC<Omit<
+  FullSizeViewportProps,
+  "contentWrapper"
+>> = (props) => (
+  <FullSizeViewport {...props}>
+    {() => (
       <MainContent
         style={{
           backgroundColor:
-            backgroundImage !== undefined
+            props.backgroundImage !== undefined
               ? "rgba(255, 255, 255, 0.8)"
               : "trasparent",
           width: "100%",
@@ -70,8 +83,8 @@ export const FullSizeSection: React.FC<FullSizeSectionProps> = (props) => {
           paddingRight: "30px",
         }}
       >
-        {children}
+        {props.children}
       </MainContent>
-    </div>
-  )
-}
+    )}
+  </FullSizeViewport>
+)

@@ -1,9 +1,9 @@
-import { AxisLeft, AxisRight, AxisBottom } from "@vx/axis"
-import { curveBasis } from "@vx/curve"
+import { AxisBottom, AxisLeft, AxisRight } from "@vx/axis"
+import { curveLinear } from "@vx/curve"
 import { Grid } from "@vx/grid"
 import { Group } from "@vx/group"
 import { scaleLinear } from "@vx/scale"
-import { Bar, LinePath, Line } from "@vx/shape"
+import { Bar, Line, LinePath } from "@vx/shape"
 import React from "react"
 
 // accessors
@@ -36,6 +36,7 @@ interface AxisGraphProps<D> {
   axisBottomLabel: string
   getY: (e: D) => number
   showPoints: boolean
+  showGrid: boolean
   margin: {
     top: number
     left: number
@@ -57,6 +58,7 @@ export const AxisGraph = <D extends any>({
   minYRange = 0,
   getX,
   getY,
+  showGrid,
   showPoints,
   axisLeftLabel,
   axisRightLabel,
@@ -68,7 +70,7 @@ export const AxisGraph = <D extends any>({
 
   // scales
   const xDomain = [Math.min(...data.map(getX)), Math.max(...data.map(getX))]
-  
+
   const xScale = scaleLinear({
     range: [0, maxX],
     domain: xDomain,
@@ -99,29 +101,31 @@ export const AxisGraph = <D extends any>({
         width={width}
         height={height}
         stroke="#ffffff"
-        strokeWidth={8}
-        rx={7}
+        strokeWidth={0}
+        rx={0}
       />
 
-      <Grid
-        top={margin.top}
-        left={margin.left}
-        xScale={xScale}
-        yScale={yScale}
-        stroke="rgba(142, 32, 95, 0.9)"
-        width={maxX}
-        height={maxY}
-        numTicksRows={numTicksForHeight(height)}
-        numTicksColumns={numTicksForWidth(width)}
-      />
+      {showGrid ? (
+        <Grid
+          top={margin.top}
+          left={margin.left}
+          xScale={xScale}
+          yScale={yScale}
+          stroke="rgba(142, 32, 95, 0.9)"
+          width={maxX}
+          height={maxY}
+          numTicksRows={numTicksForHeight(height)}
+          numTicksColumns={numTicksForWidth(width)}
+        />
+      ) : null}
       <Group top={margin.top} left={margin.left}>
         <LinePath
           data={data}
           x={(d) => xScale(getX(d))}
           y={(d) => yScale(getY(d))}
           stroke={`url('#${linePathId}')`}
-          strokeWidth={3}
-          curve={curveBasis}
+          strokeWidth={2}
+          curve={curveLinear}
         />
         {points !== undefined
           ? points.data.map((d, i) => (

@@ -1,3 +1,5 @@
+import { FullSizeViewport } from "@components/FullSizeSection/FullSizeSection"
+import { CO2LevelsGraph } from "@components/Graph/CO2LevelsGraph"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
@@ -39,6 +41,16 @@ const IndexPage: React.FC = () => {
         />
       </Helmet>
       <SEO title="Home" />
+
+      <FullSizeViewport id="co2-graphs">
+        {({ width, height }) => (
+          <CO2LevelsGraph
+            showPoints={false}
+            showGrid={false}
+            style={{ height, width }}
+          />
+        )}
+      </FullSizeViewport>
       <FlexGrid width="100%" flexGridColumnCount={1}>
         {/* <FlexGridItem position="relative">
           <div>

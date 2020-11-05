@@ -114,12 +114,6 @@ const overrides: Overrides = {
   },
   typography: {
     ...typography,
-    DisplayMedium: {
-      fontFamily: primaryFontFamily,
-      fontWeight: 300,
-      fontSize: "16px",
-      lineHeight: "1.6",
-    },
     HeadingXSmall: {
       ...headerFont,
       fontSize: LightTheme.typography.HeadingXSmall.fontSize,

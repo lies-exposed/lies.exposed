@@ -1,11 +1,11 @@
 import { BlockProps } from "baseui/block"
-import { DisplayMedium } from "baseui/typography"
+import { DisplayMedium, DisplayXSmall } from "baseui/typography"
 import * as React from "react"
 
 export const ListItem: React.FC<BlockProps> = ({ children, ...props }) => {
   return (
-    <DisplayMedium {...props} as="li">
+    <li>
       {children}
-    </DisplayMedium>
+    </li>
   )
 }

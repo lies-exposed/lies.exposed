@@ -8,17 +8,16 @@ title: Home
 
 <CO2LeftBudgetCounter />
 
-Questo è il tempo che ci rimane prima di raggiungere il punto di non ritorno.
+<br />
 
-Il momento oltre cui ogni sforzo per contenere l'innalzamento ulteriore della temperatura sarà vano.
+Questo è il tempo che ci rimane prima di raggiungere **il punto di non ritorno**: il momento oltre cui ogni sforzo per contenere l'ulteriore innalzamento della temperatura sarà vano.
 
-Il tempo entro cui esauriremo il budget di CO2 che ci rimane per mantenere il riscaldamento del pianeta entro il 1.5ºC rispetto all'era preindustriale.
+Il tempo entro cui **esauriremo il budget di CO2** rimanente per mantenere il riscaldamento del pianeta entro il **1.5ºC rispetto all'era preindustriale**.
 
-<CO2LevelsGraph showPoints={true} />
+Il livello di concentrazione di CO2 raggiunti oggi sono (**417ppm**) simili a quelli 2-5 milioni di anni fa, nel Pliocene: 3/4ºC di temperatura media globale in più e gli oceani più alti di 20 metri.
 
-Il livello di CO2 raggiunti oggi sono simili a quelli 2-5 milioni di anni fa, nel Pliocene: 3/4ºC di temperatura media globale in più e gli oceani più alti di 20 metri.
 
-L'umanità sta correndo verso quella direzione entro la fine del secolo corrente, se continua con il _business as usual_.
+L'umanità sta correndo verso quella direzione entro la fine del secolo corrente, se continua con il <i>business as usual</i>.
 
 _**Business as usual**_ è tutto quello che facciamo, che produciamo, che buttiamo e che distruggiamo.
 È la nostra totale **dipendenza dall'estrattivismo compulsivo di risorse**, per creare qualcosa di nuovo che soddisfi i nostri illimitati desideri.

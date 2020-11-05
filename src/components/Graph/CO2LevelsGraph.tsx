@@ -3,10 +3,7 @@ import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { LinearGradient } from "@vx/gradient"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import { Block } from "baseui/block"
-import {
-  Checkbox, STYLE_TYPE,
-  LABEL_PLACEMENT
-} from "baseui/checkbox"
+import { Checkbox, STYLE_TYPE, LABEL_PLACEMENT } from "baseui/checkbox"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -64,7 +61,6 @@ const EPAIceCoreMeasurement = t.type(
 
 type EPAIceCoreMeasurement = t.TypeOf<typeof EPAIceCoreMeasurement>
 
-
 const CO2LevelDatum = t.type(
   {
     value: t.number,
@@ -75,10 +71,10 @@ const CO2LevelDatum = t.type(
 
 type CO2LevelDatum = t.TypeOf<typeof CO2LevelDatum>
 
-
-
 export interface CO2LevelsGraphProps {
   showPoints: boolean
+  showGrid?: boolean
+  style?: React.CSSProperties
 }
 
 type ToggleKey = "last-2000-years" | "last-800k-years"
@@ -90,6 +86,8 @@ const localiseToggleKey: Record<ToggleKey, string> = {
 
 export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
   showPoints,
+  showGrid = true,
+  style,
 }) => {
   const [data, setData] = React.useState({
     CO2Earth: [],
@@ -97,7 +95,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
     loaded: false,
   })
   const [toggleData, setToggleData] = React.useState<ToggleKey>(
-    "last-2000-years"
+    "last-800k-years"
   )
 
   React.useEffect(() => {
@@ -125,9 +123,12 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
       return EPAData
     }),
     E.fold(throwValidationErrors, (data) => (
-      <ParentSize style={{ height: 400 }} debounceTime={30}>
+      <ParentSize
+        style={{ height: 400, width: "100%", ...style }}
+        debounceTime={30}
+      >
         {({ width, height }) => (
-          <Block overrides={{ Block: { style: { height } } }}>
+          <Block overrides={{ Block: { style: { height } } }} margin={0}>
             <AxisGraph<CO2LevelDatum>
               id="co2-levels"
               width={width}
@@ -138,7 +139,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
                   id={id}
                   vertical={true}
                   fromOpacity={1}
-                  toOpacity={0.8}
+                  toOpacity={1}
                   to="#fcc317"
                   from="#fc2317"
                   fromOffset="40%"
@@ -156,15 +157,25 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = ({
                 />
               )}
               showPoints={showPoints}
+              showGrid={showGrid}
               data={data}
-              minYRange={toggleData === 'last-2000-years' ? 240 : 150}
+              minYRange={toggleData === "last-2000-years" ? 240 : 150}
               getX={(d) => d.year}
               getY={(d) => d.value}
               axisLeftLabel={"CO2 cocentration (part per million)"}
               axisRightLabel={"CO2 cocentration (part per million)"}
               axisBottomLabel={"Date"}
             />
+
             <Checkbox
+              overrides={{
+                Root: {
+                  style: {
+                    display: "flex",
+                    justifyContent: "center",
+                  },
+                },
+              }}
               checkmarkType={STYLE_TYPE.toggle_round}
               labelPlacement={LABEL_PLACEMENT.right}
               checked={toggleData === "last-2000-years"}

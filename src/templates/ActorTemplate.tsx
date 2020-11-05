@@ -17,6 +17,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
+import { EventSlider } from "@components/sliders/EventSlider"
 
 interface ActorTemplatePageProps {
   navigate: typeof navigate
@@ -57,7 +58,7 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
               scalePoint={O.none}
             />
 
-            <EventList events={events} />
+            <EventSlider events={events}/>
           </MainContent>
         </Layout>
       )

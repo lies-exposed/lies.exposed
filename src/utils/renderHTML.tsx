@@ -17,6 +17,10 @@ import { ProjectPageContentExample } from "@components/examples/ProjectPageConte
 import { TopicPageContentExample } from "@components/examples/TopicPageContentExample"
 import { MDXProvider, MDXProviderComponentsProp } from "@mdx-js/react"
 import {
+  DisplayLarge,
+  DisplayMedium,
+  DisplaySmall,
+  DisplayXSmall,
   HeadingLarge,
   HeadingMedium,
   HeadingSmall,
@@ -46,6 +50,10 @@ const shortcodes: MDXProviderComponentsProp = {
   EventPageContentExample,
   EventSliderExample,
   // components
+  DisplayXSmall,
+  DisplaySmall,
+  DisplayMedium,
+  DisplayLarge,
   FullSizeSection,
   Video,
   GQLVoyager,
