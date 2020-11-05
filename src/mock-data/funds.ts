@@ -1,58 +1,63 @@
-import { FundFrontmatter } from "@models/Fund"
+import { TransactionFrontmatter } from "@models/Transaction"
 import uuid from "@utils/uuid"
 import { subYears } from "date-fns"
-import { goodActor, badActor } from "./actors"
-import { goodGroup } from "./groups"
-import { firstGoodProject, firstBadProject } from "./projects"
+import { goodActor, badActor, goodSecondActor } from "./actors"
+import { badGroup, goodGroup } from "./groups"
 
-export const firstFund: FundFrontmatter = {
+export const firstFund: TransactionFrontmatter = {
   uuid: uuid(),
   amount: 100000,
-  project: firstGoodProject,
   by: { __type: "Actor", actor: goodActor },
+  to: { __type: 'Actor', actor: goodSecondActor},
   date: subYears(new Date(), 1),
   createdAt: new Date(),
   sources: ["first source"],
 }
 
-export const secondFund: FundFrontmatter = {
+export const secondFund: TransactionFrontmatter = {
   uuid: uuid(),
   amount: 40000,
-  project: firstBadProject,
   by: { __type: "Actor", actor: badActor },
+  to: { __type: "Group", group: badGroup },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
-  sources: ["second source"]
+  sources: ["second source"],
 }
 
-export const thirdFund: FundFrontmatter = {
+export const thirdFund: TransactionFrontmatter = {
   uuid: uuid(),
   amount: 150000,
-  project: firstGoodProject,
   by: { __type: "Group", group: goodGroup },
+  to: { __type: "Group", group: badGroup },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
-  sources: ["third sources"]
+  sources: ["third sources"],
 }
 
-export const fourthFund: FundFrontmatter = {
+export const fourthFund: TransactionFrontmatter = {
   uuid: uuid(),
   amount: 200000,
-  project: firstGoodProject,
   by: { __type: "Group", group: goodGroup },
+  to: { __type: "Actor", actor: goodActor },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
-  sources: ["third sources"]
+  sources: ["third sources"],
 }
 
-export const fifthFund: FundFrontmatter = {
+export const fifthFund: TransactionFrontmatter = {
   uuid: uuid(),
   amount: 200000,
-  project: firstGoodProject,
   by: { __type: "Actor", actor: goodActor },
+  to: { __type: "Actor", actor: goodSecondActor },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
-  sources: ["third sources"]
+  sources: ["third sources"],
 }
 
-export const funds: FundFrontmatter[] = [firstFund, secondFund, thirdFund, fourthFund, fifthFund]
+export const funds: TransactionFrontmatter[] = [
+  firstFund,
+  secondFund,
+  thirdFund,
+  fourthFund,
+  fifthFund,
+]

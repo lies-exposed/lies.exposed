@@ -4,7 +4,7 @@ import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Color } from "./Common/Color"
 import { Polygon } from "./Common/Polygon"
-import { ImageAndDescription } from "./Image"
+import { ImageSource } from "./Image"
 import { JSONFromString } from "./JSONFromString"
 import { markdownRemark } from "./Markdown"
 
@@ -14,7 +14,7 @@ export const ProjectFrontmatter = t.strict(
     name: t.string,
     color: Color,
     areas: optionFromNullable(nonEmptyArray(JSONFromString.pipe(Polygon))),
-    images: optionFromNullable(t.array(ImageAndDescription)),
+    images: optionFromNullable(t.array(ImageSource)),
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
     createdAt: DateFromISOString,

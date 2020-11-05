@@ -13,7 +13,6 @@ interface CmsConfigV2 extends CmsConfig {
 }
 
 const collections = [
-  events,
   articles,
   actors,
   groups,
@@ -21,7 +20,9 @@ const collections = [
   topics,
   areas,
   projects,
+  ...events
 ]
+
 
 export const config: CmsConfigV2 = {
   backend: {

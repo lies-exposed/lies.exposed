@@ -2,8 +2,9 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { ProjectPageContent } from "@components/ProjectPageContent"
 import SEO from "@components/SEO"
-import { FundFrontmatter } from "@models/Fund"
+import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
 import { ProjectMD } from "@models/Project"
+import { TransactionFrontmatter } from "@models/Transaction"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -25,14 +26,14 @@ const ProjectTemplateContainer: React.FC<ProjectTemplatePageProps> = ({
   return pipe(
     sequenceS(E.either)({
       project: ProjectMD.decode(data.pageContent.childMdx),
-      funds: t.array(FundFrontmatter).decode([]),
+      funds: t.array(TransactionFrontmatter).decode([]),
     }),
     E.fold(throwValidationErrors, ({ project, funds }) => {
       return (
         <Layout>
           <SEO title={project.frontmatter.name} />
           <MainContent>
-            <ProjectPageContent {...project} funds={funds} />
+            <ProjectPageContent {...project} metadata={eventMetadataMapEmpty} />
           </MainContent>
         </Layout>
       )

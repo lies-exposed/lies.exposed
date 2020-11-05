@@ -1,41 +1,31 @@
-import { FundFrontmatter } from "@models/Fund"
+import ProjectFundList from "@components/lists/ProjectFundList"
 import { ActorMD } from "@models/actor"
+import { EventListMap } from "@models/events/EventMetadata"
+import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { HeadingXLarge, HeadingXSmall, LabelMedium } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
-import * as Eq from "fp-ts/lib/Eq"
-import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
-import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import Image from "gatsby-image"
 import * as React from "react"
+import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph"
 import EditButton from "./buttons/EditButton"
 
 export interface ActorPageContentProps extends ActorMD {
-  funds: FundFrontmatter[]
+  metadata: EventListMap
 }
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   frontmatter,
-  funds,
+  metadata,
   body,
 }) => {
-  const projectFundsInitMap: Map<string, number> = Map.empty
-  const projectFundsMap = pipe(
-    funds,
-    A.reduce(projectFundsInitMap, (acc, f) => {
-      return pipe(
-        acc,
-        Map.lookup(Eq.eqString)(f.project.name),
-        O.map((amount) => amount + f.amount),
-        O.getOrElse(() => f.amount),
-        (value) => Map.insertAt(Eq.eqString)(f.project.name, value)(acc)
-      )
-    })
-  )
+  const projectFunds = metadata.ProjectTransaction
+  const arrests = metadata.Arrest
+  const protests = metadata.Protest
 
   return (
     <FlexGrid width="100%">
@@ -59,14 +49,54 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           )
         )}
         <Block>
-          <HeadingXSmall>Progetti</HeadingXSmall>
+          <HeadingXSmall>Fondi ({projectFunds.length})</HeadingXSmall>
+          <ProjectFundList
+            funds={projectFunds.map((f) => ({ ...f, selected: true }))}
+            onClickItem={() => {}}
+          />
+          <ProjectFundsPieGraph funds={projectFunds} />
+        </Block>
+        <Block>
+          <HeadingXSmall>Proteste ({protests.length})</HeadingXSmall>
           {pipe(
-            projectFundsMap,
-            Map.toArray(Ord.ordString),
-            A.map(([name, value]) => (
-              <LabelMedium key={name}>
-                {name} {value} euro
-              </LabelMedium>
+            protests,
+            A.map((value) => (
+              <div key={value.date.toISOString()}>
+                <LabelMedium display="inline">
+                  {formatDate(value.date)}
+                </LabelMedium>{" "}
+                <span>
+                  {value.for.__type === "ForProject" ? (
+                    <span key={value.for.project.uuid}>
+                      {value.for.project.name}
+                    </span>
+                  ) : (
+                    <span key={value.for.__type}>{value.for.__type}</span>
+                  )}
+                </span>
+              </div>
+            ))
+          )}
+        </Block>
+        <Block>
+          <HeadingXSmall>Arresti ({arrests.length})</HeadingXSmall>
+          {pipe(
+            arrests,
+            A.map((value) => (
+              <>
+                <LabelMedium key={value.date.toISOString()} display="inline">
+                  {formatDate(value.date)}
+                </LabelMedium>
+                <span>
+                  {value.for.map((f) => {
+                    return f.__type === "ForProject" ? (
+                      <span key={f.project.uuid}>{f.project.name}</span>
+                    ) : (
+                      <span key={f.__type}>{f.__type}</span>
+                    )
+                  })}
+                </span>
+              </>
             ))
           )}
         </Block>

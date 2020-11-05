@@ -4,9 +4,14 @@ import {
 } from "@components/Graph/EventsNetwork"
 import { actors } from "@mock-data/actors"
 import { events } from "@mock-data/events"
-import { EventMD } from "@models/event"
+import {
+  Uncategorized,
+  UncategorizedMD,
+} from "@models/events/UncategorizedEvent"
 import { Meta, Story } from "@storybook/react/types-6-0"
+import * as A from 'fp-ts/lib/Array'
 import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
 const meta: Meta = {
@@ -16,12 +21,16 @@ const meta: Meta = {
 
 export default meta
 
-const eventsMD: EventMD[] = events.map((e) => ({
-  frontmatter: e,
-  body: () => "",
-  tableOfContents: { items: [] },
-  timeToRead: O.some(1),
-}))
+const eventsMD: UncategorizedMD[] = pipe(
+  events,
+  A.filter(Uncategorized.is),
+  A.map((e) => ({
+    frontmatter: e,
+    body: () => "",
+    tableOfContents: { items: [] },
+    timeToRead: O.some(1),
+  }))
+)
 
 const Template: Story<EventsNetworkProps> = (props) => {
   return <EventsNetwork {...props} />

@@ -1,5 +1,8 @@
 import { EventsNetwork } from "@components/Graph/EventsNetwork"
+import { Uncategorized } from "@models/events/UncategorizedEvent"
+import * as A from 'fp-ts/lib/Array'
 import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
 import { actors } from "mock-data/actors"
 import { events } from "mock-data/events"
 import { groups } from "mock-data/groups"
@@ -46,12 +49,16 @@ const NetworkExample: React.FC = () => {
       <EventsNetwork
         scale={"all"}
         scalePoint={O.none}
-        events={events.map((f) => ({
-          tableOfContents: { items: [] },
-          frontmatter: f,
-          timeToRead: O.some(1),
-          body: "",
-        }))}
+        events={pipe(
+          events,
+          A.filter(Uncategorized.is),
+          A.map((f) => ({
+            tableOfContents: { items: [] },
+            frontmatter: f,
+            timeToRead: O.some(1),
+            body: "",
+          }))
+        )}
         selectedActorIds={selectedActorIds}
         selectedGroupIds={selectedGroupIds}
         selectedTopicIds={selectedTopicIds}

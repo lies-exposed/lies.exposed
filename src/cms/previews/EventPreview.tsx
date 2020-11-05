@@ -1,5 +1,5 @@
-import EventList from "@components/lists/EventList"
-import { EventMD } from "@models/event"
+import EventList from "@components/lists/EventList/EventList"
+import { EventMD } from "@models/events/EventMetadata"
 import { GroupFrontmatter } from "@models/group"
 import { TopicFrontmatter } from "@models/topic"
 import { renderValidationErrors } from "@utils/renderValidationErrors"

@@ -1,20 +1,25 @@
 import {
   ProjectPageContent,
-  ProjectPageContentProps
+  ProjectPageContentProps,
 } from "@components/ProjectPageContent"
-import { funds } from "@mock-data/funds"
-import { firstGoodProject } from "@mock-data/projects"
+import { extractEventsMetadata } from "@helpers/event"
+import { events } from "@mock-data/events"
+import { firstBadProject } from "@mock-data/projects"
 import { Card } from "baseui/card"
 import * as O from "fp-ts/lib/Option"
 import * as R from "fp-ts/lib/Record"
+import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
 export const projectPageContentExampleArgs: ProjectPageContentProps = {
-  frontmatter: firstGoodProject,
+  frontmatter: firstBadProject,
   body: null,
   tableOfContents: { items: undefined },
   timeToRead: O.none,
-  funds,
+  metadata: pipe(
+    events,
+    extractEventsMetadata({ type: "Project", elem: firstBadProject })
+  ),
 }
 
 export const ProjectPageContentExample: React.FC<ProjectPageContentProps> = (

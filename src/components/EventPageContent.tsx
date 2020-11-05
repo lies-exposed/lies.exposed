@@ -1,4 +1,4 @@
-import { EventMD } from "@models/event"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
@@ -6,12 +6,12 @@ import { HeadingXLarge, HeadingXSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
-import { Slider } from "./Slider/Slider"
+import { Slider } from "./Common/Slider/Slider"
 import EditButton from "./buttons/EditButton"
 import ActorList from "./lists/ActorList"
 import GroupList from "./lists/GroupList"
 
-export interface EventPageContentProps extends EventMD {}
+export interface EventPageContentProps extends UncategorizedMD {}
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   frontmatter,

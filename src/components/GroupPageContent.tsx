@@ -1,7 +1,7 @@
-import { FundFrontmatter } from "@models/Fund"
 import { ProjectFrontmatter } from "@models/Project"
 import { ActorFrontmatter } from "@models/actor"
-import { EventMD } from "@models/event"
+import { ProjectTransaction } from "@models/events/EventMetadata"
+import { UncategorizedMD } from "@models/events/UncategorizedEvent"
 import { GroupMD } from "@models/group"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -21,9 +21,9 @@ import ActorList from "./lists/ActorList"
 import GroupList from "./lists/GroupList"
 
 export interface GroupPageContentProps extends GroupMD {
-  events: EventMD[]
+  events: UncategorizedMD[]
   projects: ProjectFrontmatter[]
-  funds: FundFrontmatter[]
+  funds: ProjectTransaction[]
   onMemberClick: (m: ActorFrontmatter) => void
 }
 
@@ -42,8 +42,8 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
       return pipe(
         acc,
         Map.lookup(Eq.eqString)(f.project.name),
-        O.map((amount) => amount + f.amount),
-        O.getOrElse(() => f.amount),
+        O.map((amount) => amount + f.transaction.amount),
+        O.getOrElse(() => f.transaction.amount),
         (value) => Map.insertAt(Eq.eqString)(f.project.name, value)(acc)
       )
     })
@@ -133,7 +133,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
               projectFundsMap,
               Map.toArray(Ord.ordString),
               A.map(([name, value]) => (
-                <LabelMedium key={name}>
+                <LabelMedium key={`group-page-content-${name}`}>
                   {name} {value} euro
                 </LabelMedium>
               ))

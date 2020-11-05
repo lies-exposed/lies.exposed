@@ -3,7 +3,7 @@ import {
   HierarchicalEdgeBundlingProps,
 } from "@components/Common/Graph/HierarchicalEdgeBundling"
 import { ActorFrontmatter } from "@models/actor"
-import { EventFrontmatter } from "@models/event"
+import { Uncategorized } from "@models/events/UncategorizedEvent"
 import { GroupFrontmatter } from "@models/group"
 import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
@@ -13,7 +13,7 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 
 interface CreateHierarchicalEdgeBundlingData {
-  events: EventFrontmatter[]
+  events: Uncategorized[]
   groups: GroupFrontmatter[]
 }
 

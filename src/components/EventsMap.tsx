@@ -1,8 +1,6 @@
 import { Point } from "@models/Common/Point"
-import {
-  EventMD,
-  EventFrontmatter,
-} from "@models/event"
+import { EventMD } from "@models/events/EventMetadata"
+import { Uncategorized, UncategorizedMD } from "@models/events/UncategorizedEvent"
 import * as O from "fp-ts/lib/Option"
 import { navigate } from "gatsby"
 import * as React from "react"
@@ -17,21 +15,21 @@ interface EventsMapProps {
 }
 
 interface GEOJSONEventPoint extends Point {
-  properties: EventFrontmatter
+  properties: Uncategorized
 }
 
 const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
   const initialAcc: GEOJSONEventPoint[] = []
 
   const eventPoints: Topology<{
-    points: GeometryCollection<EventFrontmatter>
+    points: GeometryCollection<Uncategorized>
   }> = {
     type: "Topology",
     arcs: [],
     objects: {
       points: {
         type: "GeometryCollection",
-        geometries: events.reduce((acc, e) => {
+        geometries: events.filter(UncategorizedMD.is).reduce((acc, e) => {
           if (O.isNone(e.frontmatter.location)) {
             return acc
           }
@@ -63,7 +61,7 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
         height={height}
         data={data as any}
         featureRenderer={(f, i) => {
-          const color = 'white'
+          const color = "white"
           return (
             <path
               key={`map-feature-${i}`}

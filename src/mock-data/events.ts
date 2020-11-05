@@ -1,16 +1,20 @@
-import { EventFrontmatter } from "@models/event"
+import { EventFrontmatter } from "@models/events/EventMetadata"
+import { Uncategorized } from "@models/events/UncategorizedEvent"
 import uuid from "@utils/uuid"
 import { subMonths, subWeeks } from "date-fns"
 import * as NEA from "fp-ts/lib/NonEmptyArray"
 import * as O from "fp-ts/lib/Option"
 import { goodActor, badActor } from "./actors"
+import { firstEventMetadata, fourthEventMetadata, secondEventMetadata, thirdEventMetadata } from "./events-metadata"
 import { goodGroup, badGroup } from "./groups"
-import { firstGoodProject } from "./projects"
 import { firstTopic, secondTopic, thirdTopic } from "./topics"
 
+const today = new Date()
+
 // events
-export const firstEvent: EventFrontmatter = {
+export const firstEvent: Uncategorized = {
   uuid: uuid(),
+  type: 'Uncategorized',
   title: "First Event",
   topics: NEA.of(firstTopic),
   actors: O.some([goodActor]),
@@ -18,14 +22,14 @@ export const firstEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   location: O.none,
-  date: subMonths(new Date(), 2),
-  metadata: O.none,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  date: subMonths(today, 2),
+  createdAt: today,
+  updatedAt: today,
 }
 
-export const secondEvent: EventFrontmatter = {
+export const secondEvent: Uncategorized = {
   uuid: uuid(),
+  type: 'Uncategorized',
   title: "Second Event",
   topics: NEA.concat([thirdTopic], NEA.of(secondTopic)),
   actors: O.some([badActor]),
@@ -33,35 +37,29 @@ export const secondEvent: EventFrontmatter = {
   links: O.none,
   images: O.none,
   location: O.none,
-  date: subMonths(new Date(), 2),
-  metadata: O.none,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  date: subMonths(today, 2),
+  createdAt: today,
+  updatedAt: today,
 }
 
-export const thirdEvent: EventFrontmatter = {
+export const thirdEvent: Uncategorized = {
   uuid: uuid(),
   title: "Third Event",
+  type: 'Uncategorized',
   topics: NEA.of(secondTopic),
   actors: O.some([badActor]),
   groups: O.some([goodGroup]),
   links: O.none,
   images: O.none,
   location: O.none,
-  metadata: O.some([
-    {
-      type: "ProjectFund",
-      project: firstGoodProject,
-      by: { __type: "Group", group: goodGroup },
-    },
-  ]),
-  date: subWeeks(new Date(), 3),
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  date: subWeeks(today, 3),
+  createdAt: today,
+  updatedAt: today,
 }
 
-export const fourthEvent: EventFrontmatter = {
+export const fourthEvent: Uncategorized = {
   uuid: uuid(),
+  type: 'Uncategorized',
   title: "Fourth Event",
   topics: NEA.concat([secondTopic], NEA.of(firstTopic)),
   actors: O.some([goodActor]),
@@ -69,22 +67,27 @@ export const fourthEvent: EventFrontmatter = {
   location: O.none,
   links: O.none,
   images: O.none,
-  date: new Date(),
-  metadata: O.some([
-    {
-      type: "Protest",
-      by: [{ __type: "Group", group: goodGroup }],
-      for: { __type: "ForProject", uuid: firstGoodProject.uuid },
-      images: O.none,
-    },
-  ]),
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  date: today,
+  createdAt: today,
+  updatedAt: today,
 }
 
-export const events: EventFrontmatter[] = [
+export const firstGoodProjectEvents: Uncategorized[] = [
+  thirdEvent,
+  fourthEvent
+]
+
+export const uncategorizedEvents: Uncategorized[] = [
   firstEvent,
   secondEvent,
   thirdEvent,
   fourthEvent,
+]
+
+export const events: EventFrontmatter[] = [
+  ...firstEventMetadata,
+  ...secondEventMetadata,
+  ...thirdEventMetadata,
+  ...fourthEventMetadata,
+  ...uncategorizedEvents
 ]

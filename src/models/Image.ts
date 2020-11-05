@@ -26,12 +26,13 @@ export const ImageFileNode = t.interface(
 
 export type ImageFileNode = t.TypeOf<typeof ImageFileNode>
 
-export const ImageAndDescription = t.strict(
+export const ImageSource = t.strict(
   {
+    author: t.string,
     description: optionFromNullable(t.string),
     image: ImageFileNode,
   },
-  "ImageAndDescription"
+  "ImageSource"
 )
 
-export type ImageAndDescription = t.TypeOf<typeof ImageAndDescription>
+export type ImageSource = t.TypeOf<typeof ImageSource>

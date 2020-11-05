@@ -10,6 +10,9 @@ const config: GatsbyConfig = {
       repo: "econnessione",
       link: `https://github.com/ascariandrea/econnessione`,
     },
+    slack: {
+      team: "econnessione",
+    },
   },
   plugins: [
     {
@@ -89,8 +92,8 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: "events",
-        path: `${process.cwd()}/content/events`,
+        name: "uncategorized-events",
+        path: `${process.cwd()}/content/events/uncategorized`,
       },
     },
     {

@@ -206,7 +206,7 @@ const createEventPages = async ({
 
   // Handle errors
   if (result.errors !== undefined) {
-    reporter.panicOnBuild(`Error while running createEventPages query.`)
+    reporter.panicOnBuild(`Error while running createEventPages query.`, result.errors)
     return
   }
 

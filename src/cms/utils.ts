@@ -1,4 +1,5 @@
-import { EventTypeKeys } from "@models/event"
+import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
+import { EventMap as EventTypeKeys, For } from "@models/events/EventMetadata"
 import * as A from "fp-ts/lib/Array"
 import * as R from "fp-ts/lib/Record"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -11,6 +12,7 @@ import {
   ImageField,
   ListField,
   MapField,
+  NumberField,
   RelationField,
   SelectField,
   StringField,
@@ -59,14 +61,42 @@ const topicRelationField = (name: string): CmsField =>
     multiple: true,
   })
 
-const isStringType = (io: unknown): io is t.StringType =>
-  (io as any)._tag !== undefined && (io as any)._tag === "StringType"
+const projectRelationField = (name: string): CmsField =>
+  RelationField({
+    label: camelCaseToSentenceCase(name),
+    name: name,
+    collection: "projects",
+    search_fields: ["uuid", "name"],
+    display_fields: ["name"],
+    value_field: "uuid",
+    multiple: true,
+  })
+
+const transactionRelationField = (name: string): CmsField =>
+  RelationField({
+    label: camelCaseToSentenceCase(name),
+    name: name,
+    collection: "transactions",
+    search_fields: ["uuid"],
+    display_fields: ['uuid'],
+    value_field: "uuid",
+    multiple: true,
+  })
 
 const isBooleanType = (io: unknown): io is t.BooleanType =>
   (io as any)._tag !== undefined && (io as any)._tag === "BooleanType"
 
+const isStringType = (io: unknown): io is t.StringType =>
+  (io as any)._tag !== undefined && (io as any)._tag === "StringType"
+
+const isNumberType = (io: unknown): io is t.NumberType =>
+  (io as any)._tag !== undefined && (io as any)._tag === "NumberType"
+
 const isUnionType = (io: unknown): io is t.UnionType<any> =>
   (io as any)._tag !== undefined && (io as any)._tag === "UnionType"
+
+const isLiteralType = (io: unknown): io is t.LiteralType<any> =>
+  (io as any)._tag !== undefined && (io as any)._tag === "LiteralType"
 
 const isRecursiveType = (io: unknown): io is t.RecursiveType<t.Any> =>
   (io as any)._tag !== undefined && (io as any)._tag === "RecursiveType"
@@ -80,6 +110,20 @@ const isArrayType = (io: unknown): io is t.ArrayType<any> =>
 const isExactType = (io: unknown): io is t.ExactType<any> =>
   (io as any)._tag !== undefined && (io as any)._tag === "ExactType"
 
+const isByGroupOrActor = (props: any): props is ByGroupOrActor => {
+  return isUnionType(props) && props.name === ByGroupOrActor.name
+}
+
+const isFor = (props: any): props is For => {
+  return isUnionType(props) && props.name === For.name
+}
+
+const isImpact = (
+  props: any
+): props is t.UnionType<Array<t.InterfaceType<any>>> => {
+  return isUnionType(props) && props.name === "Impact"
+}
+
 export const IOTSTypeToCMSFields = <T extends t.Props>(
   ioType: t.ExactType<t.InterfaceType<T>>
 ): CmsCollection["fields"] => {
@@ -92,16 +136,36 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
     const name = key
     const label = camelCaseToSentenceCase(name)
 
-    if (isExactType(props)) {
-      if (props.name === "Polygon") {
-        return acc.concat([MapField({ name, label, type: "Polygon" })])
-      }
+    // console.log({ key, props })
 
-      return traverseStruct(acc)(key, props.type)
+    if (isLiteralType(props)) {
+      if (key === "type") {
+        return acc.concat({
+          name: "type",
+          widget: "hidden",
+          default: props.value,
+        })
+      }
     }
 
     if (isRecursiveType(props)) {
-      return traverseStruct(acc)(key, props.type)
+      return traverseStruct(acc)(name, props.type)
+    }
+
+    if (isExactType(props)) {
+      if (props.name === "Polygon") {
+        return acc.concat(MapField({ name, label, type: "Polygon" }))
+      }
+
+      if (props.name === 'ProjectFrontmatter') {
+        return acc.concat(projectRelationField(key))
+      }
+
+      if (props.name === 'TransactionFrontmatter') {
+        return acc.concat(transactionRelationField(key))
+      }
+
+      return acc.concat(traverseStruct([])(name, props.type))
     }
 
     if (isInterfaceType(props)) {
@@ -209,21 +273,15 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
     }
 
     if (isBooleanType(props)) {
-      return acc.concat(
-        BooleanField({ label: camelCaseToSentenceCase(key), name: key })
-      )
+      return acc.concat(BooleanField({ label, name }))
     }
 
     if (props.name === "ColorType") {
-      return acc.concat([
-        ColorField({ name: key, label: camelCaseToSentenceCase(key) }),
-      ])
+      return acc.concat(ColorField({ name, label }))
     }
 
     if (props.name === "DateFromISOString") {
-      return acc.concat([
-        DateField({ name: key, label: camelCaseToSentenceCase(key) }),
-      ])
+      return acc.concat(DateField({ name: key, label: label }))
     }
 
     const optionMatch = props.name.match(/Option<(\w+)>|Option<(\w+<(\w+)>)>/)
@@ -233,41 +291,48 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
         case "string":
           return acc.concat([
             StringField({
-              name: key,
-              label: camelCaseToSentenceCase(key),
+              name,
+              label,
               required: false,
             }),
           ])
         case "ImageFileNode":
           return acc.concat([
             ImageField({
-              name: key,
-              label: camelCaseToSentenceCase(key),
+              name,
+              label,
               required: false,
             }),
           ])
         case "DateFromISOString":
           return acc.concat([
             DateField({
-              name: key,
-              label: camelCaseToSentenceCase(key),
+              name,
+              label,
               required: false,
             }),
           ])
         case "EventType":
           return acc.concat(
             SelectField({
-              name: key,
-              label: camelCaseToSentenceCase(key),
+              name,
+              label,
               options: Object.keys(EventTypeKeys),
               required: false,
             })
           )
+        case "ByGroupOrActor":
+          return acc.concat({
+            name: key,
+            label: label,
+            types: [actorRelationField("Actor"), groupRelationField("Group")],
+            widget: "object",
+          })
       }
 
       switch (optionMatch[2]) {
         case "CMSRelation<actors>": {
-          return acc.concat({ ...actorRelationField(key), required: false })
+          return acc.concat({ ...actorRelationField(name), required: false })
         }
         case "Array<string>": {
           return acc.concat(
@@ -284,12 +349,12 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
           )
         }
         case "Array<ActorFrontmatter>": {
-          return acc.concat({ ...actorRelationField(key), required: false })
+          return acc.concat({ ...actorRelationField(name), required: false })
         }
-        case "Array<GroupFrontmatter>": {
-          return acc.concat({ ...groupRelationField(key), required: false })
+        case "Array<Group>": {
+          return acc.concat({ ...groupRelationField(name), required: false })
         }
-        case "NonEmptyArray<ImageAndDescription>": {
+        case "Array<ImageSource>":
           return acc.concat({
             name,
             label,
@@ -298,10 +363,43 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
             widget: "list",
             fields: [
               ImageField({ label: "Image", name: "image" }),
-              StringField({ label: "Description", name: "description" }),
+              StringField({
+                label: "Description",
+                name: "description",
+                required: false,
+              }),
+              StringField({ label: "Author", name: "author" }),
+            ],
+          })
+        case "NonEmptyArray<ImageSource>": {
+          return acc.concat({
+            name,
+            label,
+            required: true,
+            collapsed: true,
+            widget: "list",
+            fields: [
+              ImageField({ label: "Image", name: "image" }),
+              StringField({
+                label: "Description",
+                name: "description",
+                required: false,
+              }),
+              StringField({ label: "Author", name: "author" }),
             ],
           })
         }
+        case "NonEmptyArray<pipe(JSONFromString, Polygon)>":
+          return acc.concat(
+            ListField({
+              name,
+              label,
+              required: true,
+              collapsed: true,
+              widget: "list",
+              field: MapField({ name, label, type: "Polygon" }),
+            })
+          )
       }
 
       // console.log(optionMatch[0], { key, optionMatch })
@@ -326,6 +424,17 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
       )
     }
 
+    if (props.name === "Option<NonEmptyArray<pipe(JSONFromString, Polygon)>>") {
+      return acc.concat(
+        ListField({
+          name,
+          label,
+          field: MapField({ name, label, type: "Polygon", required: true }),
+          required: true,
+        })
+      )
+    }
+
     if (props.name === "pipe(JSONFromString, Polygon)") {
       return acc.concat(MapField({ name, label, type: "Polygon" }))
     }
@@ -341,6 +450,59 @@ export const IOTSTypeToCMSFields = <T extends t.Props>(
       return acc.concat([
         StringField({ name: key, label: camelCaseToSentenceCase(key) }),
       ])
+    }
+
+    if (isByGroupOrActor(props)) {
+      return acc.concat([
+        {
+          name: key,
+          label: label,
+          types: [actorRelationField("Actor"), groupRelationField("Group")],
+          widget: "object",
+        },
+      ])
+    }
+
+    if (isFor(props)) {
+      return acc.concat([
+        ListField({
+          name: key,
+          label: label,
+          types: [
+            {
+              name: "ForProject",
+              label: "Project",
+              fields: [projectRelationField("ForProject")],
+            },
+            {
+              name: "ForEvent",
+              label: "ForEvent",
+              fields: [projectRelationField("")],
+            },
+          ],
+          multiple: false,
+        }),
+      ])
+    }
+
+    if (isImpact(props)) {
+      return acc.concat(
+        ListField({
+          name,
+          label,
+          types: props.types.map((type) => ({
+            name: type.name,
+            label: type.name,
+            fields: traverseStruct([])(type.name, type),
+          })) as any,
+          required: true,
+          multiple: false,
+        })
+      )
+    }
+
+    if (isNumberType(props)) {
+      return acc.concat(NumberField({ name: key, label: label }))
     }
 
     // console.log({ key, props })

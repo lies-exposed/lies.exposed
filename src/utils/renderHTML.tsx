@@ -10,17 +10,25 @@ import { Video } from "@components/Video/Video"
 import { ActorPageContentExample } from "@components/examples/ActorPageContentExample"
 import BubbleGraphExample from "@components/examples/BubbleGraphExample"
 import { EventPageContentExample } from "@components/examples/EventPageContentExample"
+import { EventSliderExample } from "@components/examples/EventSliderExample"
 import { GroupPageContentExample } from "@components/examples/GroupPageContentExample"
 import NetworkExample from "@components/examples/NetworkExample"
 import { ProjectPageContentExample } from "@components/examples/ProjectPageContentExample"
 import { TopicPageContentExample } from "@components/examples/TopicPageContentExample"
 import { MDXProvider, MDXProviderComponentsProp } from "@mdx-js/react"
-import { HeadingLarge, HeadingMedium, HeadingSmall, HeadingXLarge, HeadingXSmall, HeadingXXLarge, ParagraphMedium } from "baseui/typography"
+import {
+  HeadingLarge,
+  HeadingMedium,
+  HeadingSmall,
+  HeadingXLarge,
+  HeadingXSmall,
+  HeadingXXLarge,
+  ParagraphMedium,
+} from "baseui/typography"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import * as React from "react"
 
 const shortcodes: MDXProviderComponentsProp = {
-  
   // counters
   CO2LeftBudgetCounter,
   WorldPopulationCounter,
@@ -36,6 +44,7 @@ const shortcodes: MDXProviderComponentsProp = {
   ProjectPageContentExample,
   TopicPageContentExample,
   EventPageContentExample,
+  EventSliderExample,
   // components
   FullSizeSection,
   Video,
@@ -49,11 +58,11 @@ const shortcodes: MDXProviderComponentsProp = {
   h3: HeadingLarge,
   h4: HeadingMedium,
   h5: HeadingSmall,
-  h6: HeadingXSmall
+  h6: HeadingXSmall,
 }
 
 export const renderHTML = (md: { body: string | null }): JSX.Element => (
   <MDXProvider components={shortcodes}>
-    { md.body !== null ? <MDXRenderer>{md.body}</MDXRenderer> : null}
+    {md.body !== null ? <MDXRenderer>{md.body}</MDXRenderer> : null}
   </MDXProvider>
 )

@@ -7,36 +7,40 @@ import * as O from "fp-ts/lib/Option"
 import { firstImage } from "./images"
 import { firstPolygon } from "./polygons"
 
+const today = new Date()
+
 export const firstGoodProject: ProjectFrontmatter = {
   uuid: uuid(),
   name: "Good Project",
   color: generateRandomColor(),
-  areas: O.some(NEA.of(firstPolygon)),
+  areas: O.none,
   images: O.some([
     {
+      author: 'Unknown',
       description: O.some("first image"),
       image: firstImage,
     },
   ]),
-  startDate: subYears(new Date(), 3),
+  startDate: subYears(today, 3),
   endDate: O.none,
-  createdAt: subDays(new Date(), 7),
-  updatedAt: new Date(),
+  createdAt: subDays(today, 7),
+  updatedAt: today,
 }
 
 export const firstBadProject: ProjectFrontmatter = {
   uuid: uuid(),
   name: "Bad Project",
-  areas: O.none,
+  areas: O.some(NEA.of(firstPolygon)),
   images: O.some([
     {
+      author: 'Unknown',
       description: O.some("first image"),
       image: firstImage,
     },
   ]),
-  startDate: subYears(new Date(), 3),
-  createdAt: subDays(new Date(), 7),
-  updatedAt: new Date(),
+  startDate: subYears(today, 3),
+  createdAt: subDays(today, 7),
+  updatedAt: today,
   color: generateRandomColor(),
   endDate: O.none,
 }

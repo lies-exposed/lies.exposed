@@ -55,7 +55,8 @@ type TopicFrontmatter implements Node & BaseFrontmatter @dontInfer {
   updatedAt: Date!
 }
 
-type ImageAndDescription {
+type ImageSource {
+  author: String!
   description: String
   image: File!
 }
@@ -79,13 +80,13 @@ type ProjectFrontmatter implements Node & BaseFrontmatter @dontInfer {
   startDate: Date!
   endDate: Date
   areas: [String!]
-  images: [ImageAndDescription!]
+  images: [ImageSource!]
   createdAt: Date!
   updatedAt: Date!
 }
 
 # Events
-type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
+type UncategorizedEventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   uuid: String!
   title: String!
   date: Date!
@@ -95,7 +96,7 @@ type EventFrontmatter implements Node & BaseFrontmatter @dontInfer {
   topics: [TopicFrontmatter!]
   actors: [ActorFrontmatter!]
   links: [String!]
-  images: [ImageAndDescription!]
+  images: [ImageSource!]
   createdAt: Date!
   updatedAt: Date!
 }

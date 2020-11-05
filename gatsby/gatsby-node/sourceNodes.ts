@@ -29,7 +29,7 @@ export const sourceNodes = ({
       if (O.isSome(firstNode)) {
         const collection = (firstNode.value as any).fields.collection
         switch (collection) {
-          case "events": {
+          case "uncategorized-events": {
             n.forEach((e) => {
               createNodeField({
                 node: e,

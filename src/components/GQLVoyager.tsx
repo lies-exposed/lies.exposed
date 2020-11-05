@@ -17,7 +17,10 @@ export const GQLVoyager: React.FC = (props) => {
   React.useEffect((): void => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     import("graphql-voyager").then((c) => {
-      setComponent(c.default as any)
+      const GQLVoyagerComponent = c.GraphQLVoyager
+      setComponent((): React.FC<any> => {
+        return GQLVoyagerComponent as any;
+      })
     })
   })
 

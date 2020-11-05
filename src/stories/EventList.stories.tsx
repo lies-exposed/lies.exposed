@@ -1,9 +1,12 @@
 import EventList, {
-  EventListProps
-} from "@components/lists/EventList"
+  EventListProps,
+} from "@components/lists/EventList/EventList"
 import { events } from "@mock-data/events"
+import { Uncategorized } from "@models/events/UncategorizedEvent"
 import { Meta, Story } from "@storybook/react/types-6-0"
+import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
 const meta: Meta = {
@@ -20,12 +23,16 @@ const Template: Story<EventListProps> = (props) => {
 const EventListExample = Template.bind({})
 
 const args: EventListProps = {
-  events: events.map((f) => ({
-    frontmatter: f,
-    body: null,
-    tableOfContents: { items: [] },
-    timeToRead: O.none
-  })),
+  events: pipe(
+    events,
+    A.filter(Uncategorized.is),
+    A.map((f) => ({
+      frontmatter: f,
+      body: null,
+      tableOfContents: { items: [] },
+      timeToRead: O.none,
+    }))
+  ),
 }
 
 EventListExample.args = args
