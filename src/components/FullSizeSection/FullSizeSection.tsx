@@ -4,7 +4,7 @@ import * as React from "react"
 import { throttle } from "throttle-debounce"
 
 interface Viewport {
-  width: number
+  width: number | string
   height: number
 }
 
@@ -19,7 +19,7 @@ export const FullSizeViewport: React.FC<FullSizeViewportProps> = (props) => {
   const { id, backgroundColor, backgroundImage, children } = props
   const [{ width, height }, setPageSize] = React.useState({
     height: isServer ? 800 : window.innerHeight,
-    width: isServer ? 800 : window.innerWidth,
+    width: isServer ? "100%": window.innerWidth,
   })
 
   function updatePageSize(): void {
@@ -52,8 +52,9 @@ export const FullSizeViewport: React.FC<FullSizeViewportProps> = (props) => {
       className="FullSizeSection"
       style={{
         width,
+        height,
         minHeight: height,
-        maxWidth: "100%",
+        minWidth: "100%",
         backgroundColor: bgColor,
         backgroundImage: bgImage,
         backgroundSize: "cover",
