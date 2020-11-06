@@ -3,7 +3,7 @@ import { EventsNetwork } from "@components/Graph/EventsNetwork"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
-import EventList from "@components/lists/EventList/EventList"
+import { EventSlider } from "@components/sliders/EventSlider"
 import { eventsInDateRange } from "@helpers/event"
 import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
 import { ActorMD } from "@models/actor"
@@ -17,7 +17,6 @@ import { pipe } from "fp-ts/lib/pipeable"
 import { graphql, navigate } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
-import { EventSlider } from "@components/sliders/EventSlider"
 
 interface ActorTemplatePageProps {
   navigate: typeof navigate
@@ -48,7 +47,11 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
         <Layout>
           <SEO title={pageContent.frontmatter.fullName} />
           <MainContent>
-            <ActorPageContent {...pageContent} metadata={eventMetadataMapEmpty}  />
+            <ActorPageContent
+              {...pageContent}
+              metadata={eventMetadataMapEmpty}
+            />
+            <EventSlider events={events} />
             <EventsNetwork
               events={events}
               selectedActorIds={[pageContent.frontmatter.uuid]}
@@ -57,8 +60,6 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
               scale="all"
               scalePoint={O.none}
             />
-
-            <EventSlider events={events}/>
           </MainContent>
         </Layout>
       )

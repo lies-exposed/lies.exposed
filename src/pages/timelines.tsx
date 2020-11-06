@@ -49,7 +49,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
   ...props
 }) => {
 
-  console.log(data.events.nodes)
   return pipe(
     sequenceS(E.either)({
       pageContent: PageContentFileNode.decode(data.pageContent),

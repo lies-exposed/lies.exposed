@@ -5,7 +5,7 @@ import * as t from 'io-ts'
 export const ByGroup = t.type(
   {
     __type: t.literal('Group'),
-    group: GroupFrontmatter,
+    group: GroupFrontmatter as any as t.Type<GroupFrontmatter>,
   },
   "ByGroup"
 )

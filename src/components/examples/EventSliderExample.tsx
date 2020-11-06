@@ -22,7 +22,6 @@ export const EventSliderExample: React.FC<EventSliderProps> = (
     ? eventSliderArgs
     : props
 
-    console.log('here')
   return (
     <Card overrides={{ Root: { style: { width: "100%" } } }}>
       <EventSlider {...pageContentProps} />
