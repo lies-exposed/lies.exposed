@@ -8,6 +8,7 @@ import { HeadingXSmall } from "baseui/typography"
 import { useStaticQuery, graphql } from "gatsby"
 import * as React from "react"
 import { mainMenu } from "./Header"
+import { PaypalDonateButton } from "./buttons/PaypalDonateButton"
 
 export const Footer: React.FC = () => {
   const [, theme] = themedUseStyletron()
@@ -30,7 +31,7 @@ export const Footer: React.FC = () => {
   return (
     <FlexGridItem padding="40px" backgroundColor={theme.colors.brandPrimary}>
       <footer>
-        <FlexGrid flexGridColumnCount={3}>
+        <FlexGrid flexGridColumnCount={4}>
           <FlexGridItem>
             <HeadingXSmall>{title}</HeadingXSmall>
           </FlexGridItem>
@@ -46,6 +47,9 @@ export const Footer: React.FC = () => {
               }}
               items={mainMenu}
             />
+          </FlexGridItem>
+          <FlexGridItem>
+            <PaypalDonateButton />
           </FlexGridItem>
           <FlexGridItem>
             <ul style={{ listStyle: "none" }}>
