@@ -45,7 +45,6 @@ const NavigationLink = withStyle(
       fontFamily: $theme.typography.secondaryFont,
       fontWeight: $theme.typography.HeadingLarge.fontWeight,
       color: $theme.colors.brandSecondary,
-      // textTransform: 'uppercase',
       textDecoration: "none",
       cursor: "pointer",
     }
@@ -99,28 +98,28 @@ const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
 }
 
 export const mainMenu: MenuItem[] = [
-  {
-    id: "the-crisis",
-    href: "/the-crisis",
-    label: "La Crisi",
-    subItems: [],
-  },
+  
   {
     id: "project",
     href: "/project",
     label: "Progetto",
-    subItems: [],
+    subItems: [
+      {
+        id: "the-crisis",
+        href: "/the-crisis",
+        label: "La Crisi",
+      },
+      {
+        id: "docs",
+        href: "/docs",
+        label: "Docs",
+      },
+    ],
   },
   {
     id: "blog",
     href: "/blog",
     label: "Blog",
-    subItems: [],
-  },
-  {
-    id: "docs",
-    href: "/docs",
-    label: "Docs",
     subItems: [],
   },
   {
