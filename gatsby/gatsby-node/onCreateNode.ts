@@ -5,21 +5,21 @@ type Collection =
   | "actors"
   | "articles"
   | "groups"
-  | "uncategorized-events"
+  | "events"
   | "pages"
   | "topics"
   | "areas"
-  | 'projects'
+  | "projects"
 
 const collectionToTypeMap: Record<Collection, string> = {
   actors: "ActorFrontmatter",
   articles: "ArticleFrontmatter",
   groups: "GroupFrontmatter",
-  'uncategorized-events': "UncategorizedEventFrontmatter",
+  events: "EventFrontmatter",
   pages: "PageFrontmatter",
   topics: "TopicFrontmatter",
   areas: "AreaFrontmatter",
-  projects: 'ProjectFrontmatter'
+  projects: "ProjectFrontmatter",
 }
 
 export const onCreateNode = ({
@@ -41,7 +41,7 @@ export const onCreateNode = ({
     })
 
     switch (collection) {
-      case "uncategorized-events": {
+      case "events": {
         createNodeField({
           name: "actors",
           node,
@@ -82,10 +82,17 @@ export const onCreateNode = ({
     }
 
     const type = collectionToTypeMap[collection]
+    createNodeField({
+      name: 'type',
+      value: type,
+      node
+    })
+
     const nodeId = createNodeId(`${type}-${node.id}`)
 
     createNode({
       ...frontmatter,
+      type,
       id: nodeId,
       parent: node.id,
       internal: {

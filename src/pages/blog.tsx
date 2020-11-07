@@ -3,7 +3,7 @@ import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { ArticleFrontmatter } from "@models/article"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { Block } from "baseui/block"
 import { Card, StyledBody } from "baseui/card"
@@ -17,7 +17,7 @@ import React from "react"
 
 interface Results {
   articles: { nodes: unknown[] }
-  pageContent: unknown
+  pageContent: { childMdx: unknown}
 }
 
 const ArticlesPage: React.FunctionComponent = () => {
@@ -33,21 +33,23 @@ const ArticlesPage: React.FunctionComponent = () => {
         childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "blog" }
       ) {
-        ...PageFileNode
+        childMdx {
+          ...PageMD
+        }
       }
     }
   `)
 
   return pipe(
     sequenceS(E.either)({
-      pageContent: PageContentFileNode.decode(data.pageContent),
+      pageContent: PageMD.decode(data.pageContent.childMdx),
       articles: t.array(ArticleFrontmatter).decode(data.articles.nodes),
     }),
     E.fold(throwValidationErrors, ({ pageContent, articles }) => (
       <Layout>
         <SEO title="Article" />
         <MainContent>
-          <PageContent {...pageContent.childMdx} />
+          <PageContent {...pageContent} />
           <Block>
             <FlexGrid flexGridColumnCount={2}>
               {articles.map((a) => (

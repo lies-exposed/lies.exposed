@@ -4,7 +4,7 @@ import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import EventList from "@components/lists/EventList/EventList"
 import { AreaMD } from "@models/area"
-import { EventMD } from "@models/events/EventMetadata"
+import { EventMD } from "@models/events"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -80,7 +80,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
-        ...EventMDRemark
+        ...EventMD
       }
     }
   }

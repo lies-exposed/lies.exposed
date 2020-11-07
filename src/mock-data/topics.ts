@@ -5,6 +5,7 @@ import uuid from '@utils/uuid'
 // topics
 export const firstTopic: TopicFrontmatter = {
   uuid: uuid(),
+  type: 'TopicFrontmatter',
   label: "First Topic",
   slug: "first-topic",
   color: generateRandomColor(),
@@ -14,6 +15,7 @@ export const firstTopic: TopicFrontmatter = {
 
 export const secondTopic: TopicFrontmatter = {
   uuid: uuid(),
+  type: 'TopicFrontmatter',
   label: "Second Topic",
   slug: "second-topic",
   color: generateRandomColor(),
@@ -23,6 +25,7 @@ export const secondTopic: TopicFrontmatter = {
 
 export const thirdTopic: TopicFrontmatter = {
   uuid: uuid(),
+  type: 'TopicFrontmatter',
   label: "Third Topic",
   slug: "third-topic",
   color: generateRandomColor(),

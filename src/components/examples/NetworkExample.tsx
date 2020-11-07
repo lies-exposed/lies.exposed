@@ -1,5 +1,5 @@
 import { EventsNetwork } from "@components/Graph/EventsNetwork"
-import { Uncategorized } from "@models/events/UncategorizedEvent"
+import { Uncategorized } from "@models/events/Uncategorized"
 import * as A from 'fp-ts/lib/Array'
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -53,7 +53,7 @@ const NetworkExample: React.FC = () => {
           events,
           A.filter(Uncategorized.is),
           A.map((f) => ({
-            tableOfContents: { items: [] },
+            tableOfContents: O.none,
             frontmatter: f,
             timeToRead: O.some(1),
             body: "",

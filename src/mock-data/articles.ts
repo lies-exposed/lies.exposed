@@ -5,6 +5,7 @@ import { firstImage } from "./images"
 
 export const firstArticle: ArticleFrontmatter = {
   uuid: uuid(),
+  type: "ArticleFrontmatter",
   title: "First article",
   path: "first-article",
   featuredImage: firstImage,

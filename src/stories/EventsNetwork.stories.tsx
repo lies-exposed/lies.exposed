@@ -7,7 +7,7 @@ import { events } from "@mock-data/events"
 import {
   Uncategorized,
   UncategorizedMD,
-} from "@models/events/UncategorizedEvent"
+} from "@models/events/Uncategorized"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import * as A from 'fp-ts/lib/Array'
 import * as O from "fp-ts/lib/Option"
@@ -27,7 +27,7 @@ const eventsMD: UncategorizedMD[] = pipe(
   A.map((e) => ({
     frontmatter: e,
     body: () => "",
-    tableOfContents: { items: [] },
+    tableOfContents: O.some({ items: [] }),
     timeToRead: O.some(1),
   }))
 )

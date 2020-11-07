@@ -1,14 +1,14 @@
 import { ActorPageContent } from "@components/ActorPageContent"
-import { EventsNetwork } from "@components/Graph/EventsNetwork"
+// import { EventsNetwork } from "@components/Graph/EventsNetwork"
 import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { EventSlider } from "@components/sliders/EventSlider"
 import { eventsInDateRange } from "@helpers/event"
-import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
+import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata"
 import { ActorMD } from "@models/actor"
-import { EventMD } from "@models/events/EventMetadata"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { EventMD } from "@models/events"
+// import { UncategorizedMD } from "@models/events/Uncategorized"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -37,7 +37,7 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
     sequenceS(E.either)({
       pageContent: ActorMD.decode(data.pageContent.childMdx),
       events: pipe(
-        t.array(UncategorizedMD).decode(data.events.nodes),
+        t.array(EventMD).decode(data.events.nodes),
         E.map(eventsInDateRange({ minDate, maxDate }))
       ),
     }),
@@ -52,14 +52,14 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
               metadata={eventMetadataMapEmpty}
             />
             <EventSlider events={events} />
-            <EventsNetwork
-              events={events}
+            {/* <EventsNetwork
+              events={events.filter(UncategorizedMD.is)}
               selectedActorIds={[pageContent.frontmatter.uuid]}
               selectedGroupIds={[]}
               selectedTopicIds={[]}
               scale="all"
               scalePoint={O.none}
-            />
+            /> */}
           </MainContent>
         </Layout>
       )
@@ -80,7 +80,7 @@ export const pageQuery = graphql`
 
     events: allMdx(filter: { fields: { actors: { in: [$actorUUID] } } }) {
       nodes {
-        ...EventMDRemark
+        ...EventMD
       }
     }
   }

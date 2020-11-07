@@ -2,6 +2,7 @@
 uuid: ef14c459-9ecd-4f89-83bd-170c410c6b6f
 title: Projects
 path: projects
+type: PageFrontmatter
 updatedAt: 2020-10-22T07:56:17.196Z
 createdAt: 2020-10-22T07:56:17.355Z
 ---

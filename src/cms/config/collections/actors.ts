@@ -1,4 +1,4 @@
-import { IOTSTypeToCMSFields } from "@cms/utils"
+import { IOTSTOCMSFields } from "@cms/utils"
 import { ActorFrontmatter } from "@models/actor"
 import { CmsCollection } from "netlify-cms-core"
 
@@ -9,5 +9,5 @@ export const actors: CmsCollection = {
   folder: "content/actors",
   media_folder: "../../static/media/actors/{{fields.uuid}}",
   create: true,
-  fields: IOTSTypeToCMSFields(ActorFrontmatter),
+  fields: IOTSTOCMSFields(ActorFrontmatter),
 }

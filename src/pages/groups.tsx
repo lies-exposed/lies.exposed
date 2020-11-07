@@ -5,7 +5,7 @@ import SEO from "@components/SEO"
 import SearchableInput from "@components/SearchableInput"
 import { GroupListItem } from "@components/lists/GroupList"
 import { GroupFrontmatter } from "@models/group"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { navigateTo } from "@utils/links"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -17,7 +17,7 @@ import React from "react"
 
 interface Results {
   groups: { nodes: unknown[] }
-  pageContent: PageContentFileNode
+  pageContent: { childMdx: PageMD}
 }
 
 const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
@@ -33,7 +33,10 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
         childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "groups" }
       ) {
-        ...PageFileNode
+        childMdx {
+          ...PageMD
+        }
+        
       }
     }
   `)
@@ -41,14 +44,14 @@ const GroupsPage: React.FC<PageProps> = ({ navigate }) => {
   return pipe(
     sequenceS(E.either)({
       groups: t.array(GroupFrontmatter).decode(results.groups.nodes),
-      pageContent: PageContentFileNode.decode(results.pageContent),
+      pageContent: PageMD.decode(results.pageContent.childMdx),
     }),
     E.fold(throwValidationErrors, ({ groups, pageContent }) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMdx.frontmatter.title} />
+          <SEO title={pageContent.frontmatter.title} />
           <MainContent>
-            <PageContent {...pageContent.childMdx} />
+            <PageContent {...pageContent} />
             <SearchableInput
               items={groups.map((a) => ({
                 ...a,

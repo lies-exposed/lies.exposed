@@ -3,8 +3,13 @@ import { graphql } from "gatsby"
 export const query = graphql`
   fragment Article on ArticleFrontmatter {
     uuid
+    type
+    createdAt
+    updatedAt
+
     title
     path
+    
     featuredImage {
       publicURL
       childImageSharp {
@@ -14,8 +19,6 @@ export const query = graphql`
       }
     }
     draft
-    createdAt
-    updatedAt
   }
 
   fragment ArticleMD on Mdx {

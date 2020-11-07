@@ -11,12 +11,13 @@ import { GroupListItem } from "@components/lists/GroupList"
 import { TopicListItem } from "@components/lists/TopicList"
 import { eventsDataToNavigatorItems, ordEventDate } from "@helpers/event"
 import { ActorFrontmatter } from "@models/actor"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { EventMD } from "@models/events"
+import { UncategorizedMD } from "@models/events/Uncategorized"
 import { GroupFrontmatter } from "@models/group"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
-import { eqByUUID } from "@utils/frontmatter"
+import { eqByUUID } from "@utils/IOTSSchemable"
 import { parseSearch, Routes, updateSearch } from "@utils/routes"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
@@ -35,7 +36,7 @@ import Helmet from "react-helmet"
 
 interface EventsPageProps extends PageProps {
   data: {
-    pageContent: unknown
+    pageContent: { childMdx: unknown}
     events: { nodes: unknown }
     topics: { nodes: unknown }
     actors: { nodes: unknown }
@@ -51,11 +52,14 @@ const EventsPage: React.FC<EventsPageProps> = ({
 
   return pipe(
     sequenceS(E.either)({
-      pageContent: PageContentFileNode.decode(data.pageContent),
+      pageContent: PageMD.decode(data.pageContent.childMdx),
       topics: t.array(TopicFrontmatter).decode(data.topics.nodes),
       actors: t.array(ActorFrontmatter).decode(data.actors.nodes),
       groups: t.array(GroupFrontmatter).decode(data.groups.nodes),
-      events: t.array(UncategorizedMD).decode(data.events.nodes),
+      events: pipe(
+        t.array(EventMD).decode(data.events.nodes),
+        E.map(A.filter(UncategorizedMD.is))
+      ),
     }),
     E.fold(
       throwValidationErrors,
@@ -157,35 +161,39 @@ const EventsPage: React.FC<EventsPageProps> = ({
           const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
             e.frontmatter.date
           )
-          const hasActor = pipe(
-            e.frontmatter.actors,
-            O.map((actors) =>
-              actors.some((i) =>
-                selectedActors.some((a) => eqByUUID.equals(a, i))
-              )
-            ),
-            O.getOrElse(() => false)
-          )
 
-          const hasGroup = pipe(
-            e.frontmatter.groups,
-            O.map((groups) =>
-              groups.some((i) =>
-                selectedGroups.some((a) => eqByUUID.equals(a, i))
-              )
-            ),
-            O.getOrElse(() => false)
-          )
+          const hasActor = false
+          // const hasActor = pipe(
+          //   e.frontmatter.,
+          //   O.map((actors) =>
+          //     actors.some((i) =>
+          //       selectedActors.some((a) => eqByUUID.equals(a, i))
+          //     )
+          //   ),
+          //   O.getOrElse(() => false)
+          // )
 
-          const hasTopic = pipe(
-            O.some(e.frontmatter.topics),
-            O.map((topics) =>
-              topics.some((i) =>
-                selectedTopics.some((a) => eqByUUID.equals(a, i))
-              )
-            ),
-            O.getOrElse(() => false)
-          )
+          const hasGroup = false
+          // const hasGroup = pipe(
+          //   e.frontmatter.groups,
+          //   O.map((groups) =>
+          //     groups.some((i) =>
+          //       selectedGroups.some((a) => eqByUUID.equals(a, i))
+          //     )
+          //   ),
+          //   O.getOrElse(() => false)
+          // )
+
+          const hasTopic = false
+          // const hasTopic = pipe(
+          //   O.some(e.frontmatter.topics),
+          //   O.map((topics) =>
+          //     topics.some((i) =>
+          //       selectedTopics.some((a) => eqByUUID.equals(a, i))
+          //     )
+          //   ),
+          //   O.getOrElse(() => false)
+          // )
 
           return isBetweenDateRange && (hasActor || hasGroup || hasTopic)
         })
@@ -193,7 +201,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
         return (
           <Layout>
             <Helmet>
-              <SEO title={pageContent.childMdx.frontmatter.title} />
+              <SEO title={pageContent.frontmatter.title} />
             </Helmet>
             <FlexGrid
               alignItems="center"
@@ -203,7 +211,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
             >
               <FlexGridItem width="100%">
                 <MainContent>
-                  <PageContent {...pageContent.childMdx} />
+                  <PageContent {...pageContent} />
                 </MainContent>
 
                 <FlexGrid
@@ -335,7 +343,9 @@ export const pageQuery = graphql`
       childMdx: { fields: { collection: { eq: "pages" } } }
       name: { eq: "timelines" }
     ) {
-      ...PageFileNode
+      childMdx {
+        ...PageMD
+      }
     }
 
     topics: allTopicFrontmatter {
@@ -356,9 +366,9 @@ export const pageQuery = graphql`
       }
     }
 
-    events: allMdx(filter: { fields: { collection: { eq: "uncategorized-events" } } }) {
+    events: allMdx(filter: { fields: { collection: { eq: "events" } } }) {
       nodes {
-        ...EventMDRemark
+        ...EventMD
       }
     }
   }

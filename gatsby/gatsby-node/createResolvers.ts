@@ -1,166 +1,171 @@
-import * as path from 'path'
-import { ImageSource } from '@models/Image'
-import * as A from 'fp-ts/lib/Array'
-import * as O from 'fp-ts/lib/Option'
+import { BaseFrontmatter } from "@models/Frontmatter"
+import { Models } from "@models/index"
+import { IOTSSchemable, GetIOTSToSchema } from "@utils/IOTSSchemable"
+import * as A from "fp-ts/lib/Array"
+import * as E from "fp-ts/lib/Either"
+import * as NEA from "fp-ts/lib/NonEmptyArray"
 import { pipe } from "fp-ts/lib/pipeable"
 import { CreateResolversArgs } from "gatsby"
+import {
+  ActorFrontmatterManyResolver,
+  GetForGroupResolver,
+  GetForProjectResolver,
+  GetBooleanResolver,
+  GetByActorResolver,
+  GetByGroupOrActorResolver,
+  GetByGroupResolver,
+  GetDateResolver,
+  GetFileResolver,
+  GetForResolver,
+  GetImageSourceResolver,
+  GetNumberResolver,
+  GetStringResolver,
+  GroupFrontmatterManyResolver,
+  ProjectFrontmatterManyResolver,
+  TopicFrontmatterManyResolver,
+  GetMoneyAmountResolver,
+  GetImpactResolver,
+} from "./resolvers"
+import { GetResolverOptions, Resolver } from "./resolvers/Resolver"
 
-type GQLImageSource = Omit<ImageSource, 'description'> & { description?: string}
-
-const resolveImageSource = async (source: any, args: any, context: any): Promise<GQLImageSource[] | null> => {
-    const sourceImages: Array<{
-      author: string
-      description?: string
-      image: string
-    }> = source.images ?? []
-    const images = pipe(
-      sourceImages,
-      A.map((i) => ({
-        ...i,
-        image: path.join(process.cwd(), i.image.replace("../../", "/")),
-      }))
-    )
-
-    const imagesPaths = images.map((i) => i.image)
-
-    if (A.isEmpty(imagesPaths)) {
-      return null
+const IOTSToGQLResolver: IOTSSchemable<
+  GetResolverOptions,
+  Resolver<any>
+> = {
+  getDefaultProps() {
+    return {
+      required: true,
+      many: false,
+      key: "__unknown",
     }
-
-    const results = await context.nodeModel.runQuery({
-      type: "File",
-      query: {
-        filter: { absolutePath: { in: imagesPaths } },
-      },
-      firstOnly: false,
-    })
-
-    if (results === null) {
-      return null
+  },
+  isArray(props) {
+    return { ...props, many: true, required: false }
+  },
+  isOption(props) {
+    return { ...props, required: false }
+  },
+  isNonEmptyArray(props) {
+    return { ...props, required: true, many: true }
+  },
+  isGroupFrontmatter(key, props) {
+    return GroupFrontmatterManyResolver({ ...props, key })
+  },
+  isActorFrontmatter(key, props) {
+    return ActorFrontmatterManyResolver({ ...props, key })
+  },
+  isTopicFrontmatter(key, props) {
+    return TopicFrontmatterManyResolver({ ...props, key })
+  },
+  isProjectFrontmatter(key, props) {
+    // console.log('projectfrontmatter', key)
+    return ProjectFrontmatterManyResolver(props)
+  },
+  isTransactionFrontmatter(key, props) {
+    return GetStringResolver(props)
+  },
+  isByGroupOrActor(key, props) {
+    return GetByGroupOrActorResolver({ ...props, key })
+  },
+  isByActor(key, props) {
+    return GetByActorResolver({ ...props, key })
+  },
+  isByGroup(key, props) {
+    return GetByGroupResolver({ ...props, key })
+  },
+  isGroupKind(key, props) {
+    return GetStringResolver({ ...props, key })
+  },
+  isImpact(key, props) {
+    return GetImpactResolver({ ...props, key })
+  },
+  isFor(key, props) {
+    return GetForResolver({ ...props, key })
+  },
+  isForGroup(key, props) {
+    return GetForGroupResolver({ ...props, key })
+  },
+  isForProject(key, props) {
+    return GetForProjectResolver({ ...props, key })
+  },
+  isLiteral(key, props) {
+    return GetStringResolver({ ...props, key })
+  },
+  isMoneyAmount(key, props) {
+    return GetMoneyAmountResolver({ ...props, key })
+  },
+  isPoint(key, props) {
+    return GetStringResolver({ ...props, key })
+  },
+  isPolygon(key, props) {
+    // console.log('polygon', props)
+    return GetStringResolver({ ...props, key })
+  },
+  isImageSource(key, props) {
+    return GetImageSourceResolver(props)
+  },
+  isImageFileNode(key, props) {
+    return GetFileResolver(props)
+  },
+  isDateFromISOString(key, props) {
+    return GetDateResolver({ ...props })
+  },
+  isNumber(key, props) {
+    return GetNumberResolver({ ...props, key })
+  },
+  isBoolean(key, props) {
+    return GetBooleanResolver({ ...props, key })
+  },
+  isString(key, props) {
+    if (key === "uuid") {
+      return GetStringResolver({ ...props, required: true })
     }
+    return GetStringResolver(props)
+  },
+}
 
-    return pipe(
-      results,
-      A.map((result: any) =>
-        pipe(
-          images,
-          A.findFirst((i) => i.image === result.absolutePath),
-          O.map(image => ({
-            ...image,
-            image: result
-          }))
-        )
-      ),
-      A.compact
-    )
-  }
+const IOTSResolversSchema = GetIOTSToSchema({
+  models: Models,
+  schema: IOTSToGQLResolver,
+})
 
 export const createResolvers = ({
   createResolvers,
-}:CreateResolversArgs): void => {
-  const resolvers = {
-    ArticleFrontmatter: {
-      featuredImage: {
-        type: "File!",
+}: CreateResolversArgs): void => {
+  pipe(
+    [
+      ...Object.keys(Models.Common)
+        // don't create resolvers for union types
+        .filter(
+          (k) =>
+            ![
+              BaseFrontmatter.name,
+              Models.Common.ByGroupOrActor.name,
+              // Models.Common.ByGroup.name,
+              // Models.Common.ByActor.name,
+              Models.Common.For.name,
+              Models.Common.Impact.name,
+            ].includes(k)
+        )
+        .map((k) => (Models.Common as any)[k]),
+      ...Object.values(Models.Frontmatter),
+    ],
+    A.map((type) => IOTSResolversSchema.traverseAnyType(type)),
+    A.sequence(E.getValidation(NEA.getSemigroup<Error>())),
+    E.map((resolverList) =>
+      resolverList.reduce((acc, r) => ({ ...acc, ...r }), {})
+    ),
+    E.fold(
+      (e) => {
+        // eslint-disable-next-line no-console
+        console.error("error in creating resolvers", e)
+        process.exit(-1)
       },
-      date: {
-        type: "Date!",
-      },
-    },
-    ActorFrontmatter: {
-      date: {
-        type: "Date!",
-      },
-    },
-    GroupFrontmatter: {
-      uuid: {
-        type: "String!",
-        resolve: (source: any) => source.uuid,
-      },
-      avatar: {
-        type: "File!",
-      },
-      members: {
-        type: "[ActorFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const memberIds = source.members ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "ActorFrontmatter",
-            })
-            .filter((m: any) => memberIds.includes(m.uuid))
-        },
-      },
-    },
-    AreaFrontmatter: {
-      groups: {
-        type: "[GroupFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const groupIds = source.groups ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "GroupFrontmatter",
-            })
-            .filter((m: any) => groupIds.includes(m.uuid))
-        },
-      },
-      topics: {
-        type: "[TopicFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const topicIds = source.topics ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "TopicFrontmatter",
-            })
-            .filter((m: any) => topicIds.includes(m.uuid))
-        },
-      },
-    },
-    ProjectFrontmatter: {
-      images: {
-        type: "[ImageSource!]",
-        resolve: resolveImageSource
-      },
-    },
-    UncategorizedEventFrontmatter: {
-      actors: {
-        type: "[ActorFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const actorIds = source.actors ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "ActorFrontmatter",
-            })
-            .filter((m: any) => actorIds.includes(m.uuid))
-        },
-      },
-      groups: {
-        type: "[GroupFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const groupIds = source.groups ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "GroupFrontmatter",
-            })
-            .filter((m: any) => groupIds.includes(m.uuid))
-        },
-      },
-      topics: {
-        type: "[TopicFrontmatter!]",
-        resolve: async (source: any, args: any, context: any) => {
-          const topicIds = source.topics ?? []
-          return context.nodeModel
-            .getAllNodes({
-              type: "TopicFrontmatter",
-            })
-            .filter((m: any) => topicIds.includes(m.uuid))
-        },
-      },
-      images: {
-        type: "[ImageSource!]",
-        resolve: resolveImageSource
-      },
-    }
-  }
-  createResolvers(resolvers)
+      (resolvers) => {
+        // eslint-disable-next-line no-console
+        console.log("resolvers", resolvers)
+        createResolvers(resolvers)
+      }
+    )
+  )
 }

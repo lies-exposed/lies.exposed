@@ -4,6 +4,26 @@
   "description": "A simple starter to get up and developing quickly with Gatsby",
   "version": "0.1.0",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "scripts": {
+    "clean": "gatsby clean",
+    "build:storybook": "npm run build-storybook",
+    "build:gatsby": "gatsby build",
+    "build": "npm run build:storybook && npm run build:gatsby",
+    "develop": "LAZY_DEVJS=true NODE_ENV=development gatsby develop -p 8002",
+    "proxy-server": "PORT=8082 npx netlify-cms-proxy-server",
+    "info": "gatsby info",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "scripts:make-avatars-mock": "ts-node ./scripts/make-avatars-mock.ts",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook -o ./static/storybook",
+    "stats": "webpack-bundle-analyzer public/stats.json",
+    "gql:create-types": "ts-node ./scripts/create-gql-types"
+  },
   "dependencies": {
     "@dicebear/avatars": "4.2.5",
     "@dicebear/avatars-avataaars-sprites": "4.2.5",
@@ -163,25 +183,6 @@
     "gatsby"
   ],
   "license": "MIT",
-  "scripts": {
-    "clean": "gatsby clean",
-    "build:storybook": "npm run build-storybook",
-    "build:gatsby": "gatsby build",
-    "build": "npm run build:storybook && npm run build:gatsby",
-    "develop": "NODE_ENV=development gatsby develop -p 8002",
-    "proxy-server": "PORT=8082 npx netlify-cms-proxy-server",
-    "info": "gatsby info",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \"",
-    "type-check": "tsc --noEmit",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "scripts:make-avatars-mock": "ts-node ./scripts/make-avatars-mock.ts",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o ./static/storybook",
-    "stats": "webpack-bundle-analyzer public/stats.json"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",

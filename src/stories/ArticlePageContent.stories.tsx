@@ -20,7 +20,7 @@ const ArticlePageContentExample = Template.bind({})
 const args: ArticlePageContentProps = {
   frontmatter: firstArticle,
   body: null,
-  tableOfContents: { items: undefined },
+  tableOfContents: O.none,
   timeToRead: O.none,
 }
 

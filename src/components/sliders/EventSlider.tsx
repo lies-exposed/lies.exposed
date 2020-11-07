@@ -1,12 +1,10 @@
 import { ProjectTransactionListItem } from "@components/lists/EventList/ProjectTransactionListItem"
 import { ProtestListItem } from "@components/lists/EventList/ProtestListItem"
 import { UncategorizedListItem } from "@components/lists/EventList/UncategorizedListItem"
-import {
-  EventMD,
-  ProjectTransactionMD,
-  ProtestMD,
-} from "@models/events/EventMetadata"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { EventMD } from "@models/events"
+import { ProjectTransactionMD } from "@models/events/ProjectTransaction"
+import { ProtestMD } from "@models/events/Protest"
+import { UncategorizedMD } from "@models/events/Uncategorized"
 import { Block } from "baseui/block"
 import * as React from "react"
 import SlickSlider from "react-slick"

@@ -1,5 +1,5 @@
 import { List } from "@components/Common/List"
-import { ProjectTransaction } from "@models/events/EventMetadata"
+import { ProjectTransaction } from "@models/events/ProjectTransaction"
 import * as React from "react"
 import { ProjectTransactionListItem } from "./EventList/ProjectTransactionListItem"
 

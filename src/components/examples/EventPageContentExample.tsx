@@ -11,7 +11,7 @@ import * as React from "react"
 export const eventPageContentArgs: EventPageContentProps = {
   frontmatter: firstEvent,
   body: null,
-  tableOfContents: { items: undefined },
+  tableOfContents: O.none,
   timeToRead: O.none,
 }
 

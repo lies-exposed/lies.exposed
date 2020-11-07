@@ -3,22 +3,21 @@ import { graphql } from "gatsby"
 export const query = graphql`
   fragment Page on PageFrontmatter {
     uuid
+    type
     title
     path
     createdAt
     updatedAt
   }
 
-  fragment PageFileNode on File {
-    childMdx {
-      frontmatter {
-        ... on PageFrontmatter {
-          ...Page
-        }
+  fragment PageMD on Mdx {
+    frontmatter {
+      ... on PageFrontmatter {
+        ...Page
       }
-      body
-      timeToRead
-      tableOfContents
     }
+    body
+    timeToRead
+    tableOfContents
   }
 `

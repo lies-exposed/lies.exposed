@@ -1,166 +1,105 @@
 /* eslint-disable no-restricted-imports */
-
 import * as fs from "fs"
-import * as E from "fp-ts/lib/Either"
+import { EventMap } from "@models/events"
+import { Models } from "@models/index"
+import { logInPipe } from "@utils/logger"
+import * as O from "fp-ts/lib/Option"
+import { pipe } from "fp-ts/lib/pipeable"
 import { CreateSchemaCustomizationArgs } from "gatsby"
-import * as t from "io-ts"
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { ProjectFrontmatter } from "../../src/models/Project"
-import { ActorFrontmatter } from "../../src/models/actor"
-import { AreaFrontmatter } from "../../src/models/area"
-import { ArticleFrontmatter } from "../../src/models/article"
-import { Uncategorized } from "../../src/models/events/UncategorizedEvent"
-import { GroupFrontmatter } from "../../src/models/group"
-import { PageFrontmatter } from "../../src/models/page"
-import { TopicFrontmatter } from "../../src/models/topic"
 import { MD_FRONTMATTER_TYPE } from "./consts"
-
-const {
-  featuredImage,
-  ...ArticleFrontmatterProps
-} = ArticleFrontmatter.type.props
-const ArticleF = t.strict(
-  {
-    ...ArticleFrontmatterProps,
-    featuredImage: t.string,
-  },
-  "ArticleF"
-)
-
-const { avatar, ...ActorFrontmatterProps } = ActorFrontmatter.type.props
-const ActorF = t.type({
-  ...ActorFrontmatterProps,
-  avatar: optionFromNullable(t.string),
-})
-
-const {
-  avatar: _groupAvatar,
-  members,
-  ...GroupFrontmatterProps
-} = GroupFrontmatter.type.type.props
-
-const GroupF = t.type(
-  {
-    ...GroupFrontmatterProps,
-    avatar: optionFromNullable(t.string),
-    members: optionFromNullable(t.array(t.string)),
-  },
-  "GroupF"
-)
-
-const {
-  groups,
-  topics,
-  actors,
-  images,
-  ...EventFrontmatterProps
-} = Uncategorized.type.props
-
-const EventF = t.type({
-  ...EventFrontmatterProps,
-  groups: optionFromNullable(t.array(t.string)),
-  topics: optionFromNullable(t.array(t.string)),
-  actors: optionFromNullable(t.array(t.string)),
-  images: optionFromNullable(
-    t.array(
-      t.type({
-        description: t.string,
-        image: t.string,
-      })
-    )
-  ),
-})
-
-const { groups: _groups, topics: _topics, ...Area } = AreaFrontmatter.type.props
-const AreaF = t.strict({
-  ...Area,
-  groups: t.array(t.string),
-  topics: t.array(t.string),
-})
-
-const { images: _images, ...Project } = ProjectFrontmatter.type.props
-const ProjectF = t.strict(
-  {
-    ...Project,
-    images: optionFromNullable(
-      t.array(
-        t.type({
-          description: t.string,
-          image: t.string,
-        })
-      )
-    ),
-  },
-  "ProjectF"
-)
+// import { MD_FRONTMATTER_TYPE } from "./consts"
 
 export const createSchemaCustomization = async ({
   actions,
   schema,
 }: CreateSchemaCustomizationArgs): Promise<void> => {
   const { createTypes } = actions
-  const typeDefs = fs.readFileSync(`${__dirname}/types-def.gql`, {
-    encoding: "utf-8",
-  })
 
-  createTypes(
-    [
-      typeDefs as any,
-      schema.buildUnionType({
-        name: "Frontmatter",
-        types: [
-          "ArticleFrontmatter",
-          "ActorFrontmatter",
-          "GroupFrontmatter",
-          "UncategorizedEventFrontmatter",
-          "TopicFrontmatter",
-          "AreaFrontmatter",
-          "PageFrontmatter",
-          "ProjectFrontmatter",
-          MD_FRONTMATTER_TYPE,
-        ],
-        resolveType: async (source, context, info) => {
-          // todo: use info.rootValue.path instead decoding each source
+  try {
+    const typeDefs = fs.readFileSync(`${__dirname}/gql-types/types.gql`, {
+      encoding: "utf-8",
+    })
 
-          if (E.isRight(ActorF.decode(source))) {
-            return "ActorFrontmatter"
-          }
+    const frontmatterTypes = [
+      ...Object.values(Models.Frontmatter).map((m) => m.name),
+      MD_FRONTMATTER_TYPE,
+    ]
+  
+    // console.log({ typeDefs, frontmatterTypes })
+  
+    createTypes(
+      [
+        typeDefs as any,
+        schema.buildUnionType({
+          name: Models.Common.ByGroupOrActor.name,
+          types: [Models.Common.ByGroup.name, Models.Common.ByActor.name],
+          resolveType: (source) => {
+            console.log("build union type for ByGroupOrActor", source)
+            return pipe(
+              Array.isArray(source) ? source[0] : source,
+              O.fromPredicate((source) => source.type !== undefined),
+              O.map(source => source.type),
+              logInPipe("ByGroupOrActor type"),
+              O.map((type) =>
+                type === Models.Common.ByGroup.type.props.type.value
+                  ? Models.Common.ByGroup.name
+                  : type === Models.Common.ByActor.type.props.type.value
+                  ? Models.Common.ByActor.name
+                  : "UndefinedType"
+              ),
+              O.getOrElse(() => "UndefinedType"),
+              logInPipe("ByGroupOrActor type"),
+            )
+          },
+        }),
+        schema.buildUnionType({
+          name: Models.Common.For.name,
+          types: [Models.Common.ForGroup.name, Models.Common.ForProject.name],
+          resolveType: (source) => {
+            console.log("build union type for `For`", source)
+            return pipe(
+              Array.isArray(source) ? source[0] : source,
+              O.fromPredicate((source) => source.type !== undefined),
+              O.map((source) => source.type),
+              logInPipe("For type"),
+              O.map((type) =>
+                type === Models.Common.ForGroup.type.props.type.value
+                  ? Models.Common.ForGroup.name
+                  : type === Models.Common.ForProject.type.props.type.value
+                  ? Models.Common.ForProject.name
+                  : "UndefinedType"
+              ),
+              O.getOrElse(() => "String"),
+              logInPipe("For type"),
+            )
+          },
+        }),
+        schema.buildUnionType({
+          name: "Frontmatter",
+          types: frontmatterTypes,
+          resolveType: async (source, context, info) => {
+            // todo: use info.rootValue.path instead decoding each source
+            if (source !== undefined ?? source.type !== undefined) {
+              if (Object.keys(EventMap).includes(source.type)) {
+                return source.type
+              }
+  
+              return source.type
+            }
+            // eslint-disable-next-line no-console
+            console.log("source", { source, rootValue: info.rootValue })
+  
+            return MD_FRONTMATTER_TYPE
+          },
+        }),
+      ],
+      { name: "default-site-plugin" }
+    )
+  } catch (e) {
+    console.error(e)
+    process.exit(-1)
+  }
+  
 
-          if (E.isRight(ProjectF.decode(source))) {
-            return "ProjectFrontmatter"
-          }
-
-          if (E.isRight(GroupF.decode(source))) {
-            return "GroupFrontmatter"
-          }
-
-          if (E.isRight(TopicFrontmatter.decode(source))) {
-            return "TopicFrontmatter"
-          }
-
-          if (E.isRight(ArticleF.decode(source))) {
-            return "ArticleFrontmatter"
-          }
-
-          if (E.isRight(AreaF.decode(source))) {
-            return "AreaFrontmatter"
-          }
-
-          if (E.isRight(EventF.decode(source))) {
-            return "UncategorizedEventFrontmatter"
-          }
-
-          if (E.isRight(PageFrontmatter.decode(source))) {
-            return "PageFrontmatter"
-          }
-
-          // eslint-disable-next-line no-console
-          console.log(source)
-
-          return MD_FRONTMATTER_TYPE
-        },
-      }),
-    ],
-    { name: "default-site-plugin" }
-  )
+  
 }

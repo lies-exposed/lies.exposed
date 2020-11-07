@@ -3,22 +3,22 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 import { Color } from "./Common/Color"
+import { JSONFromString } from "./Common/JSONFromString"
 import { Polygon } from "./Common/Polygon"
+import { BaseFrontmatter } from "./Frontmatter"
 import { ImageSource } from "./Image"
-import { JSONFromString } from "./JSONFromString"
 import { markdownRemark } from "./Markdown"
 
 export const ProjectFrontmatter = t.strict(
   {
-    uuid: t.string,
+    ...BaseFrontmatter.type.props,
+    type: t.literal('ProjectFrontmatter'),
     name: t.string,
     color: Color,
     areas: optionFromNullable(nonEmptyArray(JSONFromString.pipe(Polygon))),
     images: optionFromNullable(t.array(ImageSource)),
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
-    createdAt: DateFromISOString,
-    updatedAt: DateFromISOString
   },
   "ProjectFrontmatter"
 )

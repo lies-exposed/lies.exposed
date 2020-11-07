@@ -1,18 +1,21 @@
 import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { Frontmatter } from "./Frontmatter"
+import { Color } from "./Common/Color"
+import { BaseFrontmatter } from "./Frontmatter"
 import { ImageFileNode } from "./Image"
 import { markdownRemark } from "./Markdown"
 
+export const ACTOR_FRONTMATTER = t.literal('ActorFrontmatter');
 export const ActorFrontmatter = t.strict(
   {
-    ...Frontmatter.props,
+    ...BaseFrontmatter.type.props,
+    type: ACTOR_FRONTMATTER,
     fullName: t.string,
     username: t.string,
     avatar: optionFromNullable(ImageFileNode),
-    color: t.string,
+    color: Color,
   },
-  "ActorFrontmatter"
+  ACTOR_FRONTMATTER.value
 )
 
 export type ActorFrontmatter = t.TypeOf<typeof ActorFrontmatter>

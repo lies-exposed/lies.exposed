@@ -5,10 +5,12 @@ export const query = graphql`
     uuid
     name
     type
+    kind
+    color
     members {
       ...Actor
     }
-    color
+    # color
     avatar {
       publicURL
       childImageSharp {

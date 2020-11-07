@@ -1,5 +1,5 @@
 import { PieChartGraph } from "@components/Common/Graph/PieChartGraph"
-import { ProjectTransaction } from "@models/events/EventMetadata"
+import { ProjectTransaction } from "@models/events/ProjectTransaction"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as Array from "fp-ts/lib/Array"
 import { eqString } from "fp-ts/lib/Eq"
@@ -62,7 +62,7 @@ export const ProjectFundsPieGraph: React.FC<ProjectFundsPieGraphProps> = (
 }
 
 const getUUIDForBy = (fund: ProjectTransaction): string => {
-  switch (fund.transaction.by.__type) {
+  switch (fund.transaction.by.type) {
     case "Actor":
       return fund.transaction.by.actor.uuid
     case "Group":
@@ -71,7 +71,7 @@ const getUUIDForBy = (fund: ProjectTransaction): string => {
 }
 
 const getLabelForBy = (fund: ProjectTransaction): string => {
-  switch (fund.transaction.by.__type) {
+  switch (fund.transaction.by.type) {
     case "Actor":
       return fund.transaction.by.actor.fullName
     case "Group":

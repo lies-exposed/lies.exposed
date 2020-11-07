@@ -1,4 +1,4 @@
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { UncategorizedMD } from "@models/events/Uncategorized"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"

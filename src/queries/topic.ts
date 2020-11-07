@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 export const TopicFileNodeQuery = graphql`
   fragment Topic on TopicFrontmatter {
     uuid
+    type
     label
     slug
     color

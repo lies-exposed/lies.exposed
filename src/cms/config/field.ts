@@ -1,3 +1,4 @@
+import uuid from "@utils/uuid"
 import { CmsField as NCMSField } from "netlify-cms-core"
 
 export interface CmsField extends Omit<NCMSField, "name" | "label"> {
@@ -65,11 +66,13 @@ export const ColorField = makeField({
   widget: "color",
 })
 
-export const UUIDField: CmsField = {
+export const UUIDField: GetField<{}> = (overrides) => ({
   label: "uuid",
   name: "uuid",
   widget: "uuid",
-}
+  default: uuid(),
+  ...overrides
+})
 
 export const MapField = makeField({
   widget: "map",

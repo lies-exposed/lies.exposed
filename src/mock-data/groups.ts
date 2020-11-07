@@ -11,7 +11,8 @@ const now = new Date()
 export const firstSubGroup: GroupFrontmatter = {
   uuid: uuid(),
   name: "First Good SubGroup",
-  type: 'Public',
+  type: 'GroupFrontmatter',
+  kind: 'Public',
   avatar: O.some(avatars.groups[0]),
   subGroups: O.none,
   members: O.some([goodActor]),
@@ -23,7 +24,8 @@ export const firstSubGroup: GroupFrontmatter = {
 export const goodGroup: GroupFrontmatter = {
   uuid: uuid(),
   name: "Good Group",
-  type: 'Public',
+  type: 'GroupFrontmatter',
+  kind: 'Public',
   avatar: O.some(avatars.groups[1]),
   subGroups: O.some([firstSubGroup]),
   members: O.some([goodActor, badActor]),
@@ -35,7 +37,8 @@ export const goodGroup: GroupFrontmatter = {
 export const badGroup: GroupFrontmatter = {
   uuid: uuid(),
   name: "Bad Group",
-  type: 'Private',
+  type: 'GroupFrontmatter',
+  kind: 'Private',
   avatar: O.some(avatars.groups[2]),
   subGroups: O.none,
   members: O.some([badActor]),
@@ -47,7 +50,8 @@ export const badGroup: GroupFrontmatter = {
 export const secondBadGroup: GroupFrontmatter = {
   uuid: uuid(),
   name: "Bad Group - The 2nd",
-  type: 'Private',
+  type: 'GroupFrontmatter',
+  kind: 'Private',
   avatar: O.some(avatars.groups[3]),
   subGroups: O.none,
   members: O.some([badActor]),

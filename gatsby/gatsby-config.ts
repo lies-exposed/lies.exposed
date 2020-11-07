@@ -92,13 +92,6 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: "uncategorized-events",
-        path: `${process.cwd()}/content/events/uncategorized`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
         name: "groups",
         path: `${process.cwd()}/content/groups`,
       },
@@ -122,6 +115,14 @@ const config: GatsbyConfig = {
       options: {
         name: "areas",
         path: `${process.cwd()}/content/areas`,
+      },
+    },
+    // events
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: "events",
+        path: `${process.cwd()}/content/events/`,
       },
     },
     {

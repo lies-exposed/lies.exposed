@@ -47,7 +47,7 @@ export const GroupPreview: React.FC<any> = ({
         <GroupPageContent
           frontmatter={f}
           body={body}
-          tableOfContents={{ items: [] }}
+          tableOfContents={O.none}
           timeToRead={O.some(1)}
           onMemberClick={() => {}}
           events={[]}

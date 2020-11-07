@@ -33,7 +33,7 @@ const AreaPageContentExample = Template.bind({})
 const args: AreaPageContentProps = {
   frontmatter: firstArea,
   body: null,
-  tableOfContents: { items: undefined },
+  tableOfContents: O.none,
   timeToRead: O.none,
   onGroupClick: () => {},
   onTopicClick: () => {},

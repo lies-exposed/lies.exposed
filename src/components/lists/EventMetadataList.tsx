@@ -4,7 +4,8 @@ import {
   faUserShield,
 } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { EventFrontmatter } from "@models/events/EventMetadata"
+import { EventFrontmatter } from "@models/events"
+import { PROTEST } from "@models/events/Protest"
 import { themedUseStyletron } from "@theme/CustomeTheme"
 import { Block } from "baseui/block"
 import * as React from "react"
@@ -18,7 +19,7 @@ export const EventMetadataList: React.FC<EventMetadataListProps> = (props) => {
   const protestIcon = (
     <FontAwesomeIcon icon={faUserShield} color={$theme.colors.positive} />
   )
-  const protests = props.metadata.filter((m) => m.type === "Protest").length
+  const protests = props.metadata.filter((m) => m.type === PROTEST.value).length
 
   const fundIcon = <FontAwesomeIcon icon={faMoneyBillWave} />
   const funds = props.metadata.filter((m) => m.type === "ProjectTransaction").length

@@ -1,14 +1,17 @@
 import * as t from "io-ts"
-import { Frontmatter } from "./Frontmatter"
+import { BaseFrontmatter } from "./Frontmatter"
 import { markdownRemark } from "./Markdown"
+
+const PAGE_FRONTMATTER = 'PageFrontmatter';
 
 export const PageFrontmatter = t.strict(
   {
-    ...Frontmatter.props,
+    ...BaseFrontmatter.type.props,
+    type: t.literal(PAGE_FRONTMATTER),
     title: t.string,
     path: t.string,
   },
-  "PageFrontmatter"
+  PAGE_FRONTMATTER
 )
 
 export type PageFrontmatter = t.TypeOf<typeof PageFrontmatter>
@@ -19,11 +22,3 @@ export const PageMD = markdownRemark(
 )
 
 export type PageMD = t.TypeOf<typeof PageMD>
-
-export const PageContentFileNode = t.strict(
-  {
-    childMdx: PageMD,
-  },
-  "PageContentFileNode"
-)
-export type PageContentFileNode = t.TypeOf<typeof PageContentFileNode>

@@ -4,6 +4,7 @@ import uuid from "@utils/uuid"
 
 export const firstArea: AreaFrontmatter = {
   uuid: uuid(),
+  type: 'AreaFrontmatter',
   label: "First Area",
   topics: [],
   groups: [],

@@ -3,6 +3,9 @@ import { graphql } from "gatsby"
 export const query = graphql`
   fragment Area on AreaFrontmatter {
     uuid
+    type
+    createdAt
+    updatedAt
     label
     color
     groups {
@@ -12,8 +15,6 @@ export const query = graphql`
       ...Topic
     }
     polygon
-    createdAt
-    updatedAt
   }
 
   fragment AreaMD on Mdx {

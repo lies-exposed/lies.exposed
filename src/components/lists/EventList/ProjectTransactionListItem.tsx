@@ -1,6 +1,6 @@
 import { ListItemProps } from "@components/Common/List"
 import { ByActor } from "@models/Common/ByGroupOrActor"
-import { ProjectTransaction } from "@models/events/EventMetadata"
+import { ProjectTransaction } from "@models/events/ProjectTransaction"
 import { Avatar } from "baseui/avatar"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"

@@ -6,9 +6,6 @@ import { ActorListItem, AvatarScale } from "./ActorList"
 import { GroupListItem } from "./GroupList"
 
 
-const isByGroup = (u: unknown): u is ByGroup => 
-  (u as ByGroup).__type === 'Group'
-
 export interface Group extends GroupFrontmatter {
   selected: boolean
 }
@@ -29,10 +26,10 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
       data={by}
       filter={(_) => true}
       onItemClick={onByClick}
-      getKey={(g) => (isByGroup(g) ? g.group.uuid : g.actor.uuid)}
+      getKey={(g) => (ByGroup.is(g) ? g.group.uuid : g.actor.uuid)}
       ListItem={(p) => {
         const item = p.item
-        return isByGroup(item) ? (
+        return ByGroup.is(item) ? (
           <GroupListItem
             {...p.item}
             key={`group-${item.group.uuid}`}
@@ -41,7 +38,7 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
             item={{ ...item.group, selected: true }}
             onClick={(group) =>
               p.onClick !== undefined
-                ? p.onClick({ __type: "Group", group })
+                ? p.onClick({ type: "Group", group })
                 : {}
             }
           />
@@ -53,7 +50,7 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
             avatarScale={avatarScale}
             onClick={(a) =>
               p.onClick !== undefined
-                ? p.onClick({ __type: "Actor", actor: a })
+                ? p.onClick({ type: "Actor", actor: a })
                 : {}
             }
             item={{ ...item.actor, selected: true }}

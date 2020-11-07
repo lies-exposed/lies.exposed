@@ -48,7 +48,8 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
       <FlexGridItem>
         <ContentWithSidebar
           sidebar={pipe(
-            O.fromNullable(props.tableOfContents.items),
+            props.tableOfContents,
+            O.mapNullable(t => t.items),
             O.fold(
               () => <div />,
               (items) => <TableOfContents items={items} />

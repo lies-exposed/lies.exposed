@@ -6,7 +6,7 @@ import SearchableInput from "@components/SearchableInput"
 import { TableOfContents } from "@components/TableOfContents"
 import { ProjectListItem } from "@components/lists/ProjectList"
 import { ProjectFrontmatter } from "@models/Project"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { navigateTo } from "@utils/links"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -18,7 +18,7 @@ import * as t from "io-ts"
 import React from "react"
 
 interface Results {
-  pageContent: unknown
+  pageContent: { childMdx: unknown}
   projects: { nodes: Array<{ childMdx: ProjectFrontmatter }> }
 }
 
@@ -29,7 +29,9 @@ const ProjectsPage: React.FC<PageProps> = (props) => {
         sourceInstanceName: { eq: "pages" }
         name: { eq: "projects" }
       ) {
-        ...PageFileNode
+        childMdx {
+          ...PageMD
+        }
       }
 
       projects: allProjectFrontmatter {
@@ -39,26 +41,27 @@ const ProjectsPage: React.FC<PageProps> = (props) => {
       }
     }
   `)
-  
+
   return pipe(
     sequenceS(E.either)({
-      page: PageContentFileNode.decode(data.pageContent),
+      page: PageMD.decode(data.pageContent.childMdx),
       projects: t.array(ProjectFrontmatter).decode(data.projects.nodes),
     }),
     E.fold(throwValidationErrors, ({ page, projects }) => {
       return (
         <Layout>
-          <SEO title={page.childMdx.frontmatter.title} />
+          <SEO title={page.frontmatter.title} />
           <ContentWithSidebar
             sidebar={pipe(
-              O.fromNullable(page.childMdx.tableOfContents.items),
+              page.tableOfContents,
+              O.mapNullable(t => t.items),
               O.fold(
                 () => <div />,
                 (items) => <TableOfContents items={items} />
               )
             )}
           >
-            <PageContent {...page.childMdx} />
+            <PageContent {...page} />
             <SearchableInput
               items={projects.map((a) => ({
                 ...a,

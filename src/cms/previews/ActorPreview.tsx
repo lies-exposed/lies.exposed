@@ -1,5 +1,5 @@
 import { ActorPageContent } from "@components/ActorPageContent"
-import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
+import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata"
 import * as O from "fp-ts/lib/Option"
 import * as React from "react"
 
@@ -30,7 +30,7 @@ export const ActorPreview: React.FC<any> = (props) => {
       metadata={eventMetadataMapEmpty}
       body={body}
       timeToRead={O.some(2)}
-      tableOfContents={{ items: [] }}
+      tableOfContents={O.none}
     />
   )
 }

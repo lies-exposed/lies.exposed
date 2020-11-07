@@ -1,11 +1,5 @@
-import {
-  ColorField,
-  DateField,
-  MapField,
-  RelationField,
-  StringField,
-  UUIDField,
-} from "@cms/config/field"
+import { IOTSTOCMSFields } from "@cms/utils"
+import { AreaFrontmatter } from "@models/area"
 import { CmsCollection } from "netlify-cms-core"
 
 export const areas: CmsCollection = {
@@ -17,30 +11,5 @@ export const areas: CmsCollection = {
   create: true,
   delete: false,
   summary: "[{{fields.uuid}}] {{fields.label}}",
-  // fields: IOTSTypeToCMSFields(AreaFrontmatter)
-  fields: [
-    UUIDField,
-    StringField({ label: "Label", name: "label" }),
-    ColorField({ name: "color", label: "Color" }),
-    RelationField({
-      name: "groups",
-      label: "Groups",
-      collection: "groups",
-      search_fields: ["name", "uuid"],
-      display_fields: ["name"],
-      value_field: "uuid",
-      multiple: true,
-    }),
-    RelationField({
-      name: "topics",
-      label: "Topics",
-      collection: "topics",
-      search_fields: ["label", "uuid"],
-      display_fields: ["label"],
-      value_field: "uuid",
-      multiple: true,
-    }),
-    DateField({ name: "date", label: "Date" }),
-    MapField({ name: "polygon", label: "Polygon" }),
-  ],
+  fields: IOTSTOCMSFields(AreaFrontmatter)
 }

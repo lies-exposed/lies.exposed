@@ -4,6 +4,7 @@ export const query = graphql`
   fragment Project on ProjectFrontmatter {
     uuid
     name
+    type
     color
     startDate
     areas

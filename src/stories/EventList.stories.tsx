@@ -2,7 +2,7 @@ import EventList, {
   EventListProps,
 } from "@components/lists/EventList/EventList"
 import { events } from "@mock-data/events"
-import { Uncategorized } from "@models/events/UncategorizedEvent"
+import { Uncategorized } from "@models/events/Uncategorized"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
@@ -29,7 +29,7 @@ const args: EventListProps = {
     A.map((f) => ({
       frontmatter: f,
       body: null,
-      tableOfContents: { items: [] },
+      tableOfContents: O.none,
       timeToRead: O.none,
     }))
   ),

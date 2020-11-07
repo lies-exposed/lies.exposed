@@ -1,11 +1,14 @@
-import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
+import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata"
 import { ProjectFrontmatter } from "@models/Project"
 import { ActorFrontmatter } from "@models/actor"
 import {
   EventFrontmatter,
-  EventListMap
-} from "@models/events/EventMetadata"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+  EventListMap,
+  EventMD
+} from "@models/events"
+import { PROJECT_IMPACT } from "@models/events/ProjectImpact"
+import { PROJECT_TRANSACTION } from "@models/events/ProjectTransaction"
+import { PROTEST } from "@models/events/Protest"
 import { Item } from "baseui/side-navigation"
 import { format, subWeeks } from "date-fns"
 import * as A from "fp-ts/lib/Array"
@@ -16,9 +19,9 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import { isByActor } from "./actor"
 
-type EventsByYearMap = Map<number, Map<number, UncategorizedMD[]>>
+type EventsByYearMap = Map<number, Map<number, EventMD[]>>
 
-export const eventsDataToNavigatorItems = (events: UncategorizedMD[]): Item[] => {
+export const eventsDataToNavigatorItems = (events: EventMD[]): Item[] => {
   const initial: EventsByYearMap = Map.empty
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
@@ -81,10 +84,10 @@ export const filterMetadataForActor = (actor: ActorFrontmatter) => (
   const byActor = isByActor(actor)
 
   switch (metadata.type) {
-    case "ProjectTransaction": {
-      return metadata.transaction.by.__type === "Actor" && byActor(metadata.transaction.by)
+    case PROJECT_TRANSACTION: {
+      return metadata.transaction.by.type === "Actor" && byActor(metadata.transaction.by)
     }
-    case "ProjectImpact": {
+    case PROJECT_IMPACT: {
       return (
         metadata.approvedBy.some(byActor) ?? metadata.executedBy.some(byActor)
       )
@@ -94,8 +97,8 @@ export const filterMetadataForActor = (actor: ActorFrontmatter) => (
     case "Arrest": {
       return byActor(metadata.who)
     }
-    case "Protest": {
-      return metadata.by.some(byActor)
+    case PROTEST.value: {
+      return metadata.organizers.some(byActor)
     }
     default:
       return false
@@ -110,15 +113,15 @@ export const filterMetadataFroProject = (project: ProjectFrontmatter) => (
       return metadata.project.uuid === project.uuid
     case "ProjectImpact":
       return metadata.project.uuid === project.uuid
-    case "Protest": {
+    case PROTEST.value: {
       return (
-        metadata.for.__type === "ForProject" &&
+        metadata.for.type === "Project" &&
         metadata.for.project.uuid === project.uuid
       )
     }
     case "Arrest": {
       return metadata.for.some(
-        (f) => f.__type === "ForProject" && f.project.uuid === project.uuid
+        (f) => f.type === "Project" && f.project.uuid === project.uuid
       )
     }
     default:
@@ -128,7 +131,7 @@ export const filterMetadataFroProject = (project: ProjectFrontmatter) => (
 
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
-  (e: UncategorizedMD) => e.frontmatter.date
+  (e: EventMD) => e.frontmatter.date
 )
 
 const colorMap: Record<EventFrontmatter["type"], string> = {
@@ -136,6 +139,7 @@ const colorMap: Record<EventFrontmatter["type"], string> = {
   ProjectTransaction: "blue",
   ProjectImpact: "orange",
   StudyPublished: "green",
+  Fined: 'yellow',
   Death: "black",
   Arrest: "lightred",
   Condamned: "lightred",
@@ -155,8 +159,8 @@ interface EventsInDateRangeProps {
 }
 
 export const eventsInDateRange = (props: EventsInDateRangeProps) => (
-  events: UncategorizedMD[]
-): UncategorizedMD[] => {
+  events: EventMD[]
+): EventMD[] => {
   return pipe(
     events,
     A.sort(Ord.getDualOrd(ordEventDate)),
