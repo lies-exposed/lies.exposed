@@ -30,7 +30,7 @@ export const onCreateNode = ({
 }: CreateNodeArgs): void => {
   const { createNodeField, createNode } = actions
 
-  if (node.internal.type === MD_TYPE) {
+  if (node.internal.type === MD_TYPE && node.parent !== null) {
     const collection = getNode(node.parent).sourceInstanceName as Collection
 
     const frontmatter = node.frontmatter as any
