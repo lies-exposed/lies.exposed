@@ -1,24 +1,27 @@
-import { ActorFrontmatter } from '@models/actor'
-import { GroupFrontmatter } from '@models/group'
-import * as t from 'io-ts'
+import { ActorFrontmatter } from "@models/actor"
+import { GroupFrontmatter, GroupFrontmatterC } from "@models/group"
+import * as t from "io-ts"
 
-export const ByGroup = t.type(
+export const ByGroup = t.strict(
   {
-    __type: t.literal('Group'),
-    group: GroupFrontmatter,
+    type: t.literal("Group"),
+    group: GroupFrontmatter as any as t.ExactC<t.TypeC<GroupFrontmatterC>>
   },
   "ByGroup"
 )
-export type ByGroup = t.TypeOf<typeof ByGroup>
+export interface ByGroup {
+  type: 'Group'
+  group: GroupFrontmatter
+}
 
-export const ByActor = t.type(
+export const ByActor = t.strict(
   {
-    __type: t.literal('Actor'),
-    actor: ActorFrontmatter
+    type: t.literal("Actor"),
+    actor: ActorFrontmatter,
   },
   "ByActor"
 )
 export type ByActor = t.TypeOf<typeof ByActor>
 
-export const ByGroupOrActor = t.union([ByGroup, ByActor], 'ByGroupOrActor')
-export type ByGroupOrActor =t.TypeOf<typeof ByGroupOrActor>
+export const ByGroupOrActor = t.union([ByGroup, ByActor], "ByGroupOrActor")
+export type ByGroupOrActor = ByGroup | ByActor

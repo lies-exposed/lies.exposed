@@ -12,6 +12,8 @@ interface CmsConfigV2 extends CmsConfig {
   local_backend?: boolean | { url: string }
 }
 
+console.log(events)
+
 const collections = [
   articles,
   actors,
@@ -22,7 +24,6 @@ const collections = [
   projects,
   ...events
 ]
-
 
 export const config: CmsConfigV2 = {
   backend: {

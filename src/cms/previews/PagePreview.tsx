@@ -13,7 +13,7 @@ export const PagePreview: React.FC<any> = (props) => {
         <PageContent
           frontmatter={frontmatter}
           body={body}
-          tableOfContents={{ items: [] }}
+          tableOfContents={O.none}
           timeToRead={O.some(2)}
         />
       )

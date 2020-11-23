@@ -48,21 +48,27 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
       <FlexGridItem>
         <ContentWithSidebar
           sidebar={pipe(
-            O.fromNullable(props.tableOfContents.items),
+            props.tableOfContents,
+            O.mapNullable(t => t.items),
             O.fold(
               () => <div />,
               (items) => <TableOfContents items={items} />
             )
           )}
         >
-          <div style={{ textAlign: "right", padding: 10 }}>
-            <EditButton resourceName="articles" resource={props.frontmatter} />
-          </div>
+          <MainContent>
+            <div style={{ textAlign: "right", padding: 10 }}>
+              <EditButton
+                resourceName="articles"
+                resource={props.frontmatter}
+              />
+            </div>
 
-          <LabelSmall>{formatDate(props.frontmatter.createdAt)}</LabelSmall>
-          <LabelSmall>
-            Tempo di lettura: {O.getOrElse(() => 1)(props.timeToRead)} min
-          </LabelSmall>
+            <LabelSmall>{formatDate(props.frontmatter.createdAt)}</LabelSmall>
+            <LabelSmall>
+              Tempo di lettura: {O.getOrElse(() => 1)(props.timeToRead)} min
+            </LabelSmall>
+          </MainContent>
           {renderHTML({ body: props.body })}
         </ContentWithSidebar>
       </FlexGridItem>

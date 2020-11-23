@@ -1,15 +1,9 @@
+import { group } from "@utils/common"
 import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import { Node, SourceNodesArgs } from "gatsby"
-
-const group = <A>(S: Eq.Eq<A>): ((as: A[]) => A[][]) => {
-  return A.chop((as) => {
-    const { init, rest } = A.spanLeft((a: A) => S.equals(a, as[0]))(as)
-    return [init, rest]
-  })
-}
 
 export const sourceNodes = ({
   actions,
@@ -29,7 +23,7 @@ export const sourceNodes = ({
       if (O.isSome(firstNode)) {
         const collection = (firstNode.value as any).fields.collection
         switch (collection) {
-          case "uncategorized-events": {
+          case "events": {
             n.forEach((e) => {
               createNodeField({
                 node: e,

@@ -3,7 +3,7 @@ import {
   HierarchicalEdgeBundlingProps,
 } from "@components/Common/Graph/HierarchicalEdgeBundling"
 import { ActorFrontmatter } from "@models/actor"
-import { Uncategorized } from "@models/events/UncategorizedEvent"
+import { Uncategorized } from "@models/events/Uncategorized"
 import { GroupFrontmatter } from "@models/group"
 import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"

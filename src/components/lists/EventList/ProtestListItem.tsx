@@ -1,6 +1,6 @@
 import { Slider } from "@components/Common/Slider/Slider"
 import GroupOrActorList from "@components/lists/GroupAndActorList"
-import { ProtestMD } from "@models/events/EventMetadata"
+import { ProtestMD } from "@models/events/Protest"
 import { formatDate } from "@utils//date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -66,7 +66,7 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
                   <Block display="inline">
                     <HeadingSmall display="inline">Di </HeadingSmall>
                     <GroupOrActorList
-                      by={item.frontmatter.by.map((g) => ({
+                      by={item.frontmatter.organizers.map((g) => ({
                         ...g,
                         selected: false,
                       }))}
@@ -76,10 +76,10 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
                   </Block>
                   <Block display="inline">
                     <HeadingSmall display="inline">
-                      Per <LabelSmall display="inline">{item.frontmatter.for.__type}</LabelSmall>
+                      Per <LabelSmall display="inline">{item.frontmatter.for.type}</LabelSmall>
                     </HeadingSmall>
                     <br />
-                    {item.frontmatter.for.__type === "ForProject"
+                    {item.frontmatter.for.type === "Project"
                       ? item.frontmatter.for.project.name
                       : null}
                   </Block>

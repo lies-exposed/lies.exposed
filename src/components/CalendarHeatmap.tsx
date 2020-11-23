@@ -1,5 +1,5 @@
 import { ordEventDate } from "@helpers/event"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { UncategorizedMD } from "@models/events/Uncategorized"
 import { formatDate } from "@utils/date"
 import { Group } from "@vx/group"
 import { HeatmapCircle } from "@vx/heatmap"

@@ -4,27 +4,31 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 import Helmet from "react-helmet"
 
 interface Results {
-  pageContent: PageContentFileNode
+  pageContent: { childMdx: PageMD}
 }
 
 const IndexPage: React.FC = () => {
-  const { pageContent }: Results = useStaticQuery(graphql`
+  const { pageContent: { childMdx: pageContent } }: Results = useStaticQuery(graphql`
     query IndexPage {
       pageContent: file(
         sourceInstanceName: { eq: "pages" }
         name: { eq: "index" }
       ) {
-        ...PageFileNode
+        childMdx {
+          ...PageMD
+        }
       }
     }
   `)
+
+  console.log(pageContent)
 
   return (
     <Layout>
@@ -68,7 +72,7 @@ const IndexPage: React.FC = () => {
 
         <FlexGridItem paddingTop="70px">
           <MainContent>
-            <PageContent {...pageContent.childMdx} />
+            <PageContent {...pageContent} />
           </MainContent>
         </FlexGridItem>
       </FlexGrid>

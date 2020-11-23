@@ -5,7 +5,7 @@ import SEO from "@components/SEO"
 import SearchableInput from "@components/SearchableInput"
 import { ActorListItem } from "@components/lists/ActorList"
 import { ActorFrontmatter } from "@models/actor"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { navigateTo } from "@utils/links"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -17,7 +17,7 @@ import React from "react"
 
 interface Results {
   actors: { nodes: unknown[] }
-  pageContent: PageContentFileNode
+  pageContent: { childMdx: PageMD}
 }
 
 const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
@@ -27,7 +27,10 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
         childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "actors" }
       ) {
-        ...PageFileNode
+        childMdx {
+          ...PageMD
+        }
+        
       }
 
       actors: allActorFrontmatter {
@@ -41,7 +44,7 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
   return pipe(
     sequenceS(E.either)({
       actors: t.array(ActorFrontmatter).decode(results.actors.nodes),
-      pageContent: PageContentFileNode.decode(results.pageContent),
+      pageContent: PageMD.decode(results.pageContent.childMdx),
     }),
     E.fold(throwValidationErrors, ({ actors, pageContent }) => {
       const acts = actors.map((a) => ({
@@ -51,9 +54,9 @@ const ActorsPage: React.FC<PageProps> = ({ navigate }) => {
 
       return (
         <Layout>
-          <SEO title={pageContent.childMdx.frontmatter.title} />
+          <SEO title={pageContent.frontmatter.title} />
           <MainContent>
-            <PageContent {...pageContent.childMdx} />
+            <PageContent {...pageContent} />
             <SearchableInput
               items={acts}
               selectedItems={[]}

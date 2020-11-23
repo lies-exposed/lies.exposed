@@ -1,12 +1,12 @@
 import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
 
-export const ImageFileNode = t.interface(
+export const ImageFileNode = t.strict(
   {
     publicURL: t.string,
-    childImageSharp: t.interface(
+    childImageSharp: t.strict(
       {
-        fluid: t.interface({
+        fluid: t.strict({
           src: t.string,
           srcSet: t.string,
           sizes: t.string,

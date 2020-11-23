@@ -6,14 +6,14 @@ import {
 import ActorList from "@components/lists/ActorList"
 import TopicList from "@components/lists/TopicList"
 import { ordEventDate } from "@helpers/event"
-import { Frontmatter } from "@models/Frontmatter"
+import { BaseFrontmatter } from "@models/Frontmatter"
 import { ActorFrontmatter, ActorMD } from "@models/actor"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { UncategorizedMD } from "@models/events/Uncategorized"
 import { GroupFrontmatter, GroupMD } from "@models/group"
 import { NetworkPageMD } from "@models/networks"
 import { TopicFrontmatter, TopicMD } from "@models/topic"
+import { eqByUUID } from "@utils/IOTSSchemable"
 import { formatDate } from "@utils/date"
-import { eqByUUID } from "@utils/frontmatter"
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend"
 import { Link } from "@vx/network/lib/types"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
@@ -295,7 +295,7 @@ const getY = (topics: TopicFrontmatter[], margin: number, height: number) => (
     )
   )
 
-const updateMap = <F extends Frontmatter>(acc: Map<string, F>) => (
+const updateMap = <F extends BaseFrontmatter>(acc: Map<string, F>) => (
   frontmatters: F[]
 ): Map<string, F> => {
   return pipe(
@@ -313,7 +313,7 @@ const getLinks = (
   nodes: Array<NetworkPointNode<EventNetworkDatum>>,
   relationLinks: Map<string, NetworkLink[]>
 ) => (
-  relations: Array<Frontmatter & { color: string }>
+  relations: Array<BaseFrontmatter & { color: string }>
 ): Map<string, NetworkLink[]> => {
   return pipe(
     nodes,
@@ -471,6 +471,8 @@ export function createNetworkTemplateProps({
           EventNetworkDatum
         >> = pipe(
           e.frontmatter.topics,
+          NEA.fromArray,
+          O.getOrElse(() => NEA.of(topicsList[0])),
           NEA.map((t) => ({
             x:
               margin.horizontal +

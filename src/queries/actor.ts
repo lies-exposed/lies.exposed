@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 export const query = graphql`
   fragment Actor on ActorFrontmatter {
     uuid
+    type
     fullName
     username
     color

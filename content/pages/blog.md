@@ -1,6 +1,7 @@
 ---
 uuid: d5ae565d-0044-4762-9026-51f1a823f774
 title: Blog
+type: PageFrontmatter
 path: /blog
 updatedAt: 2020-10-22T07:56:17.196Z
 createdAt: 2020-10-22T07:56:17.355Z

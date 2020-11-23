@@ -11,7 +11,7 @@ import * as React from "react"
 export const topicPageContentArgs: TopicPageContentProps = {
   frontmatter: firstTopic,
   body: null,
-  tableOfContents: { items: undefined },
+  tableOfContents: O.none,
   timeToRead: O.none,
 }
 

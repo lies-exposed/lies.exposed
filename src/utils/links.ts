@@ -1,10 +1,10 @@
-import { Frontmatter } from "@models/Frontmatter"
+import { BaseFrontmatter } from "@models/Frontmatter"
 import { ResourcesNames } from "@models/index"
 import { NavigateFn } from "@reach/router"
 
 export const getAdminLink = <K extends ResourcesNames>(
   key: K,
-  f: Frontmatter
+  f: BaseFrontmatter
 ): string => {
   switch (key) {
     case "articles":
@@ -23,7 +23,7 @@ export const getAdminLink = <K extends ResourcesNames>(
 export const navigateTo = async <K extends ResourcesNames>(
   nav: NavigateFn,
   resourceName: K,
-  f: Frontmatter
+  f: BaseFrontmatter
 ): Promise<void> => {
   switch (resourceName) {
     case "articles":

@@ -1,10 +1,10 @@
-import { Frontmatter } from "@models/Frontmatter"
+import { BaseFrontmatter } from "@models/Frontmatter"
 import { AreaFrontmatter } from "@models/area"
 import { navigate } from "gatsby"
 import * as React from "react"
 import Map from "./Map"
 
-interface AreasMapProps<F extends Frontmatter> {
+interface AreasMapProps<F extends BaseFrontmatter> {
   areas: F[]
   width: number
   height: number

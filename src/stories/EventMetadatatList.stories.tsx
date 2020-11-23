@@ -2,7 +2,7 @@ import {
   EventMetadataList,
   EventMetadataListProps
 } from "@components/lists/EventMetadataList"
-import { firstEventMetadata } from "@mock-data/events-metadata"
+import { firstEventMetadata } from "@mock-data/events/events-metadata"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import * as React from "react"
 

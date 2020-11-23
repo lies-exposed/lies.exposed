@@ -1,6 +1,6 @@
 import { Point } from "@models/Common/Point"
-import { EventMD } from "@models/events/EventMetadata"
-import { Uncategorized, UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { EventMD } from "@models/events"
+import { Uncategorized, UncategorizedMD } from "@models/events/Uncategorized"
 import * as O from "fp-ts/lib/Option"
 import { navigate } from "gatsby"
 import * as React from "react"

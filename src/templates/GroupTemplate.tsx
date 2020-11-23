@@ -4,7 +4,7 @@ import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { EventSlider } from "@components/sliders/EventSlider"
 import { eventsInDateRange } from "@helpers/event"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { UncategorizedMD } from "@models/events/Uncategorized"
 import { GroupMD } from "@models/group"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
@@ -79,13 +79,13 @@ export const pageQuery = graphql`
 
     events: allFile(
       filter: {
-        sourceInstanceName: { eq: "uncategorized-events" }
+        sourceInstanceName: { eq: "events" }
         childMdx: { fields: { groups: { in: [$group] } } }
       }
     ) {
       nodes {
         childMdx {
-          ...EventMDRemark
+          ...EventMD
         }
       }
     }

@@ -4,7 +4,7 @@ import { MainContent } from "@components/MainContent"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { AreaFrontmatter } from "@models/area"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
@@ -15,7 +15,7 @@ import React from "react"
 
 interface Results {
   areas: { nodes: unknown[] }
-  pageContent: PageContentFileNode
+  pageContent: { childMdx: PageMD }
 }
 
 const AreasPage: React.FC<PageProps> = ({ navigate }) => {
@@ -31,7 +31,9 @@ const AreasPage: React.FC<PageProps> = ({ navigate }) => {
         childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "areas" }
       ) {
-        ...PageFileNode
+        childMdx {
+          ...PageMD
+        }
       }
     }
   `)
@@ -39,15 +41,14 @@ const AreasPage: React.FC<PageProps> = ({ navigate }) => {
   return pipe(
     sequenceS(E.either)({
       areas: t.array(AreaFrontmatter).decode(results.areas.nodes),
-      pageContent: PageContentFileNode.decode(results.pageContent),
+      pageContent: PageMD.decode(results.pageContent.childMdx),
     }),
     E.fold(throwValidationErrors, ({ areas, pageContent }) => {
-
       return (
         <Layout>
-          <SEO title={pageContent.childMdx.frontmatter.title} />
+          <SEO title={pageContent.frontmatter.title} />
           <MainContent>
-            <PageContent {...pageContent.childMdx} />
+            <PageContent {...pageContent} />
             <AreasMap areas={areas} width={800} height={400} />
           </MainContent>
         </Layout>

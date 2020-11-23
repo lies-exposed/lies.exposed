@@ -24,6 +24,6 @@
       "@cms/*": ["./cms/*"]
     }
   },
-  "include": ["gatsby", "src", "plugins", "typings"],
-  "exclude": ["content", "scripts", "node_modules", "public", ".cache"]
+  "include": ["gatsby", "src", "plugins", "scripts", "typings"],
+  "exclude": ["content", "node_modules", "public", ".cache"]
 }

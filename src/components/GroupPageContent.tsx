@@ -1,7 +1,7 @@
 import { ProjectFrontmatter } from "@models/Project"
 import { ActorFrontmatter } from "@models/actor"
-import { ProjectTransaction } from "@models/events/EventMetadata"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { EventMD } from "@models/events"
+import { ProjectTransaction } from "@models/events/ProjectTransaction"
 import { GroupMD } from "@models/group"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -15,13 +15,13 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 import Image from "gatsby-image"
 import * as React from "react"
-import { EventsNetwork } from "./Graph/EventsNetwork"
+// import { EventsNetwork } from "./Graph/EventsNetwork"
 import EditButton from "./buttons/EditButton"
 import ActorList from "./lists/ActorList"
 import GroupList from "./lists/GroupList"
 
 export interface GroupPageContentProps extends GroupMD {
-  events: UncategorizedMD[]
+  events: EventMD[]
   projects: ProjectFrontmatter[]
   funds: ProjectTransaction[]
   onMemberClick: (m: ActorFrontmatter) => void
@@ -141,16 +141,16 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           </Block>
         </FlexGridItem>
       </FlexGridItem>
-      <FlexGridItem width="100%">
+      {/* <FlexGridItem width="100%">
         <EventsNetwork
-          events={events}
+          events={events.filter(UncategorizedMD.is)}
           selectedGroupIds={[frontmatter.uuid]}
           selectedActorIds={[]}
           selectedTopicIds={[]}
           scale={"all"}
           scalePoint={O.none}
         />
-      </FlexGridItem>
+      </FlexGridItem> */}
     </FlexGrid>
   )
 }

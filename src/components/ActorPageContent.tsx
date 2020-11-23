@@ -1,6 +1,6 @@
 import ProjectFundList from "@components/lists/ProjectFundList"
 import { ActorMD } from "@models/actor"
-import { EventListMap } from "@models/events/EventMetadata"
+import { EventListMap } from "@models/events"
 import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -66,12 +66,12 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                   {formatDate(value.date)}
                 </LabelMedium>{" "}
                 <span>
-                  {value.for.__type === "ForProject" ? (
+                  {value.for.type === "Project" ? (
                     <span key={value.for.project.uuid}>
                       {value.for.project.name}
                     </span>
                   ) : (
-                    <span key={value.for.__type}>{value.for.__type}</span>
+                    <span key={value.for.type}>{value.for.type}</span>
                   )}
                 </span>
               </div>
@@ -89,10 +89,10 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                 </LabelMedium>
                 <span>
                   {value.for.map((f) => {
-                    return f.__type === "ForProject" ? (
+                    return f.type === "Project" ? (
                       <span key={f.project.uuid}>{f.project.name}</span>
                     ) : (
-                      <span key={f.__type}>{f.__type}</span>
+                      <span key={f.type}>{f.type}</span>
                     )
                   })}
                 </span>

@@ -11,6 +11,7 @@ const today = new Date()
 
 export const firstGoodProject: ProjectFrontmatter = {
   uuid: uuid(),
+  type: 'ProjectFrontmatter',
   name: "Good Project",
   color: generateRandomColor(),
   areas: O.none,
@@ -29,6 +30,7 @@ export const firstGoodProject: ProjectFrontmatter = {
 
 export const firstBadProject: ProjectFrontmatter = {
   uuid: uuid(),
+  type: 'ProjectFrontmatter',
   name: "Bad Project",
   areas: O.some(NEA.of(firstPolygon)),
   images: O.some([

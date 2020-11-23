@@ -152,6 +152,7 @@ export const HumanPopulationGrowthGraph: React.FC<HumanPopulationGrowthGraphProp
           getX={(d) => d.year}
           getY={(d) => d.population}
           showPoints={showPoints}
+          showGrid={true}
           axisLeftLabel={"Millions of people"}
           axisRightLabel={"Millions of people"}
           axisBottomLabel={"Year"}

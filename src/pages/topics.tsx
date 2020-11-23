@@ -4,7 +4,7 @@ import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import SearchableInput from "@components/SearchableInput"
 import { TopicListItem } from "@components/lists/TopicList"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
 import { navigateTo } from "@utils/links"
@@ -18,7 +18,7 @@ import React from "react"
 
 interface Results {
   topics: { nodes: unknown[] }
-  pageContent: PageContentFileNode
+  pageContent: { childMdx: unknown}
 }
 
 const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
@@ -28,7 +28,9 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
         childMdx: { fields: { collection: { eq: "pages" } } }
         name: { eq: "topics" }
       ) {
-        ...PageFileNode
+        childMdx {
+          ...PageMD
+        }
       }
 
       topics: allTopicFrontmatter {
@@ -42,14 +44,14 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
   return pipe(
     sequenceS(E.either)({
       topics: t.array(TopicFrontmatter).decode(results.topics.nodes),
-      pageContent: PageContentFileNode.decode(results.pageContent),
+      pageContent: PageMD.decode(results.pageContent.childMdx),
     }),
     E.fold(throwValidationErrors, ({ pageContent, topics }) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMdx.frontmatter.title} />
+          <SEO title={pageContent.frontmatter.title} />
           <MainContent>
-            <PageContent {...pageContent.childMdx} />
+            <PageContent {...pageContent} />
             <SearchableInput
               items={topics.map((t) => ({
                 ...t,
@@ -62,11 +64,11 @@ const TopicsPage: React.FC<PageProps> = ({ navigate }) => {
                   item={item}
                   index={index}
                   $theme={theme}
-                  onClick={async (t) => await navigateTo(navigate, 'topics', t)}
+                  onClick={async (t) => await navigateTo(navigate, "topics", t)}
                 />
               )}
               onSelectItem={async (item) => {
-                await navigateTo(navigate, 'topics', item)
+                await navigateTo(navigate, "topics", item)
               }}
               onUnselectItem={() => {}}
             />

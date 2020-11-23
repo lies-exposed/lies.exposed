@@ -14,8 +14,8 @@ export const getActors = (allActors: ActorFrontmatter[]) => (
 
 export const isByActor = (
   actor: ActorFrontmatter
-) => (by: ByGroupOrActor): boolean => by.__type === "Actor" && by.actor.uuid === actor.uuid
+) => (by: ByGroupOrActor): boolean => by.type === "Actor" && by.actor.uuid === actor.uuid
 
 export const isByGroup = (
   group: GroupFrontmatter
-) => (by: ByGroupOrActor): boolean => by.__type === 'Group' && by.group.uuid === group.uuid
+) => (by: ByGroupOrActor): boolean => by.type === 'Group' && by.group.uuid === group.uuid

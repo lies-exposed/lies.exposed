@@ -3,7 +3,7 @@ import { Layout } from "@components/Layout"
 import { PageContent } from "@components/PageContent"
 import SEO from "@components/SEO"
 import { TableOfContents } from "@components/TableOfContents"
-import { PageContentFileNode } from "@models/page"
+import { PageMD } from "@models/page"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
@@ -12,37 +12,40 @@ import { useStaticQuery, graphql, PageProps } from "gatsby"
 import React from "react"
 
 interface Results {
-  pageContent: PageContentFileNode
+  pageContent: { childMdx: unknown }
 }
 
 const CrisisPage: React.FC<PageProps> = (props) => {
-  const { pageContent }: Results = useStaticQuery(graphql`
+  const results: Results = useStaticQuery(graphql`
     query CrisisQuery {
       pageContent: file(
         sourceInstanceName: { eq: "pages" }
         name: { eq: "the-crisis" }
       ) {
-        ...PageFileNode
+        childMdx {
+          ...PageMD
+        }
       }
     }
   `)
 
   return pipe(
-    PageContentFileNode.decode(pageContent),
-    E.fold(throwValidationErrors, () => {
+    PageMD.decode(results.pageContent.childMdx),
+    E.fold(throwValidationErrors, (pageContent) => {
       return (
         <Layout>
-          <SEO title={pageContent.childMdx.frontmatter.title} />
+          <SEO title={pageContent.frontmatter.title} />
           <ContentWithSidebar
             sidebar={pipe(
-              O.fromNullable(pageContent.childMdx.tableOfContents.items),
+              pageContent.tableOfContents,
+              O.mapNullable((t) => t.items),
               O.fold(
                 () => <div />,
                 (items) => <TableOfContents items={items} />
               )
             )}
           >
-            <PageContent {...pageContent.childMdx} />
+            <PageContent {...pageContent} />
           </ContentWithSidebar>
         </Layout>
       )

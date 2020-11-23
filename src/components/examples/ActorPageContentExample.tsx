@@ -13,7 +13,7 @@ import * as React from "react"
 export const actorPageContentArgs: ActorPageContentProps = {
   frontmatter: goodActor,
   body: null,
-  tableOfContents: { items: undefined },
+  tableOfContents: O.none,
   timeToRead: O.none,
   metadata: extractEventsMetadata({ type: "Actor", elem: goodActor })(events),
 }

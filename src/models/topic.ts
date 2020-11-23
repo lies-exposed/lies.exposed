@@ -1,16 +1,18 @@
 import * as t from "io-ts"
 import { Color } from "./Common/Color"
-import { Frontmatter } from "./Frontmatter"
+import { BaseFrontmatter } from "./Frontmatter"
 import { markdownRemark } from "./Markdown"
 
+export const TOPIC_FRONTMATTER = t.literal('TopicFrontmatter')
 export const TopicFrontmatter = t.strict(
   {
-    ...Frontmatter.props,
+    ...BaseFrontmatter.type.props,
+    type: TOPIC_FRONTMATTER,
     label: t.string,
     slug: t.string,
     color: Color,
   },
-  "TopicFrontmatter"
+  TOPIC_FRONTMATTER.value
 )
 export type TopicFrontmatter = t.TypeOf<typeof TopicFrontmatter>
 

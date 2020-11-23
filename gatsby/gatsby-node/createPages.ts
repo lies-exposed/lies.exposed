@@ -1,8 +1,6 @@
 import * as path from "path"
 import { ProjectFrontmatter } from "@models/Project"
-import { AreaFrontmatter } from "@models/area"
 import { ArticleFrontmatter } from "@models/article"
-import { GroupMD } from "@models/group"
 import { CreatePagesArgs } from "gatsby"
 
 const createArticlePages = async ({
@@ -69,21 +67,21 @@ const createGroupPages = async ({
   const groupTemplate = path.resolve(`src/templates/GroupTemplate.tsx`)
 
   const result = await graphql<{
-    groups: { nodes: Array<{ childMdx: GroupMD }> }
+    groups: {
+      nodes: Array<{
+        uuid: string
+        name: string
+        members: Array<{ uuid: string }>
+      }>
+    }
   }>(`
     {
-      groups: allFile(filter: { sourceInstanceName: { eq: "groups" } }) {
+      groups: allGroupFrontmatter {
         nodes {
-          childMdx {
-            frontmatter {
-              ... on GroupFrontmatter {
-                uuid
-                name
-                members {
-                  uuid
-                }
-              }
-            }
+          uuid
+          name
+          members {
+            uuid
           }
         }
       }
@@ -106,16 +104,13 @@ const createGroupPages = async ({
 
   const nodes = result.data.groups.nodes
 
-  
   nodes.forEach((node) => {
-    const groupUUID = node.childMdx.frontmatter.uuid
+    const groupUUID = node.uuid
     const nodePath = `/groups/${groupUUID}`
 
     const context = {
       group: groupUUID,
-      members: ((node.childMdx.frontmatter.members as any) ?? []).map(
-        (m: any) => m.uuid
-      ),
+      members: (node.members ?? []).map((m) => m.uuid),
     }
 
     reporter.info(
@@ -143,11 +138,11 @@ const createActorPages = async ({
   const { createPage } = actions
   const actorTemplate = path.resolve(`src/templates/ActorTemplate.tsx`)
 
-  const result = await graphql<{ actors: { nodes: Array<{ name: string }> } }>(`
+  const result = await graphql<{ actors: { nodes: Array<{ uuid: string }> } }>(`
     {
-      actors: allFile(filter: { sourceInstanceName: { eq: "actors" } }) {
+      actors: allActorFrontmatter {
         nodes {
-          name
+          uuid
         }
       }
     }
@@ -166,7 +161,7 @@ const createActorPages = async ({
 
   const nodes = result.data.actors.nodes
   nodes.forEach((node) => {
-    const actorUUID = node.name
+    const actorUUID = node.uuid
     const nodePath = `/actors/${actorUUID}`
 
     const context = {
@@ -194,11 +189,11 @@ const createEventPages = async ({
   const { createPage } = actions
   const postTemplate = path.resolve(`src/templates/EventTemplate.tsx`)
 
-  const result = await graphql<{ events: { nodes: Array<{ name: string }> } }>(`
+  const result = await graphql<{ events: { nodes: Array<{ uuid: string }> } }>(`
     {
-      events: allFile(filter: { sourceInstanceName: { eq: "events" } }) {
+      events: allEventFrontmatter {
         nodes {
-          name
+          uuid
         }
       }
     }
@@ -206,7 +201,10 @@ const createEventPages = async ({
 
   // Handle errors
   if (result.errors !== undefined) {
-    reporter.panicOnBuild(`Error while running createEventPages query.`, result.errors)
+    reporter.panicOnBuild(
+      `Error while running createEventPages query.`,
+      result.errors
+    )
     return
   }
 
@@ -217,7 +215,7 @@ const createEventPages = async ({
 
   const nodes = result.data.events.nodes
   nodes.forEach((node) => {
-    const eventUUID = node.name
+    const eventUUID = node.uuid
     const nodePath = `/events/${eventUUID}`
 
     const context = {
@@ -245,11 +243,11 @@ const createTopicPages = async ({
   const { createPage } = actions
   const topicTemplate = path.resolve(`src/templates/TopicTemplate.tsx`)
 
-  const result = await graphql<{ topics: { nodes: Array<{ name: string }> } }>(`
+  const result = await graphql<{ topics: { nodes: Array<{ uuid: string }> } }>(`
     {
-      topics: allFile(filter: { sourceInstanceName: { eq: "topics" } }) {
+      topics: allTopicFrontmatter {
         nodes {
-          name
+          uuid
         }
       }
     }
@@ -257,6 +255,8 @@ const createTopicPages = async ({
 
   // Handle errors
   if (result.errors !== undefined) {
+    // eslint-disable-next-line
+    console.error({ errors: result.errors })
     reporter.panicOnBuild(`Error while running createTopicPages query.`)
     return
   }
@@ -269,14 +269,14 @@ const createTopicPages = async ({
   const nodes = result.data.topics.nodes
 
   nodes.forEach((node) => {
-    const nodePath = `/topics/${node.name}`
+    const nodePath = `/topics/${node.uuid}`
 
     const context = {
-      topic: node.name,
+      topic: node.uuid,
     }
 
     reporter.info(
-      `Topic [${node.name}] context: ${JSON.stringify(context, null, 4)}`
+      `Topic [${node.uuid}] context: ${JSON.stringify(context, null, 4)}`
     )
     reporter.info(`Building to path: ${nodePath}`)
 
@@ -300,26 +300,21 @@ const createAreasPages = async ({
   const result = await graphql<{
     areas: {
       nodes: Array<{
-        name: string
-        childMdx: { frontmatter: AreaFrontmatter }
+        uuid: string
+        groups: Array<{ uuid: string }>
+        topics: Array<{ uuid: string }>
       }>
     }
   }>(`
     {
-      areas: allFile(filter: { sourceInstanceName: { eq: "areas" } }) {
+      areas: allAreaFrontmatter {
         nodes {
-          name
-          childMdx {
-            frontmatter {
-              ... on AreaFrontmatter {
-                groups {
-                  uuid
-                }
-                topics {
-                  uuid
-                }
-              }
-            }
+          uuid
+          groups {
+            uuid
+          }
+          topics {
+            uuid
           }
         }
       }
@@ -328,7 +323,10 @@ const createAreasPages = async ({
 
   // Handle errors
   if (result.errors !== undefined) {
-    reporter.panicOnBuild(`Error while running createTopicPages query.`)
+    reporter.panicOnBuild(
+      `Error while running createAreaPages query.`,
+      result.errors
+    )
     return
   }
 
@@ -339,14 +337,13 @@ const createAreasPages = async ({
 
   const nodes = result.data.areas.nodes
 
-  
   nodes.forEach((node) => {
-    const nodePath = `/areas/${node.name}`
+    const nodePath = `/areas/${node.uuid}`
 
     const context = {
-      areaUUID: node.name,
-      groupUUIDs: node.childMdx.frontmatter.groups.map((g) => g.uuid),
-      topicUUIDs: node.childMdx.frontmatter.topics.map((t) => t.uuid),
+      areaUUID: node.uuid,
+      groupUUIDs: (node.groups ?? []).map((g) => g.uuid),
+      topicUUIDs: (node.topics ?? []).map((t) => t.uuid),
     }
 
     reporter.info(`Area context: ${JSON.stringify(context, null, 4)}`)
@@ -375,24 +372,14 @@ const createProjectPages = async ({
 
   const result = await graphql<{
     projects: {
-      nodes: Array<{
-        name: string
-        childMdx: { frontmatter: ProjectFrontmatter }
-      }>
+      nodes: ProjectFrontmatter[]
     }
   }>(`
     {
-      projects: allFile(filter: { sourceInstanceName: { eq: "projects" } }) {
+      projects: allProjectFrontmatter {
         nodes {
+          uuid
           name
-          childMdx {
-            frontmatter {
-              ... on ProjectFrontmatter {
-                uuid
-                name
-              }
-            }
-          }
         }
       }
     }
@@ -412,10 +399,10 @@ const createProjectPages = async ({
   const nodes = result.data.projects.nodes
 
   nodes.forEach((node) => {
-    const nodePath = `/projects/${node.name}`
+    const nodePath = `/projects/${node.uuid}`
 
     const context = {
-      projectUUID: node.name,
+      projectUUID: node.uuid,
     }
     reporter.info(`Project context: ${JSON.stringify(context, null, 4)}`)
     reporter.info(`Building to path: ${nodePath}`)

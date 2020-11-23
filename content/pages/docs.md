@@ -2,6 +2,7 @@
 uuid: 920eacd1-c0e0-4dfc-97fc-763847bb59ec
 title: Docs
 path: /docs
+type: PageFrontmatter
 updatedAt: 2020-10-22T07:56:17.196Z
 createdAt: 2020-10-22T07:56:17.355Z
 ---

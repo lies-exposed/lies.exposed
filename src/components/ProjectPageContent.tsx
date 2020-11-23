@@ -1,6 +1,6 @@
 import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
 import { ProjectMD } from "@models/Project"
-import { EventListMap } from "@models/events/EventMetadata"
+import { EventListMap } from "@models/events"
 import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -35,7 +35,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   const investors = pipe(
     metadata.ProjectTransaction,
     A.map((f) => f.transaction.by),
-    A.uniq(Eq.eq.contramap(Eq.eqString, (e: ByGroupOrActor) => e.__type === 'Group' ? e.group.uuid : e.actor.uuid))
+    A.uniq(Eq.eq.contramap(Eq.eqString, (e: ByGroupOrActor) => e.type === 'Group' ? e.group.uuid : e.actor.uuid))
   )
 
   const arrested = pipe(
@@ -45,7 +45,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
 
   const protesters = pipe(
     metadata.Protest,
-    A.map((p) => p.by),
+    A.map((p) => p.organizers),
     A.flatten
   )
 

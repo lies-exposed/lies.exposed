@@ -1,10 +1,12 @@
 import * as t from 'io-ts'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 
-export const Frontmatter = t.interface({
+export const BASE_FRONTMATTER = "BaseFrontmatter"
+export const BaseFrontmatter = t.strict({
   uuid: t.string,
+  type: t.string,
   createdAt: DateFromISOString,
   updatedAt: DateFromISOString
-}, 'Frontmatter')
+}, BASE_FRONTMATTER)
 
-export type Frontmatter = t.TypeOf<typeof Frontmatter>
+export type BaseFrontmatter = t.TypeOf<typeof BaseFrontmatter>

@@ -2,7 +2,7 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import { ProjectPageContent } from "@components/ProjectPageContent"
 import SEO from "@components/SEO"
-import { eventMetadataMapEmpty } from "@mock-data/events-metadata"
+import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata"
 import { ProjectMD } from "@models/Project"
 import { TransactionFrontmatter } from "@models/Transaction"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -54,7 +54,7 @@ export const pageQuery = graphql`
 
     events: allMdx(filter: { fields: { collection: { eq: "events" } } }) {
       nodes {
-        ...EventMDRemark
+        ...EventMD
       }
     }
   }

@@ -1,5 +1,5 @@
-import { EventMD } from "@models/events/EventMetadata"
-import { UncategorizedMD } from "@models/events/UncategorizedEvent"
+import { EventMD } from "@models/events"
+import { UncategorizedMD } from "@models/events/Uncategorized"
 import * as A from "fp-ts/lib/Array"
 import { pipe } from "fp-ts/lib/pipeable"
 // import { navigate } from "gatsby"

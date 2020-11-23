@@ -14,7 +14,7 @@ import * as React from "react"
 export const projectPageContentExampleArgs: ProjectPageContentProps = {
   frontmatter: firstBadProject,
   body: null,
-  tableOfContents: { items: undefined },
+  tableOfContents: O.none,
   timeToRead: O.none,
   metadata: pipe(
     events,

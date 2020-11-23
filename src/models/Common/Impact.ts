@@ -1,42 +1,46 @@
 import * as t from "io-ts"
 
-const LandUseUnit = t.union([t.literal("mq"), t.literal("kmq")])
+const LandUseUnit = t.union([t.literal("mq"), t.literal("kmq")], 'LandUseUnit')
 
-const LandUsed = t.type(
+const LandUsed = t.strict(
   {
+    type: t.literal('LandUsed'),
     area: t.number,
     unit: LandUseUnit,
   },
   "LandUsed"
 )
-const EmissionUnit = t.union([t.literal("t"), t.literal("gt")])
+const EmissionUnit = t.union([t.literal("t"), t.literal("gt")], 'EmissionUnit')
 
-const CO2Emitted = t.type(
+const CO2Emitted = t.strict(
   {
+    type: t.literal('CO2Emitted'),
     amount: t.number,
     unit: EmissionUnit,
   },
   "CO2Emitted"
 )
+const BIODIVERSITY_LOSS = t.literal('BiodiversityLoss')
 
-const BiodiversityLoss = t.type(
+export const BiodiversityLoss = t.strict(
   {
+    type: BIODIVERSITY_LOSS,
     specie: t.string,
     deaths: t.number,
   },
-  "BiodiversityLoss"
+  BIODIVERSITY_LOSS.value
 )
 
-const PublicOpinion = t.type(
-  {
-    convincedOf: t.string,
-    insteadOf: t.string,
-  },
-  "PublicOpinion"
-)
+// const PublicOpinion = t.strict(
+//   {
+//     convincedOf: t.string,
+//     insteadOf: t.string,
+//   },
+//   "PublicOpinion"
+// )
 
 export const Impact = t.union(
-  [LandUsed, CO2Emitted, BiodiversityLoss, PublicOpinion],
+  [LandUsed, CO2Emitted, BiodiversityLoss],
   "Impact"
 )
 export type Impact = t.TypeOf<typeof Impact>
