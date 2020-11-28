@@ -1,4 +1,4 @@
-import { IOTSTOCMSFields } from "@cms/utils"
+import { IOTSTOCMSFields } from "@cms/config/utils"
 import { EventFrontmatter } from "@models/events"
 import * as A from "fp-ts/lib/Array"
 import { pipe } from "fp-ts/lib/pipeable"

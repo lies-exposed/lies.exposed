@@ -45,7 +45,6 @@ export const lookForType = (
       return findInEntities(type, frontmatter.organizers, uuids).length > 0
     case "Uncategorized":
       if (type.type.props.type.value === "Group") {
-        // eslint-disable-next-line no-case-declarations
         return (
           pipe(
             frontmatter.groups,
@@ -54,7 +53,6 @@ export const lookForType = (
           ).length > 0
         )
       }
-      // eslint-disable-next-line no-case-declarations
 
       return (
         pipe(

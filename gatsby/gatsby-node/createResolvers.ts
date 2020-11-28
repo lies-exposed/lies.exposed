@@ -39,13 +39,13 @@ const IOTSToGQLResolver: IOTSSchemable<
       key: "__unknown",
     }
   },
-  isArray(props) {
+  isArray(key, props) {
     return { ...props, many: true, required: false }
   },
-  isOption(props) {
+  isOption(key, props) {
     return { ...props, required: false }
   },
-  isNonEmptyArray(props) {
+  isNonEmptyArray(key, props) {
     return { ...props, required: true, many: true }
   },
   isGroupFrontmatter(key, props) {

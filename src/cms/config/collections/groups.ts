@@ -1,4 +1,4 @@
-import { IOTSTOCMSFields } from "@cms/utils";
+import { IOTSTOCMSFields } from "@cms/config/utils";
 import { GroupFrontmatter } from "@models/group";
 import { CmsCollection } from "netlify-cms-core"
 

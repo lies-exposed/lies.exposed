@@ -80,35 +80,35 @@ const traverseR = R.record.traverseWithIndex(
 
 type SchemaFn<P, S> = (key: string, props: P) => S
 
-export interface IOTSSchemable<Props, Schema> {
-  getDefaultProps: () => Props
-  isArray: (p: Props) => Props
-  isOption: (p: Props) => Props
-  isNonEmptyArray: (p: Props) => Props
-  isActorFrontmatter: SchemaFn<Props, Schema>
-  isGroupFrontmatter: SchemaFn<Props, Schema>
-  isTopicFrontmatter: SchemaFn<Props, Schema>
-  isProjectFrontmatter: SchemaFn<Props, Schema>
-  isTransactionFrontmatter: SchemaFn<Props, Schema>
-  isGroupKind: SchemaFn<Props, Schema>
+export interface IOTSSchemable<Context, Schema> {
+  getDefaultProps: () => Context
+  isArray: (key: string, p: Context) => Context
+  isOption: (key: string, p: Context) => Context
+  isNonEmptyArray: (key: string, p: Context) => Context
+  isActorFrontmatter: SchemaFn<Context, Schema>
+  isGroupFrontmatter: SchemaFn<Context, Schema>
+  isTopicFrontmatter: SchemaFn<Context, Schema>
+  isProjectFrontmatter: SchemaFn<Context, Schema>
+  isTransactionFrontmatter: SchemaFn<Context, Schema>
+  isGroupKind: SchemaFn<Context, Schema>
   // @TODO: define relations instead of by* and for*
-  isByGroupOrActor: SchemaFn<Props, Schema>
-  isByGroup: SchemaFn<Props, Schema>
-  isByActor: SchemaFn<Props, Schema>
-  isFor: SchemaFn<Props, Schema>
-  isForGroup: SchemaFn<Props, Schema>
-  isForProject: SchemaFn<Props, Schema>
-  isMoneyAmount: SchemaFn<Props, Schema>
-  isImpact: SchemaFn<Props, Schema>
-  isImageSource: SchemaFn<Props, Schema>
-  isImageFileNode: SchemaFn<Props, Schema>
-  isDateFromISOString: SchemaFn<Props, Schema>
-  isPolygon: SchemaFn<Props, Schema>
-  isPoint: SchemaFn<Props, Schema>
-  isLiteral: SchemaFn<Props, Schema>
-  isNumber: SchemaFn<Props, Schema>
-  isBoolean: SchemaFn<Props, Schema>
-  isString: SchemaFn<Props, Schema>
+  isByGroupOrActor: SchemaFn<Context, Schema>
+  isByGroup: SchemaFn<Context, Schema>
+  isByActor: SchemaFn<Context, Schema>
+  isFor: SchemaFn<Context, Schema>
+  isForGroup: SchemaFn<Context, Schema>
+  isForProject: SchemaFn<Context, Schema>
+  isMoneyAmount: SchemaFn<Context, Schema>
+  isImpact: SchemaFn<Context, Schema>
+  isImageSource: SchemaFn<Context, Schema>
+  isImageFileNode: SchemaFn<Context, Schema>
+  isDateFromISOString: SchemaFn<Context, Schema>
+  isPolygon: SchemaFn<Context, Schema>
+  isPoint: SchemaFn<Context, Schema>
+  isLiteral: SchemaFn<Context, Schema>
+  isNumber: SchemaFn<Context, Schema>
+  isBoolean: SchemaFn<Context, Schema>
+  isString: SchemaFn<Context, Schema>
 }
 
 type ModelCommonKeys = keyof typeof Models.Common
@@ -138,13 +138,13 @@ interface IOTSSchema<S> {
   ) => E.Either<NEA.NonEmptyArray<Error>, Record<string, Record<keyof C, S>>>
 }
 
-interface GetIOTSToSchemaProps<P, S> {
+interface GetIOTSToSchemaProps<C, S> {
   models: typeof Models
-  schema: IOTSSchemable<P, S>
+  schema: IOTSSchemable<C, S>
 }
 
-export const GetIOTSToSchema = <P, S>(
-  opts: GetIOTSToSchemaProps<P, S>
+export const GetIOTSToSchema = <C, S>(
+  opts: GetIOTSToSchemaProps<C, S>
 ): IOTSSchema<S> => {
   const modelsRecord = {
     ...opts.models.Common,
@@ -172,21 +172,21 @@ export const GetIOTSToSchema = <P, S>(
     number: t.number,
   }
 
-  const traverseExactType = <C extends t.Props>(
-    ioType: t.ExactType<t.InterfaceType<C>>
-  ): E.Either<NEA.NonEmptyArray<Error>, { [key in keyof C]: S }> => {
-    const loop = <C extends t.Props>(
-      acc: { [key in keyof C]: S },
+  const traverseExactType = <P extends t.Props>(
+    ioType: t.ExactType<t.InterfaceType<P>>
+  ): E.Either<NEA.NonEmptyArray<Error>, { [key in keyof P]: S }> => {
+    const loop = <P extends t.Props>(
+      acc: { [key in keyof P]: S },
       key: string,
-      type: t.Mixed | t.InterfaceType<C>,
-      props: P
-    ): E.Either<NEA.NonEmptyArray<Error>, { [key in keyof C]: S }> => {
+      type: t.Mixed | t.InterfaceType<P>,
+      context: C
+    ): E.Either<NEA.NonEmptyArray<Error>, { [key in keyof P]: S }> => {
       if (isRecursiveType(type)) {
-        return loop(acc, key, type.type, props)
+        return loop(acc, key, type.type, context)
       }
 
       if (isArrayType(type)) {
-        return loop(acc, key, type.type, opts.schema.isArray(props))
+        return loop(acc, key, type.type, opts.schema.isArray(key, context))
       }
 
       // console.log({key, type})
@@ -201,7 +201,7 @@ export const GetIOTSToSchema = <P, S>(
 
         return pipe(
           newType,
-          E.chain((type) => loop(acc, key, type, opts.schema.isOption(props)))
+          E.chain((type) => loop(acc, key, type, opts.schema.isOption(key, context)))
         )
       }
 
@@ -216,7 +216,7 @@ export const GetIOTSToSchema = <P, S>(
         return pipe(
           getTypeByName(newKey, modelsRecord),
           E.chain((type) =>
-            loop(acc, key, type, opts.schema.isNonEmptyArray(props))
+            loop(acc, key, type, opts.schema.isNonEmptyArray(key, context))
           )
         )
       }
@@ -224,69 +224,69 @@ export const GetIOTSToSchema = <P, S>(
       if (type.name === ProjectFrontmatter.name) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isProjectFrontmatter(key, props),
+          [key]: opts.schema.isProjectFrontmatter(key, context),
         })
       }
 
       if (type.name === TransactionFrontmatter.name) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isTransactionFrontmatter(key, props),
+          [key]: opts.schema.isTransactionFrontmatter(key, context),
         })
       }
 
       if (type.name === ActorFrontmatter.name) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isActorFrontmatter(key, props),
+          [key]: opts.schema.isActorFrontmatter(key, context),
         })
       }
 
       if (type.name === GroupFrontmatter.name) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isGroupFrontmatter(key, props),
+          [key]: opts.schema.isGroupFrontmatter(key, context),
         })
       }
 
       if (type.name === TopicFrontmatter.name) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isTopicFrontmatter(key, props),
+          [key]: opts.schema.isTopicFrontmatter(key, context),
         })
       }
 
       if (isGroupKind(type)) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isGroupKind(key, props),
+          [key]: opts.schema.isGroupKind(key, context),
         })
       }
 
       if (isByGroupOrActor(type)) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isByGroupOrActor(key, props),
+          [key]: opts.schema.isByGroupOrActor(key, context),
         })
       }
 
       if (isCurrency(type)) {
         return E.right({
-          ...acc, [key]: opts.schema.isString(key, props)
+          ...acc, [key]: opts.schema.isString(key, context)
         })
       }
 
       if (isMoneyAmount(type)) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isMoneyAmount(key, props),
+          [key]: opts.schema.isMoneyAmount(key, context),
         })
       }
 
       if (isFor(type)) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isFor(key, props),
+          [key]: opts.schema.isFor(key, context),
         })
       }
 
@@ -300,42 +300,42 @@ export const GetIOTSToSchema = <P, S>(
       if (type.name === "ImageSource") {
         return E.right({
           ...acc,
-          [key]: opts.schema.isImageSource(key, props),
+          [key]: opts.schema.isImageSource(key, context),
         })
       }
 
       if (type.name === "ImageFileNode") {
         return E.right({
           ...acc,
-          [key]: opts.schema.isImageFileNode(key, props),
+          [key]: opts.schema.isImageFileNode(key, context),
         })
       }
 
       if (isLiteralType(type)) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isLiteral(key, props),
+          [key]: opts.schema.isLiteral(key, context),
         })
       }
 
       if (isBooleanType(type)) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isBoolean(key, props),
+          [key]: opts.schema.isBoolean(key, context),
         })
       }
 
       if (type.name === "ColorType") {
         return E.right({
           ...acc,
-          [key]: opts.schema.isString(key, props),
+          [key]: opts.schema.isString(key, context),
         })
       }
 
       if (type.name === "DateFromISOString") {
         return E.right({
           ...acc,
-          [key]: opts.schema.isDateFromISOString(key, props),
+          [key]: opts.schema.isDateFromISOString(key, context),
         })
       }
 
@@ -345,7 +345,7 @@ export const GetIOTSToSchema = <P, S>(
       ) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isPolygon(key, props),
+          [key]: opts.schema.isPolygon(key, context),
         })
       }
 
@@ -355,28 +355,29 @@ export const GetIOTSToSchema = <P, S>(
       ) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isPoint(key, props),
+          [key]: opts.schema.isPoint(key, context),
         })
       }
 
       if (isStringType(type)) {
+        console.log({ key, type, props: context})
         return E.right({
           ...acc,
-          [key]: opts.schema.isString(key, props),
+          [key]: opts.schema.isString(key, context),
         })
       }
 
       if (isNumberType(type)) {
         return E.right({
           ...acc,
-          [key]: opts.schema.isNumber(key, props),
+          [key]: opts.schema.isNumber(key, context),
         })
       }
 
       return E.right(acc)
     }
 
-    const init: { [key in keyof C]: S } = {} as any
+    const init: { [key in keyof P]: S } = {} as any
 
     return pipe(
       traverseR(ioType.type.props, (key, prop) =>

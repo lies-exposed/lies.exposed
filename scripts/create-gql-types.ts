@@ -54,13 +54,13 @@ const IOTSToGQLSchema: IOTSSchemable<GetResolverOptions, string> = {
       key: "__unknown",
     }
   },
-  isArray(props) {
+  isArray(key, props) {
     return { ...props, many: true, required: false }
   },
-  isOption(props) {
+  isOption(key, props) {
     return { ...props, required: false }
   },
-  isNonEmptyArray(props) {
+  isNonEmptyArray(key, props) {
     return { ...props, required: true, many: true }
   },
   isGroupFrontmatter(key, props) {
@@ -85,7 +85,7 @@ const IOTSToGQLSchema: IOTSSchemable<GetResolverOptions, string> = {
     })
   },
   isGroupKind(key, props) {
-    return GetStringType(props)
+    return GetStringType({...props, key })
   },
   isByGroupOrActor(key, props) {
     // console.log("is by group or actor")

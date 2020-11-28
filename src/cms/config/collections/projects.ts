@@ -1,5 +1,5 @@
+import { IOTSTOCMSFields } from "@cms/config/utils"
 import { ProjectFrontmatter } from "@models/Project"
-import { IOTSTOCMSFields } from "cms/utils"
 import { CmsCollection } from "netlify-cms-core"
 
 export const projects: CmsCollection = {
