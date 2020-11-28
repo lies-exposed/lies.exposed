@@ -12,11 +12,11 @@ import { TopicListItem } from "@components/lists/TopicList"
 import { eventsDataToNavigatorItems, ordEventDate } from "@helpers/event"
 import { ActorFrontmatter } from "@models/actor"
 import { EventMD } from "@models/events"
-import { UncategorizedMD } from "@models/events/Uncategorized"
 import { GroupFrontmatter } from "@models/group"
 import { PageMD } from "@models/page"
 import { TopicFrontmatter } from "@models/topic"
 import theme from "@theme/CustomeTheme"
+import { GetByGroupOrActorUtils } from "@utils/ByGroupOrActorUtils"
 import { eqByUUID } from "@utils/IOTSSchemable"
 import { parseSearch, Routes, updateSearch } from "@utils/routes"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
@@ -36,7 +36,7 @@ import Helmet from "react-helmet"
 
 interface EventsPageProps extends PageProps {
   data: {
-    pageContent: { childMdx: unknown}
+    pageContent: { childMdx: unknown }
     events: { nodes: unknown }
     topics: { nodes: unknown }
     actors: { nodes: unknown }
@@ -49,17 +49,13 @@ const EventsPage: React.FC<EventsPageProps> = ({
   navigate,
   ...props
 }) => {
-
   return pipe(
     sequenceS(E.either)({
       pageContent: PageMD.decode(data.pageContent.childMdx),
       topics: t.array(TopicFrontmatter).decode(data.topics.nodes),
       actors: t.array(ActorFrontmatter).decode(data.actors.nodes),
       groups: t.array(GroupFrontmatter).decode(data.groups.nodes),
-      events: pipe(
-        t.array(EventMD).decode(data.events.nodes),
-        E.map(A.filter(UncategorizedMD.is))
-      ),
+      events: t.array(EventMD).decode(data.events.nodes),
     }),
     E.fold(
       throwValidationErrors,
@@ -162,39 +158,13 @@ const EventsPage: React.FC<EventsPageProps> = ({
             e.frontmatter.date
           )
 
-          const hasActor = false
-          // const hasActor = pipe(
-          //   e.frontmatter.,
-          //   O.map((actors) =>
-          //     actors.some((i) =>
-          //       selectedActors.some((a) => eqByUUID.equals(a, i))
-          //     )
-          //   ),
-          //   O.getOrElse(() => false)
-          // )
-
-          const hasGroup = false
-          // const hasGroup = pipe(
-          //   e.frontmatter.groups,
-          //   O.map((groups) =>
-          //     groups.some((i) =>
-          //       selectedGroups.some((a) => eqByUUID.equals(a, i))
-          //     )
-          //   ),
-          //   O.getOrElse(() => false)
-          // )
+          const hasActor = GetByGroupOrActorUtils().isActorInEvent(e.frontmatter, selectedActorIds)
+          
+          const hasGroup = GetByGroupOrActorUtils().isGroupInEvent(e.frontmatter, selectedGroupIds)
 
           const hasTopic = false
-          // const hasTopic = pipe(
-          //   O.some(e.frontmatter.topics),
-          //   O.map((topics) =>
-          //     topics.some((i) =>
-          //       selectedTopics.some((a) => eqByUUID.equals(a, i))
-          //     )
-          //   ),
-          //   O.getOrElse(() => false)
-          // )
 
+          
           return isBetweenDateRange && (hasActor || hasGroup || hasTopic)
         })
 
