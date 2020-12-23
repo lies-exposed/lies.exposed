@@ -12,6 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./typings"],
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["./components/*"],
@@ -24,6 +25,6 @@
       "@cms/*": ["./cms/*"]
     }
   },
-  "include": ["gatsby", "src", "plugins", "scripts", "typings"],
+  "include": ["gatsby", "src", "typings"],
   "exclude": ["content", "node_modules", "public", ".cache"]
 }

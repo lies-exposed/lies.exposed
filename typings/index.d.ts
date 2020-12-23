@@ -16,4 +16,3 @@ declare module "*.svg" {
   export = svg;
   export default svg;
 }
-

@@ -32,7 +32,7 @@ import {
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import * as React from "react"
 
-const shortcodes: MDXProviderComponentsProp = {
+export const shortcodes: MDXProviderComponentsProp = {
   // counters
   CO2LeftBudgetCounter,
   WorldPopulationCounter,
@@ -71,6 +71,12 @@ const shortcodes: MDXProviderComponentsProp = {
 
 export const renderHTML = (md: { body: string | null }): JSX.Element => (
   <MDXProvider components={shortcodes}>
-    {md.body !== null ? <MDXRenderer>{md.body}</MDXRenderer> : null}
+    {md.body !== null ? (
+      typeof md.body === "function" ? (
+        <MDXRenderer>{md.body}</MDXRenderer>
+      ) : (
+        md.body
+      )
+    ) : null}
   </MDXProvider>
 )
