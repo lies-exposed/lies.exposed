@@ -2,6 +2,8 @@ import { AreaFrontmatter } from "@models/area"
 import Feature from 'ol/Feature';
 import OlMap from "ol/Map"
 import View from "ol/View"
+import * as OlControl from 'ol/control'
+import * as OlInteraction from 'ol/interaction'
 import GEOJSON from "ol/format/GeoJSON"
 import Geometry from 'ol/geom/Geometry'
 import TileLayer from "ol/layer/Tile"
@@ -26,6 +28,8 @@ interface MapProps {
   featureCollection: any
   center: [number, number]
   zoom: number
+  interactions: OlInteraction.DefaultsOptions
+  controls: OlControl.DefaultsOptions;
   onMapClick: (geoms: Array<Feature<Geometry>>) => void
 }
 
@@ -35,6 +39,8 @@ const Map: React.FC<MapProps> = ({
   featureCollection,
   center,
   zoom,
+  interactions,
+  controls, 
   onMapClick
 }) => {
   React.useEffect(() => {
@@ -63,6 +69,14 @@ const Map: React.FC<MapProps> = ({
     })
 
     const map = new OlMap({
+      interactions: OlInteraction.defaults({
+        doubleClickZoom: false,
+        dragPan: false,
+        mouseWheelZoom: false,
+        pinchZoom: true,
+        ...interactions
+      }),
+      controls: OlControl.defaults(controls),
       target: "map",
       layers: [
         new TileLayer({

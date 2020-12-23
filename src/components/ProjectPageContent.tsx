@@ -5,7 +5,7 @@ import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
-import { HeadingSmall, HeadingXLarge, LabelXSmall } from "baseui/typography"
+import { HeadingXLarge, HeadingXSmall, LabelXSmall } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
 import * as O from "fp-ts/lib/Option"
@@ -120,7 +120,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
           }}
         >
           <Block>
-            <HeadingSmall>Fondi: {totalFunded}</HeadingSmall>
+            <HeadingXSmall padding={0}>Fondi: {totalFunded}</HeadingXSmall>
             <GroupOrActorList
               by={investors}
               onByClick={() => {}}
@@ -129,7 +129,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             <ProjectFundsPieGraph funds={metadata.ProjectTransaction} />
           </Block>
           <Block>
-            <HeadingSmall>Proteste {metadata.Protest.length}</HeadingSmall>
+            <HeadingXSmall>Proteste {metadata.Protest.length}</HeadingXSmall>
             <GroupOrActorList
               by={protesters}
               onByClick={() => {}}
@@ -137,7 +137,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             />
           </Block>
           <Block>
-            <HeadingSmall>Arresti: {metadata.Arrest.length}</HeadingSmall>
+            <HeadingXSmall>Arresti: {metadata.Arrest.length}</HeadingXSmall>
             <GroupOrActorList
               by={arrested}
               onByClick={() => {}}
@@ -145,11 +145,11 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             />
           </Block>
           <Block>
-            <HeadingSmall>Impacts: {metadata.ProjectImpact.length}</HeadingSmall>
+            <HeadingXSmall>Impacts: {metadata.ProjectImpact.length}</HeadingXSmall>
             [tabella degli impatti del progetto]
           </Block>
           <Block>
-            <HeadingSmall display="inline">Indagati:</HeadingSmall> [totale contributori / contributori indagati]
+            <HeadingXSmall display="inline">Indagati:</HeadingXSmall> [totale contributori / contributori indagati]
           </Block>
         </FlexGridItem>
       </FlexGridItem>

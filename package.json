@@ -101,6 +101,7 @@
     "io-ts-types": "0.5.11",
     "netlify-cms-app": "2.14.1",
     "node-sass": "4.14.1",
+    "normalize.css": "8.0.1",
     "npm": "6.14.7",
     "ol": "6.4.3",
     "prop-types": "15.7.2",
