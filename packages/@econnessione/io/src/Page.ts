@@ -1,0 +1,24 @@
+import * as t from "io-ts";
+import { BaseFrontmatter } from "./Frontmatter";
+import { markdownRemark } from "./Markdown";
+
+const PAGE_FRONTMATTER = 'PageFrontmatter';
+
+export const PageFrontmatter = t.strict(
+  {
+    ...BaseFrontmatter.type.props,
+    type: t.literal(PAGE_FRONTMATTER),
+    title: t.string,
+    path: t.string,
+  },
+  PAGE_FRONTMATTER
+)
+
+export type PageFrontmatter = t.TypeOf<typeof PageFrontmatter>
+
+export const PageMD = markdownRemark(
+  PageFrontmatter,
+  "PageMD"
+)
+
+export type PageMD = t.TypeOf<typeof PageMD>

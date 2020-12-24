@@ -1,0 +1,35 @@
+import { VideoFileNode } from "@models/Video";
+import * as React from "react";
+
+
+interface VideoProps {
+  video: VideoFileNode;
+  controls: boolean;
+  autoPlay: boolean;
+  muted: boolean;
+  loop: boolean;
+  style?: React.CSSProperties;
+}
+
+export const Video: React.FC<VideoProps> = ({
+  video,
+  controls,
+  autoPlay,
+  loop,
+  muted,
+  style,
+}) => {
+  return (
+    <div className="video" style={style}>
+      <video
+        controls={controls}
+        autoPlay={autoPlay}
+        loop={loop}
+        muted={muted}
+        controlsList="nodownload"
+      >
+        <source src={video.publicURL} type={`video/${video.extension}`} />
+      </video>
+    </div>
+  );
+};

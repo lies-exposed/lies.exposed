@@ -1,30 +1,14 @@
 {
   "compilerOptions": {
+    "lib": ["ESNext"],
     "module": "commonjs",
     "target": "es5",
-    "jsx": "preserve",
-    "noEmit": true,
-    "allowJs": true,
     "strict": true,
+    "declaration": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "esnext"],
-    "skipLibCheck": true,
-    "typeRoots": ["./node_modules/@types", "./typings"],
-    "baseUrl": "./src",
-    "paths": {
-      "@components/*": ["./components/*"],
-      "@helpers/*": ["./helpers/*"],
-      "@models/*": ["./models/*"],
-      "@templates/*": ["./templates/*"],
-      "@theme/*": ["./theme/*"],
-      "@mock-data/*": ["./mock-data/*"],
-      "@utils/*": ["./utils/*"],
-      "@cms/*": ["./cms/*"]
-    }
   },
-  "include": ["gatsby", "src", "typings"],
-  "exclude": ["content", "node_modules", "public", ".cache"]
+  "exclude": ["node_modules"]
 }

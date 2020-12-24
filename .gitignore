@@ -67,3 +67,6 @@ yarn-error.log
 
 # Storybook
 static/storybook
+
+# output dir
+lib
