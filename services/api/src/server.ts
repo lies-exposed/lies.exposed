@@ -1,89 +1,131 @@
+import { Common } from "@econnessione/io"
 import cors from "cors"
 import express from "express"
+import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
-// import * as TE from "fp-ts/lib/TaskEither"
 import * as E from "fp-ts/lib/Either"
 import * as IOE from "fp-ts/lib/IOEither"
+import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import * as R from "fp-ts/lib/Record"
-import frontmatterToJS from "front-matter"
+import * as TE from "fp-ts/lib/TaskEither"
 import fs from "fs"
+import grayMatter from "gray-matter"
 import path from "path"
-import remark from "remark"
-// import frontmatter from "remark-frontmatter"
-// import footnotes from "remark-footnotes"
-// @ts-ignore
-import remark2mdx from "remark-mdx"
-// import { renderToString } from "react-dom/server"
-// import { BaseProvider } from "baseui"
-// import { renderHTML } from "../utils/renderHTML"
+import { renderMDX } from "./mdx/renderMDX"
+
+const contentRoot = path.join(process.cwd(), "content")
+
+const rewireData = <F extends { [key: string]: any }>(
+  data: F
+): TE.TaskEither<Error, F> => {
+  switch (data.type) {
+    case "GroupFrontmatter": {
+      const group = (data as any) as Common.BaseFrontmatter & {
+        members: string[] | undefined
+      }
+      return pipe(
+        sequenceS(TE.taskEither)({
+          members: A.array.sequence(TE.taskEither)(
+            (group.members ?? []).map((g: string) =>
+              readFile(path.join(contentRoot, `/actors/${g}.md`))
+            )
+          ),
+        }),
+        TE.map(({ members }) => ({
+          ...data,
+          members: members.map((g: any) => g.frontmatter),
+        }))
+      )
+    }
+    // case 'ActorFrontmatter': {
+    //   const topic = (data as any) as Common.BaseFrontmatter & {
+    //     members: string[]
+    //   }
+    //   return pipe(
+    //     sequenceS(TE.taskEither)({
+    //       members: A.array.sequence(TE.taskEither)(
+    //         topic.members.map((g: string) => readFile(path.join(contentRoot, `/actors/${g}.md`)))
+    //       ),
+    //     }),
+    //     TE.map(({ members }) => ({
+    //       ...data,
+    //       members: members.map((g: any) => g.frontmatter),
+    //     }))
+    //   )
+    // }
+    case "AreaFrontmatter": {
+      const area = (data as any) as Common.BaseFrontmatter & {
+        groups: string[] | undefined
+        topics: string[] | undefined
+      }
+      return pipe(
+        sequenceS(TE.taskEither)({
+          groups: A.array.sequence(TE.taskEither)(
+            (area.groups ?? []).map((g: string) =>
+              readFile(path.join(contentRoot, `/groups/${g}.md`))
+            )
+          ),
+          topics: A.array.sequence(TE.taskEither)(
+            (area.topics ?? []).map((g: string) =>
+              readFile(path.join(contentRoot, `/topics/${g}.md`))
+            )
+          ),
+        }),
+        TE.map(({ groups, topics }) => ({
+          ...data,
+          topics: topics.map((a: any) => a.frontmatter),
+          groups: groups.map((g: any) => g.frontmatter),
+        }))
+      )
+    }
+    default:
+      return TE.right(data)
+  }
+}
 
 const replaceRelativePath = (value: string): string =>
   value.replace(new RegExp("../../static/", "g"), "http://localhost:4010/")
 
-const normalizePaths = (attrs: Record<string, unknown>): any => {
+const processMD = (content: string): TE.TaskEither<Error, any> => {
+  // const options = {}
   return pipe(
-    attrs,
-    R.mapWithIndex((key, value) => {
-      if (["avatar", "featuredImage"].includes(key)) {
-        return replaceRelativePath(value as any)
-      }
-      if (['color'].includes(key)) {
-        return `#${value}`
-      }
-      return value
-    })
+    IOE.tryCatch(() => grayMatter(replaceRelativePath(content)), E.toError),
+    TE.fromIOEither,
+    TE.chain(({ content, data }) =>
+      sequenceS(TE.taskEitherSeq)({
+        frontmatter: rewireData(data),
+        body: TE.tryCatch(() => renderMDX(content, data), E.toError),
+      })
+    ),
+    TE.map((c) => ({ id: c.frontmatter.uuid, ...c }))
   )
 }
 
-const processMD = (content: string): IOE.IOEither<Error, any> => {
-  console.log("Processing file content")
-  return pipe(
-    IOE.tryCatch(() => frontmatterToJS(content), E.toError),
-    // IOE.map((vfile) => {
-    //   console.log(String(vfile))
-    //   return String(vfile) as any
-    // }),
-    IOE.map(({ attributes, body }) => ({
-      frontmatter: normalizePaths(attributes as any),
-      body: pipe(
-        remark()
-        .use(remark2mdx)
-        // .use(footnotes)
-        // .use(remark2react)
-        .processSync(replaceRelativePath(body)),
-        (vFile) => {
-          console.log(vFile)
-          return String(vFile)
-        }
-      ),
-      // body: renderToString(renderHTML({ body: content })),
-    })),
-    IOE.map((c) => ({ id: c.frontmatter.uuid, ...c }))
-  )
-}
-
-const readDir = (dirPath: string): IOE.IOEither<Error, string[]> => {
+const readDir = (dirPath: string): TE.TaskEither<Error, string[]> => {
   console.log(`Reading dir at ${dirPath}`)
   return pipe(
     IOE.tryCatch(() => fs.readdirSync(dirPath), E.toError),
-    IOE.chain((filePaths) =>
-      A.array.sequence(IOE.ioEither)(
-        filePaths.map((fp) => readFile(`${dirPath}/${fp}`))
+    TE.fromIOEither,
+    TE.map((files) =>
+      files.filter((f) =>
+        pipe(
+          A.last(f.split(".")),
+          O.exists((ext) => ext === "md")
+        )
       )
     )
   )
 }
 
-const readFile = (filePath: string): IOE.IOEither<Error, string> => {
+const readFile = (filePath: string): TE.TaskEither<Error, string> => {
   console.log(`Reading file content at ${filePath}`)
   return pipe(
     IOE.tryCatch(
       () => fs.readFileSync(filePath, { encoding: "utf-8" }),
       E.toError
     ),
-    IOE.map((data) => data.toString()),
-    IOE.chain(processMD)
+    TE.fromIOEither,
+    TE.map((data) => data.toString())
   )
 }
 
@@ -96,6 +138,40 @@ const app = express()
 app.use(cors(corsOptions) as any)
 
 app.use(express.static("static"))
+app.get("/data/*", (req, res) => {
+  const paths = req.params[0].split("/").filter((s) => s !== "")
+  console.log('paths', paths)
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  pipe(
+    paths,
+    (paths): TE.TaskEither<Error, any> => {
+      console.log(paths)
+      const contentPath = path.join(process.cwd(), "data", ...paths)
+      if (paths.length === 1) {
+        res.setHeader("X-Total-Count", 20)
+        return pipe(
+          readFile(`${contentPath}.json`),
+          TE.map((results) => ({ data: JSON.parse(results), total: 20 }))
+        )
+      }
+      if (paths.length === 2) {
+        const extension = "json"
+        return pipe(
+          readFile(`${contentPath}.${extension}`),
+          TE.map((content) => ({ data: content }))
+        )
+      }
+      return TE.left<Error, string[]>(new Error(`Invalid path: ${req.url}`))
+    },
+    TE.fold(
+      (e) => {
+        console.error(e)
+       return  () => Promise.resolve(res.status(500).send(e))
+      },
+      (response) => () => Promise.resolve(res.status(200).send(response))
+    )
+  )()
+})
 app.get("*", (req, res) => {
   console.log(req.params)
   console.log(req.url)
@@ -103,26 +179,37 @@ app.get("*", (req, res) => {
   res.setHeader("Access-Control-Expose-Headers", "X-Total-Count")
 
   const paths = req.params[0].split("/").filter((s) => s !== "")
-  return pipe(
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  pipe(
     paths,
-    (paths): IOE.IOEither<Error, any> => {
+    (paths): TE.TaskEither<Error, any> => {
       console.log(paths)
       const contentPath = path.join(process.cwd(), "content", ...paths)
       if (paths.length === 1) {
         res.setHeader("X-Total-Count", 20)
-        return readDir(contentPath)
-      }
-      if (paths.length === 2) {
         return pipe(
-          readFile(`${contentPath}.md`),
-          IOE.map((content) => content)
+          readDir(contentPath),
+          TE.chain((filePaths) =>
+            A.array.sequence(TE.taskEitherSeq)(
+              filePaths.map((fp) => readFile(`${contentPath}/${fp}`))
+            )
+          ),
+          TE.map((results) => ({ data: results, total: 20 }))
         )
       }
-      return IOE.left<Error, string[]>(new Error(`Invalid path: ${req.url}`))
+      if (paths.length === 2) {
+        const extension = paths[0] === "data" ? "json" : "md"
+        return pipe(
+          readFile(`${contentPath}.${extension}`),
+          TE.chain(processMD),
+          TE.map((content) => ({ data: content }))
+        )
+      }
+      return TE.left<Error, string[]>(new Error(`Invalid path: ${req.url}`))
     },
-    IOE.fold(
-      (e) => () => res.status(500).send(e),
-      (response) => () => res.status(200).send(response)
+    TE.fold(
+      (e) => () => Promise.resolve(res.status(500).send(e)),
+      (response) => () => Promise.resolve(res.status(200).send(response))
     )
   )()
 })

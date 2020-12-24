@@ -10,7 +10,6 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, style }) => {
-  console.log({ theme })
   return (
     <BaseProvider
       theme={theme}

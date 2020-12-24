@@ -29,7 +29,9 @@ import {
   HeadingXXLarge,
   ParagraphMedium
 } from "baseui/typography"
+import { MDXRenderer } from "gatsby-plugin-mdx"
 import * as React from "react"
+
 
 export const shortcodes: MDXProviderComponentsProp = {
   // counters
@@ -68,15 +70,16 @@ export const shortcodes: MDXProviderComponentsProp = {
   h6: HeadingXSmall,
 }
 
-export const renderHTML = (md: { body: string | null }): JSX.Element => (
-  <MDXProvider components={shortcodes}>
-    {/* {md.body !== null ? (
-      typeof md.body === "string" && md.body.length > 0 ? (
-        <MDXRenderer>{md.body}</MDXRenderer>
-      ) : (
-        md.body
-      )
-    ) : null} */}
-    {md.body}
-  </MDXProvider>
-)
+export const renderHTML = (md: { body: string | null }): JSX.Element => {
+  return (
+    <MDXProvider components={shortcodes}>
+      {md.body !== null ? (
+        typeof md.body === "string" && md.body.length > 0 ? (
+          <MDXRenderer>{md.body}</MDXRenderer>
+        ) : (
+          md.body
+        )
+      ) : null}
+    </MDXProvider>
+  )
+}

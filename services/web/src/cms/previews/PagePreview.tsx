@@ -11,6 +11,7 @@ export const PagePreview: React.FC<any> = (props) => {
     E.fold(renderValidationErrors, ({ body, ...frontmatter }) => {
       return (
         <PageContent
+          id={""}
           frontmatter={frontmatter}
           body={body}
           tableOfContents={O.none}

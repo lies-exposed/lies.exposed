@@ -1,4 +1,9 @@
+import * as E from "fp-ts/lib/Either"
+import { pipe } from "fp-ts/lib/pipeable"
+import * as TE from "fp-ts/lib/TaskEither"
 import { CreatePagesArgs } from "gatsby"
+import * as path from "path"
+import { actorsList, pagesList, topicsList } from "../../src/providers/DataProvider"
 
 // const createArticlePages = async ({
 //   actions,
@@ -413,12 +418,86 @@ import { CreatePagesArgs } from "gatsby"
 //   })
 // }
 
-export const createPages = async (options: CreatePagesArgs): Promise<void> => {
-  // await createArticlePages(options)
-  // await createActorPages(options)
-  // await createGroupPages(options)
-  // await createTopicPages(options)
-  // await createEventPages(options)
-  // await createAreasPages(options)
-  // await createProjectPages(options)
+/**
+ * Pages
+ *
+ * */
+const createPagesTask = ({ actions, reporter }: CreatePagesArgs) => async (
+  q: TE.TaskEither<any, any[]>,
+  templatePath: string
+): Promise<void> => {
+  const { createPage } = actions
+
+  // Handle errors
+  return pipe(
+    q,
+    TE.chain((pages) => {
+      return TE.tryCatch(
+        () =>
+          new Promise((resolve, reject) => {
+            try {
+              pages.forEach((p) => {
+                const nodePath = `${p.frontmatter.path}`
+                reporter.info(`Building to path: ${nodePath}`)
+
+                const context = p
+
+                createPage({
+                  path: nodePath,
+                  component: templatePath,
+                  // additional data can be passed via context
+                  context,
+                })
+              })
+              return resolve(undefined)
+            } catch (e) {
+              return reject(e)
+            }
+          }),
+        E.toError
+      )
+    }),
+    TE.fold(
+      (e) => {
+        reporter.error(`An error occured ${JSON.stringify(e)}`)
+        return () => Promise.reject(e)
+      },
+      () => {
+        return () => Promise.resolve()
+      }
+    )
+  )()
+}
+
+export const createPages = async (args: CreatePagesArgs) => {
+  const makePages = createPagesTask(args)
+
+  await makePages(
+    pagesList.run({
+      pagination: { perPage: 20, page: 1 },
+      sort: { field: "createdAt", order: "ASC" },
+      filter: {},
+    }),
+    path.resolve(`src/templates/PageTemplate.tsx`)
+  )
+
+  // actors
+  await makePages(
+    actorsList.run({
+      pagination: { perPage: 20, page: 1 },
+      sort: { field: "createdAt", order: "ASC" },
+      filter: {},
+    }),
+    path.resolve(`src/templates/ActorTemplate.tsx`)
+  )
+
+  // topics
+  await makePages(
+    topicsList.run({
+      pagination: { perPage: 20, page: 1 },
+      sort: { field: "createdAt", order: "ASC" },
+      filter: {},
+    }),
+    path.resolve(`src/templates/ActorTemplate.tsx`)
+  )
 }

@@ -1,35 +1,36 @@
-import { ActorMD, PageMD } from "@econnessione/io"
+import { ActorMD, PageMD, TopicMD } from "@econnessione/io"
 import { available, queryStrict } from "avenger"
 import { CachedQuery } from "avenger/lib/Query"
-import * as E from 'fp-ts/lib/Either'
+import * as E from "fp-ts/lib/Either"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as TE from "fp-ts/lib/TaskEither"
 import * as t from "io-ts"
-import jsonServerProvider from "ra-data-json-server"
+import { PathReporter } from "io-ts/lib/PathReporter"
 import {
-  fetchUtils,
   GetListParams,
   GetListResult,
   GetOneParams,
   GetOneResult
 } from "react-admin"
+import { APIClient } from "./APIClient"
 
-const httpClient = (
-  url: string,
-  options: fetchUtils.Options = {}
-): Promise<any> => {
-  if (!options.headers) {
-    options.headers = new Headers({ Accept: "application/json" })
-  }
-  // add your own headers here
-  // options.headers.set('X-Custom-Header', 'foobar');
-  console.log(url)
-  return fetchUtils.fetchJson(url, options)
-}
+// const httpClient = (
+//   url: string,
+//   options: fetchUtils.Options = {}
+// ): Promise<any> => {
+//   if (!options.headers) {
+//     options.headers = new Headers({ Accept: "application/json" })
+//   }
+//   // add your own headers here
+//   // options.headers.set('X-Custom-Header', 'foobar');
+//   console.log(url)
+//   return fetchUtils.fetchJson(url, options)
+// }
 
 type APIError = {
   name: "APIError"
-  message: string
+  message: string,
+  details?: string[]
 }
 
 const toError = (e: unknown): APIError => {
@@ -45,10 +46,9 @@ const toError = (e: unknown): APIError => {
   }
 }
 
-export const dataProvider = jsonServerProvider(
-  "http://localhost:4010",
-  httpClient
-)
+export const dataProvider = APIClient({
+  url: "http://localhost:4010",
+})
 
 // interface WithId { id: t.StringC }
 
@@ -59,6 +59,7 @@ export const dataProvider = jsonServerProvider(
 const Resources = {
   actors: ActorMD,
   pages: PageMD,
+  topics: TopicMD
 }
 
 type FetchResult<R, C extends t.Any> = R extends GetOneResult<infer A>
@@ -76,18 +77,21 @@ const liftFetch = <
 ): TE.TaskEither<APIError, FetchResult<R, C>> => {
   return pipe(
     TE.tryCatch(lp, toError),
+    TE.map((result) => {
+      console.log("result", result)
+      return result
+    }),
     TE.map(({ data }) => data),
     TE.chain((content) => {
       return pipe(
-        (codec.decode(content)),
-          E.mapLeft((e) => ({
-          name: `APIError` as const,
+        codec.decode(content),
+        E.mapLeft((e): APIError => ({
+          name: `APIError`,
           message: "validation failed",
+          details: PathReporter.report(E.left(e)),
         })),
         TE.fromEither
       )
-      
-
     })
   )
 }
@@ -122,129 +126,6 @@ export const GetListQuery = <K extends keyof typeof Resources>(r: K) =>
   )
 
 export const onePage = GetOneQuery("pages")
-
+export const pagesList = GetListQuery("pages")
 export const actorsList = GetListQuery("actors")
-
-// import { ActorFrontmatter } from "@models/actor"
-// import * as Task from "fp-ts/lib/Task"
-// import * as TE from "fp-ts/lib/TaskEither"
-// import { pipe } from "fp-ts/lib/pipeable"
-// import * as RA from "react-admin"
-
-// interface DataProvider<Resource> {
-//   getList: <R>(
-//     resource: Resource,
-//     params: RA.GetListParams
-//   ) => Promise<RA.GetListResult<R>>
-//   getOne: <R>(
-//     resource: Resource,
-//     params: RA.GetOneParams
-//   ) => Promise<RA.GetOneResult<R>>
-//   getMany: <R>(
-//     resource: Resource,
-//     params: RA.GetManyParams
-//   ) => Promise<RA.GetManyResult<R>>
-//   getManyReference: <R>(
-//     resource: Resource,
-//     params: RA.GetManyReferenceParams
-//   ) => Promise<RA.GetManyReferenceResult<R>>
-//   update: <R>(
-//     resource: Resource,
-//     params: RA.UpdateParams
-//   ) => Promise<RA.UpdateResult<R>>
-//   updateMany: (
-//     resource: Resource,
-//     params: RA.UpdateManyParams
-//   ) => Promise<RA.UpdateManyResult>
-//   create: <RecordType>(
-//     resource: Resource,
-//     params: RA.CreateParams
-//   ) => Promise<RA.CreateResult<RecordType>>
-//   delete: <RecordType>(
-//     resource: Resource,
-//     params: RA.DeleteParams
-//   ) => Promise<RA.DeleteResult<RecordType>>
-//   deleteMany: (
-//     resource: Resource,
-//     params: RA.DeleteManyParams
-//   ) => Promise<RA.DeleteManyResult>
-//   [key: string]: any
-// }
-
-// interface ResourceProvider<Output> {
-//   getList: (
-//     params: RA.GetListParams
-//   ) => TE.TaskEither<Error, RA.GetListResult<Output>>
-//   getOne: (
-//     params: RA.GetOneParams
-//   ) => TE.TaskEither<Error, RA.GetOneResult<Output>>
-//   getMany: (
-//     params: RA.GetManyParams
-//   ) => TE.TaskEither<Error, RA.GetManyResult<Output>>
-//   getManyReference: (
-//     params: RA.GetManyReferenceParams
-//   ) => TE.TaskEither<Error, RA.GetManyReferenceResult<Output>>
-//   update: (
-//     params: RA.UpdateParams
-//   ) => TE.TaskEither<Error, RA.UpdateResult<Output>>
-//   updateMany: (
-//     params: RA.UpdateManyParams
-//   ) => TE.TaskEither<Error, RA.UpdateManyResult>
-//   create: (
-//     params: RA.CreateParams
-//   ) => TE.TaskEither<Error, RA.CreateResult<Output>>
-//   delete: (
-//     params: RA.DeleteParams
-//   ) => TE.TaskEither<Error, RA.DeleteResult<Output>>
-//   deleteMany: (
-//     params: RA.DeleteManyParams
-//   ) => TE.TaskEither<Error, RA.DeleteManyResult>
-// }
-
-// interface APIClient {
-//   actors: ResourceProvider<ActorFrontmatter>
-// }
-
-// type Resource = keyof APIClient
-
-// const foldRequest = <A>(te: TE.TaskEither<Error, A>): (() => Promise<A>) => {
-//   return pipe(
-//     te,
-//     TE.fold(
-//       (e) => async () => await Promise.reject(e),
-//       (a) => Task.task.of(a)
-//     )
-//   )
-// }
-
-// const fetch = (url, params) =>
-
-// const getDataProvider = () =>  (resource: string) =>
-
-// interface APIClientContext {
-//   baseURL: string
-// }
-
-// const APIClient = (ctx: APIClientContext): APIClient => {
-//   const api = 1
-//   return {
-//     actors: {
-//       getOne: (params) => {}
-//     }
-//   }
-// }
-
-// interface APIDataProviderContext {
-//   baseURL: string
-// }
-
-// export const APIDataProvider: DataProvider<Resource> = (ctx: APIDataProviderContext) => {
-
-//   return {
-//   getOne: async (resource, params) =>
-//     foldRequest(api[resource].getOne(params))(),
-//   getList: async (resource, params) =>
-//     foldRequest(api[resource].getList(params))()
-//   ,
-// }
-// }
+export const topicsList = GetListQuery("topics")

@@ -1,4 +1,10 @@
 {
-    "extends": "../../tsconfig.json",
-    "include": ["./src"]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "typeRoots": ["node_modules/@types", "./src/typings"],
+    "skipLibCheck": true
+  },
+  "include": ["./src"]
 }

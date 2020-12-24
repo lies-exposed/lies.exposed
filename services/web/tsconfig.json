@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
-    "typeRoots": ["node_modules", "./typings"],
+    "typeRoots": ["node_modules/@types", "./typings"],
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["./components/*"],

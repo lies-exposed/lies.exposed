@@ -23,7 +23,7 @@ const TOCItem: t.Type<TOCItem> = t.recursion("TOCItem", () =>
 
 type MdxC<F extends t.Mixed> = t.ExactC<
   t.TypeC<{
-    id: t.StringType
+    // id: t.StringType
     frontmatter: F
     tableOfContents: OptionFromNullableC<
       t.TypeC<{
@@ -43,7 +43,7 @@ export const markdownRemark = <F extends t.Mixed>(
 ): MdxC<F> =>
   t.strict(
     {
-      id: t.string,
+      // id: t.string,
       frontmatter: f,
       tableOfContents: optionFromNullable(
         t.type({

@@ -1,12 +1,12 @@
 import {
   EventsNetwork,
-  EventsNetworkProps,
+  EventsNetworkProps
 } from "@components/Graph/EventsNetwork"
 import { actors } from "@mock-data/actors"
 import { events } from "@mock-data/events"
 import {
   Uncategorized,
-  UncategorizedMD,
+  UncategorizedMD
 } from "@models/events/Uncategorized"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import * as A from 'fp-ts/lib/Array'
@@ -25,6 +25,7 @@ const eventsMD: UncategorizedMD[] = pipe(
   events,
   A.filter(Uncategorized.is),
   A.map((e) => ({
+    id: '',
     frontmatter: e,
     body: () => "",
     tableOfContents: O.some({ items: [] }),

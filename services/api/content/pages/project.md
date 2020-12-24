@@ -47,7 +47,6 @@ Ne è un esempio questo numero tutto verde del [Corriere della Sera](/groups/ff4
 
 L'effetto che questo modo di fare informazione - *grenwashing* in questo caso - ha sulla percezione della realtà da parte dei cittadini un effetto negativo: nel tentativo di preservare l'immagine di queste multinazionali, la realtà viene distorta e, a volte, addirittura negata, tenendo la maggior parte delle persone all'oscuro delle vere cause e delle responsabilità di questa crisi.
 
-
 [^carbon-major-report]: [Carbon Majors Report 2017](../../static/media/pdf/Carbon-Majors-Report-2017.pdf)
 
 </FullSizeSection>
@@ -81,6 +80,7 @@ L'inserimento - o la modifica - può avvenire tramite l'interfaccia disponibile 
 Per tenere traccia dell'evoluzione temporale delle scelte che la nostra società compie, è necessario individuare quali sono le variabili da tenere in considerazione, oltre alle relazioni che intercorrono tra le stesse.
 
 Le entità considerate sono:
+
 - Attori
 - Gruppi
 - Progetti
@@ -117,6 +117,7 @@ Degli esempi di eventi possono essere:
 I _progetti_ rappresentano quei piani concreti che impattano il territorio e l'ambiente il generale.
 
 Esempi di _progetti_ possono essere:
+
 - la costruzione di un impianto petrolifero
 - la costruzione di una strada
 - l'abbattimento di un bosco
@@ -130,10 +131,10 @@ Gli obiettivi dei progetti dovrebbero essere contenuti nella risorsa, in modo da
 
 I [topic](/topics) indicano un tema o un argomento che fa riferimento a specifici progetti, attori, e gruppi.
 
-Alcuni _topic_ possibili sono: 
+Alcuni _topic_ possibili sono:
+
 - Covid
 - Greenwashing
-
 
 #### Attori
 
