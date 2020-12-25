@@ -1,5 +1,4 @@
 import { ListItem, ListItemLabel } from "baseui/list"
-import { Link } from "gatsby"
 import * as React from "react"
 
 interface MenuItem {
@@ -28,7 +27,7 @@ const Menu: React.FC<MenuProps> = props => {
             {items.map(i => (
               <ListItem key={i.id}>
                 <ListItemLabel>
-                  <Link to={i.path}>{i.title}</Link>
+                  <a href={i.path}>{i.title}</a>
                 </ListItemLabel>
               </ListItem>
             ))}

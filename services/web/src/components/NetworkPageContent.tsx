@@ -1,9 +1,9 @@
-import { NetworkPageMD } from "@models/networks"
+import { Page } from "@econnessione/io"
 import { renderHTML } from "@utils/renderHTML"
 import { Heading } from "baseui/heading"
 import * as React from "react"
 
-type NetworkPageContentProps = NetworkPageMD
+type NetworkPageContentProps = Page.PageMD
 
 export const NetworkPageContent: React.FC<NetworkPageContentProps> = ({
   frontmatter,

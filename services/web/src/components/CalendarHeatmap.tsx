@@ -1,19 +1,19 @@
+import { Events } from "@econnessione/io"
 import { ordEventDate } from "@helpers/event"
-import { UncategorizedMD } from "@models/events/Uncategorized"
 import { formatDate } from "@utils/date"
 import { Group } from "@vx/group"
 import { HeatmapCircle } from "@vx/heatmap"
 import { scaleLinear } from "@vx/scale"
-import { withTooltip, TooltipWithBounds } from "@vx/tooltip"
+import { TooltipWithBounds, withTooltip } from "@vx/tooltip"
 import { WithTooltipProvidedProps } from "@vx/tooltip/lib/enhancers/withTooltip"
 import { ParagraphXSmall } from "baseui/typography"
 import { addDays } from "date-fns"
 import { differenceInDays } from "date-fns/esm"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from "fp-ts/lib/Array"
+import { identity } from "fp-ts/lib/function"
 import * as O from "fp-ts/lib/Option"
 import { getDualOrd } from "fp-ts/lib/Ord"
-import { identity } from "fp-ts/lib/function"
 import { pipe } from "fp-ts/lib/pipeable"
 import React from "react"
 
@@ -28,7 +28,7 @@ const min = (data: any, f: (d: any) => number): number =>
   Math.min(...data.map(f))
 
 interface TooltipData {
-  event: O.Option<UncategorizedMD>
+  event: O.Option<Events.Uncategorized.UncategorizedMD>
   date: Date
 }
 
@@ -48,8 +48,8 @@ interface CalendarHeatmapProps {
     right: number
     bottom: number
   }
-  events: UncategorizedMD[]
-  onCircleClick: (e: UncategorizedMD) => void
+  events: Events.Uncategorized.UncategorizedMD[]
+  onCircleClick: (e: Events.Uncategorized.UncategorizedMD) => void
 }
 
 const CalendarHeatmapComponent: React.FC<
@@ -98,7 +98,10 @@ const CalendarHeatmapComponent: React.FC<
         const firstEventDate = firstEvent.frontmatter.date
         const eventsWithDiff = events.map((e) => ({
           ...e,
-          days: differenceInDays(e.frontmatter.date, firstEvent.frontmatter.date),
+          days: differenceInDays(
+            e.frontmatter.date,
+            firstEvent.frontmatter.date
+          ),
         }))
 
         const weekBins = (_week: number): BinDatum[] => {
@@ -171,8 +174,8 @@ const CalendarHeatmapComponent: React.FC<
               <Group top={margin.top} left={margin.left}>
                 <HeatmapCircle<typeof data[0], BinDatum>
                   data={data}
-                  xScale={xScale}
-                  yScale={yScale}
+                  xScale={(n) => xScale(n) || 0}
+                  yScale={(n) => yScale(n) || 0}
                   colorScale={circleColorScale}
                   radius={radius}
                   gap={1}

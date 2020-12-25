@@ -1,4 +1,3 @@
-import { useStaticQuery, graphql } from "gatsby"
 import React from "react"
 import Helmet from "react-helmet"
 
@@ -20,19 +19,15 @@ interface QueryResults {
 }
 
 const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title }) => {
-  const { site }: QueryResults = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-          }
-        }
+  const { site }: QueryResults = {
+    site: {
+      siteMetadata: {
+        title: 'here',
+        description: 'dete',
+        author: 'nobody'
       }
-    `
-  )
+    }
+  }
 
   const metaDescription = description ?? site.siteMetadata.description
 

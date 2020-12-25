@@ -1,9 +1,9 @@
-import { AreaFrontmatter } from "@models/area"
+import { Area } from "@econnessione/io"
 import { generateRandomColor } from "@utils/colors"
 import uuid from "@utils/uuid"
 
-export const firstArea: AreaFrontmatter = {
-  uuid: uuid(),
+export const firstArea: Area.AreaFrontmatter = {
+  id: uuid(),
   type: 'AreaFrontmatter',
   label: "First Area",
   topics: [],

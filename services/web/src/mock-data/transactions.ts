@@ -1,12 +1,12 @@
-import { TransactionFrontmatter, TRANSACTION_FRONTMATTER } from "@models/Transaction"
+import { Transaction } from "@econnessione/io"
 import uuid from "@utils/uuid"
 import { subYears } from "date-fns"
-import { goodActor, badActor, goodSecondActor } from "./actors"
+import { badActor, goodActor, goodSecondActor } from "./actors"
 import { badGroup, goodGroup } from "./groups"
 
-export const firstFund: TransactionFrontmatter = {
-  uuid: uuid(),
-  type: TRANSACTION_FRONTMATTER.value,
+export const firstFund: Transaction.TransactionFrontmatter = {
+  id: uuid(),
+  type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 100000,
   by: { type: "Actor", actor: goodActor },
   to: { type: 'Actor', actor: goodSecondActor},
@@ -16,9 +16,9 @@ export const firstFund: TransactionFrontmatter = {
   sources: ["first source"],
 }
 
-export const secondFund: TransactionFrontmatter = {
-  uuid: uuid(),
-  type: TRANSACTION_FRONTMATTER.value,
+export const secondFund: Transaction.TransactionFrontmatter = {
+  id: uuid(),
+  type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 40000,
   by: { type: "Actor", actor: badActor },
   to: { type: "Group", group: badGroup },
@@ -28,9 +28,9 @@ export const secondFund: TransactionFrontmatter = {
   sources: ["second source"],
 }
 
-export const thirdFund: TransactionFrontmatter = {
-  uuid: uuid(),
-  type: TRANSACTION_FRONTMATTER.value,
+export const thirdFund: Transaction.TransactionFrontmatter = {
+  id: uuid(),
+  type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 150000,
   by: { type: "Group", group: goodGroup },
   to: { type: "Group", group: badGroup },
@@ -40,9 +40,9 @@ export const thirdFund: TransactionFrontmatter = {
   sources: ["third sources"],
 }
 
-export const fourthFund: TransactionFrontmatter = {
-  uuid: uuid(),
-  type: TRANSACTION_FRONTMATTER.value,
+export const fourthFund: Transaction.TransactionFrontmatter = {
+  id: uuid(),
+  type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 200000,
   by: { type: "Group", group: goodGroup },
   to: { type: "Actor", actor: goodActor },
@@ -52,9 +52,9 @@ export const fourthFund: TransactionFrontmatter = {
   sources: ["third sources"],
 }
 
-export const fifthFund: TransactionFrontmatter = {
-  uuid: uuid(),
-  type: TRANSACTION_FRONTMATTER.value,
+export const fifthFund: Transaction.TransactionFrontmatter = {
+  id: uuid(),
+  type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 200000,
   by: { type: "Actor", actor: goodActor },
   to: { type: "Actor", actor: goodSecondActor },
@@ -64,7 +64,7 @@ export const fifthFund: TransactionFrontmatter = {
   sources: ["third sources"],
 }
 
-export const funds: TransactionFrontmatter[] = [
+export const funds: Transaction.TransactionFrontmatter[] = [
   firstFund,
   secondFund,
   thirdFund,

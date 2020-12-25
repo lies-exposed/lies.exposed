@@ -1,9 +1,9 @@
-import { PageMD } from "@econnessione/io"
+import { Page } from "@econnessione/io"
 import { renderHTML } from "@utils/renderHTML"
 import * as React from "react"
 
 
-export type PageContentProps = PageMD
+export type PageContentProps = Page.PageMD
 
 export const PageContent: React.FC<PageContentProps> = ({ body }) => {
   return (

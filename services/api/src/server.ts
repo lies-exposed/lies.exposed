@@ -1,3 +1,5 @@
+import fs from "fs"
+import path from "path"
 import { Common } from "@econnessione/io"
 import cors from "cors"
 import express from "express"
@@ -6,11 +8,9 @@ import * as A from "fp-ts/lib/Array"
 import * as E from "fp-ts/lib/Either"
 import * as IOE from "fp-ts/lib/IOEither"
 import * as O from "fp-ts/lib/Option"
-import { pipe } from "fp-ts/lib/pipeable"
 import * as TE from "fp-ts/lib/TaskEither"
-import fs from "fs"
+import { pipe } from "fp-ts/lib/pipeable"
 import grayMatter from "gray-matter"
-import path from "path"
 import { renderMDX } from "./mdx/renderMDX"
 
 const contentRoot = path.join(process.cwd(), "content")
@@ -97,7 +97,11 @@ const processMD = (content: string): TE.TaskEither<Error, any> => {
         body: TE.tryCatch(() => renderMDX(content, data), E.toError),
       })
     ),
-    TE.map((c) => ({ id: c.frontmatter.uuid, ...c }))
+    TE.map((c) => ({
+      ...c,
+      id: c.frontmatter.uuid,
+      frontmatter: { ...c.frontmatter, id: c.frontmatter.uuid },
+    }))
   )
 }
 

@@ -1,4 +1,4 @@
-import { ArticleMD } from "@models/article"
+import { Article } from "@econnessione/io"
 import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
@@ -6,12 +6,12 @@ import { HeadingXXLarge, LabelSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
+import EditButton from "./buttons/EditButton"
 import { ContentWithSidebar } from "./ContentWithSidebar"
 import { MainContent } from "./MainContent"
 import { TableOfContents } from "./TableOfContents"
-import EditButton from "./buttons/EditButton"
 
-export type ArticlePageContentProps = ArticleMD
+export type ArticlePageContentProps = Article.ArticleMD
 
 export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
   props
@@ -26,7 +26,7 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
         overrides={{
           Block: {
             style: {
-              backgroundImage: `url(${props.frontmatter.featuredImage.publicURL})`,
+              backgroundImage: `url(${props.frontmatter.featuredImage})`,
               backgroundSize: `cover`,
               backgroundRepeat: "no-repeat",
             },

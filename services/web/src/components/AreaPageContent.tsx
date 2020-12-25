@@ -1,6 +1,4 @@
-import { AreaMD } from "@models/area"
-import { GroupFrontmatter } from "@models/group"
-import { TopicFrontmatter } from "@models/topic"
+import { Area, Group, Topic } from "@econnessione/io"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
@@ -8,14 +6,14 @@ import { HeadingXLarge, HeadingXSmall } from "baseui/typography"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
-import Map from "./Map"
 import EditButton from "./buttons/EditButton"
 import GroupList from "./lists/GroupList"
 import TopicList from "./lists/TopicList"
+import Map from "./Map"
 
-export interface AreaPageContentProps extends AreaMD {
-  onGroupClick: (g: GroupFrontmatter) => void
-  onTopicClick: (t: TopicFrontmatter) => void
+export interface AreaPageContentProps extends Area.AreaMD {
+  onGroupClick: (g: Group.GroupFrontmatter) => void
+  onTopicClick: (t: Topic.TopicFrontmatter) => void
 }
 
 export const AreaPageContent: React.FC<AreaPageContentProps> = ({

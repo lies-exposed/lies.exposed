@@ -1,3 +1,4 @@
+import { WindowLocation } from "@reach/router"
 import * as E from "fp-ts/lib/Either"
 import { eqString } from "fp-ts/lib/Eq"
 import * as R from "fp-ts/lib/Record"
@@ -15,7 +16,7 @@ const queryStringOpts: querystring.ParseOptions = {
  * @param query parsed query
  */
 const stripInvalid = (
-  query: querystring.ParsedQuery
+  query: { [key:string]: any }
 ): querystring.ParsedQuery => {
   return R.record.filter(query, (r) => {
     const isUndefined = t.undefined.is(r)
@@ -41,12 +42,12 @@ export const Routes = t.type(
 export type Routes = t.TypeOf<typeof Routes>
 
 export const parseSearch = <R extends keyof Routes>(
-  l: Location,
+  l: WindowLocation | undefined,
   route: R
 ): E.Either<t.Errors, Routes[R]> => {
-  const search = stripInvalid(
+  const search = l !== undefined ? stripInvalid(
     querystring.parse(l.search.replace("?", ""), queryStringOpts)
-  )
+  ) : {}
 
   switch (route) {
     case "timelines": {
@@ -66,7 +67,7 @@ export const parseSearch = <R extends keyof Routes>(
   return Routes.props[route].decode(search)
 }
 
-export const updateSearch = <R extends keyof Routes>(l: Location, route: R) => (
+export const updateSearch = <R extends keyof Routes>(l: WindowLocation | undefined, route: R) => (
   update: Partial<Routes[R]>
 ): E.Either<t.Errors, string> => {
   return pipe(

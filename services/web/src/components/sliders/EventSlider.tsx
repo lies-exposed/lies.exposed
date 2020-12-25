@@ -1,16 +1,13 @@
 import { ProjectTransactionListItem } from "@components/lists/EventList/ProjectTransactionListItem"
 import { ProtestListItem } from "@components/lists/EventList/ProtestListItem"
 import { UncategorizedListItem } from "@components/lists/EventList/UncategorizedListItem"
-import { EventMD } from "@models/events"
-import { ProjectTransactionMD } from "@models/events/ProjectTransaction"
-import { ProtestMD } from "@models/events/Protest"
-import { UncategorizedMD } from "@models/events/Uncategorized"
+import { Events } from "@econnessione/io"
 import { Block } from "baseui/block"
 import * as React from "react"
 import SlickSlider from "react-slick"
 
 export interface EventSliderProps {
-  events: EventMD[]
+  events: Events.EventMD[]
 }
 
 export const EventSlider: React.FC<EventSliderProps> = (props) => {
@@ -24,22 +21,22 @@ export const EventSlider: React.FC<EventSliderProps> = (props) => {
         dots={true}
       >
         {props.events.map((e, index) => {
-          if (UncategorizedMD.is(e)) {
-            return <UncategorizedListItem key={e.frontmatter.uuid} item={e} />
+          if (Events.Uncategorized.UncategorizedMD.is(e)) {
+            return <UncategorizedListItem key={e.frontmatter.id} item={e} />
           }
 
-          if (ProjectTransactionMD.is(e)) {
+          if (Events.ProjectTransaction.ProjectTransactionMD.is(e)) {
             return (
               <ProjectTransactionListItem
-                key={e.frontmatter.uuid}
+                key={e.frontmatter.id}
                 index={index}
                 item={{ ...e.frontmatter, selected: true }}
               />
             )
           }
 
-          if (ProtestMD.is(e)) {
-            return <ProtestListItem key={e.frontmatter.uuid} item={e} />
+          if (Events.Protest.ProtestMD.is(e)) {
+            return <ProtestListItem key={e.frontmatter.id} item={e} />
           }
 
           return <div key={e.frontmatter.type}>{e.frontmatter.type}</div>

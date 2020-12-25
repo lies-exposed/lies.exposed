@@ -1,6 +1,4 @@
-import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
-import { ProjectMD } from "@models/Project"
-import { EventListMap } from "@models/events"
+import { Common, Events, Project } from "@econnessione/io"
 import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -17,8 +15,8 @@ import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph"
 import EditButton from "./buttons/EditButton"
 import GroupOrActorList from "./lists/GroupAndActorList"
 
-export interface ProjectPageContentProps extends ProjectMD {
-  metadata: EventListMap
+export interface ProjectPageContentProps extends Project.ProjectMD {
+  metadata: Events.EventListMap
 }
 
 export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
@@ -35,7 +33,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   const investors = pipe(
     metadata.ProjectTransaction,
     A.map((f) => f.transaction.by),
-    A.uniq(Eq.eq.contramap(Eq.eqString, (e: ByGroupOrActor) => e.type === 'Group' ? e.group.uuid : e.actor.uuid))
+    A.uniq(Eq.eq.contramap(Eq.eqString, (e: Common.ByGroupOrActor) => e.type === 'Group' ? e.group.id : e.actor.id))
   )
 
   const arrested = pipe(
@@ -94,14 +92,14 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
           {pipe(
             frontmatter.images,
             O.map((images) => (
-              <Block key={`project-${frontmatter.uuid}`} width="100%">
+              <Block key={`project-${frontmatter.id}`} width="100%">
                 <Slider
-                  key={`project-${frontmatter.uuid}-slider`}
+                  key={`project-${frontmatter.id}-slider`}
                   height={400}
                   slides={images.map((i) => ({
                     authorName: "",
                     info: O.getOrElse(() => "")(i.description),
-                    imageURL: i.image.publicURL,
+                    imageURL: i.image,
                   }))}
                   arrows={true}
                   adaptiveHeight={true}

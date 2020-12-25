@@ -1,63 +1,32 @@
-import { Layout } from "@components/Layout"
+import { ErrorBox } from "@components/Common/ErrorBox"
+import { Loader } from "@components/Common/Loader"
 import { MainContent } from "@components/MainContent"
 import { ProjectPageContent } from "@components/ProjectPageContent"
 import SEO from "@components/SEO"
 import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata"
-import { ProjectMD } from "@models/Project"
-import { TransactionFrontmatter } from "@models/Transaction"
-import { throwValidationErrors } from "@utils/throwValidationErrors"
-import { sequenceS } from "fp-ts/lib/Apply"
-import * as E from "fp-ts/lib/Either"
-import { pipe } from "fp-ts/lib/pipeable"
-import { PageProps } from "gatsby"
-import * as t from "io-ts"
+import { project } from "@providers/DataProvider"
+import { RouteComponentProps } from "@reach/router"
+import * as QR from "avenger/lib/QueryResult"
+import { WithQueries } from "avenger/lib/react"
 import React from "react"
 
-interface ProjectData {
-  pageContent: { childMdx: unknown }
-  funds: { nodes: unknown[] }
-}
+export default class ProjectTemplate extends React.PureComponent<
+  RouteComponentProps
+> {
+  render(): JSX.Element {
+    const id = this.props.location?.search ?? "not-a-real-id"
 
-export interface ProjectTemplatePageProps extends PageProps<ProjectData> {}
-
-const ProjectTemplateContainer: React.FC<ProjectTemplatePageProps> = ({
-  data,
-}) => {
-  return pipe(
-    sequenceS(E.either)({
-      project: ProjectMD.decode(data.pageContent.childMdx),
-      funds: t.array(TransactionFrontmatter).decode([]),
-    }),
-    E.fold(throwValidationErrors, ({ project, funds }) => {
-      return (
-        <Layout>
-          <SEO title={project.frontmatter.name} />
+    return (
+      <WithQueries
+        queries={{ project: project }}
+        params={{ project: { id: id } }}
+        render={QR.fold(Loader, ErrorBox, ({ project }) => (
           <MainContent>
+            <SEO title={project.frontmatter.name} />
             <ProjectPageContent {...project} metadata={eventMetadataMapEmpty} />
           </MainContent>
-        </Layout>
-      )
-    })
-  )
+        ))}
+      />
+    )
+  }
 }
-
-// export const pageQuery = graphql`
-//   query ProjectTemplateQuery($projectUUID: String!) {
-//     pageContent: file(
-//       name: { eq: $projectUUID }
-//       sourceInstanceName: { eq: "projects" }
-//     ) {
-//       childMdx {
-//         ...ProjectMD
-//       }
-//     }
-
-//     events: allMdx(filter: { fields: { collection: { eq: "events" } } }) {
-//       nodes {
-//         ...EventMD
-//       }
-//     }
-//   }
-// `
-
-export default ProjectTemplateContainer

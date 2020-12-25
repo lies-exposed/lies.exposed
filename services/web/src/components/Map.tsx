@@ -1,19 +1,19 @@
-import { AreaFrontmatter } from "@models/area"
+import { Area } from "@econnessione/io";
 import Feature from 'ol/Feature';
-import OlMap from "ol/Map"
-import View from "ol/View"
+import OlMap from "ol/Map";
+import View from "ol/View";
 import * as OlControl from 'ol/control'
+import GEOJSON from "ol/format/GeoJSON";
+import Geometry from 'ol/geom/Geometry';
 import * as OlInteraction from 'ol/interaction'
-import GEOJSON from "ol/format/GeoJSON"
-import Geometry from 'ol/geom/Geometry'
-import TileLayer from "ol/layer/Tile"
-import VectorLayer from "ol/layer/Vector"
-import * as OlProj from "ol/proj"
-import OSM from "ol/source/OSM"
-import VectorSource from "ol/source/Vector"
-import { Fill, Stroke, Style } from "ol/style"
-import * as React from "react"
-import "ol/ol.css"
+import TileLayer from "ol/layer/Tile";
+import VectorLayer from "ol/layer/Vector";
+import "ol/ol.css";
+import * as OlProj from "ol/proj";
+import OSM from "ol/source/OSM";
+import VectorSource from "ol/source/Vector";
+import { Fill, Stroke, Style } from "ol/style";
+import * as React from "react";
 
 const formatOptions = {
   dataProjection: "EPSG:4326",
@@ -55,7 +55,7 @@ const Map: React.FC<MapProps> = ({
     const layer = new VectorLayer({
       source,
       style: (feature) => {
-        const area = feature.getProperties() as AreaFrontmatter
+        const area = feature.getProperties() as Area.AreaFrontmatter
         return new Style({
           fill: new Fill({
             color: `#${area.color}`,

@@ -1,0 +1,37 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "standard-with-typescript",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "baseui/deprecated-theme-api": "warn",
+    "baseui/deprecated-component-api": "warn",
+    "baseui/no-deep-imports": "warn",
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["moment", "../*"]
+      }
+    ],
+    "no-console": "error",
+    "@typescript-eslint/restrict-template-expressions": ["off"],
+    "@typescript-eslint/no-redeclare": ["off"],
+    "@typescript-eslint/return-await": ["error"],
+    "@typescript-eslint/promise-function-async": ["off"]
+  }
+}

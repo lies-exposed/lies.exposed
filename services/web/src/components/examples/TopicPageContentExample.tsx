@@ -1,6 +1,6 @@
 import {
   TopicPageContent,
-  TopicPageContentProps,
+  TopicPageContentProps
 } from "@components/TopicPageContent"
 import { firstTopic } from "@mock-data/topics"
 import { Card } from "baseui/card"
@@ -9,8 +9,9 @@ import * as R from "fp-ts/lib/Record"
 import * as React from "react"
 
 export const topicPageContentArgs: TopicPageContentProps = {
+  id: "",
   frontmatter: firstTopic,
-  body: null,
+  body: "",
   tableOfContents: O.none,
   timeToRead: O.none,
 }

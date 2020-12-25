@@ -1,18 +1,17 @@
 import { List } from "@components/Common/List"
-import { ByGroupOrActor, ByGroup } from "@models/Common/ByGroupOrActor"
-import { GroupFrontmatter } from "@models/group"
+import { Common, Group } from "@econnessione/io"
 import * as React from "react"
 import { ActorListItem, AvatarScale } from "./ActorList"
 import { GroupListItem } from "./GroupList"
 
 
-export interface Group extends GroupFrontmatter {
+export interface Group extends Group.GroupFrontmatter {
   selected: boolean
 }
 
 interface ByEitherGroupOrActorListProps {
-  by: ByGroupOrActor[]
-  onByClick: (by: ByGroupOrActor) => void
+  by: Common.ByGroupOrActor[]
+  onByClick: (by: Common.ByGroupOrActor) => void
   avatarScale: AvatarScale
 }
 
@@ -22,17 +21,17 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
   avatarScale,
 }) => {
   return (
-    <List<ByGroupOrActor>
+    <List<Common.ByGroupOrActor>
       data={by}
       filter={(_) => true}
       onItemClick={onByClick}
-      getKey={(g) => (ByGroup.is(g) ? g.group.uuid : g.actor.uuid)}
+      getKey={(g) => (g.type === 'Group' ? g.group.id : g.actor.id)}
       ListItem={(p) => {
         const item = p.item
-        return ByGroup.is(item) ? (
+        return item.type === 'Group' ? (
           <GroupListItem
             {...p.item}
-            key={`group-${item.group.uuid}`}
+            key={`group-${item.group.id}`}
             index={p.index}
             avatarScale={avatarScale}
             item={{ ...item.group, selected: true }}
@@ -45,7 +44,7 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
         ) : (
           <ActorListItem
             {...p.item}
-            key={`actor-${item.actor.uuid}`}
+            key={`actor-${item.actor.id}`}
             index={p.index}
             avatarScale={avatarScale}
             onClick={(a) =>

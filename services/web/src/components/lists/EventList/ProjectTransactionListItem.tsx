@@ -1,12 +1,12 @@
 import { ListItemProps } from "@components/Common/List"
-import { ByActor } from "@models/Common/ByGroupOrActor"
-import { ProjectTransaction } from "@models/events/ProjectTransaction"
+import { Common, Events } from "@econnessione/io"
 import { Avatar } from "baseui/avatar"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
+import { PathReporter } from "io-ts/lib/PathReporter"
 import * as React from "react"
 
-export interface ProjectTransactionListItem extends ProjectTransaction {
+export interface ProjectTransactionListItem extends Events.ProjectTransaction.ProjectTransaction {
   selected: boolean
 }
 
@@ -14,20 +14,25 @@ export const ProjectTransactionListItem: React.FC<ListItemProps<
   ProjectTransactionListItem
 >> = ({ item, onClick }) => {
   const transactionBy = item.transaction.by
+
+  // eslint-disable-next-line
+  console.log(PathReporter.report( Common.ByGroup.decode(transactionBy)))
+  // eslint-disable-next-line
+  console.log(PathReporter.report( Common.ByActor.decode(transactionBy)))
   return (
     <div
-      key={item.project.uuid}
+      key={item.project.id}
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >
-      {ByActor.is(transactionBy)
+      {transactionBy.type === 'Actor'
         ? pipe(
             transactionBy.actor.avatar,
             O.map((avatar) => (
               <Avatar
                 key={transactionBy.actor.fullName}
                 name={transactionBy.actor.fullName}
-                src={avatar.publicURL}
+                src={avatar}
               />
             )),
             O.getOrElse(() => <span>{transactionBy.actor.fullName}</span>)
@@ -38,7 +43,7 @@ export const ProjectTransactionListItem: React.FC<ListItemProps<
               <Avatar
                 key={transactionBy.group.name}
                 name={transactionBy.group.name}
-                src={avatar.publicURL}
+                src={avatar}
               />
             )),
             O.getOrElse(() => <span>{transactionBy.group.fullName}</span>)

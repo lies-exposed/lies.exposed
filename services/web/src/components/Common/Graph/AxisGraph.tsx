@@ -121,8 +121,8 @@ export const AxisGraph = <D extends any>({
       <Group top={margin.top} left={margin.left}>
         <LinePath
           data={data}
-          x={(d) => xScale(getX(d))}
-          y={(d) => yScale(getY(d))}
+          x={(d) => xScale(getX(d)) ?? 0}
+          y={(d) => yScale(getY(d)) ?? 0}
           stroke={`url('#${linePathId}')`}
           strokeWidth={2}
           curve={curveLinear}

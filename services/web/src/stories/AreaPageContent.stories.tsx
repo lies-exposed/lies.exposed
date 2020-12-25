@@ -1,6 +1,6 @@
 import {
   AreaPageContent,
-  AreaPageContentProps,
+  AreaPageContentProps
 } from "@components/AreaPageContent"
 import { firstArea } from "@mock-data/areas"
 import { Meta, Story } from "@storybook/react/types-6-0"
@@ -31,8 +31,9 @@ const Template: Story<AreaPageContentProps> = (props) => {
 const AreaPageContentExample = Template.bind({})
 
 const args: AreaPageContentProps = {
+  id: "",
   frontmatter: firstArea,
-  body: null,
+  body: "",
   tableOfContents: O.none,
   timeToRead: O.none,
   onGroupClick: () => {},

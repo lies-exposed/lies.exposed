@@ -1,11 +1,10 @@
 import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation"
 import { Layout } from "@components/Layout"
-import EventList from "@components/lists/EventList/EventList"
 import SEO from "@components/SEO"
 import { TopicPageContent } from "@components/TopicPageContent"
+import EventList from "@components/lists/EventList/EventList"
+import { Events, Topic } from "@econnessione/io"
 import { eventsDataToNavigatorItems, ordEventDate } from "@helpers/event"
-import { EventMD } from "@models/events"
-import { TopicMD } from "@models/topic"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as A from 'fp-ts/lib/Array'
@@ -18,9 +17,9 @@ import React from "react"
 interface TopicTimelineTemplateProps {
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMdx: TopicMD }
+    pageContent: { childMdx: Topic.TopicMD }
     events: {
-      nodes: EventMD[]
+      nodes: Events.EventMD[]
     }
   }
 }
@@ -30,8 +29,8 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 }) => {
   return pipe(
     sequenceS(E.either)({
-      events: t.array(EventMD).decode(data.events.nodes),
-      pageContent: TopicMD.decode(
+      events: t.array(Events.EventMD).decode(data.events.nodes),
+      pageContent: Topic.TopicMD.decode(
         data.pageContent.childMdx
       ),
     }),

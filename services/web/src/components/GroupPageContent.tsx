@@ -1,8 +1,4 @@
-import { ProjectFrontmatter } from "@models/Project"
-import { ActorFrontmatter } from "@models/actor"
-import { EventMD } from "@models/events"
-import { ProjectTransaction } from "@models/events/ProjectTransaction"
-import { GroupMD } from "@models/group"
+import { Actor, Events, Group, Project } from "@econnessione/io"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
@@ -13,18 +9,17 @@ import * as Map from "fp-ts/lib/Map"
 import * as O from "fp-ts/lib/Option"
 import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
-import Image from "gatsby-image"
 import * as React from "react"
 // import { EventsNetwork } from "./Graph/EventsNetwork"
 import EditButton from "./buttons/EditButton"
 import ActorList from "./lists/ActorList"
 import GroupList from "./lists/GroupList"
 
-export interface GroupPageContentProps extends GroupMD {
-  events: EventMD[]
-  projects: ProjectFrontmatter[]
-  funds: ProjectTransaction[]
-  onMemberClick: (m: ActorFrontmatter) => void
+export interface GroupPageContentProps extends Group.GroupMD {
+  events: Events.EventMD[]
+  projects: Project.ProjectFrontmatter[]
+  funds: Events.ProjectTransaction.ProjectTransaction[]
+  onMemberClick: (m: Actor.ActorFrontmatter) => void
 }
 
 export const GroupPageContent: React.FC<GroupPageContentProps> = ({
@@ -82,12 +77,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
               frontmatter.avatar,
               O.fold(
                 () => <div />,
-                (i) => (
-                  <Image
-                    fluid={i.childImageSharp.fluid}
-                    style={{ width: "100px" }}
-                  />
-                )
+                (src) => <img src={src} style={{ width: "100px" }} />
               )
             )}
             <div className="content">{renderHTML({ body })}</div>
@@ -144,7 +134,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
       {/* <FlexGridItem width="100%">
         <EventsNetwork
           events={events.filter(UncategorizedMD.is)}
-          selectedGroupIds={[frontmatter.uuid]}
+          selectedGroupIds={[frontmatter.id]}
           selectedActorIds={[]}
           selectedTopicIds={[]}
           scale={"all"}

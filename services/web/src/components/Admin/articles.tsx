@@ -21,7 +21,7 @@ import {
 } from "react-admin"
 import MarkdownInput from "./MarkdownInput"
 
-export const ArticleList = (props: ListProps) => (
+export const ArticleList: React.FC<ListProps> = (props) => (
   <List {...props}>
     <Datagrid rowClick="edit">
       <BooleanField source="draft" />
@@ -36,7 +36,7 @@ export const ArticleList = (props: ListProps) => (
 )
 
 
-export const ArticleEdit = (props: EditProps) => (
+export const ArticleEdit: React.FC<EditProps> = (props) => (
   <Edit {...props}>
     <SimpleForm>
       <BooleanInput source="draft" />
@@ -54,7 +54,7 @@ export const ArticleEdit = (props: EditProps) => (
   </Edit>
 )
 
-export const ArticleCreate = (props: CreateProps) => (
+export const ArticleCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create an Article" {...props}>
     <SimpleForm>
       <TextInput source="color" />

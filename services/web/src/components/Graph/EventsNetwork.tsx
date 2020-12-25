@@ -5,13 +5,8 @@ import {
 } from "@components/Common/Graph/Network/NetworkNode"
 import ActorList from "@components/lists/ActorList"
 import TopicList from "@components/lists/TopicList"
+import { Actor, Common, Events, Group, Page, Topic } from "@econnessione/io"
 import { ordEventDate } from "@helpers/event"
-import { BaseFrontmatter } from "@models/Frontmatter"
-import { ActorFrontmatter, ActorMD } from "@models/actor"
-import { UncategorizedMD } from "@models/events/Uncategorized"
-import { GroupFrontmatter, GroupMD } from "@models/group"
-import { NetworkPageMD } from "@models/networks"
-import { TopicFrontmatter, TopicMD } from "@models/topic"
 import { eqByUUID } from "@utils/IOTSSchemable"
 import { formatDate } from "@utils/date"
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend"
@@ -34,8 +29,8 @@ import * as React from "react"
 interface EventNetworkDatum extends NetworkNodeDatum {
   title: string
   date: Date
-  topics: NEA.NonEmptyArray<TopicFrontmatter>
-  actors: O.Option<ActorFrontmatter[]>
+  topics: NEA.NonEmptyArray<Topic.TopicFrontmatter>
+  actors: O.Option<Actor.ActorFrontmatter[]>
 }
 
 interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
@@ -44,7 +39,7 @@ interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
 }
 
 export interface EventsNetworkProps {
-  events: UncategorizedMD[]
+  events: Events.Uncategorized.UncategorizedMD[]
   selectedActorIds: string[]
   selectedGroupIds: string[]
   selectedTopicIds: string[]
@@ -281,12 +276,14 @@ const getX = (
   )
 }
 
-const getY = (topics: TopicFrontmatter[], margin: number, height: number) => (
-  key: string
-) =>
+const getY = (
+  topics: Topic.TopicFrontmatter[],
+  margin: number,
+  height: number
+) => (key: string) =>
   pipe(
     topics,
-    A.findIndex((t) => Eq.eqString.equals(t.uuid, key)),
+    A.findIndex((t) => Eq.eqString.equals(t.id, key)),
     O.fold(
       () => 0,
       (index) => {
@@ -295,7 +292,7 @@ const getY = (topics: TopicFrontmatter[], margin: number, height: number) => (
     )
   )
 
-const updateMap = <F extends BaseFrontmatter>(acc: Map<string, F>) => (
+const updateMap = <F extends Common.BaseFrontmatter>(acc: Map<string, F>) => (
   frontmatters: F[]
 ): Map<string, F> => {
   return pipe(
@@ -304,7 +301,7 @@ const updateMap = <F extends BaseFrontmatter>(acc: Map<string, F>) => (
       if (Map.elem(eqByUUID)(t, r)) {
         return r
       }
-      return Map.insertAt(Eq.eqString)(t.uuid, t)(r)
+      return Map.insertAt(Eq.eqString)(t.id, t)(r)
     })
   )
 }
@@ -313,7 +310,7 @@ const getLinks = (
   nodes: Array<NetworkPointNode<EventNetworkDatum>>,
   relationLinks: Map<string, NetworkLink[]>
 ) => (
-  relations: Array<BaseFrontmatter & { color: string }>
+  relations: Array<Common.BaseFrontmatter & { color: string }>
 ): Map<string, NetworkLink[]> => {
   return pipe(
     nodes,
@@ -322,13 +319,13 @@ const getLinks = (
         relations,
         A.reduce(acc, (acc1, relation) => {
           const lastLinks = pipe(
-            Map.lookup(Ord.ordString)(relation.uuid, acc1),
+            Map.lookup(Ord.ordString)(relation.id, acc1),
             O.getOrElse((): NetworkLink[] => [])
           )
 
           return pipe(
             acc1,
-            Map.insertAt(Eq.eqString)(relation.uuid, [
+            Map.insertAt(Eq.eqString)(relation.id, [
               ...lastLinks,
               {
                 source: pipe(
@@ -354,25 +351,25 @@ interface Result {
   topicLinks: Map<string, NetworkLink[]>
   actorLinks: Map<string, NetworkLink[]>
   groupLinks: Map<string, NetworkLink[]>
-  selectedEvents: UncategorizedMD[]
-  topics: Map<string, TopicFrontmatter>
-  actors: Map<string, ActorFrontmatter>
-  groups: Map<string, GroupFrontmatter>
+  selectedEvents: Events.Uncategorized.UncategorizedMD[]
+  topics: Map<string, Topic.TopicFrontmatter>
+  actors: Map<string, Actor.ActorFrontmatter>
+  groups: Map<string, Group.GroupFrontmatter>
 }
 
 export interface NetworkTemplateData {
-  pageContent: NetworkPageMD
+  pageContent: Page.PageMD
   topics: {
-    nodes: TopicMD[]
+    nodes: Topic.TopicMD[]
   }
   actors: {
-    nodes: ActorMD[]
+    nodes: Actor.ActorMD[]
   }
   groups: {
-    nodes: GroupMD[]
+    nodes: Group.GroupMD[]
   }
   events: {
-    nodes: UncategorizedMD[]
+    nodes: Events.Uncategorized.UncategorizedMD[]
   }
 }
 
@@ -384,7 +381,7 @@ export interface NetworkTemplateProps {
     nodes: Array<NetworkPointNode<EventNetworkDatum>>
     links: NetworkLink[]
   }
-  selectedEvents: UncategorizedMD[]
+  selectedEvents: Events.Uncategorized.UncategorizedMD[]
   width: number
   height: number
   topicsScale: ScaleOrdinal<string, string>
@@ -423,11 +420,11 @@ export function createNetworkTemplateProps({
 
   const networkWidth = differenceInDays(maxDate, minDate) * 5
 
-  const topicsList = orderedEvents.reduce<TopicFrontmatter[]>(
+  const topicsList = orderedEvents.reduce<Topic.TopicFrontmatter[]>(
     (acc, e) => [
       ...acc,
       ...e.frontmatter.topics.filter(
-        (t) => !acc.some((i) => Eq.eqString.equals(i.uuid, t.uuid))
+        (t) => !acc.some((i) => Eq.eqString.equals(i.id, t.id))
       ),
     ],
     []
@@ -482,7 +479,7 @@ export function createNetworkTemplateProps({
                 maxDate,
                 networkWidth - margin.horizontal * 2
               ),
-            y: yGetter(t.uuid),
+            y: yGetter(t.id),
             data: {
               ...e.frontmatter,
               label: e.frontmatter.title,
@@ -497,7 +494,7 @@ export function createNetworkTemplateProps({
         const hasActor = pipe(
           e.frontmatter.actors,
           O.map((actors) =>
-            actors.some((i) => selectedActorIds.includes(i.uuid))
+            actors.some((i) => selectedActorIds.includes(i.id))
           ),
           O.getOrElse(() => false)
         )
@@ -505,7 +502,7 @@ export function createNetworkTemplateProps({
         const hasGroup = pipe(
           e.frontmatter.groups,
           O.map((actors) =>
-            actors.some((i) => selectedGroupIds.includes(i.uuid))
+            actors.some((i) => selectedGroupIds.includes(i.id))
           ),
           O.getOrElse(() => false)
         )
@@ -513,7 +510,7 @@ export function createNetworkTemplateProps({
         const hasTopic = pipe(
           O.some(e.frontmatter.topics),
           O.map((topics) =>
-            topics.some((i) => selectedTopicIds.includes(i.uuid))
+            topics.some((i) => selectedTopicIds.includes(i.id))
           ),
           O.getOrElse(() => false)
         )
@@ -522,20 +519,20 @@ export function createNetworkTemplateProps({
 
         const actors = pipe(
           e.frontmatter.actors,
-          O.getOrElse((): ActorFrontmatter[] => []),
+          O.getOrElse((): Actor.ActorFrontmatter[] => []),
           updateMap(acc.actors)
         )
 
         const groups = pipe(
           e.frontmatter.groups,
-          O.getOrElse((): GroupFrontmatter[] => []),
+          O.getOrElse((): Group.GroupFrontmatter[] => []),
           updateMap(acc.groups)
         )
 
         if (hasActor || hasTopic || hasGroup) {
           const topicLinks = pipe(
             e.frontmatter.topics,
-            A.filter((t) => selectedTopicIds.includes(t.uuid)),
+            A.filter((t) => selectedTopicIds.includes(t.id)),
             (topics) => {
               const emptyMap: Map<string, NetworkLink[]> = Map.empty
               return pipe(
@@ -543,7 +540,7 @@ export function createNetworkTemplateProps({
                   getLinks(
                     eventNodes.filter(
                       (e) =>
-                        e.data.topics.findIndex((tt) => tt.uuid === t.uuid) ===
+                        e.data.topics.findIndex((tt) => tt.id === t.id) ===
                         0
                     ),
                     acc.topicLinks
@@ -576,15 +573,15 @@ export function createNetworkTemplateProps({
 
           const actorLinks = pipe(
             e.frontmatter.actors,
-            O.getOrElse((): ActorFrontmatter[] => []),
-            A.filter((a) => selectedActorIds.includes(a.uuid)),
+            O.getOrElse((): Actor.ActorFrontmatter[] => []),
+            A.filter((a) => selectedActorIds.includes(a.id)),
             getLinks(eventNodes, acc.actorLinks)
           )
 
           const groupLinks = pipe(
             e.frontmatter.groups,
-            O.getOrElse((): GroupFrontmatter[] => []),
-            A.filter((a) => selectedGroupIds.includes(a.uuid)),
+            O.getOrElse((): Group.GroupFrontmatter[] => []),
+            A.filter((a) => selectedGroupIds.includes(a.id)),
             getLinks(eventNodes, acc.groupLinks)
           )
 

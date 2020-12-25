@@ -1,12 +1,12 @@
 import { List } from "@components/Common/List"
-import { ProjectTransaction } from "@models/events/ProjectTransaction"
+import { Events } from "@econnessione/io"
 import * as React from "react"
 import { ProjectTransactionListItem } from "./EventList/ProjectTransactionListItem"
 
 
 interface ProjectListProps {
   funds: ProjectTransactionListItem[]
-  onClickItem: (item: ProjectTransaction) => void
+  onClickItem: (item: Events.ProjectTransaction.ProjectTransaction) => void
 }
 
 const ProjectFundList: React.FC<ProjectListProps> = ({
@@ -18,7 +18,7 @@ const ProjectFundList: React.FC<ProjectListProps> = ({
       data={funds}
       filter={(_) => true}
       onItemClick={onClickItem}
-      getKey={(g) => `${g.project.uuid}-${g.date.toISOString()}`}
+      getKey={(g) => `${g.project.id}-${g.date.toISOString()}`}
       ListItem={(p) => <ProjectTransactionListItem {...p} />}
     />
   )

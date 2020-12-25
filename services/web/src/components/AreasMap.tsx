@@ -1,10 +1,8 @@
-import { BaseFrontmatter } from "@models/Frontmatter"
-import { AreaFrontmatter } from "@models/area"
-import { navigate } from "gatsby"
+import { Area, Common } from "@econnessione/io"
 import * as React from "react"
 import Map from "./Map"
 
-interface AreasMapProps<F extends BaseFrontmatter> {
+interface AreasMapProps<F extends Common.BaseFrontmatter> {
   areas: F[]
   width: number
   height: number
@@ -14,7 +12,7 @@ const AreasMap = ({
   areas,
   width,
   height,
-}: AreasMapProps<AreaFrontmatter>): JSX.Element => {
+}: AreasMapProps<Area.AreaFrontmatter>): JSX.Element => {
   const data = {
     type: `FeatureCollection` as "FeatureCollection",
     features: areas
@@ -41,8 +39,8 @@ const AreasMap = ({
         center={data.features[0].geometry.coordinates[0][0]}
         zoom={2}
         onMapClick={async (features) => {
-          const area = features[0].getProperties() as AreaFrontmatter
-          await navigate(`/areas/${area.uuid}`)
+          // const area = features[0].getProperties() as Area.AreaFrontmatter
+          // await navigate(`/areas/${area.id}`)
         }}
       />
     </div>

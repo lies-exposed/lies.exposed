@@ -18,8 +18,9 @@ const Template: Story<ArticlePageContentProps> = (props) => {
 const ArticlePageContentExample = Template.bind({})
 
 const args: ArticlePageContentProps = {
+  id: "",
   frontmatter: firstArticle,
-  body: null,
+  body: "",
   tableOfContents: O.none,
   timeToRead: O.none,
 }

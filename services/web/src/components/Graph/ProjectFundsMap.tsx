@@ -1,12 +1,12 @@
 import Map from "@components/Map"
-import { ProjectFrontmatter } from "@models/Project"
+import { Project } from "@econnessione/io"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
 export interface ProjectFundsMapProps {
-  project: ProjectFrontmatter
+  project: Project.ProjectFrontmatter
 }
 
 export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {

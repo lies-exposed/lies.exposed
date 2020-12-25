@@ -3,32 +3,35 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { EventSlider } from "@components/sliders/EventSlider"
+import { Events, Group } from "@econnessione/io"
 import { eventsInDateRange } from "@helpers/event"
-import { UncategorizedMD } from "@models/events/Uncategorized"
-import { GroupMD } from "@models/group"
+import { RouteComponentProps } from "@reach/router"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
-import * as E from 'fp-ts/lib/Either'
+import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import { PageProps } from "gatsby"
-import * as t from 'io-ts'
-import * as React from 'react'
+import * as t from "io-ts"
+import * as React from "react"
 
-interface GroupTemplateData {
-  pageContent: { childMdx: unknown}
-  events: { nodes: Array<{ childMdx: unknown}>}
-}
-
-const GroupTemplateContainer: React.FC<PageProps<GroupTemplateData>> = ({ data, navigate }) => {
+const GroupTemplateContainer: React.FC<RouteComponentProps> = ({
+  navigate,
+}) => {
   const minDate = O.none
   const maxDate = O.none
 
+  const data = {
+    pageContent: { childMdx: null },
+    events: { nodes: [{ childMdx: null }] },
+  }
+
   return pipe(
     sequenceS(E.either)({
-      pageContent: GroupMD.decode(data.pageContent.childMdx),
+      pageContent: Group.GroupMD.decode(data.pageContent.childMdx),
       events: pipe(
-        t.array(UncategorizedMD).decode(data.events.nodes.map(n => n.childMdx)),
+        t
+          .array(Events.Uncategorized.UncategorizedMD)
+          .decode(data.events.nodes.map((n) => n.childMdx)),
         E.map(eventsInDateRange({ minDate, maxDate }))
       ),
     }),
@@ -53,10 +56,12 @@ const GroupTemplateContainer: React.FC<PageProps<GroupTemplateData>> = ({ data, 
               funds={[]}
               projects={[]}
               onMemberClick={async (a) => {
-                await navigate(`/actors/${a.uuid}`)
+                if (navigate !== undefined) {
+                  await navigate(`/actors/${a.id}`)
+                }
               }}
             />
-            <EventSlider events={events}/>
+            <EventSlider events={events} />
           </MainContent>
         </Layout>
       )

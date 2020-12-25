@@ -2,7 +2,7 @@ import { Slider } from "@components/Common/Slider/Slider"
 import ActorList from "@components/lists/ActorList"
 import GroupList from "@components/lists/GroupList"
 import TopicList from "@components/lists/TopicList"
-import { UncategorizedMD } from "@models/events/Uncategorized"
+import { Events } from "@econnessione/io"
 import { formatDate } from "@utils//date"
 import { renderHTML } from "@utils/renderHTML"
 import { Accordion, Panel } from "baseui/accordion"
@@ -18,7 +18,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
 interface UncategorizedListItemProps {
-  item: UncategorizedMD
+  item: Events.Uncategorized.UncategorizedMD
 }
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
@@ -26,15 +26,15 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
 }) => {
   return (
     <div
-      key={item.frontmatter.uuid}
-      id={item.frontmatter.uuid}
+      key={item.frontmatter.id}
+      id={item.frontmatter.id}
       style={{
         marginBottom: 40,
       }}
     >
       <Card
         title={
-          <StyledLink href={`/events/${item.frontmatter.uuid}`}>
+          <StyledLink href={`/events/${item.frontmatter.id}`}>
             {item.frontmatter.title}
           </StyledLink>
         }
@@ -42,7 +42,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         <StyledBody>
           <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
             <StyledLink
-              href={`/admin/#/collections/events/entries/${item.frontmatter.uuid}`}
+              href={`/admin/#/collections/events/entries/${item.frontmatter.id}`}
               target="_blank"
             >
               <Overflow size={24} />
@@ -64,7 +64,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                       selected: true,
                     }))}
                     onTopicClick={async (t) => {
-                      // await navigate(`/topics/${t.uuid}`)
+                      // await navigate(`/topics/${t.id}`)
                       return undefined
                     }}
                   />
@@ -87,7 +87,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                           selected: false,
                         }))}
                         onGroupClick={async (group) => {
-                          // await navigate(`/groups/${group.uuid}`)
+                          // await navigate(`/groups/${group.id}`)
                         }}
                         avatarScale="scale1000"
                       />
@@ -112,7 +112,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                           selected: false,
                         }))}
                         onActorClick={async (actor) => {
-                          // await navigate(`/actors/${actor.uuid}`)
+                          // await navigate(`/actors/${actor.id}`)
                           return undefined
                         }}
                         avatarScale="scale1000"
@@ -140,7 +140,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     slides={images.map((i) => ({
                       authorName: "",
                       info: O.getOrElse(() => "")(i.description),
-                      imageURL: i.image.publicURL,
+                      imageURL: i.image,
                     }))}
                     arrows={true}
                     adaptiveHeight={true}

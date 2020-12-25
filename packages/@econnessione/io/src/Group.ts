@@ -14,7 +14,7 @@ export const GroupKind = t.union([t.literal("Public"), t.literal("Private")], 'G
 export type GroupKind = t.TypeOf<typeof GroupKind>
 
 export interface GroupFrontmatterC extends t.Props {
-  uuid: t.StringC
+  id: t.StringC
   type: t.LiteralC<"GroupFrontmatter">
   createdAt: DateFromISOStringC
   updatedAt: DateFromISOStringC

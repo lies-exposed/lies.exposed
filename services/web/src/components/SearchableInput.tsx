@@ -7,7 +7,7 @@ import * as React from "react"
 import { List } from "./Common/List"
 
 export interface SearchableItem {
-  uuid: string
+  id: string
 }
 
 interface ItemProps<I extends SearchableItem> {

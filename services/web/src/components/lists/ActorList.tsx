@@ -5,7 +5,7 @@ import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
-export interface Actor extends io.ActorFrontmatter {
+export interface Actor extends io.Actor.ActorFrontmatter {
   selected: boolean
 }
 
@@ -16,7 +16,7 @@ export const ActorListItem: React.FC<
 > = ({ item, avatarScale, onClick }) => {
   return (
     <div
-      key={item.uuid}
+      key={item.id}
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >
@@ -24,7 +24,7 @@ export const ActorListItem: React.FC<
         item.avatar,
         O.map((src) => (
           <Avatar
-            key={item.uuid}
+            key={item.id}
             name={item.fullName}
             size={avatarScale}
             src={src}
@@ -57,7 +57,7 @@ const ActorList: React.FC<ActorListProps> = ({
   return (
     <List
       data={actors}
-      getKey={(a) => a.uuid}
+      getKey={(a) => a.id}
       filter={(a) => true}
       onItemClick={onActorClick}
       ListItem={(p) => <ActorListItem avatarScale={avatarScale} {...p} />}

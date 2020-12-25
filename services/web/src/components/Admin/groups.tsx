@@ -17,7 +17,7 @@ import {
 } from "react-admin"
 import MarkdownInput from "./MarkdownInput"
 
-export const GroupList = (props: ListProps) => (
+export const GroupList: React.FC<ListProps> = (props) => (
   <List {...props}>
     <Datagrid rowClick="edit">
       <TextField source="name" />
@@ -30,11 +30,11 @@ export const GroupList = (props: ListProps) => (
   </List>
 )
 
-const EditTitle = ({ record }: any) => {
+const EditTitle: React.FC<EditProps> = ({ record }: any) => {
   return <span>Actor {record.fullName}</span>
 }
 
-export const GroupEdit = (props: EditProps) => (
+export const GroupEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit title={<EditTitle {...props} />} {...props}>
     <SimpleForm>
       <TextInput source="name" />
@@ -50,7 +50,7 @@ export const GroupEdit = (props: EditProps) => (
   </Edit>
 )
 
-export const GroupCreate = (props: CreateProps) => (
+export const GroupCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Post" {...props}>
     <SimpleForm>
       <TextInput source="id" />

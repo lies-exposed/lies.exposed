@@ -1,11 +1,10 @@
-import { faSlack, faGithub } from "@fortawesome/free-brands-svg-icons"
+import { faGithub, faSlack } from "@fortawesome/free-brands-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { themedUseStyletron } from "@theme/CustomeTheme"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
 import { StyledLink } from "baseui/link"
 import { Menu } from "baseui/menu"
 import { HeadingXSmall } from "baseui/typography"
-import { useStaticQuery, graphql } from "gatsby"
 import * as React from "react"
 import { mainMenu } from "./Header"
 import { PaypalDonateButton } from "./buttons/PaypalDonateButton"
@@ -16,18 +15,14 @@ export const Footer: React.FC = () => {
     site: {
       siteMetadata: { title, github },
     },
-  } = useStaticQuery(graphql`
-    query FooterQuery {
-      site {
-        siteMetadata {
-          title
-          github {
-            link
-          }
-        }
+  } = {
+    site: {
+      siteMetadata: {
+        title: '',
+        github: { link: 'github.com'}
       }
     }
-  `)
+  }
   return (
     <FlexGridItem padding="40px" backgroundColor={theme.colors.brandPrimary}>
       <footer>

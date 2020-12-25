@@ -1,31 +1,28 @@
-import { ByActor, ByGroup, ByGroupOrActor } from "@models/Common/ByGroupOrActor"
-import { ActorFrontmatter } from "@models/actor"
-import { EventFrontmatter } from "@models/events"
-import { GroupFrontmatter } from "@models/group"
+import { Actor, Common, Events, Group } from "@econnessione/io"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 
-const getRelationUUID = (u: ByGroupOrActor): string => {
-  if (ByGroup.is(u)) {
-    return u.group.uuid
+const getRelationUUID = (u: Common.ByGroupOrActor): string => {
+  if (Common.ByGroup.is(u)) {
+    return u.group.id
   }
-  return u.actor.uuid
+  return u.actor.id
 }
 
 const findInEntities = (
-  type: typeof ByGroup | typeof ByActor,
-  entities: ByGroupOrActor[],
+  type: typeof Common.ByGroup | typeof Common.ByActor,
+  entities: Common.ByGroupOrActor[],
   uuids: string[]
-): ByGroupOrActor[] =>
+): Common.ByGroupOrActor[] =>
   pipe(
     entities,
     A.filter((o) => type.is(o) && uuids.includes(getRelationUUID(o)))
   )
 
 export const lookForType = (
-  type: typeof ByGroup | typeof ByActor,
-  frontmatter: EventFrontmatter,
+  type: typeof Common.ByGroup | typeof Common.ByActor,
+  frontmatter: Events.EventFrontmatter,
   uuids: string[]
 ): boolean => {
   switch (frontmatter.type) {
@@ -48,8 +45,8 @@ export const lookForType = (
         return (
           pipe(
             frontmatter.groups,
-            O.map(A.filter((a) => uuids.includes(a.uuid))),
-            O.getOrElse((): GroupFrontmatter[] => [])
+            O.map(A.filter((a) => uuids.includes(a.id))),
+            O.getOrElse((): Group.GroupFrontmatter[] => [])
           ).length > 0
         )
       }
@@ -57,8 +54,8 @@ export const lookForType = (
       return (
         pipe(
           frontmatter.actors,
-          O.map(A.filter((a) => uuids.includes(a.uuid))),
-          O.getOrElse((): ActorFrontmatter[] => [])
+          O.map(A.filter((a) => uuids.includes(a.id))),
+          O.getOrElse((): Actor.ActorFrontmatter[] => [])
         ).length > 0
       )
 
@@ -68,11 +65,11 @@ export const lookForType = (
 }
 
 interface ByGroupOrActorUtils {
-  isGroupInEvent: (event: EventFrontmatter, uuids: string[]) => boolean
-  isActorInEvent: (event: EventFrontmatter, uuids: string[]) => boolean
+  isGroupInEvent: (event: Events.EventFrontmatter, uuids: string[]) => boolean
+  isActorInEvent: (event: Events.EventFrontmatter, uuids: string[]) => boolean
 }
 
 export const GetByGroupOrActorUtils = (): ByGroupOrActorUtils => ({
-  isGroupInEvent: (event, uuids) => lookForType(ByGroup, event, uuids),
-  isActorInEvent: (event, uuids) => lookForType(ByActor, event, uuids),
+  isGroupInEvent: (event, uuids) => lookForType(Common.ByGroup, event, uuids),
+  isActorInEvent: (event, uuids) => lookForType(Common.ByActor, event, uuids),
 })

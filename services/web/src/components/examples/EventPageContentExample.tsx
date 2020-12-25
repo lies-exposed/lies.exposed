@@ -9,8 +9,9 @@ import * as R from "fp-ts/lib/Record"
 import * as React from "react"
 
 export const eventPageContentArgs: EventPageContentProps = {
+  id: "",
   frontmatter: firstEvent,
-  body: null,
+  body: "",
   tableOfContents: O.none,
   timeToRead: O.none,
 }
@@ -18,7 +19,7 @@ export const eventPageContentArgs: EventPageContentProps = {
 export const EventPageContentExample: React.FC<EventPageContentProps> = (
   props
 ) => {
-  const pageContentProps = R.isEmpty(props as any)
+  const pageContentProps = R.isEmpty(props as {})
     ? eventPageContentArgs
     : props
 

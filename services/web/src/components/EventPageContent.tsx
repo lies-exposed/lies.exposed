@@ -1,4 +1,4 @@
-import { UncategorizedMD } from "@models/events/Uncategorized"
+import { Events } from "@econnessione/io"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid"
@@ -11,7 +11,7 @@ import EditButton from "./buttons/EditButton"
 import ActorList from "./lists/ActorList"
 import GroupList from "./lists/GroupList"
 
-export interface EventPageContentProps extends UncategorizedMD {}
+export interface EventPageContentProps extends Events.Uncategorized.UncategorizedMD {}
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   frontmatter,
@@ -34,7 +34,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 slides={images.map((i) => ({
                   authorName: "",
                   info: O.getOrElse(() => "")(i.description),
-                  imageURL: i.image.publicURL,
+                  imageURL: i.image,
                 }))}
                 arrows={true}
                 adaptiveHeight={true}

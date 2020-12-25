@@ -10,6 +10,8 @@ title: Home
 
 <CO2LevelsGraph />
 
+<MainContent>
+
 <CO2LeftBudgetCounter />
 
 <br />
@@ -26,3 +28,5 @@ _**Business as usual**_ è tutto quello che facciamo, che produciamo, che buttia
 È la nostra totale **dipendenza dall'estrattivismo compulsivo di risorse**, per creare qualcosa di nuovo che soddisfi i nostri illimitati desideri.
 L'**individualismo** che caratterizza la nostra società, con il mito della realizzazione personale nell'arricchirsi di beni materiali.
 L'**antropocentrismo** che caratterizza la nostra percezione di noi stessi su questo pianeta.
+
+</MainContent>

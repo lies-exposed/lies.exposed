@@ -1,9 +1,9 @@
-import { VideoFileNode } from "@models/Video";
+import { Video as VideoIO } from "@econnessione/io";
 import * as React from "react";
 
 
 interface VideoProps {
-  video: VideoFileNode;
+  video: VideoIO.VideoFileNode;
   controls: boolean;
   autoPlay: boolean;
   muted: boolean;

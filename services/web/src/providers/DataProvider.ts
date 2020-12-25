@@ -1,16 +1,25 @@
-import { ActorMD, PageMD, TopicMD } from "@econnessione/io"
+import {
+  Actor,
+  Area,
+  Article,
+  Events,
+  Group,
+  Page,
+  Project,
+  Topic,
+} from "@econnessione/io"
 import { available, queryStrict } from "avenger"
 import { CachedQuery } from "avenger/lib/Query"
 import * as E from "fp-ts/lib/Either"
-import { pipe } from "fp-ts/lib/pipeable"
 import * as TE from "fp-ts/lib/TaskEither"
+import { pipe } from "fp-ts/lib/pipeable"
 import * as t from "io-ts"
 import { PathReporter } from "io-ts/lib/PathReporter"
 import {
   GetListParams,
   GetListResult,
   GetOneParams,
-  GetOneResult
+  GetOneResult,
 } from "react-admin"
 import { APIClient } from "./APIClient"
 
@@ -27,9 +36,9 @@ import { APIClient } from "./APIClient"
 //   return fetchUtils.fetchJson(url, options)
 // }
 
-type APIError = {
+export interface APIError {
   name: "APIError"
-  message: string,
+  message: string
   details?: string[]
 }
 
@@ -57,27 +66,27 @@ export const dataProvider = APIClient({
 // }
 
 const Resources = {
-  actors: ActorMD,
-  pages: PageMD,
-  topics: TopicMD
+  areas: Area.AreaMD,
+  pages: Page.PageMD,
+  articles: Article.ArticleMD,
+  actors: Actor.ActorMD,
+  groups: Group.GroupMD,
+  topics: Topic.TopicMD,
+  projects: Project.ProjectMD,
+  events: Events.EventMD,
 }
-
-type FetchResult<R, C extends t.Any> = R extends GetOneResult<infer A>
-  ? t.TypeOf<C>
-  : R extends GetListResult<infer L>
-  ? t.TypeOf<C>[]
-  : never
 
 const liftFetch = <
   C extends t.Any,
-  R extends GetOneResult<any> | GetListResult<any>
+  R extends GetOneResult<t.TypeOf<C>> | GetListResult<t.TypeOf<C>>
 >(
   lp: () => Promise<R>,
   codec: C
-): TE.TaskEither<APIError, FetchResult<R, C>> => {
+): TE.TaskEither<APIError, R["data"]> => {
   return pipe(
     TE.tryCatch(lp, toError),
     TE.map((result) => {
+      // eslint-disable-next-line
       console.log("result", result)
       return result
     }),
@@ -85,11 +94,13 @@ const liftFetch = <
     TE.chain((content) => {
       return pipe(
         codec.decode(content),
-        E.mapLeft((e): APIError => ({
-          name: `APIError`,
-          message: "validation failed",
-          details: PathReporter.report(E.left(e)),
-        })),
+        E.mapLeft(
+          (e): APIError => ({
+            name: `APIError`,
+            message: "validation failed",
+            details: PathReporter.report(E.left(e)),
+          })
+        ),
         TE.fromEither
       )
     })
@@ -98,24 +109,27 @@ const liftFetch = <
 
 export type GetOneQuery = <K extends keyof typeof Resources>(
   r: K
-) => CachedQuery<GetOneParams, APIError, GetOneResult<typeof Resources[K]>>
+) => CachedQuery<GetOneParams, APIError, t.TypeOf<typeof Resources[K]>>
 
-export const GetOneQuery = <K extends keyof typeof Resources>(r: K) =>
+export const GetOneQuery: GetOneQuery = <K extends keyof typeof Resources>(
+  r: K
+) =>
   queryStrict(
     (params: GetOneParams) =>
       liftFetch(
         () => dataProvider.getOne<t.TypeOf<typeof Resources[K]>>(r, params),
         Resources[r]
       ),
-
     available
   )
 
 export type GetListQuery = <K extends keyof typeof Resources>(
   r: K
-) => CachedQuery<GetListParams, APIError, GetListResult<typeof Resources[K]>>
+) => CachedQuery<GetListParams, APIError, Array<t.TypeOf<typeof Resources[K]>>>
 
-export const GetListQuery = <K extends keyof typeof Resources>(r: K) =>
+export const GetListQuery: GetListQuery = <K extends keyof typeof Resources>(
+  r: K
+) =>
   queryStrict(
     (params: GetListParams) =>
       liftFetch(
@@ -125,7 +139,21 @@ export const GetListQuery = <K extends keyof typeof Resources>(r: K) =>
     available
   )
 
-export const onePage = GetOneQuery("pages")
+export const pageContent = GetOneQuery("pages")
 export const pagesList = GetListQuery("pages")
 export const actorsList = GetListQuery("actors")
+export const articlesList = GetListQuery("articles")
+export const groupsList = GetListQuery("groups")
 export const topicsList = GetListQuery("topics")
+export const projectList = GetListQuery("projects")
+export const eventsList = GetListQuery("events")
+export const areasList = GetListQuery("areas")
+
+export const jsonData = queryStrict(
+  ({ id }: { id: string }) =>
+    liftFetch(() => dataProvider.getOne("data", { id }), t.any),
+  available
+)
+
+
+export const project = GetOneQuery('projects')

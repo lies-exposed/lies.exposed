@@ -1,21 +1,6 @@
-import * as RenderHTML from "@utils/renderHTML"
 import * as React from "react"
-import { renderToString } from "react-dom/server"
 import { InputProps, Labeled, useInput } from "react-admin"
 import ReactQuill from "react-quill"
-// @ts-ignore
-import * as remarkParse from "remark-parse"
-// import footnotes from "remark-footnotes"
-// @ts-ignore
-// import remark2mdx from "remark-mdx"
-// @ts-ignore
-import unified from "unified"
-// @ts-ignore
-import remark2react from "remark-react"
-// @ts-ignore
-import MDX from "@mdx-js/runtime"
-import { BaseProvider } from "baseui"
-import theme from "@theme/CustomeTheme"
 
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -39,9 +24,8 @@ const toolbarOptions = [
 
 const MarkdownInput: React.FC<InputProps> = (props) => {
   const {
-    input: { name, onChange, onBlur, onFocus, value, ...rest },
-    meta: { touched, error },
-    isRequired,
+    input: { value },
+    
   } = useInput(props)
 
   // mdx.useMDXComponents(RenderHTML.shortcodes)
@@ -58,9 +42,8 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
   // console.log({ valueVFile })
   // const content = String(valueVFile)
   const content = value
-  console.log({ content })
+  
   const body = content
-  console.log({ value, body })
 
   // console.log(value)
   // const htmlValue = renderHTML({ body: value })
@@ -70,7 +53,6 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
     <Labeled label="body" fullWidth={true}>
       <ReactQuill
         onChange={(content) => {
-          console.log(content)
           // onChange({ value: content })
         }}
         modules={{

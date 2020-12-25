@@ -13,7 +13,6 @@ import {
   StatefulPopover,
   TRIGGER_TYPE,
 } from "baseui/popover"
-import { graphql, navigate, useStaticQuery } from "gatsby"
 import React from "react"
 
 interface MenuItem {
@@ -82,7 +81,7 @@ const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
                 },
               }}
               onItemSelect={async ({ item }) => {
-                await navigate(item.path)
+                // await navigate(item.path)
                 close()
               }}
             />
@@ -98,7 +97,6 @@ const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
 }
 
 export const mainMenu: MenuItem[] = [
-  
   {
     id: "project",
     href: "/project",
@@ -161,19 +159,14 @@ const Header: React.FC = () => {
     site: {
       siteMetadata: { title, github },
     },
-  } = useStaticQuery(graphql`
-    query HeaderQuery {
-      site {
-        siteMetadata {
-          title
-          github {
-            user
-            repo
-          }
-        }
-      }
-    }
-  `)
+  } = {
+    site: {
+      siteMetadata: {
+        title: "ECONNESSIONE",
+        github: { repo: "econnessione", user: "ascariandrea" },
+      },
+    },
+  }
 
   const [, $theme] = themedUseStyletron()
 

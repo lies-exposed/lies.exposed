@@ -4,27 +4,24 @@ import { Layout } from "@components/Layout"
 import { MainContent } from "@components/MainContent"
 import SEO from "@components/SEO"
 import { EventSlider } from "@components/sliders/EventSlider"
+import { Actor, Events } from "@econnessione/io"
 import { eventsInDateRange } from "@helpers/event"
 import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata"
-import { ActorMD } from "@models/actor"
-import { EventMD } from "@models/events"
-// import { UncategorizedMD } from "@models/events/Uncategorized"
+// import { UncategorizedMD } from "@econnessione/ioevents/Uncategorized"
 import { throwValidationErrors } from "@utils/throwValidationErrors"
 import { sequenceS } from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import { navigate } from "gatsby"
 import * as t from "io-ts"
 import React from "react"
 
 interface ActorTemplatePageProps {
-  navigate: typeof navigate
   // `data` prop will be injected by the GraphQL query below.
   data: {
-    pageContent: { childMdx: ActorMD }
+    pageContent: { childMdx: Actor.ActorMD }
     events: {
-      nodes: EventMD[]
+      nodes: Events.EventMD[]
     }
   }
 }
@@ -35,9 +32,9 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
 
   return pipe(
     sequenceS(E.either)({
-      pageContent: ActorMD.decode(data.pageContent.childMdx),
+      pageContent: Actor.ActorMD.decode(data.pageContent.childMdx),
       events: pipe(
-        t.array(EventMD).decode(data.events.nodes),
+        t.array(Events.EventMD).decode(data.events.nodes),
         E.map(eventsInDateRange({ minDate, maxDate }))
       ),
     }),
@@ -54,7 +51,7 @@ const ActorTemplate: React.FC<ActorTemplatePageProps> = ({ data }) => {
             <EventSlider events={events} />
             {/* <EventsNetwork
               events={events.filter(UncategorizedMD.is)}
-              selectedActorIds={[pageContent.frontmatter.uuid]}
+              selectedActorIds={[pageContent.frontmatter.id]}
               selectedGroupIds={[]}
               selectedTopicIds={[]}
               scale="all"

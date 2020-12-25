@@ -1,4 +1,4 @@
-import { ProjectFrontmatter } from "@models/Project"
+import { Project } from "@econnessione/io"
 import { generateRandomColor } from "@utils/colors"
 import uuid from "@utils/uuid"
 import { subDays, subYears } from "date-fns"
@@ -9,8 +9,8 @@ import { firstPolygon } from "./polygons"
 
 const today = new Date()
 
-export const firstGoodProject: ProjectFrontmatter = {
-  uuid: uuid(),
+export const firstGoodProject: Project.ProjectFrontmatter = {
+  id: uuid(),
   type: 'ProjectFrontmatter',
   name: "Good Project",
   color: generateRandomColor(),
@@ -28,8 +28,8 @@ export const firstGoodProject: ProjectFrontmatter = {
   updatedAt: today,
 }
 
-export const firstBadProject: ProjectFrontmatter = {
-  uuid: uuid(),
+export const firstBadProject: Project.ProjectFrontmatter = {
+  id: uuid(),
   type: 'ProjectFrontmatter',
   name: "Bad Project",
   areas: O.some(NEA.of(firstPolygon)),

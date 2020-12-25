@@ -15,7 +15,7 @@ const NetworkLink = <N extends NetworkNodeDatum>({
 }: NetworkLinkProps<N>): JSX.Element => {
   return (
     <LinkVertical
-      key={`link-${source.data.uuid}-${target.data.uuid}`}
+      key={`link-${source.data.id}-${target.data.id}`}
       data={{ source, target }}
       stroke={stroke}
       strokeWidth="2"

@@ -1,6 +1,5 @@
 import ProjectFundList from "@components/lists/ProjectFundList"
-import { ActorMD } from "@models/actor"
-import { EventListMap } from "@models/events"
+import { Actor, Events } from "@econnessione/io"
 import { formatDate } from "@utils/date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -9,13 +8,12 @@ import { HeadingXLarge, HeadingXSmall, LabelMedium } from "baseui/typography"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
-import Image from "gatsby-image"
 import * as React from "react"
 import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph"
 import EditButton from "./buttons/EditButton"
 
-export interface ActorPageContentProps extends ActorMD {
-  metadata: EventListMap
+export interface ActorPageContentProps extends Actor.ActorMD {
+  metadata: Events.EventListMap
 }
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
@@ -40,12 +38,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           frontmatter.avatar,
           O.fold(
             () => <div />,
-            (i) => (
-              <Image
-                fluid={i.childImageSharp.fluid}
-                style={{ width: "100px" }}
-              />
-            )
+            (src) => <img src={src} width={200} height={400} />
           )
         )}
         <Block>
@@ -67,7 +60,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                 </LabelMedium>{" "}
                 <span>
                   {value.for.type === "Project" ? (
-                    <span key={value.for.project.uuid}>
+                    <span key={value.for.project.id}>
                       {value.for.project.name}
                     </span>
                   ) : (
@@ -90,7 +83,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                 <span>
                   {value.for.map((f) => {
                     return f.type === "Project" ? (
-                      <span key={f.project.uuid}>{f.project.name}</span>
+                      <span key={f.project.id}>{f.project.name}</span>
                     ) : (
                       <span key={f.type}>{f.type}</span>
                     )

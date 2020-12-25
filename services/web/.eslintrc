@@ -1,13 +1,9 @@
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "baseui", "graphql"],
   "extends": [
-    "standard-with-typescript",
-    "prettier",
-    "prettier/@typescript-eslint",
+    "../../.eslintrc",
     "plugin:react/recommended"
   ],
+  "plugins": ["@typescript-eslint", "baseui"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
@@ -15,25 +11,13 @@
     "baseui/deprecated-theme-api": "warn",
     "baseui/deprecated-component-api": "warn",
     "baseui/no-deep-imports": "warn",
-    "import/order": [
-      "error",
-      {
-        "alphabetize": {
-          "order": "asc"
-        }
-      }
-    ],
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["moment", "../*"]
+        "patterns": ["../*"]
       }
     ],
-    "react/prop-types": ["off"],
-    "no-console": "error",
-    "@typescript-eslint/restrict-template-expressions": ["off"],
-    "@typescript-eslint/no-redeclare": ["off"],
-    "@typescript-eslint/return-await": "never"
+    "react/prop-types": ["off"]
   },
   "settings": {
     "react": {

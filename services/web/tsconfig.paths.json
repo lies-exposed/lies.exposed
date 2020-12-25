@@ -1,0 +1,28 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es5",
+    "jsx": "react",
+    "noEmit": true,
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "esnext"],
+    "skipLibCheck": true,
+    "typeRoots": ["node_modules/@types", "./typings"],
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@helpers/*": ["./helpers/*"],
+      "@templates/*": ["./templates/*"],
+      "@theme/*": ["./theme/*"],
+      "@mock-data/*": ["./mock-data/*"],
+      "@utils/*": ["./utils/*"],
+      "@providers/*": ["./providers/*"]
+    }
+  }
+}

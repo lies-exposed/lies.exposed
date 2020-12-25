@@ -2,6 +2,12 @@ import { BlockQuote } from "@components/BlockQuote"
 import { ListItem } from "@components/Common/ListItem"
 import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter"
 import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount"
+import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
+// import { GQLVoyager } from "@components/GQLVoyager"
+import { CO2LevelsGraph } from "@components/Graph/CO2LevelsGraph"
+import { HumanPopulationGrowthGraph } from "@components/Graph/HumanPopulationGrowthGraph"
+import {MainContent} from '@components/MainContent'
+import { Video } from "@components/Video/Video"
 import { ActorPageContentExample } from "@components/examples/ActorPageContentExample"
 import BubbleGraphExample from "@components/examples/BubbleGraphExample"
 import { EventPageContentExample } from "@components/examples/EventPageContentExample"
@@ -10,11 +16,6 @@ import { GroupPageContentExample } from "@components/examples/GroupPageContentEx
 import NetworkExample from "@components/examples/NetworkExample"
 import { ProjectPageContentExample } from "@components/examples/ProjectPageContentExample"
 import { TopicPageContentExample } from "@components/examples/TopicPageContentExample"
-import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection"
-import { GQLVoyager } from "@components/GQLVoyager"
-import { CO2LevelsGraph } from "@components/Graph/CO2LevelsGraph"
-import { HumanPopulationGrowthGraph } from "@components/Graph/HumanPopulationGrowthGraph"
-import { Video } from "@components/Video/Video"
 import { MDXProvider, MDXProviderComponentsProp } from "@mdx-js/react"
 import {
   DisplayLarge,
@@ -34,6 +35,8 @@ import * as React from "react"
 
 
 export const shortcodes: MDXProviderComponentsProp = {
+  // layout
+  MainContent,
   // counters
   CO2LeftBudgetCounter,
   WorldPopulationCounter,
@@ -57,7 +60,7 @@ export const shortcodes: MDXProviderComponentsProp = {
   DisplayLarge,
   FullSizeSection,
   Video,
-  GQLVoyager,
+  // GQLVoyager,
   // common tags
   p: ParagraphMedium,
   li: ListItem,

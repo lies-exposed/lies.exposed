@@ -1,5 +1,5 @@
 import { List, ListItemProps } from "@components/Common/List"
-import { ProjectFrontmatter } from "@models/Project"
+import { Project } from "@econnessione/io"
 import { Avatar } from "baseui/avatar"
 import * as A from "fp-ts/lib/Array"
 import * as O from 'fp-ts/lib/Option'
@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 import { AvatarScale } from "./ActorList"
 
-export interface Project extends ProjectFrontmatter {
+export interface Project extends Project.ProjectFrontmatter {
   selected: boolean
 }
 
@@ -23,7 +23,7 @@ export const ProjectListItem: React.FC<
   
   return (
     <div
-      key={item.uuid}
+      key={item.id}
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >
@@ -31,13 +31,13 @@ export const ProjectListItem: React.FC<
         item.images,
         O.map(A.map((src) => (
           <Avatar
-            key={item.uuid}
+            key={item.id}
             name={item.name}
             size={avatarScale}
-            src={src.image.childImageSharp.fluid.src}
+            src={src.image}
           />
         ))),
-        O.toNullable        
+        O.toNullable
       )}
       {item.name}
       <div
@@ -61,7 +61,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
       data={projects}
       filter={(_) => true}
       onItemClick={onGroupClick}
-      getKey={(g) => g.uuid}
+      getKey={(g) => g.id}
       ListItem={(p) => <ProjectListItem avatarScale={avatarScale} {...p} />}
     />
   )

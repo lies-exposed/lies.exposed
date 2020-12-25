@@ -1,6 +1,6 @@
 import {
   ProjectPageContent,
-  ProjectPageContentProps,
+  ProjectPageContentProps
 } from "@components/ProjectPageContent"
 import { extractEventsMetadata } from "@helpers/event"
 import { events } from "@mock-data/events"
@@ -12,8 +12,9 @@ import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
 export const projectPageContentExampleArgs: ProjectPageContentProps = {
+  id: "",
   frontmatter: firstBadProject,
-  body: null,
+  body: "",
   tableOfContents: O.none,
   timeToRead: O.none,
   metadata: pipe(
@@ -25,7 +26,7 @@ export const projectPageContentExampleArgs: ProjectPageContentProps = {
 export const ProjectPageContentExample: React.FC<ProjectPageContentProps> = (
   props
 ) => {
-  const pageContentProps = R.isEmpty(props as any)
+  const pageContentProps = R.isEmpty(props as {}) 
     ? projectPageContentExampleArgs
     : props
 

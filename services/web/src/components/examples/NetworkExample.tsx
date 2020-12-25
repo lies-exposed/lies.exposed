@@ -1,5 +1,5 @@
 import { EventsNetwork } from "@components/Graph/EventsNetwork"
-import { Uncategorized } from "@models/events/Uncategorized"
+import { Events } from "@econnessione/io"
 import * as A from 'fp-ts/lib/Array'
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
@@ -31,9 +31,9 @@ const NetworkExample: React.FC = () => {
     }
   }
 
-  const selectedTopicIds = showTopicLinks ? topics.map((t) => t.uuid) : []
-  const selectedActorIds = showActorLinks ? actors.map((a) => a.uuid) : []
-  const selectedGroupIds = showGroupLinks ? groups.map((g) => g.uuid) : []
+  const selectedTopicIds = showTopicLinks ? topics.map((t) => t.id) : []
+  const selectedActorIds = showActorLinks ? actors.map((a) => a.id) : []
+  const selectedGroupIds = showGroupLinks ? groups.map((g) => g.id) : []
 
   return (
     <>
@@ -51,8 +51,9 @@ const NetworkExample: React.FC = () => {
         scalePoint={O.none}
         events={pipe(
           events,
-          A.filter(Uncategorized.is),
+          A.filter(Events.Uncategorized.Uncategorized.is),
           A.map((f) => ({
+            id: f.id,
             tableOfContents: O.none,
             frontmatter: f,
             timeToRead: O.some(1),

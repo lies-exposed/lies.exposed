@@ -1,12 +1,12 @@
 import { List, ListItemProps } from "@components/Common/List"
-import { GroupFrontmatter } from "@models/group"
+import { Group } from "@econnessione/io"
 import { Avatar } from "baseui/avatar"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 import { AvatarScale } from "./ActorList"
 
-export interface Group extends GroupFrontmatter {
+export interface Group extends Group.GroupFrontmatter {
   selected: boolean
 }
 
@@ -21,7 +21,7 @@ export const GroupListItem: React.FC<
 > = ({ item, avatarScale, onClick }) => {
   return (
     <div
-      key={item.uuid}
+      key={item.id}
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >
@@ -29,10 +29,10 @@ export const GroupListItem: React.FC<
         item.avatar,
         O.map((src) => (
           <Avatar
-            key={item.uuid}
+            key={item.id}
             name={item.name}
             size={avatarScale}
-            src={src.childImageSharp.fluid.src}
+            src={src}
           />
         )),
         O.toNullable
@@ -58,7 +58,7 @@ const GroupList: React.FC<GroupListProps> = ({
       data={groups}
       filter={(_) => true}
       onItemClick={onGroupClick}
-      getKey={(g) => g.uuid}
+      getKey={(g) => g.id}
       ListItem={(p) => <GroupListItem avatarScale={avatarScale} {...p} />}
     />
   )

@@ -1,10 +1,10 @@
 import { List, ListItemProps } from "@components/Common/List"
-import { TopicFrontmatter } from "@models/topic"
+import { Topic } from "@econnessione/io"
 import theme, { CustomTheme } from "@theme/CustomeTheme"
-import { Tag, VARIANT, KIND } from "baseui/tag"
+import { KIND, Tag, VARIANT } from "baseui/tag"
 import * as React from "react"
 
-export interface TopicListTopic extends TopicFrontmatter {
+export interface TopicListTopic extends Topic.TopicFrontmatter {
   selected: boolean
   color: string
 }
@@ -43,7 +43,7 @@ const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
       data={topics}
       filter={(_) => true}
       onItemClick={onTopicClick}
-      getKey={(t) => t.uuid}
+      getKey={(t) => t.id}
       ListItem={(p) => <TopicListItem $theme={theme} {...p} />}
     />
   )

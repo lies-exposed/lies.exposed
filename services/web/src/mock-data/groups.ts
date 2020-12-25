@@ -1,15 +1,15 @@
-import { GroupFrontmatter } from "@models/group"
+import { Group } from "@econnessione/io"
 import { generateRandomColor } from "@utils/colors"
 import uuid from "@utils/uuid"
 import { subYears } from "date-fns"
 import * as O from 'fp-ts/lib/Option'
-import { goodActor, badActor } from "./actors"
+import { badActor, goodActor } from "./actors"
 import { avatars } from "./avatars"
 
 const now = new Date()
 
-export const firstSubGroup: GroupFrontmatter = {
-  uuid: uuid(),
+export const firstSubGroup: Group.GroupFrontmatter = {
+  id: uuid(),
   name: "First Good SubGroup",
   type: 'GroupFrontmatter',
   kind: 'Public',
@@ -21,8 +21,8 @@ export const firstSubGroup: GroupFrontmatter = {
   updatedAt: now
 }
 
-export const goodGroup: GroupFrontmatter = {
-  uuid: uuid(),
+export const goodGroup: Group.GroupFrontmatter = {
+  id: uuid(),
   name: "Good Group",
   type: 'GroupFrontmatter',
   kind: 'Public',
@@ -34,8 +34,8 @@ export const goodGroup: GroupFrontmatter = {
   updatedAt: now
 }
 
-export const badGroup: GroupFrontmatter = {
-  uuid: uuid(),
+export const badGroup: Group.GroupFrontmatter = {
+  id: uuid(),
   name: "Bad Group",
   type: 'GroupFrontmatter',
   kind: 'Private',
@@ -47,8 +47,8 @@ export const badGroup: GroupFrontmatter = {
   updatedAt: now
 }
 
-export const secondBadGroup: GroupFrontmatter = {
-  uuid: uuid(),
+export const secondBadGroup: Group.GroupFrontmatter = {
+  id: uuid(),
   name: "Bad Group - The 2nd",
   type: 'GroupFrontmatter',
   kind: 'Private',
@@ -60,4 +60,4 @@ export const secondBadGroup: GroupFrontmatter = {
   updatedAt: now
 }
 
-export const groups: GroupFrontmatter[] = [goodGroup, badGroup, secondBadGroup]
+export const groups: Group.GroupFrontmatter[] = [goodGroup, badGroup, secondBadGroup]

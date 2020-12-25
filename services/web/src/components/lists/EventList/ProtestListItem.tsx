@@ -1,6 +1,6 @@
 import { Slider } from "@components/Common/Slider/Slider"
 import GroupOrActorList from "@components/lists/GroupAndActorList"
-import { ProtestMD } from "@models/events/Protest"
+import { Events } from "@econnessione/io"
 import { formatDate } from "@utils//date"
 import { renderHTML } from "@utils/renderHTML"
 import { Block } from "baseui/block"
@@ -12,14 +12,14 @@ import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
 
 interface ProtestListItemProps {
-  item: ProtestMD
+  item: Events.Protest.ProtestMD
 }
 
 export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
   return (
     <div
-      key={item.frontmatter.uuid}
-      id={item.frontmatter.uuid}
+      key={item.frontmatter.id}
+      id={item.frontmatter.id}
       style={{
         marginBottom: 40,
       }}
@@ -39,7 +39,7 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
                     slides={images.map((i) => ({
                       authorName: i.author,
                       info: O.getOrElse(() => "")(i.description),
-                      imageURL: i.image.publicURL,
+                      imageURL: i.image,
                     }))}
                     arrows={true}
                     adaptiveHeight={true}

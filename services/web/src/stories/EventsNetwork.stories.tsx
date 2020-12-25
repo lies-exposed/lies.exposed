@@ -2,14 +2,11 @@ import {
   EventsNetwork,
   EventsNetworkProps
 } from "@components/Graph/EventsNetwork"
+import { Events } from "@econnessione/io"
 import { actors } from "@mock-data/actors"
 import { events } from "@mock-data/events"
-import {
-  Uncategorized,
-  UncategorizedMD
-} from "@models/events/Uncategorized"
 import { Meta, Story } from "@storybook/react/types-6-0"
-import * as A from 'fp-ts/lib/Array'
+import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
 import { pipe } from "fp-ts/lib/pipeable"
 import * as React from "react"
@@ -21,13 +18,13 @@ const meta: Meta = {
 
 export default meta
 
-const eventsMD: UncategorizedMD[] = pipe(
+const eventsMD: Events.Uncategorized.UncategorizedMD[] = pipe(
   events,
-  A.filter(Uncategorized.is),
+  A.filter(Events.Uncategorized.Uncategorized.is),
   A.map((e) => ({
-    id: '',
+    id: "",
     frontmatter: e,
-    body: () => "",
+    body: "",
     tableOfContents: O.some({ items: [] }),
     timeToRead: O.some(1),
   }))
@@ -43,7 +40,7 @@ const args: EventsNetworkProps = {
   scale: "all" as "all",
   scalePoint: O.none,
   events: eventsMD,
-  selectedActorIds: actors.map((a) => a.uuid),
+  selectedActorIds: actors.map((a) => a.id),
   selectedGroupIds: [],
   selectedTopicIds: [],
 }

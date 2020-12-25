@@ -1,5 +1,5 @@
 import { PieChartGraph } from "@components/Common/Graph/PieChartGraph"
-import { ProjectTransaction } from "@models/events/ProjectTransaction"
+import { Events } from "@econnessione/io"
 import ParentSize from "@vx/responsive/lib/components/ParentSize"
 import * as Array from "fp-ts/lib/Array"
 import { eqString } from "fp-ts/lib/Eq"
@@ -11,7 +11,7 @@ import { pipe } from "fp-ts/lib/pipeable"
 import React from "react"
 
 interface ProjectFundsPieGraphProps {
-  funds: ProjectTransaction[]
+  funds: Events.ProjectTransaction.ProjectTransaction[]
 }
 
 interface FundSlice {
@@ -61,16 +61,16 @@ export const ProjectFundsPieGraph: React.FC<ProjectFundsPieGraphProps> = (
   )
 }
 
-const getUUIDForBy = (fund: ProjectTransaction): string => {
+const getUUIDForBy = (fund: Events.ProjectTransaction.ProjectTransaction): string => {
   switch (fund.transaction.by.type) {
     case "Actor":
-      return fund.transaction.by.actor.uuid
+      return fund.transaction.by.actor.id
     case "Group":
-      return fund.transaction.by.group.uuid
+      return fund.transaction.by.group.id
   }
 }
 
-const getLabelForBy = (fund: ProjectTransaction): string => {
+const getLabelForBy = (fund: Events.ProjectTransaction.ProjectTransaction): string => {
   switch (fund.transaction.by.type) {
     case "Actor":
       return fund.transaction.by.actor.fullName

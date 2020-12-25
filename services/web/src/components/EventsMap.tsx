@@ -1,35 +1,32 @@
-import { Point } from "@models/Common/Point"
-import { EventMD } from "@models/events"
-import { Uncategorized, UncategorizedMD } from "@models/events/Uncategorized"
+import { Common, Events } from "@econnessione/io"
 import * as O from "fp-ts/lib/Option"
-import { navigate } from "gatsby"
 import * as React from "react"
 import * as topojson from "topojson-client"
-import { Topology, GeometryCollection } from "topojson-specification"
+import { GeometryCollection, Topology } from "topojson-specification"
 import GeoCustom from "./GeoCustom/GeoCustom"
 
 interface EventsMapProps {
-  events: EventMD[]
+  events: Events.EventMD[]
   width: number
   height: number
 }
 
-interface GEOJSONEventPoint extends Point {
-  properties: Uncategorized
+interface GEOJSONEventPoint extends Common.Point {
+  properties: Events.Uncategorized.Uncategorized
 }
 
 const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
   const initialAcc: GEOJSONEventPoint[] = []
 
   const eventPoints: Topology<{
-    points: GeometryCollection<Uncategorized>
+    points: GeometryCollection<Events.Uncategorized.Uncategorized>
   }> = {
     type: "Topology",
     arcs: [],
     objects: {
       points: {
         type: "GeometryCollection",
-        geometries: events.filter(UncategorizedMD.is).reduce((acc, e) => {
+        geometries: events.filter(Events.Uncategorized.UncategorizedMD.is).reduce((acc, e) => {
           if (O.isNone(e.frontmatter.location)) {
             return acc
           }
@@ -70,7 +67,7 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
               strokeWidth={0.5}
               fill={color}
               onClick={async () => {
-                await navigate(`/events#${f.feature.properties.uuid}`)
+                // await navigate(`/events#${f.feature.properties.id}`)
               }}
             />
           )

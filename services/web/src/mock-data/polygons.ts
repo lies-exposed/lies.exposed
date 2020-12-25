@@ -1,6 +1,6 @@
-import { Polygon } from "@models/Common/Polygon"
+import { Common } from "@econnessione/io"
 
-export const firstPolygon: Polygon = {
+export const firstPolygon: Common.Polygon = {
   type: "Polygon",
   coordinates: [
     [

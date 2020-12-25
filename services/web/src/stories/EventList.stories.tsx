@@ -1,8 +1,8 @@
 import EventList, {
-  EventListProps,
+  EventListProps
 } from "@components/lists/EventList/EventList"
+import { Events } from "@econnessione/io"
 import { events } from "@mock-data/events"
-import { Uncategorized } from "@models/events/Uncategorized"
 import { Meta, Story } from "@storybook/react/types-6-0"
 import * as A from "fp-ts/lib/Array"
 import * as O from "fp-ts/lib/Option"
@@ -25,10 +25,11 @@ const EventListExample = Template.bind({})
 const args: EventListProps = {
   events: pipe(
     events,
-    A.filter(Uncategorized.is),
+    A.filter(Events.Uncategorized.Uncategorized.is),
     A.map((f) => ({
+      id: "",
       frontmatter: f,
-      body: null,
+      body: "",
       tableOfContents: O.none,
       timeToRead: O.none,
     }))

@@ -2,7 +2,7 @@ import { Group } from "@vx/group"
 import * as React from "react"
 
 export interface NetworkNodeDatum {
-  uuid: string
+  id: string
   label: string
   innerColor: string
   outerColor: string

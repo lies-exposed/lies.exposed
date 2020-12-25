@@ -1,13 +1,11 @@
-import { EventMD } from "@models/events"
-import { UncategorizedMD } from "@models/events/Uncategorized"
+import { Events } from "@econnessione/io"
 import * as A from "fp-ts/lib/Array"
 import { pipe } from "fp-ts/lib/pipeable"
-// import { navigate } from "gatsby"
 import * as React from "react"
 import { UncategorizedListItem } from "./UncategorizedListItem"
 
 export interface EventListProps {
-  events: EventMD[]
+  events: Events.EventMD[]
 }
 
 const EventList: React.FC<EventListProps> = (props) => {
@@ -16,10 +14,10 @@ const EventList: React.FC<EventListProps> = (props) => {
       {pipe(
         props.events,
         A.map((event) => {
-          if (UncategorizedMD.is(event)) {
+          if (Events.Uncategorized.UncategorizedMD.is(event)) {
             return (
               <UncategorizedListItem
-                key={event.frontmatter.uuid}
+                key={event.frontmatter.id}
                 item={event}
               />
             )

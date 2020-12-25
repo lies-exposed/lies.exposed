@@ -9,7 +9,6 @@ export const TransactionFrontmatter = t.strict(
   {
     ...BaseFrontmatter.type.props,
     type: TRANSACTION_FRONTMATTER,
-    uuid: t.string,
     amount: t.number,
     by: ByGroupOrActor,
     to: ByGroupOrActor,

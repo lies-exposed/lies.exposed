@@ -1,4 +1,4 @@
-import { ActorFrontmatter } from "@models/actor"
+import { Actor } from "@econnessione/io"
 import { generateRandomColor } from "@utils/colors"
 import uuid from "@utils/uuid"
 import * as O from "fp-ts/lib/Option"
@@ -6,9 +6,9 @@ import { avatars } from "./avatars"
 
 const today = new Date()
 
-export const goodActor: ActorFrontmatter = {
-  uuid: uuid(),
-  type: 'ActorFrontmatter',
+export const goodActor: Actor.ActorFrontmatter = {
+  id: uuid(),
+  type: Actor.ACTOR_FRONTMATTER.value,
   fullName: "Good Actor",
   username: "good-actor",
   avatar: O.some(avatars.actors[0]),
@@ -17,8 +17,8 @@ export const goodActor: ActorFrontmatter = {
   updatedAt: today
 }
 
-export const goodSecondActor: ActorFrontmatter = {
-  uuid: uuid(),
+export const goodSecondActor: Actor.ActorFrontmatter = {
+  id: uuid(),
   type: 'ActorFrontmatter',
   fullName: "Good Actor - The 2nd",
   username: "good-actor-the-2nd",
@@ -28,8 +28,8 @@ export const goodSecondActor: ActorFrontmatter = {
   updatedAt: today
 }
 
-export const badActor: ActorFrontmatter = {
-  uuid: uuid(),
+export const badActor: Actor.ActorFrontmatter = {
+  id: uuid(),
   type: 'ActorFrontmatter',
   fullName: "Bad Actor",
   username: "bad-actor",
@@ -39,8 +39,8 @@ export const badActor: ActorFrontmatter = {
   updatedAt: today
 }
 
-export const badSecondActor: ActorFrontmatter = {
-  uuid: uuid(),
+export const badSecondActor: Actor.ActorFrontmatter = {
+  id: uuid(),
   type: 'ActorFrontmatter',
   fullName: "Bad Actor - The 2nd",
   username: "bad-actor-the-2nd",
@@ -50,4 +50,4 @@ export const badSecondActor: ActorFrontmatter = {
   updatedAt: today
 }
 
-export const actors: ActorFrontmatter[] = [goodActor, badActor, badSecondActor]
+export const actors: Actor.ActorFrontmatter[] = [goodActor, badActor, badSecondActor]

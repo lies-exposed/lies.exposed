@@ -1,14 +1,13 @@
+import { Common, ResourcesNames } from "@econnessione/io"
 import { faEdit } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { BaseFrontmatter } from "@models/Frontmatter"
-import { ResourcesNames } from "@models/index"
 import { getAdminLink } from "@utils/links"
 import { StyledLink } from "baseui/link"
 import * as React from 'react'
 
 interface EditButtonProps {
   resourceName: ResourcesNames
-  resource: BaseFrontmatter
+  resource: Common.BaseFrontmatter
 }
 
 const EditButton: React.FC<EditButtonProps> = (props) => {

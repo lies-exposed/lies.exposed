@@ -1,21 +1,19 @@
-import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
-import { ActorFrontmatter } from "@models/actor"
-import { GroupFrontmatter } from "@models/group"
+import { Actor, Common, Group } from "@econnessione/io"
 import { eqString } from "fp-ts/lib/Eq"
 
-export const getActors = (allActors: ActorFrontmatter[]) => (
+export const getActors = (allActors: Actor.ActorFrontmatter[]) => (
   actorUUIDs: string[]
-): ActorFrontmatter[] => {
-  return actorUUIDs.reduce<ActorFrontmatter[]>((acc, uuid) => {
-    const actor = allActors.find((a) => eqString.equals(a.uuid, uuid))
+): Actor.ActorFrontmatter[] => {
+  return actorUUIDs.reduce<Actor.ActorFrontmatter[]>((acc, id) => {
+    const actor = allActors.find((a) => eqString.equals(a.id, id))
     return actor !== undefined ? acc.concat(actor) : acc
   }, [])
 }
 
 export const isByActor = (
-  actor: ActorFrontmatter
-) => (by: ByGroupOrActor): boolean => by.type === "Actor" && by.actor.uuid === actor.uuid
+  actor: Actor.ActorFrontmatter
+) => (by: Common.ByGroupOrActor): boolean => by.type === "Actor" && by.actor.id === actor.id
 
 export const isByGroup = (
-  group: GroupFrontmatter
-) => (by: ByGroupOrActor): boolean => by.type === 'Group' && by.group.uuid === group.uuid
+  group: Group.GroupFrontmatter
+) => (by: Common.ByGroupOrActor): boolean => by.type === 'Group' && by.group.id === group.id

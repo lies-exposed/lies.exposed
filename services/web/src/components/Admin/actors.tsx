@@ -16,43 +16,48 @@ import {
   TextInput,
 } from "react-admin"
 
-export const ActorList = (props: ListProps) => (
+export const ActorList: React.FC<ListProps> = (props) => (
   <List {...props}>
     <Datagrid rowClick="edit">
-      <TextField source="fullName" />
-      <DateField source="updatedAt" showTime={true} />
-      <TextField source="color" />
-      <DateField source="date" />
-      <TextField source="username" />
-      <DateField source="createdAt" />
-      <ImageField source="avatar" fullWidth={false} />
+      <TextField label="Full Name" source="frontmatter.fullName" />
+      <TextField source="frontmatter.username" />
+      <TextField source="frontmatter.color" />
+      <ImageField source="frontmatter.avatar" fullWidth={false} />
+      <DateField
+        label="Updated At"
+        source="frontmatter.updatedAt"
+        showTime={true}
+      />
+      <DateField
+        label="Created At"
+        source="frontmatter.createdAt"
+        showTime={true}
+      />
     </Datagrid>
   </List>
 )
 
-const EditTitle = ({ record }: any) => {
+const EditTitle: React.FC = ({ record }: any) => {
   return <span>Actor {record.fullName}</span>
 }
 
-export const ActorEdit = (props: EditProps) => (
+export const ActorEdit: React.FC<EditProps> = (props) => (
   <Edit title={<EditTitle {...props} />} {...props}>
     <SimpleForm>
+      <ImageField label="Avatar" source="frontmatter.avatar" fullWidth={false} />
       <TextInput source="id" />
-      <DateInput source="updatedAt" />
-      <TextInput source="color" />
-      <DateInput source="date" />
-      <TextInput source="username" />
-      <TextInput source="fullName" />
-      <TextInput source="type" />
-      <DateInput source="createdAt" />
-      <ImageField source="avatar" fullWidth={false} />
-      <ImageInput source="avatar" />
+      <TextInput source="frontmatter.color" />
+      <TextInput source="frontmatter.username" />
+      <TextInput source="frontmatter.fullName" />
+      <ImageInput source="frontmatter.avatar" />
       <TextInput source="body" />
+      <DateField source="frontmatter.createdAt" />
+      <DateField source="frontmatter.updatedAt" />
     </SimpleForm>
   </Edit>
 )
 
-export const ActorCreate = (props: CreateProps) => (
+export const ActorCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Post" {...props}>
     <SimpleForm>
       <TextInput source="id" />

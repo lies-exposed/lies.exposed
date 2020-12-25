@@ -1,18 +1,18 @@
+import { Events } from "@econnessione/io"
 import { badActor, goodActor, goodSecondActor } from "@mock-data/actors"
 import { badGroup, goodGroup, secondBadGroup } from "@mock-data/groups"
 import { thirdImage } from "@mock-data/images"
 import { firstBadProject, firstGoodProject } from "@mock-data/projects"
 import { firstFund, secondFund, thirdFund } from "@mock-data/transactions"
-import { EventFrontmatter, EventListMap } from "@models/events"
 import uuid from "@utils/uuid"
 import { subDays } from "date-fns"
 import * as O from "fp-ts/lib/Option"
 
 const now = new Date()
 
-export const firstEventMetadata: EventFrontmatter[] = [
+export const firstEventMetadata: Events.EventFrontmatter[] = [
   {
-    uuid: uuid(),
+    id: uuid(),
     title: "",
     type: "ProjectTransaction",
     transaction: firstFund,
@@ -22,7 +22,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1),
   },
   {
-    uuid: uuid(),
+    id: uuid(),
     type: "Protest",
     title: "Protest for bad project",
     for: { type: "Project", project: firstBadProject },
@@ -33,7 +33,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1),
   },
   {
-    uuid: uuid(),
+    id: uuid(),
     title: "",
     type: "PublicAnnouncement",
     from: [{ type: "Group", group: badGroup }],
@@ -44,7 +44,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1)
   },
   {
-    uuid: uuid(),
+    id: uuid(),
     date: subDays(now, 13),
     title: "",
     type: "ProjectImpact",
@@ -57,7 +57,7 @@ export const firstEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1)
   },
   {
-    uuid: uuid(),
+    id: uuid(),
     title: "",
     type: "Arrest",
     who: { type: "Actor", actor: badActor },
@@ -68,9 +68,9 @@ export const firstEventMetadata: EventFrontmatter[] = [
   },
 ]
 
-export const secondEventMetadata: EventFrontmatter[] = [
+export const secondEventMetadata: Events.EventFrontmatter[] = [
   {
-    uuid: uuid(),
+    id: uuid(),
     title: "",
     type: "StudyPublished",
     from: [{ type: "Actor", actor: goodSecondActor }],
@@ -80,7 +80,7 @@ export const secondEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1)
   },
   {
-    uuid: uuid(),
+    id: uuid(),
     title: "",
     type: "Death",
     who: { type: "Actor", actor: goodActor },
@@ -91,10 +91,10 @@ export const secondEventMetadata: EventFrontmatter[] = [
   },
 ]
 
-export const thirdEventMetadata: EventFrontmatter[] = [
+export const thirdEventMetadata: Events.EventFrontmatter[] = [
   {
     title: "",
-    uuid: uuid(),
+    id: uuid(),
     type: "ProjectTransaction",
     transaction: secondFund,
     project: firstGoodProject,
@@ -104,7 +104,7 @@ export const thirdEventMetadata: EventFrontmatter[] = [
   },
   {
     title: "",
-    uuid: uuid(),
+    id: uuid(),
     type: "ProjectTransaction",
     transaction: firstFund,
     project: firstBadProject,
@@ -114,7 +114,7 @@ export const thirdEventMetadata: EventFrontmatter[] = [
   },
   {
     title: "",
-    uuid: uuid(),
+    id: uuid(),
     type: "ProjectTransaction",
     transaction: thirdFund,
     project: firstBadProject,
@@ -123,7 +123,7 @@ export const thirdEventMetadata: EventFrontmatter[] = [
     updatedAt: subDays(now, 1),
   },
   {
-    uuid: uuid(),
+    id: uuid(),
     type: "Protest",
     title: "Second protest form bad project",
     organizers: [{ type: "Actor", actor: goodActor }],
@@ -135,9 +135,9 @@ export const thirdEventMetadata: EventFrontmatter[] = [
   },
 ]
 
-export const fourthEventMetadata: EventFrontmatter[] = [
+export const fourthEventMetadata: Events.EventFrontmatter[] = [
   {
-    uuid: uuid(),
+    id: uuid(),
     type: "Protest",
     title: "Protest for good project",
     organizers: [{ type: "Group", group: goodGroup }],
@@ -155,14 +155,14 @@ export const fourthEventMetadata: EventFrontmatter[] = [
   },
 ]
 
-export const eventMetadata: EventFrontmatter[] = [
+export const eventMetadata: Events.EventFrontmatter[] = [
   ...firstEventMetadata,
   ...secondEventMetadata,
   ...thirdEventMetadata,
   ...fourthEventMetadata,
 ]
 
-export const eventMetadataMapEmpty: EventListMap = {
+export const eventMetadataMapEmpty = {
   PublicAnnouncement: [],
   ProjectTransaction: [],
   ProjectImpact: [],

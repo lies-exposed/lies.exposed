@@ -3,7 +3,7 @@ import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 
 export const BASE_FRONTMATTER = "BaseFrontmatter"
 export const BaseFrontmatter = t.strict({
-  uuid: t.string,
+  id: t.string,
   type: t.string,
   createdAt: DateFromISOString,
   updatedAt: DateFromISOString

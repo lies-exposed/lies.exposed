@@ -1,9 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es5",
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "noEmit": true,
     "allowJs": true,
     "strict": true,
@@ -11,21 +11,29 @@
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "skipLibCheck": true,
-    "typeRoots": ["node_modules/@types", "./typings"],
+    "typeRoots": [
+      "node_modules/@types",
+      "./typings"
+    ],
     "baseUrl": "./src",
-    "paths": {
-      "@components/*": ["./components/*"],
-      "@helpers/*": ["./helpers/*"],
-      "@models/*": ["./models/*"],
-      "@templates/*": ["./templates/*"],
-      "@theme/*": ["./theme/*"],
-      "@mock-data/*": ["./mock-data/*"],
-      "@utils/*": ["./utils/*"],
-      "@cms/*": ["./cms/*"]
-    }
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "isolatedModules": true
   },
-  "include": ["gatsby", "src", "typings", "node_modules/server"],
-  "exclude": ["content", "node_modules", "public", ".cache"]
+  "include": [
+    "src",
+    "typings"
+  ],
+  "exclude": [
+    "gatsby",
+    "node_modules",
+    "public",
+    ".cache"
+  ]
 }

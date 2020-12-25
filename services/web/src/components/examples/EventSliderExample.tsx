@@ -1,15 +1,16 @@
 import { EventSlider, EventSliderProps } from "@components/sliders/EventSlider"
+import { Events } from "@econnessione/io"
 import { events } from "@mock-data/events"
-import { EventMD } from "@models/events"
 import { Card } from "baseui/card"
 import * as O from "fp-ts/lib/Option"
 import * as R from "fp-ts/lib/Record"
 import * as React from "react"
 
 export const eventSliderArgs: EventSliderProps = {
-  events: events.map((e): EventMD => ({
+  events: events.map((e): Events.EventMD => ({
+    id: e.id,
     frontmatter: e,
-    body: null,
+    body: "",
     timeToRead: O.none,
     tableOfContents: O.none,
   })),
@@ -18,7 +19,7 @@ export const eventSliderArgs: EventSliderProps = {
 export const EventSliderExample: React.FC<EventSliderProps> = (
   props
 ) => {
-  const pageContentProps = R.isEmpty(props as any)
+  const pageContentProps = R.isEmpty(props as {})
     ? eventSliderArgs
     : props
 

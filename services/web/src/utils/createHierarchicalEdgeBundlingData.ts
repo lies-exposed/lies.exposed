@@ -1,10 +1,8 @@
 import {
   HierarchicalEdgeBundlingDatum,
-  HierarchicalEdgeBundlingProps,
+  HierarchicalEdgeBundlingProps
 } from "@components/Common/Graph/HierarchicalEdgeBundling"
-import { ActorFrontmatter } from "@models/actor"
-import { Uncategorized } from "@models/events/Uncategorized"
-import { GroupFrontmatter } from "@models/group"
+import { Actor, Events, Group } from "@econnessione/io"
 import * as A from "fp-ts/lib/Array"
 import * as Eq from "fp-ts/lib/Eq"
 import * as Map from "fp-ts/lib/Map"
@@ -13,8 +11,8 @@ import * as Ord from "fp-ts/lib/Ord"
 import { pipe } from "fp-ts/lib/pipeable"
 
 interface CreateHierarchicalEdgeBundlingData {
-  events: Uncategorized[]
-  groups: GroupFrontmatter[]
+  events: Events.Uncategorized.Uncategorized[]
+  groups: Group.GroupFrontmatter[]
 }
 
 interface LinkMapKeys {
@@ -38,23 +36,23 @@ export const createHierarchicalEdgeBundling = (
     A.reduce(init, (acc, e) => {
       const actors = pipe(
         e.actors,
-        O.getOrElse((): ActorFrontmatter[] => [])
+        O.getOrElse((): Actor.ActorFrontmatter[] => [])
       )
 
       const result = pipe(
         actors,
         A.reduce(acc, (acc1, a) => {
           const otherActors = actors
-            .filter((_) => _.uuid !== a.uuid)
-            .map((_) => _.uuid)
+            .filter((_) => _.id !== a.id)
+            .map((_) => _.id)
 
           const group = pipe(
             data.groups,
             A.findFirst((g) => {
               return pipe(
                 g.members,
-                O.mapNullable((members) => {
-                  return members.find((m) => m.uuid === a.uuid)
+                O.chainNullableK((members) => {
+                  return members.find((m) => m.id === a.id)
                 }),
                 O.isSome
               )
@@ -62,15 +60,15 @@ export const createHierarchicalEdgeBundling = (
           )
 
           return pipe(
-            Map.lookup(Eq.eqString)(a.uuid, acc1.nodes),
+            Map.lookup(Eq.eqString)(a.id, acc1.nodes),
             O.alt(() => {
               return pipe(
                 group,
                 O.map(
                   (g): HierarchicalEdgeBundlingDatum => ({
-                    id: a.uuid,
+                    id: a.id,
                     label: a.fullName,
-                    group: g.uuid,
+                    group: g.id,
                     targets: [],
                   })
                 )
@@ -97,7 +95,7 @@ export const createHierarchicalEdgeBundling = (
                         )
                       })
                     ),
-                    nodes: Map.insertAt(Eq.eqString)(a.uuid, o)(acc1.nodes),
+                    nodes: Map.insertAt(Eq.eqString)(a.id, o)(acc1.nodes),
                   }
                 }),
                 O.getOrElse(() => ({ links: acc1.links, nodes: acc1.nodes }))
