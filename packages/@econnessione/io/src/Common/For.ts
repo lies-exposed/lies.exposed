@@ -1,6 +1,6 @@
-import { ProjectFrontmatter } from '@models/Project'
-import { GroupFrontmatter } from '@models/group'
 import * as t from 'io-ts'
+import { GroupFrontmatter } from '../Group'
+import { ProjectFrontmatter } from '../Project'
 
 export const ForProject = t.strict({
   type: t.literal('Project'),

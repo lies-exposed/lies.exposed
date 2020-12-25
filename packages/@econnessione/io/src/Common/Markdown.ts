@@ -4,13 +4,13 @@ import {
   OptionFromNullableC
 } from "io-ts-types/lib/optionFromNullable"
 
-interface TOCItem {
+export interface TOCItem {
   url?: string
   title?: string
   items?: TOCItem[] | undefined
 }
 
-const TOCItem: t.Type<TOCItem> = t.recursion("TOCItem", () =>
+export const TOCItem: t.Type<TOCItem> = t.recursion("TOCItem", () =>
   t.partial(
     {
       url: t.string,
@@ -23,7 +23,7 @@ const TOCItem: t.Type<TOCItem> = t.recursion("TOCItem", () =>
 
 type MdxC<F extends t.Mixed> = t.ExactC<
   t.TypeC<{
-    // id: t.StringType
+    id: t.StringC
     frontmatter: F
     tableOfContents: OptionFromNullableC<
       t.TypeC<{
@@ -33,7 +33,7 @@ type MdxC<F extends t.Mixed> = t.ExactC<
       }>
     >
     timeToRead: OptionFromNullableC<t.NumberC>
-    body: t.AnyC
+    body: t.StringC
   }>
 >
 
@@ -43,7 +43,7 @@ export const markdownRemark = <F extends t.Mixed>(
 ): MdxC<F> =>
   t.strict(
     {
-      // id: t.string,
+      id: t.string,
       frontmatter: f,
       tableOfContents: optionFromNullable(
         t.type({
@@ -51,7 +51,7 @@ export const markdownRemark = <F extends t.Mixed>(
         })
       ),
       timeToRead: optionFromNullable(t.number),
-      body: t.any,
+      body: t.string,
     },
     name
   )

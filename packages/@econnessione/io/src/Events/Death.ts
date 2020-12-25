@@ -1,8 +1,8 @@
-import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
-import { BaseFrontmatter } from "@models/Frontmatter"
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { BaseFrontmatter } from "../Common/BaseFrontmatter"
+import { ByGroupOrActor } from "../Common/ByGroupOrActor"
 
 export const Death = t.strict(
   {

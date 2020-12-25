@@ -1,9 +1,9 @@
-import { BaseFrontmatter } from '@models/Frontmatter';
-import { markdownRemark } from '@models/Markdown';
-import { ProjectFrontmatter } from '@models/Project';
-import { TransactionFrontmatter } from '@models/Transaction';
-import * as t from 'io-ts'
+import * as t from 'io-ts';
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString';
+import { BaseFrontmatter } from '../Common/BaseFrontmatter';
+import { markdownRemark } from '../Common/Markdown';
+import { ProjectFrontmatter } from '../Project';
+import { TransactionFrontmatter } from '../Transaction';
 
 export const PROJECT_TRANSACTION = "ProjectTransaction"
 export const ProjectTransaction = t.strict(

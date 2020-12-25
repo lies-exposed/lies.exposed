@@ -1,7 +1,7 @@
-import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
-import { BaseFrontmatter } from "./Frontmatter"
+import { ByGroupOrActor } from "./Common"
+import { BaseFrontmatter } from "./Common/BaseFrontmatter"
 
 export const TRANSACTION_FRONTMATTER = t.literal('TransactionFrontmatter')
 

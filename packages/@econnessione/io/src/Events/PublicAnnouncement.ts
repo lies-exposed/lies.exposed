@@ -1,9 +1,9 @@
-import { ByGroupOrActor } from '@models/Common/ByGroupOrActor'
-// import { For } from '@models/Common/For'
-import { BaseFrontmatter } from '@models/Frontmatter'
 import * as t from 'io-ts'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { nonEmptyArray } from 'io-ts-types/lib/nonEmptyArray'
+// import { For } from '../Common/For'
+import { BaseFrontmatter } from '../Common/BaseFrontmatter'
+import { ByGroupOrActor } from '../Common/ByGroupOrActor'
 
 export const PublicAnnouncement = t.strict(
   {

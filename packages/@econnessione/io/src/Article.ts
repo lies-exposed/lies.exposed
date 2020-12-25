@@ -1,8 +1,8 @@
 import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
-import { BaseFrontmatter } from "./Frontmatter"
+import { BaseFrontmatter } from "./Common/BaseFrontmatter"
+import { markdownRemark } from "./Common/Markdown"
 import { ImageFileNode } from "./Image"
-import { markdownRemark } from "./Markdown"
 
 const ARTICLE_FRONTMATTER = "ArticleFrontmatter"
 export const ArticleFrontmatter = t.strict(

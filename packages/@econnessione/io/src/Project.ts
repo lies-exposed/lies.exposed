@@ -2,17 +2,20 @@ import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { BaseFrontmatter } from "./Common/BaseFrontmatter"
 import { Color } from "./Common/Color"
 import { JSONFromString } from "./Common/JSONFromString"
+import { markdownRemark } from "./Common/Markdown"
 import { Polygon } from "./Common/Polygon"
-import { BaseFrontmatter } from "./Frontmatter"
 import { ImageSource } from "./Image"
-import { markdownRemark } from "./Markdown"
+
+export const PROJECT_FRONTMATTER = t.literal('ProjectFrontmatter')
+export type PROJECT_FRONTMATTER = t.TypeOf<typeof PROJECT_FRONTMATTER>
 
 export const ProjectFrontmatter = t.strict(
   {
     ...BaseFrontmatter.type.props,
-    type: t.literal('ProjectFrontmatter'),
+    type: PROJECT_FRONTMATTER,
     name: t.string,
     color: Color,
     areas: optionFromNullable(nonEmptyArray(JSONFromString.pipe(Polygon))),

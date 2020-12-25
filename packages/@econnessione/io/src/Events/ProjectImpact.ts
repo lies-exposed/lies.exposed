@@ -1,10 +1,10 @@
-import { ByGroupOrActor } from '@models/Common/ByGroupOrActor'
-import { Impact } from '@models/Common/Impact'
-import { BaseFrontmatter } from '@models/Frontmatter'
-import { ImageFileNode } from '@models/Image'
-import { ProjectFrontmatter } from '@models/Project'
 import * as t from 'io-ts'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
+import { BaseFrontmatter } from '../Common/BaseFrontmatter'
+import { ByGroupOrActor } from '../Common/ByGroupOrActor'
+import { Impact } from '../Common/Impact'
+import { ImageFileNode } from '../Image'
+import { ProjectFrontmatter } from '../Project'
 
 export const PROJECT_IMPACT = 'ProjectImpact'
 

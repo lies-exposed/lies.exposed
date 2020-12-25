@@ -1,7 +1,7 @@
 import * as t from "io-ts"
+import { BaseFrontmatter } from "./Common/BaseFrontmatter"
 import { Color } from "./Common/Color"
-import { BaseFrontmatter } from "./Frontmatter"
-import { markdownRemark } from "./Markdown"
+import { markdownRemark } from "./Common/Markdown"
 
 export const TOPIC_FRONTMATTER = t.literal('TopicFrontmatter')
 export const TopicFrontmatter = t.strict(

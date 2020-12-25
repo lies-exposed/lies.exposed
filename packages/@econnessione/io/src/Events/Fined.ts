@@ -1,9 +1,7 @@
-import { ByGroupOrActor } from "@models/Common/ByGroupOrActor"
-import { MoneyAmount } from "@models/Common/MoneyAmount"
-import { BaseFrontmatter } from "@models/Frontmatter"
 import * as t from "io-ts"
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString"
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray"
+import { BaseFrontmatter, ByGroupOrActor, MoneyAmount } from "../Common"
 
 const FINED_FRONTMATTER = t.literal("Fined")
 

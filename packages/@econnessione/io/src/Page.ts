@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { BaseFrontmatter } from "./Frontmatter";
-import { markdownRemark } from "./Markdown";
+import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { markdownRemark } from "./Common/Markdown";
 
 const PAGE_FRONTMATTER = 'PageFrontmatter';
 

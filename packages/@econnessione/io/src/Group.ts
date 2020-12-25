@@ -2,13 +2,13 @@ import * as t from "io-ts"
 import { DateFromISOStringC } from "io-ts-types/lib/DateFromISOString"
 import {
   optionFromNullable,
-  OptionFromNullableC,
+  OptionFromNullableC
 } from "io-ts-types/lib/optionFromNullable"
+import { ActorFrontmatter } from "./Actor"
+import { BaseFrontmatter } from "./Common/BaseFrontmatter"
 import { Color } from "./Common/Color"
-import { BaseFrontmatter } from "./Frontmatter"
+import { markdownRemark } from "./Common/Markdown"
 import { ImageFileNode } from "./Image"
-import { markdownRemark } from "./Markdown"
-import { ActorFrontmatter } from "./actor"
 
 export const GroupKind = t.union([t.literal("Public"), t.literal("Private")], 'GroupKind')
 export type GroupKind = t.TypeOf<typeof GroupKind>
@@ -37,7 +37,7 @@ export const GroupFrontmatter: GroupFrontmatterType = t.recursion("GroupFrontmat
     type: t.literal("GroupFrontmatter"),
     kind: GroupKind,
     color: Color,
-    avatar: optionFromNullable(ImageFileNode),
+    avatar: optionFromNullable(t.string),
     subGroups: optionFromNullable(t.array(GroupFrontmatter)),
     members: optionFromNullable(t.array(ActorFrontmatter)),
   }) as any

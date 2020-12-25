@@ -1,10 +1,10 @@
 import * as t from "io-ts"
+import { BaseFrontmatter } from "./Common/BaseFrontmatter"
 import { JSONFromString } from "./Common/JSONFromString"
+import { markdownRemark } from "./Common/Markdown"
 import { Polygon } from "./Common/Polygon"
-import { BaseFrontmatter } from "./Frontmatter"
-import { markdownRemark } from "./Markdown"
-import { GroupFrontmatter } from "./group"
-import { TopicFrontmatter } from "./topic"
+import { GroupFrontmatter } from "./Group"
+import { TopicFrontmatter } from "./Topic"
 
 const AREA_FRONTMATTER = t.literal('AreaFrontmatter')
 

@@ -1,6 +1,6 @@
-import { ActorFrontmatter } from "@models/actor"
-import { GroupFrontmatter, GroupFrontmatterC } from "@models/group"
 import * as t from "io-ts"
+import { ActorFrontmatter } from "../Actor"
+import { GroupFrontmatter, GroupFrontmatterC } from "../Group"
 
 export const ByGroup = t.strict(
   {
@@ -9,6 +9,7 @@ export const ByGroup = t.strict(
   },
   "ByGroup"
 )
+
 export interface ByGroup {
   type: 'Group'
   group: GroupFrontmatter

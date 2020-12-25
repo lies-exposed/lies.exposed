@@ -1,6 +1,6 @@
-import { ActorFrontmatter } from "@models/actor"
-import { GroupFrontmatter, GroupFrontmatterC } from "@models/group"
 import * as t from "io-ts"
+import { ActorFrontmatter } from "./Actor"
+import { GroupFrontmatter, GroupFrontmatterC } from "./Group"
 
 export const GroupRelation = t.strict(
   {

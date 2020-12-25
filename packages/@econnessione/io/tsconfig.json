@@ -5,7 +5,10 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "@Common/*": ["./Common/*"]
+    }
   },
   "include": ["./src"],
   "exclude": ["**/node_modules/**"]

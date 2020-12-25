@@ -1,8 +1,8 @@
-import { ByGroupOrActor } from '@models/Common/ByGroupOrActor'
-import { BaseFrontmatter } from '@models/Frontmatter'
 import * as t from 'io-ts'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { nonEmptyArray } from 'io-ts-types/lib/nonEmptyArray'
+import { BaseFrontmatter } from '../Common/BaseFrontmatter'
+import { ByGroupOrActor } from '../Common/ByGroupOrActor'
 
 export const STUDY_PUBLISHED = 'StudyPublished'
 

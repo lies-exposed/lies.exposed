@@ -1,8 +1,9 @@
 import * as t from "io-ts"
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable"
+import { BaseFrontmatter } from "./Common/BaseFrontmatter"
 import { Color } from "./Common/Color"
-import { BaseFrontmatter } from "./Frontmatter"
-import { markdownRemark } from "./Markdown"
+import { markdownRemark } from "./Common/Markdown"
+import { ImageFileNode } from "./Image"
 
 export const ACTOR_FRONTMATTER = t.literal('ActorFrontmatter');
 export const ActorFrontmatter = t.strict(
@@ -11,7 +12,7 @@ export const ActorFrontmatter = t.strict(
     type: ACTOR_FRONTMATTER,
     fullName: t.string,
     username: t.string,
-    avatar: optionFromNullable(t.string),
+    avatar: optionFromNullable(ImageFileNode),
     color: Color,
   },
   ACTOR_FRONTMATTER.value
