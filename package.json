@@ -13,11 +13,16 @@
       "services/**"
     ]
   },
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\""
+  },
   "engines": {
     "yarn": ">= 1.22.5",
     "npm": "please use yarn >= 1.22.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "10.0.0",
     "eslint": "7.11.0",
     "eslint-config-prettier": "6.12.0",
     "eslint-config-standard-with-typescript": "^19.0.1",
