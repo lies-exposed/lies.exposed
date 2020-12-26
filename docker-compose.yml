@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: econnessione
+      POSTGRES_PASSWORD: econnessione-password
+      POSTGRES_DB: econnessione
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  api:
+    container_name: econnessione-api
+    build:
+      context: .
+      dockerfile: ./api.Dockerfile
+      target: build
+    env_file:
+      - .env.dev
+    environment:
+      POSTGRES_HOST: db
+    links:
+      - db
+    ports:
+      - 4010:4010
+    volumes:
+      - ./services/api/src:/app/services/api/src
+      - api-node-modules:/app/services/api/node_modules
+    tty: true
+    command: yarn develop
+    restart: always
+
+  web:
+    container_name: econnessione-web
+    build:
+      context: .
+      dockerfile: ./web.Dockerfile
+      target: build
+    env_file:
+      - .env.dev
+    ports:
+      - 3000:3000
+    volumes:
+      - ./.eslintrc:/app/.eslintrc
+      - ./services/web/src:/app/services/web/src
+      - web-node-modules:/app/node_modules
+    command: yarn develop
+    tty: true
+    links:
+      - api
+    restart: always
+
+volumes:
+  db-data:
+  web-node-modules:
+  api-node-modules:
