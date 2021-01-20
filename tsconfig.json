@@ -1,29 +1,23 @@
 {
   "compilerOptions": {
+    "lib": ["ESNext"],
     "module": "commonjs",
     "target": "es5",
-    "jsx": "preserve",
-    "noEmit": true,
-    "allowJs": true,
+    "incremental": true,
     "strict": true,
+    "declaration": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "esnext"],
-    "skipLibCheck": true,
-    "baseUrl": "./src",
-    "paths": {
-      "@components/*": ["./components/*"],
-      "@helpers/*": ["./helpers/*"],
-      "@models/*": ["./models/*"],
-      "@templates/*": ["./templates/*"],
-      "@theme/*": ["./theme/*"],
-      "@mock-data/*": ["./mock-data/*"],
-      "@utils/*": ["./utils/*"],
-      "@cms/*": ["./cms/*"]
-    }
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["gatsby", "src", "plugins", "scripts", "typings"],
-  "exclude": ["content", "node_modules", "public", ".cache"]
+  "exclude": [
+    "node_modules",
+    "**/__tests__/**",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "build",
+    "lib"
+  ]
 }

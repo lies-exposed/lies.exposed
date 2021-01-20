@@ -53,7 +53,6 @@ jspm_packages/
 
 # gatsby files
 .cache/
-public
 
 # Yarn
 yarn-error.log
@@ -66,4 +65,15 @@ yarn-error.log
 .netlify
 
 # Storybook
-static/storybook
+**/static/storybook/**
+# Certificates
+certs
+
+# output dir
+lib
+build
+
+temp
+.env*
+!.env.local
+!.env.test
