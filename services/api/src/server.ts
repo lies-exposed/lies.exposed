@@ -19,6 +19,7 @@ import { GroupEntity } from "@routes/groups/group.entity";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { PageEntity } from "@routes/pages/page.entity";
 import { MakePageRoutes } from "@routes/pages/pages.route";
+import { ProjectEntity } from "@routes/projects/project.entity";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import * as AWS from "aws-sdk";
 import cors from "cors";
@@ -30,7 +31,6 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import "reflect-metadata";
 import { IOError } from "ts-shared/lib/errors";
-import { ProjectEntity } from "@routes/projects/project.entity";
 
 // var whitelist = ["http://localhost:8002"]
 var corsOptions: cors.CorsOptions = {
@@ -54,6 +54,7 @@ const run = (): Promise<void> => {
     TE.chain((env) =>
       pipe(
         sequenceS(TE.taskEither)({
+          logger: TE.right(serverLogger),
           db: GetTypeORMClient({
             type: "postgres",
             host: env.DB_HOST,

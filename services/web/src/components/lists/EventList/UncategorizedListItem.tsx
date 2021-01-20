@@ -1,10 +1,10 @@
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Slider } from "@components/Common/Slider/Slider";
 import ActorList from "@components/lists/ActorList";
 import GroupList from "@components/lists/GroupList";
 import TopicList from "@components/lists/TopicList";
 import { Actor, Events } from "@econnessione/shared/lib/io/http";
 import { formatDate } from "@utils/date";
-import { RenderHTML } from "@utils/renderHTML";
 import { Accordion, Panel } from "baseui/accordion";
 import { Block } from "baseui/block";
 import { Card, StyledBody } from "baseui/card";
@@ -156,7 +156,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             )}
             <FlexGrid flexGridColumnCount={3}>
               <FlexGridItem display="flex" flexDirection="column">
-                {RenderHTML({ children: item.body })}
+                <MarkdownRenderer>{item.body}</MarkdownRenderer>
                 {pipe(
                   item.links,
                   O.map((links) => (

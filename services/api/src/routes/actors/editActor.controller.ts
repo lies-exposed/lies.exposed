@@ -10,11 +10,12 @@ import { Route } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 import { ActorEntity } from "./actor.entity";
 
-export const MakeEditActorRoute: Route = (r, { s3, db, env }) => {
+export const MakeEditActorRoute: Route = (r, { s3, db, env, logger }) => {
   AddEndpoint(r)(
     endpoints.Actor.Edit,
     ({ params: { id }, body: { avatar, ...body } }) => {
       const updateData = foldOptionals(body as any);
+      logger.debug.log('Actor update data %O', updateData)
       return pipe(
         db.update(ActorEntity, id, updateData),
         TE.chain(() =>

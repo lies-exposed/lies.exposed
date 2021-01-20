@@ -16,14 +16,14 @@ const convertFileToBase64 = (file: any): Promise<string> =>
 export const apiProvider: http.APIRESTClient = {
   ...dataProvider,
   create: (resource, params) => {
-    if (resource === "actors"|| resource==="groups") {
+    if (resource === "actors" || resource === "groups") {
       // eslint-disable-next-line no-console
-      console.log(({ resource, params }))
-      return convertFileToBase64(params.data.avatar).then((base64) => {
+      const { avatar, ...data } = params.data;
+      return convertFileToBase64(avatar).then((base64) => {
         const finalData = {
-          ...params.data,
+          ...data,
           avatar: {
-            path: params.data.avatar.rawFile.path,
+            path: avatar.rawFile.path,
             src: base64,
           },
         };
@@ -36,9 +36,9 @@ export const apiProvider: http.APIRESTClient = {
     return dataProvider.create(resource, params);
   },
   update: (resource, params) => {
-    if (resource === "actors" || resource==="groups") {
+    if (resource === "actors" || resource === "groups") {
       // eslint-disable-next-line no-console
-      if (typeof params.data.avatar === 'object') {
+      if (typeof params.data.avatar === "object") {
         return convertFileToBase64(params.data.avatar).then((base64) => {
           const finalData = {
             ...params.data,
@@ -52,8 +52,14 @@ export const apiProvider: http.APIRESTClient = {
             data: finalData,
           });
         });
+      } else if (typeof params.data.avatar === "string") {
+        const { avatar, ...data } = params.data;
+        return dataProvider.update(resource, {
+          ...params,
+          data,
+        });
       }
     }
     return dataProvider.update(resource, params);
-  }
+  },
 };

@@ -1,8 +1,8 @@
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Slider } from "@components/Common/Slider/Slider";
 import GroupOrActorList from "@components/lists/GroupAndActorList";
 import { Events } from "@econnessione/shared/lib/io/http";
 import { formatDate } from "@utils//date";
-import { RenderHTML } from "@utils/renderHTML";
 import { Block } from "baseui/block";
 import { Card, StyledBody } from "baseui/card";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
@@ -90,7 +90,7 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
             </FlexGridItem>
             <FlexGrid flexGridColumnCount={3}>
               <FlexGridItem display="flex" flexDirection="column">
-                {RenderHTML({ children: item.body })}
+                <MarkdownRenderer>{item.body}</MarkdownRenderer>
               </FlexGridItem>
             </FlexGrid>
           </FlexGrid>

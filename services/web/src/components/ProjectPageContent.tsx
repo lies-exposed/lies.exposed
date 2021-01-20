@@ -1,3 +1,4 @@
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import {
   Common,
   Events,
@@ -5,7 +6,6 @@ import {
   Project,
 } from "@econnessione/shared/lib/io/http";
 import { formatDate } from "@utils/date";
-import { RenderHTML } from "@utils/renderHTML";
 import { Block } from "baseui/block";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { HeadingXLarge, HeadingXSmall, LabelXSmall } from "baseui/typography";
@@ -163,7 +163,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
         </FlexGridItem>
       </FlexGridItem>
       <FlexGridItem>
-        {/* <div className="content">{RenderHTML({ children: body })}</div> */}
+        <MarkdownRenderer>{body}</MarkdownRenderer>
       </FlexGridItem>
     </FlexGrid>
   );

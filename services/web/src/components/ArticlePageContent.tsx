@@ -1,6 +1,6 @@
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Article } from "@econnessione/shared/lib/io/http";
 import { formatDate } from "@utils/date";
-import { RenderHTML } from "@utils/renderHTML";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { HeadingXXLarge, LabelSmall } from "baseui/typography";
 import * as O from "fp-ts/lib/Option";
@@ -71,7 +71,7 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
               Tempo di lettura: TODO min
             </LabelSmall>
           </MainContent>
-          {RenderHTML({ children: props.body })}
+          <MarkdownRenderer>{props.body}</MarkdownRenderer>
         </ContentWithSidebar>
       </FlexGridItem>
     </FlexGrid>

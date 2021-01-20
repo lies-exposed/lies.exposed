@@ -201,7 +201,6 @@ export const GetMDXClient = (ctx: MDXClientContext): MDXClient => {
         TE.chain(() => readFile(filePath))
       );
     },
-
     readFile,
   };
 };

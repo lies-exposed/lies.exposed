@@ -1,5 +1,5 @@
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Area, Group, Topic } from "@econnessione/shared/lib/io/http";
-import { RenderHTML } from "@utils/renderHTML";
 import { Block } from "baseui/block";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { HeadingXLarge, HeadingXSmall } from "baseui/typography";
@@ -88,7 +88,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
             )
           )
         )}
-        <div className="content">{RenderHTML({ children: body })}</div>
+        <MarkdownRenderer>{body}</MarkdownRenderer>
       </FlexGridItem>
     </FlexGrid>
   );

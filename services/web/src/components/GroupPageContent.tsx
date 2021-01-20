@@ -1,10 +1,10 @@
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import {
   Actor,
   Events,
   Group,
   Project,
 } from "@econnessione/shared/lib/io/http";
-import { RenderHTML } from "@utils/renderHTML";
 import { Block } from "baseui/block";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { HeadingXLarge, HeadingXSmall, LabelMedium } from "baseui/typography";
@@ -85,7 +85,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
                 (src) => <img src={src} style={{ width: "100px" }} />
               )
             )}
-            <div className="content">{RenderHTML({ children: body })}</div>
+            <MarkdownRenderer>{body}</MarkdownRenderer>
           </Block>
         </FlexGridItem>
         <FlexGridItem>

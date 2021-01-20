@@ -1,7 +1,8 @@
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import ProjectFundList from "@components/lists/ProjectFundList";
 import { Actor, Events } from "@econnessione/shared/lib/io/http";
+import { MDXToReactV2, MDX2ReactSync } from "@utils/MDXCompiler";
 import { formatDate } from "@utils/date";
-import { RenderHTML } from "@utils/renderHTML";
 import { Block } from "baseui/block";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { HeadingXLarge, HeadingXSmall, LabelMedium } from "baseui/typography";
@@ -38,7 +39,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           O.fromNullable(frontmatter.avatar),
           O.fold(
             () => <div />,
-            (src) => <img src={src} width={200} height={400} />
+            (src) => <img src={src} width={200} height="auto" />
           )
         )}
         <Block>
@@ -93,7 +94,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
             ))
           )}
         </Block>
-        <div className="content">{""}</div>
+        <MarkdownRenderer>{body}</MarkdownRenderer>
       </FlexGridItem>
     </FlexGrid>
   );
