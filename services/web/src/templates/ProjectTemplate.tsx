@@ -8,23 +8,37 @@ import { project } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import * as O from "fp-ts/lib/Option";
+import { pipe } from "fp-ts/lib/pipeable";
 import React from "react";
 
-export default class ProjectTemplate extends React.PureComponent<RouteComponentProps> {
+export default class ProjectTemplate extends React.PureComponent<
+  RouteComponentProps<{ projectId: string }>
+> {
   render(): JSX.Element {
-    const id = this.props.location?.search ?? "not-a-real-id";
+    // eslint-disable-next-line
+    console.log(this.props);
 
-    return (
-      <WithQueries
-        queries={{ project: project }}
-        params={{ project: { id: id } }}
-        render={QR.fold(Loader, ErrorBox, ({ project }) => (
-          <MainContent>
-            <SEO title={project.frontmatter.name} />
-            <ProjectPageContent {...project} metadata={eventMetadataMapEmpty} />
-          </MainContent>
-        ))}
-      />
+    return pipe(
+      O.fromNullable(this.props.projectId),
+      O.fold(
+        () => <div>Missing project id</div>,
+        (projectId) => (
+          <WithQueries
+            queries={{ project: project }}
+            params={{ project: { id: projectId } }}
+            render={QR.fold(Loader, ErrorBox, ({ project }) => (
+              <MainContent>
+                <SEO title={project.name} />
+                <ProjectPageContent
+                  {...project}
+                  metadata={eventMetadataMapEmpty}
+                />
+              </MainContent>
+            ))}
+          />
+        )
+      )
     );
   }
 }

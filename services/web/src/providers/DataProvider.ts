@@ -70,7 +70,7 @@ const Resources = {
   actors: Actor.Actor,
   groups: Group.Group,
   topics: Topic.TopicMD,
-  projects: Project.ProjectMD,
+  projects: Project.Project,
   events: Events.Event,
 };
 

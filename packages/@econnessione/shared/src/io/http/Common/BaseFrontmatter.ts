@@ -5,7 +5,7 @@ export const BASE_FRONTMATTER = "BaseFrontmatter";
 export const BaseFrontmatter = t.strict(
   {
     id: t.string,
-    type: t.string,
+    // type: t.string,
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
   },

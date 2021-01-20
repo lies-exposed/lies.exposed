@@ -12,11 +12,9 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 
 export const projectPageContentExampleArgs: ProjectPageContentProps = {
-  id: "",
-  frontmatter: firstBadProject,
-  body: "",
-  tableOfContents: O.none,
-  timeToRead: O.none,
+  ...firstBadProject,
+  // tableOfContents: O.none,
+  // timeToRead: O.none,
   metadata: pipe(
     events,
     extractEventsMetadata({ type: "Project", elem: firstBadProject })

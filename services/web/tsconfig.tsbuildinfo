@@ -419,7 +419,7 @@
         "affectsGlobalScope": false
       },
       "./src/components/common/errorbox.tsx": {
-        "version": "c02a7476e9717c71c1088a033f6f319f8bc096a8ea351737e2f29e2a297b060e",
+        "version": "70342212f3255d9e4a1595a1e3b6f9dce6c39b78e9181cbd42c501a74d2a5cc6",
         "signature": "955f7781c344fb45c72bbfe7ee505d4951c61cdfc2c84c65a7a14cf48d1f71e2",
         "affectsGlobalScope": false
       },
@@ -874,8 +874,8 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/article.d.ts": {
-        "version": "7f65a5d40252927b0aa914529dcd88cd104e7c4fc6be48915959a08f986662a6",
-        "signature": "7f65a5d40252927b0aa914529dcd88cd104e7c4fc6be48915959a08f986662a6",
+        "version": "38c87085c53d2196a2406e005054b4dae954c43e0e3cca8cdf4ae284d014769c",
+        "signature": "38c87085c53d2196a2406e005054b4dae954c43e0e3cca8cdf4ae284d014769c",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/common/basefrontmatter.d.ts": {
@@ -889,8 +889,8 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/common/for.d.ts": {
-        "version": "3b2e80b29f595132668e954564be1c95145fbfe451a8d9664f313900c50df70e",
-        "signature": "3b2e80b29f595132668e954564be1c95145fbfe451a8d9664f313900c50df70e",
+        "version": "62ad05ab993a0d8283a3274919a657fe3803e719062551f92dd58231d7b5a638",
+        "signature": "62ad05ab993a0d8283a3274919a657fe3803e719062551f92dd58231d7b5a638",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/common/impact.d.ts": {
@@ -934,8 +934,8 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/events/arrest.d.ts": {
-        "version": "eea7316b30b09d509a3bbb01103e1e8da4c9992e5b36af03e2cf70fc277038d3",
-        "signature": "eea7316b30b09d509a3bbb01103e1e8da4c9992e5b36af03e2cf70fc277038d3",
+        "version": "78ea136d3d1eb1e19f13bfe27a90611b6eafcd2500bbfc781b96e9a54d72ca4f",
+        "signature": "78ea136d3d1eb1e19f13bfe27a90611b6eafcd2500bbfc781b96e9a54d72ca4f",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/events/condamned.d.ts": {
@@ -954,8 +954,8 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/events/projectimpact.d.ts": {
-        "version": "54e42b4d042957663f03fc07750a605a74b8fdcbde0235377dbc8342d6402337",
-        "signature": "54e42b4d042957663f03fc07750a605a74b8fdcbde0235377dbc8342d6402337",
+        "version": "d9ebd3e2ece03f8d45e0f2acc18e564b541b1672e321d2733979d7b4cc02e092",
+        "signature": "d9ebd3e2ece03f8d45e0f2acc18e564b541b1672e321d2733979d7b4cc02e092",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/events/projecttransaction.d.ts": {
@@ -964,8 +964,8 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/events/protest.d.ts": {
-        "version": "0356068afa43df287420d5387da55d0c3a7b728630ff991561d0f20bf9511e36",
-        "signature": "0356068afa43df287420d5387da55d0c3a7b728630ff991561d0f20bf9511e36",
+        "version": "45965db81a0b6ee445376df52e3d9683ef2c6c428bece823b20db550997af944",
+        "signature": "45965db81a0b6ee445376df52e3d9683ef2c6c428bece823b20db550997af944",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/events/publicannouncement.d.ts": {
@@ -984,8 +984,8 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/events/index.d.ts": {
-        "version": "4da7af7dd416acbb0651d7163a3f731cd17155c2b86a7798af85838052efb005",
-        "signature": "4da7af7dd416acbb0651d7163a3f731cd17155c2b86a7798af85838052efb005",
+        "version": "5aa5a996c4de46b4f8f7705e1c2e2b728269588589de0daac69f67bc73cbd0af",
+        "signature": "5aa5a996c4de46b4f8f7705e1c2e2b728269588589de0daac69f67bc73cbd0af",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/image.d.ts": {
@@ -1004,8 +1004,8 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/project.d.ts": {
-        "version": "364c86951614529ced4151c9af68092fb51a3f1e62a3b90fd2ee60f15091b436",
-        "signature": "364c86951614529ced4151c9af68092fb51a3f1e62a3b90fd2ee60f15091b436",
+        "version": "61c2139693e6928fc61263059f0625282190f8c66ce35184737e8bf7c5cf0eda",
+        "signature": "61c2139693e6928fc61263059f0625282190f8c66ce35184737e8bf7c5cf0eda",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/http/topic.d.ts": {
@@ -6514,8 +6514,8 @@
         "affectsGlobalScope": false
       },
       "./src/providers/dataprovider.ts": {
-        "version": "93b3fd21c6fc3a78a7c21f10d19e0ebe941355fa601d6c1866eadfe437fed261",
-        "signature": "7994ec463daf128b093d04a1ff54b222c553161acfa8aed0a156df5ffa8a2c4d",
+        "version": "95968af74b9c0d9a655240dc80f58cab454bba060b6e88803c42e807d1dbe3cd",
+        "signature": "53aa5b10aa1f8a0d52a4ebc5c902072bf4754f6080d97a4e820cc99c4baa9455",
         "affectsGlobalScope": false
       },
       "../../node_modules/@vx/gradient/lib/gradients/lineargradient.d.ts": {
@@ -6809,8 +6809,8 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/endpoints/page.endpoints.d.ts": {
-        "version": "148e97eddf6c486c12454da1a5aa0bea2aada03039ada725d77cbd67c9177d4a",
-        "signature": "148e97eddf6c486c12454da1a5aa0bea2aada03039ada725d77cbd67c9177d4a",
+        "version": "298674508ed1417e0c0893773bdbc96aa46c28864949fb41d03ffc93770458f9",
+        "signature": "298674508ed1417e0c0893773bdbc96aa46c28864949fb41d03ffc93770458f9",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/endpoints/graph.endpoints.d.ts": {
@@ -6819,13 +6819,18 @@
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/endpoints/article.endpoints.d.ts": {
-        "version": "f52d0806a1a0b55723faa186172e7a47bb15e26a7738b413e419cb1603623ff9",
-        "signature": "f52d0806a1a0b55723faa186172e7a47bb15e26a7738b413e419cb1603623ff9",
+        "version": "258b99cf39070e55dc3f0c5d0dfb3100ae82aca27f139537c35bd41d268422af",
+        "signature": "258b99cf39070e55dc3f0c5d0dfb3100ae82aca27f139537c35bd41d268422af",
+        "affectsGlobalScope": false
+      },
+      "../../packages/@econnessione/shared/lib/endpoints/project.endpoints.d.ts": {
+        "version": "b88a0b4f85378cf97e5b69ca6fd6af99f8bd13df3879f92fa91f6d6caeb0bb5c",
+        "signature": "b88a0b4f85378cf97e5b69ca6fd6af99f8bd13df3879f92fa91f6d6caeb0bb5c",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/endpoints/index.d.ts": {
-        "version": "3a32401999256d3d806a77c24f77aef9261b78eac391cd31619d34d5d3bdf7f9",
-        "signature": "3a32401999256d3d806a77c24f77aef9261b78eac391cd31619d34d5d3bdf7f9",
+        "version": "a17820d75f55c9d78c48a6320e9963843982bd5a37764ae7b5589e59ef9198f1",
+        "signature": "a17820d75f55c9d78c48a6320e9963843982bd5a37764ae7b5589e59ef9198f1",
         "affectsGlobalScope": false
       },
       "../../packages/@econnessione/shared/lib/io/index.d.ts": {
@@ -8179,8 +8184,8 @@
         "affectsGlobalScope": false
       },
       "./src/utils/links.ts": {
-        "version": "76ec68fe4c15a445f5cb0ac5cdbc584454f75b8a3a0e1d10d69b83182987e7df",
-        "signature": "c66cf55512a5aa1cdb20e425e5181819c6f83a55538e31861146d010709caa1b",
+        "version": "5fec5bb638a38192865356c524b18e86375042277f00e2ea905b695eb4cecce6",
+        "signature": "5a4a945c6b964952bf1925ee8a9787016f80eaaec1753d5bc6f1717b6fc0aa53",
         "affectsGlobalScope": false
       },
       "./src/components/buttons/editbutton.tsx": {
@@ -8233,14 +8238,19 @@
         "signature": "daa9c73a4e652389a42655f4c08dfebda2d775e8b82be6015453373e59c52ff9",
         "affectsGlobalScope": false
       },
+      "./src/mock-data/areas.ts": {
+        "version": "19f41aba6b3934e956adb7cec1a6f9dcb553a46cc291a3dacc4d964b9a200642",
+        "signature": "d8a680975ff0b6dcc977601bad75a028d9c2b1ed448c6b46bc1cefe4c172a1fc",
+        "affectsGlobalScope": false
+      },
       "./src/mock-data/polygons.ts": {
         "version": "f6c30dd182ea0ce439f6f8976a11f4bd9f38dfbbb4e73d21a7a871aec6528b7b",
         "signature": "5c31f4631f38ae1b697b22f3842b351fdf93484538a14045c34e02a2fcf68a87",
         "affectsGlobalScope": false
       },
       "./src/mock-data/projects.ts": {
-        "version": "b836a72e58f3420d3694e1a6ed6c2c7e9f920c0cc3f325439c1c337bef7b4cbf",
-        "signature": "60f5ced95f3dba8c4a1c6653fc411b0a4abae9c44b3d2eae32a56b4a11a94360",
+        "version": "4c33c33c122c57c56f6fbee8d237aea0e01a567874600c102a37d2742338f600",
+        "signature": "d2c847d52ef89579a9552b8d548bb1a5a8e1761415df09356cc891090720a45f",
         "affectsGlobalScope": false
       },
       "./src/mock-data/transactions.ts": {
@@ -8269,8 +8279,8 @@
         "affectsGlobalScope": false
       },
       "./src/helpers/event.ts": {
-        "version": "7234b846f53861178eefa8a827d5937bfd0c9bce601902b83dc0efa82715aec8",
-        "signature": "9c9ff12ac25d58e5722068345e561753ef391613b1b7f96c3e1f3e0fa3d84d9c",
+        "version": "8256b2a2da962e6c2ad0bc6222d2670b8c74853f686d2a60d41d7e87a39f37e0",
+        "signature": "33c400b783c1033e862fef98a9e6dcf24b8072071c4d5d9f9dbeeba4b695ba2a",
         "affectsGlobalScope": false
       },
       "./src/mock-data/topics.ts": {
@@ -8534,8 +8544,8 @@
         "affectsGlobalScope": false
       },
       "./src/components/grouppagecontent.tsx": {
-        "version": "2ccd3cdf35785dae7268a3828dda3a9dfa27cddb9be3fa651b6e297590e1849e",
-        "signature": "025c50f95aaaf24b103a3d1d3b664e562861acb5f4834a57e64a0e71c77d8336",
+        "version": "578bb616d497dfc6f0b77d0f7d7cb30de709ac3a0fea6448acaf5820cb9ed34a",
+        "signature": "ed23e39cec127d54353dc670d999013458479955e0d9d7fbc6ae8f9ff4c15a75",
         "affectsGlobalScope": false
       },
       "./src/components/examples/grouppagecontentexample.tsx": {
@@ -9539,12 +9549,12 @@
         "affectsGlobalScope": false
       },
       "./src/components/graph/projectfundsmap.tsx": {
-        "version": "8542976721d1e1d90d6639a4574cb73221faa08406e9e1185887e67a48b2a4ac",
-        "signature": "bb1fdff7a4ec4af46c59acbaf99b0a3fbc682f747d531764c9359057dbea3c7f",
+        "version": "60b6dff63535462d9357e07934f0a0aecdf478316ae4886ebc9029bed25f2be1",
+        "signature": "28d900c958610ab6fa56d23baedb9d09bf3f8797eb8ce7dfbbbd811a3033eddd",
         "affectsGlobalScope": false
       },
       "./src/components/projectpagecontent.tsx": {
-        "version": "a765915c902b63e205adaccf35c2a4ad0a00b28af23fb9cda34476566d02dc1c",
+        "version": "93b84b6565e1aeeca9c9aa5f39b1a497429992bf67ce980eab21c204b173a8ed",
         "signature": "26b9f2ce9fd603616fe8071514587d2cef48e64acd3b1149b89a5d0252383a78",
         "affectsGlobalScope": false
       },
@@ -9594,7 +9604,7 @@
         "affectsGlobalScope": false
       },
       "./src/pages/blogpage.tsx": {
-        "version": "e8febb2c4c67f9c0ff6c66f0922865fcb244223903d1b49a0b23e11dff15ead4",
+        "version": "c625f16e2cf01d7a38c739ad1bac1d14e57bda12fda5f3c660dc105993e28d91",
         "signature": "0ee9a452c1e1928fbcf1db0ef94f1d6f679c5fe4b45ba7a47299124e48662c02",
         "affectsGlobalScope": false
       },
@@ -9674,8 +9684,8 @@
         "affectsGlobalScope": false
       },
       "./src/components/lists/projectlist.tsx": {
-        "version": "8601b682e582e2502bd8e192527bcf16fefaf2e7eb1f8ebb999229800c1d8af0",
-        "signature": "604436ff010174f86df181e7db5bfdce26e327894350acc7395aae0940d7ebf0",
+        "version": "d763ce39fcb034010c3560d021e2ce32c65f9d9ef51e10b387510cdbe113f3c6",
+        "signature": "9f33d2f59c579830f46a99b397fa1d316bfeb9dcff1d6fdec3e6bc6fe445ca35",
         "affectsGlobalScope": false
       },
       "./src/pages/projectspage.tsx": {
@@ -9709,7 +9719,7 @@
         "affectsGlobalScope": false
       },
       "./src/pages/groups.tsx": {
-        "version": "ffcc52af013e3d2e346ca3e78fc4a336c58a39e5f74c2f1f0332d21cd42d23c8",
+        "version": "3be142501fe245266e89cc56ba37d8dc60fadb6ee066cf78b0b35aa21db75f3c",
         "signature": "23071925710668a81e53fdecb02429a4d71f8ca81a95e7d3ec4e96d7e23a9106",
         "affectsGlobalScope": false
       },
@@ -9764,8 +9774,8 @@
         "affectsGlobalScope": false
       },
       "./src/components/articlepagecontent.tsx": {
-        "version": "fdf926c8b469edb49dd75f449081d4e3c87c7efcf340e5eda6aa83ca902aeb55",
-        "signature": "9ce5bdc33016f3f5e6f62b6dce546bbc6d8571b1bd682b43c1c30e74646e744f",
+        "version": "faead0eab5f3060f10bfb89b987dac8492fa4aa5aaee6e756b63cb2a8a48982b",
+        "signature": "308c38e25916812eb587494d831861c47708fbd55981e3a083df0d64646c1568",
         "affectsGlobalScope": false
       },
       "../../node_modules/@vx/heatmap/lib/types.d.ts": {
@@ -10003,14 +10013,9 @@
         "signature": "51e199c1ed19f7c506a3617de96c42a18c00852f364bb9535efae7e6b5d2022a",
         "affectsGlobalScope": false
       },
-      "./src/mock-data/areas.ts": {
-        "version": "19f41aba6b3934e956adb7cec1a6f9dcb553a46cc291a3dacc4d964b9a200642",
-        "signature": "d8a680975ff0b6dcc977601bad75a028d9c2b1ed448c6b46bc1cefe4c172a1fc",
-        "affectsGlobalScope": false
-      },
       "./src/mock-data/articles.ts": {
-        "version": "d4313c7170225413828cba7fd71a6f43a70851ee5ef32fee0136d8028cbc333c",
-        "signature": "76d3101d12775a35b6a56ce14a2daeab0809c1446a122f2e069cce85d0dd0829",
+        "version": "524c292682cff838f0f0f8a2580485e685f0ef0f65765bb9e08fb72d40bd85a8",
+        "signature": "9d5cb793b39e26e7f7916f333f5c80cc068b7b817ab4e177e4945c0e8528c539",
         "affectsGlobalScope": false
       },
       "./src/pages/support.tsx": {
@@ -10359,8 +10364,8 @@
         "affectsGlobalScope": false
       },
       "./src/stories/articlepagecontent.stories.tsx": {
-        "version": "e9050c8a5b596eda2da97dc86ed2009cf848ca50bbbff266e102c9351209d162",
-        "signature": "2020c5c11a12e59f5a6567ec14af4b22fbd96e70960cacd9dba53a0799335916",
+        "version": "b36c3305b838bb6037f85628bc7250d1078cc63682ef9ab69cb1fdc532965574",
+        "signature": "f3d929061c7b6f799c3e48bd9fb25788507b4c1ac111890ed194c661e0af47ca",
         "affectsGlobalScope": false
       },
       "./src/stories/co2levelsgraph.stories.tsx": {
@@ -10439,8 +10444,8 @@
         "affectsGlobalScope": false
       },
       "./src/templates/articletemplate.tsx": {
-        "version": "544bfc59fa25dd57da4fb9b22633b17417c0bbf9a7cafae962b09dcf7e435a5b",
-        "signature": "5bba70c2cbb8558f7292a138d88fac129c2f2628e9ff2f98d08d91a8f654bd3b",
+        "version": "6e4d7c2dfb5d4f8dff84ae64298ba782b53dc809bcfe4f0050f5643983a2a7b3",
+        "signature": "91c95f5d32058b5bfeca402971f8e6befe17806136314d71b2cf7d8397b2f5c2",
         "affectsGlobalScope": false
       },
       "./src/utils/rendervalidationerrors.tsx": {
@@ -10592,6 +10597,7 @@
       "noFallthroughCasesInSwitch": true,
       "moduleResolution": 2,
       "isolatedModules": true,
+      "watch": true,
       "configFilePath": "./tsconfig.json"
     },
     "referencedMap": {
@@ -26114,6 +26120,7 @@
         "../../packages/@econnessione/shared/lib/endpoints/graph.endpoints.d.ts",
         "../../packages/@econnessione/shared/lib/endpoints/group.endpoints.d.ts",
         "../../packages/@econnessione/shared/lib/endpoints/page.endpoints.d.ts",
+        "../../packages/@econnessione/shared/lib/endpoints/project.endpoints.d.ts",
         "./node_modules/date-fns/typings.d.ts",
         "./typings/index.d.ts"
       ],
@@ -26128,6 +26135,15 @@
         "../../node_modules/io-ts/lib/index.d.ts",
         "../../node_modules/react-scripts/lib/react-app.d.ts",
         "../../node_modules/ts-endpoint/lib/index.d.ts",
+        "./node_modules/date-fns/typings.d.ts",
+        "./typings/index.d.ts"
+      ],
+      "../../packages/@econnessione/shared/lib/endpoints/project.endpoints.d.ts": [
+        "../../node_modules/io-ts-types/lib/index.d.ts",
+        "../../node_modules/io-ts/lib/index.d.ts",
+        "../../node_modules/react-scripts/lib/react-app.d.ts",
+        "../../node_modules/ts-endpoint/lib/index.d.ts",
+        "../../packages/@econnessione/shared/lib/endpoints/nonemptyrecord.d.ts",
         "./node_modules/date-fns/typings.d.ts",
         "./typings/index.d.ts"
       ],
@@ -26447,8 +26463,8 @@
       ],
       "../../packages/@econnessione/shared/lib/io/http/project.d.ts": [
         "../../node_modules/io-ts-types/lib/datefromisostring.d.ts",
+        "../../node_modules/io-ts-types/lib/index.d.ts",
         "../../node_modules/io-ts-types/lib/nonemptyarray.d.ts",
-        "../../node_modules/io-ts-types/lib/optionfromnullable.d.ts",
         "../../node_modules/io-ts/lib/index.d.ts",
         "../../node_modules/react-scripts/lib/react-app.d.ts",
         "../../packages/@econnessione/shared/lib/io/http/common/markdown.d.ts",
@@ -26688,6 +26704,7 @@
       ],
       "./src/components/common/errorbox.tsx": [
         "../../node_modules/@types/react/jsx-runtime.d.ts",
+        "../../node_modules/baseui/block/index.d.ts",
         "../../node_modules/baseui/flex-grid/index.d.ts",
         "../../node_modules/react-scripts/lib/react-app.d.ts",
         "./node_modules/@types/react/index.d.ts",
@@ -27712,6 +27729,7 @@
         "../../node_modules/react-scripts/lib/react-app.d.ts",
         "../../packages/@econnessione/shared/lib/io/http/index.d.ts",
         "./node_modules/date-fns/typings.d.ts",
+        "./src/mock-data/areas.ts",
         "./src/mock-data/images.ts",
         "./src/mock-data/polygons.ts",
         "./src/utils/colors.ts",
@@ -43996,6 +44014,7 @@
         "../../packages/@econnessione/shared/lib/endpoints/graph.endpoints.d.ts",
         "../../packages/@econnessione/shared/lib/endpoints/group.endpoints.d.ts",
         "../../packages/@econnessione/shared/lib/endpoints/page.endpoints.d.ts",
+        "../../packages/@econnessione/shared/lib/endpoints/project.endpoints.d.ts",
         "./node_modules/date-fns/typings.d.ts",
         "./typings/index.d.ts"
       ],
@@ -44010,6 +44029,15 @@
         "../../node_modules/io-ts/lib/index.d.ts",
         "../../node_modules/react-scripts/lib/react-app.d.ts",
         "../../node_modules/ts-endpoint/lib/index.d.ts",
+        "./node_modules/date-fns/typings.d.ts",
+        "./typings/index.d.ts"
+      ],
+      "../../packages/@econnessione/shared/lib/endpoints/project.endpoints.d.ts": [
+        "../../node_modules/io-ts-types/lib/index.d.ts",
+        "../../node_modules/io-ts/lib/index.d.ts",
+        "../../node_modules/react-scripts/lib/react-app.d.ts",
+        "../../node_modules/ts-endpoint/lib/index.d.ts",
+        "../../packages/@econnessione/shared/lib/endpoints/nonemptyrecord.d.ts",
         "./node_modules/date-fns/typings.d.ts",
         "./typings/index.d.ts"
       ],
@@ -44329,8 +44357,8 @@
       ],
       "../../packages/@econnessione/shared/lib/io/http/project.d.ts": [
         "../../node_modules/io-ts-types/lib/datefromisostring.d.ts",
+        "../../node_modules/io-ts-types/lib/index.d.ts",
         "../../node_modules/io-ts-types/lib/nonemptyarray.d.ts",
-        "../../node_modules/io-ts-types/lib/optionfromnullable.d.ts",
         "../../node_modules/io-ts/lib/index.d.ts",
         "../../node_modules/react-scripts/lib/react-app.d.ts",
         "../../packages/@econnessione/shared/lib/io/http/common/markdown.d.ts",
@@ -44848,8 +44876,7 @@
       ],
       "./src/stories/articlepagecontent.stories.tsx": [
         "../../node_modules/@storybook/react/types-6-0.d.ts",
-        "../../node_modules/fp-ts/lib/option.d.ts",
-        "../../packages/@econnessione/shared/lib/io/http/common/markdown.d.ts"
+        "../../node_modules/fp-ts/lib/option.d.ts"
       ],
       "./src/stories/co2levelsgraph.stories.tsx": [
         "../../node_modules/@storybook/react/types-6-0.d.ts",
@@ -44940,8 +44967,7 @@
         "../../node_modules/fp-ts/lib/eq.d.ts"
       ],
       "./src/utils/links.ts": [
-        "../../node_modules/@types/reach__router/index.d.ts",
-        "../../packages/@econnessione/shared/lib/index.d.ts"
+        "../../node_modules/@types/reach__router/index.d.ts"
       ],
       "./src/utils/mdxcompiler.ts": [
         "../../node_modules/fp-ts/lib/ioeither.d.ts"
@@ -46882,6 +46908,7 @@
       "../../packages/@econnessione/shared/lib/endpoints/index.d.ts",
       "../../packages/@econnessione/shared/lib/endpoints/nonemptyrecord.d.ts",
       "../../packages/@econnessione/shared/lib/endpoints/page.endpoints.d.ts",
+      "../../packages/@econnessione/shared/lib/endpoints/project.endpoints.d.ts",
       "../../packages/@econnessione/shared/lib/endpoints/query/filterquery.d.ts",
       "../../packages/@econnessione/shared/lib/endpoints/query/getlistquery.d.ts",
       "../../packages/@econnessione/shared/lib/endpoints/query/index.d.ts",
@@ -54552,6 +54579,10 @@
       ],
       [
         "../../packages/@econnessione/shared/lib/endpoints/page.endpoints.d.ts",
+        1
+      ],
+      [
+        "../../packages/@econnessione/shared/lib/endpoints/project.endpoints.d.ts",
         1
       ],
       [

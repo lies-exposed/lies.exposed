@@ -3,7 +3,6 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 import { Color } from "./Common/Color";
-import { JSONFromString } from "./Common/JSONFromString";
 import { markdownRemark } from "./Common/Markdown";
 import { Polygon } from "./Common/Polygon";
 import { ImageSource } from "./Image";
@@ -16,13 +15,13 @@ export const Project = t.strict(
     ...BaseFrontmatter.type.props,
     name: t.string,
     color: Color,
-    areas: nonEmptyArray(JSONFromString.pipe(Polygon)),
+    areas: nonEmptyArray(Polygon),
     images: t.array(ImageSource),
     startDate: DateFromISOString,
     endDate: t.union([DateFromISOString, t.undefined]),
-    body: t.string
+    body: t.string,
   },
-  "ProjectFrontmatter"
+  "Project"
 );
 
 export type Project = t.TypeOf<typeof Project>;

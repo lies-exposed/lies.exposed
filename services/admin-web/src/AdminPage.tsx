@@ -1,3 +1,8 @@
+import {
+  ProjectCreate,
+  ProjectEdit,
+  ProjectList,
+} from "@components/AdminProjects";
 import * as React from "react";
 import { Admin, AuthProvider, Login, Resource } from "react-admin";
 import { apiProvider } from "./client/HTTPAPI";
@@ -37,6 +42,13 @@ const AdminPage: React.FC = () => {
       />
 
       <Resource
+        name="articles"
+        list={ArticleList}
+        edit={ArticleEdit}
+        create={ArticleCreate}
+      />
+
+      <Resource
         name="actors"
         list={ActorList}
         edit={ActorEdit}
@@ -49,10 +61,10 @@ const AdminPage: React.FC = () => {
         create={GroupCreate}
       />
       <Resource
-        name="articles"
-        list={ArticleList}
-        edit={ArticleEdit}
-        create={ArticleCreate}
+        name="projects"
+        list={ProjectList}
+        edit={ProjectEdit}
+        create={ProjectCreate}
       />
     </Admin>
   );

@@ -7,7 +7,7 @@ import * as React from "react";
 
 interface EditButtonProps {
   resourceName: ResourcesNames;
-  resource: Common.BaseFrontmatter;
+  resource: { id: string };
 }
 
 const EditButton: React.FC<EditButtonProps> = (props) => {

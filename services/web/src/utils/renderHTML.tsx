@@ -53,7 +53,7 @@ export const components: MDXProviderComponentsProp = {
   ProjectPageContentExample,
   TopicPageContentExample,
   EventPageContentExample,
-  EventSliderExample,
+  // EventSliderExample,
   // components
   DisplayXSmall,
   DisplaySmall,
@@ -78,5 +78,5 @@ export const RenderHTML: React.FC = ({ children }): JSX.Element => {
   // eslint-disable-next-line no-console
   console.log(children);
   // eslint-disable-next-line react/no-children-prop
-  return <MDX components={components} children={children} />;
+  return <MDX components={components} children={null} />;
 };

@@ -1,6 +1,7 @@
 import { Footer } from "@components/Footer";
 import Header from "@components/Header";
 import { Router } from "@reach/router";
+import ActorTemplate from "@templates/ActorTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
 import theme from "@theme/CustomeTheme";
 import { BaseProvider } from "baseui";
@@ -39,6 +40,7 @@ export const App: React.FC = () => {
               <BlogPage path="/blog" />
               <AreasPage path="/areas" />
               <GroupsPage path="/groups" />
+              <ActorTemplate path="/actors/:actorId" />
               <ActorsPage path="/actors" />
               <TheCrisisPage path="/the-crisis" />
               <IndexPage path="/" />

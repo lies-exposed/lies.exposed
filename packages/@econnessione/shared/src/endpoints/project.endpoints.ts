@@ -1,14 +1,12 @@
 import * as t from "io-ts";
+import { DateFromISOString, optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
 import { nonEmptyRecordFromType } from "./NonEmptyRecord";
 import { Output } from "./Output";
 
 const SingleGroupOutput = Output(http.Project.Project, "Project");
-const ListGroupOutput = Output(
-  t.array(http.Project.Project),
-  "ListProject"
-);
+const ListGroupOutput = Output(t.array(http.Project.Project), "ListProject");
 
 export const List = Endpoint({
   Method: "GET",
@@ -22,11 +20,8 @@ export const List = Endpoint({
 const CreateBody = t.strict({
   name: t.string,
   color: t.string,
-  kind: http.Group.GroupKind,
-  avatar: t.strict({
-    src: t.string,
-    path: t.string,
-  }),
+  startDate: DateFromISOString,
+  endDate: optionFromNullable(DateFromISOString),
   body: t.string,
 });
 
@@ -50,23 +45,20 @@ export const Get = Endpoint({
   Output: SingleGroupOutput,
 });
 
-const { ...editBodyProps } = CreateBody.type.props;
+const EditBody = nonEmptyRecordFromType({
+  name: optionFromNullable(t.string),
+  color: optionFromNullable(t.string),
+  startDate: optionFromNullable(DateFromISOString),
+  endDate: optionFromNullable(DateFromISOString),
+  body: optionFromNullable(t.string)
+})
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
     Query: undefined,
     Params: { id: t.string },
-    Body: nonEmptyRecordFromType({
-      ...editBodyProps,
-      avatar: t.union([
-        t.string,
-        t.type({
-          src: t.string,
-          path: t.string,
-        }),
-      ]),
-    }),
+    Body: EditBody,
   },
   Output: SingleGroupOutput,
 });

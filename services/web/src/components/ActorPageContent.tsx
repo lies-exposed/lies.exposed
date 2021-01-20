@@ -12,14 +12,14 @@ import * as React from "react";
 // import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph";
 import EditButton from "./buttons/EditButton";
 
-export interface ActorPageContentProps extends Actor.ActorMD {
+export interface ActorPageContentProps extends Actor.Actor {
   metadata: Events.EventListMap;
 }
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
-  frontmatter,
   metadata,
   body,
+  ...frontmatter
 }) => {
   const projectFunds = metadata.ProjectTransaction;
   const arrests = metadata.Arrest;
@@ -35,7 +35,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
         </Block>
         <HeadingXLarge>{frontmatter.fullName}</HeadingXLarge>
         {pipe(
-          frontmatter.avatar,
+          O.fromNullable(frontmatter.avatar),
           O.fold(
             () => <div />,
             (src) => <img src={src} width={200} height={400} />
@@ -93,7 +93,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
             ))
           )}
         </Block>
-        <div className="content">{RenderHTML({ children: body })}</div>
+        <div className="content">{""}</div>
       </FlexGridItem>
     </FlexGrid>
   );

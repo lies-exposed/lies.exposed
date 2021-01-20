@@ -1,8 +1,6 @@
 import { EventSlider, EventSliderProps } from "@components/sliders/EventSlider";
-import { Events } from "@econnessione/shared/lib/io/http";
 import { events } from "@mock-data/events";
 import { Card } from "baseui/card";
-import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 

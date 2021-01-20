@@ -12,14 +12,13 @@ import ActorList from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 
 export interface EventPageContentProps {
-  event: Events.Uncategorized.Uncategorized
-  actors: Actor.Actor[]
+  event: Events.Uncategorized.Uncategorized;
+  actors: Actor.Actor[];
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
-  
   event,
-  actors
+  actors,
 }) => {
   return (
     <FlexGrid width="100%">
@@ -67,7 +66,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         )}
         {pipe(
           event.actors,
-          O.map(actorIds => actors.filter(a => actorIds.includes(a.id))),
+          O.map((actorIds) => actors.filter((a) => actorIds.includes(a.id))),
           O.fold(
             () => null,
             (actors) => (
@@ -82,7 +81,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             )
           )
         )}
-        <div className="content">{RenderHTML({ children: event.body })}</div>
+        <div className="content">
+          {""}
+          {/* <RenderHTML>{event.body}</RenderHTML> */}
+        </div>
       </FlexGridItem>
     </FlexGrid>
   );

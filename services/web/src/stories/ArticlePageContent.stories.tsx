@@ -1,10 +1,9 @@
 import {
   ArticlePageContent,
-  ArticlePageContentProps,
+  ArticlePageContentProps
 } from "@components/ArticlePageContent";
 import { firstArticle } from "@mock-data/articles";
 import { Meta, Story } from "@storybook/react/types-6-0";
-import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 
 const meta: Meta = {
@@ -21,11 +20,9 @@ const Template: Story<ArticlePageContentProps> = (props) => {
 const ArticlePageContentExample = Template.bind({});
 
 const args: ArticlePageContentProps = {
-  id: "",
-  frontmatter: firstArticle,
-  body: "",
-  tableOfContents: O.none,
-  timeToRead: O.none,
+  ...firstArticle,
+  // tableOfContents: O.none,
+  // timeToRead: O.none,
 };
 
 ArticlePageContentExample.args = args;

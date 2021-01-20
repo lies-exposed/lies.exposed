@@ -18,14 +18,14 @@ import { ProjectFundsMap } from "./Graph/ProjectFundsMap";
 import EditButton from "./buttons/EditButton";
 import GroupOrActorList from "./lists/GroupAndActorList";
 
-export interface ProjectPageContentProps extends Project.ProjectMD {
+export interface ProjectPageContentProps extends Project.Project {
   metadata: Events.EventListMap;
 }
 
 export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
-  frontmatter,
   body,
   metadata,
+  ...frontmatter
 }) => {
   const totalFunded = 0;
   const investors: Common.ByGroupOrActor[] = [];
@@ -118,7 +118,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             )),
             O.toNullable
           )}
-          <ProjectFundsMap project={frontmatter} />
+          <ProjectFundsMap project={{ ...frontmatter, body }} />
         </FlexGridItem>
         <FlexGridItem
           overrides={{
@@ -163,7 +163,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
         </FlexGridItem>
       </FlexGridItem>
       <FlexGridItem>
-        <div className="content">{RenderHTML({ children: body })}</div>
+        {/* <div className="content">{RenderHTML({ children: body })}</div> */}
       </FlexGridItem>
     </FlexGrid>
   );

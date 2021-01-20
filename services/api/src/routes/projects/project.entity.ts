@@ -15,6 +15,15 @@ export class ProjectEntity {
   name: string;
 
   @Column({ type: "varchar" })
+  color: string;
+
+  @Column({ type: "timestamptz", nullable: false })
+  startDate: Date;
+
+  @Column({ type: "timestamptz", nullable: true })
+  endDate: Date | null;
+
+  @Column({ type: "varchar" })
   body: string;
 
   @CreateDateColumn()

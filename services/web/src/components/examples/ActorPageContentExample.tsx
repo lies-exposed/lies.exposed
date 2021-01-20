@@ -11,11 +11,11 @@ import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 
 export const actorPageContentArgs: ActorPageContentProps = {
-  id: "",
-  frontmatter: goodActor,
+  ...goodActor,
+  avatar: O.toUndefined(goodActor.avatar),
   body: "",
-  tableOfContents: O.none,
-  timeToRead: O.none,
+  // tableOfContents: O.none,
+  // timeToRead: O.none,
   metadata: extractEventsMetadata({ type: "Actor", elem: goodActor })(events),
 };
 

@@ -45,8 +45,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
               <PageContent {...page} />
               <SearchableInput
                 items={projects.map((a) => ({
-                  ...a.frontmatter,
-                  id: a.id,
+                  ...a,
                   selected: true,
                 }))}
                 selectedItems={[]}

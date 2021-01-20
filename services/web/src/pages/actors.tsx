@@ -6,6 +6,7 @@ import SearchableInput from "@components/SearchableInput";
 import { ActorListItem } from "@components/lists/ActorList";
 import { actorsList, pageContentByPath } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
+import { navigateTo } from "@utils/links";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { Spinner } from "baseui/icon";
@@ -42,9 +43,11 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                     selected: false,
                   }))}
                   selectedItems={[]}
-                  getValue={(a) => a.fullName}
+                  getValue={(a) => a.id}
                   onSelectItem={async (a) => {
-                    // await navigateTo(navigate, "actors", a)
+                    if (this.props.navigate) {
+                      await navigateTo(this.props.navigate, `actors`, a);
+                    }
                   }}
                   onUnselectItem={() => {}}
                   itemRenderer={(item, _, index) => (
@@ -53,7 +56,9 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                       item={item}
                       avatarScale="scale1600"
                       onClick={async (item) => {
-                        // await navigateTo(navigate, "actors", item)
+                        if (this.props.navigate) {
+                          await navigateTo(this.props.navigate, `actors`, item);
+                        }
                       }}
                     />
                   )}
