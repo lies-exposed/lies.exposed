@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "outDir": "./lib",
+    "baseUrl": "./src",
+    "paths": {
+      "@Common/*": ["./Common/*"],
+      "@http/*": ["./http/*"]
+    }
+  },
+  "include": ["./src"],
+  "exclude": ["**/node_modules/**"]
+}
