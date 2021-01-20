@@ -43,6 +43,7 @@ export const ServerError = (meta?: string[]): ControllerError => {
 };
 
 export const DecodeError = (errors: t.Errors): ControllerError => {
+  // eslint-disable-next-line
   console.log(PathReporter.report(E.left(errors)))
   return {
     name: 'APIError',

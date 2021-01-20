@@ -9,3 +9,4 @@ build
 # don't lint TypeScript types definition
 typings
 *.d.ts
+**/__tests__/**
