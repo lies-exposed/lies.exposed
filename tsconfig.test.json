@@ -1,0 +1,18 @@
+/* Visit https://aka.ms/tsconfig.json to read more about this file */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES5",
+    "declaration": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "preserveSymlinks": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": [],
+  "exclude": ["node_modules"]
+}
