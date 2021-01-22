@@ -72,21 +72,21 @@ export const firstEventMetadata: Events.Event[] = [
 ];
 
 export const secondEventMetadata: Events.Event[] = [
-  {
-    id: uuid(),
-    title: "",
-    type: "StudyPublished",
-    from: [
-      {
-        type: "Actor",
-        actor: goodSecondActor.id,
-      },
-    ],
-    date: subDays(now, 30),
-    source: "http://source.to.study",
-    createdAt: subDays(now, 1),
-    updatedAt: subDays(now, 1),
-  },
+  // {
+  //   id: uuid(),
+  //   title: "",
+  //   type: "StudyPublished",
+  //   from: [
+  //     {
+  //       type: "Actor",
+  //       actor: goodSecondActor.id,
+  //     },
+  //   ],
+  //   date: subDays(now, 30),
+  //   source: "http://source.to.study",
+  //   createdAt: subDays(now, 1),
+  //   updatedAt: subDays(now, 1),
+  // },
   {
     id: uuid(),
     title: "",

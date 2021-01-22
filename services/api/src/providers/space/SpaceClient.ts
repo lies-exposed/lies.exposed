@@ -45,9 +45,11 @@ export interface SpaceClient {
     params: AWS.S3.Types.PutObjectRequest,
     opts?: AWS.S3.ManagedUpload.ManagedUploadOptions
   ) => TE.TaskEither<SpaceError, AWS.S3.ManagedUpload.SendData>;
+  getSignedUrl: (operation: string, params: any) => TE.TaskEither<SpaceError, string>
   deleteObject: (
     params: AWS.S3.Types.DeleteObjectRequest
   ) => TE.TaskEither<SpaceError, AWS.S3.DeleteObjectOutput>;
+
 }
 
 interface SpaceClientImpl {
@@ -55,6 +57,7 @@ interface SpaceClientImpl {
   upload: AWS.S3["upload"];
   createBucket: AWS.S3["createBucket"];
   deleteObject: AWS.S3["deleteObject"];
+  getSignedUrlPromise: AWS.S3['getSignedUrlPromise']
 }
 
 export interface MakeSpaceClientConfig {
@@ -66,6 +69,17 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
     createBucket: (params: AWS.S3.Types.CreateBucketRequest) => {
       return TE.tryCatch(
         () => config.client.createBucket(params).promise(),
+        toError
+      );
+    },
+    getSignedUrl: (operation, params) => {
+      s3Logger.debug.log(
+        "GetSignedUrl object from bucket %s at path %s",
+        operation,
+        params
+      );
+      return TE.tryCatch(
+        () => config.client.getSignedUrlPromise(operation, params),
         toError
       );
     },
@@ -97,6 +111,7 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
         toError
       );
     },
+    
     deleteObject: (params: AWS.S3.Types.DeleteObjectRequest) => {
       s3Logger.debug.log(
         "Deleting object from bucket %s at path %s",
@@ -107,6 +122,6 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
         () => config.client.deleteObject(params).promise(),
         toError
       );
-    },
+    }
   };
 };

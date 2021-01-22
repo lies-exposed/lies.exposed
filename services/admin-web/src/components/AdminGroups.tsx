@@ -14,20 +14,17 @@ import {
   ImageInput,
   List,
   ListProps,
-  SelectFieldProps,
+  ReferenceArrayField,
   SelectInput,
   SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
-  FormDataConsumer,
-  ReferenceArrayField,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
-import { ActorList } from "./AdminActors";
 import MarkdownInput from "./MarkdownInput";
 
-const RESOURCE = 'groups'
+const RESOURCE = "groups";
 
 const GroupKindInput: React.FC<ChoicesInputProps> = (props) => (
   <SelectInput

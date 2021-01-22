@@ -28,7 +28,7 @@ const remarkImages = require("remark-images");
 const remarkLint = require("remark-lint");
 const remarkMDX = require("remark-mdx");
 const mermaird = require("remark-mermaid");
-// const numberedFootnotesLabel = require("remark-numbered-footnote-labels");
+const numberedFootnotesLabel = require("remark-numbered-footnote-labels");
 const remarkLintPreset = require("remark-preset-lint-recommended");
 // const vFileReporter = require("vfile-reporter");
 
@@ -39,7 +39,7 @@ const remarkPlugins = [
   remarkImages,
   remarkTOC,
   [footnotes, { inlineNotes: false }],
-  // numberedFootnotesLabel,
+  numberedFootnotesLabel,
   mermaird,
   // remarkSquuezeParagraphs,
   remarkBreaks,

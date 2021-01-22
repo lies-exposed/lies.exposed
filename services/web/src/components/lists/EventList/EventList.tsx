@@ -16,7 +16,7 @@ const EventList: React.FC<EventListProps> = (props) => {
         A.map((event) => {
           if (Events.Uncategorized.Uncategorized.is(event)) {
             return (
-              <UncategorizedListItem key={event.id} item={event} actors={[]} />
+              <UncategorizedListItem key={event.id} item={event} actors={[]} groups={[]} topics={[]} />
             );
           }
           return "Not implemented";

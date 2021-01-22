@@ -1,5 +1,4 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 import { markdownRemark } from "./Common/Markdown";
 import { ImageFileNode } from "./Image";
@@ -13,7 +12,7 @@ export const Article = t.strict(
     path: t.string,
     draft: t.boolean,
     featuredImage: ImageFileNode,
-    links: optionFromNullable(t.array(t.string)),
+    links: t.array(t.string),
     body: t.string
   },
   "Article"

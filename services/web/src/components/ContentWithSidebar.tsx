@@ -14,13 +14,20 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
   const [showSidebar, toggleSidebar] = React.useState(false);
 
   return (
-    <FlexGrid flexGridColumnCount={4} height="100%">
+    <FlexGrid
+      className="content-with-sidebar"
+      flexGridColumnCount={4}
+      height="100%"
+      width="100%"
+      flexDirection="row"
+    >
       {showSidebar ? (
         <FlexGridItem
           height="100%"
           overflow="auto"
           position="relative"
           flexDirection="column"
+          flexGridItemCount={1}
         >
           {sidebar}
 
@@ -42,8 +49,10 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
         overrides={{
           Block: {
             style: ({ $theme }: { $theme: Theme }) => {
+              const padding = 30;
               return {
-                width: `calc((300% - ${$theme.sizing.scale800}) / 4)`,
+                padding: `${padding}px`,
+                width: `calc((300% - ${$theme.sizing.scale800}) / 4 - ${padding * 2}px )`,
               };
             },
           },

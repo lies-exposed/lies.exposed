@@ -29,7 +29,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
             filter: {},
           },
         }}
-        render={QR.fold(Loader, ErrorBox, ({ page, projects }) => (
+        render={QR.fold(Loader, ErrorBox, ({ page, projects: { data: projects } }) => (
           <ContentWithSidebar
             sidebar={pipe(
               O.some({ items: [] }),

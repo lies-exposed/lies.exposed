@@ -27,37 +27,41 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
             filter: {},
           },
         }}
-        render={QR.fold(Loader, ErrorBox, ({ pageContent, groups }) => (
-          <MainContent>
-            <PageContent {...pageContent} />
-            <SearchableInput
-              items={groups.map((a) => ({
-                ...a,
-                selected: true,
-              }))}
-              selectedItems={[]}
-              getValue={(g) => g.name}
-              onSelectItem={async (item) => {
-                if (this.props.navigate !== undefined) {
-                  await navigateTo(this.props.navigate, "groups", item);
-                }
-              }}
-              onUnselectItem={() => {}}
-              itemRenderer={(item, props, index) => (
-                <GroupListItem
-                  item={item}
-                  index={index}
-                  avatarScale="scale1600"
-                  onClick={async (item) => {
-                    if (this.props.navigate !== undefined) {
-                      await navigateTo(this.props.navigate, "groups", item);
-                    }
-                  }}
-                />
-              )}
-            />
-          </MainContent>
-        ))}
+        render={QR.fold(
+          Loader,
+          ErrorBox,
+          ({ pageContent, groups: { data: groups } }) => (
+            <MainContent>
+              <PageContent {...pageContent} />
+              <SearchableInput
+                items={groups.map((a) => ({
+                  ...a,
+                  selected: true,
+                }))}
+                selectedItems={[]}
+                getValue={(g) => g.name}
+                onSelectItem={async (item) => {
+                  if (this.props.navigate !== undefined) {
+                    await navigateTo(this.props.navigate, "groups", item);
+                  }
+                }}
+                onUnselectItem={() => {}}
+                itemRenderer={(item, props, index) => (
+                  <GroupListItem
+                    item={item}
+                    index={index}
+                    avatarScale="scale1600"
+                    onClick={async (item) => {
+                      if (this.props.navigate !== undefined) {
+                        await navigateTo(this.props.navigate, "groups", item);
+                      }
+                    }}
+                  />
+                )}
+              />
+            </MainContent>
+          )
+        )}
       />
     );
   }

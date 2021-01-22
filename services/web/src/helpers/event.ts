@@ -134,7 +134,7 @@ const colorMap: Record<Events.Event["type"], string> = {
   Protest: "red",
   ProjectTransaction: "blue",
   ProjectImpact: "orange",
-  StudyPublished: "green",
+  // StudyPublished: "green",
   Fined: "yellow",
   Death: "black",
   Arrest: "lightred",

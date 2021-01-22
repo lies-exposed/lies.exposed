@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import {logger} from '@econnessione/core'
+import { logger } from "@econnessione/core";
 import * as AWS from "aws-sdk";
 import * as IOE from "fp-ts/lib/IOEither";
 import { Reader } from "fp-ts/lib/Reader";
@@ -16,7 +16,7 @@ const getFilePath = (
 interface FSClientCtx {
   baseUrl: string;
   basePath: string;
-  logger: logger.Logger
+  logger: logger.Logger;
 }
 
 const GetFSClient: Reader<FSClientCtx, SpaceClient> = (
@@ -43,7 +43,7 @@ const GetFSClient: Reader<FSClientCtx, SpaceClient> = (
     },
     upload: (params) => {
       const Location = getFilePath(c.basePath, params);
-      c.logger.debug.log('Upload to %s', Location)
+      c.logger.debug.log("Upload to %s", Location);
       return pipe(
         IOE.tryCatch(
           () => fs.writeFileSync(Location, params.Body, { encoding: "utf-8" }),
@@ -57,6 +57,9 @@ const GetFSClient: Reader<FSClientCtx, SpaceClient> = (
           Key: params.Key,
         }))
       );
+    },
+    getSignedUrl: (operation, params) => {
+      return TE.right("todo");
     },
     createBucket: (params) => {
       return TE.right({ Location: params.Bucket });

@@ -1,12 +1,12 @@
 import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
+import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Actor } from "../io/http";
-import { nonEmptyRecordFromType } from "./NonEmptyRecord";
-import { Output } from "./Output";
+import { GetListOutput, Output } from "../io/http/Common/Output";
 
 const SingleActorOutput = Output(Actor.Actor, "Actor");
-const ListActorOutput = Output(t.array(Actor.Actor), "Actors");
+const ListActorOutput = GetListOutput(Actor.Actor, "Actors");
 
 export const List = Endpoint({
   Method: "GET",

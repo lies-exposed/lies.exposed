@@ -28,7 +28,7 @@ export const goodGroup: Group.Group = {
   type: "GroupFrontmatter",
   kind: "Public",
   avatar: avatars.groups[1],
-  subGroups: [firstSubGroup],
+  subGroups: [firstSubGroup.id],
   members: [goodActor.id, badActor.id],
   color: generateRandomColor(),
   createdAt: now,

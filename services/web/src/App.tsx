@@ -2,6 +2,8 @@ import { Footer } from "@components/Footer";
 import Header from "@components/Header";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";
+import ArticleTemplate from '@templates/ArticleTemplate';
+import GroupTemplate from "@templates/GroupTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
 import theme from "@theme/CustomeTheme";
 import { BaseProvider } from "baseui";
@@ -37,8 +39,10 @@ export const App: React.FC = () => {
               <ProjectsPage path="/projects" />
               <ProjectPage path="/project" />
               <TopicsPage path="/topics" />
+              <ArticleTemplate path="/blog/:articlePath" />
               <BlogPage path="/blog" />
               <AreasPage path="/areas" />
+              <GroupTemplate path="/groups/:groupId" />
               <GroupsPage path="/groups" />
               <ActorTemplate path="/actors/:actorId" />
               <ActorsPage path="/actors" />

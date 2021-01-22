@@ -70,20 +70,19 @@ export interface GroupC extends t.Props {
 
 export type GroupType = t.RecursiveType<t.ExactC<t.TypeC<GroupC>>>;
 
-export const Group: GroupType = t.recursion(
-  "GroupFrontmatter",
-  () =>
-    t.strict({
-      ...BaseFrontmatter.type.props,
-      name: t.string,
-      type: t.literal("GroupFrontmatter"),
-      kind: GroupKind,
-      color: Color,
-      avatar: t.union([t.undefined, t.string]),
-      subGroups: t.array(t.string),
-      members: t.array(t.string),
-      body: t.string,
-    }) as any
+export const Group = t.strict(
+  {
+    ...BaseFrontmatter.type.props,
+    name: t.string,
+    type: t.literal("GroupFrontmatter"),
+    kind: GroupKind,
+    color: Color,
+    avatar: t.union([t.undefined, t.string]),
+    subGroups: t.array(t.string),
+    members: t.array(t.string),
+    body: t.string,
+  },
+  "Group"
 );
 
-export type Group = t.TypeOfProps<GroupC>;
+export type Group = t.TypeOf<typeof Group>;

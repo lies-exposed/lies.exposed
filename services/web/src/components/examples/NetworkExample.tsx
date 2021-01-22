@@ -55,6 +55,13 @@ const NetworkExample: React.FC = () => {
           avatar: O.toUndefined(a.avatar),
           body: "empty",
         }))}
+        groups={groups.map((g) => ({
+          ...g,
+          body: "empty",
+        }))}
+        topics={topics.map((t) => ({
+          ...t,
+        }))}
         selectedActorIds={selectedActorIds}
         selectedGroupIds={selectedGroupIds}
         selectedTopicIds={selectedTopicIds}

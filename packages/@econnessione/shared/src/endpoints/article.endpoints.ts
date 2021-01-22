@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Article } from "../io/http";
-import { Output } from "./Output";
+import { Output } from "../io/http/Common/Output";
 import { GetListQuery } from "./Query";
 
 export const ListArticles = Endpoint({

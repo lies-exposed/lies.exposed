@@ -29,8 +29,8 @@ const fundedProjectIds = groupFunds.map((f) => f.project);
 
 export const groupPageContentArgs: GroupPageContentProps = {
   ...goodGroup,
-  tableOfContents: O.none,
-  timeToRead: O.none,
+  // tableOfContents: O.none,
+  // timeToRead: O.none,
   events: uncategorizedEvents.map((e) => ({
     id: "",
     frontmatter: e,

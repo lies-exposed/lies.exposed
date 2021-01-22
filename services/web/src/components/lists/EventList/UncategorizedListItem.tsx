@@ -3,7 +3,7 @@ import { Slider } from "@components/Common/Slider/Slider";
 import ActorList from "@components/lists/ActorList";
 import GroupList from "@components/lists/GroupList";
 import TopicList from "@components/lists/TopicList";
-import { Actor, Events } from "@econnessione/shared/lib/io/http";
+import { Actor, Events, Group, Topic } from "@econnessione/shared/lib/io/http";
 import { formatDate } from "@utils/date";
 import { Accordion, Panel } from "baseui/accordion";
 import { Block } from "baseui/block";
@@ -20,11 +20,15 @@ import * as React from "react";
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.Uncategorized;
   actors: Actor.Actor[];
+  topics: Topic.TopicFrontmatter[];
+  groups: Group.Group[];
 }
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   item,
   actors,
+  topics,
+  groups,
 }) => {
   return (
     <div
@@ -56,19 +60,16 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 flexGridItemCount={1}
                 alignItems="center"
               >
-                {pipe(item.topics, (topics) => (
-                  // eslint-disable-next-line react/jsx-key
-                  <TopicList
-                    topics={topics.map((t) => ({
-                      ...t,
-                      selected: true,
-                    }))}
-                    onTopicClick={async (t) => {
-                      // await navigate(`/topics/${t.id}`)
-                      return undefined;
-                    }}
-                  />
-                ))}
+                <TopicList
+                  topics={topics.map((t) => ({
+                    ...t,
+                    selected: true,
+                  }))}
+                  onTopicClick={async (t) => {
+                    // await navigate(`/topics/${t.id}`)
+                    return undefined;
+                  }}
+                />
               </FlexGridItem>
               <FlexGridItem
                 display="flex"
@@ -76,24 +77,16 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 alignItems="flex-end"
                 flexDirection="column"
               >
-                {pipe(
-                  item.groups,
-                  O.fold(
-                    () => null,
-                    (groups) => (
-                      <GroupList
-                        groups={groups.map((g) => ({
-                          ...g,
-                          selected: false,
-                        }))}
-                        onGroupClick={async (group) => {
-                          // await navigate(`/groups/${group.id}`)
-                        }}
-                        avatarScale="scale1000"
-                      />
-                    )
-                  )
-                )}
+                <GroupList
+                  groups={groups.map((g) => ({
+                    ...g,
+                    selected: false,
+                  }))}
+                  onGroupClick={async (group) => {
+                    // await navigate(`/groups/${group.id}`)
+                  }}
+                  avatarScale="scale1000"
+                />
               </FlexGridItem>
               <FlexGridItem
                 display="flex"
@@ -103,6 +96,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               >
                 {pipe(
                   item.actors,
+                  O.fromPredicate(arr => arr.length > 0),
                   O.map((actorIds) =>
                     actors.filter((a) => actorIds.includes(a.id))
                   ),
@@ -134,6 +128,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
 
             {pipe(
               item.images,
+              O.fromPredicate(arr => arr.length > 0),
               O.map((images) => (
                 // eslint-disable-next-line react/jsx-key
                 <FlexGridItem>
@@ -159,6 +154,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 <MarkdownRenderer>{item.body}</MarkdownRenderer>
                 {pipe(
                   item.links,
+                  O.fromPredicate(arr => arr.length > 0),
                   O.map((links) => (
                     // eslint-disable-next-line react/jsx-key
                     <Accordion>
@@ -168,7 +164,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                             <ListItem key={i} artwork={CheckIndeterminate}>
                               <ListItemLabel>
                                 <ParagraphSmall>
-                                  <a href={l}>{l}</a>
+                                  <a href={l.url}>{l.description}</a>
                                 </ParagraphSmall>
                               </ListItemLabel>
                             </ListItem>

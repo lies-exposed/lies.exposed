@@ -16,8 +16,11 @@ export class ArticleEntity {
   @Column({ type: "varchar" })
   title: string;
 
+  @Column({ type: 'boolean', default: true })
+  draft: boolean
+
   @Column({ type: "varchar" })
-  slug: string;
+  path: string;
 
   @Column({ type: "varchar" })
   body: string;

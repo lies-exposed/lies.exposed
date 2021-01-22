@@ -42,10 +42,14 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
     <TabbedForm>
       <FormTab label="Generals">
         <TextInput source="name" />
-        <TextInput source="color" />
-        <DateInput source="date" />
+        <ColorInput source="color" />
+        <DateInput source="startDate" />
+        <DateInput source="endDate" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
+      </FormTab>
+      <FormTab label="images">
+        
       </FormTab>
       <FormTab label="Body">
         <MarkdownInput source="body" />

@@ -4,20 +4,17 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 import { ArticleEntity } from "./article.entity";
+import { toArticleIO } from "./article.io";
 
 export const MakeCreateArticleRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(endpoints.Article.Create, ({ body: {
-    avatar,
-    ...body
-  } }) => {
+  AddEndpoint(r)(endpoints.Article.Create, ({ body: { avatar, ...body } }) => {
     return pipe(
       ctx.db.save(ArticleEntity, [body]),
-      TE.map(([article]) => ({
+      TE.map((articles) => articles[0]),
+      TE.chainEitherK(toArticleIO),
+      TE.map((data) => ({
         body: {
-          data: {
-            ...article,
-            type: "Article",
-          },
+          data,
         },
         statusCode: 200,
       }))

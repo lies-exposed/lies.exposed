@@ -1,12 +1,12 @@
 import * as t from "io-ts";
 import { DateFromISOString, optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
+import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
-import { nonEmptyRecordFromType } from "./NonEmptyRecord";
-import { Output } from "./Output";
+import { GetListOutput, Output } from "../io/http/Common/Output";
 
 const SingleGroupOutput = Output(http.Project.Project, "Project");
-const ListGroupOutput = Output(t.array(http.Project.Project), "ListProject");
+const ListGroupOutput = GetListOutput((http.Project.Project), "ListProject");
 
 export const List = Endpoint({
   Method: "GET",

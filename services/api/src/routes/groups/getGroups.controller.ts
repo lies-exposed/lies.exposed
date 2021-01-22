@@ -20,14 +20,6 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
         ),
         count: ctx.db.count(GroupEntity),
       }),
-      TE.mapLeft((e) => ({
-        ...e,
-        status: 500,
-        details: {
-          kind: `ServerError` as const,
-          meta: e.details,
-        },
-      })),
       TE.map(({ data, count }) => ({
         body: {
           data: data,

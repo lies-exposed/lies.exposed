@@ -1,10 +1,9 @@
 import {
   EventPageContent,
-  EventPageContentProps,
+  EventPageContentProps
 } from "@components/EventPageContent";
 import { firstEvent } from "@mock-data/events";
 import { Card } from "baseui/card";
-import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 
@@ -14,6 +13,7 @@ export const eventPageContentArgs: EventPageContentProps = {
     body: "",
   },
   actors: [],
+  groups: []
   // tableOfContents: O.none,
   // timeToRead: O.none,
 };

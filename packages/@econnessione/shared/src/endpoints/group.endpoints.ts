@@ -1,14 +1,11 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
+import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
-import { nonEmptyRecordFromType } from "./NonEmptyRecord";
-import { Output } from "./Output";
+import { GetListOutput, Output } from "../io/http/Common/Output";
 
-const SingleGroupOutput = Output(http.Group.GroupFrontmatter, "Group");
-const ListGroupOutput = Output(
-  t.array(http.Group.GroupFrontmatter),
-  "ListGroup"
-);
+const SingleGroupOutput = Output(http.Group.Group, "Group");
+const ListGroupOutput = GetListOutput(http.Group.Group, "ListGroup");
 
 export const List = Endpoint({
   Method: "GET",

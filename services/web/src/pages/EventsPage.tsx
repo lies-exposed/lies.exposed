@@ -1,7 +1,7 @@
 import DatePicker from "@components/Common/DatePicker";
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { Loader } from "@components/Common/Loader";
-import { ContentWithSideNavigation } from "@components/ContentWithSideNavigation";
+import { ContentWithSidebar } from "@components/ContentWithSidebar";
 import { Layout } from "@components/Layout";
 import { MainContent } from "@components/MainContent";
 import { PageContent } from "@components/PageContent";
@@ -11,6 +11,7 @@ import { ActorListItem } from "@components/lists/ActorList";
 import EventList from "@components/lists/EventList/EventList";
 import { GroupListItem } from "@components/lists/GroupList";
 import { TopicListItem } from "@components/lists/TopicList";
+import { io } from "@econnessione/shared";
 import { Actor, Group, Topic } from "@econnessione/shared/lib/io/http";
 import { eventsDataToNavigatorItems, ordEventDate } from "@helpers/event";
 import {
@@ -18,7 +19,6 @@ import {
   eventsList,
   groupsList,
   pageContentByPath,
-  topicsList,
 } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import theme from "@theme/CustomeTheme";
@@ -28,7 +28,7 @@ import { parseSearch, Routes, updateSearch } from "@utils/routes";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { LabelMedium } from "baseui/typography";
+import { LabelMedium, LabelSmall } from "baseui/typography";
 import { subYears } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -44,19 +44,13 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
       <WithQueries
         queries={{
           page: pageContentByPath,
-          topics: topicsList,
           actors: actorsList,
           groups: groupsList,
           events: eventsList,
         }}
         params={{
           page: {
-            path: "timelines",
-          },
-          topics: {
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "ASC" },
-            filter: {},
+            path: "events",
           },
           groups: {
             pagination: { page: 1, perPage: 20 },
@@ -77,14 +71,20 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
         render={QR.fold(
           Loader,
           ErrorBox,
-          ({ page, events, actors, topics, groups }) => {
+          ({
+            page,
+            events: { data: events, total: totalEvents },
+            actors: { data: actors },
+            groups: { data: groups },
+          }) => {
+            const topics: io.http.Topic.TopicFrontmatter[] = [];
             const {
               actors: actorUUIDS = [],
               topics: topicUUIDS = [],
               groups: groupUUIDs = [],
             } = pipe(
-              parseSearch(this.props.location, "timelines"),
-              E.getOrElse((): Routes["timelines"] => ({
+              parseSearch(this.props.location, "events"),
+              E.getOrElse((): Routes["events"] => ({
                 actors: [],
                 topics: [],
                 groups: [],
@@ -92,18 +92,14 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             );
 
             const [selectedGroups, setSelectedGroups] = React.useState(
-              groups
-                .filter((g) => groupUUIDs.includes(g.id))
-                .map((_) => _.frontmatter)
+              groups.filter((g) => groupUUIDs.includes(g.id))
             );
 
             const [selectedActors, setSelectedActors] = React.useState(
               actors.filter((a) => actorUUIDS.includes(a.id))
             );
             const [selectedTopics, setSelectedTopicIds] = React.useState(
-              topics
-                .filter((t) => topicUUIDS.includes(t.id))
-                .map((_) => _.frontmatter)
+              topics.filter((t) => topicUUIDS.includes(t.id))
             );
 
             const selectedActorIds = selectedActors.map((a) => a.id);
@@ -130,7 +126,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               pipe(
                 updateSearch(
                   this.props.location,
-                  "timelines"
+                  "events"
                 )({ actors: newSelectedActorIds.map((s) => s.id) }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
@@ -140,7 +136,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               );
             };
 
-            const onGroupClick = (g: Group.GroupFrontmatter): void => {
+            const onGroupClick = (g: Group.Group): void => {
               const newSelectedGroupIds = A.elem(eqByUUID)(g, selectedGroups)
                 ? A.array.filter(selectedGroups, (_) => !eqByUUID.equals(_, g))
                 : selectedGroups.concat(g);
@@ -149,7 +145,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               pipe(
                 updateSearch(
                   this.props.location,
-                  "timelines"
+                  "events"
                 )({ groups: newSelectedGroupIds.map((s) => s.id) }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
@@ -172,7 +168,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               pipe(
                 updateSearch(
                   this.props.location,
-                  "timelines"
+                  "events"
                 )({ topics: newSelectedTopics.map((s) => s.id) }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
@@ -204,15 +200,15 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                 maxDate
               )(e.date);
 
-              const hasActor = GetByGroupOrActorUtils(actors, groups).isActorInEvent(
-                e,
-                selectedActorIds
-              );
+              const hasActor = GetByGroupOrActorUtils(
+                actors,
+                groups
+              ).isActorInEvent(e, selectedActorIds);
 
-              const hasGroup = GetByGroupOrActorUtils(actors, groups).isGroupInEvent(
-                e,
-                selectedGroupIds
-              );
+              const hasGroup = GetByGroupOrActorUtils(
+                actors,
+                groups
+              ).isGroupInEvent(e, selectedGroupIds);
 
               const hasTopic = false;
 
@@ -220,27 +216,21 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             });
 
             return (
-              <Layout>
-                <Helmet>
-                  <SEO title={page.title} />
-                </Helmet>
-                <FlexGrid
-                  alignItems="center"
-                  alignContent="center"
-                  justifyItems="center"
-                  flexGridColumnCount={1}
-                >
-                  <FlexGridItem width="100%">
-                    <MainContent>
-                      <PageContent {...page} />
-                    </MainContent>
-
+              <FlexGrid
+                alignItems="center"
+                alignContent="center"
+                justifyItems="center"
+                height="100%"
+                flexGridColumnCount={1}
+              >
+                <ContentWithSidebar
+                  sidebar={
                     <FlexGrid
-                      flexGridColumnCount={4}
+                      flexGridColumnCount={1}
                       alignItems="start"
                       height="300px"
                     >
-                      <FlexGridItem height="100%" display="flex">
+                      <FlexGridItem display="flex">
                         <DatePicker
                           value={dateRange}
                           range={true}
@@ -248,12 +238,12 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                           onChange={onDatePickerChange}
                         />
                       </FlexGridItem>
-                      <FlexGridItem height="100%" display="flex">
+                      <FlexGridItem display="flex">
                         <SearchableInput
                           placeholder="Topics..."
-                          items={topics
-                            .filter((t) => !selectedTopicIds.includes(t.id))
-                            .map((_) => _.frontmatter)}
+                          items={topics.filter(
+                            (t) => !selectedTopicIds.includes(t.id)
+                          )}
                           selectedItems={selectedTopics}
                           getValue={(item) => item.label}
                           itemRenderer={(item, itemProps, index) => (
@@ -276,16 +266,12 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                           onUnselectItem={(item) => onTopicClick(item)}
                         />
                       </FlexGridItem>
-                      <FlexGridItem
-                        height="100%"
-                        display="flex"
-                        flexGridColumnCount={1}
-                      >
+                      <FlexGridItem display="flex" flexGridColumnCount={1}>
                         <SearchableInput
                           placeholder="Gruppi..."
-                          items={groups
-                            .filter((g) => !selectedGroupIds.includes(g.id))
-                            .map((_) => _.frontmatter)}
+                          items={groups.filter(
+                            (g) => !selectedGroupIds.includes(g.id)
+                          )}
                           selectedItems={selectedGroups}
                           itemRenderer={(item, itemProps, index) => {
                             return (
@@ -312,7 +298,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                           getValue={(item) => item.name}
                         />
                       </FlexGridItem>
-                      <FlexGridItem height="100%" display="flex">
+                      <FlexGridItem display="flex">
                         <SearchableInput
                           placeholder="Attori..."
                           items={actors.filter(
@@ -341,19 +327,23 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                         />
                       </FlexGridItem>
                     </FlexGrid>
+                  }
+                >
+                  <Helmet>
+                    <SEO title={page.title} />
+                  </Helmet>
+                  <FlexGridItem width="100%">
+                    <MainContent>
+                      <PageContent {...page} />
+                    </MainContent>
+
                     <LabelMedium>
-                      Nº Eventi: {filteredEvents.length}
+                      Nº Eventi: {totalEvents}
                     </LabelMedium>
                   </FlexGridItem>
-                  <FlexGridItem>
-                    <ContentWithSideNavigation
-                      items={eventsDataToNavigatorItems(filteredEvents)}
-                    >
-                      <EventList events={filteredEvents as any} />
-                    </ContentWithSideNavigation>
-                  </FlexGridItem>
-                </FlexGrid>
-              </Layout>
+                  <EventList events={events} />
+                </ContentWithSidebar>
+              </FlexGrid>
             );
           }
         )}

@@ -14,6 +14,9 @@ import { ActorEntity } from "@routes/actors/actor.entity";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { ArticleEntity } from "@routes/articles/article.entity";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
+import { EventLinkEntity } from "@routes/events/EventLink.entity";
+import { EventEntity } from "@routes/events/event.entity";
+import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { GroupEntity } from "@routes/groups/group.entity";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
@@ -31,6 +34,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import "reflect-metadata";
 import { IOError } from "ts-shared/lib/errors";
+import { EventImageEntity } from "./routes/events/EventImage.entity";
 
 // var whitelist = ["http://localhost:8002"]
 var corsOptions: cors.CorsOptions = {
@@ -62,7 +66,16 @@ const run = (): Promise<void> => {
             password: env.DB_PASSWORD,
             database: env.DB_DATABASE,
             port: env.DB_PORT,
-            entities: [PageEntity, ActorEntity, GroupEntity, ArticleEntity, ProjectEntity],
+            entities: [
+              PageEntity,
+              ActorEntity,
+              GroupEntity,
+              ArticleEntity,
+              ProjectEntity,
+              EventEntity,
+              EventImageEntity,
+              EventLinkEntity,
+            ],
             synchronize: true,
             ssl:
               env.DB_SSL_MODE === "require"
@@ -143,6 +156,9 @@ const run = (): Promise<void> => {
         // articles
         MakeArticlesRoutes(router, ctx);
 
+        // events
+        MakeEventRoutes(router, ctx);
+
         // graphs data
         MakeGraphsRoute(router, ctx);
 
@@ -150,7 +166,21 @@ const run = (): Promise<void> => {
 
         app.use((err: any, req: any, res: any, next: any) => {
           // eslint-disable-next-line no-console
-          serverLogger.error.log(`An error occured %O`, JSON.stringify(err));
+          serverLogger.error.log(
+            `An error occured %O`,
+            JSON.stringify(err, null, 2)
+          );
+          if (err.details.kind === "ServerError") {
+            if (err.details.meta.kind === "DecodingError") {
+              const errors = PathReporter.report(
+                E.left(err.details.meta.errors)
+              );
+              return res.status(500).send({
+                name: "DecodingError",
+                details: errors,
+              });
+            }
+          }
           if (err?.details?.kind !== undefined) {
             const { status, ...coreError } = fromIOError(err as IOError);
             return res.status(status).send(coreError);

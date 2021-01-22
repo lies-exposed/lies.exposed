@@ -1,13 +1,4 @@
-import {
-  Actor,
-  Area,
-  Article,
-  Events,
-  Group,
-  Page,
-  Project,
-  Topic,
-} from "@econnessione/shared/lib/io/http";
+import { io } from "@econnessione/shared";
 import { available, queryStrict } from "avenger";
 import { CachedQuery } from "avenger/lib/Query";
 import * as E from "fp-ts/lib/Either";
@@ -62,16 +53,15 @@ export const dataProvider = APIClient({
 
 // interface WithId { id: t.StringC }
 
-
 const Resources = {
-  areas: Area.AreaMD,
-  pages: Page.PageMD,
-  articles: Article.Article,
-  actors: Actor.Actor,
-  groups: Group.Group,
-  topics: Topic.TopicMD,
-  projects: Project.Project,
-  events: Events.Event,
+  areas: io.http.Area.AreaMD,
+  pages: io.http.Page.PageMD,
+  articles: io.http.Article.Article,
+  actors: io.http.Actor.Actor,
+  groups: io.http.Group.Group,
+  topics: io.http.Topic.TopicMD,
+  projects: io.http.Project.Project,
+  events: io.http.Events.Event,
 };
 
 const liftFetch = <
@@ -80,7 +70,7 @@ const liftFetch = <
 >(
   lp: () => Promise<R>,
   codec: C
-): TE.TaskEither<APIError, R["data"]> => {
+): TE.TaskEither<APIError, R> => {
   return pipe(
     TE.tryCatch(lp, toError),
     // TE.map((result) => {
@@ -88,8 +78,7 @@ const liftFetch = <
     //   console.log("result", result);
     //   return result;
     // }),
-    TE.map(({ data }) => data),
-    TE.chain((content) => {
+    TE.chain<APIError, R, t.TypeOf<C>>((content) => {
       // eslint-disable-next-line
       // console.log(content)
       return pipe(
@@ -116,16 +105,23 @@ export const GetOneQuery: GetOneQuery = <K extends keyof typeof Resources>(
 ) =>
   queryStrict(
     (params: GetOneParams) =>
-      liftFetch(
-        () => dataProvider.getOne<t.TypeOf<typeof Resources[K]>>(r, params),
-        Resources[r]
+      pipe(
+        liftFetch(
+          () => dataProvider.getOne<t.TypeOf<typeof Resources[K]>>(r, params),
+          Resources[r]
+        ),
+        TE.map((r) => r.data)
       ),
     available
   );
 
 export type GetListQuery = <K extends keyof typeof Resources>(
   r: K
-) => CachedQuery<GetListParams, APIError, Array<t.TypeOf<typeof Resources[K]>>>;
+) => CachedQuery<
+  GetListParams,
+  APIError,
+  { total: number; data: Array<t.TypeOf<typeof Resources[K]>> }
+>;
 
 export const GetListQuery: GetListQuery = <K extends keyof typeof Resources>(
   r: K
@@ -134,7 +130,7 @@ export const GetListQuery: GetListQuery = <K extends keyof typeof Resources>(
     (params: GetListParams) =>
       liftFetch(
         () => dataProvider.getList<t.TypeOf<typeof Resources[K]>>(r, params),
-        t.array(Resources[r])
+        io.http.Common.GetListOutput(Resources[r], r)
       ),
     available
   );
@@ -143,15 +139,15 @@ export const pageContent = GetOneQuery("pages");
 export const pageContentByPath = queryStrict<
   { path: string },
   APIError,
-  Page.Page
+  io.http.Page.Page
 >(
   ({ path }) =>
     pipe(
       liftFetch(
         () => dataProvider.get("/pages", { path }),
-        nonEmptyArray(Page.Page)
+        t.strict({ total: t.number, data: nonEmptyArray(io.http.Page.Page) })
       ),
-      TE.map((pages) => pages[0])
+      TE.map((pages) => pages.data[0])
     ),
   available
 );
@@ -172,5 +168,22 @@ export const jsonData = queryStrict(
 );
 
 export const project = GetOneQuery("projects");
-export const group = GetOneQuery('groups')
-export const actor = GetOneQuery('actors')
+export const group = GetOneQuery("groups");
+export const actor = GetOneQuery("actors");
+export const article = GetOneQuery("articles");
+
+export const articleByPath = queryStrict<
+  { path: string },
+  APIError,
+  io.http.Article.Article
+>(
+  ({ path }) =>
+    pipe(
+      liftFetch(
+        () => dataProvider.get("/articles", { path }),
+        nonEmptyArray(io.http.Article.Article)
+      ),
+      TE.map((pages) => pages[0])
+    ),
+  available
+);

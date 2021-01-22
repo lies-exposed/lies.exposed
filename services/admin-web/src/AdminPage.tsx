@@ -3,13 +3,20 @@ import {
   ProjectEdit,
   ProjectList,
 } from "@components/AdminProjects";
+import PageIcon from '@material-ui/icons/Archive'
+import ProjectIcon from '@material-ui/icons/Build'
+import EventIcon from '@material-ui/icons/Event'
+import GroupIcon from "@material-ui/icons/Group";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import * as React from "react";
 import { Admin, AuthProvider, Login, Resource } from "react-admin";
 import { apiProvider } from "./client/HTTPAPI";
 import { ActorCreate, ActorEdit, ActorList } from "./components/AdminActors";
+import { EventList, EventCreate, EventEdit } from "./components/AdminEvents";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import { ArticleCreate, ArticleEdit, ArticleList } from "./components/articles";
+
 
 const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
@@ -39,6 +46,7 @@ const AdminPage: React.FC = () => {
         list={PageList}
         edit={PageEdit}
         create={PageCreate}
+        icon={PageIcon}
       />
 
       <Resource
@@ -53,18 +61,28 @@ const AdminPage: React.FC = () => {
         list={ActorList}
         edit={ActorEdit}
         create={ActorCreate}
+        icon={VerifiedUserIcon}
       />
       <Resource
         name="groups"
         list={GroupList}
         edit={GroupEdit}
         create={GroupCreate}
+        icon={GroupIcon}
       />
       <Resource
         name="projects"
         list={ProjectList}
         edit={ProjectEdit}
         create={ProjectCreate}
+        icon={ProjectIcon}
+      />
+      <Resource
+        name="events"
+        list={EventList}
+        edit={EventEdit}
+        create={EventCreate}
+        icon={EventIcon}
       />
     </Admin>
   );

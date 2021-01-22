@@ -25,13 +25,9 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                 path: "blog",
               },
             }}
-            render={QR.fold(
-              Loader,
-              ErrorBox,
-              ({ pageContent }) => (
-                <PageContent {...pageContent} />
-              )
-            )}
+            render={QR.fold(Loader, ErrorBox, ({ pageContent }) => (
+              <PageContent {...pageContent} />
+            ))}
           />
           <WithQueries
             queries={{ articlesList }}
@@ -42,27 +38,27 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                 filter: { draft: true },
               },
             }}
-            render={QR.fold(Loader, ErrorBox, ({ articlesList: articles }) => (
-              <Block>
-                <FlexGrid flexGridColumnCount={2}>
-                  {articles.map((a) => (
-                    <FlexGridItem key={a.id}>
-                      <Card
-                        key={a.id}
-                        title={
-                          <Link to={`/blog/${a.path}`}>
-                            {a.title}
-                          </Link>
-                        }
-                        headerImage={a.featuredImage}
-                      >
-                        <StyledBody>{a.title}</StyledBody>
-                      </Card>
-                    </FlexGridItem>
-                  ))}
-                </FlexGrid>
-              </Block>
-            ))}
+            render={QR.fold(
+              Loader,
+              ErrorBox,
+              ({ articlesList: { data: articles } }) => (
+                <Block>
+                  <FlexGrid flexGridColumnCount={2}>
+                    {articles.map((a) => (
+                      <FlexGridItem key={a.id}>
+                        <Card
+                          key={a.id}
+                          title={<Link to={`/blog/${a.path}`}>{a.title}</Link>}
+                          headerImage={a.featuredImage}
+                        >
+                          <StyledBody>{a.title}</StyledBody>
+                        </Card>
+                      </FlexGridItem>
+                    ))}
+                  </FlexGrid>
+                </Block>
+              )
+            )}
           />
         </MainContent>
       </>

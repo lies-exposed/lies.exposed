@@ -1,5 +1,5 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import { Actor, Events } from "@econnessione/shared/lib/io/http";
+import { Actor, Group, Events } from "@econnessione/shared/lib/io/http";
 import { Block } from "baseui/block";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { HeadingXLarge, HeadingXSmall } from "baseui/typography";
@@ -14,11 +14,13 @@ import GroupList from "./lists/GroupList";
 export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;
   actors: Actor.Actor[];
+  groups: Group.Group[]
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   event,
   actors,
+  groups,
 }) => {
   return (
     <FlexGrid width="100%">
@@ -30,6 +32,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         <Block>
           {pipe(
             event.images,
+            O.fromPredicate((items) => items.length > 0),
             O.map((images) => (
               <Slider
                 key="home-slider"
@@ -50,6 +53,8 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         </Block>
         {pipe(
           event.groups,
+          O.fromPredicate((items) => items.length > 0),
+          O.map((ids) => groups.filter((a) => ids.includes(a.id))),
           O.fold(
             () => null,
             (groups) => (
@@ -66,6 +71,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         )}
         {pipe(
           event.actors,
+          O.fromPredicate((items) => items.length > 0),
           O.map((actorIds) => actors.filter((a) => actorIds.includes(a.id))),
           O.fold(
             () => null,

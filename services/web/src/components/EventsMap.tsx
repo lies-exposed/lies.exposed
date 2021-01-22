@@ -29,12 +29,12 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
         geometries: events
           .filter(Events.Uncategorized.Uncategorized.is)
           .reduce((acc, e) => {
-            if (O.isNone(e.location)) {
+            if (e.location === undefined) {
               return acc;
             }
             return acc.concat([
               {
-                ...e.location.value,
+                ...e.location,
                 properties: e,
               },
             ]);

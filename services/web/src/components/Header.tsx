@@ -135,16 +135,16 @@ export const mainMenu: MenuItem[] = [
         href: "/groups",
         label: "Groups",
       },
-      {
-        id: "topics",
-        href: "/topics",
-        label: "Topics",
-      },
-      {
-        id: "areas",
-        href: "/areas",
-        label: "Aree",
-      },
+      // {
+      //   id: "topics",
+      //   href: "/topics",
+      //   label: "Topics",
+      // },
+      // {
+      //   id: "areas",
+      //   href: "/areas",
+      //   label: "Aree",
+      // },
       {
         id: "projects",
         href: "/projects",

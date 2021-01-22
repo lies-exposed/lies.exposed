@@ -40,6 +40,8 @@ const args: EventsNetworkProps = {
   scalePoint: O.none,
   events: uncategorizedEvents,
   actors: [],
+  groups: [],
+  topics: [],
   selectedActorIds: actors.map((a) => a.id),
   selectedGroupIds: [],
   selectedTopicIds: [],

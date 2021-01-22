@@ -23,7 +23,7 @@ export interface NonEmptyRecordC<P extends t.Props> extends t.Type<NonEmptyRecor
  */
 export const NonEmptyRecord = t.brand(
   t.record(t.string, t.unknown),
-  (s): s is NonEmptyRecord<{ [key:string]: t.UnknownC}> => R.isEmpty(s),
+  (s): s is NonEmptyRecord<{ [key:string]: t.UnknownC}> => !R.isEmpty(s),
   'NonEmptyRecord'
 )
 

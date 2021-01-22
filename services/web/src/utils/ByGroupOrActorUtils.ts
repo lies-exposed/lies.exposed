@@ -45,7 +45,13 @@ export const lookForType = (actors: Actor.Actor[], groups: Group.Group[]) => (
         return (
           pipe(
             frontmatter.groups,
-            O.map(A.filter((a) => uuids.includes(a.id))),
+            O.fromPredicate((i) => i.length > 0),
+            O.map((actorIds) =>
+              pipe(
+                groups,
+                A.filter((a) => actorIds.includes(a.id))
+              )
+            ),
             O.getOrElse((): Group.Group[] => [])
           ).length > 0
         );
@@ -54,10 +60,11 @@ export const lookForType = (actors: Actor.Actor[], groups: Group.Group[]) => (
       return (
         pipe(
           frontmatter.actors,
-          O.map((actorIds) =>
+          O.fromPredicate((i) => i.length > 0),
+          O.map((ids) =>
             pipe(
               actors,
-              A.filter((a) => actorIds.includes(a.id))
+              A.filter((a) => ids.includes(a.id))
             )
           ),
           O.getOrElse((): Actor.Actor[] => [])

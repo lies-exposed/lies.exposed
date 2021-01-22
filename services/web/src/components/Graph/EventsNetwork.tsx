@@ -50,6 +50,8 @@ interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
 export interface EventsNetworkProps {
   events: Events.Uncategorized.Uncategorized[];
   actors: Actor.Actor[];
+  groups: Group.Group[];
+  topics: Topic.TopicFrontmatter[];
   selectedActorIds: string[];
   selectedGroupIds: string[];
   selectedTopicIds: string[];
@@ -364,7 +366,7 @@ interface Result {
   selectedEvents: Events.Uncategorized.Uncategorized[];
   topics: Map<string, Topic.TopicFrontmatter>;
   actors: Map<string, Actor.Actor>;
-  groups: Map<string, Group.GroupFrontmatter>;
+  groups: Map<string, Group.Group>;
 }
 
 export interface NetworkTemplateData {
@@ -373,10 +375,10 @@ export interface NetworkTemplateData {
     nodes: Topic.TopicMD[];
   };
   actors: {
-    nodes: Actor.ActorMD[];
+    nodes: Actor.Actor[];
   };
   groups: {
-    nodes: Group.GroupMD[];
+    nodes: Group.Group[];
   };
   events: {
     nodes: Events.Uncategorized.Uncategorized[];
@@ -402,6 +404,8 @@ export interface NetworkTemplateProps {
 export function createNetworkTemplateProps({
   events,
   actors: allActors,
+  groups: allGroups,
+  topics: allTopics,
   scale,
   scalePoint,
   selectedActorIds,
@@ -434,7 +438,7 @@ export function createNetworkTemplateProps({
   const topicsList = orderedEvents.reduce<Topic.TopicFrontmatter[]>(
     (acc, e) => [
       ...acc,
-      ...e.topics.filter(
+      ...allTopics.filter(
         (t) => !acc.some((i) => Eq.eqString.equals(i.id, t.id))
       ),
     ],
@@ -479,6 +483,13 @@ export function createNetworkTemplateProps({
           NetworkPointNode<EventNetworkDatum>
         > = pipe(
           e.topics,
+          A.map((tId) =>
+            pipe(
+              allTopics,
+              A.findFirst((topic) => topic.id === tId)
+            )
+          ),
+          A.compact,
           NEA.fromArray,
           O.getOrElse(() => NEA.of(topicsList[0])),
           NEA.map((t) => ({
@@ -495,6 +506,7 @@ export function createNetworkTemplateProps({
               ...e,
               actors: pipe(
                 e.actors,
+                O.fromPredicate((items) => items.length > 0),
                 O.map((acts) => allActors.filter((a) => acts.includes(a.id)))
               ),
               label: e.title,
@@ -508,6 +520,7 @@ export function createNetworkTemplateProps({
 
         const hasActor = pipe(
           e.actors,
+          O.fromPredicate((items) => items.length > 0),
           O.map((acts) => allActors.filter((a) => acts.includes(a.id))),
           O.map((actors) =>
             actors.some((i) => selectedActorIds.includes(i.id))
@@ -517,22 +530,31 @@ export function createNetworkTemplateProps({
 
         const hasGroup = pipe(
           e.groups,
-          O.map((els) => els.some((i) => selectedGroupIds.includes(i.id))),
+          O.fromPredicate((items) => items.length > 0),
+          O.map((els) =>
+            allGroups.some((i) => selectedGroupIds.includes(i.id))
+          ),
           O.getOrElse(() => false)
         );
 
         const hasTopic = pipe(
           O.some(e.topics),
           O.map((topics) =>
-            topics.some((i) => selectedTopicIds.includes(i.id))
+            allTopics.some((i) => selectedTopicIds.includes(i.id))
           ),
           O.getOrElse(() => false)
         );
 
-        const topics = pipe(e.topics, updateMap(acc.topics));
+        const topics = pipe(
+          // e.topics,
+          allTopics,
+          // O.fromPredicate((items) => items.length > 0),
+          updateMap(acc.topics)
+        );
 
         const actors = pipe(
           e.actors,
+          O.fromPredicate((items) => items.length > 0),
           O.map((acts) => allActors.filter((a) => acts.includes(a.id))),
           O.getOrElse((): Actor.Actor[] => []),
           updateMap(acc.actors)
@@ -540,25 +562,27 @@ export function createNetworkTemplateProps({
 
         const groups = pipe(
           e.groups,
-          O.getOrElse((): Group.GroupFrontmatter[] => []),
+          O.fromPredicate((items) => items.length > 0),
+          O.map((acts) => allGroups.filter((a) => acts.includes(a.id))),
+          O.getOrElse((): Group.Group[] => []),
           updateMap(acc.groups)
         );
 
         if (hasActor || hasTopic || hasGroup) {
           const topicLinks = pipe(
             e.topics,
-            A.filter((t) => selectedTopicIds.includes(t.id)),
+            A.filter((tId) => selectedTopicIds.includes(tId)),
             (topics) => {
               const emptyMap: Map<string, NetworkLink[]> = Map.empty;
               return pipe(
-                topics.map((t) =>
+                topics.map((tId) =>
                   getLinks(
                     eventNodes.filter(
                       (e) =>
-                        e.data.topics.findIndex((tt) => tt.id === t.id) === 0
+                        e.data.topics.findIndex((tt) => tt.id === tId) === 0
                     ),
                     acc.topicLinks
-                  )([t])
+                  )([])
                 ),
                 A.reduce(emptyMap, (mm, m) => {
                   return pipe(
@@ -587,6 +611,7 @@ export function createNetworkTemplateProps({
 
           const actorLinks = pipe(
             e.actors,
+            O.fromPredicate((items) => items.length > 0),
             O.map((actIds) => allActors.filter((a) => actIds.includes(a.id))),
             O.getOrElse((): Actor.Actor[] => []),
             A.filter((a) => selectedActorIds.includes(a.id)),
@@ -595,7 +620,9 @@ export function createNetworkTemplateProps({
 
           const groupLinks = pipe(
             e.groups,
-            O.getOrElse((): Group.GroupFrontmatter[] => []),
+            O.fromPredicate((items) => items.length > 0),
+            O.map((acts) => allGroups.filter((a) => acts.includes(a.id))),
+            O.getOrElse((): Group.Group[] => []),
             A.filter((a) => selectedGroupIds.includes(a.id)),
             getLinks(eventNodes, acc.groupLinks)
           );

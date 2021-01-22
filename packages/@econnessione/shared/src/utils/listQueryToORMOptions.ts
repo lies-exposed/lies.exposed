@@ -53,11 +53,15 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
   return pipe(
     _f,
     R.filter(O.isSome),
-    R.map((e) =>
-      typeof e.value === "bigint"
-        ? Equal(e.value.toString())
-        : Like(`%${e.value}%`)
-    ),
+    R.mapWithIndex((key, e) => {
+      if (typeof e.value === "bigint") {
+        return Equal(e.value.toString());
+      }
+      if (key === 'path') {
+        return Equal(e.value)
+      }
+      return Like(`%${e.value}%`);
+    }),
     (filters) => {
       if (R.isEmpty(filters)) {
         return {};

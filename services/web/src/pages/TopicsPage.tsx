@@ -31,7 +31,7 @@ export default class TopicsPage extends React.PureComponent<RouteComponentProps>
             filter: {},
           },
         }}
-        render={QR.fold(Loader, ErrorBox, ({ pageContent, topics }) => (
+        render={QR.fold(Loader, ErrorBox, ({ pageContent, topics: { data: topics } }) => (
           <>
             <SEO title={pageContent.title} />
             <MainContent>

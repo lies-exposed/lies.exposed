@@ -27,13 +27,13 @@ const stripInvalid = (query: {
 
 export const Routes = t.type(
   {
-    timelines: t.strict(
+    events: t.strict(
       {
         actors: t.union([t.undefined, t.array(t.string)]),
         groups: t.union([t.undefined, t.array(t.string)]),
         topics: t.union([t.undefined, t.array(t.string)]),
       },
-      "TimelinesRoute"
+      "EventsRoute"
     ),
   },
   "Routes"
@@ -53,7 +53,7 @@ export const parseSearch = <R extends keyof Routes>(
       : {};
 
   switch (route) {
-    case "timelines": {
+    case "events": {
       const actors = t.string.is(search.actors)
         ? [search.actors]
         : search.actors;

@@ -32,7 +32,7 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
             <Spinner />
           ),
           ErrorBox,
-          ({ actorsList: acts, pageContent }) => (
+          ({ actorsList: { data: acts }, pageContent }) => (
             <>
               <SEO title={pageContent.title} />
               <MainContent>

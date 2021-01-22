@@ -13,7 +13,6 @@ import * as Uncategorized from "./Uncategorized";
 
 export const Event = t.union(
   [
-    StudyPublished.StudyPublished,
     Protest.Protest,
     ProjectImpact.ProjectImpact,
     ProjectTransaction.ProjectTransaction,
@@ -44,7 +43,7 @@ export interface EventListMap {
 }
 
 export const EventMap: { [key in Event["type"]]: t.Mixed } = {
-  StudyPublished: StudyPublished.StudyPublished,
+  // StudyPublished: StudyPublished.StudyPublished,
   Protest: Protest.Protest,
   // Project
   ProjectImpact: ProjectImpact.ProjectImpact,

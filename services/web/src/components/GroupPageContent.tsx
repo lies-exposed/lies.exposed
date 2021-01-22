@@ -95,10 +95,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
               // eslint-disable-next-line react/jsx-key
               <GroupList
                 avatarScale="scale1000"
-                groups={frontmatter.subGroups.map((g) => ({
-                  ...g,
-                  selected: true,
-                }))}
+                groups={[]}
                 onGroupClick={() => {}}
               />
             }

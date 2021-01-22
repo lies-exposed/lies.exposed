@@ -22,7 +22,7 @@ export const EventSlider: React.FC<EventSliderProps> = (props) => {
       >
         {props.events.map((e, index) => {
           if (Events.Uncategorized.Uncategorized.is(e)) {
-            return <UncategorizedListItem key={e.id} item={e} actors={[]} />;
+            return <UncategorizedListItem key={e.id} item={e} actors={[]} groups={[]} topics={[]} />;
           }
 
           // if (Events.ProjectTransaction.ProjectTransactionMD.is(e)) {

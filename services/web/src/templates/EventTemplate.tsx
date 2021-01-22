@@ -47,7 +47,7 @@ const EventTemplate: React.FC<EventTemplatePageProps> = ({ data }) => {
             />
             </FlexGridItem> */}
           <MainContent>
-            <EventPageContent event={pageContent} actors={[]} />
+            <EventPageContent event={pageContent} actors={[]} groups={[]} />
           </MainContent>
         </Layout>
       );

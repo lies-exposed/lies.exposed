@@ -111,7 +111,7 @@ export class CO2LevelsGraph extends React.PureComponent<
       <WithQueries
         queries={{ data: jsonData }}
         params={{ data: { id } }}
-        render={QR.fold(Loader, ErrorBox, (data) => (
+        render={QR.fold(Loader, ErrorBox, ({ data }) => (
           <ParentSize
             style={{ height: 400, width: "100%", ...style }}
             debounceTime={30}
