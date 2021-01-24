@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity("articles")
+@Entity("article")
 export class ArticleEntity {
   type: "Article";
 
@@ -16,8 +16,8 @@ export class ArticleEntity {
   @Column({ type: "varchar" })
   title: string;
 
-  @Column({ type: 'boolean', default: true })
-  draft: boolean
+  @Column({ type: "boolean", default: true })
+  draft: boolean;
 
   @Column({ type: "varchar" })
   path: string;

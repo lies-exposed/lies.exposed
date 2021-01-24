@@ -96,7 +96,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               >
                 {pipe(
                   item.actors,
-                  O.fromPredicate(arr => arr.length > 0),
+                  O.fromPredicate((arr) => arr.length > 0),
                   O.map((actorIds) =>
                     actors.filter((a) => actorIds.includes(a.id))
                   ),
@@ -128,7 +128,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
 
             {pipe(
               item.images,
-              O.fromPredicate(arr => arr.length > 0),
+              O.fromPredicate((arr) => arr.length > 0),
               O.map((images) => (
                 // eslint-disable-next-line react/jsx-key
                 <FlexGridItem>
@@ -137,8 +137,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     height={600}
                     slides={images.map((i) => ({
                       authorName: "",
-                      info: O.getOrElse(() => "")(i.description),
-                      imageURL: i.image,
+                      info: i.description,
+                      imageURL: i.location,
                     }))}
                     arrows={true}
                     adaptiveHeight={true}
@@ -154,7 +154,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 <MarkdownRenderer>{item.body}</MarkdownRenderer>
                 {pipe(
                   item.links,
-                  O.fromPredicate(arr => arr.length > 0),
+                  O.fromPredicate((arr) => arr.length > 0),
                   O.map((links) => (
                     // eslint-disable-next-line react/jsx-key
                     <Accordion>

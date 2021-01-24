@@ -1,7 +1,10 @@
+import { ActorEntity } from "@routes/actors/actor.entity";
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -9,7 +12,7 @@ import {
 import { EventImageEntity } from "./EventImage.entity";
 import { EventLinkEntity } from "./EventLink.entity";
 
-@Entity("events")
+@Entity("event")
 export class EventEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -28,6 +31,10 @@ export class EventEntity {
 
   @OneToMany(() => EventImageEntity, (e) => e.event)
   images: EventImageEntity[];
+
+  @ManyToMany(() => ActorEntity, (a) => a.events)
+  @JoinTable()
+  actors: ActorEntity[];
 
   @Column({ type: "varchar" })
   body: string;

@@ -12,10 +12,10 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       ctx.db.findOneOrFail(EventEntity, {
         where: { id },
-        relations: ['links'],
+        relations: ["links", "images"],
         loadRelationIds: {
-          relations: ['actors']
-        }
+          relations: ["actors"],
+        },
       }),
       TE.chainEitherK(toEventIO),
       TE.map((data) => ({

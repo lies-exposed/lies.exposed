@@ -5,7 +5,6 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
 import { BaseFrontmatter, JSONFromString, Point } from "../Common";
 import { markdownRemark } from "../Common/Markdown";
-import { ImageSource } from "../Image";
 import { EventLink } from "./EventLink";
 
 export const CreateEventBody = t.strict(
@@ -38,12 +37,20 @@ export const EditEventBody = nonEmptyRecordFromType({
   ),
   links: optionFromNullable(
     t.array(
-      t.strict({
-        url: t.string,
-        description: t.string,
-      })
+      t.union([
+        t.strict({
+          id: t.string,
+          url: t.string,
+          description: t.string,
+        }),
+        t.strict({
+          url: t.string,
+          description: t.string,
+        }),
+      ])
     )
   ),
+  actors: optionFromNullable(t.array(t.string)),
   startDate: optionFromNullable(DateFromISOString),
   endDate: optionFromNullable(DateFromISOString),
   body: optionFromNullable(t.string),
@@ -59,7 +66,9 @@ export const UncategorizedFrontmatter = t.strict(
     endDate: t.union([t.string, t.undefined]),
     date: DateFromISOString,
     location: t.union([t.undefined, JSONFromString.pipe(Point)]),
-    images: t.array(ImageSource),
+    images: t.array(
+      t.strict({ id: t.string, location: t.string, description: t.string })
+    ),
     links: t.array(EventLink),
     // todo: remove
     actors: t.array(t.string),

@@ -14,7 +14,7 @@ import GroupList from "./lists/GroupList";
 export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;
   actors: Actor.Actor[];
-  groups: Group.Group[]
+  groups: Group.Group[];
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
@@ -39,8 +39,8 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 height={600}
                 slides={images.map((i) => ({
                   authorName: "",
-                  info: O.getOrElse(() => "")(i.description),
-                  imageURL: i.image,
+                  info: i.description,
+                  imageURL: i.location,
                 }))}
                 arrows={true}
                 adaptiveHeight={true}

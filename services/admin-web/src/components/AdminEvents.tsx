@@ -14,7 +14,9 @@ import {
   ImageInput,
   List,
   ListProps,
+  ReferenceArrayInput,
   required,
+  SelectArrayInput,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
@@ -38,7 +40,7 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Actor {record.fullName}</span>;
+  return <span>Events {record.fullName}</span>;
 };
 
 export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
@@ -52,31 +54,39 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
+      <FormTab label="Actors">
+        <ReferenceArrayInput source="actors" reference="actors">
+          <SelectArrayInput source="" optionText="fullName" />
+        </ReferenceArrayInput>
+        <ArrayField source="actors">
+          <Datagrid rowClick="edit">
+            <TextField source="id" />
+            <TextField source="fullName" />
+            <ImageField source="avatar" fullWidth={false} />
+          </Datagrid>
+        </ArrayField>
+      </FormTab>
+      <FormTab label="Groups">
+        <ArrayField source="groups">
+          <Datagrid rowClick="edit">
+            <TextField source="id" />
+            <TextField source="name" />
+            <ImageField source="avatar" fullWidth={false} />
+          </Datagrid>
+        </ArrayField>
+      </FormTab>
       <FormTab label="Images">
-        <ArrayInput source="images">
-          <SimpleFormIterator>
-            <ImageField source="src" fullWidth={false} />
-            <TextInput source="description" />
-            <ImageInput source="avatar">
-              <ImageField src="location" />
-            </ImageInput>
-          </SimpleFormIterator>
-        </ArrayInput>
+        <ArrayField source="images">
+          <Datagrid rowClick="edit">
+            <TextField source="id" />
+            <ImageField source="location" fullWidth={false} />
+            <TextField source="description" />
+          </Datagrid>
+        </ArrayField>
       </FormTab>
       <FormTab label="Links">
-        <ArrayInput source="links" defaultValue={[]}>
-          <SimpleFormIterator>
-            <TextInput
-              type="url"
-              source="url"
-              fullWidth={false}
-              validate={[]}
-            />
-            <TextInput source="description" />
-          </SimpleFormIterator>
-        </ArrayInput>
         <ArrayField source="links">
-          <Datagrid>
+          <Datagrid resource="links" rowClick="edit">
             <TextField source="id" />
             <TextField source="url" />
             <TextField source="description" />

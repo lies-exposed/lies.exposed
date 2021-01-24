@@ -2,16 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-
+  Index,
   ManyToOne,
-
-
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { EventEntity } from "./event.entity";
 
-@Entity("event_links")
+@Entity("event_link")
+@Index(["event", "url"], { unique: true })
 export class EventLinkEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -19,8 +18,8 @@ export class EventLinkEntity {
   @Column({ type: "varchar", nullable: false })
   url: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  description: string
+  @Column({ type: "varchar", nullable: true })
+  description: string;
 
   @ManyToOne(() => EventEntity, (e) => e.id)
   event: EventEntity;

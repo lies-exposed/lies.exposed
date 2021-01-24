@@ -1,3 +1,4 @@
+import { EventEntity } from "@routes/events/event.entity";
 import { GroupEntity } from "@routes/groups/group.entity";
 import {
   Column,
@@ -9,7 +10,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity("actors")
+@Entity("actor")
 export class ActorEntity {
   type: "ActorFrontmatter";
 
@@ -31,6 +32,9 @@ export class ActorEntity {
   @ManyToMany(() => GroupEntity, (g) => g.members)
   @JoinTable()
   groups: GroupEntity[];
+
+  @ManyToMany(() => EventEntity, (e) => e.actors)
+  events: EventEntity[];
 
   @Column({ type: "varchar" })
   body: string;

@@ -10,11 +10,9 @@ export const toEventIO = (
   return pipe(
     io.http.Events.Event.decode({
       ...event,
-      type: 'Uncategorized',
+      type: "Uncategorized",
       topics: [],
-      actors: [],
       groups: [],
-      images: [],
       startDate: event.startDate.toISOString(),
       endDate: event.endDate ? event.endDate.toISOString() : undefined,
       date: new Date().toISOString(),

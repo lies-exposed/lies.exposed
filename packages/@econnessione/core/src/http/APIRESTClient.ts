@@ -78,7 +78,11 @@ const APIRESTClient = (ctx: APIRESTClientCtx): APIRESTClient => {
         client.get(`${resource}`, { params: pagination })
       )();
     },
-    getMany: (resource, params) => client.get(`${resource}`, { params }),
+    getMany: (resource, params) => {
+      return liftClientRequest<RA.GetManyResult<any>>(() =>
+        client.get(`${resource}`, { params })
+      )();
+    },
     getManyReference: (resource, params) =>
       client.get(`${resource}`, { params }),
     create: (resource, params) => {

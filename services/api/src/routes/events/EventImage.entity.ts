@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity("event_images")
+@Entity("event_image")
 export class EventImageEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -16,8 +16,8 @@ export class EventImageEntity {
   @Column({ type: "varchar", nullable: false })
   location: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  description: string
+  @Column({ type: "varchar", nullable: true })
+  description: string;
 
   @ManyToOne(() => EventEntity, (e) => e.id)
   event: EventEntity;

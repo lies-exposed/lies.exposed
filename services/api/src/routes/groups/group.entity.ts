@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity("groups")
+@Entity("group")
 export class GroupEntity {
   type: "GroupFrontmatter";
 

@@ -24,6 +24,7 @@ import { PageEntity } from "@routes/pages/page.entity";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { ProjectEntity } from "@routes/projects/project.entity";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
+import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import * as AWS from "aws-sdk";
 import cors from "cors";
 import express from "express";
@@ -134,7 +135,7 @@ const run = (): Promise<void> => {
         const app = express();
 
         app.use(cors(corsOptions) as any);
-        app.use(express.json({ limit: 1024 * 5 * 1000 }));
+        app.use(express.json({ limit: 1024 * 1000 }));
 
         const mediaPath = path.resolve(__dirname, "../data");
         app.use(express.static(mediaPath));
@@ -161,6 +162,9 @@ const run = (): Promise<void> => {
 
         // graphs data
         MakeGraphsRoute(router, ctx);
+
+        // uploads
+        MakeUploadsRoutes(router, ctx);
 
         app.use("/v1", router);
 

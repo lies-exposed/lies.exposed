@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity("pages")
+@Entity("page")
 export class PageEntity {
   type: "PageFrontmatter";
 
