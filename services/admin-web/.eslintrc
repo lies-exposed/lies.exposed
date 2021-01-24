@@ -1,9 +1,10 @@
 {
-  "extends": [
-    "../../.eslintrc",
-    "plugin:react/recommended"
-  ],
+  "extends": ["../../.eslintrc", "plugin:react/recommended"],
   "plugins": ["@typescript-eslint", "react"],
+  "parserOptions": {
+    "tsconfigRootDir": "./",
+    "project": ["../../tsconfig.eslint.json", "./tsconfig.json"]
+  },
   "rules": {
     "no-restricted-imports": [
       "error",
