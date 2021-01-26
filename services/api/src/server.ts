@@ -170,15 +170,13 @@ const run = (): Promise<void> => {
 
         app.use((err: any, req: any, res: any, next: any) => {
           // eslint-disable-next-line no-console
-          serverLogger.error.log(
-            `An error occured %O`,
-            JSON.stringify(err, null, 2)
-          );
+
           if (err.details.kind === "ServerError") {
             if (err.details.meta.kind === "DecodingError") {
               const errors = PathReporter.report(
                 E.left(err.details.meta.errors)
               );
+              serverLogger.error.log(`An error occured %O`, errors);
               return res.status(500).send({
                 name: "DecodingError",
                 details: errors,
@@ -189,7 +187,12 @@ const run = (): Promise<void> => {
             const { status, ...coreError } = fromIOError(err as IOError);
             return res.status(status).send(coreError);
           }
-          res.status(500).send("Something broke!");
+          serverLogger.error.log(
+            `An error occured %O`,
+            JSON.stringify(err, null, 2)
+          );
+
+          res.status(500).send(err);
         });
         const server = app.listen(ctx.env.API_PORT, () =>
           serverLogger.info.log("Server is listening at 4010")

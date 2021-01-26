@@ -43,11 +43,11 @@ const remarkPlugins = [
   mermaird,
   // remarkSquuezeParagraphs,
   remarkBreaks,
-  [remarkStringify, { bullet: "-", emphasis: "_", listItemIndent: "one" }],
   remarkMDX,
+  [remarkStringify, { bullet: "-", emphasis: "_", listItemIndent: "one" }],
 ];
 
-const remarkCompiler = (pr: unified.Processor): unified.Processor =>
+export const remarkCompiler = (pr: unified.Processor): unified.Processor =>
   pr.use(remarkParse).use(remarkPlugins);
 
 export const MDXToHTML = (content: string): IOE.IOEither<Error, string> => {

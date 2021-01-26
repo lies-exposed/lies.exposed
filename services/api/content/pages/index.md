@@ -3,7 +3,7 @@ uuid: 912ac6de-8201-44fa-a61c-c0be1be8256f
 updatedAt: 2020-10-22T07:56:17.196Z
 createdAt: 2020-10-22T07:56:17.355Z
 type: PageFrontmatter
-path: /
+path: index
 title: Home
 ---
 

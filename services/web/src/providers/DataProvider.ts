@@ -73,20 +73,16 @@ const liftFetch = <
 ): TE.TaskEither<APIError, R> => {
   return pipe(
     TE.tryCatch(lp, toError),
-    // TE.map((result) => {
-    //   // eslint-disable-next-line
-    //   console.log("result", result);
-    //   return result;
-    // }),
-    TE.chain<APIError, R, t.TypeOf<C>>((content) => {
+    TE.chainFirst<APIError, R, t.TypeOf<C>>((content) => {
       // eslint-disable-next-line
-      // console.log(content)
+      console.log(codec, content);
+
       return pipe(
         codec.decode(content),
         E.mapLeft(
           (e): APIError => ({
             name: `APIError`,
-            message: "validation failed",
+            message: `Validation Failed for codec ${codec.name}`,
             details: PathReporter.report(E.left(e)),
           })
         ),
@@ -144,8 +140,13 @@ export const pageContentByPath = queryStrict<
   ({ path }) =>
     pipe(
       liftFetch(
-        () => dataProvider.get("/pages", { path }),
-        t.strict({ total: t.number, data: nonEmptyArray(io.http.Page.Page) })
+        () =>
+          dataProvider.getList<io.http.Page.Page>("/pages", {
+            filter: { path },
+            pagination: { page: 1, perPage: 1 },
+            sort: { field: "id", order: "DESC" },
+          }),
+          io.http.Common.GetListOutput(io.http.Page.Page, "PageList")
       ),
       TE.map((pages) => pages.data[0])
     ),

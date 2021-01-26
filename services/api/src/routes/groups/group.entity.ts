@@ -1,5 +1,6 @@
 import { io } from "@econnessione/shared";
 import { ActorEntity } from "@routes/actors/actor.entity";
+import { EventEntity } from "@routes/events/event.entity";
 import {
   Column,
   CreateDateColumn,
@@ -49,6 +50,9 @@ export class GroupEntity {
   @ManyToMany(() => ActorEntity, (a) => a.groups, { nullable: true })
   @JoinTable()
   members: ActorEntity[];
+
+  @ManyToMany(() => EventEntity, (a) => a.groups, { nullable: true })
+  events: EventEntity[];
 
   @Column({ type: "varchar" })
   body: string;

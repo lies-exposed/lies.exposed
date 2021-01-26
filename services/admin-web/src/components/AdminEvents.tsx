@@ -56,7 +56,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       </FormTab>
       <FormTab label="Actors">
         <ReferenceArrayInput source="actors" reference="actors">
-          <SelectArrayInput source="" optionText="fullName" />
+          <SelectArrayInput optionText="fullName" />
         </ReferenceArrayInput>
         <ArrayField source="actors">
           <Datagrid rowClick="edit">
@@ -67,6 +67,9 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ArrayField>
       </FormTab>
       <FormTab label="Groups">
+      <ReferenceArrayInput source="groups" reference="groups">
+          <SelectArrayInput optionText="name" />
+        </ReferenceArrayInput>
         <ArrayField source="groups">
           <Datagrid rowClick="edit">
             <TextField source="id" />

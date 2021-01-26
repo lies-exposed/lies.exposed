@@ -15,6 +15,6 @@
       "@utils/*": ["./utils/*"]
     }
   },
-  "include": ["./src"],
+  "include": ["./src", "./scripts"],
   "exclude": ["**/__tests__/**"]
 }

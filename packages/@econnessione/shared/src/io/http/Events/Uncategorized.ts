@@ -51,6 +51,7 @@ export const EditEventBody = nonEmptyRecordFromType({
     )
   ),
   actors: optionFromNullable(t.array(t.string)),
+  groups: optionFromNullable(t.array(t.string)),
   startDate: optionFromNullable(DateFromISOString),
   endDate: optionFromNullable(DateFromISOString),
   body: optionFromNullable(t.string),
@@ -62,9 +63,8 @@ export const UncategorizedFrontmatter = t.strict(
     ...BaseFrontmatter.type.props,
     type: UNCATEGORIZED,
     title: t.string,
-    startDate: t.string,
-    endDate: t.union([t.string, t.undefined]),
-    date: DateFromISOString,
+    startDate: DateFromISOString,
+    endDate: t.union([DateFromISOString, t.undefined]),
     location: t.union([t.undefined, JSONFromString.pipe(Point)]),
     images: t.array(
       t.strict({ id: t.string, location: t.string, description: t.string })

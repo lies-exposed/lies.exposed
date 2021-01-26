@@ -15,7 +15,12 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(
-          ctx.db.find(EventEntity, { relations: ["links", "images"] }),
+          ctx.db.find(EventEntity, {
+            relations: ["links", "images"],
+            loadRelationIds: {
+              relations: ["actors", 'groups'],
+            },
+          }),
           TE.chainEitherK(A.traverse(E.either)(toEventIO))
         ),
         total: ctx.db.count(EventEntity),

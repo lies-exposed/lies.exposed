@@ -14,7 +14,7 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
         where: { id },
         relations: ["links", "images"],
         loadRelationIds: {
-          relations: ["actors"],
+          relations: ["actors", 'groups'],
         },
       }),
       TE.chainEitherK(toEventIO),

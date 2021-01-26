@@ -12,7 +12,6 @@ export const toEventIO = (
       ...event,
       type: "Uncategorized",
       topics: [],
-      groups: [],
       startDate: event.startDate.toISOString(),
       endDate: event.endDate ? event.endDate.toISOString() : undefined,
       date: new Date().toISOString(),

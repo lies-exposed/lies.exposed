@@ -1,4 +1,5 @@
 import { ActorEntity } from "@routes/actors/actor.entity";
+import { GroupEntity } from "@routes/groups/group.entity";
 import {
   Column,
   CreateDateColumn,
@@ -31,6 +32,10 @@ export class EventEntity {
 
   @OneToMany(() => EventImageEntity, (e) => e.event)
   images: EventImageEntity[];
+
+  @ManyToMany(() => GroupEntity, (a) => a.events)
+  @JoinTable()
+  groups: GroupEntity[];
 
   @ManyToMany(() => ActorEntity, (a) => a.events)
   @JoinTable()

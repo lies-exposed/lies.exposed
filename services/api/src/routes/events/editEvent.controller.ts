@@ -2,6 +2,7 @@ import { endpoints } from "@econnessione/shared";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
+import * as A from 'fp-ts/lib/Array'
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -14,12 +15,16 @@ import { EventEntity } from "./event.entity";
 export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     endpoints.Event.Edit,
-    ({ params: { id }, body: { links, images, actors, ...body } }) => {
+    ({ params: { id }, body: { links, images, actors, groups, ...body } }) => {
       const optionalData = foldOptionals({
         ...body,
         actors: pipe(
           actors,
-          O.map((acts) => acts.map((a) => ({ id: a })))
+          O.map(A.map(a => ({ id: a}))),
+        ),
+        groups: pipe(
+          groups,
+          O.map(A.map(g => ({ id: g })))
         ),
       });
       ctx.logger.debug.log("Update data %O", optionalData);
@@ -53,7 +58,15 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
           ),
           event: ctx.db.save(EventEntity, [{ id, ...optionalData }]),
         }),
-        TE.chain(() => ctx.db.findOneOrFail(EventEntity, { where: { id } })),
+        TE.chain(() =>
+          ctx.db.findOneOrFail(EventEntity, {
+            where: { id },
+            relations: ['images', 'links'],
+            loadRelationIds: {
+              relations: ["actors", "groups"],
+            },
+          })
+        ),
         TE.map((event) => ({
           body: {
             data: event,

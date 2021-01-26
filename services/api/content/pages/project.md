@@ -1,7 +1,7 @@
 ---
 uuid: 0b842bdb-c413-4f15-ad15-16ab7ba8d4ac
 title: Project
-path: /project
+path: project
 type: PageFrontmatter
 updatedAt: 2020-10-22T07:56:17.196Z
 createdAt: 2020-10-22T07:56:17.355Z
