@@ -73,9 +73,14 @@ export const APIClient = (ctx: APIClientCtx): APIClient => {
         client.get(`${resource}/${params.id}`)
       )(),
     getList: (resource, params) => {
-      const pagination = qs.stringify(params.pagination as any);
       return liftClientRequest<RA.GetListResult<any>>(() =>
-        client.get(`${resource}`, { params: pagination })
+        client.get(`${resource}`, {
+          params: {
+            ...params.filter,
+            ...params.pagination,
+            ...params.sort,
+          },
+        })
       )();
     },
     getMany: (resource, params) => client.get(`${resource}`, { params }),
