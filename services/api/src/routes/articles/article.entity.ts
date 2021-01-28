@@ -22,6 +22,9 @@ export class ArticleEntity {
   @Column({ type: "varchar" })
   path: string;
 
+  @Column({ type: "varchar", nullable: true })
+  featuredImage: string;
+
   @Column({ type: "varchar" })
   body: string;
 

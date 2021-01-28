@@ -11,7 +11,6 @@ export const toArticleIO = (
     io.http.Article.Article.decode({
       ...article,
       type: "Article",
-      featuredImage: "",
       links: [],
       createdAt: article.createdAt.toISOString(),
       updatedAt: article.updatedAt.toISOString(),

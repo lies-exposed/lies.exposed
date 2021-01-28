@@ -36,5 +36,8 @@ jobs:
       - name: Build packages
         run: yarn build:packages
 
-      - name: Run tests
+      - name: Run tests SPEC
         run: yarn test:spec
+
+      - name: Run tests E2E
+        run: yarn test:e2e

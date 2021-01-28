@@ -12,7 +12,7 @@
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "test", "scripts"],
+  "include": [],
   "exclude": [
     "node_modules",
     "**/__tests__/**",

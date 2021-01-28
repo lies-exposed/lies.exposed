@@ -3,6 +3,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "target": "ES5",
+    "noEmit": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "declaration": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
@@ -13,6 +17,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": [],
+  "include": [
+    "test",
+    "src",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
   "exclude": ["node_modules"]
 }

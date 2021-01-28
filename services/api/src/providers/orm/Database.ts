@@ -65,6 +65,7 @@ interface DatabaseClient {
     target: EntityTarget<Entity>,
     criteria: Criteria
   ) => TE.TaskEither<DBError, DeleteResult>;
+  close: () => TE.TaskEither<DBError, void>;
 }
 
 interface GetDatabaseClientCtx {
@@ -155,7 +156,6 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       ctx.logger.debug.log(
         `save entity %s with data %O with options %O`,
         entity,
-        data,
         options
       );
       return TE.tryCatch(
@@ -191,6 +191,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         toError(ctx.logger)
       );
     },
+    close: () => TE.tryCatch(() => ctx.connection.close(), toError(ctx.logger)),
   };
 };
 

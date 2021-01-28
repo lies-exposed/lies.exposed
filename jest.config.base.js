@@ -2,7 +2,6 @@
 const { defaults: tsjPreset } = require("ts-jest/presets");
 
 module.exports = {
-  roots: ["./"],
   testEnvironment: "node",
   globals: {
     "ts-jest": {
@@ -14,6 +13,7 @@ module.exports = {
   transform: {
     ...tsjPreset.transform,
   },
-  // globalSetup: '<rootDir>/tests/globalSetup.ts',
-  testMatch: ['**/__tests__/**/?(*.)+(spec|test).ts'],
+  testMatch: [
+    "**/?(*.)+(spec|test|e2e).ts?(x)"
+  ]
 };

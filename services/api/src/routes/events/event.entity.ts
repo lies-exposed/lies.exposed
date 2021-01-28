@@ -15,6 +15,7 @@ import { EventLinkEntity } from "./EventLink.entity";
 
 @Entity("event")
 export class EventEntity {
+
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

@@ -1,13 +1,14 @@
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 
-const NODE_ENV = t.union([t.literal("development"), t.literal("production")]);
+const NODE_ENV = t.union([t.literal('test'), t.literal("development"), t.literal("production")], 'NODE_ENV');
 
 const ENV = t.intersection(
   [
     t.strict({
       NODE_ENV,
       API_PORT: NumberFromString,
+      API_HOST: t.string,
       DEFAULT_PAGE_SIZE: NumberFromString,
     }),
     t.strict(

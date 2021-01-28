@@ -19,7 +19,7 @@ export const MakeCreateActorRoute: Route = (r, { s3, db, env }) => {
             s3.upload({
               Bucket: env.SPACE_BUCKET,
               Key: `actors/${actor.id}.jpg`,
-              Body: getBufferFromBase64(avatar.src, 'image'),
+              Body: getBufferFromBase64(avatar, 'image'),
               ACL: 'public-read',
               ContentType: 'image/jpeg'
             }),
@@ -47,7 +47,7 @@ export const MakeCreateActorRoute: Route = (r, { s3, db, env }) => {
             // body,
           },
         },
-        statusCode: 200,
+        statusCode: 201,
       }))
     );
   });

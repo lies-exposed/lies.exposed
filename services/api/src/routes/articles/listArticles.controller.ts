@@ -11,7 +11,6 @@ import { toArticleIO } from "./article.io";
 
 export const MakeListArticlesRoute: Route = (r, { env, db }) => {
   AddEndpoint(r)(endpoints.Article.ListArticles, ({ query }) => {
-    // console.log('here')
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(

@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -30,7 +29,6 @@ export class ActorEntity {
   color: string;
 
   @ManyToMany(() => GroupEntity, (g) => g.members)
-  @JoinTable()
   groups: GroupEntity[];
 
   @ManyToMany(() => EventEntity, (e) => e.actors)

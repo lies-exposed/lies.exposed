@@ -37,10 +37,7 @@ export const Create = Endpoint({
         fullName: t.string,
         color: t.string,
         body: t.string,
-        avatar: t.strict({
-          src: t.string,
-          path: t.string,
-        }),
+        avatar: t.string,
       },
       "AddActorBody"
     ),
