@@ -1,17 +1,19 @@
+import { faSlack } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CustomTheme, themedUseStyletron } from "@theme/CustomeTheme";
 import { withStyle } from "baseui";
 import {
   ALIGN,
   HeaderNavigation,
   StyledNavigationItem,
-  StyledNavigationList,
+  StyledNavigationList
 } from "baseui/header-navigation";
 import { StyledLink } from "baseui/link";
 import { StatefulMenu } from "baseui/menu";
 import {
   PLACEMENT as PopoverPlacement,
   StatefulPopover,
-  TRIGGER_TYPE,
+  TRIGGER_TYPE
 } from "baseui/popover";
 import React from "react";
 
@@ -194,6 +196,9 @@ const Header: React.FC = () => {
             title="GitHub"
             style={{ verticalAlign: "middle" }}
           />
+        </NavigationItem>
+        <NavigationItem>
+          <FontAwesomeIcon icon={faSlack} />
         </NavigationItem>
       </StyledNavigationList>
       <StyledNavigationList $align={ALIGN.center} />

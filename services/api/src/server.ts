@@ -8,7 +8,7 @@ import { logger } from "@econnessione/core";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { fromIOError } from "@io/APIError";
+// import { fromIOError } from "@io/APIError";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetMDXClient } from "@providers/mdx";
@@ -33,13 +33,14 @@ import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import * as AWS from "aws-sdk";
 import cors from "cors";
 import express from "express";
+import jwt from "express-jwt";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import "reflect-metadata";
-import { IOError } from "ts-shared/lib/errors";
+// import { IOError } from "ts-shared/lib/errors";
 import { EventImageEntity } from "./routes/events/EventImage.entity";
 
 // var whitelist = ["http://localhost:8002"]
@@ -134,7 +135,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   app.use(cors(corsOptions) as any);
   app.use(express.json({ limit: 1024 * 1000 }));
-
+  app.use(jwt({ secret: ctx.env.API_SECRET, algorithms: ["HS256"] }));
   const mediaPath = path.resolve(__dirname, "../data");
   app.use(express.static(mediaPath));
 
@@ -167,43 +168,51 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // errors
 
-  app.use("/v1", router, (err: any, req: any, res: any) => {
+  app.use("/v1", router);
+
+  app.use(function (err: any, req: any, res: any, next: any) {
     // eslint-disable-next-line no-console
-    console.log("error", err);
-    if (err.details.kind === "DecodingError") {
-      const errors = PathReporter.report(E.left(err.details.meta.errors));
-      ctx.logger.error.log(`An error occured %O`, errors);
-      return res.status(500).send({
-        name: "DecodingError",
-        details: errors,
-      });
-    }
+    ctx.logger.debug.log("An error occured %O", err);
+    try {
+      if (err) {
+        if (err.details?.kind === "DecodingError") {
+          const errors = PathReporter.report(E.left(err.details.errors));
+          ctx.logger.debug.log(`Sending errors... %O`, errors);
+          ctx.logger.debug.log(`An error occured %O`, errors);
+          return res.status(400).send({
+            name: "DecodingError",
+            details: errors,
+          });
+        }
+        if (err.name === "UnauthorizedError") {
+          return res.status(err.status).send(err);
+        }
 
-    if (err.details.kind === "ServerError") {
-      if (err.details.meta.kind === "DecodingError") {
-        const errors = PathReporter.report(E.left(err.details.meta.errors));
-        ctx.logger.error.log(`An error occured %O`, errors);
-        return res.status(500).send({
-          name: "DecodingError",
-          details: errors,
-        });
+        ctx.logger.debug.log("An error occured %O", err);
+        ctx.logger.debug.log("Error kind %s", err.details.kind);
+        if (err.details.kind === "ServerError") {
+          if (err.details.meta.kind === "DecodingError") {
+            const errors = PathReporter.report(E.left(err.details.meta.errors));
+            ctx.logger.error.log(`An error occured %O`, errors);
+            return res.status(500).send({
+              name: "DecodingError",
+              details: errors,
+            });
+          }
+        }
+
+        if (err.name === "APIError") {
+          ctx.logger.error.log("APIError %O", JSON.stringify(err, null, 2));
+          return res
+            .status(err.status)
+            .send({ message: err.message, details: err.details });
+        }
       }
+      return res.status(err.status ?? 500).send(err);
+    } catch (e) {
+      ctx.logger.error.log(`An error occured %O`, JSON.stringify(err, null, 2));
+      return res.status(500).send(err);
     }
-    if (err?.details?.kind !== undefined) {
-      const { status, ...coreError } = fromIOError(err as IOError);
-      return res.status(status).send(coreError);
-    }
-
-    if (err.name === "APIError") {
-      ctx.logger.error.log("APIError %O", JSON.stringify(err, null, 2));
-      return res
-        .status(err.status)
-        .send({ message: err.message, details: err.details });
-    }
-
-    ctx.logger.error.log(`An error occured %O`, JSON.stringify(err, null, 2));
-
-    res.status(500).send(err);
   });
 
   return app;

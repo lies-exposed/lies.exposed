@@ -42,6 +42,17 @@ export const ServerError = (meta?: string[]): ControllerError => {
   };
 };
 
+export const NotAuthorizedError = (): ControllerError => {
+  return {
+    name: 'APIError',
+    status: 401,
+    message: 'Authorization header is missing',
+    details: {
+      kind: 'ClientError',
+    }
+  }
+}
+
 export const DecodeError = (errors: t.Errors): ControllerError => {
   // eslint-disable-next-line
   console.log(PathReporter.report(E.left(errors)))
