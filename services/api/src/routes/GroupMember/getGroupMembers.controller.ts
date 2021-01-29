@@ -1,4 +1,5 @@
 import { endpoints } from "@econnessione/shared";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -7,24 +8,23 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
-import { GroupEntity } from "../../entities/Group.entity";
-import { toGroupIO } from "./group.io";
+import { toGroupMemberIO } from "./groupMember.io";
 
-export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Group.List, () => {
+export const MakeListGroupMemberRoute = (r: Router, ctx: RouteContext): void => {
+  AddEndpoint(r)(endpoints.GroupMember.List, () => {
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(
-          ctx.db.find(GroupEntity, { loadRelationIds: true }),
-          TE.chainEitherK(A.traverse(E.either)(toGroupIO))
+          ctx.db.find(GroupMemberEntity, { loadRelationIds: true }),
+          TE.chainEitherK(A.traverse(E.either)(toGroupMemberIO))
         ),
-        count: ctx.db.count(GroupEntity),
+        count: ctx.db.count(GroupMemberEntity),
       }),
       TE.map(({ data, count }) => ({
         body: {
           data: data,
           total: count,
-        } as any,
+        },
         statusCode: 200,
       }))
     );

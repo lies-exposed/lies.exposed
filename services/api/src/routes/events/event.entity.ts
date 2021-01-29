@@ -1,5 +1,5 @@
-import { ActorEntity } from "@routes/actors/actor.entity";
-import { GroupEntity } from "@routes/groups/group.entity";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import {
   Column,
   CreateDateColumn,
@@ -15,7 +15,6 @@ import { EventLinkEntity } from "./EventLink.entity";
 
 @Entity("event")
 export class EventEntity {
-
   @PrimaryGeneratedColumn("uuid")
   id: string;
 

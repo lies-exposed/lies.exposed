@@ -74,9 +74,6 @@ const liftFetch = <
   return pipe(
     TE.tryCatch(lp, toError),
     TE.chain<APIError, R, t.TypeOf<C>>((content) => {
-      // eslint-disable-next-line
-      console.log(codec, content);
-
       return pipe(
         codec.decode(content),
         E.mapLeft(

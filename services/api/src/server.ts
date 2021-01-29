@@ -2,10 +2,12 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias")(process.cwd());
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import "reflect-metadata";
 import * as fs from "fs";
 import * as path from "path";
 import { logger } from "@econnessione/core";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { fromIOError } from "@io/APIError";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
@@ -13,7 +15,7 @@ import { GetMDXClient } from "@providers/mdx";
 import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
 import { GetFSClient } from "@providers/space/FSClient";
-import { ActorEntity } from "@routes/actors/actor.entity";
+import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { ArticleEntity } from "@routes/articles/article.entity";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
@@ -21,7 +23,6 @@ import { EventLinkEntity } from "@routes/events/EventLink.entity";
 import { EventEntity } from "@routes/events/event.entity";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
-import { GroupEntity } from "@routes/groups/group.entity";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { PageEntity } from "@routes/pages/page.entity";
 import { MakePageRoutes } from "@routes/pages/pages.route";
@@ -37,6 +38,7 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import "reflect-metadata";
 import { IOError } from "ts-shared/lib/errors";
 import { EventImageEntity } from "./routes/events/EventImage.entity";
 
@@ -48,7 +50,7 @@ var corsOptions: cors.CorsOptions = {
 export const makeContext = (
   processENV: unknown
 ): TE.TaskEither<ControllerError, RouteContext> => {
-  const serverLogger = logger.GetLogger('server');
+  const serverLogger = logger.GetLogger("server");
   return pipe(
     ENV.decode(processENV),
     serverLogger.debug.logInPipe("Decoded env result %O"),
@@ -68,6 +70,7 @@ export const makeContext = (
             PageEntity,
             ActorEntity,
             GroupEntity,
+            GroupMemberEntity,
             ArticleEntity,
             ProjectEntity,
             EventEntity,
@@ -88,7 +91,7 @@ export const makeContext = (
               : false,
         }),
         s3:
-          (env.NODE_ENV === "development" || env.NODE_ENV === "test")
+          env.NODE_ENV === "development" || env.NODE_ENV === "test"
             ? TE.right(
                 GetFSClient({
                   basePath: path.resolve(__dirname, "../data"),
@@ -138,6 +141,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // groups
   MakeGroupRoutes(router, ctx);
+  MakeGroupMemberRoutes(router, ctx);
 
   // actors
   MakeActorRoutes(router, ctx);
@@ -157,10 +161,21 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // uploads
   MakeUploadsRoutes(router, ctx);
 
+  // errors
+
   app.use("/v1", router);
 
-  app.use((err: any, req: any, res: any, next: any) => {
+  app.use(function (err: any, req: any, res: any) {
     // eslint-disable-next-line no-console
+    console.log("error", err);
+    if (err.details.kind === "DecodingError") {
+      const errors = PathReporter.report(E.left(err.details.meta.errors));
+      ctx.logger.error.log(`An error occured %O`, errors);
+      return res.status(500).send({
+        name: "DecodingError",
+        details: errors,
+      });
+    }
 
     if (err.details.kind === "ServerError") {
       if (err.details.meta.kind === "DecodingError") {
@@ -176,6 +191,14 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       const { status, ...coreError } = fromIOError(err as IOError);
       return res.status(status).send(coreError);
     }
+
+    if (err.name === "APIError") {
+      ctx.logger.error.log("APIError %O", JSON.stringify(err, null, 2));
+      return res
+        .status(err.status)
+        .send({ message: err.message, details: err.details });
+    }
+
     ctx.logger.error.log(`An error occured %O`, JSON.stringify(err, null, 2));
 
     res.status(500).send(err);

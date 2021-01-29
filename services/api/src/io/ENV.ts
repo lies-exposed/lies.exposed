@@ -6,6 +6,7 @@ const NODE_ENV = t.union([t.literal('test'), t.literal("development"), t.literal
 const ENV = t.intersection(
   [
     t.strict({
+      DEBUG: t.string,
       NODE_ENV,
       API_PORT: NumberFromString,
       API_HOST: t.string,

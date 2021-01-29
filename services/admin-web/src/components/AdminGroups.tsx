@@ -15,6 +15,7 @@ import {
   List,
   ListProps,
   ReferenceArrayField,
+  ReferenceField,
   SelectInput,
   SimpleForm,
   TabbedForm,
@@ -74,10 +75,13 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => (
         <MarkdownInput source="body" />
       </FormTab>
       <FormTab label="Members">
-        <ReferenceArrayField source="members" reference="actors">
-          <Datagrid rowClick="edit">
+        <ReferenceArrayField source="members" reference="groups-members">
+          <Datagrid>
             <TextField source="id" />
-            <TextField source="fullName" />
+            <ReferenceField label="Actor" source="actorId" reference="actors">
+              <TextField source="username" />
+            </ReferenceField>
+            <DateField source="createdAt" />
           </Datagrid>
         </ReferenceArrayField>
       </FormTab>

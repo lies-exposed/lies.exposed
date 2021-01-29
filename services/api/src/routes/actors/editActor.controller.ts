@@ -1,4 +1,5 @@
 import { endpoints } from "@econnessione/shared";
+import { ActorEntity } from "@entities/Actor.entity";
 import { ServerError } from "@io/ControllerError";
 import { getBufferFromBase64 } from "@utils/base64.utils";
 import { foldOptionals } from "@utils/foldOptionals.utils";
@@ -8,7 +9,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
-import { ActorEntity } from "./actor.entity";
+import { toActorIO } from "./actor.io";
 
 export const MakeEditActorRoute: Route = (r, { s3, db, env, logger }) => {
   AddEndpoint(r)(
@@ -56,16 +57,10 @@ export const MakeEditActorRoute: Route = (r, { s3, db, env, logger }) => {
             loadRelationIds: true,
           })
         ),
+        TE.chainEitherK(toActorIO),
         TE.map((page) => ({
           body: {
-            data: {
-              ...page,
-              type: "ActorFrontmatter" as const,
-              groups: (page.groups as any) as string[],
-              createdAt: page.createdAt.toISOString(),
-              updatedAt: page.updatedAt.toISOString(),
-              // body,
-            },
+            data: page,
           },
           statusCode: 200,
         }))

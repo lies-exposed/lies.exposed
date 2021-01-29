@@ -58,8 +58,9 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
       <FormTab label="Content">
         <MarkdownInput source="body" />
       </FormTab>
+
       <FormTab label="Groups">
-        <ReferenceArrayField source="groups" reference="groups">
+        <ReferenceArrayField source="groups" reference="groups-members">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <ImageField source="avatar" />

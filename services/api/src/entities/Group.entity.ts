@@ -1,15 +1,15 @@
 import { io } from "@econnessione/shared";
-import { ActorEntity } from "@routes/actors/actor.entity";
 import { EventEntity } from "@routes/events/event.entity";
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToMany,
-  JoinTable,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { GroupMemberEntity } from "./GroupMember.entity";
 
 @Entity("group")
 export class GroupEntity {
@@ -27,29 +27,14 @@ export class GroupEntity {
   @Column({ type: "varchar", nullable: true })
   avatar: string;
 
-  // @OneToMany(() => GroupEntity, (g) => g.id, { nullable: true })
-  // @JoinTable({
-  //   name: "group_subgroups",
-  //   joinColumn: {
-  //     name: "group",
-  //     referencedColumnName: "id",
-  //   },
-  //   inverseJoinColumn: {
-  //     name: "group",
-  //     referencedColumnName: "id",
-  //   }
-  // })
-  // subGroups: GroupEntity[];
-
   @Column({
     enum: io.http.Group.GroupKind.types.map((t) => t.value),
     type: "enum",
   })
   kind: io.http.Group.GroupKind;
 
-  @ManyToMany(() => ActorEntity, (a) => a.groups, { nullable: true })
-  @JoinTable()
-  members: ActorEntity[];
+  @OneToMany(() => GroupMemberEntity, (member) => member.group)
+  members: GroupMemberEntity[];
 
   @ManyToMany(() => EventEntity, (a) => a.groups, { nullable: true })
   events: EventEntity[];

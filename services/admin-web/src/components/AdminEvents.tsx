@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   ArrayField,
   ArrayInput,
+  ChipField,
   Create,
   CreateProps,
   Datagrid,
@@ -14,11 +15,13 @@ import {
   ImageInput,
   List,
   ListProps,
+  ReferenceArrayField,
   ReferenceArrayInput,
   required,
   SelectArrayInput,
   SimpleForm,
   SimpleFormIterator,
+  SingleFieldList,
   TabbedForm,
   TextField,
   TextInput,
@@ -31,6 +34,16 @@ export const EventList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <TextField source="title" />
+      <ReferenceArrayField source="actors" reference="actors">
+        <SingleFieldList>
+          <ChipField source="fullName" />
+        </SingleFieldList>
+      </ReferenceArrayField>
+      <ReferenceArrayField source="groups" reference="groups">
+        <SingleFieldList>
+          <ChipField source="fullName" />
+        </SingleFieldList>
+      </ReferenceArrayField>
       <DateField source="startDate" />
       <DateField source="endDate" />
       <DateField source="updatedAt" />
@@ -67,7 +80,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ArrayField>
       </FormTab>
       <FormTab label="Groups">
-      <ReferenceArrayInput source="groups" reference="groups">
+        <ReferenceArrayInput source="groups" reference="groups">
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
         <ArrayField source="groups">

@@ -15,6 +15,7 @@
     "strictPropertyInitialization": false,
     "paths": {
       "@io/*": ["io/*"],
+      "@entities/*": ["entities/*"],
       "@providers/*": ["providers/*"],
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"]

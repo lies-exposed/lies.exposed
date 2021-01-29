@@ -28,7 +28,6 @@ const toolbarOptions = [
 ];
 
 const MarkdownInput: React.FC<InputProps> = (props) => {
-  console.log(props);
   return (
     <RichTextInput
       options={{
@@ -36,31 +35,31 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
           toolbar: toolbarOptions,
         },
       }}
-      format={(v: string) => {
-        return pipe(
-          mdx.MDXToHTML(v),
-          IOE.fold(
-            (e) => () => {
-              console.error(e);
-              return v;
-            },
-            (value) => () => {
-              console.log({ value });
-              return value;
-            }
-          )
-        )();
+      format={(v: string | undefined) => {
+        if (v) {
+          return pipe(
+            mdx.MDXToHTML(v),
+            IOE.fold(
+              (e) => () => {
+                console.error(e);
+                return v;
+              },
+              (value) => () => {
+                return value;
+              }
+            )
+          )();
+        }
+        return ""
       }}
       parse={(v: string) => {
         return pipe(
           mdx.HTMLToMDX(v),
           IOE.fold(
             (e) => () => {
-              console.error(e);
               return v;
             },
             (value) => () => {
-              console.log({ value });
               return value;
             }
           )

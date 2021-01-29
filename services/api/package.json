@@ -51,6 +51,7 @@
   },
   "_moduleAliases": {
     "@io": "build/io",
+    "@entities": "build/entities",
     "@providers": "build/providers",
     "@routes": "build/routes",
     "@utils": "build/utils"
