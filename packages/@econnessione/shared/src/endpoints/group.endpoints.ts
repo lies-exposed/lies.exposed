@@ -21,23 +21,24 @@ export const List = Endpoint({
   Output: ListGroupOutput,
 });
 
-const CreateBody = t.strict({
-  name: t.string,
-  color: t.string,
-  kind: http.Group.GroupKind,
-  avatar: t.strict({
-    src: t.string,
-    path: t.string,
-  }),
-  body: t.string,
-});
+const CreateGroupBody = t.strict(
+  {
+    name: t.string,
+    color: t.string,
+    kind: http.Group.GroupKind,
+    avatar: t.string,
+    members: t.array(t.string),
+    body: t.string,
+  },
+  "CreateGroupBody"
+);
 
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/groups",
   Input: {
     Query: undefined,
-    Body: CreateBody,
+    Body: CreateGroupBody,
   },
   Output: SingleGroupOutput,
 });
@@ -52,7 +53,7 @@ export const Get = Endpoint({
   Output: SingleGroupOutput,
 });
 
-const { ...editBodyProps } = CreateBody.type.props;
+const { members, ...editBodyProps } = CreateGroupBody.type.props;
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/groups/${id}`,
@@ -61,13 +62,7 @@ export const Edit = Endpoint({
     Params: { id: t.string },
     Body: nonEmptyRecordFromType({
       ...editBodyProps,
-      avatar: t.union([
-        t.string,
-        t.type({
-          src: t.string,
-          path: t.string,
-        }),
-      ]),
+      avatar: t.string,
     }),
   },
   Output: SingleGroupOutput,
