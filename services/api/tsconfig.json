@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "typeRoots": [
+      "./src/typings",
+      "node_modules/@types",
+      "../../node_modules/@types"
+    ],
+    "declaration": false,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@io/*": ["io/*"],
+      "@providers/*": ["providers/*"],
+      "@routes/*": ["routes/*"],
+      "@utils/*": ["utils/*"]
+    }
+  },
+  "include": ["./src"],
+  "exclude": []
+}

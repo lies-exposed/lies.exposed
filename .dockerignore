@@ -1,0 +1,12 @@
+.cache
+.github
+.vscode
+node_modules
+**/node_modules
+**/lib
+**/build
+public
+.env*
+*.Dockerfile
+docker-compose.yml
+

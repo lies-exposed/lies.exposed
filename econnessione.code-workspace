@@ -5,5 +5,12 @@
 		}
 	],
 	"settings": {
+		"eslint.workingDirectories": [
+			"./packages/@econnessione/core",
+			"./packages/@econnessione/shared",
+			"./services/api",
+			"./services/web",
+			"./services/admin-web"
+		]
 	}
 }

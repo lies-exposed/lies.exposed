@@ -12,8 +12,13 @@
 - [fisheye distortion](https://bost.ocks.org/mike/fisheye/)
 - [calcolare l'impronta ecologica](https://www.wwf.ch/it/vivere-sostenibile/calcolatore-dell-impronta-ecologica)
 - [World economy is reaching growth limits](https://ourfiniteworld.com/2019/01/09/2019-world-economy-is-reaching-growth-limits-expect-low-oil-prices-financial-turbulence/)
+- [NASA](https://svs.gsfc.nasa.gov/11683)
+- [Nasa - A year ](https://svs.gsfc.nasa.gov/cgi-bin/details.cgi?aid=11719)
 
-## Topics
+## Eni - mozambico
+[La «maledizione delle risorse» che piega il Mozambico](http://www.labottegadelbarbieri.org/la-maledizione-delle-risorse-che-piega-il-mozambico/)
+
+
 
 ### Milano - ATM
 
@@ -27,3 +32,11 @@
 ## Areas
 
 - [Italy GEOJSON](https://github.com/openpolis/geojson-italy)
+
+## Similar projects references
+
+[who covid response timeline](https://www.who.int/emergencies/diseases/novel-coronavirus-2019/interactive-timeline)
+
+## Similar Projects
+
+- https://www.journalismfund.eu/how-eu-money-spent-covid19-drugs

@@ -1,0 +1,31 @@
+import { endpoints } from "@econnessione/shared";
+import { Router } from "express";
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
+import { RouteContext } from "routes/route.types";
+import { AddEndpoint } from "ts-endpoint-express";
+import { PageEntity } from "./page.entity";
+
+export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
+  AddEndpoint(r)(endpoints.Page.CreatePage, ({ body }) => {
+    return pipe(
+      ctx.db.save(PageEntity, [body]),
+      TE.chain(([page]) =>
+        sequenceS(TE.taskEither)({
+          page: TE.right(page),
+          // body: ctx.mdx.writeFile(`/pages/${page.id}.md`, body.body),
+        })
+      ),
+      TE.map(({ page }) => ({
+        body: {
+          data: {
+            ...page,
+            // body,
+          },
+        },
+        statusCode: 200,
+      }))
+    );
+  });
+};
