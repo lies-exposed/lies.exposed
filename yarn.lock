@@ -19311,22 +19311,33 @@ ts-dedent@^2.0.0:
   resolved "https://registry.yarnpkg.com/ts-dedent/-/ts-dedent-2.0.0.tgz#47c5eb23d9096f3237cc413bc82d387d36dbe690"
   integrity sha512-DfxKjSFQfw9+uf7N9Cy8Ebx9fv5fquK4hZ6SD3Rzr+1jKP6AVA6H8+B5457ZpUs0JKsGpGqIevbpZ9DMQJDp1A==
 
-ts-endpoint-express@2.0.0-alpha.5:
-  version "2.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/ts-endpoint-express/-/ts-endpoint-express-2.0.0-alpha.5.tgz#8c82cd3637f5405ab48533d611ae824e7fb2a7fe"
-  integrity sha512-mPBz6xNqt9qsSCpDgZkd3vKmMb4yZvgJscZMsjKYJTzk1nLXiIVU2Cv+vkNUNF/zqpVbuutcTKBnNsIO4tWx5g==
+ts-endpoint-express@2.0.0-alpha.6:
+  version "2.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/ts-endpoint-express/-/ts-endpoint-express-2.0.0-alpha.6.tgz#b00ed0d99566f5c2dfa0e8e7136d272126f3aa54"
+  integrity sha512-GdBySs0glIHegaVsd9SglOa2zxvgFkqDFI0C7dRP4q+gi4cgse/mQ0pwD24GB0+5/ruYldnMU2n7kD4kZMmMfA==
   dependencies:
     io-ts-types "^0.5.8"
     monocle-ts "^2.3.3"
     newtype-ts "^0.3.4"
-    ts-endpoint "^2.0.0-alpha.4"
+    ts-endpoint "^2.0.0-alpha.5"
     ts-shared "^1.0.1"
     typelevel-ts "^0.4.0"
 
-ts-endpoint@2.0.0-alpha.4, ts-endpoint@^2.0.0-alpha.4:
+ts-endpoint@2.0.0-alpha.4:
   version "2.0.0-alpha.4"
   resolved "https://registry.yarnpkg.com/ts-endpoint/-/ts-endpoint-2.0.0-alpha.4.tgz#fc7b421f33447668c550190b4cd7f24d0d15383a"
   integrity sha512-7p9/G1cqTjwhVW5v8OTQ1/1o6eLAP6bBkw2E7vLLPt4+2UseFrY6sykFO9YvniIh70vQwFC6CTZXHslNUv3PDQ==
+  dependencies:
+    io-ts-types "^0.5.8"
+    monocle-ts "^2.3.3"
+    newtype-ts "^0.3.4"
+    ts-shared "^1.0.1"
+    typelevel-ts "^0.4.0"
+
+ts-endpoint@^2.0.0-alpha.5:
+  version "2.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/ts-endpoint/-/ts-endpoint-2.0.0-alpha.5.tgz#751b61a838576fe8e3046b254d7f00ddf40d05aa"
+  integrity sha512-j8YrnHhsX3vWWV+6OSPGkqV//7QOh8zWfwQ6DlJV3xuggQ45GTshnioAz+2zrk/4XR4v2n4g4GEnWRJsusOpkg==
   dependencies:
     io-ts-types "^0.5.8"
     monocle-ts "^2.3.3"

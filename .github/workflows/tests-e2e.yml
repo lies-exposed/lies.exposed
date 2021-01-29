@@ -3,7 +3,7 @@ name: tests-e2e
 on:
   pull_request:
     branches:
-      - release/alpha
+      # - release/alpha
       - master
     paths:
       - 'packages/**'

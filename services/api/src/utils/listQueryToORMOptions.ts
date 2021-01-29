@@ -2,7 +2,7 @@ import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import { FindOperator, Like, Equal } from "typeorm";
-import * as Query from "../endpoints/Query";
+import * as Query from "@econnessione/shared/lib/endpoints/Query";
 
 interface ORMOrder {
   order: { [key: string]: "ASC" | "DESC" };
@@ -57,8 +57,8 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
       if (typeof e.value === "bigint") {
         return Equal(e.value.toString());
       }
-      if (key === 'path') {
-        return Equal(e.value)
+      if (key === "path") {
+        return Equal(e.value);
       }
       return Like(`%${e.value}%`);
     }),

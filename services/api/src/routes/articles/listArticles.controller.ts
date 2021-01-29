@@ -1,9 +1,10 @@
-import { endpoints, utils } from "@econnessione/shared";
+import { endpoints } from "@econnessione/shared";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as TE from "fp-ts/lib/TaskEither";
 import { Route } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 import { ArticleEntity } from "./article.entity";
@@ -15,7 +16,7 @@ export const MakeListArticlesRoute: Route = (r, { env, db }) => {
       sequenceS(TE.taskEither)({
         data: pipe(
           db.find(ArticleEntity, {
-            ...utils.getORMOptions(query, env.DEFAULT_PAGE_SIZE),
+            ...getORMOptions(query, env.DEFAULT_PAGE_SIZE),
           }),
           TE.chainEitherK(A.traverse(E.either)(toArticleIO))
         ),
