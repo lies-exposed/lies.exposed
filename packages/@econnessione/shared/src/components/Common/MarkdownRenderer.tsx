@@ -67,14 +67,11 @@ export const components: MDXProviderComponentsProp = {
   h4: ({ children }) => <Typography variant="h4">{children}</Typography>,
   h5: ({ children }) => <Typography variant="h5">{children}</Typography>,
   h6: ({ children }) => <Typography variant="h6">{children}</Typography>,
-  p: ({ children }) => <Typography className="body">{children}</Typography>,
-  // p: ({ children }) => <Typography variant="p">{children}</Typography>,
-  // h1: HeadingXXLarge,
-  // h2: HeadingXLarge,
-  // h3: HeadingLarge,
-  // h4: HeadingMedium,
-  // h5: HeadingSmall,
-  // h6: HeadingXSmall,
+  p: ({ children }) => (
+    <Typography className="body" style={{ marginBottom: 20 }}>
+      {children}
+    </Typography>
+  ),
 };
 
 export const MarkdownRenderer: React.FC = ({ children }): JSX.Element => {
