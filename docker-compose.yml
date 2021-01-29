@@ -13,6 +13,17 @@ services:
     # volumes:
     #   - node_modules:/app/node_modules
 
+  db-test:
+    image: postgres:12
+    ports:
+      - 9432:5432
+    environment:
+      POSTGRES_USER: econnessione
+      POSTGRES_PASSWORD: econnessione-password
+      POSTGRES_DB: econnessione-test
+    volumes:
+      - db-test-data:/var/lib/postgresql/data
+
   db:
     image: postgres:12
     ports:
@@ -79,6 +90,7 @@ services:
 
 volumes:
   db-data:
+  db-test-data:
   node_modules:
   api-node_modules:
   web-node_modules:
