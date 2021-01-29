@@ -73,7 +73,7 @@ const liftFetch = <
 ): TE.TaskEither<APIError, R> => {
   return pipe(
     TE.tryCatch(lp, toError),
-    TE.chainFirst<APIError, R, t.TypeOf<C>>((content) => {
+    TE.chain<APIError, R, t.TypeOf<C>>((content) => {
       // eslint-disable-next-line
       console.log(codec, content);
 

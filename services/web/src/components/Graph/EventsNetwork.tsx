@@ -15,7 +15,7 @@ import {
   Page,
   Topic,
 } from "@econnessione/shared/lib/io/http";
-import { ordEventDate } from "@helpers/event";
+import { eventDate, ordEventDate } from "@helpers/event";
 import { eqByUUID } from "@utils/IOTSSchemable";
 import { formatDate } from "@utils/date";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
@@ -423,13 +423,13 @@ export function createNetworkTemplateProps({
 
   const minDate = pipe(
     A.last(orderedEvents),
-    O.map((e) => e.date),
+    O.map((e) => eventDate(e)),
     O.getOrElse(() => subWeeks(new Date(), 1))
   );
 
   const maxDate = pipe(
     A.head(orderedEvents),
-    O.map((e) => e.date),
+    O.map((e) => eventDate(e)),
     O.getOrElse(() => new Date())
   );
 
@@ -474,7 +474,7 @@ export function createNetworkTemplateProps({
 
       // console.log({ eventDate: e.frontmatter.date, minDate, maxDate })
       const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
-        e.date
+        eventDate(e)
       );
       // console.log({isBetweenDateRange, networkWidth})
 
@@ -496,7 +496,7 @@ export function createNetworkTemplateProps({
             x:
               margin.horizontal +
               getX(
-                e.date,
+                eventDate(e),
                 minDate,
                 maxDate,
                 networkWidth - margin.horizontal * 2
@@ -504,6 +504,7 @@ export function createNetworkTemplateProps({
             y: yGetter(t.id),
             data: {
               ...e,
+              date: eventDate(e),
               actors: pipe(
                 e.actors,
                 O.fromPredicate((items) => items.length > 0),

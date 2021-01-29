@@ -4,6 +4,7 @@ import ActorList from "@components/lists/ActorList";
 import GroupList from "@components/lists/GroupList";
 import TopicList from "@components/lists/TopicList";
 import { Actor, Events, Group, Topic } from "@econnessione/shared/lib/io/http";
+import { eventDate } from "@helpers/event";
 import { formatDate } from "@utils/date";
 import { Accordion, Panel } from "baseui/accordion";
 import { Block } from "baseui/block";
@@ -121,8 +122,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             </FlexGridItem>
 
             <FlexGridItem display="flex" flexGridColumnCount={3}>
-              <time dateTime={formatDate(item.date)}>
-                {formatDate(item.date)}
+              <time dateTime={formatDate(eventDate(item))}>
+                {formatDate(eventDate(item))}
               </time>
             </FlexGridItem>
 

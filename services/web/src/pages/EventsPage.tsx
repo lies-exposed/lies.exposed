@@ -13,7 +13,7 @@ import { GroupListItem } from "@components/lists/GroupList";
 import { TopicListItem } from "@components/lists/TopicList";
 import { io } from "@econnessione/shared";
 import { Actor, Group, Topic } from "@econnessione/shared/lib/io/http";
-import { eventsDataToNavigatorItems, ordEventDate } from "@helpers/event";
+import { eventDate, eventsDataToNavigatorItems, ordEventDate } from "@helpers/event";
 import {
   actorsList,
   eventsList,
@@ -198,7 +198,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               const isBetweenDateRange = Ord.between(Ord.ordDate)(
                 minDate,
                 maxDate
-              )(e.date);
+              )(eventDate(e));
 
               const hasActor = GetByGroupOrActorUtils(
                 actors,

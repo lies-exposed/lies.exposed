@@ -39,5 +39,8 @@ jobs:
       - name: Run tests SPEC
         run: yarn test:spec
 
+      - name: Pull postgres:12
+        run: docker pull postgres:12
+
       - name: Run tests E2E
         run: yarn test:e2e

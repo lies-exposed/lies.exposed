@@ -1,5 +1,5 @@
 import { Events } from "@econnessione/shared/lib/io/http";
-import { ordEventDate } from "@helpers/event";
+import { eventDate, ordEventDate } from "@helpers/event";
 import { formatDate } from "@utils/date";
 import { Group } from "@vx/group";
 import { HeatmapCircle } from "@vx/heatmap";
@@ -95,12 +95,12 @@ const CalendarHeatmapComponent: React.FC<
       () => null,
       ({ events, firstEvent, lastEvent }) => {
         const bucketSizeMax = 52; // week in year
-        const firstEventDate = firstEvent.date;
+        const firstEventDate = eventDate(firstEvent);
         const eventsWithDiff = events.map((e) => ({
           ...e,
           days: differenceInDays(
-            e.date,
-            firstEvent.date
+            eventDate(e),
+            eventDate(firstEvent)
           ),
         }));
 
@@ -125,7 +125,7 @@ const CalendarHeatmapComponent: React.FC<
                     bin: n,
                     count: 0,
                     event: O.some(e),
-                    date: e.date,
+                    date: eventDate(e),
                     stroke: O.some("#c33bff"),
                   };
                 }

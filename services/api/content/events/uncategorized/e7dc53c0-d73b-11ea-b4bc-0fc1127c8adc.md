@@ -6,7 +6,7 @@ type: Uncategorized
 topics:
   - cd04ec80-d757-11ea-83c3-43a36ca50240
 links:
-  - https://www.coni.it/it/news/primo-piano/16780-milano-cortina-2026,-costituita-la-fondazione-che-organizzer%C3%A0-i-giochi.html
+  - https://www.coni.it/it/news/primo-piano/16780-milano-cortina-2026-costituita-la-fondazione-che-organizzer%C3%A0-i-giochi.html
 updatedAt: 2020-10-22T07:56:17.196Z
 createdAt: 2020-10-22T07:56:17.355Z
 ---

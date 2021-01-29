@@ -12,15 +12,26 @@ import { isByActor } from "./actor";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
-export const eventsDataToNavigatorItems = (
-  events: Events.Event[]
-): Item[] => {
+export const eventDate = (e: Events.Event): Date => {
+  switch (e.type) {
+    case "Uncategorized": {
+      return e.startDate;
+    }
+    case "Protest": {
+      return e.date;
+    }
+    default:
+      return e.date;
+  }
+};
+
+export const eventsDataToNavigatorItems = (events: Events.Event[]): Item[] => {
   const initial: EventsByYearMap = Map.empty;
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
     const frontmatter = e;
-    const year = frontmatter.date.getFullYear();
-    const month = frontmatter.date.getUTCMonth();
+    const year = eventDate(frontmatter).getFullYear();
+    const month = eventDate(frontmatter).getUTCMonth();
 
     const value = pipe(
       Map.lookup(Eq.eqNumber)(year, acc),
@@ -101,9 +112,9 @@ export const filterMetadataForActor = (actor: Actor.ActorFrontmatter) => (
   }
 };
 
-export const filterMetadataFroProject = (
-  project: Project.Project
-) => (metadata: Events.Event): boolean => {
+export const filterMetadataFroProject = (project: Project.Project) => (
+  metadata: Events.Event
+): boolean => {
   switch (metadata.type) {
     // case "ProjectTransaction":
     //   return metadata.project.id === project.id;
@@ -127,7 +138,7 @@ export const filterMetadataFroProject = (
 
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
-  (e: Events.Event) => e.date
+  (e: Events.Event) => eventDate(e)
 );
 
 const colorMap: Record<Events.Event["type"], string> = {
@@ -166,7 +177,7 @@ export const eventsInDateRange = (props: EventsInDateRangeProps) => (
         O.alt(() =>
           pipe(
             A.last(orderedEvents),
-            O.map((e) => e.date)
+            O.map((e) => eventDate(e))
           )
         ),
         O.getOrElse(() => subWeeks(new Date(), 1))
@@ -177,7 +188,7 @@ export const eventsInDateRange = (props: EventsInDateRangeProps) => (
         O.alt(() =>
           pipe(
             A.head(orderedEvents),
-            O.map((e) => e.date)
+            O.map(eventDate)
           )
         ),
         O.getOrElse(() => new Date())
@@ -187,7 +198,7 @@ export const eventsInDateRange = (props: EventsInDateRangeProps) => (
     },
     ({ events, minDate, maxDate }) => {
       return A.array.filter(events, (e) =>
-        Ord.between(Ord.ordDate)(minDate, maxDate)(e.date)
+        Ord.between(Ord.ordDate)(minDate, maxDate)(eventDate(e))
       );
     }
   );
