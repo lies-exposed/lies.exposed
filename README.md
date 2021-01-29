@@ -1,8 +1,10 @@
 # ECOnnessione
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/afcdb4f9-1027-4d05-b59a-4a8dfa473808/deploy-status)](https://app.netlify.com/sites/econnessione/deploys)
 ![GitHub issues](https://img.shields.io/github/issues/ascariandrea/econnessione)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/ascariandrea/econnessione)
+![GitHub Workflow Tests Spec Status](https://img.shields.io/github/workflow/status/ascariandrea/econnessione/tests-spec)
+![GitHub Workflow Tests E2E Status](https://img.shields.io/github/workflow/status/ascariandrea/econnessione/tests-e2e)
+
 
 ---
 
