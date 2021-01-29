@@ -6,7 +6,7 @@ on:
       # - tests-lint
       - tests-e2e
     types:
-      - completed
+      - success
     branches:
       - feat/v0.1.0
 
@@ -36,10 +36,5 @@ jobs:
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
       - name: Deploy Admin Web to DO Space
-        run: aws s3 cp ./services/admin-web/build ${{ secrets. }} --recursive
+        run: aws s3 sync ./services/admin-web/build s3://econnessione-alpha.digitalocean.com/admin
