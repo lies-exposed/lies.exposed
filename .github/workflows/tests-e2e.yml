@@ -16,15 +16,16 @@ jobs:
       postgres:
         image: postgres:12
         env:
-          POSTGRES_USERNAME: econnessione
+          POSTGRES_USER: econnessione
           POSTGRES_PASSWORD: econnessione-password
-          POSTGRES_DATABASE: econnessione-test
-          POSTGRES_PORT: 9432
+          POSTGRES_DB: econnessione-test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 9432:5432
 
     steps:
       - uses: actions/checkout@v2
@@ -49,4 +50,4 @@ jobs:
         run: yarn build:packages
 
       - name: Run tests E2E
-        run: yarn test:e2e
+        run: yarn test:e2e --ci --forceExit
