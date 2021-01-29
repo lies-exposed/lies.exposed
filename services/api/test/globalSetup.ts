@@ -5,7 +5,6 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { ENV } from "../src/io/ENV";
-import { GetDockerContainer } from "./startContainer";
 
 export default async (): Promise<void> => {
   try {
@@ -26,35 +25,35 @@ export default async (): Promise<void> => {
           if (env.NODE_ENV === "test") {
             moduleLogger.info.log("Checking containers...");
 
-            const useDockerContainer = GetDockerContainer(moduleLogger);
-            const VOLUME_DATA = "db-data";
+            // const useDockerContainer = GetDockerContainer(moduleLogger);
+            // const VOLUME_DATA = "db-data";
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (global as any).__DB_TEST_CONTAINER__ = await useDockerContainer({
-              name: "econnessione-db-test",
-              Image: "postgres:12",
-              ExposedPorts: {
-                "5432/tcp": {},
-              },
-              Env: [
-                `POSTGRES_DB=${env.DB_DATABASE}`,
-                `POSTGRES_USER=${env.DB_USERNAME}`,
-                `POSTGRES_PASSWORD=${env.DB_PASSWORD}`,
-              ],
-              Volumes: {
-                "/var/lib/postgresql/data": {},
-              },
-              HostConfig: {
-                Binds: [`${VOLUME_DATA}:/var/lib/postgresql/data`],
-                PortBindings: {
-                  "5432/tcp": [
-                    {
-                      HostPort: `${env.DB_PORT}`,
-                    },
-                  ],
-                },
-              },
-            });
+            // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // (global as any).__DB_TEST_CONTAINER__ = await useDockerContainer({
+            //   name: "econnessione-db-test",
+            //   Image: "postgres:12",
+            //   ExposedPorts: {
+            //     "5432/tcp": {},
+            //   },
+            //   Env: [
+            //     `POSTGRES_DB=${env.DB_DATABASE}`,
+            //     `POSTGRES_USER=${env.DB_USERNAME}`,
+            //     `POSTGRES_PASSWORD=${env.DB_PASSWORD}`,
+            //   ],
+            //   Volumes: {
+            //     "/var/lib/postgresql/data": {},
+            //   },
+            //   HostConfig: {
+            //     Binds: [`${VOLUME_DATA}:/var/lib/postgresql/data`],
+            //     PortBindings: {
+            //       "5432/tcp": [
+            //         {
+            //           HostPort: `${env.DB_PORT}`,
+            //         },
+            //       ],
+            //     },
+            //   },
+            // });
 
             // const STORAGE_DATA_VOLUME = "minio-data";
 

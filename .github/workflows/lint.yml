@@ -3,12 +3,11 @@ name: lint
 on:
   pull_request:
     branches:
-      - release/alpha
+      # - release/alpha
       - master
     paths:
       - 'packages/**'
       - 'services/api/**'
-      - '.github/workflows/api.yml'
 
 jobs:
   lint:
