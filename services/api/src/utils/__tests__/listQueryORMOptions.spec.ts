@@ -1,6 +1,6 @@
 import * as O from "fp-ts/lib/Option";
 import { Like } from "typeorm";
-import { FilterQuery, GetListQuery } from "../../endpoints/Query";
+import { FilterQuery, GetListQuery } from "@econnessione/shared/lib/endpoints/Query";
 import { getORMOptions } from "../listQueryToORMOptions";
 
 describe("ORM utils V2", () => {
