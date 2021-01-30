@@ -24,40 +24,45 @@ describe("Create Actor", () => {
     await ctx.db.close()();
   });
 
-  test("Should create actor", async () => {
-    await req
-      .post("/v1/actors")
-      .send({
-        username: tests.fc.sample(tests.fc.string(), 1)[0],
-        avatar: "http://myavatar-url.com/",
-        color: "ffffff",
-        fullName: "Andrea Ascari",
-        body: "my content",
-      })
-      .expect(201);
-  });
-
   test.skip("Should return a 401", async () => {
-    await req
-      .post("/v1/actors")
-      .send({
-        avatar: "http://myavatar-url.com/",
-        color: "ffffff",
-        fullName: "Andrea Ascari",
-        body: "my content",
-      })
-      .expect(401);
+    const response = await req.post("/v1/actors").send({
+      username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
+      avatar: "http://myavatar-url.com/",
+      color: "ffffff",
+      fullName: "Andrea Ascari",
+      body: "my content",
+    });
+
+    expect(response.status).toEqual(401);
   });
 
-  test("Should return a 400", async () => {
-    await req
+  test.only("Should return a 400", async () => {
+    const response = await req
       .post("/v1/actors")
+      .set("Authorization", "code")
       .send({
         avatar: "http://myavatar-url.com/",
         color: "ffffff",
         fullName: "Andrea Ascari",
         body: "my content",
-      })
-      .expect(400);
+      });
+
+    expect(response.status).toEqual(400);
   });
+
+  test("Should create actor", async () => {
+    const response = await req
+      .post("/v1/actors")
+      .set("Authorization", "code")
+      .send({
+        username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
+        avatar: "http://myavatar-url.com/",
+        color: "ffffff",
+        fullName: "Andrea Ascari",
+        body: "my content",
+      });
+
+    expect(response.status).toEqual(201);
+  });
+
 });

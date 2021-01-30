@@ -6,7 +6,7 @@ on:
       - release/alpha
   pull_request:
     branches:
-      # - release/alpha
+      - release/alpha
       - master
     paths:
       - 'packages/**'
