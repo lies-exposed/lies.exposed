@@ -5,7 +5,7 @@ on:
     workflows:
       - tests-e2e
     types:
-      - completed
+      - success
     branches:
       - release/alpha
 
