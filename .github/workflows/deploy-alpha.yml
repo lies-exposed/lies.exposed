@@ -5,9 +5,9 @@ on:
     workflows:
       - tests-e2e
     types:
-      - success
+      - completed
     branches:
-      - release/qa
+      - release/alpha
 
 jobs:
 
