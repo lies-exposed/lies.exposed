@@ -163,9 +163,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // errors
 
-  app.use("/v1", router);
-
-  app.use(function (err: any, req: any, res: any) {
+  app.use("/v1", router,  (err: any, req: any, res: any) => {
     // eslint-disable-next-line no-console
     console.log("error", err);
     if (err.details.kind === "DecodingError") {
@@ -203,6 +201,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
     res.status(500).send(err);
   });
+
 
   return app;
 };

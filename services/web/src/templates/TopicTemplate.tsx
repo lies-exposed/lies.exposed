@@ -29,7 +29,9 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
 }) => {
   return pipe(
     sequenceS(E.either)({
-      events: t.array(Events.Uncategorized.Uncategorized).decode(data.events.nodes),
+      events: t
+        .array(Events.Uncategorized.Uncategorized)
+        .decode(data.events.nodes),
       pageContent: Topic.TopicMD.decode(data.pageContent.childMdx),
     }),
     E.fold(throwValidationErrors, ({ pageContent, events }) => {
@@ -38,7 +40,11 @@ const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps>
           <SEO title={pageContent.frontmatter.label} />
           <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
             <TopicPageContent {...pageContent} />
-            <EventList events={A.sort(Ord.getDualOrd(ordEventDate))(events)} />
+            <EventList
+              events={A.sort(Ord.getDualOrd(ordEventDate))(events)}
+              actors={[]}
+              groups={[]}
+            />
           </ContentWithSideNavigation>
         </Layout>
       );

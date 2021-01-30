@@ -68,8 +68,8 @@ export const APIClient = (ctx: APIClientCtx): APIClient => {
   return {
     get: (url, params) =>
       liftClientRequest(() => client.get(url, { params }))(),
-    getOne: (resource, params) =>
-      liftClientRequest<RA.GetOneResult<any>>(() =>
+    getOne: <R extends RA.Record>(resource: string, params: RA.GetOneParams) =>
+      liftClientRequest<RA.GetOneResult<R>>(() =>
         client.get(`${resource}/${params.id}`)
       )(),
     getList: (resource, params) => {

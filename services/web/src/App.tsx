@@ -2,7 +2,7 @@ import { Footer } from "@components/Footer";
 import Header from "@components/Header";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";
-import ArticleTemplate from '@templates/ArticleTemplate';
+import ArticleTemplate from "@templates/ArticleTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
 import theme from "@theme/CustomeTheme";
@@ -23,6 +23,7 @@ import ActorsPage from "./pages/actors";
 import AreasPage from "./pages/areas";
 import GroupsPage from "./pages/groups";
 import ProjectPage from "./pages/project";
+import EventTemplate from "@templates/EventTemplate";
 
 export const App: React.FC = () => {
   const engine = new Styletron();
@@ -33,6 +34,7 @@ export const App: React.FC = () => {
           <FlexGridItem width="100%" minHeight="100%" flexDirection="column">
             <Header />
             <Router>
+              <EventTemplate path="/events/:eventId" />
               <EventsPage path="/events" />
               <DocsPage path="/docs" />
               <ProjectTemplate path="/projects/:projectId" />

@@ -31,7 +31,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
         body: {
           data,
           total,
-        } as any,
+        },
         statusCode: 200,
       }))
     );

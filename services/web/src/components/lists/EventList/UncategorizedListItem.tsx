@@ -78,16 +78,28 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 alignItems="flex-end"
                 flexDirection="column"
               >
-                <GroupList
-                  groups={groups.map((g) => ({
-                    ...g,
-                    selected: false,
-                  }))}
-                  onGroupClick={async (group) => {
-                    // await navigate(`/groups/${group.id}`)
-                  }}
-                  avatarScale="scale1000"
-                />
+                {pipe(
+                  item.groups,
+                  O.fromPredicate((arr) => arr.length > 0),
+                  O.map((groupIds) =>
+                    groups.filter((a) => groupIds.includes(a.id))
+                  ),
+                  O.fold(
+                    () => null,
+                    (groups) => (
+                      <GroupList
+                        groups={groups.map((g) => ({
+                          ...g,
+                          selected: false,
+                        }))}
+                        onGroupClick={async (group) => {
+                          // await navigate(`/groups/${group.id}`)
+                        }}
+                        avatarScale="scale1000"
+                      />
+                    )
+                  )
+                )}
               </FlexGridItem>
               <FlexGridItem
                 display="flex"

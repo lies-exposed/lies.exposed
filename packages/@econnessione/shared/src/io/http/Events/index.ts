@@ -23,7 +23,7 @@ export const Event = t.union(
     PublicAnnouncement.PublicAnnouncement,
     Uncategorized.Uncategorized,
   ],
-  "EventFrontmatter"
+  "Event"
 );
 export type Event = t.TypeOf<typeof Event>;
 

@@ -7,6 +7,8 @@ import { UncategorizedListItem } from "./UncategorizedListItem";
 
 export interface EventListProps {
   events: Events.Event[];
+  actors: Actor.Actor[]
+  groups: Group.Group[]
 }
 
 const EventList: React.FC<EventListProps> = (props) => {
@@ -15,20 +17,13 @@ const EventList: React.FC<EventListProps> = (props) => {
       {pipe(
         props.events,
         A.map((event) => {
-          // eslint-disable-next-line
-          console.log(
-            PathReporter.report(
-              Events.Uncategorized.Uncategorized.decode(event),
-            ),
-            Events.Uncategorized.Uncategorized.is(event)
-          );
           if (Events.Uncategorized.Uncategorized.is(event)) {
             return (
               <UncategorizedListItem
                 key={event.id}
                 item={event}
-                actors={[]}
-                groups={[]}
+                actors={props.actors}
+                groups={props.groups}
                 topics={[]}
               />
             );

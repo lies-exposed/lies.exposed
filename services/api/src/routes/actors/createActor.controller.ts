@@ -7,14 +7,14 @@ import { ActorEntity } from "../../entities/Actor.entity";
 import { toActorIO } from "./actor.io";
 
 export const MakeCreateActorRoute: Route = (r, { db, logger }) => {
-  AddEndpoint(r)(endpoints.Actor.Create, ({ body, headers }) => {
+  AddEndpoint(r, )(endpoints.Actor.Create, ({ body, headers }) => {
     logger.debug.log("Headers %O", { headers, body });
 
     return pipe(
       db.save(ActorEntity, [body]),
-      TE.chain(([page]) =>
+      TE.chain(([actor]) =>
         db.findOneOrFail(ActorEntity, {
-          where: { id: page.id },
+          where: { id: actor.id },
           loadRelationIds: true,
         })
       ),

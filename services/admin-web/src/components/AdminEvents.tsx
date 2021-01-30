@@ -26,6 +26,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
+import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./MarkdownInput";
 
 const RESOURCE = "events";
@@ -41,7 +42,7 @@ export const EventList: React.FC<ListProps> = (props) => (
       </ReferenceArrayField>
       <ReferenceArrayField source="groups" reference="groups">
         <SingleFieldList>
-          <ChipField source="fullName" />
+          <ImageField source="avatar" />
         </SingleFieldList>
       </ReferenceArrayField>
       <DateField source="startDate" />
@@ -67,29 +68,32 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
+      <FormTab label="Location">
+        <MapInput source="location" />
+      </FormTab>
       <FormTab label="Actors">
         <ReferenceArrayInput source="actors" reference="actors">
           <SelectArrayInput optionText="fullName" />
         </ReferenceArrayInput>
-        <ArrayField source="actors">
+        <ReferenceArrayField source="actors" reference="actors">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="fullName" />
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
-        </ArrayField>
+        </ReferenceArrayField>
       </FormTab>
       <FormTab label="Groups">
         <ReferenceArrayInput source="groups" reference="groups">
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
-        <ArrayField source="groups">
+        <ReferenceArrayField source="groups" reference="groups">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
-        </ArrayField>
+        </ReferenceArrayField>
       </FormTab>
       <FormTab label="Images">
         <ArrayField source="images">

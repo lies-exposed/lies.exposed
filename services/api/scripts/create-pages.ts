@@ -121,6 +121,7 @@ const toEvent = (data: any): any => {
       : [],
     startDate: data.startDate
       ? data.startDate.toISOString()
+      : data.date ? data.date.toISOString()
       : new Date().toISOString(),
     endDate: data.endDate ? data.endDate.toISOString() : undefined,
     createdAt: data.createdAt.toISOString(),

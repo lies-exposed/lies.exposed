@@ -32,8 +32,6 @@ export const URL = t.brand(
           return () => false;
         },
         (match) => {
-          // eslint-disable-next-line no-console
-          console.log(`Url match ${url}`, match);
           return () => true;
         }
       )
