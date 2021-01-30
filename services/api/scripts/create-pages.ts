@@ -90,10 +90,21 @@ const toProject = (data: any): any => {
 const toEvent = (data: any): any => {
   return {
     ...data,
+    actors: data.actors ? data.actors.map((a: any) => {
+      const actor = new ActorEntity()
+      actor.id = a;
+      return actor
+    }): [],
+    groups: data.groups ? data.groups.map((g: any) => {
+      const group = new GroupEntity()
+      group.id = g;
+      return group
+    }): [],
     links: data.links
       ? data.links.map((l: string) => {
           const link = new EventLinkEntity();
           link.id = uuid();
+          link.description = l;
           link.url = l;
           return link;
         })
@@ -112,8 +123,6 @@ const toEvent = (data: any): any => {
       ? data.startDate.toISOString()
       : new Date().toISOString(),
     endDate: data.endDate ? data.endDate.toISOString() : undefined,
-    actors: data.actors ?? [],
-    groups: data.groups ?? [],
     createdAt: data.createdAt.toISOString(),
     updatedAt: data.updatedAt.toISOString(),
   };

@@ -27,10 +27,10 @@ export class EventEntity {
   @Column({ type: "timestamptz", nullable: true })
   endDate: Date | null;
 
-  @OneToMany(() => EventLinkEntity, (e) => e.event)
+  @OneToMany(() => EventLinkEntity, (e) => e.event, { cascade: true })
   links: EventLinkEntity[];
 
-  @OneToMany(() => EventImageEntity, (e) => e.event)
+  @OneToMany(() => EventImageEntity, (e) => e.event, { cascade: true })
   images: EventImageEntity[];
 
   @ManyToMany(() => GroupEntity, (a) => a.events)

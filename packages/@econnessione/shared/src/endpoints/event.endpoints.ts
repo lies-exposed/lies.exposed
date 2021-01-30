@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
 import { Output, GetListOutput } from "../io/http/Common";
+import { GetListQuery } from "./Query";
 
 const SingleEventOutput = Output(http.Events.Event, "Event");
 
@@ -9,7 +10,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/events",
   Input: {
-    Query: undefined,
+    Query: { ...GetListQuery.props },
   },
   Output: GetListOutput(http.Events.Event, "ListEvent"),
 });

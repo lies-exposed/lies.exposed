@@ -1,4 +1,4 @@
-import { Events } from "@econnessione/shared/lib/io/http";
+import { Actor, Events, Group } from "@econnessione/shared/lib/io/http";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
