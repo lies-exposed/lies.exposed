@@ -11,6 +11,7 @@ export const toEventIO = (
     io.http.Events.Event.decode({
       ...event,
       type: "Uncategorized",
+      location: event.location ? event.location : undefined,
       topics: [],
       startDate: event.startDate.toISOString(),
       endDate: event.endDate ? event.endDate.toISOString() : undefined,

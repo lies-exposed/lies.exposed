@@ -27,6 +27,9 @@ export class EventEntity {
   @Column({ type: "timestamptz", nullable: true })
   endDate: Date | null;
 
+  @Column({ type: 'json', nullable: true })
+  location: { type: 'Point', coordinates: [number, number ]}
+
   @OneToMany(() => EventLinkEntity, (e) => e.event, { cascade: true })
   links: EventLinkEntity[];
 

@@ -35,6 +35,7 @@ export const EventList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <TextField source="title" />
+      <TextField source="location.coordinates"/>
       <ReferenceArrayField source="actors" reference="actors">
         <SingleFieldList>
           <ChipField source="fullName" />
@@ -121,6 +122,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Event" {...props}>
     <SimpleForm>
       <TextInput source="title" />
+      <MapInput source="location" />
       <DateInput
         source="startDate"
         validation={[required()]}

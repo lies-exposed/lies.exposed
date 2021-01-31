@@ -90,6 +90,7 @@ const toProject = (data: any): any => {
 const toEvent = (data: any): any => {
   return {
     ...data,
+    location: data.location ? JSON.parse(data.location) : undefined,
     actors: data.actors ? data.actors.map((a: any) => {
       const actor = new ActorEntity()
       actor.id = a;

@@ -31,9 +31,7 @@ export const URL = t.brand(
           console.error("An error occured", e);
           return () => false;
         },
-        (match) => {
-          return () => true;
-        }
+        (match) =>  () => match
       )
     )(),
   "URL"

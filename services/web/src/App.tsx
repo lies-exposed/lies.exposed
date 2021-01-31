@@ -3,6 +3,7 @@ import Header from "@components/Header";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";
 import ArticleTemplate from "@templates/ArticleTemplate";
+import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
 import theme from "@theme/CustomeTheme";
@@ -23,7 +24,6 @@ import ActorsPage from "./pages/actors";
 import AreasPage from "./pages/areas";
 import GroupsPage from "./pages/groups";
 import ProjectPage from "./pages/project";
-import EventTemplate from "@templates/EventTemplate";
 
 export const App: React.FC = () => {
   const engine = new Styletron();

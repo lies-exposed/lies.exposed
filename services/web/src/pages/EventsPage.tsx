@@ -18,7 +18,7 @@ import {
   actorsList,
   eventsList,
   groupsList,
-  pageContentByPath
+  pageContentByPath,
 } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import theme from "@theme/CustomeTheme";
@@ -330,18 +330,22 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                     </FlexGrid>
                   }
                 >
-                  <Helmet>
-                    <SEO title={page.title} />
-                  </Helmet>
-                  <FlexGridItem width="100%">
-                    <MainContent>
+                  <MainContent>
+                    <Helmet>
+                      <SEO title={page.title} />
+                    </Helmet>
+                    <FlexGridItem width="100%">
                       <PageContent {...page} />
-                    </MainContent>
 
-                    <LabelMedium>Nº Eventi: {totalEvents}</LabelMedium>
-                  </FlexGridItem>
-                  <EventsMap events={events} width={600} height={400} />
-                  <EventList events={events} actors={actors} groups={groups} />
+                      <LabelMedium>Nº Eventi: {totalEvents}</LabelMedium>
+                      <EventsMap events={events} width={600} height={400} />
+                      <EventList
+                        events={events}
+                        actors={actors}
+                        groups={groups}
+                      />
+                    </FlexGridItem>
+                  </MainContent>
                 </ContentWithSidebar>
               </FlexGrid>
             );

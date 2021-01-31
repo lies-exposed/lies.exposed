@@ -7,7 +7,7 @@ import VectorLayer from "ol/layer/Vector.js";
 import OSMSource from "ol/source/OSM.js";
 import VectorSource from "ol/source/Vector.js";
 import React from "react";
-import { InputProps, useInput } from "react-admin";
+import { BooleanField, InputProps, useInput } from "react-admin";
 
 const formatOptions = {
   dataProjection: "EPSG:4326",
@@ -27,7 +27,7 @@ export const MapInput: React.FC<InputProps> = (props) => {
     input: { onChange, value, ...inputProps },
   } = useInput(props);
 
-  const field: any = {}
+  const field: any = {};
   // eslint-disable-next-line
   console.log({ value, inputProps });
   const mapContainer = React.createRef<HTMLDivElement>();
@@ -50,16 +50,22 @@ export const MapInput: React.FC<InputProps> = (props) => {
 
     const draw = new Draw({
       source: featuresSource,
-      type: 'Point' as any,
+      type: "Point" as any,
     });
     map.addInteraction(draw);
 
-    const writeOptions = { decimals: 0 };
+    const writeOptions = { decimals: 7 };
     draw.on("drawend", ({ feature }) => {
       featuresSource.clear();
       onChange(format.writeGeometry(feature.getGeometry(), writeOptions));
     });
   });
 
-  return  <div className={"map-input"} ref={mapContainer} style={{ height: 300, width: 600 }} />;
+  return (
+    <div
+      className={"map-input"}
+      ref={mapContainer}
+      style={{ height: 300, width: 600 }}
+    />
+  );
 };

@@ -36,16 +36,18 @@ describe("Create Actor", () => {
     expect(response.status).toEqual(401);
   });
 
-  test.only("Should return a 400", async () => {
+  test.skip("Should return a 400", async () => {
     const response = await req
       .post("/v1/actors")
-      .set("Authorization", "code")
+      // .set("Authorization", "code")
       .send({
         avatar: "http://myavatar-url.com/",
         color: "ffffff",
         fullName: "Andrea Ascari",
         body: "my content",
       });
+
+    console.log(response.body)
 
     expect(response.status).toEqual(400);
   });

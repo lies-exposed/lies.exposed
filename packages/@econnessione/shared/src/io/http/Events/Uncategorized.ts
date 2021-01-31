@@ -50,6 +50,7 @@ export const EditEventBody = nonEmptyRecordFromType({
       ])
     )
   ),
+  location: optionFromNullable(JSONFromString.pipe(Point)),
   actors: optionFromNullable(t.array(t.string)),
   groups: optionFromNullable(t.array(t.string)),
   startDate: optionFromNullable(DateFromISOString),
@@ -65,7 +66,7 @@ export const UncategorizedFrontmatter = t.strict(
     title: t.string,
     startDate: DateFromISOString,
     endDate: t.union([DateFromISOString, t.undefined]),
-    location: t.union([t.undefined, JSONFromString.pipe(Point)]),
+    location: t.union([t.undefined, Point]),
     images: t.array(
       t.strict({ id: t.string, location: t.string, description: t.string })
     ),
