@@ -1,11 +1,7 @@
 name: Deploy Alpha
 
 on:
-  workflow_run:
-    workflows:
-      - tests-e2e
-    types:
-      - success
+  push:
     branches:
       - release/alpha
 
