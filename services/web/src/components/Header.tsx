@@ -140,11 +140,11 @@ export const mainMenu: MenuItem[] = [
       //   href: "/topics",
       //   label: "Topics",
       // },
-      // {
-      //   id: "areas",
-      //   href: "/areas",
-      //   label: "Aree",
-      // },
+      {
+        id: "areas",
+        href: "/areas",
+        label: "Aree",
+      },
       {
         id: "projects",
         href: "/projects",
