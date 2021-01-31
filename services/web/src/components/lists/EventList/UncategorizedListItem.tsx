@@ -4,6 +4,8 @@ import ActorList from "@components/lists/ActorList";
 import GroupList from "@components/lists/GroupList";
 import TopicList from "@components/lists/TopicList";
 import { Actor, Events, Group, Topic } from "@econnessione/shared/lib/io/http";
+import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { eventDate } from "@helpers/event";
 import { formatDate } from "@utils/date";
 import { Accordion, Panel } from "baseui/accordion";
@@ -71,6 +73,13 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     return undefined;
                   }}
                 />
+                {pipe(
+                  O.fromNullable(item.location),
+                  O.fold(
+                    () => null,
+                    () => <FontAwesomeIcon icon={faMapMarker} />
+                  )
+                )}
               </FlexGridItem>
               <FlexGridItem
                 display="flex"
@@ -78,16 +87,28 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 alignItems="flex-end"
                 flexDirection="column"
               >
-                <GroupList
-                  groups={groups.map((g) => ({
-                    ...g,
-                    selected: false,
-                  }))}
-                  onGroupClick={async (group) => {
-                    // await navigate(`/groups/${group.id}`)
-                  }}
-                  avatarScale="scale1000"
-                />
+                {pipe(
+                  item.groups,
+                  O.fromPredicate((arr) => arr.length > 0),
+                  O.map((groupIds) =>
+                    groups.filter((a) => groupIds.includes(a.id))
+                  ),
+                  O.fold(
+                    () => null,
+                    (groups) => (
+                      <GroupList
+                        groups={groups.map((g) => ({
+                          ...g,
+                          selected: false,
+                        }))}
+                        onGroupClick={async (group) => {
+                          // await navigate(`/groups/${group.id}`)
+                        }}
+                        avatarScale="scale1000"
+                      />
+                    )
+                  )
+                )}
               </FlexGridItem>
               <FlexGridItem
                 display="flex"

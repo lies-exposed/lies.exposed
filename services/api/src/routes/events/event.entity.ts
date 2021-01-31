@@ -1,5 +1,5 @@
-import { ActorEntity } from "@routes/actors/actor.entity";
-import { GroupEntity } from "@routes/groups/group.entity";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import {
   Column,
   CreateDateColumn,
@@ -15,7 +15,6 @@ import { EventLinkEntity } from "./EventLink.entity";
 
 @Entity("event")
 export class EventEntity {
-
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -28,10 +27,13 @@ export class EventEntity {
   @Column({ type: "timestamptz", nullable: true })
   endDate: Date | null;
 
-  @OneToMany(() => EventLinkEntity, (e) => e.event)
+  @Column({ type: 'json', nullable: true })
+  location: { type: 'Point', coordinates: [number, number ]}
+
+  @OneToMany(() => EventLinkEntity, (e) => e.event, { cascade: true })
   links: EventLinkEntity[];
 
-  @OneToMany(() => EventImageEntity, (e) => e.event)
+  @OneToMany(() => EventImageEntity, (e) => e.event, { cascade: true })
   images: EventImageEntity[];
 
   @ManyToMany(() => GroupEntity, (a) => a.events)

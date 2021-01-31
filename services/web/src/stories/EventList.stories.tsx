@@ -31,7 +31,9 @@ const args: EventListProps = {
       // tableOfContents: O.none,
       // timeToRead: O.none,
     }))
-  )
+  ),
+  actors: [],
+  groups: []
 };
 
 EventListExample.args = args;

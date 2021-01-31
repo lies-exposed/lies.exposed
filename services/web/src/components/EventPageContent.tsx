@@ -87,10 +87,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             )
           )
         )}
-        <div className="content">
-          {""}
-          {/* <RenderHTML>{event.body}</RenderHTML> */}
-        </div>
+        <MarkdownRenderer>{event.body}</MarkdownRenderer>
       </FlexGridItem>
     </FlexGrid>
   );

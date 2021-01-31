@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   ArrayField,
   ArrayInput,
+  ChipField,
   Create,
   CreateProps,
   Datagrid,
@@ -14,15 +15,18 @@ import {
   ImageInput,
   List,
   ListProps,
+  ReferenceArrayField,
   ReferenceArrayInput,
   required,
   SelectArrayInput,
   SimpleForm,
   SimpleFormIterator,
+  SingleFieldList,
   TabbedForm,
   TextField,
   TextInput,
 } from "react-admin";
+import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./MarkdownInput";
 
 const RESOURCE = "events";
@@ -31,6 +35,17 @@ export const EventList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <TextField source="title" />
+      <TextField source="location.coordinates"/>
+      <ReferenceArrayField source="actors" reference="actors">
+        <SingleFieldList>
+          <ChipField source="fullName" />
+        </SingleFieldList>
+      </ReferenceArrayField>
+      <ReferenceArrayField source="groups" reference="groups">
+        <SingleFieldList>
+          <ImageField source="avatar" />
+        </SingleFieldList>
+      </ReferenceArrayField>
       <DateField source="startDate" />
       <DateField source="endDate" />
       <DateField source="updatedAt" />
@@ -54,29 +69,32 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
+      <FormTab label="Location">
+        <MapInput source="location" />
+      </FormTab>
       <FormTab label="Actors">
         <ReferenceArrayInput source="actors" reference="actors">
           <SelectArrayInput optionText="fullName" />
         </ReferenceArrayInput>
-        <ArrayField source="actors">
+        <ReferenceArrayField source="actors" reference="actors">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="fullName" />
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
-        </ArrayField>
+        </ReferenceArrayField>
       </FormTab>
       <FormTab label="Groups">
-      <ReferenceArrayInput source="groups" reference="groups">
+        <ReferenceArrayInput source="groups" reference="groups">
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
-        <ArrayField source="groups">
+        <ReferenceArrayField source="groups" reference="groups">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
-        </ArrayField>
+        </ReferenceArrayField>
       </FormTab>
       <FormTab label="Images">
         <ArrayField source="images">
@@ -104,6 +122,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Event" {...props}>
     <SimpleForm>
       <TextInput source="title" />
+      <MapInput source="location" />
       <DateInput
         source="startDate"
         validation={[required()]}

@@ -7,6 +7,7 @@ import { article, articleByPath } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import { FlexGridItem } from "baseui/flex-grid";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -27,10 +28,10 @@ export default class ArticleTemplate extends React.PureComponent<
             queries={{ article: articleByPath }}
             params={{ article: { path: articlePath } }}
             render={QR.fold(Loader, ErrorBox, ({ article }) => (
-              <MainContent>
+              <FlexGridItem display="flex">
                 <SEO title={article.title} />
                 <ArticlePageContent {...article} />
-              </MainContent>
+              </FlexGridItem>
             ))}
           />
         )

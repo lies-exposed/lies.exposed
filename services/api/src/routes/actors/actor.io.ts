@@ -2,7 +2,7 @@ import { io } from "@econnessione/shared";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
-import { ActorEntity } from "./actor.entity";
+import { ActorEntity } from "../../entities/Actor.entity";
 
 export const toActorIO = (
   a: ActorEntity

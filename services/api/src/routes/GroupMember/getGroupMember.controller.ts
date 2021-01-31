@@ -1,23 +1,23 @@
 import { endpoints } from "@econnessione/shared";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
-import { ActorEntity } from "../../entities/Actor.entity";
-import { toActorIO } from "./actor.io";
+import { toGroupMemberIO } from "./groupMember.io";
 
-export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Actor.Get, ({ params: { id } }) => {
+export const MakeGetGroupMemberRoute = (r: Router, ctx: RouteContext): void => {
+  AddEndpoint(r)(endpoints.GroupMember.Get, ({ params: { id } }) => {
     return pipe(
-      ctx.db.findOneOrFail(ActorEntity, {
+      ctx.db.findOneOrFail(GroupMemberEntity, {
         where: { id },
         loadRelationIds: true,
       }),
-      TE.chainEitherK(toActorIO),
-      TE.map((actor) => ({
+      TE.chainEitherK(toGroupMemberIO),
+      TE.map((data) => ({
         body: {
-          data: actor,
+          data,
         },
         statusCode: 200,
       }))

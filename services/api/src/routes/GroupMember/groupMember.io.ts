@@ -2,18 +2,16 @@ import { io } from "@econnessione/shared";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
-import { GroupEntity } from "../../entities/Group.entity";
+import { GroupMemberEntity } from "../../entities/GroupMember.entity";
 
-export const toGroupIO = (
-  group: GroupEntity
-): E.Either<ControllerError, io.http.Group.Group> => {
+export const toGroupMemberIO = (
+  group: GroupMemberEntity
+): E.Either<ControllerError, io.http.GroupMember.GroupMember> => {
   return pipe(
-    io.http.Group.Group.decode({
+    io.http.GroupMember.GroupMember.decode({
       ...group,
-      type: "GroupFrontmatter",
-      avatar: group.avatar === null ? undefined : group.avatar,
-      members: group.members ?? [],
-      subGroups: [],
+      startDate: group.startDate.toISOString(),
+      endDate: group.endDate?.toISOString(),
       createdAt: group.createdAt.toISOString(),
       updatedAt: group.updatedAt.toISOString(),
     }),

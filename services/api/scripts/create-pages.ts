@@ -1,4 +1,16 @@
 import { io } from "@econnessione/shared";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { ControllerError, DecodeError } from "@io/ControllerError";
+import { ENV } from "@io/ENV";
+import * as orm from "@providers/orm";
+import { ArticleEntity } from "@routes/articles/article.entity";
+import { EventEntity } from "@routes/events/event.entity";
+import { EventImageEntity } from "@routes/events/EventImage.entity";
+import { EventLinkEntity } from "@routes/events/EventLink.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { PageEntity } from "@routes/pages/page.entity";
+import { ProjectEntity } from "@routes/projects/project.entity";
 import { uuid } from "@utils/uuid.utils";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -11,17 +23,6 @@ import grayMatter from "gray-matter";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as path from "path";
-import { ControllerError, DecodeError } from "../src/io/ControllerError";
-import { ENV } from "../src/io/ENV";
-import * as orm from "../src/providers/orm";
-import { ActorEntity } from "../src/routes/actors/actor.entity";
-import { ArticleEntity } from "../src/routes/articles/article.entity";
-import { EventEntity } from "../src/routes/events/event.entity";
-import { EventImageEntity } from "../src/routes/events/EventImage.entity";
-import { EventLinkEntity } from "../src/routes/events/EventLink.entity";
-import { GroupEntity } from "../src/routes/groups/group.entity";
-import { PageEntity } from "../src/routes/pages/page.entity";
-import { ProjectEntity } from "../src/routes/projects/project.entity";
 
 const toActor = (data: any): any => {
   return {
@@ -41,9 +42,11 @@ const toGroup = (data: any): any => {
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     avatar: "http://localhost:4010/" + data.avatar.replace("../../static/", ""),
     members: data.members.map((actorId: string) => {
-      const a = new ActorEntity();
-      a.id = actorId;
-      return a;
+      const m = new GroupMemberEntity();
+      const actor = new ActorEntity();
+      actor.id = actorId;
+      m.actor = actor;
+      return m;
     }),
     createdAt: data.createdAt.toISOString(),
     updatedAt: data.updatedAt.toISOString(),
@@ -87,10 +90,22 @@ const toProject = (data: any): any => {
 const toEvent = (data: any): any => {
   return {
     ...data,
+    location: data.location ? JSON.parse(data.location) : undefined,
+    actors: data.actors ? data.actors.map((a: any) => {
+      const actor = new ActorEntity()
+      actor.id = a;
+      return actor
+    }): [],
+    groups: data.groups ? data.groups.map((g: any) => {
+      const group = new GroupEntity()
+      group.id = g;
+      return group
+    }): [],
     links: data.links
       ? data.links.map((l: string) => {
           const link = new EventLinkEntity();
-          link.id = uuid()
+          link.id = uuid();
+          link.description = l;
           link.url = l;
           return link;
         })
@@ -107,10 +122,9 @@ const toEvent = (data: any): any => {
       : [],
     startDate: data.startDate
       ? data.startDate.toISOString()
+      : data.date ? data.date.toISOString()
       : new Date().toISOString(),
     endDate: data.endDate ? data.endDate.toISOString() : undefined,
-    actors: data.actors ?? [],
-    groups: data.groups ?? [],
     createdAt: data.createdAt.toISOString(),
     updatedAt: data.updatedAt.toISOString(),
   };
@@ -189,6 +203,7 @@ const run = (): Promise<void> => {
           PageEntity,
           ActorEntity,
           GroupEntity,
+          GroupMemberEntity,
           ArticleEntity,
           ProjectEntity,
           EventEntity,

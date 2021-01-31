@@ -9,7 +9,8 @@ import { ENV } from "../src/io/ENV";
 export default async (): Promise<void> => {
   try {
     dotenv.config({ path: `${__dirname}/../../../.env.test` });
-    const moduleLogger = logger.GetLogger(__filename);
+    const moduleLogger = logger.GetLogger("tests");
+    moduleLogger.debug.log("Process env %O", process.env);
     return await pipe(
       ENV.decode(process.env),
       E.mapLeft((errs) => {
@@ -97,7 +98,7 @@ export default async (): Promise<void> => {
     )().then((result) => {
       if (E.isLeft(result)) {
         if ((result.left as any).details) {
-          moduleLogger.error.log('Errors %O', (result.left as any).details);
+          moduleLogger.error.log("Errors %O", (result.left as any).details);
         }
         throw result.left;
       }

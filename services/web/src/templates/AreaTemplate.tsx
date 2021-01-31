@@ -47,7 +47,7 @@ const AreaTemplate: React.FC<GroupTemplatePageProps> = ({ data }) => {
               onGroupClick={() => {}}
               onTopicClick={() => {}}
             />
-            <EventList events={events} />
+            <EventList events={events} actors={[]} groups={[]} />
           </MainContent>
         </Layout>
       );

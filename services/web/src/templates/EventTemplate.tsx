@@ -1,71 +1,72 @@
+import { ErrorBox } from "@components/Common/ErrorBox";
+import { Loader } from "@components/Common/Loader";
 import { EventPageContent } from "@components/EventPageContent";
-import { Layout } from "@components/Layout";
+import EventsMap from "@components/EventsMap";
 import { MainContent } from "@components/MainContent";
+import { ProjectPageContent } from "@components/ProjectPageContent";
 import SEO from "@components/SEO";
-import { Events } from "@econnessione/shared/lib/io/http";
-import { renderValidationErrors } from "@utils/renderValidationErrors";
-import * as E from "fp-ts/lib/Either";
+import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata";
+import {
+  actorsList,
+  event,
+  groupsList,
+  project,
+} from "@providers/DataProvider";
+import { RouteComponentProps } from "@reach/router";
+import * as QR from "avenger/lib/QueryResult";
+import { WithQueries } from "avenger/lib/react";
+import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
-// import { navigate } from "gatsby"
-import * as t from "io-ts";
 import React from "react";
 
-interface EventTemplatePageProps {
-  // navigate: typeof navigate
-  // `data` prop will be injected by the GraphQL query below.
-  data: {
-    pageContent: { childMdx: unknown };
-  };
+export default class EventTemplate extends React.PureComponent<
+  RouteComponentProps<{ eventId: string }>
+> {
+  render(): JSX.Element {
+    // eslint-disable-next-line
+    console.log(this.props);
+
+    return pipe(
+      O.fromNullable(this.props.eventId),
+      O.fold(
+        () => <div>Missing event id</div>,
+        (eventId) => (
+          <WithQueries
+            queries={{ event: event, actors: actorsList, groups: groupsList }}
+            params={{
+              event: { id: eventId },
+              actors: {
+                pagination: { perPage: 20, page: 1 },
+                sort: { order: "DESC", field: "id" },
+                filter: {},
+              },
+              groups: {
+                pagination: { perPage: 20, page: 1 },
+                sort: { order: "DESC", field: "id" },
+                filter: {},
+              },
+            }}
+            render={QR.fold(
+              Loader,
+              ErrorBox,
+              ({
+                event,
+                actors: { data: actors },
+                groups: { data: groups },
+              }) => (
+                <MainContent>
+                  <SEO title={event.title} />
+                  <EventPageContent
+                    event={event as any}
+                    actors={actors}
+                    groups={groups}
+                  />
+                </MainContent>
+              )
+            )}
+          />
+        )
+      )
+    );
+  }
 }
-
-const EventTemplate: React.FC<EventTemplatePageProps> = ({ data }) => {
-  return pipe(
-    Events.Event.decode(data.pageContent.childMdx),
-    E.filterOrElse(
-      Events.Uncategorized.Uncategorized.is,
-      (value): t.Errors => [
-        {
-          value,
-          context: [
-            t.getContextEntry("event", Events.Uncategorized.UncategorizedMD),
-          ],
-        },
-      ]
-    ),
-    E.fold(renderValidationErrors, (pageContent) => {
-      return (
-        <Layout>
-          <SEO title={pageContent.title} />
-          {/* <FlexGridItem>
-            <CalendarHeatmap
-              width={1000}
-              height={300}
-              events={events}
-              onCircleClick={async event => {
-                await navigate(`#${event.id}`)
-              }}
-            />
-            </FlexGridItem> */}
-          <MainContent>
-            <EventPageContent event={pageContent} actors={[]} groups={[]} />
-          </MainContent>
-        </Layout>
-      );
-    })
-  );
-};
-
-// export const pageQuery = graphql`
-//   query EventTemplateQuery($eventUUID: String!) {
-//     pageContent: file(
-//       name: { eq: $eventUUID }
-//       sourceInstanceName: { eq: "events" }
-//     ) {
-//       childMdx {
-//         ...EventMD
-//       }
-//     }
-//   }
-// `
-
-export default EventTemplate;

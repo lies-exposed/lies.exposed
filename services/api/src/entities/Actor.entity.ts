@@ -1,13 +1,14 @@
 import { EventEntity } from "@routes/events/event.entity";
-import { GroupEntity } from "@routes/groups/group.entity";
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
+import { GroupMemberEntity } from "./GroupMember.entity";
 
 @Entity("actor")
 export class ActorEntity {
@@ -28,8 +29,8 @@ export class ActorEntity {
   @Column({ type: "varchar", nullable: false })
   color: string;
 
-  @ManyToMany(() => GroupEntity, (g) => g.members)
-  groups: GroupEntity[];
+  @OneToMany(() => GroupMemberEntity, (member) => member.actor)
+  memberIn: GroupMemberEntity[];
 
   @ManyToMany(() => EventEntity, (e) => e.actors)
   events: EventEntity[];

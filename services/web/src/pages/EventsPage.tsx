@@ -2,7 +2,7 @@ import DatePicker from "@components/Common/DatePicker";
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { Loader } from "@components/Common/Loader";
 import { ContentWithSidebar } from "@components/ContentWithSidebar";
-import { Layout } from "@components/Layout";
+import EventsMap from "@components/EventsMap";
 import { MainContent } from "@components/MainContent";
 import { PageContent } from "@components/PageContent";
 import SEO from "@components/SEO";
@@ -13,7 +13,7 @@ import { GroupListItem } from "@components/lists/GroupList";
 import { TopicListItem } from "@components/lists/TopicList";
 import { io } from "@econnessione/shared";
 import { Actor, Group, Topic } from "@econnessione/shared/lib/io/http";
-import { eventDate, eventsDataToNavigatorItems, ordEventDate } from "@helpers/event";
+import { eventDate, ordEventDate } from "@helpers/event";
 import {
   actorsList,
   eventsList,
@@ -28,7 +28,7 @@ import { parseSearch, Routes, updateSearch } from "@utils/routes";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { LabelMedium, LabelSmall } from "baseui/typography";
+import { LabelMedium } from "baseui/typography";
 import { subYears } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -228,7 +228,8 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                     <FlexGrid
                       flexGridColumnCount={1}
                       alignItems="start"
-                      height="300px"
+                      minHeight="300px"
+                      height="100%"
                     >
                       <FlexGridItem display="flex">
                         <DatePicker
@@ -329,19 +330,22 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                     </FlexGrid>
                   }
                 >
-                  <Helmet>
-                    <SEO title={page.title} />
-                  </Helmet>
-                  <FlexGridItem width="100%">
-                    <MainContent>
+                  <MainContent>
+                    <Helmet>
+                      <SEO title={page.title} />
+                    </Helmet>
+                    <FlexGridItem width="100%">
                       <PageContent {...page} />
-                    </MainContent>
 
-                    <LabelMedium>
-                      Nº Eventi: {totalEvents}
-                    </LabelMedium>
-                  </FlexGridItem>
-                  <EventList events={events} />
+                      <LabelMedium>Nº Eventi: {totalEvents}</LabelMedium>
+                      <EventsMap events={events} width={600} height={400} />
+                      <EventList
+                        events={events}
+                        actors={actors}
+                        groups={groups}
+                      />
+                    </FlexGridItem>
+                  </MainContent>
                 </ContentWithSidebar>
               </FlexGrid>
             );

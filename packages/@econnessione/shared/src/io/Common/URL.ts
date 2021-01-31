@@ -31,11 +31,7 @@ export const URL = t.brand(
           console.error("An error occured", e);
           return () => false;
         },
-        (match) => {
-          // eslint-disable-next-line no-console
-          console.log(`Url match ${url}`, match);
-          return () => true;
-        }
+        (match) =>  () => match
       )
     )(),
   "URL"

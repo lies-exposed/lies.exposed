@@ -61,12 +61,12 @@ const Resources = {
   groups: io.http.Group.Group,
   topics: io.http.Topic.TopicMD,
   projects: io.http.Project.Project,
-  events: io.http.Events.Event,
+  events: io.http.Events.Uncategorized.Uncategorized,
 };
 
 const liftFetch = <
   C extends t.Any,
-  R extends GetOneResult<t.TypeOf<C>> | GetListResult<t.TypeOf<C>>
+  R extends GetOneResult<t.TypeOf<C>['data']> | GetListResult<t.TypeOf<C>['data']>
 >(
   lp: () => Promise<R>,
   codec: C
@@ -74,9 +74,6 @@ const liftFetch = <
   return pipe(
     TE.tryCatch(lp, toError),
     TE.chain<APIError, R, t.TypeOf<C>>((content) => {
-      // eslint-disable-next-line
-      console.log(codec, content);
-
       return pipe(
         codec.decode(content),
         E.mapLeft(
@@ -99,14 +96,14 @@ export type GetOneQuery = <K extends keyof typeof Resources>(
 export const GetOneQuery: GetOneQuery = <K extends keyof typeof Resources>(
   r: K
 ) =>
-  queryStrict(
+  queryStrict<GetOneParams, APIError, t.TypeOf<typeof Resources[K]>>(
     (params: GetOneParams) =>
       pipe(
         liftFetch(
           () => dataProvider.getOne<t.TypeOf<typeof Resources[K]>>(r, params),
-          Resources[r]
+          t.strict({ data: Resources[r] })
         ),
-        TE.map((r) => r.data)
+        TE.map((r): t.TypeOf<typeof Resources[K]> => r.data)
       ),
     available
   );
@@ -146,7 +143,7 @@ export const pageContentByPath = queryStrict<
             pagination: { page: 1, perPage: 1 },
             sort: { field: "id", order: "DESC" },
           }),
-          io.http.Common.GetListOutput(io.http.Page.Page, "PageList")
+        io.http.Common.GetListOutput(io.http.Page.Page, "PageList")
       ),
       TE.map((pages) => pages.data[0])
     ),
@@ -172,6 +169,7 @@ export const project = GetOneQuery("projects");
 export const group = GetOneQuery("groups");
 export const actor = GetOneQuery("actors");
 export const article = GetOneQuery("articles");
+export const event = GetOneQuery("events");
 
 export const articleByPath = queryStrict<
   { path: string },
@@ -182,9 +180,9 @@ export const articleByPath = queryStrict<
     pipe(
       liftFetch(
         () => dataProvider.get("/articles", { path }),
-        nonEmptyArray(io.http.Article.Article)
+        io.http.Common.GetListOutput(io.http.Article.Article, "Articles")
       ),
-      TE.map((pages) => pages[0])
+      TE.map((pages) => pages.data[0])
     ),
   available
 );
