@@ -22,10 +22,10 @@ WORKDIR /app/services/api
 RUN yarn build
 
 WORKDIR /app/services/admin-web
-RUN yarn build
+RUN DISABLE_ESLINT_PLUGIN=true yarn build
 
 WORKDIR /app/services/web
-RUN yarn build
+RUN DISABLE_ESLINT_PLUGIN=true yarn build
 
 FROM node:12-slim
 

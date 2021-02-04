@@ -1,20 +1,23 @@
 name: Deploy Alpha
 
 on:
-  workflow_run:
-    workflows:
-      - tests-e2e
-    types:
-      - completed
+  push:
     branches:
-      - release/alpha
+      - fix/docker-build
+  # workflow_run:
+  #   workflows:
+  #     - tests-e2e
+  #   types:
+  #     - completed
+  #   branches:
+  #     - release/alpha
 
 jobs:
 
   deploy-alpha:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v2
@@ -35,39 +38,48 @@ jobs:
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: Build Packages
-        run: yarn build:packages
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: ascariandrea/econnessione/api-alpha
+          tag_with_ref: true
 
-      - name: Build Admin Web
-        run: yarn workspace admin-web build
-        env:
-          PUBLIC_URL: https://econnessione-alpha.fra1.digitaloceanspaces.com/admin/
-          API_URL: https://alpha-api.econnessione.org/
+      # - name: Build Packages
+      #   run: yarn build:packages
 
-      - name: Upload Admin Web build to DO Space
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 sync ./services/admin-web/build s3://econnessione-alpha/admin \
-            --follow-symlinks \
-            --delete \
-            --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read
+      # - name: Build Admin Web
+      #   run: yarn workspace admin-web build
+      #   env:
+      #     PUBLIC_URL: https://econnessione-alpha.fra1.digitaloceanspaces.com/admin/
+      #     API_URL: https://alpha-api.econnessione.org/
 
-      - name: Build Web
-        run: yarn workspace web build
-        env:
-          PUBLIC_URL: https://econnessione-alpha.fra1.digitaloceanspaces.com/web/
-          API_URL: https://alpha-api.econnessione.org/
+      # - name: Upload Admin Web build to DO Space
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
+      #   run: |
+      #     aws s3 sync ./services/admin-web/build s3://econnessione-alpha/admin \
+      #       --follow-symlinks \
+      #       --delete \
+      #       --endpoint https://fra1.digitaloceanspaces.com/ \
+      #       --acl public-read
 
-      - name: Upload Web build to DO Space
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 sync ./services/web/build s3://econnessione-alpha/web \
-            --follow-symlinks \
-            --delete \
-            --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read
+      # - name: Build Web
+      #   run: yarn workspace web build
+      #   env:
+      #     PUBLIC_URL: https://econnessione-alpha.fra1.digitaloceanspaces.com/web/
+      #     API_URL: https://alpha-api.econnessione.org/
+
+      # - name: Upload Web build to DO Space
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
+      #   run: |
+      #     aws s3 sync ./services/web/build s3://econnessione-alpha/web \
+      #       --follow-symlinks \
+      #       --delete \
+      #       --endpoint https://fra1.digitaloceanspaces.com/ \
+      #       --acl public-read
