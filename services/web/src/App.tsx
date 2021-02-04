@@ -49,7 +49,7 @@ export const App: React.FC = () => {
               <ActorTemplate path="/actors/:actorId" />
               <ActorsPage path="/actors" />
               <TheCrisisPage path="/the-crisis" />
-              <IndexPage path="/" />
+              <IndexPage path="/index.html" />
               <NotFoundPage default={true} />
             </Router>
           </FlexGridItem>
