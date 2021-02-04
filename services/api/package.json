@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "clean": "rm -rf build",
-    "start": "node build/run.js",
+    "start": "node -r dotenv/config build/run.js",
     "develop": "DOTENV_CONFIG_PATH=../../.env.local nodemon -r dotenv/config build/run.js",
     "build": "tsc -b",
     "watch": "tsc --watch",

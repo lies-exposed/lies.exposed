@@ -55,4 +55,4 @@ COPY --from=build /app/services/admin-web/build /app/services/admin-web/build
 
 RUN yarn install --pure-lockfile --non-interactive --production
 
-CMD ["yarn", "start"]
+CMD ["yarn", "workspace", "api", "start"]
