@@ -1,7 +1,11 @@
 name: Deploy Alpha
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - tests-e2e
+    types:
+      - completed
     branches:
       - release/alpha
 
@@ -9,6 +13,8 @@ jobs:
 
   deploy-alpha:
     runs-on: ubuntu-latest
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v2
