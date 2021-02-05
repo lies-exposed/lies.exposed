@@ -1,4 +1,5 @@
 FROM node:12-slim as build
+
 WORKDIR /app
 
 COPY packages/@econnessione/core ./packages/@econnessione/core
@@ -54,5 +55,7 @@ COPY --from=build /app/services/admin-web/build /app/services/admin-web/build
 
 
 RUN yarn install --pure-lockfile --non-interactive --production
+
+VOLUME /app/services/api/certs
 
 CMD ["yarn", "workspace", "api", "start"]
