@@ -53,9 +53,10 @@ COPY --from=build /app/services/web/build /app/services/web/build
 COPY --from=build /app/services/admin-web/package.json /app/services/admin-web/package.json
 COPY --from=build /app/services/admin-web/build /app/services/admin-web/build
 
+# COPY node_modules FROM `build` stage
+COPY --from=build /app/node_modules /app/node_modules
+COPY --from=build /app/services/api/node_modules /app/services/api/node_modules
 
-RUN yarn install --pure-lockfile --non-interactive --production
-
-VOLUME /app/services/api/certs
+# RUN yarn install --pure-lockfile --non-interactive --production
 
 CMD ["yarn", "workspace", "api", "start"]
