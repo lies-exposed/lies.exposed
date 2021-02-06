@@ -63,7 +63,7 @@ jobs:
         run: yarn workspace admin-web build
         env:
           PUBLIC_URL: https://alpha.econnessione.org/admin/
-          API_URL: http://alpha.api.econnessione.org:4010
+          REACT_APP_API_URL: http://alpha.api.econnessione.org:4010/v1
 
       - name: Upload Admin Web build to DO Space
         env:
@@ -80,7 +80,7 @@ jobs:
         run: yarn workspace web build
         env:
           PUBLIC_URL: https://econnessione-alpha.fra1.digitaloceanspaces.com/web/
-          API_URL: http://alpha.api.econnessione.org:4010
+          REACT_APP_API_URL: http://alpha.api.econnessione.org:4010/v1
 
       - name: Upload Web build to DO Space
         env:

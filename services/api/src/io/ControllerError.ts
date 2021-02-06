@@ -21,6 +21,17 @@ export class ControllerError extends IOError {
   status: t.TypeOf<typeof APIStatusCode>;
 }
 
+export const BadRequestError = (meta: string): ControllerError => ({
+  name: "BadRequestError",
+  message: `Bad Request`,
+  status: 400,
+  details: {
+    kind: "ClientError",
+    meta
+  },
+});
+
+
 export const NotFoundError = (entityName: string): ControllerError => ({
   name: "NotFoundError",
   message: `Can't find resource ${entityName}`,

@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias")(process.cwd());
-import "reflect-metadata";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import * as fs from "fs";
 import * as path from "path";
@@ -12,7 +11,6 @@ import { GroupMemberEntity } from "@entities/GroupMember.entity";
 // import { fromIOError } from "@io/APIError";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
-import { GetJWTClient } from "@providers/jwt/JWTClient";
 import { GetMDXClient } from "@providers/mdx";
 import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
@@ -32,7 +30,6 @@ import { ProjectEntity } from "@routes/projects/project.entity";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
-import { UserEntity } from "@routes/users/User.entity";
 import * as AWS from "aws-sdk";
 import cors from "cors";
 import express from "express";
@@ -42,9 +39,9 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import "reflect-metadata";
 // import { IOError } from "ts-shared/lib/errors";
 import { EventImageEntity } from "./routes/events/EventImage.entity";
-import { MakeUserRoutes } from "./routes/users/User.routes";
 
 // var whitelist = ["http://localhost:8002"]
 var corsOptions: cors.CorsOptions = {
@@ -94,7 +91,6 @@ export const makeContext = (
             EventEntity,
             EventImageEntity,
             EventLinkEntity,
-            UserEntity,
           ],
           synchronize: true,
           ssl: ssl,
@@ -123,9 +119,6 @@ export const makeContext = (
             contentBasePath: path.join(process.cwd(), "content"),
           })
         ),
-        jwt: TE.right(
-          GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
-        ),
         env: TE.right(env),
       });
     }),
@@ -142,22 +135,11 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   app.use(cors(corsOptions) as any);
   app.use(express.json({ limit: 1024 * 1000 }));
-  app.use(
-    jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
-      path: [
-        { url: "/v1/users/login", method: "POST" },
-        { url: "/v1/users", method: "POST" },
-        { url: '/v1/pages', method: "GET" },
-      ],
-    })
-  );
+  app.use(jwt({ secret: ctx.env.API_SECRET, algorithms: ["HS256"] }));
   const mediaPath = path.resolve(__dirname, "../data");
   app.use(express.static(mediaPath));
 
   const router = express.Router();
-
-  // users
-  MakeUserRoutes(router, ctx);
 
   // pages
   MakePageRoutes(router, ctx);
@@ -186,7 +168,21 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // errors
 
+<<<<<<< HEAD
+  app.use("/v1", router, (err: any, req: any, res: any) => {
+    // eslint-disable-next-line no-console
+    console.log("error", err);
+    if (err.details.kind === "DecodingError") {
+      const errors = PathReporter.report(E.left(err.details.meta.errors));
+      ctx.logger.error.log(`An error occured %O`, errors);
+      return res.status(500).send({
+        name: "DecodingError",
+        details: errors,
+      });
+    }
+=======
   app.use("/v1", router);
+>>>>>>> feat(api): handle authentication
 
   app.use(function (err: any, req: any, res: any, next: any) {
     // eslint-disable-next-line no-console

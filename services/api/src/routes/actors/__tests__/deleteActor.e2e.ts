@@ -23,7 +23,7 @@ describe("Delete Actor", () => {
       })
     )();
 
-    authorizationToken = `Bearer ${jwt.sign({ id: "1" }, ctx.env.API_SECRET)}`;
+    authorizationToken = `Bearer ${jwt.sign({ id: "1" }, ctx.env.JWT_SECRET)}`;
 
     actor = (
       await req

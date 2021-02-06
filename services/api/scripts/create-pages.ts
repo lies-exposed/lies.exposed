@@ -232,7 +232,7 @@ const run = (): Promise<void> => {
           ["actors", ActorEntity, io.http.Actor.Actor, toActor],
           ["groups", GroupEntity, t.any, toGroup],
           ["projects", ProjectEntity, io.http.Project.Project, toProject],
-          ["events/uncategorized", EventEntity, t.any, toEvent],
+          ["events/uncategorized", EventEntity, t.any, toEvent]
         ],
         A.traverse(
           TE.taskEither

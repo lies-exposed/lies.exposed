@@ -17,7 +17,7 @@ describe("Create Actor", () => {
         ctx = ctx;
         authorizationToken = `Bearer ${jwt.sign(
           { id: "1" },
-          ctx.env.API_SECRET
+          ctx.env.JWT_SECRET
         )}`;
         return makeApp(ctx);
       }),

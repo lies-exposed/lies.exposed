@@ -10,8 +10,8 @@ const ENV = t.intersection(
       NODE_ENV,
       API_PORT: NumberFromString,
       API_HOST: t.string,
-      API_SECRET: t.string,
       DEFAULT_PAGE_SIZE: NumberFromString,
+      JWT_SECRET: t.string,
     }),
     t.strict(
       {
