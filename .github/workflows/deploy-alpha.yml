@@ -53,7 +53,7 @@ jobs:
       # - name: Build Admin Web
       #   run: yarn workspace admin-web build
       #   env:
-      #     PUBLIC_URL: https://econnessione-alpha.fra1.digitaloceanspaces.com/admin/
+      #     PUBLIC_URL: https://alpha.econnessione.org/admin/
       #     API_URL: https://alpha-api.econnessione.org/
 
       # - name: Upload Admin Web build to DO Space
