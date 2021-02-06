@@ -9,8 +9,8 @@ import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import * as React from "react";
-import { Admin, AuthProvider, Login, Resource } from "react-admin";
-import { apiProvider } from "./client/HTTPAPI";
+import { Admin,  Login, Resource } from "react-admin";
+import { apiProvider, authProvider } from "./client/HTTPAPI";
 import { ActorCreate, ActorEdit, ActorList } from "./components/AdminActors";
 import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
 import {
@@ -21,21 +21,6 @@ import {
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import { ArticleCreate, ArticleEdit, ArticleList } from "./components/articles";
-
-const authProvider: AuthProvider = {
-  login: async ({ username, password }) => {
-    const authToken = await Promise.resolve(`${username}-${password}`);
-    localStorage.setItem("auth", authToken);
-    return authToken;
-  },
-  logout: () => Promise.resolve(),
-  checkAuth: async () =>
-    localStorage.getItem("auth")
-      ? await Promise.resolve()
-      : await Promise.reject(new Error("Missing auth")),
-  checkError: () => Promise.resolve(),
-  getPermissions: () => Promise.resolve(),
-};
 
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console

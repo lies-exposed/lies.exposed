@@ -58,12 +58,26 @@ const liftClientRequest = <T>(
 
 interface APIRESTClientCtx {
   url: string;
+  getAuth?: () => string | null;
 }
 
-const APIRESTClient = (ctx: APIRESTClientCtx): APIRESTClient => {
+const APIRESTClient = ({
+  getAuth,
+  ...ctx
+}: APIRESTClientCtx): APIRESTClient => {
   const client = axios.create({
     baseURL: ctx.url,
   });
+
+  if (getAuth !== undefined) {
+    client.interceptors.request.use((req) => {
+      req.headers = {
+        ...req.headers,
+        Authorization: `Bearer ${getAuth()}`,
+      };
+      return req;
+    });
+  }
 
   return {
     get: (url, params) =>
