@@ -14,7 +14,7 @@ jobs:
   deploy-alpha:
     runs-on: ubuntu-latest
 
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v2
@@ -35,14 +35,35 @@ jobs:
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: ascariandrea/econnessione/api-alpha
+          tag_with_ref: true
+
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker pull docker.pkg.github.com/ascariandrea/econnessione/api-alpha:fix-docker-build
+            docker stop econnessione-api
+            docker rm econnessione-api
+            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -p "4010:4010" -d --name econnessione-api docker.pkg.github.com/ascariandrea/econnessione/api-alpha:fix-docker-build
+
       - name: Build Packages
         run: yarn build:packages
 
       - name: Build Admin Web
         run: yarn workspace admin-web build
         env:
-          PUBLIC_URL: https://econnessione-alpha.fra1.digitaloceanspaces.com/admin/
-          API_URL: https://alpha-api.econnessione.org/
+          PUBLIC_URL: https://alpha.econnessione.org/admin/
+          API_URL: http://alpha.api.econnessione.org:4010
 
       - name: Upload Admin Web build to DO Space
         env:
@@ -59,7 +80,7 @@ jobs:
         run: yarn workspace web build
         env:
           PUBLIC_URL: https://econnessione-alpha.fra1.digitaloceanspaces.com/web/
-          API_URL: https://alpha-api.econnessione.org/
+          API_URL: http://alpha.api.econnessione.org:4010
 
       - name: Upload Web build to DO Space
         env:

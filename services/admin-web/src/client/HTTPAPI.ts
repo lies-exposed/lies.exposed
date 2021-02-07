@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { CreateResult } from "react-admin";
 
 const dataProvider = http.APIRESTClient({
-  url: "http://localhost:4010/v1",
+  url: process.env.API_URL,
 });
 
 const convertFileToBase64 = (file: any): Promise<string> =>

@@ -56,8 +56,22 @@ export const makeContext = (
     serverLogger.debug.logInPipe("Decoded env result %O"),
     E.mapLeft(DecodeError),
     TE.fromEither,
-    TE.chain((env) =>
-      sequenceS(TE.taskEither)({
+    TE.chain((env) => {
+      const ssl =
+        env.DB_SSL_MODE === "require"
+          ? {
+              ca: fs.readFileSync(
+                path.join(process.cwd(), env.DB_SSL_CERT_PATH),
+                {
+                  encoding: "utf-8",
+                }
+              ),
+            }
+          : false;
+
+      serverLogger.debug.log("SSL configuration %O", ssl);
+
+      return sequenceS(TE.taskEither)({
         logger: TE.right(serverLogger),
         db: GetTypeORMClient({
           type: "postgres",
@@ -78,17 +92,7 @@ export const makeContext = (
             EventLinkEntity,
           ],
           synchronize: true,
-          ssl:
-            env.DB_SSL_MODE === "require"
-              ? {
-                  ca: fs.readFileSync(
-                    path.join(__dirname, "../certs/dev-certificate.crt"),
-                    {
-                      encoding: "utf-8",
-                    }
-                  ),
-                }
-              : false,
+          ssl: ssl,
         }),
         s3:
           env.NODE_ENV === "development" || env.NODE_ENV === "test"
@@ -115,8 +119,8 @@ export const makeContext = (
           })
         ),
         env: TE.right(env),
-      })
-    ),
+      });
+    }),
     TE.mapLeft((e) => ({
       ...e,
       name: e.name,
@@ -163,7 +167,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // errors
 
-  app.use("/v1", router,  (err: any, req: any, res: any) => {
+  app.use("/v1", router, (err: any, req: any, res: any) => {
     // eslint-disable-next-line no-console
     console.log("error", err);
     if (err.details.kind === "DecodingError") {
@@ -201,7 +205,6 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
     res.status(500).send(err);
   });
-
 
   return app;
 };

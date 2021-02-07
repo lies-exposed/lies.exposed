@@ -22,7 +22,7 @@ export const run = (): Promise<void> => {
       },
       ({ ctx, app }) => () => {
         const server = app.listen(ctx.env.API_PORT, () =>
-          ctx.logger.info.log("Server is listening at 4010")
+          ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`)
         );
 
         process.on("disconnect", () => {
