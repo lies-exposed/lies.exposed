@@ -31,4 +31,5 @@ export * as Page from "./Page";
 export * as Project from "./Project";
 export * as Topic from "./Topic";
 export * as Transaction from "./Transaction";
+export * as User from './User'
 export * as Video from "./Video";

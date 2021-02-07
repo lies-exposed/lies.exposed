@@ -75,7 +75,7 @@ interface GetDatabaseClientCtx {
 
 type GetDatabaseClient = (ctx: GetDatabaseClientCtx) => DatabaseClient;
 
-const toError = (l: logger.Logger) => (e: unknown): DBError => {
+export const toError = (l: logger.Logger) => (e: unknown): DBError => {
   l.error.log("An error occured %O", e);
   if (e instanceof Error) {
     return {

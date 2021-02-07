@@ -11,6 +11,7 @@ const ENV = t.intersection(
       API_PORT: NumberFromString,
       API_HOST: t.string,
       DEFAULT_PAGE_SIZE: NumberFromString,
+      JWT_SECRET: t.string,
     }),
     t.strict(
       {

@@ -5,10 +5,18 @@ import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { CreateResult } from "react-admin";
+import { AuthProvider, CreateResult } from "react-admin";
+
+const publicDataProvider = http.APIRESTClient({
+  url: process.env.REACT_APP_API_URL,
+});
 
 const dataProvider = http.APIRESTClient({
-  url: process.env.API_URL,
+  url: process.env.REACT_APP_API_URL,
+  getAuth: () => {
+    const token = localStorage.getItem("auth");
+    return token;
+  },
 });
 
 const convertFileToBase64 = (file: any): Promise<string> =>
@@ -69,6 +77,30 @@ const uploadFile = (
       );
     })
   );
+};
+
+export const authProvider: AuthProvider = {
+  login: async ({ username, password }) => {
+    const response = await publicDataProvider.create<{ token: string }>(
+      "users/login",
+      {
+        data: { username, password },
+      }
+    );
+
+    localStorage.setItem("auth", response.data.token);
+    return response;
+  },
+  logout: async () => {
+    localStorage.removeItem("auth");
+    return await Promise.resolve(undefined);
+  },
+  checkAuth: async () =>
+    localStorage.getItem("auth")
+      ? await Promise.resolve()
+      : await Promise.reject(new Error("Missing auth")),
+  checkError: () => Promise.resolve(),
+  getPermissions: () => Promise.resolve(),
 };
 
 export const apiProvider: http.APIRESTClient = {
