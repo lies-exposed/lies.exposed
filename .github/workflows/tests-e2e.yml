@@ -10,7 +10,7 @@ on:
       - master
     paths:
       - 'packages/**'
-      - 'services/api/**'
+      - 'services/**'
 
 jobs:
   tests-e2e:

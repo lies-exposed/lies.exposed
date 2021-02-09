@@ -9,7 +9,7 @@ import ProjectTemplate from "@templates/ProjectTemplate";
 import theme from "@theme/CustomeTheme";
 import { BaseProvider } from "baseui";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import NotFoundPage from "pages/404";
+// import NotFoundPage from "./pages/404";
 import * as React from "react";
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
@@ -49,8 +49,8 @@ export const App: React.FC = () => {
               <ActorTemplate path="/actors/:actorId" />
               <ActorsPage path="/actors" />
               <TheCrisisPage path="/the-crisis" />
-              <IndexPage path="/" />
-              <NotFoundPage default={true} />
+              <IndexPage default={true} />
+              {/* <NotFoundPage default={true} /> */}
             </Router>
           </FlexGridItem>
           <Footer />
