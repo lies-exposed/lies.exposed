@@ -48,7 +48,7 @@ const toError = (e: unknown): APIError => {
 };
 
 export const dataProvider = APIClient({
-  url: "http://localhost:4010/v1",
+  url: process.env.REACT_APP_API_URL,
 });
 
 // interface WithId { id: t.StringC }
