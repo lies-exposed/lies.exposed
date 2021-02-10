@@ -46,6 +46,7 @@ COPY --from=build /app/packages/@econnessione/shared/lib /app/packages/@econness
 # COPY api service
 COPY --from=build /app/services/api/package.json /app/services/api/package.json
 COPY --from=build /app/services/api/build /app/services/api/build
+COPY --from=build /app/services/api/data /app/services/api/data
 
 COPY --from=build /app/services/web/package.json /app/services/web/package.json
 COPY --from=build /app/services/web/build /app/services/web/build
