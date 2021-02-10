@@ -147,7 +147,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       path: [
         { url: "/v1/users/login", method: "POST" },
         { url: "/v1/users", method: "POST" },
-        { url: '/v1/pages', method: "GET" },
+        { url: "/v1/pages", method: "GET" },
+        { url: "/v1/graphs/:graphId", method: "GET" },
+        { url: "/v1/graphs", method: "GET" },
       ],
     })
   );
