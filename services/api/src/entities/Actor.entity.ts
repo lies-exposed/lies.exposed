@@ -1,4 +1,4 @@
-import { EventEntity } from "@routes/events/event.entity";
+import { EventEntity } from "@entities/Event.entity";
 import {
   Column,
   CreateDateColumn,

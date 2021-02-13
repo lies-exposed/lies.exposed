@@ -34,7 +34,7 @@ export const ProjectListItem: React.FC<
               key={item.id}
               name={item.name}
               size={avatarScale}
-              src={src.image}
+              src={src.location}
             />
           ))
         ),

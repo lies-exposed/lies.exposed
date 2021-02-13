@@ -17,16 +17,15 @@ export const firstGoodProject: Project.Project = {
   areas: [firstArea.polygon],
   images: [
     {
-      author: "Unknown",
-      description: O.some("first image"),
-      image: firstImage,
+      description: "first image",
+      location: firstImage,
     },
   ],
   startDate: subYears(today, 3),
   endDate: addYears(today, 10),
   createdAt: subDays(today, 7),
   updatedAt: today,
-  body: ""
+  body: "",
 };
 
 export const firstBadProject: Project.Project = {
@@ -35,9 +34,8 @@ export const firstBadProject: Project.Project = {
   areas: NEA.of(firstPolygon),
   images: [
     {
-      author: "Unknown",
-      description: O.some("first image"),
-      image: firstImage,
+      description: "first image",
+      location: firstImage,
     },
   ],
   startDate: subYears(today, 3),
@@ -45,7 +43,7 @@ export const firstBadProject: Project.Project = {
   updatedAt: today,
   color: generateRandomColor(),
   endDate: addYears(today, 1),
-  body: ""
+  body: "",
 };
 
 export const projects = [firstGoodProject, firstBadProject];

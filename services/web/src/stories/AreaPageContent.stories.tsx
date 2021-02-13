@@ -31,11 +31,7 @@ const Template: Story<AreaPageContentProps> = (props) => {
 const AreaPageContentExample = Template.bind({});
 
 const args: AreaPageContentProps = {
-  id: "",
-  frontmatter: firstArea,
-  body: "",
-  tableOfContents: O.none,
-  timeToRead: O.none,
+  ...firstArea,
   onGroupClick: () => {},
   onTopicClick: () => {},
 };

@@ -1,0 +1,31 @@
+import { endpoints } from "@econnessione/shared";
+import { AreaEntity } from "@entities/Area.entity";
+import { foldOptionals } from "@utils/foldOptionals.utils";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
+import { Route } from "routes/route.types";
+import { AddEndpoint } from "ts-endpoint-express";
+import { toAreaIO } from "./Area.io";
+
+export const MakeEditAreaRoute: Route = (r, { s3, db, env, logger }) => {
+  AddEndpoint(r)(endpoints.Area.Edit, ({ params: { id }, body }) => {
+    const updateData = foldOptionals(body as any);
+    logger.debug.log("Actor update data %O", updateData);
+    return pipe(
+      db.update(AreaEntity, id, updateData),
+      TE.chain(() =>
+        db.findOneOrFail(AreaEntity, {
+          where: { id },
+          loadRelationIds: true,
+        })
+      ),
+      TE.chainEitherK(toAreaIO),
+      TE.map((page) => ({
+        body: {
+          data: page,
+        },
+        statusCode: 200,
+      }))
+    );
+  });
+};

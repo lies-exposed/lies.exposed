@@ -9,13 +9,11 @@ import {
   DateInput,
   Edit,
   EditProps,
-  FileInput,
   FormTab,
   ImageField,
   ImageInput,
   List,
   ListProps,
-  ReferenceArrayField,
   required,
   SimpleForm,
   SimpleFormIterator,
@@ -27,14 +25,13 @@ import { ColorInput } from "react-admin-color-input";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./MarkdownInput";
 
-const RESOURCE = "projects";
+const RESOURCE = "areas";
 
-export const ProjectList: React.FC<ListProps> = (props) => (
+export const AreaList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
-      <TextField source="name" />
-      <DateField source="startDate" />
-      <DateField source="endDate" emptyText="-" />
+      <TextField source="label" />
+      <TextField source="polygon" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -42,10 +39,10 @@ export const ProjectList: React.FC<ListProps> = (props) => (
 );
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Project {record.title}</span>;
+  return <span>Area {record.title}</span>;
 };
 
-export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
+export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit title={<EditTitle {...props} />} {...props}>
     <TabbedForm>
       <FormTab label="Generals">
@@ -57,7 +54,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="createdAt" showTime={true} />
       </FormTab>
       <FormTab label="Location">
-        <MapInput source="location" type="Polygon" />
+        <MapInput source="location" type='Polygon' />
       </FormTab>
       <FormTab label="images">
         <ArrayInput source="newImages">
@@ -67,6 +64,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
             </ImageInput>
           </SimpleFormIterator>
         </ArrayInput>
+
         <ArrayField source="images">
           <Datagrid rowClick="edit">
             <TextField source="id" />
@@ -82,13 +80,11 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
   </Edit>
 );
 
-export const ProjectCreate: React.FC<CreateProps> = (props) => (
+export const AreaCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Post" {...props}>
     <SimpleForm>
-      <TextInput source="name" validate={[required()]} />
-      <ColorInput source="color" validate={[required()]} />
-      <DateInput source="startDate" validate={[required()]} />
-      <DateInput source="endDate" />
+      <TextInput source="label" validate={[required()]} />
+      <MapInput source="color" type="Polygon" validate={[required()]} />
       <MarkdownInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>

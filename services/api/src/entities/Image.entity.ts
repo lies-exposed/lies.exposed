@@ -1,15 +1,13 @@
-import { EventEntity } from "@routes/events/event.entity";
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity("event_image")
-export class EventImageEntity {
+@Entity("image")
+export class ImageEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -17,10 +15,7 @@ export class EventImageEntity {
   location: string;
 
   @Column({ type: "varchar", nullable: true })
-  description: string;
-
-  @ManyToOne(() => EventEntity, (e) => e.id)
-  event: EventEntity;
+  description: string | null;
 
   @CreateDateColumn()
   createdAt: Date;

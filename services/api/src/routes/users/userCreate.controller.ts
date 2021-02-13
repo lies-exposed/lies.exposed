@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 import { UserEntity } from "./User.entity";
-import {toUserIO } from './user.io'
+import { toUserIO } from "./user.io";
 
 export const MakeUserCreateRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
@@ -26,8 +26,8 @@ export const MakeUserCreateRoute = (r: Router, ctx: RouteContext): void => {
           ])
         ),
         TE.chainEitherK(([user]) => toUserIO(user)),
-        TE.map((user) => ({
-          body: user,
+        TE.map((data) => ({
+          body: { data },
           statusCode: 200,
         }))
       );

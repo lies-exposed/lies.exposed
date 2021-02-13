@@ -6,12 +6,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { EventImageEntity } from "./EventImage.entity";
-import { EventLinkEntity } from "./EventLink.entity";
+import { ImageEntity } from "./Image.entity";
+import { LinkEntity } from "./Link.entity";
 
 @Entity("event")
 export class EventEntity {
@@ -27,14 +26,16 @@ export class EventEntity {
   @Column({ type: "timestamptz", nullable: true })
   endDate: Date | null;
 
-  @Column({ type: 'json', nullable: true })
-  location: { type: 'Point', coordinates: [number, number ]}
+  @Column({ type: "json", nullable: true })
+  location: { type: "Point"; coordinates: [number, number] };
 
-  @OneToMany(() => EventLinkEntity, (e) => e.event, { cascade: true })
-  links: EventLinkEntity[];
+  @ManyToMany(() => LinkEntity, { cascade: true })
+  @JoinTable()
+  links: LinkEntity[];
 
-  @OneToMany(() => EventImageEntity, (e) => e.event, { cascade: true })
-  images: EventImageEntity[];
+  @ManyToMany(() => ImageEntity, { cascade: true })
+  @JoinTable()
+  images: ImageEntity[];
 
   @ManyToMany(() => GroupEntity, (a) => a.events)
   @JoinTable()

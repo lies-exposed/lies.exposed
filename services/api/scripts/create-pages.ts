@@ -4,13 +4,13 @@ import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import * as orm from "@providers/orm";
-import { ArticleEntity } from "@routes/articles/article.entity";
-import { EventEntity } from "@routes/events/event.entity";
-import { EventImageEntity } from "@routes/events/EventImage.entity";
-import { EventLinkEntity } from "@routes/events/EventLink.entity";
+import { ArticleEntity } from "@entities/Article.entity";
+import { EventEntity } from "@entities/Event.entity";
+import { ImageEntity } from "@entities/Image.entity";
+import { LinkEntity } from "@entities/Link.entity";
 import { GroupEntity } from "@entities/Group.entity";
-import { PageEntity } from "@routes/pages/page.entity";
-import { ProjectEntity } from "@routes/projects/project.entity";
+import { PageEntity } from "@entities/page.entity";
+import { ProjectEntity } from "@entities/Project.entity";
 import { uuid } from "@utils/uuid.utils";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -24,13 +24,14 @@ import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as path from "path";
 
+const staticToLocation = (staticPath: string): string =>
+  "http://localhost:4010/" + staticPath.replace("../../static/", "");
+
 const toActor = (data: any): any => {
   return {
     ...data,
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    avatar: data.avatar
-      ? "http://localhost:4010/" + data.avatar.replace("../../static/", "")
-      : undefined,
+    avatar: data.avatar ? staticToLocation(data.avatar) : undefined,
     createdAt: data.createdAt.toISOString(),
     updatedAt: data.updatedAt.toISOString(),
   };
@@ -40,7 +41,7 @@ const toGroup = (data: any): any => {
   return {
     ...data,
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    avatar: "http://localhost:4010/" + data.avatar.replace("../../static/", ""),
+    avatar: staticToLocation(data.avatar),
     members: data.members.map((actorId: string) => {
       const m = new GroupMemberEntity();
       const actor = new ActorEntity();
@@ -65,10 +66,7 @@ const toArticle = (data: any): any => {
   // console.log('article', data)
   return {
     ...data,
-    featuredImage:
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-      "http://localhost:4010/" +
-      data.featuredImage.replace("../../static/", ""),
+    featuredImage: staticToLocation(data.featuredImage),
     links: data.links ?? [],
     createdAt: data.createdAt ? data.createdAt.toISOString() : undefined,
     updatedAt: data.updatedAt ? data.updatedAt.toISOString() : undefined,
@@ -79,7 +77,13 @@ const toProject = (data: any): any => {
   return {
     ...data,
     areas: [JSON.parse(data.areas)],
-    images: data.images ? data.images : [],
+    images: data.images
+      ? data.images.map((imageSrc: string) => {
+          const image = new ImageEntity();
+          image.location = staticToLocation(imageSrc);
+          return image;
+        })
+      : [],
     startDate: data.startDate ? data.startDate.toISOString() : undefined,
     endDate: data.endDate ? data.endDate.toISOString() : undefined,
     createdAt: data.createdAt.toISOString(),
@@ -87,42 +91,56 @@ const toProject = (data: any): any => {
   };
 };
 
+const allLinks: Record<string, string> = {};
+
 const toEvent = (data: any): any => {
   return {
     ...data,
     location: data.location ? JSON.parse(data.location) : undefined,
-    actors: data.actors ? data.actors.map((a: any) => {
-      const actor = new ActorEntity()
-      actor.id = a;
-      return actor
-    }): [],
-    groups: data.groups ? data.groups.map((g: any) => {
-      const group = new GroupEntity()
-      group.id = g;
-      return group
-    }): [],
+    actors: data.actors
+      ? data.actors.map((a: any) => {
+          const actor = new ActorEntity();
+          actor.id = a;
+          return actor;
+        })
+      : [],
+    groups: data.groups
+      ? data.groups.map((g: any) => {
+          const group = new GroupEntity();
+          group.id = g;
+          return group;
+        })
+      : [],
     links: data.links
       ? data.links.map((l: string) => {
-          const link = new EventLinkEntity();
+          const savedLink = Object.entries(allLinks).find(
+            ([_id, url]) => url === l
+          );
+          if (savedLink) {
+            return { id: savedLink[0] };
+          }
+
+          const link = new LinkEntity();
           link.id = uuid();
           link.description = l;
           link.url = l;
+          allLinks[link.id] = link.url;
           return link;
         })
       : [],
     images: data.images
       ? data.images.map((l: any) => {
-          const img = new EventImageEntity();
+          const img = new ImageEntity();
           img.id = uuid();
-          img.location =
-            "http://localhost:4010/" + l.image.replace("../../static/", "");
+          img.location = staticToLocation(l.image);
           img.description = l.description;
           return img;
         })
       : [],
     startDate: data.startDate
       ? data.startDate.toISOString()
-      : data.date ? data.date.toISOString()
+      : data.date
+      ? data.date.toISOString()
       : new Date().toISOString(),
     endDate: data.endDate ? data.endDate.toISOString() : undefined,
     createdAt: data.createdAt.toISOString(),
@@ -207,8 +225,8 @@ const run = (): Promise<void> => {
           ArticleEntity,
           ProjectEntity,
           EventEntity,
-          EventImageEntity,
-          EventLinkEntity,
+          ImageEntity,
+          LinkEntity,
         ],
         synchronize: true,
         ssl:
@@ -232,10 +250,10 @@ const run = (): Promise<void> => {
           ["actors", ActorEntity, io.http.Actor.Actor, toActor],
           ["groups", GroupEntity, t.any, toGroup],
           ["projects", ProjectEntity, io.http.Project.Project, toProject],
-          ["events/uncategorized", EventEntity, t.any, toEvent]
+          ["events/uncategorized", EventEntity, t.any, toEvent],
         ],
         A.traverse(
-          TE.taskEither
+          TE.taskEitherSeq
         )(
           ([dir, entity, codec, mapper]: [
             string,

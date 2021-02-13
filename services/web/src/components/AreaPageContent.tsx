@@ -11,16 +11,16 @@ import EditButton from "./buttons/EditButton";
 import GroupList from "./lists/GroupList";
 import TopicList from "./lists/TopicList";
 
-export interface AreaPageContentProps extends Area.AreaMD {
+export interface AreaPageContentProps extends Area.Area {
   onGroupClick: (g: Group.Group) => void;
   onTopicClick: (t: Topic.TopicFrontmatter) => void;
 }
 
 export const AreaPageContent: React.FC<AreaPageContentProps> = ({
-  frontmatter,
   body,
   onGroupClick,
   onTopicClick,
+  ...frontmatter
 }) => {
   const featureCollection = {
     type: `FeatureCollection` as "FeatureCollection",
@@ -55,7 +55,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
             zoom: false,
           }}
         />
-        {pipe(
+        {/* {pipe(
           frontmatter.groups,
           O.fromPredicate((g) => Array.isArray(g) && g.length > 0),
           O.fold(
@@ -71,8 +71,8 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
               </Block>
             )
           )
-        )}
-        {pipe(
+        )} */}
+        {/* {pipe(
           frontmatter.topics,
           O.fromPredicate((g) => Array.isArray(g) && g.length > 0),
           O.fold(
@@ -87,7 +87,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
               </Block>
             )
           )
-        )}
+        )} */}
         <MarkdownRenderer>{body}</MarkdownRenderer>
       </FlexGridItem>
     </FlexGrid>

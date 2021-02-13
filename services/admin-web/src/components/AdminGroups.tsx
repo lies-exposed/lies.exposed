@@ -1,6 +1,7 @@
 import { io } from "@econnessione/shared";
 import * as React from "react";
 import {
+  AutocompleteInput,
   ChoicesInputProps,
   Create,
   CreateProps,
@@ -9,6 +10,7 @@ import {
   DateInput,
   Edit,
   EditProps,
+  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -16,6 +18,7 @@ import {
   ListProps,
   ReferenceArrayField,
   ReferenceField,
+  ReferenceInput,
   SelectInput,
   SimpleForm,
   TabbedForm,

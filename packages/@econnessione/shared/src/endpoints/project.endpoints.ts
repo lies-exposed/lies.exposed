@@ -6,7 +6,7 @@ import * as http from "../io/http";
 import { GetListOutput, Output } from "../io/http/Common/Output";
 
 const SingleGroupOutput = Output(http.Project.Project, "Project");
-const ListGroupOutput = GetListOutput((http.Project.Project), "ListProject");
+const ListGroupOutput = GetListOutput(http.Project.Project, "ListProject");
 
 export const List = Endpoint({
   Method: "GET",
@@ -45,13 +45,25 @@ export const Get = Endpoint({
   Output: SingleGroupOutput,
 });
 
-const EditBody = nonEmptyRecordFromType({
-  name: optionFromNullable(t.string),
-  color: optionFromNullable(t.string),
-  startDate: optionFromNullable(DateFromISOString),
-  endDate: optionFromNullable(DateFromISOString),
-  body: optionFromNullable(t.string)
-})
+const EditBody = nonEmptyRecordFromType(
+  {
+    name: optionFromNullable(t.string),
+    color: optionFromNullable(t.string),
+    images: optionFromNullable(
+      t.array(
+        t.strict({
+          id: optionFromNullable(t.string),
+          location: t.string,
+          description: optionFromNullable(t.string),
+        })
+      )
+    ),
+    startDate: optionFromNullable(DateFromISOString),
+    endDate: optionFromNullable(DateFromISOString),
+    body: optionFromNullable(t.string),
+  }
+);
+
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/projects/${id}`,

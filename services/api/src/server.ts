@@ -1,15 +1,19 @@
 /* eslint-disable import/first */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias")(process.cwd());
-import "reflect-metadata";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import * as fs from "fs";
 import * as path from "path";
 import { logger } from "@econnessione/core";
 import { ActorEntity } from "@entities/Actor.entity";
+import { AreaEntity } from "@entities/Area.entity";
+import { ArticleEntity } from "@entities/Article.entity";
+import { EventEntity } from "@entities/Event.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-// import { fromIOError } from "@io/APIError";
+import { ImageEntity } from "@entities/Image.entity";
+import { LinkEntity } from "@entities/Link.entity";
+import { PageEntity } from "@entities/Page.entity";
+import { ProjectEntity } from "@entities/Project.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -19,16 +23,12 @@ import { S3Client } from "@providers/space";
 import { GetFSClient } from "@providers/space/FSClient";
 import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
-import { ArticleEntity } from "@routes/articles/article.entity";
+import {MakeAreasRoutes} from '@routes/areas/Areas.routes'
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
-import { EventLinkEntity } from "@routes/events/EventLink.entity";
-import { EventEntity } from "@routes/events/event.entity";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
-import { PageEntity } from "@routes/pages/page.entity";
 import { MakePageRoutes } from "@routes/pages/pages.route";
-import { ProjectEntity } from "@routes/projects/project.entity";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
@@ -41,9 +41,9 @@ import { sequenceS } from "fp-ts/lib/Apply";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 import { PathReporter } from "io-ts/lib/PathReporter";
-// import { IOError } from "ts-shared/lib/errors";
-import { EventImageEntity } from "./routes/events/EventImage.entity";
+import "reflect-metadata";
 import { MakeUserRoutes } from "./routes/users/User.routes";
 
 // var whitelist = ["http://localhost:8002"]
@@ -91,9 +91,10 @@ export const makeContext = (
             GroupMemberEntity,
             ArticleEntity,
             ProjectEntity,
+            AreaEntity,
             EventEntity,
-            EventImageEntity,
-            EventLinkEntity,
+            ImageEntity,
+            LinkEntity,
             UserEntity,
           ],
           synchronize: true,
@@ -146,9 +147,8 @@ export const makeApp = (ctx: RouteContext): express.Express => {
     jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
       path: [
         { url: "/v1/users/login", method: "POST" },
-        { url: "/v1/users", method: "POST" },
-        { url: "/v1/pages", method: "GET" },
-        { url: /\/v1\/graphs*/, method: "GET" }
+        { url: /\/v1\/*/, method: "GET" },
+        { url: /\/media\/*/ },
       ],
     })
   );
@@ -169,6 +169,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // actors
   MakeActorRoutes(router, ctx);
+
+  // areas
+  MakeAreasRoutes(router, ctx);
 
   // projects
   MakeProjectRoutes(router, ctx);

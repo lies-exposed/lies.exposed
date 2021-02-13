@@ -12,7 +12,7 @@ const AreasMap = ({
   areas,
   width,
   height,
-}: AreasMapProps<Area.AreaFrontmatter>): JSX.Element => {
+}: AreasMapProps<Area.Area>): JSX.Element => {
   const data = {
     type: `FeatureCollection` as "FeatureCollection",
     features: areas.map((a) => ({
@@ -35,7 +35,11 @@ const AreasMap = ({
         width={width}
         height={height}
         featureCollection={data}
-        center={data.features[0].geometry.coordinates[0][0]}
+        center={
+          data.features[0]
+            ? data.features[0].geometry.coordinates[0][0]
+            : [0, 0]
+        }
         zoom={2}
         onMapClick={async (features) => {
           // const area = features[0].getProperties() as Area.AreaFrontmatter

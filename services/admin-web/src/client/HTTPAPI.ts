@@ -79,6 +79,17 @@ const uploadFile = (
   );
 };
 
+const uploadImages = (
+  locations: string[],
+  resource: string,
+  resourceId: string
+): TE.TaskEither<Error, string[]> => {
+  return pipe(
+    locations.map((n: any) => uploadFile(resource, resourceId, n.rawFile)),
+    A.sequence(TE.taskEitherSeq)
+  );
+};
+
 export const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
     const response = await publicDataProvider.create<{ token: string }>(
@@ -127,28 +138,32 @@ export const apiProvider: http.APIRESTClient = {
     return dataProvider.create(resource, params);
   },
   update: (resource, params) => {
-    if (resource === "events") {
+    if (resource === "events" || resource === "projects") {
       // eslint-disable-next-line
       console.log(params.data);
-      const newImages: any[] = params.data.images.filter(
-        (i: any) => i.id === undefined
-      );
+
+      const { newImages, images, ...data } = params.data;
       return pipe(
-        newImages.map((n: any) =>
-          uploadFile("events", params.id.toString(), n.location)
+        uploadImages(
+          newImages
+            .filter((i: any) => i !== undefined)
+            .map((i: { location: { rawFile: File } }) => i.location),
+          resource,
+          params.id.toString()
         ),
-        A.sequence(TE.taskEitherSeq),
         TE.chain((result) => {
           // eslint-disable-next-line
           console.log({ result });
           const updateParams = {
             ...params,
             data: {
-              ...params.data,
-              images: result.map((l) => ({
-                location: l,
-                description: params.data.images[0].description,
-              })),
+              ...data,
+              images: images.concat(
+                result.map((l) => ({
+                  location: l,
+                  description: "",
+                }))
+              ),
             },
           };
           return TE.tryCatch(

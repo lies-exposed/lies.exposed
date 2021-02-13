@@ -35,7 +35,7 @@ export const EventList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <TextField source="title" />
-      <TextField source="location.coordinates"/>
+      <TextField source="location.coordinates" />
       <ReferenceArrayField source="actors" reference="actors">
         <SingleFieldList>
           <ChipField source="fullName" />
@@ -70,7 +70,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="createdAt" showTime={true} />
       </FormTab>
       <FormTab label="Location">
-        <MapInput source="location" />
+        <MapInput source="location" type="Point" />
       </FormTab>
       <FormTab label="Actors">
         <ReferenceArrayInput source="actors" reference="actors">
@@ -97,6 +97,14 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Images">
+        <ArrayInput source="newImages">
+          <SimpleFormIterator>
+            <ImageInput source="location">
+              <ImageField src="src" />
+            </ImageInput>
+          </SimpleFormIterator>
+        </ArrayInput>
+
         <ArrayField source="images">
           <Datagrid rowClick="edit">
             <TextField source="id" />
@@ -122,7 +130,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Event" {...props}>
     <SimpleForm>
       <TextInput source="title" />
-      <MapInput source="location" />
+      <MapInput source="location" type="Point" />
       <DateInput
         source="startDate"
         validation={[required()]}

@@ -1,4 +1,5 @@
 export * as Actor from "./actor.endpoints";
+export * as Area from './area.endpoints'
 export * as Article from "./article.endpoints";
 export * as Event from "./event.endpoints";
 export * as Graph from "./graph.endpoints";

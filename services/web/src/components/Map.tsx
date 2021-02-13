@@ -54,7 +54,7 @@ const Map: React.FC<MapProps> = ({
     const layer = new VectorLayer({
       source,
       style: (feature) => {
-        const area = feature.getProperties() as Area.AreaFrontmatter;
+        const area = feature.getProperties() as Area.Area;
         return new Style({
           fill: new Fill({
             color: `#${area.color}`,
