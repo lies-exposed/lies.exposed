@@ -15,7 +15,7 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(
-          ctx.db.find(ProjectEntity, { relations: ['images'] }),
+          ctx.db.find(ProjectEntity, { relations: ['images', 'areas'] }),
           TE.chainEitherK(A.traverse(E.either)(toProjectIO))
         ),
         count: ctx.db.count(ProjectEntity),

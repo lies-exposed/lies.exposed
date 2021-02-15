@@ -10,6 +10,11 @@ export const toProjectIO = (
   return pipe(
     io.http.Project.Project.decode({
       ...project,
+      areas: project.areas.map((a) => ({
+        ...a,
+        createdAt: a.createdAt.toISOString(),
+        updatedAt: a.updatedAt.toISOString(),
+      })),
       startDate: project.startDate.toISOString(),
       endDate: project.endDate ? project.endDate.toISOString() : undefined,
       createdAt: project.createdAt.toISOString(),
