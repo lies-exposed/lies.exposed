@@ -10,7 +10,7 @@ import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import * as React from "react";
-import { Admin, Login, Resource } from "react-admin";
+import { Admin, defaultTheme, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
 import { ActorCreate, ActorEdit, ActorList } from "./components/AdminActors";
 import { AreaList, AreaCreate, AreaEdit } from "./components/AdminAreas";
@@ -31,6 +31,7 @@ const AdminPage: React.FC = () => {
       dataProvider={apiProvider}
       authProvider={authProvider}
       loginPage={Login}
+      theme={defaultTheme}
     >
       <Resource
         name="pages"

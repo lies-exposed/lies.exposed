@@ -1,7 +1,6 @@
 import { io } from "@econnessione/shared";
 import * as React from "react";
 import {
-  AutocompleteInput,
   ChoicesInputProps,
   Create,
   CreateProps,
@@ -10,7 +9,6 @@ import {
   DateInput,
   Edit,
   EditProps,
-  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -18,7 +16,6 @@ import {
   ListProps,
   ReferenceArrayField,
   ReferenceField,
-  ReferenceInput,
   SelectInput,
   SimpleForm,
   TabbedForm,
@@ -26,7 +23,7 @@ import {
   TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
-import MarkdownInput from "./MarkdownInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 const RESOURCE = "groups";
 

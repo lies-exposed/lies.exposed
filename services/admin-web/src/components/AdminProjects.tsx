@@ -1,3 +1,4 @@
+import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
   ArrayField,
@@ -10,6 +11,7 @@ import {
   Edit,
   EditProps,
   FileInput,
+  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -19,13 +21,16 @@ import {
   required,
   SimpleForm,
   SimpleFormIterator,
+  SingleFieldList,
   TabbedForm,
   TextField,
   TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
+import { AreaEdit } from "./AdminAreas";
+import { MapField } from "./Common/MapField";
 import { MapInput } from "./Common/MapInput";
-import MarkdownInput from "./MarkdownInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 const RESOURCE = "projects";
 
@@ -57,7 +62,11 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="createdAt" showTime={true} />
       </FormTab>
       <FormTab label="Location">
-        <MapInput source="location" type="Polygon" />
+        <ArrayField source="areas" fieldKey="id" resource="areas">
+          <SingleFieldList>
+            <MapField source="geometry" type={GeometryType.POLYGON} />
+          </SingleFieldList>
+        </ArrayField>
       </FormTab>
       <FormTab label="images">
         <ArrayInput source="newImages">
@@ -89,6 +98,7 @@ export const ProjectCreate: React.FC<CreateProps> = (props) => (
       <ColorInput source="color" validate={[required()]} />
       <DateInput source="startDate" validate={[required()]} />
       <DateInput source="endDate" />
+      <MapInput source="areas" type={GeometryType.POLYGON} />
       <MarkdownInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>

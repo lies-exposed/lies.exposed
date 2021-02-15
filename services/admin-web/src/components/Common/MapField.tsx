@@ -7,7 +7,7 @@ import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import "ol/ol.css";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
 import React from "react";
-import { InputProps, useInput } from "react-admin";
+import { FieldProps } from "react-admin";
 
 const formatOptions = {
   dataProjection: "EPSG:4326",
@@ -26,36 +26,28 @@ const getDefaultMap = (
   });
 };
 
-type MapInputProps = InputProps & {
+type MapFieldProps = FieldProps & {
   type: GeometryType;
 };
 
-export const MapInput: React.FC<MapInputProps> = (props) => {
+export const MapField: React.FC<MapFieldProps> = (props) => {
   // eslint-disable-next-line
   console.log({ props });
-  const inputProps = useInput(props);
-  // eslint-disable-next-line
-  console.log("inputProps", inputProps);
-  const {
-    input: { value, onChange },
-  } = inputProps;
+
   const mapContainer = React.createRef<HTMLDivElement>();
   // eslint-disable-next-line
 
-  // const oldValue = props.record[props.source]
-  const mapClassName = `map-input-${props.record.id}`;
-
+  const value = props.record ? props.record[props.source ?? 'id'] : undefined;
   React.useEffect(() => {
-    if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
+    if (document.querySelector(".map-input")?.innerHTML === "") {
       const format = getDefaultFormat();
-      const features = value ? [format.readFeature(value)] : [];
+      const features = value
+        ? [format.readFeature(Array.isArray(value) ? value[0] : value)]
+        : [];
       // eslint-disable-next-line
       console.log(features);
       const featuresSource = new VectorSource({ features, wrapX: false });
       const featuresLayer = new VectorLayer({ source: featuresSource });
-
-      // eslint-disable-next-line
-      console.log(featuresSource);
 
       const target = mapContainer.current;
       if (target) {
@@ -66,26 +58,11 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
             padding: [80, 80, 80, 80],
           });
         }
-
-        const draw = new Draw({
-          source: featuresSource,
-          type: props.type,
-        });
-        map.addInteraction(draw);
-
-        const writeOptions = { decimals: 7 };
-        draw.on("drawend", (opts) => {
-          featuresSource.clear();
-          const geometry = opts.feature.getGeometry();
-          if (geometry) {
-            onChange(format.writeGeometry(geometry, writeOptions));
-          }
-        });
       }
     }
 
     return () => {
-      const mapDiv = document.querySelector(`.${mapClassName}`);
+      const mapDiv = document.querySelector(".map-input");
       if (mapDiv !== null) {
         mapDiv.innerHTML = "";
       }
@@ -93,13 +70,14 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
   });
 
   // eslint-disable-next-line
-  console.log({ mapContainer, mapClassName });
+  console.log(mapContainer);
 
   return (
     <div
-      className={mapClassName}
+      className={"map-input"}
       ref={mapContainer}
       style={{ height: 300, width: 600 }}
     ></div>
   );
 };
+

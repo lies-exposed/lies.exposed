@@ -13,6 +13,7 @@
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "fp-ts": "^2.9.3",
+    "ol": "^6.5.0",
     "ra-input-rich-text": "^3.10.1",
     "ra-ui-materialui": "^3.11.1",
     "react": "^16",

@@ -6,24 +6,17 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  DateTimeInput,
   Edit,
   EditProps,
-  FormTab,
-  ImageField,
-  ImageInput,
   List,
   ListProps,
   ReferenceField,
   ReferenceInput,
   SelectInput,
   SimpleForm,
-  TabbedForm,
   TextField,
-  TextInput,
 } from "react-admin";
-import { ColorInput } from "react-admin-color-input";
-import MarkdownInput from "./MarkdownInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 export const GroupMemberList: React.FC<ListProps> = (props) => (
   <List {...props} resource="groups-members">

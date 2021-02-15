@@ -19,9 +19,9 @@ import {
   SimpleForm,
   SimpleFormIterator,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
-import MarkdownInput from "./MarkdownInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 export const ArticleList: React.FC<ListProps> = (props) => (
   <List {...props}>

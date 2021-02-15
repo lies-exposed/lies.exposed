@@ -16,7 +16,7 @@ import {
   TextField,
   TextInput
 } from "react-admin";
-import MarkdownInput from "./MarkdownInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 export const UserList: React.FC<ListProps> = (props) => (
   <List {...props} resource="users">
