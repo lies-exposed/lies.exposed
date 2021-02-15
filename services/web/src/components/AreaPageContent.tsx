@@ -11,27 +11,18 @@ import EditButton from "./buttons/EditButton";
 import GroupList from "./lists/GroupList";
 import TopicList from "./lists/TopicList";
 
-export interface AreaPageContentProps extends Area.AreaMD {
+export interface AreaPageContentProps extends Area.Area {
   onGroupClick: (g: Group.Group) => void;
   onTopicClick: (t: Topic.TopicFrontmatter) => void;
 }
 
 export const AreaPageContent: React.FC<AreaPageContentProps> = ({
-  frontmatter,
   body,
   onGroupClick,
   onTopicClick,
+  ...frontmatter
 }) => {
-  const featureCollection = {
-    type: `FeatureCollection` as "FeatureCollection",
-    features: [
-      {
-        type: `Feature` as "Feature",
-        geometry: frontmatter.polygon,
-        properties: frontmatter,
-      },
-    ],
-  };
+  const features = [frontmatter.geometry];
 
   return (
     <FlexGrid width="100%">
@@ -47,15 +38,15 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
         <Map
           width={600}
           height={300}
-          featureCollection={featureCollection}
-          center={featureCollection.features[0].geometry.coordinates[0][0]}
+          features={features}
+          center={[0, 0]}
           zoom={6}
           onMapClick={() => {}}
           controls={{
             zoom: false,
           }}
         />
-        {pipe(
+        {/* {pipe(
           frontmatter.groups,
           O.fromPredicate((g) => Array.isArray(g) && g.length > 0),
           O.fold(
@@ -71,8 +62,8 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
               </Block>
             )
           )
-        )}
-        {pipe(
+        )} */}
+        {/* {pipe(
           frontmatter.topics,
           O.fromPredicate((g) => Array.isArray(g) && g.length > 0),
           O.fold(
@@ -87,7 +78,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
               </Block>
             )
           )
-        )}
+        )} */}
         <MarkdownRenderer>{body}</MarkdownRenderer>
       </FlexGridItem>
     </FlexGrid>

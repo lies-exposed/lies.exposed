@@ -1,11 +1,11 @@
 import { endpoints } from "@econnessione/shared";
+import { ProjectEntity } from "@entities/Project.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
-import { ProjectEntity } from "./project.entity";
 
 export const MakeCreateProjectRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(endpoints.Project.Create, ({ body: { endDate, ...body } }) => {

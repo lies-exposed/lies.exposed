@@ -30,8 +30,9 @@ export const EditEventBody = nonEmptyRecordFromType({
   images: optionFromNullable(
     t.array(
       t.strict({
+        id: optionFromNullable(t.string),
         location: t.string,
-        description: t.string,
+        description: optionFromNullable(t.string),
       })
     )
   ),

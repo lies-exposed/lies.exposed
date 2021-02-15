@@ -161,8 +161,8 @@ export const fourthEventMetadata: Events.Event[] = [
     images: O.some([
       {
         author: "Unknown",
-        description: O.some("Protest image"),
-        image: thirdImage,
+        description: "Protest image",
+        location: thirdImage,
       },
     ]),
     date: subDays(now, 5),

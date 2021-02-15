@@ -15,13 +15,25 @@ export const UserCreate = Endpoint({
   Method: "POST",
   getPath: () => "/users",
   Input: {
-    Body: t.strict({
-      username: t.string,
-      firstName: t.string,
-      lastName: t.string,
-      email: t.string,
-      password: t.string,
-    }, 'UserCreateBody'),
+    Body: t.strict(
+      {
+        username: t.string,
+        firstName: t.string,
+        lastName: t.string,
+        email: t.string,
+        password: t.string,
+      },
+      "UserCreateBody"
+    ),
   },
-  Output: User,
+  Output: t.strict({
+    data: User,
+  }),
+});
+
+export const UserList = Endpoint({
+  Method: "GET",
+  getPath: () => "/users",
+  Input: {},
+  Output: t.strict({ data: t.array(User), total: t.number }),
 });

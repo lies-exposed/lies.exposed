@@ -26,7 +26,7 @@ export default class AreasPage extends React.PureComponent<RouteComponentProps> 
           <MainContent>
             <PageContent {...pageContent} />
             <AreasMap
-              areas={areas.map((a) => a.frontmatter)}
+              areas={areas}
               width={800}
               height={400}
             />

@@ -37,11 +37,11 @@ const NetworkGraphExample = Template.bind({});
 
 const args: EventsNetworkProps = {
   scale: "all" as "all",
+  groupBy: 'group',
   scalePoint: O.none,
   events: uncategorizedEvents,
   actors: [],
   groups: [],
-  topics: [],
   selectedActorIds: actors.map((a) => a.id),
   selectedGroupIds: [],
   selectedTopicIds: [],

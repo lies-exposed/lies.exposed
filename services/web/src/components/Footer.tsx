@@ -13,13 +13,14 @@ export const Footer: React.FC = () => {
   const [, theme] = themedUseStyletron();
   const {
     site: {
-      siteMetadata: { title, github },
+      siteMetadata: { title, github, mattermost },
     },
   } = {
     site: {
       siteMetadata: {
         title: "",
-        github: { link: "github.com" },
+        github: { link: "https://github.com/ascariandrea/econnessione" },
+        mattermost: { link: "https://mattermost.econnessione.org" },
       },
     },
   };
@@ -54,7 +55,7 @@ export const Footer: React.FC = () => {
                 </StyledLink>
               </li>
               <li>
-                <StyledLink>
+                <StyledLink href={mattermost.link}>
                   <FontAwesomeIcon icon={faSlack} /> Slack
                 </StyledLink>
               </li>

@@ -1,5 +1,8 @@
+import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
+  ArrayField,
+  ArrayInput,
   Create,
   CreateProps,
   Datagrid,
@@ -7,17 +10,27 @@ import {
   DateInput,
   Edit,
   EditProps,
+  FileInput,
+  FormDataConsumer,
   FormTab,
+  ImageField,
+  ImageInput,
   List,
   ListProps,
+  ReferenceArrayField,
   required,
   SimpleForm,
+  SimpleFormIterator,
+  SingleFieldList,
   TabbedForm,
   TextField,
   TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
-import MarkdownInput from "./MarkdownInput";
+import { AreaEdit } from "./AdminAreas";
+import { MapField } from "./Common/MapField";
+import { MapInput } from "./Common/MapInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 const RESOURCE = "projects";
 
@@ -48,8 +61,28 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
+      <FormTab label="Location">
+        <ArrayField source="areas" fieldKey="id" resource="areas">
+          <SingleFieldList>
+            <MapField source="geometry" type={GeometryType.POLYGON} />
+          </SingleFieldList>
+        </ArrayField>
+      </FormTab>
       <FormTab label="images">
-        
+        <ArrayInput source="newImages">
+          <SimpleFormIterator>
+            <ImageInput source="location">
+              <ImageField src="src" />
+            </ImageInput>
+          </SimpleFormIterator>
+        </ArrayInput>
+        <ArrayField source="images">
+          <Datagrid rowClick="edit">
+            <TextField source="id" />
+            <ImageField source="location" fullWidth={false} />
+            <TextField source="description" />
+          </Datagrid>
+        </ArrayField>
       </FormTab>
       <FormTab label="Body">
         <MarkdownInput source="body" />
@@ -65,6 +98,7 @@ export const ProjectCreate: React.FC<CreateProps> = (props) => (
       <ColorInput source="color" validate={[required()]} />
       <DateInput source="startDate" validate={[required()]} />
       <DateInput source="endDate" />
+      <MapInput source="areas" type={GeometryType.POLYGON} />
       <MarkdownInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>

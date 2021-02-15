@@ -89,6 +89,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
         display="flex"
       >
         <FlexGridItem
+          display="flex"
           overrides={{
             Block: {
               style: ({ $theme }) => ({
@@ -106,8 +107,8 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
                   height={400}
                   slides={images.map((i) => ({
                     authorName: "",
-                    info: O.getOrElse(() => "")(i.description),
-                    imageURL: i.image,
+                    info: i.description ?? "",
+                    imageURL: i.location,
                   }))}
                   arrows={true}
                   adaptiveHeight={true}

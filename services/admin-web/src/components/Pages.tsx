@@ -11,9 +11,9 @@ import {
   required,
   SimpleForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
-import MarkdownInput from "./MarkdownInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 export const PageList: React.FC<ListProps> = (props) => (
   <List {...props}>

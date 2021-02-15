@@ -23,7 +23,7 @@ import {
   TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
-import MarkdownInput from "./MarkdownInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 const RESOURCE = "groups";
 

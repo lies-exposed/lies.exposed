@@ -3,15 +3,17 @@ import {
   ProjectEdit,
   ProjectList,
 } from "@components/AdminProjects";
+import { UserCreate, UserEdit, UserList } from "@components/AdminUsers";
 import PageIcon from "@material-ui/icons/Archive";
 import ProjectIcon from "@material-ui/icons/Build";
 import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import * as React from "react";
-import { Admin,  Login, Resource } from "react-admin";
+import { Admin, defaultTheme, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
 import { ActorCreate, ActorEdit, ActorList } from "./components/AdminActors";
+import { AreaList, AreaCreate, AreaEdit } from "./components/AdminAreas";
 import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
@@ -29,6 +31,7 @@ const AdminPage: React.FC = () => {
       dataProvider={apiProvider}
       authProvider={authProvider}
       loginPage={Login}
+      theme={defaultTheme}
     >
       <Resource
         name="pages"
@@ -66,6 +69,13 @@ const AdminPage: React.FC = () => {
         edit={GroupMemberEdit}
       />
       <Resource
+        name="areas"
+        list={AreaList}
+        create={AreaCreate}
+        edit={AreaEdit}
+      />
+
+      <Resource
         name="projects"
         list={ProjectList}
         edit={ProjectEdit}
@@ -78,6 +88,14 @@ const AdminPage: React.FC = () => {
         edit={EventEdit}
         create={EventCreate}
         icon={EventIcon}
+      />
+
+      <Resource
+        name="users"
+        list={UserList}
+        edit={UserEdit}
+        create={UserCreate}
+        icon={VerifiedUserIcon}
       />
     </Admin>
   );

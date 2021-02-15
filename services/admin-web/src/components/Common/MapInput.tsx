@@ -1,13 +1,13 @@
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import GeoJSON from "ol/format/GeoJSON";
+import GeometryType from "ol/geom/GeometryType";
 import Draw from "ol/interaction/Draw.js";
-import TileLayer from "ol/layer/Tile.js";
-import VectorLayer from "ol/layer/Vector.js";
-import OSMSource from "ol/source/OSM.js";
-import VectorSource from "ol/source/Vector.js";
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import "ol/ol.css";
+import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
 import React from "react";
-import { BooleanField, InputProps, useInput } from "react-admin";
+import { InputProps, useInput } from "react-admin";
 
 const formatOptions = {
   dataProjection: "EPSG:4326",
@@ -15,57 +15,91 @@ const formatOptions = {
 };
 const getDefaultFormat = (): GeoJSON => new GeoJSON(formatOptions);
 
-const getDefaultMap = (target: any, featuresLayer: any): Map =>
-  new Map({
+const getDefaultMap = (
+  target: HTMLDivElement,
+  featuresLayer: VectorLayer
+): Map => {
+  return new Map({
     target,
     layers: [new TileLayer({ source: new OSMSource() }), featuresLayer],
     view: new View({ center: [0, 0], zoom: 2 }),
   });
+};
 
-export const MapInput: React.FC<InputProps> = (props) => {
-  const {
-    input: { onChange, value, ...inputProps },
-  } = useInput(props);
+type MapInputProps = InputProps & {
+  type: GeometryType;
+};
 
-  const field: any = {};
+export const MapInput: React.FC<MapInputProps> = (props) => {
   // eslint-disable-next-line
-  console.log({ value, inputProps });
+  console.log({ props });
+  const inputProps = useInput(props);
+  // eslint-disable-next-line
+  console.log("inputProps", inputProps);
+  const {
+    input: { value, onChange },
+  } = inputProps;
   const mapContainer = React.createRef<HTMLDivElement>();
+  // eslint-disable-next-line
+
+  // const oldValue = props.record[props.source]
+  const mapClassName = `map-input-${props.record.id}`;
 
   React.useEffect(() => {
-    const format = getDefaultFormat();
-    const features = value ? [format.readFeature(value)] : [];
+    if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
+      const format = getDefaultFormat();
+      const features = value ? [format.readFeature(value)] : [];
+      // eslint-disable-next-line
+      console.log(features);
+      const featuresSource = new VectorSource({ features, wrapX: false });
+      const featuresLayer = new VectorLayer({ source: featuresSource });
 
-    const featuresSource = new VectorSource({ features, wrapX: false });
-    const featuresLayer = new VectorLayer({ source: featuresSource });
+      // eslint-disable-next-line
+      console.log(featuresSource);
 
-    const target = mapContainer.current;
-    const map = getDefaultMap(target, featuresLayer);
-    if (features.length > 0) {
-      map.getView().fit(featuresSource.getExtent(), {
-        maxZoom: 16,
-        padding: [80, 80, 80, 80],
-      });
+      const target = mapContainer.current;
+      if (target) {
+        const map = getDefaultMap(target, featuresLayer);
+        if (features.length > 0) {
+          map.getView().fit(featuresSource.getExtent(), {
+            maxZoom: 16,
+            padding: [80, 80, 80, 80],
+          });
+        }
+
+        const draw = new Draw({
+          source: featuresSource,
+          type: props.type,
+        });
+        map.addInteraction(draw);
+
+        const writeOptions = { decimals: 7 };
+        draw.on("drawend", (opts) => {
+          featuresSource.clear();
+          const geometry = opts.feature.getGeometry();
+          if (geometry) {
+            onChange(format.writeGeometry(geometry, writeOptions));
+          }
+        });
+      }
     }
 
-    const draw = new Draw({
-      source: featuresSource,
-      type: "Point" as any,
-    });
-    map.addInteraction(draw);
-
-    const writeOptions = { decimals: 7 };
-    draw.on("drawend", ({ feature }) => {
-      featuresSource.clear();
-      onChange(format.writeGeometry(feature.getGeometry(), writeOptions));
-    });
+    return () => {
+      const mapDiv = document.querySelector(`.${mapClassName}`);
+      if (mapDiv !== null) {
+        mapDiv.innerHTML = "";
+      }
+    };
   });
+
+  // eslint-disable-next-line
+  console.log({ mapContainer, mapClassName });
 
   return (
     <div
-      className={"map-input"}
+      className={mapClassName}
       ref={mapContainer}
       style={{ height: 300, width: 600 }}
-    />
+    ></div>
   );
 };

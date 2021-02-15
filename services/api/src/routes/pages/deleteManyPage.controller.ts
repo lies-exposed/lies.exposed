@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 import { In } from "typeorm";
-import { PageEntity } from "./page.entity";
+import { PageEntity } from "../../entities/Page.entity";
 
 export const MakeDeleteManyPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(endpoints.Page.DeleteManyPage, ({ query: { ids } }) => {

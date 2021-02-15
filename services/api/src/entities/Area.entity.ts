@@ -2,26 +2,25 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+
+
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 
-@Entity("project")
-export class ProjectEntity {
+@Entity("area")
+export class AreaEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: "varchar" })
-  name: string;
+  @Column({ type: "varchar", nullable: false })
+  label: string;
 
-  @Column({ type: "varchar" })
+  @Column({ type: 'varchar', nullable: false })
   color: string;
 
-  @Column({ type: "timestamptz", nullable: false })
-  startDate: Date;
-
-  @Column({ type: "timestamptz", nullable: true })
-  endDate: Date | null;
+  @Column({ type: "json", nullable: true })
+  geometry: { type: "Polygon"; coordinates: [number, number] };
 
   @Column({ type: "varchar" })
   body: string;

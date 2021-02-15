@@ -1,4 +1,5 @@
 import { endpoints } from "@econnessione/shared";
+import { ProjectEntity } from "@entities/Project.entity";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -7,7 +8,6 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
-import { ProjectEntity } from "./project.entity";
 import { toProjectIO } from "./project.io";
 
 export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
@@ -15,7 +15,7 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(
-          ctx.db.find(ProjectEntity, { loadRelationIds: true }),
+          ctx.db.find(ProjectEntity, { relations: ['images', 'areas'] }),
           TE.chainEitherK(A.traverse(E.either)(toProjectIO))
         ),
         count: ctx.db.count(ProjectEntity),

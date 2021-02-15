@@ -60,7 +60,7 @@ const EventsMap: React.FC<EventsMapProps> = ({ events, width, height }) => {
         height={height}
         data={data as any}
         featureRenderer={(f, i) => {
-          const color = "white";
+          const color = "red";
           return (
             <path
               key={`map-feature-${i}`}

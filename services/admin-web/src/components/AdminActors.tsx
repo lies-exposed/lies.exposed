@@ -11,15 +11,14 @@ import {
   ImageInput,
   List,
   ListProps,
+  ReferenceArrayField,
   SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
-  ReferenceArrayField,
 } from "react-admin";
 import { ColorField, ColorInput } from "react-admin-color-input";
-import { GroupList } from "./AdminGroups";
-import MarkdownInput from "./MarkdownInput";
+import MarkdownInput from "./Common/MarkdownInput";
 
 export const ActorList: React.FC<ListProps> = (props) => (
   <List {...props} resource="actors">
@@ -73,7 +72,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
 );
 
 export const ActorCreate: React.FC<CreateProps> = (props) => (
-  <Create {...props} title="Create an Actor" >
+  <Create {...props} title="Create an Actor">
     <SimpleForm>
       <ColorInput source="color" />
       <TextInput source="username" />

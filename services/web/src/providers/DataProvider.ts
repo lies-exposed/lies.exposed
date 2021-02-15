@@ -4,14 +4,14 @@ import { CachedQuery } from "avenger/lib/Query";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+
 import * as t from "io-ts";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import type {
   GetListParams,
   GetListResult,
   GetOneParams,
-  GetOneResult,
+  GetOneResult
 } from "react-admin";
 import { APIClient } from "./APIClient";
 
@@ -54,7 +54,7 @@ export const dataProvider = APIClient({
 // interface WithId { id: t.StringC }
 
 const Resources = {
-  areas: io.http.Area.AreaMD,
+  areas: io.http.Area.Area,
   pages: io.http.Page.PageMD,
   articles: io.http.Article.Article,
   actors: io.http.Actor.Actor,
@@ -165,6 +165,7 @@ export const jsonData = queryStrict(
   available
 );
 
+export const area = GetOneQuery("areas");
 export const project = GetOneQuery("projects");
 export const group = GetOneQuery("groups");
 export const actor = GetOneQuery("actors");
@@ -179,7 +180,7 @@ export const articleByPath = queryStrict<
   ({ path }) =>
     pipe(
       liftFetch(
-        () => dataProvider.get("/articles", { path }),
+        () => dataProvider.get("articles", { path }),
         io.http.Common.GetListOutput(io.http.Article.Article, "Articles")
       ),
       TE.map((pages) => pages.data[0])

@@ -2,14 +2,12 @@ import { Area } from "@econnessione/shared/lib/io/http";
 import { generateRandomColor } from "@utils/colors";
 import uuid from "@utils/uuid";
 
-export const firstArea: Area.AreaFrontmatter = {
+export const firstArea: Area.Area = {
   id: uuid(),
-  type: "AreaFrontmatter",
   label: "First Area",
-  topics: [],
-  groups: [],
   color: generateRandomColor(),
-  polygon: {
+  body: "",
+  geometry: JSON.stringify({
     type: "Polygon",
     coordinates: [
       [
@@ -20,7 +18,7 @@ export const firstArea: Area.AreaFrontmatter = {
         [-351.9827194, 45.5162451],
       ],
     ],
-  },
+  }),
   createdAt: new Date(),
   updatedAt: new Date(),
 };

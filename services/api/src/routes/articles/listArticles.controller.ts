@@ -1,4 +1,5 @@
 import { endpoints } from "@econnessione/shared";
+import { ArticleEntity } from "@entities/Article.entity";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -7,7 +8,6 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
-import { ArticleEntity } from "./article.entity";
 import { toArticleIO } from "./article.io";
 
 export const MakeListArticlesRoute: Route = (r, { env, db }) => {

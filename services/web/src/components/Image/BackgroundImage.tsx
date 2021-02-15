@@ -1,8 +1,7 @@
-import { Image } from "@econnessione/shared/lib/io/http";
 import * as React from "react";
 
 interface BackgroundImageProps {
-  image: Image.ImageFileNode;
+  image: string;
   style?: React.CSSProperties;
 }
 

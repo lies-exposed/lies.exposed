@@ -4,6 +4,7 @@
     "outDir": "./build",
     "baseUrl": "./src",
     "rootDir": "./src",
+    "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
       "./src/typings",
       "node_modules/@types",

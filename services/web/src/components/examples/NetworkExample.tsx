@@ -47,20 +47,17 @@ const NetworkExample: React.FC = () => {
         {!showGroupLinks ? "show" : "hide"} groups links
       </button>
       <EventsNetwork
+        groupBy="actor"
         scale={"all"}
         scalePoint={O.none}
         events={pipe(events, A.filter(Events.Uncategorized.Uncategorized.is))}
         actors={actors.map((a) => ({
           ...a,
-          avatar: O.toUndefined(a.avatar),
           body: "empty",
         }))}
         groups={groups.map((g) => ({
           ...g,
           body: "empty",
-        }))}
-        topics={topics.map((t) => ({
-          ...t,
         }))}
         selectedActorIds={selectedActorIds}
         selectedGroupIds={selectedGroupIds}

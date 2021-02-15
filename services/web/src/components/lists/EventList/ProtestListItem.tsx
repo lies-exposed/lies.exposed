@@ -36,9 +36,9 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
                     key="home-slider"
                     height={400}
                     slides={images.map((i) => ({
-                      authorName: i.author,
-                      info: O.getOrElse(() => "")(i.description),
-                      imageURL: i.image,
+                      authorName: "",
+                      info: i.description ?? "",
+                      imageURL: i.location,
                     }))}
                     arrows={true}
                     adaptiveHeight={true}

@@ -154,8 +154,9 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       options?: SaveOptions
     ) => {
       ctx.logger.debug.log(
-        `save entity %s with data %O with options %O`,
+        `save entity %s with data %O with data %O options %O`,
         entity,
+        data,
         options
       );
       return TE.tryCatch(

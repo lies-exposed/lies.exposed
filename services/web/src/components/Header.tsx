@@ -6,14 +6,14 @@ import {
   ALIGN,
   HeaderNavigation,
   StyledNavigationItem,
-  StyledNavigationList
+  StyledNavigationList,
 } from "baseui/header-navigation";
 import { StyledLink } from "baseui/link";
 import { StatefulMenu } from "baseui/menu";
 import {
   PLACEMENT as PopoverPlacement,
   StatefulPopover,
-  TRIGGER_TYPE
+  TRIGGER_TYPE,
 } from "baseui/popover";
 import React from "react";
 
@@ -98,63 +98,66 @@ const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
   );
 };
 
-export const mainMenu: MenuItem[] = [
-  // {
-  //   id: "project",
-  //   href: "/project",
-  //   label: "Progetto",
-  //   subItems: [
-  //     {
-  //       id: "the-crisis",
-  //       href: "/the-crisis",
-  //       label: "La Crisi",
-  //     },
-  //     {
-  //       id: "docs",
-  //       href: "/docs",
-  //       label: "Docs",
-  //     },
-  //   ],
-  // },
-  // {
-  //   id: "blog",
-  //   href: "/blog",
-  //   label: "Blog",
-  //   subItems: [],
-  // },
-  // {
-  //   id: "events",
-  //   href: "/events",
-  //   label: "Events",
-  //   subItems: [
-  //     {
-  //       id: "actors",
-  //       href: "/actors",
-  //       label: "Attori",
-  //     },
-  //     {
-  //       id: "groups",
-  //       href: "/groups",
-  //       label: "Groups",
-  //     },
-  //     {
-  //       id: "topics",
-  //       href: "/topics",
-  //       label: "Topics",
-  //     },
-  //     {
-  //       id: "areas",
-  //       href: "/areas",
-  //       label: "Aree",
-  //     },
-  //     {
-  //       id: "projects",
-  //       href: "/projects",
-  //       label: "Progetti",
-  //     },
-  //   ],
-  // },
-];
+export const mainMenu: MenuItem[] =
+  process.env.NODE_ENV === "development"
+    ? [
+        {
+          id: "project",
+          href: "/project",
+          label: "Progetto",
+          subItems: [
+            {
+              id: "the-crisis",
+              href: "/the-crisis",
+              label: "La Crisi",
+            },
+            {
+              id: "docs",
+              href: "/docs",
+              label: "Docs",
+            },
+          ],
+        },
+        {
+          id: "blog",
+          href: "/blog",
+          label: "Blog",
+          subItems: [],
+        },
+        {
+          id: "events",
+          href: "/events",
+          label: "Events",
+          subItems: [
+            {
+              id: "actors",
+              href: "/actors",
+              label: "Attori",
+            },
+            {
+              id: "groups",
+              href: "/groups",
+              label: "Groups",
+            },
+            {
+              id: "topics",
+              href: "/topics",
+              label: "Topics",
+            },
+            {
+              id: "areas",
+              href: "/areas",
+              label: "Aree",
+            },
+            {
+              id: "projects",
+              href: "/projects",
+              label: "Progetti",
+            },
+          ],
+        },
+      ]
+    : [];
 
 const Header: React.FC = () => {
   const {

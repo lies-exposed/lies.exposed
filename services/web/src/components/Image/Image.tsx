@@ -1,11 +1,10 @@
-import * as io from "@econnessione/shared/lib/io/http";
 import * as React from "react";
 
 interface ProjectImageProps {
   alt: string;
   isTablet: boolean;
   style?: React.CSSProperties;
-  image: io.Image.ImageFileNode;
+  image: string;
 }
 
 export const Image: React.FC<ProjectImageProps> = ({ alt, image, style }) => (

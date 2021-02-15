@@ -3,7 +3,6 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { BaseFrontmatter } from "../Common/BaseFrontmatter";
 import { ByGroupOrActor } from "../Common/ByGroupOrActor";
 import { Impact } from "../Common/Impact";
-import { ImageFileNode } from "../Image";
 import { Project } from "../Project";
 
 export const PROJECT_IMPACT = "ProjectImpact";
@@ -17,7 +16,7 @@ export const ProjectImpact = t.strict(
     date: DateFromISOString,
     approvedBy: t.array(ByGroupOrActor),
     executedBy: t.array(ByGroupOrActor),
-    images: t.array(ImageFileNode),
+    images: t.array(t.string),
     impact: Impact,
   },
   PROJECT_IMPACT

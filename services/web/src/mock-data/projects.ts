@@ -14,30 +14,28 @@ export const firstGoodProject: Project.Project = {
   id: uuid(),
   name: "Good Project",
   color: generateRandomColor(),
-  areas: [firstArea.polygon],
+  areas: [firstArea],
   images: [
     {
-      author: "Unknown",
-      description: O.some("first image"),
-      image: firstImage,
+      description: "first image",
+      location: firstImage,
     },
   ],
   startDate: subYears(today, 3),
   endDate: addYears(today, 10),
   createdAt: subDays(today, 7),
   updatedAt: today,
-  body: ""
+  body: "",
 };
 
 export const firstBadProject: Project.Project = {
   id: uuid(),
   name: "Bad Project",
-  areas: NEA.of(firstPolygon),
+  areas: NEA.of(firstArea),
   images: [
     {
-      author: "Unknown",
-      description: O.some("first image"),
-      image: firstImage,
+      description: "first image",
+      location: firstImage,
     },
   ],
   startDate: subYears(today, 3),
@@ -45,7 +43,7 @@ export const firstBadProject: Project.Project = {
   updatedAt: today,
   color: generateRandomColor(),
   endDate: addYears(today, 1),
-  body: ""
+  body: "",
 };
 
 export const projects = [firstGoodProject, firstBadProject];
