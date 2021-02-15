@@ -13,14 +13,7 @@ const AreasMap = ({
   width,
   height,
 }: AreasMapProps<Area.Area>): JSX.Element => {
-  const data = {
-    type: `FeatureCollection` as "FeatureCollection",
-    features: areas.map((a) => ({
-      type: `Feature` as "Feature",
-      geometry: a.polygon,
-      properties: a,
-    })),
-  };
+  const features = areas.map((a) => a.geometry);
 
   return (
     <div
@@ -34,16 +27,21 @@ const AreasMap = ({
       <Map
         width={width}
         height={height}
-        featureCollection={data}
-        center={
-          data.features[0]
-            ? data.features[0].geometry.coordinates[0][0]
-            : [0, 0]
-        }
-        zoom={2}
+        features={features}
+        center={[0, 0]}
+        zoom={10}
         onMapClick={async (features) => {
-          // const area = features[0].getProperties() as Area.AreaFrontmatter
-          // await navigate(`/areas/${area.id}`)
+          if (features.length > 0) {
+            const area = features[0].getProperties() as Area.Area;
+            // await navigate(`/areas/${area.id}`)
+            if (area) {
+              alert(JSON.stringify(area));
+            }
+          }
+        }}
+        interactions={{
+          doubleClickZoom: true,
+          dragPan: true,
         }}
       />
     </div>

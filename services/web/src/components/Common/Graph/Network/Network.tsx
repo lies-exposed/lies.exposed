@@ -13,7 +13,7 @@ import * as React from "react";
 import NetworkLink, { NetworkLinkProps } from "./NetworkLink";
 import { NetworkNode, NetworkNodeDatum, NetworkPointNode } from "./NetworkNode";
 
-const backgroundColor = "#28272c";
+const backgroundColor = "#123ed4";
 
 function numTicksForWidth(width: number): number {
   if (width <= 300) return 2;

@@ -25,7 +25,7 @@ const geoJSONFormat = new GEOJSON(formatOptions);
 interface MapProps {
   width: number;
   height: number;
-  featureCollection: any;
+  features: string[];
   center: [number, number];
   zoom: number;
   interactions?: OlInteraction.DefaultsOptions;
@@ -36,7 +36,7 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({
   width,
   height,
-  featureCollection,
+  features: featuresString,
   center,
   zoom,
   interactions,
@@ -44,15 +44,17 @@ const Map: React.FC<MapProps> = ({
   onMapClick,
 }) => {
   React.useEffect(() => {
-    const features = geoJSONFormat.readFeatures(featureCollection);
+    const features = featuresString.map(f => geoJSONFormat.readFeature(f));
 
-    const source = new VectorSource({
+    // eslint-disable-next-line
+    console.log(features);
+    const featureSource = new VectorSource({
       format: geoJSONFormat,
       features,
     });
 
-    const layer = new VectorLayer({
-      source,
+    const featuresLayer = new VectorLayer({
+      source: featureSource,
       style: (feature) => {
         const area = feature.getProperties() as Area.Area;
         return new Style({
@@ -81,7 +83,7 @@ const Map: React.FC<MapProps> = ({
         new TileLayer({
           source: new OSM(),
         }),
-        layer,
+        featuresLayer,
       ],
     });
 
@@ -94,7 +96,7 @@ const Map: React.FC<MapProps> = ({
 
     map.on("click", (evt) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      layer.getFeatures(evt.pixel).then((features) => {
+      featuresLayer.getFeatures(evt.pixel).then((features) => {
         onMapClick(features);
       });
     });

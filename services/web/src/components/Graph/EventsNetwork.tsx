@@ -38,7 +38,7 @@ import * as React from "react";
 interface EventNetworkDatum extends NetworkNodeDatum {
   title: string;
   date: Date;
-  topics: NEA.NonEmptyArray<Topic.TopicFrontmatter>;
+  groupBy: NEA.NonEmptyArray<Actor.Actor | Group.Group>;
   actors: O.Option<Actor.Actor[]>;
 }
 
@@ -51,7 +51,7 @@ export interface EventsNetworkProps {
   events: Events.Uncategorized.Uncategorized[];
   actors: Actor.Actor[];
   groups: Group.Group[];
-  topics: Topic.TopicFrontmatter[];
+  groupBy: "group" | "actor";
   selectedActorIds: string[];
   selectedGroupIds: string[];
   selectedTopicIds: string[];
@@ -84,7 +84,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
                         <LabelSmall>
                           Data: {formatDate(tooltipData.date)}
                         </LabelSmall>
-                        <div>
+                        {/* <div>
                           <TopicList
                             topics={tooltipData.topics.map((t) => ({
                               ...t,
@@ -92,7 +92,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
                             }))}
                             onTopicClick={() => {}}
                           />
-                        </div>
+                        </div> */}
                         {pipe(
                           tooltipData.actors,
                           O.map((actors) => (
@@ -117,7 +117,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
               <div className="legends">
                 <LegendDemo title="Topics">
                   <LegendOrdinal
-                    scale={networkProps.topicsScale}
+                    scale={networkProps.groupByScale}
                     labelFormat={(datum) => datum}
                   >
                     {(labels) => {
@@ -289,7 +289,7 @@ const getX = (
 };
 
 const getY = (
-  topics: Topic.TopicFrontmatter[],
+  topics: Array<{ id: string }>,
   margin: number,
   height: number
 ) => (key: string) =>
@@ -360,13 +360,16 @@ const getLinks = (
 
 interface Result {
   eventNodes: Array<NetworkPointNode<EventNetworkDatum>>;
-  topicLinks: Map<string, NetworkLink[]>;
-  actorLinks: Map<string, NetworkLink[]>;
-  groupLinks: Map<string, NetworkLink[]>;
   selectedEvents: Events.Uncategorized.Uncategorized[];
-  topics: Map<string, Topic.TopicFrontmatter>;
+  // group by
+  groupByItems: Map<string, Actor.Actor | Group.Group>;
+  groupByLinks: Map<string, NetworkLink[]>;
+  // actors
   actors: Map<string, Actor.Actor>;
+  actorLinks: Map<string, NetworkLink[]>;
+  // groups
   groups: Map<string, Group.Group>;
+  groupLinks: Map<string, NetworkLink[]>;
 }
 
 export interface NetworkTemplateData {
@@ -389,6 +392,7 @@ export interface NetworkTemplateProps {
   minDate: Date;
   maxDate: Date;
   scale: NetworkScale;
+  groupBy: "actor" | "group" | "project";
   graph: {
     nodes: Array<NetworkPointNode<EventNetworkDatum>>;
     links: NetworkLink[];
@@ -396,16 +400,18 @@ export interface NetworkTemplateProps {
   selectedEvents: Events.Uncategorized.Uncategorized[];
   width: number;
   height: number;
-  topicsScale: ScaleOrdinal<string, string>;
+  groupByScale: ScaleOrdinal<string, string>;
   actorsScale: ScaleOrdinal<string, string>;
   groupsScale: ScaleOrdinal<string, string>;
 }
+
+type GroupByItem = Actor.Actor | Group.Group;
 
 export function createNetworkTemplateProps({
   events,
   actors: allActors,
   groups: allGroups,
-  topics: allTopics,
+  groupBy,
   scale,
   scalePoint,
   selectedActorIds,
@@ -435,24 +441,25 @@ export function createNetworkTemplateProps({
 
   const networkWidth = differenceInDays(maxDate, minDate) * 5;
 
-  const topicsList = orderedEvents.reduce<Topic.TopicFrontmatter[]>(
-    (acc, e) => [
-      ...acc,
-      ...allTopics.filter(
-        (t) => !acc.some((i) => Eq.eqString.equals(i.id, t.id))
-      ),
-    ],
-    []
-  );
+  const yList = groupBy === "group" ? allGroups : allActors;
+  // const topicsList = orderedEvents.reduce<Topic.TopicFrontmatter[]>(
+  //   (acc, e) => [
+  //     ...acc,
+  //     ...allTopics.filter(
+  //       (t) => !acc.some((i) => Eq.eqString.equals(i.id, t.id))
+  //     ),
+  //   ],
+  //   []
+  // );
 
-  const yGetter = getY(topicsList, margin.vertical, height);
+  const yGetter = getY(yList, margin.vertical, height);
 
   const result: Result = {
     eventNodes: [],
-    topicLinks: Map.empty,
+    groupByLinks: Map.empty,
     actorLinks: Map.empty,
     groupLinks: Map.empty,
-    topics: Map.empty,
+    groupByItems: Map.empty,
     actors: Map.empty,
     groups: Map.empty,
     selectedEvents: [],
@@ -461,10 +468,10 @@ export function createNetworkTemplateProps({
   const {
     eventNodes,
     selectedEvents,
-    topicLinks,
+    groupByLinks: topicLinks,
     actorLinks,
     groupLinks,
-    topics,
+    groupByItems,
     actors,
     groups,
   } = pipe(
@@ -479,20 +486,21 @@ export function createNetworkTemplateProps({
       // console.log({isBetweenDateRange, networkWidth})
 
       if (isBetweenDateRange) {
-        const eventNodes: NEA.NonEmptyArray<
-          NetworkPointNode<EventNetworkDatum>
-        > = pipe(
-          e.topics,
-          A.map((tId) =>
+        const groupByEventList =
+          groupBy === "group"
+            ? allGroups.filter((g) => e.groups.includes(g.id))
+            : allActors.filter((a) => e.actors.includes(a.id));
+        const groupByAllList = groupBy === "group" ? allGroups : allActors;
+        const eventNodes: Array<NetworkPointNode<EventNetworkDatum>> = pipe(
+          groupByEventList,
+          A.map((groupByItem: GroupByItem) =>
             pipe(
-              allTopics,
-              A.findFirst((topic) => topic.id === tId)
+              groupByAllList,
+              A.findFirst((item: GroupByItem) => item.id === groupByItem.id)
             )
           ),
           A.compact,
-          NEA.fromArray,
-          O.getOrElse(() => NEA.of(topicsList[0])),
-          NEA.map((t) => ({
+          A.map((groupByItem) => ({
             x:
               margin.horizontal +
               getX(
@@ -501,20 +509,20 @@ export function createNetworkTemplateProps({
                 maxDate,
                 networkWidth - margin.horizontal * 2
               ),
-            y: yGetter(t.id),
+            y: yGetter(groupByItem.id),
             data: {
               ...e,
               date: eventDate(e),
+              groupBy: [groupByItem],
               actors: pipe(
                 e.actors,
                 O.fromPredicate((items) => items.length > 0),
                 O.map((acts) => allActors.filter((a) => acts.includes(a.id)))
               ),
               label: e.title,
-              color: t.color,
-              topics: [t],
-              innerColor: t.color,
-              outerColor: t.color,
+              color: groupByItem.color,
+              innerColor: groupByItem.color,
+              outerColor: groupByItem.color,
             },
           }))
         );
@@ -538,20 +546,11 @@ export function createNetworkTemplateProps({
           O.getOrElse(() => false)
         );
 
-        const hasTopic = pipe(
-          O.some(e.topics),
-          O.map((topics) =>
-            allTopics.some((i) => selectedTopicIds.includes(i.id))
-          ),
-          O.getOrElse(() => false)
+        const hasGroupBy = groupByEventList.some((i: { id: string }) =>
+          selectedTopicIds.includes(i.id)
         );
 
-        const topics = pipe(
-          // e.topics,
-          allTopics,
-          // O.fromPredicate((items) => items.length > 0),
-          updateMap(acc.topics)
-        );
+        const groupByItems = updateMap(acc.groupByItems)(groupByEventList);
 
         const actors = pipe(
           e.actors,
@@ -569,20 +568,25 @@ export function createNetworkTemplateProps({
           updateMap(acc.groups)
         );
 
-        if (hasActor || hasTopic || hasGroup) {
-          const topicLinks = pipe(
-            e.topics,
-            A.filter((tId) => selectedTopicIds.includes(tId)),
-            (topics) => {
+        if (hasActor || hasGroupBy || hasGroup) {
+          const groupByLinks = pipe(
+            groupByEventList,
+            A.filter<Actor.Actor | Group.Group>((groupByItem) =>
+              groupBy === "group"
+                ? selectedGroupIds.includes(groupByItem.id)
+                : selectedActorIds.includes(groupByItem.id)
+            ),
+            (items) => {
               const emptyMap: Map<string, NetworkLink[]> = Map.empty;
               return pipe(
-                topics.map((tId) =>
+                items.map((item) =>
                   getLinks(
                     eventNodes.filter(
                       (e) =>
-                        e.data.topics.findIndex((tt) => tt.id === tId) === 0
+                        e.data.groupBy.findIndex((tt) => tt.id === item.id) ===
+                        0
                     ),
-                    acc.topicLinks
+                    acc.groupByLinks
                   )([])
                 ),
                 A.reduce(emptyMap, (mm, m) => {
@@ -631,9 +635,9 @@ export function createNetworkTemplateProps({
           return {
             eventNodes: [...acc.eventNodes, ...eventNodes],
             actorLinks,
-            topicLinks,
+            groupByLinks,
             groupLinks,
-            topics,
+            groupByItems,
             actors,
             groups,
             selectedEvents: [...acc.selectedEvents, e],
@@ -642,7 +646,7 @@ export function createNetworkTemplateProps({
 
         return {
           ...acc,
-          topics,
+          groupByItems,
           actors,
           groups,
           eventNodes: [...acc.eventNodes, ...eventNodes],
@@ -652,13 +656,15 @@ export function createNetworkTemplateProps({
     })
   );
 
-  const topicsArray = Map.toArray(Ord.ordString)(topics).flatMap(
-    ([_k, topics]) => topics
-  );
+  const groupByArray: NEA.NonEmptyArray<GroupByItem> = Map.toArray(
+    Ord.ordString
+  )(groupByItems).flatMap(([_k, items]) => items) as any;
 
-  const topicsScale = ordinalScale({
-    domain: topicsArray.map((t) => t.label),
-    range: topicsArray.map((t) => t.color),
+  const groupByScale = ordinalScale({
+    domain: groupByArray.map((t) =>
+      t.type === "GroupFrontmatter" ? t.name : t.username
+    ),
+    range: groupByArray.map((t) => t.color),
   });
 
   const actorsArray = Map.toArray(Ord.ordString)(actors).flatMap(
@@ -685,6 +691,7 @@ export function createNetworkTemplateProps({
     minDate,
     maxDate,
     scale,
+    groupBy,
     graph: {
       nodes: eventNodes,
       links: [
@@ -697,7 +704,7 @@ export function createNetworkTemplateProps({
         ),
       ],
     },
-    topicsScale,
+    groupByScale,
     actorsScale,
     groupsScale,
     selectedEvents,

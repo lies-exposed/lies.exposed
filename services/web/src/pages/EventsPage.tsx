@@ -3,6 +3,7 @@ import { ErrorBox } from "@components/Common/ErrorBox";
 import { Loader } from "@components/Common/Loader";
 import { ContentWithSidebar } from "@components/ContentWithSidebar";
 import EventsMap from "@components/EventsMap";
+import { EventsNetwork } from "@components/Graph/EventsNetwork";
 import { MainContent } from "@components/MainContent";
 import { PageContent } from "@components/PageContent";
 import SEO from "@components/SEO";
@@ -24,6 +25,7 @@ import { RouteComponentProps } from "@reach/router";
 import theme from "@theme/CustomeTheme";
 import { GetByGroupOrActorUtils } from "@utils/ByGroupOrActorUtils";
 import { eqByUUID } from "@utils/IOTSSchemable";
+import { formatDate } from "@utils/date";
 import { parseSearch, Routes, updateSearch } from "@utils/routes";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -337,7 +339,21 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                     <FlexGridItem width="100%">
                       <PageContent {...page} />
 
-                      <LabelMedium>Nº Eventi: {totalEvents}</LabelMedium>
+                      <LabelMedium>
+                        Nº Eventi: {totalEvents} dal {formatDate(minDate)} al{" "}
+                        {formatDate(maxDate)}{" "}
+                      </LabelMedium>
+                      {/* <EventsNetwork
+                        events={events}
+                        actors={actors}
+                        groups={groups}
+                        groupBy={'group'}
+                        selectedActorIds={selectedActorIds}
+                        selectedGroupIds={selectedGroupIds}
+                        selectedTopicIds={selectedTopicIds}
+                        scale={'all'}
+                        scalePoint={O.none}
+                      /> */}
                       <EventsMap events={events} width={600} height={400} />
                       <EventList
                         events={events}

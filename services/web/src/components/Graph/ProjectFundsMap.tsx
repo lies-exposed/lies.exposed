@@ -18,23 +18,14 @@ export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {
           O.fold(
             () => null,
             (areas) => {
-              const featureCollection = {
-                type: `FeatureCollection` as "FeatureCollection",
-                features: areas.map((a) => ({
-                  type: `Feature` as "Feature",
-                  geometry: a,
-                  properties: props.project,
-                })),
-              };
+              const features = areas.map((a) => a.geometry);
 
               return (
                 <Map
                   width={width}
                   height={height}
-                  featureCollection={featureCollection}
-                  center={
-                    featureCollection.features[0].geometry.coordinates[0][0]
-                  }
+                  features={features}
+                  center={[0, 0]}
                   zoom={6}
                   onMapClick={() => {}}
                 />

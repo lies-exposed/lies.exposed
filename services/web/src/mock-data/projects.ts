@@ -14,7 +14,7 @@ export const firstGoodProject: Project.Project = {
   id: uuid(),
   name: "Good Project",
   color: generateRandomColor(),
-  areas: [firstArea.polygon],
+  areas: [firstArea],
   images: [
     {
       description: "first image",
@@ -31,7 +31,7 @@ export const firstGoodProject: Project.Project = {
 export const firstBadProject: Project.Project = {
   id: uuid(),
   name: "Bad Project",
-  areas: NEA.of(firstPolygon),
+  areas: NEA.of(firstArea),
   images: [
     {
       description: "first image",

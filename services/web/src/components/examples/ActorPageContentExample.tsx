@@ -12,7 +12,7 @@ import * as React from "react";
 
 export const actorPageContentArgs: ActorPageContentProps = {
   ...goodActor,
-  avatar: O.toUndefined(goodActor.avatar),
+  avatar: goodActor.avatar,
   body: "",
   // tableOfContents: O.none,
   // timeToRead: O.none,
