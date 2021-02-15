@@ -49,16 +49,8 @@ export const Edit = Endpoint({
   Input: {
     Params: { id: t.string },
     Body: nonEmptyRecordFromType({
-      username: optionFromNullable(t.string),
-      fullName: optionFromNullable(t.string),
-      color: optionFromNullable(t.string),
-      body: optionFromNullable(t.string),
-      avatar: optionFromNullable(
-        t.strict({
-          src: t.string,
-          path: t.string,
-        })
-      ),
+      geometry: optionFromNullable(t.string),
+      label: optionFromNullable(t.string),
     }),
   },
   Output: SingleAreaOutput,

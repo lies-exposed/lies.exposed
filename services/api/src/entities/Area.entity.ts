@@ -16,8 +16,11 @@ export class AreaEntity {
   @Column({ type: "varchar", nullable: false })
   label: string;
 
+  @Column({ type: 'varchar', nullable: false })
+  color: string;
+
   @Column({ type: "json", nullable: true })
-  location: { type: "Polygon"; coordinates: [number, number] };
+  geometry: { type: "Polygon"; coordinates: [number, number] };
 
   @Column({ type: "varchar" })
   body: string;
