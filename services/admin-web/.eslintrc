@@ -3,7 +3,7 @@
   "plugins": ["@typescript-eslint", "react"],
   "parserOptions": {
     "tsconfigRootDir": "./",
-    "project": ["../../tsconfig.eslint.json", "./tsconfig.json"]
+    "project": ["./tsconfig.json"]
   },
   "rules": {
     "no-restricted-imports": [
