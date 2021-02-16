@@ -1,9 +1,13 @@
 {
   "extends": ["../../.eslintrc", "plugin:react/recommended"],
-  "plugins": ["@typescript-eslint", "react", "baseui"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "eslint-plugin-baseui"
+  ],
   "parserOptions": {
     "tsconfigRootDir": "./",
-    "project": ["../../tsconfig.eslint.json", "./tsconfig.json"]
+    "project": ["./tsconfig.json"]
   },
   "rules": {
     "baseui/deprecated-theme-api": "warn",
