@@ -51,8 +51,6 @@ export const dataProvider = APIClient({
   url: process.env.REACT_APP_API_URL,
 });
 
-// interface WithId { id: t.StringC }
-
 const Resources = {
   areas: io.http.Area.Area,
   pages: io.http.Page.PageMD,

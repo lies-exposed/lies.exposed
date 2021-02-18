@@ -1,0 +1,30 @@
+{
+  "extends": ["../../.eslintrc", "plugin:react/recommended"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "eslint-plugin-baseui"
+  ],
+  "parserOptions": {
+    "tsconfigRootDir": "./",
+    "project": ["./tsconfig.json"]
+  },
+  "rules": {
+    "baseui/deprecated-theme-api": "warn",
+    "baseui/deprecated-component-api": "warn",
+    "baseui/no-deep-imports": "warn",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["../*"]
+      }
+    ],
+    "react/prop-types": ["off"],
+    "@typescript-eslint/no-unused-vars": ["off"]
+  },
+  "settings": {
+    "react": {
+      "version": "16.12.0"
+    }
+  }
+}

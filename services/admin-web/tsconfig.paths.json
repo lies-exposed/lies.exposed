@@ -16,7 +16,13 @@
     "typeRoots": ["node_modules/@types", "./typings"],
     "baseUrl": "./src",
     "paths": {
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
     }
-  }
+  },
+  "references": [
+    {
+      "path": "../../packages/@econnessione/shared"
+    }
+  ]
 }

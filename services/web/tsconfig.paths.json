@@ -16,12 +16,8 @@
     "typeRoots": ["node_modules/@types", "./typings"],
     "baseUrl": "./src",
     "paths": {
-      "@components/*": ["./components/*"],
-      "@helpers/*": ["./helpers/*"],
       "@templates/*": ["./templates/*"],
       "@theme/*": ["./theme/*"],
-      "@mock-data/*": ["./mock-data/*"],
-      "@utils/*": ["./utils/*"],
       "@providers/*": ["./providers/*"]
     }
   }
