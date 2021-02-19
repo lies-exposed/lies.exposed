@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@econnessione/core": "0.1.0",
+		"d3-sankey": "^0.12.3",
 		"fp-ts": "^2.9",
 		"io-ts": "^2.2.13",
 		"io-ts-types": "^0.5.12",

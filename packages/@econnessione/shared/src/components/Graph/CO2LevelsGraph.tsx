@@ -153,7 +153,7 @@ export class CO2LevelsGraph extends React.PureComponent<
                           year: d.year,
                           value: d.data_mean_global,
                         }))
-                      : (data.data as any)
+                      : (data.data)
                   }
                   minYRange={toggleData === "last-2000-years" ? 240 : 150}
                   getX={(d) => d.year}
