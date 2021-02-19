@@ -27,7 +27,7 @@
     "test:e2e": "jest e2e",
     "core:build": "yarn workspace @econnessione/core build",
     "shared:build": "yarn workspace @econnessione/shared build",
-    "build:packages": "yarn core:build && yarn shared:build",
+    "packages:build": "yarn core:build && yarn shared:build",
     "packages:watch": "concurrently \"yarn core:build -w\" \"yarn shared:build -w\"",
     "api:start": "yarn workspace api start",
     "api:watch": "yarn workspace api watch",

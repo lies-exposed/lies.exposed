@@ -35,7 +35,7 @@ jobs:
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: Push to GitHub Packages
+      - name: Build and Push to GitHub Packages
         uses: docker/build-push-action@v1
         with:
           username: ${{ github.actor }}
@@ -57,7 +57,7 @@ jobs:
             docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -p "4010:4010" -d --name econnessione-api docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha
 
       - name: Build Packages
-        run: yarn build:packages
+        run: yarn packages:build
 
       - name: Build Storybook
         run: yarn workspace storybook build
