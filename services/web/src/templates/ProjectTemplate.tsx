@@ -1,9 +1,9 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { MainContent } from "@components/MainContent";
-import { ProjectPageContent } from "@components/ProjectPageContent";
-import SEO from "@components/SEO";
-import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import { ProjectPageContent } from "@econnessione/shared/components/ProjectPageContent";
+import SEO from "@econnessione/shared/components/SEO";
+import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
 import { project } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

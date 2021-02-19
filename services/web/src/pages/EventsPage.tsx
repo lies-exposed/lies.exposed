@@ -1,32 +1,31 @@
-import DatePicker from "@components/Common/DatePicker";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { ContentWithSidebar } from "@components/ContentWithSidebar";
-import EventsMap from "@components/EventsMap";
-import { EventsNetwork } from "@components/Graph/EventsNetwork";
-import { MainContent } from "@components/MainContent";
-import { PageContent } from "@components/PageContent";
-import SEO from "@components/SEO";
-import SearchableInput from "@components/SearchableInput";
-import { ActorListItem } from "@components/lists/ActorList";
-import EventList from "@components/lists/EventList/EventList";
-import { GroupListItem } from "@components/lists/GroupList";
-import { TopicListItem } from "@components/lists/TopicList";
 import { io } from "@econnessione/shared";
+import DatePicker from "@econnessione/shared/components/Common/DatePicker";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
+import EventsMap from "@econnessione/shared/components/EventsMap";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import { PageContent } from "@econnessione/shared/components/PageContent";
+import SEO from "@econnessione/shared/components/SEO";
+import SearchableInput from "@econnessione/shared/components/SearchableInput";
+import { ActorListItem } from "@econnessione/shared/components/lists/ActorList";
+import EventList from "@econnessione/shared/components/lists/EventList/EventList";
+import { GroupListItem } from "@econnessione/shared/components/lists/GroupList";
+import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
+import { eventDate, ordEventDate , eqByUUID } from "@econnessione/shared/helpers/event";
 import { Actor, Group, Topic } from "@econnessione/shared/lib/io/http";
-import { eventDate, ordEventDate } from "@helpers/event";
+import theme from "@econnessione/shared/theme/CustomTheme";
+import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
+import { formatDate } from "@econnessione/shared/utils/date";
+
+import { parseSearch, Routes, updateSearch } from "@econnessione/shared/utils/routes";
 import {
   actorsList,
   eventsList,
   groupsList,
-  pageContentByPath,
+  pageContentByPath
 } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
-import theme from "@theme/CustomeTheme";
-import { GetByGroupOrActorUtils } from "@utils/ByGroupOrActorUtils";
-import { eqByUUID } from "@utils/IOTSSchemable";
-import { formatDate } from "@utils/date";
-import { parseSearch, Routes, updateSearch } from "@utils/routes";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
@@ -260,7 +259,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                                   eqByUUID.equals(t, item)
                                 ),
                               }}
-                              onClick={(item) => itemProps.onClick(item)}
+                              onClick={(item: any) => itemProps.onClick(item)}
                             />
                           )}
                           onSelectItem={(item, items) => {
@@ -287,7 +286,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                                     eqByUUID.equals(g, item)
                                   ),
                                 }}
-                                onClick={(item) => itemProps.onClick(item)}
+                                onClick={(item: any) => itemProps.onClick(item)}
                                 avatarScale="scale1000"
                               />
                             );
@@ -319,7 +318,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                                     eqByUUID.equals(a, item)
                                   ),
                                 }}
-                                onClick={(item) => itemProps.onClick(item)}
+                                onClick={(item: any) => itemProps.onClick(item)}
                                 avatarScale="scale1000"
                               />
                             );

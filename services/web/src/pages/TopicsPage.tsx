@@ -1,14 +1,14 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { MainContent } from "@components/MainContent";
-import { PageContent } from "@components/PageContent";
-import SEO from "@components/SEO";
-import SearchableInput from "@components/SearchableInput";
-import { TopicListItem } from "@components/lists/TopicList";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import { PageContent } from "@econnessione/shared/components/PageContent";
+import SEO from "@econnessione/shared/components/SEO";
+import SearchableInput from "@econnessione/shared/components/SearchableInput";
+import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
+import theme from "@econnessione/shared/theme/CustomTheme";
+import { navigateTo } from "@econnessione/shared/utils/links";
 import { pageContentByPath, topicsList } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
-import theme from "@theme/CustomeTheme";
-import { navigateTo } from "@utils/links";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import React from "react";
@@ -48,7 +48,7 @@ export default class TopicsPage extends React.PureComponent<RouteComponentProps>
                     item={item}
                     index={index}
                     $theme={theme}
-                    onClick={async (t) => {
+                    onClick={async (t: any) => {
                       if (this.props.navigate !== undefined) {
                         await navigateTo(this.props.navigate, "topics", t);
                       }

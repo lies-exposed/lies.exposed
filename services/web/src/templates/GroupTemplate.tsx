@@ -1,9 +1,9 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { GroupPageContent } from "@components/GroupPageContent";
-import { MainContent } from "@components/MainContent";
-import SEO from "@components/SEO";
-import { EventSlider } from "@components/sliders/EventSlider";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import SEO from "@econnessione/shared/components/SEO";
+import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
 import { group } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

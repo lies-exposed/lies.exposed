@@ -3,7 +3,7 @@
   "plugins": ["@typescript-eslint", "react", "eslint-plugin-baseui"],
   "parserOptions": {
     "tsconfigRootDir": "./",
-    "project": ["../../../tsconfig.eslint.json", "./tsconfig.json"]
+    "project": ["./tsconfig.json"]
   },
   "rules": {
     "react/prop-types": ["off"]

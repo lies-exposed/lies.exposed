@@ -18,7 +18,13 @@
     "paths": {
       "@templates/*": ["./templates/*"],
       "@theme/*": ["./theme/*"],
-      "@providers/*": ["./providers/*"]
+      "@providers/*": ["./providers/*"],
+      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
     }
-  }
+  },
+  "references": [
+    {
+      "path": "../../packages/@econnessione/shared"
+    }
+  ]
 }

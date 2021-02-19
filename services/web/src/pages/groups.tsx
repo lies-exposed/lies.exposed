@@ -1,12 +1,12 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { MainContent } from "@components/MainContent";
-import { PageContent } from "@components/PageContent";
-import SearchableInput from "@components/SearchableInput";
-import { GroupListItem } from "@components/lists/GroupList";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import { PageContent } from "@econnessione/shared/components/PageContent";
+import SearchableInput from "@econnessione/shared/components/SearchableInput";
+import { GroupListItem } from "@econnessione/shared/components/lists/GroupList";
+import { navigateTo } from "@econnessione/shared/utils/links";
 import { groupsList, pageContentByPath } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
-import { navigateTo } from "@utils/links";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import React from "react";
@@ -51,7 +51,7 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
                     item={item}
                     index={index}
                     avatarScale="scale1600"
-                    onClick={async (item) => {
+                    onClick={async (item: any) => {
                       if (this.props.navigate !== undefined) {
                         await navigateTo(this.props.navigate, "groups", item);
                       }

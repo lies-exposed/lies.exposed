@@ -1,8 +1,8 @@
-import AreasMap from "@components/AreasMap";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { MainContent } from "@components/MainContent";
-import { PageContent } from "@components/PageContent";
+import AreasMap from "@econnessione/shared/components/AreasMap";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import { PageContent } from "@econnessione/shared/components/PageContent";
 import { areasList, pageContentByPath } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

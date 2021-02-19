@@ -1,7 +1,7 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { PageContent } from "@components/PageContent";
-import SEO from "@components/SEO";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { PageContent } from "@econnessione/shared/components/PageContent";
+import SEO from "@econnessione/shared/components/SEO";
 import { pageContentByPath } from "@providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

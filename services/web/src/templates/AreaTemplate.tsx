@@ -1,9 +1,8 @@
-
-import { AreaPageContent } from "@components/AreaPageContent";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { MainContent } from "@components/MainContent";
-import SEO from "@components/SEO";
+import { AreaPageContent } from "@econnessione/shared/components/AreaPageContent";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import SEO from "@econnessione/shared/components/SEO";
 import { area } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

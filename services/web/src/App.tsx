@@ -1,12 +1,12 @@
-import { Footer } from "@components/Footer";
-import Header from "@components/Header";
+import { Footer } from "@econnessione/shared/components/Footer";
+import Header from "@econnessione/shared/components/Header";
+import theme from "@econnessione/shared/theme/CustomTheme";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";
 import ArticleTemplate from "@templates/ArticleTemplate";
 import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
-import theme from "@theme/CustomeTheme";
 import { BaseProvider } from "baseui";
 import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 // import NotFoundPage from "./pages/404";
@@ -24,6 +24,7 @@ import ActorsPage from "./pages/actors";
 import AreasPage from "./pages/areas";
 import GroupsPage from "./pages/groups";
 import ProjectPage from "./pages/project";
+
 
 export const App: React.FC = () => {
   const engine = new Styletron();
