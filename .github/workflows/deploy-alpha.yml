@@ -3,7 +3,7 @@ name: Deploy Alpha
 on:
   workflow_run:
     workflows:
-      - tests-e2e
+      - "Pull Request"
     types:
       - completed
     branches:
