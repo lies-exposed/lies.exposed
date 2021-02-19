@@ -7,13 +7,18 @@ const path = require("path");
 module.exports = function override(config) {
   const sharedPaths = pipe(
     configPaths("../../packages/@econnessione/shared/tsconfig.json"),
-    R.map((p) => path.join("../../../packages/@econnessione/shared/src", p))
+    R.map((p) => path.resolve("../../packages/@econnessione/shared/src", p))
   );
-  const webPaths = configPaths("tsconfig.paths.json");
+  const webPaths = pipe(
+    configPaths("tsconfig.paths.json"),
+    R.map(p => path.resolve('./src', p))
+  );
 
-  aliasDangerous({
+  const paths = {
     ...sharedPaths,
     ...webPaths,
-  })(config);
+  }
+
+  aliasDangerous(paths)(config);
   return config;
 };

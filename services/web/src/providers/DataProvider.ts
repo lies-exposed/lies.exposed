@@ -1,10 +1,10 @@
+import { APIRESTClient } from "@econnessione/core/lib/http/APIRESTClient";
 import { io } from "@econnessione/shared";
 import { available, queryStrict } from "avenger";
 import { CachedQuery } from "avenger/lib/Query";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import type {
@@ -13,7 +13,6 @@ import type {
   GetOneParams,
   GetOneResult
 } from "react-admin";
-import { APIClient } from "./APIClient";
 
 // const httpClient = (
 //   url: string,
@@ -47,7 +46,7 @@ const toError = (e: unknown): APIError => {
   };
 };
 
-export const dataProvider = APIClient({
+export const dataProvider = APIRESTClient({
   url: process.env.REACT_APP_API_URL,
 });
 

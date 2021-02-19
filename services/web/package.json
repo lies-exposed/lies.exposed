@@ -11,7 +11,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "tsc:build": "tsc",
+    "tsc:build": "tsc -b",
     "tsc:watch": "tsc --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",

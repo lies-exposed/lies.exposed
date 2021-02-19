@@ -4,7 +4,7 @@
     "module": "esnext",
     "target": "es5",
     "jsx": "react-jsx",
-    "noEmit": false,
+    "noEmit": true,
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
