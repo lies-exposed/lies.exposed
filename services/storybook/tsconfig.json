@@ -1,0 +1,35 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es5",
+    "jsx": "react-jsx",
+    "noEmit": false,
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": false,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "lib": ["dom", "esnext"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "typeRoots": ["node_modules/@types", "./typings"],
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "paths": {
+      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
+    }
+  },
+  "references": [
+    {
+      "path": "../../packages/@econnessione/shared"
+    }
+  ],
+  "include": ["./src"],
+  "exclude": ["node_modules", "public", ".storybook", ".cache"]
+}

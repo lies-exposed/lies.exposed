@@ -3,11 +3,25 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "jsx": "react",
+    "composite": true,
+    "declaration": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "outDir": "./lib",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "typeRoots": ["node_modules/@types", "./typings"],
+    "paths": {
+      "@components/*": ["./components/*"],
+      "@helpers/*": ["./helpers/*"],
+      "@io/*": ["./io/*"],
+      "@mock-data/*": ["./mock-data/*"],
+      "@providers/*": ["./providers/*"],
+      "@theme/*": ["./theme/*"],
+      "@utils/*": ["./utils/*"]
+    }
   },
-  "include": ["./src"],
-  "exclude": ["node_modules"]
+  "include": ["./src", "src/**/*.json"],
+  "exclude": ["node_modules", "__tests__", "lib"]
 }

@@ -1,8 +1,8 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
-import { MainContent } from "@components/MainContent";
-import { PageContent } from "@components/PageContent";
-import SEO from "@components/SEO";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import { PageContent } from "@econnessione/shared/components/PageContent";
+import SEO from "@econnessione/shared/components/SEO";
 import { articlesList, pageContentByPath } from "@providers/DataProvider";
 import { Link, RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

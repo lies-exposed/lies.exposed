@@ -1,12 +1,12 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { MainContent } from "@components/MainContent";
-import { PageContent } from "@components/PageContent";
-import SEO from "@components/SEO";
-import SearchableInput from "@components/SearchableInput";
-import { ActorListItem } from "@components/lists/ActorList";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import { PageContent } from "@econnessione/shared/components/PageContent";
+import SEO from "@econnessione/shared/components/SEO";
+import SearchableInput from "@econnessione/shared/components/SearchableInput";
+import { ActorListItem } from "@econnessione/shared/components/lists/ActorList";
+import { navigateTo } from "@econnessione/shared/utils/links";
 import { actorsList, pageContentByPath } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
-import { navigateTo } from "@utils/links";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { Spinner } from "baseui/icon";
@@ -55,7 +55,7 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                       index={index}
                       item={item}
                       avatarScale="scale1600"
-                      onClick={async (item) => {
+                      onClick={async (item: any) => {
                         if (this.props.navigate) {
                           await navigateTo(this.props.navigate, `actors`, item);
                         }

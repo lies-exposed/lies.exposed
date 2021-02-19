@@ -16,9 +16,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "scripts:make-avatars-mock": "ts-node ./scripts/make-avatars-mock.ts",
-    "stats": "webpack-bundle-analyzer public/stats.json",
-    "storybook:start": "start-storybook -p 6006",
-    "storybook:build": "build-storybook -o ./static/storybook"
+    "stats": "webpack-bundle-analyzer public/stats.json"
   },
   "dependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
@@ -26,7 +24,6 @@
     "@dicebear/avatars-avataaars-sprites": "4.2.5",
     "@dicebear/avatars-bottts-sprites": "4.2.5",
     "@econnessione/core": "0.1.0",
-    "@econnessione/shared": "0.1.0",
     "@fortawesome/fontawesome-svg-core": "1.2.30",
     "@fortawesome/free-brands-svg-icons": "5.14.0",
     "@fortawesome/free-regular-svg-icons": "5.14.0",
@@ -40,12 +37,6 @@
     "@mdx-js/runtime": "^1.6.22",
     "@reach/router": "^1.3.4",
     "@remark-embedder/core": "^1.2.3",
-    "@storybook/addon-actions": "^6.1.14",
-    "@storybook/addon-essentials": "^6.1.14",
-    "@storybook/addon-links": "^6.1.14",
-    "@storybook/addon-viewport": "^6.1.14",
-    "@storybook/preset-typescript": "3.0.0",
-    "@storybook/react": "^6.1.14",
     "@vx/axis": "0.0.199",
     "@vx/chord": "0.0.199",
     "@vx/clip-path": "0.0.199",
@@ -149,7 +140,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-standard": "^5.0.0",
-    "eslint-webpack-plugin": "2.3.0",
+    "eslint-webpack-plugin": "^2.5.2",
     "prettier": "^2.2.1",
     "react-app-rewired": "^2.1.8",
     "react-is": "16.13.1",
@@ -176,8 +167,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "resolutions": {
-    "react-scripts/eslint-webpack-plugin": "2.3.0"
   }
 }

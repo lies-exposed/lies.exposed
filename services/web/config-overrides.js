@@ -1,14 +1,19 @@
-const { alias } = require("react-app-rewire-alias");
+const { configPaths } = require("react-app-rewire-alias");
+const { aliasDangerous } = require("react-app-rewire-alias/lib/aliasDangerous");
+const { pipe } = require("fp-ts/lib/pipeable");
+const R = require("fp-ts/lib/Record");
+const path = require("path");
 
 module.exports = function override(config) {
-  alias({
-    "@components": "./src/components",
-    "@helpers": "./src/helpers",
-    "@templates": "./src/templates",
-    "@theme": "./src/theme",
-    "@mock-data": "./src/mock-data",
-    "@utils": "./src/utils",
-    "@providers": "./src/providers",
+  const sharedPaths = pipe(
+    configPaths("../../packages/@econnessione/shared/tsconfig.json"),
+    R.map((p) => path.join("../../../packages/@econnessione/shared/src", p))
+  );
+  const webPaths = configPaths("tsconfig.paths.json");
+
+  aliasDangerous({
+    ...sharedPaths,
+    ...webPaths,
   })(config);
   return config;
 };

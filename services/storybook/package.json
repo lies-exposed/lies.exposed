@@ -1,0 +1,22 @@
+{
+  "name": "storybook",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:ascariandrea/econnessione.git",
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "start-storybook -p 6006",
+    "build": "build-storybook -o build",
+    "clean": "rm -rf build",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src/"
+  },
+  "dependencies": {
+    "@storybook/addon-actions": "^6.1.14",
+    "@storybook/addon-essentials": "^6.1.14",
+    "@storybook/addon-links": "^6.1.14",
+    "@storybook/addon-viewport": "^6.1.14",
+    "@storybook/preset-typescript": "3.0.0",
+    "@storybook/react": "^6.1.14"
+  }
+}

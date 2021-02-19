@@ -1,12 +1,11 @@
-import { ActorPageContent } from "@components/ActorPageContent";
-import { ErrorBox } from "@components/Common/ErrorBox";
-// import { EventsNetwork } from "@components/Graph/EventsNetwork"
-import { Loader } from "@components/Common/Loader";
-import { Layout } from "@components/Layout";
-import { MainContent } from "@components/MainContent";
-import SEO from "@components/SEO";
-import { EventSlider } from "@components/sliders/EventSlider";
-import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata";
+import { ActorPageContent } from "@econnessione/shared/components/ActorPageContent";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { Layout } from "@econnessione/shared/components/Layout";
+import { MainContent } from "@econnessione/shared/components/MainContent";
+import SEO from "@econnessione/shared/components/SEO";
+import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
+import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
 import { actor } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

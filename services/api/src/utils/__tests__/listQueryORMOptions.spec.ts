@@ -1,6 +1,9 @@
 import * as O from "fp-ts/lib/Option";
 import { Like } from "typeorm";
-import { FilterQuery, GetListQuery } from "@econnessione/shared/lib/endpoints/Query";
+import {
+  FilterQuery,
+  GetListQuery,
+} from "@econnessione/shared/lib/endpoints/Query";
 import { getORMOptions } from "../listQueryToORMOptions";
 
 describe("ORM utils V2", () => {
@@ -39,7 +42,7 @@ describe("ORM utils V2", () => {
     const ormOptions = getORMOptions(query, 20);
     expect(ormOptions).toEqual({ skip: 0, take: 20, order: { field: "ASC" } });
   });
-  
+
   test("Should return where with given filter", () => {
     const query: GetListQuery & FilterQuery = {
       _sort: O.none,
