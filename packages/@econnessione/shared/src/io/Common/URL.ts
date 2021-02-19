@@ -36,4 +36,5 @@ export const URL = t.brand(
     )(),
   "URL"
 );
+
 export type URL = t.TypeOf<typeof URL>;

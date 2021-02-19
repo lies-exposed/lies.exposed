@@ -4,7 +4,7 @@ import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import { scaleOrdinal } from "d3";
 import * as React from "react";
 
-export type WealthDistributionGraphProps = never;
+export type WealthDistributionGraphProps = any;
 
 const superRichWealth = 158.3 * 10e12;
 const superRichTotal = 47 * 10e6;

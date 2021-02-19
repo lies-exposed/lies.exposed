@@ -12,18 +12,25 @@ import { ActorListItem } from "@econnessione/shared/components/lists/ActorList";
 import EventList from "@econnessione/shared/components/lists/EventList/EventList";
 import { GroupListItem } from "@econnessione/shared/components/lists/GroupList";
 import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
-import { eventDate, ordEventDate , eqByUUID } from "@econnessione/shared/helpers/event";
+import {
+  eventDate,
+  ordEventDate,
+  eqByUUID,
+} from "@econnessione/shared/helpers/event";
 import { Actor, Group, Topic } from "@econnessione/shared/lib/io/http";
 import theme from "@econnessione/shared/theme/CustomTheme";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
-
-import { parseSearch, Routes, updateSearch } from "@econnessione/shared/utils/routes";
+import {
+  parseSearch,
+  Routes,
+  updateSearch,
+} from "@econnessione/shared/utils/routes";
 import {
   actorsList,
   eventsList,
   groupsList,
-  pageContentByPath
+  pageContentByPath,
 } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -194,7 +201,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             );
 
             const filteredEvents = A.sort(Ord.getDualOrd(ordEventDate))(
-              events
+              events as any
             ).filter((e) => {
               const isBetweenDateRange = Ord.between(Ord.ordDate)(
                 minDate,
@@ -353,9 +360,13 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                         scale={'all'}
                         scalePoint={O.none}
                       /> */}
-                      <EventsMap events={events} width={600} height={400} />
+                      <EventsMap
+                        events={events as any}
+                        width={600}
+                        height={400}
+                      />
                       <EventList
-                        events={events}
+                        events={events as any}
                         actors={actors}
                         groups={groups}
                       />
