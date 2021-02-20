@@ -1,6 +1,6 @@
 {
   "extends": ["../../../.eslintrc", "plugin:react/recommended"],
-  "plugins": ["@typescript-eslint", "react", "eslint-plugin-baseui"],
+  "plugins": ["@typescript-eslint", "react"],
   "parserOptions": {
     "tsconfigRootDir": "./",
     "project": ["./tsconfig.json"]

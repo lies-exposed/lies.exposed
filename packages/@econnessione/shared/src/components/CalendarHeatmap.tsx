@@ -6,7 +6,6 @@ import { HeatmapCircle } from "@vx/heatmap";
 import { scaleLinear } from "@vx/scale";
 import { TooltipWithBounds, withTooltip } from "@vx/tooltip";
 import { WithTooltipProvidedProps } from "@vx/tooltip/lib/enhancers/withTooltip";
-import { ParagraphXSmall } from "baseui/typography";
 import { addDays } from "date-fns";
 import { differenceInDays } from "date-fns/esm";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -98,10 +97,7 @@ const CalendarHeatmapComponent: React.FC<
         const firstEventDate = eventDate(firstEvent);
         const eventsWithDiff = events.map((e) => ({
           ...e,
-          days: differenceInDays(
-            eventDate(e),
-            eventDate(firstEvent)
-          ),
+          days: differenceInDays(eventDate(e), eventDate(firstEvent)),
         }));
 
         const weekBins = (_week: number): BinDatum[] => {
@@ -228,18 +224,14 @@ const CalendarHeatmapComponent: React.FC<
                 left={tooltipLeft}
                 style={{ maxWidth: 200 }}
               >
-                <ParagraphXSmall>
-                  {formatDate(tooltipData.date)}
-                </ParagraphXSmall>
+                <p>{formatDate(tooltipData.date)}</p>
 
                 {pipe(
                   tooltipData.event,
                   O.fold(
                     () => null,
                     (e) => {
-                      return (
-                        <ParagraphXSmall>{e.title}</ParagraphXSmall>
-                      );
+                      return <p>{e.title}</p>;
                     }
                   )
                 )}

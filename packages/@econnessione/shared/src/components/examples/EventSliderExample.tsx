@@ -1,4 +1,4 @@
-import { Card } from "baseui/card";
+import { Card } from "@material-ui/core";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { events } from "../../mock-data/events";
@@ -12,7 +12,7 @@ export const EventSliderExample: React.FC<EventSliderProps> = (props) => {
   const pageContentProps = R.isEmpty(props as {}) ? eventSliderArgs : props;
 
   return (
-    <Card overrides={{ Root: { style: { width: "100%" } } }}>
+    <Card style={{ width: "100%" }}>
       <EventSlider {...pageContentProps} />
     </Card>
   );

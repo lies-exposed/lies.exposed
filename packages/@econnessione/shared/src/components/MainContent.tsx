@@ -1,5 +1,4 @@
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { Theme } from "baseui/theme";
+import { Container, Grid } from "@material-ui/core";
 import * as React from "react";
 import { StyleObject } from "styletron-react";
 
@@ -12,29 +11,16 @@ export const MainContent: React.FC<MainContentProps> = ({
   style = {},
 }) => {
   return (
-    <FlexGrid
-      flexDirection="column"
-      flexGridColumnCount={4}
-      alignItems="center"
-      width="100%"
+    <Container
+      maxWidth="md"
+      style={{ flexDirection: "column" }}
     >
-      <FlexGridItem />
-      <FlexGridItem
-        overrides={{
-          Block: {
-            style: ({ $theme }: { $theme: Theme }) => {
-              return {
-                ...style,
-                width: `calc((300% - ${$theme.sizing.scale800}) / 4)`,
-              };
-            },
-          },
-        }}
-      >
-        {children}
-      </FlexGridItem>
-      <FlexGridItem display="none" />
-      <FlexGridItem display="none" />
-    </FlexGrid>
+      <Grid container direction="column" alignContent="center" alignItems="center">
+        <Grid item />
+        <Grid item>{children}</Grid>
+        <Grid item />
+        <Grid item />
+      </Grid>
+    </Container>
   );
 };

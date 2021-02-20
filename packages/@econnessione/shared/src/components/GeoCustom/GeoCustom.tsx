@@ -137,7 +137,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                   return <g>{mercator.features.map(featureRenderer)}</g>;
                 }}
               </CustomProjection>
-              {/* <rect
+              <rect
                 x={0}
                 y={0}
                 width={width}
@@ -153,7 +153,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                 onMouseLeave={() => {
                   if (zoom.isDragging) zoom.dragEnd()
                 }}
-              /> */}
+              />
             </svg>
             <div
               className="controls"

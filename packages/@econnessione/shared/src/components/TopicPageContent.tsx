@@ -1,8 +1,6 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Topic } from "@io/http";
-import { Block } from "baseui/block";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { HeadingXLarge } from "baseui/typography";
+import { Grid } from "@material-ui/core";
 import * as React from "react";
 import EditButton from "./buttons/EditButton";
 
@@ -13,14 +11,14 @@ export const TopicPageContent: React.FC<TopicPageContentProps> = ({
   body,
 }) => {
   return (
-    <FlexGrid width="100%">
-      <FlexGridItem width="100%">
-        <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
+    <Grid container>
+      <Grid item>
+        <div>
           <EditButton resourceName="topics" resource={frontmatter} />
-        </Block>
-        <HeadingXLarge>{frontmatter.label}</HeadingXLarge>
+        </div>
+        <h1>{frontmatter.label}</h1>
         <MarkdownRenderer>{body}</MarkdownRenderer>
-      </FlexGridItem>
-    </FlexGrid>
+      </Grid>
+    </Grid>
   );
 };

@@ -1,8 +1,6 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import { Actor, Group, Events } from "@io/http";
-import { Block } from "baseui/block";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { HeadingXLarge, HeadingXSmall } from "baseui/typography";
+import { Actor, Events, Group } from "@io/http";
+import { Grid } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -23,13 +21,13 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   groups,
 }) => {
   return (
-    <FlexGrid width="100%">
-      <FlexGridItem width="100%">
-        <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
+    <Grid container>
+      <Grid item>
+        <div>
           <EditButton resourceName="events" resource={event} />
-        </Block>
-        <HeadingXLarge>{event.title}</HeadingXLarge>
-        <Block>
+        </div>
+        <h1>{event.title}</h1>
+        <div>
           {pipe(
             event.images,
             O.fromPredicate((items) => items.length > 0),
@@ -50,7 +48,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             )),
             O.toNullable
           )}
-        </Block>
+        </div>
         {pipe(
           event.groups,
           O.fromPredicate((items) => items.length > 0),
@@ -58,14 +56,14 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           O.fold(
             () => null,
             (groups) => (
-              <Block>
-                <HeadingXSmall>Groups</HeadingXSmall>
+              <div>
+                <h4>Groups</h4>
                 <GroupList
                   groups={groups.map((a) => ({ ...a, selected: true }))}
                   onGroupClick={() => {}}
                   avatarScale="scale1000"
                 />
-              </Block>
+              </div>
             )
           )
         )}
@@ -76,19 +74,19 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           O.fold(
             () => null,
             (actors) => (
-              <Block>
-                <HeadingXSmall>Actors</HeadingXSmall>
+              <div>
+                <h4>Actors</h4>
                 <ActorList
                   actors={actors.map((a) => ({ ...a, selected: true }))}
                   onActorClick={() => {}}
                   avatarScale="scale1000"
                 />
-              </Block>
+              </div>
             )
           )
         )}
         <MarkdownRenderer>{event.body}</MarkdownRenderer>
-      </FlexGridItem>
-    </FlexGrid>
+      </Grid>
+    </Grid>
   );
 };

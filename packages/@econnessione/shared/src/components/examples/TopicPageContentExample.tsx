@@ -1,12 +1,8 @@
-import { Card } from "baseui/card";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { firstTopic } from "../../mock-data/topics";
-import {
-  TopicPageContent,
-  TopicPageContentProps
-} from "../TopicPageContent";
+import { TopicPageContent, TopicPageContentProps } from "../TopicPageContent";
 
 export const topicPageContentArgs: TopicPageContentProps = {
   id: "",
@@ -23,9 +19,5 @@ export const TopicPageContentExample: React.FC<TopicPageContentProps> = (
     ? topicPageContentArgs
     : props;
 
-  return (
-    <Card overrides={{ Root: { style: { width: "100%" } } }}>
-      <TopicPageContent {...pageContentProps} />
-    </Card>
-  );
+  return <TopicPageContent {...pageContentProps} />;
 };

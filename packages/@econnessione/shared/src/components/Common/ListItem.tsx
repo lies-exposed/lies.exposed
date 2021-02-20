@@ -1,6 +1,5 @@
-import { BlockProps } from "baseui/block";
 import * as React from "react";
 
-export const ListItem: React.FC<BlockProps> = ({ children, ...props }) => {
+export const ListItem: React.FC<any> = ({ children, ...props }) => {
   return <li>{children}</li>;
 };

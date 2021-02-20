@@ -1,14 +1,13 @@
-import { Block } from "baseui/block";
-import { FlexGridItem } from "baseui/flex-grid";
+import { Grid } from "@material-ui/core";
 import * as React from "react";
 
 export const ErrorBox: (e: any) => React.ReactElement = (e: any) => {
   return (
-    <FlexGridItem padding="30">
+    <Grid item>
       <h4>An error occured</h4>
-      <Block>
+      <div>
         <code>{JSON.stringify(e, null, 2)}</code>
-      </Block>
-    </FlexGridItem>
+      </div>
+    </Grid>
   );
 };

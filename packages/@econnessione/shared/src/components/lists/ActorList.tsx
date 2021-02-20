@@ -1,6 +1,6 @@
 import { List, ListItemProps } from "@components/Common/List";
 import * as io from "@io/http";
-import { Avatar } from "baseui/avatar";
+import { Avatar } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -25,8 +25,6 @@ export const ActorListItem: React.FC<
         O.map((src) => (
           <Avatar
             key={item.id}
-            name={item.fullName}
-            size={avatarScale}
             src={src}
           />
         )),

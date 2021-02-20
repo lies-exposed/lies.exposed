@@ -1,7 +1,17 @@
-import { themedUseStyletron } from "@theme/CustomTheme";
-import { Block } from "baseui/block";
-import { DisplayMedium, ParagraphXSmall } from "baseui/typography";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {},
+    counter: {
+      fontFamily: theme.typography.fontFamily,
+      fontSize: theme.typography.fontSize * 2,
+      color: theme.palette.common.black,
+      fontWeight: theme.typography.fontWeightBold,
+    },
+  })
+);
 
 interface CounterProps {
   message?: string;
@@ -9,7 +19,6 @@ interface CounterProps {
   getCount: () => number | string;
 }
 export const Counter: React.FC<CounterProps> = (props) => {
-  const [, $theme] = themedUseStyletron();
   const [count, setCount] = React.useState(props.getCount());
 
   React.useEffect(() => {
@@ -19,45 +28,31 @@ export const Counter: React.FC<CounterProps> = (props) => {
     return () => clearTimeout(countdownTimer);
   });
 
+  const classes = useStyles();
+
   return (
-    <Block overrides={{ Block: { style: { textAlign: "center" } } }}>
-      <DisplayMedium
-        overrides={{
-          Block: {
-            style: {
-              fontFamily: $theme.typography.thirdaryFont,
-              color: $theme.colors.brandPrimary,
-              fontWeight: $theme.typography.font550.fontWeight,
-            },
-          },
-        }}
-      >
-        {count.toLocaleString()}
+    <div style={{ textAlign: "center" }}>
+      <div className={classes.root}>
+        <div className={classes.counter}>{count.toLocaleString()}</div>
+
         <span
           style={{
             verticalAlign: "top",
-            fontSize: $theme.typography.font550.fontSize,
-            lineHeight: $theme.typography.font550.lineHeight,
+            // fontSize: $theme.typography.font550.fontSize,
+            // lineHeight: $theme.typography.font550.lineHeight,
           }}
         >
           {props.message !== undefined ? "*" : ""}
         </span>
-      </DisplayMedium>
-      {props.message !== undefined ? (
-        <ParagraphXSmall
-          $style={{
-            fontFamily: $theme.typography.thirdaryFont,
-            color: $theme.colors.secondaryBlack,
-          }}
-        >{`* ${props.message}`}</ParagraphXSmall>
-      ) : null}
-      <ParagraphXSmall $style={{ fontFamily: $theme.typography.thirdaryFont }}>
+      </div>
+      {props.message !== undefined ? <p>{`* ${props.message}`}</p> : null}
+      <p>
         {props.sources.map((s) => (
           <a key={s.label} href={s.url}>
             {s.label}
           </a>
         ))}
-      </ParagraphXSmall>
-    </Block>
+      </p>
+    </div>
   );
 };

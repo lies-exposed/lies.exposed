@@ -1,15 +1,12 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import ProjectFundList from "@components/lists/ProjectFundList";
 import { Actor, Events } from "@io/http";
+import { Grid } from "@material-ui/core";
 import { formatDate } from "@utils/date";
-import { Block } from "baseui/block";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { HeadingXLarge, HeadingXSmall, LabelMedium } from "baseui/typography";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-// import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph";
 import EditButton from "./buttons/EditButton";
 
 export interface ActorPageContentProps extends Actor.Actor {
@@ -26,14 +23,14 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   const protests = metadata.Protest;
 
   return (
-    <FlexGrid width="100%">
-      <FlexGridItem width="100%">
-        <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
+    <Grid container>
+      <Grid item>
+        <div>
           <div style={{ textAlign: "right", padding: 10 }}>
             <EditButton resourceName="actors" resource={frontmatter} />
           </div>
-        </Block>
-        <HeadingXLarge>{frontmatter.fullName}</HeadingXLarge>
+        </div>
+        <h1>{frontmatter.fullName}</h1>
         {pipe(
           O.fromNullable(frontmatter.avatar),
           O.fold(
@@ -41,23 +38,21 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
             (src) => <img src={src} width={200} height="auto" />
           )
         )}
-        <Block>
-          <HeadingXSmall>Fondi ({projectFunds.length})</HeadingXSmall>
+        <div>
+          <h4>Fondi ({projectFunds.length})</h4>
           <ProjectFundList
             funds={projectFunds.map((f) => ({ ...f, selected: true }))}
             onClickItem={() => {}}
           />
           {/* <ProjectFundsPieGraph funds={projectFunds} /> */}
-        </Block>
-        <Block>
-          <HeadingXSmall>Proteste ({protests.length})</HeadingXSmall>
+        </div>
+        <div>
+          <h4>Proteste ({protests.length})</h4>
           {pipe(
             protests,
             A.map((value) => (
               <div key={value.date.toISOString()}>
-                <LabelMedium display="inline">
-                  {formatDate(value.date)}
-                </LabelMedium>{" "}
+                <label>{formatDate(value.date)}</label>{" "}
                 <span>
                   {value.for.type === "Project" ? (
                     <span key={value.for.project.id}>
@@ -70,16 +65,16 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
               </div>
             ))
           )}
-        </Block>
-        <Block>
-          <HeadingXSmall>Arresti ({arrests.length})</HeadingXSmall>
+        </div>
+        <div>
+          <h4>Arresti ({arrests.length})</h4>
           {pipe(
             arrests,
             A.map((value) => (
               <>
-                <LabelMedium key={value.date.toISOString()} display="inline">
+                <label key={value.date.toISOString()}>
                   {formatDate(value.date)}
-                </LabelMedium>
+                </label>
                 <span>
                   {value.for.map((f) => {
                     return f.type === "Project" ? (
@@ -92,9 +87,9 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
               </>
             ))
           )}
-        </Block>
+        </div>
         <MarkdownRenderer>{body}</MarkdownRenderer>
-      </FlexGridItem>
-    </FlexGrid>
+      </Grid>
+    </Grid>
   );
 };

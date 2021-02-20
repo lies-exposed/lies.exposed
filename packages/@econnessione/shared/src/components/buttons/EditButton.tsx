@@ -1,8 +1,8 @@
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ResourcesNames } from "@io/http";
+import { Link } from "@material-ui/core";
 import { getAdminLink } from "@utils/links";
-import { StyledLink } from "baseui/link";
 import * as React from "react";
 
 interface EditButtonProps {
@@ -12,12 +12,12 @@ interface EditButtonProps {
 
 const EditButton: React.FC<EditButtonProps> = (props) => {
   return (
-    <StyledLink
+    <Link
       href={getAdminLink(props.resourceName, props.resource)}
       target="_blank"
     >
       <FontAwesomeIcon icon={faEdit} />
-    </StyledLink>
+    </Link>
   );
 };
 

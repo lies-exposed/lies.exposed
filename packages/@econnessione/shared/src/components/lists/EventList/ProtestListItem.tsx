@@ -1,11 +1,8 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Slider } from "@components/Common/Slider/Slider";
 import { Events } from "@io/http";
+import { Grid } from "@material-ui/core";
 import { formatDate } from "@utils/date";
-import { Block } from "baseui/block";
-import { Card, StyledBody } from "baseui/card";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { HeadingSmall, LabelSmall } from "baseui/typography";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -23,47 +20,42 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
         marginBottom: 40,
       }}
     >
-      <Card title={"Protest"}>
-        <StyledBody>
-          <FlexGrid flexGridColumnCount={1} flexDirection="column">
-            {pipe(
-              item.frontmatter.images,
-              O.map((images) => (
-                // eslint-disable-next-line react/jsx-key
-                <FlexGridItem>
-                  <Slider
-                    key="home-slider"
-                    height={400}
-                    slides={images.map((i) => ({
-                      authorName: "",
-                      info: i.description ?? "",
-                      imageURL: i.location,
-                    }))}
-                    arrows={true}
-                    adaptiveHeight={true}
-                    dots={true}
-                    size="contain"
-                  />
-                </FlexGridItem>
-              )),
-              O.toNullable
-            )}
-            <FlexGridItem display="flex" flexGridItemCount={1}>
-              <FlexGridItem
-                display="flex"
-                flexGridColumnCount={1}
-                flexDirection="column"
-              >
-                <LabelSmall>
-                  <time dateTime={formatDate(item.frontmatter.date)}>
-                    {formatDate(item.frontmatter.date)}
-                  </time>
-                </LabelSmall>
+      <div>
+        <Grid container direction="column">
+          {pipe(
+            item.frontmatter.images,
+            O.map((images) => (
+              // eslint-disable-next-line react/jsx-key
+              <Grid item>
+                <Slider
+                  key="home-slider"
+                  height={400}
+                  slides={images.map((i) => ({
+                    authorName: "",
+                    info: i.description ?? "",
+                    imageURL: i.location,
+                  }))}
+                  arrows={true}
+                  adaptiveHeight={true}
+                  dots={true}
+                  size="contain"
+                />
+              </Grid>
+            )),
+            O.toNullable
+          )}
+          <Grid item>
+            <Grid>
+              <label>
+                <time dateTime={formatDate(item.frontmatter.date)}>
+                  {formatDate(item.frontmatter.date)}
+                </time>
+              </label>
 
-                <Block>
-                  <Block display="inline">
-                    <HeadingSmall display="inline">Di </HeadingSmall>
-                    {/* <GroupOrActorList
+              <div>
+                <div>
+                  <h4>Di </h4>
+                  {/* <GroupOrActorList
                       by={item.frontmatter.organizers.map((g) => ({
                         ...g,
                         selected: false,
@@ -71,30 +63,26 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
                       onByClick={() => {}}
                       avatarScale="scale1000"
                     /> */}
-                  </Block>
-                  <Block display="inline">
-                    <HeadingSmall display="inline">
-                      Per{" "}
-                      <LabelSmall display="inline">
-                        {item.frontmatter.for.type}
-                      </LabelSmall>
-                    </HeadingSmall>
-                    <br />
-                    {item.frontmatter.for.type === "Project"
-                      ? item.frontmatter.for.project.name
-                      : null}
-                  </Block>
-                </Block>
-              </FlexGridItem>
-            </FlexGridItem>
-            <FlexGrid flexGridColumnCount={3}>
-              <FlexGridItem display="flex" flexDirection="column">
-                <MarkdownRenderer>{item.body}</MarkdownRenderer>
-              </FlexGridItem>
-            </FlexGrid>
-          </FlexGrid>
-        </StyledBody>
-      </Card>
+                </div>
+                <div>
+                  <h4>
+                    Per <label>{item.frontmatter.for.type}</label>
+                  </h4>
+                  <br />
+                  {item.frontmatter.for.type === "Project"
+                    ? item.frontmatter.for.project.name
+                    : null}
+                </div>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item>
+              <MarkdownRenderer>{item.body}</MarkdownRenderer>
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Card } from "baseui/card";
+import { Card } from "@material-ui/core";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { firstEvent } from "../../mock-data/events";
@@ -26,7 +26,7 @@ export const EventPageContentExample: React.FC<EventPageContentProps> = (
     : props;
 
   return (
-    <Card overrides={{ Root: { style: { width: "100%" } } }}>
+    <Card>
       <EventPageContent {...pageContentProps} />
     </Card>
   );

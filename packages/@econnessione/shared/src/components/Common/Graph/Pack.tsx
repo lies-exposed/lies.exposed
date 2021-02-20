@@ -49,23 +49,32 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
         <VXPack root={pack} size={[width, height]}>
           {(pack) => {
             const circles = pack.descendants().slice(2);
-            return (
-              <Group>
-                {circles.map((circle, i) => {
-                  return (
-                    <circle
-                      key={`cir-${i}`}
-                      r={circle.r}
-                      cx={circle.x}
-                      cy={circle.y}
-                      fill={`#${circle.data.color}`}
-                      onMouseLeave={hideTooltip}
-                      onMouseOver={handleMouseOver(circle.data)}
-                    />
-                  );
-                })}
-              </Group>
-            );
+            return circles.map((circle, i) => {
+              return (
+                <Group key={i}>
+                  <circle
+                    key={`cir-${i}`}
+                    r={circle.r}
+                    cx={circle.x}
+                    cy={circle.y}
+                    fill={`#${circle.data.color}`}
+                    onMouseLeave={hideTooltip}
+                    onMouseOver={handleMouseOver(circle.data)}
+                  />
+                  <text
+                    x={circle.x}
+                    y={circle.y}
+                    color={"#000"}
+                    style={{
+                      fontWeight: 600,
+                      textAlign: "center",
+                    }}
+                  >
+                    {circle.data.label}
+                  </text>
+                </Group>
+              );
+            });
           }}
         </VXPack>
       </svg>

@@ -1,5 +1,5 @@
 import { Events } from "@io/http";
-import { Card } from "baseui/card";
+import { Card } from "@material-ui/core";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
@@ -9,10 +9,7 @@ import { uncategorizedEvents } from "../../mock-data/events";
 import { eventMetadata } from "../../mock-data/events/events-metadata";
 import { goodGroup } from "../../mock-data/groups";
 import { projects } from "../../mock-data/projects";
-import {
-  GroupPageContent,
-  GroupPageContentProps
-} from "../GroupPageContent";
+import { GroupPageContent, GroupPageContentProps } from "../GroupPageContent";
 
 const groupFunds = pipe(
   eventMetadata,
@@ -51,7 +48,7 @@ export const GroupPageContentExample: React.FC<GroupPageContentProps> = (
     : props;
 
   return (
-    <Card overrides={{ Root: { style: { width: "100%" } } }}>
+    <Card style={{ width: "100%" }}>
       <GroupPageContent {...pageContentProps} />
     </Card>
   );

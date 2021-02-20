@@ -1,14 +1,11 @@
-import {
-  DatePicker as BDatePicker,
-  DatepickerProps as BDatePickerProps,
-} from "baseui/datepicker";
+import { TextField, TextFieldProps } from "@material-ui/core";
 import * as React from "react";
 
-type DatePickerProps = Omit<BDatePickerProps, "onChange"> & {
-  onChange: (value: { date: Date | Date[] }) => void;
-};
+type DatePickerProps = TextFieldProps;
 const DatePicker: React.FC<DatePickerProps> = (props) => {
-  return <BDatePicker {...props} placeholder="YYYY/MM/DD – YYYY/MM/DD" />;
+  return (
+    <TextField {...props} type="date" placeholder="YYYY/MM/DD – YYYY/MM/DD" />
+  );
 };
 
 export default DatePicker;

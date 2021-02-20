@@ -114,32 +114,6 @@ export const WealthDistributionGraph: React.FC<WealthDistributionGraphProps> = (
                 },
               ]}
             />
-            <BubbleGraph
-              width={width / 2}
-              height={height}
-              data={[
-                {
-                  count: superRichPopulationPercentage,
-                  label: `${superRichPopulationPercentage}%`,
-                  color: superRichColor,
-                },
-                {
-                  count: richPopulationPercentage,
-                  label: `${richPopulationPercentage}%`,
-                  color: richColor,
-                },
-                {
-                  count: middlePopulationPercentage,
-                  label: `${middlePopulationPercentage}%`,
-                  color: middleColor,
-                },
-                {
-                  count: poorPopulationPercentage,
-                  label: `${poorPopulationPercentage}%`,
-                  color: poorColor,
-                },
-              ]}
-            />
           </>
         )}
       </ParentSize>

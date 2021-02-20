@@ -1,3 +1,4 @@
+import { numTicksForHeight, numTicksForWidth } from "@utils/graph.utils";
 import { AxisBottom, AxisLeft, AxisRight } from "@vx/axis";
 import { curveLinear } from "@vx/curve";
 import { Grid } from "@vx/grid";
@@ -8,18 +9,6 @@ import React from "react";
 
 // accessors
 
-// responsive utils for axis ticks
-function numTicksForHeight(height: number): number {
-  if (height <= 300) return 3;
-  if (height > 300 && height <= 600) return 5;
-  return 10;
-}
-
-function numTicksForWidth(width: number): number {
-  if (width <= 300) return 2;
-  if (width > 300 && width <= 400) return 5;
-  return 10;
-}
 interface AxisGraphProps<D> {
   id: string;
   background: (id: string) => JSX.Element;

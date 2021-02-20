@@ -1,27 +1,18 @@
 import Network, {
-  NetworkScale
+  NetworkScale,
 } from "@components/Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode
+  NetworkPointNode,
 } from "@components/Common/Graph/Network/NetworkNode";
 import ActorList from "@components/lists/ActorList";
-import { eventDate, ordEventDate , eqByUUID } from "@helpers/event";
-import {
-  Actor,
-  Common,
-  Events,
-  Group,
-  Page,
-  Topic
-} from "@io/http";
+import { eventDate, ordEventDate, eqByUUID } from "@helpers/event";
+import { Actor, Common, Events, Group, Page, Topic } from "@io/http";
 import { formatDate } from "@utils/date";
-
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { Link } from "@vx/network/lib/types";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import ordinalScale from "@vx/scale/lib/scales/ordinal";
-import { LabelMedium, LabelSmall } from "baseui/typography";
 import { ScaleOrdinal } from "d3";
 import { subWeeks } from "date-fns";
 import { differenceInDays } from "date-fns/esm";
@@ -79,10 +70,8 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
                   tooltipRenderer={(tooltipData) => {
                     return (
                       <div>
-                        <LabelMedium>{tooltipData.title}</LabelMedium>
-                        <LabelSmall>
-                          Data: {formatDate(tooltipData.date)}
-                        </LabelSmall>
+                        <label>{tooltipData.title}</label>
+                        <label>Data: {formatDate(tooltipData.date)}</label>
                         {/* <div>
                           <TopicList
                             topics={tooltipData.topics.map((t) => ({

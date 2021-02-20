@@ -1,7 +1,6 @@
 import { List, ListItemProps } from "@components/Common/List";
 import { Topic } from "@io/http";
-import theme, { CustomTheme } from "@theme/CustomTheme";
-import { KIND, Tag, VARIANT } from "baseui/tag";
+import { Chip } from "@material-ui/core";
 import * as React from "react";
 
 export interface TopicListTopic extends Topic.TopicFrontmatter {
@@ -14,28 +13,10 @@ interface TopicListProps {
   onTopicClick: (t: TopicListTopic) => void;
 }
 
-export const TopicListItem: React.FC<
-  ListItemProps<TopicListTopic> & { $theme: CustomTheme }
-> = ({ item: t, $theme, onClick }) => (
-  <Tag
-    key={t.slug}
-    kind={KIND.custom}
-    variant={t.selected ? VARIANT.solid : VARIANT.outlined}
-    color={`#${t.color}`}
-    title={t.label}
-    onClick={() => onClick?.(t)}
-    closeable={false}
-    overrides={{
-      Text: {
-        style: () => ({
-          fontFamily: $theme.typography.secondaryFont,
-        }),
-      },
-    }}
-  >
-    {t.label}
-  </Tag>
-);
+export const TopicListItem: React.FC<ListItemProps<TopicListTopic>> = ({
+  item: t,
+  onClick,
+}) => <Chip key={t.slug} onClick={() => onClick?.(t)} />;
 
 const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
   return (
@@ -44,7 +25,7 @@ const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
       filter={(_) => true}
       onItemClick={onTopicClick}
       getKey={(t) => t.id}
-      ListItem={(p) => <TopicListItem $theme={theme} {...p} />}
+      ListItem={(p) => <TopicListItem {...p} />}
     />
   );
 };

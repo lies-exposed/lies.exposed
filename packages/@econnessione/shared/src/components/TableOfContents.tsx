@@ -1,17 +1,10 @@
 import uuid from "@utils/uuid";
-import { Block } from "baseui/block";
-import {
-  StatefulTreeView,
-  TreeLabel,
-  TreeLabelProps,
-  TreeNode,
-} from "baseui/tree-view";
-import {
-  HeadingXSmall,
-  LabelLarge,
-  LabelMedium,
-  LabelSmall,
-} from "baseui/typography";
+// import {
+//   StatefulTreeView,
+//   TreeLabel,
+//   TreeLabelProps,
+//   TreeNode
+// } from "baseui/tree-view";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
@@ -25,29 +18,29 @@ interface Items {
   items?: Item[];
 }
 
-interface TOCNode extends Omit<TreeNode, "info"> {
-  info: { depth: number };
-}
+// interface TOCNode extends Omit<TreeNode, "info"> {
+//   info: { depth: number };
+// }
 
-const CustomLabel = (node: TreeNode): JSX.Element => {
-  const Tag = ((depth) => {
-    switch (depth) {
-      case 1:
-        return LabelLarge;
-      case 2:
-        return LabelMedium;
-      case 3:
-      default:
-        return LabelSmall;
-    }
-  })((node as TOCNode).info.depth);
+// const CustomLabel = (node: TreeNode): JSX.Element => {
+//   const Tag = ((depth) => {
+//     switch (depth) {
+//       case 1:
+//         return FormLabel;
+//       case 2:
+//         return FormLabel;
+//       case 3:
+//       default:
+//         return FormLabel;
+//     }
+//   })((node as TOCNode).info.depth);
 
-  return <Tag>{node.label}</Tag>;
-};
+//   return <Tag>{node.label}</Tag>;
+// };
 
-const CustomTreeLabel = (props: TreeLabelProps): JSX.Element => {
-  return <TreeLabel {...props} label={CustomLabel} />;
-};
+// const CustomTreeLabel = (props: TreeLabelProps): JSX.Element => {
+//   return <TreeLabel {...props} label={CustomLabel} />;
+// };
 
 export const TableOfContents: React.FC<Items> = ({ items }) => {
   return pipe(
@@ -55,17 +48,17 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
     O.map((items) => traverseItem(items, 1)),
     O.map((data) => (
       // eslint-disable-next-line react/jsx-key
-      <Block overrides={{ Block: { style: { padding: "20px" } } }}>
-        <HeadingXSmall>Tabella dei contenuti</HeadingXSmall>
-        <StatefulTreeView
+      <div>
+        <h1>Tabella dei contenuti</h1>
+        {/* <StatefulTreeView
           data={data}
           overrides={{
             TreeLabel: {
               component: CustomTreeLabel,
             },
           }}
-        />
-      </Block>
+        /> */}
+      </div>
     )),
     O.toNullable
   );
@@ -74,7 +67,7 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
 const traverseItem = (
   items: Item[],
   depth: number
-): Array<TreeNode<{ depth: number }>> => {
+): any[] => {
   return items.map((i) => ({
     id: i.url ?? uuid(),
     info: { depth },

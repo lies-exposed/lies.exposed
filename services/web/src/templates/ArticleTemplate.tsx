@@ -3,11 +3,11 @@ import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
+import { Grid } from "@material-ui/core";
 import { article, articleByPath } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import { FlexGridItem } from "baseui/flex-grid";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -28,10 +28,10 @@ export default class ArticleTemplate extends React.PureComponent<
             queries={{ article: articleByPath }}
             params={{ article: { path: articlePath } }}
             render={QR.fold(Loader, ErrorBox, ({ article }) => (
-              <FlexGridItem display="flex">
+              <Grid item>
                 <SEO title={article.title} />
                 <ArticlePageContent {...article} />
-              </FlexGridItem>
+              </Grid>
             ))}
           />
         )

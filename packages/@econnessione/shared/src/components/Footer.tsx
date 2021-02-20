@@ -1,16 +1,34 @@
 import { faGithub, faSlack } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { themedUseStyletron } from "@theme/CustomTheme";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { StyledLink } from "baseui/link";
-import { Menu } from "baseui/menu";
-import { HeadingXSmall } from "baseui/typography";
+import { Container, Grid, Link, Typography } from "@material-ui/core";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import * as React from "react";
-import { mainMenu } from "./Header";
 import { PaypalDonateButton } from "./buttons/PaypalDonateButton";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      width: "100%",
+      paddingTop: "20px",
+      paddingBottom: "20px",
+      backgroundColor: theme.palette.secondary.light,
+    },
+    title: {
+      color: theme.palette.common.white,
+      fontSize: 18,
+      fontWeight: theme.typography.fontWeightBold,
+    },
+    link: {
+      color: theme.palette.common.white,
+    },
+    rightColumn: {
+      textAlign: "right",
+    },
+  })
+);
+
 export const Footer: React.FC = () => {
-  const [, theme] = themedUseStyletron();
   const {
     site: {
       siteMetadata: { title, github, mattermost },
@@ -18,51 +36,43 @@ export const Footer: React.FC = () => {
   } = {
     site: {
       siteMetadata: {
-        title: "",
+        title: "ECOnnessione",
         github: { link: "https://github.com/ascariandrea/econnessione" },
         mattermost: { link: "https://mattermost.econnessione.org" },
       },
     },
   };
+
+  const classes = useStyles();
+
   return (
-    <FlexGridItem padding="40px" backgroundColor={theme.colors.brandPrimary}>
-      <footer>
-        <FlexGrid flexGridColumnCount={4}>
-          <FlexGridItem>
-            <HeadingXSmall>{title}</HeadingXSmall>
-          </FlexGridItem>
-          <FlexGridItem>
-            <Menu
-              overrides={{
-                List: {
-                  style: { backgroundColor: "trasparent", boxShadow: "none" },
-                },
-                ListItem: {
-                  style: { color: theme.colors.primary },
-                },
-              }}
-              items={mainMenu}
-            />
-          </FlexGridItem>
-          <FlexGridItem>
+    <footer className={classes.root}>
+      <Container>
+        <Grid container>
+          <Grid item sm={4}>
+            <Typography className={classes.title} variant="h6">
+              {title}
+            </Typography>
             <PaypalDonateButton />
-          </FlexGridItem>
-          <FlexGridItem>
+          </Grid>
+
+          <Grid item sm={4}></Grid>
+          <Grid className={classes.rightColumn} item sm={4}>
             <ul style={{ listStyle: "none" }}>
               <li>
-                <StyledLink href={github.link}>
+                <Link className={classes.link} href={github.link}>
                   <FontAwesomeIcon icon={faGithub} /> Github
-                </StyledLink>
+                </Link>
               </li>
               <li>
-                <StyledLink href={mattermost.link}>
+                <Link className={classes.link} href={mattermost.link}>
                   <FontAwesomeIcon icon={faSlack} /> Slack
-                </StyledLink>
+                </Link>
               </li>
             </ul>
-          </FlexGridItem>
-        </FlexGrid>
-      </footer>
-    </FlexGridItem>
+          </Grid>
+        </Grid>
+      </Container>
+    </footer>
   );
 };

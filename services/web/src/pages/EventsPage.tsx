@@ -18,7 +18,6 @@ import {
   eqByUUID,
 } from "@econnessione/shared/helpers/event";
 import { Actor, Group, Topic } from "@econnessione/shared/lib/io/http";
-import theme from "@econnessione/shared/theme/CustomTheme";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
 import {
@@ -26,6 +25,7 @@ import {
   Routes,
   updateSearch,
 } from "@econnessione/shared/utils/routes";
+import { Grid } from "@material-ui/core";
 import {
   actorsList,
   eventsList,
@@ -35,8 +35,6 @@ import {
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { LabelMedium } from "baseui/typography";
 import { subYears } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -186,9 +184,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               );
             };
 
-            const onDatePickerChange = (value: {
-              date: Date | Date[];
-            }): void => {
+            const onDatePickerChange = (value: any): void => {
               if (Array.isArray(value.date)) {
                 setDateRange(value.date);
               }
@@ -224,132 +220,119 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             });
 
             return (
-              <FlexGrid
-                alignItems="center"
-                alignContent="center"
-                justifyItems="center"
-                height="100%"
-                flexGridColumnCount={1}
-              >
-                <ContentWithSidebar
-                  sidebar={
-                    <FlexGrid
-                      flexGridColumnCount={1}
-                      alignItems="start"
-                      minHeight="300px"
-                      height="100%"
-                    >
-                      <FlexGridItem display="flex">
-                        <DatePicker
-                          value={dateRange}
-                          range={true}
-                          quickSelect={true}
-                          onChange={onDatePickerChange}
-                        />
-                      </FlexGridItem>
-                      <FlexGridItem display="flex">
-                        <SearchableInput
-                          placeholder="Topics..."
-                          items={topics.filter(
-                            (t) => !selectedTopicIds.includes(t.id)
-                          )}
-                          selectedItems={selectedTopics}
-                          getValue={(item) => item.label}
-                          itemRenderer={(item, itemProps, index) => (
-                            <TopicListItem
-                              $theme={theme}
+              <ContentWithSidebar
+                sidebar={
+                  <Grid container direction="column">
+                    <Grid item>
+                      <DatePicker
+                        value={dateRange}
+                        // range={true}
+                        // quickSelect={true}
+                        onChange={onDatePickerChange}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <SearchableInput
+                        placeholder="Topics..."
+                        items={topics.filter(
+                          (t) => !selectedTopicIds.includes(t.id)
+                        )}
+                        selectedItems={selectedTopics}
+                        getValue={(item) => item.label}
+                        itemRenderer={(item, itemProps, index) => (
+                          <TopicListItem
+                            key={item.id}
+                            index={index}
+                            item={{
+                              ...item,
+                              selected: selectedTopics.some((t) =>
+                                eqByUUID.equals(t, item)
+                              ),
+                            }}
+                            onClick={(item: any) => itemProps.onClick(item)}
+                          />
+                        )}
+                        onSelectItem={(item, items) => {
+                          onTopicClick(item);
+                        }}
+                        onUnselectItem={(item) => onTopicClick(item)}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <SearchableInput
+                        placeholder="Gruppi..."
+                        items={groups.filter(
+                          (g) => !selectedGroupIds.includes(g.id)
+                        )}
+                        selectedItems={selectedGroups}
+                        itemRenderer={(item, itemProps, index) => {
+                          return (
+                            <GroupListItem
                               key={item.id}
                               index={index}
                               item={{
                                 ...item,
-                                selected: selectedTopics.some((t) =>
-                                  eqByUUID.equals(t, item)
+                                selected: selectedGroups.some((g) =>
+                                  eqByUUID.equals(g, item)
                                 ),
                               }}
                               onClick={(item: any) => itemProps.onClick(item)}
+                              avatarScale="scale1000"
                             />
-                          )}
-                          onSelectItem={(item, items) => {
-                            onTopicClick(item);
-                          }}
-                          onUnselectItem={(item) => onTopicClick(item)}
-                        />
-                      </FlexGridItem>
-                      <FlexGridItem display="flex" flexGridColumnCount={1}>
-                        <SearchableInput
-                          placeholder="Gruppi..."
-                          items={groups.filter(
-                            (g) => !selectedGroupIds.includes(g.id)
-                          )}
-                          selectedItems={selectedGroups}
-                          itemRenderer={(item, itemProps, index) => {
-                            return (
-                              <GroupListItem
-                                key={item.id}
-                                index={index}
-                                item={{
-                                  ...item,
-                                  selected: selectedGroups.some((g) =>
-                                    eqByUUID.equals(g, item)
-                                  ),
-                                }}
-                                onClick={(item: any) => itemProps.onClick(item)}
-                                avatarScale="scale1000"
-                              />
-                            );
-                          }}
-                          onSelectItem={(item) => {
-                            onGroupClick(item);
-                          }}
-                          onUnselectItem={(item) => {
-                            onGroupClick(item);
-                          }}
-                          getValue={(item) => item.name}
-                        />
-                      </FlexGridItem>
-                      <FlexGridItem display="flex">
-                        <SearchableInput
-                          placeholder="Attori..."
-                          items={actors.filter(
-                            (a) => !selectedActorIds.includes(a.id)
-                          )}
-                          selectedItems={selectedActors}
-                          itemRenderer={(item, itemProps, index) => {
-                            return (
-                              <ActorListItem
-                                key={item.id}
-                                index={index}
-                                item={{
-                                  ...item,
-                                  selected: selectedActors.some((a) =>
-                                    eqByUUID.equals(a, item)
-                                  ),
-                                }}
-                                onClick={(item: any) => itemProps.onClick(item)}
-                                avatarScale="scale1000"
-                              />
-                            );
-                          }}
-                          onSelectItem={(item) => onActorClick(item)}
-                          onUnselectItem={(item) => onActorClick(item)}
-                          getValue={(item) => item.username}
-                        />
-                      </FlexGridItem>
-                    </FlexGrid>
-                  }
-                >
-                  <MainContent>
-                    <Helmet>
-                      <SEO title={page.title} />
-                    </Helmet>
-                    <FlexGridItem width="100%">
-                      <PageContent {...page} />
+                          );
+                        }}
+                        onSelectItem={(item) => {
+                          onGroupClick(item);
+                        }}
+                        onUnselectItem={(item) => {
+                          onGroupClick(item);
+                        }}
+                        getValue={(item) => item.name}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <SearchableInput
+                        placeholder="Attori..."
+                        items={actors.filter(
+                          (a) => !selectedActorIds.includes(a.id)
+                        )}
+                        selectedItems={selectedActors}
+                        itemRenderer={(item, itemProps, index) => {
+                          return (
+                            <ActorListItem
+                              key={item.id}
+                              index={index}
+                              item={{
+                                ...item,
+                                selected: selectedActors.some((a) =>
+                                  eqByUUID.equals(a, item)
+                                ),
+                              }}
+                              onClick={(item: any) => itemProps.onClick(item)}
+                              avatarScale="scale1000"
+                            />
+                          );
+                        }}
+                        onSelectItem={(item) => onActorClick(item)}
+                        onUnselectItem={(item) => onActorClick(item)}
+                        getValue={(item) => item.username}
+                      />
+                    </Grid>
+                  </Grid>
+                }
+              >
+                <MainContent>
+                  <Helmet>
+                    <SEO title={page.title} />
+                  </Helmet>
+                  <Grid item>
+                    <PageContent {...page} />
 
-                      <LabelMedium>
-                        Nº Eventi: {totalEvents} dal {formatDate(minDate)} al{" "}
-                        {formatDate(maxDate)}{" "}
-                      </LabelMedium>
-                      {/* <EventsNetwork
+                    <label>
+                      Nº Eventi: {totalEvents} dal {formatDate(minDate)} al{" "}
+                      {formatDate(maxDate)}{" "}
+                    </label>
+                    {/* <EventsNetwork
                         events={events}
                         actors={actors}
                         groups={groups}
@@ -360,20 +343,19 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                         scale={'all'}
                         scalePoint={O.none}
                       /> */}
-                      <EventsMap
-                        events={events as any}
-                        width={600}
-                        height={400}
-                      />
-                      <EventList
-                        events={events as any}
-                        actors={actors}
-                        groups={groups}
-                      />
-                    </FlexGridItem>
-                  </MainContent>
-                </ContentWithSidebar>
-              </FlexGrid>
+                    <EventsMap
+                      events={events as any}
+                      width={600}
+                      height={400}
+                    />
+                    <EventList
+                      events={events as any}
+                      actors={actors}
+                      groups={groups}
+                    />
+                  </Grid>
+                </MainContent>
+              </ContentWithSidebar>
             );
           }
         )}

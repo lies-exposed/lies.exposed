@@ -1,7 +1,6 @@
 import { ProtestListItem } from "@components/lists/EventList/ProtestListItem";
 import { UncategorizedListItem } from "@components/lists/EventList/UncategorizedListItem";
 import { Events } from "@io/http";
-import { Block } from "baseui/block";
 import * as React from "react";
 import SlickSlider from "react-slick";
 
@@ -11,7 +10,7 @@ export interface EventSliderProps {
 
 export const EventSlider: React.FC<EventSliderProps> = (props) => {
   return (
-    <Block>
+    <div>
       <SlickSlider
         adaptiveHeight={true}
         infinite={false}
@@ -41,6 +40,6 @@ export const EventSlider: React.FC<EventSliderProps> = (props) => {
           return <div key={e.type}>{e.type}</div>;
         })}
       </SlickSlider>
-    </Block>
+    </div>
   );
 };

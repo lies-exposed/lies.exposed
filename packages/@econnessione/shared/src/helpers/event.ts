@@ -1,6 +1,5 @@
 import { Actor, Common, Events, Project } from "@io/http";
 import { eventMetadataMapEmpty } from "@mock-data/events/events-metadata";
-import { Item } from "baseui/side-navigation";
 import { format, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as Eq from "fp-ts/lib/Eq";
@@ -9,6 +8,12 @@ import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
 import { isByActor } from "./actor";
+
+// interface Item {
+//   itemId: string;
+//   title: string;
+//   subNav: Array<Omit<Item, "subNav">>;
+// }
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
@@ -30,7 +35,13 @@ export const eqByUUID = pipe(
   Eq.contramap((f: Common.BaseFrontmatter) => f.id)
 );
 
-export const eventsDataToNavigatorItems = (events: Events.Event[]): Item[] => {
+interface NavigationItem {
+  itemId: string;
+  title: string;
+  subNav?: NavigationItem[];
+}
+
+export const eventsDataToNavigatorItems = (events: Events.Event[]): NavigationItem[] => {
   const initial: EventsByYearMap = Map.empty;
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
@@ -61,12 +72,12 @@ export const eventsDataToNavigatorItems = (events: Events.Event[]): Item[] => {
     return Map.insertAt(Eq.eqNumber)(year, value)(acc);
   }, initial);
 
-  const initialData: Item[] = [];
-  return Map.toArray(Ord.getDualOrd(Ord.ordNumber))(yearItems).reduce<Item[]>(
+  const initialData: NavigationItem[] = [];
+  return Map.toArray(Ord.getDualOrd(Ord.ordNumber))(yearItems).reduce<NavigationItem[]>(
     (acc, [year, monthMap]) => {
       const months = Map.toArray(Ord.getDualOrd(Ord.ordNumber))(
         monthMap
-      ).reduce<Item[]>((monthAcc, [month, events]) => {
+      ).reduce<NavigationItem[]>((monthAcc, [month, events]) => {
         return monthAcc.concat({
           itemId: `#m-${month.toString()}`,
           title: format(new Date().setMonth(month), "MMMM"),

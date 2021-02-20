@@ -3,17 +3,27 @@ import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Grid,
+} from "@material-ui/core";
 import { articlesList, pageContentByPath } from "@providers/DataProvider";
-import { Link, RouteComponentProps } from "@reach/router";
+import { RouteComponentProps } from "@reach/router";
+import { formatDate } from "@utils/date";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import { Block } from "baseui/block";
-import { Card, StyledBody } from "baseui/card";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import React from "react";
 
 export default class BlogPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
+    const { navigate } = this.props;
+
     return (
       <>
         <SEO title="Blog" />
@@ -42,21 +52,47 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
               Loader,
               ErrorBox,
               ({ articlesList: { data: articles } }) => (
-                <Block>
-                  <FlexGrid flexGridColumnCount={2}>
+                <div>
+                  <Grid container spacing={2}>
                     {articles.map((a) => (
-                      <FlexGridItem key={a.id}>
-                        <Card
-                          key={a.id}
-                          title={<Link to={`/blog/${a.path}`}>{a.title}</Link>}
-                          headerImage={a.featuredImage}
-                        >
-                          <StyledBody>{a.title}</StyledBody>
+                      <Grid item key={a.id} xs={6}>
+                        <Card key={a.id}>
+                          <CardHeader
+                            title={a.title}
+                            subheader={
+                              <p style={{ fontSize: 11 }}>
+                                {formatDate(a.createdAt)}
+                              </p>
+                            }
+                          />
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              alt="Contemplative Reptile"
+                              height="140"
+                              image={a.featuredImage}
+                              title="Contemplative Reptile"
+                            />
+                            <CardContent>{a.body.substr(0, 200)}</CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                            <Button
+                              size="small"
+                              color="primary"
+                              onClick={async () => {
+                                if (navigate) {
+                                  await navigate(`articles/${a.id}`);
+                                }
+                              }}
+                            >
+                              Leggi
+                            </Button>
+                          </CardActions>
                         </Card>
-                      </FlexGridItem>
+                      </Grid>
                     ))}
-                  </FlexGrid>
-                </Block>
+                  </Grid>
+                </div>
               )
             )}
           />

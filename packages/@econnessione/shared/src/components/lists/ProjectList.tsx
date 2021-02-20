@@ -1,7 +1,12 @@
 import { List, ListItemProps } from "@components/Common/List";
 import { Project } from "@io/http";
-import { Avatar } from "baseui/avatar";
-import * as A from "fp-ts/lib/Array";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  CardMedia
+} from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -21,34 +26,29 @@ export const ProjectListItem: React.FC<
   ListItemProps<Project> & { avatarScale: AvatarScale }
 > = ({ item, avatarScale, onClick }) => {
   return (
-    <div
-      key={item.id}
+    <Card
       style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >
-      {pipe(
-        O.some(item.images),
-        O.map(
-          A.map((src) => (
-            <Avatar
-              key={item.id}
-              name={item.name}
-              size={avatarScale}
-              src={src.location}
+      <CardHeader title={item.name} />
+      <CardActionArea>
+        {pipe(
+          O.fromNullable(item.images[0]),
+          O.chainNullableK((image) => (
+            <CardMedia
+              component="img"
+              alt="Contemplative Reptile"
+              height="140"
+              image={image.location}
+              title={image.description ?? undefined}
             />
-          ))
-        ),
-        O.toNullable
-      )}
-      {item.name}
-      <div
-        style={{
-          width: "100%",
-          height: 3,
-          backgroundColor: item.selected ? item.color : "white",
-        }}
-      />
-    </div>
+          )),
+          O.toNullable
+        )}
+
+        <CardContent></CardContent>
+      </CardActionArea>
+    </Card>
   );
 };
 

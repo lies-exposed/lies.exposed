@@ -1,4 +1,4 @@
-import { Card } from "baseui/card";
+import { Card } from "@material-ui/core";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -7,7 +7,7 @@ import { events } from "../../mock-data/events";
 import { firstBadProject } from "../../mock-data/projects";
 import {
   ProjectPageContent,
-  ProjectPageContentProps
+  ProjectPageContentProps,
 } from "../ProjectPageContent";
 
 export const projectPageContentExampleArgs: ProjectPageContentProps = {
@@ -28,7 +28,7 @@ export const ProjectPageContentExample: React.FC<ProjectPageContentProps> = (
     : props;
 
   return (
-    <Card overrides={{ Root: { style: { width: "100%" } } }}>
+    <Card style={{ width: "100%" }}>
       <ProjectPageContent {...pageContentProps} />
     </Card>
   );

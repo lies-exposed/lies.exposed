@@ -1,12 +1,10 @@
 import {
   faHouseDamage,
   faMoneyBillWave,
-  faUserShield,
+  faUserShield
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Events } from "@io/http";
-import { themedUseStyletron } from "@theme/CustomTheme";
-import { Block } from "baseui/block";
 import * as React from "react";
 
 export interface EventMetadataListProps {
@@ -14,9 +12,8 @@ export interface EventMetadataListProps {
 }
 
 export const EventMetadataList: React.FC<EventMetadataListProps> = (props) => {
-  const [, $theme] = themedUseStyletron();
   const protestIcon = (
-    <FontAwesomeIcon icon={faUserShield} color={$theme.colors.positive} />
+    <FontAwesomeIcon icon={faUserShield} color={"green"} />
   );
   const protests = props.metadata.filter(
     (m) => m.type === Events.Protest.PROTEST.value
@@ -27,13 +24,13 @@ export const EventMetadataList: React.FC<EventMetadataListProps> = (props) => {
     .length;
 
   const impactIcon = (
-    <FontAwesomeIcon icon={faHouseDamage} color={$theme.colors.negative} />
+    <FontAwesomeIcon icon={faHouseDamage} color={"red"} />
   );
   const impacts = props.metadata.filter((m) => m.type === "ProjectImpact")
     .length;
 
   return (
-    <Block>
+    <>
       <div>
         Proteste {protestIcon} {protests}
       </div>
@@ -43,6 +40,6 @@ export const EventMetadataList: React.FC<EventMetadataListProps> = (props) => {
       <div>
         Impatti {impactIcon} {impacts}
       </div>
-    </Block>
+    </>
   );
 };

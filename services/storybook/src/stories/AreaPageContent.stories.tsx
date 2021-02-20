@@ -4,8 +4,6 @@ import {
 } from "@econnessione/shared/components/AreaPageContent";
 import { firstArea } from "@econnessione/shared/mock-data/areas";
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { Block } from "baseui/block";
-import { HeadingLarge } from "baseui/typography";
 import * as React from "react";
 
 const meta: Meta = {
@@ -17,13 +15,12 @@ export default meta;
 
 const Template: Story<AreaPageContentProps> = (props) => {
   return (
-    <Block overrides={{ Block: { style: { width: "100%" } } }}>
-      <HeadingLarge>TODO:</HeadingLarge>
+    <div>
       <ul>
         <li>Lista dei progetti in questa area</li>
       </ul>
       <AreaPageContent {...props} />
-    </Block>
+    </div>
   );
 };
 
