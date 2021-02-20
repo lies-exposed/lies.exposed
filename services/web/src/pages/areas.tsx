@@ -22,16 +22,22 @@ export default class AreasPage extends React.PureComponent<RouteComponentProps> 
             filter: {},
           },
         }}
-        render={QR.fold(Loader, ErrorBox, ({ pageContent, areas: { data: areas } }) => (
-          <MainContent>
-            <PageContent {...pageContent} />
-            <AreasMap
-              areas={areas}
-              width={800}
-              height={400}
-            />
-          </MainContent>
-        ))}
+        render={QR.fold(
+          Loader,
+          ErrorBox,
+          ({ pageContent, areas: { data: areas } }) => (
+            <MainContent>
+              <PageContent {...pageContent} />
+              <AreasMap
+                areas={areas}
+                width={800}
+                height={400}
+                center={[9.18951, 45.46427]}
+                zoom={11}
+              />
+            </MainContent>
+          )
+        )}
       />
     );
   }

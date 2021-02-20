@@ -24,7 +24,7 @@ import ActorsPage from "./pages/actors";
 import AreasPage from "./pages/areas";
 import GroupsPage from "./pages/groups";
 import ProjectPage from "./pages/project";
-
+import "./scss/main.scss";
 
 export const App: React.FC = () => {
   const engine = new Styletron();

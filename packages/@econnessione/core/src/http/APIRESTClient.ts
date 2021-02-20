@@ -3,7 +3,6 @@ import * as E from "fp-ts/lib/Either";
 import * as Task from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import qs from "query-string";
 import * as RA from "react-admin";
 
 interface APIRESTClient {
@@ -84,12 +83,21 @@ const APIRESTClient = ({
       liftClientRequest(() => client.get(url, { params }))(),
     getOne: (resource, params) =>
       liftClientRequest<RA.GetOneResult<any>>(() =>
-        client.get(`${resource}/${params.id}`)
+        client.get(`${resource}/${params.id}`, { params })
       )(),
     getList: (resource, params) => {
-      const pagination = qs.stringify(params.pagination as any);
       return liftClientRequest<RA.GetListResult<any>>(() =>
-        client.get(`${resource}`, { params: pagination })
+        client.get(`${resource}`, {
+          params: {
+            _sort: params.sort.field,
+            _order: params.sort.order,
+            // _start: params.pagination.page * params.pagination.perPage,
+            // _end:
+            //   params.pagination.perPage * params.pagination.page +
+            //   params.pagination.perPage,
+            ...params.filter,
+          },
+        })
       )();
     },
     getMany: (resource, params) => {
