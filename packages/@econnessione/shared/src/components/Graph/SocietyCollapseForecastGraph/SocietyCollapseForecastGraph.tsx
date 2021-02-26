@@ -58,11 +58,16 @@ interface CO2LevelDatum {
 
 export interface SocietyCollapseForecastGraphProps {
   data: CO2LevelDatum[];
+  points: Array<{
+    year: number;
+    gtCO2: number;
+  }>;
   style?: React.CSSProperties;
 }
 
 export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraphProps> = ({
   data,
+  points,
   style,
 }) => {
   // const labelColor = "#8e205f";
@@ -107,7 +112,6 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                 rx={0}
               />
 
-              {/* <LinearGradient id={backgroundId} from="#c30ff7" to="#df3e21" /> */}
               <LinearGradient id={backgroundId} from="#c30ff7" to="#fff" />
               {data.map((datum) => {
                 const linePathId = `line-path-${datum.id}`;
@@ -179,14 +183,17 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                       curve={curveBasis}
                     />
                     {/* Median line */}
-                    <LinePath
-                      data={datum.gtCO2}
-                      x={(d) => yearScale(d.year) ?? 0}
-                      y={(d) => gtCO2Scale(d.Median) ?? 0}
-                      stroke={`url('#${linePathId}')`}
-                      strokeWidth={2}
-                      curve={curveBasis}
-                    />
+                    {datum.id === "Historical" ? (
+                      <LinePath
+                        data={datum.gtCO2}
+                        x={(d) => yearScale(d.year) ?? 0}
+                        y={(d) => gtCO2Scale(d.Median) ?? 0}
+                        stroke={`url('#${linePathId}')`}
+                        strokeWidth={2}
+                        curve={curveBasis}
+                      />
+                    ) : null}
+
                     {/* Low Line */}
                     <LinePath
                       data={datum.gtCO2}
@@ -199,6 +206,21 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                   </Group>
                 );
               })}
+
+              <Group>
+                {points.map((p, i) => {
+                  return (
+                    <circle
+                      key={i}
+                      cx={yearScale(p.year)}
+                      cy={gtCO2Scale(p.gtCO2)}
+                      r={3}
+                      fill={"black"}
+                    />
+                  );
+                })}
+              </Group>
+
               <AxisBottom
                 top={height - margin.bottom}
                 left={0}
@@ -294,13 +316,14 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
           return acc as any;
         }
       ),
-      (record) => {
-        return Object.entries(record).map(([key, value]) => {
+      (record): SocietyCollapseForecastGraphProps => {
+        const data = Object.entries(record).map(([key, value]) => {
           const gtCO2Entries = (Object.entries(value).filter(
             ([_, values]) =>
               ((values as any) as any[]).filter((v) => v !== undefined).length >
               0
           ) as any) as Array<[string, any[]]>;
+
           return {
             id: key,
             ...colors[key],
@@ -317,8 +340,18 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
             },
           };
         });
+
+        return {
+          data,
+          points: [
+            {
+              year: 2021,
+              gtCO2: 50,
+            },
+          ],
+        };
       },
-      (data) => <SocietyCollapseForecastGraph data={data} />
+      (props) => <SocietyCollapseForecastGraph {...props} />
     );
   }
 }

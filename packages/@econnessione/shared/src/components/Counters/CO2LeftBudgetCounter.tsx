@@ -6,7 +6,9 @@ const END_DATE = new Date(2027, 11, 31);
 const calculateTimeLeft = (): string => {
   const now = new Date();
   const duration = intervalToDuration({ start: now, end: END_DATE });
-  return `${duration.years} anni, ${duration.months} mesi, ${duration.days} giorni, ${duration.hours} ore, ${duration.minutes} minuti, ${duration.seconds} secondi`.toUpperCase();
+  return `${duration.years}y ${duration.months}m ${duration.days}g ${
+    duration.hours ?? "00"
+  }:${duration.minutes ?? "00"}:${duration.seconds ?? "00"}`;
 };
 
 export const CO2LeftBudgetCounter: React.FC = () => {
