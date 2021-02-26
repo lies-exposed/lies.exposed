@@ -15,6 +15,7 @@ import { Link, navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import React from "react";
+import { MattermostIcon } from "../ui/icons/MattermostIcon/MattermostIcon";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,16 +24,22 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     appBar: {
       backgroundColor: theme.overrides?.MuiAppBar?.colorPrimary as any,
-      boxShadow: 'none'
+      boxShadow: "none",
     },
     menuButton: {
       marginRight: theme.spacing(2),
     },
     menuItem: {
+      color: theme.palette.common.white,
       fontWeight: theme.typography.fontWeightBold,
     },
     title: {
       flexGrow: 1,
+    },
+    titleLink: {
+      color: theme.palette.common.white,
+      fontWeight: theme.typography.fontWeightBold,
+      textDecoration: "none",
     },
   })
 );
@@ -108,13 +115,14 @@ export const mainMenu: HeaderMenuItem[] =
 const Header: React.FC = () => {
   const {
     site: {
-      siteMetadata: { title, github },
+      siteMetadata: { title, github, mattermostUrl },
     },
   } = {
     site: {
       siteMetadata: {
         title: "ECONNESSIONE",
         github: { repo: "econnessione", user: "ascariandrea" },
+        mattermostUrl: "https://mattermost.econnessione.org/",
       },
     },
   };
@@ -173,8 +181,17 @@ const Header: React.FC = () => {
     <AppBar className={classes.appBar} position="relative">
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          <Link to="/">{title}</Link>
+          <Link className={classes.titleLink} to="/">
+            {title}
+          </Link>
         </Typography>
+
+        <a href={mattermostUrl} style={{ verticalAlign: "middle" }}>
+          <Button
+            startIcon={<MattermostIcon fontSize="small" variant="white" />}
+          />
+        </a>
+
         <Button>
           <iframe
             src={`https://ghbtns.com/github-btn.html?user=${github.user}&repo=${github.repo}&type=star&count=true&size=small`}

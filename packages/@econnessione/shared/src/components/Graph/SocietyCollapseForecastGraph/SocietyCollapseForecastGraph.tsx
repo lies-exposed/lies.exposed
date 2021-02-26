@@ -8,8 +8,8 @@ import { scaleLinear } from "@vx/scale";
 import { Bar, Line, LinePath } from "@vx/shape";
 import { Threshold } from "@vx/threshold";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as R from "fp-ts/lib/Record";
+import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import societyCollapseData from "./society-collapse-forecast.json";
 
@@ -58,10 +58,10 @@ interface CO2LevelDatum {
 
 export interface SocietyCollapseForecastGraphProps {
   data: CO2LevelDatum[];
-  points: {
+  points: Array<{
     year: number;
     gtCO2: number;
-  }[];
+  }>;
   style?: React.CSSProperties;
 }
 
@@ -183,14 +183,17 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                       curve={curveBasis}
                     />
                     {/* Median line */}
-                    <LinePath
-                      data={datum.gtCO2}
-                      x={(d) => yearScale(d.year) ?? 0}
-                      y={(d) => gtCO2Scale(d.Median) ?? 0}
-                      stroke={`url('#${linePathId}')`}
-                      strokeWidth={2}
-                      curve={curveBasis}
-                    />
+                    {datum.id === "Historical" ? (
+                      <LinePath
+                        data={datum.gtCO2}
+                        x={(d) => yearScale(d.year) ?? 0}
+                        y={(d) => gtCO2Scale(d.Median) ?? 0}
+                        stroke={`url('#${linePathId}')`}
+                        strokeWidth={2}
+                        curve={curveBasis}
+                      />
+                    ) : null}
+
                     {/* Low Line */}
                     <LinePath
                       data={datum.gtCO2}
@@ -204,15 +207,20 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                 );
               })}
 
-              {points.map((p, i) => {
-                <circle
-                  key={i}
-                  cx={yearScale(p.year)}
-                  cy={gtCO2Scale(p.gtCO2)}
-                  r={100}
-                  fill={"black"}
-                />;
-              })}
+              <Group>
+                {points.map((p, i) => {
+                  return (
+                    <circle
+                      key={i}
+                      cx={yearScale(p.year)}
+                      cy={gtCO2Scale(p.gtCO2)}
+                      r={3}
+                      fill={"black"}
+                    />
+                  );
+                })}
+              </Group>
+
               <AxisBottom
                 top={height - margin.bottom}
                 left={0}
@@ -338,7 +346,7 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
           points: [
             {
               year: 2021,
-              gtCO2: 44,
+              gtCO2: 50,
             },
           ],
         };

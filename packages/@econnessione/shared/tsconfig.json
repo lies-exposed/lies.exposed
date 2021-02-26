@@ -11,7 +11,7 @@
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
-    "typeRoots": ["node_modules/@types", "./typings"],
+    "typeRoots": ["./typings", "node_modules/@types"],
     "paths": {
       "@components/*": ["./components/*"],
       "@helpers/*": ["./helpers/*"],
