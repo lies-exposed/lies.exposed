@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       paddingTop: "20px",
       paddingBottom: "20px",
-      backgroundColor: theme.palette.secondary.light,
+      backgroundColor: theme.palette.primary.main,
     },
     title: {
       color: theme.palette.common.white,

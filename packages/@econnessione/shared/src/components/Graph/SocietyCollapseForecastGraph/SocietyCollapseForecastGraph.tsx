@@ -8,8 +8,8 @@ import { scaleLinear } from "@vx/scale";
 import { Bar, Line, LinePath } from "@vx/shape";
 import { Threshold } from "@vx/threshold";
 import * as A from "fp-ts/lib/Array";
-import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import societyCollapseData from "./society-collapse-forecast.json";
 
@@ -58,11 +58,16 @@ interface CO2LevelDatum {
 
 export interface SocietyCollapseForecastGraphProps {
   data: CO2LevelDatum[];
+  points: {
+    year: number;
+    gtCO2: number;
+  }[];
   style?: React.CSSProperties;
 }
 
 export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraphProps> = ({
   data,
+  points,
   style,
 }) => {
   // const labelColor = "#8e205f";
@@ -107,7 +112,6 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                 rx={0}
               />
 
-              {/* <LinearGradient id={backgroundId} from="#c30ff7" to="#df3e21" /> */}
               <LinearGradient id={backgroundId} from="#c30ff7" to="#fff" />
               {data.map((datum) => {
                 const linePathId = `line-path-${datum.id}`;
@@ -198,6 +202,16 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                     />
                   </Group>
                 );
+              })}
+
+              {points.map((p, i) => {
+                <circle
+                  key={i}
+                  cx={yearScale(p.year)}
+                  cy={gtCO2Scale(p.gtCO2)}
+                  r={100}
+                  fill={"black"}
+                />;
               })}
               <AxisBottom
                 top={height - margin.bottom}
@@ -294,13 +308,14 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
           return acc as any;
         }
       ),
-      (record) => {
-        return Object.entries(record).map(([key, value]) => {
+      (record): SocietyCollapseForecastGraphProps => {
+        const data = Object.entries(record).map(([key, value]) => {
           const gtCO2Entries = (Object.entries(value).filter(
             ([_, values]) =>
               ((values as any) as any[]).filter((v) => v !== undefined).length >
               0
           ) as any) as Array<[string, any[]]>;
+
           return {
             id: key,
             ...colors[key],
@@ -317,8 +332,18 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
             },
           };
         });
+
+        return {
+          data,
+          points: [
+            {
+              year: 2021,
+              gtCO2: 44,
+            },
+          ],
+        };
       },
-      (data) => <SocietyCollapseForecastGraph data={data} />
+      (props) => <SocietyCollapseForecastGraph {...props} />
     );
   }
 }

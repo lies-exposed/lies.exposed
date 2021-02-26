@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
     counter: {
       fontFamily: theme.typography.fontFamily,
       fontSize: theme.typography.fontSize * 3,
-      color: theme.palette.secondary.dark,
+      color: theme.palette.primary.dark,
       fontWeight: theme.typography.fontWeightBold,
     },
   })

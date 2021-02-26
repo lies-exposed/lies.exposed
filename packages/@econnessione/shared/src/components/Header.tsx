@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     appBar: {
       backgroundColor: theme.overrides?.MuiAppBar?.colorPrimary as any,
+      boxShadow: 'none'
     },
     menuButton: {
       marginRight: theme.spacing(2),

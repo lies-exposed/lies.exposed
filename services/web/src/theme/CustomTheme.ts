@@ -19,7 +19,7 @@ export const theme = createMuiTheme({
   typography: {},
   overrides: {
     MuiAppBar: {
-      colorPrimary: "#FFF" as any,
+      colorPrimary: "#c30ff7" as any,
       colorDefault: "#FFF" as any,
     },
   },
