@@ -162,11 +162,11 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                       curve={curveBasis}
                       belowAreaProps={{
                         fill: `url('#${areaPathId}')`,
-                        fillOpacity: 0.5,
+                        fillOpacity: 0.4,
                       }}
                       aboveAreaProps={{
                         fill: `url('#${areaPathId}')`,
-                        fillOpacity: 0.5,
+                        fillOpacity: 0.4,
                       }}
                     />
                     {/* High line */}
