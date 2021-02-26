@@ -19,12 +19,12 @@ interface Colors {
 }
 
 const colors: { [key: string]: Colors } = {
-  "AR5 BAU": { lowerColor: "#456", upperColor: "#f45" },
+  "AR5 BAU": { lowerColor: "#f45", upperColor: "#f45" },
   "Post-COVID-19": { lowerColor: "#555", upperColor: "#444" },
-  "Pledges and Targets": { lowerColor: "#4ed", upperColor: "#455" },
+  "Pledges and Targets": { lowerColor: "#4ed", upperColor: "#4ed" },
   "Optimistic scenatio (net-zero targets)": {
     lowerColor: "#216",
-    upperColor: "#220",
+    upperColor: "#216",
   },
   "2�C consistent": { lowerColor: "#25d", upperColor: "#25f" },
   "1.5�C consistent": { lowerColor: "green", upperColor: "green" },
@@ -110,8 +110,9 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
               {/* <LinearGradient id={backgroundId} from="#c30ff7" to="#df3e21" /> */}
               <LinearGradient id={backgroundId} from="#c30ff7" to="#fff" />
               {data.map((datum) => {
-                const linePathId = `line-path-id-${datum.id}`;
-                return (
+                const linePathId = `line-path-${datum.id}`;
+                const areaPathId = `area-path-${datum.id}`;
+                return [
                   <LinearGradient
                     key={linePathId}
                     id={linePathId}
@@ -119,13 +120,24 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                     to={datum.upperColor}
                     toOffset={"80%"}
                     vertical={false}
-                    opacity={0.6}
-                  />
-                );
+                    opacity={0.8}
+                  />,
+                  // area gradient,
+                  <LinearGradient
+                    key={areaPathId}
+                    id={areaPathId}
+                    from={datum.lowerColor}
+                    to={datum.upperColor}
+                    toOffset={"80%"}
+                    vertical={false}
+                    opacity={0.5}
+                  />,
+                ];
               })}
 
               {data.map((datum) => {
-                const linePathId = `line-path-id-${datum.id}`;
+                const linePathId = `line-path-${datum.id}`;
+                const areaPathId = `area-path-${datum.id}`;
                 return (
                   <Group
                     key={datum.id}
@@ -149,30 +161,30 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                       clipBelowTo={maxY}
                       curve={curveBasis}
                       belowAreaProps={{
-                        fill: `url('#${linePathId}')`,
-                        fillOpacity: 1,
+                        fill: `url('#${areaPathId}')`,
+                        fillOpacity: 0.5,
                       }}
                       aboveAreaProps={{
-                        fill: `url('#${linePathId}')`,
-                        fillOpacity: 1,
+                        fill: `url('#${areaPathId}')`,
+                        fillOpacity: 0.5,
                       }}
                     />
-
-                    {/* <LinePath
-                      data={datum.gtCO2.Median}
-                      x={(d) => yearScale(d.year) ?? 0}
-                      y={(d) => gtCO2Scale(d.value) ?? 0}
-                      stroke={`url('#${linePathId}')`}
-                      strokeWidth={4}
-                      curve={curveBasis}
-                    /> */}
-
+                    {/* High line */}
                     <LinePath
                       data={datum.gtCO2}
                       x={(d) => yearScale(d.year) ?? 0}
                       y={(d) => gtCO2Scale(d.High) ?? 0}
                       stroke={`url('#${linePathId}')`}
-                      strokeWidth={4}
+                      strokeWidth={2}
+                      curve={curveBasis}
+                    />
+                    {/* Median line */}
+                    <LinePath
+                      data={datum.gtCO2}
+                      x={(d) => yearScale(d.year) ?? 0}
+                      y={(d) => gtCO2Scale(d.Median) ?? 0}
+                      stroke={`url('#${linePathId}')`}
+                      strokeWidth={2}
                       curve={curveBasis}
                     />
                     {/* Low Line */}
@@ -181,7 +193,7 @@ export const SocietyCollapseForecastGraph: React.FC<SocietyCollapseForecastGraph
                       x={(d) => yearScale(d.year) ?? 0}
                       y={(d) => gtCO2Scale(d.Low) ?? 0}
                       stroke={`url('#${linePathId}')`}
-                      strokeWidth={4}
+                      strokeWidth={2}
                       curve={curveBasis}
                     />
                   </Group>

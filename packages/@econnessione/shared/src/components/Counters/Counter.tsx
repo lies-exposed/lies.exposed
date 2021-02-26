@@ -3,11 +3,13 @@ import * as React from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {},
+    root: {
+      margin: "20px 0",
+    },
     counter: {
       fontFamily: theme.typography.fontFamily,
-      fontSize: theme.typography.fontSize * 2,
-      color: theme.palette.common.black,
+      fontSize: theme.typography.fontSize * 3,
+      color: theme.palette.secondary.dark,
       fontWeight: theme.typography.fontWeightBold,
     },
   })
