@@ -1,104 +1,49 @@
-import { faSlack } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CustomTheme, themedUseStyletron } from "@theme/CustomTheme";
-import { withStyle } from "baseui";
 import {
-  ALIGN,
-  HeaderNavigation,
-  StyledNavigationItem,
-  StyledNavigationList,
-} from "baseui/header-navigation";
-import { StyledLink } from "baseui/link";
-import { StatefulMenu } from "baseui/menu";
-import {
-  PLACEMENT as PopoverPlacement,
-  StatefulPopover,
-  TRIGGER_TYPE,
-} from "baseui/popover";
+  AppBar,
+  Button,
+  ClickAwayListener,
+  Grow,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { Link, navigate } from "@reach/router";
+import * as O from "fp-ts/lib/Option";
+import { pipe } from "fp-ts/lib/pipeable";
 import React from "react";
 
-interface MenuItem {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    appBar: {
+      backgroundColor: theme.overrides?.MuiAppBar?.colorPrimary as any,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    menuItem: {
+      fontWeight: theme.typography.fontWeightBold,
+    },
+    title: {
+      flexGrow: 1,
+    },
+  })
+);
+
+interface HeaderMenuItem {
   id: string;
   label: string;
   href: string;
-  subItems: Array<Omit<MenuItem, "subItems">>;
+  subItems: Array<Omit<HeaderMenuItem, "subItems">>;
 }
 
-interface MenuItemProps {
-  item: MenuItem;
-  pos: number;
-}
-
-const NavigationItem = withStyle(
-  StyledNavigationItem,
-  ({ $theme }: { $theme: CustomTheme }) => {
-    return {
-      fontFamily: $theme.typography.secondaryFont,
-      color: $theme.colors.brandSecondary,
-    };
-  }
-);
-
-const NavigationLink = withStyle(
-  StyledLink as any,
-  ({ $theme }: { $theme: CustomTheme }) => {
-    return {
-      fontFamily: $theme.typography.secondaryFont,
-      fontWeight: $theme.typography.HeadingLarge.fontWeight,
-      color: $theme.colors.brandSecondary,
-      textDecoration: "none",
-      cursor: "pointer",
-    };
-  }
-);
-// eslint-disable-next-line react/display-name
-const renderMenuLink = ($theme: CustomTheme): React.FC<MenuItemProps> => ({
-  item,
-}) => {
-  return (
-    <NavigationItem key={item.label} path={item.href}>
-      {item.subItems.length > 0 ? (
-        <StatefulPopover
-          placement={PopoverPlacement.bottomLeft}
-          autoFocus={true}
-          focusLock={true}
-          triggerType={TRIGGER_TYPE.hover}
-          content={({ close }) => (
-            <StatefulMenu
-              items={item.subItems}
-              overrides={{
-                List: {
-                  style: {
-                    border: "none",
-                  },
-                },
-                ListItem: {
-                  style: {
-                    fontFamily: $theme.typography.secondaryFont,
-                    fontWeight: $theme.typography.HeadingLarge.fontWeight,
-                    color: $theme.colors.brandSecondary,
-                    textTransform: "uppercase",
-                    textAlign: "right",
-                  },
-                },
-              }}
-              onItemSelect={async ({ item }) => {
-                // await navigate(item.path)
-                close();
-              }}
-            />
-          )}
-        >
-          <NavigationLink href={item.href}>{item.label}</NavigationLink>
-        </StatefulPopover>
-      ) : (
-        <NavigationLink href={item.href}>{item.label}</NavigationLink>
-      )}
-    </NavigationItem>
-  );
-};
-
-export const mainMenu: MenuItem[] =
+export const mainMenu: HeaderMenuItem[] =
   process.env.NODE_ENV === "development"
     ? [
         {
@@ -173,23 +118,63 @@ const Header: React.FC = () => {
     },
   };
 
-  const [, $theme] = themedUseStyletron();
+  const classes = useStyles();
 
-  const menuLinkRenderer = renderMenuLink($theme);
+  const [open, setOpen] = React.useState(false);
+  const [anchorRef, setAnchorRef] = React.useState<React.RefObject<
+    HTMLButtonElement
+  > | null>(React.useRef<HTMLButtonElement>(null));
+  const [
+    selectedMenuItem,
+    setSelectedMenuItem,
+  ] = React.useState<HeaderMenuItem | null>(null);
+
+  const handleToggle = (
+    ref: React.RefObject<HTMLButtonElement> | null,
+    m: HeaderMenuItem
+  ): void => {
+    if (m.subItems.length > 0) {
+      setOpen((prevOpen) => !prevOpen);
+      setAnchorRef(ref);
+      setSelectedMenuItem(m);
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      navigate(m.href);
+    }
+  };
+
+  const handleClose = (event: React.MouseEvent<EventTarget>): void => {
+    if (anchorRef?.current?.contains(event.target as HTMLElement)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event: React.KeyboardEvent): void {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect((): void => {
+    if (prevOpen.current && !open && anchorRef) {
+      anchorRef.current?.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
   return (
-    <HeaderNavigation
-      overrides={{
-        Root: {
-          style: {},
-        },
-      }}
-    >
-      <StyledNavigationList $align={ALIGN.left}>
-        {menuLinkRenderer({
-          item: { id: "home", label: title, href: "/", subItems: [] },
-          pos: 0,
-        })}
-        <NavigationItem>
+    <AppBar className={classes.appBar} position="relative">
+      <Toolbar>
+        <Typography variant="h6" className={classes.title}>
+          <Link to="/">{title}</Link>
+        </Typography>
+        <Button>
           <iframe
             src={`https://ghbtns.com/github-btn.html?user=${github.user}&repo=${github.repo}&type=star&count=true&size=small`}
             frameBorder="0"
@@ -199,16 +184,68 @@ const Header: React.FC = () => {
             title="GitHub"
             style={{ verticalAlign: "middle" }}
           />
-        </NavigationItem>
-        <NavigationItem>
-          <FontAwesomeIcon icon={faSlack} />
-        </NavigationItem>
-      </StyledNavigationList>
-      <StyledNavigationList $align={ALIGN.center} />
-      <StyledNavigationList $align={ALIGN.right}>
-        {mainMenu.map((i, k) => menuLinkRenderer({ item: i, pos: k }))}
-      </StyledNavigationList>
-    </HeaderNavigation>
+        </Button>
+        {mainMenu.map((m) => {
+          const buttonRef =
+            m.subItems.length > 0
+              ? React.useRef<HTMLButtonElement>(null)
+              : null;
+          return (
+            <Button
+              key={m.id}
+              className={classes.menuItem}
+              ref={buttonRef}
+              aria-controls={open ? "menu-list-grow" : undefined}
+              aria-haspopup="true"
+              onClick={() => handleToggle(buttonRef, m)}
+            >
+              {m.label}
+            </Button>
+          );
+        })}
+
+        {pipe(
+          O.fromNullable(selectedMenuItem),
+          O.map((m): JSX.Element | null => (
+            // eslint-disable-next-line react/jsx-key
+            <Popper
+              open={open}
+              anchorEl={anchorRef?.current}
+              role={undefined}
+              transition
+              disablePortal
+            >
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  style={{
+                    transformOrigin:
+                      placement === "bottom" ? "center top" : "center bottom",
+                  }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={handleClose}>
+                      <MenuList
+                        autoFocusItem={open}
+                        id={`menu-list-${m.id}`}
+                        onKeyDown={handleListKeyDown}
+                      >
+                        {m.subItems.map((item) => (
+                          <MenuItem key={item.id} onClick={handleClose}>
+                            <Link to={item.href}>{item.label}</Link>
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
+          )),
+          O.toNullable
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 

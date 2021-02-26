@@ -1,18 +1,5 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import {
-  DisplayLarge,
-  DisplayMedium,
-  DisplaySmall,
-  DisplayXSmall,
-  HeadingLarge,
-  HeadingMedium,
-  HeadingSmall,
-  HeadingXLarge,
-  HeadingXSmall,
-  HeadingXXLarge,
-  ParagraphMedium,
-} from "baseui/typography";
 import * as E from "fp-ts/lib/Either";
 import * as IOE from "fp-ts/lib/IOEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -72,23 +59,12 @@ const components = {
   EventPageContentExample,
   EventSliderExample,
   // components
-  DisplayXSmall,
-  DisplaySmall,
-  DisplayMedium,
-  DisplayLarge,
   FullSizeSection,
   Video,
   // GQLVoyager,
   // common tags
-  p: ParagraphMedium,
   li: ListItem,
   blockquote: BlockQuote,
-  h1: HeadingXXLarge,
-  h2: HeadingXLarge,
-  h3: HeadingLarge,
-  h4: HeadingMedium,
-  h5: HeadingSmall,
-  h6: HeadingXSmall,
 };
 
 const lowerCasedComponents = Object.keys(components).reduce(

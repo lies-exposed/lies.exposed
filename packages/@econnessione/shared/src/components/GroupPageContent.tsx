@@ -5,9 +5,7 @@ import {
   Group,
   Project
 } from "@io/http";
-import { Block } from "baseui/block";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { HeadingXLarge, HeadingXSmall } from "baseui/typography";
+import {Grid} from '@material-ui/core'
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -45,34 +43,19 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   // );
 
   return (
-    <FlexGrid
-      width="100%"
-      flexGridColumnCount={1}
-      flexGridColumnGap="scale800"
-      flexGridRowGap="scale800"
-      marginBottom="scale800"
-      flexDirection="row"
-      display="flex"
+    <Grid container
     >
-      <FlexGridItem width="100%">
-        <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
+      <Grid item >
+        <div >
           <EditButton resourceName="groups" resource={frontmatter} />
-        </Block>
-      </FlexGridItem>
-      <FlexGridItem width="100%" display="flex" flexGridColumnCount={2}>
-        <FlexGridItem
-          width="100%"
-          display="flex"
-          overrides={{
-            Block: {
-              style: ({ $theme }) => ({
-                width: `calc((200% - ${$theme.sizing.scale800}))`,
-              }),
-            },
-          }}
+        </div>
+      </Grid>
+      <Grid container>
+        <Grid item
+          
         >
-          <Block overrides={{ Block: { style: { width: "100%" } } }}>
-            <HeadingXLarge>{frontmatter.name}</HeadingXLarge>
+          <div >
+            <h2>{frontmatter.name}</h2>
             {pipe(
               O.fromNullable(frontmatter.avatar),
               O.fold(
@@ -81,11 +64,11 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
               )
             )}
             <MarkdownRenderer>{body}</MarkdownRenderer>
-          </Block>
-        </FlexGridItem>
-        <FlexGridItem>
-          <Block>
-            <HeadingXSmall>Sotto Gruppi</HeadingXSmall>
+          </div>
+        </Grid>
+        <Grid>
+          <div>
+            <h4>Sotto Gruppi</h4>
             {
               // eslint-disable-next-line react/jsx-key
               <GroupList
@@ -94,7 +77,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
                 onGroupClick={() => {}}
               />
             }
-          </Block>
+          </div>
           {/* <Block>
             {pipe(
               frontmatter.members,
@@ -113,8 +96,8 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
               )
             )}
           </Block> */}
-          <Block>
-            <HeadingXSmall>Progetti</HeadingXSmall>
+          <div>
+            <h4>Progetti</h4>
             {/* {pipe(
               projectFundsMap,
               Map.toArray(Ord.ordString),
@@ -124,10 +107,10 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
                 </LabelMedium>
               ))
             )} */}
-          </Block>
-        </FlexGridItem>
-      </FlexGridItem>
-      {/* <FlexGridItem width="100%">
+          </div>
+        </Grid>
+      </Grid>
+      {/* <Grid width="100%">
         <EventsNetwork
           events={events.filter(UncategorizedMD.is)}
           selectedGroupIds={[frontmatter.id]}
@@ -136,7 +119,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           scale={"all"}
           scalePoint={O.none}
         />
-      </FlexGridItem> */}
-    </FlexGrid>
+      </Grid> */}
+    </Grid>
   );
 };

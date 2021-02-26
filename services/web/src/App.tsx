@@ -1,18 +1,14 @@
 import { Footer } from "@econnessione/shared/components/Footer";
 import Header from "@econnessione/shared/components/Header";
-import theme from "@econnessione/shared/theme/CustomTheme";
+import { Grid, ThemeProvider } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";
 import ArticleTemplate from "@templates/ArticleTemplate";
 import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
-import { BaseProvider } from "baseui";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-// import NotFoundPage from "./pages/404";
 import * as React from "react";
-import { Client as Styletron } from "styletron-engine-atomic";
-import { Provider as StyletronProvider } from "styletron-react";
 import IndexPage from "./pages";
 import BlogPage from "./pages/BlogPage";
 import { DocsPage } from "./pages/DocsPage";
@@ -24,16 +20,18 @@ import ActorsPage from "./pages/actors";
 import AreasPage from "./pages/areas";
 import GroupsPage from "./pages/groups";
 import ProjectPage from "./pages/project";
-
+import { theme } from "./theme/CustomTheme";
+import "./scss/main.scss";
+// import NotFoundPage from "./pages/404";
 
 export const App: React.FC = () => {
-  const engine = new Styletron();
   return (
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={theme}>
-        <FlexGrid width="100%" minHeight="100%" margin="0">
-          <FlexGridItem width="100%" minHeight="100%" flexDirection="column">
-            <Header />
+    <div>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <Header />
+        <Grid alignItems="center" direction="column">
+          <Grid item>
             <Router>
               <EventTemplate path="/events/:eventId" />
               <EventsPage path="/events" />
@@ -53,10 +51,10 @@ export const App: React.FC = () => {
               <IndexPage default={true} />
               {/* <NotFoundPage default={true} /> */}
             </Router>
-          </FlexGridItem>
+          </Grid>
           <Footer />
-        </FlexGrid>
-      </BaseProvider>
-    </StyletronProvider>
+        </Grid>
+      </ThemeProvider>
+    </div>
   );
 };

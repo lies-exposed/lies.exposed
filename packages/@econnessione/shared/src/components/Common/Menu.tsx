@@ -1,4 +1,4 @@
-import { ListItem, ListItemLabel } from "baseui/list";
+import { ListItem } from "@material-ui/core";
 import * as React from "react";
 
 interface MenuItem {
@@ -26,9 +26,9 @@ const Menu: React.FC<MenuProps> = (props) => {
           <ul key={i}>
             {items.map((i) => (
               <ListItem key={i.id}>
-                <ListItemLabel>
+                <label>
                   <a href={i.path}>{i.title}</a>
-                </ListItemLabel>
+                </label>
               </ListItem>
             ))}
           </ul>

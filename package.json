@@ -16,8 +16,7 @@
     "nohoist": [
       "module-alias",
       "**/ts-jest",
-      "**/ts-jest/**",
-      "eslint-plugin-baseui"
+      "**/ts-jest/**"
     ]
   },
   "scripts": {

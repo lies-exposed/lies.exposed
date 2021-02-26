@@ -1,8 +1,6 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Area, Group, Topic } from "@io/http";
-import { Block } from "baseui/block";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { HeadingXLarge } from "baseui/typography";
+import { Grid } from "@material-ui/core";
 import * as React from "react";
 import Map from "./Map";
 import EditButton from "./buttons/EditButton";
@@ -21,16 +19,14 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
   const features = [frontmatter.geometry];
 
   return (
-    <FlexGrid width="100%">
-      <FlexGridItem width="100%">
-        <Block
-          overrides={{ Block: { style: { textAlign: "right", margin: 10 } } }}
-        >
+    <Grid container>
+      <Grid item>
+        <div style={{ textAlign: "right", margin: 10 }}>
           <div style={{ textAlign: "right", padding: 10 }}>
             <EditButton resourceName="areas" resource={frontmatter} />
           </div>
-        </Block>
-        <HeadingXLarge>{frontmatter.label}</HeadingXLarge>
+        </div>
+        <h1>{frontmatter.label}</h1>
         <Map
           width={600}
           height={300}
@@ -76,7 +72,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
           )
         )} */}
         <MarkdownRenderer>{body}</MarkdownRenderer>
-      </FlexGridItem>
-    </FlexGrid>
+      </Grid>
+    </Grid>
   );
 };

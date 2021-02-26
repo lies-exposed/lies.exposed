@@ -1,6 +1,4 @@
-import theme from "@theme/CustomTheme";
-import { BaseProvider } from "baseui";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
+import { Grid } from "@material-ui/core";
 import * as React from "react";
 import { Footer } from "./Footer";
 import Header from "./Header";
@@ -11,35 +9,12 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children, style }) => {
   return (
-    <BaseProvider
-      theme={theme}
-      overrides={{
-        AppContainer: {
-          style: () => ({
-            minHeight: "100%",
-            display: "flex",
-          }),
-        },
-      }}
-    >
-      <FlexGrid
-        width="100%"
-        minHeight="100%"
-        margin="0"
-        overrides={{
-          Block: {
-            style: () => ({
-              ...style,
-            }),
-          },
-        }}
-      >
-        <FlexGridItem width="100%" minHeight="100%" flexDirection="column">
-          <Header />
-          {children}
-        </FlexGridItem>
-        <Footer />
-      </FlexGrid>
-    </BaseProvider>
+    <Grid container alignItems="center" alignContent="center">
+      <Grid item direction="column" alignItems="center">
+        <Header />
+        {children}
+      </Grid>
+      <Footer />
+    </Grid>
   );
 };

@@ -4,8 +4,6 @@ import {
 } from "@econnessione/shared/components/ProjectPageContent";
 import { projectPageContentExampleArgs } from "@econnessione/shared/components/examples/ProjectPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { Block } from "baseui/block";
-import { HeadingLarge } from "baseui/typography";
 import * as React from "react";
 
 const meta: Meta = {
@@ -17,15 +15,15 @@ export default meta;
 
 const Template: Story<ProjectPageContentProps> = (props) => {
   return (
-    <Block overrides={{ Block: { style: { width: "100%" } } }}>
-      <HeadingLarge>TODO</HeadingLarge>
+    <div style={{ width: "100%" }}>
+      <h1>TODO</h1>
       <ul>
         <li> Lista dei fondi </li>
         <li> Lista degli impatti</li>
         <li> Lista delle proteste</li>
       </ul>
       <ProjectPageContent {...props} />
-    </Block>
+    </div>
   );
 };
 

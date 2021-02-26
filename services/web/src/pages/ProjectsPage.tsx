@@ -4,10 +4,10 @@ import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithS
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
-import SearchableInput from "@econnessione/shared/components/SearchableInput";
 import { TableOfContents } from "@econnessione/shared/components/TableOfContents";
-import { ProjectListItem } from "@econnessione/shared/components/lists/ProjectList";
-import { navigateTo } from "@econnessione/shared/utils/links";
+import ProjectList from "@econnessione/shared/components/lists/ProjectList";
+import { TextField } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { pageContentByPath, projectList } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -29,49 +29,48 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
             filter: {},
           },
         }}
-        render={QR.fold(Loader, ErrorBox, ({ page, projects: { data: projects } }) => (
-          <ContentWithSidebar
-            sidebar={pipe(
-              O.some({ items: [] }),
-              O.chainNullableK((t) => t.items),
-              O.fold(
-                () => <div />,
-                (items) => <TableOfContents items={items} />
-              )
-            )}
-          >
-            <SEO title={page.title} />
-            <MainContent>
-              <PageContent {...page} />
-              <SearchableInput
-                items={projects.map((a) => ({
-                  ...a,
-                  selected: true,
-                }))}
-                selectedItems={[]}
-                getValue={(g) => g.name}
-                onSelectItem={async (item) => {
-                  if (this.props.navigate !== undefined) {
-                    await navigateTo(this.props.navigate, "projects", item);
-                  }
-                }}
-                onUnselectItem={() => {}}
-                itemRenderer={(item, itemProps, index) => (
-                  <ProjectListItem
-                    item={item}
-                    index={index}
-                    avatarScale="scale1600"
-                    onClick={async (item: any) => {
-                      if (this.props.navigate !== undefined) {
-                        await navigateTo(this.props.navigate, "projects", item);
-                      }
-                    }}
-                  />
-                )}
-              />
-            </MainContent>
-          </ContentWithSidebar>
-        ))}
+        render={QR.fold(
+          Loader,
+          ErrorBox,
+          ({ page, projects: { data: projects } }) => (
+            <ContentWithSidebar
+              sidebar={pipe(
+                O.some({ items: [] }),
+                O.chainNullableK((t) => t.items),
+                O.fold(
+                  () => <div />,
+                  (items) => <TableOfContents items={items} />
+                )
+              )}
+            >
+              <SEO title={page.title} />
+              <MainContent>
+                <PageContent {...page} />
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={projects}
+                  getOptionLabel={(option: any) => option.name}
+                  style={{ width: 300 }}
+                  renderInput={(params: any) => (
+                    <TextField {...params} label="Project" variant="outlined" />
+                  )}
+                  onSelect={async (event: any) => {
+                    // eslint-disable-next-line
+                    console.log(event);
+                    if (this.props.navigate !== undefined) {
+                      // await navigateTo(this.props.navigate, "projects", item);
+                    }
+                  }}
+                />
+                <ProjectList
+                  projects={projects.map((p) => ({ ...p, selected: false }))}
+                  avatarScale="scale1600"
+                  onProjectClick={() => {}}
+                />
+              </MainContent>
+            </ContentWithSidebar>
+          )
+        )}
       />
     );
   }

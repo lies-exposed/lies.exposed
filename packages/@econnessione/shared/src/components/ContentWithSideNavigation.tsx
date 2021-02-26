@@ -1,53 +1,54 @@
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { Item, Navigation } from "baseui/side-navigation";
-import { Theme } from "baseui/theme";
+import { Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import TreeItem from "@material-ui/lab/TreeItem";
+import TreeView from "@material-ui/lab/TreeView";
 import * as React from "react";
 import { MainContent } from "./MainContent";
 
-interface ContentWithSideNavigation {
-  items: Item[];
+export interface NavigationItem {
+  itemId: string;
+  title: string;
+  subNav: NavigationItem[];
 }
 
-export const ContentWithSideNavigation: React.FC<ContentWithSideNavigation> = ({
+interface ContentWithSideNavigationProps {
+  items: any[];
+}
+
+const useStyles = makeStyles({
+  root: {
+    height: 240,
+    flexGrow: 1,
+    maxWidth: 400,
+  },
+});
+
+export const ContentWithSideNavigation: React.FC<ContentWithSideNavigationProps> = ({
   items,
   children,
 }) => {
-  const [activeItemId, setActiveItemId] = React.useState("#primary");
-
-  const navigationProps = {
-    onChange: (args: { event: React.SyntheticEvent<any>; item: Item }) => {
-      if (args.item.itemId !== undefined) {
-        setActiveItemId(args.item.itemId);
-      }
-    },
-  };
+  const classes = useStyles();
 
   return (
-    <FlexGrid flexGridColumnCount={4} height="100%">
-      <FlexGridItem height="100%" overflow="auto">
-        <Navigation
-          {...navigationProps}
-          items={items}
-          activeItemId={activeItemId}
-        />
-      </FlexGridItem>
-      <FlexGridItem
-        height="100%"
-        overflow="auto"
-        overrides={{
-          Block: {
-            style: ({ $theme }: { $theme: Theme }) => {
-              return {
-                width: `calc((300% - ${$theme.sizing.scale800}) / 4)`,
-              };
-            },
-          },
-        }}
-      >
+    <Grid container direction="column">
+      <Grid item>
+        <TreeView
+          classes={classes}
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+        >
+          {items.map((i) => {
+            return <TreeItem key={i.itemId} nodeId={i.itemId}>{i.title}</TreeItem>;
+          })}
+        </TreeView>
+      </Grid>
+      <Grid item>
         <MainContent>{children}</MainContent>
-      </FlexGridItem>
-      <FlexGridItem display="none" />
-      <FlexGridItem display="none" />
-    </FlexGrid>
+      </Grid>
+      <Grid item />
+      <Grid item />
+    </Grid>
   );
 };

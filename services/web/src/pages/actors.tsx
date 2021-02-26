@@ -1,4 +1,5 @@
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
@@ -9,7 +10,6 @@ import { actorsList, pageContentByPath } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import { Spinner } from "baseui/icon";
 import React from "react";
 
 export default class ActorsPage extends React.PureComponent<RouteComponentProps> {
@@ -28,9 +28,7 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
           },
         }}
         render={QR.fold(
-          () => (
-            <Spinner />
-          ),
+          Loader,
           ErrorBox,
           ({ actorsList: { data: acts }, pageContent }) => (
             <>

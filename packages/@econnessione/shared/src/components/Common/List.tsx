@@ -1,4 +1,3 @@
-import { Block } from "baseui/block";
 import * as React from "react";
 import { StyleObject } from "styletron-react";
 
@@ -25,10 +24,10 @@ export const List = <A extends any>({
   onItemClick,
 }: ListProps<A>): JSX.Element => {
   return (
-    <Block overrides={{ Block: { style } }}>
+    <div style={style}>
       {data.map((d, i) => (
         <ListItem key={getKey(d)} item={d} onClick={onItemClick} index={i} />
       ))}
-    </Block>
+    </div>
   );
 };

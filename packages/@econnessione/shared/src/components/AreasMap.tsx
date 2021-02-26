@@ -4,12 +4,16 @@ import Map from "./Map";
 
 interface AreasMapProps<F extends Common.BaseFrontmatter> {
   areas: F[];
+  center: [number, number];
+  zoom: number;
   width: number;
   height: number;
 }
 
 const AreasMap = ({
   areas,
+  center,
+  zoom,
   width,
   height,
 }: AreasMapProps<Area.Area>): JSX.Element => {
@@ -28,8 +32,8 @@ const AreasMap = ({
         width={width}
         height={height}
         features={features}
-        center={[0, 0]}
-        zoom={10}
+        center={center}
+        zoom={zoom}
         onMapClick={async (features) => {
           if (features.length > 0) {
             const area = features[0].getProperties() as Area.Area;

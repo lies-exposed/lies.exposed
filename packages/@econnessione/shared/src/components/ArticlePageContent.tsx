@@ -1,8 +1,7 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Article } from "@io/http";
+import { Grid } from "@material-ui/core";
 import { formatDate } from "@utils/date";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { HeadingXXLarge, LabelSmall } from "baseui/typography";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -17,35 +16,19 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
   props
 ) => {
   return (
-    <FlexGrid width="100%">
-      <FlexGridItem
-        height="400px"
-        display="flex"
-        alignItems="end"
-        width="100%"
-        overrides={{
-          Block: {
-            style: {
-              backgroundImage: `url(${props.featuredImage})`,
-              backgroundSize: `cover`,
-              backgroundRepeat: "no-repeat",
-            },
-          },
+    <Grid container>
+      <Grid
+        style={{
+          backgroundImage: `url(${props.featuredImage})`,
+          backgroundSize: `cover`,
+          backgroundRepeat: "no-repeat",
         }}
       >
         <MainContent>
-          <HeadingXXLarge
-            $style={{
-              background: `rgba(255, 255, 255, 0.5)`,
-              width: "100%",
-            }}
-            width="100%"
-          >
-            {props.title}
-          </HeadingXXLarge>
+          <h1>{props.title}</h1>
         </MainContent>
-      </FlexGridItem>
-      <FlexGridItem>
+      </Grid>
+      <Grid>
         <ContentWithSidebar
           sidebar={pipe(
             // props.tableOfContents,
@@ -59,21 +42,18 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
         >
           <MainContent>
             <div style={{ textAlign: "right", padding: 10 }}>
-              <EditButton
-                resourceName="articles"
-                resource={props}
-              />
+              <EditButton resourceName="articles" resource={props} />
             </div>
 
-            <LabelSmall>{formatDate(props.createdAt)}</LabelSmall>
-            <LabelSmall>
+            <label>{formatDate(props.createdAt)}</label>
+            <label>
               {/* Tempo di lettura: {O.getOrElse(() => 1)(props.timeToRead)} min */}
               Tempo di lettura: TODO min
-            </LabelSmall>
+            </label>
           </MainContent>
           <MarkdownRenderer>{props.body}</MarkdownRenderer>
         </ContentWithSidebar>
-      </FlexGridItem>
-    </FlexGrid>
+      </Grid>
+    </Grid>
   );
 };

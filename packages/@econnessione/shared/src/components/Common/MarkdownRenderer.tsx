@@ -7,6 +7,7 @@ import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCoun
 import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection";
 import { CO2LevelsGraph } from "@components/Graph/CO2LevelsGraph";
 import { HumanPopulationGrowthGraph } from "@components/Graph/HumanPopulationGrowthGraph";
+import { SocietyCollapseForecastGraphContainer } from "@components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph";
 import { MainContent } from "@components/MainContent";
 import { Video } from "@components/Video/Video";
 import { ActorPageContentExample } from "@components/examples/ActorPageContentExample";
@@ -18,19 +19,6 @@ import NetworkExample from "@components/examples/NetworkExample";
 import { ProjectPageContentExample } from "@components/examples/ProjectPageContentExample";
 import { TopicPageContentExample } from "@components/examples/TopicPageContentExample";
 import { MDXProviderComponentsProp } from "@mdx-js/react";
-import {
-  DisplayLarge,
-  DisplayMedium,
-  DisplaySmall,
-  DisplayXSmall,
-  HeadingLarge,
-  HeadingMedium,
-  HeadingSmall,
-  HeadingXLarge,
-  HeadingXSmall,
-  HeadingXXLarge,
-  ParagraphMedium,
-} from "baseui/typography";
 import * as React from "react";
 const MDX = require("@mdx-js/runtime").default;
 
@@ -43,6 +31,7 @@ export const components: MDXProviderComponentsProp = {
   // graphs
   CO2LevelsGraph,
   HumanPopulationGrowthGraph,
+  SocietyCollapseForecastGraph: SocietyCollapseForecastGraphContainer,
   // graph examples
   NetworkExample,
   BubbleGraphExample,
@@ -54,23 +43,23 @@ export const components: MDXProviderComponentsProp = {
   EventPageContentExample,
   EventSliderExample,
   // components
-  DisplayXSmall,
-  DisplaySmall,
-  DisplayMedium,
-  DisplayLarge,
+  // DisplayXSmall,
+  // DisplaySmall,
+  // DisplayMedium,
+  // DisplayLarge,
   FullSizeSection,
   Video,
   // GQLVoyager,
   // common tags
-  p: ParagraphMedium,
+  // p: ParagraphMedium,
   li: ListItem,
   blockquote: BlockQuote,
-  h1: HeadingXXLarge,
-  h2: HeadingXLarge,
-  h3: HeadingLarge,
-  h4: HeadingMedium,
-  h5: HeadingSmall,
-  h6: HeadingXSmall,
+  // h1: HeadingXXLarge,
+  // h2: HeadingXLarge,
+  // h3: HeadingLarge,
+  // h4: HeadingMedium,
+  // h5: HeadingSmall,
+  // h6: HeadingXSmall,
 };
 
 export const MarkdownRenderer: React.FC = ({ children }): JSX.Element => {

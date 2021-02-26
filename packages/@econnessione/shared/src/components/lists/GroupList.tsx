@@ -1,6 +1,6 @@
 import { List, ListItemProps } from "@components/Common/List";
 import { Group } from "@io/http";
-import { Avatar } from "baseui/avatar";
+import { Avatar } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -28,7 +28,7 @@ export const GroupListItem: React.FC<
       {pipe(
         O.fromNullable(item.avatar),
         O.map((src) => (
-          <Avatar key={item.id} name={item.name} size={avatarScale} src={src} />
+          <Avatar key={item.id} src={src} />
         )),
         O.toNullable
       )}

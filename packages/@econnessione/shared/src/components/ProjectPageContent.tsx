@@ -1,16 +1,13 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
+import EditButton from "@components/buttons/EditButton";
 import { Events, Project } from "@io/http";
+import { Grid } from "@material-ui/core";
 import { formatDate } from "@utils/date";
-import { Block } from "baseui/block";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { HeadingXLarge, HeadingXSmall, LabelXSmall } from "baseui/typography";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-// import { ProjectFundsPieGraph } from "./Graph/ProjectFundsPieGraph";
 import { Slider } from "./Common/Slider/Slider";
 import { ProjectFundsMap } from "./Graph/ProjectFundsMap";
-import EditButton from "./buttons/EditButton";
 
 export interface ProjectPageContentProps extends Project.Project {
   metadata: Events.EventListMap;
@@ -50,52 +47,34 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   // );
 
   return (
-    <FlexGrid width="100%">
-      <FlexGridItem width="100%">
-        <Block
-          overrides={{ Block: { style: { textAlign: "right", margin: 10 } } }}
-        >
+    <Grid container>
+      <Grid item>
+        <div>
           <div style={{ textAlign: "right", padding: 10 }}>
             <EditButton resourceName="areas" resource={frontmatter} />
           </div>
-        </Block>
-        <Block>
-          <HeadingXLarge>{frontmatter.name}</HeadingXLarge>
+        </div>
+        <div>
+          <h1>{frontmatter.name}</h1>
           <div>
-            <LabelXSmall>
-              Data di inizio {formatDate(frontmatter.startDate)}
-            </LabelXSmall>
+            <label>Data di inizio {formatDate(frontmatter.startDate)}</label>
             {pipe(
               O.fromNullable(frontmatter.endDate),
               O.map((date) => (
                 // eslint-disable-next-line react/jsx-key
-                <LabelXSmall>Data di fine {formatDate(date)}</LabelXSmall>
+                <label>Data di fine {formatDate(date)}</label>
               )),
               O.toNullable
             )}
           </div>
-        </Block>
-      </FlexGridItem>
-      <FlexGridItem
-        flexGridColumnCount={2}
-        flexGridColumnGap="scale800"
-        gridColumnGap="scale800"
-        display="flex"
-      >
-        <FlexGridItem
-          display="flex"
-          overrides={{
-            Block: {
-              style: ({ $theme }) => ({
-                width: `calc((200% - ${$theme.sizing.scale800}))`,
-              }),
-            },
-          }}
-        >
+        </div>
+      </Grid>
+      <Grid container>
+        <Grid item>
           {pipe(
             O.fromNullable(frontmatter.images),
             O.map((images) => (
-              <Block key={`project-${frontmatter.id}`} width="100%">
+              <div key={`project-${frontmatter.id}`}>
                 <Slider
                   key={`project-${frontmatter.id}-slider`}
                   height={400}
@@ -109,57 +88,50 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
                   dots={true}
                   size="contain"
                 />
-              </Block>
+              </div>
             )),
             O.toNullable
           )}
           <ProjectFundsMap project={{ ...frontmatter, body }} />
-        </FlexGridItem>
-        <FlexGridItem
-          overrides={{
-            Block: { style: { flexGrow: 0 } },
-          }}
-        >
-          <Block>
-            <HeadingXSmall padding={0}>Fondi: {totalFunded}</HeadingXSmall>
+        </Grid>
+        <Grid>
+          <div>
+            <h1>Fondi: {totalFunded}</h1>
             {/* <GroupOrActorList
               by={investors}
               onByClick={() => {}}
               avatarScale="scale1000"
             /> */}
             {/* <ProjectFundsPieGraph funds={metadata.ProjectTransaction} /> */}
-          </Block>
-          <Block>
-            <HeadingXSmall>Proteste {metadata.Protest.length}</HeadingXSmall>
+          </div>
+          <div>
+            <h3>Proteste {metadata.Protest.length}</h3>
             {/* <GroupOrActorList
               by={protesters}
               onByClick={() => {}}
               avatarScale="scale1000"
             /> */}
-          </Block>
-          <Block>
-            <HeadingXSmall>Arresti: {metadata.Arrest.length}</HeadingXSmall>
+          </div>
+          <div>
+            <h3>Arresti: {metadata.Arrest.length}</h3>
             {/* <GroupOrActorList
               by={arrested}
               onByClick={() => {}}
               avatarScale="scale1000"
             /> */}
-          </Block>
-          <Block>
-            <HeadingXSmall>
-              Impacts: {metadata.ProjectImpact.length}
-            </HeadingXSmall>
+          </div>
+          <div>
+            <h3>Impacts: {metadata.ProjectImpact.length}</h3>
             [tabella degli impatti del progetto]
-          </Block>
-          <Block>
-            <HeadingXSmall display="inline">Indagati:</HeadingXSmall> [totale
-            contributori / contributori indagati]
-          </Block>
-        </FlexGridItem>
-      </FlexGridItem>
-      <FlexGridItem>
+          </div>
+          <div>
+            <h3>Indagati:</h3> [totale contributori / contributori indagati]
+          </div>
+        </Grid>
+      </Grid>
+      <Grid>
         <MarkdownRenderer>{body}</MarkdownRenderer>
-      </FlexGridItem>
-    </FlexGrid>
+      </Grid>
+    </Grid>
   );
 };

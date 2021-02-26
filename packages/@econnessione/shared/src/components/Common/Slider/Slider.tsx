@@ -1,4 +1,3 @@
-import { Block } from "baseui/block";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
 
@@ -24,19 +23,15 @@ export const Slider: React.FC<SliderProps> = ({
   return (
     <SlickSlider.default {...props}>
       {slides.map((s) => (
-        <Block
+        <div
           key={s.imageURL}
-          overrides={{
-            Block: {
-              style: {
-                position: "relative",
-                height: heightAsPX,
-                backgroundImage: `url(${s.imageURL})`,
-                backgroundPosition: "center",
-                backgroundSize: size,
-                backgroundRepeat: "no-repeat",
-              },
-            },
+          style={{
+            position: "relative",
+            height: heightAsPX,
+            backgroundImage: `url(${s.imageURL})`,
+            backgroundPosition: "center",
+            backgroundSize: size,
+            backgroundRepeat: "no-repeat",
           }}
         />
       ))}

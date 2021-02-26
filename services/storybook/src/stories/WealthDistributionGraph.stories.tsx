@@ -1,10 +1,8 @@
 import {
   WealthDistributionGraph,
-  WealthDistributionGraphProps
+  WealthDistributionGraphProps,
 } from "@econnessione/shared/components/Graph/WealthDistributionGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { Block } from "baseui/block";
-import { HeadingLarge } from "baseui/typography";
 import * as React from "react";
 
 const meta: Meta = {
@@ -16,19 +14,17 @@ export default meta;
 
 const Template: Story<WealthDistributionGraphProps> = (props) => {
   return (
-    <Block overrides={{ Block: { style: { width: "100%" } } }}>
-      <HeadingLarge>Global Wealth Distribution</HeadingLarge>
+    <div style={{ width: "100%" }}>
+      <h2>Global Wealth Distribution</h2>
       <WealthDistributionGraph {...props} />
-    </Block>
+    </div>
   );
 };
 
-const HumanPopulationGrowthGraphTemplate = Template.bind({});
+const WealthDistributionGraphExample = Template.bind({});
 
-const args: WealthDistributionGraphProps = {
-  
-};
+const args: WealthDistributionGraphProps = {};
 
-HumanPopulationGrowthGraphTemplate.args = args;
+WealthDistributionGraphExample.args = args;
 
-export { HumanPopulationGrowthGraphTemplate as HumanPopulationGrowth };
+export { WealthDistributionGraphExample as HumanPopulationGrowth };

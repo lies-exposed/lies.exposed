@@ -164,6 +164,13 @@ export const jsonData = queryStrict(
   available
 );
 
+export const jsonLocalData = queryStrict(
+  ({ path }: { path: string }) =>
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    TE.right<APIError, any>(require(`${path}.json`)),
+  available
+);
+
 export const area = GetOneQuery("areas");
 export const project = GetOneQuery("projects");
 export const group = GetOneQuery("groups");

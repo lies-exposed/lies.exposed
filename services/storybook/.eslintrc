@@ -2,17 +2,13 @@
   "extends": ["../../.eslintrc", "plugin:react/recommended"],
   "plugins": [
     "@typescript-eslint",
-    "react",
-    "eslint-plugin-baseui"
+    "react"
   ],
   "parserOptions": {
     "tsconfigRootDir": "./",
     "project": ["./tsconfig.json"]
   },
   "rules": {
-    "baseui/deprecated-theme-api": "warn",
-    "baseui/deprecated-component-api": "warn",
-    "baseui/no-deep-imports": "warn",
     "no-restricted-imports": [
       "error",
       {

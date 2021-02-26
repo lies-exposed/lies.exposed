@@ -26,7 +26,7 @@ module.exports = {
       process.cwd(),
       "../../packages/@econnessione/shared/tsconfig.json"
     );
-    console.log(sharedBaseUrl);
+    // console.log(sharedBaseUrl);
     config.resolve.plugins.push(
       new TSConfigPathsWebpackPlugin({
         configFile: sharedBaseUrl,
@@ -35,7 +35,7 @@ module.exports = {
     config.resolve.plugins.push(new TSConfigPathsWebpackPlugin());
 
     // console.log("config", config.module.rules);
-    console.log("config", config.resolve.plugins);
+    // console.log("config", config.resolve.plugins);
     // console.log("config", config);
 
     return config;

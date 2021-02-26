@@ -5,17 +5,25 @@ import GroupList from "@components/lists/GroupList";
 import TopicList from "@components/lists/TopicList";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { eventDate } from "@helpers/event";
 import { Actor, Events, Group, Topic } from "@io/http";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+} from "@material-ui/core";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { formatDate } from "@utils/date";
-import { Accordion, Panel } from "baseui/accordion";
-import { Block } from "baseui/block";
-import { Card, StyledBody } from "baseui/card";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { CheckIndeterminate, Overflow } from "baseui/icon";
-import { StyledLink } from "baseui/link";
-import { ListItem, ListItemLabel } from "baseui/list";
-import { ParagraphSmall } from "baseui/typography";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -34,35 +42,42 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   groups,
 }) => {
   return (
-    <div
+    <Card
       key={item.id}
       id={item.id}
       style={{
         marginBottom: 40,
       }}
     >
-      <Card
-        title={
-          <StyledLink href={`/events/${item.id}`}>{item.title}</StyledLink>
+      <CardHeader
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
         }
-      >
-        <StyledBody>
-          <Block overrides={{ Block: { style: { textAlign: "right" } } }}>
-            <StyledLink
-              href={`/admin/#/collections/events/entries/${item.id}`}
-              target="_blank"
-            >
-              <Overflow size={24} />
-            </StyledLink>
-          </Block>
-
-          <FlexGrid flexGridColumnCount={1} flexDirection="column">
-            <FlexGridItem display="flex" flexGridItemCount={1}>
-              <FlexGridItem
-                display="flex"
-                flexGridItemCount={1}
-                alignItems="center"
-              >
+        title={item.title}
+        subheader={formatDate(item.startDate)}
+      />
+      <CardActionArea>
+        {pipe(
+          item.images,
+          O.fromPredicate((arr) => arr.length > 0),
+          O.map((images) => (
+            // eslint-disable-next-line react/jsx-key
+            <CardMedia
+              component="img"
+              alt="Contemplative Reptile"
+              height="140"
+              image={images[0].location}
+              title="Contemplative Reptile"
+            />
+          )),
+          O.toNullable
+        )}
+        <CardContent>
+          <Grid container>
+            <Grid container alignItems="center" style={{ width: "100%" }}>
+              <Grid item>
                 <TopicList
                   topics={topics.map((t) => ({
                     ...t,
@@ -80,13 +95,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     () => <FontAwesomeIcon icon={faMapMarker} />
                   )
                 )}
-              </FlexGridItem>
-              <FlexGridItem
-                display="flex"
-                flexGridColumnCount={1}
-                alignItems="flex-end"
-                flexDirection="column"
-              >
+              </Grid>
+              <Grid item alignItems="flex-end">
                 {pipe(
                   item.groups,
                   O.fromPredicate((arr) => arr.length > 0),
@@ -109,13 +119,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     )
                   )
                 )}
-              </FlexGridItem>
-              <FlexGridItem
-                display="flex"
-                alignItems="flex-end"
-                flexDirection="column"
-                flexGridColumnCount={1}
-              >
+              </Grid>
+              <Grid item>
                 {pipe(
                   item.actors,
                   O.fromPredicate((arr) => arr.length > 0),
@@ -139,21 +144,15 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     )
                   )
                 )}
-              </FlexGridItem>
-            </FlexGridItem>
-
-            <FlexGridItem display="flex" flexGridColumnCount={3}>
-              <time dateTime={formatDate(eventDate(item))}>
-                {formatDate(eventDate(item))}
-              </time>
-            </FlexGridItem>
+              </Grid>
+            </Grid>
 
             {pipe(
               item.images,
               O.fromPredicate((arr) => arr.length > 0),
               O.map((images) => (
                 // eslint-disable-next-line react/jsx-key
-                <FlexGridItem>
+                <Grid>
                   <Slider
                     key="home-slider"
                     height={600}
@@ -167,41 +166,47 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     dots={true}
                     size="contain"
                   />
-                </FlexGridItem>
+                </Grid>
               )),
               O.toNullable
             )}
-            <FlexGrid flexGridColumnCount={3}>
-              <FlexGridItem display="flex" flexDirection="column">
+            <Grid container>
+              <Grid item>
                 <MarkdownRenderer>{item.body}</MarkdownRenderer>
+
                 {pipe(
                   item.links,
                   O.fromPredicate((arr) => arr.length > 0),
                   O.map((links) => (
                     // eslint-disable-next-line react/jsx-key
                     <Accordion>
-                      <Panel title={`Links (${links.length})`}>
-                        <ul>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id={item.id}
+                      >
+                        <Typography variant="h6">Links</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <List>
                           {links.map((l, i) => (
-                            <ListItem key={i} artwork={CheckIndeterminate}>
-                              <ListItemLabel>
-                                <ParagraphSmall>
-                                  <a href={l.url}>{l.description}</a>
-                                </ParagraphSmall>
-                              </ListItemLabel>
+                            <ListItem key={i}>
+                              <p>
+                                <a href={l.url}>{l.description}</a>
+                              </p>
                             </ListItem>
                           ))}
-                        </ul>
-                      </Panel>
+                        </List>
+                      </AccordionDetails>
                     </Accordion>
                   )),
                   O.toNullable
                 )}
-              </FlexGridItem>
-            </FlexGrid>
-          </FlexGrid>
-        </StyledBody>
-      </Card>
-    </div>
+              </Grid>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 };

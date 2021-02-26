@@ -2,10 +2,10 @@ import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
+import { Grid } from "@material-ui/core";
 import { pageContentByPath } from "@providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import React from "react";
 import Helmet from "react-helmet";
 
@@ -20,8 +20,8 @@ export default class IndexPage extends React.PureComponent<any> {
           ErrorBox,
           ({ pageContentByPath: pageContent }) => {
             return (
-              <FlexGrid height="100%">
-                <FlexGridItem height="100%" width="100%">
+              <Grid>
+                <Grid item>
                   <Helmet>
                     <link
                       rel="stylesheet"
@@ -36,8 +36,8 @@ export default class IndexPage extends React.PureComponent<any> {
                   </Helmet>
                   <SEO title="Home" />
                   <PageContent {...pageContent} />
-                </FlexGridItem>
-              </FlexGrid>
+                </Grid>
+              </Grid>
             );
           }
         )}

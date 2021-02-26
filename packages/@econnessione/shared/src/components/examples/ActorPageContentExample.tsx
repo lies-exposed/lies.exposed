@@ -1,4 +1,4 @@
-import { Card } from "baseui/card";
+import { Card } from "@material-ui/core";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { extractEventsMetadata } from "../../helpers/event";
@@ -26,7 +26,7 @@ export const ActorPageContentExample: React.FC<ActorPageContentProps> = (
     : props;
 
   return (
-    <Card overrides={{ Root: { style: { width: "100%" } } }}>
+    <Card>
       <ActorPageContent {...pageContentProps} />
     </Card>
   );

@@ -1,13 +1,12 @@
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { AxisGraph } from "@components/Common/Graph/AxisGraph";
 import { Loader } from "@components/Common/Loader";
+import { Checkbox } from "@material-ui/core";
 import { jsonData } from "@providers/DataProvider";
 import { LinearGradient } from "@vx/gradient";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import { Block } from "baseui/block";
-import { Checkbox, LABEL_PLACEMENT, STYLE_TYPE } from "baseui/checkbox";
 import * as t from "io-ts";
 import * as React from "react";
 
@@ -117,7 +116,7 @@ export class CO2LevelsGraph extends React.PureComponent<
             debounceTime={30}
           >
             {({ width, height }) => (
-              <Block overrides={{ Block: { style: { height } } }} margin={0}>
+              <div style={{ height, width }}>
                 <AxisGraph<CO2LevelDatum>
                   id="co2-levels"
                   width={width}
@@ -153,7 +152,7 @@ export class CO2LevelsGraph extends React.PureComponent<
                           year: d.year,
                           value: d.data_mean_global,
                         }))
-                      : (data.data)
+                      : data.data
                   }
                   minYRange={toggleData === "last-2000-years" ? 240 : 150}
                   getX={(d) => d.year}
@@ -163,17 +162,8 @@ export class CO2LevelsGraph extends React.PureComponent<
                   axisBottomLabel={"Date"}
                 />
 
+                {localiseToggleKey[toggleData]}
                 <Checkbox
-                  overrides={{
-                    Root: {
-                      style: {
-                        display: "flex",
-                        justifyContent: "center",
-                      },
-                    },
-                  }}
-                  checkmarkType={STYLE_TYPE.toggle_round}
-                  labelPlacement={LABEL_PLACEMENT.right}
                   checked={toggleData === "last-2000-years"}
                   onChange={() => {
                     this.setState({
@@ -183,10 +173,8 @@ export class CO2LevelsGraph extends React.PureComponent<
                           : "last-2000-years",
                     });
                   }}
-                >
-                  {localiseToggleKey[toggleData]}
-                </Checkbox>
-              </Block>
+                />
+              </div>
             )}
           </ParentSize>
         ))}

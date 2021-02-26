@@ -3,7 +3,6 @@ import {
   CO2LevelsGraphProps,
 } from "@econnessione/shared/components/Graph/CO2LevelsGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
-import { Block } from "baseui/block";
 import * as React from "react";
 
 const meta: Meta = {
@@ -15,9 +14,9 @@ export default meta;
 
 const Template: Story<CO2LevelsGraphProps> = (props) => {
   return (
-    <Block overrides={{ Block: { style: { width: "100%" } } }}>
+    <div style={{ width: "100%" }}>
       <CO2LevelsGraph {...props} />
-    </Block>
+    </div>
   );
 };
 
