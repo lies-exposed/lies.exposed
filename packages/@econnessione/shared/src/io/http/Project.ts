@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
+// import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { Area } from "./Area";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 import { Color } from "./Common/Color";
@@ -15,7 +15,7 @@ export const Project = t.strict(
     ...BaseFrontmatter.type.props,
     name: t.string,
     color: Color,
-    areas: nonEmptyArray(Area),
+    areas: t.array(Area),
     images: t.array(ImageSource),
     startDate: DateFromISOString,
     endDate: t.union([DateFromISOString, t.undefined]),

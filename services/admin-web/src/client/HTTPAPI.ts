@@ -1,12 +1,12 @@
 import { http } from "@econnessione/core";
-import axios from "axios";
-import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
-import { AuthProvider, CreateResult } from "react-admin";
+import { AuthProvider } from "react-admin";
 import { editArea } from "./AreaAPI";
+import { uploadImages } from "./MediaAPI";
+import { editProject } from "./ProjectAPI";
 
 const publicDataProvider = http.APIRESTClient({
   url: process.env.REACT_APP_API_URL,
@@ -28,68 +28,6 @@ const convertFileToBase64 = (file: any): Promise<string> =>
 
     reader.readAsDataURL(file.rawFile);
   });
-
-const getSignedUrl = (
-  key: string,
-  bucket: string
-): TE.TaskEither<Error, CreateResult<string>> => {
-  return pipe(
-    TE.tryCatch(
-      () =>
-        dataProvider.create("/uploads/getSignedURL", {
-          data: {
-            Key: key,
-            Bucket: bucket,
-          },
-        }),
-      E.toError
-    )
-  );
-};
-
-const uploadFile = (
-  resource: string,
-  resourceId: string,
-  f: File
-): TE.TaskEither<Error, string> => {
-  return pipe(
-    getSignedUrl("first", "events"),
-    TE.chain((url) => {
-      // eslint-disable-next-line
-      const data = new FormData();
-      data.append("file", f, f.name);
-      data.append("resource", "events");
-      data.append("resourceId", resourceId);
-      return pipe(
-        TE.tryCatch(
-          () =>
-            axios.post(url.data, data, {
-              headers: {
-                "Content-Type": `multipart/form-data;`,
-              },
-            }),
-          E.toError
-        ),
-        TE.map((result) => {
-          // eslint-disable-next-line no-console
-          console.log(result);
-          return result.data.body.data.Location;
-        })
-      );
-    })
-  );
-};
-
-const uploadImages = (
-  locations: string[],
-  resource: string,
-  resourceId: string
-): TE.TaskEither<Error, string[]> => {
-  return pipe(
-    locations.map((n: any) => uploadFile(resource, resourceId, n.rawFile)),
-    A.sequence(TE.taskEitherSeq)
-  );
-};
 
 export const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
@@ -139,17 +77,20 @@ export const apiProvider: http.APIRESTClient = {
     return dataProvider.create(resource, params);
   },
   update: (resource, params) => {
-    if (resource === 'areas') {
+    if (resource === "areas") {
       return editArea(dataProvider)(resource, params);
     }
+    if (resource === "projects") {
+      return editProject(dataProvider)(resource, params);
+    }
 
-    if (resource === "events" || resource === "projects") {
+    if (resource === "events") {
       // eslint-disable-next-line
       console.log(params.data);
 
       const { newImages = [], images, newAreas, areas, ...data } = params.data;
       return pipe(
-        uploadImages(
+        uploadImages(dataProvider)(
           newImages
             .filter((i: any) => i !== undefined)
             .map((i: { location: { rawFile: File } }) => i.location),
