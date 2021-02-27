@@ -1,4 +1,4 @@
-import { io } from "@econnessione/shared";
+import * as io from "@econnessione/shared/io";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";

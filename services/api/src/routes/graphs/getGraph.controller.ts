@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { endpoints } from "@econnessione/shared";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as E from "fp-ts/lib/Either";
 import * as IOE from "fp-ts/lib/IOEither";

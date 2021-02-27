@@ -1,5 +1,5 @@
 import { APIRESTClient } from "@econnessione/core/lib/http/APIRESTClient";
-import { io } from "@econnessione/shared";
+import * as io  from "@econnessione/shared/io";
 import { available, queryStrict } from "avenger";
 import { CachedQuery } from "avenger/lib/Query";
 import * as E from "fp-ts/lib/Either";

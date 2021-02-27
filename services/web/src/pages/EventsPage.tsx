@@ -1,4 +1,3 @@
-import { io } from "@econnessione/shared";
 import DatePicker from "@econnessione/shared/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
@@ -17,7 +16,8 @@ import {
   ordEventDate,
   eqByUUID,
 } from "@econnessione/shared/helpers/event";
-import { Actor, Group, Topic } from "@econnessione/shared/lib/io/http";
+import * as io  from "@econnessione/shared/io";
+import { Actor, Group, Topic } from "@econnessione/shared/io/http";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
 import {

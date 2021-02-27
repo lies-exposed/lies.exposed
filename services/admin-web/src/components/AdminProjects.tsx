@@ -62,6 +62,15 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="createdAt" showTime={true} />
       </FormTab>
       <FormTab label="Location">
+        <ArrayInput source="newAreas">
+          <SimpleFormIterator>
+            <TextInput source="label" />
+            <ColorInput source="color" />
+            <MapInput source="geometry" type={GeometryType.POLYGON} />
+            <MarkdownInput source="body" />
+          </SimpleFormIterator>
+        </ArrayInput>
+
         <ArrayField source="areas" fieldKey="id" resource="areas">
           <SingleFieldList>
             <MapField source="geometry" type={GeometryType.POLYGON} />

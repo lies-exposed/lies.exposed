@@ -53,7 +53,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
               ErrorBox,
               ({ articlesList: { data: articles } }) => (
                 <div>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={2} style={{ marginBottom: 100}}>
                     {articles.map((a) => (
                       <Grid item key={a.id} xs={6}>
                         <Card key={a.id}>
@@ -73,7 +73,11 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                               image={a.featuredImage}
                               title="Contemplative Reptile"
                             />
-                            <CardContent>{a.body.substr(0, 200)}</CardContent>
+                            <CardContent
+                              style={{ height: 60, textOverflow: "ellipsis" }}
+                            >
+                              {a.body.substr(0, 200)}
+                            </CardContent>
                           </CardActionArea>
                           <CardActions>
                             <Button

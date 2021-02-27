@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints  from "@econnessione/shared/endpoints";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";

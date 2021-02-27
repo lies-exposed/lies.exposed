@@ -25,7 +25,7 @@ const geoJSONFormat = new GEOJSON(formatOptions);
 interface MapProps {
   width: number;
   height: number;
-  features: string[];
+  features: Area.Area[];
   center: [number, number];
   zoom: number;
   interactions?: OlInteraction.DefaultsOptions;
@@ -36,7 +36,7 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({
   width,
   height,
-  features: featuresString,
+  features: areas,
   center,
   zoom,
   interactions,
@@ -44,10 +44,12 @@ const Map: React.FC<MapProps> = ({
   onMapClick,
 }) => {
   React.useEffect(() => {
-    const features = featuresString.map(f => geoJSONFormat.readFeature(f));
+    const features = areas.map(({ geometry, ...f }) => {
+      const feature = geoJSONFormat.readFeature(geometry);
+      feature.setProperties(f);
+      return feature;
+    });
 
-    // eslint-disable-next-line
-    console.log(features);
     const featureSource = new VectorSource({
       format: geoJSONFormat,
       features,
@@ -59,10 +61,10 @@ const Map: React.FC<MapProps> = ({
         const area = feature.getProperties() as Area.Area;
         return new Style({
           fill: new Fill({
-            color: `#${area.color}`,
+            color: `${area.color}`,
           }),
           stroke: new Stroke({
-            color: `#${area.color}`,
+            color: `${area.color}`,
             width: 2,
           }),
         });

@@ -1,4 +1,4 @@
-import { io } from "@econnessione/shared";
+import * as io from "@econnessione/shared/io";
 import * as React from "react";
 import {
   ChoicesInputProps,

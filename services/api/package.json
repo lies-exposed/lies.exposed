@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@econnessione/core": "0.1.0",
-    "@econnessione/shared": "0.1.0",
     "@mdx-js/mdx": "^1.6.22",
     "@remark-embedder/core": "^1.2.1",
     "aws-sdk": "^2.817.0",
@@ -58,7 +57,8 @@
     "@entities": "build/entities",
     "@providers": "build/providers",
     "@routes": "build/routes",
-    "@utils": "build/utils"
+    "@utils": "build/utils",
+    "@econnessione/shared": "../../packages/@econnessione/shared/lib"
   },
   "license": "MIT"
 }

@@ -1,4 +1,4 @@
-import { io } from "@econnessione/shared";
+import * as io from "@econnessione/shared/io";
 import { EventEntity } from "@entities/Event.entity";
 import {
   Column,

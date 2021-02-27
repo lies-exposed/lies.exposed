@@ -9,6 +9,7 @@ import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
 import * as React from "react";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import IndexPage from "./pages";
 import BlogPage from "./pages/BlogPage";
 import { DocsPage } from "./pages/DocsPage";
@@ -24,11 +25,24 @@ import { theme } from "./theme/CustomTheme";
 import "./scss/main.scss";
 // import NotFoundPage from "./pages/404";
 
+const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
+  // eslint-disable-next-line no-console
+  console.log(error);
+  return (
+    <>
+      <div>{error.name}</div>
+      <div>{error.message}</div>
+    </>
+  );
+};
+
+
 export const App: React.FC = () => {
   return (
     <div>
       <CssBaseline />
       <ThemeProvider theme={theme}>
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Header />
         <Grid alignItems="center" direction="column">
           <Grid item>
@@ -54,6 +68,7 @@ export const App: React.FC = () => {
           </Grid>
           <Footer />
         </Grid>
+        </ErrorBoundary>
       </ThemeProvider>
     </div>
   );

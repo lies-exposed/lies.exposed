@@ -1,6 +1,5 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { EventEntity } from "@entities/Event.entity";
-import { ImageEntity } from "@entities/Image.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import { uuid } from "@utils/uuid.utils";
@@ -24,13 +23,10 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
         images: pipe(
           images,
           O.map((imgs) =>
-            imgs.map((i) => {
-              const image = new ImageEntity();
-              image.id = O.getOrElse(() => uuid())(i.id);
-              image.location = i.location;
-              image.description = O.toNullable(i.description);
-              return image;
-            })
+            imgs.map((i) => ({
+              id: uuid(),
+              ...i,
+            }))
           )
         ),
       });

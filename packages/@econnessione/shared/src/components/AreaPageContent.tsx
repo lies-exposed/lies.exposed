@@ -11,22 +11,21 @@ export interface AreaPageContentProps extends Area.Area {
 }
 
 export const AreaPageContent: React.FC<AreaPageContentProps> = ({
-  body,
   onGroupClick,
   onTopicClick,
-  ...frontmatter
+  ...area
 }) => {
-  const features = [frontmatter.geometry];
+  const features = [area];
 
   return (
     <Grid container>
       <Grid item>
         <div style={{ textAlign: "right", margin: 10 }}>
           <div style={{ textAlign: "right", padding: 10 }}>
-            <EditButton resourceName="areas" resource={frontmatter} />
+            <EditButton resourceName="areas" resource={area} />
           </div>
         </div>
-        <h1>{frontmatter.label}</h1>
+        <h1>{area.label}</h1>
         <Map
           width={600}
           height={300}
@@ -71,7 +70,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
             )
           )
         )} */}
-        <MarkdownRenderer>{body}</MarkdownRenderer>
+        <MarkdownRenderer>{area.body}</MarkdownRenderer>
       </Grid>
     </Grid>
   );

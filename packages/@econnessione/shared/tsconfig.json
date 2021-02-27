@@ -11,7 +11,7 @@
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
-    "typeRoots": ["./typings", "node_modules/@types"],
+    "typeRoots": ["node_modules/@types"],
     "paths": {
       "@components/*": ["./components/*"],
       "@helpers/*": ["./helpers/*"],
@@ -22,6 +22,6 @@
       "@utils/*": ["./utils/*"]
     }
   },
-  "include": ["./src", "src/**/*.json"],
+  "include": ["./src", "./typings", "src/**/*.json"],
   "exclude": ["node_modules", "__tests__", "lib"]
 }

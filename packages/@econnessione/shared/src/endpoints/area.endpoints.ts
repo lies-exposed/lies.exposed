@@ -27,20 +27,29 @@ export const Get = Endpoint({
   Output: SingleAreaOutput,
 });
 
+export const CreateAreaBody = t.strict(
+  {
+    label: t.string,
+    color: t.string,
+    geometry: Polygon,
+    body: t.string,
+  },
+  "CreateAreaBody"
+);
+
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/areas",
   Input: {
     Query: undefined,
-    Body: t.strict(
-      {
-        label: t.string,
-        polygon: Polygon,
-      },
-      "AddActorBody"
-    ),
+    Body: CreateAreaBody,
   },
   Output: SingleAreaOutput,
+});
+
+export const EditAreaBody = nonEmptyRecordFromType({
+  geometry: optionFromNullable(Polygon),
+  label: optionFromNullable(t.string),
 });
 
 export const Edit = Endpoint({
@@ -48,10 +57,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/areas/${id}`,
   Input: {
     Params: { id: t.string },
-    Body: nonEmptyRecordFromType({
-      geometry: optionFromNullable(t.string),
-      label: optionFromNullable(t.string),
-    }),
+    Body: EditAreaBody,
   },
   Output: SingleAreaOutput,
 });

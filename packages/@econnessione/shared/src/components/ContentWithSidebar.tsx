@@ -14,10 +14,17 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
   const [showSidebar, toggleSidebar] = React.useState(false);
 
   return (
-    <Grid container className="content-with-sidebar" direction="row">
-      <Grid item>
+    <Grid
+      container
+      className="content-with-sidebar"
+      direction="row"
+      alignContent="center"
+    >
+      <Grid item lg={showSidebar ? 3 : 1}>
         {showSidebar ? (
-          <Box onClick={() => toggleSidebar(!showSidebar)}>
+          <Box
+            onClick={() => toggleSidebar(!showSidebar)}
+          >
             {sidebar}
             <ExpandMoreIcon />
           </Box>
@@ -31,7 +38,12 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
         )}
       </Grid>
 
-      <Grid item style={{ flexGrow: 1, textAlign: "center" }}>
+      <Grid
+        item
+        lg={showSidebar ? 9 : 11}
+        style={{ flexGrow: 1 }}
+        alignItems="flex-start"
+      >
         {children}
       </Grid>
     </Grid>

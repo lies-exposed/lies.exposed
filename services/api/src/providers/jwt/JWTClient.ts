@@ -1,5 +1,5 @@
 import { logger } from "@econnessione/core";
-import { User } from "@econnessione/shared/lib/io/http/User";
+import { User } from "@econnessione/shared/io/http/User";
 import * as IO from "fp-ts/lib/IO";
 import * as IOE from "fp-ts/lib/IOEither";
 import { pipe } from "fp-ts/lib/pipeable";

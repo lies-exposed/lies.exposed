@@ -2,7 +2,7 @@ import * as t from "io-ts";
 
 export const ImageSource = t.strict(
   {
-    description: t.union([t.null, t.string]),
+    description:  t.string,
     location: t.string,
   },
   "ImageSource"

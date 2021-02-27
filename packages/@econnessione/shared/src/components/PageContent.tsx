@@ -7,7 +7,7 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 export type PageContentProps = Page.Page;
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
-  console.log(error)
+  console.log(error);
   return (
     <>
       <div>{error.name}</div>
@@ -18,7 +18,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
 
 export const PageContent: React.FC<PageContentProps> = ({ body }) => {
   return (
-    <div className="page-content">
+    <div className="page-content" style={{ marginBottom: 100 }}>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <MarkdownRenderer>{body}</MarkdownRenderer>
       </ErrorBoundary>

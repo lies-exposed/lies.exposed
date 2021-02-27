@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
+import AreasMap from "@components/AreasMap";
 import { BlockQuote } from "@components/BlockQuote";
 import { ListItem } from "@components/Common/ListItem";
 import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter";
@@ -35,6 +36,8 @@ export const components: MDXProviderComponentsProp = {
   // graph examples
   NetworkExample,
   BubbleGraphExample,
+  // maps
+  AreasMap: AreasMap,
   // page content examples
   ActorPageContentExample,
   GroupPageContentExample,

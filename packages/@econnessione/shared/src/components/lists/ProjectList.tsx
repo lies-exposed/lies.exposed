@@ -5,8 +5,10 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
-  CardMedia
+  CardMedia,
+  Grid,
 } from "@material-ui/core";
+import { formatDate } from "@utils/date";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -27,26 +29,37 @@ export const ProjectListItem: React.FC<
 > = ({ item, avatarScale, onClick }) => {
   return (
     <Card
-      style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
+      style={{
+        display: "inline-block",
+        margin: 5,
+        cursor: "pointer",
+        width: "100%",
+        minHeight: 300
+      }}
       onClick={() => onClick?.(item)}
     >
-      <CardHeader title={item.name} />
+      <CardHeader
+        title={item.name}
+        subheader={`${formatDate(item.startDate)} ${
+          item.endDate ? formatDate(item.endDate) : ""
+        }`}
+      />
       <CardActionArea>
         {pipe(
           O.fromNullable(item.images[0]),
           O.chainNullableK((image) => (
             <CardMedia
               component="img"
-              alt="Contemplative Reptile"
+              alt={image.description}
               height="140"
               image={image.location}
-              title={image.description ?? undefined}
+              title={image.description}
             />
           )),
           O.toNullable
         )}
 
-        <CardContent></CardContent>
+        <CardContent>{item.body}</CardContent>
       </CardActionArea>
     </Card>
   );
@@ -58,13 +71,19 @@ const ProjectList: React.FC<ProjectListProps> = ({
   avatarScale,
 }) => {
   return (
-    <List
-      data={projects}
-      filter={(_) => true}
-      onItemClick={onGroupClick}
-      getKey={(g) => g.id}
-      ListItem={(p) => <ProjectListItem avatarScale={avatarScale} {...p} />}
-    />
+    <Grid container>
+      <List
+        data={projects}
+        filter={(_) => true}
+        onItemClick={onGroupClick}
+        getKey={(g) => g.id}
+        ListItem={(p) => (
+          <Grid item md={6}>
+            <ProjectListItem avatarScale={avatarScale} {...p} />
+          </Grid>
+        )}
+      />
+    </Grid>
   );
 };
 

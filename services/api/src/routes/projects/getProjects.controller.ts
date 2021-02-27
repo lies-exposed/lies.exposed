@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints  from "@econnessione/shared/endpoints";
 import { ProjectEntity } from "@entities/Project.entity";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -20,14 +20,14 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
         ),
         count: ctx.db.count(ProjectEntity),
       }),
-      TE.mapLeft((e) => ({
-        ...e,
-        status: 500,
-        details: {
-          kind: `ServerError` as const,
-          meta: e.details,
-        },
-      })),
+      // TE.mapLeft((e) => ({
+      //   ...e,
+      //   status: 500,
+      //   details: {
+      //     kind: `ServerError` as const,
+      //     meta: e.details,
+      //   },
+      // })),
       TE.map(({ data, count }) => ({
         body: {
           data: data,
