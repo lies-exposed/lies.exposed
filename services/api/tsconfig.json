@@ -19,9 +19,18 @@
       "@entities/*": ["entities/*"],
       "@providers/*": ["providers/*"],
       "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@econnessione/shared": [
+        "../../../packages/@econnessione/shared/src/index"
+      ],
+      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
     }
   },
+  "references": [
+    {
+      "path": "../../packages/@econnessione/shared"
+    }
+  ],
   "include": ["./src"],
   "exclude": []
 }

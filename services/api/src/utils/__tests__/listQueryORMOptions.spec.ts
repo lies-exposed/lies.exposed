@@ -3,7 +3,7 @@ import { Like } from "typeorm";
 import {
   FilterQuery,
   GetListQuery,
-} from "@econnessione/shared/lib/endpoints/Query";
+} from "@econnessione/shared/endpoints/Query";
 import { getORMOptions } from "../listQueryToORMOptions";
 
 describe("ORM utils V2", () => {

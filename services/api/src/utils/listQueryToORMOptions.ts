@@ -1,4 +1,4 @@
-import * as Query from "@econnessione/shared/lib/endpoints/Query";
+import * as Query from "@econnessione/shared/endpoints/Query";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";

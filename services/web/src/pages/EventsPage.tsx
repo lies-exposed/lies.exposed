@@ -17,7 +17,7 @@ import {
   ordEventDate,
   eqByUUID,
 } from "@econnessione/shared/helpers/event";
-import { Actor, Group, Topic } from "@econnessione/shared/lib/io/http";
+import { Actor, Group, Topic } from "@econnessione/shared/io/http";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
 import {
