@@ -1,3 +1,4 @@
+import { Polygon } from "@econnessione/shared/io/http/Common";
 import {
   Column,
   CreateDateColumn,
@@ -19,8 +20,8 @@ export class AreaEntity {
   @Column({ type: 'varchar', nullable: false })
   color: string;
 
-  @Column({ type: "json", nullable: true })
-  geometry: { type: "Polygon"; coordinates: [number, number] };
+  @Column({ type: "json", nullable: false })
+  geometry: Polygon;
 
   @Column({ type: "varchar" })
   body: string;

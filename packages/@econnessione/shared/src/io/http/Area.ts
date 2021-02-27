@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { Polygon } from "./Common/Polygon";
 
 
 export const Area = t.strict(
@@ -8,7 +9,7 @@ export const Area = t.strict(
     label: t.string,
     color: t.string,
     body: t.string,
-    geometry: t.string,
+    geometry: Polygon,
   },
   "Area"
 );

@@ -18,13 +18,12 @@ export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {
           O.fold(
             () => null,
             (areas) => {
-              const features = areas.map((a) => a.geometry);
 
               return (
                 <Map
                   width={width}
                   height={height}
-                  features={features}
+                  features={areas}
                   center={[0, 0]}
                   zoom={6}
                   onMapClick={() => {}}

@@ -6,6 +6,7 @@ import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider, CreateResult } from "react-admin";
+import { editArea } from "./AreaAPI";
 
 const publicDataProvider = http.APIRESTClient({
   url: process.env.REACT_APP_API_URL,
@@ -138,11 +139,15 @@ export const apiProvider: http.APIRESTClient = {
     return dataProvider.create(resource, params);
   },
   update: (resource, params) => {
+    if (resource === 'areas') {
+      return editArea(dataProvider)(resource, params);
+    }
+
     if (resource === "events" || resource === "projects") {
       // eslint-disable-next-line
       console.log(params.data);
 
-      const { newImages = [], images, ...data } = params.data;
+      const { newImages = [], images, newAreas, areas, ...data } = params.data;
       return pipe(
         uploadImages(
           newImages
@@ -158,6 +163,10 @@ export const apiProvider: http.APIRESTClient = {
             ...params,
             data: {
               ...data,
+              areas: newAreas.map((a: any) => ({
+                ...a,
+                geometry: JSON.parse(a.geometry),
+              })),
               images: images.concat(
                 result.map((l) => ({
                   location: l,

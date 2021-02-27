@@ -7,7 +7,7 @@ export const firstArea: Area.Area = {
   label: "First Area",
   color: generateRandomColor(),
   body: "",
-  geometry: JSON.stringify({
+  geometry: {
     type: "Polygon",
     coordinates: [
       [
@@ -18,7 +18,7 @@ export const firstArea: Area.Area = {
         [-351.9827194, 45.5162451],
       ],
     ],
-  }),
+  },
   createdAt: new Date(),
   updatedAt: new Date(),
 };

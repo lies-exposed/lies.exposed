@@ -1,4 +1,5 @@
 import { Area, Common } from "@io/http";
+import { navigate } from "@reach/router";
 import * as React from "react";
 import Map from "./Map";
 
@@ -17,7 +18,6 @@ const AreasMap = ({
   width,
   height,
 }: AreasMapProps<Area.Area>): JSX.Element => {
-  const features = areas.map((a) => a.geometry);
 
   return (
     <div
@@ -31,7 +31,7 @@ const AreasMap = ({
       <Map
         width={width}
         height={height}
-        features={features}
+        features={areas}
         center={center}
         zoom={zoom}
         onMapClick={async (features) => {
@@ -39,7 +39,7 @@ const AreasMap = ({
             const area = features[0].getProperties() as Area.Area;
             // await navigate(`/areas/${area.id}`)
             if (area) {
-              alert(JSON.stringify(area));
+              await navigate(`/areas/${area.id}`)
             }
           }
         }}
