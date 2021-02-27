@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints  from "@econnessione/shared/endpoints";
 import * as passwordUtils from "@utils/password.utils";
 import { uuid } from "@utils/uuid.utils";
 import { Router } from "express";

@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { EventEntity } from "@entities/Event.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import { sequenceS } from "fp-ts/lib/Apply";

@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { AreaEntity } from "@entities/Area.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import * as TE from "fp-ts/lib/TaskEither";

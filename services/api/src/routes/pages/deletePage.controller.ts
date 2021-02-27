@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { NotFoundError } from "@io/ControllerError";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";

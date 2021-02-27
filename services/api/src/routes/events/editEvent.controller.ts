@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { EventEntity } from "@entities/Event.entity";
 import { ImageEntity } from "@entities/Image.entity";
 import { LinkEntity } from "@entities/Link.entity";

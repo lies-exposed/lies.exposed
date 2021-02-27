@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { ArticleEntity } from "@entities/Article.entity";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { sequenceS } from "fp-ts/lib/Apply";

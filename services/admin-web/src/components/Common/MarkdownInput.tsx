@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 /* eslint-disable no-console */
-import { mdx } from "@econnessione/shared";
+import * as mdx from "@econnessione/shared/mdx";
 import * as IOE from "fp-ts/lib/IOEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import RichTextInput from "ra-input-rich-text";

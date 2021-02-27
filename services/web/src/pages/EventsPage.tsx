@@ -1,4 +1,4 @@
-import { io } from "@econnessione/shared";
+import * as io  from "@econnessione/shared/io";
 import DatePicker from "@econnessione/shared/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";

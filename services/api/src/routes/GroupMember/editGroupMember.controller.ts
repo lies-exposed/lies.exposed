@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import { Router } from "express";

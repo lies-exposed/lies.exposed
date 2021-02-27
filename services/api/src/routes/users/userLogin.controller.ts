@@ -1,4 +1,4 @@
-import { endpoints } from "@econnessione/shared";
+import * as endpoints  from "@econnessione/shared/endpoints";
 import { BadRequestError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 import * as passwordUtils from "@utils/password.utils";
