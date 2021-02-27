@@ -20,14 +20,14 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
         ),
         count: ctx.db.count(ProjectEntity),
       }),
-      TE.mapLeft((e) => ({
-        ...e,
-        status: 500,
-        details: {
-          kind: `ServerError` as const,
-          meta: e.details,
-        },
-      })),
+      // TE.mapLeft((e) => ({
+      //   ...e,
+      //   status: 500,
+      //   details: {
+      //     kind: `ServerError` as const,
+      //     meta: e.details,
+      //   },
+      // })),
       TE.map(({ data, count }) => ({
         body: {
           data: data,

@@ -47,7 +47,7 @@ const toError = (e: unknown): APIError => {
 };
 
 export const dataProvider = APIRESTClient({
-  url: process.env.REACT_APP_API_URL as string,
+  url: process.env.REACT_APP_API_URL ,
 });
 
 const Resources = {
