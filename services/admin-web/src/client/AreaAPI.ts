@@ -8,10 +8,10 @@ import { GetOneResult, UpdateParams, UpdateResult } from "react-admin";
 
 export const editArea = (client: http.APIRESTClient) => (
   resource: string,
-  params: UpdateParams<any>
+  params: UpdateParams
 ): Promise<UpdateResult<Area>> => {
   if (resource === "areas") {
-    const updateParams: UpdateParams<Area> = {
+    const updateParams: UpdateParams = {
       ...params,
       data: {
         ...params.data,

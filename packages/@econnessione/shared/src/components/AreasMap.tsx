@@ -1,55 +1,74 @@
-import { Area, Common } from "@io/http";
+import { Area } from "@io/http";
+import { areasList } from "@providers/DataProvider";
 import { navigate } from "@reach/router";
+import ParentSize from "@vx/responsive/lib/components/ParentSize";
+import * as QR from "avenger/lib/QueryResult";
+import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
+import { ErrorBox } from "./Common/ErrorBox";
+import { Loader } from "./Common/Loader";
 import Map from "./Map";
 
-interface AreasMapProps<F extends Common.BaseFrontmatter> {
-  areas: F[];
-  center: [number, number];
-  zoom: number;
-  width: number;
-  height: number;
+interface AreasMapProps {
+  center?: [number, number];
+  zoom?: number;
 }
 
-const AreasMap = ({
-  areas,
-  center,
-  zoom,
-  width,
-  height,
-}: AreasMapProps<Area.Area>): JSX.Element => {
-
-  return (
-    <div
-      style={{
-        marginLeft: "auto",
-        marginRight: "auto",
-        marginTop: 20,
-        marginBottom: 20,
-      }}
-    >
-      <Map
-        width={width}
-        height={height}
-        features={areas}
-        center={center}
-        zoom={zoom}
-        onMapClick={async (features) => {
-          if (features.length > 0) {
-            const area = features[0].getProperties() as Area.Area;
-            // await navigate(`/areas/${area.id}`)
-            if (area) {
-              await navigate(`/areas/${area.id}`)
-            }
-          }
+class AreasMap extends React.PureComponent<AreasMapProps> {
+  render(): JSX.Element {
+    const { center = [9.18951, 45.46427], zoom = 12 } = this.props;
+    return (
+      <WithQueries
+        queries={{ areas: areasList }}
+        params={{
+          areas: {
+            pagination: { page: 1, perPage: 100 },
+            sort: { field: "id", order: "DESC" },
+            filter: {},
+          },
         }}
-        interactions={{
-          doubleClickZoom: true,
-          dragPan: true,
-        }}
+        render={QR.fold(Loader, ErrorBox, ({ areas }) => {
+          return (
+            <ParentSize style={{ minHeight: 600 }}>
+              {({ width, height }) => {
+                return (
+                  <div
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: 20,
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Map
+                      width={width}
+                      height={height}
+                      features={areas.data}
+                      center={center}
+                      zoom={zoom}
+                      onMapClick={async (features) => {
+                        if (features.length > 0) {
+                          const area = features[0].getProperties() as Area.Area;
+                          // await navigate(`/areas/${area.id}`)
+                          if (area) {
+                            await navigate(`/areas/${area.id}`);
+                          }
+                        }
+                      }}
+                      interactions={{
+                        doubleClickZoom: true,
+                        dragPan: true,
+                      }}
+                    />
+                  </div>
+                );
+              }}
+            </ParentSize>
+          );
+        })}
       />
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default AreasMap;

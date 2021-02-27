@@ -1,8 +1,8 @@
 import { http } from "@econnessione/core";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider } from "react-admin";
 import { editArea } from "./AreaAPI";
 import { uploadImages } from "./MediaAPI";

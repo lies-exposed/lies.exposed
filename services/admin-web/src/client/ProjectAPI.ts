@@ -1,15 +1,15 @@
 import { http } from "@econnessione/core";
 import { Project } from "@econnessione/shared/io/http/Project";
-import * as TE from "fp-ts/lib/TaskEither";
-import * as T from "fp-ts/lib/Task";
-import { CreateResult, UpdateParams } from "react-admin";
-import { pipe } from "fp-ts/lib/pipeable";
-import { uploadImages } from "./MediaAPI";
 import * as E from 'fp-ts/lib/Either';
+import * as T from "fp-ts/lib/Task";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
+import { CreateResult, UpdateParams } from "react-admin";
+import { uploadImages } from "./MediaAPI";
 
 export const editProject = (client: http.APIRESTClient) => (
   resource: string,
-  params: UpdateParams<any>
+  params: UpdateParams
 ): Promise<CreateResult<Project>> => {
   const { newImages = [], images, newAreas, areas, ...data } = params.data;
   return pipe(
