@@ -1,9 +1,7 @@
 import { IconProps } from "@material-ui/core/Icon";
 import * as React from "react";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const GreyIcon = require("./mattermost-logomark-grey.png");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const WhiteIcon = require("./mattermost-logomark-white.png");
+import GreyIcon from "./mattermost-logomark-grey.png";
+import WhiteIcon from "./mattermost-logomark-white.png";
 
 interface MattermostIconProps extends IconProps {
   variant: "white" | "blue" | "black";
