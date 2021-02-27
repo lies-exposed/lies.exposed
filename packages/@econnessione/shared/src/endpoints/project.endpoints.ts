@@ -54,9 +54,8 @@ const EditBody = nonEmptyRecordFromType({
   images: optionFromNullable(
     t.array(
       t.strict({
-        id: optionFromNullable(t.string),
         location: t.string,
-        description: optionFromNullable(t.string),
+        description: t.string,
       })
     )
   ),

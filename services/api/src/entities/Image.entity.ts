@@ -14,8 +14,8 @@ export class ImageEntity {
   @Column({ type: "varchar", nullable: false })
   location: string;
 
-  @Column({ type: "varchar", nullable: true })
-  description: string | null;
+  @Column({ type: "varchar", nullable: false })
+  description: string;
 
   @CreateDateColumn()
   createdAt: Date;

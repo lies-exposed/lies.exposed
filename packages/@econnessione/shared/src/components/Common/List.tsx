@@ -1,3 +1,4 @@
+import { Grid } from "@material-ui/core";
 import * as React from "react";
 import { StyleObject } from "styletron-react";
 
@@ -24,10 +25,10 @@ export const List = <A extends any>({
   onItemClick,
 }: ListProps<A>): JSX.Element => {
   return (
-    <div style={style}>
+    <Grid container style={style}>
       {data.map((d, i) => (
         <ListItem key={getKey(d)} item={d} onClick={onItemClick} index={i} />
       ))}
-    </div>
+    </Grid>
   );
 };
