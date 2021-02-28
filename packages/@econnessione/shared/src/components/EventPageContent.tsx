@@ -6,7 +6,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { Slider } from "./Common/Slider/Slider";
 import EditButton from "./buttons/EditButton";
-import ActorList from "./lists/ActorList";
+import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 
 export interface EventPageContentProps {

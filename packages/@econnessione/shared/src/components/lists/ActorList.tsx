@@ -47,7 +47,7 @@ interface ActorListProps {
   avatarScale: AvatarScale;
 }
 
-const ActorList: React.FC<ActorListProps> = ({
+export const ActorList: React.FC<ActorListProps> = ({
   actors,
   onActorClick,
   avatarScale,
@@ -62,5 +62,3 @@ const ActorList: React.FC<ActorListProps> = ({
     />
   );
 };
-
-export default ActorList;

@@ -5,7 +5,7 @@ import {
   NetworkNodeDatum,
   NetworkPointNode,
 } from "@components/Common/Graph/Network/NetworkNode";
-import ActorList from "@components/lists/ActorList";
+import { ActorList } from "@components/lists/ActorList";
 import { eventDate, ordEventDate, eqByUUID } from "@helpers/event";
 import { Actor, Common, Events, Group, Page, Topic } from "@io/http";
 import { formatDate } from "@utils/date";
