@@ -17,7 +17,7 @@ const getSignedUrl = (client: http.APIRESTClient) => (
           data: {
             Key: key,
             Bucket: bucket,
-            ContentType: 'image/jpeg'
+            ContentType: "image/jpeg",
           },
         }),
       E.toError
@@ -34,16 +34,14 @@ const uploadFile = (client: http.APIRESTClient) => (
     getSignedUrl(client)(resourceId, resource),
     TE.chain((url) => {
       // eslint-disable-next-line
-      const data = new FormData();
-      data.append("file", f, f.name);
-      data.append("resource", resource);
-      data.append("resourceId", resourceId);
+
       return pipe(
         TE.tryCatch(
           () =>
-            axios.post(url.data, data, {
+            axios.put(url.data, f, {
               headers: {
-                "Content-Type": `multipart/form-data;`,
+                "Content-Type": f.type,
+                "x-amz-acl": "public-read",
               },
             }),
           E.toError
@@ -64,7 +62,9 @@ export const uploadImages = (client: http.APIRESTClient) => (
   resourceId: string
 ): TE.TaskEither<Error, string[]> => {
   return pipe(
-    locations.map((n: any) => uploadFile(client)(resource, resourceId, n.rawFile)),
+    locations.map((n: any) =>
+      uploadFile(client)(resource, resourceId, n.rawFile)
+    ),
     A.sequence(TE.taskEitherSeq)
   );
 };

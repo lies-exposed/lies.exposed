@@ -1,13 +1,13 @@
+import { ActorList } from "@components/lists/ActorList";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
-import { ActorListItem } from "@econnessione/shared/components/lists/ActorList";
 import { navigateTo } from "@econnessione/shared/utils/links";
 import { actorsList, pageContentByPath } from "@providers/DataProvider";
-import { RouteComponentProps } from "@reach/router";
+import { navigate, RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import React from "react";
@@ -48,18 +48,18 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                     }
                   }}
                   onUnselectItem={() => {}}
-                  itemRenderer={(item, _, index) => (
-                    <ActorListItem
-                      index={index}
-                      item={item}
-                      avatarScale="scale1600"
-                      onClick={async (item: any) => {
-                        if (this.props.navigate) {
-                          await navigateTo(this.props.navigate, `actors`, item);
-                        }
-                      }}
-                    />
-                  )}
+                  itemRenderer={(item, _, index) => <span />}
+                />
+                <ActorList
+                  actors={acts.map((a) => ({
+                    ...a,
+                    selected: false,
+                  }))}
+                  avatarScale="scale1600"
+                  onActorClick={async (a) => {
+                    await navigate(`/actors/${a.id}`);
+                  }}
+
                 />
               </MainContent>
             </>

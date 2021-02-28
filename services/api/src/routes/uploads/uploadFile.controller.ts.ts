@@ -14,6 +14,7 @@ const UploadFileBody = t.strict({
   resourceId: t.string,
 });
 
+
 export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
   r.post("/uploads", multer().single("file"), async (req, res) => {
     ctx.logger.debug.log("Body %O", req.file);

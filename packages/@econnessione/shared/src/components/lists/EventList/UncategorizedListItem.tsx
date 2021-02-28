@@ -1,6 +1,6 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Slider } from "@components/Common/Slider/Slider";
-import ActorList from "@components/lists/ActorList";
+import { ActorList } from "@components/lists/ActorList";
 import GroupList from "@components/lists/GroupList";
 import TopicList from "@components/lists/TopicList";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +23,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { navigate } from "@reach/router";
 import { formatDate } from "@utils/date";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -47,6 +48,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       id={item.id}
       style={{
         marginBottom: 40,
+      }}
+      onClick={async () => {
+        await navigate(`/events/${item.id}`);
       }}
     >
       <CardHeader
