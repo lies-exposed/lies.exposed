@@ -1,5 +1,4 @@
-const { configPaths } = require("react-app-rewire-alias");
-const { aliasDangerous } = require("react-app-rewire-alias/lib/aliasDangerous");
+const { aliasDangerous, configPaths } = require("react-app-rewire-alias/lib/aliasDangerous");
 const { pipe } = require("fp-ts/lib/pipeable");
 const R = require("fp-ts/lib/Record");
 const path = require("path");
