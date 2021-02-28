@@ -14,6 +14,7 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
           Bucket,
           Key,
           ContentType,
+          ACL: 'public-read'
         }),
         TE.map((data) => ({
           body: {
