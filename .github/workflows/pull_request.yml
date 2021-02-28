@@ -87,16 +87,16 @@ jobs:
         run: yarn workspace @econnessione/shared build
 
       - name: Build api
-        run: yarn workspace api tsc -b
+        run: yarn workspace api build
 
       - name: Build web
-        run: yarn workspace web tsc -b
+        run: yarn workspace web build
 
       - name: Build admin-web
-        run: yarn workspace admin-web tsc -b
+        run: yarn workspace admin-web build
 
       - name: Build storybook
-        run: yarn workspace storybook tsc -b
+        run: yarn workspace storybook build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
