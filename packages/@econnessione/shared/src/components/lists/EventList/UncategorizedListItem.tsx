@@ -49,8 +49,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       style={{
         marginBottom: 40,
       }}
-      onClick={() => {
-        navigate(`/events/${item.id}`);
+      onClick={async () => {
+        await navigate(`/events/${item.id}`);
       }}
     >
       <CardHeader

@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
     counter: {
       fontFamily: theme.typography.fontFamily,
       fontSize: theme.typography.fontSize * 3,
-      color: theme.palette.primary.dark,
+      color: theme.overrides?.MuiAppBar?.colorPrimary as any,
       fontWeight: theme.typography.fontWeightBold,
     },
   })
