@@ -90,10 +90,10 @@ jobs:
         run: yarn workspace api build
 
       - name: Build web
-        run: yarn workspace web build
+        run: DISABLE_ESLINT_PLUGIN=true yarn workspace web build
 
       - name: Build admin-web
-        run: yarn workspace admin-web build
+        run: DISABLE_ESLINT_PLUGIN=true yarn workspace admin-web build
 
       - name: Build storybook
         run: yarn workspace storybook build
