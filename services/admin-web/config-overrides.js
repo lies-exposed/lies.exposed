@@ -1,7 +1,5 @@
-const {
-  aliasDangerous,
-  configPaths,
-} = require("react-app-rewire-alias/lib/aliasDangerous");
+const { aliasDangerous } = require("react-app-rewire-alias/lib/aliasDangerous");
+const { configPaths } = require("react-app-rewire-alias");
 const { pipe } = require("fp-ts/lib/pipeable");
 const R = require("fp-ts/lib/Record");
 const path = require("path");
@@ -25,6 +23,6 @@ module.exports = function override(config) {
   aliasDangerous({
     ...aliases,
   })(config);
-  
+
   return config;
 };
