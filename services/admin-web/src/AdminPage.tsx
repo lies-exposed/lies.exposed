@@ -35,8 +35,8 @@ const AdminPage: React.FC = () => {
     >
       <Resource
         name="pages"
-        list={PageList}
         edit={PageEdit}
+        list={PageList}
         create={PageCreate}
         icon={PageIcon}
       />

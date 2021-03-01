@@ -16,9 +16,7 @@
     "nohoist": [
       "module-alias",
       "**/ts-jest",
-      "**/ts-jest/**",
-      "lodash.isequalwith",
-      "**/lodash.isequalwith/**"
+      "**/ts-jest/**"
     ]
   },
   "scripts": {

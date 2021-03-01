@@ -92,9 +92,6 @@ jobs:
         run: yarn workspace web build
 
       - name: Build admin-web
-        run: yarn list --pattern connected-react-router
-
-      - name: Build admin-web
         run: yarn workspace admin-web build
 
       - name: Build storybook
