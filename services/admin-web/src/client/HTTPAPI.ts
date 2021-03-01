@@ -88,7 +88,13 @@ export const apiProvider: http.APIRESTClient = {
       // eslint-disable-next-line
       console.log(params.data);
 
-      const { newImages = [], images, newAreas, areas, ...data } = params.data;
+      const {
+        newImages = [],
+        images,
+        newAreas = [],
+        areas,
+        ...data
+      } = params.data;
       return pipe(
         uploadImages(dataProvider)(
           newImages

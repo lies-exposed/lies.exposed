@@ -1,4 +1,4 @@
-import * as io  from "@econnessione/shared/io";
+import * as io from "@econnessione/shared/io";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
@@ -12,6 +12,7 @@ export const toProjectIO = (
       ...project,
       areas: project.areas.map((a) => ({
         ...a,
+        geometry: JSON.parse(a.geometry as any),
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),
       })),

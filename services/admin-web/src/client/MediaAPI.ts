@@ -7,16 +7,16 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { CreateResult } from "react-admin";
 
 const getSignedUrl = (client: http.APIRESTClient) => (
-  key: string,
-  bucket: string
+  resource: string,
+  resourceId: string
 ): TE.TaskEither<Error, CreateResult<string>> => {
   return pipe(
     TE.tryCatch(
       () =>
         client.create("/uploads/getSignedURL", {
           data: {
-            Key: key,
-            Bucket: bucket,
+            resource,
+            resourceId,
             ContentType: "image/jpeg",
           },
         }),
@@ -31,7 +31,7 @@ const uploadFile = (client: http.APIRESTClient) => (
   f: File
 ): TE.TaskEither<Error, string> => {
   return pipe(
-    getSignedUrl(client)(resourceId, resource),
+    getSignedUrl(client)(resource, resourceId),
     TE.chain((url) => {
       // eslint-disable-next-line
 
