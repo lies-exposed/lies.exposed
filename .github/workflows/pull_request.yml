@@ -30,6 +30,10 @@ jobs:
       #     restore-keys: |
       #       ${{ runner.os }}-yarn-
 
+      - name: Install modules
+        # if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn
+
       - name: Cache node_modules
         uses: actions/cache@v2
         with:
@@ -38,10 +42,6 @@ jobs:
             packages/@econnessione/**/node_modules
             services/**/node_modules
           key: ${{ runner.os }}-yarn-node_modules
-
-      - name: Install modules
-        # if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn
 
   lint:
     runs-on: ubuntu-latest
