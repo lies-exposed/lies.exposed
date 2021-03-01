@@ -27,7 +27,7 @@ const remarkImages = require("remark-images");
 // import rehypeDoc from 'rehype-document'
 const remarkLint = require("remark-lint");
 const remarkMDX = require("remark-mdx");
-const mermaird = require("remark-mermaid");
+// const mermaird = require("remark-mermaid");
 const numberedFootnotesLabel = require("remark-numbered-footnote-labels");
 const remarkLintPreset = require("remark-preset-lint-recommended");
 // const vFileReporter = require("vfile-reporter");
@@ -40,7 +40,7 @@ const remarkPlugins = [
   remarkTOC,
   [footnotes, { inlineNotes: false }],
   numberedFootnotesLabel,
-  mermaird,
+  // mermaird,
   // remarkSquuezeParagraphs,
   remarkBreaks,
   remarkMDX,

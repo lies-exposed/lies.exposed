@@ -6,7 +6,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import {
+import type {
   GetListParams,
   GetListResult,
   GetOneParams,

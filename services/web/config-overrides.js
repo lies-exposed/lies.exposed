@@ -11,13 +11,13 @@ module.exports = function override(config) {
   );
   const webPaths = pipe(
     configPaths("tsconfig.paths.json"),
-    R.map(p => path.resolve('./src', p))
+    R.map((p) => path.resolve("./src", p))
   );
 
   const paths = {
     ...sharedPaths,
     ...webPaths,
-  }
+  };
 
   aliasDangerous(paths)(config);
   return config;
