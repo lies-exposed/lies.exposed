@@ -11,6 +11,8 @@ on:
     paths:
       - "packages/**"
       - "services/api/**"
+      - "services/admin-web/**"
+      - "services/web/**"
 
 jobs:
   install:
