@@ -16,7 +16,9 @@
     "nohoist": [
       "module-alias",
       "**/ts-jest",
-      "**/ts-jest/**"
+      "**/ts-jest/**",
+      "connected-react-router/**",
+      "lodash.isequalwith"
     ]
   },
   "scripts": {
@@ -71,8 +73,5 @@
     "**/*.+(ts|tsx|js|jsx|json|css)": [
       "prettier --write"
     ]
-  },
-  "dependencies": {
-    "lodash.isequalwith": "^4.4.0"
   }
 }
