@@ -16,9 +16,7 @@
     "nohoist": [
       "module-alias",
       "**/ts-jest",
-      "**/ts-jest/**",
-      "connected-react-router/**",
-      "lodash.isequalwith"
+      "**/ts-jest/**"
     ]
   },
   "scripts": {
