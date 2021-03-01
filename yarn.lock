@@ -16214,28 +16214,10 @@ ra-language-english@^3.11.2:
   dependencies:
     ra-core "^3.13.0"
 
-ra-ui-materialui@3.11.2:
+ra-ui-materialui@3.11.2, ra-ui-materialui@^3.11.2:
   version "3.11.2"
   resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-3.11.2.tgz#995a6407293eb5d437250b4fd5b473eb97060a60"
   integrity sha512-RLbP80re/CX/KH/FtZ5q0HHcvHUnCvbvdw4uu5uHz/SPMJi8rfO3522GyxavwbFq0ZQKx0gAvJ+4RmYkv8eH8A==
-  dependencies:
-    autosuggest-highlight "^3.1.1"
-    classnames "~2.2.5"
-    connected-react-router "^6.5.2"
-    css-mediaquery "^0.1.2"
-    downshift "3.2.7"
-    inflection "~1.12.0"
-    jsonexport "^2.4.1"
-    lodash "~4.17.5"
-    prop-types "^15.7.0"
-    query-string "^5.1.1"
-    react-dropzone "^10.1.7"
-    react-transition-group "^4.4.1"
-
-ra-ui-materialui@^3.11.2:
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-3.13.0.tgz#0ba0b8c6208b19bdd7868a8d43fdb5d6c933fca1"
-  integrity sha512-6Mq/cBkm/lP23y0B5LM+ja77Z8UUHJ0EgwiBjEja3VVi1O9m1O535gbEnMNNm/tNOFmShhBM3ajBlD/G1uL+4w==
   dependencies:
     autosuggest-highlight "^3.1.1"
     classnames "~2.2.5"
