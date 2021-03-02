@@ -5,8 +5,8 @@ WORKDIR /app
 COPY packages/@econnessione/core ./packages/@econnessione/core
 COPY packages/@econnessione/shared ./packages/@econnessione/shared
 COPY services/api ./services/api
-# COPY services/web ./services/web
-# COPY services/admin-web ./services/admin-web
+COPY services/web/package.json ./services/web/package.json
+COPY services/admin-web/package.json ./services/admin-web/package.json
 COPY package.json ./package.json
 COPY yarn.lock .
 COPY tsconfig.json .
