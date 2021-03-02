@@ -6,18 +6,20 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import multer from "multer";
+// import multer from "multer";
 import { v4 as uuid } from "uuid";
 
-const UploadFileBody = t.strict({
-  resource: t.union([t.literal("events"), t.literal("actors")]),
-  resourceId: t.string,
-});
-
+const UploadFileBody = t.strict(
+  {
+    resource: t.union([t.literal("events"), t.literal("actors")], "Resource"),
+    resourceId: t.string,
+  },
+  "UploadFileBody"
+);
 
 export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
-  r.post("/uploads", multer().single("file"), async (req, res) => {
-    ctx.logger.debug.log("Body %O", req.file);
+  r.post("/uploads", async (req, res) => {
+    ctx.logger.debug.log("Body %O", req.body);
 
     return await pipe(
       UploadFileBody.decode(req.body),
@@ -27,8 +29,7 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
         ctx.s3.upload({
           Bucket: ctx.env.SPACE_BUCKET,
           Key: `${resource}/${resourceId}/${uuid()}.jpg`,
-          Body: req.file.buffer,
-          ContentType: req.file.mimetype,
+          Body: req.body,
         })
       ),
       TE.map((data) => ({

@@ -23,7 +23,7 @@ import { S3Client } from "@providers/space";
 import { GetFSClient } from "@providers/space/FSClient";
 import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
-import {MakeAreasRoutes} from '@routes/areas/Areas.routes'
+import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
@@ -117,6 +117,7 @@ export const makeContext = (
                     accessKeyId: env.SPACE_ACCESS_KEY_ID,
                     secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
                   },
+                  signatureVersion: "v4",
                 })
               ),
         mdx: TE.right(
