@@ -9,7 +9,6 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/@econnessione/core",
       "packages/@econnessione/*",
       "services/*"
     ],

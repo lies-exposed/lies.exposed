@@ -1,4 +1,4 @@
-import { logger } from "@econnessione/core";
+import * as logger from "@econnessione/core/logger";
 import { User } from "@econnessione/shared/io/http/User";
 import * as IO from "fp-ts/lib/IO";
 import * as IOE from "fp-ts/lib/IOEither";

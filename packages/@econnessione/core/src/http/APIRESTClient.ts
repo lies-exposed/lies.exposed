@@ -5,7 +5,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as RA from "react-admin";
 
-interface APIRESTClient {
+export interface APIRESTClient {
   get: (resource: string, params: any) => Promise<any>;
   getList: <R extends RA.Record>(
     resource: string,
@@ -55,12 +55,12 @@ const liftClientRequest = <T>(
   );
 };
 
-interface APIRESTClientCtx {
+export interface APIRESTClientCtx {
   url: string;
   getAuth?: () => string | null;
 }
 
-const APIRESTClient = ({
+export const APIRESTClient = ({
   getAuth,
   ...ctx
 }: APIRESTClientCtx): APIRESTClient => {
@@ -125,5 +125,3 @@ const APIRESTClient = ({
     deleteMany: (resource, params) => client.delete(`${resource}`, { params }),
   };
 };
-
-export { APIRESTClient, APIRESTClientCtx };

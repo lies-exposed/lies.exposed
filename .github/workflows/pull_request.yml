@@ -64,88 +64,88 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      # - uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       node_modules
-      #       packages/@econnessione/**/node_modules
-      #       services/**/node_modules
-      #     key: ${{ runner.os }}-yarn-node_modules
-      #     restore-keys: |
-      #       ${{ runner.os }}-yarn-node_modules
-
       - name: Lint code
         run: yarn lint
 
-  build:
+  build-api:
     runs-on: ubuntu-latest
     needs: [install]
 
     steps:
       - uses: actions/checkout@v2
 
-      # - uses: actions/cache@v2
-      #   with:
-      #     key: ${{ runner.os }}-yarn-node_modules
-      #     path: |
-      #       node_modules
-      #       packages/@econnessione/**/node_modules
-      #       services/**/node_modules
-      #     restore-keys: |
-      #       ${{ runner.os }}-yarn-node_modules
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Build api
+        run: yarn workspace api build
+
+      - name: Upload API build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            packages/@econnessione/**/lib
+            services/api/build
+
+  build-admin-web:
+    runs-on: ubuntu-latest
+    needs: [install]
+
+    steps:
+      - uses: actions/checkout@v2
 
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: List modules
-        run: yarn list
-
-      - name: Build core
-        run: yarn workspace @econnessione/core build
-
-      - name: Build shared
-        run: yarn workspace @econnessione/shared build
-
-      - name: Build api
-        run: yarn workspace api build
-
-      - name: Build web
-        run: DISABLE_ESLINT_PLUGIN=true yarn workspace web build
-
       - name: Build admin-web
         run: DISABLE_ESLINT_PLUGIN=true yarn workspace admin-web build
 
-      - name: Build storybook
-        run: yarn workspace storybook build
-
-      - name: Upload build artifact
+      - name: Upload admin-web build
         uses: actions/upload-artifact@v2
         with:
           name: build
           path: |
-            packages/**/lib
-            services/**/build
+            packages/@econnessione/**/lib
+            services/admin-web/build
 
-  tests-spec:
+  build-web:
     runs-on: ubuntu-latest
-    needs: [lint, build]
+    needs: [install]
+
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/cache@v2
         with:
-          path: |
-            node_modules
-            packages/@econnessione/**/node_modules
-            services/**/node_modules
-          key: ${{ runner.os }}-yarn-node_modules
-          restore-keys: |
-            ${{ runner.os }}-yarn-node_modules
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Install deps
-        run: yarn
+      - name: Build web
+        run: DISABLE_ESLINT_PLUGIN=true yarn workspace web build
+
+      - name: Upload web build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            packages/@econnessione/**/lib
+            services/web/build
+
+  tests-spec:
+    runs-on: ubuntu-latest
+    needs: [lint, build-api, build-admin-web, build-web]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Download build artifact
         uses: actions/download-artifact@v2
@@ -157,7 +157,7 @@ jobs:
 
   tests-e2e:
     runs-on: ubuntu-latest
-    needs: [lint, build]
+    needs: [lint, build-api, build-admin-web, build-web]
     services:
       postgres:
         image: postgres:12
@@ -175,24 +175,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cache node_modules
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         with:
-          path: |
-            node_modules
-            packages/@econnessione/**/node_modules
-            services/**/node_modules
-          key: ${{ runner.os }}-yarn-node_modules
-          restore-keys: |
-            ${{ runner.os }}-yarn-node_modules
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
           name: build
-
-      - name: Install deps
-        run: yarn
 
       - name: Run tests E2E
         run: yarn test:e2e --ci --forceExit

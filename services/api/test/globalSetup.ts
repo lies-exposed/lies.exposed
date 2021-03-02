@@ -1,9 +1,9 @@
-import { logger } from "@econnessione/core";
 import * as dotenv from "dotenv";
 import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import * as logger from "../../../packages/@econnessione/core/src/logger";
 import { ENV } from "../src/io/ENV";
 
 export default async (): Promise<void> => {

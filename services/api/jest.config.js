@@ -3,17 +3,24 @@ const jestBaseConfig = require("../../jest.config.base");
 const { pathsToModuleNameMapper } = require("ts-jest/utils");
 const { compilerOptions } = require("./tsconfig");
 
-const paths = pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src/'})
+const paths = pathsToModuleNameMapper(compilerOptions.paths, {
+  prefix: "<rootDir>/src/",
+});
+
+const moduleNameMapper = {
+  ...paths,
+  ...jestBaseConfig.moduleNameMapper,
+};
 
 module.exports = {
   ...jestBaseConfig,
-  moduleNameMapper: paths,
+  moduleNameMapper,
   globals: {
     "ts-jest": {
       tsconfig: __dirname + "/tsconfig.test.json",
-      isolatesModules: true
+      isolatesModules: true,
     },
   },
-  globalSetup: '<rootDir>/test/globalSetup.ts',
-  globalTeardown: '<rootDir>/test/globalTeardown.ts',
+  globalSetup: "<rootDir>/test/globalSetup.ts",
+  globalTeardown: "<rootDir>/test/globalTeardown.ts",
 };

@@ -1,5 +1,5 @@
-import { logger } from "@econnessione/core";
-import  Docker from "dockerode";
+import * as logger from "@econnessione/core/logger";
+import Docker from "dockerode";
 
 export type GetDockerContainer = (
   logger: logger.Logger
@@ -25,11 +25,10 @@ export const GetDockerContainer: GetDockerContainer = (logger) => async (
       containerState: oldContainer.State,
     };
 
-    logger.debug.log('GetDockerContainer %O', basicContainerInfo);
+    logger.debug.log("GetDockerContainer %O", basicContainerInfo);
 
     container = docker.getContainer(oldContainer.Id);
     if (oldContainer.State === "running") {
-
       await container.stop({ t: 10 });
 
       logger.debug.log("Container stopped");
@@ -37,21 +36,21 @@ export const GetDockerContainer: GetDockerContainer = (logger) => async (
       logger.debug.log("Removing container...");
       await container.remove({ v: true });
 
-      logger.debug.log( "Container removed");
+      logger.debug.log("Container removed");
 
       const volumeNames = createContainerOptions.HostConfig?.Binds?.map(
         (b) => b.split(":")[0]
       );
 
       if (Array.isArray(volumeNames)) {
-        logger.debug.log( "Removing volumes as well...");
+        logger.debug.log("Removing volumes as well...");
 
         for (const volumeName of volumeNames) {
           const volume = docker.getVolume(volumeName);
 
           await volume.remove();
         }
-        logger.debug.log( "Volumes removed");
+        logger.debug.log("Volumes removed");
       }
       container = undefined;
     }
@@ -62,7 +61,7 @@ export const GetDockerContainer: GetDockerContainer = (logger) => async (
 
     container = await docker.createContainer(createContainerOptions);
 
-    logger.debug.log( "Container created");
+    logger.debug.log("Container created");
   }
 
   await container.start();

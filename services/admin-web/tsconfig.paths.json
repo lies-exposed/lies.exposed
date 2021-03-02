@@ -17,12 +17,16 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["./components/*"],
+      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
       "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
     }
   },
   "references": [
     {
       "path": "../../packages/@econnessione/shared"
+    },
+    {
+      "path": "../../packages/@econnessione/core"
     }
   ]
 }

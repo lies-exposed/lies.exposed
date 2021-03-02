@@ -1,4 +1,4 @@
-import { logger } from "@econnessione/core";
+import * as logger from "@econnessione/core/logger";
 import { ControllerError } from "@io/ControllerError";
 import type * as AWS from "aws-sdk";
 import * as TE from "fp-ts/lib/TaskEither";
