@@ -1,4 +1,4 @@
-import { http } from "@econnessione/core";
+import * as http from "@econnessione/core/http";
 import axios from "axios";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";

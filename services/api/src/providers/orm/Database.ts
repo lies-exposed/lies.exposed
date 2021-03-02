@@ -1,4 +1,4 @@
-import { logger } from "@econnessione/core";
+import * as logger from "@econnessione/core/logger";
 import { ControllerError } from "@io/ControllerError";
 import * as O from "fp-ts/lib/Option";
 import * as Reader from "fp-ts/lib/Reader";

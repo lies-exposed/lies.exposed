@@ -5,6 +5,10 @@ const R = require("fp-ts/lib/Record");
 const path = require("path");
 
 module.exports = function override(config) {
+  const corePaths = pipe(
+    configPaths("../../packages/@econnessione/core/tsconfig.json"),
+    R.map((p) => path.resolve("../../packages/@econnessione/core/src", p))
+  );
   const sharedPaths = pipe(
     configPaths("../../packages/@econnessione/shared/tsconfig.json"),
     R.map((p) => path.resolve("../../packages/@econnessione/shared/src", p))
@@ -15,6 +19,7 @@ module.exports = function override(config) {
   );
 
   const paths = {
+    ...corePaths,
     ...sharedPaths,
     ...webPaths,
   };

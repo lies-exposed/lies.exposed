@@ -10,10 +10,13 @@ module.exports = {
     },
   },
   moduleDirectories: ["node_modules"],
+  moduleNameMapper: {
+    "^@econnessione/core/(.*)$": "<rootDir>/../../packages/@econnessione/core/src/$1",
+    "^@econnessione/shared/(.*)$":
+      "<rootDir>/../../packages/@econnessione/shared/src/$1",
+  },
   transform: {
     ...tsjPreset.transform,
   },
-  testMatch: [
-    "**/?(*.)+(spec|test|e2e).ts?(x)"
-  ]
+  testMatch: ["**/?(*.)+(spec|test|e2e).ts?(x)"],
 };

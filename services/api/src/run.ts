@@ -1,4 +1,7 @@
-import { logger } from "@econnessione/core";
+/* eslint-disable import/first */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("module-alias")(process.cwd());
+import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { makeApp, makeContext } from "./server";

@@ -19,9 +19,15 @@
       "@mock-data/*": ["./mock-data/*"],
       "@providers/*": ["./providers/*"],
       "@theme/*": ["./theme/*"],
-      "@utils/*": ["./utils/*"]
+      "@utils/*": ["./utils/*"],
+      "@econnessione/core/*": ["../../core/src/*"]
     }
   },
+  "references": [
+    {
+      "path": "../core"
+    }
+  ],
   "include": ["./src", "./typings", "src/**/*.json"],
   "exclude": ["node_modules", "__tests__", "lib"]
 }

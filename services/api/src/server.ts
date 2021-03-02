@@ -3,7 +3,7 @@
 require("module-alias")(process.cwd());
 import * as fs from "fs";
 import * as path from "path";
-import { logger } from "@econnessione/core";
+import * as logger from "@econnessione/core/logger";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { ArticleEntity } from "@entities/Article.entity";

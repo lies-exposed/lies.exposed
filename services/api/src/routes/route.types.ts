@@ -1,4 +1,4 @@
-import { logger } from "@econnessione/core";
+import * as logger from "@econnessione/core/logger";
 import { ENV } from "@io/ENV";
 import { JWTClient } from "@providers/jwt/JWTClient";
 import { MDXClient } from "@providers/mdx";

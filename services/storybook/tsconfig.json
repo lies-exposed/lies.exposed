@@ -22,10 +22,14 @@
     "moduleResolution": "node",
     "isolatedModules": true,
     "paths": {
+      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
       "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
     }
   },
   "references": [
+    {
+      "path": "../../packages/@econnessione/core"
+    },
     {
       "path": "../../packages/@econnessione/shared"
     }

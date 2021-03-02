@@ -22,6 +22,17 @@ module.exports = {
       include: path.resolve(__dirname, "../"),
     });
 
+    const coreBaseUrl = path.resolve(
+      process.cwd(),
+      "../../pacakges/@econnessione/core/tsconfig.json"
+    );
+
+    config.resolve.plugins.push(
+      new TSConfigPathsWebpackPlugin({
+        configFile: coreBaseUrl,
+      })
+    );
+
     const sharedBaseUrl = path.resolve(
       process.cwd(),
       "../../packages/@econnessione/shared/tsconfig.json"

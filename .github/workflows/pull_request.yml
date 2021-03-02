@@ -85,7 +85,7 @@ jobs:
       - name: Upload API build
         uses: actions/upload-artifact@v2
         with:
-          name: build-api
+          name: build
           path: |
             packages/@econnessione/**/lib
             services/api/build
@@ -108,10 +108,10 @@ jobs:
       - name: Upload admin-web build
         uses: actions/upload-artifact@v2
         with:
-          name: build-admin-web
+          name: build
           path: |
             packages/@econnessione/**/lib
-            services/**/build
+            services/admin-web/build
 
   build-web:
     runs-on: ubuntu-latest
@@ -131,7 +131,7 @@ jobs:
       - name: Upload web build
         uses: actions/upload-artifact@v2
         with:
-          name: build-web
+          name: build
           path: |
             packages/@econnessione/**/lib
             services/web/build
@@ -150,10 +150,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
-          name: |
-            build-api
-            build-web
-            build-admin-web
+          name: build
 
       - name: Run tests SPEC
         run: yarn test:spec
@@ -186,10 +183,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
-          name: |
-            build-api
-            build-admin-web
-            build-web
+          name: build
 
       - name: Run tests E2E
         run: yarn test:e2e --ci --forceExit

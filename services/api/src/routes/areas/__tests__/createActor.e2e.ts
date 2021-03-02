@@ -1,4 +1,4 @@
-import * as tests from "@econnessione/core/lib/tests";
+import * as tests from "@econnessione/core/tests";
 import supertest from "supertest";
 import { makeApp, makeContext } from "../../../server";
 import { pipe } from "fp-ts/lib/pipeable";

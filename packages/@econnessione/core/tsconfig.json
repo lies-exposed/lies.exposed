@@ -1,6 +1,7 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
+    "composite": true,
     "lib": ["DOM", "ESNext"],
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,

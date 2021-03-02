@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { logger } from "@econnessione/core";
+import * as logger from "@econnessione/core/logger";
 import * as AWS from "aws-sdk";
 import * as IOE from "fp-ts/lib/IOEither";
 import { Reader } from "fp-ts/lib/Reader";
