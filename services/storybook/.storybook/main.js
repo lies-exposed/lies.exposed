@@ -24,7 +24,7 @@ module.exports = {
 
     const coreBaseUrl = path.resolve(
       process.cwd(),
-      "../../pacakges/@econnessione/core/tsconfig.json"
+      "../../packages/@econnessione/core/tsconfig.json"
     );
 
     config.resolve.plugins.push(
