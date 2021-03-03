@@ -13,11 +13,11 @@ COPY tsconfig.json .
 
 RUN yarn install --non-interactive --network-timeout 1000000
 
-# WORKDIR /app/packages/@econnessione/core
-# RUN yarn build
+WORKDIR /app/packages/@econnessione/core
+RUN yarn build
 
-# WORKDIR /app/packages/@econnessione/shared
-# RUN yarn build
+WORKDIR /app/packages/@econnessione/shared
+RUN yarn build
 
 WORKDIR /app/services/api
 RUN yarn build
