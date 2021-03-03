@@ -74,7 +74,7 @@ jobs:
 
 
       - name: Build Admin Web
-        run: yarn workspace admin-web build
+        run: DISABLE_ESLINT_PLUGIN=true yarn workspace admin-web build
         env:
           PUBLIC_URL: https://alpha.econnessione.org/admin/
           REACT_APP_API_URL: https://alpha.api.econnessione.org/v1
@@ -91,7 +91,7 @@ jobs:
             --acl public-read
 
       - name: Build Web
-        run: yarn workspace web build
+        run: DISABLE_ESLINT_PLUGIN=true yarn workspace web build
         env:
           PUBLIC_URL: https://alpha.econnessione.org/web/
           REACT_APP_API_URL: https://alpha.api.econnessione.org/v1
