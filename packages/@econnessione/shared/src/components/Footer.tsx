@@ -1,8 +1,16 @@
-import { faGithub, faSlack } from "@fortawesome/free-brands-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Container, Grid, Link, Typography } from "@material-ui/core";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import {
+  Container,
+  Grid,
+  Link,
+  Typography,
+  MenuList,
+  MenuItem,
+} from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
+import { MattermostIcon } from "../ui/icons/MattermostIcon/MattermostIcon";
 import { PaypalDonateButton } from "./buttons/PaypalDonateButton";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.common.white,
     },
     rightColumn: {
-      textAlign: "right",
+      textAlign: "left",
     },
   })
 );
@@ -58,18 +66,29 @@ export const Footer: React.FC = () => {
 
           <Grid item sm={4}></Grid>
           <Grid className={classes.rightColumn} item sm={4}>
-            <ul style={{ listStyle: "none" }}>
-              <li>
+            <Typography
+              variant="h6"
+              style={{
+                textTransform: "uppercase",
+                color: "white",
+                fontWeight: 600,
+                fontSize: 14,
+              }}
+            >
+              Community
+            </Typography>
+            <MenuList title="Community" disablePadding={true}>
+              <MenuItem disableGutters={true}>
                 <Link className={classes.link} href={github.link}>
                   <FontAwesomeIcon icon={faGithub} /> Github
                 </Link>
-              </li>
-              <li>
+              </MenuItem>
+              <MenuItem disableGutters={true}>
                 <Link className={classes.link} href={mattermost.link}>
-                  <FontAwesomeIcon icon={faSlack} /> Slack
+                  <MattermostIcon fontSize="small" variant="white" /> Mattermost
                 </Link>
-              </li>
-            </ul>
+              </MenuItem>
+            </MenuList>
           </Grid>
         </Grid>
       </Container>
