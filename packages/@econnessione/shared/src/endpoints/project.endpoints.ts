@@ -21,6 +21,12 @@ export const List = Endpoint({
 const CreateBody = t.strict({
   name: t.string,
   color: t.string,
+  images: t.array(
+    t.strict({
+      kind: http.ProjectImage.Kind,
+      image: t.string,
+    })
+  ),
   areas: t.array(CreateAreaBody),
   startDate: DateFromISOString,
   endDate: optionFromNullable(DateFromISOString),

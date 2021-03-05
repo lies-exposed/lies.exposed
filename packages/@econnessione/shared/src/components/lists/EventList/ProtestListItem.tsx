@@ -21,7 +21,7 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
       }}
     >
       <div>
-        <Grid container direction="column">
+        <Grid container direction="column" style={{ height: 400 }}>
           {pipe(
             item.frontmatter.images,
             O.map((images) => (
@@ -29,7 +29,6 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
               <Grid item>
                 <Slider
                   key="home-slider"
-                  height={400}
                   slides={images.map((i) => ({
                     authorName: "",
                     info: i.description ?? "",

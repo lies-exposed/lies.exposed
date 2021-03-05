@@ -1,5 +1,5 @@
 import { Transaction } from "@io/http";
-import uuid from "@utils/uuid";
+import { uuid } from "@utils/uuid";
 import { subYears } from "date-fns";
 import { badActor, goodActor, goodSecondActor } from "./actors";
 import { badGroup, goodGroup } from "./groups";

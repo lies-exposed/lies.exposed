@@ -1,5 +1,5 @@
 import { RouteContext } from "@routes/route.types";
-import { uuid } from "@utils/uuid.utils";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
 import supertest from "supertest";

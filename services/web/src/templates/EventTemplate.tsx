@@ -11,7 +11,7 @@ import {
   event,
   groupsList,
   project,
-} from "@providers/DataProvider";
+} from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

@@ -4,11 +4,12 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { AreaEntity } from "./Area.entity";
-import { ImageEntity } from "./Image.entity";
+import { ProjectImageEntity } from "./ProjectImage.entity";
 
 @Entity("project")
 export class ProjectEntity {
@@ -21,7 +22,6 @@ export class ProjectEntity {
   @Column({ type: "varchar" })
   color: string;
 
-
   @Column({ type: "timestamptz", nullable: false })
   startDate: Date;
 
@@ -31,9 +31,8 @@ export class ProjectEntity {
   @Column({ type: "varchar" })
   body: string;
 
-  @ManyToMany(() => ImageEntity, { cascade: true })
-  @JoinTable()
-  images: ImageEntity[];
+  @OneToMany(() => ProjectImageEntity, a => a.project)
+  images: ProjectImageEntity[];
 
   @ManyToMany(() => AreaEntity, { cascade: true })
   @JoinTable()

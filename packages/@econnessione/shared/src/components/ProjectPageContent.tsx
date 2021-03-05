@@ -1,5 +1,4 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import EditButton from "@components/buttons/EditButton";
 import { Events, Project } from "@io/http";
 import { Grid } from "@material-ui/core";
 import { formatDate } from "@utils/date";
@@ -50,11 +49,6 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
     <Grid container>
       <Grid item>
         <div>
-          <div style={{ textAlign: "right", padding: 10 }}>
-            <EditButton resourceName="areas" resource={frontmatter} />
-          </div>
-        </div>
-        <div>
           <h1>{frontmatter.name}</h1>
           <div>
             <label>Data di inizio {formatDate(frontmatter.startDate)}</label>
@@ -69,32 +63,29 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
           </div>
         </div>
       </Grid>
-      <Grid container>
-        <Grid item>
+
+      <Grid container direction="row">
+        <Grid item style={{ height: 400 }}>
           {pipe(
             O.fromNullable(frontmatter.images),
             O.map((images) => (
-              <div key={`project-${frontmatter.id}`}>
-                <Slider
-                  key={`project-${frontmatter.id}-slider`}
-                  height={400}
-                  slides={images.map((i) => ({
-                    authorName: "",
-                    info: i.description ?? "",
-                    imageURL: i.location,
-                  }))}
-                  arrows={true}
-                  adaptiveHeight={true}
-                  dots={true}
-                  size="contain"
-                />
-              </div>
+              <Slider
+                key={`project-${frontmatter.id}-slider`}
+                slides={images.map((i) => ({
+                  authorName: "",
+                  info: i.description ?? "",
+                  imageURL: i.location,
+                }))}
+                arrows={true}
+                dots={true}
+                size="contain"
+              />
             )),
-            O.toNullable
+            O.getOrElse(() => <div>No images!</div>)
           )}
-          <ProjectFundsMap project={{ ...frontmatter, body }} />
         </Grid>
         <Grid>
+          <ProjectFundsMap project={{ ...frontmatter, body }} />
           <div>
             <h1>Fondi: {totalFunded}</h1>
             {/* <GroupOrActorList

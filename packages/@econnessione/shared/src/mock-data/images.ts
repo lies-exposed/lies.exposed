@@ -1,3 +1,5 @@
+import { uuid } from "@utils/uuid";
+
 // Images
 const thirdImagePath =
   "http://localhost:4010/static/media/img/elderly-woman-hong-kong-protest-viral-video.jpg";
@@ -6,25 +8,24 @@ const firstImagePath =
 const secondImagePath =
   "http://localhost:4010/static/media/actors/825a1180-ea9c-11ea-89c1-952ed30e8319/29178199_10216293038707708_991755429509857280_n.jpg";
 
-const fileNodeFromPath = (path: string): any => {
-  return {
-    publicURL: path,
-    childImageSharp: {
-      fluid: {
-        src: path,
-        srcWebp: path,
-        srcSet: path,
-        sizes: "400x400",
-        base64: undefined,
-        tracedSVG: undefined,
-        srcSetWebp: undefined,
-        media: undefined,
-        aspectRatio: 1,
-      },
-    },
-  };
+export const firstImage = {
+  id: uuid() as any,
+  description: "first image",
+  location: firstImagePath,
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
-
-export const firstImage = fileNodeFromPath(firstImagePath);
-export const secondImage = fileNodeFromPath(secondImagePath);
-export const thirdImage = fileNodeFromPath(thirdImagePath);
+export const secondImage = {
+  id: uuid() as any,
+  description: "second image",
+  location: secondImagePath,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+export const thirdImage = {
+  id: uuid() as any,
+  description: "first image",
+  location: thirdImagePath,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};

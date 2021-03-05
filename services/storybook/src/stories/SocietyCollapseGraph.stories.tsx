@@ -12,7 +12,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          "Based on [Bilevel Edge Bundling](https://observablehq.com/@d3/bilevel-edge-bundling?collection=@d3/d3-hierarchy)",
+          "Possible climate scenarios with collapse steps.",
       },
     },
   },

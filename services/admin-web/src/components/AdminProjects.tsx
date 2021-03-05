@@ -88,6 +88,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <ArrayField source="images">
           <Datagrid rowClick="edit">
             <TextField source="id" />
+            <TextField source="kind" />
             <ImageField source="location" fullWidth={false} />
             <TextField source="description" />
           </Datagrid>

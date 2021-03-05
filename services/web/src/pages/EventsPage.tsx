@@ -18,6 +18,12 @@ import {
 } from "@econnessione/shared/helpers/event";
 import * as io  from "@econnessione/shared/io";
 import { Actor, Group, Topic } from "@econnessione/shared/io/http";
+import {
+  actorsList,
+  eventsList,
+  groupsList,
+  pageContentByPath,
+} from "@econnessione/shared/providers/DataProvider";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
 import {
@@ -26,12 +32,6 @@ import {
   updateSearch,
 } from "@econnessione/shared/utils/routes";
 import { Grid } from "@material-ui/core";
-import {
-  actorsList,
-  eventsList,
-  groupsList,
-  pageContentByPath,
-} from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

@@ -29,6 +29,7 @@ export * as Image from "./Image";
 export * as Network from "./Networks";
 export * as Page from "./Page";
 export * as Project from "./Project";
+export * as ProjectImage from './ProjectImage';
 export * as Topic from "./Topic";
 export * as Transaction from "./Transaction";
 export * as User from './User'

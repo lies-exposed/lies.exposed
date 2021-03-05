@@ -4,7 +4,7 @@ import { badGroup, goodGroup, secondBadGroup } from "@mock-data/groups";
 import { thirdImage } from "@mock-data/images";
 import { firstBadProject, firstGoodProject } from "@mock-data/projects";
 import { firstFund, secondFund, thirdFund } from "@mock-data/transactions";
-import uuid from "@utils/uuid";
+import { uuid } from "@utils/uuid";
 import { subDays } from "date-fns";
 import * as O from "fp-ts/lib/Option";
 
@@ -140,7 +140,7 @@ export const thirdEventMetadata: Events.Event[] = [
     organizers: [
       {
         type: "Actor",
-        actor:goodActor.id,
+        actor: goodActor.id,
       },
     ],
     for: { type: "Project", project: firstBadProject },
@@ -162,7 +162,7 @@ export const fourthEventMetadata: Events.Event[] = [
       {
         author: "Unknown",
         description: "Protest image",
-        location: thirdImage,
+        location: thirdImage.location,
       },
     ]),
     date: subDays(now, 5),

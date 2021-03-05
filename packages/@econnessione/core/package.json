@@ -27,5 +27,9 @@
 	"_moduleAlias": {
 		"@http": "lib/http",
 		"@logger": "lib/logger"
+	},
+	"dependencies": {
+		"fast-check-io-ts": "^0.5.0",
+		"uuid": "^8.3.2"
 	}
 }

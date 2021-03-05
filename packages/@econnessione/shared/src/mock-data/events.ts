@@ -1,12 +1,12 @@
 import { Events } from "@io/http";
-import uuid from "@utils/uuid";
+import { uuid } from "@utils/uuid";
 import { subMonths } from "date-fns";
 import { badActor, goodActor } from "./actors";
 import {
   firstEventMetadata,
   fourthEventMetadata,
   secondEventMetadata,
-  thirdEventMetadata
+  thirdEventMetadata,
 } from "./events/events-metadata";
 import { badGroup, goodGroup } from "./groups";
 import { firstTopic, secondTopic, thirdTopic } from "./topics";
@@ -35,7 +35,7 @@ export const secondEvent: Events.Uncategorized.Uncategorized = {
   id: uuid(),
   type: Events.Uncategorized.UNCATEGORIZED.value,
   title: "Second Event",
-  topics: [thirdTopic.id , secondTopic.id],
+  topics: [thirdTopic.id, secondTopic.id],
   actors: [badActor.id],
   groups: [],
   links: [],

@@ -14,6 +14,7 @@ import { ImageEntity } from "@entities/Image.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
+import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -22,6 +23,7 @@ import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
 import { GetFSClient } from "@providers/space/FSClient";
 import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
+import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
@@ -91,13 +93,14 @@ export const makeContext = (
             GroupMemberEntity,
             ArticleEntity,
             ProjectEntity,
+            ProjectImageEntity,
             AreaEntity,
             EventEntity,
             ImageEntity,
             LinkEntity,
             UserEntity,
           ],
-          synchronize: true,
+          synchronize: env.NODE_ENV === "test",
           ssl: ssl,
         }),
         s3:
@@ -176,6 +179,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // projects
   MakeProjectRoutes(router, ctx);
+
+  // project images
+  MakeProjectImageRoutes(router, ctx);
 
   // articles
   MakeArticlesRoutes(router, ctx);

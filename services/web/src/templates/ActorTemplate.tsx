@@ -6,7 +6,7 @@ import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
 import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
-import { actor } from "@providers/DataProvider";
+import { actor } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

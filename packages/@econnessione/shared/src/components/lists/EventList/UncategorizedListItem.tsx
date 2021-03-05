@@ -156,10 +156,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               O.fromPredicate((arr) => arr.length > 0),
               O.map((images) => (
                 // eslint-disable-next-line react/jsx-key
-                <Grid>
+                <Grid style={{ height: 600 }}>
                   <Slider
                     key="home-slider"
-                    height={600}
                     slides={images.map((i) => ({
                       authorName: "",
                       info: i.description,
@@ -174,6 +173,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               )),
               O.toNullable
             )}
+
             <Grid container>
               <Grid item>
                 <MarkdownRenderer>{item.body}</MarkdownRenderer>

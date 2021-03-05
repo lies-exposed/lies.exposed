@@ -16,6 +16,13 @@ export const toProjectIO = (
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),
       })),
+      images: project.images.map((i) => ({
+        ...i,
+        ...i.image,
+        projectId: project.id,
+        createdAt: i.createdAt.toISOString(),
+        updatedAt: i.updatedAt.toISOString(),
+      })),
       startDate: project.startDate.toISOString(),
       endDate: project.endDate ? project.endDate.toISOString() : undefined,
       createdAt: project.createdAt.toISOString(),

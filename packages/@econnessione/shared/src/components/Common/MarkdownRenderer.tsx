@@ -19,6 +19,7 @@ import { GroupPageContentExample } from "@components/examples/GroupPageContentEx
 import NetworkExample from "@components/examples/NetworkExample";
 import { ProjectPageContentExample } from "@components/examples/ProjectPageContentExample";
 import { TopicPageContentExample } from "@components/examples/TopicPageContentExample";
+import {ProjectImageList} from '@components/lists/ProjectImageList'
 import { MDXProviderComponentsProp } from "@mdx-js/react";
 import * as React from "react";
 const MDX = require("@mdx-js/runtime").default;
@@ -37,7 +38,7 @@ export const components: MDXProviderComponentsProp = {
   NetworkExample,
   BubbleGraphExample,
   // maps
-  AreasMap: AreasMap,
+  AreasMap,
   // page content examples
   ActorPageContentExample,
   GroupPageContentExample,
@@ -45,6 +46,8 @@ export const components: MDXProviderComponentsProp = {
   TopicPageContentExample,
   EventPageContentExample,
   EventSliderExample,
+  // lists
+  ProjectImageList,
   // components
   // DisplayXSmall,
   // DisplaySmall,

@@ -1,7 +1,7 @@
 import * as endpoints from "@econnessione/shared/endpoints";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { ProjectEntity } from "@entities/Project.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
-import { uuid } from "@utils/uuid.utils";
 import { Router } from "express";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";

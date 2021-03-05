@@ -11,7 +11,7 @@ import { LinkEntity } from "@entities/Link.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { PageEntity } from "@entities/page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
-import { uuid } from "@utils/uuid.utils";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as IO from "fp-ts/lib/IO";

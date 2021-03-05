@@ -42,6 +42,7 @@ const uploadFile = (client: http.APIRESTClient) => (
               headers: {
                 "Content-Type": f.type,
                 "x-amz-acl": "public-read",
+                'Access-Control-Allow-Origin': '*'
               },
             }),
           E.toError

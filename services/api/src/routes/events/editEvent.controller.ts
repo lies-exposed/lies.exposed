@@ -1,8 +1,8 @@
 import * as endpoints from "@econnessione/shared/endpoints";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventEntity } from "@entities/Event.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
-import { uuid } from "@utils/uuid.utils";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";

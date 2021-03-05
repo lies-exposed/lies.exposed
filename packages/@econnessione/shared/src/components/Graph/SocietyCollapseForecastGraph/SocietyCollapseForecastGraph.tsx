@@ -1,12 +1,15 @@
 import { numTicksForWidth } from "@utils/graph.utils";
 import { AxisBottom } from "@vx/axis";
 import { curveBasis } from "@vx/curve";
+// import { localPoint } from "@vx/event";
 import { LinearGradient } from "@vx/gradient";
 import { Group } from "@vx/group";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import { scaleLinear } from "@vx/scale";
 import { Bar, Line, LinePath } from "@vx/shape";
 import { Threshold } from "@vx/threshold";
+// import { TooltipWithBounds, withTooltip } from "@vx/tooltip";
+// import { WithTooltipProvidedProps } from "@vx/tooltip/lib/enhancers/withTooltip";
 import * as A from "fp-ts/lib/Array";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
