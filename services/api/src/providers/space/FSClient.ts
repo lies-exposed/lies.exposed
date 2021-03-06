@@ -68,7 +68,7 @@ const GetFSClient: Reader<FSClientCtx, SpaceClient> = (
     },
     getSignedUrl: (operation, params) => {
       return TE.right(
-        `${c.baseUrl}/v1/uploads?Bucket=${params.Bucket}&key=${params.Key}`
+        `${c.baseUrl}/v1/uploads/${params.Key}`
       );
     },
     createBucket: (params) => {

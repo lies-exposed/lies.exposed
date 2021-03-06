@@ -1,4 +1,5 @@
 import * as endpoints from "@econnessione/shared/endpoints";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
@@ -7,6 +8,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
+
 
 export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
   AddEndpoint(r)(
@@ -21,7 +23,11 @@ export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
             projectImages: db.save(
               ProjectImageEntity,
               images.map((i) => ({
-                image: { id: i.image },
+                image: {
+                  id: uuid(),
+                  location: i.location,
+                  description: i.description,
+                },
                 kind: i.kind,
                 project: project,
               }))

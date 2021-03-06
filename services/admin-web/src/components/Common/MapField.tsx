@@ -32,7 +32,7 @@ type MapFieldProps = FieldProps & {
 
 export const MapField: React.FC<MapFieldProps> = (props) => {
   // eslint-disable-next-line
-  console.log({ props });
+  // console.log({ props });
 
   const mapContainer = React.createRef<HTMLDivElement>();
   // eslint-disable-next-line
@@ -45,7 +45,7 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
         ? [format.readFeature(Array.isArray(value) ? value[0] : value)]
         : [];
       // eslint-disable-next-line
-      console.log(features);
+      // console.log(features);
       const featuresSource = new VectorSource({ features, wrapX: false });
       const featuresLayer = new VectorLayer({ source: featuresSource });
 
@@ -70,7 +70,7 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
   });
 
   // eslint-disable-next-line
-  console.log(mapContainer);
+  // console.log(mapContainer);
 
   return (
     <div

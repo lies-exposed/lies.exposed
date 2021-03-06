@@ -31,7 +31,7 @@ export class ProjectEntity {
   @Column({ type: "varchar" })
   body: string;
 
-  @OneToMany(() => ProjectImageEntity, a => a.project)
+  @OneToMany(() => ProjectImageEntity, a => a.project, { cascade: true })
   images: ProjectImageEntity[];
 
   @ManyToMany(() => AreaEntity, { cascade: true })

@@ -17,8 +17,7 @@ import { sequenceS } from "fp-ts/lib/Apply";
 describe("List Project Images", () => {
   let ctx: RouteContext,
     req: supertest.SuperTest<supertest.Test>,
-    authorizationToken: string,
-    project: ProjectEntity;
+    authorizationToken: string;
 
   beforeAll(async () => {
     await pipe(
@@ -53,7 +52,6 @@ describe("List Project Images", () => {
             )
           ),
           TE.map(({ projects }) => {
-            project = projects[0];
             return makeApp(ctx);
           })
         );
@@ -70,11 +68,11 @@ describe("List Project Images", () => {
 
   test("Should return a 200", async () => {
     const response = await req
-      .get(`/v1/projects/${project.id}/images`)
+      .get(`/v1/project/images`)
       .set("Authorization", authorizationToken);
 
     expect(response.status).toEqual(200);
-    console.log(response.body);
+
     expect(
       t.array(http.ProjectImage.ProjectImage).decode(response.body.data)._tag
     ).toEqual("Right");

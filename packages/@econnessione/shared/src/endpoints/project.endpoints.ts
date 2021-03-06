@@ -24,7 +24,8 @@ const CreateBody = t.strict({
   images: t.array(
     t.strict({
       kind: http.ProjectImage.Kind,
-      image: t.string,
+      description: t.string,
+      location: t.string,
     })
   ),
   areas: t.array(CreateAreaBody),
@@ -60,8 +61,9 @@ const EditBody = nonEmptyRecordFromType({
   images: optionFromNullable(
     t.array(
       t.strict({
-        location: t.string,
+        kind: http.ProjectImage.Kind,
         description: t.string,
+        location: t.string,
       })
     )
   ),

@@ -9,15 +9,17 @@ interface Slide {
 
 interface SliderProps extends SlickSlider.Settings {
   slides: Slide[];
-  size: "contain" | "cover";
 }
 
-export const Slider: React.FC<SliderProps> = ({ slides, size, ...props }) => {
+export const Slider: React.FC<SliderProps> = ({ slides, ...props }) => {
   return (
-    <SlickSlider.default {...{ ...props, slidesToShow: 1 }}>
+    <SlickSlider.default {...{ ...props }}>
       {slides.map((s) => (
         <div key={s.imageURL}>
-          <img src={s.imageURL} style={{ width: "100%" }} />
+          <img
+            src={s.imageURL}
+            style={{ width: "100%", boxSizing: "content-box", height: "auto" }}
+          />
         </div>
       ))}
     </SlickSlider.default>

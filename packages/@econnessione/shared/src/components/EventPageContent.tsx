@@ -42,7 +42,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 arrows={true}
                 adaptiveHeight={true}
                 dots={true}
-                size="contain"
               />
             )),
             O.toNullable

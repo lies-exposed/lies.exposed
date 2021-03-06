@@ -64,7 +64,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
         </div>
       </Grid>
 
-      <Grid container direction="row">
+      <Grid container direction="column">
         <Grid item style={{ height: 400 }}>
           {pipe(
             O.fromNullable(frontmatter.images),
@@ -78,7 +78,6 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
                 }))}
                 arrows={true}
                 dots={true}
-                size="contain"
               />
             )),
             O.getOrElse(() => <div>No images!</div>)

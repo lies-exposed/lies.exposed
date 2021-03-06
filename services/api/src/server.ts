@@ -34,6 +34,7 @@ import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
+import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { UserEntity } from "@routes/users/User.entity";
 import * as AWS from "aws-sdk";
 import cors from "cors";
@@ -146,12 +147,16 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   const app = express();
 
   app.use(cors(corsOptions) as any);
+  // uploads
+  MakeUploadFileRoute(app, ctx);
+
   app.use(express.json({ limit: 1024 * 1000 }));
   app.use(
     jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
       path: [
         { url: "/v1/users/login", method: "POST" },
         { url: /\/v1\/*/, method: "GET" },
+        { url: /\/v1\/uploads*\//, method: "PUT" },
         { url: /\/media\/*/ },
       ],
     })
@@ -192,9 +197,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // graphs data
   MakeGraphsRoute(router, ctx);
 
-  // uploads
   MakeUploadsRoutes(router, ctx);
-
   // errors
 
   app.use("/v1", router);

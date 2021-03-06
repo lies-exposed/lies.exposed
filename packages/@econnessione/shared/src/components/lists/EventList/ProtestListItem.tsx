@@ -37,7 +37,6 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
                   arrows={true}
                   adaptiveHeight={true}
                   dots={true}
-                  size="contain"
                 />
               </Grid>
             )),

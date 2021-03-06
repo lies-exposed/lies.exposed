@@ -17,11 +17,6 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
         body.areas,
         O.map((areas) =>
           areas.map((a) => {
-            // const area = new AreaEntity();
-            // area.id = uuid();
-            // area.geometry = a.polygon;
-            // area.color = a.color;
-            // area.label = a.label;
             return {
               id: uuid(),
               ...a,
@@ -32,10 +27,15 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
       images: pipe(
         body.images,
         O.map((images) =>
-          images.map((i) => {
+          images.map(({ kind, location, description }) => {
             return {
               id: uuid(),
-              ...i,
+              kind,
+              image: {
+                id: uuid(),
+                location,
+                description,
+              },
             };
           })
         )

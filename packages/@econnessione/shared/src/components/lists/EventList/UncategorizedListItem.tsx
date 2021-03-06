@@ -167,7 +167,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     arrows={true}
                     adaptiveHeight={true}
                     dots={true}
-                    size="contain"
                   />
                 </Grid>
               )),
