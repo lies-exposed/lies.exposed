@@ -47,7 +47,7 @@ const uploadFile = (client: http.APIRESTClient) => (
   return pipe(
     getSignedUrl(client)(resource, resourceId),
     TE.chain((url) => {
-      const [_signedUrl, search] = url.data.split("?");
+      const [location, search] = url.data.split("?");
 
       const headers = qs.parse(search);
 
@@ -57,13 +57,14 @@ const uploadFile = (client: http.APIRESTClient) => (
             axios.put(url.data, f, {
               headers: {
                 ...headers,
-                // "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Origin": "*",
                 "x-amz-acl": "public-read",
+                'Access-Control-Max-Age': 600
               },
             }),
           E.toError
         ),
-        TE.map((json) => json.data.data.Location)
+        TE.map(() => location)
       );
     })
   );
