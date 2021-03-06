@@ -12,9 +12,16 @@ export const toProjectIO = (
       ...project,
       areas: project.areas.map((a) => ({
         ...a,
-        geometry: JSON.parse(a.geometry as any),
+        geometry: a.geometry,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),
+      })),
+      images: project.images.map((i) => ({
+        ...i,
+        ...i.image,
+        projectId: project.id,
+        createdAt: i.createdAt.toISOString(),
+        updatedAt: i.updatedAt.toISOString(),
       })),
       startDate: project.startDate.toISOString(),
       endDate: project.endDate ? project.endDate.toISOString() : undefined,

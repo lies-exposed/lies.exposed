@@ -1,4 +1,4 @@
-import uuid from "@utils/uuid";
+import { uuid } from "@utils/uuid";
 // import {
 //   StatefulTreeView,
 //   TreeLabel,
@@ -64,10 +64,7 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
   );
 };
 
-const traverseItem = (
-  items: Item[],
-  depth: number
-): any[] => {
+const traverseItem = (items: Item[], depth: number): any[] => {
   return items.map((i) => ({
     id: i.url ?? uuid(),
     info: { depth },

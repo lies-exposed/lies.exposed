@@ -10,6 +10,7 @@ import GroupTemplate from "@templates/GroupTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import Helmet from "react-helmet";
 import IndexPage from "./pages";
 import BlogPage from "./pages/BlogPage";
 import { DocsPage } from "./pages/DocsPage";
@@ -36,38 +37,53 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   );
 };
 
-
 export const App: React.FC = () => {
   return (
     <div>
+      <Helmet
+        link={[
+          {
+            rel: "stylesheet",
+            type: "text/css",
+            href:
+              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
+          },
+          {
+            rel: "stylesheet",
+            type: "text/css",
+            href:
+              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
+          },
+        ]}
+      />
       <CssBaseline />
       <ThemeProvider theme={theme}>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Header />
-        <Grid alignItems="center" direction="column">
-          <Grid item>
-            <Router>
-              <EventTemplate path="/events/:eventId" />
-              <EventsPage path="/events" />
-              <DocsPage path="/docs" />
-              <ProjectTemplate path="/projects/:projectId" />
-              <ProjectsPage path="/projects" />
-              <ProjectPage path="/project" />
-              <TopicsPage path="/topics" />
-              <ArticleTemplate path="/blog/:articlePath" />
-              <BlogPage path="/blog" />
-              <AreasPage path="/areas" />
-              <GroupTemplate path="/groups/:groupId" />
-              <GroupsPage path="/groups" />
-              <ActorTemplate path="/actors/:actorId" />
-              <ActorsPage path="/actors" />
-              <TheCrisisPage path="/the-crisis" />
-              <IndexPage default={true} />
-              {/* <NotFoundPage default={true} /> */}
-            </Router>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Header />
+          <Grid>
+            <Grid item>
+              <Router>
+                <EventTemplate path="/events/:eventId" />
+                <EventsPage path="/events" />
+                <DocsPage path="/docs" />
+                <ProjectTemplate path="/projects/:projectId" />
+                <ProjectsPage path="/projects" />
+                <ProjectPage path="/project" />
+                <TopicsPage path="/topics" />
+                <ArticleTemplate path="/blog/:articlePath" />
+                <BlogPage path="/blog" />
+                <AreasPage path="/areas" />
+                <GroupTemplate path="/groups/:groupId" />
+                <GroupsPage path="/groups" />
+                <ActorTemplate path="/actors/:actorId" />
+                <ActorsPage path="/actors" />
+                <TheCrisisPage path="/the-crisis" />
+                <IndexPage default={true} />
+                {/* <NotFoundPage default={true} /> */}
+              </Router>
+            </Grid>
+            <Footer />
           </Grid>
-          <Footer />
-        </Grid>
         </ErrorBoundary>
       </ThemeProvider>
     </div>

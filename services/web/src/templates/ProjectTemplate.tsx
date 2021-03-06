@@ -4,7 +4,7 @@ import { MainContent } from "@econnessione/shared/components/MainContent";
 import { ProjectPageContent } from "@econnessione/shared/components/ProjectPageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
-import { project } from "@providers/DataProvider";
+import { project } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

@@ -8,32 +8,19 @@ interface Slide {
 }
 
 interface SliderProps extends SlickSlider.Settings {
-  height: number;
   slides: Slide[];
-  size: "contain" | "cover";
 }
 
-export const Slider: React.FC<SliderProps> = ({
-  slides,
-  height,
-  size,
-  ...props
-}) => {
-  const heightAsPX = `${height}px`;
+export const Slider: React.FC<SliderProps> = ({ slides, ...props }) => {
   return (
-    <SlickSlider.default {...props}>
+    <SlickSlider.default {...{ ...props }}>
       {slides.map((s) => (
-        <div
-          key={s.imageURL}
-          style={{
-            position: "relative",
-            height: heightAsPX,
-            backgroundImage: `url(${s.imageURL})`,
-            backgroundPosition: "center",
-            backgroundSize: size,
-            backgroundRepeat: "no-repeat",
-          }}
-        />
+        <div key={s.imageURL}>
+          <img
+            src={s.imageURL}
+            style={{ width: "100%", boxSizing: "content-box", height: "auto" }}
+          />
+        </div>
       ))}
     </SlickSlider.default>
   );

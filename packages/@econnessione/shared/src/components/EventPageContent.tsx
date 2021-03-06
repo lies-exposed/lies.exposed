@@ -27,14 +27,13 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           <EditButton resourceName="events" resource={event} />
         </div>
         <h1>{event.title}</h1>
-        <div>
+        <div style={{ height: 600 }}>
           {pipe(
             event.images,
             O.fromPredicate((items) => items.length > 0),
             O.map((images) => (
               <Slider
                 key="home-slider"
-                height={600}
                 slides={images.map((i) => ({
                   authorName: "",
                   info: i.description,
@@ -43,7 +42,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 arrows={true}
                 adaptiveHeight={true}
                 dots={true}
-                size="contain"
               />
             )),
             O.toNullable

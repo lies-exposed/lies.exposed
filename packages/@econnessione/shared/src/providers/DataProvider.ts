@@ -1,6 +1,6 @@
 import { APIRESTClient } from "@econnessione/core/http/APIRESTClient";
 import * as io from "@io/index";
-import { available, queryStrict } from "avenger";
+import { available, queryStrict, queryShallow } from "avenger";
 import { CachedQuery } from "avenger/lib/Query";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -47,7 +47,7 @@ const toError = (e: unknown): APIError => {
 };
 
 export const dataProvider = APIRESTClient({
-  url: process.env.REACT_APP_API_URL ,
+  url: process.env.REACT_APP_API_URL,
 });
 
 const Resources = {
@@ -58,6 +58,7 @@ const Resources = {
   groups: io.http.Group.Group,
   topics: io.http.Topic.TopicMD,
   projects: io.http.Project.Project,
+  "project/images": io.http.ProjectImage.ProjectImage,
   events: io.http.Events.Uncategorized.Uncategorized,
 };
 
@@ -95,7 +96,7 @@ export type GetOneQuery = <K extends keyof typeof Resources>(
 export const GetOneQuery: GetOneQuery = <K extends keyof typeof Resources>(
   r: K
 ) =>
-  queryStrict<GetOneParams, APIError, t.TypeOf<typeof Resources[K]>>(
+  queryShallow<GetOneParams, APIError, t.TypeOf<typeof Resources[K]>>(
     (params: GetOneParams) =>
       pipe(
         liftFetch(
@@ -118,7 +119,7 @@ export type GetListQuery = <K extends keyof typeof Resources>(
 export const GetListQuery: GetListQuery = <K extends keyof typeof Resources>(
   r: K
 ) =>
-  queryStrict(
+  queryShallow(
     (params: GetListParams) =>
       liftFetch(
         () => dataProvider.getList<t.TypeOf<typeof Resources[K]>>(r, params),
@@ -155,16 +156,17 @@ export const articlesList = GetListQuery("articles");
 export const groupsList = GetListQuery("groups");
 export const topicsList = GetListQuery("topics");
 export const projectList = GetListQuery("projects");
+export const projectImageList = GetListQuery("project/images");
 export const eventsList = GetListQuery("events");
 export const areasList = GetListQuery("areas");
 
-export const jsonData = queryStrict(
+export const jsonData = queryShallow(
   ({ id }: { id: string }) =>
     liftFetch(() => dataProvider.getOne("graphs", { id }), t.any),
   available
 );
 
-export const jsonLocalData = queryStrict(
+export const jsonLocalData = queryShallow(
   ({ path }: { path: string }) =>
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     TE.right<APIError, any>(require(`${path}.json`)),
@@ -178,7 +180,7 @@ export const actor = GetOneQuery("actors");
 export const article = GetOneQuery("articles");
 export const event = GetOneQuery("events");
 
-export const articleByPath = queryStrict<
+export const articleByPath = queryShallow<
   { path: string },
   APIError,
   io.http.Article.Article

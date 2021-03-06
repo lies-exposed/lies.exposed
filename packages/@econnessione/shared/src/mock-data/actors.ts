@@ -1,6 +1,6 @@
 import { Actor } from "@io/http";
 import { generateRandomColor } from "@utils/colors";
-import uuid from "@utils/uuid";
+import { uuid } from "@utils/uuid";
 import { avatars } from "./avatars";
 
 const today = new Date();

@@ -5,7 +5,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider } from "react-admin";
 import { editArea } from "./AreaAPI";
-import { uploadImages } from "./MediaAPI";
+import { convertFileToBase64, uploadImages } from "./MediaAPI";
 import { editProject } from "./ProjectAPI";
 
 const publicDataProvider = http.APIRESTClient({
@@ -20,14 +20,6 @@ const dataProvider = http.APIRESTClient({
   },
 });
 
-const convertFileToBase64 = (file: any): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-
-    reader.readAsDataURL(file.rawFile);
-  });
 
 export const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
@@ -59,7 +51,8 @@ export const apiProvider: http.APIRESTClient = {
     if (resource === "actors" || resource === "groups") {
       // eslint-disable-next-line no-console
       const { avatar, ...data } = params.data;
-      return convertFileToBase64(avatar).then((base64) => {
+      return convertFileToBase64(avatar)().then((result) => {
+        const base64 = (result as E.Right<string>);
         const finalData = {
           ...data,
           avatar: {
@@ -95,11 +88,12 @@ export const apiProvider: http.APIRESTClient = {
         areas,
         ...data
       } = params.data;
+      
       return pipe(
         uploadImages(dataProvider)(
           newImages
             .filter((i: any) => i !== undefined)
-            .map((i: { location: { rawFile: File } }) => i.location),
+            .map((i: { location: { rawFile: File } }) => i.location.rawFile),
           resource,
           params.id.toString()
         ),
@@ -134,7 +128,8 @@ export const apiProvider: http.APIRESTClient = {
     if (resource === "actors" || resource === "groups") {
       // eslint-disable-next-line no-console
       if (typeof params.data.avatar === "object") {
-        return convertFileToBase64(params.data.avatar).then((base64) => {
+        return convertFileToBase64(params.data.avatar)().then((result) => {
+          const base64 = (result as E.Right<string>);
           const finalData = {
             ...params.data,
             avatar: {

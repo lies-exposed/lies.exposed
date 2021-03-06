@@ -4,7 +4,7 @@ import { GroupPageContent } from "@econnessione/shared/components/GroupPageConte
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
-import { group } from "@providers/DataProvider";
+import { group } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

@@ -1,6 +1,6 @@
-import * as endpoints  from "@econnessione/shared/endpoints";
+import * as endpoints from "@econnessione/shared/endpoints";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import * as passwordUtils from "@utils/password.utils";
-import { uuid } from "@utils/uuid.utils";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";

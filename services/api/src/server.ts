@@ -14,6 +14,7 @@ import { ImageEntity } from "@entities/Image.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
+import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -22,6 +23,7 @@ import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
 import { GetFSClient } from "@providers/space/FSClient";
 import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
+import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
@@ -32,6 +34,7 @@ import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
+import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { UserEntity } from "@routes/users/User.entity";
 import * as AWS from "aws-sdk";
 import cors from "cors";
@@ -91,13 +94,14 @@ export const makeContext = (
             GroupMemberEntity,
             ArticleEntity,
             ProjectEntity,
+            ProjectImageEntity,
             AreaEntity,
             EventEntity,
             ImageEntity,
             LinkEntity,
             UserEntity,
           ],
-          synchronize: true,
+          synchronize: env.NODE_ENV === "test",
           ssl: ssl,
         }),
         s3:
@@ -143,12 +147,16 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   const app = express();
 
   app.use(cors(corsOptions) as any);
+  // uploads
+  MakeUploadFileRoute(app, ctx);
+
   app.use(express.json({ limit: 1024 * 1000 }));
   app.use(
     jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
       path: [
         { url: "/v1/users/login", method: "POST" },
         { url: /\/v1\/*/, method: "GET" },
+        { url: /\/v1\/uploads*\//, method: "PUT" },
         { url: /\/media\/*/ },
       ],
     })
@@ -177,6 +185,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // projects
   MakeProjectRoutes(router, ctx);
 
+  // project images
+  MakeProjectImageRoutes(router, ctx);
+
   // articles
   MakeArticlesRoutes(router, ctx);
 
@@ -186,9 +197,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // graphs data
   MakeGraphsRoute(router, ctx);
 
-  // uploads
   MakeUploadsRoutes(router, ctx);
-
   // errors
 
   app.use("/v1", router);

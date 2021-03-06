@@ -1,6 +1,6 @@
 import { Group } from "@io/http";
 import { generateRandomColor } from "@utils/colors";
-import uuid from "@utils/uuid";
+import { uuid } from "@utils/uuid";
 import { subYears } from "date-fns";
 import { badActor, goodActor } from "./actors";
 import { avatars } from "./avatars";
@@ -18,7 +18,7 @@ export const firstSubGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: now,
   updatedAt: now,
-  body: ""
+  body: "",
 };
 
 export const goodGroup: Group.Group = {
@@ -32,7 +32,7 @@ export const goodGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: now,
   updatedAt: now,
-  body: ""
+  body: "",
 };
 
 export const badGroup: Group.Group = {
@@ -46,7 +46,7 @@ export const badGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: subYears(now, 2),
   updatedAt: now,
-  body: ""
+  body: "",
 };
 
 export const secondBadGroup: Group.Group = {
@@ -60,11 +60,7 @@ export const secondBadGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: now,
   updatedAt: now,
-  body: ""
+  body: "",
 };
 
-export const groups: Group.Group[] = [
-  goodGroup,
-  badGroup,
-  secondBadGroup,
-];
+export const groups: Group.Group[] = [goodGroup, badGroup, secondBadGroup];

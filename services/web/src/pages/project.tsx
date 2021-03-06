@@ -4,7 +4,7 @@ import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithS
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { TableOfContents } from "@econnessione/shared/components/TableOfContents";
-import { pageContentByPath } from "@providers/DataProvider";
+import { pageContentByPath } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

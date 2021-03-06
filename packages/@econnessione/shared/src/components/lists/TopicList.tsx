@@ -3,7 +3,7 @@ import { Topic } from "@io/http";
 import { Chip } from "@material-ui/core";
 import * as React from "react";
 
-export interface TopicListTopic extends Topic.TopicFrontmatter {
+export interface TopicListTopic extends Omit<Topic.TopicFrontmatter, 'color'> {
   selected: boolean;
   color: string;
 }

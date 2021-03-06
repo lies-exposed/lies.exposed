@@ -1,10 +1,9 @@
 import * as t from "io-ts";
 
-export const Color = new t.Type(
-  "ColorType",
-  t.string.is,
-  t.string.validate,
-  t.string.encode
+export const Color = t.brand(
+  t.string,
+  (s): s is t.Branded<string, { readonly ColorType: symbol }> => s.length === 6,
+  "ColorType"
 );
 
 export type Color = t.TypeOf<typeof Color>;

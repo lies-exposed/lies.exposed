@@ -1,3 +1,4 @@
+import { Kind } from "@econnessione/shared/io/http/ProjectImage";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -19,6 +20,8 @@ import {
   ListProps,
   ReferenceArrayField,
   required,
+  SelectField,
+  SelectInput,
   SimpleForm,
   SimpleFormIterator,
   SingleFieldList,
@@ -80,6 +83,14 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="images">
         <ArrayInput source="newImages">
           <SimpleFormIterator>
+            <SelectInput
+              source="kind"
+              choices={Kind.types.map((t) => ({
+                id: t.value,
+                name: t.value,
+              }))}
+            />
+            <TextInput source="description" />
             <ImageInput source="location">
               <ImageField src="src" />
             </ImageInput>
@@ -88,6 +99,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <ArrayField source="images">
           <Datagrid rowClick="edit">
             <TextField source="id" />
+            <TextField source="kind" />
             <ImageField source="location" fullWidth={false} />
             <TextField source="description" />
           </Datagrid>

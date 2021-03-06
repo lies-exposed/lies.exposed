@@ -3,6 +3,7 @@ import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
+import { articlesList, pageContentByPath } from "@econnessione/shared/providers/DataProvider";
 import {
   Button,
   Card,
@@ -13,7 +14,6 @@ import {
   CardMedia,
   Grid,
 } from "@material-ui/core";
-import { articlesList, pageContentByPath } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import { formatDate } from "@utils/date";
 import * as QR from "avenger/lib/QueryResult";

@@ -6,10 +6,10 @@ import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { TableOfContents } from "@econnessione/shared/components/TableOfContents";
 import ProjectList from "@econnessione/shared/components/lists/ProjectList";
+import { pageContentByPath, projectList } from "@econnessione/shared/providers/DataProvider";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { pageContentByPath, projectList } from "@providers/DataProvider";
-import { RouteComponentProps } from "@reach/router";
+import { navigate, RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
@@ -65,7 +65,9 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                 <ProjectList
                   projects={projects.map((p) => ({ ...p, selected: false }))}
                   avatarScale="scale1600"
-                  onProjectClick={() => {}}
+                  onProjectClick={async(p) => {
+                    await navigate(`/projects/${p.id}`)
+                  }}
                 />
               </MainContent>
             </ContentWithSidebar>

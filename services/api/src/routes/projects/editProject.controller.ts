@@ -1,7 +1,7 @@
 import * as endpoints from "@econnessione/shared/endpoints";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { ProjectEntity } from "@entities/Project.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
-import { uuid } from "@utils/uuid.utils";
 import { Router } from "express";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -17,11 +17,6 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
         body.areas,
         O.map((areas) =>
           areas.map((a) => {
-            // const area = new AreaEntity();
-            // area.id = uuid();
-            // area.geometry = a.polygon;
-            // area.color = a.color;
-            // area.label = a.label;
             return {
               id: uuid(),
               ...a,
@@ -32,10 +27,15 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
       images: pipe(
         body.images,
         O.map((images) =>
-          images.map((i) => {
+          images.map(({ kind, location, description }) => {
             return {
               id: uuid(),
-              ...i,
+              kind,
+              image: {
+                id: uuid(),
+                location,
+                description,
+              },
             };
           })
         )

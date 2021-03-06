@@ -7,5 +7,6 @@ export * as Group from "./group.endpoints";
 export * as GroupMember from "./GroupMember.endpoints";
 export * as Page from "./page.endpoints";
 export * as Project from "./project.endpoints";
+export * as ProjectImage from './ProjectImage.endpoints';
 export * as Uploads from "./upload.endpoints";
 export * as User from './User.endpoints'

@@ -1,6 +1,6 @@
 import { Project } from "@io/http";
 import { generateRandomColor } from "@utils/colors";
-import uuid from "@utils/uuid";
+import { uuid } from "@utils/uuid";
 import { addYears, subDays, subYears } from "date-fns";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import { firstArea } from "./areas";
@@ -15,8 +15,10 @@ export const firstGoodProject: Project.Project = {
   areas: [firstArea],
   images: [
     {
-      description: "first image",
-      location: firstImage,
+      ...firstImage,
+      id: uuid(),
+      kind: "PRACTICE",
+      projectId: "uuid",
     },
   ],
   startDate: subYears(today, 3),
@@ -32,8 +34,9 @@ export const firstBadProject: Project.Project = {
   areas: NEA.of(firstArea),
   images: [
     {
-      description: "first image",
-      location: firstImage,
+      ...firstImage,
+      kind: "PRACTICE",
+      projectId: "",
     },
   ],
   startDate: subYears(today, 3),
