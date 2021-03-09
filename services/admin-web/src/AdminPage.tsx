@@ -4,11 +4,13 @@ import {
   ProjectList,
 } from "@components/AdminProjects";
 import { UserCreate, UserEdit, UserList } from "@components/AdminUsers";
-import PageIcon from "@material-ui/icons/Archive";
-import ProjectIcon from "@material-ui/icons/Build";
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import BusinessIcon from '@material-ui/icons/Business';
 import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import MapIcon from '@material-ui/icons/Map'
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import RecentActorsIcon from '@material-ui/icons/RecentActors';
 import * as React from "react";
 import { Admin, defaultTheme, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
@@ -38,7 +40,7 @@ const AdminPage: React.FC = () => {
         edit={PageEdit}
         list={PageList}
         create={PageCreate}
-        icon={PageIcon}
+        icon={PostAddIcon}
       />
 
       <Resource
@@ -46,6 +48,7 @@ const AdminPage: React.FC = () => {
         list={ArticleList}
         edit={ArticleEdit}
         create={ArticleCreate}
+        icon={AssignmentIcon}
       />
 
       <Resource
@@ -53,7 +56,7 @@ const AdminPage: React.FC = () => {
         list={ActorList}
         edit={ActorEdit}
         create={ActorCreate}
-        icon={VerifiedUserIcon}
+        icon={RecentActorsIcon}
       />
       <Resource
         name="groups"
@@ -73,6 +76,7 @@ const AdminPage: React.FC = () => {
         list={AreaList}
         create={AreaCreate}
         edit={AreaEdit}
+        icon={MapIcon}
       />
 
       <Resource
@@ -80,7 +84,7 @@ const AdminPage: React.FC = () => {
         list={ProjectList}
         edit={ProjectEdit}
         create={ProjectCreate}
-        icon={ProjectIcon}
+        icon={BusinessIcon}
       />
       <Resource
         name="events"
@@ -95,7 +99,7 @@ const AdminPage: React.FC = () => {
         list={UserList}
         edit={UserEdit}
         create={UserCreate}
-        icon={VerifiedUserIcon}
+        icon={RecentActorsIcon}
       />
     </Admin>
   );

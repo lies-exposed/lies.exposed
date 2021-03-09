@@ -115,7 +115,9 @@ export const makeContext = (
               )
             : TE.right(
                 S3Client.GetS3Client({
-                  endpoint: new AWS.Endpoint("fra1.digitaloceanspaces.com"),
+                  endpoint: new AWS.Endpoint(
+                    `${env.SPACE_REGION}.digitaloceanspaces.com`
+                  ),
                   region: env.SPACE_REGION,
                   credentials: {
                     accessKeyId: env.SPACE_ACCESS_KEY_ID,

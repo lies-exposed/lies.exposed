@@ -1,73 +1,55 @@
 import { fc } from "@econnessione/core/tests";
-import { getImageArb, getProjectArb } from "@econnessione/shared/tests";
-import supertest from "supertest";
-import { makeApp, makeContext } from "../../../server";
-import { pipe } from "fp-ts/lib/pipeable";
-import * as TE from "fp-ts/lib/TaskEither";
-import { RouteContext } from "@routes/route.types";
-import jwt from "jsonwebtoken";
 import { http } from "@econnessione/shared/io";
-import * as t from "io-ts";
-import { ProjectEntity } from "@entities/Project.entity";
+import { ImageArb, ProjectArb } from "@econnessione/shared/tests";
 import { ImageEntity } from "@entities/Image.entity";
+import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { sequenceS } from "fp-ts/lib/Apply";
-// import { uuid } from "@econnessione/shared/utils/uuid";
+import { pipe } from "fp-ts/lib/pipeable";
+import * as TE from "fp-ts/lib/TaskEither";
+import * as t from "io-ts";
+import jwt from "jsonwebtoken";
+import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("List Project Images", () => {
-  let ctx: RouteContext,
-    req: supertest.SuperTest<supertest.Test>,
-    authorizationToken: string;
+  let appTest: AppTest, authorizationToken: string;
 
   beforeAll(async () => {
+    appTest = await initAppTest();
+    const images = fc.sample(ImageArb, 5);
+    const [projectData] = fc.sample(ProjectArb, 1);
     await pipe(
-      makeContext(process.env),
-      TE.chain((ctx) => {
-        ctx = ctx;
-        authorizationToken = `Bearer ${jwt.sign(
-          { id: "1" },
-          ctx.env.JWT_SECRET
-        )}`;
-
-        const images = fc.sample(getImageArb(), 5);
-        const [projectData] = fc.sample(getProjectArb(), 1);
-
-        return pipe(
-          sequenceS(TE.taskEither)({
-            images: ctx.db.save(ImageEntity, images),
-            projects: ctx.db.save(ProjectEntity, [
-              {
-                ...projectData,
-              },
-            ]),
-          }),
-          TE.chainFirst(({ images, projects }) =>
-            ctx.db.save(
-              ProjectImageEntity,
-              images.map((i) => ({
-                image: i,
-                kind: http.ProjectImage.THEORY_KIND.value,
-                project: projects[0],
-              }))
-            )
-          ),
-          TE.map(({ projects }) => {
-            return makeApp(ctx);
-          })
-        );
+      sequenceS(TE.taskEither)({
+        images: appTest.ctx.db.save(ImageEntity, images),
+        projects: appTest.ctx.db.save(ProjectEntity, [
+          {
+            ...projectData,
+          },
+        ]),
       }),
-      TE.map((app) => {
-        req = supertest(app);
-      })
+      TE.chainFirst(({ images, projects }) =>
+        appTest.ctx.db.save(
+          ProjectImageEntity,
+          images.map((i) => ({
+            image: i,
+            kind: http.ProjectImage.THEORY_KIND.value,
+            project: projects[0],
+          }))
+        )
+      )
     )();
+    authorizationToken = `Bearer ${jwt.sign(
+      { id: "1" },
+      appTest.ctx.env.JWT_SECRET
+    )}`;
   });
 
   afterAll(async () => {
-    await ctx.db.close()();
+    await appTest.ctx.db.close()();
   });
 
   test("Should return a 200", async () => {
-    const response = await req
+    const response = await appTest.req
       .get(`/v1/project/images`)
       .set("Authorization", authorizationToken);
 

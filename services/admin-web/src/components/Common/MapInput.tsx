@@ -31,18 +31,14 @@ type MapInputProps = InputProps & {
 };
 
 export const MapInput: React.FC<MapInputProps> = (props) => {
-  // eslint-disable-next-line
-  console.log({ props });
+
   const inputProps = useInput(props);
-  // eslint-disable-next-line
-  console.log("inputProps", inputProps);
+
   const {
     input: { value, onChange },
   } = inputProps;
+  
   const mapContainer = React.createRef<HTMLDivElement>();
-  // eslint-disable-next-line
-
-  // const oldValue = props.record[props.source]
   const mapClassName = `map-input-${props.record.id}`;
 
   React.useEffect(() => {

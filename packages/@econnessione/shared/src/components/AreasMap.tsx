@@ -4,6 +4,8 @@ import { navigate } from "@reach/router";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import { Polygon } from "ol/geom";
+import { getArea } from "ol/sphere";
 import * as React from "react";
 import { ErrorBox } from "./Common/ErrorBox";
 import { Loader } from "./Common/Loader";
@@ -28,6 +30,17 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
           },
         }}
         render={QR.fold(Loader, ErrorBox, ({ areas }) => {
+          const totalArea = areas.data.reduce((acc, a) => {
+            const polygon = new Polygon(a.geometry.coordinates);
+            const area = getArea(polygon, { projection: "EPSG:4326" });
+            return acc + area;
+          }, 0);
+
+          const totalAreaInKm = Math.round((totalArea / 1000000) * 100) / 100;
+
+          // eslint-disable-next-line
+          console.log({ totalArea, totalAreaInKm });
+
           return (
             <ParentSize style={{ minHeight: 600 }}>
               {({ width, height }) => {

@@ -1,3 +1,4 @@
+// import { EOL } from "os";
 import * as logger from "@econnessione/core/logger";
 import { ControllerError } from "@io/ControllerError";
 import * as O from "fp-ts/lib/Option";
@@ -21,6 +22,7 @@ import {
 import { AuroraDataApiPostgresConnectionOptions } from "typeorm/driver/aurora-data-api-pg/AuroraDataApiPostgresConnectionOptions";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
+// import { Direction, Flags, Format, TypeormUml } from "typeorm-uml";
 
 class DBError extends ControllerError {}
 
@@ -238,7 +240,21 @@ const MakeDatabaseClient: MakeDatabaseClient = ({
 
   return pipe(
     getConnection(cm, ctx),
-    TE.map((connection) => GetDatabaseClient({ connection, logger }))
+    TE.map((connection) => {
+      // const flags: Flags = {
+      //   direction: Direction.LR,
+      //   format: Format.SVG,
+      //   handwritten: false,
+      // };
+
+      // const typeormUml = new TypeormUml();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      // typeormUml
+      //   .build(connection, flags)
+      //   .then((url) => process.stdout.write(`Diagram URL: ${url} ${EOL}`));
+
+      return GetDatabaseClient({ connection, logger });
+    })
   );
 };
 

@@ -21,6 +21,9 @@ module.exports = {
       isolatesModules: true,
     },
   },
+  collectCoverageFrom: [
+    './src/**/*.ts'
+  ],
   globalSetup: "<rootDir>/test/globalSetup.ts",
   globalTeardown: "<rootDir>/test/globalTeardown.ts",
 };

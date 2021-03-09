@@ -22,11 +22,15 @@ export class ProjectImageEntity {
   })
   kind: http.ProjectImage.Kind;
 
-  @ManyToOne(() => ImageEntity, (a) => a.id, { eager: true, cascade: true })
+  @ManyToOne(() => ImageEntity, (a) => a.id, {
+    eager: true,
+    cascade: true,
+    nullable: false,
+  })
   @JoinColumn()
   image: ImageEntity;
 
-  @ManyToOne(() => ProjectEntity, (a) => a.id)
+  @ManyToOne(() => ProjectEntity, (a) => a.id, { nullable: false })
   @JoinColumn()
   project: ProjectEntity;
 
