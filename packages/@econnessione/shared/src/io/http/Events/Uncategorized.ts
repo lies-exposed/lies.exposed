@@ -25,6 +25,8 @@ export const CreateEventBody = t.strict(
   "CreateEventBody"
 );
 
+export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
+
 export const EditEventBody = nonEmptyRecordFromType({
   title: optionFromNullable(t.string),
   images: optionFromNullable(
@@ -57,6 +59,8 @@ export const EditEventBody = nonEmptyRecordFromType({
   endDate: optionFromNullable(DateFromISOString),
   body: optionFromNullable(t.string),
 });
+
+export type EditEventBody = t.TypeOf<typeof EditEventBody>;
 
 export const UNCATEGORIZED = t.literal("Uncategorized");
 export const UncategorizedFrontmatter = t.strict(

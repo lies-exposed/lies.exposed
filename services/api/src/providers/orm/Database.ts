@@ -104,11 +104,7 @@ export const toError = (l: logger.Logger) => (e: unknown): DBError => {
 const GetDatabaseClient: GetDatabaseClient = (ctx) => {
   return {
     findOne: (entity, options) => {
-      ctx.logger.debug.log(
-        `findOne %s with options %O`,
-        entity,
-        options
-      );
+      ctx.logger.debug.log(`findOne %s with options %O`, entity, options);
       return pipe(
         TE.tryCatch(
           () => ctx.connection.manager.findOne(entity, options),
@@ -129,11 +125,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
     },
     find: (entity, options) => {
-      ctx.logger.debug.log(
-        `find %s with options %O`,
-        entity,
-        options
-      );
+      ctx.logger.debug.log(`find %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
         toError(ctx.logger)
