@@ -11,6 +11,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
+import { toEventIO } from "./event.io";
 
 export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
@@ -56,6 +57,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
             },
           })
         ),
+        TE.chain((event) => TE.fromEither(toEventIO(event))),
         TE.map((event) => ({
           body: {
             data: event,

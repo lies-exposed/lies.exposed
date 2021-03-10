@@ -22,7 +22,7 @@ const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title }) => {
   const { site }: QueryResults = {
     site: {
       siteMetadata: {
-        title: "here",
+        title: "ECONNESSIONE",
         description: "dete",
         author: "nobody",
       },

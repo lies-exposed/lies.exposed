@@ -8,6 +8,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
+import { toProjectIO } from "./project.io";
 
 export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(endpoints.Project.Edit, ({ params: { id }, body }) => {
@@ -27,35 +28,39 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
       images: pipe(
         body.images,
         O.map((images) =>
-          images.map(({ kind, location, description }) => {
+          images.map(({ kind, ...image }) => {
             return {
               id: uuid(),
               kind,
               image: {
                 id: uuid(),
-                location,
-                description,
+                ...image,
               },
+              project: { id },
             };
           })
         )
       ),
     });
-    ctx.logger.debug.log("Project Data %O", projectData);
+
+    ctx.logger.debug.log("Project Data %O", JSON.stringify(projectData));
+
     return pipe(
-      ctx.db.save(ProjectEntity, [{ id, ...projectData }]),
+      ctx.db.findOneOrFail(ProjectEntity, {
+        where: { id },
+        relations: ["images", "areas"],
+      }),
+      TE.chain(() => ctx.db.save(ProjectEntity, [{ id, ...projectData }])),
       TE.chain(() =>
         ctx.db.findOneOrFail(ProjectEntity, {
           where: { id },
-          loadRelationIds: true,
+          relations: ["images", "areas"],
         })
       ),
-      TE.map(({ body, ...Group }) => ({
+      TE.chain((p) => TE.fromEither(toProjectIO(p))),
+      TE.map((project) => ({
         body: {
-          data: {
-            ...Group,
-            body,
-          },
+          data: project,
         },
         statusCode: 200,
       }))

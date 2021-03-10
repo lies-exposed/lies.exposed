@@ -1,6 +1,7 @@
 /* eslint-disable import/first */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias")(process.cwd());
+import "reflect-metadata";
 import * as fs from "fs";
 import * as path from "path";
 import * as logger from "@econnessione/core/logger";
@@ -44,9 +45,7 @@ import { sequenceS } from "fp-ts/lib/Apply";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import { PathReporter } from "io-ts/lib/PathReporter";
-import "reflect-metadata";
 import { MakeUserRoutes } from "./routes/users/User.routes";
 
 // var whitelist = ["http://localhost:8002"]
@@ -115,7 +114,9 @@ export const makeContext = (
               )
             : TE.right(
                 S3Client.GetS3Client({
-                  endpoint: new AWS.Endpoint("fra1.digitaloceanspaces.com"),
+                  endpoint: new AWS.Endpoint(
+                    `${env.SPACE_REGION}.digitaloceanspaces.com`
+                  ),
                   region: env.SPACE_REGION,
                   credentials: {
                     accessKeyId: env.SPACE_ACCESS_KEY_ID,

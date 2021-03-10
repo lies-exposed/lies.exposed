@@ -1,4 +1,4 @@
-FROM node:12-slim as build
+FROM node:14-slim as build
 
 WORKDIR /app
 
@@ -28,7 +28,7 @@ RUN yarn build
 # WORKDIR /app/services/web
 # RUN DISABLE_ESLINT_PLUGIN=true yarn build
 
-FROM node:12-slim
+FROM node:14-slim
 
 WORKDIR /app
 

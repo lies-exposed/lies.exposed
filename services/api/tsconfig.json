@@ -33,5 +33,7 @@
     }
   ],
   "include": ["./src"],
-  "exclude": []
+  "exclude": [
+    "**/__tests__/**"
+  ]
 }

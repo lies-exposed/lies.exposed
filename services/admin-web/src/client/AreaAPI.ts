@@ -4,7 +4,7 @@ import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { GetOneResult, UpdateParams, UpdateResult } from "react-admin";
+import { UpdateParams, UpdateResult } from "react-admin";
 
 export const editArea = (client: http.APIRESTClient) => (
   resource: string,

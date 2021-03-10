@@ -6,7 +6,7 @@ import {
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { AreaEntity } from "./Area.entity";
 import { ProjectImageEntity } from "./ProjectImage.entity";
@@ -19,7 +19,7 @@ export class ProjectEntity {
   @Column({ type: "varchar" })
   name: string;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", nullable: false })
   color: string;
 
   @Column({ type: "timestamptz", nullable: false })
@@ -28,10 +28,10 @@ export class ProjectEntity {
   @Column({ type: "timestamptz", nullable: true })
   endDate: Date | null;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", nullable: false })
   body: string;
 
-  @OneToMany(() => ProjectImageEntity, a => a.project, { cascade: true })
+  @OneToMany(() => ProjectImageEntity, (a) => a.project, { cascade: true })
   images: ProjectImageEntity[];
 
   @ManyToMany(() => AreaEntity, { cascade: true })

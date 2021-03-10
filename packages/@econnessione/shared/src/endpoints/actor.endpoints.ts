@@ -37,7 +37,7 @@ export const Create = Endpoint({
         fullName: t.string,
         color: t.string,
         body: t.string,
-        avatar: t.string,
+        avatar: t.union([t.undefined, t.string]),
       },
       "AddActorBody"
     ),
@@ -55,12 +55,7 @@ export const Edit = Endpoint({
       fullName: optionFromNullable(t.string),
       color: optionFromNullable(t.string),
       body: optionFromNullable(t.string),
-      avatar: optionFromNullable(
-        t.strict({
-          src: t.string,
-          path: t.string,
-        })
-      ),
+      avatar: optionFromNullable(t.string),
     }),
   },
   Output: SingleActorOutput,

@@ -20,11 +20,11 @@ export const editProject = (client: http.APIRESTClient) => (
     sequenceS(TE.taskEither)({
       newImageFiles: TE.right(imageFiles),
       uploadLocations: uploadImages(client)(
+        resource,
+        params.id.toString(),
         newImages.map(
           (i: { location: { rawFile: File } }) => i.location.rawFile
-        ),
-        resource,
-        params.id.toString()
+        )
       ),
     }),
     TE.chain(({ newImageFiles, uploadLocations }) => {
@@ -42,12 +42,10 @@ export const editProject = (client: http.APIRESTClient) => (
         ...params,
         data: {
           ...data,
-          areas: newAreas
-            .map((a: any) => ({
-              ...a,
-              geometry: JSON.parse(a.geometry),
-            }))
-            .concat(areas),
+          areas: newAreas.concat(areas).map((a: any) => ({
+            ...a,
+            geometry: JSON.parse(a.geometry),
+          })),
           images: imageData.concat(images),
         },
       };
