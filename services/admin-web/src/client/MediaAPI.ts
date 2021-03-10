@@ -59,7 +59,7 @@ const uploadFile = (client: http.APIRESTClient) => (
                 ...headers,
                 "Access-Control-Allow-Origin": "*",
                 "x-amz-acl": "public-read",
-                'Access-Control-Max-Age': 600
+                "Access-Control-Max-Age": 600,
               },
             }),
           E.toError
@@ -71,12 +71,12 @@ const uploadFile = (client: http.APIRESTClient) => (
 };
 
 export const uploadImages = (client: http.APIRESTClient) => (
-  locations: File[],
   resource: string,
-  resourceId: string
+  resourceId: string,
+  files: File[]
 ): TE.TaskEither<Error, string[]> => {
   return pipe(
-    locations.map((n: any) => uploadFile(client)(resource, resourceId, n)),
+    files.map((n: any) => uploadFile(client)(resource, resourceId, n)),
     A.sequence(TE.taskEitherSeq)
   );
 };

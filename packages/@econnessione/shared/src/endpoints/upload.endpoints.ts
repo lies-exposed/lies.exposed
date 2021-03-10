@@ -6,7 +6,11 @@ export const GetSignedURL = Endpoint({
   getPath: () => `/uploads/getSignedURL`,
   Input: {
     Body: t.strict({
-      resource: t.union([t.literal("events"), t.literal("projects")]),
+      resource: t.union([
+        t.literal("actors"),
+        t.literal("events"),
+        t.literal("projects"),
+      ]),
       resourceId: t.string,
       ContentType: t.string,
     }),

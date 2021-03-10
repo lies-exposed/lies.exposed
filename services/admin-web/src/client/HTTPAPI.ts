@@ -4,6 +4,7 @@ import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider } from "react-admin";
+import { createActor, editActor } from "./ActorAPI";
 import { editArea } from "./AreaAPI";
 import { convertFileToBase64, uploadImages } from "./MediaAPI";
 import { editProject } from "./ProjectAPI";
@@ -19,7 +20,6 @@ const dataProvider = http.APIRESTClient({
     return token;
   },
 });
-
 
 export const authProvider: AuthProvider = {
   login: async ({ username, password }) => {
@@ -48,11 +48,14 @@ export const authProvider: AuthProvider = {
 export const apiProvider: http.APIRESTClient = {
   ...dataProvider,
   create: (resource, params) => {
-    if (resource === "actors" || resource === "groups") {
+    if (resource === "actors") {
+      return createActor(dataProvider)(resource, params) as any;
+    }
+    if (resource === "groups") {
       // eslint-disable-next-line no-console
       const { avatar, ...data } = params.data;
       return convertFileToBase64(avatar)().then((result) => {
-        const base64 = (result as E.Right<string>);
+        const base64 = result as E.Right<string>;
         const finalData = {
           ...data,
           avatar: {
@@ -77,6 +80,10 @@ export const apiProvider: http.APIRESTClient = {
       return editProject(dataProvider)(resource, params);
     }
 
+    if (resource === "actors") {
+      return editActor(dataProvider)(resource, params);
+    }
+
     if (resource === "events") {
       // eslint-disable-next-line
       console.log(params.data);
@@ -88,14 +95,14 @@ export const apiProvider: http.APIRESTClient = {
         areas,
         ...data
       } = params.data;
-      
+
       return pipe(
         uploadImages(dataProvider)(
+          resource,
+          params.id.toString(),
           newImages
             .filter((i: any) => i !== undefined)
-            .map((i: { location: { rawFile: File } }) => i.location.rawFile),
-          resource,
-          params.id.toString()
+            .map((i: { location: { rawFile: File } }) => i.location.rawFile)
         ),
         TE.chain((result) => {
           // eslint-disable-next-line
@@ -129,7 +136,7 @@ export const apiProvider: http.APIRESTClient = {
       // eslint-disable-next-line no-console
       if (typeof params.data.avatar === "object") {
         return convertFileToBase64(params.data.avatar)().then((result) => {
-          const base64 = (result as E.Right<string>);
+          const base64 = result as E.Right<string>;
           const finalData = {
             ...params.data,
             avatar: {
