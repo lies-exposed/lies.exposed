@@ -1,5 +1,5 @@
+import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { pageContentByPath } from "@econnessione/shared/providers/DataProvider";
@@ -16,7 +16,7 @@ export default class IndexPage extends React.PureComponent<any> {
         queries={{ pageContentByPath }}
         params={{ pageContentByPath: { path: "index" } }}
         render={QR.fold(
-          Loader,
+          LazyFullSizeLoader,
           ErrorBox,
           ({ pageContentByPath: pageContent }) => {
             return (

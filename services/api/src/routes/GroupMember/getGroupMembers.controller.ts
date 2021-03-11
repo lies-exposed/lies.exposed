@@ -1,4 +1,4 @@
-import * as endpoints  from "@econnessione/shared/endpoints";
+import * as endpoints from "@econnessione/shared/endpoints";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -10,12 +10,15 @@ import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 import { toGroupMemberIO } from "./groupMember.io";
 
-export const MakeListGroupMemberRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeListGroupMemberRoute = (
+  r: Router,
+  ctx: RouteContext
+): void => {
   AddEndpoint(r)(endpoints.GroupMember.List, () => {
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(
-          ctx.db.find(GroupMemberEntity, { loadRelationIds: true }),
+          ctx.db.find(GroupMemberEntity, { relations: ["actor", "group"] }),
           TE.chainEitherK(A.traverse(E.either)(toGroupMemberIO))
         ),
         count: ctx.db.count(GroupMemberEntity),

@@ -84,6 +84,16 @@ export const apiProvider: http.APIRESTClient = {
       return editActor(dataProvider)(resource, params);
     }
 
+    if (resource === "groups-members") {
+      return dataProvider.update(resource, {
+        ...params,
+        data: {
+          ...params.data,
+          group: params.data.group.id,
+          actor: params.data.actor.id,
+        },
+      });
+    }
     if (resource === "events") {
       // eslint-disable-next-line
       console.log(params.data);
@@ -132,7 +142,7 @@ export const apiProvider: http.APIRESTClient = {
       )();
     }
 
-    if (resource === "actors" || resource === "groups") {
+    if (resource === "groups") {
       // eslint-disable-next-line no-console
       if (typeof params.data.avatar === "object") {
         return convertFileToBase64(params.data.avatar)().then((result) => {

@@ -8,13 +8,21 @@ import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 import { toGroupMemberIO } from "./groupMember.io";
 
-export const MakeEditGroupMemberRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeEditGroupMemberRoute = (
+  r: Router,
+  ctx: RouteContext
+): void => {
   AddEndpoint(r)(endpoints.GroupMember.Edit, ({ params: { id }, body }) => {
-    ctx.logger.debug.log('Edit group member %s with %O', id, body)
-    const updateData = foldOptionals(body as any)
+    ctx.logger.debug.log("Edit group member %s with %O", id, body);
+    const updateData = foldOptionals(body as any);
     return pipe(
       ctx.db.update(GroupMemberEntity, id, updateData),
-      TE.chain(() => ctx.db.findOneOrFail(GroupMemberEntity, { where: { id }, loadRelationIds: true })),
+      TE.chain(() =>
+        ctx.db.findOneOrFail(GroupMemberEntity, {
+          where: { id },
+          relations: ["actor", "group"],
+        })
+      ),
       TE.chainEitherK(toGroupMemberIO),
       TE.map((data) => ({
         body: {

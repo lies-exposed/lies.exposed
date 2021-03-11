@@ -37,6 +37,11 @@ export const EventList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="location.coordinates" />
+      <ReferenceArrayField source="groupMembers" reference="groups-members">
+        <SingleFieldList>
+          <ChipField source="fullName" />
+        </SingleFieldList>
+      </ReferenceArrayField>
       <ReferenceArrayField source="actors" reference="actors">
         <SingleFieldList>
           <ChipField source="fullName" />
@@ -81,6 +86,20 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="fullName" />
+            <ImageField source="avatar" fullWidth={false} />
+          </Datagrid>
+        </ReferenceArrayField>
+      </FormTab>
+      <FormTab label="Group Members">
+        <ReferenceArrayInput source="groups-members" reference="groups-members">
+          <SelectArrayInput
+            optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
+          />
+        </ReferenceArrayInput>
+        <ReferenceArrayField source="groups-members" reference="groups-members">
+          <Datagrid rowClick="edit">
+            <TextField source="id" />
+            <TextField source="name" />
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
         </ReferenceArrayField>

@@ -7,7 +7,6 @@ const today = new Date();
 
 export const goodActor: Actor.ActorFrontmatter = {
   id: uuid(),
-  type: Actor.ACTOR_FRONTMATTER.value,
   fullName: "Good Actor",
   username: "good-actor",
   avatar: avatars.actors[0],
@@ -18,7 +17,6 @@ export const goodActor: Actor.ActorFrontmatter = {
 
 export const goodSecondActor: Actor.ActorFrontmatter = {
   id: uuid(),
-  type: "ActorFrontmatter",
   fullName: "Good Actor - The 2nd",
   username: "good-actor-the-2nd",
   avatar: avatars.actors[1],
@@ -29,7 +27,6 @@ export const goodSecondActor: Actor.ActorFrontmatter = {
 
 export const badActor: Actor.ActorFrontmatter = {
   id: uuid(),
-  type: "ActorFrontmatter",
   fullName: "Bad Actor",
   username: "bad-actor",
   avatar: avatars.actors[2],
@@ -40,7 +37,6 @@ export const badActor: Actor.ActorFrontmatter = {
 
 export const badSecondActor: Actor.ActorFrontmatter = {
   id: uuid(),
-  type: "ActorFrontmatter",
   fullName: "Bad Actor - The 2nd",
   username: "bad-actor-the-2nd",
   avatar: avatars.actors[3],

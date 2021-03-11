@@ -1,8 +1,6 @@
 import * as endpoints from "@econnessione/shared/endpoints";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import * as O from 'fp-ts/lib/Option';
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
@@ -11,23 +9,18 @@ import { toGroupMemberIO } from "./groupMember.io";
 
 export const MakeCreateGroupMemberRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(endpoints.GroupMember.Create, ({ body }) => {
-    const group = new GroupEntity()
-    group.id = body.group
-
-    const actor = new ActorEntity()
-    actor.id = body.actor;
     const saveData = {
       ...body,
-      group,
-      actor,
-      endDate: O.toNullable(body.endDate)
-    }
+      group: { id: body.group },
+      actor: { id: body.actor },
+      endDate: O.toNullable(body.endDate),
+    };
     return pipe(
       db.save(GroupMemberEntity, [saveData]),
       TE.chain(([page]) =>
         db.findOneOrFail(GroupMemberEntity, {
           where: { id: page.id },
-          loadRelationIds: true,
+          relations: ["actor", "group"],
         })
       ),
       TE.chainEitherK(toGroupMemberIO),

@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { GroupMemberEntity } from "./GroupMember.entity";
 import { ImageEntity } from "./Image.entity";
 import { LinkEntity } from "./Link.entity";
 
@@ -44,6 +45,10 @@ export class EventEntity {
   @ManyToMany(() => ActorEntity, (a) => a.events)
   @JoinTable()
   actors: ActorEntity[];
+
+  @ManyToMany(() => GroupMemberEntity, (a) => a.events)
+  @JoinTable()
+  groupMembers: GroupMemberEntity[];
 
   @Column({ type: "varchar" })
   body: string;

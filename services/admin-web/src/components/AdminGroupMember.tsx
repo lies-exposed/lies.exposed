@@ -22,12 +22,8 @@ export const GroupMemberList: React.FC<ListProps> = (props) => (
   <List {...props} resource="groups-members">
     <Datagrid rowClick="edit">
       <TextField source="id" />
-      <ReferenceField source="group" reference="groups">
-        <TextField source="name" />
-      </ReferenceField>
-      <ReferenceField source="actor" reference="actors">
-        <TextField source="fullName" />
-      </ReferenceField>
+      <TextField source="group.name" />
+      <TextField source="actor.fullName" />
       <DateField label="Updated At" source="updatedAt" showTime={true} />
       <DateField label="Created At" source="createdAt" showTime={true} />
     </Datagrid>
@@ -41,10 +37,10 @@ const EditTitle: React.FC = ({ record }: any) => {
 export const GroupMemberEdit: React.FC<EditProps> = (props) => (
   <Edit title={<EditTitle {...props} />} {...props}>
     <SimpleForm>
-      <ReferenceInput reference="actors" source="actor">
+      <ReferenceInput reference="actors" source="actor.id">
         <SelectInput optionText="fullName" />
       </ReferenceInput>
-      <ReferenceInput reference="groups" source="group">
+      <ReferenceInput reference="groups" source="group.id">
         <AutocompleteInput source="id" />
       </ReferenceInput>
       <DateInput source="startDate" />
