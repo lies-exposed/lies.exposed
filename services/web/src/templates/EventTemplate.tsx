@@ -1,16 +1,11 @@
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { EventPageContent } from "@econnessione/shared/components/EventPageContent";
-import EventsMap from "@econnessione/shared/components/EventsMap";
 import { MainContent } from "@econnessione/shared/components/MainContent";
-import { ProjectPageContent } from "@econnessione/shared/components/ProjectPageContent";
-import SEO from "@econnessione/shared/components/SEO";
-import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
 import {
   actorsList,
   event,
   groupsList,
-  project,
 } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -54,14 +49,11 @@ export default class EventTemplate extends React.PureComponent<
                 actors: { data: actors },
                 groups: { data: groups },
               }) => (
-                <MainContent>
-                  <SEO title={event.title} />
-                  <EventPageContent
-                    event={event as any}
-                    actors={actors}
-                    groups={groups}
-                  />
-                </MainContent>
+                <EventPageContent
+                  event={event as any}
+                  actors={actors}
+                  groups={groups}
+                />
               )
             )}
           />

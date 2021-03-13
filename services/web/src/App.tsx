@@ -40,7 +40,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
 
 export const App: React.FC = () => {
   return (
-    <div style={{ height: "100%", background: "red" }}>
+    <div style={{ height: "100%" }}>
       <Helmet
         link={[
           {
@@ -79,8 +79,8 @@ export const App: React.FC = () => {
                 <ActorTemplate path="/actors/:actorId" />
                 <ActorsPage path="/actors" />
                 <TheCrisisPage path="/the-crisis" />
-                {/* <IndexPage default={true} /> */}
-                <FullSizeLoader default={true} />
+                <IndexPage default={true} />
+
                 {/* <NotFoundPage default={true} /> */}
               </Router>
             </Grid>

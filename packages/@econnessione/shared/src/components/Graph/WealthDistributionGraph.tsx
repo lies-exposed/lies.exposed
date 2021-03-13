@@ -128,7 +128,7 @@ export const WealthDistributionGraph: React.FC<WealthDistributionGraphProps> = (
                 richPopulationPercentage,
                 middlePopulationPercentage,
                 poorPopulationPercentage,
-              ].map(n => n.toString()),
+              ].map(n => `${n}%`),
               [superRichColor, richColor, middleColor, poorColor]
             ),
             shape: "circle",

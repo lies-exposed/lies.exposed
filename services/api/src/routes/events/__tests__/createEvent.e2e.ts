@@ -22,10 +22,13 @@ describe("Create Event", () => {
     const eventData: http.Events.Uncategorized.CreateEventBody = {
       title: "First event",
       images: undefined as any,
+      actors: undefined,
+      groups: undefined,
+      groupMembers: undefined,
       startDate: new Date(),
       endDate: undefined as any,
       body: "My first event",
-    };
+    } as any;
     const response = await appTest.req
       .post(`/v1/events`)
       .set("Authorization", authorizationToken)

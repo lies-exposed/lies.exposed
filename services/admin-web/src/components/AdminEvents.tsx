@@ -11,6 +11,7 @@ import {
   DateInput,
   Edit,
   EditProps,
+  Filter,
   FormTab,
   ImageField,
   ImageInput,
@@ -32,8 +33,19 @@ import MarkdownInput from "./Common/MarkdownInput";
 
 const RESOURCE = "events";
 
+const EventsFilter: React.FC = (props: any) => {
+  return (
+    <Filter {...props}>
+      <TextInput label="Search" source="q" alwaysOn />
+      <ReferenceArrayInput source="groupIds" reference="groups">
+        <SelectArrayInput optionText="name" />
+      </ReferenceArrayInput>
+    </Filter>
+  );
+};
+
 export const EventList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE}>
+  <List {...props} resource={RESOURCE} filters={<EventsFilter />}>
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="location.coordinates" />

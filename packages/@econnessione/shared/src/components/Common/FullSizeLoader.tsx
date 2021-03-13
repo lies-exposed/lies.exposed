@@ -7,7 +7,17 @@ export const FullSizeLoader: React.FC<any> = () => {
     <ParentSize>
       {({ width, height }) => {
         return (
-          <div style={{ height, width }}>
+          <div
+            style={{
+              height,
+              width,
+              textAlign: "center",
+              minHeight: 600,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <CircularProgress />
           </div>
         );
