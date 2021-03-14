@@ -17,6 +17,10 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+
     steps:
       - uses: actions/checkout@v2
 
@@ -55,6 +59,9 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     needs: [install]
     steps:
       - uses: actions/checkout@v2
@@ -69,6 +76,9 @@ jobs:
 
   build-api:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     needs: [install]
 
     steps:
@@ -92,6 +102,9 @@ jobs:
 
   build-admin-web:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     needs: [install]
 
     steps:
@@ -115,6 +128,9 @@ jobs:
 
   build-web:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     needs: [install]
 
     steps:
@@ -138,6 +154,9 @@ jobs:
 
   tests-spec:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     needs: [lint, build-api, build-admin-web, build-web]
     steps:
       - uses: actions/checkout@v2
@@ -157,6 +176,9 @@ jobs:
 
   tests-e2e:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
     needs: [lint, build-api, build-admin-web, build-web]
     services:
       postgres:
