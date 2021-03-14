@@ -8,9 +8,9 @@ import * as React from "react";
 import { InputProps } from "react-admin";
 
 const toolbarOptions = [
-  ["bold", "italic", "underline", "strike"], // toggled buttons
+  ["bold", "italic", "underline", "strike", "code"], // toggled buttons
   ["blockquote", "code-block"],
-
+  ["image", "video"],
   [{ header: 1 }, { header: 2 }], // custom button values
   [{ list: "ordered" }, { list: "bullet" }],
   [{ script: "sub" }, { script: "super" }], // superscript/subscript
@@ -50,7 +50,7 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
             )
           )();
         }
-        return ""
+        return "";
       }}
       parse={(v: string) => {
         return pipe(
