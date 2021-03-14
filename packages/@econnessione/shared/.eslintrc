@@ -3,7 +3,7 @@
   "plugins": ["@typescript-eslint", "react"],
   "parserOptions": {
     "tsconfigRootDir": "./",
-    "project": ["./tsconfig.json"]
+    "project": ["./tsconfig.json", "../../../tsconfig.test.json"]
   },
   "rules": {
     "react/prop-types": ["off"]
