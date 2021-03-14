@@ -8,7 +8,6 @@ import Geometry from "ol/geom/Geometry";
 import * as OlInteraction from "ol/interaction";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
-import "ol/ol.css";
 import * as OlProj from "ol/proj";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";

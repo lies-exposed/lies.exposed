@@ -42,10 +42,12 @@ export const editProject = (client: http.APIRESTClient) => (
         ...params,
         data: {
           ...data,
-          areas: newAreas.concat(areas).map((a: any) => ({
-            ...a,
-            geometry: JSON.parse(a.geometry),
-          })),
+          areas: newAreas
+            .map((a: any) => ({
+              ...a,
+              geometry: JSON.parse(a.geometry),
+            }))
+            .concat(areas),
           images: imageData.concat(images),
         },
       };
