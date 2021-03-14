@@ -1,11 +1,6 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import {
-  Actor,
-  Events,
-  Group,
-  Project
-} from "@io/http";
-import {Grid} from '@material-ui/core'
+import { Actor, Events, Group, Project } from "@io/http";
+import { Grid } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -43,18 +38,15 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   // );
 
   return (
-    <Grid container
-    >
-      <Grid item >
-        <div >
+    <Grid container>
+      <Grid item>
+        <div>
           <EditButton resourceName="groups" resource={frontmatter} />
         </div>
       </Grid>
       <Grid container>
-        <Grid item
-          
-        >
-          <div >
+        <Grid item>
+          <div>
             <h2>{frontmatter.name}</h2>
             {pipe(
               O.fromNullable(frontmatter.avatar),
@@ -71,11 +63,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
             <h4>Sotto Gruppi</h4>
             {
               // eslint-disable-next-line react/jsx-key
-              <GroupList
-                avatarScale="scale1000"
-                groups={[]}
-                onGroupClick={() => {}}
-              />
+              <GroupList groups={[]} onGroupClick={() => {}} />
             }
           </div>
           {/* <Block>

@@ -19,7 +19,8 @@ import { GroupPageContentExample } from "@components/examples/GroupPageContentEx
 import NetworkExample from "@components/examples/NetworkExample";
 import { ProjectPageContentExample } from "@components/examples/ProjectPageContentExample";
 import { TopicPageContentExample } from "@components/examples/TopicPageContentExample";
-import {ProjectImageList} from '@components/lists/ProjectImageList'
+import { ProjectImageList } from "@components/lists/ProjectImageList";
+import { Typography } from "@material-ui/core";
 import { MDXProviderComponentsProp } from "@mdx-js/react";
 import * as React from "react";
 const MDX = require("@mdx-js/runtime").default;
@@ -60,6 +61,8 @@ export const components: MDXProviderComponentsProp = {
   // p: ParagraphMedium,
   li: ListItem,
   blockquote: BlockQuote,
+  h1: ({ children }) => <Typography className="h1">{children}</Typography>,
+  p: ({ children }) => <Typography className="body">{children}</Typography>,
   // h1: HeadingXXLarge,
   // h2: HeadingXLarge,
   // h3: HeadingLarge,

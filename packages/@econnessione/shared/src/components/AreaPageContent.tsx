@@ -15,7 +15,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
   onTopicClick,
   ...area
 }) => {
-  const features = [area];
+  const data = [area];
 
   return (
     <Grid container>
@@ -29,7 +29,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
         <Map
           width={600}
           height={300}
-          features={features}
+          data={data}
           center={[0, 0]}
           zoom={6}
           onMapClick={() => {}}

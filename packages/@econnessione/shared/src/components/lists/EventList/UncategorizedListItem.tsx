@@ -114,9 +114,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                         selected: false,
                       }))}
                       onGroupClick={async (group) => {
-                        // await navigate(`/groups/${group.id}`)
+                        await navigate(`/groups/${group.id}`);
                       }}
-                      avatarScale="scale1000"
                     />
                   )
                 )
@@ -138,10 +137,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                         selected: false,
                       }))}
                       onActorClick={async (actor) => {
-                        // await navigate(`/actors/${actor.id}`)
-                        return undefined;
+                        await navigate(`/actors/${actor.id}`);
                       }}
-                      avatarScale="scale1000"
                     />
                   )
                 )

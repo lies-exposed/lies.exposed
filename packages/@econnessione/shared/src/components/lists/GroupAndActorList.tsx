@@ -1,7 +1,8 @@
+import { AvatarSize } from "@components/Common/Avatar";
 import { List } from "@components/Common/List";
 import { Actor, Group } from "@io/http";
 import * as React from "react";
-import { ActorListItem, AvatarScale } from "./ActorList";
+import { ActorListItem } from "./ActorList";
 import { GroupListItem } from "./GroupList";
 
 export interface Group extends Group.Group {
@@ -21,12 +22,12 @@ type ByGroupOrActor =
 interface ByEitherGroupOrActorListProps {
   by: ByGroupOrActor[];
   onByClick: (by: ByGroupOrActor) => void;
-  avatarScale: AvatarScale;
+  avatarSize: AvatarSize;
 }
 
 const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
   onByClick,
-  avatarScale,
+  avatarSize,
   by,
 }) => {
   return (
@@ -42,7 +43,7 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
             {...p.item}
             key={`group-${item.group.id}`}
             index={p.index}
-            avatarScale={avatarScale}
+            avatarSize={avatarSize}
             item={{ ...item.group, selected: true }}
             onClick={(group) =>
               p.onClick !== undefined ? p.onClick({ type: "Group", group }) : {}
@@ -53,7 +54,7 @@ const GroupOrActorList: React.FC<ByEitherGroupOrActorListProps> = ({
             {...p.item}
             key={`actor-${item.actor.id}`}
             index={p.index}
-            avatarScale={avatarScale}
+            avatarSize={avatarSize}
             onClick={(a) =>
               p.onClick !== undefined
                 ? p.onClick({ type: "Actor", actor: a })

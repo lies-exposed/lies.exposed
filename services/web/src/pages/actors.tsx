@@ -58,7 +58,6 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                     ...a,
                     selected: false,
                   }))}
-                  avatarScale="scale1600"
                   onActorClick={async (a) => {
                     await navigate(`/actors/${a.id}`);
                   }}

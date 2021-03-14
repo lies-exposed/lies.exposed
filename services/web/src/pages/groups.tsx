@@ -50,7 +50,6 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
                   <GroupListItem
                     item={item}
                     index={index}
-                    avatarScale="scale1600"
                     onClick={async (item: any) => {
                       if (this.props.navigate !== undefined) {
                         await navigateTo(this.props.navigate, "groups", item);

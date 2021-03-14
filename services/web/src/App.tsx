@@ -25,6 +25,7 @@ import GroupsPage from "./pages/groups";
 import ProjectPage from "./pages/project";
 import { theme } from "./theme/CustomTheme";
 import "./scss/main.scss";
+import "ol/ol.css";
 // import NotFoundPage from "./pages/404";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {

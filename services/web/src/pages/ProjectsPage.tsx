@@ -67,7 +67,6 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                 />
                 <ProjectList
                   projects={projects.map((p) => ({ ...p, selected: false }))}
-                  avatarScale="scale1600"
                   onProjectClick={async (p) => {
                     await navigate(`/projects/${p.id}`);
                   }}

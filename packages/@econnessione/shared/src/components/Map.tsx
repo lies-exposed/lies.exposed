@@ -1,4 +1,4 @@
-import { Area } from "@io/http";
+import { Point, Polygon } from "@io/http/Common";
 import Feature from "ol/Feature";
 import OlMap from "ol/Map";
 import View from "ol/View";
@@ -11,7 +11,7 @@ import VectorLayer from "ol/layer/Vector";
 import * as OlProj from "ol/proj";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
-import { Fill, Stroke, Style } from "ol/style";
+import { Circle, Fill, Stroke, Style } from "ol/style";
 import * as React from "react";
 
 const formatOptions = {
@@ -21,10 +21,13 @@ const formatOptions = {
 
 const geoJSONFormat = new GEOJSON(formatOptions);
 
+interface Datum {
+  geometry: Point | Polygon;
+}
 interface MapProps {
   width: number;
   height: number;
-  features: Area.Area[];
+  data: Datum[];
   center: [number, number];
   zoom: number;
   interactions?: OlInteraction.DefaultsOptions;
@@ -35,7 +38,7 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({
   width,
   height,
-  features: areas,
+  data,
   center,
   zoom,
   interactions,
@@ -43,9 +46,10 @@ const Map: React.FC<MapProps> = ({
   onMapClick,
 }) => {
   React.useEffect(() => {
-    const features = areas.map(({ geometry, ...f }) => {
-      const feature = geoJSONFormat.readFeature(geometry);
-      feature.setProperties(f);
+    const features = data.map(({ geometry, ...datum }) => {
+      const geom = geoJSONFormat.readGeometry(JSON.stringify(geometry));
+      const feature = new Feature(geom);
+      feature.setProperties(datum);
       return feature;
     });
 
@@ -59,11 +63,15 @@ const Map: React.FC<MapProps> = ({
       style: (feature) => {
         return new Style({
           fill: new Fill({
-            color: `#CCC`,
+            color: `#333`,
           }),
           stroke: new Stroke({
-            color: `#CCC`,
+            color: `#333`,
             width: 2,
+          }),
+          image: new Circle({
+            radius: 9,
+            fill: new Fill({ color: "#333" }),
           }),
         });
       },
@@ -81,7 +89,7 @@ const Map: React.FC<MapProps> = ({
       target: "map",
       layers: [
         new TileLayer({
-          source: new OSM(),
+          source: new OSM({}),
         }),
         featuresLayer,
       ],

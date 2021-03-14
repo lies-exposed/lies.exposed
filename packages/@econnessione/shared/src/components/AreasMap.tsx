@@ -56,7 +56,7 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
                     <Map
                       width={width}
                       height={height}
-                      features={areas.data}
+                      data={areas.data}
                       center={center}
                       zoom={zoom}
                       onMapClick={async (features) => {

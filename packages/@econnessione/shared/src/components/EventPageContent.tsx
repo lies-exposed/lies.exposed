@@ -1,6 +1,7 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import SEO from "@components/SEO";
 import { Actor, Events, Group } from "@io/http";
+import { navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -56,7 +57,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               <GroupList
                 groups={groups.map((a) => ({ ...a, selected: true }))}
                 onGroupClick={() => {}}
-                avatarScale="scale1000"
               />
             </div>
           )
@@ -73,8 +73,9 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               <h4>Actors</h4>
               <ActorList
                 actors={actors.map((a) => ({ ...a, selected: true }))}
-                onActorClick={() => {}}
-                avatarScale="scale1000"
+                onActorClick={async (a) => {
+                  await navigate(`/actors/${a.id}`);
+                }}
               />
             </div>
           )

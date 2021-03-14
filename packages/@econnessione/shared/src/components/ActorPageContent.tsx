@@ -7,6 +7,7 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { Avatar } from "./Common/Avatar";
 import EditButton from "./buttons/EditButton";
 
 export interface ActorPageContentProps extends Actor.Actor {
@@ -35,7 +36,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           O.fromNullable(frontmatter.avatar),
           O.fold(
             () => <div />,
-            (src) => <img src={src} width={200} height="auto" />
+            (src) => <Avatar size="large" src={src} />
           )
         )}
         <div>

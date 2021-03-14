@@ -1,4 +1,4 @@
-import { Avatar } from "@material-ui/core";
+import { Avatar } from "@econnessione/shared/components/Common/Avatar";
 import { FieldProps } from "ra-ui-materialui";
 import * as React from "react";
 
