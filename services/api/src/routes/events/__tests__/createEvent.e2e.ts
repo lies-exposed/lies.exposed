@@ -22,9 +22,9 @@ describe("Create Event", () => {
     const eventData: http.Events.Uncategorized.CreateEventBody = {
       title: "First event",
       images: undefined as any,
-      actors: undefined,
-      groups: undefined,
-      groupMembers: undefined,
+      actors: [],
+      groups: [],
+      groupMembers: [],
       startDate: new Date(),
       endDate: undefined as any,
       body: "My first event",
