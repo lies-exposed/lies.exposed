@@ -72,5 +72,8 @@
 		"@types/reach__router": "^1.3.7",
 		"ts-jest": "^26.4.4",
 		"typescript": "^4.1.3"
+	},
+	"peerDependencies": {
+		"@material-ui/icons": "^4.11.2"
 	}
 }
