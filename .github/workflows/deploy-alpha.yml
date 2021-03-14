@@ -1,13 +1,16 @@
 name: Deploy Alpha
 
 on:
-  workflow_run:
-    workflows:
-      - "Pull Request"
-    types:
-      - completed
+  push:
     branches:
       - release/alpha
+  # workflow_run:
+  #   workflows:
+  #     - "Pull Request"
+  #   types:
+  #     - completed
+  #   branches:
+  #     - release/alpha
 
 jobs:
 
@@ -16,7 +19,8 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - uses: actions/checkout@v2

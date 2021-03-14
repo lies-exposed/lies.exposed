@@ -1,9 +1,6 @@
 name: Pull Request
 
 on:
-  push:
-    branches:
-      - release/alpha
   pull_request:
     branches:
       - release/alpha
