@@ -12,7 +12,7 @@ export const MakeGetGroupMemberRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       ctx.db.findOneOrFail(GroupMemberEntity, {
         where: { id },
-        loadRelationIds: true,
+        relations: ["actor", "group"],
       }),
       TE.chainEitherK(toGroupMemberIO),
       TE.map((data) => ({

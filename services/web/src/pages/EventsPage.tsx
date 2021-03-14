@@ -1,6 +1,6 @@
 import DatePicker from "@econnessione/shared/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
 import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
 import EventsMap from "@econnessione/shared/components/EventsMap";
 import { MainContent } from "@econnessione/shared/components/MainContent";
@@ -16,7 +16,7 @@ import {
   ordEventDate,
   eqByUUID,
 } from "@econnessione/shared/helpers/event";
-import * as io  from "@econnessione/shared/io";
+import * as io from "@econnessione/shared/io";
 import { Actor, Group, Topic } from "@econnessione/shared/io/http";
 import {
   actorsList,
@@ -69,13 +69,13 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             filter: {},
           },
           events: {
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "ASC" },
+            pagination: { page: 1, perPage: 100 },
+            sort: { field: "startDate", order: "DESC" },
             filter: {},
           },
         }}
         render={QR.fold(
-          Loader,
+          LazyFullSizeLoader,
           ErrorBox,
           ({
             page,

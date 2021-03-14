@@ -18,6 +18,14 @@ export const theme = createMuiTheme({
   },
   typography: {},
   overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        html: {
+          WebkitFontSmoothing: "auto",
+          html: "100%",
+        },
+      },
+    },
     MuiAppBar: {
       colorPrimary: "#c30ff7" as any,
       colorDefault: "#FFF" as any,

@@ -51,7 +51,7 @@ export const FullSizeViewport: React.FC<FullSizeViewportProps> = (props) => {
       id={id}
       className="FullSizeSection"
       style={{
-        width,
+        width: '100%',
         height: "auto",
         minHeight: height,
         minWidth: "100%",

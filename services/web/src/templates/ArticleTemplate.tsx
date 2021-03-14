@@ -1,9 +1,13 @@
+import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { ArticlePageContent } from "@econnessione/shared/components/ArticlePageContent";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
-import { article, articleByPath } from "@econnessione/shared/providers/DataProvider";
+import {
+  article,
+  articleByPath,
+} from "@econnessione/shared/providers/DataProvider";
 import { Grid } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -27,11 +31,11 @@ export default class ArticleTemplate extends React.PureComponent<
           <WithQueries
             queries={{ article: articleByPath }}
             params={{ article: { path: articlePath } }}
-            render={QR.fold(Loader, ErrorBox, ({ article }) => (
-              <Grid item>
+            render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ article }) => (
+              <>
                 <SEO title={article.title} />
                 <ArticlePageContent {...article} />
-              </Grid>
+              </>
             ))}
           />
         )

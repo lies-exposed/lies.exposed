@@ -11,7 +11,13 @@ export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(
     endpoints.Event.Create,
     ({ body: { endDate, images, ...body } }) => {
-      const optionalData = foldOptionals({ endDate });
+      const optionalData = pipe(foldOptionals({ endDate }), (data) => ({
+        ...data,
+        groups: body.groups.map((id) => ({ id })),
+        actors: body.actors.map((id) => ({ id })),
+        groupMembers: body.groupMembers.map((id) => ({ id })),
+      }));
+
       return pipe(
         db.save(EventEntity, [{ ...body, ...optionalData }]),
         TE.chain(([event]) =>

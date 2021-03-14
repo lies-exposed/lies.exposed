@@ -18,6 +18,9 @@ export const CreateEventBody = t.strict(
         })
       )
     ),
+    actors: t.array(t.string),
+    groups: t.array(t.string),
+    groupMembers: t.array(t.string),
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
     body: t.string,

@@ -14,7 +14,7 @@
     ],
     "react/prop-types": ["off"],
     "@typescript-eslint/no-unused-vars": ["off"],
-    "no-console": 2
+    "no-console": 1
   },
   "settings": {
     "react": {

@@ -1,4 +1,10 @@
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { ProjectPageContent } from "@econnessione/shared/components/ProjectPageContent";
+import { http } from "@econnessione/shared/io";
 import { Kind } from "@econnessione/shared/io/http/ProjectImage";
+import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -68,7 +74,6 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <ArrayInput source="newAreas">
           <SimpleFormIterator>
             <TextInput source="label" />
-            <ColorInput source="color" />
             <MapInput source="geometry" type={GeometryType.POLYGON} />
             <MarkdownInput source="body" />
           </SimpleFormIterator>
@@ -108,18 +113,45 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Body">
         <MarkdownInput source="body" />
       </FormTab>
+      <FormTab label="Preview">
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            return pipe(
+              http.Project.Project.decode(formData),
+              E.fold(renderValidationErrors, (p) => (
+                <ProjectPageContent
+                  {...p}
+                  metadata={{ Arrest: [], ProjectImpact: [], Protest: [] }}
+                />
+              ))
+            );
+          }}
+        </FormDataConsumer>
+      </FormTab>
     </TabbedForm>
   </Edit>
 );
 
 export const ProjectCreate: React.FC<CreateProps> = (props) => (
-  <Create title="Create a Post" {...props}>
+  <Create title="Create a Project" {...props}>
     <SimpleForm>
       <TextInput source="name" validate={[required()]} />
       <ColorInput source="color" validate={[required()]} />
       <DateInput source="startDate" validate={[required()]} />
       <DateInput source="endDate" />
-      <MapInput source="areas" type={GeometryType.POLYGON} />
+      <ArrayInput source="areas">
+        <SimpleFormIterator>
+          <TextInput source="label" />
+          <MapInput source="geometry" type={GeometryType.POLYGON} />
+          <MarkdownInput source="body" />
+        </SimpleFormIterator>
+      </ArrayInput>
+      <ArrayInput source="images">
+        <SimpleFormIterator>
+          <ImageInput source="location" />
+        </SimpleFormIterator>
+      </ArrayInput>
+
       <MarkdownInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>

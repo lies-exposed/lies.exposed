@@ -22,13 +22,16 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
           backgroundImage: `url(${props.featuredImage})`,
           backgroundSize: `cover`,
           backgroundRepeat: "no-repeat",
+          width: "100%",
+          height: 300,
         }}
+        item
       >
         <MainContent>
           <h1>{props.title}</h1>
         </MainContent>
       </Grid>
-      <Grid>
+      <Grid container>
         <ContentWithSidebar
           sidebar={pipe(
             // props.tableOfContents,

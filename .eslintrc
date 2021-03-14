@@ -9,7 +9,7 @@
   ],
   "parserOptions": {
     "project": [
-      "./tsconfig.eslint.json",
+      "./tsconfig.test.json",
       "./packages/@econnessione/*/tsconfig.json",
       "./services/*/tsconfig.json"
     ]

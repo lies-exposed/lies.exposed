@@ -1,12 +1,15 @@
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
 import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { TableOfContents } from "@econnessione/shared/components/TableOfContents";
 import ProjectList from "@econnessione/shared/components/lists/ProjectList";
-import { pageContentByPath, projectList } from "@econnessione/shared/providers/DataProvider";
+import {
+  pageContentByPath,
+  projectList,
+} from "@econnessione/shared/providers/DataProvider";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { navigate, RouteComponentProps } from "@reach/router";
@@ -30,7 +33,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
           },
         }}
         render={QR.fold(
-          Loader,
+          LazyFullSizeLoader,
           ErrorBox,
           ({ page, projects: { data: projects } }) => (
             <ContentWithSidebar
@@ -65,8 +68,8 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                 <ProjectList
                   projects={projects.map((p) => ({ ...p, selected: false }))}
                   avatarScale="scale1600"
-                  onProjectClick={async(p) => {
-                    await navigate(`/projects/${p.id}`)
+                  onProjectClick={async (p) => {
+                    await navigate(`/projects/${p.id}`);
                   }}
                 />
               </MainContent>

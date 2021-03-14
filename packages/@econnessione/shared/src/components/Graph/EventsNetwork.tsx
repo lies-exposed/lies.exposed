@@ -649,8 +649,8 @@ export function createNetworkTemplateProps({
   )(groupByItems).flatMap(([_k, items]) => items) as any;
 
   const groupByScale = ordinalScale({
-    domain: groupByArray.map((t) =>
-      t.type === "GroupFrontmatter" ? t.name : t.username
+    domain: groupByArray.map((gb) =>
+      Actor.Actor.is(gb) ? gb.username : gb.name
     ),
     range: groupByArray.map((t) => t.color),
   });

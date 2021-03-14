@@ -8,7 +8,6 @@ import Geometry from "ol/geom/Geometry";
 import * as OlInteraction from "ol/interaction";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
-import "ol/ol.css";
 import * as OlProj from "ol/proj";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
@@ -58,13 +57,12 @@ const Map: React.FC<MapProps> = ({
     const featuresLayer = new VectorLayer({
       source: featureSource,
       style: (feature) => {
-        const area = feature.getProperties() as Area.Area;
         return new Style({
           fill: new Fill({
-            color: `${area.color}`,
+            color: `#CCC`,
           }),
           stroke: new Stroke({
-            color: `${area.color}`,
+            color: `#CCC`,
             width: 2,
           }),
         });

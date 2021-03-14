@@ -1,3 +1,9 @@
+import { ActorPageContent } from "@econnessione/shared/components/ActorPageContent";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { http } from "@econnessione/shared/io";
+import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   Create,
@@ -6,6 +12,7 @@ import {
   DateField,
   Edit,
   EditProps,
+  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -18,6 +25,7 @@ import {
   TextInput,
 } from "react-admin";
 import { ColorField, ColorInput } from "react-admin-color-input";
+import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
 
 export const ActorList: React.FC<ListProps> = (props) => (
@@ -26,7 +34,7 @@ export const ActorList: React.FC<ListProps> = (props) => (
       <TextField label="Full Name" source="fullName" />
       <TextField source="username" />
       <ColorField source="color" />
-      <ImageField source="avatar" fullWidth={false} />
+      <AvatarField source="avatar" />
       <DateField label="Updated At" source="updatedAt" showTime={true} />
       <DateField label="Created At" source="createdAt" showTime={true} />
     </Datagrid>
@@ -66,6 +74,21 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             <TextField source="name" />
           </Datagrid>
         </ReferenceArrayField>
+      </FormTab>
+      <FormTab label="Preview">
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            return pipe(
+              http.Actor.Actor.decode(formData),
+              E.fold(renderValidationErrors, (p) => (
+                <ActorPageContent
+                  {...p}
+                  metadata={{ Protest: [], Arrest: [], ProjectTransaction: [] }}
+                />
+              ))
+            );
+          }}
+        </FormDataConsumer>
       </FormTab>
     </TabbedForm>
   </Edit>

@@ -1,21 +1,26 @@
-import {
-  ProjectCreate,
-  ProjectEdit,
-  ProjectList,
-} from "@components/AdminProjects";
-import { UserCreate, UserEdit, UserList } from "@components/AdminUsers";
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import BusinessIcon from '@material-ui/icons/Business';
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import BusinessIcon from "@material-ui/icons/Business";
 import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";
-import MapIcon from '@material-ui/icons/Map'
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import RecentActorsIcon from '@material-ui/icons/RecentActors';
+import MapIcon from "@material-ui/icons/Map";
+import PostAddIcon from "@material-ui/icons/PostAdd";
+import RecentActorsIcon from "@material-ui/icons/RecentActors";
 import * as React from "react";
-import { Admin, defaultTheme, Login, Resource } from "react-admin";
+import {
+  Admin,
+  defaultTheme,
+  Login,
+  RaThemeOptions,
+  Resource,
+} from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
 import { ActorCreate, ActorEdit, ActorList } from "./components/AdminActors";
 import { AreaList, AreaCreate, AreaEdit } from "./components/AdminAreas";
+import {
+  ArticleCreate,
+  ArticleEdit,
+  ArticleList,
+} from "./components/AdminArticles";
 import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
@@ -23,9 +28,17 @@ import {
   GroupMemberList,
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
+import {
+  ProjectCreate,
+  ProjectEdit,
+  ProjectList,
+} from "./components/AdminProjects";
+import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
-import { ArticleCreate, ArticleEdit, ArticleList } from "./components/articles";
 
+const theme: RaThemeOptions = {
+  ...defaultTheme,
+};
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console
   return (

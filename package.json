@@ -23,7 +23,7 @@
     "build": "yarn workspaces run build",
     "test:spec": "jest spec",
     "test:e2e": "jest e2e",
-    "core":"yarn workspace @econnessione/core",
+    "core": "yarn workspace @econnessione/core",
     "shared": "yarn workspace @econnessione/shared",
     "api": "yarn workspace api",
     "web": "yarn workspace web",

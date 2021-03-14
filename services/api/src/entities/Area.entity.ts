@@ -3,10 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-
-
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 
 @Entity("area")
@@ -16,9 +14,6 @@ export class AreaEntity {
 
   @Column({ type: "varchar", nullable: false })
   label: string;
-
-  @Column({ type: 'varchar', nullable: false })
-  color: string;
 
   @Column({ type: "json", nullable: false })
   geometry: Polygon;

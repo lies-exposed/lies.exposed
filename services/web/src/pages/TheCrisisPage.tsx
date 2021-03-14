@@ -1,3 +1,4 @@
+import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
@@ -19,7 +20,7 @@ export default class TheCrisisPage extends React.PureComponent<RouteComponentPro
         queries={{ pageContentByPath }}
         params={{ pageContentByPath: { path: "the-crisis" } }}
         render={QR.fold(
-          Loader,
+          LazyFullSizeLoader,
           ErrorBox,
           ({ pageContentByPath: pageContent }) => (
             <>

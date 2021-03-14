@@ -1,3 +1,8 @@
+import { AreaPageContent } from "@econnessione/shared/components/AreaPageContent";
+import { http } from "@econnessione/shared/io";
+import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -5,22 +10,18 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-
   Edit,
   EditProps,
+  FormDataConsumer,
   FormTab,
-
-
   List,
   ListProps,
   required,
   SimpleForm,
-
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
-import { ColorField, ColorInput } from "react-admin-color-input";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
 
@@ -30,7 +31,6 @@ export const AreaList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <TextField source="label" />
-      <ColorField source="color" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -46,7 +46,6 @@ export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
     <TabbedForm>
       <FormTab label="Generals">
         <TextInput source="label" />
-        <ColorInput source="color" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
@@ -56,6 +55,22 @@ export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Body">
         <MarkdownInput source="body" />
       </FormTab>
+      <FormTab label="Preview">
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            return pipe(
+              http.Area.Area.decode(formData),
+              E.fold(renderValidationErrors, (p) => (
+                <AreaPageContent
+                  {...p}
+                  onGroupClick={() => undefined}
+                  onTopicClick={() => undefined}
+                />
+              ))
+            );
+          }}
+        </FormDataConsumer>
+      </FormTab>
     </TabbedForm>
   </Edit>
 );
@@ -64,7 +79,6 @@ export const AreaCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Post" {...props}>
     <SimpleForm>
       <TextInput source="label" validate={[required()]} />
-      <ColorInput source="color" validate={[required()]} />
       <MapInput
         source="geometry"
         type={GeometryType.POLYGON}

@@ -7,7 +7,6 @@ export const ACTOR_FRONTMATTER = t.literal("ActorFrontmatter");
 export const ActorFrontmatter = t.strict(
   {
     ...BaseFrontmatter.type.props,
-    type: ACTOR_FRONTMATTER,
     fullName: t.string,
     username: t.string,
     avatar: t.union([t.undefined, t.string]),

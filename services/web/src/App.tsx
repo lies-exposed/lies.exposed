@@ -1,3 +1,4 @@
+import { FullSizeLoader } from "@components/Common/FullSizeLoader";
 import { Footer } from "@econnessione/shared/components/Footer";
 import Header from "@econnessione/shared/components/Header";
 import { Grid, ThemeProvider } from "@material-ui/core";
@@ -39,7 +40,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
 
 export const App: React.FC = () => {
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <Helmet
         link={[
           {
@@ -60,8 +61,8 @@ export const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
-          <Grid>
-            <Grid item>
+          <Grid style={{ minHeight: "100%" }}>
+            <Grid item style={{ height: "100%" }}>
               <Router>
                 <EventTemplate path="/events/:eventId" />
                 <EventsPage path="/events" />
@@ -79,6 +80,7 @@ export const App: React.FC = () => {
                 <ActorsPage path="/actors" />
                 <TheCrisisPage path="/the-crisis" />
                 <IndexPage default={true} />
+
                 {/* <NotFoundPage default={true} /> */}
               </Router>
             </Grid>

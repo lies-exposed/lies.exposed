@@ -1,6 +1,6 @@
 import AreasMap from "@econnessione/shared/components/AreasMap";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import { pageContentByPath } from "@econnessione/shared/providers/DataProvider";
@@ -13,23 +13,16 @@ export default class AreasPage extends React.PureComponent<RouteComponentProps> 
   render(): JSX.Element {
     return (
       <WithQueries
-        queries={{ pageContent: pageContentByPath, }}
+        queries={{ pageContent: pageContentByPath }}
         params={{
           pageContent: { path: "areas" },
         }}
-        render={QR.fold(
-          Loader,
-          ErrorBox,
-          ({ pageContent }) => (
-            <MainContent>
-              <PageContent {...pageContent} />
-              <AreasMap
-                center={[9.18951, 45.46427]}
-                zoom={11}
-              />
-            </MainContent>
-          )
-        )}
+        render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ pageContent }) => (
+          <MainContent>
+            <PageContent {...pageContent} />
+            <AreasMap center={[9.18951, 45.46427]} zoom={11} />
+          </MainContent>
+        ))}
       />
     );
   }

@@ -15,7 +15,6 @@ export default meta;
 const Template: Story<WealthDistributionGraphProps> = (props) => {
   return (
     <div style={{ width: "100%" }}>
-      <h2>Global Wealth Distribution</h2>
       <WealthDistributionGraph {...props} />
     </div>
   );

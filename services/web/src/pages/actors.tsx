@@ -1,11 +1,14 @@
 import { ActorList } from "@components/lists/ActorList";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
-import { actorsList, pageContentByPath } from "@econnessione/shared/providers/DataProvider";
+import {
+  actorsList,
+  pageContentByPath,
+} from "@econnessione/shared/providers/DataProvider";
 import { navigateTo } from "@econnessione/shared/utils/links";
 import { navigate, RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -28,7 +31,7 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
           },
         }}
         render={QR.fold(
-          Loader,
+          LazyFullSizeLoader,
           ErrorBox,
           ({ actorsList: { data: acts }, pageContent }) => (
             <>
@@ -59,7 +62,6 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                   onActorClick={async (a) => {
                     await navigate(`/actors/${a.id}`);
                   }}
-
                 />
               </MainContent>
             </>

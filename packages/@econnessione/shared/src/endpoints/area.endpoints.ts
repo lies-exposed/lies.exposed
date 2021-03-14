@@ -30,7 +30,6 @@ export const Get = Endpoint({
 export const CreateAreaBody = t.strict(
   {
     label: t.string,
-    color: t.string,
     geometry: Polygon,
     body: t.string,
   },

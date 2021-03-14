@@ -1,10 +1,9 @@
+import { uuid } from "@econnessione/shared/utils/uuid";
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import GeoJSON from "ol/format/GeoJSON";
 import GeometryType from "ol/geom/GeometryType";
-import Draw from "ol/interaction/Draw.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import "ol/ol.css";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
 import React from "react";
 import { FieldProps } from "react-admin";
@@ -32,14 +31,14 @@ type MapFieldProps = FieldProps & {
 
 export const MapField: React.FC<MapFieldProps> = (props) => {
   // eslint-disable-next-line
-  // console.log({ props });
+  console.log({ props });
 
   const mapContainer = React.createRef<HTMLDivElement>();
   // eslint-disable-next-line
-
-  const value = props.record ? props.record[props.source ?? 'id'] : undefined;
+  const mapClassName = `map-field-${uuid()}`;
+  const value = props.record ? props.record[props.source ?? "id"] : undefined;
   React.useEffect(() => {
-    if (document.querySelector(".map-input")?.innerHTML === "") {
+    if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
       const format = getDefaultFormat();
       const features = value
         ? [format.readFeature(Array.isArray(value) ? value[0] : value)]
@@ -62,22 +61,18 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
     }
 
     return () => {
-      const mapDiv = document.querySelector(".map-input");
+      const mapDiv = document.querySelector(`.${mapClassName}`);
       if (mapDiv !== null) {
         mapDiv.innerHTML = "";
       }
     };
   });
 
-  // eslint-disable-next-line
-  // console.log(mapContainer);
-
   return (
     <div
-      className={"map-input"}
+      className={mapClassName}
       ref={mapContainer}
       style={{ height: 300, width: 600 }}
-    ></div>
+    />
   );
 };
-

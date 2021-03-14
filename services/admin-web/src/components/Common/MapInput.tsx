@@ -4,7 +4,6 @@ import GeoJSON from "ol/format/GeoJSON";
 import GeometryType from "ol/geom/GeometryType";
 import Draw from "ol/interaction/Draw.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import "ol/ol.css";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
 import React from "react";
 import { InputProps, useInput } from "react-admin";
@@ -31,27 +30,21 @@ type MapInputProps = InputProps & {
 };
 
 export const MapInput: React.FC<MapInputProps> = (props) => {
-
   const inputProps = useInput(props);
 
   const {
     input: { value, onChange },
   } = inputProps;
-  
+
   const mapContainer = React.createRef<HTMLDivElement>();
-  const mapClassName = `map-input-${props.record.id}`;
+  const mapClassName = `map-input-${props.record[props.source].id}`;
 
   React.useEffect(() => {
     if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
       const format = getDefaultFormat();
       const features = value ? [format.readFeature(value)] : [];
-      // eslint-disable-next-line
-      console.log(features);
       const featuresSource = new VectorSource({ features, wrapX: false });
       const featuresLayer = new VectorLayer({ source: featuresSource });
-
-      // eslint-disable-next-line
-      console.log(featuresSource);
 
       const target = mapContainer.current;
       if (target) {
@@ -89,13 +82,13 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
   });
 
   // eslint-disable-next-line
-  console.log({ mapContainer, mapClassName });
+  // console.log({ mapContainer, mapClassName });
 
   return (
     <div
       className={mapClassName}
       ref={mapContainer}
       style={{ height: 300, width: 600 }}
-    ></div>
+    />
   );
 };

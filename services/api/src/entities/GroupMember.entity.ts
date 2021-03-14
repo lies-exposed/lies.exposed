@@ -5,10 +5,12 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { EventEntity } from "./Event.entity";
 
 @Entity("group_member")
 export class GroupMemberEntity {
@@ -37,4 +39,7 @@ export class GroupMemberEntity {
   @ManyToOne(() => ActorEntity, (a) => a.id)
   @JoinColumn()
   actor: ActorEntity;
+
+  @ManyToMany(() => EventEntity, (e) => e.groupMembers)
+  events: EventEntity[];
 }

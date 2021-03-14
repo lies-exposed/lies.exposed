@@ -1,3 +1,8 @@
+import { EventPageContent } from "@econnessione/shared/components/EventPageContent";
+import { http } from "@econnessione/shared/io";
+import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -11,6 +16,8 @@ import {
   DateInput,
   Edit,
   EditProps,
+  Filter,
+  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -27,24 +34,41 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
+import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
 
 const RESOURCE = "events";
 
+const EventsFilter: React.FC = (props: any) => {
+  return (
+    <Filter {...props}>
+      <TextInput label="Search" source="q" alwaysOn />
+      <ReferenceArrayInput source="groupIds" reference="groups">
+        <SelectArrayInput optionText="name" />
+      </ReferenceArrayInput>
+    </Filter>
+  );
+};
+
 export const EventList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE}>
+  <List {...props} resource={RESOURCE} filters={<EventsFilter />}>
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="location.coordinates" />
+      <ReferenceArrayField source="groupMembers" reference="groups-members">
+        <SingleFieldList>
+          <AvatarField source="avatar" />
+        </SingleFieldList>
+      </ReferenceArrayField>
       <ReferenceArrayField source="actors" reference="actors">
         <SingleFieldList>
-          <ChipField source="fullName" />
+          <AvatarField source="avatar" />
         </SingleFieldList>
       </ReferenceArrayField>
       <ReferenceArrayField source="groups" reference="groups">
         <SingleFieldList>
-          <ImageField source="avatar" />
+          <AvatarField source="avatar" />
         </SingleFieldList>
       </ReferenceArrayField>
       <DateField source="startDate" />
@@ -81,6 +105,20 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="fullName" />
+            <AvatarField source="avatar" />
+          </Datagrid>
+        </ReferenceArrayField>
+      </FormTab>
+      <FormTab label="Group Members">
+        <ReferenceArrayInput source="groups-members" reference="groups-members">
+          <SelectArrayInput
+            optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
+          />
+        </ReferenceArrayInput>
+        <ReferenceArrayField source="groups-members" reference="groups-members">
+          <Datagrid rowClick="edit">
+            <TextField source="id" />
+            <TextField source="name" />
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
         </ReferenceArrayField>
@@ -122,6 +160,18 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
             <TextField source="description" />
           </Datagrid>
         </ArrayField>
+      </FormTab>
+      <FormTab label="Preview">
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            return pipe(
+              http.Events.Uncategorized.Uncategorized.decode(formData),
+              E.fold(renderValidationErrors, (p) => (
+                <EventPageContent event={p} actors={[]} groups={[]} />
+              ))
+            );
+          }}
+        </FormDataConsumer>
       </FormTab>
     </TabbedForm>
   </Edit>

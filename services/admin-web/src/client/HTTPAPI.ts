@@ -7,7 +7,7 @@ import { AuthProvider } from "react-admin";
 import { createActor, editActor } from "./ActorAPI";
 import { editArea } from "./AreaAPI";
 import { convertFileToBase64, uploadImages } from "./MediaAPI";
-import { editProject } from "./ProjectAPI";
+import { createProject, editProject } from "./ProjectAPI";
 
 const publicDataProvider = http.APIRESTClient({
   url: process.env.REACT_APP_API_URL,
@@ -51,6 +51,7 @@ export const apiProvider: http.APIRESTClient = {
     if (resource === "actors") {
       return createActor(dataProvider)(resource, params) as any;
     }
+
     if (resource === "groups") {
       // eslint-disable-next-line no-console
       const { avatar, ...data } = params.data;
@@ -70,6 +71,10 @@ export const apiProvider: http.APIRESTClient = {
       });
     }
 
+    if (resource === "projects") {
+      return createProject(dataProvider)(resource, params);
+    }
+
     return dataProvider.create(resource, params);
   },
   update: (resource, params) => {
@@ -84,6 +89,16 @@ export const apiProvider: http.APIRESTClient = {
       return editActor(dataProvider)(resource, params);
     }
 
+    if (resource === "groups-members") {
+      return dataProvider.update(resource, {
+        ...params,
+        data: {
+          ...params.data,
+          group: params.data.group.id,
+          actor: params.data.actor.id,
+        },
+      });
+    }
     if (resource === "events") {
       // eslint-disable-next-line
       console.log(params.data);
@@ -132,7 +147,7 @@ export const apiProvider: http.APIRESTClient = {
       )();
     }
 
-    if (resource === "actors" || resource === "groups") {
+    if (resource === "groups") {
       // eslint-disable-next-line no-console
       if (typeof params.data.avatar === "object") {
         return convertFileToBase64(params.data.avatar)().then((result) => {

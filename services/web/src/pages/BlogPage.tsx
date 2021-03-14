@@ -1,9 +1,12 @@
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
-import { articlesList, pageContentByPath } from "@econnessione/shared/providers/DataProvider";
+import {
+  articlesList,
+  pageContentByPath,
+} from "@econnessione/shared/providers/DataProvider";
 import {
   Button,
   Card,
@@ -35,7 +38,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                 path: "blog",
               },
             }}
-            render={QR.fold(Loader, ErrorBox, ({ pageContent }) => (
+            render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ pageContent }) => (
               <PageContent {...pageContent} />
             ))}
           />
@@ -49,11 +52,11 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
               },
             }}
             render={QR.fold(
-              Loader,
+              LazyFullSizeLoader,
               ErrorBox,
               ({ articlesList: { data: articles } }) => (
                 <div>
-                  <Grid container spacing={2} style={{ marginBottom: 100}}>
+                  <Grid container spacing={2} style={{ marginBottom: 100 }}>
                     {articles.map((a) => (
                       <Grid item key={a.id} xs={6}>
                         <Card key={a.id}>
