@@ -1,4 +1,9 @@
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
 import * as io from "@econnessione/shared/io";
+import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   ChoicesInputProps,
@@ -9,6 +14,7 @@ import {
   DateInput,
   Edit,
   EditProps,
+  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -84,6 +90,24 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => (
             <DateField source="createdAt" />
           </Datagrid>
         </ReferenceArrayField>
+      </FormTab>
+      <FormTab label="Preview">
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            return pipe(
+              io.http.Group.Group.decode(formData),
+              E.fold(renderValidationErrors, (p) => (
+                <GroupPageContent
+                  {...p}
+                  events={[]}
+                  projects={[]}
+                  funds={[]}
+                  onMemberClick={() => {}}
+                />
+              ))
+            );
+          }}
+        </FormDataConsumer>
       </FormTab>
     </TabbedForm>
   </Edit>

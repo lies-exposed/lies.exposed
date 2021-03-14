@@ -1,3 +1,8 @@
+import { EventPageContent } from "@econnessione/shared/components/EventPageContent";
+import { http } from "@econnessione/shared/io";
+import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -12,6 +17,7 @@ import {
   Edit,
   EditProps,
   Filter,
+  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -153,6 +159,18 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
             <TextField source="description" />
           </Datagrid>
         </ArrayField>
+      </FormTab>
+      <FormTab label="Preview">
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            return pipe(
+              http.Events.Uncategorized.Uncategorized.decode(formData),
+              E.fold(renderValidationErrors, (p) => (
+                <EventPageContent event={p} actors={[]} groups={[]} />
+              ))
+            );
+          }}
+        </FormDataConsumer>
       </FormTab>
     </TabbedForm>
   </Edit>

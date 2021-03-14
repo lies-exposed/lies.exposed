@@ -1,3 +1,9 @@
+import { ActorPageContent } from "@econnessione/shared/components/ActorPageContent";
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { http } from "@econnessione/shared/io";
+import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   Create,
@@ -6,6 +12,7 @@ import {
   DateField,
   Edit,
   EditProps,
+  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -66,6 +73,21 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             <TextField source="name" />
           </Datagrid>
         </ReferenceArrayField>
+      </FormTab>
+      <FormTab label="Preview">
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            return pipe(
+              http.Actor.Actor.decode(formData),
+              E.fold(renderValidationErrors, (p) => (
+                <ActorPageContent
+                  {...p}
+                  metadata={{ Protest: [], Arrest: [], ProjectTransaction: [] }}
+                />
+              ))
+            );
+          }}
+        </FormDataConsumer>
       </FormTab>
     </TabbedForm>
   </Edit>

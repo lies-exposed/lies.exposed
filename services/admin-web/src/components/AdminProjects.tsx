@@ -1,4 +1,10 @@
+import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
+import { ProjectPageContent } from "@econnessione/shared/components/ProjectPageContent";
+import { http } from "@econnessione/shared/io";
 import { Kind } from "@econnessione/shared/io/http/ProjectImage";
+import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -107,6 +113,21 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
       </FormTab>
       <FormTab label="Body">
         <MarkdownInput source="body" />
+      </FormTab>
+      <FormTab label="Preview">
+        <FormDataConsumer>
+          {({ formData, ...rest }) => {
+            return pipe(
+              http.Project.Project.decode(formData),
+              E.fold(renderValidationErrors, (p) => (
+                <ProjectPageContent
+                  {...p}
+                  metadata={{ Arrest: [], ProjectImpact: [], Protest: [] }}
+                />
+              ))
+            );
+          }}
+        </FormDataConsumer>
       </FormTab>
     </TabbedForm>
   </Edit>
