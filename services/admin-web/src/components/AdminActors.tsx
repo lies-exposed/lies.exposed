@@ -25,6 +25,7 @@ import {
   TextInput,
 } from "react-admin";
 import { ColorField, ColorInput } from "react-admin-color-input";
+import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
 
 export const ActorList: React.FC<ListProps> = (props) => (
@@ -33,7 +34,7 @@ export const ActorList: React.FC<ListProps> = (props) => (
       <TextField label="Full Name" source="fullName" />
       <TextField source="username" />
       <ColorField source="color" />
-      <ImageField source="avatar" fullWidth={false} />
+      <AvatarField source="avatar" />
       <DateField label="Updated At" source="updatedAt" showTime={true} />
       <DateField label="Created At" source="createdAt" showTime={true} />
     </Datagrid>

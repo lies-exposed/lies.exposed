@@ -1,11 +1,9 @@
 import { Area } from "@io/http";
-import { generateRandomColor } from "@utils/colors";
 import { uuid } from "@utils/uuid";
 
 export const firstArea: Area.Area = {
   id: uuid(),
   label: "First Area",
-  color: generateRandomColor(),
   body: "",
   geometry: {
     type: "Polygon",

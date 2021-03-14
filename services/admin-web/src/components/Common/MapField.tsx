@@ -37,7 +37,7 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
   const mapContainer = React.createRef<HTMLDivElement>();
   // eslint-disable-next-line
 
-  const value = props.record ? props.record[props.source ?? 'id'] : undefined;
+  const value = props.record ? props.record[props.source ?? "id"] : undefined;
   React.useEffect(() => {
     if (document.querySelector(".map-input")?.innerHTML === "") {
       const format = getDefaultFormat();
@@ -77,7 +77,6 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
       className={"map-input"}
       ref={mapContainer}
       style={{ height: 300, width: 600 }}
-    ></div>
+    />
   );
 };
-

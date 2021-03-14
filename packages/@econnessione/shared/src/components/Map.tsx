@@ -58,13 +58,12 @@ const Map: React.FC<MapProps> = ({
     const featuresLayer = new VectorLayer({
       source: featureSource,
       style: (feature) => {
-        const area = feature.getProperties() as Area.Area;
         return new Style({
           fill: new Fill({
-            color: `${area.color}`,
+            color: `#CCC`,
           }),
           stroke: new Stroke({
-            color: `${area.color}`,
+            color: `#CCC`,
             width: 2,
           }),
         });

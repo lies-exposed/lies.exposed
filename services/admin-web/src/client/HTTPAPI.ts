@@ -7,7 +7,7 @@ import { AuthProvider } from "react-admin";
 import { createActor, editActor } from "./ActorAPI";
 import { editArea } from "./AreaAPI";
 import { convertFileToBase64, uploadImages } from "./MediaAPI";
-import { editProject } from "./ProjectAPI";
+import { createProject, editProject } from "./ProjectAPI";
 
 const publicDataProvider = http.APIRESTClient({
   url: process.env.REACT_APP_API_URL,
@@ -51,6 +51,7 @@ export const apiProvider: http.APIRESTClient = {
     if (resource === "actors") {
       return createActor(dataProvider)(resource, params) as any;
     }
+
     if (resource === "groups") {
       // eslint-disable-next-line no-console
       const { avatar, ...data } = params.data;
@@ -68,6 +69,10 @@ export const apiProvider: http.APIRESTClient = {
           data: finalData,
         });
       });
+    }
+
+    if (resource === "projects") {
+      return createProject(dataProvider)(resource, params);
     }
 
     return dataProvider.create(resource, params);

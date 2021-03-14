@@ -1,9 +1,9 @@
 {
-  "extends": ["../../../.eslintrc", "plugin:react/recommended"],
+  "extends": ["../../../.eslintrc"],
   "plugins": ["@typescript-eslint", "react"],
   "parserOptions": {
     "tsconfigRootDir": "./",
-    "project": ["./tsconfig.json", "../../../tsconfig.test.json"]
+    "project": ["./tsconfig.json"]
   },
   "rules": {
     "react/prop-types": ["off"]

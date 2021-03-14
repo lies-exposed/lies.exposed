@@ -34,6 +34,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
+import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
 
@@ -57,17 +58,17 @@ export const EventList: React.FC<ListProps> = (props) => (
       <TextField source="location.coordinates" />
       <ReferenceArrayField source="groupMembers" reference="groups-members">
         <SingleFieldList>
-          <ChipField source="fullName" />
+          <AvatarField source="avatar" />
         </SingleFieldList>
       </ReferenceArrayField>
       <ReferenceArrayField source="actors" reference="actors">
         <SingleFieldList>
-          <ChipField source="fullName" />
+          <AvatarField source="avatar" />
         </SingleFieldList>
       </ReferenceArrayField>
       <ReferenceArrayField source="groups" reference="groups">
         <SingleFieldList>
-          <ImageField source="avatar" />
+          <AvatarField source="avatar" />
         </SingleFieldList>
       </ReferenceArrayField>
       <DateField source="startDate" />
@@ -104,7 +105,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="fullName" />
-            <ImageField source="avatar" fullWidth={false} />
+            <AvatarField source="avatar" />
           </Datagrid>
         </ReferenceArrayField>
       </FormTab>

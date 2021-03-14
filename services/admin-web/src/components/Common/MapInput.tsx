@@ -31,13 +31,12 @@ type MapInputProps = InputProps & {
 };
 
 export const MapInput: React.FC<MapInputProps> = (props) => {
-
   const inputProps = useInput(props);
 
   const {
     input: { value, onChange },
   } = inputProps;
-  
+
   const mapContainer = React.createRef<HTMLDivElement>();
   const mapClassName = `map-input-${props.record.id}`;
 
@@ -46,12 +45,12 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
       const format = getDefaultFormat();
       const features = value ? [format.readFeature(value)] : [];
       // eslint-disable-next-line
-      console.log(features);
+      // console.log(features);
       const featuresSource = new VectorSource({ features, wrapX: false });
       const featuresLayer = new VectorLayer({ source: featuresSource });
 
       // eslint-disable-next-line
-      console.log(featuresSource);
+      // console.log(featuresSource);
 
       const target = mapContainer.current;
       if (target) {
@@ -89,13 +88,13 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
   });
 
   // eslint-disable-next-line
-  console.log({ mapContainer, mapClassName });
+  // console.log({ mapContainer, mapClassName });
 
   return (
     <div
       className={mapClassName}
       ref={mapContainer}
       style={{ height: 300, width: 600 }}
-    ></div>
+    />
   );
 };

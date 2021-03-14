@@ -29,6 +29,7 @@ import {
   TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
+import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
 
 const RESOURCE = "groups";
@@ -46,7 +47,7 @@ const GroupKindInput: React.FC<ChoicesInputProps> = (props) => (
 export const GroupList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
-      <ImageField source="avatar" fullWidth={false} />
+      <AvatarField source="avatar" fullWidth={false} />
       <TextField source="name" />
       <TextField source="color" />
       <DateField source="date" />

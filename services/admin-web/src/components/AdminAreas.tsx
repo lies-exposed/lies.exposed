@@ -22,7 +22,6 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import { ColorField, ColorInput } from "react-admin-color-input";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
 
@@ -32,7 +31,6 @@ export const AreaList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <TextField source="label" />
-      <ColorField source="color" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -48,7 +46,6 @@ export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
     <TabbedForm>
       <FormTab label="Generals">
         <TextInput source="label" />
-        <ColorInput source="color" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
@@ -82,7 +79,6 @@ export const AreaCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Post" {...props}>
     <SimpleForm>
       <TextInput source="label" validate={[required()]} />
-      <ColorInput source="color" validate={[required()]} />
       <MapInput
         source="geometry"
         type={GeometryType.POLYGON}

@@ -6,7 +6,7 @@ import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { CreateResult, UpdateParams } from "react-admin";
+import { CreateParams, CreateResult, UpdateParams } from "react-admin";
 import { uploadImages } from "./MediaAPI";
 
 export const editProject = (client: http.APIRESTClient) => (
@@ -54,6 +54,32 @@ export const editProject = (client: http.APIRESTClient) => (
         E.toError
       );
     }),
+    TE.fold(T.task.of, (result) => T.of(result as any))
+  )();
+};
+
+export const createProject = (client: http.APIRESTClient) => (
+  resource: string,
+  params: CreateParams
+): Promise<CreateResult<Project>> => {
+  const images = params.data.images ? params.data.images : [];
+  const createParams: CreateParams = {
+    ...params,
+    data: {
+      ...params.data,
+      areas: params.data.areas.map((g: any) => ({
+        ...g,
+        geometry: JSON.parse(g.geometry),
+      })),
+      images,
+    },
+  };
+
+  return pipe(
+    TE.tryCatch(
+      () => client.create<Project>(resource, createParams),
+      E.toError
+    ),
     TE.fold(T.task.of, (result) => T.of(result as any))
   )();
 };

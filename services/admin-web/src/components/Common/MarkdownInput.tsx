@@ -37,11 +37,12 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
       }}
       format={(v: string | undefined) => {
         if (v) {
+          // console.log('format', v);
           return pipe(
             mdx.MDXToHTML(v),
             IOE.fold(
               (e) => () => {
-                console.error(e);
+                // console.error(e);
                 return v;
               },
               (value) => () => {
@@ -53,13 +54,16 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
         return "";
       }}
       parse={(v: string) => {
+        // console.log('parse', v);
         return pipe(
           mdx.HTMLToMDX(v),
           IOE.fold(
             (e) => () => {
+              // console.error('Parsing error', e);
               return v;
             },
             (value) => () => {
+              // console.log('parsed value', value)
               return value;
             }
           )

@@ -74,7 +74,6 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <ArrayInput source="newAreas">
           <SimpleFormIterator>
             <TextInput source="label" />
-            <ColorInput source="color" />
             <MapInput source="geometry" type={GeometryType.POLYGON} />
             <MarkdownInput source="body" />
           </SimpleFormIterator>
@@ -134,13 +133,25 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
 );
 
 export const ProjectCreate: React.FC<CreateProps> = (props) => (
-  <Create title="Create a Post" {...props}>
+  <Create title="Create a Project" {...props}>
     <SimpleForm>
       <TextInput source="name" validate={[required()]} />
       <ColorInput source="color" validate={[required()]} />
       <DateInput source="startDate" validate={[required()]} />
       <DateInput source="endDate" />
-      <MapInput source="areas" type={GeometryType.POLYGON} />
+      <ArrayInput source="areas">
+        <SimpleFormIterator>
+          <TextInput source="label" />
+          <MapInput source="geometry" type={GeometryType.POLYGON} />
+          <MarkdownInput source="body" />
+        </SimpleFormIterator>
+      </ArrayInput>
+      <ArrayInput source="images">
+        <SimpleFormIterator>
+          <ImageInput source="location" />
+        </SimpleFormIterator>
+      </ArrayInput>
+
       <MarkdownInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>
