@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.common.white,
       fontWeight: theme.typography.fontWeightBold,
     },
+    menuItemLink: {
+      // color: theme.overrides?.MuiAppBar?.colorPrimary as any,
+      textDecoration: "none",
+    },
     title: {
       flexGrow: 1,
     },
@@ -78,9 +82,9 @@ export const mainMenu: HeaderMenuItem[] =
           subItems: [],
         },
         {
-          id: "events",
-          href: "/events",
-          label: "Events",
+          id: "data",
+          href: "#",
+          label: "Data",
           subItems: [
             {
               id: "actors",
@@ -107,6 +111,11 @@ export const mainMenu: HeaderMenuItem[] =
               href: "/projects",
               label: "Progetti",
             },
+            {
+              id: "events",
+              href: "/events",
+              label: "Eventi",
+            },
           ],
         },
       ]
@@ -130,9 +139,12 @@ const Header: React.FC = () => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
-  const [anchorRef, setAnchorRef] = React.useState<React.RefObject<
-    HTMLButtonElement
-  > | null>(React.useRef<HTMLButtonElement>(null));
+  const [
+    anchorRef,
+    setAnchorRef,
+  ] = React.useState<React.RefObject<HTMLButtonElement> | null>(
+    React.useRef<HTMLButtonElement>(null)
+  );
   const [
     selectedMenuItem,
     setSelectedMenuItem,
@@ -249,8 +261,17 @@ const Header: React.FC = () => {
                         onKeyDown={handleListKeyDown}
                       >
                         {m.subItems.map((item) => (
-                          <MenuItem key={item.id} onClick={handleClose}>
-                            <Link to={item.href}>{item.label}</Link>
+                          <MenuItem
+                            key={item.id}
+                            className={classes.menuItem}
+                            onClick={handleClose}
+                          >
+                            <Link
+                              className={classes.menuItemLink}
+                              to={item.href}
+                            >
+                              {item.label}
+                            </Link>
                           </MenuItem>
                         ))}
                       </MenuList>
