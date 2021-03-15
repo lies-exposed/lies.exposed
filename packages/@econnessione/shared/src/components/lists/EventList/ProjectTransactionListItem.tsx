@@ -3,12 +3,11 @@ import { Actor, Common, Events, Group } from "@io/http";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as React from "react";
 
-export interface ProjectTransactionListItemProps
-   {
-     event: Events.ProjectTransaction.ProjectTransaction
+export interface ProjectTransactionListItemProps {
+  event: Events.ProjectTransaction;
   selected: boolean;
-  actors: Actor.Actor[]
-  groups: Group.Group[]
+  actors: Actor.Actor[];
+  groups: Group.Group[];
 }
 
 export const ProjectTransactionListItem: React.FC<

@@ -8,7 +8,7 @@ import {
 
 interface ProjectListProps {
   funds: Array<ProjectTransactionListItemProps["event"]>;
-  onClickItem: (item: Events.ProjectTransaction.ProjectTransaction) => void;
+  onClickItem: (item: Events.ProjectTransaction) => void;
 }
 
 const ProjectFundList: React.FC<ProjectListProps> = ({

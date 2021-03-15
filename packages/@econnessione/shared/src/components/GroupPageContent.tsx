@@ -11,7 +11,7 @@ import GroupList from "./lists/GroupList";
 export interface GroupPageContentProps extends Group.Group {
   events: Events.EventMD[];
   projects: Project.Project[];
-  funds: Events.ProjectTransaction.ProjectTransaction[];
+  funds: Events.ProjectTransaction[];
   onMemberClick: (m: Actor.ActorFrontmatter) => void;
 }
 

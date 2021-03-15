@@ -13,7 +13,7 @@ import { GroupPageContent, GroupPageContentProps } from "../GroupPageContent";
 
 const groupFunds = pipe(
   eventMetadata,
-  A.filter(Events.ProjectTransaction.ProjectTransaction.is),
+  A.filter(Events.ProjectTransaction.is),
   A.filter(
     (f) =>
       // TODO:
