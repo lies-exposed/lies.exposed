@@ -16,14 +16,17 @@ import {
   SimpleForm,
   TextField,
 } from "react-admin";
+import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
 
 export const GroupMemberList: React.FC<ListProps> = (props) => (
   <List {...props} resource="groups-members">
     <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <TextField source="group.name" />
-      <TextField source="actor.fullName" />
+      <AvatarField source="group.avatar" />
+      <AvatarField source="actor.avatar" />
+      <DateField label="Started At" source="startDate" />
+      <DateField label="Ended At" source="endDate" emptyText="Still going" />
+      <TextField source="body" />
       <DateField label="Updated At" source="updatedAt" showTime={true} />
       <DateField label="Created At" source="createdAt" showTime={true} />
     </Datagrid>
