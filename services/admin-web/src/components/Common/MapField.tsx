@@ -33,17 +33,15 @@ type MapFieldProps = FieldProps & {
 };
 
 export const MapField: React.FC<MapFieldProps> = (props) => {
-  // eslint-disable-next-line
-  console.log({ props });
-
   const mapContainer = React.createRef<HTMLDivElement>();
   // eslint-disable-next-line
-  const mapClassName = `map-field-${uuid()}`;
+  const [id] = React.useState(uuid());
+  const mapClassName = `map-field-${id}`;
   const value =
     props.source && has(props.record, props.source)
       ? get(props.record, props.source)
       : undefined;
-  console.log(value);
+
   React.useEffect(() => {
     if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
       const format = getDefaultFormat();

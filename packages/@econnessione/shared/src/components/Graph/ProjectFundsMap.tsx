@@ -24,7 +24,7 @@ export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {
                   height={height}
                   data={areas}
                   center={[0, 0]}
-                  zoom={6}
+                  zoom={12}
                   onMapClick={() => {}}
                 />
               );

@@ -3,12 +3,12 @@ import Feature from "ol/Feature";
 import OlMap from "ol/Map";
 import View from "ol/View";
 import * as OlControl from "ol/control";
+import * as olExtent from "ol/extent";
 import GEOJSON from "ol/format/GeoJSON";
 import Geometry from "ol/geom/Geometry";
 import * as OlInteraction from "ol/interaction";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
-import * as OlProj from "ol/proj";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
 import { Circle, Fill, Stroke, Style } from "ol/style";
@@ -28,7 +28,7 @@ interface MapProps {
   width: number;
   height: number;
   data: Datum[];
-  center: [number, number];
+  center?: [number, number];
   zoom: number;
   interactions?: OlInteraction.DefaultsOptions;
   controls?: OlControl.DefaultsOptions;
@@ -52,6 +52,10 @@ const Map: React.FC<MapProps> = ({
       feature.setProperties(datum);
       return feature;
     });
+    const mapCenter =
+      features.length === 0
+        ? [0, 0]
+        : olExtent.getCenter(features[0].getGeometry().getExtent());
 
     const featureSource = new VectorSource({
       format: geoJSONFormat,
@@ -97,10 +101,16 @@ const Map: React.FC<MapProps> = ({
 
     map.setView(
       new View({
-        center: OlProj.fromLonLat(center),
         zoom,
+        center: mapCenter,
       })
     );
+
+    // if (features[0]) {
+    //   map
+    //     .getView()
+    //     .fit(features[0].getGeometry().getExtent(), { size: map.getSize() });
+    // }
 
     map.on("click", (evt) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises

@@ -37,8 +37,9 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
     input: { value, onChange },
   } = inputProps;
 
+  const [id] = React.useState(uuid());
   const mapContainer = React.createRef<HTMLDivElement>();
-  const mapClassName = `map-input-${uuid()}`;
+  const mapClassName = `map-input-${id}`;
 
   React.useEffect(() => {
     if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
