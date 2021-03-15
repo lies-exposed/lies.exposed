@@ -1,10 +1,10 @@
-import { FullSizeLoader } from "@components/Common/FullSizeLoader";
 import { Footer } from "@econnessione/shared/components/Footer";
 import Header from "@econnessione/shared/components/Header";
 import { Grid, ThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";
+import AreaTemplate from "@templates/AreaTemplate";
 import ArticleTemplate from "@templates/ArticleTemplate";
 import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
@@ -26,6 +26,7 @@ import ProjectPage from "./pages/project";
 import { theme } from "./theme/CustomTheme";
 import "./scss/main.scss";
 import "ol/ol.css";
+
 // import NotFoundPage from "./pages/404";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
@@ -48,13 +49,13 @@ export const App: React.FC = () => {
             rel: "stylesheet",
             type: "text/css",
             href:
-              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
+              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
           },
           {
             rel: "stylesheet",
             type: "text/css",
             href:
-              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
+              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
           },
         ]}
       />
@@ -75,6 +76,7 @@ export const App: React.FC = () => {
                 <ArticleTemplate path="/blog/:articlePath" />
                 <BlogPage path="/blog" />
                 <AreasPage path="/areas" />
+                <AreaTemplate path="/areas/:areaId" />
                 <GroupTemplate path="/groups/:groupId" />
                 <GroupsPage path="/groups" />
                 <ActorTemplate path="/actors/:actorId" />

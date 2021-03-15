@@ -1,10 +1,10 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Area, Group, Topic } from "@io/http";
 import { Grid } from "@material-ui/core";
-import { calculateArea } from "@utils/openLayers";
+import { calculateAreaInSQM } from "@utils/openLayers";
 import * as React from "react";
-import EditButton from "./buttons/EditButton";
 import Map from "./Map";
+import EditButton from "./buttons/EditButton";
 
 export interface AreaPageContentProps extends Area.Area {
   onGroupClick: (g: Group.Group) => void;
@@ -17,8 +17,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
   ...area
 }) => {
   const data = [area];
-  const totalArea = calculateArea(data);
-  const totalAreaInKm = Math.round((totalArea / 1000000) * 100) / 100;
+  const totalArea = calculateAreaInSQM(data);
 
   return (
     <Grid container>
@@ -40,7 +39,9 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
             zoom: false,
           }}
         />
-        <span>{totalAreaInKm}</span>
+        <span>
+          {totalArea}m<sup>2</sup>
+        </span>
         {/* {pipe(
           frontmatter.groups,
           O.fromPredicate((g) => Array.isArray(g) && g.length > 0),
