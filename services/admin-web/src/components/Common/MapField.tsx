@@ -1,6 +1,9 @@
 import { uuid } from "@econnessione/shared/utils/uuid";
-import Map from "ol/Map.js";
-import View from "ol/View.js";
+import get from "lodash/get";
+import has from "lodash/has";
+import Feature from "ol/Feature";
+import Map from "ol/Map";
+import View from "ol/View";
 import GeoJSON from "ol/format/GeoJSON";
 import GeometryType from "ol/geom/GeometryType";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
@@ -21,7 +24,7 @@ const getDefaultMap = (
   return new Map({
     target,
     layers: [new TileLayer({ source: new OSMSource() }), featuresLayer],
-    view: new View({ center: [0, 0], zoom: 2 }),
+    view: new View({ center: [9.18951, 45.46427], zoom: 10 }),
   });
 };
 
@@ -36,16 +39,18 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
   const mapContainer = React.createRef<HTMLDivElement>();
   // eslint-disable-next-line
   const mapClassName = `map-field-${uuid()}`;
-  const value = props.record ? props.record[props.source ?? "id"] : undefined;
+  const value =
+    props.source && has(props.record, props.source)
+      ? get(props.record, props.source)
+      : undefined;
+  console.log(value);
   React.useEffect(() => {
     if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
       const format = getDefaultFormat();
-      const features = value
-        ? [format.readFeature(Array.isArray(value) ? value[0] : value)]
-        : [];
+      const features = value ? [new Feature(format.readGeometry(value))] : [];
       // eslint-disable-next-line
       // console.log(features);
-      const featuresSource = new VectorSource({ features, wrapX: false });
+      const featuresSource = new VectorSource({ features });
       const featuresLayer = new VectorLayer({ source: featuresSource });
 
       const target = mapContainer.current;

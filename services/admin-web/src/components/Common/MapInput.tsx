@@ -1,3 +1,4 @@
+import { uuid } from "@econnessione/shared/utils/uuid";
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import GeoJSON from "ol/format/GeoJSON";
@@ -37,7 +38,7 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
   } = inputProps;
 
   const mapContainer = React.createRef<HTMLDivElement>();
-  const mapClassName = `map-input-${props.record[props.source].id}`;
+  const mapClassName = `map-input-${uuid()}`;
 
   React.useEffect(() => {
     if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {

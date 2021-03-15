@@ -59,7 +59,11 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           </IconButton>
         }
         title={item.title}
-        subheader={formatDate(item.startDate)}
+        subheader={
+          <Typography variant="caption">
+            {formatDate(item.startDate)}
+          </Typography>
+        }
       />
       <CardActionArea>
         {pipe(

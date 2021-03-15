@@ -9,7 +9,6 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 
-
 export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
   AddEndpoint(r)(
     endpoints.Project.Create,
@@ -32,16 +31,6 @@ export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
                 project: project,
               }))
             ),
-            // avatar: pipe(
-            //   s3.upload({
-            //     Bucket: env.SPACE_BUCKET,
-            //     Key: `groups/${actor.id}.jpg`,
-            //     Body: getBufferFromBase64(avatar.src, "image"),
-            //     ACL: "public-read",
-            //     ContentType: "image/jpeg",
-            //   }),
-            //   TE.mapLeft((e) => ServerError())
-            // ),
           })
         ),
         TE.chain(({ project: page }) =>

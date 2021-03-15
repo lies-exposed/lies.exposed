@@ -22,6 +22,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
+import { MapField } from "./Common/MapField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
 
