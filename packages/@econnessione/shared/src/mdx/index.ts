@@ -107,11 +107,8 @@ export const HTMLToMDX = (content: string): IOE.IOEither<Error, string> => {
           // replace double backslashs for mdx components escaping
           .replace(/\\/g, "")
           // add a break between mdx components
-          .replace(
-            new RegExp("</FullSizeSection> <", "g"),
-            "</FullSizeSection>\n\n<"
-          )
-          .replace(new RegExp("--> <", "g"), "-->\n\n<")
+          .replace(/<\/FullSizeSection> </g, "</FullSizeSection>\n\n<")
+          .replace(/--> </g, "-->\n\n<")
           // always add a breakline at the eof
           .concat("\n")
       );

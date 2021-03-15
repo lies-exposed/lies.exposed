@@ -49,7 +49,7 @@ import { PathReporter } from "io-ts/lib/PathReporter";
 import { MakeUserRoutes } from "./routes/users/User.routes";
 
 // var whitelist = ["http://localhost:8002"]
-var corsOptions: cors.CorsOptions = {
+const corsOptions: cors.CorsOptions = {
   origin: true,
 };
 

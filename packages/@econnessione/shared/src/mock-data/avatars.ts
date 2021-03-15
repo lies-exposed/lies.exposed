@@ -24,7 +24,7 @@ export const avatars: Avatars = {
   groups: pipe(
     A.range(0, 10),
     A.map((number) =>
-      require(`${__dirname}/assets/groups/group-${number}.svg`)
+      require(`./assets/groups/group-${number}.svg`)
     ),
     A.reduceWithIndex({}, (number, acc, asset) => ({
       ...acc,

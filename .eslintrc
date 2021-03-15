@@ -4,8 +4,7 @@
   "plugins": ["@typescript-eslint"],
   "extends": [
     "standard-with-typescript",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "parserOptions": {
     "project": [
