@@ -33,7 +33,7 @@ describe("Delete Actor", () => {
           username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
           avatar: "http://myavatar-url.com/",
           color: "ffffff",
-          fullName: "Andrea Ascari",
+          fullName: tests.fc.sample(tests.fc.string())[0],
           body: "my content",
         })
     ).body.data;

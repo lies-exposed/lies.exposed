@@ -34,21 +34,21 @@ export class EventEntity {
   @JoinTable()
   links: LinkEntity[];
 
-  @ManyToMany(() => ImageEntity, { cascade: true })
+  @ManyToMany(() => ImageEntity, { cascade: true, nullable: true })
   @JoinTable()
   images: ImageEntity[];
 
-  @ManyToMany(() => GroupEntity, (a) => a.events)
+  @ManyToMany(() => GroupEntity, (a) => a.events, { nullable: true })
   @JoinTable()
   groups: GroupEntity[];
 
-  @ManyToMany(() => ActorEntity, (a) => a.events)
+  @ManyToMany(() => ActorEntity, (a) => a.events, { nullable: true })
   @JoinTable()
   actors: ActorEntity[];
 
-  @ManyToMany(() => GroupMemberEntity, (a) => a.events)
+  @ManyToMany(() => GroupMemberEntity, (a) => a.events, { nullable: true })
   @JoinTable()
-  groupMembers: GroupMemberEntity[];
+  groupsMembers: GroupMemberEntity[];
 
   @Column({ type: "varchar" })
   body: string;

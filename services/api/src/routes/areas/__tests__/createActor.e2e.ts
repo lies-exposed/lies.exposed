@@ -36,8 +36,10 @@ describe("Create Actor", () => {
       username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
       avatar: "http://myavatar-url.com/",
       color: "ffffff",
-      fullName: "Andrea Ascari",
-      body: "my content",
+      fullName: `${tests.fc.sample(
+        tests.fc.string({ minLength: 3 })
+      )} ${tests.fc.sample(tests.fc.string({ minLength: 3 }))}`,
+      body: tests.fc.string(),
     });
 
     expect(response.status).toEqual(401);
@@ -50,7 +52,7 @@ describe("Create Actor", () => {
       .send({
         avatar: "http://myavatar-url.com/",
         color: "ffffff",
-        fullName: "Andrea Ascari",
+        fullName: tests.fc.sample(tests.fc.string())[0],
         body: "my content",
       });
 
@@ -65,7 +67,7 @@ describe("Create Actor", () => {
         username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
         avatar: "http://myavatar-url.com/",
         color: "ffffff",
-        fullName: "Andrea Ascari",
+        fullName: tests.fc.sample(tests.fc.string())[0],
         body: "my content",
       });
 

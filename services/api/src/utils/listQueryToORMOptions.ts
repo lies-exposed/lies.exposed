@@ -1,4 +1,5 @@
 import * as Query from "@econnessione/shared/endpoints/Query";
+import { UUID } from "@econnessione/shared/io/http/Common/UUID";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -56,6 +57,9 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
     _f,
     R.filter(O.isSome),
     R.mapWithIndex((key, e) => {
+      if (UUID.is(e.value)) {
+        return Equal(e.value);
+      }
       if (BigIntFromString.is(e.value)) {
         return Equal(e.value.toString());
       }

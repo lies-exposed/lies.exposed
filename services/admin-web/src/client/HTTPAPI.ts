@@ -90,13 +90,11 @@ export const apiProvider: http.APIRESTClient = {
       });
     }
     if (resource === "events") {
-      // eslint-disable-next-line
-      console.log(params.data);
-
       const {
         newImages = [],
         images,
         newAreas = [],
+        groupsMembers = [],
         areas,
         ...data
       } = params.data;
@@ -110,8 +108,6 @@ export const apiProvider: http.APIRESTClient = {
             .map((i: { location: { rawFile: File } }) => i.location.rawFile)
         ),
         TE.chain((result) => {
-          // eslint-disable-next-line
-          console.log({ result });
           const updateParams = {
             ...params,
             data: {
@@ -126,6 +122,7 @@ export const apiProvider: http.APIRESTClient = {
                   description: "",
                 }))
               ),
+              groupsMembers,
             },
           };
           return TE.tryCatch(

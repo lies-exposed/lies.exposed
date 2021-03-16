@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -18,6 +19,7 @@ export class UserEntity {
   lastName: string;
 
   @Column({ type: "varchar" })
+  @Index({ unique: true })
   username: string;
 
   @Column({ type: "varchar" })

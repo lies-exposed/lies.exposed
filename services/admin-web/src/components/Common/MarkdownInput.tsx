@@ -28,6 +28,10 @@ const toolbarOptions = [
 ];
 
 const MarkdownInput: React.FC<InputProps> = (props) => {
+  const [lastValidFormattedValue, setLastValidFormattedValue] = React.useState(
+    ""
+  );
+  const [lastValidParsedValue, setLastValidParsedValue] = React.useState("");
   return (
     <RichTextInput
       options={{
@@ -42,10 +46,11 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
             mdx.MDXToHTML(v),
             IOE.fold(
               (e) => () => {
-                // console.error(e);
-                return v;
+                console.error(e);
+                return lastValidFormattedValue;
               },
               (value) => () => {
+                setLastValidFormattedValue(value);
                 return value;
               }
             )
@@ -54,16 +59,17 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
         return "";
       }}
       parse={(v: string) => {
-        // console.log('parse', v);
+        console.log("parse", v);
         return pipe(
           mdx.HTMLToMDX(v),
           IOE.fold(
             (e) => () => {
-              // console.error('Parsing error', e);
-              return v;
+              console.error("Parsing error", e);
+              return lastValidParsedValue;
             },
             (value) => () => {
               // console.log('parsed value', value)
+              setLastValidParsedValue(value);
               return value;
             }
           )

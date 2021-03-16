@@ -1,4 +1,5 @@
 import { RouteContext } from "@routes/route.types";
+import { fc } from "@econnessione/core/tests";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -9,7 +10,9 @@ import { UserEntity } from "../User.entity";
 
 describe("User login", () => {
   let ctx: RouteContext,
-    req: supertest.SuperTest<supertest.Test>;
+    req: supertest.SuperTest<supertest.Test>,
+    userId = uuid(),
+    username = `${userId}@econnessione.org`;
   beforeAll(async () => {
     await pipe(
       makeContext(process.env),
@@ -21,12 +24,12 @@ describe("User login", () => {
           TE.chain((password) =>
             ctx.db.save(UserEntity, [
               {
-                id: uuid(),
-                username: "me@econnessione.org",
+                id: userId,
+                username,
                 passwordHash: password,
-                email: "me@econnessione.org",
-                firstName: "John",
-                lastName: "Doe",
+                email: username,
+                firstName: fc.sample(fc.string())[0],
+                lastName: fc.sample(fc.string())[0],
               },
             ])
           ),
@@ -45,7 +48,7 @@ describe("User login", () => {
 
   test("Should return bad request", async () => {
     const response = await req.post("/v1/users/login").send({
-      username: "me@econnessione.org",
+      username: username,
       password: "my-secure-password",
     });
 
@@ -54,11 +57,11 @@ describe("User login", () => {
 
   test("Should return the access token", async () => {
     const response = await req.post("/v1/users/login").send({
-      username: "me@econnessione.org",
+      username: username,
       password: "my-real-secure-password",
     });
 
     expect(response.status).toEqual(201);
-    expect(response.body).toHaveProperty('data.token');
+    expect(response.body).toHaveProperty("data.token");
   });
 });

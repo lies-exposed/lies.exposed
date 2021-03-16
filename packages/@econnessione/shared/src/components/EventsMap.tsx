@@ -1,9 +1,11 @@
 import { Area, Events } from "@io/http";
 import { navigate } from "@reach/router";
+import { geoJSONFormat } from "@utils/map.utils";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
+import Feature from "ol/Feature";
 import * as React from "react";
 import Map from "./Map";
 
@@ -56,8 +58,15 @@ export const EventsMap: React.FC<EventsMapProps> = ({
     )
   );
 
+  const features = data.map(({ geometry, ...datum }) => {
+    const geom = geoJSONFormat.readGeometry(geometry);
+    const feature = new Feature(geom);
+    feature.setProperties(datum);
+    return feature;
+  });
+
   return (
-    <ParentSize style={{ minHeight: 600 }}>
+    <ParentSize style={{ height: 600 }}>
       {({ width, height }) => {
         return (
           <div
@@ -69,9 +78,10 @@ export const EventsMap: React.FC<EventsMapProps> = ({
             }}
           >
             <Map
+              id="events"
               width={width}
               height={height}
-              data={data}
+              features={features}
               center={center}
               zoom={zoom}
               onMapClick={async (features) => {

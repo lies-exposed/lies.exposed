@@ -87,14 +87,16 @@ export const APIRESTClient = ({
       )(),
     getList: (resource, params) => {
       return liftClientRequest<RA.GetListResult<any>>(() =>
-        client.get(`${resource}`, {
+        client.get(resource, {
           params: {
             _sort: params.sort.field,
             _order: params.sort.order,
-            // _start: params.pagination.page * params.pagination.perPage,
-            // _end:
-            //   params.pagination.perPage * params.pagination.page +
-            //   params.pagination.perPage,
+            _start:
+              params.pagination.page * params.pagination.perPage -
+              params.pagination.perPage,
+            _end:
+              params.pagination.perPage * params.pagination.page -
+              params.pagination.perPage,
             ...params.filter,
           },
         })
@@ -122,6 +124,6 @@ export const APIRESTClient = ({
       // eslint-disable-next-line no-console
       return client.delete(`${resource}/${params.id}`, { params });
     },
-    deleteMany: (resource, params) => client.delete(`${resource}`, { params }),
+    deleteMany: (resource, params) => client.delete(resource, { params }),
   };
 };

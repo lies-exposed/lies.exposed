@@ -59,7 +59,7 @@ export const App: React.FC = () => {
           },
         ]}
       />
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <ThemeProvider theme={theme}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />

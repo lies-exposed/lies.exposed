@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { EventEntity } from "./Event.entity";
 
 @Entity("image")
 export class ImageEntity {
@@ -16,6 +18,9 @@ export class ImageEntity {
 
   @Column({ type: "varchar", nullable: false })
   description: string;
+
+  @ManyToMany(() => EventEntity, (e) => e.images)
+  events: EventEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

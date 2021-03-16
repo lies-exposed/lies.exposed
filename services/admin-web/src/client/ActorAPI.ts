@@ -18,8 +18,6 @@ export const createActor = (client: APIRESTClient) => (
 ): Promise<CreateResult<Actor>> => {
   const { avatar, ...data } = params.data;
 
-  // eslint-disable-next-line
-  console.log(avatar);
   return pipe(
     TE.tryCatch(
       () => client.create<Actor>(resource, { ...params, data: { ...data } }),
@@ -59,8 +57,6 @@ export const editActor = (client: APIRESTClient) => (
 ): Promise<UpdateResult<Actor>> => {
   const { avatar, ...data } = params.data;
 
-  // eslint-disable-next-line
-  console.log({ avatar, data });
   const avatarTask =
     typeof avatar === "string"
       ? TE.right([avatar])

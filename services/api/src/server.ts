@@ -100,7 +100,7 @@ export const makeContext = (
             LinkEntity,
             UserEntity,
           ],
-          synchronize: env.NODE_ENV === "test",
+          synchronize: env.NODE_ENV === 'test',
           ssl: ssl,
         }),
         s3:

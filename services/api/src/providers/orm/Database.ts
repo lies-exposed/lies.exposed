@@ -49,6 +49,10 @@ interface DatabaseClient {
     entityClass: EntityTarget<Entity>,
     options?: FindManyOptions<Entity>
   ) => TE.TaskEither<DBError, Entity[]>;
+  findAndCount: <Entity>(
+    entityClass: EntityTarget<Entity>,
+    options?: FindManyOptions<Entity>
+  ) => TE.TaskEither<DBError, [Entity[], number]>;
   count: <Entity>(
     entityClass: EntityTarget<Entity>,
     options?: FindOneOptions<Entity>
@@ -131,12 +135,19 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         toError(ctx.logger)
       );
     },
-    count: (entity, options) => {
+    findAndCount: (entity, options) => {
       ctx.logger.debug.log(
-        `count %s with options %O`,
-        entity.valueOf().constructor.name,
+        `find and count %s with options %O`,
+        entity,
         options
       );
+      return TE.tryCatch(
+        () => ctx.connection.manager.findAndCount(entity, options),
+        toError(ctx.logger)
+      );
+    },
+    count: (entity, options) => {
+      ctx.logger.debug.log(`count %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.count(entity, options),
         toError(ctx.logger)

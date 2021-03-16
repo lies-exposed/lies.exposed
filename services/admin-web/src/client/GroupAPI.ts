@@ -18,8 +18,6 @@ export const createGroup = (client: APIRESTClient) => (
 ): Promise<CreateResult<Group>> => {
   const { avatar, ...data } = params.data;
 
-  // eslint-disable-next-line
-  console.log(avatar);
   return pipe(
     TE.tryCatch(
       () => client.create<Group>(resource, { ...params, data: { ...data } }),
@@ -59,8 +57,6 @@ export const editGroup = (client: APIRESTClient) => (
 ): Promise<UpdateResult<Group>> => {
   const { avatar, ...data } = params.data;
 
-  // eslint-disable-next-line
-
   const avatarTask =
     typeof avatar === "string"
       ? TE.right([avatar])
@@ -82,6 +78,6 @@ export const editGroup = (client: APIRESTClient) => (
         E.toError
       )
     ),
-    TE.fold(T.task.of, (result) => T.of(result as any))
+    TE.fold(T.task.of, (result) => T.task.of(result as any))
   )();
 };
