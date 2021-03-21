@@ -1,4 +1,5 @@
 import * as endpoints from "@econnessione/shared/endpoints";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -9,7 +10,6 @@ import { RouteContext } from "routes/route.types";
 import { AddEndpoint } from "ts-endpoint-express";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { toActorIO } from "./actor.io";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
 
 export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(endpoints.Actor.List, ({ query }) => {

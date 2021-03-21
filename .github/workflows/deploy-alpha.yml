@@ -109,3 +109,9 @@ jobs:
             --delete \
             --endpoint https://fra1.digitaloceanspaces.com/ \
             --acl public-read
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        run : doctl compute cdn flush econnessione-alpha
+        with:
+          token: ${{ secrets.ALPHA_DO_ACCESS_TOKEN }}
