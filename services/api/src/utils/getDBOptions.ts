@@ -15,6 +15,7 @@ import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { UserEntity } from "@entities/User.entity";
 import { ENV } from "@io/ENV";
 import { DatabaseConnectionOpts } from "@providers/orm";
+import { LegalActionEntity } from "@entities/LegalAction.entity";
 
 export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
   const ssl =
@@ -47,6 +48,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       ImageEntity,
       LinkEntity,
       UserEntity,
+      LegalActionEntity
     ],
     synchronize: env.NODE_ENV === "test",
     ssl: ssl,

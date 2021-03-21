@@ -10,6 +10,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
+import { LegalActionEntity } from "./LegalAction.entity";
 
 @Entity("group")
 export class GroupEntity {
@@ -38,6 +39,9 @@ export class GroupEntity {
 
   @ManyToMany(() => EventEntity, (a) => a.groups, { nullable: true })
   events: EventEntity[];
+
+  @ManyToMany(() => LegalActionEntity, (a) => a.respondentGroups)
+  legalActions: LegalActionEntity[];
 
   @Column({ type: "varchar" })
   body: string;

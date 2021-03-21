@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { EventEntity } from "./Event.entity";
+import { LegalActionEntity } from "./LegalAction.entity";
 
 @Entity("group_member")
 export class GroupMemberEntity {
@@ -42,4 +43,7 @@ export class GroupMemberEntity {
 
   @ManyToMany(() => EventEntity, (e) => e.groupsMembers)
   events: EventEntity[];
+
+  @ManyToMany(() => LegalActionEntity, (e) => e.respondentMemberIn)
+  legalActions: LegalActionEntity[]
 }

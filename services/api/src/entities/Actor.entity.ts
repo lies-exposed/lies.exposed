@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { DeathEventEntity } from "./DeathEvent.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
+import { LegalActionEntity } from "./LegalAction.entity";
 
 @Entity("actor")
 export class ActorEntity {
@@ -36,6 +37,9 @@ export class ActorEntity {
 
   @ManyToMany(() => EventEntity, (e) => e.actors)
   events: EventEntity[];
+
+  @ManyToMany(() => LegalActionEntity, (a) => a.respondentActor)
+  legalActions: LegalActionEntity[];
 
   @OneToOne(() => DeathEventEntity, (d) => d.victim)
   death: DeathEventEntity;
