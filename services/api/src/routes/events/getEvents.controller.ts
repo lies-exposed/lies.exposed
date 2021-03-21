@@ -13,7 +13,7 @@ import { AddEndpoint } from "ts-endpoint-express";
 import { toEventIO } from "./event.io";
 
 export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Event.List, ({ query }) => {
+  AddEndpoint(r)(endpoints.Event.List, ({ query: { actors, ...query } }) => {
     ctx.logger.info.log("Query %O", query);
     const findOptions = getORMOptions(
       {
@@ -27,19 +27,27 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
     );
 
     return pipe(
-      sequenceS(TE.taskEither)({
-        data: pipe(
-          ctx.db.find(EventEntity, {
-            ...findOptions,
-            relations: ["links", "images"],
-            loadRelationIds: {
-              relations: ["actors", "groups"],
-            },
-          }),
-          TE.chainEitherK(A.traverse(E.either)(toEventIO))
-        ),
-        total: ctx.db.count(EventEntity),
+      ctx.db.findAndCount(EventEntity, {
+        ...findOptions,
+        where: {
+          ...findOptions.where,
+          ...(O.isSome(actors)
+            ? {
+                actors: { id: actors.value },
+              }
+            : {}),
+        },
+        relations: ["links", "images"],
+        loadRelationIds: {
+          relations: ["actors", "groups", "groupsMembers"],
+        },
       }),
+      TE.chain(([events, count]) =>
+        sequenceS(TE.taskEither)({
+          data: TE.fromEither(A.traverse(E.either)(toEventIO)(events)),
+          total: TE.right(count),
+        })
+      ),
       TE.map(({ data, total }) => ({
         body: {
           data,

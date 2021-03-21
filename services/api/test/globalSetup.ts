@@ -1,4 +1,5 @@
 import * as dotenv from "dotenv";
+import * as path from "path";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -8,7 +9,11 @@ import { ENV } from "../src/io/ENV";
 
 export default async (): Promise<void> => {
   try {
-    dotenv.config({ path: `${__dirname}/../../../.env.test` });
+    const dotenvConfigPath = path.resolve(
+      process.env.DOTENV_CONFIG_PATH ?? `${__dirname}/../../../.env.test`
+    );
+
+    dotenv.config({ path: dotenvConfigPath });
     const moduleLogger = logger.GetLogger("tests");
     moduleLogger.debug.log("Process env %O", process.env);
     return await pipe(

@@ -91,7 +91,6 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
                                 selected: false,
                               }))}
                               onActorClick={() => {}}
-                              avatarScale="scale1000"
                             />
                           )),
                           O.toNullable

@@ -1,31 +1,24 @@
-import { Area } from "@io/http";
+import { geoJSONFormat } from "@utils/map.utils";
 import Feature from "ol/Feature";
 import OlMap from "ol/Map";
 import View from "ol/View";
 import * as OlControl from "ol/control";
-import GEOJSON from "ol/format/GeoJSON";
+import * as olExtent from "ol/extent";
 import Geometry from "ol/geom/Geometry";
 import * as OlInteraction from "ol/interaction";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
-import * as OlProj from "ol/proj";
 import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
-import { Fill, Stroke, Style } from "ol/style";
+import { Circle, Fill, Stroke, Style } from "ol/style";
 import * as React from "react";
 
-const formatOptions = {
-  dataProjection: "EPSG:4326",
-  featureProjection: "EPSG:3857",
-};
-
-const geoJSONFormat = new GEOJSON(formatOptions);
-
 interface MapProps {
+  id: string;
   width: number;
   height: number;
-  features: Area.Area[];
-  center: [number, number];
+  features: Feature[];
+  center?: [number, number];
   zoom: number;
   interactions?: OlInteraction.DefaultsOptions;
   controls?: OlControl.DefaultsOptions;
@@ -33,21 +26,22 @@ interface MapProps {
 }
 
 const Map: React.FC<MapProps> = ({
+  id,
   width,
   height,
-  features: areas,
+  features,
   center,
   zoom,
   interactions,
   controls,
   onMapClick,
 }) => {
+  const mapId = `map-${id}`;
   React.useEffect(() => {
-    const features = areas.map(({ geometry, ...f }) => {
-      const feature = geoJSONFormat.readFeature(geometry);
-      feature.setProperties(f);
-      return feature;
-    });
+    const mapCenter =
+      features.length === 0
+        ? [0, 0]
+        : olExtent.getCenter(features[0].getGeometry().getExtent());
 
     const featureSource = new VectorSource({
       format: geoJSONFormat,
@@ -59,11 +53,15 @@ const Map: React.FC<MapProps> = ({
       style: (feature) => {
         return new Style({
           fill: new Fill({
-            color: `#CCC`,
+            color: `#33333380`,
           }),
           stroke: new Stroke({
-            color: `#CCC`,
+            color: `#FF000080`,
             width: 2,
+          }),
+          image: new Circle({
+            radius: 9,
+            fill: new Fill({ color: "#33333300" }),
           }),
         });
       },
@@ -78,10 +76,10 @@ const Map: React.FC<MapProps> = ({
         ...interactions,
       }),
       controls: OlControl.defaults(controls),
-      target: "map",
+      target: mapId,
       layers: [
         new TileLayer({
-          source: new OSM(),
+          source: new OSM({}),
         }),
         featuresLayer,
       ],
@@ -89,10 +87,16 @@ const Map: React.FC<MapProps> = ({
 
     map.setView(
       new View({
-        center: OlProj.fromLonLat(center),
         zoom,
+        center: mapCenter,
       })
     );
+
+    // if (features[0]) {
+    //   map
+    //     .getView()
+    //     .fit(features[0].getGeometry().getExtent(), { size: map.getSize() });
+    // }
 
     map.on("click", (evt) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -102,14 +106,14 @@ const Map: React.FC<MapProps> = ({
     });
 
     return () => {
-      const mapDiv = document.querySelector("#map");
+      const mapDiv = document.querySelector(`#${mapId}`);
       if (mapDiv !== null) {
         mapDiv.innerHTML = "";
       }
     };
   });
 
-  return <div id="map" style={{ width, height }} />;
+  return <div id={mapId} style={{ width, height }} />;
 };
 
 export default Map;

@@ -56,9 +56,9 @@ export const EventList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="location.coordinates" />
-      <ReferenceArrayField source="groupMembers" reference="groups-members">
+      <ReferenceArrayField source="groupsMembers" reference="groups-members">
         <SingleFieldList>
-          <AvatarField source="avatar" />
+          <AvatarField source="actor.avatar" />
         </SingleFieldList>
       </ReferenceArrayField>
       <ReferenceArrayField source="actors" reference="actors">
@@ -110,12 +110,12 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Group Members">
-        <ReferenceArrayInput source="groups-members" reference="groups-members">
+        <ReferenceArrayInput source="groupsMembers" reference="groups-members">
           <SelectArrayInput
             optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
           />
         </ReferenceArrayInput>
-        <ReferenceArrayField source="groups-members" reference="groups-members">
+        <ReferenceArrayField source="groupsMembers" reference="groups-members">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />

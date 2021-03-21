@@ -1,5 +1,5 @@
 import { APIRESTClient } from "@econnessione/core/http";
-import { Actor } from "@econnessione/shared/io/http/Actor";
+import { Group } from "@econnessione/shared/io/http/Group";
 import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -12,15 +12,15 @@ import {
 } from "react-admin";
 import { uploadImages } from "./MediaAPI";
 
-export const createActor = (client: APIRESTClient) => (
+export const createGroup = (client: APIRESTClient) => (
   resource: string,
   params: CreateParams<any>
-): Promise<CreateResult<Actor>> => {
+): Promise<CreateResult<Group>> => {
   const { avatar, ...data } = params.data;
 
   return pipe(
     TE.tryCatch(
-      () => client.create<Actor>(resource, { ...params, data: { ...data } }),
+      () => client.create<Group>(resource, { ...params, data: { ...data } }),
       E.toError
     ),
     TE.chain((result) => {
@@ -34,7 +34,7 @@ export const createActor = (client: APIRESTClient) => (
         TE.chain(([location]) =>
           TE.tryCatch(
             () =>
-              client.update<Actor>(resource, {
+              client.update<Group>(resource, {
                 id: result.data.id,
                 previousData: result.data,
                 data: {
@@ -51,33 +51,33 @@ export const createActor = (client: APIRESTClient) => (
   )();
 };
 
-export const editActor = (client: APIRESTClient) => (
+export const editGroup = (client: APIRESTClient) => (
   resource: string,
   params: UpdateParams<any>
-): Promise<UpdateResult<Actor>> => {
+): Promise<UpdateResult<Group>> => {
   const { avatar, ...data } = params.data;
 
   const avatarTask =
     typeof avatar === "string"
       ? TE.right([avatar])
-      : uploadImages(client)(resource, data.id, [avatar.rawFile]);
+      : uploadImages(client)(resource, data.id, [avatar]);
 
   return pipe(
     avatarTask,
     TE.chain(([location]) =>
       TE.tryCatch(
         () =>
-          client.update<Actor>(resource, {
-            id: data.id,
-            previousData: data,
+          client.update<Group>(resource, {
+            id: params.id,
+            previousData: params.previousData,
             data: {
-              ...data,
+              ...params.data,
               avatar: location,
             },
           }),
         E.toError
       )
     ),
-    TE.fold(T.task.of, (result) => T.of(result as any))
+    TE.fold(T.task.of, (result) => T.task.of(result as any))
   )();
 };

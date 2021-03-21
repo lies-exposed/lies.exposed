@@ -41,7 +41,9 @@ interface NavigationItem {
   subNav?: NavigationItem[];
 }
 
-export const eventsDataToNavigatorItems = (events: Events.Event[]): NavigationItem[] => {
+export const eventsDataToNavigatorItems = (
+  events: Events.Event[]
+): NavigationItem[] => {
   const initial: EventsByYearMap = Map.empty;
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
@@ -73,29 +75,28 @@ export const eventsDataToNavigatorItems = (events: Events.Event[]): NavigationIt
   }, initial);
 
   const initialData: NavigationItem[] = [];
-  return Map.toArray(Ord.getDualOrd(Ord.ordNumber))(yearItems).reduce<NavigationItem[]>(
-    (acc, [year, monthMap]) => {
-      const months = Map.toArray(Ord.getDualOrd(Ord.ordNumber))(
-        monthMap
-      ).reduce<NavigationItem[]>((monthAcc, [month, events]) => {
-        return monthAcc.concat({
-          itemId: `#m-${month.toString()}`,
-          title: format(new Date().setMonth(month), "MMMM"),
-          subNav: events.map((e) => ({
-            title: e.title,
-            itemId: `#${e.id}`,
-          })),
-        });
-      }, []);
-
-      return acc.concat({
-        itemId: `#y-${year.toString()}`,
-        title: year.toString(),
-        subNav: months,
+  return Map.toArray(Ord.getDualOrd(Ord.ordNumber))(yearItems).reduce<
+    NavigationItem[]
+  >((acc, [year, monthMap]) => {
+    const months = Map.toArray(Ord.getDualOrd(Ord.ordNumber))(monthMap).reduce<
+      NavigationItem[]
+    >((monthAcc, [month, events]) => {
+      return monthAcc.concat({
+        itemId: `#m-${month.toString()}`,
+        title: format(new Date().setMonth(month), "MMMM"),
+        subNav: events.map((e) => ({
+          title: e.title,
+          itemId: `#${e.id}`,
+        })),
       });
-    },
-    initialData
-  );
+    }, []);
+
+    return acc.concat({
+      itemId: `#y-${year.toString()}`,
+      title: year.toString(),
+      subNav: months,
+    });
+  }, initialData);
 };
 
 export const filterMetadataForActor = (actor: Actor.ActorFrontmatter) => (
@@ -110,7 +111,7 @@ export const filterMetadataForActor = (actor: Actor.ActorFrontmatter) => (
     //     byActor(metadata.transaction.by)
     //   );
     // }
-    case Events.ProjectImpact.PROJECT_IMPACT: {
+    case Events.ProjectImpact.type.props.type.value: {
       return (
         metadata.approvedBy.some(byActor) ?? metadata.executedBy.some(byActor)
       );

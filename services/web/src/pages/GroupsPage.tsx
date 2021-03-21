@@ -3,8 +3,13 @@ import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
-import { GroupListItem } from "@econnessione/shared/components/lists/GroupList";
-import { groupsList, pageContentByPath } from "@econnessione/shared/providers/DataProvider";
+import GroupList, {
+  GroupListItem,
+} from "@econnessione/shared/components/lists/GroupList";
+import {
+  groupsList,
+  pageContentByPath,
+} from "@econnessione/shared/providers/DataProvider";
 import { navigateTo } from "@econnessione/shared/utils/links";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -50,7 +55,6 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
                   <GroupListItem
                     item={item}
                     index={index}
-                    avatarScale="scale1600"
                     onClick={async (item: any) => {
                       if (this.props.navigate !== undefined) {
                         await navigateTo(this.props.navigate, "groups", item);
@@ -58,6 +62,15 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
                     }}
                   />
                 )}
+              />
+              <GroupList
+                groups={groups.map((a) => ({
+                  ...a,
+                  selected: false,
+                }))}
+                onGroupClick={async (g) => {
+                  await this.props.navigate?.(`/groups/${g.id}`);
+                }}
               />
             </MainContent>
           )

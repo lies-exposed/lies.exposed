@@ -40,6 +40,6 @@ export class GroupMemberEntity {
   @JoinColumn()
   actor: ActorEntity;
 
-  @ManyToMany(() => EventEntity, (e) => e.groupMembers)
+  @ManyToMany(() => EventEntity, (e) => e.groupsMembers)
   events: EventEntity[];
 }

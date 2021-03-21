@@ -1,10 +1,9 @@
+import { Avatar, AvatarSize } from "@components/Common/Avatar";
 import { List, ListItemProps } from "@components/Common/List";
 import { Group } from "@io/http";
-import { Avatar } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import { AvatarScale } from "./ActorList";
 
 export interface Group extends Group.Group {
   selected: boolean;
@@ -13,12 +12,12 @@ export interface Group extends Group.Group {
 interface GroupListProps {
   groups: Group[];
   onGroupClick: (actor: Group) => void;
-  avatarScale: AvatarScale;
+  avatarSize?: AvatarSize;
 }
 
 export const GroupListItem: React.FC<
-  ListItemProps<Group> & { avatarScale: AvatarScale }
-> = ({ item, avatarScale, onClick }) => {
+  ListItemProps<Group> & { avatarSize?: AvatarSize }
+> = ({ item, avatarSize, onClick }) => {
   return (
     <div
       key={item.id}
@@ -27,9 +26,7 @@ export const GroupListItem: React.FC<
     >
       {pipe(
         O.fromNullable(item.avatar),
-        O.map((src) => (
-          <Avatar key={item.id} src={src} />
-        )),
+        O.map((src) => <Avatar key={item.id} src={src} size={avatarSize} />),
         O.toNullable
       )}
       <div
@@ -46,7 +43,7 @@ export const GroupListItem: React.FC<
 const GroupList: React.FC<GroupListProps> = ({
   groups,
   onGroupClick,
-  avatarScale,
+  avatarSize,
 }) => {
   return (
     <List
@@ -54,7 +51,7 @@ const GroupList: React.FC<GroupListProps> = ({
       filter={(_) => true}
       onItemClick={onGroupClick}
       getKey={(g) => g.id}
-      ListItem={(p) => <GroupListItem avatarScale={avatarScale} {...p} />}
+      ListItem={(p) => <GroupListItem avatarSize={avatarSize} {...p} />}
     />
   );
 };

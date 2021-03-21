@@ -16,11 +16,15 @@ import { toEventIO } from "./event.io";
 export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     endpoints.Event.Edit,
-    ({ params: { id }, body: { links, images, actors, groups, ...body } }) => {
+    ({
+      params: { id },
+      body: { links, images, actors, groups, groupsMembers, ...body },
+    }) => {
       const optionalData = foldOptionals({
         ...body,
         actors: pipe(actors, O.map(A.map((a) => ({ id: a })))),
         groups: pipe(groups, O.map(A.map((g) => ({ id: g })))),
+        groupsMembers: pipe(groupsMembers, O.map(A.map((g) => ({ id: g })))),
         images: pipe(
           images,
           O.map((imgs) =>
@@ -31,7 +35,9 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
           )
         ),
       });
+
       ctx.logger.debug.log("Update data %O", optionalData);
+
       return pipe(
         sequenceS(TE.taskEitherSeq)({
           links: pipe(
@@ -53,7 +59,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
             where: { id },
             relations: ["images", "links"],
             loadRelationIds: {
-              relations: ["actors", "groups"],
+              relations: ["actors", "groups", "groupsMembers"],
             },
           })
         ),

@@ -1,12 +1,11 @@
+import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { ActorPageContent } from "@econnessione/shared/components/ActorPageContent";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
-import { Layout } from "@econnessione/shared/components/Layout";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
 import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
-import { actor } from "@econnessione/shared/providers/DataProvider";
+import { actor, eventsList } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -26,28 +25,33 @@ export default class ActorTemplate extends React.PureComponent<
         () => <div>Missing project id</div>,
         (actorId) => (
           <WithQueries
-            queries={{ actor: actor }}
-            params={{ actor: { id: actorId } }}
-            render={QR.fold(Loader, ErrorBox, ({ actor }) => {
-              return (
-                <MainContent>
-                  <SEO title={actor.fullName} />
-                  <ActorPageContent
-                    {...actor}
-                    metadata={eventMetadataMapEmpty}
-                  />
-                  <EventSlider events={[]} />
-                  {/* <EventsNetwork
-                events={events.filter(UncategorizedMD.is)}
-                selectedActorIds={[pageContent.frontmatter.id]}
-                selectedGroupIds={[]}
-                selectedTopicIds={[]}
-                scale="all"
-                scalePoint={O.none}
-              /> */}
-                </MainContent>
-              );
-            })}
+            queries={{ actor: actor, events: eventsList }}
+            params={{
+              actor: { id: actorId },
+              events: {
+                pagination: { page: 0, perPage: 1 },
+                sort: { field: "startDate", order: "DESC" },
+                filter: { actors: actorId },
+              },
+            }}
+            render={QR.fold(
+              LazyFullSizeLoader,
+              ErrorBox,
+              ({ actor, events }) => {
+                return (
+                  <MainContent>
+                    <SEO title={actor.fullName} />
+                    <ActorPageContent
+                      {...actor}
+                      metadata={eventMetadataMapEmpty}
+                    />
+                    <div style={{ padding: 50 }}>
+                      <EventSlider events={events.data} />
+                    </div>
+                  </MainContent>
+                );
+              }
+            )}
           />
         )
       )

@@ -2,7 +2,7 @@ import DatePicker from "@econnessione/shared/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
 import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
-import EventsMap from "@econnessione/shared/components/EventsMap";
+import { EventsMap } from "@econnessione/shared/components/EventsMap";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
@@ -277,7 +277,6 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                                 ),
                               }}
                               onClick={(item: any) => itemProps.onClick(item)}
-                              avatarScale="scale1000"
                             />
                           );
                         }}
@@ -309,7 +308,6 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                                 ),
                               }}
                               onClick={(item: any) => itemProps.onClick(item)}
-                              avatarScale="scale1000"
                             />
                           );
                         }}

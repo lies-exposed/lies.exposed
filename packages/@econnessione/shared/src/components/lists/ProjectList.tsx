@@ -12,7 +12,6 @@ import { formatDate } from "@utils/date";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import { AvatarScale } from "./ActorList";
 
 export interface Project extends Project.Project {
   selected: boolean;
@@ -21,12 +20,12 @@ export interface Project extends Project.Project {
 interface ProjectListProps {
   projects: Project[];
   onProjectClick: (item: Project) => void;
-  avatarScale: AvatarScale;
 }
 
-export const ProjectListItem: React.FC<
-  ListItemProps<Project> & { avatarScale: AvatarScale }
-> = ({ item, avatarScale, onClick }) => {
+export const ProjectListItem: React.FC<ListItemProps<Project>> = ({
+  item,
+  onClick,
+}) => {
   return (
     <Card
       style={{
@@ -34,7 +33,7 @@ export const ProjectListItem: React.FC<
         margin: 5,
         cursor: "pointer",
         width: "100%",
-        minHeight: 300
+        minHeight: 300,
       }}
       onClick={() => onClick?.(item)}
     >
@@ -68,7 +67,6 @@ export const ProjectListItem: React.FC<
 const ProjectList: React.FC<ProjectListProps> = ({
   projects,
   onProjectClick: onGroupClick,
-  avatarScale,
 }) => {
   return (
     <Grid container>
@@ -79,7 +77,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
         getKey={(g) => g.id}
         ListItem={(p) => (
           <Grid item md={6}>
-            <ProjectListItem avatarScale={avatarScale} {...p} />
+            <ProjectListItem {...p} />
           </Grid>
         )}
       />

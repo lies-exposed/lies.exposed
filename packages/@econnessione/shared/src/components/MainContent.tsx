@@ -13,13 +13,10 @@ export const MainContent: React.FC<MainContentProps> = ({
   return (
     <Container
       maxWidth="md"
-      style={{ flexDirection: "column" }}
+      // style={{ flexDirection: "column" }}
     >
-      <Grid container direction="column" alignContent="center" alignItems="center">
-        <Grid item />
+      <Grid alignContent="center" alignItems="center">
         <Grid item>{children}</Grid>
-        <Grid item />
-        <Grid item />
       </Grid>
     </Container>
   );

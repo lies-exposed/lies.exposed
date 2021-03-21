@@ -31,6 +31,7 @@ export const EventArb: tests.fc.Arbitrary<http.Events.Uncategorized.Uncategorize
     images: tests.fc.sample(ImageArb, 5).map(({ id, ...image }) => image),
     groups: [],
     actors: [],
+    groupsMembers: [],
     topics: [],
     createdAt: new Date(),
     updatedAt: new Date(),

@@ -1,10 +1,10 @@
-import { FullSizeLoader } from "@components/Common/FullSizeLoader";
 import { Footer } from "@econnessione/shared/components/Footer";
 import Header from "@econnessione/shared/components/Header";
 import { Grid, ThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";
+import AreaTemplate from "@templates/AreaTemplate";
 import ArticleTemplate from "@templates/ArticleTemplate";
 import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
@@ -13,18 +13,20 @@ import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import Helmet from "react-helmet";
 import IndexPage from "./pages";
+import ActorsPage from "./pages/ActorsPage";
 import BlogPage from "./pages/BlogPage";
 import { DocsPage } from "./pages/DocsPage";
 import EventsPage from "./pages/EventsPage";
+import GroupsPage from "./pages/GroupsPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import TheCrisisPage from "./pages/TheCrisisPage";
 import TopicsPage from "./pages/TopicsPage";
-import ActorsPage from "./pages/actors";
 import AreasPage from "./pages/areas";
-import GroupsPage from "./pages/groups";
 import ProjectPage from "./pages/project";
 import { theme } from "./theme/CustomTheme";
 import "./scss/main.scss";
+import "ol/ol.css";
+
 // import NotFoundPage from "./pages/404";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
@@ -47,17 +49,17 @@ export const App: React.FC = () => {
             rel: "stylesheet",
             type: "text/css",
             href:
-              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
+              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
           },
           {
             rel: "stylesheet",
             type: "text/css",
             href:
-              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
+              "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
           },
         ]}
       />
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <ThemeProvider theme={theme}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
@@ -74,6 +76,7 @@ export const App: React.FC = () => {
                 <ArticleTemplate path="/blog/:articlePath" />
                 <BlogPage path="/blog" />
                 <AreasPage path="/areas" />
+                <AreaTemplate path="/areas/:areaId" />
                 <GroupTemplate path="/groups/:groupId" />
                 <GroupsPage path="/groups" />
                 <ActorTemplate path="/actors/:actorId" />

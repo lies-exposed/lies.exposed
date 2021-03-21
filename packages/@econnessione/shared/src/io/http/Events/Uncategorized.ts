@@ -58,6 +58,7 @@ export const EditEventBody = nonEmptyRecordFromType({
   location: optionFromNullable(JSONFromString.pipe(Point)),
   actors: optionFromNullable(t.array(t.string)),
   groups: optionFromNullable(t.array(t.string)),
+  groupsMembers: optionFromNullable(t.array(t.string)),
   startDate: optionFromNullable(DateFromISOString),
   endDate: optionFromNullable(DateFromISOString),
   body: optionFromNullable(t.string),
@@ -78,9 +79,9 @@ export const UncategorizedFrontmatter = t.strict(
       t.strict({ id: t.string, location: t.string, description: t.string })
     ),
     links: t.array(EventLink),
-    // todo: remove
     actors: t.array(t.string),
     groups: t.array(t.string),
+    groupsMembers: t.array(t.string),
     topics: t.array(t.string),
   },
   UNCATEGORIZED.value

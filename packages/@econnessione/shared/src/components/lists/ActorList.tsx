@@ -1,6 +1,6 @@
+import { Avatar, AvatarSize } from "@components/Common/Avatar";
 import { List, ListItemProps } from "@components/Common/List";
 import * as io from "@io/http";
-import { Avatar } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -9,11 +9,9 @@ export interface Actor extends io.Actor.Actor {
   selected: boolean;
 }
 
-export type AvatarScale = "scale1600" | "scale1000";
-
 export const ActorListItem: React.FC<
-  ListItemProps<Actor> & { avatarScale: AvatarScale }
-> = ({ item, avatarScale, onClick }) => {
+  ListItemProps<Actor> & { avatarSize?: AvatarSize }
+> = ({ item, avatarSize, onClick }) => {
   return (
     <div
       key={item.id}
@@ -22,12 +20,7 @@ export const ActorListItem: React.FC<
     >
       {pipe(
         O.fromNullable(item.avatar),
-        O.map((src) => (
-          <Avatar
-            key={item.id}
-            src={src}
-          />
-        )),
+        O.map((src) => <Avatar key={item.id} size={avatarSize} src={src} />),
         O.toNullable
       )}
       <div
@@ -44,13 +37,13 @@ export const ActorListItem: React.FC<
 interface ActorListProps {
   actors: Actor[];
   onActorClick: (actor: Actor) => void;
-  avatarScale: AvatarScale;
+  avatarSize?: AvatarSize;
 }
 
 export const ActorList: React.FC<ActorListProps> = ({
   actors,
   onActorClick,
-  avatarScale,
+  avatarSize,
 }) => {
   return (
     <List
@@ -58,7 +51,7 @@ export const ActorList: React.FC<ActorListProps> = ({
       getKey={(a) => a.id}
       filter={(a) => true}
       onItemClick={onActorClick}
-      ListItem={(p) => <ActorListItem avatarScale={avatarScale} {...p} />}
+      ListItem={(p) => <ActorListItem avatarSize={avatarSize} {...p} />}
     />
   );
 };

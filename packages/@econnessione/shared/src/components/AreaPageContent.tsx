@@ -1,6 +1,9 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Area, Group, Topic } from "@io/http";
 import { Grid } from "@material-ui/core";
+import { geoJSONFormat } from "@utils/map.utils";
+import { calculateAreaInSQM } from "@utils/openLayers";
+import Feature from "ol/Feature";
 import * as React from "react";
 import Map from "./Map";
 import EditButton from "./buttons/EditButton";
@@ -15,7 +18,13 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
   onTopicClick,
   ...area
 }) => {
-  const features = [area];
+  const features = [area].map(({ geometry, ...datum }) => {
+    const geom = geoJSONFormat.readGeometry(geometry);
+    const feature = new Feature(geom);
+    feature.setProperties(datum);
+    return feature;
+  });
+  const totalArea = calculateAreaInSQM([area]);
 
   return (
     <Grid container>
@@ -27,16 +36,20 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
         </div>
         <h1>{area.label}</h1>
         <Map
+          id={`area-${area.id}`}
           width={600}
           height={300}
           features={features}
-          center={[0, 0]}
-          zoom={6}
+          center={[9.18951, 45.46427]}
+          zoom={12}
           onMapClick={() => {}}
           controls={{
             zoom: false,
           }}
         />
+        <span>
+          {totalArea}m<sup>2</sup>
+        </span>
         {/* {pipe(
           frontmatter.groups,
           O.fromPredicate((g) => Array.isArray(g) && g.length > 0),

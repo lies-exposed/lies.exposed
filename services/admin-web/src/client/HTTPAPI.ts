@@ -6,6 +6,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider } from "react-admin";
 import { createActor, editActor } from "./ActorAPI";
 import { editArea } from "./AreaAPI";
+import { editGroup, createGroup } from "./GroupAPI";
 import { convertFileToBase64, uploadImages } from "./MediaAPI";
 import { createProject, editProject } from "./ProjectAPI";
 
@@ -53,22 +54,7 @@ export const apiProvider: http.APIRESTClient = {
     }
 
     if (resource === "groups") {
-      // eslint-disable-next-line no-console
-      const { avatar, ...data } = params.data;
-      return convertFileToBase64(avatar)().then((result) => {
-        const base64 = result as E.Right<string>;
-        const finalData = {
-          ...data,
-          avatar: {
-            path: avatar.rawFile.path,
-            src: base64,
-          },
-        };
-        return dataProvider.create(resource, {
-          ...params,
-          data: finalData,
-        });
-      });
+      return createGroup(dataProvider)(resource, params) as any;
     }
 
     if (resource === "projects") {
@@ -89,6 +75,10 @@ export const apiProvider: http.APIRESTClient = {
       return editActor(dataProvider)(resource, params);
     }
 
+    if (resource === "groups") {
+      return editGroup(dataProvider)(resource, params);
+    }
+
     if (resource === "groups-members") {
       return dataProvider.update(resource, {
         ...params,
@@ -100,13 +90,11 @@ export const apiProvider: http.APIRESTClient = {
       });
     }
     if (resource === "events") {
-      // eslint-disable-next-line
-      console.log(params.data);
-
       const {
         newImages = [],
         images,
         newAreas = [],
+        groupsMembers = [],
         areas,
         ...data
       } = params.data;
@@ -120,8 +108,6 @@ export const apiProvider: http.APIRESTClient = {
             .map((i: { location: { rawFile: File } }) => i.location.rawFile)
         ),
         TE.chain((result) => {
-          // eslint-disable-next-line
-          console.log({ result });
           const updateParams = {
             ...params,
             data: {
@@ -136,6 +122,7 @@ export const apiProvider: http.APIRESTClient = {
                   description: "",
                 }))
               ),
+              groupsMembers,
             },
           };
           return TE.tryCatch(
