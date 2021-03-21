@@ -90,11 +90,11 @@ export const Legends: React.FC<LegendsProps> = (props) => {
               .legends {
                 font-family: arial;
                 font-weight: 900;
-                background-color: black;
                 border-radius: 14px;
                 padding: 24px 24px 24px 32px;
                 overflow-y: auto;
                 flex-grow: 1;
+                color: black;
               }
               .chart h2 {
                 margin-left: 10px;
