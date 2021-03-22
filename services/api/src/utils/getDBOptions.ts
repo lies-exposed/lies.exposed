@@ -1,3 +1,5 @@
+import * as fs from "fs";
+import * as path from "path";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { ArticleEntity } from "@entities/Article.entity";
@@ -12,8 +14,6 @@ import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { ENV } from "@io/ENV";
 import { DatabaseConnectionOpts } from "@providers/orm";
 import { UserEntity } from "@routes/users/User.entity";
-import * as fs from "fs";
-import * as path from "path";
 
 export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
   const ssl =
@@ -46,8 +46,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       LinkEntity,
       UserEntity,
     ],
-    // synchronize: env.NODE_ENV === "test",
-    synchronize: true,
+    synchronize: env.NODE_ENV === "test",
     ssl: ssl,
     migrations: [`${process.cwd()}/migrations/*.ts`],
     cli: {

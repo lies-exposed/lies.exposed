@@ -45,6 +45,7 @@ COPY --from=build /app/packages/@econnessione/shared/lib /app/packages/@econness
 
 # COPY api service
 COPY --from=build /app/services/api/package.json /app/services/api/package.json
+COPY --from=build /app/services/api/ormconfig.js /app/services/api/ormconfig.js
 COPY --from=build /app/services/api/build /app/services/api/build
 COPY --from=build /app/services/api/data /app/services/api/data
 
@@ -60,4 +61,3 @@ COPY --from=build /app/services/api/node_modules /app/services/api/node_modules
 
 # RUN yarn install --pure-lockfile --non-interactive --production
 
-CMD ["yarn", "workspace", "api", "start"]

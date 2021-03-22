@@ -6,7 +6,9 @@ const { ENV } = require("./build/io/ENV");
 require("dotenv").config({
   path: path.resolve(
     process.cwd(),
-    process.env.DOTENV_CONFIG_PATH ?? "../../.env.local"
+    process.env.DOTENV_CONFIG_PATH !== undefined
+      ? process.env.DOTENV_CONFIG_PATH
+      : "../../.env.local"
   ),
 });
 

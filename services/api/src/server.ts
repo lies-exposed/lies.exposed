@@ -1,6 +1,7 @@
 /* eslint-disable import/first */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias")(process.cwd());
+import * as path from "path";
 import * as logger from "@econnessione/core/logger";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
@@ -9,15 +10,15 @@ import { GetMDXClient } from "@providers/mdx";
 import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
 import { GetFSClient } from "@providers/space/FSClient";
+import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
+import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
-import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { MakePageRoutes } from "@routes/pages/pages.route";
-import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
@@ -29,10 +30,9 @@ import express from "express";
 import jwt from "express-jwt";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import * as path from "path";
 import "reflect-metadata";
 import { MakeUserRoutes } from "./routes/users/User.routes";
 
