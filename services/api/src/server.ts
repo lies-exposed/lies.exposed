@@ -1,21 +1,8 @@
 /* eslint-disable import/first */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias")(process.cwd());
-import "reflect-metadata";
-import * as fs from "fs";
 import * as path from "path";
 import * as logger from "@econnessione/core/logger";
-import { ActorEntity } from "@entities/Actor.entity";
-import { AreaEntity } from "@entities/Area.entity";
-import { ArticleEntity } from "@entities/Article.entity";
-import { EventEntity } from "@entities/Event.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { ImageEntity } from "@entities/Image.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { PageEntity } from "@entities/Page.entity";
-import { ProjectEntity } from "@entities/Project.entity";
-import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -36,7 +23,7 @@ import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
-import { UserEntity } from "@routes/users/User.entity";
+import { getDBOptions } from "@utils/getDBOptions";
 import * as AWS from "aws-sdk";
 import cors from "cors";
 import express from "express";
@@ -46,6 +33,7 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import "reflect-metadata";
 import { MakeUserRoutes } from "./routes/users/User.routes";
 
 // var whitelist = ["http://localhost:8002"]
@@ -63,46 +51,9 @@ export const makeContext = (
     E.mapLeft(DecodeError),
     TE.fromEither,
     TE.chain((env) => {
-      const ssl =
-        env.DB_SSL_MODE === "require"
-          ? {
-              ca: fs.readFileSync(
-                path.join(process.cwd(), env.DB_SSL_CERT_PATH),
-                {
-                  encoding: "utf-8",
-                }
-              ),
-            }
-          : false;
-
-      serverLogger.debug.log("SSL configuration %O", ssl);
-
       return sequenceS(TE.taskEither)({
         logger: TE.right(serverLogger),
-        db: GetTypeORMClient({
-          type: "postgres",
-          host: env.DB_HOST,
-          username: env.DB_USERNAME,
-          password: env.DB_PASSWORD,
-          database: env.DB_DATABASE,
-          port: env.DB_PORT,
-          entities: [
-            PageEntity,
-            ActorEntity,
-            GroupEntity,
-            GroupMemberEntity,
-            ArticleEntity,
-            ProjectEntity,
-            ProjectImageEntity,
-            AreaEntity,
-            EventEntity,
-            ImageEntity,
-            LinkEntity,
-            UserEntity,
-          ],
-          synchronize: env.NODE_ENV === 'test',
-          ssl: ssl,
-        }),
+        db: GetTypeORMClient(getDBOptions(env)),
         s3:
           env.NODE_ENV === "development" || env.NODE_ENV === "test"
             ? TE.right(

@@ -71,6 +71,9 @@ interface DatabaseClient {
     target: EntityTarget<Entity>,
     criteria: Criteria
   ) => TE.TaskEither<DBError, DeleteResult>;
+  transaction: <T>(
+    te: (em: DatabaseClient) => TE.TaskEither<DBError, T>
+  ) => TE.TaskEither<DBError, T>;
   close: () => TE.TaskEither<DBError, void>;
 }
 
@@ -195,6 +198,24 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       return TE.tryCatch(
         () => ctx.connection.manager.delete(entity, criteria),
         toError(ctx.logger)
+      );
+    },
+    transaction: <T>(
+      task: (db: DatabaseClient) => TE.TaskEither<DBError, T>
+    ) => {
+      return pipe(
+        TE.tryCatch(
+          () =>
+            ctx.connection.manager.transaction((e) => {
+              const transactionClient = GetDatabaseClient({
+                connection: e.connection,
+                logger: ctx.logger,
+              });
+              return task(transactionClient)();
+            }),
+          toError(ctx.logger)
+        ),
+        TE.chain(TE.fromEither)
       );
     },
     close: () => TE.tryCatch(() => ctx.connection.close(), toError(ctx.logger)),

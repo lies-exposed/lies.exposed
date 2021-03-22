@@ -10,3 +10,4 @@ build
 typings
 *.d.ts
 **/__tests__/**
+**/migrations/**

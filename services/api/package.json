@@ -12,7 +12,9 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "test:e2e": "jest -c jest.config.js e2e",
-    "create-pages": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./scripts/create-pages.ts"
+    "create-pages": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./scripts/create-pages.ts",
+    "migration:run": "ts-node ../../node_modules/typeorm/cli.js migration:run",
+    "migration:gen": "typeorm migration:generate"
   },
   "dependencies": {
     "@mdx-js/mdx": "^1.6.22",
