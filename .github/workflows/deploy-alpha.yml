@@ -60,7 +60,8 @@ jobs:
             docker pull docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha
             docker stop econnessione-api
             docker rm econnessione-api
-            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -p "4010:4010" -d --name econnessione-api docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha yarn api migration:run
+            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -p "4010:4010" -d --name econnessione-db-migrations-run docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha yarn api migration:run
+            docker rm econnessione-db-migrations-run
             docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -p "4010:4010" -d --name econnessione-api docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha yarn api start
 
       - name: Build Packages
