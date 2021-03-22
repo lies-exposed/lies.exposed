@@ -116,4 +116,4 @@ jobs:
           token: ${{ secrets.ALPHA_DO_ACCESS_TOKEN }}
 
       - name: Flush CDN
-        run: doctl compute cdn flush econnessione-alpha
+        run: doctl compute cdn flush fbe4de1b-1ca5-46fd-bd75-c57d56b0e0b8
