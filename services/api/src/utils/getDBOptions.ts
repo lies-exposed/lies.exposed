@@ -48,9 +48,9 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
     ],
     synchronize: env.NODE_ENV === "test",
     ssl: ssl,
-    migrations: [`${process.cwd()}/migrations/*.ts`],
+    migrations: [`${process.cwd()}/build/migrations/*.js`],
     cli: {
-      migrationsDir: "migrations",
+      migrationsDir: "src/migrations",
     },
   };
 };
