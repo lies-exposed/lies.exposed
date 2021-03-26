@@ -3,11 +3,11 @@ import { optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
-import { GetListOutput, Output } from "../io/http/Common/Output";
+import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "./Query";
 
 const SingleGroupOutput = Output(http.Group.Group, "Group");
-const ListGroupOutput = GetListOutput(http.Group.Group, "ListGroup");
+const ListGroupOutput = ListOutput(http.Group.Group, "ListGroup");
 
 export const List = Endpoint({
   Method: "GET",
@@ -21,23 +21,24 @@ export const List = Endpoint({
   Output: ListGroupOutput,
 });
 
-const CreateBody = t.strict({
-  name: t.string,
-  color: t.string,
-  kind: http.Group.GroupKind,
-  avatar: t.strict({
-    src: t.string,
-    path: t.string,
-  }),
-  body: t.string,
-});
+const CreateGroupBody = t.strict(
+  {
+    name: t.string,
+    color: t.string,
+    kind: http.Group.GroupKind,
+    avatar: t.string,
+    members: t.array(t.string),
+    body: t.string,
+  },
+  "CreateGroupBody"
+);
 
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/groups",
   Input: {
     Query: undefined,
-    Body: CreateBody,
+    Body: CreateGroupBody,
   },
   Output: SingleGroupOutput,
 });
@@ -52,7 +53,7 @@ export const Get = Endpoint({
   Output: SingleGroupOutput,
 });
 
-const { ...editBodyProps } = CreateBody.type.props;
+const { members, ...editBodyProps } = CreateGroupBody.type.props;
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/groups/${id}`,
@@ -61,13 +62,7 @@ export const Edit = Endpoint({
     Params: { id: t.string },
     Body: nonEmptyRecordFromType({
       ...editBodyProps,
-      avatar: t.union([
-        t.string,
-        t.type({
-          src: t.string,
-          path: t.string,
-        }),
-      ]),
+      avatar: t.string,
     }),
   },
   Output: SingleGroupOutput,

@@ -5,7 +5,10 @@ import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
 import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
-import { pageContentByPath, topicsList } from "@econnessione/shared/providers/DataProvider";
+import {
+  pageContentByPath,
+  topicsList,
+} from "@econnessione/shared/providers/DataProvider";
 import { navigateTo } from "@econnessione/shared/utils/links";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -25,7 +28,7 @@ export default class TopicsPage extends React.PureComponent<RouteComponentProps>
             path: "topics",
           },
           topics: {
-            pagination: { page: 1, perPage: 20 },
+            pagination: { page: 0, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
           },

@@ -29,7 +29,7 @@ export default class ActorTemplate extends React.PureComponent<
             params={{
               actor: { id: actorId },
               events: {
-                pagination: { page: 0, perPage: 1 },
+                pagination: { page: 0, perPage: 20 },
                 sort: { field: "startDate", order: "DESC" },
                 filter: { actors: actorId },
               },

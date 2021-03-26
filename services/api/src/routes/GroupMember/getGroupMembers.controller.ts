@@ -1,5 +1,6 @@
 import * as endpoints from "@econnessione/shared/endpoints";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -14,11 +15,15 @@ export const MakeListGroupMemberRoute = (
   r: Router,
   ctx: RouteContext
 ): void => {
-  AddEndpoint(r)(endpoints.GroupMember.List, () => {
+  AddEndpoint(r)(endpoints.GroupMember.List, ({ query }) => {
+    const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(
-          ctx.db.find(GroupMemberEntity, { relations: ["actor", "group"] }),
+          ctx.db.find(GroupMemberEntity, {
+            ...findOptions,
+            relations: ["actor", "group"],
+          }),
           TE.chainEitherK(A.traverse(E.either)(toGroupMemberIO))
         ),
         count: ctx.db.count(GroupMemberEntity),

@@ -56,6 +56,7 @@ const Resources = {
   articles: io.http.Article.Article,
   actors: io.http.Actor.Actor,
   groups: io.http.Group.Group,
+  "groups-members": io.http.GroupMember.GroupMember,
   topics: io.http.Topic.TopicMD,
   projects: io.http.Project.Project,
   "project/images": io.http.ProjectImage.ProjectImage,
@@ -108,22 +109,25 @@ export const GetOneQuery: GetOneQuery = <K extends keyof typeof Resources>(
     available
   );
 
-export type GetListQuery = <K extends keyof typeof Resources>(
+export type GetListQuery = <K extends keyof typeof Resources, P = unknown>(
   r: K
 ) => CachedQuery<
-  GetListParams,
+  P & GetListParams,
   APIError,
   { total: number; data: Array<t.TypeOf<typeof Resources[K]>> }
 >;
 
-export const GetListQuery: GetListQuery = <K extends keyof typeof Resources>(
+export const GetListQuery: GetListQuery = <
+  K extends keyof typeof Resources,
+  P = unknown
+>(
   r: K
 ) =>
   queryShallow(
-    (params: GetListParams) =>
+    (params: P & GetListParams) =>
       liftFetch(
         () => dataProvider.getList<t.TypeOf<typeof Resources[K]>>(r, params),
-        io.http.Common.GetListOutput(Resources[r], r)
+        io.http.Common.ListOutput(Resources[r], r)
       ),
     available
   );
@@ -140,10 +144,10 @@ export const pageContentByPath = queryStrict<
         () =>
           dataProvider.getList<io.http.Page.Page>("/pages", {
             filter: { path },
-            pagination: { page: 1, perPage: 1 },
+            pagination: { page: 0, perPage: 20 },
             sort: { field: "id", order: "DESC" },
           }),
-        io.http.Common.GetListOutput(io.http.Page.Page, "PageList")
+        io.http.Common.ListOutput(io.http.Page.Page, "PageList")
       ),
       TE.map((pages) => pages.data[0])
     ),
@@ -154,6 +158,7 @@ export const pagesList = GetListQuery("pages");
 export const actorsList = GetListQuery("actors");
 export const articlesList = GetListQuery("articles");
 export const groupsList = GetListQuery("groups");
+export const groupMembersList = GetListQuery("groups-members");
 export const topicsList = GetListQuery("topics");
 export const projectList = GetListQuery("projects");
 export const projectImageList = GetListQuery("project/images");
@@ -189,7 +194,7 @@ export const articleByPath = queryShallow<
     pipe(
       liftFetch(
         () => dataProvider.get("articles", { path }),
-        io.http.Common.GetListOutput(io.http.Article.Article, "Articles")
+        io.http.Common.ListOutput(io.http.Article.Article, "Articles")
       ),
       TE.map((pages) => pages.data[0])
     ),

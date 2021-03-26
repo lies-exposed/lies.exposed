@@ -143,7 +143,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
             optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
           />
         </ReferenceArrayInput>
-        <ReferenceArrayField source="groups-members" reference="groups-members">
+        <ReferenceArrayField source="groupsMembers" reference="groups-members">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />

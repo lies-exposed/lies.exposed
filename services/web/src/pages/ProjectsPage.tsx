@@ -27,7 +27,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
         params={{
           page: { path: "projects" },
           projects: {
-            pagination: { page: 1, perPage: 20 },
+            pagination: { page: 0, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
           },

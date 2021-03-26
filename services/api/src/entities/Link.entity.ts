@@ -3,9 +3,11 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { EventEntity } from "./Event.entity";
 
 @Entity("link")
 @Index(["url"], { unique: true })
@@ -19,8 +21,8 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   description: string;
 
-  // @ManyToOne(() => EventEntity, (e) => e.id)
-  // event: EventEntity;
+  @ManyToOne(() => EventEntity, (e) => e.links)
+  event: EventEntity;
 
   @CreateDateColumn()
   createdAt: Date;

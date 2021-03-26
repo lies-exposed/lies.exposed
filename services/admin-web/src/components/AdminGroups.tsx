@@ -1,4 +1,3 @@
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
 import * as io from "@econnessione/shared/io";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
@@ -100,6 +99,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => (
               E.fold(renderValidationErrors, (p) => (
                 <GroupPageContent
                   {...p}
+                  groupMembers={[]}
                   events={[]}
                   projects={[]}
                   funds={[]}

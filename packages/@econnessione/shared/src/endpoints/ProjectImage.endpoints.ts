@@ -1,9 +1,9 @@
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
-import { GetListOutput } from "../io/http/Common/Output";
+import { ListOutput } from "../io/http/Common/Output";
 import { GetListQuery } from "./Query";
 
-const ListProjectImageOutput = GetListOutput(
+const ListProjectImageOutput = ListOutput(
   http.ProjectImage.ProjectImage,
   "ListProjectImage"
 );

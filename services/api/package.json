@@ -13,6 +13,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "test:e2e": "jest -c jest.config.js e2e",
     "create-pages": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./scripts/create-pages.ts",
+    "db:diagram": "ts-node -r tsconfig-paths/register -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "migration:run": "ts-node ../../node_modules/typeorm/cli.js migration:run",
     "migration:gen": "typeorm migration:generate"
   },

@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
-import { Output, GetListOutput } from "../io/http/Common";
+import { Output, ListOutput } from "../io/http/Common";
 import { GetListQuery } from "./Query";
 
 const SingleEventOutput = Output(http.Events.Event, "Event");
@@ -13,7 +13,7 @@ export const List = Endpoint({
   Input: {
     Query: { ...GetListQuery.props, actors: optionFromNullable(t.string) },
   },
-  Output: GetListOutput(http.Events.Event, "ListEvent"),
+  Output: ListOutput(http.Events.Event, "ListEvent"),
 });
 
 export const Create = Endpoint({

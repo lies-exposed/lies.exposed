@@ -4,7 +4,10 @@ import { GroupPageContent } from "@econnessione/shared/components/GroupPageConte
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
-import { group } from "@econnessione/shared/providers/DataProvider";
+import {
+  group,
+  groupMembersList,
+} from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -23,15 +26,28 @@ export default class GroupTemplate extends React.PureComponent<
       O.fromNullable(this.props.groupId),
       O.fold(
         () => <div>Missing project id</div>,
-        (projectId) => (
+        (groupId) => (
           <WithQueries
-            queries={{ group: group }}
-            params={{ group: { id: projectId } }}
-            render={QR.fold(Loader, ErrorBox, ({ group }) => (
+            queries={{ group: group, groupMembers: groupMembersList }}
+            params={{
+              group: { id: groupId },
+              groupMembers: {
+                pagination: {
+                  page: 0,
+                  perPage: 20,
+                },
+                sort: { field: "id", order: "DESC" },
+                filter: {
+                  group: groupId,
+                },
+              },
+            }}
+            render={QR.fold(Loader, ErrorBox, ({ group, groupMembers }) => (
               <MainContent>
                 <SEO title={group.name} />
                 <GroupPageContent
                   {...group}
+                  groupMembers={groupMembers.data}
                   events={[]}
                   funds={[]}
                   projects={[]}

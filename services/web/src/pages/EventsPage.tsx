@@ -59,17 +59,17 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             path: "events",
           },
           groups: {
-            pagination: { page: 1, perPage: 20 },
+            pagination: { page: 0, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
           },
           actors: {
-            pagination: { page: 1, perPage: 20 },
+            pagination: { page: 0, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
           },
           events: {
-            pagination: { page: 1, perPage: 100 },
+            pagination: { page: 0, perPage: 100 },
             sort: { field: "startDate", order: "DESC" },
             filter: {},
           },

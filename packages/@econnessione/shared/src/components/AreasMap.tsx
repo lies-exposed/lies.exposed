@@ -27,7 +27,7 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
         queries={{ areas: areasList }}
         params={{
           areas: {
-            pagination: { page: 1, perPage: 100 },
+            pagination: { page: 0, perPage: 100 },
             sort: { field: "id", order: "DESC" },
             filter: {},
           },

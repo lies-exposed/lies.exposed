@@ -32,6 +32,7 @@ export const ActorList: React.FC<ListProps> = (props) => (
   <List {...props} resource="actors">
     <Datagrid rowClick="edit">
       <TextField label="Full Name" source="fullName" />
+      <TextField label="username" source="username" />
       <AvatarField source="avatar" />
       <DateField label="Updated At" source="updatedAt" showTime={true} />
     </Datagrid>
