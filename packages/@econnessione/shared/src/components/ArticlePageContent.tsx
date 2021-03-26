@@ -1,7 +1,7 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import { Typography } from "@material-ui/core";
 import { Article } from "@io/http";
-import { Grid } from "@material-ui/core";
+import { Typography, Grid, useTheme } from "@material-ui/core";
+
 import { formatDate } from "@utils/date";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -10,7 +10,6 @@ import { ContentWithSidebar } from "./ContentWithSidebar";
 import { MainContent } from "./MainContent";
 import { TableOfContents } from "./TableOfContents";
 import EditButton from "./buttons/EditButton";
-import { useTheme } from "@material-ui/core";
 
 export type ArticlePageContentProps = Article.Article;
 
@@ -36,7 +35,7 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
             paddingTop: 40,
             paddingBottom: 40,
             backgroundColor: `${theme.palette.secondary.main}40`,
-            margin: '30px auto',
+            margin: "30px auto",
           }}
         >
           <Typography variant="h1">{props.title}</Typography>

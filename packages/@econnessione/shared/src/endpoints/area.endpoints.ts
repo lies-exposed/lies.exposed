@@ -5,6 +5,7 @@ import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Area } from "../io/http";
 import { Polygon } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
+import { GetListQuery } from "./Query";
 
 const SingleAreaOutput = Output(Area.Area, "Area");
 const ListAreaOutput = ListOutput(Area.Area, "Areas");
@@ -13,7 +14,9 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/areas",
   Input: {
-    Query: undefined,
+    Query: {
+      ...GetListQuery.props,
+    },
   },
   Output: ListAreaOutput,
 });
