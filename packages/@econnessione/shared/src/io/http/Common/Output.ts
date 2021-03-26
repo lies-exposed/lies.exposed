@@ -11,7 +11,7 @@ export const Output = <T extends t.Any>(
     name
   );
 
-export const GetListOutput = <T extends t.Any>(
+export const ListOutput = <T extends t.Any>(
   data: T,
   name: string
 ): t.ExactType<t.TypeC<{ data: t.ArrayC<T>; total: t.NumberC }>> =>

@@ -1,14 +1,17 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Actor, Events, Group, Project } from "@io/http";
+import { GroupMember } from "@io/http/GroupMember";
 import { Grid } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 // import { EventsNetwork } from "./Graph/EventsNetwork"
 import EditButton from "./buttons/EditButton";
+import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 
 export interface GroupPageContentProps extends Group.Group {
+  groupMembers: GroupMember[];
   events: Events.EventMD[];
   projects: Project.Project[];
   funds: Events.ProjectTransaction[];
@@ -21,6 +24,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   funds,
   events,
   body,
+  groupMembers,
   ...frontmatter
 }) => {
   // const projectFundsInitMap: Map<string, number> = Map.empty;
@@ -66,24 +70,15 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
               <GroupList groups={[]} onGroupClick={() => {}} />
             }
           </div>
-          {/* <Block>
-            {pipe(
-              frontmatter.members,
-              O.fold(
-                () => null,
-                (actors) => (
-                  <Block>
-                    <HeadingXSmall>Members</HeadingXSmall>
-                    <ActorList
-                      actors={actors.map((a) => ({ ...a, selected: true }))}
-                      onActorClick={onMemberClick}
-                      avatarScale="scale1000"
-                    />
-                  </Block>
-                )
-              )
-            )}
-          </Block> */}
+
+          <div>
+            <h1>Members</h1>
+            <ActorList
+              actors={groupMembers.map((a) => ({ ...a.actor, selected: true }))}
+              onActorClick={onMemberClick}
+            />
+          </div>
+
           <div>
             <h4>Progetti</h4>
             {/* {pipe(

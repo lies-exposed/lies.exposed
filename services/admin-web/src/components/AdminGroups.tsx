@@ -1,7 +1,7 @@
 import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
 import * as io from "@econnessione/shared/io";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
-import * as E from 'fp-ts/lib/Either';
+import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
@@ -20,13 +20,12 @@ import {
   List,
   ListProps,
   ReferenceArrayField,
-
   ReferenceField,
   SelectInput,
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
@@ -100,6 +99,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => (
               E.fold(renderValidationErrors, (p) => (
                 <GroupPageContent
                   {...p}
+                  groupMembers={[]}
                   events={[]}
                   projects={[]}
                   funds={[]}

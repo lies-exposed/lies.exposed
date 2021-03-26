@@ -4,10 +4,10 @@ import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Area } from "../io/http";
 import { Polygon } from "../io/http/Common";
-import { GetListOutput, Output } from "../io/http/Common/Output";
+import { ListOutput, Output } from "../io/http/Common/Output";
 
 const SingleAreaOutput = Output(Area.Area, "Area");
-const ListAreaOutput = GetListOutput(Area.Area, "Areas");
+const ListAreaOutput = ListOutput(Area.Area, "Areas");
 
 export const List = Endpoint({
   Method: "GET",

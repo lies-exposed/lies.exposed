@@ -11,6 +11,7 @@ import {
   ConnectionOptions,
   DeepPartial,
   DeleteResult,
+  EntityManager,
   EntityTarget,
   FindManyOptions,
   FindOneOptions,
@@ -37,6 +38,8 @@ type Criteria =
   | ObjectID[];
 
 interface DatabaseClient {
+  manager: EntityManager;
+  execQuery: <T>(q: () => Promise<T>) => TE.TaskEither<DBError, T>;
   findOne: <Entity>(
     entityClass: EntityTarget<Entity>,
     options?: FindOneOptions<Entity>
@@ -110,6 +113,7 @@ export const toError = (l: logger.Logger) => (e: unknown): DBError => {
 
 const GetDatabaseClient: GetDatabaseClient = (ctx) => {
   return {
+    manager: ctx.connection.manager,
     findOne: (entity, options) => {
       ctx.logger.debug.log(`findOne %s with options %O`, entity, options);
       return pipe(
@@ -218,6 +222,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         TE.chain(TE.fromEither)
       );
     },
+    execQuery: (lazyQ) => TE.tryCatch(lazyQ, toError(ctx.logger)),
     close: () => TE.tryCatch(() => ctx.connection.close(), toError(ctx.logger)),
   };
 };

@@ -32,9 +32,7 @@ interface ProjectImageListProps {
 //   })
 // );
 
-export class ProjectImageList extends React.PureComponent<
-  ProjectImageListProps
-> {
+export class ProjectImageList extends React.PureComponent<ProjectImageListProps> {
   render(): JSX.Element {
     return (
       <WithQueries
@@ -47,7 +45,7 @@ export class ProjectImageList extends React.PureComponent<
             },
             filter: {},
             pagination: {
-              page: 1,
+              page: 0,
               perPage: 20,
             },
           },

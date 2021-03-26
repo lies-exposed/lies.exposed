@@ -3,13 +3,14 @@ import { DateFromISOString, optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
-import { GetListOutput, Output } from "../io/http/Common/Output";
+import { ListOutput, Output } from "../io/http/Common/Output";
+import { GetListQuery } from "./Query";
 
 const SingleGroupMemberOutput = Output(
   http.GroupMember.GroupMember,
   "GroupMember"
 );
-const ListGroupMemberOutput = GetListOutput(
+const ListGroupMemberOutput = ListOutput(
   http.GroupMember.GroupMember,
   "ListGroupMember"
 );
@@ -18,7 +19,10 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/groups-members",
   Input: {
-    Query: undefined,
+    Query: {
+      ...GetListQuery.props,
+      group: optionFromNullable(t.string),
+    },
   },
   Output: ListGroupMemberOutput,
 });

@@ -37,6 +37,7 @@ export const groupPageContentArgs: GroupPageContentProps = {
   })),
   projects: projects.filter((p) => fundedProjectIds.includes(p.id)),
   funds: groupFunds,
+  groupMembers: [],
   onMemberClick: () => {},
 };
 
