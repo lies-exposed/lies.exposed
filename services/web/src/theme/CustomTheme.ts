@@ -23,6 +23,7 @@ export const theme = createMuiTheme({
         html: {
           WebkitFontSmoothing: "auto",
           html: "100%",
+          fontFamily: ["Roboto", "Helvetica", "Arial", "sans-serif"].join(","),
         },
       },
     },

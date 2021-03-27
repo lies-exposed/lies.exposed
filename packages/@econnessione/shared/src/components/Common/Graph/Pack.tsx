@@ -5,6 +5,7 @@ import { HierarchyNode } from "@vx/hierarchy/lib/types";
 import { withTooltip, TooltipWithBounds } from "@vx/tooltip";
 import { WithTooltipProvidedProps } from "@vx/tooltip/lib/enhancers/withTooltip";
 import React from "react";
+import { useSprings, animated } from "react-spring";
 
 export interface PackDatum {
   label: string;
@@ -16,12 +17,14 @@ interface PackProps {
   width: number;
   height: number;
   pack: HierarchyNode<PackDatum>;
+  onClick?: () => void;
 }
 
 const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
   width,
   height,
   pack,
+  onClick,
   showTooltip,
   hideTooltip,
   tooltipData,
@@ -44,15 +47,27 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
 
   return (
     <div>
-      <svg width={width} height={height} style={{ position: "relative" }}>
+      <svg
+        width={width}
+        height={height}
+        style={{ position: "relative" }}
+        onClick={onClick}
+      >
         <rect width={width} height={height} rx={14} fill="#ffffff" />
         <VXPack root={pack} size={[width, height]}>
           {(pack) => {
             const circles = pack.descendants().slice(2);
-            return circles.map((circle, i) => {
+
+            const [springs] = useSprings(circles.length, (index) => ({
+              width: circles[index].r * 2,
+            }));
+            return springs.map((style, i) => {
+              const circle = circles[i];
+
+              // console.log({ width, circle });
               return (
                 <Group key={i}>
-                  <circle
+                  <animated.circle
                     key={`cir-${i}`}
                     r={circle.r}
                     cx={circle.x}
@@ -60,6 +75,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                     fill={`#${circle.data.color}`}
                     onMouseLeave={hideTooltip}
                     onMouseOver={handleMouseOver(circle.data)}
+                    style={style}
                   />
                   <text
                     x={circle.x}
@@ -68,6 +84,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                     style={{
                       fontWeight: 600,
                       textAlign: "center",
+                      padding: 10,
                     }}
                   >
                     {circle.data.label}
@@ -92,7 +109,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
         >
           <div>
             <strong>{tooltipData.label}</strong>{" "}
-            <strong>({tooltipData.count})</strong>
+            <strong>({tooltipData.count.toFixed(2)})</strong>
           </div>
         </TooltipWithBounds>
       ) : null}

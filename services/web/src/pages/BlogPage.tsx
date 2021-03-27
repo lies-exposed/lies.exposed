@@ -1,3 +1,4 @@
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
@@ -76,11 +77,6 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                               image={a.featuredImage}
                               title="Contemplative Reptile"
                             />
-                            <CardContent
-                              style={{ height: 60, textOverflow: "ellipsis" }}
-                            >
-                              {a.body.substr(0, 200)}
-                            </CardContent>
                           </CardActionArea>
                           <CardActions>
                             <Button
@@ -88,7 +84,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                               color="primary"
                               onClick={async () => {
                                 if (navigate) {
-                                  await navigate(`/articles/${a.id}`);
+                                  await navigate(`/blog/${a.id}`);
                                 }
                               }}
                             >

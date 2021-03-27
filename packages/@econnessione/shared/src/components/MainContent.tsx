@@ -14,6 +14,7 @@ export const MainContent: React.FC<MainContentProps> = ({
     <Container
       maxWidth="md"
       // style={{ flexDirection: "column" }}
+      style={style}
     >
       <Grid alignContent="center" alignItems="center">
         <Grid item>{children}</Grid>

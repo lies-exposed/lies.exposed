@@ -27,7 +27,7 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
         queries={{ areas: areasList }}
         params={{
           areas: {
-            pagination: { page: 0, perPage: 100 },
+            pagination: { page: 0, perPage: 20 },
             sort: { field: "id", order: "DESC" },
             filter: {},
           },
@@ -47,9 +47,6 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
             });
             return acc + area;
           }, 0);
-
-          // eslint-disable-next-line
-          console.log({ totalArea });
 
           return (
             <>

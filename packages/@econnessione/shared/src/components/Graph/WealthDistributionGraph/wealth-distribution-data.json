@@ -1,0 +1,26 @@
+[
+  {
+    "label": "> 1 milion",
+    "wealth": 158.3,
+    "number": 47,
+    "color": "f32"
+  },
+  {
+    "label": "100k - 1 milion",
+    "wealth": 140.2,
+    "number": 499,
+    "color": "b04"
+  },
+  {
+    "label": "10k - 100k",
+    "wealth": 55.7,
+    "number": 1661,
+    "color": "a32"
+  },
+  {
+    "label": "< 10k",
+    "wealth": 6.3,
+    "number": 2883,
+    "color": "11AA0F"
+  }
+]

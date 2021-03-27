@@ -28,6 +28,7 @@
     "api": "yarn workspace api",
     "web": "yarn workspace web",
     "admin-web": "yarn workspace admin-web",
+    "storybook": "yarn workspace storybook",
     "packages:build": "yarn core build && yarn shared build",
     "packages:watch": "concurrently \"yarn core build -w\" \"yarn shared build -w\"",
     "watch:all": "concurrently \"yarn core build -w\" \"yarn shared watch\" \"yarn api build -w\"",
