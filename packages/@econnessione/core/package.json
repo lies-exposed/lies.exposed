@@ -11,8 +11,7 @@
 		"lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
 		"format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
 	},
-	"dependencies": {
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/debug": "^4.1.5",
 		"fast-check": "^2.12.0",
