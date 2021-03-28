@@ -144,7 +144,7 @@ export const pageContentByPath = queryStrict<
         () =>
           dataProvider.getList<io.http.Page.Page>("/pages", {
             filter: { path },
-            pagination: { page: 0, perPage: 20 },
+            pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "DESC" },
           }),
         io.http.Common.ListOutput(io.http.Page.Page, "PageList")

@@ -47,7 +47,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
             queries={{ articlesList }}
             params={{
               articlesList: {
-                pagination: { page: 0, perPage: 20 },
+                pagination: { page: 1, perPage: 20 },
                 sort: { field: "id", order: "DESC" },
                 filter: { draft: true },
               },

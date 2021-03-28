@@ -22,7 +22,7 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
         queries={{ actorsList, pageContent: pageContentByPath }}
         params={{
           actorsList: {
-            pagination: { page: 0, perPage: 20 },
+            pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
           },

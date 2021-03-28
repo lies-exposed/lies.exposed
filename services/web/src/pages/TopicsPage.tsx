@@ -28,7 +28,7 @@ export default class TopicsPage extends React.PureComponent<RouteComponentProps>
             path: "topics",
           },
           topics: {
-            pagination: { page: 0, perPage: 20 },
+            pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
           },

@@ -45,7 +45,7 @@ export class ProjectImageList extends React.PureComponent<ProjectImageListProps>
             },
             filter: {},
             pagination: {
-              page: 0,
+              page: 1,
               perPage: 20,
             },
           },

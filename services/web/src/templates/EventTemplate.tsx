@@ -31,12 +31,12 @@ export default class EventTemplate extends React.PureComponent<
             params={{
               event: { id: eventId },
               actors: {
-                pagination: { perPage: 20, page: 0 },
+                pagination: { perPage: 20, page: 1 },
                 sort: { order: "DESC", field: "id" },
                 filter: {},
               },
               groups: {
-                pagination: { perPage: 20, page: 0 },
+                pagination: { perPage: 20, page: 1 },
                 sort: { order: "DESC", field: "id" },
                 filter: {},
               },

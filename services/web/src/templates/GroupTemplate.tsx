@@ -33,7 +33,7 @@ export default class GroupTemplate extends React.PureComponent<
               group: { id: groupId },
               groupMembers: {
                 pagination: {
-                  page: 0,
+                  page: 1,
                   perPage: 20,
                 },
                 sort: { field: "id", order: "DESC" },
