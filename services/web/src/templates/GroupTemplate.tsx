@@ -7,6 +7,7 @@ import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider
 import {
   group,
   groupMembersList,
+  eventsList,
 } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -28,7 +29,11 @@ export default class GroupTemplate extends React.PureComponent<
         () => <div>Missing project id</div>,
         (groupId) => (
           <WithQueries
-            queries={{ group: group, groupMembers: groupMembersList }}
+            queries={{
+              group: group,
+              groupMembers: groupMembersList,
+              events: eventsList,
+            }}
             params={{
               group: { id: groupId },
               groupMembers: {
@@ -41,14 +46,24 @@ export default class GroupTemplate extends React.PureComponent<
                   group: groupId,
                 },
               },
+              events: {
+                pagination: {
+                  page: 1,
+                  perPage: 20,
+                },
+                sort: { field: "id", order: "DESC" },
+                filter: {
+                  group: groupId,
+                },
+              },
             }}
-            render={QR.fold(Loader, ErrorBox, ({ group, groupMembers }) => (
+            render={QR.fold(Loader, ErrorBox, ({ group, groupMembers, events }) => (
               <MainContent>
                 <SEO title={group.name} />
                 <GroupPageContent
                   {...group}
                   groupMembers={groupMembers.data}
-                  events={[]}
+                  events={events.data}
                   funds={[]}
                   projects={[]}
                   onMemberClick={async (a) => {
@@ -57,7 +72,7 @@ export default class GroupTemplate extends React.PureComponent<
                     }
                   }}
                 />
-                <EventSlider events={[]} />
+                <EventSlider events={events.data} />
               </MainContent>
             ))}
           />

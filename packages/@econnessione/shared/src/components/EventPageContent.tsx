@@ -1,6 +1,7 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import SEO from "@components/SEO";
 import { Actor, Events, Group } from "@io/http";
+import { Typography } from "@material-ui/core";
 import { navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -21,11 +22,12 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   actors,
   groups,
 }) => {
+
   return (
     <MainContent>
       <SEO title={event.title} />
-      <h1>{event.title}</h1>
-      <div style={{ height: 600 }}>
+      <Typography variant="h1">{event.title}</Typography>
+      <div style={{ maxHeight: 600 }}>
         {pipe(
           event.images,
           O.fromPredicate((items) => items.length > 0),

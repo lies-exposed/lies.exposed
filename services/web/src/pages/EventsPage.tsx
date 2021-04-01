@@ -31,7 +31,7 @@ import {
   Routes,
   updateSearch,
 } from "@econnessione/shared/utils/routes";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -326,10 +326,6 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                   <Grid item>
                     <PageContent {...page} />
 
-                    <label>
-                      Nº Eventi: {totalEvents} dal {formatDate(minDate)} al{" "}
-                      {formatDate(maxDate)}{" "}
-                    </label>
                     {/* <EventsNetwork
                         events={events}
                         actors={actors}
@@ -346,6 +342,13 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                       width={600}
                       height={400}
                     />
+
+                    <Typography variant="caption">
+                      Nº Eventi: {totalEvents} dal {formatDate(minDate)} al{" "}
+                      {formatDate(maxDate)}{" "}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
                     <EventList
                       events={events as any}
                       actors={actors}

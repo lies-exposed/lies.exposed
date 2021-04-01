@@ -1,7 +1,7 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Actor, Events, Group, Project } from "@io/http";
 import { GroupMember } from "@io/http/GroupMember";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -12,7 +12,7 @@ import GroupList from "./lists/GroupList";
 
 export interface GroupPageContentProps extends Group.Group {
   groupMembers: GroupMember[];
-  events: Events.EventMD[];
+  events: Events.Event[];
   projects: Project.Project[];
   funds: Events.ProjectTransaction[];
   onMemberClick: (m: Actor.ActorFrontmatter) => void;
@@ -51,7 +51,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
       <Grid container>
         <Grid item>
           <div>
-            <h2>{frontmatter.name}</h2>
+            <Typography variant="h2">{frontmatter.name}</Typography>
             {pipe(
               O.fromNullable(frontmatter.avatar),
               O.fold(
@@ -64,23 +64,21 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         </Grid>
         <Grid>
           <div>
-            <h4>Sotto Gruppi</h4>
-            {
-              // eslint-disable-next-line react/jsx-key
-              <GroupList groups={[]} onGroupClick={() => {}} />
-            }
+            <Typography variant="h4">Sotto Gruppi</Typography>
+            <GroupList groups={[]} onGroupClick={() => {}} />
           </div>
 
           <div>
-            <h1>Members</h1>
+            <Typography variant="h4">Members</Typography>
             <ActorList
               actors={groupMembers.map((a) => ({ ...a.actor, selected: true }))}
               onActorClick={onMemberClick}
+              avatarSize="medium"
             />
           </div>
 
           <div>
-            <h4>Progetti</h4>
+            {/* <h4>Progetti</h4> */}
             {/* {pipe(
               projectFundsMap,
               Map.toArray(Ord.ordString),

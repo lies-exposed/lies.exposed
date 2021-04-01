@@ -1,6 +1,6 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { Events, Project } from "@io/http";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import { formatDate } from "@utils/date";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -95,7 +95,9 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             {/* <ProjectFundsPieGraph funds={metadata.ProjectTransaction} /> */}
           </div>
           <div>
-            <h3>Proteste {metadata.Protest.length}</h3>
+            <Typography variant="h3">
+              Proteste {metadata.Protest.length}
+            </Typography>
             {/* <GroupOrActorList
               by={protesters}
               onByClick={() => {}}
