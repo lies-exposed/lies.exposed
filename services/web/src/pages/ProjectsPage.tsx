@@ -2,6 +2,7 @@ import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
 import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
 import { MainContent } from "@econnessione/shared/components/MainContent";
+import { ProjectsMap } from "@econnessione/shared/components/Map/ProjectsMap";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { TableOfContents } from "@econnessione/shared/components/TableOfContents";
@@ -53,7 +54,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                   id="combo-box-demo"
                   options={projects}
                   getOptionLabel={(option: any) => option.name}
-                  style={{ width: 300 }}
+                  style={{ width: 300, marginBottom: 40 }}
                   renderInput={(params: any) => (
                     <TextField {...params} label="Project" variant="outlined" />
                   )}
@@ -65,6 +66,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                     }
                   }}
                 />
+                <ProjectsMap style={{ marginBottom: 40 }} filter={{}} />
                 <ProjectList
                   projects={projects.map((p) => ({ ...p, selected: false }))}
                   onProjectClick={async (p) => {

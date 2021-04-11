@@ -4,7 +4,7 @@ import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetListQuery } from "./Query";
+import { GetListQuery } from "../io/http/Query";
 
 const SingleGroupOutput = Output(http.Group.Group, "Group");
 const ListGroupOutput = ListOutput(http.Group.Group, "ListGroup");

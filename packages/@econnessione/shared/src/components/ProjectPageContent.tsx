@@ -6,7 +6,7 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { Slider } from "./Common/Slider/Slider";
-import { ProjectFundsMap } from "./Graph/ProjectFundsMap";
+import { ProjectAreasMap } from "./Graph/ProjectAreasMap";
 
 export interface ProjectPageContentProps extends Project.Project {
   metadata: Events.EventListMap;
@@ -84,7 +84,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
           )}
         </Grid>
         <Grid>
-          <ProjectFundsMap project={{ ...frontmatter, body }} />
+          <ProjectAreasMap project={{ ...frontmatter, body }} />
           <div>
             <h1>Fondi: {totalFunded}</h1>
             {/* <GroupOrActorList

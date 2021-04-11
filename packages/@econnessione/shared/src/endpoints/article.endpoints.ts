@@ -3,7 +3,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Article } from "../io/http";
 import { Output } from "../io/http/Common/Output";
-import { GetListQuery } from "./Query";
+import { GetListQuery } from "../io/http/Query";
 
 export const ListArticles = Endpoint({
   Method: "GET",

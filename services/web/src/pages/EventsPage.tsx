@@ -338,7 +338,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                         scalePoint={O.none}
                       /> */}
                     <EventsMap
-                      events={events as any}
+                      filter={{ actors: O.none, group: O.none }}
                       width={600}
                       height={400}
                     />

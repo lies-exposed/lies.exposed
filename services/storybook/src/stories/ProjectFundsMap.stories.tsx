@@ -1,28 +1,28 @@
 import {
-  ProjectFundsMap,
-  ProjectFundsMapProps,
-} from "@econnessione/shared/components/Graph/ProjectFundsMap";
+  ProjectAreasMap,
+  ProjectAreasMapProps,
+} from "@econnessione/shared/components/Graph/ProjectAreasMap";
 import { firstGoodProject } from "@econnessione/shared/mock-data/projects";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/Graph/ProjectFundsMap",
-  component: ProjectFundsMap,
+  title: "Components/Graph/ProjectAreasMap",
+  component: ProjectAreasMap,
 };
 
 export default meta;
 
-const Template: Story<ProjectFundsMapProps> = (props) => {
-  return <ProjectFundsMap {...props} />;
+const Template: Story<ProjectAreasMapProps> = (props) => {
+  return <ProjectAreasMap {...props} />;
 };
 
-const ProjectFundsMapExample = Template.bind({});
+const ProjectAreasMapExample = Template.bind({});
 
-const args: ProjectFundsMapProps = {
+const args: ProjectAreasMapProps = {
   project: firstGoodProject,
 };
 
-ProjectFundsMapExample.args = args;
+ProjectAreasMapExample.args = args;
 
-export { ProjectFundsMapExample };
+export { ProjectAreasMapExample };

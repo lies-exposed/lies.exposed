@@ -1,19 +1,20 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
-import { Output, ListOutput } from "../io/http/Common";
-import { GetListQuery } from "./Query";
+import { GetListQuery } from "../io/http/Query";
 
-const SingleEventOutput = Output(http.Events.Event, "Event");
+const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 
 export const List = Endpoint({
   Method: "GET",
   getPath: () => "/events",
   Input: {
-    Query: { ...GetListQuery.props, actors: optionFromNullable(t.string) },
+    Query: {
+      ...GetListQuery.props,
+      ...http.Events.Uncategorized.GetEventsQueryFilter.props,
+    },
   },
-  Output: ListOutput(http.Events.Event, "ListEvent"),
+  Output: http.Common.ListOutput(http.Events.Event, "ListEvent"),
 });
 
 export const Create = Endpoint({

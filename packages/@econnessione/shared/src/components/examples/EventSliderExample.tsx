@@ -1,11 +1,10 @@
 import { Card } from "@material-ui/core";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
-import { events } from "../../mock-data/events";
 import { EventSlider, EventSliderProps } from "../sliders/EventSlider";
 
 export const eventSliderArgs: EventSliderProps = {
-  events,
+  filter: {},
 };
 
 export const EventSliderExample: React.FC<EventSliderProps> = (props) => {

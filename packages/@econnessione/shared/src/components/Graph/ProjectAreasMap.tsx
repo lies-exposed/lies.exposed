@@ -7,17 +7,11 @@ import { pipe } from "fp-ts/lib/pipeable";
 import Feature from "ol/Feature";
 import * as React from "react";
 
-export interface ProjectFundsMapProps {
+export interface ProjectAreasMapProps {
   project: Project.Project;
 }
 
-export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {
-  const features = props.project.areas.map(({ geometry, ...datum }) => {
-    const geom = geoJSONFormat.readGeometry(geometry);
-    const feature = new Feature(geom);
-    feature.setProperties(datum);
-    return feature;
-  });
+export const ProjectAreasMap: React.FC<ProjectAreasMapProps> = (props) => {
   return (
     <ParentSize style={{ height: 400 }}>
       {({ width, height }) => {
@@ -26,6 +20,12 @@ export const ProjectFundsMap: React.FC<ProjectFundsMapProps> = (props) => {
           O.fold(
             () => null,
             (areas) => {
+              const features = areas.map(({ geometry, ...datum }) => {
+                const geom = geoJSONFormat.readGeometry(geometry);
+                const feature = new Feature(geom);
+                feature.setProperties(datum);
+                return feature;
+              });
               return (
                 <Map
                   id={`project-${props.project.id}`}

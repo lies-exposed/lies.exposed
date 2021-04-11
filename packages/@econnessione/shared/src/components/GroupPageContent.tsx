@@ -5,8 +5,6 @@ import { Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-// import { EventsNetwork } from "./Graph/EventsNetwork"
-import EditButton from "./buttons/EditButton";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 
@@ -44,32 +42,29 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   return (
     <Grid container>
       <Grid item>
-        <div>
+        {/* <div>
           <EditButton resourceName="groups" resource={frontmatter} />
-        </div>
+        </div> */}
       </Grid>
-      <Grid container>
+      <Grid container direction="column">
         <Grid item>
-          <div>
-            <Typography variant="h2">{frontmatter.name}</Typography>
-            {pipe(
-              O.fromNullable(frontmatter.avatar),
-              O.fold(
-                () => <div />,
-                (src) => <img src={src} style={{ width: "100px" }} />
-              )
-            )}
-            <MarkdownRenderer>{body}</MarkdownRenderer>
-          </div>
+          {pipe(
+            O.fromNullable(frontmatter.avatar),
+            O.fold(
+              () => <div />,
+              (src) => <img src={src} style={{ width: "100px" }} />
+            )
+          )}
+          <Typography variant="h2">{frontmatter.name}</Typography>
         </Grid>
         <Grid>
           <div>
-            <Typography variant="h4">Sotto Gruppi</Typography>
+            <Typography variant="h6">Sotto Gruppi</Typography>
             <GroupList groups={[]} onGroupClick={() => {}} />
           </div>
 
           <div>
-            <Typography variant="h4">Members</Typography>
+            <Typography variant="h6">Members</Typography>
             <ActorList
               actors={groupMembers.map((a) => ({ ...a.actor, selected: true }))}
               onActorClick={onMemberClick}
@@ -89,6 +84,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
               ))
             )} */}
           </div>
+          <MarkdownRenderer>{body}</MarkdownRenderer>
         </Grid>
       </Grid>
       {/* <Grid width="100%">

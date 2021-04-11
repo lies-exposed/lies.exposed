@@ -5,7 +5,7 @@ import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
 import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
-import { actor, eventsList } from "@econnessione/shared/providers/DataProvider";
+import { actor } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -25,33 +25,24 @@ export default class ActorTemplate extends React.PureComponent<
         () => <div>Missing project id</div>,
         (actorId) => (
           <WithQueries
-            queries={{ actor: actor, events: eventsList }}
+            queries={{ actor: actor }}
             params={{
               actor: { id: actorId },
-              events: {
-                pagination: { page: 1, perPage: 20 },
-                sort: { field: "startDate", order: "DESC" },
-                filter: { actors: actorId },
-              },
             }}
-            render={QR.fold(
-              LazyFullSizeLoader,
-              ErrorBox,
-              ({ actor, events }) => {
-                return (
-                  <MainContent>
-                    <SEO title={actor.fullName} />
-                    <ActorPageContent
-                      {...actor}
-                      metadata={eventMetadataMapEmpty}
-                    />
-                    <div style={{ padding: 50 }}>
-                      <EventSlider events={events.data} />
-                    </div>
-                  </MainContent>
-                );
-              }
-            )}
+            render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ actor }) => {
+              return (
+                <MainContent>
+                  <SEO title={actor.fullName} />
+                  <ActorPageContent
+                    {...actor}
+                    metadata={eventMetadataMapEmpty}
+                  />
+                  <div style={{ padding: 50 }}>
+                    <EventSlider filter={{ actors: O.some(actorId) }} />
+                  </div>
+                </MainContent>
+              );
+            })}
           />
         )
       )

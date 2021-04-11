@@ -57,24 +57,28 @@ export default class GroupTemplate extends React.PureComponent<
                 },
               },
             }}
-            render={QR.fold(Loader, ErrorBox, ({ group, groupMembers, events }) => (
-              <MainContent>
-                <SEO title={group.name} />
-                <GroupPageContent
-                  {...group}
-                  groupMembers={groupMembers.data}
-                  events={events.data}
-                  funds={[]}
-                  projects={[]}
-                  onMemberClick={async (a) => {
-                    if (this.props.navigate !== undefined) {
-                      await this.props.navigate(`/actors/${a.id}`);
-                    }
-                  }}
-                />
-                <EventSlider events={events.data} />
-              </MainContent>
-            ))}
+            render={QR.fold(
+              Loader,
+              ErrorBox,
+              ({ group, groupMembers, events }) => (
+                <MainContent>
+                  <SEO title={group.name} />
+                  <GroupPageContent
+                    {...group}
+                    groupMembers={groupMembers.data}
+                    events={events.data}
+                    funds={[]}
+                    projects={[]}
+                    onMemberClick={async (a) => {
+                      if (this.props.navigate !== undefined) {
+                        await this.props.navigate(`/actors/${a.id}`);
+                      }
+                    }}
+                  />
+                  <EventSlider filter={{ group: O.some(group.id) }} />
+                </MainContent>
+              )
+            )}
           />
         )
       )

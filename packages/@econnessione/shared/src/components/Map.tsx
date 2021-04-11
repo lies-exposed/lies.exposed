@@ -88,9 +88,12 @@ const Map: React.FC<MapProps> = ({
     });
 
     // center map based on features source layer
-    map
-      .getView()
-      .fit(featureSource.getExtent(), { size: map.getSize(), maxZoom: 6 });
+    const size = map.getSize();
+    const totalPadding = 20 * 2;
+    map.getView().fit(featureSource.getExtent(), {
+      size: [size[0] - totalPadding, size[1] + totalPadding],
+      maxZoom: 6,
+    });
 
     map.on("click", (evt) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises

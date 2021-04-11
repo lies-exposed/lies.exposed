@@ -5,7 +5,7 @@ import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Area } from "../io/http";
 import { Polygon } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetListQuery } from "./Query";
+import { GetListQuery } from "../io/http/Query";
 
 const SingleAreaOutput = Output(Area.Area, "Area");
 const ListAreaOutput = ListOutput(Area.Area, "Areas");
