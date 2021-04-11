@@ -124,14 +124,14 @@ export const mainMenu: HeaderMenuItem[] =
 const Header: React.FC = () => {
   const {
     site: {
-      siteMetadata: { title, github, mattermostUrl },
+      siteMetadata: { title, github, communityURL },
     },
   } = {
     site: {
       siteMetadata: {
         title: "ECONNESSIONE",
         github: { repo: "econnessione", user: "ascariandrea" },
-        mattermostUrl: "https://mattermost.econnessione.org/",
+        communityURL: "https://community.econnessione.org/",
       },
     },
   };
@@ -198,7 +198,7 @@ const Header: React.FC = () => {
           </Link>
         </Typography>
 
-        <a href={mattermostUrl} style={{ verticalAlign: "middle" }}>
+        <a href={communityURL} style={{ verticalAlign: "middle" }}>
           <Button
             startIcon={<MattermostIcon fontSize="small" variant="white" />}
           />

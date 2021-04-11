@@ -83,9 +83,9 @@ const remarkCompiler = (): any =>
     .use(remarkTOC)
     .use(footnotes)
     .use(numberedFootnotesLabel)
+    .use(require("remark-breaks"))
     .use(mermaird);
-// .use(remarkRemoveEmptyParagraph)
-// .use(require("remark-breaks"));
+// .use(remarkRemoveEmptyParagraph);
 // .use(remarkStringify)
 
 export const MDXToReactV2 = (content: string): string => {

@@ -59,9 +59,6 @@ export const MDXToHTML = (content: string): IOE.IOEither<Error, string> => {
           // .use(log("after remark stringify"))
           .use(remark2rehype, {
             allowDangerousHtml: true,
-            // passThrough: [
-            //   "FullSizeSection"
-            // ]
           })
           .use(rehypeFormat)
           .use(html)
@@ -88,9 +85,6 @@ export const HTMLToMDX = (content: string): IOE.IOEither<Error, string> => {
         .use(rehypeParse, {
           allowDangerousHtml: true,
           newlines: true,
-          // handlers: {
-          //   FullSizeSection: function () {}
-          // }
         } as any)
         .use(rehypeSanitize)
         .use(rehype2Remark)
