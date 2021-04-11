@@ -1,9 +1,6 @@
+import { FilterQuery, GetListQuery } from "@econnessione/shared/io/http/Query";
 import * as O from "fp-ts/lib/Option";
-import { Like } from "typeorm";
-import {
-  FilterQuery,
-  GetListQuery,
-} from "@econnessione/shared/endpoints/Query";
+import { Equal } from "typeorm";
 import { getORMOptions } from "../listQueryToORMOptions";
 
 describe("ORM utils V2", () => {
@@ -53,10 +50,11 @@ describe("ORM utils V2", () => {
     };
 
     const ormOptions = getORMOptions(query, 20);
+
     expect(ormOptions).toEqual({
       skip: 0,
       take: 20,
-      where: { field: Like("%1%") },
+      where: { field: Equal("1") },
     });
   });
 });

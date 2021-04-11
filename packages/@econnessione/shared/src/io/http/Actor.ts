@@ -1,7 +1,14 @@
 import * as t from "io-ts";
+import { optionFromNullable } from "io-ts-types";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 import { Color } from "./Common/Color";
 import { markdownRemark } from "./Common/Markdown";
+
+export const GetListActorQueryFilter = t.partial({
+  ids: optionFromNullable(t.array(t.string)),
+});
+
+export type GetListActorQueryFilter = t.TypeOf<typeof GetListActorQueryFilter>;
 
 export const ACTOR_FRONTMATTER = t.literal("ActorFrontmatter");
 export const ActorFrontmatter = t.strict(

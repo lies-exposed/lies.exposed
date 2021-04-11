@@ -17,6 +17,10 @@ const useStyles = makeStyles((theme: Theme) =>
       width: theme.spacing(3),
       height: theme.spacing(3),
     },
+    medium: {
+      width: theme.spacing(9),
+      height: theme.spacing(9),
+    },
     large: {
       width: theme.spacing(18),
       height: theme.spacing(18),
@@ -24,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export type AvatarSize = "small" | "large";
+export type AvatarSize = "small" | "medium" | "large";
 
 interface AvatarProps extends MUIAvatarProps {
   size?: AvatarSize;

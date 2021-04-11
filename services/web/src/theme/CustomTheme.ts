@@ -16,7 +16,12 @@ export const theme = createMuiTheme({
       contrastText: "#000000",
     },
   },
-  typography: {},
+  typography: (palette) => ({
+    h1: {
+      fontSize: 44,
+      fontWeight: 600,
+    }
+  }),
   overrides: {
     MuiCssBaseline: {
       "@global": {

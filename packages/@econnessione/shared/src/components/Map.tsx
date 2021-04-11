@@ -1,9 +1,7 @@
 import { geoJSONFormat } from "@utils/map.utils";
 import Feature from "ol/Feature";
 import OlMap from "ol/Map";
-import View from "ol/View";
 import * as OlControl from "ol/control";
-import * as olExtent from "ol/extent";
 import Geometry from "ol/geom/Geometry";
 import * as OlInteraction from "ol/interaction";
 import TileLayer from "ol/layer/Tile";
@@ -37,31 +35,35 @@ const Map: React.FC<MapProps> = ({
   onMapClick,
 }) => {
   const mapId = `map-${id}`;
-  React.useEffect(() => {
-    const mapCenter =
-      features.length === 0
-        ? [0, 0]
-        : olExtent.getCenter(features[0].getGeometry().getExtent());
 
+  React.useEffect(() => {
     const featureSource = new VectorSource({
       format: geoJSONFormat,
       features,
     });
 
+    // const mapCenter =
+    //   features.length === 0
+    //     ? [0, 0]
+    //     : olExtent.getCenter(features[0].getGeometry().getExtent());
+
     const featuresLayer = new VectorLayer({
       source: featureSource,
       style: (feature) => {
+        const fill = new Fill({
+          color: `#33333380`,
+        });
+        const stroke = new Stroke({
+          color: `#FF000080`,
+          width: 2,
+        });
         return new Style({
-          fill: new Fill({
-            color: `#33333380`,
-          }),
-          stroke: new Stroke({
-            color: `#FF000080`,
-            width: 2,
-          }),
+          fill,
+          stroke,
           image: new Circle({
-            radius: 9,
-            fill: new Fill({ color: "#33333300" }),
+            radius: 4,
+            fill,
+            stroke,
           }),
         });
       },
@@ -85,18 +87,13 @@ const Map: React.FC<MapProps> = ({
       ],
     });
 
-    map.setView(
-      new View({
-        zoom,
-        center: mapCenter,
-      })
-    );
-
-    // if (features[0]) {
-    //   map
-    //     .getView()
-    //     .fit(features[0].getGeometry().getExtent(), { size: map.getSize() });
-    // }
+    // center map based on features source layer
+    const size = map.getSize();
+    const totalPadding = 20 * 2;
+    map.getView().fit(featureSource.getExtent(), {
+      size: [size[0] - totalPadding, size[1] - totalPadding],
+      maxZoom: 6,
+    });
 
     map.on("click", (evt) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises

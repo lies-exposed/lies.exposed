@@ -1,5 +1,5 @@
-import * as Query from "@econnessione/shared/endpoints/Query";
 import { UUID } from "@econnessione/shared/io/http/Common/UUID";
+import * as Query from "@econnessione/shared/io/http/Query";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -42,13 +42,17 @@ const getSkipAndTakeOptions = (
   pagination: Query.PaginationQuery,
   defaultPageSize: number
 ): ORMPagination => {
+  const take = pipe(
+    pagination._end,
+    O.getOrElse(() => defaultPageSize)
+  );
   return pipe(
     pagination._start,
     O.alt(() => O.some(0)),
     O.map((p) => {
-      return { skip: p, take: defaultPageSize };
+      return { skip: p, take };
     }),
-    O.getOrElse(() => ({ skip: 0, take: defaultPageSize }))
+    O.getOrElse(() => ({ skip: 0, take }))
   );
 };
 

@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
       siteMetadata: {
         title: "ECOnnessione",
         github: { link: "https://github.com/ascariandrea/econnessione" },
-        mattermost: { link: "https://mattermost.econnessione.org" },
+        mattermost: { link: "https://community.econnessione.org" },
       },
     },
   };

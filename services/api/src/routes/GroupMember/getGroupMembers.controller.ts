@@ -17,6 +17,9 @@ export const MakeListGroupMemberRoute = (
 ): void => {
   AddEndpoint(r)(endpoints.GroupMember.List, ({ query }) => {
     const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
+
+    ctx.logger.debug.log(`find Options %O`, findOptions);
+
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(

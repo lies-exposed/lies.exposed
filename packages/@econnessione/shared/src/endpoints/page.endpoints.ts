@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
 import { Page } from "../io/http";
-import { GetListQuery } from "./Query";
+import { GetListQuery } from "../io/http/Query";
 
 export const ListPages = Endpoint({
   Method: "GET",

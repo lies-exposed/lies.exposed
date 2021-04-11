@@ -1,7 +1,6 @@
 import { Events } from "@io/http";
 import { Card } from "@material-ui/core";
 import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -28,13 +27,7 @@ export const groupPageContentArgs: GroupPageContentProps = {
   ...goodGroup,
   // tableOfContents: O.none,
   // timeToRead: O.none,
-  events: uncategorizedEvents.map((e) => ({
-    id: "",
-    frontmatter: e,
-    body: "",
-    timeToRead: O.none,
-    tableOfContents: O.none,
-  })),
+  events: uncategorizedEvents,
   projects: projects.filter((p) => fundedProjectIds.includes(p.id)),
   funds: groupFunds,
   groupMembers: [],

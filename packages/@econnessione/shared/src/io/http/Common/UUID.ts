@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { validate } from "uuid";
+// import { validate } from "uuid";
 
 export const UUID = t.brand(
   t.string,
-  (s): s is t.Branded<string, { readonly UUID: symbol }> => validate(s),
+  (s): s is t.Branded<string, { readonly UUID: symbol }> => true,
   "UUID"
 );
 

@@ -12,12 +12,21 @@ import { ActorEntity } from "../../entities/Actor.entity";
 import { toActorIO } from "./actor.io";
 
 export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Actor.List, ({ query }) => {
-    const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
+  AddEndpoint(r)(endpoints.Actor.List, ({ query: { ids, ...query } }) => {
+    const findOptions = getORMOptions(
+      { ...query, id: ids },
+      ctx.env.DEFAULT_PAGE_SIZE
+    );
+
+    ctx.logger.debug.log(`Find Options %O`, findOptions);
+
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(
-          ctx.db.find(ActorEntity, { ...findOptions, loadRelationIds: true }),
+          ctx.db.find(ActorEntity, {
+            ...findOptions,
+            loadRelationIds: true,
+          }),
           TE.chainEitherK(A.traverse(E.either)(toActorIO))
         ),
         total: ctx.db.count(ActorEntity),

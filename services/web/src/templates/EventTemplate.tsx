@@ -49,11 +49,13 @@ export default class EventTemplate extends React.PureComponent<
                 actors: { data: actors },
                 groups: { data: groups },
               }) => (
-                <EventPageContent
-                  event={event as any}
-                  actors={actors}
-                  groups={groups}
-                />
+                <MainContent>
+                  <EventPageContent
+                    event={event}
+                    actors={actors}
+                    groups={groups}
+                  />
+                </MainContent>
               )
             )}
           />

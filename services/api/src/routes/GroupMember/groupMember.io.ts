@@ -20,6 +20,7 @@ export const toGroupMemberIO = (
       },
       actor: {
         ...group.actor,
+        avatar: group.actor.avatar ?? undefined,
         createdAt: group.actor.createdAt.toISOString(),
         updatedAt: group.actor.updatedAt.toISOString(),
       },

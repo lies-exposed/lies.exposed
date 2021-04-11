@@ -1,5 +1,6 @@
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { EventsMap } from "@econnessione/shared/components/EventsMap";
 import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
@@ -7,6 +8,7 @@ import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider
 import {
   group,
   groupMembersList,
+  eventsList,
 } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -28,7 +30,11 @@ export default class GroupTemplate extends React.PureComponent<
         () => <div>Missing project id</div>,
         (groupId) => (
           <WithQueries
-            queries={{ group: group, groupMembers: groupMembersList }}
+            queries={{
+              group: group,
+              groupMembers: groupMembersList,
+              events: eventsList,
+            }}
             params={{
               group: { id: groupId },
               groupMembers: {
@@ -41,25 +47,40 @@ export default class GroupTemplate extends React.PureComponent<
                   group: groupId,
                 },
               },
+              events: {
+                pagination: {
+                  page: 1,
+                  perPage: 20,
+                },
+                sort: { field: "id", order: "DESC" },
+                filter: {
+                  group: groupId,
+                },
+              },
             }}
-            render={QR.fold(Loader, ErrorBox, ({ group, groupMembers }) => (
-              <MainContent>
-                <SEO title={group.name} />
-                <GroupPageContent
-                  {...group}
-                  groupMembers={groupMembers.data}
-                  events={[]}
-                  funds={[]}
-                  projects={[]}
-                  onMemberClick={async (a) => {
-                    if (this.props.navigate !== undefined) {
-                      await this.props.navigate(`/actors/${a.id}`);
-                    }
-                  }}
-                />
-                <EventSlider events={[]} />
-              </MainContent>
-            ))}
+            render={QR.fold(
+              Loader,
+              ErrorBox,
+              ({ group, groupMembers, events }) => (
+                <MainContent>
+                  <SEO title={group.name} />
+                  <GroupPageContent
+                    {...group}
+                    groupMembers={groupMembers.data}
+                    events={events.data}
+                    funds={[]}
+                    projects={[]}
+                    onMemberClick={async (a) => {
+                      if (this.props.navigate !== undefined) {
+                        await this.props.navigate(`/actors/${a.id}`);
+                      }
+                    }}
+                  />
+                  <EventsMap filter={{ groups: O.some([group.id]) }} />
+                  <EventSlider filter={{ groups: O.some([group.id]) }} />
+                </MainContent>
+              )
+            )}
           />
         )
       )

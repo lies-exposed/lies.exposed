@@ -4,7 +4,7 @@ import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Actor } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetListQuery } from "./Query";
+import { GetListQuery } from "../io/http/Query";
 
 const SingleActorOutput = Output(Actor.Actor, "Actor");
 const ListActorOutput = ListOutput(Actor.Actor, "Actors");
@@ -15,6 +15,7 @@ export const List = Endpoint({
   Input: {
     Query: {
       ...GetListQuery.props,
+      ...Actor.GetListActorQueryFilter.props,
     },
   },
   Output: ListActorOutput,

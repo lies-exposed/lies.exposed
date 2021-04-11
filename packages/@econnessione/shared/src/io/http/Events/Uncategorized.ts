@@ -7,6 +7,12 @@ import { BaseFrontmatter, JSONFromString, Point } from "../Common";
 import { markdownRemark } from "../Common/Markdown";
 import { EventLink } from "./EventLink";
 
+export const GetEventsQueryFilter = t.partial({
+  actors: optionFromNullable(t.array(t.string)),
+  groups: optionFromNullable(t.array(t.string)),
+});
+export type GetEventsQueryFilter = t.TypeOf<typeof GetEventsQueryFilter>;
+
 export const CreateEventBody = t.strict(
   {
     title: t.string,

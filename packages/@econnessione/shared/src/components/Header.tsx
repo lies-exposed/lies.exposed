@@ -17,6 +17,62 @@ import { pipe } from "fp-ts/lib/pipeable";
 import React from "react";
 import { MattermostIcon } from "../ui/icons/MattermostIcon/MattermostIcon";
 
+const dataMenuItem = {
+  id: "data",
+  href: "#",
+  label: "Data",
+  subItems: [
+    {
+      id: "actors",
+      href: "/actors",
+      label: "Attori",
+    },
+    {
+      id: "groups",
+      href: "/groups",
+      label: "Groups",
+    },
+    {
+      id: "topics",
+      href: "/topics",
+      label: "Topics",
+    },
+    {
+      id: "areas",
+      href: "/areas",
+      label: "Aree",
+    },
+    {
+      id: "projects",
+      href: "/projects",
+      label: "Progetti",
+    },
+    {
+      id: "events",
+      href: "/events",
+      label: "Eventi",
+    },
+  ],
+};
+
+const projectMenuItem = {
+  id: "project",
+  href: "/project",
+  label: "Progetto",
+  subItems: [
+    {
+      id: "the-crisis",
+      href: "/the-crisis",
+      label: "La Crisi",
+    },
+    {
+      id: "docs",
+      href: "/docs",
+      label: "Docs",
+    },
+  ],
+};
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -58,80 +114,28 @@ interface HeaderMenuItem {
 export const mainMenu: HeaderMenuItem[] =
   process.env.NODE_ENV === "development"
     ? [
-        {
-          id: "project",
-          href: "/project",
-          label: "Progetto",
-          subItems: [
-            {
-              id: "the-crisis",
-              href: "/the-crisis",
-              label: "La Crisi",
-            },
-            {
-              id: "docs",
-              href: "/docs",
-              label: "Docs",
-            },
-          ],
-        },
+        projectMenuItem,
         {
           id: "blog",
           href: "/blog",
           label: "Blog",
           subItems: [],
         },
-        {
-          id: "data",
-          href: "#",
-          label: "Data",
-          subItems: [
-            {
-              id: "actors",
-              href: "/actors",
-              label: "Attori",
-            },
-            {
-              id: "groups",
-              href: "/groups",
-              label: "Groups",
-            },
-            {
-              id: "topics",
-              href: "/topics",
-              label: "Topics",
-            },
-            {
-              id: "areas",
-              href: "/areas",
-              label: "Aree",
-            },
-            {
-              id: "projects",
-              href: "/projects",
-              label: "Progetti",
-            },
-            {
-              id: "events",
-              href: "/events",
-              label: "Eventi",
-            },
-          ],
-        },
+        dataMenuItem,
       ]
-    : [];
+    : [projectMenuItem, dataMenuItem];
 
 const Header: React.FC = () => {
   const {
     site: {
-      siteMetadata: { title, github, mattermostUrl },
+      siteMetadata: { title, github, communityURL },
     },
   } = {
     site: {
       siteMetadata: {
         title: "ECONNESSIONE",
         github: { repo: "econnessione", user: "ascariandrea" },
-        mattermostUrl: "https://mattermost.econnessione.org/",
+        communityURL: "https://community.econnessione.org/",
       },
     },
   };
@@ -198,7 +202,7 @@ const Header: React.FC = () => {
           </Link>
         </Typography>
 
-        <a href={mattermostUrl} style={{ verticalAlign: "middle" }}>
+        <a href={communityURL} style={{ verticalAlign: "middle" }}>
           <Button
             startIcon={<MattermostIcon fontSize="small" variant="white" />}
           />
