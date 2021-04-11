@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
+import { GetListQuery } from "../io/http/Query";
 import { User } from "../io/http/User";
 
 export const UserLogin = Endpoint({
@@ -34,6 +35,10 @@ export const UserCreate = Endpoint({
 export const UserList = Endpoint({
   Method: "GET",
   getPath: () => "/users",
-  Input: {},
+  Input: {
+    Query: {
+      ...GetListQuery.props,
+    },
+  },
   Output: t.strict({ data: t.array(User), total: t.number }),
 });

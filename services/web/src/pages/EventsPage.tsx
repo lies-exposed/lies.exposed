@@ -337,11 +337,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                         scale={'all'}
                         scalePoint={O.none}
                       /> */}
-                    <EventsMap
-                      filter={{ actors: O.none, group: O.none }}
-                      width={600}
-                      height={400}
-                    />
+                    <EventsMap filter={{ actors: O.none, groups: O.none }} />
 
                     <Typography variant="caption">
                       Nº Eventi: {totalEvents} dal {formatDate(minDate)} al{" "}
