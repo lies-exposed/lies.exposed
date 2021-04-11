@@ -24,32 +24,6 @@ export const EventsMap: React.FC<EventsMapProps> = ({
   center = [9.18951, 45.46427],
   zoom = 12,
 }) => {
-  // const eventPoints: Topology<{
-  //   points: GeometryCollection<Events.Uncategorized.Uncategorized>;
-  // }> = {
-  //   type: "Topology",
-  //   arcs: [],
-  //   objects: {
-  //     points: {
-  //       type: "GeometryCollection",
-  //       geometries: events
-  //         .filter(Events.Uncategorized.Uncategorized.is)
-  //         .reduce((acc, e) => {
-  //           if (e.location === undefined) {
-  //             return acc;
-  //           }
-  //           return acc.concat([
-  //             {
-  //               ...e.location,
-  //               properties: e,
-  //             },
-  //           ]);
-  //         }, initialAcc),
-  //     },
-  //   },
-  // };
-
-  // const data = topojson.feature(eventPoints, eventPoints.objects.points);
   const data = pipe(
     events,
     A.filter(Events.Uncategorized.Uncategorized.is),

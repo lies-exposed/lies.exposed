@@ -42,13 +42,17 @@ const getSkipAndTakeOptions = (
   pagination: Query.PaginationQuery,
   defaultPageSize: number
 ): ORMPagination => {
+  const take = pipe(
+    pagination._end,
+    O.getOrElse(() => defaultPageSize)
+  );
   return pipe(
     pagination._start,
     O.alt(() => O.some(0)),
     O.map((p) => {
-      return { skip: p, take: defaultPageSize };
+      return { skip: p, take };
     }),
-    O.getOrElse(() => ({ skip: 0, take: defaultPageSize }))
+    O.getOrElse(() => ({ skip: 0, take }))
   );
 };
 
