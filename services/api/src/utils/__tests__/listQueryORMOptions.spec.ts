@@ -1,7 +1,4 @@
-import {
-  FilterQuery,
-  GetListQuery
-} from "@econnessione/shared/endpoints/Query";
+import { FilterQuery, GetListQuery } from "@econnessione/shared/io/http/Query";
 import * as O from "fp-ts/lib/Option";
 import { Equal } from "typeorm";
 import { getORMOptions } from "../listQueryToORMOptions";
