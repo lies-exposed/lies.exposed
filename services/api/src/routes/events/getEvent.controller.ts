@@ -12,12 +12,9 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
     const selectEventTask = pipe(
       ctx.db.manager
         .createQueryBuilder(EventEntity, "event")
-        .addSelect("actors.id", "actors")
-        .addSelect("groups.id", "groups")
-        .addSelect("groupsMembers.id", "groupsMembers")
-        .leftJoin("event.actors", "actors")
-        .leftJoin("event.groups", "groups")
-        .leftJoin("event.groupsMembers", "groupsMembers")
+        .leftJoinAndSelect("event.actors", "actors")
+        .leftJoinAndSelect("event.groups", "groups")
+        .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
         .leftJoinAndSelect("event.images", "images")
         .where("event.id = :eventId", { eventId: id }),
       (q) => {
@@ -27,8 +24,13 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
 
     return pipe(
       selectEventTask,
-      TE.map((event) => ({ ...event, links: [] })),
-      TE.chainEitherK(toEventIO),
+      TE.chainEitherK((event) => toEventIO({
+        ...event,
+        actors: event.actors.map(a => a.id),
+        groups: event.groups.map((g) => g.id),
+        groupsMembers: event.groupsMembers.map(g => g.id),
+        links: [],
+      } as any)),
       TE.map((data) => ({
         body: {
           data,

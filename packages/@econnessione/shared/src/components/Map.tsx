@@ -91,7 +91,7 @@ const Map: React.FC<MapProps> = ({
     const size = map.getSize();
     const totalPadding = 20 * 2;
     map.getView().fit(featureSource.getExtent(), {
-      size: [size[0] - totalPadding, size[1] + totalPadding],
+      size: [size[0] - totalPadding, size[1] - totalPadding],
       maxZoom: 6,
     });
 

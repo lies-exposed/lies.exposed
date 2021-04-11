@@ -38,7 +38,7 @@ export default class ActorTemplate extends React.PureComponent<
                     metadata={eventMetadataMapEmpty}
                   />
                   <div style={{ padding: 50 }}>
-                    <EventSlider filter={{ actors: O.some(actorId) }} />
+                    <EventSlider filter={{ actors: O.some([actorId]) }} />
                   </div>
                 </MainContent>
               );

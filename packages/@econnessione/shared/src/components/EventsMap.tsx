@@ -8,6 +8,7 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
+import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import Feature from "ol/Feature";
 import * as React from "react";
@@ -17,17 +18,14 @@ import Map from "./Map";
 
 interface EventsMapProps {
   filter: GetEventsQueryFilter;
-  width: number;
-  height: number;
   center?: [number, number];
   zoom?: number;
 }
 
 export const EventsMap: React.FC<EventsMapProps> = ({
-  width,
-  height,
   center = [9.18951, 45.46427],
   zoom = 12,
+  filter,
 }) => {
   return (
     <WithQueries
@@ -38,7 +36,7 @@ export const EventsMap: React.FC<EventsMapProps> = ({
         events: {
           pagination: { page: 1, perPage: 100 },
           sort: { field: "startDate", order: "DESC" },
-          filter: {},
+          filter: R.compact(filter),
         },
       }}
       render={QR.fold(

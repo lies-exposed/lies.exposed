@@ -1,5 +1,6 @@
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
+import { EventsMap } from "@econnessione/shared/components/EventsMap";
 import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
@@ -75,7 +76,8 @@ export default class GroupTemplate extends React.PureComponent<
                       }
                     }}
                   />
-                  <EventSlider filter={{ group: O.some(group.id) }} />
+                  <EventsMap filter={{ groups: O.some([group.id]) }} />
+                  <EventSlider filter={{ groups: O.some([group.id]) }} />
                 </MainContent>
               )
             )}

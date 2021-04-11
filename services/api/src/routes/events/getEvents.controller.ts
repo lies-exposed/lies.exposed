@@ -16,7 +16,7 @@ import { toEventIO } from "./event.io";
 export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     endpoints.Event.List,
-    ({ query: { actors, group, ...query } }) => {
+    ({ query: { actors, groups, ...query } }) => {
       ctx.logger.info.log("Query %O", query);
       const findOptions = getORMOptions(
         {
@@ -38,19 +38,23 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       const sqlTask = pipe(
         ctx.db.manager
           .createQueryBuilder(EventEntity, "event")
-          .addSelect("actors.id", "actors")
-          .addSelect("groups.id", "groups")
-          .addSelect("groupsMembers.id", "groupsMembers")
-          .leftJoin("event.actors", "actors")
-          .leftJoin("event.groups", "groups")
-          .leftJoin("event.groupsMembers", "groupsMembers")
+          // .addSelect("actors.id", "eventActors")
+          // .add("groups.id", "eventGroups")
+          // .addSelect("groupsMembers.id", "groupsMembers")
+          .leftJoinAndSelect("event.actors", "actors")
+          .leftJoinAndSelect("event.groups", "groups")
+          .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
           .leftJoinAndSelect("event.images", "images"),
         (q) => {
           if (O.isSome(actors)) {
-            return q.where("actors.id = :actorId", { actorId: actors.value });
+            return q.where("actors.id IN (:...actors)", {
+              actors: actors.value,
+            });
           }
-          if (O.isSome(group)) {
-            return q.where("groups.id = :groupId", { groupId: group.value });
+          if (O.isSome(groups)) {
+            return q.where("groups.id IN (:...groups)", {
+              groups: groups.value,
+            });
           }
           return q;
         },
@@ -69,9 +73,9 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
           return q;
         },
         (q) => {
-          return ctx.db.execQuery(() =>
-            q.skip(findOptions.skip).take(findOptions.take).getManyAndCount()
-          );
+          // ctx.logger.debug.log(`SQL query %s`, q.getSql());
+          const qq = q.skip(findOptions.skip).take(findOptions.take);
+          return ctx.db.execQuery(() => qq.getManyAndCount());
         }
       );
       return pipe(
@@ -80,7 +84,15 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
           sequenceS(TE.taskEither)({
             data: TE.fromEither(
               A.traverse(E.either)(toEventIO)(
-                events.map((e) => ({ ...e, links: [] }))
+                events.map((e) => {
+                  return {
+                    ...e,
+                    actors: e.actors.map((g) => g.id),
+                    groups: e.groups.map((g) => g.id),
+                    groupsMembers: e.groupsMembers.map((m) => m.id),
+                    links: [],
+                  } as any;
+                })
               )
             ),
             total: TE.right(count),

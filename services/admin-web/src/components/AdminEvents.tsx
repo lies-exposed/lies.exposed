@@ -1,5 +1,6 @@
 import { EventPageContent } from "@econnessione/shared/components/EventPageContent";
 import { http } from "@econnessione/shared/io";
+import { Actor } from "@econnessione/shared/io/http/Actor";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -44,8 +45,15 @@ const EventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <TextInput label="Search" source="q" alwaysOn />
-      <ReferenceArrayInput source="groupIds" reference="groups">
+      <ReferenceArrayInput source="groups" reference="groups" alwaysOn>
         <SelectArrayInput optionText="name" />
+      </ReferenceArrayInput>
+      <ReferenceArrayInput source="actors" reference="actors" alwaysOn>
+        <SelectArrayInput
+          optionText={(a: Partial<Actor>) =>
+            a.id ? `${a.fullName}` : "No actor"
+          }
+        />
       </ReferenceArrayInput>
     </Filter>
   );
@@ -111,34 +119,6 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       </FormTab>
       <FormTab label="Group Members">
         <ReferenceArrayInput source="groupsMembers" reference="groups-members">
-          <SelectArrayInput
-            optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
-          />
-        </ReferenceArrayInput>
-        <ReferenceArrayField source="groupsMembers" reference="groups-members">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField source="name" />
-            <ImageField source="avatar" fullWidth={false} />
-          </Datagrid>
-        </ReferenceArrayField>
-      </FormTab>
-      <FormTab label="Group Members">
-        <ReferenceArrayInput source="groups-members" reference="groups-members">
-          <SelectArrayInput
-            optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
-          />
-        </ReferenceArrayInput>
-        <ReferenceArrayField source="groupsMembers" reference="groups-members">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField source="name" />
-            <ImageField source="avatar" fullWidth={false} />
-          </Datagrid>
-        </ReferenceArrayField>
-      </FormTab>
-      <FormTab label="Group Members">
-        <ReferenceArrayInput source="groups-members" reference="groups-members">
           <SelectArrayInput
             optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
           />

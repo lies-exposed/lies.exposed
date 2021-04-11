@@ -15,6 +15,7 @@ export const List = Endpoint({
   Input: {
     Query: {
       ...GetListQuery.props,
+      ...Actor.GetListActorQueryFilter.props,
     },
   },
   Output: ListActorOutput,
