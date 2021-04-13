@@ -24,13 +24,14 @@ export * as Common from "./Common";
 export * as Error from "./Error";
 export * as Events from "./Events";
 export * as Group from "./Group";
-export * as GroupMember from './GroupMember'
+export * as GroupMember from "./GroupMember";
 export * as Image from "./Image";
 export * as Network from "./Networks";
 export * as Page from "./Page";
 export * as Project from "./Project";
-export * as ProjectImage from './ProjectImage';
+export * as ProjectImage from "./ProjectImage";
+export * as Query from "./Query";
 export * as Topic from "./Topic";
 export * as Transaction from "./Transaction";
-export * as User from './User'
+export * as User from "./User";
 export * as Video from "./Video";

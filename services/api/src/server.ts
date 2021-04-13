@@ -58,7 +58,8 @@ export const makeContext = (
           env.NODE_ENV === "development" || env.NODE_ENV === "test"
             ? TE.right(
                 GetFSClient({
-                  basePath: path.resolve(__dirname, "../data"),
+                  basePath: process.cwd(),
+                  dataFolder: "data/media",
                   baseUrl: `http://localhost:${env.API_PORT}`,
                   logger: serverLogger,
                 })

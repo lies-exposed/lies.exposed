@@ -53,14 +53,14 @@ export const createGroup = (client: APIRESTClient) => (
 
 export const editGroup = (client: APIRESTClient) => (
   resource: string,
-  params: UpdateParams<any>
+  params: UpdateParams<Group>
 ): Promise<UpdateResult<Group>> => {
   const { avatar, ...data } = params.data;
 
   const avatarTask =
     typeof avatar === "string"
       ? TE.right([avatar])
-      : uploadImages(client)(resource, data.id, [avatar]);
+      : uploadImages(client)(resource, data.id, [(avatar as any).rawFile]);
 
   return pipe(
     avatarTask,
