@@ -64,7 +64,7 @@ const uploadFile = (client: http.APIRESTClient) => (
             }),
           E.toError
         ),
-        TE.map(() => location)
+        TE.map((response) => response.data.data.Location)
       );
     })
   );
@@ -76,7 +76,7 @@ export const uploadImages = (client: http.APIRESTClient) => (
   files: File[]
 ): TE.TaskEither<Error, string[]> => {
   return pipe(
-    files.map((n: any) => uploadFile(client)(resource, resourceId, n)),
+    files.map((file) => uploadFile(client)(resource, resourceId, file)),
     A.sequence(TE.taskEitherSeq)
   );
 };

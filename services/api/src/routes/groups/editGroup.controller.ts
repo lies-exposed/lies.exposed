@@ -11,7 +11,7 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
     endpoints.Group.Edit,
     ({ params: { id }, body: { avatar, ...body } }) => {
       return pipe(
-        ctx.db.update(GroupEntity, id, body),
+        ctx.db.update(GroupEntity, id, { ...body, avatar }),
         TE.chain(() => ctx.db.findOneOrFail(GroupEntity, { where: { id } })),
         TE.map(({ body, ...Group }) => ({
           body: {

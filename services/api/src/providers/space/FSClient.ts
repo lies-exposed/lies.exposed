@@ -1,31 +1,34 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as logger from "@econnessione/core/logger";
-import * as AWS from "aws-sdk";
 import * as IOE from "fp-ts/lib/IOEither";
 import { Reader } from "fp-ts/lib/Reader";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { SpaceClient, toError } from "./SpaceClient";
 
-const getFilePath = (
-  basePath: string,
-  params: AWS.S3.Types.GetObjectAclRequest
-): string => path.join(basePath, params.Bucket, params.Key);
+// const getFilePath = (
+//   basePath: string,
+//   params: AWS.S3.Types.GetObjectAclRequest
+// ): string => path.join(basePath, params.Key);
 
 interface FSClientCtx {
   baseUrl: string;
   basePath: string;
+  dataFolder: string;
   logger: logger.Logger;
 }
 
-const GetFSClient: Reader<FSClientCtx, SpaceClient> = (
-  c: FSClientCtx
-): SpaceClient => {
+const GetFSClient: Reader<FSClientCtx, SpaceClient> = ({
+  logger: serverLogger,
+  ...c
+}: FSClientCtx): SpaceClient => {
+  const logger = serverLogger.extend("FSClient");
+  logger.debug.log("Started FS Client %O", c);
   return {
     getObject: (params) => {
-      const filePath = getFilePath(c.basePath, params);
-      c.logger.debug.log(`Getting file path %s`, filePath);
+      const filePath = path.resolve(c.dataFolder, params.Key);
+      logger.debug.log(`Getting file path %s`, filePath);
       return pipe(
         IOE.tryCatch(
           () =>
@@ -42,24 +45,25 @@ const GetFSClient: Reader<FSClientCtx, SpaceClient> = (
       return TE.right({ DeleteMarker: true });
     },
     upload: (params) => {
-      const Location = getFilePath(c.basePath, params);
+      logger.debug.log("Upload with params %O", params);
+      const Location = params.Key;
 
-      c.logger.debug.log("Upload to %s", Location);
-      if (!fs.existsSync(path.dirname(Location))) {
-        c.logger.debug.log(
-          "Directory %s doesn't exist, creating...",
-          path.dirname(Location)
-        );
-        fs.mkdirSync(path.dirname(Location));
+      const fileDir = path.dirname(path.join(c.basePath, Location));
+      const filePath = path.join(c.basePath, Location);
+      logger.debug.log("Saving file at %s", filePath);
+      logger.debug.log("Check dir %s exists", fileDir);
+      if (!fs.existsSync(fileDir)) {
+        logger.debug.log("Directory %s doesn't exist, creating...", fileDir);
+        fs.mkdirSync(fileDir, { recursive: true });
       }
       return pipe(
         IOE.tryCatch(
-          () => fs.writeFileSync(Location, params.Body, { encoding: "utf-8" }),
+          () => fs.writeFileSync(filePath, params.Body, { encoding: "utf-8" }),
           toError
         ),
         TE.fromIOEither,
         TE.map(() => ({
-          Location: `${c.baseUrl}/${path.join(params.Bucket, params.Key)}`,
+          Location: `${c.baseUrl}${Location.replace("/v1/uploads/", "/")}`,
           ETag: "",
           Bucket: params.Bucket,
           Key: params.Key,
@@ -67,9 +71,11 @@ const GetFSClient: Reader<FSClientCtx, SpaceClient> = (
       );
     },
     getSignedUrl: (operation, params) => {
-      return TE.right(
-        `${c.baseUrl}/v1/uploads/${params.Key}`
-      );
+      logger.debug.log("getSignedURL with operation %s", operation);
+      const signedPath = path.join(c.dataFolder, params.Key);
+      const signedUrl = `${c.baseUrl}/v1/uploads/${signedPath}`;
+      logger.debug.log("Signed path %s, url (%s)", signedPath, signedUrl);
+      return TE.right(signedUrl);
     },
     createBucket: (params) => {
       return TE.right({ Location: params.Bucket });

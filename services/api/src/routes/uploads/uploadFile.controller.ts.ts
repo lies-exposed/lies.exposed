@@ -19,7 +19,7 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
     bodyParser.urlencoded({
       extended: false,
       limit: 2048 * 1000,
-      type: "image/jpeg",
+      type: ["image/jpeg", "image/png"],
     }),
     async (req, res) => {
       ctx.logger.debug.log("Req %O", req);
@@ -36,7 +36,7 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(({ key, file }) =>
           ctx.s3.upload({
             Bucket: ctx.env.SPACE_BUCKET,
-            Key: key,
+            Key: `/${key}`,
             Body: file,
           })
         ),

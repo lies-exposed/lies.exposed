@@ -52,7 +52,7 @@ export interface SpaceClient {
   ) => TE.TaskEither<SpaceError, AWS.S3.DeleteObjectOutput>;
 }
 
-interface SpaceClientImpl {
+export interface SpaceClientImpl {
   getObject: AWS.S3["getObject"];
   upload: AWS.S3["upload"];
   createBucket: AWS.S3["createBucket"];
@@ -74,7 +74,7 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
     },
     getSignedUrl: (operation, params) => {
       s3Logger.debug.log(
-        "GetSignedUrl object from bucket %s at path %s",
+        "GetSignedUrl object from bucket %s with params %O",
         operation,
         params
       );
