@@ -1,7 +1,6 @@
 import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
-import { ImageArb } from "./Image.arbitrary";
 
 const {
   createdAt: _createdAt,
@@ -21,18 +20,13 @@ export const EventArb: tests.fc.Arbitrary<http.Events.Uncategorized.Uncategorize
   .map((p) => ({
     ...p,
     id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+    title: tests.fc.sample(tests.fc.string({ minLength: 1 }), 1)[0],
     startDate,
     endDate,
     location: {
       type: "Point",
       coordinates: [0, 0],
     },
-    links: [],
-    images: tests.fc.sample(ImageArb, 5).map(({ id, ...image }) => image),
-    groups: [],
-    actors: [],
-    groupsMembers: [],
-    topics: [],
     createdAt: new Date(),
     updatedAt: new Date(),
   })) as any;

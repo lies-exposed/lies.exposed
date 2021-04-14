@@ -38,7 +38,7 @@ export interface EventListMap {
   Arrest: Arrest.Arrest[];
   Death: Death.Death[];
   PublicAnnouncement: PublicAnnouncement.PublicAnnouncement[];
-  Uncategorized: Uncategorized.UncategorizedFrontmatter[];
+  Uncategorized: Uncategorized.Uncategorized[];
 }
 
 export const EventMap: { [key in Event["type"]]: t.Mixed } = {
@@ -52,7 +52,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   Arrest: Arrest.Arrest,
   Death: Death.Death,
   PublicAnnouncement: PublicAnnouncement.PublicAnnouncement,
-  Uncategorized: Uncategorized.UncategorizedFrontmatter,
+  Uncategorized: Uncategorized.Uncategorized,
 };
 
 const ProjectImpact = ProjectEvent.ProjectImpact;

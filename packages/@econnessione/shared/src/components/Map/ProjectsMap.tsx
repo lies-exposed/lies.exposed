@@ -11,11 +11,16 @@ import Feature from "ol/Feature";
 import * as React from "react";
 
 export interface ProjectsMapProps {
+  id: string;
   filter: {};
   style?: React.CSSProperties;
 }
 
-export const ProjectsMap: React.FC<ProjectsMapProps> = ({ filter, style }) => {
+export const ProjectsMap: React.FC<ProjectsMapProps> = ({
+  id,
+  filter,
+  style,
+}) => {
   return (
     <WithQueries
       queries={{
@@ -44,7 +49,7 @@ export const ProjectsMap: React.FC<ProjectsMapProps> = ({ filter, style }) => {
               });
               return (
                 <Map
-                  id={`projects-map-${1}`}
+                  id={`projects-map-${id}`}
                   width={width}
                   height={height}
                   features={features}

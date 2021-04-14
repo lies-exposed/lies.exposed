@@ -5,6 +5,7 @@ import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Actor } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
+import { ResourceEndpoints } from "./types";
 
 const SingleActorOutput = Output(Actor.Actor, "Actor");
 const ListActorOutput = ListOutput(Actor.Actor, "Actors");
@@ -72,4 +73,12 @@ export const Delete = Endpoint({
     Params: { id: t.string },
   },
   Output: SingleActorOutput,
+});
+
+export const actors = ResourceEndpoints({
+  Get,
+  List,
+  Edit,
+  Create,
+  Delete,
 });
