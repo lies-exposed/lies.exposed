@@ -31,14 +31,6 @@ export const BiodiversityLoss = t.strict(
   BIODIVERSITY_LOSS.value
 );
 
-// const PublicOpinion = t.strict(
-//   {
-//     convincedOf: t.string,
-//     insteadOf: t.string,
-//   },
-//   "PublicOpinion"
-// )
-
 export const Impact = t.union(
   [LandUsed, CO2Emitted, BiodiversityLoss],
   "Impact"

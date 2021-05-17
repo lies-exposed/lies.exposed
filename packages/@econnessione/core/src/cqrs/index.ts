@@ -52,7 +52,7 @@ const toError = (e: unknown): APIError => {
 //   actors: Actor.ActorMD,
 //   groups: Group.GroupMD,
 //   topics: Topic.TopicMD,
-//   projects: Project.ProjectMD,
+//   projects: Project.Project,
 //   events: Events.EventMD,
 // };
 
