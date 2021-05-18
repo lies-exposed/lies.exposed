@@ -9,16 +9,27 @@ interface Slide {
 
 interface SliderProps extends SlickSlider.Settings {
   slides: Slide[];
+  style?: React.CSSProperties;
+  maxHeight?: number;
 }
 
-export const Slider: React.FC<SliderProps> = ({ slides, ...props }) => {
+export const Slider: React.FC<SliderProps> = ({
+  slides,
+  maxHeight = 400,
+  ...props
+}) => {
   return (
     <SlickSlider.default {...{ ...props }}>
       {slides.map((s) => (
         <div key={s.imageURL}>
           <img
             src={s.imageURL}
-            style={{ width: "100%", boxSizing: "content-box", height: "auto" }}
+            style={{
+              width: "100%",
+              boxSizing: "content-box",
+              height: "auto",
+              maxHeight,
+            }}
           />
         </div>
       ))}
