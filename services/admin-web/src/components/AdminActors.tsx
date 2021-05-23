@@ -1,5 +1,4 @@
 import { ActorPageContent } from "@econnessione/shared/components/ActorPageContent";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { http } from "@econnessione/shared/io";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
 import * as E from "fp-ts/lib/Either";
@@ -19,12 +18,13 @@ import {
   List,
   ListProps,
   ReferenceArrayField,
+  ReferenceManyField,
   SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
 } from "react-admin";
-import { ColorField, ColorInput } from "react-admin-color-input";
+import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
 
@@ -72,6 +72,15 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             <TextField source="name" />
           </Datagrid>
         </ReferenceArrayField>
+      </FormTab>
+      <FormTab label="Events">
+        <ReferenceManyField label="Events" target="actors[]" reference="events">
+          <Datagrid>
+            <TextField source="id" />
+            <TextField source="title" />
+            <DateField source="createdAt" />
+          </Datagrid>
+        </ReferenceManyField>
       </FormTab>
       <FormTab label="Preview">
         <FormDataConsumer>

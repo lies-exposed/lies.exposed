@@ -22,31 +22,29 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   actors,
   groups,
 }) => {
-
   return (
     <MainContent>
       <SEO title={event.title} />
       <Typography variant="h1">{event.title}</Typography>
-      <div style={{ maxHeight: 600 }}>
-        {pipe(
-          event.images,
-          O.fromPredicate((items) => items.length > 0),
-          O.map((images) => (
-            <Slider
-              key="home-slider"
-              slides={images.map((i) => ({
-                authorName: "",
-                info: i.description,
-                imageURL: i.location,
-              }))}
-              arrows={true}
-              // adaptiveHeight={true}
-              dots={true}
-            />
-          )),
-          O.toNullable
-        )}
-      </div>
+
+      {pipe(
+        event.images,
+        O.fromPredicate((items) => items.length > 0),
+        O.map((images) => (
+          <Slider
+            key="home-slider"
+            slides={images.map((i) => ({
+              authorName: "",
+              info: i.description,
+              imageURL: i.location,
+            }))}
+            arrows={true}
+            // adaptiveHeight={true}
+            dots={true}
+          />
+        )),
+        O.toNullable
+      )}
       {pipe(
         event.groups,
         O.fromPredicate((items) => items.length > 0),

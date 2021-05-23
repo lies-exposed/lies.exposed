@@ -60,7 +60,7 @@ const EventsFilter: React.FC = (props: any) => {
 };
 
 export const EventList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE} filters={<EventsFilter />}>
+  <List {...props} resource={RESOURCE} filters={<EventsFilter />} perPage={20}>
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="location.coordinates" />

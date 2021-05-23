@@ -60,7 +60,7 @@ services:
     container_name: econnessione-web
     image: econnessione_econnessione
     env_file:
-      - .env.dev
+      - .env.local
     ports:
       - 4001:3000
     volumes_from:
@@ -76,7 +76,7 @@ services:
     container_name: econnessione-admin-web
     image: econnessione_econnessione
     env_file:
-      - .env.dev
+      - .env.local
     ports:
       - 4000:3000
     volumes_from:

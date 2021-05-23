@@ -55,6 +55,18 @@ const liftClientRequest = <T>(
   );
 };
 
+const formatParams = <P extends RA.GetListParams | RA.GetManyReferenceParams>(
+  params: P
+): RA.GetListParams => ({
+  _sort: params.sort.field,
+  _order: params.sort.order,
+  _start:
+    params.pagination.page * params.pagination.perPage -
+    params.pagination.perPage,
+  _end: params.pagination.perPage * params.pagination.page,
+  ...params.filter,
+});
+
 export interface APIRESTClientCtx {
   url: string;
   getAuth?: () => string | null;
@@ -88,23 +100,27 @@ export const APIRESTClient = ({
     getList: (resource, params) => {
       return liftClientRequest<RA.GetListResult<any>>(() =>
         client.get(resource, {
-          params: {
-            _sort: params.sort.field,
-            _order: params.sort.order,
-            _start: (params.pagination.page - 1) * params.pagination.perPage,
-            _end: params.pagination.page * params.pagination.perPage,
-            ...params.filter,
-          },
+          params: formatParams(params),
         })
       )();
     },
     getMany: (resource, params) => {
       return liftClientRequest<RA.GetManyResult<any>>(() =>
-        client.get(`${resource}`, { params })
+        client.get(`${resource}`, { params: params })
       )();
     },
-    getManyReference: (resource, params) =>
-      client.get(`${resource}`, { params }),
+    getManyReference: (resource, params) => {
+      const formattedParams = formatParams({
+        ...params,
+        filter: {
+          ...params.filter,
+          [params.target]: params.id,
+        },
+      });
+      return liftClientRequest<RA.GetManyReferenceResult<any>>(() =>
+        client.get(`${resource}`, { params: formattedParams })
+      )();
+    },
     create: (resource, params) => {
       return liftClientRequest<RA.CreateParams>(() =>
         client.post(`${resource}`, params.data)

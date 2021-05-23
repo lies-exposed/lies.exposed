@@ -1,10 +1,8 @@
 import * as endpoints from "@econnessione/shared/endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventEntity } from "@entities/Event.entity";
-import { LinkEntity } from "@entities/Link.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import { Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -20,11 +18,13 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
       params: { id },
       body: { links, images, actors, groups, groupsMembers, ...body },
     }) => {
-      const optionalData = foldOptionals({
+      ctx.logger.debug.log("Incoming body %O", body);
+      const updateData = foldOptionals({
         ...body,
         actors: pipe(actors, O.map(A.map((a) => ({ id: a })))),
         groups: pipe(groups, O.map(A.map((g) => ({ id: g })))),
         groupsMembers: pipe(groupsMembers, O.map(A.map((g) => ({ id: g })))),
+        links: pipe(links, O.map(A.map((l) => ({ id: l })))),
         images: pipe(
           images,
           O.map((imgs) =>
@@ -36,34 +36,20 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
         ),
       });
 
-      ctx.logger.debug.log("Update data %O", optionalData);
+      ctx.logger.debug.log("Update data %O", updateData);
 
       return pipe(
-        sequenceS(TE.taskEitherSeq)({
-          links: pipe(
-            links,
-            O.fold(
-              () => {
-                return TE.right([]);
-              },
-              (ll) => {
-                const newLinks = ll.map((l) => ({ ...l, event: { id } }));
-                return ctx.db.save(LinkEntity, newLinks);
-              }
-            )
-          ),
-          event: ctx.db.save(EventEntity, [{ id, ...optionalData }]),
-        }),
+        ctx.db.save(EventEntity, [{ id, ...updateData }]),
         TE.chain(() =>
           ctx.db.findOneOrFail(EventEntity, {
             where: { id },
-            relations: ["images", "links"],
+            relations: ["images"],
             loadRelationIds: {
-              relations: ["actors", "groups", "groupsMembers"],
+              relations: ["groups", "actors", "links", "groupsMembers"],
             },
           })
         ),
-        TE.chain((event) => TE.fromEither(toEventIO(event))),
+        TE.chainEitherK((event) => toEventIO(event)),
         TE.map((event) => ({
           body: {
             data: event,

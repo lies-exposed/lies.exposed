@@ -4,7 +4,6 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { Area } from "./Area";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 import { Color } from "./Common/Color";
-import { markdownRemark } from "./Common/Markdown";
 import { ProjectImage } from "./ProjectImage";
 
 export const PROJECT_FRONTMATTER = t.literal("ProjectFrontmatter");
@@ -25,6 +24,3 @@ export const Project = t.strict(
 );
 
 export type Project = t.TypeOf<typeof Project>;
-
-export const ProjectMD = markdownRemark(Project, "ProjectMD");
-export type ProjectMD = t.TypeOf<typeof ProjectMD>;

@@ -38,9 +38,6 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       const sqlTask = pipe(
         ctx.db.manager
           .createQueryBuilder(EventEntity, "event")
-          // .addSelect("actors.id", "eventActors")
-          // .add("groups.id", "eventGroups")
-          // .addSelect("groupsMembers.id", "groupsMembers")
           .leftJoinAndSelect("event.actors", "actors")
           .leftJoinAndSelect("event.groups", "groups")
           .leftJoinAndSelect("event.groupsMembers", "groupsMembers")

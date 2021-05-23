@@ -66,7 +66,11 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                     }
                   }}
                 />
-                <ProjectsMap style={{ marginBottom: 40 }} filter={{}} />
+                <ProjectsMap
+                  id="projects-page"
+                  style={{ marginBottom: 40 }}
+                  filter={{}}
+                />
                 <ProjectList
                   projects={projects.map((p) => ({ ...p, selected: false }))}
                   onProjectClick={async (p) => {

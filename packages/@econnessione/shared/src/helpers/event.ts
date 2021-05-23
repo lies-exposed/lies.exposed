@@ -136,7 +136,7 @@ export const filterMetadataFroProject = (project: Project.Project) => (
     // case "ProjectTransaction":
     //   return metadata.project.id === project.id;
     case "ProjectImpact":
-      return metadata.project.id === project.id;
+      return metadata.project === project.id;
     case Events.Protest.PROTEST.value: {
       return (
         metadata.for.type === "Project" &&

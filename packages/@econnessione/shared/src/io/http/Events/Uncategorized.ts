@@ -3,8 +3,7 @@ import { nonEmptyArray } from "io-ts-types";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
-import { BaseFrontmatter, JSONFromString, Point } from "../Common";
-import { markdownRemark } from "../Common/Markdown";
+import { BaseFrontmatter, Point } from "../Common";
 import { EventLink } from "./EventLink";
 
 export const GetEventsQueryFilter = t.partial({
@@ -46,22 +45,8 @@ export const EditEventBody = nonEmptyRecordFromType({
       })
     )
   ),
-  links: optionFromNullable(
-    t.array(
-      t.union([
-        t.strict({
-          id: t.string,
-          url: t.string,
-          description: t.string,
-        }),
-        t.strict({
-          url: t.string,
-          description: t.string,
-        }),
-      ])
-    )
-  ),
-  location: optionFromNullable(JSONFromString.pipe(Point)),
+  links: optionFromNullable(t.array(t.string)),
+  location: optionFromNullable(Point),
   actors: optionFromNullable(t.array(t.string)),
   groups: optionFromNullable(t.array(t.string)),
   groupsMembers: optionFromNullable(t.array(t.string)),
@@ -73,7 +58,8 @@ export const EditEventBody = nonEmptyRecordFromType({
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;
 
 export const UNCATEGORIZED = t.literal("Uncategorized");
-export const UncategorizedFrontmatter = t.strict(
+
+export const Uncategorized = t.strict(
   {
     ...BaseFrontmatter.type.props,
     type: UNCATEGORIZED,
@@ -89,24 +75,9 @@ export const UncategorizedFrontmatter = t.strict(
     groups: t.array(t.string),
     groupsMembers: t.array(t.string),
     topics: t.array(t.string),
+
+    body: t.string,
   },
   UNCATEGORIZED.value
 );
-
-export type UncategorizedFrontmatter = t.TypeOf<
-  typeof UncategorizedFrontmatter
->;
-export const Uncategorized = t.strict(
-  {
-    ...UncategorizedFrontmatter.type.props,
-    body: t.string,
-  },
-  "Uncategorized"
-);
 export type Uncategorized = t.TypeOf<typeof Uncategorized>;
-
-export const UncategorizedMD = markdownRemark(
-  UncategorizedFrontmatter,
-  "UncategorizedMD"
-);
-export type UncategorizedMD = t.TypeOf<typeof UncategorizedMD>;

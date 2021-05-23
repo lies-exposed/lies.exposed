@@ -9,7 +9,6 @@ export const Condamned = t.strict(
     title: t.string,
     type: t.literal("Condamned"),
     who: ByGroupOrActor,
-    by: ByGroupOrActor,
     date: DateFromISOString,
   },
   "Condamned"

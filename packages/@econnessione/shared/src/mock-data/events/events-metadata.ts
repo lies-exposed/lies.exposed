@@ -52,7 +52,7 @@ export const firstEventMetadata: Events.Event[] = [
     executedBy: [{ type: "Group", group: secondBadGroup.id }],
     images: [],
     impact: { type: "CO2Emitted", amount: 300, unit: "gt" },
-    project: firstBadProject,
+    project: firstBadProject.id,
     createdAt: subDays(now, 1),
     updatedAt: subDays(now, 1),
   },

@@ -13,9 +13,20 @@ describe("Edit Event", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    const eventData = fc.sample(EventArb, 1) as any;
-    eventData[0].images = [];
-    const result = await appTest.ctx.db.save(EventEntity, eventData)();
+    const eventData = fc.sample(
+      EventArb.map((e) => ({
+        ...e,
+        images: [],
+        links: [],
+        topics: [],
+        groups: [],
+        actors: [],
+        groupsMembers: [],
+      })),
+      1
+    );
+    const result = await appTest.ctx.db.save(EventEntity, eventData as any[])();
+
     event = (result as any).right[0];
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -58,6 +69,7 @@ describe("Edit Event", () => {
     const images = fc
       .sample(ImageArb, 5)
       .map(({ id, createdAt, updatedAt, ...image }) => image);
+
     const eventData = {
       title: "First event",
       startDate: new Date().toISOString(),
@@ -85,5 +97,28 @@ describe("Edit Event", () => {
     });
   });
 
-  test.todo("Should edit event images");
+  test("Should edit event links", async () => {
+    const eventData = {
+      title: "Event with links",
+      startDate: new Date().toISOString(),
+      links: [],
+      images: [],
+    };
+    const response = await appTest.req
+      .put(`/v1/events/${event.id}`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+
+    expect(response.status).toEqual(200);
+
+    expect(body).toMatchObject({
+      ...(event as any),
+      ...eventData,
+      endDate: event.endDate ? event.endDate.toISOString() : undefined,
+      createdAt: event.createdAt.toISOString(),
+      updatedAt: body.updatedAt,
+    });
+  });
 });

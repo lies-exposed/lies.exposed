@@ -8,12 +8,15 @@ import {
   DateInput,
   Edit,
   EditProps,
+  FormTab,
   List,
   ListProps,
+  ReferenceArrayField,
   ReferenceField,
   ReferenceInput,
   SelectInput,
   SimpleForm,
+  TabbedForm,
   TextField,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
@@ -39,17 +42,28 @@ const EditTitle: React.FC = ({ record }: any) => {
 
 export const GroupMemberEdit: React.FC<EditProps> = (props) => (
   <Edit title={<EditTitle {...props} />} {...props}>
-    <SimpleForm>
-      <ReferenceInput reference="actors" source="actor.id">
-        <SelectInput optionText="fullName" />
-      </ReferenceInput>
-      <ReferenceInput reference="groups" source="group.id">
-        <AutocompleteInput source="id" />
-      </ReferenceInput>
-      <DateInput source="startDate" />
-      <DateInput source="endDate" />
-      <MarkdownInput source="body" />
-    </SimpleForm>
+    <TabbedForm>
+      <FormTab label="generals">
+        <ReferenceInput reference="actors" source="actor.id">
+          <SelectInput optionText="fullName" />
+        </ReferenceInput>
+        <ReferenceInput reference="groups" source="group.id">
+          <AutocompleteInput source="id" />
+        </ReferenceInput>
+        <DateInput source="startDate" />
+        <DateInput source="endDate" />
+        <MarkdownInput source="body" />
+      </FormTab>
+      <FormTab label="Events">
+        <ReferenceArrayField reference="events">
+          <Datagrid>
+            <TextField source="id" />
+            <TextField source="title" />
+            <DateField source="createdAt" />
+          </Datagrid>
+        </ReferenceArrayField>
+      </FormTab>
+    </TabbedForm>
   </Edit>
 );
 

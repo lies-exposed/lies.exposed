@@ -4,17 +4,18 @@ import * as Arrest from "./Arrest";
 import * as Condamned from "./Condamned";
 import * as Death from "./Death";
 import * as Fined from "./Fined";
-import * as ProjectEvent from "./ProjectEvent";
 import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
 import * as StudyPublished from "./StudyPublished";
 import * as Uncategorized from "./Uncategorized";
+import { ProjectImpact } from "./project/ProjectImpact";
+import { ProjectTransaction } from "./project/ProjectTransaction";
 
 export const Event = t.union(
   [
     Protest.Protest,
-    ProjectEvent.ProjectImpact,
-    ProjectEvent.ProjectTransaction,
+    ProjectImpact,
+    ProjectTransaction,
     Fined.Fined,
     Condamned.Condamned,
     Arrest.Arrest,
@@ -32,33 +33,28 @@ export type EventMD = t.TypeOf<typeof EventMD>;
 export interface EventListMap {
   StudyPublished: StudyPublished.StudyPublished[];
   Protest: Protest.Protest[];
-  ProjectImpact: ProjectEvent.ProjectImpact[];
-  ProjectTransaction: ProjectEvent.ProjectTransaction[];
+  ProjectImpact: ProjectImpact[];
+  ProjectTransaction: ProjectTransaction[];
   Condamned: Condamned.Condamned[];
   Arrest: Arrest.Arrest[];
   Death: Death.Death[];
   PublicAnnouncement: PublicAnnouncement.PublicAnnouncement[];
-  Uncategorized: Uncategorized.UncategorizedFrontmatter[];
+  Uncategorized: Uncategorized.Uncategorized[];
 }
 
 export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   // StudyPublished: StudyPublished.StudyPublished,
   Protest: Protest.Protest,
   // Project
-  ProjectImpact: ProjectEvent.ProjectImpact,
-  ProjectTransaction: ProjectEvent.ProjectTransaction,
+  ProjectImpact: ProjectImpact,
+  ProjectTransaction: ProjectTransaction,
   Fined: Fined.Fined,
   Condamned: Condamned.Condamned,
   Arrest: Arrest.Arrest,
   Death: Death.Death,
   PublicAnnouncement: PublicAnnouncement.PublicAnnouncement,
-  Uncategorized: Uncategorized.UncategorizedFrontmatter,
+  Uncategorized: Uncategorized.Uncategorized,
 };
-
-const ProjectImpact = ProjectEvent.ProjectImpact;
-type ProjectImpact = ProjectEvent.ProjectImpact;
-const ProjectTransaction = ProjectEvent.ProjectTransaction;
-type ProjectTransaction = ProjectEvent.ProjectTransaction;
 
 export {
   StudyPublished,
