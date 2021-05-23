@@ -1,10 +1,9 @@
-import * as endpoints  from "@econnessione/shared/endpoints";
+import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
-import { AddEndpoint } from "ts-endpoint-express";
 import { PageEntity } from "../../entities/Page.entity";
 
 export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {

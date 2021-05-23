@@ -1,4 +1,4 @@
-import * as endpoints from "@econnessione/shared/endpoints";
+import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -7,7 +7,6 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
-import { AddEndpoint } from "ts-endpoint-express";
 import { toProjectImageIO } from "./ProjectImage.io";
 
 export const MakeListProjectImageRoute = (

@@ -46,7 +46,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       LinkEntity,
       UserEntity,
     ],
-    synchronize: env.NODE_ENV === "test",
+    synchronize: env.NODE_ENV === "development",
     ssl: ssl,
     migrations: [`${process.cwd()}/build/migrations/*.js`],
     cli: {

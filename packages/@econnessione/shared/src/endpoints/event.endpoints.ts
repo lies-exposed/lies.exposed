@@ -8,10 +8,10 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/events",
   Input: {
-    Query: {
+    Query: t.type({
       ...http.Query.GetListQuery.props,
       ...http.Events.Uncategorized.GetEventsQueryFilter.props,
-    },
+    }),
   },
   Output: http.Common.ListOutput(http.Events.Event, "ListEvent"),
 });
@@ -29,7 +29,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleEventOutput,
 });
@@ -38,7 +38,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
     Body: http.Events.Uncategorized.EditEventBody,
   },
   Output: SingleEventOutput,
@@ -48,7 +48,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleEventOutput,
 });

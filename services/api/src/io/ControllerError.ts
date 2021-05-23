@@ -1,4 +1,4 @@
-import * as E from 'fp-ts/lib/Either'
+import * as E from "fp-ts/lib/Either";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { IOError } from "ts-shared/lib/errors";
@@ -27,10 +27,10 @@ export const BadRequestError = (meta: string): ControllerError => ({
   status: 400,
   details: {
     kind: "ClientError",
-    meta
+    status: "400",
+    meta,
   },
 });
-
 
 export const NotFoundError = (entityName: string): ControllerError => ({
   name: "NotFoundError",
@@ -38,6 +38,7 @@ export const NotFoundError = (entityName: string): ControllerError => ({
   status: 404,
   details: {
     kind: "ClientError",
+    status: "404",
   },
 });
 
@@ -48,6 +49,7 @@ export const ServerError = (meta?: string[]): ControllerError => {
     message: "Server Error",
     details: {
       kind: "ServerError",
+      status: "500",
       meta,
     },
   };
@@ -55,25 +57,26 @@ export const ServerError = (meta?: string[]): ControllerError => {
 
 export const NotAuthorizedError = (): ControllerError => {
   return {
-    name: 'APIError',
+    name: "APIError",
     status: 401,
-    message: 'Authorization header is missing',
+    message: "Authorization header is missing",
     details: {
-      kind: 'ClientError',
-    }
-  }
-}
+      kind: "ClientError",
+      status: "401",
+    },
+  };
+};
 
 export const DecodeError = (errors: t.Errors): ControllerError => {
   // eslint-disable-next-line
-  console.log(PathReporter.report(E.left(errors)))
+  console.log(PathReporter.report(E.left(errors)));
   return {
-    name: 'APIError',
+    name: "APIError",
     status: 500,
-    message: 'Decode Error',
+    message: "Decode Error",
     details: {
-      kind: 'DecodingError',
-      errors
-    }
-  }
-}
+      kind: "DecodingError",
+      errors,
+    },
+  };
+};

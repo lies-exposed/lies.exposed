@@ -14,10 +14,10 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/actors",
   Input: {
-    Query: {
+    Query: t.type({
       ...GetListQuery.props,
       ...Actor.GetListActorQueryFilter.props,
-    },
+    }),
   },
   Output: ListActorOutput,
 });
@@ -26,7 +26,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleActorOutput,
 });
@@ -54,7 +54,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
     Body: nonEmptyRecordFromType({
       username: optionFromNullable(t.string),
       fullName: optionFromNullable(t.string),
@@ -70,7 +70,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleActorOutput,
 });
@@ -81,4 +81,4 @@ export const actors = ResourceEndpoints({
   Edit,
   Create,
   Delete,
-});
+} as any);

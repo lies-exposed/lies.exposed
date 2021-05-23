@@ -17,6 +17,7 @@ const toMDXError = (e: unknown): MDXError => {
       message: e.message,
       details: {
         kind: "ServerError",
+        status: "500",
       },
     };
   }
@@ -26,6 +27,7 @@ const toMDXError = (e: unknown): MDXError => {
     message: "An error occured",
     details: {
       kind: "ServerError",
+      status: "500",
       meta: e,
     },
   };
@@ -180,7 +182,7 @@ export const GetMDXClient = (ctx: MDXClientContext): MDXClient => {
           }),
         toMDXError
       ),
-      TE.fromIOEither,
+      TE.fromIOEither
       // TE.chain((content) => renderMDX(content)),
       // TE.map((data) => data.toString())
     );

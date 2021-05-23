@@ -3,7 +3,7 @@ import { Group } from "@vx/group";
 import { scaleOrdinal } from "@vx/scale";
 import Pie, { PieArcDatum, ProvidedProps } from "@vx/shape/lib/shapes/Pie";
 import React, { useState } from "react";
-import { animated, interpolate, useTransition } from "react-spring";
+import { animated, to, useTransition } from "react-spring";
 
 // color scales
 const defaultMargin = { top: 20, right: 20, bottom: 20, left: 20 };
@@ -70,7 +70,6 @@ export const PieChartGraph = <S extends any>({
             <AnimatedPie<S>
               {...pie}
               animate={animate}
-              getKey={(arc) => getKey(arc.data)}
               getLabel={(arc) => getLabel(arc.data)}
               onClickDatum={({ data }) =>
                 animate &&
@@ -106,7 +105,8 @@ export const PieChartGraph = <S extends any>({
 interface AnimatedStyles {
   startAngle: number;
   endAngle: number;
-  opacity: number;
+  opacity: any;
+  [index: string]: unknown;
 }
 
 const fromLeaveTransition = ({
@@ -128,7 +128,6 @@ const enterUpdateTransition = ({
 
 type AnimatedPieProps<Datum> = ProvidedProps<Datum> & {
   animate?: boolean;
-  getKey: (d: PieArcDatum<Datum>) => string;
   getLabel: (d: PieArcDatum<Datum>) => string;
   getColor: (d: PieArcDatum<Datum>) => string;
   onClickDatum: (d: PieArcDatum<Datum>) => void;
@@ -139,72 +138,55 @@ function AnimatedPie<Datum>({
   animate,
   arcs,
   path,
-  getKey,
   getLabel,
   getColor,
   onClickDatum,
 }: AnimatedPieProps<Datum>): JSX.Element {
-  const transitions = useTransition<PieArcDatum<Datum>, AnimatedStyles>(
-    arcs,
-    getKey,
-    {
-      from: animate !== null ? fromLeaveTransition : enterUpdateTransition,
-      enter: enterUpdateTransition,
-      update: enterUpdateTransition,
-      leave: animate !== null ? fromLeaveTransition : enterUpdateTransition,
-    } as any
-  );
+  const transitions = useTransition<PieArcDatum<Datum>, AnimatedStyles>(arcs, {
+    from: animate !== null ? fromLeaveTransition : enterUpdateTransition,
+    enter: enterUpdateTransition,
+    update: enterUpdateTransition,
+    leave: animate !== null ? fromLeaveTransition : enterUpdateTransition,
+  });
   return (
     <>
-      {transitions.map(
-        ({
-          item: arc,
-          props,
-          key,
-        }: {
-          item: PieArcDatum<Datum>;
-          props: AnimatedStyles;
-          key: string;
-        }) => {
-          const [centroidX, centroidY] = path.centroid(arc);
-          const hasSpaceForLabel = arc.endAngle - arc.startAngle >= 0.1;
+      {transitions((values, item, transition) => {
+        const [centroidX, centroidY] = path.centroid(item);
+        const hasSpaceForLabel = item.endAngle - item.startAngle >= 0.1;
 
-          return (
-            <g key={key}>
-              <animated.path
-                // compute interpolated path d attribute from intermediate angle values
-                d={interpolate(
-                  [props.startAngle, props.endAngle],
-                  (startAngle, endAngle) =>
-                    path({
-                      ...arc,
-                      startAngle,
-                      endAngle,
-                    })
-                )}
-                fill={getColor(arc)}
-                onClick={() => onClickDatum(arc)}
-                onTouchStart={() => onClickDatum(arc)}
-              />
-              {hasSpaceForLabel && (
-                <animated.g style={{ opacity: props.opacity }}>
-                  <text
-                    fill="white"
-                    x={centroidX}
-                    y={centroidY}
-                    dy=".33em"
-                    fontSize={9}
-                    textAnchor="middle"
-                    pointerEvents="none"
-                  >
-                    {getLabel(arc)}
-                  </text>
-                </animated.g>
+        return (
+          <g key={transition.key}>
+            <animated.path
+              // compute interpolated path d attribute from intermediate angle values
+              d={to([item.startAngle, item.endAngle], (startAngle, endAngle) =>
+                path({
+                  ...item,
+                  startAngle,
+                  endAngle,
+                })
               )}
-            </g>
-          );
-        }
-      )}
+              fill={getColor(item)}
+              onClick={() => onClickDatum(item)}
+              onTouchStart={() => onClickDatum(item)}
+            />
+            {hasSpaceForLabel && (
+              <animated.g style={{ opacity: (item as any).opacity }}>
+                <text
+                  fill="white"
+                  x={centroidX}
+                  y={centroidY}
+                  dy=".33em"
+                  fontSize={9}
+                  textAnchor="middle"
+                  pointerEvents="none"
+                >
+                  {getLabel(item)}
+                </text>
+              </animated.g>
+            )}
+          </g>
+        );
+      })}
     </>
   );
 }

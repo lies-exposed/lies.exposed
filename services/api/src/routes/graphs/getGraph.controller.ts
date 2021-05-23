@@ -1,13 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as endpoints from "@econnessione/shared/endpoints";
+import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as E from "fp-ts/lib/Either";
 import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
-import { AddEndpoint } from "ts-endpoint-express";
 import { IOError } from "ts-shared/lib/errors";
 
 const readFile = (id: string): TE.TaskEither<Error, string> =>
@@ -28,7 +27,12 @@ export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       readFile(id),
       TE.mapLeft(
-        (e) => new IOError(500, "my message", { kind: "ServerError", meta: e })
+        (e) =>
+          new IOError("Couln't read file", {
+            kind: "ServerError",
+            status: "500",
+            meta: e,
+          })
       ),
       TE.map((data) => ({
         body: {

@@ -65,7 +65,9 @@
 		"remark-strip-html": "^1.0.2",
 		"remark-toc": "^7.2.0",
 		"to-vfile": "^6.1.0",
-		"ts-endpoint": "2.0.0-alpha.5",
+		"ts-endpoint": "^2.0.0",
+		"ts-endpoint-express": "^2.0.0",
+		"ts-io-error": "^2.0.0",
 		"vfile-reporter": "^6.0.2"
 	},
 	"devDependencies": {

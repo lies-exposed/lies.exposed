@@ -87,29 +87,33 @@ interface GetDatabaseClientCtx {
 
 type GetDatabaseClient = (ctx: GetDatabaseClientCtx) => DatabaseClient;
 
-export const toError = (l: logger.Logger) => (e: unknown): DBError => {
-  l.error.log("An error occured %O", e);
-  if (e instanceof Error) {
+export const toError =
+  (l: logger.Logger) =>
+  (e: unknown): DBError => {
+    l.error.log("An error occured %O", e);
+    if (e instanceof Error) {
+      return {
+        status: 500,
+        name: "DBError",
+        message: e.message,
+        details: {
+          kind: "ClientError",
+          status: "500",
+          meta: [e.stack],
+        },
+      };
+    }
     return {
       status: 500,
       name: "DBError",
-      message: e.message,
+      message: "An error occured",
       details: {
         kind: "ClientError",
-        meta: [e.stack],
+        status: "500",
+        meta: [String(e)],
       },
     };
-  }
-  return {
-    status: 500,
-    name: "DBError",
-    message: "An error occured",
-    details: {
-      kind: "ClientError",
-      meta: [String(e)],
-    },
   };
-};
 
 const GetDatabaseClient: GetDatabaseClient = (ctx) => {
   return {
@@ -173,11 +177,9 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () =>
-          (ctx.connection.manager.save(
-            entity,
-            data,
-            options
-          ) as any) as Promise<E[]>,
+          ctx.connection.manager.save(entity, data, options) as any as Promise<
+            E[]
+          >,
         toError(ctx.logger)
       );
     },
@@ -241,51 +243,49 @@ type MakeDatabaseClient = (
   ctx: MakeDatabaseClientCtx
 ) => (ctx: DatabaseConnectionOpts) => TE.TaskEither<DBError, DatabaseClient>;
 
-const MakeDatabaseClient: MakeDatabaseClient = ({
-  connectionManager: cm,
-  connectionName,
-  logger,
-}) => (ctx) => {
-  const getConnection = (
-    cm: ConnectionManager,
-    opts: ConnectionOptions
-  ): TE.TaskEither<DBError, Connection> => {
-    logger.debug.log("Getting connection %s", connectionName);
-    if (cm.has(connectionName)) {
-      logger.debug.log(
-        "The connection is already present in connection manager..."
-      );
-      return TE.tryCatch(
-        () => cm.get(connectionName).connect(),
-        toError(logger)
-      );
-    }
+const MakeDatabaseClient: MakeDatabaseClient =
+  ({ connectionManager: cm, connectionName, logger }) =>
+  (ctx) => {
+    const getConnection = (
+      cm: ConnectionManager,
+      opts: ConnectionOptions
+    ): TE.TaskEither<DBError, Connection> => {
+      logger.debug.log("Getting connection %s", connectionName);
+      if (cm.has(connectionName)) {
+        logger.debug.log(
+          "The connection is already present in connection manager..."
+        );
+        return TE.tryCatch(
+          () => cm.get(connectionName).connect(),
+          toError(logger)
+        );
+      }
 
-    logger.debug.log("Connection %s not found, creating...", connectionName);
-    logger.debug.log("Creating connection %O", opts);
+      logger.debug.log("Connection %s not found, creating...", connectionName);
+      logger.debug.log("Creating connection %O", opts);
 
-    return TE.tryCatch(() => cm.create(opts).connect(), toError(logger));
+      return TE.tryCatch(() => cm.create(opts).connect(), toError(logger));
+    };
+
+    return pipe(
+      getConnection(cm, ctx),
+      TE.map((connection) => {
+        // const flags: Flags = {
+        //   direction: Direction.LR,
+        //   format: Format.SVG,
+        //   handwritten: false,
+        // };
+
+        // const typeormUml = new TypeormUml();
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        // typeormUml
+        //   .build(connection, flags)
+        //   .then((url) => process.stdout.write(`Diagram URL: ${url} ${EOL}`));
+
+        return GetDatabaseClient({ connection, logger });
+      })
+    );
   };
-
-  return pipe(
-    getConnection(cm, ctx),
-    TE.map((connection) => {
-      // const flags: Flags = {
-      //   direction: Direction.LR,
-      //   format: Format.SVG,
-      //   handwritten: false,
-      // };
-
-      // const typeormUml = new TypeormUml();
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      // typeormUml
-      //   .build(connection, flags)
-      //   .then((url) => process.stdout.write(`Diagram URL: ${url} ${EOL}`));
-
-      return GetDatabaseClient({ connection, logger });
-    })
-  );
-};
 
 const GetTypeORMClient: Reader.Reader<
   DatabaseConnectionOpts,
