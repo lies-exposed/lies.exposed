@@ -8,6 +8,7 @@ import { toActorIO } from "./actor.io";
 
 export const MakeEditActorRoute: Route = (r, { s3, db, env, logger }) => {
   AddEndpoint(r)(endpoints.Actor.Edit, ({ params: { id }, body }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const updateData = foldOptionals(body as any);
     logger.debug.log("Actor update data %O", updateData);
     return pipe(

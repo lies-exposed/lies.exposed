@@ -13,6 +13,7 @@ export const MakeEditGroupMemberRoute = (
 ): void => {
   AddEndpoint(r)(endpoints.GroupMember.Edit, ({ params: { id }, body }) => {
     ctx.logger.debug.log("Edit group member %s with %O", id, body);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const updateData = foldOptionals(body as any);
     return pipe(
       ctx.db.update(GroupMemberEntity, id, updateData),

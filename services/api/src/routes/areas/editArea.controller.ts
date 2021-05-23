@@ -8,6 +8,7 @@ import { toAreaIO } from "./Area.io";
 
 export const MakeEditAreaRoute: Route = (r, { s3, db, env, logger }) => {
   AddEndpoint(r)(endpoints.Area.Edit, ({ params: { id }, body }) => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const updateData = foldOptionals(body as any);
     logger.debug.log("Actor update data %O", updateData);
     return pipe(
