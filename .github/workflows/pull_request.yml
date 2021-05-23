@@ -30,18 +30,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      # - uses: actions/cache@v2
+      #   with:
+      #     path: "**/node_modules"
+      #     key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install modules
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: List modules
         run: yarn list
-
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
 
   lint:
     runs-on: ubuntu-latest

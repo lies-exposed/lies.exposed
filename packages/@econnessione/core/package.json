@@ -24,7 +24,7 @@
 		"io-ts": "^2.2.13",
 		"io-ts-types": "^0.5.12",
 		"pg": "^8.5.1",
-		"query-string": "^6.13.8",
+		"query-string": "^7.0.0",
 		"uuid": "^8.3.2"
 	},
 	"_moduleAlias": {

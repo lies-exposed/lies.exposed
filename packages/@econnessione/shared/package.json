@@ -42,7 +42,7 @@
 		"fp-ts": "^2.9",
 		"io-ts": "^2.2.13",
 		"io-ts-types": "^0.5.12",
-		"query-string": "^6.14.0",
+		"query-string": "^7.0.0",
 		"rehype-document": "^5.1.0",
 		"rehype-format": "^3.1.0",
 		"rehype-parse": "^7.0.1",

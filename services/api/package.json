@@ -35,7 +35,7 @@
     "module-alias": "^2.2.2",
     "multer": "^1.4.2",
     "pg": "^8.5.1",
-    "prettier": "2.2.1",
+    "prettier": "^2.2.1",
     "rehype-sanitize": "^4.0.0",
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.2.29",
