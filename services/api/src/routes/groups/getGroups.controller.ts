@@ -1,4 +1,4 @@
-import * as endpoints  from "@econnessione/shared/endpoints";
+import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -7,7 +7,6 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
-import { AddEndpoint } from "ts-endpoint-express";
 import { GroupEntity } from "../../entities/Group.entity";
 import { toGroupIO } from "./group.io";
 
@@ -17,10 +16,7 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
       sequenceS(TE.taskEither)({
         data: pipe(
           ctx.db.find(GroupEntity, {
-            ...getORMOptions(
-              { ...query, id: ids },
-              ctx.env.DEFAULT_PAGE_SIZE
-            ),
+            ...getORMOptions({ ...query, id: ids }, ctx.env.DEFAULT_PAGE_SIZE),
             loadRelationIds: true,
           }),
           TE.chainEitherK(A.traverse(E.either)(toGroupIO))

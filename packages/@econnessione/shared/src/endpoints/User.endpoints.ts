@@ -36,9 +36,7 @@ export const UserList = Endpoint({
   Method: "GET",
   getPath: () => "/users",
   Input: {
-    Query: {
-      ...GetListQuery.props,
-    },
+    Query: GetListQuery,
   },
   Output: t.strict({ data: t.array(User), total: t.number }),
 });

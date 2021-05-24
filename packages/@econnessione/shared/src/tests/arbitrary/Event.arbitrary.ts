@@ -19,6 +19,9 @@ export const EventArb: tests.fc.Arbitrary<http.Events.Uncategorized.Uncategorize
   .getArbitrary(t.strict({ ...eventProps }))
   .map((p) => ({
     ...p,
+    images: [],
+    links: [],
+    groups: [],
     id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
     title: tests.fc.sample(tests.fc.string({ minLength: 1 }), 1)[0],
     startDate,
@@ -29,4 +32,4 @@ export const EventArb: tests.fc.Arbitrary<http.Events.Uncategorized.Uncategorize
     },
     createdAt: new Date(),
     updatedAt: new Date(),
-  })) as any;
+  }));

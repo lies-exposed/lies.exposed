@@ -12,9 +12,6 @@ const ListGroupOutput = ListOutput(http.Project.Project, "ListProject");
 export const List = Endpoint({
   Method: "GET",
   getPath: () => "/projects",
-  Input: {
-    Query: undefined,
-  },
   Output: ListGroupOutput,
 });
 
@@ -48,8 +45,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Query: undefined,
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleGroupOutput,
 });
@@ -76,8 +72,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Query: undefined,
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
     Body: EditBody,
   },
   Output: SingleGroupOutput,
@@ -87,8 +82,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Query: undefined,
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleGroupOutput,
 });

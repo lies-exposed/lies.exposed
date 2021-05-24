@@ -9,7 +9,7 @@ export const ListArticles = Endpoint({
   Method: "GET",
   getPath: () => "/articles",
   Input: {
-    Query: { ...GetListQuery.props },
+    Query: GetListQuery,
   },
   Output: Output(t.array(Article.Article), "Articles"),
 });
@@ -18,8 +18,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/articles/${id}`,
   Input: {
-    Query: undefined,
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: Output(Article.Article, "Articles"),
 });
@@ -28,7 +27,6 @@ export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/articles",
   Input: {
-    Query: undefined,
     Body: t.strict(
       {
         title: t.string,

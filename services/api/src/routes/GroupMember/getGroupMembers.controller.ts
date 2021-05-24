@@ -1,4 +1,4 @@
-import * as endpoints from "@econnessione/shared/endpoints";
+import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
@@ -8,7 +8,6 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
-import { AddEndpoint } from "ts-endpoint-express";
 import { toGroupMemberIO } from "./groupMember.io";
 
 export const MakeListGroupMemberRoute = (

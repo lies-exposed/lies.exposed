@@ -14,9 +14,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/areas",
   Input: {
-    Query: {
-      ...GetListQuery.props,
-    },
+    Query: GetListQuery,
   },
   Output: ListAreaOutput,
 });
@@ -25,7 +23,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/areas/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleAreaOutput,
 });
@@ -58,7 +56,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/areas/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
     Body: EditAreaBody,
   },
   Output: SingleAreaOutput,
@@ -68,7 +66,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/areas/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleAreaOutput,
 });

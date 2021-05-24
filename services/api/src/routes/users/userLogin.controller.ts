@@ -1,11 +1,10 @@
-import * as endpoints  from "@econnessione/shared/endpoints";
+import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { BadRequestError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 import * as passwordUtils from "@utils/password.utils";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { AddEndpoint } from "ts-endpoint-express";
 import { UserEntity } from "./User.entity";
 
 export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {

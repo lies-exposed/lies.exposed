@@ -5,7 +5,7 @@ export const GetGraph = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/graphs/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: t.strict({ data: t.unknown }),
 });

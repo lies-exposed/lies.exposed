@@ -1,10 +1,9 @@
-import * as endpoints from "@econnessione/shared/endpoints";
+import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { EventEntity } from "@entities/Event.entity";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
-import { AddEndpoint } from "ts-endpoint-express";
 import { toEventIO } from "./event.io";
 
 export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
@@ -24,13 +23,15 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
 
     return pipe(
       selectEventTask,
-      TE.chainEitherK((event) => toEventIO({
-        ...event,
-        actors: event.actors.map(a => a.id),
-        groups: event.groups.map((g) => g.id),
-        groupsMembers: event.groupsMembers.map(g => g.id),
-        links: [],
-      } as any)),
+      TE.chainEitherK((event) =>
+        toEventIO({
+          ...event,
+          actors: event.actors.map((a) => a.id),
+          groups: event.groups.map((g) => g.id),
+          groupsMembers: event.groupsMembers.map((g) => g.id),
+          links: [],
+        } as any)
+      ),
       TE.map((data) => ({
         body: {
           data,

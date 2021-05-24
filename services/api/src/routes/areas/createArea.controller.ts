@@ -1,9 +1,8 @@
-import * as endpoints from "@econnessione/shared/endpoints";
+import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
-import { AddEndpoint } from "ts-endpoint-express";
 import { AreaEntity } from "../../entities/Area.entity";
 import { toAreaIO } from "./Area.io";
 

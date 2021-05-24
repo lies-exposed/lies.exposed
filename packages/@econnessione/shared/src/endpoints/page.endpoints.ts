@@ -8,7 +8,10 @@ export const ListPages = Endpoint({
   Method: "GET",
   getPath: () => "/pages",
   Input: {
-    Query: { ...GetListQuery.props, path: optionFromNullable(t.string) },
+    Query: t.type({
+      ...GetListQuery.props,
+      path: optionFromNullable(t.string),
+    }),
   },
   Output: t.strict({ data: t.array(Page.Page) }),
 });
@@ -17,7 +20,7 @@ export const GetPage = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: t.strict({ data: Page.Page }),
 });
@@ -39,7 +42,7 @@ export const EditPage = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
     Body: t.strict({
       title: t.string,
       path: t.string,
@@ -53,7 +56,7 @@ export const DeletePage = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: t.strict({ data: Page.Page }),
 });
@@ -62,7 +65,7 @@ export const DeleteManyPage = Endpoint({
   Method: "DELETE",
   getPath: () => `/pages`,
   Input: {
-    Query: { ids: t.array(t.string) },
+    Query: t.partial({ ids: t.array(t.string) }),
   },
   Output: t.strict({ data: t.array(t.string) }),
 });

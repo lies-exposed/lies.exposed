@@ -19,10 +19,10 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/groups-members",
   Input: {
-    Query: {
+    Query: t.type({
       ...GetListQuery.props,
       group: optionFromNullable(t.string),
-    },
+    }),
   },
   Output: ListGroupMemberOutput,
 });
@@ -52,8 +52,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/groups-members/${id}`,
   Input: {
-    Query: undefined,
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleGroupMemberOutput,
 });
@@ -62,8 +61,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/groups-members/${id}`,
   Input: {
-    Query: undefined,
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
     Body: nonEmptyRecordFromType({
       group: optionFromNullable(t.string),
       actor: optionFromNullable(t.string),
@@ -79,8 +77,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/groups-members/${id}`,
   Input: {
-    Query: undefined,
-    Params: { id: t.string },
+    Params: t.type({ id: t.string }),
   },
   Output: SingleGroupMemberOutput,
 });

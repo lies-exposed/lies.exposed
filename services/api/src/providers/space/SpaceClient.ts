@@ -18,6 +18,7 @@ export const toError = (e: unknown): SpaceError => {
       message: e.message,
       details: {
         kind: "ServerError",
+        status: "500",
         meta: e.stack,
       },
     };
@@ -28,6 +29,7 @@ export const toError = (e: unknown): SpaceError => {
     message: "Internal Error",
     details: {
       kind: "ServerError",
+      status: "500",
     },
   };
 };

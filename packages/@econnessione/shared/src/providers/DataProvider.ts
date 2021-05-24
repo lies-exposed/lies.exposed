@@ -2,6 +2,7 @@ import { APIRESTClient } from "@econnessione/core/http/APIRESTClient";
 import * as io from "@io/index";
 import { available, queryStrict, queryShallow } from "avenger";
 import { CachedQuery } from "avenger/lib/Query";
+import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -63,6 +64,10 @@ const Resources = {
   events: io.http.Events.Uncategorized.Uncategorized,
 };
 
+type Resources = {
+  [K in keyof typeof Resources]: t.TypeOf<typeof Resources[K]>;
+};
+
 const liftFetch = <
   C extends t.Any,
   R extends
@@ -90,21 +95,19 @@ const liftFetch = <
   );
 };
 
-export type GetOneQuery = <K extends keyof typeof Resources>(
+export type GetOneQuery = <K extends keyof Resources>(
   r: K
-) => CachedQuery<GetOneParams, APIError, t.TypeOf<typeof Resources[K]>>;
+) => CachedQuery<GetOneParams, APIError, Resources[K]>;
 
-export const GetOneQuery: GetOneQuery = <K extends keyof typeof Resources>(
-  r: K
-) =>
-  queryShallow<GetOneParams, APIError, t.TypeOf<typeof Resources[K]>>(
+export const GetOneQuery: GetOneQuery = <K extends keyof Resources>(k: K) =>
+  queryShallow<GetOneParams, APIError, Resources[K]>(
     (params: GetOneParams) =>
       pipe(
         liftFetch(
-          () => dataProvider.getOne<t.TypeOf<typeof Resources[K]>>(r, params),
-          t.strict({ data: Resources[r] })
+          () => dataProvider.getOne<Resources[K]>(k, params),
+          t.strict({ data: Resources[k] })
         ),
-        TE.map((r): t.TypeOf<typeof Resources[K]> => r.data)
+        TE.map((r): Resources[K] => r.data as any)
       ),
     available
   );
@@ -149,7 +152,13 @@ export const pageContentByPath = queryStrict<
           }),
         io.http.Common.ListOutput(io.http.Page.Page, "PageList")
       ),
-      TE.map((pages) => pages.data[0])
+      TE.map((pages) => A.head(pages.data)),
+      TE.chain(
+        TE.fromOption(() => ({
+          name: `APIError`,
+          message: `Page ${path}  is missing`,
+        }))
+      )
     ),
   available
 );

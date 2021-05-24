@@ -12,7 +12,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => `/project/images`,
   Input: {
-    Query: { ...GetListQuery.props },
+    Query: GetListQuery,
   },
   Output: ListProjectImageOutput,
 });
