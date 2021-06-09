@@ -148,7 +148,13 @@ jobs:
           name: build
 
       - name: Run tests SPEC
-        run: yarn test:spec
+        uses: mattallty/jest-github-action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          test-command: yarn test:spec
+          # coverage-comment: false
+          changes-only: true
 
   tests-e2e:
     runs-on: ubuntu-latest
@@ -181,4 +187,10 @@ jobs:
           name: build
 
       - name: Run tests E2E
-        run: yarn test:e2e --ci --forceExit
+        uses: mattallty/jest-github-action@v1.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          test-command: yarn test:e2e --ci --forceExit
+          # coverage-comment: false
+          changes-only: true
