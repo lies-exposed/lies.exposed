@@ -17,7 +17,7 @@ interface MapProps {
   height: number;
   features: Feature[];
   center?: [number, number];
-  zoom: number;
+  zoom?: number;
   interactions?: OlInteraction.DefaultsOptions;
   controls?: OlControl.DefaultsOptions;
   onMapClick: (geoms: Array<Feature<Geometry>>) => void;
@@ -41,11 +41,6 @@ const Map: React.FC<MapProps> = ({
       format: geoJSONFormat,
       features,
     });
-
-    // const mapCenter =
-    //   features.length === 0
-    //     ? [0, 0]
-    //     : olExtent.getCenter(features[0].getGeometry().getExtent());
 
     const featuresLayer = new VectorLayer({
       source: featureSource,
@@ -90,11 +85,19 @@ const Map: React.FC<MapProps> = ({
     // center map based on features source layer
     const size = map.getSize();
     const totalPadding = 20 * 2;
+
     if (size) {
       map.getView().fit(featureSource.getExtent(), {
         size: [size[0] - totalPadding, size[1] - totalPadding],
-        maxZoom: 6,
+        maxZoom: 12,
       });
+    }
+
+    if (center) {
+      map.getView().setCenter(center);
+    }
+    if (zoom) {
+      map.getView().setZoom(zoom);
     }
 
     map.on("click", (evt) => {

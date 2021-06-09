@@ -76,7 +76,7 @@ export default class GroupTemplate extends React.PureComponent<
                       }
                     }}
                   />
-                  <EventsMap filter={{ groups: O.some([group.id]) }} />
+                  <EventsMap filter={{ groups: O.some([group.id]) }} zoom={4} />
                   <EventSlider filter={{ groups: O.some([group.id]) }} />
                 </MainContent>
               )

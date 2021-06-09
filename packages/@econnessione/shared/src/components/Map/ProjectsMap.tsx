@@ -53,8 +53,8 @@ export const ProjectsMap: React.FC<ProjectsMapProps> = ({
                   width={width}
                   height={height}
                   features={features}
-                  center={[0, 0]}
-                  zoom={12}
+                  // center={[0, 0]}
+                  // zoom={12}
                   onMapClick={() => {}}
                 />
               );

@@ -57,8 +57,10 @@ export const GroupMemberEdit: React.FC<EditProps> = (props) => (
       <FormTab label="Events">
         <ReferenceArrayField reference="events" source="events">
           <Datagrid>
-            <TextField source="id" />
-            <TextField source="title" />
+            <ReferenceField source="id" reference="events">
+              <TextField source="title" />
+            </ReferenceField>
+            <DateField source="startDate" />
             <DateField source="createdAt" />
           </Datagrid>
         </ReferenceArrayField>

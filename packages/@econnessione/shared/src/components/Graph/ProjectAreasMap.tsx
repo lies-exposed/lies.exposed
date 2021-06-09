@@ -33,7 +33,7 @@ export const ProjectAreasMap: React.FC<ProjectAreasMapProps> = (props) => {
                   height={height}
                   features={features}
                   center={[0, 0]}
-                  zoom={12}
+                  zoom={14}
                   onMapClick={() => {}}
                 />
               );

@@ -49,7 +49,9 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
     <Grid container>
       <Grid item>
         <div>
-          <h1>{frontmatter.name}</h1>
+          <Typography variant="h1" component="h1">
+            {frontmatter.name}
+          </Typography>
           <div>
             <label>Data di inizio {formatDate(frontmatter.startDate)}</label>
             {pipe(
@@ -86,7 +88,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
         <Grid>
           <ProjectAreasMap project={{ ...frontmatter, body }} />
           <div>
-            <h1>Fondi: {totalFunded}</h1>
+            <Typography variant="h4">Fondi: {totalFunded}</Typography>
             {/* <GroupOrActorList
               by={investors}
               onByClick={() => {}}
@@ -95,8 +97,8 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             {/* <ProjectFundsPieGraph funds={metadata.ProjectTransaction} /> */}
           </div>
           <div>
-            <Typography variant="h3">
-              Proteste {metadata.Protest.length}
+            <Typography variant="h4">
+              Proteste: {metadata.Protest.length}
             </Typography>
             {/* <GroupOrActorList
               by={protesters}
@@ -105,7 +107,9 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             /> */}
           </div>
           <div>
-            <h3>Arresti: {metadata.Arrest.length}</h3>
+            <Typography variant="h4">
+              Arresti: {metadata.Arrest.length}
+            </Typography>
             {/* <GroupOrActorList
               by={arrested}
               onByClick={() => {}}
@@ -113,7 +117,9 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             /> */}
           </div>
           <div>
-            <h3>Impacts: {metadata.ProjectImpact.length}</h3>
+            <Typography variant="h4">
+              Impacts: {metadata.ProjectImpact.length}
+            </Typography>
             [tabella degli impatti del progetto]
           </div>
           <div>
