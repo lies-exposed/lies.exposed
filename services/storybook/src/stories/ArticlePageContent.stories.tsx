@@ -1,6 +1,6 @@
 import {
   ArticlePageContent,
-  ArticlePageContentProps
+  ArticlePageContentProps,
 } from "@econnessione/shared/components/ArticlePageContent";
 import { firstArticle } from "@econnessione/shared/mock-data/articles";
 import { Meta, Story } from "@storybook/react/types-6-0";

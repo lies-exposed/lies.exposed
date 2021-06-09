@@ -28,38 +28,37 @@ export const GetLogger = (name: string): Logger => {
   const info = baseLogger.extend("info").extend(name);
   const error = baseLogger.extend("error").extend(name);
 
-  const logInPipe = (d: debug.Debugger) => (message: string) => (
-    value: any
-  ) => {
-    d(message, value);
-    return value;
-  };
+  const logInPipe =
+    (d: debug.Debugger) => (message: string) => (value: any) => {
+      d(message, value);
+      return value;
+    };
 
-  const logInTask = (d: debug.Debugger) => (message: string) => (
-    t: T.Task<any>
-  ) =>
-    pipe(
-      t,
-      T.map((result) => {
-        d(message, result);
-        return result;
-      })
-    );
+  const logInTask =
+    (d: debug.Debugger) => (message: string) => (t: T.Task<any>) =>
+      pipe(
+        t,
+        T.map((result) => {
+          d(message, result);
+          return result;
+        })
+      );
 
-  const logInTaskEither = (d: debug.Debugger) => (message: string) => <E, A>(
-    t: TE.TaskEither<E, A>
-  ) =>
-    pipe(
-      t,
-      TE.mapLeft((e) => {
-        d(message, e);
-        return e;
-      }),
-      TE.map((result) => {
-        d(message, result);
-        return result;
-      })
-    );
+  const logInTaskEither =
+    (d: debug.Debugger) =>
+    (message: string) =>
+    <E, A>(t: TE.TaskEither<E, A>) =>
+      pipe(
+        t,
+        TE.mapLeft((e) => {
+          d(message, e);
+          return e;
+        }),
+        TE.map((result) => {
+          d(message, result);
+          return result;
+        })
+      );
 
   return {
     extend: GetLogger,

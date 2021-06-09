@@ -1,5 +1,5 @@
 import EventList, {
-  EventListProps
+  EventListProps,
 } from "@econnessione/shared/components/lists/EventList/EventList";
 import { Events } from "@econnessione/shared/io/http";
 import { events } from "@econnessione/shared/mock-data/events";
@@ -32,7 +32,7 @@ const args: EventListProps = {
     }))
   ),
   actors: [],
-  groups: []
+  groups: [],
 };
 
 EventListExample.args = args;

@@ -15,9 +15,8 @@ const {
 const startDate = new Date();
 const endDate = new Date();
 
-export const EventArb: tests.fc.Arbitrary<http.Events.Uncategorized.Uncategorized> = tests
-  .getArbitrary(t.strict({ ...eventProps }))
-  .map((p) => ({
+export const EventArb: tests.fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
+  tests.getArbitrary(t.strict({ ...eventProps })).map((p) => ({
     ...p,
     images: [],
     links: [],

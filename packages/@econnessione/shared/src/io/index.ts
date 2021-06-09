@@ -1,2 +1,2 @@
-export * as Common from './Common'
+export * as Common from "./Common";
 export * as http from "./http";

@@ -1,6 +1,6 @@
 import {
   SocietyCollapseForecastGraphContainer as SocietyCollapseForecastGraph,
-  SocietyCollapseForecastGraphProps
+  SocietyCollapseForecastGraphProps,
 } from "@econnessione/shared/components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import React from "react";
@@ -11,8 +11,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component:
-          "Possible climate scenarios with collapse steps.",
+        component: "Possible climate scenarios with collapse steps.",
       },
     },
   },

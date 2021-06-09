@@ -1,7 +1,6 @@
 import * as t from "io-ts";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 
-
 export const User = t.strict(
   {
     ...BaseFrontmatter.type.props,
@@ -10,7 +9,7 @@ export const User = t.strict(
     username: t.string,
     email: t.string,
     createdAt: t.string,
-    updatedAt: t.string
+    updatedAt: t.string,
   },
   "User"
 );

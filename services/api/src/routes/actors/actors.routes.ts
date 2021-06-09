@@ -8,7 +8,7 @@ import { MakeListPageRoute } from "./listActor.controller";
 
 export const MakeActorRoutes = (router: Router, ctx: RouteContext): void => {
   MakeCreateActorRoute(router, ctx);
-  MakeEditActorRoute(router, ctx)
+  MakeEditActorRoute(router, ctx);
   MakeGetActorRoute(router, ctx);
   MakeListPageRoute(router, ctx);
   MakeDeleteActorRoute(router, ctx);

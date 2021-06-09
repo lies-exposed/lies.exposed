@@ -12,7 +12,7 @@ export const Image = t.strict(
   },
   "Image"
 );
-export type Image = t.TypeOf<typeof Image>
+export type Image = t.TypeOf<typeof Image>;
 
 export const ImageSource = t.strict(
   {

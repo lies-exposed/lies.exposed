@@ -1,4 +1,4 @@
-import * as io  from "@econnessione/shared/io";
+import * as io from "@econnessione/shared/io";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -10,7 +10,7 @@ export const toActorIO = (
   return pipe(
     io.http.Actor.Actor.decode({
       ...a,
-      type: 'ActorFrontmatter',
+      type: "ActorFrontmatter",
       avatar: a.avatar === null ? undefined : a.avatar,
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),

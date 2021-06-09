@@ -6,8 +6,8 @@ import { UncategorizedListItem } from "./UncategorizedListItem";
 
 export interface EventListProps {
   events: Events.Event[];
-  actors: Actor.Actor[]
-  groups: Group.Group[]
+  actors: Actor.Actor[];
+  groups: Group.Group[];
 }
 
 const EventList: React.FC<EventListProps> = (props) => {

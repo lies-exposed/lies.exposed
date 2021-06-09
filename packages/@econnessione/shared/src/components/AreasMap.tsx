@@ -70,7 +70,8 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
                         zoom={zoom}
                         onMapClick={async (features) => {
                           if (features.length > 0) {
-                            const area = features[0].getProperties() as Area.Area;
+                            const area =
+                              features[0].getProperties() as Area.Area;
                             // await navigate(`/areas/${area.id}`)
                             if (area) {
                               await navigate(`/areas/${area.id}`);

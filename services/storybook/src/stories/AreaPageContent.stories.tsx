@@ -1,6 +1,6 @@
 import {
   AreaPageContent,
-  AreaPageContentProps
+  AreaPageContentProps,
 } from "@econnessione/shared/components/AreaPageContent";
 import { firstArea } from "@econnessione/shared/mock-data/areas";
 import { Meta, Story } from "@storybook/react/types-6-0";

@@ -8,7 +8,7 @@ import { MakeListAreaRoute } from "./listArea.controller";
 
 export const MakeAreasRoutes = (router: Router, ctx: RouteContext): void => {
   MakeCreateAreaRoute(router, ctx);
-  MakeEditAreaRoute(router, ctx)
+  MakeEditAreaRoute(router, ctx);
   MakeGetAreaRoute(router, ctx);
   MakeListAreaRoute(router, ctx);
   MakeDeleteAreaRoute(router, ctx);

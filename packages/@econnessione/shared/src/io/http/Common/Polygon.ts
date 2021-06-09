@@ -4,7 +4,7 @@ import { Position } from "./Position";
 export const Polygon = t.strict(
   {
     type: t.literal("Polygon"),
-    coordinates: t.array(t.array(Position, 'Positions'), 'Coordinates'),
+    coordinates: t.array(t.array(Position, "Positions"), "Coordinates"),
   },
   "Polygon"
 );

@@ -2,10 +2,7 @@ import { Card } from "@material-ui/core";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { firstEvent } from "../../mock-data/events";
-import {
-  EventPageContent,
-  EventPageContentProps
-} from "../EventPageContent";
+import { EventPageContent, EventPageContentProps } from "../EventPageContent";
 
 export const eventPageContentArgs: EventPageContentProps = {
   event: {
@@ -13,7 +10,7 @@ export const eventPageContentArgs: EventPageContentProps = {
     body: "",
   },
   actors: [],
-  groups: []
+  groups: [],
   // tableOfContents: O.none,
   // timeToRead: O.none,
 };

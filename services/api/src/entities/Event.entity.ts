@@ -17,7 +17,6 @@ import { LinkEntity } from "./Link.entity";
 
 @Entity("event")
 export class EventEntity {
-
   @PrimaryGeneratedColumn("uuid")
   @Index()
   id: string;

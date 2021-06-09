@@ -12,14 +12,12 @@ ReactDOM.render(
         {
           rel: "stylesheet",
           type: "text/css",
-          href:
-            "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
+          href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
         },
         {
           rel: "stylesheet",
           type: "text/css",
-          href:
-            "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
+          href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
         },
       ]}
     />

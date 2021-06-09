@@ -20,61 +20,63 @@ const findInEntities = (
     A.filter((o) => type.is(o) && uuids.includes(getRelationUUID(o)))
   );
 
-export const lookForType = (actors: Actor.Actor[], groups: Group.Group[]) => (
-  type: typeof Common.ByGroup | typeof Common.ByActor,
-  frontmatter: Events.Event,
-  uuids: string[]
-): boolean => {
-  switch (frontmatter.type) {
-    case "Arrest": {
-      if (type.is(frontmatter.who)) {
-        return uuids.includes(getRelationUUID(frontmatter.who));
+export const lookForType =
+  (actors: Actor.Actor[], groups: Group.Group[]) =>
+  (
+    type: typeof Common.ByGroup | typeof Common.ByActor,
+    frontmatter: Events.Event,
+    uuids: string[]
+  ): boolean => {
+    switch (frontmatter.type) {
+      case "Arrest": {
+        if (type.is(frontmatter.who)) {
+          return uuids.includes(getRelationUUID(frontmatter.who));
+        }
+        return false;
       }
-      return false;
-    }
-    case "Fined": {
-      if (type.is(frontmatter.who)) {
-        return uuids.includes(getRelationUUID(frontmatter.who));
+      case "Fined": {
+        if (type.is(frontmatter.who)) {
+          return uuids.includes(getRelationUUID(frontmatter.who));
+        }
+        return false;
       }
-      return false;
-    }
-    case "Protest":
-      return findInEntities(type, frontmatter.organizers, uuids).length > 0;
-    case "Uncategorized":
-      if (type.type.props.type.value === "Group") {
+      case "Protest":
+        return findInEntities(type, frontmatter.organizers, uuids).length > 0;
+      case "Uncategorized":
+        if (type.type.props.type.value === "Group") {
+          return (
+            pipe(
+              frontmatter.groups,
+              O.fromPredicate((i) => i.length > 0),
+              O.map((actorIds) =>
+                pipe(
+                  groups,
+                  A.filter((a) => actorIds.includes(a.id))
+                )
+              ),
+              O.getOrElse((): Group.Group[] => [])
+            ).length > 0
+          );
+        }
+
         return (
           pipe(
-            frontmatter.groups,
+            frontmatter.actors,
             O.fromPredicate((i) => i.length > 0),
-            O.map((actorIds) =>
+            O.map((ids) =>
               pipe(
-                groups,
-                A.filter((a) => actorIds.includes(a.id))
+                actors,
+                A.filter((a) => ids.includes(a.id))
               )
             ),
-            O.getOrElse((): Group.Group[] => [])
+            O.getOrElse((): Actor.Actor[] => [])
           ).length > 0
         );
-      }
 
-      return (
-        pipe(
-          frontmatter.actors,
-          O.fromPredicate((i) => i.length > 0),
-          O.map((ids) =>
-            pipe(
-              actors,
-              A.filter((a) => ids.includes(a.id))
-            )
-          ),
-          O.getOrElse((): Actor.Actor[] => [])
-        ).length > 0
-      );
-
-    default:
-      return false;
-  }
-};
+      default:
+        return false;
+    }
+  };
 
 interface ByGroupOrActorUtils {
   isGroupInEvent: (event: Events.Event, uuids: string[]) => boolean;

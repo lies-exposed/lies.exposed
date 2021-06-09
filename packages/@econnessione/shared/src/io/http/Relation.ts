@@ -5,7 +5,7 @@ import { GroupFrontmatter, GroupFrontmatterC } from "./Group";
 export const GroupRelation = t.strict(
   {
     type: t.literal("Group"),
-    group: (GroupFrontmatter as any) as t.ExactC<t.TypeC<GroupFrontmatterC>>,
+    group: GroupFrontmatter as any as t.ExactC<t.TypeC<GroupFrontmatterC>>,
   },
   "GroupRelation"
 );

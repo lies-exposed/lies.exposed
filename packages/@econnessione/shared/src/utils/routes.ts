@@ -70,16 +70,16 @@ export const parseSearch = <R extends keyof Routes>(
   return Routes.props[route].decode(search);
 };
 
-export const updateSearch = <R extends keyof Routes>(
-  l: WindowLocation | undefined,
-  route: R
-) => (update: Partial<Routes[R]>): E.Either<t.Errors, string> => {
-  return pipe(
-    parseSearch(l, route),
-    E.map((search) => Object.assign(search, update)),
-    E.map(stripInvalid),
-    E.map(
-      (search) => `/${route}?${querystring.stringify(search, queryStringOpts)}`
-    )
-  );
-};
+export const updateSearch =
+  <R extends keyof Routes>(l: WindowLocation | undefined, route: R) =>
+  (update: Partial<Routes[R]>): E.Either<t.Errors, string> => {
+    return pipe(
+      parseSearch(l, route),
+      E.map((search) => Object.assign(search, update)),
+      E.map(stripInvalid),
+      E.map(
+        (search) =>
+          `/${route}?${querystring.stringify(search, queryStringOpts)}`
+      )
+    );
+  };

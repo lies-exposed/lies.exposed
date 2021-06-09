@@ -37,7 +37,7 @@ export const groupPageContentArgs: GroupPageContentProps = {
 export const GroupPageContentExample: React.FC<GroupPageContentProps> = (
   props
 ) => {
-  const pageContentProps = R.isEmpty((props as {}) as any)
+  const pageContentProps = R.isEmpty(props as {} as any)
     ? groupPageContentArgs
     : props;
 

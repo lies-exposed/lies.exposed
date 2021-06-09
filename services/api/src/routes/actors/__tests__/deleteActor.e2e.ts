@@ -37,7 +37,7 @@ describe("Delete Actor", () => {
           body: "my content",
         })
     ).body.data;
-    ctx.logger.debug.log('Actor %O', actor);
+    ctx.logger.debug.log("Actor %O", actor);
   });
 
   afterAll(async () => {

@@ -3,7 +3,10 @@ import { Layout } from "@econnessione/shared/components/Layout";
 import SEO from "@econnessione/shared/components/SEO";
 import { TopicPageContent } from "@econnessione/shared/components/TopicPageContent";
 import EventList from "@econnessione/shared/components/lists/EventList/EventList";
-import { eventsDataToNavigatorItems, ordEventDate } from "@econnessione/shared/helpers/event";
+import {
+  eventsDataToNavigatorItems,
+  ordEventDate,
+} from "@econnessione/shared/helpers/event";
 import { Events, Topic } from "@econnessione/shared/io/http";
 import { throwValidationErrors } from "@econnessione/shared/utils/throwValidationErrors";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -24,33 +27,34 @@ interface TopicTimelineTemplateProps {
   };
 }
 
-const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps> = ({
-  data,
-}) => {
-  return pipe(
-    sequenceS(E.either)({
-      events: t
-        .array(Events.Uncategorized.Uncategorized)
-        .decode(data.events.nodes),
-      pageContent: Topic.TopicMD.decode(data.pageContent.childMdx),
-    }),
-    E.fold(throwValidationErrors, ({ pageContent, events }) => {
-      return (
-        <Layout>
-          <SEO title={pageContent.frontmatter.label} />
-          <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
-            <TopicPageContent {...pageContent} />
-            <EventList
-              events={A.sort(Ord.getDualOrd(ordEventDate))(events)}
-              actors={[]}
-              groups={[]}
-            />
-          </ContentWithSideNavigation>
-        </Layout>
-      );
-    })
-  );
-};
+const TopicTimelineTemplate: React.FunctionComponent<TopicTimelineTemplateProps> =
+  ({ data }) => {
+    return pipe(
+      sequenceS(E.either)({
+        events: t
+          .array(Events.Uncategorized.Uncategorized)
+          .decode(data.events.nodes),
+        pageContent: Topic.TopicMD.decode(data.pageContent.childMdx),
+      }),
+      E.fold(throwValidationErrors, ({ pageContent, events }) => {
+        return (
+          <Layout>
+            <SEO title={pageContent.frontmatter.label} />
+            <ContentWithSideNavigation
+              items={eventsDataToNavigatorItems(events)}
+            >
+              <TopicPageContent {...pageContent} />
+              <EventList
+                events={A.sort(Ord.getDualOrd(ordEventDate))(events)}
+                actors={[]}
+                groups={[]}
+              />
+            </ContentWithSideNavigation>
+          </Layout>
+        );
+      })
+    );
+  };
 
 // export const pageQuery = graphql`
 //   query TopicTemplateQuery($topic: String!) {

@@ -28,9 +28,8 @@ const toolbarOptions = [
 ];
 
 const MarkdownInput: React.FC<InputProps> = (props) => {
-  const [lastValidFormattedValue, setLastValidFormattedValue] = React.useState(
-    ""
-  );
+  const [lastValidFormattedValue, setLastValidFormattedValue] =
+    React.useState("");
   const [lastValidParsedValue, setLastValidParsedValue] = React.useState("");
   return (
     <RichTextInput

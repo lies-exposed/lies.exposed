@@ -13,7 +13,7 @@ export type ByGroup = t.TypeOf<typeof ByGroup>;
 export const ByActor = t.strict(
   {
     type: t.literal("Actor"),
-    actor: t.string
+    actor: t.string,
   },
   "ByActor"
 );

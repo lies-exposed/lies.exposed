@@ -23,18 +23,19 @@ export const run = (): Promise<void> => {
         );
         return () => Promise.reject(err);
       },
-      ({ ctx, app }) => () => {
-        const server = app.listen(ctx.env.API_PORT, () =>
-          ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`)
-        );
+      ({ ctx, app }) =>
+        () => {
+          const server = app.listen(ctx.env.API_PORT, () =>
+            ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`)
+          );
 
-        process.on("disconnect", () => {
-          // eslint-disable-next-line no-console
-          console.log("closing server...");
-          server.close();
-        });
-        return Promise.resolve(undefined);
-      }
+          process.on("disconnect", () => {
+            // eslint-disable-next-line no-console
+            console.log("closing server...");
+            server.close();
+          });
+          return Promise.resolve(undefined);
+        }
     )
   )();
 };

@@ -14,7 +14,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import MarkdownInput from "./Common/MarkdownInput";
 
