@@ -18,8 +18,11 @@ export const theme = createMuiTheme({
   },
   typography: (palette) => ({
     h1: {
-      fontSize: 44,
+      fontSize: 38,
       fontWeight: 600,
+    },
+    h2: {
+      fontSize: 32,
     },
   }),
   overrides: {

@@ -1,3 +1,4 @@
+import { theme } from "@econnessione/shared/theme";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import BusinessIcon from "@material-ui/icons/Business";
 import EventIcon from "@material-ui/icons/Event";
@@ -6,16 +7,10 @@ import MapIcon from "@material-ui/icons/Map";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
 import * as React from "react";
-import {
-  Admin,
-  defaultTheme,
-  Login,
-  RaThemeOptions,
-  Resource,
-} from "react-admin";
+import { Admin, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
 import { ActorCreate, ActorEdit, ActorList } from "./components/AdminActors";
-import { AreaList, AreaCreate, AreaEdit } from "./components/AdminAreas";
+import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
 import {
   ArticleCreate,
   ArticleEdit,
@@ -36,9 +31,6 @@ import {
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 
-const theme: RaThemeOptions = {
-  ...defaultTheme,
-};
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console
   return (
@@ -46,7 +38,7 @@ const AdminPage: React.FC = () => {
       dataProvider={apiProvider}
       authProvider={authProvider}
       loginPage={Login}
-      theme={defaultTheme}
+      theme={theme}
     >
       <Resource
         name="pages"

@@ -1,7 +1,7 @@
 import { Footer } from "@econnessione/shared/components/Footer";
 import Header from "@econnessione/shared/components/Header";
+import { theme } from "@econnessione/shared/theme";
 import { Grid, ThemeProvider } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";
 import AreaTemplate from "@templates/AreaTemplate";
@@ -9,6 +9,7 @@ import ArticleTemplate from "@templates/ArticleTemplate";
 import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
 import ProjectTemplate from "@templates/ProjectTemplate";
+import "ol/ol.css";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import Helmet from "react-helmet";
@@ -23,9 +24,7 @@ import TheCrisisPage from "./pages/TheCrisisPage";
 import TopicsPage from "./pages/TopicsPage";
 import AreasPage from "./pages/areas";
 import ProjectPage from "./pages/project";
-import { theme } from "./theme/CustomTheme";
 import "./scss/main.scss";
-import "ol/ol.css";
 
 // import NotFoundPage from "./pages/404";
 
