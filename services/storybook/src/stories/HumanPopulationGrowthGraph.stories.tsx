@@ -14,7 +14,7 @@ export default meta;
 
 const Template: Story<HumanPopulationGrowthGraphProps> = (props) => {
   return (
-    <div style={{  width: "100%" }}>
+    <div style={{ width: "100%" }}>
       <HumanPopulationGrowthGraph {...props} />
     </div>
   );

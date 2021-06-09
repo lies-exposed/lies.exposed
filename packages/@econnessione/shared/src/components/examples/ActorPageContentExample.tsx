@@ -4,10 +4,7 @@ import * as React from "react";
 import { extractEventsMetadata } from "../../helpers/event";
 import { goodActor } from "../../mock-data/actors";
 import { events } from "../../mock-data/events";
-import {
-  ActorPageContent,
-  ActorPageContentProps
-} from "../ActorPageContent";
+import { ActorPageContent, ActorPageContentProps } from "../ActorPageContent";
 
 export const actorPageContentArgs: ActorPageContentProps = {
   ...goodActor,

@@ -1,6 +1,6 @@
 import {
   TopicPageContent,
-  TopicPageContentProps
+  TopicPageContentProps,
 } from "@econnessione/shared/components/TopicPageContent";
 import { topicPageContentArgs } from "@econnessione/shared/components/examples/TopicPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";

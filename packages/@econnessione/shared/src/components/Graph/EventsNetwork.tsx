@@ -275,75 +275,75 @@ const getX = (
   );
 };
 
-const getY = (
-  topics: Array<{ id: string }>,
-  margin: number,
-  height: number
-) => (key: string) =>
-  pipe(
-    topics,
-    A.findIndex((t) => Eq.eqString.equals(t.id, key)),
-    O.fold(
-      () => 0,
-      (index) => {
-        return margin + index * ((height - margin * 2) / topics.length);
-      }
-    )
-  );
+const getY =
+  (topics: Array<{ id: string }>, margin: number, height: number) =>
+  (key: string) =>
+    pipe(
+      topics,
+      A.findIndex((t) => Eq.eqString.equals(t.id, key)),
+      O.fold(
+        () => 0,
+        (index) => {
+          return margin + index * ((height - margin * 2) / topics.length);
+        }
+      )
+    );
 
-const updateMap = <F extends Common.BaseFrontmatter>(acc: Map<string, F>) => (
-  frontmatters: F[]
-): Map<string, F> => {
-  return pipe(
-    frontmatters,
-    A.reduce(acc, (r, t) => {
-      if (Map.elem(eqByUUID)(t, r)) {
-        return r;
-      }
-      return Map.insertAt(Eq.eqString)(t.id, t)(r);
-    })
-  );
-};
+const updateMap =
+  <F extends Common.BaseFrontmatter>(acc: Map<string, F>) =>
+  (frontmatters: F[]): Map<string, F> => {
+    return pipe(
+      frontmatters,
+      A.reduce(acc, (r, t) => {
+        if (Map.elem(eqByUUID)(t, r)) {
+          return r;
+        }
+        return Map.insertAt(Eq.eqString)(t.id, t)(r);
+      })
+    );
+  };
 
-const getLinks = (
-  nodes: Array<NetworkPointNode<EventNetworkDatum>>,
-  relationLinks: Map<string, NetworkLink[]>
-) => (
-  relations: Array<Common.BaseFrontmatter & { color: string }>
-): Map<string, NetworkLink[]> => {
-  return pipe(
-    nodes,
-    A.reduce(relationLinks, (acc, p) => {
-      const newLinks = pipe(
-        relations,
-        A.reduce(acc, (acc1, relation) => {
-          const lastLinks = pipe(
-            Map.lookup(Ord.ordString)(relation.id, acc1),
-            O.getOrElse((): NetworkLink[] => [])
-          );
+const getLinks =
+  (
+    nodes: Array<NetworkPointNode<EventNetworkDatum>>,
+    relationLinks: Map<string, NetworkLink[]>
+  ) =>
+  (
+    relations: Array<Common.BaseFrontmatter & { color: string }>
+  ): Map<string, NetworkLink[]> => {
+    return pipe(
+      nodes,
+      A.reduce(relationLinks, (acc, p) => {
+        const newLinks = pipe(
+          relations,
+          A.reduce(acc, (acc1, relation) => {
+            const lastLinks = pipe(
+              Map.lookup(Ord.ordString)(relation.id, acc1),
+              O.getOrElse((): NetworkLink[] => [])
+            );
 
-          return pipe(
-            acc1,
-            Map.insertAt(Eq.eqString)(relation.id, [
-              ...lastLinks,
-              {
-                source: pipe(
-                  A.last(lastLinks),
-                  O.map((l) => l.target),
-                  O.getOrElse(() => p)
-                ),
-                target: p,
-                stroke: `#${relation.color}`,
-                fill: `#${relation.color}`,
-              },
-            ])
-          );
-        })
-      );
-      return newLinks;
-    })
-  );
-};
+            return pipe(
+              acc1,
+              Map.insertAt(Eq.eqString)(relation.id, [
+                ...lastLinks,
+                {
+                  source: pipe(
+                    A.last(lastLinks),
+                    O.map((l) => l.target),
+                    O.getOrElse(() => p)
+                  ),
+                  target: p,
+                  stroke: `#${relation.color}`,
+                  fill: `#${relation.color}`,
+                },
+              ])
+            );
+          })
+        );
+        return newLinks;
+      })
+    );
+  };
 
 interface Result {
   eventNodes: Array<NetworkPointNode<EventNetworkDatum>>;

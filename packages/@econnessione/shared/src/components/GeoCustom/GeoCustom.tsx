@@ -151,7 +151,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
                 onMouseMove={zoom.dragMove}
                 onMouseUp={zoom.dragEnd}
                 onMouseLeave={() => {
-                  if (zoom.isDragging) zoom.dragEnd()
+                  if (zoom.isDragging) zoom.dragEnd();
                 }}
               />
             </svg>

@@ -1,12 +1,16 @@
-import * as R from 'fp-ts/lib/Record'
-import * as t from 'io-ts'
+import * as R from "fp-ts/lib/Record";
+import * as t from "io-ts";
 
 export interface NonEmptyRecordBrand {
-  readonly NonEmptyRecord: unique symbol
+  readonly NonEmptyRecord: unique symbol;
 }
-export type NonEmptyRecord<P extends t.Props> = t.Branded<t.TypeOfProps<P>, NonEmptyRecordBrand>
+export type NonEmptyRecord<P extends t.Props> = t.Branded<
+  t.TypeOfProps<P>,
+  NonEmptyRecordBrand
+>;
 
-export interface NonEmptyRecordC<P extends t.Props> extends t.Type<NonEmptyRecord<P>,unknown, unknown> {}
+export interface NonEmptyRecordC<P extends t.Props>
+  extends t.Type<NonEmptyRecord<P>, unknown, unknown> {}
 
 /**
  * A codec that succeeds if a record is not empty
@@ -23,12 +27,15 @@ export interface NonEmptyRecordC<P extends t.Props> extends t.Type<NonEmptyRecor
  */
 export const NonEmptyRecord = t.brand(
   t.record(t.string, t.unknown),
-  (s): s is NonEmptyRecord<{ [key:string]: t.UnknownC}> => !R.isEmpty(s),
-  'NonEmptyRecord'
-)
+  (s): s is NonEmptyRecord<{ [key: string]: t.UnknownC }> => !R.isEmpty(s),
+  "NonEmptyRecord"
+);
 
-export const nonEmptyRecordFromType = <P extends t.Props>(rec: P): NonEmptyRecordC<P> => t.brand(
-  t.exact(t.partial(rec)),
-  (s): s is NonEmptyRecord<P> => !R.isEmpty(s),
-  `NonEmptyRecord`
-)
+export const nonEmptyRecordFromType = <P extends t.Props>(
+  rec: P
+): NonEmptyRecordC<P> =>
+  t.brand(
+    t.exact(t.partial(rec)),
+    (s): s is NonEmptyRecord<P> => !R.isEmpty(s),
+    `NonEmptyRecord`
+  );

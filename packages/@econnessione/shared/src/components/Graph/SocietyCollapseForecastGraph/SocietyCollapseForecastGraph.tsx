@@ -306,7 +306,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
                   verticalAnchor="start"
                   style={{
                     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-                    fontSize: 12
+                    fontSize: 12,
                   }}
                 >
                   {e.label}

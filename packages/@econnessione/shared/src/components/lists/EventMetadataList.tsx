@@ -1,7 +1,7 @@
 import {
   faHouseDamage,
   faMoneyBillWave,
-  faUserShield
+  faUserShield,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Events } from "@io/http";
@@ -12,22 +12,20 @@ export interface EventMetadataListProps {
 }
 
 export const EventMetadataList: React.FC<EventMetadataListProps> = (props) => {
-  const protestIcon = (
-    <FontAwesomeIcon icon={faUserShield} color={"green"} />
-  );
+  const protestIcon = <FontAwesomeIcon icon={faUserShield} color={"green"} />;
   const protests = props.metadata.filter(
     (m) => m.type === Events.Protest.PROTEST.value
   ).length;
 
   const fundIcon = <FontAwesomeIcon icon={faMoneyBillWave} />;
-  const funds = props.metadata.filter((m) => m.type === "ProjectTransaction")
-    .length;
+  const funds = props.metadata.filter(
+    (m) => m.type === "ProjectTransaction"
+  ).length;
 
-  const impactIcon = (
-    <FontAwesomeIcon icon={faHouseDamage} color={"red"} />
-  );
-  const impacts = props.metadata.filter((m) => m.type === "ProjectImpact")
-    .length;
+  const impactIcon = <FontAwesomeIcon icon={faHouseDamage} color={"red"} />;
+  const impacts = props.metadata.filter(
+    (m) => m.type === "ProjectImpact"
+  ).length;
 
   return (
     <>

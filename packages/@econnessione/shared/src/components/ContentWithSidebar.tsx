@@ -22,9 +22,7 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
     >
       <Grid item lg={showSidebar ? 3 : 1}>
         {showSidebar ? (
-          <Box
-            onClick={() => toggleSidebar(!showSidebar)}
-          >
+          <Box onClick={() => toggleSidebar(!showSidebar)}>
             {sidebar}
             <ExpandMoreIcon />
           </Box>

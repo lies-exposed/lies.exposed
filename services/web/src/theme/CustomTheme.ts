@@ -20,7 +20,7 @@ export const theme = createMuiTheme({
     h1: {
       fontSize: 44,
       fontWeight: 600,
-    }
+    },
   }),
   overrides: {
     MuiCssBaseline: {

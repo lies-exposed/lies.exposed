@@ -2,7 +2,6 @@ import * as t from "io-ts";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 import { markdownRemark } from "./Common/Markdown";
 
-
 const ARTICLE_FRONTMATTER = "Article";
 export const Article = t.strict(
   {
@@ -13,7 +12,7 @@ export const Article = t.strict(
     draft: t.boolean,
     featuredImage: t.string,
     links: t.array(t.string),
-    body: t.string
+    body: t.string,
   },
   "Article"
 );

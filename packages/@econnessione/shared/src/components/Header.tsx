@@ -143,16 +143,12 @@ const Header: React.FC = () => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
-  const [
-    anchorRef,
-    setAnchorRef,
-  ] = React.useState<React.RefObject<HTMLButtonElement> | null>(
-    React.useRef<HTMLButtonElement>(null)
-  );
-  const [
-    selectedMenuItem,
-    setSelectedMenuItem,
-  ] = React.useState<HeaderMenuItem | null>(null);
+  const [anchorRef, setAnchorRef] =
+    React.useState<React.RefObject<HTMLButtonElement> | null>(
+      React.useRef<HTMLButtonElement>(null)
+    );
+  const [selectedMenuItem, setSelectedMenuItem] =
+    React.useState<HeaderMenuItem | null>(null);
 
   const handleToggle = (
     ref: React.RefObject<HTMLButtonElement> | null,

@@ -1,12 +1,13 @@
-import * as io  from "@econnessione/shared/io";
+import * as io from "@econnessione/shared/io";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import { UserEntity } from "./User.entity";
 
-export const toUserIO = (
-  { passwordHash, ...user }: UserEntity
-): E.Either<ControllerError, io.http.User.User> => {
+export const toUserIO = ({
+  passwordHash,
+  ...user
+}: UserEntity): E.Either<ControllerError, io.http.User.User> => {
   return pipe(
     io.http.User.User.decode({
       ...user,

@@ -32,18 +32,20 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
   tooltipLeft,
   tooltipTop,
 }) => {
-  const handleMouseOver = (datum: PackDatum) => (event: any): void => {
-    const coords = localPoint(event.target.ownerSVGElement, event);
-    if (coords !== null) {
-      if (showTooltip !== undefined) {
-        showTooltip({
-          tooltipLeft: coords.x,
-          tooltipTop: coords.y,
-          tooltipData: datum,
-        });
+  const handleMouseOver =
+    (datum: PackDatum) =>
+    (event: any): void => {
+      const coords = localPoint(event.target.ownerSVGElement, event);
+      if (coords !== null) {
+        if (showTooltip !== undefined) {
+          showTooltip({
+            tooltipLeft: coords.x,
+            tooltipTop: coords.y,
+            tooltipData: datum,
+          });
+        }
       }
-    }
-  };
+    };
 
   return (
     <div>

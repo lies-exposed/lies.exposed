@@ -7,7 +7,7 @@ export const EventLink = t.strict(
     url: URL,
     description: t.string,
   },
-  'EventLink'
+  "EventLink"
 );
 
 export type EventLink = t.TypeOf<typeof EventLink>;

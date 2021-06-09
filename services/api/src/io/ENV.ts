@@ -1,7 +1,10 @@
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 
-const NODE_ENV = t.union([t.literal('test'), t.literal("development"), t.literal("production")], 'NODE_ENV');
+const NODE_ENV = t.union(
+  [t.literal("test"), t.literal("development"), t.literal("production")],
+  "NODE_ENV"
+);
 
 const ENV = t.intersection(
   [

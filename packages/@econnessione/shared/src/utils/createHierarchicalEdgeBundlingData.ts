@@ -1,6 +1,6 @@
 import {
   HierarchicalEdgeBundlingDatum,
-  HierarchicalEdgeBundlingProps
+  HierarchicalEdgeBundlingProps,
 } from "@components/Common/Graph/HierarchicalEdgeBundling";
 import { Events, Group } from "@io/http";
 import * as A from "fp-ts/lib/Array";
@@ -36,7 +36,7 @@ export const createHierarchicalEdgeBundling = (
     A.reduce(init, (acc, e) => {
       const actorIds = pipe(
         e.actors,
-        O.fromPredicate(i => i.length > 0),
+        O.fromPredicate((i) => i.length > 0),
         O.getOrElse((): string[] => [])
       );
 

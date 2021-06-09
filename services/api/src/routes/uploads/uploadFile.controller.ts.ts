@@ -14,7 +14,7 @@ const UploadFileData = t.strict({ key: t.string, file: t.any });
 
 export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
   r.put(
-    "/v1/uploads/*",
+    "/v1/uploads/:key",
     // uploads.single('media'),
     bodyParser.urlencoded({
       extended: false,
@@ -23,7 +23,7 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
     }),
     async (req, res) => {
       ctx.logger.debug.log("Req %O", req);
-      const key = req.params[0];
+      const key = req.params.key;
       const file = req.body;
       ctx.logger.debug.log("Key %O", key);
       ctx.logger.debug.log("body %O", req.body);
