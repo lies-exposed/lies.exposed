@@ -8,13 +8,9 @@ import { EventEntity } from "../../../entities/Event.entity";
 describe("Edit Event", () => {
   let appTest: AppTest,
     authorizationToken: string,
-    event: http.Events.Uncategorized.Uncategorized;
-
-  beforeAll(async () => {
-    appTest = await initAppTest();
-
-    const eventData = fc.sample(
-      EventArb.map((e) => ({
+    [event] = fc
+      .sample(EventArb, 1)
+      .map((e) => ({
         ...e,
         images: [],
         links: [],
@@ -22,10 +18,12 @@ describe("Edit Event", () => {
         groups: [],
         actors: [],
         groupsMembers: [],
-      })),
-      1
-    );
-    const result = await appTest.ctx.db.save(EventEntity, eventData as any[])();
+      }));
+
+  beforeAll(async () => {
+    appTest = await initAppTest();
+
+    const result = await appTest.ctx.db.save(EventEntity, [event] as any[])();
 
     event = (result as any).right[0];
     authorizationToken = `Bearer ${jwt.sign(
@@ -35,6 +33,7 @@ describe("Edit Event", () => {
   });
 
   afterAll(async () => {
+    await appTest.ctx.db.delete(EventEntity, [event.id])();
     await appTest.ctx.db.close()();
   });
 
