@@ -23,8 +23,8 @@ interface EventsMapProps {
 }
 
 export const EventsMap: React.FC<EventsMapProps> = ({
-  center = [9.18951, 45.46427],
-  zoom = 12,
+  center,
+  zoom,
   filter,
 }) => {
   return (

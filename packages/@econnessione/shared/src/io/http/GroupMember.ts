@@ -11,11 +11,12 @@ export const GroupMember = t.strict(
     actor: Actor,
     startDate: DateFromISOString,
     endDate: t.union([t.undefined, DateFromISOString]),
+    events: t.array(t.string),
     body: t.string,
     createdAt: t.string,
     updatedAt: t.string,
   },
-  "Group"
+  "GroupMember"
 );
 
 export type GroupMember = t.TypeOf<typeof GroupMember>;

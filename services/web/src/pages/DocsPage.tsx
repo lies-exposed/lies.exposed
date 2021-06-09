@@ -1,3 +1,4 @@
+import { MainContent } from "@components/MainContent";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
@@ -31,8 +32,10 @@ export class DocsPage extends React.PureComponent<RouteComponentProps> {
               )
             )}
           >
-            <SEO title={pageContent.title} />
-            <PageContent {...pageContent} />
+            <MainContent>
+              <SEO title={pageContent.title} />
+              <PageContent {...pageContent} />
+            </MainContent>
           </ContentWithSidebar>
         ))}
       />

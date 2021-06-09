@@ -41,37 +41,40 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
 
   return (
     <Grid container>
-      <Grid item>
-        {/* <div>
-          <EditButton resourceName="groups" resource={frontmatter} />
-        </div> */}
-      </Grid>
       <Grid container direction="column">
-        <Grid item>
-          {pipe(
-            O.fromNullable(frontmatter.avatar),
-            O.fold(
-              () => <div />,
-              (src) => <img src={src} style={{ width: "100px" }} />
-            )
-          )}
-          <Typography variant="h2">{frontmatter.name}</Typography>
+        <Grid container direction="row" alignItems="flex-end">
+          <Grid item>
+            {pipe(
+              O.fromNullable(frontmatter.avatar),
+              O.fold(
+                () => <div />,
+                (src) => (
+                  <img src={src} style={{ width: "100px", marginRight: 20 }} />
+                )
+              )
+            )}
+          </Grid>
+          <Grid item>
+            <Typography variant="h2">{frontmatter.name}</Typography>
+          </Grid>
         </Grid>
-        <Grid>
-          <div>
+        <Grid container style={{ marginBottom: 20 }}>
+          <Grid md={6}>
             <Typography variant="h6">Sotto Gruppi</Typography>
             <GroupList groups={[]} onGroupClick={() => {}} />
-          </div>
+          </Grid>
 
-          <div>
+          <Grid md={6}>
             <Typography variant="h6">Members</Typography>
             <ActorList
               actors={groupMembers.map((a) => ({ ...a.actor, selected: true }))}
               onActorClick={onMemberClick}
               avatarSize="medium"
             />
-          </div>
+          </Grid>
+        </Grid>
 
+        <Grid>
           <div>
             {/* <h4>Progetti</h4> */}
             {/* {pipe(

@@ -92,12 +92,21 @@ const EditTitle: React.FC<EditProps> = ({ record }: any) => {
 };
 
 export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit title={<EditTitle {...props} />} {...props}>
+  <Edit
+    title={<EditTitle {...props} />}
+    {...props}
+    transform={(r) => {
+      return {
+        ...r,
+        endDate: r.endDate === "" ? undefined : r.endDate,
+      };
+    }}
+  >
     <TabbedForm>
       <FormTab label="Generals">
-        <TextInput source="title" />
         <DateInput source="startDate" />
         <DateInput source="endDate" />
+        <TextInput source="title" />
         <MarkdownInput source="body" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
