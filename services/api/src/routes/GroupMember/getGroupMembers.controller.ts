@@ -25,6 +25,9 @@ export const MakeListGroupMemberRoute = (
           ctx.db.find(GroupMemberEntity, {
             ...findOptions,
             relations: ["actor", "group"],
+            loadRelationIds: {
+              relations: ["events"],
+            },
           }),
           TE.chainEitherK(A.traverse(E.either)(toGroupMemberIO))
         ),

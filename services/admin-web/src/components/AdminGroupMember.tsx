@@ -50,12 +50,12 @@ export const GroupMemberEdit: React.FC<EditProps> = (props) => (
         <ReferenceInput reference="groups" source="group.id">
           <AutocompleteInput source="id" />
         </ReferenceInput>
-        <DateInput source="startDate" />
-        <DateInput source="endDate" />
+        <DateInput source="startDate" required={true} />
+        <DateInput source="endDate" required={false} />
         <MarkdownInput source="body" />
       </FormTab>
       <FormTab label="Events">
-        <ReferenceArrayField reference="events">
+        <ReferenceArrayField reference="events" source="events">
           <Datagrid>
             <TextField source="id" />
             <TextField source="title" />
