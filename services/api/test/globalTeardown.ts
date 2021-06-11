@@ -27,16 +27,20 @@ export default async (): Promise<void> => {
       E.mapLeft((errs) => {
         const err = new Error();
         (err as any).details = PathReporter.report(E.left(errs));
-        return err;
+        return err as any;
       }),
       TE.fromEither,
-      TE.chain((env) =>
-        pipe(
+      TE.chain((env) => {
+        if (process.env.npm_lifecycle_event === "tests:spec") {
+          return TE.right(undefined);
+        }
+
+        return pipe(
           orm.GetTypeORMClient(getDBOptions(env)),
           TE.chain((db) => db.close()),
-          TE.mapLeft(E.toError)
-        )
-      )
+          TE.orElse(TE.throwError)
+        );
+      })
     )().then((result) => {
       if (E.isLeft(result)) {
         if ((result.left as any).details) {
