@@ -121,5 +121,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "lint-staged": {
+    "**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
   }
 }

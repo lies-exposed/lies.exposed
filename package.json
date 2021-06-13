@@ -63,14 +63,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
+      "pre-commit": "yarn workspaces run lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  },
-  "lint-staged": {
-    "**/*.(ts|tsx|js|jsx)": "eslint --fix",
-    "**/*.+(ts|tsx|js|jsx|json|css)": [
-      "prettier --write"
-    ]
   }
 }
