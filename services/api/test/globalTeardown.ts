@@ -1,15 +1,15 @@
-import * as dotenv from "dotenv";
 import * as path from "path";
 const moduleAlias = require("module-alias");
 moduleAlias(path.resolve(__dirname, "../package.json"));
+import * as dotenv from "dotenv";
 import * as logger from "../../../packages/@econnessione/core/src/logger";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
 import * as E from "fp-ts/lib/Either";
-import { ENV } from "../src/io/ENV";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { getDBOptions } from "../src/utils/getDBOptions";
 import * as orm from "../src/providers/orm";
+import { TestENV } from "./TestENV";
 
 export default async (): Promise<void> => {
   try {
@@ -23,7 +23,7 @@ export default async (): Promise<void> => {
 
     moduleLogger.debug.log("Process env %O", process.env);
     return await pipe(
-      ENV.decode(process.env),
+      TestENV.decode(process.env),
       E.mapLeft((errs) => {
         const err = new Error();
         (err as any).details = PathReporter.report(E.left(errs));
@@ -31,7 +31,8 @@ export default async (): Promise<void> => {
       }),
       TE.fromEither,
       TE.chain((env) => {
-        if (process.env.npm_lifecycle_event === "tests:spec") {
+        console.log(env.npm_lifecycle_event);
+        if (env.npm_lifecycle_event.indexOf("spec") > 0) {
           return TE.right(undefined);
         }
 

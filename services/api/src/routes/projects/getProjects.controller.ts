@@ -7,26 +7,23 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
+import { getORMOptions } from "../../utils/listQueryToORMOptions";
 import { toProjectIO } from "./project.io";
 
 export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Project.List, () => {
+  AddEndpoint(r)(endpoints.Project.List, ({ query }) => {
+    const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
     return pipe(
       sequenceS(TE.taskEither)({
         data: pipe(
-          ctx.db.find(ProjectEntity, { relations: ["images", "areas"] }),
+          ctx.db.find(ProjectEntity, {
+            ...findOptions,
+            relations: ["images", "areas"],
+          }),
           TE.chainEitherK(A.traverse(E.either)(toProjectIO))
         ),
         count: ctx.db.count(ProjectEntity),
       }),
-      // TE.mapLeft((e) => ({
-      //   ...e,
-      //   status: 500,
-      //   details: {
-      //     kind: `ServerError` as const,
-      //     meta: e.details,
-      //   },
-      // })),
       TE.map(({ data, count }) => ({
         body: {
           data: data,

@@ -7,9 +7,9 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as logger from "../../../packages/@econnessione/core/src/logger";
-import { ENV } from "../src/io/ENV";
 import * as orm from "../src/providers/orm";
 import { getDBOptions } from "../src/utils/getDBOptions";
+import { TestENV } from "./TestENV";
 
 export default async (): Promise<void> => {
   try {
@@ -23,19 +23,22 @@ export default async (): Promise<void> => {
 
     moduleLogger.debug.log("Process env %O", process.env);
     return await pipe(
-      ENV.decode(process.env),
+      TestENV.decode(process.env),
       E.mapLeft((errs) => {
         const err = new Error();
         (err as any).details = PathReporter.report(E.left(errs));
         return err as any;
       }),
       TE.fromEither,
-      TE.chain((env) =>
-        pipe(
+      TE.chain((env) => {
+        if (env.npm_lifecycle_event.indexOf("spec") > 0) {
+          return TE.right(undefined);
+        }
+        return pipe(
           orm.GetTypeORMClient(getDBOptions(env)),
           TE.orElse(TE.throwError)
-        )
-      )
+        );
+      })
     )().then((result) => {
       if (E.isLeft(result)) {
         if ((result.left as any).details) {
