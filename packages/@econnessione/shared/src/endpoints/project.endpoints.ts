@@ -4,14 +4,25 @@ import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
+import { GetListQuery } from "../io/http/Query";
 import { CreateAreaBody } from "./area.endpoints";
 
 const SingleGroupOutput = Output(http.Project.Project, "Project");
 const ListGroupOutput = ListOutput(http.Project.Project, "ListProject");
 
+const GetProjectListQuery = t.partial(
+  {
+    ...GetListQuery.props,
+  },
+  "GetProjectListQuery"
+);
+
 export const List = Endpoint({
   Method: "GET",
   getPath: () => "/projects",
+  Input: {
+    Query: GetProjectListQuery,
+  },
   Output: ListGroupOutput,
 });
 

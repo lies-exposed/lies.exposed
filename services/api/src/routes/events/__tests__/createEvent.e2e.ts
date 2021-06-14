@@ -1,10 +1,12 @@
 import * as http from "@econnessione/shared/io/http";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { EventEntity } from "../../../entities/Event.entity";
 
 describe("Create Event", () => {
   let appTest: AppTest, authorizationToken: string;
 
+  let event: any;
   beforeAll(async () => {
     appTest = await initAppTest();
 
@@ -40,10 +42,15 @@ describe("Create Event", () => {
     expect(response.status).toEqual(201);
 
     expect(decodedBody._tag).toEqual("Right");
+    event = response.body;
   });
 
   test.todo("Should create an event with images");
   test.todo("Should create an event with groups");
   test.todo("Should create an event with actors");
   test.todo("Should create an event with group members");
+
+  afterAll(async () => {
+    await appTest.ctx.db.delete(EventEntity, [event.id])();
+  });
 });

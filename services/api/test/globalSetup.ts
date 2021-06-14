@@ -1,105 +1,44 @@
-import * as dotenv from "dotenv";
 import * as path from "path";
+const moduleAlias = require("module-alias");
+moduleAlias(path.resolve(__dirname, "../package.json"));
+import * as dotenv from "dotenv";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as logger from "../../../packages/@econnessione/core/src/logger";
-import { ENV } from "../src/io/ENV";
+import * as orm from "../src/providers/orm";
+import { getDBOptions } from "../src/utils/getDBOptions";
+import { TestENV } from "./TestENV";
 
 export default async (): Promise<void> => {
   try {
+    const moduleLogger = logger.GetLogger("tests").extend("teardown");
+
     const dotenvConfigPath = path.resolve(
       process.env.DOTENV_CONFIG_PATH ?? `${__dirname}/../../../.env.test`
     );
 
     dotenv.config({ path: dotenvConfigPath });
-    const moduleLogger = logger.GetLogger("tests");
+
     moduleLogger.debug.log("Process env %O", process.env);
     return await pipe(
-      ENV.decode(process.env),
+      TestENV.decode(process.env),
       E.mapLeft((errs) => {
         const err = new Error();
         (err as any).details = PathReporter.report(E.left(errs));
-        return err;
+        return err as any;
       }),
       TE.fromEither,
-      TE.chain((env) =>
-        TE.tryCatch(async () => {
-          moduleLogger.info.log("Loading tests... %O", env);
-
-          if (env.NODE_ENV === "test") {
-            moduleLogger.info.log("Checking containers...");
-
-            // const useDockerContainer = GetDockerContainer(moduleLogger);
-            // const VOLUME_DATA = "db-data";
-
-            // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            // (global as any).__DB_TEST_CONTAINER__ = await useDockerContainer({
-            //   name: "econnessione-db-test",
-            //   Image: "postgres:12",
-            //   ExposedPorts: {
-            //     "5432/tcp": {},
-            //   },
-            //   Env: [
-            //     `POSTGRES_DB=${env.DB_DATABASE}`,
-            //     `POSTGRES_USER=${env.DB_USERNAME}`,
-            //     `POSTGRES_PASSWORD=${env.DB_PASSWORD}`,
-            //   ],
-            //   Volumes: {
-            //     "/var/lib/postgresql/data": {},
-            //   },
-            //   HostConfig: {
-            //     Binds: [`${VOLUME_DATA}:/var/lib/postgresql/data`],
-            //     PortBindings: {
-            //       "5432/tcp": [
-            //         {
-            //           HostPort: `${env.DB_PORT}`,
-            //         },
-            //       ],
-            //     },
-            //   },
-            // });
-
-            // const STORAGE_DATA_VOLUME = "minio-data";
-
-            // (global as any).__STORAGE_TEST_CONTAINER__ = await useDockerContainer(
-            //   {
-            //     name: "italianswitch-storage",
-            //     Image: "minio/minio",
-            //     AttachStdout: true,
-            //     Tty: true,
-            //     ExposedPorts: {
-            //       "9000/tcp": {},
-            //     },
-            //     Env: [
-            //       `MINIO_ACCESS_KEY=${env.SPACE_ACCESS_KEY_ID}`,
-            //       `MINIO_SECRET_KEY=${env.SPACE_ACCESS_KEY_SECRET}`,
-            //     ],
-            //     Volumes: {
-            //       "/data": {},
-            //     },
-            //     HostConfig: {
-            //       Binds: [`${STORAGE_DATA_VOLUME}:/data`],
-            //       PortBindings: {
-            //         "9000/tcp": [
-            //           {
-            //             HostPort: `${
-            //               config.STORAGE_SERVICE_PORT === undefined
-            //                 ? ""
-            //                 : `${config.STORAGE_SERVICE_PORT.toString()}`
-            //             }`,
-            //           },
-            //         ],
-            //       },
-            //     },
-            //     Cmd: ["server", "/data"],
-            //   }
-            // );
-            moduleLogger.info.log("Containers ready");
-          }
-        }, E.toError)
-      )
+      TE.chain((env) => {
+        if (env.npm_lifecycle_event.indexOf("spec") > 0) {
+          return TE.right(undefined);
+        }
+        return pipe(
+          orm.GetTypeORMClient(getDBOptions(env)),
+          TE.orElse(TE.throwError)
+        );
+      })
     )().then((result) => {
       if (E.isLeft(result)) {
         if ((result.left as any).details) {

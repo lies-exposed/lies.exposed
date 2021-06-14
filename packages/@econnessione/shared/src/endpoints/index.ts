@@ -28,14 +28,14 @@ const endpoints = {
   User,
 };
 
-const AddEndpoint = GetEndpointSubscriber((): IOError => {
+const AddEndpoint = GetEndpointSubscriber((e): IOError => {
   return {
     name: "EndpointError",
     status: 500,
     message: "Unknown error",
     details: {
       kind: "DecodingError",
-      errors: [],
+      errors: e,
     },
   };
 });

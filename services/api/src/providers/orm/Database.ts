@@ -255,8 +255,9 @@ const MakeDatabaseClient: MakeDatabaseClient =
         logger.debug.log(
           "The connection is already present in connection manager..."
         );
+        const conn = cm.get(connectionName)
         return TE.tryCatch(
-          () => cm.get(connectionName).connect(),
+          () => conn.isConnected ? Promise.resolve(conn): conn.connect(),
           toError(logger)
         );
       }
@@ -270,18 +271,6 @@ const MakeDatabaseClient: MakeDatabaseClient =
     return pipe(
       getConnection(cm, ctx),
       TE.map((connection) => {
-        // const flags: Flags = {
-        //   direction: Direction.LR,
-        //   format: Format.SVG,
-        //   handwritten: false,
-        // };
-
-        // const typeormUml = new TypeormUml();
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        // typeormUml
-        //   .build(connection, flags)
-        //   .then((url) => process.stdout.write(`Diagram URL: ${url} ${EOL}`));
-
         return GetDatabaseClient({ connection, logger });
       })
     );

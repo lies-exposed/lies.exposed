@@ -37,7 +37,7 @@ describe("Edit Project ", () => {
 
   test("Should return a 200", async () => {
     const updateData = {
-      name: "new project name",
+      name: fc.sample(fc.string())[0],
     };
     const response = await appTest.req
       .put(`/v1/projects/${project.id}`)
@@ -55,6 +55,11 @@ describe("Edit Project ", () => {
     expect(receivedBody).toMatchObject({
       ...expectedBody,
       ...updateData,
+      areas: expectedBody.areas.map((a) => ({
+        ...a,
+        createdAt: a.createdAt.toISOString(),
+        updatedAt: a.updatedAt.toISOString(),
+      })),
       startDate: project.startDate.toISOString(),
       endDate: project.endDate ? project.endDate.toISOString() : undefined,
       createdAt: project.createdAt.toISOString(),
@@ -85,6 +90,11 @@ describe("Edit Project ", () => {
     const { updatedAt: _, ...expectedBody } = project;
     expect(receivedBody).toMatchObject({
       ...expectedBody,
+      areas: expectedBody.areas.map((a) => ({
+        ...a,
+        createdAt: a.createdAt.toISOString(),
+        updatedAt: a.updatedAt.toISOString(),
+      })),
       startDate: project.startDate.toISOString(),
       endDate: project.endDate ? project.endDate.toISOString() : undefined,
       createdAt: project.createdAt.toISOString(),
