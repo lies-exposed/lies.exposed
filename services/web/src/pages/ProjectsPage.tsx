@@ -59,8 +59,6 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                     <TextField {...params} label="Project" variant="outlined" />
                   )}
                   onSelect={async (event: any) => {
-                    // eslint-disable-next-line
-                    console.log(event);
                     if (this.props.navigate !== undefined) {
                       // await navigateTo(this.props.navigate, "projects", item);
                     }

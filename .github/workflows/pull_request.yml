@@ -192,14 +192,14 @@ jobs:
         env:
           POSTGRES_USER: econnessione
           POSTGRES_PASSWORD: econnessione-password
-          POSTGRES_DB: econnessione-test
+          POSTGRES_DB: econnessione
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 9432:5432
+          - 8432:5432
     steps:
       - uses: actions/checkout@v2
 
@@ -214,4 +214,4 @@ jobs:
           name: build
 
       - name: Run migrations
-        run: DOTENV_CONFIG_PATH=../../.env.test yarn api migration:run
+        run: DOTENV_CONFIG_PATH=../../.env.local yarn api migration:run

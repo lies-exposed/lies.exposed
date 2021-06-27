@@ -163,7 +163,7 @@ export const pageContentByPath = queryStrict<
       TE.chain(
         TE.fromOption(() => ({
           name: `APIError`,
-          message: `Page ${path}  is missing`,
+          message: `Page ${path} is missing`,
         }))
       )
     ),

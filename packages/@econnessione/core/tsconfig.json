@@ -2,17 +2,20 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
+    "noEmit": false,
     "lib": ["DOM", "ESNext"],
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "typeRoots": ["../../../node_modules/@types", "node_modules/@types"],
     "paths": {
       "@Common/*": ["./Common/*"],
       "@http/*": ["./http/*"]
     }
   },
   "include": ["./src"],
-  "exclude": ["**/node_modules/**"]
+  "exclude": []
 }

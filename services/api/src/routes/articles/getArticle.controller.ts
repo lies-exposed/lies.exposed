@@ -6,7 +6,6 @@ import { Route } from "routes/route.types";
 
 export const MakeGetArticleRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Article.Get, ({ params: { id } }) => {
-    // console.log('here')
     return pipe(
       ctx.db.findOneOrFail(ArticleEntity, { where: { id } }),
       TE.map((article) => ({

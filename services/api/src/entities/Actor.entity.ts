@@ -5,9 +5,11 @@ import {
   Entity,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { DeathEventEntity } from "./DeathEvent.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
 
 @Entity("actor")
@@ -34,6 +36,9 @@ export class ActorEntity {
 
   @ManyToMany(() => EventEntity, (e) => e.actors)
   events: EventEntity[];
+
+  @OneToOne(() => DeathEventEntity, (d) => d.victim)
+  death: DeathEventEntity;
 
   @Column({ type: "varchar" })
   body: string;

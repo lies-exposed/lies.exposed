@@ -51,7 +51,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
           actors: Queries.Actor.getList,
           groups: Queries.Group.getList,
           events: Queries.Event.getList,
-          deaths: Queries.Event.getList,
+          deaths: Queries.DeathEvent.getList,
         }}
         params={{
           page: {

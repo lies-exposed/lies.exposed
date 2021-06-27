@@ -56,8 +56,6 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
               LazyFullSizeLoader,
               ErrorBox,
               ({ articles: { data: articles } }) => {
-                // eslint-disable-next-line
-                console.log(articles);
                 return (
                   <div>
                     <Grid container spacing={2} style={{ marginBottom: 100 }}>

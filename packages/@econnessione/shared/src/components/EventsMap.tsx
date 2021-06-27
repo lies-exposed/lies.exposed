@@ -1,7 +1,9 @@
 import { Area, Events } from "@io/http";
 import { GetEventsQueryFilter } from "@io/http/Events/Uncategorized";
+import { Chip } from "@material-ui/core";
 import { Queries } from "@providers/DataProvider";
 import { navigate } from "@reach/router";
+import { theme } from "@theme/index";
 import { geoJSONFormat } from "@utils/map.utils";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
@@ -31,6 +33,7 @@ export const EventsMap: React.FC<EventsMapProps> = ({
     <WithQueries
       queries={{
         events: Queries.Event.getList,
+        deaths: Queries.DeathEvent.getList,
       }}
       params={{
         events: {
@@ -38,27 +41,46 @@ export const EventsMap: React.FC<EventsMapProps> = ({
           sort: { field: "startDate", order: "DESC" },
           filter: R.compact(filter),
         },
+        deaths: {
+          pagination: { page: 1, perPage: 20 },
+          sort: { field: "date", order: "DESC" },
+          filter: {
+            groups: filter.groups ? O.toUndefined(filter.groups) : undefined,
+          },
+        },
       }}
-      render={QR.fold(
-        LazyFullSizeLoader,
-        ErrorBox,
-        ({ events: { data: events } }) => {
-          const data = pipe(
-            events,
-            A.filter(Events.Uncategorized.Uncategorized.is),
-            A.filterMap((e) =>
-              e.location ? O.some({ ...e, geometry: e.location }) : O.none
-            )
-          );
+      render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events, deaths }) => {
+        const data = pipe(
+          events.data,
+          A.filter(Events.Uncategorized.Uncategorized.is),
+          A.filterMap((e) =>
+            e.location ? O.some({ ...e, geometry: e.location }) : O.none
+          )
+        );
 
-          const features = data.map(({ geometry, ...datum }) => {
-            const geom = geoJSONFormat.readGeometry(geometry);
-            const feature = new Feature(geom);
-            feature.setProperties(datum);
-            return feature;
-          });
+        const deathsData = pipe(
+          deaths.data,
+          A.filterMap((e) =>
+            e.location ? O.some({ ...e, geometry: e.location }) : O.none
+          )
+        );
 
-          return (
+        const features = data.map(({ geometry, ...datum }) => {
+          const geom = geoJSONFormat.readGeometry(geometry);
+          const feature = new Feature(geom);
+          feature.setProperties(datum);
+          return feature;
+        });
+
+        const deathFeatures = deathsData.map(({ geometry, ...datum }) => {
+          const geom = geoJSONFormat.readGeometry(geometry);
+          const feature = new Feature(geom);
+          feature.setProperties(datum);
+          return feature;
+        });
+
+        return (
+          <>
             <ParentSize style={{ height: 600 }}>
               {({ width, height }) => {
                 return (
@@ -74,7 +96,7 @@ export const EventsMap: React.FC<EventsMapProps> = ({
                       id="events"
                       width={width}
                       height={height}
-                      features={features}
+                      features={[...features, ...deathFeatures]}
                       center={center}
                       zoom={zoom}
                       onMapClick={async (features) => {
@@ -94,9 +116,21 @@ export const EventsMap: React.FC<EventsMapProps> = ({
                 );
               }}
             </ParentSize>
-          );
-        }
-      )}
+
+            <div>
+              <Chip label="Uncategorized" icon={<>{events.total}</>} />
+              <Chip
+                label="Deaths"
+                style={{
+                  backgroundColor: theme.palette.common.black,
+                  color: theme.palette.common.white,
+                }}
+                icon={<>{deaths.total}</>}
+              />
+            </div>
+          </>
+        );
+      })}
     />
   );
 };

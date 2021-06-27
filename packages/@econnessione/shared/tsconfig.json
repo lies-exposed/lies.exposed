@@ -3,6 +3,7 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "jsx": "react",
+    "noEmit": false,
     "composite": true,
     "declaration": true,
     "skipDefaultLibCheck": true,
@@ -12,6 +13,7 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "typeRoots": ["node_modules/@types", "../../../node_modules/@types"],
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
       "@components/*": ["./components/*"],
       "@helpers/*": ["./helpers/*"],

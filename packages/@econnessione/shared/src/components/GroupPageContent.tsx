@@ -13,7 +13,7 @@ export interface GroupPageContentProps extends Group.Group {
   events: Events.Event[];
   projects: Project.Project[];
   funds: Events.ProjectTransaction[];
-  onMemberClick: (m: Actor.ActorFrontmatter) => void;
+  onMemberClick: (m: Actor.Actor) => void;
 }
 
 export const GroupPageContent: React.FC<GroupPageContentProps> = ({

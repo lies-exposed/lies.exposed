@@ -7,7 +7,7 @@ import Draw from "ol/interaction/Draw.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
 import React from "react";
-import { InputProps, useInput } from "react-admin";
+import { Button, InputProps, useInput } from "react-admin";
 
 const formatOptions = {
   dataProjection: "EPSG:4326",
@@ -87,10 +87,19 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
   // console.log({ mapContainer, mapClassName });
 
   return (
-    <div
-      className={mapClassName}
-      ref={mapContainer}
-      style={{ height: 300, width: 600 }}
-    />
+    <>
+      <div
+        className={mapClassName}
+        ref={mapContainer}
+        style={{ height: 300, width: 600 }}
+      />
+      <div style={{ marginTop: 20 }}>
+        <Button
+          label="reset"
+          variant="outlined"
+          onClick={() => onChange(null)}
+        />
+      </div>
+    </>
   );
 };
