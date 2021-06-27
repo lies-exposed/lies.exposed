@@ -1,8 +1,8 @@
 import * as io from "@econnessione/shared/io";
+import { UserEntity } from "@entities/User.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
-import { UserEntity } from "./User.entity";
 
 export const toUserIO = ({
   passwordHash,
