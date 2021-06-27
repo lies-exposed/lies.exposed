@@ -66,8 +66,12 @@ yarn-error.log
 
 # Storybook
 **/static/storybook/**
+
 # Certificates
 certs
+
+# SQL dump
+db_dump
 
 # output dir
 lib

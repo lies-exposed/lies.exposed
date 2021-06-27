@@ -5,8 +5,8 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
 import supertest from "supertest";
 import { makeApp, makeContext } from "../../../server";
-import { hash } from "../../../utils/password.utils";
-import { UserEntity } from "../User.entity";
+import { hash } from "@utils/password.utils";
+import { UserEntity } from "@entities/User.entity";
 
 describe("User login", () => {
   let ctx: RouteContext,

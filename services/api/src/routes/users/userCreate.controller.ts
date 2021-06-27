@@ -1,11 +1,11 @@
 import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
+import { UserEntity } from "@entities/User.entity";
+import { RouteContext } from "@routes/route.types";
 import * as passwordUtils from "@utils/password.utils";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { RouteContext } from "routes/route.types";
-import { UserEntity } from "./User.entity";
 import { toUserIO } from "./user.io";
 
 export const MakeUserCreateRoute = (r: Router, ctx: RouteContext): void => {

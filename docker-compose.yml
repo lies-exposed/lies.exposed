@@ -6,17 +6,12 @@ services:
     build:
       context: .
       target: build
-    # Because `base` is strictly a utility service that is not part of the
-    # app's run time, its `scale` is set to zero so that it doesn't run when
-    # `docker-compose up` is invoked.
     scale: 0
-    # volumes:
-    #   - node_modules:/app/node_modules
 
   db-test:
     image: postgres:12
     ports:
-      - 9432:5432
+      - "127.0.0.1:9432:5432"
     environment:
       POSTGRES_USER: econnessione
       POSTGRES_PASSWORD: econnessione-password
@@ -27,31 +22,37 @@ services:
   db:
     image: postgres:12
     ports:
-      - 8432:5432
+      - "8432:5432"
+    expose:
+      - "8432"
     environment:
       POSTGRES_USER: econnessione
       POSTGRES_PASSWORD: econnessione-password
       POSTGRES_DB: econnessione
     volumes:
+      - ./services/api/db_dump/:/docker-entrypoint-initdb.d/
       - db-data:/var/lib/postgresql/data
 
   api:
     container_name: econnessione-api
     image: econnessione_econnessione
     env_file:
-      - .env.dev
+      - .env.local
     environment:
       DEBUG: "@eco*"
       DB_HOST: db
-      DB_PORT: 8432
+      DB_PORT: 5432
     links:
       - db
+    depends_on:
+      - db
     ports:
-      - 4010:4010
+      - "4010:4010"
     volumes:
-      - ./:/app/:delegated
-      # - node_modules:/app/node_modules:delegated
+      - ./packages/@econnessione:/app/packages/@econnessione:delegated
+      - ./services/api:/app/services/api:delegated
     tty: true
+    stdin_open: true
     working_dir: /app/services/api
     command: yarn develop
     restart: always
@@ -60,14 +61,19 @@ services:
     container_name: econnessione-web
     image: econnessione_econnessione
     env_file:
-      - .env.local
+      - ./services/web/.env.local
+    environment:
+      SKIP_PREFLIGHT_CHECK: "true"
     ports:
-      - 4001:3000
-    volumes_from:
-      - api
+      - "4000:4000"
+    volumes:
+      - ./.eslintrc:/app/.eslintrc
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./packages/@econnessione:/app/packages/@econnessione:delegated
+      - ./services/web:/app/services/web:delegated
     working_dir: /app/services/web
     command: yarn start
-    tty: true
+    tty: false
     links:
       - api
     restart: always
@@ -76,23 +82,28 @@ services:
     container_name: econnessione-admin-web
     image: econnessione_econnessione
     env_file:
-      - .env.local
+      - ./services/admin-web/.env.local
+    environment:
+      SKIP_PREFLIGHT_CHECK: "true"
     ports:
-      - 4000:3000
-    volumes_from:
-      - api
+      - "4001:4001"
+    volumes:
+      - ./.eslintrc:/app/.eslintrc
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./packages/@econnessione:/app/packages/@econnessione:delegated
+      - ./services/admin-web:/app/services/admin-web:delegated
     working_dir: /app/services/admin-web
     command: yarn start
-    tty: true
+    tty: false
     links:
       - api
     restart: always
 
 volumes:
-  db-data:
-  db-test-data:
-  node_modules:
-  api-node_modules:
-  web-node_modules:
-  admin-web-node_modules:
-  api-space:
+  db-data: {}
+  db-test-data: {}
+  node_modules: {}
+  api-node_modules: {}
+  web-node_modules: {}
+  admin-web-node_modules: {}
+  api-space: {}
