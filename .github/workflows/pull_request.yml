@@ -182,3 +182,36 @@ jobs:
 
       - name: Run tests E2E
         run: yarn test:e2e --ci --forceExit
+
+  db-migration:
+    runs-on: ubuntu-latest
+    needs: [build-api]
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: econnessione
+          POSTGRES_PASSWORD: econnessione-password
+          POSTGRES_DB: econnessione-test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 9432:5432
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+
+      - name: Run migrations
+        run: DOTENV_CONFIG_PATH=../../.env.test yarn api migration:run
