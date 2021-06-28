@@ -70,5 +70,11 @@
     "@econnessione/core": "../../packages/@econnessione/core/lib",
     "@econnessione/shared": "../../packages/@econnessione/shared/lib"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "lint-staged": {
+    "**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
+  }
 }

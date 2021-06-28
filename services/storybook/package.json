@@ -20,5 +20,11 @@
     "@storybook/preset-typescript": "3.0.0",
     "@storybook/react": "^6.1.14",
     "react-spring": "^9.1.2"
+  },
+  "lint-staged": {
+    "**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
   }
 }
