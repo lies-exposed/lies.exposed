@@ -2,7 +2,7 @@ import { ErrorBox } from "@components/Common/ErrorBox";
 import { Loader } from "@components/Common/Loader";
 import * as io from "@io/http";
 import { GridList, GridListTile } from "@material-ui/core";
-import { projectImageList } from "@providers/DataProvider";
+import { Queries } from "@providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
@@ -36,9 +36,9 @@ export class ProjectImageList extends React.PureComponent<ProjectImageListProps>
   render(): JSX.Element {
     return (
       <WithQueries
-        queries={{ projectImageList }}
+        queries={{ projectImages: Queries.ProjectImage.getList }}
         params={{
-          projectImageList: {
+          projectImages: {
             sort: {
               order: "DESC",
               field: "id",
@@ -53,7 +53,7 @@ export class ProjectImageList extends React.PureComponent<ProjectImageListProps>
         render={QR.fold(
           Loader,
           ErrorBox,
-          ({ projectImageList: { data: items } }) => (
+          ({ projectImages: { data: items } }) => (
             <div>
               <GridList cellHeight={160} cols={3}>
                 {items.map((tile) => (

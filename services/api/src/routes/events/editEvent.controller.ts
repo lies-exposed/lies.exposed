@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventEntity } from "@entities/Event.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
@@ -12,7 +12,7 @@ import { toEventIO } from "./event.io";
 
 export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
-    endpoints.Event.Edit,
+    Endpoints.Event.Edit,
     ({
       params: { id },
       body: { links, images, actors, groups, groupsMembers, ...body },

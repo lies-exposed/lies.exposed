@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { EventEntity } from "@entities/Event.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -8,7 +8,7 @@ import { toEventIO } from "./event.io";
 
 export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(
-    endpoints.Event.Create,
+    Endpoints.Event.Create,
     ({ body: { endDate, images, ...body } }) => {
       const optionalData = pipe(foldOptionals({ endDate }), (data) => ({
         ...data,

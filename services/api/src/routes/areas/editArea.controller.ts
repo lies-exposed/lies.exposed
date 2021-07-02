@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { AreaEntity } from "@entities/Area.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -7,7 +7,7 @@ import { Route } from "routes/route.types";
 import { toAreaIO } from "./Area.io";
 
 export const MakeEditAreaRoute: Route = (r, { s3, db, env, logger }) => {
-  AddEndpoint(r)(endpoints.Area.Edit, ({ params: { id }, body }) => {
+  AddEndpoint(r)(Endpoints.Area.Edit, ({ params: { id }, body }) => {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const updateData = foldOptionals(body as any);
     logger.debug.log("Actor update data %O", updateData);

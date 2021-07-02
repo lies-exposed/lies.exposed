@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { ProjectEntity } from "@entities/Project.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
@@ -10,7 +10,7 @@ import { RouteContext } from "routes/route.types";
 import { toProjectIO } from "./project.io";
 
 export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Project.Edit, ({ params: { id }, body }) => {
+  AddEndpoint(r)(Endpoints.Project.Edit, ({ params: { id }, body }) => {
     const projectData = foldOptionals({
       ...body,
       areas: pipe(

@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -8,7 +8,7 @@ import { toActorIO } from "./actor.io";
 
 export const MakeCreateActorRoute: Route = (r, { db, logger }) => {
   AddEndpoint(r, authenticationHandler(logger))(
-    endpoints.Actor.Create,
+    Endpoints.Actor.Create,
     ({ body, headers }) => {
       logger.debug.log("Headers %O", { headers, body });
 

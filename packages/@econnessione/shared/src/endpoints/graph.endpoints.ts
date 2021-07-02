@@ -9,3 +9,7 @@ export const GetGraph = Endpoint({
   },
   Output: t.strict({ data: t.unknown }),
 });
+
+// export const graphs = ResourceEndpoints({
+//   Get: GetGraph,
+// } as any);

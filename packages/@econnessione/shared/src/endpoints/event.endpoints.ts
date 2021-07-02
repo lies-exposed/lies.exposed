@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
+import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 
@@ -51,4 +52,12 @@ export const Delete = Endpoint({
     Params: t.type({ id: t.string }),
   },
   Output: SingleEventOutput,
+});
+
+export const events = ResourceEndpoints({
+  Get,
+  Create,
+  List,
+  Edit,
+  Delete,
 });

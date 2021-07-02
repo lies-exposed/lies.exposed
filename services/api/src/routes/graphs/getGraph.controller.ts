@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Graph, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as E from "fp-ts/lib/Either";
 import * as IOE from "fp-ts/lib/IOEither";
@@ -23,7 +23,7 @@ const readFile = (id: string): TE.TaskEither<Error, string> =>
   );
 
 export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Graph.GetGraph, ({ params: { id } }) => {
+  AddEndpoint(r)(Graph.GetGraph, ({ params: { id } }) => {
     return pipe(
       readFile(id),
       TE.mapLeft(

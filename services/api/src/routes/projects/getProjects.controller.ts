@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { ProjectEntity } from "@entities/Project.entity";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -11,7 +11,7 @@ import { getORMOptions } from "../../utils/listQueryToORMOptions";
 import { toProjectIO } from "./project.io";
 
 export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Project.List, ({ query }) => {
+  AddEndpoint(r)(Endpoints.Project.List, ({ query }) => {
     const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
     return pipe(
       sequenceS(TE.taskEither)({

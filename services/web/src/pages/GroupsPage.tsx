@@ -7,7 +7,7 @@ import GroupList, {
   GroupListItem,
 } from "@econnessione/shared/components/lists/GroupList";
 import {
-  groupsList,
+  Queries,
   pageContentByPath,
 } from "@econnessione/shared/providers/DataProvider";
 import { navigateTo } from "@econnessione/shared/utils/links";
@@ -21,7 +21,7 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
     return (
       <WithQueries
         queries={{
-          groups: groupsList,
+          groups: Queries.Group.getList,
           pageContent: pageContentByPath,
         }}
         params={{

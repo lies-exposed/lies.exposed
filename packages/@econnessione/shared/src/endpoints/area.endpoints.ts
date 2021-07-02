@@ -6,11 +6,12 @@ import { Area } from "../io/http";
 import { Polygon } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
+import { ResourceEndpoints } from "./types";
 
 const SingleAreaOutput = Output(Area.Area, "Area");
 const ListAreaOutput = ListOutput(Area.Area, "Areas");
 
-export const List = Endpoint({
+const List = Endpoint({
   Method: "GET",
   getPath: () => "/areas",
   Input: {
@@ -19,7 +20,7 @@ export const List = Endpoint({
   Output: ListAreaOutput,
 });
 
-export const Get = Endpoint({
+const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/areas/${id}`,
   Input: {
@@ -37,7 +38,7 @@ export const CreateAreaBody = t.strict(
   "CreateAreaBody"
 );
 
-export const Create = Endpoint({
+const Create = Endpoint({
   Method: "POST",
   getPath: () => "/areas",
   Input: {
@@ -69,4 +70,12 @@ export const Delete = Endpoint({
     Params: t.type({ id: t.string }),
   },
   Output: SingleAreaOutput,
+});
+
+export const areas = ResourceEndpoints({
+  Get,
+  Create,
+  Edit,
+  List,
+  Delete,
 });

@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
@@ -14,7 +14,7 @@ export const MakeListGroupMemberRoute = (
   r: Router,
   ctx: RouteContext
 ): void => {
-  AddEndpoint(r)(endpoints.GroupMember.List, ({ query }) => {
+  AddEndpoint(r)(Endpoints.GroupMember.List, ({ query }) => {
     const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
 
     ctx.logger.debug.log(`find Options %O`, findOptions);

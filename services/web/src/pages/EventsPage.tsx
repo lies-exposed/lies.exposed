@@ -19,9 +19,7 @@ import {
 import * as io from "@econnessione/shared/io";
 import { Actor, Group, Topic } from "@econnessione/shared/io/http";
 import {
-  actorsList,
-  eventsList,
-  groupsList,
+  Queries,
   pageContentByPath,
 } from "@econnessione/shared/providers/DataProvider";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
@@ -50,9 +48,10 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
       <WithQueries
         queries={{
           page: pageContentByPath,
-          actors: actorsList,
-          groups: groupsList,
-          events: eventsList,
+          actors: Queries.Actor.getList,
+          groups: Queries.Group.getList,
+          events: Queries.Event.getList,
+          deaths: Queries.Event.getList,
         }}
         params={{
           page: {
@@ -71,6 +70,11 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
           events: {
             pagination: { page: 1, perPage: 100 },
             sort: { field: "startDate", order: "DESC" },
+            filter: {},
+          },
+          deaths: {
+            pagination: { page: 1, perPage: 20 },
+            sort: { field: "date", order: "DESC" },
             filter: {},
           },
         }}

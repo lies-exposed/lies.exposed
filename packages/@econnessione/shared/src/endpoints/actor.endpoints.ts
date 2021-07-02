@@ -81,4 +81,4 @@ export const actors = ResourceEndpoints({
   Edit,
   Create,
   Delete,
-} as any);
+});

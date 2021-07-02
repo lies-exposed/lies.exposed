@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { UserLogin, AddEndpoint } from "@econnessione/shared/endpoints";
 import { UserEntity } from "@entities/User.entity";
 import { BadRequestError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
@@ -9,7 +9,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 
 export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
-    endpoints.User.UserLogin,
+    UserLogin,
     ({ body: { username, password } }) => {
       ctx.logger.debug.log("Login user with username or email %s", username);
       return pipe(

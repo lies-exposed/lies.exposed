@@ -3,7 +3,7 @@ import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
-import { area } from "@econnessione/shared/providers/DataProvider";
+import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -23,7 +23,7 @@ export default class AreaTemplate extends React.PureComponent<
         () => <div>Missing project id</div>,
         (areaId) => (
           <WithQueries
-            queries={{ area: area }}
+            queries={{ area: Queries.Area.get }}
             params={{ area: { id: areaId } }}
             render={QR.fold(Loader, ErrorBox, ({ area }) => {
               return (

@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { NotFoundError } from "@io/ControllerError";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -7,7 +7,7 @@ import { RouteContext } from "routes/route.types";
 import { PageEntity } from "../../entities/Page.entity";
 
 export const MakeEditPageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Page.EditPage, ({ params: { id }, body }) => {
+  AddEndpoint(r)(Endpoints.Page.Edit, ({ params: { id }, body }) => {
     return pipe(
       ctx.db.update(PageEntity, id, body),
       TE.chain(() => ctx.db.findOne(PageEntity, { where: { id } })),

@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
@@ -10,7 +10,7 @@ import { Route } from "routes/route.types";
 
 export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
   AddEndpoint(r)(
-    endpoints.Project.Create,
+    Endpoints.Project.Create,
     ({ body: { endDate, images, ...body } }) => {
       const optionalData = foldOptionals({ endDate });
       return pipe(

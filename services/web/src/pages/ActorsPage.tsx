@@ -6,7 +6,7 @@ import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
 import {
-  actorsList,
+  Queries,
   pageContentByPath,
 } from "@econnessione/shared/providers/DataProvider";
 import { navigateTo } from "@econnessione/shared/utils/links";
@@ -19,9 +19,12 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
   render(): JSX.Element {
     return (
       <WithQueries
-        queries={{ actorsList, pageContent: pageContentByPath }}
+        queries={{
+          actors: Queries.Actor.getList,
+          pageContent: pageContentByPath,
+        }}
         params={{
-          actorsList: {
+          actors: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
@@ -33,7 +36,7 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
         render={QR.fold(
           LazyFullSizeLoader,
           ErrorBox,
-          ({ actorsList: { data: acts }, pageContent }) => (
+          ({ actors: { data: acts }, pageContent }) => (
             <>
               <SEO title={pageContent.title} />
               <MainContent>

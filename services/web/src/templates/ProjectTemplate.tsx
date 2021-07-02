@@ -4,7 +4,7 @@ import { MainContent } from "@econnessione/shared/components/MainContent";
 import { ProjectPageContent } from "@econnessione/shared/components/ProjectPageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
-import { project } from "@econnessione/shared/providers/DataProvider";
+import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -25,7 +25,7 @@ export default class ProjectTemplate extends React.PureComponent<
         () => <div>Missing project id</div>,
         (projectId) => (
           <WithQueries
-            queries={{ project: project }}
+            queries={{ project: Queries.Project.get }}
             params={{ project: { id: projectId } }}
             render={QR.fold(Loader, ErrorBox, ({ project }) => (
               <MainContent>

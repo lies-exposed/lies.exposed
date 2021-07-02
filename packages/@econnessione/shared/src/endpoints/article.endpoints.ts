@@ -4,6 +4,7 @@ import { Endpoint } from "ts-endpoint";
 import { Article } from "../io/http";
 import { Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
+import { ResourceEndpoints } from "./types";
 
 export const ListArticles = Endpoint({
   Method: "GET",
@@ -42,5 +43,24 @@ export const Create = Endpoint({
       "AddActorBody"
     ),
   },
-  Output: Output(Article.Article, "Actor"),
+  Output: Output(Article.Article, "Article"),
+});
+
+export const articles = ResourceEndpoints({
+  Get,
+  List: ListArticles,
+  Create,
+  Edit: Endpoint({
+    Method: "PUT",
+    getPath: () => `/articles`,
+    Input: {
+      Body: t.unknown,
+    },
+    Output: Output(Article.Article, "Article"),
+  }),
+  Delete: Endpoint({
+    Method: "DELETE",
+    getPath: () => `/articles`,
+    Output: Output(Article.Article, "Article"),
+  }),
 });

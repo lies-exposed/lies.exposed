@@ -1,4 +1,5 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { AddEndpoint } from "@econnessione/shared/endpoints";
+import { GetSignedURL } from "@econnessione/shared/endpoints/upload.endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -18,7 +19,7 @@ const fileExtFromContentType = (c: string): string => {
 
 export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
-    endpoints.Uploads.GetSignedURL,
+    GetSignedURL,
     ({ body: { resource, resourceId, ContentType } }) => {
       return pipe(
         ctx.s3.getSignedUrl("putObject", {

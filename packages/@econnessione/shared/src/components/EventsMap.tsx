@@ -1,6 +1,6 @@
 import { Area, Events } from "@io/http";
 import { GetEventsQueryFilter } from "@io/http/Events/Uncategorized";
-import { eventsList } from "@providers/DataProvider";
+import { Queries } from "@providers/DataProvider";
 import { navigate } from "@reach/router";
 import { geoJSONFormat } from "@utils/map.utils";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
@@ -30,7 +30,7 @@ export const EventsMap: React.FC<EventsMapProps> = ({
   return (
     <WithQueries
       queries={{
-        events: eventsList,
+        events: Queries.Event.getList,
       }}
       params={{
         events: {

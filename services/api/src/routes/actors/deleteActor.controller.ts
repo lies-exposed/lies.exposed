@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { ActorEntity } from "@entities/Actor.entity";
 import { ServerError } from "@io/ControllerError";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -8,7 +8,7 @@ import { Route } from "routes/route.types";
 import { toActorIO } from "./actor.io";
 
 export const MakeDeleteActorRoute: Route = (r, { s3, db, env }) => {
-  AddEndpoint(r)(endpoints.Actor.Delete, ({ params: { id } }) => {
+  AddEndpoint(r)(Endpoints.Actor.Delete, ({ params: { id } }) => {
     return pipe(
       db.findOneOrFail(ActorEntity, {
         where: { id },
