@@ -2,11 +2,7 @@ import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { Loader } from "@econnessione/shared/components/Common/Loader";
 import { EventPageContent } from "@econnessione/shared/components/EventPageContent";
 import { MainContent } from "@econnessione/shared/components/MainContent";
-import {
-  actorsList,
-  event,
-  groupsList,
-} from "@econnessione/shared/providers/DataProvider";
+import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -27,7 +23,11 @@ export default class EventTemplate extends React.PureComponent<
         () => <div>Missing event id</div>,
         (eventId) => (
           <WithQueries
-            queries={{ event: event, actors: actorsList, groups: groupsList }}
+            queries={{
+              event: Queries.Event.get,
+              actors: Queries.Actor.getList,
+              groups: Queries.Group.getList,
+            }}
             params={{
               event: { id: eventId },
               actors: {
@@ -51,7 +51,7 @@ export default class EventTemplate extends React.PureComponent<
               }) => (
                 <MainContent>
                   <EventPageContent
-                    event={event}
+                    event={event as any}
                     actors={actors}
                     groups={groups}
                   />

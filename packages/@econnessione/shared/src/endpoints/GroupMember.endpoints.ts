@@ -5,6 +5,7 @@ import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
+import { ResourceEndpoints } from "./types";
 
 const SingleGroupMemberOutput = Output(
   http.GroupMember.GroupMember,
@@ -80,4 +81,12 @@ export const Delete = Endpoint({
     Params: t.type({ id: t.string }),
   },
   Output: SingleGroupMemberOutput,
+});
+
+export const groupMembers = ResourceEndpoints({
+  Create,
+  Get,
+  List,
+  Edit,
+  Delete,
 });

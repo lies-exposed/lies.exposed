@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -8,7 +8,7 @@ import { toAreaIO } from "./Area.io";
 
 export const MakeCreateAreaRoute: Route = (r, { db, logger }) => {
   AddEndpoint(r, authenticationHandler(logger))(
-    endpoints.Area.Create,
+    Endpoints.Area.Create,
     ({ body, headers }) => {
       logger.debug.log("Headers %O", { headers, body });
 

@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { GetListQuery } from "../io/http/Query";
 import { User } from "../io/http/User";
+import { ResourceEndpoints } from "./types";
 
 export const UserLogin = Endpoint({
   Method: "POST",
@@ -32,6 +33,16 @@ export const UserCreate = Endpoint({
   }),
 });
 
+export const UserGet = Endpoint({
+  Method: "GET",
+  getPath: ({ id }) => `/users/${id}`,
+  Input: {
+    Query: GetListQuery,
+    Params: t.type({ id: t.string }),
+  },
+  Output: t.strict({ data: t.array(User), total: t.number }),
+});
+
 export const UserList = Endpoint({
   Method: "GET",
   getPath: () => "/users",
@@ -39,4 +50,23 @@ export const UserList = Endpoint({
     Query: GetListQuery,
   },
   Output: t.strict({ data: t.array(User), total: t.number }),
+});
+
+export const users = ResourceEndpoints({
+  Get: UserGet,
+  Create: UserCreate,
+  List: UserList,
+  Edit: Endpoint({
+    Method: "PUT",
+    getPath: () => `/users`,
+    Input: {
+      Body: t.unknown,
+    },
+    Output: t.undefined,
+  }),
+  Delete: Endpoint({
+    Method: "DELETE",
+    getPath: () => `/users`,
+    Output: t.undefined,
+  }),
 });

@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { UserEntity } from "@entities/User.entity";
 import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
@@ -11,7 +11,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { toUserIO } from "./user.io";
 
 export const MakeUserListRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.User.UserList, ({ query }) => {
+  AddEndpoint(r)(Endpoints.User.List, ({ query }) => {
     const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
     return pipe(
       sequenceS(TE.taskEither)({

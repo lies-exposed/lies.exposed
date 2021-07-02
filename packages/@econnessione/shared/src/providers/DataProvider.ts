@@ -1,9 +1,10 @@
 import { APIRESTClient } from "@econnessione/core/http/APIRESTClient";
 import * as io from "@io/index";
-import { available, queryStrict, queryShallow } from "avenger";
+import { available, queryShallow, queryStrict } from "avenger";
 import { CachedQuery } from "avenger/lib/Query";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
+import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
@@ -14,6 +15,13 @@ import type {
   GetOneParams,
   GetOneResult,
 } from "react-admin";
+import {
+  EndpointInstance,
+  InferEndpointParams,
+  MinimalEndpoint,
+} from "ts-endpoint";
+import { Endpoints } from "../endpoints";
+import { ResourceEndpoints } from "../endpoints/types";
 
 // const httpClient = (
 //   url: string,
@@ -62,30 +70,26 @@ const Resources = {
   projects: io.http.Project.Project,
   "project/images": io.http.ProjectImage.ProjectImage,
   events: io.http.Events.Uncategorized.Uncategorized,
+  deaths: io.http.Events.Death.Death,
 };
 
 type Resources = {
   [K in keyof typeof Resources]: t.TypeOf<typeof Resources[K]>;
 };
 
-const liftFetch = <
-  C extends t.Any,
-  R extends
-    | GetOneResult<t.TypeOf<C>["data"]>
-    | GetListResult<t.TypeOf<C>["data"]>
->(
-  lp: () => Promise<R>,
-  codec: C
-): TE.TaskEither<APIError, R> => {
+const liftFetch = <B extends { data: any }>(
+  lp: () => Promise<GetOneResult<any>> | Promise<GetListResult<any>>,
+  decode: <A>(a: A) => E.Either<t.Errors, B>
+): TE.TaskEither<APIError, B> => {
   return pipe(
     TE.tryCatch(lp, toError),
-    TE.chain<APIError, R, t.TypeOf<C>>((content) => {
+    TE.chain((content) => {
       return pipe(
-        codec.decode(content),
+        decode(content),
         E.mapLeft(
           (e): APIError => ({
             name: `APIError`,
-            message: `Validation Failed for codec ${codec.name}`,
+            message: `Validation Failed for codec`,
             details: PathReporter.report(E.left(e)),
           })
         ),
@@ -103,11 +107,14 @@ export const GetOneQuery: GetOneQuery = <K extends keyof Resources>(k: K) =>
   queryShallow<GetOneParams, APIError, Resources[K]>(
     (params: GetOneParams) =>
       pipe(
-        liftFetch(
+        liftFetch<{ data: Resources[K] }>(
           () => dataProvider.getOne<Resources[K]>(k, params),
-          t.strict({ data: Resources[k] })
+          t.strict({ data: Resources[k] }).decode as t.Decode<
+            unknown,
+            { data: Resources[K] }
+          >
         ),
-        TE.map((r): Resources[K] => r.data as any)
+        TE.map((r) => r.data)
       ),
     available
   );
@@ -130,7 +137,7 @@ export const GetListQuery: GetListQuery = <
     (params: P & GetListParams) =>
       liftFetch(
         () => dataProvider.getList<t.TypeOf<typeof Resources[K]>>(r, params),
-        io.http.Common.ListOutput(Resources[r], r)
+        io.http.Common.ListOutput(Resources[r], r).decode
       ),
     available
   );
@@ -143,14 +150,14 @@ export const pageContentByPath = queryStrict<
 >(
   ({ path }) =>
     pipe(
-      liftFetch(
+      liftFetch<t.TypeOf<Endpoints["Page"]["List"]["Output"]>>(
         () =>
           dataProvider.getList<io.http.Page.Page>("/pages", {
             filter: { path },
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "DESC" },
           }),
-        io.http.Common.ListOutput(io.http.Page.Page, "PageList")
+        Endpoints.Page.List.Output.decode
       ),
       TE.map((pages) => A.head(pages.data)),
       TE.chain(
@@ -163,20 +170,91 @@ export const pageContentByPath = queryStrict<
   available
 );
 
-export const pagesList = GetListQuery("pages");
-export const actorsList = GetListQuery("actors");
-export const articlesList = GetListQuery("articles");
-export const groupsList = GetListQuery("groups");
-export const groupMembersList = GetListQuery("groups-members");
-export const topicsList = GetListQuery("topics");
-export const projectList = GetListQuery("projects");
-export const projectImageList = GetListQuery("project/images");
-export const eventsList = GetListQuery("events");
-export const areasList = GetListQuery("areas");
+interface Query<G, L> {
+  get: CachedQuery<GetOneParams, APIError, G>;
+  getList: CachedQuery<GetListParams, APIError, L>;
+}
+
+type Queries = {
+  [K in keyof Endpoints]: Endpoints[K] extends ResourceEndpoints<
+    EndpointInstance<infer G>,
+    EndpointInstance<infer L>,
+    any,
+    any,
+    any
+  >
+    ? Query<
+        InferEndpointParams<G>["output"] extends t.ExactType<infer T>
+          ? t.TypeOf<T>["data"]
+          : never,
+        InferEndpointParams<L>["output"] extends t.ExactType<infer T>
+          ? t.TypeOf<T>
+          : never
+      >
+    : never;
+};
+
+const toQueries = <G extends MinimalEndpoint, L extends MinimalEndpoint>(
+  e: ResourceEndpoints<
+    EndpointInstance<G>,
+    EndpointInstance<L>,
+    EndpointInstance<any>,
+    EndpointInstance<any>,
+    EndpointInstance<any>
+  >
+): Query<
+  InferEndpointParams<G>["output"] extends t.ExactType<infer T>
+    ? t.TypeOf<T>
+    : never,
+  InferEndpointParams<L>["output"] extends t.ExactType<infer T>
+    ? t.TypeOf<T>
+    : never
+> => {
+  return {
+    get: queryShallow<GetOneParams, APIError, any>(
+      (params: GetOneParams) =>
+        pipe(
+          liftFetch(
+            () =>
+              dataProvider.getOne<
+                InferEndpointParams<G>["output"] & { id: string }
+              >(e.Get.getPath(params).split("/")[1], params),
+            e.Get.Output.decode
+          ),
+          TE.map((r) => r.data)
+        ),
+      available
+    ),
+    getList: queryShallow<GetListParams, APIError, any>(
+      (params: GetListParams) =>
+        liftFetch(
+          () =>
+            dataProvider.getList<
+              InferEndpointParams<L>["output"] & { id: string }
+            >(e.List.getPath(), params),
+          e.List.Output.decode
+        ),
+      available
+    ),
+  };
+};
+
+const Queries: Queries = pipe(
+  Endpoints,
+  R.toArray,
+  A.reduce<
+    [keyof Endpoints, ResourceEndpoints<any, any, any, any, any>],
+    Queries
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  >({} as Queries, (q, [k, e]) => ({
+    ...q,
+    [k]: toQueries(e),
+  }))
+);
 
 export const jsonData = queryShallow(
   ({ id }: { id: string }) =>
-    liftFetch(() => dataProvider.getOne("graphs", { id }), t.any),
+    liftFetch(() => dataProvider.getOne("graphs", { id }), t.any.decode),
   available
 );
 
@@ -187,13 +265,6 @@ export const jsonLocalData = queryShallow(
   available
 );
 
-export const area = GetOneQuery("areas");
-export const project = GetOneQuery("projects");
-export const group = GetOneQuery("groups");
-export const actor = GetOneQuery("actors");
-export const article = GetOneQuery("articles");
-export const event = GetOneQuery("events");
-
 export const articleByPath = queryShallow<
   { path: string },
   APIError,
@@ -203,9 +274,11 @@ export const articleByPath = queryShallow<
     pipe(
       liftFetch(
         () => dataProvider.get("articles", { path }),
-        io.http.Common.ListOutput(io.http.Article.Article, "Articles")
+        io.http.Common.ListOutput(io.http.Article.Article, "Articles").decode
       ),
       TE.map((pages) => pages.data[0])
     ),
   available
 );
+
+export { Queries, Endpoints };

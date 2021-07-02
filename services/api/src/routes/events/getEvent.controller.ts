@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { EventEntity } from "@entities/Event.entity";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -7,7 +7,7 @@ import { RouteContext } from "routes/route.types";
 import { toEventIO } from "./event.io";
 
 export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Event.Get, ({ params: { id } }) => {
+  AddEndpoint(r)(Endpoints.Event.Get, ({ params: { id } }) => {
     const selectEventTask = pipe(
       ctx.db.manager
         .createQueryBuilder(EventEntity, "event")

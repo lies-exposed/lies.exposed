@@ -3,6 +3,7 @@ import { optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
 import { Page } from "../io/http";
 import { GetListQuery } from "../io/http/Query";
+import { ResourceEndpoints } from "./types";
 
 export const ListPages = Endpoint({
   Method: "GET",
@@ -68,4 +69,12 @@ export const DeleteManyPage = Endpoint({
     Query: t.partial({ ids: t.array(t.string) }),
   },
   Output: t.strict({ data: t.array(t.string) }),
+});
+
+export const pages = ResourceEndpoints({
+  Create: CreatePage,
+  Get: GetPage,
+  List: ListPages,
+  Edit: EditPage,
+  Delete: DeletePage,
 });

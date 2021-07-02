@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -8,7 +8,7 @@ import { RouteContext } from "routes/route.types";
 import { PageEntity } from "../../entities/Page.entity";
 
 export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Page.ListPages, ({ query }) => {
+  AddEndpoint(r)(Endpoints.Page.List, ({ query }) => {
     return pipe(
       sequenceS(TE.taskEither)({
         data: ctx.db.find(PageEntity, {

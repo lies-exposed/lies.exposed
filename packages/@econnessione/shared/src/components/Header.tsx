@@ -172,7 +172,9 @@ const Header: React.FC = () => {
     setOpen(false);
   };
 
-  function handleListKeyDown(event: React.KeyboardEvent): void {
+  function handleListKeyDown(
+    event: React.KeyboardEvent<HTMLUListElement>
+  ): void {
     if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);

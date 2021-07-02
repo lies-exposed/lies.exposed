@@ -5,7 +5,7 @@ import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import {
-  articlesList,
+  Queries,
   pageContentByPath,
 } from "@econnessione/shared/providers/DataProvider";
 import {
@@ -44,9 +44,9 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
             ))}
           />
           <WithQueries
-            queries={{ articlesList }}
+            queries={{ articles: Queries.Article.getList }}
             params={{
-              articlesList: {
+              articles: {
                 pagination: { page: 1, perPage: 20 },
                 sort: { field: "id", order: "DESC" },
                 filter: { draft: true },
@@ -55,48 +55,52 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
             render={QR.fold(
               LazyFullSizeLoader,
               ErrorBox,
-              ({ articlesList: { data: articles } }) => (
-                <div>
-                  <Grid container spacing={2} style={{ marginBottom: 100 }}>
-                    {articles.map((a) => (
-                      <Grid item key={a.id} xs={6}>
-                        <Card key={a.id}>
-                          <CardHeader
-                            title={a.title}
-                            subheader={
-                              <p style={{ fontSize: 11 }}>
-                                {formatDate(a.createdAt)}
-                              </p>
-                            }
-                          />
-                          <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              alt="Contemplative Reptile"
-                              height="140"
-                              image={a.featuredImage}
-                              title="Contemplative Reptile"
+              ({ articles: { data: articles } }) => {
+                // eslint-disable-next-line
+                console.log(articles);
+                return (
+                  <div>
+                    <Grid container spacing={2} style={{ marginBottom: 100 }}>
+                      {articles.map((a) => (
+                        <Grid item key={a.id} xs={6}>
+                          <Card key={a.id}>
+                            <CardHeader
+                              title={a.title}
+                              subheader={
+                                <p style={{ fontSize: 11 }}>
+                                  {formatDate(a.createdAt)}
+                                </p>
+                              }
                             />
-                          </CardActionArea>
-                          <CardActions>
-                            <Button
-                              size="small"
-                              color="primary"
-                              onClick={async () => {
-                                if (navigate) {
-                                  await navigate(`/blog/${a.id}`);
-                                }
-                              }}
-                            >
-                              Leggi
-                            </Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </div>
-              )
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                alt="Contemplative Reptile"
+                                height="140"
+                                image={a.featuredImage}
+                                title="Contemplative Reptile"
+                              />
+                            </CardActionArea>
+                            <CardActions>
+                              <Button
+                                size="small"
+                                color="primary"
+                                onClick={async () => {
+                                  if (navigate) {
+                                    await navigate(`/blog/${a.id}`);
+                                  }
+                                }}
+                              >
+                                Leggi
+                              </Button>
+                            </CardActions>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </div>
+                );
+              }
             )}
           />
         </MainContent>

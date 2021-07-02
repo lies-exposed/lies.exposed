@@ -1,14 +1,8 @@
 import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { ArticlePageContent } from "@econnessione/shared/components/ArticlePageContent";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
-import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
-import {
-  article,
-  articleByPath,
-} from "@econnessione/shared/providers/DataProvider";
-import { Grid } from "@material-ui/core";
+import { articleByPath } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

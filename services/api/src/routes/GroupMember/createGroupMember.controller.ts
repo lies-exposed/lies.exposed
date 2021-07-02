@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -7,7 +7,7 @@ import { Route } from "routes/route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 
 export const MakeCreateGroupMemberRoute: Route = (r, { s3, db, env }) => {
-  AddEndpoint(r)(endpoints.GroupMember.Create, ({ body }) => {
+  AddEndpoint(r)(Endpoints.GroupMember.Create, ({ body }) => {
     const saveData = {
       ...body,
       group: { id: body.group },

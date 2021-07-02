@@ -4,7 +4,7 @@ import { UncategorizedListItem } from "@components/lists/EventList/Uncategorized
 import { Events } from "@io/http";
 import { GetEventsQueryFilter } from "@io/http/Events/Uncategorized";
 import { Typography } from "@material-ui/core";
-import { eventsList } from "@providers/DataProvider";
+import { Queries } from "@providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as R from "fp-ts/lib/Record";
@@ -18,7 +18,7 @@ export interface EventSliderProps {
 export const EventSlider: React.FC<EventSliderProps> = (props) => {
   return (
     <WithQueries
-      queries={{ events: eventsList }}
+      queries={{ events: Queries.Event.getList }}
       params={{
         events: {
           pagination: { perPage: 20, page: 1 },

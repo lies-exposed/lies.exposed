@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { AreaEntity } from "@entities/Area.entity";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
@@ -11,7 +11,7 @@ import { RouteContext } from "routes/route.types";
 import { toAreaIO } from "./Area.io";
 
 export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Area.List, ({ query }) => {
+  AddEndpoint(r)(Endpoints.Area.List, ({ query }) => {
     const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
     return pipe(
       sequenceS(TE.taskEither)({

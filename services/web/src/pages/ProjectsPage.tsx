@@ -9,7 +9,7 @@ import { TableOfContents } from "@econnessione/shared/components/TableOfContents
 import ProjectList from "@econnessione/shared/components/lists/ProjectList";
 import {
   pageContentByPath,
-  projectList,
+  Queries,
 } from "@econnessione/shared/providers/DataProvider";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -24,7 +24,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
   render(): JSX.Element {
     return (
       <WithQueries
-        queries={{ page: pageContentByPath, projects: projectList }}
+        queries={{ page: pageContentByPath, projects: Queries.Project.getList }}
         params={{
           page: { path: "projects" },
           projects: {

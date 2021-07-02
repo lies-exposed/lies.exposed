@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { AreaEntity } from "@entities/Area.entity";
 import { NotFoundError } from "@io/ControllerError";
 import { Router } from "express";
@@ -8,7 +8,7 @@ import { RouteContext } from "routes/route.types";
 import { toAreaIO } from "./Area.io";
 
 export const MakeGetAreaRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.Area.Get, ({ params: { id } }) => {
+  AddEndpoint(r)(Endpoints.Area.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(AreaEntity, {
         where: { id },

@@ -5,11 +5,7 @@ import { GroupPageContent } from "@econnessione/shared/components/GroupPageConte
 import { MainContent } from "@econnessione/shared/components/MainContent";
 import SEO from "@econnessione/shared/components/SEO";
 import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
-import {
-  group,
-  groupMembersList,
-  eventsList,
-} from "@econnessione/shared/providers/DataProvider";
+import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -31,9 +27,9 @@ export default class GroupTemplate extends React.PureComponent<
         (groupId) => (
           <WithQueries
             queries={{
-              group: group,
-              groupMembers: groupMembersList,
-              events: eventsList,
+              group: Queries.Group.get,
+              groupMembers: Queries.GroupMember.getList,
+              events: Queries.Event.getList,
             }}
             params={{
               group: { id: groupId },
@@ -61,25 +57,32 @@ export default class GroupTemplate extends React.PureComponent<
             render={QR.fold(
               Loader,
               ErrorBox,
-              ({ group, groupMembers, events }) => (
-                <MainContent>
-                  <SEO title={group.name} />
-                  <GroupPageContent
-                    {...group}
-                    groupMembers={groupMembers.data}
-                    events={events.data}
-                    funds={[]}
-                    projects={[]}
-                    onMemberClick={async (a) => {
-                      if (this.props.navigate !== undefined) {
-                        await this.props.navigate(`/actors/${a.id}`);
-                      }
-                    }}
-                  />
-                  <EventsMap filter={{ groups: O.some([group.id]) }} zoom={4} />
-                  <EventSlider filter={{ groups: O.some([group.id]) }} />
-                </MainContent>
-              )
+              ({ group, groupMembers, events }) => {
+                // eslint-disable-next-line
+                console.log({ group, groupMembers, events });
+                return (
+                  <MainContent>
+                    <SEO title={group.name} />
+                    <GroupPageContent
+                      {...group}
+                      groupMembers={groupMembers.data}
+                      events={events.data}
+                      funds={[]}
+                      projects={[]}
+                      onMemberClick={async (a) => {
+                        if (this.props.navigate !== undefined) {
+                          await this.props.navigate(`/actors/${a.id}`);
+                        }
+                      }}
+                    />
+                    <EventsMap
+                      filter={{ groups: O.some([group.id]) }}
+                      zoom={4}
+                    />
+                    <EventSlider filter={{ groups: O.some([group.id]) }} />
+                  </MainContent>
+                );
+              }
             )}
           />
         )

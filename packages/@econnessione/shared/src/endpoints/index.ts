@@ -13,20 +13,22 @@ import * as Page from "./page.endpoints";
 import * as Project from "./project.endpoints";
 import * as Uploads from "./upload.endpoints";
 
-const endpoints = {
-  Actor,
-  Area,
-  Article,
-  Event,
-  Graph,
-  Group,
-  GroupMember,
-  Page,
-  Project,
-  ProjectImage,
-  Uploads,
-  User,
+const Endpoints = {
+  Actor: Actor.actors,
+  Area: Area.areas,
+  Article: Article.articles,
+  Event: Event.events,
+  // Graph: Graph.graphs,
+  Group: Group.groups,
+  GroupMember: GroupMember.groupMembers,
+  Page: Page.pages,
+  Project: Project.projects,
+  ProjectImage: ProjectImage.projectImages,
+  // Uploads: Uploads.uploads,
+  User: User.users,
 };
+
+type Endpoints = typeof Endpoints;
 
 const AddEndpoint = GetEndpointSubscriber((e): IOError => {
   return {
@@ -40,4 +42,6 @@ const AddEndpoint = GetEndpointSubscriber((e): IOError => {
   };
 });
 
-export { endpoints, AddEndpoint };
+export const UserLogin = User.UserLogin;
+export const PageDeleteMany = Page.DeleteManyPage;
+export { Endpoints, AddEndpoint, Uploads, Graph };

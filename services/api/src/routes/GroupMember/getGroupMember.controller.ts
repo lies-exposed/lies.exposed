@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -7,7 +7,7 @@ import { RouteContext } from "routes/route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 
 export const MakeGetGroupMemberRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(endpoints.GroupMember.Get, ({ params: { id } }) => {
+  AddEndpoint(r)(Endpoints.GroupMember.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(GroupMemberEntity, {
         where: { id },

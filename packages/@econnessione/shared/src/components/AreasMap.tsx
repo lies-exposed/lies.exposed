@@ -1,6 +1,6 @@
 import { Area } from "@io/http";
 import { Typography } from "@material-ui/core";
-import { areasList } from "@providers/DataProvider";
+import { Queries } from "@providers/DataProvider";
 import { navigate } from "@reach/router";
 import { geoJSONFormat } from "@utils/map.utils";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
@@ -24,7 +24,7 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
     const { center = [9.18951, 45.46427], zoom = 12 } = this.props;
     return (
       <WithQueries
-        queries={{ areas: areasList }}
+        queries={{ areas: Queries.Area.getList }}
         params={{
           areas: {
             pagination: { page: 1, perPage: 20 },

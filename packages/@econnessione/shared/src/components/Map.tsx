@@ -87,10 +87,15 @@ const Map: React.FC<MapProps> = ({
     const totalPadding = 20 * 2;
 
     if (size) {
-      map.getView().fit(featureSource.getExtent(), {
-        size: [size[0] - totalPadding, size[1] - totalPadding],
-        maxZoom: 12,
-      });
+      if (!featureSource.isEmpty()) {
+        map.getView().fit(featureSource.getExtent(), {
+          size: [size[0] - totalPadding, size[1] - totalPadding],
+          maxZoom: 12,
+        });
+      } else {
+        map.getView().setZoom(10);
+        map.getView().setCenter([0, 0]);
+      }
     }
 
     if (center) {

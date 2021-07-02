@@ -1,4 +1,4 @@
-import { endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -7,7 +7,7 @@ import { GroupEntity } from "../../entities/Group.entity";
 
 export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
-    endpoints.Group.Edit,
+    Endpoints.Group.Edit,
     ({ params: { id }, body: { avatar, ...body } }) => {
       return pipe(
         ctx.db.update(GroupEntity, id, { ...body, avatar }),

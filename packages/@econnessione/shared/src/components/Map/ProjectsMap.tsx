@@ -1,7 +1,7 @@
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { LazyLoader } from "@components/Common/Loader";
 import Map from "@components/Map";
-import { projectList } from "@providers/DataProvider";
+import { Queries } from "@providers/DataProvider";
 import { geoJSONFormat } from "@utils/map.utils";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
@@ -24,7 +24,7 @@ export const ProjectsMap: React.FC<ProjectsMapProps> = ({
   return (
     <WithQueries
       queries={{
-        projects: projectList,
+        projects: Queries.Project.getList,
       }}
       params={{
         projects: {

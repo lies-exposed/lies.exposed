@@ -19,3 +19,8 @@ export const GetSignedURL = Endpoint({
   },
   Output: t.strict({ data: t.string }),
 });
+
+// export const uploads = ResourceEndpoints({
+//   Get: GetSignedURL,
+//   List: 
+// });

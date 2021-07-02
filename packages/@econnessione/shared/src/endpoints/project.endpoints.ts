@@ -6,6 +6,7 @@ import * as http from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { CreateAreaBody } from "./area.endpoints";
+import { ResourceEndpoints } from "./types";
 
 const SingleGroupOutput = Output(http.Project.Project, "Project");
 const ListGroupOutput = ListOutput(http.Project.Project, "ListProject");
@@ -96,4 +97,12 @@ export const Delete = Endpoint({
     Params: t.type({ id: t.string }),
   },
   Output: SingleGroupOutput,
+});
+
+export const projects = ResourceEndpoints({
+  Create,
+  Get,
+  List,
+  Edit,
+  Delete,
 });
