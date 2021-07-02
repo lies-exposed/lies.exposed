@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Init1624694372236 implements MigrationInterface {
-  name = "Init1624694372236";
+export class Init1625223906053 implements MigrationInterface {
+  name = "Init1625223906053";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -116,34 +116,34 @@ export class Init1624694372236 implements MigrationInterface {
       `ALTER TABLE "project_image" ADD CONSTRAINT "FK_7b27cbd4456cc6313d8a476b32d" FOREIGN KEY ("projectId") REFERENCES "project"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "event_images_image" ADD CONSTRAINT "FK_4bf8c74b5f4a1113b2bca952019" FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "event_images_image" ADD CONSTRAINT "FK_4bf8c74b5f4a1113b2bca952019" FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     );
     await queryRunner.query(
-      `ALTER TABLE "event_images_image" ADD CONSTRAINT "FK_fb0313bb02cfd78a2eb66ca6dcd" FOREIGN KEY ("imageId") REFERENCES "image"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "event_images_image" ADD CONSTRAINT "FK_fb0313bb02cfd78a2eb66ca6dcd" FOREIGN KEY ("imageId") REFERENCES "image"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "event_groups_group" ADD CONSTRAINT "FK_7da98183ab5c393e83badea7061" FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "event_groups_group" ADD CONSTRAINT "FK_7da98183ab5c393e83badea7061" FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     );
     await queryRunner.query(
-      `ALTER TABLE "event_groups_group" ADD CONSTRAINT "FK_632d06b78600e438191d861756b" FOREIGN KEY ("groupId") REFERENCES "group"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "event_groups_group" ADD CONSTRAINT "FK_632d06b78600e438191d861756b" FOREIGN KEY ("groupId") REFERENCES "group"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "event_actors_actor" ADD CONSTRAINT "FK_7a60826de16e95c99ac9b790b1f" FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "event_actors_actor" ADD CONSTRAINT "FK_7a60826de16e95c99ac9b790b1f" FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     );
     await queryRunner.query(
-      `ALTER TABLE "event_actors_actor" ADD CONSTRAINT "FK_5908dd3112a84f84ae3d39931b0" FOREIGN KEY ("actorId") REFERENCES "actor"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "event_actors_actor" ADD CONSTRAINT "FK_5908dd3112a84f84ae3d39931b0" FOREIGN KEY ("actorId") REFERENCES "actor"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "event_groups_members_group_member" ADD CONSTRAINT "FK_3fa8d52ba682e1d10a9c65be47e" FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "event_groups_members_group_member" ADD CONSTRAINT "FK_3fa8d52ba682e1d10a9c65be47e" FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     );
     await queryRunner.query(
-      `ALTER TABLE "event_groups_members_group_member" ADD CONSTRAINT "FK_1557dc9d63a8f762584b9a6e1e7" FOREIGN KEY ("groupMemberId") REFERENCES "group_member"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "event_groups_members_group_member" ADD CONSTRAINT "FK_1557dc9d63a8f762584b9a6e1e7" FOREIGN KEY ("groupMemberId") REFERENCES "group_member"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "project_areas_area" ADD CONSTRAINT "FK_62cafbc449a2411de7c264f0624" FOREIGN KEY ("projectId") REFERENCES "project"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "project_areas_area" ADD CONSTRAINT "FK_62cafbc449a2411de7c264f0624" FOREIGN KEY ("projectId") REFERENCES "project"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     );
     await queryRunner.query(
-      `ALTER TABLE "project_areas_area" ADD CONSTRAINT "FK_ddbc42b34a83947249edda0f0cf" FOREIGN KEY ("areaId") REFERENCES "area"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
+      `ALTER TABLE "project_areas_area" ADD CONSTRAINT "FK_ddbc42b34a83947249edda0f0cf" FOREIGN KEY ("areaId") REFERENCES "area"("id") ON DELETE CASCADE ON UPDATE CASCADE`
     );
   }
 
