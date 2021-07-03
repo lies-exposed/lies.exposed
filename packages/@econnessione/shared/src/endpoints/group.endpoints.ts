@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";

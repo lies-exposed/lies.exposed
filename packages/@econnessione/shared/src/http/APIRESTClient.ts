@@ -3,7 +3,7 @@ import * as E from "fp-ts/lib/Either";
 import * as Task from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import * as RA from "react-admin";
+import type * as RA from "react-admin";
 
 export interface APIRESTClient {
   get: (resource: string, params: any) => Promise<any>;

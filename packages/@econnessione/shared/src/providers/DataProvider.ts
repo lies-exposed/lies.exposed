@@ -1,4 +1,3 @@
-import { APIRESTClient } from "@econnessione/core/http/APIRESTClient";
 import * as io from "@io/index";
 import { available, queryShallow, queryStrict } from "avenger";
 import { CachedQuery } from "avenger/lib/Query";
@@ -22,6 +21,7 @@ import {
 } from "ts-endpoint";
 import { Endpoints } from "../endpoints";
 import { ResourceEndpoints } from "../endpoints/types";
+import { APIRESTClient } from "../http";
 
 // const httpClient = (
 //   url: string,

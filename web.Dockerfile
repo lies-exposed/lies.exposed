@@ -1,22 +1,19 @@
-FROM node:12-slim as build
+FROM node:14-slim as build
 
 WORKDIR /app
 
-COPY package.json .
+COPY packages/@econnessione/core ./packages/@econnessione/core
+COPY packages/@econnessione/shared ./packages/@econnessione/shared
+COPY services/web ./services/web
+COPY package.json ./package.json
+COPY .eslintrc .
 COPY yarn.lock .
 COPY tsconfig.json .
-COPY packages/@econnessione/io ./packages/@econnessione/io
-COPY services/web ./services/web
 
-RUN yarn install --pure-lockfile --non-interactive
-
-WORKDIR /app/packages/@econnessione/io
+RUN yarn install --non-interactive
 RUN yarn build
 
-WORKDIR /app/services/web
-# RUN yarn build
-
-FROM node:12-slim
+FROM node:14-slim
 
 WORKDIR /app
 
@@ -24,11 +21,11 @@ COPY package.json .
 COPY yarn.lock .
 COPY tsconfig.json .
 
-COPY --from=build /app/packages/@econnessione/io/package.json /app/packages/@econnessione/io/package.json
-COPY --from=build /app/packages/@econnessione/io/lib /app/packages/@econnessione/io/lib
+COPY --from=build /app/packages/@econnessione/core/package.json /app/packages/@econnessione/core/package.json
+COPY --from=build /app/packages/@econnessione/shared/lib /app/packages/@econnessione/shared/lib
 
 COPY --from=build /app/services/web/package.json /app/services/web/package.json
-# COPY --from=build /app/services/web/build /app/services/web/build
+COPY --from=build /app/services/web/build /app/services/web/build
 
 RUN yarn install --pure-lockfile --non-interactive --production
 

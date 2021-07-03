@@ -1,9 +1,7 @@
 import * as t from "io-ts";
-import {
-  BigIntFromString,
-  DateFromISOString,
-  optionFromNullable,
-} from "io-ts-types";
+import { BigIntFromString } from "io-ts-types/lib/BigIntFromString";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 
 export const FilterQuery = t.record(
   t.string,

@@ -1,4 +1,4 @@
-import { APIRESTClient } from "@econnessione/core/http";
+import { APIRESTClient } from "@econnessione/shared/http";
 import { Group } from "@econnessione/shared/io/http/Group";
 import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";

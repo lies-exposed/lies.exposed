@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { nonEmptyArray } from "io-ts-types";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
 import { BaseFrontmatter, Point } from "../Common";

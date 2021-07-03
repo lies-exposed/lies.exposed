@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "./Common/UUID";
 
 export const Image = t.strict(
