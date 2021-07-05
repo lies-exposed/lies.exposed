@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
 
-  econnessione:
+  base:
     build:
       context: .
       target: build
@@ -35,8 +35,7 @@ services:
 
   api:
     container_name: econnessione-api
-    build:
-      context: ./
+    image: econnessione_base
     env_file:
       - .env.local
     environment:
@@ -60,8 +59,7 @@ services:
 
   web:
     container_name: econnessione-web
-    build: 
-      context: ./
+    image: econnessione_base
     env_file:
       - ./services/web/.env.local
     environment:
@@ -82,8 +80,7 @@ services:
 
   admin-web:
     container_name: econnessione-admin-web
-    build:
-      context: ./
+    image: econnessione_base
     env_file:
       - ./services/admin-web/.env.local
     environment:
@@ -100,6 +97,20 @@ services:
     tty: false
     links:
       - api
+    restart: always
+  
+  storybook:
+    container_name: econnessione-storybook
+    image: econnessione_base
+    ports:
+      - "6006:6006"
+    volumes_from: 
+      - web
+    volumes:
+      - ./services/storybook:/app/services/storybook:delegated
+    working_dir: /app/services/storybook
+    command: yarn start
+    tty: false
     restart: always
 
 volumes:

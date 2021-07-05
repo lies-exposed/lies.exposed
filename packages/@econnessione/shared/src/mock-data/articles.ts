@@ -12,5 +12,11 @@ export const firstArticle: Article.Article = {
   draft: false,
   createdAt: new Date(),
   updatedAt: new Date(),
-  body: "",
+  body: `
+  ## Subtitle
+  
+  Paragraph
+
+  > Quote from an important person
+`,
 };
