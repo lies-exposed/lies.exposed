@@ -18,8 +18,8 @@ FROM node:14-slim
 
 WORKDIR /app
 
-COPY yarn.lock .
-COPY tsconfig.json .
+COPY package.json yarn.lock ./
+
 
 COPY --from=build /app/packages/@econnessione/core/package.json /app/packages/@econnessione/core/package.json
 COPY --from=build /app/packages/@econnessione/core/lib /app/packages/@econnessione/core/lib
