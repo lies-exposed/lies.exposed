@@ -49,6 +49,7 @@ jobs:
           registry: docker.pkg.github.com
           repository: ascariandrea/econnessione/api
           tag_with_ref: true
+          file: api.Dockerfile
 
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.4
