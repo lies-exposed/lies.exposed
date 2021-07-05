@@ -6,7 +6,7 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "start-storybook -p 6006",
+    "start": "start-storybook --quiet -p 6006",
     "build": "build-storybook -o build",
     "clean": "rm -rf build",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
@@ -26,5 +26,8 @@
     "**/*.+(ts|tsx|js|jsx|json|css)": [
       "prettier --write"
     ]
+  },
+  "devDependencies": {
+    "@storybook/theming": "^6.3.2"
   }
 }
