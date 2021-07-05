@@ -35,7 +35,8 @@ services:
 
   api:
     container_name: econnessione-api
-    image: econnessione_econnessione
+    build:
+      context: ./
     env_file:
       - .env.local
     environment:
@@ -59,7 +60,8 @@ services:
 
   web:
     container_name: econnessione-web
-    image: econnessione_econnessione
+    build: 
+      context: ./
     env_file:
       - ./services/web/.env.local
     environment:
@@ -80,7 +82,8 @@ services:
 
   admin-web:
     container_name: econnessione-admin-web
-    image: econnessione_econnessione
+    build:
+      context: ./
     env_file:
       - ./services/admin-web/.env.local
     environment:

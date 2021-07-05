@@ -4,7 +4,7 @@ import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import { BigIntFromString } from "io-ts-types";
+import { BigIntFromString } from "io-ts-types/lib/BigIntFromString";
 import { FindOperator, Like, Equal, In } from "typeorm";
 
 interface ORMOrder {

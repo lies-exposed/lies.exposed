@@ -6,7 +6,7 @@ import {
   NetworkPointNode,
 } from "@components/Common/Graph/Network/NetworkNode";
 import { ActorList } from "@components/lists/ActorList";
-import { eventDate, ordEventDate, eqByUUID } from "@helpers/event";
+import { eqByUUID, eventDate, ordEventDate } from "@helpers/event";
 import { Actor, Common, Events, Group, Page, Topic } from "@io/http";
 import { formatDate } from "@utils/date";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
@@ -170,7 +170,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
                   </LegendOrdinal>
                 </LegendDemo>
                 <LegendDemo title="Groups">
-                  <LegendOrdinal<typeof networkProps.groupsScale>
+                  <LegendOrdinal<ScaleOrdinal<string, string>>
                     scale={networkProps.groupsScale}
                     labelFormat={(datum) => {
                       return datum;
@@ -651,7 +651,7 @@ export function createNetworkTemplateProps({
     domain: groupByArray.map((gb) =>
       Actor.Actor.is(gb) ? gb.username : gb.name
     ),
-    range: groupByArray.map((t) => t.color),
+    range: groupByArray.map((t) => t.color.toString()),
   });
 
   const actorsArray = Map.toArray(Ord.ordString)(actors).flatMap(
@@ -659,7 +659,7 @@ export function createNetworkTemplateProps({
   );
   const actorsScale = ordinalScale({
     domain: actorsArray.map((a) => a.fullName),
-    range: actorsArray.map((a) => a.color),
+    range: actorsArray.map((a) => a.color.toString()),
   });
 
   const groupsArray = Map.toArray(Ord.ordString)(groups).flatMap(
@@ -667,7 +667,7 @@ export function createNetworkTemplateProps({
   );
   const groupsScale = ordinalScale({
     domain: groupsArray.map((g) => g.name),
-    range: groupsArray.map((a) => a.color),
+    range: groupsArray.map((a) => a.color.toString()),
   });
 
   const actorLinksList = Map.toArray(Ord.ordString)(actorLinks).flatMap(
@@ -691,9 +691,9 @@ export function createNetworkTemplateProps({
         ),
       ],
     },
-    groupByScale,
-    actorsScale,
-    groupsScale,
+    groupByScale: groupByScale as any,
+    actorsScale: actorsScale as any,
+    groupsScale: groupsScale as any,
     selectedEvents,
     width: width > networkWidth ? width : networkWidth,
     height: height,

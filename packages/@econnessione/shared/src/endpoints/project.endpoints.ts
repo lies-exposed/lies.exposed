@@ -1,5 +1,6 @@
 import * as t from "io-ts";
-import { DateFromISOString, optionFromNullable } from "io-ts-types";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
