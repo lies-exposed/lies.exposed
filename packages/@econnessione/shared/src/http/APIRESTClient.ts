@@ -91,8 +91,6 @@ export const APIRESTClient = ({
   }
 
   return {
-    get: (url, params) =>
-      liftClientRequest(() => client.get(url, { params }))(),
     getOne: (resource, params) =>
       liftClientRequest<RA.GetOneResult<any>>(() =>
         client.get(`${resource}/${params.id}`, { params })
@@ -121,6 +119,8 @@ export const APIRESTClient = ({
         client.get(`${resource}`, { params: formattedParams })
       )();
     },
+    get: (url, params) =>
+      liftClientRequest(() => client.get(url, { params }))(),
     create: (resource, params) => {
       return liftClientRequest<RA.CreateParams>(() =>
         client.post(`${resource}`, params.data)

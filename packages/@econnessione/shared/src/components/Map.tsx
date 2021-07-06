@@ -45,11 +45,32 @@ const Map: React.FC<MapProps> = ({
     const featuresLayer = new VectorLayer({
       source: featureSource,
       style: (feature) => {
+        const props = feature.getProperties();
+        if (props.type === "Uncategorized") {
+          const fill = new Fill({
+            color: `#33333380`,
+          });
+          const stroke = new Stroke({
+            color: `#33000080`,
+            width: 2,
+          });
+          return new Style({
+            fill,
+            stroke,
+            image: new Circle({
+              radius: 4,
+              fill,
+              stroke,
+            }),
+          });
+        }
+
         const fill = new Fill({
-          color: `#33333380`,
+          color: `#333333`,
         });
+
         const stroke = new Stroke({
-          color: `#FF000080`,
+          color: `#333333`,
           width: 2,
         });
         return new Style({

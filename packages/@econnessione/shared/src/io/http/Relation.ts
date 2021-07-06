@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { ActorFrontmatter } from "./Actor";
+import { Actor } from "./Actor";
 import { GroupFrontmatter, GroupFrontmatterC } from "./Group";
 
 export const GroupRelation = t.strict(
@@ -17,7 +17,7 @@ export interface GroupRelation {
 export const ActorRelation = t.strict(
   {
     type: t.literal("Actor"),
-    actor: ActorFrontmatter,
+    actor: Actor,
   },
   "ByActor"
 );

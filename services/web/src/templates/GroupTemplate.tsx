@@ -17,9 +17,6 @@ export default class GroupTemplate extends React.PureComponent<
   RouteComponentProps<{ groupId: string }>
 > {
   render(): JSX.Element {
-    // eslint-disable-next-line
-    console.log(this.props);
-
     return pipe(
       O.fromNullable(this.props.groupId),
       O.fold(
@@ -58,8 +55,6 @@ export default class GroupTemplate extends React.PureComponent<
               Loader,
               ErrorBox,
               ({ group, groupMembers, events }) => {
-                // eslint-disable-next-line
-                console.log({ group, groupMembers, events });
                 return (
                   <MainContent>
                     <SEO title={group.name} />

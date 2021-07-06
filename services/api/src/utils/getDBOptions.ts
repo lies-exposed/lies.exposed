@@ -3,6 +3,7 @@ import * as path from "path";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { ArticleEntity } from "@entities/Article.entity";
+import { DeathEventEntity } from "@entities/DeathEvent.entity";
 import { EventEntity } from "@entities/Event.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
@@ -42,6 +43,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       ProjectImageEntity,
       AreaEntity,
       EventEntity,
+      DeathEventEntity,
       ImageEntity,
       LinkEntity,
       UserEntity,

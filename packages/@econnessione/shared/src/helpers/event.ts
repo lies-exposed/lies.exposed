@@ -85,7 +85,7 @@ export const eventsDataToNavigatorItems = (
         itemId: `#m-${month.toString()}`,
         title: format(new Date().setMonth(month), "MMMM"),
         subNav: events.map((e) => ({
-          title: e.title,
+          title: "",
           itemId: `#${e.id}`,
         })),
       });
@@ -100,7 +100,7 @@ export const eventsDataToNavigatorItems = (
 };
 
 export const filterMetadataForActor =
-  (actor: Actor.ActorFrontmatter) =>
+  (actor: Actor.Actor) =>
   (metadata: Events.Event): boolean => {
     const byActor = isByActor(actor);
 
@@ -117,7 +117,6 @@ export const filterMetadataForActor =
         );
       }
       case "Condamned":
-      case "Death":
       case "Arrest": {
         return byActor(metadata.who);
       }
@@ -219,7 +218,7 @@ export const extractEventsMetadata =
   (
     opts:
       | { type: "Project"; elem: Project.Project }
-      | { type: "Actor"; elem: Actor.ActorFrontmatter }
+      | { type: "Actor"; elem: Actor.Actor }
   ) =>
   (events: Events.Event[]): Events.EventListMap => {
     const init: Map<string, Events.Event[]> = Map.empty;

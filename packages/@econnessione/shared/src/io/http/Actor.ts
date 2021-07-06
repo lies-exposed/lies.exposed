@@ -10,24 +10,14 @@ export const GetListActorQueryFilter = t.partial({
 
 export type GetListActorQueryFilter = t.TypeOf<typeof GetListActorQueryFilter>;
 
-export const ACTOR_FRONTMATTER = t.literal("ActorFrontmatter");
-export const ActorFrontmatter = t.strict(
+export const Actor = t.strict(
   {
     ...BaseFrontmatter.type.props,
     fullName: t.string,
     username: t.string,
     avatar: t.union([t.undefined, t.string]),
     color: Color,
-  },
-  ACTOR_FRONTMATTER.value
-);
-
-export type ActorFrontmatter = t.TypeOf<typeof ActorFrontmatter>;
-
-export const Actor = t.strict(
-  {
-    ...ActorFrontmatter.type.props,
-    avatar: t.union([t.undefined, t.string]),
+    death: t.union([t.undefined, t.string]),
     body: t.string,
   },
   "Actor"
@@ -35,6 +25,6 @@ export const Actor = t.strict(
 
 export type Actor = t.TypeOf<typeof Actor>;
 
-export const ActorMD = markdownRemark(ActorFrontmatter, "ActorMD");
+export const ActorMD = markdownRemark(Actor, "ActorMD");
 
 export type ActorMD = t.TypeOf<typeof ActorMD>;

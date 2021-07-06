@@ -14,9 +14,6 @@ export default class ArticleTemplate extends React.PureComponent<
   RouteComponentProps<{ articlePath: string }>
 > {
   render(): JSX.Element {
-    // eslint-disable-next-line
-    console.log(this.props);
-
     return pipe(
       O.fromNullable(this.props.articlePath),
       O.fold(

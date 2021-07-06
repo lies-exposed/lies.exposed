@@ -17,6 +17,7 @@
     "baseUrl": "./src",
     "paths": {
       "@templates/*": ["./templates/*"],
+      "@containers/*": ["./containers/*"],
       "@providers/*": [
         "../../../packages/@econnessione/shared/src/providers/*"
       ],

@@ -1,4 +1,5 @@
 /* eslint-disable import/first */
+import "reflect-metadata";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias")(process.cwd());
 import * as path from "path";
@@ -15,6 +16,7 @@ import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.route
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
+import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
@@ -33,7 +35,6 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import "reflect-metadata";
 import { MakeUserRoutes } from "./routes/users/User.routes";
 
 // var whitelist = ["http://localhost:8002"]
@@ -146,6 +147,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // events
   MakeEventRoutes(router, ctx);
+  MakeDeathEventsRoutes(router, ctx);
 
   // graphs data
   MakeGraphsRoute(router, ctx);

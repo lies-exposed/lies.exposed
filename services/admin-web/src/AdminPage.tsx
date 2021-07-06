@@ -6,6 +6,7 @@ import GroupIcon from "@material-ui/icons/Group";
 import MapIcon from "@material-ui/icons/Map";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
+import { AdminDeathEventsResource } from "components/AdminDeathEvents";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
@@ -98,6 +99,8 @@ const AdminPage: React.FC = () => {
         create={EventCreate}
         icon={EventIcon}
       />
+
+      <AdminDeathEventsResource name="deaths" />
 
       <Resource
         name="users"

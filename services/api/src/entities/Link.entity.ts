@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { DeathEventEntity } from "./DeathEvent.entity";
 import { EventEntity } from "./Event.entity";
 
 @Entity("link")
@@ -23,6 +24,9 @@ export class LinkEntity {
 
   @ManyToOne(() => EventEntity, (e) => e.links)
   event: EventEntity;
+
+  @ManyToOne(() => DeathEventEntity, (e) => e.news)
+  death: DeathEventEntity;
 
   @CreateDateColumn()
   createdAt: Date;

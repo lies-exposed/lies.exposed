@@ -7,6 +7,7 @@ import * as Actor from "./actor.endpoints";
 import * as Area from "./area.endpoints";
 import * as Article from "./article.endpoints";
 import * as Event from "./event.endpoints";
+import * as DeathEvent from "./events/death.endpoint";
 import * as Graph from "./graph.endpoints";
 import * as Group from "./group.endpoints";
 import * as Page from "./page.endpoints";
@@ -18,6 +19,7 @@ const Endpoints = {
   Area: Area.areas,
   Article: Article.articles,
   Event: Event.events,
+  DeathEvent: DeathEvent,
   // Graph: Graph.graphs,
   Group: Group.groups,
   GroupMember: GroupMember.groupMembers,

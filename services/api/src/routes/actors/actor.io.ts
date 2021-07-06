@@ -10,7 +10,6 @@ export const toActorIO = (
   return pipe(
     io.http.Actor.Actor.decode({
       ...a,
-      type: "ActorFrontmatter",
       avatar: a.avatar === null ? undefined : a.avatar,
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
