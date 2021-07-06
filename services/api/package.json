@@ -15,8 +15,8 @@
     "create-pages": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./scripts/create-pages.ts",
     "db:diagram": "ts-node -r tsconfig-paths/register -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "migration:gen": "typeorm migration:generate",
-    "migration:run": "ts-node ../../node_modules/typeorm/cli.js migration:run",
-    "migration:revert": "ts-node ../../node_modules/typeorm/cli.js migration:revert"
+    "migration:run": "typeorm migration:run",
+    "migration:revert": "typeorm migration:revert"
   },
   "dependencies": {
     "@mdx-js/mdx": "^1.6.22",
