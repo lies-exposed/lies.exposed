@@ -19,7 +19,6 @@
     ]
   },
   "scripts": {
-    "postinstall": "husky install",
     "clean": "yarn workspaces run clean",
     "build": "yarn workspaces run build",
     "test:spec": "jest spec",
