@@ -42,7 +42,7 @@ jobs:
         run: yarn
 
       - name: Build and Push to GitHub Packages
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v1
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
