@@ -7,7 +7,6 @@ COPY yarn.lock .
 COPY tsconfig.json .
 COPY packages/@econnessione/core ./packages/@econnessione/core
 COPY packages/@econnessione/shared ./packages/@econnessione/shared
-
 COPY services/api ./services/api
 
 RUN yarn install --pure-lockfile --non-interactive
@@ -28,6 +27,7 @@ COPY --from=build /app/packages/@econnessione/shared/package.json /app/packages/
 COPY --from=build /app/packages/@econnessione/shared/lib /app/packages/@econnessione/shared/lib
 
 COPY --from=build /app/services/api/package.json /app/services/api/package.json
+COPY --from=build /app/services/api/ormconfig.js /app/serivces/api/ormconfig.js
 COPY --from=build /app/services/api/build /app/services/api/build
 
 RUN yarn install --pure-lockfile --non-interactive --production
