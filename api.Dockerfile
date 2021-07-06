@@ -32,6 +32,4 @@ COPY --from=build /app/services/api/build /app/services/api/build
 
 RUN yarn install --pure-lockfile --non-interactive --production
 
-WORKDIR /app/services/api
-
-CMD ["yarn", "start"]
+CMD ["yarn", "api", "start"]

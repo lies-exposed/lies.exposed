@@ -42,14 +42,14 @@ jobs:
         run: yarn
 
       - name: Build and Push to GitHub Packages
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           repository: ascariandrea/econnessione/api
           tag_with_ref: true
-          file: api.Dockerfile
+          dockerfile: api.Dockerfile
 
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.4
