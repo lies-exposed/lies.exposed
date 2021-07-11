@@ -5,6 +5,7 @@ import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
+import { Actor } from "@econnessione/shared/io/http/Actor";
 import {
   Queries,
   pageContentByPath,
@@ -41,20 +42,21 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
               <SEO title={pageContent.title} />
               <MainContent>
                 <PageContent {...pageContent} />
-                <SearchableInput
+                <SearchableInput<Actor>
+                  label="Attori"
                   items={acts.map((a) => ({
                     ...a,
                     selected: false,
                   }))}
+                  getValue={(a) => a.fullName}
                   selectedItems={[]}
-                  getValue={(a) => a.id}
                   onSelectItem={async (a) => {
                     if (this.props.navigate) {
                       await navigateTo(this.props.navigate, `actors`, a);
                     }
                   }}
                   onUnselectItem={() => {}}
-                  itemRenderer={(item, _, index) => <span />}
+                  renderOption={() => <span />}
                 />
                 <ActorList
                   actors={acts.map((a) => ({

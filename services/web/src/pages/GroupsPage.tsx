@@ -39,22 +39,22 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
             <MainContent>
               <PageContent {...pageContent} />
               <SearchableInput
+                label="Gruppi"
                 items={groups.map((a) => ({
                   ...a,
                   selected: true,
                 }))}
+                getValue={(v) => v.name}
                 selectedItems={[]}
-                getValue={(g) => g.name}
                 onSelectItem={async (item) => {
                   if (this.props.navigate !== undefined) {
                     await navigateTo(this.props.navigate, "groups", item);
                   }
                 }}
                 onUnselectItem={() => {}}
-                itemRenderer={(item, props, index) => (
+                renderOption={(item, state) => (
                   <GroupListItem
                     item={item}
-                    index={index}
                     onClick={async (item: any) => {
                       if (this.props.navigate !== undefined) {
                         await navigateTo(this.props.navigate, "groups", item);

@@ -29,6 +29,7 @@ export const GroupListItem: React.FC<
         O.map((src) => <Avatar key={item.id} src={src} size={avatarSize} />),
         O.toNullable
       )}
+      {item.name}
       <div
         style={{
           width: "100%",

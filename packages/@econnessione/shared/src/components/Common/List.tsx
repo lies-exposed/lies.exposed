@@ -4,7 +4,7 @@ import { StyleObject } from "styletron-react";
 
 export interface ListItemProps<A> {
   item: A;
-  index: number;
+  index?: number;
   onClick?: (a: A) => void;
 }
 

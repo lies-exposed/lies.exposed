@@ -71,8 +71,11 @@ export const parseSearch = <R extends keyof Routes>(
 };
 
 export const updateSearch =
-  <R extends keyof Routes>(l: WindowLocation | undefined, route: R) =>
-  (update: Partial<Routes[R]>): E.Either<t.Errors, string> => {
+  <R extends keyof Routes>(route: R) =>
+  (
+    l: WindowLocation | undefined,
+    update: Partial<Routes[R]>
+  ): E.Either<t.Errors, string> => {
     return pipe(
       parseSearch(l, route),
       E.map((search) => Object.assign(search, update)),

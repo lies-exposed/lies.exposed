@@ -7,20 +7,23 @@ import { MainContent } from "@econnessione/shared/components/MainContent";
 import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
-import { ActorListItem } from "@econnessione/shared/components/lists/ActorList";
+import {
+  ActorList,
+  ActorListItem,
+} from "@econnessione/shared/components/lists/ActorList";
 import EventList from "@econnessione/shared/components/lists/EventList/EventList";
 import { GroupListItem } from "@econnessione/shared/components/lists/GroupList";
 import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
 import {
+  eqByUUID,
   eventDate,
   ordEventDate,
-  eqByUUID,
 } from "@econnessione/shared/helpers/event";
 import * as io from "@econnessione/shared/io";
 import { Actor, Group, Topic } from "@econnessione/shared/io/http";
 import {
-  Queries,
   pageContentByPath,
+  Queries,
 } from "@econnessione/shared/providers/DataProvider";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
@@ -29,8 +32,9 @@ import {
   Routes,
   updateSearch,
 } from "@econnessione/shared/utils/routes";
-import { Grid, Typography } from "@material-ui/core";
+import { Box, Chip, Grid, Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
+import { theme } from "@theme/index";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { subYears } from "date-fns";
@@ -39,11 +43,43 @@ import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as qs from "qs";
 import React from "react";
 import Helmet from "react-helmet";
 
 export default class EventsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
+    // eslint-disable-next-line
+    console.log(this.props);
+    const queryFilters = pipe(
+      O.fromNullable(this.props.location?.search),
+      O.map((s) =>
+        qs.parse(s.replace("?", ""), { comma: true, parseArrays: true })
+      ),
+      O.fold(
+        () => ({
+          groups: O.none,
+          actors: O.none,
+        }),
+        (p) => {
+          return {
+            groups: pipe(
+              O.fromNullable(p.groups),
+              O.filter((a) => a !== ""),
+              O.map((g) => (typeof g === "string" ? [g] : g))
+            ),
+            actors: pipe(
+              O.fromNullable(p.actors),
+              O.filter((a) => a !== ""),
+              O.map((a) => (typeof a === "string" ? [a] : a))
+            ),
+          };
+        }
+      )
+    );
+
+    const setQuery = updateSearch("events");
+
     return (
       <WithQueries
         queries={{
@@ -68,9 +104,16 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             filter: {},
           },
           events: {
-            pagination: { page: 1, perPage: 100 },
+            pagination: { page: 1, perPage: 20 },
             sort: { field: "startDate", order: "DESC" },
-            filter: {},
+            filter: {
+              ...(O.isSome(queryFilters.groups)
+                ? { groups: queryFilters.groups.value }
+                : {}),
+              ...(O.isSome(queryFilters.actors)
+                ? { actors: queryFilters.actors.value }
+                : {}),
+            },
           },
           deaths: {
             pagination: { page: 1, perPage: 20 },
@@ -83,7 +126,8 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
           ErrorBox,
           ({
             page,
-            events: { data: events, total: totalEvents },
+            events,
+            deaths,
             actors: { data: actors },
             groups: { data: groups },
           }) => {
@@ -134,10 +178,9 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               setSelectedActors(newSelectedActorIds);
 
               pipe(
-                updateSearch(
-                  this.props.location,
-                  "events"
-                )({ actors: newSelectedActorIds.map((s) => s.id) }),
+                setQuery(this.props.location, {
+                  actors: newSelectedActorIds.map((s) => s.id),
+                }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
                     await this.props.navigate(url);
@@ -153,10 +196,9 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               setSelectedGroups(newSelectedGroupIds);
 
               pipe(
-                updateSearch(
-                  this.props.location,
-                  "events"
-                )({ groups: newSelectedGroupIds.map((s) => s.id) }),
+                setQuery(this.props.location, {
+                  groups: newSelectedGroupIds.map((s) => s.id),
+                }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
                     await this.props.navigate(url);
@@ -176,10 +218,9 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               setSelectedTopicIds(newSelectedTopics);
 
               pipe(
-                updateSearch(
-                  this.props.location,
-                  "events"
-                )({ topics: newSelectedTopics.map((s) => s.id) }),
+                setQuery(this.props.location, {
+                  topics: newSelectedTopics.map((s) => s.id),
+                }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
                     await this.props.navigate(url);
@@ -201,7 +242,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             );
 
             const filteredEvents = A.sort(Ord.getDualOrd(ordEventDate))(
-              events as any
+              events.data
             ).filter((e) => {
               const isBetweenDateRange = Ord.between(Ord.ordDate)(
                 minDate,
@@ -227,33 +268,32 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               <ContentWithSidebar
                 sidebar={
                   <Grid container direction="column">
-                    <Grid item>
+                    <Grid item style={{ margin: 10 }}>
                       <DatePicker
                         value={dateRange}
-                        // range={true}
-                        // quickSelect={true}
+                        variant="outlined"
                         onChange={onDatePickerChange}
+                        style={{ width: "100%" }}
                       />
                     </Grid>
-                    <Grid item>
-                      <SearchableInput
+                    <Grid item style={{ margin: 10 }}>
+                      <SearchableInput<Topic.TopicFrontmatter>
                         placeholder="Topics..."
+                        label="Topics"
                         items={topics.filter(
                           (t) => !selectedTopicIds.includes(t.id)
                         )}
+                        getValue={(t) => t.slug}
                         selectedItems={selectedTopics}
-                        getValue={(item) => item.label}
-                        itemRenderer={(item, itemProps, index) => (
+                        renderOption={(item, state) => (
                           <TopicListItem
                             key={item.id}
-                            index={index}
                             item={{
                               ...item,
                               selected: selectedTopics.some((t) =>
                                 eqByUUID.equals(t, item)
                               ),
                             }}
-                            onClick={(item: any) => itemProps.onClick(item)}
                           />
                         )}
                         onSelectItem={(item, items) => {
@@ -262,25 +302,26 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                         onUnselectItem={(item) => onTopicClick(item)}
                       />
                     </Grid>
-                    <Grid item>
-                      <SearchableInput
+                    <Grid item style={{ margin: 10 }}>
+                      <SearchableInput<Group.Group>
                         placeholder="Gruppi..."
+                        label="Gruppi"
                         items={groups.filter(
                           (g) => !selectedGroupIds.includes(g.id)
                         )}
+                        getValue={(g) => g.name}
                         selectedItems={selectedGroups}
-                        itemRenderer={(item, itemProps, index) => {
+                        multiple={true}
+                        renderOption={(item, state) => {
                           return (
                             <GroupListItem
                               key={item.id}
-                              index={index}
                               item={{
                                 ...item,
                                 selected: selectedGroups.some((g) =>
                                   eqByUUID.equals(g, item)
                                 ),
                               }}
-                              onClick={(item: any) => itemProps.onClick(item)}
                             />
                           );
                         }}
@@ -290,34 +331,34 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                         onUnselectItem={(item) => {
                           onGroupClick(item);
                         }}
-                        getValue={(item) => item.name}
                       />
                     </Grid>
-                    <Grid item>
-                      <SearchableInput
+                    <Grid item style={{ margin: 10 }}>
+                      <SearchableInput<Actor.Actor>
                         placeholder="Attori..."
+                        label="Attori"
                         items={actors.filter(
                           (a) => !selectedActorIds.includes(a.id)
                         )}
+                        getValue={(a) => a.fullName}
                         selectedItems={selectedActors}
-                        itemRenderer={(item, itemProps, index) => {
+                        multiple={true}
+                        renderOption={(item, state) => {
                           return (
                             <ActorListItem
                               key={item.id}
-                              index={index}
+                              displayFullName={true}
                               item={{
                                 ...item,
                                 selected: selectedActors.some((a) =>
                                   eqByUUID.equals(a, item)
                                 ),
                               }}
-                              onClick={(item: any) => itemProps.onClick(item)}
                             />
                           );
                         }}
                         onSelectItem={(item) => onActorClick(item)}
                         onUnselectItem={(item) => onActorClick(item)}
-                        getValue={(item) => item.username}
                       />
                     </Grid>
                   </Grid>
@@ -342,15 +383,24 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                         scalePoint={O.none}
                       /> */}
                     <EventsMap filter={{ actors: O.none, groups: O.none }} />
-
+                    <Box>
+                      <Chip label={`Uncategorized (${events.total})`} />
+                      <Chip
+                        label={`Deaths (${deaths.total})`}
+                        style={{
+                          backgroundColor: theme.palette.common.black,
+                          color: theme.palette.common.white,
+                        }}
+                      />
+                    </Box>
                     <Typography variant="caption">
-                      Nº Eventi: {totalEvents} dal {formatDate(minDate)} al{" "}
+                      Nº Eventi: {events.total} dal {formatDate(minDate)} al{" "}
                       {formatDate(maxDate)}{" "}
                     </Typography>
                   </Grid>
                   <Grid item>
                     <EventList
-                      events={events as any}
+                      events={events.data as any}
                       actors={actors}
                       groups={groups}
                     />

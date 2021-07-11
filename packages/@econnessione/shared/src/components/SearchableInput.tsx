@@ -1,17 +1,14 @@
-import { Input } from "@material-ui/core";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { TextField } from "@material-ui/core";
+import Autocomplete, { AutocompleteProps } from "@material-ui/lab/Autocomplete";
 import * as React from "react";
-// import { List } from "./Common/List";
 
 export interface SearchableItem {
   id: string;
 }
 
-interface ItemProps<I extends SearchableItem> {
-  onClick: (i: I) => void;
-}
+// interface ItemProps<I extends SearchableItem> {
+//   onClick: (i: I) => void;
+// }
 
 // interface InputReplacementProps<I extends SearchableItem> {
 //   value: string;
@@ -98,25 +95,34 @@ interface ItemProps<I extends SearchableItem> {
 //   }
 // );
 
-interface SearchableInputProps<I extends SearchableItem> {
+interface SearchableInputProps<I extends SearchableItem>
+  extends Omit<
+    AutocompleteProps<I, boolean, boolean, boolean>,
+    "renderInput" | "options"
+  > {
   placeholder?: string;
+  label: string;
   items: I[];
   selectedItems: I[];
-  getValue: (i: I) => string;
-  itemRenderer: (item: I, props: ItemProps<I>, index: number) => JSX.Element;
+  getValue: (v: I) => string;
   onSelectItem: (item: I, selectedItems: I[]) => void;
   onUnselectItem: (item: I, selectedItems: I[]) => void;
 }
 
-const SearchableInput = <I extends SearchableItem>(
-  props: SearchableInputProps<I>
-): JSX.Element => {
-  const [value, setValue] = React.useState("");
-
-  const setItemAndClearValue = (item: I): void => {
-    setValue("");
-    props.onSelectItem(item, [...props.selectedItems, item]);
-  };
+const SearchableInput = <I extends SearchableItem>({
+  placeholder,
+  label,
+  items,
+  selectedItems,
+  getValue,
+  onSelectItem,
+  onUnselectItem,
+  ...props
+}: SearchableInputProps<I>): JSX.Element => {
+  // const setItemAndClearValue = (item: I): void => {
+  //   setValue(null);
+  //   props.onSelectItem(item, [...props.selectedItems, item]);
+  // };
 
   // const unsetItemAndClearValue = (item: I): void => {
   //   setValue("");
@@ -149,39 +155,34 @@ const SearchableInput = <I extends SearchableItem>(
   //   }
   // };
 
-  const placehoder = props.placeholder ?? "Search...";
-
-  // const inputReplacementProps: InputReplacementProps<I> = {
-  //   value: value,
-  //   items: props.items,
-  //   getValue: props.getValue,
-  //   onKeyDown: handleKeyDown,
-  //   itemRenderer: props.itemRenderer,
-  //   selectedItems: props.selectedItems,
-  //   setValue,
-  //   selectItem: setItemAndClearValue,
-  //   removeItem: unsetItemAndClearValue,
-  // };
+  const placehoder = placeholder ?? "Search...";
 
   return (
-    <Input
+    <Autocomplete<I, typeof props.multiple, boolean, boolean>
+      {...props}
       placeholder={placehoder}
-      value={value}
-      onChange={(e) => setValue(e.currentTarget.value)}
-      onBlur={(e) => {
-        if (e.currentTarget.value !== "") {
-          pipe(
-            props.items,
-            A.findFirst((a) =>
-              props
-                .getValue(a)
-                .toLowerCase()
-                .includes(e.currentTarget.value.toLowerCase())
-            ),
-            O.map((i) => setItemAndClearValue(i))
-          );
+      value={selectedItems ?? undefined}
+      options={items}
+      onChange={(e, v) => {
+        if (Array.isArray(v)) {
+          if (v.length > selectedItems.length) {
+            const item = v[v.length - 1];
+            onSelectItem(item as I, selectedItems);
+          } else {
+            const item = selectedItems.filter((si) => !v.includes(si));
+            onUnselectItem(item[0], selectedItems);
+          }
         }
       }}
+      getOptionLabel={getValue}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={label}
+          margin="normal"
+          variant="outlined"
+        />
+      )}
     />
   );
 };

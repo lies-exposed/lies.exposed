@@ -5,6 +5,7 @@ import { PageContent } from "@econnessione/shared/components/PageContent";
 import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
 import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
+import { TopicFrontmatter } from "@econnessione/shared/io/http/Topic";
 import {
   pageContentByPath,
   Queries,
@@ -37,17 +38,17 @@ export default class TopicsPage extends React.PureComponent<RouteComponentProps>
             <SEO title={pageContent.title} />
             <MainContent>
               <PageContent {...pageContent} />
-              <SearchableInput
+              <SearchableInput<TopicFrontmatter & { selected: boolean }>
+                label="topics"
                 items={[].map((t: any) => ({
                   ...t.frontmatter,
                   selected: false,
                 }))}
+                getValue={(t) => t.slug}
                 selectedItems={[]}
-                getValue={(t) => t.label}
-                itemRenderer={(item, props, index) => (
+                renderOption={(item, state) => (
                   <TopicListItem
                     item={item}
-                    index={index}
                     onClick={async (t: any) => {
                       if (this.props.navigate !== undefined) {
                         await navigateTo(this.props.navigate, "topics", t);

@@ -68,7 +68,7 @@ const uploadFile =
               }),
             E.toError
           ),
-          TE.map((response) => response.data.data.Location)
+          TE.map(() => location)
         );
       })
     );

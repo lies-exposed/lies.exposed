@@ -1,9 +1,7 @@
 import { Area, Events } from "@io/http";
 import { GetEventsQueryFilter } from "@io/http/Events/Uncategorized";
-import { Chip } from "@material-ui/core";
 import { Queries } from "@providers/DataProvider";
 import { navigate } from "@reach/router";
-import { theme } from "@theme/index";
 import { geoJSONFormat } from "@utils/map.utils";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
@@ -116,18 +114,6 @@ export const EventsMap: React.FC<EventsMapProps> = ({
                 );
               }}
             </ParentSize>
-
-            <div>
-              <Chip label="Uncategorized" icon={<>{events.total}</>} />
-              <Chip
-                label="Deaths"
-                style={{
-                  backgroundColor: theme.palette.common.black,
-                  color: theme.palette.common.white,
-                }}
-                icon={<>{deaths.total}</>}
-              />
-            </div>
           </>
         );
       })}

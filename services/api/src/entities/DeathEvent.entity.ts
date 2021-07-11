@@ -46,15 +46,15 @@ export class DeathEventEntity {
   @JoinColumn()
   victim: ActorEntity;
 
-  @ManyToMany(() => GroupEntity, (a) => a.events, { nullable: true })
+  @ManyToMany(() => GroupEntity, (a) => a.id, { nullable: true })
   @JoinTable()
   subspectedGroups: GroupEntity[];
 
-  @ManyToMany(() => ActorEntity, (a) => a.events, { nullable: true })
+  @ManyToMany(() => ActorEntity, (a) => a.id, { nullable: true })
   @JoinTable()
   supsectedActors: ActorEntity[];
 
-  @ManyToMany(() => GroupMemberEntity, (a) => a.events, { nullable: true })
+  @ManyToMany(() => GroupMemberEntity, (a) => a.id, { nullable: true })
   @JoinTable()
   suspectedGroupsMembers: GroupMemberEntity[];
 

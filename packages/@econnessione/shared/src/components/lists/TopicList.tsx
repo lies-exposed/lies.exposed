@@ -16,7 +16,7 @@ interface TopicListProps {
 export const TopicListItem: React.FC<ListItemProps<TopicListTopic>> = ({
   item: t,
   onClick,
-}) => <Chip key={t.slug} onClick={() => onClick?.(t)} />;
+}) => <Chip key={t.slug} label={t.label} onClick={() => onClick?.(t)} />;
 
 const TopicList: React.FC<TopicListProps> = ({ topics, onTopicClick }) => {
   return (

@@ -20,16 +20,16 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
       direction="row"
       alignContent="center"
     >
-      <Grid item lg={showSidebar ? 3 : 1}>
+      <Grid item lg={showSidebar ? 3 : false} md={showSidebar ? 3 : false}>
         {showSidebar ? (
-          <Box onClick={() => toggleSidebar(!showSidebar)}>
+          <Box>
             {sidebar}
-            <ExpandMoreIcon />
+            <ExpandMoreIcon onClick={() => toggleSidebar(!showSidebar)} />
           </Box>
         ) : (
           <div
             onClick={() => toggleSidebar(!showSidebar)}
-            style={{ position: "absolute" }}
+            style={{ position: "absolute", backgroundColor: "red" }}
           >
             <ChevronRightIcon />
           </div>
@@ -38,7 +38,8 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
 
       <Grid
         item
-        lg={showSidebar ? 9 : 11}
+        lg={showSidebar ? 9 : 12}
+        md={showSidebar ? 9 : 12}
         style={{ flexGrow: 1 }}
         alignItems="flex-start"
       >
