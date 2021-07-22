@@ -1,0 +1,162 @@
+[
+  {
+    "date": "2020-12-10T00:00:00.000Z",
+    "reported": 2,
+    "deaths": 0,
+    "injuries": 4,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 2,
+    "cumulativeInjuries": 4
+  },
+  {
+    "date": "2020-12-11T00:00:00.000Z",
+    "reported": 26,
+    "deaths": 0,
+    "injuries": 75,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 28,
+    "cumulativeInjuries": 79
+  },
+  {
+    "date": "2020-12-14T00:00:00.000Z",
+    "reported": 194,
+    "deaths": 0,
+    "injuries": 651,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 222,
+    "cumulativeInjuries": 730
+  },
+  {
+    "date": "2020-12-15T00:00:00.000Z",
+    "reported": 194,
+    "deaths": 0,
+    "injuries": 575,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 416,
+    "cumulativeInjuries": 1305
+  },
+  {
+    "date": "2020-12-16T00:00:00.000Z",
+    "reported": 133,
+    "deaths": 0,
+    "injuries": 482,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 549,
+    "cumulativeInjuries": 1787
+  },
+  {
+    "date": "2020-12-17T00:00:00.000Z",
+    "reported": 162,
+    "deaths": 0,
+    "injuries": 572,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 711,
+    "cumulativeInjuries": 2359
+  },
+  {
+    "date": "2020-12-18T00:00:00.000Z",
+    "reported": 175,
+    "deaths": 0,
+    "injuries": 516,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 886,
+    "cumulativeInjuries": 2875
+  },
+  {
+    "date": "2020-12-21T00:00:00.000Z",
+    "reported": 485,
+    "deaths": 0,
+    "injuries": 1666,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 1371,
+    "cumulativeInjuries": 4541
+  },
+  {
+    "date": "2020-12-22T00:00:00.000Z",
+    "reported": 290,
+    "deaths": 0,
+    "injuries": 933,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 1661,
+    "cumulativeInjuries": 5474
+  },
+  {
+    "date": "2020-12-23T00:00:00.000Z",
+    "reported": 458,
+    "deaths": 2,
+    "injuries": 1425,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 2,
+    "cumulativeReported": 2119,
+    "cumulativeInjuries": 6899
+  },
+  {
+    "date": "2020-12-24T00:00:00.000Z",
+    "reported": 332,
+    "deaths": 4,
+    "injuries": 1005,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 6,
+    "cumulativeReported": 2451,
+    "cumulativeInjuries": 7904
+  },
+  {
+    "date": "2020-12-25T00:00:00.000Z",
+    "reported": 369,
+    "deaths": 2,
+    "injuries": 1151,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 8,
+    "cumulativeReported": 2820,
+    "cumulativeInjuries": 9055
+  },
+  {
+    "date": "2020-12-28T00:00:00.000Z",
+    "reported": 127,
+    "deaths": 0,
+    "injuries": 461,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 8,
+    "cumulativeReported": 2947,
+    "cumulativeInjuries": 9516
+  },
+  {
+    "date": "2020-12-29T00:00:00.000Z",
+    "reported": 198,
+    "deaths": 0,
+    "injuries": 582,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 8,
+    "cumulativeReported": 3145,
+    "cumulativeInjuries": 10098
+  },
+  {
+    "date": "2020-12-30T00:00:00.000Z",
+    "reported": 686,
+    "deaths": 1,
+    "injuries": 2226,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 9,
+    "cumulativeReported": 3831,
+    "cumulativeInjuries": 12324
+  },
+  {
+    "date": "2020-12-31T00:00:00.000Z",
+    "reported": 353,
+    "deaths": 0,
+    "injuries": 1220,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 9,
+    "cumulativeReported": 4184,
+    "cumulativeInjuries": 13544
+  }
+]

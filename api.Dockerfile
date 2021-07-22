@@ -13,7 +13,7 @@ RUN yarn install --pure-lockfile --non-interactive
 
 RUN yarn build
 
-FROM node:14-slim
+FROM buildkite/puppeteer:9.1.1
 
 WORKDIR /app
 

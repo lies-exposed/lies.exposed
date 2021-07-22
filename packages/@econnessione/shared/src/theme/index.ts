@@ -1,6 +1,9 @@
-import { createMuiTheme } from "@material-ui/core";
+import "./font.css";
+import { createTheme } from "@material-ui/core";
 
-export const theme = createMuiTheme({
+const headerFontFamily = "Lora";
+
+export const theme = createTheme({
   palette: {
     // type: "dark",
     primary: {
@@ -18,11 +21,31 @@ export const theme = createMuiTheme({
   },
   typography: (palette) => ({
     h1: {
-      fontSize: 38,
-      fontWeight: 600,
+      fontFamily: headerFontFamily,
+      marginBottom: 40,
     },
     h2: {
-      fontSize: 32,
+      fontFamily: headerFontFamily,
+      marginBottom: 30,
+    },
+    h3: {
+      fontFamily: headerFontFamily,
+      marginBottom: 20,
+    },
+    h4: {
+      fontFamily: headerFontFamily,
+      marginBottom: 20,
+    },
+    h5: {
+      fontFamily: headerFontFamily,
+      marginBottom: 20,
+    },
+    h6: {
+      fontFamily: headerFontFamily,
+      marginBottom: 20,
+    },
+    body1: {
+      fontSize: 18,
     },
   }),
   overrides: {

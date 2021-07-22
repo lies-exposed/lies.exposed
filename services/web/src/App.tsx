@@ -23,6 +23,7 @@ import ProjectsPage from "./pages/ProjectsPage";
 import TheCrisisPage from "./pages/TheCrisisPage";
 import TopicsPage from "./pages/TopicsPage";
 import AreasPage from "./pages/areas";
+import { VaccineDashboard } from "./pages/dashboards/VaccineDashboard";
 import ProjectPage from "./pages/project";
 import "./scss/main.scss";
 
@@ -64,7 +65,8 @@ export const App: React.FC = () => {
             <Grid item style={{ height: "100%" }}>
               <Router>
                 <EventTemplate path="/events/:eventId" />
-                <EventsPage path="/events" />
+                <VaccineDashboard path="/dashboards/vaccines" />
+                <EventsPage path="/dashboards/events" />
                 <DocsPage path="/docs" />
                 <ProjectTemplate path="/projects/:projectId" />
                 <ProjectsPage path="/projects" />

@@ -24,9 +24,9 @@ export interface Logger {
 export type GetLogger = (name: string) => Logger;
 
 export const GetLogger = (name: string): Logger => {
-  const debug = baseLogger.extend("debug").extend(name);
-  const info = baseLogger.extend("info").extend(name);
-  const error = baseLogger.extend("error").extend(name);
+  const debug = baseLogger.extend(name).extend("debug");
+  const info = baseLogger.extend(name).extend("info");
+  const error = baseLogger.extend(name).extend("error");
 
   const logInPipe =
     (d: debug.Debugger) => (message: string) => (value: any) => {

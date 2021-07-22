@@ -16,8 +16,8 @@ interface GroupListProps {
 }
 
 export const GroupListItem: React.FC<
-  ListItemProps<Group> & { avatarSize?: AvatarSize }
-> = ({ item, avatarSize, onClick }) => {
+  ListItemProps<Group> & { avatarSize?: AvatarSize; displayName?: boolean }
+> = ({ item, avatarSize, displayName = false, onClick }) => {
   return (
     <div
       key={item.id}
@@ -29,7 +29,7 @@ export const GroupListItem: React.FC<
         O.map((src) => <Avatar key={item.id} src={src} size={avatarSize} />),
         O.toNullable
       )}
-      {item.name}
+      {displayName ? item.name : null}
       <div
         style={{
           width: "100%",
