@@ -43,7 +43,7 @@ import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
-import * as qs from "qs";
+import * as qs from "query-string";
 import React from "react";
 import Helmet from "react-helmet";
 
@@ -53,9 +53,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
     console.log(this.props);
     const queryFilters = pipe(
       O.fromNullable(this.props.location?.search),
-      O.map((s) =>
-        qs.parse(s.replace("?", ""), { comma: true, parseArrays: true })
-      ),
+      O.map((s) => qs.parse(s.replace("?", ""), { arrayFormat: "comma" })),
       O.fold(
         () => ({
           groups: O.none,

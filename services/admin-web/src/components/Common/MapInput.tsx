@@ -17,7 +17,7 @@ const getDefaultFormat = (): GeoJSON => new GeoJSON(formatOptions);
 
 const getDefaultMap = (
   target: HTMLDivElement,
-  featuresLayer: VectorLayer
+  featuresLayer: VectorLayer<VectorSource<any>>
 ): Map => {
   return new Map({
     target,
@@ -27,7 +27,7 @@ const getDefaultMap = (
 };
 
 type MapInputProps = InputProps & {
-  type: GeometryType;
+  type: string;
 };
 
 export const MapInput: React.FC<MapInputProps> = (props) => {

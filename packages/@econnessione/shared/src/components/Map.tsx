@@ -11,11 +11,11 @@ import VectorSource from "ol/source/Vector";
 import { Circle, Fill, Stroke, Style } from "ol/style";
 import * as React from "react";
 
-interface MapProps {
+interface MapProps<G extends Geometry> {
   id: string;
   width: number;
   height: number;
-  features: Feature[];
+  features: Array<Feature<G>>;
   center?: [number, number];
   zoom?: number;
   interactions?: OlInteraction.DefaultsOptions;
@@ -23,7 +23,7 @@ interface MapProps {
   onMapClick: (geoms: Array<Feature<Geometry>>) => void;
 }
 
-const Map: React.FC<MapProps> = ({
+const Map = <G extends Geometry>({
   id,
   width,
   height,
@@ -33,7 +33,7 @@ const Map: React.FC<MapProps> = ({
   interactions,
   controls,
   onMapClick,
-}) => {
+}: MapProps<G>): JSX.Element => {
   const mapId = `map-${id}`;
 
   React.useEffect(() => {
