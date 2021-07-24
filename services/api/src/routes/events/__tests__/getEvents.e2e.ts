@@ -22,7 +22,7 @@ describe("Get Events", () => {
     appTest = await initAppTest();
 
     await appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])();
-    await appTest.ctx.db.save(EventEntity, eventData as any[])();
+    await appTest.ctx.db.save(EventEntity, eventData.map(e => ({ ...e, groupMember: [groupMember.id]})) as any[])();
 
     totalEvents = await appTest.ctx.db
       .count(EventEntity)()

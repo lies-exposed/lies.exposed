@@ -6,7 +6,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { RouteContext } from "@routes/route.types";
 import jwt from "jsonwebtoken";
 
-describe("Delete Actor", () => {
+describe("Delete Area", () => {
   let ctx: RouteContext,
     req: supertest.SuperTest<supertest.Test>,
     actor: any,

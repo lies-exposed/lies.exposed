@@ -11,11 +11,11 @@ import VectorSource from "ol/source/Vector";
 import { Circle, Fill, Stroke, Style } from "ol/style";
 import * as React from "react";
 
-interface MapProps {
+interface MapProps<G extends Geometry> {
   id: string;
   width: number;
   height: number;
-  features: Feature[];
+  features: Array<Feature<G>>;
   center?: [number, number];
   zoom?: number;
   interactions?: OlInteraction.DefaultsOptions;
@@ -23,7 +23,7 @@ interface MapProps {
   onMapClick: (geoms: Array<Feature<Geometry>>) => void;
 }
 
-const Map: React.FC<MapProps> = ({
+const Map = <G extends Geometry>({
   id,
   width,
   height,
@@ -33,7 +33,7 @@ const Map: React.FC<MapProps> = ({
   interactions,
   controls,
   onMapClick,
-}) => {
+}: MapProps<G>): JSX.Element => {
   const mapId = `map-${id}`;
 
   React.useEffect(() => {
@@ -103,6 +103,14 @@ const Map: React.FC<MapProps> = ({
       ],
     });
 
+    if (center) {
+      map.getView().setCenter(center);
+    }
+
+    if (zoom) {
+      map.getView().setZoom(zoom);
+    }
+
     // center map based on features source layer
     const size = map.getSize();
     const totalPadding = 20 * 2;
@@ -114,16 +122,8 @@ const Map: React.FC<MapProps> = ({
           maxZoom: 12,
         });
       } else {
-        map.getView().setZoom(10);
-        map.getView().setCenter([0, 0]);
+        map.getView().setViewportSize(size);
       }
-    }
-
-    if (center) {
-      map.getView().setCenter(center);
-    }
-    if (zoom) {
-      map.getView().setZoom(zoom);
     }
 
     map.on("click", (evt) => {

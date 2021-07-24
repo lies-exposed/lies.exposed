@@ -1,10 +1,5 @@
+import { Typography } from "@material-ui/core";
 import { uuid } from "@utils/uuid";
-// import {
-//   StatefulTreeView,
-//   TreeLabel,
-//   TreeLabelProps,
-//   TreeNode
-// } from "baseui/tree-view";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
@@ -49,7 +44,7 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
     O.map((data) => (
       // eslint-disable-next-line react/jsx-key
       <div>
-        <h1>Tabella dei contenuti</h1>
+        <Typography variant="h3">Tabella dei contenuti</Typography>
         {/* <StatefulTreeView
           data={data}
           overrides={{
