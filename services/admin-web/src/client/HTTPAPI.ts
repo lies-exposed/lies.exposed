@@ -53,9 +53,9 @@ export const apiProvider: http.APIRESTClient = {
       return createActor(dataProvider)(resource, params) as any;
     }
 
-    if (resource === "groups") {
-      return createGroup(dataProvider)(resource, params) as any;
-    }
+    // if (resource === "groups") {
+    //   return createGroup(dataProvider)(resource, params) as any;
+    // }
 
     if (resource === "projects") {
       return createProject(dataProvider)(resource, params);

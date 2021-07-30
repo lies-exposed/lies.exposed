@@ -13,7 +13,7 @@ export const toArticleIO = (
       type: "Article",
       links: [],
       featuredImage: article.featuredImage ?? "",
-      date: article.date?.toISOString(),
+      date: article.date?.toISOString() ?? new Date().toISOString(),
       createdAt: article.createdAt.toISOString(),
       updatedAt: article.updatedAt.toISOString(),
     }),

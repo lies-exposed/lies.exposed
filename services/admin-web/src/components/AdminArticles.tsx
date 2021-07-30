@@ -1,5 +1,6 @@
 import { ArticlePageContent } from "@econnessione/shared/components/ArticlePageContent";
 import { http } from "@econnessione/shared/io";
+import { Article } from "@econnessione/shared/io/http/Article";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
 import { apiProvider } from "client/HTTPAPI";
 import { uploadImages } from "client/MediaAPI";
@@ -24,12 +25,13 @@ import {
   ImageInput,
   List,
   ListProps,
+  Record,
   required,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import MarkdownInput from "./Common/MarkdownInput";
 
@@ -37,7 +39,7 @@ export const ArticleList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     filterDefaultValues={{ draft: undefined }}
-    filter={{ draft: true }}
+    filter={{ draft: undefined }}
   >
     <Datagrid rowClick="edit">
       <BooleanField source="draft" />
@@ -51,19 +53,33 @@ export const ArticleList: React.FC<ListProps> = (props) => (
   </List>
 );
 
+const transformArticle = (data: Record): Record | Promise<Record> => {
+  if (data.featuredImage?.rawFile) {
+    return pipe(
+      uploadImages(apiProvider)("articles", data.path, [
+        data.featuredImage.rawFile,
+      ]),
+      TE.map((locations) => ({ ...data, featuredImage: locations[0] }))
+    )().then((result) => {
+      if (E.isLeft(result)) {
+        throw result.left;
+      }
+      return result.right;
+    });
+  }
+  return data;
+};
 export const ArticleEdit: React.FC<EditProps> = (props) => (
-  <Edit
-    {...props}
-    transform={(data) => {
-      return data;
-    }}
-  >
+  <Edit {...props} transform={transformArticle}>
     <TabbedForm>
       <FormTab label="generals">
         <BooleanInput source="draft" />
         <TextInput source="title" fullWidth={true} />
         <TextInput source="path" fullWidth={true} />
-        <ImageInput source="featuredImage" />
+        <ImageInput source="featuredImage">
+          <ImageField source="src" />
+        </ImageInput>
+        <ImageField source="featuredImage" />
         <DateInput source="date" />
         <ArrayInput source="links">
           <SimpleFormIterator>
@@ -97,26 +113,7 @@ export const ArticleEdit: React.FC<EditProps> = (props) => (
 
 export const ArticleCreate: React.FC<CreateProps> = (props) => {
   return (
-    <Create
-      title="Create an Article"
-      {...props}
-      transform={(data) => {
-        if (data.featuredImage) {
-          return pipe(
-            uploadImages(apiProvider)("articles", data.path, [
-              data.featuredImage.rawFile
-            ]),
-            TE.map((locations) => ({ ...data, featuredImage: locations[0] }))
-          )().then((result) => {
-            if (E.isLeft(result)) {
-              throw result.left;
-            }
-            return result.right;
-          });
-        }
-        return data;
-      }}
-    >
+    <Create title="Create an Article" {...props} transform={transformArticle}>
       <SimpleForm>
         <BooleanInput source="draft" />
         <TextInput source="title" fullWidth={true} />

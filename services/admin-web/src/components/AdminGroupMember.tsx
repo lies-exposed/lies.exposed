@@ -73,7 +73,7 @@ export const GroupMemberCreate: React.FC<CreateProps> = (props) => (
   <Create {...props} title="Create a Group Member">
     <SimpleForm>
       <ReferenceInput reference="actors" source="actor">
-        <SelectInput optionText="fullName" />
+        <AutocompleteInput source="id" optionText="fullName" />
       </ReferenceInput>
       <ReferenceInput reference="groups" source="group">
         <AutocompleteInput source="id" />
