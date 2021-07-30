@@ -31,7 +31,7 @@ export const Create = Endpoint({
     Body: t.strict(
       {
         title: t.string,
-        slug: t.string,
+        path: t.string,
         avatar: optionFromNullable(
           t.strict({
             src: t.string,

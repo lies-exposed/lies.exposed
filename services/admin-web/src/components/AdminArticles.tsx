@@ -91,7 +91,7 @@ export const ArticleCreate: React.FC<CreateProps> = (props) => (
       <TextInput source="title" fullWidth={true} />
       <TextInput source="path" fullWidth={true} />
       <ImageInput source="featuredImage" />
-      <DateTimeInput source="date" />
+      <DateInput source="date" />
       <ArrayInput source="links">
         <SimpleFormIterator>
           <TextInput source="" />
