@@ -4,12 +4,12 @@ import { firstImage } from "./images";
 
 export const firstArticle: Article.Article = {
   id: uuid(),
-  type: "Article",
   title: "First article",
   path: "first-article",
   featuredImage: firstImage.location,
   links: [],
   draft: false,
+  date: new Date(),
   createdAt: new Date(),
   updatedAt: new Date(),
   body: `

@@ -49,8 +49,6 @@ import Helmet from "react-helmet";
 
 export default class EventsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
-    // eslint-disable-next-line
-    console.log(this.props);
     const queryFilters = pipe(
       O.fromNullable(this.props.location?.search),
       O.map((s) => qs.parse(s.replace("?", ""), { arrayFormat: "comma" })),

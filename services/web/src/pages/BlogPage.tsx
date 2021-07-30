@@ -49,7 +49,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
               articles: {
                 pagination: { page: 1, perPage: 20 },
                 sort: { field: "id", order: "DESC" },
-                filter: { draft: true },
+                filter: { draft: false },
               },
             }}
             render={QR.fold(

@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 
 @Entity("article")
@@ -22,8 +22,11 @@ export class ArticleEntity {
   @Column({ type: "varchar" })
   path: string;
 
+  @Column({ type: "timestamptz", nullable: true })
+  date: Date | null;
+
   @Column({ type: "varchar", nullable: true })
-  featuredImage: string;
+  featuredImage: string | null;
 
   @Column({ type: "varchar" })
   body: string;

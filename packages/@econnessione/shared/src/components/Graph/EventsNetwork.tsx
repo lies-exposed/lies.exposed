@@ -1,9 +1,9 @@
 import Network, {
-  NetworkScale,
+  NetworkScale
 } from "@components/Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode,
+  NetworkPointNode
 } from "@components/Common/Graph/Network/NetworkNode";
 import { ActorList } from "@components/lists/ActorList";
 import { eqByUUID, eventDate, ordEventDate } from "@helpers/event";
@@ -25,10 +25,12 @@ import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 
+type GroupByItem = Actor.Actor | Group.Group;
+
 interface EventNetworkDatum extends NetworkNodeDatum {
   title: string;
   date: Date;
-  groupBy: NEA.NonEmptyArray<Actor.Actor | Group.Group>;
+  groupBy: GroupByItem[];
   actors: O.Option<Actor.Actor[]>;
 }
 
@@ -58,7 +60,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
             ...props,
             width,
             height: 400,
-            margin: { vertical: 40, horizontal: 40 },
+            margin: { vertical: 40, horizontal: 40 }
           });
           return (
             <div>
@@ -88,7 +90,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
                               key="actors"
                               actors={actors.map((a) => ({
                                 ...a,
-                                selected: false,
+                                selected: false
                               }))}
                               onActorClick={() => {}}
                             />
@@ -229,7 +231,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
 
 function LegendDemo({
   title,
-  children,
+  children
 }: {
   title: string;
   children: React.ReactNode;
@@ -275,75 +277,75 @@ const getX = (
   );
 };
 
-const getY =
-  (topics: Array<{ id: string }>, margin: number, height: number) =>
-  (key: string) =>
-    pipe(
-      topics,
-      A.findIndex((t) => Eq.eqString.equals(t.id, key)),
-      O.fold(
-        () => 0,
-        (index) => {
-          return margin + index * ((height - margin * 2) / topics.length);
-        }
-      )
-    );
+const getY = (
+  topics: Array<{ id: string }>,
+  margin: number,
+  height: number
+) => (key: string) =>
+  pipe(
+    topics,
+    A.findIndex((t) => Eq.eqString.equals(t.id, key)),
+    O.fold(
+      () => 0,
+      (index) => {
+        return margin + index * ((height - margin * 2) / topics.length);
+      }
+    )
+  );
 
-const updateMap =
-  <F extends Common.BaseFrontmatter>(acc: Map<string, F>) =>
-  (frontmatters: F[]): Map<string, F> => {
-    return pipe(
-      frontmatters,
-      A.reduce(acc, (r, t) => {
-        if (Map.elem(eqByUUID)(t, r)) {
-          return r;
-        }
-        return Map.insertAt(Eq.eqString)(t.id, t)(r);
-      })
-    );
-  };
+const updateMap = <F extends Common.BaseFrontmatter>(acc: Map<string, F>) => (
+  frontmatters: F[]
+): Map<string, F> => {
+  return pipe(
+    frontmatters,
+    A.reduce(acc, (r, t) => {
+      if (Map.elem(eqByUUID)(t, r)) {
+        return r;
+      }
+      return Map.insertAt(Eq.eqString)(t.id, t)(r);
+    })
+  );
+};
 
-const getLinks =
-  (
-    nodes: Array<NetworkPointNode<EventNetworkDatum>>,
-    relationLinks: Map<string, NetworkLink[]>
-  ) =>
-  (
-    relations: Array<Common.BaseFrontmatter & { color: string }>
-  ): Map<string, NetworkLink[]> => {
-    return pipe(
-      nodes,
-      A.reduce(relationLinks, (acc, p) => {
-        const newLinks = pipe(
-          relations,
-          A.reduce(acc, (acc1, relation) => {
-            const lastLinks = pipe(
-              Map.lookup(Ord.ordString)(relation.id, acc1),
-              O.getOrElse((): NetworkLink[] => [])
-            );
+const getLinks = (
+  nodes: Array<NetworkPointNode<EventNetworkDatum>>,
+  relationLinks: Map<string, NetworkLink[]>
+) => (
+  relations: Array<Common.BaseFrontmatter & { color: string }>
+): Map<string, NetworkLink[]> => {
+  return pipe(
+    nodes,
+    A.reduce(relationLinks, (acc, p) => {
+      const newLinks = pipe(
+        relations,
+        A.reduce(acc, (acc1, relation) => {
+          const lastLinks = pipe(
+            Map.lookup(Ord.ordString)(relation.id, acc1),
+            O.getOrElse((): NetworkLink[] => [])
+          );
 
-            return pipe(
-              acc1,
-              Map.insertAt(Eq.eqString)(relation.id, [
-                ...lastLinks,
-                {
-                  source: pipe(
-                    A.last(lastLinks),
-                    O.map((l) => l.target),
-                    O.getOrElse(() => p)
-                  ),
-                  target: p,
-                  stroke: `#${relation.color}`,
-                  fill: `#${relation.color}`,
-                },
-              ])
-            );
-          })
-        );
-        return newLinks;
-      })
-    );
-  };
+          return pipe(
+            acc1,
+            Map.insertAt(Eq.eqString)(relation.id, [
+              ...lastLinks,
+              {
+                source: pipe(
+                  A.last(lastLinks),
+                  O.map((l) => l.target),
+                  O.getOrElse(() => p)
+                ),
+                target: p,
+                stroke: `#${relation.color}`,
+                fill: `#${relation.color}`
+              }
+            ])
+          );
+        })
+      );
+      return newLinks;
+    })
+  );
+};
 
 interface Result {
   eventNodes: Array<NetworkPointNode<EventNetworkDatum>>;
@@ -392,8 +394,6 @@ export interface NetworkTemplateProps {
   groupsScale: ScaleOrdinal<string, string>;
 }
 
-type GroupByItem = Actor.Actor | Group.Group;
-
 export function createNetworkTemplateProps({
   events,
   actors: allActors,
@@ -406,7 +406,7 @@ export function createNetworkTemplateProps({
   selectedTopicIds,
   height,
   width,
-  margin,
+  margin
 }: EventsNetworkProps & {
   width: number;
   height: number;
@@ -449,7 +449,7 @@ export function createNetworkTemplateProps({
     groupByItems: Map.empty,
     actors: Map.empty,
     groups: Map.empty,
-    selectedEvents: [],
+    selectedEvents: []
   };
 
   const {
@@ -460,30 +460,28 @@ export function createNetworkTemplateProps({
     groupLinks,
     groupByItems,
     actors,
-    groups,
+    groups
   } = pipe(
     events,
     A.reduce(result, (acc, e) => {
       // get topic from relative directory
 
-      // console.log({ eventDate: e.frontmatter.date, minDate, maxDate })
       const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
         eventDate(e)
       );
-      // console.log({isBetweenDateRange, networkWidth})
 
       if (isBetweenDateRange) {
-        const groupByEventList =
+        const groupByEventList: GroupByItem[] =
           groupBy === "group"
             ? allGroups.filter((g) => e.groups.includes(g.id))
             : allActors.filter((a) => e.actors.includes(a.id));
-        const groupByAllList = groupBy === "group" ? allGroups : allActors;
+        const groupByAllList: GroupByItem[] = groupBy === "group" ? allGroups : allActors;
         const eventNodes: Array<NetworkPointNode<EventNetworkDatum>> = pipe(
           groupByEventList,
-          A.map((groupByItem: GroupByItem) =>
+          A.map((groupByItem) =>
             pipe(
               groupByAllList,
-              A.findFirst((item: GroupByItem) => item.id === groupByItem.id)
+              A.findFirst((item) => item.id === groupByItem.id)
             )
           ),
           A.compact,
@@ -509,8 +507,8 @@ export function createNetworkTemplateProps({
               label: e.title,
               color: groupByItem.color,
               innerColor: groupByItem.color,
-              outerColor: groupByItem.color,
-            },
+              outerColor: groupByItem.color
+            }
           }))
         );
 
@@ -558,12 +556,12 @@ export function createNetworkTemplateProps({
         if (hasActor || hasGroupBy || hasGroup) {
           const groupByLinks = pipe(
             groupByEventList,
-            A.filter<Actor.Actor | Group.Group>((groupByItem) =>
+            A.filter((groupByItem) =>
               groupBy === "group"
                 ? selectedGroupIds.includes(groupByItem.id)
                 : selectedActorIds.includes(groupByItem.id)
             ),
-            (items) => {
+            (items: GroupByItem[]) => {
               const emptyMap: Map<string, NetworkLink[]> = Map.empty;
               return pipe(
                 items.map((item) =>
@@ -627,7 +625,7 @@ export function createNetworkTemplateProps({
             groupByItems,
             actors,
             groups,
-            selectedEvents: [...acc.selectedEvents, e],
+            selectedEvents: [...acc.selectedEvents, e]
           };
         }
 
@@ -636,7 +634,7 @@ export function createNetworkTemplateProps({
           groupByItems,
           actors,
           groups,
-          eventNodes: [...acc.eventNodes, ...eventNodes],
+          eventNodes: [...acc.eventNodes, ...eventNodes]
         };
       }
       return acc;
@@ -651,7 +649,7 @@ export function createNetworkTemplateProps({
     domain: groupByArray.map((gb) =>
       Actor.Actor.is(gb) ? gb.username : gb.name
     ),
-    range: groupByArray.map((t) => t.color.toString()),
+    range: groupByArray.map((t) => t.color.toString())
   });
 
   const actorsArray = Map.toArray(Ord.ordString)(actors).flatMap(
@@ -659,7 +657,7 @@ export function createNetworkTemplateProps({
   );
   const actorsScale = ordinalScale({
     domain: actorsArray.map((a) => a.fullName),
-    range: actorsArray.map((a) => a.color.toString()),
+    range: actorsArray.map((a) => a.color.toString())
   });
 
   const groupsArray = Map.toArray(Ord.ordString)(groups).flatMap(
@@ -667,7 +665,7 @@ export function createNetworkTemplateProps({
   );
   const groupsScale = ordinalScale({
     domain: groupsArray.map((g) => g.name),
-    range: groupsArray.map((a) => a.color.toString()),
+    range: groupsArray.map((a) => a.color.toString())
   });
 
   const actorLinksList = Map.toArray(Ord.ordString)(actorLinks).flatMap(
@@ -688,14 +686,14 @@ export function createNetworkTemplateProps({
         ...actorLinksList,
         ...Map.toArray(Ord.ordString)(groupLinks).flatMap(
           ([_k, links]) => links
-        ),
-      ],
+        )
+      ]
     },
     groupByScale: groupByScale as any,
     actorsScale: actorsScale as any,
     groupsScale: groupsScale as any,
     selectedEvents,
     width: width > networkWidth ? width : networkWidth,
-    height: height,
+    height: height
   };
 }

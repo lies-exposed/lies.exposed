@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { BooleanFromString } from "io-ts-types";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Article } from "../io/http";
@@ -6,22 +7,29 @@ import { Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
+const ListArticlesQuery = t.type(
+  {
+    ...GetListQuery.props,
+    draft: optionFromNullable(BooleanFromString)
+  },
+  "ListArticlesQuery"
+);
 export const ListArticles = Endpoint({
   Method: "GET",
   getPath: () => "/articles",
   Input: {
-    Query: GetListQuery,
+    Query: ListArticlesQuery
   },
-  Output: Output(t.array(Article.Article), "Articles"),
+  Output: Output(t.array(Article.Article), "Articles")
 });
 
 export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/articles/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: t.string })
   },
-  Output: Output(Article.Article, "Articles"),
+  Output: Output(Article.Article, "Articles")
 });
 
 export const Create = Endpoint({
@@ -32,18 +40,13 @@ export const Create = Endpoint({
       {
         title: t.string,
         path: t.string,
-        avatar: optionFromNullable(
-          t.strict({
-            src: t.string,
-            path: t.string,
-          })
-        ),
-        body: t.string,
+        featuredImage: optionFromNullable(t.string),
+        body: t.string
       },
-      "AddActorBody"
-    ),
+      "CreateArticleBody"
+    )
   },
-  Output: Output(Article.Article, "Article"),
+  Output: Output(Article.Article, "Article")
 });
 
 export const articles = ResourceEndpoints({
@@ -52,15 +55,24 @@ export const articles = ResourceEndpoints({
   Create,
   Edit: Endpoint({
     Method: "PUT",
-    getPath: () => `/articles`,
+    getPath: ({ id }) => `/articles/${id}`,
     Input: {
-      Body: t.unknown,
+      Params: t.type({ id: t.string }),
+      Body: t.strict(
+        {
+          title: t.string,
+          path: t.string,
+          featuredImage: optionFromNullable(t.string),
+          body: t.string
+        },
+        "EditArticleBody"
+      )
     },
-    Output: Output(Article.Article, "Article"),
+    Output: Output(Article.Article, "Article")
   }),
   Delete: Endpoint({
     Method: "DELETE",
     getPath: () => `/articles`,
-    Output: Output(Article.Article, "Article"),
-  }),
+    Output: Output(Article.Article, "Article")
+  })
 });

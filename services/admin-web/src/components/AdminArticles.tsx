@@ -1,7 +1,10 @@
 import { ArticlePageContent } from "@econnessione/shared/components/ArticlePageContent";
 import { http } from "@econnessione/shared/io";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import { apiProvider } from "client/HTTPAPI";
+import { uploadImages } from "client/MediaAPI";
 import * as E from "fp-ts/lib/Either";
+import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
@@ -13,7 +16,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  DateTimeInput,
   Edit,
   EditProps,
   FormDataConsumer,
@@ -27,16 +29,20 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import MarkdownInput from "./Common/MarkdownInput";
 
 export const ArticleList: React.FC<ListProps> = (props) => (
-  <List {...props}>
+  <List
+    {...props}
+    filterDefaultValues={{ draft: undefined }}
+    filter={{ draft: true }}
+  >
     <Datagrid rowClick="edit">
       <BooleanField source="draft" />
       <TextField source="title" />
-      <TextField source="slug" />
+      <TextField source="path" />
       <ImageField source="featuredImage" />
       <DateField source="date" showTime={true} />
       <DateField source="createdAt" showTime={true} />
@@ -46,12 +52,17 @@ export const ArticleList: React.FC<ListProps> = (props) => (
 );
 
 export const ArticleEdit: React.FC<EditProps> = (props) => (
-  <Edit {...props}>
+  <Edit
+    {...props}
+    transform={(data) => {
+      return data;
+    }}
+  >
     <TabbedForm>
       <FormTab label="generals">
         <BooleanInput source="draft" />
         <TextInput source="title" fullWidth={true} />
-        <TextInput source="slug" fullWidth={true} />
+        <TextInput source="path" fullWidth={true} />
         <ImageInput source="featuredImage" />
         <DateInput source="date" />
         <ArrayInput source="links">
@@ -84,20 +95,43 @@ export const ArticleEdit: React.FC<EditProps> = (props) => (
   </Edit>
 );
 
-export const ArticleCreate: React.FC<CreateProps> = (props) => (
-  <Create title="Create an Article" {...props}>
-    <SimpleForm>
-      <BooleanInput source="draft" />
-      <TextInput source="title" fullWidth={true} />
-      <TextInput source="path" fullWidth={true} />
-      <ImageInput source="featuredImage" />
-      <DateInput source="date" />
-      <ArrayInput source="links">
-        <SimpleFormIterator>
-          <TextInput source="" />
-        </SimpleFormIterator>
-      </ArrayInput>
-      <MarkdownInput source="body" validate={[required()]} />
-    </SimpleForm>
-  </Create>
-);
+export const ArticleCreate: React.FC<CreateProps> = (props) => {
+  return (
+    <Create
+      title="Create an Article"
+      {...props}
+      transform={(data) => {
+        if (data.featuredImage) {
+          return pipe(
+            uploadImages(apiProvider)("articles", data.path, [
+              data.featuredImage.rawFile
+            ]),
+            TE.map((locations) => ({ ...data, featuredImage: locations[0] }))
+          )().then((result) => {
+            if (E.isLeft(result)) {
+              throw result.left;
+            }
+            return result.right;
+          });
+        }
+        return data;
+      }}
+    >
+      <SimpleForm>
+        <BooleanInput source="draft" />
+        <TextInput source="title" fullWidth={true} />
+        <TextInput source="path" fullWidth={true} />
+        <ImageInput source="featuredImage">
+          <ImageField source="src" title="title" />
+        </ImageInput>
+        <DateInput source="date" />
+        <ArrayInput source="links">
+          <SimpleFormIterator>
+            <TextInput source="" />
+          </SimpleFormIterator>
+        </ArrayInput>
+        <MarkdownInput source="body" validate={[required()]} />
+      </SimpleForm>
+    </Create>
+  );
+};

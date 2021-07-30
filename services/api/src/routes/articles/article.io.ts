@@ -12,6 +12,8 @@ export const toArticleIO = (
       ...article,
       type: "Article",
       links: [],
+      featuredImage: article.featuredImage ?? "",
+      date: article.date?.toISOString(),
       createdAt: article.createdAt.toISOString(),
       updatedAt: article.updatedAt.toISOString(),
     }),
