@@ -17,7 +17,8 @@ export const MakeListArticlesRoute: Route = (r, { env, db }) => {
       const findOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
       const draft = pipe(
         _draft,
-        O.getOrElse(() => false)
+        O.map((d) => ({ draft: d })),
+        O.getOrElse(() => ({}))
       );
       return pipe(
         sequenceS(TE.taskEither)({
@@ -26,7 +27,7 @@ export const MakeListArticlesRoute: Route = (r, { env, db }) => {
               ...findOptions,
               where: {
                 ...findOptions.where,
-                draft
+                ...draft
               }
             }),
             TE.chainEitherK(A.traverse(E.either)(toArticleIO))

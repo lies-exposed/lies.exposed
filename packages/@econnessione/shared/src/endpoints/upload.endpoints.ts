@@ -8,6 +8,7 @@ export const GetSignedURL = Endpoint({
     Body: t.strict({
       resource: t.union([
         t.literal("actors"),
+        t.literal("articles"),
         t.literal("groups"),
         t.literal("events"),
         t.literal("projects"),
@@ -22,5 +23,5 @@ export const GetSignedURL = Endpoint({
 
 // export const uploads = ResourceEndpoints({
 //   Get: GetSignedURL,
-//   List: 
+//   List:
 // });

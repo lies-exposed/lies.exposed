@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types";
+import { BooleanFromString, DateFromISOString } from "io-ts-types";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Article } from "../io/http";
@@ -10,7 +10,7 @@ import { ResourceEndpoints } from "./types";
 const ListArticlesQuery = t.type(
   {
     ...GetListQuery.props,
-    draft: optionFromNullable(BooleanFromString)
+    draft: optionFromNullable(BooleanFromString),
   },
   "ListArticlesQuery"
 );
@@ -18,18 +18,18 @@ export const ListArticles = Endpoint({
   Method: "GET",
   getPath: () => "/articles",
   Input: {
-    Query: ListArticlesQuery
+    Query: ListArticlesQuery,
   },
-  Output: Output(t.array(Article.Article), "Articles")
+  Output: Output(t.array(Article.Article), "Articles"),
 });
 
 export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/articles/${id}`,
   Input: {
-    Params: t.type({ id: t.string })
+    Params: t.type({ id: t.string }),
   },
-  Output: Output(Article.Article, "Articles")
+  Output: Output(Article.Article, "Articles"),
 });
 
 export const Create = Endpoint({
@@ -40,13 +40,15 @@ export const Create = Endpoint({
       {
         title: t.string,
         path: t.string,
+        draft: t.boolean,
+        date: DateFromISOString,
         featuredImage: optionFromNullable(t.string),
-        body: t.string
+        body: t.string,
       },
       "CreateArticleBody"
-    )
+    ),
   },
-  Output: Output(Article.Article, "Article")
+  Output: Output(Article.Article, "Article"),
 });
 
 export const articles = ResourceEndpoints({
@@ -62,17 +64,19 @@ export const articles = ResourceEndpoints({
         {
           title: t.string,
           path: t.string,
+          draft: t.boolean,
+          date: DateFromISOString,
           featuredImage: optionFromNullable(t.string),
-          body: t.string
+          body: t.string,
         },
         "EditArticleBody"
-      )
+      ),
     },
-    Output: Output(Article.Article, "Article")
+    Output: Output(Article.Article, "Article"),
   }),
   Delete: Endpoint({
     Method: "DELETE",
     getPath: () => `/articles`,
-    Output: Output(Article.Article, "Article")
-  })
+    Output: Output(Article.Article, "Article"),
+  }),
 });

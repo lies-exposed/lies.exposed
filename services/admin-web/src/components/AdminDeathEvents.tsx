@@ -37,7 +37,7 @@ import {
   SingleFieldList,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
@@ -89,7 +89,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
       return {
         ...r,
         location: r.location ? JSON.parse(r.location) : undefined,
-        victim: r.victim?.id,
+        victim: r.victim?.id
       };
     }}
   >
@@ -178,18 +178,6 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
           </Datagrid>
         </ArrayField>
       </FormTab>
-      <FormTab label="Preview">
-        <FormDataConsumer>
-          {({ formData, ...rest }) => {
-            return pipe(
-              http.Events.Uncategorized.Uncategorized.decode(formData),
-              E.fold(renderValidationErrors, (p) => (
-                <EventPageContent event={p} actors={[]} groups={[]} />
-              ))
-            );
-          }}
-        </FormDataConsumer>
-      </FormTab>
     </TabbedForm>
   </Edit>
 );
@@ -198,7 +186,7 @@ export const DeathCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Death Event" {...props}>
     <SimpleForm>
       <ReferenceInput source="victim" reference="actors">
-        <SelectInput optionText="fullName" />
+        <AutocompleteInput source="id" optionText="fullName" />
       </ReferenceInput>
       <DateInput source="date" />
     </SimpleForm>
