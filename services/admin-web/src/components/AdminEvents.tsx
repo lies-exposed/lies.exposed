@@ -104,7 +104,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       return {
         ...r,
         endDate: r.endDate === "" ? undefined : r.endDate,
-        links: r.links.concat(r.newLinks),
+        links: r.links.concat(r.newLinks ?? []),
       };
     }}
   >

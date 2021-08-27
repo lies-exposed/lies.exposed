@@ -1,4 +1,5 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { EventLink } from "@econnessione/shared/io/http/Events/EventLink";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventEntity } from "@entities/Event.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
@@ -18,26 +19,16 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
       body: { links, images, actors, groups, groupsMembers, ...body },
     }) => {
       ctx.logger.debug.log("Incoming body %O", body);
-      const selectEventTask = pipe(
-        ctx.db.manager
-          .createQueryBuilder(EventEntity, "event")
-          .leftJoinAndSelect("event.actors", "actors")
-          .leftJoinAndSelect("event.groups", "groups")
-          .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
-          .leftJoinAndSelect("event.images", "images")
-          .leftJoinAndSelect("event.links", "links")
-          .where("event.id = :eventId", { eventId: id }),
-        (q) => {
-          return ctx.db.execQuery(() => q.getOneOrFail());
-        }
-      );
 
       const updateData = foldOptionals({
         ...body,
         actors: pipe(actors, O.map(A.map((a) => ({ id: a })))),
         groups: pipe(groups, O.map(A.map((g) => ({ id: g })))),
         groupsMembers: pipe(groupsMembers, O.map(A.map((g) => ({ id: g })))),
-        links: pipe(links, O.map(A.map((l) => ({ id: l })))),
+        links: pipe(
+          links,
+          O.map(A.map((l) => (EventLink.is(l) ? l : { id: uuid(), ...l })))
+        ),
         images: pipe(
           images,
           O.map((imgs) =>
@@ -53,7 +44,15 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
 
       return pipe(
         ctx.db.save(EventEntity, [{ id, ...updateData }]),
-        TE.chain(() => selectEventTask),
+        TE.chain(() =>
+          ctx.db.findOneOrFail(EventEntity, {
+            where: { id },
+            relations: ["images", "links"],
+            loadRelationIds: {
+              relations: ["actors", "groups", "groupsMembers"],
+            },
+          })
+        ),
         TE.chainEitherK((event) => toEventIO(event)),
         TE.map((event) => ({
           body: {
