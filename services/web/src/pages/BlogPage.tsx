@@ -85,7 +85,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                                 color="primary"
                                 onClick={async () => {
                                   if (navigate) {
-                                    await navigate(`/blog/${a.id}`);
+                                    await navigate(`/blog/${a.path}`);
                                   }
                                 }}
                               >

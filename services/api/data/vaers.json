@@ -1,0 +1,1332 @@
+[
+  {
+    "date": "2020-12-31T23:00:00.000Z",
+    "reported": 507,
+    "cumulativeReported": 0,
+    "deaths": 2,
+    "cumulativeDeaths": 0
+  },
+  {
+    "date": "2021-01-01T23:00:00.000Z",
+    "reported": 574,
+    "cumulativeReported": 507,
+    "deaths": 0,
+    "cumulativeDeaths": 2
+  },
+  {
+    "date": "2021-01-02T23:00:00.000Z",
+    "reported": 420,
+    "cumulativeReported": 1081,
+    "deaths": 2,
+    "cumulativeDeaths": 2
+  },
+  {
+    "date": "2021-01-03T23:00:00.000Z",
+    "reported": 1512,
+    "cumulativeReported": 1501,
+    "deaths": 7,
+    "cumulativeDeaths": 4
+  },
+  {
+    "date": "2021-01-04T23:00:00.000Z",
+    "reported": 2212,
+    "cumulativeReported": 3013,
+    "deaths": 14,
+    "cumulativeDeaths": 11
+  },
+  {
+    "date": "2021-01-05T23:00:00.000Z",
+    "reported": 2383,
+    "cumulativeReported": 5225,
+    "deaths": 6,
+    "cumulativeDeaths": 25
+  },
+  {
+    "date": "2021-01-06T23:00:00.000Z",
+    "reported": 3069,
+    "cumulativeReported": 7608,
+    "deaths": 11,
+    "cumulativeDeaths": 31
+  },
+  {
+    "date": "2021-01-07T23:00:00.000Z",
+    "reported": 3655,
+    "cumulativeReported": 10677,
+    "deaths": 13,
+    "cumulativeDeaths": 42
+  },
+  {
+    "date": "2021-01-08T23:00:00.000Z",
+    "reported": 2196,
+    "cumulativeReported": 14332,
+    "deaths": 8,
+    "cumulativeDeaths": 55
+  },
+  {
+    "date": "2021-01-09T23:00:00.000Z",
+    "reported": 1121,
+    "cumulativeReported": 16528,
+    "deaths": 5,
+    "cumulativeDeaths": 63
+  },
+  {
+    "date": "2021-01-10T23:00:00.000Z",
+    "reported": 2770,
+    "cumulativeReported": 17649,
+    "deaths": 18,
+    "cumulativeDeaths": 68
+  },
+  {
+    "date": "2021-01-11T23:00:00.000Z",
+    "reported": 2910,
+    "cumulativeReported": 20419,
+    "deaths": 16,
+    "cumulativeDeaths": 86
+  },
+  {
+    "date": "2021-01-12T23:00:00.000Z",
+    "reported": 3004,
+    "cumulativeReported": 23329,
+    "deaths": 17,
+    "cumulativeDeaths": 102
+  },
+  {
+    "date": "2021-01-13T23:00:00.000Z",
+    "reported": 2894,
+    "cumulativeReported": 26333,
+    "deaths": 22,
+    "cumulativeDeaths": 119
+  },
+  {
+    "date": "2021-01-14T23:00:00.000Z",
+    "reported": 2897,
+    "cumulativeReported": 29227,
+    "deaths": 18,
+    "cumulativeDeaths": 141
+  },
+  {
+    "date": "2021-01-15T23:00:00.000Z",
+    "reported": 968,
+    "cumulativeReported": 32124,
+    "deaths": 8,
+    "cumulativeDeaths": 159
+  },
+  {
+    "date": "2021-01-16T23:00:00.000Z",
+    "reported": 921,
+    "cumulativeReported": 33092,
+    "deaths": 7,
+    "cumulativeDeaths": 167
+  },
+  {
+    "date": "2021-01-17T23:00:00.000Z",
+    "reported": 1998,
+    "cumulativeReported": 34013,
+    "deaths": 16,
+    "cumulativeDeaths": 174
+  },
+  {
+    "date": "2021-01-18T23:00:00.000Z",
+    "reported": 2621,
+    "cumulativeReported": 36011,
+    "deaths": 22,
+    "cumulativeDeaths": 190
+  },
+  {
+    "date": "2021-01-19T23:00:00.000Z",
+    "reported": 2432,
+    "cumulativeReported": 38632,
+    "deaths": 23,
+    "cumulativeDeaths": 212
+  },
+  {
+    "date": "2021-01-20T23:00:00.000Z",
+    "reported": 3127,
+    "cumulativeReported": 41064,
+    "deaths": 39,
+    "cumulativeDeaths": 235
+  },
+  {
+    "date": "2021-01-21T23:00:00.000Z",
+    "reported": 3098,
+    "cumulativeReported": 44191,
+    "deaths": 24,
+    "cumulativeDeaths": 274
+  },
+  {
+    "date": "2021-01-22T23:00:00.000Z",
+    "reported": 1092,
+    "cumulativeReported": 47289,
+    "deaths": 4,
+    "cumulativeDeaths": 298
+  },
+  {
+    "date": "2021-01-23T23:00:00.000Z",
+    "reported": 1014,
+    "cumulativeReported": 48381,
+    "deaths": 8,
+    "cumulativeDeaths": 302
+  },
+  {
+    "date": "2021-01-24T23:00:00.000Z",
+    "reported": 3039,
+    "cumulativeReported": 49395,
+    "deaths": 33,
+    "cumulativeDeaths": 310
+  },
+  {
+    "date": "2021-01-25T23:00:00.000Z",
+    "reported": 2988,
+    "cumulativeReported": 52434,
+    "deaths": 37,
+    "cumulativeDeaths": 343
+  },
+  {
+    "date": "2021-01-26T23:00:00.000Z",
+    "reported": 3253,
+    "cumulativeReported": 55422,
+    "deaths": 33,
+    "cumulativeDeaths": 380
+  },
+  {
+    "date": "2021-01-27T23:00:00.000Z",
+    "reported": 3535,
+    "cumulativeReported": 58675,
+    "deaths": 33,
+    "cumulativeDeaths": 413
+  },
+  {
+    "date": "2021-01-28T23:00:00.000Z",
+    "reported": 2964,
+    "cumulativeReported": 62210,
+    "deaths": 29,
+    "cumulativeDeaths": 446
+  },
+  {
+    "date": "2021-01-29T23:00:00.000Z",
+    "reported": 1196,
+    "cumulativeReported": 65174,
+    "deaths": 7,
+    "cumulativeDeaths": 475
+  },
+  {
+    "date": "2021-01-30T23:00:00.000Z",
+    "reported": 1164,
+    "cumulativeReported": 66370,
+    "deaths": 3,
+    "cumulativeDeaths": 482
+  },
+  {
+    "date": "2021-01-31T23:00:00.000Z",
+    "reported": 2646,
+    "cumulativeReported": 67534,
+    "deaths": 34,
+    "cumulativeDeaths": 485
+  },
+  {
+    "date": "2021-02-01T23:00:00.000Z",
+    "reported": 2508,
+    "cumulativeReported": 70180,
+    "deaths": 29,
+    "cumulativeDeaths": 519
+  },
+  {
+    "date": "2021-02-02T23:00:00.000Z",
+    "reported": 2188,
+    "cumulativeReported": 72688,
+    "deaths": 25,
+    "cumulativeDeaths": 548
+  },
+  {
+    "date": "2021-02-03T23:00:00.000Z",
+    "reported": 3048,
+    "cumulativeReported": 74876,
+    "deaths": 35,
+    "cumulativeDeaths": 573
+  },
+  {
+    "date": "2021-02-04T23:00:00.000Z",
+    "reported": 2899,
+    "cumulativeReported": 77924,
+    "deaths": 37,
+    "cumulativeDeaths": 608
+  },
+  {
+    "date": "2021-02-05T23:00:00.000Z",
+    "reported": 1478,
+    "cumulativeReported": 80823,
+    "deaths": 3,
+    "cumulativeDeaths": 645
+  },
+  {
+    "date": "2021-02-06T23:00:00.000Z",
+    "reported": 1235,
+    "cumulativeReported": 82301,
+    "deaths": 8,
+    "cumulativeDeaths": 648
+  },
+  {
+    "date": "2021-02-07T23:00:00.000Z",
+    "reported": 2827,
+    "cumulativeReported": 83536,
+    "deaths": 45,
+    "cumulativeDeaths": 656
+  },
+  {
+    "date": "2021-02-08T23:00:00.000Z",
+    "reported": 2210,
+    "cumulativeReported": 86363,
+    "deaths": 41,
+    "cumulativeDeaths": 701
+  },
+  {
+    "date": "2021-02-09T23:00:00.000Z",
+    "reported": 2804,
+    "cumulativeReported": 88573,
+    "deaths": 31,
+    "cumulativeDeaths": 742
+  },
+  {
+    "date": "2021-02-10T23:00:00.000Z",
+    "reported": 2597,
+    "cumulativeReported": 91377,
+    "deaths": 35,
+    "cumulativeDeaths": 773
+  },
+  {
+    "date": "2021-02-11T23:00:00.000Z",
+    "reported": 2088,
+    "cumulativeReported": 93974,
+    "deaths": 34,
+    "cumulativeDeaths": 808
+  },
+  {
+    "date": "2021-02-12T23:00:00.000Z",
+    "reported": 1243,
+    "cumulativeReported": 96062,
+    "deaths": 13,
+    "cumulativeDeaths": 842
+  },
+  {
+    "date": "2021-02-13T23:00:00.000Z",
+    "reported": 1041,
+    "cumulativeReported": 97305,
+    "deaths": 13,
+    "cumulativeDeaths": 855
+  },
+  {
+    "date": "2021-02-14T23:00:00.000Z",
+    "reported": 1849,
+    "cumulativeReported": 98346,
+    "deaths": 36,
+    "cumulativeDeaths": 868
+  },
+  {
+    "date": "2021-02-15T23:00:00.000Z",
+    "reported": 1738,
+    "cumulativeReported": 100195,
+    "deaths": 23,
+    "cumulativeDeaths": 904
+  },
+  {
+    "date": "2021-02-16T23:00:00.000Z",
+    "reported": 1681,
+    "cumulativeReported": 101933,
+    "deaths": 54,
+    "cumulativeDeaths": 927
+  },
+  {
+    "date": "2021-02-17T23:00:00.000Z",
+    "reported": 2151,
+    "cumulativeReported": 103614,
+    "deaths": 33,
+    "cumulativeDeaths": 981
+  },
+  {
+    "date": "2021-02-18T23:00:00.000Z",
+    "reported": 1860,
+    "cumulativeReported": 105765,
+    "deaths": 27,
+    "cumulativeDeaths": 1014
+  },
+  {
+    "date": "2021-02-19T23:00:00.000Z",
+    "reported": 1161,
+    "cumulativeReported": 107625,
+    "deaths": 6,
+    "cumulativeDeaths": 1041
+  },
+  {
+    "date": "2021-02-20T23:00:00.000Z",
+    "reported": 1021,
+    "cumulativeReported": 108786,
+    "deaths": 6,
+    "cumulativeDeaths": 1047
+  },
+  {
+    "date": "2021-02-21T23:00:00.000Z",
+    "reported": 2159,
+    "cumulativeReported": 109807,
+    "deaths": 38,
+    "cumulativeDeaths": 1053
+  },
+  {
+    "date": "2021-02-22T23:00:00.000Z",
+    "reported": 1798,
+    "cumulativeReported": 111966,
+    "deaths": 32,
+    "cumulativeDeaths": 1091
+  },
+  {
+    "date": "2021-02-23T23:00:00.000Z",
+    "reported": 1994,
+    "cumulativeReported": 113764,
+    "deaths": 38,
+    "cumulativeDeaths": 1123
+  },
+  {
+    "date": "2021-02-24T23:00:00.000Z",
+    "reported": 1997,
+    "cumulativeReported": 115758,
+    "deaths": 46,
+    "cumulativeDeaths": 1161
+  },
+  {
+    "date": "2021-02-25T23:00:00.000Z",
+    "reported": 2236,
+    "cumulativeReported": 117755,
+    "deaths": 44,
+    "cumulativeDeaths": 1207
+  },
+  {
+    "date": "2021-02-26T23:00:00.000Z",
+    "reported": 1154,
+    "cumulativeReported": 119991,
+    "deaths": 14,
+    "cumulativeDeaths": 1251
+  },
+  {
+    "date": "2021-02-27T23:00:00.000Z",
+    "reported": 1079,
+    "cumulativeReported": 121145,
+    "deaths": 13,
+    "cumulativeDeaths": 1265
+  },
+  {
+    "date": "2021-02-28T23:00:00.000Z",
+    "reported": 2412,
+    "cumulativeReported": 122224,
+    "deaths": 28,
+    "cumulativeDeaths": 1278
+  },
+  {
+    "date": "2021-03-01T23:00:00.000Z",
+    "reported": 1939,
+    "cumulativeReported": 124636,
+    "deaths": 52,
+    "cumulativeDeaths": 1306
+  },
+  {
+    "date": "2021-03-02T23:00:00.000Z",
+    "reported": 2385,
+    "cumulativeReported": 126575,
+    "deaths": 44,
+    "cumulativeDeaths": 1358
+  },
+  {
+    "date": "2021-03-03T23:00:00.000Z",
+    "reported": 2291,
+    "cumulativeReported": 128960,
+    "deaths": 48,
+    "cumulativeDeaths": 1402
+  },
+  {
+    "date": "2021-03-04T23:00:00.000Z",
+    "reported": 2310,
+    "cumulativeReported": 131251,
+    "deaths": 64,
+    "cumulativeDeaths": 1450
+  },
+  {
+    "date": "2021-03-05T23:00:00.000Z",
+    "reported": 1326,
+    "cumulativeReported": 133561,
+    "deaths": 5,
+    "cumulativeDeaths": 1514
+  },
+  {
+    "date": "2021-03-06T23:00:00.000Z",
+    "reported": 1397,
+    "cumulativeReported": 134887,
+    "deaths": 12,
+    "cumulativeDeaths": 1519
+  },
+  {
+    "date": "2021-03-07T23:00:00.000Z",
+    "reported": 2807,
+    "cumulativeReported": 136284,
+    "deaths": 37,
+    "cumulativeDeaths": 1531
+  },
+  {
+    "date": "2021-03-08T23:00:00.000Z",
+    "reported": 2465,
+    "cumulativeReported": 139091,
+    "deaths": 30,
+    "cumulativeDeaths": 1568
+  },
+  {
+    "date": "2021-03-09T23:00:00.000Z",
+    "reported": 2777,
+    "cumulativeReported": 141556,
+    "deaths": 38,
+    "cumulativeDeaths": 1598
+  },
+  {
+    "date": "2021-03-10T23:00:00.000Z",
+    "reported": 2746,
+    "cumulativeReported": 144333,
+    "deaths": 42,
+    "cumulativeDeaths": 1636
+  },
+  {
+    "date": "2021-03-11T23:00:00.000Z",
+    "reported": 2611,
+    "cumulativeReported": 147079,
+    "deaths": 93,
+    "cumulativeDeaths": 1678
+  },
+  {
+    "date": "2021-03-12T23:00:00.000Z",
+    "reported": 1678,
+    "cumulativeReported": 149690,
+    "deaths": 11,
+    "cumulativeDeaths": 1771
+  },
+  {
+    "date": "2021-03-13T23:00:00.000Z",
+    "reported": 1610,
+    "cumulativeReported": 151368,
+    "deaths": 13,
+    "cumulativeDeaths": 1782
+  },
+  {
+    "date": "2021-03-14T23:00:00.000Z",
+    "reported": 3120,
+    "cumulativeReported": 152978,
+    "deaths": 39,
+    "cumulativeDeaths": 1795
+  },
+  {
+    "date": "2021-03-15T23:00:00.000Z",
+    "reported": 2865,
+    "cumulativeReported": 156098,
+    "deaths": 67,
+    "cumulativeDeaths": 1834
+  },
+  {
+    "date": "2021-03-16T23:00:00.000Z",
+    "reported": 2494,
+    "cumulativeReported": 158963,
+    "deaths": 42,
+    "cumulativeDeaths": 1901
+  },
+  {
+    "date": "2021-03-17T23:00:00.000Z",
+    "reported": 2723,
+    "cumulativeReported": 161457,
+    "deaths": 85,
+    "cumulativeDeaths": 1943
+  },
+  {
+    "date": "2021-03-18T23:00:00.000Z",
+    "reported": 3093,
+    "cumulativeReported": 164180,
+    "deaths": 56,
+    "cumulativeDeaths": 2028
+  },
+  {
+    "date": "2021-03-19T23:00:00.000Z",
+    "reported": 1558,
+    "cumulativeReported": 167273,
+    "deaths": 3,
+    "cumulativeDeaths": 2084
+  },
+  {
+    "date": "2021-03-20T23:00:00.000Z",
+    "reported": 1552,
+    "cumulativeReported": 168831,
+    "deaths": 8,
+    "cumulativeDeaths": 2087
+  },
+  {
+    "date": "2021-03-21T23:00:00.000Z",
+    "reported": 2767,
+    "cumulativeReported": 170383,
+    "deaths": 46,
+    "cumulativeDeaths": 2095
+  },
+  {
+    "date": "2021-03-22T23:00:00.000Z",
+    "reported": 2571,
+    "cumulativeReported": 173150,
+    "deaths": 61,
+    "cumulativeDeaths": 2141
+  },
+  {
+    "date": "2021-03-23T23:00:00.000Z",
+    "reported": 2758,
+    "cumulativeReported": 175721,
+    "deaths": 47,
+    "cumulativeDeaths": 2202
+  },
+  {
+    "date": "2021-03-24T23:00:00.000Z",
+    "reported": 3027,
+    "cumulativeReported": 178479,
+    "deaths": 52,
+    "cumulativeDeaths": 2249
+  },
+  {
+    "date": "2021-03-25T23:00:00.000Z",
+    "reported": 2786,
+    "cumulativeReported": 181506,
+    "deaths": 29,
+    "cumulativeDeaths": 2301
+  },
+  {
+    "date": "2021-03-26T23:00:00.000Z",
+    "reported": 1607,
+    "cumulativeReported": 184292,
+    "deaths": 12,
+    "cumulativeDeaths": 2330
+  },
+  {
+    "date": "2021-03-27T23:00:00.000Z",
+    "reported": 1617,
+    "cumulativeReported": 185899,
+    "deaths": 10,
+    "cumulativeDeaths": 2342
+  },
+  {
+    "date": "2021-03-28T22:00:00.000Z",
+    "reported": 2848,
+    "cumulativeReported": 187516,
+    "deaths": 60,
+    "cumulativeDeaths": 2352
+  },
+  {
+    "date": "2021-03-29T22:00:00.000Z",
+    "reported": 2652,
+    "cumulativeReported": 190364,
+    "deaths": 55,
+    "cumulativeDeaths": 2412
+  },
+  {
+    "date": "2021-03-30T22:00:00.000Z",
+    "reported": 3715,
+    "cumulativeReported": 193016,
+    "deaths": 55,
+    "cumulativeDeaths": 2467
+  },
+  {
+    "date": "2021-03-31T22:00:00.000Z",
+    "reported": 3581,
+    "cumulativeReported": 196731,
+    "deaths": 59,
+    "cumulativeDeaths": 2522
+  },
+  {
+    "date": "2021-04-01T22:00:00.000Z",
+    "reported": 3330,
+    "cumulativeReported": 200312,
+    "deaths": 35,
+    "cumulativeDeaths": 2581
+  },
+  {
+    "date": "2021-04-02T22:00:00.000Z",
+    "reported": 2279,
+    "cumulativeReported": 203642,
+    "deaths": 12,
+    "cumulativeDeaths": 2616
+  },
+  {
+    "date": "2021-04-03T22:00:00.000Z",
+    "reported": 1835,
+    "cumulativeReported": 205921,
+    "deaths": 7,
+    "cumulativeDeaths": 2628
+  },
+  {
+    "date": "2021-04-04T22:00:00.000Z",
+    "reported": 3031,
+    "cumulativeReported": 207756,
+    "deaths": 42,
+    "cumulativeDeaths": 2635
+  },
+  {
+    "date": "2021-04-05T22:00:00.000Z",
+    "reported": 2785,
+    "cumulativeReported": 210787,
+    "deaths": 29,
+    "cumulativeDeaths": 2677
+  },
+  {
+    "date": "2021-04-06T22:00:00.000Z",
+    "reported": 4120,
+    "cumulativeReported": 213572,
+    "deaths": 40,
+    "cumulativeDeaths": 2706
+  },
+  {
+    "date": "2021-04-07T22:00:00.000Z",
+    "reported": 3928,
+    "cumulativeReported": 217692,
+    "deaths": 32,
+    "cumulativeDeaths": 2746
+  },
+  {
+    "date": "2021-04-08T22:00:00.000Z",
+    "reported": 4132,
+    "cumulativeReported": 221620,
+    "deaths": 32,
+    "cumulativeDeaths": 2778
+  },
+  {
+    "date": "2021-04-09T22:00:00.000Z",
+    "reported": 3555,
+    "cumulativeReported": 225752,
+    "deaths": 19,
+    "cumulativeDeaths": 2810
+  },
+  {
+    "date": "2021-04-10T22:00:00.000Z",
+    "reported": 2589,
+    "cumulativeReported": 229307,
+    "deaths": 11,
+    "cumulativeDeaths": 2829
+  },
+  {
+    "date": "2021-04-11T22:00:00.000Z",
+    "reported": 3889,
+    "cumulativeReported": 231896,
+    "deaths": 54,
+    "cumulativeDeaths": 2840
+  },
+  {
+    "date": "2021-04-12T22:00:00.000Z",
+    "reported": 5738,
+    "cumulativeReported": 235785,
+    "deaths": 112,
+    "cumulativeDeaths": 2894
+  },
+  {
+    "date": "2021-04-13T22:00:00.000Z",
+    "reported": 4542,
+    "cumulativeReported": 241523,
+    "deaths": 89,
+    "cumulativeDeaths": 3006
+  },
+  {
+    "date": "2021-04-14T22:00:00.000Z",
+    "reported": 3977,
+    "cumulativeReported": 246065,
+    "deaths": 83,
+    "cumulativeDeaths": 3095
+  },
+  {
+    "date": "2021-04-15T22:00:00.000Z",
+    "reported": 4558,
+    "cumulativeReported": 250042,
+    "deaths": 65,
+    "cumulativeDeaths": 3178
+  },
+  {
+    "date": "2021-04-16T22:00:00.000Z",
+    "reported": 2407,
+    "cumulativeReported": 254600,
+    "deaths": 38,
+    "cumulativeDeaths": 3243
+  },
+  {
+    "date": "2021-04-17T22:00:00.000Z",
+    "reported": 2765,
+    "cumulativeReported": 257007,
+    "deaths": 22,
+    "cumulativeDeaths": 3281
+  },
+  {
+    "date": "2021-04-18T22:00:00.000Z",
+    "reported": 3514,
+    "cumulativeReported": 259772,
+    "deaths": 67,
+    "cumulativeDeaths": 3303
+  },
+  {
+    "date": "2021-04-19T22:00:00.000Z",
+    "reported": 3263,
+    "cumulativeReported": 263286,
+    "deaths": 61,
+    "cumulativeDeaths": 3370
+  },
+  {
+    "date": "2021-04-20T22:00:00.000Z",
+    "reported": 3717,
+    "cumulativeReported": 266549,
+    "deaths": 57,
+    "cumulativeDeaths": 3431
+  },
+  {
+    "date": "2021-04-21T22:00:00.000Z",
+    "reported": 3997,
+    "cumulativeReported": 270266,
+    "deaths": 67,
+    "cumulativeDeaths": 3488
+  },
+  {
+    "date": "2021-04-22T22:00:00.000Z",
+    "reported": 3789,
+    "cumulativeReported": 274263,
+    "deaths": 50,
+    "cumulativeDeaths": 3555
+  },
+  {
+    "date": "2021-04-23T22:00:00.000Z",
+    "reported": 3720,
+    "cumulativeReported": 278052,
+    "deaths": 15,
+    "cumulativeDeaths": 3605
+  },
+  {
+    "date": "2021-04-24T22:00:00.000Z",
+    "reported": 3084,
+    "cumulativeReported": 281772,
+    "deaths": 25,
+    "cumulativeDeaths": 3620
+  },
+  {
+    "date": "2021-04-25T22:00:00.000Z",
+    "reported": 2728,
+    "cumulativeReported": 284856,
+    "deaths": 35,
+    "cumulativeDeaths": 3645
+  },
+  {
+    "date": "2021-04-26T22:00:00.000Z",
+    "reported": 3687,
+    "cumulativeReported": 287584,
+    "deaths": 41,
+    "cumulativeDeaths": 3680
+  },
+  {
+    "date": "2021-04-27T22:00:00.000Z",
+    "reported": 3086,
+    "cumulativeReported": 291271,
+    "deaths": 61,
+    "cumulativeDeaths": 3721
+  },
+  {
+    "date": "2021-04-28T22:00:00.000Z",
+    "reported": 2876,
+    "cumulativeReported": 294357,
+    "deaths": 53,
+    "cumulativeDeaths": 3782
+  },
+  {
+    "date": "2021-04-29T22:00:00.000Z",
+    "reported": 2375,
+    "cumulativeReported": 297233,
+    "deaths": 31,
+    "cumulativeDeaths": 3835
+  },
+  {
+    "date": "2021-04-30T22:00:00.000Z",
+    "reported": 3089,
+    "cumulativeReported": 299608,
+    "deaths": 23,
+    "cumulativeDeaths": 3866
+  },
+  {
+    "date": "2021-05-01T22:00:00.000Z",
+    "reported": 1394,
+    "cumulativeReported": 302697,
+    "deaths": 13,
+    "cumulativeDeaths": 3889
+  },
+  {
+    "date": "2021-05-02T22:00:00.000Z",
+    "reported": 2469,
+    "cumulativeReported": 304091,
+    "deaths": 35,
+    "cumulativeDeaths": 3902
+  },
+  {
+    "date": "2021-05-03T22:00:00.000Z",
+    "reported": 2480,
+    "cumulativeReported": 306560,
+    "deaths": 43,
+    "cumulativeDeaths": 3937
+  },
+  {
+    "date": "2021-05-04T22:00:00.000Z",
+    "reported": 3133,
+    "cumulativeReported": 309040,
+    "deaths": 39,
+    "cumulativeDeaths": 3980
+  },
+  {
+    "date": "2021-05-05T22:00:00.000Z",
+    "reported": 2522,
+    "cumulativeReported": 312173,
+    "deaths": 28,
+    "cumulativeDeaths": 4019
+  },
+  {
+    "date": "2021-05-06T22:00:00.000Z",
+    "reported": 2305,
+    "cumulativeReported": 314695,
+    "deaths": 35,
+    "cumulativeDeaths": 4047
+  },
+  {
+    "date": "2021-05-07T22:00:00.000Z",
+    "reported": 1805,
+    "cumulativeReported": 317000,
+    "deaths": 11,
+    "cumulativeDeaths": 4082
+  },
+  {
+    "date": "2021-05-08T22:00:00.000Z",
+    "reported": 934,
+    "cumulativeReported": 318805,
+    "deaths": 2,
+    "cumulativeDeaths": 4093
+  },
+  {
+    "date": "2021-05-09T22:00:00.000Z",
+    "reported": 2165,
+    "cumulativeReported": 319739,
+    "deaths": 39,
+    "cumulativeDeaths": 4095
+  },
+  {
+    "date": "2021-05-10T22:00:00.000Z",
+    "reported": 3218,
+    "cumulativeReported": 321904,
+    "deaths": 17,
+    "cumulativeDeaths": 4134
+  },
+  {
+    "date": "2021-05-11T22:00:00.000Z",
+    "reported": 2417,
+    "cumulativeReported": 325122,
+    "deaths": 32,
+    "cumulativeDeaths": 4151
+  },
+  {
+    "date": "2021-05-12T22:00:00.000Z",
+    "reported": 2470,
+    "cumulativeReported": 327539,
+    "deaths": 45,
+    "cumulativeDeaths": 4183
+  },
+  {
+    "date": "2021-05-13T22:00:00.000Z",
+    "reported": 2730,
+    "cumulativeReported": 330009,
+    "deaths": 26,
+    "cumulativeDeaths": 4228
+  },
+  {
+    "date": "2021-05-14T22:00:00.000Z",
+    "reported": 1726,
+    "cumulativeReported": 332739,
+    "deaths": 15,
+    "cumulativeDeaths": 4254
+  },
+  {
+    "date": "2021-05-15T22:00:00.000Z",
+    "reported": 946,
+    "cumulativeReported": 334465,
+    "deaths": 8,
+    "cumulativeDeaths": 4269
+  },
+  {
+    "date": "2021-05-16T22:00:00.000Z",
+    "reported": 1904,
+    "cumulativeReported": 335411,
+    "deaths": 36,
+    "cumulativeDeaths": 4277
+  },
+  {
+    "date": "2021-05-17T22:00:00.000Z",
+    "reported": 2103,
+    "cumulativeReported": 337315,
+    "deaths": 30,
+    "cumulativeDeaths": 4313
+  },
+  {
+    "date": "2021-05-18T22:00:00.000Z",
+    "reported": 2374,
+    "cumulativeReported": 339418,
+    "deaths": 31,
+    "cumulativeDeaths": 4343
+  },
+  {
+    "date": "2021-05-19T22:00:00.000Z",
+    "reported": 2344,
+    "cumulativeReported": 341792,
+    "deaths": 35,
+    "cumulativeDeaths": 4374
+  },
+  {
+    "date": "2021-05-20T22:00:00.000Z",
+    "reported": 1760,
+    "cumulativeReported": 344136,
+    "deaths": 38,
+    "cumulativeDeaths": 4409
+  },
+  {
+    "date": "2021-05-21T22:00:00.000Z",
+    "reported": 1316,
+    "cumulativeReported": 345896,
+    "deaths": 12,
+    "cumulativeDeaths": 4447
+  },
+  {
+    "date": "2021-05-22T22:00:00.000Z",
+    "reported": 862,
+    "cumulativeReported": 347212,
+    "deaths": 1,
+    "cumulativeDeaths": 4459
+  },
+  {
+    "date": "2021-05-23T22:00:00.000Z",
+    "reported": 1866,
+    "cumulativeReported": 348074,
+    "deaths": 20,
+    "cumulativeDeaths": 4460
+  },
+  {
+    "date": "2021-05-24T22:00:00.000Z",
+    "reported": 2145,
+    "cumulativeReported": 349940,
+    "deaths": 37,
+    "cumulativeDeaths": 4480
+  },
+  {
+    "date": "2021-05-25T22:00:00.000Z",
+    "reported": 2443,
+    "cumulativeReported": 352085,
+    "deaths": 34,
+    "cumulativeDeaths": 4517
+  },
+  {
+    "date": "2021-05-26T22:00:00.000Z",
+    "reported": 2236,
+    "cumulativeReported": 354528,
+    "deaths": 41,
+    "cumulativeDeaths": 4551
+  },
+  {
+    "date": "2021-05-27T22:00:00.000Z",
+    "reported": 1848,
+    "cumulativeReported": 356764,
+    "deaths": 19,
+    "cumulativeDeaths": 4592
+  },
+  {
+    "date": "2021-05-28T22:00:00.000Z",
+    "reported": 1459,
+    "cumulativeReported": 358612,
+    "deaths": 7,
+    "cumulativeDeaths": 4611
+  },
+  {
+    "date": "2021-05-29T22:00:00.000Z",
+    "reported": 613,
+    "cumulativeReported": 360071,
+    "deaths": 10,
+    "cumulativeDeaths": 4618
+  },
+  {
+    "date": "2021-05-30T22:00:00.000Z",
+    "reported": 619,
+    "cumulativeReported": 360684,
+    "deaths": 12,
+    "cumulativeDeaths": 4628
+  },
+  {
+    "date": "2021-05-31T22:00:00.000Z",
+    "reported": 1860,
+    "cumulativeReported": 361303,
+    "deaths": 30,
+    "cumulativeDeaths": 4640
+  },
+  {
+    "date": "2021-06-01T22:00:00.000Z",
+    "reported": 2119,
+    "cumulativeReported": 363163,
+    "deaths": 26,
+    "cumulativeDeaths": 4670
+  },
+  {
+    "date": "2021-06-02T22:00:00.000Z",
+    "reported": 1872,
+    "cumulativeReported": 365282,
+    "deaths": 30,
+    "cumulativeDeaths": 4696
+  },
+  {
+    "date": "2021-06-03T22:00:00.000Z",
+    "reported": 2066,
+    "cumulativeReported": 367154,
+    "deaths": 33,
+    "cumulativeDeaths": 4726
+  },
+  {
+    "date": "2021-06-04T22:00:00.000Z",
+    "reported": 248,
+    "cumulativeReported": 369220,
+    "deaths": 0,
+    "cumulativeDeaths": 4759
+  },
+  {
+    "date": "2021-06-05T22:00:00.000Z",
+    "reported": 577,
+    "cumulativeReported": 369468,
+    "deaths": 3,
+    "cumulativeDeaths": 4759
+  },
+  {
+    "date": "2021-06-06T22:00:00.000Z",
+    "reported": 1396,
+    "cumulativeReported": 370045,
+    "deaths": 10,
+    "cumulativeDeaths": 4762
+  },
+  {
+    "date": "2021-06-07T22:00:00.000Z",
+    "reported": 2025,
+    "cumulativeReported": 371441,
+    "deaths": 35,
+    "cumulativeDeaths": 4772
+  },
+  {
+    "date": "2021-06-08T22:00:00.000Z",
+    "reported": 1949,
+    "cumulativeReported": 373466,
+    "deaths": 21,
+    "cumulativeDeaths": 4807
+  },
+  {
+    "date": "2021-06-09T22:00:00.000Z",
+    "reported": 1754,
+    "cumulativeReported": 375415,
+    "deaths": 27,
+    "cumulativeDeaths": 4828
+  },
+  {
+    "date": "2021-06-10T22:00:00.000Z",
+    "reported": 1919,
+    "cumulativeReported": 377169,
+    "deaths": 19,
+    "cumulativeDeaths": 4855
+  },
+  {
+    "date": "2021-06-11T22:00:00.000Z",
+    "reported": 564,
+    "cumulativeReported": 379088,
+    "deaths": 6,
+    "cumulativeDeaths": 4874
+  },
+  {
+    "date": "2021-06-12T22:00:00.000Z",
+    "reported": 647,
+    "cumulativeReported": 379652,
+    "deaths": 7,
+    "cumulativeDeaths": 4880
+  },
+  {
+    "date": "2021-06-13T22:00:00.000Z",
+    "reported": 1348,
+    "cumulativeReported": 380299,
+    "deaths": 24,
+    "cumulativeDeaths": 4887
+  },
+  {
+    "date": "2021-06-14T22:00:00.000Z",
+    "reported": 1636,
+    "cumulativeReported": 381647,
+    "deaths": 21,
+    "cumulativeDeaths": 4911
+  },
+  {
+    "date": "2021-06-15T22:00:00.000Z",
+    "reported": 1827,
+    "cumulativeReported": 383283,
+    "deaths": 26,
+    "cumulativeDeaths": 4932
+  },
+  {
+    "date": "2021-06-16T22:00:00.000Z",
+    "reported": 2481,
+    "cumulativeReported": 385110,
+    "deaths": 23,
+    "cumulativeDeaths": 4958
+  },
+  {
+    "date": "2021-06-17T22:00:00.000Z",
+    "reported": 1409,
+    "cumulativeReported": 387591,
+    "deaths": 23,
+    "cumulativeDeaths": 4981
+  },
+  {
+    "date": "2021-06-18T22:00:00.000Z",
+    "reported": 942,
+    "cumulativeReported": 389000,
+    "deaths": 11,
+    "cumulativeDeaths": 5004
+  },
+  {
+    "date": "2021-06-19T22:00:00.000Z",
+    "reported": 392,
+    "cumulativeReported": 389942,
+    "deaths": 4,
+    "cumulativeDeaths": 5015
+  },
+  {
+    "date": "2021-06-20T22:00:00.000Z",
+    "reported": 1671,
+    "cumulativeReported": 390334,
+    "deaths": 34,
+    "cumulativeDeaths": 5019
+  },
+  {
+    "date": "2021-06-21T22:00:00.000Z",
+    "reported": 1387,
+    "cumulativeReported": 392005,
+    "deaths": 36,
+    "cumulativeDeaths": 5053
+  },
+  {
+    "date": "2021-06-22T22:00:00.000Z",
+    "reported": 1630,
+    "cumulativeReported": 393392,
+    "deaths": 32,
+    "cumulativeDeaths": 5089
+  },
+  {
+    "date": "2021-06-23T22:00:00.000Z",
+    "reported": 1357,
+    "cumulativeReported": 395022,
+    "deaths": 45,
+    "cumulativeDeaths": 5121
+  },
+  {
+    "date": "2021-06-24T22:00:00.000Z",
+    "reported": 2188,
+    "cumulativeReported": 396379,
+    "deaths": 51,
+    "cumulativeDeaths": 5166
+  },
+  {
+    "date": "2021-06-25T22:00:00.000Z",
+    "reported": 778,
+    "cumulativeReported": 398567,
+    "deaths": 10,
+    "cumulativeDeaths": 5217
+  },
+  {
+    "date": "2021-06-26T22:00:00.000Z",
+    "reported": 375,
+    "cumulativeReported": 399345,
+    "deaths": 3,
+    "cumulativeDeaths": 5227
+  },
+  {
+    "date": "2021-06-27T22:00:00.000Z",
+    "reported": 975,
+    "cumulativeReported": 399720,
+    "deaths": 41,
+    "cumulativeDeaths": 5230
+  },
+  {
+    "date": "2021-06-28T22:00:00.000Z",
+    "reported": 1262,
+    "cumulativeReported": 400695,
+    "deaths": 71,
+    "cumulativeDeaths": 5271
+  },
+  {
+    "date": "2021-06-29T22:00:00.000Z",
+    "reported": 2092,
+    "cumulativeReported": 401957,
+    "deaths": 35,
+    "cumulativeDeaths": 5342
+  },
+  {
+    "date": "2021-06-30T22:00:00.000Z",
+    "reported": 1515,
+    "cumulativeReported": 404049,
+    "deaths": 23,
+    "cumulativeDeaths": 5377
+  },
+  {
+    "date": "2021-07-01T22:00:00.000Z",
+    "reported": 1313,
+    "cumulativeReported": 405564,
+    "deaths": 13,
+    "cumulativeDeaths": 5400
+  },
+  {
+    "date": "2021-07-02T22:00:00.000Z",
+    "reported": 766,
+    "cumulativeReported": 406877,
+    "deaths": 11,
+    "cumulativeDeaths": 5413
+  },
+  {
+    "date": "2021-07-03T22:00:00.000Z",
+    "reported": 240,
+    "cumulativeReported": 407643,
+    "deaths": 4,
+    "cumulativeDeaths": 5424
+  },
+  {
+    "date": "2021-07-04T22:00:00.000Z",
+    "reported": 407,
+    "cumulativeReported": 407883,
+    "deaths": 6,
+    "cumulativeDeaths": 5428
+  },
+  {
+    "date": "2021-07-05T22:00:00.000Z",
+    "reported": 1093,
+    "cumulativeReported": 408290,
+    "deaths": 34,
+    "cumulativeDeaths": 5434
+  },
+  {
+    "date": "2021-07-06T22:00:00.000Z",
+    "reported": 1170,
+    "cumulativeReported": 409383,
+    "deaths": 31,
+    "cumulativeDeaths": 5468
+  },
+  {
+    "date": "2021-07-07T22:00:00.000Z",
+    "reported": 1007,
+    "cumulativeReported": 410553,
+    "deaths": 19,
+    "cumulativeDeaths": 5499
+  },
+  {
+    "date": "2021-07-08T22:00:00.000Z",
+    "reported": 589,
+    "cumulativeReported": 411560,
+    "deaths": 12,
+    "cumulativeDeaths": 5518
+  }
+]

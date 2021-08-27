@@ -10,7 +10,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
 import { toArticleIO } from "./article.io";
 
-export const MakeListArticlesRoute: Route = (r, { env, db }) => {
+export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
   AddEndpoint(r)(
     Endpoints.Article.List,
     ({ query: { draft: _draft, ...query } }) => {

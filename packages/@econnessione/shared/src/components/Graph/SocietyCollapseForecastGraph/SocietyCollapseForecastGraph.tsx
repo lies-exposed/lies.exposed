@@ -18,6 +18,7 @@ import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as t from "io-ts";
 import * as React from "react";
 
 const tooltipStyles = {
@@ -409,8 +410,8 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
     return pipe(
       <WithQueries
         queries={{
-          data: jsonData,
-          events: jsonData,
+          data: jsonData(t.strict({ data: t.any }).decode),
+          events: jsonData(t.strict({ data: t.any }).decode),
         }}
         params={{
           data: { id: "society-collapse-forecast" },

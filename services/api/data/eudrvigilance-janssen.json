@@ -1,0 +1,1532 @@
+[
+  {
+    "date": "2021-03-10T00:00:00.000Z",
+    "reported": 1,
+    "deaths": 0,
+    "injuries": 3,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 1,
+    "cumulativeInjuries": 3
+  },
+  {
+    "date": "2021-03-11T00:00:00.000Z",
+    "reported": 6,
+    "deaths": 0,
+    "injuries": 19,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 7,
+    "cumulativeInjuries": 22
+  },
+  {
+    "date": "2021-03-15T00:00:00.000Z",
+    "reported": 1,
+    "deaths": 0,
+    "injuries": 2,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 8,
+    "cumulativeInjuries": 24
+  },
+  {
+    "date": "2021-03-16T00:00:00.000Z",
+    "reported": 2,
+    "deaths": 0,
+    "injuries": 7,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 10,
+    "cumulativeInjuries": 31
+  },
+  {
+    "date": "2021-03-18T00:00:00.000Z",
+    "reported": 1,
+    "deaths": 0,
+    "injuries": 2,
+    "patientAgeGroup": "65-85 Years",
+    "cumulativeDeaths": 0,
+    "cumulativeReported": 11,
+    "cumulativeInjuries": 33
+  },
+  {
+    "date": "2021-03-19T00:00:00.000Z",
+    "reported": 7,
+    "deaths": 1,
+    "injuries": 22,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 1,
+    "cumulativeReported": 18,
+    "cumulativeInjuries": 55
+  },
+  {
+    "date": "2021-03-20T00:00:00.000Z",
+    "reported": 1,
+    "deaths": 0,
+    "injuries": 2,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 1,
+    "cumulativeReported": 19,
+    "cumulativeInjuries": 57
+  },
+  {
+    "date": "2021-03-22T00:00:00.000Z",
+    "reported": 2,
+    "deaths": 0,
+    "injuries": 7,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 1,
+    "cumulativeReported": 21,
+    "cumulativeInjuries": 64
+  },
+  {
+    "date": "2021-03-23T00:00:00.000Z",
+    "reported": 11,
+    "deaths": 0,
+    "injuries": 41,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 1,
+    "cumulativeReported": 32,
+    "cumulativeInjuries": 105
+  },
+  {
+    "date": "2021-03-24T00:00:00.000Z",
+    "reported": 5,
+    "deaths": 0,
+    "injuries": 12,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 1,
+    "cumulativeReported": 37,
+    "cumulativeInjuries": 117
+  },
+  {
+    "date": "2021-03-25T00:00:00.000Z",
+    "reported": 9,
+    "deaths": 0,
+    "injuries": 41,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 1,
+    "cumulativeReported": 46,
+    "cumulativeInjuries": 158
+  },
+  {
+    "date": "2021-03-26T00:00:00.000Z",
+    "reported": 8,
+    "deaths": 0,
+    "injuries": 48,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 1,
+    "cumulativeReported": 54,
+    "cumulativeInjuries": 206
+  },
+  {
+    "date": "2021-03-29T00:00:00.000Z",
+    "reported": 11,
+    "deaths": 2,
+    "injuries": 35,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 3,
+    "cumulativeReported": 65,
+    "cumulativeInjuries": 241
+  },
+  {
+    "date": "2021-03-30T00:00:00.000Z",
+    "reported": 9,
+    "deaths": 2,
+    "injuries": 49,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 5,
+    "cumulativeReported": 74,
+    "cumulativeInjuries": 290
+  },
+  {
+    "date": "2021-03-31T00:00:00.000Z",
+    "reported": 21,
+    "deaths": 2,
+    "injuries": 80,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 7,
+    "cumulativeReported": 95,
+    "cumulativeInjuries": 370
+  },
+  {
+    "date": "2021-04-01T00:00:00.000Z",
+    "reported": 7,
+    "deaths": 1,
+    "injuries": 39,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 8,
+    "cumulativeReported": 102,
+    "cumulativeInjuries": 409
+  },
+  {
+    "date": "2021-04-02T00:00:00.000Z",
+    "reported": 7,
+    "deaths": 0,
+    "injuries": 43,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 8,
+    "cumulativeReported": 109,
+    "cumulativeInjuries": 452
+  },
+  {
+    "date": "2021-04-05T00:00:00.000Z",
+    "reported": 8,
+    "deaths": 2,
+    "injuries": 33,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 10,
+    "cumulativeReported": 117,
+    "cumulativeInjuries": 485
+  },
+  {
+    "date": "2021-04-06T00:00:00.000Z",
+    "reported": 5,
+    "deaths": 0,
+    "injuries": 37,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 10,
+    "cumulativeReported": 122,
+    "cumulativeInjuries": 522
+  },
+  {
+    "date": "2021-04-07T00:00:00.000Z",
+    "reported": 4,
+    "deaths": 0,
+    "injuries": 16,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 10,
+    "cumulativeReported": 126,
+    "cumulativeInjuries": 538
+  },
+  {
+    "date": "2021-04-08T00:00:00.000Z",
+    "reported": 8,
+    "deaths": 1,
+    "injuries": 25,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 11,
+    "cumulativeReported": 134,
+    "cumulativeInjuries": 563
+  },
+  {
+    "date": "2021-04-09T00:00:00.000Z",
+    "reported": 5,
+    "deaths": 0,
+    "injuries": 32,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 11,
+    "cumulativeReported": 139,
+    "cumulativeInjuries": 595
+  },
+  {
+    "date": "2021-04-12T00:00:00.000Z",
+    "reported": 9,
+    "deaths": 0,
+    "injuries": 45,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 11,
+    "cumulativeReported": 148,
+    "cumulativeInjuries": 640
+  },
+  {
+    "date": "2021-04-13T00:00:00.000Z",
+    "reported": 7,
+    "deaths": 0,
+    "injuries": 25,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 11,
+    "cumulativeReported": 155,
+    "cumulativeInjuries": 665
+  },
+  {
+    "date": "2021-04-14T00:00:00.000Z",
+    "reported": 7,
+    "deaths": 0,
+    "injuries": 19,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 11,
+    "cumulativeReported": 162,
+    "cumulativeInjuries": 684
+  },
+  {
+    "date": "2021-04-15T00:00:00.000Z",
+    "reported": 3,
+    "deaths": 1,
+    "injuries": 19,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 12,
+    "cumulativeReported": 165,
+    "cumulativeInjuries": 703
+  },
+  {
+    "date": "2021-04-16T00:00:00.000Z",
+    "reported": 8,
+    "deaths": 1,
+    "injuries": 43,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 13,
+    "cumulativeReported": 173,
+    "cumulativeInjuries": 746
+  },
+  {
+    "date": "2021-04-17T00:00:00.000Z",
+    "reported": 1,
+    "deaths": 1,
+    "injuries": 1,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 14,
+    "cumulativeReported": 174,
+    "cumulativeInjuries": 747
+  },
+  {
+    "date": "2021-04-18T00:00:00.000Z",
+    "reported": 7,
+    "deaths": 4,
+    "injuries": 15,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 18,
+    "cumulativeReported": 181,
+    "cumulativeInjuries": 762
+  },
+  {
+    "date": "2021-04-19T00:00:00.000Z",
+    "reported": 12,
+    "deaths": 1,
+    "injuries": 53,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 19,
+    "cumulativeReported": 193,
+    "cumulativeInjuries": 815
+  },
+  {
+    "date": "2021-04-20T00:00:00.000Z",
+    "reported": 25,
+    "deaths": 1,
+    "injuries": 121,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 20,
+    "cumulativeReported": 218,
+    "cumulativeInjuries": 936
+  },
+  {
+    "date": "2021-04-21T00:00:00.000Z",
+    "reported": 22,
+    "deaths": 2,
+    "injuries": 102,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 22,
+    "cumulativeReported": 240,
+    "cumulativeInjuries": 1038
+  },
+  {
+    "date": "2021-04-22T00:00:00.000Z",
+    "reported": 31,
+    "deaths": 3,
+    "injuries": 147,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 25,
+    "cumulativeReported": 271,
+    "cumulativeInjuries": 1185
+  },
+  {
+    "date": "2021-04-23T00:00:00.000Z",
+    "reported": 25,
+    "deaths": 1,
+    "injuries": 74,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 26,
+    "cumulativeReported": 296,
+    "cumulativeInjuries": 1259
+  },
+  {
+    "date": "2021-04-24T00:00:00.000Z",
+    "reported": 10,
+    "deaths": 0,
+    "injuries": 49,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 26,
+    "cumulativeReported": 306,
+    "cumulativeInjuries": 1308
+  },
+  {
+    "date": "2021-04-25T00:00:00.000Z",
+    "reported": 82,
+    "deaths": 0,
+    "injuries": 456,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 26,
+    "cumulativeReported": 388,
+    "cumulativeInjuries": 1764
+  },
+  {
+    "date": "2021-04-26T00:00:00.000Z",
+    "reported": 130,
+    "deaths": 7,
+    "injuries": 670,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 33,
+    "cumulativeReported": 518,
+    "cumulativeInjuries": 2434
+  },
+  {
+    "date": "2021-04-27T00:00:00.000Z",
+    "reported": 127,
+    "deaths": 2,
+    "injuries": 627,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 35,
+    "cumulativeReported": 645,
+    "cumulativeInjuries": 3061
+  },
+  {
+    "date": "2021-04-28T00:00:00.000Z",
+    "reported": 155,
+    "deaths": 7,
+    "injuries": 877,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 42,
+    "cumulativeReported": 800,
+    "cumulativeInjuries": 3938
+  },
+  {
+    "date": "2021-04-29T00:00:00.000Z",
+    "reported": 201,
+    "deaths": 8,
+    "injuries": 1168,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 50,
+    "cumulativeReported": 1001,
+    "cumulativeInjuries": 5106
+  },
+  {
+    "date": "2021-04-30T00:00:00.000Z",
+    "reported": 347,
+    "deaths": 24,
+    "injuries": 1813,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 74,
+    "cumulativeReported": 1348,
+    "cumulativeInjuries": 6919
+  },
+  {
+    "date": "2021-05-01T00:00:00.000Z",
+    "reported": 110,
+    "deaths": 0,
+    "injuries": 628,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 74,
+    "cumulativeReported": 1458,
+    "cumulativeInjuries": 7547
+  },
+  {
+    "date": "2021-05-02T00:00:00.000Z",
+    "reported": 155,
+    "deaths": 0,
+    "injuries": 937,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 74,
+    "cumulativeReported": 1613,
+    "cumulativeInjuries": 8484
+  },
+  {
+    "date": "2021-05-03T00:00:00.000Z",
+    "reported": 161,
+    "deaths": 6,
+    "injuries": 846,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 80,
+    "cumulativeReported": 1774,
+    "cumulativeInjuries": 9330
+  },
+  {
+    "date": "2021-05-04T00:00:00.000Z",
+    "reported": 145,
+    "deaths": 2,
+    "injuries": 798,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 82,
+    "cumulativeReported": 1919,
+    "cumulativeInjuries": 10128
+  },
+  {
+    "date": "2021-05-05T00:00:00.000Z",
+    "reported": 174,
+    "deaths": 5,
+    "injuries": 945,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 87,
+    "cumulativeReported": 2093,
+    "cumulativeInjuries": 11073
+  },
+  {
+    "date": "2021-05-06T00:00:00.000Z",
+    "reported": 228,
+    "deaths": 6,
+    "injuries": 1193,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 93,
+    "cumulativeReported": 2321,
+    "cumulativeInjuries": 12266
+  },
+  {
+    "date": "2021-05-07T00:00:00.000Z",
+    "reported": 246,
+    "deaths": 1,
+    "injuries": 1252,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 94,
+    "cumulativeReported": 2567,
+    "cumulativeInjuries": 13518
+  },
+  {
+    "date": "2021-05-08T00:00:00.000Z",
+    "reported": 118,
+    "deaths": 0,
+    "injuries": 674,
+    "patientAgeGroup": "65-85 Years",
+    "cumulativeDeaths": 94,
+    "cumulativeReported": 2685,
+    "cumulativeInjuries": 14192
+  },
+  {
+    "date": "2021-05-09T00:00:00.000Z",
+    "reported": 37,
+    "deaths": 0,
+    "injuries": 230,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 94,
+    "cumulativeReported": 2722,
+    "cumulativeInjuries": 14422
+  },
+  {
+    "date": "2021-05-10T00:00:00.000Z",
+    "reported": 267,
+    "deaths": 6,
+    "injuries": 1528,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 100,
+    "cumulativeReported": 2989,
+    "cumulativeInjuries": 15950
+  },
+  {
+    "date": "2021-05-11T00:00:00.000Z",
+    "reported": 233,
+    "deaths": 4,
+    "injuries": 1264,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 104,
+    "cumulativeReported": 3222,
+    "cumulativeInjuries": 17214
+  },
+  {
+    "date": "2021-05-12T00:00:00.000Z",
+    "reported": 280,
+    "deaths": 6,
+    "injuries": 1466,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 110,
+    "cumulativeReported": 3502,
+    "cumulativeInjuries": 18680
+  },
+  {
+    "date": "2021-05-13T00:00:00.000Z",
+    "reported": 224,
+    "deaths": 3,
+    "injuries": 1318,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 113,
+    "cumulativeReported": 3726,
+    "cumulativeInjuries": 19998
+  },
+  {
+    "date": "2021-05-14T00:00:00.000Z",
+    "reported": 145,
+    "deaths": 7,
+    "injuries": 901,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 120,
+    "cumulativeReported": 3871,
+    "cumulativeInjuries": 20899
+  },
+  {
+    "date": "2021-05-15T00:00:00.000Z",
+    "reported": 50,
+    "deaths": 0,
+    "injuries": 290,
+    "patientAgeGroup": "65-85 Years",
+    "cumulativeDeaths": 120,
+    "cumulativeReported": 3921,
+    "cumulativeInjuries": 21189
+  },
+  {
+    "date": "2021-05-16T00:00:00.000Z",
+    "reported": 47,
+    "deaths": 0,
+    "injuries": 263,
+    "patientAgeGroup": "65-85 Years",
+    "cumulativeDeaths": 120,
+    "cumulativeReported": 3968,
+    "cumulativeInjuries": 21452
+  },
+  {
+    "date": "2021-05-17T00:00:00.000Z",
+    "reported": 93,
+    "deaths": 4,
+    "injuries": 483,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 124,
+    "cumulativeReported": 4061,
+    "cumulativeInjuries": 21935
+  },
+  {
+    "date": "2021-05-18T00:00:00.000Z",
+    "reported": 139,
+    "deaths": 3,
+    "injuries": 751,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 127,
+    "cumulativeReported": 4200,
+    "cumulativeInjuries": 22686
+  },
+  {
+    "date": "2021-05-19T00:00:00.000Z",
+    "reported": 179,
+    "deaths": 7,
+    "injuries": 988,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 134,
+    "cumulativeReported": 4379,
+    "cumulativeInjuries": 23674
+  },
+  {
+    "date": "2021-05-20T00:00:00.000Z",
+    "reported": 166,
+    "deaths": 2,
+    "injuries": 1037,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 136,
+    "cumulativeReported": 4545,
+    "cumulativeInjuries": 24711
+  },
+  {
+    "date": "2021-05-21T00:00:00.000Z",
+    "reported": 174,
+    "deaths": 2,
+    "injuries": 1103,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 138,
+    "cumulativeReported": 4719,
+    "cumulativeInjuries": 25814
+  },
+  {
+    "date": "2021-05-22T00:00:00.000Z",
+    "reported": 123,
+    "deaths": 0,
+    "injuries": 725,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 138,
+    "cumulativeReported": 4842,
+    "cumulativeInjuries": 26539
+  },
+  {
+    "date": "2021-05-23T00:00:00.000Z",
+    "reported": 126,
+    "deaths": 0,
+    "injuries": 774,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 138,
+    "cumulativeReported": 4968,
+    "cumulativeInjuries": 27313
+  },
+  {
+    "date": "2021-05-24T00:00:00.000Z",
+    "reported": 183,
+    "deaths": 1,
+    "injuries": 1034,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 139,
+    "cumulativeReported": 5151,
+    "cumulativeInjuries": 28347
+  },
+  {
+    "date": "2021-05-25T00:00:00.000Z",
+    "reported": 212,
+    "deaths": 3,
+    "injuries": 1180,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 142,
+    "cumulativeReported": 5363,
+    "cumulativeInjuries": 29527
+  },
+  {
+    "date": "2021-05-26T00:00:00.000Z",
+    "reported": 274,
+    "deaths": 5,
+    "injuries": 1557,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 147,
+    "cumulativeReported": 5637,
+    "cumulativeInjuries": 31084
+  },
+  {
+    "date": "2021-05-27T00:00:00.000Z",
+    "reported": 290,
+    "deaths": 3,
+    "injuries": 1592,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 150,
+    "cumulativeReported": 5927,
+    "cumulativeInjuries": 32676
+  },
+  {
+    "date": "2021-05-28T00:00:00.000Z",
+    "reported": 170,
+    "deaths": 4,
+    "injuries": 951,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 154,
+    "cumulativeReported": 6097,
+    "cumulativeInjuries": 33627
+  },
+  {
+    "date": "2021-05-29T00:00:00.000Z",
+    "reported": 155,
+    "deaths": 0,
+    "injuries": 821,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 154,
+    "cumulativeReported": 6252,
+    "cumulativeInjuries": 34448
+  },
+  {
+    "date": "2021-05-30T00:00:00.000Z",
+    "reported": 168,
+    "deaths": 0,
+    "injuries": 914,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 154,
+    "cumulativeReported": 6420,
+    "cumulativeInjuries": 35362
+  },
+  {
+    "date": "2021-05-31T00:00:00.000Z",
+    "reported": 439,
+    "deaths": 4,
+    "injuries": 2546,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 158,
+    "cumulativeReported": 6859,
+    "cumulativeInjuries": 37908
+  },
+  {
+    "date": "2021-06-01T00:00:00.000Z",
+    "reported": 375,
+    "deaths": 2,
+    "injuries": 1989,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 160,
+    "cumulativeReported": 7234,
+    "cumulativeInjuries": 39897
+  },
+  {
+    "date": "2021-06-02T00:00:00.000Z",
+    "reported": 390,
+    "deaths": 6,
+    "injuries": 2105,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 166,
+    "cumulativeReported": 7624,
+    "cumulativeInjuries": 42002
+  },
+  {
+    "date": "2021-06-03T00:00:00.000Z",
+    "reported": 357,
+    "deaths": 1,
+    "injuries": 1817,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 167,
+    "cumulativeReported": 7981,
+    "cumulativeInjuries": 43819
+  },
+  {
+    "date": "2021-06-04T00:00:00.000Z",
+    "reported": 323,
+    "deaths": 2,
+    "injuries": 1553,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 169,
+    "cumulativeReported": 8304,
+    "cumulativeInjuries": 45372
+  },
+  {
+    "date": "2021-06-05T00:00:00.000Z",
+    "reported": 156,
+    "deaths": 0,
+    "injuries": 760,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 169,
+    "cumulativeReported": 8460,
+    "cumulativeInjuries": 46132
+  },
+  {
+    "date": "2021-06-06T00:00:00.000Z",
+    "reported": 92,
+    "deaths": 0,
+    "injuries": 461,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 169,
+    "cumulativeReported": 8552,
+    "cumulativeInjuries": 46593
+  },
+  {
+    "date": "2021-06-07T00:00:00.000Z",
+    "reported": 234,
+    "deaths": 0,
+    "injuries": 1226,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 169,
+    "cumulativeReported": 8786,
+    "cumulativeInjuries": 47819
+  },
+  {
+    "date": "2021-06-08T00:00:00.000Z",
+    "reported": 325,
+    "deaths": 4,
+    "injuries": 1587,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 173,
+    "cumulativeReported": 9111,
+    "cumulativeInjuries": 49406
+  },
+  {
+    "date": "2021-06-09T00:00:00.000Z",
+    "reported": 264,
+    "deaths": 4,
+    "injuries": 1418,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 177,
+    "cumulativeReported": 9375,
+    "cumulativeInjuries": 50824
+  },
+  {
+    "date": "2021-06-10T00:00:00.000Z",
+    "reported": 329,
+    "deaths": 3,
+    "injuries": 1366,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 180,
+    "cumulativeReported": 9704,
+    "cumulativeInjuries": 52190
+  },
+  {
+    "date": "2021-06-11T00:00:00.000Z",
+    "reported": 215,
+    "deaths": 2,
+    "injuries": 961,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 182,
+    "cumulativeReported": 9919,
+    "cumulativeInjuries": 53151
+  },
+  {
+    "date": "2021-06-12T00:00:00.000Z",
+    "reported": 80,
+    "deaths": 0,
+    "injuries": 427,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 182,
+    "cumulativeReported": 9999,
+    "cumulativeInjuries": 53578
+  },
+  {
+    "date": "2021-06-13T00:00:00.000Z",
+    "reported": 58,
+    "deaths": 0,
+    "injuries": 302,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 182,
+    "cumulativeReported": 10057,
+    "cumulativeInjuries": 53880
+  },
+  {
+    "date": "2021-06-14T00:00:00.000Z",
+    "reported": 216,
+    "deaths": 7,
+    "injuries": 890,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 189,
+    "cumulativeReported": 10273,
+    "cumulativeInjuries": 54770
+  },
+  {
+    "date": "2021-06-15T00:00:00.000Z",
+    "reported": 228,
+    "deaths": 2,
+    "injuries": 946,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 191,
+    "cumulativeReported": 10501,
+    "cumulativeInjuries": 55716
+  },
+  {
+    "date": "2021-06-16T00:00:00.000Z",
+    "reported": 254,
+    "deaths": 0,
+    "injuries": 1109,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 191,
+    "cumulativeReported": 10755,
+    "cumulativeInjuries": 56825
+  },
+  {
+    "date": "2021-06-17T00:00:00.000Z",
+    "reported": 174,
+    "deaths": 5,
+    "injuries": 744,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 196,
+    "cumulativeReported": 10929,
+    "cumulativeInjuries": 57569
+  },
+  {
+    "date": "2021-06-18T00:00:00.000Z",
+    "reported": 181,
+    "deaths": 2,
+    "injuries": 827,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 198,
+    "cumulativeReported": 11110,
+    "cumulativeInjuries": 58396
+  },
+  {
+    "date": "2021-06-19T00:00:00.000Z",
+    "reported": 82,
+    "deaths": 0,
+    "injuries": 376,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 198,
+    "cumulativeReported": 11192,
+    "cumulativeInjuries": 58772
+  },
+  {
+    "date": "2021-06-20T00:00:00.000Z",
+    "reported": 76,
+    "deaths": 0,
+    "injuries": 453,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 198,
+    "cumulativeReported": 11268,
+    "cumulativeInjuries": 59225
+  },
+  {
+    "date": "2021-06-21T00:00:00.000Z",
+    "reported": 179,
+    "deaths": 0,
+    "injuries": 869,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 198,
+    "cumulativeReported": 11447,
+    "cumulativeInjuries": 60094
+  },
+  {
+    "date": "2021-06-22T00:00:00.000Z",
+    "reported": 264,
+    "deaths": 7,
+    "injuries": 1439,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 205,
+    "cumulativeReported": 11711,
+    "cumulativeInjuries": 61533
+  },
+  {
+    "date": "2021-06-23T00:00:00.000Z",
+    "reported": 200,
+    "deaths": 2,
+    "injuries": 873,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 207,
+    "cumulativeReported": 11911,
+    "cumulativeInjuries": 62406
+  },
+  {
+    "date": "2021-06-24T00:00:00.000Z",
+    "reported": 305,
+    "deaths": 1,
+    "injuries": 1277,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 208,
+    "cumulativeReported": 12216,
+    "cumulativeInjuries": 63683
+  },
+  {
+    "date": "2021-06-25T00:00:00.000Z",
+    "reported": 313,
+    "deaths": 5,
+    "injuries": 1428,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 213,
+    "cumulativeReported": 12529,
+    "cumulativeInjuries": 65111
+  },
+  {
+    "date": "2021-06-26T00:00:00.000Z",
+    "reported": 170,
+    "deaths": 0,
+    "injuries": 787,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 213,
+    "cumulativeReported": 12699,
+    "cumulativeInjuries": 65898
+  },
+  {
+    "date": "2021-06-27T00:00:00.000Z",
+    "reported": 220,
+    "deaths": 1,
+    "injuries": 1163,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 214,
+    "cumulativeReported": 12919,
+    "cumulativeInjuries": 67061
+  },
+  {
+    "date": "2021-06-28T00:00:00.000Z",
+    "reported": 417,
+    "deaths": 3,
+    "injuries": 2057,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 217,
+    "cumulativeReported": 13336,
+    "cumulativeInjuries": 69118
+  },
+  {
+    "date": "2021-06-29T00:00:00.000Z",
+    "reported": 318,
+    "deaths": 2,
+    "injuries": 1554,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 219,
+    "cumulativeReported": 13654,
+    "cumulativeInjuries": 70672
+  },
+  {
+    "date": "2021-06-30T00:00:00.000Z",
+    "reported": 458,
+    "deaths": 4,
+    "injuries": 2184,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 223,
+    "cumulativeReported": 14112,
+    "cumulativeInjuries": 72856
+  },
+  {
+    "date": "2021-07-01T00:00:00.000Z",
+    "reported": 338,
+    "deaths": 4,
+    "injuries": 1773,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 227,
+    "cumulativeReported": 14450,
+    "cumulativeInjuries": 74629
+  },
+  {
+    "date": "2021-07-02T00:00:00.000Z",
+    "reported": 294,
+    "deaths": 3,
+    "injuries": 1577,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 230,
+    "cumulativeReported": 14744,
+    "cumulativeInjuries": 76206
+  },
+  {
+    "date": "2021-07-03T00:00:00.000Z",
+    "reported": 84,
+    "deaths": 0,
+    "injuries": 445,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 230,
+    "cumulativeReported": 14828,
+    "cumulativeInjuries": 76651
+  },
+  {
+    "date": "2021-07-04T00:00:00.000Z",
+    "reported": 111,
+    "deaths": 0,
+    "injuries": 637,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 230,
+    "cumulativeReported": 14939,
+    "cumulativeInjuries": 77288
+  },
+  {
+    "date": "2021-07-05T00:00:00.000Z",
+    "reported": 434,
+    "deaths": 3,
+    "injuries": 2147,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 233,
+    "cumulativeReported": 15373,
+    "cumulativeInjuries": 79435
+  },
+  {
+    "date": "2021-07-06T00:00:00.000Z",
+    "reported": 239,
+    "deaths": 2,
+    "injuries": 1167,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 235,
+    "cumulativeReported": 15612,
+    "cumulativeInjuries": 80602
+  },
+  {
+    "date": "2021-07-07T00:00:00.000Z",
+    "reported": 236,
+    "deaths": 5,
+    "injuries": 1142,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 240,
+    "cumulativeReported": 15848,
+    "cumulativeInjuries": 81744
+  },
+  {
+    "date": "2021-07-08T00:00:00.000Z",
+    "reported": 192,
+    "deaths": 2,
+    "injuries": 844,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 242,
+    "cumulativeReported": 16040,
+    "cumulativeInjuries": 82588
+  },
+  {
+    "date": "2021-07-09T00:00:00.000Z",
+    "reported": 285,
+    "deaths": 4,
+    "injuries": 1565,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 246,
+    "cumulativeReported": 16325,
+    "cumulativeInjuries": 84153
+  },
+  {
+    "date": "2021-07-10T00:00:00.000Z",
+    "reported": 243,
+    "deaths": 1,
+    "injuries": 1402,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 247,
+    "cumulativeReported": 16568,
+    "cumulativeInjuries": 85555
+  },
+  {
+    "date": "2021-07-11T00:00:00.000Z",
+    "reported": 46,
+    "deaths": 0,
+    "injuries": 235,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 247,
+    "cumulativeReported": 16614,
+    "cumulativeInjuries": 85790
+  },
+  {
+    "date": "2021-07-12T00:00:00.000Z",
+    "reported": 194,
+    "deaths": 2,
+    "injuries": 1163,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 249,
+    "cumulativeReported": 16808,
+    "cumulativeInjuries": 86953
+  },
+  {
+    "date": "2021-07-13T00:00:00.000Z",
+    "reported": 177,
+    "deaths": 4,
+    "injuries": 934,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 253,
+    "cumulativeReported": 16985,
+    "cumulativeInjuries": 87887
+  },
+  {
+    "date": "2021-07-14T00:00:00.000Z",
+    "reported": 146,
+    "deaths": 3,
+    "injuries": 715,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 256,
+    "cumulativeReported": 17131,
+    "cumulativeInjuries": 88602
+  },
+  {
+    "date": "2021-07-15T00:00:00.000Z",
+    "reported": 139,
+    "deaths": 2,
+    "injuries": 657,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 258,
+    "cumulativeReported": 17270,
+    "cumulativeInjuries": 89259
+  },
+  {
+    "date": "2021-07-16T00:00:00.000Z",
+    "reported": 124,
+    "deaths": 3,
+    "injuries": 499,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 261,
+    "cumulativeReported": 17394,
+    "cumulativeInjuries": 89758
+  },
+  {
+    "date": "2021-07-17T00:00:00.000Z",
+    "reported": 140,
+    "deaths": 1,
+    "injuries": 763,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 262,
+    "cumulativeReported": 17534,
+    "cumulativeInjuries": 90521
+  },
+  {
+    "date": "2021-07-18T00:00:00.000Z",
+    "reported": 11,
+    "deaths": 0,
+    "injuries": 50,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 262,
+    "cumulativeReported": 17545,
+    "cumulativeInjuries": 90571
+  },
+  {
+    "date": "2021-07-19T00:00:00.000Z",
+    "reported": 143,
+    "deaths": 4,
+    "injuries": 581,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 266,
+    "cumulativeReported": 17688,
+    "cumulativeInjuries": 91152
+  },
+  {
+    "date": "2021-07-20T00:00:00.000Z",
+    "reported": 332,
+    "deaths": 4,
+    "injuries": 1048,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 270,
+    "cumulativeReported": 18020,
+    "cumulativeInjuries": 92200
+  },
+  {
+    "date": "2021-07-21T00:00:00.000Z",
+    "reported": 118,
+    "deaths": 4,
+    "injuries": 396,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 274,
+    "cumulativeReported": 18138,
+    "cumulativeInjuries": 92596
+  },
+  {
+    "date": "2021-07-22T00:00:00.000Z",
+    "reported": 137,
+    "deaths": 2,
+    "injuries": 552,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 276,
+    "cumulativeReported": 18275,
+    "cumulativeInjuries": 93148
+  },
+  {
+    "date": "2021-07-23T00:00:00.000Z",
+    "reported": 145,
+    "deaths": 7,
+    "injuries": 625,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 283,
+    "cumulativeReported": 18420,
+    "cumulativeInjuries": 93773
+  },
+  {
+    "date": "2021-07-24T00:00:00.000Z",
+    "reported": 10,
+    "deaths": 0,
+    "injuries": 30,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 283,
+    "cumulativeReported": 18430,
+    "cumulativeInjuries": 93803
+  },
+  {
+    "date": "2021-07-25T00:00:00.000Z",
+    "reported": 94,
+    "deaths": 0,
+    "injuries": 509,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 283,
+    "cumulativeReported": 18524,
+    "cumulativeInjuries": 94312
+  },
+  {
+    "date": "2021-07-26T00:00:00.000Z",
+    "reported": 112,
+    "deaths": 3,
+    "injuries": 534,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 286,
+    "cumulativeReported": 18636,
+    "cumulativeInjuries": 94846
+  },
+  {
+    "date": "2021-07-27T00:00:00.000Z",
+    "reported": 178,
+    "deaths": 2,
+    "injuries": 721,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 288,
+    "cumulativeReported": 18814,
+    "cumulativeInjuries": 95567
+  },
+  {
+    "date": "2021-07-28T00:00:00.000Z",
+    "reported": 425,
+    "deaths": 4,
+    "injuries": 1909,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 292,
+    "cumulativeReported": 19239,
+    "cumulativeInjuries": 97476
+  },
+  {
+    "date": "2021-07-29T00:00:00.000Z",
+    "reported": 265,
+    "deaths": 5,
+    "injuries": 1218,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 297,
+    "cumulativeReported": 19504,
+    "cumulativeInjuries": 98694
+  },
+  {
+    "date": "2021-07-30T00:00:00.000Z",
+    "reported": 328,
+    "deaths": 1,
+    "injuries": 1351,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 298,
+    "cumulativeReported": 19832,
+    "cumulativeInjuries": 100045
+  },
+  {
+    "date": "2021-07-31T00:00:00.000Z",
+    "reported": 36,
+    "deaths": 0,
+    "injuries": 166,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 298,
+    "cumulativeReported": 19868,
+    "cumulativeInjuries": 100211
+  },
+  {
+    "date": "2021-08-01T00:00:00.000Z",
+    "reported": 54,
+    "deaths": 0,
+    "injuries": 303,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 298,
+    "cumulativeReported": 19922,
+    "cumulativeInjuries": 100514
+  },
+  {
+    "date": "2021-08-02T00:00:00.000Z",
+    "reported": 173,
+    "deaths": 0,
+    "injuries": 743,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 298,
+    "cumulativeReported": 20095,
+    "cumulativeInjuries": 101257
+  },
+  {
+    "date": "2021-08-03T00:00:00.000Z",
+    "reported": 330,
+    "deaths": 2,
+    "injuries": 1489,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 300,
+    "cumulativeReported": 20425,
+    "cumulativeInjuries": 102746
+  },
+  {
+    "date": "2021-08-04T00:00:00.000Z",
+    "reported": 269,
+    "deaths": 10,
+    "injuries": 1353,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 310,
+    "cumulativeReported": 20694,
+    "cumulativeInjuries": 104099
+  },
+  {
+    "date": "2021-08-05T00:00:00.000Z",
+    "reported": 216,
+    "deaths": 4,
+    "injuries": 980,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 314,
+    "cumulativeReported": 20910,
+    "cumulativeInjuries": 105079
+  },
+  {
+    "date": "2021-08-06T00:00:00.000Z",
+    "reported": 157,
+    "deaths": 6,
+    "injuries": 695,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 320,
+    "cumulativeReported": 21067,
+    "cumulativeInjuries": 105774
+  },
+  {
+    "date": "2021-08-07T00:00:00.000Z",
+    "reported": 28,
+    "deaths": 0,
+    "injuries": 174,
+    "patientAgeGroup": "18-64 Years",
+    "cumulativeDeaths": 320,
+    "cumulativeReported": 21095,
+    "cumulativeInjuries": 105948
+  },
+  {
+    "date": "2021-08-08T00:00:00.000Z",
+    "reported": 30,
+    "deaths": 0,
+    "injuries": 174,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 320,
+    "cumulativeReported": 21125,
+    "cumulativeInjuries": 106122
+  },
+  {
+    "date": "2021-08-09T00:00:00.000Z",
+    "reported": 167,
+    "deaths": 4,
+    "injuries": 728,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 324,
+    "cumulativeReported": 21292,
+    "cumulativeInjuries": 106850
+  },
+  {
+    "date": "2021-08-10T00:00:00.000Z",
+    "reported": 284,
+    "deaths": 5,
+    "injuries": 1077,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 329,
+    "cumulativeReported": 21576,
+    "cumulativeInjuries": 107927
+  },
+  {
+    "date": "2021-08-11T00:00:00.000Z",
+    "reported": 322,
+    "deaths": 3,
+    "injuries": 1159,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 332,
+    "cumulativeReported": 21898,
+    "cumulativeInjuries": 109086
+  },
+  {
+    "date": "2021-08-12T00:00:00.000Z",
+    "reported": 328,
+    "deaths": 7,
+    "injuries": 1365,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 339,
+    "cumulativeReported": 22226,
+    "cumulativeInjuries": 110451
+  },
+  {
+    "date": "2021-08-13T00:00:00.000Z",
+    "reported": 288,
+    "deaths": 8,
+    "injuries": 1078,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 347,
+    "cumulativeReported": 22514,
+    "cumulativeInjuries": 111529
+  },
+  {
+    "date": "2021-08-14T00:00:00.000Z",
+    "reported": 30,
+    "deaths": 1,
+    "injuries": 163,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 348,
+    "cumulativeReported": 22544,
+    "cumulativeInjuries": 111692
+  },
+  {
+    "date": "2021-08-15T00:00:00.000Z",
+    "reported": 38,
+    "deaths": 0,
+    "injuries": 192,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 348,
+    "cumulativeReported": 22582,
+    "cumulativeInjuries": 111884
+  },
+  {
+    "date": "2021-08-16T00:00:00.000Z",
+    "reported": 284,
+    "deaths": 4,
+    "injuries": 1049,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 352,
+    "cumulativeReported": 22866,
+    "cumulativeInjuries": 112933
+  },
+  {
+    "date": "2021-08-17T00:00:00.000Z",
+    "reported": 405,
+    "deaths": 17,
+    "injuries": 1489,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 369,
+    "cumulativeReported": 23271,
+    "cumulativeInjuries": 114422
+  },
+  {
+    "date": "2021-08-18T00:00:00.000Z",
+    "reported": 248,
+    "deaths": 6,
+    "injuries": 1011,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 375,
+    "cumulativeReported": 23519,
+    "cumulativeInjuries": 115433
+  },
+  {
+    "date": "2021-08-19T00:00:00.000Z",
+    "reported": 253,
+    "deaths": 6,
+    "injuries": 1086,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 381,
+    "cumulativeReported": 23772,
+    "cumulativeInjuries": 116519
+  },
+  {
+    "date": "2021-08-20T00:00:00.000Z",
+    "reported": 197,
+    "deaths": 9,
+    "injuries": 1005,
+    "patientAgeGroup": "Not Specified",
+    "cumulativeDeaths": 390,
+    "cumulativeReported": 23969,
+    "cumulativeInjuries": 117524
+  }
+]

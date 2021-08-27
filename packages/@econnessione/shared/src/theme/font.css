@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "Lora";
+  src: url("assets/fonts/Lora-Bold.eot");
+  src: url("assets/fonts/Lora-Bold.woff") format("woff"),
+    url("assets/fonts/Lora-Bold.ttf") format("truetype"),
+    url("assets/fonts/Lora-Bold.svg") format("svg");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("assets/fonts/Lora-BoldItalic.eot");
+  src: url("assets/fonts/Lora-BoldItalic.woff") format("woff"),
+    url("assets/fonts/Lora-BoldItalic.ttf") format("truetype"),
+    url("assets/fonts/Lora-BoldItalic.svg") format("svg");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("assets/fonts/Lora-Regular.eot");
+  src: url("assets/fonts/Lora-Regular.woff") format("woff"),
+    url("assets/fonts/Lora-Regular.ttf") format("truetype"),
+    url("assets/fonts/Lora-Regular.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("assets/fonts/Lora-Italic.eot");
+  src: url("assets/fonts/Lora-Italic.woff") format("woff"),
+    url("assets/fonts/Lora-Italic.ttf") format("truetype"),
+    url("assets/fonts/Lora-Italic.svg") format("svg");
+  font-weight: normal;
+  font-style: italic;
+}

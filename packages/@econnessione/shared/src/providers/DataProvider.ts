@@ -56,7 +56,7 @@ const toError = (e: unknown): APIError => {
 };
 
 export const dataProvider = APIRESTClient({
-  url: process.env.REACT_APP_API_URL,
+  url: process.env.REACT_APP_API_URL ?? "http://localhost:4010/v1",
 });
 
 const Resources = {
@@ -252,11 +252,14 @@ const Queries: Queries = pipe(
   }))
 );
 
-export const jsonData = queryShallow(
-  ({ id }: { id: string }) =>
-    liftFetch(() => dataProvider.getOne("graphs", { id }), t.any.decode),
-  available
-);
+export const jsonData = <A>(
+  decode: t.Decode<unknown, { data: A }>
+): CachedQuery<{ id: string }, Error, { data: A }> =>
+  queryShallow<{ id: string }, Error, { data: A }>(
+    ({ id }: { id: string }) =>
+      liftFetch(() => dataProvider.getOne("graphs", { id }), decode),
+    available
+  );
 
 export const jsonLocalData = queryShallow(
   ({ path }: { path: string }) =>

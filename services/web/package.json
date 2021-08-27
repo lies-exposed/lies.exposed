@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf build",
     "start": "react-app-rewired start",
-    "build": "SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
+    "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "tsc:build": "tsc -b",

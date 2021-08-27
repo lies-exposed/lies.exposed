@@ -18,39 +18,19 @@ import React from "react";
 import { MattermostIcon } from "../ui/icons/MattermostIcon/MattermostIcon";
 
 const dataMenuItem = {
-  id: "data",
+  id: "dashboards",
   href: "#",
-  label: "Data",
+  label: "Dashboards",
   subItems: [
     {
-      id: "actors",
-      href: "/actors",
-      label: "Attori",
+      id: "vaccine-dashboard",
+      href: "/dashboards/vaccines",
+      label: "Vaccine",
     },
     {
-      id: "groups",
-      href: "/groups",
-      label: "Groups",
-    },
-    {
-      id: "topics",
-      href: "/topics",
-      label: "Topics",
-    },
-    {
-      id: "areas",
-      href: "/areas",
-      label: "Aree",
-    },
-    {
-      id: "projects",
-      href: "/projects",
-      label: "Progetti",
-    },
-    {
-      id: "events",
-      href: "/events",
-      label: "Eventi",
+      id: "events-dashboard",
+      href: "/dashboards/events",
+      label: "Events",
     },
   ],
 };
@@ -95,10 +75,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
+      margin: 0,
     },
     titleLink: {
       color: theme.palette.common.white,
       fontWeight: theme.typography.fontWeightBold,
+      fontFamily: theme.typography.h6.fontFamily,
+      letterSpacing: 1.1,
       textDecoration: "none",
     },
   })

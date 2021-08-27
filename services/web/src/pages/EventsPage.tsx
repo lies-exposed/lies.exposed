@@ -1,3 +1,4 @@
+import { EventsNetwork } from "@components/Graph/EventsNetwork";
 import DatePicker from "@econnessione/shared/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
@@ -9,7 +10,7 @@ import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
 import {
   ActorList,
-  ActorListItem,
+  ActorListItem
 } from "@econnessione/shared/components/lists/ActorList";
 import EventList from "@econnessione/shared/components/lists/EventList/EventList";
 import { GroupListItem } from "@econnessione/shared/components/lists/GroupList";
@@ -17,22 +18,23 @@ import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
 import {
   eqByUUID,
   eventDate,
-  ordEventDate,
+  ordEventDate
 } from "@econnessione/shared/helpers/event";
 import * as io from "@econnessione/shared/io";
 import { Actor, Group, Topic } from "@econnessione/shared/io/http";
 import {
   pageContentByPath,
-  Queries,
+  Queries
 } from "@econnessione/shared/providers/DataProvider";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
 import {
   parseSearch,
   Routes,
-  updateSearch,
+  updateSearch
 } from "@econnessione/shared/utils/routes";
-import { Box, Chip, Grid, Typography } from "@material-ui/core";
+import { Uncategorized } from "@io/http/Events/Uncategorized";
+import { Box, Chip, Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import { theme } from "@theme/index";
 import * as QR from "avenger/lib/QueryResult";
@@ -47,7 +49,36 @@ import * as qs from "query-string";
 import React from "react";
 import Helmet from "react-helmet";
 
+const TabPanel: React.FC<any> = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+};
+
+function a11yProps(index: number): any {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
 export default class EventsPage extends React.PureComponent<RouteComponentProps> {
+  state: { viewTab: number } = { viewTab: 0 };
+
   render(): JSX.Element {
     const queryFilters = pipe(
       O.fromNullable(this.props.location?.search),
@@ -55,7 +86,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
       O.fold(
         () => ({
           groups: O.none,
-          actors: O.none,
+          actors: O.none
         }),
         (p) => {
           return {
@@ -68,13 +99,19 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               O.fromNullable(p.actors),
               O.filter((a) => a !== ""),
               O.map((a) => (typeof a === "string" ? [a] : a))
-            ),
+            )
           };
         }
       )
     );
 
-    const setQuery = updateSearch("events");
+    const setQuery = updateSearch("dashboards/events");
+
+    const handleChange = (event: any, newValue: number): void => {
+      this.setState({
+        viewTab: newValue
+      });
+    };
 
     return (
       <WithQueries
@@ -83,21 +120,21 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
           actors: Queries.Actor.getList,
           groups: Queries.Group.getList,
           events: Queries.Event.getList,
-          deaths: Queries.DeathEvent.getList,
+          deaths: Queries.DeathEvent.getList
         }}
         params={{
           page: {
-            path: "events",
+            path: "events"
           },
           groups: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
-            filter: {},
+            filter: {}
           },
           actors: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
-            filter: {},
+            filter: {}
           },
           events: {
             pagination: { page: 1, perPage: 20 },
@@ -108,14 +145,14 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                 : {}),
               ...(O.isSome(queryFilters.actors)
                 ? { actors: queryFilters.actors.value }
-                : {}),
-            },
+                : {})
+            }
           },
           deaths: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "date", order: "DESC" },
-            filter: {},
-          },
+            filter: {}
+          }
         }}
         render={QR.fold(
           LazyFullSizeLoader,
@@ -125,19 +162,19 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             events,
             deaths,
             actors: { data: actors },
-            groups: { data: groups },
+            groups: { data: groups }
           }) => {
             const topics: io.http.Topic.TopicFrontmatter[] = [];
             const {
               actors: actorUUIDS = [],
               topics: topicUUIDS = [],
-              groups: groupUUIDs = [],
+              groups: groupUUIDs = []
             } = pipe(
-              parseSearch(this.props.location, "events"),
-              E.getOrElse((): Routes["events"] => ({
+              parseSearch(this.props.location, "dashboards/events"),
+              E.getOrElse((): Routes["dashboards/events"] => ({
                 actors: [],
                 topics: [],
-                groups: [],
+                groups: []
               }))
             );
 
@@ -158,7 +195,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
 
             const [dateRange, setDateRange] = React.useState<Date[]>([
               subYears(new Date(), 10),
-              new Date(),
+              new Date()
             ]);
 
             const onActorClick = (actor: Actor.Actor): void => {
@@ -175,7 +212,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
 
               pipe(
                 setQuery(this.props.location, {
-                  actors: newSelectedActorIds.map((s) => s.id),
+                  actors: newSelectedActorIds.map((s) => s.id)
                 }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
@@ -193,7 +230,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
 
               pipe(
                 setQuery(this.props.location, {
-                  groups: newSelectedGroupIds.map((s) => s.id),
+                  groups: newSelectedGroupIds.map((s) => s.id)
                 }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
@@ -215,7 +252,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
 
               pipe(
                 setQuery(this.props.location, {
-                  topics: newSelectedTopics.map((s) => s.id),
+                  topics: newSelectedTopics.map((s) => s.id)
                 }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
@@ -288,7 +325,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                               ...item,
                               selected: selectedTopics.some((t) =>
                                 eqByUUID.equals(t, item)
-                              ),
+                              )
                             }}
                           />
                         )}
@@ -316,7 +353,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                                 ...item,
                                 selected: selectedGroups.some((g) =>
                                   eqByUUID.equals(g, item)
-                                ),
+                                )
                               }}
                             />
                           );
@@ -348,7 +385,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                                 ...item,
                                 selected: selectedActors.some((a) =>
                                   eqByUUID.equals(a, item)
-                                ),
+                                )
                               }}
                             />
                           );
@@ -367,25 +404,38 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                   <Grid item>
                     <PageContent {...page} />
 
-                    {/* <EventsNetwork
-                        events={events}
+                    <Tabs
+                      value={this.state.viewTab}
+                      onChange={handleChange}
+                    >
+                      <Tab label="map" {...a11yProps(0)} />
+                      <Tab label="network" {...a11yProps(1)} />
+                    </Tabs>
+
+                    <TabPanel value={this.state.viewTab} index={0}>
+                      <EventsMap filter={{ actors: O.none, groups: O.none }} />
+                    </TabPanel>
+                    <TabPanel value={this.state.viewTab} index={1}>
+                      <EventsNetwork
+                        events={events.data.filter(Uncategorized.is)}
                         actors={actors}
                         groups={groups}
-                        groupBy={'group'}
+                        groupBy={"group"}
                         selectedActorIds={selectedActorIds}
                         selectedGroupIds={selectedGroupIds}
                         selectedTopicIds={selectedTopicIds}
-                        scale={'all'}
+                        scale={"all"}
                         scalePoint={O.none}
-                      /> */}
-                    <EventsMap filter={{ actors: O.none, groups: O.none }} />
+                      />
+                    </TabPanel>
+
                     <Box>
                       <Chip label={`Uncategorized (${events.total})`} />
                       <Chip
                         label={`Deaths (${deaths.total})`}
                         style={{
                           backgroundColor: theme.palette.common.black,
-                          color: theme.palette.common.white,
+                          color: theme.palette.common.white
                         }}
                       />
                     </Box>
