@@ -9,7 +9,7 @@ import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 
 export interface GroupPageContentProps extends Group.Group {
-  groupMembers: GroupMember[];
+  groupsMembers: GroupMember[];
   events: Events.Event[];
   projects: Project.Project[];
   funds: Events.ProjectTransaction[];
@@ -22,7 +22,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   funds,
   events,
   body,
-  groupMembers,
+  groupsMembers,
   ...frontmatter
 }) => {
   // const projectFundsInitMap: Map<string, number> = Map.empty;
@@ -67,7 +67,10 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           <Grid md={6}>
             <Typography variant="h6">Members</Typography>
             <ActorList
-              actors={groupMembers.map((a) => ({ ...a.actor, selected: true }))}
+              actors={groupsMembers.map((a) => ({
+                ...a.actor,
+                selected: true,
+              }))}
               onActorClick={onMemberClick}
               avatarSize="medium"
             />

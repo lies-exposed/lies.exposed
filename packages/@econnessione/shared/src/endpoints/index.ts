@@ -22,7 +22,7 @@ const Endpoints = {
   DeathEvent: DeathEvent,
   // Graph: Graph.graphs,
   Group: Group.groups,
-  GroupMember: GroupMember.groupMembers,
+  GroupMember: GroupMember.groupsMembers,
   Page: Page.pages,
   Project: Project.projects,
   ProjectImage: ProjectImage.projectImages,

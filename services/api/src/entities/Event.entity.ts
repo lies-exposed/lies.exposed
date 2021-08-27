@@ -7,7 +7,6 @@ import {
   Index,
   JoinTable,
   ManyToMany,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -33,10 +32,11 @@ export class EventEntity {
   @Column({ type: "json", nullable: true })
   location: { type: "Point"; coordinates: [number, number] };
 
-  @OneToMany(() => LinkEntity, (a) => a.event, {
+  @ManyToMany(() => LinkEntity, (a) => a.event, {
     cascade: true,
     nullable: true,
   })
+  @JoinTable()
   links: LinkEntity[];
 
   @ManyToMany(() => ImageEntity, (a) => a.events, {

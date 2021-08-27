@@ -1,9 +1,4 @@
-import { EventPageContent } from "@econnessione/shared/components/EventPageContent";
-import { http } from "@econnessione/shared/io";
 import { Actor } from "@econnessione/shared/io/http/Actor";
-import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -18,7 +13,6 @@ import {
   Edit,
   EditProps,
   Filter,
-  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -34,10 +28,9 @@ import {
   SelectInput,
   SimpleForm,
   SimpleFormIterator,
-  SingleFieldList,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
@@ -89,7 +82,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
       return {
         ...r,
         location: r.location ? JSON.parse(r.location) : undefined,
-        victim: r.victim?.id
+        victim: r.victim?.id,
       };
     }}
   >

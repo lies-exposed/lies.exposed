@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
+import { URL } from "../../Common/URL";
 import { BaseFrontmatter, Point } from "../Common";
 import { EventLink } from "./EventLink";
 
@@ -23,9 +24,15 @@ export const CreateEventBody = t.strict(
         })
       )
     ),
+    links: t.array(
+      t.strict({
+        url: URL,
+        description: t.string,
+      })
+    ),
     actors: t.array(t.string),
     groups: t.array(t.string),
-    groupMembers: t.array(t.string),
+    groupsMembers: t.array(t.string),
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
     body: t.string,

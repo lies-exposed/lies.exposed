@@ -30,7 +30,7 @@ export const groupPageContentArgs: GroupPageContentProps = {
   events: uncategorizedEvents,
   projects: projects.filter((p) => fundedProjectIds.includes(p.id)),
   funds: groupFunds,
-  groupMembers: [],
+  groupsMembers: [],
   onMemberClick: () => {},
 };
 

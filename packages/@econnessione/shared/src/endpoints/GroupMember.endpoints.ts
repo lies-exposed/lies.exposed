@@ -84,7 +84,7 @@ export const Delete = Endpoint({
   Output: SingleGroupMemberOutput,
 });
 
-export const groupMembers = ResourceEndpoints({
+export const groupsMembers = ResourceEndpoints({
   Create,
   Get,
   List,

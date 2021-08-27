@@ -25,12 +25,12 @@ export default class GroupTemplate extends React.PureComponent<
           <WithQueries
             queries={{
               group: Queries.Group.get,
-              groupMembers: Queries.GroupMember.getList,
+              groupsMembers: Queries.GroupMember.getList,
               events: Queries.Event.getList,
             }}
             params={{
               group: { id: groupId },
-              groupMembers: {
+              groupsMembers: {
                 pagination: {
                   page: 1,
                   perPage: 20,
@@ -54,13 +54,13 @@ export default class GroupTemplate extends React.PureComponent<
             render={QR.fold(
               Loader,
               ErrorBox,
-              ({ group, groupMembers, events }) => {
+              ({ group, groupsMembers, events }) => {
                 return (
                   <MainContent>
                     <SEO title={group.name} />
                     <GroupPageContent
                       {...group}
-                      groupMembers={groupMembers.data}
+                      groupsMembers={groupsMembers.data}
                       events={events.data}
                       funds={[]}
                       projects={[]}

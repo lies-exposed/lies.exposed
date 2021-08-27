@@ -2,7 +2,10 @@ import { EventPageContent } from "@econnessione/shared/components/EventPageConte
 import { http } from "@econnessione/shared/io";
 import { Actor } from "@econnessione/shared/io/http/Actor";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import { apiProvider } from "client/HTTPAPI";
+import { uploadImages } from "client/MediaAPI";
 import * as E from "fp-ts/lib/Either";
+import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
@@ -10,7 +13,6 @@ import {
   ArrayField,
   ArrayInput,
   AutocompleteArrayInput,
-  ChipField,
   Create,
   CreateProps,
   Datagrid,
@@ -21,15 +23,16 @@ import {
   Filter,
   FormDataConsumer,
   FormTab,
+  FunctionField,
   ImageField,
   ImageInput,
   List,
   ListProps,
+  NumberField,
   ReferenceArrayField,
   ReferenceArrayInput,
   required,
   SelectArrayInput,
-  SimpleForm,
   SimpleFormIterator,
   SingleFieldList,
   TabbedForm,
@@ -80,6 +83,7 @@ export const EventList: React.FC<ListProps> = (props) => (
           <AvatarField source="avatar" />
         </SingleFieldList>
       </ReferenceArrayField>
+      <FunctionField source="links" render={(r: any) => r.links.length} />
       <DateField source="startDate" />
       <DateField source="endDate" />
       <DateField source="updatedAt" />
@@ -100,6 +104,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       return {
         ...r,
         endDate: r.endDate === "" ? undefined : r.endDate,
+        links: r.links.concat(r.newLinks),
       };
     }}
   >
@@ -171,6 +176,12 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ArrayField>
       </FormTab>
       <FormTab label="Links">
+        <ArrayInput source="newLinks">
+          <SimpleFormIterator>
+            <TextInput type="url" source="url" />
+            <TextInput source="description" />
+          </SimpleFormIterator>
+        </ArrayInput>
         <ArrayField source="links">
           <Datagrid resource="links" rowClick="edit">
             <TextField source="id" />
@@ -196,17 +207,67 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
 );
 
 export const EventCreate: React.FC<CreateProps> = (props) => (
-  <Create title="Create a Event" {...props}>
-    <SimpleForm>
-      <TextInput source="title" />
-      <MapInput source="location" type={GeometryType.POINT} />
-      <DateInput
-        source="startDate"
-        validation={[required()]}
-        defaultValue={new Date()}
-      />
-      <DateInput source="endDate" />
-      <MarkdownInput source="body" defaultValue="" />
-    </SimpleForm>
+  <Create
+    title="Create a Event"
+    {...props}
+    transform={async (data) => {
+      return {
+        ...data,
+        avatar: undefined,
+        endDate: data.endDate.length > 0 ? data.endDate : undefined,
+        links: data.links.map((l: { url: string }) => l.url),
+      };
+    }}
+  >
+    <TabbedForm>
+      <FormTab label="General">
+        <TextInput source="title" />
+        <MapInput source="location" type={GeometryType.POINT} />
+        <DateInput
+          source="startDate"
+          validation={[required()]}
+          defaultValue={new Date()}
+        />
+        <DateInput source="endDate" />
+        <MarkdownInput source="body" defaultValue="" />
+      </FormTab>
+      <FormTab label="Actors">
+        <ReferenceArrayInput
+          source="actors"
+          reference="actors"
+          defaultValue={[]}
+        >
+          <SelectArrayInput optionText="fullName" />
+        </ReferenceArrayInput>
+      </FormTab>
+      <FormTab label="Group Members">
+        <ReferenceArrayInput
+          source="groupsMembers"
+          reference="groups-members"
+          defaultValue={[]}
+        >
+          <SelectArrayInput
+            optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
+          />
+        </ReferenceArrayInput>
+      </FormTab>
+      <FormTab label="Groups">
+        <ReferenceArrayInput
+          source="groups"
+          reference="groups"
+          defaultValue={[]}
+        >
+          <SelectArrayInput optionText="name" />
+        </ReferenceArrayInput>
+      </FormTab>
+      <FormTab label="Links">
+        <ArrayInput source="links">
+          <SimpleFormIterator>
+            <TextInput type="url" source="url" />
+            <TextInput source="description" />
+          </SimpleFormIterator>
+        </ArrayInput>
+      </FormTab>
+    </TabbedForm>
   </Create>
 );

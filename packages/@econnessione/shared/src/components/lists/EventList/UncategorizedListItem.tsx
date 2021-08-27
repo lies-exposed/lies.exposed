@@ -4,6 +4,7 @@ import TopicList from "@components/lists/TopicList";
 import { faMapMarker, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Actor, Events, Group, Topic } from "@io/http";
+import { EventLink } from "@io/http/Events/EventLink";
 import {
   Card,
   CardActionArea,
@@ -33,6 +34,7 @@ interface UncategorizedListItemProps {
   actors: Actor.Actor[];
   topics: Topic.TopicFrontmatter[];
   groups: Group.Group[];
+  links: EventLink[];
 }
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
@@ -40,6 +42,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   actors,
   topics,
   groups,
+  links,
 }) => {
   return (
     <Card
@@ -181,7 +184,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           <Grid container>
             <Grid item>
               {pipe(
-                item.links,
+                links,
                 O.fromPredicate((arr) => arr.length > 0),
                 O.map((links) => (
                   // eslint-disable-next-line react/jsx-key
