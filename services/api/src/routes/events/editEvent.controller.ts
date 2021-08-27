@@ -18,6 +18,20 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
       body: { links, images, actors, groups, groupsMembers, ...body },
     }) => {
       ctx.logger.debug.log("Incoming body %O", body);
+      const selectEventTask = pipe(
+        ctx.db.manager
+          .createQueryBuilder(EventEntity, "event")
+          .leftJoinAndSelect("event.actors", "actors")
+          .leftJoinAndSelect("event.groups", "groups")
+          .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
+          .leftJoinAndSelect("event.images", "images")
+          .leftJoinAndSelect("event.links", "links")
+          .where("event.id = :eventId", { eventId: id }),
+        (q) => {
+          return ctx.db.execQuery(() => q.getOneOrFail());
+        }
+      );
+
       const updateData = foldOptionals({
         ...body,
         actors: pipe(actors, O.map(A.map((a) => ({ id: a })))),
@@ -39,15 +53,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
 
       return pipe(
         ctx.db.save(EventEntity, [{ id, ...updateData }]),
-        TE.chain(() =>
-          ctx.db.findOneOrFail(EventEntity, {
-            where: { id },
-            relations: ["images"],
-            loadRelationIds: {
-              relations: ["groups", "actors", "links", "groupsMembers"],
-            },
-          })
-        ),
+        TE.chain(() => selectEventTask),
         TE.chainEitherK((event) => toEventIO(event)),
         TE.map((event) => ({
           body: {

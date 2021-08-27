@@ -8,24 +8,25 @@ import { EventEntity } from "../../../entities/Event.entity";
 describe("Edit Event", () => {
   let appTest: AppTest,
     authorizationToken: string,
-    [event] = fc
-      .sample(EventArb, 1)
-      .map((e) => ({
-        ...e,
-        images: [],
-        links: [],
-        topics: [],
-        groups: [],
-        actors: [],
-        groupsMembers: [],
-      }));
+    [event] = fc.sample(EventArb, 1).map((e) => ({
+      ...e,
+      images: [],
+      links: [],
+      topics: [],
+      groups: [],
+      actors: [],
+      groupsMembers: [],
+    }));
 
   beforeAll(async () => {
     appTest = await initAppTest();
 
     const result = await appTest.ctx.db.save(EventEntity, [event] as any[])();
 
-    event = (result as any).right[0];
+    event = {
+      ...event,
+      ...(result as any).right[0],
+    };
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
       appTest.ctx.env.JWT_SECRET
@@ -39,6 +40,7 @@ describe("Edit Event", () => {
 
   test("Should edit the event", async () => {
     const eventData = {
+      ...event,
       title: "First event",
       startDate: new Date().toISOString(),
     };
@@ -55,9 +57,13 @@ describe("Edit Event", () => {
       http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag
     ).toEqual("Right");
 
+    event = {
+      ...event,
+      ...(eventData as any),
+    };
+
     expect(body).toMatchObject({
       ...event,
-      ...eventData,
       endDate: event.endDate ? event.endDate.toISOString() : undefined,
       createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,
@@ -70,9 +76,11 @@ describe("Edit Event", () => {
       .map(({ id, createdAt, updatedAt, ...image }) => image);
 
     const eventData = {
+      ...event,
       title: "First event",
       startDate: new Date().toISOString(),
       images,
+      links: [],
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
@@ -87,9 +95,12 @@ describe("Edit Event", () => {
       http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag
     ).toEqual("Right");
 
+    event = {
+      ...event,
+      ...(eventData as any),
+    };
     expect(body).toMatchObject({
       ...event,
-      ...eventData,
       endDate: event.endDate ? event.endDate.toISOString() : undefined,
       createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,
@@ -98,6 +109,7 @@ describe("Edit Event", () => {
 
   test("Should edit event links", async () => {
     const eventData = {
+      ...event,
       title: "Event with links",
       startDate: new Date().toISOString(),
       links: [],
@@ -112,9 +124,12 @@ describe("Edit Event", () => {
 
     expect(response.status).toEqual(200);
 
+    event = {
+      ...event,
+      ...(eventData as any),
+    };
     expect(body).toMatchObject({
-      ...(event as any),
-      ...eventData,
+      ...event,
       endDate: event.endDate ? event.endDate.toISOString() : undefined,
       createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,

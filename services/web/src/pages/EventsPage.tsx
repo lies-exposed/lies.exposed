@@ -1,4 +1,4 @@
-import { EventsNetwork } from "@components/Graph/EventsNetwork";
+import { EventsNetworkGraph } from "@components/Graph/EventsNetworkGraph";
 import DatePicker from "@econnessione/shared/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
@@ -10,7 +10,7 @@ import SEO from "@econnessione/shared/components/SEO";
 import SearchableInput from "@econnessione/shared/components/SearchableInput";
 import {
   ActorList,
-  ActorListItem
+  ActorListItem,
 } from "@econnessione/shared/components/lists/ActorList";
 import EventList from "@econnessione/shared/components/lists/EventList/EventList";
 import { GroupListItem } from "@econnessione/shared/components/lists/GroupList";
@@ -18,20 +18,20 @@ import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
 import {
   eqByUUID,
   eventDate,
-  ordEventDate
+  ordEventDate,
 } from "@econnessione/shared/helpers/event";
 import * as io from "@econnessione/shared/io";
 import { Actor, Group, Topic } from "@econnessione/shared/io/http";
 import {
   pageContentByPath,
-  Queries
+  Queries,
 } from "@econnessione/shared/providers/DataProvider";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
 import {
   parseSearch,
   Routes,
-  updateSearch
+  updateSearch,
 } from "@econnessione/shared/utils/routes";
 import { Uncategorized } from "@io/http/Events/Uncategorized";
 import { Box, Chip, Grid, Tab, Tabs, Typography } from "@material-ui/core";
@@ -60,11 +60,7 @@ const TabPanel: React.FC<any> = (props) => {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 };
@@ -72,7 +68,7 @@ const TabPanel: React.FC<any> = (props) => {
 function a11yProps(index: number): any {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -86,7 +82,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
       O.fold(
         () => ({
           groups: O.none,
-          actors: O.none
+          actors: O.none,
         }),
         (p) => {
           return {
@@ -99,7 +95,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
               O.fromNullable(p.actors),
               O.filter((a) => a !== ""),
               O.map((a) => (typeof a === "string" ? [a] : a))
-            )
+            ),
           };
         }
       )
@@ -109,7 +105,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
 
     const handleChange = (event: any, newValue: number): void => {
       this.setState({
-        viewTab: newValue
+        viewTab: newValue,
       });
     };
 
@@ -120,24 +116,24 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
           actors: Queries.Actor.getList,
           groups: Queries.Group.getList,
           events: Queries.Event.getList,
-          deaths: Queries.DeathEvent.getList
+          deaths: Queries.DeathEvent.getList,
         }}
         params={{
           page: {
-            path: "events"
+            path: "events",
           },
           groups: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
-            filter: {}
+            filter: {},
           },
           actors: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
-            filter: {}
+            filter: {},
           },
           events: {
-            pagination: { page: 1, perPage: 20 },
+            pagination: { page: 1, perPage: 100 },
             sort: { field: "startDate", order: "DESC" },
             filter: {
               ...(O.isSome(queryFilters.groups)
@@ -145,14 +141,14 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                 : {}),
               ...(O.isSome(queryFilters.actors)
                 ? { actors: queryFilters.actors.value }
-                : {})
-            }
+                : {}),
+            },
           },
           deaths: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "date", order: "DESC" },
-            filter: {}
-          }
+            filter: {},
+          },
         }}
         render={QR.fold(
           LazyFullSizeLoader,
@@ -162,19 +158,19 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
             events,
             deaths,
             actors: { data: actors },
-            groups: { data: groups }
+            groups: { data: groups },
           }) => {
             const topics: io.http.Topic.TopicFrontmatter[] = [];
             const {
               actors: actorUUIDS = [],
               topics: topicUUIDS = [],
-              groups: groupUUIDs = []
+              groups: groupUUIDs = [],
             } = pipe(
               parseSearch(this.props.location, "dashboards/events"),
               E.getOrElse((): Routes["dashboards/events"] => ({
                 actors: [],
                 topics: [],
-                groups: []
+                groups: [],
               }))
             );
 
@@ -195,7 +191,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
 
             const [dateRange, setDateRange] = React.useState<Date[]>([
               subYears(new Date(), 10),
-              new Date()
+              new Date(),
             ]);
 
             const onActorClick = (actor: Actor.Actor): void => {
@@ -210,16 +206,16 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                 : selectedActors.concat(actor);
               setSelectedActors(newSelectedActorIds);
 
-              pipe(
-                setQuery(this.props.location, {
-                  actors: newSelectedActorIds.map((s) => s.id)
-                }),
-                E.map(async (url) => {
-                  if (this.props.navigate !== undefined) {
-                    await this.props.navigate(url);
-                  }
-                })
-              );
+              // pipe(
+              //   setQuery(this.props.location, {
+              //     actors: newSelectedActorIds.map((s) => s.id)
+              //   }),
+              //   E.map(async (url) => {
+              //     if (this.props.navigate !== undefined) {
+              //       await this.props.navigate(url);
+              //     }
+              //   })
+              // );
             };
 
             const onGroupClick = (g: Group.Group): void => {
@@ -228,16 +224,16 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                 : selectedGroups.concat(g);
               setSelectedGroups(newSelectedGroupIds);
 
-              pipe(
-                setQuery(this.props.location, {
-                  groups: newSelectedGroupIds.map((s) => s.id)
-                }),
-                E.map(async (url) => {
-                  if (this.props.navigate !== undefined) {
-                    await this.props.navigate(url);
-                  }
-                })
-              );
+              // pipe(
+              //   setQuery(this.props.location, {
+              //     groups: newSelectedGroupIds.map((s) => s.id)
+              //   }),
+              //   E.map(async (url) => {
+              //     if (this.props.navigate !== undefined) {
+              //       await this.props.navigate(url);
+              //     }
+              //   })
+              // );
             };
 
             const onTopicClick = (topic: Topic.TopicFrontmatter): void => {
@@ -252,7 +248,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
 
               pipe(
                 setQuery(this.props.location, {
-                  topics: newSelectedTopics.map((s) => s.id)
+                  topics: newSelectedTopics.map((s) => s.id),
                 }),
                 E.map(async (url) => {
                   if (this.props.navigate !== undefined) {
@@ -302,12 +298,26 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                 sidebar={
                   <Grid container direction="column">
                     <Grid item style={{ margin: 10 }}>
-                      <DatePicker
-                        value={dateRange}
-                        variant="outlined"
-                        onChange={onDatePickerChange}
-                        style={{ width: "100%" }}
-                      />
+                      <Grid container>
+                        <Grid item md={6}>
+                          <DatePicker
+                            size="small"
+                            value={dateRange}
+                            variant="outlined"
+                            onChange={onDatePickerChange}
+                            style={{ width: "100%" }}
+                          />
+                        </Grid>
+                        <Grid item md={6}>
+                          <DatePicker
+                            size="small"
+                            value={dateRange}
+                            variant="outlined"
+                            onChange={onDatePickerChange}
+                            style={{ width: "100%" }}
+                          />
+                        </Grid>
+                      </Grid>
                     </Grid>
                     <Grid item style={{ margin: 10 }}>
                       <SearchableInput<Topic.TopicFrontmatter>
@@ -325,7 +335,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                               ...item,
                               selected: selectedTopics.some((t) =>
                                 eqByUUID.equals(t, item)
-                              )
+                              ),
                             }}
                           />
                         )}
@@ -353,7 +363,7 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                                 ...item,
                                 selected: selectedGroups.some((g) =>
                                   eqByUUID.equals(g, item)
-                                )
+                                ),
                               }}
                             />
                           );
@@ -383,15 +393,20 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                               displayFullName={true}
                               item={{
                                 ...item,
-                                selected: selectedActors.some((a) =>
-                                  eqByUUID.equals(a, item)
-                                )
+                                selected: true,
                               }}
                             />
                           );
                         }}
                         onSelectItem={(item) => onActorClick(item)}
                         onUnselectItem={(item) => onActorClick(item)}
+                      />
+                      <ActorList
+                        actors={selectedActors.map((a) => ({
+                          ...a,
+                          selected: true,
+                        }))}
+                        onActorClick={() => {}}
                       />
                     </Grid>
                   </Grid>
@@ -402,54 +417,70 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                     <SEO title={page.title} />
                   </Helmet>
                   <Grid item>
-                    <PageContent {...page} />
+                    <Grid container>
+                      <Grid item md={12}>
+                        <PageContent {...page} />
+                      </Grid>
 
-                    <Tabs
-                      value={this.state.viewTab}
-                      onChange={handleChange}
-                    >
-                      <Tab label="map" {...a11yProps(0)} />
-                      <Tab label="network" {...a11yProps(1)} />
+                      <Grid item md={6}>
+                        <Box>
+                          <Typography variant="caption">
+                            Nº Eventi:{" "}
+                            <Typography display="inline" variant="body2">
+                              {events.total}
+                            </Typography>{" "}
+                            dal {formatDate(minDate)} al {formatDate(maxDate)}{" "}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item md={6}>
+                        <Box>
+                          <Chip label={`Uncategorized (${events.total})`} />
+                          <Chip
+                            label={`Deaths (${deaths.total})`}
+                            style={{
+                              backgroundColor: theme.palette.common.black,
+                              color: theme.palette.common.white,
+                            }}
+                          />
+                        </Box>
+                      </Grid>
+                    </Grid>
+
+                    <Tabs value={this.state.viewTab} onChange={handleChange}>
+                      <Tab label="network" {...a11yProps(0)} />
+                      <Tab label="map" {...a11yProps(1)} />
+                      <Tab label="list" {...a11yProps(2)} />
                     </Tabs>
 
                     <TabPanel value={this.state.viewTab} index={0}>
-                      <EventsMap filter={{ actors: O.none, groups: O.none }} />
-                    </TabPanel>
-                    <TabPanel value={this.state.viewTab} index={1}>
-                      <EventsNetwork
+                      <EventsNetworkGraph
                         events={events.data.filter(Uncategorized.is)}
                         actors={actors}
                         groups={groups}
-                        groupBy={"group"}
+                        groupBy={"actor"}
                         selectedActorIds={selectedActorIds}
                         selectedGroupIds={selectedGroupIds}
                         selectedTopicIds={selectedTopicIds}
                         scale={"all"}
                         scalePoint={O.none}
-                      />
-                    </TabPanel>
-
-                    <Box>
-                      <Chip label={`Uncategorized (${events.total})`} />
-                      <Chip
-                        label={`Deaths (${deaths.total})`}
-                        style={{
-                          backgroundColor: theme.palette.common.black,
-                          color: theme.palette.common.white
+                        onEventClick={async (e) => {
+                          if (this.props.navigate) {
+                            await this.props.navigate(`/events/${e.id}`);
+                          }
                         }}
                       />
-                    </Box>
-                    <Typography variant="caption">
-                      Nº Eventi: {events.total} dal {formatDate(minDate)} al{" "}
-                      {formatDate(maxDate)}{" "}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <EventList
-                      events={events.data as any}
-                      actors={actors}
-                      groups={groups}
-                    />
+                    </TabPanel>
+                    <TabPanel value={this.state.viewTab} index={1}>
+                      <EventsMap filter={{ actors: O.none, groups: O.none }} />
+                    </TabPanel>
+                    <TabPanel value={this.state.viewTab} index={2}>
+                      <EventList
+                        events={events.data as any}
+                        actors={actors}
+                        groups={groups}
+                      />
+                    </TabPanel>
                   </Grid>
                 </MainContent>
               </ContentWithSidebar>

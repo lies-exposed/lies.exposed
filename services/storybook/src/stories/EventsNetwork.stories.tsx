@@ -1,10 +1,11 @@
 import {
-  EventsNetwork,
-  EventsNetworkProps,
-} from "@econnessione/shared/components/Graph/EventsNetwork";
+  EventsNetworkGraph,
+  EventsNetworkGraphProps,
+} from "@econnessione/shared/components/Graph/EventsNetworkGraph";
 import { Events } from "@econnessione/shared/io/http";
 import { actors } from "@econnessione/shared/mock-data/actors";
 import { events } from "@econnessione/shared/mock-data/events";
+import { groups } from "@econnessione/shared/mock-data/groups";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
@@ -12,8 +13,8 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/Graph/EventsNetwork",
-  component: EventsNetwork,
+  title: "Components/Graph/EventsNetworkGraph",
+  component: EventsNetworkGraph,
 };
 
 export default meta;
@@ -21,30 +22,40 @@ export default meta;
 const uncategorizedEvents: Events.Uncategorized.Uncategorized[] = pipe(
   events,
   A.filter(Events.Uncategorized.Uncategorized.is),
-  A.map((e) => ({
+  A.mapWithIndex((index, e) => ({
     ...e,
+    title: `Event ${index}`,
     body: "",
     tableOfContents: O.some({ items: [] }),
     timeToRead: O.some(1),
+    actors: actors.map((a) => a.id),
+    groups: groups.map((g) => g.id),
   }))
 );
 
-const Template: Story<EventsNetworkProps> = (props) => {
-  return <EventsNetwork {...props} />;
+const Template: Story<EventsNetworkGraphProps> = (props) => {
+  return (
+    <div>
+      <div>
+        <EventsNetworkGraph {...props} />
+      </div>
+    </div>
+  );
 };
 
 const NetworkGraphExample = Template.bind({});
 
-const args: EventsNetworkProps = {
+const args: EventsNetworkGraphProps = {
   scale: "all" as "all",
   groupBy: "group",
   scalePoint: O.none,
   events: uncategorizedEvents,
-  actors: [],
-  groups: [],
+  actors,
+  groups,
   selectedActorIds: actors.map((a) => a.id),
   selectedGroupIds: [],
   selectedTopicIds: [],
+  onEventClick: () => {},
 };
 
 NetworkGraphExample.args = args;

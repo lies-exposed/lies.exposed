@@ -27,14 +27,13 @@ const toolbarOptions = [
   [{ font: [] }],
   [{ align: [] }],
 
-  ["clean"]
+  ["clean"],
 ];
 
 const MarkdownInput: React.FC<InputProps> = (props) => {
   const [mode, setMode] = React.useState("html");
-  const [lastValidFormattedValue, setLastValidFormattedValue] = React.useState(
-    ""
-  );
+  const [lastValidFormattedValue, setLastValidFormattedValue] =
+    React.useState("");
   const [lastValidParsedValue, setLastValidParsedValue] = React.useState("");
 
   return (
@@ -44,7 +43,6 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
           value={mode}
           exclusive
           onChange={(e, v) => {
-            console.log(v);
             setMode(v.replace(mode));
           }}
         >
@@ -57,8 +55,8 @@ const MarkdownInput: React.FC<InputProps> = (props) => {
           <RichTextInput
             options={{
               modules: {
-                toolbar: toolbarOptions
-              }
+                toolbar: toolbarOptions,
+              },
             }}
             format={(v: string | undefined) => {
               if (v) {

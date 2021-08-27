@@ -160,6 +160,7 @@ const SearchableInput = <I extends SearchableItem>({
   return (
     <Autocomplete<I, typeof props.multiple, boolean, boolean>
       {...props}
+      size="small"
       placeholder={placehoder}
       value={selectedItems ?? undefined}
       options={items}

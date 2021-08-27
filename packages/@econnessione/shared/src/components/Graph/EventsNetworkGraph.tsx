@@ -1,14 +1,16 @@
 import Network, {
-  NetworkScale
+  NetworkScale,
 } from "@components/Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode
+  NetworkPointNode,
 } from "@components/Common/Graph/Network/NetworkNode";
 import { ActorList } from "@components/lists/ActorList";
+import { EventListItem } from "@components/lists/EventList/EventList";
+import GroupList from "@components/lists/GroupList";
 import { eqByUUID, eventDate, ordEventDate } from "@helpers/event";
 import { Actor, Common, Events, Group, Page, Topic } from "@io/http";
-import { formatDate } from "@utils/date";
+import { Grid, Typography } from "@material-ui/core";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { Link } from "@vx/network/lib/types";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
@@ -26,11 +28,16 @@ import * as React from "react";
 
 type GroupByItem = Actor.Actor | Group.Group;
 
-interface EventNetworkDatum extends NetworkNodeDatum {
+type NetworkDatum = NetworkNodeDatum &
+  Omit<Events.Uncategorized.Uncategorized, "actors" | "groups">;
+
+interface EventNetworkDatum extends NetworkDatum {
   title: string;
   date: Date;
   groupBy: GroupByItem[];
   actors: O.Option<Actor.Actor[]>;
+  groups: O.Option<Group.Group[]>;
+  selected: boolean;
 }
 
 interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
@@ -38,7 +45,7 @@ interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
   stroke: string;
 }
 
-export interface EventsNetworkProps {
+export interface EventsNetworkGraphProps {
   events: Events.Uncategorized.Uncategorized[];
   actors: Actor.Actor[];
   groups: Group.Group[];
@@ -48,55 +55,79 @@ export interface EventsNetworkProps {
   selectedTopicIds: string[];
   scale: NetworkScale;
   scalePoint: O.Option<NetworkPointNode<EventNetworkDatum>>;
+  onEventClick: (e: EventNetworkDatum) => void;
 }
 
-export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
+export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
+  props
+) => {
+  const [groupBy, setGroupBy] = React.useState(props.groupBy);
+  const actors = props.actors.map((a) => ({
+    ...a,
+    selected: props.selectedActorIds.includes(a.id),
+  }));
+  const groups = props.groups.map((g) => ({
+    ...g,
+    selected: props.selectedGroupIds.includes(g.id),
+  }));
+
   return (
     <>
       <ParentSize style={{ minHeight: 400 }}>
         {({ width, height }) => {
-          const networkProps = createNetworkTemplateProps({
+          const networkProps = createEventNetworkGraphProps({
             ...props,
+            groupBy,
             width,
             height: 400,
-            margin: { vertical: 40, horizontal: 40 }
+            margin: { vertical: 40, horizontal: 40 },
           });
           return (
             <div>
+              <Grid container>
+                <Grid
+                  item
+                  md={12}
+                  onClick={() => {
+                    setGroupBy(groupBy === "group" ? "actor" : "group");
+                  }}
+                >
+                  Group by: {groupBy}
+                </Grid>
+                <Grid item md={6}>
+                  <Typography variant="caption">Attori</Typography>
+                  <ActorList actors={actors} onActorClick={() => {}} />
+                </Grid>
+                <Grid>
+                  <Typography variant="caption">Gruppi</Typography>
+                  <GroupList groups={groups} onGroupClick={() => {}} />
+                </Grid>
+              </Grid>
+
               <div style={{ overflow: "auto" }}>
                 <Network<NetworkLink, EventNetworkDatum>
                   onDoubleClick={() => {}}
                   onNodeClick={() => {}}
                   onEventLabelClick={() => {}}
-                  tooltipRenderer={(tooltipData) => {
+                  tooltipRenderer={(event) => {
+                    const actors = pipe(
+                      event.actors,
+                      O.getOrElse((): Actor.Actor[] => [])
+                    );
+                    const groups = pipe(
+                      event.groups,
+                      O.getOrElse((): Group.Group[] => [])
+                    );
                     return (
-                      <div>
-                        <label>{tooltipData.title}</label>
-                        <label>Data: {formatDate(tooltipData.date)}</label>
-                        {/* <div>
-                          <TopicList
-                            topics={tooltipData.topics.map((t) => ({
-                              ...t,
-                              selected: false,
-                            }))}
-                            onTopicClick={() => {}}
-                          />
-                        </div> */}
-                        {pipe(
-                          tooltipData.actors,
-                          O.map((actors) => (
-                            <ActorList
-                              key="actors"
-                              actors={actors.map((a) => ({
-                                ...a,
-                                selected: false
-                              }))}
-                              onActorClick={() => {}}
-                            />
-                          )),
-                          O.toNullable
-                        )}
-                      </div>
+                      <EventListItem
+                        event={{
+                          ...event,
+                          groups: groups.map((g) => g.id),
+                          actors: actors.map((a) => a.id),
+                        }}
+                        actors={actors}
+                        groups={groups}
+                      />
                     );
                   }}
                   {...networkProps}
@@ -230,7 +261,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = (props) => {
 
 function LegendDemo({
   title,
-  children
+  children,
 }: {
   title: string;
   children: React.ReactNode;
@@ -276,75 +307,79 @@ const getX = (
   );
 };
 
-const getY = (
-  topics: Array<{ id: string }>,
-  margin: number,
-  height: number
-) => (key: string) =>
-  pipe(
-    topics,
-    A.findIndex((t) => Eq.eqString.equals(t.id, key)),
-    O.fold(
-      () => 0,
-      (index) => {
-        return margin + index * ((height - margin * 2) / topics.length);
-      }
-    )
-  );
-
-const updateMap = <F extends Common.BaseFrontmatter>(acc: Map<string, F>) => (
-  frontmatters: F[]
-): Map<string, F> => {
-  return pipe(
-    frontmatters,
-    A.reduce(acc, (r, t) => {
-      if (Map.elem(eqByUUID)(t, r)) {
-        return r;
-      }
-      return Map.insertAt(Eq.eqString)(t.id, t)(r);
-    })
-  );
-};
-
-const getLinks = (
-  nodes: Array<NetworkPointNode<EventNetworkDatum>>,
-  relationLinks: Map<string, NetworkLink[]>
-) => (
-  relations: Array<Common.BaseFrontmatter & { color: string }>
-): Map<string, NetworkLink[]> => {
-  return pipe(
-    nodes,
-    A.reduce(relationLinks, (acc, p) => {
-      const newLinks = pipe(
-        relations,
-        A.reduce(acc, (acc1, relation) => {
-          const lastLinks = pipe(
-            Map.lookup(Ord.ordString)(relation.id, acc1),
-            O.getOrElse((): NetworkLink[] => [])
-          );
-
-          return pipe(
-            acc1,
-            Map.insertAt(Eq.eqString)(relation.id, [
-              ...lastLinks,
-              {
-                source: pipe(
-                  A.last(lastLinks),
-                  O.map((l) => l.target),
-                  O.getOrElse(() => p)
-                ),
-                target: p,
-                stroke: `#${relation.color}`,
-                fill: `#${relation.color}`
-              }
-            ])
-          );
-        })
+const getY =
+  (topics: Array<{ id: string }>, margin: number, height: number) =>
+  (itemId: string | undefined) => {
+    if (itemId) {
+      return pipe(
+        topics,
+        A.findIndex((t) => Eq.eqString.equals(t.id, itemId)),
+        O.fold(
+          () => margin + height,
+          (index) => {
+            return margin + index * ((height - margin * 2) / topics.length);
+          }
+        )
       );
-      return newLinks;
-    })
-  );
-};
+    }
+    return height - margin;
+  };
+
+const updateMap =
+  <F extends Common.BaseFrontmatter>(acc: Map<string, F>) =>
+  (frontmatters: F[]): Map<string, F> => {
+    return pipe(
+      frontmatters,
+      A.reduce(acc, (r, t) => {
+        if (Map.elem(eqByUUID)(t, r)) {
+          return r;
+        }
+        return Map.insertAt(Eq.eqString)(t.id, t)(r);
+      })
+    );
+  };
+
+const getLinks =
+  (
+    nodes: Array<NetworkPointNode<EventNetworkDatum>>,
+    relationLinks: Map<string, NetworkLink[]>
+  ) =>
+  (
+    relations: Array<Common.BaseFrontmatter & { color: string }>
+  ): Map<string, NetworkLink[]> => {
+    return pipe(
+      nodes,
+      A.reduce(relationLinks, (acc, p) => {
+        const newLinks = pipe(
+          relations,
+          A.reduce(acc, (acc1, relation) => {
+            const lastLinks = pipe(
+              Map.lookup(Ord.ordString)(relation.id, acc1),
+              O.getOrElse((): NetworkLink[] => [])
+            );
+
+            return pipe(
+              acc1,
+              Map.insertAt(Eq.eqString)(relation.id, [
+                ...lastLinks,
+                {
+                  source: pipe(
+                    A.last(lastLinks),
+                    O.map((l) => l.target),
+                    O.getOrElse(() => p)
+                  ),
+                  target: p,
+                  stroke: `#${relation.color}`,
+                  fill: `#${relation.color}`,
+                },
+              ])
+            );
+          })
+        );
+        return newLinks;
+      })
+    );
+  };
 
 interface Result {
   eventNodes: Array<NetworkPointNode<EventNetworkDatum>>;
@@ -360,7 +395,7 @@ interface Result {
   groupLinks: Map<string, NetworkLink[]>;
 }
 
-export interface NetworkTemplateData {
+export interface EventsNetworkGraphData {
   pageContent: Page.PageMD;
   topics: {
     nodes: Topic.TopicMD[];
@@ -376,7 +411,7 @@ export interface NetworkTemplateData {
   };
 }
 
-export interface NetworkTemplateProps {
+export interface EventsNetworkGraphDataProps {
   minDate: Date;
   maxDate: Date;
   scale: NetworkScale;
@@ -393,7 +428,7 @@ export interface NetworkTemplateProps {
   groupsScale: ScaleOrdinal<string, string>;
 }
 
-export function createNetworkTemplateProps({
+export function createEventNetworkGraphProps({
   events,
   actors: allActors,
   groups: allGroups,
@@ -405,12 +440,12 @@ export function createNetworkTemplateProps({
   selectedTopicIds,
   height,
   width,
-  margin
-}: EventsNetworkProps & {
+  margin,
+}: EventsNetworkGraphProps & {
   width: number;
   height: number;
   margin: { vertical: number; horizontal: number };
-}): NetworkTemplateProps {
+}): EventsNetworkGraphDataProps {
   const orderedEvents = pipe(events, A.sort(Ord.getDualOrd(ordEventDate)));
 
   const minDate = pipe(
@@ -448,7 +483,7 @@ export function createNetworkTemplateProps({
     groupByItems: Map.empty,
     actors: Map.empty,
     groups: Map.empty,
-    selectedEvents: []
+    selectedEvents: [],
   };
 
   const {
@@ -459,12 +494,11 @@ export function createNetworkTemplateProps({
     groupLinks,
     groupByItems,
     actors,
-    groups
+    groups,
   } = pipe(
     events,
     A.reduce(result, (acc, e) => {
       // get topic from relative directory
-
       const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
         eventDate(e)
       );
@@ -474,17 +508,21 @@ export function createNetworkTemplateProps({
           groupBy === "group"
             ? allGroups.filter((g) => e.groups.includes(g.id))
             : allActors.filter((a) => e.actors.includes(a.id));
-        const groupByAllList: GroupByItem[] = groupBy === "group" ? allGroups : allActors;
-        const eventNodes: Array<NetworkPointNode<EventNetworkDatum>> = pipe(
-          groupByEventList,
-          A.map((groupByItem) =>
-            pipe(
-              groupByAllList,
-              A.findFirst((item) => item.id === groupByItem.id)
-            )
-          ),
-          A.compact,
-          A.map((groupByItem) => ({
+
+        const groupByAllList: GroupByItem[] =
+          groupBy === "group" ? allGroups : allActors;
+
+        const groupByItem: GroupByItem | undefined = groupByAllList.find(
+          (g) => {
+            if (groupBy === "group") {
+              return e.groups.includes(g.id);
+            }
+            return e.actors.includes(g.id);
+          }
+        );
+
+        const eventNodes: Array<NetworkPointNode<EventNetworkDatum>> = [
+          {
             x:
               margin.horizontal +
               getX(
@@ -493,48 +531,31 @@ export function createNetworkTemplateProps({
                 maxDate,
                 networkWidth - margin.horizontal * 2
               ),
-            y: yGetter(groupByItem.id),
+            y: yGetter(groupByItem?.id),
             data: {
               ...e,
+              selected: !!groupByItem,
               date: eventDate(e),
-              groupBy: [groupByItem],
+              groupBy: groupByItem ? [groupByItem] : [],
               actors: pipe(
                 e.actors,
-                O.fromPredicate((items) => items.length > 0),
+                O.fromPredicate(A.isNonEmpty),
                 O.map((acts) => allActors.filter((a) => acts.includes(a.id)))
               ),
+              groups: pipe(
+                e.groups,
+                O.fromPredicate(A.isNonEmpty),
+                O.map((groups) =>
+                  allGroups.filter((g) => groups.includes(g.id))
+                )
+              ),
               label: e.title,
-              color: groupByItem.color,
-              innerColor: groupByItem.color,
-              outerColor: groupByItem.color
-            }
-          }))
-        );
-
-        const hasActor = pipe(
-          e.actors,
-          O.fromPredicate((items) => items.length > 0),
-          O.map((acts) => allActors.filter((a) => acts.includes(a.id))),
-          O.map((actors) =>
-            actors.some((i) => selectedActorIds.includes(i.id))
-          ),
-          O.getOrElse(() => false)
-        );
-
-        const hasGroup = pipe(
-          e.groups,
-          O.fromPredicate((items) => items.length > 0),
-          O.map((els) =>
-            allGroups.some((i) => selectedGroupIds.includes(i.id))
-          ),
-          O.getOrElse(() => false)
-        );
-
-        const hasGroupBy = groupByEventList.some((i: { id: string }) =>
-          selectedTopicIds.includes(i.id)
-        );
-
-        const groupByItems = updateMap(acc.groupByItems)(groupByEventList);
+              // color: groupByItem ? groupByItem.color : "#ccc",
+              innerColor: groupByItem ? groupByItem.color : "#ccc",
+              outerColor: groupByItem ? groupByItem.color : "#ccc",
+            },
+          },
+        ];
 
         const actors = pipe(
           e.actors,
@@ -552,90 +573,80 @@ export function createNetworkTemplateProps({
           updateMap(acc.groups)
         );
 
-        if (hasActor || hasGroupBy || hasGroup) {
-          const groupByLinks = pipe(
-            groupByEventList,
-            A.filter((groupByItem) =>
-              groupBy === "group"
-                ? selectedGroupIds.includes(groupByItem.id)
-                : selectedActorIds.includes(groupByItem.id)
-            ),
-            (items: GroupByItem[]) => {
-              const emptyMap: Map<string, NetworkLink[]> = Map.empty;
-              return pipe(
-                items.map((item) =>
-                  getLinks(
-                    eventNodes.filter(
-                      (e) =>
-                        e.data.groupBy.findIndex((tt) => tt.id === item.id) ===
-                        0
-                    ),
-                    acc.groupByLinks
-                  )([])
-                ),
-                A.reduce(emptyMap, (mm, m) => {
-                  return pipe(
-                    m,
-                    Map.keys(Ord.ordString),
-                    A.reduce(mm, (acc, key) => {
-                      return pipe(
-                        Map.lookup(Eq.eqString)(key, m),
-                        O.map((mapLinks) =>
-                          pipe(
-                            Map.lookup(Eq.eqString)(key, acc),
-                            O.map((accLinks) => [...accLinks, ...mapLinks]),
-                            O.getOrElse(() => mapLinks),
-                            (links) =>
-                              Map.insertAt(Eq.eqString)(key, links)(acc)
-                          )
-                        ),
-                        O.getOrElse((): Map<string, NetworkLink[]> => acc)
-                      );
-                    })
-                  );
-                })
-              );
-            }
-          );
+        const groupByItems = updateMap(acc.groupByItems)(groupByEventList);
 
-          const actorLinks = pipe(
-            e.actors,
-            O.fromPredicate((items) => items.length > 0),
-            O.map((actIds) => allActors.filter((a) => actIds.includes(a.id))),
-            O.getOrElse((): Actor.Actor[] => []),
-            A.filter((a) => selectedActorIds.includes(a.id)),
-            getLinks(eventNodes, acc.actorLinks)
-          );
+        const groupByLinks = pipe(
+          groupByEventList,
+          A.filter((groupByItem) =>
+            groupBy === "group"
+              ? selectedGroupIds.includes(groupByItem.id)
+              : selectedActorIds.includes(groupByItem.id)
+          ),
+          (items: GroupByItem[]) => {
+            const emptyMap: Map<string, NetworkLink[]> = Map.empty;
+            return pipe(
+              items.map((item) =>
+                getLinks(
+                  eventNodes.filter(
+                    (e) =>
+                      e.data.groupBy.findIndex((tt) => tt.id === item.id) === 0
+                  ),
+                  acc.groupByLinks
+                )([])
+              ),
+              A.reduce(emptyMap, (mm, m) => {
+                return pipe(
+                  m,
+                  Map.keys(Ord.ordString),
+                  A.reduce(mm, (acc, key) => {
+                    return pipe(
+                      Map.lookup(Eq.eqString)(key, m),
+                      O.map((mapLinks) =>
+                        pipe(
+                          Map.lookup(Eq.eqString)(key, acc),
+                          O.map((accLinks) => [...accLinks, ...mapLinks]),
+                          O.getOrElse(() => mapLinks),
+                          (links) => Map.insertAt(Eq.eqString)(key, links)(acc)
+                        )
+                      ),
+                      O.getOrElse((): Map<string, NetworkLink[]> => acc)
+                    );
+                  })
+                );
+              })
+            );
+          }
+        );
 
-          const groupLinks = pipe(
-            e.groups,
-            O.fromPredicate((items) => items.length > 0),
-            O.map((acts) => allGroups.filter((a) => acts.includes(a.id))),
-            O.getOrElse((): Group.Group[] => []),
-            A.filter((a) => selectedGroupIds.includes(a.id)),
-            getLinks(eventNodes, acc.groupLinks)
-          );
+        const actorLinks = pipe(
+          actors,
+          Map.toArray(Ord.ordString),
+          A.map((v) => v[1]),
+          A.filter((a) => selectedActorIds.includes(a.id)),
+          getLinks(eventNodes, acc.actorLinks)
+        );
 
-          return {
-            eventNodes: [...acc.eventNodes, ...eventNodes],
-            actorLinks,
-            groupByLinks,
-            groupLinks,
-            groupByItems,
-            actors,
-            groups,
-            selectedEvents: [...acc.selectedEvents, e]
-          };
-        }
+        const groupLinks = pipe(
+          e.groups,
+          O.fromPredicate((items) => items.length > 0),
+          O.map((acts) => allGroups.filter((a) => acts.includes(a.id))),
+          O.getOrElse((): Group.Group[] => []),
+          A.filter((a) => selectedGroupIds.includes(a.id)),
+          getLinks(eventNodes, acc.groupLinks)
+        );
 
         return {
-          ...acc,
+          eventNodes: [...acc.eventNodes, ...eventNodes],
+          actorLinks,
+          groupByLinks,
+          groupLinks,
           groupByItems,
           actors,
           groups,
-          eventNodes: [...acc.eventNodes, ...eventNodes]
+          selectedEvents: [...acc.selectedEvents, e],
         };
       }
+
       return acc;
     })
   );
@@ -648,7 +659,7 @@ export function createNetworkTemplateProps({
     domain: groupByArray.map((gb) =>
       Actor.Actor.is(gb) ? gb.username : gb.name
     ),
-    range: groupByArray.map((t) => t.color.toString())
+    range: groupByArray.map((t) => t.color.toString()),
   });
 
   const actorsArray = Map.toArray(Ord.ordString)(actors).flatMap(
@@ -656,15 +667,16 @@ export function createNetworkTemplateProps({
   );
   const actorsScale = ordinalScale({
     domain: actorsArray.map((a) => a.fullName),
-    range: actorsArray.map((a) => a.color.toString())
+    range: actorsArray.map((a) => a.color.toString()),
   });
 
   const groupsArray = Map.toArray(Ord.ordString)(groups).flatMap(
     ([_k, groups]) => groups
   );
+
   const groupsScale = ordinalScale({
     domain: groupsArray.map((g) => g.name),
-    range: groupsArray.map((a) => a.color.toString())
+    range: groupsArray.map((a) => a.color.toString()),
   });
 
   const actorLinksList = Map.toArray(Ord.ordString)(actorLinks).flatMap(
@@ -672,27 +684,34 @@ export function createNetworkTemplateProps({
   );
 
   return {
-    minDate,
+    minDate: pipe(
+      A.head(selectedEvents),
+      O.map((e) => e.startDate),
+      O.getOrElse(() => subWeeks(new Date(), 1))
+    ),
     maxDate,
     scale,
     groupBy,
     graph: {
       nodes: eventNodes,
       links: [
+        ...Map.toArray(Ord.ordString)(actorLinks).flatMap(
+          ([_k, links]) => links
+        ),
         ...Map.toArray(Ord.ordString)(topicLinks).flatMap(
           ([_k, links]) => links
         ),
         ...actorLinksList,
         ...Map.toArray(Ord.ordString)(groupLinks).flatMap(
           ([_k, links]) => links
-        )
-      ]
+        ),
+      ],
     },
-    groupByScale: groupByScale as any,
-    actorsScale: actorsScale as any,
-    groupsScale: groupsScale as any,
+    groupByScale: groupByScale,
+    actorsScale: actorsScale,
+    groupsScale: groupsScale,
     selectedEvents,
     width: width > networkWidth ? width : networkWidth,
-    height: height
+    height: height,
   };
 }

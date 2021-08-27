@@ -40,7 +40,8 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
           .leftJoinAndSelect("event.actors", "actors")
           .leftJoinAndSelect("event.groups", "groups")
           .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
-          .leftJoinAndSelect("event.images", "images"),
+          .leftJoinAndSelect("event.images", "images")
+          .leftJoinAndSelect("event.links", "links"),
         (q) => {
           if (O.isSome(actors)) {
             return q.where("actors.id IN (:...actors)", {
