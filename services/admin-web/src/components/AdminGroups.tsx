@@ -32,7 +32,7 @@ import {
   SingleFieldList,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
@@ -45,7 +45,7 @@ const GroupKindInput: React.FC<ChoicesInputProps> = (props) => (
     {...props}
     choices={io.http.Group.GroupKind.types.map((t) => ({
       id: t.value,
-      name: t.value
+      name: t.value,
     }))}
   />
 );
@@ -64,8 +64,6 @@ export const GroupList: React.FC<ListProps> = (props) => (
 );
 
 const transformGroup = (data: Record): Record | Promise<Record> => {
-  // eslint-disable-next-line
-  console.log(data);
   if (data.avatar?.rawFile) {
     return pipe(
       uploadImages(apiProvider)("groups", data.name, [data.avatar.rawFile]),

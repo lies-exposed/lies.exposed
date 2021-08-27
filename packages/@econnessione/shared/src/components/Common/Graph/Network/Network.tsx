@@ -86,13 +86,12 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   const bottomScale = scaleTime({
     range: [0, width],
     domain: [minDate, maxDate],
-    nice: true,
   });
 
   return (
     <React.Fragment>
-      <Group>
-        <svg width={width} height={height} style={{ cursor: "grab" }}>
+      <svg width={width} height={height} style={{ cursor: "grab" }}>
+        <Group>
           {/* <RectClipPath id="zoom-clip" width={300} height={200} /> */}
           <rect
             width={width}
@@ -145,8 +144,10 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
               fontSize: 10,
               fontFamily: "Arial",
             })}
-            tickComponent={({ formattedValue, ...tickProps }) => (
-              <text {...tickProps}>{formattedValue}</text>
+            tickComponent={({ formattedValue, values, ...tickProps }) => (
+              <text {...tickProps}>
+                {formattedValue} {values}
+              </text>
             )}
           />
 
@@ -162,8 +163,9 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
               })
             }
           />
-        </svg>
-      </Group>
+        </Group>
+      </svg>
+
       {tooltipOpen && tooltipData !== undefined ? (
         <Tooltip
           key={Math.random()}

@@ -7,7 +7,7 @@ import { actors } from "../../mock-data/actors";
 import { events } from "../../mock-data/events";
 import { groups } from "../../mock-data/groups";
 import { topics } from "../../mock-data/topics";
-import { EventsNetwork } from "../Graph/EventsNetwork";
+import { EventsNetworkGraph } from "../Graph/EventsNetworkGraph";
 
 const NetworkExample: React.FC = () => {
   const [showTopicLinks, setShowTopicLinks] = React.useState<boolean>(false);
@@ -46,7 +46,7 @@ const NetworkExample: React.FC = () => {
       <button onClick={() => onShowLinks("groups")}>
         {!showGroupLinks ? "show" : "hide"} groups links
       </button>
-      <EventsNetwork
+      <EventsNetworkGraph
         groupBy="actor"
         scale={"all"}
         scalePoint={O.none}
@@ -62,6 +62,7 @@ const NetworkExample: React.FC = () => {
         selectedActorIds={selectedActorIds}
         selectedGroupIds={selectedGroupIds}
         selectedTopicIds={selectedTopicIds}
+        onEventClick={() => {}}
       />
     </>
   );

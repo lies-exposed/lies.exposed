@@ -9,6 +9,7 @@ import * as React from "react";
 import {
   ArrayField,
   ArrayInput,
+  AutocompleteArrayInput,
   ChipField,
   Create,
   CreateProps,
@@ -46,10 +47,10 @@ const EventsFilter: React.FC = (props: any) => {
     <Filter {...props}>
       <TextInput label="Search" source="q" alwaysOn />
       <ReferenceArrayInput source="groups" reference="groups" alwaysOn>
-        <SelectArrayInput optionText="name" />
+        <AutocompleteArrayInput optionText="name" />
       </ReferenceArrayInput>
       <ReferenceArrayInput source="actors" reference="actors" alwaysOn>
-        <SelectArrayInput
+        <AutocompleteArrayInput
           optionText={(a: Partial<Actor>) =>
             a.id ? `${a.fullName}` : "No actor"
           }

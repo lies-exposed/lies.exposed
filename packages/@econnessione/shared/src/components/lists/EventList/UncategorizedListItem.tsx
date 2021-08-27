@@ -1,8 +1,7 @@
-import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import { ActorList } from "@components/lists/ActorList";
 import GroupList from "@components/lists/GroupList";
 import TopicList from "@components/lists/TopicList";
-import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
+import { faMapMarker, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Actor, Events, Group, Topic } from "@io/http";
 import {
@@ -24,6 +23,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { navigate } from "@reach/router";
 import { formatDate } from "@utils/date";
+import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -53,16 +53,29 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       }}
     >
       <CardHeader
+        disableTypography={true}
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title={item.title}
+        title={<Typography variant="h6">{item.title}</Typography>}
         subheader={
-          <Typography variant="caption">
-            {formatDate(item.startDate)}
-          </Typography>
+          <div>
+            <Typography variant="body2">
+              {formatDate(item.startDate)}
+            </Typography>
+            {pipe(
+              O.fromNullable(item.location),
+              O.fold(
+                () => null,
+                () => <FontAwesomeIcon icon={faMapMarker} />
+              )
+            )}
+            <div>
+              <FontAwesomeIcon icon={faLink} /> ({item.links.length})
+            </div>
+          </div>
         }
       />
       <CardActionArea>
@@ -82,8 +95,12 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           O.toNullable
         )}
         <CardContent>
-          <Grid container alignItems="center" style={{ width: "100%" }}>
-            <Grid item>
+          <Grid container>
+            <Grid item></Grid>
+          </Grid>
+          <Grid container style={{ width: "100%" }}>
+            <Grid item md={4}>
+              <Typography variant="body2">Topics</Typography>
               <TopicList
                 topics={topics.map((t) => ({
                   ...t,
@@ -94,21 +111,12 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                   return undefined;
                 }}
               />
-              {pipe(
-                O.fromNullable(item.location),
-                O.fold(
-                  () => null,
-                  () => <FontAwesomeIcon icon={faMapMarker} />
-                )
-              )}
             </Grid>
-            <Grid item alignItems="flex-end">
+            <Grid item md={4}>
+              <Typography variant="body2">Gruppi</Typography>
               {pipe(
-                item.groups,
-                O.fromPredicate((arr) => arr.length > 0),
-                O.map((groupIds) =>
-                  groups.filter((a) => groupIds.includes(a.id))
-                ),
+                groups,
+                O.fromPredicate(A.isNonEmpty),
                 O.fold(
                   () => null,
                   (groups) => (
@@ -125,13 +133,11 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 )
               )}
             </Grid>
-            <Grid item>
+            <Grid item md={4}>
+              <Typography variant="body2">Actors</Typography>
               {pipe(
-                item.actors,
-                O.fromPredicate((arr) => arr.length > 0),
-                O.map((actorIds) =>
-                  actors.filter((a) => actorIds.includes(a.id))
-                ),
+                actors,
+                O.fromPredicate(A.isNonEmpty),
                 O.fold(
                   () => null,
                   (actors) => (
@@ -174,8 +180,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
 
           <Grid container>
             <Grid item>
-              <MarkdownRenderer>{item.body}</MarkdownRenderer>
-
               {pipe(
                 item.links,
                 O.fromPredicate((arr) => arr.length > 0),

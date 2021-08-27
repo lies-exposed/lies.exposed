@@ -27,6 +27,7 @@ describe("Create Event", () => {
       actors: [],
       groups: [],
       groupMembers: [],
+      links: [],
       startDate: new Date(),
       endDate: undefined as any,
       body: "My first event",

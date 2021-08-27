@@ -1,5 +1,6 @@
 import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { DeathBox } from "@containers/DeathBox";
+import { EventsNetwork } from "@containers/EventsNetwork";
 import { ActorPageContent } from "@econnessione/shared/components/ActorPageContent";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { MainContent } from "@econnessione/shared/components/MainContent";
@@ -41,6 +42,20 @@ export default class ActorTemplate extends React.PureComponent<
                   {actor.death ? <DeathBox id={actor.death} /> : null}
                   <div style={{ padding: 50 }}>
                     <EventSlider filter={{ actors: O.some([actorId]) }} />
+                  </div>
+                  <div style={{ padding: 50 }}>
+                    <EventsNetwork
+                      filter={{ actors: O.some([actorId]) }}
+                      actors={[actor]}
+                      groups={[]}
+                      groupBy="actor"
+                      selectedActorIds={[actorId]}
+                      selectedGroupIds={[]}
+                      selectedTopicIds={[]}
+                      scale={"all"}
+                      scalePoint={O.none}
+                      onEventClick={() => {}}
+                    />
                   </div>
                 </MainContent>
               );
