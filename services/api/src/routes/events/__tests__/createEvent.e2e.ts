@@ -26,7 +26,7 @@ describe("Create Event", () => {
       images: undefined as any,
       actors: [],
       groups: [],
-      groupMembers: [],
+      groupsMembers: [],
       links: [],
       startDate: new Date(),
       endDate: undefined as any,

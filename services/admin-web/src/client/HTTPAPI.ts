@@ -49,9 +49,9 @@ export const authProvider: AuthProvider = {
 export const apiProvider: http.APIRESTClient = {
   ...dataProvider,
   create: (resource, params) => {
-    if (resource === "actors") {
-      return createActor(dataProvider)(resource, params) as any;
-    }
+    // if (resource === "actors") {
+    //   return createActor(dataProvider)(resource, params) as any;
+    // }
 
     // if (resource === "groups") {
     //   return createGroup(dataProvider)(resource, params) as any;
@@ -61,7 +61,7 @@ export const apiProvider: http.APIRESTClient = {
       return createProject(dataProvider)(resource, params);
     }
 
-    return dataProvider.create(resource, params);
+    return dataProvider.create<any>(resource, params);
   },
   update: (resource, params) => {
     if (resource === "areas") {

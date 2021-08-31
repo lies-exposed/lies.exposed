@@ -26,10 +26,9 @@ export const createActor =
         E.toError
       ),
       TE.chain((result) => {
-        const avatarTask =
-          typeof avatar === "string"
-            ? TE.right([avatar])
-            : uploadImages(client)(resource, result.data.id, [avatar]);
+        const avatarTask = uploadImages(client)(resource, result.data.id, [
+          avatar,
+        ]);
 
         return pipe(
           avatarTask,

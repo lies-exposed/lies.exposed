@@ -1,4 +1,3 @@
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
 import { ProjectPageContent } from "@econnessione/shared/components/ProjectPageContent";
 import { http } from "@econnessione/shared/io";
 import { Kind } from "@econnessione/shared/io/http/ProjectImage";
@@ -17,16 +16,13 @@ import {
   DateInput,
   Edit,
   EditProps,
-  FileInput,
   FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
   List,
   ListProps,
-  ReferenceArrayField,
   required,
-  SelectField,
   SelectInput,
   SimpleForm,
   SimpleFormIterator,
@@ -36,7 +32,6 @@ import {
   TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
-import { AreaEdit } from "./AdminAreas";
 import { MapField } from "./Common/MapField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";

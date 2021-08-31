@@ -89,7 +89,6 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
                     actors: e.actors.map((g) => g.id),
                     groups: e.groups.map((g) => g.id),
                     groupsMembers: e.groupsMembers.map((m) => m.id),
-                    links: [],
                   } as any;
                 })
               )

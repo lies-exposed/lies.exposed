@@ -1,7 +1,3 @@
-/* eslint-disable import/first */
-import "reflect-metadata";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require("module-alias")(process.cwd());
 import * as path from "path";
 import * as logger from "@econnessione/core/logger";
 import { ControllerError, DecodeError } from "@io/ControllerError";

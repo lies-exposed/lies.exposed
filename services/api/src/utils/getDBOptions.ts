@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import * as fs from "fs";
 import * as path from "path";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -21,8 +22,8 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
     env.DB_SSL_MODE === "require"
       ? {
           ca: fs.readFileSync(path.join(process.cwd(), env.DB_SSL_CERT_PATH), {
-            encoding: "utf-8"
-          })
+            encoding: "utf-8",
+          }),
         }
       : false;
 
@@ -46,13 +47,13 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       DeathEventEntity,
       ImageEntity,
       LinkEntity,
-      UserEntity
+      UserEntity,
     ],
     synchronize: env.NODE_ENV === "test",
     ssl: ssl,
     migrations: [`${process.cwd()}/build/migrations/*.js`],
     cli: {
-      migrationsDir: "src/migrations"
-    }
+      migrationsDir: "src/migrations",
+    },
   };
 };

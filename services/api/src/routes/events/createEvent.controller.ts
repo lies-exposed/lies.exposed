@@ -1,4 +1,5 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventEntity } from "@entities/Event.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -14,7 +15,12 @@ export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
         ...data,
         groups: body.groups.map((id) => ({ id })),
         actors: body.actors.map((id) => ({ id })),
-        groupMembers: body.groupMembers.map((id) => ({ id })),
+        groupsMembers: body.groupsMembers.map((id) => ({ id })),
+        links: body.links.map(({ url, description }) => ({
+          id: uuid(),
+          url,
+          description,
+        })),
       }));
 
       return pipe(
@@ -22,7 +28,10 @@ export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
         TE.chain(([event]) =>
           db.findOneOrFail(EventEntity, {
             where: { id: event.id },
-            loadRelationIds: true,
+            relations: ["images", "links"],
+            loadRelationIds: {
+              relations: ["actors", "groups", "groupsMembers"],
+            },
           })
         ),
         TE.chain((event) => TE.fromEither(toEventIO(event))),
