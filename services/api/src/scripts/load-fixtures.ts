@@ -1,11 +1,14 @@
 import { fc } from "@econnessione/core/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { EventArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
+import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { PageArb } from "@econnessione/shared/tests/arbitrary/Page.arbitrary";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventEntity } from "@entities/Event.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { sequenceS } from "fp-ts/lib/Apply";
+import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { makeContext } from "../server";
@@ -15,12 +18,13 @@ const run = (): Promise<void> => {
     ...fc.sample(PageArb, 1)[0],
     path,
   }));
-  const actors = fc.sample(ActorArb, 10).map(({ death, ...a }) => ({ ...a }));
-  const events = fc.sample(EventArb, 10).map((g) => ({
+  const actors = fc.sample(ActorArb, 100).map(({ death, ...a }) => ({ ...a }));
+  const groups = fc.sample(GroupArb, 100).map((g) => ({ ...g, members: [] }));
+  const events = fc.sample(EventArb, 100).map((g) => ({
     ...g,
-    groups: [],
+    groups: A.takeLeft(20)(groups),
+    actors: A.takeLeft(20)(actors),
     groupsMembers: [],
-    actors: [],
     links: [],
   }));
 
@@ -33,13 +37,9 @@ const run = (): Promise<void> => {
             sequenceS(TE.taskEitherSeq)({
               pages: tClient.save(PageEntity, pages),
               actors: tClient.save(ActorEntity, actors),
+              groups: tClient.save(GroupEntity, groups),
             }),
-            TE.chain(() =>
-              tClient.save(
-                EventEntity,
-                events.map((a) => ({ ...a, actors: [] }))
-              )
-            )
+            TE.chain(() => tClient.save(EventEntity, events))
           );
         }),
         TE.chain(() => ctx.db.close())
