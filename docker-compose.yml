@@ -49,8 +49,8 @@ services:
     ports:
       - "4010:4010"
     volumes:
-      - ./packages/@econnessione:/app/packages/@econnessione:delegated
-      - ./services/api:/app/services/api:delegated
+      - ./packages/@econnessione:/app/packages/@econnessione
+      - ./services/api:/app/services/api
     tty: true
     stdin_open: true
     working_dir: /app/services/api

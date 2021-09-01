@@ -257,7 +257,7 @@ export const jsonData = <A>(
 ): CachedQuery<{ id: string }, Error, { data: A }> =>
   queryShallow<{ id: string }, Error, { data: A }>(
     ({ id }: { id: string }) =>
-      liftFetch(() => dataProvider.getOne("graphs", { id }), decode),
+      liftFetch(() => dataProvider.get("graphs", { id }), decode),
     available
   );
 

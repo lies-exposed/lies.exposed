@@ -36,12 +36,12 @@ export interface BarStackHorizontalGraphProps<D, K extends StackKey> {
   tooltipRenderer: (d: TooltipData<D, K>) => React.ReactNode;
 }
 
-export const background = "#eaedff";
+export const background = "transparent";
 const defaultMargin = { top: 40, right: 80, bottom: 40, left: 80 };
 const tooltipStyles = {
   ...defaultStyles,
   minWidth: 60,
-  backgroundColor: "rgba(0,0,0,0.9)",
+  backgroundColor: "transparent",
   color: "white",
 };
 

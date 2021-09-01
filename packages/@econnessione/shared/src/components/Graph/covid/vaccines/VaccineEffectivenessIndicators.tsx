@@ -142,7 +142,7 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
 
     return (
       <Grid container>
-        <Typography variant="h1">Vaccine Effectiveness Indicators</Typography>
+        <Typography variant="h2">Vaccine Effectiveness Indicators</Typography>
         <Grid container spacing={3}>
           <Grid item md={12}>
             <Typography variant="h5">Infections</Typography>

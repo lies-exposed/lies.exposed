@@ -44,6 +44,7 @@ export const run = (): Promise<void> => {
           //       });
           //   }
           // );
+          // ctx.logger.debug.log('Setup "download vaccine data task" (%s)', ctx.env.DOWNLOAD_VACCINE_DATA_CRON);
 
           const server = app.listen(ctx.env.API_PORT, () =>
             ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`)
@@ -54,7 +55,7 @@ export const run = (): Promise<void> => {
             serverLogger.debug.log(
               "Removing vaccine data download cron task..."
             );
-            // downloadVaccineDataTask.destroy();
+            // downloadVaccineDataTask.stop();
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");
             server.close();
