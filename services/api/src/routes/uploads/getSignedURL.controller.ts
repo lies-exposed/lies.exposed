@@ -23,8 +23,8 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
     ({ body: { resource, resourceId, ContentType } }) => {
       return pipe(
         ctx.s3.getSignedUrl("putObject", {
-          Bucket: "econnessione-alpha",
-          Key: `${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
+          Bucket: ctx.env.SPACE_BUCKET,
+          Key: `media/${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
             ContentType
           )}`,
           ContentType,

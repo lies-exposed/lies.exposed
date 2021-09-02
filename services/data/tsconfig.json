@@ -1,0 +1,32 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "typeRoots": [
+      "./src/typings",
+      "node_modules/@types",
+      "../../node_modules/@types"
+    ],
+    "declaration": false,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
+      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
+    }
+  },
+  "references": [
+    {
+      "path": "../../packages/@econnessione/core"
+    },
+    {
+      "path": "../../packages/@econnessione/shared"
+    }
+  ],
+  "include": ["./src"],
+  "exclude": ["**/__tests__/**"]
+}

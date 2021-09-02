@@ -42,7 +42,7 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
         name: "NameNotResolvedError",
         status: 500,
         message: e.message,
-        details: []
+        details: [],
       };
     }
     if (e.name === "TimeoutError") {
@@ -50,7 +50,7 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
         name: "TimeoutPuppeteerError",
         status: 500,
         message: e.message,
-        details: [e as any]
+        details: [e as any],
       };
     }
 
@@ -58,7 +58,7 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
       status: 500,
       name: e.name as any,
       message: e.message,
-      details: []
+      details: [],
     };
   }
 
@@ -68,7 +68,7 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
     name: "UnknownPuppeteerError",
     status: 500,
     message: "An error occured",
-    details: []
+    details: [],
   };
 };
 
@@ -114,11 +114,10 @@ const MakeCOPPuppeteerClient = (
     PuppeteerError,
     puppeteer.Page
   > => {
-    puppeteerLogger.debug.log("getting first browser page");
-    return TE.tryCatch(
-      () => browser.pages().then((pages) => pages[0]),
-      toPuppeteerError
-    );
+    return TE.tryCatch(() => {
+      puppeteerLogger.debug.log("getting first browser page");
+      return browser.pages().then((pages) => pages[0]);
+    }, toPuppeteerError);
   };
 
   const goToPage = (url: string) => (page: puppeteer.Page) => {
@@ -159,7 +158,7 @@ const MakeCOPPuppeteerClient = (
     download,
     getBrowserFirstPage,
     getPageText,
-    close: () => TE.tryCatch(() => browser.close(), toPuppeteerError)
+    close: () => TE.tryCatch(() => browser.close(), toPuppeteerError),
   };
 };
 
@@ -187,6 +186,6 @@ export const MakePuppeteerClient: MakePuppeteerClient = (p, launchOpts) => {
           toPuppeteerError
         ),
         TE.map((b) => MakeCOPPuppeteerClient(b))
-      )
+      ),
   };
 };

@@ -53,7 +53,7 @@ export const theme = createTheme({
       "@global": {
         html: {
           WebkitFontSmoothing: "auto",
-          html: "100%",
+          // html: "100%",
           fontFamily: ["Roboto", "Helvetica", "Arial", "sans-serif"].join(","),
         },
       },

@@ -4,9 +4,6 @@ require("module-alias")(process.cwd());
 import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-// import * as Cron from "node-cron";
-// import { runDownload } from "./cron/vaccines/eudr/downloadEUDRData";
-// import { runAggregate, runParse } from "./cron/vaccines/eudr/parseEUDRData";
 import { makeApp, makeContext } from "./server";
 
 export const run = (): Promise<void> => {
@@ -44,6 +41,7 @@ export const run = (): Promise<void> => {
           //       });
           //   }
           // );
+          // ctx.logger.debug.log('Setup "download vaccine data task" (%s)', ctx.env.DOWNLOAD_VACCINE_DATA_CRON);
 
           const server = app.listen(ctx.env.API_PORT, () =>
             ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`)
@@ -54,7 +52,7 @@ export const run = (): Promise<void> => {
             serverLogger.debug.log(
               "Removing vaccine data download cron task..."
             );
-            // downloadVaccineDataTask.destroy();
+            // downloadVaccineDataTask.stop();
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");
             server.close();
