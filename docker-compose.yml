@@ -44,8 +44,10 @@ services:
       DB_PORT: 5432
     links:
       - db
+      - data
     depends_on:
       - db
+      - data
     ports:
       - "4010:4010"
     volumes:
@@ -99,6 +101,18 @@ services:
       - api
     restart: always
   
+  data:
+    container_name: econnessione-data
+    image: econnessione_base
+    ports:
+      - "3010:3010"
+    volumes:
+      - ./services/data:/app/services/data
+    working_dir: /app/services/data
+    command: yarn serve
+    tty: false
+    restart: always
+
   storybook:
     container_name: econnessione-storybook
     image: econnessione_base

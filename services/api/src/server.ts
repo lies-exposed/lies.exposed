@@ -6,7 +6,7 @@ import { GetJWTClient } from "@providers/jwt/JWTClient";
 import { GetMDXClient } from "@providers/mdx";
 import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
-import { GetFSClient } from "@providers/space/FSClient";
+import { GetFSClient } from "@providers/space/LocalSpaceClient";
 import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
@@ -55,9 +55,7 @@ export const makeContext = (
           env.NODE_ENV === "development" || env.NODE_ENV === "test"
             ? TE.right(
                 GetFSClient({
-                  basePath: process.cwd(),
-                  dataFolder: "data/media",
-                  baseUrl: `http://localhost:${env.API_PORT}`,
+                  baseUrl: `http://data:${3010}`,
                   logger: serverLogger,
                 })
               )

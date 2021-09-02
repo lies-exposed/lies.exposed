@@ -1,19 +1,14 @@
-import * as fs from "fs";
-import * as path from "path";
 import { AddEndpoint, Graph } from "@econnessione/shared/endpoints";
 // import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
 // import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
+import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
+import { NotFoundError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
-import { GetCSVUtil } from "@utils/csv.utils";
 import { Router } from "express";
-import * as E from "fp-ts/lib/Either";
-import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import { IOError } from "ts-shared/lib/errors";
-
-const DATA_FOLDER = path.resolve(process.cwd(), "data");
 
 // const getDecoderById = (
 //   id: Graph.GraphId
@@ -41,27 +36,19 @@ const DATA_FOLDER = path.resolve(process.cwd(), "data");
 //   }
 // };
 
-const readFile = (id: string): TE.TaskEither<Error, string> => {
-  const graphPath = path.resolve(DATA_FOLDER, id);
-  return TE.fromIOEither(
-    IOE.tryCatch(
-      () =>
-        fs
-          .readFileSync(graphPath, {
-            encoding: "utf-8",
-          })
-          .toString(),
-      E.toError
-    )
-  );
-};
-
 export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
   const csvUtil = GetCSVUtil({ log: ctx.logger });
   AddEndpoint(r)(Graph.GetGraph, ({ query: { id } }) => {
+    ctx.logger.debug.log("Fetching data from %s", id);
     return pipe(
-      readFile(id),
-      TE.chain((content) => csvUtil.parseString(content, t.any)),
+      ctx.s3.getObject({ Key: `public/${id}`, Bucket: ctx.env.SPACE_BUCKET }),
+      TE.chain((content) => {
+        if (content.Body) {
+          // eslint-disable-next-line @typescript-eslint/no-base-to-string
+          return csvUtil.parseString(content.Body.toString(), t.any);
+        }
+        return TE.left(NotFoundError("graph"));
+      }),
       TE.mapLeft(
         (e) =>
           new IOError(`Can't read file at ${id}`, {

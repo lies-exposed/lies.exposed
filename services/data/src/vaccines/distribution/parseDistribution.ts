@@ -2,9 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
-import { writeToPath } from "@fast-csv/format";
-import { groupBy } from "@utils/array.utils";
-import { GetCSVUtil } from "@utils/csv.utils";
+import { groupBy } from "@econnessione/shared/utils/array.utils";
+import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
 import { formatISO } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
@@ -16,6 +15,9 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import { NumberFromString, optionFromNullable } from "io-ts-types";
+
+const log = GetLogger("vaccine-parse-distribution");
+const csvUtil = GetCSVUtil({ log });
 
 const OWIDDatumValue = optionFromNullable(
   t.union([NumberFromString, t.string])
@@ -126,20 +128,7 @@ const processDistributionData =
         );
       },
       TE.right,
-      TE.chain((results) => {
-        return TE.tryCatch(async () => {
-          writeToPath(outputPath, results, {
-            headers: Object.keys(results[0]),
-            writeHeaders: true,
-          })
-            // eslint-disable-next-line
-            .on("error", (err) => console.error(err))
-            .on("finish", () => {
-              // eslint-disable-next-line @typescript-eslint/no-floating-promises
-              Promise.resolve();
-            });
-        }, E.toError);
-      })
+      TE.chain((results) => csvUtil.writeToPath(outputPath, results))
     );
   };
 
@@ -171,10 +160,8 @@ const DISTRIBUTION_PATH = path.resolve(
 );
 
 export const run = (): TE.TaskEither<Error, void> => {
-  const log = GetLogger("vaccine-parse-distribution");
   const inputPath = path.resolve(DISTRIBUTION_PATH, "vaccinations.csv");
   const outputPath = path.resolve(DISTRIBUTION_PATH, "world-distribution.csv");
-  const csvUtil = GetCSVUtil({ log });
 
   return pipe(
     TE.tryCatch(async () => {

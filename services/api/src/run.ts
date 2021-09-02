@@ -4,9 +4,6 @@ require("module-alias")(process.cwd());
 import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-// import * as Cron from "node-cron";
-// import { runDownload } from "./cron/vaccines/eudr/downloadEUDRData";
-// import { runAggregate, runParse } from "./cron/vaccines/eudr/parseEUDRData";
 import { makeApp, makeContext } from "./server";
 
 export const run = (): Promise<void> => {

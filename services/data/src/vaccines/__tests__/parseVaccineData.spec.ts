@@ -1,12 +1,9 @@
-import * as logger from "@econnessione/core/logger";
 import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
 import { subDays } from "date-fns";
 import { computeTotals, reduceToReport } from "../eudr/parseEUDRData";
 
 const now = new Date();
 describe("Parse Vaccine Data", () => {
-  const log = logger.GetLogger("parse-vaccine-data");
-
   test("Should compute datum by date", () => {
     const date = subDays(now, 3);
     const data: VaccineDatum[] = [
