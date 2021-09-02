@@ -1,23 +1,20 @@
 import * as logger from "@econnessione/core/logger";
 import * as E from "fp-ts/lib/Either";
 // eslint-disable-next-line no-restricted-imports
-import { GetFSClient } from "../FSClient";
+import { GetLocalSpaceClient } from "../LocalSpaceClient";
 
-describe.skip("FSClient", () => {
-  const basePath = __dirname;
+describe.skip("LocalSpaceClient", () => {
   const baseUrl = "http://localhost:4010";
   const dataFolder = "data/media";
 
-  const fsClient = GetFSClient({
-    basePath,
+  const localSpaceClient = GetLocalSpaceClient({
     baseUrl,
-    dataFolder,
     logger: logger.GetLogger("FSClient"),
   });
 
   test("Should return the signedUrl for upload", async () => {
     const Key = "/actors/image.jpg";
-    const result = await fsClient.getSignedUrl("putObject", {
+    const result = await localSpaceClient.getSignedUrl("putObject", {
       Key,
       Bucket: "not-relevant",
     })();
@@ -30,7 +27,7 @@ describe.skip("FSClient", () => {
 
   test("Should upload the file at the given path", async () => {
     const Key = "/data/media/actors/image.jpg";
-    const result = await fsClient.upload({
+    const result = await localSpaceClient.upload({
       Key,
       Bucket: "not-relevant",
     })();

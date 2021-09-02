@@ -11,7 +11,7 @@ interface LocalSpaceClientCtx {
   logger: logger.Logger;
 }
 
-const GetFSClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
+const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
   logger: serverLogger,
   ...c
 }: LocalSpaceClientCtx): SpaceClient => {
@@ -60,4 +60,4 @@ const GetFSClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
   };
 };
 
-export { GetFSClient };
+export { GetLocalSpaceClient };

@@ -13,7 +13,6 @@ on:
   #     - release/alpha
 
 jobs:
-
   deploy-alpha:
     runs-on: ubuntu-18.04
     strategy:
@@ -82,7 +81,6 @@ jobs:
             --endpoint https://fra1.digitaloceanspaces.com/ \
             --acl public-read
 
-
       - name: Build Admin Web
         run: yarn workspace admin-web build
         env:
@@ -116,6 +114,17 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
         run: |
           aws s3 sync ./services/web/build s3://econnessione-alpha/web \
+            --follow-symlinks \
+            --delete \
+            --endpoint https://fra1.digitaloceanspaces.com/ \
+            --acl public-read
+
+      - name: Upload Public Data to DO Space
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 sync ./services/data/public s3://econnessione-alpha/public \
             --follow-symlinks \
             --delete \
             --endpoint https://fra1.digitaloceanspaces.com/ \
