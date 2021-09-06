@@ -14,6 +14,7 @@ import * as Ord from "fp-ts/lib/Ord";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
+import { VaccineEntry } from "../types";
 
 const logger = GetLogger("vaccines:parse");
 const csvUtil = GetCSVUtil({ log: logger });
@@ -41,28 +42,6 @@ const EUDRVIGILANCE = t.strict(
 );
 
 type EUDRVIGILANCE = t.TypeOf<typeof EUDRVIGILANCE>;
-
-const {
-  total_deaths,
-  total_death_0_1_month,
-  total_death_2_month_2_years,
-  total_death_3_11_years: total_death_3_12_years,
-  total_death_12_17_years,
-  total_death_18_64_years,
-  total_death_65_85_years,
-  total_death_more_than_85_years,
-  total_injuries,
-  total_severe,
-  total_reported,
-  ...vaccineDatumProps
-} = VaccineDatum.type.props;
-const VaccineEntry = t.strict(
-  {
-    ...vaccineDatumProps,
-  },
-  "VaccineEntry"
-);
-type VaccineEntry = t.TypeOf<typeof VaccineEntry>;
 
 export const reduceToDateEntry = (
   init: VaccineEntry,

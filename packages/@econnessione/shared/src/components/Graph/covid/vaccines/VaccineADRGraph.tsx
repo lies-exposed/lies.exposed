@@ -49,7 +49,7 @@ import * as React from "react";
 // const eudrUp2Months2Years = "#ed34ca";
 
 const ageGroupColors = {
-  "all": "#b623ad",
+  all: "#b623ad",
   [NotSpecified.value]: "#6b707a",
   [ZeroToOneMonth.value]: "#886398",
   [TwoMonthsToTwoYears.value]: "#58ef28",
@@ -144,7 +144,9 @@ const europeVaccineDistributionFirstDoseLineId =
 const europeVaccineDistributionSecondDoseLineId =
   "europe-vaccine-distribution-second-dose-line";
 
-const getDatumTableData = (v: VaccineDatum): Array<[string, string, number]> => {
+const getDatumTableData = (
+  v: VaccineDatum
+): Array<[string, string, number]> => {
   return [
     v.total_death_0_1_month,
     v.total_death_2_month_2_years,
@@ -268,6 +270,7 @@ const renderTooltip = (data: VaccineDatum): JSX.Element => {
 interface VaccineADRGraphComponentProps {
   width: number;
   height: number;
+  vaers: VaccineDatum[];
   eudrvigilance: VaccineDatum[];
   distribution: VaccineDistributionDatum[];
   adrReportFactor: number;
@@ -556,9 +559,10 @@ export class VaccineADRGraph extends React.PureComponent {
           europeVaccineDistribution: jsonData(
             t.strict({ data: t.array(VaccineDistributionDatum) }).decode
           ),
+          vaers: jsonData(t.strict({ data: t.array(VaccineDatum) }).decode),
         }}
         params={{
-          // vaers: { id: "vaers" },
+          vaers: { id: `covid19/vaccines/vaers/results/vaers.csv` },
           eudrvigilance: {
             id: `covid19/vaccines/eudr/results/${manufacturer}.csv`,
           },
@@ -570,7 +574,7 @@ export class VaccineADRGraph extends React.PureComponent {
           LazyFullSizeLoader,
           ErrorBox,
           ({
-            // vaers: { data: vaers },
+            vaers: { data: vaers },
             eudrvigilance: { data: eudrvigilance },
             europeVaccineDistribution: { data: europeVaccineDistribution },
           }) => {
@@ -662,6 +666,7 @@ export class VaccineADRGraph extends React.PureComponent {
                               <VaccineADRGraphComponent
                                 width={width}
                                 height={500}
+                                vaers={vaers}
                                 eudrvigilance={eudrvigilance}
                                 distribution={europeVaccineDistribution}
                                 adrReportFactor={rateFactor}

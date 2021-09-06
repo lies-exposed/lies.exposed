@@ -7,12 +7,23 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 
+interface ParseFileOpts<I, A> {
+  mapper?: (a: I) => A;
+}
+
 export interface CSVUtil {
   parseString: <A, O = A, I = unknown>(
     content: string,
     decoder: t.Type<A, O, I>,
     mapper?: (a: I) => A
   ) => TE.TaskEither<Error, A[]>;
+  parseFile: <ACC, A, O = A, I = unknown>(
+    location: string,
+    decoder: t.Type<A, O, I>,
+    acc: ACC,
+    onData: (acc: ACC, a: A) => ACC,
+    opts: ParseFileOpts<I, A>
+  ) => TE.TaskEither<Error, ACC>;
   writeToPath: <T>(
     outputPath: string,
     results: T[]
@@ -23,7 +34,41 @@ interface CSVUtilOptions {
   log: Logger;
 }
 
-export const GetCSVUtil = (opts: CSVUtilOptions): CSVUtil => {
+export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
+  const parseFile = <ACC, A, O = A, I = unknown>(
+    location: string,
+    decoder: t.Type<A, O, I>,
+    acc: ACC,
+    onData: (acc: ACC, item: A) => ACC,
+    opts: ParseFileOpts<I, A>
+  ): TE.TaskEither<Error, ACC> => {
+    return TE.tryCatch(() => {
+      let iAcc = acc;
+      return new Promise((resolve, reject) => {
+        log.debug.log("Reading file %s", location);
+        csv
+          .parseFile(location, { headers: true, ignoreEmpty: true })
+          .on("data", (item) => {
+            const decoded = decoder.decode(
+              opts.mapper ? opts.mapper(item) : item
+            );
+            if (E.isLeft(decoded)) {
+              log.debug.log("Decode failed %O", PathReporter.report(decoded));
+              return reject(decoded.left);
+            } else {
+              iAcc = onData(iAcc, decoded.right);
+            }
+          })
+          .on("end", () => {
+            resolve(iAcc);
+          })
+          .on("error", reject);
+
+        // stream.read(5)
+      });
+    }, E.toError);
+  };
+
   const parseString = <A, O = A, I = unknown>(
     content: string,
     decoder: t.Type<A, O, I>,
@@ -70,11 +115,7 @@ export const GetCSVUtil = (opts: CSVUtilOptions): CSVUtil => {
     results: T[]
   ): TE.TaskEither<Error, void> => {
     return TE.tryCatch(async () => {
-      opts.log.debug.log(
-        "Write results (%d) in %s",
-        results.length,
-        outputPath
-      );
+      log.debug.log("Write results (%d) in %s", results.length, outputPath);
       csv
         .writeToPath(outputPath, results, {
           headers: Object.keys(results[0]),
@@ -91,6 +132,7 @@ export const GetCSVUtil = (opts: CSVUtilOptions): CSVUtil => {
 
   return {
     parseString,
+    parseFile,
     writeToPath,
   };
 };
