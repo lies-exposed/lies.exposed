@@ -29,7 +29,6 @@ COPY --from=build /app/packages/@econnessione/shared/lib /app/packages/@econness
 COPY --from=build /app/services/api/package.json /app/services/api/package.json
 COPY --from=build /app/services/api/ormconfig.js /app/services/api/ormconfig.js
 COPY --from=build /app/services/api/build /app/services/api/build
-COPY --from=build /app/services/api/data /app/services/api/data
 
 RUN yarn install --pure-lockfile --non-interactive --production
 
