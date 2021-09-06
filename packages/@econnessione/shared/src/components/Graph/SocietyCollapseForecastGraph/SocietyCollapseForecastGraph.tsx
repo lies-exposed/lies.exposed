@@ -414,8 +414,8 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
           events: jsonData(t.strict({ data: t.any }).decode),
         }}
         params={{
-          data: { id: "society-collapse-forecast" },
-          events: { id: "history-of-climate-events" },
+          data: { id: "climate-change/forecast.csv" },
+          events: { id: "climate-change/history-of-climate-summits.csv" },
         }}
         render={QR.fold(LazyLoader, ErrorBox, ({ events, data }) => {
           return (

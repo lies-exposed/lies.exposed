@@ -18,6 +18,12 @@ export const Covid19VaccineWorldDistribution = t.literal(
   "covid19/vaccines/distribution/world-distribution.csv"
 );
 
+export const ClimateChangeHistoryOfSummits = t.literal(
+  "climate-change/history-of-climate-summits.csv"
+);
+
+export const ClimateChangeForecast = t.literal("climate-change/forecast.csv");
+
 export const GraphId = t.union(
   [
     Covid19EUDR,
@@ -25,6 +31,8 @@ export const GraphId = t.union(
     Covid19EUDRPfizer,
     Covid19EUDRAstrazeneca,
     Covid19VaccineWorldDistribution,
+    ClimateChangeHistoryOfSummits,
+    ClimateChangeForecast,
   ],
   "GraphId"
 );
