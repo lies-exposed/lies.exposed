@@ -262,7 +262,7 @@ const parseEUDRVigilanceDatum = (v: EUDRVIGILANCE): VaccineEntry => {
 export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
   const nowPath = path.resolve(
     __dirname,
-    "../../../../data/covid19/vaccines/eudr"
+    "../../../public/covid19/vaccines/eudr"
   );
 
   logger.debug.log("Importing vaccine data for date %s", nowPath);
@@ -352,7 +352,7 @@ export const runTotalsReport = (): TE.TaskEither<Error, void> => {
   const csvUtil = GetCSVUtil({ log: logger });
   const resultOutDir = path.resolve(
     __dirname,
-    "../../../../data/covid19/vaccines/eudr",
+    "../../../public/covid19/vaccines/eudr",
     "results"
   );
   logger.debug.log("Importing vaccine data...");
@@ -404,13 +404,7 @@ export const runTotalsReport = (): TE.TaskEither<Error, void> => {
   return pipe(
     sequenceS(TE.ApplicativeSeq)({
       EUDRVIGILANCE: makeTotalTask(
-        [
-          "moderna.csv",
-          "pfizer-2020.csv",
-          "pfizer-2021.csv",
-          "astrazeneca.csv",
-          "janssen.csv",
-        ],
+        ["moderna.csv", "pfizer.csv", "astrazeneca.csv", "janssen.csv"],
         "eudrvigilance.csv"
       ),
     }),

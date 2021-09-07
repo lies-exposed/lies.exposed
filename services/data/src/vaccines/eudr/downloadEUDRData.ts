@@ -24,11 +24,12 @@ import {
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import puppeteer from "puppeteer";
+import type puppeteer from "puppeteer";
+import pup from "puppeteer-extra";
 
 const DATA_DIR_PATH = path.resolve(
   __dirname,
-  "../../../../data/covid19/vaccines/eudr"
+  "../../../public/covid19/vaccines/eudr"
 );
 
 const sleep = (ms: number): Promise<void> =>
@@ -123,10 +124,10 @@ export const GetDownloadCSV =
         getFilePath(manufacturer, { gender, year, ageGroup })
       );
 
-      if (fs.existsSync(newDownloadPath)) {
-        log.debug.log("File %s already exists, exiting..", newDownloadPath);
-        return;
-      }
+      // if (fs.existsSync(newDownloadPath)) {
+      //   log.debug.log("File %s already exists, exiting..", newDownloadPath);
+      //   return;
+      // }
 
       log.debug.log("Processing %O", {
         year,
@@ -283,11 +284,13 @@ export const GetManufacturerDataProcess =
       TE.chain((page) => {
         return TE.tryCatch(async () => {
           log.debug.log("Donwloading data for manufacturer %s", manufacturer);
-          await page.goto(url, { timeout: 0, waitUntil: "load" });
+          await page.goto(url, { timeout: 0, waitUntil: "networkidle0" });
           log.debug.log("Page %s loaded!", url);
-          const dropdownArrowClassName =
-            "td.secondaryTabBarSpacer.obipsTabBarToolbarCell.DashTabsToolbarCell";
-          log.debug.log("Opening dropdown header menu");
+          const dropdownArrowClassName = "td.DashTabsToolbarCell";
+          log.debug.log(
+            "Opening dropdown header menu %s",
+            dropdownArrowClassName
+          );
           await page.waitForSelector(dropdownArrowClassName, {
             timeout: 30 * 1000,
           });
@@ -346,7 +349,7 @@ const modernaEMAURL = [
 
 export const runDownload = (): TE.TaskEither<Error, void> => {
   const log = GetLogger("adr-reports-download");
-  const pupClient = MakePuppeteerClient(puppeteer, {});
+  const pupClient = MakePuppeteerClient(pup, {});
 
   const dateDownloadPath = path.resolve(DATA_DIR_PATH);
   const dateDownloadPathExists = fs.existsSync(dateDownloadPath);
