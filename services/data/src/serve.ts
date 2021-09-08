@@ -10,12 +10,13 @@ export const run = async (): Promise<void> => {
   const app = express();
 
   app.use(
-      (req, _, next) => {
-        log.debug.log('[%s] path %s', req.method, req.url);
-        next();
-      },
-      express.static(PUBLIC_PATH)
-      );
+    "/public",
+    (req, _, next) => {
+      log.debug.log("[%s] path %s", req.method, req.url);
+      next();
+    },
+    express.static(PUBLIC_PATH)
+  );
 
   app.listen(PORT);
   log.debug.log("Servere listen on %d", PORT);

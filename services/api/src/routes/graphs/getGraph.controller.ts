@@ -2,7 +2,7 @@ import { AddEndpoint, Graph } from "@econnessione/shared/endpoints";
 // import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
 // import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { NotFoundError } from "@io/ControllerError";
+import { NotFoundError, ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -41,11 +41,14 @@ export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Graph.GetGraph, ({ query: { id } }) => {
     ctx.logger.debug.log("Fetching data from %s", id);
     return pipe(
-      ctx.s3.getObject({ Key: `public/${id}`, Bucket: ctx.env.SPACE_BUCKET }),
+      ctx.s3.getObject({ Key: id, Bucket: ctx.env.SPACE_BUCKET }),
       TE.chain((content) => {
         if (content.Body) {
-          // eslint-disable-next-line @typescript-eslint/no-base-to-string
-          return csvUtil.parseString(content.Body.toString(), t.any);
+          return pipe(
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
+            csvUtil.parseString(content.Body.toString(), t.any),
+            TE.mapLeft(() => ServerError())
+          );
         }
         return TE.left(NotFoundError("graph"));
       }),
