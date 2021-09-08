@@ -2,6 +2,8 @@ import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import type puppeteer from "puppeteer";
+import { addExtra, VanillaPuppeteer } from "puppeteer-extra";
+import puppeteerStealth from "puppeteer-extra-plugin-stealth";
 import * as error from "../io/http/Error";
 
 const puppeteerLogger = logger.GetLogger("puppeteer");
@@ -169,7 +171,7 @@ export interface PuppeteerClient {
 }
 
 export type MakePuppeteerClient = (
-  p: typeof puppeteer,
+  p: VanillaPuppeteer,
   launchOpts: puppeteer.LaunchOptions & puppeteer.BrowserLaunchArgumentOptions
 ) => PuppeteerClient;
 export const MakePuppeteerClient: MakePuppeteerClient = (p, launchOpts) => {
@@ -177,14 +179,15 @@ export const MakePuppeteerClient: MakePuppeteerClient = (p, launchOpts) => {
     `PuppeteerClient with options paths %O`,
     launchOpts
   );
+  const pup = addExtra(p);
+  pup.use(puppeteerStealth());
 
   return {
     launch: (opts) =>
       pipe(
-        TE.tryCatch(
-          () => p.launch({ ...launchOpts, ...opts }),
-          toPuppeteerError
-        ),
+        TE.tryCatch(() => {
+          return pup.launch({ ...launchOpts, ...opts });
+        }, toPuppeteerError),
         TE.map((b) => MakeCOPPuppeteerClient(b))
       ),
   };
