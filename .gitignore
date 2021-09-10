@@ -67,7 +67,7 @@ yarn-error.log
 # Storybook
 **/static/storybook/**
 
-# Certificates
+# certificates
 certs
 
 # SQL dump
@@ -82,3 +82,6 @@ temp
 !.env.local
 !.env.test
 *.tsbuildinfo
+
+# Imported csv
+services/data/public/**/import
