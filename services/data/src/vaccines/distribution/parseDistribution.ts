@@ -112,8 +112,12 @@ const processDistributionData =
                 { total_boosters: 0, total_vaccinations: 0 },
                 (acc, r) => ({
                   ...acc,
-                  total_boosters: r.total_boosters,
-                  total_vaccinations: r.total_vaccinations,
+                  total_boosters:
+                    typeof r.total_boosters === "string" ? 0 : r.total_boosters,
+                  total_vaccinations:
+                    typeof r.total_vaccinations === "string"
+                      ? 0
+                      : r.total_vaccinations,
                 })
               )
             );

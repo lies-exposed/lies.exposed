@@ -138,14 +138,14 @@ const parseEUDRVigilanceDatum = (v: EUDRVIGILANCE): VaccineEntry => {
 };
 
 export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
-  const nowPath = path.resolve(
+  const outputPath = path.resolve(
     __dirname,
     "../../../public/covid19/vaccines/eudr"
   );
+  const importPath = path.resolve(outputPath, "import");
 
-  logger.debug.log("Importing vaccine data for date %s", nowPath);
+  logger.debug.log("Importing vaccine data for date %s", importPath);
 
-  const outputDir = path.resolve(nowPath, "results");
   const MakeManufacturerReportTask = (
     paths: string[],
     outputFileName: string
@@ -165,7 +165,7 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
       TE.map((results) => computeTotals(results)),
       TE.chain((results) =>
         csvUtil.writeToPath(
-          path.resolve(outputDir, outputFileName),
+          path.resolve(importPath, outputFileName),
           results.map(({ date, ...r }) => ({
             date: formatISO(date, { representation: "date" }),
             ...r,
@@ -176,9 +176,9 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
   };
 
   const csvPaths = fs
-    .readdirSync(path.resolve(nowPath))
+    .readdirSync(path.resolve(importPath))
     .filter((v) => v.includes(".csv"))
-    .map((v) => path.resolve(nowPath, v));
+    .map((v) => path.resolve(importPath, v));
 
   logger.debug.log("CSV to process %O", csvPaths);
 
@@ -230,8 +230,7 @@ export const runTotalsReport = (): TE.TaskEither<Error, void> => {
   const csvUtil = GetCSVUtil({ log: logger });
   const resultOutDir = path.resolve(
     __dirname,
-    "../../../public/covid19/vaccines/eudr",
-    "results"
+    "../../../public/covid19/vaccines/eudr"
   );
   logger.debug.log("Importing vaccine data...");
 
