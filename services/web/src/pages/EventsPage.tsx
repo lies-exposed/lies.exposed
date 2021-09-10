@@ -1,3 +1,4 @@
+import { a11yProps, TabPanel } from "@components/Common/TabPanel";
 import { EventsNetworkGraph } from "@components/Graph/EventsNetworkGraph";
 import DatePicker from "@econnessione/shared/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
@@ -48,29 +49,6 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as qs from "query-string";
 import React from "react";
 import Helmet from "react-helmet";
-
-const TabPanel: React.FC<any> = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </div>
-  );
-};
-
-function a11yProps(index: number): any {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 
 export default class EventsPage extends React.PureComponent<RouteComponentProps> {
   state: { viewTab: number } = { viewTab: 0 };

@@ -2,6 +2,7 @@
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
+import { formatISO } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as MapFP from "fp-ts/lib/Map";
@@ -11,9 +12,11 @@ import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
-import { VaccineEntry } from "vaccines/types";
+import { VaccineEntry } from "../types";
+import { computeTotals, reduceToDateEntry } from "../utils/parse.utils";
 
 const log = GetLogger("parse-vaers-data");
+const csvUtils = GetCSVUtil({ log });
 
 export const VAERSVax = t.strict(
   {
@@ -99,36 +102,51 @@ const toVaccineEntry = (
   vax: VAERSVax | undefined,
   symptom: VAERSSymptom | undefined
 ): VaccineEntry => {
-  log.debug.log("Creating vaccine entry %O", { data, vax, symptom });
+  // log.debug.log("Creating vaccine entry %O", { data, vax, symptom });
   const date = data.RECVDATE ? new Date(data.RECVDATE) : new Date();
   const age = data.AGE_YRS;
 
-  if (age && age < 2) {
-    log.debug.log("ADR patient age $O", { age });
+  if (data.DIED) {
+    log.debug.log("");
+    log.debug.log(
+      "Died (%s) on %s at age %d and ADR received %s",
+      data.DIED,
+      data.DATEDIED,
+      age,
+      data.RECVDATE
+    );
+    log.debug.log("");
   }
-  if (data.DATEDIED) {
-    log.debug.log("Died on %s", data.DATEDIED);
-  }
-  const died = data.DIED === "Y" ? 1 : 0;
-  const death01Month = age && age < 1 ? died : 0;
-  const death2Months2Years = age && age > 2 ? died : 0;
+  const died = data.DIED === "Y" || data.DATEDIED !== "" ? 1 : 0;
+  const death01Month = age && age >= 0 && age <= 0.5 ? died : 0;
+  const death2Months2Years = age && age > 0.5 && age <= 2 ? died : 0;
+  const death3To11Years = age && age >= 3 && age <= 11 ? died : 0;
+  const death12To17Years = age && age >= 12 && age <= 17 ? died : 0;
+  const death18To64Years = age && age >= 18 && age <= 64 ? died : 0;
+  const death65To85Years = age && age >= 65 && age <= 85 ? died : 0;
+  const deathMoreThan85Years = age && age > 85 ? died : 0;
 
-  log.debug.log("Is dead %s", data.DIED);
-  log.debug.log("Death 0-1 month? %s", death01Month);
+  const injuries = [
+    symptom?.SYMPTOM1,
+    symptom?.SYMPTOM2,
+    symptom?.SYMPTOM3,
+    symptom?.SYMPTOM4,
+    symptom?.SYMPTOM5,
+  ].filter((v) => v !== "").length;
 
   return {
     date,
-    injuries: 0,
+    deaths: died,
+    injuries,
     severe: 0,
     reported: 1,
-    death_0_1_month: death2Months2Years,
+    death_0_1_month: death01Month,
     death_2_month_2_years: death2Months2Years,
-    death_12_17_years: 0,
-    death_18_64_years: 0,
-    death_3_11_years: 0,
-    death_65_85_years: 0,
-    death_more_than_85_years: 0,
-    deaths: died,
+    death_3_11_years: death3To11Years,
+    death_12_17_years: death12To17Years,
+    death_18_64_years: death18To64Years,
+    death_65_85_years: death65To85Years,
+    death_more_than_85_years: deathMoreThan85Years,
   };
 };
 
@@ -138,13 +156,102 @@ const toVaccineEntry = (
 
 const VAERS_DATA_FOLDER = path.resolve(
   __dirname,
-  "../../../public/covid19/vaccines/vaers"
+  "../../../public/covid19/vaccines/vaers/import"
 );
 
 const VAERS_DATA_OUTPUT_FILE = path.resolve(
   __dirname,
-  "../../../public/covid19/vaccines/vaers/results/vaers.csv"
+  "../../../public/covid19/vaccines/vaers/vaers.csv"
 );
+
+interface ReadFilesOpts {
+  paths: {
+    vax: string;
+    data: string;
+    symptoms: string;
+  };
+  acc: {
+    vax: VAERSVax[];
+    symptoms: VAERSSymptom[];
+    data: VAERSDATA[];
+  };
+  results: Map<string, VaccineEntry>;
+  skipRows: number;
+  maxRows: number;
+}
+
+const readFiles = ({
+  paths,
+  acc,
+  results,
+  ...opts
+}: ReadFilesOpts): TE.TaskEither<Error, Map<string, VaccineEntry>> => {
+  const parseOpts = { headers: true, ...opts };
+  return pipe(
+    sequenceS(TE.ApplicativePar)({
+      data: csvUtils.parseFile(paths.data, parseOpts, {
+        decoder: VAERSData,
+        mapper: vaersDataMapper,
+      }),
+      vax: csvUtils.parseFile(paths.vax, parseOpts, { decoder: VAERSVax }),
+      symptoms: csvUtils.parseFile(paths.symptoms, parseOpts, {
+        decoder: VAERSSymptom,
+      }),
+    }),
+    TE.chain(({ data, vax, symptoms }) => {
+      log.debug.log(
+        "Data length %d from range (%d, %d)",
+        data.length,
+        opts.skipRows,
+        opts.skipRows + opts.maxRows
+      );
+
+      if (data.length === 0) {
+        return TE.right(results);
+      }
+
+      // combine data, vax and symptoms by id
+      const entries = pipe(
+        data,
+        A.map((d) => ({
+          data: d,
+          vax: vax.find((v) => v.VAERS_ID === d.VAERS_ID),
+          symptoms: symptoms.find((s) => s.VAERS_ID === d.VAERS_ID),
+        })),
+        A.map((d) => toVaccineEntry(d.data, d.vax, d.symptoms))
+      );
+
+      const newResults = pipe(
+        entries,
+        A.reduce(results, (acc, e) => {
+          const mapKey = e.date.toISOString();
+
+          return pipe(
+            acc,
+            MapFP.lookupWithKey(S.Eq)(mapKey),
+            O.fold(
+              () => e,
+              ([key, r]) => reduceToDateEntry(r, [e])
+            ),
+            (e) => MapFP.upsertAt(S.Eq)(mapKey, e)(acc)
+          );
+        })
+      );
+
+      return readFiles({
+        paths,
+        ...opts,
+        results: newResults,
+        skipRows: opts.skipRows + opts.maxRows,
+        acc: {
+          vax: [],
+          data: [],
+          symptoms: [],
+        },
+      });
+    })
+  );
+};
 
 export const runParseVAERSData = (): TE.TaskEither<Error, void> => {
   const VAERS_DATA_FILE = path.resolve(
@@ -158,95 +265,34 @@ export const runParseVAERSData = (): TE.TaskEither<Error, void> => {
   );
   const VAERS_VAX_FILE = path.resolve(VAERS_DATA_FOLDER, "./2021VAERSVAX.csv");
 
-  const csvUtils = GetCSVUtil({ log });
-
-  const readFileTask = <A, O = A, I = unknown>(
-    filePath: string,
-    decoder: t.Type<A, O, I>,
-    mapper?: (a: any) => any
-  ): TE.TaskEither<Error, Map<string, A>> => {
-    return pipe(
-      csvUtils.parseFile(
-        filePath,
-        decoder,
-        new Map<string, A>(),
-        (acc, item) => {
-          const oldData = MapFP.lookupWithKey(S.Eq)(item.VAERS_ID)(acc);
-          const newItem = pipe(
-            oldData,
-            O.fold(
-              () => item,
-              ([key, value]) => ({
-                ...value,
-              })
-            )
-          );
-
-          return MapFP.upsertAt(S.Eq)(item.VAERS_ID, newItem)(acc);
-        },
-        { mapper }
-      ),
-      TE.map((map) => {
-        log.debug.log("Created map (%d) for %s", MapFP.size(map), filePath);
-        return map;
-      })
-    );
-  };
-
-  const dataTask = readFileTask(VAERS_DATA_FILE, VAERSData, vaersDataMapper);
-  const symptomsTask = readFileTask(VAERS_SYMPTOMS_FILE, VAERSSymptom);
-
   return pipe(
-    sequenceS(TE.taskEither)({
-      data: dataTask,
-      symptoms: symptomsTask,
-      vax: readFileTask(VAERS_VAX_FILE, VAERSVax),
+    readFiles({
+      paths: {
+        data: VAERS_DATA_FILE,
+        vax: VAERS_VAX_FILE,
+        symptoms: VAERS_SYMPTOMS_FILE,
+      },
+      acc: {
+        vax: [],
+        data: [],
+        symptoms: [],
+      },
+      results: new Map(),
+      skipRows: 0,
+      maxRows: 30000,
     }),
-    TE.map(({ data, symptoms, vax }) => {
-      log.debug.log(
-        "Got data (%d), symptoms (%d), vax (%d)",
-        MapFP.size(data),
-        MapFP.size(symptoms),
-        MapFP.size(vax)
-      );
-      const entries = pipe(
-        data,
-        MapFP.toArray(S.Ord),
-        A.reduce(new Map(), (acc, [key, v]) => {
-          const currentVax = pipe(
-            vax,
-            MapFP.lookupWithKey(S.Eq)(key),
-            O.map((s) => s[1]),
-            O.toUndefined
-          );
-
-          const currentSymtomps = pipe(
-            symptoms,
-            MapFP.lookupWithKey(S.Eq)(key),
-            O.map((s) => s[1]),
-            O.toUndefined
-          );
-
-          if (currentVax?.VAX_MANU) {
-            if (
-              ["PFIZER", "MODERNA", "ASTRAZENECA"].includes(currentVax.VAX_MANU)
-            ) {
-              const entry = toVaccineEntry(v, currentVax, currentSymtomps);
-              const updatedAcc = MapFP.upsertAt(S.Eq)(key, entry)(acc);
-              return updatedAcc;
-            }
-          }
-
-          return acc;
-        }),
-        MapFP.toArray(S.Ord),
-        A.map(([key, value]) => value)
-      );
-
-      log.debug.log("Parsed entries datum %O", entries);
-
-      return entries;
-    }),
-    TE.chain((results) => csvUtils.writeToPath(VAERS_DATA_OUTPUT_FILE, results))
+    // log.debug.logInTaskEither("Results %O"),
+    TE.map(MapFP.toArray(S.Ord)),
+    TE.map(A.map(([key, v]) => v)),
+    TE.map((results) => computeTotals(results)),
+    TE.chain((results) =>
+      csvUtils.writeToPath(
+        VAERS_DATA_OUTPUT_FILE,
+        results.map(({ date, ...r }) => ({
+          date: formatISO(date, { representation: "date" }),
+          ...r,
+        }))
+      )
+    )
   );
 };

@@ -7,8 +7,9 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 
-interface ParseFileOpts<I, A> {
+interface ParseFileOpts<A, O = A, I = unknown> {
   mapper?: (a: I) => A;
+  decoder: t.Type<A, O, I>;
 }
 
 export interface CSVUtil {
@@ -17,13 +18,11 @@ export interface CSVUtil {
     decoder: t.Type<A, O, I>,
     mapper?: (a: I) => A
   ) => TE.TaskEither<Error, A[]>;
-  parseFile: <ACC, A, O = A, I = unknown>(
+  parseFile: <A, O = A, I = unknown>(
     location: string,
-    decoder: t.Type<A, O, I>,
-    acc: ACC,
-    onData: (acc: ACC, a: A) => ACC,
-    opts: ParseFileOpts<I, A>
-  ) => TE.TaskEither<Error, ACC>;
+    parseOptions: csv.ParserOptionsArgs,
+    opts: ParseFileOpts<A, O, I>
+  ) => TE.TaskEither<Error, A[]>;
   writeToPath: <T>(
     outputPath: string,
     results: T[]
@@ -35,36 +34,33 @@ interface CSVUtilOptions {
 }
 
 export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
-  const parseFile = <ACC, A, O = A, I = unknown>(
+  const parseFile = <A, O = A, I = unknown>(
     location: string,
-    decoder: t.Type<A, O, I>,
-    acc: ACC,
-    onData: (acc: ACC, item: A) => ACC,
-    opts: ParseFileOpts<I, A>
-  ): TE.TaskEither<Error, ACC> => {
+    parseOptions: csv.ParserOptionsArgs,
+    opts: ParseFileOpts<A, O, I>
+  ): TE.TaskEither<Error, A[]> => {
+    const data: A[] = [];
     return TE.tryCatch(() => {
-      let iAcc = acc;
       return new Promise((resolve, reject) => {
-        log.debug.log("Reading file %s", location);
+        // log.debug.log("Reading file %s with options %O", location, parseOptions);
         csv
-          .parseFile(location, { headers: true, ignoreEmpty: true })
+          .parseFile(location, parseOptions)
           .on("data", (item) => {
-            const decoded = decoder.decode(
+            const decoded = opts.decoder.decode(
               opts.mapper ? opts.mapper(item) : item
             );
+
             if (E.isLeft(decoded)) {
               log.debug.log("Decode failed %O", PathReporter.report(decoded));
               return reject(decoded.left);
-            } else {
-              iAcc = onData(iAcc, decoded.right);
             }
+
+            data.push(decoded.right);
           })
           .on("end", () => {
-            resolve(iAcc);
+            resolve(data);
           })
           .on("error", reject);
-
-        // stream.read(5)
       });
     }, E.toError);
   };
@@ -80,7 +76,6 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
           const data: A[] = [];
           csv
             .parseString(content, { headers: true, ignoreEmpty: true })
-            // .validate(decoder.is)
             .on("error", (e) => {
               reject(e);
             })

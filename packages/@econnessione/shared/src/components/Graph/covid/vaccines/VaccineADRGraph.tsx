@@ -40,8 +40,9 @@ import { Bar, LinePath } from "@vx/shape";
 import { Accessor } from "@vx/shape/lib/types";
 import { withTooltip, TooltipWithBounds } from "@vx/tooltip";
 import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
+import { declareQueries } from "avenger/lib/react";
 import { isDate, formatISO } from "date-fns";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
 
@@ -127,7 +128,7 @@ const getDistributionX: Accessor<VaccineDistributionDatum, Date> = (d) => {
 };
 
 const getDistributionY: Accessor<VaccineDistributionDatum, number> = (d) => {
-  return d.total_vaccinations;
+  return typeof d.total_vaccinations === "string" ? 0 : d.total_vaccinations;
 };
 
 const toMillion = (n: number): number => {
@@ -175,7 +176,12 @@ const VaccineDatumTable: React.FC<VaccineDatumTableProps> = ({
   return (
     <Box display="flex" flexDirection="column" width="100%">
       {data.map(([label, color, value]) => (
-        <Box display="flex" width="100%" style={{ marginBottom: 10 }}>
+        <Box
+          key={label}
+          display="flex"
+          width="100%"
+          style={{ marginBottom: 10 }}
+        >
           <Box
             display="flex"
             flexGrow={2}
@@ -230,13 +236,13 @@ const StatAccordion: React.FC<StatAccordionProps> = ({
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Box display="flex" width="100%" alignItems="flex-end">
-          <Box display="flex" width="50%">
+        <Box display="flex" width="100%" flexDirection="column">
+          <Box display="flex">
             <Typography variant="caption" style={{ width: "100%" }}>
               {caption}
             </Typography>
           </Box>
-          <Box display="flex" width="50%" alignItems="flex-end">
+          <Box display="flex" alignItems="flex-end">
             <Typography
               variant="h3"
               style={{
@@ -270,8 +276,7 @@ const renderTooltip = (data: VaccineDatum): JSX.Element => {
 interface VaccineADRGraphComponentProps {
   width: number;
   height: number;
-  vaers: VaccineDatum[];
-  eudrvigilance: VaccineDatum[];
+  data: VaccineDatum[];
   distribution: VaccineDistributionDatum[];
   adrReportFactor: number;
   ageGroup?: AgeGroup;
@@ -284,7 +289,7 @@ const VaccineADRGraphComponent = withTooltip<
   const {
     height = 500,
     width,
-    eudrvigilance,
+    data,
     distribution,
     adrReportFactor,
     ageGroup,
@@ -316,9 +321,11 @@ const VaccineADRGraphComponent = withTooltip<
     [ageGroup, adrReportFactor]
   );
 
-  const europeTotalVaccination =
+  const currentTotalVaccinations =
     distribution[distribution.length - 1].total_vaccinations;
-  const eudrTodayDatum = eudrvigilance[eudrvigilance.length - 1];
+  const totalVaccinations =
+    typeof currentTotalVaccinations === "string" ? 0 : currentTotalVaccinations;
+  const eudrTodayDatum = data[data.length - 1];
 
   const totalDeaths =
     getValueForAgeGroup(eudrTodayDatum, ageGroup) * adrReportFactor;
@@ -329,7 +336,7 @@ const VaccineADRGraphComponent = withTooltip<
     domain: yScaleDomain,
   });
 
-  const yRightScaleDomain = [0, europeTotalVaccination];
+  const yRightScaleDomain = [0, totalVaccinations];
 
   const yRightScale = scaleLinear<number>({
     domain: yRightScaleDomain,
@@ -346,7 +353,7 @@ const VaccineADRGraphComponent = withTooltip<
       const { x } = localPoint(event) ?? { x: 0 };
       const x0 = xScale.invert(x);
 
-      const d = eudrvigilance.find(
+      const d = data.find(
         (d) =>
           formatISO(d.date, { representation: "date" }) ===
           formatISO(x0, { representation: "date" })
@@ -438,7 +445,7 @@ const VaccineADRGraphComponent = withTooltip<
               shapeRendering="geometricPrecision"
             />
             <LinePath
-              data={eudrvigilance}
+              data={data}
               x={(d) => {
                 const x = xScale(getReportX(d))?.valueOf() ?? 0;
                 return x;
@@ -518,90 +525,72 @@ const pfizerManufacturer = "pfizer";
 const modernaManufacturer = "moderna";
 const astrazenecaManufacturer = "astrazeneca";
 
-export class VaccineADRGraph extends React.PureComponent {
-  state = {
-    adrReportRate: adrReportRate100,
-    manufacturer: allManufacturer,
-    ageGroup: undefined,
-  };
+interface VaccineADRGraphProps {
+  queries: QR.QueryResult<Error, { data: { data: VaccineDatum[] } }>;
+  distribution: VaccineDistributionDatum[];
+}
 
-  handleADRReportRateChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
-  ): void => {
-    this.setState({
-      adrReportRate: event.target.value,
-    });
-  };
+const withQueries = declareQueries({
+  data: jsonData(t.strict({ data: t.array(VaccineDatum) }).decode),
+});
 
-  handleManufacturerChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
-  ): void => {
-    this.setState({
-      manufacturer: event.target.value,
-    });
-  };
+export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
+  ({ queries, distribution }) => {
+    const [adrReportRate, setADRReportRate] = React.useState(adrReportRate100);
+    const [manufacturer, setManufacturer] = React.useState(allManufacturer);
+    const [ageGroup, setAgeGroup] = React.useState(undefined);
 
-  handlePatientAgeGroupChange = (
-    e: React.ChangeEvent<{ name?: string; value: any }>
-  ): void => {
-    this.setState({ ageGroup: e.target.value });
-  };
+    const classes = useStyles();
 
-  render(): JSX.Element {
-    const { manufacturer, adrReportRate, ageGroup } = this.state;
+    const handleADRReportRateChange = React.useCallback(
+      (event: React.ChangeEvent<{ name?: string; value: any }>): void => {
+        setADRReportRate(event.target.value);
+      },
+      []
+    );
+
+    const handleManufacturerChange = React.useCallback(
+      (event: React.ChangeEvent<{ name?: string; value: any }>): void => {
+        setManufacturer(event.target.value);
+      },
+      []
+    );
+
+    const handlePatientAgeGroupChange = React.useCallback(
+      (e: React.ChangeEvent<{ name?: string; value: any }>): void => {
+        setAgeGroup(e.target.value);
+      },
+      []
+    );
+
     return (
-      <WithQueries
-        queries={{
-          // vaers: jsonData(t.strict({ data: t.array(VaccineDatum) }).decode),
-          eudrvigilance: jsonData(
-            t.strict({ data: t.array(VaccineDatum) }).decode
-          ),
-          europeVaccineDistribution: jsonData(
-            t.strict({ data: t.array(VaccineDistributionDatum) }).decode
-          ),
-          vaers: jsonData(t.strict({ data: t.array(VaccineDatum) }).decode),
-        }}
-        params={{
-          vaers: { id: `covid19/vaccines/vaers/results/vaers.csv` },
-          eudrvigilance: {
-            id: `covid19/vaccines/eudr/results/${manufacturer}.csv`,
-          },
-          europeVaccineDistribution: {
-            id: "covid19/vaccines/distribution/world-distribution.csv",
-          },
-        }}
-        render={QR.fold(
-          LazyFullSizeLoader,
-          ErrorBox,
-          ({
-            vaers: { data: vaers },
-            eudrvigilance: { data: eudrvigilance },
-            europeVaccineDistribution: { data: europeVaccineDistribution },
-          }) => {
-            const classes = useStyles();
+      <div>
+        {pipe(
+          queries,
+          QR.fold(LazyFullSizeLoader, ErrorBox, ({ data: { data } }) => {
             const rateFactor = 100 / adrReportRate;
 
-            const europeTotalVaccination =
-              europeVaccineDistribution[europeVaccineDistribution.length - 1]
-                .total_vaccinations;
-            const eudrTodayDatum = eudrvigilance[eudrvigilance.length - 1];
+            const currentVaccinations =
+              distribution[distribution.length - 1].total_vaccinations;
+            const totalVaccinations =
+              typeof currentVaccinations === "string" ? 0 : currentVaccinations;
+            const todayDatum = data[data.length - 1];
 
             const totalDeaths =
-              getValueForAgeGroup(eudrTodayDatum, ageGroup) * rateFactor;
+              getValueForAgeGroup(todayDatum, ageGroup) * rateFactor;
 
-            const deathRate = (totalDeaths / europeTotalVaccination) * 100;
+            const deathRate = (totalDeaths / totalVaccinations) * 100;
             const estimatedDeaths = deathRate * populationNumber;
-            const totalADRs =
-              eudrvigilance[eudrvigilance.length - 1].total_injuries;
-            const ADRRatio = totalADRs / europeTotalVaccination;
+            const totalADRs = data[data.length - 1].total_injuries;
+            const ADRRatio = totalADRs / totalVaccinations;
 
             return (
               <Grid container spacing={3}>
-                <Box flex>
+                <Box display="flex">
                   <Typography variant="h2">Vaccine ADR Graph</Typography>
                 </Box>
                 <Grid container spacing={2}>
-                  <Grid item md={2} direction="column">
+                  <Grid item md={2}>
                     <FormControl className={classes.formControl} fullWidth>
                       <InputLabel id="adr-report-rate-select-label">
                         ADR Rate %
@@ -610,7 +599,7 @@ export class VaccineADRGraph extends React.PureComponent {
                         labelId="adr-report-rate-select-label"
                         id="adr-report-rate-select"
                         value={adrReportRate}
-                        onChange={this.handleADRReportRateChange}
+                        onChange={handleADRReportRateChange}
                         MenuProps={MenuProps}
                       >
                         <MenuItem value={adrReportRate100}>100%</MenuItem>
@@ -625,8 +614,8 @@ export class VaccineADRGraph extends React.PureComponent {
                       <Select
                         labelId="manufacturer-select-label"
                         id="manufacturer-simple-select"
-                        value={this.state.manufacturer}
-                        onChange={this.handleManufacturerChange}
+                        value={manufacturer}
+                        onChange={handleManufacturerChange}
                         MenuProps={MenuProps}
                       >
                         <MenuItem value={allManufacturer}>All</MenuItem>
@@ -649,12 +638,14 @@ export class VaccineADRGraph extends React.PureComponent {
                             labelId="age-group-select-label"
                             id="age-group-simple-select"
                             value={ageGroup}
-                            onChange={this.handlePatientAgeGroupChange}
+                            onChange={handlePatientAgeGroupChange}
                             MenuProps={MenuProps}
                           >
                             <MenuItem value={undefined}>All</MenuItem>
                             {AgeGroup.types.map((t) => (
-                              <MenuItem value={t.value}>{t.value}</MenuItem>
+                              <MenuItem key={t.value} value={t.value}>
+                                {t.value}
+                              </MenuItem>
                             ))}
                           </Select>
                         </FormControl>
@@ -666,9 +657,8 @@ export class VaccineADRGraph extends React.PureComponent {
                               <VaccineADRGraphComponent
                                 width={width}
                                 height={500}
-                                vaers={vaers}
-                                eudrvigilance={eudrvigilance}
-                                distribution={europeVaccineDistribution}
+                                data={data}
+                                distribution={distribution}
                                 adrReportFactor={rateFactor}
                                 ageGroup={ageGroup}
                               />
@@ -685,8 +675,8 @@ export class VaccineADRGraph extends React.PureComponent {
                       caption={"Total ADRs"}
                       summary={totalADRs.toFixed(0)}
                       data={[
-                        ["injuries", "yellow", eudrTodayDatum.total_injuries],
-                        ["severe", "red", eudrTodayDatum.severe],
+                        ["injuries", "yellow", todayDatum.total_injuries],
+                        ["severe", "red", todayDatum.severe],
                       ]}
                     />
                     <Typography variant="caption">
@@ -698,13 +688,13 @@ export class VaccineADRGraph extends React.PureComponent {
                       caption="Total deaths"
                       summary={totalDeaths.toFixed(0)}
                       data={[
-                        eudrTodayDatum.total_death_0_1_month,
-                        eudrTodayDatum.total_death_2_month_2_years,
-                        eudrTodayDatum.total_death_3_11_years,
-                        eudrTodayDatum.total_death_12_17_years,
-                        eudrTodayDatum.total_death_18_64_years,
-                        eudrTodayDatum.total_death_65_85_years,
-                        eudrTodayDatum.total_death_more_than_85_years,
+                        todayDatum.total_death_0_1_month,
+                        todayDatum.total_death_2_month_2_years,
+                        todayDatum.total_death_3_11_years,
+                        todayDatum.total_death_12_17_years,
+                        todayDatum.total_death_18_64_years,
+                        todayDatum.total_death_65_85_years,
+                        todayDatum.total_death_more_than_85_years,
                       ].map((v, i) => {
                         const ageGroup = AgeGroup.types[i].value;
                         const color = getAgeGroupColor(ageGroup);
@@ -729,9 +719,9 @@ export class VaccineADRGraph extends React.PureComponent {
                 </Grid>
               </Grid>
             );
-          }
+          })
         )}
-      />
+      </div>
     );
   }
-}
+);
