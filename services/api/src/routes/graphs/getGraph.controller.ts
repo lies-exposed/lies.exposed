@@ -40,7 +40,7 @@ export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Graph.GetGraph, ({ query: { id } }) => {
     ctx.logger.debug.log("Fetching data from %s", id);
     return pipe(
-      ctx.s3.getObject({ Key: id, Bucket: ctx.env.SPACE_BUCKET }),
+      ctx.s3.getObject({ Key: `public/${id}`, Bucket: ctx.env.SPACE_BUCKET }),
       TE.chain((content) => {
         if (content.Body) {
           return pipe(

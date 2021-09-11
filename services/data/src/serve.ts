@@ -9,14 +9,10 @@ export const run = async (): Promise<void> => {
   const log = GetLogger("data-server");
   const app = express();
 
-  app.use(
-    "/public",
-    (req, _, next) => {
-      log.debug.log("[%s] path %s", req.method, req.url);
-      next();
-    },
-    express.static(PUBLIC_PATH)
-  );
+  app.use((req, _, next) => {
+    log.debug.log("[%s] path %s", req.method, req.url);
+    next();
+  }, express.static(PUBLIC_PATH));
 
   app.listen(PORT);
   log.debug.log("Servere listen on %d", PORT);
