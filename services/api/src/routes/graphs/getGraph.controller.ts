@@ -8,7 +8,6 @@ import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import { IOError } from "ts-shared/lib/errors";
 
 // const getDecoderById = (
 //   id: Graph.GraphId
@@ -41,7 +40,7 @@ export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Graph.GetGraph, ({ query: { id } }) => {
     ctx.logger.debug.log("Fetching data from %s", id);
     return pipe(
-      ctx.s3.getObject({ Key: `public/${id}`, Bucket: ctx.env.SPACE_BUCKET }),
+      ctx.s3.getObject({ Key: id, Bucket: ctx.env.SPACE_BUCKET }),
       TE.chain((content) => {
         if (content.Body) {
           return pipe(
@@ -52,14 +51,6 @@ export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
         }
         return TE.left(NotFoundError("graph"));
       }),
-      TE.mapLeft(
-        (e) =>
-          new IOError(`Can't read file at ${id}`, {
-            kind: "ServerError",
-            status: "500",
-            meta: e,
-          })
-      ),
       TE.map((data) => ({
         body: {
           data: data,

@@ -1,22 +1,26 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 
-export const Covid19EUDR = t.literal(
-  "covid19/vaccines/eudr/results/eudrvigilance.csv"
-);
+export const Covid19EUDR = t.literal("covid19/vaccines/eudr/eudrvigilance.csv");
 
 export const Covid19EUDRModerna = t.literal(
-  "covid19/vaccines/eudr/results/moderna.csv"
+  "covid19/vaccines/eudr/moderna.csv"
 );
-export const Covid19EUDRPfizer = t.literal(
-  "covid19/vaccines/eudr/results/pfizer.csv"
-);
+export const Covid19EUDRPfizer = t.literal("covid19/vaccines/eudr/pfizer.csv");
 export const Covid19EUDRAstrazeneca = t.literal(
-  "covid19/vaccines/eudr/results/astrazeneca.csv"
+  "covid19/vaccines/eudr/astrazeneca.csv"
 );
-export const Covid19VaccineWorldDistribution = t.literal(
-  "covid19/vaccines/distribution/world-distribution.csv"
+export const Covid19WorldVaccineDistribution = t.literal(
+  "covid19/vaccines/distribution/vaccinations.csv"
 );
+
+export const Covid19VAERS = t.literal("covid19/vaccines/vaers/vaers.csv");
+
+export const ClimateChangeHistoryOfSummits = t.literal(
+  "climate-change/history-of-climate-summits.csv"
+);
+
+export const ClimateChangeForecast = t.literal("climate-change/forecast.csv");
 
 export const GraphId = t.union(
   [
@@ -24,7 +28,10 @@ export const GraphId = t.union(
     Covid19EUDRModerna,
     Covid19EUDRPfizer,
     Covid19EUDRAstrazeneca,
-    Covid19VaccineWorldDistribution,
+    Covid19VAERS,
+    Covid19WorldVaccineDistribution,
+    ClimateChangeHistoryOfSummits,
+    ClimateChangeForecast,
   ],
   "GraphId"
 );

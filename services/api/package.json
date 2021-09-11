@@ -14,8 +14,6 @@
     "test:e2e": "jest -c jest.config.js e2e",
     "create-pages": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./scripts/create-pages.ts",
     "fixtures:load": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/scripts/fixtures/load-fixtures.ts",
-    "vaccines:download": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/scripts/vaccines/download",
-    "vaccines:parse": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/scripts/vaccines/parse",
     "db:diagram": "ts-node -r tsconfig-paths/register -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "migration:gen": "typeorm migration:generate",
     "migration:run": "typeorm migration:run",
