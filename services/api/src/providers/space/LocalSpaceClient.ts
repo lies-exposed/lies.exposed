@@ -15,7 +15,7 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
   logger: serverLogger,
   ...c
 }: LocalSpaceClientCtx): SpaceClient => {
-  const logger = serverLogger.extend("FSClient");
+  const logger = serverLogger.extend("local-space-client");
   logger.debug.log("Started FS Client %O", c);
   const httpClient = axios.create({
     baseURL: c.baseUrl,
@@ -24,10 +24,10 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
 
   return {
     getObject: (params) => {
-      logger.debug.log(`Getting file path %s/%s`, params.Bucket, params.Key);
       return pipe(
         TE.tryCatch(() => {
-          return httpClient.get(`/${params.Bucket}/${params.Key}`);
+          logger.debug.log(`Getting file path %s/%s`, c.baseUrl, params.Key);
+          return httpClient.get(`/${params.Key}`);
         }, toError),
         TE.map((content) => ({ Body: content.data }))
       );

@@ -3,6 +3,9 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "version": "0.1.0",
   "scripts": {
+    "clean": "rm -rf build",
+    "start": "node -r dotenv/config build/serve.js",
+    "develop": "DOTENV_CONFIG_PATH=../../.env.local nodemon -r dotenv/config build/serve.js",
     "build": "tsc -b",
     "watch": "tsc -b --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
@@ -12,14 +15,22 @@
     "vaccines:download": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/download",
     "vaccines:parse": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/parse"
   },
-  "dependencies": {},
+  "dependencies": {
+    "fp-ts": "^2.11.1",
+    "io-ts": "^2.2.16"
+  },
   "devDependencies": {
+    "debug": "^4.3.2",
     "prettier": "^2.2.1",
     "supertest": "^6.1.3",
     "ts-node": "^8.10.2",
     "typescript": "^4.1.3"
   },
   "license": "MIT",
+  "_moduleAliases": {
+    "@econnessione/core": "../../packages/@econnessione/core/lib",
+    "@econnessione/shared": "../../packages/@econnessione/shared/lib"
+  },
   "lint-staged": {
     "**/*.(ts|tsx|js|jsx)": "eslint --fix",
     "**/*.+(ts|tsx|js|jsx|json|css)": [
