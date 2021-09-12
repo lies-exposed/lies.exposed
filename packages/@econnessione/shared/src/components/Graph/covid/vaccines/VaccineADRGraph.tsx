@@ -492,8 +492,8 @@ const VaccineADRGraphComponent = withTooltip<
 
 const MenuProps = {
   style: {
-    maxWidth: 200,
-    maxHeight: 200,
+    maxWidth: 300,
+    maxHeight: 300,
   },
 };
 
@@ -571,6 +571,7 @@ export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
                 </Box>
                 <Grid container spacing={2}>
                   <Grid item md={2}>
+                    <Typography variant="h5">Filters</Typography>
                     <FormControl className={classes.formControl} fullWidth>
                       <InputLabel id="adr-report-rate-select-label">
                         ADR Rate %
