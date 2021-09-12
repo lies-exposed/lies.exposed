@@ -38,6 +38,7 @@ services:
     image: econnessione_base
     env_file:
       - .env.local
+      # - .env.alpha
     environment:
       DEBUG: "@eco*"
       DB_HOST: db
@@ -100,7 +101,7 @@ services:
     links:
       - api
     restart: always
-  
+
   data:
     container_name: econnessione-data
     image: econnessione_base
@@ -108,8 +109,9 @@ services:
       - "3010:3010"
     volumes:
       - ./services/data:/app/services/data
+      - ./packages/@econnessione:/app/packages/@econnessione:delegated
     working_dir: /app/services/data
-    command: yarn serve
+    command: yarn develop
     tty: false
     restart: always
 
@@ -118,7 +120,7 @@ services:
     image: econnessione_base
     ports:
       - "6006:6006"
-    volumes_from: 
+    volumes_from:
       - web
     volumes:
       - ./services/storybook:/app/services/storybook:delegated

@@ -1,8 +1,38 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { Logger } from "@econnessione/core/logger";
 import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
+import { groupBy } from "@econnessione/shared/utils/array.utils";
 import * as A from "fp-ts/lib/Array";
+import * as D from "fp-ts/lib/Date";
+import * as Eq from "fp-ts/lib/Eq";
+import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import { VaccineEntry } from "../types";
+
+export const mergeByDate = (data: VaccineEntry[]): VaccineEntry[] => {
+  return pipe(
+    data,
+    A.sort(Ord.contramap<Date, VaccineEntry>((d) => d.date)(D.Ord)),
+    groupBy(Eq.contramap<Date, VaccineEntry>((d) => d.date)(D.eqDate)),
+    A.reduce([] as VaccineEntry[], (acc, v) => {
+      return acc.concat(reduceToDateEntry(v[0], A.takeRight(v.length - 1)(v)));
+    })
+  );
+};
+
+export const ReportReducer =
+  (l: Logger) =>
+  (data: VaccineEntry[][]): VaccineEntry[] => {
+    l.debug.log("Reducing nested results (%d)", data.length);
+    return data.reduce<VaccineEntry[]>((acc, v) => {
+      l.debug.log(
+        "Combine accumulated results (%d) with other entries (%d)",
+        acc.length,
+        v.length
+      );
+      return mergeByDate([...acc, ...v]);
+    }, []);
+  };
 
 export const reduceToDateEntry = (
   init: VaccineEntry,

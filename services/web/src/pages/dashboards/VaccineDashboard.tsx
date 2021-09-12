@@ -11,6 +11,7 @@ import {
   Covid19EUDR,
   Covid19WorldVaccineDistribution,
   Covid19VAERS,
+  Covid19ADRs,
 } from "@econnessione/shared/endpoints/graph.endpoints";
 import { VaccineDistributionDatum } from "@io/http/covid/VaccineDistributionDatum";
 import { Grid, Tab, Tabs, Typography } from "@material-ui/core";
@@ -20,6 +21,12 @@ import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import * as A from "fp-ts/lib/Array";
+import * as D from "fp-ts/lib/Date";
+import * as NEA from "fp-ts/lib/NonEmptyArray";
+import * as O from "fp-ts/lib/Option";
+import * as Ord from "fp-ts/lib/Ord";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import React from "react";
 
@@ -77,6 +84,43 @@ export class VaccineDashboard extends React.PureComponent<
           ErrorBox,
           ({ distribution: { data: distribution } }) => {
             const { vaccineADRTab } = this.state;
+
+            const byEqDate = pipe(
+              D.Ord,
+              Ord.contramap<Date, VaccineDistributionDatum>((d) => d.date)
+            );
+
+            const totalDistribution = pipe(
+              distribution,
+              A.sort(byEqDate),
+              NEA.fromArray,
+              O.fold(
+                () => [],
+                (data): VaccineDistributionDatum[] => {
+                  const [init, ...rest] = data;
+                  return pipe(
+                    rest,
+                    A.reduceWithIndex(NEA.of(init), (index, acc, e) => {
+                      const last = NEA.last(acc);
+                      const lastDate = index % 5 === 1 ? e.date : last.date;
+                      return NEA.concat([
+                        {
+                          ...e,
+                          date: lastDate,
+                          total_vaccinations:
+                            // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+                            last.total_vaccinations + e.total_vaccinations,
+                        },
+                      ])(acc);
+                    })
+                  );
+                }
+              )
+            );
+
+            // eslint-disable-next-line
+            console.log(totalDistribution);
+
             return (
               <Grid container style={{ background: "white", padding: 60 }}>
                 <Grid container spacing={5} style={{ marginBottom: 40 }}>
@@ -89,10 +133,17 @@ export class VaccineDashboard extends React.PureComponent<
                         });
                       }}
                     >
-                      <Tab label="VAERS" {...a11yProps(0)} />
-                      <Tab label="EUDR" {...a11yProps(1)} />
+                      <Tab label="All" {...a11yProps(0)} />
+                      <Tab label="VAERS" {...a11yProps(1)} />
+                      <Tab label="EUDR" {...a11yProps(2)} />
                     </Tabs>
                     <TabPanel value={vaccineADRTab} index={0}>
+                      <VaccineADRGraph
+                        queries={{ data: { id: Covid19ADRs.value } }}
+                        distribution={totalDistribution}
+                      />
+                    </TabPanel>
+                    <TabPanel value={vaccineADRTab} index={1}>
                       <VaccineADRGraph
                         queries={{ data: { id: Covid19VAERS.value } }}
                         distribution={distribution.filter(
@@ -100,7 +151,7 @@ export class VaccineDashboard extends React.PureComponent<
                         )}
                       />
                     </TabPanel>
-                    <TabPanel value={vaccineADRTab} index={1}>
+                    <TabPanel value={vaccineADRTab} index={2}>
                       <VaccineADRGraph
                         queries={{ data: { id: Covid19EUDR.value } }}
                         distribution={distribution.filter(

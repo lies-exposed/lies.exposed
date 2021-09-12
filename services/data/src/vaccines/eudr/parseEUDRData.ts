@@ -2,20 +2,20 @@
 import * as fs from "fs";
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
-import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
-import { groupBy } from "@econnessione/shared/utils/array.utils";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
 import { formatISO } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
-import * as D from "fp-ts/lib/Date";
-import * as Eq from "fp-ts/lib/Eq";
-import * as Ord from "fp-ts/lib/Ord";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
+import { TotalsReporter } from "vaccines/reporters/TotalReporter";
 import { VaccineEntry } from "../types";
-import { computeTotals, reduceToDateEntry } from "../utils/parse.utils";
+import {
+  computeTotals,
+  mergeByDate,
+  ReportReducer,
+} from "../utils/parse.utils";
 
 const logger = GetLogger("vaccines:parse");
 const csvUtil = GetCSVUtil({ log: logger });
@@ -43,30 +43,6 @@ const EUDRVIGILANCE = t.strict(
 );
 
 type EUDRVIGILANCE = t.TypeOf<typeof EUDRVIGILANCE>;
-
-export const orderAndGroup = (data: VaccineEntry[]): VaccineEntry[] => {
-  logger.debug.log("Sort, group by date and reduce (%d)", data.length);
-  return pipe(
-    data,
-    A.sort(Ord.contramap<Date, VaccineEntry>((d) => d.date)(D.Ord)),
-    groupBy(Eq.contramap<Date, VaccineEntry>((d) => d.date)(D.eqDate)),
-    A.reduce([] as VaccineEntry[], (acc, v) => {
-      return acc.concat(reduceToDateEntry(v[0], A.takeRight(v.length - 1)(v)));
-    })
-  );
-};
-
-export const reduceToReport = (data: VaccineEntry[][]): VaccineEntry[] => {
-  logger.debug.log("Reducing nested results (%d)", data.length);
-  return data.reduce<VaccineEntry[]>((acc, v) => {
-    logger.debug.log(
-      "Combine accumulated results (%d) with other entries (%d)",
-      acc.length,
-      v.length
-    );
-    return orderAndGroup([...acc, ...v]);
-  }, []);
-};
 
 const insideParenthesis = /\(([^)]+)\)/;
 
@@ -146,10 +122,14 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
 
   logger.debug.log("Importing vaccine data for date %s", importPath);
 
+  const reduceToReport = ReportReducer(logger);
+
   const MakeManufacturerReportTask = (
     paths: string[],
     outputFileName: string
   ): TE.TaskEither<Error, void> => {
+    logger.debug.log("CSV to process %O", paths);
+
     return pipe(
       A.sequence(TE.ApplicativePar)(
         paths.map((s) =>
@@ -157,7 +137,7 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
             TE.fromIO<string, Error>(() => fs.readFileSync(s, "utf-8")),
             TE.chain((content) => csvUtil.parseString(content, EUDRVIGILANCE)),
             TE.map(A.map(parseEUDRVigilanceDatum)),
-            TE.map(orderAndGroup)
+            TE.map(mergeByDate)
           )
         )
       ),
@@ -165,7 +145,7 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
       TE.map((results) => computeTotals(results)),
       TE.chain((results) =>
         csvUtil.writeToPath(
-          path.resolve(importPath, outputFileName),
+          outputFileName,
           results.map(({ date, ...r }) => ({
             date: formatISO(date, { representation: "date" }),
             ...r,
@@ -179,8 +159,6 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
     .readdirSync(path.resolve(importPath))
     .filter((v) => v.includes(".csv"))
     .map((v) => path.resolve(importPath, v));
-
-  logger.debug.log("CSV to process %O", csvPaths);
 
   const paths = csvPaths.reduce(
     (acc, v) => {
@@ -206,85 +184,36 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
     sequenceS(TE.ApplicativeSeq)({
       EUDRVIGILANCE_MODERNA: MakeManufacturerReportTask(
         paths.moderna,
-        "moderna.csv"
+        path.resolve(EUDR_OUTPUT_DIR, "moderna.csv")
       ),
       EUDRVIGILANCE_PFIZER_2020: MakeManufacturerReportTask(
         paths.pfizer,
-        "pfizer.csv"
+        path.resolve(EUDR_OUTPUT_DIR, "pfizer.csv")
       ),
       EUDRVIGILANCE_ASTRAZENECA: MakeManufacturerReportTask(
         paths.astrazeneca,
-        "astrazeneca.csv"
+        path.resolve(EUDR_OUTPUT_DIR, "astrazeneca.csv")
       ),
       EUDRVIGILANCE_JANSSEN: MakeManufacturerReportTask(
         paths.janssen,
-        "janssen.csv"
+        path.resolve(EUDR_OUTPUT_DIR, "janssen.csv")
       ),
     }),
     TE.map(() => undefined)
   );
 };
 
-export const runTotalsReport = (): TE.TaskEither<Error, void> => {
-  const logger = GetLogger("vaccine-aggregate-report-data");
-  const csvUtil = GetCSVUtil({ log: logger });
-  const resultOutDir = path.resolve(
-    __dirname,
-    "../../../public/covid19/vaccines/eudr"
-  );
-  logger.debug.log("Importing vaccine data...");
+export const EUDR_OUTPUT_DIR = path.resolve(
+  __dirname,
+  "../../../public/covid19/vaccines/eudr"
+);
 
-  const makeTotalTask = (
-    readPaths: string[],
-    outputFileName: string
-  ): TE.TaskEither<Error, void> =>
-    pipe(
-      A.sequence(TE.ApplicativeSeq)(
-        readPaths.map((p) => {
-          const csvPath = path.resolve(resultOutDir, p);
-          logger.debug.log(
-            "Reading data from %s... exists? (%s)",
-            csvPath,
-            fs.existsSync(csvPath)
-          );
-
-          return pipe(
-            TE.fromIO<string, Error>(() =>
-              fs.readFileSync(csvPath, { encoding: "utf-8" })
-            ),
-            TE.chain((content) =>
-              csvUtil.parseString(
-                content,
-                VaccineDatum,
-                ({ date, ...r }: any) => ({
-                  date: new Date(date).toISOString(),
-                  ...r,
-                })
-              )
-            )
-            // TE.map((data) => orderAndGroup(data))
-          );
-        })
-      ),
-      TE.map((results) => computeTotals(reduceToReport(results))),
-      TE.chain((results) =>
-        csvUtil.writeToPath(
-          path.resolve(resultOutDir, outputFileName),
-          results.map(({ date, ...r }) => ({
-            date: formatISO(date, { representation: "date" }),
-            ...r,
-          }))
-        )
-      )
-    );
-
-  return pipe(
-    sequenceS(TE.ApplicativeSeq)({
-      EUDRVIGILANCE: makeTotalTask(
-        ["moderna.csv", "pfizer.csv", "astrazeneca.csv", "janssen.csv"],
-        "eudrvigilance.csv"
-      ),
-    }),
-    TE.map(() => undefined)
-  );
-};
+export const runTotalsReport = TotalsReporter({
+  importPaths: [
+    "moderna.csv",
+    "pfizer.csv",
+    "astrazeneca.csv",
+    "janssen.csv",
+  ].map((f) => path.resolve(EUDR_OUTPUT_DIR, f)),
+  outputFile: path.resolve(EUDR_OUTPUT_DIR, "eudrvigilance.csv"),
+});

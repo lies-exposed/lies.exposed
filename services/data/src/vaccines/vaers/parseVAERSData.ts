@@ -2,27 +2,40 @@
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { formatISO } from "date-fns";
+import { formatISO, parseISO } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
+import * as D from "fp-ts/lib/Date";
 import * as MapFP from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
+import * as Ord from "fp-ts/lib/Ord";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
+import { TotalsReporter } from "../reporters/TotalReporter";
 import { VaccineEntry } from "../types";
 import { computeTotals, reduceToDateEntry } from "../utils/parse.utils";
 
 const log = GetLogger("parse-vaers-data");
 const csvUtils = GetCSVUtil({ log });
 
+const Pfizer = t.literal("PFIZER\\BIONTECH");
+const Moderna = t.literal("MODERNA");
+const Janssen = t.literal("JANSSEN");
+const Astrazenenca = t.literal("ASTRAZENECA");
+const Manufacturer = t.union(
+  [Pfizer, Moderna, Janssen, Astrazenenca, t.any],
+  "Manufacturer"
+);
+type Manufacturer = t.TypeOf<typeof Manufacturer>;
+
 export const VAERSVax = t.strict(
   {
     VAERS_ID: t.string,
     VAX_TYPE: t.string,
-    VAX_MANU: t.string,
+    VAX_MANU: Manufacturer,
     VAX_LOT: t.string,
     VAX_DOSE_SERIES: t.string,
     VAX_ROUTE: t.string,
@@ -97,6 +110,21 @@ const vaersDataMapper = (a: any): any => {
   };
 };
 
+const getManufacturerKey = (
+  m?: Manufacturer
+): "pfizer" | "moderna" | "janssen" | "unknown" => {
+  switch (m) {
+    case "MODERNA":
+      return "moderna";
+    case "PFIZER\\BIONTECH":
+      return "pfizer";
+    case "JANSSEN":
+      return "janssen";
+    default:
+      return "unknown";
+  }
+};
+
 const toVaccineEntry = (
   data: VAERSDATA,
   vax: VAERSVax | undefined,
@@ -154,15 +182,23 @@ const toVaccineEntry = (
  * Parse
  */
 
-const VAERS_DATA_FOLDER = path.resolve(
+const VAERS_DATA_DIR = path.resolve(
   __dirname,
   "../../../public/covid19/vaccines/vaers/import"
 );
 
-const VAERS_DATA_OUTPUT_FILE = path.resolve(
+export const VAERS_OUTPUT_DIR = path.resolve(
   __dirname,
-  "../../../public/covid19/vaccines/vaers/vaers.csv"
+  "../../../public/covid19/vaccines/vaers"
 );
+
+interface ManufacturerResults {
+  pfizer: Map<string, VaccineEntry>;
+  moderna: Map<string, VaccineEntry>;
+  astrazeneca: Map<string, VaccineEntry>;
+  janssen: Map<string, VaccineEntry>;
+  unknown: Map<string, VaccineEntry>;
+}
 
 interface ReadFilesOpts {
   paths: {
@@ -175,7 +211,7 @@ interface ReadFilesOpts {
     symptoms: VAERSSymptom[];
     data: VAERSDATA[];
   };
-  results: Map<string, VaccineEntry>;
+  results: ManufacturerResults;
   skipRows: number;
   maxRows: number;
 }
@@ -185,8 +221,8 @@ const readFiles = ({
   acc,
   results,
   ...opts
-}: ReadFilesOpts): TE.TaskEither<Error, Map<string, VaccineEntry>> => {
-  const parseOpts = { headers: true, ...opts };
+}: ReadFilesOpts): TE.TaskEither<Error, ManufacturerResults> => {
+  const parseOpts = { headers: true, ignoreEmpty: true, ...opts };
   return pipe(
     sequenceS(TE.ApplicativePar)({
       data: csvUtils.parseFile(paths.data, parseOpts, {
@@ -218,23 +254,31 @@ const readFiles = ({
           vax: vax.find((v) => v.VAERS_ID === d.VAERS_ID),
           symptoms: symptoms.find((s) => s.VAERS_ID === d.VAERS_ID),
         })),
-        A.map((d) => toVaccineEntry(d.data, d.vax, d.symptoms))
+        A.filter((d) => d.vax?.VAX_TYPE === "COVID19")
       );
 
       const newResults = pipe(
         entries,
         A.reduce(results, (acc, e) => {
-          const mapKey = e.date.toISOString();
+          const manufacturer = getManufacturerKey(e.vax?.VAX_MANU);
+          const manufacturerMap = acc[manufacturer];
 
-          return pipe(
-            acc,
+          const entry = toVaccineEntry(e.data, e.vax, e.symptoms);
+          const mapKey = entry.date.toISOString();
+
+          const manufacturerResults = pipe(
+            manufacturerMap,
             MapFP.lookupWithKey(S.Eq)(mapKey),
             O.fold(
-              () => e,
-              ([key, r]) => reduceToDateEntry(r, [e])
+              () => entry,
+              ([key, r]) => reduceToDateEntry(r, [entry])
             ),
-            (e) => MapFP.upsertAt(S.Eq)(mapKey, e)(acc)
+            (e) => MapFP.upsertAt(S.Eq)(mapKey, e)(manufacturerMap)
           );
+          return {
+            ...acc,
+            [manufacturer]: manufacturerResults,
+          };
         })
       );
 
@@ -253,17 +297,40 @@ const readFiles = ({
   );
 };
 
-export const runParseVAERSData = (): TE.TaskEither<Error, void> => {
-  const VAERS_DATA_FILE = path.resolve(
-    VAERS_DATA_FOLDER,
-    "./2021VAERSData.csv"
+const VAERS_DATA_FILE = path.resolve(VAERS_DATA_DIR, "./2021VAERSData.csv");
+
+const VAERS_SYMPTOMS_FILE = path.resolve(
+  VAERS_DATA_DIR,
+  "./2021VAERSSYMPTOMS.csv"
+);
+const VAERS_VAX_FILE = path.resolve(VAERS_DATA_DIR, "./2021VAERSVAX.csv");
+
+export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
+  const mapKeyOrd = pipe(
+    D.Ord,
+    Ord.contramap<Date, string>((k) => parseISO(k))
   );
 
-  const VAERS_SYMPTOMS_FILE = path.resolve(
-    VAERS_DATA_FOLDER,
-    "./2021VAERSSYMPTOMS.csv"
-  );
-  const VAERS_VAX_FILE = path.resolve(VAERS_DATA_FOLDER, "./2021VAERSVAX.csv");
+  const resultTask = (
+    m: Map<string, VaccineEntry>,
+    outputFile: string
+  ): TE.TaskEither<Error, void> =>
+    pipe(
+      m,
+      MapFP.toArray(mapKeyOrd),
+      A.map(([key, v]) => v),
+      computeTotals,
+      TE.right,
+      TE.chain((results) =>
+        csvUtils.writeToPath(
+          path.resolve(VAERS_OUTPUT_DIR, outputFile),
+          results.map(({ date, ...r }) => ({
+            date: formatISO(date, { representation: "date" }),
+            ...r,
+          }))
+        )
+      )
+    );
 
   return pipe(
     readFiles({
@@ -277,22 +344,36 @@ export const runParseVAERSData = (): TE.TaskEither<Error, void> => {
         data: [],
         symptoms: [],
       },
-      results: new Map(),
+      results: {
+        pfizer: new Map(),
+        moderna: new Map(),
+        janssen: new Map(),
+        astrazeneca: new Map(),
+        unknown: new Map(),
+      },
       skipRows: 0,
       maxRows: 30000,
     }),
-    // log.debug.logInTaskEither("Results %O"),
-    TE.map(MapFP.toArray(S.Ord)),
-    TE.map(A.map(([key, v]) => v)),
-    TE.map((results) => computeTotals(results)),
-    TE.chain((results) =>
-      csvUtils.writeToPath(
-        VAERS_DATA_OUTPUT_FILE,
-        results.map(({ date, ...r }) => ({
-          date: formatISO(date, { representation: "date" }),
-          ...r,
-        }))
-      )
-    )
+    TE.chain(({ pfizer, moderna, astrazeneca, janssen, unknown }) => {
+      return A.sequence(TE.ApplicativePar)([
+        resultTask(pfizer, "pfizer.csv"),
+        resultTask(moderna, "moderna.csv"),
+        resultTask(astrazeneca, "astrazeneca.csv"),
+        resultTask(janssen, "janssen.csv"),
+        resultTask(unknown, "unknown.csv"),
+      ]);
+    }),
+    TE.map(() => undefined)
   );
 };
+
+export const runTotalsReport = TotalsReporter({
+  importPaths: [
+    "moderna.csv",
+    "pfizer.csv",
+    "astrazeneca.csv",
+    "janssen.csv",
+    "unknown.csv",
+  ].map((f) => path.resolve(VAERS_OUTPUT_DIR, f)),
+  outputFile: path.resolve(VAERS_OUTPUT_DIR, "vaers.csv"),
+});
