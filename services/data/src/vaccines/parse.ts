@@ -1,11 +1,25 @@
 /* eslint-disable no-console */
+import * as path from "path";
 import { sleep } from "@econnessione/shared/utils/promise.utils";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as distribution from "./distribution/parseDistribution";
 import * as eudr from "./eudr/parseEUDRData";
+import { TotalsReporter } from "./reporters/TotalReporter";
 import * as vaers from "./vaers/parseVAERSData";
+
+export const runTotalsReport = TotalsReporter({
+  importPaths: [
+    path.resolve(vaers.VAERS_OUTPUT_DIR, "vaers.csv"),
+    path.resolve(eudr.EUDR_OUTPUT_DIR, "eudrvigilance.csv"),
+  ],
+  outputFile: path.resolve(
+    __dirname,
+    "../../public/covid19/vaccines",
+    "adr.csv"
+  ),
+});
 
 interface ADRSystemOpts {
   manufaturer: boolean;
@@ -49,6 +63,8 @@ const parse = (opts: ParseOpts): TE.TaskEither<Error, void> => {
         TE.of(undefined)
       ),
     }),
+    TE.chain(() => sleep(1000)),
+    TE.chain(() => runTotalsReport),
     TE.map(() => undefined)
   );
 };

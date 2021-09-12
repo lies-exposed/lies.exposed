@@ -184,26 +184,26 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
     sequenceS(TE.ApplicativeSeq)({
       EUDRVIGILANCE_MODERNA: MakeManufacturerReportTask(
         paths.moderna,
-        path.resolve(resultOutDir, "moderna.csv")
+        path.resolve(EUDR_OUTPUT_DIR, "moderna.csv")
       ),
       EUDRVIGILANCE_PFIZER_2020: MakeManufacturerReportTask(
         paths.pfizer,
-        path.resolve(resultOutDir, "pfizer.csv")
+        path.resolve(EUDR_OUTPUT_DIR, "pfizer.csv")
       ),
       EUDRVIGILANCE_ASTRAZENECA: MakeManufacturerReportTask(
         paths.astrazeneca,
-        path.resolve(resultOutDir, "astrazeneca.csv")
+        path.resolve(EUDR_OUTPUT_DIR, "astrazeneca.csv")
       ),
       EUDRVIGILANCE_JANSSEN: MakeManufacturerReportTask(
         paths.janssen,
-        path.resolve(resultOutDir, "janssen.csv")
+        path.resolve(EUDR_OUTPUT_DIR, "janssen.csv")
       ),
     }),
     TE.map(() => undefined)
   );
 };
 
-const resultOutDir = path.resolve(
+export const EUDR_OUTPUT_DIR = path.resolve(
   __dirname,
   "../../../public/covid19/vaccines/eudr"
 );
@@ -214,6 +214,6 @@ export const runTotalsReport = TotalsReporter({
     "pfizer.csv",
     "astrazeneca.csv",
     "janssen.csv",
-  ].map((f) => path.resolve(resultOutDir, f)),
-  outputFile: path.resolve(resultOutDir, "eudrvigilance.csv"),
+  ].map((f) => path.resolve(EUDR_OUTPUT_DIR, f)),
+  outputFile: path.resolve(EUDR_OUTPUT_DIR, "eudrvigilance.csv"),
 });

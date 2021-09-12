@@ -182,12 +182,12 @@ const toVaccineEntry = (
  * Parse
  */
 
-const VAERS_DATA_FOLDER = path.resolve(
+const VAERS_DATA_DIR = path.resolve(
   __dirname,
   "../../../public/covid19/vaccines/vaers/import"
 );
 
-const VAERS_DATA_OUTPUT_FOLDER = path.resolve(
+export const VAERS_OUTPUT_DIR = path.resolve(
   __dirname,
   "../../../public/covid19/vaccines/vaers"
 );
@@ -297,13 +297,13 @@ const readFiles = ({
   );
 };
 
-const VAERS_DATA_FILE = path.resolve(VAERS_DATA_FOLDER, "./2021VAERSData.csv");
+const VAERS_DATA_FILE = path.resolve(VAERS_DATA_DIR, "./2021VAERSData.csv");
 
 const VAERS_SYMPTOMS_FILE = path.resolve(
-  VAERS_DATA_FOLDER,
+  VAERS_DATA_DIR,
   "./2021VAERSSYMPTOMS.csv"
 );
-const VAERS_VAX_FILE = path.resolve(VAERS_DATA_FOLDER, "./2021VAERSVAX.csv");
+const VAERS_VAX_FILE = path.resolve(VAERS_DATA_DIR, "./2021VAERSVAX.csv");
 
 export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
   const mapKeyOrd = pipe(
@@ -323,7 +323,7 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
       TE.right,
       TE.chain((results) =>
         csvUtils.writeToPath(
-          path.resolve(VAERS_DATA_OUTPUT_FOLDER, outputFile),
+          path.resolve(VAERS_OUTPUT_DIR, outputFile),
           results.map(({ date, ...r }) => ({
             date: formatISO(date, { representation: "date" }),
             ...r,
@@ -374,6 +374,6 @@ export const runTotalsReport = TotalsReporter({
     "astrazeneca.csv",
     "janssen.csv",
     "unknown.csv",
-  ].map((f) => path.resolve(VAERS_DATA_OUTPUT_FOLDER, f)),
-  outputFile: path.resolve(VAERS_DATA_OUTPUT_FOLDER, "vaers.csv"),
+  ].map((f) => path.resolve(VAERS_OUTPUT_DIR, f)),
+  outputFile: path.resolve(VAERS_OUTPUT_DIR, "vaers.csv"),
 });

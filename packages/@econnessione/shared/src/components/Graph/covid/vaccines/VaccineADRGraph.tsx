@@ -128,7 +128,7 @@ const getDistributionX: Accessor<VaccineDistributionDatum, Date> = (d) => {
 };
 
 const getDistributionY: Accessor<VaccineDistributionDatum, number> = (d) => {
-  return typeof d.total_vaccinations === "string" ? 0 : d.total_vaccinations;
+  return d.total_vaccinations;
 };
 
 const toMillion = (n: number): number => {
@@ -382,25 +382,6 @@ const VaccineADRGraphComponent = withTooltip<
     <React.Fragment>
       <div style={{ position: "relative", width }}>
         <svg width={width} height={height}>
-          {/* <LinearGradient
-        id={backgroundId}
-        vertical={true}
-        from={"#177"}
-        to={"#177ffc"}
-        fromOpacity={1}
-        toOpacity={0.5}
-      /> */}
-          {/** VAERS Line */}
-          {/* <LinearGradient
-        id={vaersLineId}
-        vertical={true}
-        fromOpacity={1}
-        toOpacity={1}
-        to="red"
-        from="red"
-        fromOffset="40%"
-        toOffset="80%"
-      /> */}
           {/** EUDRVIGILANCE */}
           <LinearGradient
             id={eudrvigilanceLineId}
@@ -572,8 +553,7 @@ export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
 
             const currentVaccinations =
               distribution[distribution.length - 1].total_vaccinations;
-            const totalVaccinations =
-              typeof currentVaccinations === "string" ? 0 : currentVaccinations;
+            const totalVaccinations = currentVaccinations;
             const todayDatum = data[data.length - 1];
 
             const totalDeaths =
@@ -711,7 +691,7 @@ export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
                   </Grid>
                   <Grid item md={3} direction="column">
                     <StatAccordion
-                      caption="Death projection on worlwide population"
+                      caption="Death projection on world population (million)"
                       summary={toMillion(estimatedDeaths).toFixed(2)}
                       data={[]}
                     />
