@@ -14,8 +14,6 @@ import { GroupMemberEntity } from "./GroupMember.entity";
 
 @Entity("actor")
 export class ActorEntity {
-  type: "ActorFrontmatter";
-
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -31,7 +29,9 @@ export class ActorEntity {
   @Column({ type: "varchar", nullable: false })
   color: string;
 
-  @OneToMany(() => GroupMemberEntity, (member) => member.actor)
+  @OneToMany(() => GroupMemberEntity, (member) => member.actor, {
+    nullable: true,
+  })
   memberIn: GroupMemberEntity[];
 
   @ManyToMany(() => EventEntity, (e) => e.actors)

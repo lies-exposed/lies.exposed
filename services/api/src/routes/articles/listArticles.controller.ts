@@ -27,19 +27,19 @@ export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
               ...findOptions,
               where: {
                 ...findOptions.where,
-                ...draft
-              }
+                ...draft,
+              },
             }),
             TE.chainEitherK(A.traverse(E.either)(toArticleIO))
           ),
-          total: db.count(ArticleEntity)
+          total: db.count(ArticleEntity),
         }),
         TE.map(({ data, total }) => ({
           body: {
             data,
-            total
+            total,
           },
-          statusCode: 200
+          statusCode: 200,
         }))
       );
     }

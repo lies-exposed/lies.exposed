@@ -11,7 +11,7 @@ const ListArticlesQuery = t.type(
   {
     ...GetListQuery.props,
     draft: optionFromNullable(BooleanFromString),
-    path: optionFromNullable(t.string)
+    path: optionFromNullable(t.string),
   },
   "ListArticlesQuery"
 );

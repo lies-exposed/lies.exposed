@@ -84,7 +84,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
           });
           return (
             <div>
-              <Grid container>
+              <Grid container spacing={3}>
                 <Grid
                   item
                   md={12}
@@ -98,7 +98,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                   <Typography variant="caption">Attori</Typography>
                   <ActorList actors={actors} onActorClick={() => {}} />
                 </Grid>
-                <Grid>
+                <Grid item md={6}>
                   <Typography variant="caption">Gruppi</Typography>
                   <GroupList groups={groups} onGroupClick={() => {}} />
                 </Grid>

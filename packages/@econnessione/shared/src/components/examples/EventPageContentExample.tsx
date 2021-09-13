@@ -11,8 +11,7 @@ export const eventPageContentArgs: EventPageContentProps = {
   },
   actors: [],
   groups: [],
-  // tableOfContents: O.none,
-  // timeToRead: O.none,
+  links: [],
 };
 
 export const EventPageContentExample: React.FC<EventPageContentProps> = (

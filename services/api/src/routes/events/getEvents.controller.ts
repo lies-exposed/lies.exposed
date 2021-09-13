@@ -13,97 +13,84 @@ import { RouteContext } from "routes/route.types";
 import { toEventIO } from "./event.io";
 
 export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(
-    Endpoints.Event.List,
-    ({ query: { actors, groups, ...query } }) => {
-      ctx.logger.info.log("Query %O", query);
-      const findOptions = getORMOptions(
-        {
-          ...query,
-          _sort: pipe(
-            query._sort,
-            O.alt(() => O.some("startDate"))
-          ),
-        },
-        ctx.env.DEFAULT_PAGE_SIZE
-      );
-
-      const whereConditions = {
-        ...findOptions.where,
-      };
-
-      ctx.logger.debug.log(`Where conditions: %O`, whereConditions);
-
-      const sqlTask = pipe(
-        ctx.db.manager
-          .createQueryBuilder(EventEntity, "event")
-          .leftJoinAndSelect("event.actors", "actors")
-          .leftJoinAndSelect("event.groups", "groups")
-          .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
-          .leftJoinAndSelect("event.images", "images")
-          .leftJoinAndSelect("event.links", "links"),
-        (q) => {
-          if (O.isSome(actors)) {
-            return q.where("actors.id IN (:...actors)", {
-              actors: actors.value,
-            });
-          }
-          if (O.isSome(groups)) {
-            return q.where("groups.id IN (:...groups)", {
-              groups: groups.value,
-            });
-          }
-          return q;
-        },
-        (q) => {
-          if (findOptions.order) {
-            const order = R.record.reduceWithIndex(
-              findOptions.order,
-              {},
-              (k, acc, v) => ({
-                ...acc,
-                [`event.${k}`]: v,
-              })
-            );
-            return q.orderBy(order);
-          }
-          return q;
-        },
-        (q) => {
-          const qq = q.skip(findOptions.skip).take(findOptions.take);
-
-          // ctx.logger.debug.log(`SQL query %s`, qq.getSql());
-
-          return ctx.db.execQuery(() => qq.getManyAndCount());
-        }
-      );
-      return pipe(
-        sqlTask,
-        TE.chain(([events, count]) =>
-          sequenceS(TE.taskEither)({
-            data: TE.fromEither(
-              A.traverse(E.either)(toEventIO)(
-                events.map((e) => {
-                  return {
-                    ...e,
-                    actors: e.actors.map((g) => g.id),
-                    groups: e.groups.map((g) => g.id),
-                    groupsMembers: e.groupsMembers.map((m) => m.id),
-                  } as any;
-                })
-              )
-            ),
-            total: TE.right(count),
-          })
+  AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
+    ctx.logger.info.log("Query %O", query);
+    const { actors, groups, groupsMembers, ...queryRest } = query;
+    const findOptions = getORMOptions(
+      {
+        ...queryRest,
+        _sort: pipe(
+          queryRest._sort,
+          O.alt(() => O.some("startDate"))
         ),
-        TE.map(({ data, total }) => ({
-          body: {
-            data,
-            total,
-          },
-          statusCode: 200,
-        }))
-      );
-    }
-  );
+      },
+      ctx.env.DEFAULT_PAGE_SIZE
+    );
+
+    ctx.logger.debug.log(`Find options conditions: %O`, findOptions);
+
+    const sqlTask = pipe(
+      ctx.db.manager
+        .createQueryBuilder(EventEntity, "event")
+        .leftJoinAndSelect("event.actors", "actors")
+        .leftJoinAndSelect("event.groups", "groups")
+        .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
+        .leftJoinAndSelect("event.images", "images")
+        .loadAllRelationIds({
+          relations: ["groups", "actors", "groupsMembers"],
+        }),
+      (q) => {
+        if (O.isSome(actors)) {
+          return q.andWhere("actors.id IN (:...actors)", {
+            actors: actors.value,
+          });
+        }
+        if (O.isSome(groups)) {
+          return q.andWhere("groups.id IN (:...groups)", {
+            groups: groups.value,
+          });
+        }
+
+        if (O.isSome(groupsMembers)) {
+          return q.andWhere("groupsMembers.id IN (:...groupsMembers)", {
+            groupsMembers: groupsMembers.value,
+          });
+        }
+        return q;
+      },
+      (q) => {
+        if (findOptions.order) {
+          const order = R.reduceWithIndex({}, (k, acc, v) => ({
+            ...acc,
+            [`event.${k}`]: v,
+          }))(findOptions.order);
+          return q.orderBy(order);
+        }
+        return q;
+      },
+      (q) => {
+        const qq = q.skip(findOptions.skip).take(findOptions.take);
+
+        // ctx.logger.debug.log(`SQL query %s`, qq.getSql());
+
+        return ctx.db.execQuery(() => qq.getManyAndCount());
+      }
+    );
+    return pipe(
+      sqlTask,
+      TE.chain(([events, count]) =>
+        sequenceS(TE.taskEither)({
+          data: TE.fromEither(A.traverse(E.either)(toEventIO)(events)),
+          total: TE.right(count),
+        })
+      ),
+      TE.map(({ data, total }) => ({
+        body: {
+          data,
+          total,
+        },
+        statusCode: 200,
+      }))
+    );
+  });
 };

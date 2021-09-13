@@ -1,14 +1,17 @@
+import { apiProvider } from "@client/HTTPAPI";
+import { uploadImages } from "@client/MediaAPI";
 import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
 import * as io from "@econnessione/shared/io";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
-import { apiProvider } from "client/HTTPAPI";
-import { uploadImages } from "client/MediaAPI";
+import { Typography } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   ArrayField,
+  ArrayInput,
+  AutocompleteInput,
   ChoicesInputProps,
   Create,
   CreateProps,
@@ -27,8 +30,10 @@ import {
   ReferenceArrayField,
   ReferenceArrayInput,
   ReferenceField,
+  ReferenceInput,
   SelectInput,
   SimpleForm,
+  SimpleFormIterator,
   SingleFieldList,
   TabbedForm,
   TextField,
@@ -37,6 +42,7 @@ import {
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
+import { WebPreviewButton } from "./Common/WebPreviewButton";
 
 const RESOURCE = "groups";
 
@@ -51,7 +57,7 @@ const GroupKindInput: React.FC<ChoicesInputProps> = (props) => (
 );
 
 export const GroupList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE}>
+  <List {...props} resource={RESOURCE} perPage={50}>
     <Datagrid rowClick="edit">
       <AvatarField source="avatar" fullWidth={false} />
       <TextField source="name" />
@@ -67,7 +73,7 @@ const transformGroup = (data: Record): Record | Promise<Record> => {
   if (data.avatar?.rawFile) {
     return pipe(
       uploadImages(apiProvider)("groups", data.name, [data.avatar.rawFile]),
-      TE.map((locations) => ({ ...data, members: [], avatar: locations[0] }))
+      TE.map((locations) => ({ ...data, avatar: locations[0] }))
     )().then((result) => {
       if (E.isLeft(result)) {
         throw result.left;
@@ -75,66 +81,87 @@ const transformGroup = (data: Record): Record | Promise<Record> => {
       return result.right;
     });
   }
-  return { ...data, members: [] };
+  return { ...data };
 };
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Actor {record.fullName}</span>;
+  return <Typography>Group {record.name}</Typography>;
 };
 
-export const GroupEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit title={<EditTitle {...props} />} {...props}>
-    <TabbedForm>
-      <FormTab label="Generals">
-        <TextInput source="name" />
-        <TextInput source="color" />
-        <DateInput source="date" />
-        <GroupKindInput source="kind" />
-        <DateField source="updatedAt" showTime={true} />
-        <DateField source="createdAt" showTime={true} />
-      </FormTab>
-      <FormTab label="Avatar">
-        <ImageField source="avatar" fullWidth={false} />
-        <ImageInput source="avatar">
-          <ImageField src="src" />
-        </ImageInput>
-      </FormTab>
-      <FormTab label="Body">
-        <MarkdownInput source="body" />
-      </FormTab>
-      <FormTab label="Members">
-        <ReferenceArrayField source="members" reference="groups-members">
-          <Datagrid>
-            <TextField source="id" />
-            <ReferenceField label="Actor" source="actorId" reference="actors">
-              <TextField source="username" />
-            </ReferenceField>
-            <DateField source="createdAt" />
-          </Datagrid>
-        </ReferenceArrayField>
-      </FormTab>
-      <FormTab label="Preview">
-        <FormDataConsumer>
-          {({ formData, ...rest }) => {
-            return pipe(
-              io.http.Group.Group.decode(formData),
-              E.fold(renderValidationErrors, (p) => (
-                <GroupPageContent
-                  {...p}
-                  groupsMembers={[]}
-                  events={[]}
-                  projects={[]}
-                  funds={[]}
-                  onMemberClick={() => {}}
-                />
-              ))
-            );
-          }}
-        </FormDataConsumer>
-      </FormTab>
-    </TabbedForm>
-  </Edit>
-);
+export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
+  return (
+    <Edit
+      title={<EditTitle {...props} />}
+      {...props}
+      actions={
+        <>
+          <WebPreviewButton
+            resource="groups"
+            source="id"
+            record={{ id: props.id } as any}
+          />
+        </>
+      }
+      transform={transformGroup}
+    >
+      <TabbedForm>
+        <FormTab label="Generals">
+          <TextInput source="name" />
+          <TextInput source="color" />
+          <DateInput source="date" />
+          <GroupKindInput source="kind" />
+          <DateField source="updatedAt" showTime={true} />
+          <DateField source="createdAt" showTime={true} />
+        </FormTab>
+        <FormTab label="Avatar">
+          <ImageField source="avatar" fullWidth={false} />
+          <ImageInput source="avatar">
+            <ImageField src="src" />
+          </ImageInput>
+        </FormTab>
+        <FormTab label="Body">
+          <MarkdownInput source="body" />
+        </FormTab>
+        <FormTab label="Members">
+          <ReferenceArrayField source="members" reference="groups-members">
+            <Datagrid>
+              <ReferenceField source="id" reference="groups-members">
+                <TextField source="id" />
+              </ReferenceField>
+              <ReferenceField
+                label="Actor"
+                source="actor.id"
+                reference="actors"
+              >
+                <TextField source="username" />
+              </ReferenceField>
+              <DateField source="startDate" />
+            </Datagrid>
+          </ReferenceArrayField>
+        </FormTab>
+        <FormTab label="Preview">
+          <FormDataConsumer>
+            {({ formData, ...rest }) => {
+              return pipe(
+                io.http.Group.Group.decode(formData),
+                E.fold(renderValidationErrors, (p) => (
+                  <GroupPageContent
+                    {...p}
+                    groupsMembers={[]}
+                    events={[]}
+                    projects={[]}
+                    funds={[]}
+                    onMemberClick={() => {}}
+                  />
+                ))
+              );
+            }}
+          </FormDataConsumer>
+        </FormTab>
+      </TabbedForm>
+    </Edit>
+  );
+};
 
 export const GroupCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Group" {...props} transform={transformGroup}>

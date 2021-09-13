@@ -9,5 +9,5 @@ export const AvatarField: React.FC<FieldProps> = (props) => {
     props.source && has(props.record, props.source)
       ? get(props.record, props.source)
       : undefined;
-  return src ? <Avatar src={src} /> : <div>No source given</div>;
+  return src ? <Avatar src={src} /> : null;
 };

@@ -16,7 +16,7 @@ export class PageEntity {
   @Column({ type: "varchar" })
   title: string;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", unique: true })
   path: string;
 
   @Column({ type: "varchar" })

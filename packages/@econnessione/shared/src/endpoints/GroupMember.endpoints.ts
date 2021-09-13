@@ -5,6 +5,7 @@ import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
+import { CreateGroupMember } from "../io/http/GroupMember";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
@@ -24,28 +25,18 @@ export const List = Endpoint({
     Query: t.type({
       ...GetListQuery.props,
       group: optionFromNullable(t.string),
+      search: optionFromNullable(t.string),
     }),
   },
   Output: ListGroupMemberOutput,
 });
-
-const CreateBody = t.strict(
-  {
-    group: t.string,
-    actor: t.string,
-    startDate: DateFromISOString,
-    endDate: optionFromNullable(DateFromISOString),
-    body: t.string,
-  },
-  "CreateGroupMemberBody"
-);
 
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/groups-members",
   Input: {
     Query: undefined,
-    Body: CreateBody,
+    Body: CreateGroupMember,
   },
   Output: SingleGroupMemberOutput,
 });

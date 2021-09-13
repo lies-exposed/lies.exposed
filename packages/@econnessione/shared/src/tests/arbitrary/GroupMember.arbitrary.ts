@@ -72,17 +72,18 @@ const groupMemberProps = pipe(
   )
 );
 
-export const GroupMemberArb: tests.fc.Arbitrary<http.GroupMember.GroupMember> = tests
-  .getArbitrary(t.strict({ ...groupMemberProps }, "GroupMember"))
-  .map((p) => ({
-    ...p,
-    id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-    startDate: new Date(),
-    endDate: new Date(),
-    actor: tests.fc.sample(ActorArb, 1)[0],
-    group: tests.fc.sample(GroupArb, 1)[0],
-    body: "",
-    events: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  }));
+export const GroupMemberArb: tests.fc.Arbitrary<http.GroupMember.GroupMember> =
+  tests
+    .getArbitrary(t.strict({ ...groupMemberProps }, "GroupMember"))
+    .map((p) => ({
+      ...p,
+      id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+      startDate: new Date(),
+      endDate: new Date(),
+      actor: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+      group: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+      body: "",
+      events: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }));

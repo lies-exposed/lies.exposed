@@ -8,7 +8,10 @@ import { toDeathIO } from "./death.io";
 export const MakeDeleteDeathEventRoute: Route = (r, { db }) => {
   AddEndpoint(r)(Endpoints.DeathEvent.Delete, ({ params: { id } }) => {
     return pipe(
-      db.findOneOrFail(DeathEventEntity, { where: { id }, loadRelationIds: true }),
+      db.findOneOrFail(DeathEventEntity, {
+        where: { id },
+        loadRelationIds: true,
+      }),
       TE.chainFirst((event) => db.delete(DeathEventEntity, [event.id])),
       TE.chainEitherK(toDeathIO),
       TE.map((data) => ({

@@ -14,16 +14,20 @@
     "test:e2e": "jest -c jest.config.js e2e",
     "serve": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/serve",
     "vaccines:download": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/download",
-    "vaccines:parse": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/parse"
+    "vaccines:parse": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/parse",
+    "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "debug": "^4.3.2",
     "express": "^4.17.1",
     "fp-ts": "^2.11.1",
     "io-ts": "^2.2.16",
-    "io-ts-types": "^0.5.16"
+    "io-ts-types": "^0.5.16",
+    "multer": "^1.4.3"
   },
   "devDependencies": {
+    "dotenv": "^10.0.0",
     "prettier": "^2.2.1",
     "supertest": "^6.1.3",
     "ts-node": "^8.10.2",

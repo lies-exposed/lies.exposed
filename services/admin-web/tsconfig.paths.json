@@ -16,6 +16,7 @@
     "typeRoots": ["node_modules/@types", "./typings"],
     "baseUrl": "./src",
     "paths": {
+      "@client/*": ["./client/*"],
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
       "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
     }

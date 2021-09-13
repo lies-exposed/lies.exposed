@@ -8,6 +8,7 @@ COPY services/api ./services/api
 COPY services/web ./services/web
 COPY services/admin-web ./services/admin-web
 COPY services/storybook ./services/storybook
+COPY services/data ./services/data
 
 COPY .eslintrc .
 COPY package.json .

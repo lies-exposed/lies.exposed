@@ -1,52 +1,29 @@
 import * as tests from "@econnessione/core/tests";
-import supertest from "supertest";
-import { makeApp, makeContext } from "../../../server";
-import { pipe } from "fp-ts/lib/pipeable";
-import * as TE from "fp-ts/lib/TaskEither";
-import { RouteContext } from "@routes/route.types";
-import jwt from "jsonwebtoken";
+import { http } from "@econnessione/shared/io";
+import { AreaArb } from "@econnessione/shared/tests/arbitrary/Area.arbitrary";
+import { AreaEntity } from "@entities/Area.entity";
+import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("Delete Area", () => {
-  let ctx: RouteContext,
-    req: supertest.SuperTest<supertest.Test>,
-    actor: any,
-    authorizationToken: string;
+  let Test: AppTest, areas: http.Area.Area[], authorizationToken: string;
   beforeAll(async () => {
-    await pipe(
-      makeContext(process.env),
-      TE.map((context) => {
-        ctx = context;
-        return makeApp(ctx);
-      }),
-      TE.map((app) => {
-        req = supertest(app);
-      })
-    )();
+    Test = await initAppTest();
 
-    authorizationToken = `Bearer ${jwt.sign({ id: "1" }, ctx.env.JWT_SECRET)}`;
+    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
+      id: "1",
+    } as any)()}`;
 
-    actor = (
-      await req
-        .post("/v1/actors")
-        .set("Authorization", authorizationToken)
-        .send({
-          username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
-          avatar: "http://myavatar-url.com/",
-          color: "ffffff",
-          fullName: tests.fc.sample(tests.fc.string())[0],
-          body: "my content",
-        })
-    ).body.data;
-    ctx.logger.debug.log("Actor %O", actor);
+    areas = tests.fc.sample(AreaArb, 1);
+    await Test.ctx.db.save(AreaEntity, areas)();
   });
 
   afterAll(async () => {
-    await ctx.db.close()();
+    await Test.ctx.db.close()();
   });
 
-  test("Should return a 401", async () => {
-    const response = await req
-      .delete(`/v1/actors/${actor.id}`)
+  test("Should return a 200", async () => {
+    const response = await Test.req
+      .delete(`/v1/areas/${areas[0].id}`)
       .set("Authorization", authorizationToken);
 
     expect(response.status).toEqual(200);

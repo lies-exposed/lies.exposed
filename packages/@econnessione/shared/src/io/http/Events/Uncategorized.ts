@@ -7,6 +7,7 @@ import { BaseFrontmatter, Point } from "../Common";
 import { CreateEventLink, EventLink } from "./EventLink";
 
 export const GetEventsQueryFilter = t.partial({
+  groupsMembers: optionFromNullable(t.array(t.string)),
   actors: optionFromNullable(t.array(t.string)),
   groups: optionFromNullable(t.array(t.string)),
 });
@@ -66,17 +67,16 @@ export const Uncategorized = t.strict(
     type: UNCATEGORIZED,
     title: t.string,
     startDate: DateFromISOString,
-    endDate: t.union([DateFromISOString, t.undefined]),
+    endDate: t.union([t.undefined, DateFromISOString]),
     location: t.union([t.undefined, Point]),
     images: t.array(
       t.strict({ id: t.string, location: t.string, description: t.string })
     ),
-    links: t.array(EventLink),
+    // links: t.array(EventLink),
     actors: t.array(t.string),
     groups: t.array(t.string),
     groupsMembers: t.array(t.string),
     topics: t.array(t.string),
-
     body: t.string,
   },
   UNCATEGORIZED.value

@@ -1,17 +1,33 @@
 import { fc } from "@econnessione/core/tests";
 import * as http from "@econnessione/shared/io/http";
 import { EventArb, ImageArb } from "@econnessione/shared/tests";
+import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
+import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventEntity } from "../../../entities/Event.entity";
+import { GroupMemberEntity } from "../../../entities/GroupMember.entity";
 
 describe("Edit Event", () => {
   let appTest: AppTest,
     authorizationToken: string,
-    [event] = fc.sample(EventArb, 1).map((e) => ({
+    [actor] = fc.sample(ActorArb, 1).map((a) => ({
+      ...a,
+      memberIn: [],
+    })),
+    [group] = fc.sample(GroupArb, 1),
+    groupMember = {
+      id: fc.sample(fc.uuid(), 1)[0],
+      actor,
+      group,
+      startDate: new Date(),
+      body: "a group member",
+    },
+    [event] = fc.sample(EventArb, 1).map(({ endDate, ...e }) => ({
       ...e,
       images: [],
-      links: [],
       topics: [],
       groups: [],
       actors: [],
@@ -21,12 +37,18 @@ describe("Edit Event", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
+    await appTest.ctx.db.save(ActorEntity, [actor] as any[])();
+    await appTest.ctx.db.save(GroupEntity, [group] as any[])();
+    await appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])();
     const result = await appTest.ctx.db.save(EventEntity, [event] as any[])();
+
+    delete (result as any).right[0].endDate;
 
     event = {
       ...event,
       ...(result as any).right[0],
     };
+
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
       appTest.ctx.env.JWT_SECRET
@@ -35,6 +57,9 @@ describe("Edit Event", () => {
 
   afterAll(async () => {
     await appTest.ctx.db.delete(EventEntity, [event.id])();
+    await appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id])();
+    await appTest.ctx.db.delete(ActorEntity, [actor.id])();
+    await appTest.ctx.db.delete(GroupEntity, [group.id])();
     await appTest.ctx.db.close()();
   });
 
@@ -64,7 +89,6 @@ describe("Edit Event", () => {
 
     expect(body).toMatchObject({
       ...event,
-      endDate: event.endDate ? event.endDate.toISOString() : undefined,
       createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,
     });
@@ -80,7 +104,6 @@ describe("Edit Event", () => {
       title: "First event",
       startDate: new Date().toISOString(),
       images,
-      links: [],
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
@@ -101,7 +124,6 @@ describe("Edit Event", () => {
     };
     expect(body).toMatchObject({
       ...event,
-      endDate: event.endDate ? event.endDate.toISOString() : undefined,
       createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,
     });
@@ -112,7 +134,6 @@ describe("Edit Event", () => {
       ...event,
       title: "Event with links",
       startDate: new Date().toISOString(),
-      links: [],
       images: [],
     };
     const response = await appTest.req
@@ -130,7 +151,81 @@ describe("Edit Event", () => {
     };
     expect(body).toMatchObject({
       ...event,
-      endDate: event.endDate ? event.endDate.toISOString() : undefined,
+      createdAt: event.createdAt.toISOString(),
+      updatedAt: body.updatedAt,
+    });
+  });
+
+  test("Should edit event actors", async () => {
+    const eventData = {
+      ...event,
+      actors: [actor.id],
+    };
+    const response = await appTest.req
+      .put(`/v1/events/${event.id}`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+
+    expect(response.status).toEqual(200);
+
+    event = {
+      ...event,
+      ...(eventData as any),
+    };
+    expect(body).toMatchObject({
+      ...event,
+      createdAt: event.createdAt.toISOString(),
+      updatedAt: body.updatedAt,
+    });
+  });
+
+  test("Should edit event groups", async () => {
+    const eventData = {
+      ...event,
+      groups: [group.id],
+    };
+    const response = await appTest.req
+      .put(`/v1/events/${event.id}`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+
+    expect(response.status).toEqual(200);
+
+    event = {
+      ...event,
+      ...(eventData as any),
+    };
+    expect(body).toMatchObject({
+      ...event,
+      createdAt: event.createdAt.toISOString(),
+      updatedAt: body.updatedAt,
+    });
+  });
+
+  test("Should edit event group members", async () => {
+    const eventData = {
+      ...event,
+      groupsMembers: [groupMember.id],
+    };
+    const response = await appTest.req
+      .put(`/v1/events/${event.id}`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+
+    expect(response.status).toEqual(200);
+
+    event = {
+      ...event,
+      ...(eventData as any),
+    };
+    expect(body).toMatchObject({
+      ...event,
       createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,
     });

@@ -8,12 +8,16 @@ import {
   Create,
   CreateProps,
   Datagrid,
+  ReferenceInput,
   DateField,
+  DateInput,
+  AutocompleteInput,
   Edit,
   EditProps,
   FormDataConsumer,
   FormTab,
   ImageField,
+  ArrayInput,
   ImageInput,
   List,
   ListProps,
@@ -23,13 +27,15 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  SimpleFormIterator,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
+import { WebPreviewButton } from "./Common/WebPreviewButton";
 
 export const ActorList: React.FC<ListProps> = (props) => (
-  <List {...props} resource="actors">
+  <List {...props} resource="actors" perPage={50}>
     <Datagrid rowClick="edit">
       <TextField label="Full Name" source="fullName" />
       <TextField label="username" source="username" />
@@ -44,7 +50,34 @@ const EditTitle: React.FC = ({ record }: any) => {
 };
 
 export const ActorEdit: React.FC<EditProps> = (props) => (
-  <Edit title={<EditTitle {...props} />} {...props}>
+  <Edit
+    title={<EditTitle {...props} />}
+    {...props}
+    actions={
+      <>
+        <WebPreviewButton resource="actors" record={{ id: props.id } as any} />
+      </>
+    }
+    transform={({ newMemberIn, ...a }) => {
+      const memberIn = a.memberIn.concat(
+        newMemberIn
+          ? newMemberIn.map((m: any) => ({
+              ...m,
+              endDate:
+                m.endDate === ""
+                  ? undefined
+                  : new Date(m.endDate).toISOString(),
+            }))
+          : []
+      );
+      const payload = {
+        ...a,
+        memberIn,
+      };
+
+      return payload;
+    }}
+  >
     <TabbedForm>
       <FormTab label="generals">
         <ImageField source="avatar" />
@@ -65,11 +98,21 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
       </FormTab>
 
       <FormTab label="Groups">
-        <ReferenceArrayField source="groups" reference="groups-members">
+        <ArrayInput source="newMemberIn">
+          <SimpleFormIterator>
+            <ReferenceInput source="group" reference="groups">
+              <AutocompleteInput optionText="name" />
+            </ReferenceInput>
+            <DateInput source="startDate" />
+            <DateInput source="endDate" />
+          </SimpleFormIterator>
+        </ArrayInput>
+        <ReferenceArrayField source="memberIn" reference="groups-members">
           <Datagrid rowClick="edit">
             <TextField source="id" />
-            <ImageField source="avatar" />
-            <TextField source="name" />
+            <TextField source="group.name" />
+            <DateField source="startDate" />
+            <DateField source="endDate" />
           </Datagrid>
         </ReferenceArrayField>
       </FormTab>
@@ -88,10 +131,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             return pipe(
               http.Actor.Actor.decode(formData),
               E.fold(renderValidationErrors, (p) => (
-                <ActorPageContent
-                  {...p}
-                  metadata={{ Protest: [], Arrest: [], ProjectTransaction: [] }}
-                />
+                <ActorPageContent actor={p} groups={[]} />
               ))
             );
           }}

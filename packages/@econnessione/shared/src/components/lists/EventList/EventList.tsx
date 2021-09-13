@@ -23,7 +23,6 @@ export const EventListItem: React.FC<EventListItemProps> = ({
         actors={props.actors}
         groups={props.groups}
         topics={[]}
-        links={[]}
       />
     );
   }

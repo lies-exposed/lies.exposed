@@ -2,10 +2,7 @@ import { EventPageContent } from "@econnessione/shared/components/EventPageConte
 import { http } from "@econnessione/shared/io";
 import { Actor } from "@econnessione/shared/io/http/Actor";
 import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
-import { apiProvider } from "client/HTTPAPI";
-import { uploadImages } from "client/MediaAPI";
 import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
@@ -28,13 +25,14 @@ import {
   ImageInput,
   List,
   ListProps,
-  NumberField,
+  Record,
   ReferenceArrayField,
   ReferenceArrayInput,
+  ReferenceManyField,
+  ReferenceField,
   required,
   SelectArrayInput,
   SimpleFormIterator,
-  SingleFieldList,
   TabbedForm,
   TextField,
   TextInput,
@@ -52,11 +50,32 @@ const EventsFilter: React.FC = (props: any) => {
       <ReferenceArrayInput source="groups" reference="groups" alwaysOn>
         <AutocompleteArrayInput optionText="name" />
       </ReferenceArrayInput>
-      <ReferenceArrayInput source="actors" reference="actors" alwaysOn>
+      <ReferenceArrayInput
+        source="actors"
+        reference="actors"
+        alwaysOn
+        filterToQuery={(q: string) => ({ fullName: q })}
+      >
         <AutocompleteArrayInput
           optionText={(a: Partial<Actor>) =>
             a.id ? `${a.fullName}` : "No actor"
           }
+        />
+      </ReferenceArrayInput>
+      <ReferenceArrayInput
+        source="groupsMembers"
+        reference="groups-members"
+        filterToQuery={(q: string) => ({
+          search: [q],
+        })}
+      >
+        <AutocompleteArrayInput
+          source="id"
+          optionText={(r: any) => {
+            return r?.actor && r?.group
+              ? `${r.actor.fullName} ${r.group.name}`
+              : "No group members";
+          }}
         />
       </ReferenceArrayInput>
     </Filter>
@@ -68,21 +87,14 @@ export const EventList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="location.coordinates" />
-      <ReferenceArrayField source="groupsMembers" reference="groups-members">
-        <SingleFieldList>
-          <AvatarField source="actor.avatar" />
-        </SingleFieldList>
-      </ReferenceArrayField>
-      <ReferenceArrayField source="actors" reference="actors">
-        <SingleFieldList>
-          <AvatarField source="avatar" />
-        </SingleFieldList>
-      </ReferenceArrayField>
-      <ReferenceArrayField source="groups" reference="groups">
-        <SingleFieldList>
-          <AvatarField source="avatar" />
-        </SingleFieldList>
-      </ReferenceArrayField>
+      <FunctionField
+        source="groups"
+        render={(r: Record | undefined) => (r ? r.actors.length : 0)}
+      />
+      <FunctionField
+        sourc="groups"
+        render={(r: Record | undefined) => (r ? r.groups.length : 0)}
+      />
       <FunctionField source="links" render={(r: any) => r.links.length} />
       <DateField source="startDate" />
       <DateField source="endDate" />
@@ -93,7 +105,7 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Events {record.fullName}</span>;
+  return <span>Events {record.title}</span>;
 };
 
 export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
@@ -101,10 +113,15 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
     title={<EditTitle {...props} />}
     {...props}
     transform={(r) => {
+      const actors = r.actors.concat(r.newActors ?? []);
+      const groups = r.groups.concat(r.newGroups ?? []);
+      const links = r.links.concat(r.newLinks ?? []);
       return {
         ...r,
         endDate: r.endDate === "" ? undefined : r.endDate,
-        links: r.links.concat(r.newLinks ?? []),
+        actors,
+        groups,
+        links,
       };
     }}
   >
@@ -121,8 +138,12 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="location" type={GeometryType.POINT} />
       </FormTab>
       <FormTab label="Actors">
-        <ReferenceArrayInput source="actors" reference="actors">
-          <SelectArrayInput optionText="fullName" />
+        <ReferenceArrayInput
+          source="newActors"
+          reference="actors"
+          filterToQuery={(q: string) => ({ fullName: q })}
+        >
+          <AutocompleteArrayInput source="id" optionText="fullName" />
         </ReferenceArrayInput>
         <ReferenceArrayField source="actors" reference="actors">
           <Datagrid rowClick="edit">
@@ -133,30 +154,37 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Group Members">
-        <ReferenceArrayInput source="groupsMembers" reference="groups-members">
-          <SelectArrayInput
+        <ReferenceArrayInput
+          source="newGroupsMembers"
+          reference="groups-members"
+        >
+          <AutocompleteArrayInput
+            source="id"
             optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
           />
         </ReferenceArrayInput>
-        <ReferenceArrayField source="groupsMembers" reference="groups-members">
+        <ReferenceManyField target="groupsMembers" reference="groups-members">
           <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField source="name" />
-            <ImageField source="avatar" fullWidth={false} />
+            <ReferenceField source="id" reference="groups-members">
+              <TextField source="id" />
+            </ReferenceField>
+            <TextField source="actor.fullName" />
+            <TextField source="group.name" />
+            <DateField source="startDate" />
           </Datagrid>
-        </ReferenceArrayField>
+        </ReferenceManyField>
       </FormTab>
       <FormTab label="Groups">
-        <ReferenceArrayInput source="groups" reference="groups">
-          <SelectArrayInput optionText="name" />
+        <ReferenceArrayInput source="newGroups" reference="groups">
+          <AutocompleteArrayInput source="id" optionText="name" />
         </ReferenceArrayInput>
-        <ReferenceArrayField source="groups" reference="groups">
+        <ReferenceManyField target="groups" reference="groups">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
-        </ReferenceArrayField>
+        </ReferenceManyField>
       </FormTab>
       <FormTab label="Images">
         <ArrayInput source="newImages">
@@ -196,7 +224,12 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
             return pipe(
               http.Events.Uncategorized.Uncategorized.decode(formData),
               E.fold(renderValidationErrors, (p) => (
-                <EventPageContent event={p} actors={[]} groups={[]} />
+                <EventPageContent
+                  event={p}
+                  actors={[]}
+                  groups={[]}
+                  links={[]}
+                />
               ))
             );
           }}
