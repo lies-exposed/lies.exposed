@@ -8,6 +8,7 @@ import * as distribution from "./distribution/parseDistribution";
 import * as eudr from "./eudr/parseEUDRData";
 import { TotalsReporter } from "./reporters/TotalReporter";
 import * as vaers from "./vaers/parseVAERSData";
+import * as who from "./who/who.parse";
 
 export const runTotalsReport = TotalsReporter({
   importPaths: [
@@ -72,11 +73,11 @@ const parse = (opts: ParseOpts): TE.TaskEither<Error, void> => {
 parse({
   vaers: {
     manufaturer: false,
-    totals: true,
+    totals: false,
   },
   eudr: {
     manufaturer: false,
-    totals: true,
+    totals: false,
   },
   distribution: {
     manufaturer: false,
@@ -86,3 +87,10 @@ parse({
   console.log(e);
   process.exit();
 });
+
+who
+  .runTotals()()
+  .catch((e) => {
+    console.error(e);
+    process.exit();
+  });

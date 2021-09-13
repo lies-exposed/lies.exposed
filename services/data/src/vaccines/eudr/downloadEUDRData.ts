@@ -21,6 +21,7 @@ import {
   PuppeteerProvider,
   toPuppeteerError,
 } from "@econnessione/shared/providers/Puppeteer";
+import { differenceInDays } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -29,7 +30,7 @@ import pup from "puppeteer-extra";
 
 const DATA_DIR_PATH = path.resolve(
   __dirname,
-  "../../../public/covid19/vaccines/eudr"
+  "../../../public/covid19/vaccines/eudr/import"
 );
 
 const sleep = (ms: number): Promise<void> =>
@@ -124,10 +125,15 @@ export const GetDownloadCSV =
         getFilePath(manufacturer, { gender, year, ageGroup })
       );
 
-      // if (fs.existsSync(newDownloadPath)) {
-      //   log.debug.log("File %s already exists, exiting..", newDownloadPath);
-      //   return;
-      // }
+      if (fs.existsSync(newDownloadPath)) {
+        log.debug.log("File %s already exists at path %s", newDownloadPath);
+        const fileStat = fs.statSync(newDownloadPath);
+        const daysDelta = differenceInDays(new Date(), fileStat.mtime);
+        if (daysDelta === 0) {
+          log.debug.log("File is already up to date %s", fileStat.mtime);
+          return;
+        }
+      }
 
       log.debug.log("Processing %O", {
         year,

@@ -20,7 +20,8 @@
     "debug": "^4.3.2",
     "express": "^4.17.1",
     "fp-ts": "^2.11.1",
-    "io-ts": "^2.2.16"
+    "io-ts": "^2.2.16",
+    "io-ts-types": "^0.5.16"
   },
   "devDependencies": {
     "prettier": "^2.2.1",

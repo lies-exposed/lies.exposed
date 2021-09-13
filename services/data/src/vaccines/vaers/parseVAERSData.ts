@@ -153,6 +153,7 @@ const toVaccineEntry = (
   const death18To64Years = age && age >= 18 && age <= 64 ? died : 0;
   const death65To85Years = age && age >= 65 && age <= 85 ? died : 0;
   const deathMoreThan85Years = age && age > 85 ? died : 0;
+  const deathNotSpecifiedYears = !age ? died : 0;
 
   const injuries = [
     symptom?.SYMPTOM1,
@@ -175,6 +176,7 @@ const toVaccineEntry = (
     death_18_64_years: death18To64Years,
     death_65_85_years: death65To85Years,
     death_more_than_85_years: deathMoreThan85Years,
+    death_years_not_specified: deathNotSpecifiedYears,
   };
 };
 

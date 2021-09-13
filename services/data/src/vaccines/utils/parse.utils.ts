@@ -5,17 +5,33 @@ import { groupBy } from "@econnessione/shared/utils/array.utils";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
 import * as Eq from "fp-ts/lib/Eq";
+import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import { VaccineEntry } from "../types";
 
+const sortByDate = pipe(
+  D.Ord,
+  Ord.contramap<Date, VaccineEntry>((d) => d.date)
+);
+
+const eqVaccineDate = pipe(
+  D.eqDate,
+  Eq.contramap<Date, VaccineEntry>((d) => d.date)
+);
+
 export const mergeByDate = (data: VaccineEntry[]): VaccineEntry[] => {
   return pipe(
     data,
-    A.sort(Ord.contramap<Date, VaccineEntry>((d) => d.date)(D.Ord)),
-    groupBy(Eq.contramap<Date, VaccineEntry>((d) => d.date)(D.eqDate)),
-    A.reduce([] as VaccineEntry[], (acc, v) => {
-      return acc.concat(reduceToDateEntry(v[0], A.takeRight(v.length - 1)(v)));
+    A.sort(sortByDate),
+    groupBy(eqVaccineDate),
+    A.reduce([] as VaccineEntry[], (acc, entriesByDate) => {
+      const rest = pipe(
+        entriesByDate,
+        A.tail,
+        O.getOrElse((): VaccineEntry[] => [])
+      );
+      return acc.concat(reduceToDateEntry(entriesByDate[0], rest));
     })
   );
 };
@@ -78,6 +94,7 @@ export const computeTotals = (data: VaccineEntry[]): VaccineEntry[] => {
         total_death_18_64_years: 0,
         total_death_65_85_years: 0,
         total_death_more_than_85_years: 0,
+        total_death_years_not_specified: 0,
         results: [] as VaccineDatum[],
       },
       (acc, v) => {
@@ -99,6 +116,8 @@ export const computeTotals = (data: VaccineEntry[]): VaccineEntry[] => {
           acc.total_death_65_85_years + v.death_65_85_years;
         const total_death_more_than_85_years =
           acc.total_death_more_than_85_years + v.death_more_than_85_years;
+        const total_death_years_not_specified =
+          acc.total_death_years_not_specified + v.death_years_not_specified;
 
         const result = {
           ...v,
@@ -113,6 +132,7 @@ export const computeTotals = (data: VaccineEntry[]): VaccineEntry[] => {
           total_death_18_64_years,
           total_death_65_85_years,
           total_death_more_than_85_years,
+          total_death_years_not_specified,
         };
         return {
           date: v.date,
@@ -127,6 +147,7 @@ export const computeTotals = (data: VaccineEntry[]): VaccineEntry[] => {
           total_death_18_64_years,
           total_death_65_85_years,
           total_death_more_than_85_years,
+          total_death_years_not_specified,
           results: acc.results.concat(result),
         };
       }
