@@ -3,13 +3,12 @@
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import { WHOCovid19GlobalData } from "@econnessione/shared/io/http/covid/COVIDDailyDatum";
-import { groupBy } from "@econnessione/shared/utils/array.utils";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
 import { formatISO } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
 import * as Eq from "fp-ts/lib/Eq";
-import * as O from "fp-ts/lib/Option";
+import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as Ord from "fp-ts/lib/Ord";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -22,10 +21,10 @@ const WHO_DATA_IMPORT_DIR = path.resolve(WHO_DATA_RESULT_DIR, "import");
 
 export const reduceToDateEntry = (
   init: WHOCovid19GlobalData,
-  results: WHOCovid19GlobalData[]
+  rest: WHOCovid19GlobalData[]
 ): WHOCovid19GlobalData => {
   return pipe(
-    results,
+    rest,
     A.reduce(init, (acc, v) => {
       return {
         Country: "World",
@@ -52,20 +51,19 @@ const eqVaccineDate = pipe(
 );
 
 export const mergeByDate = (
-  data: WHOCovid19GlobalData[]
-): WHOCovid19GlobalData[] => {
+  data: NEA.NonEmptyArray<WHOCovid19GlobalData>
+): NEA.NonEmptyArray<WHOCovid19GlobalData> => {
   return pipe(
     data,
-    A.sort(sortByDate),
-    groupBy(eqVaccineDate),
-    A.reduce([] as WHOCovid19GlobalData[], (acc, entriesByDate) => {
-      const rest = pipe(
-        entriesByDate,
-        A.tail,
-        O.getOrElse((): WHOCovid19GlobalData[] => [])
-      );
-      return acc.concat(reduceToDateEntry(entriesByDate[0], rest));
-    })
+    NEA.sort(sortByDate),
+    NEA.group(eqVaccineDate),
+    A.reduce(
+      [] as any as NEA.NonEmptyArray<WHOCovid19GlobalData>,
+      (acc, entriesByDate) => {
+        const [init, ...rest] = entriesByDate;
+        return NEA.concat([reduceToDateEntry(init, rest)])(acc);
+      }
+    )
   );
 };
 

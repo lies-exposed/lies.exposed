@@ -1,9 +1,8 @@
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
-import { BarStackHorizontalGraph } from "@components/Common/Graph/BarStackHorizontalGraph";
 import { StatAccordion } from "@components/Common/StatAccordion";
 import { VaccineADRGraph } from "@components/Graph/covid/vaccines/VaccineADRGraph";
-import { VaccineEffectivenessIndicators } from "@components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
+// import { VaccineEffectivenessIndicators } from "@components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
 import {
   a11yProps,
   TabPanel,
@@ -232,9 +231,9 @@ export class VaccineDashboard extends React.PureComponent<
                       />
                     </TabPanel>
                   </Grid>
-                  <Grid item md={12}>
+                  {/* <Grid item md={12}>
                     <VaccineEffectivenessIndicators />
-                  </Grid>
+                  </Grid> */}
                   <Grid item md={12}>
                     {/* <Grid item md={8}>
                         <ParentSize style={{ width: "100%" }}>
