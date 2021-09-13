@@ -1,9 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",
-    "rootDir": "./",
+    "rootDir": "./src",
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
       "./src/typings",
@@ -13,16 +13,7 @@
     "declaration": false,
     "skipLibCheck": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "paths": {
-      "@io/*": ["io/*"],
-      "@entities/*": ["entities/*"],
-      "@providers/*": ["providers/*"],
-      "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"],
-      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
-      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
-    }
+    "strictPropertyInitialization": false
   },
   "references": [
     {
@@ -32,5 +23,6 @@
       "path": "../../packages/@econnessione/shared"
     }
   ],
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["**/__tests__/**"]
 }

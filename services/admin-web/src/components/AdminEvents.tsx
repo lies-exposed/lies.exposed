@@ -1,10 +1,10 @@
 import { http } from "@econnessione/shared/io";
 import { Actor } from "@econnessione/shared/io/http/Actor";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { Box } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
-import { uuid } from "@utils/uuid";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -15,6 +15,7 @@ import {
   ArrayField,
   ArrayInput,
   AutocompleteArrayInput,
+  BooleanInput,
   Create,
   CreateProps,
   Datagrid,
@@ -33,7 +34,6 @@ import {
   Record,
   ReferenceArrayField,
   ReferenceArrayInput,
-  ReferenceManyField,
   ReferenceField,
   required,
   SelectArrayInput,
@@ -41,9 +41,6 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  Identifier,
-  BooleanField,
-  BooleanInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
@@ -285,7 +282,6 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
             <BooleanInput source="addNew" />
             <FormDataConsumer>
               {({ formData, scopedFormData, getSource, ...rest }) => {
-
                 const getSrc = getSource ?? ((s: string) => s);
 
                 if (scopedFormData?.addNew) {

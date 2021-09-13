@@ -1,11 +1,11 @@
 import { fc } from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { ImageArb, ProjectArb } from "@econnessione/shared/tests";
-import { ProjectEntity } from "@entities/Project.entity";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { ProjectEntity } from "@entities/Project.entity";
 
 describe("Edit Project ", () => {
   let appTest: AppTest, authorizationToken: string, project: ProjectEntity;

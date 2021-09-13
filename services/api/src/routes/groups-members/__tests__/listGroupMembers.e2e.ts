@@ -1,30 +1,30 @@
 import * as tests from "@econnessione/core/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
+import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("List Group Member", () => {
   let authorizationToken: string;
-  let Test: AppTest,
-    actors = tests.fc.sample(ActorArb, 1).map((a) => ({
-      ...a,
-      death: undefined,
-      memberIn: [],
-    })),
-    groups = tests.fc.sample(GroupArb, 1).map((g) => ({
-      ...g,
-      members: [],
-    })),
-    groupsMembers = groups.map((g) => ({
-      actor: actors[0],
-      group: g,
-      startDate: new Date(),
-      body: "Group member",
-      id: tests.fc.sample(tests.fc.uuid(), 1)[0],
-    }));
+  let Test: AppTest;
+  const actors = tests.fc.sample(ActorArb, 1).map((a) => ({
+    ...a,
+    death: undefined,
+    memberIn: [],
+  }));
+  const groups = tests.fc.sample(GroupArb, 1).map((g) => ({
+    ...g,
+    members: [],
+  }));
+  const groupsMembers = groups.map((g) => ({
+    actor: actors[0],
+    group: g,
+    startDate: new Date(),
+    body: "Group member",
+    id: tests.fc.sample(tests.fc.uuid(), 1)[0],
+  }));
 
   beforeAll(async () => {
     Test = await initAppTest();
@@ -60,13 +60,13 @@ describe("List Group Member", () => {
       .set("Authorization", authorizationToken)
       .query({ search });
 
-    const expectedResults = groupsMembers.filter(
-      (g) => g.actor.fullName.indexOf(search) > -1
+    const expectedResults = groupsMembers.filter((g) =>
+      g.actor.fullName.includes(search)
     );
 
     expect(response.status).toEqual(200);
 
-    response.body.data.map((d: any, i: number) => {
+    response.body.data.forEach((d: any, i: number): void => {
       const {
         createdAt,
         updatedAt: groupMemberUDate,

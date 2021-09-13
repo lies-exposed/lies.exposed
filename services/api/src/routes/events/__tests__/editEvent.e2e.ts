@@ -3,37 +3,37 @@ import * as http from "@econnessione/shared/io/http";
 import { EventArb, ImageArb } from "@econnessione/shared/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventEntity } from "../../../entities/Event.entity";
 import { GroupMemberEntity } from "../../../entities/GroupMember.entity";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 
 describe("Edit Event", () => {
-  let appTest: AppTest,
-    authorizationToken: string,
-    [actor] = fc.sample(ActorArb, 1).map((a) => ({
-      ...a,
-      memberIn: [],
-    })),
-    [group] = fc.sample(GroupArb, 1),
-    groupMember = {
-      id: fc.sample(fc.uuid(), 1)[0],
-      actor,
-      group,
-      startDate: new Date(),
-      body: "a group member",
-    },
-    [event] = fc.sample(EventArb, 1).map(({ endDate, ...e }) => ({
-      ...e,
-      images: [],
-      links: [],
-      topics: [],
-      groups: [],
-      actors: [],
-      groupsMembers: [],
-    }));
+  let appTest: AppTest;
+  let authorizationToken: string;
+  const [actor] = fc.sample(ActorArb, 1).map((a) => ({
+    ...a,
+    memberIn: [],
+  }));
+  const [group] = fc.sample(GroupArb, 1);
+  const groupMember = {
+    id: fc.sample(fc.uuid(), 1)[0],
+    actor,
+    group,
+    startDate: new Date(),
+    body: "a group member",
+  };
+  let [event] = fc.sample(EventArb, 1).map(({ endDate, ...e }) => ({
+    ...e,
+    images: [],
+    links: [],
+    topics: [],
+    groups: [],
+    actors: [],
+    groupsMembers: [],
+  }));
 
   beforeAll(async () => {
     appTest = await initAppTest();

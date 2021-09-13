@@ -1,38 +1,36 @@
 import { http } from "@econnessione/shared/io";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import { uuid } from "@utils/uuid";
-import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
+  ArrayInput,
+  AutocompleteInput,
   Create,
   CreateProps,
   Datagrid,
-  ReferenceInput,
   DateField,
   DateInput,
-  AutocompleteInput,
   Edit,
   EditProps,
   FormDataConsumer,
   FormTab,
   ImageField,
-  ArrayInput,
   ImageInput,
   List,
   ListProps,
+  Record,
   ReferenceArrayField,
+  ReferenceInput,
   ReferenceManyField,
   SimpleForm,
+  SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput,
-  SimpleFormIterator,
-  Record,
-  ReferenceArrayInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
