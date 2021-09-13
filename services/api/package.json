@@ -2,6 +2,7 @@
   "name": "api",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "version": "0.1.0",
+  "private": true,
   "scripts": {
     "clean": "rm -rf build",
     "start": "node -r dotenv/config build/run.js",
