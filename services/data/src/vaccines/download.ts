@@ -1,8 +1,35 @@
 /* eslint-disable no-console */
-import { run as runDistributionDownload } from "./distribution/parseDistribution";
-import { runDownload } from "./eudr/downloadEUDRData";
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
+import * as distrinbution from "./distribution/distribution.parse";
+import * as eudr from "./eudr/eudr.download";
+import * as who from "./who/who.download";
 
-Promise.all([runDistributionDownload()(), runDownload()()]).catch((e) => {
+interface DownloadOpts {
+  distribution: boolean;
+  eudr: boolean;
+  who: boolean;
+}
+
+const download = (opts: DownloadOpts): TE.TaskEither<Error, void> => {
+  return pipe(
+    sequenceS(TE.ApplicativePar)({
+      distribution: opts.distribution
+        ? distrinbution.run()
+        : TE.right(undefined),
+      eudr: opts.eudr ? eudr.runDownload() : TE.right(undefined),
+      who: opts.who ? who.run : TE.right(undefined),
+    }),
+    TE.map(() => undefined)
+  );
+};
+
+download({
+  eudr: false,
+  who: true,
+  distribution: false,
+})().catch((e) => {
   console.error(e);
   process.exit();
 });

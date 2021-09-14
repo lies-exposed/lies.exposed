@@ -14,6 +14,7 @@ const {
   total_injuries,
   total_severe,
   total_reported,
+  total_death_years_not_specified,
   ...vaccineDatumProps
 } = VaccineDatum.type.props;
 export const VaccineEntry = t.strict(

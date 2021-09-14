@@ -79,7 +79,6 @@ services:
     tty: false
     links:
       - api
-    restart: always
 
   admin-web:
     container_name: econnessione-admin-web
@@ -100,7 +99,6 @@ services:
     tty: false
     links:
       - api
-    restart: always
 
   data:
     container_name: econnessione-data
@@ -113,7 +111,6 @@ services:
     working_dir: /app/services/data
     command: yarn develop
     tty: false
-    restart: always
 
   storybook:
     container_name: econnessione-storybook
@@ -127,7 +124,6 @@ services:
     working_dir: /app/services/storybook
     command: yarn start
     tty: false
-    restart: always
 
 volumes:
   db-data: {}

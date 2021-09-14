@@ -96,6 +96,14 @@ const parseEUDRVigilanceDatum = (v: EUDRVIGILANCE): VaccineEntry => {
   const is18To64Years = patientAgeGroup === "18-64 Years";
   const is65To85Years = patientAgeGroup === "65-85 Years";
   const isMoreThan85Years = patientAgeGroup === "More than 85 Years";
+  const isYearsNotSpecified =
+    !is01Month &&
+    !is2Months2Years &&
+    !is3To12Years &&
+    !is12To17Years &&
+    !is18To64Years &&
+    !is65To85Years &&
+    !isMoreThan85Years;
 
   return {
     deaths: injuries.death,
@@ -106,6 +114,7 @@ const parseEUDRVigilanceDatum = (v: EUDRVIGILANCE): VaccineEntry => {
     death_18_64_years: is18To64Years ? injuries.death : 0,
     death_65_85_years: is65To85Years ? injuries.death : 0,
     death_more_than_85_years: isMoreThan85Years ? injuries.death : 0,
+    death_years_not_specified: isYearsNotSpecified ? injuries.death : 0,
     reported: 1,
     date: new Date(v["EV Gateway Receipt Date"].split(" ")[0]) ?? new Date(),
     severe: injuries.severe,
@@ -119,8 +128,6 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
     "../../../public/covid19/vaccines/eudr"
   );
   const importPath = path.resolve(outputPath, "import");
-
-  logger.debug.log("Importing vaccine data for date %s", importPath);
 
   const reduceToReport = ReportReducer(logger);
 

@@ -4,10 +4,11 @@ import { sleep } from "@econnessione/shared/utils/promise.utils";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import * as distribution from "./distribution/parseDistribution";
-import * as eudr from "./eudr/parseEUDRData";
+import * as distribution from "./distribution/distribution.parse";
+import * as eudr from "./eudr/eudr.parse";
 import { TotalsReporter } from "./reporters/TotalReporter";
 import * as vaers from "./vaers/parseVAERSData";
+import * as who from "./who/who.parse";
 
 export const runTotalsReport = TotalsReporter({
   importPaths: [
@@ -72,11 +73,11 @@ const parse = (opts: ParseOpts): TE.TaskEither<Error, void> => {
 parse({
   vaers: {
     manufaturer: false,
-    totals: true,
+    totals: false,
   },
   eudr: {
     manufaturer: false,
-    totals: true,
+    totals: false,
   },
   distribution: {
     manufaturer: false,
@@ -86,3 +87,10 @@ parse({
   console.log(e);
   process.exit();
 });
+
+who
+  .runTotals()()
+  .catch((e) => {
+    console.error(e);
+    process.exit();
+  });

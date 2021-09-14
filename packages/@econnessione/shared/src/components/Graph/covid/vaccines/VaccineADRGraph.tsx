@@ -1,8 +1,10 @@
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
+import { StatAccordion } from "@components/Common/StatAccordion";
 import {
   AgeGroup,
   EighteenToSixtyFourYears,
+  Manufacturer,
   MoreThanEightyFiveYears,
   NotSpecified,
   SixtyFiveToEightyfiveYears,
@@ -14,9 +16,6 @@ import {
 } from "@io/http/covid/VaccineDatum";
 import { VaccineDistributionDatum } from "@io/http/covid/VaccineDistributionDatum";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   FormControl,
   Grid,
@@ -27,10 +26,9 @@ import {
   Typography,
   TypographyProps,
 } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { jsonData } from "@providers/DataProvider";
 import { AxisBottom, AxisLeft, AxisRight } from "@vx/axis";
-import { curveBasis } from "@vx/curve";
+import { curveLinear } from "@vx/curve";
 import { localPoint } from "@vx/event";
 import { LinearGradient } from "@vx/gradient";
 import { Group } from "@vx/group";
@@ -45,9 +43,6 @@ import { isDate, formatISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
-
-// const eudrUpTo1MonthColor = "#456321";
-// const eudrUp2Months2Years = "#ed34ca";
 
 const ageGroupColors = {
   all: "#b623ad",
@@ -64,7 +59,7 @@ const ageGroupColors = {
 
 const getByAgeGroup =
   (map: Record<string, string>) =>
-  (ag: AgeGroup): string => {
+  (ag: AgeGroup | "all"): string => {
     const value = map[ag];
     if (value) {
       return value;
@@ -128,7 +123,7 @@ const getDistributionX: Accessor<VaccineDistributionDatum, Date> = (d) => {
 };
 
 const getDistributionY: Accessor<VaccineDistributionDatum, number> = (d) => {
-  return d.total_vaccinations;
+  return d.people_vaccinated;
 };
 
 const toMillion = (n: number): number => {
@@ -156,8 +151,10 @@ const getDatumTableData = (
     v.total_death_18_64_years,
     v.total_death_65_85_years,
     v.total_death_more_than_85_years,
+    v.total_death_years_not_specified,
+    v.total_deaths,
   ].map((v, i) => {
-    const ageGroup = AgeGroup.types[i].value;
+    const ageGroup = AgeGroup.types[i] ? AgeGroup.types[i].value : "all";
     const color = getAgeGroupColor(ageGroup);
     return [ageGroup, color, v];
   });
@@ -215,54 +212,6 @@ const VaccineDatumTable: React.FC<VaccineDatumTableProps> = ({
   );
 };
 
-interface StatAccordionProps {
-  summary: string;
-  caption: string;
-  data: Array<[string, string, number]>;
-}
-
-const StatAccordion: React.FC<StatAccordionProps> = ({
-  caption,
-  summary,
-  data,
-}) => {
-  return (
-    <Accordion>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        IconButtonProps={{
-          edge: "end",
-        }}
-        aria-controls="panel1a-content"
-        id="panel1a-header"
-      >
-        <Box display="flex" width="100%" flexDirection="column">
-          <Box display="flex">
-            <Typography variant="caption" style={{ width: "100%" }}>
-              {caption}
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="flex-end">
-            <Typography
-              variant="h3"
-              style={{
-                margin: 0,
-                textAlign: "right",
-                width: "100%",
-              }}
-            >
-              {summary}
-            </Typography>
-          </Box>
-        </Box>
-      </AccordionSummary>
-      <AccordionDetails>
-        <VaccineDatumTable data={data} />
-      </AccordionDetails>
-    </Accordion>
-  );
-};
-
 const renderTooltip = (data: VaccineDatum): JSX.Element => {
   return (
     <VaccineDatumTable
@@ -311,7 +260,11 @@ const VaccineADRGraphComponent = withTooltip<
   const xMax = width - margin.left - margin.right;
   const yMax = height - margin.top - margin.bottom;
 
-  const xScaleDomain = [new Date("2020-12-20"), new Date()];
+  const minDate =
+    data[0].date.getTime() >= distribution[0].date.getTime()
+      ? distribution[0].date
+      : data[0].date;
+  const xScaleDomain = [minDate, new Date()];
   const xScale = scaleTime<Date>({
     domain: xScaleDomain,
   });
@@ -322,9 +275,8 @@ const VaccineADRGraphComponent = withTooltip<
   );
 
   const currentTotalVaccinations =
-    distribution[distribution.length - 1].total_vaccinations;
-  const totalVaccinations =
-    typeof currentTotalVaccinations === "string" ? 0 : currentTotalVaccinations;
+    distribution[distribution.length - 1].people_vaccinated;
+  const totalVaccinations = currentTotalVaccinations;
   const eudrTodayDatum = data[data.length - 1];
 
   const totalDeaths =
@@ -421,8 +373,8 @@ const VaccineADRGraphComponent = withTooltip<
               x={(d) => xScale(getDistributionX(d))?.valueOf() ?? 0}
               y={(d) => yRightScale(getDistributionY(d)) ?? 0}
               stroke={`url('#${europeVaccineDistributionFirstDoseLineId}')`}
-              strokeWidth={1}
-              curve={curveBasis}
+              strokeWidth={2}
+              curve={curveLinear}
               shapeRendering="geometricPrecision"
             />
             <LinePath
@@ -433,9 +385,9 @@ const VaccineADRGraphComponent = withTooltip<
               }}
               y={(d) => yLeftScale(getReportY(d)) ?? 0}
               stroke={`url('#${eudrvigilanceLineId}')`}
-              strokeWidth={1}
+              strokeWidth={2}
               shapeRendering="geometricPrecision"
-              curve={curveBasis}
+              curve={curveLinear}
             />
             <AxisLeft
               scale={yLeftScale}
@@ -501,11 +453,6 @@ const adrReportRate100 = 100;
 const adrReportRate10 = 10;
 const adrReportRate1 = 1;
 
-const allManufacturer = "eudrvigilance";
-const pfizerManufacturer = "pfizer";
-const modernaManufacturer = "moderna";
-const astrazenecaManufacturer = "astrazeneca";
-
 interface VaccineADRGraphProps {
   queries: QR.QueryResult<Error, { data: { data: VaccineDatum[] } }>;
   distribution: VaccineDistributionDatum[];
@@ -518,8 +465,8 @@ const withQueries = declareQueries({
 export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
   ({ queries, distribution }) => {
     const [adrReportRate, setADRReportRate] = React.useState(adrReportRate100);
-    const [manufacturer, setManufacturer] = React.useState(allManufacturer);
-    const [ageGroup, setAgeGroup] = React.useState(undefined);
+    const [manufacturer, setManufacturer] = React.useState("All");
+    const [ageGroup, setAgeGroup] = React.useState("All" as any);
 
     const classes = useStyles();
 
@@ -552,7 +499,7 @@ export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
             const rateFactor = 100 / adrReportRate;
 
             const currentVaccinations =
-              distribution[distribution.length - 1].total_vaccinations;
+              distribution[distribution.length - 1].people_vaccinated;
             const totalVaccinations = currentVaccinations;
             const todayDatum = data[data.length - 1];
 
@@ -589,6 +536,25 @@ export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
                       </Select>
                     </FormControl>
                     <FormControl className={classes.formControl} fullWidth>
+                      <InputLabel id="age-group-select-label">
+                        Age Group
+                      </InputLabel>
+                      <Select
+                        labelId="age-group-select-label"
+                        id="age-group-select"
+                        value={ageGroup}
+                        onChange={handlePatientAgeGroupChange}
+                        MenuProps={MenuProps}
+                      >
+                        <MenuItem value={"All"}>All</MenuItem>
+                        {AgeGroup.types.map((t) => (
+                          <MenuItem key={t.value} value={t.value}>
+                            {t.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <FormControl className={classes.formControl} fullWidth>
                       <InputLabel id="manufacturer-select-label">
                         Manufacturer
                       </InputLabel>
@@ -599,38 +565,19 @@ export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
                         onChange={handleManufacturerChange}
                         MenuProps={MenuProps}
                       >
-                        <MenuItem value={allManufacturer}>All</MenuItem>
-                        <MenuItem value={pfizerManufacturer}>Pfizer</MenuItem>
-                        <MenuItem value={modernaManufacturer}>Moderna</MenuItem>
-                        <MenuItem value={astrazenecaManufacturer}>
-                          {astrazenecaManufacturer}
+                        <MenuItem key={"All"} value={"All"}>
+                          All
                         </MenuItem>
+                        {Manufacturer.types.map((t) => (
+                          <MenuItem key={t.value} value={t.value}>
+                            {t.name}
+                          </MenuItem>
+                        ))}
                       </Select>
                     </FormControl>
                   </Grid>
                   <Grid item md={10}>
                     <Grid container spacing={2}>
-                      <Grid item md={3}>
-                        <FormControl fullWidth>
-                          <InputLabel id="age-group-select-label">
-                            Age Group
-                          </InputLabel>
-                          <Select
-                            labelId="age-group-select-label"
-                            id="age-group-simple-select"
-                            value={ageGroup}
-                            onChange={handlePatientAgeGroupChange}
-                            MenuProps={MenuProps}
-                          >
-                            <MenuItem value={undefined}>All</MenuItem>
-                            {AgeGroup.types.map((t) => (
-                              <MenuItem key={t.value} value={t.value}>
-                                {t.value}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>
                       <Grid item md={12}>
                         <ParentSize style={{ width: "100%" }}>
                           {({ width }) => {
@@ -655,10 +602,14 @@ export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
                     <StatAccordion
                       caption={"Total ADRs"}
                       summary={totalADRs.toFixed(0)}
-                      data={[
-                        ["injuries", "yellow", todayDatum.total_injuries],
-                        ["severe", "red", todayDatum.severe],
-                      ]}
+                      details={
+                        <VaccineDatumTable
+                          data={[
+                            ["injuries", "yellow", todayDatum.total_injuries],
+                            ["severe", "red", todayDatum.severe],
+                          ]}
+                        />
+                      }
                     />
                     <Typography variant="caption">
                       Report rate {ADRRatio.toFixed(4)}%
@@ -668,33 +619,39 @@ export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
                     <StatAccordion
                       caption="Total deaths"
                       summary={totalDeaths.toFixed(0)}
-                      data={[
-                        todayDatum.total_death_0_1_month,
-                        todayDatum.total_death_2_month_2_years,
-                        todayDatum.total_death_3_11_years,
-                        todayDatum.total_death_12_17_years,
-                        todayDatum.total_death_18_64_years,
-                        todayDatum.total_death_65_85_years,
-                        todayDatum.total_death_more_than_85_years,
-                      ].map((v, i) => {
-                        const ageGroup = AgeGroup.types[i].value;
-                        const color = getAgeGroupColor(ageGroup);
-                        return [ageGroup, color, v];
-                      })}
+                      details={
+                        <VaccineDatumTable
+                          data={[
+                            todayDatum.total_death_0_1_month,
+                            todayDatum.total_death_2_month_2_years,
+                            todayDatum.total_death_3_11_years,
+                            todayDatum.total_death_12_17_years,
+                            todayDatum.total_death_18_64_years,
+                            todayDatum.total_death_65_85_years,
+                            todayDatum.total_death_more_than_85_years,
+                            todayDatum.total_death_years_not_specified,
+                            todayDatum.total_deaths,
+                          ].map((v, i) => {
+                            const ageGroup = AgeGroup.types[i]
+                              ? AgeGroup.types[i].value
+                              : "all";
+                            const color = getAgeGroupColor(ageGroup);
+                            return [ageGroup, color, v];
+                          })}
+                        />
+                      }
                     />
                   </Grid>
                   <Grid item md={3} direction="column">
                     <StatAccordion
                       summary={deathRate.toFixed(6)}
                       caption="Death rate (%)"
-                      data={[]}
                     />
                   </Grid>
                   <Grid item md={3} direction="column">
                     <StatAccordion
                       caption="Death projection on world population (million)"
                       summary={toMillion(estimatedDeaths).toFixed(2)}
-                      data={[]}
                     />
                   </Grid>
                 </Grid>

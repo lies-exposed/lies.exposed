@@ -18,6 +18,10 @@ export const Covid19VAERS = t.literal("covid19/vaccines/vaers/vaers.csv");
 
 export const Covid19ADRs = t.literal("covid19/vaccines/adr.csv");
 
+export const CovidWHOWorldData = t.literal(
+  "covid19/who/who-covid-19-world-data.csv"
+);
+
 export const ClimateChangeHistoryOfSummits = t.literal(
   "climate-change/history-of-climate-summits.csv"
 );
@@ -32,6 +36,7 @@ export const GraphId = t.union(
     Covid19EUDRAstrazeneca,
     Covid19VAERS,
     Covid19ADRs,
+    CovidWHOWorldData,
     Covid19WorldVaccineDistribution,
     ClimateChangeHistoryOfSummits,
     ClimateChangeForecast,
