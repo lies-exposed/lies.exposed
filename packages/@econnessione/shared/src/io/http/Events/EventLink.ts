@@ -14,6 +14,7 @@ export const EventLink = t.strict(
   {
     id: t.string,
     ...CreateEventLink.type.props,
+    url: t.string,
   },
   "EventLink"
 );

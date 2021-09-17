@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 /* eslint-disable no-console */
 import * as mdx from "@econnessione/shared/mdx";
-import { ToggleOffOutlined } from "@material-ui/icons";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import * as IOE from "fp-ts/lib/IOEither";

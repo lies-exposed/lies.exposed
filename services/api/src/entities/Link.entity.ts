@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  ManyToOne,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -22,10 +22,10 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   description: string;
 
-  @ManyToOne(() => EventEntity, (e) => e.links)
+  @ManyToMany(() => EventEntity, (e) => e.links, { cascade: false })
   event: EventEntity;
 
-  @ManyToOne(() => DeathEventEntity, (e) => e.news)
+  @ManyToMany(() => DeathEventEntity, (e) => e.news, { cascade: false })
   death: DeathEventEntity;
 
   @CreateDateColumn()

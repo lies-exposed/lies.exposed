@@ -14,7 +14,6 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
         loadRelationIds: true,
       }),
       TE.chainEitherK(toActorIO),
-      ctx.logger.debug.logInTaskEither("Sending actor %O"),
       TE.map((actor) => ({
         body: {
           data: actor,

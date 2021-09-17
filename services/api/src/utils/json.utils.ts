@@ -13,10 +13,7 @@ export const GetWriteJSON =
   (results: any): TE.TaskEither<Error, void> => {
     return TE.fromIOEither(
       IOE.tryCatch(() => {
-        log.debug.log(
-          `Writing data at %s`,
-          outputPath
-        );
+        log.debug.log(`Writing data at %s`, outputPath);
         fs.writeFileSync(outputPath, JSON.stringify(results, null, 2));
         log.debug.log(`Data written!`);
       }, E.toError)

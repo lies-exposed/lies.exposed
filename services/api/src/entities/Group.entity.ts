@@ -13,8 +13,6 @@ import { GroupMemberEntity } from "./GroupMember.entity";
 
 @Entity("group")
 export class GroupEntity {
-  type: "GroupFrontmatter";
-
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -33,7 +31,10 @@ export class GroupEntity {
   })
   kind: io.http.Group.GroupKind;
 
-  @OneToMany(() => GroupMemberEntity, (member) => member.group)
+  @OneToMany(() => GroupMemberEntity, (member) => member.group, {
+    nullable: true,
+    cascade: true,
+  })
   members: GroupMemberEntity[];
 
   @ManyToMany(() => EventEntity, (a) => a.groups, { nullable: true })

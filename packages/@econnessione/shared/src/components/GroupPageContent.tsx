@@ -59,20 +59,20 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           </Grid>
         </Grid>
         <Grid container style={{ marginBottom: 20 }}>
-          <Grid md={6}>
+          <Grid item md={6}>
             <Typography variant="h6">Sotto Gruppi</Typography>
             <GroupList groups={[]} onGroupClick={() => {}} />
           </Grid>
 
-          <Grid md={6}>
+          <Grid item md={6}>
             <Typography variant="h6">Members</Typography>
             <ActorList
-              actors={groupsMembers.map((a) => ({
-                ...a.actor,
-                selected: true,
+              actors={groupsMembers.map((g) => ({
+                ...g.actor,
+                selected: false,
               }))}
               onActorClick={onMemberClick}
-              avatarSize="medium"
+              avatarSize="small"
             />
           </Grid>
         </Grid>

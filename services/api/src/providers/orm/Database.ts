@@ -89,11 +89,12 @@ type GetDatabaseClient = (ctx: GetDatabaseClientCtx) => DatabaseClient;
 
 export const toError =
   (l: logger.Logger) =>
+  (override?: Partial<DBError>) =>
   (e: unknown): DBError => {
     l.error.log("An error occured %O", e);
     if (e instanceof Error) {
       return {
-        status: 500,
+        status: override?.status ?? 500,
         name: "DBError",
         message: e.message,
         details: {
@@ -103,8 +104,9 @@ export const toError =
         },
       };
     }
+
     return {
-      status: 500,
+      status: override?.status ?? 500,
       name: "DBError",
       message: "An error occured",
       details: {
@@ -123,7 +125,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       return pipe(
         TE.tryCatch(
           () => ctx.connection.manager.findOne(entity, options),
-          toError(ctx.logger)
+          toError(ctx.logger)()
         ),
         TE.map(O.fromNullable)
       );
@@ -136,14 +138,14 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.findOneOrFail(entity, options),
-        toError(ctx.logger)
+        toError(ctx.logger)({ status: 404 })
       );
     },
     find: (entity, options) => {
       ctx.logger.debug.log(`find %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
-        toError(ctx.logger)
+        toError(ctx.logger)()
       );
     },
     findAndCount: (entity, options) => {
@@ -154,14 +156,14 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.findAndCount(entity, options),
-        toError(ctx.logger)
+        toError(ctx.logger)()
       );
     },
     count: (entity, options) => {
       ctx.logger.debug.log(`count %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.count(entity, options),
-        toError(ctx.logger)
+        toError(ctx.logger)()
       );
     },
     save: <E, T extends DeepPartial<E>>(
@@ -169,18 +171,18 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       data: T[],
       options?: SaveOptions
     ) => {
-      ctx.logger.debug.log(
-        `save entity %s with data %O with data %O options %O`,
-        entity,
-        data,
-        options
-      );
+      // ctx.logger.debug.log(
+      //   `save entity %s with data %O with data %O options %O`,
+      //   entity,
+      //   data,
+      //   options
+      // );
       return TE.tryCatch(
         () =>
           ctx.connection.manager.save(entity, data, options) as any as Promise<
             E[]
           >,
-        toError(ctx.logger)
+        toError(ctx.logger)()
       );
     },
     update: (entity, criteria, data) => {
@@ -192,7 +194,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.update(entity, criteria, data),
-        toError(ctx.logger)
+        toError(ctx.logger)()
       );
     },
     delete: (entity, criteria) => {
@@ -203,7 +205,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.delete(entity, criteria),
-        toError(ctx.logger)
+        toError(ctx.logger)()
       );
     },
     transaction: <T>(
@@ -219,13 +221,14 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
               });
               return task(transactionClient)();
             }),
-          toError(ctx.logger)
+          toError(ctx.logger)()
         ),
         TE.chain(TE.fromEither)
       );
     },
-    execQuery: (lazyQ) => TE.tryCatch(lazyQ, toError(ctx.logger)),
-    close: () => TE.tryCatch(() => ctx.connection.close(), toError(ctx.logger)),
+    execQuery: (lazyQ) => TE.tryCatch(lazyQ, toError(ctx.logger)()),
+    close: () =>
+      TE.tryCatch(() => ctx.connection.close(), toError(ctx.logger)()),
   };
 };
 
@@ -255,17 +258,17 @@ const MakeDatabaseClient: MakeDatabaseClient =
         logger.debug.log(
           "The connection is already present in connection manager..."
         );
-        const conn = cm.get(connectionName)
+        const conn = cm.get(connectionName);
         return TE.tryCatch(
-          () => conn.isConnected ? Promise.resolve(conn): conn.connect(),
-          toError(logger)
+          () => (conn.isConnected ? Promise.resolve(conn) : conn.connect()),
+          toError(logger)()
         );
       }
 
       logger.debug.log("Connection %s not found, creating...", connectionName);
       logger.debug.log("Creating connection %O", opts);
 
-      return TE.tryCatch(() => cm.create(opts).connect(), toError(logger));
+      return TE.tryCatch(() => cm.create(opts).connect(), toError(logger)());
     };
 
     return pipe(

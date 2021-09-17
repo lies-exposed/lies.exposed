@@ -14,7 +14,7 @@ const publicDataProvider = http.APIRESTClient({
   url: process.env.REACT_APP_API_URL,
 });
 
-const dataProvider = http.APIRESTClient({
+export const dataProvider = http.APIRESTClient({
   url: process.env.REACT_APP_API_URL,
   getAuth: () => {
     const token = localStorage.getItem("auth");
@@ -49,14 +49,6 @@ export const authProvider: AuthProvider = {
 export const apiProvider: http.APIRESTClient = {
   ...dataProvider,
   create: (resource, params) => {
-    // if (resource === "actors") {
-    //   return createActor(dataProvider)(resource, params) as any;
-    // }
-
-    // if (resource === "groups") {
-    //   return createGroup(dataProvider)(resource, params) as any;
-    // }
-
     if (resource === "projects") {
       return createProject(dataProvider)(resource, params);
     }
@@ -73,10 +65,6 @@ export const apiProvider: http.APIRESTClient = {
 
     if (resource === "actors") {
       return editActor(dataProvider)(resource, params);
-    }
-
-    if (resource === "groups") {
-      return editGroup(dataProvider)(resource, params);
     }
 
     if (resource === "groups-members") {

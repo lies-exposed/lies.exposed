@@ -1,7 +1,17 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import SEO from "@components/SEO";
 import { Actor, Events, Group } from "@io/http";
-import { Typography } from "@material-ui/core";
+import { EventLink } from "@io/http/Events/EventLink";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Grid,
+  List,
+  ListItem,
+  Typography,
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -15,12 +25,14 @@ export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;
   actors: Actor.Actor[];
   groups: Group.Group[];
+  links: EventLink[];
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   event,
   actors,
   groups,
+  links,
 }) => {
   return (
     <MainContent>
@@ -56,7 +68,9 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               <h4>Groups</h4>
               <GroupList
                 groups={groups.map((a) => ({ ...a, selected: true }))}
-                onGroupClick={() => {}}
+                onGroupClick={async (g) => {
+                  await navigate(`/groups/${g.id}`);
+                }}
               />
             </div>
           )
@@ -81,6 +95,36 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           )
         )
       )}
+      <Grid item>
+        {pipe(
+          links,
+          O.fromPredicate((arr) => arr.length > 0),
+          O.map((links) => (
+            // eslint-disable-next-line react/jsx-key
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2a-content"
+                id={"link-accordion"}
+              >
+                <Typography variant="h6">Links</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <List>
+                  {links.map((l, i) => (
+                    <ListItem key={i}>
+                      <p>
+                        <a href={l.url}>{l.description}</a>
+                      </p>
+                    </ListItem>
+                  ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          )),
+          O.toNullable
+        )}
+      </Grid>
       <MarkdownRenderer>{event.body}</MarkdownRenderer>
     </MainContent>
   );

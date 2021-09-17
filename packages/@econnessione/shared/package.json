@@ -4,6 +4,7 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",
+  "private": true,
   "scripts": {
     "clean": "rm -rf lib",
     "build": "tsc -b",

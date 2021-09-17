@@ -1,10 +1,9 @@
 import { ActorList } from "@components/lists/ActorList";
 import GroupList from "@components/lists/GroupList";
 import TopicList from "@components/lists/TopicList";
-import { faMapMarker, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Actor, Events, Group, Topic } from "@io/http";
-import { EventLink } from "@io/http/Events/EventLink";
 import {
   Card,
   CardActionArea,
@@ -13,14 +12,8 @@ import {
   CardMedia,
   Grid,
   IconButton,
-  List,
-  ListItem,
 } from "@material-ui/core";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { navigate } from "@reach/router";
 import { formatDate } from "@utils/date";
@@ -34,7 +27,6 @@ interface UncategorizedListItemProps {
   actors: Actor.Actor[];
   topics: Topic.TopicFrontmatter[];
   groups: Group.Group[];
-  links: EventLink[];
 }
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
@@ -42,7 +34,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   actors,
   topics,
   groups,
-  links,
 }) => {
   return (
     <Card
@@ -75,9 +66,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 () => <FontAwesomeIcon icon={faMapMarker} />
               )
             )}
-            <div>
-              <FontAwesomeIcon icon={faLink} /> ({item.links.length})
-            </div>
           </div>
         }
       />
@@ -180,39 +168,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             )),
             O.toNullable
           )} */}
-
-          <Grid container>
-            <Grid item>
-              {pipe(
-                links,
-                O.fromPredicate((arr) => arr.length > 0),
-                O.map((links) => (
-                  // eslint-disable-next-line react/jsx-key
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel2a-content"
-                      id={item.id}
-                    >
-                      <Typography variant="h6">Links</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <List>
-                        {links.map((l, i) => (
-                          <ListItem key={i}>
-                            <p>
-                              <a href={l.url}>{l.description}</a>
-                            </p>
-                          </ListItem>
-                        ))}
-                      </List>
-                    </AccordionDetails>
-                  </Accordion>
-                )),
-                O.toNullable
-              )}
-            </Grid>
-          </Grid>
         </CardContent>
       </CardActionArea>
     </Card>

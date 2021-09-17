@@ -30,7 +30,7 @@ services:
       POSTGRES_PASSWORD: econnessione-password
       POSTGRES_DB: econnessione
     volumes:
-      - ./services/api/db_dump/:/docker-entrypoint-initdb.d/
+      # - ./services/api/db_dump/:/docker-entrypoint-initdb.d/
       - db-data:/var/lib/postgresql/data
 
   api:
@@ -103,6 +103,8 @@ services:
   data:
     container_name: econnessione-data
     image: econnessione_base
+    env_file:
+      - .env.local
     ports:
       - "3010:3010"
     volumes:

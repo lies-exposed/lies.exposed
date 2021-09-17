@@ -8,7 +8,7 @@ const useStyles = makeStyles<typeof theme>((props) => ({
     margin: "10px 0",
     padding: 0,
     fontFamily: props.typography.h1.fontFamily,
-  }
+  },
 }));
 
 interface TOCProps {

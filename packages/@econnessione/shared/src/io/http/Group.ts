@@ -16,7 +16,6 @@ export type GroupKind = t.TypeOf<typeof GroupKind>;
 
 export interface GroupFrontmatterC extends t.Props {
   id: t.StringC;
-  type: t.LiteralC<"GroupFrontmatter">;
   createdAt: DateFromISOStringC;
   updatedAt: DateFromISOStringC;
   name: t.StringC;
@@ -39,7 +38,6 @@ export const GroupFrontmatter: GroupFrontmatterType = t.recursion(
     t.strict({
       ...BaseFrontmatter.type.props,
       name: t.string,
-      type: t.literal("GroupFrontmatter"),
       kind: GroupKind,
       color: Color,
       avatar: optionFromNullable(t.string),
@@ -56,7 +54,6 @@ export type GroupMD = t.TypeOf<typeof GroupMD>;
 
 export interface GroupC extends t.Props {
   id: t.StringC;
-  type: t.LiteralC<"GroupFrontmatter">;
   createdAt: DateFromISOStringC;
   updatedAt: DateFromISOStringC;
   name: t.StringC;
@@ -74,7 +71,6 @@ export const Group = t.strict(
   {
     ...BaseFrontmatter.type.props,
     name: t.string,
-    type: t.literal("GroupFrontmatter"),
     kind: GroupKind,
     color: Color,
     avatar: t.union([t.undefined, t.string]),

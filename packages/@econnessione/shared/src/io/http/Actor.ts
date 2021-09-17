@@ -6,6 +6,7 @@ import { markdownRemark } from "./Common/Markdown";
 
 export const GetListActorQueryFilter = t.partial({
   ids: optionFromNullable(t.array(t.string)),
+  fullName: optionFromNullable(t.string),
 });
 
 export type GetListActorQueryFilter = t.TypeOf<typeof GetListActorQueryFilter>;
@@ -17,6 +18,7 @@ export const Actor = t.strict(
     username: t.string,
     avatar: t.union([t.undefined, t.string]),
     color: Color,
+    memberIn: t.array(t.string),
     death: t.union([t.undefined, t.string]),
     body: t.string,
   },

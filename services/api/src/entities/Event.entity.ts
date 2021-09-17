@@ -32,6 +32,15 @@ export class EventEntity {
   @Column({ type: "json", nullable: true })
   location: { type: "Point"; coordinates: [number, number] };
 
+  @Column({ type: "varchar" })
+  body: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
   @ManyToMany(() => LinkEntity, (a) => a.event, {
     cascade: true,
     nullable: true,
@@ -54,16 +63,7 @@ export class EventEntity {
   @JoinTable()
   actors: ActorEntity[];
 
-  @ManyToMany(() => GroupMemberEntity, (a) => a.events, { nullable: true })
+  @ManyToMany(() => GroupMemberEntity, (gm) => gm.events, { nullable: true })
   @JoinTable()
   groupsMembers: GroupMemberEntity[];
-
-  @Column({ type: "varchar" })
-  body: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

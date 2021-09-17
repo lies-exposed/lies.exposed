@@ -27,7 +27,7 @@ export const MakeCreateGroupMemberRoute: Route = (r, { s3, db, env }) => {
         body: {
           data: page,
         },
-        statusCode: 200,
+        statusCode: 201,
       }))
     );
   });

@@ -2,7 +2,6 @@ import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -14,32 +13,59 @@ export const MakeListGroupMemberRoute = (
   r: Router,
   ctx: RouteContext
 ): void => {
-  AddEndpoint(r)(Endpoints.GroupMember.List, ({ query }) => {
-    const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
+  AddEndpoint(r)(
+    Endpoints.GroupMember.List,
+    ({ query: { search, ...query } }) => {
+      const findOptions = getORMOptions(
+        { ...query },
+        ctx.env.DEFAULT_PAGE_SIZE
+      );
 
-    ctx.logger.debug.log(`find Options %O`, findOptions);
+      ctx.logger.debug.log(`find Options %O`, findOptions);
 
-    return pipe(
-      sequenceS(TE.taskEither)({
-        data: pipe(
-          ctx.db.find(GroupMemberEntity, {
-            ...findOptions,
-            relations: ["actor", "group"],
-            loadRelationIds: {
-              relations: ["events"],
-            },
-          }),
-          TE.chainEitherK(A.traverse(E.either)(toGroupMemberIO))
-        ),
-        count: ctx.db.count(GroupMemberEntity),
-      }),
-      TE.map(({ data, count }) => ({
-        body: {
-          data: data,
-          total: count,
+      const listGroupsMembersTE = pipe(
+        ctx.db.manager
+          .createQueryBuilder(GroupMemberEntity, "groupsMembers")
+          .leftJoinAndSelect("groupsMembers.actor", "actor")
+          .leftJoinAndSelect("groupsMembers.group", "group")
+          .leftJoinAndSelect("groupsMembers.events", "events"),
+        (q) => {
+          if (search._tag === "Some") {
+            const likeTerm = `%${search.value}%`;
+            ctx.logger.debug.log("Searching by actor.fullName %s", likeTerm);
+            return q.andWhere("actor.fullName LIKE :likeTerm", { likeTerm });
+          }
+          return q;
         },
-        statusCode: 200,
-      }))
-    );
-  });
+        (q) => {
+          ctx.logger.debug.log(
+            "Get groups query %s, %O",
+            q.getSql(),
+            q.getParameters()
+          );
+          return ctx.db.execQuery(() =>
+            q.skip(findOptions.skip).take(findOptions.take).getManyAndCount()
+          );
+        }
+      );
+
+      return pipe(
+        listGroupsMembersTE,
+        TE.chainEitherK(([results, count]) =>
+          pipe(
+            results,
+            A.traverse(E.Applicative)(toGroupMemberIO),
+            E.map((data) => ({ data, count }))
+          )
+        ),
+        TE.map(({ data, count }) => ({
+          body: {
+            data: data,
+            total: count,
+          },
+          statusCode: 200,
+        }))
+      );
+    }
+  );
 };

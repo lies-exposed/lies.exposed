@@ -51,6 +51,7 @@ export default class EventTemplate extends React.PureComponent<
                     event={event as any}
                     actors={actors}
                     groups={groups}
+                    links={[]}
                   />
                 </MainContent>
               )

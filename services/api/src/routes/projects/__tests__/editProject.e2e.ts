@@ -2,8 +2,8 @@ import { fc } from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { ImageArb, ProjectArb } from "@econnessione/shared/tests";
 import { ProjectEntity } from "@entities/Project.entity";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 
@@ -22,6 +22,7 @@ describe("Edit Project ", () => {
       ]),
       TE.map((projects) => {
         project = projects[0];
+        return projects;
       })
     )();
 

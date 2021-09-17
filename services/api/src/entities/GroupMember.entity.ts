@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -23,7 +22,7 @@ export class GroupMemberEntity {
   @Column({ type: "timestamptz", nullable: true })
   endDate: Date | null;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", nullable: false })
   body: string;
 
   @CreateDateColumn()
@@ -32,12 +31,16 @@ export class GroupMemberEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => GroupEntity, (g) => g.id)
-  @JoinColumn()
+  @ManyToOne(() => GroupEntity, (g) => g.id, {
+    nullable: false,
+    cascade: false,
+  })
   group: GroupEntity;
 
-  @ManyToOne(() => ActorEntity, (a) => a.id)
-  @JoinColumn()
+  @ManyToOne(() => ActorEntity, (a) => a.id, {
+    nullable: false,
+    cascade: false,
+  })
   actor: ActorEntity;
 
   @ManyToMany(() => EventEntity, (e) => e.groupsMembers)

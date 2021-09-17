@@ -24,7 +24,7 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
           backgroundRepeat: "no-repeat",
           width: "100%",
           height: "100%",
-          minHeight: 300
+          minHeight: 300,
         }}
       >
         <MainContent
@@ -32,7 +32,7 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
             paddingTop: 40,
             paddingBottom: 40,
             backgroundColor: `${theme.palette.secondary.main}40`,
-            margin: "30px auto"
+            margin: "30px auto",
           }}
         >
           <Typography variant="h1">{props.title}</Typography>

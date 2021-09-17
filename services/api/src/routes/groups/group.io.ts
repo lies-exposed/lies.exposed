@@ -12,7 +12,7 @@ export const toGroupIO = (
       ...group,
       type: "GroupFrontmatter",
       avatar: group.avatar === null ? undefined : group.avatar,
-      members: group.members ?? [],
+      members: group.members ? group.members : [],
       subGroups: [],
       createdAt: group.createdAt.toISOString(),
       updatedAt: group.updatedAt.toISOString(),

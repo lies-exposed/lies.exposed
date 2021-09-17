@@ -23,6 +23,7 @@ import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { getDBOptions } from "@utils/getDBOptions";
 import * as AWS from "aws-sdk";
+import axios from "axios";
 import cors from "cors";
 import express from "express";
 import jwt from "express-jwt";
@@ -48,14 +49,17 @@ export const makeContext = (
     E.mapLeft(DecodeError),
     TE.fromEither,
     TE.chain((env) => {
-      return sequenceS(TE.taskEither)({
+      return sequenceS(TE.ApplicativePar)({
         logger: TE.right(serverLogger),
         db: GetTypeORMClient(getDBOptions(env)),
         s3:
           env.NODE_ENV === "development" || env.NODE_ENV === "test"
             ? TE.right(
                 GetLocalSpaceClient({
-                  baseUrl: `http://data:3010`,
+                  client: axios.create({
+                    baseURL: `http://localhost:3010`,
+                  }),
+
                   logger: serverLogger,
                 })
               )

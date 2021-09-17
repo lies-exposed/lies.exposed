@@ -9,7 +9,7 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["../*"]
+        "patterns": ["../*", "@material-ui/*/*/*", "!@material-ui/core/test-utils/*"]
       }
     ],
     "react/prop-types": ["off"],

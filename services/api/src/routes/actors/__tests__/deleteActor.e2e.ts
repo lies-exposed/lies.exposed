@@ -1,32 +1,19 @@
 import * as tests from "@econnessione/core/tests";
-import supertest from "supertest";
-import { makeApp, makeContext } from "../../../server";
-import { pipe } from "fp-ts/lib/pipeable";
-import * as TE from "fp-ts/lib/TaskEither";
-import { RouteContext } from "@routes/route.types";
 import jwt from "jsonwebtoken";
+import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("Delete Actor", () => {
-  let ctx: RouteContext,
-    req: supertest.SuperTest<supertest.Test>,
-    actor: any,
-    authorizationToken: string;
+  let Test: AppTest, actor: any, authorizationToken: string;
   beforeAll(async () => {
-    await pipe(
-      makeContext(process.env),
-      TE.map((context) => {
-        ctx = context;
-        return makeApp(ctx);
-      }),
-      TE.map((app) => {
-        req = supertest(app);
-      })
-    )();
+    Test = await initAppTest();
 
-    authorizationToken = `Bearer ${jwt.sign({ id: "1" }, ctx.env.JWT_SECRET)}`;
+    authorizationToken = `Bearer ${jwt.sign(
+      { id: "1" },
+      Test.ctx.env.JWT_SECRET
+    )}`;
 
     actor = (
-      await req
+      await Test.req
         .post("/v1/actors")
         .set("Authorization", authorizationToken)
         .send({
@@ -37,15 +24,15 @@ describe("Delete Actor", () => {
           body: "my content",
         })
     ).body.data;
-    ctx.logger.debug.log("Actor %O", actor);
+    Test.ctx.logger.debug.log("Actor %O", actor);
   });
 
   afterAll(async () => {
-    await ctx.db.close()();
+    await Test.ctx.db.close()();
   });
 
   test("Should return a 401", async () => {
-    const response = await req
+    const response = await Test.req
       .delete(`/v1/actors/${actor.id}`)
       .set("Authorization", authorizationToken);
 

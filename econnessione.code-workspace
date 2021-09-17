@@ -1,16 +1,16 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"eslint.workingDirectories": [
-			"./packages/@econnessione/core",
-			"./packages/@econnessione/shared",
-			"./services/api",
-			"./services/web",
-			"./services/admin-web"
-		]
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "eslint.workingDirectories": [
+      "./packages/@econnessione/core",
+      "./packages/@econnessione/shared",
+      "./services/api",
+      "./services/web",
+      "./services/admin-web"
+    ]
+  }
 }
