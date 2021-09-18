@@ -1,0 +1,16 @@
+{
+  "extends": ["../../../.eslintrc"],
+  "plugins": ["@typescript-eslint", "react"],
+  "parserOptions": {
+    "tsconfigRootDir": "./",
+    "project": ["./tsconfig.json"]
+  },
+  "rules": {
+    "react/prop-types": ["off"]
+  },
+  "settings": {
+    "react": {
+      "version": "16.12.0"
+    }
+  }
+}

@@ -58,7 +58,7 @@ export const makeContext = (
             ? TE.right(
                 GetLocalSpaceClient({
                   client: axios.create({
-                    baseURL: `http://data:3010`,
+                    baseURL: `http://${env.DEV_DATA_HOST}`,
                   }),
 
                   logger: serverLogger,

@@ -1,8 +1,8 @@
-import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
-import { ArticlePageContent } from "@econnessione/shared/components/ArticlePageContent";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import SEO from "@econnessione/shared/components/SEO";
 import { articleByPath } from "@econnessione/shared/providers/DataProvider";
+import { ArticlePageContent } from "@econnessione/ui/components/ArticlePageContent";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import SEO from "@econnessione/ui/components/SEO";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

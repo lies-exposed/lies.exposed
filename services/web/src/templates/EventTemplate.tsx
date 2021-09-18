@@ -1,8 +1,8 @@
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
-import { EventPageContent } from "@econnessione/shared/components/EventPageContent";
-import { MainContent } from "@econnessione/shared/components/MainContent";
 import { Queries } from "@econnessione/shared/providers/DataProvider";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { Loader } from "@econnessione/ui/components/Common/Loader";
+import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
+import { MainContent } from "@econnessione/ui/components/MainContent";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -55,14 +55,12 @@ export default class EventTemplate extends React.PureComponent<
                 groups: { data: groups },
                 links: { data: links },
               }) => (
-                <MainContent>
-                  <EventPageContent
-                    event={event as any}
-                    actors={actors}
-                    groups={groups}
-                    links={links}
-                  />
-                </MainContent>
+                <EventPageContent
+                  event={event as any}
+                  actors={actors}
+                  groups={groups}
+                  links={links}
+                />
               )
             )}
           />

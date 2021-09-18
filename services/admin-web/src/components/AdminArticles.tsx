@@ -1,7 +1,7 @@
-import { ArticlePageContent } from "@econnessione/shared/components/ArticlePageContent";
 import { http } from "@econnessione/shared/io";
 import { Article } from "@econnessione/shared/io/http/Article";
-import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import { ArticlePageContent } from "@econnessione/ui/components/ArticlePageContent";
+import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { apiProvider } from "client/HTTPAPI";
 import { uploadImages } from "client/MediaAPI";
 import * as E from "fp-ts/lib/Either";
@@ -94,14 +94,8 @@ export const ArticleEdit: React.FC<EditProps> = (props) => (
           {({ formData, ...rest }) => {
             return pipe(
               http.Article.Article.decode({ ...formData, links: [] }),
-              E.fold(renderValidationErrors, (p) => (
-                <ArticlePageContent
-                  {...p}
-                  events={[]}
-                  projects={[]}
-                  funds={[]}
-                  onMemberClick={() => {}}
-                />
+              E.fold(ValidationErrorsLayout, (p) => (
+                <ArticlePageContent {...p} />
               ))
             );
           }}

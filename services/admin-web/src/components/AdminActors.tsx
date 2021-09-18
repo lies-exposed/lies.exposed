@@ -1,6 +1,6 @@
-import { ActorPageContent } from "@econnessione/shared/components/ActorPageContent";
 import { http } from "@econnessione/shared/io";
-import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
+import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -130,7 +130,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
           {({ formData, ...rest }) => {
             return pipe(
               http.Actor.Actor.decode(formData),
-              E.fold(renderValidationErrors, (p) => (
+              E.fold(ValidationErrorsLayout, (p) => (
                 <ActorPageContent actor={p} groups={[]} />
               ))
             );

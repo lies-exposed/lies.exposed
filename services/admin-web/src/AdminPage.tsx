@@ -1,4 +1,4 @@
-import { theme } from "@econnessione/shared/theme";
+import { theme } from "@econnessione/ui/theme";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import BusinessIcon from "@material-ui/icons/Business";
 import EventIcon from "@material-ui/icons/Event";

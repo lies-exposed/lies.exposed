@@ -1,8 +1,8 @@
 import {
   ProjectPageContent,
   ProjectPageContentProps,
-} from "@econnessione/shared/components/ProjectPageContent";
-import { projectPageContentExampleArgs } from "@econnessione/shared/components/examples/ProjectPageContentExample";
+} from "@econnessione/ui/components/ProjectPageContent";
+import { projectPageContentExampleArgs } from "@econnessione/ui/components/examples/ProjectPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

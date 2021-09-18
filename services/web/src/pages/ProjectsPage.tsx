@@ -1,16 +1,16 @@
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
-import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
-import { MainContent } from "@econnessione/shared/components/MainContent";
-import { ProjectsMap } from "@econnessione/shared/components/Map/ProjectsMap";
-import { PageContent } from "@econnessione/shared/components/PageContent";
-import SEO from "@econnessione/shared/components/SEO";
-import { TableOfContents } from "@econnessione/shared/components/TableOfContents";
-import ProjectList from "@econnessione/shared/components/lists/ProjectList";
 import {
   pageContentByPath,
   Queries,
 } from "@econnessione/shared/providers/DataProvider";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { ContentWithSidebar } from "@econnessione/ui/components/ContentWithSidebar";
+import { MainContent } from "@econnessione/ui/components/MainContent";
+import { ProjectsMap } from "@econnessione/ui/components/Map/ProjectsMap";
+import { PageContent } from "@econnessione/ui/components/PageContent";
+import SEO from "@econnessione/ui/components/SEO";
+import { TableOfContents } from "@econnessione/ui/components/TableOfContents";
+import ProjectList from "@econnessione/ui/components/lists/ProjectList";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { navigate, RouteComponentProps } from "@reach/router";

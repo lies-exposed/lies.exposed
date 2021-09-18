@@ -1,8 +1,8 @@
+import { firstGoodProject } from "@econnessione/shared/mock-data/projects";
 import {
   ProjectAreasMap,
   ProjectAreasMapProps,
-} from "@econnessione/shared/components/Graph/ProjectAreasMap";
-import { firstGoodProject } from "@econnessione/shared/mock-data/projects";
+} from "@econnessione/ui/components/Graph/ProjectAreasMap";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

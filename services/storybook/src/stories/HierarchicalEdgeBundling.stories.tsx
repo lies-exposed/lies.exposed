@@ -1,8 +1,8 @@
+import { uuid } from "@econnessione/shared/utils/uuid";
 import {
   HierarchicalEdgeBundling,
   HierarchicalEdgeBundlingProps,
-} from "@econnessione/shared/components/Common/Graph/HierarchicalEdgeBundling";
-import { uuid } from "@econnessione/shared/utils/uuid";
+} from "@econnessione/ui/components/Common/Graph/HierarchicalEdgeBundling";
 import { Story, Meta } from "@storybook/react/types-6-0";
 import * as A from "fp-ts/lib/Array";
 import React from "react";

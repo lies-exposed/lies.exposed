@@ -1,13 +1,13 @@
-import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
-import { MainContent } from "@econnessione/shared/components/MainContent";
-import { PageContent } from "@econnessione/shared/components/PageContent";
-import SEO from "@econnessione/shared/components/SEO";
 import {
   Queries,
   pageContentByPath,
 } from "@econnessione/shared/providers/DataProvider";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { MarkdownRenderer } from "@econnessione/ui/components/Common/MarkdownRenderer";
+import { MainContent } from "@econnessione/ui/components/MainContent";
+import { PageContent } from "@econnessione/ui/components/PageContent";
+import SEO from "@econnessione/ui/components/SEO";
 import {
   Button,
   Card,

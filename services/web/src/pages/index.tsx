@@ -1,8 +1,8 @@
-import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { PageContent } from "@econnessione/shared/components/PageContent";
-import SEO from "@econnessione/shared/components/SEO";
 import { pageContentByPath } from "@econnessione/shared/providers/DataProvider";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { PageContent } from "@econnessione/ui/components/PageContent";
+import SEO from "@econnessione/ui/components/SEO";
 import { Grid } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

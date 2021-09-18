@@ -1,16 +1,16 @@
-import { ActorList } from "@components/lists/ActorList";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
-import { MainContent } from "@econnessione/shared/components/MainContent";
-import { PageContent } from "@econnessione/shared/components/PageContent";
-import SEO from "@econnessione/shared/components/SEO";
-import SearchableInput from "@econnessione/shared/components/SearchableInput";
 import { Actor } from "@econnessione/shared/io/http/Actor";
 import {
   Queries,
   pageContentByPath,
 } from "@econnessione/shared/providers/DataProvider";
-import { navigateTo } from "@econnessione/shared/utils/links";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { MainContent } from "@econnessione/ui/components/MainContent";
+import { PageContent } from "@econnessione/ui/components/PageContent";
+import SEO from "@econnessione/ui/components/SEO";
+import SearchableInput from "@econnessione/ui/components/SearchableInput";
+import { ActorList } from "@econnessione/ui/components/lists/ActorList";
+import { navigateTo } from "@econnessione/ui/utils/links.utils";
 import { navigate, RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

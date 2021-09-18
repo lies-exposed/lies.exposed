@@ -1,21 +1,3 @@
-import { a11yProps, TabPanel } from "@components/Common/TabPanel";
-import { EventsNetworkGraph } from "@components/Graph/EventsNetworkGraph";
-import DatePicker from "@econnessione/shared/components/Common/DatePicker";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
-import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
-import { EventsMap } from "@econnessione/shared/components/EventsMap";
-import { MainContent } from "@econnessione/shared/components/MainContent";
-import { PageContent } from "@econnessione/shared/components/PageContent";
-import SEO from "@econnessione/shared/components/SEO";
-import SearchableInput from "@econnessione/shared/components/SearchableInput";
-import {
-  ActorList,
-  ActorListItem,
-} from "@econnessione/shared/components/lists/ActorList";
-import EventList from "@econnessione/shared/components/lists/EventList/EventList";
-import { GroupListItem } from "@econnessione/shared/components/lists/GroupList";
-import { TopicListItem } from "@econnessione/shared/components/lists/TopicList";
 import {
   eqByUUID,
   eventDate,
@@ -29,15 +11,36 @@ import {
 } from "@econnessione/shared/providers/DataProvider";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
+import DatePicker from "@econnessione/ui/components/Common/DatePicker";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import {
+  a11yProps,
+  TabPanel,
+} from "@econnessione/ui/components/Common/TabPanel";
+import { ContentWithSidebar } from "@econnessione/ui/components/ContentWithSidebar";
+import { EventsMap } from "@econnessione/ui/components/EventsMap";
+import { EventsNetworkGraph } from "@econnessione/ui/components/Graph/EventsNetworkGraph";
+import { MainContent } from "@econnessione/ui/components/MainContent";
+import { PageContent } from "@econnessione/ui/components/PageContent";
+import SEO from "@econnessione/ui/components/SEO";
+import SearchableInput from "@econnessione/ui/components/SearchableInput";
+import {
+  ActorList,
+  ActorListItem,
+} from "@econnessione/ui/components/lists/ActorList";
+import EventList from "@econnessione/ui/components/lists/EventList/EventList";
+import { GroupListItem } from "@econnessione/ui/components/lists/GroupList";
+import { TopicListItem } from "@econnessione/ui/components/lists/TopicList";
+import { theme } from "@econnessione/ui/theme/index";
 import {
   parseSearch,
   Routes,
   updateSearch,
-} from "@econnessione/shared/utils/routes";
+} from "@econnessione/ui/utils/routes.utils";
 import { Uncategorized } from "@io/http/Events/Uncategorized";
 import { Box, Chip, Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
-import { theme } from "@theme/index";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { subYears } from "date-fns";

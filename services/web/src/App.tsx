@@ -1,6 +1,6 @@
-import { Footer } from "@econnessione/shared/components/Footer";
-import Header from "@econnessione/shared/components/Header";
-import { theme } from "@econnessione/shared/theme";
+import { Footer } from "@econnessione/ui/components/Footer";
+import Header from "@econnessione/ui/components/Header";
+import { theme } from "@econnessione/ui/theme";
 import { Grid, ThemeProvider } from "@material-ui/core";
 import { Router } from "@reach/router";
 import ActorTemplate from "@templates/ActorTemplate";

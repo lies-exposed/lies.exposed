@@ -1,7 +1,7 @@
-import { ProjectPageContent } from "@econnessione/shared/components/ProjectPageContent";
 import { http } from "@econnessione/shared/io";
 import { Kind } from "@econnessione/shared/io/http/ProjectImage";
-import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import { ProjectPageContent } from "@econnessione/ui/components/ProjectPageContent";
+import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
@@ -113,10 +113,20 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
           {({ formData, ...rest }) => {
             return pipe(
               http.Project.Project.decode(formData),
-              E.fold(renderValidationErrors, (p) => (
+              E.fold(ValidationErrorsLayout, (p) => (
                 <ProjectPageContent
                   {...p}
-                  metadata={{ Arrest: [], ProjectImpact: [], Protest: [] }}
+                  metadata={{
+                    Arrest: [],
+                    ProjectImpact: [],
+                    Protest: [],
+                    ProjectTransaction: [],
+                    StudyPublished: [],
+                    Death: [],
+                    Condamned: [],
+                    PublicAnnouncement: [],
+                    Uncategorized: [],
+                  }}
                 />
               ))
             );

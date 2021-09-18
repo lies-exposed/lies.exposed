@@ -1,8 +1,8 @@
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
-import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
 import * as io from "@econnessione/shared/io";
-import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
+import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { Typography } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -144,7 +144,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
             {({ formData, ...rest }) => {
               return pipe(
                 io.http.Group.Group.decode(formData),
-                E.fold(renderValidationErrors, (p) => (
+                E.fold(ValidationErrorsLayout, (p) => (
                   <GroupPageContent
                     {...p}
                     groupsMembers={[]}

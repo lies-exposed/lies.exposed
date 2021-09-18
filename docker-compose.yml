@@ -43,6 +43,7 @@ services:
       DEBUG: "@eco*"
       DB_HOST: db
       DB_PORT: 5432
+      DEV_DATA_HOST: data:3010
     links:
       - db
       - data
@@ -102,7 +103,7 @@ services:
 
   data:
     container_name: econnessione-data
-    image: econnessione_base
+    image: node:14-slim
     env_file:
       - .env.local
     ports:

@@ -1,11 +1,11 @@
-import {
-  EventsNetworkGraph,
-  EventsNetworkGraphProps,
-} from "@econnessione/shared/components/Graph/EventsNetworkGraph";
 import { Events } from "@econnessione/shared/io/http";
 import { actors } from "@econnessione/shared/mock-data/actors";
 import { events } from "@econnessione/shared/mock-data/events";
 import { groups } from "@econnessione/shared/mock-data/groups";
+import {
+  EventsNetworkGraph,
+  EventsNetworkGraphProps,
+} from "@econnessione/ui/components/Graph/EventsNetworkGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";

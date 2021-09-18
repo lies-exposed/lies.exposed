@@ -1,7 +1,7 @@
 import {
   SocietyCollapseForecastGraphContainer as SocietyCollapseForecastGraph,
   SocietyCollapseForecastGraphProps,
-} from "@econnessione/shared/components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph";
+} from "@econnessione/ui/components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import React from "react";
 

@@ -1,11 +1,11 @@
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
-import { EventsMap } from "@econnessione/shared/components/EventsMap";
-import { GroupPageContent } from "@econnessione/shared/components/GroupPageContent";
-import { MainContent } from "@econnessione/shared/components/MainContent";
-import SEO from "@econnessione/shared/components/SEO";
-import { EventSlider } from "@econnessione/shared/components/sliders/EventSlider";
 import { Queries } from "@econnessione/shared/providers/DataProvider";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { Loader } from "@econnessione/ui/components/Common/Loader";
+import { EventsMap } from "@econnessione/ui/components/EventsMap";
+import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
+import { MainContent } from "@econnessione/ui/components/MainContent";
+import SEO from "@econnessione/ui/components/SEO";
+import { EventSlider } from "@econnessione/ui/components/sliders/EventSlider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

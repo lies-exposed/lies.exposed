@@ -1,6 +1,6 @@
-import { AreaPageContent } from "@econnessione/shared/components/AreaPageContent";
 import { http } from "@econnessione/shared/io";
-import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import { AreaPageContent } from "@econnessione/ui/components/AreaPageContent";
+import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
@@ -61,7 +61,7 @@ export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
           {({ formData, ...rest }) => {
             return pipe(
               http.Area.Area.decode(formData),
-              E.fold(renderValidationErrors, (p) => (
+              E.fold(ValidationErrorsLayout, (p) => (
                 <AreaPageContent
                   {...p}
                   onGroupClick={() => undefined}
