@@ -2,11 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 
 @Entity("page")
+@Index(["path"], { unique: true })
 export class PageEntity {
   type: "PageFrontmatter";
 

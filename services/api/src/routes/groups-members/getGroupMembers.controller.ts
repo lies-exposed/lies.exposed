@@ -38,11 +38,11 @@ export const MakeListGroupMemberRoute = (
           return q;
         },
         (q) => {
-          ctx.logger.debug.log(
-            "Get groups query %s, %O",
-            q.getSql(),
-            q.getParameters()
-          );
+          // ctx.logger.debug.log(
+          //   "Get groups query %s, %O",
+          //   q.getSql(),
+          //   q.getParameters()
+          // );
           return ctx.db.execQuery(() =>
             q.skip(findOptions.skip).take(findOptions.take).getManyAndCount()
           );

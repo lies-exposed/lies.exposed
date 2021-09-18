@@ -21,6 +21,7 @@ export * as Actor from "./Actor";
 export * as Area from "./Area";
 export * as Article from "./Article";
 export * as Common from "./Common";
+export * as Link from "./Link";
 export * as Error from "./Error";
 export * as Events from "./Events";
 export * as Group from "./Group";

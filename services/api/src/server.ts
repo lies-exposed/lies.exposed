@@ -16,6 +16,7 @@ import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
+import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
@@ -146,6 +147,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // events
   MakeEventRoutes(router, ctx);
   MakeDeathEventsRoutes(router, ctx);
+
+  // links
+  MakeLinkRoutes(router, ctx);
 
   // graphs data
   MakeGraphsRoute(router, ctx);

@@ -88,14 +88,17 @@ export const EventList: React.FC<ListProps> = (props) => (
       <TextField source="title" />
       <TextField source="location.coordinates" />
       <FunctionField
-        source="groups"
+        source="actors"
         render={(r: Record | undefined) => (r ? r.actors.length : 0)}
       />
       <FunctionField
         sourc="groups"
         render={(r: Record | undefined) => (r ? r.groups.length : 0)}
       />
-      <FunctionField source="links" render={(r: any) => r.links.length} />
+      <FunctionField
+        source="links"
+        render={(r: any) => r.links?.length ?? "-"}
+      />
       <DateField source="startDate" />
       <DateField source="endDate" />
       <DateField source="updatedAt" />
