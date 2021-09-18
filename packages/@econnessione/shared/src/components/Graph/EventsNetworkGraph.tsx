@@ -23,7 +23,7 @@ import * as Map from "fp-ts/lib/Map";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
 type GroupByItem = Actor.Actor | Group.Group;
@@ -301,10 +301,8 @@ const getX = (
   maxDate: Date,
   width: number
 ): number => {
-  return (
-    ((date.getTime() - minDate.getTime()) * width) /
-    (maxDate.getTime() - minDate.getTime())
-  );
+  const pad = width / differenceInDays(maxDate, minDate);
+  return differenceInDays(maxDate, date) * pad;
 };
 
 const getY =
@@ -446,7 +444,7 @@ export function createEventNetworkGraphProps({
   height: number;
   margin: { vertical: number; horizontal: number };
 }): EventsNetworkGraphDataProps {
-  const orderedEvents = pipe(events, A.sort(Ord.getDualOrd(ordEventDate)));
+  const orderedEvents = pipe(events, A.sort(Ord.reverse(ordEventDate)));
 
   const minDate = pipe(
     A.last(orderedEvents),
@@ -460,7 +458,7 @@ export function createEventNetworkGraphProps({
     O.getOrElse(() => new Date())
   );
 
-  const networkWidth = differenceInDays(maxDate, minDate) * 5;
+  const networkWidth = differenceInDays(maxDate, minDate) * 1;
 
   const yList = groupBy === "group" ? allGroups : allActors;
   // const topicsList = orderedEvents.reduce<Topic.TopicFrontmatter[]>(

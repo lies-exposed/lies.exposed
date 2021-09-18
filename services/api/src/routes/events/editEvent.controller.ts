@@ -1,5 +1,5 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { EventLink } from "@econnessione/shared/io/http/Events/EventLink";
+import { Link } from "@econnessione/shared/io/http/Link";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventEntity } from "@entities/Event.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
@@ -27,7 +27,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
         groupsMembers: pipe(groupsMembers, O.map(A.map((g) => ({ id: g })))),
         links: pipe(
           links,
-          O.map(A.map((l) => (EventLink.is(l) ? l : { id: uuid(), ...l })))
+          O.map(A.map((l) => (Link.is(l) ? l : { id: uuid(), ...l })))
         ),
         images: pipe(
           images,

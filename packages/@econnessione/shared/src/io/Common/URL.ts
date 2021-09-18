@@ -7,29 +7,25 @@ export interface URLBrand {
   readonly URL: unique symbol;
 }
 
-const urlPattern = new RegExp(
-  "^(https?:\\/\\/)?" + // protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-    "(\\#[-a-z\\d_]*)?$",
-  "i"
-); // fragment locator
+const urlPattern =
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)/;
 
 export const URL = t.brand(
   t.string,
   (url): url is t.Branded<string, URLBrand> =>
     pipe(
-      IOE.tryCatch(() => urlPattern.test(url), E.toError),
-      IOE.chain((result) => (!result ? IOE.left({}) : IOE.right(result))),
+      IOE.tryCatch(() => {
+        const urlTest = urlPattern.test(url);
+        return urlTest;
+      }, E.toError),
+      IOE.mapLeft((e) => {
+        // eslint-disable-next-line no-console
+        console.error("An error occured %O", e);
+        return false;
+      }),
       IOE.fold(
-        (e) => {
-          // eslint-disable-next-line no-console
-          console.error("An error occured", e);
-          return () => false;
-        },
-        (match) => () => match
+        (b) => () => b,
+        (b) => () => b
       )
     )(),
   "URL"

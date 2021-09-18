@@ -1,7 +1,7 @@
 import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 import SEO from "@components/SEO";
 import { Actor, Events, Group } from "@io/http";
-import { EventLink } from "@io/http/Events/EventLink";
+import { Link } from "@io/http/Link";
 import {
   Accordion,
   AccordionDetails,
@@ -25,7 +25,7 @@ export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;
   actors: Actor.Actor[];
   groups: Group.Group[];
-  links: EventLink[];
+  links: Link[];
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
@@ -36,96 +36,104 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 }) => {
   return (
     <MainContent>
-      <SEO title={event.title} />
-      <Typography variant="h1">{event.title}</Typography>
+      <Grid container>
+        <SEO title={event.title} />
+        <Typography variant="h1">{event.title}</Typography>
 
-      {pipe(
-        event.images,
-        O.fromPredicate((items) => items.length > 0),
-        O.map((images) => (
-          <Slider
-            key="home-slider"
-            slides={images.map((i) => ({
-              authorName: "",
-              info: i.description,
-              imageURL: i.location,
-            }))}
-            arrows={true}
-            // adaptiveHeight={true}
-            dots={true}
-          />
-        )),
-        O.toNullable
-      )}
-      {pipe(
-        event.groups,
-        O.fromPredicate((items) => items.length > 0),
-        O.map((ids) => groups.filter((a) => ids.includes(a.id))),
-        O.fold(
-          () => null,
-          (groups) => (
-            <div>
-              <h4>Groups</h4>
-              <GroupList
-                groups={groups.map((a) => ({ ...a, selected: true }))}
-                onGroupClick={async (g) => {
-                  await navigate(`/groups/${g.id}`);
-                }}
-              />
-            </div>
-          )
-        )
-      )}
-      {pipe(
-        event.actors,
-        O.fromPredicate((items) => items.length > 0),
-        O.map((actorIds) => actors.filter((a) => actorIds.includes(a.id))),
-        O.fold(
-          () => null,
-          (actors) => (
-            <div>
-              <h4>Actors</h4>
-              <ActorList
-                actors={actors.map((a) => ({ ...a, selected: true }))}
-                onActorClick={async (a) => {
-                  await navigate(`/actors/${a.id}`);
-                }}
-              />
-            </div>
-          )
-        )
-      )}
-      <Grid item>
         {pipe(
-          links,
-          O.fromPredicate((arr) => arr.length > 0),
-          O.map((links) => (
-            // eslint-disable-next-line react/jsx-key
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2a-content"
-                id={"link-accordion"}
-              >
-                <Typography variant="h6">Links</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <List>
-                  {links.map((l, i) => (
-                    <ListItem key={i}>
-                      <p>
-                        <a href={l.url}>{l.description}</a>
-                      </p>
-                    </ListItem>
-                  ))}
-                </List>
-              </AccordionDetails>
-            </Accordion>
+          event.images,
+          O.fromPredicate((items) => items.length > 0),
+          O.map((images) => (
+            <Slider
+              key="home-slider"
+              slides={images.map((i) => ({
+                authorName: "",
+                info: i.description,
+                imageURL: i.location,
+              }))}
+              arrows={true}
+              // adaptiveHeight={true}
+              dots={true}
+            />
           )),
           O.toNullable
         )}
+        <Grid container style={{ width: "100%" }} md={12}>
+          <Grid item md={6}>
+            <Typography variant="h4">Groups</Typography>
+            {pipe(
+              event.groups,
+              O.fromPredicate((items) => items.length > 0),
+              O.map((ids) => groups.filter((a) => ids.includes(a.id))),
+              O.fold(
+                () => null,
+                (groups) => (
+                  <GroupList
+                    groups={groups.map((a) => ({ ...a, selected: true }))}
+                    onGroupClick={async (g) => {
+                      await navigate(`/groups/${g.id}`);
+                    }}
+                  />
+                )
+              )
+            )}
+          </Grid>
+          <Grid item md={6}>
+            {pipe(
+              event.actors,
+              O.fromPredicate((items) => items.length > 0),
+              O.map((actorIds) =>
+                actors.filter((a) => actorIds.includes(a.id))
+              ),
+              O.fold(
+                () => null,
+                (actors) => (
+                  <div>
+                    <h4>Actors</h4>
+                    <ActorList
+                      actors={actors.map((a) => ({ ...a, selected: true }))}
+                      onActorClick={async (a) => {
+                        await navigate(`/actors/${a.id}`);
+                      }}
+                    />
+                  </div>
+                )
+              )
+            )}
+          </Grid>
+          <Grid item md={12}>
+            {pipe(
+              links,
+              O.fromPredicate((arr) => arr.length > 0),
+              O.map((links) => (
+                // eslint-disable-next-line react/jsx-key
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2a-content"
+                    id={"link-accordion"}
+                  >
+                    <Typography variant="h6">Links</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <List>
+                      {links.map((l, i) => (
+                        <ListItem key={i}>
+                          <p>
+                            <a href={l.url}>{l.description}</a>
+                          </p>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </AccordionDetails>
+                </Accordion>
+              )),
+              O.toNullable
+            )}
+          </Grid>
+        </Grid>
+        <MarkdownRenderer>{event.body}</MarkdownRenderer>
       </Grid>
-      <MarkdownRenderer>{event.body}</MarkdownRenderer>
     </MainContent>
   );
 };

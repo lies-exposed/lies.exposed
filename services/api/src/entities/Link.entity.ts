@@ -23,7 +23,7 @@ export class LinkEntity {
   description: string;
 
   @ManyToMany(() => EventEntity, (e) => e.links, { cascade: false })
-  event: EventEntity;
+  events: EventEntity[];
 
   @ManyToMany(() => DeathEventEntity, (e) => e.news, { cascade: false })
   death: DeathEventEntity;

@@ -11,3 +11,4 @@ typings
 *.d.ts
 **/__tests__/**
 **/migrations/**
+jest.config.js

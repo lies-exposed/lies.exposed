@@ -1,8 +1,10 @@
 import { fc } from "@econnessione/core/tests";
+import { URL } from "@econnessione/shared/io/Common";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { EventArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { PageArb } from "@econnessione/shared/tests/arbitrary/Page.arbitrary";
+import { URLArb } from "@econnessione/shared/tests/arbitrary/utils.arbitrary";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventEntity } from "@entities/Event.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -11,8 +13,10 @@ import { PageEntity } from "@entities/Page.entity";
 import { ServerError } from "@io/ControllerError";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
+import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { PathReporter } from "io-ts/lib/PathReporter";
 import { makeContext } from "../../server";
 import { AvatarsFixture } from "./avatars.fixtures";
 
@@ -32,13 +36,33 @@ const run = (): Promise<void> => {
     ...fc.sample(PageArb, 1)[0],
     path,
   }));
-  const links = fc.sample(
-    fc.record({
-      url: fc.webUrl(),
-      description: fc.string(),
-    }),
-    100
+
+  const links = pipe(
+    fc.sample(
+      fc.record({
+        url: URLArb(),
+        description: fc.string(),
+      }),
+      50
+    ),
+    A.map((link) =>
+      pipe(
+        link.url,
+        URL.decode,
+        E.map((url) => ({ ...link, url }))
+      )
+    ),
+    A.sequence(E.Applicative),
+    E.fold(
+      (e) => {
+        // eslint-disable-next-line
+        console.error(PathReporter.report(E.left(e)));
+        return [];
+      },
+      (urls) => urls
+    )
   );
+
   const actors = fc
     .sample(ActorArb, 100)
     .map(({ death, ...a }) => ({ ...a, memberIn: [] }));

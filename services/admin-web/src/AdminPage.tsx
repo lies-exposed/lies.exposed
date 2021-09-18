@@ -7,6 +7,7 @@ import MapIcon from "@material-ui/icons/Map";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
 import { AdminDeathEventsResource } from "components/AdminDeathEvents";
+import { AdminLinksResource } from "components/AdminLinks";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
@@ -102,6 +103,7 @@ const AdminPage: React.FC = () => {
 
       <AdminDeathEventsResource name="deaths" />
 
+      <AdminLinksResource name="links" />
       <Resource
         name="users"
         list={UserList}

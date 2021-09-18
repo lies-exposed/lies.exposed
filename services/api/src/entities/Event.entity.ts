@@ -41,7 +41,7 @@ export class EventEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany(() => LinkEntity, (a) => a.event, {
+  @ManyToMany(() => LinkEntity, (a) => a.events, {
     cascade: true,
     nullable: true,
   })

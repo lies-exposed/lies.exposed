@@ -7,7 +7,6 @@ import { GetMDXClient } from "@providers/mdx";
 import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
 import { GetLocalSpaceClient } from "@providers/space/LocalSpaceClient";
-import { MakeGroupMemberRoutes } from "@routes/GroupMember/GroupMember.route";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
@@ -15,7 +14,9 @@ import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
+import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
+import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
@@ -146,6 +147,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // events
   MakeEventRoutes(router, ctx);
   MakeDeathEventsRoutes(router, ctx);
+
+  // links
+  MakeLinkRoutes(router, ctx);
 
   // graphs data
   MakeGraphsRoute(router, ctx);

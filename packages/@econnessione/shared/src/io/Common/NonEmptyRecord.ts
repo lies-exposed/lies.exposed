@@ -32,10 +32,11 @@ export const NonEmptyRecord = t.brand(
 );
 
 export const nonEmptyRecordFromType = <P extends t.Props>(
-  rec: P
+  rec: P,
+  name?: string
 ): NonEmptyRecordC<P> =>
   t.brand(
-    t.exact(t.partial(rec)),
+    t.exact(t.partial(rec), name),
     (s): s is NonEmptyRecord<P> => !R.isEmpty(s),
     `NonEmptyRecord`
   );

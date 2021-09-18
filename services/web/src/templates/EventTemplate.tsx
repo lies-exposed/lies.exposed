@@ -24,6 +24,7 @@ export default class EventTemplate extends React.PureComponent<
               event: Queries.Event.get,
               actors: Queries.Actor.getList,
               groups: Queries.Group.getList,
+              links: Queries.Link.getList,
             }}
             params={{
               event: { id: eventId },
@@ -37,6 +38,13 @@ export default class EventTemplate extends React.PureComponent<
                 sort: { order: "DESC", field: "id" },
                 filter: {},
               },
+              links: {
+                pagination: { perPage: 20, page: 1 },
+                sort: { order: "DESC", field: "id" },
+                filter: {
+                  events: [eventId],
+                },
+              },
             }}
             render={QR.fold(
               Loader,
@@ -45,13 +53,14 @@ export default class EventTemplate extends React.PureComponent<
                 event,
                 actors: { data: actors },
                 groups: { data: groups },
+                links: { data: links },
               }) => (
                 <MainContent>
                   <EventPageContent
                     event={event as any}
                     actors={actors}
                     groups={groups}
-                    links={[]}
+                    links={links}
                   />
                 </MainContent>
               )

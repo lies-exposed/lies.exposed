@@ -4,7 +4,7 @@ import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
 import { BaseFrontmatter, Point } from "../Common";
-import { CreateEventLink, EventLink } from "./EventLink";
+import { CreateLink, Link } from "../Link";
 
 export const GetEventsQueryFilter = t.partial({
   groupsMembers: optionFromNullable(t.array(t.string)),
@@ -24,7 +24,7 @@ export const CreateEventBody = t.strict(
         })
       )
     ),
-    links: t.array(CreateEventLink),
+    links: t.array(CreateLink),
     actors: t.array(t.string),
     groups: t.array(t.string),
     groupsMembers: t.array(t.string),
@@ -47,7 +47,7 @@ export const EditEventBody = nonEmptyRecordFromType({
       })
     )
   ),
-  links: optionFromNullable(t.array(t.union([EventLink, CreateEventLink]))),
+  links: optionFromNullable(t.array(t.union([Link, CreateLink]))),
   location: optionFromNullable(Point),
   actors: optionFromNullable(t.array(t.string)),
   groups: optionFromNullable(t.array(t.string)),
