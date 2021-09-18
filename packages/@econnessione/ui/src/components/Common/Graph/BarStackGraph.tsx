@@ -7,7 +7,7 @@ import { BarStack } from "@vx/shape";
 import { SeriesPoint, StackKey } from "@vx/shape/lib/types";
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
 import { ScaleBand, ScaleLinear, ScaleOrdinal } from "d3";
-import React from "react";
+import * as React from "react";
 
 export interface TooltipData<D, K> {
   bar: SeriesPoint<D>;

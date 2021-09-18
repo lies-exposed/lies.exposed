@@ -4,7 +4,7 @@ import { Pack as VXPack } from "@vx/hierarchy";
 import { HierarchyNode } from "@vx/hierarchy/lib/types";
 import { withTooltip, TooltipWithBounds } from "@vx/tooltip";
 import { WithTooltipProvidedProps } from "@vx/tooltip/lib/enhancers/withTooltip";
-import React from "react";
+import * as React from "react";
 import { useSprings, animated } from "react-spring";
 
 export interface PackDatum {

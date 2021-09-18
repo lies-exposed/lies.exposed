@@ -1,4 +1,4 @@
-// import { PieChartGraph } from "@econnessione/ui/components/Common/Graph/PieChartGraph";
+// import { PieChartGraph } from "@components/Common/Graph/PieChartGraph";
 // import { Events } from "@econnessione/shared/io/http";
 // import ParentSize from "@vx/responsive/lib/components/ParentSize";
 // import * as Array from "fp-ts/lib/Array";

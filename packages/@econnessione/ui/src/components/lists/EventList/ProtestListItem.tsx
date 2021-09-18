@@ -1,11 +1,11 @@
 import { Events } from "@econnessione/shared/io/http";
 import { formatDate } from "@econnessione/shared/utils/date";
-import { MarkdownRenderer } from "@econnessione/ui/components/Common/MarkdownRenderer";
-import { Slider } from "@econnessione/ui/components/Common/Slider/Slider";
 import { Grid } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
+import { Slider } from "@components/Common/Slider/Slider";
 
 interface ProtestListItemProps {
   item: Events.Protest.ProtestMD;

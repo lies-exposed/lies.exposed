@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { Page } from "@econnessione/shared/io/http";
-import { MarkdownRenderer } from "@econnessione/ui/components/Common/MarkdownRenderer";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 
 export type PageContentProps = Page.Page;
 

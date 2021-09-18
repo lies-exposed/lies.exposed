@@ -1,6 +1,5 @@
 import { Project } from "@econnessione/shared/io/http";
 import { formatDate } from "@econnessione/shared/utils/date";
-import { List, ListItemProps } from "@econnessione/ui/components/Common/List";
 import {
   Card,
   CardActionArea,
@@ -12,6 +11,7 @@ import {
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { List, ListItemProps } from "@components/Common/List";
 
 export interface Project extends Project.Project {
   selected: boolean;

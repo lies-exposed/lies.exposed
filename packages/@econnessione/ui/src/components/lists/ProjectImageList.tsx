@@ -1,11 +1,11 @@
 import * as io from "@econnessione/shared/io/http";
 import { Queries } from "@econnessione/shared/providers/DataProvider";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { GridList, GridListTile } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
+import { ErrorBox } from "@components/Common/ErrorBox";
+import { Loader } from "@components/Common/Loader";
 
 export interface ProjectImage extends io.ProjectImage.ProjectImage {
   selected: boolean;

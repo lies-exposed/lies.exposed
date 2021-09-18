@@ -2,11 +2,10 @@ import { uuid } from "@econnessione/shared/utils/uuid";
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import GeoJSON from "ol/format/GeoJSON";
-import GeometryType from "ol/geom/GeometryType";
 import Draw from "ol/interaction/Draw.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
-import React from "react";
+import * as React from "react";
 import { Button, InputProps, useInput } from "react-admin";
 
 const formatOptions = {

@@ -8,7 +8,7 @@ import { Grid } from "@vx/grid";
 import { Group } from "@vx/group";
 import { scaleLinear } from "@vx/scale";
 import { Bar, Line, LinePath } from "@vx/shape";
-import React from "react";
+import * as React from "react";
 
 // accessors
 

@@ -50,8 +50,8 @@ import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as qs from "query-string";
-import React from "react";
-import Helmet from "react-helmet";
+import * as React from "react";
+import * as Helmet from "react-helmet";
 
 export default class EventsPage extends React.PureComponent<RouteComponentProps> {
   state: { viewTab: number } = { viewTab: 0 };
@@ -394,9 +394,9 @@ export default class EventsPage extends React.PureComponent<RouteComponentProps>
                 }
               >
                 <MainContent>
-                  <Helmet>
+                  <Helmet.Helmet>
                     <SEO title={page.title} />
-                  </Helmet>
+                  </Helmet.Helmet>
                   <Grid item>
                     <Grid container>
                       <Grid item md={12}>

@@ -1,11 +1,11 @@
 import { Project } from "@econnessione/shared/io/http";
 import { geoJSONFormat } from "@econnessione/shared/utils/map.utils";
-import Map from "@econnessione/ui/components/Map";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import Feature from "ol/Feature";
 import * as React from "react";
+import Map from "@components/Map";
 
 export interface ProjectAreasMapProps {
   project: Project.Project;

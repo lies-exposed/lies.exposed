@@ -1,9 +1,9 @@
 import { ResourcesNames } from "@econnessione/shared/io/http";
-import { getAdminLink } from "@econnessione/ui/utils/links.utils";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@material-ui/core";
 import * as React from "react";
+import { getAdminLink } from "../../utils/links.utils";
 
 interface EditButtonProps {
   resourceName: ResourcesNames;

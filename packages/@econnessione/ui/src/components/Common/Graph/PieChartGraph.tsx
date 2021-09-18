@@ -2,7 +2,7 @@ import { GradientPinkBlue } from "@vx/gradient";
 import { Group } from "@vx/group";
 import { scaleOrdinal } from "@vx/scale";
 import Pie, { PieArcDatum, ProvidedProps } from "@vx/shape/lib/shapes/Pie";
-import React, { useState } from "react";
+import * as React from "react";
 import { animated, to, useTransition } from "react-spring";
 
 // color scales
@@ -29,7 +29,7 @@ export const PieChartGraph = <S extends any>({
   margin = defaultMargin,
   animate = true,
 }: PieProps<S>): JSX.Element | null => {
-  const [selectedSlice, setSelectedSlice] = useState<string | null>(null);
+  const [selectedSlice, setSelectedSlice] = React.useState<string | null>(null);
 
   const getSliceColor = scaleOrdinal({
     domain: slices.map(getKey),

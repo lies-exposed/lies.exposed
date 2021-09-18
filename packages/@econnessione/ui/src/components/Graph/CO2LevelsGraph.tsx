@@ -1,7 +1,4 @@
 import { jsonData } from "@econnessione/shared/providers/DataProvider";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { AxisGraph } from "@econnessione/ui/components/Common/Graph/AxisGraph";
-import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { Checkbox } from "@material-ui/core";
 import { LinearGradient } from "@vx/gradient";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
@@ -9,6 +6,9 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as t from "io-ts";
 import * as React from "react";
+import { ErrorBox } from "@components/Common/ErrorBox";
+import { AxisGraph } from "@components/Common/Graph/AxisGraph";
+import { Loader } from "@components/Common/Loader";
 
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets

@@ -5,10 +5,9 @@ import Feature from "ol/Feature";
 import Map from "ol/Map";
 import View from "ol/View";
 import GeoJSON from "ol/format/GeoJSON";
-import GeometryType from "ol/geom/GeometryType";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
-import React from "react";
+import * as React from "react";
 import { FieldProps } from "react-admin";
 
 const formatOptions = {

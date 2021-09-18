@@ -14,7 +14,7 @@ import { navigateTo } from "@econnessione/ui/utils/links.utils";
 import { navigate, RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import React from "react";
+import * as React from "react";
 
 export default class ActorsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {

@@ -1,8 +1,8 @@
 import * as io from "@econnessione/shared/io";
-import { LinkEntity } from "@entities/Link.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
+import { LinkEntity } from "@entities/Link.entity";
+import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toLinkIO = (
   link: LinkEntity

@@ -5,7 +5,7 @@ import { LinkHorizontal } from "@vx/shape";
 import { hierarchy, HierarchyPointNode } from "d3-hierarchy";
 import * as t from "io-ts";
 import { date } from "io-ts-types/lib/date";
-import React from "react";
+import * as React from "react";
 
 export interface TreeEvent {
   name: string;

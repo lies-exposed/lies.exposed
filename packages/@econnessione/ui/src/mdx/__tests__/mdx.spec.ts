@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as E from "fp-ts/lib/Either";
 // eslint-disable-next-line no-restricted-imports
-import { HTMLToMDX, MDXToHTML } from "../../mdx";
+import { HTMLToMDX, MDXToHTML } from "../index";
 
 describe("MDX", () => {
   test("Should parse simple MDX correctly to HTML", () => {

@@ -16,6 +16,7 @@
     "typeRoots": ["node_modules/@types", "./typings"],
     "baseUrl": "./src",
     "paths": {
+      "@components/*": ["../../../packages/@econnessione/ui/src/components/*"],
       "@templates/*": ["./templates/*"],
       "@containers/*": ["./containers/*"],
       "@providers/*": [
@@ -26,7 +27,10 @@
       "@mock-data/*": [
         "../../../packages/@econnessione/shared/src/mock-data/*"
       ],
-      "@utils/*": ["../../../packages/@econnessione/shared/src/utils/*"],
+      "@utils/*": [
+        "../../../packages/@econnessione/shared/src/utils/*",
+        "../../../packages/@econnessione/ui/src/utils/*"
+      ],
       "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"],
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
       "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
@@ -38,6 +42,9 @@
     },
     {
       "path": "../../packages/@econnessione/shared"
+    },
+    {
+      "path": "../../packages/@econnessione/ui"
     }
   ]
 }

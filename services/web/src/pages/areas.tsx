@@ -7,7 +7,7 @@ import { PageContent } from "@econnessione/ui/components/PageContent";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import React from "react";
+import * as React from "react";
 
 export default class AreasPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {

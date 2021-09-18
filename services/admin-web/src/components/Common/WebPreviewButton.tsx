@@ -1,7 +1,8 @@
 import { Button } from "@material-ui/core";
-import { get, has } from "lodash";
+import get from "lodash/get";
+import has from "lodash/has";
 import { FieldProps } from "ra-ui-materialui";
-import React from "react";
+import * as React from "react";
 
 interface WebPreviewButtonProps extends FieldProps {
   resource: string;

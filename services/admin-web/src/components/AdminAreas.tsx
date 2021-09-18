@@ -2,7 +2,7 @@ import { http } from "@econnessione/shared/io";
 import { AreaPageContent } from "@econnessione/ui/components/AreaPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -22,7 +22,6 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import { MapField } from "./Common/MapField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
 

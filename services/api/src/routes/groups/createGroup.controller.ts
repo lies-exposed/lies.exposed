@@ -1,9 +1,9 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Route } from "routes/route.types";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { GroupEntity } from "../../entities/Group.entity";
+import { Route } from "routes/route.types";
 
 export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(Endpoints.Group.Create, ({ body: { color, ...body } }) => {

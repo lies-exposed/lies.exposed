@@ -11,16 +11,6 @@ import {
   Page,
   Topic,
 } from "@econnessione/shared/io/http";
-import Network, {
-  NetworkScale,
-} from "@econnessione/ui/components/Common/Graph/Network/Network";
-import {
-  NetworkNodeDatum,
-  NetworkPointNode,
-} from "@econnessione/ui/components/Common/Graph/Network/NetworkNode";
-import { ActorList } from "@econnessione/ui/components/lists/ActorList";
-import { EventListItem } from "@econnessione/ui/components/lists/EventList/EventList";
-import GroupList from "@econnessione/ui/components/lists/GroupList";
 import { Grid, Typography } from "@material-ui/core";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { Link } from "@vx/network/lib/types";
@@ -36,6 +26,16 @@ import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import Network, {
+  NetworkScale,
+} from "@components/Common/Graph/Network/Network";
+import {
+  NetworkNodeDatum,
+  NetworkPointNode,
+} from "@components/Common/Graph/Network/NetworkNode";
+import { ActorList } from "@components/lists/ActorList";
+import { EventListItem } from "@components/lists/EventList/EventList";
+import GroupList from "@components/lists/GroupList";
 
 type GroupByItem = Actor.Actor | Group.Group;
 

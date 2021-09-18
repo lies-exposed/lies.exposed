@@ -4,9 +4,8 @@ import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider } from "react-admin";
-import { createActor, editActor } from "./ActorAPI";
+import { editActor } from "./ActorAPI";
 import { editArea } from "./AreaAPI";
-import { editGroup, createGroup } from "./GroupAPI";
 import { convertFileToBase64, uploadImages } from "./MediaAPI";
 import { createProject, editProject } from "./ProjectAPI";
 

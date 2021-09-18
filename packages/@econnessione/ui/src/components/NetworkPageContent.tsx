@@ -1,6 +1,6 @@
 import { Page } from "@econnessione/shared/io/http";
-import { MarkdownRenderer } from "@econnessione/ui/components/Common/MarkdownRenderer";
 import * as React from "react";
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 
 type NetworkPageContentProps = Page.PageMD;
 

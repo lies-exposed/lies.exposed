@@ -1,7 +1,7 @@
-import { AxisGraph } from "@econnessione/ui/components/Common/Graph/AxisGraph";
 import { LinearGradient } from "@vx/gradient";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as React from "react";
+import { AxisGraph } from "@components/Common/Graph/AxisGraph";
 
 export interface HumanPopulationGrowthGraphProps {
   showPoints: boolean;

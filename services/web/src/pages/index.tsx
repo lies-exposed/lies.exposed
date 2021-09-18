@@ -6,8 +6,8 @@ import SEO from "@econnessione/ui/components/SEO";
 import { Grid } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import React from "react";
-import Helmet from "react-helmet";
+import * as React from "react";
+import * as Helmet from "react-helmet";
 
 export default class IndexPage extends React.PureComponent<any> {
   render(): JSX.Element {
@@ -22,7 +22,7 @@ export default class IndexPage extends React.PureComponent<any> {
             return (
               <Grid>
                 <Grid item>
-                  <Helmet>
+                  <Helmet.Helmet>
                     <link
                       rel="stylesheet"
                       type="text/css"
@@ -33,7 +33,7 @@ export default class IndexPage extends React.PureComponent<any> {
                       type="text/css"
                       href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
                     />
-                  </Helmet>
+                  </Helmet.Helmet>
                   <SEO title="Home" />
                   <PageContent {...pageContent} />
                 </Grid>

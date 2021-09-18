@@ -1,8 +1,5 @@
 import { Actor, Events, Group, Topic } from "@econnessione/shared/io/http";
 import { formatDate } from "@econnessione/shared/utils/date";
-import { ActorList } from "@econnessione/ui/components/lists/ActorList";
-import GroupList from "@econnessione/ui/components/lists/GroupList";
-import TopicList from "@econnessione/ui/components/lists/TopicList";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,6 +18,9 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { ActorList } from "@components/lists/ActorList";
+import GroupList from "@components/lists/GroupList";
+import TopicList from "@components/lists/TopicList";
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.Uncategorized;

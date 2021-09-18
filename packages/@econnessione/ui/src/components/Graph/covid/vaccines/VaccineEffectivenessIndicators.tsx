@@ -1,11 +1,11 @@
-import {
-  BarStackGraph,
-  TooltipData,
-} from "@econnessione/ui/components/Common/Graph/BarStackGraph";
 import { Grid, Typography } from "@material-ui/core";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
 import * as React from "react";
+import {
+  BarStackGraph,
+  TooltipData,
+} from "@components/Common/Graph/BarStackGraph";
 
 type DataGroup = "Vaccine" | "Placebo" | "Vaccine Severe" | "Placebo Severe";
 

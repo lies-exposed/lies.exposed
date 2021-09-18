@@ -3,16 +3,10 @@ import Header from "@econnessione/ui/components/Header";
 import { theme } from "@econnessione/ui/theme";
 import { Grid, ThemeProvider } from "@material-ui/core";
 import { Router } from "@reach/router";
-import ActorTemplate from "@templates/ActorTemplate";
-import AreaTemplate from "@templates/AreaTemplate";
-import ArticleTemplate from "@templates/ArticleTemplate";
-import EventTemplate from "@templates/EventTemplate";
-import GroupTemplate from "@templates/GroupTemplate";
-import ProjectTemplate from "@templates/ProjectTemplate";
 import "ol/ol.css";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-import Helmet from "react-helmet";
+import * as Helmet from "react-helmet";
 import IndexPage from "./pages";
 import ActorsPage from "./pages/ActorsPage";
 import BlogPage from "./pages/BlogPage";
@@ -25,6 +19,12 @@ import TopicsPage from "./pages/TopicsPage";
 import AreasPage from "./pages/areas";
 import { VaccineDashboard } from "./pages/dashboards/VaccineDashboard";
 import ProjectPage from "./pages/project";
+import ActorTemplate from "@templates/ActorTemplate";
+import AreaTemplate from "@templates/AreaTemplate";
+import ArticleTemplate from "@templates/ArticleTemplate";
+import EventTemplate from "@templates/EventTemplate";
+import GroupTemplate from "@templates/GroupTemplate";
+import ProjectTemplate from "@templates/ProjectTemplate";
 import "./scss/main.scss";
 
 // import NotFoundPage from "./pages/404";
@@ -43,7 +43,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
 export const App: React.FC = () => {
   return (
     <div style={{ height: "100%" }}>
-      <Helmet
+      <Helmet.Helmet
         link={[
           {
             rel: "stylesheet",

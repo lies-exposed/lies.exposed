@@ -1,3 +1,5 @@
+import { subDays } from "date-fns";
+import * as O from "fp-ts/lib/Option";
 import { Events } from "@io/http";
 import { badActor, goodActor } from "@mock-data/actors";
 import { badGroup, goodGroup, secondBadGroup } from "@mock-data/groups";
@@ -5,8 +7,6 @@ import { thirdImage } from "@mock-data/images";
 import { firstBadProject, firstGoodProject } from "@mock-data/projects";
 import { firstFund, secondFund, thirdFund } from "@mock-data/transactions";
 import { uuid } from "@utils/uuid";
-import { subDays } from "date-fns";
-import * as O from "fp-ts/lib/Option";
 
 const now = new Date();
 

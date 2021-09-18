@@ -1,6 +1,6 @@
 import { Layout } from "@econnessione/ui/components/Layout";
 import SEO from "@econnessione/ui/components/SEO";
-import React from "react";
+import * as React from "react";
 
 const SupportPage: React.FunctionComponent = () => (
   <Layout>

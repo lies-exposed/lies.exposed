@@ -13,7 +13,7 @@ import * as O from "fp-ts/lib/Option";
 import { getDualOrd } from "fp-ts/lib/Ord";
 import { identity } from "fp-ts/lib/function";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
 
 const green = "#21f440";
 const grey = "#404040";

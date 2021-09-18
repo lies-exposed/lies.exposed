@@ -1,5 +1,5 @@
-import React from "react";
-import Helmet from "react-helmet";
+import * as React from "react";
+import * as Helmet from "react-helmet";
 
 interface SEOProps {
   description?: string;
@@ -32,7 +32,7 @@ const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title }) => {
   const metaDescription = description ?? site.siteMetadata.description;
 
   return (
-    <Helmet
+    <Helmet.Helmet
       htmlAttributes={
         lang !== undefined
           ? {

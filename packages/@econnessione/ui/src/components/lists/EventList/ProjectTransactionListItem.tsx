@@ -1,7 +1,7 @@
 import { Actor, Common, Events, Group } from "@econnessione/shared/io/http";
-import { ListItemProps } from "@econnessione/ui/components/Common/List";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as React from "react";
+import { ListItemProps } from "@components/Common/List";
 
 export interface ProjectTransactionListItemProps {
   event: Events.ProjectTransaction;

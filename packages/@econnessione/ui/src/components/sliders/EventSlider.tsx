@@ -1,15 +1,15 @@
 import { Events } from "@econnessione/shared/io/http";
 import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncategorized";
 import { Queries } from "@econnessione/shared/providers/DataProvider";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyLoader } from "@econnessione/ui/components/Common/Loader";
-import { UncategorizedListItem } from "@econnessione/ui/components/lists/EventList/UncategorizedListItem";
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import SlickSlider from "react-slick";
+import { ErrorBox } from "@components/Common/ErrorBox";
+import { LazyLoader } from "@components/Common/Loader";
+import { UncategorizedListItem } from "@components/lists/EventList/UncategorizedListItem";
 
 export interface EventSliderProps {
   filter: GetEventsQueryFilter;
@@ -65,7 +65,7 @@ export const EventSlider: React.FC<EventSliderProps> = (props) => {
                 // }
 
                 // return <div key={e.type}>{e.type}</div>;
-                return <div>Unknown event {JSON.stringify(e)}</div>;
+                return <div key={e.id}>Unknown event {JSON.stringify(e)}</div>;
               })}
             </SlickSlider>
           </div>

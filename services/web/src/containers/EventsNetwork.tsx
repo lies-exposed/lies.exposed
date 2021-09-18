@@ -10,7 +10,7 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
 
 interface EventsNetworkProps extends Omit<EventsNetworkGraphProps, "events"> {
   filter: Events.Uncategorized.GetEventsQueryFilter;

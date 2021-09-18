@@ -4,7 +4,7 @@ import * as IO from "fp-ts/lib/IO";
 import * as IOE from "fp-ts/lib/IOEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 
 export interface JWTClient {
   signUser: (user: User) => IO.IO<string>;

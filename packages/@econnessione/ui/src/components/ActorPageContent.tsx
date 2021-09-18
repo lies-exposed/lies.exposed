@@ -1,5 +1,4 @@
 import { Actor, Group } from "@econnessione/shared/io/http";
-import { MarkdownRenderer } from "@econnessione/ui/components/Common/MarkdownRenderer";
 import { Box, Grid, Typography } from "@material-ui/core";
 import { navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
@@ -8,6 +7,7 @@ import * as React from "react";
 import { Avatar } from "./Common/Avatar";
 import EditButton from "./buttons/EditButton";
 import GroupList from "./lists/GroupList";
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 
 export interface ActorPageContentProps {
   actor: Actor.Actor;

@@ -1,5 +1,3 @@
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import {
   Column,
   CreateDateColumn,
@@ -16,6 +14,8 @@ import {
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { ImageEntity } from "./Image.entity";
 import { LinkEntity } from "./Link.entity";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 
 @Entity("death_event")
 export class DeathEventEntity {

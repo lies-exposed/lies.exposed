@@ -1,7 +1,5 @@
 import { jsonData } from "@econnessione/shared/providers/DataProvider";
 import { numTicksForWidth } from "@econnessione/shared/utils/graph.utils";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyLoader } from "@econnessione/ui/components/Common/Loader";
 import { AxisBottom } from "@vx/axis";
 import { curveBasis, curveBasisOpen } from "@vx/curve";
 import { localPoint } from "@vx/event";
@@ -20,6 +18,8 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import * as React from "react";
+import { ErrorBox } from "@components/Common/ErrorBox";
+import { LazyLoader } from "@components/Common/Loader";
 
 const tooltipStyles = {
   ...defaultStyles,
@@ -290,7 +290,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
             const x = yearScale(e.year) ?? 0;
 
             return (
-              <Group>
+              <Group key={e.label}>
                 <Line
                   key={i}
                   x={yearScale(e.year)}

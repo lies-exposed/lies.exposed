@@ -14,7 +14,7 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Link, navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
 import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
 
 const dataMenuItem = {

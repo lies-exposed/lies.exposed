@@ -1,9 +1,9 @@
-import { RouteContext } from "@routes/route.types";
 import { Router } from "express";
 import { MakeCreateEventRoute } from "./createEvent.controller";
 import { MakeEditEventRoute } from "./editEvent.controller";
 import { MakeGetEventRoute } from "./getEvent.controller";
 import { MakeListEventRoute } from "./getEvents.controller";
+import { RouteContext } from "@routes/route.types";
 
 export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
   MakeCreateEventRoute(router, ctx);

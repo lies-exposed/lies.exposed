@@ -1,8 +1,8 @@
 import * as io from "@econnessione/shared/io";
-import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import { GroupMemberEntity } from "../../entities/GroupMember.entity";
+import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toGroupMemberIO = (
   groupMember: GroupMemberEntity

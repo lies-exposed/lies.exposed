@@ -1,10 +1,10 @@
-import { BubbleGraph } from "@econnessione/ui/components/Common/Graph/BubbleGraph";
-import { Legends } from "@econnessione/ui/components/Common/Graph/Legends";
 import { Typography } from "@material-ui/core";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import { scaleOrdinal } from "d3";
 import * as React from "react";
 import data from "./wealth-distribution-data.json";
+import { BubbleGraph } from "@components/Common/Graph/BubbleGraph";
+import { Legends } from "@components/Common/Graph/Legends";
 
 interface WealthDistributionDatum {
   label: string;

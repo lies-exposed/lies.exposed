@@ -1,6 +1,6 @@
 import { Transaction } from "@econnessione/shared/io/http";
-import { ListItem } from "@econnessione/ui/components/Common/ListItem";
 import * as React from "react";
+import { ListItem } from "@components/Common/ListItem";
 
 interface FundListItemProps {
   fund: Transaction.TransactionFrontmatter;

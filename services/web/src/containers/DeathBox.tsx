@@ -1,18 +1,12 @@
-import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
 import { Queries } from "@econnessione/shared/providers/DataProvider";
-import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
+import { formatDate } from "@econnessione/shared/utils/date";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import SEO from "@econnessione/ui/components/SEO";
-import { EventSlider } from "@econnessione/ui/components/sliders/EventSlider";
-import { RouteComponentProps } from "@reach/router";
-import { formatDate } from "@utils/date";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
 
 export class DeathBox extends React.PureComponent<{
   id: string;

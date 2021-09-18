@@ -1,10 +1,10 @@
 import Avatars from "@dicebear/avatars";
 import avataaarsSprites from "@dicebear/avatars-avataaars-sprites";
 import botttsSprites from "@dicebear/avatars-bottts-sprites";
-import { SpaceClient, toError } from "@providers/space/SpaceClient";
 import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { SpaceClient, toError } from "@providers/space/SpaceClient";
 
 const options = {
   r: 50,

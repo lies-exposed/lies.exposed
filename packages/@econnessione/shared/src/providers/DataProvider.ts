@@ -1,4 +1,3 @@
-import * as io from "@io/index";
 import { available, queryShallow, queryStrict } from "avenger";
 import { CachedQuery } from "avenger/lib/Query";
 import * as A from "fp-ts/lib/Array";
@@ -22,6 +21,7 @@ import {
 import { Endpoints } from "../endpoints";
 import { ResourceEndpoints } from "../endpoints/types";
 import { APIRESTClient } from "../http";
+import * as io from "@io/index";
 
 // const httpClient = (
 //   url: string,

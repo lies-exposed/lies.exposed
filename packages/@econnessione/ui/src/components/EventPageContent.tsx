@@ -1,7 +1,5 @@
 import { Actor, Events, Group } from "@econnessione/shared/io/http";
 import { Link } from "@econnessione/shared/io/http/Link";
-import { MarkdownRenderer } from "@econnessione/ui/components/Common/MarkdownRenderer";
-import SEO from "@econnessione/ui/components/SEO";
 import {
   Accordion,
   AccordionDetails,
@@ -20,6 +18,8 @@ import { Slider } from "./Common/Slider/Slider";
 import { MainContent } from "./MainContent";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
+import SEO from "@components/SEO";
 
 export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;

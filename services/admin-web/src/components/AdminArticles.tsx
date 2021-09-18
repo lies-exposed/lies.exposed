@@ -1,9 +1,6 @@
 import { http } from "@econnessione/shared/io";
-import { Article } from "@econnessione/shared/io/http/Article";
 import { ArticlePageContent } from "@econnessione/ui/components/ArticlePageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import { apiProvider } from "client/HTTPAPI";
-import { uploadImages } from "client/MediaAPI";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -34,6 +31,8 @@ import {
   TextInput,
 } from "react-admin";
 import MarkdownInput from "./Common/MarkdownInput";
+import { apiProvider } from "client/HTTPAPI";
+import { uploadImages } from "client/MediaAPI";
 
 export const ArticleList: React.FC<ListProps> = (props) => (
   <List

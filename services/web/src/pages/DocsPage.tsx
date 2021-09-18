@@ -11,7 +11,7 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
 
 export class DocsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {

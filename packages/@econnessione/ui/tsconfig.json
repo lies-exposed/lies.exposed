@@ -17,6 +17,7 @@
     "paths": {
       "@components/*": ["./components/*"],
       "@theme/*": ["./theme/*"],
+      "@utils/*": ["./utils/*"],
       "@econnessione/core/*": ["../../core/src/*"],
       "@econnessione/shared/*": ["../../shared/src/*"]
     }

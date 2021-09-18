@@ -1,10 +1,10 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { ArticleEntity } from "@entities/Article.entity";
-import { Route } from "@routes/route.types";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toArticleIO } from "./article.io";
+import { ArticleEntity } from "@entities/Article.entity";
+import { Route } from "@routes/route.types";
 
 export const MakeEditArticleRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

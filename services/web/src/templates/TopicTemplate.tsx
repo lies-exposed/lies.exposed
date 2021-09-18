@@ -15,7 +15,7 @@ import * as E from "fp-ts/lib/Either";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import React from "react";
+import * as React from "react";
 
 interface TopicTimelineTemplateProps {
   // `data` prop will be injected by the GraphQL query below.

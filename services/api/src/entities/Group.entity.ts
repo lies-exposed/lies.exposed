@@ -1,5 +1,4 @@
 import * as io from "@econnessione/shared/io";
-import { EventEntity } from "@entities/Event.entity";
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +9,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
+import { EventEntity } from "@entities/Event.entity";
 
 @Entity("group")
 export class GroupEntity {

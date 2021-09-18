@@ -1,13 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Helmet from "react-helmet";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import * as Helmet from "react-helmet";
 import AdminPage from "./AdminPage";
 import reportWebVitals from "./reportWebVitals";
 import "ol/ol.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Helmet
+    <Helmet.Helmet
       link={[
         {
           rel: "stylesheet",

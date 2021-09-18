@@ -31,7 +31,7 @@ import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { nonEmptyArray } from "io-ts-types";
-import React from "react";
+import * as React from "react";
 
 const LAST_DAY_2020 = new Date("2020-12-31");
 const LAST_DAY_2021 = new Date("2021-12-31");

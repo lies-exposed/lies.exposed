@@ -17,8 +17,11 @@
     "baseUrl": "./src",
     "paths": {
       "@client/*": ["./client/*"],
+      "@components/*": ["../../../packages/@econnessione/ui/src/components/*"],
       "@io/*": ["../../../packages/@econnessione/shared/src/io/*"],
-      "@mock-data/*": ["../../../packages/@econnessione/shared/src/mock-data/*"],
+      "@mock-data/*": [
+        "../../../packages/@econnessione/shared/src/mock-data/*"
+      ],
       "@utils/*": ["../../../packages/@econnessione/shared/src/utils/*"],
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
       "@econnessione/shared/*": [

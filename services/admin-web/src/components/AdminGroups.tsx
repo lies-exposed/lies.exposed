@@ -1,5 +1,3 @@
-import { apiProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 import * as io from "@econnessione/shared/io";
 import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
@@ -10,8 +8,6 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   ArrayField,
-  ArrayInput,
-  AutocompleteInput,
   ChoicesInputProps,
   Create,
   CreateProps,
@@ -28,12 +24,9 @@ import {
   ListProps,
   Record,
   ReferenceArrayField,
-  ReferenceArrayInput,
   ReferenceField,
-  ReferenceInput,
   SelectInput,
   SimpleForm,
-  SimpleFormIterator,
   SingleFieldList,
   TabbedForm,
   TextField,
@@ -43,6 +36,8 @@ import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
+import { apiProvider } from "@client/HTTPAPI";
+import { uploadImages } from "@client/MediaAPI";
 
 const RESOURCE = "groups";
 

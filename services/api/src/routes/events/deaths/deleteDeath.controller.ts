@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { DeathEventEntity } from "@entities/DeathEvent.entity";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Route } from "routes/route.types";
 import { toDeathIO } from "./death.io";
+import { DeathEventEntity } from "@entities/DeathEvent.entity";
+import { Route } from "routes/route.types";
 
 export const MakeDeleteDeathEventRoute: Route = (r, { db }) => {
   AddEndpoint(r)(Endpoints.DeathEvent.Delete, ({ params: { id } }) => {

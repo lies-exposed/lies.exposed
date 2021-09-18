@@ -1,5 +1,3 @@
-import { DeathBox } from "@containers/DeathBox";
-import { EventsNetwork } from "@containers/EventsNetwork";
 import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
@@ -13,7 +11,9 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
+import { DeathBox } from "@containers/DeathBox";
+import { EventsNetwork } from "@containers/EventsNetwork";
 
 export default class ActorTemplate extends React.PureComponent<
   RouteComponentProps<{

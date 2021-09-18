@@ -1,10 +1,10 @@
-import { Project } from "@io/http";
-import { generateRandomColor } from "@utils/colors";
-import { uuid } from "@utils/uuid";
 import { addYears, subDays, subYears } from "date-fns";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import { firstArea } from "./areas";
 import { firstImage } from "./images";
+import { Project } from "@io/http";
+import { generateRandomColor } from "@utils/colors";
+import { uuid } from "@utils/uuid";
 
 const today = new Date();
 

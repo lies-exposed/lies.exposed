@@ -9,7 +9,7 @@ import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import { TotalsReporter } from "vaccines/reporters/TotalReporter";
+import { TotalsReporter } from "../reporters/TotalReporter";
 import { VaccineEntry } from "../types";
 import {
   computeTotals,

@@ -1,28 +1,28 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import AreasMap from "@econnessione/ui/components/AreasMap";
-import { BlockQuote } from "@econnessione/ui/components/BlockQuote";
-import { ListItem } from "@econnessione/ui/components/Common/ListItem";
-import { CO2LeftBudgetCounter } from "@econnessione/ui/components/Counters/CO2LeftBudgetCounter";
-import { WorldPopulationCounter } from "@econnessione/ui/components/Counters/WorldPopulationCount";
-import { FullSizeSection } from "@econnessione/ui/components/FullSizeSection/FullSizeSection";
-import { CO2LevelsGraph } from "@econnessione/ui/components/Graph/CO2LevelsGraph";
-import { HumanPopulationGrowthGraph } from "@econnessione/ui/components/Graph/HumanPopulationGrowthGraph";
-import { SocietyCollapseForecastGraphContainer } from "@econnessione/ui/components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import { Video } from "@econnessione/ui/components/Video/Video";
-import { ActorPageContentExample } from "@econnessione/ui/components/examples/ActorPageContentExample";
-import BubbleGraphExample from "@econnessione/ui/components/examples/BubbleGraphExample";
-import { EventPageContentExample } from "@econnessione/ui/components/examples/EventPageContentExample";
-import { EventSliderExample } from "@econnessione/ui/components/examples/EventSliderExample";
-import { GroupPageContentExample } from "@econnessione/ui/components/examples/GroupPageContentExample";
-import NetworkExample from "@econnessione/ui/components/examples/NetworkExample";
-import { ProjectPageContentExample } from "@econnessione/ui/components/examples/ProjectPageContentExample";
-import { TopicPageContentExample } from "@econnessione/ui/components/examples/TopicPageContentExample";
-import { ProjectImageList } from "@econnessione/ui/components/lists/ProjectImageList";
 import { Typography } from "@material-ui/core";
 import { MDXProviderComponentsProp } from "@mdx-js/react";
 import * as React from "react";
+import AreasMap from "@components/AreasMap";
+import { BlockQuote } from "@components/BlockQuote";
+import { ListItem } from "@components/Common/ListItem";
+import { CO2LeftBudgetCounter } from "@components/Counters/CO2LeftBudgetCounter";
+import { WorldPopulationCounter } from "@components/Counters/WorldPopulationCount";
+import { FullSizeSection } from "@components/FullSizeSection/FullSizeSection";
+import { CO2LevelsGraph } from "@components/Graph/CO2LevelsGraph";
+import { HumanPopulationGrowthGraph } from "@components/Graph/HumanPopulationGrowthGraph";
+import { SocietyCollapseForecastGraphContainer } from "@components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph";
+import { MainContent } from "@components/MainContent";
+import { Video } from "@components/Video/Video";
+import { ActorPageContentExample } from "@components/examples/ActorPageContentExample";
+import BubbleGraphExample from "@components/examples/BubbleGraphExample";
+import { EventPageContentExample } from "@components/examples/EventPageContentExample";
+import { EventSliderExample } from "@components/examples/EventSliderExample";
+import { GroupPageContentExample } from "@components/examples/GroupPageContentExample";
+import NetworkExample from "@components/examples/NetworkExample";
+import { ProjectPageContentExample } from "@components/examples/ProjectPageContentExample";
+import { TopicPageContentExample } from "@components/examples/TopicPageContentExample";
+import { ProjectImageList } from "@components/lists/ProjectImageList";
 const MDX = require("@mdx-js/runtime").default;
 
 export const components: MDXProviderComponentsProp = {

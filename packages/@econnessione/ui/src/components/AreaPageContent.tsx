@@ -1,12 +1,12 @@
 import { Area, Group, Topic } from "@econnessione/shared/io/http";
 import { geoJSONFormat } from "@econnessione/shared/utils/map.utils";
 import { calculateAreaInSQM } from "@econnessione/shared/utils/openLayers";
-import { MarkdownRenderer } from "@econnessione/ui/components/Common/MarkdownRenderer";
 import { Grid } from "@material-ui/core";
 import Feature from "ol/Feature";
 import * as React from "react";
 import Map from "./Map";
 import EditButton from "./buttons/EditButton";
+import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 
 export interface AreaPageContentProps extends Area.Area {
   onGroupClick: (g: Group.Group) => void;

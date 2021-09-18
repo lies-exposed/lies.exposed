@@ -1,4 +1,3 @@
-import { EventEntity } from "@entities/Event.entity";
 import {
   Column,
   CreateDateColumn,
@@ -11,6 +10,7 @@ import {
 } from "typeorm";
 import { DeathEventEntity } from "./DeathEvent.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
+import { EventEntity } from "@entities/Event.entity";
 
 @Entity("actor")
 export class ActorEntity {
