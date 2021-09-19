@@ -1,6 +1,6 @@
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
-import qs from "qs";
+import * as qs from "qs";
 import { URL } from "../io/Common";
 
 export const sanitizeURL = (url: URL): URL => {

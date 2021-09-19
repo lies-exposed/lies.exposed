@@ -23,7 +23,10 @@
     "isolatedModules": true,
     "paths": {
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
-      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
+      "@econnessione/shared/*": [
+        "../../../packages/@econnessione/shared/src/*"
+      ],
+      "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"]
     }
   },
   "references": [
@@ -32,6 +35,9 @@
     },
     {
       "path": "../../packages/@econnessione/shared"
+    },
+    {
+      "path": "../../packages/@econnessione/ui"
     }
   ],
   "include": ["./src"],

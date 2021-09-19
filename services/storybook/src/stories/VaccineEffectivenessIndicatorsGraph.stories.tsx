@@ -1,4 +1,4 @@
-import { VaccineEffectivenessIndicators } from "@econnessione/shared/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
+import { VaccineEffectivenessIndicators } from "@econnessione/ui/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

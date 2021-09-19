@@ -1,7 +1,7 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { ArticleEntity } from "@entities/Article.entity";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { ArticleEntity } from "@entities/Article.entity";
 import { Route } from "routes/route.types";
 
 export const MakeGetArticleRoute: Route = (r, ctx) => {

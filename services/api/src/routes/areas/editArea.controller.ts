@@ -1,10 +1,10 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { AreaEntity } from "@entities/Area.entity";
-import { foldOptionals } from "@utils/foldOptionals.utils";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Route } from "routes/route.types";
 import { toAreaIO } from "./Area.io";
+import { AreaEntity } from "@entities/Area.entity";
+import { foldOptionals } from "@utils/foldOptionals.utils";
+import { Route } from "routes/route.types";
 
 export const MakeEditAreaRoute: Route = (r, { s3, db, env, logger }) => {
   AddEndpoint(r)(Endpoints.Area.Edit, ({ params: { id }, body }) => {

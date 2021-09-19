@@ -1,8 +1,8 @@
+import { subYears } from "date-fns";
+import { avatars } from "./avatars";
 import { Group } from "@io/http";
 import { generateRandomColor } from "@utils/colors";
 import { uuid } from "@utils/uuid";
-import { subYears } from "date-fns";
-import { avatars } from "./avatars";
 
 const now = new Date();
 

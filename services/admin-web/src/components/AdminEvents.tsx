@@ -1,7 +1,7 @@
-import { EventPageContent } from "@econnessione/shared/components/EventPageContent";
 import { http } from "@econnessione/shared/io";
 import { Actor } from "@econnessione/shared/io/http/Actor";
-import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
+import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
+import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
@@ -226,7 +226,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           {({ formData, ...rest }) => {
             return pipe(
               http.Events.Uncategorized.Uncategorized.decode(formData),
-              E.fold(renderValidationErrors, (p) => (
+              E.fold(ValidationErrorsLayout, (p) => (
                 <EventPageContent
                   event={p}
                   actors={[]}

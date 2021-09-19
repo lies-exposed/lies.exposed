@@ -1,8 +1,8 @@
 import {
   EventPageContent,
   EventPageContentProps,
-} from "@econnessione/shared/components/EventPageContent";
-import { eventPageContentArgs } from "@econnessione/shared/components/examples/EventPageContentExample";
+} from "@econnessione/ui/components/EventPageContent";
+import { eventPageContentArgs } from "@econnessione/ui/components/examples/EventPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

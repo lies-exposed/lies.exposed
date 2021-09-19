@@ -1,3 +1,4 @@
+/* eslint-disable import/default */
 import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";

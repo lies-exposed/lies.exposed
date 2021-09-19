@@ -5,12 +5,6 @@ import { EventArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { PageArb } from "@econnessione/shared/tests/arbitrary/Page.arbitrary";
 import { URLArb } from "@econnessione/shared/tests/arbitrary/utils.arbitrary";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventEntity } from "@entities/Event.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { PageEntity } from "@entities/Page.entity";
-import { ServerError } from "@io/ControllerError";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -19,6 +13,12 @@ import { pipe } from "fp-ts/lib/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { makeContext } from "../../server";
 import { AvatarsFixture } from "./avatars.fixtures";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventEntity } from "@entities/Event.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { PageEntity } from "@entities/Page.entity";
+import { ServerError } from "@io/ControllerError";
 
 const shuffleArray = (input: any[]): any[] => {
   const arr = [...input];

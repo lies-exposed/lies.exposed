@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, Grid } from "@material-ui/core";
+import { FormControl, Grid } from "@material-ui/core";
 import * as React from "react";
 import {
   AutocompleteInput,
@@ -13,9 +13,9 @@ import {
   List,
   ListProps,
   Record,
-  ReferenceManyField,
   ReferenceField,
   ReferenceInput,
+  ReferenceManyField,
   SimpleForm,
   TabbedForm,
   TextField,

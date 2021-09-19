@@ -1,8 +1,8 @@
+import { firstArticle } from "@econnessione/shared/mock-data/articles";
 import {
   ArticlePageContent,
   ArticlePageContentProps,
-} from "@econnessione/shared/components/ArticlePageContent";
-import { firstArticle } from "@econnessione/shared/mock-data/articles";
+} from "@econnessione/ui/components/ArticlePageContent";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

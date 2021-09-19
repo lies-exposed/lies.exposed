@@ -6,6 +6,7 @@ module.exports = {
   projects: [
     "<rootDir>/packages/@econnessione/core",
     "<rootDir>/packages/@econnessione/shared",
+    "<rootDir>/packages/@econnessione/ui",
     "<rootDir>/services/api",
   ],
 };

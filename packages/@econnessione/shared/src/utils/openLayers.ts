@@ -1,6 +1,6 @@
-import * as http from "@io/http";
 import { Polygon } from "ol/geom";
 import { getArea } from "ol/sphere";
+import * as http from "@io/http";
 
 interface DatumWithGeometry {
   geometry: http.Common.Polygon;

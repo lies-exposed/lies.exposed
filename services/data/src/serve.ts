@@ -5,8 +5,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import cors from "cors";
-import express from "express";
-import multer from "multer";
+import * as express from "express";
+import * as multer from "multer";
 
 const PUBLIC_PATH = path.resolve(__dirname, "../public");
 
@@ -88,7 +88,7 @@ export const run = async (): Promise<void> => {
       });
     },
     (req, res) => {
-      const uploadPath = (req.params as any)[0];
+      const uploadPath = req.params[0];
       const basePath = path.dirname(uploadPath);
       log.debug.log("File %O", req.file);
       const fileName = req.file?.originalname;

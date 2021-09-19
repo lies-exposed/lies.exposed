@@ -1,9 +1,9 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { AreaEntity } from "@entities/Area.entity";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Route } from "routes/route.types";
 import { toAreaIO } from "./Area.io";
+import { AreaEntity } from "@entities/Area.entity";
+import { Route } from "routes/route.types";
 
 export const MakeDeleteAreaRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(Endpoints.Area.Delete, ({ params: { id } }) => {

@@ -15,12 +15,10 @@
     "typeRoots": ["node_modules/@types", "../../../node_modules/@types"],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
-      "@components/*": ["./components/*"],
       "@helpers/*": ["./helpers/*"],
       "@io/*": ["./io/*"],
       "@mock-data/*": ["./mock-data/*"],
       "@providers/*": ["./providers/*"],
-      "@theme/*": ["./theme/*"],
       "@utils/*": ["./utils/*"],
       "@econnessione/core/*": ["../../core/src/*"]
     }

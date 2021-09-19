@@ -1,8 +1,8 @@
 import * as io from "@econnessione/shared/io";
-import { ProjectEntity } from "@entities/Project.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
+import { ProjectEntity } from "@entities/Project.entity";
+import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toProjectIO = (
   project: ProjectEntity

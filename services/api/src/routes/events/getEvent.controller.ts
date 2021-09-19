@@ -1,10 +1,10 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { EventEntity } from "@entities/Event.entity";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { RouteContext } from "routes/route.types";
 import { toEventIO } from "./event.io";
+import { EventEntity } from "@entities/Event.entity";
+import { RouteContext } from "routes/route.types";
 
 export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.Get, ({ params: { id } }) => {

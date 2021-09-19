@@ -2,12 +2,12 @@ import { AddEndpoint, Graph } from "@econnessione/shared/endpoints";
 // import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
 // import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { NotFoundError, ServerError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
+import { NotFoundError, ServerError } from "@io/ControllerError";
+import { RouteContext } from "@routes/route.types";
 
 // const getDecoderById = (
 //   id: Graph.GraphId

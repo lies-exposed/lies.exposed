@@ -1,15 +1,15 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Link } from "@econnessione/shared/io/http/Link";
 import { uuid } from "@econnessione/shared/utils/uuid";
-import { EventEntity } from "@entities/Event.entity";
-import { foldOptionals } from "@utils/foldOptionals.utils";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { RouteContext } from "routes/route.types";
 import { toEventIO } from "./event.io";
+import { EventEntity } from "@entities/Event.entity";
+import { foldOptionals } from "@utils/foldOptionals.utils";
+import { RouteContext } from "routes/route.types";
 
 export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

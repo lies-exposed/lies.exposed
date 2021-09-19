@@ -1,28 +1,26 @@
-import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/shared/components/Common/FullSizeLoader";
-import { MainContent } from "@econnessione/shared/components/MainContent";
-import { PageContent } from "@econnessione/shared/components/PageContent";
-import SEO from "@econnessione/shared/components/SEO";
 import {
-  Queries,
   pageContentByPath,
+  Queries,
 } from "@econnessione/shared/providers/DataProvider";
+import { formatDate } from "@econnessione/shared/utils/date";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { MainContent } from "@econnessione/ui/components/MainContent";
+import { PageContent } from "@econnessione/ui/components/PageContent";
+import SEO from "@econnessione/ui/components/SEO";
 import {
   Button,
   Card,
   CardActionArea,
   CardActions,
-  CardContent,
   CardHeader,
   CardMedia,
   Grid,
 } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
-import { formatDate } from "@utils/date";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import React from "react";
+import * as React from "react";
 
 export default class BlogPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {

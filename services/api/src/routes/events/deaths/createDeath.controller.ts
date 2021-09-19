@@ -1,10 +1,10 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { ActorEntity } from "@entities/Actor.entity";
-import { DeathEventEntity } from "@entities/DeathEvent.entity";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Route } from "routes/route.types";
 import { toDeathIO } from "./death.io";
+import { ActorEntity } from "@entities/Actor.entity";
+import { DeathEventEntity } from "@entities/DeathEvent.entity";
+import { Route } from "routes/route.types";
 
 export const MakeCreateDeathEventRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(Endpoints.DeathEvent.Create, ({ body }) => {

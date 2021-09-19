@@ -1,5 +1,5 @@
-import { Group } from "@io/http";
 import { eqString } from "fp-ts/lib/Eq";
+import { Group } from "@io/http";
 
 export const getGroups =
   (groups: Group.GroupFrontmatter[]) =>

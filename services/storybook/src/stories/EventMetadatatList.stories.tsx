@@ -1,8 +1,8 @@
+import { firstEventMetadata } from "@econnessione/shared/mock-data/events/events-metadata";
 import {
   EventMetadataList,
   EventMetadataListProps,
-} from "@econnessione/shared/components/lists/EventMetadataList";
-import { firstEventMetadata } from "@econnessione/shared/mock-data/events/events-metadata";
+} from "@econnessione/ui/components/lists/EventMetadataList";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

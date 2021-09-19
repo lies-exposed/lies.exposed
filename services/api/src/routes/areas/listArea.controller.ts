@@ -1,14 +1,14 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { AreaEntity } from "@entities/Area.entity";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { RouteContext } from "routes/route.types";
 import { toAreaIO } from "./Area.io";
+import { AreaEntity } from "@entities/Area.entity";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { RouteContext } from "routes/route.types";
 
 export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Area.List, ({ query }) => {

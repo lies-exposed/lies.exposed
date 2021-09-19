@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { DecodeError } from "@io/ControllerError";
-import { RouteContext } from "@routes/route.types";
 import * as bodyParser from "body-parser";
 import { Router } from "express";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
+import { DecodeError } from "@io/ControllerError";
+import { RouteContext } from "@routes/route.types";
 // import multer from 'multer';
 // const uploads = multer({ dest: '../../media'})
 

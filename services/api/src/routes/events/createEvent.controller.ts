@@ -1,11 +1,11 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
-import { EventEntity } from "@entities/Event.entity";
-import { foldOptionals } from "@utils/foldOptionals.utils";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Route } from "routes/route.types";
 import { toEventIO } from "./event.io";
+import { EventEntity } from "@entities/Event.entity";
+import { foldOptionals } from "@utils/foldOptionals.utils";
+import { Route } from "routes/route.types";
 
 export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(

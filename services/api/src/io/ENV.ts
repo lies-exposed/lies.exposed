@@ -16,6 +16,7 @@ const ENV = t.intersection(
       DEFAULT_PAGE_SIZE: NumberFromString,
       JWT_SECRET: t.string,
       DOWNLOAD_VACCINE_DATA_CRON: t.string,
+      DEV_DATA_HOST: t.string,
     }),
     t.strict(
       {

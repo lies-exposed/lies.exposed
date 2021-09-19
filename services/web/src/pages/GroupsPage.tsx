@@ -1,20 +1,20 @@
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
-import { MainContent } from "@econnessione/shared/components/MainContent";
-import { PageContent } from "@econnessione/shared/components/PageContent";
-import SearchableInput from "@econnessione/shared/components/SearchableInput";
-import GroupList, {
-  GroupListItem,
-} from "@econnessione/shared/components/lists/GroupList";
 import {
   Queries,
   pageContentByPath,
 } from "@econnessione/shared/providers/DataProvider";
-import { navigateTo } from "@econnessione/shared/utils/links";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { Loader } from "@econnessione/ui/components/Common/Loader";
+import { MainContent } from "@econnessione/ui/components/MainContent";
+import { PageContent } from "@econnessione/ui/components/PageContent";
+import SearchableInput from "@econnessione/ui/components/SearchableInput";
+import GroupList, {
+  GroupListItem,
+} from "@econnessione/ui/components/lists/GroupList";
+import { navigateTo } from "@econnessione/ui/utils/links.utils";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import React from "react";
+import * as React from "react";
 
 export default class GroupsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {

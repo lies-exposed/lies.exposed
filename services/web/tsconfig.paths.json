@@ -16,21 +16,22 @@
     "typeRoots": ["node_modules/@types", "./typings"],
     "baseUrl": "./src",
     "paths": {
+      "@components/*": ["../../../packages/@econnessione/ui/src/components/*"],
       "@templates/*": ["./templates/*"],
       "@containers/*": ["./containers/*"],
       "@providers/*": [
         "../../../packages/@econnessione/shared/src/providers/*"
-      ],
-      "@components/*": [
-        "../../../packages/@econnessione/shared/src/components/*"
       ],
       "@io/*": ["../../../packages/@econnessione/shared/src/io/*"],
       "@helpers/*": ["../../../packages/@econnessione/shared/src/helpers/*"],
       "@mock-data/*": [
         "../../../packages/@econnessione/shared/src/mock-data/*"
       ],
-      "@theme/*": ["../../../packages/@econnessione/shared/src/theme/*"],
-      "@utils/*": ["../../../packages/@econnessione/shared/src/utils/*"],
+      "@utils/*": [
+        "../../../packages/@econnessione/shared/src/utils/*",
+        "../../../packages/@econnessione/ui/src/utils/*"
+      ],
+      "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"],
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
       "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
     }
@@ -41,6 +42,9 @@
     },
     {
       "path": "../../packages/@econnessione/shared"
+    },
+    {
+      "path": "../../packages/@econnessione/ui"
     }
   ]
 }

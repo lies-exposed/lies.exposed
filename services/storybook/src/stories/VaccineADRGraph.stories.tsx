@@ -1,4 +1,4 @@
-import { VaccineADRGraph } from "@econnessione/shared/components/Graph/covid/vaccines/VaccineADRGraph";
+import { VaccineADRGraph } from "@econnessione/ui/components/Graph/covid/vaccines/VaccineADRGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
@@ -12,7 +12,12 @@ export default meta;
 const Template: Story = (props) => {
   return (
     <div style={{ width: "100%" }}>
-      <VaccineADRGraph />
+      <VaccineADRGraph
+        distribution={[]}
+        queries={{
+          data: { id: "" },
+        }}
+      />
     </div>
   );
 };

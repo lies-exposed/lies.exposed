@@ -1,7 +1,7 @@
-import { Actor, Common, Events, Group } from "@io/http";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
+import { Actor, Common, Events, Group } from "@io/http";
 
 const getRelationUUID = (u: Common.ByGroupOrActor): string => {
   if (Common.ByGroup.is(u)) {

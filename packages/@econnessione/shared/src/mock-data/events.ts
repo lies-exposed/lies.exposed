@@ -1,5 +1,3 @@
-import { Events } from "@io/http";
-import { uuid } from "@utils/uuid";
 import { subMonths } from "date-fns";
 import { badActor, goodActor } from "./actors";
 import {
@@ -10,6 +8,8 @@ import {
 } from "./events/events-metadata";
 import { badGroup, goodGroup } from "./groups";
 import { firstTopic, secondTopic, thirdTopic } from "./topics";
+import { Events } from "@io/http";
+import { uuid } from "@utils/uuid";
 
 const today = new Date();
 

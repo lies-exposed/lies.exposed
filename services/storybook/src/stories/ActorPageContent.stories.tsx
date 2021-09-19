@@ -1,8 +1,8 @@
 import {
   ActorPageContent,
   ActorPageContentProps,
-} from "@econnessione/shared/components/ActorPageContent";
-import { actorPageContentArgs } from "@econnessione/shared/components/examples/ActorPageContentExample";
+} from "@econnessione/ui/components/ActorPageContent";
+import { actorPageContentArgs } from "@econnessione/ui/components/examples/ActorPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

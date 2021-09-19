@@ -1,8 +1,8 @@
+import { firstArea } from "@econnessione/shared/mock-data/areas";
 import {
   AreaPageContent,
   AreaPageContentProps,
-} from "@econnessione/shared/components/AreaPageContent";
-import { firstArea } from "@econnessione/shared/mock-data/areas";
+} from "@econnessione/ui/components/AreaPageContent";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

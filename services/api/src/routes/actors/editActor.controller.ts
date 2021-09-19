@@ -1,11 +1,11 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
+import { toActorIO } from "./actor.io";
 import { ActorEntity } from "@entities/Actor.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 // import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "routes/route.types";
-import { toActorIO } from "./actor.io";
 
 export const MakeEditActorRoute: Route = (r, { db, logger }) => {
   AddEndpoint(r)(Endpoints.Actor.Edit, ({ params: { id }, body }) => {

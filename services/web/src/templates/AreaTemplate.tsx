@@ -1,15 +1,15 @@
-import { AreaPageContent } from "@econnessione/shared/components/AreaPageContent";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
-import { MainContent } from "@econnessione/shared/components/MainContent";
-import SEO from "@econnessione/shared/components/SEO";
 import { Queries } from "@econnessione/shared/providers/DataProvider";
+import { AreaPageContent } from "@econnessione/ui/components/AreaPageContent";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { Loader } from "@econnessione/ui/components/Common/Loader";
+import { MainContent } from "@econnessione/ui/components/MainContent";
+import SEO from "@econnessione/ui/components/SEO";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
 
 export default class AreaTemplate extends React.PureComponent<
   RouteComponentProps<{

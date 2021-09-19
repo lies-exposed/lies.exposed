@@ -1,4 +1,4 @@
-import { theme } from "@econnessione/shared/theme";
+import { theme } from "@econnessione/ui/theme";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import BusinessIcon from "@material-ui/icons/Business";
 import EventIcon from "@material-ui/icons/Event";
@@ -6,8 +6,6 @@ import GroupIcon from "@material-ui/icons/Group";
 import MapIcon from "@material-ui/icons/Map";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
-import { AdminDeathEventsResource } from "components/AdminDeathEvents";
-import { AdminLinksResource } from "components/AdminLinks";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
@@ -32,6 +30,8 @@ import {
 } from "./components/AdminProjects";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
+import { AdminDeathEventsResource } from "components/AdminDeathEvents";
+import { AdminLinksResource } from "components/AdminLinks";
 
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console

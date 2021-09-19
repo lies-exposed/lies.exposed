@@ -1,10 +1,10 @@
 import * as logger from "@econnessione/core/logger";
-import { NotAuthorizedError } from "@io/ControllerError";
 import * as express from "express";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import { NotAuthorizedError } from "@io/ControllerError";
 
 const HeadersWithAuthorization = t.strict(
   {

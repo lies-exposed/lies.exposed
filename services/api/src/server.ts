@@ -1,9 +1,18 @@
 import * as path from "path";
 import * as logger from "@econnessione/core/logger";
+import * as AWS from "aws-sdk";
+import axios from "axios";
+import cors from "cors";
+import express from "express";
+import jwt from "express-jwt";
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as E from "fp-ts/lib/Either";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
+import { PathReporter } from "io-ts/lib/PathReporter";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
-import { GetMDXClient } from "@providers/mdx";
 import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
 import { GetLocalSpaceClient } from "@providers/space/LocalSpaceClient";
@@ -22,18 +31,8 @@ import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
+import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDBOptions } from "@utils/getDBOptions";
-import * as AWS from "aws-sdk";
-import axios from "axios";
-import cors from "cors";
-import express from "express";
-import jwt from "express-jwt";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { MakeUserRoutes } from "./routes/users/User.routes";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -58,7 +57,7 @@ export const makeContext = (
             ? TE.right(
                 GetLocalSpaceClient({
                   client: axios.create({
-                    baseURL: `http://data:3010`,
+                    baseURL: `http://${env.DEV_DATA_HOST}`,
                   }),
 
                   logger: serverLogger,
@@ -77,11 +76,6 @@ export const makeContext = (
                   signatureVersion: "v4",
                 })
               ),
-        mdx: TE.right(
-          GetMDXClient({
-            contentBasePath: path.join(process.cwd(), "content"),
-          })
-        ),
         jwt: TE.right(
           GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
         ),

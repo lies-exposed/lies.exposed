@@ -1,6 +1,4 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { EventEntity } from "@entities/Event.entity";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -9,8 +7,10 @@ import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { RouteContext } from "routes/route.types";
 import { toEventIO } from "./event.io";
+import { EventEntity } from "@entities/Event.entity";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { RouteContext } from "routes/route.types";
 
 export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {

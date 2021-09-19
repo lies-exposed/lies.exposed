@@ -4,6 +4,8 @@
   "plugins": ["@typescript-eslint"],
   "extends": [
     "standard-with-typescript",
+    "plugin:import/typescript",
+    "plugin:import/recommended",
     "prettier"
   ],
   "parserOptions": {
@@ -13,7 +15,16 @@
       "./services/*/tsconfig.json"
     ]
   },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
+    }
+  },
   "rules": {
+    "import/default": "off",
+    "import/no-named-as-default-member": "off",
     "import/order": [
       "error",
       {
@@ -22,6 +33,7 @@
         }
       }
     ],
+    "import/namespace": "off",
     "no-restricted-imports": [
       "error",
       {
@@ -33,6 +45,7 @@
     "@typescript-eslint/no-redeclare": ["off"],
     "@typescript-eslint/return-await": ["error"],
     "@typescript-eslint/promise-function-async": ["off"],
-    "@typescript-eslint/strict-boolean-expressions": ["off"]
+    "@typescript-eslint/strict-boolean-expressions": ["off"],
+    "@typescript-eslint/restrict-plus-operands": ["off"]
   }
 }

@@ -1,16 +1,16 @@
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Loader } from "@econnessione/shared/components/Common/Loader";
-import { ContentWithSidebar } from "@econnessione/shared/components/ContentWithSidebar";
-import { PageContent } from "@econnessione/shared/components/PageContent";
-import SEO from "@econnessione/shared/components/SEO";
-import { TableOfContents } from "@econnessione/shared/components/TableOfContents";
 import { pageContentByPath } from "@econnessione/shared/providers/DataProvider";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { Loader } from "@econnessione/ui/components/Common/Loader";
+import { ContentWithSidebar } from "@econnessione/ui/components/ContentWithSidebar";
+import { PageContent } from "@econnessione/ui/components/PageContent";
+import SEO from "@econnessione/ui/components/SEO";
+import { TableOfContents } from "@econnessione/ui/components/TableOfContents";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
 
 export default class ProjectPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {

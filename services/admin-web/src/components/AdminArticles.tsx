@@ -1,9 +1,6 @@
-import { ArticlePageContent } from "@econnessione/shared/components/ArticlePageContent";
 import { http } from "@econnessione/shared/io";
-import { Article } from "@econnessione/shared/io/http/Article";
-import { renderValidationErrors } from "@econnessione/shared/utils/renderValidationErrors";
-import { apiProvider } from "client/HTTPAPI";
-import { uploadImages } from "client/MediaAPI";
+import { ArticlePageContent } from "@econnessione/ui/components/ArticlePageContent";
+import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -34,6 +31,8 @@ import {
   TextInput,
 } from "react-admin";
 import MarkdownInput from "./Common/MarkdownInput";
+import { apiProvider } from "client/HTTPAPI";
+import { uploadImages } from "client/MediaAPI";
 
 export const ArticleList: React.FC<ListProps> = (props) => (
   <List
@@ -94,14 +93,8 @@ export const ArticleEdit: React.FC<EditProps> = (props) => (
           {({ formData, ...rest }) => {
             return pipe(
               http.Article.Article.decode({ ...formData, links: [] }),
-              E.fold(renderValidationErrors, (p) => (
-                <ArticlePageContent
-                  {...p}
-                  events={[]}
-                  projects={[]}
-                  funds={[]}
-                  onMemberClick={() => {}}
-                />
+              E.fold(ValidationErrorsLayout, (p) => (
+                <ArticlePageContent {...p} />
               ))
             );
           }}

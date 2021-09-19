@@ -49,6 +49,7 @@ jobs:
           repository: ascariandrea/econnessione/api
           tag_with_ref: true
           dockerfile: api.Dockerfile
+          target: production
 
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v0.1.4
@@ -57,8 +58,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker pull docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha
             docker stop econnessione-api
+            docker pull docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha
             docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -d --name econnessione-db-migrations-run docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha yarn api migration:run
             docker rm econnessione-db-migrations-run
             docker rm econnessione-api

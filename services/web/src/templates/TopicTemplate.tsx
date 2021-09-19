@@ -1,21 +1,21 @@
-import { ContentWithSideNavigation } from "@econnessione/shared/components/ContentWithSideNavigation";
-import { Layout } from "@econnessione/shared/components/Layout";
-import SEO from "@econnessione/shared/components/SEO";
-import { TopicPageContent } from "@econnessione/shared/components/TopicPageContent";
-import EventList from "@econnessione/shared/components/lists/EventList/EventList";
 import {
   eventsDataToNavigatorItems,
   ordEventDate,
 } from "@econnessione/shared/helpers/event";
 import { Events, Topic } from "@econnessione/shared/io/http";
 import { throwValidationErrors } from "@econnessione/shared/utils/throwValidationErrors";
+import { ContentWithSideNavigation } from "@econnessione/ui/components/ContentWithSideNavigation";
+import { Layout } from "@econnessione/ui/components/Layout";
+import SEO from "@econnessione/ui/components/SEO";
+import { TopicPageContent } from "@econnessione/ui/components/TopicPageContent";
+import EventList from "@econnessione/ui/components/lists/EventList/EventList";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import React from "react";
+import * as React from "react";
 
 interface TopicTimelineTemplateProps {
   // `data` prop will be injected by the GraphQL query below.

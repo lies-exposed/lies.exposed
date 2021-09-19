@@ -1,16 +1,16 @@
-import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
+import { Queries } from "@econnessione/shared/providers/DataProvider";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import {
   EventsNetworkGraph,
   EventsNetworkGraphProps,
-} from "@components/Graph/EventsNetworkGraph";
-import { ErrorBox } from "@econnessione/shared/components/Common/ErrorBox";
-import { Queries } from "@econnessione/shared/providers/DataProvider";
+} from "@econnessione/ui/components/Graph/EventsNetworkGraph";
 import { Events } from "@io/http";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
-import React from "react";
+import * as React from "react";
 
 interface EventsNetworkProps extends Omit<EventsNetworkGraphProps, "events"> {
   filter: Events.Uncategorized.GetEventsQueryFilter;

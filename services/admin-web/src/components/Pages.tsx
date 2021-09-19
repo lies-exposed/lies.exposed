@@ -1,4 +1,4 @@
-import { PageContent } from "@econnessione/shared/components/PageContent";
+import { PageContent } from "@econnessione/ui/components/PageContent";
 import * as React from "react";
 import {
   Create,
@@ -47,7 +47,7 @@ export const PageEdit: React.FC<EditProps> = (props) => (
       <FormTab label="preview">
         <FormDataConsumer>
           {({ formData, ...rest }) => {
-            return <PageContent body={formData.body} />;
+            return <PageContent {...formData} />;
           }}
         </FormDataConsumer>
       </FormTab>
