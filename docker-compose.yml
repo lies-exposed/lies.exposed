@@ -68,6 +68,7 @@ services:
       - ./services/web/.env.local
     environment:
       SKIP_PREFLIGHT_CHECK: "true"
+      DISABLE_ESLINT_PLUGIN: "true"
     ports:
       - "4000:4000"
     volumes:
@@ -88,6 +89,7 @@ services:
       - ./services/admin-web/.env.local
     environment:
       SKIP_PREFLIGHT_CHECK: "true"
+      DISABLE_ESLINT_PLUGIN: "true"
     ports:
       - "4001:4001"
     volumes:

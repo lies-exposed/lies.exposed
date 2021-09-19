@@ -63,6 +63,7 @@
     "@types/node-cron": "^2.0.4",
     "@types/supertest": "^2.0.10",
     "@types/uuid": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.24.2",
     "fast-check": "^2.13.0",
     "nodemon": "^2.0.6",

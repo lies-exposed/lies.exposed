@@ -16547,7 +16547,7 @@ react-admin-color-input@^3.0.0-beta.0:
     react-color "^2.17.3"
     recompose "^0.30.0"
 
-react-admin@^3.11.2, react-admin@^3.16.4, react-admin@^3.18.1:
+react-admin@^3.11.2, react-admin@^3.16.4:
   version "3.18.1"
   resolved "https://registry.yarnpkg.com/react-admin/-/react-admin-3.18.1.tgz#ec94b2cbb4eeb047e1eb8a33177e39337bba5bb4"
   integrity sha512-/4J7MdK/d9lnOp/CKGBSN46TITuXhlhD+wMQHnfjL9z/pkGTDrwJxoWM4+q9n6ZrFiBwUCpqMU6k84IhnEoZ7w==
