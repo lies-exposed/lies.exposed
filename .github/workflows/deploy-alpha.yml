@@ -1,7 +1,7 @@
 name: Deploy Alpha
 
 on:
-  push:
+  pull_request:
     branches:
       - release/alpha
   # workflow_run:
@@ -46,13 +46,14 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ github.actor }}
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push to GitHub Packages
         uses: docker/build-push-action@v2
         with:
-          tags: ascariandrea/econnessione/api@latest
+          tags: ghcr.io/ascariandrea/econnessione/api:release-alpha
           file: api.Dockerfile
           target: production
           push: true
@@ -63,13 +64,15 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
+          script_stop: true
           script: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             docker stop econnessione-api
-            docker pull docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha
-            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -d --name econnessione-db-migrations-run docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha yarn api migration:run
+            docker pull ghcr.io/ascariandrea/econnessione/api:release-alpha
+            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -d --name econnessione-db-migrations-run ghcr.io/ascariandrea/econnessione/api:release-alpha yarn api migration:run
             docker rm econnessione-db-migrations-run
             docker rm econnessione-api
-            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -p "4010:4010" -d --name econnessione-api docker.pkg.github.com/ascariandrea/econnessione/api:release-alpha yarn api start
+            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -p "4010:4010" -d --name econnessione-api ghcr.io/ascariandrea/econnessione/api:release-alpha yarn api start
 
       - name: Build Packages
         run: yarn packages:build
@@ -86,7 +89,8 @@ jobs:
             --follow-symlinks \
             --delete \
             --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read
+            --acl public-read \
+            --region fra1
 
       - name: Build Admin Web
         run: yarn workspace admin-web build
@@ -105,7 +109,8 @@ jobs:
             --follow-symlinks \
             --delete \
             --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read
+            --acl public-read \
+            --region fra1
 
       - name: Build Web
         run: yarn workspace web build
@@ -124,7 +129,8 @@ jobs:
             --follow-symlinks \
             --delete \
             --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read
+            --acl public-read \
+            --region fra1
 
       - name: Upload Public Data to DO Space
         env:
@@ -135,7 +141,8 @@ jobs:
             --follow-symlinks \
             --delete \
             --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read
+            --acl public-read \
+            --region fra1
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
