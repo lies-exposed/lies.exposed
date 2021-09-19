@@ -1,5 +1,5 @@
 import * as qs from "querystring";
-import * as http from "@econnessione/shared/http";
+import * as http from "@econnessione/ui/http";
 import axios from "axios";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";

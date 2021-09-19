@@ -1,7 +1,5 @@
 import { Area, Events } from "@econnessione/shared/io/http";
 import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncategorized";
-import { Queries } from "@econnessione/shared/providers/DataProvider";
-import { geoJSONFormat } from "@econnessione/shared/utils/map.utils";
 import { navigate } from "@reach/router";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
@@ -12,6 +10,8 @@ import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import Feature from "ol/Feature";
 import * as React from "react";
+import { Queries } from "../providers/DataProvider";
+import { geoJSONFormat } from "../utils/map.utils";
 import { ErrorBox } from "./Common/ErrorBox";
 import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
 import Map from "./Map";

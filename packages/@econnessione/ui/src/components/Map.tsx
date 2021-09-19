@@ -1,4 +1,3 @@
-import { geoJSONFormat } from "@econnessione/shared/utils/map.utils";
 import Feature from "ol/Feature";
 import OlMap from "ol/Map";
 import * as OlControl from "ol/control";
@@ -10,6 +9,7 @@ import OSM from "ol/source/OSM";
 import VectorSource from "ol/source/Vector";
 import { Circle, Fill, Stroke, Style } from "ol/style";
 import * as React from "react";
+import { geoJSONFormat } from "../utils/map.utils";
 
 interface MapProps<G extends Geometry> {
   id: string;

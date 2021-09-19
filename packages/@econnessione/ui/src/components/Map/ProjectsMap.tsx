@@ -1,11 +1,11 @@
-import { Queries } from "@econnessione/shared/providers/DataProvider";
-import { geoJSONFormat } from "@econnessione/shared/utils/map.utils";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import Feature from "ol/Feature";
 import * as React from "react";
+import { Queries } from "../../providers/DataProvider";
+import { geoJSONFormat } from "../../utils/map.utils";
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { LazyLoader } from "@components/Common/Loader";
 import Map from "@components/Map";

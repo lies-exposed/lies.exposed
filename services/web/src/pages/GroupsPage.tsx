@@ -1,7 +1,3 @@
-import {
-  Queries,
-  pageContentByPath,
-} from "@econnessione/shared/providers/DataProvider";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
@@ -10,6 +6,10 @@ import SearchableInput from "@econnessione/ui/components/SearchableInput";
 import GroupList, {
   GroupListItem,
 } from "@econnessione/ui/components/lists/GroupList";
+import {
+  Queries,
+  pageContentByPath,
+} from "@econnessione/ui/providers/DataProvider";
 import { navigateTo } from "@econnessione/ui/utils/links.utils";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

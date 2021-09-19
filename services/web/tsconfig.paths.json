@@ -27,10 +27,7 @@
       "@mock-data/*": [
         "../../../packages/@econnessione/shared/src/mock-data/*"
       ],
-      "@utils/*": [
-        "../../../packages/@econnessione/shared/src/utils/*",
-        "../../../packages/@econnessione/ui/src/utils/*"
-      ],
+      "@utils/*": ["../../../packages/@econnessione/shared/src/utils/*"],
       "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"],
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
       "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]

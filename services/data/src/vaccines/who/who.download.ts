@@ -1,6 +1,6 @@
 import * as path from "path";
-import { APIRESTClient } from "@econnessione/shared/http";
-import { DownloadTask } from "vaccines/utils/download.utils";
+import { APIRESTClient } from "@econnessione/ui/http";
+import { DownloadTask } from "../utils/download.utils";
 
 const WHO_DATA_DIR = path.resolve(
   __dirname,

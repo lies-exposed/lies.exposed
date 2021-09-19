@@ -35,7 +35,7 @@ COPY --from=build /app/services/api/ormconfig.js /app/services/api/ormconfig.js
 COPY --from=build /app/services/api/build /app/services/api/build
 
 # COPY --from=deps /deps/packages/@econnessione/core/node_modules /app/packages/@econnessione/core/node_modules
-COPY --from=deps /deps/packages/@econnessione/shared/node_modules /app/packages/@econnessione/shared/node_modules
+# COPY --from=deps /deps/packages/@econnessione/shared/node_modules /app/packages/@econnessione/shared/node_modules
 COPY --from=deps /deps/services/api/node_modules /app/services/api/node_modules
 
 CMD ["yarn", "api", "start"]

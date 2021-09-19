@@ -5,10 +5,6 @@ import {
 } from "@econnessione/shared/helpers/event";
 import * as io from "@econnessione/shared/io";
 import { Actor, Group, Topic } from "@econnessione/shared/io/http";
-import {
-  pageContentByPath,
-  Queries,
-} from "@econnessione/shared/providers/DataProvider";
 import { GetByGroupOrActorUtils } from "@econnessione/shared/utils/ByGroupOrActorUtils";
 import { formatDate } from "@econnessione/shared/utils/date";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
@@ -32,6 +28,10 @@ import {
 import EventList from "@econnessione/ui/components/lists/EventList/EventList";
 import { GroupListItem } from "@econnessione/ui/components/lists/GroupList";
 import { TopicListItem } from "@econnessione/ui/components/lists/TopicList";
+import {
+  pageContentByPath,
+  Queries,
+} from "@econnessione/ui/providers/DataProvider";
 import { theme } from "@econnessione/ui/theme/index";
 import {
   parseSearch,

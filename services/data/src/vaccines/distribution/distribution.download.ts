@@ -1,5 +1,5 @@
 import * as path from "path";
-import { APIRESTClient } from "@econnessione/shared/http";
+import { APIRESTClient } from "@econnessione/ui/http";
 import { DownloadTask } from "../utils/download.utils";
 
 const DISTRIBUTION_PATH = path.resolve(

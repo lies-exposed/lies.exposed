@@ -1,7 +1,3 @@
-import {
-  pageContentByPath,
-  Queries,
-} from "@econnessione/shared/providers/DataProvider";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { ContentWithSidebar } from "@econnessione/ui/components/ContentWithSidebar";
@@ -11,6 +7,10 @@ import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
 import { TableOfContents } from "@econnessione/ui/components/TableOfContents";
 import ProjectList from "@econnessione/ui/components/lists/ProjectList";
+import {
+  pageContentByPath,
+  Queries,
+} from "@econnessione/ui/providers/DataProvider";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { navigate, RouteComponentProps } from "@reach/router";

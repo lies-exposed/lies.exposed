@@ -1,4 +1,3 @@
-import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { EventsMap } from "@econnessione/ui/components/EventsMap";
@@ -6,6 +5,7 @@ import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import SEO from "@econnessione/ui/components/SEO";
 import { EventSlider } from "@econnessione/ui/components/sliders/EventSlider";
+import { Queries } from "@econnessione/ui/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

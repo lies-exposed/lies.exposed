@@ -1,9 +1,9 @@
-import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { AreaPageContent } from "@econnessione/ui/components/AreaPageContent";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import SEO from "@econnessione/ui/components/SEO";
+import { Queries } from "@econnessione/ui/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
