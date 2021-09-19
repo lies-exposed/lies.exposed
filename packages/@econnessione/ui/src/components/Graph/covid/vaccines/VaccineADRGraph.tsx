@@ -12,7 +12,6 @@ import {
   ZeroToOneMonth,
 } from "@econnessione/shared/io/http/covid/VaccineDatum";
 import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
-import { jsonData } from "@econnessione/shared/providers/DataProvider";
 import {
   Box,
   FormControl,
@@ -40,6 +39,7 @@ import { isDate, formatISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
+import { jsonData } from "../../../../providers/DataProvider";
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { StatAccordion } from "@components/Common/StatAccordion";

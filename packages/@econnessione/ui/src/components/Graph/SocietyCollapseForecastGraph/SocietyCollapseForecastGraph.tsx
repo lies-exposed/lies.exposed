@@ -1,4 +1,3 @@
-import { jsonData } from "@econnessione/shared/providers/DataProvider";
 import { numTicksForWidth } from "@econnessione/shared/utils/graph.utils";
 import { AxisBottom } from "@vx/axis";
 import { curveBasis, curveBasisOpen } from "@vx/curve";
@@ -18,6 +17,7 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import * as React from "react";
+import { jsonData } from "../../../providers/DataProvider";
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { LazyLoader } from "@components/Common/Loader";
 

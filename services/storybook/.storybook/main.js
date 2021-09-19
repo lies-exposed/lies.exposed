@@ -37,10 +37,22 @@ module.exports = {
       process.cwd(),
       "../../packages/@econnessione/shared/tsconfig.json"
     );
+
     // console.log(sharedBaseUrl);
     config.resolve.plugins.push(
       new TSConfigPathsWebpackPlugin({
         configFile: sharedBaseUrl,
+      })
+    );
+
+    const uiConfigFile = path.resolve(
+      process.cwd(),
+      "../../packages/@econnessione/ui/tsconfig.json"
+    );
+
+    config.resolve.plugins.push(
+      new TSConfigPathsWebpackPlugin({
+        configFile: uiConfigFile,
       })
     );
     config.resolve.plugins.push(new TSConfigPathsWebpackPlugin());

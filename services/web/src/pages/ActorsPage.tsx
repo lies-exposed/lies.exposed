@@ -1,8 +1,4 @@
 import { Actor } from "@econnessione/shared/io/http/Actor";
-import {
-  Queries,
-  pageContentByPath,
-} from "@econnessione/shared/providers/DataProvider";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
@@ -10,6 +6,10 @@ import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
 import SearchableInput from "@econnessione/ui/components/SearchableInput";
 import { ActorList } from "@econnessione/ui/components/lists/ActorList";
+import {
+  Queries,
+  pageContentByPath,
+} from "@econnessione/ui/providers/DataProvider";
 import { navigateTo } from "@econnessione/ui/utils/links.utils";
 import { navigate, RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

@@ -1,6 +1,4 @@
 import { Area } from "@econnessione/shared/io/http";
-import { Queries } from "@econnessione/shared/providers/DataProvider";
-import { geoJSONFormat } from "@econnessione/shared/utils/map.utils";
 import { Typography } from "@material-ui/core";
 import { navigate } from "@reach/router";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
@@ -10,6 +8,8 @@ import Feature from "ol/Feature";
 import { Polygon } from "ol/geom";
 import { getArea } from "ol/sphere";
 import * as React from "react";
+import { Queries } from "../providers/DataProvider";
+import { geoJSONFormat } from "../utils/map.utils";
 import { ErrorBox } from "./Common/ErrorBox";
 import { Loader } from "./Common/Loader";
 import Map from "./Map";

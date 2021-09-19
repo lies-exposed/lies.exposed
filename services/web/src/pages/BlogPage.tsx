@@ -1,13 +1,13 @@
-import {
-  pageContentByPath,
-  Queries,
-} from "@econnessione/shared/providers/DataProvider";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
+import {
+  pageContentByPath,
+  Queries,
+} from "@econnessione/ui/providers/DataProvider";
 import {
   Button,
   Card,

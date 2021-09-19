@@ -1,12 +1,12 @@
 import { Events } from "@econnessione/shared/io/http";
 import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncategorized";
-import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import SlickSlider from "react-slick";
+import { Queries } from "../../providers/DataProvider";
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { LazyLoader } from "@components/Common/Loader";
 import { UncategorizedListItem } from "@components/lists/EventList/UncategorizedListItem";

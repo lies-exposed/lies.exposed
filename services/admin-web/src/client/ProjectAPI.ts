@@ -1,5 +1,5 @@
-import * as http from "@econnessione/shared/http";
 import { Project } from "@econnessione/shared/io/http/Project";
+import * as http from "@econnessione/ui/http";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";

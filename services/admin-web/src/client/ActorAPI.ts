@@ -1,5 +1,5 @@
 import { Actor } from "@econnessione/shared/io/http/Actor";
-import { APIRESTClient } from "@econnessione/shared/src/http";
+import { APIRESTClient } from "@econnessione/ui/src/http";
 import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";

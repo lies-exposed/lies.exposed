@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import { GetLogger } from "@econnessione/core/logger";
-import { APIRESTClient } from "@econnessione/shared/http";
+import { APIRESTClient } from "@econnessione/ui/http";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 

@@ -1,10 +1,10 @@
-import { Queries } from "@econnessione/shared/providers/DataProvider";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import SEO from "@econnessione/ui/components/SEO";
 import { EventSlider } from "@econnessione/ui/components/sliders/EventSlider";
+import { Queries } from "@econnessione/ui/providers/DataProvider";
 import { Box, Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

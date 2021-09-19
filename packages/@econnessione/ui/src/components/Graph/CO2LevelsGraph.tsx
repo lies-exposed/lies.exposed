@@ -1,4 +1,3 @@
-import { jsonData } from "@econnessione/shared/providers/DataProvider";
 import { Checkbox } from "@material-ui/core";
 import { LinearGradient } from "@vx/gradient";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
@@ -6,6 +5,7 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as t from "io-ts";
 import * as React from "react";
+import { jsonData } from "../../providers/DataProvider";
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { AxisGraph } from "@components/Common/Graph/AxisGraph";
 import { Loader } from "@components/Common/Loader";

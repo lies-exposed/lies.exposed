@@ -14,10 +14,10 @@ import {
   TabPanel,
 } from "@econnessione/ui/components/Common/TabPanel";
 import { VaccineADRGraph } from "@econnessione/ui/components/Graph/covid/vaccines/VaccineADRGraph";
+import { jsonData } from "@econnessione/ui/providers/DataProvider";
 import { WHOCovid19GlobalData } from "@io/http/covid/COVIDDailyDatum";
 import { VaccineDistributionDatum } from "@io/http/covid/VaccineDistributionDatum";
 import { Box, Grid, Tab, Tabs, Typography } from "@material-ui/core";
-import { jsonData } from "@providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import { scaleOrdinal } from "@vx/scale";
 import * as QR from "avenger/lib/QueryResult";
