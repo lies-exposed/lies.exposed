@@ -2,7 +2,6 @@ import { Logger } from "@econnessione/core/logger";
 import * as csv from "fast-csv";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
-import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
@@ -23,7 +22,7 @@ export interface CSVUtil {
     location: string,
     parseOptions: csv.ParserOptionsArgs,
     opts: ParseFileOpts<A, O, I>
-  ) => TE.TaskEither<Error, NEA.NonEmptyArray<A>>;
+  ) => TE.TaskEither<Error, A[]>;
   writeToPath: <T>(
     outputPath: string,
     results: T[]
@@ -39,8 +38,8 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
     location: string,
     parseOptions: csv.ParserOptionsArgs,
     opts: ParseFileOpts<A, O, I>
-  ): TE.TaskEither<Error, NEA.NonEmptyArray<A>> => {
-    let data: NEA.NonEmptyArray<A>;
+  ): TE.TaskEither<Error, A[]> => {
+    const data: A[] = [];
     return TE.tryCatch(() => {
       return new Promise((resolve, reject) => {
         // log.debug.log("Reading file %s with options %O", location, parseOptions);
@@ -56,11 +55,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
               return reject(decoded.left);
             }
 
-            if (!data) {
-              data = [decoded.right];
-            } else {
-              data.push(decoded.right);
-            }
+            data.push(decoded.right);
           })
           .on("end", () => {
             resolve(data);

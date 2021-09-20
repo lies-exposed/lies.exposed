@@ -84,7 +84,6 @@
     "to-vfile": "^6.1.0",
     "topojson-client": "^3.1.0",
     "ts-endpoint": "^2.0.0",
-    "ts-endpoint-express": "^2.0.0",
     "ts-io-error": "^2.0.0",
     "vfile-reporter": "^6.0.2"
   },
@@ -109,7 +108,6 @@
   },
   "peerDependencies": {
     "@material-ui/icons": "^4.11.2",
-    "puppeteer": "^10.2.0",
     "react-admin": "^3.16.4"
   },
   "lint-staged": {

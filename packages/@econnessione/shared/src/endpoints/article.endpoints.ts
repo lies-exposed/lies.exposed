@@ -1,5 +1,6 @@
 import * as t from "io-ts";
-import { BooleanFromString, DateFromISOString } from "io-ts-types";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Article } from "../io/http";

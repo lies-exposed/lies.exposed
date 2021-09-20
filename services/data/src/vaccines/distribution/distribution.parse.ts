@@ -14,7 +14,8 @@ import * as Ord from "fp-ts/lib/Ord";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import { NumberFromString, optionFromNullable } from "io-ts-types";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 
 const log = GetLogger("vaccine-parse-distribution");
 const csvUtil = GetCSVUtil({ log });

@@ -14,6 +14,7 @@
     ],
     "nohoist": [
       "module-alias",
+      "typeorm",
       "**/ts-jest",
       "**/ts-jest/**"
     ]
@@ -49,15 +50,14 @@
     "@typescript-eslint/eslint-plugin": "^4.12.0",
     "@typescript-eslint/parser": "^4.12.0",
     "concurrently": "^6.1.0",
-    "dockerode": "^3.2.1",
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-config-standard-with-typescript": "^21.0.1",
     "eslint-import-resolver-typescript": "^2.5.0",
-    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
+    "eslint-webpack-plugin": "^3.0.1",
     "husky": "^6.0.0",
     "is-ci": "^3.0.0",
     "jest": "^26",

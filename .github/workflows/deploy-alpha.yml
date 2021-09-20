@@ -66,13 +66,13 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script_stop: true
           script: |
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-            docker stop econnessione-api
-            docker pull ghcr.io/ascariandrea/econnessione/api:release-alpha
-            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -d --name econnessione-db-migrations-run ghcr.io/ascariandrea/econnessione/api:release-alpha yarn api migration:run
-            docker rm econnessione-db-migrations-run
-            docker rm econnessione-api
-            docker run -it --env-file .env --volume $(pwd)/certs:/app/services/api/certs -p "4010:4010" -d --name econnessione-api ghcr.io/ascariandrea/econnessione/api:release-alpha yarn api start
+            cd ~/app
+            docker login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
+            docker-compose down
+            docker-compose pull
+            docker-compose up migration
+            docker-compose down
+            docker-compose up -d api
 
       - name: Build Packages
         run: yarn packages:build

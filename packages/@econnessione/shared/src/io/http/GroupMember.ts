@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { Actor } from "./Actor";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";

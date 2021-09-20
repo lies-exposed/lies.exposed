@@ -28,8 +28,10 @@ services:
       - .env
     ports:
       - "4010:4010"
-    working_dir: /app
-    command: yarn api start
+    volumes:
+      - ./certs:/app/services/api/certs
+    working_dir: /app/services/api
+    command: yarn start
     restart: always
 
   migration:
@@ -37,7 +39,7 @@ services:
     image: ghcr.io/ascariandrea/econnessione/api:release-alpha
     env_file:
       - .env
-    ports:
-      - "4010:4010"
-    working_dir: /app
-    command: yarn api migration:run
+    volumes:
+      - ./certs:/app/services/api/certs
+    working_dir: /app/services/api
+    command: yarn migration:run

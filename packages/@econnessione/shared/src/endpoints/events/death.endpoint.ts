@@ -1,5 +1,6 @@
 import * as t from "io-ts";
-import { DateFromISOString, optionFromNullable } from "io-ts-types";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
 import { Point } from "../../io/http/Common";
