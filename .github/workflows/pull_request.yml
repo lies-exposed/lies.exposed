@@ -1,16 +1,16 @@
 name: Pull Request
 
-# on:
-#   pull_request:
-#     branches:
-#       - release/alpha
-#       - master
-#     paths:
-#       - "packages/**"
-#       - "services/api/**"
-#       - "services/admin-web/**"
-#       - "services/web/**"
-#       - "services/data/**"
+on:
+  pull_request:
+    branches:
+      - release/alpha
+      - master
+    paths:
+      - "packages/**"
+      - "services/api/**"
+      - "services/admin-web/**"
+      - "services/web/**"
+      - "services/data/**"
 
 jobs:
   install:
