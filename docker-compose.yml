@@ -105,7 +105,7 @@ services:
 
   data:
     container_name: econnessione-data
-    image: node:14-slim
+    image: econnessione_base
     env_file:
       - .env.local
     ports:

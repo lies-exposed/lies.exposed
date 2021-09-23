@@ -100,7 +100,7 @@
     "@types/throttle-debounce": "^2.1.0",
     "@types/topojson-client": "^3.1.0",
     "@types/topojson-specification": "^1.0.2",
-    "eslint-plugin-import-order": "^2.1.4",
+    "eslint-plugin-import": "^2.24.2",
     "jest": "^26.6.3",
     "react-admin": "^3.16.4",
     "ts-jest": "^26.4.4",
@@ -108,7 +108,7 @@
   },
   "peerDependencies": {
     "@material-ui/icons": "^4.11.2",
-    "react-admin": "^3.16.4"
+    "react-admin": "^3.18.2"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js|jsx)": "eslint --fix",
