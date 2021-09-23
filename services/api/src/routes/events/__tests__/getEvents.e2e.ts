@@ -17,8 +17,8 @@ describe("Get Events", () => {
   const [group] = fc.sample(GroupArb, 1);
   const [groupMember] = fc.sample(GroupMemberArb, 1).map((gm) => ({
     ...gm,
-    actor: actor.id,
-    group: group.id,
+    actor: actor,
+    group: group,
   }));
   const eventsData = fc.sample(EventArb, 100).map((e) => ({
     ...e,
@@ -39,8 +39,8 @@ describe("Get Events", () => {
     const groupMemberEvents = pipe(
       eventsData,
       A.takeLeft(10),
-      A.map((g) => ({
-        ...g,
+      A.map((e) => ({
+        ...e,
         groupsMembers: [groupMember],
       }))
     );
@@ -139,10 +139,8 @@ describe("Get Events", () => {
         .query({ "groupsMembers[]": groupMember.id })
         .set("Authorization", authorizationToken);
 
-      const { total } = response.body;
-
       expect(response.status).toEqual(200);
-      expect(total).toBe(10);
+      expect(response.body.total).toBe(10);
       expect(response.body.data[0]).toMatchObject({
         groupsMembers: [groupMember.id],
       });

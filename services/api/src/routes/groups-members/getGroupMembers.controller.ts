@@ -30,6 +30,12 @@ export const MakeListGroupMemberRoute = (
           .leftJoinAndSelect("groupsMembers.group", "group")
           .leftJoinAndSelect("groupsMembers.events", "events"),
         (q) => {
+          ctx.logger.debug.log("Ids %O", query.ids);
+          if (query.ids._tag === "Some") {
+            return q.andWhere("groupsMembers.id IN (:...ids)", {
+              ids: query.ids.value,
+            });
+          }
           if (search._tag === "Some") {
             const likeTerm = `%${search.value}%`;
             ctx.logger.debug.log("Searching by actor.fullName %s", likeTerm);

@@ -43,6 +43,6 @@ export class GroupMemberEntity {
   })
   actor: ActorEntity;
 
-  @ManyToMany(() => EventEntity, (e) => e.groupsMembers)
+  @ManyToMany(() => EventEntity, (e) => e.groupsMembers, { cascade: false })
   events: EventEntity[];
 }

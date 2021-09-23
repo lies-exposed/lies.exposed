@@ -77,11 +77,11 @@ export const GroupMemberArb: tests.fc.Arbitrary<http.GroupMember.GroupMember> =
     .getArbitrary(t.strict({ ...groupMemberProps }, "GroupMember"))
     .map((p) => ({
       ...p,
-      id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+      id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
       startDate: new Date(),
       endDate: new Date(),
-      actor: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-      group: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+      actor: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+      group: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
       body: "",
       events: [],
       createdAt: new Date().toISOString(),

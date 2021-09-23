@@ -34,7 +34,7 @@ export class ActorEntity {
   })
   memberIn: GroupMemberEntity[];
 
-  @ManyToMany(() => EventEntity, (e) => e.actors)
+  @ManyToMany(() => EventEntity, (e) => e.actors, { cascade: false })
   events: EventEntity[];
 
   @OneToOne(() => DeathEventEntity, (d) => d.victim)

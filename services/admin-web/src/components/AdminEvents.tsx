@@ -58,7 +58,7 @@ const EventsFilter: React.FC = (props: any) => {
       >
         <AutocompleteArrayInput
           optionText={(a: Partial<Actor>) =>
-            a.id ? `${a.fullName}` : "No actor"
+            a?.id ? `${a.fullName}` : "No actor"
           }
         />
       </ReferenceArrayInput>
@@ -92,13 +92,14 @@ export const EventList: React.FC<ListProps> = (props) => (
         render={(r: Record | undefined) => (r ? r.actors.length : 0)}
       />
       <FunctionField
-        sourc="groups"
+        source="groups"
         render={(r: Record | undefined) => (r ? r.groups.length : 0)}
       />
       <FunctionField
-        source="links"
-        render={(r: any) => r.links?.length ?? "-"}
+        source="groupsMembers"
+        render={(r: Record | undefined) => (r ? r.groupsMembers.length : 0)}
       />
+      <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
       <DateField source="startDate" />
       <DateField source="endDate" />
       <DateField source="updatedAt" />
@@ -118,12 +119,14 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
     transform={(r) => {
       const actors = r.actors.concat(r.newActors ?? []);
       const groups = r.groups.concat(r.newGroups ?? []);
-      const links = r.links.concat(r.newLinks ?? []);
+      const links = (r.links ?? []).concat(r.newLinks ?? []);
+      const groupsMembers = r.groupsMembers.concat(r.newGroupsMembers ?? []);
       return {
         ...r,
         endDate: r.endDate === "" ? undefined : r.endDate,
         actors,
         groups,
+        groupsMembers,
         links,
       };
     }}
@@ -166,28 +169,31 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
             optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
           />
         </ReferenceArrayInput>
-        <ReferenceManyField target="groupsMembers" reference="groups-members">
+        <ReferenceArrayField source="groupsMembers" reference="groups-members">
           <Datagrid rowClick="edit">
             <ReferenceField source="id" reference="groups-members">
               <TextField source="id" />
             </ReferenceField>
-            <TextField source="actor.fullName" />
-            <TextField source="group.name" />
+            {/* <TextField source="actor.fullName" /> */}
+            <ImageField source="actor.avatar" />
+            {/* <TextField source="group.name" /> */}
+            <ImageField source="group.avatar" />
             <DateField source="startDate" />
+            <DateField source="endDate" />
           </Datagrid>
-        </ReferenceManyField>
+        </ReferenceArrayField>
       </FormTab>
       <FormTab label="Groups">
         <ReferenceArrayInput source="newGroups" reference="groups">
           <AutocompleteArrayInput source="id" optionText="name" />
         </ReferenceArrayInput>
-        <ReferenceManyField target="groups" reference="groups">
+        <ReferenceArrayField reference="groups" source="groups">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
-        </ReferenceManyField>
+        </ReferenceArrayField>
       </FormTab>
       <FormTab label="Images">
         <ArrayInput source="newImages">

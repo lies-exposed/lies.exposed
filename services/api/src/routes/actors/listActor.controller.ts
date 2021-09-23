@@ -1,11 +1,11 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Like } from "typeorm";
+import { In, Like } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { toActorIO } from "./actor.io";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
@@ -16,13 +16,19 @@ export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
     Endpoints.Actor.List,
     ({ query: { ids, fullName, ...query } }) => {
       const findOptions = getORMOptions(
-        { ...query, id: ids },
+        { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
       );
 
       ctx.logger.debug.log(`Find Options %O`, findOptions);
 
       const where = pipe(findOptions.where, (w) => {
+        if (O.isSome(ids)) {
+          return {
+            ...w,
+            id: In(ids.value),
+          };
+        }
         if (O.isSome(fullName)) {
           return {
             ...w,
