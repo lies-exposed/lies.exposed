@@ -1,7 +1,7 @@
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 
 const NumberFromEmptyString = new t.Type(
   "NumberFromEmptyString",

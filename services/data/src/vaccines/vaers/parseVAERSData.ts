@@ -270,10 +270,10 @@ const readFiles = ({
 
           const manufacturerResults = pipe(
             manufacturerMap,
-            MapFP.lookupWithKey(S.Eq)(mapKey),
+            MapFP.lookup(S.Eq)(mapKey),
             O.fold(
               () => entry,
-              ([key, r]) => reduceToDateEntry(r, [entry])
+              (r) => reduceToDateEntry(r, [entry])
             ),
             (e) => MapFP.upsertAt(S.Eq)(mapKey, e)(manufacturerMap)
           );

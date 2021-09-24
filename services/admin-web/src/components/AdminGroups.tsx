@@ -10,6 +10,7 @@ import {
   ArrayField,
   ChoicesInputProps,
   Create,
+  ReferenceManyField,
   CreateProps,
   Datagrid,
   DateField,
@@ -133,6 +134,15 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               <DateField source="startDate" />
             </Datagrid>
           </ReferenceArrayField>
+        </FormTab>
+        <FormTab label="events">
+          <ReferenceManyField target="groups[]" reference="events">
+            <Datagrid rowClick="edit">
+              <TextField source="title" />
+              <DateField source="startDate" />
+              <DateField source="endDate" />
+            </Datagrid>
+          </ReferenceManyField>
         </FormTab>
         <FormTab label="Preview">
           <FormDataConsumer>

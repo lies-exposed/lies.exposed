@@ -37,7 +37,7 @@ export class GroupEntity {
   })
   members: GroupMemberEntity[];
 
-  @ManyToMany(() => EventEntity, (a) => a.groups, { nullable: true })
+  @ManyToMany(() => EventEntity, (a) => a.groups, { cascade: false })
   events: EventEntity[];
 
   @Column({ type: "varchar" })

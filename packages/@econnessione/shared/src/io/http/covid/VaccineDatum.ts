@@ -1,5 +1,6 @@
 import * as t from "io-ts";
-import { DateFromISOString, NumberFromString } from "io-ts-types";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 
 export const Pfizer = t.literal("pfizer", "Pfizer");
 export const Astrazeneca = t.literal("astrazeneca", "Astrazeneca");

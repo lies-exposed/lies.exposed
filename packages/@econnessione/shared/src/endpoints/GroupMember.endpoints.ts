@@ -26,6 +26,7 @@ export const List = Endpoint({
       ...GetListQuery.props,
       group: optionFromNullable(t.string),
       search: optionFromNullable(t.string),
+      ids: optionFromNullable(t.array(t.string)),
     }),
   },
   Output: ListGroupMemberOutput,

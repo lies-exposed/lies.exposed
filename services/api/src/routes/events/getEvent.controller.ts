@@ -16,6 +16,9 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
         .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
         .leftJoinAndSelect("event.images", "images")
         .leftJoinAndSelect("event.links", "links")
+        .loadAllRelationIds({
+          relations: ["actors", "groups", "groupsMembers"],
+        })
         .where("event.id = :eventId", { eventId: id }),
       (q) => {
         return ctx.db.execQuery(() => q.getOneOrFail());
@@ -24,14 +27,7 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
 
     return pipe(
       selectEventTask,
-      TE.chainEitherK((event) =>
-        toEventIO({
-          ...event,
-          actors: event.actors.map((a) => a.id),
-          groups: event.groups.map((g) => g.id),
-          groupsMembers: event.groupsMembers.map((g) => g.id),
-        } as any)
-      ),
+      TE.chainEitherK(toEventIO),
       TE.map((data) => ({
         body: {
           data,

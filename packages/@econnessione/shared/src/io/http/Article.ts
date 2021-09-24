@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 import { markdownRemark } from "./Common/Markdown";
 

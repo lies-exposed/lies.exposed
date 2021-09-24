@@ -26,6 +26,12 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
           .leftJoinAndSelect("group.members", "members")
           .leftJoinAndSelect("members.actor", "actor"),
         (q) => {
+          if (O.isSome(ids)) {
+            ctx.logger.debug.log("Where ids %O", ids.value);
+            return q.andWhere("group.id IN (:...ids)", {
+              ids: ids.value,
+            });
+          }
           if (O.isSome(members)) {
             ctx.logger.debug.log("Where members %O", members.value);
             return q.andWhere("members.actor IN (:...members)", {

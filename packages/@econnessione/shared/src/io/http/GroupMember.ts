@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Actor } from "./Actor";
 import { BaseFrontmatter } from "./Common/BaseFrontmatter";
 import { Group } from "./Group";
