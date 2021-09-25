@@ -1,5 +1,7 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
+import * as NEA from "fp-ts/lib/NonEmptyArray";
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toEventIO } from "./event.io";
@@ -8,40 +10,47 @@ import { foldOptionals } from "@utils/foldOptionals.utils";
 import { Route } from "routes/route.types";
 
 export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
-  AddEndpoint(r)(
-    Endpoints.Event.Create,
-    ({ body: { endDate, images, ...body } }) => {
-      const optionalData = pipe(foldOptionals({ endDate }), (data) => ({
-        ...data,
-        groups: body.groups.map((id) => ({ id })),
-        actors: body.actors.map((id) => ({ id })),
-        groupsMembers: body.groupsMembers.map((id) => ({ id })),
-        links: body.links.map(({ url, description }) => ({
-          id: uuid(),
-          url,
-          description,
-        })),
-      }));
-
-      return pipe(
-        db.save(EventEntity, [{ ...body, ...optionalData }]),
-        TE.chain(([event]) =>
-          db.findOneOrFail(EventEntity, {
-            where: { id: event.id },
-            relations: ["images", "links"],
-            loadRelationIds: {
-              relations: ["actors", "groups", "groupsMembers"],
-            },
-          })
+  AddEndpoint(r)(Endpoints.Event.Create, ({ body: { endDate, ...body } }) => {
+    const optionalData = pipe(foldOptionals({ endDate }), (data) => ({
+      ...data,
+      groups: body.groups.map((id) => ({ id })),
+      actors: body.actors.map((id) => ({ id })),
+      groupsMembers: body.groupsMembers.map((id) => ({ id })),
+      links: body.links.map(({ url, description }) => ({
+        id: uuid(),
+        url,
+        description,
+      })),
+      images: pipe(
+        body.images,
+        O.map(
+          NEA.map((image) => ({
+            ...image,
+            id: uuid(),
+          }))
         ),
-        TE.chain((event) => TE.fromEither(toEventIO(event))),
-        TE.map((data) => ({
-          body: {
-            data,
+        O.getOrElse((): any[] => [])
+      ),
+    }));
+
+    return pipe(
+      db.save(EventEntity, [{ ...body, ...optionalData }]),
+      TE.chain(([event]) =>
+        db.findOneOrFail(EventEntity, {
+          where: { id: event.id },
+          relations: ["images", "links"],
+          loadRelationIds: {
+            relations: ["actors", "groups", "groupsMembers"],
           },
-          statusCode: 201,
-        }))
-      );
-    }
-  );
+        })
+      ),
+      TE.chain((event) => TE.fromEither(toEventIO(event))),
+      TE.map((data) => ({
+        body: {
+          data,
+        },
+        statusCode: 201,
+      }))
+    );
+  });
 };
