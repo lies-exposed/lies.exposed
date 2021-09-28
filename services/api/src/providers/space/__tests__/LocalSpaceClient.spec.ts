@@ -3,14 +3,19 @@ import * as E from "fp-ts/lib/Either";
 // eslint-disable-next-line no-restricted-imports
 import { GetLocalSpaceClient } from "../LocalSpaceClient";
 
+const baseURL = "http://localhost:4010";
+
 const axiosMock = {
+  defaults: {
+    baseURL
+  },
   getUri: jest.fn(),
   get: jest.fn(),
   post: jest.fn(),
 };
 
 describe("LocalSpaceClient", () => {
-  const baseUrl = "http://localhost:4010";
+  
 
   const localSpaceClient = GetLocalSpaceClient({
     client: axiosMock as any,
@@ -19,8 +24,8 @@ describe("LocalSpaceClient", () => {
 
   test("Should return the signedUrl for upload", async () => {
     const Key = "actors/actor-id/image.jpg";
-    const Location = `${baseUrl}/public/${Key}?Content-Type=multipart/form-data;boundary=---test-boundary`;
-    axiosMock.getUri.mockReturnValue(baseUrl);
+    const Location = `${baseURL}/public/${Key}?Content-Type=multipart/form-data;boundary=---test-boundary`;
+    axiosMock.getUri.mockReturnValue(baseURL);
     axiosMock.get.mockRejectedValue({
       data: {
         data: {
@@ -40,7 +45,7 @@ describe("LocalSpaceClient", () => {
 
   test("Should upload the file at the given path", async () => {
     const Key = "/data/media/actors/image.jpg";
-    const Location = `${baseUrl}/public${Key}`;
+    const Location = `${baseURL}/public${Key}`;
     axiosMock.post.mockResolvedValue({
       data: {
         data: {
