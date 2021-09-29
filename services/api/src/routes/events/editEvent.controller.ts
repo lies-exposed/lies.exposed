@@ -1,5 +1,5 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { Link } from "@econnessione/shared/io/http/Link";
+import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { UUID } from "@econnessione/shared/io/http/Common";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
@@ -27,7 +27,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
         groupsMembers: pipe(groupsMembers, O.map(A.map((g) => ({ id: g })))),
         links: pipe(
           links,
-          O.map(A.map((l) => (Link.is(l) ? l : { id: uuid(), ...l })))
+          O.map(A.map((l) => (UUID.is(l) ? { id: l } : { id: uuid(), ...l })))
         ),
         images: pipe(
           images,
@@ -47,9 +47,9 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(() =>
           ctx.db.findOneOrFail(EventEntity, {
             where: { id },
-            relations: ["images", "links"],
+            relations: ["images"],
             loadRelationIds: {
-              relations: ["actors", "groups", "groupsMembers"],
+              relations: ["actors", "groups", "groupsMembers", "links"],
             },
           })
         ),

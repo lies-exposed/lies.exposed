@@ -180,7 +180,6 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
     transform={(r) =>
       transformEvent(r.id as any, {
         ...r,
-        groups: r.groups.concat(r.newGroups ?? []),
         actors: r.actors.concat(r.newActors ?? []),
         images: r.images.concat(r.newImages ?? []),
         links: r.links.concat(r.newLinks ?? []),
@@ -188,7 +187,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       })
     }
   >
-    <TabbedForm>
+    <TabbedForm redirect={false}>
       <FormTab label="Generals">
         <DateInput source="startDate" />
         <DateInput source="endDate" />
@@ -241,7 +240,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Groups">
-        <ReferenceArrayInput source="newGroups" reference="groups">
+        <ReferenceArrayInput source="groups" reference="groups">
           <AutocompleteArrayInput source="id" optionText="name" />
         </ReferenceArrayInput>
         <ReferenceArrayField reference="groups" source="groups">
@@ -278,7 +277,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           </SimpleFormIterator>
         </ArrayInput>
         <ReferenceArrayField source="links" reference="links">
-          <Datagrid resource="links" rowClick="edit">
+          <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="url" />
             <TextField source="description" />

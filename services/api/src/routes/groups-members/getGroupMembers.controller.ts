@@ -2,6 +2,7 @@ import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toGroupMemberIO } from "./groupMember.io";
@@ -27,8 +28,20 @@ export const MakeListGroupMemberRoute = (
         ctx.db.manager
           .createQueryBuilder(GroupMemberEntity, "groupsMembers")
           .leftJoinAndSelect("groupsMembers.actor", "actor")
-          .leftJoinAndSelect("groupsMembers.group", "group")
           .leftJoinAndSelect("groupsMembers.events", "events"),
+        (q) => {
+          if (O.isSome(query.group)) {
+            return q.innerJoinAndSelect(
+              "groupsMembers.group",
+              "group",
+              "group.id = :groupId",
+              {
+                groupId: query.group.value,
+              }
+            );
+          }
+          return q.leftJoinAndSelect("groupsMembers.groups", "groups");
+        },
         (q) => {
           ctx.logger.debug.log("Ids %O", query.ids);
           if (query.ids._tag === "Some") {

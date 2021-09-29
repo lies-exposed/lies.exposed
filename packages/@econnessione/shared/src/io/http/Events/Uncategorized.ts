@@ -2,8 +2,8 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
-import { BaseFrontmatter, Point } from "../Common";
-import { CreateLink, Link } from "../Link";
+import { BaseFrontmatter, Point, UUID } from "../Common";
+import { CreateLink } from "../Link";
 
 export const GetEventsQueryFilter = t.partial({
   groupsMembers: optionFromNullable(t.array(t.string)),
@@ -46,7 +46,7 @@ export const EditEventBody = nonEmptyRecordFromType({
       })
     )
   ),
-  links: optionFromNullable(t.array(t.union([Link, CreateLink]))),
+  links: optionFromNullable(t.array(t.union([UUID, CreateLink]))),
   location: optionFromNullable(Point),
   actors: optionFromNullable(t.array(t.string)),
   groups: optionFromNullable(t.array(t.string)),
