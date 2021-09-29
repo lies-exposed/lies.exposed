@@ -5,7 +5,7 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as t from "io-ts";
 import * as React from "react";
-import { jsonData } from "../../providers/DataProvider";
+import { Queries } from "../../providers/DataProvider";
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { AxisGraph } from "@components/Common/Graph/AxisGraph";
 import { Loader } from "@components/Common/Loader";
@@ -108,7 +108,7 @@ export class CO2LevelsGraph extends React.PureComponent<
 
     return (
       <WithQueries
-        queries={{ data: jsonData(t.strict({ data: t.any }).decode) }}
+        queries={{ data: Queries.Graph.get }}
         params={{ data: { id } }}
         render={QR.fold(Loader, ErrorBox, ({ data }) => (
           <ParentSize

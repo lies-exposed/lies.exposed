@@ -1,22 +1,33 @@
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 
-const NODE_ENV = t.union(
-  [t.literal("test"), t.literal("development"), t.literal("production")],
-  "NODE_ENV"
-);
+const DEVELOPMENT = t.literal("development");
+const PRODUCTION = t.literal("production");
+const TEST = t.literal("test");
+
+// const NODE_ENV = t.union(
+//   [TEST, DEVELOPMENT, PRODUCTION],
+//   "NODE_ENV"
+// );
 
 const ENV = t.intersection(
   [
+    t.union([
+      t.strict({
+        NODE_ENV: t.union([DEVELOPMENT, TEST]),
+        DEV_DATA_HOST: t.string,
+      }),
+      t.strict({
+        NODE_ENV: PRODUCTION,
+      }),
+    ]),
     t.strict({
       DEBUG: t.string,
-      NODE_ENV,
       API_PORT: NumberFromString,
       API_HOST: t.string,
       DEFAULT_PAGE_SIZE: NumberFromString,
       JWT_SECRET: t.string,
       DOWNLOAD_VACCINE_DATA_CRON: t.string,
-      DEV_DATA_HOST: t.string,
     }),
     t.strict(
       {

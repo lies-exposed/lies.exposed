@@ -21,7 +21,7 @@ const Endpoints = {
   Article: Article.articles,
   Event: Event.events,
   DeathEvent: DeathEvent,
-  // Graph: Graph.graphs,
+  Graph: Graph.graphs,
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,
   Link: Link.links,
