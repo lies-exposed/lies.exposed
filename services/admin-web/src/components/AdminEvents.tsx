@@ -45,6 +45,7 @@ import {
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
+import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
 
@@ -167,12 +168,22 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<EditTitle {...props} />}
     {...props}
+    actions={
+      <>
+        <WebPreviewButton
+          resource="events"
+          source="id"
+          record={{ id: props.id } as any}
+        />
+      </>
+    }
     transform={(r) =>
       transformEvent(r.id as any, {
         ...r,
         groups: r.groups.concat(r.newGroups ?? []),
         actors: r.actors.concat(r.newActors ?? []),
         images: r.images.concat(r.newImages ?? []),
+        links: r.links.concat(r.newLinks ?? []),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
       })
     }
@@ -266,13 +277,13 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
             <TextInput source="description" />
           </SimpleFormIterator>
         </ArrayInput>
-        <ArrayField source="links">
+        <ReferenceArrayField source="links" reference="links">
           <Datagrid resource="links" rowClick="edit">
             <TextField source="id" />
             <TextField source="url" />
             <TextField source="description" />
           </Datagrid>
-        </ArrayField>
+        </ReferenceArrayField>
       </FormTab>
       <FormTab label="Preview">
         <FormDataConsumer>

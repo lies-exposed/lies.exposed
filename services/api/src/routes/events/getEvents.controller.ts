@@ -77,7 +77,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       },
       (q) =>
         q.leftJoinAndSelect("event.images", "images").loadAllRelationIds({
-          relations: ["groups", "actors", "groupsMembers"],
+          relations: ["groups", "actors", "groupsMembers", "links"],
         }),
       (q) => {
         if (findOptions.order) {
@@ -95,7 +95,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       (q) => {
         const qq = q.skip(findOptions.skip).take(findOptions.take);
 
-        ctx.logger.debug.log(`SQL query %s`, qq.getSql());
+        // ctx.logger.debug.log(`SQL query %s`, qq.getSql());
 
         return ctx.db.execQuery(() => qq.getManyAndCount());
       }

@@ -1,6 +1,5 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
 import { BaseFrontmatter, Point } from "../Common";
@@ -17,7 +16,7 @@ export const CreateEventBody = t.strict(
   {
     title: t.string,
     images: optionFromNullable(
-      nonEmptyArray(
+      t.array(
         t.strict({
           location: t.string,
           description: t.string,
@@ -72,7 +71,7 @@ export const Uncategorized = t.strict(
     images: t.array(
       t.strict({ id: t.string, location: t.string, description: t.string })
     ),
-    // links: t.array(EventLink),
+    links: t.array(t.string),
     actors: t.array(t.string),
     groups: t.array(t.string),
     groupsMembers: t.array(t.string),

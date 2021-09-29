@@ -1,6 +1,6 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { uuid } from "@econnessione/shared/utils/uuid";
-import * as NEA from "fp-ts/lib/NonEmptyArray";
+import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -24,7 +24,7 @@ export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
       images: pipe(
         body.images,
         O.map(
-          NEA.map((image) => ({
+          A.map((image) => ({
             ...image,
             id: uuid(),
           }))
@@ -38,9 +38,9 @@ export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
       TE.chain(([event]) =>
         db.findOneOrFail(EventEntity, {
           where: { id: event.id },
-          relations: ["images", "links"],
+          relations: ["images"],
           loadRelationIds: {
-            relations: ["actors", "groups", "groupsMembers"],
+            relations: ["actors", "groups", "groupsMembers", "links"],
           },
         })
       ),
