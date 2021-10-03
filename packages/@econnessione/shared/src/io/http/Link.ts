@@ -19,7 +19,6 @@ export const Link = t.strict(
   {
     ...createLinkProps,
     id: UUID,
-    url: URL,
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
   },

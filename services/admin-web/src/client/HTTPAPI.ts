@@ -121,31 +121,6 @@ export const apiProvider: http.APIRESTClient = {
       )();
     }
 
-    if (resource === "groups") {
-      // eslint-disable-next-line no-console
-      if (typeof params.data.avatar === "object") {
-        return convertFileToBase64(params.data.avatar)().then((result) => {
-          const base64 = result as E.Right<string>;
-          const finalData = {
-            ...params.data,
-            avatar: {
-              path: params.data.avatar.rawFile.path,
-              src: base64,
-            },
-          };
-          return dataProvider.update(resource, {
-            ...params,
-            data: finalData,
-          });
-        });
-      } else if (typeof params.data.avatar === "string") {
-        const { avatar, ...data } = params.data;
-        return dataProvider.update(resource, {
-          ...params,
-          data,
-        });
-      }
-    }
     return dataProvider.update(resource, params);
   },
 };

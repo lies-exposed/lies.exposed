@@ -128,16 +128,16 @@ export class VaccineDashboard extends React.PureComponent<
       <WithQueries
         queries={{
           whoData: jsonData(
-            t.strict({ data: nonEmptyArray(WHOCovid19GlobalData) }).decode
+            t.strict({ data: CovidWHOWorldData.types[1] }).decode
           ),
           distribution: jsonData(
-            t.strict({ data: nonEmptyArray(VaccineDistributionDatum) }).decode
+            t.strict({ data: Covid19WorldVaccineDistribution.types[1] }).decode
           ),
         }}
         params={{
-          distribution: { id: Covid19WorldVaccineDistribution.value },
+          distribution: { id: Covid19WorldVaccineDistribution.types[0].value },
           whoData: {
-            id: CovidWHOWorldData.value,
+            id: CovidWHOWorldData.types[0].value,
           },
         }}
         render={QR.fold(
@@ -311,13 +311,13 @@ export class VaccineDashboard extends React.PureComponent<
                     </Tabs>
                     <TabPanel value={vaccineADRTab} index={0}>
                       <VaccineADRGraph
-                        queries={{ data: { id: Covid19ADRs.value } }}
+                        queries={{ data: { id: Covid19ADRs.types[0].value } }}
                         distribution={totalDistribution}
                       />
                     </TabPanel>
                     <TabPanel value={vaccineADRTab} index={1}>
                       <VaccineADRGraph
-                        queries={{ data: { id: Covid19VAERS.value } }}
+                        queries={{ data: { id: Covid19VAERS.types[0].value } }}
                         distribution={distribution.filter(
                           (d) => d.iso_code === "USA"
                         )}
@@ -325,7 +325,7 @@ export class VaccineDashboard extends React.PureComponent<
                     </TabPanel>
                     <TabPanel value={vaccineADRTab} index={2}>
                       <VaccineADRGraph
-                        queries={{ data: { id: Covid19EUDR.value } }}
+                        queries={{ data: { id: Covid19EUDR.types[0].value } }}
                         distribution={distribution.filter(
                           (d) => d.iso_code === "OWID_EUR"
                         )}

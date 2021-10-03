@@ -7,7 +7,7 @@ const baseURL = "http://localhost:4010";
 
 const axiosMock = {
   defaults: {
-    baseURL
+    baseURL,
   },
   getUri: jest.fn(),
   get: jest.fn(),
@@ -15,8 +15,6 @@ const axiosMock = {
 };
 
 describe("LocalSpaceClient", () => {
-  
-
   const localSpaceClient = GetLocalSpaceClient({
     client: axiosMock as any,
     logger: logger.GetLogger("FSClient"),

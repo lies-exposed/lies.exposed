@@ -2,6 +2,7 @@ import * as io from "@econnessione/shared/io";
 import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { Typography } from "@material-ui/core";
+import { uuid } from "@utils/uuid";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -32,6 +33,8 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  ReferenceArrayInput,
+  AutocompleteArrayInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
@@ -68,7 +71,9 @@ export const GroupList: React.FC<ListProps> = (props) => (
 const transformGroup = (data: Record): Record | Promise<Record> => {
   if (data.avatar?.rawFile) {
     return pipe(
-      uploadImages(apiProvider)("groups", data.name, [data.avatar.rawFile]),
+      uploadImages(apiProvider)("groups", data.id as string, [
+        data.avatar.rawFile,
+      ]),
       TE.map((locations) => ({ ...data, avatar: locations[0] }))
     )().then((result) => {
       if (E.isLeft(result)) {
@@ -119,6 +124,16 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <MarkdownInput source="body" />
         </FormTab>
         <FormTab label="Members">
+          <ReferenceArrayInput
+            source="groupsMembers"
+            reference="groups-members"
+          >
+            <AutocompleteArrayInput
+              source="id"
+              optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
+            />
+          </ReferenceArrayInput>
+
           <ReferenceArrayField source="members" reference="groups-members">
             <Datagrid>
               <ReferenceField source="id" reference="groups-members">
@@ -136,7 +151,11 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ReferenceArrayField>
         </FormTab>
         <FormTab label="events">
-          <ReferenceManyField target="groups[]" reference="events">
+          <ReferenceManyField
+            label="groups"
+            target="groups[]"
+            reference="events"
+          >
             <Datagrid rowClick="edit">
               <TextField source="title" />
               <DateField source="startDate" />
@@ -169,7 +188,11 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
 };
 
 export const GroupCreate: React.FC<CreateProps> = (props) => (
-  <Create title="Create a Group" {...props} transform={transformGroup}>
+  <Create
+    title="Create a Group"
+    {...props}
+    transform={(g) => transformGroup({ ...g, id: uuid() })}
+  >
     <SimpleForm>
       <ColorInput source="color" />
       <DateInput source="date" />

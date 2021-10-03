@@ -28,6 +28,7 @@ describe("Edit Event", () => {
     [event] = fc.sample(EventArb, 1).map(({ endDate, ...e }) => ({
       ...e,
       images: [],
+      links: [],
       topics: [],
       groups: [],
       actors: [],

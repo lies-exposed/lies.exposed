@@ -58,7 +58,7 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
     getSignedUrl: (operation, params) => {
       logger.debug.log("getSignedURL with operation %s", operation);
       return TE.right(
-        `${client.defaults.baseURL?.replace('data', 'localhost')}/public/${
+        `${client.defaults.baseURL?.replace("data", "localhost")}/public/${
           params.Key
         }?Content-Type=multipart/form-data;boundary=---test-boundary`
       );

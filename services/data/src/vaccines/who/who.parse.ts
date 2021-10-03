@@ -9,6 +9,7 @@ import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
 import * as Eq from "fp-ts/lib/Eq";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
+import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -91,7 +92,14 @@ export const runTotals = (): TE.TaskEither<Error, void> => {
         }),
       }
     ),
-    TE.map((results) => mergeByDate(results)),
+    TE.map((results) =>
+      pipe(
+        results,
+        NEA.fromArray,
+        O.map(mergeByDate),
+        O.getOrElse((): WHOCovid19GlobalData[] => [])
+      )
+    ),
     TE.chain((results) =>
       csvUtils.writeToPath(
         outputFile,

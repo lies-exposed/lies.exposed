@@ -57,6 +57,9 @@ export const run = (): Promise<void> => {
             serverLogger.debug.log("closing server...");
             server.close();
           });
+          server.on("error", (e) => {
+            serverLogger.error.log("An error occured %O", e);
+          });
 
           return Promise.resolve(undefined);
         }

@@ -1,3 +1,8 @@
+import {
+  ClimateChangeForecast,
+  ClimateChangeHistoryOfSummits
+} from "@econnessione/shared/endpoints/graph.endpoints";
+import { Forecast } from "@econnessione/shared/io/http/climate-change/Forecast";
 import { numTicksForWidth } from "@econnessione/shared/utils/graph.utils";
 import { AxisBottom } from "@vx/axis";
 import { curveBasis, curveBasisOpen } from "@vx/curve";
@@ -27,33 +32,7 @@ const tooltipStyles = {
   color: "white",
 };
 
-interface GTCO2Datum {
-  year: number;
-  Low: number;
-  Median: number;
-  High: number;
-}
-
-interface BoundDatum {
-  lower?: number;
-  median?: number;
-  upper?: number;
-}
-
-interface CO2LevelDatum {
-  id: string;
-  label: string;
-  lowerColor: string;
-  upperColor: string;
-  gtCO2: GTCO2Datum[];
-  temp: {
-    high: BoundDatum;
-    low: BoundDatum;
-  };
-}
-
-interface TooltipData extends Omit<CO2LevelDatum, "gtCO2"> {
-  gtCO2: GTCO2Datum;
+interface TooltipData extends Forecast {
   lowerY: number;
   higherY: number;
 }
@@ -64,7 +43,7 @@ interface EventDatum {
 }
 
 export interface SocietyCollapseForecastGraphProps {
-  data: CO2LevelDatum[];
+  data: Forecast[];
   points: Array<{
     year: number;
     gtCO2: number;
@@ -134,16 +113,13 @@ export const SocietyCollapseForecastGraph = withTooltip<
           data,
           A.filterMap((d) =>
             pipe(
-              d.gtCO2.find((g) => g.year === Math.round(x0)),
+              d.year === Math.round(x0) ? d : null,
               O.fromNullable,
-              O.filter((gt) => {
-                return gt.High >= y0 && y0 >= gt.Low;
-              }),
+              O.filter((gt) => gt.high >= y0 && y0 >= gt.low),
               O.map((gt) => ({
                 ...d,
-                gtCO2: gt,
-                lowerY: Math.round(gtCO2Scale(gt.Low) ?? 0),
-                higherY: Math.round(gtCO2Scale(gt.High) ?? 0),
+                lowerY: Math.round(gtCO2Scale(gt.low) ?? 0),
+                higherY: Math.round(gtCO2Scale(gt.high) ?? 0),
               }))
             )
           )
@@ -215,17 +191,17 @@ export const SocietyCollapseForecastGraph = withTooltip<
                 width={width}
                 height={height}
               >
-                <Threshold<GTCO2Datum>
+                <Threshold<Forecast>
                   id={`${Math.random()}`}
-                  data={datum.gtCO2}
+                  data={data}
                   x={(d) => yearScale(d.year) ?? 0}
                   y0={(d) =>
-                    gtCO2Scale(d.Low) ??
-                    gtCO2Scale(d.Median) ??
-                    gtCO2Scale(d.High) ??
+                    gtCO2Scale(d.low) ??
+                    gtCO2Scale(d.median) ??
+                    gtCO2Scale(d.high) ??
                     0
                   }
-                  y1={(d) => gtCO2Scale(d.High ?? d.Median ?? d.Low) ?? 0}
+                  y1={(d) => gtCO2Scale(d.high ?? d.median ?? d.low) ?? 0}
                   clipAboveTo={10}
                   clipBelowTo={maxY}
                   curve={curveBasis}
@@ -240,9 +216,9 @@ export const SocietyCollapseForecastGraph = withTooltip<
                 />
                 {/* High line */}
                 <LinePath
-                  data={datum.gtCO2}
+                  data={data}
                   x={(d) => yearScale(d.year) ?? 0}
-                  y={(d) => gtCO2Scale(d.High) ?? 0}
+                  y={(d) => gtCO2Scale(d.high) ?? 0}
                   stroke={`url('#${linePathId}')`}
                   strokeWidth={2}
                   curve={curveBasis}
@@ -250,9 +226,9 @@ export const SocietyCollapseForecastGraph = withTooltip<
                 {/* Median line */}
                 {datum.id === "Historical" ? (
                   <LinePath
-                    data={datum.gtCO2}
+                    data={data}
                     x={(d) => yearScale(d.year) ?? 0}
-                    y={(d) => gtCO2Scale(d.Median) ?? 0}
+                    y={(d) => gtCO2Scale(d.median) ?? 0}
                     stroke={`url('#${linePathId}')`}
                     strokeWidth={2}
                     curve={curveBasisOpen}
@@ -261,9 +237,9 @@ export const SocietyCollapseForecastGraph = withTooltip<
 
                 {/* Low Line */}
                 <LinePath
-                  data={datum.gtCO2}
+                  data={data}
                   x={(d) => yearScale(d.year) ?? 0}
-                  y={(d) => gtCO2Scale(d.Low) ?? 0}
+                  y={(d) => gtCO2Scale(d.low) ?? 0}
                   stroke={`url('#${linePathId}')`}
                   strokeWidth={2}
                   curve={curveBasis}
@@ -384,7 +360,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
                     borderColor: td.upperColor,
                   }}
                 >
-                  {td.id} {Math.round(td.gtCO2.High)} GT CO2
+                  {td.id} {Math.round(td.high)} GT CO2
                 </Tooltip>
                 <Tooltip
                   top={td.lowerY + 20}
@@ -395,7 +371,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
                     borderColor: td.lowerColor,
                   }}
                 >
-                  {td.id} {Math.round(td.gtCO2.Low)} GT CO2
+                  {td.id} {Math.round(td.low)} GT CO2
                 </Tooltip>
               </div>
             );
@@ -410,8 +386,13 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
     return pipe(
       <WithQueries
         queries={{
-          data: jsonData(t.strict({ data: t.any }).decode),
-          events: jsonData(t.strict({ data: t.any }).decode),
+          data: jsonData(
+            t.strict({ data: t.array(ClimateChangeForecast.types[1]) }).decode
+          ),
+          events: jsonData(
+            t.strict({ data: t.array(ClimateChangeHistoryOfSummits.types[1]) })
+              .decode
+          ),
         }}
         params={{
           data: { id: "climate-change/forecast.csv" },
@@ -428,10 +409,8 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
                   <SocietyCollapseForecastGraph
                     width={width}
                     height={height}
-                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-                    data={data.data as any}
-                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-                    events={events.data as any}
+                    data={data.data}
+                    events={events.data}
                     points={[
                       {
                         year: 2021,

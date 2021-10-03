@@ -30,7 +30,7 @@ services:
       POSTGRES_PASSWORD: econnessione-password
       POSTGRES_DB: econnessione
     volumes:
-      # - ./services/api/db_dump/:/docker-entrypoint-initdb.d/
+      - ./services/api/db/dump/:/docker-entrypoint-initdb.d/
       - db-data:/var/lib/postgresql/data
 
   api:
@@ -138,3 +138,10 @@ volumes:
   web-node_modules: {}
   admin-web-node_modules: {}
   api-space: {}
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.57.0/24

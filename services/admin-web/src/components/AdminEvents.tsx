@@ -2,6 +2,7 @@ import { http } from "@econnessione/shared/io";
 import { Actor } from "@econnessione/shared/io/http/Actor";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
+import { Box } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import { uuid } from "@utils/uuid";
 import * as A from "fp-ts/lib/Array";
@@ -41,10 +42,13 @@ import {
   TextField,
   TextInput,
   Identifier,
+  BooleanField,
+  BooleanInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
+import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
 
@@ -167,17 +171,33 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<EditTitle {...props} />}
     {...props}
-    transform={(r) =>
-      transformEvent(r.id as any, {
+    actions={
+      <>
+        <WebPreviewButton
+          resource="events"
+          source="id"
+          record={{ id: props.id } as any}
+        />
+      </>
+    }
+    transform={({ newLinks = [], ...r }) => {
+      const links = (newLinks as any[]).reduce((acc, l) => {
+        if (Array.isArray(l.ids)) {
+          return acc.concat(l.ids);
+        }
+        return acc.concat(l);
+      }, []);
+
+      return transformEvent(r.id as any, {
         ...r,
-        groups: r.groups.concat(r.newGroups ?? []),
         actors: r.actors.concat(r.newActors ?? []),
         images: r.images.concat(r.newImages ?? []),
+        links: r.links.concat(links),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
-      })
-    }
+      });
+    }}
   >
-    <TabbedForm>
+    <TabbedForm redirect={false}>
       <FormTab label="Generals">
         <DateInput source="startDate" />
         <DateInput source="endDate" />
@@ -230,7 +250,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Groups">
-        <ReferenceArrayInput source="newGroups" reference="groups">
+        <ReferenceArrayInput source="groups" reference="groups">
           <AutocompleteArrayInput source="id" optionText="name" />
         </ReferenceArrayInput>
         <ReferenceArrayField reference="groups" source="groups">
@@ -262,17 +282,43 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Links">
         <ArrayInput source="newLinks" defaultValue={[]}>
           <SimpleFormIterator>
-            <TextInput type="url" source="url" />
-            <TextInput source="description" />
+            <BooleanInput source="addNew" />
+            <FormDataConsumer>
+              {({ formData, scopedFormData, getSource, ...rest }) => {
+
+                const getSrc = getSource ?? ((s: string) => s);
+
+                if (scopedFormData?.addNew) {
+                  return (
+                    <Box>
+                      <TextInput source={getSrc("url")} type="url" {...rest} />
+                      <TextInput source={getSrc("description")} {...rest} />
+                    </Box>
+                  );
+                }
+                return (
+                  <ReferenceArrayInput
+                    source={getSrc("ids")}
+                    reference="links"
+                    {...rest}
+                  >
+                    <AutocompleteArrayInput
+                      source="id"
+                      optionText="description"
+                    />
+                  </ReferenceArrayInput>
+                );
+              }}
+            </FormDataConsumer>
           </SimpleFormIterator>
         </ArrayInput>
-        <ArrayField source="links">
-          <Datagrid resource="links" rowClick="edit">
+        <ReferenceArrayField source="links" reference="links">
+          <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="url" />
             <TextField source="description" />
           </Datagrid>
-        </ArrayField>
+        </ReferenceArrayField>
       </FormTab>
       <FormTab label="Preview">
         <FormDataConsumer>
