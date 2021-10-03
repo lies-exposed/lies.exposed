@@ -90,7 +90,17 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
         <WebPreviewButton resource="actors" record={{ id: props.id } as any} />
       </>
     }
-    transform={(a) => transformActor(a.id as any, a)}
+    transform={({ newMemberIn, ...a }) =>
+      transformActor(a.id as any, {
+        ...a,
+        memberIn: a.memberIn.concat(
+          newMemberIn.map((m: any) => ({
+            ...m,
+            endDate: m.endDate !== "" ? m.endDate : undefined,
+          }))
+        ),
+      })
+    }
   >
     <TabbedForm>
       <FormTab label="generals">
@@ -112,22 +122,23 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
       </FormTab>
 
       <FormTab label="Groups">
-        <ReferenceArrayInput source="memberIn" reference="groups-members">
+        <ArrayInput source="newMemberIn" defaultValue={[]}>
           <SimpleFormIterator>
             <ReferenceInput source="group" reference="groups">
               <AutocompleteInput optionText="name" />
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
+            <MarkdownInput source="body" />
           </SimpleFormIterator>
-        </ReferenceArrayInput>
+        </ArrayInput>
 
         <ReferenceArrayField source="memberIn" reference="groups-members">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="group.name" />
             <DateField source="startDate" />
-            <DateField source="endDate" />
+            <DateField source="endDate" defaultValue={undefined} />
           </Datagrid>
         </ReferenceArrayField>
       </FormTab>

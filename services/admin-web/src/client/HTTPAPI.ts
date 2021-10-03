@@ -4,7 +4,6 @@ import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider } from "react-admin";
-import { editActor } from "./ActorAPI";
 import { editArea } from "./AreaAPI";
 import { convertFileToBase64, uploadImages } from "./MediaAPI";
 import { createProject, editProject } from "./ProjectAPI";
@@ -60,10 +59,6 @@ export const apiProvider: http.APIRESTClient = {
     }
     if (resource === "projects") {
       return editProject(dataProvider)(resource, params);
-    }
-
-    if (resource === "actors") {
-      return editActor(dataProvider)(resource, params);
     }
 
     if (resource === "groups-members") {
