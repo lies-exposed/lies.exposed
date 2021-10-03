@@ -83,6 +83,7 @@ export const APIRESTClient = ({
 }: APIRESTClientCtx): APIRESTClient => {
   const client = axios.create({
     baseURL: ctx.url,
+    responseType: "json",
   });
 
   if (getAuth !== undefined) {

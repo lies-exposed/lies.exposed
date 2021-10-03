@@ -3,6 +3,7 @@ import { Endpoint } from "ts-endpoint";
 import { GetListQuery } from "../io/http/Query";
 import { Forecast } from "../io/http/climate-change/Forecast";
 import { SummitEvent } from "../io/http/climate-change/SummitEvent";
+import { COVID19ExcessMortalityDatum } from "../io/http/covid/COVID19ExcessMortalityDatum";
 import { WHOCovid19GlobalData } from "../io/http/covid/COVIDDailyDatum";
 import { VaccineDatum } from "../io/http/covid/VaccineDatum";
 import { VaccineDistributionDatum } from "../io/http/covid/VaccineDistributionDatum";
@@ -46,14 +47,19 @@ export const CovidWHOWorldData = t.union([
   t.array(WHOCovid19GlobalData),
 ]);
 
+export const Covid19ExcessMortality = t.tuple([
+  t.literal("covid19/excess_mortality/excess_mortality.csv"),
+  t.array(COVID19ExcessMortalityDatum),
+]);
+
 export const ClimateChangeHistoryOfSummits = t.tuple([
   t.literal("climate-change/history-of-climate-summits.csv"),
-  SummitEvent,
+  t.array(SummitEvent),
 ]);
 
 export const ClimateChangeForecast = t.tuple([
   t.literal("climate-change/forecast.csv"),
-  Forecast,
+  t.array(Forecast),
 ]);
 
 export const GraphId = t.union(
@@ -63,11 +69,12 @@ export const GraphId = t.union(
     Covid19EUDRPfizer.types[0],
     Covid19EUDRAstrazeneca.types[0],
     Covid19VAERS.types[0],
-    Covid19ADRs.types[0],
     CovidWHOWorldData.types[0],
+    Covid19ExcessMortality.types[0],
     Covid19WorldVaccineDistribution.types[0],
     ClimateChangeHistoryOfSummits.types[0],
     ClimateChangeForecast.types[0],
+    Covid19ADRs.types[0],
   ],
   "GraphId"
 );
@@ -79,11 +86,12 @@ export const GraphData = t.union(
     Covid19EUDRPfizer.types[1],
     Covid19EUDRAstrazeneca.types[1],
     Covid19VAERS.types[1],
-    Covid19ADRs.types[1],
     CovidWHOWorldData.types[1],
     Covid19WorldVaccineDistribution.types[1],
+    Covid19ExcessMortality.types[1],
     ClimateChangeHistoryOfSummits.types[1],
     ClimateChangeForecast.types[1],
+    Covid19ADRs.types[1],
   ],
   "GraphData"
 );
