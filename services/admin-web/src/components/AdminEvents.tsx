@@ -41,6 +41,8 @@ import {
   TextField,
   TextInput,
   Identifier,
+  BooleanField,
+  BooleanInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
@@ -48,6 +50,7 @@ import MarkdownInput from "./Common/MarkdownInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
+import { Box } from "@material-ui/core";
 
 const RESOURCE = "events";
 
@@ -177,15 +180,22 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         />
       </>
     }
-    transform={(r) =>
-      transformEvent(r.id as any, {
+    transform={({ newLinks = [], ...r }) => {
+      const links = (newLinks as any[]).reduce((acc, l) => {
+        if (Array.isArray(l.ids)) {
+          return acc.concat(l.ids);
+        }
+        return acc.concat(l);
+      }, []);
+
+      return transformEvent(r.id as any, {
         ...r,
         actors: r.actors.concat(r.newActors ?? []),
         images: r.images.concat(r.newImages ?? []),
-        links: r.links.concat(r.newLinks ?? []),
+        links: r.links.concat(links),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
-      })
-    }
+      });
+    }}
   >
     <TabbedForm redirect={false}>
       <FormTab label="Generals">
@@ -272,8 +282,34 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Links">
         <ArrayInput source="newLinks" defaultValue={[]}>
           <SimpleFormIterator>
-            <TextInput type="url" source="url" />
-            <TextInput source="description" />
+            <BooleanInput source="addNew" />
+            <FormDataConsumer>
+              {({ formData, scopedFormData, getSource, ...rest }) => {
+
+                const getSrc = getSource ?? ((s: string) => s);
+
+                if (scopedFormData?.addNew) {
+                  return (
+                    <Box>
+                      <TextInput source={getSrc("url")} type="url" {...rest} />
+                      <TextInput source={getSrc("description")} {...rest} />
+                    </Box>
+                  );
+                }
+                return (
+                  <ReferenceArrayInput
+                    source={getSrc("ids")}
+                    reference="links"
+                    {...rest}
+                  >
+                    <AutocompleteArrayInput
+                      source="id"
+                      optionText="description"
+                    />
+                  </ReferenceArrayInput>
+                );
+              }}
+            </FormDataConsumer>
           </SimpleFormIterator>
         </ArrayInput>
         <ReferenceArrayField source="links" reference="links">

@@ -20,6 +20,7 @@ export const EventArb: tests.fc.Arbitrary<http.Events.Uncategorized.Uncategorize
     return {
       ...p,
       images: [],
+      links: tests.fc.sample(tests.fc.uuidV(4)),
       // links: tests.fc.sample(
       //   tests.fc.record({
       //     id: tests.fc.uuid(),
