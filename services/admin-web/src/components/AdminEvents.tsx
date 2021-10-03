@@ -2,6 +2,7 @@ import { http } from "@econnessione/shared/io";
 import { Actor } from "@econnessione/shared/io/http/Actor";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
+import { Box } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import { uuid } from "@utils/uuid";
 import * as A from "fp-ts/lib/Array";
@@ -50,7 +51,6 @@ import MarkdownInput from "./Common/MarkdownInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
-import { Box } from "@material-ui/core";
 
 const RESOURCE = "events";
 
