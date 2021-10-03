@@ -1,2 +1,1 @@
-data/media
-data/import
+db/dump/*.sql
