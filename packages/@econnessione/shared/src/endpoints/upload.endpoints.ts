@@ -18,7 +18,7 @@ export const GetSignedURL = Endpoint({
       ContentType: t.string,
     }),
   },
-  Output: t.strict({ data: t.string }),
+  Output: t.strict({ data: t.strict({ url: t.string }) }),
 });
 
 // export const uploads = ResourceEndpoints({
