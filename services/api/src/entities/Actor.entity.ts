@@ -31,6 +31,7 @@ export class ActorEntity {
 
   @OneToMany(() => GroupMemberEntity, (member) => member.actor, {
     nullable: true,
+    cascade: true,
   })
   memberIn: GroupMemberEntity[];
 

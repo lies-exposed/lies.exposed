@@ -35,6 +35,7 @@ import {
   TextInput,
   ReferenceArrayInput,
   AutocompleteArrayInput,
+  SelectArrayInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
@@ -198,11 +199,9 @@ export const GroupCreate: React.FC<CreateProps> = (props) => (
       <DateInput source="date" />
       <TextInput source="name" />
       <GroupKindInput source="kind" />
-      <ArrayField source="members">
-        <SingleFieldList>
-          <TextField source="" />
-        </SingleFieldList>
-      </ArrayField>
+      <ReferenceArrayInput source="members" reference="members">
+        <SelectArrayInput source="id" optionText="fullName" />
+      </ReferenceArrayInput>
       <ImageInput source="avatar">
         <ImageField src="src" />
       </ImageInput>

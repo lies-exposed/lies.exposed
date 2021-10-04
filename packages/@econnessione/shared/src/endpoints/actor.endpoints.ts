@@ -1,8 +1,10 @@
 import * as t from "io-ts";
+import { DateFromISOString } from "io-ts-types";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Actor } from "../io/http";
+import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
@@ -61,6 +63,17 @@ export const Edit = Endpoint({
       color: optionFromNullable(t.string),
       body: optionFromNullable(t.string),
       avatar: optionFromNullable(t.string),
+      memberIn: t.array(
+        t.union([
+          UUID,
+          t.strict({
+            group: UUID,
+            body: t.string,
+            startDate: DateFromISOString,
+            endDate: optionFromNullable(DateFromISOString),
+          }),
+        ])
+      ),
     }),
   },
   Output: SingleActorOutput,
