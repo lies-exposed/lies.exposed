@@ -20,64 +20,69 @@ export const convertFileToBase64 = (file: File): TE.TaskEither<Error, string> =>
     E.toError
   );
 
-const getSignedUrl = (client: http.APIRESTClient) => (
-  resource: string,
-  resourceId: string
-): TE.TaskEither<Error, { data: string }> => {
-  return pipe(
-    TE.tryCatch(
-      () =>
-        client.create("/uploads/getSignedURL", {
-          data: {
-            resource,
-            resourceId,
-            ContentType: "image/jpeg",
-          },
-        }),
-      E.toError
-    )
-  );
-};
+const getSignedUrl =
+  (client: http.APIRESTClient) =>
+  (
+    resource: string,
+    resourceId: string
+  ): TE.TaskEither<Error, { data: string }> => {
+    return pipe(
+      TE.tryCatch(
+        () =>
+          client.create("/uploads/getSignedURL", {
+            data: {
+              resource,
+              resourceId,
+              ContentType: "image/jpeg",
+            },
+          }),
+        E.toError
+      )
+    );
+  };
 
-const uploadFile = (client: http.APIRESTClient) => (
-  resource: string,
-  resourceId: string,
-  f: File
-): TE.TaskEither<Error, string> => {
-  return pipe(
-    getSignedUrl(client)(resource, resourceId),
-    TE.chain((url) => {
-      const [location, search] = url.data.split("?");
+const uploadFile =
+  (client: http.APIRESTClient) =>
+  (
+    resource: string,
+    resourceId: string,
+    f: File
+  ): TE.TaskEither<Error, string> => {
+    return pipe(
+      getSignedUrl(client)(resource, resourceId),
+      TE.chain((url) => {
+        const [location, search] = url.data.split("?");
 
-      const headers = qs.parse(search);
+        const headers = qs.parse(search);
 
-      console.log({ headers });
-      return pipe(
-        TE.tryCatch(
-          () =>
-            axios.put(url.data, f, {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "x-amz-acl": "public-read",
-                "Access-Control-Max-Age": 600,
-                ...headers,
-              },
-            }),
-          E.toError
-        ),
-        TE.map(() => location)
-      );
-    })
-  );
-};
+        return pipe(
+          TE.tryCatch(
+            () =>
+              axios.put(url.data, f, {
+                headers: {
+                  "Access-Control-Allow-Origin": "*",
+                  "x-amz-acl": "public-read",
+                  "Access-Control-Max-Age": 600,
+                  ...headers,
+                },
+              }),
+            E.toError
+          ),
+          TE.map(() => location)
+        );
+      })
+    );
+  };
 
-export const uploadImages = (client: http.APIRESTClient) => (
-  resource: string,
-  resourceId: string,
-  files: File[]
-): TE.TaskEither<Error, string[]> => {
-  return pipe(
-    files.map((file) => uploadFile(client)(resource, resourceId, file)),
-    A.sequence(TE.ApplicativeSeq)
-  );
-};
+export const uploadImages =
+  (client: http.APIRESTClient) =>
+  (
+    resource: string,
+    resourceId: string,
+    files: File[]
+  ): TE.TaskEither<Error, string[]> => {
+    return pipe(
+      files.map((file) => uploadFile(client)(resource, resourceId, file)),
+      A.sequence(TE.ApplicativeSeq)
+    );
+  };

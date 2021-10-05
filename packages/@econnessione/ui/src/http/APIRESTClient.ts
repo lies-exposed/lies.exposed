@@ -23,7 +23,7 @@ export interface APIRESTClient {
     resource: string,
     params: RA.GetManyReferenceParams
   ) => Promise<RA.GetManyReferenceResult<R>>;
-  update: <R>(
+  update: <R extends RA.Record>(
     resource: string,
     params: RA.UpdateParams
   ) => Promise<RA.UpdateResult<R>>;
@@ -31,14 +31,14 @@ export interface APIRESTClient {
     resource: string,
     params: RA.UpdateManyParams
   ) => Promise<RA.UpdateManyResult>;
-  create: <RecordType>(
+  create: <R extends RA.Record>(
     resource: string,
     params: RA.CreateParams
-  ) => Promise<RA.CreateResult<RecordType>>;
-  delete: <RecordType>(
+  ) => Promise<RA.CreateResult<R>>;
+  delete: <R extends RA.Record>(
     resource: string,
     params: RA.DeleteParams
-  ) => Promise<RA.DeleteResult<RecordType>>;
+  ) => Promise<RA.DeleteResult<R>>;
   deleteMany: (
     resource: string,
     params: RA.DeleteManyParams

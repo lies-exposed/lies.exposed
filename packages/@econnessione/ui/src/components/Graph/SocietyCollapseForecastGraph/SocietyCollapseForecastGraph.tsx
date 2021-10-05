@@ -1,6 +1,6 @@
 import {
   ClimateChangeForecast,
-  ClimateChangeHistoryOfSummits
+  ClimateChangeHistoryOfSummits,
 } from "@econnessione/shared/endpoints/graph.endpoints";
 import { Forecast } from "@econnessione/shared/io/http/climate-change/Forecast";
 import { numTicksForWidth } from "@econnessione/shared/utils/graph.utils";

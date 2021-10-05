@@ -38,10 +38,10 @@ describe("Edit Event", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, [actor] as any[])();
-    await appTest.ctx.db.save(GroupEntity, [group] as any[])();
-    await appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])();
-    const result = await appTest.ctx.db.save(EventEntity, [event] as any[])();
+    await appTest.ctx.db.save(ActorEntity, [actor])();
+    await appTest.ctx.db.save(GroupEntity, [group])();
+    await appTest.ctx.db.save(GroupMemberEntity, [groupMember])();
+    const result = await appTest.ctx.db.save(EventEntity, [event])();
 
     delete (result as any).right[0].endDate;
 
@@ -85,7 +85,7 @@ describe("Edit Event", () => {
 
     event = {
       ...event,
-      ...(eventData as any),
+      ...eventData,
     };
 
     expect(body).toMatchObject({
@@ -121,7 +121,7 @@ describe("Edit Event", () => {
 
     event = {
       ...event,
-      ...(eventData as any),
+      ...eventData,
     };
     expect(body).toMatchObject({
       ...event,
@@ -148,7 +148,7 @@ describe("Edit Event", () => {
 
     event = {
       ...event,
-      ...(eventData as any),
+      ...eventData,
     };
     expect(body).toMatchObject({
       ...event,
@@ -198,7 +198,7 @@ describe("Edit Event", () => {
 
     event = {
       ...event,
-      ...(eventData as any),
+      ...eventData,
     };
     expect(body).toMatchObject({
       ...event,
@@ -223,7 +223,7 @@ describe("Edit Event", () => {
 
     event = {
       ...event,
-      ...(eventData as any),
+      ...eventData,
     };
     expect(body).toMatchObject({
       ...event,
