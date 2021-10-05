@@ -40,6 +40,7 @@ import {
   ReferenceArrayInput,
   AutocompleteArrayInput,
   SelectArrayInput,
+  Filter,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
@@ -60,12 +61,40 @@ const GroupKindInput: React.FC<ChoicesInputProps> = (props) => (
   />
 );
 
+const GroupFilters: React.FC = (props) => {
+  return (
+    <Filter {...props}>
+      <TextInput label="name" source="name" alwaysOn size="small" />
+      <ReferenceArrayInput
+        source="members"
+        reference="actors"
+        alwaysOn
+        size="small"
+        filterToQuery={(ids: string[]) => ({
+          members: ids,
+        })}
+      >
+        <AutocompleteArrayInput
+          source="id"
+          optionText={(r: any) => {
+            return r?.fullName !== undefined ? `${r.fullName}` : "No actor";
+          }}
+        />
+      </ReferenceArrayInput>
+    </Filter>
+  );
+};
+
 export const GroupList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE} perPage={50}>
-    <Datagrid rowClick="edit">
+  <List {...props} resource={RESOURCE} perPage={50} filters={<GroupFilters />}>
+    <Datagrid
+      rowClick="edit"
+      rowStyle={(r) => ({
+        borderLeft: `5px solid #${r.color}`,
+      })}
+    >
       <AvatarField source="avatar" fullWidth={false} />
       <TextField source="name" />
-      <TextField source="color" />
       <DateField source="date" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />

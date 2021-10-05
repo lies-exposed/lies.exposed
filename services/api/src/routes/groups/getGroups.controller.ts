@@ -14,7 +14,7 @@ import { RouteContext } from "routes/route.types";
 export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Group.List,
-    ({ query: { ids, members, ...query } }) => {
+    ({ query: { ids, members, name, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query, id: ids },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -26,6 +26,13 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
           .leftJoinAndSelect("group.members", "members")
           .leftJoinAndSelect("members.actor", "actor"),
         (q) => {
+          if (O.isSome(name)) {
+            ctx.logger.debug.log("Where name is %s", name.value);
+            return q.andWhere("lower(group.name) LIKE :name", {
+              name: `%${name.value}%`,
+            });
+          }
+
           if (O.isSome(ids)) {
             ctx.logger.debug.log("Where ids %O", ids.value);
             return q.andWhere("group.id IN (:...ids)", {
@@ -58,7 +65,7 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
         (q) => {
           const qq = q.skip(findOptions.skip).take(findOptions.take);
 
-          // ctx.logger.debug.log(`SQL query %s`, qq.getSql());
+          ctx.logger.debug.log(`SQL query %O`, qq.getQueryAndParameters());
 
           return ctx.db.execQuery(() => qq.getManyAndCount());
         }
