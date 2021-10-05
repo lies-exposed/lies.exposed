@@ -1,15 +1,15 @@
-import jwt from "jsonwebtoken";
 import { fc } from "@econnessione/core/tests";
-import { AppTest, initAppTest } from "../../../../../test/AppTest";
-import { DeathEventEntity } from "../../../../entities/DeathEvent.entity";
-import { ActorEntity } from "../../../../entities/Actor.entity";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
+import jwt from "jsonwebtoken";
+import { AppTest, initAppTest } from "../../../../../test/AppTest";
+import { ActorEntity } from "../../../../entities/Actor.entity";
+import { DeathEventEntity } from "../../../../entities/DeathEvent.entity";
 
 describe("Create Death Event", () => {
-  let appTest: AppTest,
-    [actor] = fc.sample(ActorArb, 1),
-    authorizationToken: string,
-    deathEvent: DeathEventEntity;
+  let appTest: AppTest;
+  const [actor] = fc.sample(ActorArb, 1);
+  let authorizationToken: string;
+  let deathEvent: DeathEventEntity;
 
   beforeAll(async () => {
     appTest = await initAppTest();

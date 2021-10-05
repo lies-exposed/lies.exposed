@@ -1,12 +1,10 @@
-import { dataProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 import { http } from "@econnessione/shared/io";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   ArrayInput,
@@ -17,7 +15,9 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps, Filter, FormDataConsumer,
+  EditProps,
+  Filter,
+  FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
@@ -31,12 +31,14 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
+import { dataProvider } from "@client/HTTPAPI";
+import { uploadImages } from "@client/MediaAPI";
 
 const ActorFilters: React.FC = (props) => {
   return (

@@ -41,17 +41,9 @@ const RESOURCE = "deaths";
 const DeathEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <TextInput label="Search" source="q" alwaysOn />
-      <ReferenceArrayInput source="groups" reference="groups" alwaysOn>
-        <SelectArrayInput optionText="name" />
-      </ReferenceArrayInput>
-      <ReferenceArrayInput source="actors" reference="actors" alwaysOn>
-        <SelectArrayInput
-          optionText={(a: Partial<Actor>) =>
-            a.id ? `${a.fullName}` : "No actor"
-          }
-        />
-      </ReferenceArrayInput>
+      <ReferenceInput source="victim" reference="actors" alwaysOn>
+        <AutocompleteInput source="id" optionText="fullName" />
+      </ReferenceInput>
     </Filter>
   );
 };
