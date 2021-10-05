@@ -73,8 +73,8 @@ const EventsFilter: React.FC = (props: any) => {
       <ReferenceArrayInput
         source="groupsMembers"
         reference="groups-members"
-        filterToQuery={(q: string) => ({
-          search: [q],
+        filterToQuery={(ids: string[]) => ({
+          groupsMembers: ids,
         })}
       >
         <AutocompleteArrayInput
