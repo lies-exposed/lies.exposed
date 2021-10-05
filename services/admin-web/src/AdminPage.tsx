@@ -86,13 +86,13 @@ const AdminPage: React.FC = () => {
         icon={MapIcon}
       />
 
-      <Resource
+      {/* <Resource
         name="projects"
         list={ProjectList}
         edit={ProjectEdit}
         create={ProjectCreate}
         icon={BusinessIcon}
-      />
+      /> */}
       <Resource
         name="events"
         list={EventList}
