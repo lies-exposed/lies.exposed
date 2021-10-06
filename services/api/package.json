@@ -41,6 +41,7 @@
     "module-alias": "^2.2.2",
     "multer": "^1.4.2",
     "node-cron": "^3.0.0",
+    "page-metadata-parser": "^1.1.4",
     "pg": "^8.5.1",
     "puppeteer-core": "^10.2.0",
     "rehype-sanitize": "^4.0.0",

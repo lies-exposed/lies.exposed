@@ -1,5 +1,4 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { fetchMetadata } from "@econnessione/shared/utils/url.utils";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -10,13 +9,14 @@ import { toEventIO } from "./event.io";
 import { EventEntity } from "@entities/Event.entity";
 import { ImageEntity } from "@entities/Image.entity";
 import { ServerError } from "@io/ControllerError";
-import { Route } from "routes/route.types";
+import { Route } from "@routes/route.types";
 
-export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
+export const MakeCreateEventRoute: Route = (r, { db, urlMetadata }) => {
   AddEndpoint(r)(Endpoints.Event.Create, ({ body }) => {
     const makeDataTask = pipe(
       sequenceS(TE.ApplicativePar)({
         event: TE.right({
+          ...body,
           groups: body.groups.map((id) => ({ id })),
           actors: body.actors.map((id) => ({ id })),
           groupsMembers: body.groupsMembers.map((id) => ({ id })),
@@ -36,7 +36,9 @@ export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
           endDate: O.toUndefined(body.endDate),
         }),
         links: pipe(
-          body.links.map(({ url }) => fetchMetadata(url, (e) => ServerError())),
+          body.links.map(({ url }) =>
+            urlMetadata.fetchMetadata(url, (e) => ServerError())
+          ),
           TE.sequenceSeqArray,
           TE.map((links) =>
             links.map((l) => ({
@@ -51,7 +53,7 @@ export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
 
     return pipe(
       makeDataTask,
-      TE.chain((data) => db.save(EventEntity, [data] as EventEntity[])),
+      TE.chain((data) => db.save(EventEntity, [data])),
       TE.chain(([event]) =>
         db.findOneOrFail(EventEntity, {
           where: { id: event.id },

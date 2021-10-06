@@ -1,29 +1,28 @@
-import { Link } from "@econnessione/shared/io/http/Link";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
+  Button,
   Create,
   CreateProps,
   Datagrid,
   DateField,
+  Edit,
+  EditProps,
   Filter,
+  FunctionField,
   List,
   ListProps,
   ReferenceArrayInput,
+  ReferenceManyField,
   Resource,
   ResourceProps,
   SelectArrayInput,
   SimpleForm,
   TextField,
   TextInput,
-  UrlField,
-  Edit,
-  EditProps,
-  ReferenceArrayField,
-  ReferenceManyField,
-  AutocompleteInput,
-  FunctionField,
 } from "react-admin";
+import MarkdownInput from "./Common/MarkdownInput";
+import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "links";
 
@@ -71,7 +70,7 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => (
     <SimpleForm>
       <TextInput source="title" />
       <TextInput type="url" source="url" />
-      <TextInput source="description" />
+      <MarkdownInput source="description" />
       <TextInput source="provider" />
       <ReferenceArrayInput source="newEvents" reference="events">
         <AutocompleteArrayInput optionText="title" />

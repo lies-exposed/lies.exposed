@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventEntity } from "../../../entities/Event.entity";
 
+
 describe("Create Event", () => {
   let appTest: AppTest, authorizationToken: string;
 
@@ -22,7 +23,7 @@ describe("Create Event", () => {
 
   test("Should create an event", async () => {
     const eventData: http.Events.Uncategorized.CreateEventBody = {
-      title: "First event",
+      title: "Event test",
       images: undefined as any,
       actors: [],
       groups: [],

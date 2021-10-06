@@ -7,6 +7,7 @@ import type * as RA from "react-admin";
 
 export interface APIRESTClient {
   get: (resource: string, params: any) => Promise<any>;
+  put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
   getList: <R extends RA.Record>(
     resource: string,
     params: RA.GetListParams
@@ -91,6 +92,9 @@ export const APIRESTClient = ({
   }
 
   return {
+    get: (url, params) =>
+      liftClientRequest(() => client.get(url, { params }))(),
+    put: (url, data) => liftClientRequest<any>(() => client.put(url, data))(),
     getOne: (resource, params) =>
       liftClientRequest<RA.GetOneResult<any>>(() =>
         client.get(`${resource}/${params.id}`, { params })
@@ -119,8 +123,6 @@ export const APIRESTClient = ({
         client.get(`${resource}`, { params: formattedParams })
       )();
     },
-    get: (url, params) =>
-      liftClientRequest(() => client.get(url, { params }))(),
     create: (resource, params) => {
       return liftClientRequest<RA.CreateParams>(() =>
         client.post(`${resource}`, params.data)

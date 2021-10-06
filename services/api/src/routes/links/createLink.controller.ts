@@ -1,6 +1,5 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import {
-  fetchMetadata,
   sanitizeURL,
 } from "@econnessione/shared/utils/url.utils";
 import { Router } from "express";
@@ -16,7 +15,7 @@ import { RouteContext } from "@routes/route.types";
 export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.Create, ({ body }) => {
     return pipe(
-      fetchMetadata(body.url, (e) => ServerError()),
+      ctx.urlMetadata.fetchMetadata(body.url, (e) => ServerError()),
       TE.chain((meta) =>
         ctx.db.save(LinkEntity, [
           {
