@@ -14,12 +14,12 @@ import { navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { Slider } from "./Common/Slider/Slider";
 import { MainContent } from "./MainContent";
+import SEO from "./SEO";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
-import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import SEO from "@components/SEO";
 
 export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;

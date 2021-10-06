@@ -1,7 +1,7 @@
+import { Actor } from "../io/http";
+import { generateRandomColor } from "../utils/colors";
+import { uuid } from "../utils/uuid";
 import { avatars } from "./avatars";
-import { Actor } from "@io/http";
-import { generateRandomColor } from "@utils/colors";
-import { uuid } from "@utils/uuid";
 
 const today = new Date();
 

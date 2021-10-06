@@ -6,9 +6,9 @@ import { WithQueries } from "avenger/lib/react";
 import * as t from "io-ts";
 import * as React from "react";
 import { Queries } from "../../providers/DataProvider";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { AxisGraph } from "@components/Common/Graph/AxisGraph";
-import { Loader } from "@components/Common/Loader";
+import { ErrorBox } from "../Common/ErrorBox";
+import { AxisGraph } from "../Common/Graph/AxisGraph";
+import { Loader } from "../Common/Loader";
 
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets

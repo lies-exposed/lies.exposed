@@ -7,9 +7,9 @@ import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import SlickSlider from "react-slick";
 import { Queries } from "../../providers/DataProvider";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { LazyLoader } from "@components/Common/Loader";
-import { UncategorizedListItem } from "@components/lists/EventList/UncategorizedListItem";
+import { ErrorBox } from "../Common/ErrorBox";
+import { LazyLoader } from "../Common/Loader";
+import { UncategorizedListItem } from "../lists/EventList/UncategorizedListItem";
 
 export interface EventSliderProps {
   filter: GetEventsQueryFilter;

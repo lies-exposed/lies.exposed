@@ -1,5 +1,5 @@
 import { eqString } from "fp-ts/lib/Eq";
-import { Actor, Common, Group } from "@io/http";
+import { Actor, Common, Group } from "../io/http";
 
 export const getActors =
   (allActors: Actor.Actor[]) =>

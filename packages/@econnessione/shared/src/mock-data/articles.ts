@@ -1,6 +1,6 @@
+import { Article } from "../io/http";
+import { uuid } from "../utils/uuid";
 import { firstImage } from "./images";
-import { Article } from "@io/http";
-import { uuid } from "@utils/uuid";
 
 export const firstArticle: Article.Article = {
   id: uuid(),

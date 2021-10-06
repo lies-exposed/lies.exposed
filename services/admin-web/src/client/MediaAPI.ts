@@ -5,7 +5,6 @@ import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { CreateResult } from "react-admin";
 
 export const convertFileToBase64 = (file: File): TE.TaskEither<Error, string> =>
   TE.tryCatch(
@@ -25,11 +24,11 @@ const getSignedUrl =
   (
     resource: string,
     resourceId: string
-  ): TE.TaskEither<Error, { data: string }> => {
+  ): TE.TaskEither<Error, { data: { url: string } }> => {
     return pipe(
       TE.tryCatch(
         () =>
-          client.create("/uploads/getSignedURL", {
+          client.create<{ url: string }>("/uploads/getSignedURL", {
             data: {
               resource,
               resourceId,
@@ -51,14 +50,14 @@ const uploadFile =
     return pipe(
       getSignedUrl(client)(resource, resourceId),
       TE.chain((url) => {
-        const [location, search] = url.data.split("?");
+        const [location, search] = url.data.url.split("?");
 
         const headers = qs.parse(search);
 
         return pipe(
           TE.tryCatch(
             () =>
-              axios.put(url.data, f, {
+              axios.put(url.data.url, f, {
                 headers: {
                   "Access-Control-Allow-Origin": "*",
                   "x-amz-acl": "public-read",

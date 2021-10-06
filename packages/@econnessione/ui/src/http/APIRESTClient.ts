@@ -31,10 +31,10 @@ export interface APIRESTClient {
     resource: string,
     params: RA.UpdateManyParams
   ) => Promise<RA.UpdateManyResult>;
-  create: <R extends RA.Record>(
+  create: <R extends Omit<RA.Record, "id">>(
     resource: string,
     params: RA.CreateParams
-  ) => Promise<RA.CreateResult<R>>;
+  ) => Promise<RA.CreateResult<R & { id: string }>>;
   delete: <R extends RA.Record>(
     resource: string,
     params: RA.DeleteParams

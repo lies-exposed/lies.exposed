@@ -2,8 +2,8 @@ import { Group } from "@econnessione/shared/io/http";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import { Avatar, AvatarSize } from "@components/Common/Avatar";
-import { List, ListItemProps } from "@components/Common/List";
+import { Avatar, AvatarSize } from "../Common/Avatar";
+import { List, ListItemProps } from "../Common/List";
 
 export interface Group extends Group.Group {
   selected: boolean;

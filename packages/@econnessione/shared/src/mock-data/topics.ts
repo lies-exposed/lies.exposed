@@ -1,6 +1,6 @@
-import { Topic } from "@io/http";
-import { generateRandomColor } from "@utils/colors";
-import { uuid } from "@utils/uuid";
+import { Topic } from "../io/http";
+import { generateRandomColor } from "../utils/colors";
+import { uuid } from "../utils/uuid";
 
 // topics
 export const firstTopic: Topic.TopicFrontmatter = {

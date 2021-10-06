@@ -18,9 +18,9 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import { ActorList } from "@components/lists/ActorList";
-import GroupList from "@components/lists/GroupList";
-import TopicList from "@components/lists/TopicList";
+import { ActorList } from "../ActorList";
+import GroupList from "../GroupList";
+import TopicList from "../TopicList";
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.Uncategorized;

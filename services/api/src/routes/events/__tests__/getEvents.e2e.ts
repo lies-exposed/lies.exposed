@@ -65,7 +65,7 @@ describe("Get Events", () => {
 
     const events = [...groupMemberEvents, ...actorEvents, ...groupEvents];
 
-    await appTest.ctx.db.save(EventEntity, events)();
+    await appTest.ctx.db.save(EventEntity, events as any[])();
 
     totalEvents = await appTest.ctx.db
       .count(EventEntity)()

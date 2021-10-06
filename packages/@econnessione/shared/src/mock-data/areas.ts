@@ -1,5 +1,5 @@
-import { Area } from "@io/http";
-import { uuid } from "@utils/uuid";
+import { Area } from "../io/http";
+import { uuid } from "../utils/uuid";
 
 export const firstArea: Area.Area = {
   id: uuid(),

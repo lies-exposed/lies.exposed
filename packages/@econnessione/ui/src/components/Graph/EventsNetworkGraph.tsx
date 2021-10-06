@@ -26,16 +26,14 @@ import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import Network, {
-  NetworkScale,
-} from "@components/Common/Graph/Network/Network";
+import Network, { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
   NetworkPointNode,
-} from "@components/Common/Graph/Network/NetworkNode";
-import { ActorList } from "@components/lists/ActorList";
-import { EventListItem } from "@components/lists/EventList/EventList";
-import GroupList from "@components/lists/GroupList";
+} from "../Common/Graph/Network/NetworkNode";
+import { ActorList } from "../lists/ActorList";
+import { EventListItem } from "../lists/EventList/EventList";
+import GroupList from "../lists/GroupList";
 
 type GroupByItem = Actor.Actor | Group.Group;
 

@@ -4,9 +4,9 @@ import { Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
-import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 
 export interface GroupPageContentProps extends Group.Group {
   groupsMembers: GroupMember[];

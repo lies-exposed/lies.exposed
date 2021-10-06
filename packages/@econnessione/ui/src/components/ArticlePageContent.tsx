@@ -2,11 +2,11 @@ import { Article } from "@econnessione/shared/io/http";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { Grid, Typography, useTheme } from "@material-ui/core";
 import * as React from "react";
+import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { TOC } from "./Common/TOC";
 import { ContentWithSidebar } from "./ContentWithSidebar";
 import { MainContent } from "./MainContent";
 import EditButton from "./buttons/EditButton";
-import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
 
 export type ArticlePageContentProps = Article.Article;
 

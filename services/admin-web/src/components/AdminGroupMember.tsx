@@ -34,16 +34,6 @@ const transformGroupMember = ({
   };
 };
 
-const transformGroupMember = ({
-  endDate,
-  ...r
-}: Record): Record | Promise<Record> => {
-  return {
-    ...r,
-    endDate: endDate === "" ? undefined : endDate,
-  };
-};
-
 export const GroupMemberList: React.FC<ListProps> = (props) => (
   <List {...props} resource="groups-members">
     <Datagrid rowClick="edit">
