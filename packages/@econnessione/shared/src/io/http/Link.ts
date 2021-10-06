@@ -7,7 +7,6 @@ import { URL } from "../Common";
 export const CreateLink = t.strict(
   {
     url: URL,
-    description: t.string,
     events: optionFromNullable(t.array(t.string)),
   },
   "CreateLink"
@@ -19,6 +18,11 @@ export const Link = t.strict(
   {
     ...createLinkProps,
     id: UUID,
+    title: t.union([t.string, t.undefined]),
+    description: t.union([t.string, t.undefined]),
+    keywords: t.array(t.string),
+    provider: t.union([t.string, t.undefined]),
+    events: t.array(t.string),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
   },

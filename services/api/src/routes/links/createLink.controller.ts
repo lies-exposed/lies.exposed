@@ -20,7 +20,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
       TE.chain((meta) =>
         ctx.db.save(LinkEntity, [
           {
-            ...body,
+            ...meta,
             title: meta.title,
             description: meta.description,
             keywords: meta.keywords ?? [],

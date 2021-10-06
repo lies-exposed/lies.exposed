@@ -2,7 +2,6 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { URL } from "../io/Common";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { ListOutput, Output, UUID } from "../io/http/Common";
 import { Link } from "../io/http/Link";
 import { GetListQuery } from "../io/http/Query";
@@ -52,13 +51,14 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/links/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: nonEmptyRecordFromType(
+    Body: t.strict(
       {
-        username: optionFromNullable(t.string),
-        fullName: optionFromNullable(t.string),
-        color: optionFromNullable(t.string),
-        body: optionFromNullable(t.string),
-        avatar: optionFromNullable(t.string),
+        title: t.string,
+        url: URL,
+        description: t.string,
+        keywords: t.array(t.string),
+        provider: t.string,
+        events: t.array(t.string),
       },
       "EditLinkBody"
     ),

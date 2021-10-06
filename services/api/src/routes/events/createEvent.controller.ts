@@ -1,40 +1,57 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { fetchMetadata } from "@econnessione/shared/utils/url.utils";
 import { uuid } from "@econnessione/shared/utils/uuid";
+import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toEventIO } from "./event.io";
 import { EventEntity } from "@entities/Event.entity";
-import { foldOptionals } from "@utils/foldOptionals.utils";
+import { ImageEntity } from "@entities/Image.entity";
+import { ServerError } from "@io/ControllerError";
 import { Route } from "routes/route.types";
 
 export const MakeCreateEventRoute: Route = (r, { s3, db, env }) => {
-  AddEndpoint(r)(Endpoints.Event.Create, ({ body: { endDate, ...body } }) => {
-    const optionalData = pipe(foldOptionals({ endDate }), (data) => ({
-      ...data,
-      groups: body.groups.map((id) => ({ id })),
-      actors: body.actors.map((id) => ({ id })),
-      groupsMembers: body.groupsMembers.map((id) => ({ id })),
-      links: body.links.map(({ url, description }) => ({
-        id: uuid(),
-        url,
-        description,
-      })),
-      images: pipe(
-        body.images,
-        O.map(
-          A.map((image) => ({
-            ...image,
-            id: uuid(),
-          }))
+  AddEndpoint(r)(Endpoints.Event.Create, ({ body }) => {
+    const makeDataTask = pipe(
+      sequenceS(TE.ApplicativePar)({
+        event: TE.right({
+          groups: body.groups.map((id) => ({ id })),
+          actors: body.actors.map((id) => ({ id })),
+          groupsMembers: body.groupsMembers.map((id) => ({ id })),
+          images: pipe(
+            body.images,
+            O.map(
+              A.map((image) => ({
+                ...image,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                events: [],
+                id: uuid(),
+              }))
+            ),
+            O.getOrElse((): ImageEntity[] => [])
+          ),
+          endDate: O.toUndefined(body.endDate),
+        }),
+        links: pipe(
+          body.links.map(({ url }) => fetchMetadata(url, (e) => ServerError())),
+          TE.sequenceSeqArray,
+          TE.map((links) =>
+            links.map((l) => ({
+              ...l,
+              id: uuid(),
+            }))
+          )
         ),
-        O.getOrElse((): any[] => [])
-      ),
-    }));
+      }),
+      TE.map(({ event, links }) => ({ ...event, links }))
+    );
 
     return pipe(
-      db.save(EventEntity, [{ ...body, ...optionalData }]),
+      makeDataTask,
+      TE.chain((data) => db.save(EventEntity, [data] as EventEntity[])),
       TE.chain(([event]) =>
         db.findOneOrFail(EventEntity, {
           where: { id: event.id },

@@ -34,5 +34,11 @@ export default {
         groupsMembers: "Groups Members",
       },
     },
+    links: {
+      name: "Link |||| Links",
+      fields: {
+        events_length: "N of events",
+      },
+    },
   },
 };
