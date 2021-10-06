@@ -1,11 +1,11 @@
 import { theme } from "@econnessione/ui/theme";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import BusinessIcon from "@material-ui/icons/Business";
 import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";
 import MapIcon from "@material-ui/icons/Map";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
+import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
@@ -16,6 +16,7 @@ import {
   ArticleEdit,
   ArticleList,
 } from "./components/AdminArticles";
+import { AdminDeathEventsResource } from "./components/AdminDeathEvents";
 import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
@@ -23,15 +24,12 @@ import {
   GroupMemberList,
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
-import {
-  ProjectCreate,
-  ProjectEdit,
-  ProjectList,
-} from "./components/AdminProjects";
+import { AdminLinksResource } from "./components/AdminLinks";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
-import { AdminDeathEventsResource } from "components/AdminDeathEvents";
-import { AdminLinksResource } from "components/AdminLinks";
+import englishMessages from "./i18n/en-US";
+
+const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
 const AdminPage: React.FC = () => {
   // eslint-disable-next-line no-console
@@ -39,6 +37,7 @@ const AdminPage: React.FC = () => {
     <Admin
       dataProvider={apiProvider}
       authProvider={authProvider}
+      i18nProvider={i18nProvider}
       loginPage={Login}
       theme={theme}
     >

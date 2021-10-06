@@ -56,10 +56,10 @@ export const ActorList: React.FC<ListProps> = (props) => (
         borderLeft: `5px solid #${r.color}`,
       })}
     >
-      <TextField label="Full Name" source="fullName" />
-      <TextField label="username" source="username" />
+      <TextField source="fullName" />
+      <TextField source="username" />
       <AvatarField source="avatar" />
-      <DateField label="Updated At" source="updatedAt" showTime={true} />
+      <DateField source="updatedAt" showTime={true} />
     </Datagrid>
   </List>
 );

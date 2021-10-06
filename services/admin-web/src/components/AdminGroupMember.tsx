@@ -37,13 +37,19 @@ const transformGroupMember = ({
 export const GroupMemberList: React.FC<ListProps> = (props) => (
   <List {...props} resource="groups-members">
     <Datagrid rowClick="edit">
-      <AvatarField source="group.avatar" />
-      <AvatarField source="actor.avatar" />
-      <DateField label="Started At" source="startDate" />
-      <DateField label="Ended At" source="endDate" emptyText="Still going" />
+      <AvatarField
+        label="resources.groups.fields.avatar"
+        source="group.avatar"
+      />
+      <AvatarField
+        label="resources.actors.fields.avatar"
+        source="actor.avatar"
+      />
+      <DateField source="startDate" />
+      <DateField source="endDate" emptyText="Still going" />
       <TextField source="body" />
-      <DateField label="Updated At" source="updatedAt" showTime={true} />
-      <DateField label="Created At" source="createdAt" showTime={true} />
+      <DateField source="updatedAt" showTime={true} />
+      <DateField source="createdAt" showTime={true} />
     </Datagrid>
   </List>
 );
