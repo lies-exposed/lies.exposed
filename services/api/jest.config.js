@@ -21,9 +21,11 @@ module.exports = {
       isolatesModules: true,
     },
   },
-  collectCoverageFrom: [
-    './src/**/*.ts'
-  ],
+  collectCoverageFrom: ["./src/**/*.ts"],
+  coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
+    "/src/migrations",
+    "/src/scripts",
+  ]),
   globalSetup: "<rootDir>/test/globalSetup.ts",
   globalTeardown: "<rootDir>/test/globalTeardown.ts",
 };

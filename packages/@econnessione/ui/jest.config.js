@@ -11,7 +11,6 @@ const moduleNameMapper = {
   ...paths,
 };
 
-
 module.exports = {
   ...jestBaseConfig,
   displayName: "@econnessione/ui",
@@ -21,5 +20,9 @@ module.exports = {
       isolatesModules: true,
     },
   },
-  moduleNameMapper
+  collectCoverageFrom: ["./src/**/*.tsx?"],
+  coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
+    "/src/theme",
+  ]),
+  moduleNameMapper,
 };

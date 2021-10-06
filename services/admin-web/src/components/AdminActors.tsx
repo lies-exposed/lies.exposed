@@ -16,6 +16,7 @@ import {
   DateInput,
   Edit,
   EditProps,
+  Filter,
   FormDataConsumer,
   FormTab,
   ImageField,
@@ -39,13 +40,26 @@ import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
 
+const ActorFilters: React.FC = (props) => {
+  return (
+    <Filter {...props}>
+      <TextInput label="fullName" source="fullName" alwaysOn size="small" />
+    </Filter>
+  );
+};
+
 export const ActorList: React.FC<ListProps> = (props) => (
-  <List {...props} resource="actors" perPage={50}>
-    <Datagrid rowClick="edit">
-      <TextField label="Full Name" source="fullName" />
-      <TextField label="username" source="username" />
+  <List {...props} resource="actors" filters={<ActorFilters />} perPage={50}>
+    <Datagrid
+      rowClick="edit"
+      rowStyle={(r) => ({
+        borderLeft: `5px solid #${r.color}`,
+      })}
+    >
+      <TextField source="fullName" />
+      <TextField source="username" />
       <AvatarField source="avatar" />
-      <DateField label="Updated At" source="updatedAt" showTime={true} />
+      <DateField source="updatedAt" showTime={true} />
     </Datagrid>
   </List>
 );

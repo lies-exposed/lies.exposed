@@ -4,8 +4,7 @@ import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
-import { In, Like } from "typeorm";
+import { pipe } from "fp-ts/lib/function";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { toActorIO } from "./actor.io";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
@@ -22,30 +21,33 @@ export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
 
       ctx.logger.debug.log(`Find Options %O`, findOptions);
 
-      const where = pipe(findOptions.where, (w) => {
-        if (O.isSome(ids)) {
-          return {
-            ...w,
-            id: In(ids.value),
-          };
+      const findTask = pipe(
+        ctx.db.manager
+          .createQueryBuilder(ActorEntity, "actors")
+          .loadAllRelationIds({ relations: ["memberIn"] }),
+        (q) => {
+          if (O.isSome(ids)) {
+            return q.andWhere("actors.id IN (:...ids)", {
+              ids: ids.value,
+            });
+          }
+          if (O.isSome(fullName)) {
+            return q.andWhere("lower(actors.fullName) LIKE :fullName", {
+              fullName: `%${fullName.value}%`,
+            });
+          }
+          return q;
+        },
+        (q) => {
+          return q.skip(findOptions.skip).take(findOptions.take);
+        },
+        (q) => {
+          return ctx.db.execQuery(() => q.getManyAndCount());
         }
-        if (O.isSome(fullName)) {
-          return {
-            ...w,
-            fullName: Like(`%${fullName.value}%`),
-          };
-        }
-        return w;
-      });
+      );
 
       return pipe(
-        ctx.db.findAndCount(ActorEntity, {
-          ...findOptions,
-          where,
-          loadRelationIds: {
-            relations: ["memberIn"],
-          },
-        }),
+        findTask,
         TE.chain(([data, total]) =>
           pipe(
             data,

@@ -3,7 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
-import { Point } from "../../io/http/Common";
+import { Point, UUID } from "../../io/http/Common";
 import { ListOutput, Output } from "../../io/http/Common/Output";
 import { GetListQuery } from "../../io/http/Query";
 
@@ -16,6 +16,7 @@ export const List = Endpoint({
   Input: {
     Query: t.type({
       ...GetListQuery.props,
+      victim: optionFromNullable(UUID),
     }),
   },
   Output: ListDeathsOutput,

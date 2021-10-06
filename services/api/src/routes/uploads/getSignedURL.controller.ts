@@ -30,9 +30,9 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
           ContentType,
           ACL: "public-read",
         }),
-        TE.map((data) => ({
+        TE.map((url) => ({
           body: {
-            data,
+            data: { url },
           },
           statusCode: 200,
         }))

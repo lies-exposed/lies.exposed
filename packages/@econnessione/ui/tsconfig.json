@@ -29,6 +29,6 @@
       "path": "../shared"
     }
   ],
-  "include": ["./src", "./typings"],
+  "include": ["./src", "./typings", "./src/**/*.json"],
   "exclude": ["node_modules", "lib"]
 }

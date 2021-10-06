@@ -1,0 +1,38 @@
+import englishMessages from "ra-language-english";
+
+export default {
+  ...(englishMessages as any),
+  resources: {
+    actors: {
+      name: "Actor |||| Actors",
+      fields: {
+        fullName: "full name",
+        username: "username",
+        avatar: "avatar",
+      },
+    },
+    groups: {
+      name: "Group |||| Groups",
+      fields: {
+        avatar: "avatar",
+      },
+    },
+    "groups-members": {
+      name: "Group Member |||| Groups Members",
+      fields: {
+        name: "Name",
+        "actor.avatar": "Actor Avatar",
+        "group.avatar": "Group Avatar",
+      },
+    },
+    events: {
+      name: "Event |||| Events",
+      fields: {
+        title: "Title",
+        actors: "Actors",
+        groups: "Groups",
+        groupsMembers: "Groups Members",
+      },
+    },
+  },
+};

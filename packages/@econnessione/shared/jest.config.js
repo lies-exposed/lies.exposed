@@ -20,5 +20,12 @@ module.exports = {
       isolatesModules: true,
     },
   },
+  collectCoverageFrom: ["./src/**/*.ts"],
+  coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
+    "/src/endpoints/",
+    "/src/io/",
+    "/src/mock-data/",
+    "/src/tests/",
+  ]),
   moduleNameMapper,
 };

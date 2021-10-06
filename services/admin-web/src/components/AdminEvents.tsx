@@ -73,8 +73,8 @@ const EventsFilter: React.FC = (props: any) => {
       <ReferenceArrayInput
         source="groupsMembers"
         reference="groups-members"
-        filterToQuery={(q: string) => ({
-          search: [q],
+        filterToQuery={(ids: string[]) => ({
+          groupsMembers: ids,
         })}
       >
         <AutocompleteArrayInput
@@ -234,13 +234,8 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayInput>
         <ReferenceArrayField source="groupsMembers" reference="groups-members">
           <Datagrid rowClick="edit">
-            <ReferenceField source="id" reference="groups-members">
-              <TextField source="id" />
-            </ReferenceField>
-            {/* <TextField source="actor.fullName" /> */}
-            <ImageField source="actor.avatar" />
-            {/* <TextField source="group.name" /> */}
-            <ImageField source="group.avatar" />
+            <AvatarField source="actor.avatar" />
+            <AvatarField source="group.avatar" />
             <DateField source="startDate" />
             <DateField source="endDate" />
           </Datagrid>
@@ -252,9 +247,8 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayInput>
         <ReferenceArrayField reference="groups" source="groups">
           <Datagrid rowClick="edit">
-            <TextField source="id" />
             <TextField source="name" />
-            <ImageField source="avatar" fullWidth={false} />
+            <AvatarField source="avatar" fullWidth={false} />
           </Datagrid>
         </ReferenceArrayField>
       </FormTab>
