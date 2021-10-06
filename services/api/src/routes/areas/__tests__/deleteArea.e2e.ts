@@ -1,8 +1,8 @@
 import * as tests from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { AreaArb } from "@econnessione/shared/tests/arbitrary/Area.arbitrary";
-import { AreaEntity } from "@entities/Area.entity";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AreaEntity } from "@entities/Area.entity";
 
 describe("Delete Area", () => {
   let Test: AppTest, areas: http.Area.Area[], authorizationToken: string;

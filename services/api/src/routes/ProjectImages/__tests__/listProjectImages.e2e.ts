@@ -1,15 +1,15 @@
 import { fc } from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { ImageArb, ProjectArb } from "@econnessione/shared/tests";
-import { ImageEntity } from "@entities/Image.entity";
-import { ProjectEntity } from "@entities/Project.entity";
-import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { ImageEntity } from "@entities/Image.entity";
+import { ProjectEntity } from "@entities/Project.entity";
+import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 
 describe("List Project Images", () => {
   let appTest: AppTest, authorizationToken: string;

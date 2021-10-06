@@ -3,8 +3,8 @@ import { Box } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import { Avatar, AvatarSize } from "@components/Common/Avatar";
-import { List, ListItemProps } from "@components/Common/List";
+import { Avatar, AvatarSize } from "../Common/Avatar";
+import { List, ListItemProps } from "../Common/List";
 
 export interface Actor extends io.Actor.Actor {
   selected: boolean;

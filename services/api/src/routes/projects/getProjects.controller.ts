@@ -14,7 +14,7 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Project.List, ({ query }) => {
     const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
     return pipe(
-      sequenceS(TE.taskEither)({
+      sequenceS(TE.ApplicativePar)({
         data: pipe(
           ctx.db.find(ProjectEntity, {
             ...findOptions,

@@ -21,14 +21,6 @@ export const EventArb: tests.fc.Arbitrary<http.Events.Uncategorized.Uncategorize
       ...p,
       images: [],
       links: tests.fc.sample(tests.fc.uuidV(4)),
-      // links: tests.fc.sample(
-      //   tests.fc.record({
-      //     id: tests.fc.uuid(),
-      //     url: tests.fc.webUrl(),
-      //     description: tests.fc.string(),
-      //   }) as any,
-      //   10
-      // ),
       groups: [],
       id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
       title: tests.fc.sample(HumanReadableStringArb(), 1)[0],

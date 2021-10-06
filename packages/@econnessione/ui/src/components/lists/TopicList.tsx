@@ -1,7 +1,7 @@
 import { Topic } from "@econnessione/shared/io/http";
 import { Chip } from "@material-ui/core";
 import * as React from "react";
-import { List, ListItemProps } from "@components/Common/List";
+import { List, ListItemProps } from "../Common/List";
 
 export interface TopicListTopic extends Omit<Topic.TopicFrontmatter, "color"> {
   selected: boolean;

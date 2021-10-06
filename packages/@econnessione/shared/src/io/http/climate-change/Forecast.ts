@@ -20,7 +20,7 @@ export const Forecast = t.strict(
     median: NumberFromString,
     high: NumberFromString,
     temp_high: NumberFromString,
-    temp_low: NumberFromString
+    temp_low: NumberFromString,
   },
   "Forecast"
 );

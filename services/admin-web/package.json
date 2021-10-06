@@ -41,6 +41,7 @@
     "react-dom": "^16",
     "react-helmet": "^6.1.0",
     "react-scripts": "^4.0.3",
+    "ts-jest": "^27",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4"
   },
@@ -48,7 +49,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
+    "@types/jest": "^27",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",

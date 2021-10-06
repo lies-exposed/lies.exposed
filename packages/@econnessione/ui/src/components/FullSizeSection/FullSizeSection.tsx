@@ -1,7 +1,7 @@
 import { isServer } from "@econnessione/shared/utils/isServer";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
-import { MainContent } from "@components/MainContent";
+import { MainContent } from "../MainContent";
 
 interface Viewport {
   width: number | string;

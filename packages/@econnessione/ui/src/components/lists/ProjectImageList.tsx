@@ -4,8 +4,8 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { Queries } from "../../providers/DataProvider";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { Loader } from "@components/Common/Loader";
+import { ErrorBox } from "../Common/ErrorBox";
+import { Loader } from "../Common/Loader";
 
 export interface ProjectImage extends io.ProjectImage.ProjectImage {
   selected: boolean;

@@ -1,14 +1,16 @@
 import * as io from "@econnessione/shared/io";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { Typography } from "@material-ui/core";
-import { uuid } from "@utils/uuid";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   ArrayField,
+  ArrayInput,
+  AutocompleteInput,
   ChoicesInputProps,
   Create,
   ReferenceManyField,
@@ -27,8 +29,10 @@ import {
   Record,
   ReferenceArrayField,
   ReferenceField,
+  ReferenceInput,
   SelectInput,
   SimpleForm,
+  SimpleFormIterator,
   SingleFieldList,
   TabbedForm,
   TextField,

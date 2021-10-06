@@ -1,10 +1,10 @@
 import * as tests from "@econnessione/core/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
+import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("Create Group Member", () => {
   let authorizationToken: string;

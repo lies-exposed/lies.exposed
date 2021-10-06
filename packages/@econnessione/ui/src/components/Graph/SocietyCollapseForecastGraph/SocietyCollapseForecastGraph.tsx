@@ -1,6 +1,6 @@
 import {
   ClimateChangeForecast,
-  ClimateChangeHistoryOfSummits
+  ClimateChangeHistoryOfSummits,
 } from "@econnessione/shared/endpoints/graph.endpoints";
 import { Forecast } from "@econnessione/shared/io/http/climate-change/Forecast";
 import { numTicksForWidth } from "@econnessione/shared/utils/graph.utils";
@@ -23,8 +23,8 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import * as React from "react";
 import { jsonData } from "../../../providers/DataProvider";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { LazyLoader } from "@components/Common/Loader";
+import { ErrorBox } from "../../Common/ErrorBox";
+import { LazyLoader } from "../../Common/Loader";
 
 const tooltipStyles = {
   ...defaultStyles,

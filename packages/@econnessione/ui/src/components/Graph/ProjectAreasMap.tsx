@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import Feature from "ol/Feature";
 import * as React from "react";
 import { geoJSONFormat } from "../../utils/map.utils";
-import Map from "@components/Map";
+import Map from "../Map";
 
 export interface ProjectAreasMapProps {
   project: Project.Project;

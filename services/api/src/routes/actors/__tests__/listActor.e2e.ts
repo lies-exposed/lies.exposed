@@ -1,8 +1,8 @@
 import * as tests from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
-import { ActorEntity } from "@entities/Actor.entity";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { ActorEntity } from "@entities/Actor.entity";
 
 describe("List Actor", () => {
   let Test: AppTest, authorizationToken: string, actors: http.Actor.Actor[];
