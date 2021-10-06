@@ -176,17 +176,22 @@ export const LinkList: React.FC<ListProps> = (props) => (
 //   </Edit>
 // );
 
-export const LinkCreate: React.FC<CreateProps> = (props) => (
-  <Create title="Create a Link" {...props}>
-    <SimpleForm>
-      <TextInput type="url" source="url" />
-      <TextInput type="text" source="description" />
-      <ReferenceArrayInput source="events" reference="events" defaultValue={[]}>
-        <SelectArrayInput optionText="title" />
-      </ReferenceArrayInput>
-    </SimpleForm>
-  </Create>
-);
+export const LinkCreate: React.FC<CreateProps> = (props) => {
+  return (
+    <Create title="Create a Link" {...props}>
+      <SimpleForm>
+        <TextInput type="url" source="url" />
+        <ReferenceArrayInput
+          source="events"
+          reference="events"
+          defaultValue={[]}
+        >
+          <SelectArrayInput optionText="title" />
+        </ReferenceArrayInput>
+      </SimpleForm>
+    </Create>
+  );
+};
 
 export const AdminLinksResource: React.FC<ResourceProps> = (props) => {
   return (

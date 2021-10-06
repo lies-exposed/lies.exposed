@@ -39,7 +39,6 @@ export const Create = Endpoint({
     Body: t.strict(
       {
         url: URL,
-        description: t.string,
         events: t.array(t.string),
       },
       "CreateLinkBody"

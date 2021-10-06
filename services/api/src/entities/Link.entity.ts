@@ -20,7 +20,16 @@ export class LinkEntity {
   url: string;
 
   @Column({ type: "varchar", nullable: true })
+  title: string;
+
+  @Column({ type: "varchar", nullable: true })
   description: string;
+
+  @Column({ type: "simple-array", default: [] })
+  keywords: string[];
+
+  @Column({ type: "varchar", nullable: true })
+  provider: string;
 
   @ManyToMany(() => EventEntity, (e) => e.links, { cascade: false })
   events: EventEntity[];
