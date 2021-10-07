@@ -3,7 +3,7 @@
   "compilerOptions": {
     "noEmit": true,
     "typeRoots": [
-      "./src/typings",
+      "./typings",
       "../../packages/@econnessione/shared/typings",
       "node_modules/@types",
       "../../node_modules/@types",

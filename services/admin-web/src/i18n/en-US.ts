@@ -39,6 +39,9 @@ export default {
       fields: {
         events_length: "N of events",
       },
+      actions: {
+        update_metadata: "Update URL Metadata",
+      },
     },
   },
 };

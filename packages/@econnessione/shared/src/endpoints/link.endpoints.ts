@@ -7,8 +7,8 @@ import { Link } from "../io/http/Link";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
-const SingleActorOutput = Output(Link, "Link");
-const ListActorOutput = ListOutput(Link, "Links");
+const OneLinkOutput = Output(Link, "Link");
+const ManyLinkOutput = ListOutput(Link, "Links");
 
 export const List = Endpoint({
   Method: "GET",
@@ -19,7 +19,7 @@ export const List = Endpoint({
       events: optionFromNullable(t.array(UUID)),
     }),
   },
-  Output: ListActorOutput,
+  Output: ManyLinkOutput,
 });
 
 export const Get = Endpoint({
@@ -28,7 +28,7 @@ export const Get = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleActorOutput,
+  Output: OneLinkOutput,
 });
 
 export const Create = Endpoint({
@@ -43,7 +43,7 @@ export const Create = Endpoint({
       "CreateLinkBody"
     ),
   },
-  Output: SingleActorOutput,
+  Output: OneLinkOutput,
 });
 
 export const Edit = Endpoint({
@@ -63,7 +63,7 @@ export const Edit = Endpoint({
       "EditLinkBody"
     ),
   },
-  Output: SingleActorOutput,
+  Output: OneLinkOutput,
 });
 
 export const Delete = Endpoint({
@@ -72,7 +72,16 @@ export const Delete = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleActorOutput,
+  Output: OneLinkOutput,
+});
+
+export const UpdateMetadata = Endpoint({
+  Method: "PUT",
+  getPath: ({ id }) => `/links/${id}/metadata`,
+  Input: {
+    Params: t.type({ id: t.string }),
+  },
+  Output: OneLinkOutput,
 });
 
 export const links = ResourceEndpoints({
