@@ -15,7 +15,7 @@ export const MakeDeleteActorRoute: Route = (r, { s3, db, env }) => {
         loadRelationIds: true,
       }),
       TE.chainFirst(() =>
-        sequenceS(TE.taskEither)({
+        sequenceS(TE.ApplicativeSeq)({
           avatar: pipe(
             s3.deleteObject({
               Bucket: env.SPACE_BUCKET,

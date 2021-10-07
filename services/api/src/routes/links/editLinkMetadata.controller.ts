@@ -1,4 +1,5 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { AddEndpoint } from "@econnessione/shared/endpoints";
+import { UpdateMetadata } from "@econnessione/shared/endpoints/link.endpoints";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -12,7 +13,7 @@ export const MakeEditLinkMetadataRoute = (
   r: Router,
   ctx: RouteContext
 ): void => {
-  AddEndpoint(r)(Endpoints.UpdateMetadataLink, ({ params: { id } }) => {
+  AddEndpoint(r)(UpdateMetadata, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(LinkEntity, { where: { id } }),
       TE.chain((link) =>
