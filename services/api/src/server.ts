@@ -1,8 +1,10 @@
 import * as path from "path";
 import * as logger from "@econnessione/core/logger";
+import { MakeURLMetadata } from "@econnessione/shared/providers/URLMetadata.provider";
 import * as AWS from "aws-sdk";
 import axios from "axios";
 import cors from "cors";
+import domino from "domino";
 import express from "express";
 import jwt from "express-jwt";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -10,6 +12,7 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import metadataParser from "page-metadata-parser";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -59,7 +62,6 @@ export const makeContext = (
                   client: axios.create({
                     baseURL: `http://${env.DEV_DATA_HOST}`,
                   }),
-
                   logger: serverLogger,
                 })
               )
@@ -78,6 +80,15 @@ export const makeContext = (
               ),
         jwt: TE.right(
           GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
+        ),
+        urlMetadata: TE.right(
+          MakeURLMetadata({
+            client: axios,
+            parser: {
+              toDOM: (html) => domino.createWindow(html).document,
+              getMetadata: metadataParser.getMetadata,
+            },
+          })
         ),
         env: TE.right(env),
       });

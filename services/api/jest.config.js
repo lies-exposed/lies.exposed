@@ -17,7 +17,7 @@ module.exports = {
   moduleNameMapper,
   globals: {
     "ts-jest": {
-      tsconfig: __dirname + "/tsconfig.json",
+      tsconfig: __dirname + "/tsconfig.test.json",
       isolatesModules: true,
     },
   },

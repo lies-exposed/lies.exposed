@@ -1,4 +1,5 @@
 import * as logger from "@econnessione/core/logger";
+import { URLMetadataClient } from "@econnessione/shared/providers/URLMetadata.provider";
 import { Router } from "express";
 import { ENV } from "@io/ENV";
 import { JWTClient } from "@providers/jwt/JWTClient";
@@ -11,6 +12,7 @@ export interface RouteContext {
   env: ENV;
   logger: logger.Logger;
   jwt: JWTClient;
+  urlMetadata: URLMetadataClient;
 }
 
 export type Route = (r: Router, ctx: RouteContext) => void;

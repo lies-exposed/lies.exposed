@@ -10,6 +10,8 @@ export const toLinkIO = (
   return pipe(
     io.http.Link.Link.decode({
       ...link,
+      title: link.title ?? undefined,
+      provider: link.provider ?? undefined,
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),
     }),

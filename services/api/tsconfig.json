@@ -6,9 +6,9 @@
     "rootDir": "./",
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
-      "./src/typings",
       "node_modules/@types",
-      "../../node_modules/@types"
+      "../../node_modules/@types",
+      "./typings"
     ],
     "declaration": false,
     "skipLibCheck": true,

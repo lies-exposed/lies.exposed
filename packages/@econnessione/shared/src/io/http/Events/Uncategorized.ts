@@ -9,6 +9,7 @@ export const GetEventsQueryFilter = t.partial({
   groupsMembers: optionFromNullable(t.array(t.string)),
   actors: optionFromNullable(t.array(t.string)),
   groups: optionFromNullable(t.array(t.string)),
+  links: optionFromNullable(t.array(t.string)),
 });
 export type GetEventsQueryFilter = t.TypeOf<typeof GetEventsQueryFilter>;
 

@@ -15,7 +15,7 @@ import { RouteContext } from "routes/route.types";
 export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
     ctx.logger.info.log("Query %O", query);
-    const { actors, groups, groupsMembers, ...queryRest } = query;
+    const { actors, groups, groupsMembers, links, ...queryRest } = query;
     const findOptions = getORMOptions(
       {
         ...queryRest,
@@ -74,6 +74,19 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
           );
         }
         return q.leftJoinAndSelect("event.groupsMembers", "groupsMembers");
+      },
+      (q) => {
+        if (O.isSome(links)) {
+          return q.innerJoinAndSelect(
+            "event.links",
+            "links",
+            "links.id IN (:...links)",
+            {
+              links: links.value,
+            }
+          );
+        }
+        return q.leftJoinAndSelect("event.links", "links");
       },
       (q) =>
         q.leftJoinAndSelect("event.images", "images").loadAllRelationIds({

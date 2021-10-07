@@ -30,6 +30,7 @@ const Endpoints = {
   ProjectImage: ProjectImage.projectImages,
   // Uploads: Uploads.uploads,
   User: User.users,
+  UpdateMetadataLink: Link.UpdateMetadata,
 };
 
 type Endpoints = typeof Endpoints;

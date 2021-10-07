@@ -2,14 +2,13 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { URL } from "../io/Common";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { ListOutput, Output, UUID } from "../io/http/Common";
 import { Link } from "../io/http/Link";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
-const SingleActorOutput = Output(Link, "Link");
-const ListActorOutput = ListOutput(Link, "Links");
+const OneLinkOutput = Output(Link, "Link");
+const ManyLinkOutput = ListOutput(Link, "Links");
 
 export const List = Endpoint({
   Method: "GET",
@@ -20,7 +19,7 @@ export const List = Endpoint({
       events: optionFromNullable(t.array(UUID)),
     }),
   },
-  Output: ListActorOutput,
+  Output: ManyLinkOutput,
 });
 
 export const Get = Endpoint({
@@ -29,7 +28,7 @@ export const Get = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleActorOutput,
+  Output: OneLinkOutput,
 });
 
 export const Create = Endpoint({
@@ -39,13 +38,12 @@ export const Create = Endpoint({
     Body: t.strict(
       {
         url: URL,
-        description: t.string,
         events: t.array(t.string),
       },
       "CreateLinkBody"
     ),
   },
-  Output: SingleActorOutput,
+  Output: OneLinkOutput,
 });
 
 export const Edit = Endpoint({
@@ -53,18 +51,19 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/links/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: nonEmptyRecordFromType(
+    Body: t.strict(
       {
-        username: optionFromNullable(t.string),
-        fullName: optionFromNullable(t.string),
-        color: optionFromNullable(t.string),
-        body: optionFromNullable(t.string),
-        avatar: optionFromNullable(t.string),
+        title: t.string,
+        url: URL,
+        description: t.string,
+        keywords: t.array(t.string),
+        provider: t.string,
+        events: t.array(t.string),
       },
       "EditLinkBody"
     ),
   },
-  Output: SingleActorOutput,
+  Output: OneLinkOutput,
 });
 
 export const Delete = Endpoint({
@@ -73,7 +72,16 @@ export const Delete = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleActorOutput,
+  Output: OneLinkOutput,
+});
+
+export const UpdateMetadata = Endpoint({
+  Method: "PUT",
+  getPath: ({ id }) => `/links/${id}/metadata`,
+  Input: {
+    Params: t.type({ id: t.string }),
+  },
+  Output: OneLinkOutput,
 });
 
 export const links = ResourceEndpoints({
