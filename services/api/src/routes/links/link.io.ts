@@ -11,6 +11,7 @@ export const toLinkIO = (
     io.http.Link.Link.decode({
       ...link,
       title: link.title ?? undefined,
+      description: link.description ?? undefined,
       provider: link.provider ?? undefined,
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),
