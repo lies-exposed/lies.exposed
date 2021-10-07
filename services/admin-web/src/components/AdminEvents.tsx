@@ -86,6 +86,8 @@ const EventsFilter: React.FC = (props: any) => {
           }}
         />
       </ReferenceArrayInput>
+      <DateInput source="startDate" />
+      <DateInput source="endDate" />
     </Filter>
   );
 };
