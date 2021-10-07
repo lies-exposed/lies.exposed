@@ -1,4 +1,5 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { formatISO } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
@@ -7,15 +8,14 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { toDeathIO } from "./death.io";
 import { DeathEventEntity } from "@entities/DeathEvent.entity";
 import { Route } from "@routes/route.types";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
 
-export const MakeGetListDeathEventRoute: Route = (
-  r,
-  { s3, db, env, logger }
-) => {
+export const MakeGetListDeathEventRoute: Route = (r, { db, logger, env }) => {
   AddEndpoint(r)(
     Endpoints.DeathEvent.List,
-    ({ query: { victim, ...query } }) => {
+    ({ query: { victim, date, ...query } }) => {
       logger.debug.log("Victim is %O", victim);
+      const ormOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
       const selectSQLTask = pipe(
         db.manager
           .createQueryBuilder(DeathEventEntity, "deaths")
@@ -27,12 +27,15 @@ export const MakeGetListDeathEventRoute: Route = (
               victimId: victim.value,
             });
           }
+
+          if (O.isSome(date)) {
+            return q.andWhere("date(deaths.date) = :date", {
+              date: formatISO(date.value, { representation: "date" }),
+            });
+          }
           return q;
         },
-        (q) => {
-          logger.debug.log("Get List SQL", q.getSql());
-          return q;
-        },
+        (q) => q.skip(ormOptions.skip).take(ormOptions.take),
         (q) => db.execQuery(() => q.getManyAndCount())
       );
 

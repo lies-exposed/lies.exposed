@@ -25,7 +25,7 @@ interface EventsMapProps {
 export const EventsMap: React.FC<EventsMapProps> = ({
   center,
   zoom,
-  filter,
+  filter: { startDate, endDate, ...filters },
 }) => {
   return (
     <WithQueries
@@ -37,13 +37,23 @@ export const EventsMap: React.FC<EventsMapProps> = ({
         events: {
           pagination: { page: 1, perPage: 100 },
           sort: { field: "startDate", order: "DESC" },
-          filter: R.compact(filter),
+          filter: {
+            startDate:
+              startDate?._tag === "Some"
+                ? startDate.value.toISOString()
+                : undefined,
+            endDate:
+              endDate?._tag === "Some"
+                ? endDate.value.toISOString()
+                : undefined,
+            ...R.compact({ ...filters }),
+          },
         },
         deaths: {
           pagination: { page: 1, perPage: 20 },
           sort: { field: "date", order: "DESC" },
           filter: {
-            groups: filter.groups ? O.toUndefined(filter.groups) : undefined,
+            groups: filters.groups ? O.toUndefined(filters.groups) : undefined,
           },
         },
       }}

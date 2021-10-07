@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventEntity } from "../../../entities/Event.entity";
 
-
 describe("Create Event", () => {
   let appTest: AppTest, authorizationToken: string;
 
