@@ -1,8 +1,8 @@
 import { Topic } from "@econnessione/shared/io/http";
 import { Grid } from "@material-ui/core";
 import * as React from "react";
+import EditButton from "./Common/Button/EditButton";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
-import EditButton from "./buttons/EditButton";
 
 export interface TopicPageContentProps extends Topic.TopicMD {}
 

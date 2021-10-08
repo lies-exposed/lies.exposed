@@ -4,9 +4,9 @@ import Feature from "ol/Feature";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils";
 import { calculateAreaInSQM } from "../utils/openLayers";
+import EditButton from "./Common/Button/EditButton";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import Map from "./Map";
-import EditButton from "./buttons/EditButton";
 
 export interface AreaPageContentProps extends Area.Area {
   onGroupClick: (g: Group.Group) => void;
