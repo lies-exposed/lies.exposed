@@ -28,6 +28,7 @@ import { AdminLinksResource } from "./components/AdminLinks";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import englishMessages from "./i18n/en-US";
+import { AdminScientificStudiesResource } from "components/AdminScientificStudies";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -85,13 +86,6 @@ const AdminPage: React.FC = () => {
         icon={MapIcon}
       />
 
-      {/* <Resource
-        name="projects"
-        list={ProjectList}
-        edit={ProjectEdit}
-        create={ProjectCreate}
-        icon={BusinessIcon}
-      /> */}
       <Resource
         name="events"
         list={EventList}
@@ -101,6 +95,8 @@ const AdminPage: React.FC = () => {
       />
 
       <AdminDeathEventsResource name="deaths" />
+
+      <AdminScientificStudiesResource name="scientific-studies" />
 
       <AdminLinksResource name="links" />
       <Resource

@@ -1,5 +1,6 @@
 import { fc } from "@econnessione/core/tests";
-import { URL } from "../../io/Common";
+import { addYears, subYears } from "date-fns";
+import { URL } from "../../io/http/Common/URL";
 
 function capFirst(word: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1);
@@ -2898,6 +2899,10 @@ export const HumanReadableStringArb = (
   });
 };
 
+export const OptionArb = <T>(
+  arb: fc.Arbitrary<T>
+): fc.Arbitrary<T | undefined> => fc.oneof(fc.constant(undefined), arb);
+
 export const URLArb = (): fc.Arbitrary<URL> =>
   fc
     .record({
@@ -2915,3 +2920,6 @@ export const URLArb = (): fc.Arbitrary<URL> =>
       ({ protocol, domain, extension, segments, query }) =>
         `${protocol}://${domain.toLocaleLowerCase()}.${extension}/${segments}?${query}` as URL
     );
+
+export const MIN_DATE = subYears(new Date(), 200);
+export const MAX_DATE = addYears(new Date(), 50);

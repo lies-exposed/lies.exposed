@@ -1,5 +1,5 @@
 import { fc } from "@econnessione/core/tests";
-import { URL } from "@econnessione/shared/io/Common";
+import { URL } from "@econnessione/shared/io/http/Common/URL";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { EventArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";

@@ -6,7 +6,6 @@ import * as Death from "./Death";
 import * as Fined from "./Fined";
 import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
-import * as StudyPublished from "./StudyPublished";
 import * as Uncategorized from "./Uncategorized";
 import { ProjectImpact } from "./project/ProjectImpact";
 import { ProjectTransaction } from "./project/ProjectTransaction";
@@ -31,7 +30,6 @@ export const EventMD = markdownRemark(Event, "EventMD");
 export type EventMD = t.TypeOf<typeof EventMD>;
 
 export interface EventListMap {
-  StudyPublished: StudyPublished.StudyPublished[];
   Protest: Protest.Protest[];
   ProjectImpact: ProjectImpact[];
   ProjectTransaction: ProjectTransaction[];
@@ -57,7 +55,6 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
 };
 
 export {
-  StudyPublished,
   Protest,
   Fined,
   Condamned,

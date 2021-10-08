@@ -13,6 +13,7 @@ import { LinkEntity } from "@entities/Link.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
+import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
 import { UserEntity } from "@entities/User.entity";
 import { ENV } from "@io/ENV";
 import { DatabaseConnectionOpts } from "@providers/orm";
@@ -45,6 +46,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       AreaEntity,
       EventEntity,
       DeathEventEntity,
+      ScientificStudyEntity,
       ImageEntity,
       LinkEntity,
       UserEntity,

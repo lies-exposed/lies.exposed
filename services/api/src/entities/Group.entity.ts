@@ -9,6 +9,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
+import { ScientificStudyEntity } from "./ScientificStudy.entity";
 import { EventEntity } from "@entities/Event.entity";
 
 @Entity("group")
@@ -39,6 +40,11 @@ export class GroupEntity {
 
   @ManyToMany(() => EventEntity, (a) => a.groups, { cascade: false })
   events: EventEntity[];
+
+  @OneToMany(() => ScientificStudyEntity, (a) => a.publisher, {
+    cascade: false,
+  })
+  publishedStudies: ScientificStudyEntity;
 
   @Column({ type: "varchar" })
   body: string;

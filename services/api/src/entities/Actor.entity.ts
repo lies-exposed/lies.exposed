@@ -10,6 +10,7 @@ import {
 } from "typeorm";
 import { DeathEventEntity } from "./DeathEvent.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
+import { ScientificStudyEntity } from "./ScientificStudy.entity";
 import { EventEntity } from "@entities/Event.entity";
 
 @Entity("actor")
@@ -40,6 +41,11 @@ export class ActorEntity {
 
   @OneToOne(() => DeathEventEntity, (d) => d.victim)
   death: DeathEventEntity;
+
+  @ManyToMany(() => ScientificStudyEntity, (e) => e.authors, {
+    cascade: false,
+  })
+  scientificStudies: ScientificStudyEntity[];
 
   @Column({ type: "varchar" })
   body: string;

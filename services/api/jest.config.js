@@ -14,13 +14,14 @@ const moduleNameMapper = {
 
 module.exports = {
   ...jestBaseConfig,
-  moduleNameMapper,
+  displayName: 'api',
   globals: {
     "ts-jest": {
       tsconfig: __dirname + "/tsconfig.test.json",
       isolatesModules: true,
     },
   },
+  moduleNameMapper,
   collectCoverageFrom: ["./src/**/*.ts"],
   coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
     "/src/migrations",

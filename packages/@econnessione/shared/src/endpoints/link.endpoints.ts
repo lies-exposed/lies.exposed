@@ -1,8 +1,8 @@
 import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { URL } from "../io/Common";
 import { ListOutput, Output, UUID } from "../io/http/Common";
+import { URL } from "../io/http/Common/URL";
 import { Link } from "../io/http/Link";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";

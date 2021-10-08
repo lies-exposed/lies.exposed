@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { URL } from "../Common";
+import { URL } from "./Common/URL";
 
 export const CreateLink = t.strict(
   {

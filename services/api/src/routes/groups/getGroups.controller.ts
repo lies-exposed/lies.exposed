@@ -65,7 +65,7 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
         (q) => {
           const qq = q.skip(findOptions.skip).take(findOptions.take);
 
-          ctx.logger.debug.log(`SQL query %O`, qq.getQueryAndParameters());
+          // ctx.logger.debug.log(`SQL query %O`, qq.getQueryAndParameters());
 
           return ctx.db.execQuery(() => qq.getManyAndCount());
         }

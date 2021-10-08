@@ -36,30 +36,30 @@ export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
       } as any)
   );
 
-const groupUnsupportedKeys = ["craetedAt", "updateAt"];
-const groupProps = pipe(
-  http.Group.Group.type.props,
-  R.filterMapWithIndex((k, p) =>
-    pipe(
-      p,
-      O.fromPredicate(() => groupUnsupportedKeys.includes(k))
-    )
-  )
-);
+// const groupUnsupportedKeys = ["craetedAt", "updateAt"];
+// const groupProps = pipe(
+//   http.Group.Group.type.props,
+//   R.filterMapWithIndex((k, p) =>
+//     pipe(
+//       p,
+//       O.fromPredicate(() => groupUnsupportedKeys.includes(k))
+//     )
+//   )
+// );
 
-export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
-  .getArbitrary(t.strict({ ...groupProps }, "Group"))
-  .map(
-    (p): http.Group.Group =>
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      ({
-        ...p,
-        id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-        // images: tests.fc.sample(getImageArb(), 10),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      } as any)
-  );
+// export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
+//   .getArbitrary(t.strict({ ...groupProps }, "Group"))
+//   .map(
+//     (p): http.Group.Group =>
+//       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+//       ({
+//         ...p,
+//         id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
+//         // images: tests.fc.sample(getImageArb(), 10),
+//         createdAt: new Date(),
+//         updatedAt: new Date(),
+//       } as any)
+//   );
 
 const groupMemberUnsupportedKeys = ["craetedAt", "updateAt"];
 const groupMemberProps = pipe(
