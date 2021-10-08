@@ -17,6 +17,7 @@ export const List = Endpoint({
     Query: t.type({
       ...GetListQuery.props,
       victim: optionFromNullable(UUID),
+      date: optionFromNullable(DateFromISOString),
     }),
   },
   Output: ListDeathsOutput,

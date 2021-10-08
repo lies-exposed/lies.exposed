@@ -8,6 +8,7 @@ import { Queries } from "@econnessione/ui/providers/DataProvider";
 import { Events } from "@io/http";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -18,14 +19,29 @@ interface EventsNetworkProps extends Omit<EventsNetworkGraphProps, "events"> {
 
 export class EventsNetwork extends React.PureComponent<EventsNetworkProps> {
   render(): JSX.Element {
-    const { filter: _filter, ...props } = this.props;
-    const filter = pipe(_filter, R.compact);
+    const {
+      filter: { startDate, endDate, ..._filter },
+      ...props
+    } = this.props;
+
     return (
       <WithQueries
         queries={{ events: Queries.Event.getList }}
         params={{
           events: {
-            filter,
+            filter: {
+              ...R.compact({ ..._filter }),
+              startDate: pipe(
+                startDate === undefined ? O.none : startDate,
+                O.map((d) => d.toISOString()),
+                O.toUndefined
+              ),
+              endDate: pipe(
+                endDate === undefined ? O.none : endDate,
+                O.map((d) => d.toISOString()),
+                O.toUndefined
+              ),
+            },
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "DESC" },
           },

@@ -1,7 +1,5 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import {
-  sanitizeURL,
-} from "@econnessione/shared/utils/url.utils";
+import { sanitizeURL } from "@econnessione/shared/utils/url.utils";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";

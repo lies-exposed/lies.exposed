@@ -15,7 +15,9 @@ export interface EventSliderProps {
   filter: GetEventsQueryFilter;
 }
 
-export const EventSlider: React.FC<EventSliderProps> = (props) => {
+export const EventSlider: React.FC<EventSliderProps> = ({
+  filter: { startDate, endDate, ...filter },
+}) => {
   return (
     <WithQueries
       queries={{ events: Queries.Event.getList }}
@@ -23,7 +25,17 @@ export const EventSlider: React.FC<EventSliderProps> = (props) => {
         events: {
           pagination: { perPage: 20, page: 1 },
           sort: { field: "startDate", order: "DESC" },
-          filter: R.compact(props.filter),
+          filter: {
+            startDate:
+              startDate?._tag === "Some"
+                ? startDate.value.toISOString()
+                : undefined,
+            endDate:
+              endDate?._tag === "Some"
+                ? endDate.value.toISOString()
+                : undefined,
+            ...R.compact({ ...filter }),
+          },
         },
       }}
       render={QR.fold(LazyLoader, ErrorBox, ({ events: { data, total } }) => {

@@ -44,6 +44,7 @@ const DeathEventsFilter: React.FC = (props: any) => {
       <ReferenceInput source="victim" reference="actors" alwaysOn>
         <AutocompleteInput source="id" optionText="fullName" />
       </ReferenceInput>
+      <DateInput source="date" />
     </Filter>
   );
 };

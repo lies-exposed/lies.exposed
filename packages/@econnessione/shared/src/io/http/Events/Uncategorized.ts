@@ -5,12 +5,18 @@ import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
 import { BaseFrontmatter, Point, UUID } from "../Common";
 import { CreateLink } from "../Link";
 
-export const GetEventsQueryFilter = t.partial({
-  groupsMembers: optionFromNullable(t.array(t.string)),
-  actors: optionFromNullable(t.array(t.string)),
-  groups: optionFromNullable(t.array(t.string)),
-  links: optionFromNullable(t.array(t.string)),
-});
+export const GetEventsQueryFilter = t.partial(
+  {
+    groupsMembers: optionFromNullable(t.array(t.string)),
+    actors: optionFromNullable(t.array(t.string)),
+    groups: optionFromNullable(t.array(t.string)),
+    links: optionFromNullable(t.array(t.string)),
+    startDate: optionFromNullable(DateFromISOString),
+    endDate: optionFromNullable(DateFromISOString),
+  },
+  "GetEventsQueryFilter"
+);
+
 export type GetEventsQueryFilter = t.TypeOf<typeof GetEventsQueryFilter>;
 
 export const CreateEventBody = t.strict(
