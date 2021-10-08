@@ -32,6 +32,7 @@ import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
+import { MakeScientificStudyRoutes } from "@routes/scientific-study/ScientificStudyRoute.route";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
@@ -152,6 +153,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // events
   MakeEventRoutes(router, ctx);
   MakeDeathEventsRoutes(router, ctx);
+
+  // scientific studies
+  MakeScientificStudyRoutes(router, ctx);
 
   // links
   MakeLinkRoutes(router, ctx);

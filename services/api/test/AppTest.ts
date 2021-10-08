@@ -15,26 +15,27 @@ export const initAppTest = async (): Promise<AppTest> => {
   return pipe(
     makeContext(process.env),
     TE.map((ctx) => ({
-      ctx: {
-        ...ctx,
-        urlMetadata: {
-          fetchMetadata: (url: string) =>
-            TE.right(
-              fc.sample(
-                fc.record({
-                  title: fc.string(),
-                  description: fc.string(),
-                  keywords: fc.array(fc.string()),
-                  icon: fc.webUrl(),
-                  image: fc.webUrl(),
-                  provider: fc.string(),
-                  type: fc.string(),
-                  url: fc.constant(url),
-                })
-              )[0]
-            ),
-        },
+      ...ctx,
+      urlMetadata: {
+        fetchMetadata: (url: string) =>
+          TE.right(
+            fc.sample(
+              fc.record({
+                title: fc.string(),
+                description: fc.string(),
+                keywords: fc.array(fc.string()),
+                icon: fc.webUrl(),
+                image: fc.webUrl(),
+                provider: fc.string(),
+                type: fc.string(),
+                url: fc.constant(url),
+              })
+            )[0]
+          ),
       },
+    })),
+    TE.map((ctx) => ({
+      ctx: ctx,
       req: supertest(makeApp(ctx)),
     }))
   )().then((value) => {

@@ -121,7 +121,6 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
                     ProjectImpact: [],
                     Protest: [],
                     ProjectTransaction: [],
-                    StudyPublished: [],
                     Death: [],
                     Condamned: [],
                     PublicAnnouncement: [],
