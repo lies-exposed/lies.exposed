@@ -25,8 +25,11 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   description: string;
 
-  @Column({ type: "simple-array", default: [] })
-  keywords: string[];
+  @Column({ type: "varchar", nullable: true })
+  image: string;
+
+  @Column({ type: "timestamptz", nullable: false })
+  publishDate: Date;
 
   @Column({ type: "varchar", nullable: true })
   provider: string;

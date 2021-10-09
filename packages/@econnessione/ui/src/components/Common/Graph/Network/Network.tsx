@@ -169,7 +169,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
       {tooltipOpen && tooltipData !== undefined ? (
         <Tooltip
           key={Math.random()}
-          top={tooltipTop}
+          top={tooltipTop ?? 0}
           left={tooltipLeft}
           style={{
             maxWidth: 300,
@@ -177,6 +177,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             position: "absolute",
             backgroundColor: "white",
             zIndex: 100,
+            marginTop: -150,
           }}
         >
           {props.tooltipRenderer(tooltipData)}

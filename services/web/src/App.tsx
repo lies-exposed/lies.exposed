@@ -1,30 +1,18 @@
+import { ErrorBox } from "@components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { Footer } from "@econnessione/ui/components/Footer";
 import Header from "@econnessione/ui/components/Header";
 import { theme } from "@econnessione/ui/theme";
 import { Grid, ThemeProvider } from "@material-ui/core";
-import { Router } from "@reach/router";
+import * as QR from "avenger/lib/QueryResult";
+import { WithQueries } from "avenger/lib/react";
 import "ol/ol.css";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
 import IndexPage from "./pages";
-import ActorsPage from "./pages/ActorsPage";
-import BlogPage from "./pages/BlogPage";
-import { DocsPage } from "./pages/DocsPage";
 import EventsPage from "./pages/EventsPage";
-import GroupsPage from "./pages/GroupsPage";
-import ProjectsPage from "./pages/ProjectsPage";
-import TheCrisisPage from "./pages/TheCrisisPage";
-import TopicsPage from "./pages/TopicsPage";
-import AreasPage from "./pages/areas";
-import { VaccineDashboard } from "./pages/dashboards/VaccineDashboard";
-import ProjectPage from "./pages/project";
-import ActorTemplate from "@templates/ActorTemplate";
-import AreaTemplate from "@templates/AreaTemplate";
-import ArticleTemplate from "@templates/ArticleTemplate";
-import EventTemplate from "@templates/EventTemplate";
-import GroupTemplate from "@templates/GroupTemplate";
-import ProjectTemplate from "@templates/ProjectTemplate";
+import { currentView } from "./utils/location.utils";
 import "./scss/main.scss";
 
 // import NotFoundPage from "./pages/404";
@@ -63,28 +51,40 @@ export const App: React.FC = () => {
           <Header />
           <Grid style={{ minHeight: "100%" }}>
             <Grid item style={{ height: "100%" }}>
-              <Router>
-                <EventTemplate path="/events/:eventId" />
-                <VaccineDashboard path="/dashboards/vaccines" />
-                <EventsPage path="/dashboards/events" />
-                <DocsPage path="/docs" />
-                <ProjectTemplate path="/projects/:projectId" />
-                <ProjectsPage path="/projects" />
-                <ProjectPage path="/project" />
-                <TopicsPage path="/topics" />
-                <ArticleTemplate path="/blog/:articlePath" />
-                <BlogPage path="/blog" />
-                <AreasPage path="/areas" />
-                <AreaTemplate path="/areas/:areaId" />
-                <GroupTemplate path="/groups/:groupId" />
-                <GroupsPage path="/groups" />
-                <ActorTemplate path="/actors/:actorId" />
-                <ActorsPage path="/actors" />
-                <TheCrisisPage path="/the-crisis" />
-                <IndexPage default={true} />
+              <WithQueries
+                queries={{ currentView: currentView }}
+                render={QR.fold(
+                  LazyFullSizeLoader,
+                  ErrorBox,
+                  ({ currentView }) => {
+                    switch (currentView.view) {
+                      case "events":
+                        return <EventsPage {...currentView} />;
 
-                {/* <NotFoundPage default={true} /> */}
-              </Router>
+                      // case 'vaccines':
+                      //   return <VaccineDashboard path="/dashboards/vaccines" />
+                      //   <EventsPage path="/dashboards/events" />
+                      // <EventTemplate {...currentView} />;
+                      //   <DocsPage path="/docs" />
+                      //   <ProjectTemplate path="/projects/:projectId" />
+                      //   <ProjectsPage path="/projects" />
+                      //   <ProjectPage path="/project" />
+                      //   <TopicsPage path="/topics" />
+                      //   <ArticleTemplate path="/blog/:articlePath" />
+                      //   <BlogPage path="/blog" />
+                      //   <AreasPage path="/areas" />
+                      //   <AreaTemplate path="/areas/:areaId" />
+                      //   <GroupTemplate path="/groups/:groupId" />
+                      //   <GroupsPage path="/groups" />
+                      //   <ActorTemplate path="/actors/:actorId" />
+                      //   <ActorsPage path="/actors" />
+                      //   <TheCrisisPage path="/the-crisis" />
+                      default:
+                        return <IndexPage default={true} />;
+                    }
+                  }
+                )}
+              />
             </Grid>
             <Footer />
           </Grid>

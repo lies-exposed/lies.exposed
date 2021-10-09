@@ -1,6 +1,5 @@
 import { Grid } from "@material-ui/core";
 import * as React from "react";
-import { StyleObject } from "styletron-react";
 
 export interface ListItemProps<A> {
   item: A;
@@ -14,7 +13,7 @@ interface ListProps<A> {
   ListItem: React.FC<ListItemProps<A>>;
   filter: (a: A) => boolean;
   onItemClick?: (a: A) => void;
-  style?: StyleObject;
+  style?: React.CSSProperties;
 }
 
 export const List = <A extends any>({

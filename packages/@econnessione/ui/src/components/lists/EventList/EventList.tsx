@@ -23,6 +23,7 @@ export const EventListItem: React.FC<EventListItemProps> = ({
         actors={props.actors}
         groups={props.groups}
         topics={[]}
+        links={e.links}
       />
     );
   }
@@ -37,31 +38,24 @@ export interface EventListProps {
 
 const EventList: React.FC<EventListProps> = (props) => {
   return (
-    <div className="events" style={{ width: "100%" }}>
+    <Grid className="events" container style={{ width: "100%" }} spacing={2}>
       {pipe(
         props.events,
-        A.chunksOf(2),
         A.map((event) => {
+          const actors = Events.Uncategorized.Uncategorized.is(event)
+            ? props.actors.filter((a) => event.actors.includes(a.id))
+            : [];
+          const groups = Events.Uncategorized.Uncategorized.is(event)
+            ? props.groups.filter((a) => event.groups.includes(a.id))
+            : [];
           return (
-            <Grid key={`container-${event[0].id}`} container spacing={2}>
-              {event.map((e) => {
-                const actors = Events.Uncategorized.Uncategorized.is(e)
-                  ? props.actors.filter((a) => e.actors.includes(a.id))
-                  : [];
-                const groups = Events.Uncategorized.Uncategorized.is(e)
-                  ? props.groups.filter((a) => e.groups.includes(a.id))
-                  : [];
-                return (
-                  <Grid key={e.id} item md={6}>
-                    <EventListItem event={e} actors={actors} groups={groups} />
-                  </Grid>
-                );
-              })}
+            <Grid key={event.id} item sm={12} md={6}>
+              <EventListItem event={event} actors={actors} groups={groups} />
             </Grid>
           );
         })
       )}
-    </div>
+    </Grid>
   );
 };
 

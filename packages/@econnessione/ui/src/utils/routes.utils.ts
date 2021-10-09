@@ -32,6 +32,8 @@ export const Routes = t.type(
         actors: t.union([t.undefined, t.array(t.string)]),
         groups: t.union([t.undefined, t.array(t.string)]),
         topics: t.union([t.undefined, t.array(t.string)]),
+        startDate: t.union([t.undefined, t.string]),
+        endDate: t.union([t.undefined, t.string]),
       },
       "EventsRoute"
     ),

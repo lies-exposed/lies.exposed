@@ -5,6 +5,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
+import { ServerError } from "@io/ControllerError";
 import { RouteContext } from "routes/route.types";
 
 export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
@@ -20,7 +21,10 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
       };
       ctx.logger.debug.log("Update link data %O", linkUpdate);
       return pipe(
-        ctx.db.save(LinkEntity, [linkUpdate]),
+        ctx.urlMetadata.fetchMetadata(linkUpdate.url, (e) => ServerError()),
+        TE.chain((meta) =>
+          ctx.db.save(LinkEntity, [{ ...linkUpdate, image: meta.image }])
+        ),
         TE.chain(() =>
           ctx.db.findOneOrFail(LinkEntity, {
             where: { id },

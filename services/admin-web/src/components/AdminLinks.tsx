@@ -10,6 +10,7 @@ import {
   EditProps,
   Filter,
   FunctionField,
+  ImageField,
   List,
   ListProps,
   ReferenceArrayInput,
@@ -42,6 +43,7 @@ export const LinkList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="description" />
+      <ImageField source="image" />
       <TextField source="provider" />
       <FunctionField
         label="resources.links.fields.events_length"

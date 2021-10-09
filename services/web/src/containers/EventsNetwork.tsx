@@ -42,8 +42,8 @@ export class EventsNetwork extends React.PureComponent<EventsNetworkProps> {
                 O.toUndefined
               ),
             },
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "DESC" },
+            pagination: { page: 1, perPage: 100 },
+            sort: { field: "startDate", order: "DESC" },
           },
         }}
         render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events }) => {
