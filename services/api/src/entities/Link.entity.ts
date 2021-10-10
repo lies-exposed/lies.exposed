@@ -29,7 +29,7 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   image: string;
 
-  @Column({ type: "timestamptz", nullable: false })
+  @Column({ type: "timestamptz", nullable: true })
   publishDate: Date;
 
   @Column({ type: "varchar", nullable: true })

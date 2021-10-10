@@ -7,7 +7,7 @@ import { URL } from "./Common/URL";
 export const CreateLink = t.strict(
   {
     url: URL,
-    publishDate: DateFromISOString,
+    publishDate: t.union([DateFromISOString, t.undefined]),
     events: optionFromNullable(t.array(t.string)),
   },
   "CreateLink"

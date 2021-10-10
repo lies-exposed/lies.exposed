@@ -14,6 +14,7 @@ export const toLinkIO = (
       description: link.description ?? undefined,
       image: link.image ?? undefined,
       provider: link.provider ?? undefined,
+      publishDate: link.publishDate?.toISOString() ?? undefined,
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),
     }),
