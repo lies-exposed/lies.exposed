@@ -9,6 +9,7 @@ import { EventEntity } from "@entities/Event.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { ImageEntity } from "@entities/Image.entity";
+import { KeywordEntity } from "@entities/Keyword.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
@@ -49,6 +50,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       ScientificStudyEntity,
       ImageEntity,
       LinkEntity,
+      KeywordEntity,
       UserEntity,
     ],
     synchronize: env.NODE_ENV === "test",

@@ -27,9 +27,9 @@ import {
 import MarkdownInput from "./Common/MarkdownInput";
 import { apiProvider } from "@client/HTTPAPI";
 
-const RESOURCE = "links";
+const RESOURCE = "keywords";
 
-const LinksFilter: React.FC = (props: any) => {
+const KeywordsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <ReferenceArrayInput source="events" reference="events" alwaysOn>
@@ -39,17 +39,15 @@ const LinksFilter: React.FC = (props: any) => {
   );
 };
 
-export const LinkList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE} filters={<LinksFilter />} perPage={20}>
+export const KeywordList: React.FC<ListProps> = (props) => (
+  <List
+    {...props}
+    resource={RESOURCE}
+    filters={<KeywordsFilter />}
+    perPage={20}
+  >
     <Datagrid rowClick="edit">
-      <TextField source="title" />
-      <TextField source="description" />
-      <ImageField source="image" />
-      <TextField source="provider" />
-      <FunctionField
-        label="resources.links.fields.events_length"
-        render={(r: any | undefined) => (r ? r.events.length : "-")}
-      />
+      <TextField source="tag" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -57,10 +55,10 @@ export const LinkList: React.FC<ListProps> = (props) => (
 );
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Link {record.title}</span>;
+  return <span>Keyword {record.title}</span>;
 };
 
-export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
+export const KeywordEdit: React.FC<EditProps> = (props: EditProps) => {
   const refresh = useRefresh();
   return (
     <Edit
@@ -86,49 +84,30 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
       }}
     >
       <SimpleForm>
-        <TextInput source="title" />
-        <TextInput type="url" source="url" />
-        <MarkdownInput source="description" />
-        <TextInput source="provider" />
-        <ReferenceArrayInput source="newEvents" reference="events">
-          <AutocompleteArrayInput optionText="title" />
-        </ReferenceArrayInput>
-        <ReferenceManyField reference="events" target="links[]">
-          <Datagrid>
-            <TextField source="title" />
-          </Datagrid>
-        </ReferenceManyField>
+        <TextInput source="keyword" />
       </SimpleForm>
     </Edit>
   );
 };
 
-export const LinkCreate: React.FC<CreateProps> = (props) => {
+export const KeywordCreate: React.FC<CreateProps> = (props) => {
   return (
-    <Create title="Create a Link" {...props}>
+    <Create title="Create a Keyword" {...props}>
       <SimpleForm>
-        <TextInput type="url" source="url" />
-        <DateInput source="publishDate" />
-        <ReferenceArrayInput
-          source="events"
-          reference="events"
-          defaultValue={[]}
-        >
-          <SelectArrayInput optionText="title" />
-        </ReferenceArrayInput>
+        <TextInput type="string" source="tag" />
       </SimpleForm>
     </Create>
   );
 };
 
-export const AdminLinksResource: React.FC<ResourceProps> = (props) => {
+export const AdminKeywordResource: React.FC<ResourceProps> = (props) => {
   return (
     <Resource
       {...props}
       name={RESOURCE}
-      list={LinkList}
-      edit={LinkEdit}
-      create={LinkCreate}
+      list={KeywordList}
+      edit={KeywordEdit}
+      create={KeywordCreate}
     />
   );
 };

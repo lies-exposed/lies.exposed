@@ -53,7 +53,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
   groups: groupIds = [],
   startDate = MIN_DATE,
   endDate = MAX_DATE,
-  tab = "",
+  tab = 0,
 }) => {
   const topics: io.http.Topic.TopicFrontmatter[] = [];
 

@@ -31,7 +31,7 @@ export const CreateScientificStudyArb: tests.fc.Arbitrary<http.ScientificStudy.C
       )[0],
       authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
       publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
-      url: tests.fc.sample(URLArb(), 1)[0] as any,
+      url: tests.fc.sample(URLArb, 1)[0] as any,
     }));
 
 const {
@@ -59,7 +59,7 @@ export const ScientificStudyArb: tests.fc.Arbitrary<http.ScientificStudy.Scienti
       )[0],
       authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
       publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
-      url: tests.fc.sample(URLArb(), 1)[0] as any,
+      url: tests.fc.sample(URLArb, 1)[0] as any,
       createdAt: tests.fc.sample(
         tests.fc.date({ min: MIN_DATE, max: MAX_DATE }),
         1

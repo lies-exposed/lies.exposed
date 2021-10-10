@@ -16,7 +16,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
     Endpoints.Event.Edit,
     ({
       params: { id },
-      body: { links, images, actors, groups, groupsMembers, ...body },
+      body: { links, images, actors, groups, groupsMembers, keywords, ...body },
     }) => {
       ctx.logger.debug.log("Incoming body %O", body);
 
@@ -25,6 +25,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
         actors: pipe(actors, O.map(A.map((a) => ({ id: a })))),
         groups: pipe(groups, O.map(A.map((g) => ({ id: g })))),
         groupsMembers: pipe(groupsMembers, O.map(A.map((g) => ({ id: g })))),
+        keywords: pipe(keywords, O.map(A.map((k) => ({ id: k })))),
         links: pipe(
           links,
           O.map(A.map((l) => (UUID.is(l) ? { id: l } : { id: uuid(), ...l })))
@@ -49,7 +50,13 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
             where: { id },
             relations: ["images"],
             loadRelationIds: {
-              relations: ["actors", "groups", "groupsMembers", "links"],
+              relations: [
+                "actors",
+                "groups",
+                "groupsMembers",
+                "links",
+                "keywords",
+              ],
             },
           })
         ),

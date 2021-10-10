@@ -28,6 +28,7 @@ import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
+import { MakeKeywordRoutes } from "@routes/keywords/keywords.routes";
 import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
@@ -49,7 +50,6 @@ export const makeContext = (
   const serverLogger = logger.GetLogger("server");
   return pipe(
     ENV.decode(processENV),
-    serverLogger.debug.logInPipe("Decoded env result %O"),
     E.mapLeft(DecodeError),
     TE.fromEither,
     TE.chain((env) => {
@@ -159,6 +159,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // links
   MakeLinkRoutes(router, ctx);
+  MakeKeywordRoutes(router, ctx);
 
   // graphs data
   MakeGraphsRoute(router, ctx);
@@ -170,13 +171,12 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   app.use(function (err: any, req: any, res: any, next: any) {
     // eslint-disable-next-line no-console
-    ctx.logger.debug.log("An error occured %O", err);
     try {
+      ctx.logger.error.log("An error occured %O", err);
       if (err) {
         if (err.details?.kind === "DecodingError") {
           const errors = PathReporter.report(E.left(err.details.errors));
-          ctx.logger.debug.log(`Sending errors... %O`, errors);
-          ctx.logger.debug.log(`An error occured %O`, errors);
+          ctx.logger.error.log(`DecodingError %O`, errors);
           return res.status(400).send({
             name: "DecodingError",
             details: errors,

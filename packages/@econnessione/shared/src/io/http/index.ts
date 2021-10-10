@@ -24,6 +24,7 @@ export * as Common from "./Common";
 export * as Link from "./Link";
 export * as Error from "./Error";
 export * as Events from "./Events";
+export * as Keyword from "./Keyword";
 export * as Group from "./Group";
 export * as GroupMember from "./GroupMember";
 export * as Image from "./Image";

@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { DeathEventEntity } from "./DeathEvent.entity";
 import { EventEntity } from "./Event.entity";
+import { KeywordEntity } from "./Keyword.entity";
 
 @Entity("link")
 @Index(["url"], { unique: true })
@@ -39,6 +40,9 @@ export class LinkEntity {
 
   @ManyToMany(() => DeathEventEntity, (e) => e.news, { cascade: false })
   death: DeathEventEntity;
+
+  @ManyToMany(() => KeywordEntity, (e) => e.links, { cascade: false })
+  keywords: KeywordEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

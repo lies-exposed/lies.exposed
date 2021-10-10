@@ -3,6 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
 import { BaseFrontmatter, Point, UUID } from "../Common";
+import { CreateKeyword } from "../Keyword";
 import { CreateLink } from "../Link";
 
 export const GetEventsQueryFilter = t.partial(
@@ -30,10 +31,11 @@ export const CreateEventBody = t.strict(
         })
       )
     ),
-    links: t.array(CreateLink),
-    actors: t.array(t.string),
-    groups: t.array(t.string),
-    groupsMembers: t.array(t.string),
+    links: t.array(t.union([UUID, CreateLink])),
+    keywords: t.array(t.union([UUID, CreateKeyword])),
+    actors: t.array(UUID),
+    groups: t.array(UUID),
+    groupsMembers: t.array(UUID),
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
     body: t.string,
@@ -58,6 +60,7 @@ export const EditEventBody = nonEmptyRecordFromType({
   actors: optionFromNullable(t.array(t.string)),
   groups: optionFromNullable(t.array(t.string)),
   groupsMembers: optionFromNullable(t.array(t.string)),
+  keywords: optionFromNullable(t.array(t.string)),
   startDate: optionFromNullable(DateFromISOString),
   endDate: optionFromNullable(DateFromISOString),
   body: optionFromNullable(t.string),
@@ -82,7 +85,7 @@ export const Uncategorized = t.strict(
     actors: t.array(t.string),
     groups: t.array(t.string),
     groupsMembers: t.array(t.string),
-    topics: t.array(t.string),
+    keywords: t.array(t.string),
     body: t.string,
   },
   UNCATEGORIZED.value

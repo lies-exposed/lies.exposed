@@ -16,7 +16,7 @@ describe("URL codec", () => {
     const url4 = "http://econnessione.org:4002/#/links/create";
     expect(URL.decode(url4)._tag).toBe("Right");
 
-    fc.sample(URLArb(), 100).forEach((url) => {
+    fc.sample(URLArb, 100).forEach((url) => {
       expect(URL.decode(url)._tag).toBe("Right");
     });
   });

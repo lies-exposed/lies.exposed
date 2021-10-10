@@ -2899,27 +2899,48 @@ export const HumanReadableStringArb = (
   });
 };
 
+export const TagArb = (): fc.Arbitrary<string> => {
+  const stringArb = fc.convertToNext(fc.string());
+  return fc.convertFromNext({
+    shrink: stringArb.shrink,
+    canShrinkWithoutContext: stringArb.canShrinkWithoutContext,
+    filter: stringArb.filter,
+    map: stringArb.map,
+    chain: stringArb.chain,
+    noBias: stringArb.noBias,
+    noShrink: stringArb.noShrink,
+    generate: (mrng, biasFactor) => {
+      const v = new fc.NextValue(
+        name1.map((n) => n.replace(/-/i, ""))[getRandomInt(0, name1.length)],
+        undefined,
+        undefined
+      );
+      return v;
+    },
+  });
+};
+
 export const OptionArb = <T>(
   arb: fc.Arbitrary<T>
 ): fc.Arbitrary<T | undefined> => fc.oneof(fc.constant(undefined), arb);
 
-export const URLArb = (): fc.Arbitrary<URL> =>
-  fc
-    .record({
-      protocol: fc.oneof(fc.constant("http"), fc.constant("https")),
-      domain: HumanReadableStringArb({ joinChar: "." }),
-      extension: fc.oneof(
-        fc.constant("com"),
-        fc.constant("org"),
-        fc.constant("it")
-      ),
-      segments: HumanReadableStringArb({ joinChar: "/" }),
-      query: fc.webQueryParameters(),
-    })
-    .map(
-      ({ protocol, domain, extension, segments, query }) =>
-        `${protocol}://${domain.toLocaleLowerCase()}.${extension}/${segments}?${query}` as URL
-    );
+export const URLArb = fc
+  .record({
+    protocol: fc.oneof(fc.constant("http"), fc.constant("https")),
+    domain: HumanReadableStringArb({ joinChar: "." }),
+    extension: fc.oneof(
+      fc.constant("com"),
+      fc.constant("org"),
+      fc.constant("it")
+    ),
+    segments: HumanReadableStringArb({ joinChar: "/" }),
+    query: fc.webQueryParameters(),
+  })
+  .map(
+    ({ protocol, domain, extension, segments, query }) =>
+      `${protocol}://${domain.toLocaleLowerCase()}.${extension}/${segments}?${query}` as URL
+  );
 
 export const MIN_DATE = subYears(new Date(), 200);
 export const MAX_DATE = addYears(new Date(), 50);
+export const DateArb = fc.date({ min: MIN_DATE, max: MAX_DATE });

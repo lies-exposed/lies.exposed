@@ -201,6 +201,9 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateInput source="startDate" />
         <DateInput source="endDate" />
         <TextInput source="title" />
+        <ReferenceArrayInput source="keywords" reference="keywords">
+          <AutocompleteArrayInput optionText="tag" />
+        </ReferenceArrayInput>
         <MarkdownInput source="body" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />

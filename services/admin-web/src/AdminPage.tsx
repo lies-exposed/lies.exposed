@@ -28,6 +28,7 @@ import { AdminLinksResource } from "./components/AdminLinks";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import englishMessages from "./i18n/en-US";
+import { AdminKeywordResource } from "components/AdminKeyword";
 import { AdminScientificStudiesResource } from "components/AdminScientificStudies";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
@@ -99,6 +100,7 @@ const AdminPage: React.FC = () => {
       <AdminScientificStudiesResource name="scientific-studies" />
 
       <AdminLinksResource name="links" />
+      <AdminKeywordResource name="keywords" />
       <Resource
         name="users"
         list={UserList}

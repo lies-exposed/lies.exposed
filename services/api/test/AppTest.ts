@@ -5,6 +5,7 @@ import supertest from "supertest";
 import { RouteContext } from "../src/routes/route.types";
 import { makeContext, makeApp } from "../src/server";
 import * as fc from "fast-check";
+import { TagArb } from "@econnessione/shared/tests/arbitrary/utils.arbitrary";
 
 export interface AppTest {
   ctx: RouteContext;
@@ -23,7 +24,7 @@ export const initAppTest = async (): Promise<AppTest> => {
               fc.record({
                 title: fc.string(),
                 description: fc.string(),
-                keywords: fc.array(fc.string()),
+                keywords: fc.array(TagArb()),
                 icon: fc.webUrl(),
                 image: fc.webUrl(),
                 provider: fc.string(),
