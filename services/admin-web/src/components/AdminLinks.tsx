@@ -88,6 +88,7 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
       <SimpleForm>
         <TextInput source="title" />
         <TextInput type="url" source="url" />
+        <ImageField source="image" />
         <MarkdownInput source="description" />
         <TextInput source="provider" />
         <ReferenceArrayInput source="newEvents" reference="events">

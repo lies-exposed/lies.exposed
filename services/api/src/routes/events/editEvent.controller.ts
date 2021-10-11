@@ -34,8 +34,8 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
           images,
           O.map((imgs) =>
             imgs.map((i) => ({
-              id: uuid(),
               ...i,
+              id: uuid(),
             }))
           )
         ),

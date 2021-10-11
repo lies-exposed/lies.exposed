@@ -11,7 +11,7 @@ export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       ctx.db.findOneOrFail(LinkEntity, {
         where: { id },
-        loadRelationIds: { relations: ["events"] },
+        loadRelationIds: { relations: ["events", "keywords"] },
       }),
       TE.chainEitherK(toLinkIO),
       TE.map((data) => ({

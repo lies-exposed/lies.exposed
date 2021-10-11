@@ -88,16 +88,18 @@ describe("Get Events", () => {
     await appTest.ctx.db.close()();
   });
 
-  test("Should return all the events", async () => {
-    const response = await appTest.req
-      .get(`/v1/events`)
-      .set("Authorization", authorizationToken);
+  describe("All events", () => {
+    test("Should return all the events", async () => {
+      const response = await appTest.req
+        .get(`/v1/events`)
+        .set("Authorization", authorizationToken);
 
-    const { total } = response.body;
+      const { total } = response.body;
 
-    expect(response.status).toEqual(200);
+      expect(response.status).toEqual(200);
 
-    expect(total).toBe(totalEvents);
+      expect(total).toBe(totalEvents);
+    });
   });
 
   describe("Actor", () => {

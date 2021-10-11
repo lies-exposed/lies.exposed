@@ -86,7 +86,13 @@ export const MakeCreateEventRoute: Route = (r, { db, logger, urlMetadata }) => {
           where: { id: event.id },
           relations: ["images"],
           loadRelationIds: {
-            relations: ["actors", "groups", "groupsMembers", "links"],
+            relations: [
+              "actors",
+              "groups",
+              "groupsMembers",
+              "links",
+              "keywords",
+            ],
           },
         })
       ),

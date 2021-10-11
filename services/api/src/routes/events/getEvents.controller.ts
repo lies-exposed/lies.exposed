@@ -1,6 +1,5 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
@@ -10,8 +9,8 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { Brackets } from "typeorm";
 import { toEventIO } from "./event.io";
 import { EventEntity } from "@entities/Event.entity";
+import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
-import { RouteContext } from "routes/route.types";
 
 export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
@@ -51,7 +50,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
         .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
         .leftJoinAndSelect("event.links", "links")
         .leftJoinAndSelect("event.images", "images")
-        .loadAllRelationIds(),
+        .loadAllRelationIds({ relations: ["keywords"] }),
       (q) => {
         return q.where(
           new Brackets((qb) => {
@@ -60,12 +59,12 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
                 { key: "groups.id IN (:...groups)", items: groups },
                 { key: "actors.id IN (:...actors)", items: actors },
                 {
-                  items: groupsMembers,
                   key: "groupsMembers.id IN (:...groupsMembers)",
+                  items: groupsMembers,
                 },
                 {
-                  items: links,
                   key: "links.id IN (:...links)",
+                  items: links,
                 },
               ],
               A.map((i) =>
@@ -77,7 +76,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
               A.filter(O.isSome),
               A.map((v) => v.value),
               A.reduceWithIndex(qb, (index, acc, { key, items }) => {
-                // ctx.logger.debug.log("Current items %O", items);
+                ctx.logger.debug.log("Current items %s %O", key, items);
 
                 const varName = key.split(".")[0];
                 if (index >= 1) {
@@ -131,7 +130,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       (q) => {
         const qq = q.skip(findOptions.skip).take(findOptions.take);
 
-        // ctx.logger.debug.log(`SQL query %O`, qq.getQueryAndParameters());
+        ctx.logger.info.log(`SQL query %O`, qq.getQueryAndParameters());
 
         return ctx.db.execQuery(() => qq.getManyAndCount());
       }
@@ -139,10 +138,21 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       sqlTask,
       TE.chain(([events, count]) =>
-        sequenceS(TE.ApplicativeSeq)({
-          data: TE.fromEither(A.traverse(E.Applicative)(toEventIO)(events)),
-          total: TE.right(count),
-        })
+        pipe(
+          events,
+          A.map((e) =>
+            toEventIO({
+              ...e,
+              actors: e.actors.map((a) => a.id) as any,
+              groups: e.groups.map((g) => g.id) as any,
+              groupsMembers: e.groupsMembers.map((g) => g.id) as any,
+              links: e.links.map((l) => l.id) as any,
+            })
+          ),
+          A.sequence(E.Applicative),
+          E.map((data) => ({ data, total: count })),
+          TE.fromEither
+        )
       ),
       TE.map(({ data, total }) => ({
         body: {

@@ -63,18 +63,6 @@ export const KeywordEdit: React.FC<EditProps> = (props: EditProps) => {
   return (
     <Edit
       title={<EditTitle {...props} />}
-      actions={
-        <>
-          <Button
-            label="resources.links.actions.update_metadata"
-            onClick={async () => {
-              await apiProvider
-                .put(`/links/${props.id}/metadata`)
-                .then(() => refresh());
-            }}
-          />
-        </>
-      }
       {...props}
       transform={({ newEvents, ...r }) => {
         return {
