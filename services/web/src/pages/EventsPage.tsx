@@ -420,12 +420,11 @@ const EventsPage: React.FC<EventsPageProps> = ({
                                       selectedTopicIds={selectedTopicIds}
                                       scale={"all"}
                                       scalePoint={O.none}
-                                      onEventClick={async (e) => {
-                                        // if (this.props.navigate) {
-                                        //   await this.props.navigate(
-                                        //     `/events/${e.id}`
-                                        //   );
-                                        // }
+                                      onEventClick={(e) => {
+                                        void doUpdateCurrentView({
+                                          view: "event",
+                                          eventId: e.id,
+                                        })();
                                       }}
                                     />
                                   </TabPanel>
@@ -442,6 +441,12 @@ const EventsPage: React.FC<EventsPageProps> = ({
                                       events={events.data as any}
                                       actors={actors}
                                       groups={groups}
+                                      onClick={(e) => {
+                                        void doUpdateCurrentView({
+                                          view: "event",
+                                          eventId: e.id,
+                                        })();
+                                      }}
                                     />
                                   </TabPanel>
                                 </Grid>

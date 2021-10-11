@@ -130,7 +130,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       (q) => {
         const qq = q.skip(findOptions.skip).take(findOptions.take);
 
-        ctx.logger.info.log(`SQL query %O`, qq.getQueryAndParameters());
+        // ctx.logger.info.log(`SQL query %O`, qq.getQueryAndParameters());
 
         return ctx.db.execQuery(() => qq.getManyAndCount());
       }

@@ -9,10 +9,12 @@ interface EventListItemProps {
   event: Events.Event;
   actors: Actor.Actor[];
   groups: Group.Group[];
+  onClick?: (e: Events.Event) => void;
 }
 
 export const EventListItem: React.FC<EventListItemProps> = ({
   event: e,
+  onClick,
   ...props
 }) => {
   if (Events.Uncategorized.Uncategorized.is(e)) {
@@ -24,6 +26,7 @@ export const EventListItem: React.FC<EventListItemProps> = ({
         groups={props.groups}
         topics={[]}
         links={e.links}
+        onClick={onClick}
       />
     );
   }
@@ -34,23 +37,34 @@ export interface EventListProps {
   events: Events.Event[];
   actors: Actor.Actor[];
   groups: Group.Group[];
+  onClick?: (e: Events.Event) => void;
 }
 
-const EventList: React.FC<EventListProps> = (props) => {
+const EventList: React.FC<EventListProps> = ({
+  events,
+  actors,
+  groups,
+  onClick,
+}) => {
   return (
     <Grid className="events" container style={{ width: "100%" }} spacing={2}>
       {pipe(
-        props.events,
+        events,
         A.map((event) => {
-          const actors = Events.Uncategorized.Uncategorized.is(event)
-            ? props.actors.filter((a) => event.actors.includes(a.id))
+          const eventActors = Events.Uncategorized.Uncategorized.is(event)
+            ? actors.filter((a) => event.actors.includes(a.id))
             : [];
-          const groups = Events.Uncategorized.Uncategorized.is(event)
-            ? props.groups.filter((a) => event.groups.includes(a.id))
+          const eventGroups = Events.Uncategorized.Uncategorized.is(event)
+            ? groups.filter((a) => event.groups.includes(a.id))
             : [];
           return (
             <Grid key={event.id} item sm={12} md={6}>
-              <EventListItem event={event} actors={actors} groups={groups} />
+              <EventListItem
+                event={event}
+                actors={eventActors}
+                groups={eventGroups}
+                onClick={onClick}
+              />
             </Grid>
           );
         })

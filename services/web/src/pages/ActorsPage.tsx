@@ -5,16 +5,19 @@ import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
 import SearchableInput from "@econnessione/ui/components/SearchableInput";
-import { ActorList } from "@econnessione/ui/components/lists/ActorList";
 import {
-  Queries,
+  ActorList,
+  ActorListItem,
+} from "@econnessione/ui/components/lists/ActorList";
+import {
   pageContentByPath,
+  Queries,
 } from "@econnessione/ui/providers/DataProvider";
-import { navigateTo } from "@econnessione/ui/utils/links.utils";
-import { navigate, RouteComponentProps } from "@reach/router";
+import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
+import { doUpdateCurrentView } from "../utils/location.utils";
 
 export default class ActorsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
@@ -50,21 +53,49 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                   }))}
                   getValue={(a) => a.fullName}
                   selectedItems={[]}
-                  onSelectItem={async (a) => {
-                    if (this.props.navigate) {
-                      await navigateTo(this.props.navigate, `actors`, a);
-                    }
+                  onSelectItem={(a) => {
+                    void doUpdateCurrentView({
+                      view: "actor",
+                      actorId: a.id,
+                    })();
                   }}
+                  disablePortal={true}
                   onUnselectItem={() => {}}
-                  renderOption={() => <span />}
+                  renderTags={(item, getTagProps) => {
+                    return (
+                      <ActorList
+                        actors={item.map((a) => ({
+                          ...a,
+                          selected: true,
+                        }))}
+                        displayFullName={false}
+                        onActorClick={(a) => {}}
+                      />
+                    );
+                  }}
+                  renderOption={(item, state) => {
+                    return (
+                      <ActorListItem
+                        key={item.id}
+                        displayFullName={true}
+                        item={{
+                          ...item,
+                          selected: true,
+                        }}
+                      />
+                    );
+                  }}
                 />
                 <ActorList
                   actors={acts.map((a) => ({
                     ...a,
                     selected: false,
                   }))}
-                  onActorClick={async (a) => {
-                    await navigate(`/actors/${a.id}`);
+                  onActorClick={(a) => {
+                    void doUpdateCurrentView({
+                      view: "actor",
+                      actorId: a.id,
+                    })();
                   }}
                 />
               </MainContent>

@@ -15,6 +15,7 @@ import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
+import { doUpdateCurrentView } from "../utils/location.utils";
 
 export default class GroupsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
@@ -69,7 +70,10 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
                   selected: false,
                 }))}
                 onGroupClick={async (g) => {
-                  await this.props.navigate?.(`/groups/${g.id}`);
+                  void doUpdateCurrentView({
+                    view: "group",
+                    groupId: g.id,
+                  })();
                 }}
               />
             </MainContent>

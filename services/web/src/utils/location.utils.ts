@@ -5,6 +5,24 @@ import {
 } from "avenger/lib/browser";
 import * as qs from "query-string";
 
+export interface ActorsView {
+  view: "actors";
+}
+
+export interface ActorView {
+  view: "actor";
+  actorId: string;
+}
+
+export interface GroupsView {
+  view: "groups";
+}
+
+export interface GroupView {
+  view: "group";
+  groupId: string;
+}
+
 export interface EventsView {
   view: "events";
   actors?: string[];
@@ -14,13 +32,31 @@ export interface EventsView {
   endDate?: string;
   tab?: number;
 }
+
+export interface EventView {
+  view: "event";
+  eventId: string;
+}
+
 export interface IndexView {
   view: "index";
 }
 
-export type CurrentView = EventsView | IndexView;
+export type CurrentView =
+  | ActorsView
+  | ActorView
+  | GroupsView
+  | GroupView
+  | EventsView
+  | EventView
+  | IndexView;
 
+const actorsRegex = /^\/actors\/$/;
+const actorRegex = /^\/actors\/([^/]+)$/;
+const groupsRegex = /^\/groups\/$/;
+const groupRegex = /^\/groups\/([^/]+)$/;
 const eventsRegex = /^\/events\/$/;
+const eventRegex = /^\/events\/([^/]+)$/;
 
 const parseQuery = (s: string): qs.ParsedQuery =>
   qs.parse(s.replace("?", ""), { arrayFormat: "comma" });
@@ -29,6 +65,51 @@ const stringifyQuery = (search: { [key: string]: string | string[] }): string =>
   qs.stringify(search, { arrayFormat: "comma" });
 
 export function locationToView(location: HistoryLocation): CurrentView {
+  const actorMatch = location.pathname.match(actorRegex);
+  if (actorMatch !== null) {
+    return {
+      view: "actor",
+      actorId: actorMatch[1],
+      ...location.search,
+    };
+  }
+
+  const actorsViewMatch = location.pathname.match(actorsRegex);
+
+  if (actorsViewMatch !== null) {
+    return {
+      view: "actors",
+      ...location.search,
+    };
+  }
+
+  const groupMatch = location.pathname.match(groupRegex);
+  if (groupMatch !== null) {
+    return {
+      view: "group",
+      groupId: groupMatch[1],
+      ...location.search,
+    };
+  }
+
+  const groupsViewMatch = location.pathname.match(groupsRegex);
+
+  if (groupsViewMatch !== null) {
+    return {
+      view: "groups",
+      ...location.search,
+    };
+  }
+
+  const eventMatch = location.pathname.match(eventRegex);
+  if (eventMatch !== null) {
+    return {
+      view: "event",
+      eventId: eventMatch[1],
+      ...location.search,
+    };
+  }
+
   const eventsViewMatch = location.pathname.match(eventsRegex);
 
   if (eventsViewMatch !== null) {
@@ -39,11 +120,32 @@ export function locationToView(location: HistoryLocation): CurrentView {
       tab: parseInt(location.search.tab ?? "0", 10),
     };
   }
-  return { view: "events" };
+
+  return { view: "index" };
 }
 
 export function viewToLocation(view: CurrentView): HistoryLocation {
   switch (view.view) {
+    case "actors":
+      return {
+        pathname: "/actors/",
+        search: {},
+      };
+    case "actor":
+      return {
+        pathname: `/actors/${view.actorId}`,
+        search: {},
+      };
+    case "groups":
+      return {
+        pathname: "/groups/",
+        search: {},
+      };
+    case "group":
+      return {
+        pathname: `/groups/${view.groupId}`,
+        search: {},
+      };
     case "events":
       return {
         pathname: `/events/`,
@@ -56,6 +158,8 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
           tab: view.tab?.toString(),
         },
       };
+    case "event":
+      return { pathname: `/events/${view.eventId}`, search: {} };
     case "index":
       return { pathname: "/index.html", search: {} };
   }

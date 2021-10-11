@@ -6,14 +6,17 @@ import { theme } from "@econnessione/ui/theme";
 import { Grid, ThemeProvider } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import "ol/ol.css";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
 import IndexPage from "./pages";
+import ActorsPage from "./pages/ActorsPage";
 import EventsPage from "./pages/EventsPage";
+import GroupsPage from "./pages/GroupsPage";
 import { currentView } from "./utils/location.utils";
-import "./scss/main.scss";
+import ActorTemplate from "@templates/ActorTemplate";
+import EventTemplate from "@templates/EventTemplate";
+import GroupTemplate from "@templates/GroupTemplate";
 
 // import NotFoundPage from "./pages/404";
 
@@ -58,13 +61,21 @@ export const App: React.FC = () => {
                   ErrorBox,
                   ({ currentView }) => {
                     switch (currentView.view) {
+                      case "actors":
+                        return <ActorsPage />;
+                      case "actor":
+                        return <ActorTemplate actorId={currentView.actorId} />;
+                      case "groups":
+                        return <GroupsPage />;
+                      case "group":
+                        return <GroupTemplate groupId={currentView.groupId} />;
                       case "events":
                         return <EventsPage {...currentView} />;
-
+                      case "event":
+                        return <EventTemplate eventId={currentView.eventId} />;
                       // case 'vaccines':
                       //   return <VaccineDashboard path="/dashboards/vaccines" />
-                      //   <EventsPage path="/dashboards/events" />
-                      // <EventTemplate {...currentView} />;
+
                       //   <DocsPage path="/docs" />
                       //   <ProjectTemplate path="/projects/:projectId" />
                       //   <ProjectsPage path="/projects" />
@@ -74,8 +85,6 @@ export const App: React.FC = () => {
                       //   <BlogPage path="/blog" />
                       //   <AreasPage path="/areas" />
                       //   <AreaTemplate path="/areas/:areaId" />
-                      //   <GroupTemplate path="/groups/:groupId" />
-                      //   <GroupsPage path="/groups" />
                       //   <ActorTemplate path="/actors/:actorId" />
                       //   <ActorsPage path="/actors" />
                       //   <TheCrisisPage path="/the-crisis" />

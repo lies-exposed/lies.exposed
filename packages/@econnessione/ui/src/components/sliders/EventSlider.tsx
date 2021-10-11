@@ -57,6 +57,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
                       item={e}
                       actors={[]}
                       groups={[]}
+                      links={[]}
                       topics={[]}
                     />
                   );

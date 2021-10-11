@@ -28,6 +28,7 @@ interface UncategorizedListItemProps {
   topics: Topic.TopicFrontmatter[];
   groups: Group.Group[];
   links: string[];
+  onClick?: (e: Events.Uncategorized.Uncategorized) => void;
 }
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
@@ -36,6 +37,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   topics,
   groups,
   links,
+  onClick,
 }) => {
   return (
     <Card
@@ -44,9 +46,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       style={{
         marginBottom: 40,
       }}
-      onClick={async () => {
-        await navigate(`/events/${item.id}`);
-      }}
+      onClick={() => onClick?.(item)}
     >
       <CardHeader
         disableTypography={true}
