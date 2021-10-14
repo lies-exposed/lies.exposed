@@ -5,6 +5,23 @@ import {
 } from "avenger/lib/browser";
 import * as qs from "query-string";
 
+export interface BlogView {
+  view: "blog";
+}
+
+export interface ArticleView {
+  view: "article";
+  articlePath: string;
+}
+
+export interface DocsView {
+  view: "docs";
+}
+
+export interface AboutView {
+  view: "about";
+}
+
 export interface ActorsView {
   view: "actors";
 }
@@ -48,11 +65,20 @@ export interface KeywordView {
   keywordId: string;
 }
 
+export interface VaccineDashboardView {
+  view: "vaccines-dashboard";
+  adrTab?: number;
+}
+
 export interface IndexView {
   view: "index";
 }
 
 export type CurrentView =
+  | BlogView
+  | ArticleView
+  | DocsView
+  | AboutView
   | ActorsView
   | ActorView
   | GroupsView
@@ -61,16 +87,23 @@ export type CurrentView =
   | EventView
   | KeywordsView
   | KeywordView
+  | VaccineDashboardView
   | IndexView;
 
-const actorsRegex = /^\/actors\/$/;
-const actorRegex = /^\/actors\/([^/]+)$/;
-const groupsRegex = /^\/groups\/$/;
-const groupRegex = /^\/groups\/([^/]+)$/;
-const eventsRegex = /^\/events\/$/;
-const eventRegex = /^\/events\/([^/]+)$/;
-const keywordsRegex = /^\/keywords\/$/;
-const keywordRegex = /^\/events\/([^/]+)$/;
+
+const blogRegex = /^\/blog\/$/;
+const articleRegex = /^\/blog\/([^/]+)$/;
+const docsRegex = /^\/docs\/$/;
+const aboutRegex = /^\/about\/$/;
+const actorsRegex = /^\/dashboard\/actors\/$/;
+const actorRegex = /^\/dashboard\/actors\/([^/]+)$/;
+const groupsRegex = /^\/dashboard\/groups\/$/;
+const groupRegex = /^\/dashboard\/groups\/([^/]+)$/;
+const keywordsRegex = /^\/dashboard\/keywords\/$/;
+const keywordRegex = /^\/dashboard\/keywords\/([^/]+)$/;
+const eventsRegex = /^\/dashboard\/events\/$/;
+const eventRegex = /^\/dashboard\/events\/([^/]+)$/;
+const vaccinesDashboardRegex = /^\/dashboard\/vaccines\/$/;
 
 const parseQuery = (s: string): qs.ParsedQuery =>
   qs.parse(s.replace("?", ""), { arrayFormat: "comma" });
@@ -79,66 +112,116 @@ const stringifyQuery = (search: { [key: string]: string | string[] }): string =>
   qs.stringify(search, { arrayFormat: "comma" });
 
 export function locationToView(location: HistoryLocation): CurrentView {
-  const actorMatch = location.pathname.match(actorRegex);
+  const { path: currentPath = "", ...search } = location.search;
+  const blogMatch = currentPath.match(blogRegex);
+  if (blogMatch !== null) {
+    return {
+      view: "blog",
+      ...search,
+    };
+  }
+
+  const articleMatch = currentPath.match(articleRegex);
+  if (articleMatch !== null) {
+    return {
+      view: "article",
+      articlePath: articleMatch[1],
+      ...search,
+    };
+  }
+
+  const docsMatch = currentPath.match(docsRegex);
+  if (docsMatch !== null) {
+    return {
+      view: "docs",
+      ...search,
+    };
+  }
+
+  const aboutMatch = currentPath.match(aboutRegex);
+  if (aboutMatch !== null) {
+    return {
+      view: "about",
+      ...search,
+    };
+  }
+
+  const actorMatch = currentPath.match(actorRegex);
   if (actorMatch !== null) {
     return {
       view: "actor",
       actorId: actorMatch[1],
-      ...location.search,
+      ...search,
     };
   }
 
-  const actorsViewMatch = location.pathname.match(actorsRegex);
+  const actorsViewMatch = currentPath.match(actorsRegex);
 
   if (actorsViewMatch !== null) {
     return {
       view: "actors",
-      ...location.search,
+      ...search,
     };
   }
 
-  const groupMatch = location.pathname.match(groupRegex);
+  const groupMatch = currentPath.match(groupRegex);
   if (groupMatch !== null) {
     return {
       view: "group",
       groupId: groupMatch[1],
-      ...location.search,
+      ...search,
     };
   }
 
-  const groupsViewMatch = location.pathname.match(groupsRegex);
+  const groupsViewMatch = currentPath.match(groupsRegex);
 
   if (groupsViewMatch !== null) {
     return {
       view: "groups",
-      ...location.search,
+      ...search,
     };
   }
 
-  const eventMatch = location.pathname.match(eventRegex);
+  const eventMatch = currentPath.match(eventRegex);
   if (eventMatch !== null) {
     return {
       view: "event",
       eventId: eventMatch[1],
-      ...location.search,
+      ...search,
     };
   }
 
-  const eventsViewMatch = location.pathname.match(eventsRegex);
+  const eventsViewMatch = currentPath.match(eventsRegex);
 
   if (eventsViewMatch !== null) {
-    const query = JSON.stringify(location.search);
     return {
       view: "events",
-      ...location.search,
+      ...search,
       tab: parseInt(location.search.tab ?? "0", 10),
     };
   }
 
-  const keywordsViewMatch = location.pathname.match(keywordsRegex);
+  const keywordsViewMatch = currentPath.match(keywordsRegex);
   if (keywordsViewMatch !== null) {
     return {
       view: "keywords",
+    };
+  }
+
+  const keywordViewMatch = currentPath.match(keywordRegex);
+  if (keywordViewMatch !== null) {
+    return {
+      view: "keyword",
+      keywordId: keywordViewMatch[1],
+    };
+  }
+
+  const vaccineDashboardMatch = currentPath.match(vaccinesDashboardRegex);
+  if (vaccineDashboardMatch !== null) {
+    return {
+      view: "vaccines-dashboard",
+      ...search,
+      adrTab: parseInt(location.search.adrTab ?? "0", 10),
     };
   }
 
@@ -147,30 +230,65 @@ export function locationToView(location: HistoryLocation): CurrentView {
 
 export function viewToLocation(view: CurrentView): HistoryLocation {
   switch (view.view) {
+    case "blog":
+      return {
+        pathname: "index.html",
+        search: {
+          path: "/blog/",
+        },
+      };
+    case "article":
+      return {
+        pathname: "index.html",
+        search: {
+          path: `/blog/${view.articlePath}`,
+        },
+      };
+    case "docs":
+      return {
+        pathname: `index.html`,
+        search: {
+          path: `/docs/`,
+        },
+      };
+    case "about":
+      return {
+        pathname: `index.html`,
+        search: { path: "/about/" },
+      };
     case "actors":
       return {
-        pathname: "/actors/",
-        search: {},
+        pathname: "index.html",
+        search: {
+          path: "/dashboard/actors/",
+        },
       };
     case "actor":
       return {
-        pathname: `/actors/${view.actorId}`,
-        search: {},
+        pathname: "index.html",
+        search: {
+          path: `/dashboard/actors/${view.actorId}`,
+        },
       };
     case "groups":
       return {
-        pathname: "/groups/",
-        search: {},
+        pathname: "index.html",
+        search: {
+          path: "/dashboard/groups/",
+        },
       };
     case "group":
       return {
-        pathname: `/groups/${view.groupId}`,
-        search: {},
+        pathname: "index.html",
+        search: {
+          path: `/dashboard/groups/${view.groupId}`,
+        },
       };
     case "events":
       return {
-        pathname: `/events/`,
+        pathname: "index.html",
         search: {
+          path: `/dashboard/events/`,
           actors: view.actors as any,
           groups: view.groups as any,
           groupsMembers: view.groupsMembers as any,
@@ -181,11 +299,35 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
         },
       };
     case "event":
-      return { pathname: `/events/${view.eventId}`, search: {} };
+      return {
+        pathname: "index.html",
+        search: {
+          path: `/dashboard/events/${view.eventId}`,
+        },
+      };
     case "keywords":
-      return { pathname: `/keywords/`, search: {} };
+      return {
+        pathname: "index.html",
+        search: {
+          path: `/keywords/`,
+        },
+      };
     case "keyword":
-      return { pathname: `/keywords/${view.keywordId}`, search: {} };
+      return {
+        pathname: `index.html`,
+        search: {
+          path: `/keywords/${view.keywordId}`,
+        },
+      };
+
+    case "vaccines-dashboard":
+      return {
+        pathname: "index.html",
+        search: {
+          path: `/dashboard/vaccines/`,
+          adrTab: view.adrTab?.toString(),
+        },
+      };
     case "index":
       return { pathname: "/index.html", search: {} };
   }

@@ -21,6 +21,7 @@ import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
+import { doUpdateCurrentView } from "utils/location.utils";
 
 export default class BlogPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
@@ -81,10 +82,11 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                               <Button
                                 size="small"
                                 color="primary"
-                                onClick={async () => {
-                                  if (navigate) {
-                                    await navigate(`/blog/${a.path}`);
-                                  }
+                                onClick={() => {
+                                  void doUpdateCurrentView({
+                                    view: "article",
+                                    articlePath: a.path,
+                                  })();
                                 }}
                               >
                                 Leggi

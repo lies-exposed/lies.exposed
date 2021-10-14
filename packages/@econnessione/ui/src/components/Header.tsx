@@ -11,47 +11,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { Link, navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
-
-const dataMenuItem = {
-  id: "dashboards",
-  href: "#",
-  label: "Dashboards",
-  subItems: [
-    {
-      id: "vaccine-dashboard",
-      href: "/dashboards/vaccines",
-      label: "Vaccine",
-    },
-    {
-      id: "events-dashboard",
-      href: "/events/",
-      label: "Events",
-    },
-  ],
-};
-
-const projectMenuItem = {
-  id: "project",
-  href: "/project",
-  label: "Progetto",
-  subItems: [
-    {
-      id: "the-crisis",
-      href: "/the-crisis",
-      label: "La Crisi",
-    },
-    {
-      id: "docs",
-      href: "/docs",
-      label: "Docs",
-    },
-  ],
-};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,15 +33,19 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: theme.typography.fontWeightBold,
     },
     menuItemLink: {
-      // color: theme.overrides?.MuiAppBar?.colorPrimary as any,
+      color: theme.palette.text.primary,
       textDecoration: "none",
+      textTransform: "uppercase",
+      fontWeight: theme.typography.fontWeightBold,
     },
     title: {
       flexGrow: 1,
       margin: 0,
+      color: theme.palette.common.white,
+      fontWeight: theme.typography.fontWeightBold,
     },
     titleLink: {
-      color: theme.palette.common.white,
+      color: theme.palette.common.black,
       fontWeight: theme.typography.fontWeightBold,
       fontFamily: theme.typography.h6.fontFamily,
       letterSpacing: 1.1,
@@ -87,28 +54,27 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface HeaderMenuItem {
-  id: string;
+interface View {
+  view: string;
+  search?: { [key: string]: any }
+}
+
+export interface HeaderMenuItem extends View {
   label: string;
-  href: string;
   subItems: Array<Omit<HeaderMenuItem, "subItems">>;
 }
 
-export const mainMenu: HeaderMenuItem[] =
-  process.env.NODE_ENV === "development"
-    ? [
-        projectMenuItem,
-        {
-          id: "blog",
-          href: "/blog",
-          label: "Blog",
-          subItems: [],
-        },
-        dataMenuItem,
-      ]
-    : [projectMenuItem, dataMenuItem];
+export interface HeaderProps {
+  onTitleClick: () => void;
+  onMenuItemClick: (m: HeaderMenuItem) => void;
+  menu: HeaderMenuItem[];
+}
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({
+  onTitleClick,
+  onMenuItemClick,
+  menu,
+}) => {
   const {
     site: {
       siteMetadata: { title, github, communityURL },
@@ -143,7 +109,7 @@ const Header: React.FC = () => {
       setSelectedMenuItem(m);
     } else {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      navigate(m.href);
+      onMenuItemClick(m);
     }
   };
 
@@ -177,10 +143,12 @@ const Header: React.FC = () => {
   return (
     <AppBar className={classes.appBar} position="relative">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          <Link className={classes.titleLink} to="/">
-            {title}
-          </Link>
+        <Typography
+          variant="h6"
+          className={classes.title}
+          onClick={() => onTitleClick()}
+        >
+          {title}
         </Typography>
 
         <a href={communityURL} style={{ verticalAlign: "middle" }}>
@@ -200,14 +168,14 @@ const Header: React.FC = () => {
             style={{ verticalAlign: "middle" }}
           />
         </Button>
-        {mainMenu.map((m) => {
+        {menu.map((m) => {
           const buttonRef =
             m.subItems.length > 0
               ? React.useRef<HTMLButtonElement>(null)
               : null;
           return (
             <Button
-              key={m.id}
+              key={m.view}
               className={classes.menuItem}
               ref={buttonRef}
               aria-controls={open ? "menu-list-grow" : undefined}
@@ -242,21 +210,23 @@ const Header: React.FC = () => {
                     <ClickAwayListener onClickAway={handleClose}>
                       <MenuList
                         autoFocusItem={open}
-                        id={`menu-list-${m.id}`}
+                        id={`menu-list-${m.view}`}
                         onKeyDown={handleListKeyDown}
                       >
                         {m.subItems.map((item) => (
                           <MenuItem
-                            key={item.id}
+                            key={item.view}
                             className={classes.menuItem}
                             onClick={handleClose}
                           >
-                            <Link
+                            <Typography
                               className={classes.menuItemLink}
-                              to={item.href}
+                              onClick={() =>
+                                onMenuItemClick({ subItems: [], ...item })
+                              }
                             >
                               {item.label}
-                            </Link>
+                            </Typography>
                           </MenuItem>
                         ))}
                       </MenuList>

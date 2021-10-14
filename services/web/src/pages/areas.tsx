@@ -20,7 +20,11 @@ export default class AreasPage extends React.PureComponent<RouteComponentProps> 
         render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ pageContent }) => (
           <MainContent>
             <PageContent {...pageContent} />
-            <AreasMap center={[9.18951, 45.46427]} zoom={11} />
+            <AreasMap
+              center={[9.18951, 45.46427]}
+              zoom={11}
+              onMapClick={() => undefined}
+            />
           </MainContent>
         ))}
       />

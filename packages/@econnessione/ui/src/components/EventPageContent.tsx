@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -28,6 +27,10 @@ export interface EventPageContentProps {
   groups: Group.Group[];
   links: Link[];
   keywords: Keyword.Keyword[];
+  onActorClick: (a: Actor.Actor) => void;
+  onGroupClick: (a: Group.Group) => void;
+  onLinkClick: (a: Link) => void;
+  onKeywordClick: (a: Keyword.Keyword) => void;
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
@@ -36,6 +39,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   groups,
   links,
   keywords,
+  onActorClick,
+  onGroupClick,
+  onKeywordClick,
+  onLinkClick,
 }) => {
   return (
     <MainContent>
@@ -75,9 +82,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               (groups) => (
                 <GroupList
                   groups={groups.map((a) => ({ ...a, selected: true }))}
-                  onGroupClick={async (g) => {
-                    await navigate(`/groups/${g.id}`);
-                  }}
+                  onGroupClick={onGroupClick}
                 />
               )
             )
@@ -94,9 +99,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               (actors) => (
                 <ActorList
                   actors={actors.map((a) => ({ ...a, selected: true }))}
-                  onActorClick={async (a) => {
-                    await navigate(`/actors/${a.id}`);
-                  }}
+                  onActorClick={onActorClick}
                 />
               )
             )
@@ -107,14 +110,19 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           {pipe(
             event.keywords,
             O.fromPredicate((items) => items.length > 0),
-            O.map((actorIds) =>
-              keywords.filter((a) => actorIds.includes(a.id))
+            O.map((keywordIds) =>
+              keywords.filter((a) => keywordIds.includes(a.id))
             ),
             O.fold(
               () => null,
               (keywords) =>
                 keywords.map((a) => (
-                  <Chip key={a.id} label={a.tag} variant="outlined" />
+                  <Chip
+                    key={a.id}
+                    label={a.tag}
+                    variant="outlined"
+                    onClick={() => onKeywordClick(a)}
+                  />
                 ))
             )
           )}

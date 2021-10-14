@@ -43,20 +43,16 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
       ErrorBox,
       ({ keyword, events: { data: events } }) => {
         return (
-          <Layout>
+          <ContentWithSideNavigation items={eventsDataToNavigatorItems(events)}>
             <SEO title={"keywords"} />
-            <ContentWithSideNavigation
-              items={eventsDataToNavigatorItems(events)}
-            >
-              <KeywordPageContent {...keyword} />
-              <EventList
-                events={A.sort(Ord.getDualOrd(ordEventDate))(events)}
-                actors={[]}
-                groups={[]}
-                keywords={[]}
-              />
-            </ContentWithSideNavigation>
-          </Layout>
+            <KeywordPageContent {...keyword} />
+            <EventList
+              events={A.sort(Ord.getDualOrd(ordEventDate))(events)}
+              actors={[]}
+              groups={[]}
+              keywords={[]}
+            />
+          </ContentWithSideNavigation>
         );
       }
     )

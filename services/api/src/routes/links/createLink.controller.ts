@@ -21,7 +21,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
         pipe(
           ctx.db.find(KeywordEntity, {
             where: {
-              keyword: In(meta.keywords ?? []),
+              id: In(meta.keywords ?? []),
             },
           }),
           TE.chain((existingKeywords) => {
@@ -30,7 +30,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
               if (found !== undefined) {
                 return { id: found.id };
               }
-              return { id: uuid(), keyword: k };
+              return { id: uuid(), tag: k };
             });
             return ctx.db.save(LinkEntity, [
               {
@@ -46,7 +46,14 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
           })
         )
       ),
-      TE.chainEitherK(A.traverse(E.Applicative)(toLinkIO)),
+      TE.chainEitherK(
+        A.traverse(E.Applicative)((e) =>
+          toLinkIO({
+            ...e,
+            keywords: e.keywords.map((k) => k.id) as any,
+          })
+        )
+      ),
       TE.map(([data]) => ({
         body: { data },
         statusCode: 200,

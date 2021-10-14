@@ -1,22 +1,25 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable import/order */
 import * as path from "path";
-const moduleAlias = require("module-alias");
-moduleAlias(path.resolve(__dirname, "../package.json"));
 import * as dotenv from "dotenv";
-import * as logger from "../../../packages/@econnessione/core/src/logger";
+import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
-import * as E from "fp-ts/lib/Either";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import { getDBOptions } from "../src/utils/getDBOptions";
+import * as logger from "../../../packages/@econnessione/core/src/logger";
 import * as orm from "../src/providers/orm";
+import { getDBOptions } from "../src/utils/getDBOptions";
 import { TestENV } from "./TestENV";
+const moduleAlias = require("module-alias");
+moduleAlias(path.resolve(__dirname, "../package.json"));
 
 export default async (): Promise<void> => {
   try {
     const moduleLogger = logger.GetLogger("tests");
 
     const dotenvConfigPath = path.resolve(
-      process.env.DOTENV_CONFIG_PATH ?? `${__dirname}/../../../.env.test`
+      process.env.DOTENV_CONFIG_PATH ??
+        path.resolve(__dirname, "/../../../.env.test")
     );
 
     dotenv.config({ path: dotenvConfigPath });
@@ -31,7 +34,6 @@ export default async (): Promise<void> => {
       }),
       TE.fromEither,
       TE.chain((env) => {
-        console.log(env.npm_lifecycle_event);
         if (env.npm_lifecycle_event.indexOf("spec") > 0) {
           return TE.right(undefined);
         }

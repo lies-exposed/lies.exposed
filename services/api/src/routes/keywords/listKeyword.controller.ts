@@ -14,7 +14,7 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Keyword.List, ({ query: { events, ...query } }) => {
     const findOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
-    ctx.logger.debug.log(`Find Options %O`, findOptions);
+    ctx.logger.debug.log(`Find Options %O`, { ...findOptions, events });
 
     const findTask = pipe(
       ctx.db.manager

@@ -1,6 +1,5 @@
-import { Area, Events } from "@econnessione/shared/io/http";
+import { Events } from "@econnessione/shared/io/http";
 import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncategorized";
-import { navigate } from "@reach/router";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -20,12 +19,14 @@ interface EventsMapProps {
   filter: GetEventsQueryFilter;
   center?: [number, number];
   zoom?: number;
+  onMapClick: (features: any[]) => void;
 }
 
 export const EventsMap: React.FC<EventsMapProps> = ({
   center,
   zoom,
   filter: { startDate, endDate, title, ...filters },
+  onMapClick,
 }) => {
   return (
     <WithQueries
@@ -108,14 +109,7 @@ export const EventsMap: React.FC<EventsMapProps> = ({
                       features={[...features, ...deathFeatures]}
                       center={center}
                       zoom={zoom}
-                      onMapClick={async (features) => {
-                        if (features.length > 0) {
-                          const area = features[0].getProperties() as Area.Area;
-                          if (area) {
-                            await navigate(`/events/${area.id}`);
-                          }
-                        }
-                      }}
+                      onMapClick={onMapClick}
                       interactions={{
                         doubleClickZoom: true,
                         dragPan: true,

@@ -11,7 +11,7 @@ import { Circle, Fill, Stroke, Style } from "ol/style";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils";
 
-interface MapProps<G extends Geometry> {
+export interface MapProps<G extends Geometry> {
   id: string;
   width: number;
   height: number;
