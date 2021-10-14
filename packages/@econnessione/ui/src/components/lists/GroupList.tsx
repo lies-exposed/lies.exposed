@@ -1,4 +1,5 @@
 import { Group } from "@econnessione/shared/io/http";
+import { Box, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -13,38 +14,53 @@ interface GroupListProps {
   groups: Group[];
   onGroupClick: (actor: Group) => void;
   avatarSize?: AvatarSize;
+  displayName?: boolean;
 }
 
 export const GroupListItem: React.FC<
   ListItemProps<Group> & { avatarSize?: AvatarSize; displayName?: boolean }
 > = ({ item, avatarSize, displayName = false, onClick }) => {
   return (
-    <div
+    <Box
       key={item.id}
-      style={{ display: "inline-block", margin: 5, cursor: "pointer" }}
+      display="flex"
+      alignItems="center"
+      margin={1}
+      style={{ cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >
       {pipe(
         O.fromNullable(item.avatar),
-        O.map((src) => <Avatar key={item.id} src={src} size={avatarSize} />),
+        O.map((src) => (
+          <Avatar
+            key={item.id}
+            src={src}
+            size={avatarSize}
+            style={{ margin: 5 }}
+          />
+        )),
         O.toNullable
       )}
-      {displayName ? item.name : null}
-      <div
-        style={{
-          width: "100%",
-          height: 3,
-          backgroundColor: item.selected ? item.color : "white",
-        }}
-      />
-    </div>
+      {displayName ? (
+        <Typography variant="caption"> {item.name}</Typography>
+      ) : null}
+      <Box display="flex">
+        <div
+          style={{
+            width: "100%",
+            height: 3,
+            backgroundColor: item.selected ? item.color : "white",
+          }}
+        />
+      </Box>
+    </Box>
   );
 };
 
 const GroupList: React.FC<GroupListProps> = ({
   groups,
   onGroupClick,
-  avatarSize,
+  ...props
 }) => {
   return (
     <List
@@ -52,7 +68,7 @@ const GroupList: React.FC<GroupListProps> = ({
       filter={(_) => true}
       onItemClick={onGroupClick}
       getKey={(g) => g.id}
-      ListItem={(p) => <GroupListItem avatarSize={avatarSize} {...p} />}
+      ListItem={(p) => <GroupListItem {...p} {...props} />}
     />
   );
 };

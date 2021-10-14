@@ -12,6 +12,7 @@ import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { doUpdateCurrentView } from "utils/location.utils";
 
 export default class GroupTemplate extends React.PureComponent<
   RouteComponentProps<{ groupId: string }>
@@ -65,16 +66,25 @@ export default class GroupTemplate extends React.PureComponent<
                       funds={[]}
                       projects={[]}
                       onMemberClick={async (a) => {
-                        if (this.props.navigate !== undefined) {
-                          await this.props.navigate(`/actors/${a.id}`);
-                        }
+                        void doUpdateCurrentView({
+                          view: "actor",
+                          actorId: a.id,
+                        })();
                       }}
                     />
                     <EventsMap
                       filter={{ groups: O.some([group.id]) }}
                       zoom={4}
                     />
-                    <EventSlider filter={{ groups: O.some([group.id]) }} />
+                    <EventSlider
+                      filter={{ groups: O.some([group.id]) }}
+                      onClick={(ev) => {
+                        void doUpdateCurrentView({
+                          view: "event",
+                          eventId: ev.id,
+                        })();
+                      }}
+                    />
                   </MainContent>
                 );
               }

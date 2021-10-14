@@ -1,5 +1,5 @@
 import * as io from "@econnessione/shared/io/http";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -16,31 +16,36 @@ export const ActorListItem: React.FC<
   return (
     <Box
       key={item.id}
-      style={{
-        display: "flex",
-        margin: 5,
-        cursor: "pointer",
-        flexDirection: "column",
-      }}
+      display="flex"
+      alignItems="center"
+      margin={1}
+      style={{ cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >
-      <Box style={{ display: "flex", width: "100%" }}>
-        {pipe(
-          O.fromNullable(item.avatar),
-          O.map((src) => <Avatar key={item.id} size={avatarSize} src={src} />),
-          O.toNullable
-        )}
-        {displayFullName ? (
-          <div style={{ marginLeft: 10 }}>{item.fullName}</div>
-        ) : null}
+      {pipe(
+        O.fromNullable(item.avatar),
+        O.map((src) => (
+          <Avatar
+            key={item.id}
+            src={src}
+            size={avatarSize}
+            style={{ margin: 5 }}
+          />
+        )),
+        O.toNullable
+      )}
+      {displayFullName ? (
+        <Typography variant="caption"> {item.fullName}</Typography>
+      ) : null}
+      <Box display="flex">
+        <div
+          style={{
+            width: "100%",
+            height: 3,
+            backgroundColor: item.selected ? item.color : "white",
+          }}
+        />
       </Box>
-      <div
-        style={{
-          width: "100%",
-          height: 3,
-          backgroundColor: item.selected ? item.color : "white",
-        }}
-      />
     </Box>
   );
 };
@@ -49,20 +54,31 @@ interface ActorListProps {
   actors: Actor[];
   onActorClick: (actor: Actor) => void;
   avatarSize?: AvatarSize;
+  displayFullName?: boolean;
+  style?: React.CSSProperties;
 }
 
 export const ActorList: React.FC<ActorListProps> = ({
   actors,
   onActorClick,
   avatarSize,
+  style,
+  displayFullName,
 }) => {
   return (
     <List
+      style={style}
       data={actors}
       getKey={(a) => a.id}
       filter={(a) => true}
       onItemClick={onActorClick}
-      ListItem={(p) => <ActorListItem avatarSize={avatarSize} {...p} />}
+      ListItem={(p) => (
+        <ActorListItem
+          avatarSize={avatarSize}
+          displayFullName={displayFullName}
+          {...p}
+        />
+      )}
     />
   );
 };

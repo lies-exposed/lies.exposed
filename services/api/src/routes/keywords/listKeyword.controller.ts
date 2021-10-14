@@ -1,0 +1,61 @@
+import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { Router } from "express";
+import * as A from "fp-ts/lib/Array";
+import * as E from "fp-ts/lib/Either";
+import * as O from "fp-ts/lib/Option";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
+import { toKeywordIO } from "./keyword.io";
+import { KeywordEntity } from "@entities/Keyword.entity";
+import { RouteContext } from "@routes/route.types";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
+
+export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
+  AddEndpoint(r)(Endpoints.Keyword.List, ({ query: { events, ...query } }) => {
+    const findOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
+
+    ctx.logger.debug.log(`Find Options %O`, findOptions);
+
+    const findTask = pipe(
+      ctx.db.manager
+        .createQueryBuilder(KeywordEntity, "keyword")
+        .leftJoinAndSelect("keyword.events", "events"),
+      (q) => {
+        if (O.isSome(events)) {
+          return q.where("events.id IN (:...events)", {
+            events: events.value,
+          });
+        }
+        return q;
+      },
+      (q) => {
+        return q.skip(findOptions.skip).take(findOptions.take);
+      },
+      (q) => {
+        return ctx.db.execQuery(() => q.getManyAndCount());
+      }
+    );
+
+    return pipe(
+      findTask,
+      TE.chain(([data, total]) =>
+        pipe(
+          data,
+          A.traverse(E.either)(toKeywordIO),
+          TE.fromEither,
+          TE.map((results) => ({
+            total,
+            data: results,
+          }))
+        )
+      ),
+      TE.map(({ data, total }) => ({
+        body: {
+          data,
+          total,
+        },
+        statusCode: 200,
+      }))
+    );
+  });
+};

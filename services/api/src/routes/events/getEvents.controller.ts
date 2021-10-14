@@ -1,16 +1,16 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { Brackets } from "typeorm";
 import { toEventIO } from "./event.io";
 import { EventEntity } from "@entities/Event.entity";
+import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
-import { RouteContext } from "routes/route.types";
 
 export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
@@ -20,6 +20,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       groups,
       groupsMembers,
       links,
+      keywords,
       startDate,
       endDate,
       ...queryRest
@@ -43,63 +44,63 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
     });
 
     const sqlTask = pipe(
-      ctx.db.manager.createQueryBuilder(EventEntity, "event").select(),
+      ctx.db.manager
+        .createQueryBuilder(EventEntity, "event")
+        .leftJoinAndSelect("event.actors", "actors")
+        .leftJoinAndSelect("event.groups", "groups")
+        .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
+        .leftJoinAndSelect("event.links", "links")
+        .leftJoinAndSelect("event.keywords", "keywords")
+        .leftJoinAndSelect("event.images", "images"),
       (q) => {
-        if (O.isSome(actors)) {
-          return q.innerJoinAndSelect(
-            "event.actors",
-            "actors",
-            "actors.id IN (:...actors)",
-            {
-              actors: actors.value,
-            }
-          );
-        }
-        return q.leftJoinAndSelect("event.actors", "actors");
+        return q.where(
+          new Brackets((qb) => {
+            return pipe(
+              [
+                { key: "groups.id IN (:...groups)", items: groups },
+                { key: "actors.id IN (:...actors)", items: actors },
+                {
+                  key: "groupsMembers.id IN (:...groupsMembers)",
+                  items: groupsMembers,
+                },
+                {
+                  key: "links.id IN (:...links)",
+                  items: links,
+                },
+                { key: "keywords.id IN (:...keywords)", items: keywords },
+              ],
+              A.map((i) =>
+                pipe(
+                  i.items,
+                  O.map((items) => ({ items, key: i.key }))
+                )
+              ),
+              A.filter(O.isSome),
+              A.map((v) => v.value),
+              A.reduceWithIndex(qb, (index, acc, { key, items }) => {
+                ctx.logger.debug.log("Current items %s %O", key, items);
+
+                const varName = key.split(".")[0];
+                if (index >= 1) {
+                  return acc.orWhere(key, { [varName]: items });
+                }
+                return acc.where(key, {
+                  [varName]: items,
+                });
+              })
+            );
+          })
+        );
       },
       (q) => {
-        if (O.isSome(groups)) {
-          return q.innerJoinAndSelect(
-            "event.groups",
-            "groups",
-            "groups.id IN (:...groups)",
-            {
-              groups: groups.value,
-            }
-          );
+        if (O.isSome(query.title)) {
+          return q.andWhere("lower(event.title) LIKE :title", {
+            title: `%${query.title.value}%`,
+          });
         }
-        return q.leftJoinAndSelect("event.groups", "groups");
-      },
-      (q) => {
-        if (O.isSome(groupsMembers)) {
-          return q.innerJoinAndSelect(
-            "event.groupsMembers",
-            "groupsMembers",
-            "groupsMembers.id IN (:...groupsMembers)",
-            {
-              groupsMembers: groupsMembers.value,
-            }
-          );
-        }
-        return q.leftJoinAndSelect("event.groupsMembers", "groupsMembers");
-      },
-      (q) => {
-        if (O.isSome(links)) {
-          return q.innerJoinAndSelect(
-            "event.links",
-            "links",
-            "links.id IN (:...links)",
-            {
-              links: links.value,
-            }
-          );
-        }
-        return q.leftJoinAndSelect("event.links", "links");
-      },
-      (q) => {
         if (O.isSome(startDate) && O.isSome(endDate)) {
           return q.andWhere(
-            "event.startDate > :startDate AND event.endDate < :endDate",
+            "event.startDate > :startDate AND (event.endDate < :endDate OR event.endDate IS NULL)",
             {
               startDate: startDate.value,
               endDate: endDate.value,
@@ -120,10 +121,6 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
         }
         return q;
       },
-      (q) =>
-        q.leftJoinAndSelect("event.images", "images").loadAllRelationIds({
-          relations: ["groups", "actors", "groupsMembers", "links"],
-        }),
       (q) => {
         if (findOptions.order) {
           const order = pipe(
@@ -140,7 +137,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       (q) => {
         const qq = q.skip(findOptions.skip).take(findOptions.take);
 
-        // ctx.logger.debug.log(`SQL query %s`, qq.getSql());
+        // ctx.logger.info.log(`SQL query %O`, qq.getQueryAndParameters());
 
         return ctx.db.execQuery(() => qq.getManyAndCount());
       }
@@ -148,10 +145,22 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       sqlTask,
       TE.chain(([events, count]) =>
-        sequenceS(TE.ApplicativeSeq)({
-          data: TE.fromEither(A.traverse(E.Applicative)(toEventIO)(events)),
-          total: TE.right(count),
-        })
+        pipe(
+          events,
+          A.map((e) =>
+            toEventIO({
+              ...e,
+              actors: e.actors.map((a) => a.id) as any,
+              groups: e.groups.map((g) => g.id) as any,
+              groupsMembers: e.groupsMembers.map((g) => g.id) as any,
+              links: e.links.map((l) => l.id) as any,
+              keywords: e.keywords.map((k) => k.id) as any,
+            })
+          ),
+          A.sequence(E.Applicative),
+          E.map((data) => ({ data, total: count })),
+          TE.fromEither
+        )
       ),
       TE.map(({ data, total }) => ({
         body: {

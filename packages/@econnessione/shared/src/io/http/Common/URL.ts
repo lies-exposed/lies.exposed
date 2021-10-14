@@ -14,18 +14,11 @@ export const URL = t.brand(
   t.string,
   (url): url is t.Branded<string, URLBrand> =>
     pipe(
-      IOE.tryCatch(() => {
-        const urlTest = urlPattern.test(url);
-        return urlTest;
-      }, E.toError),
-      IOE.mapLeft((e) => {
-        // eslint-disable-next-line no-console
-        console.error("An error occured %O", e);
-        return false;
-      }),
+      IOE.tryCatch(() => urlPattern.test(url), E.toError),
+      IOE.mapLeft((e) => false),
       IOE.fold(
-        (b) => () => b,
-        (b) => () => b
+        (e) => () => e,
+        (r) => () => r
       )
     )(),
   "URL"

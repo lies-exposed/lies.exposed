@@ -1,4 +1,4 @@
-import { Actor, Events, Group, Topic } from "@econnessione/shared/io/http";
+import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import LinkIcon from "@material-ui/icons/LinkOutlined";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { navigate } from "@reach/router";
 import * as A from "fp-ts/lib/Array";
@@ -20,20 +21,24 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
-import TopicList from "../TopicList";
+import KeywordList from "../KeywordList";
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.Uncategorized;
   actors: Actor.Actor[];
-  topics: Topic.TopicFrontmatter[];
+  keywords: Keyword.Keyword[];
   groups: Group.Group[];
+  links: string[];
+  onClick?: (e: Events.Uncategorized.Uncategorized) => void;
 }
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   item,
   actors,
-  topics,
+  keywords,
   groups,
+  links,
+  onClick,
 }) => {
   return (
     <Card
@@ -42,9 +47,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       style={{
         marginBottom: 40,
       }}
-      onClick={async () => {
-        await navigate(`/events/${item.id}`);
-      }}
+      onClick={() => onClick?.(item)}
     >
       <CardHeader
         disableTypography={true}
@@ -55,18 +58,26 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         }
         title={<Typography variant="h6">{item.title}</Typography>}
         subheader={
-          <div>
-            <Typography variant="body2">
-              {formatDate(item.startDate)}
-            </Typography>
-            {pipe(
-              O.fromNullable(item.location),
-              O.fold(
-                () => null,
-                () => <FontAwesomeIcon icon={faMapMarker} />
-              )
-            )}
-          </div>
+          <Grid container>
+            <Grid item md={3}>
+              <Typography variant="body2">
+                {formatDate(item.startDate)}
+              </Typography>
+            </Grid>
+            <Grid item md={3}>
+              {pipe(
+                O.fromNullable(item.location),
+                O.fold(
+                  () => null,
+                  () => <FontAwesomeIcon icon={faMapMarker} />
+                )
+              )}
+            </Grid>
+            <Grid item md={3} alignItems="center" justifyContent="center">
+              <LinkIcon fontSize="small" />{" "}
+              <Typography variant="caption">({links.length})</Typography>
+            </Grid>
+          </Grid>
         }
       />
       <CardActionArea>
@@ -86,25 +97,25 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           O.toNullable
         )}
         <CardContent>
-          <Grid container>
+          <Grid item sm={6}>
             <Grid item></Grid>
           </Grid>
-          <Grid container style={{ width: "100%" }}>
+          <Grid container style={{ width: "100%" }} alignItems="flex-start">
             <Grid item md={4}>
               <Typography variant="body2">Topics</Typography>
-              <TopicList
-                topics={topics.map((t) => ({
+              <KeywordList
+                keywords={keywords.map((t) => ({
                   ...t,
                   selected: true,
                 }))}
-                onTopicClick={async (t) => {
+                onItemClick={async (t) => {
                   // await navigate(`/topics/${t.id}`)
                   return undefined;
                 }}
               />
             </Grid>
-            <Grid item md={4}>
-              <Typography variant="body2">Gruppi</Typography>
+            <Grid item sm={6}>
+              {/* <Typography variant="body2">Gruppi</Typography> */}
               {pipe(
                 groups,
                 O.fromPredicate(A.isNonEmpty),
@@ -124,8 +135,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 )
               )}
             </Grid>
-            <Grid item md={4}>
-              <Typography variant="body2">Actors</Typography>
+            <Grid item sm={6} justifyContent="flex-end">
+              {/* <Typography variant="body2">Actors</Typography> */}
               {pipe(
                 actors,
                 O.fromPredicate(A.isNonEmpty),
@@ -133,6 +144,10 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                   () => null,
                   (actors) => (
                     <ActorList
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }}
                       actors={actors.map((a) => ({
                         ...a,
                         selected: false,

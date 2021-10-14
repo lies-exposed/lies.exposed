@@ -77,17 +77,52 @@ describe("Get Events", () => {
     )}`;
   });
 
-  afterAll(async () => {
-    await appTest.ctx.db.delete(
-      EventEntity,
-      eventsData.map((e) => e.id)
-    )();
-    await appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id])();
-    await appTest.ctx.db.delete(ActorEntity, [actor.id])();
-    await appTest.ctx.db.delete(GroupEntity, [group.id])();
-    await appTest.ctx.db.close()();
+  // describe("All events", () => {
+
+  // });
+
+  test("Get events for given actor", async () => {
+    const response = await appTest.req
+      .get(`/v1/events`)
+      .query({ "actors[]": actor.id })
+      .set("Authorization", authorizationToken);
+
+    const { total } = response.body;
+
+    expect(response.status).toEqual(200);
+    expect(total).toBe(10);
+    expect(response.body.data[0]).toMatchObject({
+      actors: [actor.id],
+    });
   });
 
+  test("Get events for given group", async () => {
+    const response = await appTest.req
+      .get(`/v1/events`)
+      .query({ "groups[]": group.id })
+      .set("Authorization", authorizationToken);
+
+    expect(response.status).toEqual(200);
+
+    expect(response.body.data[0]).toMatchObject({
+      groups: [group.id],
+    });
+  });
+
+  test("Should return events for given group member", async () => {
+    const response = await appTest.req
+      .get(`/v1/events`)
+      .query({ "groupsMembers[]": groupMember.id })
+      .set("Authorization", authorizationToken);
+
+    expect(response.status).toEqual(200);
+    expect(response.body.total).toBe(10);
+    expect(response.body.data[0]).toMatchObject({
+      groupsMembers: [groupMember.id],
+    });
+  });
+
+  jest.setTimeout(10 * 1000);
   test("Should return all the events", async () => {
     const response = await appTest.req
       .get(`/v1/events`)
@@ -100,50 +135,14 @@ describe("Get Events", () => {
     expect(total).toBe(totalEvents);
   });
 
-  describe("Actor", () => {
-    test("Get events for given actor", async () => {
-      const response = await appTest.req
-        .get(`/v1/events`)
-        .query({ "actors[]": actor.id })
-        .set("Authorization", authorizationToken);
-
-      const { total } = response.body;
-
-      expect(response.status).toEqual(200);
-      expect(total).toBe(10);
-      expect(response.body.data[0]).toMatchObject({
-        actors: [actor.id],
-      });
-    });
-  });
-
-  describe("Group", () => {
-    test("Get events for given group", async () => {
-      const response = await appTest.req
-        .get(`/v1/events`)
-        .query({ "groups[]": group.id })
-        .set("Authorization", authorizationToken);
-
-      expect(response.status).toEqual(200);
-
-      expect(response.body.data[0]).toMatchObject({
-        groups: [group.id],
-      });
-    });
-  });
-
-  describe("Group Member", () => {
-    test("Should return events for given group member", async () => {
-      const response = await appTest.req
-        .get(`/v1/events`)
-        .query({ "groupsMembers[]": groupMember.id })
-        .set("Authorization", authorizationToken);
-
-      expect(response.status).toEqual(200);
-      expect(response.body.total).toBe(10);
-      expect(response.body.data[0]).toMatchObject({
-        groupsMembers: [groupMember.id],
-      });
-    });
+  afterAll(async () => {
+    await appTest.ctx.db.delete(
+      EventEntity,
+      eventsData.map((e) => e.id)
+    )();
+    await appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id])();
+    await appTest.ctx.db.delete(ActorEntity, [actor.id])();
+    await appTest.ctx.db.delete(GroupEntity, [group.id])();
+    await appTest.ctx.db.close()();
   });
 });

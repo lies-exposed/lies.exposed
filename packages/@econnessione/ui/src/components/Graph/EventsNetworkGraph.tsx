@@ -8,10 +8,11 @@ import {
   Common,
   Events,
   Group,
+  Keyword,
   Page,
   Topic,
 } from "@econnessione/shared/io/http";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { Link } from "@vx/network/lib/types";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
@@ -58,10 +59,11 @@ export interface EventsNetworkGraphProps {
   events: Events.Uncategorized.Uncategorized[];
   actors: Actor.Actor[];
   groups: Group.Group[];
+  keywords: Keyword.Keyword[];
   groupBy: "group" | "actor";
   selectedActorIds: string[];
   selectedGroupIds: string[];
-  selectedTopicIds: string[];
+  selectedKeywordIds: string[];
   scale: NetworkScale;
   scalePoint: O.Option<NetworkPointNode<EventNetworkDatum>>;
   onEventClick: (e: EventNetworkDatum) => void;
@@ -79,6 +81,10 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
     ...g,
     selected: props.selectedGroupIds.includes(g.id),
   }));
+  const keywords = props.keywords.map((k) => ({
+    ...k,
+    selected: props.selectedKeywordIds.includes(k.id),
+  }));
 
   return (
     <>
@@ -92,8 +98,8 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
             margin: { vertical: 40, horizontal: 40 },
           });
           return (
-            <div>
-              <Grid container spacing={3}>
+            <Grid container spacing={3}>
+              <Grid item md={12}>
                 <Grid
                   item
                   md={12}
@@ -103,149 +109,151 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 >
                   Group by: {groupBy}
                 </Grid>
-                <Grid item md={6}>
-                  <Typography variant="caption">Attori</Typography>
-                  <ActorList actors={actors} onActorClick={() => {}} />
-                </Grid>
-                <Grid item md={6}>
-                  <Typography variant="caption">Gruppi</Typography>
-                  <GroupList groups={groups} onGroupClick={() => {}} />
-                </Grid>
               </Grid>
 
-              <div style={{ overflow: "auto" }}>
-                <Network<NetworkLink, EventNetworkDatum>
-                  onDoubleClick={() => {}}
-                  onNodeClick={() => {}}
-                  onEventLabelClick={() => {}}
-                  tooltipRenderer={(event) => {
-                    const actors = pipe(
-                      event.actors,
-                      O.getOrElse((): Actor.Actor[] => [])
-                    );
-                    const groups = pipe(
-                      event.groups,
-                      O.getOrElse((): Group.Group[] => [])
-                    );
-                    return (
-                      <EventListItem
-                        event={{
-                          ...event,
-                          groups: groups.map((g) => g.id),
-                          actors: actors.map((a) => a.id),
-                        }}
-                        actors={actors}
-                        groups={groups}
-                      />
-                    );
-                  }}
-                  {...networkProps}
-                />
-              </div>
-              <div className="legends">
-                <LegendDemo title="Topics">
-                  <LegendOrdinal
-                    scale={networkProps.groupByScale}
-                    labelFormat={(datum) => datum}
-                  >
-                    {(labels) => {
+              <Grid item md={1}>
+                {groupBy === "actor" ? (
+                  <ActorList actors={actors} onActorClick={() => {}} />
+                ) : (
+                  <GroupList groups={groups} onGroupClick={() => {}} />
+                )}
+              </Grid>
+              <Grid item md={11}>
+                <div style={{ overflow: "auto" }}>
+                  <Network<NetworkLink, EventNetworkDatum>
+                    onDoubleClick={() => {}}
+                    onNodeClick={() => {}}
+                    onEventLabelClick={() => {}}
+                    tooltipRenderer={(event) => {
+                      const actors = pipe(
+                        event.actors,
+                        O.getOrElse((): Actor.Actor[] => [])
+                      );
+                      const groups = pipe(
+                        event.groups,
+                        O.getOrElse((): Group.Group[] => [])
+                      );
+
                       return (
-                        <div
-                          style={{ display: "flex", flexDirection: "column" }}
-                        >
-                          {labels.map((label, i) => (
-                            <LegendItem
-                              key={`legend-quantile-${i}`}
-                              margin="0 5px"
-                              onClick={() => {}}
-                            >
-                              <svg width={10} height={10}>
-                                <circle
-                                  fill={`#${label.value}`}
-                                  r={4}
-                                  cy={4}
-                                  cx={4}
-                                />
-                              </svg>
-                              <LegendLabel align="left" margin="0 0 0 4px">
-                                {label.text}
-                              </LegendLabel>
-                            </LegendItem>
-                          ))}
-                        </div>
+                        <EventListItem
+                          event={{
+                            ...event,
+                            groups: groups.map((g) => g.id),
+                            actors: actors.map((a) => a.id),
+                          }}
+                          actors={actors}
+                          groups={groups}
+                          keywords={keywords}
+                        />
                       );
                     }}
-                  </LegendOrdinal>
-                </LegendDemo>
-                <LegendDemo title="Actors">
-                  <LegendOrdinal
-                    scale={networkProps.actorsScale}
-                    labelFormat={(datum) => datum}
-                  >
-                    {(labels) => {
-                      return (
-                        <div
-                          style={{ display: "flex", flexDirection: "column" }}
-                        >
-                          {labels.map((label, i) => (
-                            <LegendItem
-                              key={`legend-quantile-${i}`}
-                              margin="0 5px"
-                              onClick={() => {}}
-                            >
-                              <svg width={10} height={2}>
-                                <rect
-                                  fill={`#${label.value}`}
-                                  width={10}
-                                  height={2}
-                                />
-                              </svg>
-                              <LegendLabel align="left" margin="0 0 0 4px">
-                                {label.text}
-                              </LegendLabel>
-                            </LegendItem>
-                          ))}
-                        </div>
-                      );
-                    }}
-                  </LegendOrdinal>
-                </LegendDemo>
-                <LegendDemo title="Groups">
-                  <LegendOrdinal<ScaleOrdinal<string, string>>
-                    scale={networkProps.groupsScale}
-                    labelFormat={(datum) => {
-                      return datum;
-                    }}
-                  >
-                    {(labels) => {
-                      return (
-                        <div
-                          style={{ display: "flex", flexDirection: "column" }}
-                        >
-                          {labels.map((label, i) => (
-                            <LegendItem
-                              key={`legend-quantile-${i}`}
-                              margin="0 5px"
-                              onClick={() => {}}
-                            >
-                              <svg width={10} height={2}>
-                                <rect
-                                  fill={`#${label.value}`}
-                                  width={10}
-                                  height={2}
-                                />
-                              </svg>
-                              <LegendLabel align="left" margin="0 0 0 4px">
-                                {label.text}
-                              </LegendLabel>
-                            </LegendItem>
-                          ))}
-                        </div>
-                      );
-                    }}
-                  </LegendOrdinal>
-                </LegendDemo>
-                <style>{`
+                    {...networkProps}
+                  />
+                </div>
+                <div className="legends">
+                  <LegendDemo title="Topics">
+                    <LegendOrdinal
+                      scale={networkProps.groupByScale}
+                      labelFormat={(datum) => datum}
+                    >
+                      {(labels) => {
+                        return (
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            {labels.map((label, i) => (
+                              <LegendItem
+                                key={`legend-quantile-${i}`}
+                                margin="0 5px"
+                                onClick={() => {}}
+                              >
+                                <svg width={10} height={10}>
+                                  <circle
+                                    fill={`#${label.value}`}
+                                    r={4}
+                                    cy={4}
+                                    cx={4}
+                                  />
+                                </svg>
+                                <LegendLabel align="left" margin="0 0 0 4px">
+                                  {label.text}
+                                </LegendLabel>
+                              </LegendItem>
+                            ))}
+                          </div>
+                        );
+                      }}
+                    </LegendOrdinal>
+                  </LegendDemo>
+                  <LegendDemo title="Actors">
+                    <LegendOrdinal
+                      scale={networkProps.actorsScale}
+                      labelFormat={(datum) => datum}
+                    >
+                      {(labels) => {
+                        return (
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            {labels.map((label, i) => (
+                              <LegendItem
+                                key={`legend-quantile-${i}`}
+                                margin="0 5px"
+                                onClick={() => {}}
+                              >
+                                <svg width={10} height={2}>
+                                  <rect
+                                    fill={`#${label.value}`}
+                                    width={10}
+                                    height={2}
+                                  />
+                                </svg>
+                                <LegendLabel align="left" margin="0 0 0 4px">
+                                  {label.text}
+                                </LegendLabel>
+                              </LegendItem>
+                            ))}
+                          </div>
+                        );
+                      }}
+                    </LegendOrdinal>
+                  </LegendDemo>
+                  <LegendDemo title="Groups">
+                    <LegendOrdinal<ScaleOrdinal<string, string>>
+                      scale={networkProps.groupsScale}
+                      labelFormat={(datum) => {
+                        return datum;
+                      }}
+                    >
+                      {(labels) => {
+                        return (
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            {labels.map((label, i) => (
+                              <LegendItem
+                                key={`legend-quantile-${i}`}
+                                margin="0 5px"
+                                onClick={() => {}}
+                              >
+                                <svg width={10} height={2}>
+                                  <rect
+                                    fill={`#${label.value}`}
+                                    width={10}
+                                    height={2}
+                                  />
+                                </svg>
+                                <LegendLabel align="left" margin="0 0 0 4px">
+                                  {label.text}
+                                </LegendLabel>
+                              </LegendItem>
+                            ))}
+                          </div>
+                        );
+                      }}
+                    </LegendOrdinal>
+                  </LegendDemo>
+                  <style>{`
               .legends {
                 font-family: arial;
                 font-weight: 900;
@@ -259,8 +267,9 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 margin-left: 10px;
               }
             `}</style>
-              </div>
-            </div>
+                </div>
+              </Grid>
+            </Grid>
           );
         }}
       </ParentSize>
@@ -322,14 +331,14 @@ const getY =
         topics,
         A.findIndex((t) => Eq.eqString.equals(t.id, itemId)),
         O.fold(
-          () => margin + height,
+          () => margin + height / 2,
           (index) => {
             return margin + index * ((height - margin * 2) / topics.length);
           }
         )
       );
     }
-    return height - margin;
+    return height / 2 - margin;
   };
 
 const updateMap =
@@ -444,7 +453,7 @@ export function createEventNetworkGraphProps({
   scalePoint,
   selectedActorIds,
   selectedGroupIds,
-  selectedTopicIds,
+  selectedKeywordIds,
   height,
   width,
   margin,

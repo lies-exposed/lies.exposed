@@ -19,9 +19,9 @@ import BubbleGraphExample from "../examples/BubbleGraphExample";
 import { EventPageContentExample } from "../examples/EventPageContentExample";
 import { EventSliderExample } from "../examples/EventSliderExample";
 import { GroupPageContentExample } from "../examples/GroupPageContentExample";
+import { KeywordPageContentExample } from "../examples/KeywordPageContentExample";
 import NetworkExample from "../examples/NetworkExample";
 import { ProjectPageContentExample } from "../examples/ProjectPageContentExample";
-import { TopicPageContentExample } from "../examples/TopicPageContentExample";
 import { ProjectImageList } from "../lists/ProjectImageList";
 const MDX = require("@mdx-js/runtime").default;
 
@@ -44,7 +44,7 @@ export const components: MDXProviderComponentsProp = {
   ActorPageContentExample,
   GroupPageContentExample,
   ProjectPageContentExample,
-  TopicPageContentExample,
+  KeywordPageContentExample,
   EventPageContentExample,
   EventSliderExample,
   // lists

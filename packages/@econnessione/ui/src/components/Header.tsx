@@ -29,7 +29,7 @@ const dataMenuItem = {
     },
     {
       id: "events-dashboard",
-      href: "/dashboards/events",
+      href: "/events/",
       label: "Events",
     },
   ],

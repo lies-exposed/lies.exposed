@@ -21,7 +21,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         .createQueryBuilder(LinkEntity, "link")
         .leftJoinAndSelect("link.events", "events")
         .loadAllRelationIds({
-          relations: ["events"],
+          relations: ["events", "keywords"],
         }),
       (q) => {
         if (events._tag === "Some") {

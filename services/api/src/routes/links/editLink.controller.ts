@@ -16,11 +16,12 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
         ...body,
         url: sanitizeURL(url),
         events: events.map((e) => ({ id: e })),
+        keywords: body.keywords.map((k) => ({ id: k })),
         id,
       };
       ctx.logger.debug.log("Update link data %O", linkUpdate);
       return pipe(
-        ctx.db.save(LinkEntity, [linkUpdate]),
+        ctx.db.save(LinkEntity, [{ ...linkUpdate }]),
         TE.chain(() =>
           ctx.db.findOneOrFail(LinkEntity, {
             where: { id },

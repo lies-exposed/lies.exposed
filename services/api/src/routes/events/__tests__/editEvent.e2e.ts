@@ -29,7 +29,6 @@ describe("Edit Event", () => {
     ...e,
     images: [],
     links: [],
-    topics: [],
     groups: [],
     actors: [],
     groupsMembers: [],
@@ -70,6 +69,7 @@ describe("Edit Event", () => {
       title: "First event",
       startDate: new Date().toISOString(),
     };
+
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
       .set("Authorization", authorizationToken)
@@ -97,7 +97,7 @@ describe("Edit Event", () => {
 
   test("Should add images to the event", async () => {
     const images = fc
-      .sample(ImageArb, 5)
+      .sample(ImageArb, 2)
       .map(({ id, createdAt, updatedAt, ...image }) => image);
 
     const eventData = {
@@ -111,7 +111,7 @@ describe("Edit Event", () => {
       .set("Authorization", authorizationToken)
       .send(eventData);
 
-    const body = response.body.data;
+    const { images: bodyImages, ...body } = response.body.data;
 
     expect(response.status).toEqual(200);
 
@@ -123,8 +123,17 @@ describe("Edit Event", () => {
       ...event,
       ...eventData,
     } as any;
+
+    eventData.images.forEach((i) => {
+      expect(
+        bodyImages.find((ii: http.Image.Image) => ii.location === i.location)
+      ).not.toBe(undefined);
+    });
+
+    delete (eventData as any).images;
+
     expect(body).toMatchObject({
-      ...event,
+      ...eventData,
       createdAt: event.createdAt.toISOString(),
       updatedAt: body.updatedAt,
     });

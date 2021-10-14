@@ -25,7 +25,7 @@ interface EventsMapProps {
 export const EventsMap: React.FC<EventsMapProps> = ({
   center,
   zoom,
-  filter: { startDate, endDate, ...filters },
+  filter: { startDate, endDate, title, ...filters },
 }) => {
   return (
     <WithQueries
@@ -38,6 +38,7 @@ export const EventsMap: React.FC<EventsMapProps> = ({
           pagination: { page: 1, perPage: 100 },
           sort: { field: "startDate", order: "DESC" },
           filter: {
+            title: pipe(title ?? O.none, O.toUndefined),
             startDate:
               startDate?._tag === "Some"
                 ? startDate.value.toISOString()

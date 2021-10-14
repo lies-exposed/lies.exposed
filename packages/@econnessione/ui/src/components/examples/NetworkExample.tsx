@@ -2,7 +2,6 @@ import { Events } from "@econnessione/shared/io/http";
 import { actors } from "@econnessione/shared/mock-data/actors";
 import { events } from "@econnessione/shared/mock-data/events";
 import { groups } from "@econnessione/shared/mock-data/groups";
-import { topics } from "@econnessione/shared/mock-data/topics";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -10,14 +9,15 @@ import * as React from "react";
 import { EventsNetworkGraph } from "../Graph/EventsNetworkGraph";
 
 const NetworkExample: React.FC = () => {
-  const [showTopicLinks, setShowTopicLinks] = React.useState<boolean>(false);
+  const [showKeywordLinks, setShowKeywordLinks] =
+    React.useState<boolean>(false);
   const [showActorLinks, setShowActorLinks] = React.useState<boolean>(false);
   const [showGroupLinks, setGroupsShowLinks] = React.useState<boolean>(false);
 
-  const onShowLinks = (key: "topic" | "actors" | "groups"): void => {
+  const onShowLinks = (key: "keywords" | "actors" | "groups"): void => {
     switch (key) {
-      case "topic": {
-        setShowTopicLinks(!showTopicLinks);
+      case "keywords": {
+        setShowKeywordLinks(!showKeywordLinks);
         break;
       }
       case "actors": {
@@ -31,14 +31,14 @@ const NetworkExample: React.FC = () => {
     }
   };
 
-  const selectedTopicIds = showTopicLinks ? topics.map((t) => t.id) : [];
+  const selectedKeywordIds = showKeywordLinks ? [].map((t: any) => t.id) : [];
   const selectedActorIds = showActorLinks ? actors.map((a) => a.id) : [];
   const selectedGroupIds = showGroupLinks ? groups.map((g) => g.id) : [];
 
   return (
     <>
-      <button onClick={() => onShowLinks("topic")}>
-        {!showTopicLinks ? "show" : "hide"} topic links
+      <button onClick={() => onShowLinks("keywords")}>
+        {!showKeywordLinks ? "show" : "hide"} keywords links
       </button>
       <button onClick={() => onShowLinks("actors")}>
         {!showActorLinks ? "show" : "hide"} actors links
@@ -59,9 +59,10 @@ const NetworkExample: React.FC = () => {
           ...g,
           body: "empty",
         }))}
+        keywords={[]}
         selectedActorIds={selectedActorIds}
         selectedGroupIds={selectedGroupIds}
-        selectedTopicIds={selectedTopicIds}
+        selectedKeywordIds={selectedKeywordIds}
         onEventClick={() => {}}
       />
     </>

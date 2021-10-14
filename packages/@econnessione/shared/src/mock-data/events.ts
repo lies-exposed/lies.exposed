@@ -9,7 +9,6 @@ import {
   thirdEventMetadata,
 } from "./events/events-metadata";
 import { badGroup, goodGroup } from "./groups";
-import { firstTopic, secondTopic, thirdTopic } from "./topics";
 
 const today = new Date();
 
@@ -18,7 +17,7 @@ export const firstEvent: Events.Uncategorized.Uncategorized = {
   id: uuid(),
   type: Events.Uncategorized.UNCATEGORIZED.value,
   title: "First Event",
-  topics: [firstTopic.id],
+  keywords: [],
   actors: [goodActor.id],
   groups: [goodGroup.id],
   groupsMembers: [],
@@ -36,7 +35,7 @@ export const secondEvent: Events.Uncategorized.Uncategorized = {
   id: uuid(),
   type: Events.Uncategorized.UNCATEGORIZED.value,
   title: "Second Event",
-  topics: [thirdTopic.id, secondTopic.id],
+  keywords: [],
   actors: [badActor.id],
   groupsMembers: [],
   groups: [],
@@ -54,7 +53,7 @@ export const thirdEvent: Events.Uncategorized.Uncategorized = {
   id: uuid(),
   title: "Third Event",
   type: Events.Uncategorized.UNCATEGORIZED.value,
-  topics: [secondTopic.id],
+  keywords: [],
   actors: [badActor.id],
   groups: [goodGroup.id],
   groupsMembers: [],
@@ -72,7 +71,7 @@ export const fourthEvent: Events.Uncategorized.Uncategorized = {
   id: uuid(),
   type: Events.Uncategorized.UNCATEGORIZED.value,
   title: "Fourth Event",
-  topics: [secondTopic.id, firstTopic.id],
+  keywords: [],
   actors: [goodActor.id],
   groups: [badGroup.id],
   groupsMembers: [],

@@ -98,7 +98,11 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
       <MarkdownInput source="abstract" />
       <MarkdownInput source="results" />
       <MarkdownInput source="conclusion" />
-      <ReferenceArrayInput source="authors" reference="actors" alwaysOn>
+      <ReferenceArrayInput
+        source="authors"
+        reference="actors"
+        defaultValue={[]}
+      >
         <AutocompleteArrayInput source="id" optionText="fullName" />
       </ReferenceArrayInput>
       <ReferenceInput source="publisher" reference="groups" alwaysOn>

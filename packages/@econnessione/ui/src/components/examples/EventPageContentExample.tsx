@@ -12,6 +12,7 @@ export const eventPageContentArgs: EventPageContentProps = {
   actors: [],
   groups: [],
   links: [],
+  keywords: [],
 };
 
 export const EventPageContentExample: React.FC<EventPageContentProps> = (

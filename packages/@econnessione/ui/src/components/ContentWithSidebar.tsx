@@ -5,13 +5,15 @@ import * as React from "react";
 
 interface ContentWithSidebarProps {
   sidebar: React.ReactElement;
+  defaultOpen?: boolean;
 }
 
 export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
   sidebar,
+  defaultOpen = false,
   children,
 }) => {
-  const [showSidebar, toggleSidebar] = React.useState(false);
+  const [showSidebar, toggleSidebar] = React.useState(defaultOpen);
 
   return (
     <Grid

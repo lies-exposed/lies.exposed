@@ -4,6 +4,7 @@ import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import * as http from "../../io/http";
+import { HumanReadableStringArb } from "./utils.arbitrary";
 
 const actorUnsupportedKeys = ["craetedAt", "updateAt"];
 
@@ -24,9 +25,15 @@ export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       ({
         avatar: undefined,
-        body: "",
-        fullName: "",
-        username: "",
+        body: tests.fc.sample(tests.fc.string(), 1)[0],
+        fullName: tests.fc.sample(
+          HumanReadableStringArb({ joinChar: " " }),
+          1
+        )[0],
+        username: tests.fc.sample(
+          HumanReadableStringArb({ joinChar: "-" }),
+          1
+        )[0],
         color: "dddddd",
         ...p,
         id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,

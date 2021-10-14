@@ -1,9 +1,10 @@
-import { Actor, Events, Group } from "@econnessione/shared/io/http";
+import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { Link } from "@econnessione/shared/io/http/Link";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Chip,
   Grid,
   List,
   ListItem,
@@ -26,6 +27,7 @@ export interface EventPageContentProps {
   actors: Actor.Actor[];
   groups: Group.Group[];
   links: Link[];
+  keywords: Keyword.Keyword[];
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
@@ -33,6 +35,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   actors,
   groups,
   links,
+  keywords,
 }) => {
   return (
     <MainContent>
@@ -96,6 +99,23 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                   }}
                 />
               )
+            )
+          )}
+        </Grid>
+        <Grid item md={6}>
+          <Typography variant="h4">Keywords</Typography>
+          {pipe(
+            event.keywords,
+            O.fromPredicate((items) => items.length > 0),
+            O.map((actorIds) =>
+              keywords.filter((a) => actorIds.includes(a.id))
+            ),
+            O.fold(
+              () => null,
+              (keywords) =>
+                keywords.map((a) => (
+                  <Chip key={a.id} label={a.tag} variant="outlined" />
+                ))
             )
           )}
         </Grid>

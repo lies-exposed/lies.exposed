@@ -5,7 +5,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider } from "react-admin";
 import { editArea } from "./AreaAPI";
-import { convertFileToBase64, uploadImages } from "./MediaAPI";
+import { uploadImages } from "./MediaAPI";
 import { createProject, editProject } from "./ProjectAPI";
 
 const publicDataProvider = http.APIRESTClient({

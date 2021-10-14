@@ -5,8 +5,8 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { Avatar } from "./Common/Avatar";
+import EditButton from "./Common/Button/EditButton";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
-import EditButton from "./buttons/EditButton";
 import GroupList from "./lists/GroupList";
 
 export interface ActorPageContentProps {

@@ -6,10 +6,12 @@ import {
   CreateProps,
   Datagrid,
   DateField,
+  DateInput,
   Edit,
   EditProps,
   Filter,
   FunctionField,
+  ImageField,
   List,
   ListProps,
   ReferenceArrayInput,
@@ -42,6 +44,7 @@ export const LinkList: React.FC<ListProps> = (props) => (
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="description" />
+      <ImageField source="image" />
       <TextField source="provider" />
       <FunctionField
         label="resources.links.fields.events_length"
@@ -85,6 +88,7 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
       <SimpleForm>
         <TextInput source="title" />
         <TextInput type="url" source="url" />
+        <ImageField source="image" />
         <MarkdownInput source="description" />
         <TextInput source="provider" />
         <ReferenceArrayInput source="newEvents" reference="events">
@@ -105,6 +109,7 @@ export const LinkCreate: React.FC<CreateProps> = (props) => {
     <Create title="Create a Link" {...props}>
       <SimpleForm>
         <TextInput type="url" source="url" />
+        <DateInput source="publishDate" />
         <ReferenceArrayInput
           source="events"
           reference="events"

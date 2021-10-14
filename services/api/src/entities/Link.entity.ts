@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { DeathEventEntity } from "./DeathEvent.entity";
 import { EventEntity } from "./Event.entity";
+import { KeywordEntity } from "./Keyword.entity";
 
 @Entity("link")
 @Index(["url"], { unique: true })
@@ -25,8 +26,11 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   description: string;
 
-  @Column({ type: "simple-array", default: [] })
-  keywords: string[];
+  @Column({ type: "varchar", nullable: true })
+  image: string;
+
+  @Column({ type: "timestamptz", nullable: true })
+  publishDate: Date;
 
   @Column({ type: "varchar", nullable: true })
   provider: string;
@@ -36,6 +40,9 @@ export class LinkEntity {
 
   @ManyToMany(() => DeathEventEntity, (e) => e.news, { cascade: false })
   death: DeathEventEntity;
+
+  @ManyToMany(() => KeywordEntity, (e) => e.links, { cascade: false })
+  keywords: KeywordEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

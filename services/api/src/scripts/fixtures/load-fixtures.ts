@@ -40,7 +40,7 @@ const run = (): Promise<void> => {
   const links = pipe(
     fc.sample(
       fc.record({
-        url: URLArb(),
+        url: URLArb,
         description: fc.string(),
       }),
       50
@@ -143,6 +143,7 @@ const run = (): Promise<void> => {
                     EventEntity,
                     events.map((e) => ({
                       ...e,
+                      keywords: [],
                       groupsMembers: results.map((g) => g.id) as any,
                     }))
                   )

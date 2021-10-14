@@ -11,7 +11,7 @@ import {
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import * as React from "react";
 import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
-import { PaypalDonateButton } from "./buttons/PaypalDonateButton";
+import { PaypalDonateButton } from "./Common/Button/PaypalDonateButton";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
