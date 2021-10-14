@@ -2911,7 +2911,7 @@ export const TagArb = (): fc.Arbitrary<string> => {
     noShrink: stringArb.noShrink,
     generate: (mrng, biasFactor) => {
       const v = new fc.NextValue(
-        name1.map((n) => n.replace(/-/i, ""))[getRandomInt(0, name1.length)],
+        name1.map((n) => n.replace(/-+/i, ""))[getRandomInt(0, name1.length)],
         undefined,
         undefined
       );
