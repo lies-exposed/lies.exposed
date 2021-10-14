@@ -20,6 +20,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       groups,
       groupsMembers,
       links,
+      keywords,
       startDate,
       endDate,
       ...queryRest
@@ -49,8 +50,8 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
         .leftJoinAndSelect("event.groups", "groups")
         .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
         .leftJoinAndSelect("event.links", "links")
-        .leftJoinAndSelect("event.images", "images")
-        .loadAllRelationIds({ relations: ["keywords"] }),
+        .leftJoinAndSelect("event.keywords", "keywords")
+        .leftJoinAndSelect("event.images", "images"),
       (q) => {
         return q.where(
           new Brackets((qb) => {
@@ -66,6 +67,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
                   key: "links.id IN (:...links)",
                   items: links,
                 },
+                { key: "keywords.id IN (:...keywords)", items: keywords },
               ],
               A.map((i) =>
                 pipe(
@@ -91,6 +93,11 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
         );
       },
       (q) => {
+        if (O.isSome(query.title)) {
+          return q.andWhere("lower(event.title) LIKE :title", {
+            title: `%${query.title.value}%`,
+          });
+        }
         if (O.isSome(startDate) && O.isSome(endDate)) {
           return q.andWhere(
             "event.startDate > :startDate AND (event.endDate < :endDate OR event.endDate IS NULL)",
@@ -147,6 +154,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
               groups: e.groups.map((g) => g.id) as any,
               groupsMembers: e.groupsMembers.map((g) => g.id) as any,
               links: e.links.map((l) => l.id) as any,
+              keywords: e.keywords.map((k) => k.id) as any,
             })
           ),
           A.sequence(E.Applicative),

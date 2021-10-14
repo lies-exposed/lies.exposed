@@ -1,13 +1,12 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { Actor } from "../io/http";
+import { Keyword } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { CreateKeyword, Keyword } from "../io/http/Keyword";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
-const SingleKeywordOutput = Output(Keyword, "Keyword");
-const ListKeywordOutput = ListOutput(Keyword, "Keywords");
+const SingleKeywordOutput = Output(Keyword.Keyword, "Keyword");
+const ListKeywordOutput = ListOutput(Keyword.Keyword, "Keywords");
 
 export const List = Endpoint({
   Method: "GET",
@@ -15,7 +14,7 @@ export const List = Endpoint({
   Input: {
     Query: t.type({
       ...GetListQuery.props,
-      ...Actor.GetListActorQueryFilter.props,
+      ...Keyword.GetListKeywordQueryFilter.props,
     }),
   },
   Output: ListKeywordOutput,
@@ -34,7 +33,7 @@ export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/keywords",
   Input: {
-    Body: CreateKeyword,
+    Body: Keyword.CreateKeyword,
   },
   Output: SingleKeywordOutput,
 });
@@ -44,7 +43,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/keywords/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: CreateKeyword,
+    Body: Keyword.CreateKeyword,
   },
   Output: SingleKeywordOutput,
 });

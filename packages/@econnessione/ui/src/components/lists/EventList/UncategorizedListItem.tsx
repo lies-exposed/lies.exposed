@@ -1,4 +1,4 @@
-import { Actor, Events, Group, Topic } from "@econnessione/shared/io/http";
+import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,11 +21,12 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
+import KeywordList from "../KeywordList";
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.Uncategorized;
   actors: Actor.Actor[];
-  topics: Topic.TopicFrontmatter[];
+  keywords: Keyword.Keyword[];
   groups: Group.Group[];
   links: string[];
   onClick?: (e: Events.Uncategorized.Uncategorized) => void;
@@ -34,7 +35,7 @@ interface UncategorizedListItemProps {
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   item,
   actors,
-  topics,
+  keywords,
   groups,
   links,
   onClick,
@@ -96,23 +97,23 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           O.toNullable
         )}
         <CardContent>
-          <Grid container sm={6}>
+          <Grid item sm={6}>
             <Grid item></Grid>
           </Grid>
           <Grid container style={{ width: "100%" }} alignItems="flex-start">
-            {/* <Grid item md={4}>
+            <Grid item md={4}>
               <Typography variant="body2">Topics</Typography>
-              <TopicList
-                topics={topics.map((t) => ({
+              <KeywordList
+                keywords={keywords.map((t) => ({
                   ...t,
                   selected: true,
                 }))}
-                onTopicClick={async (t) => {
+                onItemClick={async (t) => {
                   // await navigate(`/topics/${t.id}`)
                   return undefined;
                 }}
               />
-            </Grid> */}
+            </Grid>
             <Grid item sm={6}>
               {/* <Typography variant="body2">Gruppi</Typography> */}
               {pipe(
@@ -134,7 +135,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 )
               )}
             </Grid>
-            <Grid item sm={6} justifyContent="flex-end" alignContent="flex-end">
+            <Grid item sm={6} justifyContent="flex-end">
               {/* <Typography variant="body2">Actors</Typography> */}
               {pipe(
                 actors,

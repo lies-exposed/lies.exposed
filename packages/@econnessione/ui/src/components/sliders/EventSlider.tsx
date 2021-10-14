@@ -3,7 +3,9 @@ import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncate
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import SlickSlider from "react-slick";
 import { Queries } from "../../providers/DataProvider";
@@ -13,10 +15,12 @@ import { UncategorizedListItem } from "../lists/EventList/UncategorizedListItem"
 
 export interface EventSliderProps {
   filter: GetEventsQueryFilter;
+  onClick: (e: Events.Event) => void;
 }
 
 export const EventSlider: React.FC<EventSliderProps> = ({
-  filter: { startDate, endDate, ...filter },
+  filter: { startDate, endDate, title, ...filter },
+  onClick,
 }) => {
   return (
     <WithQueries
@@ -26,14 +30,17 @@ export const EventSlider: React.FC<EventSliderProps> = ({
           pagination: { perPage: 20, page: 1 },
           sort: { field: "startDate", order: "DESC" },
           filter: {
-            startDate:
-              startDate?._tag === "Some"
-                ? startDate.value.toISOString()
-                : undefined,
-            endDate:
-              endDate?._tag === "Some"
-                ? endDate.value.toISOString()
-                : undefined,
+            title: pipe(title ?? O.none, O.toUndefined),
+            startDate: pipe(
+              startDate ?? O.none,
+              O.map((d) => d.toISOString()),
+              O.toUndefined
+            ),
+            endDate: pipe(
+              endDate ?? O.none,
+              O.map((d) => d.toISOString()),
+              O.toUndefined
+            ),
             ...R.compact({ ...filter }),
           },
         },
@@ -58,26 +65,12 @@ export const EventSlider: React.FC<EventSliderProps> = ({
                       actors={[]}
                       groups={[]}
                       links={[]}
-                      topics={[]}
+                      keywords={[]}
+                      onClick={onClick}
                     />
                   );
                 }
 
-                // if (Events.ProjectTransaction.ProjectTransactionMD.is(e)) {
-                //   return (
-                //     <ProjectTransactionListItem
-                //       key={e.frontmatter.id}
-                //       index={index}
-                //       item={{ ...e.frontmatter, selected: true }}
-                //     />
-                //   );
-                // }
-
-                // if (Events.Protest.ProtestMD.is(e)) {
-                //   return <ProtestListItem key={e.id} item={e} />;
-                // }
-
-                // return <div key={e.type}>{e.type}</div>;
                 return <div key={e.id}>Unknown event {JSON.stringify(e)}</div>;
               })}
             </SlickSlider>

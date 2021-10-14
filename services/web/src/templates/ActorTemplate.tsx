@@ -5,7 +5,6 @@ import { MainContent } from "@econnessione/ui/components/MainContent";
 import SEO from "@econnessione/ui/components/SEO";
 import { EventSlider } from "@econnessione/ui/components/sliders/EventSlider";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
-import { Box, Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -14,6 +13,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { DeathBox } from "@containers/DeathBox";
 import { EventsNetwork } from "@containers/EventsNetwork";
+import { doUpdateCurrentView } from "utils/location.utils";
 
 export default class ActorTemplate extends React.PureComponent<
   RouteComponentProps<{
@@ -49,17 +49,26 @@ export default class ActorTemplate extends React.PureComponent<
                     <ActorPageContent actor={actor} groups={groups} />
                     {actor.death ? <DeathBox id={actor.death} /> : null}
                     <div style={{ padding: 50 }}>
-                      <EventSlider filter={{ actors: O.some([actorId]) }} />
+                      <EventSlider
+                        filter={{ actors: O.some([actorId]) }}
+                        onClick={(ev) => {
+                          void doUpdateCurrentView({
+                            view: "event",
+                            eventId: ev.id,
+                          })();
+                        }}
+                      />
                     </div>
                     <div style={{ padding: 50 }}>
                       <EventsNetwork
                         filter={{ actors: O.some([actorId]) }}
                         actors={[actor]}
                         groups={[]}
+                        keywords={[]}
                         groupBy="actor"
                         selectedActorIds={[actorId]}
                         selectedGroupIds={[]}
-                        selectedTopicIds={[]}
+                        selectedKeywordIds={[]}
                         scale={"all"}
                         scalePoint={O.none}
                         onEventClick={() => {}}

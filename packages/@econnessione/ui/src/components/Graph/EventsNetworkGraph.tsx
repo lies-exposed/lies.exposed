@@ -8,6 +8,7 @@ import {
   Common,
   Events,
   Group,
+  Keyword,
   Page,
   Topic,
 } from "@econnessione/shared/io/http";
@@ -58,10 +59,11 @@ export interface EventsNetworkGraphProps {
   events: Events.Uncategorized.Uncategorized[];
   actors: Actor.Actor[];
   groups: Group.Group[];
+  keywords: Keyword.Keyword[];
   groupBy: "group" | "actor";
   selectedActorIds: string[];
   selectedGroupIds: string[];
-  selectedTopicIds: string[];
+  selectedKeywordIds: string[];
   scale: NetworkScale;
   scalePoint: O.Option<NetworkPointNode<EventNetworkDatum>>;
   onEventClick: (e: EventNetworkDatum) => void;
@@ -78,6 +80,10 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
   const groups = props.groups.map((g) => ({
     ...g,
     selected: props.selectedGroupIds.includes(g.id),
+  }));
+  const keywords = props.keywords.map((k) => ({
+    ...k,
+    selected: props.selectedKeywordIds.includes(k.id),
   }));
 
   return (
@@ -127,6 +133,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                         event.groups,
                         O.getOrElse((): Group.Group[] => [])
                       );
+
                       return (
                         <EventListItem
                           event={{
@@ -136,6 +143,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                           }}
                           actors={actors}
                           groups={groups}
+                          keywords={keywords}
                         />
                       );
                     }}
@@ -445,7 +453,7 @@ export function createEventNetworkGraphProps({
   scalePoint,
   selectedActorIds,
   selectedGroupIds,
-  selectedTopicIds,
+  selectedKeywordIds,
   height,
   width,
   margin,

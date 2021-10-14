@@ -76,7 +76,15 @@ export default class GroupTemplate extends React.PureComponent<
                       filter={{ groups: O.some([group.id]) }}
                       zoom={4}
                     />
-                    <EventSlider filter={{ groups: O.some([group.id]) }} />
+                    <EventSlider
+                      filter={{ groups: O.some([group.id]) }}
+                      onClick={(ev) => {
+                        void doUpdateCurrentView({
+                          view: "event",
+                          eventId: ev.id,
+                        })();
+                      }}
+                    />
                   </MainContent>
                 );
               }

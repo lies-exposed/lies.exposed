@@ -54,7 +54,7 @@ const RESOURCE = "events";
 const EventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <TextInput label="Search" source="q" alwaysOn size="small" />
+      <TextInput source="title" alwaysOn size="small" />
       <ReferenceArrayInput source="groups" reference="groups" alwaysOn>
         <AutocompleteArrayInput optionText="name" />
       </ReferenceArrayInput>
@@ -326,6 +326,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
                   actors={[]}
                   groups={[]}
                   links={[]}
+                  keywords={[]}
                 />
               ))
             );

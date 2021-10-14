@@ -52,9 +52,10 @@ const args: EventsNetworkGraphProps = {
   events: uncategorizedEvents,
   actors,
   groups,
+  keywords: [],
   selectedActorIds: actors.map((a) => a.id),
   selectedGroupIds: [],
-  selectedTopicIds: [],
+  selectedKeywordIds: [],
   onEventClick: () => {},
 };
 

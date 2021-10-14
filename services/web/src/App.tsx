@@ -17,6 +17,7 @@ import { currentView } from "./utils/location.utils";
 import ActorTemplate from "@templates/ActorTemplate";
 import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
+import KeywordsPage from "pages/KeywordsPage";
 
 // import NotFoundPage from "./pages/404";
 
@@ -73,6 +74,8 @@ export const App: React.FC = () => {
                         return <EventsPage {...currentView} />;
                       case "event":
                         return <EventTemplate eventId={currentView.eventId} />;
+                      case "keywords":
+                        return <KeywordsPage />;
                       // case 'vaccines':
                       //   return <VaccineDashboard path="/dashboards/vaccines" />
 

@@ -12,8 +12,10 @@ export const GetEventsQueryFilter = t.partial(
     actors: optionFromNullable(t.array(t.string)),
     groups: optionFromNullable(t.array(t.string)),
     links: optionFromNullable(t.array(t.string)),
+    keywords: optionFromNullable(t.array(t.string)),
     startDate: optionFromNullable(DateFromISOString),
     endDate: optionFromNullable(DateFromISOString),
+    title: optionFromNullable(t.string),
   },
   "GetEventsQueryFilter"
 );

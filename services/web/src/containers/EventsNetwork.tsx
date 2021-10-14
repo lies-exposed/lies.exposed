@@ -20,7 +20,7 @@ interface EventsNetworkProps extends Omit<EventsNetworkGraphProps, "events"> {
 export class EventsNetwork extends React.PureComponent<EventsNetworkProps> {
   render(): JSX.Element {
     const {
-      filter: { startDate, endDate, ..._filter },
+      filter: { startDate, endDate, title, ..._filter },
       ...props
     } = this.props;
 
@@ -31,13 +31,14 @@ export class EventsNetwork extends React.PureComponent<EventsNetworkProps> {
           events: {
             filter: {
               ...R.compact({ ..._filter }),
+              title: pipe(title ?? O.none, O.toUndefined),
               startDate: pipe(
-                startDate === undefined ? O.none : startDate,
+                startDate ?? O.none,
                 O.map((d) => d.toISOString()),
                 O.toUndefined
               ),
               endDate: pipe(
-                endDate === undefined ? O.none : endDate,
+                endDate ?? O.none,
                 O.map((d) => d.toISOString()),
                 O.toUndefined
               ),

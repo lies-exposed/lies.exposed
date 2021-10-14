@@ -28,6 +28,7 @@ export interface EventsView {
   actors?: string[];
   groups?: string[];
   groupsMembers?: string[];
+  keywords?: string[];
   startDate?: string;
   endDate?: string;
   tab?: number;
@@ -36,6 +37,15 @@ export interface EventsView {
 export interface EventView {
   view: "event";
   eventId: string;
+}
+
+export interface KeywordsView {
+  view: "keywords";
+}
+
+export interface KeywordView {
+  view: "keyword";
+  keywordId: string;
 }
 
 export interface IndexView {
@@ -49,6 +59,8 @@ export type CurrentView =
   | GroupView
   | EventsView
   | EventView
+  | KeywordsView
+  | KeywordView
   | IndexView;
 
 const actorsRegex = /^\/actors\/$/;
@@ -57,6 +69,8 @@ const groupsRegex = /^\/groups\/$/;
 const groupRegex = /^\/groups\/([^/]+)$/;
 const eventsRegex = /^\/events\/$/;
 const eventRegex = /^\/events\/([^/]+)$/;
+const keywordsRegex = /^\/keywords\/$/;
+const keywordRegex = /^\/events\/([^/]+)$/;
 
 const parseQuery = (s: string): qs.ParsedQuery =>
   qs.parse(s.replace("?", ""), { arrayFormat: "comma" });
@@ -121,6 +135,13 @@ export function locationToView(location: HistoryLocation): CurrentView {
     };
   }
 
+  const keywordsViewMatch = location.pathname.match(keywordsRegex);
+  if (keywordsViewMatch !== null) {
+    return {
+      view: "keywords",
+    };
+  }
+
   return { view: "index" };
 }
 
@@ -153,6 +174,7 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
           actors: view.actors as any,
           groups: view.groups as any,
           groupsMembers: view.groupsMembers as any,
+          keywords: view.keywords as any,
           startDate: view.startDate,
           endDate: view.endDate,
           tab: view.tab?.toString(),
@@ -160,6 +182,10 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
       };
     case "event":
       return { pathname: `/events/${view.eventId}`, search: {} };
+    case "keywords":
+      return { pathname: `/keywords/`, search: {} };
+    case "keyword":
+      return { pathname: `/keywords/${view.keywordId}`, search: {} };
     case "index":
       return { pathname: "/index.html", search: {} };
   }

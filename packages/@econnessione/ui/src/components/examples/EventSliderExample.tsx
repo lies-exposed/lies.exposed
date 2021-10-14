@@ -5,6 +5,7 @@ import { EventSlider, EventSliderProps } from "../sliders/EventSlider";
 
 export const eventSliderArgs: EventSliderProps = {
   filter: {},
+  onClick: () => undefined,
 };
 
 export const EventSliderExample: React.FC<EventSliderProps> = (props) => {

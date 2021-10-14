@@ -1,4 +1,4 @@
-import { Actor, Events, Group } from "@econnessione/shared/io/http";
+import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { Grid } from "@material-ui/core";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -9,6 +9,7 @@ interface EventListItemProps {
   event: Events.Event;
   actors: Actor.Actor[];
   groups: Group.Group[];
+  keywords: Keyword.Keyword[];
   onClick?: (e: Events.Event) => void;
 }
 
@@ -24,7 +25,7 @@ export const EventListItem: React.FC<EventListItemProps> = ({
         item={e}
         actors={props.actors}
         groups={props.groups}
-        topics={[]}
+        keywords={props.keywords}
         links={e.links}
         onClick={onClick}
       />
@@ -37,6 +38,7 @@ export interface EventListProps {
   events: Events.Event[];
   actors: Actor.Actor[];
   groups: Group.Group[];
+  keywords: Keyword.Keyword[];
   onClick?: (e: Events.Event) => void;
 }
 
@@ -44,6 +46,7 @@ const EventList: React.FC<EventListProps> = ({
   events,
   actors,
   groups,
+  keywords,
   onClick,
 }) => {
   return (
@@ -57,12 +60,16 @@ const EventList: React.FC<EventListProps> = ({
           const eventGroups = Events.Uncategorized.Uncategorized.is(event)
             ? groups.filter((a) => event.groups.includes(a.id))
             : [];
+          const eventKeywords = Events.Uncategorized.Uncategorized.is(event)
+            ? keywords.filter((a) => event.keywords.includes(a.id))
+            : [];
           return (
             <Grid key={event.id} item sm={12} md={6}>
               <EventListItem
                 event={event}
                 actors={eventActors}
                 groups={eventGroups}
+                keywords={eventKeywords}
                 onClick={onClick}
               />
             </Grid>
