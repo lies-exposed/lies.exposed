@@ -7,7 +7,6 @@ import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Actor, Common, Events, Project } from "../io/http";
 import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
-import { isByActor } from "./actor";
 
 // interface Item {
 //   itemId: string;
@@ -22,9 +21,9 @@ export const eventDate = (e: Events.Event): Date => {
     case "Uncategorized": {
       return e.startDate;
     }
-    case "Protest": {
-      return e.date;
-    }
+    // case "Protest": {
+    //   return e.date;
+    // }
     default:
       return e.date;
   }
@@ -102,7 +101,7 @@ export const eventsDataToNavigatorItems = (
 export const filterMetadataForActor =
   (actor: Actor.Actor) =>
   (metadata: Events.Event): boolean => {
-    const byActor = isByActor(actor);
+    // const byActor = isByActor(actor);
 
     switch (metadata.type) {
       // case Events.ProjectTransaction.PROJECT_TRANSACTION: {
@@ -111,18 +110,18 @@ export const filterMetadataForActor =
       //     byActor(metadata.transaction.by)
       //   );
       // }
-      case Events.ProjectImpact.type.props.type.value: {
-        return (
-          metadata.approvedBy.some(byActor) ?? metadata.executedBy.some(byActor)
-        );
-      }
-      case "Condamned":
-      case "Arrest": {
-        return byActor(metadata.who);
-      }
-      case Events.Protest.PROTEST.value: {
-        return metadata.organizers.some(byActor);
-      }
+      // case Events.ProjectImpact.type.props.type.value: {
+      //   return (
+      //     metadata.approvedBy.some(byActor) ?? metadata.executedBy.some(byActor)
+      //   );
+      // }
+      // case "Condamned":
+      // case "Arrest": {
+      //   return byActor(metadata.who);
+      // }
+      // case Events.Protest.PROTEST.value: {
+      //   return metadata.organizers.some(byActor);
+      // }
       default:
         return false;
     }
@@ -134,19 +133,19 @@ export const filterMetadataFroProject =
     switch (metadata.type) {
       // case "ProjectTransaction":
       //   return metadata.project.id === project.id;
-      case "ProjectImpact":
-        return metadata.project === project.id;
-      case Events.Protest.PROTEST.value: {
-        return (
-          metadata.for.type === "Project" &&
-          metadata.for.project.id === project.id
-        );
-      }
-      case "Arrest": {
-        return metadata.for.some(
-          (f) => f.type === "Project" && f.project.id === project.id
-        );
-      }
+      // case "ProjectImpact":
+      //   return metadata.project === project.id;
+      // case Events.Protest.PROTEST.value: {
+      //   return (
+      //     metadata.for.type === "Project" &&
+      //     metadata.for.project.id === project.id
+      //   );
+      // }
+      // case "Arrest": {
+      //   return metadata.for.some(
+      //     (f) => f.type === "Project" && f.project.id === project.id
+      //   );
+      // }
       default:
         return false;
     }
@@ -157,15 +156,15 @@ export const ordEventDate = Ord.ord.contramap(Ord.ordDate, (e: Events.Event) =>
 );
 
 const colorMap: Record<Events.Event["type"], string> = {
-  Protest: "red",
-  ProjectTransaction: "blue",
-  ProjectImpact: "orange",
+  // Protest: "red",
+  // ProjectTransaction: "blue",
+  // ProjectImpact: "orange",
   // StudyPublished: "green",
-  Fined: "yellow",
+  // Fined: "yellow",
   Death: "black",
-  Arrest: "lightred",
-  Condamned: "lightred",
-  PublicAnnouncement: "lightgreen",
+  // Arrest: "lightred",
+  // Condamned: "lightred",
+  // PublicAnnouncement: "lightgreen",
   Uncategorized: "grey",
 };
 export const getColorByEventType = ({

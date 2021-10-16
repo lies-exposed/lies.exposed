@@ -1,7 +1,5 @@
-import { groupsMembers } from "@econnessione/shared/endpoints/GroupMember.endpoints";
 import { eqByUUID } from "@econnessione/shared/helpers/event";
-import * as io from "@econnessione/shared/io";
-import { Actor, Group, Keyword } from "@econnessione/shared/io/http";
+import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
@@ -38,11 +36,22 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { formatISO, subYears } from "date-fns";
 import * as A from "fp-ts/lib/Array";
+import * as D from "fp-ts/lib/Date";
 import * as O from "fp-ts/lib/Option";
+import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import * as Helmet from "react-helmet";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
+
+const eventsSort = pipe(
+  Ord.contramap((e: Events.Event): Date => {
+    if (e.type === "Death") {
+      return e.date;
+    }
+    return e.startDate;
+  })
+)(D.Ord);
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
   representation: "date",
@@ -67,7 +76,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
         actors: Queries.Actor.getList,
         groups: Queries.Group.getList,
         keywords: Queries.Keyword.getList,
-        deaths: Queries.DeathEvent.getList,
       }}
       params={{
         page: {
@@ -88,11 +96,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
           sort: { field: "id", order: "ASC" },
           filter: {},
         },
-        deaths: {
-          pagination: { page: 1, perPage: 20 },
-          sort: { field: "date", order: "DESC" },
-          filter: {},
-        },
       }}
       render={(r) =>
         pipe(
@@ -102,7 +105,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
             ErrorBox,
             ({
               page,
-              deaths,
               actors: { data: actors },
               groups: { data: groups },
               keywords: { data: keywords },
@@ -373,7 +375,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         </Grid>
 
                         <WithQueries
-                          queries={{ events: Queries.Event.getList }}
+                          queries={{
+                            events: Queries.Event.getList,
+                            deaths: Queries.DeathEvent.getList,
+                          }}
                           params={{
                             events: {
                               pagination: { page: 1, perPage: 100 },
@@ -386,11 +391,24 @@ const EventsPage: React.FC<EventsPageProps> = ({
                                 keywords: keywordIds,
                               },
                             },
+                            deaths: {
+                              pagination: { page: 1, perPage: 100 },
+                              sort: { field: "date", order: "DESC" },
+                              filter: {
+                                minDate: startDate,
+                                maxDate: endDate,
+                              },
+                            },
                           }}
                           render={QR.fold(
                             LazyFullSizeLoader,
                             ErrorBox,
-                            ({ events }) => {
+                            ({ events, deaths }) => {
+                              const allEvents = pipe(
+                                [...events.data, ...deaths.data],
+                                A.sort(eventsSort)
+                              );
+
                               return (
                                 <Grid item md={12}>
                                   <Grid item md={6}>
@@ -475,7 +493,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                                   </TabPanel>
                                   <TabPanel value={tab} index={2}>
                                     <EventList
-                                      events={events.data as any}
+                                      events={allEvents}
                                       actors={actors}
                                       groups={groups}
                                       keywords={keywords}

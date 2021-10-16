@@ -3,6 +3,7 @@ import { Grid } from "@material-ui/core";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { DeathListItem } from "./DeathListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
 
 interface EventListItemProps {
@@ -18,6 +19,17 @@ export const EventListItem: React.FC<EventListItemProps> = ({
   onClick,
   ...props
 }) => {
+  if (Events.Death.Death.is(e)) {
+    return (
+      <DeathListItem
+        key={e.id}
+        item={e}
+        actors={props.actors}
+        keywords={props.keywords}
+        links={[]}
+      />
+    );
+  }
   if (Events.Uncategorized.Uncategorized.is(e)) {
     return (
       <UncategorizedListItem
