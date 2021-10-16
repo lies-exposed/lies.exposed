@@ -90,7 +90,6 @@ export type CurrentView =
   | VaccineDashboardView
   | IndexView;
 
-
 const blogRegex = /^\/blog\/$/;
 const articleRegex = /^\/blog\/([^/]+)$/;
 const docsRegex = /^\/docs\/$/;
@@ -229,17 +228,19 @@ export function locationToView(location: HistoryLocation): CurrentView {
 }
 
 export function viewToLocation(view: CurrentView): HistoryLocation {
+  const pathname =
+    process.env.NODE_ENV === "development" ? "/index.html" : "/web/index.html";
   switch (view.view) {
     case "blog":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: "/blog/",
         },
       };
     case "article":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: `/blog/${view.articlePath}`,
         },
@@ -258,35 +259,35 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
       };
     case "actors":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: "/dashboard/actors/",
         },
       };
     case "actor":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: `/dashboard/actors/${view.actorId}`,
         },
       };
     case "groups":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: "/dashboard/groups/",
         },
       };
     case "group":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: `/dashboard/groups/${view.groupId}`,
         },
       };
     case "events":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: `/dashboard/events/`,
           actors: view.actors as any,
@@ -300,14 +301,14 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
       };
     case "event":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: `/dashboard/events/${view.eventId}`,
         },
       };
     case "keywords":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: `/keywords/`,
         },
@@ -322,14 +323,14 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
 
     case "vaccines-dashboard":
       return {
-        pathname: "index.html",
+        pathname,
         search: {
           path: `/dashboard/vaccines/`,
           adrTab: view.adrTab?.toString(),
         },
       };
     case "index":
-      return { pathname: "/index.html", search: {} };
+      return { pathname, search: {} };
   }
 }
 
