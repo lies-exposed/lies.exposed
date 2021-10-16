@@ -1,17 +1,18 @@
 import { Grid } from "@material-ui/core";
 import * as React from "react";
 import { Footer } from "./Footer";
-import Header from "./Header";
+import Header, { HeaderProps } from "./Header";
 
 interface LayoutProps {
   style?: React.CSSProperties;
+  header: HeaderProps;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, style }) => {
+export const Layout: React.FC<LayoutProps> = ({ style, header, children }) => {
   return (
     <Grid container alignItems="center" alignContent="center">
       <Grid item direction="column" alignItems="center">
-        <Header />
+        <Header {...header} />
         {children}
       </Grid>
       <Footer />

@@ -14,7 +14,6 @@ import {
 import Typography from "@material-ui/core/Typography";
 import LinkIcon from "@material-ui/icons/LinkOutlined";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { navigate } from "@reach/router";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -30,6 +29,9 @@ interface UncategorizedListItemProps {
   groups: Group.Group[];
   links: string[];
   onClick?: (e: Events.Uncategorized.Uncategorized) => void;
+  onActorClick?: (e: Actor.Actor) => void;
+  onGroupClick?: (e: Group.Group) => void;
+  onKeywordClick?: (e: Keyword.Keyword) => void;
 }
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
@@ -39,6 +41,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   groups,
   links,
   onClick,
+  onActorClick,
+  onGroupClick,
+  onKeywordClick,
 }) => {
   return (
     <Card
@@ -108,10 +113,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                   ...t,
                   selected: true,
                 }))}
-                onItemClick={async (t) => {
-                  // await navigate(`/topics/${t.id}`)
-                  return undefined;
-                }}
+                onItemClick={(t) => onKeywordClick?.(t)}
               />
             </Grid>
             <Grid item sm={6}>
@@ -127,9 +129,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                         ...g,
                         selected: false,
                       }))}
-                      onGroupClick={async (group) => {
-                        await navigate(`/groups/${group.id}`);
-                      }}
+                      onGroupClick={(group) => onGroupClick?.(group)}
                     />
                   )
                 )
@@ -152,9 +152,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                         ...a,
                         selected: false,
                       }))}
-                      onActorClick={async (actor) => {
-                        await navigate(`/actors/${actor.id}`);
-                      }}
+                      onActorClick={(actor) => onActorClick?.(actor)}
                     />
                   )
                 )

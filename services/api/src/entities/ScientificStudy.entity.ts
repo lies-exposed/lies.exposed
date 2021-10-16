@@ -25,10 +25,10 @@ export class ScientificStudyEntity {
   publishDate: Date;
 
   @Column({ type: "varchar", nullable: true })
-  abstract: string;
+  abstract: string | null;
 
   @Column({ type: "varchar", nullable: true })
-  results: string;
+  results: string | null;
 
   @Column({ type: "varchar", nullable: false })
   conclusion: string;

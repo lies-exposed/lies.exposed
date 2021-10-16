@@ -8,7 +8,13 @@ import { MainContent } from "./MainContent";
 export const ValidationErrorsLayout = (errs: t.Errors): JSX.Element => {
   // eslint-disable-next-line no-console
   return (
-    <Layout>
+    <Layout
+      header={{
+        onTitleClick: () => undefined,
+        onMenuItemClick: () => undefined,
+        menu: [],
+      }}
+    >
       <MainContent>
         {PathReporter.report(E.left(errs)).map((c, i) => (
           <div key={i}>{c}</div>

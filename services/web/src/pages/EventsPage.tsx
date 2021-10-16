@@ -431,6 +431,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
                                         view: "events",
                                         groups: groupIds,
                                         actors: actorIds,
+                                        groupsMembers: groupsMembersIds,
+                                        keywords: keywordIds,
                                         tab,
                                       })()
                                     }
@@ -468,6 +470,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                                         actors: O.none,
                                         groups: O.none,
                                       }}
+                                      onMapClick={() => {}}
                                     />
                                   </TabPanel>
                                   <TabPanel value={tab} index={2}>

@@ -232,7 +232,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => (
       <DateInput source="date" />
       <TextInput source="name" />
       <GroupKindInput source="kind" />
-      <ReferenceArrayInput source="members" reference="members">
+      <ReferenceArrayInput source="members" reference="groups-members">
         <SelectArrayInput source="id" optionText="fullName" />
       </ReferenceArrayInput>
       <ImageInput source="avatar">

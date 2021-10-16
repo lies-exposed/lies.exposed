@@ -1,6 +1,4 @@
-import { Area } from "@econnessione/shared/io/http";
 import { Typography } from "@material-ui/core";
-import { navigate } from "@reach/router";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -12,16 +10,16 @@ import { Queries } from "../providers/DataProvider";
 import { geoJSONFormat } from "../utils/map.utils";
 import { ErrorBox } from "./Common/ErrorBox";
 import { Loader } from "./Common/Loader";
-import Map from "./Map";
+import Map, { MapProps } from "./Map";
 
-interface AreasMapProps {
+interface AreasMapProps extends Pick<MapProps<any>, "onMapClick"> {
   center?: [number, number];
   zoom?: number;
 }
 
 class AreasMap extends React.PureComponent<AreasMapProps> {
   render(): JSX.Element {
-    const { center = [9.18951, 45.46427], zoom = 12 } = this.props;
+    const { center = [9.18951, 45.46427], zoom = 12, onMapClick } = this.props;
     return (
       <WithQueries
         queries={{ areas: Queries.Area.getList }}
@@ -69,14 +67,7 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
                         center={center}
                         zoom={zoom}
                         onMapClick={async (features) => {
-                          if (features.length > 0) {
-                            const area =
-                              features[0].getProperties() as Area.Area;
-                            // await navigate(`/areas/${area.id}`)
-                            if (area) {
-                              await navigate(`/areas/${area.id}`);
-                            }
-                          }
+                          onMapClick(features);
                         }}
                         interactions={{
                           doubleClickZoom: true,

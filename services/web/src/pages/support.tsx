@@ -3,7 +3,13 @@ import SEO from "@econnessione/ui/components/SEO";
 import * as React from "react";
 
 const SupportPage: React.FunctionComponent = () => (
-  <Layout>
+  <Layout
+    header={{
+      menu: [],
+      onTitleClick: () => undefined,
+      onMenuItemClick: () => undefined,
+    }}
+  >
     <SEO title="Home" />
     <div>
       <div>
