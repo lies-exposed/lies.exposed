@@ -18,7 +18,6 @@ import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
-import { GetLocalSpaceClient } from "@providers/space/LocalSpaceClient";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
@@ -28,6 +27,7 @@ import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
+import { MakeImageRoutes } from "@routes/images/images.routes";
 import { MakeKeywordRoutes } from "@routes/keywords/keywords.routes";
 import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakePageRoutes } from "@routes/pages/pages.route";
@@ -59,11 +59,15 @@ export const makeContext = (
         s3:
           env.NODE_ENV === "development" || env.NODE_ENV === "test"
             ? TE.right(
-                GetLocalSpaceClient({
-                  client: axios.create({
-                    baseURL: `http://${env.DEV_DATA_HOST}`,
-                  }),
-                  logger: serverLogger,
+                S3Client.GetS3Client({
+                  endpoint: new AWS.Endpoint(env.DEV_DATA_HOST),
+                  credentials: {
+                    accessKeyId: env.SPACE_ACCESS_KEY_ID,
+                    secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
+                  },
+                  sslEnabled: false,
+                  s3ForcePathStyle: true,
+                  signatureVersion: "v4",
                 })
               )
             : TE.right(
@@ -149,6 +153,8 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // articles
   MakeArticlesRoutes(router, ctx);
+
+  MakeImageRoutes(router, ctx);
 
   // events
   MakeEventRoutes(router, ctx);

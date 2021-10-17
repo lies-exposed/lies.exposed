@@ -6,6 +6,8 @@ import { RouteContext } from "../src/routes/route.types";
 import { makeContext, makeApp } from "../src/server";
 import * as fc from "fast-check";
 import { TagArb } from "@econnessione/shared/tests/arbitrary/utils.arbitrary";
+import { MakeSpaceClient } from "@providers/space/SpaceClient";
+import { awsMock } from "./mocks/aws.mock";
 
 export interface AppTest {
   ctx: RouteContext;
@@ -17,6 +19,9 @@ export const initAppTest = async (): Promise<AppTest> => {
     makeContext(process.env),
     TE.map((ctx) => ({
       ...ctx,
+      s3: MakeSpaceClient({
+        client: awsMock as any,
+      }),
       urlMetadata: {
         fetchMetadata: (url: string) =>
           TE.right(

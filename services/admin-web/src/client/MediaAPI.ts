@@ -40,7 +40,7 @@ const getSignedUrl =
     );
   };
 
-const uploadFile =
+export const uploadFile =
   (client: http.APIRESTClient) =>
   (
     resource: string,

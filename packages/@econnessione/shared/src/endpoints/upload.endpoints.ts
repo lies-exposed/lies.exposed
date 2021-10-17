@@ -10,7 +10,7 @@ export const GetSignedURL = Endpoint({
         t.literal("actors"),
         t.literal("articles"),
         t.literal("groups"),
-        t.literal("events"),
+        t.literal("images"),
         t.literal("projects"),
         t.literal("areas"),
       ]),

@@ -5,6 +5,7 @@ import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { Box } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
+import { sequenceT } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -47,7 +48,7 @@ import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
+import { uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "events";
 
@@ -125,7 +126,6 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  console.log(id, data);
   const newRawImages = data.images.filter(
     (i: any) => i.location?.rawFile !== undefined
   );
@@ -133,12 +133,11 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
   const newLinkedImages = data.images.filter(t.string.is);
 
   const oldImages = data.images.filter((i: any) => i.id !== undefined);
-  console.log({ newRawImages, newLinkedImages, oldImages });
   const imagesTask = pipe(
-    uploadImages(dataProvider)(
-      "events",
-      id,
-      newRawImages.map((i: any) => i.location.rawFile)
+    A.sequence(TE.ApplicativePar)(
+      newRawImages.map((r: any) =>
+        uploadFile(dataProvider)("images", uuid(), r.location.rawFile)
+      )
     ),
     TE.map((urls) =>
       pipe(
@@ -290,7 +289,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
                           {...rest}
                         />
                       ) : (
-                        <ImageInput source="location">
+                        <ImageInput source={getSrc("location")}>
                           <ImageField src="src" />
                         </ImageInput>
                       )}
