@@ -1,5 +1,6 @@
 import { eqByUUID } from "@econnessione/shared/helpers/event";
-import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
+import { Actor, Group, Keyword } from "@econnessione/shared/io/http";
+import { AutocompleteKeywordInput } from "@econnessione/ui/components/AutocompleteKeywordInput";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
@@ -22,36 +23,21 @@ import EventList from "@econnessione/ui/components/lists/EventList/EventList";
 import GroupList, {
   GroupListItem,
 } from "@econnessione/ui/components/lists/GroupList";
-import KeywordList, {
-  KeywordListItem,
-} from "@econnessione/ui/components/lists/KeywordList";
 import {
   pageContentByPath,
   Queries,
 } from "@econnessione/ui/providers/DataProvider";
 import { theme } from "@econnessione/ui/theme/index";
-import { Uncategorized } from "@io/http/Events/Uncategorized";
 import { Box, Chip, Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { formatISO, subYears } from "date-fns";
 import * as A from "fp-ts/lib/Array";
-import * as D from "fp-ts/lib/Date";
 import * as O from "fp-ts/lib/Option";
-import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import * as Helmet from "react-helmet";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
-
-const eventsSort = pipe(
-  Ord.contramap((e: Events.Event): Date => {
-    if (e.type === "Death") {
-      return e.date;
-    }
-    return e.startDate;
-  })
-)(D.Ord);
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
   representation: "date",
@@ -149,7 +135,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
                       (a) => !eqByUUID.equals(a, actor)
                     )
                   : selectedActors.concat(actor);
-                // setSelectedActors(newSelectedActorIds);
 
                 void doUpdateCurrentView({
                   view: "events",
@@ -168,7 +153,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
                       (_) => !eqByUUID.equals(_, g)
                     )
                   : selectedGroups.concat(g);
-                // setSelectedGroups(newSelectedGroupIds);
 
                 void doUpdateCurrentView({
                   view: "events",
@@ -243,41 +227,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         </Grid>
                       </Grid>
                       <Grid item style={{ margin: 10 }}>
-                        <SearchableInput<Keyword.Keyword>
-                          placeholder="Keyword..."
-                          label="Keywords"
-                          items={keywords.filter(
-                            (t) => !keywordIds.includes(t.id)
-                          )}
-                          getValue={(t) => t.tag}
+                        <AutocompleteKeywordInput
+                          items={keywords}
                           selectedItems={selectedKeywords}
-                          disablePortal={true}
-                          multiple={true}
-                          renderTags={(items) => (
-                            <KeywordList
-                              keywords={items.map((i) => ({
-                                ...i,
-                                selected: true,
-                              }))}
-                              onItemClick={(k) => onKeywordClick(k)}
-                            />
-                          )}
-                          renderOption={(item, state) => (
-                            <KeywordListItem
-                              key={item.id}
-                              item={{
-                                ...item,
-                                selected: selectedKeywords.some((t) =>
-                                  eqByUUID.equals(t, item)
-                                ),
-                              }}
-                              onClick={(k) => onKeywordClick(k)}
-                            />
-                          )}
-                          onSelectItem={(item, items) => {
-                            onKeywordClick(item);
-                          }}
-                          onUnselectItem={(item) => onKeywordClick(item)}
+                          onItemClick={onKeywordClick}
                         />
                       </Grid>
                       <Grid item style={{ margin: 10 }}>
@@ -374,142 +327,104 @@ const EventsPage: React.FC<EventsPageProps> = ({
                           <PageContent {...page} />
                         </Grid>
 
-                        <WithQueries
-                          queries={{
-                            events: Queries.Event.getList,
-                            deaths: Queries.DeathEvent.getList,
-                          }}
-                          params={{
-                            events: {
-                              pagination: { page: 1, perPage: 100 },
-                              sort: { field: "startDate", order: "DESC" },
-                              filter: {
-                                startDate,
-                                endDate,
+                        <Grid item md={12}>
+                          <Grid item md={6}>
+                            <Box>
+                              <Typography variant="caption">
+                                Nº Eventi:{" "}
+                                <Typography
+                                  display="inline"
+                                  variant="subtitle1"
+                                >
+                                  {0}
+                                </Typography>{" "}
+                                dal {startDate} al {endDate}{" "}
+                              </Typography>
+                            </Box>
+                          </Grid>
+                          <Grid container>
+                            <Box margin={1}>
+                              <Chip label={`Uncategorized (10)`} />
+                            </Box>
+                            <Box margin={1}>
+                              <Chip
+                                label={`Deaths (10)`}
+                                style={{
+                                  backgroundColor: theme.palette.common.black,
+                                  color: theme.palette.common.white,
+                                }}
+                              />
+                            </Box>
+                          </Grid>
+                          <Tabs
+                            value={tab}
+                            onChange={(e, tab) =>
+                              doUpdateCurrentView({
+                                view: "events",
                                 groups: groupIds,
                                 actors: actorIds,
+                                groupsMembers: groupsMembersIds,
                                 keywords: keywordIds,
-                              },
-                            },
-                            deaths: {
-                              pagination: { page: 1, perPage: 100 },
-                              sort: { field: "date", order: "DESC" },
-                              filter: {
+                                tab,
+                              })()
+                            }
+                          >
+                            <Tab label="network" {...a11yProps(0)} />
+                            <Tab label="map" {...a11yProps(1)} />
+                            <Tab label="list" {...a11yProps(2)} />
+                          </Tabs>
+
+                          <TabPanel value={tab} index={0}>
+                            <EventsNetworkGraph
+                              events={[]}
+                              actors={selectedActors}
+                              groups={selectedGroups}
+                              keywords={selectedKeywords}
+                              groupBy={"actor"}
+                              selectedActorIds={actorIds}
+                              selectedGroupIds={groupIds}
+                              selectedKeywordIds={keywordIds}
+                              scale={"all"}
+                              scalePoint={O.none}
+                              onEventClick={(e) => {
+                                void doUpdateCurrentView({
+                                  view: "event",
+                                  eventId: e.id,
+                                })();
+                              }}
+                            />
+                          </TabPanel>
+                          <TabPanel value={tab} index={1}>
+                            <EventsMap
+                              filter={{
+                                actors: O.none,
+                                groups: O.none,
+                              }}
+                              onMapClick={() => {}}
+                            />
+                          </TabPanel>
+                          <TabPanel value={tab} index={2}>
+                            <EventList
+                              eventFilters={{
+                                startDate,
+                                endDate,
+                              }}
+                              deathFilters={{
                                 minDate: startDate,
                                 maxDate: endDate,
-                              },
-                            },
-                          }}
-                          render={QR.fold(
-                            LazyFullSizeLoader,
-                            ErrorBox,
-                            ({ events, deaths }) => {
-                              const allEvents = pipe(
-                                [...events.data, ...deaths.data],
-                                A.sort(eventsSort)
-                              );
-
-                              return (
-                                <Grid item md={12}>
-                                  <Grid item md={6}>
-                                    <Box>
-                                      <Typography variant="caption">
-                                        Nº Eventi:{" "}
-                                        <Typography
-                                          display="inline"
-                                          variant="subtitle1"
-                                        >
-                                          {events.total}
-                                        </Typography>{" "}
-                                        dal {startDate} al {endDate}{" "}
-                                      </Typography>
-                                    </Box>
-                                  </Grid>
-                                  <Grid container>
-                                    <Box margin={1}>
-                                      <Chip
-                                        label={`Uncategorized (${events.total})`}
-                                      />
-                                    </Box>
-                                    <Box margin={1}>
-                                      <Chip
-                                        label={`Deaths (${deaths.total})`}
-                                        style={{
-                                          backgroundColor:
-                                            theme.palette.common.black,
-                                          color: theme.palette.common.white,
-                                        }}
-                                      />
-                                    </Box>
-                                  </Grid>
-                                  <Tabs
-                                    value={tab}
-                                    onChange={(e, tab) =>
-                                      doUpdateCurrentView({
-                                        view: "events",
-                                        groups: groupIds,
-                                        actors: actorIds,
-                                        groupsMembers: groupsMembersIds,
-                                        keywords: keywordIds,
-                                        tab,
-                                      })()
-                                    }
-                                  >
-                                    <Tab label="network" {...a11yProps(0)} />
-                                    <Tab label="map" {...a11yProps(1)} />
-                                    <Tab label="list" {...a11yProps(2)} />
-                                  </Tabs>
-
-                                  <TabPanel value={tab} index={0}>
-                                    <EventsNetworkGraph
-                                      events={events.data.filter(
-                                        Uncategorized.is
-                                      )}
-                                      actors={selectedActors}
-                                      groups={selectedGroups}
-                                      keywords={selectedKeywords}
-                                      groupBy={"actor"}
-                                      selectedActorIds={actorIds}
-                                      selectedGroupIds={groupIds}
-                                      selectedKeywordIds={keywordIds}
-                                      scale={"all"}
-                                      scalePoint={O.none}
-                                      onEventClick={(e) => {
-                                        void doUpdateCurrentView({
-                                          view: "event",
-                                          eventId: e.id,
-                                        })();
-                                      }}
-                                    />
-                                  </TabPanel>
-                                  <TabPanel value={tab} index={1}>
-                                    <EventsMap
-                                      filter={{
-                                        actors: O.none,
-                                        groups: O.none,
-                                      }}
-                                      onMapClick={() => {}}
-                                    />
-                                  </TabPanel>
-                                  <TabPanel value={tab} index={2}>
-                                    <EventList
-                                      events={allEvents}
-                                      actors={actors}
-                                      groups={groups}
-                                      keywords={keywords}
-                                      onClick={(e) => {
-                                        void doUpdateCurrentView({
-                                          view: "event",
-                                          eventId: e.id,
-                                        })();
-                                      }}
-                                    />
-                                  </TabPanel>
-                                </Grid>
-                              );
-                            }
-                          )}
-                        />
+                              }}
+                              actors={actors}
+                              groups={groups}
+                              keywords={keywords}
+                              onClick={(e) => {
+                                void doUpdateCurrentView({
+                                  view: "event",
+                                  eventId: e.id,
+                                })();
+                              }}
+                            />
+                          </TabPanel>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </MainContent>

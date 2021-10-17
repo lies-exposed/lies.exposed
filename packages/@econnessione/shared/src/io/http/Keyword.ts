@@ -5,6 +5,7 @@ import { UUID, Tag, BaseFrontmatter } from "./Common";
 export const GetListKeywordQueryFilter = t.partial(
   {
     events: optionFromNullable(t.array(t.string)),
+    search: optionFromNullable(t.string),
   },
   "GetListKeywordQueryFilter"
 );

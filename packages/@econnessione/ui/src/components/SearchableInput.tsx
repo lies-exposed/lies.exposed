@@ -105,6 +105,7 @@ interface SearchableInputProps<I extends SearchableItem>
   items: I[];
   selectedItems: I[];
   getValue: (v: I) => string;
+  onTextChange?: (text: string) => void;
   onSelectItem: (item: I, selectedItems: I[]) => void;
   onUnselectItem: (item: I, selectedItems: I[]) => void;
 }
@@ -115,46 +116,11 @@ const SearchableInput = <I extends SearchableItem>({
   items,
   selectedItems,
   getValue,
+  onTextChange,
   onSelectItem,
   onUnselectItem,
   ...props
 }: SearchableInputProps<I>): JSX.Element => {
-  // const setItemAndClearValue = (item: I): void => {
-  //   setValue(null);
-  //   props.onSelectItem(item, [...props.selectedItems, item]);
-  // };
-
-  // const unsetItemAndClearValue = (item: I): void => {
-  //   setValue("");
-  //   props.onUnselectItem(item, [...props.selectedItems, item]);
-  // };
-
-  // const handleKeyDown = (
-  //   event: React.KeyboardEvent<HTMLInputElement>
-  // ): void => {
-  //   switch (event.keyCode) {
-  //     // Enter
-  //     case 13: {
-  //       if (value === undefined || value === "") return;
-  //       pipe(
-  //         props.items,
-  //         A.findFirst((a) =>
-  //           props.getValue(a).toLowerCase().includes(value.toLowerCase())
-  //         ),
-  //         O.map((i) => setItemAndClearValue(i))
-  //       );
-  //       return;
-  //     }
-  //     // Backspace
-  //     case 8: {
-  //       if (value === undefined || props.selectedItems.length === 0) return;
-  //       unsetItemAndClearValue(
-  //         props.selectedItems[props.selectedItems.length - 1]
-  //       );
-  //     }
-  //   }
-  // };
-
   const placehoder = placeholder ?? "Search...";
 
   return (
@@ -182,6 +148,7 @@ const SearchableInput = <I extends SearchableItem>({
           label={label}
           margin="normal"
           variant="outlined"
+          onChange={(e) => onTextChange?.(e.target.value)}
         />
       )}
     />

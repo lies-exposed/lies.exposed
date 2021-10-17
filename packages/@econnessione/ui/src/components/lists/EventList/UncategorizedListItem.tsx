@@ -81,6 +81,15 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 <LinkIcon fontSize="small" />{" "}
                 <Typography variant="caption">({links.length})</Typography>
               </Grid>
+              <Grid item md={12}>
+                <KeywordList
+                  keywords={keywords.map((t) => ({
+                    ...t,
+                    selected: true,
+                  }))}
+                  onItemClick={(t) => onKeywordClick?.(t)}
+                />
+              </Grid>
             </Grid>
           </Grid>
         }
@@ -106,15 +115,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             <Grid item>{item.body.substr(0, 100).concat("...")}</Grid>
           </Grid>
           <Grid container style={{ width: "100%" }} alignItems="flex-start">
-            <Grid item md={4} sm={4}>
-              <KeywordList
-                keywords={keywords.map((t) => ({
-                  ...t,
-                  selected: true,
-                }))}
-                onItemClick={(t) => onKeywordClick?.(t)}
-              />
-            </Grid>
             <Grid item md={4} sm={4}>
               {pipe(
                 groups,

@@ -15,7 +15,9 @@ interface KeywordListProps {
 export const KeywordListItem: React.FC<ListItemProps<KeywordListTopic>> = ({
   item: t,
   onClick,
-}) => <Chip key={t.tag} label={t.tag} onClick={() => onClick?.(t)} />;
+}) => (
+  <Chip key={t.tag} size="small" label={t.tag} onClick={() => onClick?.(t)} />
+);
 
 const KeywordList: React.FC<KeywordListProps> = ({ keywords, onItemClick }) => {
   return (
