@@ -1,32 +1,20 @@
 import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { Link } from "@econnessione/shared/io/http/Link";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Chip,
-  Grid,
-  List,
-  ListItem,
-  Typography,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { ActorsBox } from "./ActorsBox";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { Slider } from "./Common/Slider/Slider";
+import { GroupsBox } from "./GroupsBox";
+import { KeywordsBox } from "./KeywordsBox";
+import { LinksBox } from "./LinksBox";
 import { MainContent } from "./MainContent";
 import SEO from "./SEO";
-import { ActorList } from "./lists/ActorList";
-import GroupList from "./lists/GroupList";
 
 export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  links: Link[];
-  keywords: Keyword.Keyword[];
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (a: Group.Group) => void;
   onLinkClick: (a: Link) => void;
@@ -35,10 +23,6 @@ export interface EventPageContentProps {
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   event,
-  actors,
-  groups,
-  links,
-  keywords,
   onActorClick,
   onGroupClick,
   onKeywordClick,
@@ -46,122 +30,45 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 }) => {
   return (
     <MainContent>
-      <Grid container>
-        <Grid item md={12}>
+      <Grid container spacing={2}>
+        <Grid item md={12} sm={12} xs={12}>
           <SEO title={event.title} />
-          <Typography variant="h1">{event.title}</Typography>
-
-          {pipe(
-            event.images,
-            O.fromPredicate((items) => items.length > 0),
-            O.map((images) => (
-              <Slider
-                key="home-slider"
-                slides={images.map((i) => ({
-                  authorName: "",
-                  info: i.description,
-                  imageURL: i.location,
-                }))}
-                arrows={true}
-                // adaptiveHeight={true}
-                dots={true}
-              />
-            )),
-            O.toNullable
-          )}
-        </Grid>
-
-        <Grid item md={6}>
-          <Typography variant="h4">Groups</Typography>
-          {pipe(
-            event.groups,
-            O.fromPredicate((items) => items.length > 0),
-            O.map((ids) => groups.filter((a) => ids.includes(a.id))),
-            O.fold(
-              () => null,
-              (groups) => (
-                <GroupList
-                  groups={groups.map((a) => ({ ...a, selected: true }))}
-                  onGroupClick={onGroupClick}
+          <Typography variant="h2">{event.title}</Typography>
+          <Grid item md={12}>
+            <KeywordsBox ids={event.keywords} />
+          </Grid>
+          <Grid item md={12} style={{ marginBottom: 20 }}>
+            {pipe(
+              event.images,
+              O.fromPredicate((items) => items.length > 0),
+              O.map((images) => (
+                <Slider
+                  key="home-slider"
+                  slides={images.map((i) => ({
+                    authorName: "",
+                    info: i.description,
+                    imageURL: i.location,
+                  }))}
+                  arrows={true}
+                  dots={true}
                 />
-              )
-            )
-          )}
+              )),
+              O.toNullable
+            )}
+          </Grid>
         </Grid>
-        <Grid item md={6}>
-          <Typography variant="h4">Actors</Typography>
-          {pipe(
-            event.actors,
-            O.fromPredicate((items) => items.length > 0),
-            O.map((actorIds) => actors.filter((a) => actorIds.includes(a.id))),
-            O.fold(
-              () => null,
-              (actors) => (
-                <ActorList
-                  actors={actors.map((a) => ({ ...a, selected: true }))}
-                  onActorClick={onActorClick}
-                />
-              )
-            )
-          )}
+
+        <Grid item md={6} sm={6} xs={6}>
+          <GroupsBox ids={event.groups} />
         </Grid>
-        <Grid item md={6}>
-          <Typography variant="h4">Keywords</Typography>
-          {pipe(
-            event.keywords,
-            O.fromPredicate((items) => items.length > 0),
-            O.map((keywordIds) =>
-              keywords.filter((a) => keywordIds.includes(a.id))
-            ),
-            O.fold(
-              () => null,
-              (keywords) =>
-                keywords.map((a) => (
-                  <Chip
-                    key={a.id}
-                    label={a.tag}
-                    variant="outlined"
-                    onClick={() => onKeywordClick(a)}
-                  />
-                ))
-            )
-          )}
+        <Grid item md={6} sm={6} xs={6}>
+          <ActorsBox ids={event.actors} />
         </Grid>
-        <Grid item md={12}>
+        <Grid item md={12} sm={12} xs={12}>
           <MarkdownRenderer>{event.body}</MarkdownRenderer>
         </Grid>
-        <Grid item md={12}>
-          {pipe(
-            links,
-            O.fromPredicate((arr) => arr.length > 0),
-            O.map((links) => (
-              // eslint-disable-next-line react/jsx-key
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel2a-content"
-                  id={"link-accordion"}
-                >
-                  <Typography variant="h6">Links</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <List>
-                    {links.map((l, i) => (
-                      <ListItem key={i}>
-                        <p>
-                          <a href={l.url}>
-                            {l.description} -{" "}
-                            {l.url.substr(0, 30).concat("...")}
-                          </a>
-                        </p>
-                      </ListItem>
-                    ))}
-                  </List>
-                </AccordionDetails>
-              </Accordion>
-            )),
-            O.toNullable
-          )}
+        <Grid item md={12} sm={12} xs={12}>
+          <LinksBox ids={event.links} />
         </Grid>
       </Grid>
     </MainContent>

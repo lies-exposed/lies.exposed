@@ -43,7 +43,7 @@ services:
       DEBUG: "@eco*"
       DB_HOST: db
       DB_PORT: 5432
-      DEV_DATA_HOST: http://localhost:9000
+      DEV_DATA_HOST: http://space:9000
     links:
       - db
       - space
@@ -81,6 +81,7 @@ services:
     tty: false
     links:
       - api
+      - space
 
   admin-web:
     container_name: econnessione-admin-web
@@ -102,6 +103,7 @@ services:
     tty: false
     links:
       - api
+      - space
 
   storybook:
     container_name: econnessione-storybook

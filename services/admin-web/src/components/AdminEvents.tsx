@@ -179,7 +179,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
     actions={
       <>
         <WebPreviewButton
-          resource="events"
+          resource="/dashboard/events"
           source="id"
           record={{ id: props.id } as any}
         />
@@ -370,11 +370,14 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
               http.Events.Uncategorized.Uncategorized.decode(formData),
               E.fold(ValidationErrorsLayout, (p) => (
                 <EventPageContent
-                  event={p}
-                  actors={[]}
-                  groups={[]}
-                  links={[]}
-                  keywords={[]}
+                  event={{
+                    ...p,
+                    actors: [],
+                    groups: [],
+                    keywords: [],
+                    links: [],
+                    groupsMembers: [],
+                  }}
                   onActorClick={() => undefined}
                   onGroupClick={() => undefined}
                   onKeywordClick={() => undefined}

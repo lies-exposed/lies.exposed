@@ -64,23 +64,23 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         title={<Typography variant="h6">{item.title}</Typography>}
         subheader={
           <Grid container>
-            <Grid item md={3}>
-              <Typography variant="body2">
-                {formatDate(item.startDate)}
-              </Typography>
-            </Grid>
-            <Grid item md={3}>
-              {pipe(
-                O.fromNullable(item.location),
-                O.fold(
-                  () => null,
-                  () => <FontAwesomeIcon icon={faMapMarker} />
-                )
-              )}
-            </Grid>
-            <Grid item md={3} alignItems="center" justifyContent="center">
-              <LinkIcon fontSize="small" />{" "}
-              <Typography variant="caption">({links.length})</Typography>
+            <Grid container alignItems="center">
+              <Grid item md={6} sm={6}>
+                <Typography variant="caption">
+                  {formatDate(item.startDate)}
+                </Typography>
+              </Grid>
+              <Grid item md={5} sm={6} style={{ textAlign: "right" }}>
+                {pipe(
+                  O.fromNullable(item.location),
+                  O.fold(
+                    () => null,
+                    () => <FontAwesomeIcon icon={faMapMarker} />
+                  )
+                )}
+                <LinkIcon fontSize="small" />{" "}
+                <Typography variant="caption">({links.length})</Typography>
+              </Grid>
             </Grid>
           </Grid>
         }
@@ -102,12 +102,11 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           O.toNullable
         )}
         <CardContent>
-          <Grid item sm={6}>
-            <Grid item></Grid>
+          <Grid item md={8} sm={8}>
+            <Grid item>{item.body.substr(0, 100).concat("...")}</Grid>
           </Grid>
           <Grid container style={{ width: "100%" }} alignItems="flex-start">
-            <Grid item md={4}>
-              <Typography variant="body2">Topics</Typography>
+            <Grid item md={4} sm={4}>
               <KeywordList
                 keywords={keywords.map((t) => ({
                   ...t,
@@ -116,8 +115,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 onItemClick={(t) => onKeywordClick?.(t)}
               />
             </Grid>
-            <Grid item sm={6}>
-              {/* <Typography variant="body2">Gruppi</Typography> */}
+            <Grid item md={4} sm={4}>
               {pipe(
                 groups,
                 O.fromPredicate(A.isNonEmpty),
@@ -135,7 +133,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 )
               )}
             </Grid>
-            <Grid item sm={6} justifyContent="flex-end">
+            <Grid item md={4} sm={4} justifyContent="flex-end">
               {/* <Typography variant="body2">Actors</Typography> */}
               {pipe(
                 actors,
