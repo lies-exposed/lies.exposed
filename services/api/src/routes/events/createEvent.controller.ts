@@ -25,15 +25,18 @@ export const MakeCreateEventRoute: Route = (r, { db, logger, urlMetadata }) => {
           images: pipe(
             body.images,
             O.map(
-              A.map((image) => ({
-                ...image,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                events: [],
-                id: uuid(),
-              }))
+              A.map((image) =>
+                UUID.is(image)
+                  ? {
+                      id: image.toString(),
+                    }
+                  : {
+                      ...image,
+                      id: uuid(),
+                    }
+              )
             ),
-            O.getOrElse((): ImageEntity[] => [])
+            O.getOrElse((): Array<Partial<ImageEntity>> => [])
           ),
           endDate: O.toUndefined(body.endDate),
           keywords: body.keywords.map((k) =>

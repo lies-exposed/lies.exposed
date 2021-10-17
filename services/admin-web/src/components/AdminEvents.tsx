@@ -9,6 +9,7 @@ import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as t from "io-ts";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -34,7 +35,6 @@ import {
   Record,
   ReferenceArrayField,
   ReferenceArrayInput,
-  ReferenceField,
   required,
   SelectArrayInput,
   SimpleFormIterator,
@@ -125,23 +125,30 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  const newImages = data.images.filter((i: any) => i.id === undefined);
-  const oldImages = data.images.filter((i: any) => i.id !== undefined);
+  console.log(id, data);
+  const newRawImages = data.images.filter(
+    (i: any) => i.location?.rawFile !== undefined
+  );
 
+  const newLinkedImages = data.images.filter(t.string.is);
+
+  const oldImages = data.images.filter((i: any) => i.id !== undefined);
+  console.log({ newRawImages, newLinkedImages, oldImages });
   const imagesTask = pipe(
     uploadImages(dataProvider)(
       "events",
       id,
-      newImages.map((i: any) => i.location.rawFile)
+      newRawImages.map((i: any) => i.location.rawFile)
     ),
     TE.map((urls) =>
       pipe(
         urls,
-        A.zip(newImages as any[]),
+        A.zip(newRawImages as any[]),
         A.map(([location, image]) => ({
           ...image,
           location,
         })),
+        A.concat(newLinkedImages),
         A.concat(oldImages)
       )
     )
@@ -179,8 +186,15 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         />
       </>
     }
-    transform={({ newLinks = [], ...r }) => {
+    transform={({ newLinks = [], newImages = [], ...r }) => {
       const links = (newLinks as any[]).reduce((acc, l) => {
+        if (Array.isArray(l.ids)) {
+          return acc.concat(l.ids);
+        }
+        return acc.concat(l);
+      }, []);
+
+      const images = (newImages as any[]).reduce((acc, l) => {
         if (Array.isArray(l.ids)) {
           return acc.concat(l.ids);
         }
@@ -190,7 +204,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       return transformEvent(r.id as any, {
         ...r,
         actors: r.actors.concat(r.newActors ?? []),
-        images: r.images.concat(r.newImages ?? []),
+        images: r.images.concat(images),
         links: r.links.concat(links),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
       });
@@ -260,10 +274,45 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Images">
         <ArrayInput source="newImages" defaultValue={[]}>
           <SimpleFormIterator>
-            <TextInput source="description" />
-            <ImageInput source="location">
-              <ImageField src="src" />
-            </ImageInput>
+            <BooleanInput source="addNew" />
+            <BooleanInput source="fromURL" />
+            <FormDataConsumer>
+              {({ formData, scopedFormData, getSource, ...rest }) => {
+                const getSrc = getSource ?? ((s: string) => s);
+
+                if (scopedFormData?.addNew) {
+                  return (
+                    <Box>
+                      {scopedFormData.fromURL ? (
+                        <TextInput
+                          source={getSrc("location")}
+                          type="url"
+                          {...rest}
+                        />
+                      ) : (
+                        <ImageInput source="location">
+                          <ImageField src="src" />
+                        </ImageInput>
+                      )}
+
+                      <TextInput source={getSrc("description")} {...rest} />
+                    </Box>
+                  );
+                }
+                return (
+                  <ReferenceArrayInput
+                    source={getSrc("ids")}
+                    reference="images"
+                    {...rest}
+                  >
+                    <AutocompleteArrayInput
+                      source="id"
+                      optionText="description"
+                    />
+                  </ReferenceArrayInput>
+                );
+              }}
+            </FormDataConsumer>
           </SimpleFormIterator>
         </ArrayInput>
 

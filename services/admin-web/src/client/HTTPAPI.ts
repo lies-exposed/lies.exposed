@@ -1,12 +1,6 @@
 import * as http from "@econnessione/ui/http";
-import * as E from "fp-ts/lib/Either";
-import * as T from "fp-ts/lib/Task";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
 import { AuthProvider } from "react-admin";
-import { editArea } from "./AreaAPI";
-import { uploadImages } from "./MediaAPI";
-import { createProject, editProject } from "./ProjectAPI";
+import { createProject } from "./ProjectAPI";
 
 const publicDataProvider = http.APIRESTClient({
   url: process.env.REACT_APP_API_URL,
@@ -53,69 +47,69 @@ export const apiProvider: http.APIRESTClient = {
 
     return dataProvider.create<any>(resource, params);
   },
-  update: (resource, params) => {
-    if (resource === "areas") {
-      return editArea(dataProvider)(resource, params);
-    }
-    if (resource === "projects") {
-      return editProject(dataProvider)(resource, params);
-    }
+  // update: (resource, params) => {
+  // if (resource === "areas") {
+  //   return editArea(dataProvider)(resource, params);
+  // }
+  // if (resource === "projects") {
+  //   return editProject(dataProvider)(resource, params);
+  // }
 
-    if (resource === "groups-members") {
-      return dataProvider.update(resource, {
-        ...params,
-        data: {
-          ...params.data,
-          group: params.data.group.id,
-          actor: params.data.actor.id,
-        },
-      });
-    }
-    if (resource === "events") {
-      const {
-        newImages = [],
-        images,
-        newAreas = [],
-        groupsMembers = [],
-        areas,
-        ...data
-      } = params.data;
+  // if (resource === "groups-members") {
+  //   return dataProvider.update(resource, {
+  //     ...params,
+  //     data: {
+  //       ...params.data,
+  //       group: params.data.group.id,
+  //       actor: params.data.actor.id,
+  //     },
+  //   });
+  // }
+  // if (resource === "events") {
+  //   const {
+  //     newImages = [],
+  //     images,
+  //     newAreas = [],
+  //     groupsMembers = [],
+  //     areas,
+  //     ...data
+  //   } = params.data;
 
-      return pipe(
-        uploadImages(dataProvider)(
-          resource,
-          params.id.toString(),
-          newImages
-            .filter((i: any) => i !== undefined)
-            .map((i: { location: { rawFile: File } }) => i.location.rawFile)
-        ),
-        TE.chain((result) => {
-          const updateParams = {
-            ...params,
-            data: {
-              ...data,
-              areas: newAreas.map((a: any) => ({
-                ...a,
-                geometry: JSON.parse(a.geometry),
-              })),
-              images: images.concat(
-                result.map((l) => ({
-                  location: l,
-                  description: "",
-                }))
-              ),
-              groupsMembers,
-            },
-          };
-          return TE.tryCatch(
-            () => dataProvider.update<any>(resource, updateParams),
-            E.toError
-          );
-        }),
-        TE.fold(T.task.of, (result) => T.of(result as any))
-      )();
-    }
+  //   return pipe(
+  //     uploadImages(dataProvider)(
+  //       resource,
+  //       params.id.toString(),
+  //       newImages
+  //         .filter((i: any) => i !== undefined)
+  //         .map((i: { location: { rawFile: File } }) => i.location.rawFile)
+  //     ),
+  //     TE.chain((result) => {
+  //       const updateParams = {
+  //         ...params,
+  //         data: {
+  //           ...data,
+  //           areas: newAreas.map((a: any) => ({
+  //             ...a,
+  //             geometry: JSON.parse(a.geometry),
+  //           })),
+  //           images: images.concat(
+  //             result.map((l) => ({
+  //               location: l,
+  //               description: "",
+  //             }))
+  //           ),
+  //           groupsMembers,
+  //         },
+  //       };
+  //       return TE.tryCatch(
+  //         () => dataProvider.update<any>(resource, updateParams),
+  //         E.toError
+  //       );
+  //     }),
+  //     TE.fold(T.task.of, (result) => T.of(result as any))
+  //   )();
+  // }
 
-    return dataProvider.update(resource, params);
-  },
+  // return dataProvider.update(resource, params);
+  // },
 };
