@@ -1,5 +1,4 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { formatISO } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
@@ -13,7 +12,7 @@ import { getORMOptions } from "@utils/listQueryToORMOptions";
 export const MakeGetListDeathEventRoute: Route = (r, { db, logger, env }) => {
   AddEndpoint(r)(
     Endpoints.DeathEvent.List,
-    ({ query: { victim, date, ...query } }) => {
+    ({ query: { victim, minDate, maxDate, ...query } }) => {
       logger.debug.log("Victim is %O", victim);
       const ormOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
       const selectSQLTask = pipe(
@@ -28,14 +27,22 @@ export const MakeGetListDeathEventRoute: Route = (r, { db, logger, env }) => {
             });
           }
 
-          if (O.isSome(date)) {
-            return q.andWhere("date(deaths.date) = :date", {
-              date: formatISO(date.value, { representation: "date" }),
-            });
+          if (O.isSome(minDate) && O.isSome(maxDate)) {
+            return q.andWhere(
+              "deaths.date > :startDate AND (deaths.date < :endDate)",
+              {
+                startDate: minDate.value,
+                endDate: maxDate.value,
+              }
+            );
           }
           return q;
         },
         (q) => q.skip(ormOptions.skip).take(ormOptions.take),
+        (q) => {
+          logger.debug.log("SQL %O", q.getQueryAndParameters());
+          return q;
+        },
         (q) => db.execQuery(() => q.getManyAndCount())
       );
 

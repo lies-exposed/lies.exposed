@@ -43,13 +43,13 @@ services:
       DEBUG: "@eco*"
       DB_HOST: db
       DB_PORT: 5432
-      DEV_DATA_HOST: data:3010
+      DEV_DATA_HOST: http://space:9000
     links:
       - db
-      - data
+      - space
     depends_on:
       - db
-      - data
+      - space
     ports:
       - "4010:4010"
     volumes:
@@ -81,6 +81,7 @@ services:
     tty: false
     links:
       - api
+      - space
 
   admin-web:
     container_name: econnessione-admin-web
@@ -102,20 +103,7 @@ services:
     tty: false
     links:
       - api
-
-  data:
-    container_name: econnessione-data
-    image: econnessione_base
-    env_file:
-      - .env.local
-    ports:
-      - "3010:3010"
-    volumes:
-      - ./services/data:/app/services/data
-      - ./packages/@econnessione:/app/packages/@econnessione:delegated
-    working_dir: /app/services/data
-    command: yarn develop
-    tty: false
+      - space
 
   storybook:
     container_name: econnessione-storybook
@@ -130,6 +118,23 @@ services:
     command: yarn start
     tty: false
 
+  space:
+    image: minio/minio
+    command: server --console-address ":9001" /data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: space-access-key-id
+      MINIO_ROOT_PASSWORD: space-access-key-secret-id
+    volumes:
+      - ./services/data/buckets:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
 volumes:
   db-data: {}
   db-test-data: {}
@@ -137,7 +142,7 @@ volumes:
   api-node_modules: {}
   web-node_modules: {}
   admin-web-node_modules: {}
-  api-space: {}
+  space-data:
 
 networks:
   default:

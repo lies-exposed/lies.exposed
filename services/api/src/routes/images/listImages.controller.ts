@@ -5,15 +5,15 @@ import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { toKeywordIO } from "./keyword.io";
-import { KeywordEntity } from "@entities/Keyword.entity";
+import { toImageIO } from "./image.io";
+import { ImageEntity } from "@entities/Image.entity";
 import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 
-export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeListImagesRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
-    Endpoints.Keyword.List,
-    ({ query: { events, search, ...query } }) => {
+    Endpoints.Image.List,
+    ({ query: { events, ids, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -23,12 +23,12 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
 
       const findTask = pipe(
         ctx.db.manager
-          .createQueryBuilder(KeywordEntity, "keyword")
-          .leftJoinAndSelect("keyword.events", "events"),
+          .createQueryBuilder(ImageEntity, "image")
+          .leftJoinAndSelect("image.events", "events"),
         (q) => {
-          if (O.isSome(search)) {
-            return q.where("keyword.tag LIKE :search", {
-              search: `%${search.value}%`,
+          if (O.isSome(ids)) {
+            return q.where("image.id IN (:...ids)", {
+              ids: ids.value,
             });
           }
           if (O.isSome(events)) {
@@ -51,7 +51,7 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(([data, total]) =>
           pipe(
             data,
-            A.traverse(E.either)(toKeywordIO),
+            A.traverse(E.either)(toImageIO),
             TE.fromEither,
             TE.map((results) => ({
               total,

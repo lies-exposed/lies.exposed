@@ -19,7 +19,11 @@ export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
       color="secondary"
       variant="contained"
       onClick={() => {
-        window.open(`http://localhost:4000/${resource}${id ? `/${id}` : ""}`);
+        window.open(
+          `http://localhost:4000/index.html?path=${resource}${
+            id ? `/${id}` : ""
+          }`
+        );
       }}
     >
       Go to {resource}/{id}

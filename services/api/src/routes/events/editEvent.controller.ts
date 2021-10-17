@@ -32,11 +32,15 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
         ),
         images: pipe(
           images,
-          O.map((imgs) =>
-            imgs.map((i) => ({
-              ...i,
-              id: uuid(),
-            }))
+          O.map(
+            A.map((i) =>
+              UUID.is(i)
+                ? { id: i }
+                : {
+                    ...i,
+                    id: uuid(),
+                  }
+            )
           )
         ),
       });

@@ -5,10 +5,12 @@ import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { Box } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
+import { sequenceT } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as t from "io-ts";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -34,7 +36,6 @@ import {
   Record,
   ReferenceArrayField,
   ReferenceArrayInput,
-  ReferenceField,
   required,
   SelectArrayInput,
   SimpleFormIterator,
@@ -47,7 +48,7 @@ import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
+import { uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "events";
 
@@ -125,23 +126,28 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  const newImages = data.images.filter((i: any) => i.id === undefined);
-  const oldImages = data.images.filter((i: any) => i.id !== undefined);
+  const newRawImages = data.images.filter(
+    (i: any) => i.location?.rawFile !== undefined
+  );
 
+  const newLinkedImages = data.images.filter(t.string.is);
+
+  const oldImages = data.images.filter((i: any) => i.id !== undefined);
   const imagesTask = pipe(
-    uploadImages(dataProvider)(
-      "events",
-      id,
-      newImages.map((i: any) => i.location.rawFile)
+    A.sequence(TE.ApplicativePar)(
+      newRawImages.map((r: any) =>
+        uploadFile(dataProvider)("images", uuid(), r.location.rawFile)
+      )
     ),
     TE.map((urls) =>
       pipe(
         urls,
-        A.zip(newImages as any[]),
+        A.zip(newRawImages as any[]),
         A.map(([location, image]) => ({
           ...image,
           location,
         })),
+        A.concat(newLinkedImages),
         A.concat(oldImages)
       )
     )
@@ -173,14 +179,21 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
     actions={
       <>
         <WebPreviewButton
-          resource="events"
+          resource="/dashboard/events"
           source="id"
           record={{ id: props.id } as any}
         />
       </>
     }
-    transform={({ newLinks = [], ...r }) => {
+    transform={({ newLinks = [], newImages = [], ...r }) => {
       const links = (newLinks as any[]).reduce((acc, l) => {
+        if (Array.isArray(l.ids)) {
+          return acc.concat(l.ids);
+        }
+        return acc.concat(l);
+      }, []);
+
+      const images = (newImages as any[]).reduce((acc, l) => {
         if (Array.isArray(l.ids)) {
           return acc.concat(l.ids);
         }
@@ -190,7 +203,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       return transformEvent(r.id as any, {
         ...r,
         actors: r.actors.concat(r.newActors ?? []),
-        images: r.images.concat(r.newImages ?? []),
+        images: r.images.concat(images),
         links: r.links.concat(links),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
       });
@@ -260,10 +273,45 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Images">
         <ArrayInput source="newImages" defaultValue={[]}>
           <SimpleFormIterator>
-            <TextInput source="description" />
-            <ImageInput source="location">
-              <ImageField src="src" />
-            </ImageInput>
+            <BooleanInput source="addNew" />
+            <BooleanInput source="fromURL" />
+            <FormDataConsumer>
+              {({ formData, scopedFormData, getSource, ...rest }) => {
+                const getSrc = getSource ?? ((s: string) => s);
+
+                if (scopedFormData?.addNew) {
+                  return (
+                    <Box>
+                      {scopedFormData.fromURL ? (
+                        <TextInput
+                          source={getSrc("location")}
+                          type="url"
+                          {...rest}
+                        />
+                      ) : (
+                        <ImageInput source={getSrc("location")}>
+                          <ImageField src="src" />
+                        </ImageInput>
+                      )}
+
+                      <TextInput source={getSrc("description")} {...rest} />
+                    </Box>
+                  );
+                }
+                return (
+                  <ReferenceArrayInput
+                    source={getSrc("ids")}
+                    reference="images"
+                    {...rest}
+                  >
+                    <AutocompleteArrayInput
+                      source="id"
+                      optionText="description"
+                    />
+                  </ReferenceArrayInput>
+                );
+              }}
+            </FormDataConsumer>
           </SimpleFormIterator>
         </ArrayInput>
 
@@ -322,11 +370,14 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
               http.Events.Uncategorized.Uncategorized.decode(formData),
               E.fold(ValidationErrorsLayout, (p) => (
                 <EventPageContent
-                  event={p}
-                  actors={[]}
-                  groups={[]}
-                  links={[]}
-                  keywords={[]}
+                  event={{
+                    ...p,
+                    actors: [],
+                    groups: [],
+                    keywords: [],
+                    links: [],
+                    groupsMembers: [],
+                  }}
                   onActorClick={() => undefined}
                   onGroupClick={() => undefined}
                   onKeywordClick={() => undefined}

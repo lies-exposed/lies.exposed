@@ -27,10 +27,13 @@ export const CreateEventBody = t.strict(
     title: t.string,
     images: optionFromNullable(
       t.array(
-        t.strict({
-          location: t.string,
-          description: t.string,
-        })
+        t.union([
+          UUID,
+          t.strict({
+            location: t.string,
+            description: t.string,
+          }),
+        ])
       )
     ),
     links: t.array(t.union([UUID, CreateLink])),
@@ -51,10 +54,13 @@ export const EditEventBody = nonEmptyRecordFromType({
   title: optionFromNullable(t.string),
   images: optionFromNullable(
     t.array(
-      t.strict({
-        location: t.string,
-        description: t.string,
-      })
+      t.union([
+        UUID,
+        t.strict({
+          location: t.string,
+          description: t.string,
+        }),
+      ])
     )
   ),
   links: optionFromNullable(t.array(t.union([UUID, CreateLink]))),

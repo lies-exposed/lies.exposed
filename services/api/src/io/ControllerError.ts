@@ -1,6 +1,4 @@
-import * as E from "fp-ts/lib/Either";
 import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter";
 import { IOError } from "ts-shared/lib/errors";
 
 export const APIStatusCode = t.union(
@@ -68,8 +66,6 @@ export const NotAuthorizedError = (): ControllerError => {
 };
 
 export const DecodeError = (errors: t.Errors): ControllerError => {
-  // eslint-disable-next-line
-  console.log(PathReporter.report(E.left(errors)));
   return {
     name: "APIError",
     status: 500,

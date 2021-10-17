@@ -58,15 +58,17 @@ const liftClientRequest = <T>(
 
 const formatParams = <P extends RA.GetListParams | RA.GetManyReferenceParams>(
   params: P
-): RA.GetListParams => ({
-  _sort: params.sort.field,
-  _order: params.sort.order,
-  _start:
-    params.pagination.page * params.pagination.perPage -
-    params.pagination.perPage,
-  _end: params.pagination.perPage * params.pagination.page,
-  ...params.filter,
-});
+): RA.GetListParams => {
+  return {
+    _sort: params.sort.field,
+    _order: params.sort.order,
+    _start:
+      params.pagination.page * params.pagination.perPage -
+      params.pagination.perPage,
+    _end: params.pagination.perPage * params.pagination.page,
+    ...params.filter,
+  };
+};
 
 export interface APIRESTClientCtx {
   url: string;

@@ -19,82 +19,27 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
       }}
       render={QR.fold(Loader, ErrorBox, ({ event }) => {
         return (
-          <WithQueries
-            queries={{
-              actors: Queries.Actor.getList,
-              groups: Queries.Group.getList,
-              links: Queries.Link.getList,
-              keywords: Queries.Keyword.getList,
+          <EventPageContent
+            event={event as any}
+            onActorClick={(a) => {
+              void doUpdateCurrentView({
+                view: "actor",
+                actorId: a.id,
+              })();
             }}
-            params={{
-              actors: {
-                pagination: { perPage: 20, page: 1 },
-                sort: { order: "DESC", field: "id" },
-                filter: {
-                  ids: (event as any).actors,
-                },
-              },
-              groups: {
-                pagination: { perPage: 20, page: 1 },
-                sort: { order: "DESC", field: "id" },
-                filter: {
-                  ids: (event as any).groups,
-                },
-              },
-              links: {
-                pagination: { perPage: 20, page: 1 },
-                sort: { order: "DESC", field: "id" },
-                filter: {
-                  ids: (event as any).links,
-                },
-              },
-              keywords: {
-                pagination: { perPage: 20, page: 1 },
-                sort: { order: "DESC", field: "tag" },
-                filter: {
-                  ids: (event as any).keywords,
-                },
-              },
+            onGroupClick={(g) => {
+              void doUpdateCurrentView({
+                view: "group",
+                groupId: g.id,
+              })();
             }}
-            render={QR.fold(
-              LazyFullSizeLoader,
-              ErrorBox,
-              ({
-                actors: { data: actors },
-                groups: { data: groups },
-                links: { data: links },
-                keywords: { data: keywords },
-              }) => {
-                return (
-                  <EventPageContent
-                    event={event as any}
-                    actors={actors}
-                    groups={groups}
-                    links={links}
-                    keywords={keywords}
-                    onActorClick={(a) => {
-                      void doUpdateCurrentView({
-                        view: "actor",
-                        actorId: a.id,
-                      })();
-                    }}
-                    onGroupClick={(g) => {
-                      void doUpdateCurrentView({
-                        view: "group",
-                        groupId: g.id,
-                      })();
-                    }}
-                    onLinkClick={() => {}}
-                    onKeywordClick={(k) => {
-                      void doUpdateCurrentView({
-                        view: "keyword",
-                        keywordId: k.id,
-                      })();
-                    }}
-                  />
-                );
-              }
-            )}
+            onLinkClick={() => {}}
+            onKeywordClick={(k) => {
+              void doUpdateCurrentView({
+                view: "keyword",
+                keywordId: k.id,
+              })();
+            }}
           />
         );
       })}

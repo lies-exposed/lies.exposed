@@ -12,14 +12,14 @@ import { ProjectTransaction } from "./project/ProjectTransaction";
 
 export const Event = t.union(
   [
-    Protest.Protest,
-    ProjectImpact,
-    ProjectTransaction,
-    Fined.Fined,
-    Condamned.Condamned,
-    Arrest.Arrest,
+    // Protest.Protest,
+    // ProjectImpact,
+    // ProjectTransaction,
+    // Fined.Fined,
+    // Condamned.Condamned,
+    // Arrest.Arrest,
     Death.Death,
-    PublicAnnouncement.PublicAnnouncement,
+    // PublicAnnouncement.PublicAnnouncement,
     Uncategorized.Uncategorized,
   ],
   "Event"
@@ -42,15 +42,15 @@ export interface EventListMap {
 
 export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   // StudyPublished: StudyPublished.StudyPublished,
-  Protest: Protest.Protest,
+  // Protest: Protest.Protest,
   // Project
-  ProjectImpact: ProjectImpact,
-  ProjectTransaction: ProjectTransaction,
-  Fined: Fined.Fined,
-  Condamned: Condamned.Condamned,
-  Arrest: Arrest.Arrest,
+  // ProjectImpact: ProjectImpact,
+  // ProjectTransaction: ProjectTransaction,
+  // Fined: Fined.Fined,
+  // Condamned: Condamned.Condamned,
+  // Arrest: Arrest.Arrest,
   Death: Death.Death,
-  PublicAnnouncement: PublicAnnouncement.PublicAnnouncement,
+  // PublicAnnouncement: PublicAnnouncement.PublicAnnouncement,
   Uncategorized: Uncategorized.Uncategorized,
 };
 

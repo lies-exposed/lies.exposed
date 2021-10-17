@@ -59,6 +59,8 @@ const AdminPage: React.FC = () => {
         icon={AssignmentIcon}
       />
 
+      <Resource name="images" />
+
       <Resource
         name="actors"
         list={ActorList}

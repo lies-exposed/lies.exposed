@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface View {
   view: string;
-  search?: { [key: string]: any }
+  search?: { [key: string]: any };
 }
 
 export interface HeaderMenuItem extends View {
@@ -217,14 +217,12 @@ const Header: React.FC<HeaderProps> = ({
                           <MenuItem
                             key={item.view}
                             className={classes.menuItem}
-                            onClick={handleClose}
+                            onClick={(e) => {
+                              handleClose(e);
+                              onMenuItemClick({ subItems: [], ...item });
+                            }}
                           >
-                            <Typography
-                              className={classes.menuItemLink}
-                              onClick={() =>
-                                onMenuItemClick({ subItems: [], ...item })
-                              }
-                            >
+                            <Typography className={classes.menuItemLink}>
                               {item.label}
                             </Typography>
                           </MenuItem>
