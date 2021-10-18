@@ -25,7 +25,7 @@
   "dependencies": {
     "@remark-embedder/core": "^1.2.1",
     "aws-sdk": "^2.817.0",
-    "axios": "^0.21.4",
+    "axios": "^0.23.0",
     "cors": "2.8.5",
     "debug": "^4.3.1",
     "domino": "^2.1.6",
