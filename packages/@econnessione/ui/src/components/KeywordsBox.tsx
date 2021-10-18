@@ -16,26 +16,24 @@ interface KeywordsBoxProps {
 
 const withQueries = declareQueries({ keywords: Queries.Keyword.getList });
 
-export const KeywordsList = withQueries(
-  ({ queries }): React.ReactElement => {
-    return pipe(
-      queries,
-      QR.fold(
-        LazyFullSizeLoader,
-        ErrorBox,
-        ({ keywords: { data: keywords } }) => {
-          // eslint-disable-next-line react/jsx-key
-          return (
-            <KeywordList
-              keywords={keywords.map((a) => ({ ...a, selected: true }))}
-              onItemClick={() => undefined}
-            />
-          );
-        }
-      )
-    );
-  }
-);
+export const KeywordsList = withQueries(({ queries }): React.ReactElement => {
+  return pipe(
+    queries,
+    QR.fold(
+      LazyFullSizeLoader,
+      ErrorBox,
+      ({ keywords: { data: keywords } }) => {
+        // eslint-disable-next-line react/jsx-key
+        return (
+          <KeywordList
+            keywords={keywords.map((a) => ({ ...a, selected: true }))}
+            onItemClick={() => undefined}
+          />
+        );
+      }
+    )
+  );
+});
 
 export const KeywordsBox: React.FC<KeywordsBoxProps> = ({ ids }) => {
   return (

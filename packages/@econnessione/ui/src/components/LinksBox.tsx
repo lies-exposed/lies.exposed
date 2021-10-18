@@ -1,8 +1,10 @@
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary, List,
-  ListItem, Typography
+  AccordionSummary,
+  List,
+  ListItem,
+  Typography,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMoreOutlined";
 import * as QR from "avenger/lib/QueryResult";
