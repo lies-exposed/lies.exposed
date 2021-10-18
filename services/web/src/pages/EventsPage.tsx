@@ -1,6 +1,5 @@
 import { eqByUUID } from "@econnessione/shared/helpers/event";
 import { Actor, Group, Keyword } from "@econnessione/shared/io/http";
-import { AutocompleteKeywordInput } from "@econnessione/ui/components/AutocompleteKeywordInput";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
@@ -11,18 +10,13 @@ import {
 import { ContentWithSidebar } from "@econnessione/ui/components/ContentWithSidebar";
 import { EventsMap } from "@econnessione/ui/components/EventsMap";
 import { EventsNetworkGraph } from "@econnessione/ui/components/Graph/EventsNetworkGraph";
+import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
+import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
+import { AutocompleteKeywordInput } from "@econnessione/ui/components/Input/AutocompleteKeywordInput";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
-import SearchableInput from "@econnessione/ui/components/SearchableInput";
-import {
-  ActorList,
-  ActorListItem,
-} from "@econnessione/ui/components/lists/ActorList";
 import EventList from "@econnessione/ui/components/lists/EventList/EventList";
-import GroupList, {
-  GroupListItem,
-} from "@econnessione/ui/components/lists/GroupList";
 import {
   pageContentByPath,
   Queries,
@@ -70,17 +64,23 @@ const EventsPage: React.FC<EventsPageProps> = ({
         groups: {
           pagination: { page: 1, perPage: 20 },
           sort: { field: "id", order: "ASC" },
-          filter: {},
+          filter: {
+            ids: groupIds,
+          },
         },
         actors: {
           pagination: { page: 1, perPage: 20 },
           sort: { field: "id", order: "ASC" },
-          filter: {},
+          filter: {
+            ids: actorIds,
+          },
         },
         keywords: {
           pagination: { page: 1, perPage: 20 },
           sort: { field: "id", order: "ASC" },
-          filter: {},
+          filter: {
+            ids: keywordIds,
+          },
         },
       }}
       render={(r) =>
@@ -95,21 +95,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
               groups: { data: groups },
               keywords: { data: keywords },
             }) => {
-              const selectedGroups = React.useMemo(
-                () => groups.filter((g) => groupIds.includes(g.id)),
-                groups
-              );
-
-              const selectedActors = React.useMemo(
-                () => actors.filter((a) => actorIds.includes(a.id)),
-                actors
-              );
-
-              const selectedKeywords = React.useMemo(
-                () => keywords.filter((k) => keywordIds.includes(k.id)),
-                keywords
-              );
-
               const [dateRange, setDateRange] = React.useState<
                 [string, string]
               >([startDate, endDate]);
@@ -126,15 +111,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
               };
 
               const onActorClick = (actor: Actor.Actor): void => {
-                const newSelectedActorIds = A.elem(eqByUUID)(
-                  actor,
-                  selectedActors
-                )
-                  ? A.array.filter(
-                      selectedActors,
-                      (a) => !eqByUUID.equals(a, actor)
-                    )
-                  : selectedActors.concat(actor);
+                const newSelectedActorIds = A.elem(eqByUUID)(actor, actors)
+                  ? A.array.filter(actors, (a) => !eqByUUID.equals(a, actor))
+                  : actors.concat(actor);
 
                 void doUpdateCurrentView({
                   view: "events",
@@ -147,12 +126,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
               };
 
               const onGroupClick = (g: Group.Group): void => {
-                const newSelectedGroupIds = A.elem(eqByUUID)(g, selectedGroups)
-                  ? A.array.filter(
-                      selectedGroups,
-                      (_) => !eqByUUID.equals(_, g)
-                    )
-                  : selectedGroups.concat(g);
+                const newSelectedGroupIds = A.elem(eqByUUID)(g, groups)
+                  ? A.array.filter(groups, (_) => !eqByUUID.equals(_, g))
+                  : groups.concat(g);
 
                 void doUpdateCurrentView({
                   view: "events",
@@ -162,15 +138,12 @@ const EventsPage: React.FC<EventsPageProps> = ({
               };
 
               const onKeywordClick = (keyword: Keyword.Keyword): void => {
-                const newSelectedKeywords = A.elem(eqByUUID)(
-                  keyword,
-                  selectedKeywords
-                )
+                const newSelectedKeywords = A.elem(eqByUUID)(keyword, keywords)
                   ? A.array.filter(
-                      selectedKeywords,
+                      keywords,
                       (_) => !eqByUUID.equals(_, keyword)
                     )
-                  : selectedKeywords.concat(keyword);
+                  : keywords.concat(keyword);
 
                 void doUpdateCurrentView({
                   view: "events",
@@ -228,90 +201,20 @@ const EventsPage: React.FC<EventsPageProps> = ({
                       </Grid>
                       <Grid item style={{ margin: 10 }}>
                         <AutocompleteKeywordInput
-                          items={keywords}
-                          selectedItems={selectedKeywords}
+                          selectedItems={keywords}
                           onItemClick={onKeywordClick}
                         />
                       </Grid>
                       <Grid item style={{ margin: 10 }}>
-                        <SearchableInput<Group.Group>
-                          placeholder="Gruppi..."
-                          label="Gruppi"
-                          items={groups.filter((g) => !groupIds.includes(g.id))}
-                          getValue={(g) => g.name}
-                          selectedItems={selectedGroups}
-                          multiple={true}
-                          disablePortal={true}
-                          renderTags={(item, getTagProps) => {
-                            return (
-                              <GroupList
-                                onGroupClick={() => {}}
-                                groups={item.map((i) => ({
-                                  ...i,
-                                  selected: true,
-                                }))}
-                              />
-                            );
-                          }}
-                          renderOption={(item, state) => {
-                            return (
-                              <GroupListItem
-                                key={item.id}
-                                displayName={true}
-                                item={{
-                                  ...item,
-                                  selected: selectedGroups.some((g) =>
-                                    eqByUUID.equals(g, item)
-                                  ),
-                                }}
-                              />
-                            );
-                          }}
-                          onSelectItem={(item) => {
-                            onGroupClick(item);
-                          }}
-                          onUnselectItem={(item) => {
-                            onGroupClick(item);
-                          }}
+                        <AutocompleteGroupInput
+                          selectedItems={groups}
+                          onItemClick={onGroupClick}
                         />
                       </Grid>
                       <Grid item style={{ margin: 10 }}>
-                        <SearchableInput<Actor.Actor>
-                          placeholder="Attori..."
-                          label="Attori"
-                          items={actors.filter((a) => !actorIds.includes(a.id))}
-                          getValue={(a) => a.fullName}
-                          selectedItems={selectedActors}
-                          multiple={true}
-                          disablePortal={true}
-                          renderTags={(item, getTagProps) => {
-                            return (
-                              <ActorList
-                                actors={item.map((a) => ({
-                                  ...a,
-                                  selected: true,
-                                }))}
-                                displayFullName={false}
-                                onActorClick={(a) => {
-                                  onActorClick(a);
-                                }}
-                              />
-                            );
-                          }}
-                          renderOption={(item, state) => {
-                            return (
-                              <ActorListItem
-                                key={item.id}
-                                displayFullName={true}
-                                item={{
-                                  ...item,
-                                  selected: true,
-                                }}
-                              />
-                            );
-                          }}
-                          onSelectItem={(item) => onActorClick(item)}
-                          onUnselectItem={(item) => onActorClick(item)}
+                        <AutocompleteActorInput
+                          selectedItems={actors}
+                          onItemClick={onActorClick}
                         />
                       </Grid>
                     </Grid>
@@ -328,34 +231,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         </Grid>
 
                         <Grid item md={12}>
-                          <Grid item md={6}>
-                            <Box>
-                              <Typography variant="caption">
-                                Nº Eventi:{" "}
-                                <Typography
-                                  display="inline"
-                                  variant="subtitle1"
-                                >
-                                  {0}
-                                </Typography>{" "}
-                                dal {startDate} al {endDate}{" "}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                          <Grid container>
-                            <Box margin={1}>
-                              <Chip label={`Uncategorized (10)`} />
-                            </Box>
-                            <Box margin={1}>
-                              <Chip
-                                label={`Deaths (10)`}
-                                style={{
-                                  backgroundColor: theme.palette.common.black,
-                                  color: theme.palette.common.white,
-                                }}
-                              />
-                            </Box>
-                          </Grid>
                           <Tabs
                             value={tab}
                             onChange={(e, tab) =>
@@ -377,9 +252,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
                           <TabPanel value={tab} index={0}>
                             <EventsNetworkGraph
                               events={[]}
-                              actors={selectedActors}
-                              groups={selectedGroups}
-                              keywords={selectedKeywords}
+                              actors={actors}
+                              groups={groups}
+                              keywords={keywords}
                               groupBy={"actor"}
                               selectedActorIds={actorIds}
                               selectedGroupIds={groupIds}
@@ -408,10 +283,17 @@ const EventsPage: React.FC<EventsPageProps> = ({
                               eventFilters={{
                                 startDate,
                                 endDate,
+                                keywords: keywordIds,
+                                groups: groupIds,
+                                actors: actorIds,
+                                groupsMembers: groupsMembersIds,
+                                links: [],
+                                title: null,
                               }}
                               deathFilters={{
                                 minDate: startDate,
                                 maxDate: endDate,
+                                victim: actorIds,
                               }}
                               actors={actors}
                               groups={groups}

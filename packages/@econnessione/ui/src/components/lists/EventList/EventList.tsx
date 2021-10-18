@@ -1,5 +1,13 @@
+import { Endpoints } from "@econnessione/shared/endpoints";
 import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
-import { Box, List, ListItem } from "@material-ui/core";
+import {
+  Box,
+  Chip,
+  List,
+  ListItem,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
@@ -7,6 +15,7 @@ import * as Ord from "fp-ts/lib/Ord";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { serializedType } from "ts-io-error/lib/Codec";
 import { Queries } from "../../../providers/DataProvider";
 import { DeathListItem } from "./DeathListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
@@ -60,9 +69,14 @@ export const EventListItem: React.FC<EventListItemProps> = ({
   return <span>Not implemented</span>;
 };
 
+type QueryFilters<Q> = Omit<
+  Partial<serializedType<Q>>,
+  "_sort" | "_order" | "_end" | "_start"
+>;
+
 export interface EventListProps {
-  eventFilters: Record<string, any>;
-  deathFilters: Record<string, any>;
+  eventFilters: QueryFilters<typeof Endpoints.Event.List.Input.Query>;
+  deathFilters: QueryFilters<typeof Endpoints.DeathEvent.List.Input.Query>;
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
@@ -81,9 +95,11 @@ const EventList: React.FC<EventListProps> = ({
 }) => {
   const listRef = React.useRef<HTMLUListElement>(null);
 
+  const theme = useTheme();
   const [listEvents, setListEvents] = React.useState({
     data: [] as any[],
-    total: 0,
+    totalEvents: 0,
+    totalDeaths: 0,
     page: 0,
   });
 
@@ -115,7 +131,8 @@ const EventList: React.FC<EventListProps> = ({
         );
         setListEvents({
           data: [...listEvents.data, ...newEvents],
-          total: events.total + deaths.total,
+          totalEvents: events.total,
+          totalDeaths: deaths.total,
           page,
         });
       })
@@ -125,7 +142,12 @@ const EventList: React.FC<EventListProps> = ({
   const handleScroll = async (): Promise<void> => {
     if (listRef.current) {
       const bottom = Math.ceil(window.scrollY) >= listRef.current.scrollHeight;
-      if (bottom && listEvents.total >= listEvents.data.length && !fetching) {
+      if (
+        bottom &&
+        listEvents.totalEvents + listEvents.totalDeaths >=
+          listEvents.data.length &&
+        !fetching
+      ) {
         fetching = true;
         await fetchData();
         fetching = false;
@@ -144,7 +166,31 @@ const EventList: React.FC<EventListProps> = ({
   }, [listEvents.page]);
 
   return (
-    <Box>
+    <Box style={{ width: "100%" }}>
+      <Box display="flex">
+        <Box>
+          <Typography variant="caption">
+            Nº Eventi:{" "}
+            <Typography display="inline" variant="subtitle1">
+              {listEvents.totalDeaths + listEvents.totalEvents}
+            </Typography>{" "}
+            dal {eventFilters.startDate} al {eventFilters.endDate}{" "}
+          </Typography>
+        </Box>
+        <Box margin={1}>
+          <Chip label={`Events (${listEvents.totalEvents})`} />
+        </Box>
+        <Box margin={1}>
+          <Chip
+            label={`Deaths (${listEvents.totalDeaths})`}
+            style={{
+              backgroundColor: theme.palette.common.black,
+              color: theme.palette.common.white,
+            }}
+          />
+        </Box>
+      </Box>
+
       <List ref={listRef} className="events" style={{ width: "100%" }}>
         {pipe(
           listEvents.data,

@@ -1,14 +1,14 @@
+import SearchableInput from "@components/Input/SearchableInput";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
-import SearchableInput from "@econnessione/ui/components/SearchableInput";
 import GroupList, {
   GroupListItem,
 } from "@econnessione/ui/components/lists/GroupList";
 import {
-  Queries,
   pageContentByPath,
+  Queries,
 } from "@econnessione/ui/providers/DataProvider";
 import { navigateTo } from "@econnessione/ui/utils/links.utils";
 import { RouteComponentProps } from "@reach/router";

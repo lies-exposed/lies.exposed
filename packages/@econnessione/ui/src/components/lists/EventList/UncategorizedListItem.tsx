@@ -51,6 +51,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       id={item.id}
       style={{
         marginBottom: 40,
+        width: "100%",
       }}
       onClick={() => onClick?.(item)}
     >

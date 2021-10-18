@@ -4,20 +4,19 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
-import { Queries } from "../providers/DataProvider";
-import { ErrorBox } from "./Common/ErrorBox";
-import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
+import { Queries } from "../../providers/DataProvider";
+import { ErrorBox } from "../Common/ErrorBox";
+import { LazyFullSizeLoader } from "../Common/FullSizeLoader";
+import KeywordList, { KeywordListItem } from "../lists/KeywordList";
 import SearchableInput from "./SearchableInput";
-import KeywordList, { KeywordListItem } from "./lists/KeywordList";
 
 interface AutocompleteKeywordInputProps {
-  items: Keyword.Keyword[];
   selectedItems: Keyword.Keyword[];
   onItemClick: (item: Keyword.Keyword) => void;
 }
 
 export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
-  ({ items, selectedItems, onItemClick }) => {
+  ({ selectedItems, onItemClick }) => {
     const [search, setSearch] = React.useState<string | undefined>(undefined);
     const setSearchThrottled = throttle(300, setSearch);
     return (
@@ -40,7 +39,7 @@ export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
               <SearchableInput<Keyword.Keyword>
                 placeholder="Keyword..."
                 label="Keywords"
-                items={items}
+                items={keywords}
                 getValue={(t) => t.tag}
                 selectedItems={selectedItems}
                 disablePortal={true}
