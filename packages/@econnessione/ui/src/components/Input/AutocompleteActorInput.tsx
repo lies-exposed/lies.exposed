@@ -1,7 +1,9 @@
 import { eqByUUID } from "@econnessione/shared/helpers/event";
 import { Actor } from "@econnessione/shared/io/http";
+import { available, queryShallow } from "avenger";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
 import { Queries } from "../../providers/DataProvider";
@@ -11,19 +13,25 @@ import SearchableInput from "./SearchableInput";
 import { ActorList, ActorListItem } from "@components/lists/ActorList";
 
 interface AutocompleteActorInputProps {
-  selectedItems: Actor.Actor[];
+  selectedIds: string[];
   onItemClick: (item: Actor.Actor) => void;
 }
 
 export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
-  selectedItems,
+  selectedIds,
   onItemClick,
 }) => {
   const [search, setSearch] = React.useState<string | undefined>(undefined);
   const setSearchThrottled = throttle(300, setSearch);
   return (
     <WithQueries
-      queries={{ actors: Queries.Actor.getList }}
+      queries={{
+        actors: Queries.Actor.getList,
+        selectedActors:
+          selectedIds.length > 0
+            ? Queries.Actor.getList
+            : queryShallow(() => TE.right({ data: [], total: 0 }), available),
+      }}
       params={{
         actors: {
           sort: { field: "createdAt", order: "DESC" },
@@ -32,18 +40,28 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
             fullName: search,
           },
         },
+        selectedActors: {
+          sort: { field: "createdAt", order: "DESC" },
+          pagination: { page: 1, perPage: 20 },
+          filter: {
+            ids: selectedIds,
+          },
+        },
       }}
       render={QR.fold(
         LazyFullSizeLoader,
         ErrorBox,
-        ({ actors: { data: items } }) => {
+        ({
+          actors: { data: items },
+          selectedActors: { data: selectedActors },
+        }) => {
           return (
             <SearchableInput<Actor.Actor>
               placeholder="Actor..."
               label="Actors..."
               items={items}
               getValue={(t) => t.fullName}
-              selectedItems={selectedItems}
+              selectedItems={selectedActors}
               disablePortal={true}
               multiple={true}
               onTextChange={(v) => {
@@ -65,7 +83,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
                   key={item.id}
                   item={{
                     ...item,
-                    selected: selectedItems.some((t) =>
+                    selected: selectedActors.some((t) =>
                       eqByUUID.equals(t, item)
                     ),
                   }}

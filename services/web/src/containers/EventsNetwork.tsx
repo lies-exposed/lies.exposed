@@ -30,7 +30,7 @@ export class EventsNetwork extends React.PureComponent<EventsNetworkProps> {
         params={{
           events: {
             filter: {
-              ...R.compact({ ..._filter }),
+              ...{ ..._filter },
               title: pipe(title ?? O.none, O.toUndefined),
               startDate: pipe(
                 startDate ?? O.none,

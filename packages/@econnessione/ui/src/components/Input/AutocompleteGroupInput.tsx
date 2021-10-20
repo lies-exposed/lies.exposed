@@ -1,9 +1,11 @@
 import { eqByUUID } from "@econnessione/shared/helpers/event";
 import { Group } from "@econnessione/shared/io/http";
+import { available, queryStrict } from "avenger";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
-import { throttle } from "throttle-debounce";
+import { debounce } from "throttle-debounce";
 import { Queries } from "../../providers/DataProvider";
 import { ErrorBox } from "../Common/ErrorBox";
 import { LazyFullSizeLoader } from "../Common/FullSizeLoader";
@@ -11,19 +13,26 @@ import GroupList, { GroupListItem } from "../lists/GroupList";
 import SearchableInput from "./SearchableInput";
 
 interface AutocompleteGroupInputProps {
-  selectedItems: Group.Group[];
+  selectedIds: string[];
   onItemClick: (item: Group.Group) => void;
 }
 
 export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
-  selectedItems,
+  selectedIds,
   onItemClick,
 }) => {
   const [search, setSearch] = React.useState<string | undefined>(undefined);
-  const setSearchThrottled = throttle(300, setSearch);
+  const setSearchThrottled = debounce(300, false, setSearch);
+
   return (
     <WithQueries
-      queries={{ groups: Queries.Group.getList }}
+      queries={{
+        groups: Queries.Group.getList,
+        selectedGroups:
+          selectedIds.length > 0
+            ? Queries.Group.getList
+            : queryStrict(() => TE.right({ data: [], total: 0 }), available),
+      }}
       params={{
         groups: {
           sort: { field: "createdAt", order: "DESC" },
@@ -32,18 +41,28 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
             search,
           },
         },
+        selectedGroups: {
+          sort: { field: "createdAt", order: "DESC" },
+          pagination: { page: 1, perPage: 20 },
+          filter: {
+            ids: selectedIds,
+          },
+        },
       }}
       render={QR.fold(
         LazyFullSizeLoader,
         ErrorBox,
-        ({ groups: { data: items } }) => {
+        ({
+          groups: { data: items },
+          selectedGroups: { data: selectedGroups },
+        }) => {
           return (
             <SearchableInput<Group.Group>
               placeholder="Group..."
               label="Groups"
               items={items}
               getValue={(t) => t.name}
-              selectedItems={selectedItems}
+              selectedItems={selectedGroups}
               disablePortal={true}
               multiple={true}
               onTextChange={(v) => {
@@ -65,7 +84,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
                   key={item.id}
                   item={{
                     ...item,
-                    selected: selectedItems.some((t) =>
+                    selected: selectedGroups.some((t) =>
                       eqByUUID.equals(t, item)
                     ),
                   }}

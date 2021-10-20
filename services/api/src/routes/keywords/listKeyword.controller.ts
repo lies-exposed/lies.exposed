@@ -13,7 +13,7 @@ import { getORMOptions } from "@utils/listQueryToORMOptions";
 export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Keyword.List,
-    ({ query: { events, search, ...query } }) => {
+    ({ query: { ids, events, search, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -26,6 +26,11 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
           .createQueryBuilder(KeywordEntity, "keyword")
           .leftJoinAndSelect("keyword.events", "events"),
         (q) => {
+          if (O.isSome(ids)) {
+            return q.where(`keyword.id IN (:...ids)`, {
+              ids: ids.value,
+            });
+          }
           if (O.isSome(search)) {
             return q.where("keyword.tag LIKE :search", {
               search: `%${search.value}%`,

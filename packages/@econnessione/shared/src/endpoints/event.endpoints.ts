@@ -9,10 +9,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/events",
   Input: {
-    Query: t.type({
-      ...http.Query.GetListQuery.props,
-      ...http.Events.Uncategorized.GetEventsQueryFilter.props,
-    }),
+    Query: http.Events.Uncategorized.GetEventsQueryFilter,
   },
   Output: http.Common.ListOutput(http.Events.Event, "ListEvent"),
 });

@@ -5,9 +5,11 @@ import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
 import { BaseFrontmatter, Point, UUID } from "../Common";
 import { CreateKeyword } from "../Keyword";
 import { CreateLink } from "../Link";
+import { GetListQuery } from "../Query";
 
 export const GetEventsQueryFilter = t.partial(
   {
+    ...GetListQuery.props,
     groupsMembers: optionFromNullable(t.array(t.string)),
     actors: optionFromNullable(t.array(t.string)),
     groups: optionFromNullable(t.array(t.string)),

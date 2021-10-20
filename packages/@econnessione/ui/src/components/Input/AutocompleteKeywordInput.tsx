@@ -1,7 +1,9 @@
 import { eqByUUID } from "@econnessione/shared/helpers/event";
 import { Keyword } from "@econnessione/shared/io/http";
+import { available, queryShallow } from "avenger";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
 import { Queries } from "../../providers/DataProvider";
@@ -11,17 +13,23 @@ import KeywordList, { KeywordListItem } from "../lists/KeywordList";
 import SearchableInput from "./SearchableInput";
 
 interface AutocompleteKeywordInputProps {
-  selectedItems: Keyword.Keyword[];
+  selectedIds: string[];
   onItemClick: (item: Keyword.Keyword) => void;
 }
 
 export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
-  ({ selectedItems, onItemClick }) => {
+  ({ selectedIds, onItemClick }) => {
     const [search, setSearch] = React.useState<string | undefined>(undefined);
     const setSearchThrottled = throttle(300, setSearch);
     return (
       <WithQueries
-        queries={{ keywords: Queries.Keyword.getList }}
+        queries={{
+          keywords: Queries.Keyword.getList,
+          selectedKeywords:
+            selectedIds.length > 0
+              ? Queries.Keyword.getList
+              : queryShallow(() => TE.right({ data: [], total: 0 }), available),
+        }}
         params={{
           keywords: {
             sort: { field: "createdAt", order: "DESC" },
@@ -30,18 +38,28 @@ export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
               search,
             },
           },
+          selectedKeywords: {
+            sort: { field: "createdAt", order: "DESC" },
+            pagination: { page: 1, perPage: 20 },
+            filter: {
+              ids: selectedIds,
+            },
+          },
         }}
         render={QR.fold(
           LazyFullSizeLoader,
           ErrorBox,
-          ({ keywords: { data: keywords } }) => {
+          ({
+            keywords: { data: keywords },
+            selectedKeywords: { data: selectedKeywords },
+          }) => {
             return (
               <SearchableInput<Keyword.Keyword>
                 placeholder="Keyword..."
                 label="Keywords"
                 items={keywords}
                 getValue={(t) => t.tag}
-                selectedItems={selectedItems}
+                selectedItems={selectedKeywords}
                 disablePortal={true}
                 multiple={true}
                 onTextChange={(v) => {
@@ -63,7 +81,7 @@ export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
                     key={item.id}
                     item={{
                       ...item,
-                      selected: selectedItems.some((t) =>
+                      selected: selectedKeywords.some((t) =>
                         eqByUUID.equals(t, item)
                       ),
                     }}
