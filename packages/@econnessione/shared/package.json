@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "axios": "^0.23.0",
+    "bs58": "^4.0.1",
     "date-fns": "^2.22.1",
     "domino": "^2.1.6",
     "fp-ts": "^2.9",
@@ -31,6 +32,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/bs58": "^4.0.1",
     "@types/jest": "^27",
     "@types/throttle-debounce": "^2.1.0",
     "jest": "^27",

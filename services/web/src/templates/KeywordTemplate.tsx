@@ -8,7 +8,7 @@ import * as QR from "avenger/lib/QueryResult";
 import { useQueries } from "avenger/lib/react";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import EventList from "@containers/EventList";
+import InfiniteEventList from "@containers/InfiniteEventList";
 
 const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
   keywordId,
@@ -26,7 +26,7 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
         <ContentWithSideNavigation items={[]}>
           <SEO title={"keywords"} />
           <KeywordPageContent {...keyword} />
-          <EventList
+          <InfiniteEventList
             eventFilters={{
               keywords: [keyword.id],
             }}

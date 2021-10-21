@@ -1,7 +1,8 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { Endpoints } from "@econnessione/shared/endpoints";
 import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { EventListItem } from "@econnessione/ui/components/lists/EventList/EventListItem";
 import {
   Box,
   Chip,
@@ -19,17 +20,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { debounce } from "throttle-debounce";
 import { serializedType } from "ts-io-error/lib/Codec";
-import { DeathListItem } from "../../../../packages/@econnessione/ui/src/components/lists/EventList/DeathListItem";
-import { UncategorizedListItem } from "../../../../packages/@econnessione/ui/src/components/lists/EventList/UncategorizedListItem";
 import { infiniteEventList } from "../state/queries";
-
-interface EventListItemProps {
-  event: Events.Event;
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  keywords: Keyword.Keyword[];
-  onClick?: (e: Events.Event) => void;
-}
 
 const eventsSort = pipe(
   Ord.contramap((e: Events.Event): Date => {
@@ -39,37 +30,6 @@ const eventsSort = pipe(
     return e.startDate;
   })
 )(D.Ord);
-
-export const EventListItem: React.FC<EventListItemProps> = ({
-  event: e,
-  onClick,
-  ...props
-}) => {
-  if (Events.Death.Death.is(e)) {
-    return (
-      <DeathListItem
-        item={e}
-        actors={props.actors}
-        keywords={props.keywords}
-        links={[]}
-      />
-    );
-  }
-  if (Events.Uncategorized.Uncategorized.is(e)) {
-    return (
-      <UncategorizedListItem
-        item={e}
-        actors={props.actors}
-        groups={props.groups}
-        keywords={props.keywords}
-        links={e.links}
-        onClick={onClick}
-      />
-    );
-  }
-
-  return <span>Not implemented</span>;
-};
 
 type QueryFilters<Q> = Omit<
   Partial<serializedType<Q>>,
@@ -85,7 +45,7 @@ export interface EventListProps {
   onClick?: (e: Events.Event) => void;
 }
 
-const EventList: React.FC<EventListProps> = ({
+const InfiniteEventList: React.FC<EventListProps> = ({
   eventFilters,
   deathFilters,
   actors,
@@ -223,4 +183,4 @@ const EventList: React.FC<EventListProps> = ({
   );
 };
 
-export default EventList;
+export default InfiniteEventList;

@@ -35,7 +35,7 @@ import {
   EventsView,
   EventView,
 } from "../utils/location.utils";
-import EventList from "@containers/EventList";
+import InfiniteEventList from "@containers/InfiniteEventList";
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
   representation: "date",
@@ -245,7 +245,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                           />
                         </TabPanel>
                         <TabPanel value={tab} index={2}>
-                          <EventList
+                          <InfiniteEventList
                             eventFilters={{
                               startDate,
                               endDate,
