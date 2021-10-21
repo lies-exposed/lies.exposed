@@ -6,7 +6,7 @@ import { WithQueries } from "avenger/lib/react";
 import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
 import { debounce } from "throttle-debounce";
-import { Queries } from "../../providers/DataProvider";
+import { APIError, Queries } from "../../providers/DataProvider";
 import { ErrorBox } from "../Common/ErrorBox";
 import { LazyFullSizeLoader } from "../Common/FullSizeLoader";
 import GroupList, { GroupListItem } from "../lists/GroupList";
@@ -24,14 +24,22 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
   const [search, setSearch] = React.useState<string | undefined>(undefined);
   const setSearchThrottled = debounce(300, false, setSearch);
 
+  const selectedGroupsQuery = React.useMemo(
+    () =>
+      selectedIds.length > 0
+        ? Queries.Group.getList
+        : queryStrict<APIError, any, { data: Group.Group[]; total: number }>(
+            () => TE.right({ data: [], total: 0 }),
+            available
+          ),
+    [selectedIds.length]
+  );
+
   return (
     <WithQueries
       queries={{
         groups: Queries.Group.getList,
-        selectedGroups:
-          selectedIds.length > 0
-            ? Queries.Group.getList
-            : queryStrict(() => TE.right({ data: [], total: 0 }), available),
+        selectedGroups: selectedGroupsQuery,
       }}
       params={{
         groups: {
@@ -62,7 +70,9 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
               label="Groups"
               items={items}
               getValue={(t) => t.name}
-              selectedItems={selectedGroups}
+              selectedItems={selectedGroups.filter((g) =>
+                selectedIds.includes(g.id)
+              )}
               disablePortal={true}
               multiple={true}
               onTextChange={(v) => {

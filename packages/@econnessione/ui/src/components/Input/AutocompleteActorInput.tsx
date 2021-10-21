@@ -1,12 +1,12 @@
 import { eqByUUID } from "@econnessione/shared/helpers/event";
 import { Actor } from "@econnessione/shared/io/http";
-import { available, queryShallow } from "avenger";
+import { available, queryStrict } from "avenger";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
-import { Queries } from "../../providers/DataProvider";
+import { APIError, Queries } from "../../providers/DataProvider";
 import { ErrorBox } from "../Common/ErrorBox";
 import { LazyFullSizeLoader } from "../Common/FullSizeLoader";
 import SearchableInput from "./SearchableInput";
@@ -23,14 +23,22 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
 }) => {
   const [search, setSearch] = React.useState<string | undefined>(undefined);
   const setSearchThrottled = throttle(300, setSearch);
+  const selectedActorsQuery = React.useMemo(
+    () =>
+      selectedIds.length > 0
+        ? Queries.Actor.getList
+        : queryStrict<APIError, any, { data: Actor.Actor[]; total: number }>(
+            () => TE.right({ data: [], total: 0 }),
+            available
+          ),
+    [selectedIds.length]
+  );
+
   return (
     <WithQueries
       queries={{
         actors: Queries.Actor.getList,
-        selectedActors:
-          selectedIds.length > 0
-            ? Queries.Actor.getList
-            : queryShallow(() => TE.right({ data: [], total: 0 }), available),
+        selectedActors: selectedActorsQuery,
       }}
       params={{
         actors: {
@@ -61,7 +69,9 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
               label="Actors..."
               items={items}
               getValue={(t) => t.fullName}
-              selectedItems={selectedActors}
+              selectedItems={selectedActors.filter((a) =>
+                selectedIds.includes(a.id)
+              )}
               disablePortal={true}
               multiple={true}
               onTextChange={(v) => {
@@ -81,6 +91,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
               renderOption={(item, state) => (
                 <ActorListItem
                   key={item.id}
+                  displayFullName={true}
                   item={{
                     ...item,
                     selected: selectedActors.some((t) =>

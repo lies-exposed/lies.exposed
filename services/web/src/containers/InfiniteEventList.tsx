@@ -3,6 +3,7 @@ import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { EventListItem } from "@econnessione/ui/components/lists/EventList/EventListItem";
+import { Queries } from "@econnessione/ui/providers/DataProvider";
 import {
   Box,
   Chip,
@@ -20,7 +21,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { debounce } from "throttle-debounce";
 import { serializedType } from "ts-io-error/lib/Codec";
-import { infiniteEventList } from "../state/queries";
+import { infiniteEventList, InfiniteEventListParams } from "../state/queries";
 
 const eventsSort = pipe(
   Ord.contramap((e: Events.Event): Date => {
@@ -37,7 +38,7 @@ type QueryFilters<Q> = Omit<
 >;
 
 export interface EventListProps {
-  eventFilters: QueryFilters<typeof Endpoints.Event.List.Input.Query>;
+  eventFilters: Omit<InfiniteEventListParams, "page">;
   deathFilters: QueryFilters<typeof Endpoints.DeathEvent.List.Input.Query>;
   actors: Actor.Actor[];
   groups: Group.Group[];
@@ -60,12 +61,9 @@ const InfiniteEventList: React.FC<EventListProps> = ({
       queries={{ events: infiniteEventList }}
       params={{
         events: {
-          _start: (currentPage - 1) * 20,
-          _end: 20,
-          _sort: "startDate",
-          _order: "DESC",
           ...eventFilters,
-        } as any,
+          page: currentPage,
+        },
       }}
       render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events }) => {
         const listRef = React.useRef<HTMLUListElement>(null);
@@ -142,40 +140,82 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                 />
               </Box>
             </Box>
-
-            <List ref={listRef} className="events" style={{ width: "100%" }}>
-              {pipe(
-                events.data,
-                A.map((event) => {
-                  const eventActors = Events.Uncategorized.Uncategorized.is(
-                    event
-                  )
-                    ? actors.filter((a) => event.actors.includes(a.id))
-                    : [];
-                  const eventGroups = Events.Uncategorized.Uncategorized.is(
-                    event
-                  )
-                    ? groups.filter((a) => event.groups.includes(a.id))
-                    : [];
-                  const eventKeywords = Events.Uncategorized.Uncategorized.is(
-                    event
-                  )
-                    ? keywords.filter((a) => event.keywords.includes(a.id))
-                    : [];
+            <WithQueries
+              queries={{
+                actors: Queries.Actor.getList,
+                groups: Queries.Group.getList,
+              }}
+              params={{
+                actors: {
+                  pagination: {
+                    page: 1,
+                    perPage: events.metadata.actors.length,
+                  },
+                  sort: { field: "createdAt", order: "DESC" },
+                  filter: {
+                    ids: events.metadata.actors,
+                  },
+                },
+                groups: {
+                  pagination: {
+                    page: 1,
+                    perPage: events.metadata.groups.length,
+                  },
+                  sort: { field: "createdAt", order: "DESC" },
+                  filter: {
+                    ids: events.metadata.groups,
+                  },
+                },
+              }}
+              render={QR.fold(
+                LazyFullSizeLoader,
+                ErrorBox,
+                ({ actors, groups }) => {
                   return (
-                    <ListItem key={`event-list-item-${event.id}`}>
-                      <EventListItem
-                        event={event}
-                        actors={eventActors}
-                        groups={eventGroups}
-                        keywords={eventKeywords}
-                        onClick={onClick}
-                      />
-                    </ListItem>
+                    <List
+                      ref={listRef}
+                      className="events"
+                      style={{ width: "100%" }}
+                    >
+                      {pipe(
+                        events.data,
+                        A.map((event) => {
+                          const eventActors =
+                            Events.Uncategorized.Uncategorized.is(event)
+                              ? actors.data.filter((a) =>
+                                  event.actors.includes(a.id)
+                                )
+                              : [];
+                          const eventGroups =
+                            Events.Uncategorized.Uncategorized.is(event)
+                              ? groups.data.filter((a) =>
+                                  event.groups.includes(a.id)
+                                )
+                              : [];
+                          const eventKeywords =
+                            Events.Uncategorized.Uncategorized.is(event)
+                              ? keywords.filter((a) =>
+                                  event.keywords.includes(a.id)
+                                )
+                              : [];
+                          return (
+                            <ListItem key={`event-list-item-${event.id}`}>
+                              <EventListItem
+                                event={event}
+                                actors={eventActors}
+                                groups={eventGroups}
+                                keywords={eventKeywords}
+                                onClick={onClick}
+                              />
+                            </ListItem>
+                          );
+                        })
+                      )}
+                    </List>
                   );
-                })
+                }
               )}
-            </List>
+            />
           </Box>
         );
       })}

@@ -6,7 +6,7 @@ import { WithQueries } from "avenger/lib/react";
 import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
-import { Queries } from "../../providers/DataProvider";
+import { APIError, Queries } from "../../providers/DataProvider";
 import { ErrorBox } from "../Common/ErrorBox";
 import { LazyFullSizeLoader } from "../Common/FullSizeLoader";
 import KeywordList, { KeywordListItem } from "../lists/KeywordList";
@@ -21,14 +21,29 @@ export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
   ({ selectedIds, onItemClick }) => {
     const [search, setSearch] = React.useState<string | undefined>(undefined);
     const setSearchThrottled = throttle(300, setSearch);
+    const selectedKeywordQuery = React.useMemo(
+      () =>
+        selectedIds.length > 0
+          ? Queries.Keyword.getList
+          : queryShallow<
+              APIError,
+              any,
+              { data: Keyword.Keyword[]; total: number }
+            >(
+              () =>
+                TE.right({
+                  data: [],
+                  total: 0,
+                }),
+              available
+            ),
+      [selectedIds.length]
+    );
     return (
       <WithQueries
         queries={{
           keywords: Queries.Keyword.getList,
-          selectedKeywords:
-            selectedIds.length > 0
-              ? Queries.Keyword.getList
-              : queryShallow(() => TE.right({ data: [], total: 0 }), available),
+          selectedKeywords: selectedKeywordQuery,
         }}
         params={{
           keywords: {
@@ -59,7 +74,9 @@ export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
                 label="Keywords"
                 items={keywords}
                 getValue={(t) => t.tag}
-                selectedItems={selectedKeywords}
+                selectedItems={selectedKeywords.filter((k) =>
+                  selectedIds.includes(k.id)
+                )}
                 disablePortal={true}
                 multiple={true}
                 onTextChange={(v) => {

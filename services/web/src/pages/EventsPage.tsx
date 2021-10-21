@@ -15,10 +15,7 @@ import { AutocompleteKeywordInput } from "@econnessione/ui/components/Input/Auto
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
-import {
-  pageContentByPath,
-  Queries,
-} from "@econnessione/ui/providers/DataProvider";
+import { pageContentByPath } from "@econnessione/ui/providers/DataProvider";
 import { Grid, Tab, Tabs } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -29,12 +26,8 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import * as Helmet from "react-helmet";
-import {
-  CurrentView,
-  doUpdateCurrentView,
-  EventsView,
-  EventView,
-} from "../utils/location.utils";
+import { resetInfiniteList } from "../state/commands";
+import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
 import InfiniteEventList from "@containers/InfiniteEventList";
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
@@ -52,6 +45,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
   startDate = MIN_DATE,
   endDate = MAX_DATE,
   tab = 0,
+  hash,
 }) => {
   return (
     <WithQueries
@@ -72,25 +66,38 @@ const EventsPage: React.FC<EventsPageProps> = ({
               endDate,
             ]);
 
-            const handleUpdateCurrentview = (
-              filters: Partial<Omit<EventsView, "view">>
-            ): void => {
-              const query = {
-                actors: actorIds,
-                groups: groupIds,
-                groupsMembers: groupsMembersIds,
-                keywords: keywordIds,
-                startDate: dateRange[0],
-                endDate: dateRange[1],
-                tab,
-                ...filters,
-              };
+            const handleUpdateCurrentview = React.useCallback(
+              (filters: Partial<Omit<EventsView, "view">>): void => {
+                const query = {
+                  actors: actorIds,
+                  groups: groupIds,
+                  groupsMembers: groupsMembersIds,
+                  keywords: keywordIds,
+                  startDate: dateRange[0],
+                  endDate: dateRange[1],
+                  tab,
+                  hash,
+                };
 
-              void doUpdateCurrentView({
-                view: "events",
-                ...query,
-              })();
-            };
+                void resetInfiniteList(query as any, {
+                  infiniteEventList: query as any,
+                })().then(() =>
+                  doUpdateCurrentView({
+                    view: "events",
+                    ...query,
+                    ...filters,
+                  })()
+                );
+              },
+              [
+                actorIds,
+                groupIds,
+                groupsMembersIds,
+                keywordIds,
+                dateRange[0],
+                dateRange[1],
+              ]
+            );
 
             const handleDateRangeChange = (range: [string, string]): void => {
               handleUpdateCurrentview({
@@ -253,8 +260,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                               groups: groupIds,
                               actors: actorIds,
                               groupsMembers: groupsMembersIds,
-                              links: [],
-                              title: null,
+                              hash,
                             }}
                             deathFilters={{
                               minDate: startDate,

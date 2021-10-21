@@ -51,6 +51,8 @@ export interface EventsView {
   startDate?: string;
   endDate?: string;
   tab?: number;
+  hash?: string;
+  page?: number;
 }
 
 export interface EventView {
@@ -206,6 +208,7 @@ export function locationToView(location: HistoryLocation): CurrentView {
       view: "events",
       ...decodedSearch,
       tab: parseInt(decodedSearch.tab ?? "0", 10),
+      hash,
     };
   }
 

@@ -1,8 +1,8 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
 import { BaseFrontmatter, Point, UUID } from "../Common";
+import { optionFromUndefined } from "../Common/optionFromUndefined";
 import { CreateKeyword } from "../Keyword";
 import { CreateLink } from "../Link";
 import { GetListQuery } from "../Query";
@@ -10,14 +10,14 @@ import { GetListQuery } from "../Query";
 export const GetEventsQueryFilter = t.partial(
   {
     ...GetListQuery.props,
-    groupsMembers: optionFromNullable(t.array(t.string)),
-    actors: optionFromNullable(t.array(t.string)),
-    groups: optionFromNullable(t.array(t.string)),
-    links: optionFromNullable(t.array(t.string)),
-    keywords: optionFromNullable(t.array(t.string)),
-    startDate: optionFromNullable(DateFromISOString),
-    endDate: optionFromNullable(DateFromISOString),
-    title: optionFromNullable(t.string),
+    groupsMembers: optionFromUndefined(t.array(t.string)),
+    actors: optionFromUndefined(t.array(t.string)),
+    groups: optionFromUndefined(t.array(t.string)),
+    links: optionFromUndefined(t.array(t.string)),
+    keywords: optionFromUndefined(t.array(t.string)),
+    startDate: optionFromUndefined(DateFromISOString),
+    endDate: optionFromUndefined(DateFromISOString),
+    title: optionFromUndefined(t.string),
   },
   "GetEventsQueryFilter"
 );
@@ -27,7 +27,7 @@ export type GetEventsQueryFilter = t.TypeOf<typeof GetEventsQueryFilter>;
 export const CreateEventBody = t.strict(
   {
     title: t.string,
-    images: optionFromNullable(
+    images: optionFromUndefined(
       t.array(
         t.union([
           UUID,
@@ -44,7 +44,7 @@ export const CreateEventBody = t.strict(
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),
     startDate: DateFromISOString,
-    endDate: optionFromNullable(DateFromISOString),
+    endDate: optionFromUndefined(DateFromISOString),
     body: t.string,
   },
   "CreateEventBody"
@@ -53,8 +53,8 @@ export const CreateEventBody = t.strict(
 export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 
 export const EditEventBody = nonEmptyRecordFromType({
-  title: optionFromNullable(t.string),
-  images: optionFromNullable(
+  title: optionFromUndefined(t.string),
+  images: optionFromUndefined(
     t.array(
       t.union([
         UUID,
@@ -65,15 +65,15 @@ export const EditEventBody = nonEmptyRecordFromType({
       ])
     )
   ),
-  links: optionFromNullable(t.array(t.union([UUID, CreateLink]))),
-  location: optionFromNullable(Point),
-  actors: optionFromNullable(t.array(t.string)),
-  groups: optionFromNullable(t.array(t.string)),
-  groupsMembers: optionFromNullable(t.array(t.string)),
-  keywords: optionFromNullable(t.array(t.string)),
-  startDate: optionFromNullable(DateFromISOString),
-  endDate: optionFromNullable(DateFromISOString),
-  body: optionFromNullable(t.string),
+  links: optionFromUndefined(t.array(t.union([UUID, CreateLink]))),
+  location: optionFromUndefined(Point),
+  actors: optionFromUndefined(t.array(t.string)),
+  groups: optionFromUndefined(t.array(t.string)),
+  groupsMembers: optionFromUndefined(t.array(t.string)),
+  keywords: optionFromUndefined(t.array(t.string)),
+  startDate: optionFromUndefined(DateFromISOString),
+  endDate: optionFromUndefined(DateFromISOString),
+  body: optionFromUndefined(t.string),
 });
 
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;
