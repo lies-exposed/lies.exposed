@@ -408,6 +408,9 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
           defaultValue={new Date()}
         />
         <DateInput source="endDate" />
+        <ReferenceArrayInput source="keywords" reference="keywords">
+          <AutocompleteArrayInput optionText="tag" />
+        </ReferenceArrayInput>
         <MarkdownInput source="body" defaultValue="" />
       </FormTab>
       <FormTab label="Actors">

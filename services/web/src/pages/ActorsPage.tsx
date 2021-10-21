@@ -1,10 +1,10 @@
+import SearchableInput from "@components/Input/SearchableInput";
 import { Actor } from "@econnessione/shared/io/http/Actor";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
-import SearchableInput from "@econnessione/ui/components/SearchableInput";
 import {
   ActorList,
   ActorListItem,

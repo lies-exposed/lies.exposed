@@ -3,6 +3,8 @@ import {
   getDoUpdateCurrentView,
   HistoryLocation,
 } from "avenger/lib/browser";
+import bs58 from "bs58";
+import { pipe } from "fp-ts/lib/function";
 import * as qs from "query-string";
 
 export interface BlogView {
@@ -49,6 +51,8 @@ export interface EventsView {
   startDate?: string;
   endDate?: string;
   tab?: number;
+  hash?: string;
+  page?: number;
 }
 
 export interface EventView {
@@ -111,7 +115,7 @@ const stringifyQuery = (search: { [key: string]: string | string[] }): string =>
   qs.stringify(search, { arrayFormat: "comma" });
 
 export function locationToView(location: HistoryLocation): CurrentView {
-  const { path: currentPath = "", ...search } = location.search;
+  const { path: currentPath = "", hash, ...search } = location.search;
   const blogMatch = currentPath.match(blogRegex);
   if (blogMatch !== null) {
     return {
@@ -193,10 +197,18 @@ export function locationToView(location: HistoryLocation): CurrentView {
   const eventsViewMatch = currentPath.match(eventsRegex);
 
   if (eventsViewMatch !== null) {
+    const decodedSearch = pipe(
+      hash !== undefined && hash !== ""
+        ? bs58.decode(hash).toString("utf-8")
+        : "{}",
+      JSON.parse
+    );
+
     return {
       view: "events",
-      ...search,
-      tab: parseInt(location.search.tab ?? "0", 10),
+      ...decodedSearch,
+      tab: parseInt(decodedSearch.tab ?? "0", 10),
+      hash,
     };
   }
 
@@ -286,17 +298,22 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
         },
       };
     case "events":
+      // eslint-disable-next-line no-case-declarations
+      const search = JSON.stringify({
+        actors: view.actors as any,
+        groups: view.groups as any,
+        groupsMembers: view.groupsMembers as any,
+        keywords: view.keywords as any,
+        startDate: view.startDate,
+        endDate: view.endDate,
+        tab: view.tab?.toString(),
+      });
+
       return {
         pathname,
         search: {
           path: `/dashboard/events/`,
-          actors: view.actors as any,
-          groups: view.groups as any,
-          groupsMembers: view.groupsMembers as any,
-          keywords: view.keywords as any,
-          startDate: view.startDate,
-          endDate: view.endDate,
-          tab: view.tab?.toString(),
+          hash: bs58.encode(Buffer.from(search, "utf-8")),
         },
       };
     case "event":

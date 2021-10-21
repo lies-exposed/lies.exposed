@@ -61,7 +61,7 @@ export const uploadFile =
                 headers: {
                   "Access-Control-Allow-Origin": "*",
                   "x-amz-acl": "public-read",
-                  "Access-Control-Max-Age": 600,
+                  "Access-Control-Max-Age": "600",
                   ...headers,
                 },
               }),

@@ -4,7 +4,6 @@ import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
-import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import SlickSlider from "react-slick";
@@ -41,7 +40,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
               O.map((d) => d.toISOString()),
               O.toUndefined
             ),
-            ...R.compact({ ...filter }),
+            ...filter,
           },
         },
       }}

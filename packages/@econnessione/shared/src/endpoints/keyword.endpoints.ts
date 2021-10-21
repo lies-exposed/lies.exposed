@@ -2,7 +2,6 @@ import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { Keyword } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
 const SingleKeywordOutput = Output(Keyword.Keyword, "Keyword");
@@ -12,10 +11,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/keywords",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      ...Keyword.GetListKeywordQueryFilter.props,
-    }),
+    Query: Keyword.ListQuery,
   },
   Output: ListKeywordOutput,
 });

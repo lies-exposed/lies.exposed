@@ -1,6 +1,7 @@
 import * as path from "path";
 import * as logger from "@econnessione/core/logger";
-import { AxiosInstance } from "axios";
+import { Body } from "aws-sdk/clients/s3";
+import { AxiosInstance, AxiosResponse } from "axios";
 import FormData from "form-data";
 import { Reader } from "fp-ts/lib/Reader";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -23,7 +24,7 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
       return pipe(
         TE.tryCatch(() => {
           logger.debug.log(`Getting file path %s`, params.Key);
-          return client.get(params.Key);
+          return client.get<unknown, AxiosResponse<Body>>(params.Key);
         }, toError),
         TE.map((content) => ({ Body: content.data }))
       );
@@ -40,7 +41,10 @@ const GetLocalSpaceClient: Reader<LocalSpaceClientCtx, SpaceClient> = ({
       return pipe(
         TE.tryCatch(
           () =>
-            client.post(params.Key, data, {
+            client.post<
+              FormData,
+              AxiosResponse<{ data: { Location: string } }>
+            >(params.Key, data, {
               headers: data.getHeaders(),
             }),
           toError

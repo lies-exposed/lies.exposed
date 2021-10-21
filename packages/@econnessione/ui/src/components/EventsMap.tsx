@@ -5,7 +5,6 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
-import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import Feature from "ol/Feature";
 import * as React from "react";
@@ -48,7 +47,7 @@ export const EventsMap: React.FC<EventsMapProps> = ({
               endDate?._tag === "Some"
                 ? endDate.value.toISOString()
                 : undefined,
-            ...R.compact({ ...filters }),
+            ...filters,
           },
         },
         deaths: {

@@ -90,6 +90,7 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
         <TextInput type="url" source="url" />
         <ImageField source="image" />
         <MarkdownInput source="description" />
+        <DateInput source="publishDate" />
         <TextInput source="provider" />
         <ReferenceArrayInput source="newEvents" reference="events">
           <AutocompleteArrayInput optionText="title" />

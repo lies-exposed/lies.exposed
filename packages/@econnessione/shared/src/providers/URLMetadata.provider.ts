@@ -27,7 +27,11 @@ export const MakeURLMetadata = (
     toError: (e: unknown) => E
   ): TE.TaskEither<E, Metadata> => {
     return pipe(
-      TE.tryCatch(() => ctx.client.get(url, { responseType: "text" }), toError),
+      TE.tryCatch(
+        () =>
+          ctx.client.get<any, { data: string }>(url, { responseType: "text" }),
+        toError
+      ),
       TE.map((data) => data.data),
       TE.map((html) => domino.createWindow(html).document),
       TE.map((dom) => ctx.parser.getMetadata(dom, url))

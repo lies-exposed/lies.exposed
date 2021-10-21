@@ -3,9 +3,8 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
-import { Point, UUID } from "../../io/http/Common";
+import { Point } from "../../io/http/Common";
 import { ListOutput, Output } from "../../io/http/Common/Output";
-import { GetListQuery } from "../../io/http/Query";
 
 const SingleDeathOutput = Output(Events.Death.Death, "Death");
 const ListDeathsOutput = ListOutput(Events.Death.Death, "Deaths");
@@ -14,12 +13,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/deaths",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      victim: optionFromNullable(UUID),
-      minDate: optionFromNullable(DateFromISOString),
-      maxDate: optionFromNullable(DateFromISOString),
-    }),
+    Query: Events.Death.DeathListQuery,
   },
   Output: ListDeathsOutput,
 });

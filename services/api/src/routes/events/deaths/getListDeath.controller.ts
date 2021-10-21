@@ -22,8 +22,8 @@ export const MakeGetListDeathEventRoute: Route = (r, { db, logger, env }) => {
           .loadAllRelationIds(),
         (q) => {
           if (O.isSome(victim)) {
-            return q.andWhere("victim.id = :victimId", {
-              victimId: victim.value,
+            return q.andWhere("victim.id IN (:...victimIds)", {
+              victimIds: victim.value,
             });
           }
 

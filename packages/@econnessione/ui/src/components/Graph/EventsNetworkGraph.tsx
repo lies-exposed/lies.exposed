@@ -33,7 +33,7 @@ import {
   NetworkPointNode,
 } from "../Common/Graph/Network/NetworkNode";
 import { ActorList } from "../lists/ActorList";
-import { EventListItem } from "../lists/EventList/EventList";
+import { EventListItem } from "../lists/EventList/EventListItem";
 import GroupList from "../lists/GroupList";
 
 type GroupByItem = Actor.Actor | Group.Group;

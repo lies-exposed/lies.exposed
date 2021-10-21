@@ -14,17 +14,17 @@ export interface EventMetadataListProps {
 export const EventMetadataList: React.FC<EventMetadataListProps> = (props) => {
   const protestIcon = <FontAwesomeIcon icon={faUserShield} color={"green"} />;
   const protests = props.metadata.filter(
-    (m) => m.type === Events.Protest.PROTEST.value
+    (m) => m.type === (Events.Protest.PROTEST.value as any)
   ).length;
 
   const fundIcon = <FontAwesomeIcon icon={faMoneyBillWave} />;
   const funds = props.metadata.filter(
-    (m) => m.type === "ProjectTransaction"
+    (m) => m.type === ("ProjectTransaction" as any)
   ).length;
 
   const impactIcon = <FontAwesomeIcon icon={faHouseDamage} color={"red"} />;
   const impacts = props.metadata.filter(
-    (m) => m.type === "ProjectImpact"
+    (m) => m.type === ("ProjectImpact" as any)
   ).length;
 
   return (

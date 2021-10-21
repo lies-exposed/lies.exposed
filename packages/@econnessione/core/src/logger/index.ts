@@ -1,1 +1,1 @@
-export { GetLogger, Logger } from "./Logger";
+export * from "./Logger";
