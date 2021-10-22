@@ -16,7 +16,7 @@ import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
 import { pageContentByPath } from "@econnessione/ui/providers/DataProvider";
-import { Grid, Tab, Tabs } from "@material-ui/core";
+import { Grid, Tab, Tabs, Button } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { formatISO, subYears } from "date-fns";
@@ -89,14 +89,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   })()
                 );
               },
-              [
-                actorIds,
-                groupIds,
-                groupsMembersIds,
-                keywordIds,
-                dateRange[0],
-                dateRange[1],
-              ]
+              [hash, tab]
             );
 
             const handleDateRangeChange = (range: [string, string]): void => {
@@ -196,6 +189,24 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         selectedIds={actorIds}
                         onItemClick={onActorClick}
                       />
+                    </Grid>
+                    <Grid item style={{ margin: 10 }}>
+                      <Button
+                        onClick={() =>
+                          handleUpdateCurrentview({
+                            actors: [],
+                            groups: [],
+                            groupsMembers: [],
+                            keywords: [],
+                            tab: 0,
+                            startDate: undefined,
+                            endDate: undefined,
+                            hash: undefined,
+                          })
+                        }
+                      >
+                        Clear filters
+                      </Button>
                     </Grid>
                   </Grid>
                 }

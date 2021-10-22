@@ -8,7 +8,7 @@ import {} from "../containers/InfiniteEventList";
 
 export const resetInfiniteList = command(
   ({ hash = "", ...query }: InfiniteEventListParams) => {
-    stateLogger.debug.log(`Created key (%s) for payload %O`, hash, query);
+    stateLogger.debug.log(`Remove key (%s) for payload %O`, hash, query);
     return TE.fromIO(() => window.localStorage.removeItem(hash));
   },
   {

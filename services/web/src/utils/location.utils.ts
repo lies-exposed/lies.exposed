@@ -114,6 +114,16 @@ const parseQuery = (s: string): qs.ParsedQuery =>
 const stringifyQuery = (search: { [key: string]: string | string[] }): string =>
   qs.stringify(search, { arrayFormat: "comma" });
 
+const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
+  return (
+    (v.actors ?? []).length === 0 &&
+    (v.groups ?? []).length === 0 &&
+    (v.groupsMembers ?? []).length === 0 &&
+    (v.keywords ?? []).length === 0 &&
+    (v.tab ?? 0) === 0
+  );
+};
+
 export function locationToView(location: HistoryLocation): CurrentView {
   const { path: currentPath = "", hash, ...search } = location.search;
   const blogMatch = currentPath.match(blogRegex);
@@ -299,21 +309,26 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
       };
     case "events":
       // eslint-disable-next-line no-case-declarations
-      const search = JSON.stringify({
-        actors: view.actors as any,
-        groups: view.groups as any,
-        groupsMembers: view.groupsMembers as any,
-        keywords: view.keywords as any,
+      const query = {
+        actors: view.actors,
+        groups: view.groups,
+        groupsMembers: view.groupsMembers,
+        keywords: view.keywords,
         startDate: view.startDate,
         endDate: view.endDate,
-        tab: view.tab?.toString(),
-      });
+        tab: view.tab,
+      };
+
+      // eslint-disable-next-line no-case-declarations
+      const hash = !isEventsQueryEmpty(query)
+        ? bs58.encode(Buffer.from(JSON.stringify(query), "utf-8"))
+        : undefined;
 
       return {
         pathname,
         search: {
           path: `/dashboard/events/`,
-          hash: bs58.encode(Buffer.from(search, "utf-8")),
+          hash,
         },
       };
     case "event":

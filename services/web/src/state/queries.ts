@@ -25,7 +25,25 @@ export const infiniteEventList = queryStrict<
   InfiniteEventListParams,
   APIError,
   { data: Events.Event[]; total: number; metadata: InfiniteEventListMetadata }
->(({ page = 1, hash = "", ...query }) => {
+>(({ page = 1, hash, ...query }) => {
+  if (hash === undefined) {
+    stateLogger.debug.log(
+      `No hash given, returning empty response.`,
+      hash,
+      query,
+      page
+    );
+    return TE.right({
+      data: [],
+      total: 0,
+      metadata: {
+        actors: [],
+        groups: [],
+        groupsMembers: [],
+        keywords: [],
+      },
+    });
+  }
   stateLogger.debug.log(
     `Infinite event list with hash (%s) for payload %O and page (%d)`,
     hash,

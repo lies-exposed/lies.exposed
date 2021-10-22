@@ -1,4 +1,3 @@
-import { eqByUUID } from "@econnessione/shared/helpers/event";
 import { Actor } from "@econnessione/shared/io/http";
 import { available, queryStrict } from "avenger";
 import * as QR from "avenger/lib/QueryResult";
@@ -74,6 +73,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
               )}
               disablePortal={true}
               multiple={true}
+              getOptionSelected={(op, value) => op.id === value.id}
               onTextChange={(v) => {
                 if (v.length >= 3) {
                   setSearchThrottled(v);
@@ -94,9 +94,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
                   displayFullName={true}
                   item={{
                     ...item,
-                    selected: selectedActors.some((t) =>
-                      eqByUUID.equals(t, item)
-                    ),
+                    selected: selectedIds.includes(item.id),
                   }}
                   onClick={onItemClick}
                 />

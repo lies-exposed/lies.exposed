@@ -79,6 +79,7 @@ export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
                 )}
                 disablePortal={true}
                 multiple={true}
+                getOptionSelected={(op, value) => op.id === value.id}
                 onTextChange={(v) => {
                   if (v.length >= 3) {
                     setSearchThrottled(v);
