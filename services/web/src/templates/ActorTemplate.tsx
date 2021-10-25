@@ -55,14 +55,8 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId }) => {
               </div>
               <div style={{ padding: 50 }}>
                 <EventsNetwork
-                  filter={{ actors: O.some([actorId]) }}
-                  actors={[actor]}
-                  groups={[]}
-                  keywords={[]}
+                  filter={{ actors: [actorId] }}
                   groupBy="actor"
-                  selectedActorIds={[actorId]}
-                  selectedGroupIds={[]}
-                  selectedKeywordIds={[]}
                   scale={"all"}
                   scalePoint={O.none}
                   onEventClick={() => {}}
