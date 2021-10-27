@@ -47,7 +47,7 @@ const eventsQueryWithCache =
     const cacheKey = `${cachePrefix}${hash}`;
 
     stateLogger.debug.log(
-      `Infinite event list with hash (%s) for payload %O and page (%d)`,
+      `Cached event list with hash (%s) for payload %O and page (%d)`,
       cacheKey,
       query,
       page

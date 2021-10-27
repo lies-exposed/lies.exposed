@@ -6,7 +6,7 @@ export interface SearchableItem {
   id: string;
 }
 
-interface SearchableInputProps<I extends SearchableItem>
+export interface SearchableInputProps<I extends SearchableItem>
   extends Omit<
     AutocompleteProps<I, boolean, boolean, boolean>,
     "renderInput" | "options"

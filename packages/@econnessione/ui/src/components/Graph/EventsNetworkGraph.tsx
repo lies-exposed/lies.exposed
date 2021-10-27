@@ -73,18 +73,24 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
   props
 ) => {
   const [groupBy, setGroupBy] = React.useState(props.groupBy);
-  const actors = props.actors.map((a) => ({
-    ...a,
-    selected: props.selectedActorIds.includes(a.id),
-  }));
-  const groups = props.groups.map((g) => ({
-    ...g,
-    selected: props.selectedGroupIds.includes(g.id),
-  }));
-  const keywords = props.keywords.map((k) => ({
-    ...k,
-    selected: props.selectedKeywordIds.includes(k.id),
-  }));
+  const actors = props.actors
+    .filter((a) => props.selectedActorIds.includes(a.id))
+    .map((a) => ({
+      ...a,
+      selected: true,
+    }));
+  const groups = props.groups
+    .filter((g) => props.selectedGroupIds.includes(g.id))
+    .map((g) => ({
+      ...g,
+      selected: true,
+    }));
+  const keywords = props.keywords
+    .filter((k) => props.selectedKeywordIds.includes(k.id))
+    .map((k) => ({
+      ...k,
+      selected: true,
+    }));
 
   return (
     <>
