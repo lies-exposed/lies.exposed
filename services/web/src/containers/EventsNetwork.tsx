@@ -8,54 +8,102 @@ import { Queries } from "@econnessione/ui/providers/DataProvider";
 import { Events } from "@io/http";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import * as O from "fp-ts/lib/Option";
-import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { eventNetworkList, InfiniteEventListParams } from "../state/queries";
 
-interface EventsNetworkProps extends Omit<EventsNetworkGraphProps, "events"> {
-  filter: Events.Uncategorized.GetEventsQueryFilter;
+interface EventsNetworkProps
+  extends Omit<
+    EventsNetworkGraphProps,
+    | "events"
+    | "actors"
+    | "groups"
+    | "groupsMembers"
+    | "keywords"
+    | "selectedActorIds"
+    | "selectedGroupIds"
+    | "selectedKeywordIds"
+  > {
+  filter: Omit<InfiniteEventListParams, "page">;
 }
 
-export class EventsNetwork extends React.PureComponent<EventsNetworkProps> {
-  render(): JSX.Element {
-    const {
-      filter: { startDate, endDate, title, ..._filter },
-      ...props
-    } = this.props;
-
-    return (
-      <WithQueries
-        queries={{ events: Queries.Event.getList }}
-        params={{
-          events: {
-            filter: {
-              ...{ ..._filter },
-              title: pipe(title ?? O.none, O.toUndefined),
-              startDate: pipe(
-                startDate ?? O.none,
-                O.map((d) => d.toISOString()),
-                O.toUndefined
-              ),
-              endDate: pipe(
-                endDate ?? O.none,
-                O.map((d) => d.toISOString()),
-                O.toUndefined
-              ),
-            },
-            pagination: { page: 1, perPage: 100 },
-            sort: { field: "startDate", order: "DESC" },
-          },
-        }}
-        render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events }) => {
-          return (
-            <EventsNetworkGraph
-              {...props}
-              events={events.data.filter(Events.Uncategorized.Uncategorized.is)}
-            />
-          );
-        })}
-      />
-    );
-  }
-}
+export const EventsNetwork: React.FC<EventsNetworkProps> = ({
+  filter,
+  ...props
+}) => {
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const eventsFilter = {
+    ...filter,
+    page: currentPage,
+  };
+  return (
+    <WithQueries
+      queries={{ events: eventNetworkList }}
+      params={{
+        events: eventsFilter,
+      }}
+      render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events }) => {
+        return (
+          <WithQueries
+            queries={{
+              actors: Queries.Actor.getList,
+              groups: Queries.Group.getList,
+              keywords: Queries.Keyword.getList,
+            }}
+            params={{
+              actors: {
+                pagination: {
+                  page: 1,
+                  perPage: filter.actors?.length ?? 0,
+                },
+                sort: { field: "createdAt", order: "DESC" },
+                filter: {
+                  ids: filter.actors,
+                },
+              },
+              groups: {
+                pagination: {
+                  page: 1,
+                  perPage: filter.groups?.length ?? 0,
+                },
+                sort: { field: "createdAt", order: "DESC" },
+                filter: {
+                  ids: filter.groups,
+                },
+              },
+              keywords: {
+                pagination: {
+                  page: 1,
+                  perPage: filter.keywords?.length ?? 0,
+                },
+                sort: { field: "createdAt", order: "DESC" },
+                filter: {
+                  ids: filter.keywords,
+                },
+              },
+            }}
+            render={QR.fold(
+              LazyFullSizeLoader,
+              ErrorBox,
+              ({ actors, groups, keywords }) => {
+                return (
+                  <EventsNetworkGraph
+                    {...props}
+                    events={events.data.filter(
+                      Events.Uncategorized.Uncategorized.is
+                    )}
+                    actors={actors.data}
+                    groups={groups.data}
+                    keywords={keywords.data}
+                    selectedActorIds={filter.actors ?? []}
+                    selectedGroupIds={filter.groups ?? []}
+                    selectedKeywordIds={filter.keywords ?? []}
+                  />
+                );
+              }
+            )}
+          />
+        );
+      })}
+    />
+  );
+};

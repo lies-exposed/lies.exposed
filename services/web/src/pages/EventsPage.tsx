@@ -28,6 +28,7 @@ import * as React from "react";
 import * as Helmet from "react-helmet";
 import { resetInfiniteList } from "../state/commands";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
+import { EventsNetwork } from "@containers/EventsNetwork";
 import InfiniteEventList from "@containers/InfiniteEventList";
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
@@ -234,15 +235,17 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         </Tabs>
 
                         <TabPanel value={tab} index={0}>
-                          <EventsNetworkGraph
-                            events={[]}
-                            actors={[]}
-                            groups={[]}
-                            keywords={[]}
+                          <EventsNetwork
+                            filter={{
+                              startDate,
+                              endDate,
+                              keywords: keywordIds,
+                              groups: groupIds,
+                              actors: actorIds,
+                              groupsMembers: groupsMembersIds,
+                              hash,
+                            }}
                             groupBy={"actor"}
-                            selectedActorIds={actorIds}
-                            selectedGroupIds={groupIds}
-                            selectedKeywordIds={keywordIds}
                             scale={"all"}
                             scalePoint={O.none}
                             onEventClick={(e) => {
