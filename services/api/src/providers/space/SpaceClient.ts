@@ -80,9 +80,12 @@ export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
         operation,
         params
       );
-      return TE.tryCatch(
-        () => config.client.getSignedUrlPromise(operation, params),
-        toError
+      return pipe(
+        TE.tryCatch(
+          () => config.client.getSignedUrlPromise(operation, params),
+          toError
+        ),
+        s3Logger.debug.logInTaskEither(`Get signed url %O`)
       );
     },
     upload: (

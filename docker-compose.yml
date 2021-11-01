@@ -1,7 +1,6 @@
-version: '3.7'
+version: "3.7"
 
 services:
-
   base:
     build:
       context: .
@@ -44,9 +43,6 @@ services:
       DB_HOST: db
       DB_PORT: 5432
       DEV_DATA_HOST: http://space:9000
-    links:
-      - db
-      - space
     depends_on:
       - db
       - space
@@ -82,6 +78,8 @@ services:
     links:
       - api
       - space
+    depends_on:
+      - space
 
   admin-web:
     container_name: econnessione-admin-web
@@ -103,7 +101,6 @@ services:
     tty: false
     links:
       - api
-      - space
 
   storybook:
     container_name: econnessione-storybook

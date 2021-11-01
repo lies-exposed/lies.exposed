@@ -14,6 +14,7 @@ const fileExtFromContentType = (c: string): string => {
   if (c === "image/png") {
     return "png";
   }
+
   return "jpg";
 };
 
@@ -24,7 +25,7 @@ export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {
       return pipe(
         ctx.s3.getSignedUrl("putObject", {
           Bucket: ctx.env.SPACE_BUCKET,
-          Key: `media/${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
+          Key: `public/media/${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
             ContentType
           )}`,
           ContentType,

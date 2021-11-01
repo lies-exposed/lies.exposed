@@ -11,6 +11,7 @@
       "./services/api",
       "./services/web",
       "./services/admin-web"
-    ]
+    ],
+    "jest.autoRun": null
   }
 }
