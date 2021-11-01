@@ -212,29 +212,27 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   </Grid>
                 }
               >
-                <MainContent>
-                  <Helmet.Helmet>
-                    <SEO title={page.title} />
-                  </Helmet.Helmet>
-                  <Grid item>
-                    <Grid container>
-                      <Grid item md={12}>
-                        <PageContent {...page} />
-                      </Grid>
+                <Helmet.Helmet>
+                  <SEO title={page.title} />
+                </Helmet.Helmet>
+                <Grid item>
+                  <Grid container>
+                    <Grid item md={12}>
+                      <PageContent {...page} />
+                    </Grid>
 
-                      <Grid item md={12}>
-                        <Tabs
-                          value={tab}
-                          onChange={(e, tab) =>
-                            handleUpdateCurrentview({ tab })
-                          }
-                        >
-                          <Tab label="network" {...a11yProps(0)} />
-                          <Tab label="map" {...a11yProps(1)} />
-                          <Tab label="list" {...a11yProps(2)} />
-                        </Tabs>
+                    <Grid item md={12}>
+                      <Tabs
+                        value={tab}
+                        onChange={(e, tab) => handleUpdateCurrentview({ tab })}
+                      >
+                        <Tab label="network" {...a11yProps(0)} />
+                        <Tab label="map" {...a11yProps(1)} />
+                        <Tab label="list" {...a11yProps(2)} />
+                      </Tabs>
 
-                        <TabPanel value={tab} index={0}>
+                      <TabPanel value={tab} index={0}>
+                        {tab === 0 ? (
                           <EventsNetwork
                             filter={{
                               startDate,
@@ -255,8 +253,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
                               })();
                             }}
                           />
-                        </TabPanel>
-                        <TabPanel value={tab} index={1}>
+                        ) : null}
+                      </TabPanel>
+                      <TabPanel value={tab} index={1}>
+                        {tab === 1 ? (
                           <EventsMap
                             filter={{
                               actors: [],
@@ -264,8 +264,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
                             }}
                             onMapClick={() => {}}
                           />
-                        </TabPanel>
-                        <TabPanel value={tab} index={2}>
+                        ) : null}
+                      </TabPanel>
+                      <TabPanel value={tab} index={2}>
+                        {tab === 2 ? (
                           <InfiniteEventList
                             eventFilters={{
                               startDate,
@@ -291,11 +293,11 @@ const EventsPage: React.FC<EventsPageProps> = ({
                               })();
                             }}
                           />
-                        </TabPanel>
-                      </Grid>
+                        ) : null}
+                      </TabPanel>
                     </Grid>
                   </Grid>
-                </MainContent>
+                </Grid>
               </ContentWithSidebar>
             );
           })
