@@ -88,36 +88,36 @@ export const EventsMap: React.FC<EventsMapProps> = ({
         });
 
         return (
-          <>
-            <ParentSize style={{ height: 600 }}>
-              {({ width, height }) => {
-                return (
-                  <div
-                    style={{
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      marginTop: 20,
-                      marginBottom: 20,
+          <ParentSize style={{ height: 600 }}>
+            {({ width, height }) => {
+              return (
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginTop: 20,
+                    marginBottom: 20,
+                    width,
+                    height,
+                  }}
+                >
+                  <Map
+                    id="events"
+                    width={width}
+                    height={height}
+                    features={[...features, ...deathFeatures]}
+                    center={center}
+                    zoom={zoom}
+                    onMapClick={onMapClick}
+                    interactions={{
+                      doubleClickZoom: true,
+                      dragPan: true,
                     }}
-                  >
-                    <Map
-                      id="events"
-                      width={width}
-                      height={height}
-                      features={[...features, ...deathFeatures]}
-                      center={center}
-                      zoom={zoom}
-                      onMapClick={onMapClick}
-                      interactions={{
-                        doubleClickZoom: true,
-                        dragPan: true,
-                      }}
-                    />
-                  </div>
-                );
-              }}
-            </ParentSize>
-          </>
+                  />
+                </div>
+              );
+            }}
+          </ParentSize>
         );
       })}
     />

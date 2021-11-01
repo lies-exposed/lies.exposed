@@ -21,7 +21,15 @@ export const Slider: React.FC<SliderProps> = ({
   return (
     <SlickSlider.default {...{ ...props }}>
       {slides.map((s) => (
-        <div key={s.imageURL} style={{ textAlign: "center", maxHeight }}>
+        <div
+          key={s.imageURL}
+          style={{
+            textAlign: "center",
+            maxHeight,
+            background: `url(${s.imageURL})`,
+            backgroundSize: "100% auto",
+          }}
+        >
           <img
             src={s.imageURL}
             style={{

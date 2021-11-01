@@ -42,10 +42,10 @@ services:
       DEBUG: "@eco*"
       DB_HOST: db
       DB_PORT: 5432
-      DEV_DATA_HOST: http://space:9000
+      DEV_DATA_HOST: http://localhost:9000
     depends_on:
       - db
-      - space
+      # - space
     ports:
       - "4010:4010"
     volumes:

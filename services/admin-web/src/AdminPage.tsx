@@ -24,12 +24,13 @@ import {
   GroupMemberList,
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
+import { ImagesList, ImageCreate, ImageEdit } from "./components/AdminImages";
+import { AdminKeywordResource } from "./components/AdminKeyword";
 import { AdminLinksResource } from "./components/AdminLinks";
+import { AdminScientificStudiesResource } from "./components/AdminScientificStudies";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import englishMessages from "./i18n/en-US";
-import { AdminKeywordResource } from "components/AdminKeyword";
-import { AdminScientificStudiesResource } from "components/AdminScientificStudies";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -59,7 +60,12 @@ const AdminPage: React.FC = () => {
         icon={AssignmentIcon}
       />
 
-      <Resource name="images" />
+      <Resource
+        name="images"
+        list={ImagesList}
+        edit={ImageEdit}
+        create={ImageCreate}
+      />
 
       <Resource
         name="actors"

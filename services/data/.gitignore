@@ -1,5 +1,4 @@
 # ignore minio settings folder
 .minio.sys
 
-buckets/dev/**/import
-buckets/dev/public/media
+buckets/public

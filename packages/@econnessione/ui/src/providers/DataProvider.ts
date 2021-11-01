@@ -253,7 +253,9 @@ const Queries: Queries = pipe(
   }))
 );
 
-const jsonClient = axios.create({ baseURL: process.env.REACT_APP_DATA_URL });
+const jsonClient = axios.create({
+  baseURL: `${process.env.REACT_APP_DATA_URL}/public`,
+});
 
 export const jsonData = <A>(
   decode: t.Decode<unknown, { data: A }>
