@@ -1,6 +1,7 @@
+import { Group } from "@econnessione/shared/io/http";
 import { Box, Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
-import { useQueries } from "avenger/lib/react";
+import { WithQueries } from "avenger/lib/react";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -12,40 +13,43 @@ import GroupList from "./lists/GroupList";
 
 interface GroupsBoxProps {
   ids: string[];
+  onItemClick: (g: Group.Group) => void;
 }
 
-export const GroupsList: React.FC<{ ids: NEA.NonEmptyArray<string> }> = ({
-  ids,
-}) => {
-  const queries = useQueries(
-    {
-      groups: Queries.Group.getList,
-    },
-    {
-      groups: {
-        pagination: { page: 1, perPage: 10 },
-        sort: { field: "createdAt", order: "DESC" },
-        filter: {
-          ids,
+export const GroupsList: React.FC<{
+  ids: NEA.NonEmptyArray<string>;
+  onItemClick: (g: Group.Group) => void;
+}> = ({ ids, onItemClick }) => {
+  return (
+    <WithQueries
+      queries={{ groups: Queries.Group.getList }}
+      params={{
+        groups: {
+          pagination: { page: 1, perPage: 10 },
+          sort: { field: "createdAt", order: "DESC" },
+          filter: {
+            ids,
+          },
         },
-      },
-    }
-  );
-  return pipe(
-    queries,
-    QR.fold(LazyFullSizeLoader, ErrorBox, ({ groups: { data: groups } }) => {
-      // eslint-disable-next-line react/jsx-key
-      return (
-        <GroupList
-          groups={groups.map((a) => ({ ...a, selected: true }))}
-          onGroupClick={() => {}}
-        />
-      );
-    })
+      }}
+      render={QR.fold(
+        LazyFullSizeLoader,
+        ErrorBox,
+        ({ groups: { data: groups } }) => {
+          // eslint-disable-next-line react/jsx-key
+          return (
+            <GroupList
+              groups={groups.map((a) => ({ ...a, selected: true }))}
+              onGroupClick={onItemClick}
+            />
+          );
+        }
+      )}
+    />
   );
 };
 
-export const GroupsBox: React.FC<GroupsBoxProps> = ({ ids }) => {
+export const GroupsBox: React.FC<GroupsBoxProps> = ({ ids, onItemClick }) => {
   return (
     <Box>
       <Typography variant="h5">Groups</Typography>
@@ -54,7 +58,7 @@ export const GroupsBox: React.FC<GroupsBoxProps> = ({ ids }) => {
         NEA.fromArray,
         O.fold(
           () => <Typography>No groups</Typography>,
-          (ids) => <GroupsList ids={ids} />
+          (ids) => <GroupsList ids={ids} onItemClick={onItemClick} />
         )
       )}
     </Box>

@@ -1,6 +1,7 @@
 import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { Link } from "@econnessione/shared/io/http/Link";
-import { Grid, Typography } from "@material-ui/core";
+import { formatDate } from "@econnessione/shared/utils/date";
+import { Box, Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -33,10 +34,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
       <Grid container spacing={2}>
         <Grid item md={12} sm={12} xs={12}>
           <SEO title={event.title} />
-          <Typography variant="h2">{event.title}</Typography>
-          <Grid item md={12}>
-            <KeywordsBox ids={event.keywords} />
-          </Grid>
           <Grid item md={12} style={{ marginBottom: 20 }}>
             {pipe(
               event.images,
@@ -49,17 +46,36 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                     info: i.description,
                     imageURL: i.location,
                   }))}
-                  arrows={true}
+                  arrows={false}
                   dots={true}
                 />
               )),
               O.toNullable
             )}
+            <Box>
+              <Typography
+                variant="h5"
+                color="secondary"
+                display="inline"
+                style={{ marginRight: 10 }}
+              >
+                {formatDate(event.startDate)}
+              </Typography>
+              <Typography variant="h3" display="inline">
+                {event.title}
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item md={12}>
+            <Typography variant="caption">
+              {formatDate(event.createdAt)}
+            </Typography>
+            <KeywordsBox ids={event.keywords} />
           </Grid>
         </Grid>
 
         <Grid item md={6} sm={6} xs={6}>
-          <GroupsBox ids={event.groups} />
+          <GroupsBox ids={event.groups} onItemClick={onGroupClick} />
         </Grid>
         <Grid item md={6} sm={6} xs={6}>
           <ActorsBox ids={event.actors} />

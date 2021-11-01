@@ -1,5 +1,4 @@
 import { Events } from "@econnessione/shared/io/http";
-import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncategorized";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -15,7 +14,7 @@ import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
 import Map from "./Map";
 
 interface EventsMapProps {
-  filter: GetEventsQueryFilter;
+  filter: any;
   center?: [number, number];
   zoom?: number;
   onMapClick: (features: any[]) => void;

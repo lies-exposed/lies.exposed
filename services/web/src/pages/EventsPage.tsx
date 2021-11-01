@@ -259,8 +259,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         <TabPanel value={tab} index={1}>
                           <EventsMap
                             filter={{
-                              actors: O.none,
-                              groups: O.none,
+                              actors: [],
+                              groups: [],
                             }}
                             onMapClick={() => {}}
                           />

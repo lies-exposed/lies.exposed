@@ -17,6 +17,7 @@ export const List = Endpoint({
     Query: t.type({
       ...GetListQuery.props,
       events: optionFromNullable(t.array(UUID)),
+      ids: optionFromNullable(t.array(UUID)),
     }),
   },
   Output: ManyLinkOutput,

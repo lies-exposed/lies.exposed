@@ -3,22 +3,21 @@ import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncate
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import SlickSlider from "react-slick";
+import { serializedType } from "ts-io-error/lib/Codec";
 import { Queries } from "../../providers/DataProvider";
 import { ErrorBox } from "../Common/ErrorBox";
 import { LazyLoader } from "../Common/Loader";
 import { UncategorizedListItem } from "../lists/EventList/UncategorizedListItem";
 
 export interface EventSliderProps {
-  filter: GetEventsQueryFilter;
+  filter: serializedType<typeof GetEventsQueryFilter>;
   onClick: (e: Events.Event) => void;
 }
 
 export const EventSlider: React.FC<EventSliderProps> = ({
-  filter: { startDate, endDate, title, ...filter },
+  filter,
   onClick,
 }) => {
   return (
@@ -28,20 +27,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
         events: {
           pagination: { perPage: 20, page: 1 },
           sort: { field: "startDate", order: "DESC" },
-          filter: {
-            title: pipe(title ?? O.none, O.toUndefined),
-            startDate: pipe(
-              startDate ?? O.none,
-              O.map((d) => d.toISOString()),
-              O.toUndefined
-            ),
-            endDate: pipe(
-              endDate ?? O.none,
-              O.map((d) => d.toISOString()),
-              O.toUndefined
-            ),
-            ...filter,
-          },
+          filter,
         },
       }}
       render={QR.fold(LazyLoader, ErrorBox, ({ events: { data, total } }) => {

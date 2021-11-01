@@ -1,8 +1,9 @@
 import { Endpoints } from "@econnessione/shared/endpoints";
 import { ResourceEndpoints } from "@econnessione/shared/endpoints/types";
 import * as io from "@econnessione/shared/io/index";
-import { available, queryShallow, queryStrict } from "avenger";
-import { CachedQuery } from "avenger/lib/Query";
+import { available, queryShallow } from "avenger";
+import { CachedQuery, queryStrict } from "avenger/lib/Query";
+import axios from "axios";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as R from "fp-ts/lib/Record";
@@ -59,23 +60,23 @@ export const dataProvider = APIRESTClient({
   url: process.env.REACT_APP_API_URL ?? "http://localhost:4010/v1",
 });
 
-const Resources = {
-  areas: io.http.Area.Area,
-  pages: io.http.Page.PageMD,
-  articles: io.http.Article.Article,
-  actors: io.http.Actor.Actor,
-  groups: io.http.Group.Group,
-  "groups-members": io.http.GroupMember.GroupMember,
-  topics: io.http.Topic.TopicMD,
-  projects: io.http.Project.Project,
-  "project/images": io.http.ProjectImage.ProjectImage,
-  events: io.http.Events.Uncategorized.Uncategorized,
-  deaths: io.http.Events.Death.Death,
-};
+// const Resources = {
+//   areas: io.http.Area.Area,
+//   pages: io.http.Page.PageMD,
+//   articles: io.http.Article.Article,
+//   actors: io.http.Actor.Actor,
+//   groups: io.http.Group.Group,
+//   "groups-members": io.http.GroupMember.GroupMember,
+//   topics: io.http.Topic.TopicMD,
+//   projects: io.http.Project.Project,
+//   "project/images": io.http.ProjectImage.ProjectImage,
+//   events: io.http.Events.Uncategorized.Uncategorized,
+//   deaths: io.http.Events.Death.Death,
+// };
 
-type Resources = {
-  [K in keyof typeof Resources]: t.TypeOf<typeof Resources[K]>;
-};
+// type Resources = {
+//   [K in keyof typeof Resources]: t.TypeOf<typeof Resources[K]>;
+// };
 
 const liftFetch = <B extends { data: any }>(
   lp: () => Promise<GetOneResult<any>> | Promise<GetListResult<any>>,
@@ -99,50 +100,50 @@ const liftFetch = <B extends { data: any }>(
   );
 };
 
-export type GetOneQuery = <K extends keyof Resources>(
-  r: K
-) => CachedQuery<GetOneParams, APIError, Resources[K]>;
+// export type GetOneQuery = <K extends keyof Resources>(
+//   r: K
+// ) => CachedQuery<GetOneParams, APIError, Resources[K]>;
 
-export const GetOneQuery: GetOneQuery = <K extends keyof Resources>(k: K) =>
-  queryShallow<GetOneParams, APIError, Resources[K]>(
-    (params: GetOneParams) =>
-      pipe(
-        liftFetch<{ data: Resources[K] }>(
-          () => dataProvider.getOne<Resources[K]>(k, params),
-          t.strict({ data: Resources[k] }).decode as t.Decode<
-            unknown,
-            { data: Resources[K] }
-          >
-        ),
-        TE.map((r) => r.data)
-      ),
-    available
-  );
+// export const GetOneQuery: GetOneQuery = <K extends keyof Resources>(k: K) =>
+//   queryShallow<GetOneParams, APIError, Resources[K]>(
+//     (params: GetOneParams) =>
+//       pipe(
+//         liftFetch<{ data: Resources[K] }>(
+//           () => dataProvider.getOne<Resources[K]>(k, params),
+//           t.strict({ data: Resources[k] }).decode as t.Decode<
+//             unknown,
+//             { data: Resources[K] }
+//           >
+//         ),
+//         TE.map((r) => r.data)
+//       ),
+//     available
+//   );
 
-export type GetListQuery = <K extends keyof typeof Resources, P = unknown>(
-  r: K
-) => CachedQuery<
-  P & GetListParams,
-  APIError,
-  { total: number; data: Array<t.TypeOf<typeof Resources[K]>> }
->;
+// export type GetListQuery = <K extends keyof typeof Resources, P = unknown>(
+//   r: K
+// ) => CachedQuery<
+//   P & GetListParams,
+//   APIError,
+//   { total: number; data: Array<t.TypeOf<typeof Resources[K]>> }
+// >;
 
-export const GetListQuery: GetListQuery = <
-  K extends keyof typeof Resources,
-  P = unknown
->(
-  r: K
-) =>
-  queryShallow(
-    (params: P & GetListParams) =>
-      liftFetch(
-        () => dataProvider.getList<t.TypeOf<typeof Resources[K]>>(r, params),
-        io.http.Common.ListOutput(Resources[r], r).decode
-      ),
-    available
-  );
+// export const GetListQuery: GetListQuery = <
+//   K extends keyof typeof Resources,
+//   P = unknown
+// >(
+//   r: K
+// ) =>
+//   queryShallow(
+//     (params: P & GetListParams) =>
+//       liftFetch(
+//         () => dataProvider.getList<t.TypeOf<typeof Resources[K]>>(r, params),
+//         io.http.Common.ListOutput(Resources[r], r).decode
+//       ),
+//     available
+//   );
 
-export const pageContent = GetOneQuery("pages");
+// export const pageContent = GetOneQuery("pages");
 export const pageContentByPath = queryStrict<
   { path: string },
   APIError,
@@ -252,21 +253,15 @@ const Queries: Queries = pipe(
   }))
 );
 
+const jsonClient = axios.create({ baseURL: process.env.REACT_APP_DATA_URL });
+
 export const jsonData = <A>(
   decode: t.Decode<unknown, { data: A }>
 ): CachedQuery<{ id: string }, Error, { data: A }> =>
   queryShallow<{ id: string }, Error, { data: A }>(
-    ({ id }: { id: string }) =>
-      liftFetch(() => dataProvider.get("graphs", { id }), decode),
+    ({ id }: { id: string }) => liftFetch(() => jsonClient.get(id), decode),
     available
   );
-
-export const jsonLocalData = queryShallow(
-  ({ path }: { path: string }) =>
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    TE.right<APIError, any>(require(`${path}.json`)),
-  available
-);
 
 export const articleByPath = queryShallow<
   { path: string },

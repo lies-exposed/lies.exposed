@@ -6,5 +6,6 @@ declare namespace NodeJS {
     readonly PUBLIC_URL: string;
     readonly REACT_APP_DEBUG: string;
     readonly REACT_APP_API_URL: string;
+    readonly REACT_APP_DATA_URL: string;
   }
-} /// <reference types="react-scripts" />
+}

@@ -40,11 +40,17 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId }) => {
           return (
             <MainContent>
               <SEO title={actor.fullName} />
-              <ActorPageContent actor={actor} groups={groups} />
+              <ActorPageContent
+                actor={actor}
+                groups={groups}
+                onGroupClick={(g) =>
+                  doUpdateCurrentView({ view: "group", groupId: g.id })()
+                }
+              />
               {actor.death ? <DeathBox id={actor.death} /> : null}
               <div style={{ padding: 50 }}>
                 <EventSlider
-                  filter={{ actors: O.some([actorId]) }}
+                  filter={{ actors: [actorId] }}
                   onClick={(ev) => {
                     void doUpdateCurrentView({
                       view: "event",

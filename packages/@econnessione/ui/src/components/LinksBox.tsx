@@ -42,7 +42,7 @@ export const LinksList = withQueries(({ queries }) => {
                 <ListItem key={i}>
                   <p>
                     <a href={l.url}>
-                      {l.description} - {l.url.substr(0, 30).concat("...")}
+                      {l.provider} - {l.title}
                     </a>
                   </p>
                 </ListItem>
