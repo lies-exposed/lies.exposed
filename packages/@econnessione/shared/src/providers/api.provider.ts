@@ -57,7 +57,7 @@ export const liftFetch = <B>(
   );
 };
 
-type TERequest<E extends MinimalEndpointInstance> = (
+export type TERequest<E extends MinimalEndpointInstance> = (
   input: TypeOfEndpointInstance<E>["Input"]
 ) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
 

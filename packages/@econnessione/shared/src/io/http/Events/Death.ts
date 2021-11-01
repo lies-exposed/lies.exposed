@@ -22,7 +22,7 @@ export const Death = t.strict(
   {
     ...BaseFrontmatter.type.props,
     type: t.literal("Death"),
-    victim: t.string,
+    victim: UUID,
     location: t.union([t.undefined, Point]),
     killer: t.union([t.undefined, ByGroupOrActor]),
     suspects: t.array(ByGroupOrActor),

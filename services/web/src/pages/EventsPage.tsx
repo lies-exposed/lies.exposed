@@ -281,11 +281,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
                             deathFilters={{
                               minDate: startDate,
                               maxDate: endDate,
-                              victim: actorIds,
+                              hash: hash ?? "",
                             }}
-                            actors={[]}
-                            groups={[]}
-                            keywords={[]}
                             onClick={(e) => {
                               void doUpdateCurrentView({
                                 view: "event",

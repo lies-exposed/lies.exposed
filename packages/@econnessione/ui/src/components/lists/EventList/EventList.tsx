@@ -17,14 +17,21 @@ import { EventListItem } from "./EventListItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.Uncategorized.Uncategorized): string =>
-    formatISO(e.startDate, { representation: "date" })
-  )
+  Eq.contramap((e: Events.Event): string => {
+    if (Events.Uncategorized.Uncategorized.is(e)) {
+      return formatISO(e.startDate, { representation: "date" });
+    }
+    return formatISO(e.date, { representation: "date" });
+  })
 );
 
 const useStyles = makeStyles((props) => ({
   listSubheader: {
     backgroundColor: props.palette.common.white,
+  },
+  listItemUList: {
+    padding: 0,
+    width: "100%",
   },
 }));
 
@@ -57,21 +64,27 @@ const EventList: React.FC<EventListProps> = ({
     >
       {pipe(
         events,
-        A.filter(Events.Uncategorized.Uncategorized.is),
         groupBy(byEqualDate),
         A.map((events) => {
-          const dateHeader = formatISO(events[0].startDate, {
-            representation: "date",
-          });
+          const dateHeader = formatISO(
+            Events.Uncategorized.Uncategorized.is(events[0])
+              ? events[0].startDate
+              : events[0].date,
+            {
+              representation: "date",
+            }
+          );
           return (
             <li key={dateHeader}>
               <ListSubheader className={classes.listSubheader}>
                 <Typography variant="h5">{dateHeader}</Typography>
               </ListSubheader>
-              <ul>
+              <ul className={classes.listItemUList}>
                 {events.map((e) => {
                   const eventActors = Events.Uncategorized.Uncategorized.is(e)
                     ? actors.filter((a) => e.actors.includes(a.id))
+                    : Events.Death.Death.is(e)
+                    ? actors.filter((a) => e.victim === a.id)
                     : [];
                   const eventGroups = Events.Uncategorized.Uncategorized.is(e)
                     ? groups.filter((a) => e.groups.includes(a.id))

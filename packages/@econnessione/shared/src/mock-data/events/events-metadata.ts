@@ -86,7 +86,7 @@ export const secondEventMetadata: Events.Event[] = [
   {
     id: uuid(),
     type: "Death",
-    victim: goodActor.id,
+    victim: goodActor.id as any,
     killer: undefined,
     location: undefined,
     suspects: [],
