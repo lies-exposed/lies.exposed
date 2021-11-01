@@ -1,7 +1,8 @@
 import "./font.css";
 import { createTheme } from "@material-ui/core";
 
-const headerFontFamily = "Lora";
+const primaryFontFamily = "Signika";
+const secondaryFontFamily = "Lora";
 
 export const theme = createTheme({
   palette: {
@@ -21,31 +22,32 @@ export const theme = createTheme({
   },
   typography: (palette) => ({
     h1: {
-      fontFamily: headerFontFamily,
+      fontFamily: primaryFontFamily,
       marginBottom: 40,
     },
     h2: {
-      fontFamily: headerFontFamily,
+      fontFamily: primaryFontFamily,
       marginBottom: 30,
     },
     h3: {
-      fontFamily: headerFontFamily,
+      fontFamily: primaryFontFamily,
       marginBottom: 20,
     },
     h4: {
-      fontFamily: headerFontFamily,
+      fontFamily: primaryFontFamily,
       marginBottom: 20,
     },
     h5: {
-      fontFamily: headerFontFamily,
+      fontFamily: primaryFontFamily,
       marginBottom: 20,
     },
     h6: {
-      fontFamily: headerFontFamily,
+      fontFamily: primaryFontFamily,
       marginBottom: 20,
     },
     body1: {
       fontSize: 18,
+      fontFamily: secondaryFontFamily,
     },
   }),
   overrides: {
@@ -54,7 +56,7 @@ export const theme = createTheme({
         html: {
           WebkitFontSmoothing: "auto",
           // html: "100%",
-          fontFamily: ["Roboto", "Helvetica", "Arial", "sans-serif"].join(","),
+          fontFamily: secondaryFontFamily,
         },
       },
     },
