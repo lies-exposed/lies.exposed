@@ -46,7 +46,7 @@ export const ActorsBox: React.FC<ActorsBoxProps> = ({ ids }) => {
                   pagination: { page: 1, perPage: 10 },
                   sort: { field: "createdAt", order: "DESC" },
                   filter: {
-                    ids,
+                    ids: ids,
                   },
                 },
               }}

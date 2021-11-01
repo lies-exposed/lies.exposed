@@ -58,249 +58,237 @@ const EventsPage: React.FC<EventsPageProps> = ({
           path: "events",
         },
       }}
-      render={(r) =>
-        pipe(
-          r,
-          QR.fold(LazyFullSizeLoader, ErrorBox, ({ page }) => {
-            const [dateRange, setDateRange] = React.useState<[string, string]>([
-              startDate,
-              endDate,
-            ]);
+      render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ page }) => {
+        const [dateRange, setDateRange] = React.useState<[string, string]>([
+          startDate,
+          endDate,
+        ]);
 
-            const handleUpdateCurrentview = React.useCallback(
-              (filters: Partial<Omit<EventsView, "view">>): void => {
-                const query = {
-                  actors: actorIds,
-                  groups: groupIds,
-                  groupsMembers: groupsMembersIds,
-                  keywords: keywordIds,
-                  startDate: dateRange[0],
-                  endDate: dateRange[1],
-                  tab,
-                  hash,
-                };
+        const handleUpdateCurrentview = React.useCallback(
+          (filters: Partial<Omit<EventsView, "view">>): void => {
+            const query = {
+              actors: actorIds,
+              groups: groupIds,
+              groupsMembers: groupsMembersIds,
+              keywords: keywordIds,
+              startDate: dateRange[0],
+              endDate: dateRange[1],
+              tab,
+              hash,
+            };
 
-                void resetInfiniteList(query as any, {
-                  infiniteEventList: query as any,
-                })().then(() =>
-                  doUpdateCurrentView({
-                    view: "events",
-                    ...query,
-                    ...filters,
-                  })()
-                );
-              },
-              [hash, tab]
+            void resetInfiniteList(query as any, {
+              infiniteEventList: query as any,
+            })().then(() =>
+              doUpdateCurrentView({
+                view: "events",
+                ...query,
+                ...filters,
+              })()
             );
+          },
+          [hash, tab]
+        );
 
-            const handleDateRangeChange = (range: [string, string]): void => {
-              handleUpdateCurrentview({
-                startDate: range[0],
-                endDate: range[1],
-              });
-            };
+        const handleDateRangeChange = (range: [string, string]): void => {
+          handleUpdateCurrentview({
+            startDate: range[0],
+            endDate: range[1],
+          });
+        };
 
-            const onActorClick = (actor: Actor.Actor): void => {
-              const newSelectedActorIds = A.elem(S.Eq)(actor.id, actorIds)
-                ? A.array.filter(actorIds, (a) => !S.Eq.equals(a, actor.id))
-                : actorIds.concat(actor.id);
+        const onActorClick = (actor: Actor.Actor): void => {
+          const newSelectedActorIds = A.elem(S.Eq)(actor.id, actorIds)
+            ? A.array.filter(actorIds, (a) => !S.Eq.equals(a, actor.id))
+            : actorIds.concat(actor.id);
 
-              handleUpdateCurrentview({
-                actors: newSelectedActorIds,
-              });
-            };
+          handleUpdateCurrentview({
+            actors: newSelectedActorIds,
+          });
+        };
 
-            const onGroupClick = (g: Group.Group): void => {
-              const newSelectedGroupIds = A.elem(S.Eq)(g.id, groupIds)
-                ? A.array.filter(groupIds, (_) => !S.Eq.equals(_, g.id))
-                : groupIds.concat(g.id);
+        const onGroupClick = (g: Group.Group): void => {
+          const newSelectedGroupIds = A.elem(S.Eq)(g.id, groupIds)
+            ? A.array.filter(groupIds, (_) => !S.Eq.equals(_, g.id))
+            : groupIds.concat(g.id);
 
-              handleUpdateCurrentview({
-                groups: newSelectedGroupIds,
-              });
-            };
+          handleUpdateCurrentview({
+            groups: newSelectedGroupIds,
+          });
+        };
 
-            const onKeywordClick = (keyword: Keyword.Keyword): void => {
-              const newSelectedKeywords = A.elem(S.Eq)(keyword.id, keywordIds)
-                ? A.array.filter(keywordIds, (_) => !S.Eq.equals(_, keyword.id))
-                : keywordIds.concat(keyword.id);
+        const onKeywordClick = (keyword: Keyword.Keyword): void => {
+          const newSelectedKeywords = A.elem(S.Eq)(keyword.id, keywordIds)
+            ? A.array.filter(keywordIds, (_) => !S.Eq.equals(_, keyword.id))
+            : keywordIds.concat(keyword.id);
 
-              handleUpdateCurrentview({
-                keywords: newSelectedKeywords,
-              });
-            };
+          handleUpdateCurrentview({
+            keywords: newSelectedKeywords,
+          });
+        };
 
-            return (
-              <ContentWithSidebar
-                defaultOpen={true}
-                sidebar={
-                  <Grid container direction="column">
-                    <Grid item style={{ margin: 10 }}>
-                      <Grid container>
-                        <Grid item md={6}>
-                          <DatePicker
-                            size="small"
-                            value={dateRange[0]}
-                            variant="outlined"
-                            onChange={(e) =>
-                              setDateRange([e.target.value, dateRange[1]])
-                            }
-                            onBlur={(e) => {
-                              handleDateRangeChange([
-                                e.target.value,
-                                dateRange[1],
-                              ]);
-                            }}
-                            style={{ width: "100%" }}
-                          />
-                        </Grid>
-                        <Grid item md={6}>
-                          <DatePicker
-                            size="small"
-                            value={endDate}
-                            variant="outlined"
-                            onChange={(e) =>
-                              setDateRange([dateRange[0], e.target.value])
-                            }
-                            onBlur={(e) =>
-                              handleDateRangeChange([
-                                dateRange[0],
-                                e.target.value,
-                              ])
-                            }
-                            style={{ width: "100%" }}
-                          />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item style={{ margin: 10 }}>
-                      <AutocompleteKeywordInput
-                        selectedIds={keywordIds}
-                        onItemClick={onKeywordClick}
-                      />
-                    </Grid>
-                    <Grid item style={{ margin: 10 }}>
-                      <AutocompleteGroupInput
-                        selectedIds={groupIds}
-                        onItemClick={onGroupClick}
-                      />
-                    </Grid>
-                    <Grid item style={{ margin: 10 }}>
-                      <AutocompleteActorInput
-                        selectedIds={actorIds}
-                        onItemClick={onActorClick}
-                      />
-                    </Grid>
-                    <Grid item style={{ margin: 10 }}>
-                      <Button
-                        onClick={() =>
-                          handleUpdateCurrentview({
-                            actors: [],
-                            groups: [],
-                            groupsMembers: [],
-                            keywords: [],
-                            tab: 0,
-                            startDate: undefined,
-                            endDate: undefined,
-                            hash: undefined,
-                          })
+        return (
+          <ContentWithSidebar
+            defaultOpen={true}
+            sidebar={
+              <Grid container direction="column">
+                <Grid item style={{ margin: 10 }}>
+                  <Grid container>
+                    <Grid item md={6}>
+                      <DatePicker
+                        size="small"
+                        value={dateRange[0]}
+                        variant="outlined"
+                        onChange={(e) =>
+                          setDateRange([e.target.value, dateRange[1]])
                         }
-                      >
-                        Clear filters
-                      </Button>
+                        onBlur={(e) => {
+                          handleDateRangeChange([e.target.value, dateRange[1]]);
+                        }}
+                        style={{ width: "100%" }}
+                      />
+                    </Grid>
+                    <Grid item md={6}>
+                      <DatePicker
+                        size="small"
+                        value={endDate}
+                        variant="outlined"
+                        onChange={(e) =>
+                          setDateRange([dateRange[0], e.target.value])
+                        }
+                        onBlur={(e) =>
+                          handleDateRangeChange([dateRange[0], e.target.value])
+                        }
+                        style={{ width: "100%" }}
+                      />
                     </Grid>
                   </Grid>
-                }
-              >
-                <MainContent>
-                  <Helmet.Helmet>
-                    <SEO title={page.title} />
-                  </Helmet.Helmet>
-                  <Grid item>
-                    <Grid container>
-                      <Grid item md={12}>
-                        <PageContent {...page} />
-                      </Grid>
+                </Grid>
+                <Grid item style={{ margin: 10 }}>
+                  <AutocompleteKeywordInput
+                    selectedIds={keywordIds}
+                    onItemClick={onKeywordClick}
+                  />
+                </Grid>
+                <Grid item style={{ margin: 10 }}>
+                  <AutocompleteGroupInput
+                    selectedIds={groupIds}
+                    onItemClick={onGroupClick}
+                  />
+                </Grid>
+                <Grid item style={{ margin: 10 }}>
+                  <AutocompleteActorInput
+                    selectedIds={actorIds}
+                    onItemClick={onActorClick}
+                  />
+                </Grid>
+                <Grid item style={{ margin: 10 }}>
+                  <Button
+                    onClick={() =>
+                      handleUpdateCurrentview({
+                        actors: [],
+                        groups: [],
+                        groupsMembers: [],
+                        keywords: [],
+                        tab: 0,
+                        startDate: undefined,
+                        endDate: undefined,
+                        hash: undefined,
+                      })
+                    }
+                  >
+                    Clear filters
+                  </Button>
+                </Grid>
+              </Grid>
+            }
+          >
+            <Helmet.Helmet>
+              <SEO title={page.title} />
+            </Helmet.Helmet>
+            <Grid item>
+              <Grid container>
+                <Grid item md={12}>
+                  <PageContent {...page} />
+                </Grid>
 
-                      <Grid item md={12}>
-                        <Tabs
-                          value={tab}
-                          onChange={(e, tab) =>
-                            handleUpdateCurrentview({ tab })
-                          }
-                        >
-                          <Tab label="network" {...a11yProps(0)} />
-                          <Tab label="map" {...a11yProps(1)} />
-                          <Tab label="list" {...a11yProps(2)} />
-                        </Tabs>
+                <Grid item md={12}>
+                  <Tabs
+                    value={tab}
+                    onChange={(e, tab) => handleUpdateCurrentview({ tab })}
+                  >
+                    <Tab label="network" {...a11yProps(0)} />
+                    <Tab label="map" {...a11yProps(1)} />
+                    <Tab label="list" {...a11yProps(2)} />
+                  </Tabs>
 
-                        <TabPanel value={tab} index={0}>
-                          <EventsNetwork
-                            filter={{
-                              startDate,
-                              endDate,
-                              keywords: keywordIds,
-                              groups: groupIds,
-                              actors: actorIds,
-                              groupsMembers: groupsMembersIds,
-                              hash,
-                            }}
-                            groupBy={"actor"}
-                            scale={"all"}
-                            scalePoint={O.none}
-                            onEventClick={(e) => {
-                              void doUpdateCurrentView({
-                                view: "event",
-                                eventId: e.id,
-                              })();
-                            }}
-                          />
-                        </TabPanel>
-                        <TabPanel value={tab} index={1}>
-                          <EventsMap
-                            filter={{
-                              actors: O.none,
-                              groups: O.none,
-                            }}
-                            onMapClick={() => {}}
-                          />
-                        </TabPanel>
-                        <TabPanel value={tab} index={2}>
-                          <InfiniteEventList
-                            eventFilters={{
-                              startDate,
-                              endDate,
-                              keywords: keywordIds,
-                              groups: groupIds,
-                              actors: actorIds,
-                              groupsMembers: groupsMembersIds,
-                              hash,
-                            }}
-                            deathFilters={{
-                              minDate: startDate,
-                              maxDate: endDate,
-                              victim: actorIds,
-                            }}
-                            actors={[]}
-                            groups={[]}
-                            keywords={[]}
-                            onClick={(e) => {
-                              void doUpdateCurrentView({
-                                view: "event",
-                                eventId: e.id,
-                              })();
-                            }}
-                          />
-                        </TabPanel>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </MainContent>
-              </ContentWithSidebar>
-            );
-          })
-        )
-      }
+                  <TabPanel value={tab} index={0}>
+                    {tab === 0 ? (
+                      <EventsNetwork
+                        filter={{
+                          startDate,
+                          endDate,
+                          keywords: keywordIds,
+                          groups: groupIds,
+                          actors: actorIds,
+                          groupsMembers: groupsMembersIds,
+                          hash,
+                        }}
+                        groupBy={"actor"}
+                        scale={"all"}
+                        scalePoint={O.none}
+                        onEventClick={(e) => {
+                          void doUpdateCurrentView({
+                            view: "event",
+                            eventId: e.id,
+                          })();
+                        }}
+                      />
+                    ) : null}
+                  </TabPanel>
+                  <TabPanel value={tab} index={1}>
+                    {tab === 1 ? (
+                      <EventsMap
+                        filter={{
+                          actors: [],
+                          groups: [],
+                        }}
+                        onMapClick={() => {}}
+                      />
+                    ) : null}
+                  </TabPanel>
+                  <TabPanel value={tab} index={2}>
+                    {tab === 2 ? (
+                      <InfiniteEventList
+                        eventFilters={{
+                          startDate,
+                          endDate,
+                          keywords: keywordIds,
+                          groups: groupIds,
+                          actors: actorIds,
+                          groupsMembers: groupsMembersIds,
+                          hash,
+                        }}
+                        deathFilters={{
+                          minDate: startDate,
+                          maxDate: endDate,
+                          hash: hash ?? "",
+                        }}
+                        onClick={(e) => {
+                          void doUpdateCurrentView({
+                            view: "event",
+                            eventId: e.id,
+                          })();
+                        }}
+                      />
+                    ) : null}
+                  </TabPanel>
+                </Grid>
+              </Grid>
+            </Grid>
+          </ContentWithSidebar>
+        );
+      })}
     />
   );
 };

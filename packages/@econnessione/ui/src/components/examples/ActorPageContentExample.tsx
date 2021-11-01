@@ -11,10 +11,9 @@ export const actorPageContentArgs: ActorPageContentProps = {
     ...goodActor,
     avatar: goodActor.avatar,
     body: "",
-    // tableOfContents: O.none,
-    // timeToRead: O.none,
   },
   groups: [],
+  onGroupClick: () => {},
 };
 
 export const ActorPageContentExample: React.FC<ActorPageContentProps> = (

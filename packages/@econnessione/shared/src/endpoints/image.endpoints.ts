@@ -39,7 +39,7 @@ export const Create = Endpoint({
     Query: undefined,
     Body: t.strict(
       {
-        url: t.string,
+        location: t.string,
         description: t.string,
         events: t.array(t.string),
       },
@@ -55,9 +55,9 @@ export const Edit = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
     Body: nonEmptyRecordFromType({
-      url: t.string,
+      location: t.string,
       description: t.string,
-      events: t.array(t.string),
+      // events: t.array(t.string),
     }),
   },
   Output: SingleImageOutput,

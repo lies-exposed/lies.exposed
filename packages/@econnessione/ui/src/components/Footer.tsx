@@ -29,6 +29,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     link: {
       color: theme.palette.common.white,
+      display: "flex",
+      alignItems: "center",
+    },
+    linkText: {
+      marginLeft: 10,
     },
     rightColumn: {
       textAlign: "left",
@@ -80,12 +85,26 @@ export const Footer: React.FC = () => {
             <MenuList title="Community" disablePadding={true}>
               <MenuItem disableGutters={true}>
                 <Link className={classes.link} href={github.link}>
-                  <FontAwesomeIcon icon={faGithub} /> Github
+                  <FontAwesomeIcon icon={faGithub} />{" "}
+                  <Typography
+                    className={classes.linkText}
+                    variant="subtitle1"
+                    display="inline"
+                  >
+                    Github
+                  </Typography>
                 </Link>
               </MenuItem>
               <MenuItem disableGutters={true}>
                 <Link className={classes.link} href={mattermost.link}>
-                  <MattermostIcon fontSize="small" variant="white" /> Mattermost
+                  <MattermostIcon fontSize="small" variant="white" />{" "}
+                  <Typography
+                    className={classes.linkText}
+                    variant="subtitle1"
+                    display="inline"
+                  >
+                    Mattermost
+                  </Typography>
                 </Link>
               </MenuItem>
             </MenuList>

@@ -169,7 +169,11 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             return pipe(
               http.Actor.Actor.decode(formData),
               E.fold(ValidationErrorsLayout, (p) => (
-                <ActorPageContent actor={p} groups={[]} />
+                <ActorPageContent
+                  actor={p}
+                  groups={[]}
+                  onGroupClick={() => {}}
+                />
               ))
             );
           }}

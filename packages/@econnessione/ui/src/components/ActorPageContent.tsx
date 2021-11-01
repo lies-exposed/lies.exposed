@@ -1,6 +1,5 @@
 import { Actor, Group } from "@econnessione/shared/io/http";
 import { Box, Grid, Typography } from "@material-ui/core";
-import { navigate } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -12,11 +11,13 @@ import GroupList from "./lists/GroupList";
 export interface ActorPageContentProps {
   actor: Actor.Actor;
   groups: Group.Group[];
+  onGroupClick: (a: Group.Group) => void;
 }
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   actor: { body, ...frontmatter },
   groups,
+  onGroupClick,
 }) => {
   return (
     <Grid container>
@@ -44,9 +45,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
             <Typography variant="h4">Gruppi</Typography>
             <GroupList
               groups={groups.map((g) => ({ ...g, selected: false }))}
-              onGroupClick={async (g) => {
-                await navigate(`/groups/${g.id}`);
-              }}
+              onGroupClick={onGroupClick}
             />
           </Box>
         </Grid>

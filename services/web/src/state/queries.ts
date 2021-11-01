@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { Endpoints } from "@econnessione/shared/endpoints";
 import { Events } from "@econnessione/shared/io/http";
 import {
   APIError,
   toAPIError,
 } from "@econnessione/shared/providers/api.provider";
+import { UUID } from "@io/http/Common";
 import { available, queryStrict } from "avenger";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -15,6 +17,10 @@ import { EventsView } from "../utils/location.utils";
 import { stateLogger } from "../utils/logger.utils";
 
 export type InfiniteEventListParams = Omit<EventsView, "view">;
+export interface InfiniteDeathsListParam {
+  page: number;
+  hash?: string;
+}
 
 interface InfiniteEventListMetadata {
   actors: string[];
@@ -23,6 +29,15 @@ interface InfiniteEventListMetadata {
 }
 
 const eventsQueryWithCache =
+  <T extends t.Mixed, M extends t.Mixed>(
+    apiRequest: (input: any) => TE.TaskEither<APIError, t.TypeOf<T>>,
+    codec: M,
+    empty: t.TypeOf<M>,
+    reduceMetadata: (
+      acc: t.TypeOf<M> & { data: any[] },
+      e: t.TypeOf<T>
+    ) => t.TypeOf<M>
+  ) =>
   (cachePrefix: string) =>
   ({ page = 1, hash, ...query }: InfiniteEventListParams) => {
     if (hash === undefined) {
@@ -32,22 +47,13 @@ const eventsQueryWithCache =
         query,
         page
       );
-      return TE.right({
-        data: [],
-        total: 0,
-        metadata: {
-          actors: [],
-          groups: [],
-          groupsMembers: [],
-          keywords: [],
-        },
-      });
+      return TE.right({ data: [], total: 0, ...empty });
     }
 
     const cacheKey = `${cachePrefix}${hash}`;
 
     stateLogger.debug.log(
-      `Cached event list with hash (%s) for payload %O and page (%d)`,
+      `Cached query for hash (%s) for payload %O and page (%d)`,
       cacheKey,
       query,
       page
@@ -77,30 +83,16 @@ const eventsQueryWithCache =
           );
           return pipe(
             jsonResult,
-            t.strict({
-              data: t.array(Events.Event),
-              total: t.number,
-              metadata: t.strict({
-                actors: t.array(t.string),
-                groups: t.array(t.string),
-              }),
-            }).decode,
-            E.mapLeft((e) => {
-              // eslint-disable-next-line no-console
-              PathReporter.report(E.left(e)).map(console.log);
-              return toAPIError(e);
-            }),
-            TE.fromEither
+            // codec.decode,
+            // E.mapLeft((e) => {
+            //   // eslint-disable-next-line no-console
+            //   PathReporter.report(E.left(e)).map(console.log);
+            //   return toAPIError(e);
+            // }),
+            TE.right
           );
         }
-        return TE.right({
-          data: [] as any,
-          total: 0,
-          metadata: {
-            actors: [],
-            groups: [],
-          },
-        });
+        return TE.right({ total: 0, data: [], ...empty });
       }),
       TE.chain((storedResponse) => {
         const currentStart = (page - 1) * 20;
@@ -108,38 +100,17 @@ const eventsQueryWithCache =
           return TE.right(storedResponse);
         }
         return pipe(
-          api.Event.List({
+          apiRequest({
             Query: { _start: currentStart, _end: 20, ...(query as any) },
           }),
           TE.chain((prevRes) => {
-            const { events, ...metadata } = [
+            const { data, ...metadata } = [
               ...storedResponse.data,
               ...prevRes.data,
-            ].reduce(
-              (acc, e) => {
-                return {
-                  events: acc.events.concat(e),
-                  actors: acc.actors
-                    .filter((a: string) => !e.actors.includes(a))
-                    .concat(e.actors),
-                  groups: acc.groups
-                    .filter((a: string) => !e.groups.includes(a))
-                    .concat(e.groups),
-                  keywords: acc.keywords
-                    .filter((a: string) => !e.keywords.includes(a))
-                    .concat(e.keywords),
-                };
-              },
-              {
-                events: [] as any,
-                actors: [] as string[],
-                groups: [] as string[],
-                keywords: [] as string[],
-              }
-            );
+            ].reduce(reduceMetadata, { data: [], ...empty });
             const response = {
               total: prevRes.total,
-              data: events,
+              data,
               metadata,
             };
             return pipe(
@@ -158,13 +129,46 @@ const eventsQueryWithCache =
     );
   };
 
+const makeEventListQuery = eventsQueryWithCache(
+  api.Event.List,
+  t.strict({
+    actors: t.array(t.string),
+    groups: t.array(t.string),
+    keywords: t.array(t.string),
+    groupsMembers: t.array(t.string),
+  }),
+  { actors: [], groups: [], groupsMembers: [], keywords: [] },
+  (acc, e) => {
+    return {
+      data: acc.data.concat(e),
+      actors: acc.actors
+        .filter((a: string) => !(e.actors ?? []).includes(a))
+        .concat(e.actors),
+      groups: acc.groups
+        .filter((a: string) => !(e.groups ?? []).includes(a))
+        .concat(e.groups),
+      keywords: acc.keywords
+        .filter((a: string) => !(e.keywords ?? []).includes(a))
+        .concat(e.keywords),
+      groupsMembers: acc.groupsMembers
+        .filter((a: string) => !(e.groupsMembers ?? []).includes(a))
+        .concat(e.groupsMembers),
+    };
+  }
+);
 const infiniteEventListCachePrefix = "infinite-list-";
+
+interface InfiniteEventListResult {
+  data: Events.Event[];
+  total: number;
+  metadata: InfiniteEventListMetadata;
+}
 
 export const infiniteEventList = queryStrict<
   InfiniteEventListParams,
   APIError,
-  { data: Events.Event[]; total: number; metadata: InfiniteEventListMetadata }
->(eventsQueryWithCache(infiniteEventListCachePrefix), available);
+  InfiniteEventListResult
+>(makeEventListQuery(infiniteEventListCachePrefix), available);
 
 const eventNetworkListCachePrefix = "network-";
 
@@ -172,4 +176,29 @@ export const eventNetworkList = queryStrict<
   InfiniteEventListParams,
   APIError,
   { data: Events.Event[]; total: number; metadata: InfiniteEventListMetadata }
->(eventsQueryWithCache(eventNetworkListCachePrefix), available);
+>(makeEventListQuery(eventNetworkListCachePrefix), available);
+
+export const deathsInfiniteList = queryStrict<
+  InfiniteDeathsListParam,
+  APIError,
+  t.TypeOf<Endpoints["DeathEvent"]["List"]["Output"]>
+>(
+  eventsQueryWithCache(
+    api.DeathEvent.List,
+    t.strict({
+      victims: t.array(UUID),
+    }),
+    {
+      victims: [],
+    },
+    (acc, d: Events.Death.Death) => {
+      return {
+        data: acc.data.concat(d),
+        victims: acc.victims
+          .filter((a: string) => d.victim !== a)
+          .concat(d.victim),
+      };
+    }
+  )("deaths-"),
+  available
+);

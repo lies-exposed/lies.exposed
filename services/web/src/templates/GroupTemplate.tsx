@@ -48,7 +48,7 @@ export default class GroupTemplate extends React.PureComponent<
                 },
                 sort: { field: "id", order: "DESC" },
                 filter: {
-                  group: groupId,
+                  groups: [groupId],
                 },
               },
             }}
@@ -73,12 +73,12 @@ export default class GroupTemplate extends React.PureComponent<
                       }}
                     />
                     <EventsMap
-                      filter={{ groups: O.some([group.id]) }}
+                      filter={{ groups: [group.id] }}
                       zoom={4}
                       onMapClick={() => {}}
                     />
                     <EventSlider
-                      filter={{ groups: O.some([group.id]) }}
+                      filter={{ groups: [group.id] }}
                       onClick={(ev) => {
                         void doUpdateCurrentView({
                           view: "event",

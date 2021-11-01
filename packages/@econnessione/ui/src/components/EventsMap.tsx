@@ -1,5 +1,4 @@
 import { Events } from "@econnessione/shared/io/http";
-import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncategorized";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -15,7 +14,7 @@ import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
 import Map from "./Map";
 
 interface EventsMapProps {
-  filter: GetEventsQueryFilter;
+  filter: any;
   center?: [number, number];
   zoom?: number;
   onMapClick: (features: any[]) => void;
@@ -89,36 +88,36 @@ export const EventsMap: React.FC<EventsMapProps> = ({
         });
 
         return (
-          <>
-            <ParentSize style={{ height: 600 }}>
-              {({ width, height }) => {
-                return (
-                  <div
-                    style={{
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      marginTop: 20,
-                      marginBottom: 20,
+          <ParentSize style={{ height: 600 }}>
+            {({ width, height }) => {
+              return (
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginTop: 20,
+                    marginBottom: 20,
+                    width,
+                    height,
+                  }}
+                >
+                  <Map
+                    id="events"
+                    width={width}
+                    height={height}
+                    features={[...features, ...deathFeatures]}
+                    center={center}
+                    zoom={zoom}
+                    onMapClick={onMapClick}
+                    interactions={{
+                      doubleClickZoom: true,
+                      dragPan: true,
                     }}
-                  >
-                    <Map
-                      id="events"
-                      width={width}
-                      height={height}
-                      features={[...features, ...deathFeatures]}
-                      center={center}
-                      zoom={zoom}
-                      onMapClick={onMapClick}
-                      interactions={{
-                        doubleClickZoom: true,
-                        dragPan: true,
-                      }}
-                    />
-                  </div>
-                );
-              }}
-            </ParentSize>
-          </>
+                  />
+                </div>
+              );
+            }}
+          </ParentSize>
         );
       })}
     />

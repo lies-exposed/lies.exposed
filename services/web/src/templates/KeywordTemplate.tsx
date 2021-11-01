@@ -31,9 +31,6 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
               keywords: [keyword.id],
             }}
             deathFilters={{}}
-            actors={[]}
-            groups={[]}
-            keywords={[]}
           />
         </ContentWithSideNavigation>
       );

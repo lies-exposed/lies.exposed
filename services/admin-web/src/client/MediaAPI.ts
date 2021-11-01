@@ -37,6 +37,11 @@ const getSignedUrl =
           }),
         E.toError
       )
+      // TE.map(({ data: { url } }) => {
+      //   const realURL = url.replace("space:9000", "localhost:9000");
+      //   console.log({ url, realURL });
+      //   return { data: { url: realURL } };
+      // })
     );
   };
 
