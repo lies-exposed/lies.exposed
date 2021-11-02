@@ -65,7 +65,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
         },
       }}
       render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events, deaths }) => {
-        const listRef = React.useRef<HTMLUListElement>(null);
+        const listRef = React.createRef<HTMLUListElement>();
 
         const theme = useTheme();
 

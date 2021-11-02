@@ -36,7 +36,6 @@ const useStyles = makeStyles((props) => ({
 }));
 
 export interface EventListProps {
-  ref?: React.Ref<HTMLUListElement>;
   className?: string;
   style?: React.CSSProperties;
   events: Events.Event[];
@@ -46,72 +45,70 @@ export interface EventListProps {
   onClick?: (e: Events.Event) => void;
 }
 
-const EventList: React.FC<EventListProps> = ({
-  events,
-  actors,
-  groups,
-  keywords,
-  onClick,
-  ...props
-}) => {
-  const classes = useStyles();
-  return (
-    <List
-      className="events"
-      style={{ width: "100%" }}
-      subheader={<li />}
-      {...props}
-    >
-      {pipe(
-        events,
-        groupBy(byEqualDate),
-        A.map((events) => {
-          const dateHeader = formatISO(
-            Events.Uncategorized.Uncategorized.is(events[0])
-              ? events[0].startDate
-              : events[0].date,
-            {
-              representation: "date",
-            }
-          );
-          return (
-            <li key={dateHeader}>
-              <ListSubheader className={classes.listSubheader}>
-                <Typography variant="h5">{dateHeader}</Typography>
-              </ListSubheader>
-              <ul className={classes.listItemUList}>
-                {events.map((e) => {
-                  const eventActors = Events.Uncategorized.Uncategorized.is(e)
-                    ? actors.filter((a) => e.actors.includes(a.id))
-                    : Events.Death.Death.is(e)
-                    ? actors.filter((a) => e.victim === a.id)
-                    : [];
-                  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
-                    ? groups.filter((a) => e.groups.includes(a.id))
-                    : [];
-                  const eventKeywords = Events.Uncategorized.Uncategorized.is(e)
-                    ? keywords.filter((a) => e.keywords.includes(a.id))
-                    : [];
+const EventList = React.forwardRef<HTMLUListElement, EventListProps>(
+  ({ events, actors, groups, keywords, onClick, ...props }, ref) => {
+    const classes = useStyles();
+    return (
+      <List
+        ref={ref}
+        className="events"
+        style={{ width: "100%" }}
+        subheader={<li />}
+        {...props}
+      >
+        {pipe(
+          events,
+          groupBy(byEqualDate),
+          A.map((events) => {
+            const dateHeader = formatISO(
+              Events.Uncategorized.Uncategorized.is(events[0])
+                ? events[0].startDate
+                : events[0].date,
+              {
+                representation: "date",
+              }
+            );
+            return (
+              <li key={dateHeader}>
+                <ListSubheader className={classes.listSubheader}>
+                  <Typography variant="h5">{dateHeader}</Typography>
+                </ListSubheader>
+                <ul className={classes.listItemUList}>
+                  {events.map((e) => {
+                    const eventActors = Events.Uncategorized.Uncategorized.is(e)
+                      ? actors.filter((a) => e.actors.includes(a.id))
+                      : Events.Death.Death.is(e)
+                      ? actors.filter((a) => e.victim === a.id)
+                      : [];
+                    const eventGroups = Events.Uncategorized.Uncategorized.is(e)
+                      ? groups.filter((a) => e.groups.includes(a.id))
+                      : [];
+                    const eventKeywords = Events.Uncategorized.Uncategorized.is(
+                      e
+                    )
+                      ? keywords.filter((a) => e.keywords.includes(a.id))
+                      : [];
 
-                  return (
-                    <ListItem key={`event-list-item-${e.id}`}>
-                      <EventListItem
-                        event={e}
-                        actors={eventActors}
-                        groups={eventGroups}
-                        keywords={eventKeywords}
-                        onClick={onClick}
-                      />
-                    </ListItem>
-                  );
-                })}
-              </ul>
-            </li>
-          );
-        })
-      )}
-    </List>
-  );
-};
+                    return (
+                      <ListItem key={`event-list-item-${e.id}`}>
+                        <EventListItem
+                          event={e}
+                          actors={eventActors}
+                          groups={eventGroups}
+                          keywords={eventKeywords}
+                          onClick={onClick}
+                        />
+                      </ListItem>
+                    );
+                  })}
+                </ul>
+              </li>
+            );
+          })
+        )}
+      </List>
+    );
+  }
+);
 
 export default EventList;

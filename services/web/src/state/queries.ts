@@ -6,6 +6,8 @@ import {
   toAPIError,
 } from "@econnessione/shared/providers/api.provider";
 import { UUID } from "@io/http/Common";
+import { Event } from "@io/http/Events";
+import { Death } from "@io/http/Events/Death";
 import { available, queryStrict } from "avenger";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -29,9 +31,10 @@ interface InfiniteEventListMetadata {
 }
 
 const eventsQueryWithCache =
-  <T extends t.Mixed, M extends t.Mixed>(
+  <T extends t.Mixed, D extends t.Mixed, M extends t.Mixed>(
     apiRequest: (input: any) => TE.TaskEither<APIError, t.TypeOf<T>>,
-    codec: M,
+    dataCodec: D,
+    metadataCodec: M,
     empty: t.TypeOf<M>,
     reduceMetadata: (
       acc: t.TypeOf<M> & { data: any[] },
@@ -47,7 +50,7 @@ const eventsQueryWithCache =
         query,
         page
       );
-      return TE.right({ data: [], total: 0, ...empty });
+      return TE.right({ data: [], total: 0, metadata: empty });
     }
 
     const cacheKey = `${cachePrefix}${hash}`;
@@ -83,13 +86,17 @@ const eventsQueryWithCache =
           );
           return pipe(
             jsonResult,
-            // codec.decode,
-            // E.mapLeft((e) => {
-            //   // eslint-disable-next-line no-console
-            //   PathReporter.report(E.left(e)).map(console.log);
-            //   return toAPIError(e);
-            // }),
-            TE.right
+            t.strict({
+              total: t.number,
+              data: dataCodec,
+              metadata: metadataCodec,
+            }).decode,
+            E.mapLeft((e) => {
+              // eslint-disable-next-line no-console
+              PathReporter.report(E.left(e)).map(console.log);
+              return toAPIError(e);
+            }),
+            TE.fromEither
           );
         }
         return TE.right({ total: 0, data: [], ...empty });
@@ -131,6 +138,7 @@ const eventsQueryWithCache =
 
 const makeEventListQuery = eventsQueryWithCache(
   api.Event.List,
+  t.array(Event),
   t.strict({
     actors: t.array(t.string),
     groups: t.array(t.string),
@@ -185,6 +193,7 @@ export const deathsInfiniteList = queryStrict<
 >(
   eventsQueryWithCache(
     api.DeathEvent.List,
+    t.array(Death),
     t.strict({
       victims: t.array(UUID),
     }),
