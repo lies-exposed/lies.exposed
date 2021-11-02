@@ -171,7 +171,11 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
 export const DeathCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Death Event" {...props}>
     <SimpleForm>
-      <ReferenceInput source="victim" reference="actors">
+      <ReferenceInput
+        source="victim"
+        reference="actors"
+        filterToQuery={(fullName) => ({ fullName })}
+      >
         <AutocompleteInput source="id" optionText="fullName" />
       </ReferenceInput>
       <DateInput source="date" />
