@@ -178,7 +178,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   app.use(function (err: any, req: any, res: any, next: any) {
     // eslint-disable-next-line no-console
     try {
-      ctx.logger.error.log("An error occured %O", err);
+      ctx.logger.error.log("An error occurred %O", err);
       if (err) {
         if (err.details?.kind === "DecodingError") {
           const errors = PathReporter.report(E.left(err.details.errors));
@@ -192,12 +192,12 @@ export const makeApp = (ctx: RouteContext): express.Express => {
           return res.status(err.status).send(err);
         }
 
-        ctx.logger.debug.log("An error occured %O", err);
+        ctx.logger.debug.log("An error occurred %O", err);
         ctx.logger.debug.log("Error kind %s", err.details.kind);
         if (err.details.kind === "ServerError") {
           if (err.details.meta.kind === "DecodingError") {
             const errors = PathReporter.report(E.left(err.details.meta.errors));
-            ctx.logger.error.log(`An error occured %O`, errors);
+            ctx.logger.error.log(`An error occurred %O`, errors);
             return res.status(500).send({
               name: "DecodingError",
               details: errors,
@@ -214,7 +214,10 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       }
       return res.status(err.status ?? 500).send(err);
     } catch (e) {
-      ctx.logger.error.log(`An error occured %O`, JSON.stringify(err, null, 2));
+      ctx.logger.error.log(
+        `An error occurred %O`,
+        JSON.stringify(err, null, 2)
+      );
       return res.status(500).send(err);
     }
   });

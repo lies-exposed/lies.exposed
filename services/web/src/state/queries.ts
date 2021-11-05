@@ -1,22 +1,21 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { Endpoints } from "@econnessione/shared/endpoints";
 import { Events } from "@econnessione/shared/io/http";
-import {
-  APIError,
-  toAPIError,
-} from "@econnessione/shared/providers/api.provider";
-import { UUID } from "@io/http/Common";
-import { Event } from "@io/http/Events";
+import { APIError } from "@econnessione/shared/providers/api.provider";
+import { Actor } from "@io/http/Actor";
 import { Death } from "@io/http/Events/Death";
 import { available, queryStrict } from "avenger";
-import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter";
 import { api } from "../api";
 import { EventsView } from "../utils/location.utils";
 import { stateLogger } from "../utils/logger.utils";
+import { toKey } from "utils/state.utils";
+
+export const IL_EVENT_KEY_PREFIX = "events";
+export const IL_DEATH_KEY_PREFIX = "deaths";
+export const IL_NETWORK_KEY_PREFIX = "network";
+export const IL_ACTORS_KEY_PREFIX = "actors";
 
 export type InfiniteEventListParams = Omit<EventsView, "view">;
 export interface InfiniteDeathsListParam {
@@ -30,106 +29,123 @@ interface InfiniteEventListMetadata {
   keywords: string[];
 }
 
-const eventsQueryWithCache =
-  <T extends t.Mixed, D extends t.Mixed, M extends t.Mixed>(
-    apiRequest: (input: any) => TE.TaskEither<APIError, t.TypeOf<T>>,
-    dataCodec: D,
-    metadataCodec: M,
-    empty: t.TypeOf<M>,
-    reduceMetadata: (
-      acc: t.TypeOf<M> & { data: any[] },
-      e: t.TypeOf<T>
-    ) => t.TypeOf<M>
-  ) =>
-  (cachePrefix: string) =>
-  ({ page = 1, hash, ...query }: InfiniteEventListParams) => {
-    if (hash === undefined) {
-      stateLogger.debug.log(
-        `No hash given, returning empty response.`,
-        hash,
-        query,
-        page
-      );
-      return TE.right({ data: [], total: 0, metadata: empty });
-    }
+export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
 
-    const cacheKey = `${cachePrefix}${hash}`;
+const getFromCache = <T extends t.Any, M>(
+  cacheKey: string,
+  p: number
+): TE.TaskEither<APIError, (t.TypeOf<T> & { metadata: M }) | undefined> =>
+  TE.fromIO<(t.TypeOf<T> & { metadata: M }) | undefined, APIError>(() => {
+    const cache = infiniteListCache[cacheKey]?.[p];
+    stateLogger.debug.log(`[%s] Cache for page %d %O`, cacheKey, p, cache);
+    return cache;
+  });
 
+const buildFromCache = <T extends t.Any, M>(
+  cacheKey: string,
+  page: number,
+  empty: M
+): TE.TaskEither<APIError, t.TypeOf<T> & { metadata: M }> => {
+  return TE.fromIO<t.TypeOf<T> & { metadata: M }, APIError>(() => {
     stateLogger.debug.log(
-      `Cached query for hash (%s) for payload %O and page (%d)`,
+      "[%s] Build data from cache until page %d",
       cacheKey,
-      query,
       page
     );
+    const storedResponse = pipe(
+      infiniteListCache[cacheKey] ?? {},
+      Object.entries,
+      (entries) => {
+        return entries.reduce<t.TypeOf<T> & { metadata: M }>(
+          (acc, [p, item]) => {
+            if (parseInt(p, 10) <= page) {
+              return {
+                data: acc.data.concat(item.data),
+                total: item.total,
+                metadata: item.metadata,
+              };
+            }
+            return acc;
+          },
+          { data: [], total: 0, metadata: empty }
+        );
+      }
+    );
+    stateLogger.debug.log(`[%s] Stored data %O`, cacheKey, storedResponse);
+    return storedResponse;
+  });
+};
 
-    const clearOrGetTask: TE.TaskEither<APIError, string | null> =
-      page === 1
-        ? TE.fromIO<null, APIError>(() => {
-            stateLogger.debug.log(`Removing key %s`, cacheKey);
-            window.localStorage.removeItem(cacheKey);
-            return null;
-          })
-        : TE.fromIO<string | null, APIError>(() => {
-            stateLogger.debug.log(`Get stored data at key %s`, cacheKey);
-            return window.localStorage.getItem(cacheKey);
-          });
+const eventsQueryWithCache =
+  <T extends t.Mixed, M>(
+    apiRequest: (input: any) => TE.TaskEither<APIError, t.TypeOf<T>>,
+    empty: M,
+    reduceMetadata: (acc: M & { data: any[] }, e: t.TypeOf<T>) => M
+  ) =>
+  (cachePrefix: string) =>
+  ({
+    page = 1,
+    hash,
+    ...query
+  }: {
+    page?: number;
+    hash?: string;
+  }): TE.TaskEither<APIError, t.TypeOf<T> & { metadata: M }> => {
+    const perPage = 20;
+
+    const cacheKey = toKey(cachePrefix, hash);
+    if (!infiniteListCache[cacheKey]) {
+      infiniteListCache[cacheKey] = {};
+    }
 
     return pipe(
-      clearOrGetTask,
+      getFromCache<T, M>(cacheKey, page),
       TE.chain((result) => {
-        if (result !== null) {
-          const jsonResult = JSON.parse(result);
-          stateLogger.debug.log(
-            `Local stored data %O for key %s`,
-            jsonResult,
-            cacheKey
-          );
-          return pipe(
-            jsonResult,
-            t.strict({
-              total: t.number,
-              data: dataCodec,
-              metadata: metadataCodec,
-            }).decode,
-            E.mapLeft((e) => {
-              // eslint-disable-next-line no-console
-              PathReporter.report(E.left(e)).map(console.log);
-              return toAPIError(e);
-            }),
-            TE.fromEither
-          );
+        if (result !== undefined) {
+          return buildFromCache(cacheKey, page, empty);
         }
-        return TE.right({ total: 0, data: [], ...empty });
-      }),
-      TE.chain((storedResponse) => {
-        const currentStart = (page - 1) * 20;
-        if (storedResponse.data.length > currentStart + 20) {
-          return TE.right(storedResponse);
-        }
+
         return pipe(
           apiRequest({
-            Query: { _start: currentStart, _end: 20, ...(query as any) },
+            Query: {
+              _start: (page - 1) * perPage,
+              _end: perPage,
+              ...(query as any),
+            },
           }),
-          TE.chain((prevRes) => {
+          TE.map((prevRes) => {
+            stateLogger.debug.log("[%s] API response %O", cacheKey, prevRes);
+
+            const storedResponse = pipe(
+              infiniteListCache[cacheKey] ?? {},
+              Object.entries,
+              (entries) => {
+                return entries.reduce(
+                  (acc, [p, item]) => acc.concat(item.data),
+                  []
+                );
+              }
+            );
+
             const { data, ...metadata } = [
-              ...storedResponse.data,
+              ...storedResponse,
               ...prevRes.data,
             ].reduce(reduceMetadata, { data: [], ...empty });
+
             const response = {
               total: prevRes.total,
               data,
               metadata,
             };
-            return pipe(
-              TE.fromIO<void, APIError>(() => {
-                stateLogger.debug.log(`Set item [%s]: %O`, cacheKey, response);
-                return window.localStorage.setItem(
-                  cacheKey,
-                  JSON.stringify(response)
-                );
-              }),
-              TE.map(() => response)
-            );
+
+            infiniteListCache[cacheKey][page] = {
+              ...prevRes,
+              metadata: response.metadata,
+            };
+
+            stateLogger.debug.log("[%s] Response %O", cacheKey, response);
+
+            return response;
           })
         );
       })
@@ -138,13 +154,6 @@ const eventsQueryWithCache =
 
 const makeEventListQuery = eventsQueryWithCache(
   api.Event.List,
-  t.array(Event),
-  t.strict({
-    actors: t.array(t.string),
-    groups: t.array(t.string),
-    keywords: t.array(t.string),
-    groupsMembers: t.array(t.string),
-  }),
   { actors: [], groups: [], groupsMembers: [], keywords: [] },
   (acc, e) => {
     return {
@@ -164,7 +173,6 @@ const makeEventListQuery = eventsQueryWithCache(
     };
   }
 );
-const infiniteEventListCachePrefix = "infinite-list-";
 
 interface InfiniteEventListResult {
   data: Events.Event[];
@@ -176,29 +184,27 @@ export const infiniteEventList = queryStrict<
   InfiniteEventListParams,
   APIError,
   InfiniteEventListResult
->(makeEventListQuery(infiniteEventListCachePrefix), available);
-
-const eventNetworkListCachePrefix = "network-";
+>(makeEventListQuery(IL_EVENT_KEY_PREFIX), available);
 
 export const eventNetworkList = queryStrict<
   InfiniteEventListParams,
   APIError,
   { data: Events.Event[]; total: number; metadata: InfiniteEventListMetadata }
->(makeEventListQuery(eventNetworkListCachePrefix), available);
+>(makeEventListQuery(IL_NETWORK_KEY_PREFIX), available);
+
+interface InfiniteDeathListMetadata {
+  victims: string[];
+}
 
 export const deathsInfiniteList = queryStrict<
   InfiniteDeathsListParam,
   APIError,
-  t.TypeOf<Endpoints["DeathEvent"]["List"]["Output"]>
+  { data: Death[]; total: number; metadata: InfiniteDeathListMetadata }
 >(
   eventsQueryWithCache(
     api.DeathEvent.List,
-    t.array(Death),
-    t.strict({
-      victims: t.array(UUID),
-    }),
     {
-      victims: [],
+      victims: [] as string[],
     },
     (acc, d: Events.Death.Death) => {
       return {
@@ -208,6 +214,19 @@ export const deathsInfiniteList = queryStrict<
           .concat(d.victim),
       };
     }
-  )("deaths-"),
+  )(IL_DEATH_KEY_PREFIX),
+  available
+);
+
+export const actorsInfiniteList = queryStrict<
+  { ids?: string[]; fullName?: string; page?: number; hash?: string },
+  APIError,
+  { data: Actor[]; total: number; metadata: {} }
+>(
+  eventsQueryWithCache(api.Actor.List, {}, (acc, d: Actor) => {
+    return {
+      data: acc.data.concat(d),
+    };
+  })(IL_ACTORS_KEY_PREFIX),
   available
 );
