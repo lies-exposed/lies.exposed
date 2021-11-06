@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { MakeCreateEventRoute } from "./createEvent.controller";
+import { MakeDeleteEventRoute } from "./deleteEvent.controller";
 import { MakeEditEventRoute } from "./editEvent.controller";
 import { MakeGetEventRoute } from "./getEvent.controller";
 import { MakeListEventRoute } from "./getEvents.controller";
@@ -10,4 +11,5 @@ export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
   MakeEditEventRoute(router, ctx);
   MakeGetEventRoute(router, ctx);
   MakeListEventRoute(router, ctx);
+  MakeDeleteEventRoute(router, ctx);
 };
