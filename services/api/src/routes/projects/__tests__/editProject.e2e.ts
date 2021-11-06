@@ -52,11 +52,11 @@ describe("Edit Project ", () => {
     );
 
     const { updatedAt, ...receivedBody } = response.body.data;
-    const { updatedAt: _, ...expectedBody } = project;
+    const { updatedAt: _, deletedAt: _deletedAt, ...expectedBody } = project;
     expect(receivedBody).toMatchObject({
       ...expectedBody,
       ...updateData,
-      areas: expectedBody.areas.map((a) => ({
+      areas: expectedBody.areas.map(({ deletedAt, ...a }) => ({
         ...a,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),
@@ -88,10 +88,10 @@ describe("Edit Project ", () => {
     expect(decodedBody._tag).toEqual("Right");
 
     const { updatedAt, ...receivedBody } = response.body.data;
-    const { updatedAt: _, ...expectedBody } = project;
+    const { updatedAt: _, deletedAt: _deletedAt, ...expectedBody } = project;
     expect(receivedBody).toMatchObject({
       ...expectedBody,
-      areas: expectedBody.areas.map((a) => ({
+      areas: expectedBody.areas.map(({ deletedAt, ...a }) => ({
         ...a,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),

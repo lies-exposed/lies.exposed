@@ -71,11 +71,13 @@ describe("List Group Member", () => {
         createdAt,
         updatedAt: groupMemberUDate,
         endDate,
+        deletedAt: gmDeletedAt,
         actor: {
           avatar: actorAvatar,
           createdAt: actorCreatedAt,
           updatedAt: actorUAT,
           death,
+          deletedAt: aDeletedAt,
           ...expectedActor
         },
         group: {
@@ -83,6 +85,7 @@ describe("List Group Member", () => {
           createdAt: groupCreatedAt,
           updatedAt: groupUDate,
           subGroups,
+          deletedAt,
           ...expectedGroup
         },
         ...expectedResult
