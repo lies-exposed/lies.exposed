@@ -15,7 +15,7 @@
     "serve": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/serve",
     "vaccines:download": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/download",
     "vaccines:parse": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/parse",
-    "bucket:pull": "aws s3 sync s3://econnessione-alpha/public ./buckets/dev/public --endpoint https://fra1.digitaloceanspaces.com/",
+    "bucket:pull": "aws s3 sync s3://econnessione-alpha/public ./buckets/public --endpoint https://fra1.digitaloceanspaces.com/",
     "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images"
   },
   "dependencies": {

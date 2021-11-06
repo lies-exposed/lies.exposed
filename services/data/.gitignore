@@ -1,4 +1,4 @@
 # ignore minio settings folder
 .minio.sys
 
-buckets/public
+buckets/

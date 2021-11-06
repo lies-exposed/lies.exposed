@@ -19,7 +19,7 @@ export const MakeDeleteActorRoute: Route = (r, { s3, db, env }) => {
           avatar: pipe(
             s3.deleteObject({
               Bucket: env.SPACE_BUCKET,
-              Key: `/actors/${id}.jpg`,
+              Key: `public/actors/${id}/${id}.jpg`,
             }),
             TE.mapLeft((e) => ServerError())
           ),

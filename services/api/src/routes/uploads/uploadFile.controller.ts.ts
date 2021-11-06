@@ -36,7 +36,7 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(({ key, file }) =>
           ctx.s3.upload({
             Bucket: ctx.env.SPACE_BUCKET,
-            Key: `/${key}`,
+            Key: `public/${key}`,
             Body: file,
           })
         ),
