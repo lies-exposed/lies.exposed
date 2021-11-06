@@ -26,7 +26,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import * as Helmet from "react-helmet";
-import { resetInfiniteList } from "../state/commands";
+// import { resetInfiniteList } from "../state/commands";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
 import { EventsNetwork } from "@containers/EventsNetwork";
 import InfiniteEventList from "@containers/InfiniteEventList";
@@ -64,7 +64,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
           endDate,
         ]);
 
-        const handleUpdateCurrentview = React.useCallback(
+        const handleUpdateCurrentView = React.useCallback(
           (filters: Partial<Omit<EventsView, "view">>): void => {
             const query = {
               actors: actorIds,
@@ -77,21 +77,17 @@ const EventsPage: React.FC<EventsPageProps> = ({
               hash,
             };
 
-            void resetInfiniteList(query as any, {
-              infiniteEventList: query as any,
-            })().then(() =>
-              doUpdateCurrentView({
-                view: "events",
-                ...query,
-                ...filters,
-              })()
-            );
+            void doUpdateCurrentView({
+              view: "events",
+              ...query,
+              ...filters,
+            })();
           },
           [hash, tab]
         );
 
         const handleDateRangeChange = (range: [string, string]): void => {
-          handleUpdateCurrentview({
+          handleUpdateCurrentView({
             startDate: range[0],
             endDate: range[1],
           });
@@ -102,7 +98,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
             ? A.array.filter(actorIds, (a) => !S.Eq.equals(a, actor.id))
             : actorIds.concat(actor.id);
 
-          handleUpdateCurrentview({
+          handleUpdateCurrentView({
             actors: newSelectedActorIds,
           });
         };
@@ -112,7 +108,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
             ? A.array.filter(groupIds, (_) => !S.Eq.equals(_, g.id))
             : groupIds.concat(g.id);
 
-          handleUpdateCurrentview({
+          handleUpdateCurrentView({
             groups: newSelectedGroupIds,
           });
         };
@@ -122,19 +118,42 @@ const EventsPage: React.FC<EventsPageProps> = ({
             ? A.array.filter(keywordIds, (_) => !S.Eq.equals(_, keyword.id))
             : keywordIds.concat(keyword.id);
 
-          handleUpdateCurrentview({
+          handleUpdateCurrentView({
             keywords: newSelectedKeywords,
           });
         };
 
         return (
-          <ContentWithSidebar
-            defaultOpen={true}
-            sidebar={
-              <Grid container direction="column">
-                <Grid item style={{ margin: 10 }}>
-                  <Grid container>
-                    <Grid item md={6}>
+          <>
+            <Helmet.Helmet>
+              <SEO title={page.title} />
+            </Helmet.Helmet>
+            <Grid item>
+              <Grid container justifyContent="center">
+                <Grid item md={10} style={{ marginBottom: 40 }}>
+                  <Grid item>
+                    <PageContent {...page} />
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item md={4}>
+                      <AutocompleteKeywordInput
+                        selectedIds={keywordIds}
+                        onItemClick={onKeywordClick}
+                      />
+                    </Grid>
+                    <Grid item md={4}>
+                      <AutocompleteGroupInput
+                        selectedIds={groupIds}
+                        onItemClick={onGroupClick}
+                      />
+                    </Grid>
+                    <Grid item md={4}>
+                      <AutocompleteActorInput
+                        selectedIds={actorIds}
+                        onItemClick={onActorClick}
+                      />
+                    </Grid>
+                    <Grid item md={4}>
                       <DatePicker
                         size="small"
                         value={dateRange[0]}
@@ -148,7 +167,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         style={{ width: "100%" }}
                       />
                     </Grid>
-                    <Grid item md={6}>
+                    <Grid item md={4}>
                       <DatePicker
                         size="small"
                         value={endDate}
@@ -162,60 +181,31 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         style={{ width: "100%" }}
                       />
                     </Grid>
+                    <Grid item md={4}>
+                      <Button
+                        onClick={() =>
+                          handleUpdateCurrentView({
+                            actors: [],
+                            groups: [],
+                            groupsMembers: [],
+                            keywords: [],
+                            tab: 0,
+                            startDate: undefined,
+                            endDate: undefined,
+                            hash: undefined,
+                          })
+                        }
+                      >
+                        Clear filters
+                      </Button>
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid item style={{ margin: 10 }}>
-                  <AutocompleteKeywordInput
-                    selectedIds={keywordIds}
-                    onItemClick={onKeywordClick}
-                  />
-                </Grid>
-                <Grid item style={{ margin: 10 }}>
-                  <AutocompleteGroupInput
-                    selectedIds={groupIds}
-                    onItemClick={onGroupClick}
-                  />
-                </Grid>
-                <Grid item style={{ margin: 10 }}>
-                  <AutocompleteActorInput
-                    selectedIds={actorIds}
-                    onItemClick={onActorClick}
-                  />
-                </Grid>
-                <Grid item style={{ margin: 10 }}>
-                  <Button
-                    onClick={() =>
-                      handleUpdateCurrentview({
-                        actors: [],
-                        groups: [],
-                        groupsMembers: [],
-                        keywords: [],
-                        tab: 0,
-                        startDate: undefined,
-                        endDate: undefined,
-                        hash: undefined,
-                      })
-                    }
-                  >
-                    Clear filters
-                  </Button>
-                </Grid>
-              </Grid>
-            }
-          >
-            <Helmet.Helmet>
-              <SEO title={page.title} />
-            </Helmet.Helmet>
-            <Grid item>
-              <Grid container>
-                <Grid item md={12}>
-                  <PageContent {...page} />
-                </Grid>
-
-                <Grid item md={12}>
+                <Grid item md={10}>
                   <Tabs
+                    style={{ marginBottom: 30 }}
                     value={tab}
-                    onChange={(e, tab) => handleUpdateCurrentview({ tab })}
+                    onChange={(e, tab) => handleUpdateCurrentView({ tab })}
                   >
                     <Tab label="network" {...a11yProps(0)} />
                     <Tab label="map" {...a11yProps(1)} />
@@ -224,8 +214,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
 
                   <TabPanel value={tab} index={0}>
                     {tab === 0 ? (
-                      <EventsNetwork
-                        filter={{
+                      <InfiniteEventList
+                        eventFilters={{
                           startDate,
                           endDate,
                           keywords: keywordIds,
@@ -234,10 +224,13 @@ const EventsPage: React.FC<EventsPageProps> = ({
                           groupsMembers: groupsMembersIds,
                           hash,
                         }}
-                        groupBy={"actor"}
-                        scale={"all"}
-                        scalePoint={O.none}
-                        onEventClick={(e) => {
+                        deathFilters={{
+                          minDate: startDate,
+                          maxDate: endDate,
+                          victim: actorIds,
+                          hash: hash ?? "",
+                        }}
+                        onClick={(e) => {
                           void doUpdateCurrentView({
                             view: "event",
                             eventId: e.id,
@@ -259,8 +252,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   </TabPanel>
                   <TabPanel value={tab} index={2}>
                     {tab === 2 ? (
-                      <InfiniteEventList
-                        eventFilters={{
+                      <EventsNetwork
+                        filter={{
                           startDate,
                           endDate,
                           keywords: keywordIds,
@@ -269,12 +262,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
                           groupsMembers: groupsMembersIds,
                           hash,
                         }}
-                        deathFilters={{
-                          minDate: startDate,
-                          maxDate: endDate,
-                          hash: hash ?? "",
-                        }}
-                        onClick={(e) => {
+                        groupBy={"actor"}
+                        scale={"all"}
+                        scalePoint={O.none}
+                        onEventClick={(e) => {
                           void doUpdateCurrentView({
                             view: "event",
                             eventId: e.id,
@@ -282,11 +273,12 @@ const EventsPage: React.FC<EventsPageProps> = ({
                         }}
                       />
                     ) : null}
+                    <div />
                   </TabPanel>
                 </Grid>
               </Grid>
             </Grid>
-          </ContentWithSidebar>
+          </>
         );
       })}
     />

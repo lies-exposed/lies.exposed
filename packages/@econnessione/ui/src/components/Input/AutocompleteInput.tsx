@@ -60,7 +60,7 @@ export const AutocompleteInput = <T extends { id: string }>({
   );
 
   const selectedItemsQuery = React.useMemo(() => {
-    return selectedIds.length > 0 ? query : emptyDataQuery<T>();
+    return query;
   }, [selectedIds.length]);
 
   return (
@@ -92,7 +92,6 @@ export const AutocompleteInput = <T extends { id: string }>({
           items: { data: items },
           selectedItems: { data: selectedItems },
         }) => {
-
           return (
             <Autocomplete<T, boolean, boolean, boolean>
               {...props}

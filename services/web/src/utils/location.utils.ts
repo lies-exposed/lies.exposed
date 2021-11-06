@@ -114,6 +114,14 @@ const parseQuery = (s: string): qs.ParsedQuery =>
 const stringifyQuery = (search: { [key: string]: string | string[] }): string =>
   qs.stringify(search, { arrayFormat: "comma" });
 
+const toBase64 = (data: string): string => {
+  return Buffer.from(data).toString("base64");
+};
+
+const fromBase64 = (hash: string): string => {
+  return Buffer.from(hash, "base64").toString();
+};
+
 const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
   return (
     (v.actors ?? []).length === 0 &&
@@ -208,9 +216,7 @@ export function locationToView(location: HistoryLocation): CurrentView {
 
   if (eventsViewMatch !== null) {
     const decodedSearch = pipe(
-      hash !== undefined && hash !== ""
-        ? bs58.decode(hash).toString("utf-8")
-        : "{}",
+      hash !== undefined && hash !== "" ? fromBase64(fromBase64(hash)) : "{}",
       JSON.parse
     );
 
@@ -321,7 +327,7 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
 
       // eslint-disable-next-line no-case-declarations
       const hash = !isEventsQueryEmpty(query)
-        ? bs58.encode(Buffer.from(JSON.stringify(query), "utf-8"))
+        ? toBase64(toBase64(JSON.stringify(query)))
         : undefined;
 
       return {

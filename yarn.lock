@@ -5645,10 +5645,10 @@ autosuggest-highlight@^3.1.1:
   dependencies:
     diacritic "0.0.2"
 
-avenger@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/avenger/-/avenger-7.0.0.tgz#25a014250849a468c8c4220067b87dd74e2cf86f"
-  integrity sha512-j1ZslaFAgjG687APxgKEI+sQRJQiIYVPLPyvLpba4BblTMJzO3LXukiPBdW6CmyX76KyJbNhn64rZNh+14FocA==
+avenger@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/avenger/-/avenger-7.0.1.tgz#8048e4b5827d173f70e59b377c7bb9f76571fe3b"
+  integrity sha512-vaMLPYwBKHAJlMWxGRm4lCNNg+0QcUkDc8m8g7bGB1MXX1DnUaTLw/c7hzqevp6je0m6FpcgBI+kkntfT8Oh7w==
   dependencies:
     fp-ts "^2.6.6"
     history "^4.10.1"

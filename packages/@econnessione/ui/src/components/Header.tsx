@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuItemLink: {
       color: theme.palette.text.primary,
-      textDecoration: "none",
-      textTransform: "uppercase",
       fontWeight: theme.typography.fontWeightBold,
+      textTransform: "uppercase",
+      margin: 0,
     },
     title: {
       flexGrow: 1,
@@ -222,7 +222,10 @@ const Header: React.FC<HeaderProps> = ({
                               onMenuItemClick({ subItems: [], ...item });
                             }}
                           >
-                            <Typography className={classes.menuItemLink}>
+                            <Typography
+                              variant="h6"
+                              className={classes.menuItemLink}
+                            >
                               {item.label}
                             </Typography>
                           </MenuItem>

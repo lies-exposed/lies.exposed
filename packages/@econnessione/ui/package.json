@@ -42,7 +42,7 @@
     "@vx/threshold": "^0.0.199",
     "@vx/tooltip": "0.0.199",
     "@vx/zoom": "0.0.199",
-    "avenger": "^7.0.0",
+    "avenger": "^7.0.1",
     "axios": "^0.23.0",
     "d3-sankey": "^0.12.3",
     "date-fns": "^2.22.1",

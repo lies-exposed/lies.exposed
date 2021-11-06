@@ -116,7 +116,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 )
               )}
             </Grid>
-            <Grid item md={6} sm={6} justifyContent="flex-end">
+            <Grid item md={6} sm={6}>
               {pipe(
                 actors,
                 O.fromPredicate(A.isNonEmpty),
