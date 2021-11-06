@@ -127,11 +127,19 @@ export const GroupMemberCreate: React.FC<CreateProps> = (props) => (
     transform={transformGroupMember}
   >
     <SimpleForm>
-      <ReferenceInput reference="actors" source="actor">
-        <AutocompleteInput source="id" optionText="fullName" />
+      <ReferenceInput
+        reference="actors"
+        source="actor.id"
+        filterToQuery={(fullName) => ({ fullName })}
+      >
+        <AutocompleteInput optionText="fullName" />
       </ReferenceInput>
-      <ReferenceInput reference="groups" source="group">
-        <AutocompleteInput source="id" />
+      <ReferenceInput
+        reference="groups"
+        source="group.id"
+        filterToQuery={(name) => ({ name })}
+      >
+        <AutocompleteInput source="id" optionText="name" />
       </ReferenceInput>
       <DateInput source="startDate" />
       <DateInput source="endDate" />
