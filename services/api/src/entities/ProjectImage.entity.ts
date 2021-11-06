@@ -2,6 +2,7 @@ import { http } from "@econnessione/shared/io";
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -39,4 +40,7 @@ export class ProjectImageEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 }

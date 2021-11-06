@@ -1,10 +1,9 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toActorIO } from "./actor.io";
 import { ActorEntity } from "@entities/Actor.entity";
-import { ServerError } from "@io/ControllerError";
 import { Route } from "routes/route.types";
 
 export const MakeDeleteActorRoute: Route = (r, { s3, db, env }) => {
@@ -16,14 +15,14 @@ export const MakeDeleteActorRoute: Route = (r, { s3, db, env }) => {
       }),
       TE.chainFirst(() =>
         sequenceS(TE.ApplicativeSeq)({
-          avatar: pipe(
-            s3.deleteObject({
-              Bucket: env.SPACE_BUCKET,
-              Key: `public/actors/${id}/${id}.jpg`,
-            }),
-            TE.mapLeft((e) => ServerError())
-          ),
-          actor: db.delete(ActorEntity, id),
+          // avatar: pipe(
+          //   s3.deleteObject({
+          //     Bucket: env.SPACE_BUCKET,
+          //     Key: `public/actors/${id}/${id}.jpg`,
+          //   }),
+          //   TE.mapLeft((e) => ServerError())
+          // ),
+          actor: db.softDelete(ActorEntity, id),
         })
       ),
       TE.chainEitherK(toActorIO),

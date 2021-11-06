@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToMany,
   ManyToOne,
@@ -25,12 +26,6 @@ export class GroupMemberEntity {
   @Column({ type: "varchar", nullable: false })
   body: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @ManyToOne(() => GroupEntity, (g) => g.id, {
     nullable: false,
     cascade: false,
@@ -45,4 +40,13 @@ export class GroupMemberEntity {
 
   @ManyToMany(() => EventEntity, (e) => e.groupsMembers, { cascade: false })
   events: EventEntity[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 }

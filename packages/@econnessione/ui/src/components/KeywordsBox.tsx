@@ -38,12 +38,14 @@ export const KeywordsList = withQueries(({ queries }): React.ReactElement => {
 export const KeywordsBox: React.FC<KeywordsBoxProps> = ({ ids }) => {
   return (
     <Box>
-      {/* <Typography variant="h5">Keywords</Typography> */}
+      <Typography variant="subtitle1" display="inline">
+        Keywords:{" "}
+      </Typography>
       {pipe(
         ids,
         NEA.fromArray,
         O.fold(
-          () => <Typography>No keywords</Typography>,
+          () => <Typography display="inline">-</Typography>,
           (ids) => (
             <KeywordsList
               queries={{

@@ -27,10 +27,9 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
           <SEO title={"keywords"} />
           <KeywordPageContent {...keyword} />
           <InfiniteEventList
-            eventFilters={{
+            filters={{
               keywords: [keyword.id],
             }}
-            deathFilters={{}}
           />
         </ContentWithSideNavigation>
       );

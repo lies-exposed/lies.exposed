@@ -21,6 +21,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       groupsMembers,
       links,
       keywords,
+      images,
       startDate,
       endDate,
       ...queryRest
@@ -68,6 +69,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
                   items: links,
                 },
                 { key: "keywords.id IN (:...keywords)", items: keywords },
+                { key: "images.id IN (:...images)", items: images },
               ],
               A.map((i) =>
                 pipe(

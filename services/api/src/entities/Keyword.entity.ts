@@ -2,6 +2,7 @@ import { Tag } from "@econnessione/shared/io/http/Common";
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinTable,
@@ -33,4 +34,7 @@ export class KeywordEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 }

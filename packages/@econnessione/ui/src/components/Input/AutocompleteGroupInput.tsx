@@ -6,12 +6,13 @@ import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteGroupInputProps {
   selectedIds: string[];
-  onItemClick: (item: Group.Group) => void;
+  onChange: (item: Group.Group[]) => void;
 }
 
-export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = (
-  {selectedIds, onItemClick }
-) => {
+export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
+  selectedIds,
+  onChange,
+}) => {
   return (
     <AutocompleteInput<Group.Group>
       placeholder="Groups..."
@@ -25,21 +26,20 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = (
             ...i,
             selected: true,
           }))}
-          onGroupClick={onItemClick}
+          onGroupClick={(g) => onChange(items.filter((i) => i.id !== g.id))}
         />
       )}
       renderOption={(item, state) => (
         <GroupListItem
           key={item.id}
+          displayName
           item={{
             ...item,
             selected: selectedIds.includes(item.id),
           }}
-          onClick={onItemClick}
         />
       )}
-      onSelectItem={onItemClick}
-      onUnselectItem={onItemClick}
+      onItemsChange={onChange}
     />
   );
 };

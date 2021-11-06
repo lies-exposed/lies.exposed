@@ -10,13 +10,16 @@ import {
   DateField,
   Edit,
   EditProps,
+  FormTab,
   ImageField,
   ImageInput,
   List,
   ListProps,
   Record,
+  ReferenceManyField,
   required,
   SimpleForm,
+  TabbedForm,
   TextField,
 } from "react-admin";
 import MarkdownInput from "./Common/MarkdownInput";
@@ -65,16 +68,27 @@ const EditTitle: React.FC<EditProps> = ({ record }: any) => {
 
 export const ImageEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit title={<EditTitle {...props} />} {...props} transform={transformImage}>
-    <SimpleForm>
-      <ImageField source="location" />
-      <ImageInput source="location">
-        <ImageField source="src" />
-      </ImageInput>
-      <DateField source="updatedAt" showTime={true} />
-      <DateField source="createdAt" showTime={true} />
+    <TabbedForm>
+      <FormTab label="general">
+        <ImageField source="location" />
+        <ImageInput source="location">
+          <ImageField source="src" />
+        </ImageInput>
+        <DateField source="updatedAt" showTime={true} />
+        <DateField source="createdAt" showTime={true} />
 
-      <MarkdownInput source="description" />
-    </SimpleForm>
+        <MarkdownInput source="description" />
+      </FormTab>
+      <FormTab label="events">
+        <ReferenceManyField label="Events" target="images[]" reference="events">
+          <Datagrid rowClick="edit">
+            <TextField source="id" />
+            <TextField source="title" />
+            <DateField source="createdAt" />
+          </Datagrid>
+        </ReferenceManyField>
+      </FormTab>
+    </TabbedForm>
   </Edit>
 );
 

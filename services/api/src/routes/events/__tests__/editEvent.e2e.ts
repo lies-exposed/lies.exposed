@@ -43,6 +43,7 @@ describe("Edit Event", () => {
     const result = await appTest.ctx.db.save(EventEntity, [event] as any[])();
 
     delete (result as any).right[0].endDate;
+    delete (result as any).right[0].deletedAt;
 
     event = {
       ...event,

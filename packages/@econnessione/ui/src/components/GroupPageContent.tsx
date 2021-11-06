@@ -23,7 +23,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   events,
   body,
   groupsMembers,
-  ...frontmatter
+  ...group
 }) => {
   // const projectFundsInitMap: Map<string, number> = Map.empty;
   // const projectFundsMap = pipe(
@@ -45,7 +45,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         <Grid container direction="row" alignItems="flex-end">
           <Grid item>
             {pipe(
-              O.fromNullable(frontmatter.avatar),
+              O.fromNullable(group.avatar),
               O.fold(
                 () => <div />,
                 (src) => (
@@ -55,7 +55,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
             )}
           </Grid>
           <Grid item>
-            <Typography variant="h2">{frontmatter.name}</Typography>
+            <Typography variant="h2">{group.name}</Typography>
           </Grid>
         </Grid>
         <Grid container style={{ marginBottom: 20 }}>
@@ -78,18 +78,6 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         </Grid>
 
         <Grid>
-          <div>
-            {/* <h4>Progetti</h4> */}
-            {/* {pipe(
-              projectFundsMap,
-              Map.toArray(Ord.ordString),
-              A.map(([name, value]) => (
-                <LabelMedium key={`group-page-content-${name}`}>
-                  {name} {value} euro
-                </LabelMedium>
-              ))
-            )} */}
-          </div>
           <MarkdownRenderer>{body}</MarkdownRenderer>
         </Grid>
       </Grid>

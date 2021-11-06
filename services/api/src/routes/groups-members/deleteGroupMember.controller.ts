@@ -18,7 +18,7 @@ export const MakeDeleteGroupMemberRoute = (
         where: { id },
         loadRelationIds: true,
       }),
-      TE.chainFirst(() => ctx.db.delete(GroupMemberEntity, id)),
+      TE.chainFirst(() => ctx.db.softDelete(GroupMemberEntity, id)),
       TE.chainEitherK(toGroupMemberIO),
       TE.map((data) => ({
         body: {

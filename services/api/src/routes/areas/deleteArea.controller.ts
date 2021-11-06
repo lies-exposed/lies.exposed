@@ -12,7 +12,7 @@ export const MakeDeleteAreaRoute: Route = (r, { s3, db, env }) => {
         where: { id },
         loadRelationIds: true,
       }),
-      TE.chainFirst(() => db.delete(AreaEntity, id)),
+      TE.chainFirst(() => db.softDelete(AreaEntity, id)),
       TE.chainEitherK(toAreaIO),
       TE.map((page) => ({
         body: {

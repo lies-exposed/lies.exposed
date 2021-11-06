@@ -6,41 +6,38 @@ import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteKeywordInputProps {
   selectedIds: string[];
-  onItemClick: (item: Keyword.Keyword) => void;
+  onItemClick: (item: Keyword.Keyword[]) => void;
 }
 
-export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> = ({
-  selectedIds,
-  onItemClick,
-}) => {
-  return (
-    <AutocompleteInput<Keyword.Keyword>
-      placeholder="Keyword..."
-      searchToFilter={(tag) => ({ tag })}
-      selectedIds={selectedIds}
-      getValue={(k) => k.tag}
-      query={Queries.Keyword.getList}
-      renderTags={(items) => (
-        <KeywordList
-          keywords={items.map((i) => ({
-            ...i,
-            selected: true,
-          }))}
-          onItemClick={(k) => onItemClick(k)}
-        />
-      )}
-      renderOption={(item, state) => (
-        <KeywordListItem
-          key={item.id}
-          item={{
-            ...item,
-            selected: selectedIds.includes(item.id),
-          }}
-          onClick={onItemClick}
-        />
-      )}
-      onSelectItem={onItemClick}
-      onUnselectItem={onItemClick}
-    />
-  );
-};
+export const AutocompleteKeywordInput: React.FC<AutocompleteKeywordInputProps> =
+  ({ selectedIds, onItemClick }) => {
+    return (
+      <AutocompleteInput<Keyword.Keyword>
+        placeholder="Keyword..."
+        searchToFilter={(tag) => ({ tag })}
+        selectedIds={selectedIds}
+        getValue={(k) => k.tag}
+        query={Queries.Keyword.getList}
+        renderTags={(items) => (
+          <KeywordList
+            keywords={items.map((i) => ({
+              ...i,
+              selected: true,
+            }))}
+            onItemClick={(k) => onItemClick(items.filter((i) => i.id !== k.id))}
+          />
+        )}
+        renderOption={(item, state) => (
+          <KeywordListItem
+            key={item.id}
+            item={{
+              ...item,
+              selected: selectedIds.includes(item.id),
+            }}
+            onClick={() => {}}
+          />
+        )}
+        onItemsChange={onItemClick}
+      />
+    );
+  };

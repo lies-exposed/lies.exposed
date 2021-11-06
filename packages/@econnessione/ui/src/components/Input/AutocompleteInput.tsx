@@ -25,8 +25,7 @@ export interface AutocompleteInputProps<T extends SearchableItem>
   searchToFilter: (t: string) => Record<string, string>;
   getValue: (v: T) => string;
   selectedIds: string[];
-  onSelectItem: (item: T, items: T[]) => void;
-  onUnselectItem: (item: T, items: T[]) => void;
+  onItemsChange: (items: T[]) => void;
 }
 
 const emptyDataQuery = <T extends SearchableItem>(): CachedQuery<
@@ -47,8 +46,7 @@ export const AutocompleteInput = <T extends { id: string }>({
   renderTags,
   renderOption,
   searchToFilter,
-  onSelectItem,
-  onUnselectItem,
+  onItemsChange,
   ...props
 }: AutocompleteInputProps<T>): React.ReactElement => {
   const [value, setValue] = React.useState<string | undefined>("");
@@ -102,13 +100,15 @@ export const AutocompleteInput = <T extends { id: string }>({
               options={items}
               onChange={(e, v) => {
                 if (Array.isArray(v)) {
-                  if (v.length > selectedItems.length) {
-                    const item = v[v.length - 1];
-                    onSelectItem(item as T, selectedItems);
-                  } else {
-                    const item = selectedItems.filter((si) => !v.includes(si));
-                    onUnselectItem(item[0], selectedItems);
-                  }
+                  onItemsChange(v as T[]);
+                  setValue("");
+                  // if (v.length > selectedItems.length) {
+                  //   const item = v[v.length - 1];
+                  //   onSelectItem(item as T, selectedItems);
+                  // } else {
+                  //   const item = selectedItems.filter((si) => !v.includes(si));
+                  //   onUnselectItem(item[0], selectedItems);
+                  // }
                 }
               }}
               getOptionLabel={getValue}

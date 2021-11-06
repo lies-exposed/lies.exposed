@@ -12,7 +12,7 @@ export const MakeDeleteDeathEventRoute: Route = (r, { db }) => {
         where: { id },
         loadRelationIds: true,
       }),
-      TE.chainFirst((event) => db.delete(DeathEventEntity, [event.id])),
+      TE.chainFirst((event) => db.softDelete(DeathEventEntity, [event.id])),
       TE.chainEitherK(toDeathIO),
       TE.map((data) => ({
         body: {

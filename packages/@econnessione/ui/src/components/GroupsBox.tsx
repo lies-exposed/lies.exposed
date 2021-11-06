@@ -52,12 +52,12 @@ export const GroupsList: React.FC<{
 export const GroupsBox: React.FC<GroupsBoxProps> = ({ ids, onItemClick }) => {
   return (
     <Box>
-      <Typography variant="h5">Groups</Typography>
+      <Typography variant="subtitle1">Groups</Typography>
       {pipe(
         ids,
         NEA.fromArray,
         O.fold(
-          () => <Typography>No groups</Typography>,
+          () => <Typography>-</Typography>,
           (ids) => <GroupsList ids={ids} onItemClick={onItemClick} />
         )
       )}
