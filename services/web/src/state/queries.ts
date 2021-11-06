@@ -23,7 +23,7 @@ export interface InfiniteDeathsListParam {
   hash?: string;
 }
 
-interface InfiniteEventListMetadata {
+export interface InfiniteEventListMetadata {
   actors: string[];
   groups: string[];
   keywords: string[];

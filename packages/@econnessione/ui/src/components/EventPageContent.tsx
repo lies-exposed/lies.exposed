@@ -53,6 +53,11 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               O.toNullable
             )}
             <Box>
+              <Typography variant="h3">{event.title}</Typography>
+            </Box>
+          </Grid>
+          <Grid container alignItems="center">
+            <Grid item md={3}>
               <Typography
                 variant="h5"
                 color="secondary"
@@ -61,23 +66,17 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               >
                 {formatDate(event.startDate)}
               </Typography>
-              <Typography variant="h3" display="inline">
-                {event.title}
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item md={12}>
-            <Typography variant="caption">
-              {formatDate(event.createdAt)}
-            </Typography>
-            <KeywordsBox ids={event.keywords} />
+            </Grid>
+            <Grid item md={9}>
+              <KeywordsBox ids={event.keywords} />
+            </Grid>
           </Grid>
         </Grid>
 
         <Grid item md={6} sm={6} xs={6}>
           <GroupsBox ids={event.groups} onItemClick={onGroupClick} />
         </Grid>
-        <Grid item md={6} sm={6} xs={6}>
+        <Grid item md={6} sm={6} xs={6} style={{ marginBottom: 30 }}>
           <ActorsBox ids={event.actors} />
         </Grid>
         <Grid item md={12} sm={12} xs={12}>

@@ -14,7 +14,6 @@ import {
 } from "ts-endpoint";
 import { Endpoints } from "../endpoints";
 import { ResourceEndpoints } from "../endpoints/types";
-// import qs from "qs";
 
 const apiLogger = GetLogger("API");
 
@@ -131,14 +130,6 @@ const API = (c: AxiosRequestConfig): API => {
           method: e.Method,
           url,
           params: b?.Query,
-          // paramsSerializer: (params) => {
-          //   const paramsString = qs.stringify(params, {
-          //     arrayFormat: "brackets",
-          //     arrayLimit: 0,
-          //   });
-          //   console.log({ params, paramsString });
-          //   return paramsString;
-          // },
           data: b?.Body,
           responseType: "json",
           headers: {

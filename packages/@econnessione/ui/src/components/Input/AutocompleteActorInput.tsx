@@ -6,12 +6,12 @@ import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteActorInputProps {
   selectedIds: string[];
-  onItemClick: (item: Actor.Actor) => void;
+  onChange: (items: Actor.Actor[]) => void;
 }
 
 export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
   selectedIds,
-  onItemClick,
+  onChange,
 }) => {
   return (
     <AutocompleteInput<Actor.Actor>
@@ -26,7 +26,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
             ...i,
             selected: true,
           }))}
-          onActorClick={onItemClick}
+          onActorClick={(a) => onItemClick(items.filter((i) => i.id !== a.id))}
         />
       )}
       renderOption={(item, state) => (
@@ -37,11 +37,10 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
             ...item,
             selected: false,
           }}
-          onClick={onItemClick}
+          onClick={() => {}}
         />
       )}
-      onSelectItem={onItemClick}
-      onUnselectItem={onItemClick}
+      onItemsChange={onChange}
     />
   );
 };

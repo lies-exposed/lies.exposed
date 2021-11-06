@@ -1,3 +1,4 @@
+import EventList from "@components/lists/EventList/EventList";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { EventsMap } from "@econnessione/ui/components/EventsMap";
@@ -12,6 +13,7 @@ import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import InfiniteEventList from "@containers/InfiniteEventList";
 import { doUpdateCurrentView } from "utils/location.utils";
 
 export default class GroupTemplate extends React.PureComponent<
@@ -77,8 +79,8 @@ export default class GroupTemplate extends React.PureComponent<
                       zoom={4}
                       onMapClick={() => {}}
                     />
-                    <EventSlider
-                      filter={{ groups: [group.id] }}
+                    <InfiniteEventList
+                      filters={{ groups: [group.id], actors: [] }}
                       onClick={(ev) => {
                         void doUpdateCurrentView({
                           view: "event",

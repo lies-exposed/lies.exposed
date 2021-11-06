@@ -16,7 +16,15 @@ export const KeywordListItem: React.FC<ListItemProps<KeywordListTopic>> = ({
   item: t,
   onClick,
 }) => (
-  <Chip key={t.tag} size="small" label={t.tag} onClick={() => onClick?.(t)} />
+  <Chip
+    key={t.tag}
+    size="small"
+    label={t.tag}
+    color="primary"
+    variant="outlined"
+    style={{ marginRight: 10 }}
+    onClick={() => onClick?.(t)}
+  />
 );
 
 const KeywordList: React.FC<KeywordListProps> = ({ keywords, onItemClick }) => {
@@ -26,6 +34,7 @@ const KeywordList: React.FC<KeywordListProps> = ({ keywords, onItemClick }) => {
       filter={(_) => true}
       onItemClick={onItemClick}
       getKey={(t) => t.id}
+      style={{ display: "inline" }}
       ListItem={(p) => (
         <KeywordListItem {...p} onClick={() => onItemClick(p.item)} />
       )}

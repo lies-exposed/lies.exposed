@@ -33,12 +33,12 @@ export const ActorsList = withQueries(({ queries }) => {
 export const ActorsBox: React.FC<ActorsBoxProps> = ({ ids }) => {
   return (
     <Box>
-      <Typography variant="h5">Actors</Typography>
+      <Typography variant="subtitle1">Actors</Typography>
       {pipe(
         ids,
         NEA.fromArray,
         O.fold(
-          () => <Typography>No actors</Typography>,
+          () => <Typography>-</Typography>,
           (ids) => (
             <ActorsList
               queries={{

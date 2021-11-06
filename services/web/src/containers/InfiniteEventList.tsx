@@ -1,12 +1,9 @@
-import { Endpoints } from "@econnessione/shared/endpoints";
 import { Events } from "@econnessione/shared/io/http";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import {
-  FullSizeLoader,
-  LazyFullSizeLoader,
-} from "@econnessione/ui/components/Common/FullSizeLoader";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import EventList from "@econnessione/ui/components/lists/EventList/EventList";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
+import { Death } from "@io/http/Events";
 import {
   Box,
   Chip,
@@ -15,18 +12,22 @@ import {
   Typography,
   useTheme,
 } from "@material-ui/core";
+import { APIError } from "@providers/api.provider";
+import { available, queryStrict } from "avenger";
+import { CachedQuery } from "avenger/lib/Query";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
 import * as Ord from "fp-ts/lib/Ord";
+import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { debounce } from "throttle-debounce";
 import { serializedType } from "ts-io-error/lib/Codec";
 import {
-  actorsInfiniteList,
   deathsInfiniteList,
+  InfiniteDeathsListParam,
   infiniteEventList,
   InfiniteEventListParams,
 } from "../state/queries";
@@ -48,8 +49,7 @@ type QueryFilters<Q> = Omit<
 > & { hash?: string };
 
 export interface EventListProps {
-  eventFilters: Omit<InfiniteEventListParams, "page">;
-  deathFilters: QueryFilters<typeof Endpoints.DeathEvent.List.Input.Query>;
+  filters: Omit<InfiniteEventListParams, "page">;
   onClick?: (e: Events.Event) => void;
 }
 
@@ -123,16 +123,24 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
 };
 
 const InfiniteEventList: React.FC<EventListProps> = ({
-  eventFilters,
-  deathFilters,
+  filters: eventFilters,
+  // deathFilters,
   onClick,
 }) => {
   const [state, updateState] = React.useState<{
     loading: boolean;
     currentPage: number;
+    filters: {
+      death: boolean;
+      events: boolean;
+    };
   }>({
     loading: false,
     currentPage: 1,
+    filters: {
+      death: true,
+      events: true,
+    },
   });
 
   // const infiniteEventListQuery = React.useMemo(
@@ -140,10 +148,23 @@ const InfiniteEventList: React.FC<EventListProps> = ({
   //   [eventFilters.hash]
   // );
 
-  // const deathsInfiniteListQuery = React.useMemo(
-  //   () => deathsInfiniteList,
-  //   [deathFilters.hash]
-  // );
+  const deathsInfiniteListQuery: typeof deathsInfiniteList = React.useMemo(
+    () =>
+      eventFilters.actors?.length === 0
+        ? queryStrict(
+            () =>
+              TE.right({
+                data: [] as Death.Death[],
+                total: 0,
+                metadata: {
+                  victims: [] as string[],
+                },
+              }),
+            available
+          )
+        : deathsInfiniteList,
+    [eventFilters.actors?.length]
+  );
 
   const theme = useTheme();
 
@@ -160,7 +181,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
       <WithQueries
         queries={{
           events: infiniteEventList,
-          deaths: deathsInfiniteList,
+          deaths: deathsInfiniteListQuery,
         }}
         params={{
           events: {
@@ -168,49 +189,83 @@ const InfiniteEventList: React.FC<EventListProps> = ({
             page: state.currentPage,
           },
           deaths: {
-            ...deathFilters,
+            minDate: eventFilters.startDate,
+            maxDate: eventFilters.endDate,
+            victim: eventFilters.actors,
             page: state.currentPage,
           },
         }}
         render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events, deaths }) => {
           const allEvents = React.useMemo(
-            () => pipe([...events.data, ...deaths.data], A.sort(eventsSort)),
-            [events.data.length, deaths.data.length]
+            () =>
+              pipe(
+                [
+                  ...(state.filters.events ? events.data : []),
+                  ...(state.filters.death ? deaths.data : []),
+                ],
+                A.sort(eventsSort)
+              ),
+            [events.data.length, deaths.data.length, state.filters]
           );
 
           return (
             <Box style={{ width: "100%" }}>
               <Grid container>
                 <Grid container alignItems="center">
-                  <Typography variant="caption">
-                    Nº Events:{" "}
-                    <Typography display="inline" variant="subtitle1">
-                      {events.total}
-                    </Typography>{" "}
-                    dal{" "}
-                    <Typography display="inline" variant="subtitle1">
-                      {eventFilters.startDate}
-                    </Typography>{" "}
-                    al{" "}
-                    <Typography display="inline" variant="subtitle1">
-                      {eventFilters.endDate}
+                  <Grid item md={6} style={{ marginBottom: 40 }}>
+                    <Typography variant="caption" display="inline">
+                      Nº Events:{" "}
+                      <Typography display="inline" variant="subtitle1">
+                        {events.total + deaths.total}
+                      </Typography>{" "}
+                      dal{" "}
+                      <Typography display="inline" variant="subtitle1">
+                        {eventFilters.startDate}
+                      </Typography>{" "}
+                      al{" "}
+                      <Typography display="inline" variant="subtitle1">
+                        {eventFilters.endDate}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Grid>
-                <Grid container justifyContent="flex-end">
-                  <Box margin={1}>
-                    <Chip label={`Events (${events.total})`} />
-                  </Box>
-                  <Box margin={1}>
+                  </Grid>
+                  <Grid
+                    container
+                    md={6}
+                    justifyContent="flex-end"
+                    alignContent="flex-end"
+                  >
                     <Chip
-                      label={`Deaths (${deaths.total})`}
-                      style={{
-                        backgroundColor: theme.palette.common.black,
-                        color: theme.palette.common.white,
+                      label={`Events (${events.total})`}
+                      color="primary"
+                      variant={state.filters.events ? "default" : "outlined"}
+                      style={{ marginRight: 10 }}
+                      onClick={() => {
+                        updateState({
+                          ...state,
+                          filters: {
+                            ...state.filters,
+                            events: !state.filters.events,
+                          },
+                        });
                       }}
                     />
-                  </Box>
+                    <Chip
+                      label={`Deaths (${deaths.total})`}
+                      color={"secondary"}
+                      variant={state.filters.death ? "default" : "outlined"}
+                      onClick={() => {
+                        updateState({
+                          ...state,
+                          filters: {
+                            ...state.filters,
+                            death: !state.filters.death,
+                          },
+                        });
+                      }}
+                    />
+                  </Grid>
                 </Grid>
+                <Grid container justifyContent="flex-end"></Grid>
               </Grid>
 
               <WithQueries

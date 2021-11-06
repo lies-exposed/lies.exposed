@@ -93,35 +93,32 @@ const EventsPage: React.FC<EventsPageProps> = ({
           });
         };
 
-        const onActorClick = (actor: Actor.Actor): void => {
-          const newSelectedActorIds = A.elem(S.Eq)(actor.id, actorIds)
-            ? A.array.filter(actorIds, (a) => !S.Eq.equals(a, actor.id))
-            : actorIds.concat(actor.id);
+        const onActorsChange = React.useCallback(
+          (actor: Actor.Actor[]): void => {
+            handleUpdateCurrentView({
+              actors: actor.map((a) => a.id),
+            });
+          },
+          []
+        );
 
-          handleUpdateCurrentView({
-            actors: newSelectedActorIds,
-          });
-        };
+        const onGroupsChange = React.useCallback(
+          (groups: Group.Group[]): void => {
+            handleUpdateCurrentView({
+              groups: groups.map((_) => _.id),
+            });
+          },
+          []
+        );
 
-        const onGroupClick = (g: Group.Group): void => {
-          const newSelectedGroupIds = A.elem(S.Eq)(g.id, groupIds)
-            ? A.array.filter(groupIds, (_) => !S.Eq.equals(_, g.id))
-            : groupIds.concat(g.id);
-
-          handleUpdateCurrentView({
-            groups: newSelectedGroupIds,
-          });
-        };
-
-        const onKeywordClick = (keyword: Keyword.Keyword): void => {
-          const newSelectedKeywords = A.elem(S.Eq)(keyword.id, keywordIds)
-            ? A.array.filter(keywordIds, (_) => !S.Eq.equals(_, keyword.id))
-            : keywordIds.concat(keyword.id);
-
-          handleUpdateCurrentView({
-            keywords: newSelectedKeywords,
-          });
-        };
+        const onKeywordsChange = React.useCallback(
+          (keywords: Keyword.Keyword[]): void => {
+            handleUpdateCurrentView({
+              keywords: keywords.map((k) => k.id),
+            });
+          },
+          []
+        );
 
         return (
           <>
@@ -138,19 +135,19 @@ const EventsPage: React.FC<EventsPageProps> = ({
                     <Grid item md={4}>
                       <AutocompleteKeywordInput
                         selectedIds={keywordIds}
-                        onItemClick={onKeywordClick}
+                        onItemClick={onKeywordsChange}
                       />
                     </Grid>
                     <Grid item md={4}>
                       <AutocompleteGroupInput
                         selectedIds={groupIds}
-                        onItemClick={onGroupClick}
+                        onChange={onGroupsChange}
                       />
                     </Grid>
                     <Grid item md={4}>
                       <AutocompleteActorInput
                         selectedIds={actorIds}
-                        onItemClick={onActorClick}
+                        onChange={onActorsChange}
                       />
                     </Grid>
                     <Grid item md={4}>
@@ -207,15 +204,15 @@ const EventsPage: React.FC<EventsPageProps> = ({
                     value={tab}
                     onChange={(e, tab) => handleUpdateCurrentView({ tab })}
                   >
-                    <Tab label="network" {...a11yProps(0)} />
+                    <Tab label="list" {...a11yProps(0)} />
                     <Tab label="map" {...a11yProps(1)} />
-                    <Tab label="list" {...a11yProps(2)} />
+                    <Tab label="network" {...a11yProps(2)} />
                   </Tabs>
 
                   <TabPanel value={tab} index={0}>
                     {tab === 0 ? (
                       <InfiniteEventList
-                        eventFilters={{
+                        filters={{
                           startDate,
                           endDate,
                           keywords: keywordIds,
@@ -223,12 +220,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
                           actors: actorIds,
                           groupsMembers: groupsMembersIds,
                           hash,
-                        }}
-                        deathFilters={{
-                          minDate: startDate,
-                          maxDate: endDate,
-                          victim: actorIds,
-                          hash: hash ?? "",
                         }}
                         onClick={(e) => {
                           void doUpdateCurrentView({
