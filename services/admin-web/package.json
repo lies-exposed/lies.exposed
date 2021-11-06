@@ -30,7 +30,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "fp-ts": "^2.9.3",
-    "ol": "6.6.1",
+    "ol": "^6.9.0",
     "ra-core": "^3.18.0",
     "ra-i18n-polyglot": "^3.18.3",
     "ra-input-rich-text": "^3.10.1",
