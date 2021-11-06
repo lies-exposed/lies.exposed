@@ -132,18 +132,6 @@ jobs:
             --acl public-read \
             --region fra1
 
-      # - name: Upload Public Data to DO Space
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-      #   run: |
-      #     aws s3 sync ./services/data/buckets/dev/public s3://econnessione-alpha/public \
-      #       --follow-symlinks \
-      #       --delete \
-      #       --endpoint https://fra1.digitaloceanspaces.com/ \
-      #       --acl public-read \
-      #       --region fra1
-
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:

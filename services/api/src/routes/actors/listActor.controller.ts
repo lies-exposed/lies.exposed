@@ -3,6 +3,7 @@ import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
+import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { ActorEntity } from "../../entities/Actor.entity";
@@ -35,6 +36,19 @@ export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
             return q.andWhere("lower(actors.fullName) LIKE :fullName", {
               fullName: `%${fullName.value}%`,
             });
+          }
+          return q;
+        },
+        (q) => {
+          if (findOptions.order) {
+            const order = pipe(
+              findOptions.order,
+              R.reduceWithIndex({}, (k, acc, v) => ({
+                ...acc,
+                [`actors.${k}`]: v,
+              }))
+            );
+            return q.orderBy(order);
           }
           return q;
         },

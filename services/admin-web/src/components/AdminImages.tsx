@@ -10,7 +10,6 @@ import {
   DateField,
   Edit,
   EditProps,
-  FormTab,
   ImageField,
   ImageInput,
   List,
@@ -18,8 +17,7 @@ import {
   Record,
   required,
   SimpleForm,
-  TabbedForm,
-  UrlField,
+  TextField,
 } from "react-admin";
 import MarkdownInput from "./Common/MarkdownInput";
 import { apiProvider } from "@client/HTTPAPI";
@@ -31,6 +29,7 @@ export const ImagesList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <ImageField source="location" />
+      <TextField source="description" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
