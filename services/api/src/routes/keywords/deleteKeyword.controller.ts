@@ -15,7 +15,7 @@ export const MakeDeleteKeywordRoute: Route = (r, { s3, db, env }) => {
       }),
       TE.chainFirst(() =>
         sequenceS(TE.ApplicativeSeq)({
-          actor: db.delete(KeywordEntity, id),
+          actor: db.softDelete(KeywordEntity, id),
         })
       ),
       TE.chainEitherK(toKeywordIO),

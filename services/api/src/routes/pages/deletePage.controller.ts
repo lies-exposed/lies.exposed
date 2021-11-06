@@ -11,7 +11,7 @@ export const MakeDeletePageRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       ctx.db.findOne(PageEntity, { where: { id } }),
       TE.chain(TE.fromOption(() => NotFoundError("Page"))),
-      TE.chainFirst(() => ctx.db.delete(PageEntity, id)),
+      TE.chainFirst(() => ctx.db.softDelete(PageEntity, id)),
       TE.map((page) => ({
         body: {
           data: page,

@@ -2,6 +2,7 @@ import * as io from "@econnessione/shared/io";
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   ManyToMany,
   OneToMany,
@@ -54,4 +55,7 @@ export class GroupEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 }

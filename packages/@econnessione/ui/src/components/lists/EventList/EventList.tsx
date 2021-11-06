@@ -42,11 +42,12 @@ const renderRow = (props: {
     actors: Actor.Actor[];
     groups: Group.Group[];
     keywords: Keyword.Keyword[];
+    onClick: (e: Event) => void;
   };
 }): React.ReactElement => {
   const {
     index,
-    data: { events, actors, groups, keywords },
+    data: { events, actors, groups, keywords, onClick },
   } = props;
 
   const e = events[index];
@@ -70,7 +71,7 @@ const renderRow = (props: {
         actors={eventActors}
         groups={eventGroups}
         keywords={eventKeywords}
-        onClick={() => {}}
+        onClick={onClick}
       />
     </ListItem>
   );
@@ -87,6 +88,7 @@ const renderHeaderRow: React.FC<{
       listItemUList: string;
       listSubheader: string;
     };
+    onClick: (e: Event) => void;
   };
 }> = (props) => {
   const {
@@ -149,6 +151,7 @@ const EventList: React.FC<EventListProps> = ({
             groups,
             keywords,
             classes,
+            onClick,
           },
         })
       )}

@@ -74,6 +74,10 @@ interface DatabaseClient {
     target: EntityTarget<Entity>,
     criteria: Criteria
   ) => TE.TaskEither<DBError, DeleteResult>;
+  softDelete: <Entity>(
+    target: EntityTarget<Entity>,
+    criteria: Criteria
+  ) => TE.TaskEither<DBError, DeleteResult>;
   transaction: <T>(
     te: (em: DatabaseClient) => TE.TaskEither<DBError, T>
   ) => TE.TaskEither<DBError, T>;
@@ -205,6 +209,17 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.delete(entity, criteria),
+        toError(ctx.logger)()
+      );
+    },
+    softDelete: (entity, criteria) => {
+      ctx.logger.debug.log(
+        `delete (soft) entity %s by criteria %O`,
+        entity.valueOf().constructor.name,
+        criteria
+      );
+      return TE.tryCatch(
+        () => ctx.connection.manager.softDelete(entity, criteria),
         toError(ctx.logger)()
       );
     },

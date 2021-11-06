@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinTable,
@@ -74,4 +75,7 @@ export class EventEntity {
   })
   @JoinTable()
   keywords: KeywordEntity[];
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 }

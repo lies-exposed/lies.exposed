@@ -2,6 +2,7 @@ import { Polygon } from "@econnessione/shared/io/http/Common";
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -26,4 +27,7 @@ export class AreaEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date | null;
 }

@@ -15,6 +15,7 @@ export const GetEventsQueryFilter = t.partial(
     groups: optionFromUndefined(t.array(t.string)),
     links: optionFromUndefined(t.array(t.string)),
     keywords: optionFromUndefined(t.array(t.string)),
+    images: optionFromUndefined(t.array(t.string)),
     startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
     title: optionFromUndefined(t.string),

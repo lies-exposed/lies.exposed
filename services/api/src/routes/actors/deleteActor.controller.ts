@@ -23,7 +23,7 @@ export const MakeDeleteActorRoute: Route = (r, { s3, db, env }) => {
             }),
             TE.mapLeft((e) => ServerError())
           ),
-          actor: db.delete(ActorEntity, id),
+          actor: db.softDelete(ActorEntity, id),
         })
       ),
       TE.chainEitherK(toActorIO),
