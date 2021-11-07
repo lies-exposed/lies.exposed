@@ -2,6 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
+    "allowJs": true,
+    "composite": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES5",
     "typeRoots": [
       "./typings",
       "node_modules/@types",
@@ -14,5 +19,5 @@
     "strictPropertyInitialization": false
   },
   "include": ["./src"],
-  "exclude": []
+  "exclude": ["node_modules"]
 }

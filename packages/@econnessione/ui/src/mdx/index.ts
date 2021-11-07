@@ -14,7 +14,7 @@ import remarkParse from "remark-parse";
 import remark2rehype from "remark-rehype";
 import remarkStringify from "remark-stringify";
 import remarkTOC from "remark-toc";
-import unified from "unified";
+import * as unified from "unified";
 // import { log } from "./plugins/log";
 // const mdxJS = require("@mdx-js/mdx");
 const rehypeFormat = require("rehype-format");
@@ -27,7 +27,7 @@ const remarkImages = require("remark-images");
 // import rehypeDoc from 'rehype-document'
 const remarkLint = require("remark-lint");
 const remarkMDX = require("remark-mdx");
-// const mermaird = require("remark-mermaid");
+// const mermaid = require("remark-mermaid");
 const numberedFootnotesLabel = require("remark-numbered-footnote-labels");
 const remarkLintPreset = require("remark-preset-lint-recommended");
 // const vFileReporter = require("vfile-reporter");
@@ -55,7 +55,7 @@ export const MDXToHTML = (content: string): IOE.IOEither<Error, string> => {
   return pipe(
     IOE.tryCatch(
       () =>
-        remarkCompiler(unified())
+        remarkCompiler(unified.unified())
           // .use(log("after remark stringify"))
           .use(remark2rehype, {
             allowDangerousHtml: true,
@@ -81,7 +81,7 @@ export const HTMLToMDX = (content: string): IOE.IOEither<Error, string> => {
   // console.log("HTML TO MDX", html);
   return pipe(
     IOE.tryCatch(() => {
-      return unified()
+      return unified.unified()
         .use(rehypeParse, {
           allowDangerousHtml: true,
           newlines: true,
@@ -113,16 +113,16 @@ export const HTMLToMDX = (content: string): IOE.IOEither<Error, string> => {
 // export const MDXToReactV2 = (content: string): string => {
 //   const result = mdxJS.sync(content, {
 //     js: false,
-//     remarkPlugins: [remarkTOC, footnotes, mermaird],
+//     remarkPlugins: [remarkTOC, footnotes, mermaid],
 //   });
 //   return result;
 // };
 
 export const MDX2React = (
   content: string,
-  components: { [key: string]: rehype2react.ComponentLike<any> }
-): string => {
-  const result = remarkCompiler(unified())
+  components: { [key: string]: React.Component<any> }
+): React.ReactElement => {
+  const result = remarkCompiler(unified.unified())
     .use(remark2rehype, {
       allowDangerousHtml: true,
     })
@@ -134,7 +134,7 @@ export const MDX2React = (
     })
     .processSync(content);
   // eslint-disable-next-line
-  // console.log(result);
+  console.log(result);
 
-  return result.result as string;
+  return result.result;
 };
