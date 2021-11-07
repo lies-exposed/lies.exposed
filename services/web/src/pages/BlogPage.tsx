@@ -31,16 +31,12 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
       <>
         <SEO title="Blog" />
         <MainContent>
-          <WithQueries
-            queries={{ pageContent: pageContentByPath }}
-            params={{
+          <PageContent
+            queries={{
               pageContent: {
                 path: "blog",
               },
             }}
-            render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ pageContent }) => (
-              <PageContent {...pageContent} />
-            ))}
           />
           <WithQueries
             queries={{ articles: Queries.Article.getList }}

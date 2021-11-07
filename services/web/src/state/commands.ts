@@ -8,21 +8,16 @@ import {
   infiniteEventList,
   InfiniteEventListParams,
   infiniteListCache,
+  deathsInfiniteList,
 } from "./queries";
-import {} from "../containers/InfiniteEventList";
+import { doUpdateCurrentView } from "utils/location.utils";
 
-// export const resetInfiniteList = command(
-//   ({ hash = "", ...query }: InfiniteEventListParams) => {
-//     return TE.fromIO(() => {
-//       const deathListCacheKey = toKey(IL_DEATH_KEY_PREFIX, hash);
-//       stateLogger.debug.log(`[%s] Remove death cache `, deathListCacheKey);
-//       delete infiniteListCache[deathListCacheKey];
-//       const eventListCacheKey = toKey(IL_EVENT_KEY_PREFIX, hash);
-//       stateLogger.debug.log(`[%s] Remove events cache `, deathListCacheKey);
-//       delete infiniteListCache[eventListCacheKey];
-//     });
-//   },
-//   {
-//     infiniteEventList,
-//   }
-// );
+export const resetInfiniteList = command(
+  (filters: InfiniteEventListParams) => {
+    return doUpdateCurrentView({ view: "events", ...filters });
+  },
+  {
+    eventList: infiniteEventList,
+    deathList: deathsInfiniteList,
+  }
+);

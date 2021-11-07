@@ -24,9 +24,8 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
   render(): JSX.Element {
     return (
       <WithQueries
-        queries={{ page: pageContentByPath, projects: Queries.Project.getList }}
+        queries={{ projects: Queries.Project.getList }}
         params={{
-          page: { path: "projects" },
           projects: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
@@ -36,7 +35,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
         render={QR.fold(
           LazyFullSizeLoader,
           ErrorBox,
-          ({ page, projects: { data: projects } }) => (
+          ({ projects: { data: projects } }) => (
             <ContentWithSidebar
               sidebar={pipe(
                 O.some({ items: [] }),
@@ -47,9 +46,8 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                 )
               )}
             >
-              <SEO title={page.title} />
               <MainContent>
-                <PageContent {...page} />
+                <PageContent queries={{ pageContent: { path: "projects" } }} />
                 <Autocomplete
                   id="combo-box-demo"
                   options={projects}

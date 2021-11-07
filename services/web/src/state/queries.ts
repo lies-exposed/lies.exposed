@@ -3,7 +3,7 @@ import { Events } from "@econnessione/shared/io/http";
 import { APIError } from "@econnessione/shared/providers/api.provider";
 import { Actor } from "@io/http/Actor";
 import { Death } from "@io/http/Events/Death";
-import { available, queryStrict } from "avenger";
+import { available, queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
@@ -19,7 +19,10 @@ export const IL_ACTORS_KEY_PREFIX = "actors";
 
 export type InfiniteEventListParams = Omit<EventsView, "view">;
 export interface InfiniteDeathsListParam {
-  page: number;
+  minDate?: string;
+  maxDate?: string;
+  victim?: string[];
+  page?: number;
   hash?: string;
 }
 
@@ -184,13 +187,13 @@ export const infiniteEventList = queryStrict<
   InfiniteEventListParams,
   APIError,
   InfiniteEventListResult
->(makeEventListQuery(IL_EVENT_KEY_PREFIX), available);
+>(makeEventListQuery(IL_EVENT_KEY_PREFIX), refetch);
 
 export const eventNetworkList = queryStrict<
   InfiniteEventListParams,
   APIError,
   { data: Events.Event[]; total: number; metadata: InfiniteEventListMetadata }
->(makeEventListQuery(IL_NETWORK_KEY_PREFIX), available);
+>(makeEventListQuery(IL_NETWORK_KEY_PREFIX), refetch);
 
 interface InfiniteDeathListMetadata {
   victims: string[];
@@ -215,7 +218,7 @@ export const deathsInfiniteList = queryStrict<
       };
     }
   )(IL_DEATH_KEY_PREFIX),
-  available
+  refetch
 );
 
 export const actorsInfiniteList = queryStrict<

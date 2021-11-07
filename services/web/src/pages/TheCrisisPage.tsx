@@ -16,31 +16,20 @@ import * as React from "react";
 export default class TheCrisisPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
     return (
-      <WithQueries
-        queries={{ pageContentByPath }}
-        params={{ pageContentByPath: { path: "the-crisis" } }}
-        render={QR.fold(
-          LazyFullSizeLoader,
-          ErrorBox,
-          ({ pageContentByPath: pageContent }) => (
-            <>
-              <SEO title={(pageContent as any).title} />
-              <ContentWithSidebar
-                sidebar={pipe(
-                  O.some({ items: [] }),
-                  O.chainNullableK((t) => t.items),
-                  O.fold(
-                    () => <div />,
-                    (items) => <TableOfContents items={items} />
-                  )
-                )}
-              >
-                <PageContent {...pageContent} />
-              </ContentWithSidebar>
-            </>
-          )
-        )}
-      />
+      <>
+        <ContentWithSidebar
+          sidebar={pipe(
+            O.some({ items: [] }),
+            O.chainNullableK((t) => t.items),
+            O.fold(
+              () => <div />,
+              (items) => <TableOfContents items={items} />
+            )
+          )}
+        >
+          <PageContent queries={{ pageContent: { path: "the-crisis" } }} />
+        </ContentWithSidebar>
+      </>
     );
   }
 }
