@@ -32,6 +32,7 @@ import {
   InfiniteEventListParams,
 } from "../state/queries";
 import { doUpdateCurrentView } from "../utils/location.utils";
+import { resetInfiniteList } from "state/commands";
 
 const eventsSort = pipe(
   Ord.reverse(D.Ord),
@@ -68,7 +69,7 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
 
   const handleScroll = React.useCallback(
     debounce(300, false, async (): Promise<void> => {
-      // console.log("scrolling", props.loading);
+      // console.log("scrolling", {isLoading, props});
       if (listRef.current && !isLoading) {
         const { scrollHeight, offsetTop } = listRef.current;
 
@@ -91,20 +92,18 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
           //   dataLength: events.data.length,
           // });
 
-          // console.log("bottom! yeah ", currentPage + 1);
-          setIsLoading(true);
           props.onBottomReach();
+          setIsLoading(true);
         }
       }
     }),
-    [props.currentPage, isLoading]
+    [props.currentPage]
   );
 
   React.useEffect(() => {
     if (isLoading) {
       setIsLoading(false);
     }
-
     if (props.loadedElements < props.totalElements) {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       window.addEventListener("scroll", handleScroll, { passive: true });
@@ -113,10 +112,10 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [props.currentPage, isLoading]);
+  }, [props.currentPage, props.loadedElements]);
 
   return (
-    <div ref={listRef} style={{ width: "100%", height: 100 }}>
+    <div ref={listRef} style={{ width: 300, height: 100, margin: "auto" }}>
       {isLoading ? <CircularProgress /> : null}
     </div>
   );
@@ -124,18 +123,15 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
 
 const InfiniteEventList: React.FC<EventListProps> = ({
   filters: eventFilters,
-  // deathFilters,
   onClick,
 }) => {
   const [state, updateState] = React.useState<{
-    loading: boolean;
     currentPage: number;
     filters: {
       death: boolean;
       events: boolean;
     };
   }>({
-    loading: false,
     currentPage: 1,
     filters: {
       death: true,
@@ -168,185 +164,196 @@ const InfiniteEventList: React.FC<EventListProps> = ({
 
   const theme = useTheme();
 
-  const handleBottomReached = (): void => {
+  const handleBottomReached = React.useCallback((): void => {
+    const nextPage = state.currentPage + 1;
+    void updateState({
+      ...state,
+      currentPage: nextPage,
+    });
+  }, [state.currentPage]);
+
+  React.useEffect(() => {
     updateState((s) => ({
       ...s,
-      loading: true,
-      currentPage: s.currentPage + 1,
+      currentPage: 1,
     }));
-  };
+  }, [eventFilters.hash]);
 
   return (
     <Box>
       <WithQueries
         queries={{
-          events: infiniteEventList,
-          deaths: deathsInfiniteListQuery,
+          eventList: infiniteEventList,
+          deathList: deathsInfiniteListQuery,
         }}
         params={{
-          events: {
+          eventList: {
             ...eventFilters,
             page: state.currentPage,
           },
-          deaths: {
+          deathList: {
             minDate: eventFilters.startDate,
             maxDate: eventFilters.endDate,
             victim: eventFilters.actors,
             page: state.currentPage,
           },
         }}
-        render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events, deaths }) => {
-          const allEvents = React.useMemo(
-            () =>
-              pipe(
-                [
-                  ...(state.filters.events ? events.data : []),
-                  ...(state.filters.death ? deaths.data : []),
-                ],
-                A.sort(eventsSort)
-              ),
-            [events.data.length, deaths.data.length, state.filters]
-          );
+        render={QR.fold(
+          LazyFullSizeLoader,
+          ErrorBox,
+          ({ eventList: events, deathList: deaths }) => {
+            const allEvents = React.useMemo(
+              () =>
+                pipe(
+                  [
+                    ...(state.filters.events ? events.data : []),
+                    ...(state.filters.death ? deaths.data : []),
+                  ],
+                  A.sort(eventsSort)
+                ),
+              [events.data.length, deaths.data.length, state.filters]
+            );
 
-          return (
-            <Box style={{ width: "100%" }}>
-              <Grid container>
-                <Grid container alignItems="center">
-                  <Grid item md={6} style={{ marginBottom: 40 }}>
-                    <Typography variant="caption" display="inline">
-                      Nº Events:{" "}
-                      <Typography display="inline" variant="subtitle1">
-                        {events.total + deaths.total}
-                      </Typography>{" "}
-                      dal{" "}
-                      <Typography display="inline" variant="subtitle1">
-                        {eventFilters.startDate}
-                      </Typography>{" "}
-                      al{" "}
-                      <Typography display="inline" variant="subtitle1">
-                        {eventFilters.endDate}
+            return (
+              <Box style={{ width: "100%" }}>
+                <Grid container>
+                  <Grid container alignItems="center">
+                    <Grid item md={6} style={{ marginBottom: 40 }}>
+                      <Typography variant="caption" display="inline">
+                        Nº Events:{" "}
+                        <Typography display="inline" variant="subtitle1">
+                          {events.total + deaths.total}
+                        </Typography>{" "}
+                        dal{" "}
+                        <Typography display="inline" variant="subtitle1">
+                          {eventFilters.startDate}
+                        </Typography>{" "}
+                        al{" "}
+                        <Typography display="inline" variant="subtitle1">
+                          {eventFilters.endDate}
+                        </Typography>
                       </Typography>
-                    </Typography>
+                    </Grid>
+                    <Grid
+                      container
+                      md={6}
+                      justifyContent="flex-end"
+                      alignContent="flex-end"
+                    >
+                      <Chip
+                        label={`Events (${events.total})`}
+                        color="primary"
+                        variant={state.filters.events ? "default" : "outlined"}
+                        style={{ marginRight: 10 }}
+                        onClick={() => {
+                          updateState({
+                            ...state,
+                            filters: {
+                              ...state.filters,
+                              events: !state.filters.events,
+                            },
+                          });
+                        }}
+                      />
+                      <Chip
+                        label={`Deaths (${deaths.total})`}
+                        color={"secondary"}
+                        variant={state.filters.death ? "default" : "outlined"}
+                        onClick={() => {
+                          updateState({
+                            ...state,
+                            filters: {
+                              ...state.filters,
+                              death: !state.filters.death,
+                            },
+                          });
+                        }}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid
-                    container
-                    md={6}
-                    justifyContent="flex-end"
-                    alignContent="flex-end"
-                  >
-                    <Chip
-                      label={`Events (${events.total})`}
-                      color="primary"
-                      variant={state.filters.events ? "default" : "outlined"}
-                      style={{ marginRight: 10 }}
-                      onClick={() => {
-                        updateState({
-                          ...state,
-                          filters: {
-                            ...state.filters,
-                            events: !state.filters.events,
-                          },
-                        });
-                      }}
-                    />
-                    <Chip
-                      label={`Deaths (${deaths.total})`}
-                      color={"secondary"}
-                      variant={state.filters.death ? "default" : "outlined"}
-                      onClick={() => {
-                        updateState({
-                          ...state,
-                          filters: {
-                            ...state.filters,
-                            death: !state.filters.death,
-                          },
-                        });
-                      }}
-                    />
-                  </Grid>
+                  <Grid container justifyContent="flex-end"></Grid>
                 </Grid>
-                <Grid container justifyContent="flex-end"></Grid>
-              </Grid>
 
-              <WithQueries
-                queries={{
-                  eventActors: Queries.Actor.getList,
-                  eventGroups: Queries.Group.getList,
-                  eventKeywords: Queries.Keyword.getList,
-                }}
-                params={{
-                  eventActors: {
-                    pagination: {
-                      page: 1,
-                      perPage: events.metadata.actors.length,
+                <WithQueries
+                  queries={{
+                    eventActors: Queries.Actor.getList,
+                    eventGroups: Queries.Group.getList,
+                    eventKeywords: Queries.Keyword.getList,
+                  }}
+                  params={{
+                    eventActors: {
+                      pagination: {
+                        page: 1,
+                        perPage: events.metadata.actors.length,
+                      },
+                      sort: { field: "createdAt", order: "DESC" },
+                      filter: {
+                        ids: [
+                          ...events.metadata.actors,
+                          ...deaths.metadata.victims,
+                        ],
+                      },
                     },
-                    sort: { field: "createdAt", order: "DESC" },
-                    filter: {
-                      ids: [
-                        ...events.metadata.actors,
-                        ...deaths.metadata.victims,
-                      ],
+                    eventGroups: {
+                      pagination: {
+                        page: 1,
+                        perPage: events.metadata.groups.length,
+                      },
+                      sort: { field: "createdAt", order: "DESC" },
+                      filter: {
+                        ids: events.metadata.groups,
+                      },
                     },
-                  },
-                  eventGroups: {
-                    pagination: {
-                      page: 1,
-                      perPage: events.metadata.groups.length,
+                    eventKeywords: {
+                      pagination: {
+                        page: 1,
+                        perPage: events.metadata.keywords.length,
+                      },
+                      sort: { field: "createdAt", order: "DESC" },
+                      filter: {
+                        ids: events.metadata.keywords,
+                      },
                     },
-                    sort: { field: "createdAt", order: "DESC" },
-                    filter: {
-                      ids: events.metadata.groups,
-                    },
-                  },
-                  eventKeywords: {
-                    pagination: {
-                      page: 1,
-                      perPage: events.metadata.keywords.length,
-                    },
-                    sort: { field: "createdAt", order: "DESC" },
-                    filter: {
-                      ids: events.metadata.keywords,
-                    },
-                  },
-                }}
-                render={QR.fold(
-                  LazyFullSizeLoader,
-                  ErrorBox,
-                  ({
-                    eventActors: actors,
-                    eventGroups: groups,
-                    eventKeywords: keywords,
-                  }) => {
-                    return (
-                      <Box>
-                        <EventList
-                          className="events"
-                          style={{ width: "100%" }}
-                          actors={actors.data}
-                          groups={groups.data}
-                          events={allEvents}
-                          keywords={keywords.data}
-                          onClick={(e) => {
-                            void doUpdateCurrentView({
-                              view: "event",
-                              eventId: e.id,
-                            })();
-                          }}
-                        />
-                      </Box>
-                    );
-                  }
-                )}
-              />
-              <BottomReach
-                {...state}
-                loadedElements={allEvents.length}
-                totalElements={events.total + deaths.total}
-                onBottomReach={() => handleBottomReached()}
-              />
-            </Box>
-          );
-        })}
+                  }}
+                  render={QR.fold(
+                    LazyFullSizeLoader,
+                    ErrorBox,
+                    ({
+                      eventActors: actors,
+                      eventGroups: groups,
+                      eventKeywords: keywords,
+                    }) => {
+                      return (
+                        <Box>
+                          <EventList
+                            className="events"
+                            style={{ width: "100%" }}
+                            actors={actors.data}
+                            groups={groups.data}
+                            events={allEvents}
+                            keywords={keywords.data}
+                            onClick={(e) => {
+                              void doUpdateCurrentView({
+                                view: "event",
+                                eventId: e.id,
+                              })();
+                            }}
+                          />
+                        </Box>
+                      );
+                    }
+                  )}
+                />
+                <BottomReach
+                  currentPage={state.currentPage}
+                  loadedElements={allEvents.length}
+                  totalElements={events.total + deaths.total}
+                  onBottomReach={() => handleBottomReached()}
+                />
+              </Box>
+            );
+          }
+        )}
       />
     </Box>
   );

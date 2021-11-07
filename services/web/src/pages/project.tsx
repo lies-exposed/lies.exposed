@@ -15,34 +15,21 @@ import * as React from "react";
 export default class ProjectPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
     return (
-      <WithQueries
-        queries={{
-          pageContentByPath,
-        }}
-        params={{ pageContentByPath: { path: "project" } }}
-        render={QR.fold(
-          Loader,
-          ErrorBox,
-          ({ pageContentByPath: pageContent }) => (
-            <>
-              <SEO title={pageContent.title} />
-              <ContentWithSidebar
-                sidebar={pipe(
-                  // pageContent.tableOfContents,
-                  O.some({ items: [] }),
-                  O.chain((t) => O.fromNullable(t.items)),
-                  O.fold(
-                    () => <div />,
-                    (items) => <TableOfContents items={items} />
-                  )
-                )}
-              >
-                <PageContent {...pageContent} />
-              </ContentWithSidebar>
-            </>
-          )
-        )}
-      />
+      <>
+        <ContentWithSidebar
+          sidebar={pipe(
+            // pageContent.tableOfContents,
+            O.some({ items: [] }),
+            O.chain((t) => O.fromNullable(t.items)),
+            O.fold(
+              () => <div />,
+              (items) => <TableOfContents items={items} />
+            )
+          )}
+        >
+          <PageContent queries={{ pageContent: { path: "project" } }} />
+        </ContentWithSidebar>
+      </>
     );
   }
 }

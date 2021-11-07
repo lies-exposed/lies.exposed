@@ -20,66 +20,68 @@ import { doUpdateCurrentView } from "../utils/location.utils";
 export default class GroupsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
     return (
-      <WithQueries
-        queries={{
-          groups: Queries.Group.getList,
-          pageContent: pageContentByPath,
-        }}
-        params={{
-          pageContent: { path: "groups" },
-          groups: {
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "ASC" },
-            filter: {},
-          },
-        }}
-        render={QR.fold(
-          Loader,
-          ErrorBox,
-          ({ pageContent, groups: { data: groups } }) => (
-            <MainContent>
-              <PageContent {...pageContent} />
-              <SearchableInput
-                label="Gruppi"
-                items={groups.map((a) => ({
-                  ...a,
-                  selected: true,
-                }))}
-                getValue={(v) => v.name}
-                selectedItems={[]}
-                onSelectItem={async (item) => {
-                  if (this.props.navigate !== undefined) {
-                    await navigateTo(this.props.navigate, "groups", item);
-                  }
-                }}
-                onUnselectItem={() => {}}
-                renderOption={(item, state) => (
-                  <GroupListItem
-                    item={item}
-                    onClick={async (item: any) => {
-                      if (this.props.navigate !== undefined) {
-                        await navigateTo(this.props.navigate, "groups", item);
-                      }
-                    }}
-                  />
-                )}
-              />
-              <GroupList
-                groups={groups.map((a) => ({
-                  ...a,
-                  selected: false,
-                }))}
-                onGroupClick={async (g) => {
-                  void doUpdateCurrentView({
-                    view: "group",
-                    groupId: g.id,
-                  })();
-                }}
-              />
-            </MainContent>
-          )
-        )}
-      />
+      <MainContent>
+        <PageContent queries={{ pageContent: { path: "groups " } }} />
+        <WithQueries
+          queries={{
+            groups: Queries.Group.getList,
+            pageContent: pageContentByPath,
+          }}
+          params={{
+            pageContent: { path: "groups" },
+            groups: {
+              pagination: { page: 1, perPage: 20 },
+              sort: { field: "id", order: "ASC" },
+              filter: {},
+            },
+          }}
+          render={QR.fold(
+            Loader,
+            ErrorBox,
+            ({ pageContent, groups: { data: groups } }) => (
+              <>
+                <SearchableInput
+                  label="Gruppi"
+                  items={groups.map((a) => ({
+                    ...a,
+                    selected: true,
+                  }))}
+                  getValue={(v) => v.name}
+                  selectedItems={[]}
+                  onSelectItem={async (item) => {
+                    if (this.props.navigate !== undefined) {
+                      await navigateTo(this.props.navigate, "groups", item);
+                    }
+                  }}
+                  onUnselectItem={() => {}}
+                  renderOption={(item, state) => (
+                    <GroupListItem
+                      item={item}
+                      onClick={async (item: any) => {
+                        if (this.props.navigate !== undefined) {
+                          await navigateTo(this.props.navigate, "groups", item);
+                        }
+                      }}
+                    />
+                  )}
+                />
+                <GroupList
+                  groups={groups.map((a) => ({
+                    ...a,
+                    selected: false,
+                  }))}
+                  onGroupClick={async (g) => {
+                    void doUpdateCurrentView({
+                      view: "group",
+                      groupId: g.id,
+                    })();
+                  }}
+                />
+              </>
+            )
+          )}
+        />
+      </MainContent>
     );
   }
 }
