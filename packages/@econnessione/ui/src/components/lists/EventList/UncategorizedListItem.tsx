@@ -1,4 +1,10 @@
-import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
+import {
+  Actor,
+  Events,
+  Group,
+  GroupMember,
+  Keyword,
+} from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, CardMedia, Grid } from "@material-ui/core";
@@ -11,6 +17,7 @@ import * as React from "react";
 import { MarkdownRenderer } from "../../Common/MarkdownRenderer";
 import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
+import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
 
 interface UncategorizedListItemProps {
@@ -18,6 +25,7 @@ interface UncategorizedListItemProps {
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   groups: Group.Group[];
+  groupsMembers: GroupMember.GroupMember[];
   links: string[];
   onClick?: (e: Events.Uncategorized.Uncategorized) => void;
   onActorClick?: (e: Actor.Actor) => void;
@@ -30,6 +38,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   actors,
   keywords,
   groups,
+  groupsMembers,
   links,
   onClick,
   onActorClick,
@@ -66,6 +75,15 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         </Grid>
         <Grid item md={9}>
           <Typography variant="h6">{item.title}</Typography>
+          <Grid item md={12} style={{ marginBottom: 20 }}>
+            <KeywordList
+              keywords={keywords.map((t) => ({
+                ...t,
+                selected: true,
+              }))}
+              onItemClick={(t) => onKeywordClick?.(t)}
+            />
+          </Grid>
           <Grid container>
             <Grid container alignItems="center">
               <Grid item md={12} sm={12} style={{ textAlign: "right" }}>
@@ -88,17 +106,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               <Typography variant="caption">({links.length})</Typography>
             </Grid>
           </Grid>
-          <Grid item md={12}>
-            <KeywordList
-              keywords={keywords.map((t) => ({
-                ...t,
-                selected: true,
-              }))}
-              onItemClick={(t) => onKeywordClick?.(t)}
-            />
-          </Grid>
           <Grid container style={{ width: "100%" }} alignItems="flex-start">
-            <Grid item md={6} sm={6}>
+            <Grid item md={4} sm={4}>
               {pipe(
                 groups,
                 O.fromPredicate(A.isNonEmpty),
@@ -116,7 +125,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 )
               )}
             </Grid>
-            <Grid item md={6} sm={6}>
+            <Grid item md={4} sm={4}>
               {pipe(
                 actors,
                 O.fromPredicate(A.isNonEmpty),
@@ -133,6 +142,28 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                         selected: false,
                       }))}
                       onActorClick={(actor) => onActorClick?.(actor)}
+                    />
+                  )
+                )
+              )}
+            </Grid>
+            <Grid item md={4} sm={4}>
+              {pipe(
+                groupsMembers,
+                O.fromPredicate(A.isNonEmpty),
+                O.fold(
+                  () => null,
+                  (gms) => (
+                    <GroupsMembersList
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }}
+                      groupsMembers={gms.map((a) => ({
+                        ...a,
+                        selected: false,
+                      }))}
+                      onItemClick={(gm) => onActorClick?.(gm)}
                     />
                   )
                 )

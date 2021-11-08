@@ -1,4 +1,10 @@
-import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
+import {
+  Actor,
+  Events,
+  Group,
+  GroupMember,
+  Keyword,
+} from "@econnessione/shared/io/http";
 import { Event } from "@econnessione/shared/io/http/Events";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
 import {
@@ -41,13 +47,14 @@ const renderRow = (props: {
     events: Event[];
     actors: Actor.Actor[];
     groups: Group.Group[];
+    groupsMembers: GroupMember.GroupMember[];
     keywords: Keyword.Keyword[];
     onClick: (e: Event) => void;
   };
 }): React.ReactElement => {
   const {
     index,
-    data: { events, actors, groups, keywords, onClick },
+    data: { events, actors, groups, groupsMembers, keywords, onClick },
   } = props;
 
   const e = events[index];
@@ -64,6 +71,10 @@ const renderRow = (props: {
     ? keywords.filter((a) => e.keywords.includes(a.id))
     : [];
 
+  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
+    ? groupsMembers.filter((g) => e.groupsMembers.includes(g.id))
+    : [];
+
   return (
     <ListItem key={`event-list-item-${e.id}`}>
       <EventListItem
@@ -71,6 +82,7 @@ const renderRow = (props: {
         actors={eventActors}
         groups={eventGroups}
         keywords={eventKeywords}
+        groupsMembers={eventGroupMembers}
         onClick={onClick}
       />
     </ListItem>
@@ -83,6 +95,7 @@ const renderHeaderRow: React.FC<{
     events: Event[];
     actors: Actor.Actor[];
     groups: Group.Group[];
+    groupsMembers: GroupMember.GroupMember[];
     keywords: Keyword.Keyword[];
     classes: {
       listItemUList: string;
@@ -127,6 +140,7 @@ export interface EventListProps {
   events: Events.Event[];
   actors: Actor.Actor[];
   groups: Group.Group[];
+  groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
   onClick: (e: Events.Event) => void;
 }
@@ -135,6 +149,7 @@ const EventList: React.FC<EventListProps> = ({
   actors,
   groups,
   keywords,
+  groupsMembers,
   onClick,
   ...props
 }) => {
@@ -149,6 +164,7 @@ const EventList: React.FC<EventListProps> = ({
             events: e,
             actors,
             groups,
+            groupsMembers,
             keywords,
             classes,
             onClick,

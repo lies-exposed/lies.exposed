@@ -173,10 +173,12 @@ const InfiniteEventList: React.FC<EventListProps> = ({
   }, [state.currentPage]);
 
   React.useEffect(() => {
-    updateState((s) => ({
-      ...s,
-      currentPage: 1,
-    }));
+    if (state.currentPage > 1) {
+      updateState((s) => ({
+        ...s,
+        currentPage: 1,
+      }));
+    }
   }, [eventFilters.hash]);
 
   return (
@@ -278,6 +280,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                   queries={{
                     eventActors: Queries.Actor.getList,
                     eventGroups: Queries.Group.getList,
+                    eventGroupMembers: Queries.GroupMember.getList,
                     eventKeywords: Queries.Keyword.getList,
                   }}
                   params={{
@@ -304,6 +307,16 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                         ids: events.metadata.groups,
                       },
                     },
+                    eventGroupMembers: {
+                      pagination: {
+                        page: 1,
+                        perPage: events.metadata.groupsMembers.length,
+                      },
+                      sort: { field: "createdAt", order: "DESC" },
+                      filter: {
+                        ids: events.metadata.groupsMembers,
+                      },
+                    },
                     eventKeywords: {
                       pagination: {
                         page: 1,
@@ -322,6 +335,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                       eventActors: actors,
                       eventGroups: groups,
                       eventKeywords: keywords,
+                      eventGroupMembers: groupsMembers,
                     }) => {
                       return (
                         <Box>
@@ -330,6 +344,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                             style={{ width: "100%" }}
                             actors={actors.data}
                             groups={groups.data}
+                            groupsMembers={groupsMembers.data}
                             events={allEvents}
                             keywords={keywords.data}
                             onClick={(e) => {

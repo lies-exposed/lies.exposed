@@ -1,31 +1,18 @@
 import { Actor, Group, Keyword } from "@econnessione/shared/io/http";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import {
   a11yProps,
   TabPanel,
 } from "@econnessione/ui/components/Common/TabPanel";
-import { ContentWithSidebar } from "@econnessione/ui/components/ContentWithSidebar";
 import { EventsMap } from "@econnessione/ui/components/EventsMap";
-import { EventsNetworkGraph } from "@econnessione/ui/components/Graph/EventsNetworkGraph";
 import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
 import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
 import { AutocompleteKeywordInput } from "@econnessione/ui/components/Input/AutocompleteKeywordInput";
-import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
-import SEO from "@econnessione/ui/components/SEO";
-import { pageContentByPath } from "@econnessione/ui/providers/DataProvider";
-import { Grid, Tab, Tabs, Button } from "@material-ui/core";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
+import { Button, Grid, Tab, Tabs } from "@material-ui/core";
 import { formatISO, subYears } from "date-fns";
-import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
-import * as S from "fp-ts/lib/string";
 import * as React from "react";
-import * as Helmet from "react-helmet";
 // import { resetInfiniteList } from "../state/commands";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
 import { EventsNetwork } from "@containers/EventsNetwork";

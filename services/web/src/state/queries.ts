@@ -30,6 +30,7 @@ export interface InfiniteEventListMetadata {
   actors: string[];
   groups: string[];
   keywords: string[];
+  groupsMembers: string[];
 }
 
 export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
