@@ -1,4 +1,9 @@
-import { Actor, Group, Keyword } from "@econnessione/shared/io/http";
+import {
+  Actor,
+  Group,
+  GroupMember,
+  Keyword,
+} from "@econnessione/shared/io/http";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
 import {
   a11yProps,
@@ -7,6 +12,7 @@ import {
 import { EventsMap } from "@econnessione/ui/components/EventsMap";
 import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
 import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
+import { AutocompleteGroupMemberInput } from "@econnessione/ui/components/Input/AutocompleteGroupMemberInput";
 import { AutocompleteKeywordInput } from "@econnessione/ui/components/Input/AutocompleteKeywordInput";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import { Button, Grid, Tab, Tabs } from "@material-ui/core";
@@ -90,6 +96,15 @@ const EventsPage: React.FC<EventsPageProps> = ({
     [filters]
   );
 
+  const onGroupMembersChange = React.useCallback(
+    (groupMembers: GroupMember.GroupMember[]): void => {
+      handleUpdateCurrentView({
+        groupsMembers: groupMembers.map((_) => _.id),
+      });
+    },
+    [filters]
+  );
+
   const onKeywordsChange = React.useCallback(
     (keywords: Keyword.Keyword[]): void => {
       handleUpdateCurrentView({
@@ -108,24 +123,35 @@ const EventsPage: React.FC<EventsPageProps> = ({
               <PageContent queries={{ pageContent: { path: "events" } }} />
             </Grid>
             <Grid container spacing={2}>
-              <Grid item md={4}>
-                <AutocompleteKeywordInput
-                  selectedIds={keywordIds}
-                  onItemClick={onKeywordsChange}
-                />
+              <Grid item md={8}>
+                <Grid container spacing={2}>
+                  <Grid item md={6}>
+                    <AutocompleteKeywordInput
+                      selectedIds={keywordIds}
+                      onItemClick={onKeywordsChange}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    <AutocompleteGroupInput
+                      selectedIds={groupIds}
+                      onChange={onGroupsChange}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    <AutocompleteGroupMemberInput
+                      selectedIds={groupsMembersIds}
+                      onItemClick={onGroupMembersChange}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    <AutocompleteActorInput
+                      selectedIds={actorIds}
+                      onChange={onActorsChange}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item md={4}>
-                <AutocompleteGroupInput
-                  selectedIds={groupIds}
-                  onChange={onGroupsChange}
-                />
-              </Grid>
-              <Grid item md={4}>
-                <AutocompleteActorInput
-                  selectedIds={actorIds}
-                  onChange={onActorsChange}
-                />
-              </Grid>
+
               <Grid item md={4}>
                 <DatePicker
                   size="small"

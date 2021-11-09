@@ -30,6 +30,7 @@ interface UncategorizedListItemProps {
   onClick?: (e: Events.Uncategorized.Uncategorized) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
+  onGroupMemberClick?: (g: GroupMember.GroupMember) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }
 
@@ -43,6 +44,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   onClick,
   onActorClick,
   onGroupClick,
+  onGroupMemberClick,
   onKeywordClick,
 }) => {
   return (
@@ -125,6 +127,29 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 )
               )}
             </Grid>
+
+            <Grid item md={4} sm={4}>
+              {pipe(
+                groupsMembers,
+                O.fromPredicate(A.isNonEmpty),
+                O.fold(
+                  () => null,
+                  (gms) => (
+                    <GroupsMembersList
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }}
+                      groupsMembers={gms.map((a) => ({
+                        ...a,
+                        selected: false,
+                      }))}
+                      onItemClick={(gm) => onGroupMemberClick?.(gm)}
+                    />
+                  )
+                )
+              )}
+            </Grid>
             <Grid item md={4} sm={4}>
               {pipe(
                 actors,
@@ -142,28 +167,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                         selected: false,
                       }))}
                       onActorClick={(actor) => onActorClick?.(actor)}
-                    />
-                  )
-                )
-              )}
-            </Grid>
-            <Grid item md={4} sm={4}>
-              {pipe(
-                groupsMembers,
-                O.fromPredicate(A.isNonEmpty),
-                O.fold(
-                  () => null,
-                  (gms) => (
-                    <GroupsMembersList
-                      style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                      }}
-                      groupsMembers={gms.map((a) => ({
-                        ...a,
-                        selected: false,
-                      }))}
-                      onItemClick={(gm) => onActorClick?.(gm)}
                     />
                   )
                 )

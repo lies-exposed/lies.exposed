@@ -40,7 +40,7 @@ export const MakeListGroupMemberRoute = (
               }
             );
           }
-          return q.leftJoinAndSelect("groupsMembers.group", "group");
+          return q.innerJoinAndSelect("groupsMembers.group", "group");
         },
         (q) => {
           ctx.logger.debug.log("Ids %O", query.ids);
