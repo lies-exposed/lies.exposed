@@ -25,15 +25,14 @@ import {
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
+import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 
 const RESOURCE = "scientific-studies";
 
 const ListFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <ReferenceArrayInput source="authors" reference="actors" alwaysOn>
-        <AutocompleteArrayInput source="id" optionText="fullName" />
-      </ReferenceArrayInput>
+      <ReferenceArrayActorInput source="authors" alwaysOn />
       <DateInput source="publishedDate" />
     </Filter>
   );
@@ -79,10 +78,8 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       <MarkdownInput source="abstract" />
       <MarkdownInput source="results" />
       <MarkdownInput source="conclusion" />
-      <ReferenceArrayInput source="authors" reference="actors" alwaysOn>
-        <AutocompleteArrayInput source="id" optionText="fullName" />
-      </ReferenceArrayInput>
-      <ReferenceInput source="publisher" reference="groups" alwaysOn>
+      <ReferenceArrayActorInput source="authors" />
+      <ReferenceInput source="publisher" reference="groups">
         <AutocompleteInput source="id" optionText="name" />
       </ReferenceInput>
     </SimpleForm>

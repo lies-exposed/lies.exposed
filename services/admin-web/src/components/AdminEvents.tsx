@@ -1,11 +1,9 @@
 import { http } from "@econnessione/shared/io";
-import { Actor } from "@econnessione/shared/io/http/Actor";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { Box } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
-import { sequenceT } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -46,6 +44,12 @@ import {
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
+import ReferenceActorInput from "./Common/ReferenceActorInput";
+import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
+import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
+import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
+import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
+import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
@@ -56,37 +60,9 @@ const EventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <TextInput source="title" alwaysOn size="small" />
-      <ReferenceArrayInput source="groups" reference="groups" alwaysOn>
-        <AutocompleteArrayInput optionText="name" />
-      </ReferenceArrayInput>
-      <ReferenceArrayInput
-        source="actors"
-        reference="actors"
-        alwaysOn
-        filterToQuery={(q: string) => ({ fullName: q })}
-      >
-        <AutocompleteArrayInput
-          optionText={(a: Partial<Actor>) =>
-            a?.id ? `${a.fullName}` : "No actor"
-          }
-        />
-      </ReferenceArrayInput>
-      <ReferenceArrayInput
-        source="groupsMembers"
-        reference="groups-members"
-        filterToQuery={(ids: string[]) => ({
-          groupsMembers: ids,
-        })}
-      >
-        <AutocompleteArrayInput
-          source="id"
-          optionText={(r: any) => {
-            return r?.actor && r?.group
-              ? `${r.actor.fullName} ${r.group.name}`
-              : "No group members";
-          }}
-        />
-      </ReferenceArrayInput>
+      <ReferenceArrayGroupInput source="groups" alwaysOn />
+      <ReferenceArrayActorInput source="actors" alwaysOn />
+      <ReferenceArrayGroupMemberInput source="groupsMembers" />
       <DateInput source="startDate" />
       <DateInput source="endDate" />
     </Filter>
@@ -223,9 +199,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateInput source="startDate" />
         <DateInput source="endDate" />
         <TextInput source="title" />
-        <ReferenceArrayInput source="keywords" reference="keywords">
-          <AutocompleteArrayInput optionText="tag" />
-        </ReferenceArrayInput>
+        <ReferenceArrayKeywordInput source="keywords" />
         <MarkdownInput source="body" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
@@ -234,13 +208,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="location" type={GeometryType.POINT} />
       </FormTab>
       <FormTab label="Actors">
-        <ReferenceArrayInput
-          source="newActors"
-          reference="actors"
-          filterToQuery={(q: string) => ({ fullName: q })}
-        >
-          <AutocompleteArrayInput source="id" optionText="fullName" />
-        </ReferenceArrayInput>
+        <ReferenceArrayActorInput source="newActors" />
         <ReferenceArrayField source="actors" reference="actors">
           <Datagrid rowClick="edit">
             <TextField source="id" />
@@ -250,15 +218,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Group Members">
-        <ReferenceArrayInput
-          source="newGroupsMembers"
-          reference="groups-members"
-        >
-          <AutocompleteArrayInput
-            source="id"
-            optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
-          />
-        </ReferenceArrayInput>
+        <ReferenceArrayGroupMemberInput source="newGroupsMembers" />
         <ReferenceArrayField source="groupsMembers" reference="groups-members">
           <Datagrid rowClick="edit">
             <AvatarField source="actor.avatar" />
@@ -269,9 +229,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Groups">
-        <ReferenceArrayInput source="groups" reference="groups">
-          <AutocompleteArrayInput source="id" optionText="name" />
-        </ReferenceArrayInput>
+        <ReferenceArrayGroupInput source="groups" />
         <ReferenceArrayField reference="groups" source="groups">
           <Datagrid rowClick="edit">
             <TextField source="name" />
@@ -417,30 +375,17 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
           defaultValue={new Date()}
         />
         <DateInput source="endDate" />
-        <ReferenceArrayInput source="keywords" reference="keywords">
-          <AutocompleteArrayInput optionText="tag" />
-        </ReferenceArrayInput>
+        <ReferenceArrayKeywordInput source="keywords" />
         <MarkdownInput source="body" defaultValue="" />
       </FormTab>
       <FormTab label="Actors">
-        <ReferenceArrayInput
-          source="actors"
-          reference="actors"
-          defaultValue={[]}
-        >
-          <SelectArrayInput optionText="fullName" />
-        </ReferenceArrayInput>
+        <ReferenceArrayActorInput source="actors" defaultValue={[]} />
       </FormTab>
       <FormTab label="Group Members">
-        <ReferenceArrayInput
+        <ReferenceArrayGroupMemberInput
           source="groupsMembers"
-          reference="groups-members"
           defaultValue={[]}
-        >
-          <SelectArrayInput
-            optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
-          />
-        </ReferenceArrayInput>
+        />
       </FormTab>
       <FormTab label="Groups">
         <ReferenceArrayInput

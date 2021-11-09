@@ -1,7 +1,6 @@
 import { FormControl, Grid } from "@material-ui/core";
 import * as React from "react";
 import {
-  AutocompleteInput,
   Create,
   CreateProps,
   Datagrid,
@@ -14,7 +13,6 @@ import {
   ListProps,
   Record,
   ReferenceField,
-  ReferenceInput,
   ReferenceManyField,
   SimpleForm,
   TabbedForm,
@@ -22,6 +20,8 @@ import {
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
+import ReferenceActorInput from "./Common/ReferenceActorInput";
+import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 
 const transformGroupMember = ({
@@ -30,6 +30,8 @@ const transformGroupMember = ({
 }: Record): Record | Promise<Record> => {
   return {
     ...r,
+    group: r.group.id,
+    actor: r.actor.id,
     endDate: endDate === "" ? undefined : endDate,
   };
 };
@@ -70,13 +72,7 @@ export const GroupMemberEdit: React.FC<EditProps> = (props) => {
           <FormControl style={{ width: "100%" }}>
             <Grid container alignItems="center">
               <Grid item md={4}>
-                <ReferenceInput
-                  reference="actors"
-                  source="actor.id"
-                  filterToQuery={(fullName) => ({ fullName })}
-                >
-                  <AutocompleteInput optionText="fullName" />
-                </ReferenceInput>
+                <ReferenceActorInput source="actor.id" />
               </Grid>
               <Grid item md={4}>
                 <WebPreviewButton resource="actors" source="actor.id" />
@@ -86,13 +82,7 @@ export const GroupMemberEdit: React.FC<EditProps> = (props) => {
           <FormControl style={{ width: "100%" }}>
             <Grid container alignItems="center">
               <Grid item md={4}>
-                <ReferenceInput
-                  reference="groups"
-                  source="group.id"
-                  filterToQuery={(name) => ({ name })}
-                >
-                  <AutocompleteInput source="id" optionText="name" />
-                </ReferenceInput>
+                <ReferenceGroupInput source="group.id" />
               </Grid>
               <Grid item md={4}>
                 <WebPreviewButton resource="groups" source="group.id" />
@@ -127,20 +117,8 @@ export const GroupMemberCreate: React.FC<CreateProps> = (props) => (
     transform={transformGroupMember}
   >
     <SimpleForm>
-      <ReferenceInput
-        reference="actors"
-        source="actor.id"
-        filterToQuery={(fullName) => ({ fullName })}
-      >
-        <AutocompleteInput optionText="fullName" />
-      </ReferenceInput>
-      <ReferenceInput
-        reference="groups"
-        source="group.id"
-        filterToQuery={(name) => ({ name })}
-      >
-        <AutocompleteInput source="id" optionText="name" />
-      </ReferenceInput>
+      <ReferenceActorInput source="actor.id" />
+      <ReferenceGroupInput source="group.id" />
       <DateInput source="startDate" />
       <DateInput source="endDate" />
       <MarkdownInput source="body" />
