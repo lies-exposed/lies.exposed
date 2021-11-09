@@ -45,6 +45,7 @@ import {
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import MarkdownInput from "./Common/MarkdownInput";
+import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
@@ -158,16 +159,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <MarkdownInput source="body" />
         </FormTab>
         <FormTab label="Members">
-          <ReferenceArrayInput
-            source="groupsMembers"
-            reference="groups-members"
-          >
-            <AutocompleteArrayInput
-              source="id"
-              optionText={(m: any) => `${m.group.name} - ${m.actor.fullName}`}
-            />
-          </ReferenceArrayInput>
-
+          <ReferenceArrayGroupMemberInput source="groupsMembers" />
           <ReferenceArrayField source="members" reference="groups-members">
             <Datagrid>
               <ReferenceField source="id" reference="groups-members">
@@ -232,13 +224,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => (
       <DateInput source="date" />
       <TextInput source="name" />
       <GroupKindInput source="kind" />
-      <ReferenceArrayInput
-        source="members"
-        reference="groups-members"
-        defaultValue={[]}
-      >
-        <AutocompleteArrayInput source="id" optionText="fullName" />
-      </ReferenceArrayInput>
+      <ReferenceArrayGroupMemberInput source="members" />
       <ImageInput source="avatar">
         <ImageField src="src" />
       </ImageInput>

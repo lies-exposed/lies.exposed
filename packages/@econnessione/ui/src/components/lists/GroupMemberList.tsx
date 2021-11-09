@@ -37,6 +37,23 @@ export const GroupMemberListItem: React.FC<
         )),
         O.toNullable
       )}
+      {pipe(
+        O.fromNullable(item.group.avatar),
+        O.map((src) => (
+          <Avatar
+            key={item.id}
+            src={src}
+            size={avatarSize}
+            style={{
+              marginLeft: -20,
+              marginBottom: -20,
+              width: 20,
+              height: 20,
+            }}
+          />
+        )),
+        O.toNullable
+      )}
       {displayFullName ? (
         <Typography variant="caption"> {item.actor.fullName}</Typography>
       ) : null}

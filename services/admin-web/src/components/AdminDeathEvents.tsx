@@ -1,4 +1,3 @@
-import { Actor } from "@econnessione/shared/io/http/Actor";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -30,20 +29,21 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
+import ReferenceActorInput from "./Common/ReferenceActorInput";
+import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
+import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
+import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 
 const RESOURCE = "deaths";
 
 const DeathEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <ReferenceInput source="victim" reference="actors" alwaysOn>
-        <AutocompleteInput source="id" optionText="fullName" />
-      </ReferenceInput>
+      <ReferenceActorInput source="victim" alwaysOn />
       <DateInput source="date" />
     </Filter>
   );
@@ -104,9 +104,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="location" type={GeometryType.POINT} />
       </FormTab>
       <FormTab label="Suspects">
-        <ReferenceArrayInput source="actors" reference="actors">
-          <SelectArrayInput optionText="fullName" />
-        </ReferenceArrayInput>
+        <ReferenceArrayActorInput source="actors" />
         <ReferenceArrayField source="actors" reference="actors">
           <Datagrid rowClick="edit">
             <TextField source="id" />
@@ -127,9 +125,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
             <ImageField source="avatar" fullWidth={false} />
           </Datagrid>
         </ReferenceArrayField>
-        <ReferenceArrayInput source="groups" reference="groups">
-          <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
+        <ReferenceArrayGroupInput source="groups" />
         <ReferenceArrayField source="groups" reference="groups">
           <Datagrid rowClick="edit">
             <TextField source="id" />
