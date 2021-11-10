@@ -119,80 +119,86 @@ const EventsPage: React.FC<EventsPageProps> = ({
       <Grid item>
         <Grid container justifyContent="center">
           <Grid item md={10} style={{ marginBottom: 40 }}>
-            <Grid item>
+            <Grid item lg={12}>
               <PageContent queries={{ pageContent: { path: "events" } }} />
             </Grid>
-            <Grid container spacing={2}>
-              <Grid item md={8}>
+            <Grid container spacing={2} justifyContent="flex-start">
+              <Grid item md={2}>
                 <Grid container spacing={2}>
-                  <Grid item md={6}>
-                    <AutocompleteKeywordInput
-                      selectedIds={keywordIds}
-                      onItemClick={onKeywordsChange}
+                  <Grid item md={12}>
+                    <DatePicker
+                      size="small"
+                      value={dateRange[0]}
+                      variant="outlined"
+                      // onChange={(e) => setDateRange([e.target.value, dateRange[1]])}
+                      onBlur={(e) => {
+                        handleDateRangeChange([e.target.value, dateRange[1]]);
+                      }}
+                      style={{ width: "100%" }}
                     />
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item md={12}>
+                    <DatePicker
+                      size="small"
+                      value={endDate}
+                      variant="outlined"
+                      // onChange={(e) => setDateRange([dateRange[0], e.target.value])}
+                      onBlur={(e) =>
+                        handleDateRangeChange([dateRange[0], e.target.value])
+                      }
+                      style={{ width: "100%" }}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item md={10}>
+                <Grid container spacing={2}>
+                  <Grid item md={4}>
                     <AutocompleteGroupInput
                       selectedIds={groupIds}
                       onChange={onGroupsChange}
                     />
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item md={4}>
                     <AutocompleteGroupMemberInput
                       selectedIds={groupsMembersIds}
                       onItemClick={onGroupMembersChange}
                     />
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item md={4}>
                     <AutocompleteActorInput
                       selectedIds={actorIds}
                       onChange={onActorsChange}
                     />
                   </Grid>
+                  <Grid item md={4}>
+                    <AutocompleteKeywordInput
+                      selectedIds={keywordIds}
+                      onItemClick={onKeywordsChange}
+                    />
+                  </Grid>
+                  <Grid item md={4}>
+                    <Button
+                      fullWidth
+                      color="secondary"
+                      variant="contained"
+                      onClick={() =>
+                        handleUpdateCurrentView({
+                          actors: [],
+                          groups: [],
+                          groupsMembers: [],
+                          keywords: [],
+                          tab: 0,
+                          startDate: undefined,
+                          endDate: undefined,
+                          hash: undefined,
+                        })
+                      }
+                    >
+                      Clear filters
+                    </Button>
+                  </Grid>
                 </Grid>
-              </Grid>
-
-              <Grid item md={4}>
-                <DatePicker
-                  size="small"
-                  value={dateRange[0]}
-                  variant="outlined"
-                  onChange={(e) => setDateRange([e.target.value, dateRange[1]])}
-                  onBlur={(e) => {
-                    handleDateRangeChange([e.target.value, dateRange[1]]);
-                  }}
-                  style={{ width: "100%" }}
-                />
-              </Grid>
-              <Grid item md={4}>
-                <DatePicker
-                  size="small"
-                  value={endDate}
-                  variant="outlined"
-                  onChange={(e) => setDateRange([dateRange[0], e.target.value])}
-                  onBlur={(e) =>
-                    handleDateRangeChange([dateRange[0], e.target.value])
-                  }
-                  style={{ width: "100%" }}
-                />
-              </Grid>
-              <Grid item md={4}>
-                <Button
-                  onClick={() =>
-                    handleUpdateCurrentView({
-                      actors: [],
-                      groups: [],
-                      groupsMembers: [],
-                      keywords: [],
-                      tab: 0,
-                      startDate: undefined,
-                      endDate: undefined,
-                      hash: undefined,
-                    })
-                  }
-                >
-                  Clear filters
-                </Button>
               </Grid>
             </Grid>
           </Grid>

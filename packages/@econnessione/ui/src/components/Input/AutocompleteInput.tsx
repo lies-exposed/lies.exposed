@@ -97,7 +97,7 @@ export const AutocompleteInput = <T extends { id: string }>({
               placeholder={placeholder}
               inputValue={value}
               value={selectedItems.filter((i) => selectedIds.includes(i.id))}
-              options={items}
+              options={items.filter((i) => !selectedIds.includes(i.id))}
               onChange={(e, v) => {
                 if (Array.isArray(v)) {
                   onItemsChange(v as T[]);
@@ -116,7 +116,6 @@ export const AutocompleteInput = <T extends { id: string }>({
                 <TextField
                   {...params}
                   placeholder={placeholder}
-                  margin="normal"
                   variant="outlined"
                   onChange={(e) => {
                     const v = e.target.value;

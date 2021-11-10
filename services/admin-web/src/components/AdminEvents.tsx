@@ -44,12 +44,10 @@ import {
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
-import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
-import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
