@@ -47,8 +47,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
   ]);
 
   const filters = {
-    startDate: dateRange[0],
-    endDate: dateRange[1],
+    startDate,
+    endDate,
     keywords: keywordIds,
     groups: groupIds,
     actors: actorIds,
@@ -70,12 +70,13 @@ const EventsPage: React.FC<EventsPageProps> = ({
 
   const handleDateRangeChange = React.useCallback(
     (range: [string, string]): void => {
+      setDateRange(range);
       handleUpdateCurrentView({
         startDate: range[0],
         endDate: range[1],
       });
     },
-    [filters]
+    [filters.startDate, filters.endDate]
   );
 
   const onActorsChange = React.useCallback(
@@ -130,7 +131,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
                       size="small"
                       value={dateRange[0]}
                       variant="outlined"
-                      // onChange={(e) => setDateRange([e.target.value, dateRange[1]])}
+                      onChange={(e) =>
+                        setDateRange([e.target.value, dateRange[1]])
+                      }
                       onBlur={(e) => {
                         handleDateRangeChange([e.target.value, dateRange[1]]);
                       }}
@@ -140,9 +143,11 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   <Grid item md={12}>
                     <DatePicker
                       size="small"
-                      value={endDate}
+                      value={dateRange[1]}
                       variant="outlined"
-                      // onChange={(e) => setDateRange([dateRange[0], e.target.value])}
+                      onChange={(e) =>
+                        setDateRange([dateRange[0], e.target.value])
+                      }
                       onBlur={(e) =>
                         handleDateRangeChange([dateRange[0], e.target.value])
                       }
@@ -240,15 +245,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
             <TabPanel value={tab} index={2}>
               {tab === 2 ? (
                 <EventsNetwork
-                  filter={{
-                    startDate,
-                    endDate,
-                    keywords: keywordIds,
-                    groups: groupIds,
-                    actors: actorIds,
-                    groupsMembers: groupsMembersIds,
-                    hash,
-                  }}
+                  filter={filters}
                   groupBy={"actor"}
                   scale={"all"}
                   scalePoint={O.none}

@@ -128,6 +128,8 @@ const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
     (v.groups ?? []).length === 0 &&
     (v.groupsMembers ?? []).length === 0 &&
     (v.keywords ?? []).length === 0 &&
+    v.startDate === undefined &&
+    v.endDate === undefined &&
     (v.tab ?? 0) === 0
   );
 };

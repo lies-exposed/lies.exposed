@@ -18,7 +18,7 @@ export const GroupMemberListItem: React.FC<
 > = ({ item, avatarSize, displayFullName = false, onClick }) => {
   return (
     <Box
-      key={item.id}
+      key={`group-member-list-item-${item.group.id}-${item.actor.id}`}
       display="flex"
       alignItems="center"
       margin={1}
@@ -29,7 +29,7 @@ export const GroupMemberListItem: React.FC<
         O.fromNullable(item.actor.avatar),
         O.map((src) => (
           <Avatar
-            key={item.id}
+            key={`group-member-actor-${item.actor.id}`}
             src={src}
             size={avatarSize}
             style={{ margin: 5 }}
@@ -41,7 +41,7 @@ export const GroupMemberListItem: React.FC<
         O.fromNullable(item.group.avatar),
         O.map((src) => (
           <Avatar
-            key={item.id}
+            key={`group-member-group-${item.group.id}`}
             src={src}
             size={avatarSize}
             style={{

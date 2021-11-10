@@ -374,4 +374,8 @@ const InfiniteEventList: React.FC<EventListProps> = ({
   );
 };
 
-export default InfiniteEventList;
+export default React.memo(InfiniteEventList, (prevProps, nextProps) => {
+  const prevPropsJ = JSON.stringify(prevProps);
+  const nextPropsJ = JSON.stringify(nextProps);
+  return prevPropsJ === nextPropsJ;
+});
