@@ -1,12 +1,12 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
-import { BaseFrontmatter } from "../Common/BaseFrontmatter";
+import { BaseProps } from "../Common/BaseProps";
 import { ByGroupOrActor } from "../Common/ByGroupOrActor";
 
 export const PublicAnnouncement = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     title: t.string,
     type: t.literal("PublicAnnouncement"),
     from: nonEmptyArray(ByGroupOrActor),

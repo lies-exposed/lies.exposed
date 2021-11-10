@@ -3,7 +3,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Point } from "../Common";
-import { BaseFrontmatter } from "../Common/BaseFrontmatter";
+import { BaseProps } from "../Common/BaseProps";
 import { ByGroupOrActor } from "../Common/ByGroupOrActor";
 import { GetListQuery } from "../Query";
 
@@ -20,7 +20,7 @@ export type DeathListQuery = t.TypeOf<typeof DeathListQuery>;
 
 export const Death = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     type: t.literal("Death"),
     victim: UUID,
     location: t.union([t.undefined, Point]),

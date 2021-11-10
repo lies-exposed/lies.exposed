@@ -1,12 +1,12 @@
 import * as t from "io-ts";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 import { markdownRemark } from "./Common/Markdown";
 
 const PAGE_FRONTMATTER = "PageFrontmatter";
 
 export const PageFrontmatter = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     type: t.literal(PAGE_FRONTMATTER),
     title: t.string,
     path: t.string,

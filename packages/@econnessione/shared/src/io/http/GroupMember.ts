@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Actor } from "./Actor";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 import { Group } from "./Group";
 
 export const CreateGroupMember = t.strict(
@@ -19,7 +19,7 @@ export type CreateGroupMember = t.TypeOf<typeof CreateGroupMember>;
 
 export const GroupMember = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     group: Group,
     actor: Actor,
     // events: t.array(t.string),

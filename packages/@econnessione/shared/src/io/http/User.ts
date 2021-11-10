@@ -1,9 +1,9 @@
 import * as t from "io-ts";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 
 export const User = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     firstName: t.string,
     lastName: t.string,
     username: t.string,

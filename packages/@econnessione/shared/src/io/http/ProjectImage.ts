@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 
 export const THEORY_KIND = t.literal("THEORY");
 export const PRACTICE_KIND = t.literal("PRACTICE");
@@ -9,7 +9,7 @@ export type Kind = t.TypeOf<typeof Kind>;
 
 export const ProjectImage = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     kind: Kind,
     location: t.string,
     description: t.string,

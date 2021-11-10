@@ -1,11 +1,11 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 import { markdownRemark } from "./Common/Markdown";
 
 export const Article = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     title: t.string,
     path: t.string,
     draft: t.boolean,

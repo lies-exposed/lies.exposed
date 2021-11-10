@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 // import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { Area } from "./Area";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";
 import { ProjectImage } from "./ProjectImage";
 
@@ -11,7 +11,7 @@ export type PROJECT_FRONTMATTER = t.TypeOf<typeof PROJECT_FRONTMATTER>;
 
 export const Project = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     name: t.string,
     color: Color,
     areas: t.array(Area),

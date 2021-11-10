@@ -4,7 +4,7 @@ import {
   optionFromNullable,
   OptionFromNullableC,
 } from "io-ts-types/lib/optionFromNullable";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";
 import { markdownRemark } from "./Common/Markdown";
 
@@ -36,7 +36,7 @@ export const GroupFrontmatter: GroupFrontmatterType = t.recursion(
   "GroupFrontmatter",
   () =>
     t.strict({
-      ...BaseFrontmatter.type.props,
+      ...BaseProps.type.props,
       name: t.string,
       kind: GroupKind,
       color: Color,
@@ -69,7 +69,7 @@ export type GroupType = t.RecursiveType<t.ExactC<t.TypeC<GroupC>>>;
 
 export const Group = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     name: t.string,
     kind: GroupKind,
     color: Color,

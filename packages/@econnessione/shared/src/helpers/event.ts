@@ -31,7 +31,7 @@ export const eventDate = (e: Events.Event): Date => {
 
 export const eqByUUID = pipe(
   Eq.eqString,
-  Eq.contramap((f: Common.BaseFrontmatter) => f.id)
+  Eq.contramap((f: Common.BaseProps) => f.id)
 );
 
 interface NavigationItem {

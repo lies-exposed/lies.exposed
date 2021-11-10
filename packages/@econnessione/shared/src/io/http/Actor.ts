@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";
 import { markdownRemark } from "./Common/Markdown";
 
@@ -13,7 +13,7 @@ export type GetListActorQueryFilter = t.TypeOf<typeof GetListActorQueryFilter>;
 
 export const Actor = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     fullName: t.string,
     username: t.string,
     avatar: t.union([t.undefined, t.string]),

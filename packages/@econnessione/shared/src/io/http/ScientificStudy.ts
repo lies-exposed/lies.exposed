@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { optionFromNullable, UUID } from "io-ts-types";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 import { URL } from "./Common/URL";
 
 export const CreateScientificStudyBody = t.strict(
@@ -21,10 +21,14 @@ export type CreateScientificStudyBody = t.TypeOf<
   typeof CreateScientificStudyBody
 >;
 
+export const ScientificStudyType = t.literal("ScientificStudy");
+export type ScientificStudyType = t.TypeOf<typeof ScientificStudyType>;
+
 export const ScientificStudy = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     ...CreateScientificStudyBody.type.props,
+    type: ScientificStudyType,
     abstract: t.union([t.string, t.undefined]),
     results: t.union([t.string, t.undefined]),
   },

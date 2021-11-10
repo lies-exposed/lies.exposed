@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
-import { BaseFrontmatter, Point, UUID } from "../Common";
+import { BaseProps, Point, UUID } from "../Common";
 import { optionFromUndefined } from "../Common/optionFromUndefined";
 import { CreateKeyword } from "../Keyword";
 import { CreateLink } from "../Link";
@@ -83,7 +83,7 @@ export const UNCATEGORIZED = t.literal("Uncategorized");
 
 export const Uncategorized = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     type: UNCATEGORIZED,
     title: t.string,
     startDate: DateFromISOString,
