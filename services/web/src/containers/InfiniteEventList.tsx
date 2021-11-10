@@ -3,7 +3,6 @@ import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import EventList from "@econnessione/ui/components/lists/EventList/EventList";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
-import { Death } from "@io/http/Events";
 import {
   Box,
   Chip,
@@ -12,42 +11,34 @@ import {
   Typography,
   useTheme,
 } from "@material-ui/core";
-import { APIError } from "@providers/api.provider";
-import { available, queryStrict } from "avenger";
-import { CachedQuery } from "avenger/lib/Query";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
 import * as Ord from "fp-ts/lib/Ord";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { debounce } from "throttle-debounce";
-import { serializedType } from "ts-io-error/lib/Codec";
 import {
-  deathsInfiniteList,
-  InfiniteDeathsListParam,
-  infiniteEventList,
+  deathsPaginated,
+  eventsPaginated,
   InfiniteEventListParams,
+  scientificStudiesPaginated,
 } from "../state/queries";
 import { doUpdateCurrentView } from "../utils/location.utils";
-import { resetInfiniteList } from "state/commands";
 
 const eventsSort = pipe(
   Ord.reverse(D.Ord),
   Ord.contramap((e: Events.Event): Date => {
-    if (e.type === "Death") {
+    if (e.type === Events.ScientificStudy.ScientificStudyType.value) {
+      return e.publishDate;
+    }
+    if (e.type === Events.Death.DeathType.value) {
       return e.date;
     }
     return e.startDate;
   })
 );
-
-type QueryFilters<Q> = Omit<
-  Partial<serializedType<Q>>,
-  "_sort" | "_order" | "_end" | "_start"
-> & { hash?: string };
 
 export interface EventListProps {
   filters: Omit<InfiniteEventListParams, "page">;
@@ -121,21 +112,20 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
   );
 };
 
-const InfiniteEventList: React.FC<EventListProps> = ({
-  filters: eventFilters,
-  onClick,
-}) => {
+const InfiniteEventList: React.FC<EventListProps> = ({ filters, onClick }) => {
   const [state, updateState] = React.useState<{
     currentPage: number;
     filters: {
       death: boolean;
       events: boolean;
+      scientificStudies: boolean;
     };
   }>({
     currentPage: 1,
     filters: {
       death: true,
       events: true,
+      scientificStudies: true,
     },
   });
 
@@ -143,24 +133,6 @@ const InfiniteEventList: React.FC<EventListProps> = ({
   //   () => infiniteEventList,
   //   [eventFilters.hash]
   // );
-
-  const deathsInfiniteListQuery: typeof deathsInfiniteList = React.useMemo(
-    () =>
-      eventFilters.actors?.length === 0
-        ? queryStrict(
-            () =>
-              TE.right({
-                data: [] as Death.Death[],
-                total: 0,
-                metadata: {
-                  victims: [] as string[],
-                },
-              }),
-            available
-          )
-        : deathsInfiniteList,
-    [eventFilters.actors?.length]
-  );
 
   const theme = useTheme();
 
@@ -179,41 +151,47 @@ const InfiniteEventList: React.FC<EventListProps> = ({
         currentPage: 1,
       }));
     }
-  }, [eventFilters.hash]);
+  }, [filters.hash]);
 
   return (
     <Box>
       <WithQueries
         queries={{
-          eventList: infiniteEventList,
-          deathList: deathsInfiniteListQuery,
+          eventsPaginated,
+          deathsPaginated,
+          scientificStudiesPaginated,
         }}
         params={{
-          eventList: {
-            ...eventFilters,
+          eventsPaginated: {
+            ...filters,
             page: state.currentPage,
           },
-          deathList: {
-            minDate: eventFilters.startDate,
-            maxDate: eventFilters.endDate,
-            victim: eventFilters.actors,
+          deathsPaginated: {
+            minDate: filters.startDate,
+            maxDate: filters.endDate,
+            victim: filters.actors,
+            page: state.currentPage,
+          },
+          scientificStudiesPaginated: {
+            publisher: filters.groups,
             page: state.currentPage,
           },
         }}
         render={QR.fold(
           LazyFullSizeLoader,
           ErrorBox,
-          ({ eventList: events, deathList: deaths }) => {
-            const allEvents = React.useMemo(
-              () =>
-                pipe(
-                  [
-                    ...(state.filters.events ? events.data : []),
-                    ...(state.filters.death ? deaths.data : []),
-                  ],
-                  A.sort(eventsSort)
-                ),
-              [events.data.length, deaths.data.length, state.filters]
+          ({
+            eventsPaginated: events,
+            deathsPaginated: deaths,
+            scientificStudiesPaginated: scientificStudies,
+          }) => {
+            const allEvents = pipe(
+              [
+                ...(state.filters.events ? events.data : []),
+                ...(state.filters.death ? deaths.data : []),
+                ...(state.filters.death ? scientificStudies.data : []),
+              ],
+              A.sort(eventsSort)
             );
 
             return (
@@ -228,11 +206,11 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                         </Typography>{" "}
                         dal{" "}
                         <Typography display="inline" variant="subtitle1">
-                          {eventFilters.startDate}
+                          {filters.startDate}
                         </Typography>{" "}
                         al{" "}
                         <Typography display="inline" variant="subtitle1">
-                          {eventFilters.endDate}
+                          {filters.endDate}
                         </Typography>
                       </Typography>
                     </Grid>
@@ -261,12 +239,32 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                         label={`Deaths (${deaths.total})`}
                         color={"secondary"}
                         variant={state.filters.death ? "default" : "outlined"}
+                        style={{ marginRight: 10 }}
                         onClick={() => {
                           updateState({
                             ...state,
                             filters: {
                               ...state.filters,
                               death: !state.filters.death,
+                            },
+                          });
+                        }}
+                      />
+                      <Chip
+                        label={`Science (${scientificStudies.total})`}
+                        color={"secondary"}
+                        variant={
+                          state.filters.scientificStudies
+                            ? "default"
+                            : "outlined"
+                        }
+                        onClick={() => {
+                          updateState({
+                            ...state,
+                            filters: {
+                              ...state.filters,
+                              scientificStudies:
+                                !state.filters.scientificStudies,
                             },
                           });
                         }}

@@ -18,10 +18,13 @@ export const DeathListQuery = t.type(
 );
 export type DeathListQuery = t.TypeOf<typeof DeathListQuery>;
 
+export const DeathType = t.literal("Death");
+export type DeathType = t.TypeOf<typeof DeathType>;
+
 export const Death = t.strict(
   {
     ...BaseProps.type.props,
-    type: t.literal("Death"),
+    type: DeathType,
     victim: UUID,
     location: t.union([t.undefined, Point]),
     killer: t.union([t.undefined, ByGroupOrActor]),

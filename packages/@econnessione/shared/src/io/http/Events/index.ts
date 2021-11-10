@@ -6,6 +6,7 @@ import * as Death from "./Death";
 import * as Fined from "./Fined";
 import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
+import * as ScientificStudy from "./ScientificStudy";
 import * as Uncategorized from "./Uncategorized";
 import { ProjectImpact } from "./project/ProjectImpact";
 import { ProjectTransaction } from "./project/ProjectTransaction";
@@ -20,6 +21,7 @@ export const Event = t.union(
     // Arrest.Arrest,
     Death.Death,
     // PublicAnnouncement.PublicAnnouncement,
+    ScientificStudy.ScientificStudy,
     Uncategorized.Uncategorized,
   ],
   "Event"
@@ -50,6 +52,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   // Condamned: Condamned.Condamned,
   // Arrest: Arrest.Arrest,
   Death: Death.Death,
+  ScientificStudy: ScientificStudy.ScientificStudy,
   // PublicAnnouncement: PublicAnnouncement.PublicAnnouncement,
   Uncategorized: Uncategorized.Uncategorized,
 };
@@ -62,6 +65,7 @@ export {
   Death,
   PublicAnnouncement,
   Uncategorized,
+  ScientificStudy,
   ProjectImpact,
   ProjectTransaction,
 };

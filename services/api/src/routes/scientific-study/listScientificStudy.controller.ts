@@ -10,17 +10,17 @@ import { getORMOptions } from "@utils/listQueryToORMOptions";
 
 export const MakeListScientificStudyRoute: Route = (r, { db, logger, env }) => {
   AddEndpoint(r)(
-    Endpoints.ScientifcStudy.List,
+    Endpoints.ScientificStudy.List,
     ({ query: { publishedDate, publishedBy, ...query } }) => {
       const queryOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
 
       const findTask = pipe(
         db.manager
-          .createQueryBuilder(ScientificStudyEntity, "scientifiStudies")
+          .createQueryBuilder(ScientificStudyEntity, "scientificStudies")
           .loadAllRelationIds(),
         (q) => {
           if (O.isSome(publishedDate)) {
-            return q.andWhere("publishDate = :date", {
+            return q.andWhere("scientificStudies.publishDate = :date", {
               date: publishedDate.value,
             });
           }

@@ -1,8 +1,8 @@
 import * as t from "io-ts";
 import { optionFromNullable, UUID } from "io-ts-types";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { BaseProps } from "./Common/BaseProps";
-import { URL } from "./Common/URL";
+import { BaseProps } from "../Common/BaseProps";
+import { URL } from "../Common/URL";
 
 export const CreateScientificStudyBody = t.strict(
   {

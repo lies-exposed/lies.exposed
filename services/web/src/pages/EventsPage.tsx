@@ -116,153 +116,154 @@ const EventsPage: React.FC<EventsPageProps> = ({
   );
 
   return (
-    <>
-      <Grid item>
-        <Grid container justifyContent="center">
-          <Grid item md={10} style={{ marginBottom: 40 }}>
-            <Grid item lg={12}>
-              <PageContent queries={{ pageContent: { path: "events" } }} />
+    <Grid container justifyContent="center">
+      <Grid
+        container
+        spacing={2}
+        lg={12}
+        md={12}
+        sm={12}
+        xs={12}
+        style={{ marginBottom: 40 }}
+      >
+        <Grid item lg={12} md={12} sm={12}>
+          <PageContent queries={{ pageContent: { path: "events" } }} />
+        </Grid>
+
+        <Grid item lg={2} md={3} sm={12} xs={12}>
+          <Grid container spacing={2}>
+            <Grid item lg={12} md={12} sm={6}>
+              <DatePicker
+                size="small"
+                value={dateRange[0]}
+                variant="outlined"
+                onChange={(e) => setDateRange([e.target.value, dateRange[1]])}
+                onBlur={(e) => {
+                  handleDateRangeChange([e.target.value, dateRange[1]]);
+                }}
+                style={{ width: "100%" }}
+              />
             </Grid>
-            <Grid container spacing={2} justifyContent="flex-start">
-              <Grid item md={2}>
-                <Grid container spacing={2}>
-                  <Grid item md={12}>
-                    <DatePicker
-                      size="small"
-                      value={dateRange[0]}
-                      variant="outlined"
-                      onChange={(e) =>
-                        setDateRange([e.target.value, dateRange[1]])
-                      }
-                      onBlur={(e) => {
-                        handleDateRangeChange([e.target.value, dateRange[1]]);
-                      }}
-                      style={{ width: "100%" }}
-                    />
-                  </Grid>
-                  <Grid item md={12}>
-                    <DatePicker
-                      size="small"
-                      value={dateRange[1]}
-                      variant="outlined"
-                      onChange={(e) =>
-                        setDateRange([dateRange[0], e.target.value])
-                      }
-                      onBlur={(e) =>
-                        handleDateRangeChange([dateRange[0], e.target.value])
-                      }
-                      style={{ width: "100%" }}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item md={10}>
-                <Grid container spacing={2}>
-                  <Grid item md={4}>
-                    <AutocompleteGroupInput
-                      selectedIds={groupIds}
-                      onChange={onGroupsChange}
-                    />
-                  </Grid>
-                  <Grid item md={4}>
-                    <AutocompleteGroupMemberInput
-                      selectedIds={groupsMembersIds}
-                      onItemClick={onGroupMembersChange}
-                    />
-                  </Grid>
-                  <Grid item md={4}>
-                    <AutocompleteActorInput
-                      selectedIds={actorIds}
-                      onChange={onActorsChange}
-                    />
-                  </Grid>
-                  <Grid item md={4}>
-                    <AutocompleteKeywordInput
-                      selectedIds={keywordIds}
-                      onItemClick={onKeywordsChange}
-                    />
-                  </Grid>
-                  <Grid item md={4}>
-                    <Button
-                      fullWidth
-                      color="secondary"
-                      variant="contained"
-                      onClick={() =>
-                        handleUpdateCurrentView({
-                          actors: [],
-                          groups: [],
-                          groupsMembers: [],
-                          keywords: [],
-                          tab: 0,
-                          startDate: undefined,
-                          endDate: undefined,
-                          hash: undefined,
-                        })
-                      }
-                    >
-                      Clear filters
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Grid>
+            <Grid item lg={12} md={12} sm={6}>
+              <DatePicker
+                size="small"
+                value={dateRange[1]}
+                variant="outlined"
+                onChange={(e) => setDateRange([dateRange[0], e.target.value])}
+                onBlur={(e) =>
+                  handleDateRangeChange([dateRange[0], e.target.value])
+                }
+                style={{ width: "100%" }}
+              />
             </Grid>
           </Grid>
-          <Grid item md={10}>
-            <Tabs
-              style={{ marginBottom: 30 }}
-              value={tab}
-              onChange={(e, tab) => handleUpdateCurrentView({ tab })}
-            >
-              <Tab label="list" {...a11yProps(0)} />
-              <Tab label="map" {...a11yProps(1)} />
-              <Tab label="network" {...a11yProps(2)} />
-            </Tabs>
-
-            <TabPanel value={tab} index={0}>
-              {tab === 0 ? (
-                <InfiniteEventList
-                  filters={filters}
-                  onClick={(e) => {
-                    void doUpdateCurrentView({
-                      view: "event",
-                      eventId: e.id,
-                    })();
-                  }}
-                />
-              ) : null}
-            </TabPanel>
-            <TabPanel value={tab} index={1}>
-              {tab === 1 ? (
-                <EventsMap
-                  filter={{
+        </Grid>
+        <Grid item lg={10} md={9} sm={12}>
+          <Grid container spacing={2}>
+            <Grid item lg={4} md={6} sm={6}>
+              <AutocompleteGroupInput
+                selectedIds={groupIds}
+                onChange={onGroupsChange}
+              />
+            </Grid>
+            <Grid item lg={4} md={6} sm={6}>
+              <AutocompleteGroupMemberInput
+                selectedIds={groupsMembersIds}
+                onItemClick={onGroupMembersChange}
+              />
+            </Grid>
+            <Grid item lg={4} md={6} sm={6}>
+              <AutocompleteActorInput
+                selectedIds={actorIds}
+                onChange={onActorsChange}
+              />
+            </Grid>
+            <Grid item lg={4} md={6} sm={6}>
+              <AutocompleteKeywordInput
+                selectedIds={keywordIds}
+                onItemClick={onKeywordsChange}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item md={4}>
+              <Button
+                fullWidth
+                color="secondary"
+                variant="contained"
+                onClick={() =>
+                  handleUpdateCurrentView({
                     actors: [],
                     groups: [],
-                  }}
-                  onMapClick={() => {}}
-                />
-              ) : null}
-            </TabPanel>
-            <TabPanel value={tab} index={2}>
-              {tab === 2 ? (
-                <EventsNetwork
-                  filter={filters}
-                  groupBy={"actor"}
-                  scale={"all"}
-                  scalePoint={O.none}
-                  onEventClick={(e) => {
-                    void doUpdateCurrentView({
-                      view: "event",
-                      eventId: e.id,
-                    })();
-                  }}
-                />
-              ) : null}
-              <div />
-            </TabPanel>
+                    groupsMembers: [],
+                    keywords: [],
+                    tab: 0,
+                    startDate: undefined,
+                    endDate: undefined,
+                    hash: undefined,
+                  })
+                }
+              >
+                Clear filters
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </>
+      <Grid item md={10}>
+        <Tabs
+          style={{ marginBottom: 30 }}
+          value={tab}
+          onChange={(e, tab) => handleUpdateCurrentView({ tab })}
+        >
+          <Tab label="list" {...a11yProps(0)} />
+          <Tab label="map" {...a11yProps(1)} />
+          <Tab label="network" {...a11yProps(2)} />
+        </Tabs>
+
+        <TabPanel value={tab} index={0}>
+          {tab === 0 ? (
+            <InfiniteEventList
+              filters={filters}
+              onClick={(e) => {
+                void doUpdateCurrentView({
+                  view: "event",
+                  eventId: e.id,
+                })();
+              }}
+            />
+          ) : null}
+        </TabPanel>
+        <TabPanel value={tab} index={1}>
+          {tab === 1 ? (
+            <EventsMap
+              filter={{
+                actors: [],
+                groups: [],
+              }}
+              onMapClick={() => {}}
+            />
+          ) : null}
+        </TabPanel>
+        <TabPanel value={tab} index={2}>
+          {tab === 2 ? (
+            <EventsNetwork
+              filter={filters}
+              groupBy={"actor"}
+              scale={"all"}
+              scalePoint={O.none}
+              onEventClick={(e) => {
+                void doUpdateCurrentView({
+                  view: "event",
+                  eventId: e.id,
+                })();
+              }}
+            />
+          ) : null}
+          <div />
+        </TabPanel>
+      </Grid>
+    </Grid>
   );
 };
 

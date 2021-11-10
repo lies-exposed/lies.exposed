@@ -15,7 +15,7 @@ import * as Keyword from "./keyword.endpoints";
 import * as Link from "./link.endpoints";
 import * as Page from "./page.endpoints";
 import * as Project from "./project.endpoints";
-import * as ScientifcStudy from "./scientificStudy.endpoint";
+import * as ScientificStudy from "./scientificStudy.endpoint";
 import * as Uploads from "./upload.endpoints";
 
 const Endpoints = {
@@ -33,7 +33,7 @@ const Endpoints = {
   Page: Page.pages,
   Project: Project.projects,
   ProjectImage: ProjectImage.projectImages,
-  ScientifcStudy: ScientifcStudy.scientificStudies,
+  ScientificStudy: ScientificStudy.scientificStudies,
   // Uploads: Uploads.uploads,
   User: User.users,
 };

@@ -6,10 +6,14 @@ import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toScientificStudyIO = (
   scientificStudy: ScientificStudyEntity
-): E.Either<ControllerError, io.http.ScientificStudy.ScientificStudy> => {
+): E.Either<
+  ControllerError,
+  io.http.Events.ScientificStudy.ScientificStudy
+> => {
   return pipe(
-    io.http.ScientificStudy.ScientificStudy.decode({
+    io.http.Events.ScientificStudy.ScientificStudy.decode({
       ...scientificStudy,
+      type: io.http.Events.ScientificStudy.ScientificStudyType.value,
       abstract: scientificStudy.abstract ?? undefined,
       results: scientificStudy.results ?? undefined,
       publishDate: scientificStudy.publishDate.toISOString(),

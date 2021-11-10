@@ -7,6 +7,7 @@ import {
 } from "@econnessione/shared/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
+import { ScientificStudyListItem } from "./ScientificStudyListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
 
 interface EventListItemProps {
@@ -23,29 +24,39 @@ export const EventListItem: React.FC<EventListItemProps> = ({
   onClick,
   ...props
 }) => {
-  if (Events.Death.Death.is(e)) {
-    return (
-      <DeathListItem
-        item={e}
-        actors={props.actors}
-        keywords={props.keywords}
-        links={[]}
-      />
-    );
+  switch (e.type) {
+    case Events.Death.DeathType.value: {
+      return (
+        <DeathListItem
+          item={e}
+          actors={props.actors}
+          keywords={props.keywords}
+          links={[]}
+        />
+      );
+    }
+    case Events.ScientificStudy.ScientificStudyType.value: {
+      return (
+        <ScientificStudyListItem
+          item={e}
+          actors={props.actors}
+          keywords={props.keywords}
+          groups={props.groups}
+          links={[]}
+        />
+      );
+    }
+    default:
+      return (
+        <UncategorizedListItem
+          item={e}
+          actors={props.actors}
+          groups={props.groups}
+          keywords={props.keywords}
+          groupsMembers={props.groupsMembers}
+          links={e.links}
+          onClick={onClick}
+        />
+      );
   }
-  if (Events.Uncategorized.Uncategorized.is(e)) {
-    return (
-      <UncategorizedListItem
-        item={e}
-        actors={props.actors}
-        groups={props.groups}
-        keywords={props.keywords}
-        groupsMembers={props.groupsMembers}
-        links={e.links}
-        onClick={onClick}
-      />
-    );
-  }
-
-  return <span>Not implemented</span>;
 };

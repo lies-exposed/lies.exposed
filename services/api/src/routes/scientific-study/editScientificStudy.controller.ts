@@ -11,7 +11,7 @@ export const MakeEditScientificStudyRoute: Route = (
   r,
   { db, logger, urlMetadata }
 ) => {
-  AddEndpoint(r)(Endpoints.ScientifcStudy.Edit, ({ params: { id }, body }) => {
+  AddEndpoint(r)(Endpoints.ScientificStudy.Edit, ({ params: { id }, body }) => {
     const scientificStudyData = {
       ...body,
       abstract: O.toUndefined(body.abstract),

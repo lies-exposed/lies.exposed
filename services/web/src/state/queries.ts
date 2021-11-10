@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { Events } from "@econnessione/shared/io/http";
+import { Actor, Events } from "@econnessione/shared/io/http";
 import { APIError } from "@econnessione/shared/providers/api.provider";
-import { Actor } from "@io/http/Actor";
-import { Death } from "@io/http/Events/Death";
 import { available, queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -10,12 +8,13 @@ import * as t from "io-ts";
 import { api } from "../api";
 import { EventsView } from "../utils/location.utils";
 import { stateLogger } from "../utils/logger.utils";
-import { toKey } from "utils/state.utils";
+import { toKey } from "../utils/state.utils";
 
 export const IL_EVENT_KEY_PREFIX = "events";
 export const IL_DEATH_KEY_PREFIX = "deaths";
 export const IL_NETWORK_KEY_PREFIX = "network";
 export const IL_ACTORS_KEY_PREFIX = "actors";
+export const IL_SCIENTIFIC_STUDIES_KEY_PREFIX = "scientific-studies";
 
 export type InfiniteEventListParams = Omit<EventsView, "view">;
 export interface InfiniteDeathsListParam {
@@ -80,7 +79,7 @@ const buildFromCache = <T extends t.Any, M>(
   });
 };
 
-const eventsQueryWithCache =
+const paginatedCachedQuery =
   <T extends t.Mixed, M>(
     apiRequest: (input: any) => TE.TaskEither<APIError, t.TypeOf<T>>,
     empty: M,
@@ -156,7 +155,7 @@ const eventsQueryWithCache =
     );
   };
 
-const makeEventListQuery = eventsQueryWithCache(
+const makeEventListQuery = paginatedCachedQuery(
   api.Event.List,
   { actors: [], groups: [], groupsMembers: [], keywords: [] },
   (acc, e) => {
@@ -184,7 +183,7 @@ interface InfiniteEventListResult {
   metadata: InfiniteEventListMetadata;
 }
 
-export const infiniteEventList = queryStrict<
+export const eventsPaginated = queryStrict<
   InfiniteEventListParams,
   APIError,
   InfiniteEventListResult
@@ -200,12 +199,16 @@ interface InfiniteDeathListMetadata {
   victims: string[];
 }
 
-export const deathsInfiniteList = queryStrict<
+export const deathsPaginated = queryStrict<
   InfiniteDeathsListParam,
   APIError,
-  { data: Death[]; total: number; metadata: InfiniteDeathListMetadata }
+  {
+    data: Events.Death.Death[];
+    total: number;
+    metadata: InfiniteDeathListMetadata;
+  }
 >(
-  eventsQueryWithCache(
+  paginatedCachedQuery(
     api.DeathEvent.List,
     {
       victims: [] as string[],
@@ -222,12 +225,25 @@ export const deathsInfiniteList = queryStrict<
   refetch
 );
 
+export const scientificStudiesPaginated = queryStrict(
+  paginatedCachedQuery(
+    api.ScientificStudy.List,
+    {},
+    (acc, d: Events.ScientificStudy.ScientificStudy) => {
+      return {
+        data: acc.data.concat(d),
+      };
+    }
+  )(IL_SCIENTIFIC_STUDIES_KEY_PREFIX),
+  available
+);
+
 export const actorsInfiniteList = queryStrict<
   { ids?: string[]; fullName?: string; page?: number; hash?: string },
   APIError,
-  { data: Actor[]; total: number; metadata: {} }
+  { data: Actor.Actor[]; total: number; metadata: {} }
 >(
-  eventsQueryWithCache(api.Actor.List, {}, (acc, d: Actor) => {
+  paginatedCachedQuery(api.Actor.List, {}, (acc, d: Actor.Actor) => {
     return {
       data: acc.data.concat(d),
     };

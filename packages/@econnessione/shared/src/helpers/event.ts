@@ -18,14 +18,15 @@ type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
 export const eventDate = (e: Events.Event): Date => {
   switch (e.type) {
-    case "Uncategorized": {
-      return e.startDate;
-    }
-    // case "Protest": {
-    //   return e.date;
-    // }
-    default:
+    case Events.Death.DeathType.value: {
       return e.date;
+    }
+
+    case Events.ScientificStudy.ScientificStudyType.value: {
+      return e.publishDate;
+    }
+    default:
+      return e.startDate;
   }
 };
 
@@ -159,12 +160,12 @@ const colorMap: Record<Events.Event["type"], string> = {
   // Protest: "red",
   // ProjectTransaction: "blue",
   // ProjectImpact: "orange",
-  // StudyPublished: "green",
   // Fined: "yellow",
   Death: "black",
   // Arrest: "lightred",
   // Condamned: "lightred",
   // PublicAnnouncement: "lightgreen",
+  ScientificStudy: "green",
   Uncategorized: "grey",
 };
 export const getColorByEventType = ({

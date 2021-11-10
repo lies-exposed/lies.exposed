@@ -6,7 +6,7 @@ import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
 import { Route } from "@routes/route.types";
 
 export const MakeGetScientificStudyRoute: Route = (r, { db }) => {
-  AddEndpoint(r)(Endpoints.ScientifcStudy.Get, ({ params: { id } }) => {
+  AddEndpoint(r)(Endpoints.ScientificStudy.Get, ({ params: { id } }) => {
     return pipe(
       db.findOneOrFail(ScientificStudyEntity, {
         where: { id },
