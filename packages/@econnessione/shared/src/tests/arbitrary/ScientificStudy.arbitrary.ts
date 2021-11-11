@@ -10,9 +10,9 @@ const {
   abstract,
   results,
   ...createScientificStudyProps
-} = http.ScientificStudy.CreateScientificStudyBody.type.props;
+} = http.Events.ScientificStudy.CreateScientificStudyBody.type.props;
 
-export const CreateScientificStudyArb: tests.fc.Arbitrary<http.ScientificStudy.CreateScientificStudyBody> =
+export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.CreateScientificStudyBody> =
   tests
     .getArbitrary(
       t.strict({
@@ -41,9 +41,9 @@ const {
   authors: _publishedBy,
   publisher: _publisher,
   ...scientificStudyProps
-} = http.ScientificStudy.ScientificStudy.type.props;
+} = http.Events.ScientificStudy.ScientificStudy.type.props;
 
-export const ScientificStudyArb: tests.fc.Arbitrary<http.ScientificStudy.ScientificStudy> =
+export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.ScientificStudy> =
   tests
     .getArbitrary(
       t.strict({

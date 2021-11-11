@@ -15,7 +15,11 @@ import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
 import KeywordsPage from "./pages/KeywordsPage";
 import VaccineDashboard from "./pages/dashboards/VaccineDashboard";
-import { currentView, doUpdateCurrentView } from "./utils/location.utils";
+import {
+  CurrentView,
+  currentView,
+  doUpdateCurrentView,
+} from "./utils/location.utils";
 import ActorTemplate from "@templates/ActorTemplate";
 import ArticleTemplate from "@templates/ArticleTemplate";
 import EventTemplate from "@templates/EventTemplate";
@@ -41,7 +45,7 @@ const dataMenuItem = {
 
 const projectMenuItem = {
   view: "project",
-  label: "Progetto",
+  label: "Project",
   subItems: [
     {
       view: "docs",
@@ -74,6 +78,44 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   );
 };
 
+const getCurrentComponent = (currentView: CurrentView): React.ReactElement => {
+  switch (currentView.view) {
+    case "blog":
+      return <BlogPage />;
+    case "article":
+      return <ArticleTemplate articlePath={currentView.articlePath} />;
+    case "docs":
+      return <DocsPage />;
+    case "about":
+      return <ProjectPage />;
+    case "actors":
+      return <ActorsPage />;
+    case "actor":
+      return <ActorTemplate actorId={currentView.actorId} />;
+    case "groups":
+      return <GroupsPage />;
+    case "group":
+      return <GroupTemplate groupId={currentView.groupId} />;
+    case "events":
+      return <EventsPage {...currentView} />;
+    case "event":
+      return <EventTemplate eventId={currentView.eventId} />;
+    case "keywords":
+      return <KeywordsPage />;
+    case "vaccines-dashboard":
+      return <VaccineDashboard {...currentView} />;
+
+    //   <ProjectTemplate path="/projects/:projectId" />
+    //   <ProjectsPage path="/projects" />
+    //   <ProjectPage path="/project" />
+    //   <AreasPage path="/areas" />
+    //   <AreaTemplate path="/areas/:areaId" />
+    //   <TheCrisisPage path="/the-crisis" />
+    default:
+      return <IndexPage default={true} />;
+  }
+};
+
 export const App: React.FC = () => {
   return (
     <div style={{ height: "100%" }}>
@@ -94,72 +136,32 @@ export const App: React.FC = () => {
       {/* <CssBaseline /> */}
       <ThemeProvider theme={theme}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Header
-            menu={mainMenu}
-            onTitleClick={() => {
-              void doUpdateCurrentView({
-                view: "index",
-              })();
-            }}
-            onMenuItemClick={(m) => {
-              void doUpdateCurrentView({
-                view: m.view as any,
-              })();
-            }}
+          <WithQueries
+            queries={{ currentView: currentView }}
+            render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ currentView }) => {
+              return (
+                <Grid container style={{ minHeight: "100%" }}>
+                  <Header
+                    menu={mainMenu}
+                    onTitleClick={() => {
+                      void doUpdateCurrentView({
+                        view: "index",
+                      })();
+                    }}
+                    onMenuItemClick={(m) => {
+                      void doUpdateCurrentView({
+                        view: m.view as any,
+                      })();
+                    }}
+                  />
+                  <Grid style={{ minHeight: "100%" }}>
+                    {getCurrentComponent(currentView)}
+                  </Grid>
+                  <Footer />
+                </Grid>
+              );
+            })}
           />
-          <Grid style={{ minHeight: "100%" }}>
-            <Grid item style={{ height: "100%" }}>
-              <WithQueries
-                queries={{ currentView: currentView }}
-                render={QR.fold(
-                  LazyFullSizeLoader,
-                  ErrorBox,
-                  ({ currentView }) => {
-                    switch (currentView.view) {
-                      case "blog":
-                        return <BlogPage />;
-                      case "article":
-                        return (
-                          <ArticleTemplate
-                            articlePath={currentView.articlePath}
-                          />
-                        );
-                      case "docs":
-                        return <DocsPage />;
-                      case "about":
-                        return <ProjectPage />;
-                      case "actors":
-                        return <ActorsPage />;
-                      case "actor":
-                        return <ActorTemplate actorId={currentView.actorId} />;
-                      case "groups":
-                        return <GroupsPage />;
-                      case "group":
-                        return <GroupTemplate groupId={currentView.groupId} />;
-                      case "events":
-                        return <EventsPage {...currentView} />;
-                      case "event":
-                        return <EventTemplate eventId={currentView.eventId} />;
-                      case "keywords":
-                        return <KeywordsPage />;
-                      case "vaccines-dashboard":
-                        return <VaccineDashboard {...currentView} />;
-
-                      //   <ProjectTemplate path="/projects/:projectId" />
-                      //   <ProjectsPage path="/projects" />
-                      //   <ProjectPage path="/project" />
-                      //   <AreasPage path="/areas" />
-                      //   <AreaTemplate path="/areas/:areaId" />
-                      //   <TheCrisisPage path="/the-crisis" />
-                      default:
-                        return <IndexPage default={true} />;
-                    }
-                  }
-                )}
-              />
-            </Grid>
-            <Footer />
-          </Grid>
         </ErrorBoundary>
       </ThemeProvider>
     </div>

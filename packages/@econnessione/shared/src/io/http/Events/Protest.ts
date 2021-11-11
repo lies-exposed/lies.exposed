@@ -3,14 +3,14 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { ByGroupOrActor, For } from "../Common";
-import { BaseFrontmatter } from "../Common/BaseFrontmatter";
+import { BaseProps } from "../Common/BaseProps";
 import { markdownRemark } from "../Common/Markdown";
 import { ImageSource } from "../Image";
 
 export const PROTEST = t.literal("Protest");
 export const Protest = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     title: t.string,
     type: PROTEST,
     for: For,

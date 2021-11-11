@@ -1,12 +1,12 @@
 import * as t from "io-ts";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";
 import { markdownRemark } from "./Common/Markdown";
 
 export const TOPIC_FRONTMATTER = t.literal("TopicFrontmatter");
 export const TopicFrontmatter = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     type: TOPIC_FRONTMATTER,
     label: t.string,
     slug: t.string,

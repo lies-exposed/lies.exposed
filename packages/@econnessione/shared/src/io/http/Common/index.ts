@@ -1,4 +1,4 @@
-export * from "./BaseFrontmatter";
+export * from "./BaseProps";
 export * from "./ByGroupOrActor";
 export * from "./For";
 export * from "./Impact";

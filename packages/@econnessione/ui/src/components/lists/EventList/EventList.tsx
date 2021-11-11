@@ -1,3 +1,4 @@
+import { eventDate } from "@econnessione/shared/helpers/event";
 import {
   Actor,
   Events,
@@ -24,10 +25,7 @@ import { EventListItem } from "./EventListItem";
 const byEqualDate = pipe(
   S.Eq,
   Eq.contramap((e: Events.Event): string => {
-    if (Events.Uncategorized.Uncategorized.is(e)) {
-      return formatISO(e.startDate, { representation: "date" });
-    }
-    return formatISO(e.date, { representation: "date" });
+    return formatISO(eventDate(e), { representation: "date" });
   })
 );
 
@@ -109,14 +107,9 @@ const renderHeaderRow: React.FC<{
   } = props;
   const events = data.events;
 
-  const dateHeader = formatISO(
-    Events.Uncategorized.Uncategorized.is(events[0])
-      ? events[0].startDate
-      : events[0].date,
-    {
-      representation: "date",
-    }
-  );
+  const dateHeader = formatISO(eventDate(events[0]), {
+    representation: "date",
+  });
   return (
     <div key={dateHeader}>
       <ListSubheader className={classes.listSubheader}>

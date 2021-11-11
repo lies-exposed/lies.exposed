@@ -1,13 +1,13 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { ByGroupOrActor } from "./Common";
-import { BaseFrontmatter } from "./Common/BaseFrontmatter";
+import { BaseProps } from "./Common/BaseProps";
 
 export const TRANSACTION_FRONTMATTER = t.literal("TransactionFrontmatter");
 
 export const TransactionFrontmatter = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     type: TRANSACTION_FRONTMATTER,
     amount: t.number,
     by: ByGroupOrActor,

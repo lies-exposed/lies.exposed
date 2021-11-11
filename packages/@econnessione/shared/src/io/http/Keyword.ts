@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types";
-import { UUID, Tag, BaseFrontmatter } from "./Common";
+import { UUID, Tag, BaseProps } from "./Common";
 import { GetListQuery } from "./Query";
 
 export const ListQuery = t.partial(
@@ -25,7 +25,7 @@ export type CreateKeyword = t.TypeOf<typeof CreateKeyword>;
 
 export const Keyword = t.strict(
   {
-    ...BaseFrontmatter.type.props,
+    ...BaseProps.type.props,
     ...CreateKeyword.type.props,
     id: UUID,
   },

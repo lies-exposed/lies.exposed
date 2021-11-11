@@ -4,11 +4,11 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { GetListQuery } from "../io/http/Query";
 import {
   CreateScientificStudyBody,
   ScientificStudy,
-} from "../io/http/ScientificStudy";
+} from "../io/http/Events/ScientificStudy";
+import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
 const SingleStudyOutput = Output(ScientificStudy, "Death");
