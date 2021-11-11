@@ -122,7 +122,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
                     Protest: [],
                     ProjectTransaction: [],
                     Death: [],
-                    Condamned: [],
+                    Condemned: [],
                     PublicAnnouncement: [],
                     Uncategorized: [],
                   }}
