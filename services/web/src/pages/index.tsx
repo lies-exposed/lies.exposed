@@ -6,8 +6,9 @@ import * as Helmet from "react-helmet";
 export default class IndexPage extends React.PureComponent<any> {
   render(): JSX.Element {
     return (
-      <Grid>
-        <Grid item>
+      <Grid container style={{ width: "100%" }}>
+        <Grid item lg={1} />
+        <Grid item lg={10} md={12} xs={12}>
           <Helmet.Helmet>
             <link
               rel="stylesheet"

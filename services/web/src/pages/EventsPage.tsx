@@ -131,8 +131,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
         </Grid>
 
         <Grid item lg={2} md={3} sm={12} xs={12}>
-          <Grid container spacing={2}>
-            <Grid item lg={12} md={12} sm={6}>
+          <Grid container spacing={2} sm={12}>
+            <Grid item lg={12} md={12} sm={6} xs={6}>
               <DatePicker
                 size="small"
                 value={dateRange[0]}
@@ -144,7 +144,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                 style={{ width: "100%" }}
               />
             </Grid>
-            <Grid item lg={12} md={12} sm={6}>
+            <Grid item lg={12} md={12} sm={6} xs={6}>
               <DatePicker
                 size="small"
                 value={dateRange[1]}
@@ -158,39 +158,40 @@ const EventsPage: React.FC<EventsPageProps> = ({
             </Grid>
           </Grid>
         </Grid>
-        <Grid item lg={10} md={9} sm={12}>
-          <Grid container spacing={2}>
-            <Grid item lg={4} md={6} sm={6}>
+        <Grid item lg={10} md={12} sm={12} xs={12}>
+          <Grid container spacing={2} sm={12}>
+            <Grid item lg={4} md={12} sm={6} xs={6}>
               <AutocompleteGroupInput
                 selectedIds={groupIds}
                 onChange={onGroupsChange}
               />
             </Grid>
-            <Grid item lg={4} md={6} sm={6}>
+            <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteGroupMemberInput
                 selectedIds={groupsMembersIds}
                 onItemClick={onGroupMembersChange}
               />
             </Grid>
-            <Grid item lg={4} md={6} sm={6}>
+            <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteActorInput
                 selectedIds={actorIds}
                 onChange={onActorsChange}
               />
             </Grid>
-            <Grid item lg={4} md={6} sm={6}>
+            <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteKeywordInput
                 selectedIds={keywordIds}
                 onItemClick={onKeywordsChange}
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item md={4}>
+          <Grid container spacing={2} justifyContent="flex-end">
+            <Grid item md={2} sm={6} xs={12}>
               <Button
                 fullWidth
                 color="secondary"
                 variant="contained"
+                size="small"
                 onClick={() =>
                   handleUpdateCurrentView({
                     actors: [],
@@ -210,7 +211,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
           </Grid>
         </Grid>
       </Grid>
-      <Grid item md={10}>
+      <Grid item lg={10} md={10} sm={12} xs={12} style={{ maxWidth: "100%" }}>
         <Tabs
           style={{ marginBottom: 30 }}
           value={tab}

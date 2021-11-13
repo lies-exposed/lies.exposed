@@ -140,7 +140,7 @@ export const App: React.FC = () => {
             queries={{ currentView: currentView }}
             render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ currentView }) => {
               return (
-                <Grid container style={{ minHeight: "100%" }}>
+                <Grid container style={{ minHeight: "100%", width: "100%" }}>
                   <Header
                     menu={mainMenu}
                     onTitleClick={() => {
@@ -154,7 +154,7 @@ export const App: React.FC = () => {
                       })();
                     }}
                   />
-                  <Grid style={{ minHeight: "100%" }}>
+                  <Grid style={{ minHeight: "100%", width: "100%" }}>
                     {getCurrentComponent(currentView)}
                   </Grid>
                   <Footer />
