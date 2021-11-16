@@ -216,7 +216,9 @@ const InfiniteEventList: React.FC<EventListProps> = ({ filters, onClick }) => {
                     </Grid>
                     <Grid
                       container
-                      md={6}
+                      lg={6}
+                      md={12}
+                      sm={12}
                       justifyContent="flex-end"
                       alignContent="flex-end"
                     >
@@ -271,7 +273,6 @@ const InfiniteEventList: React.FC<EventListProps> = ({ filters, onClick }) => {
                       />
                     </Grid>
                   </Grid>
-                  <Grid container justifyContent="flex-end"></Grid>
                 </Grid>
 
                 <WithQueries

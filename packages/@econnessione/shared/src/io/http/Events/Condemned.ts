@@ -3,15 +3,15 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { BaseProps } from "../Common/BaseProps";
 import { ByGroupOrActor } from "../Common/ByGroupOrActor";
 
-export const Condamned = t.strict(
+export const Condemned = t.strict(
   {
     ...BaseProps.type.props,
     title: t.string,
-    type: t.literal("Condamned"),
+    type: t.literal("Condemned"),
     who: ByGroupOrActor,
     date: DateFromISOString,
   },
-  "Condamned"
+  "Condemned"
 );
 
-export type Condamned = t.TypeOf<typeof Condamned>;
+export type Condemned = t.TypeOf<typeof Condemned>;

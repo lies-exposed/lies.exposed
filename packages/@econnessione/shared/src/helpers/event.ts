@@ -116,7 +116,7 @@ export const filterMetadataForActor =
       //     metadata.approvedBy.some(byActor) ?? metadata.executedBy.some(byActor)
       //   );
       // }
-      // case "Condamned":
+      // case "Condemned":
       // case "Arrest": {
       //   return byActor(metadata.who);
       // }
@@ -163,7 +163,7 @@ const colorMap: Record<Events.Event["type"], string> = {
   // Fined: "yellow",
   Death: "black",
   // Arrest: "lightred",
-  // Condamned: "lightred",
+  // Condemned: "lightred",
   // PublicAnnouncement: "lightgreen",
   ScientificStudy: "green",
   Uncategorized: "grey",

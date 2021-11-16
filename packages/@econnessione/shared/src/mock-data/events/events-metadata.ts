@@ -182,6 +182,6 @@ export const eventMetadataMapEmpty = {
   StudyPublished: [],
   Arrest: [],
   Death: [],
-  Condamned: [],
+  Condemned: [],
   Uncategorized: [],
 };

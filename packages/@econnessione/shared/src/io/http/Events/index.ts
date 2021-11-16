@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { markdownRemark } from "../Common/Markdown";
 import * as Arrest from "./Arrest";
-import * as Condamned from "./Condamned";
+import * as Condemned from "./Condemned";
 import * as Death from "./Death";
 import * as Fined from "./Fined";
 import * as Protest from "./Protest";
@@ -17,7 +17,7 @@ export const Event = t.union(
     // ProjectImpact,
     // ProjectTransaction,
     // Fined.Fined,
-    // Condamned.Condamned,
+    // Condemned.Condemned,
     // Arrest.Arrest,
     Death.Death,
     // PublicAnnouncement.PublicAnnouncement,
@@ -35,7 +35,7 @@ export interface EventListMap {
   Protest: Protest.Protest[];
   ProjectImpact: ProjectImpact[];
   ProjectTransaction: ProjectTransaction[];
-  Condamned: Condamned.Condamned[];
+  Condemned: Condemned.Condemned[];
   Arrest: Arrest.Arrest[];
   Death: Death.Death[];
   PublicAnnouncement: PublicAnnouncement.PublicAnnouncement[];
@@ -49,7 +49,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   // ProjectImpact: ProjectImpact,
   // ProjectTransaction: ProjectTransaction,
   // Fined: Fined.Fined,
-  // Condamned: Condamned.Condamned,
+  // Condemned: Condemned.Condemned,
   // Arrest: Arrest.Arrest,
   Death: Death.Death,
   ScientificStudy: ScientificStudy.ScientificStudy,
@@ -60,7 +60,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
 export {
   Protest,
   Fined,
-  Condamned,
+  Condemned,
   Arrest,
   Death,
   PublicAnnouncement,
