@@ -120,9 +120,6 @@ const EventsPage: React.FC<EventsPageProps> = ({
       <Grid
         container
         spacing={2}
-        lg={12}
-        md={12}
-        sm={12}
         xs={12}
         style={{ marginBottom: 40 }}
       >
@@ -225,13 +222,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
         <TabPanel value={tab} index={0}>
           {tab === 0 ? (
             <InfiniteEventList
+              hash={filters.hash ?? "default"}
               filters={filters}
-              onClick={(e) => {
-                void doUpdateCurrentView({
-                  view: "event",
-                  eventId: e.id,
-                })();
-              }}
             />
           ) : null}
         </TabPanel>

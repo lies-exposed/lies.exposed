@@ -1,4 +1,10 @@
-import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
+import {
+  Actor,
+  Events,
+  Group,
+  GroupMember,
+  Keyword,
+} from "@econnessione/shared/io/http";
 import { Link } from "@econnessione/shared/io/http/Link";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { Grid, Typography, useTheme } from "@material-ui/core";
@@ -19,6 +25,7 @@ export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (a: Group.Group) => void;
+  onGroupMemberClick: (g: GroupMember.GroupMember) => void;
   onLinkClick: (a: Link) => void;
   onKeywordClick: (a: Keyword.Keyword) => void;
 }
@@ -27,6 +34,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   event,
   onActorClick,
   onGroupClick,
+  onGroupMemberClick,
   onKeywordClick,
   onLinkClick,
 }) => {
@@ -61,12 +69,12 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               <GroupsBox ids={event.groups} onItemClick={onGroupClick} />
             </Grid>
             <Grid item md={3} xs={6} style={{ marginBottom: 30 }}>
-              <ActorsBox ids={event.actors} />
+              <ActorsBox ids={event.actors} onItemClick={onActorClick} />
             </Grid>
             <Grid item md={3} xs={6} style={{ marginBottom: 30 }}>
               <GroupMembersBox
                 ids={event.groupsMembers}
-                onItemClick={() => {}}
+                onItemClick={onGroupMemberClick}
               />
             </Grid>
           </Grid>

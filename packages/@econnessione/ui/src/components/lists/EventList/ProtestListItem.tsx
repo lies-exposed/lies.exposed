@@ -32,7 +32,8 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
                   slides={media.map((i) => ({
                     authorName: "",
                     info: i.description ?? "",
-                    imageURL: i.location,
+                    src: i.location,
+                    type: 'image/png'
                   }))}
                   arrows={true}
                   adaptiveHeight={true}

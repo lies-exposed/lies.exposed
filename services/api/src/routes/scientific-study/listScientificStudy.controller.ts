@@ -11,7 +11,7 @@ import { getORMOptions } from "@utils/listQueryToORMOptions";
 export const MakeListScientificStudyRoute: Route = (r, { db, logger, env }) => {
   AddEndpoint(r)(
     Endpoints.ScientificStudy.List,
-    ({ query: { publishedDate, publishedBy, ...query } }) => {
+    ({ query: { publishedDate, publishedBy, authors, ...query } }) => {
       const queryOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
 
       const findTask = pipe(
@@ -29,11 +29,24 @@ export const MakeListScientificStudyRoute: Route = (r, { db, logger, env }) => {
         (q) => {
           if (O.isSome(publishedBy)) {
             return q.innerJoinAndSelect(
-              "scientificStudies.publishedBy",
-              "publishedBy",
-              "publishedBy.id IN (:...links)",
+              "scientificStudies.publisher",
+              "publisher",
+              "publisher.id IN (:...publisher)",
               {
-                publishedBy: publishedBy.value,
+                publisher: publishedBy.value,
+              }
+            );
+          }
+          return q;
+        },
+        (q) => {
+          if (O.isSome(authors)) {
+            return q.innerJoinAndSelect(
+              "scientificStudies.authors",
+              "authors",
+              "authors.id IN (:...authors)",
+              {
+                authors: authors.value,
               }
             );
           }

@@ -19,28 +19,34 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
       }}
       render={QR.fold(Loader, ErrorBox, ({ event }) => {
         return (
-          <Box>
+          <Box style={{ marginBottom: 100 }}>
             <EventPageContent
               event={event as any}
-              onActorClick={(a) => {
-                void doUpdateCurrentView({
-                  view: "actor",
-                  actorId: a.id,
-                })();
-              }}
               onGroupClick={(g) => {
                 void doUpdateCurrentView({
                   view: "group",
                   groupId: g.id,
                 })();
               }}
-              onLinkClick={() => {}}
               onKeywordClick={(k) => {
                 void doUpdateCurrentView({
                   view: "keyword",
                   keywordId: k.id,
                 })();
               }}
+              onActorClick={(a) => {
+                void doUpdateCurrentView({
+                  view: "actor",
+                  actorId: a.id,
+                })();
+              }}
+              onGroupMemberClick={(g) => {
+                void doUpdateCurrentView({
+                  view: "actor",
+                  actorId: g.actor.id,
+                })();
+              }}
+              onLinkClick={() => {}}
             />
           </Box>
         );

@@ -76,7 +76,8 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
                 slides={media.map((i) => ({
                   authorName: "",
                   info: i.description ?? "",
-                  imageURL: i.location,
+                  src: i.location,
+                  type: "image/png",
                 }))}
                 arrows={true}
                 dots={true}

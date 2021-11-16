@@ -347,6 +347,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
                   onGroupClick={() => undefined}
                   onKeywordClick={() => undefined}
                   onLinkClick={() => undefined}
+                  onGroupMemberClick={() => undefined}
                 />
               ))
             );

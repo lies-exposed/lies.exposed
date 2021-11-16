@@ -1,6 +1,7 @@
+import { Actor } from "@econnessione/shared/io/http/Actor";
 import { Box, Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
-import { declareQueries } from "avenger/lib/react";
+import { WithQueries } from "avenger/lib/react";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -12,25 +13,43 @@ import { ActorList } from "./lists/ActorList";
 
 interface ActorsBoxProps {
   ids: string[];
+  onItemClick: (item: Actor) => void;
 }
 
-const withQueries = declareQueries({ actors: Queries.Actor.getList });
-export const ActorsList = withQueries(({ queries }) => {
-  return pipe(
-    queries,
-    QR.fold(LazyFullSizeLoader, ErrorBox, ({ actors: { data: actors } }) => {
-      // eslint-disable-next-line react/jsx-key
-      return (
-        <ActorList
-          actors={actors.map((a) => ({ ...a, selected: true }))}
-          onActorClick={() => {}}
-        />
-      );
-    })
+export const ActorsList: React.FC<{
+  ids: string[];
+  onItemClick: (item: Actor) => void;
+}> = ({ ids, onItemClick }) => {
+  return (
+    <WithQueries
+      queries={{ actors: Queries.Actor.getList }}
+      params={{
+        actors: {
+          sort: { field: "updatedAt", order: "DESC" },
+          pagination: { page: 1, perPage: ids.length },
+          filter: {
+            ids,
+          },
+        },
+      }}
+      render={QR.fold(
+        LazyFullSizeLoader,
+        ErrorBox,
+        ({ actors: { data: actors } }) => {
+          // eslint-disable-next-line react/jsx-key
+          return (
+            <ActorList
+              actors={actors.map((a) => ({ ...a, selected: true }))}
+              onActorClick={onItemClick}
+            />
+          );
+        }
+      )}
+    />
   );
-});
+};
 
-export const ActorsBox: React.FC<ActorsBoxProps> = ({ ids }) => {
+export const ActorsBox: React.FC<ActorsBoxProps> = ({ ids, onItemClick }) => {
   return (
     <Box>
       {/* <Typography variant="subtitle1">Actors</Typography> */}
@@ -39,19 +58,7 @@ export const ActorsBox: React.FC<ActorsBoxProps> = ({ ids }) => {
         NEA.fromArray,
         O.fold(
           () => <Typography>-</Typography>,
-          (ids) => (
-            <ActorsList
-              queries={{
-                actors: {
-                  pagination: { page: 1, perPage: 10 },
-                  sort: { field: "createdAt", order: "DESC" },
-                  filter: {
-                    ids: ids,
-                  },
-                },
-              }}
-            />
-          )
+          (ids) => <ActorsList ids={ids} onItemClick={onItemClick} />
         )
       )}
     </Box>

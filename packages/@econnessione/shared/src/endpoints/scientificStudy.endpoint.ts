@@ -22,6 +22,7 @@ export const List = Endpoint({
       ...GetListQuery.props,
       publishedBy: optionFromNullable(t.array(UUID)),
       publishedDate: optionFromNullable(DateFromISOString),
+      authors: optionFromNullable(t.array(UUID))
     }),
   },
   Output: ListStudyOutput,
