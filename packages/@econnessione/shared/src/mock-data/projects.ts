@@ -13,7 +13,7 @@ export const firstGoodProject: Project.Project = {
   name: "Good Project",
   color: generateRandomColor(),
   areas: [firstArea],
-  images: [
+  media: [
     {
       ...firstImage,
       id: uuid(),
@@ -32,7 +32,7 @@ export const firstBadProject: Project.Project = {
   id: uuid(),
   name: "Bad Project",
   areas: NEA.of(firstArea),
-  images: [
+  media: [
     {
       ...firstImage,
       kind: "PRACTICE",

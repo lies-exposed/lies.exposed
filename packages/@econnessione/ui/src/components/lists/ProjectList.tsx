@@ -45,7 +45,7 @@ export const ProjectListItem: React.FC<ListItemProps<Project>> = ({
       />
       <CardActionArea>
         {pipe(
-          O.fromNullable(item.images[0]),
+          O.fromNullable(item.media[0]),
           O.chainNullableK((image) => (
             <CardMedia
               component="img"

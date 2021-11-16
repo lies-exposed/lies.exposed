@@ -30,7 +30,7 @@ export const Death = t.strict(
     killer: t.union([t.undefined, ByGroupOrActor]),
     suspects: t.array(ByGroupOrActor),
     news: t.array(t.string),
-    images: t.array(t.string),
+    media: t.array(t.string),
     date: DateFromISOString,
   },
   "Death"

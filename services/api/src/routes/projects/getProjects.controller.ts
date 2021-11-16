@@ -18,7 +18,7 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
         data: pipe(
           ctx.db.find(ProjectEntity, {
             ...findOptions,
-            relations: ["images", "areas"],
+            relations: ["media", "areas"],
           }),
           TE.chainEitherK(A.traverse(E.either)(toProjectIO))
         ),

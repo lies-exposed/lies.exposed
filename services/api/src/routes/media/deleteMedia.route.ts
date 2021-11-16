@@ -3,12 +3,12 @@ import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { ImageEntity } from "@entities/Image.entity";
+import { MediaEntity } from "@entities/Media.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { RouteContext } from "@routes/route.types";
 
-export const MakeDeleteImageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Image.Delete, ({ params: { id } }) => {
+export const MakeDeleteMediaRoute = (r: Router, ctx: RouteContext): void => {
+  AddEndpoint(r)(Endpoints.Media.Delete, ({ params: { id } }) => {
     return pipe(
       sequenceS(TE.ApplicativeSeq)({
         projectImages: pipe(
@@ -22,7 +22,7 @@ export const MakeDeleteImageRoute = (r: Router, ctx: RouteContext): void => {
               : TE.right(undefined)
           )
         ),
-        images: ctx.db.softDelete(ImageEntity, id),
+        media: ctx.db.softDelete(MediaEntity, id),
       }),
       TE.map(() => ({
         body: {

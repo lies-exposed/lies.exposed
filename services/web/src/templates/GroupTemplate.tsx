@@ -80,12 +80,10 @@ export default class GroupTemplate extends React.PureComponent<
                       onMapClick={() => {}}
                     />
                     <InfiniteEventList
-                      filters={{ groups: [group.id], actors: [] }}
-                      onClick={(ev) => {
-                        void doUpdateCurrentView({
-                          view: "event",
-                          eventId: ev.id,
-                        })();
+                      hash={`group-${groupId}`}
+                      filters={{
+                        groups: [group.id],
+                        groupsMembers: group.members,
                       }}
                     />
                   </MainContent>

@@ -14,7 +14,7 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
         .leftJoinAndSelect("event.actors", "actors")
         .leftJoinAndSelect("event.groups", "groups")
         .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
-        .leftJoinAndSelect("event.images", "images")
+        .leftJoinAndSelect("event.media", "media")
         .loadAllRelationIds({
           relations: ["actors", "groups", "groupsMembers", "links", "keywords"],
         })

@@ -9,7 +9,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import { toEventIO } from "./event.io";
 import { EventEntity } from "@entities/Event.entity";
-import { ImageEntity } from "@entities/Image.entity";
+import { MediaEntity } from "@entities/Media.entity";
 import { ServerError } from "@io/ControllerError";
 import { Route } from "@routes/route.types";
 
@@ -22,8 +22,8 @@ export const MakeCreateEventRoute: Route = (r, { db, logger, urlMetadata }) => {
           groups: body.groups.map((id) => ({ id })),
           actors: body.actors.map((id) => ({ id })),
           groupsMembers: body.groupsMembers.map((id) => ({ id })),
-          images: pipe(
-            body.images,
+          media: pipe(
+            body.media,
             O.map(
               A.map((image) =>
                 UUID.is(image)
@@ -36,7 +36,7 @@ export const MakeCreateEventRoute: Route = (r, { db, logger, urlMetadata }) => {
                     }
               )
             ),
-            O.getOrElse((): Array<Partial<ImageEntity>> => [])
+            O.getOrElse((): Array<Partial<MediaEntity>> => [])
           ),
           endDate: O.toUndefined(body.endDate),
           keywords: body.keywords.map((k) =>
@@ -87,7 +87,7 @@ export const MakeCreateEventRoute: Route = (r, { db, logger, urlMetadata }) => {
       TE.chain(([event]) =>
         db.findOneOrFail(EventEntity, {
           where: { id: event.id },
-          relations: ["images"],
+          relations: ["media"],
           loadRelationIds: {
             relations: [
               "actors",

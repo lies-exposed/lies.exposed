@@ -12,6 +12,7 @@ export const eventPageContentArgs: EventPageContentProps = {
   onActorClick: () => undefined,
   onGroupClick: () => undefined,
   onKeywordClick: () => undefined,
+  onGroupMemberClick: () => undefined,
   onLinkClick: () => undefined,
 };
 

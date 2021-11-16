@@ -1,5 +1,6 @@
 import { ErrorBox } from "@components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
+import { BreadCrumb } from "@econnessione/ui/components/Common/BreadCrumb";
 import { Footer } from "@econnessione/ui/components/Footer";
 import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
 import { theme } from "@econnessione/ui/theme";
@@ -11,10 +12,13 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
 import IndexPage from "./pages";
 import ActorsPage from "./pages/ActorsPage";
+import BlogPage from "./pages/BlogPage";
+import { DocsPage } from "./pages/DocsPage";
 import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
 import KeywordsPage from "./pages/KeywordsPage";
 import VaccineDashboard from "./pages/dashboards/VaccineDashboard";
+import ProjectPage from "./pages/project";
 import {
   CurrentView,
   currentView,
@@ -24,9 +28,6 @@ import ActorTemplate from "@templates/ActorTemplate";
 import ArticleTemplate from "@templates/ArticleTemplate";
 import EventTemplate from "@templates/EventTemplate";
 import GroupTemplate from "@templates/GroupTemplate";
-import BlogPage from "pages/BlogPage";
-import { DocsPage } from "pages/DocsPage";
-import ProjectPage from "pages/project";
 
 const dataMenuItem = {
   view: "index",
@@ -154,6 +155,22 @@ export const App: React.FC = () => {
                       })();
                     }}
                   />
+                  <Grid item xs={12} style={{ padding: theme.spacing(2) }}>
+                    <BreadCrumb
+                      view={currentView}
+                      segments={{
+                        events: ["dashboard", "events"],
+                        event: ["dashboard", "events", ":eventId"],
+                        actors: ["dashboard", "actors"],
+                        actor: ["dashboard", "actors", ":actorId"],
+                        groups: ["dashboard", "groups"],
+                        group: ["dashboard", "groups", ":groupId"],
+                        keywords: ["dashboard", "keywords"],
+                        keyword: ["dashboard", "keywords", ":keywordId"],
+                      }}
+                    />
+                  </Grid>
+
                   <Grid style={{ minHeight: "100%", width: "100%" }}>
                     {getCurrentComponent(currentView)}
                   </Grid>

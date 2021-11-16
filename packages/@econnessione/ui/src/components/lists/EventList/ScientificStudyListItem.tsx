@@ -1,5 +1,5 @@
 import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
@@ -44,6 +44,9 @@ export const ScientificStudyListItem: React.FC<ScientificStudyListItemProps> =
           </Grid>
           <Grid item lg={6} md={12}>
             <Typography variant="h5">{item.title}</Typography>
+            <Link href={item.url} target="_blank">
+              {item.url}
+            </Link>
             <MarkdownRenderer>{item.conclusion}</MarkdownRenderer>
           </Grid>
         </Grid>

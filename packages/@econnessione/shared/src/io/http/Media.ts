@@ -2,17 +2,25 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "./Common/UUID";
 
-export const Image = t.strict(
+const JpgType = t.literal("image/jpg");
+const PngType = t.literal("image/png");
+const Mp4Type = t.literal("video/mp4");
+
+export const MediaType = t.union([JpgType, PngType, Mp4Type], "MediaType");
+export type MediaType = t.TypeOf<typeof MediaType>;
+
+export const Media = t.strict(
   {
     id: UUID,
+    type: MediaType,
     description: t.string,
     location: t.string,
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
   },
-  "Image"
+  "Media"
 );
-export type Image = t.TypeOf<typeof Image>;
+export type Media = t.TypeOf<typeof Media>;
 
 export const ImageSource = t.strict(
   {

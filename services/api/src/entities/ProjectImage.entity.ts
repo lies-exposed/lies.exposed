@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ImageEntity } from "./Image.entity";
+import { MediaEntity } from "./Media.entity";
 import { ProjectEntity } from "./Project.entity";
 
 @Entity("project_image")
@@ -23,13 +23,13 @@ export class ProjectImageEntity {
   })
   kind: http.ProjectImage.Kind;
 
-  @ManyToOne(() => ImageEntity, (a) => a.id, {
+  @ManyToOne(() => MediaEntity, (a) => a.id, {
     eager: true,
     cascade: true,
     nullable: false,
   })
   @JoinColumn()
-  image: ImageEntity;
+  image: MediaEntity;
 
   @ManyToOne(() => ProjectEntity, (a) => a.id, { nullable: false })
   @JoinColumn()

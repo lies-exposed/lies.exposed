@@ -51,6 +51,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
                       groups={[]}
                       links={[]}
                       keywords={[]}
+                      groupsMembers={[]}
                       onClick={onClick}
                     />
                   );

@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { BaseProps } from "./Common/BaseProps";
+import { MediaType } from "./Media";
 
 export const THEORY_KIND = t.literal("THEORY");
 export const PRACTICE_KIND = t.literal("PRACTICE");
@@ -11,6 +12,7 @@ export const ProjectImage = t.strict(
   {
     ...BaseProps.type.props,
     kind: Kind,
+    type: MediaType,
     location: t.string,
     description: t.string,
     projectId: t.string,

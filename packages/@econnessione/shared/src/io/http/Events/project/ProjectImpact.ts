@@ -15,7 +15,7 @@ export const ProjectImpact = t.strict(
     date: DateFromISOString,
     approvedBy: t.array(ByGroupOrActor),
     executedBy: t.array(ByGroupOrActor),
-    images: t.array(t.string),
+    media: t.array(t.string),
     impact: Impact,
   },
   PROJECT_IMPACT

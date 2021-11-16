@@ -60,16 +60,16 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       <Grid container spacing={2}>
         <Grid item md={3} sm={12} xs={12}>
           {pipe(
-            item.images,
+            item.media,
             O.fromPredicate((arr) => arr.length > 0),
-            O.map((images) => (
+            O.map((media) => (
               // eslint-disable-next-line react/jsx-key
               <CardMedia
                 component="img"
-                alt={images[0].description}
+                alt={media[0].description}
                 height="300"
-                image={images[0].location}
-                title={images[0].description}
+                image={media[0].location}
+                title={media[0].description}
               />
             )),
             O.toNullable

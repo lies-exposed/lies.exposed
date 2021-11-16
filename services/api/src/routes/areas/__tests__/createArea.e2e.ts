@@ -1,5 +1,5 @@
 import * as tests from "@econnessione/core/tests";
-import { ImageArb } from "@econnessione/shared/tests";
+import { MediaArb } from "@econnessione/shared/tests";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("Create Area", () => {
@@ -19,7 +19,7 @@ describe("Create Area", () => {
   test("Should return a 401", async () => {
     const response = await Test.req.post("/v1/actors").send({
       username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
-      avatar: tests.fc.sample(ImageArb, 1)[0],
+      avatar: tests.fc.sample(MediaArb, 1)[0],
       color: "ffffff",
       fullName: `${tests.fc.sample(
         tests.fc.string({ minLength: 3 })

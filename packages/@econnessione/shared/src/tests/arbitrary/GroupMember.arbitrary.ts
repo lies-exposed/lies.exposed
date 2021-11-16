@@ -37,7 +37,7 @@ export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
         color: "dddddd",
         ...p,
         id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-        // images: tests.fc.sample(getImageArb(), 10),
+        // media: tests.fc.sample(getImageArb(), 10),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       } as any)
@@ -62,7 +62,7 @@ export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
 //       ({
 //         ...p,
 //         id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-//         // images: tests.fc.sample(getImageArb(), 10),
+//         // media: tests.fc.sample(getImageArb(), 10),
 //         createdAt: new Date(),
 //         updatedAt: new Date(),
 //       } as any)

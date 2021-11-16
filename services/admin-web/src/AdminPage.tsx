@@ -24,9 +24,9 @@ import {
   GroupMemberList,
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
-import { ImagesList, ImageCreate, ImageEdit } from "./components/AdminImages";
 import { AdminKeywordResource } from "./components/AdminKeyword";
 import { AdminLinksResource } from "./components/AdminLinks";
+import { MediaList, MediaCreate, MediaEdit } from "./components/AdminMedia";
 import { AdminScientificStudiesResource } from "./components/AdminScientificStudies";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
@@ -61,10 +61,10 @@ const AdminPage: React.FC = () => {
       />
 
       <Resource
-        name="images"
-        list={ImagesList}
-        edit={ImageEdit}
-        create={ImageCreate}
+        name="media"
+        list={MediaList}
+        edit={MediaEdit}
+        create={MediaCreate}
       />
 
       <Resource

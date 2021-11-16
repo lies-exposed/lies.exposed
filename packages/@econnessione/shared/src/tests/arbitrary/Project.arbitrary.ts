@@ -6,7 +6,7 @@ const {
   createdAt: _createdAt,
   updatedAt: _updatedAt,
   areas,
-  images,
+  media,
   startDate: _startDate,
   endDate: _endDate,
   ...projectProps
@@ -40,8 +40,8 @@ export const ProjectArb: tests.fc.Arbitrary<http.Project.Project> = tests
         updatedAt: new Date(),
       },
     ],
-    images: [],
-    // images: tests.fc.sample(getImageArb(), 10),
+    media: [],
+    // media: tests.fc.sample(getImageArb(), 10),
     createdAt: new Date(),
     updatedAt: new Date(),
   }));

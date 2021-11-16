@@ -12,6 +12,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { DeathBox } from "@containers/DeathBox";
 import { EventsNetwork } from "@containers/EventsNetwork";
+import InfiniteEventList from "@containers/InfiniteEventList";
 import { doUpdateCurrentView } from "utils/location.utils";
 
 interface ActorTemplateProps {
@@ -48,17 +49,14 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId }) => {
                 }
               />
               {actor.death ? <DeathBox id={actor.death} /> : null}
-              <div style={{ padding: 50 }}>
-                <EventSlider
-                  filter={{ actors: [actorId] }}
-                  onClick={(ev) => {
-                    void doUpdateCurrentView({
-                      view: "event",
-                      eventId: ev.id,
-                    })();
-                  }}
-                />
-              </div>
+
+              <InfiniteEventList
+                filters={{
+                  actors: [actorId],
+                }}
+                hash={`actor-${actorId}`}
+              />
+
               <div style={{ padding: 50 }}>
                 <EventsNetwork
                   filter={{ actors: [actorId] }}

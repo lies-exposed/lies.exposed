@@ -92,7 +92,7 @@ export const apiProvider: http.APIRESTClient = {
   //             ...a,
   //             geometry: JSON.parse(a.geometry),
   //           })),
-  //           images: images.concat(
+  //           media: media.concat(
   //             result.map((l) => ({
   //               location: l,
   //               description: "",

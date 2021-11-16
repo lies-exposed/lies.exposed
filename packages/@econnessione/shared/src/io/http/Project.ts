@@ -15,7 +15,7 @@ export const Project = t.strict(
     name: t.string,
     color: Color,
     areas: t.array(Area),
-    images: t.array(ProjectImage),
+    media: t.array(ProjectImage),
     startDate: DateFromISOString,
     endDate: t.union([DateFromISOString, t.undefined]),
     body: t.string,

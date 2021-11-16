@@ -150,6 +150,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                           actors={actors}
                           groups={groups}
                           keywords={keywords}
+                          groupsMembers={[]}
                         />
                       );
                     }}
@@ -348,7 +349,7 @@ const getY =
   };
 
 const updateMap =
-  <F extends Common.BaseFrontmatter>(acc: Map<string, F>) =>
+  <F extends Common.BaseProps>(acc: Map<string, F>) =>
   (frontmatters: F[]): Map<string, F> => {
     return pipe(
       frontmatters,
@@ -367,7 +368,7 @@ const getLinks =
     relationLinks: Map<string, NetworkLink[]>
   ) =>
   (
-    relations: Array<Common.BaseFrontmatter & { color: string }>
+    relations: Array<Common.BaseProps & { color: string }>
   ): Map<string, NetworkLink[]> => {
     return pipe(
       nodes,

@@ -1,8 +1,10 @@
+import { MediaType } from "@econnessione/shared/io/http/Media";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
 
 interface Slide {
-  imageURL: string;
+  src: string;
+  type: MediaType;
   authorName: string;
   info: string;
 }
@@ -22,23 +24,38 @@ export const Slider: React.FC<SliderProps> = ({
     <SlickSlider.default {...{ ...props }}>
       {slides.map((s) => (
         <div
-          key={s.imageURL}
+          key={s.src}
           style={{
             textAlign: "center",
             maxHeight,
-            background: `url(${s.imageURL})`,
+            background: `url(${s.src})`,
             backgroundSize: "100% auto",
           }}
         >
-          <img
-            src={s.imageURL}
-            style={{
-              boxSizing: "content-box",
-              maxHeight,
-              display: "block",
-              margin: "auto",
-            }}
-          />
+          {s.type === MediaType.types[2].value ? (
+            <video
+              key={s.src}
+              src={s.src}
+              controls={true}
+              style={{
+                maxHeight,
+                boxSizing: "content-box",
+                display: "block",
+                margin: "auto",
+              }}
+            />
+          ) : (
+            <img
+              key={s.src}
+              src={s.src}
+              style={{
+                boxSizing: "content-box",
+                maxHeight,
+                display: "block",
+                margin: "auto",
+              }}
+            />
+          )}
         </div>
       ))}
     </SlickSlider.default>

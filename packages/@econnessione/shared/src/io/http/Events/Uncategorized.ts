@@ -5,6 +5,7 @@ import { BaseProps, Point, UUID } from "../Common";
 import { optionFromUndefined } from "../Common/optionFromUndefined";
 import { CreateKeyword } from "../Keyword";
 import { CreateLink } from "../Link";
+import { MediaType } from "../Media";
 import { GetListQuery } from "../Query";
 
 export const GetEventsQueryFilter = t.partial(
@@ -15,7 +16,7 @@ export const GetEventsQueryFilter = t.partial(
     groups: optionFromUndefined(t.array(t.string)),
     links: optionFromUndefined(t.array(t.string)),
     keywords: optionFromUndefined(t.array(t.string)),
-    images: optionFromUndefined(t.array(t.string)),
+    media: optionFromUndefined(t.array(t.string)),
     startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
     title: optionFromUndefined(t.string),
@@ -28,7 +29,7 @@ export type GetEventsQueryFilter = t.TypeOf<typeof GetEventsQueryFilter>;
 export const CreateEventBody = t.strict(
   {
     title: t.string,
-    images: optionFromUndefined(
+    media: optionFromUndefined(
       t.array(
         t.union([
           UUID,
@@ -55,7 +56,7 @@ export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 
 export const EditEventBody = nonEmptyRecordFromType({
   title: optionFromUndefined(t.string),
-  images: optionFromUndefined(
+  media: optionFromUndefined(
     t.array(
       t.union([
         UUID,
@@ -89,8 +90,13 @@ export const Uncategorized = t.strict(
     startDate: DateFromISOString,
     endDate: t.union([t.undefined, DateFromISOString]),
     location: t.union([t.undefined, Point]),
-    images: t.array(
-      t.strict({ id: t.string, location: t.string, description: t.string })
+    media: t.array(
+      t.strict({
+        id: t.string,
+        location: t.string,
+        type: MediaType,
+        description: t.string,
+      })
     ),
     links: t.array(t.string),
     actors: t.array(t.string),

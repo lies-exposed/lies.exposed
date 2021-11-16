@@ -41,8 +41,8 @@ const eventsSort = pipe(
 );
 
 export interface EventListProps {
-  filters: Omit<InfiniteEventListParams, "page">;
-  onClick?: (e: Events.Event) => void;
+  hash: string;
+  filters: Omit<InfiniteEventListParams, "page" | "hash">;
 }
 
 interface BottomReachProps {
@@ -112,7 +112,7 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
   );
 };
 
-const InfiniteEventList: React.FC<EventListProps> = ({ filters, onClick }) => {
+const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
   const [state, updateState] = React.useState<{
     currentPage: number;
     filters: {
@@ -151,7 +151,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ filters, onClick }) => {
         currentPage: 1,
       }));
     }
-  }, [filters.hash]);
+  }, [hash]);
 
   return (
     <Box>
@@ -165,16 +165,20 @@ const InfiniteEventList: React.FC<EventListProps> = ({ filters, onClick }) => {
           eventsPaginated: {
             ...filters,
             page: state.currentPage,
+            hash,
           },
           deathsPaginated: {
             minDate: filters.startDate,
             maxDate: filters.endDate,
             victim: filters.actors,
             page: state.currentPage,
+            hash,
           },
           scientificStudiesPaginated: {
-            publisher: filters.groups,
+            publishedBy: filters.groups,
+            authors: filters.actors,
             page: state.currentPage,
+            hash,
           },
         }}
         render={QR.fold(

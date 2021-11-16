@@ -2,17 +2,17 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
-import { Image } from "../io/http";
+import { Media } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
-const SingleImageOutput = Output(Image.Image, "Image");
-const ListImageOutput = ListOutput(Image.Image, "Images");
+const SingleMediaOutput = Output(Media.Media, "Media");
+const ListMediaOutput = ListOutput(Media.Media, "MediaList");
 
 export const List = Endpoint({
   Method: "GET",
-  getPath: () => "/images",
+  getPath: () => "/media",
   Input: {
     Query: t.type({
       ...GetListQuery.props,
@@ -20,12 +20,12 @@ export const List = Endpoint({
       ids: optionFromNullable(t.array(t.string)),
     }),
   },
-  Output: ListImageOutput,
+  Output: ListMediaOutput,
 });
 
 export const Get = Endpoint({
   Method: "GET",
-  getPath: ({ id }) => `/images/${id}`,
+  getPath: ({ id }) => `/media/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
   },
@@ -34,7 +34,7 @@ export const Get = Endpoint({
 
 export const Create = Endpoint({
   Method: "POST",
-  getPath: () => "/images",
+  getPath: () => "/media",
   Input: {
     Query: undefined,
     Body: t.strict(
@@ -46,33 +46,34 @@ export const Create = Endpoint({
       "CreateImageBody"
     ),
   },
-  Output: SingleImageOutput,
+  Output: SingleMediaOutput,
 });
 
 export const Edit = Endpoint({
   Method: "PUT",
-  getPath: ({ id }) => `/images/${id}`,
+  getPath: ({ id }) => `/media/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
     Body: nonEmptyRecordFromType({
+      type: Media.MediaType,
       location: t.string,
       description: t.string,
       // events: t.array(t.string),
     }),
   },
-  Output: SingleImageOutput,
+  Output: SingleMediaOutput,
 });
 
 export const Delete = Endpoint({
   Method: "DELETE",
-  getPath: ({ id }) => `/images/${id}`,
+  getPath: ({ id }) => `/media/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: SingleImageOutput,
+  Output: SingleMediaOutput,
 });
 
-export const images = ResourceEndpoints({
+export const media = ResourceEndpoints({
   Get,
   List,
   Edit,

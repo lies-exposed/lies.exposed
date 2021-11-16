@@ -33,7 +33,7 @@ export class ProjectEntity {
   body: string;
 
   @OneToMany(() => ProjectImageEntity, (a) => a.project, { cascade: true })
-  images: ProjectImageEntity[];
+  media: ProjectImageEntity[];
 
   @ManyToMany(() => AreaEntity, { cascade: true })
   @JoinTable()

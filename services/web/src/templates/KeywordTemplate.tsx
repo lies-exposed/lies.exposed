@@ -27,6 +27,7 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
           <SEO title={"keywords"} />
           <KeywordPageContent {...keyword} />
           <InfiniteEventList
+            hash={`keyword-${keywordId}`}
             filters={{
               keywords: [keyword.id],
             }}

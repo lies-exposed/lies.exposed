@@ -11,7 +11,7 @@ export const MakeGetProjectRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       ctx.db.findOneOrFail(ProjectEntity, {
         where: { id },
-        relations: ["images", "areas"],
+        relations: ["media", "areas"],
         // loadRelationIds: true,
       }),
       TE.chainEitherK(toProjectIO),

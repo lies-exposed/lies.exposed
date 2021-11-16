@@ -143,7 +143,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
           </SimpleFormIterator>
         </ArrayInput>
 
-        <ArrayField source="images">
+        <ArrayField source="media">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <ImageField source="location" fullWidth={false} />
