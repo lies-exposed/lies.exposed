@@ -8,9 +8,9 @@ import { DeathEventEntity } from "@entities/DeathEvent.entity";
 import { EventEntity } from "@entities/Event.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { ImageEntity } from "@entities/Image.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { LinkEntity } from "@entities/Link.entity";
+import { MediaEntity } from "@entities/Media.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
@@ -48,7 +48,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       EventEntity,
       DeathEventEntity,
       ScientificStudyEntity,
-      ImageEntity,
+      MediaEntity,
       LinkEntity,
       KeywordEntity,
       UserEntity,

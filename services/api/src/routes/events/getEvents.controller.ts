@@ -21,7 +21,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       groupsMembers,
       links,
       keywords,
-      images,
+      media,
       startDate,
       endDate,
       ...queryRest
@@ -52,7 +52,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
         .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
         .leftJoinAndSelect("event.links", "links")
         .leftJoinAndSelect("event.keywords", "keywords")
-        .leftJoinAndSelect("event.images", "images"),
+        .leftJoinAndSelect("event.media", "media"),
       (q) => {
         return q.where(
           new Brackets((qb) => {
@@ -69,7 +69,7 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
                   items: links,
                 },
                 { key: "keywords.id IN (:...keywords)", items: keywords },
-                { key: "images.id IN (:...images)", items: images },
+                { key: "media.id IN (:...media)", items: media },
               ],
               A.map((i) =>
                 pipe(

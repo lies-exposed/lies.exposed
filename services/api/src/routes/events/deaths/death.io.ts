@@ -15,7 +15,7 @@ export const toDeathIO = (
       location: event.location ? event.location : undefined,
       date: event.date.toISOString(),
       news: [],
-      images: [],
+      media: [],
       suspects: [],
       createdAt: event.createdAt.toISOString(),
       updatedAt: event.updatedAt.toISOString(),

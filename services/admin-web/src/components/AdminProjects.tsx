@@ -80,7 +80,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
           </SingleFieldList>
         </ArrayField>
       </FormTab>
-      <FormTab label="images">
+      <FormTab label="media">
         <ArrayInput source="newImages">
           <SimpleFormIterator>
             <SelectInput
@@ -96,7 +96,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
             </ImageInput>
           </SimpleFormIterator>
         </ArrayInput>
-        <ArrayField source="images">
+        <ArrayField source="media">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="kind" />
@@ -150,7 +150,7 @@ export const ProjectCreate: React.FC<CreateProps> = (props) => (
           <MarkdownInput source="body" />
         </SimpleFormIterator>
       </ArrayInput>
-      <ArrayInput source="images">
+      <ArrayInput source="media">
         <SimpleFormIterator>
           <ImageInput source="location" />
         </SimpleFormIterator>

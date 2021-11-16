@@ -90,7 +90,7 @@ describe("Create Event", () => {
     eventIds.push(event.id);
   });
 
-  test.todo("Should create an event with images");
+  test.todo("Should create an event with media");
   test.todo("Should create an event with groups");
   test.todo("Should create an event with group members");
 

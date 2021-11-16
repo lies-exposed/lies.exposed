@@ -10,9 +10,9 @@ import * as Event from "./event.endpoints";
 import * as DeathEvent from "./events/death.endpoint";
 import * as Graph from "./graph.endpoints";
 import * as Group from "./group.endpoints";
-import * as Image from "./image.endpoints";
 import * as Keyword from "./keyword.endpoints";
 import * as Link from "./link.endpoints";
+import * as Media from "./media.endpoints";
 import * as Page from "./page.endpoints";
 import * as Project from "./project.endpoints";
 import * as ScientificStudy from "./scientificStudy.endpoint";
@@ -27,7 +27,7 @@ const Endpoints = {
   Graph: Graph.graphs,
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,
-  Image: Image.images,
+  Media: Media.media,
   Keyword: Keyword.keywords,
   Link: Link.links,
   Page: Page.pages,

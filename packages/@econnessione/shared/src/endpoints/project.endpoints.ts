@@ -31,7 +31,7 @@ export const List = Endpoint({
 const CreateBody = t.strict({
   name: t.string,
   color: t.string,
-  images: t.array(
+  media: t.array(
     t.strict({
       kind: http.ProjectImage.Kind,
       description: t.string,
@@ -67,7 +67,7 @@ const EditBody = nonEmptyRecordFromType({
   name: optionFromNullable(t.string),
   color: optionFromNullable(t.string),
   areas: optionFromNullable(t.array(CreateAreaBody)),
-  images: optionFromNullable(
+  media: optionFromNullable(
     t.array(
       t.strict({
         kind: http.ProjectImage.Kind,

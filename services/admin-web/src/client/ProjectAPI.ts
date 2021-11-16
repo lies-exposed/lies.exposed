@@ -53,7 +53,7 @@ export const editProject =
                 geometry: JSON.parse(a.geometry),
               }))
               .concat(areas),
-            images: imageData.concat(images),
+            media: imageData.concat(images),
           },
         };
         return TE.tryCatch(

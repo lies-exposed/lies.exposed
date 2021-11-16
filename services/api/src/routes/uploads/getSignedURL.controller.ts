@@ -7,6 +7,9 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 
 const fileExtFromContentType = (c: string): string => {
+  if (c === "video/mp4") {
+    return "mp4";
+  }
   if (c === "image/jpeg") {
     return "jpg";
   }

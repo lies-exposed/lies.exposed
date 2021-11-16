@@ -24,10 +24,10 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
           })
         )
       ),
-      images: pipe(
-        body.images,
-        O.map((images) =>
-          images.map(({ kind, ...image }) => {
+      media: pipe(
+        body.media,
+        O.map((media) =>
+          media.map(({ kind, ...image }) => {
             return {
               id: uuid(),
               kind,
@@ -47,13 +47,13 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       ctx.db.findOneOrFail(ProjectEntity, {
         where: { id },
-        relations: ["images", "areas"],
+        relations: ["media", "areas"],
       }),
       TE.chain(() => ctx.db.save(ProjectEntity, [{ id, ...projectData }])),
       TE.chain(() =>
         ctx.db.findOneOrFail(ProjectEntity, {
           where: { id },
-          relations: ["images", "areas"],
+          relations: ["media", "areas"],
         })
       ),
       TE.chain((p) => TE.fromEither(toProjectIO(p))),

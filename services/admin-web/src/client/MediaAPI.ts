@@ -1,4 +1,5 @@
 import * as qs from "querystring";
+import { MediaType } from "@econnessione/shared/io/http/Media";
 import * as http from "@econnessione/ui/http";
 import axios from "axios";
 import * as A from "fp-ts/lib/Array";
@@ -23,7 +24,8 @@ const getSignedUrl =
   (client: http.APIRESTClient) =>
   (
     resource: string,
-    resourceId: string
+    resourceId: string,
+    ContentType: MediaType
   ): TE.TaskEither<Error, { data: { url: string } }> => {
     return pipe(
       TE.tryCatch(
@@ -32,7 +34,7 @@ const getSignedUrl =
             data: {
               resource,
               resourceId,
-              ContentType: "image/jpeg",
+              ContentType,
             },
           }),
         E.toError
@@ -52,8 +54,9 @@ export const uploadFile =
     resourceId: string,
     f: File
   ): TE.TaskEither<Error, string> => {
+    console.log(f.type);
     return pipe(
-      getSignedUrl(client)(resource, resourceId),
+      getSignedUrl(client)(resource, resourceId, f.type as any),
       TE.chain((url) => {
         const [location, search] = url.data.url.split("?");
 

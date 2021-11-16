@@ -13,8 +13,8 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
-import { ImageEntity } from "./Image.entity";
 import { LinkEntity } from "./Link.entity";
+import { MediaEntity } from "./Media.entity";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 
@@ -36,12 +36,12 @@ export class DeathEventEntity {
   })
   news: LinkEntity[];
 
-  @ManyToMany(() => ImageEntity, (a) => a.events, {
+  @ManyToMany(() => MediaEntity, (a) => a.events, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
-  images: ImageEntity[];
+  media: MediaEntity[];
 
   @OneToOne(() => ActorEntity, (v) => v.id, { nullable: false })
   @JoinColumn()

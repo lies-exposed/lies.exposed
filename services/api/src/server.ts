@@ -27,9 +27,9 @@ import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
-import { MakeImageRoutes } from "@routes/images/images.routes";
 import { MakeKeywordRoutes } from "@routes/keywords/keywords.routes";
 import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
+import { MakeMediaRoutes } from "@routes/media/media.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
@@ -154,7 +154,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   // articles
   MakeArticlesRoutes(router, ctx);
 
-  MakeImageRoutes(router, ctx);
+  MakeMediaRoutes(router, ctx);
 
   // events
   MakeEventRoutes(router, ctx);

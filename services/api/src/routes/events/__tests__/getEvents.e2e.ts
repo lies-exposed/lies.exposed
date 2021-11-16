@@ -22,7 +22,7 @@ describe("Get Events", () => {
   }));
   const eventsData = fc.sample(EventArb, 100).map((e) => ({
     ...e,
-    images: [],
+    media: [],
     links: [],
     topics: [],
     groups: [],

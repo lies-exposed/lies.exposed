@@ -1,13 +1,14 @@
 import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { Link } from "@econnessione/shared/io/http/Link";
 import { formatDate } from "@econnessione/shared/utils/date";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { ActorsBox } from "./ActorsBox";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { Slider } from "./Common/Slider/Slider";
+import { GroupMembersBox } from "./GroupMembersBox";
 import { GroupsBox } from "./GroupsBox";
 import { KeywordsBox } from "./KeywordsBox";
 import { LinksBox } from "./LinksBox";
@@ -29,35 +30,14 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   onKeywordClick,
   onLinkClick,
 }) => {
+  const theme = useTheme();
   return (
     <MainContent>
+      <SEO title={event.title} />
       <Grid container spacing={2}>
-        <Grid item md={12} sm={12} xs={12}>
-          <SEO title={event.title} />
-          <Grid item md={12} style={{ marginBottom: 20 }}>
-            {pipe(
-              event.images,
-              O.fromPredicate((items) => items.length > 0),
-              O.map((images) => (
-                <Slider
-                  key="home-slider"
-                  slides={images.map((i) => ({
-                    authorName: "",
-                    info: i.description,
-                    imageURL: i.location,
-                  }))}
-                  arrows={false}
-                  dots={true}
-                />
-              )),
-              O.toNullable
-            )}
-            <Box>
-              <Typography variant="h3">{event.title}</Typography>
-            </Box>
-          </Grid>
+        <Grid item xs={12}>
           <Grid container alignItems="center">
-            <Grid item md={3}>
+            <Grid item md={2}>
               <Typography
                 variant="h5"
                 color="secondary"
@@ -67,18 +47,52 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 {formatDate(event.startDate)}
               </Typography>
             </Grid>
-            <Grid item md={9}>
+            <Grid item md={10}>
+              <Typography variant="h3">{event.title}</Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container alignItems="flex-start" alignContent="flex-start">
+            <Grid item md={3}>
               <KeywordsBox ids={event.keywords} />
+            </Grid>
+            <Grid item md={3} xs={6}>
+              <GroupsBox ids={event.groups} onItemClick={onGroupClick} />
+            </Grid>
+            <Grid item md={3} xs={6} style={{ marginBottom: 30 }}>
+              <ActorsBox ids={event.actors} />
+            </Grid>
+            <Grid item md={3} xs={6} style={{ marginBottom: 30 }}>
+              <GroupMembersBox
+                ids={event.groupsMembers}
+                onItemClick={() => {}}
+              />
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid item md={6} sm={6} xs={6}>
-          <GroupsBox ids={event.groups} onItemClick={onGroupClick} />
+        <Grid item md={12} style={{ marginBottom: theme.spacing(5) }}>
+          {pipe(
+            event.media,
+            O.fromPredicate((items) => items.length > 0),
+            O.map((media) => (
+              <Slider
+                key="home-slider"
+                slides={media.map((i) => ({
+                  authorName: "",
+                  info: i.description,
+                  src: i.location,
+                  type: i.type,
+                }))}
+                arrows={false}
+                dots={true}
+              />
+            )),
+            O.toNullable
+          )}
         </Grid>
-        <Grid item md={6} sm={6} xs={6} style={{ marginBottom: 30 }}>
-          <ActorsBox ids={event.actors} />
-        </Grid>
+
         <Grid item md={12} sm={12} xs={12}>
           <MarkdownRenderer>{event.body}</MarkdownRenderer>
         </Grid>

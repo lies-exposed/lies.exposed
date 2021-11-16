@@ -109,38 +109,38 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  const newRawImages = data.images.filter(
+  const newRawMedia = data.media.filter(
     (i: any) => i.location?.rawFile !== undefined
   );
 
-  const newLinkedImages = data.images.filter(t.string.is);
+  const newLinkedImages = data.media.filter(t.string.is);
 
-  const oldImages = data.images.filter((i: any) => i.id !== undefined);
-  const imagesTask = pipe(
+  const oldMedia = data.media.filter((i: any) => i.id !== undefined);
+  const mediaTask = pipe(
     A.sequence(TE.ApplicativePar)(
-      newRawImages.map((r: any) =>
-        uploadFile(dataProvider)("images", uuid(), r.location.rawFile)
+      newRawMedia.map((r: any) =>
+        uploadFile(dataProvider)("media", uuid(), r.location.rawFile)
       )
     ),
     TE.map((urls) =>
       pipe(
         urls,
-        A.zip(newRawImages as any[]),
-        A.map(([location, image]) => ({
-          ...image,
+        A.zip(newRawMedia as any[]),
+        A.map(([location, media]) => ({
+          ...media,
           location,
         })),
         A.concat(newLinkedImages),
-        A.concat(oldImages)
+        A.concat(oldMedia)
       )
     )
   );
   // eslint-disable-next-line @typescript-eslint/return-await
   return pipe(
-    imagesTask,
-    TE.map((images) => ({
+    mediaTask,
+    TE.map((media) => ({
       ...data,
-      images,
+      media,
       endDate: data.endDate.length > 0 ? data.endDate : undefined,
     }))
   )().then((result) => {
@@ -168,7 +168,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         />
       </>
     }
-    transform={({ newLinks = [], newImages = [], ...r }) => {
+    transform={({ newLinks = [], newMedia = [], ...r }) => {
       const links = (newLinks as any[]).reduce((acc, l) => {
         if (Array.isArray(l.ids)) {
           return acc.concat(l.ids);
@@ -176,7 +176,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         return acc.concat(l);
       }, []);
 
-      const images = (newImages as any[]).reduce((acc, l) => {
+      const media = (newMedia as any[]).reduce((acc, l) => {
         if (Array.isArray(l.ids)) {
           return acc.concat(l.ids);
         }
@@ -186,7 +186,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       return transformEvent(r.id as any, {
         ...r,
         actors: r.actors.concat(r.newActors ?? []),
-        images: r.images.concat(images),
+        media: r.media.concat(media),
         links: r.links.concat(links),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
       });
@@ -236,7 +236,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Images">
-        <ArrayInput source="newImages" defaultValue={[]}>
+        <ArrayInput source="newMedia" defaultValue={[]}>
           <SimpleFormIterator>
             <BooleanInput source="addNew" />
             <BooleanInput source="fromURL" />
@@ -266,7 +266,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
                 return (
                   <ReferenceArrayInput
                     source={getSrc("ids")}
-                    reference="images"
+                    reference="media"
                     {...rest}
                   >
                     <AutocompleteArrayInput
@@ -280,7 +280,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           </SimpleFormIterator>
         </ArrayInput>
 
-        <ArrayField source="images">
+        <ArrayField source="media">
           <Datagrid rowClick="edit">
             <TextField source="id" />
             <ImageField source="location" fullWidth={false} />
@@ -402,8 +402,8 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
           </SimpleFormIterator>
         </ArrayInput>
       </FormTab>
-      <FormTab label="Images">
-        <ArrayInput source="images" defaultValue={[]}>
+      <FormTab label="Media">
+        <ArrayInput source="media" defaultValue={[]}>
           <SimpleFormIterator>
             <ImageInput source="location">
               <ImageField source="src" />

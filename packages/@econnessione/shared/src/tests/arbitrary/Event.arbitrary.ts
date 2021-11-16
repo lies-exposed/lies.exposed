@@ -13,12 +13,12 @@ import {
 // const { links: _links } = CreateEventBody.type.props;
 interface CreateEventBodyArbOpts {
   linksIds?: boolean;
-  imagesIds?: boolean;
+  mediaIds?: boolean;
   keywordIds?: boolean;
 }
 export const CreateEventBodyArb = ({
   linksIds = false,
-  imagesIds = false,
+  mediaIds = false,
   keywordIds = false,
 }: CreateEventBodyArbOpts = {}): fc.Arbitrary<CreateEventBody> =>
   getArbitrary(
@@ -28,7 +28,7 @@ export const CreateEventBodyArb = ({
       groups: t.unknown,
       groupsMembers: t.unknown,
       links: t.unknown,
-      images: t.unknown,
+      media: t.unknown,
       keywords: t.unknown,
       startDate: t.unknown,
       endDate: t.unknown,
@@ -38,7 +38,7 @@ export const CreateEventBodyArb = ({
     actors: fc.sample(fc.uuidV(4)) as any,
     groups: fc.sample(fc.uuidV(4)) as any,
     groupsMembers: fc.sample(fc.uuidV(4)) as any,
-    images: fc.sample(
+    media: fc.sample(
       fc.record({
         location: URLArb,
         description: fc.string(),
@@ -73,7 +73,7 @@ export const CreateEventBodyArb = ({
 const {
   createdAt: _createdAt,
   updatedAt: _updatedAt,
-  images,
+  media,
   groups,
   // links,
   startDate: _startDate,
@@ -86,7 +86,7 @@ export const EventArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
     const coordinates = fc.sample(fc.float({ max: 60 }), 2);
     return {
       ...p,
-      images: [],
+      media: [],
       keywords: [],
       links: fc.sample(fc.uuidV(4)),
       groups: [],

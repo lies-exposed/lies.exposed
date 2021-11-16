@@ -1,6 +1,6 @@
 import { fc } from "@econnessione/core/tests";
 import * as http from "@econnessione/shared/io/http";
-import { EventArb, ImageArb } from "@econnessione/shared/tests";
+import { EventArb, MediaArb } from "@econnessione/shared/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import jwt from "jsonwebtoken";
@@ -27,7 +27,7 @@ describe("Edit Event", () => {
   };
   let [event] = fc.sample(EventArb, 1).map(({ endDate, ...e }) => ({
     ...e,
-    images: [],
+    media: [],
     links: [],
     groups: [],
     actors: [],
@@ -96,23 +96,23 @@ describe("Edit Event", () => {
     });
   });
 
-  test("Should add images to the event", async () => {
-    const images = fc
-      .sample(ImageArb, 2)
+  test("Should add media to the event", async () => {
+    const media = fc
+      .sample(MediaArb, 2)
       .map(({ id, createdAt, updatedAt, ...image }) => image);
 
     const eventData = {
       ...event,
       title: "First event",
       startDate: new Date().toISOString(),
-      images,
+      media,
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
       .set("Authorization", authorizationToken)
       .send(eventData);
 
-    const { images: bodyImages, ...body } = response.body.data;
+    const { media: bodyImages, ...body } = response.body.data;
 
     expect(response.status).toEqual(200);
 
@@ -125,13 +125,13 @@ describe("Edit Event", () => {
       ...eventData,
     } as any;
 
-    eventData.images.forEach((i) => {
+    eventData.media.forEach((i) => {
       expect(
-        bodyImages.find((ii: http.Image.Image) => ii.location === i.location)
+        bodyImages.find((ii: http.Media.Media) => ii.location === i.location)
       ).not.toBe(undefined);
     });
 
-    delete (eventData as any).images;
+    delete (eventData as any).media;
 
     expect(body).toMatchObject({
       ...eventData,
@@ -145,7 +145,7 @@ describe("Edit Event", () => {
       ...event,
       title: "Event with links",
       startDate: new Date().toISOString(),
-      images: [],
+      media: [],
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)

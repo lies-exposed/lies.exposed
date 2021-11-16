@@ -11,7 +11,7 @@ import { Route } from "routes/route.types";
 export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
   AddEndpoint(r)(
     Endpoints.Project.Create,
-    ({ body: { endDate, images, ...body } }) => {
+    ({ body: { endDate, media, ...body } }) => {
       const optionalData = foldOptionals({ endDate });
       return pipe(
         db.save(ProjectEntity, [{ ...body, ...optionalData }]),
@@ -20,7 +20,7 @@ export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
             project: TE.right(project),
             projectImages: db.save(
               ProjectImageEntity,
-              images.map((i) => ({
+              media.map((i) => ({
                 image: {
                   id: uuid(),
                   location: i.location,

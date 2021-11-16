@@ -69,11 +69,11 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
       <Grid container direction="column">
         <Grid item style={{ height: 400 }}>
           {pipe(
-            O.fromNullable(frontmatter.images),
-            O.map((images) => (
+            O.fromNullable(frontmatter.media),
+            O.map((media) => (
               <Slider
                 key={`project-${frontmatter.id}-slider`}
-                slides={images.map((i) => ({
+                slides={media.map((i) => ({
                   authorName: "",
                   info: i.description ?? "",
                   imageURL: i.location,
@@ -82,7 +82,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
                 dots={true}
               />
             )),
-            O.getOrElse(() => <div>No images!</div>)
+            O.getOrElse(() => <div>No media!</div>)
           )}
         </Grid>
         <Grid>

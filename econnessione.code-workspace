@@ -12,7 +12,7 @@
       "./services/web",
       "./services/admin-web"
     ],
-    "jest.autoRun": null,
+    "jest.autoRun": "off",
     "cSpell.words": [
       "econnessione",
       "Uncategorized",

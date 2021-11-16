@@ -10,9 +10,9 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
-import { ImageEntity } from "./Image.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
+import { MediaEntity } from "./Media.entity";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 
@@ -62,12 +62,12 @@ export class EventEntity {
   @JoinTable()
   links: LinkEntity[];
 
-  @ManyToMany(() => ImageEntity, (a) => a.events, {
+  @ManyToMany(() => MediaEntity, (a) => a.events, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
-  images: ImageEntity[];
+  media: MediaEntity[];
 
   @ManyToMany(() => KeywordEntity, (a) => a.events, {
     cascade: true,

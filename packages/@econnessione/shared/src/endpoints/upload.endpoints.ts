@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
+import { MediaType } from "../io/http/Media";
 
 export const GetSignedURL = Endpoint({
   Method: "POST",
@@ -10,12 +11,12 @@ export const GetSignedURL = Endpoint({
         t.literal("actors"),
         t.literal("articles"),
         t.literal("groups"),
-        t.literal("images"),
+        t.literal("media"),
         t.literal("projects"),
         t.literal("areas"),
       ]),
       resourceId: t.string,
-      ContentType: t.string,
+      ContentType: MediaType,
     }),
   },
   Output: t.strict({ data: t.strict({ url: t.string }) }),

@@ -1,3 +1,4 @@
+import { MediaType } from "@econnessione/shared/io/http/Media";
 import {
   Column,
   CreateDateColumn,
@@ -10,7 +11,7 @@ import {
 import { EventEntity } from "./Event.entity";
 
 @Entity("image")
-export class ImageEntity {
+export class MediaEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -20,7 +21,14 @@ export class ImageEntity {
   @Column({ type: "varchar", nullable: false })
   description: string;
 
-  @ManyToMany(() => EventEntity, (e) => e.images)
+  @Column({
+    type: "enum",
+    enum: MediaType.types.map((t) => t.value),
+    default: MediaType.types[0].value,
+  })
+  type: MediaType;
+
+  @ManyToMany(() => EventEntity, (e) => e.media)
   events: EventEntity[];
 
   @CreateDateColumn()

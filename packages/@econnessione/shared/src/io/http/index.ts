@@ -27,7 +27,7 @@ export * as Events from "./Events";
 export * as Keyword from "./Keyword";
 export * as Group from "./Group";
 export * as GroupMember from "./GroupMember";
-export * as Image from "./Image";
+export * as Media from "./Media";
 export * as Network from "./Networks";
 export * as Page from "./Page";
 export * as Project from "./Project";

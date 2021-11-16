@@ -23,13 +23,13 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
       <div>
         <Grid container direction="column" style={{ height: 400 }}>
           {pipe(
-            item.frontmatter.images,
-            O.map((images) => (
+            item.frontmatter.media,
+            O.map((media) => (
               // eslint-disable-next-line react/jsx-key
               <Grid item>
                 <Slider
                   key="home-slider"
-                  slides={images.map((i) => ({
+                  slides={media.map((i) => ({
                     authorName: "",
                     info: i.description ?? "",
                     imageURL: i.location,
