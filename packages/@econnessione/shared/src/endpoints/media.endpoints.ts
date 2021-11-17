@@ -19,6 +19,7 @@ export const List = Endpoint({
       ...GetListQuery.props,
       events: optionFromNullable(t.array(t.string)),
       ids: optionFromNullable(t.array(t.string)),
+      description: optionFromNullable(t.string),
     }),
   },
   Output: ListMediaOutput,

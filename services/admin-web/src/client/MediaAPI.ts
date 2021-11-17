@@ -52,11 +52,11 @@ export const uploadFile =
   (
     resource: string,
     resourceId: string,
-    f: File
+    f: File,
+    type: MediaType
   ): TE.TaskEither<Error, { type: MediaType; location: string }> => {
-    const mediaType: MediaType = f.type as any;
     return pipe(
-      getSignedUrl(client)(resource, resourceId, mediaType),
+      getSignedUrl(client)(resource, resourceId, type),
       TE.chain((url) => {
         const [location, search] = url.data.url.split("?");
 
@@ -78,7 +78,7 @@ export const uploadFile =
               }),
             E.toError
           ),
-          TE.map(() => ({ type: mediaType, location }))
+          TE.map(() => ({ type, location }))
         );
       })
     );
@@ -89,10 +89,12 @@ export const uploadImages =
   (
     resource: string,
     resourceId: string,
-    files: File[]
+    media: Array<{ type: MediaType; file: File }>
   ): TE.TaskEither<Error, Array<{ type: MediaType; location: string }>> => {
     return pipe(
-      files.map((file) => uploadFile(client)(resource, resourceId, file)),
+      media.map((file) =>
+        uploadFile(client)(resource, resourceId, file.file, file.type)
+      ),
       A.sequence(TE.ApplicativeSeq)
     );
   };

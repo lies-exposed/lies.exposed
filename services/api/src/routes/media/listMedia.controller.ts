@@ -3,6 +3,7 @@ import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
+import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { toImageIO } from "./media.io";
@@ -13,7 +14,7 @@ import { getORMOptions } from "@utils/listQueryToORMOptions";
 export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Media.List,
-    ({ query: { events, ids, ...query } }) => {
+    ({ query: { events, ids, description, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -26,6 +27,11 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
           .createQueryBuilder(MediaEntity, "image")
           .leftJoinAndSelect("image.events", "events"),
         (q) => {
+          if (O.isSome(description)) {
+            return q.where("lower(image.description) LIKE :description", {
+              description: `%${description.value}%`,
+            });
+          }
           if (O.isSome(ids)) {
             return q.where("image.id IN (:...ids)", {
               ids: ids.value,
@@ -35,6 +41,20 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             return q.where("events.id IN (:...events)", {
               events: events.value,
             });
+          }
+          return q;
+        },
+        (q) => {
+          if (findOptions.order !== undefined) {
+            ctx.logger.debug.log("Order %O", findOptions.order);
+            const order = pipe(
+              findOptions.order,
+              R.reduceWithIndex({}, (k, acc, v) => ({
+                ...acc,
+                [`image.${k}`]: v,
+              }))
+            );
+            return q.orderBy(order);
           }
           return q;
         },

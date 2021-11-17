@@ -11,7 +11,7 @@ const secondImagePath =
 export const firstImage: Media.Media = {
   id: uuid() as any,
   description: "first image",
-  type: 'image/jpg',
+  type: "image/jpg",
   location: firstImagePath,
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -19,7 +19,7 @@ export const firstImage: Media.Media = {
 export const secondImage: Media.Media = {
   id: uuid() as any,
   description: "second image",
-  type: 'image/jpg',
+  type: "image/jpg",
   location: secondImagePath,
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -27,7 +27,7 @@ export const secondImage: Media.Media = {
 export const thirdImage: Media.Media = {
   id: uuid() as any,
   description: "first image",
-  type: 'image/jpg',
+  type: "image/jpg",
   location: thirdImagePath,
   createdAt: new Date(),
   updatedAt: new Date(),

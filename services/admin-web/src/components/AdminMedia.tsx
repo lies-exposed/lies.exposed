@@ -1,4 +1,3 @@
-import { MediaType } from "@econnessione/shared/io/http/Media";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -8,13 +7,11 @@ import {
   Create,
   CreateProps,
   Datagrid,
-  SelectInput,
   DateField,
   Edit,
   EditProps,
   FormTab,
   ImageField,
-  ImageInput,
   List,
   ListProps,
   Record,
@@ -24,16 +21,36 @@ import {
   TabbedForm,
   TextField,
   UrlField,
-  FormDataConsumer,
+  TextInput,
+  Filter,
 } from "react-admin";
 import MarkdownInput from "./Common/MarkdownInput";
+import { MediaField } from "./Common/MediaField";
+import { MediaInput } from "./Common/MediaInput";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "media";
 
+const MediaFilters: React.FC = (props: any) => {
+  return (
+    <Filter {...props}>
+      <TextInput source="description" alwaysOn size="small" />
+    </Filter>
+  );
+};
+
 export const MediaList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE}>
+  <List
+    {...props}
+    resource={RESOURCE}
+    filters={<MediaFilters />}
+    filterDefaultValues={{
+      _sort: "createdAt",
+      _order: "DESC",
+    }}
+    perPage={20}
+  >
     <Datagrid rowClick="edit">
       <TextField source="type" />
       <ImageField source="location" />
@@ -50,7 +67,8 @@ const transformMedia = (data: Record): Record | Promise<Record> => {
       uploadFile(apiProvider)(
         "media",
         data.id.toString(),
-        data.location.rawFile
+        data.location.rawFile,
+        data.type
       ),
       TE.map(({ type, location }) => ({
         ...data,
@@ -77,27 +95,8 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
     <TabbedForm>
       <FormTab label="general">
         <UrlField source="location" />
-        <SelectInput
-          source="type"
-          choices={MediaType.types.map((v) => ({ id: v.value, name: v.value }))}
-        />
-        <FormDataConsumer>
-          {({ formData }) => {
-            if (formData.type === MediaType.types[2].value) {
-              return (
-                <video
-                  controls={true}
-                  autoPlay={false}
-                  src={formData.location}
-                />
-              );
-            }
-            return <ImageField source="location" />;
-          }}
-        </FormDataConsumer>
-        <ImageInput source="location">
-          <ImageField source="src" />
-        </ImageInput>
+        <MediaField source="location" />
+        <MediaInput sourceLocation="location" sourceType="type" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
 
@@ -123,9 +122,7 @@ export const MediaCreate: React.FC<CreateProps> = (props) => (
     transform={(r) => transformMedia({ ...r, id: uuid() })}
   >
     <SimpleForm>
-      <ImageInput source="location" validate={[required()]}>
-        <ImageField source="src" />
-      </ImageInput>
+      <MediaInput sourceType="type" sourceLocation="location" />
       <MarkdownInput
         source="description"
         defaultValue=""
