@@ -53,20 +53,23 @@ export const uploadFile =
     resource: string,
     resourceId: string,
     f: File
-  ): TE.TaskEither<Error, string> => {
-    console.log(f.type);
+  ): TE.TaskEither<Error, { type: MediaType; location: string }> => {
+    const mediaType: MediaType = f.type as any;
     return pipe(
-      getSignedUrl(client)(resource, resourceId, f.type as any),
+      getSignedUrl(client)(resource, resourceId, mediaType),
       TE.chain((url) => {
         const [location, search] = url.data.url.split("?");
 
         const headers = qs.parse(search);
 
+        console.log(headers);
         return pipe(
           TE.tryCatch(
             () =>
               axios.put(url.data.url, f, {
+                timeout: 600 * 1000,
                 headers: {
+                  "Content-Type": "multipart/form-data",
                   "Access-Control-Allow-Origin": "*",
                   "x-amz-acl": "public-read",
                   "Access-Control-Max-Age": "600",
@@ -75,7 +78,7 @@ export const uploadFile =
               }),
             E.toError
           ),
-          TE.map(() => location)
+          TE.map(() => ({ type: mediaType, location }))
         );
       })
     );
@@ -87,7 +90,7 @@ export const uploadImages =
     resource: string,
     resourceId: string,
     files: File[]
-  ): TE.TaskEither<Error, string[]> => {
+  ): TE.TaskEither<Error, Array<{ type: MediaType; location: string }>> => {
     return pipe(
       files.map((file) => uploadFile(client)(resource, resourceId, file)),
       A.sequence(TE.ApplicativeSeq)

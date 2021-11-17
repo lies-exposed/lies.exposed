@@ -4,6 +4,7 @@ import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Media } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
+import { MediaType } from "../io/http/Media";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
@@ -39,9 +40,10 @@ export const Create = Endpoint({
     Query: undefined,
     Body: t.strict(
       {
+        type: MediaType,
         location: t.string,
         description: t.string,
-        events: t.array(t.string),
+        // events: t.array(t.string),
       },
       "CreateImageBody"
     ),

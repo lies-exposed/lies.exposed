@@ -52,9 +52,10 @@ const transformMedia = (data: Record): Record | Promise<Record> => {
         data.id.toString(),
         data.location.rawFile
       ),
-      TE.map((location) => ({
+      TE.map(({ type, location }) => ({
         ...data,
         id: data.id.toString(),
+        type,
         location,
       }))
     )().then((result) => {
