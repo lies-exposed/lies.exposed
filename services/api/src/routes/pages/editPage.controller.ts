@@ -15,7 +15,6 @@ export const MakeEditPageRoute = (r: Router, ctx: RouteContext): void => {
       // TE.chain((page) =>
       //   sequenceS(TE.taskEither)({
       //     page: TE.right(page),
-      //     body: ctx.mdx.readFile(`/pages/${(page).uuid}.md`),
       //   })
       // ),
       TE.map(({ body, ...page }) => ({

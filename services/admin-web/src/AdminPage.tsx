@@ -1,4 +1,4 @@
-import { theme } from "@econnessione/ui/theme";
+import { ECOTheme } from "@econnessione/ui/theme";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";
@@ -42,7 +42,7 @@ const AdminPage: React.FC = () => {
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}
-      theme={theme}
+      theme={ECOTheme}
     >
       <Resource
         name="pages"

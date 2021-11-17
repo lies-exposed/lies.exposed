@@ -32,17 +32,18 @@ import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import { scaleLinear, scaleTime } from "@vx/scale";
 import { Bar, LinePath } from "@vx/shape";
 import { Accessor } from "@vx/shape/lib/types";
-import { withTooltip, TooltipWithBounds } from "@vx/tooltip";
+import { TooltipWithBounds, withTooltip } from "@vx/tooltip";
 import * as QR from "avenger/lib/QueryResult";
 import { declareQueries } from "avenger/lib/react";
-import { isDate, formatISO } from "date-fns";
+import { formatISO, isDate } from "date-fns";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
 import { jsonData } from "../../../../providers/DataProvider";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
-import { StatAccordion } from "@components/Common/StatAccordion";
+import { ECOTheme } from "../../../../theme/index";
+import { ErrorBox } from "../../../Common/ErrorBox";
+import { LazyFullSizeLoader } from "../../../Common/FullSizeLoader";
+import { StatAccordion } from "../../../Common/StatAccordion";
 
 const ageGroupColors = {
   all: "#b623ad",
@@ -90,18 +91,18 @@ const getValueForAgeGroup = (v: VaccineDatum, ageGroup?: AgeGroup): number => {
 
 const getAgeGroupColor = getByAgeGroup(ageGroupColors);
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<ECOTheme>((theme) => ({
+  root: {
+    width: "100%",
+  },
   formControl: {
     position: "relative",
     minWidth: 120,
     marginBottom: theme.spacing(2),
   },
-  root: {
-    width: "100%",
-  },
   graphAccordionHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
+    fontSize: theme.typography.pxToRem(16),
+    fontWeight: theme.typography.fontWeightRegular as any,
   },
 }));
 

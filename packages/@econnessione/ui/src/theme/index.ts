@@ -4,7 +4,7 @@ import { createTheme } from "@material-ui/core";
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
 
-export const theme = createTheme({
+const ECOTheme = createTheme({
   palette: {
     // type: "dark",
     primary: {
@@ -21,6 +21,7 @@ export const theme = createTheme({
     },
   },
   typography: (palette) => ({
+    fontWeightBold: 400,
     h1: {
       fontFamily: primaryFontFamily,
       marginBottom: 40,
@@ -66,3 +67,7 @@ export const theme = createTheme({
     },
   },
 });
+
+type ECOTheme = typeof ECOTheme;
+
+export { ECOTheme };

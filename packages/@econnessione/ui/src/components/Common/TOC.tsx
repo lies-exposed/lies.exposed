@@ -1,9 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 import * as React from "react";
 import ReactTOC from "react-toc";
-import { theme } from "../../theme";
+import { ECOTheme } from "../../theme";
 
-const useStyles = makeStyles<typeof theme>((props) => ({
+const useStyles = makeStyles<ECOTheme>((props) => ({
   root: {
     margin: "10px 0",
     padding: 0,

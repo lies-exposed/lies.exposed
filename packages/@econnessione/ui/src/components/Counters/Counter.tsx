@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontFamily: theme.typography.fontFamily,
       fontSize: theme.typography.fontSize * 3,
       color: theme.palette.common.black,
-      fontWeight: theme.typography.fontWeightBold,
+      fontWeight: theme.typography.fontWeightBold as any,
     },
   })
 );

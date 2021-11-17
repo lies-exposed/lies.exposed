@@ -4,6 +4,7 @@
     "outDir": "./build",
     "baseUrl": "./src",
     "rootDir": "./src",
+    "lib": ["ESNext", "DOM"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
       "./src/typings",

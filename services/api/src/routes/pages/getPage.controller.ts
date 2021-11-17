@@ -15,7 +15,6 @@ export const MakeGetPageRoute = (r: Router, ctx: RouteContext): void => {
       TE.chain((pageEntity) =>
         sequenceS(TE.taskEither)({
           page: TE.right(pageEntity),
-          // body: ctx.mdx.readFile(`/pages/${pageEntity.uuid}.md`),
         })
       ),
       TE.map(({ page }) => ({

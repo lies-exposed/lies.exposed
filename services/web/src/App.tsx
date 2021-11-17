@@ -3,7 +3,7 @@ import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { BreadCrumb } from "@econnessione/ui/components/Common/BreadCrumb";
 import { Footer } from "@econnessione/ui/components/Footer";
 import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
-import { theme } from "@econnessione/ui/theme";
+import { ECOTheme } from "@econnessione/ui/theme";
 import { Grid, ThemeProvider } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -135,7 +135,7 @@ export const App: React.FC = () => {
         ]}
       />
       {/* <CssBaseline /> */}
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={ECOTheme}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <WithQueries
             queries={{ currentView: currentView }}
@@ -155,7 +155,7 @@ export const App: React.FC = () => {
                       })();
                     }}
                   />
-                  <Grid item xs={12} style={{ padding: theme.spacing(2) }}>
+                  <Grid item xs={12} style={{ padding: ECOTheme.spacing(2) }}>
                     <BreadCrumb
                       view={currentView}
                       segments={{

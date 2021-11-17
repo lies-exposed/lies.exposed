@@ -1,8 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const tsjPresets = require("ts-jest/presets");
 
-const esModule = "rehype-parse";
-
 module.exports = {
   testEnvironment: "node",
   globals: {
@@ -19,7 +17,6 @@ module.exports = {
       "<rootDir>/../../packages/@econnessione/shared/src/$1",
     "^@econnessione/ui/(.*)$":
       "<rootDir>/../../packages/@econnessione/ui/src/$1",
-    "^rehype-parse$": "<rootDir>/../../../node_modules/rehype-parse/index.js",
   },
   transform: {
     ...tsjPresets.defaults.transform,
@@ -30,7 +27,6 @@ module.exports = {
   // ],
   testMatch: ["**/?(*.)+(spec|test|e2e).ts?(x)"],
   collectCoverageFrom: ["./src/**/*.ts"],
-  coveragePathIgnorePatterns: [`node_modules/(?!${esModule})`],
   coverageThreshold: {
     global: {
       branches: 30,
