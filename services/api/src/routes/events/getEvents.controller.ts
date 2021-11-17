@@ -46,7 +46,9 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
       ...findOptions,
     });
 
-    const sqlTask = (input: typeof query): TE.TaskEither<ControllerError, [EventEntity[], number]> =>
+    const sqlTask = (
+      input: typeof query
+    ): TE.TaskEither<ControllerError, [EventEntity[], number]> =>
       pipe(
         ctx.db.manager
           .createQueryBuilder(EventEntity, "event")

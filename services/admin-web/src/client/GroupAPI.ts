@@ -1,4 +1,5 @@
 import { Group } from "@econnessione/shared/io/http/Group";
+import { MediaType } from "@econnessione/shared/io/http/Media";
 import { APIRESTClient } from "@econnessione/ui/http";
 import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
@@ -28,12 +29,12 @@ export const createGroup =
       TE.chain((result) => {
         const avatarTask =
           typeof avatar === "string"
-            ? TE.right([avatar])
+            ? TE.right([{ type: MediaType.types[0].value, location: avatar }])
             : uploadImages(client)(resource, result.data.id, [avatar]);
 
         return pipe(
           avatarTask,
-          TE.chain(([location]) =>
+          TE.chain(([{ location }]) =>
             TE.tryCatch(
               () =>
                 client.update<Group>(resource, {
@@ -63,12 +64,12 @@ export const editGroup =
 
     const avatarTask =
       typeof avatar === "string"
-        ? TE.right([avatar])
+        ? TE.right([{ type: MediaType.types[0].value, location: avatar }])
         : uploadImages(client)(resource, data.id, [(avatar as any).rawFile]);
 
     return pipe(
       avatarTask,
-      TE.chain(([location]) =>
+      TE.chain(([{ type, location }]) =>
         TE.tryCatch(
           () =>
             client.update<Group>(resource, {
@@ -82,6 +83,6 @@ export const editGroup =
           E.toError
         )
       ),
-      TE.fold(T.task.of, (result) => T.task.of(result as any))
+      TE.fold(T.of, (result) => T.of(result as any))
     )();
   };

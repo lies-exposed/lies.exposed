@@ -33,7 +33,7 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
                     authorName: "",
                     info: i.description ?? "",
                     src: i.location,
-                    type: 'image/png'
+                    type: "image/png",
                   }))}
                   arrows={true}
                   adaptiveHeight={true}

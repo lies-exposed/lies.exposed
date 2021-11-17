@@ -44,6 +44,8 @@ import {
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import MarkdownInput from "./Common/MarkdownInput";
+import { MediaArrayInput } from "./Common/MediaArrayInput";
+import { MediaField } from "./Common/MediaField";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
@@ -109,7 +111,7 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  const newRawMedia = data.media.filter(
+  const newRawMedia: File[] = data.media.filter(
     (i: any) => i.location?.rawFile !== undefined
   );
 
@@ -119,13 +121,13 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
   const mediaTask = pipe(
     A.sequence(TE.ApplicativePar)(
       newRawMedia.map((r: any) =>
-        uploadFile(dataProvider)("media", uuid(), r.location.rawFile)
+        uploadFile(dataProvider)("media", uuid(), r.location.rawFile, r.type)
       )
     ),
     TE.map((urls) =>
       pipe(
         urls,
-        A.zip(newRawMedia as any[]),
+        A.zip(newRawMedia),
         A.map(([location, media]) => ({
           ...media,
           location,
@@ -236,54 +238,12 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Images">
-        <ArrayInput source="newMedia" defaultValue={[]}>
-          <SimpleFormIterator>
-            <BooleanInput source="addNew" />
-            <BooleanInput source="fromURL" />
-            <FormDataConsumer>
-              {({ formData, scopedFormData, getSource, ...rest }) => {
-                const getSrc = getSource ?? ((s: string) => s);
-
-                if (scopedFormData?.addNew) {
-                  return (
-                    <Box>
-                      {scopedFormData.fromURL ? (
-                        <TextInput
-                          source={getSrc("location")}
-                          type="url"
-                          {...rest}
-                        />
-                      ) : (
-                        <ImageInput source={getSrc("location")}>
-                          <ImageField src="src" />
-                        </ImageInput>
-                      )}
-
-                      <TextInput source={getSrc("description")} {...rest} />
-                    </Box>
-                  );
-                }
-                return (
-                  <ReferenceArrayInput
-                    source={getSrc("ids")}
-                    reference="media"
-                    {...rest}
-                  >
-                    <AutocompleteArrayInput
-                      source="id"
-                      optionText="description"
-                    />
-                  </ReferenceArrayInput>
-                );
-              }}
-            </FormDataConsumer>
-          </SimpleFormIterator>
-        </ArrayInput>
+        <MediaArrayInput source="newMedia" fullWidth={true} defaultValue={[]} />
 
         <ArrayField source="media">
           <Datagrid rowClick="edit">
             <TextField source="id" />
-            <ImageField source="location" fullWidth={false} />
+            <MediaField source="location" fullWidth={false} />
             <TextField source="description" />
           </Datagrid>
         </ArrayField>
