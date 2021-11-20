@@ -21,7 +21,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   projects,
   funds,
   events,
-  body,
+  body2,
   groupsMembers,
   ...group
 }) => {
@@ -56,6 +56,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           </Grid>
           <Grid item>
             <Typography variant="h2">{group.name}</Typography>
+            <Typography variant="subtitle1">{group.excerpt}</Typography>
           </Grid>
         </Grid>
         <Grid container style={{ marginBottom: 20 }}>
@@ -78,7 +79,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         </Grid>
 
         <Grid>
-          <MarkdownRenderer>{body}</MarkdownRenderer>
+          <MarkdownRenderer>{body2}</MarkdownRenderer>
         </Grid>
       </Grid>
       {/* <Grid width="100%">

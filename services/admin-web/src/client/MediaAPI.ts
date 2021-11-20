@@ -62,7 +62,6 @@ export const uploadFile =
 
         const headers = qs.parse(search);
 
-        console.log(headers);
         return pipe(
           TE.tryCatch(
             () =>

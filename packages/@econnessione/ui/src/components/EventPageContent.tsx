@@ -57,6 +57,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             </Grid>
             <Grid item md={10}>
               <Typography variant="h3">{event.title}</Typography>
+              <Typography variant="subtitle1">{event.excerpt}</Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -102,7 +103,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         </Grid>
 
         <Grid item md={12} sm={12} xs={12}>
-          <MarkdownRenderer>{event.body}</MarkdownRenderer>
+          <MarkdownRenderer>{event.body2}</MarkdownRenderer>
         </Grid>
         <Grid item md={12} sm={12} xs={12}>
           <LinksBox ids={event.links} />

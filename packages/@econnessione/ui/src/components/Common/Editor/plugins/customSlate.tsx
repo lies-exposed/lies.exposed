@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { List, ListItem, ListItemText, Typography } from "@material-ui/core";
 import slate from "@react-page/plugins-slate";
 import * as React from "react";
 
@@ -8,6 +8,7 @@ const customSlate = slate((def) => ({
   title: "custom slate plugin",
   description: "it only provides title and text",
   plugins: {
+    ...def.plugins,
     headings: {
       h1: def.plugins.headings.h1((h1Def) => ({
         ...h1Def, // spread it, so that the new config contains all defaults
@@ -58,8 +59,6 @@ const customSlate = slate((def) => ({
         ),
       })),
     },
-
-    emphasize: def.plugins.emphasize,
     paragraphs: {
       ...def.plugins.paragraphs /* make sure to always include that */,
       paragraph: def.plugins.paragraphs.paragraph((pDef) => ({
@@ -68,6 +67,34 @@ const customSlate = slate((def) => ({
           <Typography className={className} variant="body1" style={style}>
             {children}
           </Typography>
+        ),
+      })),
+    },
+    lists: {
+      ul: def.plugins.lists.ul<any>({
+        customizeList: (listDef) => ({
+          ...listDef,
+          Component: ({ className, style, children }) => (
+            <List className={className} style={style}>
+              {children}
+            </List>
+          ),
+        }),
+        customizeListItem: (listItemDef) => ({
+          ...listItemDef,
+          Component: ({ className, style, children }) => (
+            <ListItem className={className} style={style}>
+              <ListItemText>{children}</ListItemText>
+            </ListItem>
+          ),
+        }),
+      }),
+      li: def.plugins.lists.li((liDef) => ({
+        ...liDef,
+        Component: ({ className, style, children }) => (
+          <ListItem className={className} style={style}>
+            {children}
+          </ListItem>
         ),
       })),
     },

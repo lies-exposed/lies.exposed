@@ -24,7 +24,7 @@ import {
   TextInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 
 const RESOURCE = "scientific-studies";
@@ -75,9 +75,9 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       <TextInput source="title" />
       <TextInput source="url" type="url" />
       <DateInput source="publishDate" />
-      <MarkdownInput source="abstract" />
-      <MarkdownInput source="results" />
-      <MarkdownInput source="conclusion" />
+      <ReactPageInput source="abstract" />
+      <ReactPageInput source="results" />
+      <ReactPageInput source="conclusion" />
       <ReferenceArrayActorInput source="authors" />
       <ReferenceInput source="publisher" reference="groups">
         <AutocompleteInput source="id" optionText="name" />
@@ -92,9 +92,9 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
       <TextInput source="title" />
       <TextInput source="url" type="url" />
       <DateInput source="publishDate" />
-      <MarkdownInput source="abstract" />
-      <MarkdownInput source="results" />
-      <MarkdownInput source="conclusion" />
+      <ReactPageInput source="abstract" />
+      <ReactPageInput source="results" />
+      <ReactPageInput source="conclusion" />
       <ReferenceArrayInput
         source="authors"
         reference="actors"

@@ -24,7 +24,7 @@ import {
   TextInput,
   useRefresh,
 } from "react-admin";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "links";
@@ -89,7 +89,7 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
         <TextInput source="title" />
         <TextInput type="url" source="url" />
         <ImageField source="image" />
-        <MarkdownInput source="description" />
+        <ReactPageInput source="description" />
         <DateInput source="publishDate" />
         <TextInput source="provider" />
         <ReferenceArrayInput source="newEvents" reference="events">

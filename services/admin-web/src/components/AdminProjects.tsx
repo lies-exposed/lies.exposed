@@ -5,6 +5,7 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
+import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayField,
@@ -34,7 +35,7 @@ import {
 import { ColorInput } from "react-admin-color-input";
 import { MapField } from "./Common/MapField";
 import { MapInput } from "./Common/MapInput";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 
 const RESOURCE = "projects";
 
@@ -70,7 +71,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
           <SimpleFormIterator>
             <TextInput source="label" />
             <MapInput source="geometry" type={GeometryType.POLYGON} />
-            <MarkdownInput source="body" />
+            <RichTextInput source="body" />
           </SimpleFormIterator>
         </ArrayInput>
 
@@ -106,7 +107,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         </ArrayField>
       </FormTab>
       <FormTab label="Body">
-        <MarkdownInput source="body" />
+        <RichTextInput source="body" />
       </FormTab>
       <FormTab label="Preview">
         <FormDataConsumer>
@@ -147,7 +148,7 @@ export const ProjectCreate: React.FC<CreateProps> = (props) => (
         <SimpleFormIterator>
           <TextInput source="label" />
           <MapInput source="geometry" type={GeometryType.POLYGON} />
-          <MarkdownInput source="body" />
+          <RichTextInput source="body" />
         </SimpleFormIterator>
       </ArrayInput>
       <ArrayInput source="media">
@@ -156,7 +157,7 @@ export const ProjectCreate: React.FC<CreateProps> = (props) => (
         </SimpleFormIterator>
       </ArrayInput>
 
-      <MarkdownInput source="body" defaultValue="" validate={[required()]} />
+      <ReactPageInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>
 );

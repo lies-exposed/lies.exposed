@@ -7,6 +7,7 @@ declare module "ra-input-rich-text" {
     configureQuill?: (quill: Quill) => void;
     format?: (v: string) => string;
     parse?: (v: string) => string;
+    source: string;
   }
 
   export class RaInputRichText extends React.Component<RaInputRichTextProps> {}

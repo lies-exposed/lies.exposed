@@ -1,4 +1,5 @@
 import { FormControl, Grid } from "@material-ui/core";
+import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   Create,
@@ -19,7 +20,7 @@ import {
   TextField,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
@@ -92,7 +93,11 @@ export const GroupMemberEdit: React.FC<EditProps> = (props) => {
 
           <DateInput source="startDate" required={true} />
           <DateInput source="endDate" required={false} />
-          <MarkdownInput source="body" />
+          <RichTextInput source="body" />
+        </FormTab>
+        <FormTab label="Body 2">
+          <RichTextInput source="excerpt" />
+          <ReactPageInput source="body2" />
         </FormTab>
         <FormTab label="Events">
           <ReferenceManyField reference="events" target="groupsMembers[]">
@@ -121,7 +126,7 @@ export const GroupMemberCreate: React.FC<CreateProps> = (props) => (
       <ReferenceGroupInput source="group.id" />
       <DateInput source="startDate" />
       <DateInput source="endDate" />
-      <MarkdownInput source="body" />
+      <RichTextInput source="body" />
     </SimpleForm>
   </Create>
 );

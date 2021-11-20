@@ -78,6 +78,7 @@ export const EditEventBody = nonEmptyRecordFromType({
   startDate: optionFromUndefined(DateFromISOString),
   endDate: optionFromUndefined(DateFromISOString),
   body: optionFromUndefined(t.string),
+  excerpt: optionFromUndefined(t.string),
   body2: optionFromUndefined(t.UnknownRecord),
 });
 

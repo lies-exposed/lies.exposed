@@ -40,8 +40,6 @@ export const Counter: React.FC<CounterProps> = (props) => {
         <span
           style={{
             verticalAlign: "top",
-            // fontSize: $theme.typography.font550.fontSize,
-            // lineHeight: $theme.typography.font550.lineHeight,
           }}
         >
           {props.message !== undefined ? "*" : ""}

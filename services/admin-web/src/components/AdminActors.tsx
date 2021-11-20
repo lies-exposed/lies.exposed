@@ -5,6 +5,7 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayInput,
@@ -35,7 +36,7 @@ import {
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
@@ -130,7 +131,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
       </FormTab>
 
       <FormTab label="Content">
-        <MarkdownInput source="body" />
+        <RichTextInput source="body" />
       </FormTab>
 
       <FormTab label="Groups">
@@ -141,7 +142,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <MarkdownInput source="body" />
+            <RichTextInput source="body" />
           </SimpleFormIterator>
         </ArrayInput>
 
@@ -196,7 +197,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => (
       <ImageInput source="avatar">
         <ImageField />
       </ImageInput>
-      <MarkdownInput source="body" />
+      <RichTextInput source="body" />
     </SimpleForm>
   </Create>
 );

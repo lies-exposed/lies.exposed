@@ -9,7 +9,6 @@ import {
   CircularProgress,
   Grid,
   Typography,
-  useTheme,
 } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -129,13 +128,6 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
     },
   });
 
-  // const infiniteEventListQuery = React.useMemo(
-  //   () => infiniteEventList,
-  //   [eventFilters.hash]
-  // );
-
-  const theme = useTheme();
-
   const handleBottomReached = React.useCallback((): void => {
     const nextPage = state.currentPage + 1;
     void updateState({
@@ -220,9 +212,6 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                     </Grid>
                     <Grid
                       container
-                      lg={6}
-                      md={12}
-                      sm={12}
                       justifyContent="flex-end"
                       alignContent="flex-end"
                     >

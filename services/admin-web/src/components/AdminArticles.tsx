@@ -4,6 +4,7 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayInput,
@@ -30,7 +31,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import { apiProvider } from "client/HTTPAPI";
 import { uploadImages } from "client/MediaAPI";
 
@@ -85,7 +86,7 @@ export const ArticleEdit: React.FC<EditProps> = (props) => (
             <TextInput source="" />
           </SimpleFormIterator>
         </ArrayInput>
-        <MarkdownInput source="body" />
+        <RichTextInput source="body" />
       </FormTab>
 
       <FormTab label="Preview">
@@ -120,7 +121,7 @@ export const ArticleCreate: React.FC<CreateProps> = (props) => {
             <TextInput source="" />
           </SimpleFormIterator>
         </ArrayInput>
-        <MarkdownInput source="body" validate={[required()]} />
+        <ReactPageInput source="body" validate={[required()]} />
       </SimpleForm>
     </Create>
   );

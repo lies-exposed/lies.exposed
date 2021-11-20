@@ -2,7 +2,7 @@ import { http } from "@econnessione/shared/io";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -10,6 +10,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import GeometryType from "ol/geom/GeometryType";
+import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayField,
@@ -43,9 +44,9 @@ import {
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
-import MarkdownInput from "./Common/MarkdownInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
+import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
@@ -81,7 +82,14 @@ export const EventList: React.FC<ListProps> = (props) => (
     perPage={20}
   >
     <Datagrid rowClick="edit">
-      <TextField source="title" />
+      <FunctionField
+        render={(r: any) => (
+          <Box>
+            <Typography variant="h6">{r.title}</Typography>
+            <Typography variant="subtitle1">{r.excerpt}</Typography>
+          </Box>
+        )}
+      />
       <FunctionField
         source="actors"
         render={(r: Record | undefined) => (r ? r.actors.length : 0)}
@@ -143,7 +151,7 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
     TE.map((media) => ({
       ...data,
       media,
-      endDate: data.endDate.length > 0 ? data.endDate : undefined,
+      endDate: data.endDate?.length > 0 ? data.endDate : undefined,
     }))
   )().then((result) => {
     if (result._tag === "Left") {
@@ -200,9 +208,15 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateInput source="endDate" />
         <TextInput source="title" />
         <ReferenceArrayKeywordInput source="keywords" />
-        <MarkdownInput source="body" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
+      </FormTab>
+      <FormTab label="Body">
+        <RichTextInput source="body" />
+      </FormTab>
+      <FormTab label="Body2">
+        <TextInput source="excerpt" />
+        <ReactPageInput source="body2" />
       </FormTab>
       <FormTab label="Location">
         <MapInput source="location" type={GeometryType.POINT} />
@@ -335,7 +349,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         />
         <DateInput source="endDate" />
         <ReferenceArrayKeywordInput source="keywords" />
-        <MarkdownInput source="body" defaultValue="" />
+        <ReactPageInput source="body" defaultValue="" />
       </FormTab>
       <FormTab label="Actors">
         <ReferenceArrayActorInput source="actors" defaultValue={[]} />

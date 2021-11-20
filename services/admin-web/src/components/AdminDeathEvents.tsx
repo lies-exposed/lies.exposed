@@ -1,4 +1,5 @@
 import GeometryType from "ol/geom/GeometryType";
+import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayField,
@@ -32,7 +33,7 @@ import {
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
@@ -96,7 +97,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
           />
         </ReferenceInput>
         <DateInput source="date" />
-        <MarkdownInput source="body" />
+        <RichTextInput source="body" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>

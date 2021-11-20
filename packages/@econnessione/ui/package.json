@@ -66,6 +66,7 @@
     "react-slick": "^0.28.1",
     "react-spring": "^9.2.3",
     "react-toc": "^2.0.0",
+    "slate-hyperscript": "^0.67.0",
     "styletron-react": "^6.0.1",
     "throttle-debounce": "^3.0.1",
     "to-vfile": "^6.1.0",

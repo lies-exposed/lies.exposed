@@ -21,7 +21,7 @@ import gridCellPlugin from "./plugins/gridCellPlugin";
 // Define which plugins we want to use.
 export const cellPlugins = [
   customSlate,
-  background,
+  background({}),
   image,
   spacer,
   divider,

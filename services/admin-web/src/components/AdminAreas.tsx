@@ -4,6 +4,7 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import GeometryType from "ol/geom/GeometryType";
+import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   Create,
@@ -23,7 +24,7 @@ import {
   TextInput,
 } from "react-admin";
 import { MapInput } from "./Common/MapInput";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 
 const RESOURCE = "areas";
 
@@ -53,7 +54,7 @@ export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="geometry" type={GeometryType.POLYGON} />
       </FormTab>
       <FormTab label="Body">
-        <MarkdownInput source="body" />
+        <RichTextInput source="body" />
       </FormTab>
       <FormTab label="Preview">
         <FormDataConsumer>
@@ -84,7 +85,7 @@ export const AreaCreate: React.FC<CreateProps> = (props) => (
         type={GeometryType.POLYGON}
         validate={[required()]}
       />
-      <MarkdownInput source="body" defaultValue="" validate={[required()]} />
+      <ReactPageInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>
   </Create>
 );
