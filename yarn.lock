@@ -2195,7 +2195,7 @@
     prop-types "^15.7.2"
     reselect "^4.0.0"
 
-"@material-ui/icons@^4.11.2":
+"@material-ui/icons@^4.11.2", "@material-ui/icons@^4.2.1":
   version "4.11.2"
   resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.11.2.tgz#b3a7353266519cd743b6461ae9fdfcb1b25eb4c5"
   integrity sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ==
@@ -2535,6 +2535,28 @@
     uniforms-bridge-json-schema "^2.6.0 || ^3.0.0"
     uniforms-material "^2.6.0 || ^3.0.0"
 
+"@react-page/plugins-background@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@react-page/plugins-background/-/plugins-background-4.3.0.tgz#3461dbd5561b4e11dea2a92818410bb8c88f4b03"
+  integrity sha512-5vzLqT1DCl5GdcaBfy7L27uUvaSSmln39ZG1Bd93XYBgb6odCMpH+AhpWDeDacIvbGl2X/vPyQukbikwQGo5uQ==
+  dependencies:
+    "@react-page/editor" "^4.3.0"
+
+"@react-page/plugins-divider@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@react-page/plugins-divider/-/plugins-divider-4.3.0.tgz#d84ef56bb32b5ec261633f3e4a2c0f7e5410e658"
+  integrity sha512-R/djAVwIoPf0Vwz8lMlL9qkmSx15118sJC+5UJFKvRL/AUt32u90pCFjgZ5OqFFhk3GjYduBcOiE1FzQWCO0Gg==
+  dependencies:
+    "@material-ui/icons" "^4.2.1"
+    "@react-page/editor" "^4.3.0"
+
+"@react-page/plugins-html5-video@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@react-page/plugins-html5-video/-/plugins-html5-video-4.3.0.tgz#3c329d5912cefe493ce09d5c1ea4aaf79721fb32"
+  integrity sha512-qPRZrYXzDCpaGMpkpAR1MGM+tqNe1elPYzw0zjMT/rhj6lGhZCHr327KTzuEH8ApfK35vZZI9KeHz3Bja23WrA==
+  dependencies:
+    "@react-page/editor" "^4.3.0"
+
 "@react-page/plugins-image@^4.3.0":
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/@react-page/plugins-image/-/plugins-image-4.3.0.tgz#5af7b292b3d3561f59ee97aab8f8d8647ab95881"
@@ -2565,6 +2587,23 @@
     slate-hyperscript "^0.66.0"
     slate-react "^0.65.3"
     xmldom "^0.5.0"
+
+"@react-page/plugins-spacer@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@react-page/plugins-spacer/-/plugins-spacer-4.3.0.tgz#22904ed709aacf5757d7aa814586e2517b18cfbe"
+  integrity sha512-slQa3d5hT7Rbdjmg5Cnxt9phuVnKvLG1Zml1eDRq4+P4QzBxodIeVoBsu2MU0u1vpeZVUwtdA/FOdx+mx1ldtQ==
+  dependencies:
+    "@react-page/editor" "^4.3.0"
+    classnames "2.2.6"
+    react-resizable "^1.11.0"
+
+"@react-page/plugins-video@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@react-page/plugins-video/-/plugins-video-4.3.0.tgz#cafeb3e249910c7c7a21b39e9c9e9c43e498f815"
+  integrity sha512-+ecsrcmleFKoT2t52nH6WC1anD50ec+ZooDLlW/cZJYkfZ/hxajLsmzQRaBw/y4V3/kdOXChQy1kdQiRDk3cpw==
+  dependencies:
+    "@react-page/editor" "^4.3.0"
+    react-player "^1.13.0"
 
 "@react-page/react-admin@^4.3.0":
   version "4.3.0"
@@ -6998,7 +7037,7 @@ classnames@*, classnames@^2.2.5, classnames@^2.2.6, classnames@^2.3.1, classname
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
   integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
-classnames@~2.2.5:
+classnames@2.2.6, classnames@~2.2.5:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -8523,7 +8562,7 @@ deep-rename-keys@^0.2.1:
     kind-of "^3.0.2"
     rename-keys "^1.1.2"
 
-deepmerge@^4.2.2:
+deepmerge@^4.0.0, deepmerge@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
   integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
@@ -13670,6 +13709,11 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
+load-script@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
+  integrity sha1-BJGTngvuVkPuSUp+PaPSuscMbKQ=
+
 loader-runner@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.4.0.tgz#ed47066bfe534d7e84c4c7b9998c2a75607d9357"
@@ -16697,7 +16741,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.0, prop-types@^15.7.2:
+prop-types@15.x, prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.0, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -17300,7 +17344,7 @@ react-draggable@4.4.3:
     classnames "^2.2.5"
     prop-types "^15.6.0"
 
-react-draggable@^4.4.3:
+react-draggable@^4.0.3, react-draggable@^4.4.3:
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-4.4.4.tgz#5b26d9996be63d32d285a426f41055de87e59b2f"
   integrity sha512-6e0WdcNLwpBx/YIDpoyd2Xb04PB0elrDrulKUgdrIlwuYvxh5Ok9M+F8cljm8kPXXs43PmMzek9RrB1b7mLMqA==
@@ -17418,6 +17462,15 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-player@^1.13.0:
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/react-player/-/react-player-1.15.3.tgz#d00cf145f9c86184cb0a071a1fbf8ecb7b68987f"
+  integrity sha512-8fc0R1AipFIy7l4lKgnIg+gMU2IY32ZMxxBlINjXAq/YnN3HUP3hOaE+aQ0lQv+a1/MMZgbekWD86ZGDO7kB8g==
+  dependencies:
+    deepmerge "^4.0.0"
+    load-script "^1.0.0"
+    prop-types "^15.7.2"
+
 react-popper-tooltip@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-popper-tooltip/-/react-popper-tooltip-3.1.1.tgz#329569eb7b287008f04fcbddb6370452ad3f9eac"
@@ -17470,6 +17523,14 @@ react-refresh@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
+
+react-resizable@^1.11.0:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/react-resizable/-/react-resizable-1.11.1.tgz#02ca6850afa7a22c1b3e623e64aef71ee252af69"
+  integrity sha512-S70gbLaAYqjuAd49utRHibtHLrHXInh7GuOR+6OO6RO6uleQfuBnWmZjRABfqNEx3C3Z6VPLg0/0uOYFrkfu9Q==
+  dependencies:
+    prop-types "15.x"
+    react-draggable "^4.0.3"
 
 react-router-dom@^5.1.0:
   version "5.3.0"
