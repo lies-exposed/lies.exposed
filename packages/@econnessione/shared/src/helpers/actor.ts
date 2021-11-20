@@ -16,6 +16,6 @@ export const isByActor =
     by.type === "Actor" && by.actor === actor.id;
 
 export const isByGroup =
-  (group: Group.GroupFrontmatter) =>
+  (group: Group.Group) =>
   (by: Common.ByGroupOrActor): boolean =>
     by.type === "Group" && by.group === group.id;

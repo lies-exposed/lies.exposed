@@ -29,8 +29,14 @@ export class ArticleEntity {
   @Column({ type: "varchar", nullable: true })
   featuredImage: string | null;
 
+  @Column({ type: "varchar", nullable: true })
+  excerpt: string | null;
+
   @Column({ type: "varchar" })
   body: string;
+
+  @Column({ type: "json", nullable: true })
+  body2: Record<string, unknown> | true;
 
   @CreateDateColumn()
   createdAt: Date;

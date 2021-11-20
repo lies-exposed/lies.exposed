@@ -20,7 +20,9 @@ export const Actor = t.strict(
     color: Color,
     memberIn: t.array(t.string),
     death: t.union([t.undefined, t.string]),
+    excerpt: t.union([t.string, t.null]),
     body: t.string,
+    body2: t.union([t.UnknownRecord, t.null]),
   },
   "Actor"
 );

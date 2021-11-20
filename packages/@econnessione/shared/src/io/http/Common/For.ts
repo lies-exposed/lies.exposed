@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { GroupFrontmatter } from "../Group";
+import { Group } from "../Group";
 import { Project } from "../Project";
 
 export const ForProject = t.strict(
@@ -13,7 +13,7 @@ export const ForProject = t.strict(
 export const ForGroup = t.strict(
   {
     type: t.literal("Group"),
-    group: GroupFrontmatter,
+    group: Group,
   },
   "ForGroup"
 );

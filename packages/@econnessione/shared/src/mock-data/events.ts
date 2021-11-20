@@ -26,7 +26,9 @@ export const firstEvent: Events.Uncategorized.Uncategorized = {
   location: undefined,
   startDate: subMonths(today, 2),
   endDate: undefined,
+  excerpt: "",
   body: "",
+  body2: {},
   createdAt: today,
   updatedAt: today,
 };
@@ -44,7 +46,9 @@ export const secondEvent: Events.Uncategorized.Uncategorized = {
   location: undefined,
   startDate: subMonths(today, 2),
   endDate: undefined,
+  excerpt: "",
   body: "",
+  body2: {},
   createdAt: today,
   updatedAt: today,
 };
@@ -62,7 +66,9 @@ export const thirdEvent: Events.Uncategorized.Uncategorized = {
   location: undefined,
   startDate: subMonths(today, 3),
   endDate: undefined,
+  excerpt: "",
   body: "",
+  body2: {},
   createdAt: today,
   updatedAt: today,
 };
@@ -80,7 +86,9 @@ export const fourthEvent: Events.Uncategorized.Uncategorized = {
   media: [],
   startDate: today,
   endDate: undefined,
+  excerpt: "",
   body: "",
+  body2: {},
   createdAt: today,
   updatedAt: today,
 };

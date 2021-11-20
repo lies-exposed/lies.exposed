@@ -20,6 +20,7 @@ export const Page = t.strict(
   {
     ...PageFrontmatter.type.props,
     body: t.string,
+    body2: t.union([t.UnknownRecord, t.null]),
   },
   "Page"
 );

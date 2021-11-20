@@ -26,6 +26,12 @@ export class ScientificStudyEntity {
   publishDate: Date;
 
   @Column({ type: "varchar", nullable: true })
+  excerpt: string | null;
+
+  @Column({ type: "json", nullable: true })
+  body2: Record<string, unknown> | null;
+
+  @Column({ type: "varchar", nullable: true })
   abstract: string | null;
 
   @Column({ type: "varchar", nullable: true })

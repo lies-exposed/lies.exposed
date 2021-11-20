@@ -90,6 +90,8 @@ export const GroupMemberArb: tests.fc.Arbitrary<http.GroupMember.GroupMember> =
       actor: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
       group: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
       body: "",
+      excerpt: tests.fc.sample(tests.fc.string())[0],
+      body2: {},
       events: [],
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

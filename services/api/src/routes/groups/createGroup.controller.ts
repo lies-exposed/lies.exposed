@@ -1,8 +1,8 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { ActorEntity } from "../../entities/Actor.entity";
 import { GroupEntity } from "../../entities/Group.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { Route } from "routes/route.types";
 
 export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {
@@ -13,7 +13,7 @@ export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {
           ...body,
           color: color.replace("#", ""),
           members: body.members.map((m) => {
-            const a = new ActorEntity();
+            const a = new GroupMemberEntity();
             a.id = m;
             return a;
           }),

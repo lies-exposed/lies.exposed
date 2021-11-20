@@ -27,6 +27,7 @@ export const CreateEventBodyArb = ({
       actors: t.unknown,
       groups: t.unknown,
       groupsMembers: t.unknown,
+      body2: t.unknown,
       links: t.unknown,
       media: t.unknown,
       keywords: t.unknown,
@@ -68,6 +69,7 @@ export const CreateEventBodyArb = ({
     ) as any,
     startDate: fc.sample(DateArb, 1)[0],
     endDate: fc.sample(fc.oneof(fc.constant(undefined), DateArb), 1)[0] as any,
+    body2: {},
   }));
 
 const {
@@ -75,6 +77,7 @@ const {
   updatedAt: _updatedAt,
   media,
   groups,
+  body2,
   // links,
   startDate: _startDate,
   endDate: _endDate,
@@ -107,6 +110,7 @@ export const EventArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
         type: "Point",
         coordinates: [coordinates[0], coordinates[1]],
       },
+      body2: {},
       createdAt: new Date(),
       updatedAt: new Date(),
     };

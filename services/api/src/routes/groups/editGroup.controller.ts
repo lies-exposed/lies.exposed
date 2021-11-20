@@ -8,8 +8,14 @@ import { RouteContext } from "@routes/route.types";
 
 export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Group.Edit, ({ params: { id }, body }) => {
+    ctx.logger.debug.log("Updating group with %O", body);
+
+    const groupUpdate = {
+      ...body,
+      members: body.members.map((id) => ({ id })),
+    };
     return pipe(
-      ctx.db.update(GroupEntity, id, body),
+      ctx.db.save(GroupEntity, [{ id, ...groupUpdate }]),
       TE.chain(() =>
         ctx.db.findOneOrFail(GroupEntity, {
           where: { id },
