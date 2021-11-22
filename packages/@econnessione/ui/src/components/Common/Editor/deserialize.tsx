@@ -38,6 +38,8 @@ const deserialize = (el: ChildNode | null): any => {
     // text tags
     case "CODE":
       return jsx("text", { code: true });
+    case "STRONG":
+      return jsx("text", { bold: true });
     default:
       // eslint-disable-next-line no-console
       console.log(el.nodeName);
@@ -46,3 +48,13 @@ const deserialize = (el: ChildNode | null): any => {
 };
 
 export default deserialize;
+
+export const deserializeFromString = (html?: string): any => {
+  if (html === undefined) {
+    return undefined;
+  }
+  const el = new DOMParser().parseFromString(html, "text/html");
+  const result = deserialize(el.body);
+
+  return result;
+};

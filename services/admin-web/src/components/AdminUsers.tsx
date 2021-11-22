@@ -1,4 +1,3 @@
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   Create,
@@ -17,7 +16,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import ReactPageInput from "./Common/ReactPageInput";
+import RichTextInput from "./Common/RichTextInput";
 
 export const UserList: React.FC<ListProps> = (props) => (
   <List {...props} resource="users">

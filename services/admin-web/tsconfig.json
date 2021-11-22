@@ -11,28 +11,15 @@
     "noUnusedLocals": false,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "skipLibCheck": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "./typings"
-    ],
+    "typeRoots": ["./typings", "node_modules/@types"],
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "isolatedModules": true
   },
-  "include": [
-    "./src",
-    "./typings"
-  ],
-  "exclude": [
-    "node_modules",
-    "public",
-    ".cache"
-  ]
+  "include": ["./src", "./typings"],
+  "exclude": ["node_modules", "public", ".cache"]
 }

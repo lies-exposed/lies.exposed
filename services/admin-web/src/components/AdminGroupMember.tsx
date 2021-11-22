@@ -1,5 +1,4 @@
 import { FormControl, Grid } from "@material-ui/core";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   Create,
@@ -23,6 +22,7 @@ import { AvatarField } from "./Common/AvatarField";
 import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
+import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 
 const transformGroupMember = ({

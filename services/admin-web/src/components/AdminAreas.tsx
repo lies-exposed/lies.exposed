@@ -4,7 +4,6 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import GeometryType from "ol/geom/GeometryType";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   Create,
@@ -25,6 +24,7 @@ import {
 } from "react-admin";
 import { MapInput } from "./Common/MapInput";
 import ReactPageInput from "./Common/ReactPageInput";
+import RichTextInput from "./Common/RichTextInput";
 
 const RESOURCE = "areas";
 

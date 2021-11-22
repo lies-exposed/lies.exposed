@@ -1,5 +1,4 @@
 import GeometryType from "ol/geom/GeometryType";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayField,
@@ -38,6 +37,7 @@ import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
+import RichTextInput from "./Common/RichTextInput";
 
 const RESOURCE = "deaths";
 

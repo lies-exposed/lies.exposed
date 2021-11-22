@@ -6,7 +6,6 @@ import { Typography } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -40,6 +39,7 @@ import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
+import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";

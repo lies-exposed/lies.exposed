@@ -4,7 +4,6 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayInput,
@@ -32,6 +31,7 @@ import {
   TextInput,
 } from "react-admin";
 import ReactPageInput from "./Common/ReactPageInput";
+import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "client/HTTPAPI";
 import { uploadImages } from "client/MediaAPI";
 

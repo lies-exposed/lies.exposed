@@ -10,7 +10,6 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import GeometryType from "ol/geom/GeometryType";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayField,
@@ -51,6 +50,7 @@ import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
+import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";

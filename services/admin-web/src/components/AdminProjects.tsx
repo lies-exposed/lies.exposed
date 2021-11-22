@@ -5,7 +5,6 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   ArrayField,
@@ -36,6 +35,7 @@ import { ColorInput } from "react-admin-color-input";
 import { MapField } from "./Common/MapField";
 import { MapInput } from "./Common/MapInput";
 import ReactPageInput from "./Common/ReactPageInput";
+import RichTextInput from "./Common/RichTextInput";
 
 const RESOURCE = "projects";
 

@@ -4,6 +4,8 @@ import { Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { deserializeFromString } from "./Common/Editor/deserialize";
+import Editor from "./Common/Editor/index";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
@@ -56,7 +58,10 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           </Grid>
           <Grid item>
             <Typography variant="h2">{group.name}</Typography>
-            <Typography variant="subtitle1">{group.excerpt}</Typography>
+            <Editor
+              value={deserializeFromString(group.excerpt ?? undefined)}
+              readOnly={true}
+            />
           </Grid>
         </Grid>
         <Grid container style={{ marginBottom: 20 }}>
