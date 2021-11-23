@@ -2,14 +2,14 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
-import { Area } from "../io/http";
+import { Area } from "../io/http/Area";
 import { Polygon } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
-const SingleAreaOutput = Output(Area.Area, "Area");
-const ListAreaOutput = ListOutput(Area.Area, "Areas");
+const SingleAreaOutput = Output(Area, "Area");
+const ListAreaOutput = ListOutput(Area, "Areas");
 
 const List = Endpoint({
   Method: "GET",

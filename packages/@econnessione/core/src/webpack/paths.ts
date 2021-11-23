@@ -1,6 +1,5 @@
 /* eslint-disable one-var */
 
-import * as fs from "fs";
 import path from "path";
 
 const makeAliases = (
@@ -22,21 +21,22 @@ const makeAliases = (
     };
   }, {});
 
-  const fromDirs = fs
-    .readdirSync(path.resolve(__dirname, baseURL))
-    .reduce((aliases, dir) => {
-      const target = path.resolve(__dirname, baseURL, dir);
-      const stat = fs.statSync(target);
-      if (stat.isDirectory()) {
-        return {
-          ...aliases,
-          [dir]: target,
-        };
-      }
-      return aliases;
-    }, {});
+  // const fromDirs = fs
+  //   .readdirSync(path.resolve(__dirname, baseURL))
+  //   .filter(dir => dir.includes())
+  //   .reduce((aliases, dir) => {
+  //     const target = path.resolve(__dirname, baseURL, dir);
+  //     const stat = fs.statSync(target);
+  //     if (stat.isDirectory()) {
+  //       return {
+  //         ...aliases,
+  //         [dir]: target,
+  //       };
+  //     }
+  //     return aliases;
+  //   }, {});
 
-  return { ...fromPaths, ...fromDirs };
+  return { ...fromPaths };
 };
 
 export { makeAliases };

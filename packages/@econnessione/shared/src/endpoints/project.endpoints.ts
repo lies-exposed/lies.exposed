@@ -3,14 +3,15 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
-import * as http from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
+import * as Project from "../io/http/Project";
+import * as ProjectImage from "../io/http/ProjectImage";
 import { GetListQuery } from "../io/http/Query";
 import { CreateAreaBody } from "./area.endpoints";
 import { ResourceEndpoints } from "./types";
 
-const SingleGroupOutput = Output(http.Project.Project, "Project");
-const ListGroupOutput = ListOutput(http.Project.Project, "ListProject");
+const SingleGroupOutput = Output(Project.Project, "Project");
+const ListGroupOutput = ListOutput(Project.Project, "ListProject");
 
 const GetProjectListQuery = t.partial(
   {
@@ -33,7 +34,7 @@ const CreateBody = t.strict({
   color: t.string,
   media: t.array(
     t.strict({
-      kind: http.ProjectImage.Kind,
+      kind: ProjectImage.Kind,
       description: t.string,
       location: t.string,
     })
@@ -70,7 +71,7 @@ const EditBody = nonEmptyRecordFromType({
   media: optionFromNullable(
     t.array(
       t.strict({
-        kind: http.ProjectImage.Kind,
+        kind: ProjectImage.Kind,
         description: t.string,
         location: t.string,
       })

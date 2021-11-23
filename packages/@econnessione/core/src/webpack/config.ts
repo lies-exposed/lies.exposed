@@ -6,6 +6,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import { DefinePlugin, Configuration } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { makeAliases } from "./paths";
@@ -23,6 +24,7 @@ const getConfig = (dir: string, tsConfig: any): Configuration => {
 
   const dotEnvConfigPath = path.resolve(
     process.cwd(),
+    "../../",
     mode === "production" ? ".env" : ".env.development"
   );
 
@@ -75,11 +77,25 @@ const getConfig = (dir: string, tsConfig: any): Configuration => {
     );
   }
 
+  const alias = makeAliases(
+    path.resolve(dir, tsConfig.compilerOptions.baseUrl),
+    tsConfig.compilerOptions.paths ?? {}
+  );
+
+  console.log(alias);
+
+  const tsLoaderIncludes = [
+    path.resolve(dir, tsConfig.compilerOptions.baseUrl),
+    ...Object.values(alias),
+  ];
+
+  console.log(tsLoaderIncludes);
+
   return {
     mode,
 
     entry: {
-      app: "./src/index.tsx",
+      app: path.resolve(dir, "src/index.tsx"),
     },
 
     output: {
@@ -91,14 +107,13 @@ const getConfig = (dir: string, tsConfig: any): Configuration => {
       rules: [
         {
           test: /\.tsx?$/,
+          exclude: /node_modules/,
+          // include: tsLoaderIncludes,
           use: [
             {
               loader: "ts-loader",
               options: {
-                compilerOptions: {
-                  noEmit: false,
-                  sourceMap: true,
-                },
+                configFile: path.resolve(dir, "tsconfig.json"),
                 transpileOnly: true,
               },
             },
@@ -106,10 +121,10 @@ const getConfig = (dir: string, tsConfig: any): Configuration => {
         },
         {
           test: /\.(ttf|svg|eot|woff|woff2|otf|png|gif)$/,
-          type: "asset" as any,
+          use: [{ loader: "url-loader" }],
         },
         {
-          test: /\.(scss|css)$/,
+          test: /\.(css)$/,
           use: [
             {
               loader: "style-loader",
@@ -126,10 +141,12 @@ const getConfig = (dir: string, tsConfig: any): Configuration => {
 
     resolve: {
       extensions: [".ts", ".tsx", ".js"],
-      alias: makeAliases(
-        path.resolve(dir, tsConfig.compilerOptions.baseUrl),
-        tsConfig.compilerOptions.paths ?? {}
-      ),
+      // alias,
+      plugins: [
+        new TsconfigPathsPlugin({
+          configFile: path.resolve(dir, "./tsconfig.json"),
+        }),
+      ],
     },
 
     plugins,

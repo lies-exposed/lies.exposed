@@ -1,15 +1,15 @@
 import SearchableInput from "@components/Input/SearchableInput";
+import { Keyword } from "@econnessione/shared/io/http";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import { KeywordListItem } from "@econnessione/ui/components/lists/KeywordList";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
-import { Keyword } from "@io/http";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { doUpdateCurrentView } from "utils/location.utils";
+import { doUpdateCurrentView } from "../utils/location.utils";
 
 export default class KeywordsPage extends React.PureComponent {
   render(): JSX.Element {
