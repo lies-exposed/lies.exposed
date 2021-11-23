@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
-import path from "path";
+import * as path from "path";
+import CopyWebpackPlugin from "copy-webpack-plugin";
 import DotenvPlugin from "dotenv-webpack";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
@@ -9,7 +10,6 @@ import { PathReporter } from "io-ts/lib/PathReporter";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { Configuration, DefinePlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-// import { makeAliases } from "./paths";
 
 const DEVELOPMENT = t.literal("development");
 const PRODUCTION = t.literal("production");
@@ -18,7 +18,7 @@ const NODE_ENV = t.union(
   "NODE_ENV"
 );
 
-const getConfig = (dir: string, port: number): Configuration => {
+const getConfig = (cwd: string, port: number): Configuration => {
   const mode: Configuration["mode"] =
     process.env.NODE_ENV ?? ("production" as any);
 
@@ -66,6 +66,13 @@ const getConfig = (dir: string, port: number): Configuration => {
     new DotenvPlugin({
       path: dotEnvConfigPath,
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(cwd, "public"),
+        },
+      ],
+    }),
   ];
 
   if (buildENV.BUNDLE_STATS) {
@@ -94,7 +101,7 @@ const getConfig = (dir: string, port: number): Configuration => {
   const devServerConf = {
     devServer: {
       static: {
-        directory: path.join(dir, "build"),
+        directory: path.join(cwd, "build"),
       },
       compress: true,
       port: port,
@@ -105,11 +112,11 @@ const getConfig = (dir: string, port: number): Configuration => {
     mode,
     ...devServerConf,
     entry: {
-      app: path.resolve(dir, "src/index.tsx"),
+      app: path.resolve(cwd, "src/index.tsx"),
     },
 
     output: {
-      path: path.resolve(dir, "build"),
+      path: path.resolve(cwd, "build"),
       filename: "[name].js",
     },
 
@@ -123,7 +130,7 @@ const getConfig = (dir: string, port: number): Configuration => {
             {
               loader: "ts-loader",
               options: {
-                configFile: path.resolve(dir, "tsconfig.json"),
+                configFile: path.resolve(cwd, "tsconfig.json"),
                 transpileOnly: true,
               },
             },
@@ -154,7 +161,7 @@ const getConfig = (dir: string, port: number): Configuration => {
       // alias,
       plugins: [
         new TsconfigPathsPlugin({
-          configFile: path.resolve(dir, "./tsconfig.json"),
+          configFile: path.resolve(cwd, "./tsconfig.json"),
         }),
       ],
     },

@@ -17,6 +17,7 @@
     "io-ts-types": "^0.5.12"
   },
   "devDependencies": {
+    "@types/copy-webpack-plugin": "^8.0.1",
     "@types/debug": "^4.1.5",
     "@types/dotenv-webpack": "^7.0.3",
     "copy-webpack-plugin": "^10.0.0",
