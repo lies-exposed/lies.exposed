@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.paths.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
     "target": "es5",
@@ -11,29 +11,42 @@
     "noUnusedLocals": false,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "@components/*": ["../../../packages/@econnessione/ui/src/components/*"],
+      "@templates/*": ["./templates/*"],
+      "@containers/*": ["./containers/*"],
+      "@providers/*": [
+        "../../../packages/@econnessione/shared/src/providers/*"
+      ],
+      "@io/*": ["../../../packages/@econnessione/shared/src/io/*"],
+      "@helpers/*": ["../../../packages/@econnessione/shared/src/helpers/*"],
+      "@mock-data/*": [
+        "../../../packages/@econnessione/shared/src/mock-data/*"
+      ],
+      "@utils/*": ["../../../packages/@econnessione/shared/src/utils/*"],
+      "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"],
+      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
+      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
+    }
   },
-  "include": [
-    "./src",
-    "./typings"
-  ],
-  "exclude": [
-    "node_modules",
-    "public",
-    ".storybook",
-    ".cache"
+  "references": [
+    {
+      "path": "../../packages/@econnessione/core"
+    },
+    {
+      "path": "../../packages/@econnessione/shared"
+    },
+    {
+      "path": "../../packages/@econnessione/ui"
+    }
   ]
 }
