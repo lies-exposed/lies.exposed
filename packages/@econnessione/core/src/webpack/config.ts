@@ -25,7 +25,7 @@ const getConfig = (cwd: string, port: number): Configuration => {
   const dotEnvConfigPath = path.resolve(
     process.cwd(),
     "../../",
-    mode === "production" ? ".env" : ".env.development"
+    mode === "production" ? ".env" : ".env.dev"
   );
 
   const BUILD_ENV = t.strict(
