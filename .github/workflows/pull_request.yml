@@ -66,6 +66,13 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
+      - uses: actions/cache@v2
+        with:
+          path: |
+            packages/@econnessione/**/lib
+            services/api/build
+          key: build
+
       - name: Build api
         run: yarn api build
 
@@ -75,13 +82,6 @@ jobs:
       - name: Build web
         run: yarn workspace web build
 
-      - name: Upload API build
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: |
-            packages/@econnessione/**/lib
-            services/api/build
 
   tests-spec:
     runs-on: ubuntu-latest
@@ -94,10 +94,9 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
+      - uses: actions/cache@v2
         with:
-          name: build
+          key: build
 
       - name: Run tests SPEC
         run: yarn test:spec
@@ -127,10 +126,9 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
+      - uses: actions/cache@v2
         with:
-          name: build
+          key: build
 
       - name: Run tests E2E
         run: yarn test:e2e --ci --forceExit
@@ -160,8 +158,9 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
-      - name: Build api
-        run: yarn api build
+      - uses: actions/cache@v2
+        with:
+          key: build
 
       - name: Run migrations
         env:
