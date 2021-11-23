@@ -6,7 +6,7 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "scripts": {
     "clean": "rm -rf build",
-    "start": "webpack -w",
+    "start": "webpack serve",
     "build": "webpack",
     "test": "jest",
     "tsc:build": "tsc -b",

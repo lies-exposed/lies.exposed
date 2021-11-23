@@ -6,10 +6,10 @@ import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import { DefinePlugin, Configuration } from "webpack";
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import { Configuration, DefinePlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
-import { makeAliases } from "./paths";
+// import { makeAliases } from "./paths";
 
 const DEVELOPMENT = t.literal("development");
 const PRODUCTION = t.literal("production");
@@ -18,7 +18,7 @@ const NODE_ENV = t.union(
   "NODE_ENV"
 );
 
-const getConfig = (dir: string, tsConfig: any): Configuration => {
+const getConfig = (dir: string, port: number): Configuration => {
   const mode: Configuration["mode"] =
     process.env.NODE_ENV ?? ("production" as any);
 
@@ -77,23 +77,33 @@ const getConfig = (dir: string, tsConfig: any): Configuration => {
     );
   }
 
-  const alias = makeAliases(
-    path.resolve(dir, tsConfig.compilerOptions.baseUrl),
-    tsConfig.compilerOptions.paths ?? {}
-  );
+  // const alias = makeAliases(
+  //   path.resolve(dir, tsConfig.compilerOptions.baseUrl),
+  //   tsConfig.compilerOptions.paths ?? {}
+  // );
 
-  console.log(alias);
+  // console.log(alias);
 
-  const tsLoaderIncludes = [
-    path.resolve(dir, tsConfig.compilerOptions.baseUrl),
-    ...Object.values(alias),
-  ];
+  // const tsLoaderIncludes = [
+  //   path.resolve(dir, tsConfig.compilerOptions.baseUrl),
+  //   ...Object.values(alias),
+  // ];
 
-  console.log(tsLoaderIncludes);
+  // console.log(tsLoaderIncludes);
+
+  const devServerConf = {
+    devServer: {
+      static: {
+        directory: path.join(dir, "build"),
+      },
+      compress: true,
+      port: port,
+    },
+  };
 
   return {
     mode,
-
+    ...devServerConf,
     entry: {
       app: path.resolve(dir, "src/index.tsx"),
     },
