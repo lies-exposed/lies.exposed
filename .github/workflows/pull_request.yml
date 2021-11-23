@@ -70,16 +70,10 @@ jobs:
         run: yarn api build
 
       - name: Build admin-web
-        env:
-          DISABLE_ESLINT_PLUGIN: true
-          SKIP_PREFLIGHT_CHECK: true
         run: yarn admin-web build
 
       - name: Build web
         run: yarn workspace web build
-        env:
-          DISABLE_ESLINT_PLUGIN: true
-          SKIP_PREFLIGHT_CHECK: true
 
       - name: Upload API build
         uses: actions/upload-artifact@v2
