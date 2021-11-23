@@ -25,7 +25,6 @@
     "puppeteer-extra-plugin-stealth": "^2.7.8",
     "query-string": "^7.0.0",
     "throttle-debounce": "^3.0.1",
-    "to-vfile": "^6.1.0",
     "ts-endpoint": "^2.0.0",
     "ts-endpoint-express": "^2.0.0",
     "ts-io-error": "^2.0.0",
