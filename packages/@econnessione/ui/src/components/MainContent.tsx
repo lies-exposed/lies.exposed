@@ -1,9 +1,8 @@
 import { Container, Grid } from "@material-ui/core";
 import * as React from "react";
-import { StyleObject } from "styletron-react";
 
 interface MainContentProps {
-  style?: StyleObject;
+  style?: React.CSSProperties;
 }
 
 export const MainContent: React.FC<MainContentProps> = ({
