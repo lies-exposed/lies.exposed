@@ -9,6 +9,4 @@ build
 # don't lint TypeScript types definition
 typings
 *.d.ts
-
-# react-scripts configuration
-config-overrides.js
+webpack.config.js
