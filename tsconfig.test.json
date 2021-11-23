@@ -4,6 +4,8 @@
   "compilerOptions": {
     "target": "ES5",
     "noEmit": true,
+    "allowJs": true,
+    "module": "commonjs",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -23,5 +25,5 @@
     "**/*.spec.ts",
     "**/*.test.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": []
 }

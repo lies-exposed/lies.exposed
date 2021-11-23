@@ -12,7 +12,7 @@ import {
 
 interface CreateHierarchicalEdgeBundlingData {
   events: Events.Uncategorized.Uncategorized[];
-  groups: Group.GroupFrontmatter[];
+  groups: Group.Group[];
 }
 
 interface LinkMapKeys {

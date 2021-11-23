@@ -211,9 +211,9 @@ export const GetDownloadCSV =
       await page.waitForSelector(runListingButtonSelector);
 
       log.debug.log("Running listing...");
-      const [target] = await Promise.all<puppeteer.Target, unknown>([
+      const [target] = await Promise.all<puppeteer.Target>([
         new Promise((resolve) => pup.browser.once("targetcreated", resolve)),
-        page.click(runListingButtonSelector),
+        page.click(runListingButtonSelector) as any,
       ]);
 
       const listingPage = await target.page();

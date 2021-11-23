@@ -35,7 +35,8 @@ import {
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
+import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
@@ -130,7 +131,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
       </FormTab>
 
       <FormTab label="Content">
-        <MarkdownInput source="body" />
+        <RichTextInput source="body" />
       </FormTab>
 
       <FormTab label="Groups">
@@ -141,7 +142,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <MarkdownInput source="body" />
+            <RichTextInput source="body" />
           </SimpleFormIterator>
         </ArrayInput>
 
@@ -196,7 +197,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => (
       <ImageInput source="avatar">
         <ImageField />
       </ImageInput>
-      <MarkdownInput source="body" />
+      <RichTextInput source="body" />
     </SimpleForm>
   </Create>
 );

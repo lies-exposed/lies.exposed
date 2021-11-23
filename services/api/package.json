@@ -23,7 +23,6 @@
     "migration:revert": "typeorm migration:revert"
   },
   "dependencies": {
-    "@remark-embedder/core": "^1.2.1",
     "aws-sdk": "^2.817.0",
     "axios": "^0.23.0",
     "cors": "2.8.5",
@@ -45,7 +44,6 @@
     "page-metadata-parser": "^1.1.4",
     "pg": "^8.5.1",
     "puppeteer-core": "^10.2.0",
-    "rehype-sanitize": "^4.0.0",
     "ts-endpoint-express": "^2.0.0",
     "ts-jest": "^27",
     "ts-shared": "2.0.0-alpha.6",

@@ -1,7 +1,6 @@
 import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import * as http from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
@@ -31,7 +30,9 @@ const CreateGroupBody = t.strict(
     kind: http.Group.GroupKind,
     avatar: t.string,
     members: t.array(t.string),
+    excerpt: t.union([t.string, t.undefined]),
     body: t.string,
+    body2: t.any,
   },
   "CreateGroupBody"
 );
@@ -56,17 +57,13 @@ export const Get = Endpoint({
   Output: SingleGroupOutput,
 });
 
-const { members, ...editBodyProps } = CreateGroupBody.type.props;
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/groups/${id}`,
   Input: {
     Query: undefined,
     Params: t.type({ id: t.string }),
-    Body: nonEmptyRecordFromType({
-      ...editBodyProps,
-      avatar: t.string,
-    }),
+    Body: CreateGroupBody,
   },
   Output: SingleGroupOutput,
 });

@@ -24,9 +24,9 @@ import {
   TextInput,
   Filter,
 } from "react-admin";
-import MarkdownInput from "./Common/MarkdownInput";
 import { MediaField } from "./Common/MediaField";
 import { MediaInput } from "./Common/MediaInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
 
@@ -100,7 +100,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
 
-        <MarkdownInput source="description" />
+        <ReactPageInput source="description" />
       </FormTab>
       <FormTab label="events">
         <ReferenceManyField label="Events" target="media[]" reference="events">
@@ -123,7 +123,7 @@ export const MediaCreate: React.FC<CreateProps> = (props) => (
   >
     <SimpleForm>
       <MediaInput sourceType="type" sourceLocation="location" />
-      <MarkdownInput
+      <ReactPageInput
         source="description"
         defaultValue=""
         validate={[required()]}

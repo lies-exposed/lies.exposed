@@ -16,7 +16,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import MarkdownInput from "./Common/MarkdownInput";
+import RichTextInput from "./Common/RichTextInput";
 
 export const UserList: React.FC<ListProps> = (props) => (
   <List {...props} resource="users">
@@ -50,8 +50,8 @@ export const UserEdit: React.FC<EditProps> = (props) => (
         </ImageInput>
       </FormTab>
 
-      <FormTab label="Content">
-        <MarkdownInput source="body" />
+      <FormTab label="Body">
+        <RichTextInput source="body" />
       </FormTab>
     </TabbedForm>
   </Edit>

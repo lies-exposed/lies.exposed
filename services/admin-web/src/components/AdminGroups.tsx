@@ -8,18 +8,16 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
-  ArrayField,
-  ArrayInput,
-  AutocompleteInput,
+  AutocompleteArrayInput,
   ChoicesInputProps,
   Create,
-  ReferenceManyField,
   CreateProps,
   Datagrid,
   DateField,
   DateInput,
   Edit,
   EditProps,
+  Filter,
   FormDataConsumer,
   FormTab,
   ImageField,
@@ -28,24 +26,20 @@ import {
   ListProps,
   Record,
   ReferenceArrayField,
+  ReferenceArrayInput,
   ReferenceField,
-  ReferenceInput,
+  ReferenceManyField,
   SelectInput,
   SimpleForm,
-  SimpleFormIterator,
-  SingleFieldList,
   TabbedForm,
   TextField,
   TextInput,
-  ReferenceArrayInput,
-  AutocompleteArrayInput,
-  SelectArrayInput,
-  Filter,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
+import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
@@ -132,7 +126,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
       actions={
         <>
           <WebPreviewButton
-            resource="groups"
+            resource="/dashboard/groups"
             source="id"
             record={{ id: props.id } as any}
           />
@@ -140,7 +134,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
       }
       transform={transformGroup}
     >
-      <TabbedForm>
+      <TabbedForm redirect={false}>
         <FormTab label="Generals">
           <TextInput source="name" />
           <TextInput source="color" />
@@ -156,7 +150,11 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ImageInput>
         </FormTab>
         <FormTab label="Body">
-          <MarkdownInput source="body" />
+          <RichTextInput source="body" />
+        </FormTab>
+        <FormTab label="Body2">
+          <RichTextInput source="excerpt" />
+          <ReactPageInput source="body2" />
         </FormTab>
         <FormTab label="Members">
           <ReferenceArrayGroupMemberInput source="groupsMembers" />
@@ -228,7 +226,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => (
       <ImageInput source="avatar">
         <ImageField src="src" />
       </ImageInput>
-      <MarkdownInput source="body" defaultValue="" />
+      <ReactPageInput source="body" defaultValue="" />
     </SimpleForm>
   </Create>
 );

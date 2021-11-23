@@ -1,4 +1,4 @@
-FROM buildkite/puppeteer:9.1.1 as build
+FROM node:14-slim as build
 
 WORKDIR /app
 

@@ -12,6 +12,8 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { ActorsBox } from "./ActorsBox";
+import Editor from "./Common/Editor";
+import { deserializeFromString } from "./Common/Editor/deserialize";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { Slider } from "./Common/Slider/Slider";
 import { GroupMembersBox } from "./GroupMembersBox";
@@ -57,6 +59,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             </Grid>
             <Grid item md={10}>
               <Typography variant="h3">{event.title}</Typography>
+              <Editor
+                value={deserializeFromString(event.excerpt ?? undefined)}
+                readOnly={true}
+              />
             </Grid>
           </Grid>
         </Grid>
@@ -102,7 +108,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         </Grid>
 
         <Grid item md={12} sm={12} xs={12}>
-          <MarkdownRenderer>{event.body}</MarkdownRenderer>
+          <MarkdownRenderer>{event.body2}</MarkdownRenderer>
         </Grid>
         <Grid item md={12} sm={12} xs={12}>
           <LinksBox ids={event.links} />

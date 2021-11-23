@@ -4,16 +4,17 @@ import {
   Container,
   Grid,
   Link,
-  Typography,
-  MenuList,
   MenuItem,
+  MenuList,
+  Typography,
 } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as React from "react";
 import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
+import { ECOTheme } from "../theme/index";
 import { PaypalDonateButton } from "./Common/Button/PaypalDonateButton";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<ECOTheme>((theme) =>
   createStyles({
     root: {
       flexGrow: 1,
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       color: theme.palette.common.white,
       fontSize: 18,
-      fontWeight: theme.typography.fontWeightBold,
+      fontWeight: theme.typography.fontWeightBold as any,
     },
     link: {
       color: theme.palette.common.white,

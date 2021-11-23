@@ -1,31 +1,23 @@
 import * as React from "react";
 import {
   AutocompleteArrayInput,
-  Button,
   Create,
   CreateProps,
   Datagrid,
   DateField,
-  DateInput,
   Edit,
   EditProps,
   Filter,
-  FunctionField,
-  ImageField,
   List,
   ListProps,
   ReferenceArrayInput,
-  ReferenceManyField,
   Resource,
   ResourceProps,
-  SelectArrayInput,
   SimpleForm,
   TextField,
   TextInput,
   useRefresh,
 } from "react-admin";
-import MarkdownInput from "./Common/MarkdownInput";
-import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "keywords";
 

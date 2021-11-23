@@ -17,7 +17,8 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
+import RichTextInput from "./Common/RichTextInput";
 
 export const PageList: React.FC<ListProps> = (props) => (
   <List {...props}>
@@ -40,7 +41,9 @@ export const PageEdit: React.FC<EditProps> = (props) => (
       <FormTab label="Generals">
         <TextInput source="title" />
         <TextInput source="path" />
-        <MarkdownInput source="body" />
+        <RichTextInput source="excerpt" />
+        <RichTextInput source="body" />
+        <ReactPageInput source="body2" />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
       </FormTab>
@@ -60,7 +63,9 @@ export const PageCreate: React.FC<CreateProps> = (props) => (
     <SimpleForm>
       <TextInput source="title" validate={[required()]} />
       <TextInput source="path" validate={[required()]} />
-      <MarkdownInput source="body" validate={[required()]} />
+      <TextInput source="excerpt" validate={[required()]} />
+      <ReactPageInput source="body" validate={[required()]} />
+      <ReactPageInput source="body2" validate={[required()]} />
     </SimpleForm>
   </Create>
 );

@@ -2,7 +2,9 @@ import {
   AppBar,
   Button,
   ClickAwayListener,
+  createStyles,
   Grow,
+  makeStyles,
   MenuItem,
   MenuList,
   Paper,
@@ -10,13 +12,13 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
+import { ECOTheme } from "../theme/index";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<ECOTheme>((theme) =>
   createStyles({
     root: {
       flexGrow: 1,
@@ -30,11 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuItem: {
       color: theme.palette.common.white,
-      fontWeight: theme.typography.fontWeightBold,
+      fontWeight: theme.typography.fontWeightBold as any,
     },
     menuItemLink: {
       color: theme.palette.text.primary,
-      fontWeight: theme.typography.fontWeightBold,
+      fontWeight: theme.typography.fontWeightBold as any,
       textTransform: "uppercase",
       margin: 0,
     },
@@ -42,11 +44,11 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       margin: 0,
       color: theme.palette.common.white,
-      fontWeight: theme.typography.fontWeightBold,
+      fontWeight: theme.typography.fontWeightBold as any,
     },
     titleLink: {
       color: theme.palette.common.black,
-      fontWeight: theme.typography.fontWeightBold,
+      fontWeight: theme.typography.fontWeightBold as any,
       fontFamily: theme.typography.h6.fontFamily,
       letterSpacing: 1.1,
       textDecoration: "none",

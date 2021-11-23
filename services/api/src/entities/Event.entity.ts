@@ -34,8 +34,14 @@ export class EventEntity {
   @Column({ type: "json", nullable: true })
   location: { type: "Point"; coordinates: [number, number] };
 
+  @Column({ type: "varchar", nullable: true })
+  excerpt: string | null;
+
   @Column({ type: "varchar" })
   body: string;
+
+  @Column({ type: "json", nullable: true })
+  body2: Record<string, unknown> | null;
 
   @CreateDateColumn()
   createdAt: Date;

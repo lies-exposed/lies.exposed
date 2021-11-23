@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { defaults: tsjPreset } = require("ts-jest/presets");
+const tsjPresets = require("ts-jest/presets");
 
 module.exports = {
   testEnvironment: "node",
@@ -19,8 +19,12 @@ module.exports = {
       "<rootDir>/../../packages/@econnessione/ui/src/$1",
   },
   transform: {
-    ...tsjPreset.transform,
+    ...tsjPresets.defaults.transform,
+    // [`<rootDir>/../../../node_modules/${esModule}/.+\\.(j|t)sx?$`]: "ts-jest",
   },
+  // transformIgnorePatterns: [
+  //   `<rootDir>/../../../node_modules/(?!${esModule}/.*)`,
+  // ],
   testMatch: ["**/?(*.)+(spec|test|e2e).ts?(x)"],
   collectCoverageFrom: ["./src/**/*.ts"],
   coverageThreshold: {

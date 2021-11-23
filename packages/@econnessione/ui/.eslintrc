@@ -2,7 +2,7 @@
   "extends": ["../../../.eslintrc", "plugin:react/recommended"],
   "parserOptions": {
     "tsconfigRootDir": "./",
-    "project": ["./tsconfig.json"]
+    "project": ["./tsconfig.test.json"]
   },
   "rules": {
     "react/prop-types": ["off"]

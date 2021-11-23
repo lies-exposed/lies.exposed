@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const jestBaseConfig = require("../../../jest.config.base");
+const tsJestPresets = require("ts-jest/presets");
 const { pathsToModuleNameMapper } = require("ts-jest/utils");
+
 const { compilerOptions } = require("./tsconfig");
 
 const paths = pathsToModuleNameMapper(compilerOptions.paths, {
@@ -8,6 +10,7 @@ const paths = pathsToModuleNameMapper(compilerOptions.paths, {
 });
 
 const moduleNameMapper = {
+  ...jestBaseConfig.moduleNameMapper,
   ...paths,
 };
 

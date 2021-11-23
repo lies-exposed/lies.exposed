@@ -32,11 +32,12 @@ import {
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
+import RichTextInput from "./Common/RichTextInput";
 
 const RESOURCE = "deaths";
 
@@ -96,7 +97,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
           />
         </ReferenceInput>
         <DateInput source="date" />
-        <MarkdownInput source="body" />
+        <RichTextInput source="body" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>

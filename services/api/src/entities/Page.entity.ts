@@ -25,6 +25,9 @@ export class PageEntity {
   @Column({ type: "varchar" })
   body: string;
 
+  @Column({ type: "json", nullable: true })
+  body2: Record<string, unknown> | null;
+
   @CreateDateColumn()
   createdAt: Date;
 

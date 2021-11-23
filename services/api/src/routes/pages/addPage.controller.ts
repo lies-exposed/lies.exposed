@@ -13,7 +13,6 @@ export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
       TE.chain(([page]) =>
         sequenceS(TE.taskEither)({
           page: TE.right(page),
-          // body: ctx.mdx.writeFile(`/pages/${page.id}.md`, body.body),
         })
       ),
       TE.map(({ page }) => ({

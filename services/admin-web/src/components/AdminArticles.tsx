@@ -30,7 +30,8 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import MarkdownInput from "./Common/MarkdownInput";
+import ReactPageInput from "./Common/ReactPageInput";
+import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "client/HTTPAPI";
 import { uploadImages } from "client/MediaAPI";
 
@@ -85,7 +86,7 @@ export const ArticleEdit: React.FC<EditProps> = (props) => (
             <TextInput source="" />
           </SimpleFormIterator>
         </ArrayInput>
-        <MarkdownInput source="body" />
+        <RichTextInput source="body" />
       </FormTab>
 
       <FormTab label="Preview">
@@ -120,7 +121,7 @@ export const ArticleCreate: React.FC<CreateProps> = (props) => {
             <TextInput source="" />
           </SimpleFormIterator>
         </ArrayInput>
-        <MarkdownInput source="body" validate={[required()]} />
+        <ReactPageInput source="body" validate={[required()]} />
       </SimpleForm>
     </Create>
   );

@@ -48,6 +48,8 @@ export const CreateEventBody = t.strict(
     startDate: DateFromISOString,
     endDate: optionFromUndefined(DateFromISOString),
     body: t.string,
+    excerpt: t.union([t.string, t.null]),
+    body2: t.UnknownRecord,
   },
   "CreateEventBody"
 );
@@ -76,6 +78,8 @@ export const EditEventBody = nonEmptyRecordFromType({
   startDate: optionFromUndefined(DateFromISOString),
   endDate: optionFromUndefined(DateFromISOString),
   body: optionFromUndefined(t.string),
+  excerpt: optionFromUndefined(t.string),
+  body2: optionFromUndefined(t.UnknownRecord),
 });
 
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;
@@ -103,7 +107,9 @@ export const Uncategorized = t.strict(
     groups: t.array(t.string),
     groupsMembers: t.array(t.string),
     keywords: t.array(t.string),
+    excerpt: t.union([t.string, t.null]),
     body: t.string,
+    body2: t.union([t.UnknownRecord, t.null]),
   },
   UNCATEGORIZED.value
 );
