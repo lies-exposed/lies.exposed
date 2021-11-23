@@ -34,7 +34,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Install modules
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
@@ -49,7 +49,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Lint code
         run: yarn lint
@@ -64,7 +64,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Build api
         run: yarn api build
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Download build artifact
         uses: actions/download-artifact@v2
@@ -125,7 +125,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Download build artifact
         uses: actions/download-artifact@v2
@@ -158,7 +158,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
 
       - name: Build api
         run: yarn api build
