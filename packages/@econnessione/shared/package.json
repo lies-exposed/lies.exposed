@@ -13,7 +13,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "dependencies": {
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "bs58": "^4.0.1",
     "date-fns": "^2.22.1",
     "domino": "^2.1.6",
