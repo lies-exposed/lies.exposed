@@ -63,7 +63,7 @@ export const PageCreate: React.FC<CreateProps> = (props) => (
     <SimpleForm>
       <TextInput source="title" validate={[required()]} />
       <TextInput source="path" validate={[required()]} />
-      <TextInput source="excerpt" validate={[required()]} />
+      <RichTextInput source="excerpt" validate={[required()]} />
       <ReactPageInput source="body" validate={[required()]} />
       <ReactPageInput source="body2" validate={[required()]} />
     </SimpleForm>

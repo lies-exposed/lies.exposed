@@ -26,7 +26,7 @@ import {
 } from "react-admin";
 import { MediaField } from "./Common/MediaField";
 import { MediaInput } from "./Common/MediaInput";
-import ReactPageInput from "./Common/ReactPageInput";
+import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
 
@@ -100,7 +100,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
 
-        <ReactPageInput source="description" />
+        <RichTextInput source="description" />
       </FormTab>
       <FormTab label="events">
         <ReferenceManyField label="Events" target="media[]" reference="events">
@@ -123,7 +123,7 @@ export const MediaCreate: React.FC<CreateProps> = (props) => (
   >
     <SimpleForm>
       <MediaInput sourceType="type" sourceLocation="location" />
-      <ReactPageInput
+      <RichTextInput
         source="description"
         defaultValue=""
         validate={[required()]}

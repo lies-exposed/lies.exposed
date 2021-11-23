@@ -9,6 +9,8 @@ declare module "ra-input-rich-text" {
     parse?: (v: string) => string;
     source: string;
     toolbar: any;
+    defaultValue?: string;
+    validate?: Function[];
   }
 
   export class RaInputRichText extends React.Component<RaInputRichTextProps> {}
