@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import * as path from "path";
-import CopyWebpackPlugin from "copy-webpack-plugin";
 import DotenvPlugin from "dotenv-webpack";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
@@ -65,13 +64,6 @@ const getConfig = (cwd: string, port: number): Configuration => {
 
     new DotenvPlugin({
       path: dotEnvConfigPath,
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(cwd, "public"),
-        },
-      ],
     }),
   ];
 
