@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.817.0",
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "cors": "2.8.5",
     "debug": "^4.3.1",
     "domino": "^2.1.6",
@@ -48,7 +48,6 @@
     "ts-jest": "^27",
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.2.29",
-    "unified": "^9.2.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -74,7 +73,7 @@
     "nodemon": "^2.0.6",
     "prettier": "^2.2.1",
     "supertest": "^6.1.3",
-    "ts-node": "^8.10.2",
+    "ts-node": "^10.4.0",
     "typeorm-uml": "^1.6.2",
     "typescript": "^4.1.3"
   },

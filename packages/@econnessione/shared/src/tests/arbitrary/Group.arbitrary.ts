@@ -16,6 +16,7 @@ export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
       .sample(tests.fc.hexaString({ maxLength: 6, minLength: 6 }), 1)[0]
       .substring(0, 6) as any,
     members: [],
+    excerpt: "",
     body2: {},
     createdAt: new Date(),
     updatedAt: new Date(),

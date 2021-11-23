@@ -215,7 +215,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         <RichTextInput source="body" />
       </FormTab>
       <FormTab label="Body2">
-        <TextInput source="excerpt" />
+        <RichTextInput source="excerpt" />
         <ReactPageInput source="body2" />
       </FormTab>
       <FormTab label="Location">
