@@ -53,7 +53,6 @@
     "throttle-debounce": "^2.2.1",
     "topojson-client": "3.1.0",
     "topojson-server": "3.0.1",
-    "unified": "^9.2.0",
     "uuid": "^8.3.2",
     "vfile": "^4.2.1",
     "world-atlas": "2.0.2"
