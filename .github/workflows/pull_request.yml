@@ -97,6 +97,9 @@ jobs:
       - uses: actions/cache@v2
         with:
           key: build
+          path: |
+            '**/lib'
+            '**/build'
 
       - name: Run tests SPEC
         run: yarn test:spec
@@ -128,6 +131,9 @@ jobs:
 
       - uses: actions/cache@v2
         with:
+          path: |
+            '**/lib'
+            '**/build'
           key: build
 
       - name: Run tests E2E
@@ -160,6 +166,9 @@ jobs:
 
       - uses: actions/cache@v2
         with:
+          path: |
+            '**/lib'
+            '**/build'
           key: build
 
       - name: Run migrations
