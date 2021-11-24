@@ -80,20 +80,6 @@ const getConfig = (cwd: string, port: number): Configuration => {
     );
   }
 
-  // const alias = makeAliases(
-  //   path.resolve(dir, tsConfig.compilerOptions.baseUrl),
-  //   tsConfig.compilerOptions.paths ?? {}
-  // );
-
-  // console.log(alias);
-
-  // const tsLoaderIncludes = [
-  //   path.resolve(dir, tsConfig.compilerOptions.baseUrl),
-  //   ...Object.values(alias),
-  // ];
-
-  // console.log(tsLoaderIncludes);
-
   const devServerConf = {
     devServer: {
       static: {
