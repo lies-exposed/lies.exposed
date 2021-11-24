@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as path from "path";
+import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
 import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -22,19 +23,30 @@ const NODE_ENV = t.union(
   "NODE_ENV"
 );
 
-const getConfig = (cwd: string, port: number): Configuration => {
+interface GetConfigParams<A extends Record<string, t.Mixed>> {
+  cwd: string;
+  env: t.Type<A, unknown, unknown>;
+  envFileDir: string;
+  port: number;
+}
+
+const getConfig = <A extends Record<string, t.Mixed>>(
+  opts: GetConfigParams<A>
+): Configuration => {
+  // webpackLogger.debug.log("Initial process.env %O", process.env);
   const mode: Configuration["mode"] =
     (process.env.NODE_ENV as Configuration["mode"]) ?? ("production" as const);
+  const DOTENV_CONFIG_PATH =
+    process.env.DOTENV_CONFIG_PATH ?? path.resolve(opts.envFileDir, ".env");
 
-  const dotEnvConfigPath =
-    process.env.DOTENV_CONFIG_PATH ??
-    path.resolve(
-      process.cwd(),
-      "../../",
-      mode === "production" ? ".env" : ".env.dev"
-    );
+  webpackLogger.debug.log(`DOTENV_CONFIG_PATH %s`, DOTENV_CONFIG_PATH);
 
-  webpackLogger.debug.log(`DOTENV_CONFIG_PATH %s`, dotEnvConfigPath);
+  require("dotenv").config({ path: DOTENV_CONFIG_PATH });
+
+  // webpackLogger.debug.log('process.env after dotenv %O', process.env)
+
+  webpackLogger.debug.log("mode %s", mode);
+
   const BUILD_ENV = t.strict(
     {
       NODE_ENV,
@@ -64,27 +76,49 @@ const getConfig = (cwd: string, port: number): Configuration => {
     }
   );
 
+  const appEnv = pipe(process.env, opts.env.decode, (validation) => {
+    if (validation._tag === "Left") {
+      webpackLogger.error.log(
+        `Validation error for build end: %O`,
+        PathReporter.report(validation).join("\n")
+      );
+      throw new Error(`${opts.env.name} decoding failed.`);
+    }
+    return validation.right;
+  });
+
+  const stringifiedAppEnv = pipe(
+    appEnv,
+    R.reduceWithIndex(
+      {
+        "process.env.BUILD_DATE": JSON.stringify(new Date().toISOString()),
+        "process.env.NODE_ENV": JSON.stringify(mode),
+      },
+      (key, acc, v) => ({
+        ...acc,
+        [`process.env.${key}`]: JSON.stringify(v),
+      })
+    )
+  );
+
   const plugins = [
-    new DefinePlugin({
-      "process.env.BUILD_DATE": JSON.stringify(new Date().toISOString()),
-      "process.env.NODE_ENV": JSON.stringify(mode),
-    }) as any,
+    new DefinePlugin(stringifiedAppEnv) as any,
 
     new DotenvPlugin({
-      path: dotEnvConfigPath,
+      path: DOTENV_CONFIG_PATH,
     }),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(cwd, "public"),
+          from: path.resolve(opts.cwd, "public"),
           filter: (file: string) => {
-            return file !== path.resolve(cwd, "public", "index.html");
+            return file !== path.resolve(opts.cwd, "public", "index.html");
           },
         },
       ],
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(cwd, "public/index.html"),
+      template: path.resolve(opts.cwd, "public/index.html"),
       inject: true,
       showErrors: true,
     }),
@@ -108,10 +142,11 @@ const getConfig = (cwd: string, port: number): Configuration => {
   const devServerConf = {
     devServer: {
       static: {
-        directory: path.join(cwd, "build"),
+        directory: path.join(opts.cwd, "build"),
       },
+      host: "0.0.0.0",
       compress: true,
-      port: port,
+      port: opts.port,
     },
   };
 
@@ -119,11 +154,11 @@ const getConfig = (cwd: string, port: number): Configuration => {
     mode,
     ...devServerConf,
     entry: {
-      app: path.resolve(cwd, "src/index.tsx"),
+      app: path.resolve(opts.cwd, "src/index.tsx"),
     },
 
     output: {
-      path: path.resolve(cwd, "build"),
+      path: path.resolve(opts.cwd, "build"),
       filename: "[name].js",
     },
 
@@ -137,7 +172,7 @@ const getConfig = (cwd: string, port: number): Configuration => {
             {
               loader: "ts-loader",
               options: {
-                configFile: path.resolve(cwd, "tsconfig.json"),
+                configFile: path.resolve(opts.cwd, "tsconfig.json"),
                 transpileOnly: true,
               },
             },
@@ -168,7 +203,7 @@ const getConfig = (cwd: string, port: number): Configuration => {
       // alias,
       plugins: [
         new TsconfigPathsPlugin({
-          configFile: path.resolve(cwd, "./tsconfig.json"),
+          configFile: path.resolve(opts.cwd, "./tsconfig.json"),
         }),
       ],
     },
@@ -177,4 +212,8 @@ const getConfig = (cwd: string, port: number): Configuration => {
   };
 };
 
-export { getConfig };
+const defineEnv = (fn: (io: typeof t) => t.Props): t.Type<t.Props> => {
+  return t.strict(fn(t), "AppEnv");
+};
+
+export { getConfig, defineEnv };

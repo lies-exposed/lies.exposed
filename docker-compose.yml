@@ -53,7 +53,7 @@ services:
     container_name: econnessione-api
     image: econnessione_base
     env_file:
-      - .env.local
+      - .env
       # - .env.alpha
     environment:
       DEBUG: "@eco*"
@@ -78,7 +78,7 @@ services:
     container_name: econnessione-web
     image: econnessione_base
     env_file:
-      - .env.local
+      - ./services/web/.env.development
     ports:
       - "4000:4000"
     volumes:
@@ -97,7 +97,7 @@ services:
     container_name: econnessione-admin-web
     image: econnessione_base
     env_file:
-      - .env.local
+      - ./services/admin-web/.env.development
     ports:
       - "4001:4001"
     volumes:

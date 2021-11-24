@@ -77,7 +77,7 @@ jobs:
           key: ${{ runner.os }}-build
           path: |
             packages/@econnessione/**/lib
-            services/api/build
+            services/**/build
 
       - name: Build api
         run: yarn api build
@@ -104,7 +104,7 @@ jobs:
           key: ${{ runner.os }}-build
           path: |
             packages/@econnessione/**/lib
-            services/api/build
+            services/**/build
 
       - name: Run tests SPEC
         run: yarn test:spec
@@ -139,7 +139,7 @@ jobs:
           key: ${{ runner.os }}-build
           path: |
             packages/@econnessione/**/lib
-            services/api/build
+            services/**/build
 
       - name: Run tests E2E
         run: yarn test:e2e --ci --forceExit
@@ -174,9 +174,9 @@ jobs:
           key: ${{ runner.os }}-build
           path: |
             packages/@econnessione/**/lib
-            services/api/build
+            services/**/build
 
       - name: Run migrations
         env:
-          DOTENV_CONFIG_PATH: ../../.env.local
+          DOTENV_CONFIG_PATH: ../../.env
         run: yarn api migration:run
