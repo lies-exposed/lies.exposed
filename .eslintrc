@@ -1,13 +1,13 @@
 {
   "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
   "extends": [
     "standard-with-typescript",
     "plugin:import/typescript",
     "plugin:import/recommended",
     "prettier"
   ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "project": [
       "./tsconfig.test.json",
@@ -15,7 +15,7 @@
       "./packages/@econnessione/ui/tsconfig.test.json",
       "./services/admin-web/tsconfig.json",
       "./services/api/tsconfig.test.json",
-      "./services/web/tsconfig.test.json"
+      "./services/web/tsconfig.json"
     ]
   },
   "settings": {
