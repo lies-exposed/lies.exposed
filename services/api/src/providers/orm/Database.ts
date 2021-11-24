@@ -23,7 +23,6 @@ import { AuroraDataApiPostgresConnectionOptions } from "typeorm/driver/aurora-da
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { ControllerError } from "@io/ControllerError";
-// import { Direction, Flags, Format, TypeormUml } from "typeorm-uml";
 
 class DBError extends ControllerError {}
 

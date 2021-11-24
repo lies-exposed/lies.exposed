@@ -68,9 +68,10 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          with:
-          path: "**/@econnessione/**/lib"
           key: ${{ runner.os }}-build
+          path: |
+            "**/@econnessione/**/lib"
+            "services/api/build"
 
       - name: Build api
         run: yarn api build
@@ -95,8 +96,10 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: "**/@econnessione/**/lib"
           key: ${{ runner.os }}-build
+          path: |
+            "**/@econnessione/**/lib"
+            "services/api/build"
 
       - name: Run tests SPEC
         run: yarn test:spec
@@ -128,9 +131,10 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          with:
-          path: "**/@econnessione/**/lib"
           key: ${{ runner.os }}-build
+          path: |
+            "**/@econnessione/**/lib"
+            "services/api/build"
 
       - name: Run tests E2E
         run: yarn test:e2e --ci --forceExit
@@ -162,9 +166,10 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          with:
-          path: "**/@econnessione/**/lib"
           key: ${{ runner.os }}-build
+          path: |
+            "**/@econnessione/**/lib"
+            "services/api/build"
 
       - name: Run migrations
         env:
