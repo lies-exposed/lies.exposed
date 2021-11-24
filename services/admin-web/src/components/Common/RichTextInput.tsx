@@ -1,4 +1,5 @@
-import RaInputRichText, { RichTextInputProps } from "ra-input-rich-text";
+import RaInputRichText from "ra-input-rich-text";
+import type { RichTextInputProps } from "ra-input-rich-text";
 import * as React from "react";
 
 const RichTextInput: React.FC<

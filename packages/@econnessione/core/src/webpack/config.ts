@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 import * as path from "path";
-import DotenvPlugin from "dotenv-webpack";
 import { pipe } from "fp-ts/lib/function";
+import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
@@ -10,6 +10,8 @@ import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { Configuration, DefinePlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { GetLogger } from "../logger";
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const DotenvPlugin = require("dotenv-webpack");
 
 const webpackLogger = GetLogger("webpack");
 
@@ -52,8 +54,10 @@ const getConfig = (cwd: string, port: number): Configuration => {
     BUILD_ENV.decode,
     (validation: any) => {
       if (validation._tag === "Left") {
-        console.error(PathReporter.report(validation).join("\n"));
-        console.log("\n");
+        webpackLogger.error.log(
+          `Validation error for build end: %O`,
+          PathReporter.report(validation).join("\n")
+        );
         throw new Error("process.env decoding failed.");
       }
       return validation.right;
@@ -69,6 +73,27 @@ const getConfig = (cwd: string, port: number): Configuration => {
     new DotenvPlugin({
       path: dotEnvConfigPath,
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(cwd, "public"),
+          filter: (file: string) => {
+            return file !== path.resolve(cwd, "public", "index.html");
+          },
+        },
+      ],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(cwd, "public/index.html"),
+      inject: true,
+      showErrors: true,
+    }),
+    new HtmlReplaceWebpackPlugin([
+      {
+        pattern: "%PUBLIC_URL%",
+        replacement: process.env.PUBLIC_URL ?? "/",
+      },
+    ]),
   ];
 
   if (buildENV.BUNDLE_STATS) {
