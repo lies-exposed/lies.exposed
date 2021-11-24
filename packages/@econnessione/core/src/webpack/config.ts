@@ -130,7 +130,7 @@ const getConfig = (cwd: string, port: number): Configuration => {
         },
         {
           test: /\.(ttf|svg|eot|woff|woff2|otf|png|gif)$/,
-          use: [{ loader: "url-loader" }],
+          use: [{ loader: "file-loader" }],
         },
         {
           test: /\.(css)$/,
