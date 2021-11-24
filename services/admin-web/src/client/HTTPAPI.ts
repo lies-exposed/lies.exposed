@@ -3,11 +3,11 @@ import { AuthProvider } from "react-admin";
 import { createProject } from "./ProjectAPI";
 
 const publicDataProvider = http.APIRESTClient({
-  url: process.env.REACT_APP_API_URL,
+  url: process.env.API_URL,
 });
 
 export const dataProvider = http.APIRESTClient({
-  url: process.env.REACT_APP_API_URL,
+  url: process.env.API_URL,
   getAuth: () => {
     const token = localStorage.getItem("auth");
     return token;

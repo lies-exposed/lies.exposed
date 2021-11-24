@@ -9,6 +9,9 @@ import { PathReporter } from "io-ts/lib/PathReporter";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { Configuration, DefinePlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import { GetLogger } from "../logger";
+
+const webpackLogger = GetLogger("webpack");
 
 const DEVELOPMENT = t.literal("development");
 const PRODUCTION = t.literal("production");
@@ -19,14 +22,17 @@ const NODE_ENV = t.union(
 
 const getConfig = (cwd: string, port: number): Configuration => {
   const mode: Configuration["mode"] =
-    process.env.NODE_ENV ?? ("production" as any);
+    (process.env.NODE_ENV as Configuration["mode"]) ?? ("production" as const);
 
-  const dotEnvConfigPath = path.resolve(
-    process.cwd(),
-    "../../",
-    mode === "production" ? ".env" : ".env.dev"
-  );
+  const dotEnvConfigPath =
+    process.env.DOTENV_CONFIG_PATH ??
+    path.resolve(
+      process.cwd(),
+      "../../",
+      mode === "production" ? ".env" : ".env.dev"
+    );
 
+  webpackLogger.debug.log(`DOTENV_CONFIG_PATH %s`, dotEnvConfigPath);
   const BUILD_ENV = t.strict(
     {
       NODE_ENV,
@@ -56,9 +62,7 @@ const getConfig = (cwd: string, port: number): Configuration => {
 
   const plugins = [
     new DefinePlugin({
-      "process.env.REACT_APP_BUILD_DATE": JSON.stringify(
-        new Date().toISOString()
-      ),
+      "process.env.BUILD_DATE": JSON.stringify(new Date().toISOString()),
       "process.env.NODE_ENV": JSON.stringify(mode),
     }) as any,
 

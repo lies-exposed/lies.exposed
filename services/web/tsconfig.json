@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "outDir": "build",
     "module": "esnext",
     "target": "es5",
     "jsx": "react",
@@ -21,6 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "isolatedModules": true,
+    "tsBuildInfoFile": "build/.tsbuildinfo",
     "paths": {
       "@components/*": ["../../../packages/@econnessione/ui/src/components/*"],
       "@templates/*": ["./templates/*"],
@@ -37,6 +39,7 @@
       "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
     }
   },
+  "include": ["src"],
   "references": [
     {
       "path": "../../packages/@econnessione/core"

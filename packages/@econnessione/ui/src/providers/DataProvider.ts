@@ -57,7 +57,7 @@ const toError = (e: unknown): APIError => {
 };
 
 export const dataProvider = APIRESTClient({
-  url: process.env.REACT_APP_API_URL ?? "http://localhost:4010/v1",
+  url: process.env.API_URL ?? "http://localhost:4010/v1",
 });
 
 // const Resources = {
@@ -254,7 +254,7 @@ const Queries: Queries = pipe(
 );
 
 const jsonClient = axios.create({
-  baseURL: `${process.env.REACT_APP_DATA_URL}/public`,
+  baseURL: `${process.env.DATA_URL}/public`,
 });
 
 export const jsonData = <A>(

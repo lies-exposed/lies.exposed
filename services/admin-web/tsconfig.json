@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
-    "typeRoots": ["./typings", "node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "typings"],
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
@@ -28,6 +28,7 @@
       "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"]
     }
   },
+  "include": ["src"],
   "references": [
     {
       "path": "../../packages/@econnessione/ui"

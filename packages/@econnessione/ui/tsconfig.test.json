@@ -4,8 +4,6 @@
     "noEmit": true,
     "allowJs": true,
     "composite": false,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "target": "ES5",
     "typeRoots": [
       "./typings",
@@ -15,8 +13,6 @@
     "declaration": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "experimentalDecorators": true,
-    "strictPropertyInitialization": false
   },
   "include": ["./src"],
   "exclude": ["node_modules"]
