@@ -1,39 +1,54 @@
 {
-  "extends": "./tsconfig.paths.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "outDir": "build",
     "module": "esnext",
     "target": "es5",
-    "jsx": "react-jsx",
-    "noEmit": true,
+    "jsx": "react",
+    "noEmit": false,
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "typeRoots": ["node_modules/@types"],
     "baseUrl": "./src",
+    "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "paths": {
+      "@components/*": ["../../../packages/@econnessione/ui/src/components/*"],
+      "@templates/*": ["./templates/*"],
+      "@containers/*": ["./containers/*"],
+      "@providers/*": [
+        "../../../packages/@econnessione/shared/src/providers/*"
+      ],
+      "@helpers/*": ["../../../packages/@econnessione/shared/src/helpers/*"],
+      "@mock-data/*": [
+        "../../../packages/@econnessione/shared/src/mock-data/*"
+      ],
+      "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"],
+      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
+      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
+    }
   },
-  "include": [
-    "./src",
-    "./typings"
-  ],
-  "exclude": [
-    "node_modules",
-    "public",
-    ".storybook",
-    ".cache"
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../../packages/@econnessione/core"
+    },
+    {
+      "path": "../../packages/@econnessione/shared"
+    },
+    {
+      "path": "../../packages/@econnessione/ui"
+    }
   ]
 }

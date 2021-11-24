@@ -13,8 +13,8 @@ import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { doUpdateCurrentView } from "../utils/location.utils";
 import InfiniteEventList from "@containers/InfiniteEventList";
-import { doUpdateCurrentView } from "utils/location.utils";
 
 export default class GroupTemplate extends React.PureComponent<
   RouteComponentProps<{ groupId: string }>

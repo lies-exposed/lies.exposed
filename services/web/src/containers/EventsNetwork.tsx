@@ -1,3 +1,4 @@
+import { Events } from "@econnessione/shared/io/http";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import {
@@ -5,7 +6,6 @@ import {
   EventsNetworkGraphProps,
 } from "@econnessione/ui/components/Graph/EventsNetworkGraph";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
-import { Events } from "@io/http";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";

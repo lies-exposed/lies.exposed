@@ -1,10 +1,10 @@
 import RaInputRichText from "ra-input-rich-text";
-import type { RaInputRichTextProps } from "ra-input-rich-text";
+import type { RichTextInputProps } from "ra-input-rich-text";
 import * as React from "react";
 
-const RichTextInput: React.FC<Omit<RaInputRichTextProps, "toolbar">> = (
-  props
-) => {
+const RichTextInput: React.FC<
+  Omit<RichTextInputProps, "toolbar"> & { source: string }
+> = (props) => {
   return (
     <RaInputRichText
       {...props}

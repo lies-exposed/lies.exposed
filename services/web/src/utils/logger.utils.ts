@@ -1,7 +1,7 @@
 import { GetLogger } from "@econnessione/core/logger";
 import debug from "debug";
 
-debug.enable(process.env.REACT_APP_DEBUG);
+debug.enable(process.env.DEBUG);
 
 const webLogger = GetLogger("web");
 

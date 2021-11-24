@@ -5,6 +5,7 @@ import {
   Covid19WorldVaccineDistribution,
   CovidWHOWorldData,
 } from "@econnessione/shared/endpoints/graph.endpoints";
+import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { StatAccordion } from "@econnessione/ui/components/Common/StatAccordion";
@@ -15,8 +16,6 @@ import {
 } from "@econnessione/ui/components/Common/TabPanel";
 import { VaccineADRGraph } from "@econnessione/ui/components/Graph/covid/vaccines/VaccineADRGraph";
 import { jsonData } from "@econnessione/ui/providers/DataProvider";
-import { WHOCovid19GlobalData } from "@io/http/covid/COVIDDailyDatum";
-import { VaccineDistributionDatum } from "@io/http/covid/VaccineDistributionDatum";
 import { Box, Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import { scaleOrdinal } from "@vx/scale";
 import * as QR from "avenger/lib/QueryResult";
@@ -29,9 +28,8 @@ import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import * as React from "react";
-import { doUpdateCurrentView } from "utils/location.utils";
+import { doUpdateCurrentView } from "../../utils/location.utils";
 
 const LAST_DAY_2020 = new Date("2020-12-31");
 const LAST_DAY_2021 = new Date("2021-12-31");

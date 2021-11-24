@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.paths.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
     "target": "es5",
@@ -13,13 +13,31 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
-    "typeRoots": ["./typings", "node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "typings"],
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "@client/*": ["./client/*"],
+      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
+      "@econnessione/shared/*": [
+        "../../../packages/@econnessione/shared/src/*"
+      ],
+      "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"]
+    }
   },
-  "include": ["./src", "./typings"],
-  "exclude": ["node_modules", "public", ".cache"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../../packages/@econnessione/ui"
+    },
+    {
+      "path": "../../packages/@econnessione/shared"
+    },
+    {
+      "path": "../../packages/@econnessione/core"
+    }
+  ]
 }

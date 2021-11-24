@@ -36,7 +36,7 @@ services:
     image: minio/minio
     command: server --console-address ":9001" /data
     ports:
-      - "9000:9000"
+      - "9007:9007"
       - "9001:9001"
     environment:
       MINIO_ROOT_USER: space-access-key-id
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./services/data/buckets:/data
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ["CMD", "curl", "-f", "http://localhost:9007/minio/health/live"]
       interval: 30s
       timeout: 20s
       retries: 3
@@ -53,13 +53,13 @@ services:
     container_name: econnessione-api
     image: econnessione_base
     env_file:
-      - .env.local
+      - .env
       # - .env.alpha
     environment:
       DEBUG: "@eco*"
       DB_HOST: db
       DB_PORT: 5432
-      DEV_DATA_HOST: http://localhost:9000
+      DEV_DATA_HOST: http://localhost:9007
     depends_on:
       - db
       - space
@@ -78,10 +78,7 @@ services:
     container_name: econnessione-web
     image: econnessione_base
     env_file:
-      - ./services/web/.env.local
-    environment:
-      SKIP_PREFLIGHT_CHECK: "true"
-      DISABLE_ESLINT_PLUGIN: "true"
+      - ./services/web/.env.development
     ports:
       - "4000:4000"
     volumes:
@@ -100,10 +97,7 @@ services:
     container_name: econnessione-admin-web
     image: econnessione_base
     env_file:
-      - ./services/admin-web/.env.local
-    environment:
-      SKIP_PREFLIGHT_CHECK: "true"
-      DISABLE_ESLINT_PLUGIN: "true"
+      - ./services/admin-web/.env.development
     ports:
       - "4001:4001"
     volumes:

@@ -1,6 +1,25 @@
 // can use ts paths now
-// eslint-disable-next-line import/first
 import * as t from "io-ts";
+import * as Actor from "./Actor";
+import * as Area from "./Area";
+import * as Article from "./Article";
+import * as Common from "./Common";
+import * as Error from "./Error";
+import * as Events from "./Events";
+import * as Group from "./Group";
+import * as GroupMember from "./GroupMember";
+import * as Keyword from "./Keyword";
+import * as Link from "./Link";
+import * as Media from "./Media";
+import * as Network from "./Networks";
+import * as Page from "./Page";
+import * as Project from "./Project";
+import * as ProjectImage from "./ProjectImage";
+import * as Query from "./Query";
+import * as Topic from "./Topic";
+import * as Transaction from "./Transaction";
+import * as User from "./User";
+import * as Video from "./Video";
 
 export const ResourcesNames = t.keyof(
   {
@@ -17,23 +36,25 @@ export const ResourcesNames = t.keyof(
 
 export type ResourcesNames = t.TypeOf<typeof ResourcesNames>;
 
-export * as Actor from "./Actor";
-export * as Area from "./Area";
-export * as Article from "./Article";
-export * as Common from "./Common";
-export * as Link from "./Link";
-export * as Error from "./Error";
-export * as Events from "./Events";
-export * as Keyword from "./Keyword";
-export * as Group from "./Group";
-export * as GroupMember from "./GroupMember";
-export * as Media from "./Media";
-export * as Network from "./Networks";
-export * as Page from "./Page";
-export * as Project from "./Project";
-export * as ProjectImage from "./ProjectImage";
-export * as Query from "./Query";
-export * as Topic from "./Topic";
-export * as Transaction from "./Transaction";
-export * as User from "./User";
-export * as Video from "./Video";
+export {
+  Actor,
+  Area,
+  Article,
+  Common,
+  Link,
+  Error,
+  Events,
+  Keyword,
+  Group,
+  GroupMember,
+  Media,
+  Project,
+  ProjectImage,
+  Video,
+  User,
+  Page,
+  Query,
+  Network,
+  Transaction,
+  Topic,
+};
