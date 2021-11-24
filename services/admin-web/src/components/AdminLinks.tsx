@@ -24,6 +24,7 @@ import {
   TextInput,
   useRefresh,
 } from "react-admin";
+import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "@client/HTTPAPI";
 
@@ -40,11 +41,18 @@ const LinksFilter: React.FC = (props: any) => {
 };
 
 export const LinkList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE} filters={<LinksFilter />} perPage={20}>
+  <List
+    {...props}
+    resource={RESOURCE}
+    filters={<LinksFilter />}
+    perPage={20}
+    filterDefaultValues={{ _sort: "createdAt", _order: "DESC" }}
+  >
     <Datagrid rowClick="edit">
       <TextField source="title" />
       <TextField source="description" />
       <ImageField source="image" />
+      <DateField source="publishDate" />
       <TextField source="provider" />
       <FunctionField
         label="resources.links.fields.events_length"
@@ -92,9 +100,11 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
         <RichTextInput source="description" />
         <DateInput source="publishDate" />
         <TextInput source="provider" />
-        <ReferenceArrayInput source="newEvents" reference="events">
-          <AutocompleteArrayInput optionText="title" />
-        </ReferenceArrayInput>
+        <ReferenceArrayEventInput
+          source="newEvents"
+          reference="events"
+          defaultValue={[]}
+        />
         <ReferenceManyField reference="events" target="links[]">
           <Datagrid>
             <TextField source="title" />
@@ -111,13 +121,11 @@ export const LinkCreate: React.FC<CreateProps> = (props) => {
       <SimpleForm>
         <TextInput type="url" source="url" />
         <DateInput source="publishDate" />
-        <ReferenceArrayInput
+        <ReferenceArrayEventInput
           source="events"
           reference="events"
           defaultValue={[]}
-        >
-          <SelectArrayInput optionText="title" />
-        </ReferenceArrayInput>
+        />
       </SimpleForm>
     </Create>
   );

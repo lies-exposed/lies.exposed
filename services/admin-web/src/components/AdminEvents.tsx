@@ -50,6 +50,7 @@ import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
@@ -282,6 +283,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
                   <ReferenceArrayInput
                     source={getSrc("ids")}
                     reference="links"
+                    filterToQuery={(description: any) => ({ description })}
                     {...rest}
                   >
                     <AutocompleteArrayInput
@@ -371,12 +373,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         </ReferenceArrayInput>
       </FormTab>
       <FormTab label="Links">
-        <ArrayInput source="links" defaultValue={[]}>
-          <SimpleFormIterator>
-            <TextInput type="url" source="url" />
-            <TextInput source="description" />
-          </SimpleFormIterator>
-        </ArrayInput>
+        <ReferenceArrayLinkInput source="links" />
       </FormTab>
       <FormTab label="Media">
         <ArrayInput source="media" defaultValue={[]}>
