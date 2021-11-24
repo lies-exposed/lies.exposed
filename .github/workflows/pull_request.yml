@@ -58,9 +58,6 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: yarn.lock
 
-      - name: Install modules
-        run: yarn
-
       - name: Lint code
         run: yarn lint
 
@@ -81,8 +78,8 @@ jobs:
         with:
           key: ${{ runner.os }}-build
           path: |
-            "**/@econnessione/**/lib"
-            "services/api/build"
+            packages/@econnessione/**/lib
+            services/api/build
 
       - name: Install
         run: yarn
@@ -106,11 +103,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-          cache: 'yarn'
-          cache-dependency-path: yarn.lock
-
-      - name: Install
-        run: yarn
 
       - uses: actions/cache@v2
         with:
@@ -145,11 +137,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-          cache: 'yarn'
-          cache-dependency-path: yarn.lock
-
-      - name: Install
-        run: yarn
 
       - uses: actions/cache@v2
         with:
@@ -184,11 +171,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-          cache: 'yarn'
-          cache-dependency-path: yarn.lock
-
-      - name: Install
-        run: yarn
 
       - uses: actions/cache@v2
         with:
