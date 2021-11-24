@@ -84,8 +84,8 @@ services:
     volumes:
       - ./.eslintrc:/app/.eslintrc
       - ./tsconfig.json:/app/tsconfig.json
-      - ./packages/@econnessione:/app/packages/@econnessione:delegated
-      - ./services/web:/app/services/web:delegated
+      - ./packages/@econnessione:/app/packages/@econnessione:cached
+      - ./services/web:/app/services/web:cached
     working_dir: /app/services/web
     command: yarn start
     tty: false
@@ -103,8 +103,8 @@ services:
     volumes:
       - ./.eslintrc:/app/.eslintrc
       - ./tsconfig.json:/app/tsconfig.json
-      - ./packages/@econnessione:/app/packages/@econnessione:delegated
-      - ./services/admin-web:/app/services/admin-web:delegated
+      - ./packages/@econnessione:/app/packages/@econnessione:cached
+      - ./services/admin-web:/app/services/admin-web:cached
     working_dir: /app/services/admin-web
     command: yarn start
     tty: false
