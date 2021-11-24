@@ -14,10 +14,25 @@ export const CreateLink = t.strict(
 );
 export type CreateLink = t.TypeOf<typeof CreateLink>;
 
-const { events, ...createLinkProps } = CreateLink.type.props;
+export const EditLink = t.strict(
+  {
+    ...CreateLink.type.props,
+    title: t.string,
+    description: t.string,
+    keywords: t.array(t.string),
+    provider: t.string,
+    events: t.array(t.string),
+  },
+  "EditLinkBody"
+);
+
+export type EditLink = t.TypeOf<typeof EditLink>;
+
+const { events, ...linkBaseProps } = EditLink.type.props;
+
 export const Link = t.strict(
   {
-    ...createLinkProps,
+    ...linkBaseProps,
     id: UUID,
     title: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),

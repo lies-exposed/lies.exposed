@@ -28,10 +28,10 @@ export class LinkEntity {
   description: string;
 
   @Column({ type: "varchar", nullable: true })
-  image: string;
+  image: string | null;
 
   @Column({ type: "timestamptz", nullable: true })
-  publishDate: Date;
+  publishDate: Date | null;
 
   @Column({ type: "varchar", nullable: true })
   provider: string;
