@@ -25,7 +25,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(() =>
           ctx.db.findOneOrFail(LinkEntity, {
             where: { id },
-            loadRelationIds: { relations: ["events"] },
+            loadRelationIds: { relations: ["events", "keywords"] },
           })
         ),
         TE.chainEitherK(toLinkIO),

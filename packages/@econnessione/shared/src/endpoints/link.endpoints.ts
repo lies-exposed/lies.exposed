@@ -2,13 +2,12 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output, UUID } from "../io/http/Common";
-import { URL } from "../io/http/Common/URL";
-import { Link } from "../io/http/Link";
+import * as Link from "../io/http/Link";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
-const OneLinkOutput = Output(Link, "Link");
-const ManyLinkOutput = ListOutput(Link, "Links");
+const OneLinkOutput = Output(Link.Link, "Link");
+const ManyLinkOutput = ListOutput(Link.Link, "Links");
 
 export const List = Endpoint({
   Method: "GET",
@@ -36,13 +35,7 @@ export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/links",
   Input: {
-    Body: t.strict(
-      {
-        url: URL,
-        events: t.array(t.string),
-      },
-      "CreateLinkBody"
-    ),
+    Body: Link.CreateLink,
   },
   Output: OneLinkOutput,
 });
@@ -52,17 +45,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/links/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: t.strict(
-      {
-        title: t.string,
-        url: URL,
-        description: t.string,
-        keywords: t.array(t.string),
-        provider: t.string,
-        events: t.array(t.string),
-      },
-      "EditLinkBody"
-    ),
+    Body: Link.EditLink,
   },
   Output: OneLinkOutput,
 });

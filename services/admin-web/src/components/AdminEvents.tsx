@@ -350,7 +350,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         <DateInput source="endDate" />
         <ReferenceArrayKeywordInput source="keywords" />
         <TextInput source="body" defaultValue="" />
-        <ReactPageInput source="body" defaultValue="" />
+        <ReactPageInput source="body2" defaultValue="" />
       </FormTab>
       <FormTab label="Actors">
         <ReferenceArrayActorInput source="actors" defaultValue={[]} />
