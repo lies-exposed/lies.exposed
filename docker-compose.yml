@@ -71,7 +71,7 @@ services:
     tty: true
     stdin_open: true
     working_dir: /app/services/api
-    command: yarn develop
+    command: yarn develop --delay 80ms
     restart: always
 
   web:
