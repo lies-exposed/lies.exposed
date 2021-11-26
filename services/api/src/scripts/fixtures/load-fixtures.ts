@@ -143,6 +143,7 @@ const run = (): Promise<void> => {
                     EventEntity,
                     events.map((e) => ({
                       ...e,
+                      type: "event" as const,
                       keywords: [],
                       groupsMembers: results.map((g) => g.id) as any,
                     }))

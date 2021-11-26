@@ -7,11 +7,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import {
-  MinimalEndpoint,
-  MinimalEndpointInstance,
-  TypeOfEndpointInstance,
-} from "ts-endpoint";
+import { MinimalEndpointInstance, TypeOfEndpointInstance } from "ts-endpoint";
 import { Endpoints } from "../endpoints";
 import { ResourceEndpoints } from "../endpoints/types";
 
@@ -27,12 +23,12 @@ export class APIError extends Error {
 
 export const toAPIError = (e: unknown): APIError => {
   // eslint-disable-next-line
-  apiLogger.error.log("An error occured %O", e);
+  apiLogger.error.log("An error occurred %O", e);
   if (e instanceof Error) {
     return new APIError(e.message, []);
   }
 
-  return new APIError("An error occured", []);
+  return new APIError("An error occurred", []);
 };
 
 export const liftFetch = <B>(
@@ -68,12 +64,16 @@ type API = {
     any,
     any,
     any,
-    {}
+    infer CC
   >
     ? {
         List: TERequest<Endpoints[K]["List"]>;
         Get: TERequest<Endpoints[K]["Get"]>;
-        // [KK in keyof Endpoints[K]]: TERequest<Endpoints[K][KK]>;
+        Custom: CC extends { [key: string]: MinimalEndpointInstance }
+          ? {
+              [K in keyof CC]: TERequest<CC[K]>;
+            }
+          : {};
       }
     : never;
 } & {
@@ -146,21 +146,28 @@ const API = (c: AxiosRequestConfig): API => {
       [
         keyof Endpoints,
         ResourceEndpoints<
-          MinimalEndpoint,
-          MinimalEndpoint,
-          MinimalEndpoint,
-          MinimalEndpoint,
-          MinimalEndpoint,
+          MinimalEndpointInstance,
+          MinimalEndpointInstance,
+          MinimalEndpointInstance,
+          MinimalEndpointInstance,
+          MinimalEndpointInstance,
           {}
         >
       ],
       API
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    >({} as API, (q, [k, e]) => ({
+    >({} as API, (q, [k, { Custom, ...e }]) => ({
       ...q,
       [k]: pipe(
-        e as any,
-        R.map((ee) => toTERequest(ee as any))
+        e,
+        R.map((ee: MinimalEndpointInstance) => toTERequest(ee)),
+        (ends) => ({
+          ...ends,
+          Custom: pipe(
+            Custom,
+            R.map((ee: MinimalEndpointInstance) => toTERequest(ee))
+          ),
+        })
       ),
     }))
   );

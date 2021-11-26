@@ -1,5 +1,4 @@
 import * as t from "io-ts";
-import { markdownRemark } from "../Common/Markdown";
 import * as Arrest from "./Arrest";
 import * as Condemned from "./Condemned";
 import * as Death from "./Death";
@@ -28,8 +27,16 @@ export const Event = t.union(
 );
 export type Event = t.TypeOf<typeof Event>;
 
-export const EventMD = markdownRemark(Event, "EventMD");
-export type EventMD = t.TypeOf<typeof EventMD>;
+export const SearchEvent = t.union(
+  [
+    Uncategorized.UncategorizedSearch,
+    ScientificStudy.ScientificStudy,
+    Death.Death,
+  ],
+  "SearchEvent"
+);
+
+export type SearchEvent = t.TypeOf<typeof SearchEvent>;
 
 export interface EventListMap {
   Protest: Protest.Protest[];

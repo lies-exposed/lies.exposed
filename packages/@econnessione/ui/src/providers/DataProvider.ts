@@ -182,7 +182,8 @@ type Queries = {
     EndpointInstance<infer L>,
     any,
     any,
-    any
+    any,
+    { [key: string]: EndpointInstance<any> }
   >
     ? Query<
         InferEndpointParams<G>["output"] extends t.ExactType<infer T>
@@ -201,7 +202,8 @@ const toQueries = <G extends MinimalEndpoint, L extends MinimalEndpoint>(
     EndpointInstance<L>,
     EndpointInstance<any>,
     EndpointInstance<any>,
-    EndpointInstance<any>
+    EndpointInstance<any>,
+    { [key: string]: EndpointInstance<any> }
   >
 ): Query<
   InferEndpointParams<G>["output"] extends t.ExactType<infer T>
@@ -244,7 +246,7 @@ const Queries: Queries = pipe(
   Endpoints,
   R.toArray,
   A.reduce<
-    [keyof Endpoints, ResourceEndpoints<any, any, any, any, any>],
+    [keyof Endpoints, ResourceEndpoints<any, any, any, any, any, any>],
     Queries
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   >({} as Queries, (q, [k, e]) => ({

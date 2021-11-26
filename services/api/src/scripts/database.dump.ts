@@ -2,13 +2,14 @@ import { execSync } from "child_process";
 import * as path from "path";
 import * as logger from "@econnessione/core/logger";
 import * as E from "fp-ts/lib/Either";
+import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { ENV } from "@io/ENV";
 
 const log = logger.GetLogger("database:dump");
-const run = (): TE.TaskEither<Error, void> => {
+const run = (): T.Task<void> => {
   const [prefixFlag, prefix] = process.argv.slice(2);
 
   if (prefixFlag === undefined || prefix === undefined) {
@@ -23,7 +24,7 @@ const run = (): TE.TaskEither<Error, void> => {
         "process.env decode failed %O",
         PathReporter.report(E.left(e))
       );
-      return E.left(new Error());
+      return E.left(new Error("process.env decode failed"));
     }),
     TE.fromEither,
     TE.chain((env) => {
@@ -61,7 +62,11 @@ const run = (): TE.TaskEither<Error, void> => {
         }, E.toError),
         TE.fromEither
       );
-    })
+    }),
+    TE.fold(
+      (e) => () => Promise.reject(e),
+      () => () => Promise.resolve()
+    )
   );
 };
 
