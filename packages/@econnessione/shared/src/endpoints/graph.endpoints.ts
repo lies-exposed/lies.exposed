@@ -147,4 +147,5 @@ export const graphs = ResourceEndpoints({
   Create: CreateGraph,
   Edit: EditGraph,
   Delete: DeleteGraph,
+  Custom: {},
 });

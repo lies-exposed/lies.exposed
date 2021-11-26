@@ -59,4 +59,5 @@ export const keywords = ResourceEndpoints({
   Edit,
   Create,
   Delete,
+  Custom: {},
 });

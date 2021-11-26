@@ -84,4 +84,5 @@ export const groups = ResourceEndpoints({
   List,
   Create,
   Delete,
+  Custom: {},
 });

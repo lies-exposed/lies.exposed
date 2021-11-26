@@ -74,4 +74,5 @@ export const links = ResourceEndpoints({
   Edit,
   Create,
   Delete,
+  Custom: {},
 });

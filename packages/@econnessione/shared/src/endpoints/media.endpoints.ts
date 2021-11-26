@@ -82,4 +82,5 @@ export const media = ResourceEndpoints({
   Edit,
   Create,
   Delete,
+  Custom: {},
 });

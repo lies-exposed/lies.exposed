@@ -69,4 +69,5 @@ export const users = ResourceEndpoints({
     getPath: () => `/users`,
     Output: t.undefined,
   }),
+  Custom: {},
 });

@@ -77,4 +77,5 @@ export const pages = ResourceEndpoints({
   List: ListPages,
   Edit: EditPage,
   Delete: DeletePage,
+  Custom: {},
 });

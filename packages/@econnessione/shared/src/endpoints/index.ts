@@ -23,7 +23,7 @@ const Endpoints = {
   Area: Area.areas,
   Article: Article.articles,
   Event: Event.events,
-  DeathEvent: DeathEvent,
+  DeathEvent: DeathEvent.deaths,
   Graph: Graph.graphs,
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,

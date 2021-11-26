@@ -67,7 +67,8 @@ type API = {
     any,
     any,
     any,
-    any
+    any,
+    {}
   >
     ? {
         List: TERequest<Endpoints[K]["List"]>;
@@ -149,7 +150,8 @@ const API = (c: AxiosRequestConfig): API => {
           MinimalEndpoint,
           MinimalEndpoint,
           MinimalEndpoint,
-          MinimalEndpoint
+          MinimalEndpoint,
+          {}
         >
       ],
       API
@@ -157,7 +159,7 @@ const API = (c: AxiosRequestConfig): API => {
     >({} as API, (q, [k, e]) => ({
       ...q,
       [k]: pipe(
-        e,
+        e as any,
         R.map((ee) => toTERequest(ee as any))
       ),
     }))

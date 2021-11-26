@@ -5,13 +5,17 @@ export interface ResourceEndpoints<
   L extends MinimalEndpoint,
   C extends MinimalEndpoint,
   E extends MinimalEndpoint,
-  D extends MinimalEndpoint
+  D extends MinimalEndpoint,
+  CC extends { [key: string]: MinimalEndpoint }
 > {
   Get: G;
   List: L;
   Create: C;
   Edit: E;
   Delete: D;
+  Custom: {
+    [CCK in keyof CC]: CC[CCK];
+  };
 }
 
 export const ResourceEndpoints = <
@@ -19,11 +23,13 @@ export const ResourceEndpoints = <
   L extends MinimalEndpoint,
   C extends MinimalEndpoint,
   E extends MinimalEndpoint,
-  D extends MinimalEndpoint
+  D extends MinimalEndpoint,
+  CC extends { [key: string]: MinimalEndpoint }
 >(endpoints: {
   Get: G;
   List: L;
   Create: C;
   Edit: E;
   Delete: D;
-}): ResourceEndpoints<G, L, C, E, D> => endpoints;
+  Custom: CC;
+}): ResourceEndpoints<G, L, C, E, D, CC> => endpoints;
