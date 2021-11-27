@@ -14,9 +14,9 @@ import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
 //   subNav: Array<Omit<Item, "subNav">>;
 // }
 
-type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
+type EventsByYearMap = Map<number, Map<number, Events.SearchEvent[]>>;
 
-export const eventDate = (e: Events.Event): Date => {
+export const eventDate = (e: Events.SearchEvent): Date => {
   switch (e.type) {
     case Events.Death.DeathType.value: {
       return e.date;
@@ -42,7 +42,7 @@ interface NavigationItem {
 }
 
 export const eventsDataToNavigatorItems = (
-  events: Events.Event[]
+  events: Events.SearchEvent[]
 ): NavigationItem[] => {
   const initial: EventsByYearMap = Map.empty;
 
@@ -152,8 +152,9 @@ export const filterMetadataFroProject =
     }
   };
 
-export const ordEventDate = Ord.ord.contramap(Ord.ordDate, (e: Events.Event) =>
-  eventDate(e)
+export const ordEventDate = Ord.ord.contramap(
+  Ord.ordDate,
+  (e: Events.SearchEvent) => eventDate(e)
 );
 
 const colorMap: Record<Events.Event["type"], string> = {
@@ -182,7 +183,7 @@ interface EventsInDateRangeProps {
 
 export const eventsInDateRange =
   (props: EventsInDateRangeProps) =>
-  (events: Events.Event[]): Events.Event[] => {
+  (events: Events.SearchEvent[]): Events.SearchEvent[] => {
     return pipe(
       events,
       A.sort(Ord.getDualOrd(ordEventDate)),

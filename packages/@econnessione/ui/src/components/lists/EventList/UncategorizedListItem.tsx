@@ -4,6 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
+  Media,
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,13 +21,14 @@ import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
 
 interface UncategorizedListItemProps {
-  item: Events.Uncategorized.Uncategorized;
+  item: Events.Uncategorized.UncategorizedSearch;
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
+  media: Media.Media[];
   links: string[];
-  onClick?: (e: Events.Uncategorized.Uncategorized) => void;
+  onClick?: (e: Events.Uncategorized.UncategorizedSearch) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
   onGroupMemberClick?: (g: GroupMember.GroupMember) => void;
@@ -40,6 +42,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   groups,
   groupsMembers,
   links,
+  media,
   onClick,
   onActorClick,
   onGroupClick,
@@ -59,7 +62,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       <Grid container spacing={2}>
         <Grid item md={3} sm={12} xs={12}>
           {pipe(
-            item.media,
+            media,
             O.fromPredicate((arr) => arr.length > 0),
             O.map((media) => (
               // eslint-disable-next-line react/jsx-key

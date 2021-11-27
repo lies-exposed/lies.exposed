@@ -168,8 +168,7 @@ export const searchEventSQL = ({
     ${eventsDateRangeWhere}
     group by
         "event"."id"
-    order by
-        "event"."startDate" DESC
+    ORDER BY "startDate" DESC
 )
 union
 all (
@@ -230,5 +229,5 @@ union
     ${scientificStudiesPublisherWhere}
     ${scientificStudyDateRangeWhere}
     group by "study"."id"
-)) "all_events" ORDER BY "startDate" OFFSET ${skip} LIMIT ${take}`;
+)) "all_events" ORDER BY "startDate" DESC OFFSET ${skip} LIMIT ${take}`;
 };

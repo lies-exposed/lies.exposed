@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import * as E from "fp-ts/lib/Either";
 import * as Task from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -6,6 +6,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import type * as RA from "react-admin";
 
 export interface APIRESTClient {
+  request: <T = any>(config: AxiosRequestConfig<T>) => Promise<any>;
   get: (resource: string, params: any) => Promise<any>;
   put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
   getList: <R extends RA.Record>(
@@ -94,6 +95,8 @@ export const APIRESTClient = ({
   }
 
   return {
+    request: <T>(config: AxiosRequestConfig<T>) =>
+      liftClientRequest(() => client.request<T>(config))(),
     get: (url, params) =>
       liftClientRequest(() => client.get(url, { params }))(),
     put: (url, data) => liftClientRequest<any>(() => client.put(url, data))(),

@@ -4,6 +4,7 @@ import {
   Keyword,
   Events,
   GroupMember,
+  Media,
 } from "@econnessione/shared/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
@@ -11,12 +12,13 @@ import { ScientificStudyListItem } from "./ScientificStudyListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
 
 interface EventListItemProps {
-  event: Events.Event;
+  event: Events.SearchEvent;
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
-  onClick?: (e: Events.Event) => void;
+  media: Media.Media[];
+  onClick?: (e: Events.SearchEvent) => void;
 }
 
 export const EventListItem: React.FC<EventListItemProps> = ({
@@ -32,6 +34,7 @@ export const EventListItem: React.FC<EventListItemProps> = ({
           actors={props.actors}
           keywords={props.keywords}
           links={[]}
+          onClick={onClick}
         />
       );
     }
@@ -55,6 +58,7 @@ export const EventListItem: React.FC<EventListItemProps> = ({
           keywords={props.keywords}
           groupsMembers={props.groupsMembers}
           links={e.links}
+          media={[]}
           onClick={onClick}
         />
       );

@@ -39,10 +39,10 @@ export const ScientificStudyListItem: React.FC<ScientificStudyListItemProps> =
         onClick={() => onClick?.(item)}
       >
         <Grid container spacing={2}>
-          <Grid item lg={3} md={12}>
+          <Grid item lg={3} md={3} sm={false}>
             <Avatar size="xlarge" src={publisher?.avatar} />
           </Grid>
-          <Grid item lg={6} md={12}>
+          <Grid item lg={6} md={6}>
             <Typography variant="h5">{item.title}</Typography>
             <Link href={item.url} target="_blank">
               {item.url}

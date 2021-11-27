@@ -8,6 +8,8 @@ import {
 import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { eventNetworkList, InfiniteEventListParams } from "../state/queries";
 
@@ -88,8 +90,9 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
                 return (
                   <EventsNetworkGraph
                     {...props}
-                    events={events.data.filter(
-                      Events.Uncategorized.Uncategorized.is
+                    events={pipe(
+                      events.data,
+                      A.filter(Events.Uncategorized.UncategorizedSearch.is)
                     )}
                     actors={actors.data}
                     groups={groups.data}
