@@ -23,7 +23,6 @@ import * as React from "react";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
 import { EventsNetwork } from "@containers/EventsNetwork";
 import InfiniteEventList from "@containers/InfiniteEventList";
-import InfiniteEventListV2 from "@containers/InfiniteEventListV2";
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
   representation: "date",
