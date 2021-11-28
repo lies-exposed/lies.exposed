@@ -30,6 +30,7 @@ export interface InfiniteEventListMetadata {
   groups: string[];
   keywords: string[];
   groupsMembers: string[];
+  media: string[];
 }
 
 export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
@@ -165,7 +166,7 @@ const paginatedCachedQuery =
 
 const reduceEvent = (
   acc: InfiniteEventListMetadata,
-  e: Events.Event
+  e: Events.SearchEvent
 ): InfiniteEventListMetadata => {
   if (e.type === "ScientificStudy") {
     return {
@@ -197,12 +198,15 @@ const reduceEvent = (
     groupsMembers: acc.groupsMembers
       .filter((a: string) => !(e.groupsMembers ?? []).includes(a))
       .concat(e.groupsMembers),
+    media: acc.media
+      .filter((a: string) => !(e.media ?? []).includes(a))
+      .concat(e.media),
   };
 };
 
 const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
   api.Event.Custom.Search,
-  { actors: [], groups: [], groupsMembers: [], keywords: [] },
+  { actors: [], groups: [], groupsMembers: [], keywords: [], media: [] },
   ({ data, ...acc }, e) => {
     return {
       data: data.concat(e),

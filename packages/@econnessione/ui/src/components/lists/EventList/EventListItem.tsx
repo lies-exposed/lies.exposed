@@ -58,7 +58,7 @@ export const EventListItem: React.FC<EventListItemProps> = ({
           keywords={props.keywords}
           groupsMembers={props.groupsMembers}
           links={e.links}
-          media={[]}
+          media={props.media}
           onClick={onClick}
         />
       );

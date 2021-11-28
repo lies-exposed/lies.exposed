@@ -72,6 +72,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 height="300"
                 image={media[0].location}
                 title={media[0].description}
+                style={{
+                  objectFit: "contain",
+                }}
               />
             )),
             O.toNullable

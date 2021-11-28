@@ -247,13 +247,14 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
 
                 <WithQueries
                   queries={{
-                    eventActors: Queries.Actor.getList,
-                    eventGroups: Queries.Group.getList,
-                    eventGroupMembers: Queries.GroupMember.getList,
-                    eventKeywords: Queries.Keyword.getList,
+                    actors: Queries.Actor.getList,
+                    groups: Queries.Group.getList,
+                    groupsMembers: Queries.GroupMember.getList,
+                    keywords: Queries.Keyword.getList,
+                    media: Queries.Media.getList,
                   }}
                   params={{
-                    eventActors: {
+                    actors: {
                       pagination: {
                         page: 1,
                         perPage: events.metadata.actors.length,
@@ -263,7 +264,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         ids: [...events.metadata.actors],
                       },
                     },
-                    eventGroups: {
+                    groups: {
                       pagination: {
                         page: 1,
                         perPage: events.metadata.groups.length,
@@ -273,7 +274,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         ids: events.metadata.groups,
                       },
                     },
-                    eventGroupMembers: {
+                    groupsMembers: {
                       pagination: {
                         page: 1,
                         perPage: events.metadata.groupsMembers.length,
@@ -283,7 +284,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         ids: events.metadata.groupsMembers,
                       },
                     },
-                    eventKeywords: {
+                    keywords: {
                       pagination: {
                         page: 1,
                         perPage: events.metadata.keywords.length,
@@ -293,26 +294,32 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         ids: events.metadata.keywords,
                       },
                     },
+                    media: {
+                      pagination: {
+                        page: 1,
+                        perPage: events.metadata.media.length,
+                      },
+                      sort: { field: "createdAt", order: "DESC" },
+                      filter: {
+                        ids: events.metadata.media,
+                      },
+                    },
                   }}
                   render={QR.fold(
                     LazyFullSizeLoader,
                     ErrorBox,
-                    ({
-                      eventActors: actors,
-                      eventGroups: groups,
-                      eventKeywords: keywords,
-                      eventGroupMembers: groupsMembers,
-                    }) => {
+                    ({ actors, groups, keywords, groupsMembers, media }) => {
                       return (
                         <Box>
                           <EventList
                             className="events"
                             style={{ width: "100%" }}
+                            events={allEvents}
                             actors={actors.data}
                             groups={groups.data}
                             groupsMembers={groupsMembers.data}
-                            events={allEvents}
                             keywords={keywords.data}
+                            media={media.data}
                             onClick={(e) => {
                               if (e.type === "Death") {
                                 void doUpdateCurrentView({

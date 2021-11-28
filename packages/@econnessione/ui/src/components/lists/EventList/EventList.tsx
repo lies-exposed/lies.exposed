@@ -58,20 +58,23 @@ const renderRow = (props: {
 
   const e = events[index];
 
-  const eventActors = Events.Uncategorized.Uncategorized.is(e)
-    ? actors.filter((a) => e.actors.includes(a.id))
-    : Events.Death.Death.is(e)
+  const eventActors = Events.Death.Death.is(e)
     ? actors.filter((a) => e.victim === a.id)
+    : Events.Uncategorized.UncategorizedSearch.is(e)
+    ? actors.filter((a) => e.actors.includes(a.id))
     : [];
-  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
+  const eventGroups = Events.Uncategorized.UncategorizedSearch.is(e)
     ? groups.filter((a) => e.groups.includes(a.id))
     : [];
-  const eventKeywords = Events.Uncategorized.Uncategorized.is(e)
+  const eventKeywords = Events.Uncategorized.UncategorizedSearch.is(e)
     ? keywords.filter((a) => e.keywords.includes(a.id))
     : [];
 
-  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
+  const eventGroupMembers = Events.Uncategorized.UncategorizedSearch.is(e)
     ? groupsMembers.filter((g) => e.groupsMembers.includes(g.id))
+    : [];
+  const eventMedia = Events.Uncategorized.UncategorizedSearch.is(e)
+    ? media.filter((m) => e.media.includes(m.id))
     : [];
 
   return (
@@ -82,7 +85,7 @@ const renderRow = (props: {
         groups={eventGroups}
         keywords={eventKeywords}
         groupsMembers={eventGroupMembers}
-        media={media}
+        media={eventMedia}
         onClick={onClick}
       />
     </ListItem>
@@ -138,6 +141,7 @@ export interface EventListProps {
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
+  media: Media.Media[];
   onClick: (e: Events.SearchEvent) => void;
 }
 
@@ -146,6 +150,7 @@ const EventList: React.FC<EventListProps> = ({
   groups,
   keywords,
   groupsMembers,
+  media,
   onClick,
   ...props
 }) => {
@@ -157,12 +162,12 @@ const EventList: React.FC<EventListProps> = ({
         renderHeaderRow({
           index: i,
           data: {
-            events: ee.map((e) => ({ ...e, media: [] })),
+            events: ee,
             actors,
             groups,
             groupsMembers,
             keywords,
-            media: [],
+            media,
             classes,
             onClick,
           },

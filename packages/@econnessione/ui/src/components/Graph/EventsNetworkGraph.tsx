@@ -39,7 +39,7 @@ import GroupList from "../lists/GroupList";
 type GroupByItem = Actor.Actor | Group.Group;
 
 type NetworkDatum = NetworkNodeDatum &
-  Omit<Events.Uncategorized.Uncategorized, "actors" | "groups">;
+  Omit<Events.Uncategorized.UncategorizedSearch, "actors" | "groups">;
 
 interface EventNetworkDatum extends NetworkDatum {
   title: string;

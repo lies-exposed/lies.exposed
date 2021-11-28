@@ -120,6 +120,6 @@ const { media, body, body2, ...uncategorizedEventProps } =
 
 export const UncategorizedSearch = t.strict({
   ...uncategorizedEventProps,
-  media: t.array(UUID),
+  media: t.array(t.string),
 });
 export type UncategorizedSearch = t.TypeOf<typeof UncategorizedSearch>;
