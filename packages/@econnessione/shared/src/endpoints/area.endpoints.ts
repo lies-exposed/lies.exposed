@@ -78,4 +78,5 @@ export const areas = ResourceEndpoints({
   Edit,
   List,
   Delete,
+  Custom: {},
 });

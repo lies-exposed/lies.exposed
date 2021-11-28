@@ -24,7 +24,6 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
       <>
         <MainContent>
           <PageContent queries={{ pageContent: { path: "actors" } }} />
-
           <WithQueries
             queries={{
               actors: Queries.Actor.getList,

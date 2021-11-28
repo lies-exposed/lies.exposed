@@ -82,4 +82,5 @@ export const groupsMembers = ResourceEndpoints({
   List,
   Edit,
   Delete,
+  Custom: {},
 });

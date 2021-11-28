@@ -5,10 +5,8 @@ export const ErrorBox: (e: any) => React.ReactElement = (e: any) => {
   return (
     <Grid item>
       <Card>
-        <Typography>An error occured</Typography>
-        <div>
-          <code>{JSON.stringify(e, null, 2)}</code>
-        </div>
+        <Typography>An error occurred</Typography>
+        <div style={{ width: "100%" }}>{JSON.stringify(e, null, 4)}</div>
       </Card>
     </Grid>
   );

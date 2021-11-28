@@ -1,4 +1,6 @@
 // import { EOL } from "os";
+import { escapePostgresIdentifier } from "@databases/escape-identifier";
+import { FormatConfig, SQLQuery } from "@databases/sql";
 import * as logger from "@econnessione/core/logger";
 import * as O from "fp-ts/lib/Option";
 import * as Reader from "fp-ts/lib/Reader";
@@ -38,6 +40,8 @@ type Criteria =
 
 interface DatabaseClient {
   manager: EntityManager;
+  formatQuery: (sql: SQLQuery) => { text: string; values: any };
+  execSQL: <T>(sql: SQLQuery) => TE.TaskEither<DBError, T>;
   execQuery: <T>(q: () => Promise<T>) => TE.TaskEither<DBError, T>;
   findOne: <Entity>(
     entityClass: EntityTarget<Entity>,
@@ -120,9 +124,34 @@ export const toError =
     };
   };
 
+const pgFormat: FormatConfig = {
+  escapeIdentifier: (str) => escapePostgresIdentifier(str),
+  formatValue: (value, index) => ({ placeholder: `$${index + 1}`, value }),
+};
+
 const GetDatabaseClient: GetDatabaseClient = (ctx) => {
+  const formatQuery = (sql: SQLQuery): { text: string; values: any } => {
+    const format = sql.format(pgFormat);
+    ctx.logger.debug.log(
+      `SQL Formatted %s with params %O`,
+      format.text,
+      format.values
+    );
+    return format;
+  };
+  const execQuery = <T>(lazyQ: () => Promise<T>): TE.TaskEither<DBError, T> =>
+    TE.tryCatch(lazyQ, toError(ctx.logger)());
+
   return {
     manager: ctx.connection.manager,
+    formatQuery,
+    execQuery,
+    execSQL: (sql) => {
+      const query = formatQuery(sql);
+      return execQuery(() =>
+        ctx.connection.manager.query(query.text, query.values)
+      );
+    },
     findOne: (entity, options) => {
       ctx.logger.debug.log(`findOne %s with options %O`, entity, options);
       return pipe(
@@ -240,7 +269,6 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         TE.chain(TE.fromEither)
       );
     },
-    execQuery: (lazyQ) => TE.tryCatch(lazyQ, toError(ctx.logger)()),
     close: () =>
       TE.tryCatch(() => ctx.connection.close(), toError(ctx.logger)()),
   };

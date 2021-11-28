@@ -1,29 +1,35 @@
-import { MinimalEndpoint } from "ts-endpoint";
+import { MinimalEndpointInstance } from "ts-endpoint";
 
 export interface ResourceEndpoints<
-  G extends MinimalEndpoint,
-  L extends MinimalEndpoint,
-  C extends MinimalEndpoint,
-  E extends MinimalEndpoint,
-  D extends MinimalEndpoint
+  G extends MinimalEndpointInstance,
+  L extends MinimalEndpointInstance,
+  C extends MinimalEndpointInstance,
+  E extends MinimalEndpointInstance,
+  D extends MinimalEndpointInstance,
+  CC extends { [key: string]: MinimalEndpointInstance }
 > {
   Get: G;
   List: L;
   Create: C;
   Edit: E;
   Delete: D;
+  Custom: {
+    [CCK in keyof CC]: CC[CCK];
+  };
 }
 
 export const ResourceEndpoints = <
-  G extends MinimalEndpoint,
-  L extends MinimalEndpoint,
-  C extends MinimalEndpoint,
-  E extends MinimalEndpoint,
-  D extends MinimalEndpoint
+  G extends MinimalEndpointInstance,
+  L extends MinimalEndpointInstance,
+  C extends MinimalEndpointInstance,
+  E extends MinimalEndpointInstance,
+  D extends MinimalEndpointInstance,
+  CC extends { [key: string]: MinimalEndpointInstance }
 >(endpoints: {
   Get: G;
   List: L;
   Create: C;
   Edit: E;
   Delete: D;
-}): ResourceEndpoints<G, L, C, E, D> => endpoints;
+  Custom: CC;
+}): ResourceEndpoints<G, L, C, E, D, CC> => endpoints;

@@ -18,17 +18,12 @@ import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { debounce } from "throttle-debounce";
-import {
-  deathsPaginated,
-  eventsPaginated,
-  InfiniteEventListParams,
-  scientificStudiesPaginated,
-} from "../state/queries";
+import { eventsPaginated, InfiniteEventListParams } from "../state/queries";
 import { doUpdateCurrentView } from "../utils/location.utils";
 
 const eventsSort = pipe(
   Ord.reverse(D.Ord),
-  Ord.contramap((e: Events.Event): Date => {
+  Ord.contramap((e: Events.SearchEvent): Date => {
     if (e.type === Events.ScientificStudy.ScientificStudyType.value) {
       return e.publishDate;
     }
@@ -150,8 +145,6 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
       <WithQueries
         queries={{
           eventsPaginated,
-          deathsPaginated,
-          scientificStudiesPaginated,
         }}
         params={{
           eventsPaginated: {
@@ -159,36 +152,20 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
             page: state.currentPage,
             hash,
           },
-          deathsPaginated: {
-            minDate: filters.startDate,
-            maxDate: filters.endDate,
-            victim: filters.actors,
-            page: state.currentPage,
-            hash,
-          },
-          scientificStudiesPaginated: {
-            publishedBy: filters.groups,
-            authors: filters.actors,
-            page: state.currentPage,
-            hash,
-          },
         }}
         render={QR.fold(
           LazyFullSizeLoader,
           ErrorBox,
-          ({
-            eventsPaginated: events,
-            deathsPaginated: deaths,
-            scientificStudiesPaginated: scientificStudies,
-          }) => {
+          ({ eventsPaginated: events }) => {
             const allEvents = pipe(
-              [
-                ...(state.filters.events ? events.data : []),
-                ...(state.filters.death ? deaths.data : []),
-                ...(state.filters.death ? scientificStudies.data : []),
-              ],
+              state.filters.events ? events.data : [],
               A.sort(eventsSort)
             );
+
+            const totalEvents =
+              events.totals.events +
+              events.totals.deaths +
+              events.totals.scientificStudies;
 
             return (
               <Box style={{ width: "100%" }}>
@@ -198,7 +175,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                       <Typography variant="caption" display="inline">
                         Nº Events:{" "}
                         <Typography display="inline" variant="subtitle1">
-                          {events.total + deaths.total}
+                          {totalEvents}
                         </Typography>{" "}
                         dal{" "}
                         <Typography display="inline" variant="subtitle1">
@@ -216,7 +193,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                       alignContent="flex-end"
                     >
                       <Chip
-                        label={`Events (${events.total})`}
+                        label={`Events (${events.totals.events})`}
                         color="primary"
                         variant={state.filters.events ? "default" : "outlined"}
                         style={{ marginRight: 10 }}
@@ -231,7 +208,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         }}
                       />
                       <Chip
-                        label={`Deaths (${deaths.total})`}
+                        label={`Deaths (${events.totals.deaths})`}
                         color={"secondary"}
                         variant={state.filters.death ? "default" : "outlined"}
                         style={{ marginRight: 10 }}
@@ -246,7 +223,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         }}
                       />
                       <Chip
-                        label={`Science (${scientificStudies.total})`}
+                        label={`Science (${events.totals.scientificStudies})`}
                         color={"secondary"}
                         variant={
                           state.filters.scientificStudies
@@ -270,26 +247,24 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
 
                 <WithQueries
                   queries={{
-                    eventActors: Queries.Actor.getList,
-                    eventGroups: Queries.Group.getList,
-                    eventGroupMembers: Queries.GroupMember.getList,
-                    eventKeywords: Queries.Keyword.getList,
+                    actors: Queries.Actor.getList,
+                    groups: Queries.Group.getList,
+                    groupsMembers: Queries.GroupMember.getList,
+                    keywords: Queries.Keyword.getList,
+                    media: Queries.Media.getList,
                   }}
                   params={{
-                    eventActors: {
+                    actors: {
                       pagination: {
                         page: 1,
                         perPage: events.metadata.actors.length,
                       },
                       sort: { field: "createdAt", order: "DESC" },
                       filter: {
-                        ids: [
-                          ...events.metadata.actors,
-                          ...deaths.metadata.victims,
-                        ],
+                        ids: [...events.metadata.actors],
                       },
                     },
-                    eventGroups: {
+                    groups: {
                       pagination: {
                         page: 1,
                         perPage: events.metadata.groups.length,
@@ -299,7 +274,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         ids: events.metadata.groups,
                       },
                     },
-                    eventGroupMembers: {
+                    groupsMembers: {
                       pagination: {
                         page: 1,
                         perPage: events.metadata.groupsMembers.length,
@@ -309,7 +284,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         ids: events.metadata.groupsMembers,
                       },
                     },
-                    eventKeywords: {
+                    keywords: {
                       pagination: {
                         page: 1,
                         perPage: events.metadata.keywords.length,
@@ -319,31 +294,44 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                         ids: events.metadata.keywords,
                       },
                     },
+                    media: {
+                      pagination: {
+                        page: 1,
+                        perPage: events.metadata.media.length,
+                      },
+                      sort: { field: "createdAt", order: "DESC" },
+                      filter: {
+                        ids: events.metadata.media,
+                      },
+                    },
                   }}
                   render={QR.fold(
                     LazyFullSizeLoader,
                     ErrorBox,
-                    ({
-                      eventActors: actors,
-                      eventGroups: groups,
-                      eventKeywords: keywords,
-                      eventGroupMembers: groupsMembers,
-                    }) => {
+                    ({ actors, groups, keywords, groupsMembers, media }) => {
                       return (
                         <Box>
                           <EventList
                             className="events"
                             style={{ width: "100%" }}
+                            events={allEvents}
                             actors={actors.data}
                             groups={groups.data}
                             groupsMembers={groupsMembers.data}
-                            events={allEvents}
                             keywords={keywords.data}
+                            media={media.data}
                             onClick={(e) => {
-                              void doUpdateCurrentView({
-                                view: "event",
-                                eventId: e.id,
-                              })();
+                              if (e.type === "Death") {
+                                void doUpdateCurrentView({
+                                  view: "actor",
+                                  actorId: e.victim,
+                                })();
+                              } else {
+                                void doUpdateCurrentView({
+                                  view: "event",
+                                  eventId: e.id,
+                                })();
+                              }
                             }}
                           />
                         </Box>
@@ -354,7 +342,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                 <BottomReach
                   currentPage={state.currentPage}
                   loadedElements={allEvents.length}
-                  totalElements={events.total + deaths.total}
+                  totalElements={totalEvents}
                   onBottomReach={() => handleBottomReached()}
                 />
               </Box>

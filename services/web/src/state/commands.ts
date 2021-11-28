@@ -1,11 +1,6 @@
 import { command } from "avenger";
 import { doUpdateCurrentView } from "../utils/location.utils";
-import {
-  deathsPaginated,
-  eventsPaginated,
-  InfiniteEventListParams,
-  scientificStudiesPaginated,
-} from "./queries";
+import { eventsPaginated, InfiniteEventListParams } from "./queries";
 
 export const resetInfiniteList = command(
   (filters: InfiniteEventListParams) => {
@@ -13,7 +8,5 @@ export const resetInfiniteList = command(
   },
   {
     eventsPaginated,
-    deathsPaginated,
-    scientificStudiesPaginated,
   }
 );

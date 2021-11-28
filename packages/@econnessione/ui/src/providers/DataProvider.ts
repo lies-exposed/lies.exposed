@@ -21,7 +21,10 @@ import {
   EndpointInstance,
   InferEndpointParams,
   MinimalEndpoint,
+  MinimalEndpointInstance,
+  TypeOfEndpointInstance,
 } from "ts-endpoint";
+import { serializedType } from "ts-io-error/lib/Codec";
 import { APIRESTClient } from "../http";
 
 // const httpClient = (
@@ -52,31 +55,13 @@ const toError = (e: unknown): APIError => {
   }
   return {
     name: "APIError",
-    message: "An error occured",
+    message: "An error occurred",
   };
 };
 
 export const dataProvider = APIRESTClient({
   url: process.env.API_URL ?? "http://localhost:4010/v1",
 });
-
-// const Resources = {
-//   areas: io.http.Area.Area,
-//   pages: io.http.Page.PageMD,
-//   articles: io.http.Article.Article,
-//   actors: io.http.Actor.Actor,
-//   groups: io.http.Group.Group,
-//   "groups-members": io.http.GroupMember.GroupMember,
-//   topics: io.http.Topic.TopicMD,
-//   projects: io.http.Project.Project,
-//   "project/images": io.http.ProjectImage.ProjectImage,
-//   events: io.http.Events.Uncategorized.Uncategorized,
-//   deaths: io.http.Events.Death.Death,
-// };
-
-// type Resources = {
-//   [K in keyof typeof Resources]: t.TypeOf<typeof Resources[K]>;
-// };
 
 const liftFetch = <B extends { data: any }>(
   lp: () => Promise<GetOneResult<any>> | Promise<GetListResult<any>>,
@@ -100,50 +85,6 @@ const liftFetch = <B extends { data: any }>(
   );
 };
 
-// export type GetOneQuery = <K extends keyof Resources>(
-//   r: K
-// ) => CachedQuery<GetOneParams, APIError, Resources[K]>;
-
-// export const GetOneQuery: GetOneQuery = <K extends keyof Resources>(k: K) =>
-//   queryShallow<GetOneParams, APIError, Resources[K]>(
-//     (params: GetOneParams) =>
-//       pipe(
-//         liftFetch<{ data: Resources[K] }>(
-//           () => dataProvider.getOne<Resources[K]>(k, params),
-//           t.strict({ data: Resources[k] }).decode as t.Decode<
-//             unknown,
-//             { data: Resources[K] }
-//           >
-//         ),
-//         TE.map((r) => r.data)
-//       ),
-//     available
-//   );
-
-// export type GetListQuery = <K extends keyof typeof Resources, P = unknown>(
-//   r: K
-// ) => CachedQuery<
-//   P & GetListParams,
-//   APIError,
-//   { total: number; data: Array<t.TypeOf<typeof Resources[K]>> }
-// >;
-
-// export const GetListQuery: GetListQuery = <
-//   K extends keyof typeof Resources,
-//   P = unknown
-// >(
-//   r: K
-// ) =>
-//   queryShallow(
-//     (params: P & GetListParams) =>
-//       liftFetch(
-//         () => dataProvider.getList<t.TypeOf<typeof Resources[K]>>(r, params),
-//         io.http.Common.ListOutput(Resources[r], r).decode
-//       ),
-//     available
-//   );
-
-// export const pageContent = GetOneQuery("pages");
 export const pageContentByPath = queryStrict<
   { path: string },
   APIError,
@@ -171,18 +112,41 @@ export const pageContentByPath = queryStrict<
   available
 );
 
-interface Query<G, L> {
+interface Query<G, L, CC> {
   get: CachedQuery<GetOneParams, APIError, G>;
   getList: CachedQuery<GetListParams, APIError, L>;
+  Custom: CC extends { [key: string]: MinimalEndpointInstance }
+    ? {
+        [K in keyof CC]: CachedQuery<
+          (InferEndpointParams<CC[K]>["headers"] extends t.Mixed
+            ? { Headers: serializedType<InferEndpointParams<CC[K]>["headers"]> }
+            : {}) &
+            (InferEndpointParams<CC[K]>["query"] extends t.Mixed
+              ? { Query: serializedType<InferEndpointParams<CC[K]>["query"]> }
+              : {}) &
+            (InferEndpointParams<CC[K]>["params"] extends t.Mixed
+              ? { Params: serializedType<InferEndpointParams<CC[K]>["params"]> }
+              : {}) &
+            (InferEndpointParams<CC[K]>["body"] extends undefined
+              ? {}
+              : {
+                  Body: serializedType<InferEndpointParams<CC[K]>["body"]>;
+                }),
+          APIError,
+          TypeOfEndpointInstance<CC[K]>["Output"]
+        >;
+      }
+    : never;
 }
 
 type Queries = {
   [K in keyof Endpoints]: Endpoints[K] extends ResourceEndpoints<
     EndpointInstance<infer G>,
-    EndpointInstance<infer L>,
+    infer L,
     any,
     any,
-    any
+    any,
+    infer CC
   >
     ? Query<
         InferEndpointParams<G>["output"] extends t.ExactType<infer T>
@@ -190,35 +154,50 @@ type Queries = {
           : never,
         InferEndpointParams<L>["output"] extends t.ExactType<infer T>
           ? t.TypeOf<T>
-          : never
+          : never,
+        CC
       >
     : never;
 };
 
-const toQueries = <G extends MinimalEndpoint, L extends MinimalEndpoint>(
+const toQueries = <
+  G extends MinimalEndpoint,
+  L extends MinimalEndpoint,
+  CC extends { [key: string]: MinimalEndpointInstance }
+>(
   e: ResourceEndpoints<
     EndpointInstance<G>,
     EndpointInstance<L>,
-    EndpointInstance<any>,
-    EndpointInstance<any>,
-    EndpointInstance<any>
+    MinimalEndpointInstance,
+    MinimalEndpointInstance,
+    MinimalEndpointInstance,
+    CC
   >
 ): Query<
   InferEndpointParams<G>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>
+    ? t.TypeOf<T>["data"]
     : never,
   InferEndpointParams<L>["output"] extends t.ExactType<infer T>
     ? t.TypeOf<T>
-    : never
+    : never,
+  CC
 > => {
   return {
-    get: queryShallow<GetOneParams, APIError, any>(
+    get: queryShallow<
+      GetOneParams,
+      APIError,
+      InferEndpointParams<G>["output"] extends t.ExactType<infer T>
+        ? t.TypeOf<T>["data"]
+        : never
+    >(
       (params: GetOneParams) =>
         pipe(
           liftFetch(
             () =>
               dataProvider.getOne<
-                InferEndpointParams<G>["output"] & { id: string }
+                serializedType<InferEndpointParams<G>["output"]> & {
+                  id: string;
+                }
               >(e.Get.getPath(params).split("/")[1], params),
             e.Get.Output.decode
           ),
@@ -226,32 +205,63 @@ const toQueries = <G extends MinimalEndpoint, L extends MinimalEndpoint>(
         ),
       available
     ),
-    getList: queryShallow<GetListParams, APIError, any>(
+    getList: queryShallow<
+      GetListParams,
+      APIError,
+      InferEndpointParams<L>["output"] extends t.ExactType<infer T>
+        ? t.TypeOf<T>
+        : never
+    >(
       (params: GetListParams) =>
         liftFetch(
           () =>
-            dataProvider.getList<
-              InferEndpointParams<L>["output"] & { id: string }
-            >(e.List.getPath(), params),
+            dataProvider.getList<{
+              id: string;
+            }>(e.List.getPath(), params),
           e.List.Output.decode
         ),
       available
     ),
+    Custom: pipe(
+      e.Custom as any,
+      R.map((e: MinimalEndpointInstance) => {
+        const fetch = (
+          params: TypeOfEndpointInstance<typeof e>["Input"]
+        ): TE.TaskEither<APIError, any> =>
+          liftFetch(
+            () =>
+              dataProvider.request({
+                method: e.Method,
+                url: e.getPath((params as any).Params),
+                params: (params as any).Query,
+                data: (params as any).Body,
+                responseType: "json",
+                headers: {
+                  Accept: "application/json",
+                  ...(params as any).Headers,
+                },
+              }),
+            e.Output.decode
+          );
+
+        return queryShallow<
+          TypeOfEndpointInstance<typeof e>["Input"],
+          APIError,
+          TypeOfEndpointInstance<typeof e>["Output"]
+        >(fetch, available);
+      })
+    ) as any,
   };
 };
 
 const Queries: Queries = pipe(
   Endpoints,
   R.toArray,
-  A.reduce<
-    [keyof Endpoints, ResourceEndpoints<any, any, any, any, any>],
-    Queries
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  >({} as Queries, (q, [k, e]) => ({
+  A.reduce({}, (q, [k, e]) => ({
     ...q,
-    [k]: toQueries(e),
+    [k]: toQueries(e as any),
   }))
-);
+) as Queries;
 
 const jsonClient = axios.create({
   baseURL: `${process.env.DATA_URL}/public`,

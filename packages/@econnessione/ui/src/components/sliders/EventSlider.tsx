@@ -13,7 +13,7 @@ import { UncategorizedListItem } from "../lists/EventList/UncategorizedListItem"
 
 export interface EventSliderProps {
   filter: serializedType<typeof GetEventsQueryFilter>;
-  onClick: (e: Events.Event) => void;
+  onClick: (e: Events.Event | Events.SearchEvent) => void;
 }
 
 export const EventSlider: React.FC<EventSliderProps> = ({
@@ -46,10 +46,11 @@ export const EventSlider: React.FC<EventSliderProps> = ({
                   return (
                     <UncategorizedListItem
                       key={e.id}
-                      item={e}
+                      item={{ ...e, media: [] }}
                       actors={[]}
                       groups={[]}
                       links={[]}
+                      media={[]}
                       keywords={[]}
                       groupsMembers={[]}
                       onClick={onClick}

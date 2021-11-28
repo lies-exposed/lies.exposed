@@ -81,4 +81,5 @@ export const articles = ResourceEndpoints({
     getPath: () => `/articles`,
     Output: Output(Article.Article, "Article"),
   }),
+  Custom: {},
 });

@@ -54,4 +54,5 @@ export const projectImages = ResourceEndpoints({
     getPath: () => `/articles`,
     Output: t.undefined,
   }),
+  Custom: {},
 });

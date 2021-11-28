@@ -17,6 +17,7 @@ export interface FPTSLogger {
 export interface Logger {
   debug: FPTSLogger;
   info: FPTSLogger;
+  test: FPTSLogger;
   error: FPTSLogger;
   extend: GetLogger;
 }
@@ -24,9 +25,11 @@ export interface Logger {
 export type GetLogger = (name: string) => Logger;
 
 export const GetLogger = (name: string): Logger => {
-  const debug = baseLogger.extend(name).extend("debug");
-  const info = baseLogger.extend(name).extend("info");
-  const error = baseLogger.extend(name).extend("error");
+  const logger = baseLogger.extend(name);
+  const debug = logger.extend("debug");
+  const info = logger.extend(name).extend("info");
+  const error = logger.extend(name).extend("error");
+  const test = logger.extend(name).extend("test");
 
   const logInPipe =
     (d: debug.Debugger) => (message: string) => (value: any) => {
@@ -79,6 +82,12 @@ export const GetLogger = (name: string): Logger => {
       logInPipe: logInPipe(error),
       logInTask: logInTask(error),
       logInTaskEither: logInTaskEither(error),
+    },
+    test: {
+      log: test,
+      logInPipe: logInPipe(test),
+      logInTask: logInTask(test),
+      logInTaskEither: logInTaskEither(test),
     },
   };
 };

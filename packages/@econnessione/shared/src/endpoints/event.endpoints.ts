@@ -14,6 +14,25 @@ export const List = Endpoint({
   Output: http.Common.ListOutput(http.Events.Event, "ListEvent"),
 });
 
+export const Search = Endpoint({
+  Method: "GET",
+  getPath: () => `/events/search`,
+  Input: {
+    Query: http.Events.Uncategorized.GetEventsQueryFilter,
+  },
+  Output: t.strict(
+    {
+      data: t.array(http.Events.SearchEvent),
+      totals: t.strict({
+        events: t.number,
+        deaths: t.number,
+        scientificStudies: t.number,
+      }),
+    },
+    "Events"
+  ),
+});
+
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/events",
@@ -51,10 +70,15 @@ export const Delete = Endpoint({
   Output: SingleEventOutput,
 });
 
-export const events = ResourceEndpoints({
+const events = ResourceEndpoints({
   Get,
   Create,
   List,
   Edit,
   Delete,
+  Custom: {
+    Search,
+  },
 });
+
+export { events };

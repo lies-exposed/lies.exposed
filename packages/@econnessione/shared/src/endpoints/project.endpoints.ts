@@ -107,4 +107,5 @@ export const projects = ResourceEndpoints({
   List,
   Edit,
   Delete,
+  Custom: {},
 });

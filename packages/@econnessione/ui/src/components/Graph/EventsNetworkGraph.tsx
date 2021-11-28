@@ -39,7 +39,7 @@ import GroupList from "../lists/GroupList";
 type GroupByItem = Actor.Actor | Group.Group;
 
 type NetworkDatum = NetworkNodeDatum &
-  Omit<Events.Uncategorized.Uncategorized, "actors" | "groups">;
+  Omit<Events.Uncategorized.UncategorizedSearch, "actors" | "groups">;
 
 interface EventNetworkDatum extends NetworkDatum {
   title: string;
@@ -56,7 +56,7 @@ interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
 }
 
 export interface EventsNetworkGraphProps {
-  events: Events.Uncategorized.Uncategorized[];
+  events: Events.Uncategorized.UncategorizedSearch[];
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
@@ -144,6 +144,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                         <EventListItem
                           event={{
                             ...event,
+                            media: [],
                             groups: groups.map((g) => g.id),
                             actors: actors.map((a) => a.id),
                           }}
@@ -151,6 +152,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                           groups={groups}
                           keywords={keywords}
                           groupsMembers={[]}
+                          media={[]}
                         />
                       );
                     }}
@@ -406,7 +408,7 @@ const getLinks =
 
 interface Result {
   eventNodes: Array<NetworkPointNode<EventNetworkDatum>>;
-  selectedEvents: Events.Uncategorized.Uncategorized[];
+  selectedEvents: Events.Uncategorized.UncategorizedSearch[];
   // group by
   groupByItems: Map<string, Actor.Actor | Group.Group>;
   groupByLinks: Map<string, NetworkLink[]>;
@@ -430,7 +432,7 @@ export interface EventsNetworkGraphData {
     nodes: Group.Group[];
   };
   events: {
-    nodes: Events.Uncategorized.Uncategorized[];
+    nodes: Events.Uncategorized.UncategorizedSearch[];
   };
 }
 
@@ -443,7 +445,7 @@ export interface EventsNetworkGraphDataProps {
     nodes: Array<NetworkPointNode<EventNetworkDatum>>;
     links: NetworkLink[];
   };
-  selectedEvents: Events.Uncategorized.Uncategorized[];
+  selectedEvents: Events.Uncategorized.UncategorizedSearch[];
   width: number;
   height: number;
   groupByScale: ScaleOrdinal<string, string>;
@@ -572,6 +574,7 @@ export function createEventNetworkGraphProps({
                   allGroups.filter((g) => groups.includes(g.id))
                 )
               ),
+              media: [],
               label: e.title,
               // color: groupByItem ? groupByItem.color : "#ccc",
               innerColor: groupByItem ? groupByItem.color : "#ccc",

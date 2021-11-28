@@ -50,7 +50,10 @@ const NetworkExample: React.FC = () => {
         groupBy="actor"
         scale={"all"}
         scalePoint={O.none}
-        events={pipe(events, A.filter(Events.Uncategorized.Uncategorized.is))}
+        events={pipe(
+          events,
+          A.filter(Events.Uncategorized.UncategorizedSearch.is)
+        )}
         actors={actors.map((a) => ({
           ...a,
           body: "empty",

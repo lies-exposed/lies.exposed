@@ -72,4 +72,5 @@ export const scientificStudies = ResourceEndpoints({
   Create,
   Edit,
   Delete,
+  Custom: {},
 });

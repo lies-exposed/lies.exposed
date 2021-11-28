@@ -30,6 +30,7 @@ export interface InfiniteEventListMetadata {
   groups: string[];
   keywords: string[];
   groupsMembers: string[];
+  media: string[];
 }
 
 export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
@@ -64,13 +65,13 @@ const buildFromCache = <T extends t.Any, M>(
             if (parseInt(p, 10) <= page) {
               return {
                 data: acc.data.concat(item.data),
-                total: item.total,
+                totals: item.totals,
                 metadata: item.metadata,
               };
             }
             return acc;
           },
-          { data: [], total: 0, metadata: empty }
+          { data: [], totals: {}, metadata: empty }
         );
       }
     );
@@ -80,7 +81,7 @@ const buildFromCache = <T extends t.Any, M>(
 };
 
 const paginatedCachedQuery =
-  <T extends t.Mixed, M>(
+  <M, T extends t.Mixed = t.Mixed>(
     apiRequest: (input: any) => TE.TaskEither<APIError, t.TypeOf<T>>,
     empty: M,
     reduceMetadata: (acc: M & { data: any[] }, e: t.TypeOf<T>) => M
@@ -116,8 +117,16 @@ const paginatedCachedQuery =
               ...(query as any),
             },
           }),
-          TE.map((prevRes) => {
-            stateLogger.debug.log("[%s] API response %O", cacheKey, prevRes);
+          TE.mapLeft((e) => {
+            stateLogger.debug.log(`API Error %O`, e.details);
+            return e;
+          }),
+          TE.map((apiResponse) => {
+            stateLogger.debug.log(
+              "[%s] API response %O",
+              cacheKey,
+              apiResponse
+            );
 
             const storedResponse = pipe(
               infiniteListCache[cacheKey] ?? {},
@@ -132,17 +141,17 @@ const paginatedCachedQuery =
 
             const { data, ...metadata } = [
               ...storedResponse,
-              ...prevRes.data,
+              ...apiResponse.data,
             ].reduce(reduceMetadata, { data: [], ...empty });
 
             const response = {
-              total: prevRes.total,
+              totals: apiResponse.totals,
               data,
               metadata,
             };
 
             infiniteListCache[cacheKey][page] = {
-              ...prevRes,
+              ...apiResponse,
               metadata: response.metadata,
             };
 
@@ -155,31 +164,64 @@ const paginatedCachedQuery =
     );
   };
 
-const makeEventListQuery = paginatedCachedQuery(
-  api.Event.List,
-  { actors: [], groups: [], groupsMembers: [], keywords: [] },
-  (acc, e) => {
+const reduceEvent = (
+  acc: InfiniteEventListMetadata,
+  e: Events.SearchEvent
+): InfiniteEventListMetadata => {
+  if (e.type === "ScientificStudy") {
     return {
-      data: acc.data.concat(e),
-      actors: acc.actors
-        .filter((a: string) => !(e.actors ?? []).includes(a))
-        .concat(e.actors),
-      groups: acc.groups
-        .filter((a: string) => !(e.groups ?? []).includes(a))
-        .concat(e.groups),
-      keywords: acc.keywords
-        .filter((a: string) => !(e.keywords ?? []).includes(a))
-        .concat(e.keywords),
-      groupsMembers: acc.groupsMembers
-        .filter((a: string) => !(e.groupsMembers ?? []).includes(a))
-        .concat(e.groupsMembers),
+      ...acc,
+      groups: acc.groups.includes(e.publisher)
+        ? acc.groups
+        : acc.groups.concat(e.publisher),
+    };
+  }
+  if (e.type === "Death") {
+    return {
+      ...acc,
+      actors: acc.actors.includes(e.victim)
+        ? acc.actors
+        : acc.actors.concat(e.victim),
+    };
+  }
+
+  return {
+    actors: acc.actors
+      .filter((a: string) => !(e.actors ?? []).includes(a))
+      .concat(e.actors),
+    groups: acc.groups
+      .filter((a: string) => !(e.groups ?? []).includes(a))
+      .concat(e.groups),
+    keywords: acc.keywords
+      .filter((a: string) => !(e.keywords ?? []).includes(a))
+      .concat(e.keywords),
+    groupsMembers: acc.groupsMembers
+      .filter((a: string) => !(e.groupsMembers ?? []).includes(a))
+      .concat(e.groupsMembers),
+    media: acc.media
+      .filter((a: string) => !(e.media ?? []).includes(a))
+      .concat(e.media),
+  };
+};
+
+const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
+  api.Event.Custom.Search,
+  { actors: [], groups: [], groupsMembers: [], keywords: [], media: [] },
+  ({ data, ...acc }, e) => {
+    return {
+      data: data.concat(e),
+      ...reduceEvent(acc, e),
     };
   }
 );
 
 interface InfiniteEventListResult {
-  data: Events.Event[];
-  total: number;
+  data: Events.SearchEvent[];
+  totals: {
+    events: number;
+    deaths: number;
+    scientificStudies: number;
+  };
   metadata: InfiniteEventListMetadata;
 }
 
@@ -225,28 +267,28 @@ export const deathsPaginated = queryStrict<
   refetch
 );
 
-export const scientificStudiesPaginated = queryStrict(
-  paginatedCachedQuery(
-    api.ScientificStudy.List,
-    {},
-    (acc, d: Events.ScientificStudy.ScientificStudy) => {
-      return {
-        data: acc.data.concat(d),
-      };
-    }
-  )(IL_SCIENTIFIC_STUDIES_KEY_PREFIX),
-  available
-);
+// export const scientificStudiesPaginated = queryStrict(
+//   paginatedCachedQuery(
+//     api.ScientificStudy.List,
+//     {},
+//     (acc, d: Events.ScientificStudy.ScientificStudy) => {
+//       return {
+//         data: acc.data.concat(d),
+//       };
+//     }
+//   )(IL_SCIENTIFIC_STUDIES_KEY_PREFIX),
+//   available
+// );
 
-export const actorsInfiniteList = queryStrict<
-  { ids?: string[]; fullName?: string; page?: number; hash?: string },
-  APIError,
-  { data: Actor.Actor[]; total: number; metadata: {} }
->(
-  paginatedCachedQuery(api.Actor.List, {}, (acc, d: Actor.Actor) => {
-    return {
-      data: acc.data.concat(d),
-    };
-  })(IL_ACTORS_KEY_PREFIX),
-  available
-);
+// export const actorsInfiniteList = queryStrict<
+//   { ids?: string[]; fullName?: string; page?: number; hash?: string },
+//   APIError,
+//   { data: Actor.Actor[]; total: number; metadata: {} }
+// >(
+//   paginatedCachedQuery(api.Actor.List, {}, (acc, d: Actor.Actor) => {
+//     return {
+//       data: acc.data.concat(d),
+//     };
+//   })(IL_ACTORS_KEY_PREFIX),
+//   available
+// );

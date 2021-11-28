@@ -5,8 +5,8 @@ import {
   Group,
   GroupMember,
   Keyword,
+  Media,
 } from "@econnessione/shared/io/http";
-import { Event } from "@econnessione/shared/io/http/Events";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
 import {
   List,
@@ -24,7 +24,7 @@ import { EventListItem } from "./EventListItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.Event): string => {
+  Eq.contramap((e: Events.SearchEvent): string => {
     return formatISO(eventDate(e), { representation: "date" });
   })
 );
@@ -42,35 +42,39 @@ const useStyles = makeStyles((props) => ({
 const renderRow = (props: {
   index: number;
   data: {
-    events: Event[];
+    events: Events.SearchEvent[];
     actors: Actor.Actor[];
     groups: Group.Group[];
     groupsMembers: GroupMember.GroupMember[];
     keywords: Keyword.Keyword[];
-    onClick: (e: Event) => void;
+    media: Media.Media[];
+    onClick: (e: Events.SearchEvent) => void;
   };
 }): React.ReactElement => {
   const {
     index,
-    data: { events, actors, groups, groupsMembers, keywords, onClick },
+    data: { events, actors, groups, groupsMembers, keywords, media, onClick },
   } = props;
 
   const e = events[index];
 
-  const eventActors = Events.Uncategorized.Uncategorized.is(e)
-    ? actors.filter((a) => e.actors.includes(a.id))
-    : Events.Death.Death.is(e)
+  const eventActors = Events.Death.Death.is(e)
     ? actors.filter((a) => e.victim === a.id)
+    : Events.Uncategorized.UncategorizedSearch.is(e)
+    ? actors.filter((a) => e.actors.includes(a.id))
     : [];
-  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
+  const eventGroups = Events.Uncategorized.UncategorizedSearch.is(e)
     ? groups.filter((a) => e.groups.includes(a.id))
     : [];
-  const eventKeywords = Events.Uncategorized.Uncategorized.is(e)
+  const eventKeywords = Events.Uncategorized.UncategorizedSearch.is(e)
     ? keywords.filter((a) => e.keywords.includes(a.id))
     : [];
 
-  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
+  const eventGroupMembers = Events.Uncategorized.UncategorizedSearch.is(e)
     ? groupsMembers.filter((g) => e.groupsMembers.includes(g.id))
+    : [];
+  const eventMedia = Events.Uncategorized.UncategorizedSearch.is(e)
+    ? media.filter((m) => e.media.includes(m.id))
     : [];
 
   return (
@@ -81,6 +85,7 @@ const renderRow = (props: {
         groups={eventGroups}
         keywords={eventKeywords}
         groupsMembers={eventGroupMembers}
+        media={eventMedia}
         onClick={onClick}
       />
     </ListItem>
@@ -90,16 +95,17 @@ const renderRow = (props: {
 const renderHeaderRow: React.FC<{
   index: number;
   data: {
-    events: Event[];
+    events: Events.SearchEvent[];
     actors: Actor.Actor[];
     groups: Group.Group[];
     groupsMembers: GroupMember.GroupMember[];
     keywords: Keyword.Keyword[];
+    media: Media.Media[];
     classes: {
       listItemUList: string;
       listSubheader: string;
     };
-    onClick: (e: Event) => void;
+    onClick: (e: Events.SearchEvent) => void;
   };
 }> = (props) => {
   const {
@@ -130,12 +136,13 @@ const renderHeaderRow: React.FC<{
 export interface EventListProps {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.Event[];
+  events: Events.SearchEvent[];
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
-  onClick: (e: Events.Event) => void;
+  media: Media.Media[];
+  onClick: (e: Events.SearchEvent) => void;
 }
 
 const EventList: React.FC<EventListProps> = ({
@@ -143,6 +150,7 @@ const EventList: React.FC<EventListProps> = ({
   groups,
   keywords,
   groupsMembers,
+  media,
   onClick,
   ...props
 }) => {
@@ -150,15 +158,16 @@ const EventList: React.FC<EventListProps> = ({
   const classes = useStyles();
   return (
     <List className="events" subheader={<div />} {...props}>
-      {events.map((e, i) =>
+      {events.map((ee, i) =>
         renderHeaderRow({
           index: i,
           data: {
-            events: e,
+            events: ee,
             actors,
             groups,
             groupsMembers,
             keywords,
+            media,
             classes,
             onClick,
           },

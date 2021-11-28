@@ -4,6 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
+  Media,
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,13 +21,14 @@ import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
 
 interface UncategorizedListItemProps {
-  item: Events.Uncategorized.Uncategorized;
+  item: Events.Uncategorized.UncategorizedSearch;
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
+  media: Media.Media[];
   links: string[];
-  onClick?: (e: Events.Uncategorized.Uncategorized) => void;
+  onClick?: (e: Events.Uncategorized.UncategorizedSearch) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
   onGroupMemberClick?: (g: GroupMember.GroupMember) => void;
@@ -40,6 +42,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   groups,
   groupsMembers,
   links,
+  media,
   onClick,
   onActorClick,
   onGroupClick,
@@ -57,9 +60,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item md={3} sm={12} xs={12}>
+        <Grid item md={4} sm={12} xs={12}>
           {pipe(
-            item.media,
+            media,
             O.fromPredicate((arr) => arr.length > 0),
             O.map((media) => (
               // eslint-disable-next-line react/jsx-key
@@ -69,12 +72,15 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 height="300"
                 image={media[0].location}
                 title={media[0].description}
+                style={{
+                  objectFit: "contain",
+                }}
               />
             )),
             O.toNullable
           )}
         </Grid>
-        <Grid item md={9}>
+        <Grid item md={8} sm={12} xs={12}>
           <Typography variant="h6">{item.title}</Typography>
           <Grid item md={12} style={{ marginBottom: 20 }}>
             <KeywordList

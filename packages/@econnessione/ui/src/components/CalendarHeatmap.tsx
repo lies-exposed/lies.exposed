@@ -26,7 +26,7 @@ const min = (data: any, f: (d: any) => number): number =>
   Math.min(...data.map(f));
 
 interface TooltipData {
-  event: O.Option<Events.Uncategorized.Uncategorized>;
+  event: O.Option<Events.Uncategorized.UncategorizedSearch>;
   date: Date;
 }
 
@@ -46,8 +46,8 @@ interface CalendarHeatmapProps {
     right: number;
     bottom: number;
   };
-  events: Events.Uncategorized.Uncategorized[];
-  onCircleClick: (e: Events.Uncategorized.Uncategorized) => void;
+  events: Events.Uncategorized.UncategorizedSearch[];
+  onCircleClick: (e: Events.Uncategorized.UncategorizedSearch) => void;
 }
 
 const CalendarHeatmapComponent: React.FC<
