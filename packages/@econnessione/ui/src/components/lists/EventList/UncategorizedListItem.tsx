@@ -60,7 +60,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item md={3} sm={12} xs={12}>
+        <Grid item md={4} sm={12} xs={12}>
           {pipe(
             media,
             O.fromPredicate((arr) => arr.length > 0),
@@ -80,7 +80,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             O.toNullable
           )}
         </Grid>
-        <Grid item md={9}>
+        <Grid item md={8} sm={12} xs={12}>
           <Typography variant="h6">{item.title}</Typography>
           <Grid item md={12} style={{ marginBottom: 20 }}>
             <KeywordList
