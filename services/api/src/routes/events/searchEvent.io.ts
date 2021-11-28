@@ -8,8 +8,6 @@ interface SearchEventEntity {
   // uncategorized
   title: string;
   excerpt: string | null;
-  body: string;
-  body2: string | null;
   startDate: string;
   endDate: string | null;
   groups: UUID[];
@@ -75,8 +73,6 @@ export const toSearchEventIO = (
     keywords: e.keywords.filter((a: any) => a !== null),
     links: e.links.filter((a: any) => a !== null),
     media: e.media.filter((a: any) => a !== null),
-    excerpt: e.excerpt ?? e.body,
-    body2: e.body2 === null ? null : JSON.parse(e.body2),
     createdAt: new Date(e.createdAt),
     updatedAt: new Date(e.updatedAt),
   };

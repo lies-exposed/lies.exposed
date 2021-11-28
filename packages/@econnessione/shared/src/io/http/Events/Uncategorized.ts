@@ -115,7 +115,8 @@ export const Uncategorized = t.strict(
 );
 export type Uncategorized = t.TypeOf<typeof Uncategorized>;
 
-const { media, ...uncategorizedEventProps } = Uncategorized.type.props;
+const { media, body, body2, ...uncategorizedEventProps } =
+  Uncategorized.type.props;
 
 export const UncategorizedSearch = t.strict({
   ...uncategorizedEventProps,

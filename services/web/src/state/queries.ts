@@ -64,13 +64,13 @@ const buildFromCache = <T extends t.Any, M>(
             if (parseInt(p, 10) <= page) {
               return {
                 data: acc.data.concat(item.data),
-                total: item.totals,
+                totals: item.totals,
                 metadata: item.metadata,
               };
             }
             return acc;
           },
-          { data: [], totals: 0, metadata: empty }
+          { data: [], totals: {}, metadata: empty }
         );
       }
     );
