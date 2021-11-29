@@ -7,6 +7,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { Configuration, DefinePlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -130,6 +131,10 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     ]),
   ];
 
+  if (mode === "production") {
+    plugins.push(new MiniCssExtractPlugin());
+  }
+
   if (buildENV.BUNDLE_STATS) {
     plugins.push(
       new BundleAnalyzerPlugin({
@@ -184,7 +189,10 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"],
+          use:
+            mode === "development"
+              ? ["style-loader", "css-loader"]
+              : [MiniCssExtractPlugin.loader, "css-loader"],
         },
       ],
     },

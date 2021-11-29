@@ -31,6 +31,7 @@ import { AdminScientificStudiesResource } from "./components/AdminScientificStud
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import englishMessages from "./i18n/en-US";
+import "./index.css";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
