@@ -10,7 +10,11 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
-    "typeRoots": ["../../../node_modules/@types", "node_modules/@types"],
+    "typeRoots": [
+      "../../../node_modules/@types",
+      "node_modules/@types",
+      "typings"
+    ],
     "paths": {
       "@Common/*": ["./Common/*"],
       "@http/*": ["./http/*"]
