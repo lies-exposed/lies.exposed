@@ -1,7 +1,5 @@
 import { MediaType } from "@econnessione/shared/io/http/Media";
 import { Box } from "@material-ui/core";
-import get from "lodash/get";
-import has from "lodash/has";
 import { FormDataConsumer, InputProps } from "ra-core";
 import { FileInput, SelectInput } from "ra-ui-materialui";
 import * as React from "react";
@@ -23,18 +21,19 @@ export const MediaInput: React.FC<MediaInputProps> = ({
         {...props}
         source={sourceType}
         choices={MediaType.types.map((v) => ({ id: v.value, name: v.value }))}
+        defaultValue={MediaType.types[0].value}
       />
       <FormDataConsumer>
         {({ formData, scopedFormData, getSource, ...rest }) => {
           const mediaType = formData[sourceType] ?? MediaType.types[0].value;
-          const accept = [mediaType];
+          const accept = [mediaType.split("/")[1]];
 
           return (
             <Box>
               <FileInput
                 {...rest}
                 source={sourceLocation}
-                accept={accept.map((t) => t.value).join(",")}
+                accept={accept.map((a) => `.${a}`).join(",")}
               >
                 <MediaField type={formData[sourceType]} source="src" />
               </FileInput>

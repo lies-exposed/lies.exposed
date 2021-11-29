@@ -10,7 +10,7 @@ require("dotenv").config({
     process.cwd(),
     process.env.DOTENV_CONFIG_PATH !== undefined
       ? process.env.DOTENV_CONFIG_PATH
-      : "../../.env.local"
+      : "../../.env"
   ),
 });
 

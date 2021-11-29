@@ -4,7 +4,6 @@ import * as Helmet from "react-helmet";
 import AdminPage from "./AdminPage";
 import reportWebVitals from "./reportWebVitals";
 import "ol/ol.css";
-import "@react-page/editor/lib/index.css";
 
 ReactDOM.render(
   <React.StrictMode>

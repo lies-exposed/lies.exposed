@@ -1,5 +1,6 @@
 import { AddEndpoint } from "@econnessione/shared/endpoints";
 import { GetSignedURL } from "@econnessione/shared/endpoints/upload.endpoints";
+import * as Media from "@econnessione/shared/io/http/Media";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -7,18 +8,15 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 
 const fileExtFromContentType = (c: string): string => {
-  if (c === "video/mp4") {
-    return "mp4";
-  }
-  if (c === "image/jpeg") {
-    return "jpg";
-  }
+  switch (c) {
+    case Media.MediaType.types[2].value:
+      return "mp4";
 
-  if (c === "image/png") {
-    return "png";
+    case Media.MediaType.types[1].value:
+      return "png";
+    default:
+      return "jpg";
   }
-
-  return "jpg";
 };
 
 export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {

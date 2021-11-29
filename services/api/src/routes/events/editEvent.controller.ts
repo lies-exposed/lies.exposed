@@ -37,8 +37,8 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
               UUID.is(i)
                 ? { id: i }
                 : {
-                    ...i,
                     id: uuid(),
+                    ...i,
                   }
             )
           )
