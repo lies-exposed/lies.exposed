@@ -35,7 +35,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 ): Configuration => {
   // webpackLogger.debug.log("Initial process.env %O", process.env);
   const mode: Configuration["mode"] =
-    (process.env.NODE_ENV as Configuration["mode"]) ?? ("production" as const);
+    (process.env.NODE_ENV as Configuration["mode"]) ?? ("development" as const);
   const DOTENV_CONFIG_PATH =
     process.env.DOTENV_CONFIG_PATH ?? path.resolve(opts.envFileDir, ".env");
 
@@ -183,31 +183,22 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           use: [{ loader: "file-loader" }],
         },
         {
-          test: /\.(css)$/,
-          use: [
-            {
-              loader: "style-loader",
-            },
-            {
-              loader: "css-loader",
-            },
-          ],
+          test: /\.css$/,
+          use: ["style-loader", "css-loader"],
         },
       ],
     },
 
-    devtool: mode === "development" ? "inline-source-map" : false,
+    devtool: mode === "development" ? "source-map" : false,
 
     resolve: {
       extensions: [".ts", ".tsx", ".js"],
-      // alias,
       plugins: [
         new TsconfigPathsPlugin({
           configFile: path.resolve(opts.cwd, "./tsconfig.json"),
         }),
       ],
     },
-
     plugins,
   };
 };
