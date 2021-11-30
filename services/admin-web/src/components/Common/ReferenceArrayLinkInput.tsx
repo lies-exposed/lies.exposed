@@ -10,7 +10,6 @@ const ReferenceArrayLinkInput: React.FC<
 > = (props) => {
   return (
     <ReferenceArrayInput
-      initialValue={[]}
       {...props}
       reference="links"
       filterToQuery={(description: any) => ({ description })}

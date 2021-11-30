@@ -10,7 +10,6 @@ const ReferenceArrayKeywordInput: React.FC<
 > = (props) => {
   return (
     <ReferenceArrayInput
-      initialValue={[]}
       {...props}
       reference="keywords"
       filterToQuery={(tag: string) => ({ tag })}

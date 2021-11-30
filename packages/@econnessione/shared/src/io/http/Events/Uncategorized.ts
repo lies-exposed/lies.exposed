@@ -8,7 +8,7 @@ import { CreateLink } from "../Link";
 import { MediaType } from "../Media";
 import { GetListQuery } from "../Query";
 
-export const GetEventsQueryFilter = t.partial(
+export const GetEventsQueryFilter = t.type(
   {
     ...GetListQuery.props,
     groupsMembers: optionFromUndefined(t.array(t.string)),

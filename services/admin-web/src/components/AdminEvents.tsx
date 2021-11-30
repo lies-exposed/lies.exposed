@@ -362,10 +362,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         <ReferenceArrayActorInput source="actors" initialValue={[]} />
       </FormTab>
       <FormTab label="Group Members">
-        <ReferenceArrayGroupMemberInput
-          source="groupsMembers"
-          initialValue={[]}
-        />
+        <ReferenceArrayGroupMemberInput source="groupsMembers" />
       </FormTab>
       <FormTab label="Groups">
         <ReferenceArrayInput

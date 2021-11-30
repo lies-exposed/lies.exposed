@@ -22,6 +22,7 @@ import * as React from "react";
 // import { resetInfiniteList } from "../state/commands";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
 import { EventsNetwork } from "@containers/EventsNetwork";
+import { EventsPanel } from "@containers/EventsPanel";
 import InfiniteEventList from "@containers/InfiniteEventList";
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
@@ -122,9 +123,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
           <PageContent queries={{ pageContent: { path: "events" } }} />
         </Grid>
 
-        <Grid item lg={2} md={3} sm={12} xs={12}>
-          <Grid container spacing={2} sm={12}>
-            <Grid item lg={12} md={12} sm={6} xs={6}>
+        <Grid item lg={2} md={12} sm={12} xs={12}>
+          <Grid container spacing={2} md={12} sm={12}>
+            <Grid item lg={12} md={6} sm={6} xs={6}>
               <DatePicker
                 size="small"
                 value={dateRange[0]}
@@ -136,7 +137,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                 style={{ width: "100%" }}
               />
             </Grid>
-            <Grid item lg={12} md={12} sm={6} xs={6}>
+            <Grid item lg={12} md={6} sm={6} xs={6}>
               <DatePicker
                 size="small"
                 value={dateRange[1]}
@@ -152,7 +153,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
         </Grid>
         <Grid item lg={10} md={12} sm={12} xs={12}>
           <Grid container spacing={2} sm={12}>
-            <Grid item lg={4} md={12} sm={6} xs={6}>
+            <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteGroupInput
                 selectedIds={groupIds}
                 onChange={onGroupsChange}
@@ -177,7 +178,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} justifyContent="flex-end">
+          <Grid container spacing={2} sm={12} justifyContent="flex-end">
             <Grid item md={2} sm={6} xs={12}>
               <Button
                 fullWidth
@@ -203,53 +204,15 @@ const EventsPage: React.FC<EventsPageProps> = ({
           </Grid>
         </Grid>
       </Grid>
-      <Grid item lg={10} md={10} sm={12} xs={12} style={{ maxWidth: "100%" }}>
-        <Tabs
-          style={{ marginBottom: 30 }}
-          value={tab}
-          onChange={(e, tab) => handleUpdateCurrentView({ tab })}
-        >
-          <Tab label="list" {...a11yProps(0)} />
-          <Tab label="map" {...a11yProps(1)} />
-          <Tab label="network" {...a11yProps(2)} />
-        </Tabs>
-
-        <TabPanel value={tab} index={0}>
-          {tab === 0 ? (
-            <InfiniteEventList
-              hash={filters.hash ?? "default"}
-              filters={filters}
-            />
-          ) : null}
-        </TabPanel>
-        <TabPanel value={tab} index={1}>
-          {tab === 1 ? (
-            <EventsMap
-              filter={{
-                actors: [],
-                groups: [],
-              }}
-              onMapClick={() => {}}
-            />
-          ) : null}
-        </TabPanel>
-        <TabPanel value={tab} index={2}>
-          {tab === 2 ? (
-            <EventsNetwork
-              filter={filters}
-              groupBy={"actor"}
-              scale={"all"}
-              scalePoint={O.none}
-              onEventClick={(e) => {
-                void doUpdateCurrentView({
-                  view: "event",
-                  eventId: e.id,
-                })();
-              }}
-            />
-          ) : null}
-          <div />
-        </TabPanel>
+      <Grid item lg={10} md={12} sm={12} xs={12} style={{ maxWidth: "100%" }}>
+        <EventsPanel
+          view={{
+            view: "events",
+          }}
+          tab={tab}
+          hash={hash}
+          filters={filters}
+        />
       </Grid>
     </Grid>
   );

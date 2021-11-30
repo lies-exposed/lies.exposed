@@ -23,35 +23,35 @@ export const searchEventSQL = ({
   take,
   skip,
 }: SearchEventsSQLInput): sql.SQLQuery => {
+  const inGroups = groups.map((g) => `'${g}'`).join(",");
+  const inActors = actors.map((a) => `'${a}'`).join(",");
+  const inGroupsMembers = groupsMembers.map((a) => `'${a}'`).join(",");
+
   const eventGroupsJoin = sql.sql.__dangerous__rawValue(`
   ${
     groups.length > 0 ? "inner" : "left"
   } join "event_groups_group" "g" on "g"."eventId" = "event"."id" ${
-    groups.length > 0
-      ? ` AND "g"."groupId" IN (${groups.map((g) => `'${g}'`).join(",")})`
-      : ``
+    groups.length > 0 ? ` AND "g"."groupId" IN (${inGroups})` : ``
   }
   `);
 
+  const eventActorsWhere = `"a"."actorId" IN (${inActors})`;
+
   const eventActorsJoin = sql.sql.__dangerous__rawValue(
     `${
-      actors.length > 0 ? "inner" : "left"
+      actors.length > 0 ? "left" : "left"
     } join "event_actors_actor" "a" on "a"."eventId" = "event"."id" ${
-      actors.length > 0
-        ? ` AND "a"."actorId" IN (${actors.map((a) => `'${a}'`).join(",")})`
-        : ``
+      actors.length > 0 ? `AND ${eventActorsWhere}` : ""
     }`
   );
 
+  const eventGroupsMembersWhere = `"gm"."groupMemberId" IN (${inGroupsMembers})`;
+
   const eventGroupsMembersJoin = sql.sql.__dangerous__rawValue(
     `${
-      groupsMembers.length > 0 ? "inner" : "left"
+      groupsMembers.length > 0 && actors.length === 0 ? "inner" : "left"
     } join "event_groups_members_group_member" "gm" on "gm"."eventId" = "event"."id" ${
-      groupsMembers.length > 0
-        ? ` AND "gm"."groupMemberId" IN (${groupsMembers
-            .map((a) => `'${a}'`)
-            .join(",")})`
-        : ``
+      groupsMembers.length > 0 ? `AND ${eventGroupsMembersWhere}` : ``
     }`
   );
 
@@ -87,7 +87,25 @@ export const searchEventSQL = ({
     }`
   );
 
+  const eventsRelationsWhereRaw = sql.sql.__dangerous__rawValue(
+    actors.length > 0 && groupsMembers.length > 0
+      ? `AND (${eventActorsWhere} OR ${eventGroupsMembersWhere})`
+      : actors.length > 0
+      ? `AND ${eventActorsWhere}`
+      : ``
+  );
+
   // deaths
+
+  const deathsSuspectsJoin = sql.sql.__dangerous__rawValue(
+    `${
+      groups.length > 0 ? "inner" : "left"
+    } join "death_event_subspected_groups_group" "g" on "g"."deathEventId" = "death"."id" ${
+      groups.length > 0
+        ? ` AND "g"."groupId" IN (${groups.map((a) => `'${a}'`).join(",")})`
+        : ``
+    }`
+  );
   const deathWhere = sql.sql.__dangerous__rawValue(
     `${
       actors.length > 0
@@ -104,6 +122,7 @@ export const searchEventSQL = ({
   const deathDateEndRangeWhere = sql.sql.__dangerous__rawValue(
     endDate !== undefined ? `AND "date" < '${endDate.toISOString()}'` : ""
   );
+
   // scientific studies
   const scientificStudiesActorsJoin = sql.sql.__dangerous__rawValue(`
   ${
@@ -164,6 +183,7 @@ export const searchEventSQL = ({
         left join "event_media_image" "m" on "m"."eventId" = "event"."id"
     WHERE "event"."deletedAt" IS NULL
     ${eventsDateRangeWhere}
+    ${eventsRelationsWhereRaw}
     group by
         "event"."id"
     ORDER BY "startDate" DESC
@@ -191,6 +211,7 @@ all (
         cast("death"."updatedAt" as date) as "updatedAt"
     from
         "death_event" "death"
+        ${deathsSuspectsJoin}
     WHERE "death"."deletedAt" IS NULL
     ${deathWhere} ${deathsStartDateRangeWhere} ${deathDateEndRangeWhere}
     group by "death"."id"
