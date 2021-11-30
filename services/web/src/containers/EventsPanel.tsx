@@ -48,10 +48,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
       <TabPanel value={tab} index={0}>
         {tab === 0 ? (
-          <InfiniteEventList
-            hash={filters.hash ?? "default"}
-            filters={filters}
-          />
+          <InfiniteEventList hash={hash ?? "default"} filters={filters} />
         ) : null}
       </TabPanel>
       <TabPanel value={tab} index={1}>
