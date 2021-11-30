@@ -53,7 +53,7 @@ export const MediaList: React.FC<ListProps> = (props) => (
   >
     <Datagrid rowClick="edit">
       <TextField source="type" />
-      <ImageField source="location" />
+      <MediaField source="location" />
       <TextField source="description" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />

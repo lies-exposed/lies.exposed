@@ -45,6 +45,7 @@ import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
+import { MediaInput } from "./Common/MediaInput";
 import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
@@ -351,23 +352,26 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         />
         <DateInput source="endDate" />
         <ReferenceArrayKeywordInput source="keywords" />
+      </FormTab>
+      <FormTab label="body">
+        <RichTextInput source="excerpt" defaultValue="" />
+        <ReactPageInput source="body2" />
         <TextInput source="body" defaultValue="" />
-        <ReactPageInput source="body2" defaultValue="" />
       </FormTab>
       <FormTab label="Actors">
-        <ReferenceArrayActorInput source="actors" defaultValue={[]} />
+        <ReferenceArrayActorInput source="actors" initialValue={[]} />
       </FormTab>
       <FormTab label="Group Members">
         <ReferenceArrayGroupMemberInput
           source="groupsMembers"
-          defaultValue={[]}
+          initialValue={[]}
         />
       </FormTab>
       <FormTab label="Groups">
         <ReferenceArrayInput
           source="groups"
           reference="groups"
-          defaultValue={[]}
+          initialValue={[]}
         >
           <SelectArrayInput optionText="name" />
         </ReferenceArrayInput>
@@ -378,10 +382,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
       <FormTab label="Media">
         <ArrayInput source="media" defaultValue={[]}>
           <SimpleFormIterator>
-            <ImageInput source="location">
-              <ImageField source="src" />
-            </ImageInput>
-            <TextInput source="description" />
+            <MediaInput sourceType="type" sourceLocation="location" />
           </SimpleFormIterator>
         </ArrayInput>
       </FormTab>

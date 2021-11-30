@@ -11,7 +11,7 @@ const ReferenceArrayGroupInput: React.FC<
 > = (props) => {
   return (
     <ReferenceArrayInput
-      defaultValue={[]}
+      initialValue={[]}
       {...props}
       reference="groups"
       filterToQuery={(name: any) => ({ name })}

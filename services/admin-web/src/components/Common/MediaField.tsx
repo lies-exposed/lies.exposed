@@ -21,10 +21,19 @@ export const MediaField: React.FC<MediaFieldProps> = (props) => {
   }
 
   switch (mediaType) {
-    case MediaType.types[2].value:
-      return <video controls={true} autoPlay={false} src={src} />;
-    case MediaType.types[3].value:
+    case MediaType.types[4].value:
       return <UrlField {...props} />;
+    case MediaType.types[3].value:
+      return (
+        <video
+          controls={true}
+          autoPlay={false}
+          preload="none"
+          style={{ maxWidth: 300 }}
+        >
+          <source src={src} />
+        </video>
+      );
     default:
       return <ImageField {...props} />;
   }
