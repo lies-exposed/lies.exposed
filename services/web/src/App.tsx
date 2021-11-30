@@ -92,11 +92,11 @@ const getCurrentComponent = (currentView: CurrentView): React.ReactElement => {
     case "actors":
       return <ActorsPage />;
     case "actor":
-      return <ActorTemplate actorId={currentView.actorId} />;
+      return <ActorTemplate {...currentView} />;
     case "groups":
       return <GroupsPage />;
     case "group":
-      return <GroupTemplate groupId={currentView.groupId} />;
+      return <GroupTemplate {...currentView} />;
     case "events":
       return <EventsPage {...currentView} />;
     case "event":

@@ -6,18 +6,14 @@ import SEO from "@econnessione/ui/components/SEO";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
-import * as O from "fp-ts/lib/Option";
 import * as React from "react";
-import { doUpdateCurrentView } from "../utils/location.utils";
+import { ActorView, doUpdateCurrentView } from "../utils/location.utils";
 import { DeathBox } from "@containers/DeathBox";
-import { EventsNetwork } from "@containers/EventsNetwork";
-import InfiniteEventList from "@containers/InfiniteEventList";
+import { EventsPanel } from "@containers/EventsPanel";
 
-interface ActorTemplateProps {
-  actorId: string;
-}
+interface ActorTemplateProps extends ActorView {}
 
-const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId }) => {
+const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId, tab = 0 }) => {
   return (
     <WithQueries
       queries={{
@@ -48,22 +44,15 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId }) => {
               />
               {actor.death ? <DeathBox id={actor.death} /> : null}
 
-              <InfiniteEventList
-                filters={{
-                  actors: [actorId],
-                }}
+              <EventsPanel
+                filters={{ actors: [actorId] }}
                 hash={`actor-${actorId}`}
+                view={{
+                  view: "actor",
+                  actorId,
+                }}
+                tab={tab}
               />
-
-              <div style={{ padding: 50 }}>
-                <EventsNetwork
-                  filter={{ actors: [actorId] }}
-                  groupBy="actor"
-                  scale={"all"}
-                  scalePoint={O.none}
-                  onEventClick={() => {}}
-                />
-              </div>
             </MainContent>
           );
         }

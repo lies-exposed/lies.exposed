@@ -1,6 +1,5 @@
 import {
   AutocompleteArrayInput,
-  AutocompleteInput,
   ReferenceArrayInput,
   ReferenceArrayInputProps,
 } from "ra-ui-materialui";
@@ -11,7 +10,6 @@ const ReferenceArrayLinkInput: React.FC<
 > = (props) => {
   return (
     <ReferenceArrayInput
-      defaultValue={[]}
       {...props}
       reference="links"
       filterToQuery={(description: any) => ({ description })}

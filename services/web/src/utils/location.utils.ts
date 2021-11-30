@@ -3,9 +3,11 @@ import {
   getDoUpdateCurrentView,
   HistoryLocation,
 } from "avenger/lib/browser";
-import bs58 from "bs58";
 import { pipe } from "fp-ts/lib/function";
-import * as qs from "query-string";
+
+interface CommonViewArgs {
+  tab?: number;
+}
 
 export interface BlogView {
   view: "blog";
@@ -28,7 +30,7 @@ export interface ActorsView {
   view: "actors";
 }
 
-export interface ActorView {
+export interface ActorView extends CommonViewArgs {
   view: "actor";
   actorId: string;
 }
@@ -37,12 +39,12 @@ export interface GroupsView {
   view: "groups";
 }
 
-export interface GroupView {
+export interface GroupView extends CommonViewArgs {
   view: "group";
   groupId: string;
 }
 
-export interface EventsView {
+export interface EventsView extends CommonViewArgs {
   view: "events";
   actors?: string[];
   groups?: string[];
@@ -50,7 +52,6 @@ export interface EventsView {
   keywords?: string[];
   startDate?: string;
   endDate?: string;
-  tab?: number;
   hash?: string;
   page?: number;
 }
@@ -108,11 +109,11 @@ const eventsRegex = /^\/dashboard\/events\/$/;
 const eventRegex = /^\/dashboard\/events\/([^/]+)$/;
 const vaccinesDashboardRegex = /^\/dashboard\/vaccines\/$/;
 
-const parseQuery = (s: string): qs.ParsedQuery =>
-  qs.parse(s.replace("?", ""), { arrayFormat: "comma" });
+// const parseQuery = (s: string): qs.ParsedQuery =>
+//   qs.parse(s.replace("?", ""), { arrayFormat: "comma" });
 
-const stringifyQuery = (search: { [key: string]: string | string[] }): string =>
-  qs.stringify(search, { arrayFormat: "comma" });
+// const stringifyQuery = (search: { [key: string]: string | string[] }): string =>
+//   qs.stringify(search, { arrayFormat: "comma" });
 
 const toBase64 = (data: string): string => {
   return Buffer.from(data).toString("base64");
@@ -172,9 +173,10 @@ export function locationToView(location: HistoryLocation): CurrentView {
   const actorMatch = currentPath.match(actorRegex);
   if (actorMatch !== null) {
     return {
+      ...search,
       view: "actor",
       actorId: actorMatch[1],
-      ...search,
+      tab: search.tab !== undefined ? parseInt(search.tab) : undefined,
     };
   }
 
@@ -190,9 +192,10 @@ export function locationToView(location: HistoryLocation): CurrentView {
   const groupMatch = currentPath.match(groupRegex);
   if (groupMatch !== null) {
     return {
+      ...search,
       view: "group",
       groupId: groupMatch[1],
-      ...search,
+      tab: search.tab !== undefined ? parseInt(search.tab) : undefined,
     };
   }
 
@@ -299,6 +302,7 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
         pathname,
         search: {
           path: `/dashboard/actors/${view.actorId}`,
+          tab: view.tab?.toString(),
         },
       };
     case "groups":
@@ -313,6 +317,7 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
         pathname,
         search: {
           path: `/dashboard/groups/${view.groupId}`,
+          tab: view.tab?.toString(),
         },
       };
     case "events":

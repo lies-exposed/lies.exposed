@@ -11,7 +11,6 @@ const ReferenceArrayEventInput: React.FC<
 > = (props) => {
   return (
     <ReferenceArrayInput
-      defaultValue={[]}
       {...props}
       reference="events"
       filterToQuery={(title: any) => ({ title })}

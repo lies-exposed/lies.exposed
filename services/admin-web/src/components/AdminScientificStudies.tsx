@@ -98,7 +98,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
       <ReferenceArrayInput
         source="authors"
         reference="actors"
-        defaultValue={[]}
+        initialValue={[]}
       >
         <AutocompleteArrayInput source="id" optionText="fullName" />
       </ReferenceArrayInput>

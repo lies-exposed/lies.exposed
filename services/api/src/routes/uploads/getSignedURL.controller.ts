@@ -9,10 +9,10 @@ import { RouteContext } from "routes/route.types";
 
 const fileExtFromContentType = (c: string): string => {
   switch (c) {
-    case Media.MediaType.types[2].value:
+    case Media.MediaType.types[3].value:
       return "mp4";
 
-    case Media.MediaType.types[1].value:
+    case Media.MediaType.types[2].value:
       return "png";
     default:
       return "jpg";
