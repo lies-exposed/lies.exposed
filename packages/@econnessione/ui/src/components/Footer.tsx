@@ -21,7 +21,7 @@ const useStyles = makeStyles<ECOTheme>((theme) =>
       width: "100%",
       paddingTop: "20px",
       paddingBottom: "20px",
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.secondary.main,
     },
     title: {
       color: theme.palette.common.white,

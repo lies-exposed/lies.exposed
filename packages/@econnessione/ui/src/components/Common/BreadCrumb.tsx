@@ -1,4 +1,4 @@
-import { Breadcrumbs, Link, Typography } from "@material-ui/core";
+import { Breadcrumbs, Link, Typography, useTheme } from "@material-ui/core";
 import * as React from "react";
 
 interface BreadCrumbProps {
@@ -13,7 +13,7 @@ interface BreadCrumbProps {
 
 export const BreadCrumb: React.FC<BreadCrumbProps> = ({ view, segments }) => {
   const paths = React.useMemo(() => segments[view.view] ?? [], [view]);
-
+  const theme = useTheme();
   return (
     <Breadcrumbs aria-label="breadcrumb">
       {
@@ -51,6 +51,10 @@ export const BreadCrumb: React.FC<BreadCrumbProps> = ({ view, segments }) => {
                   color="secondary"
                   variant="subtitle1"
                   href={currentPath.concat("%2F")}
+                  style={{
+                    textTransform: "uppercase",
+                    fontWeight: theme.typography.fontWeightBold,
+                  }}
                 >
                   {p}
                 </Link>,
