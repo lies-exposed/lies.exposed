@@ -11,7 +11,7 @@ import { GroupMemberEntity } from "../../../entities/GroupMember.entity";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 
-describe("Search Events", () => {
+describe.skip("Search Events", () => {
   let appTest: AppTest, authorizationToken: string, totalEvents: number;
   const [actor] = fc.sample(ActorArb, 1);
   const groups = fc.sample(GroupArb, 10);
