@@ -9,6 +9,7 @@ import {
 } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
 import {
+  Grid,
   List,
   ListItem,
   ListSubheader,
@@ -119,7 +120,22 @@ const renderHeaderRow: React.FC<{
   return (
     <div key={dateHeader}>
       <ListSubheader className={classes.listSubheader}>
-        <Typography variant="h5">{dateHeader}</Typography>
+        <Grid container>
+          <Grid item md={10}>
+            <Typography variant="h5" color="primary">
+              {dateHeader}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            md={2}
+            style={{
+              textAlign: "right",
+            }}
+          >
+            <Typography variant="h6">{data.events.length}</Typography>
+          </Grid>
+        </Grid>
       </ListSubheader>
       <List className={classes.listItemUList}>
         {events.map((e, i) =>

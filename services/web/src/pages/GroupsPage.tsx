@@ -1,16 +1,14 @@
-import SearchableInput from "@components/Input/SearchableInput";
+import { AutocompleteGroupInput } from "@components/Input/AutocompleteGroupInput";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
-import GroupList, {
-  GroupListItem,
-} from "@econnessione/ui/components/lists/GroupList";
+import GroupList from "@econnessione/ui/components/lists/GroupList";
 import {
   pageContentByPath,
   Queries,
 } from "@econnessione/ui/providers/DataProvider";
-import { navigateTo } from "@econnessione/ui/utils/links.utils";
+import { Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -35,51 +33,32 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
               filter: {},
             },
           }}
-          render={QR.fold(
-            Loader,
-            ErrorBox,
-            ({ pageContent, groups: { data: groups } }) => (
-              <>
-                <SearchableInput
-                  label="Gruppi"
-                  items={groups.map((a) => ({
-                    ...a,
-                    selected: true,
-                  }))}
-                  getValue={(v) => v.name}
-                  selectedItems={[]}
-                  onSelectItem={async (item) => {
-                    if (this.props.navigate !== undefined) {
-                      await navigateTo(this.props.navigate, "groups", item);
-                    }
-                  }}
-                  onUnselectItem={() => {}}
-                  renderOption={(item, state) => (
-                    <GroupListItem
-                      item={item}
-                      onClick={async (item: any) => {
-                        if (this.props.navigate !== undefined) {
-                          await navigateTo(this.props.navigate, "groups", item);
-                        }
-                      }}
-                    />
-                  )}
-                />
-                <GroupList
-                  groups={groups.map((a) => ({
-                    ...a,
-                    selected: false,
-                  }))}
-                  onGroupClick={async (g) => {
-                    void doUpdateCurrentView({
-                      view: "group",
-                      groupId: g.id,
-                    })();
-                  }}
-                />
-              </>
-            )
-          )}
+          render={QR.fold(Loader, ErrorBox, ({ pageContent, groups }) => (
+            <>
+              <AutocompleteGroupInput
+                selectedIds={[]}
+                onChange={(gg) => {
+                  void doUpdateCurrentView({
+                    view: "group",
+                    groupId: gg[0].id,
+                  })();
+                }}
+              />
+              <Typography variant="subtitle1">{groups.total}</Typography>
+              <GroupList
+                groups={groups.data.map((a) => ({
+                  ...a,
+                  selected: false,
+                }))}
+                onGroupClick={async (g) => {
+                  void doUpdateCurrentView({
+                    view: "group",
+                    groupId: g.id,
+                  })();
+                }}
+              />
+            </>
+          ))}
         />
       </MainContent>
     );

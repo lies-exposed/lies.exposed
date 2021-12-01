@@ -1,6 +1,6 @@
 import { Actor, Events, Group, Project } from "@econnessione/shared/io/http";
 import { GroupMember } from "@econnessione/shared/io/http/GroupMember";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -27,24 +27,18 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   groupsMembers,
   ...group
 }) => {
-  // const projectFundsInitMap: Map<string, number> = Map.empty;
-  // const projectFundsMap = pipe(
-  //   funds,
-  //   A.reduce(projectFundsInitMap, (acc, f) => {
-  //     return pipe(
-  //       acc,
-  //       Map.lookup(Eq.eqString)(f.project),
-  //       O.map((amount) => amount + f.transaction.amount),
-  //       O.getOrElse(() => f.transaction.amount),
-  //       (value) => Map.insertAt(Eq.eqString)(f.project, value)(acc)
-  //     );
-  //   })
-  // );
+  const theme = useTheme();
 
   return (
     <Grid container>
       <Grid container direction="column">
-        <Grid container direction="row" alignItems="flex-end">
+        <Grid
+          container
+          direction="row"
+          alignItems="center"
+          spacing={2}
+          style={{ marginBottom: theme.spacing(2) }}
+        >
           <Grid item>
             {pipe(
               O.fromNullable(group.avatar),
@@ -57,7 +51,9 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
             )}
           </Grid>
           <Grid item>
-            <Typography variant="h2">{group.name}</Typography>
+            <Typography variant="h2" style={{ marginBottom: 0 }}>
+              {group.name}
+            </Typography>
             <Editor
               value={deserializeFromString(group.excerpt ?? undefined)}
               readOnly={true}

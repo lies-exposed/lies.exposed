@@ -1,3 +1,4 @@
+import { AutocompleteActorInput } from "@components/Input/AutocompleteActorInput";
 import SearchableInput from "@components/Input/SearchableInput";
 import { Actor } from "@econnessione/shared/io/http/Actor";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
@@ -44,47 +45,16 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
               ErrorBox,
               ({ actors: { data: acts }, pageContent }) => (
                 <>
-                  <SearchableInput<Actor>
-                    label="Attori"
-                    items={acts.map((a) => ({
-                      ...a,
-                      selected: false,
-                    }))}
-                    getValue={(a) => a.fullName}
-                    selectedItems={[]}
-                    onSelectItem={(a) => {
+                  <AutocompleteActorInput
+                    selectedIds={[]}
+                    onChange={(c) => {
                       void doUpdateCurrentView({
                         view: "actor",
-                        actorId: a.id,
+                        actorId: c[0].id,
                       })();
                     }}
-                    disablePortal={true}
-                    onUnselectItem={() => {}}
-                    renderTags={(item, getTagProps) => {
-                      return (
-                        <ActorList
-                          actors={item.map((a) => ({
-                            ...a,
-                            selected: true,
-                          }))}
-                          displayFullName={false}
-                          onActorClick={(a) => {}}
-                        />
-                      );
-                    }}
-                    renderOption={(item, state) => {
-                      return (
-                        <ActorListItem
-                          key={item.id}
-                          displayFullName={true}
-                          item={{
-                            ...item,
-                            selected: true,
-                          }}
-                        />
-                      );
-                    }}
                   />
+
                   <ActorList
                     actors={acts.map((a) => ({
                       ...a,

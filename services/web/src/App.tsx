@@ -155,7 +155,8 @@ export const App: React.FC = () => {
                       })();
                     }}
                   />
-                  <Grid item xs={12} style={{ padding: ECOTheme.spacing(2) }}>
+
+                  <Grid style={{ margin: 20 }}>
                     <BreadCrumb
                       view={currentView}
                       segments={{

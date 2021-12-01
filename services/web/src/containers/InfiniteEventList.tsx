@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Grid,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -107,6 +108,7 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
 };
 
 const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
+  const theme = useTheme();
   const [state, updateState] = React.useState<{
     currentPage: number;
     filters: {
@@ -191,6 +193,9 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                       container
                       justifyContent="flex-end"
                       alignContent="flex-end"
+                      style={{
+                        marginBottom: theme.spacing(2),
+                      }}
                     >
                       <Chip
                         label={`Events (${events.totals.events})`}

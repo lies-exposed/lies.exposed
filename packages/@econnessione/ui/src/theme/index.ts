@@ -4,24 +4,33 @@ import { createTheme } from "@material-ui/core";
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
 
+const primary = "#9100ff";
+const primaryLight = "#c950ff";
+const primaryDark = "#5600ca";
+
+const secondary = "#1bff54";
+const secondaryLight = "#73ff87";
+const secondaryDark = "#00ca1a";
+
 const ECOTheme = createTheme({
   palette: {
     // type: "dark",
     primary: {
-      main: "#2196f3",
-      light: "#6ec6ff",
-      dark: "#0069c0",
-      contrastText: "#000000",
+      main: primary,
+      light: primaryLight,
+      dark: primaryDark,
+      contrastText: "#fff",
     },
     secondary: {
-      main: "#f57f17",
-      light: "#ffb04c",
-      dark: "#bc5100",
+      main: secondary,
+      light: secondaryLight,
+      dark: secondaryDark,
       contrastText: "#000000",
     },
   },
   typography: (palette) => ({
-    fontWeightBold: 400,
+    fontWeightRegular: 400,
+    fontWeightBold: 600,
     h1: {
       fontFamily: primaryFontFamily,
       marginBottom: 40,
