@@ -27,12 +27,11 @@ export const searchEventSQL = ({
   const inActors = actors.map((a) => `'${a}'`).join(",");
   const inGroupsMembers = groupsMembers.map((a) => `'${a}'`).join(",");
 
+  const eventGroupsWhere = `"g"."groupId" IN (${inGroups})`;
   const eventGroupsJoin = sql.sql.__dangerous__rawValue(`
-  ${
-    groups.length > 0 ? "inner" : "left"
-  } join "event_groups_group" "g" on "g"."eventId" = "event"."id" ${
-    groups.length > 0 ? ` AND "g"."groupId" IN (${inGroups})` : ``
-  }
+    left join "event_groups_group" "g" on "g"."eventId" = "event"."id" ${
+      groups.length > 0 ? ` AND ${eventGroupsWhere}` : ``
+    }
   `);
 
   const eventActorsWhere = `"a"."actorId" IN (${inActors})`;
@@ -49,7 +48,9 @@ export const searchEventSQL = ({
 
   const eventGroupsMembersJoin = sql.sql.__dangerous__rawValue(
     `${
-      groupsMembers.length > 0 && actors.length === 0 ? "inner" : "left"
+      groupsMembers.length > 0 && actors.length === 0 && groups.length === 0
+        ? "inner"
+        : "left"
     } join "event_groups_members_group_member" "gm" on "gm"."eventId" = "event"."id" ${
       groupsMembers.length > 0 ? `AND ${eventGroupsMembersWhere}` : ``
     }`
@@ -88,10 +89,18 @@ export const searchEventSQL = ({
   );
 
   const eventsRelationsWhereRaw = sql.sql.__dangerous__rawValue(
-    actors.length > 0 && groupsMembers.length > 0
-      ? `AND (${eventActorsWhere} OR ${eventGroupsMembersWhere})`
+    groups.length > 0 && actors.length > 0 && groupsMembers.length > 0
+      ? `AND (${eventGroupsWhere}  OR ${eventActorsWhere}  OR ${eventGroupsMembersWhere})`
+      : groups.length > 0 && actors.length > 0
+      ? `AND (${eventGroupsWhere} OR ${eventActorsWhere})`
+      : groups.length > 0 && groupsMembers.length > 0
+      ? `AND (${eventGroupsWhere} OR ${eventGroupsMembersWhere})`
+      : actors.length > 0 && groupsMembers.length > 0
+      ? `AND  (${eventActorsWhere} OR ${eventGroupsMembersWhere})`
       : actors.length > 0
       ? `AND ${eventActorsWhere}`
+      : groupsMembers.length > 0
+      ? `AND ${eventGroupsMembersWhere}`
       : ``
   );
 
