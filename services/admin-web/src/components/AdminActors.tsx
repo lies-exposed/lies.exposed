@@ -80,7 +80,7 @@ const transformActor = async (id: string, data: Record): Promise<Record> => {
     TE.map(([avatar]) => ({
       ...data,
       id,
-      avatar,
+      avatar: avatar.location,
     }))
   )().then((result) => {
     if (result._tag === "Left") {

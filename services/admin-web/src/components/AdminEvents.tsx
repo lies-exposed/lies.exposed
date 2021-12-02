@@ -351,7 +351,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
           defaultValue={new Date()}
         />
         <DateInput source="endDate" />
-        <ReferenceArrayKeywordInput source="keywords" />
+        <ReferenceArrayKeywordInput source="keywords" initialValue={[]} />
       </FormTab>
       <FormTab label="body">
         <RichTextInput source="excerpt" defaultValue="" />
@@ -362,7 +362,10 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         <ReferenceArrayActorInput source="actors" initialValue={[]} />
       </FormTab>
       <FormTab label="Group Members">
-        <ReferenceArrayGroupMemberInput source="groupsMembers" />
+        <ReferenceArrayGroupMemberInput
+          source="groupsMembers"
+          initialValue={[]}
+        />
       </FormTab>
       <FormTab label="Groups">
         <ReferenceArrayInput
@@ -374,7 +377,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         </ReferenceArrayInput>
       </FormTab>
       <FormTab label="Links">
-        <ReferenceArrayLinkInput source="links" />
+        <ReferenceArrayLinkInput source="links" initialValue={[]} />
       </FormTab>
       <FormTab label="Media">
         <ArrayInput source="media" defaultValue={[]}>
