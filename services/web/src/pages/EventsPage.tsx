@@ -117,14 +117,15 @@ const EventsPage: React.FC<EventsPageProps> = ({
   );
 
   return (
-    <Grid container justifyContent="center">
-      <Grid container spacing={2} xs={12} style={{ marginBottom: 40 }}>
+    <Grid container  justifyContent="center">
+      <Grid item lg={10} style={{ marginBottom: 40 }}>
+        <Grid container spacing={2}>
         <Grid item lg={12} md={12} sm={12}>
           <PageContent queries={{ pageContent: { path: "events" } }} />
         </Grid>
 
         <Grid item lg={2} md={12} sm={12} xs={12}>
-          <Grid container spacing={2} md={12} sm={12}>
+          <Grid container spacing={2}>
             <Grid item lg={12} md={6} sm={6} xs={6}>
               <DatePicker
                 size="small"
@@ -152,7 +153,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
           </Grid>
         </Grid>
         <Grid item lg={10} md={12} sm={12} xs={12}>
-          <Grid container spacing={2} sm={12}>
+          <Grid container spacing={2}>
             <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteGroupInput
                 selectedIds={groupIds}
@@ -178,7 +179,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} sm={12} justifyContent="flex-end">
+          <Grid container spacing={2} justifyContent="flex-end">
             <Grid item md={2} sm={6} xs={12}>
               <Button
                 fullWidth
@@ -202,6 +203,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
               </Button>
             </Grid>
           </Grid>
+        </Grid>
         </Grid>
       </Grid>
       <Grid item lg={10} md={12} sm={12} xs={12} style={{ maxWidth: "100%" }}>
