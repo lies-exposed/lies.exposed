@@ -8,17 +8,19 @@ import {
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, CardMedia, Grid } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import LinkIcon from "@material-ui/icons/LinkOutlined";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import SlickSlider from "react-slick";
 import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
+import EventMedia from "@components/EventMedia";
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.UncategorizedSearch;
@@ -57,7 +59,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         marginBottom: 40,
         width: "100%",
       }}
-      onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
         <Grid item md={4} sm={12} xs={12}>
@@ -66,22 +67,28 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             O.fromPredicate((arr) => arr.length > 0),
             O.map((media) => (
               // eslint-disable-next-line react/jsx-key
-              <CardMedia
-                component="img"
-                alt={media[0].description}
-                height="300"
-                image={media[0].location}
-                title={media[0].description}
-                style={{
-                  objectFit: "contain",
-                }}
-              />
+              <SlickSlider
+                adaptiveHeight={false}
+                infinite={false}
+                arrows={true}
+                draggable={false}
+                dots={true}
+              >
+                {pipe(
+                  media,
+                  A.map((m) => (
+                    <EventMedia key={m.id} media={m} style={{ height: 200 }} />
+                  ))
+                )}
+              </SlickSlider>
             )),
             O.toNullable
           )}
         </Grid>
         <Grid item md={8} sm={12} xs={12}>
-          <Typography variant="h6">{item.title}</Typography>
+          <Typography variant="h6" onClick={() => onClick?.(item)}>
+            {item.title}
+          </Typography>
           <Grid item md={12} style={{ marginBottom: 20 }}>
             <KeywordList
               keywords={keywords.map((t) => ({
