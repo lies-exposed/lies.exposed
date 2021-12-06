@@ -204,7 +204,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       plugins: [
         new TsconfigPathsPlugin({
           configFile: path.resolve(opts.cwd, "./tsconfig.json"),
-        }),
+        }) as any,
       ],
     },
     plugins,
