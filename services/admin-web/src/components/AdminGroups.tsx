@@ -1,4 +1,5 @@
 import * as io from "@econnessione/shared/io";
+import { Media } from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
@@ -98,20 +99,27 @@ export const GroupList: React.FC<ListProps> = (props) => (
 );
 
 const transformGroup = (data: Record): Record | Promise<Record> => {
-  if (data.avatar?.rawFile) {
-    return pipe(
-      uploadImages(apiProvider)("groups", data.id as string, [
-        data.avatar.rawFile,
-      ]),
-      TE.map((locations) => ({ ...data, avatar: locations[0] }))
-    )().then((result) => {
-      if (E.isLeft(result)) {
-        throw result.left;
-      }
-      return result.right;
-    });
-  }
-  return { ...data };
+  const uploadAvatar = data.avatar?.rawFile
+    ? uploadImages(apiProvider)("groups", data.id as string, [
+        { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+      ])
+    : TE.right([
+        { location: data.avatar, type: "image/jpeg" as Media.MediaType },
+      ]);
+
+  return pipe(
+    uploadAvatar,
+    TE.map((locations) => ({
+      ...data,
+      excerpt: data.excerpt ?? undefined,
+      avatar: locations[0].location,
+    }))
+  )().then((result) => {
+    if (E.isLeft(result)) {
+      throw result.left;
+    }
+    return result.right;
+  });
 };
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
@@ -222,11 +230,13 @@ export const GroupCreate: React.FC<CreateProps> = (props) => (
       <DateInput source="date" />
       <TextInput source="name" />
       <GroupKindInput source="kind" />
-      <ReferenceArrayGroupMemberInput source="members" />
+      <ReferenceArrayGroupMemberInput source="members" defaultValue={[]} />
       <ImageInput source="avatar">
         <ImageField src="src" />
       </ImageInput>
-      <ReactPageInput source="body" defaultValue="" />
+      <RichTextInput source="excerpt" />
+      <ReactPageInput source="body2" defaultValue="" />
+      <TextInput source="body" hidden={true} defaultValue="" />
     </SimpleForm>
   </Create>
 );

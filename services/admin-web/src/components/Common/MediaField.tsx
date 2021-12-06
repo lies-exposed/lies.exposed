@@ -1,7 +1,5 @@
 import { MediaType } from "@econnessione/shared/io/http/Media";
-import { toUndefined } from "fp-ts/lib/Option";
 import get from "lodash/get";
-import has from "lodash/has";
 import { useRecordContext } from "ra-core";
 import { FieldProps, ImageField, UrlField } from "ra-ui-materialui";
 import * as React from "react";
@@ -13,7 +11,11 @@ interface MediaFieldProps extends FieldProps {
 
 export const MediaField: React.FC<MediaFieldProps> = (props) => {
   const record = useRecordContext(props);
-  const mediaType = props.type ?? record?.type ?? MediaType.types[0].value;
+  const mediaType =
+    record?.rawFile?.type ??
+    record?.type ??
+    props.type ??
+    MediaType.types[0].value;
   const src = get(record, props.source);
 
   if (src === undefined) {
@@ -22,7 +24,7 @@ export const MediaField: React.FC<MediaFieldProps> = (props) => {
 
   switch (mediaType) {
     case MediaType.types[4].value:
-      return <UrlField {...props} />;
+      return <UrlField {...props} target="_blank" />;
     case MediaType.types[3].value:
       return (
         <video

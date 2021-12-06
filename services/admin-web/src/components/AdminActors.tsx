@@ -70,7 +70,9 @@ const transformActor = async (id: string, data: Record): Promise<Record> => {
     uploadImages(dataProvider)(
       "actors",
       id,
-      data.avatar.rawFile ? [data.avatar.rawFile] : []
+      data.avatar.rawFile
+        ? [{ file: data.avatar.rawFile, type: data.avatar.rawFile.type }]
+        : []
     )
   );
 

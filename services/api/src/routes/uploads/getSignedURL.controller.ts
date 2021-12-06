@@ -7,14 +7,17 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "routes/route.types";
 
-const fileExtFromContentType = (c: string): string => {
+const fileExtFromContentType = (c: Media.MediaType): string => {
   switch (c) {
+    case Media.MediaType.types[4].value:
+      return "pdf";
     case Media.MediaType.types[3].value:
       return "mp4";
-
     case Media.MediaType.types[2].value:
       return "png";
-    default:
+    case Media.MediaType.types[1].value:
+      return "jpeg";
+    case Media.MediaType.types[0].value:
       return "jpg";
   }
 };
