@@ -3,6 +3,7 @@ name: Pull Request
 on:
   pull_request:
     branches:
+      - daily
       - release/alpha
       - master
     paths:
@@ -86,7 +87,10 @@ jobs:
         run: yarn admin-web build
 
       - name: Build web
-        run: yarn workspace web build
+        run: yarn web build
+
+      - name: Build storybook
+        run: yarn storybook build
 
   tests-spec:
     runs-on: ubuntu-latest
