@@ -72,20 +72,20 @@ jobs:
       - name: Build Packages
         run: yarn packages:build
 
-      - name: Build Storybook
-        run: yarn workspace storybook build
+      # - name: Build Storybook
+      #   run: yarn workspace storybook build
 
-      - name: Upload Storybook to DO Space
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 sync ./services/storybook/build s3://econnessione-alpha/storybook \
-            --follow-symlinks \
-            --delete \
-            --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read \
-            --region fra1
+      # - name: Upload Storybook to DO Space
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
+      #   run: |
+      #     aws s3 sync ./services/storybook/build s3://econnessione-alpha/storybook \
+      #       --follow-symlinks \
+      #       --delete \
+      #       --endpoint https://fra1.digitaloceanspaces.com/ \
+      #       --acl public-read \
+      #       --region fra1
 
       - name: Build Admin Web
         run: yarn workspace admin-web build
