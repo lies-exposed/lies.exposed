@@ -42,12 +42,12 @@ export interface EventListProps extends Omit<EventListItemProps, "event"> {
 
 const renderRow = (props: {
   index: number;
-  total: number;
+  last: boolean;
   data: EventListProps;
 }): React.ReactElement => {
   const {
     index,
-    total,
+    last,
     data: {
       events,
       actors,
@@ -96,7 +96,7 @@ const renderRow = (props: {
         <TimelineDot variant="outlined" color="inherit">
           <ScientificStudyIcon color="primary" />
         </TimelineDot>
-        {index < total ? <TimelineConnector /> : null}
+        {last ? <TimelineConnector /> : null}
       </TimelineSeparator>
       <TimelineContent>
         <EventListItem
@@ -115,6 +115,7 @@ const renderRow = (props: {
 
 const renderHeaderRow: React.FC<{
   index: number;
+  last: boolean;
   data: EventListProps & {
     classes: {
       listItemUList: string;
@@ -136,7 +137,7 @@ const renderHeaderRow: React.FC<{
         renderRow({
           data: { ...data, events },
           index: i,
-          total: events.length,
+          last: props.last,
         })
       )}
     </div>
@@ -163,6 +164,7 @@ const EventsTimeline: React.FC<EventListProps> = ({
       {orderedEvents.map((ee, i) =>
         renderHeaderRow({
           index: i,
+          last: orderedEvents.length - 1 > i,
           data: {
             events: ee,
             actors,
