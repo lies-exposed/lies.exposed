@@ -2,28 +2,26 @@ const path = require("path");
 const TSConfigPathsWebpackPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
+  core: {
+    builder: "webpack5",
+  },
+  addons: [
+    "@storybook/addon-actions",
+    "@storybook/addon-docs",
+    "@storybook/addon-controls",
+  ],
   stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
   typescript: {
     check: false,
     checkOptions: {},
-    reactDocgen: 'react-docgen-typescript',
+    reactDocgen: "react-docgen-typescript",
     reactDocgenTypescriptOptions: {
       shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+      propFilter: (prop) =>
+        prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   },
   webpackFinal: (config) => {
-    // config.module.rules[0].use[0].options.plugins.push(
-    //   require.resolve("babel-plugin-remove-graphql-queries")
-    // )
-    config.node = {
-      ...config.node,
-      fs: "empty",
-      tls: "empty",
-      net: "empty",
-      module: "empty",
-      console: true,
-    };
     config.module.rules.push({
       test: /\.scss$/,
       use: ["style-loader", "css-loader", "sass-loader"],
@@ -34,6 +32,8 @@ module.exports = {
       process.cwd(),
       "../../packages/@econnessione/core/tsconfig.json"
     );
+
+    config.resolve.plugins = [];
 
     config.resolve.plugins.push(
       new TSConfigPathsWebpackPlugin({

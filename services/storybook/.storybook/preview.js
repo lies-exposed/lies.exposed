@@ -2,7 +2,7 @@ import "ol/ol.css";
 import "source-serif-pro/source-serif-pro.css";
 import { ThemeProvider } from "@material-ui/core";
 import * as React from "react";
-import { theme } from "@econnessione/ui/theme";
+import { ECOTheme } from "@econnessione/ui/theme";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -10,7 +10,7 @@ export const parameters = {
 
 const withThemeProvider = (Story, context) => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={ECOTheme}>
       <Story {...context} />
     </ThemeProvider>
   );
