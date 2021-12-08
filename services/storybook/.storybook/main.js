@@ -5,6 +5,11 @@ module.exports = {
   core: {
     builder: "webpack5",
   },
+  addons: [
+    "@storybook/addon-actions",
+    "@storybook/addon-docs",
+    "@storybook/addon-controls",
+  ],
   stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
   typescript: {
     check: false,
@@ -60,9 +65,9 @@ module.exports = {
     );
     config.resolve.plugins.push(new TSConfigPathsWebpackPlugin());
 
-    console.log("config", config.module.rules);
-    console.log("config", config.resolve.plugins);
-    console.log("config", config);
+    // console.log("config", config.module.rules);
+    // console.log("config", config.resolve.plugins);
+    // console.log("config", config);
 
     return config;
   },
