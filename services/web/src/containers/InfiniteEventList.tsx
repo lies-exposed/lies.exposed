@@ -1,7 +1,7 @@
 import { Events } from "@econnessione/shared/io/http";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import EventList from "@econnessione/ui/components/lists/EventList/EventList";
+import EventsTimeline from "@econnessione/ui/components/lists/EventList/EventTimeline";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
 import {
   Box,
@@ -315,8 +315,8 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                     ErrorBox,
                     ({ actors, groups, keywords, groupsMembers, media }) => {
                       return (
-                        <Box>
-                          <EventList
+                        <Box width="100%">
+                          <EventsTimeline
                             className="events"
                             style={{ width: "100%" }}
                             events={allEvents}
@@ -326,17 +326,37 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                             keywords={keywords.data}
                             media={media.data}
                             onClick={(e) => {
+                              console.log("event", e);
                               if (e.type === "Death") {
                                 void doUpdateCurrentView({
                                   view: "actor",
                                   actorId: e.victim,
                                 })();
-                              } else {
+                              } else if (e.type === "Uncategorized") {
                                 void doUpdateCurrentView({
                                   view: "event",
                                   eventId: e.id,
                                 })();
                               }
+                            }}
+                            onActorClick={(a) => {
+                              void doUpdateCurrentView({
+                                view: "actor",
+                                actorId: a.id,
+                              })();
+                            }}
+                            onGroupClick={(g) => {
+                              console.log(g);
+                              void doUpdateCurrentView({
+                                view: "group",
+                                groupId: g.id,
+                              })();
+                            }}
+                            onGroupMemberClick={(gm) => {
+                              console.log(gm);
+                            }}
+                            onKeywordClick={(k) => {
+                              console.log(k);
                             }}
                           />
                         </Box>

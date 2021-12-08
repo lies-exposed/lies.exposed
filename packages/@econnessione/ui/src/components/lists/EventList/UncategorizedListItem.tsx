@@ -1,10 +1,11 @@
+import EventMedia from "@components/EventMedia";
 import {
   Actor,
   Events,
   Group,
   GroupMember,
   Keyword,
-  Media,
+  Media
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +21,6 @@ import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
-import EventMedia from "@components/EventMedia";
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.UncategorizedSearch;
@@ -77,7 +77,11 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 {pipe(
                   media,
                   A.map((m) => (
-                    <EventMedia key={m.id} media={m} style={{ height: 200 }} />
+                    <EventMedia
+                      key={m.id}
+                      media={m}
+                      style={{ height: 200, maxWidth: 600 }}
+                    />
                   ))
                 )}
               </SlickSlider>

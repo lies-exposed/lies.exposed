@@ -1,14 +1,15 @@
 import { eventDate } from "@econnessione/shared/helpers/event";
 import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
-import {
-  Grid,
-  List,
-  ListItem,
-  ListSubheader,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
+import ScientificStudyIcon from "@material-ui/icons/FileCopyOutlined";
+import Timeline from "@material-ui/lab/Timeline";
+import TimelineConnector from "@material-ui/lab/TimelineConnector";
+import TimelineContent from "@material-ui/lab/TimelineContent";
+import TimelineDot from "@material-ui/lab/TimelineDot";
+import TimelineItem from "@material-ui/lab/TimelineItem";
+import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
+import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import { formatISO } from "date-fns";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -41,10 +42,12 @@ export interface EventListProps extends Omit<EventListItemProps, "event"> {
 
 const renderRow = (props: {
   index: number;
+  total: number;
   data: EventListProps;
 }): React.ReactElement => {
   const {
     index,
+    total,
     data: {
       events,
       actors,
@@ -78,17 +81,35 @@ const renderRow = (props: {
     : [];
 
   return (
-    <ListItem key={`event-list-item-${e.id}`}>
-      <EventListItem
-        event={e}
-        actors={eventActors}
-        groups={eventGroups}
-        keywords={eventKeywords}
-        groupsMembers={eventGroupMembers}
-        media={eventMedia}
-        {...listItemProps}
-      />
-    </ListItem>
+    <TimelineItem key={`event-list-item-${e.id}`}>
+      <TimelineOppositeContent style={{ flex: 0 }}>
+        <Typography variant="body2" color="textSecondary">
+          {formatISO(
+            (e as any).date ?? (e as any).startDate ?? (e as any).publishDate,
+            {
+              representation: "date",
+            }
+          )}
+        </Typography>
+      </TimelineOppositeContent>
+      <TimelineSeparator>
+        <TimelineDot variant="outlined" color="inherit">
+          <ScientificStudyIcon color="primary" />
+        </TimelineDot>
+        {index < total ? <TimelineConnector /> : null}
+      </TimelineSeparator>
+      <TimelineContent>
+        <EventListItem
+          event={e}
+          actors={eventActors}
+          groups={eventGroups}
+          keywords={eventKeywords}
+          groupsMembers={eventGroupMembers}
+          media={eventMedia}
+          {...listItemProps}
+        />
+      </TimelineContent>
+    </TimelineItem>
   );
 };
 
@@ -111,58 +132,51 @@ const renderHeaderRow: React.FC<{
   });
   return (
     <div key={dateHeader}>
-      <ListSubheader className={classes.listSubheader}>
-        <Grid container>
-          <Grid item md={10}>
-            <Typography variant="h5" color="primary">
-              {dateHeader}
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            md={2}
-            style={{
-              textAlign: "right",
-            }}
-          >
-            <Typography variant="h6">{data.events.length}</Typography>
-          </Grid>
-        </Grid>
-      </ListSubheader>
-      <List className={classes.listItemUList}>
-        {events.map((e, i) =>
-          renderRow({
-            data: { ...data, events },
-            index: i,
-          })
-        )}
-      </List>
+      {events.map((e, i) =>
+        renderRow({
+          data: { ...data, events },
+          index: i,
+          total: events.length,
+        })
+      )}
     </div>
   );
 };
 
-const EventList: React.FC<EventListProps> = ({
+const EventsTimeline: React.FC<EventListProps> = ({
   events,
-  className,
-  style,
+  actors,
+  groups,
+  keywords,
+  groupsMembers,
+  media,
   ...props
 }) => {
-  const orderedEvents = pipe(events, groupBy(byEqualDate));
+  const orderedEvents = React.useMemo(
+    () => pipe(events, groupBy(byEqualDate)),
+    [events]
+  );
+
   const classes = useStyles();
   return (
-    <List className={`events ${className}`} subheader={<div />} style={style}>
+    <Timeline className="events" {...props}>
       {orderedEvents.map((ee, i) =>
         renderHeaderRow({
           index: i,
           data: {
             events: ee,
+            actors,
+            groups,
+            groupsMembers,
+            keywords,
+            media,
             classes,
             ...props,
           },
         })
       )}
-    </List>
+    </Timeline>
   );
 };
 
-export default EventList;
+export default EventsTimeline;

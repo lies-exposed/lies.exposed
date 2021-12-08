@@ -11,56 +11,32 @@ import { DeathListItem } from "./DeathListItem";
 import { ScientificStudyListItem } from "./ScientificStudyListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
 
-interface EventListItemProps {
+export interface EventListItemProps {
   event: Events.SearchEvent;
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
   media: Media.Media[];
-  onClick?: (e: Events.SearchEvent) => void;
+  onClick: (e: Events.SearchEvent) => void;
+  onActorClick: (a: Actor.Actor) => void;
+  onGroupClick: (g: Group.Group) => void;
+  onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
+  onKeywordClick: (k: Keyword.Keyword) => void;
 }
 
 export const EventListItem: React.FC<EventListItemProps> = ({
   event: e,
-  onClick,
   ...props
 }) => {
   switch (e.type) {
     case Events.Death.DeathType.value: {
-      return (
-        <DeathListItem
-          item={e}
-          actors={props.actors}
-          keywords={props.keywords}
-          links={[]}
-          onClick={onClick}
-        />
-      );
+      return <DeathListItem item={e} {...props} links={[]} />;
     }
     case Events.ScientificStudy.ScientificStudyType.value: {
-      return (
-        <ScientificStudyListItem
-          item={e}
-          actors={props.actors}
-          keywords={props.keywords}
-          groups={props.groups}
-          links={[]}
-        />
-      );
+      return <ScientificStudyListItem item={e} links={[]} {...props} />;
     }
     default:
-      return (
-        <UncategorizedListItem
-          item={e}
-          actors={props.actors}
-          groups={props.groups}
-          keywords={props.keywords}
-          groupsMembers={props.groupsMembers}
-          links={e.links}
-          media={props.media}
-          onClick={onClick}
-        />
-      );
+      return <UncategorizedListItem item={e} {...props} links={e.links} />;
   }
 };
