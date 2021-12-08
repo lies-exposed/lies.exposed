@@ -326,7 +326,6 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                             keywords={keywords.data}
                             media={media.data}
                             onClick={(e) => {
-                              console.log("event", e);
                               if (e.type === "Death") {
                                 void doUpdateCurrentView({
                                   view: "actor",
@@ -346,18 +345,13 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                               })();
                             }}
                             onGroupClick={(g) => {
-                              console.log(g);
                               void doUpdateCurrentView({
                                 view: "group",
                                 groupId: g.id,
                               })();
                             }}
-                            onGroupMemberClick={(gm) => {
-                              console.log(gm);
-                            }}
-                            onKeywordClick={(k) => {
-                              console.log(k);
-                            }}
+                            onGroupMemberClick={(gm) => {}}
+                            onKeywordClick={(k) => {}}
                           />
                         </Box>
                       );

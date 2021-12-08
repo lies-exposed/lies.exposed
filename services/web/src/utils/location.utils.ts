@@ -189,9 +189,8 @@ export function locationToView(location: HistoryLocation): CurrentView {
     };
   }
 
-  console.log(currentPath);
   const groupMatch = currentPath.match(groupRegex);
-  console.log(groupMatch);
+
   if (groupMatch !== null) {
     return {
       ...search,
@@ -265,7 +264,6 @@ export function locationToView(location: HistoryLocation): CurrentView {
 export function viewToLocation(view: CurrentView): HistoryLocation {
   const pathname =
     process.env.NODE_ENV === "development" ? "/index.html" : "/web/index.html";
-    console.log(view);
   switch (view.view) {
     case "blog":
       return {

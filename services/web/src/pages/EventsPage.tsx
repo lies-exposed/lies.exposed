@@ -1,9 +1,8 @@
-import { EventsPanel } from "@containers/EventsPanel";
 import {
   Actor,
   Group,
   GroupMember,
-  Keyword
+  Keyword,
 } from "@econnessione/shared/io/http";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
 import EventsTimeline from "@econnessione/ui/components/Common/Timeline";
@@ -16,6 +15,7 @@ import { Button, Grid } from "@material-ui/core";
 import { formatISO, subYears } from "date-fns";
 import * as React from "react";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
+import { EventsPanel } from "@containers/EventsPanel";
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
   representation: "date",
