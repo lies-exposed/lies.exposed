@@ -2,15 +2,19 @@ import {
   AvatarProps as MUIAvatarProps,
   Avatar as MUIAvatar,
 } from "@material-ui/core";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import * as React from "react";
+import { ECOTheme } from "@theme/index";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<
+  ECOTheme,
+  { fit: React.CSSProperties["objectFit"] }
+>((theme) =>
   createStyles({
     root: {
       display: "flex",
       "& .MuiAvatar-img": {
-        objectFit: "contain",
+        objectFit: (props) => props.fit,
       },
     },
     xsmall: {
@@ -40,10 +44,15 @@ export type AvatarSize = "xsmall" | "small" | "medium" | "large" | "xlarge";
 
 interface AvatarProps extends MUIAvatarProps {
   size?: AvatarSize;
+  fit?: React.CSSProperties["objectFit"];
 }
 
-export const Avatar: React.FC<AvatarProps> = ({ size = "small", ...props }) => {
-  const classes = useStyles();
+export const Avatar: React.FC<AvatarProps> = ({
+  size = "small",
+  fit = "cover",
+  ...props
+}) => {
+  const classes = useStyles({ fit });
 
   return (
     <MUIAvatar className={`${classes.root} ${classes[size]}`} {...props} />
