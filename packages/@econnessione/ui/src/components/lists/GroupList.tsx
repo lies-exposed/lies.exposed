@@ -37,6 +37,8 @@ export const GroupListItem: React.FC<
             src={src}
             size={avatarSize}
             style={{ margin: 5 }}
+            fit="contain"
+            variant="square"
           />
         )),
         O.toNullable

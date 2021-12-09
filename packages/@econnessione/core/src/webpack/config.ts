@@ -185,7 +185,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         },
         {
           test: /\.(ttf|svg|eot|woff|woff2|otf|png|gif)$/,
-          use: [{ loader: "file-loader" }],
+          type: "asset/inline",
         },
         {
           test: /\.css$/,
