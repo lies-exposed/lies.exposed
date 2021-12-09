@@ -2,8 +2,8 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("./assets/fonts/Lora-Bold.eot");
-  src: url("./assets/fonts/Lora-Bold.woff") format("woff"),
+  src: url("./assets/fonts/Lora-Bold.eot"),
+    url("./assets/fonts/Lora-Bold.woff") format("woff"),
     url("./assets/fonts/Lora-Bold.ttf") format("truetype"),
     url("./assets/fonts/Lora-Bold.svg") format("svg");
   font-weight: 700;
@@ -12,8 +12,8 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("./assets/fonts/Lora-BoldItalic.eot");
-  src: url("./assets/fonts/Lora-BoldItalic.woff") format("woff"),
+  src: url("./assets/fonts/Lora-BoldItalic.eot"),
+    url("./assets/fonts/Lora-BoldItalic.woff") format("woff"),
     url("./assets/fonts/Lora-BoldItalic.ttf") format("truetype"),
     url("./assets/fonts/Lora-BoldItalic.svg") format("svg");
   font-weight: 700;
@@ -22,8 +22,8 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("./assets/fonts/Lora-Regular.eot");
-  src: url("./assets/fonts/Lora-Regular.woff") format("woff"),
+  src: url("./assets/fonts/Lora-Regular.eot"),
+    url("./assets/fonts/Lora-Regular.woff") format("woff"),
     url("./assets/fonts/Lora-Regular.ttf") format("truetype"),
     url("./assets/fonts/Lora-Regular.svg") format("svg");
   font-weight: normal;
@@ -32,8 +32,8 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("./assets/fonts/Lora-Italic.eot");
-  src: url("./assets/fonts/Lora-Italic.woff") format("woff"),
+  src: url("./assets/fonts/Lora-Italic.eot"),
+    url("./assets/fonts/Lora-Italic.woff") format("woff"),
     url("./assets/fonts/Lora-Italic.ttf") format("truetype"),
     url("./assets/fonts/Lora-Italic.svg") format("svg");
   font-weight: normal;
@@ -42,8 +42,8 @@
 
 @font-face {
   font-family: "Signika";
-  src: url("./assets/fonts/Signika-Bold.eot");
-  src: url("./assets/fonts/Signika-Bold.woff") format("woff"),
+  src: url("./assets/fonts/Signika-Bold.eot"),
+    url("./assets/fonts/Signika-Bold.woff") format("woff"),
     url("./assets/fonts/Signika-Bold.ttf") format("truetype"),
     url("./assets/fonts/Signika-Bold.svg") format("svg");
   font-weight: 700;
@@ -52,8 +52,8 @@
 
 @font-face {
   font-family: "Signika";
-  src: url("./assets/fonts/Signika-Light.eot");
-  src: url("./assets/fonts/Signika-Light.woff") format("woff"),
+  src: url("./assets/fonts/Signika-Light.eot"),
+    url("./assets/fonts/Signika-Light.woff") format("woff"),
     url("./assets/fonts/Signika-Light.ttf") format("truetype"),
     url("./assets/fonts/Signika-Light.svg") format("svg");
   font-weight: 300;
@@ -62,8 +62,8 @@
 
 @font-face {
   font-family: "Signika";
-  src: url("./assets/fonts/Signika-Regular.eot");
-  src: url("./assets/fonts/Signika-Regular.woff") format("woff"),
+  src: url("./assets/fonts/Signika-Regular.eot"),
+    url("./assets/fonts/Signika-Regular.woff") format("woff"),
     url("./assets/fonts/Signika-Regular.ttf") format("truetype"),
     url("./assets/fonts/Signika-Regular.svg") format("svg");
   font-weight: normal;
