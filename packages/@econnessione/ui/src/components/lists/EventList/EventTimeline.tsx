@@ -83,7 +83,7 @@ const renderRow = (props: {
   return (
     <TimelineItem key={`event-list-item-${e.id}`}>
       <TimelineOppositeContent style={{ flex: 0 }}>
-        <Typography variant="body2" color="textSecondary">
+        <Typography variant="subtitle1" color="primary">
           {formatISO(
             (e as any).date ?? (e as any).startDate ?? (e as any).publishDate,
             {

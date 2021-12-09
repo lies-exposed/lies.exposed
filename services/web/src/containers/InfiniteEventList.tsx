@@ -350,7 +350,12 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                                 groupId: g.id,
                               })();
                             }}
-                            onGroupMemberClick={(gm) => {}}
+                            onGroupMemberClick={(gm) => {
+                              void doUpdateCurrentView({
+                                view: "actor",
+                                actorId: gm.actor.id,
+                              })();
+                            }}
                             onKeywordClick={(k) => {}}
                           />
                         </Box>

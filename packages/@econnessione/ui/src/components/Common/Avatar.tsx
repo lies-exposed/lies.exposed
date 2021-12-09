@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-      "& > *": {
-        margin: theme.spacing(1),
+      "& .MuiAvatar-img": {
+        objectFit: "contain",
       },
     },
     xsmall: {
@@ -45,5 +45,7 @@ interface AvatarProps extends MUIAvatarProps {
 export const Avatar: React.FC<AvatarProps> = ({ size = "small", ...props }) => {
   const classes = useStyles();
 
-  return <MUIAvatar className={classes[size]} {...props} />;
+  return (
+    <MUIAvatar className={`${classes.root} ${classes[size]}`} {...props} />
+  );
 };
