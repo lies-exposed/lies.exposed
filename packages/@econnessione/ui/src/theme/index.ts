@@ -77,6 +77,12 @@ const ECOTheme = createTheme({
   },
 });
 
+(ECOTheme.overrides as any).MuiTimelineDot = {
+  root: {
+    borderColor: "#fff",
+  },
+};
+
 type ECOTheme = typeof ECOTheme;
 
 export { ECOTheme };

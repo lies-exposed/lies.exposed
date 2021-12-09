@@ -190,6 +190,7 @@ export function locationToView(location: HistoryLocation): CurrentView {
   }
 
   const groupMatch = currentPath.match(groupRegex);
+
   if (groupMatch !== null) {
     return {
       ...search,
