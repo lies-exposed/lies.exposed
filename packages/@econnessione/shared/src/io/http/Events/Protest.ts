@@ -5,7 +5,7 @@ import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { ByGroupOrActor, For } from "../Common";
 import { BaseProps } from "../Common/BaseProps";
 import { markdownRemark } from "../Common/Markdown";
-import { ImageSource } from "../Media";
+import { Media } from "../Media";
 
 export const PROTEST = t.literal("Protest");
 export const Protest = t.strict(
@@ -15,7 +15,7 @@ export const Protest = t.strict(
     type: PROTEST,
     for: For,
     organizers: t.array(ByGroupOrActor),
-    media: optionFromNullable(nonEmptyArray(ImageSource)),
+    media: optionFromNullable(nonEmptyArray(Media)),
     date: DateFromISOString,
   },
   PROTEST.value

@@ -18,6 +18,7 @@ export const Media = t.strict(
   {
     id: UUID,
     type: MediaType,
+    thumbnail: t.union([t.string, t.undefined]),
     description: t.string,
     location: t.string,
     createdAt: DateFromISOString,
@@ -26,13 +27,3 @@ export const Media = t.strict(
   "Media"
 );
 export type Media = t.TypeOf<typeof Media>;
-
-export const ImageSource = t.strict(
-  {
-    description: t.string,
-    location: t.string,
-  },
-  "ImageSource"
-);
-
-export type ImageSource = t.TypeOf<typeof ImageSource>;
