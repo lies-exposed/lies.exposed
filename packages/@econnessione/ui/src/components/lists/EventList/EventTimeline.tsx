@@ -1,8 +1,8 @@
+import { EventIcon } from "@components/Common/Icons/EventIcon";
 import { eventDate } from "@econnessione/shared/helpers/event";
 import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
 import { makeStyles, Typography } from "@material-ui/core";
-import ScientificStudyIcon from "@material-ui/icons/FileCopyOutlined";
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
@@ -94,7 +94,7 @@ const renderRow = (props: {
       </TimelineOppositeContent>
       <TimelineSeparator>
         <TimelineDot variant="outlined" color="inherit">
-          <ScientificStudyIcon color="primary" />
+          <EventIcon type={e.type} color="secondary" />
         </TimelineDot>
         {last ? <TimelineConnector /> : null}
       </TimelineSeparator>
