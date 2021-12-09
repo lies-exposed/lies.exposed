@@ -253,7 +253,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           </Datagrid>
         </ReferenceArrayField>
       </FormTab>
-      <FormTab label="Images">
+      <FormTab label="Media">
         <MediaArrayInput source="newMedia" fullWidth={true} defaultValue={[]} />
 
         <ArrayField source="media">
