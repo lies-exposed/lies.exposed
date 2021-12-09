@@ -77,7 +77,11 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 {pipe(
                   media,
                   A.map((m) => (
-                    <EventMedia key={m.id} media={m} style={{ height: 200 }} />
+                    <EventMedia
+                      key={m.id}
+                      media={m}
+                      style={{ height: 200, maxWidth: 600 }}
+                    />
                   ))
                 )}
               </SlickSlider>

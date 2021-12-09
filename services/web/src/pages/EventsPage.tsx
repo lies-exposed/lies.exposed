@@ -5,25 +5,17 @@ import {
   Keyword,
 } from "@econnessione/shared/io/http";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
-import {
-  a11yProps,
-  TabPanel,
-} from "@econnessione/ui/components/Common/TabPanel";
-import { EventsMap } from "@econnessione/ui/components/EventsMap";
+import EventsTimeline from "@econnessione/ui/components/Common/Timeline";
 import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
 import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
 import { AutocompleteGroupMemberInput } from "@econnessione/ui/components/Input/AutocompleteGroupMemberInput";
 import { AutocompleteKeywordInput } from "@econnessione/ui/components/Input/AutocompleteKeywordInput";
 import { PageContent } from "@econnessione/ui/components/PageContent";
-import { Button, Grid, Tab, Tabs } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import { formatISO, subYears } from "date-fns";
-import * as O from "fp-ts/lib/Option";
 import * as React from "react";
-// import { resetInfiniteList } from "../state/commands";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
-import { EventsNetwork } from "@containers/EventsNetwork";
 import { EventsPanel } from "@containers/EventsPanel";
-import InfiniteEventList from "@containers/InfiniteEventList";
 
 const MIN_DATE = formatISO(subYears(new Date(), 10), {
   representation: "date",
