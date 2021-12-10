@@ -1,8 +1,9 @@
-name: Pull Request
+name: API - Pull Request
 
 on:
   pull_request:
     branches:
+      - daily
       - release/alpha
       - master
     paths:

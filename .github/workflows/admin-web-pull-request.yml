@@ -1,13 +1,14 @@
-name: Pull Request
+name: Admin Web - Pull Request
 
 on:
   pull_request:
     branches:
+      - daily
       - release/alpha
       - master
     paths:
       - "packages/**"
-      - "services/web/**"
+      - "services/admin-web/**"
 
 jobs:
   install:
@@ -39,7 +40,7 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Lint code
-        run: yarn web lint
+        run: yarn admin-web lint
 
   build:
     runs-on: ubuntu-latest
@@ -55,7 +56,7 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - name: Build web
-        run: yarn web build
+        run: yarn admin-web build
         env:
           DISABLE_ESLINT_PLUGIN: true
           SKIP_PREFLIGHT_CHECK: true
@@ -78,4 +79,4 @@ jobs:
           name: build
 
       - name: Run tests SPEC
-        run: yarn web test
+        run: yarn admin-web test
