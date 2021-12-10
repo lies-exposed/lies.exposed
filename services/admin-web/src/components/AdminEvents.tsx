@@ -1,4 +1,5 @@
 import { http } from "@econnessione/shared/io";
+import { Media } from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
@@ -56,7 +57,6 @@ import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
-import { Media } from "@econnessione/shared/io/http";
 
 const RESOURCE = "events";
 
