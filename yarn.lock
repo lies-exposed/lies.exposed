@@ -11643,7 +11643,6 @@ __metadata:
     pinst: ^2.1.6
     speed-measure-webpack-plugin: ^1.5.0
     ts-jest: ^27.1.1
-    webpack: ^5.65.0
   languageName: unknown
   linkType: soft
 

@@ -23,6 +23,11 @@ jobs:
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install modules
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
@@ -38,6 +43,11 @@ jobs:
           node-version: "14"
           cache: "yarn"
           cache-dependency-path: yarn.lock
+
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Lint code
         run: yarn admin-web lint
@@ -55,28 +65,20 @@ jobs:
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
-      - name: Build web
-        run: yarn admin-web build
-        env:
-          DISABLE_ESLINT_PLUGIN: true
-          SKIP_PREFLIGHT_CHECK: true
-
-  tests-spec:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
+      - uses: actions/cache@v2
         with:
-          node-version: "14"
-          cache: "yarn"
-          cache-dependency-path: yarn.lock
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
+      - uses: actions/cache@v2
         with:
-          name: build
+          path: |
+            packages/**/lib
+            services/**/build
+          key: admin-web-build
 
-      - name: Run tests SPEC
-        run: yarn admin-web test
+
+      - name: Build admin web
+        run: |
+          yarn packages:build
+          yarn admin-web build

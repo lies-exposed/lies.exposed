@@ -153,6 +153,11 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                           keywords={keywords}
                           groupsMembers={[]}
                           media={[]}
+                          onClick={() => {}}
+                          onActorClick={() => {}}
+                          onGroupClick={() => {}}
+                          onKeywordClick={() => {}}
+                          onGroupMemberClick={() => {}}
                         />
                       );
                     }}
