@@ -65,6 +65,7 @@ export const EditEventBody = nonEmptyRecordFromType({
         t.strict({
           location: t.string,
           description: t.string,
+          type: MediaType
         }),
       ])
     )

@@ -56,6 +56,7 @@ import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
+import { Media } from "@econnessione/shared/io/http";
 
 const RESOURCE = "events";
 
@@ -131,7 +132,7 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
   const mediaTask = pipe(
     A.sequence(TE.ApplicativePar)(
       newRawMedia.map((r: any) =>
-        uploadFile(dataProvider)("media", uuid(), r.location.rawFile, r.type)
+        uploadFile(dataProvider)("media", uuid(), r.location.rawFile, r.location.rawFile.type)
       )
     ),
     TE.map((urls) =>
@@ -181,6 +182,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       </>
     }
     transform={({ newLinks = [], newMedia = [], ...r }) => {
+
       const links = (newLinks as any[]).reduce((acc, l) => {
         if (Array.isArray(l.ids)) {
           return acc.concat(l.ids);
@@ -195,7 +197,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           }
           return acc.concat(l);
         }, []),
-        (mm) => r.media.concat(mm)
+        (mm) => r.media.map((m: Media.Media) => m.id).concat(mm)
       );
 
       return transformEvent(r.id as any, {
