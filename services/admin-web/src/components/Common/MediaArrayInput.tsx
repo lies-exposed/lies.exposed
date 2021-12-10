@@ -1,3 +1,4 @@
+import { MediaType } from "@econnessione/shared/io/http/Media";
 import { Box } from "@material-ui/core";
 import { FormDataConsumer } from "ra-core";
 import {
@@ -6,6 +7,7 @@ import {
   AutocompleteArrayInput,
   BooleanInput,
   ReferenceArrayInput,
+  SelectInput,
   SimpleFormIterator,
   TextInput,
 } from "ra-ui-materialui";
@@ -25,7 +27,7 @@ export const MediaArrayInput: React.FC<
             if (scopedFormData?.addNew) {
               return (
                 <Box>
-                  <BooleanInput source={getSrc("fromURL")} />
+                  <BooleanInput source={getSrc("fromURL")} record={formData} />
                   <FormDataConsumer>
                     {({
                       formData: newFormData,
@@ -33,19 +35,35 @@ export const MediaArrayInput: React.FC<
                       getSource: getNewSource,
                       ...newRest
                     }) => {
-                      if (newFormData.fromURL) {
+                      // console.log({
+                      //   newFormData,
+                      //   newScopedData,
+                      //   getNewSource,
+                      //   newRest,
+                      // });
+                      if (scopedFormData?.fromURL) {
                         return (
-                          <TextInput
-                            source={getSrc("location")}
-                            type={getSrc("url")}
-                            {...newRest}
-                          />
+                          <Box>
+                            <TextInput
+                              source={getSrc("location")}
+                              type={"url"}
+                              record={newFormData}
+                            />
+                            <SelectInput
+                              source={getSrc("type")}
+                              choices={MediaType.types.map((v) => ({
+                                id: v.value,
+                                name: v.value,
+                              }))}
+                            />
+                          </Box>
                         );
                       }
                       return (
                         <Box>
                           <TextInput
                             source={getSrc("description")}
+                            record={newFormData}
                             {...newRest}
                           />
                           <MediaInput

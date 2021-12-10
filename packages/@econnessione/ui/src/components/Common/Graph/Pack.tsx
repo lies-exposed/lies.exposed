@@ -66,7 +66,6 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
             return springs.map((style, i) => {
               const circle = circles[i];
 
-              // console.log({ width, circle });
               return (
                 <Group key={i}>
                   <animated.circle

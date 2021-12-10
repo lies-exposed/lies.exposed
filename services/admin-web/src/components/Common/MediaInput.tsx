@@ -15,7 +15,6 @@ export const MediaInput: React.FC<MediaInputProps> = ({
   sourceLocation,
   ...props
 }) => {
-  console.log(props);
   return (
     <Box>
       <FileInput

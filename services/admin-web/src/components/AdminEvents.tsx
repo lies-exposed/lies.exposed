@@ -140,7 +140,7 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
         A.zip(newRawMedia),
         A.map(([location, media]) => ({
           ...media,
-          location,
+          ...location,
         })),
         A.concat(newLinkedImages),
         A.concat(oldMedia)
@@ -188,17 +188,20 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         return acc.concat(l);
       }, []);
 
-      const media = (newMedia as any[]).reduce((acc, l) => {
-        if (Array.isArray(l.ids)) {
-          return acc.concat(l.ids);
-        }
-        return acc.concat(l);
-      }, []);
+      const media = pipe(
+        (newMedia as any[]).reduce((acc, l) => {
+          if (Array.isArray(l.ids)) {
+            return acc.concat(l.ids);
+          }
+          return acc.concat(l);
+        }, []),
+        (mm) => r.media.concat(mm)
+      );
 
       return transformEvent(r.id as any, {
         ...r,
         actors: r.actors.concat(r.newActors ?? []),
-        media: r.media.concat(media),
+        media,
         links: r.links.concat(links),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
       });
