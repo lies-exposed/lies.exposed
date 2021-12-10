@@ -21,8 +21,8 @@
     ]
   },
   "scripts": {
-    "clean": "yarn workspaces run clean",
-    "build": "yarn workspaces run build",
+    "clean": "yarn workspaces foreach -p run clean",
+    "build": "yarn workspaces foreach -v -p run build",
     "test:spec": "jest spec",
     "test:e2e": "jest e2e",
     "test": "jest",
@@ -66,9 +66,6 @@
     "pinst": "^2.1.6",
     "speed-measure-webpack-plugin": "^1.5.0",
     "ts-jest": "^27.1.1"
-  },
-  "dependencies": {
-    "webpack": "^5.65.0"
   },
   "packageManager": "yarn@3.1.1"
 }
