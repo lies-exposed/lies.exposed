@@ -17,14 +17,6 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
-# nyc test coverage
-.nyc_output
-
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
-
-# Bower dependency directory (https://bower.io/)
-bower_components
 
 # node-waf configuration
 .lock-wscript
@@ -42,28 +34,23 @@ jspm_packages/
 # Optional eslint cache
 .eslintcache
 
-# Optional REPL history
-.node_repl_history
-
 # Output of 'npm pack'
 *.tgz
 
 
-# gatsby files
-.cache/
-
 # Yarn
 yarn-error.log
-.pnp/
-.pnp.js
-# Yarn Integrity file
-.yarn-integrity
 
-# Local Netlify folder
-.netlify
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
-# Storybook
-**/static/storybook/**
+
+
 
 # certificates
 certs

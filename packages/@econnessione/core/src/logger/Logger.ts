@@ -1,7 +1,7 @@
 import debug from "debug";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 
 const baseLogger = debug("@eco");
 
