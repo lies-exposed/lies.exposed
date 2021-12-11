@@ -3,8 +3,8 @@ import { GetSignedURL, ValidContentType } from "@econnessione/shared/endpoints/u
 import * as Media from "@econnessione/shared/io/http/Media";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { Router } from "express";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "../route.types";
 
 const fileExtFromContentType = (c: ValidContentType): string => {
