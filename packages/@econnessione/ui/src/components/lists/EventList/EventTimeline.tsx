@@ -98,7 +98,7 @@ const renderRow = (props: {
         </TimelineDot>
         {last ? <TimelineConnector /> : null}
       </TimelineSeparator>
-      <TimelineContent>
+      <TimelineContent style={{ maxWidth: "100%" }}>
         <EventListItem
           event={e}
           actors={eventActors}
@@ -151,6 +151,11 @@ const EventsTimeline: React.FC<EventListProps> = ({
   keywords,
   groupsMembers,
   media,
+  onClick,
+  onActorClick,
+  onGroupClick,
+  onKeywordClick,
+  onGroupMemberClick,
   ...props
 }) => {
   const orderedEvents = React.useMemo(
@@ -173,7 +178,11 @@ const EventsTimeline: React.FC<EventListProps> = ({
             keywords,
             media,
             classes,
-            ...props,
+            onClick,
+            onActorClick,
+            onGroupClick,
+            onGroupMemberClick,
+            onKeywordClick,
           },
         })
       )}

@@ -1,16 +1,19 @@
-import { MediaType } from "@econnessione/shared/io/http/Media";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import EventMedia from "@components/EventMedia";
+import { Media } from "@econnessione/shared/io/http";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
+import { makeStyles } from "../../../theme/index";
 
-interface Slide {
-  src: string;
-  type: MediaType;
-  authorName: string;
-  info: string;
-}
+const useStyles = makeStyles((theme) => ({
+  mediaSlider: {
+    margin: 20
+  },
+}));
 
 interface SliderProps extends SlickSlider.Settings {
-  slides: Slide[];
+  slides: Media.Media[];
   style?: React.CSSProperties;
   maxHeight?: number;
 }
@@ -20,42 +23,26 @@ export const Slider: React.FC<SliderProps> = ({
   maxHeight = 400,
   ...props
 }) => {
+  const classes = useStyles();
+
   return (
-    <SlickSlider.default {...{ ...props }}>
+    <SlickSlider.default className={classes.mediaSlider} {...{ ...props }}>
       {slides.map((s) => (
         <div
-          key={s.src}
+          key={s.location}
           style={{
             textAlign: "center",
             maxHeight,
-            background: `url(${s.src})`,
+            // background: `url(${s.location})`,
             backgroundSize: "100% auto",
           }}
         >
-          {s.type === MediaType.types[2].value ? (
-            <video
-              key={s.src}
-              src={s.src}
-              controls={true}
-              style={{
-                maxHeight,
-                boxSizing: "content-box",
-                display: "block",
-                margin: "auto",
-              }}
-            />
-          ) : (
-            <img
-              key={s.src}
-              src={s.src}
-              style={{
-                boxSizing: "content-box",
-                maxHeight,
-                display: "block",
-                margin: "auto",
-              }}
-            />
-          )}
+          <EventMedia
+            media={s}
+            style={{
+              width: "100%",
+            }}
+          />
         </div>
       ))}
     </SlickSlider.default>

@@ -1,5 +1,5 @@
 import "./font.css";
-import { createTheme } from "@material-ui/core";
+import { createTheme, makeStyles, useTheme } from "@material-ui/core";
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
@@ -85,4 +85,4 @@ const ECOTheme = createTheme({
 
 type ECOTheme = typeof ECOTheme;
 
-export { ECOTheme };
+export { ECOTheme, makeStyles, useTheme };
