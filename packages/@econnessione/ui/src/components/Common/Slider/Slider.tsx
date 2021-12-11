@@ -1,6 +1,6 @@
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import EventMedia from "@components/EventMedia";
+import MediaElement from "../../MediaElement";
 import { Media } from "@econnessione/shared/io/http";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
@@ -37,7 +37,7 @@ export const Slider: React.FC<SliderProps> = ({
             backgroundSize: "100% auto",
           }}
         >
-          <EventMedia
+          <MediaElement
             media={s}
             style={{
               width: "100%",

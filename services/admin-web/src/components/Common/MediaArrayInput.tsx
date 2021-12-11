@@ -27,7 +27,11 @@ export const MediaArrayInput: React.FC<
             if (scopedFormData?.addNew) {
               return (
                 <Box>
-                  <BooleanInput source={getSrc("fromURL")} record={formData} />
+                  <BooleanInput
+                    label="fromURL"
+                    source={getSrc("fromURL")}
+                    record={formData}
+                  />
                   <FormDataConsumer>
                     {({
                       formData: newFormData,
@@ -45,11 +49,18 @@ export const MediaArrayInput: React.FC<
                         return (
                           <Box>
                             <TextInput
+                              label="location"
                               source={getSrc("location")}
                               type={"url"}
                               record={newFormData}
                             />
+                            <TextInput
+                              label="description"
+                              source={getSrc("description")}
+                              record={newFormData}
+                            />
                             <SelectInput
+                              label="type"
                               source={getSrc("type")}
                               choices={MediaType.types.map((v) => ({
                                 id: v.value,

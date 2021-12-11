@@ -1,13 +1,17 @@
 import { Media } from "@econnessione/shared/io/http";
 import * as React from "react";
 
-interface EventMediaProps {
+interface MediaElementProps {
   media: Media.Media;
   style?: React.CSSProperties;
 }
 
-const EventMedia: React.FC<EventMediaProps> = (props) => {
+const MediaElement: React.FC<MediaElementProps> = (props) => {
   switch (props.media.type) {
+    case Media.MediaType.types[5].value:
+      return (
+        <iframe src={props.media.location} {...props} />
+      )
     case Media.MediaType.types[4].value: {
       return <div style={props.style}>PDF preview</div>;
     }
@@ -26,4 +30,4 @@ const EventMedia: React.FC<EventMediaProps> = (props) => {
   }
 };
 
-export default EventMedia;
+export default MediaElement;

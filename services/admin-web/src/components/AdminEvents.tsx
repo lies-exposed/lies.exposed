@@ -56,7 +56,7 @@ import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
-import { uploadFile } from "@client/MediaAPI";
+import { RawMedia, uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "events";
 
@@ -122,29 +122,52 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  const newRawMedia: File[] = data.media.filter(
-    (i: any) => i.location?.rawFile !== undefined
+  console.log(data.media);
+
+  const { rawMedia, otherMedia } = (data.media as any[]).reduce<{
+    rawMedia: RawMedia[];
+    otherMedia: any[];
+  }>(
+    (acc, m) => {
+      if (m.location?.rawFile !== undefined) {
+        return {
+          ...acc,
+          rawMedia: acc.rawMedia.concat(m),
+        };
+      }
+      return {
+        ...acc,
+        otherMedia: acc.otherMedia.concat(m),
+      };
+    },
+    {
+      rawMedia: [],
+      otherMedia: [],
+    }
   );
 
-  const newLinkedImages = data.media.filter(t.string.is);
+  console.log({ rawMedia, otherMedia });
 
-  const oldMedia = data.media.filter((i: any) => i.id !== undefined);
   const mediaTask = pipe(
     A.sequence(TE.ApplicativePar)(
-      newRawMedia.map((r: any) =>
-        uploadFile(dataProvider)("media", uuid(), r.location.rawFile, r.location.rawFile.type)
+      rawMedia.map((r: any) =>
+        uploadFile(dataProvider)(
+          "media",
+          uuid(),
+          r.location.rawFile,
+          r.location.rawFile.type
+        )
       )
     ),
     TE.map((urls) =>
       pipe(
         urls,
-        A.zip(newRawMedia),
+        A.zip(rawMedia),
         A.map(([location, media]) => ({
           ...media,
           ...location,
         })),
-        A.concat(newLinkedImages),
-        A.concat(oldMedia)
+        A.concat(otherMedia)
       )
     )
   );
@@ -182,7 +205,6 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
       </>
     }
     transform={({ newLinks = [], newMedia = [], ...r }) => {
-
       const links = (newLinks as any[]).reduce((acc, l) => {
         if (Array.isArray(l.ids)) {
           return acc.concat(l.ids);
@@ -194,6 +216,12 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         (newMedia as any[]).reduce((acc, l) => {
           if (Array.isArray(l.ids)) {
             return acc.concat(l.ids);
+          }
+          if (l.fromURL) {
+            return acc.concat({
+              ...l,
+              thumbnail: l.location,
+            });
           }
           return acc.concat(l);
         }, []),
@@ -259,7 +287,12 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Media">
-        <MediaArrayInput source="newMedia" fullWidth={true} defaultValue={[]} />
+        <MediaArrayInput
+          label="newMedia"
+          source="newMedia"
+          fullWidth={true}
+          defaultValue={[]}
+        />
 
         <ArrayField source="media">
           <Datagrid rowClick="edit">
