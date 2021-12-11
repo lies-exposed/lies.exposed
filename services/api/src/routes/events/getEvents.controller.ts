@@ -186,6 +186,10 @@ export const MakeListEventRoute = (r: Router, ctx: RouteContext): void => {
           A.map((e) =>
             toEventIO({
               ...e,
+              media: e.media.map(m => ({
+                ...m,
+                thumbnail: m.thumbnail ?? undefined
+              } as any)),
               actors: e.actors.map((a) => a.id) as any,
               groups: e.groups.map((g) => g.id) as any,
               groupsMembers: e.groupsMembers.map((g) => g.id) as any,

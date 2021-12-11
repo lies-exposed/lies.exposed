@@ -94,7 +94,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit title={<EditTitle {...props} />} {...props} transform={transformMedia}>
     <TabbedForm>
       <FormTab label="general">
-        <UrlField source="location" />
+        <TextInput source="location" type={"url"} />
         <MediaField source="location" />
         <MediaInput sourceLocation="location" sourceType="type" />
         <DateField source="updatedAt" showTime={true} />

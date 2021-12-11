@@ -122,9 +122,20 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  console.log(data.media);
+  const media: any[] = (data.media as any[]).reduce((acc, l) => {
+    if (Array.isArray(l.ids)) {
+      return acc.concat(l.ids);
+    }
 
-  const { rawMedia, otherMedia } = (data.media as any[]).reduce<{
+    if (l.fromURL) {
+      return acc.concat({
+        ...l,
+        thumbnail: l.location,
+      });
+    }
+    return acc.concat(l);
+  }, []);
+  const { rawMedia, otherMedia } = media.reduce<{
     rawMedia: RawMedia[];
     otherMedia: any[];
   }>(
@@ -146,7 +157,7 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
     }
   );
 
-  console.log({ rawMedia, otherMedia });
+  // console.log({ rawMedia, otherMedia });
 
   const mediaTask = pipe(
     A.sequence(TE.ApplicativePar)(
@@ -166,6 +177,9 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
         A.map(([location, media]) => ({
           ...media,
           ...location,
+          thumbnail: Media.ImageType.is(location.type)
+            ? location.location
+            : undefined,
         })),
         A.concat(otherMedia)
       )
@@ -212,26 +226,10 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         return acc.concat(l);
       }, []);
 
-      const media = pipe(
-        (newMedia as any[]).reduce((acc, l) => {
-          if (Array.isArray(l.ids)) {
-            return acc.concat(l.ids);
-          }
-          if (l.fromURL) {
-            return acc.concat({
-              ...l,
-              thumbnail: l.location,
-            });
-          }
-          return acc.concat(l);
-        }, []),
-        (mm) => r.media.map((m: Media.Media) => m.id).concat(mm)
-      );
-
       return transformEvent(r.id as any, {
         ...r,
         actors: r.actors.concat(r.newActors ?? []),
-        media,
+        media: r.media.concat(newMedia),
         links: r.links.concat(links),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
       });
@@ -377,7 +375,9 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
   <Create
     title="Create a Event"
     {...props}
-    transform={(data) => transformEvent(uuid(), data)}
+    transform={(data) => {
+      return transformEvent(uuid(), data);
+    }}
   >
     <TabbedForm>
       <FormTab label="General">
@@ -418,11 +418,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         <ReferenceArrayLinkInput source="links" initialValue={[]} />
       </FormTab>
       <FormTab label="Media">
-        <ArrayInput source="media" defaultValue={[]}>
-          <SimpleFormIterator>
-            <MediaInput sourceType="type" sourceLocation="location" />
-          </SimpleFormIterator>
-        </ArrayInput>
+        <MediaArrayInput source="media" defaultValue={[]} />
       </FormTab>
     </TabbedForm>
   </Create>

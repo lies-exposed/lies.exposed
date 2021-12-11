@@ -36,6 +36,8 @@ export const CreateEventBody = t.strict(
           t.strict({
             location: t.string,
             description: t.string,
+            thumbnail: t.union([t.string, t.undefined]),
+            type: MediaType,
           }),
         ])
       )
@@ -65,7 +67,8 @@ export const EditEventBody = nonEmptyRecordFromType({
         t.strict({
           location: t.string,
           description: t.string,
-          type: MediaType
+          thumbnail: t.union([t.string, t.undefined]),
+          type: MediaType,
         }),
       ])
     )
@@ -96,12 +99,15 @@ export const Uncategorized = t.strict(
     endDate: t.union([t.undefined, DateFromISOString]),
     location: t.union([t.undefined, Point]),
     media: t.array(
-      t.strict({
-        id: t.string,
-        location: t.string,
-        type: MediaType,
-        description: t.string,
-      })
+      t.strict(
+        {
+          location: t.string,
+          thumbnail: t.union([t.string, t.undefined]),
+          type: MediaType,
+          description: t.string,
+        },
+        "Media"
+      )
     ),
     links: t.array(t.string),
     actors: t.array(t.string),
