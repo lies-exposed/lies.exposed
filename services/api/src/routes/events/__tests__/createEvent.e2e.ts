@@ -44,6 +44,7 @@ describe("Create Event", () => {
         A.takeLeft(3),
         A.map((k) => k.id)
       ),
+      media: [],
       actors: [],
       groups: [],
       groupsMembers: [],
@@ -69,6 +70,7 @@ describe("Create Event", () => {
 
     const eventData = {
       ...fc.sample(CreateEventBodyArb({}), 1)[0],
+      media: [],
       keywords: [],
       groups: [],
       groupsMembers: [],
