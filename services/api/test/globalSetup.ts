@@ -1,5 +1,6 @@
+/* eslint-disable import/order, import/first */
+import moduleAlias from "module-alias";
 import * as path from "path";
-const moduleAlias = require("module-alias");
 moduleAlias(path.resolve(__dirname, "../package.json"));
 import * as dotenv from "dotenv";
 import * as E from "fp-ts/lib/Either";

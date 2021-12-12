@@ -1,4 +1,5 @@
 import { http } from "@econnessione/shared/io";
+import { Media } from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
@@ -55,7 +56,7 @@ import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
-import { uploadFile } from "@client/MediaAPI";
+import { RawMedia, uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "events";
 
@@ -121,29 +122,66 @@ export const EventList: React.FC<ListProps> = (props) => (
 );
 
 const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  const newRawMedia: File[] = data.media.filter(
-    (i: any) => i.location?.rawFile !== undefined
+  const media: any[] = (data.media as any[]).reduce((acc, l) => {
+    if (Array.isArray(l.ids)) {
+      return acc.concat(l.ids);
+    }
+
+    if (l.fromURL) {
+      return acc.concat({
+        ...l,
+        thumbnail: l.location,
+      });
+    }
+    return acc.concat(l);
+  }, []);
+  const { rawMedia, otherMedia } = media.reduce<{
+    rawMedia: RawMedia[];
+    otherMedia: any[];
+  }>(
+    (acc, m) => {
+      if (m.location?.rawFile !== undefined) {
+        return {
+          ...acc,
+          rawMedia: acc.rawMedia.concat(m),
+        };
+      }
+      return {
+        ...acc,
+        otherMedia: acc.otherMedia.concat(m),
+      };
+    },
+    {
+      rawMedia: [],
+      otherMedia: [],
+    }
   );
 
-  const newLinkedImages = data.media.filter(t.string.is);
+  // console.log({ rawMedia, otherMedia });
 
-  const oldMedia = data.media.filter((i: any) => i.id !== undefined);
   const mediaTask = pipe(
     A.sequence(TE.ApplicativePar)(
-      newRawMedia.map((r: any) =>
-        uploadFile(dataProvider)("media", uuid(), r.location.rawFile, r.type)
+      rawMedia.map((r: any) =>
+        uploadFile(dataProvider)(
+          "media",
+          uuid(),
+          r.location.rawFile,
+          r.location.rawFile.type
+        )
       )
     ),
     TE.map((urls) =>
       pipe(
         urls,
-        A.zip(newRawMedia),
+        A.zip(rawMedia),
         A.map(([location, media]) => ({
           ...media,
-          location,
+          ...location,
+          thumbnail: Media.ImageType.is(location.type)
+            ? location.location
+            : undefined,
         })),
-        A.concat(newLinkedImages),
-        A.concat(oldMedia)
+        A.concat(otherMedia)
       )
     )
   );
@@ -188,17 +226,10 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
         return acc.concat(l);
       }, []);
 
-      const media = (newMedia as any[]).reduce((acc, l) => {
-        if (Array.isArray(l.ids)) {
-          return acc.concat(l.ids);
-        }
-        return acc.concat(l);
-      }, []);
-
       return transformEvent(r.id as any, {
         ...r,
         actors: r.actors.concat(r.newActors ?? []),
-        media: r.media.concat(media),
+        media: r.media.concat(newMedia),
         links: r.links.concat(links),
         groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
       });
@@ -253,8 +284,13 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
           </Datagrid>
         </ReferenceArrayField>
       </FormTab>
-      <FormTab label="Images">
-        <MediaArrayInput source="newMedia" fullWidth={true} defaultValue={[]} />
+      <FormTab label="Media">
+        <MediaArrayInput
+          label="newMedia"
+          source="newMedia"
+          fullWidth={true}
+          defaultValue={[]}
+        />
 
         <ArrayField source="media">
           <Datagrid rowClick="edit">
@@ -339,7 +375,9 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
   <Create
     title="Create a Event"
     {...props}
-    transform={(data) => transformEvent(uuid(), data)}
+    transform={(data) => {
+      return transformEvent(uuid(), data);
+    }}
   >
     <TabbedForm>
       <FormTab label="General">
@@ -380,11 +418,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         <ReferenceArrayLinkInput source="links" initialValue={[]} />
       </FormTab>
       <FormTab label="Media">
-        <ArrayInput source="media" defaultValue={[]}>
-          <SimpleFormIterator>
-            <MediaInput sourceType="type" sourceLocation="location" />
-          </SimpleFormIterator>
-        </ArrayInput>
+        <MediaArrayInput source="media" defaultValue={[]} />
       </FormTab>
     </TabbedForm>
   </Create>

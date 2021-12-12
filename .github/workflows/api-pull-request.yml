@@ -22,13 +22,13 @@ jobs:
           cache: "yarn"
           cache-dependency-path: yarn.lock
 
+      - name: Install modules
+        run: yarn
+
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install modules
-        run: yarn
 
   lint:
     runs-on: ubuntu-latest

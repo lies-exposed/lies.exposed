@@ -19,6 +19,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
       body: { links, media, actors, groups, groupsMembers, keywords, ...body },
     }) => {
       ctx.logger.debug.log("Incoming body %O", body);
+      ctx.logger.debug.log("Incoming media %O", media);
 
       const updateData = foldOptionals({
         ...body,

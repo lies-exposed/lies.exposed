@@ -1,6 +1,7 @@
 import * as io from "@econnessione/shared/io";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
+import { UUID } from "io-ts-types/lib/UUID";
 import { EventEntity } from "@entities/Event.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 
@@ -13,6 +14,10 @@ export const toEventIO = (
       type: "Uncategorized",
       location: event.location ? event.location : undefined,
       topics: [],
+      media: event.media.map(m => UUID.is(m) ? m : ({
+        ...m,
+        thumbnail: m.thumbnail ?? undefined
+      })),
       startDate: event.startDate.toISOString(),
       endDate: event.endDate ? event.endDate.toISOString() : undefined,
       date: new Date().toISOString(),

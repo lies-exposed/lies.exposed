@@ -2,7 +2,6 @@ import { eventDate } from "@econnessione/shared/helpers/event";
 import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
 import { makeStyles, Typography } from "@material-ui/core";
-import ScientificStudyIcon from "@material-ui/icons/FileCopyOutlined";
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
@@ -16,6 +15,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import { EventListItem, EventListItemProps } from "./EventListItem";
+import { EventIcon } from "@components/Common/Icons/EventIcon";
 
 const byEqualDate = pipe(
   S.Eq,
@@ -94,11 +94,11 @@ const renderRow = (props: {
       </TimelineOppositeContent>
       <TimelineSeparator>
         <TimelineDot variant="outlined" color="inherit">
-          <ScientificStudyIcon color="primary" />
+          <EventIcon type={e.type} color="secondary" />
         </TimelineDot>
         {last ? <TimelineConnector /> : null}
       </TimelineSeparator>
-      <TimelineContent>
+      <TimelineContent style={{ maxWidth: "100%" }}>
         <EventListItem
           event={e}
           actors={eventActors}
@@ -151,6 +151,11 @@ const EventsTimeline: React.FC<EventListProps> = ({
   keywords,
   groupsMembers,
   media,
+  onClick,
+  onActorClick,
+  onGroupClick,
+  onKeywordClick,
+  onGroupMemberClick,
   ...props
 }) => {
   const orderedEvents = React.useMemo(
@@ -173,7 +178,11 @@ const EventsTimeline: React.FC<EventListProps> = ({
             keywords,
             media,
             classes,
-            ...props,
+            onClick,
+            onActorClick,
+            onGroupClick,
+            onGroupMemberClick,
+            onKeywordClick,
           },
         })
       )}
