@@ -20,11 +20,7 @@ module.exports = {
   },
   transform: {
     ...tsjPresets.defaults.transform,
-    // [`<rootDir>/../../../node_modules/${esModule}/.+\\.(j|t)sx?$`]: "ts-jest",
   },
-  // transformIgnorePatterns: [
-  //   `<rootDir>/../../../node_modules/(?!${esModule}/.*)`,
-  // ],
   testMatch: ["**/?(*.)+(spec|test|e2e).ts?(x)"],
   collectCoverageFrom: ["./src/**/*.ts"],
   coverageThreshold: {

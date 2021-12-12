@@ -15,6 +15,9 @@ export class MediaEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  @Column({ type: "varchar", nullable: true })
+  thumbnail: string | null;
+
   @Column({ type: "varchar", nullable: false })
   location: string;
 

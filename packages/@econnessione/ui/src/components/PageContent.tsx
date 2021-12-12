@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Page } from "@econnessione/shared/io/http";
 import * as QR from "avenger/lib/QueryResult";
 import { declareQueries } from "avenger/lib/react";
@@ -15,6 +14,7 @@ import SEO from "./SEO";
 export type PageContentProps = Page.Page;
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
+  // eslint-disable-next-line
   console.log(error);
   return (
     <>

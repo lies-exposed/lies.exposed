@@ -4,7 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media,
+  Media
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,12 +15,12 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import SlickSlider from "react-slick";
+import { Slider } from "../../Common/Slider/Slider";
 import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
-import EventMedia from "@components/EventMedia";
+
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.UncategorizedSearch;
@@ -51,6 +51,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   onGroupMemberClick,
   onKeywordClick,
 }) => {
+
   return (
     <Box
       key={item.id}
@@ -60,34 +61,39 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         width: "100%",
       }}
     >
-      <Grid container spacing={2}>
-        <Grid item md={4} sm={12} xs={12}>
-          {pipe(
-            media,
-            O.fromPredicate((arr) => arr.length > 0),
-            O.map((media) => (
-              // eslint-disable-next-line react/jsx-key
-              <SlickSlider
-                adaptiveHeight={false}
-                infinite={false}
-                arrows={true}
-                draggable={false}
-                dots={true}
-              >
-                {pipe(
-                  media,
-                  A.map((m) => (
-                    <EventMedia
-                      key={m.id}
-                      media={m}
-                      style={{ height: 200, maxWidth: 600 }}
-                    />
-                  ))
-                )}
-              </SlickSlider>
-            )),
-            O.toNullable
-          )}
+      <Grid container spacing={2} style={{ width: "100%" }}>
+        <Grid
+          item
+          md={4}
+          sm={12}
+          xs={12}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box style={{ height: '100%', maxWidth: '100%' }}>
+            {pipe(
+              media,
+              O.fromPredicate((arr) => arr.length > 0),
+              O.map((media) => (
+                // eslint-disable-next-line react/jsx-key
+                <Slider
+                  adaptiveHeight={false}
+                  infinite={false}
+                  arrows={true}
+                  draggable={false}
+                  dots={true}
+                  swipe={true}
+                  slidesToShow={1}
+                  slidesToScroll={1}
+                  slides={media}
+                  style={{
+                    maxWidth: 300
+                  }}
+                />
+              )),
+              O.toNullable
+            )}
+          </Box>
         </Grid>
         <Grid item md={8} sm={12} xs={12}>
           <Typography variant="h6" onClick={() => onClick?.(item)}>

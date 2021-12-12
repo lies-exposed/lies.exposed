@@ -32,6 +32,8 @@ export default {
         actors: "Actors",
         groups: "Groups",
         groupsMembers: "Groups Members",
+        addNew: "Add new",
+        "newMedia.fromURL": "From URL",
       },
     },
     links: {

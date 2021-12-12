@@ -2,6 +2,15 @@ import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { MediaType } from "../io/http/Media";
 
+export const ValidContentType = t.union([
+  MediaType.types[0],
+  MediaType.types[1],
+  MediaType.types[2],
+  MediaType.types[3],
+  MediaType.types[4]
+])
+export type ValidContentType = t.TypeOf<typeof ValidContentType>
+
 export const GetSignedURL = Endpoint({
   Method: "POST",
   getPath: () => `/uploads/getSignedURL`,
@@ -16,13 +25,8 @@ export const GetSignedURL = Endpoint({
         t.literal("areas"),
       ]),
       resourceId: t.string,
-      ContentType: MediaType,
+      ContentType: ValidContentType,
     }),
   },
   Output: t.strict({ data: t.strict({ url: t.string }) }),
 });
-
-// export const uploads = ResourceEndpoints({
-//   Get: GetSignedURL,
-//   List:
-// });

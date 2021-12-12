@@ -33,10 +33,3 @@ em {
 .anchor svg {
   margin-right: 10px;
 }
-
-.slick-arrow {
-  &.slick-prev::before,
-  &.slick-next::before {
-    color: black;
-  }
-}

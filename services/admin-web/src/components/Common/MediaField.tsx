@@ -23,6 +23,10 @@ export const MediaField: React.FC<MediaFieldProps> = (props) => {
   }
 
   switch (mediaType) {
+    case MediaType.types[5].value:
+      return (
+        <iframe src={src} style={{ maxWidth: 500, height: 300 }} />
+      )
     case MediaType.types[4].value:
       return <UrlField {...props} target="_blank" />;
     case MediaType.types[3].value:
