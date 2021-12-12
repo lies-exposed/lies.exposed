@@ -7,12 +7,11 @@ import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 
-
 export interface RawMedia {
   location: {
-    rawFile: File
-  }
-  type: MediaType
+    rawFile: File;
+  };
+  type: MediaType;
 }
 
 export const convertFileToBase64 = (file: File): TE.TaskEither<Error, string> =>

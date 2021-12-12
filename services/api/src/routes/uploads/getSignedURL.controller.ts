@@ -1,5 +1,8 @@
 import { AddEndpoint } from "@econnessione/shared/endpoints";
-import { GetSignedURL, ValidContentType } from "@econnessione/shared/endpoints/upload.endpoints";
+import {
+  GetSignedURL,
+  ValidContentType,
+} from "@econnessione/shared/endpoints/upload.endpoints";
 import * as Media from "@econnessione/shared/io/http/Media";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { Router } from "express";

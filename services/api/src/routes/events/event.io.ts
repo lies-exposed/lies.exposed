@@ -14,10 +14,14 @@ export const toEventIO = (
       type: "Uncategorized",
       location: event.location ? event.location : undefined,
       topics: [],
-      media: event.media.map(m => UUID.is(m) ? m : ({
-        ...m,
-        thumbnail: m.thumbnail ?? undefined
-      })),
+      media: event.media.map((m) =>
+        UUID.is(m)
+          ? m
+          : {
+              ...m,
+              thumbnail: m.thumbnail ?? undefined,
+            }
+      ),
       startDate: event.startDate.toISOString(),
       endDate: event.endDate ? event.endDate.toISOString() : undefined,
       date: new Date().toISOString(),
