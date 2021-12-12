@@ -2,8 +2,10 @@ FROM node:14-slim as build
 
 WORKDIR /app
 
+COPY .yarn/ .yarn/
 COPY package.json .
 COPY yarn.lock .
+COPY .yarnrc.yml .
 COPY tsconfig.json .
 COPY packages/@econnessione/core ./packages/@econnessione/core
 COPY packages/@econnessione/shared ./packages/@econnessione/shared
@@ -16,8 +18,9 @@ RUN yarn build
 FROM node:14-slim as deps
 
 WORKDIR /deps
-COPY package.json yarn.lock ./
+COPY package.json .yarnrc.yml yarn.lock ./
 
+COPY --from=build /app/.yarn /deps/.yarn
 COPY --from=build /app/packages/@econnessione/core/package.json /deps/packages/@econnessione/core/package.json
 COPY --from=build /app/packages/@econnessione/shared/package.json /deps/packages/@econnessione/shared/package.json
 COPY --from=build /app/services/api/package.json /deps/services/api/package.json
@@ -29,6 +32,7 @@ FROM buildkite/puppeteer:9.1.1 as production
 WORKDIR /app
 
 COPY package.json ./
+COPY .yarnrc.yml ./
 COPY services/api/package.json /app/services/api/package.json
 
 # packages
