@@ -10,7 +10,7 @@ export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
   .getArbitrary(t.strict({ ...groupProps }))
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0],
+    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
     name: tests.fc.sample(HumanReadableStringArb(), 1)[0],
     color: tests.fc
       .sample(tests.fc.hexaString({ maxLength: 6, minLength: 6 }), 1)[0]

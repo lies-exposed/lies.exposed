@@ -8,7 +8,7 @@ export const PageArb: tests.fc.Arbitrary<http.Page.Page> = tests
   .getArbitrary(t.strict({ ...pageProps }))
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0],
+    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
     createdAt: new Date(),
     updatedAt: new Date(),
   }));

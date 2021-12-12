@@ -4,6 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
+  Link,
   Media,
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
@@ -20,16 +21,17 @@ import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
+import Editor from "@components/Common/Editor";
 
 interface UncategorizedListItemProps {
-  item: Events.Uncategorized.UncategorizedSearch;
+  item: Events.UncategorizedV2;
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   media: Media.Media[];
-  links: string[];
-  onClick?: (e: Events.Uncategorized.UncategorizedSearch) => void;
+  links: Link.Link[];
+  onClick?: (e: Events.UncategorizedV2) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
   onGroupMemberClick?: (g: GroupMember.GroupMember) => void;
@@ -95,7 +97,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         </Grid>
         <Grid item md={8} sm={12} xs={12}>
           <Typography variant="h6" onClick={() => onClick?.(item)}>
-            {item.title}
+            {item.payload.title}
           </Typography>
           <Grid item md={12} style={{ marginBottom: 20 }}>
             <KeywordList
@@ -110,7 +112,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             <Grid container alignItems="center">
               <Grid item md={12} sm={12} style={{ textAlign: "right" }}>
                 {pipe(
-                  O.fromNullable(item.location),
+                  O.fromNullable(item.payload.location),
                   O.fold(
                     () => null,
                     () => <FontAwesomeIcon icon={faMapMarker} />
@@ -120,9 +122,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="body1" style={{ marginBottom: 20 }}>
-              {item.excerpt}
-            </Typography>
+            <Editor readOnly value={item.excerpt as any ?? null} />
+
             <Grid container alignItems="center">
               <LinkIcon fontSize="small" />{" "}
               <Typography variant="caption">({links.length})</Typography>

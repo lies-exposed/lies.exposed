@@ -3,15 +3,16 @@ import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
-import { MarkdownRenderer } from "../../Common/MarkdownRenderer";
+
+
 
 interface ScientificStudyListItemProps {
-  item: Events.ScientificStudy.ScientificStudy;
+  item: Events.ScientificStudyV2;
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
   links: string[];
-  onClick?: (e: Events.ScientificStudy.ScientificStudy) => void;
+  onClick?: (e: Events.ScientificStudyV2) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }
@@ -28,7 +29,7 @@ export const ScientificStudyListItem: React.FC<
   onActorClick,
   onKeywordClick,
 }) => {
-  const publisher = groups.find((g) => g.id === item.publisher);
+  const publisher = groups.find((g) => g.id === item.payload.publisher);
   return (
     <Box
       key={item.id}
@@ -50,11 +51,11 @@ export const ScientificStudyListItem: React.FC<
           <Avatar size="xlarge" src={publisher?.avatar} />
         </Grid>
         <Grid item lg={8} md={8}>
-          <Typography variant="h5">{item.title}</Typography>
-          <Link href={item.url} target="_blank">
-            {item.url}
+          <Typography variant="h5">{item.payload.title}</Typography>
+          <Link href={item.payload.url} target="_blank">
+            {item.payload.url}
           </Link>
-          <MarkdownRenderer>{item.conclusion}</MarkdownRenderer>
+          {item.payload.body}
         </Grid>
       </Grid>
     </Box>

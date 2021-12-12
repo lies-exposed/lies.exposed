@@ -1,3 +1,4 @@
+import { UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
   CreateDateColumn,
@@ -11,7 +12,7 @@ import {
 @Entity("user")
 export class UserEntity {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "varchar" })
   firstName: string;

@@ -37,3 +37,15 @@ export const Death = t.strict(
 );
 
 export type Death = t.TypeOf<typeof Death>;
+
+export const DeathV2 = t.strict(
+  {
+    victim: UUID,
+    location: t.union([t.undefined, Point]),
+    links: t.array(UUID),
+    media: t.array(UUID),
+    keywords: t.array(UUID)
+  },
+  "DeathV2"
+);
+export type DeathV2 = t.TypeOf<typeof DeathV2>;

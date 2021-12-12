@@ -7,8 +7,6 @@ const {
   publishDate,
   authors,
   publisher,
-  abstract,
-  results,
   ...createScientificStudyProps
 } = http.Events.ScientificStudy.CreateScientificStudyBody.type.props;
 

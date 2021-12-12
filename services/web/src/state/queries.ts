@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { Actor, Events } from "@econnessione/shared/io/http";
+import { Events } from "@econnessione/shared/io/http";
 import { APIError } from "@econnessione/shared/providers/api.provider";
-import { available, queryStrict, refetch } from "avenger";
+import { queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
+import { UUID } from "io-ts-types/lib/UUID";
 import { api } from "../api";
 import { EventsView } from "../utils/location.utils";
 import { stateLogger } from "../utils/logger.utils";
@@ -26,11 +27,11 @@ export interface InfiniteDeathsListParam {
 }
 
 export interface InfiniteEventListMetadata {
-  actors: string[];
-  groups: string[];
-  keywords: string[];
-  groupsMembers: string[];
-  media: string[];
+  actors: UUID[];
+  groups: UUID[];
+  keywords: UUID[];
+  groupsMembers: UUID[];
+  media: UUID[];
 }
 
 export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
@@ -166,46 +167,46 @@ const paginatedCachedQuery =
 
 const reduceEvent = (
   acc: InfiniteEventListMetadata,
-  e: Events.SearchEvent
+  e: Events.EventV2
 ): InfiniteEventListMetadata => {
   if (e.type === "ScientificStudy") {
     return {
       ...acc,
-      groups: acc.groups.includes(e.publisher)
+      groups: acc.groups.includes(e.payload.publisher)
         ? acc.groups
-        : acc.groups.concat(e.publisher),
+        : acc.groups.concat(e.payload.publisher),
     };
   }
   if (e.type === "Death") {
     return {
       ...acc,
-      actors: acc.actors.includes(e.victim)
+      actors: acc.actors.includes(e.payload.victim)
         ? acc.actors
-        : acc.actors.concat(e.victim),
+        : acc.actors.concat(e.payload.victim),
     };
   }
 
   return {
     actors: acc.actors
-      .filter((a: string) => !(e.actors ?? []).includes(a))
-      .concat(e.actors),
+      .filter((a) => !(e.payload.actors ?? []).includes(a))
+      .concat(e.payload.actors),
     groups: acc.groups
-      .filter((a: string) => !(e.groups ?? []).includes(a))
-      .concat(e.groups),
+      .filter((a) => !(e.payload.groups ?? []).includes(a))
+      .concat(e.payload.groups),
     keywords: acc.keywords
-      .filter((a: string) => !(e.keywords ?? []).includes(a))
-      .concat(e.keywords),
+      .filter((a) => !(e.payload.keywords ?? []).includes(a))
+      .concat(e.payload.keywords),
     groupsMembers: acc.groupsMembers
-      .filter((a: string) => !(e.groupsMembers ?? []).includes(a))
-      .concat(e.groupsMembers),
+      .filter((a) => !(e.payload.groupsMembers ?? []).includes(a))
+      .concat(e.payload.groupsMembers),
     media: acc.media
-      .filter((a: string) => !(e.media ?? []).includes(a))
-      .concat(e.media),
+      .filter((a) => !(e.payload.media ?? []).includes(a))
+      .concat(e.payload.media),
   };
 };
 
 const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
-  api.Event.Custom.Search,
+  api.Event.Custom.SearchV2,
   { actors: [], groups: [], groupsMembers: [], keywords: [], media: [] },
   ({ data, ...acc }, e) => {
     return {
@@ -216,7 +217,7 @@ const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
 );
 
 interface InfiniteEventListResult {
-  data: Events.SearchEvent[];
+  data: Events.EventV2[];
   totals: {
     events: number;
     deaths: number;

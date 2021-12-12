@@ -8,25 +8,19 @@ import { pipe } from "fp-ts/lib/function";
 import { Actor, Common, Events, Project } from "../io/http";
 import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
 
-// interface Item {
-//   itemId: string;
-//   title: string;
-//   subNav: Array<Omit<Item, "subNav">>;
-// }
+type EventsByYearMap = Map<number, Map<number, Events.EventV2[]>>;
 
-type EventsByYearMap = Map<number, Map<number, Events.SearchEvent[]>>;
-
-export const eventDate = (e: Events.SearchEvent): Date => {
+export const eventDate = (e: Events.EventV2): Date => {
   switch (e.type) {
     case Events.Death.DeathType.value: {
       return e.date;
     }
 
     case Events.ScientificStudy.ScientificStudyType.value: {
-      return e.publishDate;
+      return e.date;
     }
     default:
-      return e.startDate;
+      return e.date;
   }
 };
 
@@ -42,7 +36,7 @@ interface NavigationItem {
 }
 
 export const eventsDataToNavigatorItems = (
-  events: Events.SearchEvent[]
+  events: Events.EventV2[]
 ): NavigationItem[] => {
   const initial: EventsByYearMap = Map.empty;
 
@@ -154,25 +148,18 @@ export const filterMetadataFroProject =
 
 export const ordEventDate = Ord.ord.contramap(
   Ord.ordDate,
-  (e: Events.SearchEvent) => eventDate(e)
+  (e: Events.EventV2) => eventDate(e)
 );
 
-const colorMap: Record<Events.Event["type"], string> = {
-  // Protest: "red",
-  // ProjectTransaction: "blue",
-  // ProjectImpact: "orange",
-  // Fined: "yellow",
+const colorMap: Record<Events.EventV2["type"], string> = {
   Death: "black",
-  // Arrest: "lightred",
-  // Condemned: "lightred",
-  // PublicAnnouncement: "lightgreen",
   ScientificStudy: "green",
   Uncategorized: "grey",
 };
 export const getColorByEventType = ({
   type,
 }: {
-  type: Events.Event["type"];
+  type: Events.EventV2["type"];
 }): string => {
   return colorMap[type];
 };
@@ -183,7 +170,7 @@ interface EventsInDateRangeProps {
 
 export const eventsInDateRange =
   (props: EventsInDateRangeProps) =>
-  (events: Events.SearchEvent[]): Events.SearchEvent[] => {
+  (events: Events.EventV2[]): Events.EventV2[] => {
     return pipe(
       events,
       A.sort(Ord.getDualOrd(ordEventDate)),

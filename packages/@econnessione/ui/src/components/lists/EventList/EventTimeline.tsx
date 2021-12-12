@@ -19,7 +19,7 @@ import { EventIcon } from "@components/Common/Icons/EventIcon";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.SearchEvent): string => {
+  Eq.contramap((e: Events.EventV2): string => {
     return formatISO(eventDate(e), { representation: "date" });
   })
 );
@@ -37,7 +37,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.SearchEvent[];
+  events: Events.EventV2[];
 }
 
 const renderRow = (props: {
@@ -61,23 +61,23 @@ const renderRow = (props: {
 
   const e = events[index];
 
-  const eventActors = Events.Death.Death.is(e)
-    ? actors.filter((a) => e.victim === a.id)
-    : Events.Uncategorized.UncategorizedSearch.is(e)
-    ? actors.filter((a) => e.actors.includes(a.id))
+  const eventActors = Events.DeathV2.is(e)
+    ? actors.filter((a) => e.payload.victim === a.id)
+    : Events.UncategorizedV2.is(e)
+    ? actors.filter((a) => e.payload.actors.includes(a.id))
     : [];
-  const eventGroups = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? groups.filter((a) => e.groups.includes(a.id))
+  const eventGroups = Events.UncategorizedV2.is(e)
+    ? groups.filter((a) => e.payload.groups.includes(a.id))
     : [];
-  const eventKeywords = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? keywords.filter((a) => e.keywords.includes(a.id))
+  const eventKeywords = Events.UncategorizedV2.is(e)
+    ? keywords.filter((a) => e.payload.keywords.includes(a.id))
     : [];
 
-  const eventGroupMembers = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? groupsMembers.filter((g) => e.groupsMembers.includes(g.id))
+  const eventGroupMembers = Events.UncategorizedV2.is(e)
+    ? groupsMembers.filter((g) => e.payload.groupsMembers.includes(g.id))
     : [];
-  const eventMedia = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? media.filter((m) => e.media.includes(m.id))
+  const eventMedia = Events.UncategorizedV2.is(e)
+    ? media.filter((m) => e.payload.media.includes(m.id))
     : [];
 
   return (

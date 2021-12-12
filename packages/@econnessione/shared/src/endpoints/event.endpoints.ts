@@ -33,6 +33,25 @@ export const Search = Endpoint({
   ),
 });
 
+export const SearchV2 = Endpoint({
+  Method: "GET",
+  getPath: () => `/v2/events/search`,
+  Input: {
+    Query: http.Events.Uncategorized.GetEventsQueryFilter,
+  },
+  Output: t.strict(
+    {
+      data: t.array(http.Events.EventV2),
+      totals: t.strict({
+        events: t.number,
+        deaths: t.number,
+        scientificStudies: t.number,
+      }),
+    },
+    "Events"
+  ),
+});
+
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/events",
@@ -78,6 +97,7 @@ const events = ResourceEndpoints({
   Delete,
   Custom: {
     Search,
+    SearchV2
   },
 });
 

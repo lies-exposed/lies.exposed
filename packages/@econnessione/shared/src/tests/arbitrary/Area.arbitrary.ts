@@ -8,7 +8,7 @@ export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
   .getArbitrary(t.strict({ ...areaProps }))
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0],
+    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
     geometry: tests.fc.sample(
       tests.fc.record({
         type: tests.fc.constant("Polygon" as "Polygon"),

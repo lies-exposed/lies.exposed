@@ -10,7 +10,7 @@ export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
   .getArbitrary(t.strict({ ...actorProps }))
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0],
+    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
     fullName: tests.fc.sample(HumanReadableStringArb(), 1)[0],
     username: tests.fc.sample(HumanReadableStringArb({ joinChar: "-" }))[0],
     color: tests.fc

@@ -24,14 +24,14 @@ import { doUpdateCurrentView } from "../utils/location.utils";
 
 const eventsSort = pipe(
   Ord.reverse(D.Ord),
-  Ord.contramap((e: Events.SearchEvent): Date => {
+  Ord.contramap((e: Events.EventV2): Date => {
     if (e.type === Events.ScientificStudy.ScientificStudyType.value) {
-      return e.publishDate;
+      return e.date;
     }
     if (e.type === Events.Death.DeathType.value) {
       return e.date;
     }
-    return e.startDate;
+    return e.date;
   })
 );
 
@@ -329,7 +329,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                               if (e.type === "Death") {
                                 void doUpdateCurrentView({
                                   view: "actor",
-                                  actorId: e.victim,
+                                  actorId: e.payload.victim,
                                 })();
                               } else if (e.type === "Uncategorized") {
                                 void doUpdateCurrentView({

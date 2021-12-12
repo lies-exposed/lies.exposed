@@ -3,7 +3,7 @@ import { uuid } from "../utils/uuid";
 import { firstImage } from "./images";
 
 export const firstArticle: Article.Article = {
-  id: uuid(),
+  id: uuid() as any,
   title: "First article",
   path: "first-article",
   featuredImage: firstImage.location,
