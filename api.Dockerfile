@@ -9,7 +9,7 @@ COPY packages/@econnessione/core ./packages/@econnessione/core
 COPY packages/@econnessione/shared ./packages/@econnessione/shared
 COPY services/api ./services/api
 
-RUN yarn install --frozen-lockfile --non-interactive
+RUN yarn install
 
 RUN yarn build
 
@@ -22,7 +22,7 @@ COPY --from=build /app/packages/@econnessione/core/package.json /deps/packages/@
 COPY --from=build /app/packages/@econnessione/shared/package.json /deps/packages/@econnessione/shared/package.json
 COPY --from=build /app/services/api/package.json /deps/services/api/package.json
 
-RUN yarn install --frozen-lock --non-interactive
+RUN yarn install
 
 FROM buildkite/puppeteer:9.1.1 as production
 
