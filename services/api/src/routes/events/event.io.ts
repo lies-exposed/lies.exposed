@@ -1,9 +1,9 @@
 import * as io from "@econnessione/shared/io";
-import { EventEntity } from "@entities/Event.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import { UUID } from "io-ts-types/lib/UUID";
+import { EventEntity } from "@entities/Event.entity";
+import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toEventIO = (
   event: EventEntity

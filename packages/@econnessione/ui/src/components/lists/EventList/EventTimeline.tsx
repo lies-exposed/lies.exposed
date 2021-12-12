@@ -1,4 +1,3 @@
-import { EventIcon } from "@components/Common/Icons/EventIcon";
 import { eventDate } from "@econnessione/shared/helpers/event";
 import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
@@ -16,6 +15,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import { EventListItem, EventListItemProps } from "./EventListItem";
+import { EventIcon } from "@components/Common/Icons/EventIcon";
 
 const byEqualDate = pipe(
   S.Eq,

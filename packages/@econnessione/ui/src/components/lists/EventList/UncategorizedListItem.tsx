@@ -1,4 +1,3 @@
-import { Slider } from "@components/Common/Slider/Slider";
 import {
   Actor,
   Events,
@@ -16,6 +15,7 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import { Slider } from "../../Common/Slider/Slider";
 import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
@@ -76,7 +76,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               O.fromPredicate((arr) => arr.length > 0),
               O.map((media) => (
                 // eslint-disable-next-line react/jsx-key
-
                 <Slider
                   adaptiveHeight={false}
                   infinite={false}

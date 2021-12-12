@@ -1,10 +1,10 @@
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import MediaElement from "../../MediaElement";
 import { Media } from "@econnessione/shared/io/http";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
 import { makeStyles } from "../../../theme/index";
+import MediaElement from "../../MediaElement";
 
 const useStyles = makeStyles((theme) => ({
   mediaSlider: {
