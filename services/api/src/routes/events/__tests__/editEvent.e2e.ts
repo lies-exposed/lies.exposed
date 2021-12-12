@@ -112,7 +112,7 @@ describe("Edit Event", () => {
       .set("Authorization", authorizationToken)
       .send(eventData);
 
-    const body  = response.body.data;
+    const body = response.body.data;
     // expect(response.status).toEqual(200);
 
     expect(

@@ -48,6 +48,7 @@
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",
+    "@types/prettier": "^2",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "concurrently": "^6.4.0",
@@ -64,6 +65,7 @@
     "jest": "^27.4.4",
     "lint-staged": "^12.1.2",
     "pinst": "^2.1.6",
+    "prettier": "^2.5.1",
     "speed-measure-webpack-plugin": "^1.5.0",
     "ts-jest": "^27.1.1"
   },

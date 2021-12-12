@@ -9,9 +9,7 @@ interface MediaElementProps {
 const MediaElement: React.FC<MediaElementProps> = (props) => {
   switch (props.media.type) {
     case Media.MediaType.types[5].value:
-      return (
-        <iframe src={props.media.location} {...props} />
-      )
+      return <iframe src={props.media.location} {...props} />;
     case Media.MediaType.types[4].value: {
       return <div style={props.style}>PDF preview</div>;
     }

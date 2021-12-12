@@ -7,9 +7,9 @@ export const ValidContentType = t.union([
   MediaType.types[1],
   MediaType.types[2],
   MediaType.types[3],
-  MediaType.types[4]
-])
-export type ValidContentType = t.TypeOf<typeof ValidContentType>
+  MediaType.types[4],
+]);
+export type ValidContentType = t.TypeOf<typeof ValidContentType>;
 
 export const GetSignedURL = Endpoint({
   Method: "POST",

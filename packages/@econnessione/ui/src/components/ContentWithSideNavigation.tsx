@@ -25,32 +25,33 @@ const useStyles = makeStyles({
   },
 });
 
-export const ContentWithSideNavigation: React.FC<ContentWithSideNavigationProps> =
-  ({ items, children }) => {
-    const classes = useStyles();
+export const ContentWithSideNavigation: React.FC<
+  ContentWithSideNavigationProps
+> = ({ items, children }) => {
+  const classes = useStyles();
 
-    return (
-      <Grid container direction="column">
-        <Grid item>
-          <TreeView
-            classes={classes}
-            defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultExpandIcon={<ChevronRightIcon />}
-          >
-            {items.map((i) => {
-              return (
-                <TreeItem key={i.itemId} nodeId={i.itemId}>
-                  {i.title}
-                </TreeItem>
-              );
-            })}
-          </TreeView>
-        </Grid>
-        <Grid item>
-          <MainContent>{children}</MainContent>
-        </Grid>
-        <Grid item />
-        <Grid item />
+  return (
+    <Grid container direction="column">
+      <Grid item>
+        <TreeView
+          classes={classes}
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+        >
+          {items.map((i) => {
+            return (
+              <TreeItem key={i.itemId} nodeId={i.itemId}>
+                {i.title}
+              </TreeItem>
+            );
+          })}
+        </TreeView>
       </Grid>
-    );
-  };
+      <Grid item>
+        <MainContent>{children}</MainContent>
+      </Grid>
+      <Grid item />
+      <Grid item />
+    </Grid>
+  );
+};

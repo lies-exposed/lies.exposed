@@ -8,7 +8,7 @@ import MediaElement from "../../MediaElement";
 
 const useStyles = makeStyles((theme) => ({
   mediaSlider: {
-    margin: 20
+    margin: 20,
   },
 }));
 

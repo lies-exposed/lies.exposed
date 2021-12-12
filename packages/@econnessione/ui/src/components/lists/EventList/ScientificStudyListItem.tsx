@@ -16,46 +16,47 @@ interface ScientificStudyListItemProps {
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }
 
-export const ScientificStudyListItem: React.FC<ScientificStudyListItemProps> =
-  ({
-    item,
-    actors,
-    groups,
-    keywords,
-    links,
-    onClick,
-    onActorClick,
-    onKeywordClick,
-  }) => {
-    const publisher = groups.find((g) => g.id === item.publisher);
-    return (
-      <Box
-        key={item.id}
-        id={item.id}
-        style={{
-          width: "100%",
-          marginBottom: 40,
-        }}
-        onClick={() => onClick?.(item)}
-      >
-        <Grid container spacing={2}>
-          <Grid
-            item
-            lg={4}
-            md={4}
-            sm={false}
-            style={{ display: "flex", justifyContent: "center" }}
-          >
-            <Avatar size="xlarge" src={publisher?.avatar} />
-          </Grid>
-          <Grid item lg={8} md={8}>
-            <Typography variant="h5">{item.title}</Typography>
-            <Link href={item.url} target="_blank">
-              {item.url}
-            </Link>
-            <MarkdownRenderer>{item.conclusion}</MarkdownRenderer>
-          </Grid>
+export const ScientificStudyListItem: React.FC<
+  ScientificStudyListItemProps
+> = ({
+  item,
+  actors,
+  groups,
+  keywords,
+  links,
+  onClick,
+  onActorClick,
+  onKeywordClick,
+}) => {
+  const publisher = groups.find((g) => g.id === item.publisher);
+  return (
+    <Box
+      key={item.id}
+      id={item.id}
+      style={{
+        width: "100%",
+        marginBottom: 40,
+      }}
+      onClick={() => onClick?.(item)}
+    >
+      <Grid container spacing={2}>
+        <Grid
+          item
+          lg={4}
+          md={4}
+          sm={false}
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          <Avatar size="xlarge" src={publisher?.avatar} />
         </Grid>
-      </Box>
-    );
-  };
+        <Grid item lg={8} md={8}>
+          <Typography variant="h5">{item.title}</Typography>
+          <Link href={item.url} target="_blank">
+            {item.url}
+          </Link>
+          <MarkdownRenderer>{item.conclusion}</MarkdownRenderer>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};

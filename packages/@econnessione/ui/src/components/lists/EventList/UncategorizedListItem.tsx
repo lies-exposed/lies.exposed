@@ -4,7 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media
+  Media,
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +20,6 @@ import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
-
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.UncategorizedSearch;
@@ -51,7 +50,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   onGroupMemberClick,
   onKeywordClick,
 }) => {
-
   return (
     <Box
       key={item.id}
@@ -70,7 +68,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           alignItems="center"
           justifyContent="center"
         >
-          <Box style={{ height: '100%', maxWidth: '100%' }}>
+          <Box style={{ height: "100%", maxWidth: "100%" }}>
             {pipe(
               media,
               O.fromPredicate((arr) => arr.length > 0),
@@ -87,7 +85,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                   slidesToScroll={1}
                   slides={media}
                   style={{
-                    maxWidth: 300
+                    maxWidth: 300,
                   }}
                 />
               )),
