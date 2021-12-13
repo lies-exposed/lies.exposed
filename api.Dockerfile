@@ -33,6 +33,7 @@ WORKDIR /app
 
 COPY package.json ./
 COPY .yarnrc.yml ./
+COPY .yarn .
 COPY services/api/package.json /app/services/api/package.json
 
 # packages
@@ -44,7 +45,8 @@ COPY --from=build /app/services/api/package.json /app/services/api/package.json
 COPY --from=build /app/services/api/ormconfig.js /app/services/api/ormconfig.js
 COPY --from=build /app/services/api/build /app/services/api/build
 
-COPY --from=deps /deps/.yarn /app/.yarn
 COPY --from=deps /deps/node_modules /app/node_modules
+
+RUN yarn install --production
 
 CMD ["yarn", "api", "start"]
