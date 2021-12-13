@@ -51,7 +51,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.3",
     "@types/node": "^12.20.37",
-    "@types/prettier": "^2",
+    "@types/prettier": "^2.4.2",
     "@types/react": "^16.14.21",
     "@types/react-dom": "^16.9.14",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
