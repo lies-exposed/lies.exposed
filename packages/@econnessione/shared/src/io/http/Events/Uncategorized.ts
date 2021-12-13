@@ -136,6 +136,7 @@ export const UncategorizedV2 = t.strict(
     title: t.string,
     location: t.union([Point, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
+    body: t.unknown,
     actors: t.array(UUID),
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),

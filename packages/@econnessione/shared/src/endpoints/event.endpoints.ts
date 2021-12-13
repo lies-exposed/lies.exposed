@@ -35,7 +35,7 @@ export const Search = Endpoint({
 
 export const SearchV2 = Endpoint({
   Method: "GET",
-  getPath: () => `/v2/events/search`,
+  getPath: () => `/events/search-v2`,
   Input: {
     Query: http.Events.Uncategorized.GetEventsQueryFilter,
   },

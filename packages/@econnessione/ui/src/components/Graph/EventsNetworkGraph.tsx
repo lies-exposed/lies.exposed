@@ -38,8 +38,7 @@ import GroupList from "../lists/GroupList";
 
 type GroupByItem = Actor.Actor | Group.Group;
 
-type NetworkDatum = NetworkNodeDatum &
-  Omit<Events.Uncategorized.UncategorizedSearch, "actors" | "groups">;
+type NetworkDatum = NetworkNodeDatum & Events.UncategorizedV2;
 
 interface EventNetworkDatum extends NetworkDatum {
   title: string;
@@ -56,7 +55,7 @@ interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
 }
 
 export interface EventsNetworkGraphProps {
-  events: Events.Uncategorized.UncategorizedSearch[];
+  events: Events.UncategorizedV2[];
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
@@ -144,9 +143,8 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                         <EventListItem
                           event={{
                             ...event,
-                            media: [],
-                            groups: groups.map((g) => g.id),
-                            actors: actors.map((a) => a.id),
+                            // groups: groups.map((g) => g.id),
+                            // actors: actors.map((a) => a.id),
                           }}
                           actors={actors}
                           groups={groups}
@@ -413,7 +411,7 @@ const getLinks =
 
 interface Result {
   eventNodes: Array<NetworkPointNode<EventNetworkDatum>>;
-  selectedEvents: Events.Uncategorized.UncategorizedSearch[];
+  selectedEvents: Events.UncategorizedV2[];
   // group by
   groupByItems: Map<string, Actor.Actor | Group.Group>;
   groupByLinks: Map<string, NetworkLink[]>;
@@ -450,7 +448,7 @@ export interface EventsNetworkGraphDataProps {
     nodes: Array<NetworkPointNode<EventNetworkDatum>>;
     links: NetworkLink[];
   };
-  selectedEvents: Events.Uncategorized.UncategorizedSearch[];
+  selectedEvents: Events.UncategorizedV2[];
   width: number;
   height: number;
   groupByScale: ScaleOrdinal<string, string>;
@@ -536,8 +534,8 @@ export function createEventNetworkGraphProps({
       if (isBetweenDateRange) {
         const groupByEventList: GroupByItem[] =
           groupBy === "group"
-            ? allGroups.filter((g) => e.groups.includes(g.id))
-            : allActors.filter((a) => e.actors.includes(a.id));
+            ? allGroups.filter((g) => e.payload.groups.includes(g.id))
+            : allActors.filter((a) => e.payload.actors.includes(a.id));
 
         const groupByAllList: GroupByItem[] =
           groupBy === "group" ? allGroups : allActors;
@@ -545,9 +543,9 @@ export function createEventNetworkGraphProps({
         const groupByItem: GroupByItem | undefined = groupByAllList.find(
           (g) => {
             if (groupBy === "group") {
-              return e.groups.includes(g.id);
+              return e.payload.groups.includes(g.id);
             }
-            return e.actors.includes(g.id);
+            return e.payload.actors.includes(g.id);
           }
         );
 
@@ -564,24 +562,23 @@ export function createEventNetworkGraphProps({
             y: yGetter(groupByItem?.id),
             data: {
               ...e,
+              title: e.payload.title,
               selected: !!groupByItem,
               date: eventDate(e),
               groupBy: groupByItem ? [groupByItem] : [],
               actors: pipe(
-                e.actors,
+                e.payload.actors,
                 O.fromPredicate(A.isNonEmpty),
                 O.map((acts) => allActors.filter((a) => acts.includes(a.id)))
               ),
               groups: pipe(
-                e.groups,
+                e.payload.groups,
                 O.fromPredicate(A.isNonEmpty),
                 O.map((groups) =>
                   allGroups.filter((g) => groups.includes(g.id))
                 )
               ),
-              media: [],
-              label: e.title,
-              // color: groupByItem ? groupByItem.color : "#ccc",
+              label: e.payload.title,
               innerColor: groupByItem ? groupByItem.color : "#ccc",
               outerColor: groupByItem ? groupByItem.color : "#ccc",
             },
@@ -589,7 +586,7 @@ export function createEventNetworkGraphProps({
         ];
 
         const actors = pipe(
-          e.actors,
+          e.payload.actors,
           O.fromPredicate((items) => items.length > 0),
           O.map((acts) => allActors.filter((a) => acts.includes(a.id))),
           O.getOrElse((): Actor.Actor[] => []),
@@ -597,7 +594,7 @@ export function createEventNetworkGraphProps({
         );
 
         const groups = pipe(
-          e.groups,
+          e.payload.groups,
           O.fromPredicate((items) => items.length > 0),
           O.map((acts) => allGroups.filter((a) => acts.includes(a.id))),
           O.getOrElse((): Group.Group[] => []),
@@ -658,7 +655,7 @@ export function createEventNetworkGraphProps({
         );
 
         const groupLinks = pipe(
-          e.groups,
+          e.payload.groups,
           O.fromPredicate((items) => items.length > 0),
           O.map((acts) => allGroups.filter((a) => acts.includes(a.id))),
           O.getOrElse((): Group.Group[] => []),
@@ -717,7 +714,7 @@ export function createEventNetworkGraphProps({
   return {
     minDate: pipe(
       A.head(selectedEvents),
-      O.map((e) => e.startDate),
+      O.map((e) => e.date),
       O.getOrElse(() => subWeeks(new Date(), 1))
     ),
     maxDate,

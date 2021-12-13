@@ -18,7 +18,7 @@ import { EventListItem, EventListItemProps } from "./EventListItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.SearchEvent): string => {
+  Eq.contramap((e: Events.EventV2): string => {
     return formatISO(eventDate(e), { representation: "date" });
   })
 );
@@ -36,7 +36,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.SearchEvent[];
+  events: Events.EventV2[];
 }
 
 const renderRow = (props: {
