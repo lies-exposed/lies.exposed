@@ -3,7 +3,7 @@ import * as t from "io-ts";
 import * as http from "../../io/http";
 import { HumanReadableStringArb } from "./utils.arbitrary";
 
-const { createdAt, updatedAt, members, body2, ...groupProps } =
+const { createdAt, updatedAt, id, members, body2, ...groupProps } =
   http.Group.Group.type.props;
 
 export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests

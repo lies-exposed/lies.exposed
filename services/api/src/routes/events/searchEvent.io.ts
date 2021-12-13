@@ -36,8 +36,6 @@ export const toSearchEventIO = (
       location: undefined,
       victim: e.death_victim as any,
       type: "Death",
-      date: new Date(e.death_date),
-      news: [],
       suspects: [],
       media: [],
       createdAt: new Date(e.createdAt),

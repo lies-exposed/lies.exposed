@@ -6,7 +6,7 @@ import * as t from "io-ts";
 import * as http from "../../io/http";
 import { HumanReadableStringArb } from "./utils.arbitrary";
 
-const actorUnsupportedKeys = ["craetedAt", "updateAt"];
+const actorUnsupportedKeys = ["id", "craetedAt", "updateAt", "memberIn"];
 
 const actorProps = pipe(
   http.Actor.Actor.type.props,
@@ -36,8 +36,8 @@ export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
         )[0],
         color: "dddddd",
         ...p,
+        memberIn: [],
         id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-        // media: tests.fc.sample(getImageArb(), 10),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       } as any)

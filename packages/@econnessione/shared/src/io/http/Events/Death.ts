@@ -29,9 +29,7 @@ export const Death = t.strict(
     location: t.union([t.undefined, Point]),
     killer: t.union([t.undefined, ByGroupOrActor]),
     suspects: t.array(ByGroupOrActor),
-    news: t.array(t.string),
     media: t.array(t.string),
-    date: DateFromISOString,
   },
   "Death"
 );
@@ -42,9 +40,6 @@ export const DeathV2 = t.strict(
   {
     victim: UUID,
     location: t.union([t.undefined, Point]),
-    links: t.array(UUID),
-    media: t.array(UUID),
-    keywords: t.array(UUID)
   },
   "DeathV2"
 );

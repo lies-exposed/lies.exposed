@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { EventEntity } from "./Event.entity";
+import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
 
 @Entity("keyword")
@@ -22,8 +22,8 @@ export class KeywordEntity {
   @Column({ type: "varchar", nullable: false })
   tag: Tag;
 
-  @ManyToMany(() => EventEntity, (e) => e.keywords, { cascade: false })
-  events: EventEntity[];
+  @ManyToMany(() => EventV2Entity, (e) => e.keywords, { cascade: false })
+  events: EventV2Entity[];
 
   @ManyToMany(() => LinkEntity, (e) => e.keywords, { cascade: false })
   @JoinTable()

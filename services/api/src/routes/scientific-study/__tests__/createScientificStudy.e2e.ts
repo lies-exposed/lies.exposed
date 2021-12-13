@@ -53,8 +53,6 @@ describe("Create Scientific Study", () => {
 
     expect(body.title).toBeDefined();
     expect(body).toMatchObject({
-      // abstract: scientificStudyData.abstract,
-      conclusion: scientificStudyData.conclusion,
       authors: [actor.id],
       publisher: group.id,
     });

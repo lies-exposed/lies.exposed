@@ -42,13 +42,25 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
     });
 
     const sqlTask = pipe(
-      ctx.db.manager.createQueryBuilder(EventV2Entity, "event").select(),
+      ctx.db.manager
+        .createQueryBuilder(EventV2Entity, "event")
+        .leftJoinAndSelect("event.keywords", "keywords"),
+      (q) => {
+        if (O.isSome(keywords)) {
+          return q.where({
+            "keywords.id IN (:...keywords)": { keywords: keywords.value },
+          });
+        }
+
+        return q;
+      },
       (q) => {
         return q
           .skip(findOptions.skip)
-          .limit(findOptions.take)
+          .take(findOptions.take)
           .orderBy("event.date", "DESC");
       },
+
       (q) => ctx.db.execQuery(() => q.getManyAndCount())
     );
 

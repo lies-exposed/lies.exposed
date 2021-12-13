@@ -78,6 +78,7 @@ const {
   media,
   groups,
   body2,
+  id,
   // links,
   startDate: _startDate,
   endDate: _endDate,

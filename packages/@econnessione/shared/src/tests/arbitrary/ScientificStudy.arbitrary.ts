@@ -38,6 +38,7 @@ const {
   publishDate: _startDate,
   authors: _publishedBy,
   publisher: _publisher,
+  id,
   ...scientificStudyProps
 } = http.Events.ScientificStudy.ScientificStudy.type.props;
 
@@ -52,6 +53,7 @@ export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.
     )
     .map((body) => ({
       ...body,
+      id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
       publishDate: tests.fc.sample(
         tests.fc.date({ min: MIN_DATE, max: MAX_DATE })
       )[0],

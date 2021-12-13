@@ -12,7 +12,6 @@ export const CreateScientificStudyBody = t.strict(
     publishDate: DateFromISOString,
     authors: t.array(UUID),
     publisher: UUID,
-    keywords: t.array(UUID)
   },
   "CreateScientificStudy"
 );

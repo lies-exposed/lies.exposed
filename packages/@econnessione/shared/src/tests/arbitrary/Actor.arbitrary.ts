@@ -3,7 +3,7 @@ import * as t from "io-ts";
 import * as http from "../../io/http";
 import { HumanReadableStringArb } from "./utils.arbitrary";
 
-const { createdAt, updatedAt, body2, ...actorProps } =
+const { createdAt, updatedAt, body2, id, ...actorProps } =
   http.Actor.Actor.type.props;
 
 export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests

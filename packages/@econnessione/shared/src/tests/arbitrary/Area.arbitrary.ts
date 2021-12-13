@@ -2,7 +2,7 @@ import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 
-const { createdAt, updatedAt, ...areaProps } = http.Area.Area.type.props;
+const { createdAt, updatedAt, id, ...areaProps } = http.Area.Area.type.props;
 
 export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
   .getArbitrary(t.strict({ ...areaProps }))

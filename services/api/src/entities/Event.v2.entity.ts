@@ -6,9 +6,14 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { KeywordEntity } from "./Keyword.entity";
+import { LinkEntity } from "./Link.entity";
+import { MediaEntity } from "./Media.entity";
 
 @Entity("event_v2")
 export class EventV2Entity {
@@ -33,6 +38,27 @@ export class EventV2Entity {
 
   @Column({ type: "json", nullable: true })
   payload: http.Events.EventV2["payload"];
+
+  @ManyToMany(() => LinkEntity, (a) => a.events, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinTable()
+  links: LinkEntity[];
+
+  @ManyToMany(() => MediaEntity, (a) => a.events, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinTable()
+  media: MediaEntity[];
+
+  @ManyToMany(() => KeywordEntity, (a) => a.events, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinTable()
+  keywords: KeywordEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
