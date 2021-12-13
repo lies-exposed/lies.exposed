@@ -53,6 +53,7 @@ export const toSearchEventIO = (
       body: {},
       results: "",
       abstract: "",
+      conclusion: "",
       createdAt: new Date(e.createdAt),
       updatedAt: new Date(e.updatedAt),
       publishDate: new Date(e.death_date),

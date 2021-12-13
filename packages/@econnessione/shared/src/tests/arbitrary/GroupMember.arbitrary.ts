@@ -4,44 +4,6 @@ import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import * as http from "../../io/http";
-import { HumanReadableStringArb } from "./utils.arbitrary";
-
-const actorUnsupportedKeys = ["id", "craetedAt", "updateAt", "memberIn"];
-
-const actorProps = pipe(
-  http.Actor.Actor.type.props,
-  R.filterMapWithIndex((k, p) =>
-    pipe(
-      p,
-      O.fromPredicate(() => actorUnsupportedKeys.includes(k))
-    )
-  )
-);
-
-export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
-  .getArbitrary(t.strict({ ...actorProps }, "Actor"))
-  .map(
-    (p) =>
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      ({
-        avatar: undefined,
-        body: tests.fc.sample(tests.fc.string(), 1)[0],
-        fullName: tests.fc.sample(
-          HumanReadableStringArb({ joinChar: " " }),
-          1
-        )[0],
-        username: tests.fc.sample(
-          HumanReadableStringArb({ joinChar: "-" }),
-          1
-        )[0],
-        color: "dddddd",
-        ...p,
-        memberIn: [],
-        id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as any)
-  );
 
 // const groupUnsupportedKeys = ["craetedAt", "updateAt"];
 // const groupProps = pipe(
@@ -68,13 +30,13 @@ export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
 //       } as any)
 //   );
 
-const groupMemberUnsupportedKeys = ["craetedAt", "updateAt"];
+const groupMemberUnsupportedKeys = ["id", "body2", "createdAt", "updatedAt"];
 const groupMemberProps = pipe(
   http.Group.Group.type.props,
   R.filterMapWithIndex((k, p) =>
     pipe(
       p,
-      O.fromPredicate(() => groupMemberUnsupportedKeys.includes(k))
+      O.fromPredicate(() => !groupMemberUnsupportedKeys.includes(k))
     )
   )
 );

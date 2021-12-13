@@ -82,6 +82,8 @@ const {
   // links,
   startDate: _startDate,
   endDate: _endDate,
+  location,
+  excerpt,
   ...eventProps
 } = http.Events.Uncategorized.Uncategorized.type.props;
 
@@ -90,6 +92,7 @@ export const EventArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
     const coordinates = fc.sample(fc.float({ max: 60 }), 2);
     return {
       ...p,
+      excerpt: "",
       media: [],
       keywords: [],
       links: fc.sample(fc.uuidV(4)),

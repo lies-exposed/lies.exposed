@@ -12,6 +12,7 @@ export const CreateScientificStudyBody = t.strict(
     publishDate: DateFromISOString,
     authors: t.array(UUID),
     publisher: UUID,
+    conclusion: t.string,
   },
   "CreateScientificStudy"
 );
@@ -35,7 +36,7 @@ export const ScientificStudy = t.strict(
 
 export type ScientificStudy = t.TypeOf<typeof ScientificStudy>;
 
-const { publishDate,  ...scientificStudyBaseProps } =
+const { publishDate, conclusion, ...scientificStudyBaseProps } =
   CreateScientificStudyBody.type.props;
 
 export const ScientificStudyV2 = t.strict(

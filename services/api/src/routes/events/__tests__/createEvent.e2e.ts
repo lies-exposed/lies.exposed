@@ -1,7 +1,7 @@
 import { fc } from "@econnessione/core/tests";
 import * as http from "@econnessione/shared/io/http";
 import { CreateEventBodyArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
-import { ActorArb } from "@econnessione/shared/tests/arbitrary/GroupMember.arbitrary";
+import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { KeywordArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/pipeable";

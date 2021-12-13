@@ -41,6 +41,7 @@ describe("Create Scientific Study", () => {
       ...fc.sample(CreateScientificStudyArb, 1)[0],
       authors: [actor.id],
       publisher: group.id,
+      conclusion: "required"
     };
 
     const response = await appTest.req

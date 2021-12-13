@@ -44,7 +44,9 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
     const sqlTask = pipe(
       ctx.db.manager
         .createQueryBuilder(EventV2Entity, "event")
-        .leftJoinAndSelect("event.keywords", "keywords"),
+        .leftJoinAndSelect("event.keywords", "keywords")
+        .leftJoinAndSelect('event.media', 'media')
+        .leftJoinAndSelect('event.links', 'links'),
       (q) => {
         if (O.isSome(keywords)) {
           return q.where({
