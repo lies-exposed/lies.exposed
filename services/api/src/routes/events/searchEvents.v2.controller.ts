@@ -41,8 +41,19 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
       ...findOptions,
     });
 
+    const sqlTask = pipe(
+      ctx.db.manager.createQueryBuilder(EventV2Entity, "event").select(),
+      (q) => {
+        return q
+          .skip(findOptions.skip)
+          .limit(findOptions.take)
+          .orderBy("event.date", "DESC");
+      },
+      (q) => ctx.db.execQuery(() => q.getManyAndCount())
+    );
+
     return pipe(
-      ctx.db.findAndCount(EventV2Entity),
+      sqlTask,
       TE.chain(([events, count]) =>
         pipe(
           events,
@@ -58,7 +69,7 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
           totals: {
             deaths: totals,
             scientificStudies: 0,
-            events: 0
+            events: 0,
           },
         },
         statusCode: 200,

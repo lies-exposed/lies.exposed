@@ -267,29 +267,3 @@ export const deathsPaginated = queryStrict<
   )(IL_DEATH_KEY_PREFIX),
   refetch
 );
-
-// export const scientificStudiesPaginated = queryStrict(
-//   paginatedCachedQuery(
-//     api.ScientificStudy.List,
-//     {},
-//     (acc, d: Events.ScientificStudy.ScientificStudy) => {
-//       return {
-//         data: acc.data.concat(d),
-//       };
-//     }
-//   )(IL_SCIENTIFIC_STUDIES_KEY_PREFIX),
-//   available
-// );
-
-// export const actorsInfiniteList = queryStrict<
-//   { ids?: string[]; fullName?: string; page?: number; hash?: string },
-//   APIError,
-//   { data: Actor.Actor[]; total: number; metadata: {} }
-// >(
-//   paginatedCachedQuery(api.Actor.List, {}, (acc, d: Actor.Actor) => {
-//     return {
-//       data: acc.data.concat(d),
-//     };
-//   })(IL_ACTORS_KEY_PREFIX),
-//   available
-// );

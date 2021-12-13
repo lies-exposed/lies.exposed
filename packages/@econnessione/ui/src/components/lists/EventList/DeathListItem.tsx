@@ -41,15 +41,6 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid
-          item
-          md={4}
-          lg={4}
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <Avatar size="xlarge" src={victim?.avatar} />
-        </Grid>
-
         <Grid item md={8} lg={8}>
           <Typography variant="h6">
             {victim?.fullName ?? item.payload.victim} died on{" "}
@@ -64,6 +55,14 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
               )
             )}
           </Grid>
+        </Grid>
+        <Grid
+          item
+          md={4}
+          lg={4}
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          <Avatar size="xlarge" src={victim?.avatar} />
         </Grid>
       </Grid>
     </Box>

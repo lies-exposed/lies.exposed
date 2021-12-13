@@ -14,8 +14,8 @@ import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
+import { EventIcon } from "../../Common/Icons/EventIcon";
 import { EventListItem, EventListItemProps } from "./EventListItem";
-import { EventIcon } from "@components/Common/Icons/EventIcon";
 
 const byEqualDate = pipe(
   S.Eq,

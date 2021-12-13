@@ -62,39 +62,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       }}
     >
       <Grid container spacing={2} style={{ width: "100%" }}>
-        <Grid
-          item
-          md={4}
-          sm={12}
-          xs={12}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Box style={{ height: "100%", maxWidth: "100%" }}>
-            {pipe(
-              media,
-              O.fromPredicate((arr) => arr.length > 0),
-              O.map((media) => (
-                // eslint-disable-next-line react/jsx-key
-                <Slider
-                  adaptiveHeight={false}
-                  infinite={false}
-                  arrows={true}
-                  draggable={false}
-                  dots={true}
-                  swipe={true}
-                  slidesToShow={1}
-                  slidesToScroll={1}
-                  slides={media}
-                  style={{
-                    maxWidth: 300,
-                  }}
-                />
-              )),
-              O.toNullable
-            )}
-          </Box>
-        </Grid>
         <Grid item md={8} sm={12} xs={12}>
           <Typography variant="h6" onClick={() => onClick?.(item)}>
             {item.payload.title}
@@ -122,7 +89,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             </Grid>
           </Grid>
           <Grid item>
-            <Editor readOnly value={item.excerpt as any ?? null} />
+            <Editor readOnly value={(item.excerpt as any) ?? null} />
 
             <Grid container alignItems="center">
               <LinkIcon fontSize="small" />{" "}
@@ -194,6 +161,39 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               )}
             </Grid>
           </Grid>
+        </Grid>
+        <Grid
+          item
+          md={4}
+          sm={12}
+          xs={12}
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Box style={{ height: "100%", maxWidth: "100%" }}>
+            {pipe(
+              media,
+              O.fromPredicate((arr) => arr.length > 0),
+              O.map((media) => (
+                // eslint-disable-next-line react/jsx-key
+                <Slider
+                  adaptiveHeight={false}
+                  infinite={false}
+                  arrows={true}
+                  draggable={false}
+                  dots={true}
+                  swipe={true}
+                  slidesToShow={1}
+                  slidesToScroll={1}
+                  slides={media}
+                  style={{
+                    maxWidth: 300,
+                  }}
+                />
+              )),
+              O.toNullable
+            )}
+          </Box>
         </Grid>
       </Grid>
     </Box>
