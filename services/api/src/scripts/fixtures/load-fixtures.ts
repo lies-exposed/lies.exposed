@@ -4,7 +4,7 @@ import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { EventArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { PageArb } from "@econnessione/shared/tests/arbitrary/Page.arbitrary";
-import { URLArb } from "@econnessione/shared/tests/arbitrary/utils.arbitrary";
+import { URLArb } from "@econnessione/shared/tests/arbitrary/URL.arbitrary";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";

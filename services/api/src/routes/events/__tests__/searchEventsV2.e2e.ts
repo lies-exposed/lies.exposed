@@ -1,5 +1,5 @@
 import { fc } from "@econnessione/core/tests";
-import { EventArb, GroupMemberArb } from "@econnessione/shared/tests";
+import { GroupMemberArb } from "@econnessione/shared/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import * as A from "fp-ts/lib/Array";
@@ -10,6 +10,7 @@ import { EventEntity } from "../../../entities/Event.entity";
 import { GroupMemberEntity } from "../../../entities/GroupMember.entity";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
+import { UncategorizedV2Arb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 
 describe("Search Events V2", () => {
   let appTest: AppTest, authorizationToken: string, totalEvents: number;
@@ -20,7 +21,7 @@ describe("Search Events V2", () => {
     actor: actor,
     group: groups[0],
   }));
-  const eventsData = fc.sample(EventArb, 100).map((e) => ({
+  const eventsData = fc.sample(UncategorizedV2Arb, 100).map((e) => ({
     ...e,
     media: [],
     links: [],
@@ -128,11 +129,11 @@ describe("Search Events V2", () => {
       .get(`/v1/events/search-v2`)
       .set("Authorization", authorizationToken);
 
-    const { total } = response.body;
+    const { totals } = response.body;
 
     expect(response.status).toEqual(200);
 
-    expect(total).toBe(totalEvents);
+    expect(totals.events).toBe(totalEvents);
   });
 
   afterAll(async () => {

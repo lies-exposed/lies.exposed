@@ -1,7 +1,7 @@
 import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
-import { HumanReadableStringArb } from "./utils.arbitrary";
+import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 
 const { createdAt, updatedAt, body2, id, ...actorProps } =
   http.Actor.Actor.type.props;

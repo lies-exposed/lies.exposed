@@ -1,13 +1,13 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { RouteContext } from "@routes/route.types";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import * as TE from "fp-ts/lib/TaskEither";
 
 export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.Custom.SearchV2, ({ query }) => {
@@ -45,8 +45,17 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
       ctx.db.manager
         .createQueryBuilder(EventV2Entity, "event")
         .leftJoinAndSelect("event.keywords", "keywords")
-        .leftJoinAndSelect('event.media', 'media')
-        .leftJoinAndSelect('event.links', 'links'),
+        .leftJoinAndSelect("event.media", "media")
+        .leftJoinAndSelect("event.links", "links"),
+      (q) => {
+        if (O.isSome(actors)) {
+          return q.where([
+            `event.payload.actors ::jsonb @> IN (:...${actors.value})`,
+            `event.payload.victim ::jsonb @> IN (:...${actors.value})`,
+          ]);
+        }
+        return q;
+      },
       (q) => {
         if (O.isSome(keywords)) {
           return q.where({

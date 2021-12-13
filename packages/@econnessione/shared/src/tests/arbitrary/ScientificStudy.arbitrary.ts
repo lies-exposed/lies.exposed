@@ -1,14 +1,12 @@
 import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
-import { MIN_DATE, MAX_DATE, URLArb, OptionArb } from "./utils.arbitrary";
+import { MIN_DATE, MAX_DATE } from "./Date.arbitrary";
+import { OptionArb } from "./Option.arbitrary";
+import { URLArb } from "./URL.arbitrary";
 
-const {
-  publishDate,
-  authors,
-  publisher,
-  ...createScientificStudyProps
-} = http.Events.ScientificStudy.CreateScientificStudyBody.type.props;
+const { publishDate, authors, publisher, ...createScientificStudyProps } =
+  http.Events.ScientificStudy.CreateScientificStudyBody.type.props;
 
 export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.CreateScientificStudyBody> =
   tests
