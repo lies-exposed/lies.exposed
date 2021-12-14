@@ -64,7 +64,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         <Grid item xs={12}>
           <Grid container alignItems="flex-start" alignContent="flex-start">
             <Grid item md={3}>
-              <KeywordsBox ids={event.payload.keywords} />
+              <KeywordsBox ids={event.keywords} />
             </Grid>
             <Grid item md={3} xs={6}>
               <GroupsBox
@@ -89,7 +89,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
         <Grid item md={12} style={{ marginBottom: theme.spacing(5) }}>
           {pipe(
-            event.payload.media,
+            event.media,
             O.fromPredicate((items) => items.length > 0),
             O.map((media) => (
               <Slider

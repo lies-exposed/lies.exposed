@@ -51,6 +51,8 @@ export const EventCommon = t.strict(
     id: UUID,
     excerpt: t.union([t.unknown, t.undefined]),
     date: DateFromISOString,
+    media: t.array(t.string),
+    keywords: t.array(t.string),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
   },

@@ -13,10 +13,10 @@ export const eventPageContentArgs: EventPageContentProps = {
       actors: [],
       groups: [],
       groupsMembers: [],
-      links: [],
-      media: [],
-      keywords: [],
+      links: []
     },
+    media: [],
+    keywords: [],
   },
   onActorClick: () => undefined,
   onGroupClick: () => undefined,

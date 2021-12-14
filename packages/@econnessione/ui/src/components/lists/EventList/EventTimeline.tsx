@@ -69,27 +69,21 @@ const renderRow = (props: {
   const eventGroups = Events.UncategorizedV2.is(e)
     ? groups.filter((a) => e.payload.groups.includes(a.id))
     : [];
-  const eventKeywords = Events.UncategorizedV2.is(e)
-    ? keywords.filter((a) => e.payload.keywords.includes(a.id))
-    : [];
-
   const eventGroupMembers = Events.UncategorizedV2.is(e)
     ? groupsMembers.filter((g) => e.payload.groupsMembers.includes(g.id))
     : [];
-  const eventMedia = Events.UncategorizedV2.is(e)
-    ? media.filter((m) => e.payload.media.includes(m.id))
-    : [];
+
+  const eventMedia = media.filter((m) => e.media.includes(m.id));
+
+  const eventKeywords = keywords.filter((a) => e.keywords.includes(a.id));
 
   return (
     <TimelineItem key={`event-list-item-${e.id}`}>
       <TimelineOppositeContent style={{ flex: 0 }}>
         <Typography variant="subtitle1" color="primary">
-          {formatISO(
-            (e as any).date ?? (e as any).startDate ?? (e as any).publishDate,
-            {
-              representation: "date",
-            }
-          )}
+          {formatISO(e.date, {
+            representation: "date",
+          })}
         </Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>

@@ -9,11 +9,10 @@ export const propsOmit = <P extends t.Props, PP extends Array<keyof P>>(
 ): Omit<P, PP[number]> =>
   pipe(
     codec.type.props,
-    R.filterMapWithIndex((k, p) => {
-      console.log({ k, p });
-      return pipe(
+    R.filterMapWithIndex((k, p) =>
+      pipe(
         p,
         O.fromPredicate(() => !props.includes(k))
-      );
-    }) as any
+      )
+    ) as any
   );

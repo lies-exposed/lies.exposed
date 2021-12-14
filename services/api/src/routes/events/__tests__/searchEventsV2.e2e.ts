@@ -1,16 +1,17 @@
 import { fc } from "@econnessione/core/tests";
 import { GroupMemberArb } from "@econnessione/shared/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
+import { UncategorizedV2Arb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/pipeable";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventEntity } from "../../../entities/Event.entity";
 import { GroupMemberEntity } from "../../../entities/GroupMember.entity";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { UncategorizedV2Arb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 
 describe("Search Events V2", () => {
   let appTest: AppTest, authorizationToken: string, totalEvents: number;
@@ -66,10 +67,10 @@ describe("Search Events V2", () => {
 
     const events = [...groupMemberEvents, ...actorEvents, ...groupEvents];
 
-    await appTest.ctx.db.save(EventEntity, events as any[])();
+    await appTest.ctx.db.save(EventV2Entity, events as any[])();
 
     totalEvents = await appTest.ctx.db
-      .count(EventEntity)()
+      .count(EventV2Entity)()
       .then((result) => (result as any).right);
 
     authorizationToken = `Bearer ${jwt.sign(
@@ -117,13 +118,12 @@ describe("Search Events V2", () => {
       .set("Authorization", authorizationToken);
 
     expect(response.status).toEqual(200);
-    expect(response.body.total).toBe(10);
+    expect(response.body.totals.uncategorized).toBe(10);
     expect(response.body.data[0]).toMatchObject({
       groupsMembers: [groupMember.id],
     });
   });
 
-  jest.setTimeout(10 * 1000);
   test("Should return all the events", async () => {
     const response = await appTest.req
       .get(`/v1/events/search-v2`)
@@ -133,7 +133,7 @@ describe("Search Events V2", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(totals.events).toBe(totalEvents);
+    expect(totals.uncategorized).toBe(totalEvents);
   });
 
   afterAll(async () => {

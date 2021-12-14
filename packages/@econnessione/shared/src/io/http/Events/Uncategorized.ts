@@ -140,6 +140,7 @@ export const UncategorizedV2 = t.strict(
     actors: t.array(UUID),
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),
+    links: t.array(UUID)
   },
   "UncategorizedV2"
 );

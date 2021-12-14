@@ -9,7 +9,6 @@ import { CreateKeywordArb, TagArb } from "./Keyword.arbitrary";
 import { URLArb } from "./URL.arbitrary";
 import { propsOmit } from "./utils.arbitrary";
 
-// const { links: _links } = CreateEventBody.type.props;
 interface CreateEventBodyArbOpts {
   linksIds?: boolean;
   mediaIds?: boolean;
@@ -84,8 +83,6 @@ const plainUncategorized = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "excerpt",
 ]);
 
-console.log({ plainUncategorized });
-
 export const EventArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
   getArbitrary(
     t.strict({
@@ -148,6 +145,7 @@ export const UncategorizedV2Arb: fc.Arbitrary<http.Events.UncategorizedV2> =
       body: {},
       actors: fc.sample(fc.uuid(), 5) as any[],
       groups: fc.sample(fc.uuid(), 5) as any[],
+      links: fc.sample(fc.uuid(), 5) as any[],
       groupsMembers: fc.sample(fc.uuid(), 5) as any[],
       endDate: undefined,
     },
