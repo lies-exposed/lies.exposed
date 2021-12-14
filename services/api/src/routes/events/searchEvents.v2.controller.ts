@@ -45,8 +45,7 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
       ctx.db.manager
         .createQueryBuilder(EventV2Entity, "event")
         .leftJoinAndSelect("event.keywords", "keywords")
-        .leftJoinAndSelect("event.media", "media")
-        .leftJoinAndSelect("event.links", "links"),
+        .leftJoinAndSelect("event.media", "media"),
       (q) => {
         if (O.isSome(actors)) {
           return q.where([
@@ -90,9 +89,9 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
         body: {
           data,
           totals: {
-            deaths: totals,
+            deaths: 0,
             scientificStudies: 0,
-            events: 0,
+            uncategorized: totals,
           },
         },
         statusCode: 200,

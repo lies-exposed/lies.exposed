@@ -10,7 +10,6 @@ import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/pipeable";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
-import { EventEntity } from "../../../entities/Event.entity";
 import { GroupMemberEntity } from "../../../entities/GroupMember.entity";
 
 describe("Search Events V2", () => {
@@ -138,7 +137,7 @@ describe("Search Events V2", () => {
 
   afterAll(async () => {
     await appTest.ctx.db.delete(
-      EventEntity,
+      EventV2Entity,
       eventsData.map((e) => e.id)
     )();
     await appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id])();

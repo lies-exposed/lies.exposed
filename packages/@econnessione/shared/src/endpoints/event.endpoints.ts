@@ -43,7 +43,7 @@ export const SearchV2 = Endpoint({
     {
       data: t.array(http.Events.EventV2),
       totals: t.strict({
-        events: t.number,
+        uncategorized: t.number,
         deaths: t.number,
         scientificStudies: t.number,
       }),
