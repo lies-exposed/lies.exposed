@@ -194,14 +194,14 @@ const reduceEvent = (
       .filter((a) => !(e.payload.groups ?? []).includes(a))
       .concat(e.payload.groups),
     keywords: acc.keywords
-      .filter((a) => !(e.payload.keywords ?? []).includes(a))
-      .concat(e.payload.keywords),
+      .filter((a) => !(e.keywords ?? []).includes(a))
+      .concat(e.keywords),
     groupsMembers: acc.groupsMembers
       .filter((a) => !(e.payload.groupsMembers ?? []).includes(a))
       .concat(e.payload.groupsMembers),
     media: acc.media
-      .filter((a) => !(e.payload.media ?? []).includes(a))
-      .concat(e.payload.media),
+      .filter((a) => !(e.media ?? []).includes(a))
+      .concat(e.media),
   };
 };
 
@@ -219,7 +219,7 @@ const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
 interface InfiniteEventListResult {
   data: Events.EventV2[];
   totals: {
-    events: number;
+    uncategorized: number;
     deaths: number;
     scientificStudies: number;
   };

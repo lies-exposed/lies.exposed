@@ -35,7 +35,7 @@ export class EventV2Entity {
   })
   type: http.Events.EventV2["type"];
 
-  @Column({ type: "json", nullable: true })
+  @Column({ type: "jsonb", nullable: true })
   payload: http.Events.EventV2["payload"];
 
   @ManyToMany(() => MediaEntity, (a) => a.events, {

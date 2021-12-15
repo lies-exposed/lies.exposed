@@ -167,8 +167,10 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           md={4}
           sm={12}
           xs={12}
-          alignItems="center"
-          justifyContent="center"
+          style={{
+            justifyContent: "center",
+            alignItems: "center"
+          }}
         >
           <Box style={{ height: "100%", maxWidth: "100%" }}>
             {pipe(

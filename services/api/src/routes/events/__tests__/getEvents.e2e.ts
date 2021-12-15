@@ -77,10 +77,6 @@ describe("Get Events", () => {
     )}`;
   });
 
-  // describe("All events", () => {
-
-  // });
-
   test("Get events for given actor", async () => {
     const response = await appTest.req
       .get(`/v1/events`)

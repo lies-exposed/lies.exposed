@@ -1,13 +1,13 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { RouteContext } from "@routes/route.types";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
 
 export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.Custom.SearchV2, ({ query }) => {
@@ -48,10 +48,24 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
         .leftJoinAndSelect("event.media", "media"),
       (q) => {
         if (O.isSome(actors)) {
-          return q.where([
-            `event.payload.actors ::jsonb @> IN (:...${actors.value})`,
-            `event.payload.victim ::jsonb @> IN (:...${actors.value})`,
-          ]);
+          return q.where(
+            `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'actors' @> :actors`,
+            {
+              actors: actors.value.map((v) => `"${v}"`).join(""),
+            }
+          );
+        }
+        return q;
+      },
+      (q) => {
+        if (O.isSome(groups)) {
+          const where = O.isSome(actors) ? q.orWhere.bind(q) : q.where.bind(q);
+          return where(
+            `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'groups' @> :groups`,
+            {
+              groups: groups.value.map((v) => `"${v}"`).join(""),
+            }
+          );
         }
         return q;
       },
@@ -71,7 +85,10 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
           .orderBy("event.date", "DESC");
       },
 
-      (q) => ctx.db.execQuery(() => q.getManyAndCount())
+      (q) => {
+        ctx.logger.debug.log(`search event v2 query %s`, q.getSql());
+        return ctx.db.execQuery(() => q.getManyAndCount());
+      }
     );
 
     return pipe(
@@ -79,12 +96,22 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
       TE.chain(([events, count]) =>
         pipe(
           events,
-          A.map((e) => E.right<any, any>(e)),
+          A.map((e) =>
+            E.right<any, any>({
+              ...e,
+              keywords: e.keywords.map((k) => k.id),
+              media: e.media.map((m) => m.id),
+            })
+          ),
           A.sequence(E.Applicative),
           E.map((data) => ({ data, totals: count })),
           TE.fromEither
         )
       ),
+      TE.map((results) => {
+        ctx.logger.debug.log(`Data %O`, results.data);
+        return results;
+      }),
       TE.map(({ data, totals }) => ({
         body: {
           data,

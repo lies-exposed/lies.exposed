@@ -165,7 +165,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
             );
 
             const totalEvents =
-              events.totals.events +
+              events.totals.uncategorized +
               events.totals.deaths +
               events.totals.scientificStudies;
 
@@ -198,7 +198,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                       }}
                     >
                       <Chip
-                        label={`Events (${events.totals.events})`}
+                        label={`Events (${events.totals.uncategorized})`}
                         color="primary"
                         variant={state.filters.events ? "default" : "outlined"}
                         style={{ marginRight: 10 }}

@@ -3,14 +3,14 @@ import { GroupMemberArb } from "@econnessione/shared/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { UncategorizedV2Arb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/pipeable";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { GroupMemberEntity } from "../../../entities/GroupMember.entity";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
 
 describe("Search Events V2", () => {
   let appTest: AppTest, authorizationToken: string, totalEvents: number;
@@ -51,7 +51,10 @@ describe("Search Events V2", () => {
       A.takeLeft(10),
       A.map((e) => ({
         ...e,
-        actors: [actor],
+        payload: {
+          ...e.payload,
+          actors: [actor],
+        },
       }))
     );
     const groupEvents = pipe(
@@ -60,7 +63,10 @@ describe("Search Events V2", () => {
       A.takeLeft(10),
       A.map((e) => ({
         ...e,
-        groups: [groups[0]],
+        payload: {
+          ...e.payload,
+          groups: [groups[0]],
+        },
       }))
     );
 
@@ -82,18 +88,21 @@ describe("Search Events V2", () => {
 
   // });
 
-  test("Get events for given actor", async () => {
+  test.only("Get events for given actor", async () => {
     const response = await appTest.req
       .get(`/v1/events/search-v2`)
       .query({ "actors[]": actor.id })
       .set("Authorization", authorizationToken);
 
+    console.log(response.body);
     const { total } = response.body;
 
     expect(response.status).toEqual(200);
     expect(total).toBe(10);
     expect(response.body.data[0]).toMatchObject({
-      actors: [actor.id],
+      payload: {
+        actors: [actor.id],
+      },
     });
   });
 

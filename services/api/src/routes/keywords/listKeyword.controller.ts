@@ -23,8 +23,7 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
 
       const findTask = pipe(
         ctx.db.manager
-          .createQueryBuilder(KeywordEntity, "keyword")
-          .leftJoinAndSelect("keyword.events", "events"),
+          .createQueryBuilder(KeywordEntity, "keyword"),
         (q) => {
           if (O.isSome(ids)) {
             return q.where(`keyword.id IN (:...ids)`, {
