@@ -1,8 +1,6 @@
 import { fc, getArbitrary } from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
-import { UncategorizedV2 } from "../../io/http/Events";
-import { CreateEventBody } from "../../io/http/Events/Uncategorized";
 import { DateArb } from "./Date.arbitrary";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 import { CreateKeywordArb, TagArb } from "./Keyword.arbitrary";
@@ -18,10 +16,10 @@ export const CreateEventBodyArb = ({
   linksIds = false,
   mediaIds = false,
   keywordIds = false,
-}: CreateEventBodyArbOpts = {}): fc.Arbitrary<CreateEventBody> =>
+}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.Uncategorized.CreateEventBody> =>
   getArbitrary(
     t.strict({
-      ...CreateEventBody.type.props,
+      ...http.Events.Uncategorized.CreateEventBody.type.props,
       actors: t.unknown,
       groups: t.unknown,
       groupsMembers: t.unknown,
@@ -123,11 +121,13 @@ export const EventArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
 export const UncategorizedV2Arb: fc.Arbitrary<http.Events.UncategorizedV2> =
   getArbitrary(
     t.strict({
-      ...propsOmit(UncategorizedV2, [
+      ...propsOmit(http.Events.UncategorizedV2, [
         "id",
         "date",
         "excerpt",
         "payload",
+        "media",
+        "keywords",
         "createdAt",
         "updatedAt",
       ]),
@@ -139,6 +139,8 @@ export const UncategorizedV2Arb: fc.Arbitrary<http.Events.UncategorizedV2> =
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],
     excerpt: "",
+    media: fc.sample(fc.uuid(), 5) as any[],
+    keywords: fc.sample(fc.uuid(), 5) as any[],
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       location: undefined,

@@ -25,10 +25,6 @@ describe("Search Events V2", () => {
     ...e,
     media: [],
     links: [],
-    topics: [],
-    groups: [],
-    actors: [],
-    groupsMembers: [],
   }));
 
   beforeAll(async () => {
@@ -42,7 +38,10 @@ describe("Search Events V2", () => {
       A.takeLeft(10),
       A.map((e) => ({
         ...e,
-        groupsMembers: [groupMember],
+        payload: {
+          ...e.payload,
+          groupsMembers: [groupMember.id],
+        },
       }))
     );
     const actorEvents = pipe(
@@ -53,7 +52,7 @@ describe("Search Events V2", () => {
         ...e,
         payload: {
           ...e.payload,
-          actors: [actor],
+          actors: [actor.id],
         },
       }))
     );
@@ -65,7 +64,7 @@ describe("Search Events V2", () => {
         ...e,
         payload: {
           ...e.payload,
-          groups: [groups[0]],
+          groups: [groups[0].id],
         },
       }))
     );
@@ -88,17 +87,16 @@ describe("Search Events V2", () => {
 
   // });
 
-  test.only("Get events for given actor", async () => {
+  test("Get events for given actor", async () => {
     const response = await appTest.req
       .get(`/v1/events/search-v2`)
       .query({ "actors[]": actor.id })
       .set("Authorization", authorizationToken);
 
-    console.log(response.body);
-    const { total } = response.body;
+    const { totals } = response.body;
 
     expect(response.status).toEqual(200);
-    expect(total).toBe(10);
+    expect(totals.uncategorized).toBe(10);
     expect(response.body.data[0]).toMatchObject({
       payload: {
         actors: [actor.id],
@@ -115,7 +113,9 @@ describe("Search Events V2", () => {
     expect(response.status).toEqual(200);
 
     expect(response.body.data[0]).toMatchObject({
-      groups: [groups[0].id],
+      payload: {
+        groups: [groups[0].id],
+      },
     });
   });
 
@@ -128,7 +128,9 @@ describe("Search Events V2", () => {
     expect(response.status).toEqual(200);
     expect(response.body.totals.uncategorized).toBe(10);
     expect(response.body.data[0]).toMatchObject({
-      groupsMembers: [groupMember.id],
+      payload: {
+        groupsMembers: [groupMember.id],
+      },
     });
   });
 

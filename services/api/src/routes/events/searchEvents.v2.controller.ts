@@ -70,6 +70,18 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
         return q;
       },
       (q) => {
+        if (O.isSome(groupsMembers)) {
+          const where = (O.isSome(actors) ?? O.isSome(groups)) ? q.orWhere.bind(q) : q.where.bind(q);
+          return where(
+            `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'groupsMembers' @> :groupsMembers`,
+            {
+              groupsMembers: groupsMembers.value.map((v) => `"${v}"`).join(""),
+            }
+          );
+        }
+        return q;
+      },
+      (q) => {
         if (O.isSome(keywords)) {
           return q.where({
             "keywords.id IN (:...keywords)": { keywords: keywords.value },
@@ -108,10 +120,6 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
           TE.fromEither
         )
       ),
-      TE.map((results) => {
-        ctx.logger.debug.log(`Data %O`, results.data);
-        return results;
-      }),
       TE.map(({ data, totals }) => ({
         body: {
           data,
