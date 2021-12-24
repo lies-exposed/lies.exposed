@@ -16,7 +16,7 @@
   "dependencies": {
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-spring": "^9.3.2"
+    "react-spring": "^9.3.3"
   },
   "lint-staged": {
     "**/*.(ts|tsx|js|jsx)": "eslint --fix",

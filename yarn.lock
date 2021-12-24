@@ -1953,7 +1953,7 @@ __metadata:
     url-loader: ^4.1.1
     webpack: ^5.65.0
     webpack-bundle-analyzer: ^4.5.0
-    webpack-dev-server: ^4.6.0
+    webpack-dev-server: ^4.7.1
   peerDependencies:
     debug: ^4.3.1
     fp-ts: ^2.9
@@ -2065,12 +2065,12 @@ __metadata:
     prettier: ^2.5.1
     query-string: ^7.0.1
     react: ^16.14.0
-    react-admin: ^3.19.4
+    react-admin: ^3.19.5
     react-dom: ^16.14.0
     react-error-boundary: ^3.1.4
     react-helmet: ^6.1.0
     react-slick: ^0.28.1
-    react-spring: ^9.3.2
+    react-spring: ^9.3.3
     react-toc: ^2.0.0
     slate-hyperscript: ^0.67.0
     throttle-debounce: ^3.0.1
@@ -4991,6 +4991,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/bonjour@npm:^3.5.9":
+  version: 3.5.10
+  resolution: "@types/bonjour@npm:3.5.10"
+  dependencies:
+    "@types/node": "*"
+  checksum: bfcadb042a41b124c4e3de4925e3be6d35b78f93f27c4535d5ff86980dc0f8bc407ed99b9b54528952dc62834d5a779392f7a12c2947dd19330eb05a6bcae15a
+  languageName: node
+  linkType: hard
+
 "@types/bs58@npm:^4.0.1":
   version: 4.0.1
   resolution: "@types/bs58@npm:4.0.1"
@@ -5022,6 +5031,16 @@ __metadata:
   version: 1.1.1
   resolution: "@types/color-name@npm:1.1.1"
   checksum: b71fcad728cc68abcba1d405742134410c8f8eb3c2ef18113b047afca158ad23a4f2c229bcf71a38f4a818dead375c45b20db121d0e69259c2d81e97a740daa6
+  languageName: node
+  linkType: hard
+
+"@types/connect-history-api-fallback@npm:^1.3.5":
+  version: 1.3.5
+  resolution: "@types/connect-history-api-fallback@npm:1.3.5"
+  dependencies:
+    "@types/express-serve-static-core": "*"
+    "@types/node": "*"
+  checksum: 464d06e5ab00f113fa89978633d5eb00d225aeb4ebbadc07f6f3bc337aa7cbfcd74957b2a539d6d47f2e128e956a17819973ec7ae62ade2e16e367a6c38b8d3a
   languageName: node
   linkType: hard
 
@@ -5399,6 +5418,17 @@ __metadata:
     "@types/express": "*"
     "@types/express-unless": "*"
   checksum: 4f54f59c1a0a5f9e1ed0317439b022dc45a818a1ae4849085dc25e947035e62bfea772136fcef5b0409eedfbbf4f7aa73f2dcdd3105eaf815e6b5e84f79b73f2
+  languageName: node
+  linkType: hard
+
+"@types/express-serve-static-core@npm:*":
+  version: 4.17.27
+  resolution: "@types/express-serve-static-core@npm:4.17.27"
+  dependencies:
+    "@types/node": "*"
+    "@types/qs": "*"
+    "@types/range-parser": "*"
+  checksum: fef52b941f903011e31a5886369301d7765580a034cd011a2d3a7dbe6a6edf4f77537710a52e3e2258c6fc59c611f228594c213f984cda767654ab6c5c199e9e
   languageName: node
   linkType: hard
 
@@ -6003,6 +6033,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/serve-index@npm:^1.9.1":
+  version: 1.9.1
+  resolution: "@types/serve-index@npm:1.9.1"
+  dependencies:
+    "@types/express": "*"
+  checksum: 026f3995fb500f6df7c3fe5009e53bad6d739e20b84089f58ebfafb2f404bbbb6162bbe33f72d2f2af32d5b8d3799c8e179793f90d9ed5871fb8591190bb6056
+  languageName: node
+  linkType: hard
+
 "@types/serve-static@npm:*":
   version: 1.13.10
   resolution: "@types/serve-static@npm:1.13.10"
@@ -6010,6 +6049,15 @@ __metadata:
     "@types/mime": ^1
     "@types/node": "*"
   checksum: eaca858739483e3ded254cad7d7a679dc2c8b3f52c8bb0cd845b3b7eb1984bde0371fdcb0a5c83aa12e6daf61b6beb762545021f520f08a1fe882a3fa4ea5554
+  languageName: node
+  linkType: hard
+
+"@types/sockjs@npm:^0.3.33":
+  version: 0.3.33
+  resolution: "@types/sockjs@npm:0.3.33"
+  dependencies:
+    "@types/node": "*"
+  checksum: b9bbb2b5c5ead2fb884bb019f61a014e37410bddd295de28184e1b2e71ee6b04120c5ba7b9954617f0bdf962c13d06249ce65004490889c747c80d3f628ea842
   languageName: node
   linkType: hard
 
@@ -6168,6 +6216,15 @@ __metadata:
     anymatch: ^3.0.0
     source-map: ^0.6.0
   checksum: e594a1357cbbc2f7c6ca47785c5a11adb5591a774a69afaeab07cd6f6bff6c6aea2030bd37b32bdd19d0ec2336a346db754e8d8d236ba8effeab542716fb32b7
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:^8.2.2":
+  version: 8.2.2
+  resolution: "@types/ws@npm:8.2.2"
+  dependencies:
+    "@types/node": "*"
+  checksum: 308957864b9a5a0378ac82f1b084fa31b1bbe85106fb0d84ed2b392e4829404f21ab6ab2c1eb782d556e59cd33d57c75ad2d0cedc4b9b9d0ca3b2311bc915578
   languageName: node
   linkType: hard
 
@@ -7252,12 +7309,12 @@ __metadata:
     fp-ts: ^2.11.5
     ol: ^6.9.0
     prettier: ^2.5.1
-    ra-core: ^3.19.4
-    ra-i18n-polyglot: ^3.19.4
-    ra-input-rich-text: ^3.19.4
-    ra-ui-materialui: ^3.19.4
+    ra-core: ^3.19.5
+    ra-i18n-polyglot: ^3.19.5
+    ra-input-rich-text: ^3.19.5
+    ra-ui-materialui: ^3.19.5
     react: ^16.14.0
-    react-admin: ^3.19.4
+    react-admin: ^3.19.5
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
     react-helmet: ^6.1.0
@@ -20755,9 +20812,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ra-core@npm:^3.19.4":
-  version: 3.19.4
-  resolution: "ra-core@npm:3.19.4"
+"ra-core@npm:^3.19.5":
+  version: 3.19.5
+  resolution: "ra-core@npm:3.19.5"
   dependencies:
     classnames: ~2.3.1
     date-fns: ^1.29.0
@@ -20778,23 +20835,23 @@ __metadata:
     react-router-dom: ^5.1.0
     redux: ^3.7.2 || ^4.0.3
     redux-saga: ^1.0.0
-  checksum: 9f8c3eb0f1674f103a11155512fc44b94c0cf0e651a921bc80a47fe4eb9a2df7b6756104e454750b527dcddc7450f9a806de5894447f7ac413c4018f83ca9947
+  checksum: 35b6dd165d152222126a2f005b48c03201db0575b424935ceb015f6b009016454154988dea8aad8282cfb8b909556b181834fcfd08695e49caed1ab334919cad
   languageName: node
   linkType: hard
 
-"ra-i18n-polyglot@npm:^3.19.4":
-  version: 3.19.4
-  resolution: "ra-i18n-polyglot@npm:3.19.4"
+"ra-i18n-polyglot@npm:^3.19.5":
+  version: 3.19.5
+  resolution: "ra-i18n-polyglot@npm:3.19.5"
   dependencies:
     node-polyglot: ^2.2.2
-    ra-core: ^3.19.4
-  checksum: 077190437be71ff281e8bed2e2f24263dc8bd76d5ce9296e81f03ab98202c5897c37a89d5e6d7897932279808b2e39543a51f631d658103be16802c02254da30
+    ra-core: ^3.19.5
+  checksum: 7760f10a14c1ed7a85786af0ef853ef1178a2fb7d43e0ae98ffe995fb217d38ed7855c4674370e3b50ec1cac05a2cf1847e4a3dc62c09044385cca80149e2225
   languageName: node
   linkType: hard
 
-"ra-input-rich-text@npm:^3.19.4":
-  version: 3.19.4
-  resolution: "ra-input-rich-text@npm:3.19.4"
+"ra-input-rich-text@npm:^3.19.5":
+  version: 3.19.5
+  resolution: "ra-input-rich-text@npm:3.19.5"
   dependencies:
     "@types/quill": ~1.3.0
     lodash: ~4.17.5
@@ -20805,22 +20862,22 @@ __metadata:
     ra-ui-materialui: ^3.17.2
     react: ^16.9.0 || ^17.0.0
     react-dom: ^16.9.0 || ^17.0.0
-  checksum: 314dbeb2c738ffe6ccedb7f2dbf0c794e888fa6845474e1bac0a10b88308f4b4a5abf9546a1349a10d58b07b1e6265373c7256c03aaef3069b79bdbc25d6e268
+  checksum: 94598055314b2282c499f5bde6c4b408b87ead93926634bd25203e3b7c85e4d1d2aa6a88b7b71c176f94a76610526bff9d8b5c3503f3c35e8d957ac69a300a6e
   languageName: node
   linkType: hard
 
-"ra-language-english@npm:^3.19.4":
-  version: 3.19.4
-  resolution: "ra-language-english@npm:3.19.4"
+"ra-language-english@npm:^3.19.5":
+  version: 3.19.5
+  resolution: "ra-language-english@npm:3.19.5"
   dependencies:
-    ra-core: ^3.19.4
-  checksum: 85dbbfc0349ffb6782634cbdbe8b35615b9eb1796f1d12a93686c9053cba1283f7d665cf4af289460cc4e403dc87ca7d7c571dd6a2087067f51bd99207e36935
+    ra-core: ^3.19.5
+  checksum: afe6a8ebc0b356335f341bf64f2f40e39ea92f1352dc38088c28b9a14a9d4cad1c14d772db19a242fa0045d247f22721cc8f0d8e1eadece5e5b3cf28dd023a31
   languageName: node
   linkType: hard
 
-"ra-ui-materialui@npm:^3.19.4":
-  version: 3.19.4
-  resolution: "ra-ui-materialui@npm:3.19.4"
+"ra-ui-materialui@npm:^3.19.5":
+  version: 3.19.5
+  resolution: "ra-ui-materialui@npm:3.19.5"
   dependencies:
     autosuggest-highlight: ^3.1.1
     classnames: ~2.2.5
@@ -20849,7 +20906,7 @@ __metadata:
     react-router: ^5.1.0
     react-router-dom: ^5.1.0
     redux: ^3.7.2 || ^4.0.3
-  checksum: 8a5c5f81a414f45dc8dff04a4c49691835add7f1d0a60c88ddd70d30742acdf06943dbbb1e05d5796246cd58dee8e4b370aa232014d496275c8748d67274c1ae
+  checksum: bab3f3d3a1ebc9b99a0b64ef77ffd6c301cc31dffe37424c88fe1f70ad1f5653965fd1672a2b4322e254ef3ea40dbfae0e11619a0a710dfc54346e64a8173f35
   languageName: node
   linkType: hard
 
@@ -20962,9 +21019,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-admin@npm:^3.19.4":
-  version: 3.19.4
-  resolution: "react-admin@npm:3.19.4"
+"react-admin@npm:^3.19.5":
+  version: 3.19.5
+  resolution: "react-admin@npm:3.19.5"
   dependencies:
     "@material-ui/core": ^4.12.1
     "@material-ui/icons": ^4.11.2
@@ -20972,10 +21029,10 @@ __metadata:
     connected-react-router: ^6.5.2
     final-form: ^4.20.4
     final-form-arrays: ^3.0.2
-    ra-core: ^3.19.4
-    ra-i18n-polyglot: ^3.19.4
-    ra-language-english: ^3.19.4
-    ra-ui-materialui: ^3.19.4
+    ra-core: ^3.19.5
+    ra-i18n-polyglot: ^3.19.5
+    ra-language-english: ^3.19.5
+    ra-ui-materialui: ^3.19.5
     react-final-form: ^6.5.7
     react-final-form-arrays: ^3.1.3
     react-redux: ^7.1.0
@@ -20986,7 +21043,7 @@ __metadata:
   peerDependencies:
     react: ^16.9.0 || ^17.0.0
     react-dom: ^16.9.0 || ^17.0.0
-  checksum: 978e96108e68893366a1bd9847ebf2ec0dd3ac50d1e9f3c7b433759c04ba4c7e4afd2d2e344c45fd10a945073befebe87406d1002797b19e564e87c416354c24
+  checksum: 9b858ad5838c743702c3c0a89b20e303b7ee6b529cd39024d9ef61da094ccd339aea4f8dc223bb6d3c3c969be3df61e255fd6c902026e4af0b4f4d91c1be92cb
   languageName: node
   linkType: hard
 
@@ -21528,9 +21585,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-spring@npm:^9.3.2":
-  version: 9.3.2
-  resolution: "react-spring@npm:9.3.2"
+"react-spring@npm:^9.3.3":
+  version: 9.3.3
+  resolution: "react-spring@npm:9.3.3"
   dependencies:
     "@react-spring/core": ~9.3.0
     "@react-spring/konva": ~9.3.0
@@ -21538,7 +21595,7 @@ __metadata:
     "@react-spring/three": ~9.3.0
     "@react-spring/web": ~9.3.0
     "@react-spring/zdog": ~9.3.0
-  checksum: f89366bb54ab3095f5d8233ccf1295beb53c8f2dff6f2f304ffffae4a399d59973ae9f675a88a3007f7ffb19d6f3121ca3c395a19cb01858b260f00af4778c39
+  checksum: e53f072968d1cba4847a194138d45f9276e759df1bb83802a27f7ef098eac1bcbafb215195f9d7b174435cd3ca173424202942b6a295fcd62f46bef67a097d1c
   languageName: node
   linkType: hard
 
@@ -23686,7 +23743,7 @@ __metadata:
     prettier: ^2.5.1
     react: ^16.14.0
     react-dom: ^16.14.0
-    react-spring: ^9.3.2
+    react-spring: ^9.3.3
     typescript: ^4.5.4
     webpack: ^5.65.0
   languageName: unknown
@@ -26146,7 +26203,7 @@ __metadata:
     react-helmet: ^6.1.0
     react-is: 16.13.1
     react-quill: 1.3.5
-    react-spring: ^9.3.2
+    react-spring: ^9.3.3
     react-toc: ^2.0.0
     react-vertical-timeline-component: ^3.5.2
     react-window: ^1.8.6
@@ -26276,9 +26333,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-dev-middleware@npm:^5.2.1":
-  version: 5.2.2
-  resolution: "webpack-dev-middleware@npm:5.2.2"
+"webpack-dev-middleware@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "webpack-dev-middleware@npm:5.3.0"
   dependencies:
     colorette: ^2.0.10
     memfs: ^3.2.2
@@ -26287,14 +26344,19 @@ __metadata:
     schema-utils: ^4.0.0
   peerDependencies:
     webpack: ^4.0.0 || ^5.0.0
-  checksum: 8dfcb1244ba564e525f9d6644174a558cebd4857317bbdbcd394848641f7f0c0aeb0e7b2803dd56286b4820a7f66d27b8e58e8f1dec5515417ffa40da1f6197d
+  checksum: 01f9e11583bb682cd5ab5a1b9d6dc99545f777513c4c15aa67d10f5d057fc3d0c6f9365e02c07792d3c9b17bd47a16c8185e66eb66e9de74d8ccf561e75085e7
   languageName: node
   linkType: hard
 
-"webpack-dev-server@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "webpack-dev-server@npm:4.6.0"
+"webpack-dev-server@npm:^4.7.1":
+  version: 4.7.1
+  resolution: "webpack-dev-server@npm:4.7.1"
   dependencies:
+    "@types/bonjour": ^3.5.9
+    "@types/connect-history-api-fallback": ^1.3.5
+    "@types/serve-index": ^1.9.1
+    "@types/sockjs": ^0.3.33
+    "@types/ws": ^8.2.2
     ansi-html-community: ^0.0.8
     bonjour: ^3.5.0
     chokidar: ^3.5.2
@@ -26317,8 +26379,7 @@ __metadata:
     sockjs: ^0.3.21
     spdy: ^4.0.2
     strip-ansi: ^7.0.0
-    url: ^0.11.0
-    webpack-dev-middleware: ^5.2.1
+    webpack-dev-middleware: ^5.3.0
     ws: ^8.1.0
   peerDependencies:
     webpack: ^4.37.0 || ^5.0.0
@@ -26327,7 +26388,7 @@ __metadata:
       optional: true
   bin:
     webpack-dev-server: bin/webpack-dev-server.js
-  checksum: 941ecdc7bff9021afa5dc28a0e89c6e11fa5eb3778c6dced2c2a58ccdca45e2324b4792dc21fdcbf684b0fd88c8840b622230d57663377c5b25e215f4b0029de
+  checksum: a47bff0f6371e63db19424831ce3804c85f7dc69b4feb3a401958fb5edfe1080d1dd8be80fb6e1960eb66b0d3b0aeeb2c92e1a49b3344c3ab14c902b2e74a5e7
   languageName: node
   linkType: hard
 
