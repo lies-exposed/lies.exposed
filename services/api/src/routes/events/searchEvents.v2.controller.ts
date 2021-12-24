@@ -5,9 +5,10 @@ import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { searchEventV2Query } from "./queries/searchEventsV2.query";
+import { EventV2 } from "@econnessione/shared/io/http/Events";
 
 export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.Custom.SearchV2, ({ query }) => {
@@ -34,85 +35,29 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
       ctx.env.DEFAULT_PAGE_SIZE
     );
 
-    ctx.logger.debug.log(`Find options conditions: %O`, {
-      actors,
-      groups,
-      groupsMembers,
-      ...findOptions,
-    });
-
-    const sqlTask = pipe(
-      ctx.db.manager
-        .createQueryBuilder(EventV2Entity, "event")
-        .leftJoinAndSelect("event.keywords", "keywords")
-        .leftJoinAndSelect("event.media", "media"),
-      (q) => {
-        if (O.isSome(actors)) {
-          return q.where(
-            `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'actors' @> :actors`,
-            {
-              actors: actors.value.map((v) => `"${v}"`).join(""),
-            }
-          );
-        }
-        return q;
-      },
-      (q) => {
-        if (O.isSome(groups)) {
-          const where = O.isSome(actors) ? q.orWhere.bind(q) : q.where.bind(q);
-          return where(
-            `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'groups' @> :groups`,
-            {
-              groups: groups.value.map((v) => `"${v}"`).join(""),
-            }
-          );
-        }
-        return q;
-      },
-      (q) => {
-        if (O.isSome(groupsMembers)) {
-          const where = (O.isSome(actors) ?? O.isSome(groups)) ? q.orWhere.bind(q) : q.where.bind(q);
-          return where(
-            `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'groupsMembers' @> :groupsMembers`,
-            {
-              groupsMembers: groupsMembers.value.map((v) => `"${v}"`).join(""),
-            }
-          );
-        }
-        return q;
-      },
-      (q) => {
-        if (O.isSome(keywords)) {
-          return q.where({
-            "keywords.id IN (:...keywords)": { keywords: keywords.value },
-          });
-        }
-
-        return q;
-      },
-      (q) => {
-        return q
-          .skip(findOptions.skip)
-          .take(findOptions.take)
-          .orderBy("event.date", "DESC");
-      },
-
-      (q) => {
-        ctx.logger.debug.log(`search event v2 query %s`, q.getSql());
-        return ctx.db.execQuery(() => q.getManyAndCount());
-      }
-    );
+    // ctx.logger.debug.log(`Find options conditions: %O`, {
+    //   actors,
+    //   groups,
+    //   groupsMembers,
+    //   ...findOptions,
+    // });
 
     return pipe(
-      sqlTask,
+      searchEventV2Query(ctx)({
+        actors,
+        groups,
+        groupsMembers,
+        keywords,
+        ...findOptions,
+      }),
       TE.chain(([events, count]) =>
         pipe(
           events,
           A.map((e) =>
-            E.right<any, any>({
-              ...e,
-              keywords: e.keywords.map((k) => k.id),
-              media: e.media.map((m) => m.id),
+            E.right<any, EventV2>({
+              ...(e as any),
+              keywords: e.keywords.map((k) => k.id) as any[],
+              media: e.media.map((m) => m.id) as any[],
             })
           ),
           A.sequence(E.Applicative),
@@ -124,9 +69,11 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
         body: {
           data,
           totals: {
-            deaths: 0,
-            scientificStudies: 0,
-            uncategorized: totals,
+            deaths: data.filter((d) => d.type === "Death").length,
+            scientificStudies: data.filter((d) => d.type === "ScientificStudy")
+              .length,
+            uncategorized: data.filter((d) => d.type === "Uncategorized")
+              .length,
           },
         },
         statusCode: 200,

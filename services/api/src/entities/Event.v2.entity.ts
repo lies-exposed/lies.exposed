@@ -20,6 +20,9 @@ export class EventV2Entity {
   @Index()
   id: string;
 
+  @Column({ type: 'bool', default: true })
+  draft: boolean;
+
   @Column({ type: "timestamptz", nullable: false })
   date: Date;
 

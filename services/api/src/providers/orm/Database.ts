@@ -26,7 +26,7 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { ControllerError } from "@io/ControllerError";
 
-class DBError extends ControllerError {}
+export class DBError extends ControllerError {}
 
 type Criteria =
   | string

@@ -11,13 +11,6 @@
     "packages": [
       "packages/@econnessione/*",
       "services/*"
-    ],
-    "nohoist": [
-      "module-alias",
-      "typeorm",
-      "webpack",
-      "**/ts-jest",
-      "**/ts-jest/**"
     ]
   },
   "scripts": {
@@ -42,8 +35,9 @@
     "prepare": "husky install"
   },
   "engines": {
-    "yarn": ">= 1.22.5",
-    "npm": "please use yarn >= 1.22.5"
+    "yarn": ">= 3",
+    "npm": "please use yarn >= 3",
+    "node": ">= 14"
   },
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
