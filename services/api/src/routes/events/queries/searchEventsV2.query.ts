@@ -113,44 +113,57 @@ export const searchEventV2Query =
               });
             }
 
-            const [sql, params] = q.getQueryAndParameters();
             logger.debug.log(
-              `search event v2 query %s with params %O`,
-              sql,
-              params
+              `Search event v2 query %s with params %O`,
+              ...q.getQueryAndParameters()
             );
-            return q;
+
+            const uncategorizedCount = q
+              .clone()
+              .andWhere(" event.type = 'Uncategorized' ");
+
+            logger.debug.log(
+              `Uncategorized count query %O`,
+              ...uncategorizedCount.getQueryAndParameters()
+            );
+
+            const deathsCount = q.clone().andWhere(" event.type = 'Death' ");
+
+            logger.debug.log(
+              `Deaths count query %O`,
+              ...deathsCount.getQueryAndParameters()
+            );
+
+            const scientificStudiesCount = q
+              .clone()
+              .andWhere(" event.type = 'Uncategorized' ");
+            logger.debug.log(
+              `Scientific Studies count query %O`,
+              ...scientificStudiesCount.getQueryAndParameters()
+            );
+            return {
+              resultsQuery: q,
+              uncategorizedCount,
+              deathsCount,
+              scientificStudiesCount,
+            };
           }
         );
 
         return sequenceS(TE.ApplicativePar)({
           results: db.execQuery(() =>
-            searchV2Query
-              .clone()
+            searchV2Query.resultsQuery
               .skip(findOptions.skip)
               .take(findOptions.take)
               .orderBy("event.date", "DESC")
               .getMany()
           ),
           uncategorized: db.execQuery(() =>
-            searchV2Query
-              .clone()
-              .andWhere(" event.type = 'Uncategorized' ")
-              .getCount()
+            searchV2Query.uncategorizedCount.getCount()
           ),
-          deaths: db.execQuery(() =>
-            searchV2Query
-              .clone()
-              .addSelect("event.type")
-              .andWhere(" event.type = 'Death' ")
-              .getCount()
-          ),
+          deaths: db.execQuery(() => searchV2Query.deathsCount.getCount()),
           scientificStudies: db.execQuery(() =>
-            searchV2Query
-              .clone()
-              .addSelect("event.type")
-              .andWhere(" event.type = 'ScientificStudy' ")
-              .getCount()
+            searchV2Query.scientificStudiesCount.getCount()
           ),
         });
       }),
