@@ -27,6 +27,7 @@
     "web": "yarn workspace web",
     "admin-web": "yarn workspace admin-web",
     "storybook": "yarn workspace storybook",
+    "docker:up": "docker-compose up --force-recreate api web admin-web space",
     "packages:build": "yarn core build && yarn shared build",
     "packages:watch": "concurrently \"yarn core build -w\" \"yarn shared build -w\"",
     "watch:all": "concurrently \"yarn core build -w\" \"yarn shared watch\" \"yarn api build -w\"",

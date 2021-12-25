@@ -132,7 +132,7 @@ describe("Search Events V2", () => {
       const { totals } = response.body;
 
       expect(response.status).toEqual(200);
-      expect(totals.uncategorized).toBe(20);
+      expect(totals.uncategorized).toBe(30);
     });
   });
 
