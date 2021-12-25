@@ -76,7 +76,7 @@ export const searchEventV2Query =
             let hasWhere = false;
             if (O.isSome(actors)) {
               q.where(
-                `(event.type = 'Uncategorized' AND "event"."payload" -> 'actors' ?| ARRAY[:...actors])`,
+                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors])`,
                 {
                   actors: actors.value,
                 }
@@ -87,7 +87,7 @@ export const searchEventV2Query =
             if (O.isSome(groups)) {
               const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
               where(
-                `(event.type = 'Uncategorized' AND "event"."payload" -> 'groups' ?| ARRAY[:...groups])`,
+                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups])`,
                 {
                   groups: groups.value,
                 }
@@ -98,7 +98,7 @@ export const searchEventV2Query =
             if (groupsMembers.length > 0) {
               const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
               where(
-                `(event.type = 'Uncategorized' AND "event"."payload" -> 'groupsMembers' ?| ARRAY[:...groupsMembers])`,
+                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers])`,
                 {
                   groupsMembers: groupsMembers,
                 }
