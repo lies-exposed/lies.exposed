@@ -4,6 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
+  Link,
   Media,
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
@@ -20,16 +21,17 @@ import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
+import Editor from "@components/Common/Editor";
 
 interface UncategorizedListItemProps {
-  item: Events.Uncategorized.UncategorizedSearch;
+  item: Events.UncategorizedV2;
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   media: Media.Media[];
-  links: string[];
-  onClick?: (e: Events.Uncategorized.UncategorizedSearch) => void;
+  links: Link.Link[];
+  onClick?: (e: Events.UncategorizedV2) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
   onGroupMemberClick?: (g: GroupMember.GroupMember) => void;
@@ -60,42 +62,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       }}
     >
       <Grid container spacing={2} style={{ width: "100%" }}>
-        <Grid
-          item
-          md={4}
-          sm={12}
-          xs={12}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Box style={{ height: "100%", maxWidth: "100%" }}>
-            {pipe(
-              media,
-              O.fromPredicate((arr) => arr.length > 0),
-              O.map((media) => (
-                // eslint-disable-next-line react/jsx-key
-                <Slider
-                  adaptiveHeight={false}
-                  infinite={false}
-                  arrows={true}
-                  draggable={false}
-                  dots={true}
-                  swipe={true}
-                  slidesToShow={1}
-                  slidesToScroll={1}
-                  slides={media}
-                  style={{
-                    maxWidth: 300,
-                  }}
-                />
-              )),
-              O.toNullable
-            )}
-          </Box>
-        </Grid>
         <Grid item md={8} sm={12} xs={12}>
           <Typography variant="h6" onClick={() => onClick?.(item)}>
-            {item.title}
+            {item.payload.title}
           </Typography>
           <Grid item md={12} style={{ marginBottom: 20 }}>
             <KeywordList
@@ -110,7 +79,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             <Grid container alignItems="center">
               <Grid item md={12} sm={12} style={{ textAlign: "right" }}>
                 {pipe(
-                  O.fromNullable(item.location),
+                  O.fromNullable(item.payload.location),
                   O.fold(
                     () => null,
                     () => <FontAwesomeIcon icon={faMapMarker} />
@@ -120,9 +89,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="body1" style={{ marginBottom: 20 }}>
-              {item.excerpt}
-            </Typography>
+            <Editor readOnly value={(item.excerpt as any) ?? null} />
+
             <Grid container alignItems="center">
               <LinkIcon fontSize="small" />{" "}
               <Typography variant="caption">({links.length})</Typography>
@@ -193,6 +161,41 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               )}
             </Grid>
           </Grid>
+        </Grid>
+        <Grid
+          item
+          md={4}
+          sm={12}
+          xs={12}
+          style={{
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Box style={{ height: "100%", maxWidth: "100%" }}>
+            {pipe(
+              media,
+              O.fromPredicate((arr) => arr.length > 0),
+              O.map((media) => (
+                // eslint-disable-next-line react/jsx-key
+                <Slider
+                  adaptiveHeight={false}
+                  infinite={false}
+                  arrows={true}
+                  draggable={false}
+                  dots={true}
+                  swipe={true}
+                  slidesToShow={1}
+                  slidesToScroll={1}
+                  slides={media}
+                  style={{
+                    maxWidth: 300,
+                  }}
+                />
+              )),
+              O.toNullable
+            )}
+          </Box>
         </Grid>
       </Grid>
     </Box>

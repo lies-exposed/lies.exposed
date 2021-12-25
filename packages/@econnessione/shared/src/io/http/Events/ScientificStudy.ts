@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { optionFromNullable, UUID } from "io-ts-types";
+import { UUID } from "io-ts-types";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { BaseProps } from "../Common/BaseProps";
 import { URL } from "../Common/URL";
@@ -8,12 +8,11 @@ export const CreateScientificStudyBody = t.strict(
   {
     title: t.string,
     url: URL,
-    abstract: optionFromNullable(t.string),
-    results: optionFromNullable(t.string),
-    conclusion: t.string,
+    body: t.unknown,
     publishDate: DateFromISOString,
     authors: t.array(UUID),
     publisher: UUID,
+    conclusion: t.string,
   },
   "CreateScientificStudy"
 );
@@ -36,3 +35,15 @@ export const ScientificStudy = t.strict(
 );
 
 export type ScientificStudy = t.TypeOf<typeof ScientificStudy>;
+
+const { publishDate, conclusion, ...scientificStudyBaseProps } =
+  CreateScientificStudyBody.type.props;
+
+export const ScientificStudyV2 = t.strict(
+  {
+    ...scientificStudyBaseProps,
+  },
+  "ScientificStudy"
+);
+
+export type ScientificStudyV2 = t.TypeOf<typeof ScientificStudy>;

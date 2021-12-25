@@ -5,12 +5,14 @@ import { MakeEditEventRoute } from "./editEvent.controller";
 import { MakeGetEventRoute } from "./getEvent.controller";
 import { MakeListEventRoute } from "./getEvents.controller";
 import { MakeSearchEventRoute } from "./searchEvents.controller";
+import { MakeSearchV2EventRoute } from "./searchEvents.v2.controller";
 import { RouteContext } from "@routes/route.types";
 
 export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
   MakeCreateEventRoute(router, ctx);
   MakeEditEventRoute(router, ctx);
   MakeSearchEventRoute(router, ctx);
+  MakeSearchV2EventRoute(router, ctx);
   MakeListEventRoute(router, ctx);
   MakeGetEventRoute(router, ctx);
   MakeDeleteEventRoute(router, ctx);

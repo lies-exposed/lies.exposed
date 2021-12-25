@@ -29,12 +29,7 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
               <Grid item>
                 <Slider
                   key="home-slider"
-                  slides={media.map((i) => ({
-                    authorName: "",
-                    info: i.description ?? "",
-                    src: i.location,
-                    type: "image/png",
-                  }))}
+                  slides={media}
                   arrows={true}
                   adaptiveHeight={true}
                   dots={true}

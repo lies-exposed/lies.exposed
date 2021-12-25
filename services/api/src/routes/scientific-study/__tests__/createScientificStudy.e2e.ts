@@ -41,6 +41,7 @@ describe("Create Scientific Study", () => {
       ...fc.sample(CreateScientificStudyArb, 1)[0],
       authors: [actor.id],
       publisher: group.id,
+      conclusion: "required"
     };
 
     const response = await appTest.req
@@ -53,8 +54,6 @@ describe("Create Scientific Study", () => {
 
     expect(body.title).toBeDefined();
     expect(body).toMatchObject({
-      // abstract: scientificStudyData.abstract,
-      conclusion: scientificStudyData.conclusion,
       authors: [actor.id],
       publisher: group.id,
     });

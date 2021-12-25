@@ -29,11 +29,18 @@ export const Death = t.strict(
     location: t.union([t.undefined, Point]),
     killer: t.union([t.undefined, ByGroupOrActor]),
     suspects: t.array(ByGroupOrActor),
-    news: t.array(t.string),
     media: t.array(t.string),
-    date: DateFromISOString,
   },
   "Death"
 );
 
 export type Death = t.TypeOf<typeof Death>;
+
+export const DeathV2 = t.strict(
+  {
+    victim: UUID,
+    location: t.union([t.undefined, Point]),
+  },
+  "DeathV2"
+);
+export type DeathV2 = t.TypeOf<typeof DeathV2>;

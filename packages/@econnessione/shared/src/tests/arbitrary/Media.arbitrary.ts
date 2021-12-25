@@ -2,10 +2,10 @@ import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 
-const { createdAt, updatedAt, id, location, ...mediaProps } =
+const { createdAt, updatedAt, id, location, type, ...mediaProps } =
   http.Media.Media.type.props;
 
-const placeKittenArb = (): string => {
+export const placeKittenArb = (): string => {
   const [width, height] = tests.fc.sample(tests.fc.nat({ max: 3000 }), 2);
   return `https://placekitten.com/${width}/${height}`;
 };

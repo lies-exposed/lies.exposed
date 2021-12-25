@@ -9,6 +9,7 @@ const {
   media,
   startDate: _startDate,
   endDate: _endDate,
+  id,
   ...projectProps
 } = http.Project.Project.type.props;
 

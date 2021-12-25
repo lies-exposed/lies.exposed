@@ -110,10 +110,10 @@ describe("Edit Event", () => {
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
       .set("Authorization", authorizationToken)
-      .send(eventData);
+      .send(eventData)
+      .expect(200);
 
     const body = response.body.data;
-    // expect(response.status).toEqual(200);
 
     expect(
       http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag
