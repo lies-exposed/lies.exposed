@@ -49,6 +49,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
 export const EventCommon = t.strict(
   {
     id: UUID,
+    draft: t.boolean,
     excerpt: t.union([t.unknown, t.undefined]),
     date: DateFromISOString,
     media: t.array(UUID),

@@ -1,12 +1,17 @@
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { DBError } from "@providers/orm/Database";
-import { pipe } from "fp-ts/lib/function";
-import * as TE from "fp-ts/lib/TaskEither";
-import * as O from "fp-ts/lib/Option";
-import { RouteContext } from "../../route.types";
-import { In } from "typeorm";
+import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/lib/Option";
+import * as TE from "fp-ts/lib/TaskEither";
+import { In } from "typeorm";
+import { RouteContext } from "../../route.types";
+
+// const toPGArray = (els: string[]): string[] => {
+//   return els.map((el) => `'${el}'`);
+// };
 
 interface SearchEventQuery {
   actors: O.Option<string[]>;
@@ -17,6 +22,15 @@ interface SearchEventQuery {
   take: number;
 }
 
+interface SearchEventOutput {
+  results: EventV2Entity[];
+  totals: {
+    uncategorized: number;
+    deaths: number;
+    scientificStudies: number;
+  };
+}
+
 export const searchEventV2Query =
   ({ db, logger }: RouteContext) =>
   ({
@@ -25,7 +39,7 @@ export const searchEventV2Query =
     groupsMembers: _groupsMembers,
     keywords,
     ...findOptions
-  }: SearchEventQuery): TE.TaskEither<DBError, [EventV2Entity[], number]> => {
+  }: SearchEventQuery): TE.TaskEither<DBError, SearchEventOutput> => {
     const groupsMembersQuery = pipe(
       O.isSome(actors)
         ? pipe(
@@ -45,8 +59,14 @@ export const searchEventV2Query =
     return pipe(
       groupsMembersQuery,
       TE.chain((groupsMembers) => {
-        logger.debug.log(`Groups members %O`, groupsMembers);
-        return pipe(
+        logger.debug.log(`Find options %O`, {
+          actors,
+          groups,
+          groupsMembers,
+          ...findOptions,
+        });
+
+        const searchV2Query = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
             .leftJoinAndSelect("event.keywords", "keywords")
@@ -56,18 +76,9 @@ export const searchEventV2Query =
             let hasWhere = false;
             if (O.isSome(actors)) {
               q.where(
-                `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'actors' @> :actors`,
+                `(event.type = 'Uncategorized' AND "event"."payload" -> 'actors' ?| ARRAY[:...actors])`,
                 {
-                  actors: `[${actors.value.map((v) => `"${v}"`).join(",")}]`,
-                }
-              );
-
-              q.orWhere(
-                `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'groupsMembers' @> :groupsMembers`,
-                {
-                  groupsMembers: `[${groupsMembers
-                    .map((v) => `"${v}"`)
-                    .join(",")}]`,
+                  actors: actors.value,
                 }
               );
               hasWhere = true;
@@ -76,9 +87,9 @@ export const searchEventV2Query =
             if (O.isSome(groups)) {
               const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
               where(
-                `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'groups' @> :groups`,
+                `(event.type = 'Uncategorized' AND "event"."payload" -> 'groups' ?| ARRAY[:...groups])`,
                 {
-                  groups: `[${groups.value.map((v) => `"${v}"`).join(",")}]`,
+                  groups: groups.value,
                 }
               );
               hasWhere = true;
@@ -87,11 +98,9 @@ export const searchEventV2Query =
             if (groupsMembers.length > 0) {
               const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
               where(
-                `event.type = 'Uncategorized' AND "event"."payload" ::jsonb -> 'groupsMembers' @> :groupsMembers`,
+                `(event.type = 'Uncategorized' AND "event"."payload" -> 'groupsMembers' ?| ARRAY[:...groupsMembers])`,
                 {
-                  groupsMembers: `[${groupsMembers
-                    .map((v) => `"${v}"`)
-                    .join(",")}]`,
+                  groupsMembers: groupsMembers,
                 }
               );
               hasWhere = true;
@@ -104,23 +113,47 @@ export const searchEventV2Query =
               });
             }
 
-            return q;
-          },
-          (q) => {
-            return q
-              .skip(findOptions.skip)
-              .take(findOptions.take)
-              .orderBy("event.date", "DESC");
-          },
-
-          (q) => {
+            const [sql, params] = q.getQueryAndParameters();
             logger.debug.log(
-              `search event v2 query %s`,
-              q.getQueryAndParameters()
+              `search event v2 query %s with params %O`,
+              sql,
+              params
             );
-            return db.execQuery(() => q.getManyAndCount());
+            return q;
           }
         );
-      })
+
+        return sequenceS(TE.ApplicativePar)({
+          results: db.execQuery(() =>
+            searchV2Query
+              .clone()
+              .skip(findOptions.skip)
+              .take(findOptions.take)
+              .orderBy("event.date", "DESC")
+              .getMany()
+          ),
+          uncategorized: db.execQuery(() =>
+            searchV2Query
+              .clone()
+              .andWhere(" event.type = 'Uncategorized' ")
+              .getCount()
+          ),
+          deaths: db.execQuery(() =>
+            searchV2Query
+              .clone()
+              .addSelect("event.type")
+              .andWhere(" event.type = 'Death' ")
+              .getCount()
+          ),
+          scientificStudies: db.execQuery(() =>
+            searchV2Query
+              .clone()
+              .addSelect("event.type")
+              .andWhere(" event.type = 'ScientificStudy' ")
+              .getCount()
+          ),
+        });
+      }),
+      TE.map(({ results, ...totals }) => ({ results, totals }))
     );
   };

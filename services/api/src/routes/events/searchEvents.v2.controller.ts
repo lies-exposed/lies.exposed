@@ -1,14 +1,14 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { EventV2 } from "@econnessione/shared/io/http/Events";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { searchEventV2Query } from "./queries/searchEventsV2.query";
 import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
-import { searchEventV2Query } from "./queries/searchEventsV2.query";
-import { EventV2 } from "@econnessione/shared/io/http/Events";
 
 export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.Custom.SearchV2, ({ query }) => {
@@ -35,13 +35,6 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
       ctx.env.DEFAULT_PAGE_SIZE
     );
 
-    // ctx.logger.debug.log(`Find options conditions: %O`, {
-    //   actors,
-    //   groups,
-    //   groupsMembers,
-    //   ...findOptions,
-    // });
-
     return pipe(
       searchEventV2Query(ctx)({
         actors,
@@ -50,9 +43,9 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
         keywords,
         ...findOptions,
       }),
-      TE.chain(([events, count]) =>
+      TE.chain(({ results, totals }) =>
         pipe(
-          events,
+          results,
           A.map((e) =>
             E.right<any, EventV2>({
               ...(e as any),
@@ -61,20 +54,14 @@ export const MakeSearchV2EventRoute = (r: Router, ctx: RouteContext): void => {
             })
           ),
           A.sequence(E.Applicative),
-          E.map((data) => ({ data, totals: count })),
+          E.map((data) => ({ data, totals })),
           TE.fromEither
         )
       ),
       TE.map(({ data, totals }) => ({
         body: {
           data,
-          totals: {
-            deaths: data.filter((d) => d.type === "Death").length,
-            scientificStudies: data.filter((d) => d.type === "ScientificStudy")
-              .length,
-            uncategorized: data.filter((d) => d.type === "Uncategorized")
-              .length,
-          },
+          totals,
         },
         statusCode: 200,
       }))

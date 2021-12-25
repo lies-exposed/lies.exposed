@@ -23,6 +23,7 @@ describe("Search Events V2", () => {
   }));
   const eventsData = fc.sample(UncategorizedV2Arb, 100).map((e) => ({
     ...e,
+    draft: false,
     media: [],
     links: [],
   }));
@@ -125,19 +126,13 @@ describe("Search Events V2", () => {
     test("Get events for given actors", async () => {
       const response = await appTest.req
         .get(`/v1/events/search-v2`)
-        .query({ 'actors[]': firstActor.id })
-        .query({ 'actors[]': secondActor.id })
+        .query({ 'actors': [firstActor.id, secondActor.id] })
         .set("Authorization", authorizationToken);
 
       const { totals } = response.body;
 
       expect(response.status).toEqual(200);
-      expect(totals.uncategorized).toBe(30);
-      // expect(response.body.data[0]).toMatchObject({
-      //   payload: {
-      //     actors: [secondActor.id],
-      //   },
-      // });
+      expect(totals.uncategorized).toBe(20);
     });
   });
 
@@ -182,10 +177,9 @@ describe("Search Events V2", () => {
 
     const { totals } = response.body;
 
-    console.log({totals, totalEvents});
     expect(response.status).toEqual(200);
 
-    // expect(totals.uncategorized).toBe(totalEvents);
+    expect(totals.uncategorized).toBe(totalEvents);
   });
 
   afterAll(async () => {
