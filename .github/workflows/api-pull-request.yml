@@ -83,13 +83,13 @@ jobs:
             packages/@econnessione/**/lib
             services/api/build
 
-      - name: Build and Push to GitHub Packages
-        uses: docker/build-push-action@v2
-        with:
-          tags: ghcr.io/ascariandrea/econnessione/api:release-alpha
-          file: api.Dockerfile
-          target: production
-          push: false
+      # - name: Build and Push to GitHub Packages
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     tags: ghcr.io/ascariandrea/econnessione/api:release-alpha
+      #     file: api.Dockerfile
+      #     target: production
+      #     push: false
 
   tests-spec:
     runs-on: ubuntu-latest
