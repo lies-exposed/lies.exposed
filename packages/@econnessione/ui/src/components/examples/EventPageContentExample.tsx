@@ -7,7 +7,16 @@ import { EventPageContent, EventPageContentProps } from "../EventPageContent";
 export const eventPageContentArgs: EventPageContentProps = {
   event: {
     ...firstEvent,
-    body: "",
+    date: firstEvent.startDate,
+    payload: {
+      ...firstEvent,
+      actors: [],
+      groups: [],
+      groupsMembers: [],
+      links: []
+    },
+    media: [],
+    keywords: [],
   },
   onActorClick: () => undefined,
   onGroupClick: () => undefined,

@@ -17,7 +17,7 @@ export default async (): Promise<void> => {
     const moduleLogger = logger.GetLogger("tests").extend("teardown");
 
     const dotenvConfigPath = path.resolve(
-      process.env.DOTENV_CONFIG_PATH ?? `${__dirname}/../../../.env.test`
+      process.env.DOTENV_CONFIG_PATH ?? path.join(__dirname, '/../../../.env.test')
     );
 
     dotenv.config({ path: dotenvConfigPath });

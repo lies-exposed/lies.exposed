@@ -1,5 +1,4 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toScientificStudyIO } from "./scientificStudy.io";
@@ -14,8 +13,6 @@ export const MakeCreateScientificStudyRoute: Route = (
   AddEndpoint(r)(Endpoints.ScientificStudy.Create, ({ body }) => {
     const scientificStudyData = {
       ...body,
-      abstract: O.toUndefined(body.abstract),
-      results: O.toUndefined(body.results),
       authors: body.authors.map((a) => ({ id: a })),
       publisher: { id: body.publisher },
     };

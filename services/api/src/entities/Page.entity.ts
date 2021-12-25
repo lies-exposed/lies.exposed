@@ -1,3 +1,4 @@
+import { UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
   CreateDateColumn,
@@ -14,7 +15,7 @@ export class PageEntity {
   type: "PageFrontmatter";
 
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "varchar" })
   title: string;

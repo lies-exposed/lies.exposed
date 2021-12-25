@@ -1,6 +1,6 @@
 import { fc } from "@econnessione/core/tests";
 import { Actor } from "../io/http";
-import { ActorArb } from "../tests/arbitrary/GroupMember.arbitrary";
+import { ActorArb } from "../tests/arbitrary/Actor.arbitrary";
 
 export const [goodActor, goodSecondActor, badActor, badSecondActor] = fc.sample(
   ActorArb,

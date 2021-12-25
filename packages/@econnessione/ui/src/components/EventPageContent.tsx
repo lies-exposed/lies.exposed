@@ -3,7 +3,7 @@ import {
   Events,
   Group,
   GroupMember,
-  Keyword,
+  Keyword
 } from "@econnessione/shared/io/http";
 import { Link } from "@econnessione/shared/io/http/Link";
 import { formatDate } from "@econnessione/shared/utils/date";
@@ -13,8 +13,6 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { ActorsBox } from "./ActorsBox";
 import Editor from "./Common/Editor";
-import { deserializeFromString } from "./Common/Editor/deserialize";
-import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { Slider } from "./Common/Slider/Slider";
 import { GroupMembersBox } from "./GroupMembersBox";
 import { GroupsBox } from "./GroupsBox";
@@ -24,7 +22,7 @@ import { MainContent } from "./MainContent";
 import SEO from "./SEO";
 
 export interface EventPageContentProps {
-  event: Events.Uncategorized.Uncategorized;
+  event: Events.UncategorizedV2;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (a: Group.Group) => void;
   onGroupMemberClick: (g: GroupMember.GroupMember) => void;
@@ -43,7 +41,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   const theme = useTheme();
   return (
     <MainContent>
-      <SEO title={event.title} />
+      <SEO title={event.payload.title} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Grid container alignItems="center">
@@ -54,15 +52,12 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 display="inline"
                 style={{ marginRight: 10 }}
               >
-                {formatDate(event.startDate)}
+                {formatDate(event.date)}
               </Typography>
             </Grid>
             <Grid item md={10}>
-              <Typography variant="h3">{event.title}</Typography>
-              <Editor
-                value={deserializeFromString(event.excerpt ?? undefined)}
-                readOnly={true}
-              />
+              <Typography variant="h3">{event.payload.title}</Typography>
+              <Editor value={event.excerpt as any} readOnly={true} />
             </Grid>
           </Grid>
         </Grid>
@@ -72,14 +67,20 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               <KeywordsBox ids={event.keywords} />
             </Grid>
             <Grid item md={3} xs={6}>
-              <GroupsBox ids={event.groups} onItemClick={onGroupClick} />
+              <GroupsBox
+                ids={event.payload.groups}
+                onItemClick={onGroupClick}
+              />
             </Grid>
             <Grid item md={3} xs={6} style={{ marginBottom: 30 }}>
-              <ActorsBox ids={event.actors} onItemClick={onActorClick} />
+              <ActorsBox
+                ids={event.payload.actors}
+                onItemClick={onActorClick}
+              />
             </Grid>
             <Grid item md={3} xs={6} style={{ marginBottom: 30 }}>
               <GroupMembersBox
-                ids={event.groupsMembers}
+                ids={event.payload.groupsMembers}
                 onItemClick={onGroupMemberClick}
               />
             </Grid>
@@ -93,12 +94,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             O.map((media) => (
               <Slider
                 key="home-slider"
-                slides={media.map((i) => ({
-                  authorName: "",
-                  info: i.description,
-                  src: i.location,
-                  type: i.type,
-                }))}
+                slides={[]}
                 arrows={false}
                 dots={true}
               />
@@ -108,10 +104,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         </Grid>
 
         <Grid item md={12} sm={12} xs={12}>
-          <MarkdownRenderer>{event.body2}</MarkdownRenderer>
+          <Editor value={event.payload.body as any} readOnly={true} />
         </Grid>
         <Grid item md={12} sm={12} xs={12}>
-          <LinksBox ids={event.links} />
+          <LinksBox ids={event.payload.links} />
         </Grid>
       </Grid>
     </MainContent>

@@ -15,7 +15,7 @@ export interface ProjectPageContentProps extends Project.Project {
 export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   body,
   metadata,
-  ...frontmatter
+  ...props
 }) => {
   const totalFunded = 0;
   // const investors: Common.ByGroupOrActor[] = [];
@@ -50,12 +50,12 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
       <Grid item>
         <div>
           <Typography variant="h1" component="h1">
-            {frontmatter.name}
+            {props.name}
           </Typography>
           <div>
-            <label>Data di inizio {formatDate(frontmatter.startDate)}</label>
+            <label>Data di inizio {formatDate(props.startDate)}</label>
             {pipe(
-              O.fromNullable(frontmatter.endDate),
+              O.fromNullable(props.endDate),
               O.map((date) => (
                 // eslint-disable-next-line react/jsx-key
                 <label>Data di fine {formatDate(date)}</label>
@@ -69,16 +69,11 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
       <Grid container direction="column">
         <Grid item style={{ height: 400 }}>
           {pipe(
-            O.fromNullable(frontmatter.media),
+            O.fromNullable(props.media),
             O.map((media) => (
               <Slider
-                key={`project-${frontmatter.id}-slider`}
-                slides={media.map((i) => ({
-                  authorName: "",
-                  info: i.description ?? "",
-                  src: i.location,
-                  type: "image/png",
-                }))}
+                key={`project-${props.id}-slider`}
+                slides={media}
                 arrows={true}
                 dots={true}
               />
@@ -87,7 +82,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
           )}
         </Grid>
         <Grid>
-          <ProjectAreasMap project={{ ...frontmatter, body }} />
+          <ProjectAreasMap project={{ ...props, body }} />
           <div>
             <Typography variant="h4">Fondi: {totalFunded}</Typography>
             {/* <GroupOrActorList

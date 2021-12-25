@@ -9,18 +9,11 @@ import { firstImage } from "./images";
 const today = new Date();
 
 export const firstGoodProject: Project.Project = {
-  id: uuid(),
+  id: uuid() as any,
   name: "Good Project",
   color: generateRandomColor(),
   areas: [firstArea],
-  media: [
-    {
-      ...firstImage,
-      id: uuid(),
-      kind: "PRACTICE",
-      projectId: "uuid",
-    },
-  ],
+  media: [firstImage],
   startDate: subYears(today, 3),
   endDate: addYears(today, 10),
   createdAt: subDays(today, 7),
@@ -29,16 +22,10 @@ export const firstGoodProject: Project.Project = {
 };
 
 export const firstBadProject: Project.Project = {
-  id: uuid(),
+  id: uuid() as any,
   name: "Bad Project",
   areas: NEA.of(firstArea),
-  media: [
-    {
-      ...firstImage,
-      kind: "PRACTICE",
-      projectId: "",
-    },
-  ],
+  media: [firstImage],
   startDate: subYears(today, 3),
   createdAt: subDays(today, 7),
   updatedAt: today,

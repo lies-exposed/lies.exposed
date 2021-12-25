@@ -2,13 +2,13 @@ import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 
-const { createdAt, updatedAt, ...areaProps } = http.Area.Area.type.props;
+const { createdAt, updatedAt, id, ...areaProps } = http.Area.Area.type.props;
 
 export const AreaArb: tests.fc.Arbitrary<http.Area.Area> = tests
   .getArbitrary(t.strict({ ...areaProps }))
   .map((p) => ({
     ...p,
-    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0],
+    id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
     geometry: tests.fc.sample(
       tests.fc.record({
         type: tests.fc.constant("Polygon" as "Polygon"),

@@ -7,7 +7,7 @@ import { avatars } from "./avatars";
 const now = new Date();
 
 export const firstSubGroup: Group.Group = {
-  id: uuid(),
+  id: uuid() as any,
   name: "First Good SubGroup",
   kind: "Public",
   avatar: avatars.groups[0],
@@ -22,7 +22,7 @@ export const firstSubGroup: Group.Group = {
 };
 
 export const goodGroup: Group.Group = {
-  id: uuid(),
+  id: uuid() as any,
   name: "Good Group",
   kind: "Public",
   avatar: avatars.groups[1],
@@ -37,7 +37,7 @@ export const goodGroup: Group.Group = {
 };
 
 export const badGroup: Group.Group = {
-  id: uuid(),
+  id: uuid() as any,
   name: "Bad Group",
   kind: "Private",
   avatar: avatars.groups[2],
@@ -52,7 +52,7 @@ export const badGroup: Group.Group = {
 };
 
 export const secondBadGroup: Group.Group = {
-  id: uuid(),
+  id: uuid() as any,
   name: "Bad Group - The 2nd",
   kind: "Private",
   avatar: avatars.groups[3],

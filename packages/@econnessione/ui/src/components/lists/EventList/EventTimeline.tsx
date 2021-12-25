@@ -14,12 +14,12 @@ import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
+import { EventIcon } from "../../Common/Icons/EventIcon";
 import { EventListItem, EventListItemProps } from "./EventListItem";
-import { EventIcon } from "@components/Common/Icons/EventIcon";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.SearchEvent): string => {
+  Eq.contramap((e: Events.EventV2): string => {
     return formatISO(eventDate(e), { representation: "date" });
   })
 );
@@ -37,7 +37,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.SearchEvent[];
+  events: Events.EventV2[];
 }
 
 const renderRow = (props: {
@@ -61,35 +61,29 @@ const renderRow = (props: {
 
   const e = events[index];
 
-  const eventActors = Events.Death.Death.is(e)
-    ? actors.filter((a) => e.victim === a.id)
-    : Events.Uncategorized.UncategorizedSearch.is(e)
-    ? actors.filter((a) => e.actors.includes(a.id))
+  const eventActors = Events.DeathV2.is(e)
+    ? actors.filter((a) => e.payload.victim === a.id)
+    : Events.UncategorizedV2.is(e)
+    ? actors.filter((a) => e.payload.actors.includes(a.id))
     : [];
-  const eventGroups = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? groups.filter((a) => e.groups.includes(a.id))
+  const eventGroups = Events.UncategorizedV2.is(e)
+    ? groups.filter((a) => e.payload.groups.includes(a.id))
     : [];
-  const eventKeywords = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? keywords.filter((a) => e.keywords.includes(a.id))
+  const eventGroupMembers = Events.UncategorizedV2.is(e)
+    ? groupsMembers.filter((g) => e.payload.groupsMembers.includes(g.id))
     : [];
 
-  const eventGroupMembers = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? groupsMembers.filter((g) => e.groupsMembers.includes(g.id))
-    : [];
-  const eventMedia = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? media.filter((m) => e.media.includes(m.id))
-    : [];
+  const eventMedia = media.filter((m) => e.media.includes(m.id));
+
+  const eventKeywords = keywords.filter((a) => e.keywords.includes(a.id));
 
   return (
     <TimelineItem key={`event-list-item-${e.id}`}>
       <TimelineOppositeContent style={{ flex: 0 }}>
         <Typography variant="subtitle1" color="primary">
-          {formatISO(
-            (e as any).date ?? (e as any).startDate ?? (e as any).publishDate,
-            {
-              representation: "date",
-            }
-          )}
+          {formatISO(e.date, {
+            representation: "date",
+          })}
         </Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>

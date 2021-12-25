@@ -10,11 +10,11 @@ import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 
 interface DeathListItemProps {
-  item: Events.Death.Death;
+  item: Events.DeathV2;
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   links: string[];
-  onClick?: (e: Events.Death.Death) => void;
+  onClick?: (e: Events.DeathV2) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }
@@ -28,7 +28,7 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
   onActorClick,
   onKeywordClick,
 }) => {
-  const victim = actors.find((a) => a.id === item.victim);
+  const victim = actors.find((a) => a.id === item.payload.victim);
 
   return (
     <Box
@@ -41,6 +41,21 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
+        <Grid item md={8} lg={8}>
+          <Typography variant="h6">
+            {victim?.fullName ?? item.payload.victim} died on{" "}
+            {formatISO(item.date, { representation: "date" })}
+          </Typography>
+          <Grid item md={3}>
+            {pipe(
+              O.fromNullable(item.payload.location),
+              O.fold(
+                () => null,
+                () => <FontAwesomeIcon icon={faMapMarker} />
+              )
+            )}
+          </Grid>
+        </Grid>
         <Grid
           item
           md={4}
@@ -48,22 +63,6 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
           style={{ display: "flex", justifyContent: "center" }}
         >
           <Avatar size="xlarge" src={victim?.avatar} />
-        </Grid>
-
-        <Grid item md={8} lg={8}>
-          <Typography variant="h6">
-            {victim?.fullName ?? item.victim} died on{" "}
-            {formatISO(item.date, { representation: "date" })}
-          </Typography>
-          <Grid item md={3}>
-            {pipe(
-              O.fromNullable(item.location),
-              O.fold(
-                () => null,
-                () => <FontAwesomeIcon icon={faMapMarker} />
-              )
-            )}
-          </Grid>
         </Grid>
       </Grid>
     </Box>

@@ -8,7 +8,7 @@ const now = new Date();
 export const firstEventMetadata: Events.Event[] = [];
 // export const firstEventMetadata: Events.Event[] = [
 //   {
-//     id: uuid(),
+//     id: uuid() as any,
 //     title: "",
 //     type: "ProjectTransaction",
 //     transaction: firstFund.id,
@@ -18,7 +18,7 @@ export const firstEventMetadata: Events.Event[] = [];
 //     updatedAt: subDays(now, 1),
 //   },
 //   {
-//     id: uuid(),
+//     id: uuid() as any,
 //     type: "Protest",
 //     title: "Protest for bad project",
 //     for: { type: "Project", project: firstBadProject },
@@ -29,7 +29,7 @@ export const firstEventMetadata: Events.Event[] = [];
 //     updatedAt: subDays(now, 1),
 //   },
 //   {
-//     id: uuid(),
+//     id: uuid() as any,
 //     title: "",
 //     type: "PublicAnnouncement",
 //     from: [{ type: "Group", group: badGroup.id }],
@@ -40,7 +40,7 @@ export const firstEventMetadata: Events.Event[] = [];
 //     updatedAt: subDays(now, 1),
 //   },
 //   {
-//     id: uuid(),
+//     id: uuid() as any,
 //     date: subDays(now, 13),
 //     title: "",
 //     type: "ProjectImpact",
@@ -53,7 +53,7 @@ export const firstEventMetadata: Events.Event[] = [];
 //     updatedAt: subDays(now, 1),
 //   },
 //   {
-//     id: uuid(),
+//     id: uuid() as any,
 //     title: "",
 //     type: "Arrest",
 //     who: {
@@ -69,7 +69,7 @@ export const firstEventMetadata: Events.Event[] = [];
 
 export const secondEventMetadata: Events.Event[] = [
   // {
-  //   id: uuid(),
+  //   id: uuid() as any,
   //   title: "",
   //   type: "StudyPublished",
   //   from: [
@@ -84,15 +84,13 @@ export const secondEventMetadata: Events.Event[] = [
   //   updatedAt: subDays(now, 1),
   // },
   {
-    id: uuid(),
+    id: uuid() as any,
     type: "Death",
     victim: goodActor.id as any,
     killer: undefined,
     location: undefined,
     suspects: [],
-    news: [],
     media: [],
-    date: subDays(now, 22),
     createdAt: subDays(now, 2),
     updatedAt: subDays(now, 2),
   },
@@ -101,7 +99,7 @@ export const secondEventMetadata: Events.Event[] = [
 export const thirdEventMetadata: Events.Event[] = [
   // {
   //   title: "",
-  //   id: uuid(),
+  //   id: uuid() as any,
   //   type: "ProjectTransaction",
   //   transaction: secondFund.id,
   //   project: firstGoodProject.id,
@@ -111,7 +109,7 @@ export const thirdEventMetadata: Events.Event[] = [
   // },
   // {
   //   title: "",
-  //   id: uuid(),
+  //   id: uuid() as any,
   //   type: "ProjectTransaction",
   //   transaction: firstFund.id,
   //   project: firstBadProject.id,
@@ -121,7 +119,7 @@ export const thirdEventMetadata: Events.Event[] = [
   // },
   // {
   //   title: "",
-  //   id: uuid(),
+  //   id: uuid() as any,
   //   type: "ProjectTransaction",
   //   transaction: thirdFund.id,
   //   project: firstBadProject.id,
@@ -130,7 +128,7 @@ export const thirdEventMetadata: Events.Event[] = [
   //   updatedAt: subDays(now, 1),
   // },
   // {
-  //   id: uuid(),
+  //   id: uuid() as any,
   //   type: "Protest",
   //   title: "Second protest form bad project",
   //   organizers: [
@@ -149,7 +147,7 @@ export const thirdEventMetadata: Events.Event[] = [
 
 export const fourthEventMetadata: Events.Event[] = [
   // {
-  //   id: uuid(),
+  //   id: uuid() as any,
   //   type: "Protest",
   //   title: "Protest for good project",
   //   organizers: [{ type: "Group", group: goodGroup.id }],

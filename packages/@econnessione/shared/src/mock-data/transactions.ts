@@ -5,7 +5,7 @@ import { badActor, goodActor, goodSecondActor } from "./actors";
 import { badGroup, goodGroup } from "./groups";
 
 export const firstFund: Transaction.TransactionFrontmatter = {
-  id: uuid(),
+  id: uuid() as any,
   type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 100000,
   by: { type: "Actor", actor: goodActor.id },
@@ -17,7 +17,7 @@ export const firstFund: Transaction.TransactionFrontmatter = {
 };
 
 export const secondFund: Transaction.TransactionFrontmatter = {
-  id: uuid(),
+  id: uuid() as any,
   type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 40000,
   by: { type: "Actor", actor: badActor.id },
@@ -29,7 +29,7 @@ export const secondFund: Transaction.TransactionFrontmatter = {
 };
 
 export const thirdFund: Transaction.TransactionFrontmatter = {
-  id: uuid(),
+  id: uuid() as any,
   type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 150000,
   by: { type: "Group", group: goodGroup.id },
@@ -41,7 +41,7 @@ export const thirdFund: Transaction.TransactionFrontmatter = {
 };
 
 export const fourthFund: Transaction.TransactionFrontmatter = {
-  id: uuid(),
+  id: uuid() as any,
   type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 200000,
   by: { type: "Group", group: goodGroup.id },
@@ -53,7 +53,7 @@ export const fourthFund: Transaction.TransactionFrontmatter = {
 };
 
 export const fifthFund: Transaction.TransactionFrontmatter = {
-  id: uuid(),
+  id: uuid() as any,
   type: Transaction.TRANSACTION_FRONTMATTER.value,
   amount: 200000,
   by: { type: "Actor", actor: goodActor.id },

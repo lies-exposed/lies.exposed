@@ -88,12 +88,12 @@ export const EditEventBody = nonEmptyRecordFromType({
 
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;
 
-export const UNCATEGORIZED = t.literal("Uncategorized");
+export const UncategorizedType = t.literal("Uncategorized");
 
 export const Uncategorized = t.strict(
   {
     ...BaseProps.type.props,
-    type: UNCATEGORIZED,
+    type: UncategorizedType,
     title: t.string,
     startDate: DateFromISOString,
     endDate: t.union([t.undefined, DateFromISOString]),
@@ -118,7 +118,7 @@ export const Uncategorized = t.strict(
     body: t.string,
     body2: t.union([t.UnknownRecord, t.null]),
   },
-  UNCATEGORIZED.value
+  UncategorizedType.value
 );
 export type Uncategorized = t.TypeOf<typeof Uncategorized>;
 
@@ -130,3 +130,19 @@ export const UncategorizedSearch = t.strict({
   media: t.array(t.string),
 });
 export type UncategorizedSearch = t.TypeOf<typeof UncategorizedSearch>;
+
+export const UncategorizedV2 = t.strict(
+  {
+    title: t.string,
+    location: t.union([Point, t.undefined]),
+    endDate: t.union([DateFromISOString, t.undefined]),
+    body: t.unknown,
+    actors: t.array(UUID),
+    groups: t.array(UUID),
+    groupsMembers: t.array(UUID),
+    links: t.array(UUID)
+  },
+  "UncategorizedV2"
+);
+
+export type UncategorizedV2 = t.TypeOf<typeof UncategorizedV2>;

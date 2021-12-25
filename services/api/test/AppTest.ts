@@ -5,7 +5,7 @@ import supertest from "supertest";
 import { RouteContext } from "../src/routes/route.types";
 import { makeContext, makeApp } from "../src/server";
 import * as fc from "fast-check";
-import { TagArb } from "@econnessione/shared/tests/arbitrary/utils.arbitrary";
+import { TagArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
 import { MakeSpaceClient } from "@providers/space/SpaceClient";
 import { awsMock } from "./mocks/aws.mock";
 

@@ -24,7 +24,6 @@ export default async (): Promise<void> => {
 
     dotenv.config({ path: dotenvConfigPath });
 
-    moduleLogger.debug.log("Process env %O", process.env);
     return await pipe(
       TestENV.decode(process.env),
       E.mapLeft((errs) => {

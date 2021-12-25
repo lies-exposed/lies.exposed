@@ -31,7 +31,7 @@
     "cors": "2.8.5",
     "debug": "^4.3.3",
     "domino": "^2.1.6",
-    "express": "4.17.1",
+    "express": "4.17.2",
     "express-jwt": "^6.1.0",
     "fast-csv": "^4.3.6",
     "form-data": "^4.0.0",
@@ -48,7 +48,7 @@
     "pg": "^8.7.1",
     "puppeteer-core": "^10.4.0",
     "ts-endpoint-express": "^2.0.0",
-    "ts-jest": "^27.1.1",
+    "ts-jest": "^27.1.2",
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.2.41",
     "uuid": "^8.3.2"
@@ -68,10 +68,10 @@
     "@types/multer": "^1.4.7",
     "@types/node": "^12.20.37",
     "@types/node-cron": "^2.0.5",
-    "@types/pg": "^8.6.1",
+    "@types/pg": "^8.6.2",
     "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.3",
-    "eslint": "^8.4.1",
+    "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.3",
@@ -81,7 +81,7 @@
     "supertest": "^6.1.6",
     "ts-node": "^10.4.0",
     "typeorm-uml": "^1.6.4",
-    "typescript": "^4.5.3"
+    "typescript": "^4.5.4"
   },
   "_moduleAliases": {
     "@io": "build/io",

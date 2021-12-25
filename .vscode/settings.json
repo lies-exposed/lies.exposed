@@ -1,3 +1,12 @@
 {
-    "jest.jestCommandLine": "yarn test"
+    "jest.jestCommandLine": "yarn test",
+    "jest.rootPath": "./",
+    "jest.autoRun": {
+        "watch": false
+    },
+    "jest.showCoverageOnLoad": true,
+    "jest.testExplorer": {
+        "enabled": true
+    },
+    "jest.debugMode": true
 }

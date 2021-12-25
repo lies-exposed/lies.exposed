@@ -52,7 +52,7 @@ const NetworkExample: React.FC = () => {
         scalePoint={O.none}
         events={pipe(
           events,
-          A.filter(Events.Uncategorized.UncategorizedSearch.is)
+          A.filter(Events.UncategorizedV2.is)
         )}
         actors={actors.map((a) => ({
           ...a,

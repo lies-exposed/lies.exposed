@@ -1,6 +1,6 @@
 import { fc } from "@econnessione/core/tests";
 import * as E from "fp-ts/lib/Either";
-import { TagArb } from "../../../../tests/arbitrary/utils.arbitrary";
+import { TagArb } from "../../../../tests/arbitrary/Keyword.arbitrary";
 import { Tag } from "../Tag";
 
 describe("Tag codec", () => {

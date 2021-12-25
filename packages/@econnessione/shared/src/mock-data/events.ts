@@ -14,8 +14,8 @@ const today = new Date();
 
 // events
 export const firstEvent: Events.Uncategorized.Uncategorized = {
-  id: uuid(),
-  type: Events.Uncategorized.UNCATEGORIZED.value,
+  id: uuid() as any,
+  type: Events.Uncategorized.UncategorizedType.value,
   title: "First Event",
   keywords: [],
   actors: [goodActor.id],
@@ -34,8 +34,8 @@ export const firstEvent: Events.Uncategorized.Uncategorized = {
 };
 
 export const secondEvent: Events.Uncategorized.Uncategorized = {
-  id: uuid(),
-  type: Events.Uncategorized.UNCATEGORIZED.value,
+  id: uuid() as any,
+  type: Events.Uncategorized.UncategorizedType.value,
   title: "Second Event",
   keywords: [],
   actors: [badActor.id],
@@ -54,9 +54,9 @@ export const secondEvent: Events.Uncategorized.Uncategorized = {
 };
 
 export const thirdEvent: Events.Uncategorized.Uncategorized = {
-  id: uuid(),
+  id: uuid() as any,
   title: "Third Event",
-  type: Events.Uncategorized.UNCATEGORIZED.value,
+  type: Events.Uncategorized.UncategorizedType.value,
   keywords: [],
   actors: [badActor.id],
   groups: [goodGroup.id],
@@ -74,8 +74,8 @@ export const thirdEvent: Events.Uncategorized.Uncategorized = {
 };
 
 export const fourthEvent: Events.Uncategorized.Uncategorized = {
-  id: uuid(),
-  type: Events.Uncategorized.UNCATEGORIZED.value,
+  id: uuid() as any,
+  type: Events.Uncategorized.UncategorizedType.value,
   title: "Fourth Event",
   keywords: [],
   actors: [goodActor.id],

@@ -1,5 +1,5 @@
 import { fc } from "@econnessione/core/tests";
-import { URLArb } from "../../../../tests/arbitrary/utils.arbitrary";
+import { URLArb } from "../../../../tests/arbitrary/URL.arbitrary";
 import { URL } from "../URL";
 
 describe("URL codec", () => {
