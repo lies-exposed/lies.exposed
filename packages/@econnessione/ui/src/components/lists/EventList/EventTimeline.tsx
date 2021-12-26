@@ -19,7 +19,7 @@ import { EventListItem, EventListItemProps } from "./EventListItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.EventV2): string => {
+  Eq.contramap((e: Events.Event): string => {
     return formatISO(eventDate(e), { representation: "date" });
   })
 );
@@ -37,7 +37,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.EventV2[];
+  events: Events.Event[];
 }
 
 const renderRow = (props: {
@@ -61,15 +61,15 @@ const renderRow = (props: {
 
   const e = events[index];
 
-  const eventActors = Events.DeathV2.is(e)
+  const eventActors = Events.Death.Death.is(e)
     ? actors.filter((a) => e.payload.victim === a.id)
-    : Events.UncategorizedV2.is(e)
+    : Events.Uncategorized.Uncategorized.is(e)
     ? actors.filter((a) => e.payload.actors.includes(a.id))
     : [];
-  const eventGroups = Events.UncategorizedV2.is(e)
+  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
     ? groups.filter((a) => e.payload.groups.includes(a.id))
     : [];
-  const eventGroupMembers = Events.UncategorizedV2.is(e)
+  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
     ? groupsMembers.filter((g) => e.payload.groupsMembers.includes(g.id))
     : [];
 

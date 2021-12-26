@@ -91,11 +91,11 @@ export class EventV21639419928672 implements MigrationInterface {
               groups: e.groups.map((g) => g.id as any),
               groupsMembers: e.groupsMembers.map((gm) => gm.id as any),
               body: e.body2,
-              links: e.links.map(l => l.id as any),
             },
             media: e.media,
             keywords: e.keywords,
             date: e.startDate,
+            links: e.links.map(l => l.id as any),
           })
         )
       );
@@ -116,6 +116,7 @@ export class EventV21639419928672 implements MigrationInterface {
             },
             media: [],
             keywords: [],
+            links: [],
           })
         )
       );
@@ -141,6 +142,7 @@ export class EventV21639419928672 implements MigrationInterface {
             media: [],
             excerpt: {},
             date: s.publishDate,
+            links: [],
           })
         )
       );

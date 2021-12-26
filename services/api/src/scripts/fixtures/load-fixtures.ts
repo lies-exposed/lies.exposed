@@ -1,24 +1,25 @@
 import { fc } from "@econnessione/core/tests";
 import { URL } from "@econnessione/shared/io/http/Common/URL";
+import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { EventArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { PageArb } from "@econnessione/shared/tests/arbitrary/Page.arbitrary";
 import { URLArb } from "@econnessione/shared/tests/arbitrary/URL.arbitrary";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as A from "fp-ts/lib/Array";
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
-import { PathReporter } from "io-ts/lib/PathReporter";
-import { makeContext } from "../../server";
-import { AvatarsFixture } from "./avatars.fixtures";
 import { ActorEntity } from "@entities/Actor.entity";
-import { EventEntity } from "@entities/Event.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ServerError } from "@io/ControllerError";
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as A from "fp-ts/lib/Array";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/lib/TaskEither";
+import { PathReporter } from "io-ts/lib/PathReporter";
+import { makeContext } from "../../server";
+import { AvatarsFixture } from "./avatars.fixtures";
 
 const shuffleArray = (input: any[]): any[] => {
   const arr = [...input];
@@ -140,12 +141,17 @@ const run = (): Promise<void> => {
                 tClient.save(GroupMemberEntity, groupsMembers),
                 TE.chain((results) =>
                   tClient.save(
-                    EventEntity,
+                    EventV2Entity,
                     events.map((e) => ({
                       ...e,
-                      type: "event" as const,
+                      excerpt: e.excerpt as any,
+                      type: UncategorizedType.value,
+                      payload: {
+                        ...e.payload,
+                        groupsMembers: results.map((g) => g.id) as any,
+                      },
+                      media: [],
                       keywords: [],
-                      groupsMembers: results.map((g) => g.id) as any,
                     }))
                   )
                 )

@@ -72,12 +72,7 @@ const plainUncategorized = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "createdAt",
   "updatedAt",
   "media",
-  "groups",
-  "body2",
   "id",
-  "startDate",
-  "endDate",
-  "location",
   "excerpt",
 ]);
 
@@ -93,7 +88,7 @@ export const EventArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
       excerpt: "",
       media: [],
       keywords: [],
-      links: fc.sample(fc.uuidV(4)),
+      links: fc.sample(fc.uuidV(4)) as any,
       groups: [],
       id: fc.sample(fc.uuidV(4), 1)[0] as any,
       title: fc.sample(HumanReadableStringArb(), 1)[0],
@@ -118,10 +113,10 @@ export const EventArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
     };
   });
 
-export const UncategorizedV2Arb: fc.Arbitrary<http.Events.UncategorizedV2> =
+export const UncategorizedV2Arb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
   getArbitrary(
     t.strict({
-      ...propsOmit(http.Events.UncategorizedV2, [
+      ...propsOmit(http.Events.Uncategorized.Uncategorized, [
         "id",
         "date",
         "excerpt",

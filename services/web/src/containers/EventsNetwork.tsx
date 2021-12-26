@@ -92,7 +92,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
                     {...props}
                     events={pipe(
                       events.data,
-                      A.filter(Events.Uncategorized.UncategorizedSearch.is)
+                      A.filter(Events.Uncategorized.Uncategorized.is)
                     )}
                     actors={actors.data}
                     groups={groups.data}
