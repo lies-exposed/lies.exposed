@@ -34,9 +34,8 @@ export const Group = t.strict(
     avatar: t.union([t.undefined, t.string]),
     subGroups: t.array(t.string),
     members: t.array(t.string),
-    excerpt: t.union([t.string, t.null]),
-    body: t.string,
-    body2: t.union([t.UnknownRecord, t.null]),
+    excerpt: t.union([t.UnknownRecord, t.null]),
+    body: t.union([t.UnknownRecord, t.null]),
   },
   "Group"
 );

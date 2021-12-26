@@ -6,18 +6,10 @@ import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 
+
 export const List = Endpoint({
   Method: "GET",
-  getPath: () => "/events",
-  Input: {
-    Query: SearchEventsQuery,
-  },
-  Output: http.Common.ListOutput(http.Events.Event, "ListEvent"),
-});
-
-export const Search = Endpoint({
-  Method: "GET",
-  getPath: () => `/events/search`,
+  getPath: () => `/events`,
   Input: {
     Query: SearchEventsQuery,
   },
@@ -78,7 +70,7 @@ const events = ResourceEndpoints({
   Edit,
   Delete,
   Custom: {
-    Search,
+    
   },
 });
 

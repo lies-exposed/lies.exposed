@@ -23,14 +23,11 @@ export class GroupMemberEntity {
   @Column({ type: "timestamptz", nullable: true })
   endDate: Date | null;
 
-  @Column({ type: "varchar", nullable: true })
-  excerpt: string | null;
-
-  @Column({ type: "varchar", nullable: false })
-  body: string;
+  @Column({ type: "json", nullable: true })
+  excerpt: Record<string, unknown> | null;
 
   @Column({ type: "json", nullable: true })
-  body2: Record<string, unknown> | null;
+  body: Record<string, unknown> | null;
 
   @ManyToOne(() => GroupEntity, (g) => g.id, {
     nullable: false,

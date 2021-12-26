@@ -35,7 +35,7 @@ export const createHierarchicalEdgeBundling = (
     data.events,
     A.reduce(init, (acc, e) => {
       const actorIds = pipe(
-        e.actors,
+        e.payload.actors,
         O.fromPredicate((i) => i.length > 0),
         O.getOrElse((): string[] => [])
       );

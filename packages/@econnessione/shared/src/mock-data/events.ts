@@ -30,7 +30,7 @@ export const firstEvent: Events.Event = {
   links: [],
   date: subMonths(today, 2),
   draft: false,
-  excerpt: "",
+  excerpt: {},
   createdAt: today,
   updatedAt: today,
 };
@@ -52,7 +52,7 @@ export const secondEvent: Events.Event = {
   media: [],
   links: [],
   date: subMonths(today, 2),
-  excerpt: "",
+  excerpt: {},
   createdAt: today,
   updatedAt: today,
 };

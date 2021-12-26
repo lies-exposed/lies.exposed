@@ -1,4 +1,5 @@
 import { fc } from "@econnessione/core/tests";
+import { http } from "@econnessione/shared/io";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
@@ -22,18 +23,19 @@ describe("Create Death Event", () => {
     )}`;
   });
 
-  afterAll(async () => {
-    await appTest.ctx.db.close()();
-  });
-
-  test("Should create an event", async () => {
+  test("Should create a death event", async () => {
     const deathData = {
+      type: http.Events.Death.DeathType.value,
       victim: actor.id,
       date: new Date().toISOString(),
+      excerpt: {},
+      body: {},
+      draft: false,
+      keywords: [],
     };
 
     const response = await appTest.req
-      .post(`/v1/deaths`)
+      .post(`/v1/events`)
       .set("Authorization", authorizationToken)
       .send(deathData);
 
@@ -41,7 +43,11 @@ describe("Create Death Event", () => {
     expect(response.status).toEqual(201);
 
     expect(body).toMatchObject({
-      victim: actor.id,
+      type: http.Events.Death.DeathType.value,
+      date: deathData.date,
+      payload: {
+        victim: actor.id,
+      },
     });
 
     deathEvent = body;

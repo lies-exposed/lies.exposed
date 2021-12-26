@@ -10,11 +10,11 @@ import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 
 interface DeathListItemProps {
-  item: Events.DeathV2;
+  item: Events.Death.Death;
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   links: string[];
-  onClick?: (e: Events.DeathV2) => void;
+  onClick?: (e: Events.Death.Death) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }

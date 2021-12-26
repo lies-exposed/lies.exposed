@@ -11,7 +11,7 @@ import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 
 export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Event.Custom.Search, ({ query }) => {
+  AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
     ctx.logger.debug.log("Query %O", query);
     const {
       actors,

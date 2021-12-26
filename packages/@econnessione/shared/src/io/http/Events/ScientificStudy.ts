@@ -1,14 +1,16 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { URL } from "../Common/URL";
-import { EventCommon } from "./BaseEvent";
+import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 
 export const ScientificStudyType = t.literal("ScientificStudy");
 export type ScientificStudyType = t.TypeOf<typeof ScientificStudyType>;
 
 export const CreateScientificStudyBody = t.strict(
   {
+    ...CreateEventCommon.type.props,
     title: t.string,
     type: ScientificStudyType,
     url: URL,
@@ -24,21 +26,29 @@ export type CreateScientificStudyBody = t.TypeOf<
   typeof CreateScientificStudyBody
 >;
 
-// export const ScientificStudy = t.strict(
-//   {
-//     ...BaseProps.type.props,
-//     ...CreateScientificStudyBody.type.props,
-//     type: ScientificStudyType,
-//     abstract: t.union([t.string, t.undefined]),
-//     results: t.union([t.string, t.undefined]),
-//   },
-//   "ScientificStudy"
-// );
+export const EditScientificStudyBody = t.strict(
+  {
+    ...EditEventCommon.type.props,
+    type: ScientificStudyType,
+    title: optionFromUndefined(t.string),
+  },
+  "EditScientificStudyBody"
+);
 
-// export type ScientificStudy = t.TypeOf<typeof ScientificStudy>;
+export type EditScientificStudyBody = t.TypeOf<typeof EditScientificStudyBody>;
 
-const { publishDate, conclusion, type, ...scientificStudyBaseProps } =
-  CreateScientificStudyBody.type.props;
+const {
+  publishDate,
+  conclusion,
+  type,
+  excerpt,
+  keywords,
+  media,
+  links,
+  date,
+  draft,
+  ...scientificStudyBaseProps
+} = CreateScientificStudyBody.type.props;
 
 export const ScientificStudyPayload = t.strict(
   {
@@ -48,7 +58,6 @@ export const ScientificStudyPayload = t.strict(
 );
 
 export type ScientificStudyPayload = t.TypeOf<typeof ScientificStudyPayload>;
-
 
 export const ScientificStudy = t.strict(
   {
@@ -60,4 +69,3 @@ export const ScientificStudy = t.strict(
 );
 
 export type ScientificStudy = t.TypeOf<typeof ScientificStudy>;
-

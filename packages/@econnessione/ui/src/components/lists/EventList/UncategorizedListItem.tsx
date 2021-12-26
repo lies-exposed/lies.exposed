@@ -24,14 +24,14 @@ import KeywordList from "../KeywordList";
 import Editor from "@components/Common/Editor";
 
 interface UncategorizedListItemProps {
-  item: Events.UncategorizedV2;
+  item: Events.Uncategorized.Uncategorized;
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   media: Media.Media[];
   links: Link.Link[];
-  onClick?: (e: Events.UncategorizedV2) => void;
+  onClick?: (e: Events.Uncategorized.Uncategorized) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
   onGroupMemberClick?: (g: GroupMember.GroupMember) => void;

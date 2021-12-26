@@ -48,14 +48,11 @@ export class ActorEntity {
   })
   scientificStudies: ScientificStudyEntity[];
 
-  @Column({ type: "varchar", nullable: true })
-  excerpt: string | null;
-
-  @Column({ type: "varchar" })
-  body: string;
+  @Column({ type: "json", nullable: true })
+  excerpt: Record<string, unknown> | null;
 
   @Column({ type: "json", nullable: true })
-  body2: Record<string, unknown> | null;
+  body: Record<string, unknown> | null;
 
   @CreateDateColumn()
   createdAt: Date;

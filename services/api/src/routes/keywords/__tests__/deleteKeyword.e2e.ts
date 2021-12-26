@@ -1,9 +1,10 @@
 import * as tests from "@econnessione/core/tests";
+import { TagArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 
-describe("Delete Actor", () => {
-  let Test: AppTest, actor: any, authorizationToken: string;
+describe("Delete Keyword", () => {
+  let Test: AppTest, keyword: any, authorizationToken: string;
   beforeAll(async () => {
     Test = await initAppTest();
 
@@ -12,19 +13,15 @@ describe("Delete Actor", () => {
       Test.ctx.env.JWT_SECRET
     )}`;
 
-    actor = (
+    keyword = (
       await Test.req
-        .post("/v1/actors")
+        .post("/v1/keywords")
         .set("Authorization", authorizationToken)
         .send({
-          username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
-          avatar: "http://myavatar-url.com/",
-          color: "ffffff",
-          fullName: tests.fc.sample(tests.fc.string())[0],
-          body: "my content",
+          tag: tests.fc.sample(TagArb(), 1)[0],
         })
     ).body.data;
-    Test.ctx.logger.debug.log("Actor %O", actor);
+    Test.ctx.logger.debug.log("Actor %O", keyword);
   });
 
   afterAll(async () => {
@@ -33,7 +30,7 @@ describe("Delete Actor", () => {
 
   test("Should return a 401", async () => {
     const response = await Test.req
-      .delete(`/v1/actors/${actor.id}`)
+      .delete(`/v1/keywords/${keyword.id}`)
       .set("Authorization", authorizationToken);
 
     expect(response.status).toEqual(200);

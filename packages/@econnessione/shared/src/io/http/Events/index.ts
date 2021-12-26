@@ -3,29 +3,12 @@ import * as Arrest from "./Arrest";
 import * as Condemned from "./Condemned";
 import * as Death from "./Death";
 import * as Fined from "./Fined";
-import { ProjectImpact } from "./project/ProjectImpact";
-import { ProjectTransaction } from "./project/ProjectTransaction";
 import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
 import * as ScientificStudy from "./ScientificStudy";
 import * as Uncategorized from "./Uncategorized";
-
-// export const Event = t.union(
-//   [Death.Death, ScientificStudy.ScientificStudy, Uncategorized.Uncategorized],
-//   "Event"
-// );
-// export type Event = t.TypeOf<typeof Event>;
-
-// export const SearchEvent = t.union(
-//   [
-//     Uncategorized.UncategorizedSearch,
-//     ScientificStudy.ScientificStudy,
-//     Death.Death,
-//   ],
-//   "SearchEvent"
-// );
-
-// export type SearchEvent = t.TypeOf<typeof SearchEvent>;
+import { ProjectImpact } from "./project/ProjectImpact";
+import { ProjectTransaction } from "./project/ProjectTransaction";
 
 export interface EventListMap {
   Protest: Protest.Protest[];
@@ -57,8 +40,8 @@ export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 
 export const EditEventBody = t.union(
   [
-    Death.CreateDeathBody,
-    ScientificStudy.CreateScientificStudyBody,
+    Death.EditDeathBody,
+    ScientificStudy.EditScientificStudyBody,
     Uncategorized.EditEventBody,
   ],
   "EditEventBody"

@@ -1,18 +1,18 @@
 import * as http from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as A from "fp-ts/lib/Array";
+import * as O from "fp-ts/lib/Option";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
+import * as t from "io-ts";
+import { UUID } from "io-ts-types/lib/UUID";
+import { DeepPartial } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { ServerError } from "@io/ControllerError";
 import { DBError } from "@providers/orm";
 import { RouteContext } from "@routes/route.types";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
-import * as TE from "fp-ts/lib/TaskEither";
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
-import { DeepPartial } from "typeorm";
 
 export const createEventQuery =
   ({ urlMetadata }: RouteContext) =>
@@ -21,19 +21,23 @@ export const createEventQuery =
   ): TE.TaskEither<DBError, DeepPartial<EventV2Entity>> => {
     switch (input.type) {
       case http.Events.Death.DeathType.value: {
-        const { type, location, ...payload } = input;
+        const { type, location, date, excerpt, ...payload } = input;
         return TE.right({
           type: type,
           payload: {
             ...payload,
             location: O.toUndefined(location),
           },
+          date,
+          excerpt,
         });
       }
       case http.Events.ScientificStudy.ScientificStudyType.value: {
-        const { type, ...payload } = input;
+        const { type, excerpt, publishDate, ...payload } = input;
         return TE.right({
           type,
+          excerpt,
+          date: publishDate,
           payload: {
             ...payload,
           },

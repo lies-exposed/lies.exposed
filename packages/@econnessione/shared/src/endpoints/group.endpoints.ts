@@ -30,9 +30,8 @@ const CreateGroupBody = t.strict(
     kind: http.Group.GroupKind,
     avatar: t.string,
     members: t.array(t.string),
-    excerpt: t.union([t.string, t.undefined]),
-    body: t.string,
-    body2: t.any,
+    excerpt: t.union([t.UnknownRecord, t.undefined]),
+    body: t.UnknownRecord,
   },
   "CreateGroupBody"
 );

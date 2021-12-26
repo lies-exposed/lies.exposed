@@ -4,9 +4,9 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { toDeathIO } from "./death.io";
 import { ActorEntity } from "@entities/Actor.entity";
 import { DeathEventEntity } from "@entities/DeathEvent.entity";
-import { Route } from "routes/route.types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
+import { Route } from "routes/route.types";
 
 export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
   AddEndpoint(r)(

@@ -22,7 +22,7 @@ import { MainContent } from "./MainContent";
 import SEO from "./SEO";
 
 export interface EventPageContentProps {
-  event: Events.UncategorizedV2;
+  event: Events.Uncategorized.Uncategorized;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (a: Group.Group) => void;
   onGroupMemberClick: (g: GroupMember.GroupMember) => void;
@@ -107,7 +107,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           <Editor value={event.payload.body as any} readOnly={true} />
         </Grid>
         <Grid item md={12} sm={12} xs={12}>
-          <LinksBox ids={event.payload.links} />
+          <LinksBox ids={event.links} />
         </Grid>
       </Grid>
     </MainContent>

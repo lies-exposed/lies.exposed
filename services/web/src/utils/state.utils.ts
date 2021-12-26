@@ -1,9 +1,6 @@
-import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncategorized";
-import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/function";
-import * as S from "fp-ts/lib/string";
+import { SearchEventsQuery } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 
-type Query = Omit<GetEventsQueryFilter, "_start" | "_end">;
+type Query = Omit<SearchEventsQuery, "_start" | "_end">;
 
 export const toKey = (cachePrefix: string, hash?: string): string => {
   // return pipe(

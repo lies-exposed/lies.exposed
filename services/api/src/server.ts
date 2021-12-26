@@ -22,7 +22,6 @@ import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.route
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
-import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
@@ -33,7 +32,6 @@ import { MakeMediaRoutes } from "@routes/media/media.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
-import { MakeScientificStudyRoutes } from "@routes/scientific-study/ScientificStudyRoute.route";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
@@ -158,10 +156,6 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // events
   MakeEventRoutes(router, ctx);
-  MakeDeathEventsRoutes(router, ctx);
-
-  // scientific studies
-  MakeScientificStudyRoutes(router, ctx);
 
   // links
   MakeLinkRoutes(router, ctx);

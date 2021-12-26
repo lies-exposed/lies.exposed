@@ -2,7 +2,6 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { BaseProps } from "./Common/BaseProps";
 import { Color } from "./Common/Color";
-import { markdownRemark } from "./Common/Markdown";
 
 export const GetListActorQueryFilter = t.partial({
   ids: optionFromNullable(t.array(t.string)),
@@ -20,15 +19,10 @@ export const Actor = t.strict(
     color: Color,
     memberIn: t.array(t.string),
     death: t.union([t.undefined, t.string]),
-    excerpt: t.union([t.string, t.null]),
-    body: t.string,
-    body2: t.union([t.UnknownRecord, t.null]),
+    excerpt: t.union([t.UnknownRecord, t.null]),
+    body: t.union([t.UnknownRecord, t.null]),
   },
   "Actor"
 );
 
 export type Actor = t.TypeOf<typeof Actor>;
-
-export const ActorMD = markdownRemark(Actor, "ActorMD");
-
-export type ActorMD = t.TypeOf<typeof ActorMD>;

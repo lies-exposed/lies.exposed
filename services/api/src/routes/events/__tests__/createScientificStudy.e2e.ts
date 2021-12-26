@@ -41,21 +41,23 @@ describe("Create Scientific Study", () => {
       ...fc.sample(CreateScientificStudyArb, 1)[0],
       authors: [actor.id],
       publisher: group.id,
-      conclusion: "required"
+      conclusion: "required",
     };
 
     const response = await appTest.req
-      .post(`/v1/scientific-studies`)
+      .post(`/v1/events`)
       .set("Authorization", authorizationToken)
       .send(scientificStudyData);
 
     const body = response.body.data;
     expect(response.status).toEqual(201);
 
-    expect(body.title).toBeDefined();
     expect(body).toMatchObject({
-      authors: [actor.id],
-      publisher: group.id,
+      payload: {
+        title: scientificStudyData.title,
+        authors: [actor.id],
+        publisher: group.id,
+      },
     });
 
     scientificStudy = body;

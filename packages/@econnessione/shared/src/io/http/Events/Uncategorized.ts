@@ -6,7 +6,7 @@ import { Point, UUID } from "../Common";
 import { CreateKeyword } from "../Keyword";
 import { CreateLink } from "../Link";
 import { MediaType } from "../Media";
-import { EventCommon } from "./BaseEvent";
+import { EditEventCommon, EventCommon } from "./BaseEvent";
 
 export const UncategorizedType = t.literal("Uncategorized");
 export type UncategorizedType = t.TypeOf<typeof UncategorizedType>;
@@ -33,7 +33,7 @@ export const CreateEventBody = t.strict(
     actors: t.array(UUID),
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),
-    startDate: DateFromISOString,
+    date: DateFromISOString,
     endDate: optionFromUndefined(DateFromISOString),
     body: t.UnknownRecord,
     excerpt: t.union([t.UnknownRecord, t.null]),
@@ -45,32 +45,15 @@ export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 
 export const EditEventBody = nonEmptyRecordFromType(
   {
+    ...EditEventCommon.type.props,
     type: UncategorizedType,
     title: optionFromUndefined(t.string),
-    media: optionFromUndefined(
-      t.array(
-        t.union([
-          UUID,
-          t.strict({
-            location: t.string,
-            description: t.string,
-            thumbnail: t.union([t.string, t.undefined]),
-            type: MediaType,
-          }),
-        ])
-      )
-    ),
-    links: optionFromUndefined(t.array(t.union([UUID, CreateLink]))),
     location: optionFromUndefined(Point),
     actors: optionFromUndefined(t.array(t.string)),
     groups: optionFromUndefined(t.array(t.string)),
     groupsMembers: optionFromUndefined(t.array(t.string)),
-    keywords: optionFromUndefined(t.array(t.string)),
-    startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
-    body: optionFromUndefined(t.string),
-    excerpt: optionFromUndefined(t.record(t.string, t.any)),
-    body2: optionFromUndefined(t.UnknownRecord),
+    body: optionFromUndefined(t.UnknownRecord),
   },
   "EditEventPayload"
 );
@@ -82,7 +65,7 @@ export const UncategorizedV2Payload = t.strict(
     title: t.string,
     location: t.union([Point, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
-    body: t.unknown,
+    body: t.UnknownRecord,
     actors: t.array(UUID),
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),

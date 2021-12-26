@@ -21,7 +21,8 @@ describe("Delete Actor", () => {
           avatar: "http://myavatar-url.com/",
           color: "ffffff",
           fullName: tests.fc.sample(tests.fc.string())[0],
-          body: "my content",
+          excerpt: { id: tests.fc.uuid(), content: { first: "my content" } },
+          body: { id: tests.fc.uuid(), content: { first: "my content" } },
         })
     ).body.data;
     Test.ctx.logger.debug.log("Actor %O", actor);

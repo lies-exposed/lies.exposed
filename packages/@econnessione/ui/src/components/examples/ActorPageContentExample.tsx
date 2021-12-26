@@ -10,7 +10,7 @@ export const actorPageContentArgs: ActorPageContentProps = {
   actor: {
     ...goodActor,
     avatar: goodActor.avatar,
-    body: "",
+    body: { content: "" },
   },
   groups: [],
   onGroupClick: () => {},

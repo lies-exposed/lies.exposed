@@ -2,7 +2,6 @@ import { fc, getArbitrary } from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 import { DateArb } from "./Date.arbitrary";
-import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 import { CreateKeywordArb, TagArb } from "./Keyword.arbitrary";
 import { URLArb } from "./URL.arbitrary";
 import { propsOmit } from "./utils.arbitrary";
@@ -12,26 +11,33 @@ interface CreateEventBodyArbOpts {
   mediaIds?: boolean;
   keywordIds?: boolean;
 }
+
+const createEventProps = propsOmit(http.Events.Uncategorized.CreateEventBody, [
+  "title",
+  "excerpt",
+  "body",
+  "actors",
+  "date",
+  "endDate",
+  "groups",
+  "media",
+  "links",
+  "keywords",
+  "groupsMembers",
+  "title",
+  "body",
+]);
+
 export const CreateEventBodyArb = ({
   linksIds = false,
   mediaIds = false,
   keywordIds = false,
 }: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.Uncategorized.CreateEventBody> =>
-  getArbitrary(
-    t.strict({
-      ...http.Events.Uncategorized.CreateEventBody.type.props,
-      actors: t.unknown,
-      groups: t.unknown,
-      groupsMembers: t.unknown,
-      body2: t.unknown,
-      links: t.unknown,
-      media: t.unknown,
-      keywords: t.unknown,
-      startDate: t.unknown,
-      endDate: t.unknown,
-    })
-  ).map((b) => ({
+  getArbitrary(t.strict(createEventProps)).map((b) => ({
     ...b,
+    title: "",
+    body: {},
+    excerpt: {},
     actors: fc.sample(fc.uuidV(4)) as any,
     groups: fc.sample(fc.uuidV(4)) as any,
     groupsMembers: fc.sample(fc.uuidV(4)) as any,
@@ -63,86 +69,41 @@ export const CreateEventBodyArb = ({
           }),
       5
     ) as any,
-    startDate: fc.sample(DateArb, 1)[0],
+    date: fc.sample(DateArb, 1)[0],
     endDate: fc.sample(fc.oneof(fc.constant(undefined), DateArb), 1)[0] as any,
-    body2: {},
   }));
 
-const plainUncategorized = propsOmit(http.Events.Uncategorized.Uncategorized, [
+
+const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
+  "id",
+  "date",
+  "excerpt",
+  "payload",
+  "media",
+  "links",
+  "keywords",
   "createdAt",
   "updatedAt",
-  "media",
-  "id",
-  "excerpt",
 ]);
 
-export const EventArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
-  getArbitrary(
-    t.strict({
-      ...plainUncategorized,
-    })
-  ).map((p) => {
-    const coordinates = fc.sample(fc.float({ max: 60 }), 2);
-    return {
-      ...p,
-      excerpt: "",
-      media: [],
-      keywords: [],
-      links: fc.sample(fc.uuidV(4)) as any,
-      groups: [],
-      id: fc.sample(fc.uuidV(4), 1)[0] as any,
-      title: fc.sample(HumanReadableStringArb(), 1)[0],
-      startDate: fc.sample(
-        fc.date({ min: new Date("2010-01-01"), max: new Date() }),
-        1
-      )[0],
-      endDate: fc.sample(
-        fc.oneof(
-          fc.constant(undefined),
-          fc.date({ min: new Date("2010-01-01"), max: new Date() })
-        ),
-        1
-      )[0],
-      location: {
-        type: "Point",
-        coordinates: [coordinates[0], coordinates[1]],
-      },
-      body2: {},
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-  });
-
-export const UncategorizedV2Arb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
-  getArbitrary(
-    t.strict({
-      ...propsOmit(http.Events.Uncategorized.Uncategorized, [
-        "id",
-        "date",
-        "excerpt",
-        "payload",
-        "media",
-        "keywords",
-        "createdAt",
-        "updatedAt",
-      ]),
-    })
-  ).map((u) => ({
+export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
+  getArbitrary(t.strict(uncategorizedProps)).map((u) => ({
     ...u,
     id: fc.sample(fc.uuid(), 1)[0] as any,
+    type: http.Events.Uncategorized.UncategorizedType.value,
     date: fc.sample(DateArb, 1)[0],
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],
-    excerpt: "",
+    excerpt: {},
     media: fc.sample(fc.uuid(), 5) as any[],
     keywords: fc.sample(fc.uuid(), 5) as any[],
+    links: fc.sample(fc.uuid(), 5) as any[],
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       location: undefined,
       body: {},
       actors: fc.sample(fc.uuid(), 5) as any[],
       groups: fc.sample(fc.uuid(), 5) as any[],
-      links: fc.sample(fc.uuid(), 5) as any[],
       groupsMembers: fc.sample(fc.uuid(), 5) as any[],
       endDate: undefined,
     },
