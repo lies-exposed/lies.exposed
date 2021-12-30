@@ -33,7 +33,7 @@ export const defaultOptionals = <
 >(
   optionals: T,
   defaults: D
-) =>
+): DefaultOptionals<T> =>
   pipe(
     optionals,
     R.mapWithIndex((index, v) => (O.isNone(v) ? defaults[index] : v.value))

@@ -91,7 +91,6 @@ describe("Edit Event", () => {
       http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag
     ).toEqual("Right");
 
-    console.log(body);
     expect(body).toMatchObject({
       payload: {
         title: eventData.title,
