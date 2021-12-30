@@ -2,6 +2,13 @@ import * as http from "@econnessione/shared/io/http";
 import { CreateLink } from "@econnessione/shared/io/http/Link";
 import { URLMetadataClient } from "@econnessione/shared/providers/URLMetadata.provider";
 import { uuid } from "@econnessione/shared/utils/uuid";
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as A from "fp-ts/lib/Array";
+import * as O from "fp-ts/lib/Option";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
+import { UUID } from "io-ts-types/lib/UUID";
+import { DeepPartial } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { ServerError } from "@io/ControllerError";
@@ -11,19 +18,12 @@ import {
   defaultOptionals,
   optionalsToUndefined,
 } from "@utils/foldOptionals.utils";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { UUID } from "io-ts-types/lib/UUID";
-import { DeepPartial } from "typeorm";
 
 const linkTask =
   (urlMetadata: URLMetadataClient) =>
   (
     links: Array<http.Common.UUID | CreateLink>
-  ): TE.TaskEither<DBError, DeepPartial<LinkEntity>[]> => {
+  ): TE.TaskEither<DBError, Array<DeepPartial<LinkEntity>>> => {
     return pipe(
       links,
       A.reduce(

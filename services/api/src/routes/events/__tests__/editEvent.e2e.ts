@@ -5,12 +5,12 @@ import { UncategorizedArb } from "@econnessione/shared/tests/arbitrary/Event.arb
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { LinkArb } from "@econnessione/shared/tests/arbitrary/Link.arbitrary";
 import { MediaArb } from "@econnessione/shared/tests/arbitrary/Media.arbitrary";
+import jwt from "jsonwebtoken";
+import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import jwt from "jsonwebtoken";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("Edit Event", () => {
   let appTest: AppTest;
