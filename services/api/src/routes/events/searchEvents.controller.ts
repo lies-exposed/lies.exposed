@@ -61,6 +61,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
       TE.map(({ data, totals }) => ({
         body: {
           data,
+          total: totals.deaths + totals.scientificStudies + totals.uncategorized,
           totals,
         },
         statusCode: 200,

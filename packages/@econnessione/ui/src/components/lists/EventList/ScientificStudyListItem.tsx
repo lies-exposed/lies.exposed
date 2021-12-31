@@ -1,3 +1,4 @@
+import Editor from "@components/Common/Editor";
 import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -44,7 +45,7 @@ export const ScientificStudyListItem: React.FC<
           <Link href={item.payload.url} target="_blank">
             {item.payload.url}
           </Link>
-          {item.payload.body}
+          <Editor readOnly value={item.payload.body as any} />
         </Grid>
         <Grid
           item

@@ -10,6 +10,10 @@ import * as React from "react";
 import customSlate from "./plugins/customSlate";
 import gridCellPlugin from "./plugins/gridCellPlugin";
 
+export const minimalCellPlugins = [
+  customSlate
+] as any;
+
 // Define which plugins we want to use.
 export const cellPlugins = [
   customSlate,

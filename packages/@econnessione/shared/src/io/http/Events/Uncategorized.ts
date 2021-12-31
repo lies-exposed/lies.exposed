@@ -47,13 +47,15 @@ export const EditEventBody = nonEmptyRecordFromType(
   {
     ...EditEventCommon.type.props,
     type: UncategorizedType,
-    title: optionFromUndefined(t.string),
-    location: optionFromUndefined(Point),
-    actors: optionFromUndefined(t.array(t.string)),
-    groups: optionFromUndefined(t.array(t.string)),
-    groupsMembers: optionFromUndefined(t.array(t.string)),
-    endDate: optionFromUndefined(DateFromISOString),
-    body: optionFromUndefined(t.UnknownRecord),
+    payload: t.strict({
+      title: t.string,
+      location: optionFromUndefined(Point),
+      actors: t.array(t.string),
+      groups: t.array(t.string),
+      groupsMembers: t.array(t.string),
+      endDate: optionFromUndefined(DateFromISOString),
+      body: t.UnknownRecord,
+    }),
   },
   "EditEventPayload"
 );

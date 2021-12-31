@@ -7,6 +7,7 @@ import { EventV2Entity } from "@entities/Event.v2.entity";
 import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
 import { MigrationInterface, QueryRunner } from "typeorm";
 
+
 export class EventV21639419928672 implements MigrationInterface {
   name = "EventV21639419928672";
 
@@ -90,7 +91,7 @@ export class EventV21639419928672 implements MigrationInterface {
               actors: e.actors.map((a) => a.id as any),
               groups: e.groups.map((g) => g.id as any),
               groupsMembers: e.groupsMembers.map((gm) => gm.id as any),
-              body: e.body2 as any,
+              body: e.body2 as any ?? {},
             },
             media: e.media,
             keywords: e.keywords,
@@ -136,7 +137,7 @@ export class EventV21639419928672 implements MigrationInterface {
               url: s.url as any,
               publisher: s.publisher.id as any,
               authors: s.authors as any[],
-              body: null,
+              body: {},
             },
             keywords: [],
             media: [],

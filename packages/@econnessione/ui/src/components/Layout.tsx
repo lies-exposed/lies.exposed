@@ -11,7 +11,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ style, header, children }) => {
   return (
     <Grid container alignItems="center" alignContent="center">
-      <Grid item direction="column" alignItems="center">
+      <Grid item direction="column">
         <Header {...header} />
         {children}
       </Grid>

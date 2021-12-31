@@ -1,15 +1,18 @@
+import { dataProvider } from "@client/HTTPAPI";
+import { RawMedia, uploadFile } from "@client/MediaAPI";
 import { http } from "@econnessione/shared/io";
 import { Media } from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
+import Editor from "@econnessione/ui/components/Common/Editor";
+import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
-import * as t from "io-ts";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -28,8 +31,6 @@ import {
   FormDataConsumer,
   FormTab,
   FunctionField,
-  ImageField,
-  ImageInput,
   List,
   ListProps,
   Record,
@@ -42,11 +43,9 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
-import { MediaInput } from "./Common/MediaInput";
 import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
@@ -55,8 +54,15 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
-import { dataProvider } from "@client/HTTPAPI";
-import { RawMedia, uploadFile } from "@client/MediaAPI";
+import {
+  DeathEventEditFormTab,
+  transformDeathEvent,
+} from "./events/AdminDeathEvent";
+import { EditScientificStudyEvent } from "./events/AdminScientificStudyEvent";
+import {
+  transformUncategorizedEvent,
+  UncategorizedEventEdit,
+} from "./events/AdminUncategorizedEvent";
 
 const RESOURCE = "events";
 
@@ -86,56 +92,102 @@ export const EventList: React.FC<ListProps> = (props) => (
   >
     <Datagrid rowClick="edit">
       <FunctionField
-        render={(r: any) => (
-          <Box>
-            <Typography variant="h6">{r.title}</Typography>
-            <Typography variant="subtitle1">{r.excerpt}</Typography>
-          </Box>
-        )}
+        label="type"
+        render={(r: any) => {
+          return (
+            <Box>
+              <EventIcon color="primary" type={r.type} />
+              <Typography display="inline" variant="subtitle1">
+                {r.type}
+              </Typography>
+            </Box>
+          );
+        }}
       />
       <FunctionField
-        source="actors"
-        render={(r: Record | undefined) => (r ? r.actors.length : 0)}
+        label="excerpt"
+        render={(r: any) => <Editor readOnly value={r.excerpt} />}
       />
       <FunctionField
-        source="groups"
-        render={(r: Record | undefined) => (r ? r.groups.length : 0)}
+        label="actors"
+        source="payload"
+        render={(r: Record | undefined) => {
+          if (r?.type === "Uncategorized") {
+            return r.payload.actors.length;
+          }
+
+          if (r?.type === "ScientificStudy") {
+            return r.payload.authors.length;
+          }
+
+          return 1;
+        }}
+      />
+
+      <FunctionField
+        label="groups"
+        source="payload"
+        render={(r: Record | undefined) => {
+          if (r?.type === "Uncategorized") {
+            return r.payload.groups.length;
+          }
+
+          if (r?.type === "ScientificStudy") {
+            return 1;
+          }
+
+          return 0;
+        }}
       />
       <FunctionField
-        source="groupsMembers"
-        render={(r: Record | undefined) => (r ? r.groupsMembers.length : 0)}
+        label="groupsMembers"
+        source="payload"
+        render={(r: Record | undefined) => {
+          if (r?.type === "Uncategorized") {
+            return r.payload.groupsMembers.length;
+          }
+
+          if (r?.type === "ScientificStudy") {
+            return 0;
+          }
+
+          return 1;
+        }}
       />
       <FunctionField
         label="Location"
-        source="location.coordinates"
+        source="payload.location.coordinates"
         render={(r: Record | undefined) =>
           r?.location?.coordinates ? <PinDropIcon /> : "-"
         }
       />
       <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
-      <DateField source="startDate" />
-      <DateField source="endDate" />
+      <FunctionField source="media" render={(r: any) => r.media?.length ?? 0} />
+      <DateField source="date" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
   </List>
 );
 
-const transformEvent = async (id: string, data: Record): Promise<Record> => {
-  const media: any[] = (data.media as any[]).reduce((acc, l) => {
-    if (Array.isArray(l.ids)) {
-      return acc.concat(l.ids);
-    }
+const transformEvent = async (
+  id: string,
+  { newMedia = [], newLinks = [], ...data }: Record
+): Promise<Record> => {
+  console.log("transforming event", id, { newMedia, newLinks, ...data });
 
-    if (l.fromURL) {
-      return acc.concat({
-        ...l,
-        thumbnail: l.location,
-      });
-    }
-    return acc.concat(l);
-  }, []);
-  const { rawMedia, otherMedia } = media.reduce<{
+  const links = pipe(
+    (newLinks as any[]).reduce((acc, ll) => {
+      console.log("new link", ll);
+      if (ll.ids) {
+        return acc.concat(...ll.ids);
+      }
+      return acc.concat(ll);
+    }, []),
+    (nll) => data.links.concat(nll)
+  );
+
+  const { rawMedia, otherMedia } = (newMedia as any[]).reduce<{
     rawMedia: RawMedia[];
     otherMedia: any[];
   }>(
@@ -181,7 +233,8 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
             ? location.location
             : undefined,
         })),
-        A.concat(otherMedia)
+        A.concat(otherMedia),
+        A.concat(data.media)
       )
     )
   );
@@ -191,7 +244,7 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
     TE.map((media) => ({
       ...data,
       media,
-      endDate: data.endDate?.length > 0 ? data.endDate : undefined,
+      links,
     }))
   )().then((result) => {
     if (result._tag === "Left") {
@@ -205,171 +258,143 @@ const EditTitle: React.FC<EditProps> = ({ record }: any) => {
   return <span>Events {record.title}</span>;
 };
 
-export const EventEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit
-    title={<EditTitle {...props} />}
-    {...props}
-    actions={
-      <>
-        <WebPreviewButton
-          resource="/dashboard/events"
-          source="id"
-          record={{ id: props.id } as any}
-        />
-      </>
-    }
-    transform={({ newLinks = [], newMedia = [], ...r }) => {
-      const links = (newLinks as any[]).reduce((acc, l) => {
-        if (Array.isArray(l.ids)) {
-          return acc.concat(l.ids);
-        }
-        return acc.concat(l);
-      }, []);
+export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
+  return (
+    <Edit
+      title={<EditTitle {...props} />}
+      {...props}
+      actions={
+        <>
+          <WebPreviewButton
+            resource="/dashboard/events"
+            source="id"
+            record={{ id: props.id } as any}
+          />
+        </>
+      }
+      transform={(r) => {
+        const transform =
+          r.type === "Death"
+            ? transformDeathEvent
+            : r.type === "Uncategorized"
+            ? transformUncategorizedEvent
+            : (id: string, ev: any) => ev;
 
-      return transformEvent(r.id as any, {
-        ...r,
-        actors: r.actors.concat(r.newActors ?? []),
-        media: r.media.concat(newMedia),
-        links: r.links.concat(links),
-        groupsMembers: r.groupsMembers.concat(r.newGroupsMembers ?? []),
-      });
-    }}
-  >
-    <TabbedForm redirect={false}>
-      <FormTab label="Generals">
-        <DateInput source="startDate" />
-        <DateInput source="endDate" />
-        <TextInput source="title" />
-        <ReferenceArrayKeywordInput source="keywords" />
-        <DateField source="updatedAt" showTime={true} />
-        <DateField source="createdAt" showTime={true} />
-      </FormTab>
-      <FormTab label="Body">
-        <RichTextInput source="body" />
-      </FormTab>
-      <FormTab label="Body2">
-        <RichTextInput source="excerpt" />
-        <ReactPageInput source="body2" />
-      </FormTab>
-      <FormTab label="Location">
-        <MapInput source="location" type={GeometryType.POINT} />
-      </FormTab>
-      <FormTab label="Actors">
-        <ReferenceArrayActorInput source="newActors" />
-        <ReferenceArrayField source="actors" reference="actors">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField source="fullName" />
-            <AvatarField source="avatar" />
-          </Datagrid>
-        </ReferenceArrayField>
-      </FormTab>
-      <FormTab label="Group Members">
-        <ReferenceArrayGroupMemberInput source="newGroupsMembers" />
-        <ReferenceArrayField source="groupsMembers" reference="groups-members">
-          <Datagrid rowClick="edit">
-            <AvatarField source="actor.avatar" />
-            <AvatarField source="group.avatar" />
-            <DateField source="startDate" />
-            <DateField source="endDate" />
-          </Datagrid>
-        </ReferenceArrayField>
-      </FormTab>
-      <FormTab label="Groups">
-        <ReferenceArrayGroupInput source="groups" />
-        <ReferenceArrayField reference="groups" source="groups">
-          <Datagrid rowClick="edit">
-            <TextField source="name" />
-            <AvatarField source="avatar" fullWidth={false} />
-          </Datagrid>
-        </ReferenceArrayField>
-      </FormTab>
-      <FormTab label="Media">
-        <MediaArrayInput
-          label="newMedia"
-          source="newMedia"
-          fullWidth={true}
-          defaultValue={[]}
-        />
+        console.log("transform event for type", { type: r.type, event: r });
+        return pipe(transform(r.id as any, r), (rr) =>
+          transformEvent(rr.id as any, rr)
+        );
+      }}
+    >
+      <TabbedForm redirect={false}>
+        <FormTab label="Generals">
+          <TextField source="type" />
+          <DateInput source="date" />
+          <ReactPageInput label="excerpt" source="excerpt" onlyText />
+          <ReferenceArrayKeywordInput source="keywords" />
+          <DateField source="updatedAt" showTime={true} />
+          <DateField source="createdAt" showTime={true} />
+        </FormTab>
 
-        <ArrayField source="media">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <MediaField source="location" fullWidth={false} />
-            <TextField source="description" />
-          </Datagrid>
-        </ArrayField>
-      </FormTab>
-      <FormTab label="Links">
-        <ArrayInput source="newLinks" defaultValue={[]}>
-          <SimpleFormIterator>
-            <BooleanInput source="addNew" />
-            <FormDataConsumer>
-              {({ formData, scopedFormData, getSource, ...rest }) => {
-                const getSrc = getSource ?? ((s: string) => s);
-
-                if (scopedFormData?.addNew) {
-                  return (
-                    <Box>
-                      <TextInput source={getSrc("url")} type="url" {...rest} />
-                      <TextInput source={getSrc("description")} {...rest} />
-                    </Box>
-                  );
-                }
-                return (
-                  <ReferenceArrayInput
-                    source={getSrc("ids")}
-                    reference="links"
-                    filterToQuery={(description: any) => ({ description })}
-                    {...rest}
-                  >
-                    <AutocompleteArrayInput
-                      source="id"
-                      optionText="description"
-                    />
-                  </ReferenceArrayInput>
-                );
-              }}
-            </FormDataConsumer>
-          </SimpleFormIterator>
-        </ArrayInput>
-        <ReferenceArrayField source="links" reference="links">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField source="url" />
-            <TextField source="description" />
-          </Datagrid>
-        </ReferenceArrayField>
-      </FormTab>
-      <FormTab label="Preview">
         <FormDataConsumer>
-          {({ formData, ...rest }) => {
-            return pipe(
-              http.Events.Uncategorized.Uncategorized.decode(formData),
-              E.fold(ValidationErrorsLayout, (p) => (
-                <EventPageContent
-                  event={{
-                    ...p,
-                    actors: [],
-                    groups: [],
-                    keywords: [],
-                    links: [],
-                    groupsMembers: [],
-                  }}
-                  onActorClick={() => undefined}
-                  onGroupClick={() => undefined}
-                  onKeywordClick={() => undefined}
-                  onLinkClick={() => undefined}
-                  onGroupMemberClick={() => undefined}
-                />
-              ))
-            );
+          {({ formData, getSource, scopedFormData, ...rest }) => {
+            if (formData.type === "Death") {
+              return <DeathEventEditFormTab {...rest} />;
+            }
+            if (formData.type === "ScientificStudy") {
+              return <EditScientificStudyEvent {...rest} />;
+            }
+            return <UncategorizedEventEdit {...rest} />;
           }}
         </FormDataConsumer>
-      </FormTab>
-    </TabbedForm>
-  </Edit>
-);
+        <FormTab label="Media">
+          <MediaArrayInput
+            label="newMedia"
+            source="newMedia"
+            fullWidth={true}
+            defaultValue={[]}
+          />
+
+          <ReferenceArrayField source="media" reference="media">
+            <Datagrid rowClick="edit">
+              <TextField source="id" />
+              <MediaField source="location" fullWidth={false} />
+              <TextField source="description" />
+            </Datagrid>
+          </ReferenceArrayField>
+        </FormTab>
+        <FormTab label="Links">
+          <ArrayInput source="newLinks" defaultValue={[]}>
+            <SimpleFormIterator>
+              <BooleanInput source="addNew" />
+              <FormDataConsumer>
+                {({ formData, scopedFormData, getSource, ...rest }) => {
+                  const getSrc = getSource ?? ((s: string) => s);
+
+                  if (scopedFormData?.addNew) {
+                    return (
+                      <Box>
+                        <TextInput
+                          source={getSrc("url")}
+                          type="url"
+                          {...rest}
+                        />
+                        <TextInput source={getSrc("description")} {...rest} />
+                      </Box>
+                    );
+                  }
+                  return (
+                    <ReferenceArrayInput
+                      source={getSrc("ids")}
+                      reference="links"
+                      filterToQuery={(description: any) => ({ description })}
+                      {...rest}
+                    >
+                      <AutocompleteArrayInput
+                        source="id"
+                        optionText="description"
+                      />
+                    </ReferenceArrayInput>
+                  );
+                }}
+              </FormDataConsumer>
+            </SimpleFormIterator>
+          </ArrayInput>
+          <ReferenceArrayField source="links" reference="links">
+            <Datagrid rowClick="edit">
+              <TextField source="id" />
+              <TextField source="url" />
+              <TextField source="description" />
+            </Datagrid>
+          </ReferenceArrayField>
+        </FormTab>
+        <FormTab label="Preview">
+          <FormDataConsumer>
+            {({ formData, ...rest }) => {
+              return pipe(
+                http.Events.Uncategorized.Uncategorized.decode(formData),
+                E.fold(ValidationErrorsLayout, (p) => (
+                  <EventPageContent
+                    event={{
+                      ...p,
+                      keywords: [],
+                      links: [],
+                    }}
+                    onActorClick={() => undefined}
+                    onGroupClick={() => undefined}
+                    onKeywordClick={() => undefined}
+                    onLinkClick={() => undefined}
+                    onGroupMemberClick={() => undefined}
+                  />
+                ))
+              );
+            }}
+          </FormDataConsumer>
+        </FormTab>
+      </TabbedForm>
+    </Edit>
+  );
+};
 
 export const EventCreate: React.FC<CreateProps> = (props) => (
   <Create
@@ -382,7 +407,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
     <TabbedForm>
       <FormTab label="General">
         <TextInput source="title" validation={[required()]} />
-        <MapInput source="location" type={GeometryType.POINT} />
+        {/* <MapInput source="location" type={GeometryType.POINT} /> */}
         <DateInput
           source="startDate"
           validation={[required()]}

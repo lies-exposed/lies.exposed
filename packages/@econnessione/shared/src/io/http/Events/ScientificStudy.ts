@@ -14,7 +14,7 @@ export const CreateScientificStudyBody = t.strict(
     title: t.string,
     type: ScientificStudyType,
     url: URL,
-    body: t.unknown,
+    body: t.UnknownRecord,
     publishDate: DateFromISOString,
     authors: t.array(UUID),
     publisher: UUID,

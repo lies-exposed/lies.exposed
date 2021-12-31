@@ -16,6 +16,7 @@ export const List = Endpoint({
   Output: t.strict(
     {
       data: t.array(http.Events.Event),
+      total: t.number,
       totals: t.strict({
         uncategorized: t.number,
         deaths: t.number,
