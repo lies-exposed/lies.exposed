@@ -1,12 +1,10 @@
-import { dataProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 import { http } from "@econnessione/shared/io";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   ArrayInput,
@@ -40,6 +38,8 @@ import { AvatarField } from "./Common/AvatarField";
 import ReactPageInput from "./Common/ReactPageInput";
 import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
+import { dataProvider } from "@client/HTTPAPI";
+import { uploadImages } from "@client/MediaAPI";
 
 const ActorFilters: React.FC = (props) => {
   return (

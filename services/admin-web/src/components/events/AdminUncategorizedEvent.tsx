@@ -1,13 +1,11 @@
-import { dataProvider } from "@client/HTTPAPI";
-import { RawMedia, uploadFile } from "@client/MediaAPI";
 import { Media } from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
@@ -41,6 +39,8 @@ import ReferenceArrayGroupMemberInput from "../Common/ReferenceArrayGroupMemberI
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import RichTextInput from "../Common/RichTextInput";
+import { dataProvider } from "@client/HTTPAPI";
+import { RawMedia, uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "events";
 

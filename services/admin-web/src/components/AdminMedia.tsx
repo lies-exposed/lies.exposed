@@ -9,20 +9,14 @@ import {
   Datagrid,
   DateField,
   Edit,
-  EditProps,
-  FormTab,
-  ImageField,
-  List,
+  EditProps, Filter, FormTab, List,
   ListProps,
   Record,
   ReferenceManyField,
   required,
   SimpleForm,
   TabbedForm,
-  TextField,
-  UrlField,
-  TextInput,
-  Filter,
+  TextField, TextInput
 } from "react-admin";
 import { MediaField } from "./Common/MediaField";
 import { MediaInput } from "./Common/MediaInput";

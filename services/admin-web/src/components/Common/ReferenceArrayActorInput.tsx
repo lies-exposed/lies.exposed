@@ -1,7 +1,6 @@
 import { Actor } from "@econnessione/shared/io/http/Actor";
 import {
   AutocompleteArrayInput,
-  AutocompleteInput,
   ReferenceArrayInput,
   ReferenceArrayInputProps,
 } from "ra-ui-materialui";

@@ -2,7 +2,7 @@ import * as React from "react";
 import { EditProps, FormTab, Record } from "react-admin";
 import ReferenceActorInput from "components/Common/ReferenceActorInput";
 
-const RESOURCE = "events";
+// const RESOURCE = "events";
 
 export const transformDeathEvent = (id: string, data: Record): Record => {
   // eslint-disable-next-line no-console
