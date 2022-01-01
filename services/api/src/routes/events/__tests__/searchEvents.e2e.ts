@@ -26,6 +26,7 @@ describe("Search Events", () => {
     draft: false,
     media: [],
     links: [],
+    keywords: [],
   }));
 
   beforeAll(async () => {

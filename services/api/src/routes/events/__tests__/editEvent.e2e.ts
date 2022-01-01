@@ -74,8 +74,13 @@ describe("Edit Event", () => {
 
   test("Should edit the event", async () => {
     const eventData = {
-      title: "First event",
-      startDate: new Date().toISOString(),
+      payload: {
+        ...event.payload,
+        title: "First event",
+        endDate: new Date().toISOString(),
+        location: { type: "Point", coordinates: [0, 0] },
+      },
+      date: new Date().toISOString(),
     };
 
     const response = await appTest.req
@@ -92,9 +97,14 @@ describe("Edit Event", () => {
     ).toEqual("Right");
 
     expect(body).toMatchObject({
+      ...event,
       payload: {
-        title: eventData.title,
+        ...event.payload,
+        ...eventData.payload,
       },
+      date: eventData.date,
+      createdAt: event.createdAt.toISOString(),
+      updatedAt: body.updatedAt,
     });
 
     event = body;
@@ -106,7 +116,10 @@ describe("Edit Event", () => {
       .map(({ id, createdAt, updatedAt, ...image }) => image);
 
     const eventData = {
-      title: "Second edit",
+      payload: {
+        ...event.payload,
+        title: "Second edit",
+      },
       date: new Date().toISOString(),
       media,
     };
@@ -127,7 +140,8 @@ describe("Edit Event", () => {
 
     expect(body).toMatchObject({
       payload: {
-        title: eventData.title,
+        ...event.payload,
+        title: eventData.payload.title,
       },
       date: eventData.date,
       updatedAt: body.updatedAt,
@@ -146,8 +160,11 @@ describe("Edit Event", () => {
 
     const eventData = {
       ...event,
-      title: "Event with links",
-      startDate: new Date().toISOString(),
+      payload: {
+        ...event.payload,
+        title: "Event with links",
+      },
+      date: new Date().toISOString(),
       links,
     };
     const response = await appTest.req
@@ -161,8 +178,9 @@ describe("Edit Event", () => {
 
     expect(body).toMatchObject({
       payload: {
-        title: eventData.title,
+        title: eventData.payload.title,
       },
+      date: eventData.date,
       updatedAt: body.updatedAt,
     });
 
@@ -174,7 +192,10 @@ describe("Edit Event", () => {
   test("Should edit event actors", async () => {
     const eventData = {
       ...event,
-      actors: [actor.id],
+      payload: {
+        ...event.payload,
+        actors: [actor.id],
+      },
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
@@ -189,7 +210,7 @@ describe("Edit Event", () => {
       ...event,
       payload: {
         ...event.payload,
-        actors: eventData.actors,
+        actors: eventData.payload.actors,
       },
       updatedAt: body.updatedAt,
     });
@@ -200,12 +221,16 @@ describe("Edit Event", () => {
   test("Should edit event groups", async () => {
     const eventData = {
       ...event,
-      groups: [group.id],
+      payload: {
+        ...event.payload,
+        groups: [group.id],
+      },
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
       .set("Authorization", authorizationToken)
-      .send(eventData);
+      .send(eventData)
+      .expect(200);
 
     const body = response.body.data;
 
@@ -214,7 +239,7 @@ describe("Edit Event", () => {
     expect(body).toMatchObject({
       payload: {
         ...event.payload,
-        groups: eventData.groups,
+        groups: eventData.payload.groups,
       },
     });
 
@@ -224,7 +249,10 @@ describe("Edit Event", () => {
   test("Should edit event group members", async () => {
     const eventData = {
       ...event,
-      groupsMembers: [groupMember.id],
+      payload: {
+        ...event.payload,
+        groupsMembers: [groupMember.id],
+      },
     };
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
@@ -239,8 +267,9 @@ describe("Edit Event", () => {
       ...event,
       payload: {
         ...event.payload,
-        groupsMembers: eventData.groupsMembers,
+        groupsMembers: eventData.payload.groupsMembers,
       },
+      date: event.date,
       updatedAt: body.updatedAt,
     });
 
