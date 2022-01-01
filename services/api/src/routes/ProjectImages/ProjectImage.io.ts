@@ -20,6 +20,8 @@ export const toProjectImageIO = ({
       createdAt: projectImage.createdAt.toISOString(),
       updatedAt: projectImage.updatedAt.toISOString(),
     }),
-    E.mapLeft(e => DecodeError(`Failed to project image (${projectImage.id})`, e))
+    E.mapLeft((e) =>
+      DecodeError(`Failed to project image (${projectImage.id})`, e)
+    )
   );
 };

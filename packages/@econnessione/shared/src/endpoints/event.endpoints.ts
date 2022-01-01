@@ -6,7 +6,6 @@ import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 
-
 export const List = Endpoint({
   Method: "GET",
   getPath: () => `/events`,
@@ -70,9 +69,7 @@ const events = ResourceEndpoints({
   List,
   Edit,
   Delete,
-  Custom: {
-    
-  },
+  Custom: {},
 });
 
 export { events };

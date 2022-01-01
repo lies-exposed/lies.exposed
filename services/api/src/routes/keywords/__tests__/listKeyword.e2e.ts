@@ -5,7 +5,9 @@ import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("List Keywords", () => {
-  let Test: AppTest, authorizationToken: string, keywords: http.Keyword.Keyword[];
+  let Test: AppTest,
+    authorizationToken: string,
+    keywords: http.Keyword.Keyword[];
   beforeAll(async () => {
     Test = await initAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({

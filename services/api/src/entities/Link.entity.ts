@@ -6,7 +6,7 @@ import {
   Index,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { DeathEventEntity } from "./DeathEvent.entity";
 import { EventV2Entity } from "./Event.v2.entity";

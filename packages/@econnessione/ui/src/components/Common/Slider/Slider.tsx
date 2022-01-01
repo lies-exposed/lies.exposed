@@ -26,17 +26,14 @@ export const Slider: React.FC<SliderProps> = ({
   const classes = useStyles();
 
   return (
-    <SlickSlider.default
-      className={classes.mediaSlider}
-      {...{ ...props }}
-    >
+    <SlickSlider.default className={classes.mediaSlider} {...{ ...props }}>
       {slides.map((s) => (
         <div
           key={s.location}
           style={{
             textAlign: "center",
             maxHeight,
-            maxWidth: 600
+            maxWidth: 600,
           }}
         >
           <MediaElement

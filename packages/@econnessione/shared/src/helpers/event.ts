@@ -146,9 +146,8 @@ export const filterMetadataFroProject =
     }
   };
 
-export const ordEventDate = Ord.ord.contramap(
-  Ord.ordDate,
-  (e: Events.Event) => eventDate(e)
+export const ordEventDate = Ord.ord.contramap(Ord.ordDate, (e: Events.Event) =>
+  eventDate(e)
 );
 
 const colorMap: Record<Events.Event["type"], string> = {

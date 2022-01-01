@@ -3,7 +3,7 @@ import { MakeCreateEventRoute } from "./createEvent.controller";
 import { MakeDeleteEventRoute } from "./deleteEvent.controller";
 import { MakeEditEventRoute } from "./editEvent.controller";
 import { MakeGetEventRoute } from "./getEvent.controller";
-import { MakeSearchEventRoute } from "./searchEvents.controller"
+import { MakeSearchEventRoute } from "./searchEvents.controller";
 import { RouteContext } from "@routes/route.types";
 
 export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {

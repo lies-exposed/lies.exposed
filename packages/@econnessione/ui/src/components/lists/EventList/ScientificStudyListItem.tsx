@@ -1,9 +1,9 @@
-import Editor from "@components/Common/Editor";
 import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
 import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
+import Editor from "@components/Common/Editor";
 
 interface ScientificStudyListItemProps {
   item: Events.ScientificStudy.ScientificStudy;

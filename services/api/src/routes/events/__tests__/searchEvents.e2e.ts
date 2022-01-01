@@ -126,7 +126,7 @@ describe("Search Events", () => {
     test("Get events for given actors", async () => {
       const response = await appTest.req
         .get(`/v1/events`)
-        .query({ 'actors': [firstActor.id, secondActor.id] })
+        .query({ actors: [firstActor.id, secondActor.id] })
         .set("Authorization", authorizationToken);
 
       const { totals } = response.body;

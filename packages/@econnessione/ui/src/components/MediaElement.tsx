@@ -5,7 +5,7 @@ import * as React from "react";
 const useStyles = makeStyles(() => ({
   root: {
     border: "1px solid black",
-    margin: 5
+    margin: 5,
   },
 }));
 interface MediaElementProps {

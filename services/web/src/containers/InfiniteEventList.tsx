@@ -1,4 +1,10 @@
-import { Events, Keyword, GroupMember, Actor, Group } from "@econnessione/shared/io/http";
+import {
+  Events,
+  Keyword,
+  GroupMember,
+  Actor,
+  Group,
+} from "@econnessione/shared/io/http";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import EventsTimeline from "@econnessione/ui/components/lists/EventList/EventTimeline";
@@ -40,7 +46,7 @@ export interface EventListProps {
   filters: Omit<InfiniteEventListParams, "page" | "hash">;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
-  onGroupMemberClick: (gm: GroupMember.GroupMember) => void
+  onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
 }
 
@@ -111,7 +117,11 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
   );
 };
 
-const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters, ...onClickProps }) => {
+const InfiniteEventList: React.FC<EventListProps> = ({
+  hash,
+  filters,
+  ...onClickProps
+}) => {
   const theme = useTheme();
   const [state, updateState] = React.useState<{
     currentPage: number;

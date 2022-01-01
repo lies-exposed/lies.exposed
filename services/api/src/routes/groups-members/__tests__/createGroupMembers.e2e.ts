@@ -76,7 +76,7 @@ describe("Create Group Member", () => {
         actor: actors[0].id,
         group: groups[0].id,
         startDate: new Date().toISOString(),
-        body: { content: "this actor has been a member of this group"},
+        body: { content: "this actor has been a member of this group" },
       });
 
     expect(response.status).toEqual(201);

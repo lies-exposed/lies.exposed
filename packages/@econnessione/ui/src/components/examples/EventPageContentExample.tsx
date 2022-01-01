@@ -7,9 +7,9 @@ import { EventPageContent, EventPageContentProps } from "../EventPageContent";
 export const eventPageContentArgs: EventPageContentProps = {
   event: {
     ...firstEvent,
-    type: 'Uncategorized',
+    type: "Uncategorized",
     payload: {
-      title: 'fale title',
+      title: "fale title",
       endDate: undefined,
       body: {},
       location: undefined,
@@ -20,7 +20,7 @@ export const eventPageContentArgs: EventPageContentProps = {
     },
     media: [],
     keywords: [],
-    links: []
+    links: [],
   },
   onActorClick: () => undefined,
   onGroupClick: () => undefined,

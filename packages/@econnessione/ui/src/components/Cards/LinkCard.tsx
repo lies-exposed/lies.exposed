@@ -1,17 +1,18 @@
 import { http } from "@econnessione/shared/io";
 import { formatDate } from "@econnessione/shared/utils/date";
 import {
-    Avatar,
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    CardMedia,
-    IconButton, Typography
+  Avatar,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  IconButton,
+  Typography,
 } from "@material-ui/core";
 import LinkIcon from "@material-ui/icons/LinkOutlined";
 import ShareIcon from "@material-ui/icons/ShareOutlined";
-import * as React from 'react';
+import * as React from "react";
 
 interface LinkCardProps {
   link: http.Link.Link;

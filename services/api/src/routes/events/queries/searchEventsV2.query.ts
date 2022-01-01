@@ -71,7 +71,7 @@ export const searchEventV2Query =
             .createQueryBuilder(EventV2Entity, "event")
             .leftJoinAndSelect("event.keywords", "keywords")
             .leftJoinAndSelect("event.media", "media")
-            .leftJoinAndSelect('event.links', 'links'),
+            .leftJoinAndSelect("event.links", "links"),
           (q) => {
             q.where("event.draft = :draft", { draft: false });
             let hasWhere = false;

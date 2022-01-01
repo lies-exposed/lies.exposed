@@ -53,10 +53,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
             <Typography variant="h2" style={{ marginBottom: 0 }}>
               {group.name}
             </Typography>
-            <Editor
-              value={group.excerpt as any}
-              readOnly={true}
-            />
+            <Editor value={group.excerpt as any} readOnly={true} />
           </Grid>
         </Grid>
         <Grid container style={{ marginBottom: 20 }}>

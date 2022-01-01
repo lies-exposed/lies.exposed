@@ -101,10 +101,7 @@ export const fourthEvent: Events.Event = {
   updatedAt: today,
 };
 
-export const firstGoodProjectEvents: Events.Event[] = [
-  thirdEvent,
-  fourthEvent,
-];
+export const firstGoodProjectEvents: Events.Event[] = [thirdEvent, fourthEvent];
 
 export const uncategorizedEvents: Events.Event[] = [
   firstEvent,

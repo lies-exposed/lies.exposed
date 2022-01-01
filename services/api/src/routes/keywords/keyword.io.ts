@@ -13,6 +13,6 @@ export const toKeywordIO = (
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }),
-    E.mapLeft(e => DecodeError(`Failed to decode keyword (${a.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode keyword (${a.id})`, e))
   );
 };

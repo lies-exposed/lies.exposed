@@ -28,6 +28,6 @@ export const toEventIO = (
       createdAt: event.createdAt.toISOString(),
       updatedAt: event.updatedAt.toISOString(),
     }),
-    E.mapLeft(e => DecodeError(`Failed to decode event (${event.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode event (${event.id})`, e))
   );
 };

@@ -22,10 +22,9 @@ export const optionalsToUndefined = <
 ): OptionalsToUndefined<T> =>
   pipe(obj, R.map(O.toUndefined)) as OptionalsToUndefined<T>;
 
-
 type DefaultOptionals<T extends { [key: string]: O.Option<any> }> = {
-  [K in keyof T]?: T[K] extends O.Option<infer A> ? A : never
-}
+  [K in keyof T]?: T[K] extends O.Option<infer A> ? A : never;
+};
 
 export const defaultOptionals = <
   T extends { [key: string]: O.Option<any> },

@@ -1,34 +1,23 @@
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
-import { http } from "@econnessione/shared/io";
 import { Media } from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
-import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
-import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import { Box } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as A from "fp-ts/lib/Array";
-import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
-  ArrayField,
-  ArrayInput,
-  AutocompleteArrayInput,
-  BooleanInput,
   Create,
   CreateProps,
   Datagrid,
   DateField,
   DateInput,
-  Edit,
   EditProps,
   Filter,
-  FormDataConsumer,
   FormTab,
   FunctionField,
   List,
@@ -38,7 +27,6 @@ import {
   ReferenceArrayInput,
   required,
   SelectArrayInput,
-  SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput,
@@ -46,7 +34,6 @@ import {
 import { AvatarField } from "../Common/AvatarField";
 import { MapInput } from "../Common/MapInput";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
-import { MediaField } from "../Common/MediaField";
 import ReactPageInput from "../Common/ReactPageInput";
 import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
@@ -54,7 +41,6 @@ import ReferenceArrayGroupMemberInput from "../Common/ReferenceArrayGroupMemberI
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import RichTextInput from "../Common/RichTextInput";
-import { WebPreviewButton } from "../Common/WebPreviewButton";
 
 const RESOURCE = "events";
 
@@ -212,16 +198,9 @@ const transformEvent = async (id: string, data: Record): Promise<Record> => {
   });
 };
 
-const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Events {record.title}</span>;
-};
-
-export const transformUncategorizedEvent = (id: string, r: any) => {
+export const transformUncategorizedEvent = (id: string, r: any): any => {
   const {
-    payload: {
-      location,
-      ...payload
-    },
+    payload: { location, ...payload },
     ...rest
   } = r;
   return {
@@ -229,7 +208,7 @@ export const transformUncategorizedEvent = (id: string, r: any) => {
     id,
     payload: {
       ...payload,
-      location: typeof location === 'string' ? JSON.parse(location) : location,
+      location: typeof location === "string" ? JSON.parse(location) : location,
     },
   };
 };

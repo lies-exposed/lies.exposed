@@ -1,5 +1,10 @@
 import { EventsMap } from "@components/EventsMap";
-import { Actor, Group, GroupMember, Keyword } from "@econnessione/shared/io/http";
+import {
+  Actor,
+  Group,
+  GroupMember,
+  Keyword,
+} from "@econnessione/shared/io/http";
 import {
   a11yProps,
   TabPanel,
@@ -19,7 +24,7 @@ interface EventsPanelProps {
   filters: InfiniteEventListParams;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
-  onGroupMemberClick: (gm: GroupMember.GroupMember) => void
+  onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
 }
 export const EventsPanel: React.FC<EventsPanelProps> = ({

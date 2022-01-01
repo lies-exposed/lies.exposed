@@ -65,7 +65,10 @@ export const NotAuthorizedError = (): ControllerError => {
   };
 };
 
-export const DecodeError = (message:string, errors: t.Errors): ControllerError => {
+export const DecodeError = (
+  message: string,
+  errors: t.Errors
+): ControllerError => {
   return {
     name: "APIError: Decode Error",
     status: 500,

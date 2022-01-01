@@ -73,7 +73,6 @@ export const CreateEventBodyArb = ({
     endDate: fc.sample(fc.oneof(fc.constant(undefined), DateArb), 1)[0] as any,
   }));
 
-
 const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "id",
   "date",

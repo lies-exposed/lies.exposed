@@ -1,13 +1,13 @@
-import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import {
   Datagrid,
   FormTab,
   ReferenceArrayField,
   TextInput,
-  TextField
+  TextField,
 } from "ra-ui-materialui";
-
+import * as React from "react";
 import { AvatarField } from "../Common/AvatarField";
+import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceGroupInput from "components/Common/ReferenceGroupInput";
 
 export const EditScientificStudyEvent: React.FC = (props) => {

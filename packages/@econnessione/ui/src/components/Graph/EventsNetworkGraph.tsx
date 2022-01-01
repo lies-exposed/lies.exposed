@@ -1,7 +1,7 @@
 import {
   eqByUUID,
   eventDate,
-  ordEventDate
+  ordEventDate,
 } from "@econnessione/shared/helpers/event";
 import {
   Actor,
@@ -10,7 +10,7 @@ import {
   Group,
   Keyword,
   Page,
-  Topic
+  Topic,
 } from "@econnessione/shared/io/http";
 import { Grid } from "@material-ui/core";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
@@ -30,7 +30,7 @@ import * as React from "react";
 import Network, { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode
+  NetworkPointNode,
 } from "../Common/Graph/Network/NetworkNode";
 import { ActorList } from "../lists/ActorList";
 import { EventListItem } from "../lists/EventList/EventListItem";

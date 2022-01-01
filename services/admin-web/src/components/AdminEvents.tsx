@@ -1,5 +1,3 @@
-import { dataProvider } from "@client/HTTPAPI";
-import { RawMedia, uploadFile } from "@client/MediaAPI";
 import { http } from "@econnessione/shared/io";
 import { Media } from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
@@ -11,12 +9,10 @@ import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
-import GeometryType from "ol/geom/GeometryType";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
-  ArrayField,
   ArrayInput,
   AutocompleteArrayInput,
   BooleanInput,
@@ -43,7 +39,6 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import { MapInput } from "./Common/MapInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
 import ReactPageInput from "./Common/ReactPageInput";
@@ -63,6 +58,8 @@ import {
   transformUncategorizedEvent,
   UncategorizedEventEdit,
 } from "./events/AdminUncategorizedEvent";
+import { dataProvider } from "@client/HTTPAPI";
+import { RawMedia, uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "events";
 
@@ -100,11 +97,9 @@ export const EventList: React.FC<ListProps> = (props) => (
               <Typography display="inline" variant="subtitle1">
                 {r.type}
               </Typography>
-              {r.type === 'Uncategorized' ? (
-                <Typography>
-                  {r.payload.title}
-                </Typography>
-              ): null}
+              {r.type === "Uncategorized" ? (
+                <Typography>{r.payload.title}</Typography>
+              ) : null}
             </Box>
           );
         }}
@@ -179,11 +174,11 @@ const transformEvent = async (
   id: string,
   { newMedia = [], newLinks = [], ...data }: Record
 ): Promise<Record> => {
+  // eslint-disable-next-line
   console.log("transforming event", id, { newMedia, newLinks, ...data });
 
   const links = pipe(
     (newLinks as any[]).reduce((acc, ll) => {
-      console.log("new link", ll);
       if (ll.ids) {
         return acc.concat(...ll.ids);
       }
@@ -285,9 +280,10 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
             ? transformUncategorizedEvent
             : (id: string, ev: any) => ev;
 
+        // eslint-disable-next-line
         console.log("transform event for type", { type: r.type, event: r });
         return pipe(transform(r.id as any, r), (rr) =>
-          transformEvent(rr.id as any, rr)
+          transformEvent(rr.id, rr)
         );
       }}
     >

@@ -1,5 +1,4 @@
 import { Media } from "@econnessione/shared/io/http";
-import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import { UUID } from "io-ts-types/lib/UUID";

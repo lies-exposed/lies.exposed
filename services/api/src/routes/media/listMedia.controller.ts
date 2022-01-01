@@ -23,8 +23,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
       ctx.logger.debug.log(`Find Options %O`, { ...findOptions, events });
 
       const findTask = pipe(
-        ctx.db.manager
-          .createQueryBuilder(MediaEntity, "image"),
+        ctx.db.manager.createQueryBuilder(MediaEntity, "image"),
         (q) => {
           if (O.isSome(description)) {
             return q.where("lower(image.description) LIKE :description", {

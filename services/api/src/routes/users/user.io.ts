@@ -14,6 +14,6 @@ export const toUserIO = ({
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
     }),
-    E.mapLeft(e => DecodeError(`Failed to decode user (${user.id})`, e))
+    E.mapLeft((e) => DecodeError(`Failed to decode user (${user.id})`, e))
   );
 };

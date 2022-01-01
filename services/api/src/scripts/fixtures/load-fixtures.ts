@@ -134,7 +134,7 @@ const run = (): Promise<void> => {
                 actor: { id: shuffleArray(actors)[0].id },
                 group: { id: shuffleArray(groups)[0].id },
                 startDate: new Date(),
-                body: { content: 'fake-body' },
+                body: { content: "fake-body" },
               }));
 
               return pipe(

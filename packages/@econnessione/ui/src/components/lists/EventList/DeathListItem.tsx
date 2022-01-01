@@ -8,8 +8,8 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
+import Editor from "../../Common/Editor/index";
 import KeywordList from "../KeywordList";
-import Editor  from "../../Common/Editor/index";
 
 interface DeathListItemProps {
   item: Events.Death.Death;

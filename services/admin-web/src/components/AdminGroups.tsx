@@ -158,11 +158,8 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ImageInput>
         </FormTab>
         <FormTab label="Body">
-          <RichTextInput source="body" />
-        </FormTab>
-        <FormTab label="Body2">
-          <RichTextInput source="excerpt" />
-          <ReactPageInput source="body2" />
+          <ReactPageInput source="excerpt" />
+          <ReactPageInput source="body" />
         </FormTab>
         <FormTab label="Members">
           <ReferenceArrayGroupMemberInput source="groupsMembers" />
@@ -234,8 +231,8 @@ export const GroupCreate: React.FC<CreateProps> = (props) => (
       <ImageInput source="avatar">
         <ImageField src="src" />
       </ImageInput>
-      <RichTextInput source="excerpt" />
-      <ReactPageInput source="body2" defaultValue="" />
+      <ReactPageInput source="excerpt" />
+      <ReactPageInput source="body" defaultValue="" />
       <TextInput source="body" hidden={true} defaultValue="" />
     </SimpleForm>
   </Create>

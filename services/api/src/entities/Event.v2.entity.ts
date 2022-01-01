@@ -21,7 +21,7 @@ export class EventV2Entity {
   @Index()
   id: string;
 
-  @Column({ type: 'bool', default: true })
+  @Column({ type: "bool", default: true })
   draft: boolean;
 
   @Column({ type: "timestamptz", nullable: false })
@@ -32,9 +32,7 @@ export class EventV2Entity {
 
   @Column({
     type: "enum",
-    enum: http.Events.Event.types.map(
-      (eventC) => eventC.type.props.type.value
-    ),
+    enum: http.Events.Event.types.map((eventC) => eventC.type.props.type.value),
     default: UncategorizedType.value,
   })
   type: http.Events.Event["type"];
