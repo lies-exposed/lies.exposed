@@ -20,6 +20,6 @@ export const toDeathIO = (
       createdAt: event.createdAt.toISOString(),
       updatedAt: event.updatedAt.toISOString(),
     }),
-    E.mapLeft(DecodeError)
+    E.mapLeft(e => DecodeError(`Failed to decode death event (${event.id})`, e))
   );
 };

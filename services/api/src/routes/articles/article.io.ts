@@ -17,6 +17,6 @@ export const toArticleIO = (
       createdAt: article.createdAt.toISOString(),
       updatedAt: article.updatedAt.toISOString(),
     }),
-    E.mapLeft(DecodeError)
+    E.mapLeft(e => DecodeError(`Failed to decode article (${article.id})`, e))
   );
 };

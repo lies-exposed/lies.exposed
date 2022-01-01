@@ -1,14 +1,14 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import * as http from "@econnessione/shared/io/http";
+import { RouteContext } from "@routes/route.types";
+import { getORMOptions } from "@utils/listQueryToORMOptions";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as TE from "fp-ts/lib/TaskEither";
+import { toEventV2IO } from "./eventV2.io";
 import { searchEventV2Query } from "./queries/searchEventsV2.query";
-import { RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
 
 export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
@@ -47,8 +47,9 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
         pipe(
           results,
           A.map((e) =>
-            E.right<any, http.Events.Event>({
-              ...(e as any),
+            toEventV2IO({
+              ...e,
+              links: e.links.map((l) => l.id as any),
               keywords: e.keywords.map((k) => k.id) as any[],
               media: e.media.map((m) => m.id) as any[],
             })
@@ -61,7 +62,8 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
       TE.map(({ data, totals }) => ({
         body: {
           data,
-          total: totals.deaths + totals.scientificStudies + totals.uncategorized,
+          total:
+            totals.deaths + totals.scientificStudies + totals.uncategorized,
           totals,
         },
         statusCode: 200,

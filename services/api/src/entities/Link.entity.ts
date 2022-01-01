@@ -6,10 +6,10 @@ import {
   Index,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { DeathEventEntity } from "./DeathEvent.entity";
-import { EventEntity } from "./Event.entity";
+import { EventV2Entity } from "./Event.v2.entity";
 import { KeywordEntity } from "./Keyword.entity";
 
 @Entity("link")
@@ -36,8 +36,8 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   provider: string;
 
-  @ManyToMany(() => EventEntity, (e) => e.links, { cascade: false })
-  events: EventEntity[];
+  @ManyToMany(() => EventV2Entity, (e) => e.links, { cascade: false })
+  events: EventV2Entity[];
 
   @ManyToMany(() => DeathEventEntity, (e) => e.news, { cascade: false })
   death: DeathEventEntity;

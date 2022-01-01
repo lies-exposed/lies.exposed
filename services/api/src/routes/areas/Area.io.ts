@@ -14,6 +14,6 @@ export const toAreaIO = (
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }),
-    E.mapLeft(DecodeError)
+    E.mapLeft(e => DecodeError(`Failed to decode area (${a.id})`, e))
   );
 };

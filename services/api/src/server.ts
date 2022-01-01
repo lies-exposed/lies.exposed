@@ -48,7 +48,7 @@ export const makeContext = (
   const serverLogger = logger.GetLogger("server");
   return pipe(
     ENV.decode(processENV),
-    E.mapLeft(DecodeError),
+    E.mapLeft((e) => DecodeError(`Failed to decode process env`, e)),
     TE.fromEither,
     TE.chain((env) => {
       return sequenceS(TE.ApplicativePar)({

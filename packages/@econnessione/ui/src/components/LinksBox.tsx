@@ -1,19 +1,19 @@
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary,
-  List,
+  AccordionSummary, Grid, List,
   ListItem,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMoreOutlined";
 import * as QR from "avenger/lib/QueryResult";
 import { declareQueries } from "avenger/lib/react";
+import { pipe } from "fp-ts/lib/function";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Queries } from "../providers/DataProvider";
+import LinkCard from "./Cards/LinkCard";
 import { ErrorBox } from "./Common/ErrorBox";
 import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
 
@@ -28,7 +28,7 @@ export const LinksList = withQueries(({ queries }) => {
     QR.fold(LazyFullSizeLoader, ErrorBox, ({ links: { data: links } }) => {
       // eslint-disable-next-line react/jsx-key
       return (
-        <Accordion>
+        <Accordion defaultExpanded={true}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -37,17 +37,13 @@ export const LinksList = withQueries(({ queries }) => {
             <Typography variant="h6">Links</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <List>
+            <Grid container spacing={2}>
               {links.map((l, i) => (
-                <ListItem key={i}>
-                  <p>
-                    <a href={l.url}>
-                      {l.provider} - {l.title}
-                    </a>
-                  </p>
-                </ListItem>
+                <Grid item key={i} md={4} sm={6}>
+                  <LinkCard link={l} />
+                </Grid>
               ))}
-            </List>
+            </Grid>
           </AccordionDetails>
         </Accordion>
       );

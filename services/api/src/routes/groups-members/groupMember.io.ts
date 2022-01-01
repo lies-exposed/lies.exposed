@@ -30,6 +30,6 @@ export const toGroupMemberIO = (
       createdAt: groupMember.createdAt.toISOString(),
       updatedAt: groupMember.updatedAt.toISOString(),
     }),
-    E.mapLeft(DecodeError)
+    E.mapLeft(e => DecodeError(`Failed to decode group member (${groupMember.id})`, e))
   );
 };
