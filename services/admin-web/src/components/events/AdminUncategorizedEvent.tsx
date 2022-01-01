@@ -237,7 +237,6 @@ export const transformUncategorizedEvent = (id: string, r: any) => {
 export const UncategorizedEventEdit: React.FC<EditProps> = (
   props: EditProps
 ) => {
-  console.log("props", props);
   return (
     <FormTab label="Payload" {...props}>
       <TextInput source="payload.title" />
