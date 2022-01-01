@@ -73,36 +73,36 @@ const EventsPage: React.FC<EventsPageProps> = ({
   );
 
   const onActorsChange = React.useCallback(
-    (actor: Actor.Actor[]): void => {
+    (actors: string[]): void => {
       handleUpdateCurrentView({
-        actors: actor.map((a) => a.id),
+        actors,
       });
     },
     [filters]
   );
 
   const onGroupsChange = React.useCallback(
-    (groups: Group.Group[]): void => {
+    (groups: string[]): void => {
       handleUpdateCurrentView({
-        groups: groups.map((_) => _.id),
+        groups,
       });
     },
     [filters]
   );
 
   const onGroupMembersChange = React.useCallback(
-    (groupMembers: GroupMember.GroupMember[]): void => {
+    (groupsMembers: string[]): void => {
       handleUpdateCurrentView({
-        groupsMembers: groupMembers.map((_) => _.id),
+        groupsMembers,
       });
     },
     [filters]
   );
 
   const onKeywordsChange = React.useCallback(
-    (keywords: Keyword.Keyword[]): void => {
+    (keywords:string[]): void => {
       handleUpdateCurrentView({
-        keywords: keywords.map((k) => k.id),
+        keywords,
       });
     },
     [filters]
@@ -148,25 +148,25 @@ const EventsPage: React.FC<EventsPageProps> = ({
             <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteGroupInput
                 selectedIds={groupIds}
-                onChange={onGroupsChange}
+                onChange={(gg) => onGroupsChange(gg.map((g) => g.id))}
               />
             </Grid>
             <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteGroupMemberInput
                 selectedIds={groupsMembersIds}
-                onItemClick={onGroupMembersChange}
+                onItemClick={gms => onGroupMembersChange(gms.map(gm => gm.id))}
               />
             </Grid>
             <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteActorInput
                 selectedIds={actorIds}
-                onChange={onActorsChange}
+                onChange={aa => onActorsChange(aa.map(a => a.id))}
               />
             </Grid>
             <Grid item lg={4} md={6} sm={6} xs={6}>
               <AutocompleteKeywordInput
                 selectedIds={keywordIds}
-                onItemClick={onKeywordsChange}
+                onItemClick={kk => onKeywordsChange(kk.map(k => k.id))}
               />
             </Grid>
           </Grid>
@@ -204,6 +204,18 @@ const EventsPage: React.FC<EventsPageProps> = ({
           tab={tab}
           hash={hash}
           filters={filters}
+          onActorClick={(a) => {
+            onActorsChange(filters.actors.concat(a.id));
+          }}
+          onGroupClick={(g) => {
+            onGroupsChange(filters.groups.concat(g.id));
+          }}
+          onGroupMemberClick={(gm) => {
+            onGroupMembersChange(filters.groupsMembers.concat(gm.id));
+          }}
+          onKeywordClick={(k) => {
+            onKeywordsChange(filters.keywords.concat(k.id));
+          }}
         />
       </Grid>
     </Grid>

@@ -1,4 +1,5 @@
 import { EventsMap } from "@components/EventsMap";
+import { Actor, Group, GroupMember, Keyword } from "@econnessione/shared/io/http";
 import {
   a11yProps,
   TabPanel,
@@ -16,12 +17,17 @@ interface EventsPanelProps {
   tab?: number;
   hash?: string;
   filters: InfiniteEventListParams;
+  onActorClick: (a: Actor.Actor) => void;
+  onGroupClick: (g: Group.Group) => void;
+  onGroupMemberClick: (gm: GroupMember.GroupMember) => void
+  onKeywordClick: (k: Keyword.Keyword) => void;
 }
 export const EventsPanel: React.FC<EventsPanelProps> = ({
   view,
   tab = 0,
   filters,
   hash,
+  ...onClickProps
 }) => {
   const handleUpdateCurrentView = React.useCallback(
     (update: Partial<Omit<CurrentView, "view">>): void => {
@@ -48,7 +54,11 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
       <TabPanel value={tab} index={0}>
         {tab === 0 ? (
-          <InfiniteEventList hash={hash ?? "default"} filters={filters} />
+          <InfiniteEventList
+            hash={hash ?? "default"}
+            filters={filters}
+            {...onClickProps}
+          />
         ) : null}
       </TabPanel>
       <TabPanel value={tab} index={1}>
