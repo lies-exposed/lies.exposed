@@ -31,7 +31,10 @@ export const EventListItem: React.FC<EventListItemProps> = ({
 }) => {
   switch (e.type) {
     case Events.Death.DeathType.value: {
-      return <DeathListItem item={e} {...props} links={[]} />;
+      const victim = props.actors.find((a) => a.id === e.payload.victim);
+      return (
+        <DeathListItem item={e} {...props} victim={victim as any} links={[]} />
+      );
     }
     case Events.ScientificStudy.ScientificStudyType.value: {
       return <ScientificStudyListItem item={e} links={[]} {...props} />;

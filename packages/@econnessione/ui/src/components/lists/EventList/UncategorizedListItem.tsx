@@ -75,87 +75,117 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               onItemClick={(t) => onKeywordClick?.(t)}
             />
           </Grid>
-          <Grid container>
-            <Grid container alignItems="center">
-              <Grid item md={12} sm={12} style={{ textAlign: "right" }}>
-                {pipe(
-                  O.fromNullable(item.payload.location),
-                  O.fold(
-                    () => null,
-                    () => <FontAwesomeIcon icon={faMapMarker} />
-                  )
-                )}
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Editor readOnly value={(item.excerpt as any) ?? null} />
 
-            <Grid container alignItems="center">
-              <LinkIcon fontSize="small" />{" "}
-              <Typography variant="caption">({links.length})</Typography>
+          <Grid container>
+            <Grid item md={9} sm={9}>
+              <Editor readOnly value={(item.excerpt as any) ?? null} />
             </Grid>
-          </Grid>
-          <Grid container style={{ width: "100%" }} alignItems="flex-start">
-            <Grid item md={4} sm={4}>
+            <Grid item md={3} sm={3} style={{ textAlign: "right" }}>
+              {pipe(
+                O.fromNullable(item.payload.location),
+                O.fold(
+                  () => null,
+                  () => <FontAwesomeIcon icon={faMapMarker} />
+                )
+              )}
+              <Box
+                display={"flex"}
+                alignContent={"center"}
+                flexDirection={"row-reverse"}
+                textAlign={"right"}
+              >
+                <LinkIcon fontSize="small" />{" "}
+                <Typography variant="caption">({links.length})</Typography>
+              </Box>
               {pipe(
                 groups,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
                   () => null,
                   (groups) => (
-                    <GroupList
-                      groups={groups.map((g) => ({
-                        ...g,
-                        selected: false,
-                      }))}
-                      onGroupClick={(group) => onGroupClick?.(group)}
-                    />
+                    <Box>
+                      <Typography
+                        variant="caption"
+                        color="primary"
+                        gutterBottom={false}
+                      >
+                        Groups
+                      </Typography>
+                      <GroupList
+                        style={{
+                          display: "flex",
+                          flexDirection: "row-reverse",
+                          alignItems: "flex-end",
+                        }}
+                        groups={groups.map((g) => ({
+                          ...g,
+                          selected: false,
+                        }))}
+                        onGroupClick={(group) => onGroupClick?.(group)}
+                      />
+                    </Box>
                   )
                 )
               )}
-            </Grid>
 
-            <Grid item md={4} sm={4}>
               {pipe(
                 groupsMembers,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
                   () => null,
                   (gms) => (
-                    <GroupsMembersList
-                      style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                      }}
-                      groupsMembers={gms.map((a) => ({
-                        ...a,
-                        selected: false,
-                      }))}
-                      onItemClick={(gm) => onGroupMemberClick?.(gm)}
-                    />
+                    <Box>
+                      <Typography
+                        variant="caption"
+                        color="primary"
+                        gutterBottom={false}
+                      >
+                        Groups Members
+                      </Typography>
+                      <GroupsMembersList
+                        style={{
+                          display: "flex",
+                          flexDirection: "row-reverse",
+                          alignItems: "flex-end",
+                        }}
+                        groupsMembers={gms.map((a) => ({
+                          ...a,
+                          selected: false,
+                        }))}
+                        onItemClick={(gm) => onGroupMemberClick?.(gm)}
+                      />
+                    </Box>
                   )
                 )
               )}
-            </Grid>
-            <Grid item md={4} sm={4}>
+
               {pipe(
                 actors,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
                   () => null,
                   (actors) => (
-                    <ActorList
-                      style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                      }}
-                      actors={actors.map((a) => ({
-                        ...a,
-                        selected: false,
-                      }))}
-                      onActorClick={(actor) => onActorClick?.(actor)}
-                    />
+                    <Box>
+                      <Typography
+                        variant="caption"
+                        color="primary"
+                        gutterBottom={false}
+                      >
+                        Actors
+                      </Typography>
+                      <ActorList
+                        style={{
+                          display: "flex",
+                          flexDirection: "row-reverse",
+                          alignItems: "flex-end",
+                        }}
+                        actors={actors.map((a) => ({
+                          ...a,
+                          selected: false,
+                        }))}
+                        onActorClick={(actor) => onActorClick?.(actor)}
+                      />
+                    </Box>
                   )
                 )
               )}
@@ -169,10 +199,17 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           xs={12}
           style={{
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
-          <Box style={{ height: "100%", maxWidth: "100%" }}>
+          <Box
+            style={{
+              height: "100%",
+              width: "100%",
+              maxWidth: 300,
+              position: "relative",
+            }}
+          >
             {pipe(
               media,
               O.fromPredicate((arr) => arr.length > 0),
@@ -181,10 +218,11 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 <Slider
                   adaptiveHeight={false}
                   infinite={false}
-                  arrows={true}
+                  arrows={false}
                   draggable={false}
                   dots={true}
-                  swipe={true}
+                  swipe={false}
+                  variableWidth={false}
                   slidesToShow={1}
                   slidesToScroll={1}
                   slides={media}

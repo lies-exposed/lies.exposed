@@ -137,7 +137,7 @@ export const searchEventV2Query =
 
             const scientificStudiesCount = q
               .clone()
-              .andWhere(" event.type = 'Uncategorized' ");
+              .andWhere(" event.type = 'ScientificStudy' ");
             logger.debug.log(
               `Scientific Studies count query %O`,
               ...scientificStudiesCount.getQueryAndParameters()

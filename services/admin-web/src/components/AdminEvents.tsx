@@ -100,6 +100,11 @@ export const EventList: React.FC<ListProps> = (props) => (
               <Typography display="inline" variant="subtitle1">
                 {r.type}
               </Typography>
+              {r.type === 'Uncategorized' ? (
+                <Typography>
+                  {r.payload.title}
+                </Typography>
+              ): null}
             </Box>
           );
         }}
