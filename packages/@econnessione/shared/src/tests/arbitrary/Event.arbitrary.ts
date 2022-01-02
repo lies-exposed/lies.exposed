@@ -12,35 +12,35 @@ interface CreateEventBodyArbOpts {
   keywordIds?: boolean;
 }
 
-const createEventProps = propsOmit(http.Events.Uncategorized.CreateEventBody, [
-  "title",
+const createEventProps = propsOmit(http.Events.CreateEventBody.types[2], [
   "excerpt",
-  "body",
-  "actors",
   "date",
-  "endDate",
-  "groups",
   "media",
   "links",
   "keywords",
-  "groupsMembers",
-  "title",
-  "body",
+  "payload",
 ]);
 
 export const CreateEventBodyArb = ({
   linksIds = false,
   mediaIds = false,
   keywordIds = false,
-}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.Uncategorized.CreateEventBody> =>
+}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventBody> =>
   getArbitrary(t.strict(createEventProps)).map((b) => ({
     ...b,
-    title: "",
-    body: {},
     excerpt: {},
-    actors: fc.sample(fc.uuidV(4)) as any,
-    groups: fc.sample(fc.uuidV(4)) as any,
-    groupsMembers: fc.sample(fc.uuidV(4)) as any,
+    payload: {
+      title: "",
+      body: {},
+      actors: fc.sample(fc.uuidV(4)) as any,
+      groups: fc.sample(fc.uuidV(4)) as any,
+      groupsMembers: fc.sample(fc.uuidV(4)) as any,
+      location: undefined as any,
+      endDate: fc.sample(
+        fc.oneof(fc.constant(undefined), DateArb),
+        1
+      )[0] as any,
+    },
     media: fc.sample(
       fc.record({
         location: URLArb,
@@ -70,7 +70,6 @@ export const CreateEventBodyArb = ({
       5
     ) as any,
     date: fc.sample(DateArb, 1)[0],
-    endDate: fc.sample(fc.oneof(fc.constant(undefined), DateArb), 1)[0] as any,
   }));
 
 const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [

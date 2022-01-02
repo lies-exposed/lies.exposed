@@ -3,40 +3,24 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { nonEmptyRecordFromType } from "../../Common";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { Point, UUID } from "../Common";
-import { CreateKeyword } from "../Keyword";
-import { CreateLink } from "../Link";
-import { MediaType } from "../Media";
-import { EditEventCommon, EventCommon } from "./BaseEvent";
+import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 
 export const UncategorizedType = t.literal("Uncategorized");
 export type UncategorizedType = t.TypeOf<typeof UncategorizedType>;
 
 export const CreateEventBody = t.strict(
   {
-    title: t.string,
+    ...CreateEventCommon.type.props,
     type: UncategorizedType,
-    media: optionFromUndefined(
-      t.array(
-        t.union([
-          UUID,
-          t.strict({
-            location: t.string,
-            description: t.string,
-            thumbnail: t.union([t.string, t.undefined]),
-            type: MediaType,
-          }),
-        ])
-      )
-    ),
-    links: t.array(t.union([UUID, CreateLink])),
-    keywords: t.array(t.union([UUID, CreateKeyword])),
-    actors: t.array(UUID),
-    groups: t.array(UUID),
-    groupsMembers: t.array(UUID),
-    date: DateFromISOString,
-    endDate: optionFromUndefined(DateFromISOString),
-    body: t.UnknownRecord,
-    excerpt: t.union([t.UnknownRecord, t.null]),
+    payload: t.strict({
+      title: t.string,
+      actors: t.array(UUID),
+      groups: t.array(UUID),
+      groupsMembers: t.array(UUID),
+      location: optionFromUndefined(Point),
+      endDate: optionFromUndefined(DateFromISOString),
+      body: t.UnknownRecord,
+    }),
   },
   "CreateEventBody"
 );

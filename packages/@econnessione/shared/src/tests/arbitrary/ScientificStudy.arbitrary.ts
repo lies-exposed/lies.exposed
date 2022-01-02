@@ -11,34 +11,36 @@ const createScientificStudyProps = propsOmit(
   [
     "excerpt",
     "date",
-    "body",
-    "url",
-    "publisher",
-    "publishDate",
+    "draft",
+    "payload",
     "media",
     "links",
     "keywords",
-    "authors",
   ]
 );
 
 export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.CreateScientificStudyBody> =
   tests.getArbitrary(t.strict(createScientificStudyProps)).map((body) => ({
-    ...body,
+    type: 'ScientificStudy',
+    draft: false,
     date: tests.fc.sample(DateArb, 1)[0],
     excerpt: {},
-    body: {},
+    payload: {
+      title: tests.fc.sample(tests.fc.string(), 1)[0] as any,
+      abstract: tests.fc.sample(OptionArb(tests.fc.string()), 1)[0] as any,
+      results: tests.fc.sample(OptionArb(tests.fc.string()), 1)[0] as any,
+      publishDate: tests.fc.sample(
+        tests.fc.date({ min: MIN_DATE, max: MAX_DATE })
+      )[0],
+      authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
+      publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+      url: tests.fc.sample(URLArb, 1)[0],
+      conclusion: tests.fc.sample(tests.fc.string(), 1)[0],
+      body: {},
+    },
     media: [] as any,
     links: [] as any,
     keywords: [],
-    abstract: tests.fc.sample(OptionArb(tests.fc.string()), 1)[0] as any,
-    results: tests.fc.sample(OptionArb(tests.fc.string()), 1)[0] as any,
-    publishDate: tests.fc.sample(
-      tests.fc.date({ min: MIN_DATE, max: MAX_DATE })
-    )[0],
-    authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
-    publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
-    url: tests.fc.sample(URLArb, 1)[0],
   }));
 
 const scientificStudyProps = propsOmit(
@@ -67,6 +69,8 @@ export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.
       body: tests.fc.sample(tests.fc.object(), 1)[0],
       authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
       publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+      publishDate: tests.fc.sample(DateArb, 1)[0],
+      conclusion: tests.fc.sample(tests.fc.string(), 1)[0],
       url: tests.fc.sample(URLArb, 1)[0],
     },
     media: [],

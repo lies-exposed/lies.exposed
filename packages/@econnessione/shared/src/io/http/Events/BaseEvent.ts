@@ -14,8 +14,8 @@ export const CreateEventCommon = t.strict(
     excerpt: t.union([t.UnknownRecord, t.undefined]),
     date: DateFromISOString,
     draft: t.boolean,
-    media: optionFromUndefined(t.array(t.union([UUID, CreateMedia]))),
-    links: optionFromUndefined(t.array(t.union([UUID, CreateEventLink]))),
+    media: t.array(t.union([UUID, CreateMedia])),
+    links: t.array(t.union([UUID, CreateEventLink])),
     keywords: t.array(UUID),
   },
   "CreateEventCommon"

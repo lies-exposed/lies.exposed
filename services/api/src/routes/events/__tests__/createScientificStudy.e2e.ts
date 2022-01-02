@@ -6,12 +6,12 @@ import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
-import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
   let authorizationToken: string;
-  let scientificStudy: ScientificStudyEntity;
+  let scientificStudy: EventV2Entity;
   const [actor] = fc.sample(ActorArb, 1);
   const [group] = fc.sample(GroupArb, 1);
 
@@ -30,18 +30,18 @@ describe("Create Scientific Study", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(ScientificStudyEntity, [scientificStudy.id])();
+    await appTest.ctx.db.delete(EventV2Entity, [scientificStudy.id])();
     await appTest.ctx.db.delete(ActorEntity, [actor.id])();
     await appTest.ctx.db.delete(GroupEntity, [group.id])();
     await appTest.ctx.db.close()();
   });
 
   test("Should create an event", async () => {
-    const scientificStudyData = {
-      ...fc.sample(CreateScientificStudyArb, 1)[0],
+    const scientificStudyData = fc.sample(CreateScientificStudyArb, 1)[0];
+    scientificStudyData.payload = {
+      ...scientificStudyData.payload,
       authors: [actor.id],
       publisher: group.id,
-      conclusion: "required",
     };
 
     const response = await appTest.req
@@ -54,7 +54,7 @@ describe("Create Scientific Study", () => {
 
     expect(body).toMatchObject({
       payload: {
-        title: scientificStudyData.title,
+        title: scientificStudyData.payload.title,
         authors: [actor.id],
         publisher: group.id,
       },

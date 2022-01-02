@@ -1,16 +1,16 @@
 import { fc } from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
-import { ActorEntity } from "../../../../entities/Actor.entity";
-import { DeathEventEntity } from "../../../../entities/DeathEvent.entity";
+import { ActorEntity } from "@entities/Actor.entity";
 
 describe("Create Death Event", () => {
   let appTest: AppTest;
   const [actor] = fc.sample(ActorArb, 1);
   let authorizationToken: string;
-  let deathEvent: DeathEventEntity;
+  let deathEvent: EventV2Entity;
 
   beforeAll(async () => {
     appTest = await initAppTest();
@@ -26,12 +26,16 @@ describe("Create Death Event", () => {
   test("Should create a death event", async () => {
     const deathData = {
       type: http.Events.Death.DeathType.value,
-      victim: actor.id,
+      payload: {
+        victim: actor.id,
+        body: {},
+      },
       date: new Date().toISOString(),
       excerpt: {},
-      body: {},
       draft: false,
       keywords: [],
+      links: [],
+      media: [],
     };
 
     const response = await appTest.req
@@ -59,7 +63,7 @@ describe("Create Death Event", () => {
   test.todo("Should create an event with group members");
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(DeathEventEntity, [deathEvent.id])();
+    await appTest.ctx.db.delete(EventV2Entity, [deathEvent.id])();
     await appTest.ctx.db.delete(ActorEntity, [actor.id])();
   });
 });

@@ -25,8 +25,10 @@ export const CreateDeathBody = t.strict(
   {
     ...CreateEventCommon.type.props,
     type: DeathType,
-    victim: UUID,
-    location: optionFromNullable(Point),
+    payload: t.strict({
+      victim: UUID,
+      location: optionFromNullable(Point),
+    }),
   },
   "CreateDeathBody"
 );
@@ -39,8 +41,8 @@ export const EditDeathBody = t.strict(
     type: DeathType,
     payload: t.strict({
       victim: UUID,
+      location: optionFromUndefined(Point),
     }),
-    location: optionFromUndefined(Point),
   },
   "CreateDeathBody"
 );

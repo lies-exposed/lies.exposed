@@ -11,14 +11,16 @@ export type ScientificStudyType = t.TypeOf<typeof ScientificStudyType>;
 export const CreateScientificStudyBody = t.strict(
   {
     ...CreateEventCommon.type.props,
-    title: t.string,
     type: ScientificStudyType,
-    url: URL,
-    body: t.UnknownRecord,
-    publishDate: DateFromISOString,
-    authors: t.array(UUID),
-    publisher: UUID,
-    conclusion: t.string,
+    payload: t.strict({
+      title: t.string,
+      url: URL,
+      body: t.UnknownRecord,
+      publishDate: DateFromISOString,
+      authors: t.array(UUID),
+      publisher: UUID,
+      conclusion: t.string,
+    }),
   },
   "CreateScientificStudy"
 );
@@ -37,23 +39,8 @@ export const EditScientificStudyBody = t.strict(
 
 export type EditScientificStudyBody = t.TypeOf<typeof EditScientificStudyBody>;
 
-const {
-  publishDate,
-  conclusion,
-  type,
-  excerpt,
-  keywords,
-  media,
-  links,
-  date,
-  draft,
-  ...scientificStudyBaseProps
-} = CreateScientificStudyBody.type.props;
-
 export const ScientificStudyPayload = t.strict(
-  {
-    ...scientificStudyBaseProps,
-  },
+  CreateScientificStudyBody.type.props.payload.type.props,
   "ScientificStudy"
 );
 

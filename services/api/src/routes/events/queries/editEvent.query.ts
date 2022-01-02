@@ -119,6 +119,7 @@ export const editEventQuery =
               payload: {
                 ...storedEvent.payload,
                 ...payload,
+                location: O.toUndefined(payload.location)
               },
               ...commonData,
             };
