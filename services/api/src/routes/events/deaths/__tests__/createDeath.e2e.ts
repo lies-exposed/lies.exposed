@@ -1,10 +1,10 @@
 import { fc } from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 
 describe("Create Death Event", () => {
   let appTest: AppTest;

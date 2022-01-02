@@ -1,20 +1,20 @@
 import { fc } from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { MediaArb, ProjectArb } from "@econnessione/shared/tests";
-import { MediaEntity } from "@entities/Media.entity";
-import { ProjectEntity } from "@entities/Project.entity";
-import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { MediaEntity } from "@entities/Media.entity";
+import { ProjectEntity } from "@entities/Project.entity";
+import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 
 describe("List Project Images", () => {
-  let appTest: AppTest,
-    media = fc.sample(MediaArb, 5),
-    [projectData] = fc.sample(ProjectArb, 1),
-    projects: ProjectEntity[],
-    projectImages: ProjectImageEntity[],
-    authorizationToken: string;
+  let appTest: AppTest;
+    const media = fc.sample(MediaArb, 5);
+    const [projectData] = fc.sample(ProjectArb, 1);
+    let projects: ProjectEntity[];
+    let projectImages: ProjectImageEntity[];
+    let authorizationToken: string;
 
   beforeAll(async () => {
     appTest = await initAppTest();

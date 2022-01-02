@@ -5,8 +5,8 @@ import { CreateScientificStudyArb } from "@econnessione/shared/tests/arbitrary/S
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
