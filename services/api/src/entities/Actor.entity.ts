@@ -7,12 +7,12 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
-import { DeathEventEntity } from "./DeathEvent.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { ScientificStudyEntity } from "./ScientificStudy.entity";
-import { EventEntity } from "@entities/Event.entity";
+import { DeathEntity } from "./events/DeathEvent.entity";
+import { UncategorizedEventEntity } from "./events/UncategorizedEvent.entity";
 
 @Entity("actor")
 export class ActorEntity {
@@ -37,11 +37,11 @@ export class ActorEntity {
   })
   memberIn: GroupMemberEntity[];
 
-  @ManyToMany(() => EventEntity, (e) => e.actors, { cascade: false })
-  events: EventEntity[];
+  @ManyToMany(() => UncategorizedEventEntity, a => a.actors, { cascade: false })
+  events: UncategorizedEventEntity[];
 
-  @OneToOne(() => DeathEventEntity, (d) => d.victim)
-  death: DeathEventEntity;
+  @OneToOne(() => DeathEntity, (d) => d.victim)
+  death: DeathEntity;
 
   @ManyToMany(() => ScientificStudyEntity, (e) => e.authors, {
     cascade: false,

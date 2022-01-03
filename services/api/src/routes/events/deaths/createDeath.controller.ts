@@ -4,8 +4,8 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "../../route.types";
 import { toDeathIO } from "./death.io";
 import { ActorEntity } from "@entities/Actor.entity";
-import { DeathEventEntity } from "@entities/DeathEvent.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { DeathEntity } from "@entities/events/DeathEvent.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
@@ -24,7 +24,7 @@ export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
         ),
 
         TE.chain(([event]) =>
-          db.findOneOrFail(DeathEventEntity, {
+          db.findOneOrFail(DeathEntity, {
             where: { id: event.id },
             loadRelationIds: true,
           })

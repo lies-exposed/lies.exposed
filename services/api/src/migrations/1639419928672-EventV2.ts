@@ -1,7 +1,7 @@
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
-import { DeathEventEntity } from "@entities/DeathEvent.entity";
+import { DeathEntity } from "@entities/events/DeathEvent.entity";
 import { EventEntity } from "@entities/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
@@ -100,7 +100,7 @@ export class EventV21639419928672 implements MigrationInterface {
         )
       );
     const deathEvents = await queryRunner.manager
-      .find(DeathEventEntity, {
+      .find(DeathEntity, {
         relations: ["victim"],
       })
       .then((ss) =>
@@ -111,7 +111,7 @@ export class EventV21639419928672 implements MigrationInterface {
             excerpt: {},
             type: DeathType.value,
             payload: {
-              location: s.location ?? undefined,
+              location: (s as any).location ?? undefined,
               victim: s.victim.id as any,
             },
             media: [],

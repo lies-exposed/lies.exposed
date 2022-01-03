@@ -1,6 +1,7 @@
 import * as tests from "@econnessione/core/tests";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { ActorEntity } from "@entities/Actor.entity";
 
 describe("Delete Actor", () => {
   let Test: AppTest, actor: any, authorizationToken: string;
@@ -29,6 +30,7 @@ describe("Delete Actor", () => {
   });
 
   afterAll(async () => {
+    await Test.ctx.db.delete(ActorEntity, [actor.id])();
     await Test.ctx.db.close()();
   });
 

@@ -53,7 +53,10 @@ describe("Create Scientific Study", () => {
     expect(response.status).toEqual(201);
 
     expect(body).toMatchObject({
+      date: scientificStudyData.date.toISOString(),
       payload: {
+        ...scientificStudyData.payload,
+        publishDate: scientificStudyData.payload.publishDate.toISOString(),
         title: scientificStudyData.payload.title,
         authors: [actor.id],
         publisher: group.id,

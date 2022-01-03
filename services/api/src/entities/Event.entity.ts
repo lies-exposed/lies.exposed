@@ -7,14 +7,14 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
+import { ActorEntity } from "./Actor.entity";
+import { GroupEntity } from "./Group.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
 
 @Entity("event")
 export class EventEntity {

@@ -4,11 +4,13 @@ import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { CreateEventBodyArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { KeywordArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
 import * as A from "fp-ts/lib/Array";
+import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import jwt from "jsonwebtoken";
+import { In } from "typeorm";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
-import { EventEntity } from "../../../entities/Event.entity";
 import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Create Event", () => {
@@ -97,12 +99,28 @@ describe("Create Event", () => {
   test.todo("Should create an event with group members");
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(EventEntity, eventIds)();
+    const keywords = (
+      (await pipe(
+        appTest.ctx.db.find(EventV2Entity, {
+          loadRelationIds: {
+            relations: ["keywords"],
+          },
+          where: {
+            id: In(eventIds),
+          },
+        }),
+        TE.map((events) =>
+          events.reduce<string[]>(
+            (acc, e) => acc.concat(e.keywords as any[] as string[]),
+            []
+          )
+        )
+      )()) as any
+    ).right;
+
+    await appTest.ctx.db.delete(EventV2Entity, eventIds)();
     await appTest.ctx.db.delete(ActorEntity, actorIds)();
-    await appTest.ctx.db.delete(
-      KeywordEntity,
-      keywords.map((k) => k.id)
-    )();
+    await appTest.ctx.db.delete(KeywordEntity, keywords)();
 
     await appTest.ctx.db.close()();
   });

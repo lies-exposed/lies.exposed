@@ -10,7 +10,6 @@ export const MakeDeleteAreaRoute: Route = (r, { s3, db, env }) => {
     return pipe(
       db.findOneOrFail(AreaEntity, {
         where: { id },
-        loadRelationIds: true,
       }),
       TE.chainFirst(() => db.softDelete(AreaEntity, id)),
       TE.chainEitherK(toAreaIO),

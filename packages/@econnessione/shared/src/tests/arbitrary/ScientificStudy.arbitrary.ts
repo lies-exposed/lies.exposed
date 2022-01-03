@@ -2,7 +2,6 @@ import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 import { MIN_DATE, MAX_DATE, DateArb } from "./Date.arbitrary";
-import { OptionArb } from "./Option.arbitrary";
 import { URLArb } from "./URL.arbitrary";
 import { propsOmit } from "./utils.arbitrary";
 
@@ -27,8 +26,6 @@ export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.Scientific
     excerpt: {},
     payload: {
       title: tests.fc.sample(tests.fc.string(), 1)[0] as any,
-      abstract: tests.fc.sample(OptionArb(tests.fc.string()), 1)[0] as any,
-      results: tests.fc.sample(OptionArb(tests.fc.string()), 1)[0] as any,
       publishDate: tests.fc.sample(
         tests.fc.date({ min: MIN_DATE, max: MAX_DATE })
       )[0],
