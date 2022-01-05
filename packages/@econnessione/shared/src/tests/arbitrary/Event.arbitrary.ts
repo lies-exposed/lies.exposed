@@ -14,6 +14,7 @@ interface CreateEventBodyArbOpts {
 
 const createEventProps = propsOmit(http.Events.CreateEventBody.types[2], [
   "excerpt",
+  "body",
   "date",
   "media",
   "links",
@@ -29,9 +30,9 @@ export const CreateEventBodyArb = ({
   getArbitrary(t.strict(createEventProps)).map((b) => ({
     ...b,
     excerpt: {},
+    body: {},
     payload: {
       title: "",
-      body: {},
       actors: fc.sample(fc.uuidV(4)) as any,
       groups: fc.sample(fc.uuidV(4)) as any,
       groupsMembers: fc.sample(fc.uuidV(4)) as any,
@@ -76,6 +77,7 @@ const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "id",
   "date",
   "excerpt",
+  "body",
   "payload",
   "media",
   "links",
@@ -93,6 +95,7 @@ export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategori
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],
     excerpt: {},
+    body: {},
     media: fc.sample(fc.uuid(), 5) as any[],
     keywords: fc.sample(fc.uuid(), 5) as any[],
     links: fc.sample(fc.uuid(), 5) as any[],

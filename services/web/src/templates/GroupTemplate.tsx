@@ -69,6 +69,10 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
                 groupsMembers: group.members,
               }}
               tab={tab}
+              onActorClick={() => {}}
+              onGroupClick={() => {}}
+              onGroupMemberClick={() => {}}
+              onKeywordClick={() => {}}
             />
           </MainContent>
         );

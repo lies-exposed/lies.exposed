@@ -15,7 +15,6 @@ export const CreateScientificStudyBody = t.strict(
     payload: t.strict({
       title: t.string,
       url: URL,
-      body: t.UnknownRecord,
       publishDate: DateFromISOString,
       authors: t.array(UUID),
       publisher: UUID,

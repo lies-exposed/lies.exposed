@@ -4,6 +4,7 @@ import * as path from "path";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { ArticleEntity } from "@entities/Article.entity";
+import { DeathEventEntity } from "@entities/DeathEvent.entity";
 import { EventEntity } from "@entities/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -49,6 +50,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       AreaEntity,
       EventEntity,
       EventV2Entity,
+      DeathEventEntity,
       DeathEventViewEntity,
       UncategorizedEventEntity,
       ScientificStudyEntity,

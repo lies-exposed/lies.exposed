@@ -19,7 +19,6 @@ export const CreateEventBody = t.strict(
       groupsMembers: t.array(UUID),
       location: optionFromUndefined(Point),
       endDate: optionFromUndefined(DateFromISOString),
-      body: t.UnknownRecord,
     }),
   },
   "CreateEventBody"
@@ -38,7 +37,6 @@ export const EditEventBody = nonEmptyRecordFromType(
       groups: t.array(t.string),
       groupsMembers: t.array(t.string),
       endDate: optionFromUndefined(DateFromISOString),
-      body: t.UnknownRecord,
     }),
   },
   "EditEventPayload"
@@ -51,7 +49,6 @@ export const UncategorizedV2Payload = t.strict(
     title: t.string,
     location: t.union([Point, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
-    body: t.UnknownRecord,
     actors: t.array(UUID),
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),

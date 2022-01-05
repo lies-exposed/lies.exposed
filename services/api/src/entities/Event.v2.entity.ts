@@ -30,6 +30,9 @@ export class EventV2Entity {
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;
 
+  @Column({ type: "json", nullable: true })
+  body: Record<string, unknown> | null;
+
   @Column({
     type: "enum",
     enum: http.Events.Event.types.map((eventC) => eventC.type.props.type.value),

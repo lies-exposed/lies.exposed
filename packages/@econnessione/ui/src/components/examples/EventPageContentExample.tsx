@@ -11,7 +11,6 @@ export const eventPageContentArgs: EventPageContentProps = {
     payload: {
       title: "fale title",
       endDate: undefined,
-      body: {},
       location: undefined,
       ...firstEvent.payload,
       actors: [],

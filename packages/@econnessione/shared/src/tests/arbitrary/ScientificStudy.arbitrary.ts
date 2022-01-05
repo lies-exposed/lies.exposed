@@ -9,6 +9,7 @@ const createScientificStudyProps = propsOmit(
   http.Events.ScientificStudy.CreateScientificStudyBody,
   [
     "excerpt",
+    "body",
     "date",
     "draft",
     "payload",
@@ -24,6 +25,7 @@ export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.Scientific
     draft: false,
     date: tests.fc.sample(DateArb, 1)[0],
     excerpt: {},
+    body: {},
     payload: {
       title: tests.fc.sample(tests.fc.string(), 1)[0] as any,
       publishDate: tests.fc.sample(
@@ -33,7 +35,6 @@ export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.Scientific
       publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
       url: tests.fc.sample(URLArb, 1)[0],
       conclusion: tests.fc.sample(tests.fc.string(), 1)[0],
-      body: {},
     },
     media: [] as any,
     links: [] as any,

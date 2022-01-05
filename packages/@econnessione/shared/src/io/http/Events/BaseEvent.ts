@@ -12,6 +12,7 @@ const CreateEventLink = t.strict(createLinkProps, "CreateEventLink");
 export const CreateEventCommon = t.strict(
   {
     excerpt: t.union([t.UnknownRecord, t.undefined]),
+    body: t.union([t.UnknownRecord, t.undefined]),
     date: DateFromISOString,
     draft: t.boolean,
     media: t.array(t.union([UUID, CreateMedia])),
@@ -25,6 +26,7 @@ export type CreateEventCommon = t.TypeOf<typeof CreateEventCommon>;
 export const EditEventCommon = t.strict(
   {
     excerpt: optionFromUndefined(t.UnknownRecord),
+    body: optionFromUndefined(t.UnknownRecord),
     draft: optionFromUndefined(t.boolean),
     date: optionFromUndefined(DateFromISOString),
     keywords: optionFromUndefined(t.array(UUID)),

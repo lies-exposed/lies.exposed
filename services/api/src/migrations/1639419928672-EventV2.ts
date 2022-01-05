@@ -81,6 +81,7 @@ export class EventV21639419928672 implements MigrationInterface {
           (e): EventV2Entity => ({
             ...e,
             excerpt: {},
+            body: (e.body2 as any) ?? {},
             draft: false,
             type: UncategorizedType.value,
             payload: {
@@ -90,7 +91,6 @@ export class EventV21639419928672 implements MigrationInterface {
               actors: e.actors.map((a) => a.id as any),
               groups: e.groups.map((g) => g.id as any),
               groupsMembers: e.groupsMembers.map((gm) => gm.id as any),
-              body: (e.body2 as any) ?? {},
             },
             media: e.media,
             keywords: e.keywords,
@@ -114,6 +114,7 @@ export class EventV21639419928672 implements MigrationInterface {
               location: (s as any).location ?? undefined,
               victim: s.victim.id as any,
             },
+            body: {},
             media: [],
             keywords: [],
             links: [],
@@ -140,6 +141,7 @@ export class EventV21639419928672 implements MigrationInterface {
               publishDate: s.publishDate,
               conclusion: s.conclusion
             },
+            body: s.body2,
             keywords: [],
             media: [],
             excerpt: {},

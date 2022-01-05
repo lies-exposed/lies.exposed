@@ -92,7 +92,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         </Grid>
 
         <Grid item md={12} sm={12} xs={12}>
-          <Editor value={event.payload.body as any} readOnly={true} />
+          <Editor value={event.body as any} readOnly={true} />
         </Grid>
         <Grid item md={12} sm={12} xs={12}>
           <LinksBox ids={event.links} />
