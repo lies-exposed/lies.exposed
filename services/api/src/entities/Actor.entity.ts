@@ -11,7 +11,7 @@ import {
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { ScientificStudyEntity } from "./ScientificStudy.entity";
-import { DeathEntity } from "./events/DeathEvent.entity";
+import { DeathEventViewEntity } from "./events/DeathEvent.entity";
 import { UncategorizedEventEntity } from "./events/UncategorizedEvent.entity";
 
 @Entity("actor")
@@ -40,8 +40,8 @@ export class ActorEntity {
   @ManyToMany(() => UncategorizedEventEntity, a => a.actors, { cascade: false })
   events: UncategorizedEventEntity[];
 
-  @OneToOne(() => DeathEntity, (d) => d.victim)
-  death: DeathEntity;
+  @OneToOne(() => DeathEventViewEntity, (d) => d.victim)
+  death: DeathEventViewEntity;
 
   @ManyToMany(() => ScientificStudyEntity, (e) => e.authors, {
     cascade: false,

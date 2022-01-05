@@ -5,7 +5,7 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toDeathIO } from "./death.io";
-import { DeathEntity } from "@entities/events/DeathEvent.entity";
+import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
 import { Route } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 
@@ -17,7 +17,7 @@ export const MakeGetListDeathEventRoute: Route = (r, { db, logger, env }) => {
       const ormOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
       const selectSQLTask = pipe(
         db.manager
-          .createQueryBuilder(DeathEntity, "deaths")
+          .createQueryBuilder(DeathEventViewEntity, "deaths")
           .leftJoinAndSelect("deaths.victim", "victim")
           .loadAllRelationIds(),
         (q) => {

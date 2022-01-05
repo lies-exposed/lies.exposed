@@ -5,7 +5,7 @@ import { Route } from "../../route.types";
 import { toDeathIO } from "./death.io";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { DeathEntity } from "@entities/events/DeathEvent.entity";
+import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
@@ -24,7 +24,7 @@ export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
         ),
 
         TE.chain(([event]) =>
-          db.findOneOrFail(DeathEntity, {
+          db.findOneOrFail(DeathEventViewEntity, {
             where: { id: event.id },
             loadRelationIds: true,
           })

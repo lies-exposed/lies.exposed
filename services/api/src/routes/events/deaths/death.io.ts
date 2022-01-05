@@ -1,11 +1,11 @@
 import * as io from "@econnessione/shared/io";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
-import { DeathEntity } from "@entities/events/DeathEvent.entity";
+import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toDeathIO = (
-  event: DeathEntity
+  event: DeathEventViewEntity
 ): E.Either<ControllerError, io.http.Events.Death.Death> => {
   return pipe(
     io.http.Events.Death.Death.decode({

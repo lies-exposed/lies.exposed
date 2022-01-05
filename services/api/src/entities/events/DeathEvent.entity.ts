@@ -15,7 +15,7 @@ import { ActorEntity } from "@entities/Actor.entity";
       WHERE type = 'Death'
   `,
 })
-export class DeathEntity {
+export class DeathEventViewEntity {
   @ViewColumn()
   id: string;
 
