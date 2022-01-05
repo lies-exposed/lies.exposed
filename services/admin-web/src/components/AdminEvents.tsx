@@ -296,6 +296,9 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
           <DateField source="updatedAt" showTime={true} />
           <DateField source="createdAt" showTime={true} />
         </FormTab>
+        <FormTab label="body">
+          <ReactPageInput label="excerpt" source="body" />
+        </FormTab>
 
         <FormDataConsumer>
           {({ formData, getSource, scopedFormData, ...rest }) => {
