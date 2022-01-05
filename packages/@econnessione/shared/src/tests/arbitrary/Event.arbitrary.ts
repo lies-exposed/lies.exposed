@@ -102,7 +102,6 @@ export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategori
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       location: undefined,
-      body: {},
       actors: fc.sample(fc.uuid(), 5) as any[],
       groups: fc.sample(fc.uuid(), 5) as any[],
       groupsMembers: fc.sample(fc.uuid(), 5) as any[],

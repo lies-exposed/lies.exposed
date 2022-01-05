@@ -46,6 +46,7 @@ const scientificStudyProps = propsOmit(
   [
     "id",
     "excerpt",
+    "body",
     "payload",
     "date",
     "media",
@@ -62,6 +63,7 @@ export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.
     id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
     date: tests.fc.sample(tests.fc.date({ min: MIN_DATE, max: MAX_DATE }))[0],
     excerpt: {},
+    body: {},
     payload: {
       title: tests.fc.sample(tests.fc.string(), 1)[0],
       body: tests.fc.sample(tests.fc.object(), 1)[0],
