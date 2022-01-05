@@ -15,7 +15,7 @@ export class EventV21639419928672 implements MigrationInterface {
       `CREATE TYPE "public"."event_v2_type_enum" AS ENUM('Death', 'ScientificStudy', 'Uncategorized')`
     );
     await queryRunner.query(
-      `CREATE TABLE "event_v2" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "date" TIMESTAMP WITH TIME ZONE NOT NULL, "excerpt" json, "draft" bool, "type" "public"."event_v2_type_enum" NOT NULL DEFAULT 'Uncategorized', "payload" json, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_a4b35dfde2e290d5978c0dc9828" PRIMARY KEY ("id"))`
+      `CREATE TABLE "event_v2" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "date" TIMESTAMP WITH TIME ZONE NOT NULL, "excerpt" json, "body" json, "draft" bool, "type" "public"."event_v2_type_enum" NOT NULL DEFAULT 'Uncategorized', "payload" json, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_a4b35dfde2e290d5978c0dc9828" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_a4b35dfde2e290d5978c0dc982" ON "event_v2" ("id") `

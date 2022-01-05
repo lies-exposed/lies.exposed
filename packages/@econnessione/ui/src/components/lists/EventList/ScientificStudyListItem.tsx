@@ -45,7 +45,7 @@ export const ScientificStudyListItem: React.FC<
           <Link href={item.payload.url} target="_blank">
             {item.payload.url}
           </Link>
-          <Editor readOnly value={item.payload.body as any} />
+          <Editor readOnly value={item.body as any} />
         </Grid>
         <Grid
           item

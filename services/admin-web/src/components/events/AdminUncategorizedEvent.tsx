@@ -253,7 +253,7 @@ export const UncategorizedEventEdit: React.FC<EditProps> = (
           <AvatarField source="avatar" fullWidth={false} />
         </Datagrid>
       </ReferenceArrayField>
-      <ReactPageInput source="payload.body" />
+      <ReactPageInput source="body" />
     </FormTab>
   );
 };
@@ -280,7 +280,6 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => (
       </FormTab>
       <FormTab label="body">
         <RichTextInput source="excerpt" defaultValue="" />
-        <ReactPageInput source="body2" />
         <TextInput source="body" defaultValue="" />
       </FormTab>
       <FormTab label="Actors">
