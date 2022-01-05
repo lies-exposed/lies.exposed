@@ -15,7 +15,7 @@
   },
   "scripts": {
     "clean": "yarn workspaces foreach -p run clean",
-    "build": "yarn workspaces foreach -v -p run build",
+    "build": "yarn workspaces foreach -v run build",
     "test:spec": "jest spec",
     "test:e2e": "jest e2e",
     "test": "jest",
