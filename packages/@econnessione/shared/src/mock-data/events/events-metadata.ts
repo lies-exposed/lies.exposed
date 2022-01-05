@@ -92,6 +92,7 @@ export const secondEventMetadata: Events.Event[] = [
       location: undefined,
       victim: goodActor.id as any,
     },
+    body: {},
     media: [],
     keywords: [],
     links: [],

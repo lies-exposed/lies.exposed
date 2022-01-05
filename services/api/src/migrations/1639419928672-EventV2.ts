@@ -137,7 +137,6 @@ export class EventV21639419928672 implements MigrationInterface {
               url: s.url as any,
               publisher: s.publisher.id as any,
               authors: s.authors as any[],
-              body: {},
               publishDate: s.publishDate,
               conclusion: s.conclusion
             },
