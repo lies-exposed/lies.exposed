@@ -157,8 +157,8 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ImageInput>
         </FormTab>
         <FormTab label="Body">
-          <ReactPageInput source="excerpt" />
-          <ReactPageInput source="body" />
+          <ReactPageInput label="excerpt" source="excerpt" />
+          <ReactPageInput label="body" source="body" />
         </FormTab>
         <FormTab label="Members">
           <ReferenceArrayGroupMemberInput source="groupsMembers" />

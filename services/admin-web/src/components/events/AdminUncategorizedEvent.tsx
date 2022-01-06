@@ -253,7 +253,6 @@ export const UncategorizedEventEdit: React.FC<EditProps> = (
           <AvatarField source="avatar" fullWidth={false} />
         </Datagrid>
       </ReferenceArrayField>
-      <ReactPageInput source="body" />
     </FormTab>
   );
 };

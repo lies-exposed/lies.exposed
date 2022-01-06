@@ -2250,6 +2250,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@econnessione/ui@workspace:packages/@econnessione/ui"
   dependencies:
+    "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-brands-svg-icons": ^5.15.4
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.16
@@ -2267,6 +2268,7 @@ __metadata:
     "@react-page/plugins-spacer": ^4.4.1
     "@react-page/plugins-video": ^4.4.1
     "@types/d3": ^5.16.4
+    "@types/eslint": ^8.2.1
     "@types/jest": ^27.4.0
     "@types/ol": ^6.5.3
     "@types/prettier": ^2.4.2
@@ -2301,6 +2303,7 @@ __metadata:
     axios: ^0.24.0
     d3-sankey: ^0.12.3
     date-fns: ^2.28.0
+    eslint: ^8.6.0
     eslint-plugin-import: ^2.25.4
     fp-ts: ^2.11.6
     geotiff: ^1.0.9
@@ -7588,6 +7591,14 @@ __metadata:
     "@material-ui/core": ^4.12.3
     "@material-ui/icons": ^4.11.2
     "@material-ui/lab": ^4.0.0-alpha.60
+    "@react-page/editor": ^4.4.1
+    "@react-page/plugins-background": ^4.4.1
+    "@react-page/plugins-divider": ^4.4.1
+    "@react-page/plugins-html5-video": ^4.4.1
+    "@react-page/plugins-image": ^4.4.1
+    "@react-page/plugins-slate": ^4.4.1
+    "@react-page/plugins-spacer": ^4.4.1
+    "@react-page/plugins-video": ^4.4.1
     "@react-page/react-admin": ^4.4.1
     "@testing-library/jest-dom": ^5.16.1
     "@testing-library/react": ^12.1.2
@@ -7625,8 +7636,6 @@ __metadata:
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
     react-helmet: ^6.1.0
-    react-redux: ^7.2.6
-    redux: ^4.1.2
     ts-jest: ^27.1.2
     typescript: ^4.5.4
     uuid: ^8.3.2
@@ -21644,7 +21653,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.1.0, react-redux@npm:^7.2.3, react-redux@npm:^7.2.6":
+"react-redux@npm:^7.1.0, react-redux@npm:^7.2.3":
   version: 7.2.6
   resolution: "react-redux@npm:7.2.6"
   dependencies:
@@ -22173,7 +22182,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^3.7.2 || ^4.0.3, redux@npm:^4.0.0, redux@npm:^4.0.4, redux@npm:^4.0.5, redux@npm:^4.1.1, redux@npm:^4.1.2":
+"redux@npm:^3.7.2 || ^4.0.3, redux@npm:^4.0.0, redux@npm:^4.0.4, redux@npm:^4.0.5, redux@npm:^4.1.1":
   version: 4.1.2
   resolution: "redux@npm:4.1.2"
   dependencies:
