@@ -5,15 +5,15 @@ import { MediaEntity } from "@entities/Media.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toImageIO = (
-  a: MediaEntity
+  media: MediaEntity
 ): E.Either<ControllerError, io.http.Media.Media> => {
   return pipe(
     io.http.Media.Media.decode({
-      ...a,
-      thumbnail: a.thumbnail ?? undefined,
-      createdAt: a.createdAt.toISOString(),
-      updatedAt: a.updatedAt.toISOString(),
+      ...media,
+      thumbnail: media.thumbnail ?? undefined,
+      createdAt: media.createdAt.toISOString(),
+      updatedAt: media.updatedAt.toISOString(),
     }),
-    E.mapLeft(DecodeError)
+    E.mapLeft((e) => DecodeError(`Failed to decode media (${media.id})`, e))
   );
 };

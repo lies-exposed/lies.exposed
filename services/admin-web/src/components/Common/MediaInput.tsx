@@ -1,4 +1,4 @@
-import { Media, MediaType } from "@econnessione/shared/io/http/Media";
+import { MediaType } from "@econnessione/shared/io/http/Media";
 import { Box } from "@material-ui/core";
 import { FormDataConsumer, InputProps } from "ra-core";
 import { FileInput, SelectInput } from "ra-ui-materialui";

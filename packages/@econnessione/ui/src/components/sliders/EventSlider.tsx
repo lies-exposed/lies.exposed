@@ -1,5 +1,5 @@
 import { Events } from "@econnessione/shared/io/http";
-import { GetEventsQueryFilter } from "@econnessione/shared/io/http/Events/Uncategorized";
+import { SearchEventsQuery } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -12,8 +12,8 @@ import { LazyLoader } from "../Common/Loader";
 import { UncategorizedListItem } from "../lists/EventList/UncategorizedListItem";
 
 export interface EventSliderProps {
-  filter: serializedType<typeof GetEventsQueryFilter>;
-  onClick: (e: Events.Event | Events.EventV2) => void;
+  filter: serializedType<typeof SearchEventsQuery>;
+  onClick: (e: Events.Event | Events.Event) => void;
 }
 
 export const EventSlider: React.FC<EventSliderProps> = ({
@@ -42,7 +42,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
               dots={true}
             >
               {data.map((e, index) => {
-                if (Events.UncategorizedV2.is(e)) {
+                if (Events.Uncategorized.Uncategorized.is(e)) {
                   return (
                     <UncategorizedListItem
                       key={e.id}

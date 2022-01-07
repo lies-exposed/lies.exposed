@@ -1,6 +1,5 @@
-import { fc, getArbitrary } from "@econnessione/core/tests";
-import * as t from "io-ts";
-import { CreateKeyword } from "../../io/http/Keyword";
+import { fc } from "@econnessione/core/tests";
+import { DateArb } from "./Date.arbitrary";
 import { getRandomInt, name1 } from "./HumanReadableString.arbitrary";
 
 export const TagArb = (): fc.Arbitrary<string> => {
@@ -14,8 +13,14 @@ export const TagArb = (): fc.Arbitrary<string> => {
     noBias: stringArb.noBias,
     noShrink: stringArb.noShrink,
     generate: (mrng, biasFactor) => {
+      const firstWord = name1.map((n) => n.replace(/-+/gi, ""))[
+        getRandomInt(0, name1.length)
+      ];
+      const secondWord = name1.map((n) => n.replace(/-+/gi, ""))[
+        getRandomInt(0, name1.length)
+      ];
       const v = new fc.NextValue(
-        name1.map((n) => n.replace(/-+/gi, ""))[getRandomInt(0, name1.length)],
+        firstWord.concat(secondWord),
         undefined,
         undefined
       );
@@ -24,16 +29,13 @@ export const TagArb = (): fc.Arbitrary<string> => {
   });
 };
 
-export const CreateKeywordArb = getArbitrary(
-  t.strict({
-    ...CreateKeyword.type.props,
-  })
-).map((k) => ({
-  ...k,
-  tag: fc.sample(TagArb(), 1)[0],
-}));
+export const CreateKeywordArb = fc.record({
+  tag: TagArb(),
+});
 
 export const KeywordArb = fc.record({
-  id: fc.uuidV(4),
-  tag: TagArb(),
+  id: fc.uuidV(4) as fc.Arbitrary<any>,
+  tag: TagArb() as fc.Arbitrary<any>,
+  createdAt: DateArb,
+  updatedAt: DateArb,
 });

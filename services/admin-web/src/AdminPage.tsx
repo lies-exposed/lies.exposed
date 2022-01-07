@@ -105,7 +105,6 @@ const AdminPage: React.FC = () => {
       />
 
       <AdminDeathEventsResource name="deaths" />
-
       <AdminScientificStudiesResource name="scientific-studies" />
 
       <AdminLinksResource name="links" />

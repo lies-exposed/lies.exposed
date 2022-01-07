@@ -7,12 +7,12 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
-import { DeathEventEntity } from "./DeathEvent.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { ScientificStudyEntity } from "./ScientificStudy.entity";
-import { EventEntity } from "@entities/Event.entity";
+import { DeathEventViewEntity } from "./events/DeathEvent.entity";
+import { UncategorizedEventEntity } from "./events/UncategorizedEvent.entity";
 
 @Entity("actor")
 export class ActorEntity {
@@ -37,25 +37,22 @@ export class ActorEntity {
   })
   memberIn: GroupMemberEntity[];
 
-  @ManyToMany(() => EventEntity, (e) => e.actors, { cascade: false })
-  events: EventEntity[];
+  @ManyToMany(() => UncategorizedEventEntity, a => a.actors, { cascade: false })
+  events: UncategorizedEventEntity[];
 
-  @OneToOne(() => DeathEventEntity, (d) => d.victim)
-  death: DeathEventEntity;
+  @OneToOne(() => DeathEventViewEntity, (d) => d.victim)
+  death: DeathEventViewEntity;
 
   @ManyToMany(() => ScientificStudyEntity, (e) => e.authors, {
     cascade: false,
   })
   scientificStudies: ScientificStudyEntity[];
 
-  @Column({ type: "varchar", nullable: true })
-  excerpt: string | null;
-
-  @Column({ type: "varchar" })
-  body: string;
+  @Column({ type: "json", nullable: true })
+  excerpt: Record<string, unknown> | null;
 
   @Column({ type: "json", nullable: true })
-  body2: Record<string, unknown> | null;
+  body: Record<string, unknown> | null;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -34,13 +34,12 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
-import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
@@ -158,11 +157,8 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ImageInput>
         </FormTab>
         <FormTab label="Body">
-          <RichTextInput source="body" />
-        </FormTab>
-        <FormTab label="Body2">
-          <RichTextInput source="excerpt" />
-          <ReactPageInput source="body2" />
+          <ReactPageInput label="excerpt" source="excerpt" />
+          <ReactPageInput label="body" source="body" />
         </FormTab>
         <FormTab label="Members">
           <ReferenceArrayGroupMemberInput source="groupsMembers" />
@@ -234,8 +230,8 @@ export const GroupCreate: React.FC<CreateProps> = (props) => (
       <ImageInput source="avatar">
         <ImageField src="src" />
       </ImageInput>
-      <RichTextInput source="excerpt" />
-      <ReactPageInput source="body2" defaultValue="" />
+      <ReactPageInput source="excerpt" />
+      <ReactPageInput source="body" defaultValue="" />
       <TextInput source="body" hidden={true} defaultValue="" />
     </SimpleForm>
   </Create>

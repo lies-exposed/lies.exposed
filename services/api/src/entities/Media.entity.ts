@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { EventEntity } from "./Event.entity";
+import { EventV2Entity } from "./Event.v2.entity";
 
 @Entity("image")
 export class MediaEntity {
@@ -31,8 +31,8 @@ export class MediaEntity {
   })
   type: MediaType;
 
-  @ManyToMany(() => EventEntity, (e) => e.media)
-  events: EventEntity[];
+  @ManyToMany(() => EventV2Entity, (e) => e.media)
+  events: EventV2Entity[];
 
   @CreateDateColumn()
   createdAt: Date;

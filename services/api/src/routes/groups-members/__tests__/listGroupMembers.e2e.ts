@@ -22,7 +22,7 @@ describe("List Group Member", () => {
     actor: actors[0],
     group: g,
     startDate: new Date(),
-    body: "Group member",
+    body: { content: "Group member" },
     id: tests.fc.sample(tests.fc.uuid(), 1)[0],
   }));
 

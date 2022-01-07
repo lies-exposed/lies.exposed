@@ -18,7 +18,7 @@ import { EventListItem, EventListItemProps } from "./EventListItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.EventV2): string => {
+  Eq.contramap((e: Events.Event): string => {
     return formatISO(eventDate(e), { representation: "date" });
   })
 );
@@ -36,7 +36,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.EventV2[];
+  events: Events.Event[];
 }
 
 const renderRow = (props: {
@@ -59,21 +59,21 @@ const renderRow = (props: {
   const e = events[index];
 
   const eventActors = Events.Death.Death.is(e)
-    ? actors.filter((a) => e.victim === a.id)
-    : Events.Uncategorized.UncategorizedSearch.is(e)
-    ? actors.filter((a) => e.actors.includes(a.id))
+    ? actors.filter((a) => e.payload.victim === a.id)
+    : Events.Uncategorized.Uncategorized.is(e)
+    ? actors.filter((a) => e.payload.actors.includes(a.id))
     : [];
-  const eventGroups = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? groups.filter((a) => e.groups.includes(a.id))
+  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
+    ? groups.filter((a) => e.payload.groups.includes(a.id))
     : [];
-  const eventKeywords = Events.Uncategorized.UncategorizedSearch.is(e)
+  const eventKeywords = Events.Uncategorized.Uncategorized.is(e)
     ? keywords.filter((a) => e.keywords.includes(a.id))
     : [];
 
-  const eventGroupMembers = Events.Uncategorized.UncategorizedSearch.is(e)
-    ? groupsMembers.filter((g) => e.groupsMembers.includes(g.id))
+  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
+    ? groupsMembers.filter((g) => e.payload.groupsMembers.includes(g.id))
     : [];
-  const eventMedia = Events.Uncategorized.UncategorizedSearch.is(e)
+  const eventMedia = Events.Uncategorized.Uncategorized.is(e)
     ? media.filter((m) => e.media.includes(m.id))
     : [];
 

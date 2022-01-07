@@ -62,14 +62,18 @@ export const EventsMap: React.FC<EventsMapProps> = ({
           events.data,
           A.filter(Events.Uncategorized.Uncategorized.is),
           A.filterMap((e) =>
-            e.location ? O.some({ ...e, geometry: e.location }) : O.none
+            e.payload.location
+              ? O.some({ ...e, geometry: e.payload.location })
+              : O.none
           )
         );
 
         const deathsData = pipe(
           deaths.data,
           A.filterMap((e) =>
-            e.location ? O.some({ ...e, geometry: e.location }) : O.none
+            e.payload.location
+              ? O.some({ ...e, geometry: e.payload.location })
+              : O.none
           )
         );
 

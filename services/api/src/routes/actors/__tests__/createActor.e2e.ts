@@ -49,7 +49,8 @@ describe("Create Actor", () => {
         avatar: "http://myavatar-url.com/",
         color: "ffffff",
         fullName: tests.fc.sample(tests.fc.string())[0],
-        body: "my content",
+        body: { content: "my content" },
+        excerpt: { content: "my excerpt" },
       });
 
     expect(response.status).toEqual(201);

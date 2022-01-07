@@ -3,26 +3,24 @@ import {
   Events,
   Group,
   GroupMember,
-  Keyword
+  Keyword,
 } from "@econnessione/shared/io/http";
 import { Link } from "@econnessione/shared/io/http/Link";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { Grid, Typography, useTheme } from "@material-ui/core";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { ActorsBox } from "./ActorsBox";
 import Editor from "./Common/Editor";
-import { Slider } from "./Common/Slider/Slider";
 import { GroupMembersBox } from "./GroupMembersBox";
 import { GroupsBox } from "./GroupsBox";
 import { KeywordsBox } from "./KeywordsBox";
 import { LinksBox } from "./LinksBox";
 import { MainContent } from "./MainContent";
 import SEO from "./SEO";
+import { MediaSlider } from "./sliders/MediaSlider";
 
 export interface EventPageContentProps {
-  event: Events.UncategorizedV2;
+  event: Events.Uncategorized.Uncategorized;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (a: Group.Group) => void;
   onGroupMemberClick: (g: GroupMember.GroupMember) => void;
@@ -88,26 +86,16 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         </Grid>
 
         <Grid item md={12} style={{ marginBottom: theme.spacing(5) }}>
-          {pipe(
-            event.media,
-            O.fromPredicate((items) => items.length > 0),
-            O.map((media) => (
-              <Slider
-                key="home-slider"
-                slides={[]}
-                arrows={false}
-                dots={true}
-              />
-            )),
-            O.toNullable
-          )}
+          {event.media.length > 0 ? (
+            <MediaSlider ids={event.media} onClick={() => {}} />
+          ) : null}
         </Grid>
 
         <Grid item md={12} sm={12} xs={12}>
-          <Editor value={event.payload.body as any} readOnly={true} />
+          <Editor value={event.body as any} readOnly={true} />
         </Grid>
         <Grid item md={12} sm={12} xs={12}>
-          <LinksBox ids={event.payload.links} />
+          <LinksBox ids={event.links} />
         </Grid>
       </Grid>
     </MainContent>

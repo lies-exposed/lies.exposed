@@ -16,7 +16,6 @@ import {
   SimpleForm,
   TextField,
   TextInput,
-  useRefresh,
 } from "react-admin";
 
 const RESOURCE = "keywords";
@@ -51,7 +50,6 @@ const EditTitle: React.FC<EditProps> = ({ record }: any) => {
 };
 
 export const KeywordEdit: React.FC<EditProps> = (props: EditProps) => {
-  const refresh = useRefresh();
   return (
     <Edit
       title={<EditTitle {...props} />}

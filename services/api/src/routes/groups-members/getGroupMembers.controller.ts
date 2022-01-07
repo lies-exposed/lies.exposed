@@ -27,8 +27,8 @@ export const MakeListGroupMemberRoute = (
       const listGroupsMembersTE = pipe(
         ctx.db.manager
           .createQueryBuilder(GroupMemberEntity, "groupsMembers")
-          .leftJoinAndSelect("groupsMembers.actor", "actor")
-          .leftJoinAndSelect("groupsMembers.events", "events"),
+          .leftJoinAndSelect("groupsMembers.actor", "actor"),
+          // .leftJoinAndSelect("groupsMembers.events", "events"),
         (q) => {
           if (O.isSome(query.group)) {
             return q.innerJoinAndSelect(

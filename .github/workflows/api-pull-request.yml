@@ -10,8 +10,36 @@ on:
       - "services/api/**"
 
 jobs:
-  install:
+  pull_request:
     runs-on: ubuntu-latest
+    services:
+      pg-db:
+        image: postgres:12
+        env:
+          POSTGRES_USER: econnessione
+          POSTGRES_PASSWORD: econnessione-password
+          POSTGRES_DB: econnessione
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 8432:5432
+
+      pg-db-test:
+        image: postgres:12
+        env:
+          POSTGRES_USER: econnessione
+          POSTGRES_PASSWORD: econnessione-password
+          POSTGRES_DB: econnessione-test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 9432:5432
 
     steps:
       - uses: actions/checkout@v2
@@ -30,164 +58,17 @@ jobs:
       - name: Install modules
         run: yarn
 
-  lint:
-    runs-on: ubuntu-latest
-    needs: [install]
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
-          cache-dependency-path: yarn.lock
-
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Install deps
-        run: yarn
-
       - name: Lint code
         run: yarn api lint
 
-  build:
-    runs-on: ubuntu-latest
-    needs: [install]
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
-          cache-dependency-path: yarn.lock
-
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Build api
         run: yarn api build
-
-
-      - name: Upload API build
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: |
-            packages/@econnessione/**/lib
-            services/api/build
-
-      # - name: Build and Push to GitHub Packages
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     tags: ghcr.io/ascariandrea/econnessione/api:release-alpha
-      #     file: api.Dockerfile
-      #     target: production
-      #     push: false
-
-  tests-spec:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
-          cache-dependency-path: yarn.lock
-
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: build
 
       - name: Run tests SPEC
         run: yarn test:spec
 
-  tests-e2e:
-    runs-on: ubuntu-latest
-    needs: [build]
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_USER: econnessione
-          POSTGRES_PASSWORD: econnessione-password
-          POSTGRES_DB: econnessione-test
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 9432:5432
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
-          cache-dependency-path: yarn.lock
-
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-
       - name: Run tests E2E
         run: yarn test:e2e --ci --forceExit
-
-  db-migration:
-    runs-on: ubuntu-latest
-    needs: [build]
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_USER: econnessione
-          POSTGRES_PASSWORD: econnessione-password
-          POSTGRES_DB: econnessione
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 8432:5432
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "14"
-          cache: "yarn"
-          cache-dependency-path: yarn.lock
-
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Build api
-        run: yarn api build
 
       - name: Run migrations
         env:

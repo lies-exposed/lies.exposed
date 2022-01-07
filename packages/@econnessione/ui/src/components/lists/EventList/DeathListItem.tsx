@@ -8,27 +8,30 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
+import Editor from "../../Common/Editor/index";
+import KeywordList from "../KeywordList";
 
 interface DeathListItemProps {
-  item: Events.DeathV2;
+  item: Events.Death.Death;
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
+  victim: Actor.Actor;
   links: string[];
-  onClick?: (e: Events.DeathV2) => void;
+  onClick?: (e: Events.Death.Death) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }
 
 export const DeathListItem: React.FC<DeathListItemProps> = ({
   item,
-  actors,
+  victim,
   keywords,
   links,
   onClick,
   onActorClick,
   onKeywordClick,
 }) => {
-  const victim = actors.find((a) => a.id === item.payload.victim);
+  // const victim = actors.find((a) => a.id === item.payload.victim);
 
   return (
     <Box
@@ -41,7 +44,7 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item md={8} lg={8}>
+        <Grid item md={12} sm={12} lg={12}>
           <Typography variant="h6">
             {victim?.fullName ?? item.payload.victim} died on{" "}
             {formatISO(item.date, { representation: "date" })}
@@ -56,11 +59,21 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
             )}
           </Grid>
         </Grid>
+        <Grid item md={12} lg={12}>
+          <KeywordList
+            keywords={keywords.map((k) => ({ ...k, selected: true }))}
+            onItemClick={(k) => onKeywordClick?.(k)}
+          />
+        </Grid>
+        <Grid item md={9} sm={12}>
+          <Editor value={item.excerpt as any} readOnly />
+        </Grid>
         <Grid
           item
-          md={4}
-          lg={4}
+          md={3}
+          lg={3}
           style={{ display: "flex", justifyContent: "center" }}
+          onClick={() => onActorClick?.(victim)}
         >
           <Avatar size="xlarge" src={victim?.avatar} />
         </Grid>

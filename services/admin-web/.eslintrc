@@ -8,11 +8,10 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["../*", "@material-ui/*/*/*", "!@material-ui/core/test-utils/*"]
+        "patterns": ["@material-ui/*/*/*", "!@material-ui/core/test-utils/*"]
       }
     ],
     "react/prop-types": ["off"],
-    "@typescript-eslint/no-unused-vars": ["off"],
     "no-console": 1
   },
   "settings": {

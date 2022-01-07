@@ -4,7 +4,6 @@ import { Grid, Typography, useTheme } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import { deserializeFromString } from "./Common/Editor/deserialize";
 import Editor from "./Common/Editor/index";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { ActorList } from "./lists/ActorList";
@@ -23,7 +22,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   projects,
   funds,
   events,
-  body2,
+  body,
   groupsMembers,
   ...group
 }) => {
@@ -54,10 +53,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
             <Typography variant="h2" style={{ marginBottom: 0 }}>
               {group.name}
             </Typography>
-            <Editor
-              value={deserializeFromString(group.excerpt ?? undefined)}
-              readOnly={true}
-            />
+            <Editor value={group.excerpt as any} readOnly={true} />
           </Grid>
         </Grid>
         <Grid container style={{ marginBottom: 20 }}>
@@ -80,7 +76,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         </Grid>
 
         <Grid>
-          <MarkdownRenderer>{body2}</MarkdownRenderer>
+          <MarkdownRenderer>{body}</MarkdownRenderer>
         </Grid>
       </Grid>
       {/* <Grid width="100%">

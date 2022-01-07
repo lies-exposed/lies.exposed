@@ -31,6 +31,10 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
             filters={{
               keywords: [keyword.id],
             }}
+            onActorClick={() => {}}
+            onGroupClick={() => {}}
+            onGroupMemberClick={() => {}}
+            onKeywordClick={() => {}}
           />
         </ContentWithSideNavigation>
       );

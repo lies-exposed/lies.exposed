@@ -21,7 +21,6 @@ export const MakeCreateActorRoute: Route = (r, { db, logger }) => {
         TE.chain(([actor]) =>
           db.findOneOrFail(ActorEntity, {
             where: { id: actor.id },
-            loadRelationIds: true,
           })
         ),
         TE.chainEitherK(toActorIO),

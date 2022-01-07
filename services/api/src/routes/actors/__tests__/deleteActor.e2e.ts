@@ -1,6 +1,7 @@
 import * as tests from "@econnessione/core/tests";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { ActorEntity } from "@entities/Actor.entity";
 
 describe("Delete Actor", () => {
   let Test: AppTest, actor: any, authorizationToken: string;
@@ -21,13 +22,15 @@ describe("Delete Actor", () => {
           avatar: "http://myavatar-url.com/",
           color: "ffffff",
           fullName: tests.fc.sample(tests.fc.string())[0],
-          body: "my content",
+          excerpt: { id: tests.fc.uuid(), content: { first: "my content" } },
+          body: { id: tests.fc.uuid(), content: { first: "my content" } },
         })
     ).body.data;
     Test.ctx.logger.debug.log("Actor %O", actor);
   });
 
   afterAll(async () => {
+    await Test.ctx.db.delete(ActorEntity, [actor.id])();
     await Test.ctx.db.close()();
   });
 

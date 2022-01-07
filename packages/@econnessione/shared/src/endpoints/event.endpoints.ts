@@ -1,47 +1,21 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
+import { SearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 
 export const List = Endpoint({
   Method: "GET",
-  getPath: () => "/events",
+  getPath: () => `/events`,
   Input: {
-    Query: http.Events.Uncategorized.GetEventsQueryFilter,
-  },
-  Output: http.Common.ListOutput(http.Events.Event, "ListEvent"),
-});
-
-export const Search = Endpoint({
-  Method: "GET",
-  getPath: () => `/events/search`,
-  Input: {
-    Query: http.Events.Uncategorized.GetEventsQueryFilter,
+    Query: SearchEventsQuery,
   },
   Output: t.strict(
     {
-      data: t.array(http.Events.SearchEvent),
-      totals: t.strict({
-        events: t.number,
-        deaths: t.number,
-        scientificStudies: t.number,
-      }),
-    },
-    "Events"
-  ),
-});
-
-export const SearchV2 = Endpoint({
-  Method: "GET",
-  getPath: () => `/events/search-v2`,
-  Input: {
-    Query: http.Events.Uncategorized.GetEventsQueryFilter,
-  },
-  Output: t.strict(
-    {
-      data: t.array(http.Events.EventV2),
+      data: t.array(http.Events.Event),
+      total: t.number,
       totals: t.strict({
         uncategorized: t.number,
         deaths: t.number,
@@ -56,7 +30,7 @@ export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/events",
   Input: {
-    Body: http.Events.Uncategorized.CreateEventBody,
+    Body: http.Events.CreateEventBody,
   },
   Output: SingleEventOutput,
 });
@@ -75,7 +49,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/events/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: http.Events.Uncategorized.EditEventBody,
+    Body: http.Events.EditEventBody,
   },
   Output: SingleEventOutput,
 });
@@ -95,10 +69,7 @@ const events = ResourceEndpoints({
   List,
   Edit,
   Delete,
-  Custom: {
-    Search,
-    SearchV2
-  },
+  Custom: {},
 });
 
 export { events };

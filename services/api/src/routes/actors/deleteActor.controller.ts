@@ -11,7 +11,6 @@ export const MakeDeleteActorRoute: Route = (r, { s3, db, env }) => {
     return pipe(
       db.findOneOrFail(ActorEntity, {
         where: { id },
-        loadRelationIds: true,
       }),
       TE.chainFirst(() =>
         sequenceS(TE.ApplicativeSeq)({

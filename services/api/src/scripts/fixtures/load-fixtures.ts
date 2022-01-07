@@ -1,7 +1,8 @@
 import { fc } from "@econnessione/core/tests";
 import { URL } from "@econnessione/shared/io/http/Common/URL";
+import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
-import { EventArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
+import { UncategorizedArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { PageArb } from "@econnessione/shared/tests/arbitrary/Page.arbitrary";
 import { URLArb } from "@econnessione/shared/tests/arbitrary/URL.arbitrary";
@@ -14,7 +15,7 @@ import { PathReporter } from "io-ts/lib/PathReporter";
 import { makeContext } from "../../server";
 import { AvatarsFixture } from "./avatars.fixtures";
 import { ActorEntity } from "@entities/Actor.entity";
-import { EventEntity } from "@entities/Event.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { PageEntity } from "@entities/Page.entity";
@@ -67,8 +68,8 @@ const run = (): Promise<void> => {
     .sample(ActorArb, 100)
     .map(({ death, ...a }) => ({ ...a, memberIn: [] }));
   const groups = fc.sample(GroupArb, 100).map((g) => ({ ...g, members: [] }));
-  const events = fc.sample(EventArb, 100).map((g) => ({
-    ...g,
+  const events = fc.sample(UncategorizedArb, 100).map((e) => ({
+    ...e,
     groups: A.takeLeft(20)(shuffleArray(groups)),
     actors: A.takeLeft(20)(shuffleArray(actors)),
     groupsMembers: [],
@@ -133,19 +134,24 @@ const run = (): Promise<void> => {
                 actor: { id: shuffleArray(actors)[0].id },
                 group: { id: shuffleArray(groups)[0].id },
                 startDate: new Date(),
-                body: fc.sample(fc.lorem({ maxCount: 100 }), 1)[0],
+                body: { content: "fake-body" },
               }));
 
               return pipe(
                 tClient.save(GroupMemberEntity, groupsMembers),
                 TE.chain((results) =>
                   tClient.save(
-                    EventEntity,
+                    EventV2Entity,
                     events.map((e) => ({
                       ...e,
-                      type: "event" as const,
+                      excerpt: e.excerpt as any,
+                      type: UncategorizedType.value,
+                      payload: {
+                        ...e.payload,
+                        groupsMembers: results.map((g) => g.id) as any,
+                      },
+                      media: [],
                       keywords: [],
-                      groupsMembers: results.map((g) => g.id) as any,
                     }))
                   )
                 )

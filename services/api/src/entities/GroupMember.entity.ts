@@ -2,13 +2,11 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
-  ManyToMany,
-  ManyToOne,
+  Entity, ManyToMany, ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
-import { EventEntity } from "./Event.entity";
+import { UncategorizedEventEntity } from "./events/UncategorizedEvent.entity";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 
@@ -23,14 +21,11 @@ export class GroupMemberEntity {
   @Column({ type: "timestamptz", nullable: true })
   endDate: Date | null;
 
-  @Column({ type: "varchar", nullable: true })
-  excerpt: string | null;
-
-  @Column({ type: "varchar", nullable: false })
-  body: string;
+  @Column({ type: "json", nullable: true })
+  excerpt: Record<string, unknown> | null;
 
   @Column({ type: "json", nullable: true })
-  body2: Record<string, unknown> | null;
+  body: Record<string, unknown> | null;
 
   @ManyToOne(() => GroupEntity, (g) => g.id, {
     nullable: false,
@@ -44,8 +39,8 @@ export class GroupMemberEntity {
   })
   actor: ActorEntity;
 
-  @ManyToMany(() => EventEntity, (e) => e.groupsMembers, { cascade: false })
-  events: EventEntity[];
+  @ManyToMany(() => UncategorizedEventEntity, e => e.groupsMembers, { cascade: false })
+  events: UncategorizedEventEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

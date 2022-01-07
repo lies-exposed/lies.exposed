@@ -10,6 +10,7 @@ const {
   startDate: _startDate,
   endDate: _endDate,
   id,
+  color,
   ...projectProps
 } = http.Project.Project.type.props;
 
@@ -20,6 +21,7 @@ export const ProjectArb: tests.fc.Arbitrary<http.Project.Project> = tests
     id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
     startDate: new Date(),
     endDate: new Date(),
+    color: "#FFFF00" as any,
     areas: [
       {
         id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,

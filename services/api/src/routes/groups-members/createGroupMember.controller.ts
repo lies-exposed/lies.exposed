@@ -6,7 +6,7 @@ import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { Route } from "routes/route.types";
 
-export const MakeCreateGroupMemberRoute: Route = (r, { s3, db, env }) => {
+export const MakeCreateGroupMemberRoute: Route = (r, { db }) => {
   AddEndpoint(r)(Endpoints.GroupMember.Create, ({ body }) => {
     const saveData = {
       ...body,

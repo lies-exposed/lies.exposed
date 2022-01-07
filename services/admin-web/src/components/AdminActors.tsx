@@ -133,7 +133,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
       </FormTab>
 
       <FormTab label="Content">
-        <RichTextInput source="body" />
+        <ReactPageInput source="body" />
       </FormTab>
 
       <FormTab label="Groups">
@@ -199,7 +199,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => (
       <ImageInput source="avatar">
         <ImageField />
       </ImageInput>
-      <RichTextInput source="body" />
+      <ReactPageInput source="body" />
     </SimpleForm>
   </Create>
 );

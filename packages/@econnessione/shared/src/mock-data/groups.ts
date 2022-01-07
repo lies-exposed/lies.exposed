@@ -16,9 +16,8 @@ export const firstSubGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: now,
   updatedAt: now,
-  excerpt: "",
-  body: "",
-  body2: {},
+  excerpt: {},
+  body: {},
 };
 
 export const goodGroup: Group.Group = {
@@ -31,9 +30,8 @@ export const goodGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: now,
   updatedAt: now,
-  excerpt: "",
-  body: "",
-  body2: {},
+  excerpt: {},
+  body: {},
 };
 
 export const badGroup: Group.Group = {
@@ -46,9 +44,8 @@ export const badGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: subYears(now, 2),
   updatedAt: now,
-  excerpt: "",
-  body: "",
-  body2: {},
+  excerpt: {},
+  body: {},
 };
 
 export const secondBadGroup: Group.Group = {
@@ -61,9 +58,8 @@ export const secondBadGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: now,
   updatedAt: now,
-  excerpt: "",
-  body: "",
-  body2: {},
+  excerpt: {},
+  body: {},
 };
 
 export const groups: Group.Group[] = [goodGroup, badGroup, secondBadGroup];

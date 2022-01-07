@@ -12,6 +12,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { KeywordEntity } from "./Keyword.entity";
+import { LinkEntity } from "./Link.entity";
 import { MediaEntity } from "./Media.entity";
 
 @Entity("event_v2")
@@ -20,7 +21,7 @@ export class EventV2Entity {
   @Index()
   id: string;
 
-  @Column({ type: 'bool', default: true })
+  @Column({ type: "bool", default: true })
   draft: boolean;
 
   @Column({ type: "timestamptz", nullable: false })
@@ -29,17 +30,25 @@ export class EventV2Entity {
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;
 
+  @Column({ type: "json", nullable: true })
+  body: Record<string, unknown> | null;
+
   @Column({
     type: "enum",
-    enum: http.Events.EventV2.types.map(
-      (eventC) => eventC.type.props.type.value
-    ),
+    enum: http.Events.Event.types.map((eventC) => eventC.type.props.type.value),
     default: UncategorizedType.value,
   })
-  type: http.Events.EventV2["type"];
+  type: http.Events.Event["type"];
 
-  @Column({ type: "jsonb", nullable: true })
-  payload: http.Events.EventV2["payload"];
+  @Column({ type: "json", nullable: true })
+  payload: http.Events.Event["payload"];
+
+  @ManyToMany(() => LinkEntity, (a) => a.events, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinTable()
+  links: LinkEntity[];
 
   @ManyToMany(() => MediaEntity, (a) => a.events, {
     cascade: true,

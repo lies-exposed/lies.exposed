@@ -3,15 +3,13 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
-  ManyToMany,
-  OneToMany,
+  Entity, ManyToMany, OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { ScientificStudyEntity } from "./ScientificStudy.entity";
-import { EventEntity } from "@entities/Event.entity";
+import { UncategorizedEventEntity } from "./events/UncategorizedEvent.entity";
 
 @Entity("group")
 export class GroupEntity {
@@ -39,22 +37,19 @@ export class GroupEntity {
   })
   members: GroupMemberEntity[];
 
-  @ManyToMany(() => EventEntity, (a) => a.groups, { cascade: false })
-  events: EventEntity[];
+  @ManyToMany(() => UncategorizedEventEntity, e => e.groups, { cascade: false })
+  events: UncategorizedEventEntity[];
 
   @OneToMany(() => ScientificStudyEntity, (a) => a.publisher, {
     cascade: false,
   })
-  publishedStudies: ScientificStudyEntity;
-
-  @Column({ type: "varchar", nullable: true })
-  excerpt: string | null;
-
-  @Column({ type: "varchar" })
-  body: string;
+  publishedStudies: ScientificStudyEntity[];
 
   @Column({ type: "json", nullable: true })
-  body2: Record<string, unknown> | null;
+  excerpt: Record<string, unknown> | null;
+
+  @Column({ type: "json", nullable: true })
+  body: Record<string, unknown> | null;
 
   @CreateDateColumn()
   createdAt: Date;

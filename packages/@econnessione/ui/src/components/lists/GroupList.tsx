@@ -1,5 +1,5 @@
 import { Group } from "@econnessione/shared/io/http";
-import { Box, Typography } from "@material-ui/core";
+import { Box, ListProps, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
@@ -10,7 +10,7 @@ export interface Group extends Group.Group {
   selected: boolean;
 }
 
-interface GroupListProps {
+interface GroupListProps extends ListProps {
   groups: Group[];
   onGroupClick: (actor: Group) => void;
   avatarSize?: AvatarSize;
@@ -25,7 +25,7 @@ export const GroupListItem: React.FC<
       key={item.id}
       display="flex"
       alignItems="center"
-      margin={1}
+      margin={0}
       style={{ cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >
@@ -62,10 +62,12 @@ export const GroupListItem: React.FC<
 const GroupList: React.FC<GroupListProps> = ({
   groups,
   onGroupClick,
+  onClick,
   ...props
 }) => {
   return (
     <List
+      {...props}
       data={groups}
       filter={(_) => true}
       onItemClick={onGroupClick}

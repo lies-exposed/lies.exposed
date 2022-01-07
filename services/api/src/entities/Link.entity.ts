@@ -8,9 +8,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { DeathEventEntity } from "./DeathEvent.entity";
-import { EventEntity } from "./Event.entity";
+import { EventV2Entity } from "./Event.v2.entity";
 import { KeywordEntity } from "./Keyword.entity";
+import { DeathEventViewEntity } from "./events/DeathEvent.entity";
 
 @Entity("link")
 @Index(["url"], { unique: true })
@@ -36,11 +36,11 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   provider: string;
 
-  @ManyToMany(() => EventEntity, (e) => e.links, { cascade: false })
-  events: EventEntity[];
+  @ManyToMany(() => EventV2Entity, (e) => e.links, { cascade: false })
+  events: EventV2Entity[];
 
-  @ManyToMany(() => DeathEventEntity, (e) => e.news, { cascade: false })
-  death: DeathEventEntity;
+  @ManyToMany(() => DeathEventViewEntity, (e) => e.links, { cascade: false })
+  death: DeathEventViewEntity;
 
   @ManyToMany(() => KeywordEntity, (e) => e.links, { cascade: false })
   keywords: KeywordEntity[];

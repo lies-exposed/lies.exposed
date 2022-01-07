@@ -7,7 +7,7 @@ export const CreateLink = t.strict(
   {
     url: URL,
     publishDate: t.union([DateFromISOString, t.undefined]),
-    events: t.array(t.string),
+    events: t.array(UUID),
   },
   "CreateLink"
 );

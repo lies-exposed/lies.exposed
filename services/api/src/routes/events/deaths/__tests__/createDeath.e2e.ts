@@ -1,15 +1,16 @@
 import { fc } from "@econnessione/core/tests";
+import { http } from "@econnessione/shared/io";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
-import { ActorEntity } from "../../../../entities/Actor.entity";
-import { DeathEventEntity } from "../../../../entities/DeathEvent.entity";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 
 describe("Create Death Event", () => {
   let appTest: AppTest;
   const [actor] = fc.sample(ActorArb, 1);
   let authorizationToken: string;
-  let deathEvent: DeathEventEntity;
+  let deathEvent: EventV2Entity;
 
   beforeAll(async () => {
     appTest = await initAppTest();
@@ -22,18 +23,23 @@ describe("Create Death Event", () => {
     )}`;
   });
 
-  afterAll(async () => {
-    await appTest.ctx.db.close()();
-  });
-
-  test("Should create an event", async () => {
+  test("Should create a death event", async () => {
     const deathData = {
-      victim: actor.id,
+      type: http.Events.Death.DeathType.value,
+      payload: {
+        victim: actor.id,
+        body: {},
+      },
       date: new Date().toISOString(),
+      excerpt: {},
+      draft: false,
+      keywords: [],
+      links: [],
+      media: [],
     };
 
     const response = await appTest.req
-      .post(`/v1/deaths`)
+      .post(`/v1/events`)
       .set("Authorization", authorizationToken)
       .send(deathData);
 
@@ -41,7 +47,11 @@ describe("Create Death Event", () => {
     expect(response.status).toEqual(201);
 
     expect(body).toMatchObject({
-      victim: actor.id,
+      type: http.Events.Death.DeathType.value,
+      date: deathData.date,
+      payload: {
+        victim: actor.id,
+      },
     });
 
     deathEvent = body;
@@ -53,7 +63,7 @@ describe("Create Death Event", () => {
   test.todo("Should create an event with group members");
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(DeathEventEntity, [deathEvent.id])();
+    await appTest.ctx.db.delete(EventV2Entity, [deathEvent.id])();
     await appTest.ctx.db.delete(ActorEntity, [actor.id])();
   });
 });

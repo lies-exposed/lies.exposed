@@ -29,21 +29,21 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MapInput } from "./Common/MapInput";
-import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
-import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 import RichTextInput from "./Common/RichTextInput";
 
-const RESOURCE = "deaths";
+const RESOURCE = "events";
 
 const DeathEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
+      <TextInput source="type" value="Death" />
       <ReferenceActorInput source="victim" alwaysOn />
       <DateInput source="date" />
     </Filter>

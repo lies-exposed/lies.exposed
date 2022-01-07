@@ -2,12 +2,23 @@ import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
-
-const { createdAt, updatedAt, id, members, body2, ...groupProps } =
-  http.Group.Group.type.props;
+import { propsOmit } from "./utils.arbitrary";
 
 export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
-  .getArbitrary(t.strict({ ...groupProps }))
+  .getArbitrary(
+    t.strict(
+      propsOmit(http.Group.Group, [
+        "id",
+        "body",
+        "members",
+        "color",
+        "excerpt",
+        "body",
+        "createdAt",
+        "updatedAt",
+      ])
+    )
+  )
   .map((p) => ({
     ...p,
     id: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
@@ -16,8 +27,8 @@ export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
       .sample(tests.fc.hexaString({ maxLength: 6, minLength: 6 }), 1)[0]
       .substring(0, 6) as any,
     members: [],
-    excerpt: "",
-    body2: {},
+    excerpt: {},
+    body: {},
     createdAt: new Date(),
     updatedAt: new Date(),
   }));

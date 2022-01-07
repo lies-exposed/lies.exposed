@@ -2,10 +2,10 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { Point } from "../Common";
-import { BaseProps } from "../Common/BaseProps";
-import { ByGroupOrActor } from "../Common/ByGroupOrActor";
 import { GetListQuery } from "../Query";
+import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 
 export const DeathListQuery = t.type(
   {
@@ -21,26 +21,49 @@ export type DeathListQuery = t.TypeOf<typeof DeathListQuery>;
 export const DeathType = t.literal("Death");
 export type DeathType = t.TypeOf<typeof DeathType>;
 
-export const Death = t.strict(
+export const CreateDeathBody = t.strict(
   {
-    ...BaseProps.type.props,
+    ...CreateEventCommon.type.props,
     type: DeathType,
-    victim: UUID,
-    location: t.union([t.undefined, Point]),
-    killer: t.union([t.undefined, ByGroupOrActor]),
-    suspects: t.array(ByGroupOrActor),
-    media: t.array(t.string),
+    payload: t.strict({
+      victim: UUID,
+      location: optionFromNullable(Point),
+    }),
   },
-  "Death"
+  "CreateDeathBody"
 );
 
-export type Death = t.TypeOf<typeof Death>;
+export type CreateDeathBody = t.TypeOf<typeof CreateDeathBody>;
 
-export const DeathV2 = t.strict(
+export const EditDeathBody = t.strict(
+  {
+    ...EditEventCommon.type.props,
+    type: DeathType,
+    payload: t.strict({
+      victim: UUID,
+      location: optionFromUndefined(Point),
+    }),
+  },
+  "CreateDeathBody"
+);
+
+export type EditDeathBody = t.TypeOf<typeof EditDeathBody>;
+
+export const DeathPayload = t.strict(
   {
     victim: UUID,
     location: t.union([t.undefined, Point]),
   },
   "DeathV2"
 );
-export type DeathV2 = t.TypeOf<typeof DeathV2>;
+export type DeathPayload = t.TypeOf<typeof DeathPayload>;
+
+export const Death = t.strict(
+  {
+    ...EventCommon.type.props,
+    type: DeathType,
+    payload: DeathPayload,
+  },
+  "DeathEvent"
+);
+export type Death = t.TypeOf<typeof Death>;

@@ -1,5 +1,4 @@
 import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
@@ -7,8 +6,8 @@ import { Point } from "../../io/http/Common";
 import { ListOutput, Output } from "../../io/http/Common/Output";
 import { ResourceEndpoints } from "../types";
 
-const SingleDeathOutput = Output(Events.DeathV2, "Death");
-const ListDeathsOutput = ListOutput(Events.DeathV2, "Deaths");
+const SingleDeathOutput = Output(Events.Death.Death, "Death");
+const ListDeathsOutput = ListOutput(Events.Death.Death, "Deaths");
 
 export const List = Endpoint({
   Method: "GET",
@@ -33,13 +32,7 @@ export const Create = Endpoint({
   getPath: () => "/deaths",
   Input: {
     Query: undefined,
-    Body: t.strict(
-      {
-        victim: t.string,
-        date: DateFromISOString,
-      },
-      "CreateDeathEventBody"
-    ),
+    Body: Events.Death.CreateDeathBody,
   },
   Output: SingleDeathOutput,
 });
