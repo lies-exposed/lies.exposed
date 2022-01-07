@@ -391,10 +391,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-plugin-utils@npm:^7.16.5":
-  version: 7.16.5
-  resolution: "@babel/helper-plugin-utils@npm:7.16.5"
-  checksum: 3ff605f879a9ed287952b538a8334bb16e6cf7cf441f205713b1cf8043b047a965773b66e50575018504f349e16368acfe4702a2f376e16263733e2c7c6c3e39
+"@babel/helper-plugin-utils@npm:^7.16.7":
+  version: 7.16.7
+  resolution: "@babel/helper-plugin-utils@npm:7.16.7"
+  checksum: d08dd86554a186c2538547cd537552e4029f704994a9201d41d82015c10ed7f58f9036e8d1527c3760f042409163269d308b0b3706589039c5f1884619c6d4ce
   languageName: node
   linkType: hard
 
@@ -755,18 +755,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-proposal-object-rest-spread@npm:^7.16.5":
-  version: 7.16.5
-  resolution: "@babel/plugin-proposal-object-rest-spread@npm:7.16.5"
+"@babel/plugin-proposal-object-rest-spread@npm:^7.16.7":
+  version: 7.16.7
+  resolution: "@babel/plugin-proposal-object-rest-spread@npm:7.16.7"
   dependencies:
     "@babel/compat-data": ^7.16.4
-    "@babel/helper-compilation-targets": ^7.16.3
-    "@babel/helper-plugin-utils": ^7.16.5
+    "@babel/helper-compilation-targets": ^7.16.7
+    "@babel/helper-plugin-utils": ^7.16.7
     "@babel/plugin-syntax-object-rest-spread": ^7.8.3
-    "@babel/plugin-transform-parameters": ^7.16.5
+    "@babel/plugin-transform-parameters": ^7.16.7
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: 8632cf389ce153c31f57d4bb8b69314ba93732bb469b6b5923ba53ee48e4d506bbba614c4d0748e21790e0780612d60c2f6db7477ef98f6757b35eb7a03508da
+  checksum: 2d3740e4df6d3f51d57862100c45c000104571aa98b7f798fdfc05ae0c12b9e7cc9b55f4a28612d626e29f3369a1481a0ee8a0241b23508b9d3da00c55f99d41
   languageName: node
   linkType: hard
 
@@ -1351,14 +1351,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-parameters@npm:^7.16.5":
-  version: 7.16.5
-  resolution: "@babel/plugin-transform-parameters@npm:7.16.5"
+"@babel/plugin-transform-parameters@npm:^7.16.7":
+  version: 7.16.7
+  resolution: "@babel/plugin-transform-parameters@npm:7.16.7"
   dependencies:
-    "@babel/helper-plugin-utils": ^7.16.5
+    "@babel/helper-plugin-utils": ^7.16.7
   peerDependencies:
     "@babel/core": ^7.0.0-0
-  checksum: d9057796dd27502e9f23bb4e393002bd4b75f34fc33bfb0c55ac8d9b74fd0480f037cf836cafc6014e32ea1f21a857b8ccb8175620adada9c89a675c950678f2
+  checksum: 4d6904376db82d0b35f0a6cce08f630daf8608d94e903d6c7aff5bd742b251651bd1f88cdf9f16cad98aba5fc7c61da8635199364865fad6367d5ae37cf56cc1
   languageName: node
   linkType: hard
 
@@ -5072,7 +5072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.0.0":
+"@testing-library/dom@npm:^8.0.0, @testing-library/dom@npm:^8.11.1":
   version: 8.11.1
   resolution: "@testing-library/dom@npm:8.11.1"
   dependencies:
@@ -7601,6 +7601,7 @@ __metadata:
     "@material-ui/core": ^4.12.3
     "@material-ui/icons": ^4.11.2
     "@material-ui/lab": ^4.0.0-alpha.60
+    "@material-ui/styles": ^4.11.4
     "@react-page/editor": ^4.4.1
     "@react-page/plugins-background": ^4.4.1
     "@react-page/plugins-divider": ^4.4.1
@@ -7610,6 +7611,7 @@ __metadata:
     "@react-page/plugins-spacer": ^4.4.1
     "@react-page/plugins-video": ^4.4.1
     "@react-page/react-admin": ^4.4.1
+    "@testing-library/dom": ^8.11.1
     "@testing-library/jest-dom": ^5.16.1
     "@testing-library/react": ^12.1.2
     "@testing-library/user-event": ^13.5.0
@@ -7628,7 +7630,7 @@ __metadata:
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
     eslint-plugin-node: ^11.1.0
-    eslint-plugin-promise: ^5.2.0
+    eslint-plugin-promise: ^6.0.0
     eslint-plugin-react: ^7.28.0
     eslint-webpack-plugin: ^3.1.1
     final-form: ^4.20.6
@@ -7972,7 +7974,7 @@ __metadata:
     "@types/pg": ^8.6.3
     "@types/supertest": ^2.0.11
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1051.0
+    aws-sdk: ^2.1052.0
     axios: ^0.24.0
     cors: 2.8.5
     debug: ^4.3.3
@@ -8465,9 +8467,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1051.0":
-  version: 2.1051.0
-  resolution: "aws-sdk@npm:2.1051.0"
+"aws-sdk@npm:^2.1052.0":
+  version: 2.1052.0
+  resolution: "aws-sdk@npm:2.1052.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -8478,7 +8480,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: fd5cd510f683a4a38dae243aaa2a5ef4fb3e699dcb32d4b9b27502c6e4647a010c83b244c0706566b8fa57774c2372560712d61ce0f504f1a819ae5dce903eca
+  checksum: 3cd4278df0f67ea29aaef67d0cb7e72a7e057eeb7c86314f868483345eff47cedc9d5cef1b85f1f61360c230ba1726eae848240967fab5982ff773f791fc0f9d
   languageName: node
   linkType: hard
 
@@ -11337,6 +11339,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "data@workspace:services/data"
   dependencies:
+    "@types/node": ^14.18.5
     cors: ^2.8.5
     debug: ^4.3.3
     dotenv: ^10.0.0
@@ -12060,7 +12063,7 @@ __metadata:
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
     eslint-plugin-node: ^11.1.0
-    eslint-plugin-promise: ^5.2.0
+    eslint-plugin-promise: ^6.0.0
     eslint-webpack-plugin: ^3.1.1
     husky: ^7.0.4
     is-ci: ^3.0.1
@@ -12069,6 +12072,8 @@ __metadata:
     pinst: ^2.1.6
     prettier: ^2.5.1
     ts-jest: ^27.1.2
+    typescript: ^4.5.4
+    webpack: ^5.65.0
   languageName: unknown
   linkType: soft
 
@@ -12569,12 +12574,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-promise@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "eslint-plugin-promise@npm:5.2.0"
+"eslint-plugin-promise@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "eslint-plugin-promise@npm:6.0.0"
   peerDependencies:
-    eslint: ^7.0.0
-  checksum: 5d6b2d28408c5afde6386942862427af3d83c9a130eb2555bb54b26a1761914e2c7326aca1be26dd3fee6405e65a2ee9432a4526147e5962545060ea0ef64058
+    eslint: ^7.0.0 || ^8.0.0
+  checksum: 7e761507c51267b77e4ad710e7c8938aa4f8f69b975886034e57497a1816e9527eda364e25aac03d1b4e0df2e738ba98e49ad075d028824fcfea533a1419751c
   languageName: node
   linkType: hard
 
@@ -26333,12 +26338,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:services/web"
   dependencies:
-    "@babel/plugin-proposal-object-rest-spread": ^7.16.5
+    "@babel/plugin-proposal-object-rest-spread": ^7.16.7
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-brands-svg-icons": ^5.15.4
     "@fortawesome/free-regular-svg-icons": ^5.15.4
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.16
+    "@material-ui/core": ^4.12.3
     "@material-ui/lab": ^4.0.0-alpha.60
     "@mdi/font": ^5.9.55
     "@types/bs58": ^4.0.1
@@ -26366,7 +26372,7 @@ __metadata:
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
     eslint-plugin-node: ^11.1.0
-    eslint-plugin-promise: ^5.2.0
+    eslint-plugin-promise: ^6.0.0
     eslint-plugin-react: ^7.28.0
     eslint-webpack-plugin: ^3.1.1
     fp-ts: ^2.11.6
