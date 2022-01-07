@@ -63,7 +63,6 @@ jobs:
             cd ~/app
             docker login ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }}
             docker-compose down
-            docker system prune
             docker-compose pull
             docker-compose up migration
             docker-compose down
