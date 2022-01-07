@@ -17,6 +17,6 @@ export const toGroupIO = (
       createdAt: group.createdAt.toISOString(),
       updatedAt: group.updatedAt.toISOString(),
     }),
-    E.mapLeft(DecodeError)
+    E.mapLeft((e) => DecodeError(`Failed to decode group (${group.id})`, e))
   );
 };

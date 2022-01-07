@@ -1,148 +1,70 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { nonEmptyRecordFromType } from "../../Common/NonEmptyRecord";
-import { BaseProps, Point, UUID } from "../Common";
-import { optionFromUndefined } from "../Common/optionFromUndefined";
-import { CreateKeyword } from "../Keyword";
-import { CreateLink } from "../Link";
-import { MediaType } from "../Media";
-import { GetListQuery } from "../Query";
+import { nonEmptyRecordFromType } from "../../Common";
+import { optionFromUndefined } from "../../Common/optionFromUndefined";
+import { Point, UUID } from "../Common";
+import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 
-export const GetEventsQueryFilter = t.type(
-  {
-    ...GetListQuery.props,
-    groupsMembers: optionFromUndefined(t.array(t.string)),
-    actors: optionFromUndefined(t.array(t.string)),
-    groups: optionFromUndefined(t.array(t.string)),
-    links: optionFromUndefined(t.array(t.string)),
-    keywords: optionFromUndefined(t.array(t.string)),
-    media: optionFromUndefined(t.array(t.string)),
-    startDate: optionFromUndefined(DateFromISOString),
-    endDate: optionFromUndefined(DateFromISOString),
-    title: optionFromUndefined(t.string),
-  },
-  "GetEventsQueryFilter"
-);
-
-export type GetEventsQueryFilter = t.TypeOf<typeof GetEventsQueryFilter>;
+export const UncategorizedType = t.literal("Uncategorized");
+export type UncategorizedType = t.TypeOf<typeof UncategorizedType>;
 
 export const CreateEventBody = t.strict(
   {
-    title: t.string,
-    media: optionFromUndefined(
-      t.array(
-        t.union([
-          UUID,
-          t.strict({
-            location: t.string,
-            description: t.string,
-            thumbnail: t.union([t.string, t.undefined]),
-            type: MediaType,
-          }),
-        ])
-      )
-    ),
-    links: t.array(t.union([UUID, CreateLink])),
-    keywords: t.array(t.union([UUID, CreateKeyword])),
-    actors: t.array(UUID),
-    groups: t.array(UUID),
-    groupsMembers: t.array(UUID),
-    startDate: DateFromISOString,
-    endDate: optionFromUndefined(DateFromISOString),
-    body: t.string,
-    excerpt: t.union([t.string, t.null]),
-    body2: t.UnknownRecord,
+    ...CreateEventCommon.type.props,
+    type: UncategorizedType,
+    payload: t.strict({
+      title: t.string,
+      actors: t.array(UUID),
+      groups: t.array(UUID),
+      groupsMembers: t.array(UUID),
+      location: optionFromUndefined(Point),
+      endDate: optionFromUndefined(DateFromISOString),
+    }),
   },
   "CreateEventBody"
 );
 
 export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 
-export const EditEventBody = nonEmptyRecordFromType({
-  title: optionFromUndefined(t.string),
-  media: optionFromUndefined(
-    t.array(
-      t.union([
-        UUID,
-        t.strict({
-          location: t.string,
-          description: t.string,
-          thumbnail: t.union([t.string, t.undefined]),
-          type: MediaType,
-        }),
-      ])
-    )
-  ),
-  links: optionFromUndefined(t.array(t.union([UUID, CreateLink]))),
-  location: optionFromUndefined(Point),
-  actors: optionFromUndefined(t.array(t.string)),
-  groups: optionFromUndefined(t.array(t.string)),
-  groupsMembers: optionFromUndefined(t.array(t.string)),
-  keywords: optionFromUndefined(t.array(t.string)),
-  startDate: optionFromUndefined(DateFromISOString),
-  endDate: optionFromUndefined(DateFromISOString),
-  body: optionFromUndefined(t.string),
-  excerpt: optionFromUndefined(t.string),
-  body2: optionFromUndefined(t.UnknownRecord),
-});
+export const EditEventBody = nonEmptyRecordFromType(
+  {
+    ...EditEventCommon.type.props,
+    type: UncategorizedType,
+    payload: t.strict({
+      title: t.string,
+      location: optionFromUndefined(Point),
+      actors: t.array(t.string),
+      groups: t.array(t.string),
+      groupsMembers: t.array(t.string),
+      endDate: optionFromUndefined(DateFromISOString),
+    }),
+  },
+  "EditEventPayload"
+);
 
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;
 
-export const UncategorizedType = t.literal("Uncategorized");
-
-export const Uncategorized = t.strict(
-  {
-    ...BaseProps.type.props,
-    type: UncategorizedType,
-    title: t.string,
-    startDate: DateFromISOString,
-    endDate: t.union([t.undefined, DateFromISOString]),
-    location: t.union([t.undefined, Point]),
-    media: t.array(
-      t.strict(
-        {
-          location: t.string,
-          thumbnail: t.union([t.string, t.undefined]),
-          type: MediaType,
-          description: t.string,
-        },
-        "Media"
-      )
-    ),
-    links: t.array(t.string),
-    actors: t.array(t.string),
-    groups: t.array(t.string),
-    groupsMembers: t.array(t.string),
-    keywords: t.array(t.string),
-    excerpt: t.union([t.string, t.null]),
-    body: t.string,
-    body2: t.union([t.UnknownRecord, t.null]),
-  },
-  UncategorizedType.value
-);
-export type Uncategorized = t.TypeOf<typeof Uncategorized>;
-
-const { media, body, body2, ...uncategorizedEventProps } =
-  Uncategorized.type.props;
-
-export const UncategorizedSearch = t.strict({
-  ...uncategorizedEventProps,
-  media: t.array(t.string),
-});
-export type UncategorizedSearch = t.TypeOf<typeof UncategorizedSearch>;
-
-export const UncategorizedV2 = t.strict(
+export const UncategorizedV2Payload = t.strict(
   {
     title: t.string,
     location: t.union([Point, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
-    body: t.unknown,
     actors: t.array(UUID),
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),
-    links: t.array(UUID)
   },
   "UncategorizedV2"
 );
 
-export type UncategorizedV2 = t.TypeOf<typeof UncategorizedV2>;
+export type UncategorizedV2Payload = t.TypeOf<typeof UncategorizedV2Payload>;
+
+export const Uncategorized = t.strict(
+  {
+    ...EventCommon.type.props,
+    type: UncategorizedType,
+    payload: UncategorizedV2Payload,
+  },
+  "UncategorizedEventV2"
+);
+
+export type Uncategorized = t.TypeOf<typeof Uncategorized>;

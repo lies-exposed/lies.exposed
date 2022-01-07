@@ -17,12 +17,10 @@ import {
   ReferenceArrayInput,
   ReferenceManyField,
   Resource,
-  ResourceProps,
-  SelectArrayInput,
-  SimpleForm,
+  ResourceProps, SimpleForm,
   TextField,
   TextInput,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import RichTextInput from "./Common/RichTextInput";

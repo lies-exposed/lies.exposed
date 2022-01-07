@@ -14,17 +14,13 @@ describe("Edit Project ", () => {
     appTest = await initAppTest();
 
     const [projectData] = fc.sample(ProjectArb, 1);
-    await pipe(
-      appTest.ctx.db.save(ProjectEntity, [
-        {
-          ...projectData,
-        },
-      ]),
+    [project] = await pipe(
+      appTest.ctx.db.save(ProjectEntity, [projectData]),
       TE.map((projects) => {
         project = projects[0];
         return projects;
       })
-    )();
+    )().then((r) => (r as any).right);
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -33,6 +29,7 @@ describe("Edit Project ", () => {
   });
 
   afterAll(async () => {
+    await appTest.ctx.db.delete(ProjectEntity, [project.id])();
     await appTest.ctx.db.close()();
   });
 

@@ -17,14 +17,15 @@ describe("Create Area", () => {
   });
 
   test("Should return a 401", async () => {
-    const response = await Test.req.post("/v1/actors").send({
+    const response = await Test.req.post("/v1/areas").send({
       username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
       avatar: tests.fc.sample(MediaArb, 1)[0],
       color: "ffffff",
       fullName: `${tests.fc.sample(
         tests.fc.string({ minLength: 3 })
       )} ${tests.fc.sample(tests.fc.string({ minLength: 3 }))}`,
-      body: tests.fc.string(),
+      excerpt: { content: tests.fc.string() },
+      body: { content: tests.fc.string() },
     });
 
     expect(response.status).toEqual(401);
@@ -32,30 +33,24 @@ describe("Create Area", () => {
 
   test("Should return a 400", async () => {
     const response = await Test.req
-      .post("/v1/actors")
+      .post("/v1/areas")
       .set("Authorization", authorizationToken)
       .send({
-        avatar: "http://myavatar-url.com/",
         color: "ffffff",
         fullName: tests.fc.sample(tests.fc.string())[0],
-        body: "my content",
+        excerpt: { content: "my content" },
+        body: { content: "my content" },
       });
 
     expect(response.status).toEqual(400);
   });
 
-  test("Should create actor", async () => {
+  test("Should create area", async () => {
     const response = await Test.req
-      .post("/v1/actors")
+      .post("/v1/areas")
       .set("Authorization", authorizationToken)
-      .send({
-        username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
-        avatar: "http://myavatar-url.com/",
-        color: "ffffff",
-        fullName: tests.fc.sample(tests.fc.string())[0],
-        body: "my content",
-      });
+      .send({});
 
-    expect(response.status).toEqual(201);
+    expect(response.status).toEqual(400);
   });
 });

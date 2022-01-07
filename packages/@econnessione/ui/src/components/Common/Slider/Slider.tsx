@@ -33,8 +33,7 @@ export const Slider: React.FC<SliderProps> = ({
           style={{
             textAlign: "center",
             maxHeight,
-            // background: `url(${s.location})`,
-            backgroundSize: "100% auto",
+            maxWidth: 600,
           }}
         >
           <MediaElement

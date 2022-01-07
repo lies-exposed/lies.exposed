@@ -1,78 +1,38 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { UUID } from "@econnessione/shared/io/http/Common";
-import { uuid } from "@econnessione/shared/utils/uuid";
 import { Router } from "express";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { toEventIO } from "./event.io";
-import { EventEntity } from "@entities/Event.entity";
-import { foldOptionals } from "@utils/foldOptionals.utils";
-import { RouteContext } from "routes/route.types";
+import { RouteContext } from "../route.types";
+import { toEventV2IO } from "./eventV2.io";
+import { editEventQuery } from "./queries/editEvent.query";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 
 export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(
-    Endpoints.Event.Edit,
-    ({
-      params: { id },
-      body: { links, media, actors, groups, groupsMembers, keywords, ...body },
-    }) => {
-      ctx.logger.debug.log("Incoming body %O", body);
-      ctx.logger.debug.log("Incoming media %O", media);
+  AddEndpoint(r)(Endpoints.Event.Edit, ({ params: { id }, body }) => {
+    ctx.logger.debug.log("Incoming body %O", body);
 
-      const updateData = foldOptionals({
-        ...body,
-        actors: pipe(actors, O.map(A.map((a) => ({ id: a })))),
-        groups: pipe(groups, O.map(A.map((g) => ({ id: g })))),
-        groupsMembers: pipe(groupsMembers, O.map(A.map((g) => ({ id: g })))),
-        keywords: pipe(keywords, O.map(A.map((k) => ({ id: k })))),
-        links: pipe(
-          links,
-          O.map(A.map((l) => (UUID.is(l) ? { id: l } : { id: uuid(), ...l })))
-        ),
-        media: pipe(
-          media,
-          O.map(
-            A.map((i) =>
-              UUID.is(i)
-                ? { id: i }
-                : {
-                    id: uuid(),
-                    ...i,
-                  }
-            )
-          )
-        ),
-      });
-
-      ctx.logger.debug.log("Update data %O", updateData);
-
-      return pipe(
-        ctx.db.save(EventEntity, [{ id, ...updateData }]),
-        TE.chain(() =>
-          ctx.db.findOneOrFail(EventEntity, {
-            where: { id },
-            relations: ["media"],
-            loadRelationIds: {
-              relations: [
-                "actors",
-                "groups",
-                "groupsMembers",
-                "links",
-                "keywords",
-              ],
-            },
-          })
-        ),
-        TE.chainEitherK((event) => toEventIO(event)),
-        TE.map((event) => ({
-          body: {
-            data: event,
+    return pipe(
+      ctx.db.findOneOrFail(EventV2Entity, { where: { id } }),
+      TE.chain((event) => editEventQuery(ctx)(event, body)),
+      ctx.logger.debug.logInTaskEither(`Update data %O`),
+      TE.chain((updateData) =>
+        ctx.db.save(EventV2Entity, [{ id, ...updateData }])
+      ),
+      TE.chain(() =>
+        ctx.db.findOneOrFail(EventV2Entity, {
+          where: { id },
+          loadRelationIds: {
+            relations: ["media", "links", "keywords"],
           },
-          statusCode: 200,
-        }))
-      );
-    }
-  );
+        })
+      ),
+      TE.chainEitherK(toEventV2IO),
+      TE.map((event) => ({
+        body: {
+          data: event,
+        },
+        statusCode: 200,
+      }))
+    );
+  });
 };

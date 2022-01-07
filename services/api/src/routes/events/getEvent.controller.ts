@@ -1,22 +1,18 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { toEventIO } from "./event.io";
-import { EventEntity } from "@entities/Event.entity";
+import { toEventV2IO } from "./eventV2.io";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import { RouteContext } from "routes/route.types";
 
 export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.Get, ({ params: { id } }) => {
     const selectEventTask = pipe(
       ctx.db.manager
-        .createQueryBuilder(EventEntity, "event")
-        .leftJoinAndSelect("event.actors", "actors")
-        .leftJoinAndSelect("event.groups", "groups")
-        .leftJoinAndSelect("event.groupsMembers", "groupsMembers")
-        .leftJoinAndSelect("event.media", "media")
+        .createQueryBuilder(EventV2Entity, "event")
         .loadAllRelationIds({
-          relations: ["actors", "groups", "groupsMembers", "links", "keywords"],
+          relations: ["links", "media", "keywords"],
         })
         .where("event.id = :eventId", { eventId: id }),
       (q) => {
@@ -26,7 +22,7 @@ export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
 
     return pipe(
       selectEventTask,
-      TE.chainEitherK(toEventIO),
+      TE.chainEitherK(toEventV2IO),
       TE.map((data) => ({
         body: {
           data,

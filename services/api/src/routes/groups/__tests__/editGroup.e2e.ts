@@ -41,7 +41,7 @@ describe("Edit Group", () => {
   test("Should edit the group", async () => {
     const updateData = {
       ...group,
-      body: "new group body",
+      body: { content: "new group body" },
     };
 
     const response = await appTest.req
@@ -51,6 +51,6 @@ describe("Edit Group", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(response.body.data.body).toEqual("new group body");
+    expect(response.body.data.body).toEqual({ content: "new group body" });
   });
 });

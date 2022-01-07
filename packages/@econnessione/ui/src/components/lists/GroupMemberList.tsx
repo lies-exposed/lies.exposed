@@ -21,7 +21,7 @@ export const GroupMemberListItem: React.FC<
       key={`group-member-list-item-${item.group.id}-${item.actor.id}`}
       display="flex"
       alignItems="center"
-      margin={1}
+      margin={0}
       style={{ cursor: "pointer" }}
       onClick={() => onClick?.(item)}
     >

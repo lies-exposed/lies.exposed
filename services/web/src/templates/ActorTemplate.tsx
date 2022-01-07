@@ -52,6 +52,10 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId, tab = 0 }) => {
                   actorId,
                 }}
                 tab={tab}
+                onActorClick={() => {}}
+                onGroupClick={() => {}}
+                onGroupMemberClick={() => {}}
+                onKeywordClick={() => {}}
               />
             </MainContent>
           );

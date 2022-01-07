@@ -8,9 +8,9 @@ import { pipe } from "fp-ts/lib/function";
 import { Actor, Common, Events, Project } from "../io/http";
 import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
 
-type EventsByYearMap = Map<number, Map<number, Events.EventV2[]>>;
+type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
-export const eventDate = (e: Events.EventV2): Date => {
+export const eventDate = (e: Events.Event): Date => {
   switch (e.type) {
     case Events.Death.DeathType.value: {
       return e.date;
@@ -36,7 +36,7 @@ interface NavigationItem {
 }
 
 export const eventsDataToNavigatorItems = (
-  events: Events.EventV2[]
+  events: Events.Event[]
 ): NavigationItem[] => {
   const initial: EventsByYearMap = Map.empty;
 
@@ -146,12 +146,11 @@ export const filterMetadataFroProject =
     }
   };
 
-export const ordEventDate = Ord.ord.contramap(
-  Ord.ordDate,
-  (e: Events.EventV2) => eventDate(e)
+export const ordEventDate = Ord.ord.contramap(Ord.ordDate, (e: Events.Event) =>
+  eventDate(e)
 );
 
-const colorMap: Record<Events.EventV2["type"], string> = {
+const colorMap: Record<Events.Event["type"], string> = {
   Death: "black",
   ScientificStudy: "green",
   Uncategorized: "grey",
@@ -159,7 +158,7 @@ const colorMap: Record<Events.EventV2["type"], string> = {
 export const getColorByEventType = ({
   type,
 }: {
-  type: Events.EventV2["type"];
+  type: Events.Event["type"];
 }): string => {
   return colorMap[type];
 };
@@ -170,7 +169,7 @@ interface EventsInDateRangeProps {
 
 export const eventsInDateRange =
   (props: EventsInDateRangeProps) =>
-  (events: Events.EventV2[]): Events.EventV2[] => {
+  (events: Events.Event[]): Events.Event[] => {
     return pipe(
       events,
       A.sort(Ord.getDualOrd(ordEventDate)),

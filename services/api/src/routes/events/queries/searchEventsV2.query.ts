@@ -70,7 +70,8 @@ export const searchEventV2Query =
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
             .leftJoinAndSelect("event.keywords", "keywords")
-            .leftJoinAndSelect("event.media", "media"),
+            .leftJoinAndSelect("event.media", "media")
+            .leftJoinAndSelect("event.links", "links"),
           (q) => {
             q.where("event.draft = :draft", { draft: false });
             let hasWhere = false;
@@ -136,7 +137,7 @@ export const searchEventV2Query =
 
             const scientificStudiesCount = q
               .clone()
-              .andWhere(" event.type = 'Uncategorized' ");
+              .andWhere(" event.type = 'ScientificStudy' ");
             logger.debug.log(
               `Scientific Studies count query %O`,
               ...scientificStudiesCount.getQueryAndParameters()

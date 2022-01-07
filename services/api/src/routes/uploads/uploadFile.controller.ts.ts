@@ -32,7 +32,9 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
       return await pipe(
         UploadFileData.decode({ key, file }),
         TE.fromEither,
-        TE.mapLeft(DecodeError),
+        TE.mapLeft((e) =>
+          DecodeError(`Failed to decode upload file data (${key})`, e)
+        ),
         TE.chain(({ key, file }) =>
           ctx.s3.upload({
             Bucket: ctx.env.SPACE_BUCKET,

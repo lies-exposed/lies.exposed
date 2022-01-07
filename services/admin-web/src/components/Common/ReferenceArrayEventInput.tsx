@@ -1,6 +1,5 @@
 import {
   AutocompleteArrayInput,
-  AutocompleteInput,
   ReferenceArrayInput,
   ReferenceArrayInputProps,
 } from "ra-ui-materialui";

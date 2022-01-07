@@ -18,7 +18,7 @@ import { Link } from "@vx/network/lib/types";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import ordinalScale from "@vx/scale/lib/scales/ordinal";
 import { ScaleOrdinal } from "d3";
-import { subWeeks, differenceInDays } from "date-fns";
+import { differenceInDays, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as Eq from "fp-ts/lib/Eq";
 import * as Map from "fp-ts/lib/Map";
@@ -38,7 +38,7 @@ import GroupList from "../lists/GroupList";
 
 type GroupByItem = Actor.Actor | Group.Group;
 
-type NetworkDatum = NetworkNodeDatum & Events.UncategorizedV2;
+type NetworkDatum = NetworkNodeDatum & Events.Uncategorized.Uncategorized;
 
 interface EventNetworkDatum extends NetworkDatum {
   title: string;
@@ -55,7 +55,7 @@ interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
 }
 
 export interface EventsNetworkGraphProps {
-  events: Events.UncategorizedV2[];
+  events: Events.Uncategorized.Uncategorized[];
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
@@ -411,7 +411,7 @@ const getLinks =
 
 interface Result {
   eventNodes: Array<NetworkPointNode<EventNetworkDatum>>;
-  selectedEvents: Events.UncategorizedV2[];
+  selectedEvents: Events.Uncategorized.Uncategorized[];
   // group by
   groupByItems: Map<string, Actor.Actor | Group.Group>;
   groupByLinks: Map<string, NetworkLink[]>;
@@ -435,7 +435,7 @@ export interface EventsNetworkGraphData {
     nodes: Group.Group[];
   };
   events: {
-    nodes: Events.Uncategorized.UncategorizedSearch[];
+    nodes: Events.Uncategorized.Uncategorized[];
   };
 }
 
@@ -448,7 +448,7 @@ export interface EventsNetworkGraphDataProps {
     nodes: Array<NetworkPointNode<EventNetworkDatum>>;
     links: NetworkLink[];
   };
-  selectedEvents: Events.UncategorizedV2[];
+  selectedEvents: Events.Uncategorized.Uncategorized[];
   width: number;
   height: number;
   groupByScale: ScaleOrdinal<string, string>;

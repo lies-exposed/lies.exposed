@@ -3,14 +3,15 @@ import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
+import Editor from "@components/Common/Editor";
 
 interface ScientificStudyListItemProps {
-  item: Events.ScientificStudyV2;
+  item: Events.ScientificStudy.ScientificStudy;
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
   links: string[];
-  onClick?: (e: Events.ScientificStudyV2) => void;
+  onClick?: (e: Events.ScientificStudy.ScientificStudy) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }
@@ -44,7 +45,7 @@ export const ScientificStudyListItem: React.FC<
           <Link href={item.payload.url} target="_blank">
             {item.payload.url}
           </Link>
-          {item.payload.body}
+          <Editor readOnly value={item.body as any} />
         </Grid>
         <Grid
           item

@@ -43,7 +43,8 @@ export const Create = Endpoint({
         username: t.string,
         fullName: t.string,
         color: t.string,
-        body: t.string,
+        body: t.UnknownRecord,
+        excerpt: t.UnknownRecord,
         avatar: t.union([t.undefined, t.string]),
       },
       "AddActorBody"
@@ -61,14 +62,14 @@ export const Edit = Endpoint({
       username: optionFromNullable(t.string),
       fullName: optionFromNullable(t.string),
       color: optionFromNullable(t.string),
-      body: optionFromNullable(t.string),
+      body: optionFromNullable(t.UnknownRecord),
       avatar: optionFromNullable(t.string),
       memberIn: t.array(
         t.union([
           UUID,
           t.strict({
             group: UUID,
-            body: t.string,
+            body: t.UnknownRecord,
             startDate: DateFromISOString,
             endDate: optionFromNullable(DateFromISOString),
           }),

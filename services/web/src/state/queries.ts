@@ -167,7 +167,7 @@ const paginatedCachedQuery =
 
 const reduceEvent = (
   acc: InfiniteEventListMetadata,
-  e: Events.EventV2
+  e: Events.Event
 ): InfiniteEventListMetadata => {
   if (e.type === "ScientificStudy") {
     return {
@@ -206,7 +206,7 @@ const reduceEvent = (
 };
 
 const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
-  api.Event.Custom.SearchV2,
+  api.Event.List,
   { actors: [], groups: [], groupsMembers: [], keywords: [], media: [] },
   ({ data, ...acc }, e) => {
     return {
@@ -217,7 +217,7 @@ const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
 );
 
 interface InfiniteEventListResult {
-  data: Events.EventV2[];
+  data: Events.Event[];
   totals: {
     uncategorized: number;
     deaths: number;
@@ -260,8 +260,8 @@ export const deathsPaginated = queryStrict<
       return {
         data: acc.data.concat(d),
         victims: acc.victims
-          .filter((a: string) => d.victim !== a)
-          .concat(d.victim),
+          .filter((a: string) => d.payload.victim !== a)
+          .concat(d.payload.victim),
       };
     }
   )(IL_DEATH_KEY_PREFIX),

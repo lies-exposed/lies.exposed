@@ -1,11 +1,11 @@
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
-import { DeathEventEntity } from "@entities/DeathEvent.entity";
 import { EventEntity } from "@entities/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { DeathEventEntity } from "@entities/DeathEvent.entity";
 
 export class EventV21639419928672 implements MigrationInterface {
   name = "EventV21639419928672";
@@ -15,7 +15,7 @@ export class EventV21639419928672 implements MigrationInterface {
       `CREATE TYPE "public"."event_v2_type_enum" AS ENUM('Death', 'ScientificStudy', 'Uncategorized')`
     );
     await queryRunner.query(
-      `CREATE TABLE "event_v2" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "date" TIMESTAMP WITH TIME ZONE NOT NULL, "excerpt" json, "draft" bool, "type" "public"."event_v2_type_enum" NOT NULL DEFAULT 'Uncategorized', "payload" json, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_a4b35dfde2e290d5978c0dc9828" PRIMARY KEY ("id"))`
+      `CREATE TABLE "event_v2" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "date" TIMESTAMP WITH TIME ZONE NOT NULL, "excerpt" json, "body" json, "draft" bool, "type" "public"."event_v2_type_enum" NOT NULL DEFAULT 'Uncategorized', "payload" json, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_a4b35dfde2e290d5978c0dc9828" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_a4b35dfde2e290d5978c0dc982" ON "event_v2" ("id") `
@@ -81,6 +81,7 @@ export class EventV21639419928672 implements MigrationInterface {
           (e): EventV2Entity => ({
             ...e,
             excerpt: {},
+            body: (e.body2 as any) ?? {},
             draft: false,
             type: UncategorizedType.value,
             payload: {
@@ -90,12 +91,11 @@ export class EventV21639419928672 implements MigrationInterface {
               actors: e.actors.map((a) => a.id as any),
               groups: e.groups.map((g) => g.id as any),
               groupsMembers: e.groupsMembers.map((gm) => gm.id as any),
-              body: e.body2,
-              links: e.links.map(l => l.id as any),
             },
             media: e.media,
             keywords: e.keywords,
             date: e.startDate,
+            links: e.links.map((l) => l.id as any),
           })
         )
       );
@@ -111,11 +111,13 @@ export class EventV21639419928672 implements MigrationInterface {
             excerpt: {},
             type: DeathType.value,
             payload: {
-              location: s.location ?? undefined,
+              location: (s as any).location ?? undefined,
               victim: s.victim.id as any,
             },
+            body: {},
             media: [],
             keywords: [],
+            links: [],
           })
         )
       );
@@ -135,12 +137,15 @@ export class EventV21639419928672 implements MigrationInterface {
               url: s.url as any,
               publisher: s.publisher.id as any,
               authors: s.authors as any[],
-              body: null,
+              publishDate: s.publishDate,
+              conclusion: s.conclusion
             },
+            body: s.body2,
             keywords: [],
             media: [],
             excerpt: {},
             date: s.publishDate,
+            links: [],
           })
         )
       );

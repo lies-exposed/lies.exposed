@@ -12,14 +12,14 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "dependencies": {
-    "fp-ts": "^2.11.5",
+    "fp-ts": "^2.11.6",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16"
   },
   "devDependencies": {
     "@types/copy-webpack-plugin": "^8.0.1",
     "@types/debug": "^4.1.7",
-    "@types/eslint": "^8.2.1",
+    "@types/eslint": "^8.2.2",
     "@types/html-replace-webpack-plugin": "^2.6.1",
     "@types/mini-css-extract-plugin": "^2.4.0",
     "@types/prettier": "^2.4.2",
@@ -27,15 +27,15 @@
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "^6.5.1",
     "dotenv-webpack": "^7.0.3",
-    "eslint": "^8.5.0",
-    "eslint-plugin-import": "^2.25.3",
+    "eslint": "^8.6.0",
+    "eslint-plugin-import": "^2.25.4",
     "fast-check": "^2.20.0",
     "fast-check-io-ts": "^0.5.0",
     "file-loader": "^6.2.0",
     "filemanager-webpack-plugin": "^6.1.7",
     "html-replace-webpack-plugin": "^2.6.0",
     "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.4.5",
+    "mini-css-extract-plugin": "^2.4.6",
     "prettier": "^2.5.1",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.6",
@@ -44,7 +44,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.65.0",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-dev-server": "^4.7.1"
+    "webpack-dev-server": "^4.7.2"
   },
   "peerDependencies": {
     "debug": "^4.3.1",

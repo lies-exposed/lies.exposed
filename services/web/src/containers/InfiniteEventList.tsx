@@ -1,4 +1,10 @@
-import { Events } from "@econnessione/shared/io/http";
+import {
+  Events,
+  Keyword,
+  GroupMember,
+  Actor,
+  Group,
+} from "@econnessione/shared/io/http";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import EventsTimeline from "@econnessione/ui/components/lists/EventList/EventTimeline";
@@ -24,7 +30,7 @@ import { doUpdateCurrentView } from "../utils/location.utils";
 
 const eventsSort = pipe(
   Ord.reverse(D.Ord),
-  Ord.contramap((e: Events.EventV2): Date => {
+  Ord.contramap((e: Events.Event): Date => {
     if (e.type === Events.ScientificStudy.ScientificStudyType.value) {
       return e.date;
     }
@@ -38,6 +44,10 @@ const eventsSort = pipe(
 export interface EventListProps {
   hash: string;
   filters: Omit<InfiniteEventListParams, "page" | "hash">;
+  onActorClick: (a: Actor.Actor) => void;
+  onGroupClick: (g: Group.Group) => void;
+  onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
+  onKeywordClick: (k: Keyword.Keyword) => void;
 }
 
 interface BottomReachProps {
@@ -87,7 +97,7 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
   );
 
   React.useEffect(() => {
-    if (isLoading) {
+    if (isLoading && props.loadedElements < props.totalElements) {
       setIsLoading(false);
     }
     if (props.loadedElements < props.totalElements) {
@@ -107,7 +117,11 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
   );
 };
 
-const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
+const InfiniteEventList: React.FC<EventListProps> = ({
+  hash,
+  filters,
+  ...onClickProps
+}) => {
   const theme = useTheme();
   const [state, updateState] = React.useState<{
     currentPage: number;
@@ -338,25 +352,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({ hash, filters }) => {
                                 })();
                               }
                             }}
-                            onActorClick={(a) => {
-                              void doUpdateCurrentView({
-                                view: "actor",
-                                actorId: a.id,
-                              })();
-                            }}
-                            onGroupClick={(g) => {
-                              void doUpdateCurrentView({
-                                view: "group",
-                                groupId: g.id,
-                              })();
-                            }}
-                            onGroupMemberClick={(gm) => {
-                              void doUpdateCurrentView({
-                                view: "actor",
-                                actorId: gm.actor.id,
-                              })();
-                            }}
-                            onKeywordClick={(k) => {}}
+                            {...onClickProps}
                           />
                         </Box>
                       );

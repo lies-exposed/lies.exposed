@@ -12,13 +12,13 @@ import { ScientificStudyListItem } from "./ScientificStudyListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
 
 export interface EventListItemProps {
-  event: Events.EventV2;
+  event: Events.Event;
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
   media: Media.Media[];
-  onClick: (e: Events.EventV2) => void;
+  onClick: (e: Events.Event) => void;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
   onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
@@ -31,7 +31,10 @@ export const EventListItem: React.FC<EventListItemProps> = ({
 }) => {
   switch (e.type) {
     case Events.Death.DeathType.value: {
-      return <DeathListItem item={e} {...props} links={[]} />;
+      const victim = props.actors.find((a) => a.id === e.payload.victim);
+      return (
+        <DeathListItem item={e} {...props} victim={victim as any} links={[]} />
+      );
     }
     case Events.ScientificStudy.ScientificStudyType.value: {
       return <ScientificStudyListItem item={e} links={[]} {...props} />;

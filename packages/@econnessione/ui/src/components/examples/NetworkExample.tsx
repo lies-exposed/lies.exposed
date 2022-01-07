@@ -50,17 +50,14 @@ const NetworkExample: React.FC = () => {
         groupBy="actor"
         scale={"all"}
         scalePoint={O.none}
-        events={pipe(
-          events,
-          A.filter(Events.UncategorizedV2.is)
-        )}
+        events={pipe(events, A.filter(Events.Uncategorized.Uncategorized.is))}
         actors={actors.map((a) => ({
           ...a,
-          body: "empty",
+          body: { content: "empty" },
         }))}
         groups={groups.map((g) => ({
           ...g,
-          body: "empty",
+          body: { content: "empty" },
         }))}
         keywords={[]}
         selectedActorIds={selectedActorIds}

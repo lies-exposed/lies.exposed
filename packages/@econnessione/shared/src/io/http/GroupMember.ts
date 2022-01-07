@@ -11,7 +11,7 @@ export const CreateGroupMember = t.strict(
     actor: t.string,
     startDate: DateFromISOString,
     endDate: optionFromNullable(DateFromISOString),
-    body: t.string,
+    body: t.UnknownRecord,
   },
   "CreateGroupMember"
 );
@@ -22,12 +22,10 @@ export const GroupMember = t.strict(
     ...BaseProps.type.props,
     group: Group,
     actor: Actor,
-    // events: t.array(t.string),
     startDate: DateFromISOString,
     endDate: t.union([t.undefined, DateFromISOString]),
-    excerpt: t.union([t.string, t.null]),
-    body: t.string,
-    body2: t.union([t.UnknownRecord, t.null]),
+    excerpt: t.union([t.UnknownRecord, t.null]),
+    body: t.union([t.UnknownRecord, t.null]),
     createdAt: t.string,
     updatedAt: t.string,
   },

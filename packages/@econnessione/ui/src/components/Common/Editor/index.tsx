@@ -1,5 +1,4 @@
-import type { EditorProps, Value } from "@react-page/editor";
-import RPEditor from "@react-page/editor";
+import RPEditor, { EditorProps, Value } from "@react-page/editor";
 import background from "@react-page/plugins-background";
 import divider from "@react-page/plugins-divider";
 import html5Video from "@react-page/plugins-html5-video";
@@ -9,6 +8,8 @@ import video from "@react-page/plugins-video";
 import * as React from "react";
 import customSlate from "./plugins/customSlate";
 import gridCellPlugin from "./plugins/gridCellPlugin";
+
+export const minimalCellPlugins = [customSlate] as any[];
 
 // Define which plugins we want to use.
 export const cellPlugins = [
