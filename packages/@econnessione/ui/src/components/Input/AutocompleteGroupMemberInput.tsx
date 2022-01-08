@@ -1,11 +1,11 @@
 import { GroupMember } from "@econnessione/shared/io/http";
 import * as React from "react";
 import { Queries } from "../../providers/DataProvider";
-import { AutocompleteInput } from "./AutocompleteInput";
 import {
   GroupMemberListItem,
   GroupsMembersList,
-} from "@components/lists/GroupMemberList";
+} from "../lists/GroupMemberList";
+import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteGroupMemberInputProps {
   selectedIds: string[];

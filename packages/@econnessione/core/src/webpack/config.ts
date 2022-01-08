@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as path from "path";
+import CopyWebpackPlugin from "copy-webpack-plugin";
+import DotenvPlugin from "dotenv-webpack";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
 import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
@@ -12,8 +14,6 @@ import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import { Configuration, DefinePlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { GetLogger } from "../logger";
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const DotenvPlugin = require("dotenv-webpack");
 
 const webpackLogger = GetLogger("webpack");
 
@@ -162,23 +162,32 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       app: path.resolve(opts.cwd, "src/index.tsx"),
     },
 
+    context: opts.cwd,
+
     output: {
       path: path.resolve(opts.cwd, "build"),
       filename: "[name].js",
     },
+
+    // externals: [
+    //   nodeExternals(),
+    //   nodeExternals({
+    //     modulesDir: path.resolve(opts.cwd, "../../node_modules"),
+    //   }),
+    // ],
 
     module: {
       rules: [
         {
           test: /\.tsx?$/,
           exclude: /node_modules/,
-          // include: tsLoaderIncludes,
           use: [
             {
               loader: "ts-loader",
               options: {
-                configFile: path.resolve(opts.cwd, "tsconfig.json"),
-                transpileOnly: true,
+                context: opts.cwd,
+                transpileOnly: false,
+                projectReferences: true,
               },
             },
           ],
@@ -203,8 +212,13 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       extensions: [".ts", ".tsx", ".js"],
       plugins: [
         new TsconfigPathsPlugin({
-          configFile: path.resolve(opts.cwd, "./tsconfig.json"),
-        }) as any,
+          context: opts.cwd,
+        }),
+      ],
+      modules: [
+        path.resolve(opts.cwd, "../../node_modules"),
+        path.resolve(opts.cwd, 'node_modules'),
+        path.resolve(opts.cwd, '../../'),
       ],
     },
     plugins,

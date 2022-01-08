@@ -35,7 +35,7 @@ import { Accessor } from "@vx/shape/lib/types";
 import { TooltipWithBounds, withTooltip } from "@vx/tooltip";
 import * as QR from "avenger/lib/QueryResult";
 import { declareQueries } from "avenger/lib/react";
-import { formatISO, isDate } from "date-fns";
+import { format, isDate } from "date-fns";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
@@ -306,11 +306,7 @@ const VaccineADRGraphComponent = withTooltip<
       const { x } = localPoint(event) ?? { x: 0 };
       const x0 = xScale.invert(x);
 
-      const d = data.find(
-        (d) =>
-          formatISO(d.date, { representation: "date" }) ===
-          formatISO(x0, { representation: "date" })
-      );
+      const d = data.find((d) => format(d.date) === format(x0));
       if (d) {
         if (tooltipOpen) {
           updateTooltip({
@@ -407,7 +403,7 @@ const VaccineADRGraphComponent = withTooltip<
               label="Date"
               tickFormat={(d) => {
                 if (isDate(d)) {
-                  return formatISO(d as any, { representation: "date" });
+                  return format(d as any);
                 }
                 return d.valueOf().toString();
               }}

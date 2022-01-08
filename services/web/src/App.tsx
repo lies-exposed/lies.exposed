@@ -1,6 +1,6 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
 import { BreadCrumb } from "@econnessione/ui/components/Common/BreadCrumb";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { Footer } from "@econnessione/ui/components/Footer";
 import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
 import { ECOTheme } from "@econnessione/ui/theme";
@@ -19,15 +19,15 @@ import GroupsPage from "./pages/GroupsPage";
 import KeywordsPage from "./pages/KeywordsPage";
 import VaccineDashboard from "./pages/dashboards/VaccineDashboard";
 import ProjectPage from "./pages/project";
+import ActorTemplate from "./templates/ActorTemplate";
+import ArticleTemplate from "./templates/ArticleTemplate";
+import EventTemplate from "./templates/EventTemplate";
+import GroupTemplate from "./templates/GroupTemplate";
 import {
   CurrentView,
   currentView,
   doUpdateCurrentView,
 } from "./utils/location.utils";
-import ActorTemplate from "@templates/ActorTemplate";
-import ArticleTemplate from "@templates/ArticleTemplate";
-import EventTemplate from "@templates/EventTemplate";
-import GroupTemplate from "@templates/GroupTemplate";
 
 const dataMenuItem = {
   view: "index",

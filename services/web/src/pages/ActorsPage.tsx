@@ -1,17 +1,14 @@
-import { AutocompleteActorInput } from "@components/Input/AutocompleteActorInput";
-import SearchableInput from "@components/Input/SearchableInput";
-import { Actor } from "@econnessione/shared/io/http/Actor";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import {
-  ActorList,
-  ActorListItem,
+  ActorList
 } from "@econnessione/ui/components/lists/ActorList";
 import {
   pageContentByPath,
-  Queries,
+  Queries
 } from "@econnessione/ui/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

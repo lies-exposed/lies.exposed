@@ -15,11 +15,7 @@
       "node_modules/@types",
       "typings"
     ],
-    "paths": {
-      "@Common/*": ["./Common/*"],
-      "@http/*": ["./http/*"]
-    }
   },
   "include": ["./src"],
-  "exclude": []
+  "exclude": ["node_modules", "lib"]
 }

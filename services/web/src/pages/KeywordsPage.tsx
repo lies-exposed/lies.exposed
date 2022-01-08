@@ -1,7 +1,7 @@
-import SearchableInput from "@components/Input/SearchableInput";
 import { Keyword } from "@econnessione/shared/io/http";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
+import SearchableInput from "@econnessione/ui/components/Input/SearchableInput";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import { KeywordListItem } from "@econnessione/ui/components/lists/KeywordList";

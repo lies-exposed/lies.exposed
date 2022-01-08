@@ -9,7 +9,7 @@ import TimelineDot from "@material-ui/lab/TimelineDot";
 import TimelineItem from "@material-ui/lab/TimelineItem";
 import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
 import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
-import { formatISO } from "date-fns";
+import { format } from "date-fns";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
@@ -20,7 +20,7 @@ import { EventListItem, EventListItemProps } from "./EventListItem";
 const byEqualDate = pipe(
   S.Eq,
   Eq.contramap((e: Events.Event): string => {
-    return formatISO(eventDate(e), { representation: "date" });
+    return format(eventDate(e));
   })
 );
 
@@ -81,9 +81,7 @@ const renderRow = (props: {
     <TimelineItem key={`event-list-item-${e.id}`}>
       <TimelineOppositeContent style={{ flex: 0 }}>
         <Typography variant="subtitle1" color="primary">
-          {formatISO(e.date, {
-            representation: "date",
-          })}
+          {format(e.date)}
         </Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>
@@ -122,9 +120,7 @@ const renderHeaderRow: React.FC<{
   } = props;
   const events = data.events;
 
-  const dateHeader = formatISO(eventDate(events[0]), {
-    representation: "date",
-  });
+  const dateHeader = format(eventDate(events[0]));
   return (
     <div key={dateHeader}>
       {events.map((e, i) =>

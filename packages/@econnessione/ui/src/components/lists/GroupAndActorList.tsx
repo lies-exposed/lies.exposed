@@ -1,9 +1,9 @@
 import { Actor, Group } from "@econnessione/shared/io/http";
 import * as React from "react";
+import { AvatarSize } from "../Common/Avatar";
+import { List } from "../Common/List";
 import { ActorListItem } from "./ActorList";
 import { GroupListItem } from "./GroupList";
-import { AvatarSize } from "@components/Common/Avatar";
-import { List } from "@components/Common/List";
 
 export interface Group extends Group.Group {
   selected: boolean;

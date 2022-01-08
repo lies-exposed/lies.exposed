@@ -9,7 +9,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { formatISO } from "date-fns";
+import { format } from "date-fns";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
@@ -19,7 +19,7 @@ import { EventListItem, EventListItemProps } from "./EventListItem";
 const byEqualDate = pipe(
   S.Eq,
   Eq.contramap((e: Events.Event): string => {
-    return formatISO(eventDate(e), { representation: "date" });
+    return format(eventDate(e));
   })
 );
 
@@ -106,9 +106,7 @@ const renderHeaderRow: React.FC<{
   } = props;
   const events = data.events;
 
-  const dateHeader = formatISO(eventDate(events[0]), {
-    representation: "date",
-  });
+  const dateHeader = format(eventDate(events[0]));
   return (
     <div key={dateHeader}>
       <ListSubheader className={classes.listSubheader}>

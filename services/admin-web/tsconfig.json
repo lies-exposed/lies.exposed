@@ -1,10 +1,11 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "outDir": "build",
     "module": "esnext",
     "target": "es5",
     "jsx": "react-jsx",
-    "noEmit": true,
+    "noEmit": false,
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
@@ -28,7 +29,10 @@
       "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"]
     }
   },
-  "include": ["src"],
+  "include": [
+    "./src",
+    "./typings"
+  ],
   "references": [
     {
       "path": "../../packages/@econnessione/ui"

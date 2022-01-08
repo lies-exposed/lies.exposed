@@ -7,8 +7,8 @@ import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
+import { EventsPanel } from "../containers/EventsPanel";
 import { doUpdateCurrentView, GroupView } from "../utils/location.utils";
-import { EventsPanel } from "@containers/EventsPanel";
 
 const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
   return (

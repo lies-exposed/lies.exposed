@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import {
   HierarchicalEdgeBundlingDatum,
   HierarchicalEdgeBundlingProps,
-} from "@components/Common/Graph/HierarchicalEdgeBundling";
+} from "./HierarchicalEdgeBundling";
 
 interface CreateHierarchicalEdgeBundlingData {
   events: Events.Uncategorized.Uncategorized[];

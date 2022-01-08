@@ -12,15 +12,13 @@ import { AutocompleteGroupMemberInput } from "@econnessione/ui/components/Input/
 import { AutocompleteKeywordInput } from "@econnessione/ui/components/Input/AutocompleteKeywordInput";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import { Button, Grid } from "@material-ui/core";
-import { formatISO, subYears } from "date-fns";
+import { format, subYears } from "date-fns";
 import * as React from "react";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
 import { EventsPanel } from "@containers/EventsPanel";
 
-const MIN_DATE = formatISO(subYears(new Date(), 10), {
-  representation: "date",
-});
-const MAX_DATE = formatISO(new Date(), { representation: "date" });
+const MIN_DATE = format(subYears(new Date(), 10));
+const MAX_DATE = format(new Date());
 
 interface EventsPageProps extends EventsView {}
 

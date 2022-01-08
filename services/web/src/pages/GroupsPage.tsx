@@ -1,6 +1,6 @@
-import { AutocompleteGroupInput } from "@components/Input/AutocompleteGroupInput";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { Loader } from "@econnessione/ui/components/Common/Loader";
+import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import GroupList from "@econnessione/ui/components/lists/GroupList";

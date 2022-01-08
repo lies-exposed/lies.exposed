@@ -1,10 +1,10 @@
 import { Typography } from "@material-ui/core";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
-import { scaleOrdinal } from "d3";
+import { scaleOrdinal } from "d3-scale";
 import * as React from "react";
+import { BubbleGraph } from "../../Common/Graph/BubbleGraph";
+import { Legends } from "../../Common/Graph/Legends";
 import data from "./wealth-distribution-data.json";
-import { BubbleGraph } from "@components/Common/Graph/BubbleGraph";
-import { Legends } from "@components/Common/Graph/Legends";
 
 interface WealthDistributionDatum {
   label: string;

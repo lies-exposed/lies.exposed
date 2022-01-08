@@ -4,8 +4,8 @@ import { Grid } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import { MarkdownRenderer } from "@components/Common/MarkdownRenderer";
-import { Slider } from "@components/Common/Slider/Slider";
+import { MarkdownRenderer } from "../../Common/MarkdownRenderer";
+import { Slider } from "../../Common/Slider/Slider";
 
 interface ProtestListItemProps {
   item: Events.Protest.ProtestMD;

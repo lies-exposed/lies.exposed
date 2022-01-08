@@ -12,18 +12,20 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "dependencies": {
-    "fp-ts": "^2.11.6",
+    "fp-ts": "^2.11.5",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16"
   },
   "devDependencies": {
     "@types/copy-webpack-plugin": "^8.0.1",
     "@types/debug": "^4.1.7",
+    "@types/dotenv-webpack": "^7.0.3",
     "@types/eslint": "^8.2.2",
     "@types/html-replace-webpack-plugin": "^2.6.1",
     "@types/mini-css-extract-plugin": "^2.4.0",
     "@types/prettier": "^2.4.2",
     "@types/webpack-bundle-analyzer": "^4.4.1",
+    "@types/webpack-node-externals": "^2.5.3",
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "^6.5.1",
     "dotenv-webpack": "^7.0.3",
@@ -44,13 +46,11 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.65.0",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-dev-server": "^4.7.2"
+    "webpack-dev-server": "^4.7.2",
+    "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
     "debug": "^4.3.1",
-    "fp-ts": "^2.9",
-    "io-ts": "^2.2.13",
-    "io-ts-types": "^0.5.12",
     "pg": "^8.5.1",
     "query-string": "^7.0.0",
     "uuid": "^8.3.2"

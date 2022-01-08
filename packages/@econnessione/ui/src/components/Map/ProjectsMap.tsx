@@ -6,9 +6,9 @@ import Feature from "ol/Feature";
 import * as React from "react";
 import { Queries } from "../../providers/DataProvider";
 import { geoJSONFormat } from "../../utils/map.utils";
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { LazyLoader } from "@components/Common/Loader";
-import Map from "@components/Map";
+import { ErrorBox } from "../Common/ErrorBox";
+import { LazyLoader } from "../Common/Loader";
+import Map from "../Map";
 
 export interface ProjectsMapProps {
   id: string;
