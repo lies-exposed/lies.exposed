@@ -4,7 +4,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import * as React from "react";
-import { ECOTheme } from "@theme/index";
+import { ECOTheme } from "../../theme/index";
 
 const useStyles = makeStyles<
   ECOTheme,

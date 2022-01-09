@@ -10,7 +10,8 @@
     "tsc:build": "tsc -b",
     "tsc:watch": "tsc -b --watch",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
-    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
+    "bundle-stats": "webpack-bundle-analyzer build/stats.json"
   },
   "browserslist": {
     "production": [
@@ -38,11 +39,12 @@
     "@react-page/plugins-spacer": "^4.4.1",
     "@react-page/plugins-video": "^4.4.1",
     "@react-page/react-admin": "^4.4.1",
-    "date-fns": "^2.28.0",
+    "date-fns": "^1.30.1",
     "final-form": "^4.20.6",
     "fp-ts": "^2.11.6",
-    "history": "^5.2.0",
-    "ol": "^6.10.0",
+    "history": "^4.10.1",
+    "mini-create-react-context": "^0.4.1",
+    "ol": "^6.11.0",
     "ra-core": "^3.19.6",
     "ra-i18n-polyglot": "^3.19.6",
     "ra-input-rich-text": "^3.19.6",
@@ -64,9 +66,10 @@
     "@types/jest": "^27.4.0",
     "@types/node": "^14.18.5",
     "@types/prettier": "^2.4.2",
-    "@types/react": "^16.14.21",
-    "@types/react-dom": "^16.9.14",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
     "@types/react-redux": "^7.1.21",
+    "@types/webpack-bundle-analyzer": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
     "eslint": "^8.6.0",
@@ -82,6 +85,7 @@
     "prettier": "^2.5.1",
     "typescript": "^4.5.4",
     "webpack": "^5.65.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1"
   },
   "lint-staged": {

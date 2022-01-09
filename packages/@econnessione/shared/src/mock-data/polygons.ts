@@ -1,4 +1,4 @@
-import { Common } from "@io/http";
+import { Common } from "../io/http";
 
 export const firstPolygon: Common.Polygon = {
   type: "Polygon",

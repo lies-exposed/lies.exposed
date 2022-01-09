@@ -5,7 +5,7 @@ import * as React from "react";
 import {
   BarStackGraph,
   TooltipData,
-} from "@components/Common/Graph/BarStackGraph";
+} from "../../../Common/Graph/BarStackGraph";
 
 type DataGroup = "Vaccine" | "Placebo" | "Vaccine Severe" | "Placebo Severe";
 

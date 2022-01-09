@@ -1,4 +1,4 @@
-// import { Common } from "@io/http";
+// import { Common } from "../io/http";
 // import * as A from "fp-ts/lib/Array";
 // import { pipe } from "fp-ts/lib/pipeable";
 

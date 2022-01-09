@@ -16,12 +16,12 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
+import Editor from "../../Common/Editor";
 import { Slider } from "../../Common/Slider/Slider";
 import { ActorList } from "../ActorList";
 import GroupList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
-import Editor from "@components/Common/Editor";
 
 interface UncategorizedListItemProps {
   item: Events.Uncategorized.Uncategorized;

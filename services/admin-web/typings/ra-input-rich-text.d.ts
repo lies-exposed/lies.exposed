@@ -8,7 +8,7 @@ declare module "ra-input-rich-text" {
     format?: (v: string) => string;
     parse?: (v: string) => string;
     source: string;
-    toolbar: any;
+    toolbar?: any;
     defaultValue?: string;
     validate?: Function[];
   }

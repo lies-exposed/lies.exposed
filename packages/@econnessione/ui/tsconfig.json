@@ -15,8 +15,6 @@
     "typeRoots": ["node_modules/@types", "../../../node_modules/@types"],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
-      "@components/*": ["./components/*"],
-      "@theme/*": ["./theme/*"],
       "@econnessione/core/*": ["../../core/src/*"],
       "@econnessione/shared/*": ["../../shared/src/*"]
     }

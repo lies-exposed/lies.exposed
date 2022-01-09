@@ -16,7 +16,7 @@ import {
   ReferenceManyField,
   SimpleForm,
   TabbedForm,
-  TextField,
+  TextField
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import ReactPageInput from "./Common/ReactPageInput";
@@ -50,7 +50,6 @@ export const GroupMemberList: React.FC<ListProps> = (props) => (
       />
       <DateField source="startDate" />
       <DateField source="endDate" emptyText="Still going" />
-      <TextField source="body" />
       <DateField source="updatedAt" showTime={true} />
       <DateField source="createdAt" showTime={true} />
     </Datagrid>

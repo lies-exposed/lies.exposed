@@ -11,7 +11,7 @@ import {
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
-import { List, ListItemProps } from "@components/Common/List";
+import { List, ListItemProps } from "../Common/List";
 
 export interface Project extends Project.Project {
   selected: boolean;

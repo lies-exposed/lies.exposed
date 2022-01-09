@@ -1,4 +1,3 @@
-import { EventsMap } from "@components/EventsMap";
 import {
   Actor,
   Group,
@@ -9,6 +8,7 @@ import {
   a11yProps,
   TabPanel,
 } from "@econnessione/ui/components/Common/TabPanel";
+import { EventsMap } from "@econnessione/ui/components/EventsMap";
 import { Box, Tab, Tabs } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";

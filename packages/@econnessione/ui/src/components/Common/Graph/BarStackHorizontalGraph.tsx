@@ -6,7 +6,7 @@ import { LegendOrdinal } from "@vx/legend";
 import { BarStackHorizontal } from "@vx/shape";
 import { SeriesPoint, StackKey } from "@vx/shape/lib/types";
 import { defaultStyles, TooltipWithBounds, useTooltip } from "@vx/tooltip";
-import { ScaleBand, ScaleLinear, ScaleOrdinal } from "d3";
+import { ScaleBand, ScaleLinear, ScaleOrdinal } from "d3-scale";
 import * as React from "react";
 
 export interface TooltipData<D, K> {

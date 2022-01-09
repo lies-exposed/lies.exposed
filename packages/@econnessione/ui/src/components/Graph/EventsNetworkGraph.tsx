@@ -17,7 +17,7 @@ import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { Link } from "@vx/network/lib/types";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import ordinalScale from "@vx/scale/lib/scales/ordinal";
-import { ScaleOrdinal } from "d3";
+import { ScaleOrdinal } from "d3-scale";
 import { differenceInDays, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as Eq from "fp-ts/lib/Eq";

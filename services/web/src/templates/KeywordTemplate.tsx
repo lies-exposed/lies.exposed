@@ -1,5 +1,5 @@
-import { ErrorBox } from "@components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@components/Common/FullSizeLoader";
+import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import { ContentWithSideNavigation } from "@econnessione/ui/components/ContentWithSideNavigation";
 import { KeywordPageContent } from "@econnessione/ui/components/KeywordPageContent";
 import SEO from "@econnessione/ui/components/SEO";

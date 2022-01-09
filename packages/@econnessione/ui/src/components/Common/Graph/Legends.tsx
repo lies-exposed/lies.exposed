@@ -1,5 +1,5 @@
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
-import { ScaleOrdinal } from "d3";
+import { ScaleOrdinal } from "d3-scale";
 import * as React from "react";
 
 interface LegendsProps {

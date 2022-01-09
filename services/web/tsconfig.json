@@ -15,31 +15,33 @@
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "typeRoots": ["node_modules/@types"],
-    "baseUrl": "./src",
+    "typeRoots": [
+      "../../node_modules/@types",
+      "node_modules/@types",
+      "typings"
+    ],
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "isolatedModules": true,
+    // "isolatedModules": true,
     "tsBuildInfoFile": "build/.tsbuildinfo",
+    "baseUrl": "./src",
     "paths": {
-      "@components/*": ["../../../packages/@econnessione/ui/src/components/*"],
-      "@templates/*": ["./templates/*"],
       "@containers/*": ["./containers/*"],
-      "@providers/*": [
-        "../../../packages/@econnessione/shared/src/providers/*"
-      ],
-      "@helpers/*": ["../../../packages/@econnessione/shared/src/helpers/*"],
-      "@mock-data/*": [
-        "../../../packages/@econnessione/shared/src/mock-data/*"
-      ],
-      "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"],
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
-      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
+      "@econnessione/shared/*": [
+        "../../../packages/@econnessione/shared/src/*"
+      ],
+      "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["./src", "./typings"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
   "references": [
     {
       "path": "../../packages/@econnessione/core"
