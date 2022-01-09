@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { formatISO } from "date-fns";
+import { distanceFromNow } from "@econnessione/shared/utils/date";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -154,7 +154,7 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
         csvUtil.writeToPath(
           outputFileName,
           results.map(({ date, ...r }) => ({
-            date: formatISO(date, { representation: "date" }),
+            date: distanceFromNow(date),
             ...r,
           }))
         )

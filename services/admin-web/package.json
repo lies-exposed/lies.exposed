@@ -39,7 +39,6 @@
     "@react-page/plugins-spacer": "^4.4.1",
     "@react-page/plugins-video": "^4.4.1",
     "@react-page/react-admin": "^4.4.1",
-    "date-fns": "^1.30.1",
     "final-form": "^4.20.6",
     "fp-ts": "^2.11.6",
     "history": "^4.10.1",

@@ -7330,7 +7330,6 @@ __metadata:
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@typescript-eslint/eslint-plugin": ^5.9.0
     "@typescript-eslint/parser": ^5.9.0
-    date-fns: ^1.30.1
     eslint: ^8.6.0
     eslint-config-prettier: ^8.3.0
     eslint-config-standard-with-typescript: ^21.0.1
@@ -25881,7 +25880,6 @@ __metadata:
     avenger: ^7.0.1
     axios: ^0.24.0
     bs58: ^4.0.1
-    date-fns: ^1.30.1
     dotenv: ^8.6.0
     eslint: ^8.6.0
     eslint-config-prettier: ^8.3.0

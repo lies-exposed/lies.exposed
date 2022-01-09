@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { GetLogger } from "@econnessione/core/logger";
 import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { formatISO } from "date-fns";
+import { distanceFromNow } from "@econnessione/shared/utils/date";
 import * as A from "fp-ts/lib/Array";
 import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -54,7 +54,7 @@ export const TotalsReporter = ({
       csvUtil.writeToPath(
         outputFile,
         results.map(({ date, ...r }) => ({
-          date: formatISO(date, { representation: "date" }),
+          date: distanceFromNow(date),
           ...r,
         }))
       )
