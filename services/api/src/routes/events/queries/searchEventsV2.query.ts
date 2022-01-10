@@ -18,6 +18,7 @@ interface SearchEventQuery {
   groups: O.Option<string[]>;
   groupsMembers: O.Option<string[]>;
   keywords: O.Option<string[]>;
+  links: O.Option<string[]>
   skip: number;
   take: number;
 }
@@ -38,6 +39,7 @@ export const searchEventV2Query =
     groups,
     groupsMembers: _groupsMembers,
     keywords,
+    links,
     ...findOptions
   }: SearchEventQuery): TE.TaskEither<DBError, SearchEventOutput> => {
     const groupsMembersQuery = pipe(
@@ -74,6 +76,7 @@ export const searchEventV2Query =
             .leftJoinAndSelect("event.links", "links"),
           (q) => {
             q.where("event.draft = :draft", { draft: false });
+
             let hasWhere = false;
             if (O.isSome(actors)) {
               q.where(
@@ -108,10 +111,16 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(keywords)) {
-              const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
-              where("keywords.id IN (:...keywords)", {
+              q.andWhere("keywords.id IN (:...keywords)", {
                 keywords: keywords.value,
               });
+            }
+
+            if (O.isSome(links)) {
+              const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
+              where('links.id IN (:...links)', {
+                links: links.value
+              })
             }
 
             logger.debug.log(

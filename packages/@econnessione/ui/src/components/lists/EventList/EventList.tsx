@@ -1,6 +1,7 @@
 import { eventDate } from "@econnessione/shared/helpers/event";
 import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
+import {distanceFromNow} from '@econnessione/shared/utils/date'
 import {
   Grid,
   List,
@@ -9,7 +10,6 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { format } from "date-fns";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
@@ -19,7 +19,7 @@ import { EventListItem, EventListItemProps } from "./EventListItem";
 const byEqualDate = pipe(
   S.Eq,
   Eq.contramap((e: Events.Event): string => {
-    return format(eventDate(e));
+    return distanceFromNow(eventDate(e));
   })
 );
 
@@ -106,7 +106,7 @@ const renderHeaderRow: React.FC<{
   } = props;
   const events = data.events;
 
-  const dateHeader = format(eventDate(events[0]));
+  const dateHeader = distanceFromNow(eventDate(events[0]));
   return (
     <div key={dateHeader}>
       <ListSubheader className={classes.listSubheader}>

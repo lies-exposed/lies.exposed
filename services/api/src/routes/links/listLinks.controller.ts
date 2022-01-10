@@ -24,7 +24,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
       const listGroupsMembersTE = pipe(
         ctx.db.manager
           .createQueryBuilder(LinkEntity, "link")
-          .leftJoinAndSelect("link.events", "events")
+          // .leftJoinAndSelect("link.events", "events")
           .loadAllRelationIds({
             relations: ["events", "keywords"],
           }),

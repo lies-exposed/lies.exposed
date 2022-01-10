@@ -2,7 +2,8 @@
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { formatISO, parseISO } from "date-fns";
+import { distanceFromNow } from "@econnessione/shared/utils/date";
+import { parse } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
@@ -310,7 +311,7 @@ const VAERS_VAX_FILE = path.resolve(VAERS_DATA_DIR, "./2021VAERSVAX.csv");
 export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
   const mapKeyOrd = pipe(
     D.Ord,
-    Ord.contramap<Date, string>((k) => parseISO(k))
+    Ord.contramap<Date, string>((k) => parse(k))
   );
 
   const resultTask = (
@@ -327,7 +328,7 @@ export const runManufacturerReport = (): TE.TaskEither<Error, void> => {
         csvUtils.writeToPath(
           path.resolve(VAERS_OUTPUT_DIR, outputFile),
           results.map(({ date, ...r }) => ({
-            date: formatISO(date, { representation: "date" }),
+            date: distanceFromNow(date),
             ...r,
           }))
         )

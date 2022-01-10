@@ -108,9 +108,10 @@ export const editEventQuery =
       TE.chain((commonData) => {
         switch (input.type) {
           case http.Events.Death.DeathType.value: {
-            const { excerpt, payload } = input;
+            const { excerpt, body, payload } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
+              body
             });
             const event: DeepPartial<EventV2Entity> = {
               ...storedEvent,
@@ -128,19 +129,19 @@ export const editEventQuery =
           case http.Events.ScientificStudy.ScientificStudyType.value: {
             const {
               type,
-              media,
-              keywords,
-              links,
               title,
               date,
               draft,
               excerpt,
-              ...payload
+              body,
+              payload
             } = input;
             const baseProps = optionalsToUndefined({
               title,
               date,
               draft,
+              excerpt,
+              body
             });
             return TE.right({
               ...storedEvent,
@@ -148,21 +149,20 @@ export const editEventQuery =
               type,
               payload: {
                 ...storedEvent.payload,
-                ...optionalsToUndefined({
-                  ...payload,
-                }),
+                ...payload,
               },
               ...commonData,
             });
           }
           case http.Events.Uncategorized.UncategorizedType.value:
           default: {
-            const { type, excerpt, draft, date, payload } = input;
+            const { type, excerpt,  draft, date, body, payload } = input;
 
             const baseProps = optionalsToUndefined({
               draft,
               date,
               excerpt,
+              body
             });
 
             return pipe(

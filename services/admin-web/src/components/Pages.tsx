@@ -1,4 +1,5 @@
 import { PageContent } from "@econnessione/ui/components/PageContent";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
   Create,
@@ -17,7 +18,6 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import ReactPageInput from "./Common/ReactPageInput";
 import RichTextInput from "./Common/RichTextInput";
 
 export const PageList: React.FC<ListProps> = (props) => (

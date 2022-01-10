@@ -1,6 +1,8 @@
 import { http } from "@econnessione/shared/io";
 import { AreaPageContent } from "@econnessione/ui/components/AreaPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
+import { MapInput } from "@econnessione/ui/components/admin/MapInput";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import GeometryType from "ol/geom/GeometryType";
@@ -22,8 +24,6 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import { MapInput } from "./Common/MapInput";
-import ReactPageInput from "./Common/ReactPageInput";
 import RichTextInput from "./Common/RichTextInput";
 
 const RESOURCE = "areas";

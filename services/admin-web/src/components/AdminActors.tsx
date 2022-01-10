@@ -2,6 +2,7 @@ import { http } from "@econnessione/shared/io";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -31,11 +32,10 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
-import ReactPageInput from "./Common/ReactPageInput";
 import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
