@@ -2,6 +2,7 @@ import { uuid } from "@econnessione/shared/utils/uuid";
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import GeoJSON from "ol/format/GeoJSON";
+import GeometryType from "ol/geom/GeometryType";
 import Draw from "ol/interaction/Draw.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
@@ -28,6 +29,8 @@ const getDefaultMap = (
 type MapInputProps = InputProps & {
   type: string;
 };
+
+export const MapInputType = GeometryType;
 
 export const MapInput: React.FC<MapInputProps> = (props) => {
   const inputProps = useInput(props);

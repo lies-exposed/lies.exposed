@@ -1,4 +1,5 @@
-import GeometryType from "ol/geom/GeometryType";
+// import GeometryType from "ol/geom/GeometryType";
+import { MapInput, MapInputType } from "@econnessione/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
   ArrayField,
@@ -32,7 +33,6 @@ import {
   TextInput
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
-import { MapInput } from "./Common/MapInput";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
@@ -102,7 +102,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="createdAt" showTime={true} />
       </FormTab>
       <FormTab label="Location">
-        <MapInput source="location" type={GeometryType.POINT} />
+        <MapInput source="location" type={MapInputType.POINT} />
       </FormTab>
       <FormTab label="Suspects">
         <ReferenceArrayActorInput source="actors" />

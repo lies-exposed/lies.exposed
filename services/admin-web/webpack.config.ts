@@ -20,10 +20,6 @@ module.exports = {
   ...config,
   resolve: {
     ...config.resolve,
-    mainFields: ["main", "browser", "module"],
-    fallback: {
-      // domain: require.resolve('domain-browser'),
-      // tty: require.resolve('tty-browserify')
-    }
+    // mainFields: ["main", "browser", "module"],
   },
 };

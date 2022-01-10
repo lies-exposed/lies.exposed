@@ -3,11 +3,11 @@ import { Uncategorized } from "@econnessione/shared/io/http/Events";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
+import { MapInput, MapInputType } from "@econnessione/ui/components/admin/MapInput";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
   Create,
@@ -31,7 +31,6 @@ import {
   TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
-import { MapInput } from "../Common/MapInput";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
@@ -228,7 +227,7 @@ export const UncategorizedEventEdit: React.FC<EditProps> = (
       <DateInput source="payload.endDate" />
       <MapInput
         source="payload.location"
-        type={GeometryType.POINT}
+        type={MapInputType.POINT}
         defaultValue={undefined}
       />
       <ReferenceArrayActorInput source="payload.actors" />
@@ -274,7 +273,7 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => (
     <TabbedForm>
       <FormTab label="General">
         <TextInput source="title" validation={[required()]} />
-        <MapInput source="location" type={GeometryType.POINT} />
+        <MapInput source="location" type={MapInputType.POINT} />
         <DateInput
           source="startDate"
           validation={[required()]}

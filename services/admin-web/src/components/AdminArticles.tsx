@@ -1,6 +1,7 @@
 import { http } from "@econnessione/shared/io";
 import { ArticlePageContent } from "@econnessione/ui/components/ArticlePageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
@@ -30,7 +31,6 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "client/HTTPAPI";
 import { uploadImages } from "client/MediaAPI";
