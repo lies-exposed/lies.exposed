@@ -4,7 +4,7 @@ import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import { WHOCovid19GlobalData } from "@econnessione/shared/io/http/covid/COVIDDailyDatum";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { formatISO } from "date-fns";
+import { distanceFromNow } from "@econnessione/shared/utils/date";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
 import * as Eq from "fp-ts/lib/Eq";
@@ -104,7 +104,7 @@ export const runTotals = (): TE.TaskEither<Error, void> => {
       csvUtils.writeToPath(
         outputFile,
         results.map(({ Date_reported, ...rest }) => ({
-          Date_reported: formatISO(Date_reported, { representation: "date" }),
+          Date_reported: distanceFromNow(Date_reported),
           ...rest,
         }))
       )

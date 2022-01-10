@@ -1,3 +1,4 @@
+import { ScientificStudy } from "@econnessione/shared/io/http/Events";
 import {
   Datagrid,
   FormTab,
@@ -8,7 +9,13 @@ import {
 import * as React from "react";
 import { AvatarField } from "../Common/AvatarField";
 import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
-import ReferenceGroupInput from "components/Common/ReferenceGroupInput";
+import ReferenceGroupInput from "../Common/ReferenceGroupInput";
+
+export const ScientificStudyEventTitle: React.FC<{
+  record: ScientificStudy.ScientificStudy;
+}> = ({ record }: any) => {
+  return <span>Event: {record.payload.title}</span>;
+};
 
 export const EditScientificStudyEvent: React.FC = (props) => {
   return (

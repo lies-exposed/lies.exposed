@@ -1,10 +1,12 @@
 import { http } from "@econnessione/shared/io";
 import { Media } from "@econnessione/shared/io/http";
+import { Event } from "@econnessione/shared/io/http/Events";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as A from "fp-ts/lib/Array";
@@ -37,26 +39,30 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
+import { AvatarField } from "./Common/AvatarField";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
-import ReactPageInput from "./Common/ReactPageInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
-import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  transformDeathEvent,
+  DeathEventTitle,
+  transformDeathEvent
 } from "./events/AdminDeathEvent";
-import { EditScientificStudyEvent } from "./events/AdminScientificStudyEvent";
+import {
+  EditScientificStudyEvent,
+  ScientificStudyEventTitle
+} from "./events/AdminScientificStudyEvent";
 import {
   transformUncategorizedEvent,
   UncategorizedEventEdit,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
@@ -254,8 +260,15 @@ const transformEvent = async (
   });
 };
 
-const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Events {record.title}</span>;
+const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
+  switch (record.type) {
+    case "Uncategorized":
+      return <UncategorizedEventTitle record={record} />;
+    case "ScientificStudy":
+      return <ScientificStudyEventTitle record={record} />;
+    case "Death":
+      return <DeathEventTitle record={record} />;
+  }
 };
 
 export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
@@ -297,7 +310,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
           <DateField source="createdAt" showTime={true} />
         </FormTab>
         <FormTab label="body">
-          <ReactPageInput label="excerpt" source="body" />
+          <ReactPageInput label="body" source="body" />
         </FormTab>
 
         <FormDataConsumer>
@@ -364,9 +377,10 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
               </FormDataConsumer>
             </SimpleFormIterator>
           </ArrayInput>
-          <ReferenceArrayField source="links" reference="links">
+          <ReferenceArrayField source="links" reference="links" fullWidth>
             <Datagrid rowClick="edit">
               <TextField source="id" />
+              <AvatarField source="image" />
               <TextField source="url" />
               <TextField source="description" />
             </Datagrid>
@@ -421,7 +435,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         <ReferenceArrayKeywordInput source="keywords" initialValue={[]} />
       </FormTab>
       <FormTab label="body">
-        <RichTextInput source="excerpt" defaultValue="" />
+        <ReactPageInput source="excerpt" />
         <ReactPageInput source="body2" />
         <TextInput source="body" defaultValue="" />
       </FormTab>

@@ -18,6 +18,7 @@ export const toLinkIO = (
       publishDate: link.publishDate?.toISOString() ?? undefined,
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),
+      events: link.events ?? []
     }),
     E.mapLeft((e) => DecodeError(`Failed to decode link (${link.id})`, e))
   );

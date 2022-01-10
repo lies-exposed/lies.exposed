@@ -4,7 +4,7 @@ import { GetLogger } from "@econnessione/core/logger";
 import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { formatISO } from "date-fns";
+import { distanceFromNow } from "@econnessione/shared/utils/date";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
 import * as E from "fp-ts/lib/Either";
@@ -124,7 +124,7 @@ const processDistributionData =
             );
             const result = {
               ...v,
-              date: formatISO(v.date, { representation: "date" }) as any,
+              date: distanceFromNow(v.date) as any,
               total_boosters: cumulative.total_boosters,
               total_vaccinations: cumulative.total_vaccinations,
             };
