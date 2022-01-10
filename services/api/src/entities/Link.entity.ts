@@ -3,14 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index,
-  ManyToMany,
+  Index, ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
-import { KeywordEntity } from "./Keyword.entity";
 import { DeathEventViewEntity } from "./events/DeathEvent.entity";
+import { KeywordEntity } from "./Keyword.entity";
 
 @Entity("link")
 @Index(["url"], { unique: true })

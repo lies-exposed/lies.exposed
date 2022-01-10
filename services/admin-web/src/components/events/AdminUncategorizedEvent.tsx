@@ -40,6 +40,8 @@ import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import RichTextInput from "../Common/RichTextInput";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
+import { Typography } from "@material-ui/core";
+import { Uncategorized } from "@econnessione/shared/io/http/Events";
 
 const RESOURCE = "events";
 
@@ -210,6 +212,12 @@ export const transformUncategorizedEvent = (id: string, r: any): any => {
       location: typeof location === "string" ? JSON.parse(location) : location,
     },
   };
+};
+
+export const UncategorizedEventTitle: React.FC<{
+  record: Uncategorized.Uncategorized;
+}> = ({ record }: any) => {
+  return <span>Event: {record.payload.title}</span>;
 };
 
 export const UncategorizedEventEdit: React.FC<EditProps> = (

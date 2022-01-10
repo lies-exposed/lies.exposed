@@ -1,3 +1,5 @@
+import { DeathType } from "@econnessione/shared/io/http/Events/Death";
+import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
@@ -14,7 +16,17 @@ const ReferenceArrayEventInput: React.FC<
       reference="events"
       filterToQuery={(title: any) => ({ title })}
     >
-      <AutocompleteArrayInput source="id" optionText="title" />
+      <AutocompleteArrayInput
+        source="id"
+        optionText={(r) => {
+          switch (r.type) {
+            case DeathType.value:
+              return `${r.type}: ${r.payload.victim}`;
+            default:
+              return `${r.type}: ${r.payload.title}`;
+          }
+        }}
+      />
     </ReferenceArrayInput>
   );
 };

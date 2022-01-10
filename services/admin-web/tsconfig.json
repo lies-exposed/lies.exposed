@@ -2,24 +2,28 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "build",
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es5",
     "jsx": "react-jsx",
     "noEmit": false,
     "allowJs": true,
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "noUnusedLocals": false,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "esnext"],
     "skipLibCheck": true,
-    "typeRoots": ["node_modules/@types", "typings"],
+    "typeRoots": [
+      "node_modules/@types",
+      "../../node_modules/@types",
+      "typings"
+    ],
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "isolatedModules": true,
+    // "isolatedModules": true,
     "paths": {
       "@client/*": ["./client/*"],
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
@@ -29,10 +33,7 @@
       "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"]
     }
   },
-  "include": [
-    "./src",
-    "./typings"
-  ],
+  "include": ["./src", "./typings"],
   "references": [
     {
       "path": "../../packages/@econnessione/ui"

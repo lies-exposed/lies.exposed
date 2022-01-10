@@ -17,14 +17,16 @@ import {
   ReferenceArrayInput,
   ReferenceManyField,
   Resource,
-  ResourceProps, SimpleForm,
+  ResourceProps,
+  SimpleForm,
   TextField,
   TextInput,
-  useRefresh
+  useRefresh,
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "@client/HTTPAPI";
+import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 
 const RESOURCE = "links";
 
@@ -104,8 +106,17 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
           defaultValue={[]}
         />
         <ReferenceManyField reference="events" target="links[]">
-          <Datagrid>
-            <TextField source="title" />
+          <Datagrid rowClick="edit">
+            <FunctionField
+              render={(r: any) => {
+                switch (r.type) {
+                  case DeathType.value:
+                    return `${r.type}: ${r.payload.victim}`;
+                  default:
+                    return `${r.type}: ${r.payload.title}`;
+                }
+              }}
+            />
           </Datagrid>
         </ReferenceManyField>
       </SimpleForm>

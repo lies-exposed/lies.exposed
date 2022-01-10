@@ -51,15 +51,22 @@ import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
+  DeathEventTitle,
   transformDeathEvent,
 } from "./events/AdminDeathEvent";
-import { EditScientificStudyEvent } from "./events/AdminScientificStudyEvent";
+import {
+  EditScientificStudyEvent,
+  ScientificStudyEventTitle,
+} from "./events/AdminScientificStudyEvent";
 import {
   transformUncategorizedEvent,
   UncategorizedEventEdit,
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
+import { Event } from "@econnessione/shared/io/http/Events";
+import { AvatarField } from "./Common/AvatarField";
 
 const RESOURCE = "events";
 
@@ -254,8 +261,15 @@ const transformEvent = async (
   });
 };
 
-const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Events {record.title}</span>;
+const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
+  switch (record.type) {
+    case "Uncategorized":
+      return <UncategorizedEventTitle record={record} />;
+    case "ScientificStudy":
+      return <ScientificStudyEventTitle record={record} />;
+    case "Death":
+      return <DeathEventTitle record={record} />;
+  }
 };
 
 export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
@@ -297,7 +311,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
           <DateField source="createdAt" showTime={true} />
         </FormTab>
         <FormTab label="body">
-          <ReactPageInput label="excerpt" source="body" />
+          <ReactPageInput label="body" source="body" />
         </FormTab>
 
         <FormDataConsumer>
@@ -364,9 +378,10 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
               </FormDataConsumer>
             </SimpleFormIterator>
           </ArrayInput>
-          <ReferenceArrayField source="links" reference="links">
+          <ReferenceArrayField source="links" reference="links" fullWidth>
             <Datagrid rowClick="edit">
               <TextField source="id" />
+              <AvatarField source="image" />
               <TextField source="url" />
               <TextField source="description" />
             </Datagrid>
@@ -421,7 +436,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
         <ReferenceArrayKeywordInput source="keywords" initialValue={[]} />
       </FormTab>
       <FormTab label="body">
-        <RichTextInput source="excerpt" defaultValue="" />
+        <ReactPageInput source="excerpt" />
         <ReactPageInput source="body2" />
         <TextInput source="body" defaultValue="" />
       </FormTab>

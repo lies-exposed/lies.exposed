@@ -41,6 +41,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
         groups,
         groupsMembers,
         keywords,
+        links,
         ...findOptions,
       }),
       TE.chain(({ results, totals }) =>

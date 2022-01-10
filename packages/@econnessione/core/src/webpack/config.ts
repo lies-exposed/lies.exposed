@@ -169,13 +169,6 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       filename: "[name].js",
     },
 
-    // externals: [
-    //   nodeExternals(),
-    //   nodeExternals({
-    //     modulesDir: path.resolve(opts.cwd, "../../node_modules"),
-    //   }),
-    // ],
-
     module: {
       rules: [
         {
@@ -216,9 +209,9 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         }),
       ],
       modules: [
-        path.resolve(opts.cwd, "../../node_modules"),
         path.resolve(opts.cwd, 'node_modules'),
         path.resolve(opts.cwd, '../../'),
+        path.resolve(opts.cwd, "../../node_modules"),
       ],
     },
     plugins,

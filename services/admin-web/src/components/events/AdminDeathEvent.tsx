@@ -1,8 +1,12 @@
 import * as React from "react";
 import { EditProps, FormTab, Record } from "react-admin";
 import ReferenceActorInput from "components/Common/ReferenceActorInput";
+import { Death } from "@econnessione/shared/io/http/Events";
 
-// const RESOURCE = "events";
+
+export const DeathEventTitle: React.FC<{ record: Death.Death }> = ({ record }) => {
+  return <span>Event: {record.payload.victim} on {record.date.toISOString()}</span>;
+};
 
 export const transformDeathEvent = (id: string, data: Record): Record => {
   // eslint-disable-next-line no-console
