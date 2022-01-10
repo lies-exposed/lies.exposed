@@ -1,7 +1,7 @@
+import { Death } from "@econnessione/shared/io/http/Events";
 import * as React from "react";
 import { EditProps, FormTab, Record } from "react-admin";
 import ReferenceActorInput from "components/Common/ReferenceActorInput";
-import { Death } from "@econnessione/shared/io/http/Events";
 
 
 export const DeathEventTitle: React.FC<{ record: Death.Death }> = ({ record }) => {

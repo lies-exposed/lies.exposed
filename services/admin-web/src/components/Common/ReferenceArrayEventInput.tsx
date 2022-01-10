@@ -1,9 +1,8 @@
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
-import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  ReferenceArrayInputProps,
+  ReferenceArrayInputProps
 } from "ra-ui-materialui";
 import React from "react";
 

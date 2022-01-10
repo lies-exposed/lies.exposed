@@ -1,4 +1,5 @@
 import { Media } from "@econnessione/shared/io/http";
+import { Uncategorized } from "@econnessione/shared/io/http/Events";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
@@ -40,8 +41,6 @@ import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import RichTextInput from "../Common/RichTextInput";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
-import { Typography } from "@material-ui/core";
-import { Uncategorized } from "@econnessione/shared/io/http/Events";
 
 const RESOURCE = "events";
 

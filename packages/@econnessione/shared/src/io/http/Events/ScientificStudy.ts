@@ -8,18 +8,25 @@ import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 export const ScientificStudyType = t.literal("ScientificStudy");
 export type ScientificStudyType = t.TypeOf<typeof ScientificStudyType>;
 
+export const ScientificStudyPayload = t.strict(
+  {
+    title: t.string,
+    url: URL,
+    publishDate: DateFromISOString,
+    authors: t.array(UUID),
+    publisher: UUID,
+    conclusion: t.string,
+  },
+  "ScientificStudyPayload"
+);
+
+export type ScientificStudyPayload = t.TypeOf<typeof ScientificStudyPayload>;
+
 export const CreateScientificStudyBody = t.strict(
   {
     ...CreateEventCommon.type.props,
     type: ScientificStudyType,
-    payload: t.strict({
-      title: t.string,
-      url: URL,
-      publishDate: DateFromISOString,
-      authors: t.array(UUID),
-      publisher: UUID,
-      conclusion: t.string,
-    }),
+    payload: ScientificStudyPayload,
   },
   "CreateScientificStudy"
 );
@@ -31,6 +38,7 @@ export const EditScientificStudyBody = t.strict(
   {
     ...EditEventCommon.type.props,
     type: ScientificStudyType,
+    payload: ScientificStudyPayload,
     title: optionFromUndefined(t.string),
   },
   "EditScientificStudyBody"
@@ -38,12 +46,7 @@ export const EditScientificStudyBody = t.strict(
 
 export type EditScientificStudyBody = t.TypeOf<typeof EditScientificStudyBody>;
 
-export const ScientificStudyPayload = t.strict(
-  CreateScientificStudyBody.type.props.payload.type.props,
-  "ScientificStudy"
-);
 
-export type ScientificStudyPayload = t.TypeOf<typeof ScientificStudyPayload>;
 
 export const ScientificStudy = t.strict(
   {

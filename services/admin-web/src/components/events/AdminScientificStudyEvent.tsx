@@ -1,3 +1,4 @@
+import { ScientificStudy } from "@econnessione/shared/io/http/Events";
 import {
   Datagrid,
   FormTab,
@@ -9,7 +10,6 @@ import * as React from "react";
 import { AvatarField } from "../Common/AvatarField";
 import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceGroupInput from "../Common/ReferenceGroupInput";
-import { ScientificStudy } from "@econnessione/shared/io/http/Events";
 
 export const ScientificStudyEventTitle: React.FC<{
   record: ScientificStudy.ScientificStudy;

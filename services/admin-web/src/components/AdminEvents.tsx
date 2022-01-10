@@ -1,5 +1,6 @@
 import { http } from "@econnessione/shared/io";
 import { Media } from "@econnessione/shared/io/http";
+import { Event } from "@econnessione/shared/io/http/Events";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
@@ -37,8 +38,9 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
+import { AvatarField } from "./Common/AvatarField";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
 import ReactPageInput from "./Common/ReactPageInput";
@@ -47,26 +49,23 @@ import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
-import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
   DeathEventTitle,
-  transformDeathEvent,
+  transformDeathEvent
 } from "./events/AdminDeathEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import {
   transformUncategorizedEvent,
   UncategorizedEventEdit,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
-import { Event } from "@econnessione/shared/io/http/Events";
-import { AvatarField } from "./Common/AvatarField";
 
 const RESOURCE = "events";
 

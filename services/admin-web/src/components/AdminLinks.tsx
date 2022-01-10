@@ -1,3 +1,4 @@
+import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -26,7 +27,6 @@ import {
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "@client/HTTPAPI";
-import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 
 const RESOURCE = "links";
 
