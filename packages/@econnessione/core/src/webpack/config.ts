@@ -210,9 +210,9 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       ],
       // mainFields: ['main', 'module'],
       modules: [
-        path.resolve(opts.cwd, 'node_modules'),
-        path.resolve(opts.cwd, "../../packages/@econnessione/shared/node_modules"),
-        path.resolve(opts.cwd, "../../packages/@econnessione/ui/node_modules"),
+        // path.resolve(opts.cwd, 'node_modules'),
+        // path.resolve(opts.cwd, "../../packages/@econnessione/shared/node_modules"),
+        // path.resolve(opts.cwd, "../../packages/@econnessione/ui/node_modules"),
         path.resolve(opts.cwd, "../../node_modules"),
         path.resolve(opts.cwd, '../../'),
       ],

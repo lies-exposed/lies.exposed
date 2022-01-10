@@ -13,8 +13,7 @@ import { GroupMemberEntity } from "@entities/GroupMember.entity";
         "event"."date" as "date",
         "actor" as "actors",
         "group" as "groups",
-        "groupMember" as "groupsMembers",
-        "link" as "links"
+        "groupMember" as "groupsMembers"
       FROM "event_v2" "event"
       LEFT JOIN
         "actor" "actor" ON "event"."payload" ->> 'actors' = "actor"."id"::varchar
