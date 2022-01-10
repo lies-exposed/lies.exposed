@@ -208,11 +208,11 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           context: opts.cwd,
         }),
       ],
-      // mainFields: ['main', 'module'],
+      mainFields: ['main', 'module'],
       modules: [
         path.resolve(opts.cwd, 'node_modules'),
-        path.resolve(opts.cwd, '../../'),
         path.resolve(opts.cwd, "../../node_modules"),
+        path.resolve(opts.cwd, '../../'),
       ],
     },
     plugins,

@@ -38,7 +38,7 @@ import {
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
-import ReactPageInput from "./Common/ReactPageInput";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";

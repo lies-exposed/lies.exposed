@@ -30,7 +30,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import ReactPageInput from "./Common/ReactPageInput";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "client/HTTPAPI";
 import { uploadImages } from "client/MediaAPI";

@@ -34,7 +34,7 @@ import {
 import { ColorInput } from "react-admin-color-input";
 import { MapField } from "./Common/MapField";
 import { MapInput } from "./Common/MapInput";
-import ReactPageInput from "./Common/ReactPageInput";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import RichTextInput from "./Common/RichTextInput";
 
 const RESOURCE = "projects";

@@ -3,7 +3,7 @@ import "is-plain-object";
 import {
   cellPlugins,
   minimalCellPlugins
-} from "@econnessione/ui/components/Common/Editor";
+} from "../Common/Editor";
 import { RaReactPageInput } from "@react-page/react-admin";
 import get from "lodash/get";
 import * as React from "react";

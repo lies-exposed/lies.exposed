@@ -43,7 +43,7 @@ import {
 import { AvatarField } from "./Common/AvatarField";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
-import ReactPageInput from "./Common/ReactPageInput";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";

@@ -33,6 +33,7 @@
     "avenger": "^7.0.1",
     "axios": "^0.24.0",
     "bs58": "^4.0.1",
+    "debug": "^4.3.3",
     "fp-ts": "^2.11.6",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
@@ -60,6 +61,7 @@
   "devDependencies": {
     "@material-ui/core": "^4.12.3",
     "@types/bs58": "^4.0.1",
+    "@types/debug": "^4.1.7",
     "@types/ol": "^6.5.3",
     "@types/react": "^17.0.38",
     "@types/react-calendar-heatmap": "^1.6.3",

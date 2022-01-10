@@ -23,7 +23,7 @@ import {
   TextInput,
 } from "react-admin";
 import { MapInput } from "./Common/MapInput";
-import ReactPageInput from "./Common/ReactPageInput";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import RichTextInput from "./Common/RichTextInput";
 
 const RESOURCE = "areas";

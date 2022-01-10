@@ -1979,6 +1979,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@econnessione/shared@workspace:packages/@econnessione/shared"
   dependencies:
+    "@react-page/react-admin": ^4.4.1
     "@types/bs58": ^4.0.1
     "@types/jest": ^27.4.0
     "@types/prettier": ^2.4.2
@@ -3326,7 +3327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-page/react-admin@npm:4.4.1":
+"@react-page/react-admin@npm:^4.4.1":
   version: 4.4.1
   resolution: "@react-page/react-admin@npm:4.4.1"
   dependencies:
@@ -7307,11 +7308,11 @@ __metadata:
     "@material-ui/icons": ^4.11.2
     "@material-ui/lab": ^4.0.0-alpha.60
     "@material-ui/styles": ^4.11.4
-    "@react-page/react-admin": 4.4.1
     "@testing-library/dom": ^8.11.1
     "@testing-library/jest-dom": ^5.16.1
     "@testing-library/react": ^12.1.2
     "@testing-library/user-event": ^13.5.0
+    "@types/debug": ^4.1.7
     "@types/jest": ^27.4.0
     "@types/lodash": ^4.14.178
     "@types/node": ^14.18.5
@@ -7322,6 +7323,7 @@ __metadata:
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@typescript-eslint/eslint-plugin": ^5.9.0
     "@typescript-eslint/parser": ^5.9.0
+    debug: ^4.3.3
     eslint: ^8.6.0
     eslint-config-prettier: ^8.3.0
     eslint-config-standard-with-typescript: ^21.0.1
@@ -7338,7 +7340,6 @@ __metadata:
     jest: ^27.4.7
     lodash: ^4.17.21
     mini-create-react-context: ^0.4.1
-    ol: ^6.11.0
     prettier: ^2.5.1
     ra-core: ^3.19.6
     ra-i18n-polyglot: ^3.19.6
@@ -25839,6 +25840,7 @@ __metadata:
     "@material-ui/lab": ^4.0.0-alpha.60
     "@mdi/font": ^5.9.55
     "@types/bs58": ^4.0.1
+    "@types/debug": ^4.1.7
     "@types/ol": ^6.5.3
     "@types/react": ^17.0.38
     "@types/react-calendar-heatmap": ^1.6.3
@@ -25862,6 +25864,7 @@ __metadata:
     avenger: ^7.0.1
     axios: ^0.24.0
     bs58: ^4.0.1
+    debug: ^4.3.3
     dotenv: ^8.6.0
     eslint: ^8.6.0
     eslint-config-prettier: ^8.3.0
