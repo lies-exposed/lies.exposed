@@ -68,8 +68,8 @@ jobs:
             docker-compose down
             docker-compose up -d api
 
-      - name: Build Packages
-        run: yarn packages:build
+      # - name: Build Packages
+      #   run: yarn packages:build
 
       # - name: Build Storybook
       #   run: yarn workspace storybook build
