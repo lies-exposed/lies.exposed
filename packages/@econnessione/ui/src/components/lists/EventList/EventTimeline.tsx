@@ -1,7 +1,7 @@
 import { eventDate } from "@econnessione/shared/helpers/event";
 import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
-import { distanceFromNow } from "@econnessione/shared/utils/date";
+import { distanceFromNow, formatDate } from "@econnessione/shared/utils/date";
 import { makeStyles, Typography } from "@material-ui/core";
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
@@ -80,8 +80,16 @@ const renderRow = (props: {
   return (
     <TimelineItem key={`event-list-item-${e.id}`}>
       <TimelineOppositeContent style={{ flex: 0 }}>
+        {process.env.NODE_ENV === "development" ? (
+          <a
+            href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
+            target="_blank"
+          >
+            Edit
+          </a>
+        ) : null}
         <Typography variant="subtitle1" color="primary">
-          {distanceFromNow(e.date)}
+          {formatDate(e.date)}
         </Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>

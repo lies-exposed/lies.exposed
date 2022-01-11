@@ -107,12 +107,18 @@ const EventsPage: React.FC<EventsPageProps> = ({
   );
 
   return (
-    <Grid container spacing={2} justifyContent="center">
+    <Grid container spacing={2} sm={12} justifyContent="center">
       <Grid item lg={12} md={12} sm={12}>
         <PageContent queries={{ pageContent: { path: "events" } }} />
       </Grid>
 
-      <Grid item lg={12} md={12} style={{ margin: 20 }}>
+      <Grid
+        item
+        lg={12}
+        md={12}
+        sm={12}
+        style={{ margin: 20, maxWidth: "100%" }}
+      >
         <Grid container spacing={2}>
           <Grid item lg={2} md={12} sm={12} xs={12}>
             <Grid container spacing={2}>

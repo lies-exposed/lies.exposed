@@ -4,7 +4,7 @@ import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeL
 import { Footer } from "@econnessione/ui/components/Footer";
 import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
 import { ECOTheme } from "@econnessione/ui/theme";
-import { Grid, ThemeProvider } from "@material-ui/core";
+import { CssBaseline, Grid, ThemeProvider } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
@@ -134,7 +134,7 @@ export const App: React.FC = () => {
           },
         ]}
       />
-      {/* <CssBaseline /> */}
+      <CssBaseline />
       <ThemeProvider theme={ECOTheme}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <WithQueries
