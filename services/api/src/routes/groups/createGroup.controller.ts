@@ -2,7 +2,6 @@ import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { GroupEntity } from "../../entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { Route } from "routes/route.types";
 
 export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {
@@ -12,29 +11,26 @@ export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {
         {
           ...body,
           color: color.replace("#", ""),
-          members: body.members.map((m) => {
-            const a = new GroupMemberEntity();
-            a.id = m;
-            return a;
-          }),
+          members: body.members.map((m) => ({
+            id: m
+          })),
         },
       ]),
-      TE.chain(([page]) =>
+      TE.chain(([group]) =>
         db.findOneOrFail(GroupEntity, {
-          where: { id: page.id },
-          loadRelationIds: true,
+          where: { id: group.id },
         })
       ),
-      TE.map((page) => ({
+      TE.map((group) => ({
         body: {
           data: {
-            ...page,
+            ...group,
             type: "GroupEntity" as const,
             // members: (page.members as any) as string[],
             // subGroups: (page.subGroups as any) as string[],
-            createdAt: page.createdAt.toISOString(),
-            updatedAt: page.updatedAt.toISOString(),
-            // body,
+            createdAt: group.createdAt.toISOString(),
+            updatedAt: group.updatedAt.toISOString(),
+            events: []
           },
         },
         statusCode: 200,

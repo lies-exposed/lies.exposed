@@ -64,16 +64,18 @@ export const Edit = Endpoint({
       color: optionFromNullable(t.string),
       body: optionFromNullable(t.UnknownRecord),
       avatar: optionFromNullable(t.string),
-      memberIn: t.array(
-        t.union([
-          UUID,
-          t.strict({
-            group: UUID,
-            body: t.UnknownRecord,
-            startDate: DateFromISOString,
-            endDate: optionFromNullable(DateFromISOString),
-          }),
-        ])
+      memberIn: optionFromNullable(
+        t.array(
+          t.union([
+            UUID,
+            t.strict({
+              group: UUID,
+              body: t.UnknownRecord,
+              startDate: DateFromISOString,
+              endDate: optionFromNullable(DateFromISOString),
+            }),
+          ])
+        )
       ),
     }),
   },

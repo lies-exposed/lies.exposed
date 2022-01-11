@@ -12,10 +12,15 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
 
     const groupUpdate = {
       ...body,
-      members: body.members.map((id) => ({ id })),
+      // members: body.members.map((id) => ({ id })),
     };
     return pipe(
-      ctx.db.save(GroupEntity, [{ id, ...groupUpdate }]),
+      ctx.db.findOneOrFail(GroupEntity, { where: { id } }),
+      TE.chain((group) =>
+        ctx.db.save(GroupEntity, [
+          { ...group, ...groupUpdate, members: group.members, id },
+        ])
+      ),
       TE.chain(() =>
         ctx.db.findOneOrFail(GroupEntity, {
           where: { id },

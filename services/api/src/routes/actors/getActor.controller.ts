@@ -11,6 +11,9 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       ctx.db.findOneOrFail(ActorEntity, {
         where: { id },
+        loadRelationIds: {
+          relations: ['memberIn']
+        }
       }),
       TE.chainEitherK(toActorIO),
       TE.map((actor) => ({

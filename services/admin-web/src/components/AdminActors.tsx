@@ -32,10 +32,11 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
+import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
@@ -66,15 +67,11 @@ export const ActorList: React.FC<ListProps> = (props) => (
 );
 
 const transformActor = async (id: string, data: Record): Promise<Record> => {
-  const imagesTask = pipe(
-    uploadImages(dataProvider)(
-      "actors",
-      id,
-      data.avatar.rawFile
-        ? [{ file: data.avatar.rawFile, type: data.avatar.rawFile.type }]
-        : []
-    )
-  );
+  const imagesTask = data.avatar?.rawFile
+    ? uploadImages(dataProvider)("actors", id, [
+        { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+      ])
+    : TE.right([{ location: data.avatar }]);
 
   // eslint-disable-next-line @typescript-eslint/return-await
   return pipe(
@@ -144,7 +141,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <RichTextInput source="body" />
+            <ReactPageInput onlyText={true} source="body" />
           </SimpleFormIterator>
         </ArrayInput>
 

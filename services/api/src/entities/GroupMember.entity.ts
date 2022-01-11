@@ -15,7 +15,7 @@ export class GroupMemberEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: "timestamptz", nullable: true })
+  @Column({ type: "timestamptz", nullable: true, default: 'now()' })
   startDate: Date;
 
   @Column({ type: "timestamptz", nullable: true })

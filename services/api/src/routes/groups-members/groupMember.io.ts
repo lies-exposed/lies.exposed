@@ -25,7 +25,7 @@ export const toGroupMemberIO = (
         createdAt: groupMember.group?.createdAt.toISOString(),
         updatedAt: groupMember.group?.updatedAt.toISOString(),
       },
-      startDate: groupMember.startDate.toISOString(),
+      startDate: (groupMember.startDate ?? new Date()).toISOString(),
       endDate: groupMember.endDate?.toISOString() ?? undefined,
       createdAt: groupMember.createdAt.toISOString(),
       updatedAt: groupMember.updatedAt.toISOString(),
