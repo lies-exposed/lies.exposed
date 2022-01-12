@@ -2,10 +2,9 @@ import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "../../route.types";
-import { toDeathIO } from "./death.io";
+import { toEventV2IO } from "../eventV2.io";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
@@ -19,17 +18,17 @@ export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
         db.findOneOrFail(ActorEntity, { where: { id: payload.victim } }),
         TE.chain((victim) =>
           db.save(EventV2Entity, [
-            { ...body, payload: { ...data, victim: victim.id } },
+            { ...body, payload: { ...data, victim: victim.id }, type: "Death" },
           ])
         ),
 
         TE.chain(([event]) =>
-          db.findOneOrFail(DeathEventViewEntity, {
+          db.findOneOrFail(EventV2Entity, {
             where: { id: event.id },
             loadRelationIds: true,
           })
         ),
-        TE.chain((event) => TE.fromEither(toDeathIO(event))),
+        TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({
           body: {
             data,
