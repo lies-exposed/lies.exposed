@@ -117,6 +117,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
         <ColorInput source="color" />
         <TextInput source="username" />
         <TextInput source="fullName" />
+        <ReactPageInput source="excerpt" onlyText={true} />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
       </FormTab>
@@ -193,6 +194,7 @@ export const ActorCreate: React.FC<CreateProps> = (props) => (
       <ImageInput source="avatar">
         <ImageField />
       </ImageInput>
+      <ReactPageInput source="excerpt" onlyText={true} />
       <ReactPageInput source="body" />
     </SimpleForm>
   </Create>

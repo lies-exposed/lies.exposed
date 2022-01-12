@@ -1,8 +1,8 @@
 import { fc } from "@econnessione/core/tests";
 import * as E from "fp-ts/lib/Either";
+import * as t from "io-ts";
 import { TagArb } from "../../../../tests/arbitrary/Keyword.arbitrary";
 import { Tag } from "../Tag";
-import * as t from "io-ts";
 
 describe.skip("Tag codec", () => {
   test("Should decode given input", () => {
