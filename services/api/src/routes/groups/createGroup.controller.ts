@@ -2,7 +2,9 @@ import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { GroupEntity } from "../../entities/Group.entity";
-import { Route } from "routes/route.types";
+import { Route } from "../route.types";
+import * as O from "fp-ts/lib/Option";
+import { toGroupIO } from "./group.io";
 
 export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(Endpoints.Group.Create, ({ body: { color, ...body } }) => {
@@ -12,7 +14,9 @@ export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {
           ...body,
           color: color.replace("#", ""),
           members: body.members.map((m) => ({
-            id: m
+            ...m,
+            actor: { id: m.actor },
+            endDate: O.toNullable(m.endDate),
           })),
         },
       ]),
@@ -21,17 +25,10 @@ export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {
           where: { id: group.id },
         })
       ),
-      TE.map((group) => ({
+      TE.chainEitherK(toGroupIO),
+      TE.map((data) => ({
         body: {
-          data: {
-            ...group,
-            type: "GroupEntity" as const,
-            // members: (page.members as any) as string[],
-            // subGroups: (page.subGroups as any) as string[],
-            createdAt: group.createdAt.toISOString(),
-            updatedAt: group.updatedAt.toISOString(),
-            events: []
-          },
+          data,
         },
         statusCode: 200,
       }))

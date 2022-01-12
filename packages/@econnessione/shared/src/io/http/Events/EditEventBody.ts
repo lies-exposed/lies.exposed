@@ -31,9 +31,8 @@ export const EditEventBody = nonEmptyRecordFromType(
     keywords: optionFromUndefined(t.array(t.string)),
     startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
-    body: optionFromUndefined(t.string),
+    body: optionFromUndefined(t.UnknownRecord),
     excerpt: optionFromUndefined(t.string),
-    body2: optionFromUndefined(t.UnknownRecord),
   },
   "EditEventPayload"
 );

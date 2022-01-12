@@ -9,10 +9,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { EventV2Entity } from "./Event.v2.entity";
+import { DeathEventViewEntity } from "./events/DeathEvent.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { ScientificStudyEntity } from "./ScientificStudy.entity";
-import { DeathEventViewEntity } from "./events/DeathEvent.entity";
-import { UncategorizedEventEntity } from "./events/UncategorizedEvent.entity";
 
 @Entity("actor")
 export class ActorEntity {
@@ -37,8 +37,8 @@ export class ActorEntity {
   })
   memberIn: GroupMemberEntity[];
 
-  @ManyToMany(() => UncategorizedEventEntity, a => a.actors, { cascade: false })
-  events: UncategorizedEventEntity[];
+  @ManyToMany(() => EventV2Entity, { cascade: false })
+  events: EventV2Entity[];
 
   @OneToOne(() => DeathEventViewEntity, (d) => d.victim)
   death: DeathEventViewEntity;

@@ -1,3 +1,5 @@
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import {
   Column,
   CreateDateColumn,
@@ -6,9 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
-import { UncategorizedEventEntity } from "./events/UncategorizedEvent.entity";
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
+import { EventV2Entity } from "./Event.v2.entity";
 
 @Entity("group_member")
 export class GroupMemberEntity {
@@ -39,8 +39,8 @@ export class GroupMemberEntity {
   })
   actor: ActorEntity;
 
-  @ManyToMany(() => UncategorizedEventEntity, e => e.groupsMembers, { cascade: false })
-  events: UncategorizedEventEntity[];
+  @ManyToMany(() => EventV2Entity, { cascade: false })
+  events: EventV2Entity[];
 
   @CreateDateColumn()
   createdAt: Date;

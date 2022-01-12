@@ -1,26 +1,26 @@
+import { dataProvider } from "@client/HTTPAPI";
+import { uploadImages } from "@client/MediaAPI";
 import { http } from "@econnessione/shared/io";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
-import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
 import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
 import {
   ArrayInput,
   AutocompleteInput,
   Create,
   CreateProps,
-  Datagrid,
-  DateField,
+  Datagrid, DateField,
   DateInput,
   Edit,
   EditProps,
   Filter,
   FormDataConsumer,
-  FormTab,
-  ImageField,
+  FormTab, FunctionField, ImageField,
   ImageInput,
   List,
   ListProps,
@@ -32,15 +32,11 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
-import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
-import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
-import { dataProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 
 const ActorFilters: React.FC = (props) => {
   return (
@@ -61,6 +57,7 @@ export const ActorList: React.FC<ListProps> = (props) => (
       <TextField source="fullName" />
       <TextField source="username" />
       <AvatarField source="avatar" />
+      <FunctionField label="Groups" render={(r) => r.memberIn.length} />
       <DateField source="updatedAt" showTime={true} />
     </Datagrid>
   </List>
@@ -155,7 +152,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Events">
-        <ReferenceManyField label="Events" target="actors[]" reference="events">
+        <ReferenceManyField label="Events" source="id" target="actors[]" reference="events">
           <Datagrid>
             <TextField source="id" />
             <TextField source="title" />

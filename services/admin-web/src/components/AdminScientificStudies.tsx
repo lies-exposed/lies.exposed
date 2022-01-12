@@ -13,41 +13,39 @@ import {
   Filter,
   List,
   ListProps,
-  ReferenceArrayField,
   ReferenceArrayInput,
   ReferenceField,
   ReferenceInput,
   Resource,
   ResourceProps,
   SimpleForm,
-  SingleFieldList,
   TextField,
   TextInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 
-const RESOURCE = "scientific-studies";
+const RESOURCE = "events";
 
 const ListFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <ReferenceArrayActorInput source="authors" alwaysOn />
-      <DateInput source="publishedDate" />
+      <ReferenceArrayActorInput source="payload.authors" alwaysOn />
+      <DateInput source="date" />
     </Filter>
   );
 };
 
 export const ScientificStudiesList: React.FC<ListProps> = (props) => (
-  <List {...props} filters={<ListFilter />} perPage={20}>
+  <List
+    {...props}
+    filters={<ListFilter />}
+    perPage={20}
+    filter={{ type: "ScientificStudy" }}
+  >
     <Datagrid rowClick="edit">
-      <TextField source="title" />
-      <ReferenceArrayField source="authors" reference="actors">
-        <SingleFieldList>
-          <AvatarField source="avatar" />
-        </SingleFieldList>
-      </ReferenceArrayField>
-      <ReferenceField source="publisher" reference="groups">
+      <TextField source="payload.title" />
+      <ReferenceField source="payload.publisher" reference="groups">
         <AvatarField source="avatar" />
       </ReferenceField>
       <DateField source="publishDate" />
@@ -72,14 +70,14 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
     }}
   >
     <SimpleForm>
-      <TextInput source="title" />
-      <TextInput source="url" type="url" />
-      <DateInput source="publishDate" />
-      <RichTextInput source="abstract" />
-      <RichTextInput source="results" />
-      <RichTextInput source="conclusion" />
-      <ReferenceArrayActorInput source="authors" />
-      <ReferenceInput source="publisher" reference="groups">
+      <TextInput source="payload.title" />
+      <TextInput source="payload.url" type="url" />
+      <DateInput source="date" />
+      <RichTextInput source="payload.abstract" />
+      <RichTextInput source="payload.results" />
+      <RichTextInput source="payload.conclusion" />
+      <ReferenceArrayActorInput source="payload.authors" />
+      <ReferenceInput source="payload.publisher" reference="groups">
         <AutocompleteInput source="id" optionText="name" />
       </ReferenceInput>
     </SimpleForm>
