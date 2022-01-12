@@ -5,6 +5,7 @@ import {
   Actor,
   Group,
 } from "@econnessione/shared/io/http";
+import { formatDate } from "@econnessione/shared/utils/date";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import EventsTimeline from "@econnessione/ui/components/lists/EventList/EventTimeline";
@@ -27,7 +28,6 @@ import * as React from "react";
 import { debounce } from "throttle-debounce";
 import { eventsPaginated, InfiniteEventListParams } from "../state/queries";
 import { doUpdateCurrentView } from "../utils/location.utils";
-import { formatDate } from "@econnessione/shared/utils/date";
 
 const eventsSort = pipe(
   Ord.reverse(D.Ord),

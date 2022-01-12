@@ -1,5 +1,3 @@
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import {
   Column,
   CreateDateColumn,
@@ -9,6 +7,8 @@ import {
   UpdateDateColumn
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 
 @Entity("group_member")
 export class GroupMemberEntity {

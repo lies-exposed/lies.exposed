@@ -1,15 +1,13 @@
-import { apiProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 import * as io from "@econnessione/shared/io";
 import { Media } from "@econnessione/shared/io/http";
 import { uuid } from "@econnessione/shared/utils/uuid";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import { Typography } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   ArrayInput,
@@ -42,6 +40,8 @@ import { AvatarField } from "./Common/AvatarField";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
+import { apiProvider } from "@client/HTTPAPI";
+import { uploadImages } from "@client/MediaAPI";
 
 const RESOURCE = "groups";
 

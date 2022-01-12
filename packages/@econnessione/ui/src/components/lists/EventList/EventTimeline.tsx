@@ -83,7 +83,7 @@ const renderRow = (props: {
         {process.env.NODE_ENV === "development" ? (
           <a
             href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
-            target="_blank"
+            target="_blank" rel="noreferrer"
           >
             Edit
           </a>

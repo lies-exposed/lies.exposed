@@ -10,9 +10,9 @@ import {
   UpdateDateColumn
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
-import { DeathEventViewEntity } from "./events/DeathEvent.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { ScientificStudyEntity } from "./ScientificStudy.entity";
+import { DeathEventViewEntity } from "./events/DeathEvent.entity";
 
 @Entity("actor")
 export class ActorEntity {

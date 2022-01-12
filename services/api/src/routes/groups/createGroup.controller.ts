@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { GroupEntity } from "../../entities/Group.entity";
 import { Route } from "../route.types";
-import * as O from "fp-ts/lib/Option";
 import { toGroupIO } from "./group.io";
 
 export const MakeCreateGroupRoute: Route = (r, { s3, db, env }) => {

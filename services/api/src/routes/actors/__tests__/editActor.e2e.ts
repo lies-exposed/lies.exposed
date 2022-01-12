@@ -101,8 +101,6 @@ describe("Edit Actor", () => {
         .set("Authorization", authorizationToken)
         .send({ memberIn: getActor.body.data.memberIn.concat(alsoMemberIn) });
 
-      console.log(response.body);
-
       expect(response.status).toEqual(200);
       expect(response.body.data).toMatchObject({
         username: actor.username,

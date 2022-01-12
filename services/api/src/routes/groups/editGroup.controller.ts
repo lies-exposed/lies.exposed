@@ -1,12 +1,12 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { RouteContext } from "@routes/route.types";
 import { Router } from "express";
-import { pipe } from "fp-ts/lib/pipeable";
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import { UUID } from "io-ts-types/lib/UUID";
 import { GroupEntity } from "../../entities/Group.entity";
 import { toGroupIO } from "./group.io";
-import * as O from "fp-ts/lib/Option";
+import { RouteContext } from "@routes/route.types";
 
 export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Group.Edit, ({ params: { id }, body }) => {
