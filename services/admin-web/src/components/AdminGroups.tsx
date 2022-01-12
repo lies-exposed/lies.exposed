@@ -10,6 +10,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
+  ArrayInput,
   AutocompleteArrayInput,
   ChoicesInputProps,
   Create,
@@ -26,19 +27,17 @@ import {
   ImageInput,
   List,
   ListProps,
-  Record,
-  ReferenceArrayField,
-  ReferenceArrayInput,
-  ReferenceField,
-  ReferenceManyField,
+  Record, ReferenceArrayInput, ReferenceManyField,
   SelectInput,
   SimpleForm,
+  SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
+import ReferenceActorInput from "./Common/ReferenceActorInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";
@@ -97,7 +96,10 @@ export const GroupList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const transformGroup = (data: Record): Record | Promise<Record> => {
+const transformGroup = ({
+  newMembers,
+  ...data
+}: Record): Record | Promise<Record> => {
   const uploadAvatar = data.avatar?.rawFile
     ? uploadImages(apiProvider)("groups", data.id as string, [
         { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
@@ -106,12 +108,15 @@ const transformGroup = (data: Record): Record | Promise<Record> => {
         { location: data.avatar, type: "image/jpeg" as Media.MediaType },
       ]);
 
+  const members = (data.members ?? []).concat(newMembers);
+
   return pipe(
     uploadAvatar,
     TE.map((locations) => ({
       ...data,
       excerpt: data.excerpt ?? undefined,
       avatar: locations[0].location,
+      members,
     }))
   )().then((result) => {
     if (E.isLeft(result)) {
@@ -161,22 +166,26 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <ReactPageInput label="body" source="body" />
         </FormTab>
         <FormTab label="Members">
-          <ReferenceArrayGroupMemberInput source="groupsMembers" />
-          <ReferenceArrayField source="members" reference="groups-members">
-            <Datagrid>
-              <ReferenceField source="id" reference="groups-members">
-                <TextField source="id" />
-              </ReferenceField>
-              <ReferenceField
-                label="Actor"
-                source="actor.id"
-                reference="actors"
-              >
-                <TextField source="username" />
-              </ReferenceField>
+          <ArrayInput source="newMembers" defaultValue={[]}>
+            <SimpleFormIterator>
+              <ReferenceActorInput source="actor" />
+              <DateInput source="startDate" />
+              <DateInput source="endDate" />
+              <ReactPageInput onlyText={true} source="body" />
+            </SimpleFormIterator>
+          </ArrayInput>
+
+
+          <ReferenceManyField
+            reference="groups-members"
+            target="group"
+          >
+            <Datagrid rowClick="edit">
+              <TextField source="id" />
+              <TextField source="actor.username" />
               <DateField source="startDate" />
             </Datagrid>
-          </ReferenceArrayField>
+          </ReferenceManyField>
         </FormTab>
         <FormTab label="events">
           <ReferenceManyField

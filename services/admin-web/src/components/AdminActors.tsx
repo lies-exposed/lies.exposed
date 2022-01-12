@@ -12,15 +12,13 @@ import {
   AutocompleteInput,
   Create,
   CreateProps,
-  Datagrid,
-  DateField,
+  Datagrid, DateField,
   DateInput,
   Edit,
   EditProps,
   Filter,
   FormDataConsumer,
-  FormTab,
-  ImageField,
+  FormTab, FunctionField, ImageField,
   ImageInput,
   List,
   ListProps,
@@ -36,7 +34,6 @@ import {
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
-import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
@@ -60,21 +57,18 @@ export const ActorList: React.FC<ListProps> = (props) => (
       <TextField source="fullName" />
       <TextField source="username" />
       <AvatarField source="avatar" />
+      <FunctionField label="Groups" render={(r) => r.memberIn.length} />
       <DateField source="updatedAt" showTime={true} />
     </Datagrid>
   </List>
 );
 
 const transformActor = async (id: string, data: Record): Promise<Record> => {
-  const imagesTask = pipe(
-    uploadImages(dataProvider)(
-      "actors",
-      id,
-      data.avatar.rawFile
-        ? [{ file: data.avatar.rawFile, type: data.avatar.rawFile.type }]
-        : []
-    )
-  );
+  const imagesTask = data.avatar?.rawFile
+    ? uploadImages(dataProvider)("actors", id, [
+        { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+      ])
+    : TE.right([{ location: data.avatar }]);
 
   // eslint-disable-next-line @typescript-eslint/return-await
   return pipe(
@@ -144,7 +138,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
             </ReferenceInput>
             <DateInput source="startDate" />
             <DateInput source="endDate" />
-            <RichTextInput source="body" />
+            <ReactPageInput onlyText={true} source="body" />
           </SimpleFormIterator>
         </ArrayInput>
 
@@ -158,7 +152,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Events">
-        <ReferenceManyField label="Events" target="actors[]" reference="events">
+        <ReferenceManyField label="Events" source="id" target="actors[]" reference="events">
           <Datagrid>
             <TextField source="id" />
             <TextField source="title" />

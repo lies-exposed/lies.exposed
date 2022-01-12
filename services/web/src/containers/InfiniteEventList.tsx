@@ -5,6 +5,7 @@ import {
   Actor,
   Group,
 } from "@econnessione/shared/io/http";
+import { formatDate } from "@econnessione/shared/utils/date";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import EventsTimeline from "@econnessione/ui/components/lists/EventList/EventTimeline";
@@ -187,20 +188,24 @@ const InfiniteEventList: React.FC<EventListProps> = ({
               <Box style={{ width: "100%" }}>
                 <Grid container>
                   <Grid container alignItems="center">
-                    <Grid item md={6} style={{ marginBottom: 40 }}>
+                    <Grid item md={6} sm={6} style={{ marginBottom: 40 }}>
                       <Typography variant="caption" display="inline">
                         Nº Events:{" "}
-                        <Typography display="inline" variant="subtitle1">
+                        <Typography display="inline" variant="subtitle1" color="primary">
                           {totalEvents}
                         </Typography>{" "}
                         dal{" "}
-                        <Typography display="inline" variant="subtitle1">
-                          {filters.startDate}
-                        </Typography>{" "}
-                        al{" "}
-                        <Typography display="inline" variant="subtitle1">
-                          {filters.endDate}
-                        </Typography>
+                        {filters.startDate ? (
+                          <Typography display="inline" variant="subtitle1" color="secondary">
+                            {formatDate(new Date(filters.startDate))}
+                          </Typography>
+                        ) : null}
+                        {" "}al{" "}
+                        {filters.endDate ? (
+                          <Typography display="inline" variant="subtitle1" color="secondary">
+                            {formatDate(new Date(filters.endDate))}
+                          </Typography>
+                        ) : null}
                       </Typography>
                     </Grid>
                     <Grid

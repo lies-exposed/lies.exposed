@@ -4,5 +4,6 @@ declare namespace NodeJS {
     readonly PUBLIC_URL: string;
     readonly API_URL: string;
     readonly DATA_URL: string;
+    readonly ADMIN_URL: string;
   }
 }

@@ -60,6 +60,16 @@ export const EventPayload = t.union(
 
 export type EventPayload = t.TypeOf<typeof EventPayload>;
 
+export const EventType = t.union(
+  [
+    Death.DeathType,
+    Uncategorized.UncategorizedType,
+    ScientificStudy.ScientificStudyType,
+  ],
+  "EventType"
+);
+export type EventType = t.TypeOf<typeof EventType>;
+
 export const Event = t.union(
   [Death.Death, ScientificStudy.ScientificStudy, Uncategorized.Uncategorized],
   "EventV2"

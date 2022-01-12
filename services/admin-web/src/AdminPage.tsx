@@ -14,20 +14,18 @@ import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
 import {
   ArticleCreate,
   ArticleEdit,
-  ArticleList,
+  ArticleList
 } from "./components/AdminArticles";
-import { AdminDeathEventsResource } from "./components/AdminDeathEvents";
 import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList,
+  GroupMemberList
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { AdminKeywordResource } from "./components/AdminKeyword";
 import { AdminLinksResource } from "./components/AdminLinks";
-import { MediaList, MediaCreate, MediaEdit } from "./components/AdminMedia";
-import { AdminScientificStudiesResource } from "./components/AdminScientificStudies";
+import { MediaCreate, MediaEdit, MediaList } from "./components/AdminMedia";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import englishMessages from "./i18n/en-US";
@@ -103,9 +101,6 @@ const AdminPage: React.FC = () => {
         create={EventCreate}
         icon={EventIcon}
       />
-
-      <AdminDeathEventsResource name="deaths" />
-      <AdminScientificStudiesResource name="scientific-studies" />
 
       <AdminLinksResource name="links" />
       <AdminKeywordResource name="keywords" />

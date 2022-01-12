@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { DateFromISOString, UUID } from "io-ts-types";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
@@ -29,9 +30,19 @@ const CreateGroupBody = t.strict(
     color: t.string,
     kind: http.Group.GroupKind,
     avatar: t.string,
-    members: t.array(t.string),
     excerpt: t.union([t.UnknownRecord, t.undefined]),
     body: t.UnknownRecord,
+    members: t.array(
+      t.strict(
+        {
+          actor: UUID,
+          body: t.UnknownRecord,
+          startDate: DateFromISOString,
+          endDate: optionFromNullable(DateFromISOString),
+        },
+        "CreateGroupMember"
+      )
+    ),
   },
   "CreateGroupBody"
 );
@@ -62,7 +73,23 @@ export const Edit = Endpoint({
   Input: {
     Query: undefined,
     Params: t.type({ id: t.string }),
-    Body: CreateGroupBody,
+    Body: t.strict({
+      ...CreateGroupBody.type.props,
+      members: t.array(
+        t.union([
+          UUID,
+          t.strict(
+            {
+              actor: UUID,
+              body: t.UnknownRecord,
+              startDate: DateFromISOString,
+              endDate: optionFromNullable(DateFromISOString),
+            },
+            "CreateGroupMember"
+          ),
+        ])
+      ),
+    }),
   },
   Output: SingleGroupOutput,
 });

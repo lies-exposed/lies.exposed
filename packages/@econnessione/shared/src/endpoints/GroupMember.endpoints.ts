@@ -61,7 +61,7 @@ export const Edit = Endpoint({
       actor: optionFromNullable(t.string),
       startDate: optionFromNullable(DateFromISOString),
       endDate: optionFromNullable(DateFromISOString),
-      body: optionFromNullable(t.string),
+      body: optionFromNullable(t.UnknownRecord),
     }),
   },
   Output: SingleGroupMemberOutput,

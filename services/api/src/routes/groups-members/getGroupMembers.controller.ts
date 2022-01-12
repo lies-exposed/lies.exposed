@@ -22,7 +22,7 @@ export const MakeListGroupMemberRoute = (
         ctx.env.DEFAULT_PAGE_SIZE
       );
 
-      ctx.logger.debug.log(`find Options %O`, findOptions);
+      ctx.logger.debug.log(`Get groups members with find Options %O`, findOptions);
 
       const listGroupsMembersTE = pipe(
         ctx.db.manager

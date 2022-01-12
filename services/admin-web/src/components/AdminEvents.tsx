@@ -1,3 +1,4 @@
+import * as io from "@econnessione/shared/io";
 import { http } from "@econnessione/shared/io";
 import { Media } from "@econnessione/shared/io/http";
 import { Event } from "@econnessione/shared/io/http/Events";
@@ -36,10 +37,12 @@ import {
   ReferenceArrayInput,
   required,
   SelectArrayInput,
+  SelectInput,
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput
+  ReferenceField,
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -53,16 +56,16 @@ import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
   DeathEventTitle,
-  transformDeathEvent
+  transformDeathEvent,
 } from "./events/AdminDeathEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import {
   transformUncategorizedEvent,
   UncategorizedEventEdit,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
@@ -73,6 +76,15 @@ const EventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <TextInput source="title" alwaysOn size="small" />
+      <SelectInput
+        source="type"
+        alwaysOn
+        size="small"
+        choices={io.http.Events.EventType.types.map((t) => ({
+          id: t.value,
+          name: t.value,
+        }))}
+      />
       <ReferenceArrayGroupInput source="groups" alwaysOn />
       <ReferenceArrayActorInput source="actors" alwaysOn />
       <ReferenceArrayGroupMemberInput source="groupsMembers" />
@@ -103,9 +115,17 @@ export const EventList: React.FC<ListProps> = (props) => (
               <Typography display="inline" variant="subtitle1">
                 {r.type}
               </Typography>
-              {r.type === "Uncategorized" ? (
+              {" "}
+              {[
+                io.http.Events.Uncategorized.UncategorizedType.value,
+                io.http.Events.ScientificStudy.ScientificStudyType.value,
+              ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
-              ) : null}
+              ) : (
+                <ReferenceField source="payload.victim" reference="actors">
+                  <TextField source="username" />
+                </ReferenceField>
+              )}
             </Box>
           );
         }}

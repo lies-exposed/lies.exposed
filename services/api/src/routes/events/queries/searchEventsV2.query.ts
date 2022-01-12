@@ -19,6 +19,7 @@ interface SearchEventQuery {
   groupsMembers: O.Option<string[]>;
   keywords: O.Option<string[]>;
   links: O.Option<string[]>
+  type: O.Option<string>
   skip: number;
   take: number;
 }
@@ -40,6 +41,7 @@ export const searchEventV2Query =
     groupsMembers: _groupsMembers,
     keywords,
     links,
+    type,
     ...findOptions
   }: SearchEventQuery): TE.TaskEither<DBError, SearchEventOutput> => {
     const groupsMembersQuery = pipe(
@@ -77,9 +79,14 @@ export const searchEventV2Query =
           (q) => {
             q.where("event.draft = :draft", { draft: false });
 
+            if (O.isSome(type)) {
+              q.andWhere('event.type = :type', { type: type.value })
+            }
+
+
             let hasWhere = false;
             if (O.isSome(actors)) {
-              q.where(
+              q.andWhere(
                 `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors])`,
                 {
                   actors: actors.value,
@@ -123,34 +130,36 @@ export const searchEventV2Query =
               })
             }
 
-            logger.debug.log(
-              `Search event v2 query %s with params %O`,
-              ...q.getQueryAndParameters()
-            );
+            // logger.debug.log(
+            //   `Search event v2 query %s with params %O`,
+            //   ...q.getQueryAndParameters()
+            // );
 
             const uncategorizedCount = q
               .clone()
               .andWhere(" event.type = 'Uncategorized' ");
 
-            logger.debug.log(
-              `Uncategorized count query %O`,
-              ...uncategorizedCount.getQueryAndParameters()
-            );
+            // logger.debug.log(
+            //   `Uncategorized count query %O`,
+            //   ...uncategorizedCount.getQueryAndParameters()
+            // );
 
             const deathsCount = q.clone().andWhere(" event.type = 'Death' ");
 
-            logger.debug.log(
-              `Deaths count query %O`,
-              ...deathsCount.getQueryAndParameters()
-            );
+            // logger.debug.log(
+            //   `Deaths count query %O`,
+            //   ...deathsCount.getQueryAndParameters()
+            // );
 
             const scientificStudiesCount = q
               .clone()
               .andWhere(" event.type = 'ScientificStudy' ");
-            logger.debug.log(
-              `Scientific Studies count query %O`,
-              ...scientificStudiesCount.getQueryAndParameters()
-            );
+
+            // logger.debug.log(
+            //   `Scientific Studies count query %O`,
+            //   ...scientificStudiesCount.getQueryAndParameters()
+            // );
+
             return {
               resultsQuery: q,
               uncategorizedCount,

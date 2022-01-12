@@ -1,18 +1,42 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { Router } from "express";
+import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { Raw } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { toActorIO } from "./actor.io";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 import { RouteContext } from "routes/route.types";
 
 export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Actor.Get, ({ params: { id } }) => {
     return pipe(
-      ctx.db.findOneOrFail(ActorEntity, {
-        where: { id },
+      sequenceS(TE.ApplicativePar)({
+        actor: ctx.db.findOneOrFail(ActorEntity, {
+          where: { id },
+          loadRelationIds: {
+            relations: ['memberIn']
+          }
+        }),
+        events: ctx.db.find(EventV2Entity, {
+          select: ["id", "payload"],
+          where: {
+            payload: Raw(
+              (alias) => `${alias} ::jsonb -> 'actors' ?| ARRAY[:...actors]`,
+              { actors: [id] }
+            ),
+          },
+        }),
       }),
-      TE.chainEitherK(toActorIO),
+      TE.chain(({ actor, events }) => {
+        ctx.logger.debug.log("Actor %O", actor);
+        ctx.logger.debug.log('Actor events %O', events)
+        return pipe(
+          toActorIO({ ...actor, events: events.map((e) => e.id) as any }),
+          TE.fromEither
+        );
+      }),
       TE.map((actor) => ({
         body: {
           data: actor,

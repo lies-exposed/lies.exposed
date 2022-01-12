@@ -17,12 +17,12 @@ import {
   ReferenceManyField,
   SimpleForm,
   TabbedForm,
-  TextField
+  TextField,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
+import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
-import RichTextInput from "./Common/RichTextInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 
 const transformGroupMember = ({
@@ -92,19 +92,23 @@ export const GroupMemberEdit: React.FC<EditProps> = (props) => {
 
           <DateInput source="startDate" required={true} />
           <DateInput source="endDate" required={false} />
-          <RichTextInput source="body" />
+          <ReactPageInput label="excerpt" source="excerpt" onlyText={true} />
         </FormTab>
-        <FormTab label="Body 2">
-          <RichTextInput source="excerpt" />
-          <ReactPageInput source="body2" />
+        <FormTab label="Body">
+          <ReactPageInput label="body" source="body" />
         </FormTab>
         <FormTab label="Events">
-          <ReferenceManyField reference="events" target="groupsMembers[]">
+          <ReferenceArrayEventInput source="events" />
+          <ReferenceManyField
+            reference="events"
+            source="id"
+            target="groupsMembers[]"
+          >
             <Datagrid>
               <ReferenceField source="id" reference="events">
-                <TextField source="title" />
+                <TextField source="id" />
               </ReferenceField>
-              <DateField source="startDate" />
+              <DateField source="date" />
               <DateField source="createdAt" />
             </Datagrid>
           </ReferenceManyField>
@@ -125,7 +129,7 @@ export const GroupMemberCreate: React.FC<CreateProps> = (props) => (
       <ReferenceGroupInput source="group.id" />
       <DateInput source="startDate" />
       <DateInput source="endDate" />
-      <RichTextInput source="body" />
+      <ReactPageInput source="body" />
     </SimpleForm>
   </Create>
 );
