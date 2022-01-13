@@ -1,6 +1,5 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types";
-import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { URL } from "../Common/URL";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 
@@ -37,14 +36,11 @@ export const EditScientificStudyBody = t.strict(
     ...EditEventCommon.type.props,
     type: ScientificStudyType,
     payload: ScientificStudyPayload,
-    title: optionFromUndefined(t.string),
   },
   "EditScientificStudyBody"
 );
 
 export type EditScientificStudyBody = t.TypeOf<typeof EditScientificStudyBody>;
-
-
 
 export const ScientificStudy = t.strict(
   {

@@ -129,7 +129,6 @@ export const editEventQuery =
           case http.Events.ScientificStudy.ScientificStudyType.value: {
             const {
               type,
-              title,
               date,
               draft,
               excerpt,
@@ -137,7 +136,6 @@ export const editEventQuery =
               payload
             } = input;
             const baseProps = optionalsToUndefined({
-              title,
               date,
               draft,
               excerpt,
