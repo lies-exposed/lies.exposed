@@ -1,9 +1,11 @@
+import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
   AutocompleteInput,
+  BooleanInput,
   Create,
   CreateProps,
   Datagrid,
@@ -16,12 +18,16 @@ import {
   ListProps,
   ReferenceArrayInput,
   ReferenceField,
-  ReferenceInput, SimpleForm,
+  ReferenceInput,
+  SimpleForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
+import { MediaArrayInput } from "./Common/MediaArrayInput";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
+import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 
 const ListFilter: React.FC = (props: any) => {
   return (
@@ -66,16 +72,21 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
     }}
   >
     <SimpleForm>
+      <TextInput source="type" defaultValue={ScientificStudyType.value} hidden />
+      <BooleanInput source="draft" />
       <TextInput source="payload.title" />
       <TextInput source="payload.url" type="url" />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" />
       <ReactPageInput source="body" />
-      <RichTextInput source="payload.conclusions" />
+      <RichTextInput source="payload.conclusion" />
       <ReferenceArrayActorInput source="payload.authors" />
       <ReferenceInput source="payload.publisher" reference="groups">
         <AutocompleteInput source="id" optionText="name" />
       </ReferenceInput>
+      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+      <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+      <MediaArrayInput source="media" defaultValue={[]} />
     </SimpleForm>
   </Edit>
 );
@@ -83,12 +94,14 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
 export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Scientific Study" {...props}>
     <SimpleForm>
+      <TextInput source="type" defaultValue={ScientificStudyType.value} />
+      <BooleanInput source="draft" defaultValue={false} />
       <TextInput source="payload.title" />
       <TextInput source="payload.url" type="url" />
-      <ReactPageInput source="excerpt" />
-      <ReactPageInput source="body" />
       <DateInput source="date" />
-      <ReactPageInput source="payload.conclusions" />
+      <ReactPageInput source="excerpt" onlyText />
+      <ReactPageInput source="body" />
+      <RichTextInput source="payload.conclusion" />
       <ReferenceArrayInput
         source="payload.authors"
         reference="actors"
@@ -99,6 +112,9 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
       <ReferenceInput source="payload.publisher" reference="groups" alwaysOn>
         <AutocompleteInput source="id" optionText="name" />
       </ReferenceInput>
+      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+      <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+      <MediaArrayInput source="media" defaultValue={[]} />
     </SimpleForm>
   </Create>
 );
