@@ -1,6 +1,5 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { URL } from "../Common/URL";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
@@ -12,10 +11,9 @@ export const ScientificStudyPayload = t.strict(
   {
     title: t.string,
     url: URL,
-    publishDate: DateFromISOString,
+    conclusion: t.string,
     authors: t.array(UUID),
     publisher: UUID,
-    conclusion: t.string,
   },
   "ScientificStudyPayload"
 );

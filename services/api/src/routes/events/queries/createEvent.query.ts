@@ -61,6 +61,7 @@ export const createEventQuery =
         }))
       )
     );
+  
     return pipe(
       sequenceS(TE.ApplicativePar)({
         keywords,

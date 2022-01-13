@@ -15,6 +15,8 @@
   },
   "scripts": {
     "clean": "yarn workspaces foreach -p run clean",
+    "lint": "yarn workspaces foreach -v run lint",
+    "format": "yarn workspaces foreach -v run format",
     "build": "yarn workspaces foreach -v run build",
     "test:spec": "jest spec",
     "test:e2e": "jest e2e",
@@ -29,8 +31,6 @@
     "storybook": "yarn workspace storybook",
     "docker:up": "docker-compose up --force-recreate api web admin-web space",
     "packages:build": "yarn core build && yarn shared build && yarn ui build",
-    "lint": "yarn workspaces foreach run lint",
-    "format": "yarn workspaces foreach run format",
     "prepare": "husky install"
   },
   "engines": {

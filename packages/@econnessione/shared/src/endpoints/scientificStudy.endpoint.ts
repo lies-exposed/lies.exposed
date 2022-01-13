@@ -6,9 +6,10 @@ import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
-  ScientificStudy,
+  ScientificStudy
 } from "../io/http/Events/ScientificStudy";
 import { GetListQuery } from "../io/http/Query";
+import { propsOmit } from "../tests/arbitrary/utils.arbitrary";
 import { ResourceEndpoints } from "./types";
 
 const SingleStudyOutput = Output(ScientificStudy, "Death");
@@ -52,7 +53,10 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/scientific-studies/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: CreateScientificStudyBody,
+    Body: t.strict(
+      propsOmit(CreateScientificStudyBody, ["type"]),
+      "CreateScientificStudyBody"
+    ),
   },
   Output: SingleStudyOutput,
 });

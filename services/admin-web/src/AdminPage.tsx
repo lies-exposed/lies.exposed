@@ -14,21 +14,30 @@ import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
 import {
   ArticleCreate,
   ArticleEdit,
-  ArticleList,
+  ArticleList
 } from "./components/AdminArticles";
 import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList,
+  GroupMemberList
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { AdminKeywordResource } from "./components/AdminKeyword";
 import { AdminLinksResource } from "./components/AdminLinks";
 import { MediaCreate, MediaEdit, MediaList } from "./components/AdminMedia";
+import {
+  ScientificStudiesList,
+  ScientificStudyCreate,
+  ScientificStudyEdit
+} from "./components/AdminScientificStudies";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
-import { DeathCreate, DeathEdit, DeathList } from "./components/events/AdminDeathEvent";
+import {
+  DeathCreate,
+  DeathEdit,
+  DeathList
+} from "./components/events/AdminDeathEvent";
 import englishMessages from "./i18n/en-US";
 import "./index.css";
 
@@ -110,6 +119,12 @@ const AdminPage: React.FC = () => {
         create={DeathCreate}
       />
 
+      <Resource
+        name="scientific-studies"
+        list={ScientificStudiesList}
+        edit={ScientificStudyEdit}
+        create={ScientificStudyCreate}
+      />
       <AdminLinksResource name="links" />
       <AdminKeywordResource name="keywords" />
       <Resource
