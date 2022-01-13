@@ -1,3 +1,4 @@
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
@@ -15,17 +16,12 @@ import {
   ListProps,
   ReferenceArrayInput,
   ReferenceField,
-  ReferenceInput,
-  Resource,
-  ResourceProps,
-  SimpleForm,
+  ReferenceInput, SimpleForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
-
-const RESOURCE = "events";
 
 const ListFilter: React.FC = (props: any) => {
   return (
@@ -73,9 +69,9 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       <TextInput source="payload.title" />
       <TextInput source="payload.url" type="url" />
       <DateInput source="date" />
-      <RichTextInput source="payload.abstract" />
-      <RichTextInput source="payload.results" />
-      <RichTextInput source="payload.conclusion" />
+      <ReactPageInput source="excerpt" />
+      <ReactPageInput source="body" />
+      <RichTextInput source="payload.conclusions" />
       <ReferenceArrayActorInput source="payload.authors" />
       <ReferenceInput source="payload.publisher" reference="groups">
         <AutocompleteInput source="id" optionText="name" />
@@ -87,36 +83,22 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
 export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create a Scientific Study" {...props}>
     <SimpleForm>
-      <TextInput source="title" />
-      <TextInput source="url" type="url" />
-      <DateInput source="publishDate" />
-      <RichTextInput source="abstract" />
-      <RichTextInput source="results" />
-      <RichTextInput source="conclusion" />
+      <TextInput source="payload.title" />
+      <TextInput source="payload.url" type="url" />
+      <ReactPageInput source="excerpt" />
+      <ReactPageInput source="body" />
+      <DateInput source="date" />
+      <ReactPageInput source="payload.conclusions" />
       <ReferenceArrayInput
-        source="authors"
+        source="payload.authors"
         reference="actors"
         initialValue={[]}
       >
         <AutocompleteArrayInput source="id" optionText="fullName" />
       </ReferenceArrayInput>
-      <ReferenceInput source="publisher" reference="groups" alwaysOn>
+      <ReferenceInput source="payload.publisher" reference="groups" alwaysOn>
         <AutocompleteInput source="id" optionText="name" />
       </ReferenceInput>
     </SimpleForm>
   </Create>
 );
-
-export const AdminScientificStudiesResource: React.FC<ResourceProps> = (
-  props
-) => {
-  return (
-    <Resource
-      {...props}
-      name={RESOURCE}
-      list={ScientificStudiesList}
-      edit={ScientificStudyEdit}
-      create={ScientificStudyCreate}
-    />
-  );
-};

@@ -11,6 +11,7 @@ const ReactPageInput: React.FC<InputProps & { onlyText?: boolean }> = ({
 }) => {
   return (
     <RaReactPageInput
+      label={props.source}
       {...props}
       cellPlugins={cellPlugins}
       lang="en"

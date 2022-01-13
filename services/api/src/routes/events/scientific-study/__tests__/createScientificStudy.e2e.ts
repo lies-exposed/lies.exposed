@@ -3,7 +3,7 @@ import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { CreateScientificStudyArb } from "@econnessione/shared/tests/arbitrary/ScientificStudy.arbitrary";
 import jwt from "jsonwebtoken";
-import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -36,28 +36,31 @@ describe("Create Scientific Study", () => {
     await appTest.ctx.db.close()();
   });
 
-  test("Should create an event", async () => {
-    const scientificStudyData = fc.sample(CreateScientificStudyArb, 1)[0];
-    scientificStudyData.payload = {
-      ...scientificStudyData.payload,
-      authors: [actor.id],
-      publisher: group.id,
-    };
+  test("Should create a scientific study", async () => {
+    const scientificStudyData = fc
+      .sample(CreateScientificStudyArb, 1)
+      .map((s) => ({
+        ...s,
+        payload: {
+          ...s.payload,
+          authors: [actor.id],
+          publisher: group.id,
+        },
+      }))[0];
 
     const response = await appTest.req
-      .post(`/v1/events`)
+      .post(`/v1/scientific-studies`)
       .set("Authorization", authorizationToken)
       .send(scientificStudyData);
 
     const body = response.body.data;
     expect(response.status).toEqual(201);
 
+    const { title, ...expectedPayload } = scientificStudyData.payload;
     expect(body).toMatchObject({
       date: scientificStudyData.date.toISOString(),
       payload: {
-        ...scientificStudyData.payload,
-        publishDate: scientificStudyData.payload.publishDate.toISOString(),
-        title: scientificStudyData.payload.title,
+        ...expectedPayload,
         authors: [actor.id],
         publisher: group.id,
       },

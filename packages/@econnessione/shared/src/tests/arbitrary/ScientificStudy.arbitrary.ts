@@ -28,9 +28,6 @@ export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.Scientific
     body: {},
     payload: {
       title: tests.fc.sample(tests.fc.string(), 1)[0] as any,
-      publishDate: tests.fc.sample(
-        tests.fc.date({ min: MIN_DATE, max: MAX_DATE })
-      )[0],
       authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
       publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
       url: tests.fc.sample(URLArb, 1)[0],
