@@ -48,25 +48,31 @@ export const MediaArrayInput: React.FC<
                       if (scopedFormData?.fromURL) {
                         return (
                           <Box>
-                            <TextInput
-                              label="location"
-                              source={getSrc("location")}
-                              type={"url"}
-                              record={newFormData}
-                            />
-                            <TextInput
-                              label="description"
-                              source={getSrc("description")}
-                              record={newFormData}
-                            />
-                            <SelectInput
-                              label="type"
-                              source={getSrc("type")}
-                              choices={MediaType.types.map((v) => ({
-                                id: v.value,
-                                name: v.value,
-                              }))}
-                            />
+                            <Box>
+                              <TextInput
+                                label="location"
+                                source={getSrc("location")}
+                                type={"url"}
+                                record={newFormData}
+                              />
+                            </Box>
+                            <Box>
+                              <TextInput
+                                label="description"
+                                source={getSrc("description")}
+                                record={newFormData}
+                              />
+                            </Box>
+                            <Box>
+                              <SelectInput
+                                label="type"
+                                source={getSrc("type")}
+                                choices={MediaType.types.map((v) => ({
+                                  id: v.value,
+                                  name: v.value,
+                                }))}
+                              />
+                            </Box>
                           </Box>
                         );
                       }

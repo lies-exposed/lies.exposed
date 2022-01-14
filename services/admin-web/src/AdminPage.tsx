@@ -5,6 +5,9 @@ import GroupIcon from "@material-ui/icons/Group";
 import MapIcon from "@material-ui/icons/Map";
 import PostAddIcon from "@material-ui/icons/PostAdd";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
+import {
+  UncategorizedEventCreate
+} from "components/events/AdminUncategorizedEvent";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
@@ -14,30 +17,30 @@ import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
 import {
   ArticleCreate,
   ArticleEdit,
-  ArticleList,
+  ArticleList
 } from "./components/AdminArticles";
-import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
+import { EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList,
+  GroupMemberList
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { AdminKeywordResource } from "./components/AdminKeyword";
 import { AdminLinksResource } from "./components/AdminLinks";
 import { MediaCreate, MediaEdit, MediaList } from "./components/AdminMedia";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
-import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import {
   DeathCreate,
   DeathEdit,
-  DeathList,
+  DeathList
 } from "./components/events/AdminDeathEvent";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
-  ScientificStudyEdit,
+  ScientificStudyEdit
 } from "./components/events/AdminScientificStudyEvent";
+import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import englishMessages from "./i18n/en-US";
 import "./index.css";
 
@@ -108,7 +111,7 @@ const AdminPage: React.FC = () => {
         name="events"
         list={EventList}
         edit={EventEdit}
-        create={EventCreate}
+        create={UncategorizedEventCreate}
         icon={EventIcon}
       />
 
