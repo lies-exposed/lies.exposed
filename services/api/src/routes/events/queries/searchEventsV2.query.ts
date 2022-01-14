@@ -18,8 +18,8 @@ interface SearchEventQuery {
   groups: O.Option<string[]>;
   groupsMembers: O.Option<string[]>;
   keywords: O.Option<string[]>;
-  links: O.Option<string[]>
-  type: O.Option<string>
+  links: O.Option<string[]>;
+  type: O.Option<string>;
   skip: number;
   take: number;
 }
@@ -80,9 +80,8 @@ export const searchEventV2Query =
             q.where("event.draft = :draft", { draft: false });
 
             if (O.isSome(type)) {
-              q.andWhere('event.type = :type', { type: type.value })
+              q.andWhere("event.type = :type", { type: type.value });
             }
-
 
             let hasWhere = false;
             if (O.isSome(actors)) {
@@ -125,9 +124,9 @@ export const searchEventV2Query =
 
             if (O.isSome(links)) {
               const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
-              where('links.id IN (:...links)', {
-                links: links.value
-              })
+              where("links.id IN (:...links)", {
+                links: links.value,
+              });
             }
 
             // logger.debug.log(
@@ -172,6 +171,7 @@ export const searchEventV2Query =
         return sequenceS(TE.ApplicativePar)({
           results: db.execQuery(() =>
             searchV2Query.resultsQuery
+              .loadAllRelationIds({ relations: ["keywords", "links", "media"] })
               .skip(findOptions.skip)
               .take(findOptions.take)
               .orderBy("event.date", "DESC")

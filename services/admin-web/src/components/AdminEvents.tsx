@@ -1,6 +1,5 @@
 import * as io from "@econnessione/shared/io";
 import { http } from "@econnessione/shared/io";
-import { Media } from "@econnessione/shared/io/http";
 import { Event } from "@econnessione/shared/io/http/Events";
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
@@ -12,9 +11,7 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
-import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
@@ -44,7 +41,7 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -57,20 +54,17 @@ import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
-  transformDeathEvent,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import {
-  transformUncategorizedEvent,
   UncategorizedEventEdit,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
-import { dataProvider } from "@client/HTTPAPI";
-import { RawMedia, uploadFile } from "@client/MediaAPI";
+import { transformEvent } from "./events/utils";
 
 const RESOURCE = "events";
 
@@ -108,8 +102,7 @@ export const EventList: React.FC<ListProps> = (props) => (
     perPage={20}
   >
     <Datagrid
-      rowClick={(props, id, record) => {
-
+      rowClick={(_props, _id, record) => {
         if (record.type === ScientificStudyType.value) {
           return `scientific-studies/${record.id}`;
         }
@@ -208,90 +201,6 @@ export const EventList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const transformEvent = async (
-  id: string,
-  { newMedia = [], newLinks = [], ...data }: Record
-): Promise<Record> => {
-  // eslint-disable-next-line
-  console.log("transforming event", id, { newMedia, newLinks, ...data });
-
-  const links = pipe(
-    (newLinks as any[]).reduce((acc, ll) => {
-      if (ll.ids) {
-        return acc.concat(...ll.ids);
-      }
-      return acc.concat(ll);
-    }, []),
-    (nll) => data.links.concat(nll)
-  );
-
-  const { rawMedia, otherMedia } = (newMedia as any[]).reduce<{
-    rawMedia: RawMedia[];
-    otherMedia: any[];
-  }>(
-    (acc, m) => {
-      if (m.location?.rawFile !== undefined) {
-        return {
-          ...acc,
-          rawMedia: acc.rawMedia.concat(m),
-        };
-      }
-      return {
-        ...acc,
-        otherMedia: acc.otherMedia.concat(m),
-      };
-    },
-    {
-      rawMedia: [],
-      otherMedia: [],
-    }
-  );
-
-  // console.log({ rawMedia, otherMedia });
-
-  const mediaTask = pipe(
-    A.sequence(TE.ApplicativePar)(
-      rawMedia.map((r: any) =>
-        uploadFile(dataProvider)(
-          "media",
-          uuid(),
-          r.location.rawFile,
-          r.location.rawFile.type
-        )
-      )
-    ),
-    TE.map((urls) =>
-      pipe(
-        urls,
-        A.zip(rawMedia),
-        A.map(([location, media]) => ({
-          ...media,
-          ...location,
-          thumbnail: Media.ImageType.is(location.type)
-            ? location.location
-            : undefined,
-        })),
-        A.concat(otherMedia),
-        A.concat(data.media)
-      )
-    )
-  );
-  // eslint-disable-next-line @typescript-eslint/return-await
-  return pipe(
-    mediaTask,
-    TE.map((media) => ({
-      ...data,
-      media,
-      links,
-    }))
-  )().then((result) => {
-    if (result._tag === "Left") {
-      return Promise.reject(result.left);
-    }
-    return result.right;
-  });
-};
-
 const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
   switch (record.type) {
     case "Uncategorized":
@@ -318,18 +227,9 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
         </>
       }
       transform={(r) => {
-        const transform =
-          r.type === "Death"
-            ? transformDeathEvent
-            : r.type === "Uncategorized"
-            ? transformUncategorizedEvent
-            : (id: string, ev: any) => ev;
-
         // eslint-disable-next-line
         console.log("transform event for type", { type: r.type, event: r });
-        return pipe(transform(r.id as any, r), (rr) =>
-          transformEvent(rr.id, rr)
-        );
+        return transformEvent(r.id as any, r);
       }}
     >
       <TabbedForm redirect={false}>
@@ -450,9 +350,7 @@ export const EventCreate: React.FC<CreateProps> = (props) => (
   <Create
     title="Create a Event"
     {...props}
-    transform={(data) => {
-      return transformEvent(uuid(), data);
-    }}
+    transform={(data) => transformEvent(uuid(), data)}
   >
     <TabbedForm>
       <FormTab label="General">
