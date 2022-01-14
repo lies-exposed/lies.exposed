@@ -1,6 +1,5 @@
 import * as ScientificStudy from "@econnessione/shared/io/http/Events/ScientificStudy";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -23,7 +22,7 @@ import {
   ReferenceInput,
   SimpleForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -31,6 +30,7 @@ import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import ReferenceGroupInput from "../Common/ReferenceGroupInput";
+import URLMetadataInput from "../Common/URLMetadataInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
@@ -55,7 +55,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
       <ReferenceField source="payload.publisher" reference="groups">
         <AvatarField source="avatar" />
       </ReferenceField>
-      <DateField source="publishDate" />
+      <DateField source="date" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -100,11 +100,10 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       />
       <BooleanInput source="draft" />
       <TextInput source="payload.title" />
-      <TextInput source="payload.url" type="url" />
+      <URLMetadataInput source="payload.url" />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" />
       <ReactPageInput source="body" />
-      <RichTextInput source="payload.conclusion" />
       <ReferenceArrayActorInput source="payload.authors" />
       <ReferenceInput source="payload.publisher" reference="groups">
         <AutocompleteInput source="id" optionText="name" />
@@ -128,12 +127,11 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
         defaultValue={ScientificStudy.ScientificStudyType.value}
       />
       <BooleanInput source="draft" defaultValue={false} />
+      <URLMetadataInput source="payload.url" />
       <TextInput source="payload.title" />
-      <TextInput source="payload.url" type="url" />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" onlyText />
       <ReactPageInput source="body" />
-      <RichTextInput source="payload.conclusion" />
       <ReferenceArrayInput
         source="payload.authors"
         reference="actors"

@@ -14,13 +14,13 @@ import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
 import {
   ArticleCreate,
   ArticleEdit,
-  ArticleList,
+  ArticleList
 } from "./components/AdminArticles";
-import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
+import { EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList,
+  GroupMemberList
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { AdminKeywordResource } from "./components/AdminKeyword";
@@ -31,13 +31,16 @@ import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import {
   DeathCreate,
   DeathEdit,
-  DeathList,
+  DeathList
 } from "./components/events/AdminDeathEvent";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
-  ScientificStudyEdit,
+  ScientificStudyEdit
 } from "./components/events/AdminScientificStudyEvent";
+import {
+  UncategorizedEventCreate
+} from "./components/events/AdminUncategorizedEvent";
 import englishMessages from "./i18n/en-US";
 import "./index.css";
 
@@ -108,7 +111,7 @@ const AdminPage: React.FC = () => {
         name="events"
         list={EventList}
         edit={EventEdit}
-        create={EventCreate}
+        create={UncategorizedEventCreate}
         icon={EventIcon}
       />
 

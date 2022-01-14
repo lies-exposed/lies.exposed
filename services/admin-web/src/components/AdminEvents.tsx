@@ -3,7 +3,6 @@ import { http } from "@econnessione/shared/io";
 import { Event } from "@econnessione/shared/io/http/Events";
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
-import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
@@ -17,10 +16,7 @@ import * as React from "react";
 import {
   ArrayInput,
   AutocompleteArrayInput,
-  BooleanInput,
-  Create,
-  CreateProps,
-  Datagrid,
+  BooleanInput, Datagrid,
   DateField,
   DateInput,
   Edit,
@@ -34,14 +30,11 @@ import {
   Record,
   ReferenceArrayField,
   ReferenceArrayInput,
-  ReferenceField,
-  required,
-  SelectArrayInput,
-  SelectInput,
+  ReferenceField, SelectInput,
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -50,19 +43,18 @@ import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import {
-  UncategorizedEventEdit,
-  UncategorizedEventTitle,
+  UncategorizedEventEditTab,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -253,7 +245,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
             if (formData.type === "ScientificStudy") {
               return <EditScientificStudyEvent {...rest} />;
             }
-            return <UncategorizedEventEdit {...rest} />;
+            return <UncategorizedEventEditTab {...rest} />;
           }}
         </FormDataConsumer>
         <FormTab label="Media">
@@ -345,54 +337,3 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
     </Edit>
   );
 };
-
-export const EventCreate: React.FC<CreateProps> = (props) => (
-  <Create
-    title="Create a Event"
-    {...props}
-    transform={(data) => transformEvent(uuid(), data)}
-  >
-    <TabbedForm>
-      <FormTab label="General">
-        <TextInput source="title" validation={[required()]} />
-        {/* <MapInput source="location" type={GeometryType.POINT} /> */}
-        <DateInput
-          source="startDate"
-          validation={[required()]}
-          defaultValue={new Date()}
-        />
-        <DateInput source="endDate" />
-        <ReferenceArrayKeywordInput source="keywords" initialValue={[]} />
-      </FormTab>
-      <FormTab label="body">
-        <ReactPageInput source="excerpt" />
-        <ReactPageInput source="body2" />
-        <TextInput source="body" defaultValue="" />
-      </FormTab>
-      <FormTab label="Actors">
-        <ReferenceArrayActorInput source="actors" initialValue={[]} />
-      </FormTab>
-      <FormTab label="Group Members">
-        <ReferenceArrayGroupMemberInput
-          source="groupsMembers"
-          initialValue={[]}
-        />
-      </FormTab>
-      <FormTab label="Groups">
-        <ReferenceArrayInput
-          source="groups"
-          reference="groups"
-          initialValue={[]}
-        >
-          <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
-      </FormTab>
-      <FormTab label="Links">
-        <ReferenceArrayLinkInput source="links" initialValue={[]} />
-      </FormTab>
-      <FormTab label="Media">
-        <MediaArrayInput source="media" defaultValue={[]} />
-      </FormTab>
-    </TabbedForm>
-  </Create>
-);

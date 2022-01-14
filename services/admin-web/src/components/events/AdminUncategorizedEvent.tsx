@@ -1,14 +1,17 @@
+import { Events } from "@econnessione/shared/io/http";
 import { Uncategorized } from "@econnessione/shared/io/http/Events";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import {
   MapInput,
-  MapInputType,
+  MapInputType
 } from "@econnessione/ui/components/admin/MapInput";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as React from "react";
 import {
+  BooleanInput,
   Create,
   CreateProps,
   Datagrid,
@@ -21,13 +24,9 @@ import {
   List,
   ListProps,
   Record,
-  ReferenceArrayField,
-  ReferenceArrayInput,
-  required,
-  SelectArrayInput,
-  TabbedForm,
+  ReferenceArrayField, required, TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -36,7 +35,6 @@ import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
-import RichTextInput from "../Common/RichTextInput";
 import { transformEvent } from "./utils";
 
 const RESOURCE = "events";
@@ -121,11 +119,16 @@ export const UncategorizedEventTitle: React.FC<{
   return <span>Event: {record.payload.title}</span>;
 };
 
-export const UncategorizedEventEdit: React.FC<EditProps> = (
+export const UncategorizedEventEditTab: React.FC<EditProps> = (
   props: EditProps
 ) => {
   return (
     <FormTab label="Payload" {...props}>
+      <TextInput
+        source="type"
+        defaultValue={Events.Uncategorized.UncategorizedType.value}
+        hidden={true}
+      />
       <TextInput source="payload.title" />
       <DateInput source="payload.endDate" />
       <MapInput
@@ -173,43 +176,63 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => (
   >
     <TabbedForm>
       <FormTab label="General">
-        <TextInput source="title" validation={[required()]} />
-        <MapInput source="location" type={MapInputType.POINT} />
+        <BooleanInput source="draft" defaultValue={false} />
+        <TextInput
+          source="type"
+          defaultValue={Events.Uncategorized.UncategorizedType.value}
+          hidden={true}
+        />
+        <TextInput source="payload.title" validation={[required()]} />
+        <MapInput source="payload.location" type={MapInputType.POINT} />
         <DateInput
-          source="startDate"
+          source="date"
           validation={[required()]}
           defaultValue={new Date()}
         />
-        <DateInput source="endDate" />
-        <ReferenceArrayKeywordInput source="keywords" initialValue={[]} />
+        <DateInput source="payload.endDate" />
+        <ReactPageInput source="excerpt" onlyText />
+        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
       </FormTab>
       <FormTab label="body">
-        <RichTextInput source="excerpt" defaultValue="" />
-        <TextInput source="body" defaultValue="" />
-      </FormTab>
-      <FormTab label="Actors">
-        <ReferenceArrayActorInput source="actors" initialValue={[]} />
-      </FormTab>
-      <FormTab label="Group Members">
+        <ReactPageInput source="body" />
+        <ReferenceArrayActorInput source="payload.actors" defaultValue={[]} />
+        <ReferenceArrayField source="payload.actors" reference="actors">
+          <Datagrid rowClick="edit">
+            <TextField source="id" />
+            <TextField source="fullName" />
+            <AvatarField source="avatar" />
+          </Datagrid>
+        </ReferenceArrayField>
         <ReferenceArrayGroupMemberInput
-          source="groupsMembers"
-          initialValue={[]}
+          source="payload.groupsMembers"
+          defaultValue={[]}
         />
-      </FormTab>
-      <FormTab label="Groups">
-        <ReferenceArrayInput
-          source="groups"
-          reference="groups"
-          initialValue={[]}
+        <ReferenceArrayField
+          source="payload.groupsMembers"
+          reference="groups-members"
         >
-          <SelectArrayInput optionText="name" />
-        </ReferenceArrayInput>
+          <Datagrid rowClick="edit">
+            <AvatarField source="actor.avatar" />
+            <AvatarField source="group.avatar" />
+            <DateField source="startDate" />
+            <DateField source="endDate" />
+          </Datagrid>
+        </ReferenceArrayField>
+
+        <ReferenceArrayGroupInput source="payload.groups" defaultValue={[]} />
+        <ReferenceArrayField reference="groups" source="payload.groups">
+          <Datagrid rowClick="edit">
+            <TextField source="name" />
+            <AvatarField source="avatar" fullWidth={false} />
+          </Datagrid>
+        </ReferenceArrayField>
       </FormTab>
+
       <FormTab label="Links">
-        <ReferenceArrayLinkInput source="links" initialValue={[]} />
+        <ReferenceArrayLinkInput source="links" defaultValue={[]} />
       </FormTab>
       <FormTab label="Media">
-        <MediaArrayInput source="media" defaultValue={[]} />
+        <MediaArrayInput source="newMedia" defaultValue={[]} />
       </FormTab>
     </TabbedForm>
   </Create>

@@ -1,6 +1,7 @@
 import { GetEndpointSubscriber } from "ts-endpoint-express";
 import { IOError } from "ts-io-error/lib";
 import * as GroupMember from "./GroupMember.endpoints";
+import * as OpenGraph from "./OpenGraph.endpoints";
 import * as ProjectImage from "./ProjectImage.endpoints";
 import * as User from "./User.endpoints";
 import * as Actor from "./actor.endpoints";
@@ -28,6 +29,7 @@ const Endpoints = {
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,
   Media: Media.media,
+  OpenGraph: OpenGraph.openGraphs,
   Keyword: Keyword.keywords,
   Link: Link.links,
   Page: Page.pages,

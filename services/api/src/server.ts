@@ -31,6 +31,7 @@ import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { MakeKeywordRoutes } from "@routes/keywords/keywords.routes";
 import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakeMediaRoutes } from "@routes/media/media.routes";
+import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
@@ -168,6 +169,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // graphs data
   MakeGraphsRoute(router, ctx);
+
+  // open graphs
+  MakeOpenGraphRoutes(router, ctx);
 
   MakeUploadsRoutes(router, ctx);
   // errors
