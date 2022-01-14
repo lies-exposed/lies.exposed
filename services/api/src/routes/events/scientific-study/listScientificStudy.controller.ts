@@ -31,7 +31,11 @@ export const MakeListScientificStudyRoute: Route = (
         TE.chain(({ results, totals: { scientificStudies } }) =>
           pipe(
             A.sequence(TE.ApplicativeSeq)(
-              results.map((r) => TE.fromEither(toEventV2IO(r)))
+              results.map((r) =>
+                TE.fromEither(
+                  toEventV2IO({ ...r, keywords: r.keywords.map((k) => k.id) as any })
+                )
+              )
             ),
             TE.map((data) => ({ data, total: scientificStudies }))
           )
