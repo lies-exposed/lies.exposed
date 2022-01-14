@@ -1,5 +1,4 @@
 import { Actor, Events, Keyword } from "@econnessione/shared/io/http";
-import { distanceFromNow } from "@econnessione/shared/utils/date";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
@@ -46,8 +45,7 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
       <Grid container spacing={2}>
         <Grid item md={12} sm={12} lg={12}>
           <Typography variant="h6">
-            {victim?.fullName ?? item.payload.victim} died on{" "}
-            {distanceFromNow(item.date)}
+            Death: {victim?.fullName ?? item.payload.victim}
           </Typography>
           <Grid item md={3}>
             {pipe(

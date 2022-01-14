@@ -206,8 +206,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             style={{
               height: "100%",
               width: "100%",
-              maxWidth: 300,
               position: "relative",
+              margin: 0,
             }}
           >
             {pipe(
@@ -227,7 +227,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                   slidesToScroll={1}
                   slides={media}
                   style={{
-                    maxWidth: 300,
+                    margin: 0,
+                    width: '100%',
                   }}
                 />
               )),

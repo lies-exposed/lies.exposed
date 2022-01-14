@@ -113,7 +113,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="payload.location" type={MapInputType.POINT} />
       </FormTab>
       <FormTab label="Media">
-        <MediaArrayInput source="media" defaultValue={[]} fullWidth />
+        <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
       </FormTab>
       <FormTab label="Links">
         <ReferenceArrayLinkInput source="links" />
@@ -144,7 +144,7 @@ export const DeathCreate: React.FC<CreateProps> = (props) => (
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
       <MediaArrayInput
         label="media"
-        source="media"
+        source="newMedia"
         fullWidth={true}
         defaultValue={[]}
       />
