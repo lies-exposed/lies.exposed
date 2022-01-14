@@ -99,7 +99,7 @@ const renderRow = (props: {
         </TimelineDot>
         {last ? <TimelineConnector /> : null}
       </TimelineSeparator>
-      <TimelineContent style={{ maxWidth: "100%" }}>
+      <TimelineContent style={{ maxWidth: "100%", paddingBottom: 20  }}>
         <EventListItem
           event={e}
           actors={eventActors}

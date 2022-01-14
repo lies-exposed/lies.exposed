@@ -7,7 +7,7 @@ import { DeathType } from "./Death";
 import { ScientificStudyType } from "./ScientificStudy";
 import { UncategorizedType } from "./Uncategorized";
 
-export const SearchEventsQuery = t.type(
+export const SearchEventsQuery = t.strict(
   {
     ...GetListQuery.props,
     type: optionFromNullable(

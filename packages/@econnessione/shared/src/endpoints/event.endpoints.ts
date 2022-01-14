@@ -10,7 +10,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => `/events`,
   Input: {
-    Query: SearchEventsQuery,
+    Query: SearchEventsQuery.type,
   },
   Output: t.strict(
     {

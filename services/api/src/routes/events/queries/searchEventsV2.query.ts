@@ -1,13 +1,14 @@
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
-import { In } from "typeorm";
-import { RouteContext } from "../../route.types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { DBError } from "@providers/orm/Database";
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/lib/Option";
+import * as R from "fp-ts/lib/Record";
+import * as TE from "fp-ts/lib/TaskEither";
+import { In } from "typeorm";
+import { RouteContext } from "../../route.types";
 
 // const toPGArray = (els: string[]): string[] => {
 //   return els.map((el) => `'${el}'`);
@@ -22,6 +23,7 @@ interface SearchEventQuery {
   type: O.Option<string>;
   skip: number;
   take: number;
+  order?: { [key: string]: "ASC" | "DESC" } | undefined;
 }
 
 interface SearchEventOutput {
@@ -42,7 +44,9 @@ export const searchEventV2Query =
     keywords,
     links,
     type,
-    ...findOptions
+    order,
+    skip,
+    take,
   }: SearchEventQuery): TE.TaskEither<DBError, SearchEventOutput> => {
     const groupsMembersQuery = pipe(
       O.isSome(actors)
@@ -63,12 +67,17 @@ export const searchEventV2Query =
     return pipe(
       groupsMembersQuery,
       TE.chain((groupsMembers) => {
-        logger.debug.log(`Find options %O`, {
-          actors,
-          groups,
-          groupsMembers,
-          ...findOptions,
-        });
+        logger.debug.log(
+          `Find options for event (type: %O) %O`,
+          O.toUndefined(type),
+          {
+            actors,
+            groups,
+            groupsMembers,
+            keywords,
+            links,
+          }
+        );
 
         const searchV2Query = pipe(
           db.manager
@@ -129,6 +138,15 @@ export const searchEventV2Query =
               });
             }
 
+            if (order !== undefined) {
+              pipe(
+                order,
+                R.mapWithIndex((key, value) => {
+                  q.addOrderBy(key, value);
+                })
+              );
+            }
+
             // logger.debug.log(
             //   `Search event v2 query %s with params %O`,
             //   ...q.getQueryAndParameters()
@@ -172,8 +190,8 @@ export const searchEventV2Query =
           results: db.execQuery(() =>
             searchV2Query.resultsQuery
               .loadAllRelationIds({ relations: ["keywords", "links", "media"] })
-              .skip(findOptions.skip)
-              .take(findOptions.take)
+              .skip(skip)
+              .take(take)
               .orderBy("event.date", "DESC")
               .getMany()
           ),
