@@ -36,12 +36,11 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
-import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";

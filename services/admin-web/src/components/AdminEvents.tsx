@@ -2,6 +2,8 @@ import * as io from "@econnessione/shared/io";
 import { http } from "@econnessione/shared/io";
 import { Media } from "@econnessione/shared/io/http";
 import { Event } from "@econnessione/shared/io/http/Events";
+import { DeathType } from "@econnessione/shared/io/http/Events/Death";
+import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
@@ -35,13 +37,13 @@ import {
   Record,
   ReferenceArrayField,
   ReferenceArrayInput,
+  ReferenceField,
   required,
   SelectArrayInput,
   SelectInput,
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  ReferenceField,
   TextInput,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
@@ -105,7 +107,18 @@ export const EventList: React.FC<ListProps> = (props) => (
     filters={<EventsFilter />}
     perPage={20}
   >
-    <Datagrid rowClick="edit">
+    <Datagrid
+      rowClick={(props, id, record) => {
+
+        if (record.type === ScientificStudyType.value) {
+          return `scientific-studies/${record.id}`;
+        }
+        if (record.type === DeathType.value) {
+          return `deaths/${record.id}`;
+        }
+        return `events/${record.id}`;
+      }}
+    >
       <FunctionField
         label="type"
         render={(r: any) => {
@@ -114,8 +127,7 @@ export const EventList: React.FC<ListProps> = (props) => (
               <EventIcon color="primary" type={r.type} />
               <Typography display="inline" variant="subtitle1">
                 {r.type}
-              </Typography>
-              {" "}
+              </Typography>{" "}
               {[
                 io.http.Events.Uncategorized.UncategorizedType.value,
                 io.http.Events.ScientificStudy.ScientificStudyType.value,
