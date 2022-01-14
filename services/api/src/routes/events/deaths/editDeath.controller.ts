@@ -1,34 +1,38 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
+import { editEventQuery } from "../queries/editEvent.query";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { foldOptionals } from "@utils/foldOptionals.utils";
 
-export const MakeEditDeathEventRoute: Route = (r, { db }) => {
+export const MakeEditDeathEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.DeathEvent.Edit,
-    ({ params: { id }, body: { payload, ...body } }) => {
-      const updateData = foldOptionals({ ...body });
-      const updatePayloadData = foldOptionals({ ...payload });
-
+    ({
+      params: { id },
+      body: { payload, media, keywords, links, ...body },
+    }) => {
       return pipe(
-        db.findOneOrFail(EventV2Entity, { where: { id } }),
+        ctx.db.findOneOrFail(EventV2Entity, { where: { id } }),
         TE.chain((event) =>
-          db.save(EventV2Entity, [
-            {
-              ...event,
-              ...updateData,
-              payload: {
-                ...event.payload,
-                ...updatePayloadData,
-              },
-            },
-          ])
+          editEventQuery(ctx)(event, {
+            ...body,
+            type: "Death",
+            payload,
+            date: O.some(body.date),
+            draft: O.some(body.draft),
+            body: O.fromNullable(body.body),
+            excerpt: O.fromNullable(body.excerpt),
+            media: O.some(media),
+            keywords: O.some(keywords),
+            links: O.some(links),
+          })
         ),
+        TE.chain((event) => ctx.db.save(EventV2Entity, [event])),
         TE.chain(([event]) =>
-          db.findOneOrFail(EventV2Entity, {
+          ctx.db.findOneOrFail(EventV2Entity, {
             where: { id: event.id },
             loadRelationIds: true,
           })

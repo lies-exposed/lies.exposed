@@ -3,12 +3,10 @@ import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeL
 import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
 import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
-import {
-  ActorList
-} from "@econnessione/ui/components/lists/ActorList";
+import { ActorList } from "@econnessione/ui/components/lists/ActorList";
 import {
   pageContentByPath,
-  Queries
+  Queries,
 } from "@econnessione/ui/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

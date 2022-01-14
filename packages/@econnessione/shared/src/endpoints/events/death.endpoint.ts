@@ -1,9 +1,6 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
-import { Point } from "../../io/http/Common";
 import { ListOutput, Output } from "../../io/http/Common/Output";
 import { propsOmit } from "../../tests/arbitrary/utils.arbitrary";
 import { ResourceEndpoints } from "../types";
@@ -47,14 +44,10 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/deaths/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: t.strict({
-      excerpt: optionFromNullable(t.UnknownRecord),
-      body: optionFromNullable(t.UnknownRecord),
-      payload: t.strict({
-        victim: optionFromNullable(UUID),
-        location: optionFromNullable(Point),
-      }),
-    }),
+    Body: t.strict(
+      propsOmit(Events.Death.CreateDeathBody, ["type"]),
+      "CreateDeathBody"
+    ),
   },
   Output: SingleDeathOutput,
 });

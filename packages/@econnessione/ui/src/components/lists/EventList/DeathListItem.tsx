@@ -1,5 +1,5 @@
 import { Actor, Events, Keyword } from "@econnessione/shared/io/http";
-import {distanceFromNow} from '@econnessione/shared/utils/date'
+import { distanceFromNow } from "@econnessione/shared/utils/date";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
@@ -65,13 +65,13 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
             onItemClick={(k) => onKeywordClick?.(k)}
           />
         </Grid>
-        <Grid item md={9} sm={12}>
+        <Grid item lg={8} md={8} sm={12}>
           <Editor value={item.excerpt as any} readOnly />
         </Grid>
         <Grid
           item
-          md={3}
-          lg={3}
+          md={4}
+          lg={4}
           style={{ display: "flex", justifyContent: "center" }}
           onClick={() => onActorClick?.(victim)}
         >

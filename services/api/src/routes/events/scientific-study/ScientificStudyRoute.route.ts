@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { MakeCreateScientificStudyRoute } from "./createScientificStudy.controller";
+import { MakeDeleteScientificStudyRoute } from "./deleteScientificStudy.controller";
 import { MakeEditScientificStudyRoute } from "./editScientificStudy.controller";
 import { MakeGetScientificStudyRoute } from "./getScientificStudy.controller";
 import { MakeListScientificStudyRoute } from "./listScientificStudy.controller";
@@ -13,4 +14,5 @@ export const MakeScientificStudyRoutes = (
   MakeEditScientificStudyRoute(router, ctx);
   MakeListScientificStudyRoute(router, ctx);
   MakeGetScientificStudyRoute(router, ctx);
+  MakeDeleteScientificStudyRoute(router, ctx);
 };

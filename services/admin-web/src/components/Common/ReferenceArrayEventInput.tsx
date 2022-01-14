@@ -2,7 +2,7 @@ import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  ReferenceArrayInputProps
+  ReferenceArrayInputProps,
 } from "ra-ui-materialui";
 import React from "react";
 

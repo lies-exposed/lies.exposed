@@ -5,7 +5,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { Avatar } from "./Common/Avatar";
 import EditButton from "./Common/Button/EditButton";
-import { MarkdownRenderer } from "./Common/MarkdownRenderer";
+import Editor from "./Common/Editor";
 import GroupList from "./lists/GroupList";
 
 export interface ActorPageContentProps {
@@ -15,7 +15,7 @@ export interface ActorPageContentProps {
 }
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
-  actor: { body, ...frontmatter },
+  actor,
   groups,
   onGroupClick,
 }) => {
@@ -24,7 +24,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
       <Grid container direction="row" alignItems="center">
         <Grid item md={3}>
           {pipe(
-            O.fromNullable(frontmatter.avatar),
+            O.fromNullable(actor.avatar),
             O.fold(
               () => <div />,
               (src) => <Avatar size="xlarge" src={src} />
@@ -32,11 +32,14 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           )}
         </Grid>
         <Grid item md={9}>
-          <Typography variant="h2">{frontmatter.fullName}</Typography>
+          <Typography variant="h2">{actor.fullName}</Typography>
           <div style={{ textAlign: "right", padding: 10 }}>
-            <EditButton resourceName="actors" resource={frontmatter} />
+            <EditButton resourceName="actors" resource={actor} />
           </div>
-          <MarkdownRenderer>{body}</MarkdownRenderer>
+          {actor.excerpt ? (
+            <Editor value={actor.excerpt as any} readOnly />
+          ) : null}
+          {actor.body ? <Editor value={actor.body as any} readOnly /> : null}
         </Grid>
       </Grid>
       <Grid container>

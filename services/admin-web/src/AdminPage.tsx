@@ -14,30 +14,30 @@ import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
 import {
   ArticleCreate,
   ArticleEdit,
-  ArticleList
+  ArticleList,
 } from "./components/AdminArticles";
 import { EventCreate, EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList
+  GroupMemberList,
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { AdminKeywordResource } from "./components/AdminKeyword";
 import { AdminLinksResource } from "./components/AdminLinks";
 import { MediaCreate, MediaEdit, MediaList } from "./components/AdminMedia";
-import {
-  ScientificStudiesList,
-  ScientificStudyCreate,
-  ScientificStudyEdit
-} from "./components/AdminScientificStudies";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import {
   DeathCreate,
   DeathEdit,
-  DeathList
+  DeathList,
 } from "./components/events/AdminDeathEvent";
+import {
+  ScientificStudiesList,
+  ScientificStudyCreate,
+  ScientificStudyEdit,
+} from "./components/events/AdminScientificStudyEvent";
 import englishMessages from "./i18n/en-US";
 import "./index.css";
 

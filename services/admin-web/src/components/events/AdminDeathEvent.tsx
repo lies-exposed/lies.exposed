@@ -1,14 +1,12 @@
 import { Death } from "@econnessione/shared/io/http/Events";
+import { uuid } from "@econnessione/shared/utils/uuid";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
-// import GeometryType from "ol/geom/GeometryType";
 import {
   MapInput,
   MapInputType
 } from "@econnessione/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
-  ArrayField,
-  ArrayInput,
   AutocompleteInput,
   BooleanInput,
   Create,
@@ -20,16 +18,12 @@ import {
   EditProps,
   Filter,
   FormTab,
-  ImageField,
-  ImageInput,
   List,
   ListProps,
-  Record,
   ReferenceField,
   ReferenceInput,
   SelectInput,
   SimpleForm,
-  SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput
@@ -39,6 +33,8 @@ import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
+import { WebPreviewButton } from "../Common/WebPreviewButton";
+import { transformEvent } from "./utils";
 
 const DeathEventsFilter: React.FC = (props: any) => {
   return (
@@ -74,20 +70,6 @@ export const DeathEventTitle: React.FC<{ record: Death.Death }> = ({
   );
 };
 
-export const transformDeathEvent = (id: string, data: Record): Record => {
-  // eslint-disable-next-line no-console
-  console.log("trasform death event", data);
-
-  return {
-    ...data,
-    id,
-    payload: {
-      ...data.payload,
-      victim: data.payload.victim,
-    },
-  };
-};
-
 export const DeathEventEditFormTab: React.FC<EditProps> = (
   props: EditProps
 ) => (
@@ -100,16 +82,11 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<DeathEventTitle {...(props as any)} />}
     {...props}
-    transform={(r) => {
-      return {
-        ...r,
-        location: r.location ? JSON.parse(r.location) : undefined,
-        victim: r.victim?.id,
-      };
-    }}
+    transform={(r) => transformEvent(r.id as any, r)}
   >
     <TabbedForm>
       <FormTab label="Generals">
+        <WebPreviewButton resource="/dashboard/events" source="id" />
         <ReferenceInput
           source="payload.victim"
           reference="actors"
@@ -136,30 +113,10 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="payload.location" type={MapInputType.POINT} />
       </FormTab>
       <FormTab label="Media">
-        <ArrayInput source="newImages">
-          <SimpleFormIterator>
-            <ImageInput source="location">
-              <ImageField src="src" />
-            </ImageInput>
-          </SimpleFormIterator>
-        </ArrayInput>
-
-        <ArrayField source="media">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <ImageField source="location" fullWidth={false} />
-            <TextField source="description" />
-          </Datagrid>
-        </ArrayField>
+        <MediaArrayInput source="media" defaultValue={[]} fullWidth />
       </FormTab>
       <FormTab label="Links">
-        <ArrayField source="links">
-          <Datagrid resource="links" rowClick="edit">
-            <TextField source="id" />
-            <TextField source="url" />
-            <TextField source="description" />
-          </Datagrid>
-        </ArrayField>
+        <ReferenceArrayLinkInput source="links" />
       </FormTab>
     </TabbedForm>
   </Edit>
@@ -169,10 +126,7 @@ export const DeathCreate: React.FC<CreateProps> = (props) => (
   <Create
     title="Create a Death Event"
     {...props}
-    transform={(data) => transformDeathEvent("", {
-      ...data,
-      media: []
-    })}
+    transform={(data) => transformEvent(uuid(), data)}
   >
     <SimpleForm>
       <BooleanInput source="draft" defaultValue={false} />

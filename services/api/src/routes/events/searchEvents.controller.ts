@@ -49,14 +49,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
       TE.chain(({ results, totals }) =>
         pipe(
           results,
-          A.map((e) =>
-            toEventV2IO({
-              ...e,
-              links: e.links.map((l) => l.id as any),
-              keywords: e.keywords.map((k) => k.id) as any[],
-              media: e.media.map((m) => m.id) as any[],
-            })
-          ),
+          A.map((e) => toEventV2IO(e)),
           A.sequence(E.Applicative),
           E.map((data) => ({ data, totals })),
           TE.fromEither

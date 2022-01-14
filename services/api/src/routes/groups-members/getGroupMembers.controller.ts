@@ -22,13 +22,16 @@ export const MakeListGroupMemberRoute = (
         ctx.env.DEFAULT_PAGE_SIZE
       );
 
-      ctx.logger.debug.log(`Get groups members with find Options %O`, findOptions);
+      ctx.logger.debug.log(
+        `Get groups members with find Options %O`,
+        findOptions
+      );
 
       const listGroupsMembersTE = pipe(
         ctx.db.manager
           .createQueryBuilder(GroupMemberEntity, "groupsMembers")
           .leftJoinAndSelect("groupsMembers.actor", "actor"),
-          // .leftJoinAndSelect("groupsMembers.events", "events"),
+        // .leftJoinAndSelect("groupsMembers.events", "events"),
         (q) => {
           if (O.isSome(query.group)) {
             return q.innerJoinAndSelect(

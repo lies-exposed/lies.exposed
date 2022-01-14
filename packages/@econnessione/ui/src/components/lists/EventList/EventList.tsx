@@ -1,7 +1,7 @@
 import { eventDate } from "@econnessione/shared/helpers/event";
 import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
-import {distanceFromNow} from '@econnessione/shared/utils/date'
+import { distanceFromNow } from "@econnessione/shared/utils/date";
 import {
   Grid,
   List,

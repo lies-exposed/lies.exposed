@@ -19,7 +19,7 @@ export const MakeGetListDeathEventRoute: Route = (r, { db, logger, env }) => {
         db.manager
           .createQueryBuilder(EventV2Entity, "death")
           .loadAllRelationIds({
-            relations: ["links", "media", 'keywords'],
+            relations: ["links", "media", "keywords"],
           })
           .where("type = :type", { type: "Death" }),
         (q) => {

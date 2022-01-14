@@ -28,9 +28,7 @@ export const MakeEditEventRoute = (r: Router, ctx: RouteContext): void => {
       ),
       TE.chainEitherK(toEventV2IO),
       TE.map((event) => ({
-        body: {
-          data: event,
-        },
+        body: { data: event },
         statusCode: 200,
       }))
     );

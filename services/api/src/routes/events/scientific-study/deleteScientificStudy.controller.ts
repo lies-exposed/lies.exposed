@@ -4,15 +4,15 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { Route } from "@routes/route.types";
 
-export const MakeDeleteEventRoute: Route = (r, { db, logger, urlMetadata }) => {
-  AddEndpoint(r)(Endpoints.Event.Delete, ({ params: { id } }) => {
+export const MakeDeleteScientificStudyRoute: Route = (r, { db }) => {
+  AddEndpoint(r)(Endpoints.ScientificStudy.Delete, ({ params: { id } }) => {
     return pipe(
       db.softDelete(EventV2Entity, id),
-      TE.map((data) => ({
+      TE.map(() => ({
         body: {
           data: true,
         },
-        statusCode: 200,
+        statusCode: 201,
       }))
     );
   });

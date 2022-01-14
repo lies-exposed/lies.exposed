@@ -191,18 +191,30 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                     <Grid item md={6} sm={6} style={{ marginBottom: 40 }}>
                       <Typography variant="caption" display="inline">
                         Nº Events:{" "}
-                        <Typography display="inline" variant="subtitle1" color="primary">
+                        <Typography
+                          display="inline"
+                          variant="subtitle1"
+                          color="primary"
+                        >
                           {totalEvents}
                         </Typography>{" "}
                         dal{" "}
                         {filters.startDate ? (
-                          <Typography display="inline" variant="subtitle1" color="secondary">
+                          <Typography
+                            display="inline"
+                            variant="subtitle1"
+                            color="secondary"
+                          >
                             {formatDate(new Date(filters.startDate))}
                           </Typography>
-                        ) : null}
-                        {" "}al{" "}
+                        ) : null}{" "}
+                        al{" "}
                         {filters.endDate ? (
-                          <Typography display="inline" variant="subtitle1" color="secondary">
+                          <Typography
+                            display="inline"
+                            variant="subtitle1"
+                            color="secondary"
+                          >
                             {formatDate(new Date(filters.endDate))}
                           </Typography>
                         ) : null}
