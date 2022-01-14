@@ -7,8 +7,8 @@ import { eventsPaginated, InfiniteEventListParams } from "./queries";
 export const resetInfiniteList: (
   input: InfiniteEventListParams,
   ia: {} & { eventsPaginated: InfiniteEventListParams }
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-) => TE.TaskEither<APIError| void, void> = command(
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+) => TE.TaskEither<APIError | void, void> = command(
   (filters: InfiniteEventListParams) => {
     return doUpdateCurrentView({ view: "events", ...filters });
   },

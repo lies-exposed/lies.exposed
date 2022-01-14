@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToMany, OneToMany,
+  Entity,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
 import { ScientificStudyEntity } from "./ScientificStudy.entity";
@@ -37,7 +39,9 @@ export class GroupEntity {
   })
   members: GroupMemberEntity[];
 
-  @ManyToMany(() => UncategorizedEventEntity, e => e.groups, { cascade: false })
+  @ManyToMany(() => UncategorizedEventEntity, (e) => e.groups, {
+    cascade: false,
+  })
   events: UncategorizedEventEntity[];
 
   @OneToMany(() => ScientificStudyEntity, (a) => a.publisher, {

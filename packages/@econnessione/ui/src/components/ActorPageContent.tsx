@@ -36,7 +36,9 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           <div style={{ textAlign: "right", padding: 10 }}>
             <EditButton resourceName="actors" resource={actor} />
           </div>
-          {actor.excerpt ? <Editor value={actor.excerpt as any} readOnly /> : null}
+          {actor.excerpt ? (
+            <Editor value={actor.excerpt as any} readOnly />
+          ) : null}
           {actor.body ? <Editor value={actor.body as any} readOnly /> : null}
         </Grid>
       </Grid>

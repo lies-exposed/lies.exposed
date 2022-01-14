@@ -1,15 +1,12 @@
 import { Death } from "@econnessione/shared/io/http/Events";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
-// import GeometryType from "ol/geom/GeometryType";
 import {
   MapInput,
   MapInputType
 } from "@econnessione/ui/src/components/admin/MapInput";
-import { WebPreviewButton } from "components/Common/WebPreviewButton";
 import * as React from "react";
 import {
-  ArrayField,
   AutocompleteInput,
   BooleanInput,
   Create,
@@ -21,9 +18,9 @@ import {
   EditProps,
   Filter,
   FormTab,
-  ImageField,
   List,
-  ListProps, ReferenceField,
+  ListProps,
+  ReferenceField,
   ReferenceInput,
   SelectInput,
   SimpleForm,
@@ -36,6 +33,7 @@ import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
+import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
 const DeathEventsFilter: React.FC = (props: any) => {
@@ -118,7 +116,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         <MediaArrayInput source="media" defaultValue={[]} fullWidth />
       </FormTab>
       <FormTab label="Links">
-        <ReferenceArrayLinkInput  source="links" />
+        <ReferenceArrayLinkInput source="links" />
       </FormTab>
     </TabbedForm>
   </Edit>

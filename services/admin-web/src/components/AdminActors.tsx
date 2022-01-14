@@ -12,13 +12,16 @@ import {
   AutocompleteInput,
   Create,
   CreateProps,
-  Datagrid, DateField,
+  Datagrid,
+  DateField,
   DateInput,
   Edit,
   EditProps,
   Filter,
   FormDataConsumer,
-  FormTab, FunctionField, ImageField,
+  FormTab,
+  FunctionField,
+  ImageField,
   ImageInput,
   List,
   ListProps,
@@ -30,7 +33,7 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
@@ -153,7 +156,12 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
         </ReferenceArrayField>
       </FormTab>
       <FormTab label="Events">
-        <ReferenceManyField label="Events" source="id" target="actors[]" reference="events">
+        <ReferenceManyField
+          label="Events"
+          source="id"
+          target="actors[]"
+          reference="events"
+        >
           <Datagrid>
             <TextField source="id" />
             <TextField source="title" />

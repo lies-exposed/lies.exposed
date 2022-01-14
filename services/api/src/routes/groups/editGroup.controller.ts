@@ -39,8 +39,8 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
         ctx.db.findOneOrFail(GroupEntity, {
           where: { id },
           loadRelationIds: {
-            relations: ['members']
-          }
+            relations: ["members"],
+          },
         })
       ),
       ctx.logger.debug.logInTaskEither("Updated group %O"),

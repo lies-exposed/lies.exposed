@@ -13,7 +13,7 @@ const ReactPageInput: React.FC<InputProps & { onlyText?: boolean }> = ({
     <RaReactPageInput
       label={props.source}
       {...props}
-      cellPlugins={onlyText ? minimalCellPlugins : cellPlugins }
+      cellPlugins={onlyText ? minimalCellPlugins : cellPlugins}
       lang="en"
     />
   );

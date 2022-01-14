@@ -6,7 +6,7 @@ import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
-  ScientificStudy
+  ScientificStudy,
 } from "../io/http/Events/ScientificStudy";
 import { GetListQuery } from "../io/http/Query";
 import { propsOmit } from "../tests/arbitrary/utils.arbitrary";

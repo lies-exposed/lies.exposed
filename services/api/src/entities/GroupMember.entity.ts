@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToMany, ManyToOne,
+  Entity,
+  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -15,7 +17,7 @@ export class GroupMemberEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: "timestamptz", nullable: true, default: 'now()' })
+  @Column({ type: "timestamptz", nullable: true, default: "now()" })
   startDate: Date;
 
   @Column({ type: "timestamptz", nullable: true })

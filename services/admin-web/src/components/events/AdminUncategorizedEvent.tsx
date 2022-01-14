@@ -1,11 +1,11 @@
 import { Uncategorized } from "@econnessione/shared/io/http/Events";
 import { uuid } from "@econnessione/shared/utils/uuid";
+import Editor from "@econnessione/ui/components/Common/Editor";
+import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import {
   MapInput,
   MapInputType,
 } from "@econnessione/ui/components/admin/MapInput";
-import Editor from "@econnessione/ui/components/Common/Editor";
-import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as React from "react";
 import {

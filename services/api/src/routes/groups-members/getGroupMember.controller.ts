@@ -13,8 +13,8 @@ export const MakeGetGroupMemberRoute = (r: Router, ctx: RouteContext): void => {
         where: { id },
         relations: ["actor", "group"],
         loadRelationIds: {
-          relations: []
-        }
+          relations: [],
+        },
       }),
       TE.chainEitherK(toGroupMemberIO),
       TE.map((data) => ({

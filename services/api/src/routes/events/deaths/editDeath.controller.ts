@@ -1,11 +1,11 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { editEventQuery } from "../queries/editEvent.query";
+import { EventV2Entity } from "@entities/Event.v2.entity";
 
 export const MakeEditDeathEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

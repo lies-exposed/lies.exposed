@@ -10,11 +10,11 @@ import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 
 describe("List Project Images", () => {
   let appTest: AppTest;
-    const media = fc.sample(MediaArb, 5);
-    const [projectData] = fc.sample(ProjectArb, 1);
-    let projects: ProjectEntity[];
-    let projectImages: ProjectImageEntity[];
-    let authorizationToken: string;
+  const media = fc.sample(MediaArb, 5);
+  const [projectData] = fc.sample(ProjectArb, 1);
+  let projects: ProjectEntity[];
+  let projectImages: ProjectImageEntity[];
+  let authorizationToken: string;
 
   beforeAll(async () => {
     appTest = await initAppTest();

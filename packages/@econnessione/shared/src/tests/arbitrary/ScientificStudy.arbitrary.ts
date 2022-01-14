@@ -7,21 +7,12 @@ import { propsOmit } from "./utils.arbitrary";
 
 const createScientificStudyProps = propsOmit(
   http.Events.ScientificStudy.CreateScientificStudyBody,
-  [
-    "excerpt",
-    "body",
-    "date",
-    "draft",
-    "payload",
-    "media",
-    "links",
-    "keywords",
-  ]
+  ["excerpt", "body", "date", "draft", "payload", "media", "links", "keywords"]
 );
 
 export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.CreateScientificStudyBody> =
   tests.getArbitrary(t.strict(createScientificStudyProps)).map((body) => ({
-    type: 'ScientificStudy',
+    type: "ScientificStudy",
     draft: false,
     date: tests.fc.sample(DateArb, 1)[0],
     excerpt: {},

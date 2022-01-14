@@ -16,8 +16,8 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
         actor: ctx.db.findOneOrFail(ActorEntity, {
           where: { id },
           loadRelationIds: {
-            relations: ['memberIn']
-          }
+            relations: ["memberIn"],
+          },
         }),
         events: ctx.db.find(EventV2Entity, {
           select: ["id", "payload"],
@@ -31,7 +31,7 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
       }),
       TE.chain(({ actor, events }) => {
         ctx.logger.debug.log("Actor %O", actor);
-        ctx.logger.debug.log('Actor events %O', events)
+        ctx.logger.debug.log("Actor events %O", events);
         return pipe(
           toActorIO({ ...actor, events: events.map((e) => e.id) as any }),
           TE.fromEither

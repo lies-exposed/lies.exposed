@@ -4,7 +4,7 @@ import {
   getDoUpdateCurrentView,
   HistoryLocation,
 } from "avenger/lib/browser";
-import * as TE from 'fp-ts/lib/TaskEither';
+import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 
 interface CommonViewArgs {
@@ -383,4 +383,6 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
 }
 
 export const currentView = getCurrentView(locationToView); // ObservableQuery
-export const doUpdateCurrentView: (input: CurrentView) => TE.TaskEither<void, void> = getDoUpdateCurrentView(viewToLocation); // Command
+export const doUpdateCurrentView: (
+  input: CurrentView
+) => TE.TaskEither<void, void> = getDoUpdateCurrentView(viewToLocation); // Command
