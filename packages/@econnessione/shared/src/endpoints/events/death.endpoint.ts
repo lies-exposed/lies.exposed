@@ -12,7 +12,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/deaths",
   Input: {
-    Query: Events.Death.DeathListQuery,
+    Query: Events.Death.DeathListQuery.type,
   },
   Output: ListDeathsOutput,
 });

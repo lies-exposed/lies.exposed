@@ -258,7 +258,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
         </FormDataConsumer>
         <FormTab label="Media">
           <MediaArrayInput
-            label="newMedia"
+            label="media"
             source="newMedia"
             fullWidth={true}
             defaultValue={[]}

@@ -1,61 +1,42 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { toEventV2IO } from "../eventV2.io";
-import { EventV2Entity } from "@entities/Event.v2.entity";
+import { searchEventV2Query } from "../queries/searchEventsV2.query";
 import { Route } from "@routes/route.types";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
 
-export const MakeGetListDeathEventRoute: Route = (r, { db, logger, env }) => {
+export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.DeathEvent.List,
-    ({ query: { victim, minDate, maxDate, ...query } }) => {
-      logger.debug.log("Victim is %O", victim);
-      const ormOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
-      const selectSQLTask = pipe(
-        db.manager
-          .createQueryBuilder(EventV2Entity, "death")
-          .loadAllRelationIds({
-            relations: ["links", "media", "keywords"],
-          })
-          .where("type = :type", { type: "Death" }),
-        (q) => {
-          if (O.isSome(victim)) {
-            return q.andWhere("victim.id IN (:...victimIds)", {
-              victimIds: victim.value,
-            });
-          }
-
-          if (O.isSome(minDate) && O.isSome(maxDate)) {
-            return q.andWhere(
-              "death.date > :startDate AND (deaths.date < :endDate)",
-              {
-                startDate: minDate.value,
-                endDate: maxDate.value,
-              }
-            );
-          }
-          return q;
-        },
-        (q) => q.skip(ormOptions.skip).take(ormOptions.take),
-        (q) => {
-          logger.debug.log("SQL %O", q.getQueryAndParameters());
-          return q;
-        },
-        (q) => db.execQuery(() => q.getManyAndCount())
-      );
+    ({
+      query: { victim, minDate, maxDate, keywords, media, links, ...query },
+    }) => {
+      ctx.logger.debug.log("Victim is %O", victim);
+      const ormOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
       return pipe(
-        selectSQLTask,
-        TE.chain(([results, total]) =>
+        searchEventV2Query(ctx)({
+          ...query,
+          type: O.some(DeathType.value),
+          actors: pipe(
+            victim,
+            O.map((v) => [v] as any[])
+          ),
+          keywords,
+          links,
+          ...ormOptions,
+        }),
+        TE.chain(({ results, totals: { deaths } }) =>
           pipe(
             results,
             A.traverse(E.Applicative)(toEventV2IO),
             TE.fromEither,
-            TE.map((data) => ({ data, total }))
+            TE.map((data) => ({ data, total: deaths }))
           )
         ),
         TE.map((body) => ({

@@ -3,7 +3,7 @@ import { uuid } from "@econnessione/shared/utils/uuid";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType
+  MapInputType,
 } from "@econnessione/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -26,7 +26,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -47,7 +47,15 @@ const DeathEventsFilter: React.FC = (props: any) => {
 };
 
 export const DeathList: React.FC<ListProps> = (props) => (
-  <List {...props} filters={<DeathEventsFilter />} perPage={20}>
+  <List
+    {...props}
+    filters={<DeathEventsFilter />}
+    perPage={20}
+    filterDefaultValues={{
+      _sort: "date",
+      _order: "DESC",
+    }}
+  >
     <Datagrid rowClick="edit">
       <ReferenceField source="payload.victim" reference="actors">
         <AvatarField source="avatar" />
@@ -113,7 +121,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="payload.location" type={MapInputType.POINT} />
       </FormTab>
       <FormTab label="Media">
-        <MediaArrayInput source="media" defaultValue={[]} fullWidth />
+        <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
       </FormTab>
       <FormTab label="Links">
         <ReferenceArrayLinkInput source="links" />
@@ -144,7 +152,7 @@ export const DeathCreate: React.FC<CreateProps> = (props) => (
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
       <MediaArrayInput
         label="media"
-        source="media"
+        source="newMedia"
         fullWidth={true}
         defaultValue={[]}
       />

@@ -80,6 +80,9 @@ const renderRow = (props: {
   return (
     <TimelineItem key={`event-list-item-${e.id}`}>
       <TimelineOppositeContent style={{ flex: 0 }}>
+        <Typography variant="subtitle1" color="primary">
+          {formatDate(e.date)}
+        </Typography>
         {process.env.NODE_ENV === "development" ? (
           <a
             href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
@@ -89,9 +92,6 @@ const renderRow = (props: {
             Edit
           </a>
         ) : null}
-        <Typography variant="subtitle1" color="primary">
-          {formatDate(e.date)}
-        </Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>
         <TimelineDot variant="outlined" color="inherit">
@@ -99,7 +99,7 @@ const renderRow = (props: {
         </TimelineDot>
         {last ? <TimelineConnector /> : null}
       </TimelineSeparator>
-      <TimelineContent style={{ maxWidth: "100%" }}>
+      <TimelineContent style={{ maxWidth: "100%", paddingBottom: 20  }}>
         <EventListItem
           event={e}
           actors={eventActors}
