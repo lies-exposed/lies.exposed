@@ -1,14 +1,14 @@
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { DBError } from "@providers/orm/Database";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
 import { In } from "typeorm";
 import { RouteContext } from "../../route.types";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { DBError } from "@providers/orm/Database";
 
 // const toPGArray = (els: string[]): string[] => {
 //   return els.map((el) => `'${el}'`);

@@ -1,14 +1,17 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { UUID } from "io-ts-types/lib/UUID";
 import { propsOmit } from "../../../tests/arbitrary/utils.arbitrary";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { Point } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { SearchEventsQuery } from "./SearchEventsQuery";
 
-export const DeathListQuery = t.type(
+export const DeathType = t.literal("Death");
+export type DeathType = t.TypeOf<typeof DeathType>;
+
+export const DeathListQuery = t.strict(
   {
     ...propsOmit(SearchEventsQuery, ["type"]),
     victim: optionFromNullable(t.array(UUID)),
@@ -18,9 +21,6 @@ export const DeathListQuery = t.type(
   "DeathListQuery"
 );
 export type DeathListQuery = t.TypeOf<typeof DeathListQuery>;
-
-export const DeathType = t.literal("Death");
-export type DeathType = t.TypeOf<typeof DeathType>;
 
 export const CreateDeathBody = t.strict(
   {
