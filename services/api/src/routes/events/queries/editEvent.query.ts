@@ -111,7 +111,7 @@ export const editEventQuery =
             const { excerpt, body, payload } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
-              body
+              body,
             });
             const event: DeepPartial<EventV2Entity> = {
               ...storedEvent,
@@ -120,26 +120,19 @@ export const editEventQuery =
               payload: {
                 ...storedEvent.payload,
                 ...payload,
-                location: O.toUndefined(payload.location)
+                location: O.toUndefined(payload.location),
               },
               ...commonData,
             };
             return TE.right(event);
           }
           case http.Events.ScientificStudy.ScientificStudyType.value: {
-            const {
-              type,
-              date,
-              draft,
-              excerpt,
-              body,
-              payload
-            } = input;
+            const { type, date, draft, excerpt, body, payload } = input;
             const baseProps = optionalsToUndefined({
               date,
               draft,
               excerpt,
-              body
+              body,
             });
             return TE.right({
               ...storedEvent,
@@ -154,13 +147,13 @@ export const editEventQuery =
           }
           case http.Events.Uncategorized.UncategorizedType.value:
           default: {
-            const { type, excerpt,  draft, date, body, payload } = input;
+            const { type, excerpt, draft, date, body, payload } = input;
 
             const baseProps = optionalsToUndefined({
               draft,
               date,
               excerpt,
-              body
+              body,
             });
 
             return pipe(

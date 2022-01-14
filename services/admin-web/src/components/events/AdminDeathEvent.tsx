@@ -6,6 +6,7 @@ import {
   MapInput,
   MapInputType
 } from "@econnessione/ui/src/components/admin/MapInput";
+import { WebPreviewButton } from "components/Common/WebPreviewButton";
 import * as React from "react";
 import {
   ArrayField,
@@ -87,6 +88,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
   >
     <TabbedForm>
       <FormTab label="Generals">
+        <WebPreviewButton resource="/dashboard/events" source="id" />
         <ReferenceInput
           source="payload.victim"
           reference="actors"
@@ -113,24 +115,10 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="payload.location" type={MapInputType.POINT} />
       </FormTab>
       <FormTab label="Media">
-        <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
-
-        <ArrayField source="media">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <ImageField source="location" fullWidth={false} />
-            <TextField source="description" />
-          </Datagrid>
-        </ArrayField>
+        <MediaArrayInput source="media" defaultValue={[]} fullWidth />
       </FormTab>
       <FormTab label="Links">
-        <ArrayField source="links">
-          <Datagrid resource="links" rowClick="edit">
-            <TextField source="id" />
-            <TextField source="url" />
-            <TextField source="description" />
-          </Datagrid>
-        </ArrayField>
+        <ReferenceArrayLinkInput  source="links" />
       </FormTab>
     </TabbedForm>
   </Edit>
