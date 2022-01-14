@@ -11,6 +11,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import {
   ArrayInput,
+  ArrayInputProps,
   AutocompleteArrayInput,
   ChoicesInputProps,
   Create,
@@ -27,13 +28,15 @@ import {
   ImageInput,
   List,
   ListProps,
-  Record, ReferenceArrayInput, ReferenceManyField,
+  Record,
+  ReferenceArrayInput,
+  ReferenceManyField,
   SelectInput,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
@@ -54,6 +57,21 @@ const GroupKindInput: React.FC<ChoicesInputProps> = (props) => (
     }))}
   />
 );
+
+const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
+  props
+) => {
+  return (
+    <ArrayInput source="members" {...props}>
+      <SimpleFormIterator>
+        <ReferenceActorInput source="actor" />
+        <DateInput source="startDate" />
+        <DateInput source="endDate" />
+        <ReactPageInput onlyText={true} source="body" />
+      </SimpleFormIterator>
+    </ArrayInput>
+  );
+};
 
 const GroupFilters: React.FC = (props) => {
   return (
@@ -108,7 +126,7 @@ const transformGroup = ({
         { location: data.avatar, type: "image/jpeg" as Media.MediaType },
       ]);
 
-  const members = (data.members ?? []).concat(newMembers);
+  const members = (data.members ?? []).concat(newMembers ?? []);
 
   return pipe(
     uploadAvatar,
@@ -175,11 +193,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
             </SimpleFormIterator>
           </ArrayInput>
 
-
-          <ReferenceManyField
-            reference="groups-members"
-            target="group"
-          >
+          <ReferenceManyField reference="groups-members" target="group">
             <Datagrid rowClick="edit">
               <TextField source="id" />
               <TextField source="actor.username" />
@@ -235,13 +249,12 @@ export const GroupCreate: React.FC<CreateProps> = (props) => (
       <DateInput source="date" />
       <TextInput source="name" />
       <GroupKindInput source="kind" />
-      <ReferenceArrayGroupMemberInput source="members" defaultValue={[]} />
+      <GroupMemberArrayInput source="members" />
       <ImageInput source="avatar">
         <ImageField src="src" />
       </ImageInput>
-      <ReactPageInput source="excerpt" />
-      <ReactPageInput source="body" defaultValue="" />
-      <TextInput source="body" hidden={true} defaultValue="" />
+      <ReactPageInput source="excerpt" onlyText />
+      <ReactPageInput source="body" />
     </SimpleForm>
   </Create>
 );
