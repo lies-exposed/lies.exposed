@@ -1,13 +1,13 @@
 import { Events } from "@econnessione/shared/io/http";
 import { Uncategorized } from "@econnessione/shared/io/http/Events";
 import { uuid } from "@econnessione/shared/utils/uuid";
-import {
-  MapInput,
-  MapInputType,
-} from "@econnessione/ui/components/admin/MapInput";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
+import {
+  MapInput,
+  MapInputType
+} from "@econnessione/ui/components/admin/MapInput";
+import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as React from "react";
 import {
@@ -24,13 +24,9 @@ import {
   List,
   ListProps,
   Record,
-  ReferenceArrayField,
-  ReferenceArrayInput,
-  required,
-  SelectArrayInput,
-  TabbedForm,
+  ReferenceArrayField, required, TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";

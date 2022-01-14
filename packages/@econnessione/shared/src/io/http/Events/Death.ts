@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { UUID } from "io-ts-types/lib/UUID";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { propsOmit } from "../../../tests/arbitrary/utils.arbitrary";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { Point } from "../Common";
