@@ -55,7 +55,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
       <ReferenceField source="payload.publisher" reference="groups">
         <AvatarField source="avatar" />
       </ReferenceField>
-      <DateField source="publishDate" />
+      <DateField source="date" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -100,11 +100,10 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       />
       <BooleanInput source="draft" />
       <TextInput source="payload.title" />
-      <TextInput source="payload.url" type="url" />
+      <URLMetadataInput source="payload.url" />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" />
       <ReactPageInput source="body" />
-      <RichTextInput source="payload.conclusion" />
       <ReferenceArrayActorInput source="payload.authors" />
       <ReferenceInput source="payload.publisher" reference="groups">
         <AutocompleteInput source="id" optionText="name" />

@@ -22,11 +22,12 @@ import {
   SimpleForm,
   TextField,
   TextInput,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
+import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 import RichTextInput from "./Common/RichTextInput";
-import { apiProvider } from "@client/HTTPAPI";
+import URLMetadataInput from "./Common/URLMetadataInput";
 
 const RESOURCE = "links";
 
@@ -95,11 +96,11 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
     >
       <SimpleForm>
         <TextInput source="title" />
-        <TextInput type="url" source="url" />
+        <URLMetadataInput source="url" />
         <ImageField source="image" />
         <RichTextInput source="description" />
-        <DateInput source="publishDate" />
-        <TextInput source="provider" />
+        <DateInput source="date" />
+        <ReferenceGroupInput source="provider" />
         <ReferenceArrayEventInput
           source="newEvents"
           reference="events"
@@ -128,7 +129,7 @@ export const LinkCreate: React.FC<CreateProps> = (props) => {
   return (
     <Create title="Create a Link" {...props}>
       <SimpleForm>
-        <TextInput type="url" source="url" />
+        <URLMetadataInput source="url" />
         <DateInput source="publishDate" />
         <ReferenceArrayEventInput
           source="events"

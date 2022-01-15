@@ -38,6 +38,7 @@ import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDBOptions } from "@utils/getDBOptions";
+import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -168,6 +169,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // graphs data
   MakeGraphsRoute(router, ctx);
+
+  // open graphs
+  MakeOpenGraphRoutes(router, ctx);
 
   MakeUploadsRoutes(router, ctx);
   // errors

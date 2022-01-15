@@ -25,7 +25,6 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
             title: meta.title,
             description: meta.description,
             keywords: [],
-            provider: meta.provider,
             url: sanitizeURL(body.url),
           },
         ])

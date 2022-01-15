@@ -5,6 +5,7 @@ import * as ProjectImage from "./ProjectImage.endpoints";
 import * as User from "./User.endpoints";
 import * as Actor from "./actor.endpoints";
 import * as Area from "./area.endpoints";
+import * as OpenGraph from "./OpenGraph.endpoints";
 import * as Article from "./article.endpoints";
 import * as Event from "./event.endpoints";
 import * as DeathEvent from "./events/death.endpoint";
@@ -28,6 +29,7 @@ const Endpoints = {
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,
   Media: Media.media,
+  OpenGraph: OpenGraph.openGraphs,
   Keyword: Keyword.keywords,
   Link: Link.links,
   Page: Page.pages,
