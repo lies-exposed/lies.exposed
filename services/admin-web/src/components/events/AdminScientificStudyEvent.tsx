@@ -127,12 +127,11 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
         defaultValue={ScientificStudy.ScientificStudyType.value}
       />
       <BooleanInput source="draft" defaultValue={false} />
+      <URLMetadataInput source="payload.url" />
       <TextInput source="payload.title" />
-      <TextInput source="payload.url" type="url" />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" onlyText />
       <ReactPageInput source="body" />
-      <RichTextInput source="payload.conclusion" />
       <ReferenceArrayInput
         source="payload.authors"
         reference="actors"

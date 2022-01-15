@@ -1,3 +1,4 @@
+import { apiProvider } from "@client/HTTPAPI";
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import * as React from "react";
 import {
