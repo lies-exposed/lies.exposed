@@ -1,10 +1,4 @@
-import {
-  Box,
-  TextField,
-  TextareaAutosize,
-  Typography,
-} from "@material-ui/core";
-import { pipe } from "fp-ts/lib/function";
+import { Box, TextField } from "@material-ui/core";
 import * as React from "react";
 import { TextInput, TextInputProps, useInput } from "react-admin";
 import { dataProvider } from "../../client/HTTPAPI";
@@ -24,14 +18,12 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> =
     React.useCallback((e) => {
-      console.log("handle change", e);
       onChange(e);
       const value = e.currentTarget.value;
       if (value) {
         void dataProvider
           .get("open-graph/metadata", { url: value })
           .then((result) => {
-            console.log(result);
             setMetadata(result.data);
           });
       } else onChange(e.currentTarget.value);

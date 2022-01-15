@@ -1,4 +1,3 @@
-import { apiProvider } from "@client/HTTPAPI";
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import * as React from "react";
 import {
@@ -29,6 +28,7 @@ import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 import RichTextInput from "./Common/RichTextInput";
 import URLMetadataInput from "./Common/URLMetadataInput";
+import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "links";
 

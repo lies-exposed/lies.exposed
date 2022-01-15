@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { UUID } from "../io/http/Common";
+import { URL, UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
@@ -48,6 +48,19 @@ export const Create = Endpoint({
   Output: SingleStudyOutput,
 });
 
+export const CreateFromURL = Endpoint({
+  Method: "POST",
+  getPath: () => "/scientific-studies/url",
+  Input: {
+    Query: undefined,
+    Body: t.strict({
+      url: URL,
+      date: DateFromISOString,
+    }),
+  },
+  Output: SingleStudyOutput,
+});
+
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/scientific-studies/${id}`,
@@ -76,5 +89,7 @@ export const scientificStudies = ResourceEndpoints({
   Create,
   Edit,
   Delete,
-  Custom: {},
+  Custom: {
+    CreateFromURL
+  },
 });

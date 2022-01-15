@@ -1,6 +1,5 @@
 import * as ScientificStudy from "@econnessione/shared/io/http/Events/ScientificStudy";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
-import RichTextInput from "ra-input-rich-text";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -23,7 +22,7 @@ import {
   ReferenceInput,
   SimpleForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -31,6 +30,7 @@ import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import ReferenceGroupInput from "../Common/ReferenceGroupInput";
+import URLMetadataInput from "../Common/URLMetadataInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 

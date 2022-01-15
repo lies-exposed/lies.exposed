@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { Router } from "express";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
 import { ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
-import { Router } from "express";
-import { pipe } from "fp-ts/lib/function";
-import * as TE from "fp-ts/lib/TaskEither";
 
 export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

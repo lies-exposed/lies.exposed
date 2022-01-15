@@ -31,6 +31,7 @@ import { MakeGroupRoutes } from "@routes/groups/groups.route";
 import { MakeKeywordRoutes } from "@routes/keywords/keywords.routes";
 import { MakeLinkRoutes } from "@routes/links/LinkRoute.route";
 import { MakeMediaRoutes } from "@routes/media/media.routes";
+import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
@@ -38,7 +39,6 @@ import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDBOptions } from "@utils/getDBOptions";
-import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
