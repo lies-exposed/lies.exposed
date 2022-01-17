@@ -1,24 +1,18 @@
-import {
-  Actor,
-  Group,
-  GroupMember,
-  Keyword,
-} from "@econnessione/shared/io/http";
+import { EventsPanel } from "@containers/EventsPanel";
+import { formatDate } from "@econnessione/shared/utils/date";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
-import EventsTimeline from "@econnessione/ui/components/Common/Timeline";
 import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
 import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
 import { AutocompleteGroupMemberInput } from "@econnessione/ui/components/Input/AutocompleteGroupMemberInput";
 import { AutocompleteKeywordInput } from "@econnessione/ui/components/Input/AutocompleteKeywordInput";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import { Button, Grid } from "@material-ui/core";
-import { format, subYears } from "date-fns";
+import { subYears } from "date-fns";
 import * as React from "react";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
-import { EventsPanel } from "@containers/EventsPanel";
 
-const MIN_DATE = format(subYears(new Date(), 10));
-const MAX_DATE = format(new Date());
+const MIN_DATE = formatDate(subYears(new Date(), 10));
+const MAX_DATE = formatDate(new Date());
 
 interface EventsPageProps extends EventsView {}
 
