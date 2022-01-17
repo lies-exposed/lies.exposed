@@ -1,4 +1,4 @@
-import { Actor, Events, Group, Keyword } from "@econnessione/shared/io/http";
+import * as io from "@econnessione/shared/io";
 import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
@@ -6,14 +6,14 @@ import { Avatar } from "../../Common/Avatar";
 import Editor from "../../Common/Editor";
 
 interface ScientificStudyListItemProps {
-  item: Events.ScientificStudy.ScientificStudy;
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  keywords: Keyword.Keyword[];
-  links: string[];
-  onClick?: (e: Events.ScientificStudy.ScientificStudy) => void;
-  onActorClick?: (e: Actor.Actor) => void;
-  onKeywordClick?: (e: Keyword.Keyword) => void;
+  item: io.http.Events.ScientificStudy.ScientificStudy;
+  actors: io.http.Actor.Actor[];
+  groups: io.http.Group.Group[];
+  keywords: io.http.Keyword.Keyword[];
+  links: io.http.Link.Link[];
+  onClick?: (e: io.http.Events.ScientificStudy.ScientificStudy) => void;
+  onActorClick?: (e: io.http.Actor.Actor) => void;
+  onKeywordClick?: (e: io.http.Keyword.Keyword) => void;
 }
 
 export const ScientificStudyListItem: React.FC<

@@ -1,6 +1,5 @@
 import { AddEndpoint } from "@econnessione/shared/endpoints";
 import { UpdateMetadata } from "@econnessione/shared/endpoints/link.endpoints";
-import { uuid } from "@econnessione/shared/utils/uuid";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -33,8 +32,6 @@ export const MakeEditLinkMetadataRoute = (
             title: meta.title,
             description: meta.description,
             image: meta.image,
-            keywords: meta.keywords?.map((k) => ({ id: uuid(), keyword: k })),
-            provider: meta.provider,
           },
         ])
       ),

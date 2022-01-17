@@ -4,10 +4,10 @@ import { Router } from "express";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { RouteContext } from "../route.types";
 import { toProjectIO } from "./project.io";
 import { ProjectEntity } from "@entities/Project.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
-import { RouteContext } from "routes/route.types";
 
 export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Project.Edit, ({ params: { id }, body }) => {

@@ -32,6 +32,7 @@ export interface InfiniteEventListMetadata {
   keywords: UUID[];
   groupsMembers: UUID[];
   media: UUID[];
+  links: UUID[];
 }
 
 export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
@@ -202,12 +203,15 @@ const reduceEvent = (
     media: acc.media
       .filter((a) => !(e.media ?? []).includes(a))
       .concat(e.media),
+    links: acc.links
+      .filter((a) => !(e.links ?? []).includes(a))
+      .concat(e.links),
   };
 };
 
 const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
   api.Event.List,
-  { actors: [], groups: [], groupsMembers: [], keywords: [], media: [] },
+  { actors: [], groups: [], groupsMembers: [], keywords: [], media: [], links: [] },
   ({ data, ...acc }, e) => {
     return {
       data: data.concat(e),

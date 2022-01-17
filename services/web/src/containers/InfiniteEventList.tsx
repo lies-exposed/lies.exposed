@@ -288,6 +288,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                     groupsMembers: Queries.GroupMember.getList,
                     keywords: Queries.Keyword.getList,
                     media: Queries.Media.getList,
+                    links: Queries.Link.getList
                   }}
                   params={{
                     actors: {
@@ -340,11 +341,28 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                         ids: events.metadata.media,
                       },
                     },
+                    links: {
+                      pagination: {
+                        page: 1,
+                        perPage: events.metadata.links.length,
+                      },
+                      sort: { field: "publishDate", order: "DESC" },
+                      filter: {
+                        ids: events.metadata.links,
+                      },
+                    },
                   }}
                   render={QR.fold(
                     LazyFullSizeLoader,
                     ErrorBox,
-                    ({ actors, groups, keywords, groupsMembers, media }) => {
+                    ({
+                      actors,
+                      groups,
+                      keywords,
+                      groupsMembers,
+                      media,
+                      links,
+                    }) => {
                       return (
                         <Box width="100%">
                           <EventsTimeline
@@ -356,6 +374,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                             groupsMembers={groupsMembers.data}
                             keywords={keywords.data}
                             media={media.data}
+                            links={links.data}
                             onClick={(e) => {
                               if (e.type === "Death") {
                                 void doUpdateCurrentView({

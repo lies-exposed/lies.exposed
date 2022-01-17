@@ -7,9 +7,9 @@ import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { ActorEntity } from "../../entities/Actor.entity";
+import { RouteContext } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
-import { RouteContext } from "routes/route.types";
 
 export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

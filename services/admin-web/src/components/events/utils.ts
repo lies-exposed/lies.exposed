@@ -10,6 +10,7 @@ export const transformEvent = async (
   id: string,
   data: Record
 ): Promise<Record> => {
+
   const media: any[] = (data.newMedia as any[]).reduce((acc, l) => {
     if (Array.isArray(l.ids)) {
       return acc.concat(l.ids);

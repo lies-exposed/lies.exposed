@@ -35,8 +35,9 @@ const RESOURCE = "links";
 const LinksFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
+      <TextInput source="title" alwaysOn />
       <ReferenceArrayInput source="events" reference="events" alwaysOn>
-        <AutocompleteArrayInput optionText="title" />
+        <AutocompleteArrayInput optionText="payload.title" />
       </ReferenceArrayInput>
     </Filter>
   );
@@ -46,13 +47,12 @@ export const LinkList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     resource={RESOURCE}
-    filters={<LinksFilter />}
+    filters={<LinksFilter {...props} />}
     perPage={20}
     filterDefaultValues={{ _sort: "createdAt", _order: "DESC" }}
   >
     <Datagrid rowClick="edit">
       <TextField source="title" />
-      <TextField source="description" />
       <ImageField source="image" />
       <DateField source="publishDate" />
       <TextField source="provider" />
@@ -100,7 +100,7 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
         <URLMetadataInput source="url" />
         <ImageField source="image" />
         <RichTextInput source="description" />
-        <DateInput source="date" />
+        <DateInput source="publishDate" />
         <ReferenceGroupInput source="provider" />
         <ReferenceArrayEventInput
           source="newEvents"

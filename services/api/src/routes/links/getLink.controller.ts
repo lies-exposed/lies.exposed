@@ -2,9 +2,9 @@ import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
-import { RouteContext } from "routes/route.types";
 
 export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.Get, ({ params: { id } }) => {

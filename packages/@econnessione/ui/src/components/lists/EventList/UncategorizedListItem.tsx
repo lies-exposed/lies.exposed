@@ -228,7 +228,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                   slides={media}
                   style={{
                     margin: 0,
-                    width: '100%',
+                    width: "100%",
                   }}
                 />
               )),

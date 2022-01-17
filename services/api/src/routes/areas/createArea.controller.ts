@@ -2,9 +2,9 @@ import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { AreaEntity } from "../../entities/Area.entity";
+import { Route } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { Route } from "routes/route.types";
 
 export const MakeCreateAreaRoute: Route = (r, { db, logger }) => {
   AddEndpoint(r, authenticationHandler(logger))(

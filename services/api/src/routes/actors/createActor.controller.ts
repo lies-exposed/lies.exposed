@@ -3,10 +3,10 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { ActorEntity } from "../../entities/Actor.entity";
+import { Route } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { ServerError } from "@io/ControllerError";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { Route } from "routes/route.types";
 
 export const MakeCreateActorRoute: Route = (r, { db, logger }) => {
   AddEndpoint(r, authenticationHandler(logger))(

@@ -1,4 +1,4 @@
-import { Actor, Events, Keyword } from "@econnessione/shared/io/http";
+import { Actor, Events, Keyword, Link } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
@@ -15,7 +15,7 @@ interface DeathListItemProps {
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
   victim: Actor.Actor;
-  links: string[];
+  links: Link.Link[];
   onClick?: (e: Events.Death.Death) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;

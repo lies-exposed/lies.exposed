@@ -12,9 +12,9 @@ const ReferenceArrayLinkInput: React.FC<
     <ReferenceArrayInput
       {...props}
       reference="links"
-      filterToQuery={(description: any) => ({ description })}
+      filterToQuery={(title: any) => ({ title })}
     >
-      <AutocompleteArrayInput source="id" optionText="description" />
+      <AutocompleteArrayInput source="id" optionText="title" />
     </ReferenceArrayInput>
   );
 };

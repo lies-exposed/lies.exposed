@@ -15,6 +15,7 @@ export const List = Endpoint({
   Input: {
     Query: t.type({
       ...GetListQuery.props,
+      title: optionFromNullable(t.string),
       events: optionFromNullable(t.array(UUID)),
       ids: optionFromNullable(t.array(UUID)),
     }),

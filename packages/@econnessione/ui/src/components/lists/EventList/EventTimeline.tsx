@@ -55,6 +55,7 @@ const renderRow = (props: {
       groupsMembers,
       keywords,
       media,
+      links,
       ...listItemProps
     },
   } = props;
@@ -74,7 +75,7 @@ const renderRow = (props: {
     : [];
 
   const eventMedia = media.filter((m) => e.media.includes(m.id));
-
+  const eventLinks = links.filter((l) => e.links.includes(l.id));
   const eventKeywords = keywords.filter((a) => e.keywords.includes(a.id));
 
   return (
@@ -99,7 +100,7 @@ const renderRow = (props: {
         </TimelineDot>
         {last ? <TimelineConnector /> : null}
       </TimelineSeparator>
-      <TimelineContent style={{ maxWidth: "100%", paddingBottom: 20  }}>
+      <TimelineContent style={{ maxWidth: "100%", paddingBottom: 20 }}>
         <EventListItem
           event={e}
           actors={eventActors}
@@ -107,6 +108,7 @@ const renderRow = (props: {
           keywords={eventKeywords}
           groupsMembers={eventGroupMembers}
           media={eventMedia}
+          links={eventLinks}
           {...listItemProps}
         />
       </TimelineContent>
@@ -150,6 +152,7 @@ const EventsTimeline: React.FC<EventListProps> = ({
   keywords,
   groupsMembers,
   media,
+  links,
   onClick,
   onActorClick,
   onGroupClick,
@@ -176,6 +179,7 @@ const EventsTimeline: React.FC<EventListProps> = ({
             groupsMembers,
             keywords,
             media,
+            links,
             classes,
             onClick,
             onActorClick,

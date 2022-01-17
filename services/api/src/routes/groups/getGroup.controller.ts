@@ -3,8 +3,8 @@ import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { GroupEntity } from "../../entities/Group.entity";
+import { RouteContext } from "../route.types";
 import { toGroupIO } from "./group.io";
-import { RouteContext } from "routes/route.types";
 
 export const MakeGetGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Group.Get, ({ params: { id } }) => {

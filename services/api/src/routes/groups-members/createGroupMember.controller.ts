@@ -2,9 +2,9 @@ import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { Route } from "../route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { Route } from "routes/route.types";
 
 export const MakeCreateGroupMemberRoute: Route = (r, { db }) => {
   AddEndpoint(r)(Endpoints.GroupMember.Create, ({ body }) => {

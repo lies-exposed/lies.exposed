@@ -5,38 +5,50 @@ import * as E from "fp-ts/lib/Either";
 import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { getORMOptions } from "@utils/listQueryToORMOptions";
-import { RouteContext } from "routes/route.types";
 
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Link.List,
-    ({ query: { events, ids, ...query } }) => {
+    ({ query: { events, ids, title, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
       );
 
-      ctx.logger.debug.log(`find Options %O`, findOptions);
+      ctx.logger.debug.log(`find Options %O`, {
+        events,
+        ids,
+        title,
+        ...findOptions,
+      });
 
       const listGroupsMembersTE = pipe(
         ctx.db.manager
           .createQueryBuilder(LinkEntity, "link")
-          // .leftJoinAndSelect("link.events", "events")
+          .select()
+          .distinct()
           .loadAllRelationIds({
             relations: ["events", "keywords"],
           }),
         (q) => {
+          if (title._tag === "Some") {
+            return q.where("lower(link.title) LIKE :title", {
+              title: `%${title.value.toLowerCase()}%`,
+            });
+          }
+
           if (ids._tag === "Some") {
-            return q.andWhere("link.id IN (:...ids)", {
+            return q.where("link.id IN (:...ids)", {
               ids: ids.value,
             });
           }
 
           if (events._tag === "Some") {
-            return q.andWhere("events.id IN (:...events)", {
+            return q.where("events.id IN (:...events)", {
               events: events.value,
             });
           }

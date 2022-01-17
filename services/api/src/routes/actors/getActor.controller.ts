@@ -5,9 +5,9 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Raw } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
+import { RouteContext } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { RouteContext } from "routes/route.types";
 
 export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Actor.Get, ({ params: { id } }) => {

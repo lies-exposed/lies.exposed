@@ -3,7 +3,7 @@ import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { GroupEntity } from "../../entities/Group.entity";
-import { RouteContext } from "routes/route.types";
+import { RouteContext } from "../route.types";
 
 export const MakeDeleteGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Group.Delete, ({ params: { id } }) => {

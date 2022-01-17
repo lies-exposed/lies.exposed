@@ -14,9 +14,7 @@ import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
-  ArrayInput,
-  AutocompleteArrayInput,
-  BooleanInput, Datagrid,
+  Datagrid,
   DateField,
   DateInput,
   Edit,
@@ -28,21 +26,17 @@ import {
   List,
   ListProps,
   Record,
-  ReferenceArrayField,
-  ReferenceArrayInput,
-  ReferenceField, SelectInput,
-  SimpleFormIterator,
-  TabbedForm,
+  ReferenceArrayField, ReferenceField, SelectInput, TabbedForm,
   TextField,
   TextInput
 } from "react-admin";
-import { AvatarField } from "./Common/AvatarField";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
@@ -265,7 +259,8 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
           </ReferenceArrayField>
         </FormTab>
         <FormTab label="Links">
-          <ArrayInput source="newLinks" defaultValue={[]}>
+          <ReferenceArrayLinkInput source="links" />
+          {/* <ArrayInput source="newLinks" defaultValue={[]}>
             <SimpleFormIterator>
               <BooleanInput source="addNew" />
               <FormDataConsumer>
@@ -300,13 +295,13 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
                 }}
               </FormDataConsumer>
             </SimpleFormIterator>
-          </ArrayInput>
+          </ArrayInput> */}
           <ReferenceArrayField source="links" reference="links" fullWidth>
             <Datagrid rowClick="edit">
               <TextField source="id" />
-              <AvatarField source="image" />
+              <TextField source="title" />
+              <DateField source="publishDate" />
               <TextField source="url" />
-              <TextField source="description" />
             </Datagrid>
           </ReferenceArrayField>
         </FormTab>

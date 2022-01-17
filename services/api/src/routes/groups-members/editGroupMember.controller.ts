@@ -2,10 +2,10 @@ import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
+import { RouteContext } from "../route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { foldOptionals } from "@utils/foldOptionals.utils";
-import { RouteContext } from "routes/route.types";
 
 export const MakeEditGroupMemberRoute = (
   r: Router,
