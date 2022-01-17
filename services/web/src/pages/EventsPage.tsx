@@ -1,4 +1,3 @@
-import { EventsPanel } from "@containers/EventsPanel";
 import { formatDate } from "@econnessione/shared/utils/date";
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
 import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
@@ -10,6 +9,7 @@ import { Button, Grid } from "@material-ui/core";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
+import { EventsPanel } from "@containers/EventsPanel";
 
 const MIN_DATE = formatDate(subYears(new Date(), 10));
 const MAX_DATE = formatDate(new Date());

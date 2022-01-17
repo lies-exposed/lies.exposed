@@ -99,6 +99,11 @@ export const searchEventV2Query =
                 {
                   actors: actors.value,
                 }
+              ).orWhere(
+                `(event.type = 'Death' AND "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors])`,
+                {
+                  actors: actors.value,
+                }
               );
               hasWhere = true;
             }
