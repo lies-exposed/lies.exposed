@@ -1,7 +1,40 @@
 {
   "folders": [
     {
+      "name": "✨ econnessione",
       "path": "."
+    },
+    {
+      "name": "📦 @econnessione/core",
+      "path": "packages/@econnessione/core"
+    },
+    {
+      "name": "📦 @econnessione/shared",
+      "path": "packages/@econnessione/shared"
+    },
+    {
+      "name": "📦 @econnessione/ui",
+      "path": "packages/@econnessione/ui"
+    },
+    {
+      "name": "🚀 admin-web",
+      "path": "services/admin-web"
+    },
+    {
+      "name": "🚀 api",
+      "path": "services/api"
+    },
+    {
+      "name": "data",
+      "path": "services/data"
+    },
+    {
+      "name": "storybook",
+      "path": "services/storybook"
+    },
+    {
+      "name": "🚀 web",
+      "path": "services/web"
     }
   ],
   "settings": {

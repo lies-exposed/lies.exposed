@@ -1,4 +1,6 @@
+import { MediaType } from "@econnessione/shared/io/http/Media";
 import { uuid } from "@econnessione/shared/utils/uuid";
+import { Box } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -11,12 +13,14 @@ import {
   Edit,
   EditProps,
   Filter,
+  FormDataConsumer,
   FormTab,
   List,
   ListProps,
   Record,
   ReferenceManyField,
   required,
+  SelectInput,
   SimpleForm,
   TabbedForm,
   TextField,
@@ -29,6 +33,46 @@ import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "media";
+
+const parseURL = (
+  url: string
+): E.Either<Error, { type: MediaType; location: string }> => {
+  if (url.includes(".jpg") ?? url.includes(".jpeg")) {
+    return E.right({
+      type: MediaType.types[1].value,
+      location: url,
+    });
+  }
+
+  if (url.includes(".png")) {
+    return E.right({
+      type: MediaType.types[2].value,
+      location: url,
+    });
+  }
+
+  if (url.includes(".pdf")) {
+    return E.right({
+      type: MediaType.types[4].value,
+      location: url,
+    });
+  }
+
+  const iframeVideosMatch = [
+    "youtube.com",
+    "brandnewtube.com",
+    "odysee.com",
+    "rumble.com",
+  ].find((v) => url.includes(v));
+  if (iframeVideosMatch) {
+    return E.right({
+      type: MediaType.types[5].value,
+      location: url,
+    });
+  }
+
+  return E.left(new Error(`No matching media for given url: ${url}`));
+};
 
 const MediaFilters: React.FC = (props: any) => {
   return (
@@ -60,28 +104,31 @@ export const MediaList: React.FC<ListProps> = (props) => (
 );
 
 const transformMedia = (data: Record): Record | Promise<Record> => {
-  if (data.location.rawFile) {
-    return pipe(
-      uploadFile(apiProvider)(
-        "media",
-        data.id.toString(),
-        data.location.rawFile,
-        data.type
-      ),
-      TE.map(({ type, location }) => ({
-        ...data,
-        id: data.id.toString(),
-        type,
-        location,
-      }))
-    )().then((result) => {
-      if (E.isLeft(result)) {
-        throw result.left;
-      }
-      return result.right;
-    });
-  }
-  return data;
+  const mediaTask =
+    data._type === "fromFile" && data.location.rawFile
+      ? uploadFile(apiProvider)(
+          "media",
+          data.id.toString(),
+          data.location.rawFile,
+          data.type
+        )
+      : data._type === "fromURL" && data.url
+      ? pipe(parseURL(data.url), TE.fromEither)
+      : TE.right({ type: data.type, location: data.location });
+
+  return pipe(
+    mediaTask,
+    TE.map((media) => ({
+      ...data,
+      id: data.id.toString(),
+      ...media,
+    }))
+  )().then((result) => {
+    if (E.isLeft(result)) {
+      throw result.left;
+    }
+    return result.right;
+  });
 };
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
@@ -120,12 +167,40 @@ export const MediaCreate: React.FC<CreateProps> = (props) => (
     transform={(r) => transformMedia({ ...r, id: uuid() })}
   >
     <SimpleForm>
-      <MediaInput sourceType="type" sourceLocation="location" />
-      <RichTextInput
-        source="description"
-        defaultValue=""
-        validate={[required()]}
+      <SelectInput
+        source="_type"
+        defaultValue={"fromURL"}
+        choices={[
+          { name: "fromURL", id: "fromURL" },
+          {
+            name: "fromFile",
+            id: "fromFile",
+          },
+        ]}
       />
+      <FormDataConsumer>
+        {({ formData }) => {
+
+          if (formData._type === "fromURL") {
+            return (
+              <Box>
+                <TextInput source="url" />
+                <TextInput source="description" />
+              </Box>
+            );
+          }
+          return (
+            <Box>
+              <MediaInput sourceType="type" sourceLocation="location" />
+              <RichTextInput
+                source="description"
+                defaultValue=""
+                validate={[required()]}
+              />
+            </Box>
+          );
+        }}
+      </FormDataConsumer>
     </SimpleForm>
   </Create>
 );
