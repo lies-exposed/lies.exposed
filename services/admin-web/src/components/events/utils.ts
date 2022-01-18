@@ -73,8 +73,10 @@ export const transformEvent = async (
         })),
         A.concat(otherMedia)
       )
-    )
+    ),
+    TE.map(media => media.concat(data.media))
   );
+
   // eslint-disable-next-line @typescript-eslint/return-await
   return pipe(
     mediaTask,
