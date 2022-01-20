@@ -41,6 +41,7 @@ const scientificStudyProps = propsOmit(
     "links",
     "createdAt",
     "updatedAt",
+    'deletedAt'
   ]
 );
 
@@ -69,4 +70,5 @@ export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.
       tests.fc.date({ min: MIN_DATE, max: MAX_DATE }),
       1
     )[0],
+    deletedAt: undefined
   }));

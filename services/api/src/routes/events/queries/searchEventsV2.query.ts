@@ -24,6 +24,7 @@ interface SearchEventQuery {
   title: O.Option<string>;
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;
+  withDeleted: boolean;
   skip: number;
   take: number;
   order?: { [key: string]: "ASC" | "DESC" } | undefined;
@@ -50,6 +51,7 @@ export const searchEventV2Query =
     title,
     startDate,
     endDate,
+    withDeleted,
     order,
     skip,
     take,
@@ -94,13 +96,17 @@ export const searchEventV2Query =
           (q) => {
             q.where("event.draft = :draft", { draft: false });
 
+            if (withDeleted) {
+              q.withDeleted();
+            }
+
             if (O.isSome(type)) {
               q.andWhere("event.type = :type", { type: type.value });
             }
 
             if (O.isSome(title)) {
               q.andWhere(
-                'event.type IN (\'Uncategorized\', \'ScientificStudy\') AND "event"."payload" ->> lower(\'title\') LIKE :title',
+                "event.type IN ('Uncategorized', 'ScientificStudy') AND \"event\".\"payload\" ->> lower('title') LIKE :title",
                 { title: `%${title.value.toLocaleLowerCase()}%` }
               );
             }

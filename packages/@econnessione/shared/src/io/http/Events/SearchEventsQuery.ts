@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { GetListQuery } from "../Query";
@@ -16,6 +17,7 @@ export const SearchEventsQuery = t.strict(
     startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
     title: optionFromUndefined(t.string),
+    withDeleted: optionFromUndefined(BooleanFromString),
   },
   "GetEventsQueryFilter"
 );

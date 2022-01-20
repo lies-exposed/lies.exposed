@@ -33,6 +33,7 @@ export const firstEvent: Events.Event = {
   body: {},
   createdAt: today,
   updatedAt: today,
+  deletedAt: undefined
 };
 
 export const secondEvent: Events.Event = {
@@ -55,6 +56,7 @@ export const secondEvent: Events.Event = {
   body: {},
   createdAt: today,
   updatedAt: today,
+  deletedAt: undefined
 };
 
 export const thirdEvent: Events.Event = {
@@ -77,6 +79,7 @@ export const thirdEvent: Events.Event = {
   body: {},
   createdAt: today,
   updatedAt: today,
+  deletedAt: undefined
 };
 
 export const fourthEvent: Events.Event = {
@@ -99,6 +102,7 @@ export const fourthEvent: Events.Event = {
   body: {},
   createdAt: today,
   updatedAt: today,
+  deletedAt: undefined
 };
 
 export const firstGoodProjectEvents: Events.Event[] = [thirdEvent, fourthEvent];

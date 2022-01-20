@@ -29,6 +29,7 @@ export const MakeListScientificStudyRoute: Route = (
           title,
           startDate: publishedDate,
           endDate: publishedDate,
+          withDeleted: false,
           ...queryOptions,
         }),
         TE.chain(({ results, totals: { scientificStudies } }) =>
