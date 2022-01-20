@@ -34,6 +34,21 @@ import { uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "media";
 
+const ytVideoRegExp =
+  /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+
+// const rumbleVideoRegExp =
+//   /http(?:s?):\/\/(?:www\.)?rumble\/([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+
+export const parsePlatformURL = (url: string): E.Either<Error, string> => {
+  const match = url.match(ytVideoRegExp);
+  if (typeof match[1] === "string") {
+    return E.right(`https://www.youtube.com/embed/${match[1]}`);
+  }
+
+  return E.left(new Error(`Cant parse url ${url}`));
+};
+
 const parseURL = (
   url: string
 ): E.Either<Error, { type: MediaType; location: string }> => {
@@ -58,17 +73,18 @@ const parseURL = (
     });
   }
 
-  const iframeVideosMatch = [
-    "youtube.com",
-    "brandnewtube.com",
-    "odysee.com",
-    "rumble.com",
-  ].find((v) => url.includes(v));
+  const iframeVideosMatch = ["youtube.com", "youtu.be"].some((v) =>
+    url.includes(v)
+  );
+
   if (iframeVideosMatch) {
-    return E.right({
-      type: MediaType.types[5].value,
-      location: url,
-    });
+    return pipe(
+      parsePlatformURL(url),
+      E.map((location) => ({
+        type: MediaType.types[5].value,
+        location,
+      }))
+    );
   }
 
   return E.left(new Error(`No matching media for given url: ${url}`));
@@ -113,7 +129,7 @@ const transformMedia = (data: Record): Record | Promise<Record> => {
           data.type
         )
       : data._type === "fromURL" && data.url
-      ? pipe(parseURL(data.url), TE.fromEither)
+      ? TE.fromEither(parseURL(data.url))
       : TE.right({ type: data.type, location: data.location });
 
   return pipe(
@@ -180,7 +196,6 @@ export const MediaCreate: React.FC<CreateProps> = (props) => (
       />
       <FormDataConsumer>
         {({ formData }) => {
-
           if (formData._type === "fromURL") {
             return (
               <Box>
