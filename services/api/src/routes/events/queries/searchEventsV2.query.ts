@@ -21,6 +21,7 @@ interface SearchEventQuery {
   keywords: O.Option<string[]>;
   links: O.Option<string[]>;
   type: O.Option<string>;
+  title: O.Option<string>;
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;
   skip: number;
@@ -46,6 +47,7 @@ export const searchEventV2Query =
     keywords,
     links,
     type,
+    title,
     startDate,
     endDate,
     order,
@@ -94,6 +96,13 @@ export const searchEventV2Query =
 
             if (O.isSome(type)) {
               q.andWhere("event.type = :type", { type: type.value });
+            }
+
+            if (O.isSome(title)) {
+              q.andWhere(
+                'event.type IN (\'Uncategorized\', \'ScientificStudy\') AND "event"."payload" ->> lower(\'title\') LIKE :title',
+                { title: `%${title.value.toLocaleLowerCase()}%` }
+              );
             }
 
             if (O.isSome(startDate)) {

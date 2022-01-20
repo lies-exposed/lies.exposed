@@ -15,7 +15,7 @@ export const MakeListScientificStudyRoute: Route = (
 ) => {
   AddEndpoint(r)(
     Endpoints.ScientificStudy.List,
-    ({ query: { publishedDate, publishedBy, ...query } }) => {
+    ({ query: { publishedDate, publishedBy, title, ...query } }) => {
       const queryOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
 
       return pipe(
@@ -26,6 +26,7 @@ export const MakeListScientificStudyRoute: Route = (
           groupsMembers: O.none,
           keywords: O.none,
           links: O.none,
+          title,
           startDate: publishedDate,
           endDate: publishedDate,
           ...queryOptions,
