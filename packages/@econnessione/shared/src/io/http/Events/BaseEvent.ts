@@ -45,6 +45,7 @@ export const EventCommon = t.strict(
     links: t.array(UUID),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
+    deletedAt: t.union([DateFromISOString, t.undefined]),
   },
   "EventCommon"
 );

@@ -24,6 +24,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
       endDate,
       type,
       title,
+      withDeleted,
       ...queryRest
     } = query;
     const findOptions = getORMOptions(
@@ -48,6 +49,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
         title,
         startDate,
         endDate,
+        withDeleted: O.getOrElse(() => false)(withDeleted),
         ...findOptions,
       }),
       TE.chain(({ results, totals }) =>

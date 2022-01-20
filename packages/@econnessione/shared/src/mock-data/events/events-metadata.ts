@@ -99,6 +99,7 @@ export const secondEventMetadata: Events.Event[] = [
     date: subDays(now, 10),
     createdAt: subDays(now, 2),
     updatedAt: subDays(now, 2),
+    deletedAt: undefined
   },
 ];
 

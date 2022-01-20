@@ -27,6 +27,7 @@ export const toEventIO = (
       date: new Date().toISOString(),
       createdAt: event.createdAt.toISOString(),
       updatedAt: event.updatedAt.toISOString(),
+      deletedAt: event.deletedAt?.toISOString(),
     }),
     E.mapLeft((e) => DecodeError(`Failed to decode event (${event.id})`, e))
   );

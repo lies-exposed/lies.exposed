@@ -84,6 +84,7 @@ const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "keywords",
   "createdAt",
   "updatedAt",
+  'deletedAt',
 ]);
 
 export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
@@ -94,6 +95,7 @@ export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategori
     date: fc.sample(DateArb, 1)[0],
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],
+    deletedAt: undefined,
     excerpt: {},
     body: {},
     media: fc.sample(fc.uuid(), 5) as any[],

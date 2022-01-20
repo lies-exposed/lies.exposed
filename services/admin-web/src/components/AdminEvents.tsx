@@ -14,19 +14,21 @@ import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
-  Datagrid,
+  BooleanInput, Datagrid,
   DateField,
   DateInput,
   Edit,
   EditProps,
-  Filter,
-  FormDataConsumer,
+  Filter, FormDataConsumer,
   FormTab,
   FunctionField,
   List,
   ListProps,
   Record,
-  ReferenceArrayField, ReferenceField, SelectInput, TabbedForm,
+  ReferenceArrayField,
+  ReferenceField,
+  SelectInput,
+  TabbedForm,
   TextField,
   TextInput
 } from "react-admin";
@@ -58,6 +60,7 @@ const EventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <TextInput source="title" alwaysOn size="small" />
+      <BooleanInput source="withDeleted" alwaysOn />
       <SelectInput
         source="type"
         alwaysOn
@@ -83,6 +86,7 @@ export const EventList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "createdAt",
       _order: "DESC",
+      withDeleted: true,
     }}
     filters={<EventsFilter />}
     perPage={20}
@@ -183,6 +187,7 @@ export const EventList: React.FC<ListProps> = (props) => (
       <DateField source="date" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
+      <DateField source="deletedAt" />
     </Datagrid>
   </List>
 );
