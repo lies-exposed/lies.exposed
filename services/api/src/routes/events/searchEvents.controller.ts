@@ -23,6 +23,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
       startDate,
       endDate,
       type,
+      title,
       ...queryRest
     } = query;
     const findOptions = getORMOptions(
@@ -44,6 +45,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
         keywords,
         links,
         type,
+        title,
         startDate,
         endDate,
         ...findOptions,

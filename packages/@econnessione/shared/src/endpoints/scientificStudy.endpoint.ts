@@ -21,6 +21,7 @@ export const List = Endpoint({
   Input: {
     Query: t.type({
       ...GetListQuery.props,
+      title: optionFromNullable(t.string),
       publishedBy: optionFromNullable(t.array(UUID)),
       publishedDate: optionFromNullable(DateFromISOString),
       authors: optionFromNullable(t.array(UUID)),
@@ -90,6 +91,6 @@ export const scientificStudies = ResourceEndpoints({
   Edit,
   Delete,
   Custom: {
-    CreateFromURL
+    CreateFromURL,
   },
 });
