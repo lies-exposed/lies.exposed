@@ -35,10 +35,10 @@ import { uploadFile } from "@client/MediaAPI";
 const RESOURCE = "media";
 
 const ytVideoRegExp =
-  /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+  /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-_]*)(&(amp;)?[\w?=]*)?/;
 
 // const rumbleVideoRegExp =
-//   /http(?:s?):\/\/(?:www\.)?rumble\/([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/;
+//   /http(?:s?):\/\/(?:www\.)?rumble\/([\w\-\_]*)(&(amp;)?[\w\?=]*)?/;
 
 export const parsePlatformURL = (url: string): E.Either<Error, string> => {
   const match = url.match(ytVideoRegExp);

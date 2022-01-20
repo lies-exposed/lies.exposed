@@ -21,6 +21,8 @@ interface SearchEventQuery {
   keywords: O.Option<string[]>;
   links: O.Option<string[]>;
   type: O.Option<string>;
+  startDate: O.Option<Date>;
+  endDate: O.Option<Date>;
   skip: number;
   take: number;
   order?: { [key: string]: "ASC" | "DESC" } | undefined;
@@ -44,6 +46,8 @@ export const searchEventV2Query =
     keywords,
     links,
     type,
+    startDate,
+    endDate,
     order,
     skip,
     take,
@@ -90,6 +94,18 @@ export const searchEventV2Query =
 
             if (O.isSome(type)) {
               q.andWhere("event.type = :type", { type: type.value });
+            }
+
+            if (O.isSome(startDate)) {
+              q.andWhere("event.date >= :startDate", {
+                startDate: startDate.value.toDateString(),
+              });
+            }
+
+            if (O.isSome(endDate)) {
+              q.andWhere("event.date < :endDate", {
+                endDate: endDate.value.toDateString(),
+              });
             }
 
             let hasWhere = false;
