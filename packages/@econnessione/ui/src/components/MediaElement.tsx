@@ -13,19 +13,21 @@ interface MediaElementProps {
   style?: React.CSSProperties;
 }
 
-const MediaElement: React.FC<MediaElementProps> = (props) => {
+const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
   const classes = useStyles();
   const mediaElement = React.useMemo(() => {
-    switch (props.media.type) {
+    switch (media.type) {
       case Media.MediaType.types[5].value:
-        return <iframe src={props.media.location} {...props} />;
+        return (
+          <iframe src={media.location} style={{ minHeight: 200 }} {...props} />
+        );
       case Media.MediaType.types[4].value: {
         return <div style={props.style}>PDF preview</div>;
       }
       case Media.MediaType.types[3].value: {
         return (
           <video
-            src={props.media.location}
+            src={media.location}
             style={props.style}
             controls={true}
             autoPlay={false}
@@ -33,9 +35,9 @@ const MediaElement: React.FC<MediaElementProps> = (props) => {
         );
       }
       default:
-        return <img src={props.media.location} style={props.style} />;
+        return <img src={media.location} style={props.style} />;
     }
-  }, [props.media]);
+  }, [media]);
 
   return <Box className={classes.root}>{mediaElement}</Box>;
 };
