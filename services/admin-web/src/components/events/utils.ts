@@ -8,10 +8,9 @@ import { RawMedia, uploadFile } from "@client/MediaAPI";
 
 export const transformEvent = async (
   id: string,
-  data: Record
+  { newMedia, ...data }: Record
 ): Promise<Record> => {
-
-  const media: any[] = (data.newMedia as any[]).reduce((acc, l) => {
+  const media: any[] = (newMedia as any[]).reduce((acc, l) => {
     if (Array.isArray(l.ids)) {
       return acc.concat(l.ids);
     }
@@ -74,7 +73,9 @@ export const transformEvent = async (
         A.concat(otherMedia)
       )
     ),
-    TE.map(media => media.concat(data.media))
+    TE.map((media) =>
+      Array.isArray(data.media) ? data.media.concat(media) : media
+    )
   );
 
   // eslint-disable-next-line @typescript-eslint/return-await
