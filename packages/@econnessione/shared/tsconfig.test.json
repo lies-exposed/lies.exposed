@@ -14,5 +14,8 @@
     "strictPropertyInitialization": false
   },
   "include": ["./src"],
-  "exclude": []
+  "exclude": [
+    "node_modules",
+    "lib"
+  ]
 }
