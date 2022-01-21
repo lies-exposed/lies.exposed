@@ -20,6 +20,7 @@ module.exports = {
       isolatesModules: true,
     },
   },
+  testPathIgnorePatterns: ["/node_modules/", "/http/Common/__tests__"],
   collectCoverageFrom: ["./src/**/*.ts"],
   coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
     "/src/endpoints/",

@@ -41,6 +41,6 @@ describe("List Keywords", () => {
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toHaveLength(20);
-    expect(response.body.total).toBeGreaterThan(100);
+    expect(response.body.total).toBeGreaterThanOrEqual(100);
   });
 });

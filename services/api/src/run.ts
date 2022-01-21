@@ -70,6 +70,4 @@ export const run = (): Promise<void> => {
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 run()
   // eslint-disable-next-line
-  .then((r) => console.log(r))
-  // eslint-disable-next-line
   .catch((e) => console.error(e));
