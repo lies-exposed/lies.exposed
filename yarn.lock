@@ -1998,7 +1998,6 @@ __metadata:
     jest: ^27.4.7
     page-metadata-parser: ^1.1.4
     prettier: ^2.5.1
-    puppeteer: ^10.4.0
     puppeteer-extra: ^3.2.3
     puppeteer-extra-plugin-stealth: ^2.9.0
     query-string: ^7.1.0
@@ -20468,26 +20467,6 @@ __metadata:
   peerDependencies:
     puppeteer: "*"
   checksum: a49f4b212fb041f6511fbae33be0e235700ee7029aa25c5cde3f37c07af84fd2a8db7a813b86dda29a8ec693d5c283bcc2b4191e21bd08f9c568c8be3b8b4309
-  languageName: node
-  linkType: hard
-
-"puppeteer@npm:^10.4.0":
-  version: 10.4.0
-  resolution: "puppeteer@npm:10.4.0"
-  dependencies:
-    debug: 4.3.1
-    devtools-protocol: 0.0.901419
-    extract-zip: 2.0.1
-    https-proxy-agent: 5.0.0
-    node-fetch: 2.6.1
-    pkg-dir: 4.2.0
-    progress: 2.0.1
-    proxy-from-env: 1.1.0
-    rimraf: 3.0.2
-    tar-fs: 2.0.0
-    unbzip2-stream: 1.3.3
-    ws: 7.4.6
-  checksum: 3b7b628f07b3e1f960110691363c1eb07a485fa2f24b5a083558a56841cc46bfcac7a3ab8ae5c687f39621972b35327ce934ea731c831dcd8b75d897920bdc26
   languageName: node
   linkType: hard
 
