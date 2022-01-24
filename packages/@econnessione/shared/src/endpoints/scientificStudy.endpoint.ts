@@ -51,12 +51,12 @@ export const Create = Endpoint({
 
 export const CreateFromURL = Endpoint({
   Method: "POST",
-  getPath: () => "/scientific-studies/url",
+  getPath: () => "/scientific-studies",
   Input: {
     Query: undefined,
     Body: t.strict({
       url: URL,
-      date: DateFromISOString,
+      // date: DateFromISOString,
     }),
   },
   Output: SingleStudyOutput,

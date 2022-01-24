@@ -22,7 +22,7 @@ import {
   ReferenceInput,
   SimpleForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -100,7 +100,10 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       />
       <BooleanInput source="draft" />
       <TextInput source="payload.title" />
-      <URLMetadataInput source="payload.url" />
+      <URLMetadataInput
+        source="payload.url"
+        type={ScientificStudy.ScientificStudyType.value}
+      />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" />
       <ReactPageInput source="body" />
@@ -119,16 +122,19 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
   <Create
     title="Create a Scientific Study"
     {...props}
-    transform={(r) => transformEvent(r.id as any, r)}
+    // transform={(r) => transformEvent(r.id as any, r)}
   >
     <SimpleForm>
-      <TextInput
+      {/* <TextInput
         source="type"
         defaultValue={ScientificStudy.ScientificStudyType.value}
+      /> */}
+      {/* <BooleanInput source="draft" defaultValue={false} /> */}
+      <URLMetadataInput
+        source="url"
+        type={ScientificStudy.ScientificStudyType.value}
       />
-      <BooleanInput source="draft" defaultValue={false} />
-      <URLMetadataInput source="payload.url" />
-      <TextInput source="payload.title" />
+      {/* <TextInput source="payload.title" />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" onlyText />
       <ReactPageInput source="body" />
@@ -144,7 +150,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
       </ReferenceInput>
       <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-      <MediaArrayInput source="newMedia" defaultValue={[]} />
+      <MediaArrayInput source="newMedia" defaultValue={[]} /> */}
     </SimpleForm>
   </Create>
 );

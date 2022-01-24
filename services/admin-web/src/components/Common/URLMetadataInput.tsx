@@ -1,12 +1,17 @@
-import { Box, TextField } from "@material-ui/core";
+import { DeathType } from "@econnessione/shared/io/http/Events/Death";
+import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
+import { Box, Button, TextField } from "@material-ui/core";
 import * as React from "react";
 import { TextInput, TextInputProps, useInput } from "react-admin";
 import { dataProvider } from "../../client/HTTPAPI";
 
-interface URLMetadataInputProps extends TextInputProps {}
+interface URLMetadataInputProps extends TextInputProps {
+  type: ScientificStudyType | "Link";
+}
 
 const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
   onMetadataReceived,
+  type,
   ...props
 }) => {
   const {
@@ -22,7 +27,7 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
       const value = e.currentTarget.value;
       if (value) {
         void dataProvider
-          .get("open-graph/metadata", { url: value })
+          .get("open-graph/metadata", { url: value, type })
           .then((result) => {
             setMetadata(result.data);
           });
@@ -37,6 +42,10 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
         {...(inputRest as any)}
         onChange={handleChange}
       />
+
+      <Button disabled={inputRest.value.length < 5} onClick={() => {}}>
+        Create
+      </Button>
       {metadata ? (
         <Box display="inline" marginLeft={2} flexBasis={"60%"}>
           {Object.entries<string>(metadata).map(([key, value]) => {

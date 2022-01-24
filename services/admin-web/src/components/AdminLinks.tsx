@@ -97,7 +97,7 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
     >
       <SimpleForm>
         <TextInput source="title" />
-        <URLMetadataInput source="url" />
+        <URLMetadataInput source="url" type="Link" />
         <ImageField source="image" />
         <RichTextInput source="description" />
         <DateInput source="publishDate" />
@@ -130,7 +130,7 @@ export const LinkCreate: React.FC<CreateProps> = (props) => {
   return (
     <Create title="Create a Link" {...props}>
       <SimpleForm>
-        <URLMetadataInput source="url" />
+        <URLMetadataInput source="url" type={'Link'} />
         <DateInput source="publishDate" />
         <ReferenceArrayEventInput
           source="events"
