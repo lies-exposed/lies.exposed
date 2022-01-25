@@ -12,7 +12,7 @@ export const ScientificStudyPayload = t.strict(
     url: URL,
     image: t.union([t.string, t.undefined]),
     authors: t.array(UUID),
-    publisher: UUID,
+    publisher: t.union([UUID, t.undefined]),
   },
   "ScientificStudyPayload"
 );

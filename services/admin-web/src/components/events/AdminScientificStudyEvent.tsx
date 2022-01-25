@@ -2,7 +2,6 @@ import * as ScientificStudy from "@econnessione/shared/io/http/Events/Scientific
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
-  AutocompleteArrayInput,
   AutocompleteInput,
   BooleanInput,
   Create,
@@ -16,13 +15,11 @@ import {
   FormTab,
   List,
   ListProps,
-  ReferenceArrayField,
-  ReferenceArrayInput,
-  ReferenceField,
+  ReferenceArrayField, ReferenceField,
   ReferenceInput,
   SimpleForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -48,7 +45,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
     {...props}
     filters={<ListFilter />}
     perPage={20}
-    filter={{ type: "ScientificStudy" }}
+    filter={{ type: "ScientificStudy", withDrafts: true }}
   >
     <Datagrid rowClick="edit">
       <TextField source="payload.title" />

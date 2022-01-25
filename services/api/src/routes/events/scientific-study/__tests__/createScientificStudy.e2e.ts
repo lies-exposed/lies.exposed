@@ -1,4 +1,5 @@
 import { fc } from "@econnessione/core/tests";
+import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import { CreateScientificStudyArb } from "@econnessione/shared/tests/arbitrary/ScientificStudy.arbitrary";
@@ -40,12 +41,13 @@ describe("Create Scientific Study", () => {
     const scientificStudyData = fc
       .sample(CreateScientificStudyArb, 1)
       .map((s) => ({
-        ...s,
-        payload: {
-          ...s.payload,
-          authors: [actor.id],
-          publisher: group.id,
-        },
+        url: s.payload.url,
+        // ...s,
+        // payload: {
+        //   ...s.payload,
+        //   authors: [actor.id],
+        //   publisher: group.id,
+        // },
       }))[0];
 
     const response = await appTest.req
@@ -56,15 +58,10 @@ describe("Create Scientific Study", () => {
     const body = response.body.data;
     expect(response.status).toEqual(201);
 
-    const { title, ...expectedPayload } = scientificStudyData.payload;
-    expect(body).toMatchObject({
-      date: scientificStudyData.date.toISOString(),
-      payload: {
-        ...expectedPayload,
-        authors: [actor.id],
-        publisher: group.id,
-      },
-    });
+    expect(body.type).toBe(ScientificStudyType.value);
+    expect(body.date).toBeDefined();
+    expect(body.payload.url).toBeDefined();
+    expect(body.payload.title).toBeDefined();
 
     scientificStudy = body;
   });

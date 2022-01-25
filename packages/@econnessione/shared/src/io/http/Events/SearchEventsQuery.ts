@@ -18,6 +18,7 @@ export const SearchEventsQuery = t.strict(
     endDate: optionFromUndefined(DateFromISOString),
     title: optionFromUndefined(t.string),
     withDeleted: optionFromUndefined(BooleanFromString),
+    withDrafts: optionFromUndefined(BooleanFromString)
   },
   "GetEventsQueryFilter"
 );

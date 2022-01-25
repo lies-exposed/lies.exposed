@@ -25,6 +25,7 @@ interface SearchEventQuery {
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;
   withDeleted: boolean;
+  withDrafts: boolean;
   skip: number;
   take: number;
   order?: { [key: string]: "ASC" | "DESC" } | undefined;
@@ -52,6 +53,7 @@ export const searchEventV2Query =
     startDate,
     endDate,
     withDeleted,
+    withDrafts,
     order,
     skip,
     take,
@@ -94,7 +96,9 @@ export const searchEventV2Query =
             .leftJoinAndSelect("event.media", "media")
             .leftJoinAndSelect("event.links", "links"),
           (q) => {
-            q.where("event.draft = :draft", { draft: false });
+            if (!withDrafts) {
+              q.where("event.draft = :draft", { draft: false });
+            }
 
             if (withDeleted) {
               q.withDeleted();

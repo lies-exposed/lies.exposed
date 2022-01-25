@@ -1,4 +1,3 @@
-import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import { Box, Button, TextField } from "@material-ui/core";
 import * as React from "react";
