@@ -20,6 +20,7 @@ export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.Scientific
     payload: {
       title: tests.fc.sample(tests.fc.string(), 1)[0] as any,
       authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
+      image: tests.fc.sample(URLArb, 1)[0],
       publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
       url: tests.fc.sample(URLArb, 1)[0],
     },
@@ -41,7 +42,7 @@ const scientificStudyProps = propsOmit(
     "links",
     "createdAt",
     "updatedAt",
-    'deletedAt'
+    "deletedAt",
   ]
 );
 
@@ -57,6 +58,7 @@ export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.
       body: tests.fc.sample(tests.fc.object(), 1)[0],
       authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,
       publisher: tests.fc.sample(tests.fc.uuidV(4), 1)[0] as any,
+      image: tests.fc.sample(URLArb, 1)[0],
       url: tests.fc.sample(URLArb, 1)[0],
     },
     media: [],
@@ -70,5 +72,5 @@ export const ScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.
       tests.fc.date({ min: MIN_DATE, max: MAX_DATE }),
       1
     )[0],
-    deletedAt: undefined
+    deletedAt: undefined,
   }));

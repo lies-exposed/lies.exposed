@@ -14,7 +14,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.DeathEvent.List,
     ({
-      query: { victim, minDate, maxDate, keywords, media, links, withDeleted, ...query },
+      query: { victim, minDate, maxDate, keywords, media, links, withDeleted, withDrafts, ...query },
     }) => {
       ctx.logger.debug.log("Victim is %O", victim);
       const ormOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
@@ -30,6 +30,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
           keywords,
           links,
           withDeleted: O.getOrElse(() => false)(withDeleted),
+          withDrafts: O.getOrElse(() => false)(withDrafts),
           ...ormOptions,
         }),
         TE.chain(({ results, totals: { deaths } }) =>

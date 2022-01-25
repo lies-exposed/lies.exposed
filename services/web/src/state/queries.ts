@@ -173,9 +173,11 @@ const reduceEvent = (
   if (e.type === "ScientificStudy") {
     return {
       ...acc,
-      groups: acc.groups.includes(e.payload.publisher)
-        ? acc.groups
-        : acc.groups.concat(e.payload.publisher),
+      groups:
+        e.payload.publisher === undefined ||
+        acc.groups.includes(e.payload.publisher)
+          ? acc.groups
+          : acc.groups.concat(e.payload.publisher),
     };
   }
   if (e.type === "Death") {
@@ -211,7 +213,14 @@ const reduceEvent = (
 
 const makeEventListQuery = paginatedCachedQuery<InfiniteEventListMetadata>(
   api.Event.List,
-  { actors: [], groups: [], groupsMembers: [], keywords: [], media: [], links: [] },
+  {
+    actors: [],
+    groups: [],
+    groupsMembers: [],
+    keywords: [],
+    media: [],
+    links: [],
+  },
   ({ data, ...acc }, e) => {
     return {
       data: data.concat(e),

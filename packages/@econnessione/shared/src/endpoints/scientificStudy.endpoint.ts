@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
@@ -21,6 +22,7 @@ export const List = Endpoint({
   Input: {
     Query: t.type({
       ...GetListQuery.props,
+      withDrafts: optionFromNullable(BooleanFromString),
       title: optionFromNullable(t.string),
       publishedBy: optionFromNullable(t.array(UUID)),
       publishedDate: optionFromNullable(DateFromISOString),
@@ -51,12 +53,11 @@ export const Create = Endpoint({
 
 export const CreateFromURL = Endpoint({
   Method: "POST",
-  getPath: () => "/scientific-studies/url",
+  getPath: () => "/scientific-studies",
   Input: {
     Query: undefined,
     Body: t.strict({
       url: URL,
-      date: DateFromISOString,
     }),
   },
   Output: SingleStudyOutput,

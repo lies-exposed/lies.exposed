@@ -2,7 +2,7 @@
 import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import type puppeteer from "puppeteer";
+import type * as puppeteer from "puppeteer-core";
 import { addExtra, VanillaPuppeteer } from "puppeteer-extra";
 import puppeteerStealth from "puppeteer-extra-plugin-stealth";
 import * as error from "../io/http/Error";
@@ -187,9 +187,9 @@ export const MakePuppeteerClient: MakePuppeteerClient = (p, launchOpts) => {
     launch: (opts) =>
       pipe(
         TE.tryCatch(() => {
-          return pup.launch({ ...launchOpts, ...opts });
+          return pup.launch({ ...launchOpts, ...(opts as any) });
         }, toPuppeteerError),
-        TE.map((b) => MakeCOPPuppeteerClient(b))
+        TE.map((b) => MakeCOPPuppeteerClient(b as any))
       ),
   };
 };

@@ -2,7 +2,6 @@ import * as ScientificStudy from "@econnessione/shared/io/http/Events/Scientific
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
-  AutocompleteArrayInput,
   AutocompleteInput,
   BooleanInput,
   Create,
@@ -16,9 +15,7 @@ import {
   FormTab,
   List,
   ListProps,
-  ReferenceArrayField,
-  ReferenceArrayInput,
-  ReferenceField,
+  ReferenceArrayField, ReferenceField,
   ReferenceInput,
   SimpleForm,
   TextField,
@@ -48,7 +45,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
     {...props}
     filters={<ListFilter />}
     perPage={20}
-    filter={{ type: "ScientificStudy" }}
+    filter={{ type: "ScientificStudy", withDrafts: true }}
   >
     <Datagrid rowClick="edit">
       <TextField source="payload.title" />
@@ -100,7 +97,10 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       />
       <BooleanInput source="draft" />
       <TextInput source="payload.title" />
-      <URLMetadataInput source="payload.url" />
+      <URLMetadataInput
+        source="payload.url"
+        type={ScientificStudy.ScientificStudyType.value}
+      />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" />
       <ReactPageInput source="body" />
@@ -119,16 +119,19 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
   <Create
     title="Create a Scientific Study"
     {...props}
-    transform={(r) => transformEvent(r.id as any, r)}
+    // transform={(r) => transformEvent(r.id as any, r)}
   >
     <SimpleForm>
-      <TextInput
+      {/* <TextInput
         source="type"
         defaultValue={ScientificStudy.ScientificStudyType.value}
+      /> */}
+      {/* <BooleanInput source="draft" defaultValue={false} /> */}
+      <URLMetadataInput
+        source="url"
+        type={ScientificStudy.ScientificStudyType.value}
       />
-      <BooleanInput source="draft" defaultValue={false} />
-      <URLMetadataInput source="payload.url" />
-      <TextInput source="payload.title" />
+      {/* <TextInput source="payload.title" />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" onlyText />
       <ReactPageInput source="body" />
@@ -144,7 +147,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
       </ReferenceInput>
       <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-      <MediaArrayInput source="newMedia" defaultValue={[]} />
+      <MediaArrayInput source="newMedia" defaultValue={[]} /> */}
     </SimpleForm>
   </Create>
 );
