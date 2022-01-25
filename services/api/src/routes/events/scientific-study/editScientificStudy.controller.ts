@@ -46,7 +46,7 @@ export const MakeEditScientificStudyRoute: Route = (
             ...scientificStudyData,
             payload: {
               ...event.payload,
-              title: meta.title ?? body.payload.title,
+              title: body.payload.title ?? meta.title,
             },
             id,
           },
