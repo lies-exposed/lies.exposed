@@ -1,10 +1,8 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { UUID } from "io-ts-types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { ServerError } from "@io/ControllerError";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { Route } from "@routes/route.types";
 
@@ -35,18 +33,15 @@ export const MakeEditScientificStudyRoute: Route = (
     };
 
     return pipe(
-      sequenceS(TE.ApplicativePar)({
-        meta: urlMetadata.fetchMetadata(body.payload.url, (e) => ServerError()),
-        event: db.findOneOrFail(EventV2Entity, { where: { id } }),
-      }),
-      TE.chain(({ meta, event }) =>
+      db.findOneOrFail(EventV2Entity, { where: { id } }),
+      TE.chain((event) =>
         db.save(EventV2Entity, [
           {
             ...event,
             ...scientificStudyData,
             payload: {
               ...event.payload,
-              title: body.payload.title ?? meta.title,
+              ...scientificStudyData.payload,
             },
             id,
           },

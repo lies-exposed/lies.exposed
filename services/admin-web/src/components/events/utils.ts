@@ -8,9 +8,9 @@ import { RawMedia, uploadFile } from "@client/MediaAPI";
 
 export const transformEvent = async (
   id: string,
-  { newMedia, ...data }: Record
+  data: Record
 ): Promise<Record> => {
-  const media: any[] = (newMedia as any[]).reduce((acc, l) => {
+  const media: any[] = (data.newMedia ?? ([] as any[])).reduce((acc, l) => {
     if (Array.isArray(l.ids)) {
       return acc.concat(l.ids);
     }
