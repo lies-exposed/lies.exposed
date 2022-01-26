@@ -5,22 +5,18 @@ import {
   GroupMember,
   Keyword,
   Link,
-  Media,
+  Media
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import LinkIcon from "@material-ui/icons/LinkOutlined";
-import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import Editor from "../../Common/Editor";
 import { Slider } from "../../Common/Slider/Slider";
-import { ActorList } from "../ActorList";
-import GroupList from "../GroupList";
-import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
 
 interface UncategorizedListItemProps {
@@ -97,7 +93,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 <LinkIcon fontSize="small" />{" "}
                 <Typography variant="caption">({links.length})</Typography>
               </Box>
-              {pipe(
+              {/* {pipe(
                 groups,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
@@ -126,9 +122,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     </Box>
                   )
                 )
-              )}
+              )} */}
 
-              {pipe(
+              {/* {pipe(
                 groupsMembers,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
@@ -157,9 +153,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     </Box>
                   )
                 )
-              )}
+              )} */}
 
-              {pipe(
+              {/* {pipe(
                 actors,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
@@ -188,7 +184,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     </Box>
                   )
                 )
-              )}
+              )} */}
             </Grid>
           </Grid>
         </Grid>
