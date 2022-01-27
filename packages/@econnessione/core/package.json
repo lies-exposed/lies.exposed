@@ -28,7 +28,7 @@
     "@types/webpack-node-externals": "^2.5.3",
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "^6.5.1",
-    "dotenv-webpack": "^7.0.3",
+    "dotenv-webpack": "^7.1.0",
     "eslint": "^8.7.0",
     "eslint-plugin-import": "^2.25.4",
     "fast-check": "^2.21.0",

@@ -51,7 +51,7 @@
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.11.2",
+    "@testing-library/dom": "^8.11.3",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
