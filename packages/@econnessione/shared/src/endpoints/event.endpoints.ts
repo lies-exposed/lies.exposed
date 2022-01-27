@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
-import { SearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
+import { GetSearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
@@ -10,7 +10,7 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => `/events`,
   Input: {
-    Query: SearchEventsQuery.type,
+    Query: GetSearchEventsQuery.type,
   },
   Output: t.strict(
     {

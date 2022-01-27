@@ -6,14 +6,14 @@ import { propsOmit } from "../../../tests/arbitrary/utils.arbitrary";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { Point } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
-import { SearchEventsQuery } from "./SearchEventsQuery";
+import { GetSearchEventsQuery } from "./SearchEventsQuery";
 
 export const DeathType = t.literal("Death");
 export type DeathType = t.TypeOf<typeof DeathType>;
 
 export const DeathListQuery = t.strict(
   {
-    ...propsOmit(SearchEventsQuery, ["type"]),
+    ...propsOmit(GetSearchEventsQuery, ["type"]),
     victim: optionFromNullable(t.array(UUID)),
     minDate: optionFromNullable(DateFromISOString),
     maxDate: optionFromNullable(DateFromISOString),

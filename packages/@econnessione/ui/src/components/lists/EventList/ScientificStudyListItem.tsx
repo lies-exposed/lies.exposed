@@ -4,14 +4,11 @@ import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 import Editor from "../../Common/Editor";
+import { SearchScientificStudyEvent } from "./EventListItem";
 
 interface ScientificStudyListItemProps {
-  item: io.http.Events.ScientificStudy.ScientificStudy;
-  actors: io.http.Actor.Actor[];
-  groups: io.http.Group.Group[];
-  keywords: io.http.Keyword.Keyword[];
-  links: io.http.Link.Link[];
-  onClick?: (e: io.http.Events.ScientificStudy.ScientificStudy) => void;
+  item: SearchScientificStudyEvent;
+  onClick?: (e: SearchScientificStudyEvent) => void;
   onActorClick?: (e: io.http.Actor.Actor) => void;
   onKeywordClick?: (e: io.http.Keyword.Keyword) => void;
 }
@@ -20,15 +17,10 @@ export const ScientificStudyListItem: React.FC<
   ScientificStudyListItemProps
 > = ({
   item,
-  actors,
-  groups,
-  keywords,
-  links,
   onClick,
   onActorClick,
   onKeywordClick,
 }) => {
-  const publisher = groups.find((g) => g.id === item.payload.publisher);
   return (
     <Box
       key={item.id}
@@ -54,7 +46,7 @@ export const ScientificStudyListItem: React.FC<
           sm={false}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          <Avatar size="xlarge" src={publisher?.avatar} />
+          <Avatar size="xlarge" src={item.payload.publisher.avatar} />
         </Grid>
       </Grid>
     </Box>

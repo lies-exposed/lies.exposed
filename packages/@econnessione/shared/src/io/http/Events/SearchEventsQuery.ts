@@ -4,7 +4,7 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { GetListQuery } from "../Query";
 
-export const SearchEventsQuery = t.strict(
+export const GetSearchEventsQuery = t.strict(
   {
     ...GetListQuery.props,
     type: optionFromUndefined(t.string),
@@ -23,4 +23,5 @@ export const SearchEventsQuery = t.strict(
   "GetEventsQueryFilter"
 );
 
-export type SearchEventsQuery = t.TypeOf<typeof SearchEventsQuery>;
+export type GetSearchEventsQuery = t.TypeOf<typeof GetSearchEventsQuery>;
+export type GetSearchEVentsQueryInput = t.OutputOf<typeof GetSearchEventsQuery>

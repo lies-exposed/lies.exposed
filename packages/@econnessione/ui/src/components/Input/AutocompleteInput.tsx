@@ -49,11 +49,11 @@ export const AutocompleteInput = <T extends { id: string }>({
   onItemsChange,
   ...props
 }: AutocompleteInputProps<T>): React.ReactElement => {
-  const [value, setValue] = React.useState<string | undefined>("");
+  const [value, setValue] = React.useState<string>("");
   // const setValueThrottled = throttle(300, setValue, true);
 
   const itemsQuery = React.useMemo(
-    () => (value !== undefined ? query : emptyDataQuery<T>()),
+    () => (value !== "" ? query : emptyDataQuery<T>()),
     [value]
   );
 

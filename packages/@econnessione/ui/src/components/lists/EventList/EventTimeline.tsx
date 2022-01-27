@@ -1,5 +1,3 @@
-import { eventDate } from "@econnessione/shared/helpers/event";
-import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
 import { distanceFromNow } from "@econnessione/shared/utils/date";
 import { makeStyles } from "@material-ui/core";
@@ -8,13 +6,13 @@ import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
-import { EventListItemProps } from "./EventListItem";
+import { EventListItemProps, SearchEvent } from "./EventListItem";
 import EventTimelineItem from "./EventTimelineItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.Event): string => {
-    return distanceFromNow(eventDate(e));
+  Eq.contramap((e: SearchEvent): string => {
+    return distanceFromNow(e.date);
   })
 );
 
@@ -31,7 +29,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.Event[];
+  events: SearchEvent[];
 }
 
 const renderRow = (props: {
@@ -45,7 +43,14 @@ const renderRow = (props: {
     data: { events, ...listItemProps },
   } = props;
 
-  return <EventTimelineItem event={events[index]} isLast={last} {...listItemProps} />;
+  return (
+    <EventTimelineItem
+      key={events[index].id}
+      event={events[index]}
+      isLast={last}
+      {...listItemProps}
+    />
+  );
 };
 
 const renderHeaderRow: React.FC<{
@@ -63,7 +68,7 @@ const renderHeaderRow: React.FC<{
   } = props;
   const events = data.events;
 
-  const dateHeader = distanceFromNow(eventDate(events[0]));
+  const dateHeader = distanceFromNow(events[0].date);
   return (
     <div key={dateHeader}>
       {events.map((e, i) =>
@@ -79,12 +84,6 @@ const renderHeaderRow: React.FC<{
 
 const EventsTimeline: React.FC<EventListProps> = ({
   events,
-  actors,
-  groups,
-  keywords,
-  groupsMembers,
-  media,
-  links,
   onClick,
   onActorClick,
   onGroupClick,
@@ -92,6 +91,7 @@ const EventsTimeline: React.FC<EventListProps> = ({
   onGroupMemberClick,
   ...props
 }) => {
+
   const orderedEvents = React.useMemo(
     () => pipe(events, groupBy(byEqualDate)),
     [events]
@@ -106,12 +106,6 @@ const EventsTimeline: React.FC<EventListProps> = ({
           last: orderedEvents.length - 1 > i,
           data: {
             events: ee,
-            actors,
-            groups,
-            groupsMembers,
-            keywords,
-            media,
-            links,
             classes,
             onClick,
             onActorClick,

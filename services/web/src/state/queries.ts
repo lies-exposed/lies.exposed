@@ -9,7 +9,7 @@ import { UUID } from "io-ts-types/lib/UUID";
 import { api } from "../api";
 import { EventsView } from "../utils/location.utils";
 import { stateLogger } from "../utils/logger.utils";
-import { toKey } from "../utils/state.utils";
+import { buildFromCache, getFromCache, infiniteListCache, toKey } from "../utils/state.utils";
 
 export const IL_EVENT_KEY_PREFIX = "events";
 export const IL_DEATH_KEY_PREFIX = "deaths";
@@ -34,53 +34,6 @@ export interface InfiniteEventListMetadata {
   media: UUID[];
   links: UUID[];
 }
-
-export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
-
-const getFromCache = <T extends t.Any, M>(
-  cacheKey: string,
-  p: number
-): TE.TaskEither<APIError, (t.TypeOf<T> & { metadata: M }) | undefined> =>
-  TE.fromIO<(t.TypeOf<T> & { metadata: M }) | undefined, APIError>(() => {
-    const cache = infiniteListCache[cacheKey]?.[p];
-    stateLogger.debug.log(`[%s] Cache for page %d %O`, cacheKey, p, cache);
-    return cache;
-  });
-
-const buildFromCache = <T extends t.Any, M>(
-  cacheKey: string,
-  page: number,
-  empty: M
-): TE.TaskEither<APIError, t.TypeOf<T> & { metadata: M }> => {
-  return TE.fromIO<t.TypeOf<T> & { metadata: M }, APIError>(() => {
-    stateLogger.debug.log(
-      "[%s] Build data from cache until page %d",
-      cacheKey,
-      page
-    );
-    const storedResponse = pipe(
-      infiniteListCache[cacheKey] ?? {},
-      Object.entries,
-      (entries) => {
-        return entries.reduce<t.TypeOf<T> & { metadata: M }>(
-          (acc, [p, item]) => {
-            if (parseInt(p, 10) <= page) {
-              return {
-                data: acc.data.concat(item.data),
-                totals: item.totals,
-                metadata: item.metadata,
-              };
-            }
-            return acc;
-          },
-          { data: [], totals: {}, metadata: empty }
-        );
-      }
-    );
-    stateLogger.debug.log(`[%s] Stored data %O`, cacheKey, storedResponse);
-    return storedResponse;
-  });
-};
 
 const paginatedCachedQuery =
   <M, T extends t.Mixed = t.Mixed>(

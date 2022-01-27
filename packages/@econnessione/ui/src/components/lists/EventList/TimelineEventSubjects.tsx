@@ -1,20 +1,13 @@
-import {
-  Actor,
-  Events,
-  Group,
-  GroupMember,
-} from "@econnessione/shared/io/http";
+import { Events } from "@econnessione/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
 import { ActorList } from "../ActorList";
 import GroupsList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
+import { SearchEvent } from "./EventListItem";
 
 export interface EventListItemProps {
-  event: Events.Event;
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
+  event: SearchEvent;
   // onActorClick: (a: Actor.Actor) => void;
   // onGroupClick: (g: Group.Group) => void;
   // onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
@@ -28,11 +21,19 @@ const style: React.CSSProperties = {
 
 export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   event: e,
-  actors,
-  groups,
-  groupsMembers,
   ...props
 }) => {
+  const actors =
+    e.type === "Death"
+      ? [e.payload.victim]
+      : Events.ScientificStudy.ScientificStudy.is(e)
+      ? e.payload.authors
+      : [];
+
+  const groups = e.type === "Uncategorized" ? e.payload.groups : [];
+  const groupsMembers =
+    e.type === "Uncategorized" ? e.payload.groupsMembers : [];
+
   return (
     <Box style={{ ...style, flexDirection: "column" }}>
       <ActorList

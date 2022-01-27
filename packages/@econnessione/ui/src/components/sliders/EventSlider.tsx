@@ -1,19 +1,21 @@
-import { Events } from "@econnessione/shared/io/http";
-import { SearchEventsQuery } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
+import { GetSearchEventsQuery } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import SlickSlider from "react-slick";
 import { serializedType } from "ts-io-error/lib/Codec";
-import { Queries } from "../../providers/DataProvider";
+import { searchEventsQuery } from "../../state/queries/SearchEventsQuery";
 import { ErrorBox } from "../Common/ErrorBox";
 import { LazyLoader } from "../Common/Loader";
-import { UncategorizedListItem } from "../lists/EventList/UncategorizedListItem";
+import {
+  EventListItem,
+  SearchEvent
+} from "../lists/EventList/EventListItem";
 
 export interface EventSliderProps {
-  filter: serializedType<typeof SearchEventsQuery>;
-  onClick: (e: Events.Event | Events.Event) => void;
+  filter: serializedType<typeof GetSearchEventsQuery>;
+  onClick: (e: SearchEvent) => void;
 }
 
 export const EventSlider: React.FC<EventSliderProps> = ({
@@ -22,18 +24,18 @@ export const EventSlider: React.FC<EventSliderProps> = ({
 }) => {
   return (
     <WithQueries
-      queries={{ events: Queries.Event.getList }}
+      queries={{ events: searchEventsQuery }}
       params={{
         events: {
-          pagination: { perPage: 20, page: 1 },
-          sort: { field: "startDate", order: "DESC" },
-          filter,
+          page: 1,
+          hash: 'slider',
+          ...filter,
         },
       }}
-      render={QR.fold(LazyLoader, ErrorBox, ({ events: { data, total } }) => {
+      render={QR.fold(LazyLoader, ErrorBox, ({ events: { events, totals } }) => {
         return (
           <div>
-            <Typography variant="body1">Total events: {total}</Typography>
+            <Typography variant="body1">Total events: {totals.uncategorized}</Typography>
             <SlickSlider
               adaptiveHeight={true}
               infinite={false}
@@ -41,24 +43,18 @@ export const EventSlider: React.FC<EventSliderProps> = ({
               draggable={false}
               dots={true}
             >
-              {data.map((e, index) => {
-                if (Events.Uncategorized.Uncategorized.is(e)) {
-                  return (
-                    <UncategorizedListItem
-                      key={e.id}
-                      item={e}
-                      actors={[]}
-                      groups={[]}
-                      links={[]}
-                      media={[]}
-                      keywords={[]}
-                      groupsMembers={[]}
-                      onClick={onClick}
-                    />
-                  );
-                }
-
-                return <div key={e.id}>Unknown event {JSON.stringify(e)}</div>;
+              {events.map((e, index) => {
+                return (
+                  <EventListItem
+                    key={e.id}
+                    event={e}
+                    onClick={onClick}
+                    onActorClick={() => {}}
+                    onGroupClick={() => {}}
+                    onGroupMemberClick={() => {}}
+                    onKeywordClick={() => {}}
+                  />
+                );
               })}
             </SlickSlider>
           </div>
