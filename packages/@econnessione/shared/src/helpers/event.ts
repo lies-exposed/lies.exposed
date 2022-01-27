@@ -10,20 +10,6 @@ import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
-export const eventDate = (e: Events.Event): Date => {
-  switch (e.type) {
-    case Events.Death.DeathType.value: {
-      return e.date;
-    }
-
-    case Events.ScientificStudy.ScientificStudyType.value: {
-      return e.date;
-    }
-    default:
-      return e.date;
-  }
-};
-
 export const eqByUUID = pipe(
   Eq.eqString,
   Eq.contramap((f: Common.BaseProps) => f.id)
@@ -42,8 +28,8 @@ export const eventsDataToNavigatorItems = (
 
   const yearItems = events.reduce<EventsByYearMap>((acc, e) => {
     const frontmatter = e;
-    const year = eventDate(frontmatter).getFullYear();
-    const month = eventDate(frontmatter).getUTCMonth();
+    const year = frontmatter.date.getFullYear();
+    const month = frontmatter.date.getUTCMonth();
 
     const value = pipe(
       Map.lookup(Eq.eqNumber)(year, acc),
@@ -146,8 +132,9 @@ export const filterMetadataFroProject =
     }
   };
 
-export const ordEventDate = Ord.ord.contramap(Ord.ordDate, (e: Events.Event) =>
-  eventDate(e)
+export const ordEventDate = Ord.ord.contramap(
+  Ord.ordDate,
+  (e: Events.Event) => e.date
 );
 
 const colorMap: Record<Events.Event["type"], string> = {
@@ -179,7 +166,7 @@ export const eventsInDateRange =
           O.alt(() =>
             pipe(
               A.last(orderedEvents),
-              O.map((e) => eventDate(e))
+              O.map((e) => e.date)
             )
           ),
           O.getOrElse(() => subWeeks(new Date(), 1))
@@ -187,15 +174,21 @@ export const eventsInDateRange =
 
         const maxDate = pipe(
           props.maxDate,
-          O.alt(() => pipe(A.head(orderedEvents), O.map(eventDate))),
+          O.alt(() =>
+            pipe(
+              A.head(orderedEvents),
+              O.map((e) => e.date)
+            )
+          ),
           O.getOrElse(() => new Date())
         );
 
         return { events: orderedEvents, minDate, maxDate };
       },
       ({ events, minDate, maxDate }) => {
-        return A.array.filter(events, (e) =>
-          Ord.between(Ord.ordDate)(minDate, maxDate)(eventDate(e))
+        return pipe(
+          events,
+          A.filter((e) => Ord.between(Ord.ordDate)(minDate, maxDate)(e.date))
         );
       }
     );
@@ -239,3 +232,35 @@ export const extractEventsMetadata =
 
     return results;
   };
+
+interface EventRelationIds {
+  actors: string[];
+  groups: string[];
+  groupsMembers: string[];
+  keywords: string[];
+  media: string[];
+}
+export const getRelationIds = (e: Events.Event): EventRelationIds => {
+  const eventActors = Events.Death.Death.is(e)
+    ? [e.payload.victim]
+    : Events.Uncategorized.Uncategorized.is(e)
+    ? e.payload.actors
+    : e.payload.authors;
+  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
+    ? e.payload.groups
+    : Events.ScientificStudy.ScientificStudy.is(e) &&
+      e.payload.publisher !== undefined
+    ? [e.payload.publisher]
+    : [];
+  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
+    ? e.payload.groupsMembers
+    : [];
+
+  return {
+    actors: eventActors,
+    groups: eventGroups,
+    groupsMembers: eventGroupMembers,
+    media: e.media,
+    keywords: e.keywords,
+  };
+};

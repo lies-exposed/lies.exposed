@@ -1,6 +1,5 @@
 import {
   eqByUUID,
-  eventDate,
   ordEventDate
 } from "@econnessione/shared/helpers/event";
 import {
@@ -84,12 +83,12 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
       ...g,
       selected: true,
     }));
-  const keywords = props.keywords
-    .filter((k) => props.selectedKeywordIds.includes(k.id))
-    .map((k) => ({
-      ...k,
-      selected: true,
-    }));
+  // const keywords = props.keywords
+  //   .filter((k) => props.selectedKeywordIds.includes(k.id))
+  //   .map((k) => ({
+  //     ...k,
+  //     selected: true,
+  //   }));
 
   return (
     <>
@@ -130,28 +129,20 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                     onNodeClick={() => {}}
                     onEventLabelClick={() => {}}
                     tooltipRenderer={(event) => {
-                      const actors = pipe(
-                        event.actors,
-                        O.getOrElse((): Actor.Actor[] => [])
-                      );
-                      const groups = pipe(
-                        event.groups,
-                        O.getOrElse((): Group.Group[] => [])
-                      );
+                      // const actors = pipe(
+                      //   event.actors,
+                      //   O.getOrElse((): Actor.Actor[] => [])
+                      // );
+                      // const groups = pipe(
+                      //   event.groups,
+                      //   O.getOrElse((): Group.Group[] => [])
+                      // );
 
                       return (
                         <EventListItem
                           event={{
-                            ...event,
-                            // groups: groups.map((g) => g.id),
-                            // actors: actors.map((a) => a.id),
+                            ...event as any,
                           }}
-                          actors={actors}
-                          groups={groups}
-                          keywords={keywords}
-                          links={[]}
-                          groupsMembers={[]}
-                          media={[]}
                           onClick={() => {}}
                           onActorClick={() => {}}
                           onGroupClick={() => {}}
@@ -479,13 +470,13 @@ export function createEventNetworkGraphProps({
 
   const minDate = pipe(
     A.last(orderedEvents),
-    O.map((e) => eventDate(e)),
+    O.map((e) => e.date),
     O.getOrElse(() => subWeeks(new Date(), 1))
   );
 
   const maxDate = pipe(
     A.head(orderedEvents),
-    O.map((e) => eventDate(e)),
+    O.map((e) => e.date),
     O.getOrElse(() => new Date())
   );
 
@@ -529,7 +520,7 @@ export function createEventNetworkGraphProps({
     A.reduce(result, (acc, e) => {
       // get topic from relative directory
       const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
-        eventDate(e)
+        e.date
       );
 
       if (isBetweenDateRange) {
@@ -555,7 +546,7 @@ export function createEventNetworkGraphProps({
             x:
               margin.horizontal +
               getX(
-                eventDate(e),
+                e.date,
                 minDate,
                 maxDate,
                 networkWidth - margin.horizontal * 2
@@ -565,7 +556,7 @@ export function createEventNetworkGraphProps({
               ...e,
               title: e.payload.title,
               selected: !!groupByItem,
-              date: eventDate(e),
+              date: e.date,
               groupBy: groupByItem ? [groupByItem] : [],
               actors: pipe(
                 e.payload.actors,

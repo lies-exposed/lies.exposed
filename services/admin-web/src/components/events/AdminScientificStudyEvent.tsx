@@ -2,9 +2,7 @@ import * as ScientificStudy from "@econnessione/shared/io/http/Events/Scientific
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
-  AutocompleteInput,
-  BooleanInput,
-  Create,
+  AutocompleteInput, BooleanField, BooleanInput, Create,
   CreateProps,
   Datagrid,
   DateField,
@@ -49,6 +47,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
   >
     <Datagrid rowClick="edit">
       <TextField source="payload.title" />
+      <BooleanField source="draft" />
       <ReferenceField source="payload.publisher" reference="groups">
         <AvatarField source="avatar" />
       </ReferenceField>
@@ -89,12 +88,12 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
     transform={(r) => transformEvent(r.id as any, r)}
   >
     <SimpleForm>
-      <WebPreviewButton resource="/dashboard/events" source="id" />
       <TextInput
         source="type"
         defaultValue={ScientificStudy.ScientificStudyType.value}
         hidden
       />
+      <WebPreviewButton resource="/dashboard/events" source="id" />
       <BooleanInput source="draft" />
       <TextInput source="payload.title" />
       <URLMetadataInput

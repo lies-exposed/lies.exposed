@@ -1,26 +1,18 @@
-import { eventDate } from "@econnessione/shared/helpers/event";
-import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
-import { distanceFromNow, formatDate } from "@econnessione/shared/utils/date";
-import { makeStyles, Typography } from "@material-ui/core";
+import { distanceFromNow } from "@econnessione/shared/utils/date";
+import { makeStyles } from "@material-ui/core";
 import Timeline from "@material-ui/lab/Timeline";
-import TimelineConnector from "@material-ui/lab/TimelineConnector";
-import TimelineContent from "@material-ui/lab/TimelineContent";
-import TimelineDot from "@material-ui/lab/TimelineDot";
-import TimelineItem from "@material-ui/lab/TimelineItem";
-import TimelineOppositeContent from "@material-ui/lab/TimelineOppositeContent";
-import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
-import { EventIcon } from "../../Common/Icons/EventIcon";
-import { EventListItem, EventListItemProps } from "./EventListItem";
+import { EventListItemProps, SearchEvent } from "./EventListItem";
+import EventTimelineItem from "./EventTimelineItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.Event): string => {
-    return distanceFromNow(eventDate(e));
+  Eq.contramap((e: SearchEvent): string => {
+    return distanceFromNow(e.date);
   })
 );
 
@@ -37,7 +29,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.Event[];
+  events: SearchEvent[];
 }
 
 const renderRow = (props: {
@@ -48,71 +40,16 @@ const renderRow = (props: {
   const {
     index,
     last,
-    data: {
-      events,
-      actors,
-      groups,
-      groupsMembers,
-      keywords,
-      media,
-      links,
-      ...listItemProps
-    },
+    data: { events, ...listItemProps },
   } = props;
 
-  const e = events[index];
-
-  const eventActors = Events.Death.Death.is(e)
-    ? actors.filter((a) => e.payload.victim === a.id)
-    : Events.Uncategorized.Uncategorized.is(e)
-    ? actors.filter((a) => e.payload.actors.includes(a.id))
-    : [];
-  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
-    ? groups.filter((a) => e.payload.groups.includes(a.id))
-    : [];
-  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
-    ? groupsMembers.filter((g) => e.payload.groupsMembers.includes(g.id))
-    : [];
-
-  const eventMedia = media.filter((m) => e.media.includes(m.id));
-  const eventLinks = links.filter((l) => e.links.includes(l.id));
-  const eventKeywords = keywords.filter((a) => e.keywords.includes(a.id));
-
   return (
-    <TimelineItem key={`event-list-item-${e.id}`}>
-      <TimelineOppositeContent style={{ flex: 0 }}>
-        <Typography variant="subtitle1" color="primary">
-          {formatDate(e.date)}
-        </Typography>
-        {process.env.NODE_ENV === "development" ? (
-          <a
-            href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Edit
-          </a>
-        ) : null}
-      </TimelineOppositeContent>
-      <TimelineSeparator>
-        <TimelineDot variant="outlined" color="inherit">
-          <EventIcon type={e.type} color="secondary" />
-        </TimelineDot>
-        {last ? <TimelineConnector /> : null}
-      </TimelineSeparator>
-      <TimelineContent style={{ maxWidth: "100%", paddingBottom: 20 }}>
-        <EventListItem
-          event={e}
-          actors={eventActors}
-          groups={eventGroups}
-          keywords={eventKeywords}
-          groupsMembers={eventGroupMembers}
-          media={eventMedia}
-          links={eventLinks}
-          {...listItemProps}
-        />
-      </TimelineContent>
-    </TimelineItem>
+    <EventTimelineItem
+      key={events[index].id}
+      event={events[index]}
+      isLast={last}
+      {...listItemProps}
+    />
   );
 };
 
@@ -131,7 +68,7 @@ const renderHeaderRow: React.FC<{
   } = props;
   const events = data.events;
 
-  const dateHeader = distanceFromNow(eventDate(events[0]));
+  const dateHeader = distanceFromNow(events[0].date);
   return (
     <div key={dateHeader}>
       {events.map((e, i) =>
@@ -147,12 +84,6 @@ const renderHeaderRow: React.FC<{
 
 const EventsTimeline: React.FC<EventListProps> = ({
   events,
-  actors,
-  groups,
-  keywords,
-  groupsMembers,
-  media,
-  links,
   onClick,
   onActorClick,
   onGroupClick,
@@ -160,6 +91,7 @@ const EventsTimeline: React.FC<EventListProps> = ({
   onGroupMemberClick,
   ...props
 }) => {
+
   const orderedEvents = React.useMemo(
     () => pipe(events, groupBy(byEqualDate)),
     [events]
@@ -174,12 +106,6 @@ const EventsTimeline: React.FC<EventListProps> = ({
           last: orderedEvents.length - 1 > i,
           data: {
             events: ee,
-            actors,
-            groups,
-            groupsMembers,
-            keywords,
-            media,
-            links,
             classes,
             onClick,
             onActorClick,

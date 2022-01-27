@@ -1,5 +1,3 @@
-import { eventDate } from "@econnessione/shared/helpers/event";
-import { Events } from "@econnessione/shared/io/http";
 import { groupBy } from "@econnessione/shared/utils/array.utils";
 import { distanceFromNow } from "@econnessione/shared/utils/date";
 import {
@@ -8,18 +6,18 @@ import {
   ListItem,
   ListSubheader,
   makeStyles,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
-import { EventListItem, EventListItemProps } from "./EventListItem";
+import { EventListItem, EventListItemProps, SearchEvent } from "./EventListItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: Events.Event): string => {
-    return distanceFromNow(eventDate(e));
+  Eq.contramap((e: SearchEvent): string => {
+    return distanceFromNow(e.date);
   })
 );
 
@@ -36,7 +34,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: Events.Event[];
+  events: SearchEvent[];
 }
 
 const renderRow = (props: {
@@ -45,49 +43,14 @@ const renderRow = (props: {
 }): React.ReactElement => {
   const {
     index,
-    data: {
-      events,
-      actors,
-      groups,
-      groupsMembers,
-      keywords,
-      media,
-      ...listItemProps
-    },
+    data: { events, ...listItemProps },
   } = props;
 
   const e = events[index];
 
-  const eventActors = Events.Death.Death.is(e)
-    ? actors.filter((a) => e.payload.victim === a.id)
-    : Events.Uncategorized.Uncategorized.is(e)
-    ? actors.filter((a) => e.payload.actors.includes(a.id))
-    : [];
-  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
-    ? groups.filter((a) => e.payload.groups.includes(a.id))
-    : [];
-  const eventKeywords = Events.Uncategorized.Uncategorized.is(e)
-    ? keywords.filter((a) => e.keywords.includes(a.id))
-    : [];
-
-  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
-    ? groupsMembers.filter((g) => e.payload.groupsMembers.includes(g.id))
-    : [];
-  const eventMedia = Events.Uncategorized.Uncategorized.is(e)
-    ? media.filter((m) => e.media.includes(m.id))
-    : [];
-
   return (
     <ListItem key={`event-list-item-${e.id}`}>
-      <EventListItem
-        event={e}
-        actors={eventActors}
-        groups={eventGroups}
-        keywords={eventKeywords}
-        groupsMembers={eventGroupMembers}
-        media={eventMedia}
-        {...listItemProps}
-      />
+      <EventListItem event={e} {...listItemProps} />
     </ListItem>
   );
 };
@@ -106,7 +69,7 @@ const renderHeaderRow: React.FC<{
   } = props;
   const events = data.events;
 
-  const dateHeader = distanceFromNow(eventDate(events[0]));
+  const dateHeader = distanceFromNow(events[0].date);
   return (
     <div key={dateHeader}>
       <ListSubheader className={classes.listSubheader}>

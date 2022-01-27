@@ -1,15 +1,16 @@
 import {
-  Events,
-  Keyword,
-  GroupMember,
   Actor,
+  Events,
   Group,
+  GroupMember,
+  Keyword,
 } from "@econnessione/shared/io/http";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { SearchEvent } from "@econnessione/ui/components/lists/EventList/EventListItem";
 import EventsTimeline from "@econnessione/ui/components/lists/EventList/EventTimeline";
-import { Queries } from "@econnessione/ui/providers/DataProvider";
+import { searchEventsQuery } from "@econnessione/ui/state/queries/SearchEventsQuery";
 import {
   Box,
   Chip,
@@ -26,12 +27,12 @@ import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { debounce } from "throttle-debounce";
-import { eventsPaginated, InfiniteEventListParams } from "../state/queries";
+import { InfiniteEventListParams } from "../state/queries";
 import { doUpdateCurrentView } from "../utils/location.utils";
 
 const eventsSort = pipe(
   Ord.reverse(D.Ord),
-  Ord.contramap((e: Events.Event): Date => {
+  Ord.contramap((e: SearchEvent): Date => {
     if (e.type === Events.ScientificStudy.ScientificStudyType.value) {
       return e.date;
     }
@@ -161,11 +162,12 @@ const InfiniteEventList: React.FC<EventListProps> = ({
     <Box>
       <WithQueries
         queries={{
-          eventsPaginated,
+          searchEventsQuery,
         }}
         params={{
-          eventsPaginated: {
+          searchEventsQuery: {
             ...filters,
+            links: [],
             page: state.currentPage,
             hash,
           },
@@ -173,16 +175,14 @@ const InfiniteEventList: React.FC<EventListProps> = ({
         render={QR.fold(
           LazyFullSizeLoader,
           ErrorBox,
-          ({ eventsPaginated: events }) => {
+          ({ searchEventsQuery: { events, totals } }) => {
             const allEvents = pipe(
-              state.filters.events ? events.data : [],
+              state.filters.events ? events : [],
               A.sort(eventsSort)
             );
 
             const totalEvents =
-              events.totals.uncategorized +
-              events.totals.deaths +
-              events.totals.scientificStudies;
+              totals.uncategorized + totals.deaths + totals.scientificStudies;
 
             return (
               <Box style={{ width: "100%" }}>
@@ -229,7 +229,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                       }}
                     >
                       <Chip
-                        label={`Events (${events.totals.uncategorized})`}
+                        label={`Events (${totals.uncategorized})`}
                         color="primary"
                         variant={state.filters.events ? "default" : "outlined"}
                         style={{ marginRight: 10 }}
@@ -244,7 +244,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                         }}
                       />
                       <Chip
-                        label={`Deaths (${events.totals.deaths})`}
+                        label={`Deaths (${totals.deaths})`}
                         color={"secondary"}
                         variant={state.filters.death ? "default" : "outlined"}
                         style={{ marginRight: 10 }}
@@ -259,7 +259,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                         }}
                       />
                       <Chip
-                        label={`Science (${events.totals.scientificStudies})`}
+                        label={`Science (${totals.scientificStudies})`}
                         color={"secondary"}
                         variant={
                           state.filters.scientificStudies
@@ -281,120 +281,28 @@ const InfiniteEventList: React.FC<EventListProps> = ({
                   </Grid>
                 </Grid>
 
-                <WithQueries
-                  queries={{
-                    actors: Queries.Actor.getList,
-                    groups: Queries.Group.getList,
-                    groupsMembers: Queries.GroupMember.getList,
-                    keywords: Queries.Keyword.getList,
-                    media: Queries.Media.getList,
-                    links: Queries.Link.getList
-                  }}
-                  params={{
-                    actors: {
-                      pagination: {
-                        page: 1,
-                        perPage: events.metadata.actors.length,
-                      },
-                      sort: { field: "createdAt", order: "DESC" },
-                      filter: {
-                        ids: [...events.metadata.actors],
-                      },
-                    },
-                    groups: {
-                      pagination: {
-                        page: 1,
-                        perPage: events.metadata.groups.length,
-                      },
-                      sort: { field: "createdAt", order: "DESC" },
-                      filter: {
-                        ids: events.metadata.groups,
-                      },
-                    },
-                    groupsMembers: {
-                      pagination: {
-                        page: 1,
-                        perPage: events.metadata.groupsMembers.length,
-                      },
-                      sort: { field: "createdAt", order: "DESC" },
-                      filter: {
-                        ids: events.metadata.groupsMembers,
-                      },
-                    },
-                    keywords: {
-                      pagination: {
-                        page: 1,
-                        perPage: events.metadata.keywords.length,
-                      },
-                      sort: { field: "createdAt", order: "DESC" },
-                      filter: {
-                        ids: events.metadata.keywords,
-                      },
-                    },
-                    media: {
-                      pagination: {
-                        page: 1,
-                        perPage: events.metadata.media.length,
-                      },
-                      sort: { field: "createdAt", order: "DESC" },
-                      filter: {
-                        ids: events.metadata.media,
-                      },
-                    },
-                    links: {
-                      pagination: {
-                        page: 1,
-                        perPage: events.metadata.links.length,
-                      },
-                      sort: { field: "publishDate", order: "DESC" },
-                      filter: {
-                        ids: events.metadata.links,
-                      },
-                    },
-                  }}
-                  render={QR.fold(
-                    LazyFullSizeLoader,
-                    ErrorBox,
-                    ({
-                      actors,
-                      groups,
-                      keywords,
-                      groupsMembers,
-                      media,
-                      links,
-                    }) => {
-                      return (
-                        <Box width="100%">
-                          <EventsTimeline
-                            className="events"
-                            style={{ width: "100%" }}
-                            events={allEvents}
-                            actors={actors.data}
-                            groups={groups.data}
-                            groupsMembers={groupsMembers.data}
-                            keywords={keywords.data}
-                            media={media.data}
-                            links={links.data}
-                            onClick={(e) => {
-                              if (e.type === "Death") {
-                                void doUpdateCurrentView({
-                                  view: "actor",
-                                  actorId: e.payload.victim,
-                                })();
-                              } else if (e.type === "Uncategorized") {
-                                void doUpdateCurrentView({
-                                  view: "event",
-                                  eventId: e.id,
-                                })();
-                              }
-                            }}
-                            {...onClickProps}
-                          />
-                        </Box>
-                      );
-                    }
-                  )}
-                />
+                <Box width="100%">
+                  <EventsTimeline
+                    className="events"
+                    style={{ width: "100%" }}
+                    events={allEvents}
+                    onClick={(e) => {
+                      if (e.type === "Death") {
+                        void doUpdateCurrentView({
+                          view: "actor",
+                          actorId: e.payload.victim.id,
+                        })();
+                      } else if (e.type === "Uncategorized") {
+                        void doUpdateCurrentView({
+                          view: "event",
+                          eventId: e.id,
+                        })();
+                      }
+                    }}
+                    {...onClickProps}
+                  />
+                </Box>
+
                 <BottomReach
                   currentPage={state.currentPage}
                   loadedElements={allEvents.length}

@@ -1,4 +1,4 @@
-import { Actor, Events, Keyword, Link } from "@econnessione/shared/io/http";
+import { Actor, Keyword } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
@@ -9,23 +9,17 @@ import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 import Editor from "../../Common/Editor/index";
 import KeywordList from "../KeywordList";
+import { SearchDeathEvent } from "./EventListItem";
 
 interface DeathListItemProps {
-  item: Events.Death.Death;
-  actors: Actor.Actor[];
-  keywords: Keyword.Keyword[];
-  victim: Actor.Actor;
-  links: Link.Link[];
-  onClick?: (e: Events.Death.Death) => void;
+  item: SearchDeathEvent;
+  onClick?: (e: SearchDeathEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }
 
 export const DeathListItem: React.FC<DeathListItemProps> = ({
   item,
-  victim,
-  keywords,
-  links,
   onClick,
   onActorClick,
   onKeywordClick,
@@ -45,7 +39,7 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
       <Grid container spacing={2}>
         <Grid item md={12} sm={12} lg={12}>
           <Typography variant="h6">
-            Death: {victim?.fullName ?? item.payload.victim}
+            Death: {item.payload.victim?.fullName ?? item.payload.victim}
           </Typography>
           <Grid item md={3}>
             {pipe(
@@ -59,7 +53,7 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
         </Grid>
         <Grid item md={12} lg={12}>
           <KeywordList
-            keywords={keywords.map((k) => ({ ...k, selected: true }))}
+            keywords={item.keywords.map((k) => ({ ...k, selected: true }))}
             onItemClick={(k) => onKeywordClick?.(k)}
           />
         </Grid>
@@ -71,9 +65,9 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
           md={4}
           lg={4}
           style={{ display: "flex", justifyContent: "center" }}
-          onClick={() => onActorClick?.(victim)}
+          onClick={() => onActorClick?.(item.payload.victim)}
         >
-          <Avatar size="xlarge" src={victim?.avatar} />
+          <Avatar size="xlarge" src={item.payload.victim?.avatar} />
         </Grid>
       </Grid>
     </Box>

@@ -1,37 +1,24 @@
 import {
-  Actor,
-  Events,
-  Group,
+  Actor, Group,
   GroupMember,
-  Keyword,
-  Link,
-  Media,
+  Keyword
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import LinkIcon from "@material-ui/icons/LinkOutlined";
-import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import Editor from "../../Common/Editor";
 import { Slider } from "../../Common/Slider/Slider";
-import { ActorList } from "../ActorList";
-import GroupList from "../GroupList";
-import { GroupsMembersList } from "../GroupMemberList";
 import KeywordList from "../KeywordList";
+import { SearchUncategorizedEvent } from "./EventListItem";
 
 interface UncategorizedListItemProps {
-  item: Events.Uncategorized.Uncategorized;
-  actors: Actor.Actor[];
-  keywords: Keyword.Keyword[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
-  media: Media.Media[];
-  links: Link.Link[];
-  onClick?: (e: Events.Uncategorized.Uncategorized) => void;
+  item: SearchUncategorizedEvent;
+  onClick?: (e: SearchUncategorizedEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onGroupClick?: (e: Group.Group) => void;
   onGroupMemberClick?: (g: GroupMember.GroupMember) => void;
@@ -40,12 +27,6 @@ interface UncategorizedListItemProps {
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   item,
-  actors,
-  keywords,
-  groups,
-  groupsMembers,
-  links,
-  media,
   onClick,
   onActorClick,
   onGroupClick,
@@ -68,7 +49,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           </Typography>
           <Grid item md={12} style={{ marginBottom: 20 }}>
             <KeywordList
-              keywords={keywords.map((t) => ({
+              keywords={item.keywords.map((t) => ({
                 ...t,
                 selected: true,
               }))}
@@ -95,9 +76,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 textAlign={"right"}
               >
                 <LinkIcon fontSize="small" />{" "}
-                <Typography variant="caption">({links.length})</Typography>
+                <Typography variant="caption">({item.links.length})</Typography>
               </Box>
-              {pipe(
+              {/* {pipe(
                 groups,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
@@ -126,9 +107,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     </Box>
                   )
                 )
-              )}
+              )} */}
 
-              {pipe(
+              {/* {pipe(
                 groupsMembers,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
@@ -157,9 +138,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     </Box>
                   )
                 )
-              )}
+              )} */}
 
-              {pipe(
+              {/* {pipe(
                 actors,
                 O.fromPredicate(A.isNonEmpty),
                 O.fold(
@@ -188,7 +169,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     </Box>
                   )
                 )
-              )}
+              )} */}
             </Grid>
           </Grid>
         </Grid>
@@ -211,7 +192,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             }}
           >
             {pipe(
-              media,
+              item.media,
               O.fromPredicate((arr) => arr.length > 0),
               O.map((media) => (
                 // eslint-disable-next-line react/jsx-key

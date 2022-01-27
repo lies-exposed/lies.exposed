@@ -14,12 +14,15 @@ import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
-  BooleanInput, Datagrid,
+  BooleanInput,
+  BooleanField,
+  Datagrid,
   DateField,
   DateInput,
   Edit,
   EditProps,
-  Filter, FormDataConsumer,
+  Filter,
+  FormDataConsumer,
   FormTab,
   FunctionField,
   List,
@@ -30,7 +33,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
@@ -42,15 +45,15 @@ import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -102,6 +105,7 @@ export const EventList: React.FC<ListProps> = (props) => (
         return `events/${record.id}`;
       }}
     >
+      <BooleanField source="draft" />
       <FunctionField
         label="type"
         render={(r: any) => {

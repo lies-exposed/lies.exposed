@@ -1,6 +1,9 @@
-import { SearchEventsQuery } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
+import { APIError } from "@econnessione/shared/providers/api.provider";
+import * as TE from 'fp-ts/lib/TaskEither';
+import { pipe } from "fp-ts/lib/pipeable";
+import * as t from 'io-ts';
+import { stateLogger } from "./logger.utils";
 
-type Query = Omit<SearchEventsQuery, "_start" | "_end">;
 
 export const toKey = (cachePrefix: string, hash?: string): string => {
   // return pipe(
@@ -14,4 +17,51 @@ export const toKey = (cachePrefix: string, hash?: string): string => {
 
   const cacheKey = hash ? `${cachePrefix}-${hash}` : cachePrefix;
   return cacheKey;
+};
+
+export const infiniteListCache: { [key: string]: { [page: number]: any } } = {};
+
+export const getFromCache = <T extends t.Any, M>(
+  cacheKey: string,
+  p: number
+): TE.TaskEither<APIError, (t.TypeOf<T> & { metadata: M }) | undefined> =>
+  TE.fromIO<(t.TypeOf<T> & { metadata: M }) | undefined, APIError>(() => {
+    const cache = infiniteListCache[cacheKey]?.[p];
+    stateLogger.debug.log(`[%s] Cache for page %d %O`, cacheKey, p, cache);
+    return cache;
+  });
+
+export const buildFromCache = <T extends t.Any, M>(
+  cacheKey: string,
+  page: number,
+  empty: M
+): TE.TaskEither<APIError, t.TypeOf<T> & { metadata: M }> => {
+  return TE.fromIO<t.TypeOf<T> & { metadata: M }, APIError>(() => {
+    stateLogger.debug.log(
+      "[%s] Build data from cache until page %d",
+      cacheKey,
+      page
+    );
+    const storedResponse = pipe(
+      infiniteListCache[cacheKey] ?? {},
+      Object.entries,
+      (entries) => {
+        return entries.reduce<t.TypeOf<T> & { metadata: M }>(
+          (acc, [p, item]) => {
+            if (parseInt(p, 10) <= page) {
+              return {
+                data: acc.data.concat(item.data),
+                totals: item.totals,
+                metadata: item.metadata,
+              };
+            }
+            return acc;
+          },
+          { data: [], totals: {}, metadata: empty }
+        );
+      }
+    );
+    stateLogger.debug.log(`[%s] Stored data %O`, cacheKey, storedResponse);
+    return storedResponse;
+  });
 };
