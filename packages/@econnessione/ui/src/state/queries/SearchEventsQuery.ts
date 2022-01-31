@@ -6,7 +6,7 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media,
+  Media
 } from "@econnessione/shared/io/http";
 import { GetSearchEVentsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { API, APIError } from "@econnessione/shared/providers/api.provider";
@@ -40,6 +40,9 @@ interface Totals {
 
 interface SearchEventQueryResult {
   events: SearchEvent[];
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  keywords: Keyword.Keyword[];
   totals: Totals;
 }
 
@@ -180,6 +183,9 @@ const mergeState = (
       result,
       O.map((r) => ({
         events: r.events.concat(newEvents),
+        actors: r.actors,
+        groups: r.groups,
+        keywords: r.keywords,
         totals: {
           deaths: update.events.totals.deaths,
           scientificStudies: update.events.totals.scientificStudies,
@@ -189,6 +195,21 @@ const mergeState = (
       O.getOrElse(
         (): SearchEventQueryResult => ({
           events: newEvents,
+          actors: pipe(
+            actors,
+            M.toArray(S.Ord),
+            A.map((v) => v[1])
+          ),
+          groups: pipe(
+            groups,
+            M.toArray(S.Ord),
+            A.map((v) => v[1])
+          ),
+          keywords: pipe(
+            keywords,
+            M.toArray(S.Ord),
+            A.map((v) => v[1])
+          ),
           totals: update.events.totals,
         })
       )
@@ -211,7 +232,6 @@ const toSearchEvent = (
   events: Events.Event[],
   s: SearchEventsQueryCache
 ): SearchEvent[] => {
-
   return pipe(
     events,
     A.reduce([] as SearchEvent[], (acc, e) => {
@@ -304,12 +324,13 @@ const toSearchEvent = (
 
 const getStateByHash = (
   hash: string,
-  page: number
+  page: number,
+  perPage: number
 ): O.Option<SearchEventQueryResult> => {
   return pipe(
     searchEventsQueryCache.hashes,
     M.lookup(S.Eq)(hash),
-    O.filter((r) => r.events.length > page * 20)
+    O.filter((r) => r.events.length > page * perPage)
   );
 };
 
@@ -322,22 +343,23 @@ const getStateByHash = (
 // };
 
 interface SearchEventQueryInput extends Partial<GetSearchEVentsQueryInput> {
-  page: number;
+  page?: number;
+  perPage?: number;
   hash: string;
 }
 
 const searchEventsQ = ({
   page = 1,
+  perPage = 20,
   hash,
   ...query
 }: SearchEventQueryInput): TE.TaskEither<APIError, SearchEventQueryResult> => {
-  const perPage = 20;
   const cacheKey = toKey("events-search", hash);
 
-  log.debug.log("Search events for %s and page %d", cacheKey, page);
+  log.debug.log("Search events for %s and page %d (* %d)", cacheKey, page, perPage);
 
   return pipe(
-    getStateByHash(cacheKey, page),
+    getStateByHash(cacheKey, page, perPage),
     TE.right,
     TE.chain((state) => {
       if (O.isSome(state)) {

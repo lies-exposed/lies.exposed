@@ -17,7 +17,7 @@ export const KeywordListItem: React.FC<ListItemProps<KeywordListTopic>> = ({
   onClick,
 }) => (
   <Chip
-    key={t.tag}
+    key={t.id}
     size="small"
     label={t.tag}
     color="primary"

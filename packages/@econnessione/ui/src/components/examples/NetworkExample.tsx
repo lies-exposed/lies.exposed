@@ -1,10 +1,6 @@
-import { Events } from "@econnessione/shared/io/http";
 import { actors } from "@econnessione/shared/mock-data/actors";
-import { events } from "@econnessione/shared/mock-data/events";
 import { groups } from "@econnessione/shared/mock-data/groups";
-import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as React from "react";
 import { EventsNetworkGraph } from "../Graph/EventsNetworkGraph";
 
@@ -50,7 +46,7 @@ const NetworkExample: React.FC = () => {
         groupBy="actor"
         scale={"all"}
         scalePoint={O.none}
-        events={pipe(events, A.filter(Events.Uncategorized.Uncategorized.is))}
+        events={[]}
         actors={actors.map((a) => ({
           ...a,
           body: { content: "empty" },

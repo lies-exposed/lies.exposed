@@ -53,7 +53,7 @@ export const AutocompleteInput = <T extends { id: string }>({
   // const setValueThrottled = throttle(300, setValue, true);
 
   const itemsQuery = React.useMemo(
-    () => (value !== "" ? query : emptyDataQuery<T>()),
+    () => (value !== undefined ? query : emptyDataQuery<T>()),
     [value]
   );
 

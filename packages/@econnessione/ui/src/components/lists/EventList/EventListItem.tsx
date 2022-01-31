@@ -4,7 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media,
+  Media
 } from "@econnessione/shared/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
@@ -60,12 +60,6 @@ export type SearchEvent =
 
 export interface EventListItemProps {
   event: SearchEvent;
-  // actors: Map<string, Actor.Actor>;
-  // groups: Map<string, Group.Group>;
-  // groupsMembers: Map<string, GroupMember.GroupMember>;
-  // keywords: Map<string, Keyword.Keyword>;
-  // media: Map<string, Media.Media>;
-  // links: Map<string, Link.Link>;
   onClick: (e: SearchEvent) => void;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
