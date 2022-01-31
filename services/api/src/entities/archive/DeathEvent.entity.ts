@@ -12,9 +12,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { GroupMemberEntity } from "./GroupMember.entity";
-import { LinkEntity } from "./Link.entity";
-import { MediaEntity } from "./Media.entity";
+import { GroupMemberEntity } from "../GroupMember.entity";
+import { LinkEntity } from "../Link.entity";
+import { MediaEntity } from "../Media.entity";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 
@@ -30,7 +30,7 @@ export class DeathEventEntity {
   @Column({ type: "json", nullable: true })
   location: { type: "Point"; coordinates: [number, number] } | null;
 
-  @OneToMany(() => LinkEntity, (a) => a.death, {
+  @OneToMany(() => LinkEntity, (a) => [], {
     cascade: true,
     nullable: true,
   })

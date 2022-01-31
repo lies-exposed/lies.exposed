@@ -1,11 +1,11 @@
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
-import { EventEntity } from "@entities/Event.entity";
+import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
+import { EventEntity } from "@entities/archive/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { DeathEventEntity } from "@entities/DeathEvent.entity";
 
 export class EventV21639419928672 implements MigrationInterface {
   name = "EventV21639419928672";

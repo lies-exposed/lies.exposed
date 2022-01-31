@@ -9,12 +9,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { ActorEntity } from "./Actor.entity";
-import { GroupEntity } from "./Group.entity";
-import { GroupMemberEntity } from "./GroupMember.entity";
-import { KeywordEntity } from "./Keyword.entity";
-import { LinkEntity } from "./Link.entity";
-import { MediaEntity } from "./Media.entity";
+import { ActorEntity } from "../Actor.entity";
+import { GroupEntity } from "../Group.entity";
+import { GroupMemberEntity } from "../GroupMember.entity";
+import { KeywordEntity } from "../Keyword.entity";
+import { LinkEntity } from "../Link.entity";
+import { MediaEntity } from "../Media.entity";
 
 @Entity("event")
 export class EventEntity {
@@ -49,7 +49,7 @@ export class EventEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToMany(() => GroupEntity, (a) => a.events, { nullable: true })
+  @ManyToMany(() => GroupEntity, (a) => [], { nullable: true })
   @JoinTable()
   groups: GroupEntity[];
 
