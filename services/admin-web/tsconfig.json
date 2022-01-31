@@ -44,5 +44,6 @@
     {
       "path": "../../packages/@econnessione/core"
     }
-  ]
+  ],
+  "exclude": ["node_modules", "build"]
 }

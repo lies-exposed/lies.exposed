@@ -1,8 +1,9 @@
 import * as tests from "@econnessione/core/tests";
+import { ColorArb } from '@econnessione/shared/tests/arbitrary/common/Color.arbitrary';
 import { TagArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
+import { KeywordEntity } from "@entities/Keyword.entity";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
-import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Delete Keyword", () => {
   let Test: AppTest, keyword: any, authorizationToken: string;
@@ -20,6 +21,7 @@ describe("Delete Keyword", () => {
         .set("Authorization", authorizationToken)
         .send({
           tag: tests.fc.sample(TagArb(), 1)[0],
+          color: tests.fc.sample(ColorArb, 1)[0]
         })
     ).body.data;
   });

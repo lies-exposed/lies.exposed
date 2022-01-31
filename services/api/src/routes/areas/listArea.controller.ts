@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListAreaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Area.List, ({ query }) => {

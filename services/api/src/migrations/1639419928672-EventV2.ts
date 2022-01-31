@@ -4,7 +4,7 @@ import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategor
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
+import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
 import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class EventV21639419928672 implements MigrationInterface {
@@ -135,9 +135,9 @@ export class EventV21639419928672 implements MigrationInterface {
             payload: {
               title: s.title,
               url: s.url as any,
-              publisher: s.publisher.id as any,
+              publisher: (s as any).publisher.id,
               image: undefined,
-              authors: s.authors as any[],
+              authors: (s as any).authors as any[],
             },
             body: s.body2,
             keywords: [],

@@ -3,15 +3,9 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  Index, PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from "typeorm";
-import { GroupEntity } from "./Group.entity";
-import { ActorEntity } from "@entities/Actor.entity";
 
 @Entity("scientific_study")
 export class ScientificStudyEntity {
@@ -42,13 +36,6 @@ export class ScientificStudyEntity {
 
   @Column({ type: "varchar", nullable: false })
   url: string;
-
-  @ManyToMany(() => ActorEntity, (a) => a.id, { nullable: true })
-  @JoinTable()
-  authors: ActorEntity[];
-
-  @ManyToOne(() => GroupEntity, (a) => a.id, { nullable: true })
-  publisher: GroupEntity;
 
   @CreateDateColumn()
   createdAt: Date;

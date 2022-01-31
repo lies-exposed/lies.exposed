@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { RouteContext } from "../route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListGroupMemberRoute = (
   r: Router,

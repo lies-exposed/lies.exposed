@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { Route } from "../route.types";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
   AddEndpoint(r)(

@@ -1,7 +1,7 @@
 import { FilterQuery, GetListQuery } from "@econnessione/shared/io/http/Query";
 import * as O from "fp-ts/lib/Option";
 import { Like } from "typeorm";
-import { getORMOptions } from "../listQueryToORMOptions";
+import { getORMOptions } from "../orm.utils";
 
 describe("ORM utils V2", () => {
   test("Should return only pagination", () => {

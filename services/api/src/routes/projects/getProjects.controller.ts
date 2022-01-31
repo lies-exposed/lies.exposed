@@ -5,7 +5,7 @@ import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { getORMOptions } from "../../utils/listQueryToORMOptions";
+import { getORMOptions } from "../../utils/orm.utils";
 import { RouteContext } from "../route.types";
 import { toProjectIO } from "./project.io";
 import { ProjectEntity } from "@entities/Project.entity";

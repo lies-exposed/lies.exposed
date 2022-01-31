@@ -173,7 +173,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                               >
                                 <svg width={10} height={10}>
                                   <circle
-                                    fill={`#${label.value}`}
+                                    fill={label.value}
                                     r={4}
                                     cy={4}
                                     cx={4}
@@ -207,7 +207,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                               >
                                 <svg width={10} height={2}>
                                   <rect
-                                    fill={`#${label.value}`}
+                                    fill={label.value}
                                     width={10}
                                     height={2}
                                   />
@@ -242,7 +242,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                               >
                                 <svg width={10} height={2}>
                                   <rect
-                                    fill={`#${label.value}`}
+                                    fill={label.value}
                                     width={10}
                                     height={2}
                                   />
@@ -393,8 +393,8 @@ const getLinks =
                     O.getOrElse(() => p)
                   ),
                   target: p,
-                  stroke: `#${relation.color.replace("#", "")}`,
-                  fill: `#${relation.color.replace("#", "")}`,
+                  stroke: relation.color,
+                  fill: relation.color,
                 },
               ])
             );
@@ -550,8 +550,6 @@ export function createEventNetworkGraphProps({
 
         const groupByItem: GroupByItem | undefined = groupByEventList[0];
 
-        console.log({ groupByItem });
-
         const eventNodes: Array<NetworkPointNode<EventNetworkDatum>> = [
           {
             x:
@@ -572,14 +570,8 @@ export function createEventNetworkGraphProps({
               actors: pipe(eventActors, O.fromPredicate(A.isNonEmpty)),
               groups: pipe(eventGroups, O.fromPredicate(A.isNonEmpty)),
               label: eventTitle,
-              innerColor: groupByItem
-                ? // ? groupByItem.color.replace("#", "")
-                  "#f00"
-                : "#ccc",
-              outerColor: groupByItem
-                ? // ? groupByItem.color.replace("#", "")
-                  "#f00"
-                : "#ccc",
+              innerColor: groupByItem?.color ?? "#FF0000",
+              outerColor: groupByItem?.color ?? "#FF0000",
             },
           },
         ];

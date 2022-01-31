@@ -1,8 +1,9 @@
 import * as io from "@econnessione/shared/io";
+import { toColor } from "@econnessione/shared/io/http/Common";
+import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/pipeable";
 import { GroupMemberEntity } from "../../entities/GroupMember.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toGroupMemberIO = (
   groupMember: GroupMemberEntity
@@ -12,6 +13,7 @@ export const toGroupMemberIO = (
       ...groupMember,
       actor: {
         ...groupMember.actor,
+        color: toColor(groupMember.actor.color),
         avatar: groupMember.actor?.avatar ?? undefined,
         memberIn: [],
         createdAt: groupMember.actor?.createdAt.toISOString(),
@@ -19,6 +21,7 @@ export const toGroupMemberIO = (
       },
       group: {
         ...groupMember.group,
+        color: toColor(groupMember.group.color),
         subGroups: [],
         members: [],
         avatar: groupMember.group?.avatar ?? undefined,

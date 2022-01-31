@@ -9,7 +9,7 @@ import { pipe } from "fp-ts/lib/function";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

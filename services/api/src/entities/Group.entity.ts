@@ -8,7 +8,6 @@ import {
   UpdateDateColumn
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
-import { ScientificStudyEntity } from "./ScientificStudy.entity";
 
 @Entity("group")
 export class GroupEntity {
@@ -35,11 +34,6 @@ export class GroupEntity {
     cascade: true,
   })
   members: GroupMemberEntity[];
-
-  @OneToMany(() => ScientificStudyEntity, (a) => a.publisher, {
-    cascade: false,
-  })
-  publishedStudies: ScientificStudyEntity[];
 
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;

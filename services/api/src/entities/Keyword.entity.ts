@@ -1,4 +1,4 @@
-import { Tag } from "@econnessione/shared/io/http/Common";
+import { Tag, Color } from "@econnessione/shared/io/http/Common";
 import {
   Column,
   CreateDateColumn,
@@ -21,6 +21,10 @@ export class KeywordEntity {
 
   @Column({ type: "varchar", nullable: false })
   tag: Tag;
+
+
+  @Column({ type: 'varchar', length: 7, nullable: true })
+  color: Color;
 
   @ManyToMany(() => EventV2Entity, (e) => e.keywords, { cascade: false })
   events: EventV2Entity[];

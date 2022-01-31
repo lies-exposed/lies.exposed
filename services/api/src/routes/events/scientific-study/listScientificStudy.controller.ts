@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import { searchEventV2Query } from "../queries/searchEventsV2.query";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { Route } from "@routes/route.types";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListScientificStudyRoute: Route = (
   r,

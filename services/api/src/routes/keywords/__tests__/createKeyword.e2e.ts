@@ -1,6 +1,9 @@
 import { http } from "@econnessione/shared/io";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
+import { ColorArb } from '@econnessione/shared/tests/arbitrary/common/Color.arbitrary';
+import { fc } from '@econnessione/core/tests';
+import { TagArb } from '@econnessione/shared/tests/arbitrary/Keyword.arbitrary';
 
 describe("Create Keyword", () => {
   let Test: AppTest, authorizationToken: string, keyword: http.Keyword.Keyword;
@@ -41,7 +44,8 @@ describe("Create Keyword", () => {
       .post("/v1/keywords")
       .set("Authorization", authorizationToken)
       .send({
-        tag: "newkeyword",
+        tag: fc.sample(TagArb(), 1)[0],
+        color: fc.sample(ColorArb, 1)[0]
       });
 
     expect(response.status).toEqual(201);

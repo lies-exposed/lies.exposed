@@ -9,7 +9,6 @@ import {
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
 import { GroupMemberEntity } from "./GroupMember.entity";
-import { ScientificStudyEntity } from "./ScientificStudy.entity";
 
 @Entity("actor")
 export class ActorEntity {
@@ -36,14 +35,6 @@ export class ActorEntity {
 
   @ManyToMany(() => EventV2Entity, { cascade: false })
   events: EventV2Entity[];
-
-  // @OneToOne(() => DeathEventViewEntity, (d) => d.victim)
-  // death: DeathEventViewEntity;
-
-  @ManyToMany(() => ScientificStudyEntity, (e) => e.authors, {
-    cascade: false,
-  })
-  scientificStudies: ScientificStudyEntity[];
 
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;

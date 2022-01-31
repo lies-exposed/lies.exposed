@@ -1,4 +1,5 @@
 import { fc } from "@econnessione/core/tests";
+import { ColorArb } from './common/Color.arbitrary';
 import { DateArb } from "./Date.arbitrary";
 import { getRandomInt, name1 } from "./HumanReadableString.arbitrary";
 
@@ -36,6 +37,9 @@ export const CreateKeywordArb = fc.record({
 export const KeywordArb = fc.record({
   id: fc.uuidV(4) as fc.Arbitrary<any>,
   tag: TagArb() as fc.Arbitrary<any>,
+  color: ColorArb,
   createdAt: DateArb,
   updatedAt: DateArb,
 });
+
+

@@ -1,11 +1,16 @@
 import { UUID } from "@econnessione/shared/io/http/Common/UUID";
 import * as Query from "@econnessione/shared/io/http/Query";
 import * as O from "fp-ts/lib/Option";
-import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/pipeable";
+import * as R from "fp-ts/lib/Record";
 import * as t from "io-ts";
 import { BigIntFromString } from "io-ts-types/lib/BigIntFromString";
-import { FindOperator, Like, Equal, In } from "typeorm";
+import {
+  Equal,
+  FindOperator,
+  In,
+  Like, SelectQueryBuilder
+} from "typeorm";
 
 interface ORMOrder {
   order: { [key: string]: "ASC" | "DESC" };
@@ -83,6 +88,21 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
         where: filters,
       };
     }
+  );
+};
+
+export const addOrder = <T>(
+  order: ORMOrder['order'],
+  q: SelectQueryBuilder<T>,
+  prefix?: string
+): SelectQueryBuilder<T> => {
+  return pipe(
+    order,
+    R.mapWithIndex((key, value) => {
+      const orderKey = prefix ? `${prefix}.${key}` : key;
+      q.addOrderBy(orderKey, value);
+    }),
+    () => q
   );
 };
 
