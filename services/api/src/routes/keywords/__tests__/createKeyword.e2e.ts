@@ -1,9 +1,9 @@
+import { fc } from '@econnessione/core/tests';
 import { http } from "@econnessione/shared/io";
+import { TagArb } from '@econnessione/shared/tests/arbitrary/Keyword.arbitrary';
+import { ColorArb } from '@econnessione/shared/tests/arbitrary/common/Color.arbitrary';
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
-import { ColorArb } from '@econnessione/shared/tests/arbitrary/common/Color.arbitrary';
-import { fc } from '@econnessione/core/tests';
-import { TagArb } from '@econnessione/shared/tests/arbitrary/Keyword.arbitrary';
 
 describe("Create Keyword", () => {
   let Test: AppTest, authorizationToken: string, keyword: http.Keyword.Keyword;

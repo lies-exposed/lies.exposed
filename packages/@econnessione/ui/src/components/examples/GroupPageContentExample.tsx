@@ -6,7 +6,7 @@ import { projects } from "@econnessione/shared/mock-data/projects";
 import { Card } from "@material-ui/core";
 import * as A from "fp-ts/lib/Array";
 import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { GroupPageContent, GroupPageContentProps } from "../GroupPageContent";
 

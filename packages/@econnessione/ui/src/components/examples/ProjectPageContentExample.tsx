@@ -3,7 +3,7 @@ import { events } from "@econnessione/shared/mock-data/events";
 import { firstBadProject } from "@econnessione/shared/mock-data/projects";
 import { Card } from "@material-ui/core";
 import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
   ProjectPageContent,

@@ -9,7 +9,7 @@ import {
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
 const meta: Meta = {

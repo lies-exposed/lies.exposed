@@ -6,7 +6,7 @@ import { distanceFromNow } from "@econnessione/shared/utils/date";
 import * as A from "fp-ts/lib/Array";
 import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { computeTotals, ReportReducer } from "../utils/parse.utils";
 
 interface TotalReporterOpts {

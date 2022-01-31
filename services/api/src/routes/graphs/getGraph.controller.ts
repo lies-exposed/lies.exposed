@@ -4,7 +4,7 @@ import { AddEndpoint, Graph } from "@econnessione/shared/endpoints";
 import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { NotFoundError, ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";

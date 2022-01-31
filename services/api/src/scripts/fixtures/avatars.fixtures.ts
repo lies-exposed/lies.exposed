@@ -3,7 +3,7 @@ import avataaarsSprites from "@dicebear/avatars-avataaars-sprites";
 import botttsSprites from "@dicebear/avatars-bottts-sprites";
 import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { SpaceClient, toError } from "@providers/space/SpaceClient";
 
 const options = {

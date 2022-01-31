@@ -1,7 +1,7 @@
 import * as io from "@econnessione/shared/io";
 import { toColor } from '@econnessione/shared/io/http/Common';
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { GroupEntity } from "../../entities/Group.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 

@@ -6,7 +6,7 @@ import SEO from "@econnessione/ui/components/SEO";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { useQueries } from "avenger/lib/react";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import InfiniteEventList from "@containers/InfiniteEventList";
 

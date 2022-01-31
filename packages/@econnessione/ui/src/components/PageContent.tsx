@@ -1,7 +1,7 @@
 import { Page } from "@econnessione/shared/io/http";
 import * as QR from "avenger/lib/QueryResult";
 import { declareQueries } from "avenger/lib/react";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Helmet } from "react-helmet";

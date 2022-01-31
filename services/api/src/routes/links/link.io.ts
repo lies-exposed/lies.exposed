@@ -1,6 +1,6 @@
 import * as io from "@econnessione/shared/io";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { LinkEntity } from "@entities/Link.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 

@@ -5,7 +5,7 @@ import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationEr
 import { MapInput } from "@econnessione/ui/components/admin/MapInput";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {

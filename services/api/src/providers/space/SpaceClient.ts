@@ -1,7 +1,7 @@
 import * as logger from "@econnessione/core/logger";
 import type * as AWS from "aws-sdk";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { ControllerError } from "@io/ControllerError";
 
 const s3Logger = logger.GetLogger("space");

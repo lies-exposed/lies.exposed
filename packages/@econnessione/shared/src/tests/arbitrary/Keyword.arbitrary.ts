@@ -1,7 +1,7 @@
 import { fc } from "@econnessione/core/tests";
-import { ColorArb } from './common/Color.arbitrary';
 import { DateArb } from "./Date.arbitrary";
 import { getRandomInt, name1 } from "./HumanReadableString.arbitrary";
+import { ColorArb } from './common/Color.arbitrary';
 
 export const TagArb = (): fc.Arbitrary<string> => {
   const stringArb = fc.convertToNext(fc.string());

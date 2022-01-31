@@ -5,7 +5,7 @@ import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { CreateParams, CreateResult, UpdateParams } from "react-admin";
 import { uploadImages } from "./MediaAPI";
 

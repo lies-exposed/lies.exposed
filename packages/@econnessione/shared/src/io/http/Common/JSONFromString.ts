@@ -1,5 +1,6 @@
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import * as Json from 'fp-ts/lib/Json';
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 
 export const JSONFromString = new t.Type<unknown, string, unknown>(
@@ -7,7 +8,8 @@ export const JSONFromString = new t.Type<unknown, string, unknown>(
   t.unknown.is,
   (s, c) => {
     const result = pipe(
-      E.parseJSON(s as any, t.identity),
+      t.string.decode(s),
+      E.chain(Json.parse),
       E.fold(() => t.failure(s, c), t.success)
     );
     return result;

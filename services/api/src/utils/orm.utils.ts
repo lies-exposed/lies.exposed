@@ -1,8 +1,8 @@
 import { UUID } from "@econnessione/shared/io/http/Common/UUID";
 import * as Query from "@econnessione/shared/io/http/Query";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as R from "fp-ts/lib/Record";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { BigIntFromString } from "io-ts-types/lib/BigIntFromString";
 import {

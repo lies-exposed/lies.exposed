@@ -7,7 +7,7 @@ import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import { Typography } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
   ArrayInput,

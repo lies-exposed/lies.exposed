@@ -3,7 +3,7 @@ import * as http from "@econnessione/ui/http";
 import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { UpdateParams, UpdateResult } from "react-admin";
 
 export const editArea =

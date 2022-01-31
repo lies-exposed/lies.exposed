@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
 import { Route } from "@routes/route.types";

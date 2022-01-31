@@ -1,9 +1,9 @@
 import * as io from "@econnessione/shared/io";
+import { toColor } from '@econnessione/shared/io/http/Common';
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
-import { toColor } from '@econnessione/shared/io/http/Common';
 
 export const toActorIO = (
   a: ActorEntity

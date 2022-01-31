@@ -4,7 +4,7 @@ import * as path from "path";
 moduleAlias(path.resolve(__dirname, "../package.json"));
 import * as dotenv from "dotenv";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as logger from "../../../packages/@econnessione/core/src/logger";

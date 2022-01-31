@@ -1,6 +1,6 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { ActorEntity } from "@entities/Actor.entity";

@@ -1,3 +1,4 @@
+import { toColor } from "@econnessione/shared/io/http/Common";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -17,7 +18,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import { ColorField, ColorInput } from 'react-admin-color-input';
+import { ColorField, ColorInput } from "react-admin-color-input";
 
 const RESOURCE = "keywords";
 
@@ -59,13 +60,14 @@ export const KeywordEdit: React.FC<EditProps> = (props: EditProps) => {
       transform={({ newEvents, ...r }) => {
         return {
           ...r,
+          color: toColor(r.color),
           events: (r.events ?? []).concat(newEvents ?? []),
         };
       }}
     >
       <SimpleForm>
         <TextInput source="tag" />
-        <ColorInput source="color" />
+        <ColorInput source="color" picker="Material" />
       </SimpleForm>
     </Edit>
   );

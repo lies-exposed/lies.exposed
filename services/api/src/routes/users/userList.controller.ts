@@ -1,14 +1,14 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { UserEntity } from "@entities/User.entity";
-import { RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/orm.utils";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
 import { toUserIO } from "./user.io";
+import { UserEntity } from "@entities/User.entity";
+import { RouteContext } from "@routes/route.types";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeUserListRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.User.List, ({ query }) => {

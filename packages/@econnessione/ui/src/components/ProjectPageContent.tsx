@@ -2,7 +2,7 @@ import { Events, Project } from "@econnessione/shared/io/http";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { Slider } from "./Common/Slider/Slider";

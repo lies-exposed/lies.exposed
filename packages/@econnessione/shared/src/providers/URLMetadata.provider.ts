@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import domino from "domino";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { Metadata } from "page-metadata-parser";
 
 export interface URLMetadataClient {

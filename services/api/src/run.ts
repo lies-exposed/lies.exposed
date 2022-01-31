@@ -3,7 +3,7 @@
 require("module-alias")(process.cwd());
 import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { makeApp, makeContext } from "./server";
 
 export const run = (): Promise<void> => {

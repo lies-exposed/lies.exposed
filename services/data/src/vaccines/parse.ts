@@ -3,7 +3,7 @@ import * as path from "path";
 import { sleep } from "@econnessione/shared/utils/promise.utils";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as distribution from "./distribution/distribution.parse";
 import * as eudr from "./eudr/eudr.parse";
 import { TotalsReporter } from "./reporters/TotalReporter";

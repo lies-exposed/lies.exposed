@@ -3,7 +3,7 @@ import { distanceFromNow } from "@econnessione/shared/utils/date";
 import { makeStyles } from "@material-ui/core";
 import Timeline from "@material-ui/lab/Timeline";
 import * as Eq from "fp-ts/lib/Eq";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import { EventListItemProps, SearchEvent } from "./EventListItem";

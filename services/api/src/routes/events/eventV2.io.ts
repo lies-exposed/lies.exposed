@@ -1,6 +1,6 @@
 import * as io from "@econnessione/shared/io";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 

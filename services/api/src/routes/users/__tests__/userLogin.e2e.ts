@@ -1,7 +1,7 @@
 import { fc } from "@econnessione/core/tests";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { UserEntity } from "@entities/User.entity";
 import { hash } from "@utils/password.utils";

@@ -2,7 +2,7 @@ import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { GroupEntity } from "../../entities/Group.entity";
 import { toGroupIO } from "./group.io";

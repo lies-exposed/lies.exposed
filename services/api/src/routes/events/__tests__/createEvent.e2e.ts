@@ -5,7 +5,7 @@ import { CreateEventBodyArb } from "@econnessione/shared/tests/arbitrary/Event.a
 import { KeywordArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";
 import { In } from "typeorm";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
