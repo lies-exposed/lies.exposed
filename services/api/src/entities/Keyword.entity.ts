@@ -23,8 +23,8 @@ export class KeywordEntity {
   tag: Tag;
 
 
-  @Column({ type: 'varchar', length: 7, nullable: true })
-  color: Color;
+  @Column({ type: 'varchar', length: 6, nullable: true })
+  color: Color | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.keywords, { cascade: false })
   events: EventV2Entity[];

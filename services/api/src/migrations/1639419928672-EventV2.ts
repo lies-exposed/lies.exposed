@@ -67,14 +67,16 @@ export class EventV21639419928672 implements MigrationInterface {
     );
     const uncategorizedEvents = await queryRunner.manager
       .find(EventEntity, {
-        relations: [
-          "actors",
-          "groups",
-          "groupsMembers",
-          "media",
-          "links",
-          "keywords",
-        ],
+        loadRelationIds: {
+          relations: [
+            "actors",
+            "groups",
+            "groupsMembers",
+            "media",
+            "links",
+            "keywords",
+          ],
+        },
       })
       .then((ee) =>
         ee.map(
@@ -88,14 +90,14 @@ export class EventV21639419928672 implements MigrationInterface {
               title: e.title,
               location: undefined,
               endDate: e.endDate ?? undefined,
-              actors: e.actors.map((a) => a.id as any),
-              groups: e.groups.map((g) => g.id as any),
+              actors: e.actors as any,
+              groups: e.groups as any,
               groupsMembers: e.groupsMembers.map((gm) => gm.id as any),
             },
             media: e.media,
             keywords: e.keywords,
             date: e.startDate,
-            links: e.links.map((l) => l.id as any),
+            links: e.links,
           })
         )
       );
@@ -124,7 +126,9 @@ export class EventV21639419928672 implements MigrationInterface {
 
     const scientificStudies = await queryRunner.manager
       .find(ScientificStudyEntity, {
-        relations: ["authors", "publisher"],
+        loadRelationIds: {
+          relations: ["authors", "publisher"],
+        },
       })
       .then((ss) =>
         ss.map(

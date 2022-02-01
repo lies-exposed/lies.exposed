@@ -35,7 +35,7 @@ const textToSlateValue = (text: string): any => {
 };
 
 const slateValueToText = (body: any): string => {
-  return body.rows[0].cells[0].dataI18n.en.slate[0].children[0].text;
+  return body.rows[0]?.cells[0].dataI18n.en.slate[0].children[0].text;
 };
 
 export class PayloadAndBody1640945993390 implements MigrationInterface {
