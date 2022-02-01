@@ -2858,13 +2858,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdi/font@npm:^5.9.55":
-  version: 5.9.55
-  resolution: "@mdi/font@npm:5.9.55"
-  checksum: 05d8e30d5c5bd0992bde4827ddcde0e4e00882ae70d4355c69d4db93d9b69c75d3bde6b414bea90f5f8ad46336837b082d64a26761a12b1548e28cfe765b0e4f
-  languageName: node
-  linkType: hard
-
 "@mdx-js/loader@npm:^1.6.22":
   version: 1.6.22
   resolution: "@mdx-js/loader@npm:1.6.22"
@@ -25751,7 +25744,6 @@ __metadata:
     "@fortawesome/react-fontawesome": ^0.1.17
     "@material-ui/core": ^4.12.3
     "@material-ui/lab": ^4.0.0-alpha.60
-    "@mdi/font": ^5.9.55
     "@types/bs58": ^4.0.1
     "@types/debug": ^4.1.7
     "@types/ol": ^6.5.3
