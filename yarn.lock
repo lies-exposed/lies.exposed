@@ -5995,13 +5995,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-window-infinite-loader@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@types/react-window-infinite-loader@npm:1.0.5"
+"@types/react-window-infinite-loader@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "@types/react-window-infinite-loader@npm:1.0.6"
   dependencies:
     "@types/react": "*"
     "@types/react-window": "*"
-  checksum: 7458f289217df6bcc8aea8f17ccd3325f318ebb809b3812fcdcd57d61bb089efc96de832ad00acd61f483195b8ecc9828c610d29ca39052bd9423b7f64ad6652
+  checksum: d4648dfb44614e4f0137d7b77eb1868b0c5252f451a78edfc4520e508157ce7687d4b7d9efd6df8f01e72e0d92224338b8c8d934220f32a3081b528599a25829
   languageName: node
   linkType: hard
 
@@ -11726,7 +11726,7 @@ __metadata:
     husky: ^7.0.4
     is-ci: ^3.0.1
     jest: ^27.4.7
-    lint-staged: ^12.3.2
+    lint-staged: ^12.3.3
     pinst: ^2.1.6
     prettier: ^2.5.1
     ts-jest: ^27.1.3
@@ -16963,9 +16963,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.3.2":
-  version: 12.3.2
-  resolution: "lint-staged@npm:12.3.2"
+"lint-staged@npm:^12.3.3":
+  version: 12.3.3
+  resolution: "lint-staged@npm:12.3.3"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -16982,7 +16982,7 @@ __metadata:
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 35cab689dfc967ff95afeeaa7be7d1e19a131f36eeac9ac1d80240e0b20108286ce04f2d6bdf0b77fdf58db3ca5313bcbf2667dc6017335e604ff455caf69e33
+  checksum: a9147eb5def6345622d1b772d5920b1282808738abf53e6034d8da2d21d6baf80135ea22f799bf4092867a3dba13cd875493b8e32e47f3b4574e4e8871a0aa8e
   languageName: node
   linkType: hard
 
@@ -25752,7 +25752,7 @@ __metadata:
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.8
     "@types/react-vertical-timeline-component": ^3.3.2
-    "@types/react-window-infinite-loader": ^1.0.5
+    "@types/react-window-infinite-loader": ^1.0.6
     "@types/throttle-debounce": ^2.1.0
     "@types/topojson-client": ^3.1.0
     "@types/topojson-server": ^3.0.1

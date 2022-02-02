@@ -67,7 +67,7 @@
     "@types/react-helmet": "^6.1.5",
     "@types/react-slick": "^0.23.8",
     "@types/react-vertical-timeline-component": "^3.3.2",
-    "@types/react-window-infinite-loader": "^1.0.5",
+    "@types/react-window-infinite-loader": "^1.0.6",
     "@types/throttle-debounce": "^2.1.0",
     "@types/topojson-client": "^3.1.0",
     "@types/topojson-server": "^3.0.1",
