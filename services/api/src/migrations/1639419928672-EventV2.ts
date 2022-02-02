@@ -92,7 +92,7 @@ export class EventV21639419928672 implements MigrationInterface {
               endDate: e.endDate ?? undefined,
               actors: e.actors as any,
               groups: e.groups as any,
-              groupsMembers: e.groupsMembers.map((gm) => gm.id as any),
+              groupsMembers: e.groupsMembers as any,
             },
             media: e.media,
             keywords: e.keywords,

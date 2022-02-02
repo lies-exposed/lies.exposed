@@ -67,7 +67,7 @@ export const KeywordEdit: React.FC<EditProps> = (props: EditProps) => {
     >
       <SimpleForm>
         <TextInput source="tag" />
-        <ColorInput source="color" picker="Material" />
+        <ColorInput source="color" />
       </SimpleForm>
     </Edit>
   );

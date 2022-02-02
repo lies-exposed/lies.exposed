@@ -144,7 +144,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <AppBar className={classes.appBar} position="relative">
-      <Toolbar>
+      <Toolbar >
         <Typography
           variant="h6"
           className={classes.title}

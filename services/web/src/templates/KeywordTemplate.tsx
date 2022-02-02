@@ -10,7 +10,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import InfiniteEventList from "@containers/InfiniteEventList";
 
-const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
+const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
   keywordId,
 }) => {
   const queries = useQueries(
@@ -42,4 +42,4 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
   );
 };
 
-export default TopicTimelineTemplate;
+export default KeywordTemplate;

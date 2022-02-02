@@ -6,7 +6,7 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media
+  Media,
 } from "@econnessione/shared/io/http";
 import { GetSearchEVentsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { API, APIError } from "@econnessione/shared/providers/api.provider";
@@ -356,7 +356,12 @@ const searchEventsQ = ({
 }: SearchEventQueryInput): TE.TaskEither<APIError, SearchEventQueryResult> => {
   const cacheKey = toKey("events-search", hash);
 
-  log.debug.log("Search events for %s and page %d (* %d)", cacheKey, page, perPage);
+  log.debug.log(
+    "Search events for %s and page %d (* %d)",
+    cacheKey,
+    page,
+    perPage
+  );
 
   return pipe(
     getStateByHash(cacheKey, page, perPage),
@@ -384,6 +389,10 @@ const searchEventsQ = ({
           return pipe(
             getNewRelationIds(response.data, searchEventsQueryCache),
             TE.right,
+            TE.map((r) => {
+              console.log(r);
+              return r;
+            }),
             TE.chain(({ actors, groups, groupsMembers, media, keywords }) =>
               sequenceS(TE.ApplicativePar)({
                 actors:

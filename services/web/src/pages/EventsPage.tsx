@@ -10,6 +10,7 @@ import { subYears } from "date-fns";
 import * as React from "react";
 import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
 import { EventsPanel } from "@containers/EventsPanel";
+import EventsToolbar from "components/EventsAppBar";
 
 const MIN_DATE = formatDate(subYears(new Date(), 10));
 const MAX_DATE = formatDate(new Date());
@@ -114,9 +115,9 @@ const EventsPage: React.FC<EventsPageProps> = ({
         style={{ margin: 20, maxWidth: "100%" }}
       >
         <Grid container spacing={2}>
-          <Grid item lg={2} md={12} sm={12} xs={12}>
-            <Grid container spacing={2}>
-              <Grid item lg={12} md={6} sm={6} xs={6}>
+          <EventsToolbar actors={filters.actors} groups={filters.groups} keywords={filters.keywords}>
+            <Grid container spacing={2} style={{ padding: 20 }}>
+              <Grid item lg={2} md={6} sm={6} xs={6}>
                 <DatePicker
                   size="small"
                   value={dateRange[0]}
@@ -128,7 +129,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   style={{ width: "100%" }}
                 />
               </Grid>
-              <Grid item lg={12} md={6} sm={6} xs={6}>
+              <Grid item lg={2} md={6} sm={6} xs={6}>
                 <DatePicker
                   size="small"
                   value={dateRange[1]}
@@ -140,10 +141,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   style={{ width: "100%" }}
                 />
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid item lg={10} md={12} sm={12} xs={12}>
-            <Grid container spacing={2}>
+
               <Grid item lg={6} md={6} sm={6} xs={6}>
                 <AutocompleteGroupInput
                   selectedIds={groupIds}
@@ -170,39 +168,40 @@ const EventsPage: React.FC<EventsPageProps> = ({
                   onItemClick={(kk) => onKeywordsChange(kk.map((k) => k.id))}
                 />
               </Grid>
-            </Grid>
-          </Grid>
 
-          <Grid
-            item
-            md={12}
-            sm={6}
-            xs={12}
-            style={{
-              textAlign: "right",
-            }}
-          >
-            <Button
-              color="secondary"
-              variant="contained"
-              size="small"
-              onClick={() =>
-                handleUpdateCurrentView({
-                  actors: [],
-                  groups: [],
-                  groupsMembers: [],
-                  keywords: [],
-                  tab: 0,
-                  startDate: undefined,
-                  endDate: undefined,
-                  hash: undefined,
-                })
-              }
-            >
-              Clear filters
-            </Button>
-          </Grid>
+              <Grid
+                item
+                md={12}
+                sm={6}
+                xs={12}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  size="small"
+                  onClick={() =>
+                    handleUpdateCurrentView({
+                      actors: [],
+                      groups: [],
+                      groupsMembers: [],
+                      keywords: [],
+                      tab: 0,
+                      startDate: undefined,
+                      endDate: undefined,
+                      hash: undefined,
+                    })
+                  }
+                >
+                  Clear filters
+                </Button>
+              </Grid>
+            </Grid>
+          </EventsToolbar>
         </Grid>
+
         <Grid item lg={12} md={12} sm={12} xs={12} style={{ maxWidth: "100%" }}>
           <EventsPanel
             view={{
