@@ -6,6 +6,7 @@ import SEO from "@econnessione/ui/components/SEO";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { ActorView, doUpdateCurrentView } from "../utils/location.utils";
 import { DeathBox } from "@containers/DeathBox";
@@ -45,17 +46,21 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId, tab = 0 }) => {
               {actor.death ? <DeathBox id={actor.death} /> : null}
 
               <EventsPanel
-                filters={{ actors: [actorId] }}
-                hash={`actor-${actorId}`}
+                filters={{
+                  startDate: subYears(new Date(), 1).toDateString(),
+                  endDate: new Date().toDateString(),
+                  actors: [actorId],
+                  groups: [],
+                  groupsMembers: [],
+                  keywords: [],
+                  tab: 0,
+                  page: 1,
+                  hash: `actor-${actorId}`,
+                }}
                 view={{
                   view: "actor",
                   actorId,
                 }}
-                tab={tab}
-                onActorClick={() => {}}
-                onGroupClick={() => {}}
-                onGroupMemberClick={() => {}}
-                onKeywordClick={() => {}}
               />
             </MainContent>
           );

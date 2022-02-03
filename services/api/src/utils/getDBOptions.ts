@@ -14,11 +14,11 @@ import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { UserEntity } from "@entities/User.entity";
+import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
+import { EventEntity } from "@entities/archive/Event.entity";
+import { ScientificStudyEntity } from '@entities/archive/ScientificStudy.entity';
 import { ENV } from "@io/ENV";
 import { DatabaseConnectionOpts } from "@providers/orm";
-import { EventEntity } from "@entities/archive/Event.entity";
-import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
-import { ScientificStudyEntity } from '@entities/archive/ScientificStudy.entity';
 
 export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
   const ssl =

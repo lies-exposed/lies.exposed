@@ -1,9 +1,9 @@
 {
   "folders": [
-    {
-      "name": "✨ econnessione",
-      "path": "."
-    },
+    // {
+    //   "name": "✨ econnessione",
+    //   "path": "."
+    // },
     {
       "name": "📦 @econnessione/core",
       "path": "packages/@econnessione/core"

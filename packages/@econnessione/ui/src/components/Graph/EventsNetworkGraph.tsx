@@ -393,8 +393,8 @@ const getLinks =
                     O.getOrElse(() => p)
                   ),
                   target: p,
-                  stroke: relation.color,
-                  fill: relation.color,
+                  stroke: `#${relation.color}`,
+                  fill: `#${relation.color}`,
                 },
               ])
             );
@@ -528,10 +528,13 @@ export function createEventNetworkGraphProps({
         const eventTitle = e.type === "Death" ? "Died" : e.payload.title;
         const eventActors =
           e.type === "Death"
-            ? [e.payload.victim]
+            ? e.payload.victim !== undefined
+              ? [e.payload.victim]
+              : []
             : e.type === "ScientificStudy"
             ? e.payload.authors
             : e.payload.actors;
+
         const eventGroups =
           e.type === "Death"
             ? []
@@ -570,15 +573,19 @@ export function createEventNetworkGraphProps({
               actors: pipe(eventActors, O.fromPredicate(A.isNonEmpty)),
               groups: pipe(eventGroups, O.fromPredicate(A.isNonEmpty)),
               label: eventTitle,
-              innerColor: groupByItem?.color ?? "#FF0000",
-              outerColor: groupByItem?.color ?? "#FF0000",
+              innerColor: groupByItem?.color
+                ? `#${groupByItem.color}`
+                : "#FF0000",
+              outerColor: groupByItem?.color
+                ? `#${groupByItem.color}`
+                : "#FF0000",
             },
           },
         ];
 
         const actors = pipe(
           eventActors,
-          O.fromPredicate((items) => items.length > 0),
+          O.fromPredicate(A.isNonEmpty),
           O.map((acts) =>
             allActors.filter((a) => acts.some((aa) => aa.id === a.id))
           ),
@@ -588,7 +595,7 @@ export function createEventNetworkGraphProps({
 
         const groups = pipe(
           eventGroups,
-          O.fromPredicate((items) => items.length > 0),
+          O.fromPredicate(A.isNonEmpty),
           O.map((acts) =>
             allGroups.filter((a) => acts.some((aa) => aa.id === a.id))
           ),
@@ -673,7 +680,7 @@ export function createEventNetworkGraphProps({
     domain: groupByArray.map((gb: any) =>
       groupBy === "actor" ? gb.username : groupBy === "group" ? gb.name : gb.tag
     ),
-    range: groupByArray.map((t) => (t as any).color),
+    range: groupByArray.map((t) => `#${t.color}`),
   });
 
   const actorsArray = Map.toArray(Ord.ordString)(actors).flatMap(
@@ -681,7 +688,7 @@ export function createEventNetworkGraphProps({
   );
   const actorsScale = ordinalScale({
     domain: actorsArray.map((a) => a.fullName),
-    range: actorsArray.map((a) => a.color.toString()),
+    range: actorsArray.map((a) => `#${a.color}`),
   });
 
   const groupsArray = Map.toArray(Ord.ordString)(groups).flatMap(
@@ -690,7 +697,7 @@ export function createEventNetworkGraphProps({
 
   const groupsScale = ordinalScale({
     domain: groupsArray.map((g) => g.name),
-    range: groupsArray.map((a) => a.color.toString()),
+    range: groupsArray.map((a) => `#${a.color}`),
   });
 
   const actorLinksList = Map.toArray(Ord.ordString)(actorLinks).flatMap(

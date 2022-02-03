@@ -10,9 +10,9 @@ interface EventIconProps extends SvgIconProps {
 export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
   switch (type) {
     case "ScientificStudy":
-      return <LibraryBooks {...props} />;
+      return <LibraryBooks {...props} style={{ color: "lightblue" }} />;
     case "Death":
-      return <HighlightOff {...props} />;
+      return <HighlightOff {...props} style={{ color: "red" }} />;
     default:
       return <EventNote {...props} />;
   }

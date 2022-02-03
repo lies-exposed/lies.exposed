@@ -1,5 +1,3 @@
-import { ActorEntity } from "@entities/Actor.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import {
   Column,
   CreateDateColumn,
@@ -12,6 +10,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { ActorEntity } from "@entities/Actor.entity";
+import { GroupEntity } from "@entities/Group.entity";
 
 @Entity("scientific_study")
 export class ScientificStudyEntity {

@@ -14,11 +14,11 @@ import { available } from "avenger";
 import { queryStrict } from "avenger/lib/Query";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
 import * as M from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
-import * as S from "fp-ts/lib/string";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
+import * as S from "fp-ts/lib/string";
 import { SearchEvent } from "../../components/lists/EventList/EventListItem";
 
 export const api = API({
@@ -32,18 +32,18 @@ export const toKey = (cachePrefix: string, hash?: string): string => {
   return cacheKey;
 };
 
-interface Totals {
+export interface EventTotals {
   uncategorized: number;
   deaths: number;
   scientificStudies: number;
 }
 
-interface SearchEventQueryResult {
+export interface SearchEventQueryResult {
   events: SearchEvent[];
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
-  totals: Totals;
+  totals: EventTotals;
 }
 
 interface SearchEventsQueryCache {
@@ -126,7 +126,7 @@ const mergeState = (
   hash: string,
   s: SearchEventsQueryCache,
   update: {
-    events: { data: Events.Event[]; totals: Totals };
+    events: { data: Events.Event[]; totals: EventTotals };
     actors: Actor.Actor[];
     groups: Group.Group[];
     groupsMembers: GroupMember.GroupMember[];
@@ -183,7 +183,7 @@ const mergeState = (
       result,
       O.map((r) => ({
         events: r.events.concat(
-          newEvents.filter((e) => !r.events.some((ee) => e.id === e.id))
+          newEvents.filter((e) => !r.events.some((ee) => ee.id === e.id))
         ),
         actors: r.actors,
         groups: r.groups,

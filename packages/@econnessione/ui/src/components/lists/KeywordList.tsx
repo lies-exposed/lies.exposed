@@ -20,9 +20,12 @@ export const KeywordListItem: React.FC<ListItemProps<KeywordListTopic>> = ({
     key={t.id}
     size="small"
     label={t.tag}
-    color="primary"
     variant="outlined"
-    style={{ marginRight: 10 }}
+    style={{
+      marginRight: 10,
+      borderColor: `#${t.color}`,
+      color: `#${t.color}`,
+    }}
     onClick={() => onClick?.(t)}
   />
 );

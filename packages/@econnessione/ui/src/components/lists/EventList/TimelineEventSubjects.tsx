@@ -1,4 +1,4 @@
-import { Events } from "@econnessione/shared/io/http";
+import { Actor, Events, Group, GroupMember } from "@econnessione/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
 import { ActorList } from "../ActorList";
@@ -8,9 +8,9 @@ import { SearchEvent } from "./EventListItem";
 
 export interface EventListItemProps {
   event: SearchEvent;
-  // onActorClick: (a: Actor.Actor) => void;
-  // onGroupClick: (g: Group.Group) => void;
-  // onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
+  onActorClick: (a: Actor.Actor) => void;
+  onGroupClick: (g: Group.Group) => void;
+  onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
 }
 
 const style: React.CSSProperties = {
@@ -21,7 +21,9 @@ const style: React.CSSProperties = {
 
 export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   event: e,
-  ...props
+  onActorClick,
+  onGroupClick,
+  onGroupMemberClick,
 }) => {
   const actors =
     e.type === "Death"
@@ -39,17 +41,17 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       <ActorList
         style={style}
         actors={actors.map((a) => ({ ...a, selected: true }))}
-        onActorClick={() => {}}
+        onActorClick={onActorClick}
       />
       <GroupsList
         style={style}
         groups={groups.map((a) => ({ ...a, selected: true }))}
-        onGroupClick={() => {}}
+        onGroupClick={onGroupClick}
       />
       <GroupsMembersList
         style={style}
         groupsMembers={groupsMembers.map((gm) => ({ ...gm, selected: true }))}
-        onItemClick={() => {}}
+        onItemClick={onGroupMemberClick}
       />
     </Box>
   );

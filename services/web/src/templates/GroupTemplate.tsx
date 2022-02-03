@@ -6,6 +6,7 @@ import SEO from "@econnessione/ui/components/SEO";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";
 import { doUpdateCurrentView, GroupView } from "../utils/location.utils";
@@ -63,16 +64,17 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
                 view: "group",
                 groupId,
               }}
-              hash={`group-${groupId}`}
               filters={{
                 groups: [group.id],
                 groupsMembers: group.members,
+                keywords: [],
+                actors: [],
+                hash: `group-${groupId}`,
+                tab: tab ?? 0,
+                page: 1,
+                startDate: subYears(new Date(), 1).toDateString(),
+                endDate: new Date().toDateString(),
               }}
-              tab={tab}
-              onActorClick={() => {}}
-              onGroupClick={() => {}}
-              onGroupMemberClick={() => {}}
-              onKeywordClick={() => {}}
             />
           </MainContent>
         );

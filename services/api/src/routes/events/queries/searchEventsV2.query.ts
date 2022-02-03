@@ -144,9 +144,8 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(groups)) {
-              const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
-              where(
-                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups])`,
+              q.andWhere(
+                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) OR (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`,
                 {
                   groups: groups.value,
                 }

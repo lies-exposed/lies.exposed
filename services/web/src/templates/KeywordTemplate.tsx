@@ -28,9 +28,20 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
           <KeywordPageContent {...keyword} />
           <InfiniteEventList
             hash={`keyword-${keywordId}`}
-            filters={{
+            queryFilters={{
               keywords: [keyword.id],
             }}
+            filters={{
+              uncategorized: true,
+              scientificStudies: true,
+              deaths: true,
+            }}
+            totals={{ uncategorized: 0, deaths: 0, scientificStudies: 0 }}
+            onBottomReached={() => {}}
+            events={[]}
+            actors={[]}
+            groups={[]}
+            keywords={[]}
             onActorClick={() => {}}
             onGroupClick={() => {}}
             onGroupMemberClick={() => {}}
