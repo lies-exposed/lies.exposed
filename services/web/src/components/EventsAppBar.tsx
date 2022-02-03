@@ -1,6 +1,8 @@
-import { ActorsBox } from "@econnessione/ui/components/ActorsBox";
+import { Actor, Group, Keyword } from "@econnessione/shared/io/http";
 import { GroupsBox } from "@econnessione/ui/components/GroupsBox";
-import { KeywordsBox } from "@econnessione/ui/components/KeywordsBox";
+import { ActorList } from "@econnessione/ui/components/lists/ActorList";
+import GroupList from "@econnessione/ui/components/lists/GroupList";
+import KeywordList from "@econnessione/ui/components/lists/KeywordList";
 import { AppBar, makeStyles, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Slide from "@material-ui/core/Slide";
@@ -19,9 +21,9 @@ const useStylesInHideScroll = makeStyles((theme) => ({
 }));
 
 interface HideOnScrollProps {
-  actors: string[];
-  groups: string[];
-  keywords: string[];
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  keywords: Keyword.Keyword[];
 }
 
 const HideOnScroll: React.FC<
@@ -38,9 +40,9 @@ const HideOnScroll: React.FC<
     (e) => {
       const window = e.currentTarget;
       if (y > window.scrollY) {
-        console.log("scrolling up");
+        // console.log("scrolling up");
       } else if (y < window.scrollY) {
-        console.log("scrolling down");
+        // console.log("scrolling down");
       }
       setY(window.scrollY);
     },
@@ -57,8 +59,8 @@ const HideOnScroll: React.FC<
   }, [handleNavigation]);
 
   return (
-    <Box>
-      <Slide appear={true} in={y > 100} direction="down">
+    <Box width="100%">
+      <Slide mountOnEnter={true} appear={true} in={y > 100} direction="down">
         <Box
           display="flex"
           width="100%"
@@ -79,7 +81,10 @@ const HideOnScroll: React.FC<
             >
               Keywords:
             </Typography>
-            <KeywordsBox ids={keywords} />
+            <KeywordList
+              keywords={keywords.map((a) => ({ ...a, selected: true }))}
+              onItemClick={() => {}}
+            />
           </Box>
           <Box className={classes.filterBox}>
             <Typography
@@ -90,7 +95,10 @@ const HideOnScroll: React.FC<
             >
               Actors:
             </Typography>
-            <ActorsBox ids={actors} onItemClick={() => {}} />
+            <ActorList
+              actors={actors.map((a) => ({ ...a, selected: true }))}
+              onActorClick={() => {}}
+            />
           </Box>
           <Box className={classes.filterBox}>
             <Typography
@@ -101,11 +109,14 @@ const HideOnScroll: React.FC<
             >
               Groups:
             </Typography>
-            <GroupsBox ids={groups} onItemClick={() => {}} />
+            <GroupList
+              groups={groups.map((g) => ({ ...g, selected: true }))}
+              onGroupClick={() => {}}
+            />
           </Box>
         </Box>
       </Slide>
-      <Slide appear={true} in={y < 100} direction="down">
+      <Slide mountOnEnter={true} appear={true} in={y < 100} direction="down">
         <Box
           width="100%"
           style={{ margin: 0, marginTop: 60, background: "white" }}
@@ -118,9 +129,9 @@ const HideOnScroll: React.FC<
 };
 
 interface EventsToolbarProps {
-  actors: string[];
-  groups: string[];
-  keywords: string[];
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  keywords: Keyword.Keyword[];
 }
 
 const useStylesInAppBar = makeStyles((theme) => ({

@@ -8,18 +8,18 @@ import {
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteGroupMemberInputProps {
-  selectedIds: string[];
+  selectedItems: GroupMember.GroupMember[];
   onItemClick: (item: GroupMember.GroupMember[]) => void;
 }
 
 export const AutocompleteGroupMemberInput: React.FC<
   AutocompleteGroupMemberInputProps
-> = ({ selectedIds, onItemClick }) => {
+> = ({ selectedItems, onItemClick }) => {
   return (
     <AutocompleteInput<GroupMember.GroupMember>
       placeholder="Group Member..."
       searchToFilter={(tag) => ({ tag })}
-      selectedIds={selectedIds}
+      selectedItems={selectedItems}
       getValue={(k) => `${k.group.name} - ${k.actor.fullName}`}
       query={Queries.GroupMember.getList}
       renderTags={(items) => (
@@ -36,7 +36,7 @@ export const AutocompleteGroupMemberInput: React.FC<
           key={item.id}
           item={{
             ...item,
-            selected: selectedIds.includes(item.id),
+            selected: selectedItems.some((i) => i.id === item.id),
           }}
           onClick={() => {}}
         />

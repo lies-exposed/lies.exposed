@@ -1,14 +1,13 @@
+import { APIError } from "@econnessione/shared/providers/api.provider";
 import { TextField } from "@material-ui/core";
 import Autocomplete, { AutocompleteProps } from "@material-ui/lab/Autocomplete";
-import { available, queryStrict } from "avenger";
-import { CachedQuery } from "avenger/lib/Query";
+import { queryStrict, refetch } from "avenger";
+import { CachedQuery, ObservableQuery } from "avenger/lib/Query";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as TE from "fp-ts/lib/TaskEither";
 import { GetListParams } from "ra-core";
 import * as React from "react";
-// import { throttle } from "throttle-debounce";
-import { APIError } from "../../providers/DataProvider";
 import { ErrorBox } from "../Common/ErrorBox";
 import { LazyFullSizeLoader } from "../Common/FullSizeLoader";
 
@@ -24,23 +23,21 @@ export interface AutocompleteInputProps<T extends SearchableItem>
   query: CachedQuery<GetListParams, APIError, { data: T[]; total: number }>;
   searchToFilter: (t: string) => Record<string, string>;
   getValue: (v: T) => string;
-  selectedIds: string[];
+  selectedItems: T[];
   onItemsChange: (items: T[]) => void;
 }
 
-const emptyDataQuery = <T extends SearchableItem>(): CachedQuery<
-  GetListParams,
-  APIError,
-  { data: T[]; total: number }
-> =>
-  queryStrict<GetListParams, APIError, { data: T[]; total: number }>(
-    () => TE.right({ data: [], total: 0 }),
-    available
-  );
+const discreteQuery = <L, P>(
+  q: ObservableQuery<GetListParams, L, P>,
+  empty: P
+): CachedQuery<GetListParams, L, P> =>
+  queryStrict<GetListParams, L, P>((input: GetListParams) => {
+    return input.filter.ids === 0 ? TE.right(empty) : q.run(input);
+  }, refetch);
 
 export const AutocompleteInput = <T extends { id: string }>({
   query,
-  selectedIds,
+  selectedItems,
   getValue,
   placeholder,
   renderTags,
@@ -49,47 +46,44 @@ export const AutocompleteInput = <T extends { id: string }>({
   onItemsChange,
   ...props
 }: AutocompleteInputProps<T>): React.ReactElement => {
+  const selectedIds = selectedItems.map((s) => s.id);
   const [value, setValue] = React.useState<string>("");
   // const setValueThrottled = throttle(300, setValue, true);
 
-  const itemsQuery = React.useMemo(
-    () => (value !== undefined ? query : emptyDataQuery<T>()),
+  // params
+  const itemQueryParams = React.useMemo(
+    () => ({
+      sort: { field: "createdAt", order: "DESC" },
+      pagination: { page: 1, perPage: 20 },
+      filter: {
+        ...(value !== undefined || value !== "" ? searchToFilter(value) : {}),
+      },
+    }),
     [value]
   );
 
-  const selectedItemsQuery = React.useMemo(() => {
-    return query;
-  }, [selectedIds.length]);
+  // queries
+  const itemsQuery = discreteQuery(query, { total: 0, data: [] });
+
+  const handleValueChange = React.useCallback(
+    (v: string) => {
+      setValue(v);
+    },
+    [value]
+  );
 
   return (
     <WithQueries
       queries={{
         items: itemsQuery,
-        selectedItems: selectedItemsQuery,
       }}
       params={{
-        items: {
-          sort: { field: "createdAt", order: "DESC" },
-          pagination: { page: 1, perPage: 20 },
-          filter: {
-            ...(value !== undefined ? searchToFilter(value) : {}),
-          },
-        },
-        selectedItems: {
-          sort: { field: "createdAt", order: "DESC" },
-          pagination: { page: 1, perPage: selectedIds.length },
-          filter: {
-            ids: selectedIds,
-          },
-        },
+        items: itemQueryParams,
       }}
       render={QR.fold(
         LazyFullSizeLoader,
         ErrorBox,
-        ({
-          items: { data: items },
-          selectedItems: { data: selectedItems },
-        }) => {
+        ({ items: { data: items } }) => {
           return (
             <Autocomplete<T, boolean, boolean, boolean>
               {...props}
@@ -101,14 +95,7 @@ export const AutocompleteInput = <T extends { id: string }>({
               onChange={(e, v) => {
                 if (Array.isArray(v)) {
                   onItemsChange(v as T[]);
-                  setValue("");
-                  // if (v.length > selectedItems.length) {
-                  //   const item = v[v.length - 1];
-                  //   onSelectItem(item as T, selectedItems);
-                  // } else {
-                  //   const item = selectedItems.filter((si) => !v.includes(si));
-                  //   onUnselectItem(item[0], selectedItems);
-                  // }
+                  handleValueChange("");
                 }
               }}
               getOptionLabel={getValue}
@@ -119,13 +106,15 @@ export const AutocompleteInput = <T extends { id: string }>({
                   variant="outlined"
                   onChange={(e) => {
                     const v = e.target.value;
-                    setValue(v);
+                    handleValueChange(v);
                   }}
                 />
               )}
               disablePortal={true}
               multiple={true}
-              getOptionSelected={(op, value) => op.id === value.id}
+              getOptionSelected={(op, value) => {
+                return op.id === value.id;
+              }}
               renderTags={renderTags}
               renderOption={renderOption}
             />

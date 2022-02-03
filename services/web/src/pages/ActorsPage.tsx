@@ -41,7 +41,7 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
               ({ actors: { data: acts }, pageContent }) => (
                 <>
                   <AutocompleteActorInput
-                    selectedIds={[]}
+                    selectedItems={[]}
                     onChange={(c) => {
                       void doUpdateCurrentView({
                         view: "actor",

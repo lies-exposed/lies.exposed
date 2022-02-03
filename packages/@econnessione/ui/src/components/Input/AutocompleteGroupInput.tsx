@@ -5,12 +5,12 @@ import GroupList, { GroupListItem } from "../lists/GroupList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteGroupInputProps {
-  selectedIds: string[];
+  selectedItems: Group.Group[];
   onChange: (item: Group.Group[]) => void;
 }
 
 export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
-  selectedIds,
+  selectedItems,
   onChange,
 }) => {
   return (
@@ -18,7 +18,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       placeholder="Groups..."
       getValue={(a) => a.name}
       searchToFilter={(name) => ({ name })}
-      selectedIds={selectedIds}
+      selectedItems={selectedItems}
       query={Queries.Group.getList}
       renderTags={(items) => (
         <GroupList
@@ -35,7 +35,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
           displayName
           item={{
             ...item,
-            selected: selectedIds.includes(item.id),
+            selected: selectedItems.some(i => i.id === item.id),
           }}
         />
       )}

@@ -5,12 +5,12 @@ import { ActorList, ActorListItem } from "../lists/ActorList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteActorInputProps {
-  selectedIds: string[];
+  selectedItems: Actor.Actor[];
   onChange: (items: Actor.Actor[]) => void;
 }
 
 export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
-  selectedIds,
+  selectedItems,
   onChange,
 }) => {
   return (
@@ -18,7 +18,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       placeholder="Actors..."
       getValue={(a) => a.fullName}
       searchToFilter={(fullName) => ({ fullName })}
-      selectedIds={selectedIds}
+      selectedItems={selectedItems}
       query={Queries.Actor.getList}
       renderTags={(items) => (
         <ActorList

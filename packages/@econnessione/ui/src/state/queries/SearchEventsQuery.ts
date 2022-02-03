@@ -10,15 +10,15 @@ import {
 } from "@econnessione/shared/io/http";
 import { GetSearchEVentsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { API, APIError } from "@econnessione/shared/providers/api.provider";
-import { refetch } from "avenger";
+import { available } from "avenger";
 import { queryStrict } from "avenger/lib/Query";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
 import * as M from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
+import * as TE from "fp-ts/lib/TaskEither";
 import { SearchEvent } from "../../components/lists/EventList/EventListItem";
 
 export const api = API({
@@ -182,7 +182,9 @@ const mergeState = (
     const events = pipe(
       result,
       O.map((r) => ({
-        events: r.events.concat(newEvents),
+        events: r.events.concat(
+          newEvents.filter((e) => !r.events.some((ee) => e.id === e.id))
+        ),
         actors: r.actors,
         groups: r.groups,
         keywords: r.keywords,
@@ -389,10 +391,6 @@ const searchEventsQ = ({
           return pipe(
             getNewRelationIds(response.data, searchEventsQueryCache),
             TE.right,
-            TE.map((r) => {
-              console.log(r);
-              return r;
-            }),
             TE.chain(({ actors, groups, groupsMembers, media, keywords }) =>
               sequenceS(TE.ApplicativePar)({
                 actors:
@@ -462,4 +460,4 @@ const searchEventsQ = ({
   );
 };
 
-export const searchEventsQuery = queryStrict(searchEventsQ, refetch);
+export const searchEventsQuery = queryStrict(searchEventsQ, available);
