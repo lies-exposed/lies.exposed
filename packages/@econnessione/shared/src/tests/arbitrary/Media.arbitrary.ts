@@ -9,6 +9,7 @@ const mediaProps = propsOmit(http.Media.Media, [
   "thumbnail",
   "createdAt",
   "updatedAt",
+  "events",
 ]);
 
 export const placeKitten = (): string => {
@@ -21,6 +22,7 @@ export const MediaArb: tests.fc.Arbitrary<http.Media.Media> = tests
   .map((i) => {
     return {
       ...i,
+      events: [],
       type: "image/png",
       location: placeKitten(),
       thumbnail: placeKitten(),
