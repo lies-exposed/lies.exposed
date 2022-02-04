@@ -46,7 +46,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             <Grid item md={2}>
               <Typography
                 variant="h5"
-                color="secondary"
+                color="primary"
                 display="inline"
                 style={{ marginRight: 10 }}
               >

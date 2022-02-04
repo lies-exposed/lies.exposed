@@ -10,18 +10,27 @@ export const transformEvent = async (
   id: string,
   data: Record
 ): Promise<Record> => {
-  const media: any[] = (data.newMedia ?? ([] as any[])).reduce((acc, l) => {
-    if (Array.isArray(l.ids)) {
-      return acc.concat(l.ids);
+  const newLinks = (data.newLinks ?? []).reduce((acc, l) => {
+    if (l.fromURL) {
+      return acc.concat({ url: l.url, publishDate: l.publishDate });
+    }
+    return acc.concat(l.ids);
+  }, [] as string[]);
+
+  const links = (data.links ?? []).concat(newLinks);
+
+  const media: any[] = (data.newMedia ?? ([] as any[])).reduce((acc, m) => {
+    if (Array.isArray(m.ids)) {
+      return acc.concat(m.ids);
     }
 
-    if (l.fromURL) {
+    if (m.fromURL) {
       return acc.concat({
-        ...l,
-        thumbnail: l.location,
+        ...m,
+        thumbnail: m.location,
       });
     }
-    return acc.concat(l);
+    return acc.concat(m);
   }, []);
 
   const { rawMedia, otherMedia } = media.reduce<{
@@ -84,6 +93,7 @@ export const transformEvent = async (
     TE.map((media) => ({
       ...data,
       media,
+      links,
       endDate: data.endDate?.length > 0 ? data.endDate : undefined,
     }))
   )().then((result) => {

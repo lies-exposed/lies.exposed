@@ -8,6 +8,7 @@ export interface KeywordListTopic extends Keyword.Keyword {
 }
 
 interface KeywordListProps {
+  style?: React.CSSProperties;
   keywords: KeywordListTopic[];
   onItemClick: (t: KeywordListTopic) => void;
 }
@@ -30,14 +31,18 @@ export const KeywordListItem: React.FC<ListItemProps<KeywordListTopic>> = ({
   />
 );
 
-const KeywordList: React.FC<KeywordListProps> = ({ keywords, onItemClick }) => {
+const KeywordList: React.FC<KeywordListProps> = ({
+  keywords,
+  onItemClick,
+  style,
+}) => {
   return (
     <List<KeywordListTopic>
       data={keywords}
       filter={(_) => true}
       onItemClick={onItemClick}
       getKey={(t) => t.id}
-      style={{ display: "inline" }}
+      style={{ display: "inline", ...style }}
       ListItem={(p) => (
         <KeywordListItem {...p} onClick={() => onItemClick(p.item)} />
       )}

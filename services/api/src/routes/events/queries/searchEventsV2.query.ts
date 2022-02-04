@@ -20,6 +20,7 @@ interface SearchEventQuery {
   groupsMembers: O.Option<string[]>;
   keywords: O.Option<string[]>;
   links: O.Option<string[]>;
+  media: O.Option<string[]>
   type: O.Option<string>;
   title: O.Option<string>;
   startDate: O.Option<Date>;
@@ -47,6 +48,7 @@ export const searchEventV2Query =
     groups,
     groupsMembers: _groupsMembers,
     keywords,
+    media,
     links,
     type,
     title,
@@ -168,6 +170,12 @@ export const searchEventV2Query =
               q.andWhere("keywords.id IN (:...keywords)", {
                 keywords: keywords.value,
               });
+            }
+
+            if (O.isSome(media)) {
+              q.andWhere('media.id IN (:...media)', {
+                media: media.value
+              })
             }
 
             if (O.isSome(links)) {

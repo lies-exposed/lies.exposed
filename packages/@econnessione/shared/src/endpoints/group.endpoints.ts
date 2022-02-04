@@ -1,5 +1,6 @@
 import * as t from "io-ts";
-import { DateFromISOString, UUID } from "io-ts-types";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
@@ -17,7 +18,7 @@ export const List = Endpoint({
     Query: t.type({
       ...GetListQuery.props,
       name: optionFromNullable(t.string),
-      ids: optionFromNullable(t.array(t.string)),
+      ids: optionFromNullable(t.array(UUID)),
       members: optionFromNullable(t.array(t.string)),
     }),
   },

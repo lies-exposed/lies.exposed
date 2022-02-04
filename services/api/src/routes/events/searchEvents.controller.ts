@@ -50,6 +50,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
         title,
         startDate,
         endDate,
+        media,
         withDeleted: O.getOrElse(() => false)(withDeleted),
         withDrafts: O.getOrElse(() => false)(withDrafts),
         ...findOptions,

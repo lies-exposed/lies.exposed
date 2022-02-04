@@ -60,6 +60,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
             view={{
               view: "events",
             }}
+            showFilters={true}
             filters={{ page: 1, ...filters, hash, tab }}
           />
         </Grid>

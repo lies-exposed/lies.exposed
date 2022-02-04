@@ -14,9 +14,7 @@ import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
-  BooleanInput,
-  BooleanField,
-  Datagrid,
+  BooleanField, BooleanInput, Datagrid,
   DateField,
   DateInput,
   Edit,
@@ -33,27 +31,27 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
+import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "./Common/ReferenceArrayLinkInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -73,8 +71,9 @@ const EventsFilter: React.FC = (props: any) => {
           name: t.value,
         }))}
       />
-      <ReferenceArrayGroupInput source="groups" alwaysOn />
-      <ReferenceArrayActorInput source="actors" alwaysOn />
+      <ReferenceArrayKeywordInput source="keywords" alwaysOn />
+      <ReferenceArrayGroupInput source="groups" />
+      <ReferenceArrayActorInput source="actors" />
       <ReferenceArrayGroupMemberInput source="groupsMembers" />
       <DateInput source="startDate" />
       <DateInput source="endDate" />
@@ -259,7 +258,12 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
             defaultValue={[]}
           />
 
-          <ReferenceArrayField source="media" reference="media">
+          <ReferenceArrayField
+            source="media"
+            reference="media"
+            sortBy="updatedAt"
+            sortByOrder="DESC"
+          >
             <Datagrid rowClick="edit">
               <TextField source="id" />
               <MediaField source="location" fullWidth={false} />
@@ -268,43 +272,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
           </ReferenceArrayField>
         </FormTab>
         <FormTab label="Links">
-          <ReferenceArrayLinkInput source="links" />
-          {/* <ArrayInput source="newLinks" defaultValue={[]}>
-            <SimpleFormIterator>
-              <BooleanInput source="addNew" />
-              <FormDataConsumer>
-                {({ formData, scopedFormData, getSource, ...rest }) => {
-                  const getSrc = getSource ?? ((s: string) => s);
-
-                  if (scopedFormData?.addNew) {
-                    return (
-                      <Box>
-                        <TextInput
-                          source={getSrc("url")}
-                          type="url"
-                          {...rest}
-                        />
-                        <TextInput source={getSrc("description")} {...rest} />
-                      </Box>
-                    );
-                  }
-                  return (
-                    <ReferenceArrayInput
-                      source={getSrc("ids")}
-                      reference="links"
-                      filterToQuery={(description: any) => ({ description })}
-                      {...rest}
-                    >
-                      <AutocompleteArrayInput
-                        source="id"
-                        optionText="description"
-                      />
-                    </ReferenceArrayInput>
-                  );
-                }}
-              </FormDataConsumer>
-            </SimpleFormIterator>
-          </ArrayInput> */}
+          <LinkArrayInput source="newLinks" />
           <ReferenceArrayField source="links" reference="links" fullWidth>
             <Datagrid rowClick="edit">
               <TextField source="id" />

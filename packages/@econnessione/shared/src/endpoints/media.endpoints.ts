@@ -44,7 +44,7 @@ export const Create = Endpoint({
         type: MediaType,
         location: t.string,
         description: t.string,
-        // events: t.array(t.string),
+        events: t.array(t.string),
       },
       "CreateImageBody"
     ),
@@ -61,7 +61,7 @@ export const Edit = Endpoint({
       type: Media.MediaType,
       location: t.string,
       description: t.string,
-      // events: t.array(t.string),
+      events: t.array(t.string),
     }),
   },
   Output: SingleMediaOutput,

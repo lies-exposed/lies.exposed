@@ -11,7 +11,16 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       ctx.db.findOneOrFail(MediaEntity, { where: { id } }),
       TE.chain((image) =>
-        ctx.db.save(MediaEntity, [{ ...image, ...body, id }])
+        ctx.db.save(MediaEntity, [
+          {
+            ...image,
+            ...body,
+            events: body.events.map((e) => ({
+              id: e,
+            })),
+            id,
+          },
+        ])
       ),
       TE.chain((results) => TE.fromEither(toImageIO(results[0]))),
       TE.map((data) => ({

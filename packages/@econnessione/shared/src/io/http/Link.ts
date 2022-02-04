@@ -35,6 +35,7 @@ export const Link = t.strict(
     id: UUID,
     title: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),
+    publishDate: t.union([DateFromISOString, t.undefined]),
     image: t.union([t.string, t.undefined]),
     keywords: t.array(t.string),
     provider: t.union([t.string, t.undefined]),

@@ -6,10 +6,11 @@ import { pipe } from "fp-ts/lib/function";
 import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
 import { RouteContext } from "@routes/route.types";
+import { authenticationHandler } from "@utils/authenticationHandler";
 import * as passwordUtils from "@utils/password.utils";
 
 export const MakeUserCreateRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(ctx.logger))(
     Endpoints.User.Create,
     ({ body: { password, ...userData } }) => {
       ctx.logger.debug.log("Login user with username or email %O", userData);

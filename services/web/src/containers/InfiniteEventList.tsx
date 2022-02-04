@@ -114,7 +114,11 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
         <Typography variant="h5">
           All {props.totalElements} events loaded.
         </Typography>
-      ) : null}
+      ) : (
+        <Typography variant="caption">
+          {props.loadedElements}/{props.totalElements}
+        </Typography>
+      )}
     </div>
   );
 };

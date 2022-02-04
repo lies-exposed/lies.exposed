@@ -40,6 +40,7 @@ export const Slider: React.FC<SliderProps> = ({
             media={s}
             style={{
               width: "100%",
+              minHeight: 300
             }}
           />
         </div>

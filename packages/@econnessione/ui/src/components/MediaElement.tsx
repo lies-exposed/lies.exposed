@@ -19,7 +19,11 @@ const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
     switch (media.type) {
       case Media.MediaType.types[5].value:
         return (
-          <iframe src={media.location} style={{ minHeight: 200 }} {...props} />
+          <iframe
+            src={media.location}
+            {...props}
+            style={{ minHeight: 300, ...props.style }}
+          />
         );
       case Media.MediaType.types[4].value: {
         return <div style={props.style}>PDF preview</div>;

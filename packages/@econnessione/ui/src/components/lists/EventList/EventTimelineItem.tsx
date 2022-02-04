@@ -1,5 +1,5 @@
 import { formatDate } from "@econnessione/shared/utils/date";
-import { Typography } from "@material-ui/core";
+import { Link, Typography } from "@material-ui/core";
 import {
   TimelineConnector,
   TimelineContent,
@@ -30,13 +30,13 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
         </Typography>
         <TimelineEventSubjects event={e} {...props} />
         {process.env.NODE_ENV === "development" ? (
-          <a
+          <Link
             href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
             target="_blank"
             rel="noreferrer"
           >
             Edit
-          </a>
+          </Link>
         ) : null}
       </TimelineOppositeContent>
       <TimelineSeparator>

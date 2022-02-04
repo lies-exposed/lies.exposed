@@ -7,6 +7,7 @@ import { Button, Grid } from "@material-ui/core";
 import * as React from "react";
 import { EventsView } from "../../utils/location.utils";
 import EventsAppBar, { EventsAppBarMinimalProps } from "./EventsAppBar";
+import { EventsTotals } from "./EventsTotals";
 
 interface EventsFilterProps extends EventsAppBarMinimalProps {
   onQueryFilterChange: (f: Omit<EventsView, "view">) => void;
@@ -14,6 +15,7 @@ interface EventsFilterProps extends EventsAppBarMinimalProps {
 
 const EventsFilter: React.FC<EventsFilterProps> = ({
   queryFilters,
+  showFilters,
   actors,
   groups,
   groupsMembers,
@@ -31,6 +33,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
   return (
     <Grid container spacing={2}>
       <EventsAppBar
+        showFilters={showFilters}
         queryFilters={queryFilters}
         actors={actors}
         groups={groups}
@@ -40,7 +43,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
         totals={totals}
         onFilterChange={onFilterChange}
       >
-        <Grid container spacing={2} style={{ padding: 20 }}>
+        <Grid container spacing={2} style={{ padding: 0 }}>
           <Grid item lg={2} md={6} sm={6} xs={6}>
             <DatePicker
               size="small"
@@ -90,6 +93,17 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           </Grid>
 
           <Grid item lg={4} md={6} sm={6} xs={6}>
+            <AutocompleteActorInput
+              selectedItems={actors}
+              onChange={(aa) =>
+                onQueryFilterChange({
+                  ...queryFilters,
+                  actors: aa.map((a) => a.id),
+                })
+              }
+            />
+          </Grid>
+          <Grid item lg={4} md={6} sm={6} xs={6}>
             <AutocompleteGroupInput
               selectedItems={groups}
               onChange={(gg) =>
@@ -107,17 +121,6 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
                 onQueryFilterChange({
                   ...queryFilters,
                   groupsMembers: gms.map((gm) => gm.id),
-                })
-              }
-            />
-          </Grid>
-          <Grid item lg={4} md={6} sm={6} xs={6}>
-            <AutocompleteActorInput
-              selectedItems={actors}
-              onChange={(aa) =>
-                onQueryFilterChange({
-                  ...queryFilters,
-                  actors: aa.map((a) => a.id),
                 })
               }
             />
@@ -151,6 +154,22 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
             >
               Clear filters
             </Button>
+          </Grid>
+          <Grid
+            item
+            sm={12}
+            md={12}
+            lg={12}
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <EventsTotals
+              filters={filters}
+              totals={totals}
+              onFilterChange={onFilterChange}
+            />
           </Grid>
         </Grid>
       </EventsAppBar>

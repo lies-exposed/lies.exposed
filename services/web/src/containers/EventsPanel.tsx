@@ -28,10 +28,12 @@ import InfiniteEventList from "./InfiniteEventList";
 
 interface EventsPanelProps {
   view: CurrentView;
+  showFilters: boolean;
   filters: Required<Omit<EventsView, "view">>;
 }
 export const EventsPanel: React.FC<EventsPanelProps> = ({
   view,
+  showFilters,
   filters: {
     tab = 0,
     hash,
@@ -186,6 +188,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           return (
             <Box style={{ width: "100%" }}>
               <EventsFilter
+                showFilters={showFilters}
                 queryFilters={queryFilters}
                 filters={state.filters}
                 actors={filterActors.data}
@@ -201,6 +204,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                 }
                 onQueryFilterChange={handleUpdateCurrentView}
               />
+
               <Tabs
                 style={{ width: "100%", marginBottom: 30 }}
                 value={tab}

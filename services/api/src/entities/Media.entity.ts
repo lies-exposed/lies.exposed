@@ -31,7 +31,7 @@ export class MediaEntity {
   })
   type: MediaType;
 
-  @ManyToMany(() => EventV2Entity, (e) => e.media)
+  @ManyToMany(() => EventV2Entity, (e) => e.media, { cascade: false })
   events: EventV2Entity[];
 
   @CreateDateColumn()
