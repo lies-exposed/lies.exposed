@@ -44,7 +44,7 @@ export const ScientificStudyListItem: React.FC<
           <Avatar
             size="xlarge"
             src={item.payload.publisher.avatar}
-            style={{ objectFit: "contain" }}
+            fit="contain"
           />
         </Grid>
       </Grid>

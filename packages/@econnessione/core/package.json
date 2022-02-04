@@ -27,7 +27,7 @@
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@types/webpack-node-externals": "^2.5.3",
     "copy-webpack-plugin": "^9.1.0",
-    "css-loader": "^6.5.1",
+    "css-loader": "^6.6.0",
     "dotenv-webpack": "^7.1.0",
     "eslint": "^8.8.0",
     "eslint-plugin-import": "^2.25.4",
@@ -46,7 +46,7 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.68.0",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-dev-server": "^4.7.3",
+    "webpack-dev-server": "^4.7.4",
     "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {

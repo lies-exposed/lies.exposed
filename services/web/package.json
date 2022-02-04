@@ -62,7 +62,7 @@
     "@types/bs58": "^4.0.1",
     "@types/debug": "^4.1.7",
     "@types/ol": "^6.5.3",
-    "@types/react": "^17.0.38",
+    "@types/react": "^17.0.39",
     "@types/react-calendar-heatmap": "^1.6.3",
     "@types/react-helmet": "^6.1.5",
     "@types/react-slick": "^0.23.8",
