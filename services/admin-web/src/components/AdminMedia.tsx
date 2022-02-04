@@ -39,7 +39,8 @@ const ytVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-_]*)(&(amp;)?[\w?=]*)?/;
 const bitchuteVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?bitchute\.com\/video\/([\w\-_]*)/;
-
+const odyseeVideoRegExp =
+  /http(?:s?):\/\/(?:www\.)?odysee\.com\/\$\/download\/([^/]+)\/([^/]+)$/;
 
 export const parsePlatformURL = (url: string): E.Either<Error, string> => {
   const match = url.match(ytVideoRegExp);
@@ -51,6 +52,16 @@ export const parsePlatformURL = (url: string): E.Either<Error, string> => {
 
   if (matchBitchute !== null && typeof matchBitchute[1] === "string") {
     return E.right(`https://www.bitchute.com/embed/${matchBitchute[1]}/`);
+  }
+
+  const odyseeMatch = url.match(odyseeVideoRegExp);
+  if (
+    typeof odyseeMatch?.[1] === "string" &&
+    typeof odyseeMatch?.[2] === "string"
+  ) {
+    return E.right(
+      `https://odysee.com/$/embed/${odyseeMatch[1]}/${odyseeMatch[2]}`
+    );
   }
 
   return E.left(new Error(`Cant parse url ${url}`));
@@ -80,9 +91,12 @@ const parseURL = (
     });
   }
 
-  const iframeVideosMatch = ["youtube.com", "youtu.be", "bitchute.com"].some(
-    (v) => url.includes(v)
-  );
+  const iframeVideosMatch = [
+    "youtube.com",
+    "youtu.be",
+    "bitchute.com",
+    "odysee.com",
+  ].some((v) => url.includes(v));
 
   if (iframeVideosMatch) {
     return pipe(
