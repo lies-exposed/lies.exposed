@@ -1,9 +1,9 @@
 {
   "folders": [
-    {
-      "name": "✨ econnessione",
-      "path": "."
-    },
+    // {
+    //   "name": "✨ econnessione",
+    //   "path": "."
+    // },
     {
       "name": "📦 @econnessione/core",
       "path": "packages/@econnessione/core"
@@ -38,6 +38,13 @@
     }
   ],
   "settings": {
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/*.code-search": true,
+      "build/**": true,
+      "lib/**": true,
+    },
     "eslint.workingDirectories": [
       "./packages/@econnessione/core",
       "./packages/@econnessione/shared",

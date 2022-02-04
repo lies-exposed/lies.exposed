@@ -36,7 +36,7 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
           render={QR.fold(Loader, ErrorBox, ({ pageContent, groups }) => (
             <>
               <AutocompleteGroupInput
-                selectedIds={[]}
+                selectedItems={[]}
                 onChange={(gg) => {
                   void doUpdateCurrentView({
                     view: "group",

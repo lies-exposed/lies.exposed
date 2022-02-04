@@ -4,7 +4,7 @@ import * as Eq from "fp-ts/lib/Eq";
 import * as Map from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import {
   HierarchicalEdgeBundlingDatum,
   HierarchicalEdgeBundlingProps,

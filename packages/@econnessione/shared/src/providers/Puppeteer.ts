@@ -1,7 +1,7 @@
 /* eslint-disable import/default */
 import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import type * as puppeteer from "puppeteer-core";
 import { addExtra, VanillaPuppeteer } from "puppeteer-extra";
 import puppeteerStealth from "puppeteer-extra-plugin-stealth";

@@ -1,3 +1,4 @@
+import { toColor } from "@econnessione/shared/io/http/Common";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -17,6 +18,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
+import { ColorField, ColorInput } from "react-admin-color-input";
 
 const RESOURCE = "keywords";
 
@@ -39,6 +41,7 @@ export const KeywordList: React.FC<ListProps> = (props) => (
   >
     <Datagrid rowClick="edit">
       <TextField source="tag" />
+      <ColorField source="color" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -57,12 +60,14 @@ export const KeywordEdit: React.FC<EditProps> = (props: EditProps) => {
       transform={({ newEvents, ...r }) => {
         return {
           ...r,
+          color: toColor(r.color),
           events: (r.events ?? []).concat(newEvents ?? []),
         };
       }}
     >
       <SimpleForm>
-        <TextInput source="keyword" />
+        <TextInput source="tag" />
+        <ColorInput source="color" />
       </SimpleForm>
     </Edit>
   );
@@ -72,7 +77,8 @@ export const KeywordCreate: React.FC<CreateProps> = (props) => {
   return (
     <Create title="Create a Keyword" {...props}>
       <SimpleForm>
-        <TextInput type="string" source="tag" />
+        <TextInput source="tag" type="string" />
+        <ColorInput source="color" />
       </SimpleForm>
     </Create>
   );

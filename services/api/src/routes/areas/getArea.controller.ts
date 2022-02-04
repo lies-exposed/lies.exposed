@@ -1,7 +1,7 @@
 import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { RouteContext } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";

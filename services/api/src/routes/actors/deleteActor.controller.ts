@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { Route } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { ActorEntity } from "@entities/Actor.entity";

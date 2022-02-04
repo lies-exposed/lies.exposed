@@ -2,7 +2,7 @@ import { fc } from "@econnessione/core/tests";
 import { http } from "@econnessione/shared/io";
 import { MediaArb, ProjectArb } from "@econnessione/shared/tests";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ProjectEntity } from "@entities/Project.entity";

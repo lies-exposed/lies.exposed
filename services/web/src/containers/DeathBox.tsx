@@ -5,7 +5,7 @@ import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
 export class DeathBox extends React.PureComponent<{

@@ -1,6 +1,7 @@
 import * as io from "@econnessione/shared/io";
+import { toColor } from '@econnessione/shared/io/http/Common';
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { GroupEntity } from "../../entities/Group.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 
@@ -10,7 +11,7 @@ export const toGroupIO = (
   return pipe(
     io.http.Group.Group.decode({
       ...group,
-      type: "GroupFrontmatter",
+      color: toColor(group.color),
       avatar: group.avatar === null ? undefined : group.avatar,
       members: group.members ? group.members : [],
       subGroups: [],

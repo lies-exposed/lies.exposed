@@ -1,11 +1,11 @@
 import { DeathType } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
-import { EventEntity } from "@entities/Event.entity";
+import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
+import { EventEntity } from "@entities/archive/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
+import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { DeathEventEntity } from "@entities/DeathEvent.entity";
 
 export class EventV21639419928672 implements MigrationInterface {
   name = "EventV21639419928672";
@@ -67,14 +67,16 @@ export class EventV21639419928672 implements MigrationInterface {
     );
     const uncategorizedEvents = await queryRunner.manager
       .find(EventEntity, {
-        relations: [
-          "actors",
-          "groups",
-          "groupsMembers",
-          "media",
-          "links",
-          "keywords",
-        ],
+        loadRelationIds: {
+          relations: [
+            "actors",
+            "groups",
+            "groupsMembers",
+            "media",
+            "links",
+            "keywords",
+          ],
+        },
       })
       .then((ee) =>
         ee.map(
@@ -88,14 +90,14 @@ export class EventV21639419928672 implements MigrationInterface {
               title: e.title,
               location: undefined,
               endDate: e.endDate ?? undefined,
-              actors: e.actors.map((a) => a.id as any),
-              groups: e.groups.map((g) => g.id as any),
-              groupsMembers: e.groupsMembers.map((gm) => gm.id as any),
+              actors: e.actors as any,
+              groups: e.groups as any,
+              groupsMembers: e.groupsMembers as any,
             },
             media: e.media,
             keywords: e.keywords,
             date: e.startDate,
-            links: e.links.map((l) => l.id as any),
+            links: e.links,
           })
         )
       );
@@ -124,7 +126,9 @@ export class EventV21639419928672 implements MigrationInterface {
 
     const scientificStudies = await queryRunner.manager
       .find(ScientificStudyEntity, {
-        relations: ["authors", "publisher"],
+        loadRelationIds: {
+          relations: ["authors", "publisher"],
+        },
       })
       .then((ss) =>
         ss.map(
@@ -135,9 +139,9 @@ export class EventV21639419928672 implements MigrationInterface {
             payload: {
               title: s.title,
               url: s.url as any,
-              publisher: s.publisher.id as any,
+              publisher: (s as any).publisher.id,
               image: undefined,
-              authors: s.authors as any[],
+              authors: (s as any).authors as any[],
             },
             body: s.body2,
             keywords: [],

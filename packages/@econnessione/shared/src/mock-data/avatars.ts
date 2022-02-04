@@ -1,5 +1,5 @@
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 
 interface Avatars {
   actors: {

@@ -2,7 +2,7 @@ import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import { sanitizeURL } from "@econnessione/shared/utils/url.utils";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { In } from "typeorm";
 import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";

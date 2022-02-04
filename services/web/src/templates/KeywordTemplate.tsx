@@ -6,11 +6,11 @@ import SEO from "@econnessione/ui/components/SEO";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { useQueries } from "avenger/lib/react";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import InfiniteEventList from "@containers/InfiniteEventList";
 
-const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
+const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
   keywordId,
 }) => {
   const queries = useQueries(
@@ -28,9 +28,20 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
           <KeywordPageContent {...keyword} />
           <InfiniteEventList
             hash={`keyword-${keywordId}`}
-            filters={{
+            queryFilters={{
               keywords: [keyword.id],
             }}
+            filters={{
+              uncategorized: true,
+              scientificStudies: true,
+              deaths: true,
+            }}
+            totals={{ uncategorized: 0, deaths: 0, scientificStudies: 0 }}
+            onBottomReached={() => {}}
+            events={[]}
+            actors={[]}
+            groups={[]}
+            keywords={[]}
             onActorClick={() => {}}
             onGroupClick={() => {}}
             onGroupMemberClick={() => {}}
@@ -42,4 +53,4 @@ const TopicTimelineTemplate: React.FunctionComponent<{ keywordId: string }> = ({
   );
 };
 
-export default TopicTimelineTemplate;
+export default KeywordTemplate;

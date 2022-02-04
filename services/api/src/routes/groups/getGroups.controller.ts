@@ -5,11 +5,11 @@ import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { GroupEntity } from "../../entities/Group.entity";
 import { RouteContext } from "../route.types";
 import { toGroupIO } from "./group.io";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(

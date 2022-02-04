@@ -3,7 +3,7 @@ import * as bodyParser from "body-parser";
 import { Router } from "express";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { DecodeError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";

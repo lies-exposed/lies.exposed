@@ -2,7 +2,7 @@ import { Actor, Events, Group, Project } from "@econnessione/shared/io/http";
 import { GroupMember } from "@econnessione/shared/io/http/GroupMember";
 import { Grid, Typography, useTheme } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import Editor from "./Common/Editor/index";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";

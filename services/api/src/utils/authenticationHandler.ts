@@ -1,7 +1,7 @@
 import * as logger from "@econnessione/core/logger";
 import * as express from "express";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { NotAuthorizedError } from "@io/ControllerError";

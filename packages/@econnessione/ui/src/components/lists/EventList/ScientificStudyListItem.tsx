@@ -15,12 +15,7 @@ interface ScientificStudyListItemProps {
 
 export const ScientificStudyListItem: React.FC<
   ScientificStudyListItemProps
-> = ({
-  item,
-  onClick,
-  onActorClick,
-  onKeywordClick,
-}) => {
+> = ({ item, onClick, onActorClick, onKeywordClick }) => {
   return (
     <Box
       key={item.id}
@@ -46,7 +41,11 @@ export const ScientificStudyListItem: React.FC<
           sm={false}
           style={{ display: "flex", justifyContent: "center" }}
         >
-          <Avatar size="xlarge" src={item.payload.publisher.avatar} />
+          <Avatar
+            size="xlarge"
+            src={item.payload.publisher.avatar}
+            fit="contain"
+          />
         </Grid>
       </Grid>
     </Box>

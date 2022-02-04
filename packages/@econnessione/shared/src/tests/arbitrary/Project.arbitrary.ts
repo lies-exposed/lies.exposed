@@ -1,6 +1,7 @@
 import * as tests from "@econnessione/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
+import { ColorArb } from "./common/Color.arbitrary";
 
 const {
   createdAt: _createdAt,
@@ -21,7 +22,7 @@ export const ProjectArb: tests.fc.Arbitrary<http.Project.Project> = tests
     id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
     startDate: new Date(),
     endDate: new Date(),
-    color: "#FFFF00" as any,
+    color: tests.fc.sample(ColorArb, 1)[0],
     areas: [
       {
         id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,

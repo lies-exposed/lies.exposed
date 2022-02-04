@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/lib/function";
 import { toKeywordIO } from "./keyword.io";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
@@ -42,7 +42,10 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
           return q;
         },
         (q) => {
-          return q.skip(findOptions.skip).take(findOptions.take);
+          return q
+            .skip(findOptions.skip)
+            .take(findOptions.take)
+            .orderBy("keyword.updatedAt", "DESC");
         },
         (q) => {
           return ctx.db.execQuery(() => q.getManyAndCount());

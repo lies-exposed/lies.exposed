@@ -1,7 +1,7 @@
 import { UserLogin, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { UserEntity } from "@entities/User.entity";
 import { BadRequestError, NotFoundError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";

@@ -3,11 +3,11 @@ import { ScientificStudyType } from "@econnessione/shared/io/http/Events/Scienti
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { searchEventV2Query } from "../queries/searchEventsV2.query";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { Route } from "@routes/route.types";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListScientificStudyRoute: Route = (
   r,

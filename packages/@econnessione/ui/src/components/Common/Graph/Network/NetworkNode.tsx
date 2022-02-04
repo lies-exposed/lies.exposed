@@ -52,7 +52,7 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
     <Group {...(groupProps as any)} onClick={() => onClick(node)}>
       <>
         <circle r={8} fill={outerCircleColor} />
-        <circle r={6} fill={`#${innerCircleColor}`} />
+        <circle r={6} fill={innerCircleColor} />
       </>
     </Group>
   );

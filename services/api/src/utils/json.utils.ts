@@ -3,7 +3,7 @@ import { Logger } from "@econnessione/core/logger";
 import * as E from "fp-ts/lib/Either";
 import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 

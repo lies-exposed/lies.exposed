@@ -5,18 +5,18 @@ import KeywordList, { KeywordListItem } from "../lists/KeywordList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteKeywordInputProps {
-  selectedIds: string[];
+  selectedItems: Keyword.Keyword[];
   onItemClick: (item: Keyword.Keyword[]) => void;
 }
 
 export const AutocompleteKeywordInput: React.FC<
   AutocompleteKeywordInputProps
-> = ({ selectedIds, onItemClick }) => {
+> = ({ selectedItems, onItemClick }) => {
   return (
     <AutocompleteInput<Keyword.Keyword>
       placeholder="Keyword..."
       searchToFilter={(tag) => ({ tag })}
-      selectedIds={selectedIds}
+      selectedItems={selectedItems}
       getValue={(k) => k.tag}
       query={Queries.Keyword.getList}
       renderTags={(items) => (
@@ -33,7 +33,7 @@ export const AutocompleteKeywordInput: React.FC<
           key={item.id}
           item={{
             ...item,
-            selected: selectedIds.includes(item.id),
+            selected: selectedItems.some((i) => i.id === item.id),
           }}
           onClick={() => {}}
         />

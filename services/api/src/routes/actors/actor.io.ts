@@ -1,6 +1,7 @@
 import * as io from "@econnessione/shared/io";
+import { toColor } from '@econnessione/shared/io/http/Common';
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 
@@ -10,6 +11,7 @@ export const toActorIO = (
   return pipe(
     io.http.Actor.Actor.decode({
       ...a,
+      color: toColor(a.color),
       avatar: a.avatar ?? undefined,
       memberIn: a.memberIn ? a.memberIn : [],
       createdAt: a.createdAt.toISOString(),

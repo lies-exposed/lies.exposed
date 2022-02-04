@@ -10,7 +10,6 @@ import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
-import IndexPage from "./pages";
 import ActorsPage from "./pages/ActorsPage";
 import BlogPage from "./pages/BlogPage";
 import { DocsPage } from "./pages/DocsPage";
@@ -23,6 +22,7 @@ import ActorTemplate from "./templates/ActorTemplate";
 import ArticleTemplate from "./templates/ArticleTemplate";
 import EventTemplate from "./templates/EventTemplate";
 import GroupTemplate from "./templates/GroupTemplate";
+import KeywordTemplate from "./templates/KeywordTemplate";
 import {
   CurrentView,
   currentView,
@@ -97,12 +97,12 @@ const getCurrentComponent = (currentView: CurrentView): React.ReactElement => {
       return <GroupsPage />;
     case "group":
       return <GroupTemplate {...currentView} />;
-    case "events":
-      return <EventsPage {...currentView} />;
     case "event":
       return <EventTemplate eventId={currentView.eventId} />;
     case "keywords":
       return <KeywordsPage />;
+    case "keyword":
+      return <KeywordTemplate keywordId={currentView.keywordId} />;
     case "vaccines-dashboard":
       return <VaccineDashboard {...currentView} />;
 
@@ -112,8 +112,11 @@ const getCurrentComponent = (currentView: CurrentView): React.ReactElement => {
     //   <AreasPage path="/areas" />
     //   <AreaTemplate path="/areas/:areaId" />
     //   <TheCrisisPage path="/the-crisis" />
+
+    case "events":
     default:
-      return <IndexPage default={true} />;
+      return <EventsPage {...{ ...currentView, view: "events" }} />;
+    // return <IndexPage default={true} />;
   }
 };
 

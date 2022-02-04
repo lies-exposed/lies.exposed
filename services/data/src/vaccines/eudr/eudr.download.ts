@@ -24,7 +24,7 @@ import {
 import { differenceInDays } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 // eslint-disable-next-line import/default
 import type puppeteer from "puppeteer";
 import pup from "puppeteer-extra";

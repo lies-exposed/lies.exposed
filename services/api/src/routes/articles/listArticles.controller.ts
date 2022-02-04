@@ -4,11 +4,11 @@ import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { Route } from "../route.types";
 import { toArticleIO } from "./article.io";
 import { ArticleEntity } from "@entities/Article.entity";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListArticlesRoute: Route = (r, { env, db, logger }) => {
   AddEndpoint(r)(

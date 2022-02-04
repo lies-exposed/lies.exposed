@@ -1,15 +1,22 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { Events } from "@econnessione/shared/io/http";
 import { APIError } from "@econnessione/shared/providers/api.provider";
-import { queryStrict, refetch } from "avenger";
+import { Queries } from "@econnessione/ui/providers/DataProvider";
+import { available, queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
+import type { GetListParams } from "ra-core";
 import { api } from "../api";
 import { EventsView } from "../utils/location.utils";
 import { stateLogger } from "../utils/logger.utils";
-import { buildFromCache, getFromCache, infiniteListCache, toKey } from "../utils/state.utils";
+import {
+  buildFromCache,
+  getFromCache,
+  infiniteListCache,
+  toKey
+} from "../utils/state.utils";
 
 export const IL_EVENT_KEY_PREFIX = "events";
 export const IL_DEATH_KEY_PREFIX = "deaths";
@@ -232,4 +239,40 @@ export const deathsPaginated = queryStrict<
     }
   )(IL_DEATH_KEY_PREFIX),
   refetch
+);
+
+export const actorsDiscreteQuery = queryStrict((input: GetListParams) => {
+  return input.filter.ids.length === 0
+    ? TE.right<APIError, any>({ data: [], total: 0 })
+    : Queries.Actor.getList.run(input as any);
+}, available);
+
+export const groupsDiscreteQuery = queryStrict(
+  (input: GetListParams) =>
+    input.filter.ids.length === 0
+      ? TE.right<APIError, any>({ data: [], total: 0 })
+      : Queries.Group.getList.run(input as any),
+  available
+);
+
+export const groupsMembersDiscreteQuery = queryStrict(
+  (input: GetListParams) =>
+    input.filter.ids.length === 0
+      ? TE.right<APIError, { data: any[]; total: number }>({
+          data: [],
+          total: 0,
+        })
+      : Queries.GroupMember.getList.run(input as any),
+  available
+);
+
+export const keywordsDiscreteQuery = queryStrict(
+  (input: GetListParams) =>
+    input.filter.ids.length === 0
+      ? TE.right<APIError, { data: any[]; total: number }>({
+          data: [],
+          total: 0,
+        })
+      : Queries.Keyword.getList.run(input as any),
+  available
 );

@@ -4,8 +4,6 @@ import * as path from "path";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { ArticleEntity } from "@entities/Article.entity";
-import { DeathEventEntity } from "@entities/DeathEvent.entity";
-import { EventEntity } from "@entities/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
@@ -15,10 +13,10 @@ import { MediaEntity } from "@entities/Media.entity";
 import { PageEntity } from "@entities/Page.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
-import { ScientificStudyEntity } from "@entities/ScientificStudy.entity";
 import { UserEntity } from "@entities/User.entity";
-import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";
-import { UncategorizedEventEntity } from "@entities/events/UncategorizedEvent.entity";
+import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
+import { EventEntity } from "@entities/archive/Event.entity";
+import { ScientificStudyEntity } from '@entities/archive/ScientificStudy.entity';
 import { ENV } from "@io/ENV";
 import { DatabaseConnectionOpts } from "@providers/orm";
 
@@ -48,16 +46,15 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       ProjectEntity,
       ProjectImageEntity,
       AreaEntity,
-      EventEntity,
       EventV2Entity,
-      DeathEventEntity,
-      DeathEventViewEntity,
-      UncategorizedEventEntity,
-      ScientificStudyEntity,
       MediaEntity,
       LinkEntity,
       KeywordEntity,
       UserEntity,
+      // old
+      EventEntity,
+      DeathEventEntity,
+      ScientificStudyEntity
     ],
     synchronize: env.NODE_ENV === "test",
     ssl: ssl,

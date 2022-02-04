@@ -7,7 +7,7 @@
 // import * as O from "fp-ts/lib/Option";
 // import { ordString } from "fp-ts/lib/Ord";
 // import * as Tuple from "fp-ts/lib/Tuple";
-// import { pipe } from "fp-ts/lib/pipeable";
+// import { pipe } from "fp-ts/lib/function";
 // import React from "react";
 
 // interface ProjectFundsPieGraphProps {

@@ -1,7 +1,7 @@
 import { Project } from "@econnessione/shared/io/http";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import Feature from "ol/Feature";
 import * as React from "react";
 import { geoJSONFormat } from "../../utils/map.utils";

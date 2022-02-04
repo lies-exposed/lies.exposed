@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
 import { ECOTheme } from "../theme/index";
@@ -144,7 +144,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <AppBar className={classes.appBar} position="relative">
-      <Toolbar>
+      <Toolbar >
         <Typography
           variant="h6"
           className={classes.title}

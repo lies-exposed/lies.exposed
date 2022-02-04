@@ -6,11 +6,11 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media
+  Media,
 } from "@econnessione/shared/io/http";
 import { GetSearchEVentsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { API, APIError } from "@econnessione/shared/providers/api.provider";
-import { refetch } from "avenger";
+import { available } from "avenger";
 import { queryStrict } from "avenger/lib/Query";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -32,18 +32,18 @@ export const toKey = (cachePrefix: string, hash?: string): string => {
   return cacheKey;
 };
 
-interface Totals {
+export interface EventTotals {
   uncategorized: number;
   deaths: number;
   scientificStudies: number;
 }
 
-interface SearchEventQueryResult {
+export interface SearchEventQueryResult {
   events: SearchEvent[];
   actors: Actor.Actor[];
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
-  totals: Totals;
+  totals: EventTotals;
 }
 
 interface SearchEventsQueryCache {
@@ -126,7 +126,7 @@ const mergeState = (
   hash: string,
   s: SearchEventsQueryCache,
   update: {
-    events: { data: Events.Event[]; totals: Totals };
+    events: { data: Events.Event[]; totals: EventTotals };
     actors: Actor.Actor[];
     groups: Group.Group[];
     groupsMembers: GroupMember.GroupMember[];
@@ -182,7 +182,9 @@ const mergeState = (
     const events = pipe(
       result,
       O.map((r) => ({
-        events: r.events.concat(newEvents),
+        events: r.events.concat(
+          newEvents.filter((e) => !r.events.some((ee) => ee.id === e.id))
+        ),
         actors: r.actors,
         groups: r.groups,
         keywords: r.keywords,
@@ -356,7 +358,12 @@ const searchEventsQ = ({
 }: SearchEventQueryInput): TE.TaskEither<APIError, SearchEventQueryResult> => {
   const cacheKey = toKey("events-search", hash);
 
-  log.debug.log("Search events for %s and page %d (* %d)", cacheKey, page, perPage);
+  log.debug.log(
+    "Search events for %s and page %d (* %d)",
+    cacheKey,
+    page,
+    perPage
+  );
 
   return pipe(
     getStateByHash(cacheKey, page, perPage),
@@ -453,4 +460,4 @@ const searchEventsQ = ({
   );
 };
 
-export const searchEventsQuery = queryStrict(searchEventsQ, refetch);
+export const searchEventsQuery = queryStrict(searchEventsQ, available);

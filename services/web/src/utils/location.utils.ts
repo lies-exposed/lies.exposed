@@ -2,7 +2,7 @@ import { Buffer } from "buffer";
 import {
   getCurrentView,
   getDoUpdateCurrentView,
-  HistoryLocation,
+  HistoryLocation
 } from "avenger/lib/browser";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -56,6 +56,7 @@ export interface EventsView extends CommonViewArgs {
   endDate?: string;
   hash?: string;
   page?: number;
+  
 }
 
 export interface EventView {

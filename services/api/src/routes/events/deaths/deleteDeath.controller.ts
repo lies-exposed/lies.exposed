@@ -1,6 +1,6 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { Route } from "../../route.types";
 import { toDeathIO } from "./death.io";
 import { DeathEventViewEntity } from "@entities/events/DeathEvent.entity";

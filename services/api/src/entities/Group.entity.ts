@@ -3,15 +3,11 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity,
-  ManyToMany,
-  OneToMany,
+  Entity, OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
-import { ScientificStudyEntity } from "./ScientificStudy.entity";
-import { UncategorizedEventEntity } from "./events/UncategorizedEvent.entity";
 
 @Entity("group")
 export class GroupEntity {
@@ -38,16 +34,6 @@ export class GroupEntity {
     cascade: true,
   })
   members: GroupMemberEntity[];
-
-  @ManyToMany(() => UncategorizedEventEntity, (e) => e.groups, {
-    cascade: false,
-  })
-  events: UncategorizedEventEntity[];
-
-  @OneToMany(() => ScientificStudyEntity, (a) => a.publisher, {
-    cascade: false,
-  })
-  publishedStudies: ScientificStudyEntity[];
 
   @Column({ type: "json", nullable: true })
   excerpt: Record<string, unknown> | null;

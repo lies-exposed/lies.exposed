@@ -1,6 +1,6 @@
 // import { Common } from "../io/http";
 // import * as A from "fp-ts/lib/Array";
-// import { pipe } from "fp-ts/lib/pipeable";
+// import { pipe } from "fp-ts/lib/function";
 
 // const getRelationUUID = (u: Common.ByGroupOrActor): string => {
 //   if (Common.ByGroup.is(u)) {

@@ -3,7 +3,7 @@
 import { Graph } from "@vx/network/lib/types";
 import * as d3 from "d3";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
 export interface HierarchicalEdgeBundlingDatum {

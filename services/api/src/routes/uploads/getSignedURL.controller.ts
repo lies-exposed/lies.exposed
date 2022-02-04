@@ -6,7 +6,7 @@ import { fileExtFromContentType } from "@econnessione/shared/utils/media.utils";
 import { uuid } from "@econnessione/shared/utils/uuid";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { RouteContext } from "../route.types";
 
 export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {

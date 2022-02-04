@@ -1,7 +1,7 @@
 import { Media } from "@econnessione/shared/io/http";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { Record } from "ra-core";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";

@@ -1,4 +1,7 @@
+import { fc } from '@econnessione/core/tests';
 import { http } from "@econnessione/shared/io";
+import { TagArb } from '@econnessione/shared/tests/arbitrary/Keyword.arbitrary';
+import { ColorArb } from '@econnessione/shared/tests/arbitrary/common/Color.arbitrary';
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
@@ -41,7 +44,8 @@ describe("Create Keyword", () => {
       .post("/v1/keywords")
       .set("Authorization", authorizationToken)
       .send({
-        tag: "newkeyword",
+        tag: fc.sample(TagArb(), 1)[0],
+        color: fc.sample(ColorArb, 1)[0]
       });
 
     expect(response.status).toEqual(201);

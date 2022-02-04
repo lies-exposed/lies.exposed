@@ -5,7 +5,7 @@ import EventList, {
 } from "@econnessione/ui/components/lists/EventList/EventList";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
 const meta: Meta = {

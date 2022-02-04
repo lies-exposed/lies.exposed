@@ -28,7 +28,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
         <Typography variant="subtitle1" color="primary">
           {formatDate(e.date)}
         </Typography>
-        <TimelineEventSubjects event={e} />
+        <TimelineEventSubjects event={e} {...props} />
         {process.env.NODE_ENV === "development" ? (
           <a
             href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
@@ -41,7 +41,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
       </TimelineOppositeContent>
       <TimelineSeparator>
         <TimelineDot variant="outlined" color="inherit">
-          <EventIcon type={e.type} color="secondary" />
+          <EventIcon type={e.type} />
         </TimelineDot>
         {isLast ? <TimelineConnector /> : null}
       </TimelineSeparator>

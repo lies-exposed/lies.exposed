@@ -2,7 +2,7 @@ import { fc } from "@econnessione/core/tests";
 import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";

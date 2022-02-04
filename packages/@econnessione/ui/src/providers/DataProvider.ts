@@ -1,6 +1,7 @@
 import { Endpoints } from "@econnessione/shared/endpoints";
 import { ResourceEndpoints } from "@econnessione/shared/endpoints/types";
 import * as io from "@econnessione/shared/io/index";
+import { APIError } from "@econnessione/shared/providers/api.provider";
 import { available, queryShallow } from "avenger";
 import { CachedQuery, queryStrict } from "avenger/lib/Query";
 import axios from "axios";
@@ -8,21 +9,21 @@ import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import type {
   GetListParams,
   GetListResult,
   GetOneParams,
-  GetOneResult,
+  GetOneResult
 } from "react-admin";
 import {
   EndpointInstance,
   InferEndpointParams,
   MinimalEndpoint,
   MinimalEndpointInstance,
-  TypeOfEndpointInstance,
+  TypeOfEndpointInstance
 } from "ts-endpoint";
 import { serializedType } from "ts-io-error/lib/Codec";
 import { APIRESTClient } from "../http";
@@ -40,22 +41,18 @@ import { APIRESTClient } from "../http";
 //   return fetchUtils.fetchJson(url, options)
 // }
 
-export interface APIError {
-  name: "APIError";
-  message: string;
-  details?: string[];
-}
-
 const toError = (e: unknown): APIError => {
   if (e instanceof Error) {
     return {
       name: "APIError",
       message: e.message,
+      details: [],
     };
   }
   return {
     name: "APIError",
     message: "An error occurred",
+    details: [],
   };
 };
 
@@ -103,10 +100,13 @@ export const pageContentByPath = queryStrict<
       ),
       TE.map((pages) => A.head(pages.data)),
       TE.chain(
-        TE.fromOption(() => ({
-          name: `APIError`,
-          message: `Page ${path} is missing`,
-        }))
+        TE.fromOption(
+          (): APIError => ({
+            name: `APIError`,
+            message: `Page ${path} is missing`,
+            details: [],
+          })
+        )
       )
     ),
   available

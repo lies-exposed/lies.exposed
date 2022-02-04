@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { editEventQuery } from "../queries/editEvent.query";

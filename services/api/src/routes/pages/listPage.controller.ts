@@ -2,10 +2,10 @@ import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import { PageEntity } from "../../entities/Page.entity";
 import { RouteContext } from "../route.types";
-import { getORMOptions } from "@utils/listQueryToORMOptions";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeListPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Page.List, ({ query }) => {

@@ -4,7 +4,7 @@ import { PageContent } from "@econnessione/ui/components/PageContent";
 import { TableOfContents } from "@econnessione/ui/components/TableOfContents";
 import { RouteComponentProps } from "@reach/router";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/pipeable";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
 export class DocsPage extends React.PureComponent<RouteComponentProps> {
