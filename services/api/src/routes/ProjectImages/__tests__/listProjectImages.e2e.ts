@@ -19,7 +19,7 @@ describe("List Project Images", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(MediaEntity, media)();
+    await appTest.ctx.db.save(MediaEntity, media as any[])();
     projects = (
       (await appTest.ctx.db.save(ProjectEntity, [
         {
@@ -35,7 +35,7 @@ describe("List Project Images", () => {
           image: i,
           kind: http.ProjectImage.THEORY_KIND.value,
           project: projects[0],
-        }))
+        })) as any[]
       )()) as any
     ).right;
 

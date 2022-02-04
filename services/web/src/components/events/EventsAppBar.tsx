@@ -21,6 +21,7 @@ import Slide from "@material-ui/core/Slide";
 import Toolbar from "@material-ui/core/Toolbar";
 import * as React from "react";
 import { EventsView } from "../../utils/location.utils";
+import { EventsTotals, EventsTotalsProps } from "./EventsTotals";
 
 const useStylesInHideScroll = makeStyles((theme) => ({
   filterBox: {
@@ -40,23 +41,13 @@ const useStylesInHideScroll = makeStyles((theme) => ({
   },
 }));
 
-export interface EventsAppBarMinimalProps {
+export interface EventsAppBarMinimalProps extends EventsTotalsProps {
   queryFilters: Required<Omit<EventsView, "view">>;
+  showFilters: boolean;
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
-  filters: {
-    uncategorized: boolean;
-    deaths: boolean;
-    scientificStudies: boolean;
-  };
-  totals: {
-    uncategorized: number;
-    scientificStudies: number;
-    deaths: number;
-  };
-  onFilterChange: (f: EventsAppBarMinimalProps["filters"]) => void;
 }
 
 const EventsAppBarMinimal: React.FC<EventsAppBarMinimalProps> = (props) => {
@@ -69,6 +60,7 @@ const EventsAppBarMinimal: React.FC<EventsAppBarMinimalProps> = (props) => {
     queryFilters: { startDate, endDate },
     onFilterChange,
     filters,
+    showFilters,
     totals,
   } = props;
   const theme = useTheme();
@@ -110,173 +102,159 @@ const EventsAppBarMinimal: React.FC<EventsAppBarMinimalProps> = (props) => {
           style={{ background: theme.palette.common.white }}
         >
           <Toolbar disableGutters={true}>
-            <Box
-              display="flex"
-              width="100%"
+            <Grid
+              container
               style={{
                 padding: 20,
-                maxHeight: 100,
+                minHeight: 60,
                 alignItems: "center",
                 justifyItems: "center",
               }}
             >
-              <Box className={classes.filterBox}>
-                <Typography
-                  display="inline"
-                  variant="subtitle1"
-                  color="primary"
-                  className={classes.filterLabel}
-                >
-                  {totalEvents}
-                </Typography>{" "}
-                <Typography variant="caption" className={classes.filterLabel}>
-                  from
-                </Typography>
-                {startDate ? (
-                  <Typography
-                    display="inline"
-                    variant="subtitle1"
-                    color="secondary"
-                    className={classes.filterValue}
-                  >
-                    {startDate}
-                  </Typography>
-                ) : null}
-                <Typography variant="caption" className={classes.filterLabel}>
-                  until
-                </Typography>
-                {endDate ? (
-                  <Typography
-                    display="inline"
-                    variant="subtitle1"
-                    color="secondary"
-                    className={classes.filterValue}
-                  >
-                    {endDate}
-                  </Typography>
-                ) : null}
-              </Box>
-              {keywords.length > 0 ? (
-                <Box className={classes.filterBox}>
-                  <Typography
-                    variant="h6"
-                    display="inline"
-                    className={classes.filterLabel}
-                    gutterBottom={false}
-                  >
-                    Keywords:
-                  </Typography>
-                  <KeywordList
-                    keywords={keywords.map((a) => ({ ...a, selected: true }))}
-                    onItemClick={() => {}}
-                  />
-                </Box>
-              ) : null}
-              {actors.length > 0 ? (
-                <Box className={classes.filterBox}>
-                  <Typography
-                    variant="h6"
-                    display="inline"
-                    className={classes.filterLabel}
-                    gutterBottom={false}
-                  >
-                    Actors:
-                  </Typography>
-                  <ActorList
-                    actors={actors.map((a) => ({ ...a, selected: true }))}
-                    onActorClick={() => {}}
-                  />
-                </Box>
-              ) : null}
-              {groups.length > 0 ? (
-                <Box className={classes.filterBox}>
-                  <Typography
-                    variant="h6"
-                    display="inline"
-                    className={classes.filterLabel}
-                    gutterBottom={false}
-                  >
-                    Groups:
-                  </Typography>
-                  <GroupList
-                    groups={groups.map((g) => ({ ...g, selected: true }))}
-                    onGroupClick={() => {}}
-                  />
-                </Box>
-              ) : null}
-              {groupsMembers.length > 0 ? (
-                <Box className={classes.filterBox}>
-                  <Typography
-                    variant="h6"
-                    display="inline"
-                    className={classes.filterLabel}
-                    gutterBottom={false}
-                  >
-                    Group Member:
-                  </Typography>
-                  <GroupsMembersList
-                    style={{ width: "auto" }}
-                    groupsMembers={groupsMembers.map((g) => ({
-                      ...g,
-                      selected: true,
-                    }))}
-                    onItemClick={() => {}}
-                  />
-                </Box>
-              ) : null}
               <Grid
-                container
-                justifyContent="flex-end"
-                alignContent="flex-end"
+                item
+                md={8}
+                lg={8}
+                sm={12}
                 style={{
-                  marginBottom: theme.spacing(2),
+                  display: "flex",
+                  flexDirection: "row",
                 }}
               >
-                <Chip
-                  label={`Events (${totals.uncategorized})`}
-                  color="primary"
-                  variant={filters.uncategorized ? "default" : "outlined"}
-                  style={{ marginRight: 10 }}
-                  onClick={() => {
-                    onFilterChange({
-                      ...filters,
-                      uncategorized: !filters.uncategorized,
-                    });
-                  }}
-                />
-                <Chip
-                  label={`Deaths (${totals.deaths})`}
-                  color={"secondary"}
-                  variant={filters.deaths ? "default" : "outlined"}
-                  style={{ marginRight: 10 }}
-                  onClick={() => {
-                    onFilterChange({
-                      ...filters,
-                      deaths: !filters.deaths,
-                    });
-                  }}
-                />
-                <Chip
-                  label={`Science (${totals.scientificStudies})`}
-                  color={"secondary"}
-                  variant={filters.scientificStudies ? "default" : "outlined"}
-                  onClick={() => {
-                    onFilterChange({
-                      ...filters,
-                      scientificStudies: !filters.scientificStudies,
-                    });
-                  }}
+                <Box className={classes.filterBox}>
+                  <Typography
+                    display="inline"
+                    variant="h5"
+                    color="primary"
+                    className={classes.filterLabel}
+                  >
+                    {totalEvents}
+                  </Typography>{" "}
+                  <Typography variant="caption" className={classes.filterLabel}>
+                    from
+                  </Typography>
+                  {startDate ? (
+                    <Typography
+                      display="inline"
+                      variant="subtitle1"
+                      color="primary"
+                      className={classes.filterValue}
+                    >
+                      {startDate}
+                    </Typography>
+                  ) : null}
+                  <Typography variant="caption" className={classes.filterLabel}>
+                    until
+                  </Typography>
+                  {endDate ? (
+                    <Typography
+                      display="inline"
+                      variant="subtitle1"
+                      color="primary"
+                      className={classes.filterValue}
+                    >
+                      {endDate}
+                    </Typography>
+                  ) : null}
+                </Box>
+                {keywords.length > 0 ? (
+                  <Box className={classes.filterBox}>
+                    <Typography
+                      variant="subtitle1"
+                      display="inline"
+                      className={classes.filterLabel}
+                      gutterBottom={false}
+                    >
+                      Keywords:
+                    </Typography>
+                    <KeywordList
+                      style={{ display: "flex", flexDirection: "row" }}
+                      keywords={keywords.map((a) => ({ ...a, selected: true }))}
+                      onItemClick={() => {}}
+                    />
+                  </Box>
+                ) : null}
+                {actors.length > 0 ? (
+                  <Box className={classes.filterBox}>
+                    <Typography
+                      variant="subtitle1"
+                      display="inline"
+                      className={classes.filterLabel}
+                      gutterBottom={false}
+                    >
+                      Actors:
+                    </Typography>
+                    <ActorList
+                      actors={actors.map((a) => ({ ...a, selected: true }))}
+                      onActorClick={() => {}}
+                    />
+                  </Box>
+                ) : null}
+                {groups.length > 0 ? (
+                  <Box className={classes.filterBox}>
+                    <Typography
+                      variant="subtitle1"
+                      display="inline"
+                      className={classes.filterLabel}
+                      gutterBottom={false}
+                    >
+                      Groups:
+                    </Typography>
+                    <GroupList
+                      groups={groups.map((g) => ({ ...g, selected: true }))}
+                      onGroupClick={() => {}}
+                    />
+                  </Box>
+                ) : null}
+                {groupsMembers.length > 0 ? (
+                  <Box className={classes.filterBox}>
+                    <Typography
+                      variant="subtitle1"
+                      display="inline"
+                      className={classes.filterLabel}
+                      gutterBottom={false}
+                    >
+                      Group Member:
+                    </Typography>
+                    <GroupsMembersList
+                      style={{ width: "auto" }}
+                      groupsMembers={groupsMembers.map((g) => ({
+                        ...g,
+                        selected: true,
+                      }))}
+                      onItemClick={() => {}}
+                    />
+                  </Box>
+                ) : null}
+              </Grid>
+              <Grid
+                item
+                lg={4}
+                md={4}
+                sm={12}
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignContent: "flex-end",
+                }}
+              >
+                <EventsTotals
+                  filters={filters}
+                  totals={totals}
+                  onFilterChange={onFilterChange}
                 />
               </Grid>
-            </Box>
+            </Grid>
           </Toolbar>
         </AppBar>
       </Slide>
-      <Slide mountOnEnter={true} appear={false} in={y < 100} direction="down">
-        <Box width="100%" style={{ margin: 0 }}>
-          {children}
-        </Box>
-      </Slide>
+      {showFilters ? (
+        <Slide mountOnEnter={true} appear={false} in={y < 100} direction="down">
+          <Box width="100%" style={{ margin: 0 }}>
+            {children}
+          </Box>
+        </Slide>
+      ) : null}
     </Box>
   );
 };

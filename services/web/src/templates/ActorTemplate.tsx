@@ -46,6 +46,7 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId, tab = 0 }) => {
               {actor.death ? <DeathBox id={actor.death} /> : null}
 
               <EventsPanel
+                showFilters={false}
                 filters={{
                   startDate: subYears(new Date(), 1).toDateString(),
                   endDate: new Date().toDateString(),

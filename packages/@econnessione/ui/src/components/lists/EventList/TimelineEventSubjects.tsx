@@ -1,4 +1,7 @@
-import { Actor, Events, Group, GroupMember } from "@econnessione/shared/io/http";
+import {
+  Actor, Group,
+  GroupMember
+} from "@econnessione/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
 import { ActorList } from "../ActorList";
@@ -28,8 +31,10 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   const actors =
     e.type === "Death"
       ? [e.payload.victim]
-      : Events.ScientificStudy.ScientificStudy.is(e)
+      : e.type === 'ScientificStudy'
       ? e.payload.authors
+      : e.type === 'Uncategorized'
+      ? e.payload.actors
       : [];
 
   const groups = e.type === "Uncategorized" ? e.payload.groups : [];

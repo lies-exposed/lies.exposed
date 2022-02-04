@@ -10,6 +10,7 @@ export const toImageIO = (
   return pipe(
     io.http.Media.Media.decode({
       ...media,
+      events: media.events ?? [],
       thumbnail: media.thumbnail ?? undefined,
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),

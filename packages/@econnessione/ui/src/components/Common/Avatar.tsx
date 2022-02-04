@@ -55,6 +55,12 @@ export const Avatar: React.FC<AvatarProps> = ({
   const classes = useStyles({ fit });
 
   return (
-    <MUIAvatar className={`${classes.root} ${classes[size]}`} {...props} />
+    <MUIAvatar
+      className={`${classes.root} ${classes[size]}`}
+      imgProps={{
+        decoding: "async",
+      }}
+      {...props}
+    />
   );
 };

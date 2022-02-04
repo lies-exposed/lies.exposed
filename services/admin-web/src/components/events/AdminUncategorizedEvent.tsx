@@ -24,17 +24,19 @@ import {
   List,
   ListProps,
   Record,
-  ReferenceArrayField, required, TabbedForm,
+  ReferenceArrayField,
+  required,
+  TabbedForm,
   TextField,
   TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
+import { LinkArrayInput } from "../Common/LinkArrayInput";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import { transformEvent } from "./utils";
 
 const RESOURCE = "events";
@@ -92,11 +94,6 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
           r ? (r.payload.groups ?? []).length : 0
         }
       />
-      {/*
-      <FunctionField
-        source="payload.groupsMembers"
-        render={(r: Record | undefined) => (r ? r.payload.groupsMembers.length : 0)}
-      /> */}
       <FunctionField
         label="Location"
         source="payload.location"
@@ -229,7 +226,7 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => (
       </FormTab>
 
       <FormTab label="Links">
-        <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+        <LinkArrayInput source="newLinks" />
       </FormTab>
       <FormTab label="Media">
         <MediaArrayInput source="newMedia" defaultValue={[]} />

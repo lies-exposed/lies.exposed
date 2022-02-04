@@ -64,6 +64,7 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
                 view: "group",
                 groupId,
               }}
+              showFilters={false}
               filters={{
                 groups: [group.id],
                 groupsMembers: group.members,

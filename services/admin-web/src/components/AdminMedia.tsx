@@ -28,6 +28,7 @@ import {
 } from "react-admin";
 import { MediaField } from "./Common/MediaField";
 import { MediaInput } from "./Common/MediaInput";
+import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
@@ -36,14 +37,20 @@ const RESOURCE = "media";
 
 const ytVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-_]*)(&(amp;)?[\w?=]*)?/;
+const bitchuteVideoRegExp =
+  /http(?:s?):\/\/(?:www\.)?bitchute\.com\/video\/([\w\-_]*)/;
 
-// const rumbleVideoRegExp =
-//   /http(?:s?):\/\/(?:www\.)?rumble\/([\w\-\_]*)(&(amp;)?[\w\?=]*)?/;
 
 export const parsePlatformURL = (url: string): E.Either<Error, string> => {
   const match = url.match(ytVideoRegExp);
-  if (typeof match[1] === "string") {
+  if (match !== null && typeof match[1] === "string") {
     return E.right(`https://www.youtube.com/embed/${match[1]}`);
+  }
+
+  const matchBitchute = url.match(bitchuteVideoRegExp);
+
+  if (matchBitchute !== null && typeof matchBitchute[1] === "string") {
+    return E.right(`https://www.bitchute.com/embed/${matchBitchute[1]}/`);
   }
 
   return E.left(new Error(`Cant parse url ${url}`));
@@ -73,8 +80,8 @@ const parseURL = (
     });
   }
 
-  const iframeVideosMatch = ["youtube.com", "youtu.be"].some((v) =>
-    url.includes(v)
+  const iframeVideosMatch = ["youtube.com", "youtu.be", "bitchute.com"].some(
+    (v) => url.includes(v)
   );
 
   if (iframeVideosMatch) {
@@ -132,12 +139,14 @@ const transformMedia = (data: Record): Record | Promise<Record> => {
       ? TE.fromEither(parseURL(data.url))
       : TE.right({ type: data.type, location: data.location });
 
+  const events = (data.events ?? []).concat(data.newEvents ?? []);
   return pipe(
     mediaTask,
     TE.map((media) => ({
       ...data,
       id: data.id.toString(),
       ...media,
+      events,
     }))
   )().then((result) => {
     if (E.isLeft(result)) {
@@ -164,6 +173,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
         <RichTextInput source="description" />
       </FormTab>
       <FormTab label="events">
+        <ReferenceArrayEventInput source="events" defaultValue={[]} />
         <ReferenceManyField label="Events" target="media[]" reference="events">
           <Datagrid rowClick="edit">
             <TextField source="id" />

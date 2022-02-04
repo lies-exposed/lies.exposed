@@ -9,7 +9,12 @@ import { RouteContext } from "@routes/route.types";
 export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Media.Get, ({ params: { id } }) => {
     return pipe(
-      ctx.db.findOneOrFail(MediaEntity, { where: { id } }),
+      ctx.db.findOneOrFail(MediaEntity, {
+        where: { id },
+        loadRelationIds: {
+          relations: ["events"],
+        },
+      }),
       TE.chain((result) => TE.fromEither(toImageIO(result))),
       TE.map((data) => ({
         body: {

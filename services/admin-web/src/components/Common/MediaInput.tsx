@@ -22,6 +22,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
         accept={MediaType.types
           .map((a) => `.${a.value.split("/")[1]}`)
           .join(",")}
+        {...props}
       >
         <MediaField source={sourceType} />
       </FileInput>

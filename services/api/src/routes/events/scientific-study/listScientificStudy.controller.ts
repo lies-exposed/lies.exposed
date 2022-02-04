@@ -26,6 +26,7 @@ export const MakeListScientificStudyRoute: Route = (
           groupsMembers: O.none,
           keywords: O.none,
           links: O.none,
+          media: O.none,
           title,
           startDate: publishedDate,
           endDate: publishedDate,

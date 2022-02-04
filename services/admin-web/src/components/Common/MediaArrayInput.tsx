@@ -101,6 +101,9 @@ export const MediaArrayInput: React.FC<
                 <ReferenceArrayInput
                   source={getSrc("ids")}
                   reference="media"
+                  sortBy="updatedAt"
+                  sortByOrder="DESC"
+                  filterToQuery={(description) => ({ description })}
                   {...rest}
                 >
                   <AutocompleteArrayInput
