@@ -2,9 +2,15 @@ import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import {
   a11yProps,
-  TabPanel,
+  TabPanel
 } from "@econnessione/ui/components/Common/TabPanel";
 import EventsMap from "@econnessione/ui/components/EventsMap";
+import {
+  actorsDiscreteQuery,
+  groupsDiscreteQuery,
+  groupsMembersDiscreteQuery,
+  keywordsDiscreteQuery
+} from "@econnessione/ui/state/queries/DiscreteQueries";
 import { searchEventsQuery } from "@econnessione/ui/state/queries/SearchEventsQuery";
 import { Box, Tab, Tabs } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
@@ -13,15 +19,9 @@ import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import EventsFilter from "../components/events/EventsFilter";
 import {
-  actorsDiscreteQuery,
-  groupsDiscreteQuery,
-  groupsMembersDiscreteQuery,
-  keywordsDiscreteQuery,
-} from "../state/queries";
-import {
   CurrentView,
   doUpdateCurrentView,
-  EventsView,
+  EventsView
 } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 import InfiniteEventList from "./InfiniteEventList";
@@ -64,6 +64,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
       deaths: boolean;
       uncategorized: boolean;
       scientificStudies: boolean;
+      patents: boolean;
     };
   }>({
     currentPage: 1,
@@ -71,6 +72,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
       deaths: true,
       uncategorized: true,
       scientificStudies: true,
+      patents: true
     },
   });
 

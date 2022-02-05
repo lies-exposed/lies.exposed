@@ -8,8 +8,8 @@ import { Point } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
 
-export const DeathType = t.literal("Death");
-export type DeathType = t.TypeOf<typeof DeathType>;
+export const DEATH = t.literal("Death");
+export type DEATH = t.TypeOf<typeof DEATH>;
 
 export const DeathListQuery = t.strict(
   {
@@ -25,7 +25,7 @@ export type DeathListQuery = t.TypeOf<typeof DeathListQuery>;
 export const CreateDeathBody = t.strict(
   {
     ...CreateEventCommon.type.props,
-    type: DeathType,
+    type: DEATH,
     payload: t.strict({
       victim: UUID,
       location: optionFromNullable(Point),
@@ -39,7 +39,7 @@ export type CreateDeathBody = t.TypeOf<typeof CreateDeathBody>;
 export const EditDeathBody = t.strict(
   {
     ...EditEventCommon.type.props,
-    type: DeathType,
+    type: DEATH,
     payload: t.strict({
       victim: UUID,
       location: optionFromUndefined(Point),
@@ -62,7 +62,7 @@ export type DeathPayload = t.TypeOf<typeof DeathPayload>;
 export const Death = t.strict(
   {
     ...EventCommon.type.props,
-    type: DeathType,
+    type: DEATH,
     payload: DeathPayload,
   },
   "DeathEvent"

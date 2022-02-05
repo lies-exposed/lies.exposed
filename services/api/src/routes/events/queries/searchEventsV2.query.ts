@@ -20,7 +20,7 @@ interface SearchEventQuery {
   groupsMembers: O.Option<string[]>;
   keywords: O.Option<string[]>;
   links: O.Option<string[]>;
-  media: O.Option<string[]>
+  media: O.Option<string[]>;
   type: O.Option<string>;
   title: O.Option<string>;
   startDate: O.Option<Date>;
@@ -38,6 +38,7 @@ interface SearchEventOutput {
     uncategorized: number;
     deaths: number;
     scientificStudies: number;
+    patents: number;
   };
 }
 
@@ -173,9 +174,9 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(media)) {
-              q.andWhere('media.id IN (:...media)', {
-                media: media.value
-              })
+              q.andWhere("media.id IN (:...media)", {
+                media: media.value,
+              });
             }
 
             if (O.isSome(links)) {
@@ -218,12 +219,14 @@ export const searchEventV2Query =
             //   `Scientific Studies count query %O`,
             //   ...scientificStudiesCount.getQueryAndParameters()
             // );
+            const patentCount = q.clone().andWhere("event.type = 'Patent'");
 
             return {
               resultsQuery: q,
               uncategorizedCount,
               deathsCount,
               scientificStudiesCount,
+              patentCount,
             };
           }
         );
@@ -244,6 +247,7 @@ export const searchEventV2Query =
           scientificStudies: db.execQuery(() =>
             searchV2Query.scientificStudiesCount.getCount()
           ),
+          patents: db.execQuery(() => searchV2Query.patentCount.getCount()),
         });
       }),
       TE.map(({ results, ...totals }) => ({ results, totals }))

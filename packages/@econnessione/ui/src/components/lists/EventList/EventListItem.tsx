@@ -4,10 +4,11 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media
+  Media,
 } from "@econnessione/shared/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
+import PatentListItem from "./PatentListItem";
 import { ScientificStudyListItem } from "./ScientificStudyListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
 
@@ -53,10 +54,23 @@ export interface SearchScientificStudyEvent
   keywords: Keyword.Keyword[];
 }
 
+export interface SearchPatentEvent
+  extends Omit<Events.Patent.Patent, "payload" | "media" | "keywords"> {
+  payload: Omit<Events.Patent.Patent["payload"], "owners"> & {
+    owners: {
+      actors: Actor.Actor[];
+      groups: Group.Group[];
+    };
+  };
+  media: Media.Media[];
+  keywords: Keyword.Keyword[];
+}
+
 export type SearchEvent =
   | SearchDeathEvent
   | SearchScientificStudyEvent
-  | SearchUncategorizedEvent;
+  | SearchUncategorizedEvent
+  | SearchPatentEvent;
 
 export interface EventListItemProps {
   event: SearchEvent;
@@ -72,11 +86,14 @@ export const EventListItem: React.FC<EventListItemProps> = ({
   ...props
 }) => {
   switch (e.type) {
-    case Events.Death.DeathType.value: {
+    case Events.Death.DEATH.value: {
       return <DeathListItem item={e} {...props} />;
     }
     case Events.ScientificStudy.ScientificStudyType.value: {
       return <ScientificStudyListItem item={e} {...props} />;
+    }
+    case Events.Patent.PATENT.value: {
+      return <PatentListItem item={e} {...props} />;
     }
     default:
       return <UncategorizedListItem item={e} {...props} />;

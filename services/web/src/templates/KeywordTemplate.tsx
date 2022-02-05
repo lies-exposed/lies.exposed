@@ -36,7 +36,7 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
               scientificStudies: true,
               deaths: true,
             }}
-            totals={{ uncategorized: 0, deaths: 0, scientificStudies: 0 }}
+            totals={{ uncategorized: 0, deaths: 0, scientificStudies: 0, patents: 0 }}
             onBottomReached={() => {}}
             events={[]}
             actors={[]}

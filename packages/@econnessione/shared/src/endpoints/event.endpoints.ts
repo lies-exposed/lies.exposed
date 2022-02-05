@@ -20,6 +20,7 @@ export const List = Endpoint({
         uncategorized: t.number,
         deaths: t.number,
         scientificStudies: t.number,
+        patents: t.number
       }),
     },
     "Events"

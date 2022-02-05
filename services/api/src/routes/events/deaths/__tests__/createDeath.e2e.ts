@@ -25,7 +25,7 @@ describe("Create Death Event", () => {
 
   test("Should create a death event", async () => {
     const deathData = {
-      type: http.Events.Death.DeathType.value,
+      type: http.Events.Death.DEATH.value,
       payload: {
         victim: actor.id,
         body: {},
@@ -47,7 +47,7 @@ describe("Create Death Event", () => {
     expect(response.status).toEqual(201);
 
     expect(body).toMatchObject({
-      type: http.Events.Death.DeathType.value,
+      type: http.Events.Death.DEATH.value,
       date: deathData.date,
       payload: {
         victim: actor.id,

@@ -1,7 +1,6 @@
 import { http } from "@econnessione/shared/io";
 import { formatDate } from "@econnessione/shared/utils/date";
 import {
-  Avatar,
   Card,
   CardActions,
   CardContent,
@@ -22,15 +21,22 @@ const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
   return (
     <Card>
       <CardHeader
-        avatar={<Avatar aria-label="recipe">{link.provider}</Avatar>}
-        title={link.title}
-        subheader={link.publishDate ? formatDate(link.publishDate) : undefined}
+        title={<Typography variant="subtitle1">{link.title}</Typography>}
+        subheader={
+          link.publishDate ? (
+            <Typography variant="caption">
+              {formatDate(link.publishDate)}
+            </Typography>
+          ) : undefined
+        }
       />
       <CardHeader>{link.title}</CardHeader>
-      <CardMedia image={link.image} />
+      <CardMedia component="img" image={link.image ?? "http://placekitten.com/600/300"} />
 
       <CardContent>
-        <Typography variant="body2">{link.description}</Typography>
+        <Typography variant="body2">
+          {link.description?.substring(0, 40).concat("...")}
+        </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton

@@ -1,4 +1,4 @@
-import { DeathType } from "@econnessione/shared/io/http/Events/Death";
+import { DEATH } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
@@ -111,7 +111,7 @@ export class EventV21639419928672 implements MigrationInterface {
             ...s,
             draft: false,
             excerpt: {},
-            type: DeathType.value,
+            type: DEATH.value,
             payload: {
               location: (s as any).location ?? undefined,
               victim: s.victim.id as any,

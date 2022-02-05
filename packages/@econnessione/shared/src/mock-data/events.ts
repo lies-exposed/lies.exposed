@@ -13,7 +13,7 @@ import { badGroup, goodGroup } from "./groups";
 const today = new Date();
 
 // events
-export const firstEvent: Events.Event = {
+export const firstEvent: Events.Uncategorized.Uncategorized = {
   id: uuid() as any,
   type: Events.Uncategorized.UncategorizedType.value,
   payload: {

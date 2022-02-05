@@ -1,18 +1,19 @@
 import {
-  Actor, Group,
+  Actor,
+  Group,
   GroupMember,
-  Keyword
+  Keyword,
 } from "@econnessione/shared/io/http";
 import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import LinkIcon from "@material-ui/icons/LinkOutlined";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import Editor from "../../Common/Editor";
 import { Slider } from "../../Common/Slider/Slider";
+import { LinksBox } from "../../LinksBox";
 import KeywordList from "../KeywordList";
 import { SearchUncategorizedEvent } from "./EventListItem";
 
@@ -61,116 +62,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             <Grid item md={9} sm={9}>
               <Editor readOnly value={(item.excerpt as any) ?? null} />
             </Grid>
-            <Grid item md={3} sm={3} style={{ textAlign: "right" }}>
-              {pipe(
-                O.fromNullable(item.payload.location),
-                O.fold(
-                  () => null,
-                  () => <FontAwesomeIcon icon={faMapMarker} />
-                )
-              )}
-              <Box
-                display={"flex"}
-                alignContent={"center"}
-                flexDirection={"row-reverse"}
-                textAlign={"right"}
-              >
-                <LinkIcon fontSize="small" />{" "}
-                <Typography variant="caption">({item.links.length})</Typography>
-              </Box>
-              {/* {pipe(
-                groups,
-                O.fromPredicate(A.isNonEmpty),
-                O.fold(
-                  () => null,
-                  (groups) => (
-                    <Box>
-                      <Typography
-                        variant="caption"
-                        color="primary"
-                        gutterBottom={false}
-                      >
-                        Groups
-                      </Typography>
-                      <GroupList
-                        style={{
-                          display: "flex",
-                          flexDirection: "row-reverse",
-                          alignItems: "flex-end",
-                        }}
-                        groups={groups.map((g) => ({
-                          ...g,
-                          selected: false,
-                        }))}
-                        onGroupClick={(group) => onGroupClick?.(group)}
-                      />
-                    </Box>
-                  )
-                )
-              )} */}
-
-              {/* {pipe(
-                groupsMembers,
-                O.fromPredicate(A.isNonEmpty),
-                O.fold(
-                  () => null,
-                  (gms) => (
-                    <Box>
-                      <Typography
-                        variant="caption"
-                        color="primary"
-                        gutterBottom={false}
-                      >
-                        Groups Members
-                      </Typography>
-                      <GroupsMembersList
-                        style={{
-                          display: "flex",
-                          flexDirection: "row-reverse",
-                          alignItems: "flex-end",
-                        }}
-                        groupsMembers={gms.map((a) => ({
-                          ...a,
-                          selected: false,
-                        }))}
-                        onItemClick={(gm) => onGroupMemberClick?.(gm)}
-                      />
-                    </Box>
-                  )
-                )
-              )} */}
-
-              {/* {pipe(
-                actors,
-                O.fromPredicate(A.isNonEmpty),
-                O.fold(
-                  () => null,
-                  (actors) => (
-                    <Box>
-                      <Typography
-                        variant="caption"
-                        color="primary"
-                        gutterBottom={false}
-                      >
-                        Actors
-                      </Typography>
-                      <ActorList
-                        style={{
-                          display: "flex",
-                          flexDirection: "row-reverse",
-                          alignItems: "flex-end",
-                        }}
-                        actors={actors.map((a) => ({
-                          ...a,
-                          selected: false,
-                        }))}
-                        onActorClick={(actor) => onActorClick?.(actor)}
-                      />
-                    </Box>
-                  )
-                )
-              )} */}
-            </Grid>
           </Grid>
         </Grid>
         <Grid
@@ -210,12 +101,25 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                   style={{
                     margin: 0,
                     width: "100%",
+                    height: '100%'
                   }}
                 />
               )),
               O.toNullable
             )}
           </Box>
+        </Grid>
+        <Grid item md={12} sm={12} style={{ textAlign: "right" }}>
+          {pipe(
+            O.fromNullable(item.payload.location),
+            O.fold(
+              () => null,
+              () => <FontAwesomeIcon icon={faMapMarker} />
+            )
+          )}
+        </Grid>
+        <Grid item>
+          <LinksBox ids={item.links} />
         </Grid>
       </Grid>
     </Box>

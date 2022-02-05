@@ -1,4 +1,4 @@
-import { DeathType } from "@econnessione/shared/io/http/Events/Death";
+import { DEATH } from "@econnessione/shared/io/http/Events/Death";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
@@ -19,7 +19,7 @@ const ReferenceArrayEventInput: React.FC<
         source="id"
         optionText={(r) => {
           switch (r.type) {
-            case DeathType.value:
+            case DEATH.value:
               return `${r.type}: ${r.payload.victim}`;
             default:
               return `${r.type}: ${r.payload.title}`;

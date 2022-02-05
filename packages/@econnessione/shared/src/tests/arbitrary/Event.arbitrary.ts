@@ -12,7 +12,7 @@ interface CreateEventBodyArbOpts {
   keywordIds?: boolean;
 }
 
-const createEventProps = propsOmit(http.Events.CreateEventBody.types[2], [
+const createEventProps = propsOmit(http.Events.CreateEventBody.types[3], [
   "excerpt",
   "body",
   "date",

@@ -4,7 +4,7 @@ import { Media } from "@econnessione/shared/io/http";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
 import { makeStyles } from "../../../theme/index";
-import MediaElement from "../../MediaElement";
+import MediaElement from "../../Media/MediaElement";
 
 const useStyles = makeStyles((theme) => ({
   mediaSlider: {
