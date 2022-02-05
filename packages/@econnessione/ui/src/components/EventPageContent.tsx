@@ -87,7 +87,13 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
         <Grid item md={12} style={{ marginBottom: theme.spacing(5) }}>
           {event.media.length > 0 ? (
-            <MediaSlider ids={event.media} onClick={() => {}} />
+            <MediaSlider
+              ids={event.media}
+              onClick={() => {}}
+              itemStyle={{
+                height: 400,
+              }}
+            />
           ) : null}
         </Grid>
 

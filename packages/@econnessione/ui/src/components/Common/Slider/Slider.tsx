@@ -14,13 +14,15 @@ const useStyles = makeStyles((theme) => ({
 
 interface SliderProps extends SlickSlider.Settings {
   slides: Media.Media[];
-  style?: React.CSSProperties;
   maxHeight?: number;
+  style?: React.CSSProperties;
+  itemStyle?: React.CSSProperties;
 }
 
 export const Slider: React.FC<SliderProps> = ({
   slides,
   maxHeight = 400,
+  itemStyle,
   ...props
 }) => {
   const classes = useStyles();
@@ -40,7 +42,9 @@ export const Slider: React.FC<SliderProps> = ({
             media={s}
             style={{
               width: "100%",
-              minHeight: 300
+              height: "100%",
+              minHeight: 300,
+              ...itemStyle
             }}
           />
         </div>

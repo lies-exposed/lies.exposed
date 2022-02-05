@@ -11,9 +11,14 @@ import { Slider } from "../Common/Slider/Slider";
 export interface MediaSliderProps {
   ids: UUID[];
   onClick: (e: Media.Media) => void;
+  itemStyle?: React.CSSProperties;
 }
 
-export const MediaSlider: React.FC<MediaSliderProps> = ({ ids, onClick }) => {
+export const MediaSlider: React.FC<MediaSliderProps> = ({
+  ids,
+  itemStyle,
+  onClick,
+}) => {
   return (
     <WithQueries
       queries={{ media: Queries.Media.getList }}
@@ -34,6 +39,7 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({ ids, onClick }) => {
               draggable={false}
               dots={true}
               slides={data}
+              itemStyle={itemStyle}
             />
           </div>
         );
