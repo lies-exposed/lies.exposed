@@ -4,7 +4,6 @@ import * as React from "react";
 
 const useStyles = makeStyles(() => ({
   root: {
-    border: "1px solid black",
     margin: 5,
   },
 }));
@@ -26,7 +25,13 @@ const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
           />
         );
       case Media.MediaType.types[4].value: {
-        return <div style={props.style}>PDF preview</div>;
+        return (
+          <embed
+            src={media.location}
+            type="application/pdf"
+            style={props.style}
+          />
+        );
       }
       case Media.MediaType.types[3].value: {
         return (
