@@ -24,7 +24,7 @@ const eventsSort = pipe(
     if (e.type === Events.ScientificStudy.ScientificStudyType.value) {
       return e.date;
     }
-    if (e.type === Events.Death.DeathType.value) {
+    if (e.type === Events.Death.DEATH.value) {
       return e.date;
     }
     return e.date;

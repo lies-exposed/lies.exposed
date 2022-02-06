@@ -107,7 +107,26 @@ export const editEventQuery =
       }),
       TE.chain((commonData) => {
         switch (input.type) {
-          case http.Events.Death.DeathType.value: {
+          case http.Events.Patent.PATENT.value: {
+            const { excerpt, body, payload, date } = input;
+            const baseProps = optionalsToUndefined({
+              excerpt,
+              body,
+              date,
+            });
+            const event: DeepPartial<EventV2Entity> = {
+              ...storedEvent,
+              ...baseProps,
+              type: input.type,
+              payload: {
+                ...storedEvent.payload,
+                ...payload,
+              },
+              ...commonData,
+            };
+            return TE.right(event);
+          }
+          case http.Events.Death.DEATH.value: {
             const { excerpt, body, payload } = input;
             const baseProps = optionalsToUndefined({
               excerpt,

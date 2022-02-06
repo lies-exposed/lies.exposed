@@ -34,13 +34,16 @@ import {
   DeathList
 } from "./components/events/AdminDeathEvent";
 import {
+  PatentCreate,
+  PatentEdit,
+  PatentList
+} from "./components/events/AdminPatentEvent";
+import {
   ScientificStudiesList,
   ScientificStudyCreate,
   ScientificStudyEdit
 } from "./components/events/AdminScientificStudyEvent";
-import {
-  UncategorizedEventCreate
-} from "./components/events/AdminUncategorizedEvent";
+import { UncategorizedEventCreate } from "./components/events/AdminUncategorizedEvent";
 import englishMessages from "./i18n/en-US";
 import "./index.css";
 
@@ -127,6 +130,12 @@ const AdminPage: React.FC = () => {
         list={ScientificStudiesList}
         edit={ScientificStudyEdit}
         create={ScientificStudyCreate}
+      />
+      <Resource
+        name="patents"
+        list={PatentList}
+        edit={PatentEdit}
+        create={PatentCreate}
       />
       <AdminLinksResource name="links" />
       <AdminKeywordResource name="keywords" />

@@ -101,7 +101,7 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
         type={ScientificStudy.ScientificStudyType.value}
       />
       <DateInput source="date" />
-      <ReactPageInput source="excerpt" />
+      <ReactPageInput source="excerpt" onlyText />
       <ReactPageInput source="body" />
       <ReferenceArrayActorInput source="payload.authors" />
       <ReferenceInput source="payload.publisher" reference="groups">

@@ -1,7 +1,8 @@
 import * as io from "@econnessione/shared/io";
 import { http } from "@econnessione/shared/io";
+import { Events } from "@econnessione/shared/io/http";
 import { Event } from "@econnessione/shared/io/http/Events";
-import { DeathType } from "@econnessione/shared/io/http/Events/Death";
+import { DEATH } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
 import Editor from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
@@ -14,7 +15,9 @@ import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
-  BooleanField, BooleanInput, Datagrid,
+  BooleanField,
+  BooleanInput,
+  Datagrid,
   DateField,
   DateInput,
   Edit,
@@ -31,7 +34,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -43,15 +46,16 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
+import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -98,7 +102,7 @@ export const EventList: React.FC<ListProps> = (props) => (
         if (record.type === ScientificStudyType.value) {
           return `scientific-studies/${record.id}`;
         }
-        if (record.type === DeathType.value) {
+        if (record.type === DEATH.value) {
           return `deaths/${record.id}`;
         }
         return `events/${record.id}`;
@@ -136,11 +140,11 @@ export const EventList: React.FC<ListProps> = (props) => (
         label="actors"
         source="payload"
         render={(r: Record | undefined) => {
-          if (r?.type === "Uncategorized") {
+          if (r?.type === Events.Uncategorized.UncategorizedType.value) {
             return r.payload.actors.length;
           }
 
-          if (r?.type === "ScientificStudy") {
+          if (r?.type === Events.ScientificStudy.ScientificStudyType.value) {
             return r.payload.authors.length;
           }
 
@@ -203,6 +207,8 @@ const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
       return <ScientificStudyEventTitle record={record} />;
     case "Death":
       return <DeathEventTitle record={record} />;
+    case "Patent":
+      return <PatentEventTitle record={record} />;
   }
 };
 
@@ -230,6 +236,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="Generals">
           <TextField source="type" />
           <DateInput source="date" />
+          <BooleanInput source="draft" />
           <ReactPageInput label="excerpt" source="excerpt" onlyText />
           <ReferenceArrayKeywordInput source="keywords" />
           <DateField source="updatedAt" showTime={true} />

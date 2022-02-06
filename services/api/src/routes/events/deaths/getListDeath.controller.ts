@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { DeathType } from "@econnessione/shared/io/http/Events/Death";
+import { DEATH } from "@econnessione/shared/io/http/Events/Death";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
@@ -32,7 +32,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query(ctx)({
           ...query,
-          type: O.some(DeathType.value),
+          type: O.some(DEATH.value),
           actors: pipe(
             victim,
             O.map((v) => [v] as any[])

@@ -36,6 +36,7 @@ export interface EventTotals {
   uncategorized: number;
   deaths: number;
   scientificStudies: number;
+  patents: number;
 }
 
 export interface SearchEventQueryResult {
@@ -192,6 +193,7 @@ const mergeState = (
           deaths: update.events.totals.deaths,
           scientificStudies: update.events.totals.scientificStudies,
           uncategorized: update.events.totals.uncategorized,
+          patents: update.events.totals.patents,
         },
       })),
       O.getOrElse(
@@ -298,6 +300,19 @@ const toSearchEvent = (
                 ...e.payload,
                 authors: actors,
                 publisher: groups[0],
+              },
+              media,
+              keywords,
+            },
+          ]);
+        }
+        case Events.EventType.types[3].value: {
+          return acc.concat([
+            {
+              ...e,
+              payload: {
+                ...e.payload,
+                owners: { actors, groups },
               },
               media,
               keywords,

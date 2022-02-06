@@ -1,6 +1,8 @@
 import {
-  Actor, Group,
-  GroupMember
+  Actor,
+  Group,
+  GroupMember,
+  Events,
 } from "@econnessione/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
@@ -29,17 +31,25 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   onGroupMemberClick,
 }) => {
   const actors =
-    e.type === "Death"
+    e.type === Events.Death.DEATH.value
       ? [e.payload.victim]
-      : e.type === 'ScientificStudy'
+      : e.type === Events.ScientificStudy.ScientificStudyType.value
       ? e.payload.authors
-      : e.type === 'Uncategorized'
+      : e.type === Events.Uncategorized.UncategorizedType.value
       ? e.payload.actors
       : [];
 
-  const groups = e.type === "Uncategorized" ? e.payload.groups : [];
+  const groups =
+    e.type === Events.Uncategorized.UncategorizedType.value
+      ? e.payload.groups
+      : e.type === Events.ScientificStudy.ScientificStudyType.value
+      ? [e.payload.publisher]
+      : [];
   const groupsMembers =
-    e.type === "Uncategorized" ? e.payload.groupsMembers : [];
+    e.type === Events.Uncategorized.UncategorizedType.value
+      ? e.payload.groupsMembers
+      : [];
+  
 
   return (
     <Box style={{ ...style, flexDirection: "column" }}>

@@ -1,3 +1,4 @@
+import { EventTotals } from '@econnessione/ui/state/queries/SearchEventsQuery';
 import { Box, Chip } from "@material-ui/core";
 import * as React from "react";
 
@@ -6,12 +7,9 @@ export interface EventsTotalsProps {
     uncategorized: boolean;
     deaths: boolean;
     scientificStudies: boolean;
+    patents: boolean;
   };
-  totals: {
-    uncategorized: number;
-    scientificStudies: number;
-    deaths: number;
-  };
+  totals: EventTotals;
   onFilterChange: (f: EventsTotalsProps["filters"]) => void;
 }
 
@@ -54,6 +52,17 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
           onFilterChange({
             ...filters,
             scientificStudies: !filters.scientificStudies,
+          });
+        }}
+      />
+      <Chip
+        label={`Patents (${totals.patents})`}
+        color={"secondary"}
+        variant={filters.scientificStudies ? "default" : "outlined"}
+        onClick={() => {
+          onFilterChange({
+            ...filters,
+            patents: !filters.patents,
           });
         }}
       />

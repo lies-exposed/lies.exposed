@@ -533,13 +533,17 @@ export function createEventNetworkGraphProps({
               : []
             : e.type === "ScientificStudy"
             ? e.payload.authors
+            : e.type === Events.Patent.PATENT.value
+            ? e.payload.owners.actors
             : e.payload.actors;
 
         const eventGroups =
-          e.type === "Death"
+          e.type === Events.Death.DEATH.value
             ? []
-            : e.type === "ScientificStudy"
+            : e.type === Events.ScientificStudy.ScientificStudyType.value
             ? [e.payload.publisher]
+            : e.type === Events.Patent.PATENT.value
+            ? e.payload.owners.groups
             : e.payload.groups;
 
         const eventKeywords = e.keywords;

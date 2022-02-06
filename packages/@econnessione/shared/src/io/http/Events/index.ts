@@ -3,6 +3,7 @@ import * as Arrest from "./Arrest";
 import * as Condemned from "./Condemned";
 import * as Death from "./Death";
 import * as Fined from "./Fined";
+import * as Patent from "./Patent";
 import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
 import * as ScientificStudy from "./ScientificStudy";
@@ -23,6 +24,7 @@ export interface EventListMap {
 
 export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   Death: Death.Death,
+  Patent: Patent.Patent,
   ScientificStudy: ScientificStudy.ScientificStudy,
   Uncategorized: Uncategorized.Uncategorized,
 };
@@ -30,6 +32,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
 export const CreateEventBody = t.union(
   [
     Death.CreateDeathBody,
+    Patent.CreatePatentBody,
     ScientificStudy.CreateScientificStudyBody,
     Uncategorized.CreateEventBody,
   ],
@@ -41,6 +44,7 @@ export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 export const EditEventBody = t.union(
   [
     Death.EditDeathBody,
+    Patent.EditPatentBody,
     ScientificStudy.EditScientificStudyBody,
     Uncategorized.EditEventBody,
   ],
@@ -52,6 +56,7 @@ export type EditEventBody = t.TypeOf<typeof EditEventBody>;
 export const EventPayload = t.union(
   [
     Death.DeathPayload,
+    Patent.PatentPayload,
     ScientificStudy.ScientificStudyPayload,
     Uncategorized.Uncategorized,
   ],
@@ -62,16 +67,22 @@ export type EventPayload = t.TypeOf<typeof EventPayload>;
 
 export const EventType = t.union(
   [
-    Death.DeathType,
+    Death.DEATH,
     Uncategorized.UncategorizedType,
     ScientificStudy.ScientificStudyType,
+    Patent.PATENT,
   ],
   "EventType"
 );
 export type EventType = t.TypeOf<typeof EventType>;
 
 export const Event = t.union(
-  [Death.Death, ScientificStudy.ScientificStudy, Uncategorized.Uncategorized],
+  [
+    Death.Death,
+    ScientificStudy.ScientificStudy,
+    Uncategorized.Uncategorized,
+    Patent.Patent,
+  ],
   "EventV2"
 );
 
@@ -88,4 +99,5 @@ export {
   Death,
   ScientificStudy,
   Uncategorized,
+  Patent,
 };

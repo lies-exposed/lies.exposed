@@ -9,9 +9,6 @@ export const eventPageContentArgs: EventPageContentProps = {
     ...firstEvent,
     type: "Uncategorized",
     payload: {
-      title: "fale title",
-      endDate: undefined,
-      location: undefined,
       ...firstEvent.payload,
       actors: [],
       groups: [],

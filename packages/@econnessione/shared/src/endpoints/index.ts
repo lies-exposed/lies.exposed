@@ -9,6 +9,7 @@ import * as Area from "./area.endpoints";
 import * as Article from "./article.endpoints";
 import * as Event from "./event.endpoints";
 import * as DeathEvent from "./events/death.endpoint";
+import * as PatentEvent from './events/patent.endpoint';
 import * as Graph from "./graph.endpoints";
 import * as Group from "./group.endpoints";
 import * as Keyword from "./keyword.endpoints";
@@ -25,6 +26,7 @@ const Endpoints = {
   Article: Article.articles,
   Event: Event.events,
   DeathEvent: DeathEvent.deaths,
+  PatentEvent: PatentEvent.patents,
   Graph: Graph.graphs,
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,

@@ -141,6 +141,7 @@ const colorMap: Record<Events.Event["type"], string> = {
   Death: "black",
   ScientificStudy: "green",
   Uncategorized: "grey",
+  Patent: "lightblue",
 };
 export const getColorByEventType = ({
   type,
@@ -245,12 +246,16 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
     ? [e.payload.victim]
     : Events.Uncategorized.Uncategorized.is(e)
     ? e.payload.actors
+    : Events.Patent.Patent.is(e)
+    ? e.payload.owners.actors
     : e.payload.authors;
   const eventGroups = Events.Uncategorized.Uncategorized.is(e)
     ? e.payload.groups
     : Events.ScientificStudy.ScientificStudy.is(e) &&
       e.payload.publisher !== undefined
     ? [e.payload.publisher]
+    : Events.Patent.Patent.is(e)
+    ? e.payload.owners.groups
     : [];
   const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
     ? e.payload.groupsMembers

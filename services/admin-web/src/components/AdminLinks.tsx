@@ -1,4 +1,4 @@
-import { DeathType } from "@econnessione/shared/io/http/Events/Death";
+import { DEATH } from "@econnessione/shared/io/http/Events/Death";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -112,7 +112,7 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
             <FunctionField
               render={(r: any) => {
                 switch (r.type) {
-                  case DeathType.value:
+                  case DEATH.value:
                     return `${r.type}: ${r.payload.victim}`;
                   default:
                     return `${r.type}: ${r.payload.title}`;

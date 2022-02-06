@@ -15,7 +15,7 @@ import {
   buildFromCache,
   getFromCache,
   infiniteListCache,
-  toKey
+  toKey,
 } from "../utils/state.utils";
 
 export const IL_EVENT_KEY_PREFIX = "events";
@@ -130,7 +130,7 @@ const reduceEvent = (
   acc: InfiniteEventListMetadata,
   e: Events.Event
 ): InfiniteEventListMetadata => {
-  if (e.type === "ScientificStudy") {
+  if (e.type === Events.ScientificStudy.ScientificStudyType.value) {
     return {
       ...acc,
       groups:
@@ -140,12 +140,24 @@ const reduceEvent = (
           : acc.groups.concat(e.payload.publisher),
     };
   }
-  if (e.type === "Death") {
+  if (e.type === Events.Death.DEATH.value) {
     return {
       ...acc,
       actors: acc.actors.includes(e.payload.victim)
         ? acc.actors
         : acc.actors.concat(e.payload.victim),
+    };
+  }
+
+  if (e.type === Events.Patent.PATENT.value) {
+    return {
+      ...acc,
+      actors: acc.actors.concat(
+        e.payload.owners.actors.filter((a) => !acc.actors.includes(a))
+      ),
+      groups: acc.groups.concat(
+        e.payload.owners.groups.filter((a) => !acc.groups.includes(a))
+      ),
     };
   }
 
@@ -239,40 +251,4 @@ export const deathsPaginated = queryStrict<
     }
   )(IL_DEATH_KEY_PREFIX),
   refetch
-);
-
-export const actorsDiscreteQuery = queryStrict((input: GetListParams) => {
-  return input.filter.ids.length === 0
-    ? TE.right<APIError, any>({ data: [], total: 0 })
-    : Queries.Actor.getList.run(input as any);
-}, available);
-
-export const groupsDiscreteQuery = queryStrict(
-  (input: GetListParams) =>
-    input.filter.ids.length === 0
-      ? TE.right<APIError, any>({ data: [], total: 0 })
-      : Queries.Group.getList.run(input as any),
-  available
-);
-
-export const groupsMembersDiscreteQuery = queryStrict(
-  (input: GetListParams) =>
-    input.filter.ids.length === 0
-      ? TE.right<APIError, { data: any[]; total: number }>({
-          data: [],
-          total: 0,
-        })
-      : Queries.GroupMember.getList.run(input as any),
-  available
-);
-
-export const keywordsDiscreteQuery = queryStrict(
-  (input: GetListParams) =>
-    input.filter.ids.length === 0
-      ? TE.right<APIError, { data: any[]; total: number }>({
-          data: [],
-          total: 0,
-        })
-      : Queries.Keyword.getList.run(input as any),
-  available
 );

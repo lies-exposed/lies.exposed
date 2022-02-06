@@ -31,19 +31,8 @@ const EventsPage: React.FC<EventsPageProps> = ({
     tab,
   };
 
-  const handleUpdateCurrentView = React.useCallback(
-    (update: Partial<Omit<EventsView, "view">>): void => {
-      void doUpdateCurrentView({
-        view: "events",
-        ...filters,
-        ...update,
-      })();
-    },
-    [hash, tab, filters]
-  );
-
   return (
-    <Grid container spacing={2} sm={12} justifyContent="center">
+    <Grid container spacing={2} justifyContent="center">
       {/* <Grid item lg={12} md={12} sm={12}>
         <PageContent queries={{ pageContent: { path: "events" } }} />
       </Grid> */}

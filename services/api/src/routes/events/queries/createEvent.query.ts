@@ -71,7 +71,32 @@ export const createEventQuery =
       }),
       TE.chain(({ keywords, links, media, input }) => {
         switch (input.type) {
-          case http.Events.Death.DeathType.value: {
+          case http.Events.Patent.PATENT.value: {
+            const { type, date, draft, excerpt, payload } = input;
+            return TE.right({
+              type: type,
+              draft,
+              payload: {
+                ...payload,
+                owners: {
+                  actors: pipe(
+                    payload.owners.actors,
+                    O.getOrElse((): string[] => [])
+                  ),
+                  groups: pipe(
+                    payload.owners.groups,
+                    O.getOrElse((): string[] => [])
+                  ),
+                },
+              },
+              date,
+              excerpt,
+              keywords,
+              links,
+              media,
+            });
+          }
+          case http.Events.Death.DEATH.value: {
             const { type, date, draft, excerpt, payload } = input;
             return TE.right({
               type: type,

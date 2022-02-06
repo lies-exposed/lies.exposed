@@ -85,7 +85,7 @@ export const secondEventMetadata: Events.Event[] = [
   // },
   {
     id: uuid() as any,
-    type: "Death",
+    type: Events.Death.DEATH.value,
     draft: false,
     excerpt: {},
     payload: {
