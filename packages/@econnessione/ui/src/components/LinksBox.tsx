@@ -46,7 +46,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids }) => {
     ids,
     NEA.fromArray,
     O.fold(
-      () => <Typography>No links</Typography>,
+      () => <span />,
       (ids) => (
         <Accordion
           defaultExpanded={expanded}

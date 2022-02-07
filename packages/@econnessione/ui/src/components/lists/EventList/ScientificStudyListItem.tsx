@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 import Editor from "../../Common/Editor";
+import { LinksBox } from "../../LinksBox";
 import { SearchScientificStudyEvent } from "./EventListItem";
 
 interface ScientificStudyListItemProps {
@@ -32,7 +33,7 @@ export const ScientificStudyListItem: React.FC<
           <Link href={item.payload.url} target="_blank">
             {item.payload.url}
           </Link>
-          <Editor readOnly value={item.body as any} />
+          {item.body ? <Editor readOnly value={item.body as any} /> : null}
         </Grid>
         <Grid
           item
@@ -46,6 +47,9 @@ export const ScientificStudyListItem: React.FC<
             src={item.payload.publisher.avatar}
             fit="contain"
           />
+        </Grid>
+        <Grid item sm={12}>
+          <LinksBox ids={item.links} />
         </Grid>
       </Grid>
     </Box>

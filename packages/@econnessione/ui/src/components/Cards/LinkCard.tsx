@@ -31,7 +31,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
         }
       />
       <CardHeader>{link.title}</CardHeader>
-      <CardMedia component="img" image={link.image ?? "http://placekitten.com/600/300"} />
+      <CardMedia component="img" image={link.image} />
 
       <CardContent>
         <Typography variant="body2">
