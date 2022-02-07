@@ -3,6 +3,7 @@ import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
 import Editor from "../../Common/Editor/index";
+import { LinksBox } from "../../LinksBox";
 import KeywordList from "../KeywordList";
 import { SearchPatentEvent } from "./EventListItem";
 
@@ -34,6 +35,9 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
       <Grid container spacing={2}>
         <Grid item md={12} sm={12} lg={12}>
           <Typography variant="h6">Patent: {item.payload.title}</Typography>
+          <Link href={item.payload.source} rel="noreferrer" target="_blank">
+            {item.payload.source}
+          </Link>
         </Grid>
         <Grid item md={12} lg={12}>
           <KeywordList
@@ -42,11 +46,10 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
           />
         </Grid>
         <Grid item lg={8} md={8} sm={12}>
-          <Link href={item.payload.source} rel="noreferrer" target="_blank">
-            {item.payload.source}
-          </Link>
-
           <Editor value={item.excerpt as any} readOnly />
+        </Grid>
+        <Grid item lg={8} md={12} sm={12} xs={12}>
+          <LinksBox ids={item.links} />
         </Grid>
       </Grid>
     </Box>

@@ -1,9 +1,9 @@
 import { Media } from "@econnessione/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
+import ExpandableImageElement from "./ExpandableImageElement";
 import IframeMediaElement from "./IframeMediaElement";
 import PDFMediaElement from "./PDFMediaElement";
-import ExpandableImageElement from "./ExpandableImageElement";
 
 interface MediaElementProps {
   media: Media.Media;

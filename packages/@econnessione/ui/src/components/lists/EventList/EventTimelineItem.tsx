@@ -1,12 +1,12 @@
 import { formatDate } from "@econnessione/shared/utils/date";
-import { Link, Typography } from "@material-ui/core";
+import { Box, Link, Typography } from "@material-ui/core";
 import {
   TimelineConnector,
   TimelineContent,
   TimelineDot,
   TimelineItem,
   TimelineOppositeContent,
-  TimelineSeparator
+  TimelineSeparator,
 } from "@material-ui/lab";
 import * as React from "react";
 import { EventIcon } from "../../Common/Icons/EventIcon";
@@ -23,20 +23,32 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
   ...props
 }) => {
   return (
-    <TimelineItem key={`event-list-item-${e.id}`}>
-      <TimelineOppositeContent style={{ flex: 0 }}>
+    <TimelineItem key={`event-list-item-${e.id}`} style={{ display: "flex" }}>
+      <TimelineOppositeContent
+        style={{ flex: 0, display: "flex", flexDirection: "column" }}
+      >
         <Typography variant="subtitle1" color="primary">
           {formatDate(e.date)}
         </Typography>
         <TimelineEventSubjects event={e} {...props} />
         {process.env.NODE_ENV === "development" ? (
-          <Link
-            href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
-            target="_blank"
-            rel="noreferrer"
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-end",
+              justifyContent: 'flex-end',
+              flexGrow: 1
+            }}
           >
-            Edit
-          </Link>
+            <Link
+              href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Edit
+            </Link>
+          </Box>
         ) : null}
       </TimelineOppositeContent>
       <TimelineSeparator>
@@ -45,7 +57,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
         </TimelineDot>
         {isLast ? <TimelineConnector /> : null}
       </TimelineSeparator>
-      <TimelineContent style={{ maxWidth: "100%", paddingBottom: 20 }}>
+      <TimelineContent style={{ paddingBottom: 20 }}>
         <EventListItem event={e} {...props} />
       </TimelineContent>
     </TimelineItem>

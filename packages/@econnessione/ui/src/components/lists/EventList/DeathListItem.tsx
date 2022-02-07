@@ -8,6 +8,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 import Editor from "../../Common/Editor/index";
+import { LinksBox } from '../../LinksBox';
 import KeywordList from "../KeywordList";
 import { SearchDeathEvent } from "./EventListItem";
 
@@ -68,6 +69,9 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
           onClick={() => onActorClick?.(item.payload.victim)}
         >
           <Avatar size="xlarge" src={item.payload.victim?.avatar} />
+        </Grid>
+        <Grid item lg={8} md={12} sm={12} xs={12}>
+          <LinksBox ids={item.links} />
         </Grid>
       </Grid>
     </Box>

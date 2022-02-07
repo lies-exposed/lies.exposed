@@ -30,7 +30,11 @@ export const ScientificStudyListItem: React.FC<
       <Grid container spacing={2}>
         <Grid item lg={8} md={8}>
           <Typography variant="h5">{item.payload.title}</Typography>
-          <Link href={item.payload.url} target="_blank">
+          <Link
+            href={item.payload.url}
+            target="_blank"
+            style={{ marginBottom: 20 }}
+          >
             {item.payload.url}
           </Link>
           {item.body ? <Editor readOnly value={item.body as any} /> : null}

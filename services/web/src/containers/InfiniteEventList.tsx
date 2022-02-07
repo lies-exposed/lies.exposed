@@ -130,6 +130,8 @@ const InfiniteEventList: React.FC<EventListProps> = ({
   events,
   totals,
   onBottomReached: onBottomReach,
+  actors,
+  groups,
   ...onClickProps
 }) => {
   const allEvents = pipe(
@@ -141,11 +143,10 @@ const InfiniteEventList: React.FC<EventListProps> = ({
     totals.uncategorized + totals.deaths + totals.scientificStudies;
 
   return (
-    <Box style={{ width: "100%" }}>
-      <Box width="100%">
+    <Box style={{ width: "100%", padding: 0 }} padding={0}>
+      <Box width="100%" padding={0}>
         <EventsTimeline
           className="events"
-          style={{ width: "100%" }}
           events={allEvents}
           onClick={(e) => {
             if (e.type === "Death") {
