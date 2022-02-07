@@ -3,12 +3,12 @@ import "slick-carousel/slick/slick.css";
 import { Media } from "@econnessione/shared/io/http";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
-import { makeStyles } from "../../../theme/index";
+import { makeStyles, useTheme } from "../../../theme/index";
 import MediaElement from "../../Media/MediaElement";
 
 const useStyles = makeStyles((theme) => ({
   mediaSlider: {
-    margin: 20,
+    margin: 0,
   },
 }));
 
@@ -25,10 +25,28 @@ export const Slider: React.FC<SliderProps> = ({
   itemStyle,
   ...props
 }) => {
+  const theme = useTheme();
   const classes = useStyles();
 
   return (
-    <SlickSlider.default className={classes.mediaSlider} {...{ ...props }}>
+    <SlickSlider.default
+      className={classes.mediaSlider}
+      adaptiveHeight={true}
+      infinite={false}
+      arrows={true}
+      draggable={true}
+      dots={true}
+      responsive={[
+        {
+          breakpoint: theme.breakpoints.values.md,
+          settings: {
+            variableWidth: false,
+            ...props,
+          },
+        },
+      ]}
+      {...{ ...props }}
+    >
       {slides.map((s) => (
         <div
           key={s.location}
@@ -36,6 +54,7 @@ export const Slider: React.FC<SliderProps> = ({
             textAlign: "center",
             maxHeight,
             maxWidth: 600,
+            margin: "auto",
           }}
         >
           <MediaElement
@@ -44,7 +63,7 @@ export const Slider: React.FC<SliderProps> = ({
               width: "100%",
               height: "100%",
               minHeight: 300,
-              ...itemStyle
+              ...itemStyle,
             }}
           />
         </div>

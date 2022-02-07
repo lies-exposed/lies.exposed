@@ -92,6 +92,9 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
               onClick={() => {}}
               itemStyle={{
                 height: 400,
+                maxWidth: 800,
+                maxHeight: 500,
+                margin: "auto",
               }}
             />
           ) : null}

@@ -10,12 +10,11 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   media,
   ...props
 }) => {
-
   return (
     <iframe
-      src={media.location}
       {...props}
-      style={{ minHeight: 300, ...props.style }}
+      src={media.location}
+      style={{ minHeight: 300, maxWidth: 800, width: "100%", ...props.style }}
     />
   );
 };

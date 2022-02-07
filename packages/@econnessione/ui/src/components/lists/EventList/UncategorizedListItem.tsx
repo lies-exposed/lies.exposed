@@ -66,7 +66,8 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         </Grid>
         <Grid
           item
-          md={4}
+          lg={4}
+          md={12}
           sm={12}
           xs={12}
           style={{
@@ -88,20 +89,12 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
               O.map((media) => (
                 // eslint-disable-next-line react/jsx-key
                 <Slider
-                  adaptiveHeight={false}
-                  infinite={false}
-                  arrows={false}
-                  draggable={false}
-                  dots={true}
-                  swipe={false}
-                  variableWidth={false}
-                  slidesToShow={1}
-                  slidesToScroll={1}
                   slides={media}
-                  style={{
-                    margin: 0,
-                    width: "100%",
-                    height: '100%'
+                  style={{ maxWidth: 600, maxHeight: 500, margin: "auto" }}
+                  itemStyle={{
+                    maxWidth: 800,
+                    maxHeight: 500,
+                    minHeight: 300,
                   }}
                 />
               )),
@@ -118,7 +111,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             )
           )}
         </Grid>
-        <Grid item>
+        <Grid item lg={8} md={12} sm={12} xs={12}>
           <LinksBox ids={item.links} />
         </Grid>
       </Grid>

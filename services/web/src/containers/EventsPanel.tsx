@@ -2,14 +2,14 @@ import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import {
   a11yProps,
-  TabPanel
+  TabPanel,
 } from "@econnessione/ui/components/Common/TabPanel";
 import EventsMap from "@econnessione/ui/components/EventsMap";
 import {
   actorsDiscreteQuery,
   groupsDiscreteQuery,
   groupsMembersDiscreteQuery,
-  keywordsDiscreteQuery
+  keywordsDiscreteQuery,
 } from "@econnessione/ui/state/queries/DiscreteQueries";
 import { searchEventsQuery } from "@econnessione/ui/state/queries/SearchEventsQuery";
 import { Box, Tab, Tabs } from "@material-ui/core";
@@ -21,7 +21,7 @@ import EventsFilter from "../components/events/EventsFilter";
 import {
   CurrentView,
   doUpdateCurrentView,
-  EventsView
+  EventsView,
 } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 import InfiniteEventList from "./InfiniteEventList";
@@ -72,7 +72,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
       deaths: true,
       uncategorized: true,
       scientificStudies: true,
-      patents: true
+      patents: true,
     },
   });
 
@@ -226,16 +226,32 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                     filters={state.filters}
                     onBottomReached={handleBottomReached}
                     onGroupClick={(g) => {
-                      onGroupsChange(groupIds.concat(g.id));
+                      onGroupsChange(
+                        groupIds.includes(g.id)
+                          ? groupIds.filter((aa) => g.id !== aa)
+                          : groupIds.concat(g.id)
+                      );
                     }}
                     onGroupMemberClick={(gm) => {
-                      onGroupMembersChange(groupsMembersIds.concat(gm.id));
+                      onGroupMembersChange(
+                        groupsMembersIds.includes(gm.id)
+                          ? groupsMembersIds.filter((aa) => gm.id !== aa)
+                          : groupsMembersIds.concat(gm.id)
+                      );
                     }}
                     onActorClick={(a) => {
-                      onActorsChange(actorIds.concat(a.id));
+                      onActorsChange(
+                        actorIds.includes(a.id)
+                          ? actorIds.filter((aa) => a.id !== aa)
+                          : actorIds.concat(a.id)
+                      );
                     }}
                     onKeywordClick={(k) => {
-                      onKeywordsChange(keywordIds.concat(k.id));
+                      onKeywordsChange(
+                        keywordIds.includes(k.id)
+                          ? keywordIds.filter((aa) => k.id !== aa)
+                          : keywordIds.concat(k.id)
+                      );
                     }}
                   />
                 ) : null}

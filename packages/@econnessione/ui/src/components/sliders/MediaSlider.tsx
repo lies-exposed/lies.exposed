@@ -31,17 +31,16 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
       }}
       render={QR.fold(LazyLoader, ErrorBox, ({ media: { data, total } }) => {
         return (
-          <div>
-            <Slider
-              adaptiveHeight={true}
-              infinite={false}
-              arrows={true}
-              draggable={false}
-              dots={true}
-              slides={data}
-              itemStyle={itemStyle}
-            />
-          </div>
+          <Slider
+            adaptiveHeight={true}
+            infinite={false}
+            arrows={true}
+            draggable={true}
+            dots={true}
+            slides={data}
+            style={{ maxWidth: 800, maxHeight: 500, margin: 'auto' }}
+            itemStyle={{ maxWidth: 800, maxHeight: 500, margin: 'auto', ...itemStyle }}
+          />
         );
       })}
     />

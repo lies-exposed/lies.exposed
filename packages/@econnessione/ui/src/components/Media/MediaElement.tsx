@@ -1,9 +1,9 @@
 import { Media } from "@econnessione/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
+import ExpandableImageElement from "./ExpandableImageElement";
 import IframeMediaElement from "./IframeMediaElement";
 import PDFMediaElement from "./PDFMediaElement";
-
 
 interface MediaElementProps {
   media: Media.Media;
@@ -11,7 +11,6 @@ interface MediaElementProps {
 }
 
 const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
-
   const mediaElement = React.useMemo(() => {
     switch (media.type) {
       case Media.MediaType.types[5].value:
@@ -42,7 +41,9 @@ const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
         );
       }
       default:
-        return <img src={media.location} style={props.style} />;
+        return (
+          <ExpandableImageElement media={media as any} style={props.style} />
+        );
     }
   }, [media]);
 

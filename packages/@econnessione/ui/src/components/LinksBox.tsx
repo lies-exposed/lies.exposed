@@ -1,9 +1,11 @@
-import { Link } from "@econnessione/shared/io/http";
+import { http } from "@econnessione/shared/io";
+import { formatDate } from "@econnessione/shared/utils/date";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Grid,
+  Box,
+  Link,
   Typography,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMoreOutlined";
@@ -15,23 +17,38 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { linksDiscreteQuery } from "../state/queries/DiscreteQueries";
-import LinkCard from "./Cards/LinkCard";
 import { ErrorBox } from "./Common/ErrorBox";
 import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
 
+interface LinkListItemProps {
+  data: http.Link.Link;
+}
+
+const LinkListItem: React.FC<LinkListItemProps> = ({ data }) => {
+  return (
+    <Box>
+      <Link href={data.url}>{data.title}</Link>
+      {data.publishDate ? (
+        <Typography variant="caption">
+          {" "}
+          ({formatDate(data.publishDate)})
+        </Typography>
+      ) : null}
+    </Box>
+  );
+};
+
 interface LinksListProps {
-  links: Link.Link[];
+  links: http.Link.Link[];
 }
 
 export const LinksList: React.FC<LinksListProps> = ({ links }) => {
   return (
-    <Grid container spacing={2}>
+    <Box>
       {links.map((l, i) => (
-        <Grid item key={i} md={4} sm={6}>
-          <LinkCard link={l} />
-        </Grid>
+        <LinkListItem key={l.id} data={l} />
       ))}
-    </Grid>
+    </Box>
   );
 };
 
@@ -46,7 +63,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids }) => {
     ids,
     NEA.fromArray,
     O.fold(
-      () => <Typography>No links</Typography>,
+      () => <span />,
       (ids) => (
         <Accordion
           defaultExpanded={expanded}
@@ -68,10 +85,16 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              width: "100%",
+              padding: 0
             }}
           >
-            <LinkIcon />
-            <Typography variant="subtitle2">{ids.length}</Typography>
+            <Box display="flex" width="100%" padding={0}>
+              <LinkIcon />{" "}
+              <Typography component="span" variant="subtitle2">
+                ({ids.length})
+              </Typography>
+            </Box>
           </AccordionSummary>
           <AccordionDetails>
             <WithQueries
