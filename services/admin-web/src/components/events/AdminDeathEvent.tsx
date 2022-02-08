@@ -111,6 +111,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceInput>
         <DateInput source="date" />
         <ReactPageInput source="excerpt" onlyText />
+        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
