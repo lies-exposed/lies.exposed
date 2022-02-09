@@ -31,7 +31,7 @@ module.exports = {
       user: process.env.SSH_USERNAME,
       // where to connect
       host: [process.env.SSH_HOST],
-      ref: process.env.REF,
+      ref: process.env.REF ?? 'origin/release/alpha',
       path: "/root/node/app",
       repo: "https://github.com/lies-exposed/lies.exposed.git",
       "pre-deploy-local": "echo 'This is a local executed command'",
