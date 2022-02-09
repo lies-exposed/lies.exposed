@@ -1,9 +1,11 @@
 /* eslint-disable import/first */
+import path from "path";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require("module-alias")(process.cwd());
+require("module-alias")(path.resolve(__dirname, "../"));
 import * as logger from "@econnessione/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { failure } from "io-ts/lib/PathReporter";
 import { makeApp, makeContext } from "./server";
 
 export const run = (): Promise<void> => {
@@ -17,11 +19,23 @@ export const run = (): Promise<void> => {
     })),
     TE.fold(
       (err) => {
+        const parsedError =
+          err.details.kind === "DecodingError"
+            ? failure(err.details.errors)
+            : (err.details.meta as any[]) ?? [];
         serverLogger.error.log(
-          "An error occured during server startup %O",
-          err
+          "%s\n %O \n\n %O",
+          err.name,
+          err.message,
+          parsedError
         );
-        return () => Promise.reject(err);
+        return () =>
+          // eslint-disable-next-line prefer-promise-reject-errors
+          Promise.reject({
+            name: err.name,
+            message: err.message,
+            details: parsedError,
+          });
       },
       ({ ctx, app }) =>
         () => {

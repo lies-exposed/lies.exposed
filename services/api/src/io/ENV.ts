@@ -20,7 +20,7 @@ const ENV = t.intersection(
       t.strict({
         NODE_ENV: PRODUCTION,
       }),
-    ]),
+    ], 'NODE_ENV'),
     t.strict({
       DEBUG: t.string,
       API_PORT: NumberFromString,
@@ -28,7 +28,7 @@ const ENV = t.intersection(
       DEFAULT_PAGE_SIZE: NumberFromString,
       JWT_SECRET: t.string,
       DOWNLOAD_VACCINE_DATA_CRON: t.string,
-    }),
+    }, 'API_ENV'),
     t.strict(
       {
         // SPACES
@@ -47,7 +47,7 @@ const ENV = t.intersection(
           DB_HOST: t.string,
           DB_PORT: NumberFromString,
           DB_DATABASE: t.string,
-        }),
+        }, 'DB_BASE_ENV'),
         t.union([
           t.strict({
             DB_SSL_MODE: t.literal("require"),

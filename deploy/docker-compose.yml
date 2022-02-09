@@ -21,25 +21,25 @@ services:
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
-  api:
-    container_name: api
-    image: ghcr.io/ascariandrea/econnessione/api:release-alpha
-    env_file:
-      - .env
-    ports:
-      - "4010:4010"
-    volumes:
-      - ./certs:/app/services/api/certs
-    working_dir: /app/services/api
-    command: yarn start
-    restart: always
+  # api:
+  #   container_name: api
+  #   image: ghcr.io/lies-exposed/lies-exposed/api:release-alpha
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "4010:4010"
+  #   volumes:
+  #     - ./certs:/app/services/api/certs
+  #   working_dir: /app/services/api
+  #   command: yarn start
+  #   restart: always
 
-  migration:
-    container_name: migration
-    image: ghcr.io/ascariandrea/econnessione/api:release-alpha
-    env_file:
-      - .env
-    volumes:
-      - ./certs:/app/services/api/certs
-    working_dir: /app/services/api
-    command: yarn migration:run
+  # migration:
+  #   container_name: migration
+  #   image: ghcr.io/lies-exposed/lies-exposed/api:release-alpha
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./certs:/app/services/api/certs
+  #   working_dir: /app/services/api
+  #   command: yarn migration:run

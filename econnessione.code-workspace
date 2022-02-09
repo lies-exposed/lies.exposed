@@ -1,9 +1,13 @@
 {
   "folders": [
-    // {
-    //   "name": "✨ econnessione",
-    //   "path": "."
-    // },
+    {
+      "name": "✨ lies-exposed",
+      "path": "."
+    },
+    {
+      "name": "github-ci",
+      "path": ".github"
+    },
     {
       "name": "📦 @econnessione/core",
       "path": "packages/@econnessione/core"
