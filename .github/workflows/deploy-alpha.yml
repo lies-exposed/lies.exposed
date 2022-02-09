@@ -34,13 +34,13 @@ jobs:
         # if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      - name: API Deploy
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          REF: origin/release/alpha
-        run: yarn pm2 deploy ecosystem.config.js alpha
+      # - name: API Deploy
+      #   env:
+      #     SSH_HOST: ${{ secrets.SSH_HOST }}
+      #     SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      #     SSH_KEY: ${{ secrets.SSH_KEY }}
+      #     REF: origin/release/alpha
+      #   run: yarn pm2 deploy ecosystem.config.js alpha
 
 
       # - name: Build Packages
