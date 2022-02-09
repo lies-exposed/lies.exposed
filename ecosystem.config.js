@@ -5,12 +5,12 @@ const fs = require("fs");
 module.exports = {
   apps: [
     {
-      name      : 'yarn',
-      script    : 'yarn',
-      interpreter: '/bin/bash',
+      name: "yarn",
+      script: "yarn",
+      interpreter: "/bin/bash",
       env: {
-        NODE_ENV: 'development'
-      }
+        NODE_ENV: "development",
+      },
     },
     {
       name: "api",
@@ -23,4 +23,27 @@ module.exports = {
       ),
     },
   ],
+  deploy: {
+    alpha: {
+      // path.resolve(os.homedir(), ".ssh/lies_exposed_api"),
+      key: process.env.SSH_KEY, // path to the public key to authenticate
+      // user used to authenticate
+      user: process.env.SSH_USERNAME,
+      // where to connect
+      host: [process.env.SSH_HOST],
+      ref: process.env.REF,
+      path: "/root/node/app",
+      repo: "https://github.com/lies-exposed/lies.exposed.git",
+      "pre-deploy-local": "echo 'This is a local executed command'",
+      "post-deploy": [
+        "set -e -x",
+        "cp ~/.env ~/node/app/source/.env",
+        "cp -r ~/certs/dev-certificate.crt ~/node/app/source/services/api/certs/alpha-db-ca-certificate.crt",
+        "yarn",
+        "yarn api build",
+        "yarn api migration:run",
+        "pm2 reload ecosystem.config.js api",
+      ].join(" && "),
+    },
+  },
 };

@@ -49,9 +49,6 @@ yarn-error.log
 !.yarn/sdks
 !.yarn/versions
 
-# pm2 deploy config
-*.deploy.config.js
-
 
 # certificates
 certs
