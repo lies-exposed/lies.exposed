@@ -40,7 +40,7 @@ jobs:
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           REF: origin/release/alpha
-        run: yarn pm2 deploy ecosystem.config.js alpha
+        run: yarn pm2 deploy ecosystem.deploy.config.js alpha
 
 
       # - name: Build Packages
