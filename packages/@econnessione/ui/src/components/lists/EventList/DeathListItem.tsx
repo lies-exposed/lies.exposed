@@ -1,14 +1,10 @@
 import { Actor, Keyword } from "@econnessione/shared/io/http";
-import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar";
 import Editor from "../../Common/Editor/index";
-import { LinksBox } from '../../LinksBox';
+import { LinksBox } from "../../LinksBox";
 import KeywordList from "../KeywordList";
 import { SearchDeathEvent } from "./EventListItem";
 
@@ -42,15 +38,6 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
           <Typography variant="h6">
             Death: {item.payload.victim?.fullName ?? item.payload.victim}
           </Typography>
-          <Grid item md={3}>
-            {pipe(
-              O.fromNullable(item.payload.location),
-              O.fold(
-                () => null,
-                () => <FontAwesomeIcon icon={faMapMarker} />
-              )
-            )}
-          </Grid>
         </Grid>
         <Grid item md={12} lg={12}>
           <KeywordList
@@ -63,12 +50,13 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
         </Grid>
         <Grid
           item
-          md={4}
+          sm={12}
+          md={8}
           lg={4}
           style={{ display: "flex", justifyContent: "center" }}
           onClick={() => onActorClick?.(item.payload.victim)}
         >
-          <Avatar size="xlarge" src={item.payload.victim?.avatar} />
+          <Avatar size="large" src={item.payload.victim?.avatar} />
         </Grid>
         <Grid item lg={8} md={12} sm={12} xs={12}>
           <LinksBox ids={item.links} />

@@ -37,13 +37,15 @@ export const ScientificStudyListItem: React.FC<
           >
             {item.payload.url}
           </Link>
+        </Grid>
+        <Grid item lg={8} md={8} sm={12}>
           {item.body ? <Editor readOnly value={item.body as any} /> : null}
         </Grid>
         <Grid
           item
           lg={4}
-          md={4}
-          sm={false}
+          md={8}
+          sm={12}
           style={{ display: "flex", justifyContent: "center" }}
         >
           <Avatar

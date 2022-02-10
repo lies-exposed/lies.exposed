@@ -1,5 +1,6 @@
-import { EventTotals } from '@econnessione/ui/state/queries/SearchEventsQuery';
-import { Box, Chip } from "@material-ui/core";
+import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
+import { EventTotals } from "@econnessione/ui/state/queries/SearchEventsQuery";
+import { Box, Chip, IconButton, Typography } from "@material-ui/core";
 import * as React from "react";
 
 export interface EventsTotalsProps {
@@ -20,10 +21,8 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
 }) => {
   return (
     <Box>
-      <Chip
-        label={`Events (${totals.uncategorized})`}
+      <IconButton
         color="primary"
-        variant={filters.uncategorized ? "default" : "outlined"}
         style={{ marginRight: 10 }}
         onClick={() => {
           onFilterChange({
@@ -31,11 +30,12 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
             uncategorized: !filters.uncategorized,
           });
         }}
-      />
-      <Chip
-        label={`Deaths (${totals.deaths})`}
-        color={"secondary"}
-        variant={filters.deaths ? "default" : "outlined"}
+      >
+        <EventIcon type="Uncategorized" />{" "}
+        <Typography variant="caption">{totals.uncategorized}</Typography>
+      </IconButton>
+      <IconButton
+        color="primary"
         style={{ marginRight: 10 }}
         onClick={() => {
           onFilterChange({
@@ -43,29 +43,36 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
             deaths: !filters.deaths,
           });
         }}
-      />
-      <Chip
-        label={`Science (${totals.scientificStudies})`}
-        color={"secondary"}
-        variant={filters.scientificStudies ? "default" : "outlined"}
+      >
+        <EventIcon type="Death" />{" "}
+        <Typography variant="caption">{totals.deaths}</Typography>
+      </IconButton>
+      <IconButton
+        color="primary"
+        style={{ marginRight: 10 }}
         onClick={() => {
           onFilterChange({
             ...filters,
             scientificStudies: !filters.scientificStudies,
           });
         }}
-      />
-      <Chip
-        label={`Patents (${totals.patents})`}
-        color={"secondary"}
-        variant={filters.scientificStudies ? "default" : "outlined"}
+      >
+        <EventIcon type="ScientificStudy" />{" "}
+        <Typography variant="caption">{totals.scientificStudies}</Typography>
+      </IconButton>
+      <IconButton
+        color="primary"
+        style={{ marginRight: 10 }}
         onClick={() => {
           onFilterChange({
             ...filters,
             patents: !filters.patents,
           });
         }}
-      />
+      >
+        <EventIcon type="Patent" />{" "}
+        <Typography variant="caption">{totals.patents}</Typography>
+      </IconButton>
     </Box>
   );
 };

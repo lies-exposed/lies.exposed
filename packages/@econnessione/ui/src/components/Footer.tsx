@@ -1,4 +1,3 @@
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Container,
@@ -6,7 +5,7 @@ import {
   Link,
   MenuItem,
   MenuList,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as React from "react";
@@ -86,7 +85,7 @@ export const Footer: React.FC = () => {
             <MenuList title="Community" disablePadding={true}>
               <MenuItem disableGutters={true}>
                 <Link className={classes.link} href={github.link}>
-                  <FontAwesomeIcon icon={faGithub} />{" "}
+                  <FontAwesomeIcon icon='github' />{" "}
                   <Typography
                     className={classes.linkText}
                     variant="subtitle1"

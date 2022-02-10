@@ -1,16 +1,22 @@
 import "./font.css";
-import { createTheme, makeStyles, useTheme } from "@material-ui/core";
+import {
+  createTheme,
+  makeStyles,
+  useTheme,
+  darken,
+  lighten,
+} from "@material-ui/core";
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
 
-const primary = "#9100ff";
-const primaryLight = "#c950ff";
-const primaryDark = "#5600ca";
+const primary = "#FF5E5B"
+const primaryLight = lighten(primary, 20);
+const primaryDark = darken(primary, 20);
 
-const secondary = "#1bff54";
-const secondaryLight = "#73ff87";
-const secondaryDark = "#00ca1a";
+const secondary = "#00CECB";
+const secondaryLight = lighten(secondary, 20);
+const secondaryDark = darken(primary, 20);
 
 const ECOTheme = createTheme({
   palette: {
@@ -25,7 +31,7 @@ const ECOTheme = createTheme({
       main: secondary,
       light: secondaryLight,
       dark: secondaryDark,
-      contrastText: "#000000",
+      contrastText: "#FFF",
     },
   },
   typography: (palette) => ({
@@ -71,7 +77,7 @@ const ECOTheme = createTheme({
       },
     },
     MuiAppBar: {
-      colorPrimary: "#c30ff7" as any,
+      colorPrimary: primary as any,
       colorDefault: "#FFF" as any,
     },
   },

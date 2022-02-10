@@ -1,5 +1,4 @@
 import { ResourcesNames } from "@econnessione/shared/io/http";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "@material-ui/core";
 import * as React from "react";
@@ -16,7 +15,7 @@ const EditButton: React.FC<EditButtonProps> = (props) => {
       href={getAdminLink(props.resourceName, props.resource)}
       target="_blank"
     >
-      <FontAwesomeIcon icon={faEdit} />
+      <FontAwesomeIcon icon='edit' />
     </Link>
   );
 };

@@ -8,7 +8,7 @@ import { SvgIconProps } from "@material-ui/core";
 import {
   EventNote,
   HighlightOff,
-  LibraryBooks,
+  Book,
   Radio,
 } from "@material-ui/icons";
 import * as React from "react";
@@ -20,7 +20,7 @@ interface EventIconProps extends SvgIconProps {
 export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
   switch (type) {
     case ScientificStudy.ScientificStudyType.value:
-      return <LibraryBooks {...props} style={{ color: "lightblue" }} />;
+      return <Book {...props} style={{ color: "lightblue" }} />;
     case Death.DEATH.value:
       return <HighlightOff {...props} style={{ color: "red" }} />;
     case Patent.PATENT.value:
