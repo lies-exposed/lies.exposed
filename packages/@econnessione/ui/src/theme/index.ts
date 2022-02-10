@@ -14,7 +14,7 @@ const primary = "#FF5E5B"
 const primaryLight = lighten(primary, 20);
 const primaryDark = darken(primary, 20);
 
-const secondary = "#00CECB";
+const secondary = "#17B9B6";
 const secondaryLight = lighten(secondary, 20);
 const secondaryDark = darken(primary, 20);
 
