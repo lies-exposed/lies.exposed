@@ -4,8 +4,8 @@ import { Events } from "@econnessione/shared/io/http";
 import { Event } from "@econnessione/shared/io/http/Events";
 import { DEATH } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
-import Editor, {
-  getTextContentsCapped,
+import {
+  getTextContentsCapped
 } from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
@@ -36,7 +36,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -48,16 +48,16 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
