@@ -60,7 +60,6 @@ export const Slider: React.FC<SliderProps> = ({
           <MediaElement
             media={s}
             style={{
-              width: "100%",
               height: "100%",
               minHeight: 300,
               ...itemStyle,

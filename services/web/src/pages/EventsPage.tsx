@@ -2,10 +2,10 @@ import { formatDate } from "@econnessione/shared/utils/date";
 import { Grid } from "@material-ui/core";
 import { subYears } from "date-fns";
 import * as React from "react";
-import { doUpdateCurrentView, EventsView } from "../utils/location.utils";
+import { EventsView } from "../utils/location.utils";
 import { EventsPanel } from "@containers/EventsPanel";
 
-const MIN_DATE = formatDate(subYears(new Date(), 10));
+const MIN_DATE = formatDate(subYears(new Date(), 100));
 const MAX_DATE = formatDate(new Date());
 
 interface EventsPageProps extends EventsView {}
@@ -39,20 +39,18 @@ const EventsPage: React.FC<EventsPageProps> = ({
 
       <Grid
         item
-        lg={12}
+        lg={8}
         md={12}
         sm={12}
         style={{ margin: 20, maxWidth: "100%" }}
       >
-        <Grid item lg={12} md={12} sm={12} xs={12} style={{ maxWidth: "100%" }}>
-          <EventsPanel
-            view={{
-              view: "events",
-            }}
-            showFilters={true}
-            filters={{ page: 1, ...filters, hash, tab }}
-          />
-        </Grid>
+        <EventsPanel
+          view={{
+            view: "events",
+          }}
+          showFilters={true}
+          filters={{ page: 1, ...filters, hash, tab }}
+        />
       </Grid>
     </Grid>
   );

@@ -1,5 +1,5 @@
 import { Keyword } from "@econnessione/shared/io/http";
-import { Chip } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import * as React from "react";
 import { List, ListItemProps } from "../Common/List";
 
@@ -17,18 +17,19 @@ export const KeywordListItem: React.FC<ListItemProps<KeywordListTopic>> = ({
   item: t,
   onClick,
 }) => (
-  <Chip
+  <Typography
     key={t.id}
-    size="small"
-    label={t.tag}
-    variant="outlined"
     style={{
       marginRight: 10,
       borderColor: `#${t.color}`,
       color: `#${t.color}`,
+      fontWeight: 700,
+      display: 'inline',
     }}
     onClick={() => onClick?.(t)}
-  />
+  >
+    #{t.tag}
+    </Typography>
 );
 
 const KeywordList: React.FC<KeywordListProps> = ({
