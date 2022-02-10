@@ -2,7 +2,7 @@ import * as ScientificStudy from "@econnessione/shared/io/http/Events/Scientific
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
-  AutocompleteInput, BooleanField, BooleanInput, Create,
+  BooleanField, BooleanInput, Create,
   CreateProps,
   Datagrid,
   DateField,
@@ -13,9 +13,7 @@ import {
   FormTab,
   List,
   ListProps,
-  ReferenceArrayField, ReferenceField,
-  ReferenceInput,
-  SimpleForm,
+  ReferenceArrayField, ReferenceField, SimpleForm,
   TextField,
   TextInput
 } from "react-admin";
@@ -104,9 +102,7 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       <ReactPageInput source="excerpt" onlyText />
       <ReactPageInput source="body" />
       <ReferenceArrayActorInput source="payload.authors" />
-      <ReferenceInput source="payload.publisher" reference="groups">
-        <AutocompleteInput source="id" optionText="name" />
-      </ReferenceInput>
+      <ReferenceGroupInput source="payload.publisher" />
       <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
       <MediaArrayInput source="newMedia" defaultValue={[]} />

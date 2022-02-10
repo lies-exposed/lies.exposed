@@ -1,4 +1,8 @@
-import RPEditor, { EditorProps, Value } from "@react-page/editor";
+import RPEditor, {
+  EditorProps,
+  Value,
+  getTextContents,
+} from "@react-page/editor";
 import background from "@react-page/plugins-background";
 import divider from "@react-page/plugins-divider";
 import html5Video from "@react-page/plugins-html5-video";
@@ -10,6 +14,11 @@ import customSlate from "./plugins/customSlate";
 import gridCellPlugin from "./plugins/gridCellPlugin";
 
 export const minimalCellPlugins = [customSlate] as any[];
+
+export const getTextContentsCapped = (v: Value, end: number): string =>
+  getTextContents(v, { lang: "en", cellPlugins: minimalCellPlugins })
+    .join("\n")
+    .substring(0, end);
 
 // Define which plugins we want to use.
 export const cellPlugins = [

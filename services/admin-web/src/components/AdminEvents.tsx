@@ -4,7 +4,9 @@ import { Events } from "@econnessione/shared/io/http";
 import { Event } from "@econnessione/shared/io/http/Events";
 import { DEATH } from "@econnessione/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
-import Editor from "@econnessione/ui/components/Common/Editor";
+import Editor, {
+  getTextContentsCapped,
+} from "@econnessione/ui/components/Common/Editor";
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
@@ -134,7 +136,7 @@ export const EventList: React.FC<ListProps> = (props) => (
       />
       <FunctionField
         label="excerpt"
-        render={(r: any) => <Editor readOnly value={r.excerpt} />}
+        render={(r: any) => getTextContentsCapped(r.excerpt, 60)}
       />
       <FunctionField
         label="actors"
