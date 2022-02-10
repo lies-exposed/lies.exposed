@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Container,
   Grid,
@@ -12,6 +11,7 @@ import * as React from "react";
 import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
 import { ECOTheme } from "../theme/index";
 import { PaypalDonateButton } from "./Common/Button/PaypalDonateButton";
+import { GithubIcon } from "./Common/Icons";
 
 const useStyles = makeStyles<ECOTheme>((theme) =>
   createStyles({
@@ -72,6 +72,7 @@ export const Footer: React.FC = () => {
           <Grid item sm={4}></Grid>
           <Grid className={classes.rightColumn} item sm={4}>
             <Typography
+            component="div"
               variant="h6"
               style={{
                 textTransform: "uppercase",
@@ -85,7 +86,7 @@ export const Footer: React.FC = () => {
             <MenuList title="Community" disablePadding={true}>
               <MenuItem disableGutters={true}>
                 <Link className={classes.link} href={github.link}>
-                  <FontAwesomeIcon icon='github' />{" "}
+                  <GithubIcon style={{ color: "red" }} />{" "}
                   <Typography
                     className={classes.linkText}
                     variant="subtitle1"

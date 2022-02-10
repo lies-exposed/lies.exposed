@@ -7,8 +7,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import { pipe } from "fp-ts/lib/function";
 import * as O from "fp-ts/lib/Option";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import Editor from "../../Common/Editor";
 import { Slider } from "../../Common/Slider/Slider";

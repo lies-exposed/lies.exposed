@@ -31,7 +31,7 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
           });
         }}
       >
-        <EventIcon type="Uncategorized" />{" "}
+        <EventIcon type="Uncategorized" style={{ marginRight: 10 }} />
         <Typography variant="caption">{totals.uncategorized}</Typography>
       </IconButton>
       <IconButton
@@ -44,7 +44,7 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
           });
         }}
       >
-        <EventIcon type="Death" />{" "}
+        <EventIcon type="Death" style={{ marginRight: 10 }} />
         <Typography variant="caption">{totals.deaths}</Typography>
       </IconButton>
       <IconButton
@@ -57,7 +57,7 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
           });
         }}
       >
-        <EventIcon type="ScientificStudy" />{" "}
+        <EventIcon type="ScientificStudy" style={{ marginRight: 10 }} />
         <Typography variant="caption">{totals.scientificStudies}</Typography>
       </IconButton>
       <IconButton
@@ -70,7 +70,7 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
           });
         }}
       >
-        <EventIcon type="Patent" />{" "}
+        <EventIcon type="Patent" style={{ marginRight: 10 }} />
         <Typography variant="caption">{totals.patents}</Typography>
       </IconButton>
     </Box>

@@ -12,7 +12,11 @@
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
-    "typeRoots": ["node_modules/@types", "../../../node_modules/@types"],
+    "typeRoots": [
+      "node_modules/@types",
+      "../../../node_modules/@types",
+      "./typings"
+    ],
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "paths": {
       "@econnessione/core/*": ["../../core/src/*"],

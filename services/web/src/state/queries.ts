@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { Events } from "@econnessione/shared/io/http";
 import { APIError } from "@econnessione/shared/providers/api.provider";
-import { Queries } from "@econnessione/ui/providers/DataProvider";
 import { available, queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
-import type { GetListParams } from "ra-core";
 import { api } from "../api";
 import { EventsView } from "../utils/location.utils";
 import { stateLogger } from "../utils/logger.utils";

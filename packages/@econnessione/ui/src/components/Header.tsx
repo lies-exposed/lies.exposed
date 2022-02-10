@@ -10,13 +10,13 @@ import {
   Paper,
   Popper,
   Toolbar,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
 import { ECOTheme } from "../theme/index";
+import GithubButton from "./GithubButton";
 
 const useStyles = makeStyles<ECOTheme>((theme) =>
   createStyles({
@@ -79,14 +79,14 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const {
     site: {
-      siteMetadata: { title, github, communityURL },
+      siteMetadata: { title, github },
     },
   } = {
     site: {
       siteMetadata: {
-        title: "ECONNESSIONE",
-        github: { repo: "econnessione", user: "ascariandrea" },
-        communityURL: "https://community.econnessione.org/",
+        title: "lies.exposed",
+        github: { user: "lies-exposed", repo: "lies.exposed", },
+        // communityURL: "https://community.econnessione.org/",
       },
     },
   };
@@ -144,7 +144,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <AppBar className={classes.appBar} position="relative">
-      <Toolbar >
+      <Toolbar>
         <Typography
           variant="h6"
           className={classes.title}
@@ -153,23 +153,7 @@ const Header: React.FC<HeaderProps> = ({
           {title}
         </Typography>
 
-        <a href={communityURL} style={{ verticalAlign: "middle" }}>
-          <Button
-            startIcon={<MattermostIcon fontSize="small" variant="white" />}
-          />
-        </a>
-
-        <Button>
-          <iframe
-            src={`https://ghbtns.com/github-btn.html?user=${github.user}&repo=${github.repo}&type=star&count=true&size=small`}
-            frameBorder="0"
-            scrolling="0"
-            width="100"
-            height="20"
-            title="GitHub"
-            style={{ verticalAlign: "middle" }}
-          />
-        </Button>
+        <GithubButton {...github} />
         {menu.map((m) => {
           const buttonRef =
             m.subItems.length > 0
