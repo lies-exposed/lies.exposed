@@ -23,7 +23,7 @@
     "@types/eslint": "^8.4.1",
     "@types/html-replace-webpack-plugin": "^2.6.1",
     "@types/mini-css-extract-plugin": "^2.5.1",
-    "@types/prettier": "^2.4.3",
+    "@types/prettier": "^2.4.4",
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@types/webpack-node-externals": "^2.5.3",
     "copy-webpack-plugin": "^9.1.0",
