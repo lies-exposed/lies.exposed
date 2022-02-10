@@ -1,7 +1,9 @@
-import { brands } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 
-export const GithubIcon: React.FC = () => (
-  <FontAwesomeIcon icon={brands("github")} />
-);
+export const GithubIcon: React.FC<Omit<FontAwesomeIconProps, "icon">> = (
+  props
+) => <FontAwesomeIcon {...props} icon={["fab", "github"]} />;

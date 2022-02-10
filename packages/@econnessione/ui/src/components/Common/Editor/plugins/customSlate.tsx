@@ -65,7 +65,7 @@ const customSlate = slate((def) => {
         paragraph: def.plugins.paragraphs.paragraph((pDef) => ({
           ...pDef, // spread it, so that the new config contains all defaults
           Component: ({ className, style, children }) => (
-            <Typography className={className} variant="body2" style={style}>
+            <Typography className={className} variant="body1" style={style}>
               {children}
             </Typography>
           ),

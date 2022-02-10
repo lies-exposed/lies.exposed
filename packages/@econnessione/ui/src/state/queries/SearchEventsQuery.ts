@@ -6,24 +6,23 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media,
+  Media
 } from "@econnessione/shared/io/http";
 import { GetSearchEVentsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
-import { API, APIError } from "@econnessione/shared/providers/api.provider";
+import { APIError } from "@econnessione/shared/providers/api.provider";
 import { available } from "avenger";
 import { queryStrict } from "avenger/lib/Query";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
 import * as M from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
+import * as TE from "fp-ts/lib/TaskEither";
 import { SearchEvent } from "../../components/lists/EventList/EventListItem";
+import { api } from '../api';
 
-export const api = API({
-  baseURL: process.env.API_URL,
-});
+
 
 const log = GetLogger("search-events-query");
 

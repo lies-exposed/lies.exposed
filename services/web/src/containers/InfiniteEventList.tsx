@@ -110,10 +110,6 @@ const BottomReach: React.FC<BottomReachProps> = (props) => {
     <div ref={listRef} style={{ width: 300, height: 100, margin: "auto" }}>
       {isLoading && props.loadedElements < props.totalElements ? (
         <CircularProgress />
-      ) : props.loadedElements === props.totalElements ? (
-        <Typography variant="h5">
-          All {props.totalElements} events loaded.
-        </Typography>
       ) : (
         <Typography variant="caption">
           {props.loadedElements}/{props.totalElements}

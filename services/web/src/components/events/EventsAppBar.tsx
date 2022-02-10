@@ -125,7 +125,7 @@ const EventsAppBarMinimal: React.FC<EventsAppBarMinimalProps> = (props) => {
                   <Typography
                     display="inline"
                     variant="h5"
-                    color="primary"
+                    color="secondary"
                     className={classes.filterLabel}
                   >
                     {totalEvents}

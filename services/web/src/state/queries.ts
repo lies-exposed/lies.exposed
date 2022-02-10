@@ -250,8 +250,3 @@ export const deathsPaginated = queryStrict<
   )(IL_DEATH_KEY_PREFIX),
   refetch
 );
-
-export const githubRepo = queryStrict(
-  () => api.get("https://api.github.com/repos/lies-exposed/lies.exposed"),
-  available
-);

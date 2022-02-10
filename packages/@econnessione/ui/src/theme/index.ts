@@ -10,7 +10,7 @@ import {
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
 
-const primary = "#FF5E5B"
+const primary = "#FF5E5B";
 const primaryLight = lighten(primary, 20);
 const primaryDark = darken(primary, 20);
 
@@ -38,32 +38,42 @@ const ECOTheme = createTheme({
     fontWeightRegular: 400,
     fontWeightBold: 600,
     h1: {
-      fontFamily: primaryFontFamily,
+      fontFamily: secondaryFontFamily,
       marginBottom: 40,
+      fontWeight: 600,
     },
     h2: {
-      fontFamily: primaryFontFamily,
+      fontFamily: secondaryFontFamily,
       marginBottom: 30,
+      fontWeight: 600,
     },
     h3: {
-      fontFamily: primaryFontFamily,
+      fontFamily: secondaryFontFamily,
       marginBottom: 20,
+      fontWeight: 600,
     },
     h4: {
-      fontFamily: primaryFontFamily,
+      fontFamily: secondaryFontFamily,
       marginBottom: 20,
+      fontWeight: 600,
     },
     h5: {
-      fontFamily: primaryFontFamily,
+      fontFamily: secondaryFontFamily,
       marginBottom: 20,
+      fontWeight: 600,
     },
     h6: {
-      fontFamily: primaryFontFamily,
+      fontFamily: secondaryFontFamily,
       marginBottom: 20,
+      fontWeight: 600,
     },
     body1: {
-      fontSize: 18,
       fontFamily: secondaryFontFamily,
+      fontWeight: 400,
+    },
+    body2: {
+      fontFamily: primaryFontFamily,
+      fontWeight: 300,
     },
   }),
   overrides: {
@@ -72,7 +82,7 @@ const ECOTheme = createTheme({
         html: {
           WebkitFontSmoothing: "auto",
           // html: "100%",
-          fontFamily: secondaryFontFamily,
+          fontFamily: primaryFontFamily,
         },
       },
     },

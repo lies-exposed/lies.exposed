@@ -1,6 +1,7 @@
 import { BreadCrumb } from "@econnessione/ui/components/Common/BreadCrumb";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import "@econnessione/ui/components/Common/Icons/library";
 import { Footer } from "@econnessione/ui/components/Footer";
 import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
 import { ECOTheme } from "@econnessione/ui/theme";
@@ -12,11 +13,11 @@ import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
 import ActorsPage from "./pages/ActorsPage";
 import BlogPage from "./pages/BlogPage";
+import VaccineDashboard from "./pages/dashboards/VaccineDashboard";
 import { DocsPage } from "./pages/DocsPage";
 import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
 import KeywordsPage from "./pages/KeywordsPage";
-import VaccineDashboard from "./pages/dashboards/VaccineDashboard";
 import ProjectPage from "./pages/project";
 import ActorTemplate from "./templates/ActorTemplate";
 import ArticleTemplate from "./templates/ArticleTemplate";
@@ -26,7 +27,7 @@ import KeywordTemplate from "./templates/KeywordTemplate";
 import {
   CurrentView,
   currentView,
-  doUpdateCurrentView,
+  doUpdateCurrentView
 } from "./utils/location.utils";
 
 const dataMenuItem = {

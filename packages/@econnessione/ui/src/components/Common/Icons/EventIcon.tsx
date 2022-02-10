@@ -2,12 +2,11 @@ import {
   Death,
   Event,
   Patent,
-  ScientificStudy
+  ScientificStudy,
 } from "@econnessione/shared/io/http/Events";
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'; // <-- import styles to be used
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SvgIconProps } from "@material-ui/core";
-import { EventNote, HighlightOff, Radio } from "@material-ui/icons";
+import { EventNote, Radio } from "@material-ui/icons";
 import * as React from "react";
 
 interface EventIconProps extends SvgIconProps {
@@ -20,15 +19,22 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
       return (
         <FontAwesomeIcon
           {...props}
-          mask={solid('flask')}
-          icon={solid('flask')}
-          style={{ color: "lightblue" }}
+          mask={undefined}
+          icon={"flask"}
+          style={{ ...props.style, color: "lightblue" }}
         />
       );
     case Death.DEATH.value:
-      return <HighlightOff {...props} style={{ color: "red" }} />;
+      return (
+        <FontAwesomeIcon
+          {...props}
+          mask={undefined}
+          icon={"skull-crossbones"}
+          style={{ ...props.style, color: "black" }}
+        />
+      );
     case Patent.PATENT.value:
-      return <Radio {...props} style={{ color: "purple" }} />;
+      return <Radio {...props} style={{ ...props.style, color: "purple" }} />;
     default:
       return <EventNote {...props} />;
   }
