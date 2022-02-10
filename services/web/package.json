@@ -37,7 +37,7 @@
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
     "is-plain-object": "^5.0.0",
-    "node-sass": "4.14.1",
+    "node-sass": "7.0.0",
     "ol": "^6.12.0",
     "prop-types": "^15.8.1",
     "query-string": "^7.1.1",
