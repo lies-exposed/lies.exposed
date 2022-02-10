@@ -45,7 +45,13 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
     >
       <Grid container spacing={2} style={{ width: "100%" }}>
         <Grid item md={8} sm={12} xs={12}>
-          <Typography variant="h6" onClick={() => onClick?.(item)}>
+          <Typography
+            variant="h6"
+            onClick={() => onClick?.(item)}
+            style={{
+              marginBottom: 10,
+            }}
+          >
             {item.payload.title}
           </Typography>
           <Grid item md={12} style={{ marginBottom: 20 }}>
@@ -66,7 +72,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         </Grid>
         <Grid
           item
-          lg={4}
+          lg={12}
           md={12}
           sm={12}
           xs={12}
@@ -90,8 +96,14 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                 // eslint-disable-next-line react/jsx-key
                 <Slider
                   slides={media}
-                  style={{ maxWidth: 600, maxHeight: 500, margin: "auto" }}
+                  style={{
+                    maxWidth: 600,
+                    maxHeight: 500,
+                    margin: "auto",
+                    width: "100%",
+                  }}
                   itemStyle={{
+                    width: "100%",
                     maxWidth: 800,
                     maxHeight: 500,
                     minHeight: 300,
