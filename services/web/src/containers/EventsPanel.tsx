@@ -69,10 +69,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   }>({
     currentPage: 1,
     filters: {
-      deaths: true,
-      uncategorized: true,
-      scientificStudies: true,
-      patents: true,
+      deaths: false,
+      uncategorized: false,
+      scientificStudies: false,
+      patents: false,
     },
   });
 

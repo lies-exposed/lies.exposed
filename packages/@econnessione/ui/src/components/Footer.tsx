@@ -86,7 +86,7 @@ export const Footer: React.FC = () => {
             <MenuList title="Community" disablePadding={true}>
               <MenuItem disableGutters={true}>
                 <Link className={classes.link} href={github.link}>
-                  <GithubIcon style={{ color: "red" }} />{" "}
+                  <GithubIcon style={{ color: "white" }} />{" "}
                   <Typography
                     className={classes.linkText}
                     variant="subtitle1"
