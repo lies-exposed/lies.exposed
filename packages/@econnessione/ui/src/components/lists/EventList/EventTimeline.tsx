@@ -19,7 +19,7 @@ const byEqualDate = pipe(
 const useStyles = makeStyles((props) => ({
   timeline: {
     padding: 0,
-    width: '100%'
+    width: "100%",
   },
   listSubheader: {
     backgroundColor: props.palette.common.white,
@@ -105,7 +105,7 @@ const EventsTimeline: React.FC<EventListProps> = ({
     <Timeline
       className={classes.timeline}
       {...props}
-      style={{ padding: 0, ...props.style }}
+      style={{ padding: 0, height: "100%", overflow: "auto", ...props.style }}
     >
       {orderedEvents.map((ee, i) =>
         renderHeaderRow({

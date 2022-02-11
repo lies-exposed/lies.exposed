@@ -12,7 +12,11 @@ export const TabPanel: React.FC<any> = (props) => {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box padding={0}>{children}</Box>}
+      {value === index && (
+        <Box height="100%" width="100%" padding={0}>
+          {children}
+        </Box>
+      )}
     </div>
   );
 };

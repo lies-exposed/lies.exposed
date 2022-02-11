@@ -7,7 +7,7 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
-export class DocsPage extends React.PureComponent<RouteComponentProps> {
+class DocsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
     return (
       <ContentWithSidebar
@@ -27,3 +27,5 @@ export class DocsPage extends React.PureComponent<RouteComponentProps> {
     );
   }
 }
+
+export default DocsPage;

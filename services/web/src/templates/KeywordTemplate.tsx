@@ -42,6 +42,7 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
             actors={[]}
             groups={[]}
             keywords={[]}
+            groupsMembers={[]}
             onActorClick={() => {}}
             onGroupClick={() => {}}
             onGroupMemberClick={() => {}}

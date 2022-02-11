@@ -28,7 +28,7 @@ export const ScientificStudyListItem: React.FC<
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item lg={8} md={8}>
+        <Grid item lg={10} md={8}>
           <Typography variant="h6">{item.payload.title}</Typography>
           <Link
             href={item.payload.url}
@@ -38,8 +38,8 @@ export const ScientificStudyListItem: React.FC<
             {item.payload.url}
           </Link>
         </Grid>
-        <Grid item lg={8} md={8} sm={12}>
-          {item.body ? <Editor readOnly value={item.body as any} /> : null}
+        <Grid item lg={10} md={10} sm={12}>
+          {item.excerpt ? <Editor readOnly value={item.excerpt as any} /> : null}
         </Grid>
         <Grid
           item

@@ -49,6 +49,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
         onClick={() => {
           setOpen(true);
         }}
+        loading="lazy"
       />
 
       <Modal

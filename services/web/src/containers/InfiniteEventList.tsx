@@ -126,10 +126,11 @@ const InfiniteEventList: React.FC<EventListProps> = ({
   filters,
   events,
   totals,
-  onBottomReached: onBottomReach,
+  onBottomReached,
   actors,
   groups,
   keywords,
+  groupsMembers,
   ...onClickProps
 }) => {
   const allEvents = pipe(
@@ -145,8 +146,8 @@ const InfiniteEventList: React.FC<EventListProps> = ({
     totals.uncategorized + totals.deaths + totals.scientificStudies;
 
   return (
-    <Box style={{ width: "100%", padding: 0 }} padding={0}>
-      <Box width="100%" padding={0}>
+    <Box style={{ width: "100%", height: "100%", }} padding={0}>
+      <Box width="100%" padding={0} height="100%">
         <EventsTimeline
           className="events"
           events={allEvents}
@@ -170,7 +171,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
         currentPage={queryFilters.page ?? 1}
         loadedElements={allEvents.length}
         totalElements={totalEvents}
-        onBottomReach={onBottomReach}
+        onBottomReach={onBottomReached}
       />
     </Box>
   );

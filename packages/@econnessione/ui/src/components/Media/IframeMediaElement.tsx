@@ -21,6 +21,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
         width: "100%",
         ...props.style,
       }}
+      loading="lazy"
       allowFullScreen={true}
     />
   );

@@ -1,9 +1,10 @@
 import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
 import { EventTotals } from "@econnessione/ui/state/queries/SearchEventsQuery";
-import { Box, Chip, IconButton, Typography } from "@material-ui/core";
+import { Box, IconButton, Typography } from "@material-ui/core";
 import * as React from "react";
+import EventsAppBar, { EventsAppBarMinimalProps } from "./EventsAppBar";
 
-export interface EventsTotalsProps {
+export interface EventsTotalsProps extends Omit<EventsAppBarMinimalProps, 'events' | 'className'> {
   filters: {
     uncategorized: boolean;
     deaths: boolean;
@@ -11,6 +12,7 @@ export interface EventsTotalsProps {
     patents: boolean;
   };
   totals: EventTotals;
+  appBarClassName: string;
   onFilterChange: (f: EventsTotalsProps["filters"]) => void;
 }
 
@@ -18,12 +20,15 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
   totals,
   filters,
   onFilterChange,
+  appBarClassName,
+  ...props
 }) => {
   const totalEvents = Object.entries(totals).reduce(
     (acc, [, tot]) => acc + tot,
     0
   );
-  return (
+
+  const totalsBox = (
     <Box display="flex">
       <IconButton
         color="primary"
@@ -82,11 +87,18 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
         variant="h5"
         color="secondary"
         style={{
-          margin: 'auto'
+          margin: "auto",
+          marginRight: 0,
         }}
       >
         {totalEvents}
       </Typography>
     </Box>
+  );
+
+  return (
+    <EventsAppBar {...props} className={appBarClassName} totals={totals}>
+      {totalsBox}
+    </EventsAppBar>
   );
 };

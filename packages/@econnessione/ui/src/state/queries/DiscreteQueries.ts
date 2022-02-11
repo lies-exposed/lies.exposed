@@ -1,12 +1,17 @@
+import { ListActorOutput } from "@econnessione/shared/endpoints/actor.endpoints";
 import { APIError } from "@econnessione/shared/providers/api.provider";
 import { available, queryStrict } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { GetListParams } from "react-admin";
 import { Queries } from "../../providers/DataProvider";
 
-export const actorsDiscreteQuery = queryStrict((input: GetListParams) => {
+export const actorsDiscreteQuery = queryStrict<
+  GetListParams,
+  APIError,
+  ListActorOutput
+>((input: GetListParams) => {
   return input.filter.ids.length === 0
-    ? TE.right<APIError, any>({ data: [], total: 0 })
+    ? TE.right<APIError, ListActorOutput>({ data: [], total: 0 })
     : Queries.Actor.getList.run(input as any);
 }, available);
 

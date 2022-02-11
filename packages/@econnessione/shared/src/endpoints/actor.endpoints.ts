@@ -9,8 +9,11 @@ import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
 
-const SingleActorOutput = Output(Actor.Actor, "Actor");
-const ListActorOutput = ListOutput(Actor.Actor, "Actors");
+export const SingleActorOutput = Output(Actor.Actor, "Actor");
+export type SingleActorOutput = t.TypeOf<typeof SingleActorOutput>
+
+export const ListActorOutput = ListOutput(Actor.Actor, "Actors");
+export type ListActorOutput = t.TypeOf<typeof ListActorOutput>
 
 export const List = Endpoint({
   Method: "GET",

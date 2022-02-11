@@ -5,13 +5,14 @@ import KeywordList, { KeywordListItem } from "../lists/KeywordList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteKeywordInputProps {
+  className?: string;
   selectedItems: Keyword.Keyword[];
   onItemClick: (item: Keyword.Keyword[]) => void;
 }
 
 export const AutocompleteKeywordInput: React.FC<
   AutocompleteKeywordInputProps
-> = ({ selectedItems, onItemClick }) => {
+> = ({ selectedItems, onItemClick, ...props }) => {
   return (
     <AutocompleteInput<Keyword.Keyword>
       placeholder="Keyword..."
@@ -39,6 +40,7 @@ export const AutocompleteKeywordInput: React.FC<
         />
       )}
       onItemsChange={onItemClick}
+      {...props}
     />
   );
 };

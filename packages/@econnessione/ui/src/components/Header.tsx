@@ -16,8 +16,8 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { ECOTheme } from "../theme/index";
-import GithubButton from "./GithubButton";
 import DonateButton from "./Common/Button/DonateButton";
+import GithubButton from "./GithubButton";
 
 const useStyles = makeStyles<ECOTheme>((theme) =>
   createStyles({
@@ -27,6 +27,7 @@ const useStyles = makeStyles<ECOTheme>((theme) =>
     appBar: {
       backgroundColor: theme.overrides?.MuiAppBar?.colorPrimary as any,
       boxShadow: "none",
+      zIndex: theme.zIndex.drawer + 1,
     },
     menuButton: {
       marginRight: theme.spacing(2),

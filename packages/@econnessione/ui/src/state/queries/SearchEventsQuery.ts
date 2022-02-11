@@ -6,7 +6,7 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media
+  Media,
 } from "@econnessione/shared/io/http";
 import { GetSearchEVentsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { APIError } from "@econnessione/shared/providers/api.provider";
@@ -20,9 +20,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import { SearchEvent } from "../../components/lists/EventList/EventListItem";
-import { api } from '../api';
-
-
+import { api } from "../api";
 
 const log = GetLogger("search-events-query");
 
@@ -42,6 +40,7 @@ export interface SearchEventQueryResult {
   events: SearchEvent[];
   actors: Actor.Actor[];
   groups: Group.Group[];
+  groupsMembers: GroupMember.GroupMember[];
   keywords: Keyword.Keyword[];
   totals: EventTotals;
 }
@@ -188,6 +187,7 @@ const mergeState = (
         actors: r.actors,
         groups: r.groups,
         keywords: r.keywords,
+        groupsMembers: r.groupsMembers,
         totals: {
           deaths: update.events.totals.deaths,
           scientificStudies: update.events.totals.scientificStudies,
@@ -205,6 +205,11 @@ const mergeState = (
           ),
           groups: pipe(
             groups,
+            M.toArray(S.Ord),
+            A.map((v) => v[1])
+          ),
+          groupsMembers: pipe(
+            groupsMembers,
             M.toArray(S.Ord),
             A.map((v) => v[1])
           ),
