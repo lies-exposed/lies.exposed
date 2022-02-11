@@ -59,7 +59,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         <Grid container style={{ marginBottom: 20 }}>
           <Grid item md={6}>
             <Typography variant="h6">Sotto Gruppi</Typography>
-            <GroupList groups={[]} onGroupClick={() => {}} />
+            <GroupList groups={[]} onItemClick={() => {}} />
           </Grid>
 
           <Grid item md={6}>

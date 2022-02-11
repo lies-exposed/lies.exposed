@@ -59,15 +59,15 @@ const projectMenuItem = {
 export const mainMenu: HeaderMenuItem[] =
   process.env.NODE_ENV === "development"
     ? [
-        projectMenuItem,
-        {
-          view: "blog",
-          label: "Blog",
-          subItems: [],
-        },
-        dataMenuItem,
+        // projectMenuItem,
+        // {
+        //   view: "blog",
+        //   label: "Blog",
+        //   subItems: [],
+        // },
+        // dataMenuItem,
       ]
-    : [projectMenuItem, dataMenuItem];
+    : [dataMenuItem];
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console

@@ -192,7 +192,7 @@ const EventsAppBarMinimal: React.FC<EventsAppBarMinimalProps> = (props) => {
                     </Typography>
                     <GroupList
                       groups={groups.map((g) => ({ ...g, selected: true }))}
-                      onGroupClick={() => {}}
+                      onItemClick={() => {}}
                     />
                   </Box>
                 ) : null}

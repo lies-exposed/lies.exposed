@@ -61,7 +61,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       <GroupsList
         style={style}
         groups={groups.map((a) => ({ ...a, selected: true }))}
-        onGroupClick={onGroupClick}
+        onItemClick={onGroupClick}
       />
       <GroupsMembersList
         style={style}

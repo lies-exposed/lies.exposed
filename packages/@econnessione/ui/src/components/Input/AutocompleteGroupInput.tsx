@@ -35,7 +35,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
             ...i,
             selected: true,
           }))}
-          onGroupClick={(g) => onChange(items.filter((i) => i.id !== g.id))}
+          onItemClick={(g) => onChange(items.filter((i) => i.id !== g.id))}
         />
       )}
       renderOption={(item, state) => (

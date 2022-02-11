@@ -14,7 +14,13 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
     <iframe
       {...props}
       src={media.location}
-      style={{ minHeight: 300, maxWidth: 800, width: "100%", ...props.style }}
+      style={{
+        display: "flex",
+        minHeight: 300,
+        maxWidth: 800,
+        width: "100%",
+        ...props.style,
+      }}
       allowFullScreen={true}
     />
   );

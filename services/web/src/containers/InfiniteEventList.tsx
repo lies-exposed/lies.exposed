@@ -129,6 +129,7 @@ const InfiniteEventList: React.FC<EventListProps> = ({
   onBottomReached: onBottomReach,
   actors,
   groups,
+  keywords,
   ...onClickProps
 }) => {
   const allEvents = pipe(

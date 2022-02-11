@@ -14,6 +14,7 @@ import { ActorList } from "./lists/ActorList";
 interface ActorsBoxProps {
   ids: string[];
   onItemClick: (item: Actor) => void;
+  style?: React.CSSProperties;
 }
 
 export const ActorsList: React.FC<{
@@ -49,9 +50,13 @@ export const ActorsList: React.FC<{
   );
 };
 
-export const ActorsBox: React.FC<ActorsBoxProps> = ({ ids, onItemClick }) => {
+export const ActorsBox: React.FC<ActorsBoxProps> = ({
+  ids,
+  style,
+  onItemClick,
+}) => {
   return (
-    <Box>
+    <Box style={style}>
       {/* <Typography variant="subtitle1">Actors</Typography> */}
       {pipe(
         ids,

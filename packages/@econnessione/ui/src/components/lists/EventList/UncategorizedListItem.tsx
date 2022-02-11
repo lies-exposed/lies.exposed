@@ -43,7 +43,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       }}
     >
       <Grid container spacing={2} style={{ width: "100%" }}>
-        <Grid item md={8} sm={12} xs={12}>
+        <Grid item md={10} sm={12} xs={12}>
           <Typography
             variant="h6"
             onClick={() => onClick?.(item)}
@@ -64,7 +64,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           </Grid>
 
           <Grid container>
-            <Grid item md={9} sm={9}>
+            <Grid item md={10} sm={10}>
               <Editor readOnly value={(item.excerpt as any) ?? null} />
             </Grid>
           </Grid>

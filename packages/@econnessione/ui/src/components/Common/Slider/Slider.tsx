@@ -61,6 +61,7 @@ export const Slider: React.FC<SliderProps> = ({
             media={s}
             style={{
               height: "100%",
+              margin: 'auto',
               ...itemStyle,
             }}
           />

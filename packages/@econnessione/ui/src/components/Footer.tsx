@@ -10,7 +10,7 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import * as React from "react";
 import { MattermostIcon } from "../icons/MattermostIcon/MattermostIcon";
 import { ECOTheme } from "../theme/index";
-import { PaypalDonateButton } from "./Common/Button/PaypalDonateButton";
+import DonateButton from "./Common/Button/DonateButton";
 import { GithubIcon } from "./Common/Icons";
 
 const useStyles = makeStyles<ECOTheme>((theme) =>
@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
   } = {
     site: {
       siteMetadata: {
-        title: "ECOnnessione",
+        title: "lies.exposed",
         github: { link: "https://github.com/ascariandrea/econnessione" },
         mattermost: { link: "https://community.econnessione.org" },
       },
@@ -66,7 +66,7 @@ export const Footer: React.FC = () => {
             <Typography className={classes.title} variant="h6">
               {title}
             </Typography>
-            <PaypalDonateButton />
+            <DonateButton />
           </Grid>
 
           <Grid item sm={4}></Grid>
