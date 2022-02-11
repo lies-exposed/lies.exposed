@@ -49,6 +49,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
               size="small"
               value={currentDateRange[0]}
               variant="outlined"
+              datatype="date"
               onChange={(e) =>
                 setCurrentDateRange([e.target.value, currentDateRange[1]])
               }
