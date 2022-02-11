@@ -5,6 +5,7 @@ import {
   GroupMember,
   Keyword,
 } from "@econnessione/shared/io/http";
+import { Death, ScientificStudy } from "@econnessione/shared/io/http/Events";
 import { SearchEvent } from "@econnessione/ui/components/lists/EventList/EventListItem";
 import EventsTimeline from "@econnessione/ui/components/lists/EventList/EventTimeline";
 import { SearchEventQueryResult } from "@econnessione/ui/state/queries/SearchEventsQuery";
@@ -131,7 +132,11 @@ const InfiniteEventList: React.FC<EventListProps> = ({
   ...onClickProps
 }) => {
   const allEvents = pipe(
-    filters.uncategorized ? events : [],
+    filters.deaths
+      ? events.filter((e) => e.type === Death.DEATH.value)
+      : filters.scientificStudies
+      ? events.filter((e) => ScientificStudy.ScientificStudyType.is(e.type))
+      : events,
     A.sort(eventsSort)
   );
 
