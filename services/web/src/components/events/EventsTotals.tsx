@@ -19,8 +19,12 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
   filters,
   onFilterChange,
 }) => {
+  const totalEvents = Object.entries(totals).reduce(
+    (acc, [, tot]) => acc + tot,
+    0
+  );
   return (
-    <Box>
+    <Box display="flex">
       <IconButton
         color="primary"
         style={{ marginRight: 10 }}
@@ -73,6 +77,16 @@ export const EventsTotals: React.FC<EventsTotalsProps> = ({
         <EventIcon type="Patent" style={{ marginRight: 10 }} />
         <Typography variant="caption">{totals.patents}</Typography>
       </IconButton>
+      <Typography
+        display="inline"
+        variant="h5"
+        color="secondary"
+        style={{
+          margin: 'auto'
+        }}
+      >
+        {totalEvents}
+      </Typography>
     </Box>
   );
 };

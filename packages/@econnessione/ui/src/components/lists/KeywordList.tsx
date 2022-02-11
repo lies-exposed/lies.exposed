@@ -19,6 +19,7 @@ export const KeywordListItem: React.FC<ListItemProps<KeywordListTopic>> = ({
 }) => (
   <Typography
     key={t.id}
+    variant="body2"
     style={{
       marginRight: 10,
       borderColor: `#${t.color}`,

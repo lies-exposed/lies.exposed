@@ -102,10 +102,9 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
                     width: "100%",
                   }}
                   itemStyle={{
-                    width: "100%",
                     maxWidth: 800,
                     maxHeight: 500,
-                    minHeight: 300,
+                    minHeight: 400,
                   }}
                 />
               )),

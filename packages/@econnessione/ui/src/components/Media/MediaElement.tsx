@@ -17,7 +17,13 @@ const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
         return (
           <IframeMediaElement
             media={{ ...media, type: "iframe/video" }}
-            style={props.style}
+            style={{
+              width: "100%",
+              minWidth: 400,
+              maxWidth: 800,
+              minHeight: 400,
+              ...props.style,
+            }}
           />
         );
       case Media.MediaType.types[4].value: {
@@ -33,7 +39,13 @@ const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
           <Box>
             <video
               src={media.location}
-              style={props.style}
+              style={{
+                width: "100%",
+                minWidth: 400,
+                maxWidth: 800,
+                minHeight: 400,
+                ...props.style,
+              }}
               controls={true}
               autoPlay={false}
             />

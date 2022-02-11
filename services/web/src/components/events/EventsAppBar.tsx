@@ -2,19 +2,17 @@ import {
   Actor,
   Group,
   GroupMember,
-  Keyword,
+  Keyword
 } from "@econnessione/shared/io/http";
 import { ActorList } from "@econnessione/ui/components/lists/ActorList";
 import GroupList from "@econnessione/ui/components/lists/GroupList";
 import { GroupsMembersList } from "@econnessione/ui/components/lists/GroupMemberList";
 import KeywordList from "@econnessione/ui/components/lists/KeywordList";
 import {
-  AppBar,
-  Chip,
-  Grid,
+  AppBar, Grid,
   makeStyles,
   Typography,
-  useTheme,
+  useTheme
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Slide from "@material-ui/core/Slide";
@@ -122,14 +120,6 @@ const EventsAppBarMinimal: React.FC<EventsAppBarMinimalProps> = (props) => {
                 }}
               >
                 <Box className={classes.filterBox}>
-                  <Typography
-                    display="inline"
-                    variant="h5"
-                    color="secondary"
-                    className={classes.filterLabel}
-                  >
-                    {totalEvents}
-                  </Typography>{" "}
                   <Typography variant="caption" className={classes.filterLabel}>
                     from
                   </Typography>
