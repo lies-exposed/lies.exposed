@@ -32,6 +32,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   onGroupClick,
   onGroupMemberClick,
   onKeywordClick,
+  ...props
 }) => {
   return (
     <Box

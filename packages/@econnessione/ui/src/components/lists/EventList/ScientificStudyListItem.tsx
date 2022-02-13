@@ -2,7 +2,6 @@ import * as io from "@econnessione/shared/io";
 import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
-import { Avatar } from "../../Common/Avatar";
 import Editor from "../../Common/Editor";
 import { LinksBox } from "../../LinksBox";
 import { SearchScientificStudyEvent } from "./EventListItem";
@@ -24,6 +23,8 @@ export const ScientificStudyListItem: React.FC<
       style={{
         width: "100%",
         marginBottom: 40,
+        maxHeight: 400,
+        overflow: 'hidden'
       }}
       onClick={() => onClick?.(item)}
     >
@@ -39,20 +40,9 @@ export const ScientificStudyListItem: React.FC<
           </Link>
         </Grid>
         <Grid item lg={10} md={10} sm={12}>
-          {item.excerpt ? <Editor readOnly value={item.excerpt as any} /> : null}
-        </Grid>
-        <Grid
-          item
-          lg={4}
-          md={8}
-          sm={12}
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <Avatar
-            size="xlarge"
-            src={item.payload.publisher.avatar}
-            fit="contain"
-          />
+          {item.excerpt ? (
+            <Editor readOnly value={item.excerpt as any} />
+          ) : null}
         </Grid>
         <Grid item sm={12}>
           <LinksBox ids={item.links} />

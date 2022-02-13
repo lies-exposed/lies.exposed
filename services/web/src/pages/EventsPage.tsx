@@ -39,10 +39,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
 
       <Grid
         item
-        lg={8}
+        lg={12}
         md={12}
         sm={12}
-        style={{ margin: 20, maxWidth: "100%", height: "100%" }}
+        style={{ maxWidth: "100%", height: "100%" }}
       >
         <EventsPanel
           view={{

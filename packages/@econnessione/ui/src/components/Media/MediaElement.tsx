@@ -1,6 +1,7 @@
 import { Media } from "@econnessione/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
+import { Video } from "../Video/Video";
 import ExpandableImageElement from "./ExpandableImageElement";
 import IframeMediaElement from "./IframeMediaElement";
 import PDFMediaElement from "./PDFMediaElement";
@@ -37,13 +38,17 @@ const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
       case Media.MediaType.types[3].value: {
         return (
           <Box>
-            <video
+            <Video
               src={media.location}
+              type={"video/mp4"}
+              muted={false}
+              loop={false}
               style={{
                 width: "100%",
                 minWidth: 400,
                 maxWidth: 800,
-                minHeight: 400,
+                minHeight: 300,
+                maxHeight: 400,
                 ...props.style,
               }}
               controls={true}

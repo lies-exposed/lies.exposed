@@ -49,25 +49,55 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
     e.type === Events.Uncategorized.UncategorizedType.value
       ? e.payload.groupsMembers
       : [];
-  
 
-  return (
-    <Box style={{ ...style, flexDirection: "column" }}>
-      <ActorList
-        style={style}
-        actors={actors.map((a) => ({ ...a, selected: true }))}
-        onActorClick={onActorClick}
-      />
-      <GroupsList
-        style={style}
-        groups={groups.map((a) => ({ ...a, selected: true }))}
-        onItemClick={onGroupClick}
-      />
-      <GroupsMembersList
-        style={style}
-        groupsMembers={groupsMembers.map((gm) => ({ ...gm, selected: true }))}
-        onItemClick={onGroupMemberClick}
-      />
-    </Box>
-  );
+  const content = React.useMemo(() => {
+    switch (e.type) {
+      case Events.Death.DEATH.value:
+        return (
+          <ActorList
+            style={style}
+            avatarSize="medium"
+            actors={actors.map((a) => ({ ...a, selected: true }))}
+            onActorClick={onActorClick}
+          />
+        );
+      case Events.ScientificStudy.ScientificStudyType.value:
+        return (
+          <Box style={{ ...style, flexDirection: "column" }}>
+            <GroupsList
+              style={style}
+              avatarSize="medium"
+              groups={groups.map((a) => ({ ...a, selected: true }))}
+              onItemClick={onGroupClick}
+            />
+          </Box>
+        );
+      default: {
+        return (
+          <>
+            <ActorList
+              style={style}
+              actors={actors.map((a) => ({ ...a, selected: true }))}
+              onActorClick={onActorClick}
+            />
+            <GroupsList
+              style={style}
+              groups={groups.map((a) => ({ ...a, selected: true }))}
+              onItemClick={onGroupClick}
+            />
+            <GroupsMembersList
+              style={style}
+              groupsMembers={groupsMembers.map((gm) => ({
+                ...gm,
+                selected: true,
+              }))}
+              onItemClick={onGroupMemberClick}
+            />
+          </>
+        );
+      }
+    }
+  }, [e.type]);
+
+  return <Box style={{ ...style, flexDirection: "column" }}>{content}</Box>;
 };

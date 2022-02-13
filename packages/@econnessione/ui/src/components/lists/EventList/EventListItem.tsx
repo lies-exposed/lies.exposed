@@ -4,8 +4,9 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media,
+  Media
 } from "@econnessione/shared/io/http";
+import { Death } from "@econnessione/shared/io/http/Events";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
 import PatentListItem from "./PatentListItem";
@@ -74,12 +75,22 @@ export type SearchEvent =
 
 export interface EventListItemProps {
   event: SearchEvent;
-  onClick: (e: SearchEvent) => void;
+  style?: React.CSSProperties;
+  onClick: (e: any) => void;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
   onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
 }
+
+export const getItemHeight = (e: SearchEvent): number => {
+  switch (e.type) {
+    case Death.DEATH.value:
+      return 300;
+    default:
+      return 300 + (e.media.length > 0 ? 400 : 0);
+  }
+};
 
 export const EventListItem: React.FC<EventListItemProps> = ({
   event: e,
