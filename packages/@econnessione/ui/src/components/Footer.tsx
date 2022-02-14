@@ -16,7 +16,7 @@ import { GithubIcon } from "./Common/Icons";
 const useStyles = makeStyles<ECOTheme>((theme) =>
   createStyles({
     root: {
-      flexGrow: 1,
+      display: 'flex',
       width: "100%",
       paddingTop: "20px",
       paddingBottom: "20px",

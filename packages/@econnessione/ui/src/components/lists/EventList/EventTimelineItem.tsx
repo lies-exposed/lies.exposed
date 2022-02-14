@@ -30,8 +30,24 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
         ...props.style,
       }}
     >
-      <Grid container justifyContent="center">
-        <Grid item md={10} lg={8}>
+      <Grid
+        container
+        justifyContent="center"
+        style={{
+          display: "flex",
+          height: "100%",
+        }}
+      >
+        <Grid
+          item
+          md={12}
+          lg={8}
+          style={{
+            flexGrow: 1,
+            display: "flex",
+            height: "100%",
+          }}
+        >
           <TimelineItem style={{ width: "100%" }}>
             <TimelineOppositeContent
               style={{ flex: 0, display: "flex", flexDirection: "column" }}
