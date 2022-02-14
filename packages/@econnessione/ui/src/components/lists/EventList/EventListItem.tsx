@@ -4,9 +4,8 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media
+  Media,
 } from "@econnessione/shared/io/http";
-import { Death } from "@econnessione/shared/io/http/Events";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
 import PatentListItem from "./PatentListItem";
@@ -85,10 +84,13 @@ export interface EventListItemProps {
 
 export const getItemHeight = (e: SearchEvent): number => {
   switch (e.type) {
-    case Death.DEATH.value:
-      return 300;
     default:
-      return 300 + (e.media.length > 0 ? 400 : 0);
+      return (
+        200 +
+        ((e.excerpt as any)?.rows?.length > 0 ? 200 : 0) +
+        (e.media.length > 0 ? 400 : 0) +
+        (e.links.length > 0 ? 50 : 0)
+      );
   }
 };
 

@@ -5,6 +5,7 @@ import { UUID } from "./Common/UUID";
 const JpgType = t.literal("image/jpg");
 const JpegType = t.literal("image/jpeg");
 const PngType = t.literal("image/png");
+
 export const MP4Type = t.literal("video/mp4");
 export type MP4Type = t.TypeOf<typeof MP4Type>
 export const PDFType = t.literal("application/pdf");

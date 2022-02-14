@@ -31,7 +31,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
       }}
     >
       <Grid container justifyContent="center">
-        <Grid item md={8}>
+        <Grid item md={10} lg={8}>
           <TimelineItem style={{ width: "100%" }}>
             <TimelineOppositeContent
               style={{ flex: 0, display: "flex", flexDirection: "column" }}
@@ -40,25 +40,24 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
                 {formatDate(e.date)}
               </Typography>
               <TimelineEventSubjects event={e} {...props} />
-              {process.env.NODE_ENV === "development" ? (
-                <Box
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "flex-end",
-                    justifyContent: "flex-end",
-                    flexGrow: 1,
-                  }}
+
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                  flexGrow: 1,
+                }}
+              >
+                <Link
+                  href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  <Link
-                    href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Edit
-                  </Link>
-                </Box>
-              ) : null}
+                  Edit
+                </Link>
+              </Box>
             </TimelineOppositeContent>
             <TimelineSeparator>
               <TimelineDot variant="outlined" color="inherit">

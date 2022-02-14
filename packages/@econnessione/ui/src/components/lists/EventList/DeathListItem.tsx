@@ -37,16 +37,17 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
           <Typography variant="h6">
             Death: {item.payload.victim?.fullName ?? item.payload.victim}
           </Typography>
-        </Grid>
-        <Grid item md={12} lg={12}>
           <KeywordList
             keywords={item.keywords.map((k) => ({ ...k, selected: true }))}
             onItemClick={(k) => onKeywordClick?.(k)}
           />
         </Grid>
-        <Grid item lg={8} md={8} sm={12}>
-          <Editor value={item.excerpt as any} readOnly />
-        </Grid>
+        {(item?.excerpt as any)?.rows?.length > 0 ? (
+          <Grid item lg={8} md={8} sm={12}>
+            <Editor value={item.excerpt as any} readOnly />
+          </Grid>
+        ) : null}
+
         <Grid item lg={8} md={12} sm={12} xs={12}>
           <LinksBox ids={item.links} />
         </Grid>
