@@ -12,6 +12,10 @@ import {
   groupsMembersDiscreteQuery,
   keywordsDiscreteQuery,
 } from "@econnessione/ui/state/queries/DiscreteQueries";
+import {
+  SearchEventQueryResult,
+  searchEventsQuery,
+} from "@econnessione/ui/state/queries/SearchEventsQuery";
 import { ECOTheme } from "@econnessione/ui/theme";
 import {
   Box,
@@ -30,6 +34,7 @@ import { WithQueries } from "avenger/lib/react";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
+import { IndexRange } from "react-virtualized";
 import EventsFilter from "../components/events/EventsFilter";
 import { EventsTotals } from "../components/events/EventsTotals";
 import {
@@ -104,9 +109,11 @@ const useStyles = makeStyles((theme: ECOTheme) =>
     content: {
       flexGrow: 1,
       height: "100%",
+      width: "100%",
       display: "flex",
       flexDirection: "column",
     },
+    mdFilters: {},
   })
 );
 
@@ -145,6 +152,15 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [searchEvents, setSearchEvents] =
+    React.useState<SearchEventQueryResult>({
+      events: [],
+      actors: [],
+      groups: [],
+      groupsMembers: [],
+      keywords: [],
+      totals: { uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0 },
+    });
 
   const handleDrawerOpen = (): void => {
     setOpen(true);
@@ -212,6 +228,25 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     },
     [params]
   );
+
+  const onLoadMoreEvents = async (params: IndexRange): Promise<void> => {
+    return await searchEventsQuery
+      .run({
+        ...params,
+        hash,
+        _start: params.startIndex as any,
+        _end: params.stopIndex as any,
+      })()
+      .then((result) => {
+        if (result._tag === "Right") {
+          setSearchEvents(result.right);
+        }
+
+        return new Promise((resolve) => {
+          setTimeout(resolve, 100);
+        });
+      });
+  };
 
   return (
     <WithQueries
@@ -288,26 +323,16 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                   item
                   sm={12}
                   md={12}
-                  lg={12}
+                  lg={10}
                   style={{
                     display: "flex",
                     justifyContent: "flex-end",
                     flexDirection: "column",
+                    margin: "auto",
                   }}
                 >
-                  <Hidden mdUp>
-                    <Grid item sm={12}>
-                      {eventFilters}
-                    </Grid>
-                  </Hidden>
-
                   <EventsTotals
-                    totals={{
-                      uncategorized: 0,
-                      deaths: 0,
-                      patents: 0,
-                      scientificStudies: 0,
-                    }}
+                    totals={searchEvents.totals}
                     actors={filterActors.data}
                     groups={filterGroups.data}
                     keywords={filterGroups.data}
@@ -324,16 +349,16 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                     }
                     onQueryChange={(f) => undefined}
                   />
+                  <Tabs
+                    style={{ width: "100%", marginBottom: 30 }}
+                    value={tab}
+                    onChange={(e, tab) => handleUpdateCurrentView({ tab })}
+                  >
+                    <Tab label="list" {...a11yProps(0)} />
+                    <Tab label="map" {...a11yProps(1)} />
+                    <Tab label="network" {...a11yProps(2)} />
+                  </Tabs>
                 </Grid>
-                <Tabs
-                  style={{ width: "100%", marginBottom: 30 }}
-                  value={tab}
-                  onChange={(e, tab) => handleUpdateCurrentView({ tab })}
-                >
-                  <Tab label="list" {...a11yProps(0)} />
-                  <Tab label="map" {...a11yProps(1)} />
-                  <Tab label="network" {...a11yProps(2)} />
-                </Tabs>
 
                 <TabPanel
                   className={clsx(classes.tabPanel, {
@@ -346,6 +371,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                     <EventsTimeline
                       hash={hash}
                       queryParams={params}
+                      data={searchEvents}
+                      onLoadMoreEvents={onLoadMoreEvents}
                       filters={filters}
                       onClick={(e) => {
                         if (e.type === "Death") {
@@ -431,6 +458,9 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                   ) : null}
                   <div />
                 </TabPanel>
+                <Hidden mdUp>
+                  <Box className={classes.mdFilters}>{eventFilters}</Box>
+                </Hidden>
               </main>
             </Box>
           );

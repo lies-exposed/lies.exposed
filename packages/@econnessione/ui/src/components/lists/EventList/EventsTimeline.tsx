@@ -1,9 +1,4 @@
-// import { groupBy } from "@econnessione/shared/utils/array.utils";
-// import { distanceFromNow } from "@econnessione/shared/utils/date";
 import { makeStyles } from "@material-ui/core";
-// import * as Eq from "fp-ts/lib/Eq";
-// import { pipe } from "fp-ts/lib/function";
-// import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import {
   AutoSizer,
@@ -11,23 +6,16 @@ import {
   IndexRange,
   InfiniteLoader,
   List,
-  ListRowProps,
+  ListRowProps
 } from "react-virtualized";
 import "react-virtualized/styles.css";
 import {
   SearchEventQueryInput,
   SearchEventQueryResult,
-  searchEventsQuery,
 } from "../../../state/queries/SearchEventsQuery";
+import { FullSizeLoader } from "../../Common/FullSizeLoader";
 import { EventListItemProps, getItemHeight } from "./EventListItem";
 import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
-
-// const byEqualDate = pipe(
-//   S.Eq,
-//   Eq.contramap((e: SearchEvent): string => {
-//     return distanceFromNow(e.date);
-//   })
-// );
 
 const useStyles = makeStyles((props) => ({
   timeline: {
@@ -46,7 +34,7 @@ const useStyles = makeStyles((props) => ({
 const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
   const { index, event, ...listItemProps } = props;
   if (!event) {
-    return <div />;
+    return <FullSizeLoader />;
   }
   return <EventTimelineItem {...listItemProps} key={event.id} event={event} />;
 };
@@ -55,17 +43,21 @@ export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
   style?: React.CSSProperties;
   hash: string;
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
+  data: SearchEventQueryResult;
   filters: {
     uncategorized: boolean;
     deaths: boolean;
     scientificStudies: boolean;
   };
+  onLoadMoreEvents: (params: IndexRange) => Promise<void> 
 }
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
     hash,
     queryParams,
+    data: searchEvents,
+    onLoadMoreEvents,
     onClick,
     onActorClick,
     onGroupClick,
@@ -79,20 +71,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   // );
 
   const classes = useStyles();
-  const [searchEvents, setSearchEvents] =
-    React.useState<SearchEventQueryResult>({
-      events: [],
-      actors: [],
-      groups: [],
-      groupsMembers: [],
-      keywords: [],
-      totals: {
-        uncategorized: 0,
-        scientificStudies: 0,
-        patents: 0,
-        deaths: 0,
-      },
-    });
 
   const itemProps = {
     classes,
@@ -111,22 +89,8 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
       return await Promise.resolve(undefined);
     }
 
-    return await searchEventsQuery
-      .run({
-        ...queryParams,
-        hash,
-        _start: params.startIndex as any,
-        _end: params.stopIndex as any,
-      })()
-      .then((result) => {
-        if (result._tag === "Right") {
-          setSearchEvents(result.right);
-        }
+    void onLoadMoreEvents(params)
 
-        return new Promise((resolve) => {
-          setTimeout(resolve, 100);
-        });
-      });
   };
 
   const isRowLoaded = (params: Index): boolean => {
@@ -134,14 +98,8 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   };
 
   React.useEffect(() => {
-    void searchEventsQuery
-      .run({ ...queryParams, hash, _start: 0 as any, _end: 20 as any })()
-      .then((result) => {
-        if (result._tag === "Right") {
-          setSearchEvents(result.right);
-        }
-      });
-  }, [queryParams]);
+      void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 })
+  }, []);
 
   // const allEvents = pipe(
   //   filters.deaths

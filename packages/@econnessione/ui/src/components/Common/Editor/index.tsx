@@ -32,6 +32,10 @@ export const cellPlugins = [
   gridCellPlugin,
 ] as any[];
 
+export const isValueEmpty = (v: Value): boolean => {
+  return v?.rows?.length > 0;
+}
+
 const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
   value: initialValue,
   ...props

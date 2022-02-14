@@ -1,13 +1,14 @@
 import * as io from "@econnessione/shared/io";
 import { Box, Grid, Link } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/lib/Option";
 import * as React from "react";
-import Editor from "../../Common/Editor";
+import { isValueEmpty } from "../../Common/Editor";
+import EllipsesContent from "../../Common/EllipsedContent";
 import { Slider } from "../../Common/Slider/Slider";
 import { LinksBox } from "../../LinksBox";
-import KeywordList from '../KeywordList';
+import KeywordList from "../KeywordList";
 import { SearchScientificStudyEvent } from "./EventListItem";
 
 interface ScientificStudyListItemProps {
@@ -36,21 +37,27 @@ export const ScientificStudyListItem: React.FC<
         <Grid item lg={10} md={8}>
           <Typography variant="h6">{item.payload.title}</Typography>
           <KeywordList
+            style={{
+              marginBottom: 10,
+            }}
             keywords={item.keywords.map((k) => ({ ...k, selected: true }))}
             onItemClick={(k) => onKeywordClick?.(k)}
           />
           <Link
             href={item.payload.url}
             target="_blank"
-            style={{ display: 'block', marginBottom: 20 }}
+            style={{ display: "block", marginBottom: 20 }}
           >
             {item.payload.url}
           </Link>
         </Grid>
 
-        {item.excerpt ? (
+        {isValueEmpty(item.excerpt as any) ? (
           <Grid item lg={10} md={10} sm={12}>
-            <Editor readOnly value={item.excerpt as any} />
+            <EllipsesContent
+              height={100}
+              content={(item.excerpt as any) ?? null}
+            />
           </Grid>
         ) : null}
 

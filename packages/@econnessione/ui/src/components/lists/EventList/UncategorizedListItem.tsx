@@ -7,10 +7,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/lib/Option";
 import * as React from "react";
-import Editor from "../../Common/Editor";
+import { isValueEmpty } from "../../Common/Editor";
+import EllipsesContent from "../../Common/EllipsedContent";
 import { Slider } from "../../Common/Slider/Slider";
 import { LinksBox } from "../../LinksBox";
 import KeywordList from "../KeywordList";
@@ -54,7 +55,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           >
             {item.payload.title}
           </Typography>
-          <Grid item md={12} style={{ marginBottom: 20 }}>
+          <Grid item md={12} style={{ marginBottom: 10 }}>
             <KeywordList
               keywords={item.keywords.map((t) => ({
                 ...t,
@@ -64,11 +65,14 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             />
           </Grid>
 
-          <Grid container>
+          {isValueEmpty(item.excerpt as any) ? (
             <Grid item md={10} sm={10}>
-              <Editor readOnly value={(item.excerpt as any) ?? null} />
+              <EllipsesContent
+                height={100}
+                content={(item.excerpt as any) ?? null}
+              />
             </Grid>
-          </Grid>
+          ) : null}
         </Grid>
         <Grid
           item
@@ -118,7 +122,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
             O.fromNullable(item.payload.location),
             O.fold(
               () => null,
-              () => <FontAwesomeIcon icon='map-marker' />
+              () => <FontAwesomeIcon icon="map-marker" />
             )
           )}
         </Grid>
