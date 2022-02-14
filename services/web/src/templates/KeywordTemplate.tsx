@@ -4,11 +4,11 @@ import { ContentWithSideNavigation } from "@econnessione/ui/components/ContentWi
 import { KeywordPageContent } from "@econnessione/ui/components/KeywordPageContent";
 import SEO from "@econnessione/ui/components/SEO";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
+import EventsTimeline from "@econnessione/ui/src/components/lists/EventList/EventsTimeline";
 import * as QR from "avenger/lib/QueryResult";
 import { useQueries } from "avenger/lib/react";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import InfiniteEventList from "@containers/InfiniteEventList";
 
 const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
   keywordId,
@@ -26,9 +26,9 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
         <ContentWithSideNavigation items={[]}>
           <SEO title={"keywords"} />
           <KeywordPageContent {...keyword} />
-          <InfiniteEventList
+          <EventsTimeline
             hash={`keyword-${keywordId}`}
-            queryFilters={{
+            queryParams={{
               keywords: [keyword.id],
             }}
             filters={{
@@ -36,12 +36,7 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
               scientificStudies: true,
               deaths: true,
             }}
-            totals={{ uncategorized: 0, deaths: 0, scientificStudies: 0, patents: 0 }}
-            onBottomReached={() => {}}
-            events={[]}
-            actors={[]}
-            groups={[]}
-            keywords={[]}
+            onClick={() => {}}
             onActorClick={() => {}}
             onGroupClick={() => {}}
             onGroupMemberClick={() => {}}

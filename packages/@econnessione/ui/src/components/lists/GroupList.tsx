@@ -12,7 +12,7 @@ export interface Group extends Group.Group {
 
 interface GroupListProps extends ListProps {
   groups: Group[];
-  onGroupClick: (actor: Group) => void;
+  onItemClick: (actor: Group) => void;
   avatarSize?: AvatarSize;
   displayName?: boolean;
 }
@@ -61,7 +61,7 @@ export const GroupListItem: React.FC<
 
 const GroupList: React.FC<GroupListProps> = ({
   groups,
-  onGroupClick,
+  onItemClick: onGroupClick,
   onClick,
   ...props
 }) => {

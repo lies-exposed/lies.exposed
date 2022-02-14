@@ -74,12 +74,25 @@ export type SearchEvent =
 
 export interface EventListItemProps {
   event: SearchEvent;
-  onClick: (e: SearchEvent) => void;
+  style?: React.CSSProperties;
+  onClick: (e: any) => void;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
   onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
 }
+
+export const getItemHeight = (e: SearchEvent): number => {
+  switch (e.type) {
+    default:
+      return (
+        200 +
+        ((e.excerpt as any)?.rows?.length > 0 ? 200 : 0) +
+        (e.media.length > 0 ? 400 : 0) +
+        (e.links.length > 0 ? 50 : 0)
+      );
+  }
+};
 
 export const EventListItem: React.FC<EventListItemProps> = ({
   event: e,

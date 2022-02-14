@@ -10,12 +10,13 @@ import {
   Paper,
   Popper,
   Toolbar,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { ECOTheme } from "../theme/index";
+import DonateButton from "./Common/Button/DonateButton";
 import GithubButton from "./GithubButton";
 
 const useStyles = makeStyles<ECOTheme>((theme) =>
@@ -26,6 +27,7 @@ const useStyles = makeStyles<ECOTheme>((theme) =>
     appBar: {
       backgroundColor: theme.overrides?.MuiAppBar?.colorPrimary as any,
       boxShadow: "none",
+      zIndex: theme.zIndex.drawer + 1,
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -85,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
     site: {
       siteMetadata: {
         title: "lies.exposed",
-        github: { user: "lies-exposed", repo: "lies.exposed", },
+        github: { user: "lies-exposed", repo: "lies.exposed" },
         // communityURL: "https://community.econnessione.org/",
       },
     },
@@ -153,6 +155,7 @@ const Header: React.FC<HeaderProps> = ({
           {title}
         </Typography>
 
+        <DonateButton />
         <GithubButton {...github} />
         {menu.map((m) => {
           const buttonRef =

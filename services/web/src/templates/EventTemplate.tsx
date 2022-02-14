@@ -19,7 +19,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
       }}
       render={QR.fold(Loader, ErrorBox, ({ event }) => {
         return (
-          <Box style={{ marginBottom: 100 }}>
+          <Box style={{ margin: 20, marginBottom: 100 }}>
             <EventPageContent
               event={event as any}
               onGroupClick={(g) => {

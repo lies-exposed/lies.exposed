@@ -8,6 +8,7 @@ import { ActorList, ActorListItem } from "../lists/ActorList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteActorInputProps {
+  className?: string;
   selectedItems: Actor.Actor[];
   onChange: (items: Actor.Actor[]) => void;
 }
@@ -15,6 +16,7 @@ interface AutocompleteActorInputProps {
 export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
   selectedItems,
   onChange,
+  ...props
 }) => {
   return (
     <AutocompleteInput<Actor.Actor>
@@ -50,6 +52,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
         />
       )}
       onItemsChange={onChange}
+      {...props}
     />
   );
 };

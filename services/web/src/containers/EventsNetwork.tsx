@@ -2,7 +2,7 @@ import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import {
   EventsNetworkGraph,
-  EventsNetworkGraphProps
+  EventsNetworkGraphProps,
 } from "@econnessione/ui/components/Graph/EventsNetworkGraph";
 import { searchEventsQuery } from "@econnessione/ui/state/queries/SearchEventsQuery";
 import * as QR from "avenger/lib/QueryResult";
@@ -29,10 +29,10 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   filter,
   ...props
 }) => {
-  const [currentPage, setCurrentPage] = React.useState(1);
   const eventsFilter = {
     ...filter,
-    page: currentPage,
+    _start: 0,
+    _end: 100,
   };
 
   return (
@@ -41,8 +41,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
       params={{
         events: {
           hash: "events-network",
-          perPage: 100,
-          ...eventsFilter,
+          ...(eventsFilter as any),
         },
       }}
       render={QR.fold(

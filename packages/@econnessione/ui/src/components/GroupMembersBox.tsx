@@ -14,12 +14,14 @@ import { GroupsMembersList } from "./lists/GroupMemberList";
 interface GroupMembersBoxProps {
   ids: string[];
   onItemClick: (g: GroupMember.GroupMember) => void;
+  style?: React.CSSProperties;
 }
 
 const GroupMembersList: React.FC<{
   ids: NEA.NonEmptyArray<string>;
   onItemClick: (g: GroupMember.GroupMember) => void;
-}> = ({ ids, onItemClick }) => {
+  style?: React.CSSProperties;
+}> = ({ ids, ...props }) => {
   return (
     <WithQueries
       queries={{ groupsMembers: Queries.GroupMember.getList }}
@@ -39,11 +41,11 @@ const GroupMembersList: React.FC<{
           // eslint-disable-next-line react/jsx-key
           return (
             <GroupsMembersList
+              {...props}
               groupsMembers={groupsMembers.map((a) => ({
                 ...a,
                 selected: true,
               }))}
-              onItemClick={onItemClick}
             />
           );
         }
@@ -54,17 +56,23 @@ const GroupMembersList: React.FC<{
 
 export const GroupMembersBox: React.FC<GroupMembersBoxProps> = ({
   ids,
+  style,
   onItemClick,
 }) => {
   return (
     <Box>
-      {/* <Typography variant="subtitle1">Groups Members</Typography> */}
       {pipe(
         ids,
         NEA.fromArray,
         O.fold(
           () => <Typography>-</Typography>,
-          (ids) => <GroupMembersList ids={ids} onItemClick={onItemClick} />
+          (ids) => (
+            <GroupMembersList
+              ids={ids}
+              style={style}
+              onItemClick={onItemClick}
+            />
+          )
         )
       )}
     </Box>

@@ -10,13 +10,26 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   media,
   ...props
 }) => {
-  return (
+  const [loaded, setLoaded] = React.useState(true);
+
+  return loaded ? (
     <iframe
       {...props}
       src={media.location}
-      style={{ minHeight: 300, maxWidth: 800, width: "100%", ...props.style }}
+      style={{
+        display: "flex",
+        minHeight: 300,
+        maxWidth: 800,
+        width: "100%",
+        ...props.style,
+      }}
+      loading="lazy"
       allowFullScreen={true}
     />
+  ) : (
+    <div onClick={() => setLoaded(true)} style={props.style}>
+      {media.description}
+    </div>
   );
 };
 

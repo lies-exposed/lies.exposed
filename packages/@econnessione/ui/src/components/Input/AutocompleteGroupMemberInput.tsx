@@ -8,13 +8,14 @@ import {
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteGroupMemberInputProps {
+  className?: string;
   selectedItems: GroupMember.GroupMember[];
   onItemClick: (item: GroupMember.GroupMember[]) => void;
 }
 
 export const AutocompleteGroupMemberInput: React.FC<
   AutocompleteGroupMemberInputProps
-> = ({ selectedItems, onItemClick }) => {
+> = ({ selectedItems, onItemClick, ...props }) => {
   return (
     <AutocompleteInput<GroupMember.GroupMember>
       placeholder="Group Member..."
@@ -42,6 +43,7 @@ export const AutocompleteGroupMemberInput: React.FC<
         />
       )}
       onItemsChange={onItemClick}
+      {...props}
     />
   );
 };

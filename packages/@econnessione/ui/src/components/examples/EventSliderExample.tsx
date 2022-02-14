@@ -4,7 +4,7 @@ import * as React from "react";
 import { EventSlider, EventSliderProps } from "../sliders/EventSlider";
 
 export const eventSliderArgs: EventSliderProps = {
-  filter: {} as any,
+  params: {} as any,
   onClick: () => undefined,
 };
 

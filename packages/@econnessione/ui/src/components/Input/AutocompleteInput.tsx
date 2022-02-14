@@ -103,7 +103,7 @@ export const AutocompleteInput = <T extends { id: string }>({
                 <TextField
                   {...params}
                   placeholder={placeholder}
-                  variant="outlined"
+                  variant="standard"
                   onChange={(e) => {
                     const v = e.target.value;
                     handleValueChange(v);

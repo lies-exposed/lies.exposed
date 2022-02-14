@@ -117,7 +117,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 {groupBy === "actor" ? (
                   <ActorList actors={actors} onActorClick={() => {}} />
                 ) : groupBy === "group" ? (
-                  <GroupList groups={groups} onGroupClick={() => {}} />
+                  <GroupList groups={groups} onItemClick={() => {}} />
                 ) : (
                   <KeywordList keywords={keywords} onItemClick={() => {}} />
                 )}

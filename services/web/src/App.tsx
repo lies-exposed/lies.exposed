@@ -1,6 +1,9 @@
 import { BreadCrumb } from "@econnessione/ui/components/Common/BreadCrumb";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import {
+  FullSizeLoader,
+  LazyFullSizeLoader,
+} from "@econnessione/ui/components/Common/FullSizeLoader";
 import "@econnessione/ui/components/Common/Icons/library";
 import { Footer } from "@econnessione/ui/components/Footer";
 import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
@@ -11,24 +14,27 @@ import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
-import ActorsPage from "./pages/ActorsPage";
-import BlogPage from "./pages/BlogPage";
-import { DocsPage } from "./pages/DocsPage";
-import EventsPage from "./pages/EventsPage";
-import GroupsPage from "./pages/GroupsPage";
-import KeywordsPage from "./pages/KeywordsPage";
-import VaccineDashboard from "./pages/dashboards/VaccineDashboard";
 import ProjectPage from "./pages/project";
-import ActorTemplate from "./templates/ActorTemplate";
-import ArticleTemplate from "./templates/ArticleTemplate";
-import EventTemplate from "./templates/EventTemplate";
-import GroupTemplate from "./templates/GroupTemplate";
-import KeywordTemplate from "./templates/KeywordTemplate";
 import {
   CurrentView,
   currentView,
-  doUpdateCurrentView
+  doUpdateCurrentView,
 } from "./utils/location.utils";
+
+const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
+const BlogPage = React.lazy(() => import("./pages/BlogPage"));
+const DocsPage = React.lazy(() => import("./pages/DocsPage"));
+const EventsPage = React.lazy(() => import("./pages/EventsPage"));
+const GroupsPage = React.lazy(() => import("./pages/GroupsPage"));
+const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage"));
+const VaccineDashboard = React.lazy(
+  () => import("./pages/dashboards/VaccineDashboard")
+);
+const ActorTemplate = React.lazy(() => import("./templates/ActorTemplate"));
+const ArticleTemplate = React.lazy(() => import("./templates/ArticleTemplate"));
+const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate"));
+const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
+const EventTemplate = React.lazy(() => import("./templates/EventTemplate"));
 
 const dataMenuItem = {
   view: "index",
@@ -59,15 +65,15 @@ const projectMenuItem = {
 export const mainMenu: HeaderMenuItem[] =
   process.env.NODE_ENV === "development"
     ? [
-        projectMenuItem,
-        {
-          view: "blog",
-          label: "Blog",
-          subItems: [],
-        },
-        dataMenuItem,
+        // projectMenuItem,
+        // {
+        //   view: "blog",
+        //   label: "Blog",
+        //   subItems: [],
+        // },
+        // dataMenuItem,
       ]
-    : [projectMenuItem, dataMenuItem];
+    : [dataMenuItem];
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
@@ -123,7 +129,7 @@ const getCurrentComponent = (currentView: CurrentView): React.ReactElement => {
 
 export const App: React.FC = () => {
   return (
-    <div style={{ height: "100%" }}>
+    <div style={{ height: "100%", display: "flex" }}>
       <Helmet.Helmet
         link={[
           {
@@ -160,8 +166,8 @@ export const App: React.FC = () => {
                     }}
                   />
 
-                  <Grid style={{ margin: 20 }}>
-                    <BreadCrumb
+                  {/* <Grid style={{ margin: 20 }}>
+                     <BreadCrumb
                       view={currentView}
                       segments={{
                         events: ["dashboard", "events"],
@@ -173,11 +179,18 @@ export const App: React.FC = () => {
                         keywords: ["dashboard", "keywords"],
                         keyword: ["dashboard", "keywords", ":keywordId"],
                       }}
-                    />
-                  </Grid>
+                    /> 
+                    </Grid> */}
 
-                  <Grid style={{ minHeight: "100%", width: "100%" }}>
-                    {getCurrentComponent(currentView)}
+                  <Grid
+                    style={{
+                      width: "100%",
+                      height: `calc(100% - 64px)`,
+                    }}
+                  >
+                    <React.Suspense fallback={<FullSizeLoader />}>
+                      {getCurrentComponent(currentView)}
+                    </React.Suspense>
                   </Grid>
                   <Footer />
                 </Grid>

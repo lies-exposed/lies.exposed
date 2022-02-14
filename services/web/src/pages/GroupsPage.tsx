@@ -50,7 +50,7 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
                   ...a,
                   selected: false,
                 }))}
-                onGroupClick={async (g) => {
+                onItemClick={async (g) => {
                   void doUpdateCurrentView({
                     view: "group",
                     groupId: g.id,

@@ -48,7 +48,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
             <Typography variant="h4">Gruppi</Typography>
             <GroupList
               groups={groups.map((g) => ({ ...g, selected: false }))}
-              onGroupClick={onGroupClick}
+              onItemClick={onGroupClick}
             />
           </Box>
         </Grid>

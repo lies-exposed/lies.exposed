@@ -14,12 +14,14 @@ import GroupList from "./lists/GroupList";
 interface GroupsBoxProps {
   ids: string[];
   onItemClick: (g: Group.Group) => void;
+  style?: React.CSSProperties;
 }
 
 export const GroupsList: React.FC<{
   ids: NEA.NonEmptyArray<string>;
   onItemClick: (g: Group.Group) => void;
-}> = ({ ids, onItemClick }) => {
+  style?: React.CSSProperties;
+}> = ({ ids, ...props }) => {
   return (
     <WithQueries
       queries={{ groups: Queries.Group.getList }}
@@ -39,8 +41,8 @@ export const GroupsList: React.FC<{
           // eslint-disable-next-line react/jsx-key
           return (
             <GroupList
+              {...props}
               groups={groups.map((a) => ({ ...a, selected: true }))}
-              onGroupClick={onItemClick}
             />
           );
         }
@@ -49,7 +51,11 @@ export const GroupsList: React.FC<{
   );
 };
 
-export const GroupsBox: React.FC<GroupsBoxProps> = ({ ids, onItemClick }) => {
+export const GroupsBox: React.FC<GroupsBoxProps> = ({
+  ids,
+  style,
+  onItemClick,
+}) => {
   return (
     <Box>
       {/* <Typography variant="subtitle1">Groups</Typography> */}
@@ -58,7 +64,9 @@ export const GroupsBox: React.FC<GroupsBoxProps> = ({ ids, onItemClick }) => {
         NEA.fromArray,
         O.fold(
           () => <Typography>-</Typography>,
-          (ids) => <GroupsList ids={ids} onItemClick={onItemClick} />
+          (ids) => (
+            <GroupsList ids={ids} style={style} onItemClick={onItemClick} />
+          )
         )
       )}
     </Box>

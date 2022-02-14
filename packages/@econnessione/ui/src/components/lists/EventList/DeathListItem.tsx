@@ -2,7 +2,6 @@ import { Actor, Keyword } from "@econnessione/shared/io/http";
 import { Box, Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import * as React from "react";
-import { Avatar } from "../../Common/Avatar";
 import Editor from "../../Common/Editor/index";
 import { LinksBox } from "../../LinksBox";
 import KeywordList from "../KeywordList";
@@ -38,26 +37,17 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
           <Typography variant="h6">
             Death: {item.payload.victim?.fullName ?? item.payload.victim}
           </Typography>
-        </Grid>
-        <Grid item md={12} lg={12}>
           <KeywordList
             keywords={item.keywords.map((k) => ({ ...k, selected: true }))}
             onItemClick={(k) => onKeywordClick?.(k)}
           />
         </Grid>
-        <Grid item lg={8} md={8} sm={12}>
-          <Editor value={item.excerpt as any} readOnly />
-        </Grid>
-        <Grid
-          item
-          sm={12}
-          md={8}
-          lg={4}
-          style={{ display: "flex", justifyContent: "center" }}
-          onClick={() => onActorClick?.(item.payload.victim)}
-        >
-          <Avatar size="large" src={item.payload.victim?.avatar} />
-        </Grid>
+        {(item?.excerpt as any)?.rows?.length > 0 ? (
+          <Grid item lg={8} md={8} sm={12}>
+            <Editor value={item.excerpt as any} readOnly />
+          </Grid>
+        ) : null}
+
         <Grid item lg={8} md={12} sm={12} xs={12}>
           <LinksBox ids={item.links} />
         </Grid>

@@ -1,13 +1,14 @@
 import { Group } from "@econnessione/shared/io/http";
-import { available, queryStrict } from 'avenger';
-import * as TE from 'fp-ts/lib/TaskEither';
+import { available, queryStrict } from "avenger";
+import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
-import { GetListParams } from 'react-admin';
+import { GetListParams } from "react-admin";
 import { Queries } from "../../providers/DataProvider";
 import GroupList, { GroupListItem } from "../lists/GroupList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
 interface AutocompleteGroupInputProps {
+  className?: string;
   selectedItems: Group.Group[];
   onChange: (item: Group.Group[]) => void;
 }
@@ -15,6 +16,7 @@ interface AutocompleteGroupInputProps {
 export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
   selectedItems,
   onChange,
+  ...props
 }) => {
   return (
     <AutocompleteInput<Group.Group>
@@ -35,7 +37,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
             ...i,
             selected: true,
           }))}
-          onGroupClick={(g) => onChange(items.filter((i) => i.id !== g.id))}
+          onItemClick={(g) => onChange(items.filter((i) => i.id !== g.id))}
         />
       )}
       renderOption={(item, state) => (
@@ -49,6 +51,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
         />
       )}
       onItemsChange={onChange}
+      {...props}
     />
   );
 };
