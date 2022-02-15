@@ -230,7 +230,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   );
 
   const onLoadMoreEvents = async (range: IndexRange): Promise<void> => {
-    return await searchEventsQuery
+    // eslint-disable-next-line @typescript-eslint/return-await
+    return searchEventsQuery
       .run({
         ...params,
         hash,
