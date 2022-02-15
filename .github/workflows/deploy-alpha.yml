@@ -65,8 +65,8 @@ jobs:
         run: yarn workspace admin-web build
         env:
           NODE_ENV: production
-          PUBLIC_URL: https://alpha.econnessione.org/admin/
-          API_URL: https://alpha.api.econnessione.org/v1
+          PUBLIC_URL: https://alpha.lies.exposed/admin/
+          API_URL: https://alpha.api.lies.exposed/v1
 
       - name: Upload Admin Web build to DO Space
         env:
@@ -83,9 +83,9 @@ jobs:
       - name: Build Web
         env:
           NODE_ENV: production
-          PUBLIC_URL: https://alpha.econnessione.org/web/
-          API_URL: https://alpha.api.econnessione.org/v1
-          ADMIN_URL: https://alpha.econnessione.org/admin
+          PUBLIC_URL: https://alpha.lies.exposed/web/
+          API_URL: https://alpha.api.lies.exposed/v1
+          ADMIN_URL: https://alpha.lies.exposed/admin
         run: yarn workspace web build
 
 

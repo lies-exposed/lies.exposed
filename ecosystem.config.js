@@ -5,14 +5,6 @@ const fs = require("fs");
 module.exports = {
   apps: [
     {
-      name: "yarn",
-      script: "yarn",
-      interpreter: "/bin/bash",
-      env: {
-        NODE_ENV: "development",
-      },
-    },
-    {
       name: "api",
       cwd: path.resolve(__dirname, "./services/api"),
       script: "./build/run.js",

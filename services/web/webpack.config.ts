@@ -4,6 +4,7 @@ const AppEnv = defineEnv((t) => ({
   NODE_ENV: t.string,
   PUBLIC_URL: t.string,
   API_URL: t.string,
+  ADMIN_URL: t.string,
   DEBUG: t.string,
 }));
 
