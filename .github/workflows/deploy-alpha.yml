@@ -86,6 +86,7 @@ jobs:
           NODE_ENV: production
           PUBLIC_URL: https://alpha.econnessione.org/web/
           API_URL: https://alpha.api.econnessione.org/v1
+          ADMIN_URL: https://alpha.econnessione.org/admin/
 
       - name: Upload Web build to DO Space
         env:
