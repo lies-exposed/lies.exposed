@@ -83,7 +83,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
   }));
 
   return (
-    <>
+    <Box display="flex" flexDirection="column" width="100%">
       <ParentSize style={{ minHeight: 400 }}>
         {({ width, height }) => {
           const networkProps = createEventNetworkGraphProps({
@@ -277,7 +277,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
           );
         }}
       </ParentSize>
-    </>
+    </Box>
   );
 };
 

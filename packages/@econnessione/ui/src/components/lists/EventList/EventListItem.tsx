@@ -7,6 +7,7 @@ import {
   Media,
 } from "@econnessione/shared/io/http";
 import * as React from "react";
+import { isValidValue } from "../../Common/Editor";
 import { DeathListItem } from "./DeathListItem";
 import PatentListItem from "./PatentListItem";
 import { ScientificStudyListItem } from "./ScientificStudyListItem";
@@ -86,8 +87,9 @@ export const getItemHeight = (e: SearchEvent): number => {
   switch (e.type) {
     default:
       return (
-        200 +
-        ((e.excerpt as any)?.rows?.length > 0 ? 200 : 0) +
+        100 +
+        (isValidValue(e.excerpt as any) ? 100 : 0) +
+        (e.keywords.length > 0 ? 50 : 0) +
         (e.media.length > 0 ? 400 : 0) +
         (e.links.length > 0 ? 50 : 0)
       );
