@@ -1,8 +1,8 @@
 import * as http from "@econnessione/shared/io/http";
 import { Box, Grid, Link, Typography } from "@material-ui/core";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
 import * as O from "fp-ts/lib/Option";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { getTextContentsCapped, isValidValue } from "../../Common/Editor";
 import { Slider } from "../../Common/Slider/Slider";

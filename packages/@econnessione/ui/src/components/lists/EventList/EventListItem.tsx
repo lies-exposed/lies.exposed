@@ -6,8 +6,8 @@ import {
   Keyword,
   Media,
 } from "@econnessione/shared/io/http";
-import { isValidValue } from "../../Common/Editor";
 import * as React from "react";
+import { isValidValue } from "../../Common/Editor";
 import { DeathListItem } from "./DeathListItem";
 import PatentListItem from "./PatentListItem";
 import { ScientificStudyListItem } from "./ScientificStudyListItem";
