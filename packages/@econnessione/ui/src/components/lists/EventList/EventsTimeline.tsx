@@ -34,9 +34,11 @@ const useStyles = makeStyles((props) => ({
 const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
   const { index, event, ...listItemProps } = props;
   if (!event) {
-    return <FullSizeLoader />;
+    return <FullSizeLoader style={{ height: 100 }} />;
   }
-  return <EventTimelineItem {...listItemProps} key={event.id} event={event} />;
+  return (
+    <EventTimelineItem {...listItemProps} key={event.id} event={{ ...event }} />
+  );
 };
 export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
   className?: string;
@@ -49,7 +51,7 @@ export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
     deaths: boolean;
     scientificStudies: boolean;
   };
-  onLoadMoreEvents: (params: IndexRange) => Promise<void> 
+  onLoadMoreEvents: (params: IndexRange) => Promise<void>;
 }
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
@@ -89,8 +91,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
       return await Promise.resolve(undefined);
     }
 
-    void onLoadMoreEvents(params)
-
+    void onLoadMoreEvents(params);
   };
 
   const isRowLoaded = (params: Index): boolean => {
@@ -148,7 +149,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                 rowCount={totalEvents}
                 rowHeight={({ index }) => {
                   const event = searchEvents.events[index];
-                  return event ? getItemHeight(event) : 0;
+                  return event ? getItemHeight(event) : 300;
                 }}
               />
             );

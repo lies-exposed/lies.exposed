@@ -15,10 +15,16 @@ import gridCellPlugin from "./plugins/gridCellPlugin";
 
 export const minimalCellPlugins = [customSlate] as any[];
 
-export const getTextContentsCapped = (v: Value, end: number): string =>
-  getTextContents(v, { lang: "en", cellPlugins: minimalCellPlugins })
+export const getTextContentsCapped = (v: Value, end: number): string => {
+  const contents = getTextContents(v, {
+    lang: "en",
+    cellPlugins: minimalCellPlugins,
+  })
     .join("\n")
     .substring(0, end);
+
+  return contents;
+};
 
 // Define which plugins we want to use.
 export const cellPlugins = [
@@ -32,9 +38,14 @@ export const cellPlugins = [
   gridCellPlugin,
 ] as any[];
 
-export const isValueEmpty = (v: Value): boolean => {
-  return v?.rows?.length > 0;
-}
+export const isValidValue = (v: Value): boolean => {
+  return (
+    !!v.id &&
+    !!v.version &&
+    v?.rows?.length > 0 &&
+    getTextContentsCapped(v, 10) !== ""
+  );
+};
 
 const Editor: React.FC<Omit<EditorProps, "cellPlugins">> = ({
   value: initialValue,

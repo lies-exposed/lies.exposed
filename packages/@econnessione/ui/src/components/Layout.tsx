@@ -10,7 +10,14 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ style, header, children }) => {
   return (
-    <Grid container alignItems="center" alignContent="center">
+    <Grid
+      container
+      alignItems="center"
+      alignContent="center"
+      style={{
+        display: "flex",
+      }}
+    >
       <Grid item direction="column">
         <Header {...header} />
         {children}

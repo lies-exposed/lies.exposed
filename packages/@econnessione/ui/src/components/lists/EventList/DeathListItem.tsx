@@ -1,11 +1,8 @@
 import { Actor, Keyword } from "@econnessione/shared/io/http";
 import { Box, Grid } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
 import * as React from "react";
-import Editor from "../../Common/Editor/index";
-import { LinksBox } from "../../LinksBox";
-import KeywordList from "../KeywordList";
 import { SearchDeathEvent } from "./EventListItem";
+import EventListItemBase from "./EventListItemHeader";
 
 interface DeathListItemProps {
   item: SearchDeathEvent;
@@ -33,24 +30,16 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item md={12} sm={12} lg={12}>
-          <Typography variant="h6">
-            Death: {item.payload.victim?.fullName ?? item.payload.victim}
-          </Typography>
-          <KeywordList
-            keywords={item.keywords.map((k) => ({ ...k, selected: true }))}
-            onItemClick={(k) => onKeywordClick?.(k)}
-          />
-        </Grid>
-        {(item?.excerpt as any)?.rows?.length > 0 ? (
-          <Grid item lg={8} md={8} sm={12}>
-            <Editor value={item.excerpt as any} readOnly />
-          </Grid>
-        ) : null}
-
-        <Grid item lg={8} md={12} sm={12} xs={12}>
-          <LinksBox ids={item.links} />
-        </Grid>
+        <EventListItemBase
+          title={`Death: ${
+            item.payload.victim?.fullName ?? item.payload.victim
+          }`}
+          excerpt={item.excerpt}
+          keywords={item.keywords}
+          links={item.links}
+          media={item.media}
+          onKeywordClick={onKeywordClick}
+        />
       </Grid>
     </Box>
   );

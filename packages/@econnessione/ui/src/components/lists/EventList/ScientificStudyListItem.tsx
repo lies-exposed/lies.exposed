@@ -1,15 +1,8 @@
 import * as io from "@econnessione/shared/io";
-import { Box, Grid, Link } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
-import { pipe } from "fp-ts/lib/function";
-import * as O from "fp-ts/lib/Option";
+import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
-import { isValueEmpty } from "../../Common/Editor";
-import EllipsesContent from "../../Common/EllipsedContent";
-import { Slider } from "../../Common/Slider/Slider";
-import { LinksBox } from "../../LinksBox";
-import KeywordList from "../KeywordList";
 import { SearchScientificStudyEvent } from "./EventListItem";
+import EventListItemBase from "./EventListItemHeader";
 
 interface ScientificStudyListItemProps {
   item: SearchScientificStudyEvent;
@@ -34,79 +27,14 @@ export const ScientificStudyListItem: React.FC<
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item lg={10} md={8}>
-          <Typography variant="h6">{item.payload.title}</Typography>
-          <KeywordList
-            style={{
-              marginBottom: 10,
-            }}
-            keywords={item.keywords.map((k) => ({ ...k, selected: true }))}
-            onItemClick={(k) => onKeywordClick?.(k)}
-          />
-          <Link
-            href={item.payload.url}
-            target="_blank"
-            style={{ display: "block", marginBottom: 20 }}
-          >
-            {item.payload.url}
-          </Link>
-        </Grid>
-
-        {isValueEmpty(item.excerpt as any) ? (
-          <Grid item lg={10} md={10} sm={12}>
-            <EllipsesContent
-              height={100}
-              content={(item.excerpt as any) ?? null}
-            />
-          </Grid>
-        ) : null}
-
-        <Grid
-          item
-          lg={12}
-          md={12}
-          sm={12}
-          xs={12}
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            style={{
-              height: "100%",
-              width: "100%",
-              position: "relative",
-              margin: 0,
-            }}
-          >
-            {pipe(
-              item.media,
-              O.fromPredicate((arr) => arr.length > 0),
-              O.map((media) => (
-                // eslint-disable-next-line react/jsx-key
-                <Slider
-                  slides={media}
-                  style={{
-                    maxWidth: 600,
-                    maxHeight: 500,
-                    margin: "auto",
-                    width: "100%",
-                  }}
-                  itemStyle={{
-                    maxWidth: 800,
-                    maxHeight: 500,
-                    minHeight: 400,
-                  }}
-                />
-              )),
-              O.toNullable
-            )}
-          </Box>
-        </Grid>
-        <Grid item sm={12}>
-          <LinksBox ids={item.links} />
-        </Grid>
+        <EventListItemBase
+          title={item.payload.title}
+          excerpt={item.excerpt}
+          keywords={item.keywords}
+          media={item.media}
+          links={item.links}
+          onKeywordClick={onKeywordClick}
+        />
       </Grid>
     </Box>
   );

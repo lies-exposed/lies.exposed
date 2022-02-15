@@ -229,13 +229,13 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     [params]
   );
 
-  const onLoadMoreEvents = async (params: IndexRange): Promise<void> => {
+  const onLoadMoreEvents = async (range: IndexRange): Promise<void> => {
     return await searchEventsQuery
       .run({
         ...params,
         hash,
-        _start: params.startIndex as any,
-        _end: params.stopIndex as any,
+        _start: range.startIndex as any,
+        _end: range.stopIndex as any,
       })()
       .then((result) => {
         if (result._tag === "Right") {
@@ -247,6 +247,21 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         });
       });
   };
+
+  React.useEffect(
+    () => {
+      void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 });
+    },
+    [
+      params.hash,
+      params.startDate,
+      params.endDate,
+      params.actors,
+      params.groups,
+      params.keywords,
+      params.groupsMembers,
+    ]
+  );
 
   return (
     <WithQueries

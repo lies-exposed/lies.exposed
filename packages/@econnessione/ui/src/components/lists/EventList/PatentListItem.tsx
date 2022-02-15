@@ -30,7 +30,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
         width: "100%",
         marginBottom: 40,
         maxHeight: 300,
-        overflow: 'hidden'
+        overflow: "hidden",
       }}
       onClick={() => onClick?.(item)}
     >
@@ -40,9 +40,8 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
           <Link href={item.payload.source} rel="noreferrer" target="_blank">
             {item.payload.source}
           </Link>
-        </Grid>
-        <Grid item md={12} lg={12}>
           <KeywordList
+            style={{ marginBottom: 10 }}
             keywords={item.keywords.map((k) => ({ ...k, selected: true }))}
             onItemClick={(k) => onKeywordClick?.(k)}
           />
