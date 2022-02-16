@@ -9,7 +9,7 @@ import { hash } from "@utils/password.utils";
 describe("User login", () => {
   let Test: AppTest;
   const userId = uuid();
-  const username = `${userId}@econnessione.org`;
+  const username = `${userId}@lies.exposed`;
   beforeAll(async () => {
     Test = await initAppTest();
     await pipe(
