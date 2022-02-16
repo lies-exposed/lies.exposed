@@ -107,10 +107,6 @@ export const searchEventV2Query =
               q.withDeleted();
             }
 
-            if (O.isSome(type)) {
-              q.andWhere("event.type = :type", { type: type.value });
-            }
-
             if (O.isSome(title)) {
               q.andWhere(
                 "event.type IN ('Uncategorized', 'ScientificStudy') AND \"event\".\"payload\" ->> lower('title') LIKE :title",
@@ -220,6 +216,10 @@ export const searchEventV2Query =
             //   ...scientificStudiesCount.getQueryAndParameters()
             // );
             const patentCount = q.clone().andWhere("event.type = 'Patent'");
+
+            if (O.isSome(type)) {
+              q.andWhere("event.type = :type", { type: type.value });
+            }
 
             return {
               resultsQuery: q,

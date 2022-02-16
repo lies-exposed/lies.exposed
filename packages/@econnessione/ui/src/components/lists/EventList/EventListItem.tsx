@@ -4,10 +4,9 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media,
+  Media
 } from "@econnessione/shared/io/http";
 import * as React from "react";
-import { isValidValue } from "../../Common/Editor";
 import { DeathListItem } from "./DeathListItem";
 import PatentListItem from "./PatentListItem";
 import { ScientificStudyListItem } from "./ScientificStudyListItem";
@@ -83,18 +82,7 @@ export interface EventListItemProps {
   onKeywordClick: (k: Keyword.Keyword) => void;
 }
 
-export const getItemHeight = (e: SearchEvent): number => {
-  switch (e.type) {
-    default:
-      return (
-        100 +
-        (isValidValue(e.excerpt as any) ? 100 : 0) +
-        (e.keywords.length > 0 ? 50 : 0) +
-        (e.media.length > 0 ? 400 : 0) +
-        (e.links.length > 0 ? 50 : 0)
-      );
-  }
-};
+
 
 export const EventListItem: React.FC<EventListItemProps> = ({
   event: e,

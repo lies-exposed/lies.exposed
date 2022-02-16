@@ -35,8 +35,10 @@ import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import { IndexRange } from "react-virtualized";
+import EventsAppBar from "../components/events/EventsAppBar";
 import EventsFilter from "../components/events/EventsFilter";
-import { EventsTotals } from "../components/events/EventsTotals";
+import EventsFilterSummary from "../components/events/EventsFiltersSummary";
+import EventsTotals from "../components/events/EventsTotals";
 import {
   CurrentView,
   doUpdateCurrentView,
@@ -50,6 +52,10 @@ const useStyles = makeStyles((theme: ECOTheme) =>
   createStyles({
     root: {
       display: "flex",
+      flexDirection: "row",
+      [theme.breakpoints.down("md")]: {
+        flexDirection: "column",
+      },
     },
     menuButton: {
       marginRight: 36,
@@ -96,8 +102,15 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
+    tabs: {
+      width: "100%",
+      [theme.breakpoints.down("md")]: {
+        paddingTop: 60,
+      },
+    },
     tabPanel: {
       maxHeight: "100%",
+      width: "100%",
       flexGrow: 1,
       flexShrink: 0,
       height: "100%",
@@ -113,7 +126,10 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       display: "flex",
       flexDirection: "column",
     },
-    mdFilters: {},
+    eventFiltersBox: {
+      display: "flex",
+      flexDirection: "column",
+    },
   })
 );
 
@@ -137,6 +153,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     ...filtersRest
   },
 }) => {
+
   const params = {
     ...filtersRest,
     startDate,
@@ -223,6 +240,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   const onKeywordsChange = React.useCallback(
     (keywords: string[]): void => {
       handleUpdateCurrentView({
+        _startIndex: 0,
         keywords,
       });
     },
@@ -234,7 +252,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     return searchEventsQuery
       .run({
         ...params,
-        hash,
         _start: range.startIndex as any,
         _end: range.stopIndex as any,
       })()
@@ -249,20 +266,17 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
       });
   };
 
-  React.useEffect(
-    () => {
-      void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 });
-    },
-    [
-      params.hash,
-      params.startDate,
-      params.endDate,
-      params.actors,
-      params.groups,
-      params.keywords,
-      params.groupsMembers,
-    ]
-  );
+  React.useEffect(() => {
+    void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 });
+  }, [
+    params.hash,
+    params.startDate,
+    params.endDate,
+    params.actors,
+    params.groups,
+    params.keywords,
+    params.groupsMembers,
+  ]);
 
   return (
     <WithQueries
@@ -314,7 +328,14 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             />
           );
           return (
-            <Box style={{ display: "flex", width: "100%", height: "100%" }}>
+            <Box
+              className={classes.root}
+              style={{
+                display: "flex",
+                width: "100%",
+                height: "100%",
+              }}
+            >
               <Hidden smDown>
                 <Drawer
                   variant="permanent"
@@ -334,6 +355,24 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                 </Drawer>
               </Hidden>
 
+              <Hidden mdUp>
+                <EventsAppBar
+                  summary={
+                    <EventsFilterSummary
+                      className={classes.appBar}
+                      queryFilters={params}
+                      actors={filterActors.data}
+                      groups={filterGroups.data}
+                      onQueryChange={handleUpdateCurrentView}
+                      groupsMembers={filterGroupsMembers.data}
+                      keywords={filterKeywords.data}
+                      totals={searchEvents.totals}
+                    />
+                  }
+                  expanded={eventFilters}
+                />
+              </Hidden>
+
               <main className={classes.content}>
                 <Grid
                   item
@@ -345,17 +384,12 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                     justifyContent: "flex-end",
                     flexDirection: "column",
                     margin: "auto",
+                    width: "100%",
                   }}
                 >
                   <EventsTotals
                     totals={searchEvents.totals}
-                    actors={filterActors.data}
-                    groups={filterGroups.data}
-                    keywords={filterGroups.data}
-                    groupsMembers={filterGroupsMembers.data}
                     appBarClassName={classes.appBar}
-                    queryFilters={params}
-                    showFilters={showFilters}
                     filters={filters}
                     onFilterChange={(f) =>
                       updateState({
@@ -363,10 +397,9 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                         ...f,
                       })
                     }
-                    onQueryChange={(f) => undefined}
                   />
                   <Tabs
-                    style={{ width: "100%", marginBottom: 30 }}
+                    className={classes.tabs}
                     value={tab}
                     onChange={(e, tab) => handleUpdateCurrentView({ tab })}
                   >
@@ -390,6 +423,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                       data={searchEvents}
                       onLoadMoreEvents={onLoadMoreEvents}
                       filters={filters}
+                      style={{ height: "100vh" }}
                       onClick={(e) => {
                         if (e.type === "Death") {
                           void doUpdateCurrentView({
@@ -474,9 +508,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                   ) : null}
                   <div />
                 </TabPanel>
-                <Hidden mdUp>
-                  <Box className={classes.mdFilters}>{eventFilters}</Box>
-                </Hidden>
               </main>
             </Box>
           );
