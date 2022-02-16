@@ -29,7 +29,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
   onKeywordClick,
 }) => {
   return (
-    <Grid item lg={10} md={10}>
+    <Grid item lg={10} md={10} style={{ maxWidth: "100%" }}>
       <Typography variant="h6">{title}</Typography>
       {pipe(
         keywords,

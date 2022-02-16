@@ -34,9 +34,10 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       style={{
         marginBottom: 40,
         width: "100%",
+        maxWidth: '100%'
       }}
     >
-      <Grid container spacing={2} style={{ width: "100%" }}>
+      <Grid container spacing={2} style={{ width: "100%", maxWidth: '100%' }}>
         <EventListItemBase
           title={item.payload.title}
           excerpt={item.excerpt}

@@ -35,8 +35,8 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
   ]);
 
   return (
-    <Grid container style={{ padding: 10 }}>
-      <Grid item lg={12} md={12} sm={12} xs={12}>
+    <Grid container style={{ padding: 0, margin: 0, width: '100%' }} spacing={2}>
+      <Grid item md={12} sm={6} xs={6}>
         <DatePicker
           className={classes.input}
           size="small"
@@ -57,7 +57,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           style={{ width: "100%" }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item md={12} sm={6} xs={6}>
         <DatePicker
           className={classes.input}
           size="small"
@@ -90,7 +90,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
         />
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item md={12} sm={6} xs={6}>
         <AutocompleteActorInput
           className={classes.input}
           selectedItems={actors}
@@ -102,7 +102,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           }
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item md={12} sm={6} xs={6}>
         <AutocompleteGroupInput
           className={classes.input}
           selectedItems={groups}

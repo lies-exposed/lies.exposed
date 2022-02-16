@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import {
   AutoSizer,
@@ -11,10 +11,11 @@ import {
 import "react-virtualized/styles.css";
 import {
   SearchEventQueryInput,
-  SearchEventQueryResult,
+  SearchEventQueryResult
 } from "../../../state/queries/SearchEventsQuery";
+import { isValidValue } from "../../Common/Editor";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
-import { EventListItemProps, getItemHeight } from "./EventListItem";
+import { EventListItemProps, SearchEvent } from "./EventListItem";
 import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
 
 const useStyles = makeStyles((props) => ({
@@ -40,6 +41,30 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
     <EventTimelineItem {...listItemProps} key={event.id} event={{ ...event }} />
   );
 };
+
+export const getItemHeight = (e: SearchEvent, isDownMD: boolean): number => {
+  switch (e.type) {
+    default: {
+      if (isDownMD) {
+        return (
+          150 +
+          (isValidValue(e.excerpt as any) ? 100 : 0) +
+          (e.keywords.length > 0 ? 50 : 0) +
+          (e.media.length > 0 ? 400 : 0) +
+          (e.links.length > 0 ? 50 : 0)
+        );
+      }
+      return (
+        100 +
+        (isValidValue(e.excerpt as any) ? 100 : 0) +
+        (e.keywords.length > 0 ? 50 : 0) +
+        (e.media.length > 0 ? 400 : 0) +
+        (e.links.length > 0 ? 50 : 0)
+      );
+    }
+  }
+};
+
 export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
@@ -59,6 +84,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     hash,
     queryParams,
     data: searchEvents,
+    filters,
     onLoadMoreEvents,
     onClick,
     onActorClick,
@@ -72,7 +98,9 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   //   [events]
   // );
 
+  const theme = useTheme();
   const classes = useStyles();
+  const isDownMD = useMediaQuery(theme.breakpoints.down("md"));
 
   const itemProps = {
     classes,
@@ -99,7 +127,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   };
 
   React.useEffect(() => {
-      void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 })
+    void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 });
   }, []);
 
   // const allEvents = pipe(
@@ -149,7 +177,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                 rowCount={totalEvents}
                 rowHeight={({ index }) => {
                   const event = searchEvents.events[index];
-                  return event ? getItemHeight(event) : 300;
+                  return event ? getItemHeight(event, isDownMD) : 150;
                 }}
               />
             );

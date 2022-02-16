@@ -4,13 +4,6 @@ on:
   push:
     branches:
       - release/alpha
-  # workflow_run:
-  #   workflows:
-  #     - "Pull Request"
-  #   types:
-  #     - completed
-  #   branches:
-  #     - release/alpha
 
 jobs:
   deploy-alpha:

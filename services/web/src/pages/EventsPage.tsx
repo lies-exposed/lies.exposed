@@ -42,7 +42,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
         lg={12}
         md={12}
         sm={12}
-        style={{ maxWidth: "100%", height: "100%" }}
+        style={{ maxWidth: "100%", height: "100%", width: "100%" }}
       >
         <EventsPanel
           view={{
