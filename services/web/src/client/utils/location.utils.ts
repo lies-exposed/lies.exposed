@@ -1,11 +1,12 @@
+import { available, queryStrict } from "avenger";
 import { Buffer } from "buffer";
-import {
-  getCurrentView,
-  getDoUpdateCurrentView,
-  HistoryLocation
-} from "avenger/lib/browser";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+// import {
+//   getCurrentView,
+//   getDoUpdateCurrentView,
+//   HistoryLocation,
+// } from "avenger/lib/browser";
+import * as TE from "fp-ts/lib/TaskEither";
 
 interface CommonViewArgs {
   tab?: number;
@@ -56,7 +57,6 @@ export interface EventsView extends CommonViewArgs {
   endDate?: string;
   hash?: string;
   page?: number;
-  
 }
 
 export interface EventView {
@@ -138,7 +138,7 @@ const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
   );
 };
 
-export function locationToView(location: HistoryLocation): CurrentView {
+export function locationToView(location: any): CurrentView {
   const { path: currentPath = "", hash, ...search } = location.search;
   const blogMatch = currentPath.match(blogRegex);
   if (blogMatch !== null) {
@@ -264,7 +264,7 @@ export function locationToView(location: HistoryLocation): CurrentView {
   return { view: "index" };
 }
 
-export function viewToLocation(view: CurrentView): HistoryLocation {
+export function viewToLocation(view: CurrentView): any {
   const pathname =
     process.env.NODE_ENV === "development" ? "/index.html" : "/web/index.html";
   switch (view.view) {
@@ -383,7 +383,18 @@ export function viewToLocation(view: CurrentView): HistoryLocation {
   }
 }
 
-export const currentView = getCurrentView(locationToView); // ObservableQuery
+// export const currentView = getCurrentView(locationToView); // ObservableQuery
+export const currentView = queryStrict<any, any, any>(
+  (input) =>
+    TE.right({
+      view: "events",
+    }),
+  available
+);
+
 export const doUpdateCurrentView: (
   input: CurrentView
-) => TE.TaskEither<void, void> = getDoUpdateCurrentView(viewToLocation); // Command
+) => TE.TaskEither<void, void> = (input) => {
+  console.log(input);
+  return TE.right(undefined);
+}; // Command

@@ -1,24 +1,23 @@
-import { BreadCrumb } from "@econnessione/ui/components/Common/BreadCrumb";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import {
   FullSizeLoader,
-  LazyFullSizeLoader,
+  LazyFullSizeLoader
 } from "@econnessione/ui/components/Common/FullSizeLoader";
 import "@econnessione/ui/components/Common/Icons/library";
 import { Footer } from "@econnessione/ui/components/Footer";
 import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
-import { ECOTheme } from "@econnessione/ui/theme";
-import { CssBaseline, Grid, ThemeProvider } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
+import { BrowserRouter, Route } from "react-router-dom";
 import ProjectPage from "./pages/project";
 import {
   CurrentView,
   currentView,
-  doUpdateCurrentView,
+  doUpdateCurrentView
 } from "./utils/location.utils";
 
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
@@ -144,29 +143,27 @@ export const App: React.FC = () => {
           },
         ]}
       />
-      <CssBaseline />
-      <ThemeProvider theme={ECOTheme}>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <WithQueries
-            queries={{ currentView: currentView }}
-            render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ currentView }) => {
-              return (
-                <Grid container style={{ minHeight: "100%", width: "100%" }}>
-                  <Header
-                    menu={mainMenu}
-                    onTitleClick={() => {
-                      void doUpdateCurrentView({
-                        view: "index",
-                      })();
-                    }}
-                    onMenuItemClick={(m) => {
-                      void doUpdateCurrentView({
-                        view: m.view as any,
-                      })();
-                    }}
-                  />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <WithQueries
+          queries={{ currentView: currentView }}
+          render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ currentView }) => {
+            return (
+              <Grid container style={{ minHeight: "100%", width: "100%" }}>
+                <Header
+                  menu={mainMenu}
+                  onTitleClick={() => {
+                    void doUpdateCurrentView({
+                      view: "index",
+                    })();
+                  }}
+                  onMenuItemClick={(m) => {
+                    void doUpdateCurrentView({
+                      view: m.view as any,
+                    })();
+                  }}
+                />
 
-                  {/* <Grid style={{ margin: 20 }}>
+                {/* <Grid style={{ margin: 20 }}>
                      <BreadCrumb
                       view={currentView}
                       segments={{
@@ -182,23 +179,24 @@ export const App: React.FC = () => {
                     /> 
                     </Grid> */}
 
-                  <Grid
-                    style={{
-                      width: "100%",
-                      height: `calc(100% - 64px)`,
-                    }}
-                  >
-                    <React.Suspense fallback={<FullSizeLoader />}>
-                      {getCurrentComponent(currentView)}
-                    </React.Suspense>
-                  </Grid>
-                  <Footer />
+                <Grid
+                  style={{
+                    width: "100%",
+                    height: `calc(100% - 64px)`,
+                  }}
+                >
+                  <React.Suspense fallback={<FullSizeLoader />}>
+                    <BrowserRouter>
+                      <Route render={() => <EventsPage view="events" />} />
+                    </BrowserRouter>
+                  </React.Suspense>
                 </Grid>
-              );
-            })}
-          />
-        </ErrorBoundary>
-      </ThemeProvider>
+                <Footer />
+              </Grid>
+            );
+          })}
+        />
+      </ErrorBoundary>
     </div>
   );
 };

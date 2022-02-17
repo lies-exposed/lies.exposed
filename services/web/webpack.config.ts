@@ -1,4 +1,10 @@
-import { getConfig, defineEnv } from "../../packages/@econnessione/core/src/webpack/config";
+import { getWebConfig } from "../../packages/@econnessione/core/src/webpack/web.config";
+import path from "path";
+import nodeExternals from "webpack-node-externals";
+import {
+  defineEnv,
+  getConfig,
+} from "../../packages/@econnessione/core/src/webpack/config";
 
 const AppEnv = defineEnv((t) => ({
   NODE_ENV: t.string,
@@ -8,15 +14,46 @@ const AppEnv = defineEnv((t) => ({
   DEBUG: t.string,
 }));
 
-const port = process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4000
+const SrvEnv = defineEnv((t) => ({
+  NODE_ENV: t.string,
+  PORT: t.string,
+}));
 
-const config = getConfig({
+const port =
+  process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4000;
+
+const webConfig = getWebConfig({
   cwd: __dirname,
   env: AppEnv,
   envFileDir: __dirname,
   port,
+  devServer: false,
+  hot: false,
+  target: "web",
+  entry: {
+    app: path.resolve(__dirname, "src/client/index.tsx"),
+  },
 });
 
-export default {
-  ...config,
-}
+const srvConfig = getConfig({
+  cwd: __dirname,
+  env: SrvEnv,
+  envFileDir: __dirname,
+  hot: false,
+  outputDir: path.resolve(__dirname, "build/server"),
+  entry: {
+    ssr: path.resolve(__dirname, "src/server/ssr.tsx"),
+  },
+  target: "node",
+});
+
+export default [
+  webConfig,
+  {
+    ...srvConfig,
+    // externals: [
+      // nodeExternals(),
+      // /@material-ui\/.*/
+    // ],
+  },
+];

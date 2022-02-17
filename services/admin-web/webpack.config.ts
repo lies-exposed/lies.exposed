@@ -14,6 +14,9 @@ const config = getConfig({
   })),
   envFileDir: __dirname,
   port,
+  devServer: true,
+  hot: true,
+  target: "web",
 });
 
 module.exports = {

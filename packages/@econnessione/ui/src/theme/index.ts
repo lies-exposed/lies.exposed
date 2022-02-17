@@ -1,22 +1,20 @@
-import "./font.css";
 import {
-  createTheme,
-  makeStyles,
-  useTheme,
   darken,
-  lighten,
+  lighten, makeStyles,
+  useTheme,
 } from "@material-ui/core";
+import { createTheme } from '@material-ui/core/styles';
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
 
 const primary = "#FF5E5B";
-const primaryLight = lighten(primary, 20);
-const primaryDark = darken(primary, 20);
+const primaryLight = lighten(primary, .5);
+const primaryDark = darken(primary, .5);
 
 const secondary = "#17B9B6";
-const secondaryLight = lighten(secondary, 20);
-const secondaryDark = darken(primary, 20);
+const secondaryLight = lighten(secondary, .5);
+const secondaryDark = darken(primary, .5);
 
 const ECOTheme = createTheme({
   palette: {

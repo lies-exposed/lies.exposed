@@ -28,7 +28,7 @@
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "baseUrl": "./src",
     "paths": {
-      "@containers/*": ["./containers/*"],
+      "@containers/*": ["./client/containers/*"],
       "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
       "@econnessione/shared/*": [
         "../../../packages/@econnessione/shared/src/*"

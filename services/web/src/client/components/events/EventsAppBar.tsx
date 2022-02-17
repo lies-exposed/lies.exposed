@@ -1,21 +1,13 @@
-import { ActorList } from "@econnessione/ui/components/lists/ActorList";
-import GroupList from "@econnessione/ui/components/lists/GroupList";
-import { GroupsMembersList } from "@econnessione/ui/components/lists/GroupMemberList";
-import KeywordList from "@econnessione/ui/components/lists/KeywordList";
-import { SearchEventQueryResult } from "@econnessione/ui/state/queries/SearchEventsQuery";
 import {
   AppBar,
   Grid,
   IconButton,
-  makeStyles,
-  Typography,
-  useTheme,
+  makeStyles, useTheme
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Slide from "@material-ui/core/Slide";
 import ChevronUpIcon from "@material-ui/icons/ArrowUpward";
 import * as React from "react";
-import { EventsView } from "../../utils/location.utils";
 
 const useStylesInHideScroll = makeStyles((theme) => ({
   filterBox: {

@@ -5,6 +5,17 @@ const fs = require("fs");
 module.exports = {
   apps: [
     {
+      name: "web",
+      cwd: path.resolve(__dirname, "./services/web"),
+      script: "./build/server/ssr.js",
+      listen_timeout: 100000,
+      watch: ['src', 'build'],
+      watch_delay: 1000,
+      env: dotenv.parse(
+        fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")
+      ),
+    },
+    {
       name: "api",
       cwd: path.resolve(__dirname, "./services/api"),
       script: "./build/run.js",
@@ -23,7 +34,7 @@ module.exports = {
       user: process.env.SSH_USERNAME,
       // where to connect
       host: [process.env.SSH_HOST],
-      ref: process.env.REF ?? 'origin/release/alpha',
+      ref: process.env.REF ?? "origin/release/alpha",
       path: "/root/node/app",
       repo: "https://github.com/lies-exposed/lies.exposed.git",
       "pre-deploy-local": "echo 'This is a local executed command'",
