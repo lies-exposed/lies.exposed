@@ -1,9 +1,10 @@
+import { EventsPanel } from "@containers/EventsPanel";
 import { formatDate } from "@econnessione/shared/utils/date";
+import SEO from "@econnessione/ui/components/SEO";
 import { Grid } from "@material-ui/core";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { EventsView } from "../utils/location.utils";
-import { EventsPanel } from "@containers/EventsPanel";
 
 const MIN_DATE = formatDate(subYears(new Date(), 100));
 const MAX_DATE = formatDate(new Date());
@@ -33,6 +34,10 @@ const EventsPage: React.FC<EventsPageProps> = ({
 
   return (
     <Grid container justifyContent="center" style={{ height: "100%" }}>
+      <SEO
+        title="lies.exposed - events timeline"
+        description="A chronological timeline of events related to crimes and lies."
+      />
       {/* <Grid item lg={12} md={12} sm={12}>
         <PageContent queries={{ pageContent: { path: "events" } }} />
       </Grid> */}
