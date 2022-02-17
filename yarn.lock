@@ -1939,19 +1939,19 @@ __metadata:
   resolution: "@econnessione/core@workspace:packages/@econnessione/core"
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.4
-    "@types/copy-webpack-plugin": ^8.0.1
+    "@types/copy-webpack-plugin": ^10.1.0
     "@types/debug": ^4.1.7
     "@types/dotenv-webpack": ^7.0.3
     "@types/eslint": ^8.4.1
     "@types/express": ^4.17.13
     "@types/html-replace-webpack-plugin": ^2.6.1
-    "@types/mime": ^1
+    "@types/mime": ^1.3.2
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^2.4.4
     "@types/react": ^16.14.23
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@types/webpack-node-externals": ^2.5.3
-    copy-webpack-plugin: ^9.1.0
+    copy-webpack-plugin: ^10.2.4
     css-loader: ^6.6.0
     dotenv-webpack: ^7.1.0
     eslint: ^8.9.0
@@ -1966,11 +1966,8 @@ __metadata:
     html-webpack-plugin: ^5.5.0
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
-    mime: ^1
     mini-css-extract-plugin: ^2.5.3
     prettier: ^2.5.1
-    react: ^16.14.0
-    react-dom: ^16
     style-loader: ^3.3.1
     ts-loader: ^9.2.6
     tsconfig-paths-webpack-plugin: ^3.5.2
@@ -2053,7 +2050,7 @@ __metadata:
     "@types/react": ^16.14.23
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.8
-    "@types/react-virtualized": ^9.21.18
+    "@types/react-virtualized": ^9.21.19
     "@types/throttle-debounce": ^2.1.0
     "@types/topojson-client": ^3.1.0
     "@types/topojson-specification": ^1.0.2
@@ -5191,14 +5188,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/copy-webpack-plugin@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "@types/copy-webpack-plugin@npm:8.0.1"
+"@types/copy-webpack-plugin@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "@types/copy-webpack-plugin@npm:10.1.0"
   dependencies:
-    "@types/node": "*"
-    tapable: ^2.0.0
-    webpack: ^5.1.0
-  checksum: e921a28fca72bf1708d51ffad06ee2a4b80b8de7e748639588681ea1912413b92dbd433627f3b7eb51c14b9254a1d9c13cf037f25ca08a718df005871454a696
+    copy-webpack-plugin: "*"
+  checksum: c5012e9725beb34bc07ca47f5861ee0770f0c76fe04e8878142ba5d12aa91c6d330ec777378eb65ff5fbb5f05863a2b1b935318db0f3f2e754c126b181645adf
   languageName: node
   linkType: hard
 
@@ -5810,7 +5805,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mime@npm:^1":
+"@types/mime@npm:^1, @types/mime@npm:^1.3.2":
   version: 1.3.2
   resolution: "@types/mime@npm:1.3.2"
   checksum: 0493368244cced1a69cb791b485a260a422e6fcc857782e1178d1e6f219f1b161793e9f87f5fae1b219af0f50bee24fcbe733a18b4be8fdd07a38a8fb91146fd
@@ -6170,13 +6165,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized@npm:^9.21.18":
-  version: 9.21.18
-  resolution: "@types/react-virtualized@npm:9.21.18"
+"@types/react-virtualized@npm:^9.21.19":
+  version: 9.21.19
+  resolution: "@types/react-virtualized@npm:9.21.19"
   dependencies:
     "@types/prop-types": "*"
     "@types/react": "*"
-  checksum: 60156540e1a3a614301ceb282084b818068ee89c33a8008d87522460d21ed0d64b508b1f69603f9cb5b405cb3dd174c264cb0de1df81624c5e4e0fbcb0b9ed91
+  checksum: e46a94ac599d0980df03ca54609c09ccb9b687d3c51ee0a560bd7c73b696f3c5603a000df04c369a582dc10cfe2d5e3258a73ef8c686043a9004f64ee53b7efe
   languageName: node
   linkType: hard
 
@@ -7960,7 +7955,7 @@ __metadata:
     ts-jest: ^27.1.3
     ts-node: ^10.5.0
     ts-shared: 2.0.0-alpha.6
-    typeorm: ^0.2.42
+    typeorm: ^0.2.43
     typeorm-uml: ^1.6.4
     typescript: ^4.5.5
     uuid: ^8.3.2
@@ -8160,6 +8155,13 @@ __metadata:
   version: 2.1.0
   resolution: "array-union@npm:2.1.0"
   checksum: 5bee12395cba82da674931df6d0fea23c4aa4660cb3b338ced9f828782a65caa232573e6bf3968f23e0c5eb301764a382cef2f128b170a9dc59de0e36c39f98d
+  languageName: node
+  linkType: hard
+
+"array-union@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "array-union@npm:3.0.1"
+  checksum: 47b29f88258e8f37ffb93ddaa327d4308edd950b52943c172b73558afdd3fa74cfd68816ba5aa4b894242cf281fa3c6d0362ae057e4a18bddbaedbe46ebe7112
   languageName: node
   linkType: hard
 
@@ -10379,19 +10381,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"copy-webpack-plugin@npm:^9.1.0":
-  version: 9.1.0
-  resolution: "copy-webpack-plugin@npm:9.1.0"
+"copy-webpack-plugin@npm:*, copy-webpack-plugin@npm:^10.2.4":
+  version: 10.2.4
+  resolution: "copy-webpack-plugin@npm:10.2.4"
   dependencies:
     fast-glob: ^3.2.7
     glob-parent: ^6.0.1
-    globby: ^11.0.3
+    globby: ^12.0.2
     normalize-path: ^3.0.0
-    schema-utils: ^3.1.1
+    schema-utils: ^4.0.0
     serialize-javascript: ^6.0.0
   peerDependencies:
     webpack: ^5.1.0
-  checksum: 06cb4fb6fc99a95ccfd3169115ee57f64953e5b4075900fc8faab98b7e7d3fcd6915b125fdb98c919cfd55e581a8444f5c6b9dbb342cbd60b154d8fb3f79f2b9
+  checksum: 87f0f4530ab3e58ec06a7c3182028dfd8cc85b045a0d18c4464caafeae1ed1141c2aad6eae37e100a74a72b69dc48c93af358c07038b7a22f490a678c0ab142e
   languageName: node
   linkType: hard
 
@@ -14500,6 +14502,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"globby@npm:^12.0.2":
+  version: 12.2.0
+  resolution: "globby@npm:12.2.0"
+  dependencies:
+    array-union: ^3.0.1
+    dir-glob: ^3.0.1
+    fast-glob: ^3.2.7
+    ignore: ^5.1.9
+    merge2: ^1.4.1
+    slash: ^4.0.0
+  checksum: 2539379a7fff3473d3e7c68b4540ba38f36970f43f760e36e301515d5cb98a0c5736554957d90390906bee632327beb2f9518d1acd6911f61e436db11b0da5b5
+  languageName: node
+  linkType: hard
+
 "globby@npm:^9.2.0":
   version: 9.2.0
   resolution: "globby@npm:9.2.0"
@@ -14934,15 +14950,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"history@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "history@npm:5.2.0"
-  dependencies:
-    "@babel/runtime": ^7.7.6
-  checksum: 2c6a05aa86793e0a0857013457f34474c17f81a012c6bdb00bf30862389ac6a8c2df113d82176f67af2fd534ea9dc4e1218470c5526355b6fc1aefcc971f2eb2
-  languageName: node
-  linkType: hard
-
 "hmac-drbg@npm:^1.0.1":
   version: 1.0.1
   resolution: "hmac-drbg@npm:1.0.1"
@@ -15348,7 +15355,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore@npm:^5.2.0":
+"ignore@npm:^5.1.9, ignore@npm:^5.2.0":
   version: 5.2.0
   resolution: "ignore@npm:5.2.0"
   checksum: 6b1f926792d614f64c6c83da3a1f9c83f6196c2839aa41e1e32dd7b8d174cef2e329d75caabb62cb61ce9dc432f75e67d07d122a037312db7caa73166a1bdb77
@@ -18455,7 +18462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"merge2@npm:^1.2.3, merge2@npm:^1.3.0":
+"merge2@npm:^1.2.3, merge2@npm:^1.3.0, merge2@npm:^1.4.1":
   version: 1.4.1
   resolution: "merge2@npm:1.4.1"
   checksum: 7268db63ed5169466540b6fb947aec313200bcf6d40c5ab722c22e242f651994619bcd85601602972d3c85bd2cc45a358a4c61937e9f11a061919a1da569b0c2
@@ -18535,7 +18542,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mime@npm:1.6.0, mime@npm:^1":
+"mime@npm:1.6.0, mime@npm:^1.6.0":
   version: 1.6.0
   resolution: "mime@npm:1.6.0"
   bin:
@@ -21923,7 +21930,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^16, react-dom@npm:^16.14.0":
+"react-dom@npm:^16.14.0":
   version: 16.14.0
   resolution: "react-dom@npm:16.14.0"
   dependencies:
@@ -22202,7 +22209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^5, react-router-dom@npm:^5.1.0":
+"react-router-dom@npm:^5.1.0, react-router-dom@npm:^5.3.0":
   version: 5.3.0
   resolution: "react-router-dom@npm:5.3.0"
   dependencies:
@@ -23887,6 +23894,13 @@ __metadata:
   version: 3.0.0
   resolution: "slash@npm:3.0.0"
   checksum: 94a93fff615f25a999ad4b83c9d5e257a7280c90a32a7cb8b4a87996e4babf322e469c42b7f649fd5796edd8687652f3fb452a86dc97a816f01113183393f11c
+  languageName: node
+  linkType: hard
+
+"slash@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "slash@npm:4.0.0"
+  checksum: da8e4af73712253acd21b7853b7e0dbba776b786e82b010a5bfc8b5051a1db38ed8aba8e1e8f400dd2c9f373be91eb1c42b66e91abb407ff42b10feece5e1d2d
   languageName: node
   linkType: hard
 
@@ -26077,9 +26091,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm@npm:^0.2.42":
-  version: 0.2.42
-  resolution: "typeorm@npm:0.2.42"
+"typeorm@npm:^0.2.43":
+  version: 0.2.43
+  resolution: "typeorm@npm:0.2.43"
   dependencies:
     "@sqltools/formatter": ^1.2.2
     app-root-path: ^3.0.0
@@ -26147,7 +26161,7 @@ __metadata:
       optional: true
   bin:
     typeorm: cli.js
-  checksum: 6bec3a1c58658cd0d2bfa2fe89486f0b3d8d6b480a7a30bb26bd2faf0fc768d2fa454b87280b02ad9bb861ec848f94b7ea616a6f40e92073dae0abff2f248f8e
+  checksum: cd9dd1f5804ac2b56f8b913d5fe58cb371d27f28fe31297c2588d875927de92ad3dbb00b10e0cd8ed638e570ddc0e6813e69cf9251aefc97406f1f3578cbfa81
   languageName: node
   linkType: hard
 
@@ -26998,7 +27012,7 @@ __metadata:
     "@types/bs58": ^4.0.1
     "@types/debug": ^4.1.7
     "@types/express": ^4.17.13
-    "@types/mime": ^1
+    "@types/mime": ^1.3.2
     "@types/ol": ^6.5.3
     "@types/react": ^16.14.23
     "@types/react-calendar-heatmap": ^1.6.3
@@ -27036,11 +27050,11 @@ __metadata:
     eslint-webpack-plugin: ^3.1.1
     express: ^4.17.3
     fp-ts: ^2.11.8
-    history: ^5.2.0
+    history: ^4.10.1
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     is-plain-object: ^5.0.0
-    mime: ^1
+    mime: ^1.6.0
     node-sass: 4.14.1
     ol: ^6.12.0
     prettier: ^2.5.1
@@ -27052,7 +27066,7 @@ __metadata:
     react-graph-vis: ^1.0.7
     react-helmet: ^6.1.0
     react-is: 17.0.2
-    react-router-dom: ^5
+    react-router-dom: ^5.3.0
     react-slick: ^0.28.1
     react-spring: ^9.4.3
     react-toc: ^2.0.0
@@ -27369,7 +27383,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5, webpack@npm:^5.1.0, webpack@npm:^5.9.0":
+"webpack@npm:^5, webpack@npm:^5.9.0":
   version: 5.65.0
   resolution: "webpack@npm:5.65.0"
   dependencies:
