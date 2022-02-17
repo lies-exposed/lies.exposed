@@ -2,7 +2,7 @@ import {
   Actor,
   Group,
   GroupMember,
-  Keyword
+  Keyword,
 } from "@econnessione/shared/io/http";
 import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
@@ -34,10 +34,11 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       style={{
         marginBottom: 40,
         width: "100%",
-        maxWidth: '100%'
+        maxWidth: "100%",
       }}
+      onClick={() => onClick?.(item)}
     >
-      <Grid container spacing={2} style={{ width: "100%", maxWidth: '100%' }}>
+      <Grid container spacing={2} style={{ width: "100%", maxWidth: "100%" }}>
         <EventListItemBase
           title={item.payload.title}
           excerpt={item.excerpt}
