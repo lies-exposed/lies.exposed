@@ -1,9 +1,9 @@
-# ECOnnessione
+# lies.exposed
 
-![GitHub issues](https://img.shields.io/github/issues/ascariandrea/econnessione)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/ascariandrea/econnessione)
-![GitHub Workflow Tests Spec Status](https://img.shields.io/github/workflow/status/ascariandrea/econnessione/tests-spec)
-![GitHub Workflow Tests E2E Status](https://img.shields.io/github/workflow/status/ascariandrea/econnessione/tests-e2e)
+![GitHub issues](https://img.shields.io/github/issues/lies.exposed/lies-exposed)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/lies.exposed/lies-exposed)
+![GitHub Workflow Tests Spec Status](https://img.shields.io/github/workflow/status/lies.exposed/lies-exposed/tests-spec)
+![GitHub Workflow Tests E2E Status](https://img.shields.io/github/workflow/status/lies.exposed/lies-exposed/tests-e2e)
 
 ---
 
@@ -15,10 +15,10 @@ The project is built using `yarn workspaces` and divided in `packages` and `serv
 
 Packages contains all the common code used in `services`.
 
-- [@econnessione/core](./packages/@econnessione/core/README.md) contains all the core modules
-- [@econnessione/shared](./packages/@econnessione/shared./README.md) contains domain specific definitions for `models` and `endpoints`
+- [@liexp/core](./packages/@liexp/core/README.md) contains all the core modules
+- [@liexp/shared](./packages/@liexp/shared./README.md) contains domain specific definitions for `models` and `endpoints`
 
-- [@econnessione/ui](./packages/@econnessione/ui/README.md) contains all `ui` components
+- [@liexp/ui](./packages/@liexp/ui/README.md) contains all `ui` components
 
 
 ### Services
