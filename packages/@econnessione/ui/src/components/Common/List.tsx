@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { List as MUIList } from "@material-ui/core";
 import * as React from "react";
 
 export interface ListItemProps<A> {
@@ -24,10 +24,10 @@ export const List = <A extends any>({
   onItemClick,
 }: ListProps<A>): JSX.Element => {
   return (
-    <Grid container style={style}>
+    <MUIList style={style}>
       {data.map((d, i) => (
         <ListItem key={getKey(d)} item={d} onClick={onItemClick} index={i} />
       ))}
-    </Grid>
+    </MUIList>
   );
 };

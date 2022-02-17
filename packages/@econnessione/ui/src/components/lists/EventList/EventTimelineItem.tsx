@@ -6,12 +6,16 @@ import {
   TimelineDot,
   TimelineItem,
   TimelineOppositeContent,
-  TimelineSeparator
+  TimelineSeparator,
 } from "@material-ui/lab";
 import * as React from "react";
-import { isValidValue } from '../../Common/Editor';
+import { isValidValue } from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons/EventIcon";
-import { EventListItem, EventListItemProps, SearchEvent } from "./EventListItem";
+import {
+  EventListItem,
+  EventListItemProps,
+  SearchEvent,
+} from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 
 export interface EventTimelineItemProps extends EventListItemProps {
@@ -36,9 +40,24 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
-      alignItems: 'center',
+      alignItems: "center",
       marginTop: 10,
-      marginBottom: 10
+      marginBottom: 10,
+      width: "100%",
+    },
+  },
+  subjectsBox: {
+    display: "flex",
+    flexGrow: 1,
+  },
+  editButtonBox: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    flexGrow: 1,
+    [theme.breakpoints.down("md")]: {
+      flexGrow: 0,
     },
   },
   separator: {
@@ -68,6 +87,7 @@ export const getItemHeight = (e: SearchEvent): number => {
 const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
   event: e,
   isLast,
+  style,
   ...props
 }) => {
   const classes = useStyles();
@@ -78,7 +98,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
       className={classes.root}
       style={{
         overflow: "hidden",
-        ...props.style,
+        ...style,
       }}
     >
       <Grid
@@ -101,22 +121,14 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
             width: "100%",
           }}
         >
-          <TimelineItem className={classes.wrapper} style={{ width: "100%" }}>
+          <TimelineItem className={classes.wrapper}>
             <TimelineOppositeContent className={classes.oppositeContent}>
               <Typography variant="subtitle1" color="primary">
                 {formatDate(e.date)}
               </Typography>
-              <TimelineEventSubjects event={e} {...props} />
+              <TimelineEventSubjects className={classes.subjectsBox} event={e} {...props} />
 
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-end",
-                  justifyContent: "flex-end",
-                  flexGrow: 1,
-                }}
-              >
+              <Box className={classes.editButtonBox}>
                 <Link
                   href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
                   target="_blank"

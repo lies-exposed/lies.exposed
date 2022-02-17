@@ -4,14 +4,14 @@ import {
   GroupMember,
   Events,
 } from "@econnessione/shared/io/http";
-import { Box } from "@material-ui/core";
+import { Box, BoxProps } from "@material-ui/core";
 import * as React from "react";
 import { ActorList } from "../ActorList";
 import GroupsList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 import { SearchEvent } from "./EventListItem";
 
-export interface EventListItemProps {
+export interface EventListItemProps extends BoxProps {
   event: SearchEvent;
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
@@ -29,6 +29,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   onActorClick,
   onGroupClick,
   onGroupMemberClick,
+  ...props
 }) => {
   const actors =
     e.type === Events.Death.DEATH.value
@@ -63,18 +64,16 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
         );
       case Events.ScientificStudy.ScientificStudyType.value:
         return (
-          <Box style={{ ...style, flexDirection: "column" }}>
-            <GroupsList
-              style={style}
-              avatarSize="medium"
-              groups={groups.map((a) => ({ ...a, selected: true }))}
-              onItemClick={onGroupClick}
-            />
-          </Box>
+          <GroupsList
+            style={style}
+            avatarSize="medium"
+            groups={groups.map((a) => ({ ...a, selected: true }))}
+            onItemClick={onGroupClick}
+          />
         );
       default: {
         return (
-          <>
+          <Box {...props} style={{ ...props.style, ...style }}>
             <ActorList
               style={style}
               actors={actors.map((a) => ({ ...a, selected: true }))}
@@ -93,11 +92,15 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
               }))}
               onItemClick={onGroupMemberClick}
             />
-          </>
+          </Box>
         );
       }
     }
   }, [e.type]);
 
-  return <Box style={{ ...style, flexDirection: "column" }}>{content}</Box>;
+  return (
+    <Box {...props} style={{ ...style, ...props.style }}>
+      {content}
+    </Box>
+  );
 };

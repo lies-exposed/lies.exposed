@@ -6,12 +6,12 @@ import {
   IndexRange,
   InfiniteLoader,
   List,
-  ListRowProps
+  ListRowProps,
 } from "react-virtualized";
 import "react-virtualized/styles.css";
 import {
   SearchEventQueryInput,
-  SearchEventQueryResult
+  SearchEventQueryResult,
 } from "../../../state/queries/SearchEventsQuery";
 import { isValidValue } from "../../Common/Editor";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
@@ -103,7 +103,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const isDownMD = useMediaQuery(theme.breakpoints.down("md"));
 
   const itemProps = {
-    classes,
     onClick,
     onActorClick,
     onGroupClick,
@@ -157,6 +156,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
             return (
               <List
                 {...listProps}
+                className={classes.timeline}
                 ref={registerChild}
                 width={width}
                 height={height}
