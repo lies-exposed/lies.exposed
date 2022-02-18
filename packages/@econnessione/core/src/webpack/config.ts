@@ -119,6 +119,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     plugins.push(
       new DotenvWebpackPlugin({
         path: DOTENV_CONFIG_PATH,
+        silent: true
       })
     );
   }
@@ -178,7 +179,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
               options: {
                 context: opts.cwd,
                 projectReferences: true,
-                transpileOnly: false,
+                transpileOnly: true,
                 // getCustomTransformers: () => ({
                 //   before: [
                 //     mode === 'development' &&
