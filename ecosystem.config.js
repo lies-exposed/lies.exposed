@@ -45,7 +45,7 @@ module.exports = {
         "yarn",
         "yarn api build",
         "yarn api migration:run",
-        'export NODE_OPTIONS="--max-old-space-size=8192" && yarn web build',
+        "export NODE_OPTIONS=\"--max-old-space-size=8192\" && yarn web build",
         "pm2 reload ecosystem.config.js",
       ].join(" && "),
     },
