@@ -48,7 +48,7 @@ module.exports = {
         "yarn api migration:run",
         "node -v",
         "ls -la",
-        "yarn web build",
+        "DEBUG=@eco* yarn web build",
         "pm2 reload ecosystem.config.js",
       ].join(" && "),
     },
