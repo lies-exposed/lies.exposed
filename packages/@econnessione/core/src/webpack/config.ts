@@ -119,7 +119,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     plugins.push(
       new DotenvWebpackPlugin({
         path: DOTENV_CONFIG_PATH,
-        silent: true
+        silent: true,
       })
     );
   }
@@ -215,7 +215,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           // context: opts.cwd,
         }),
       ],
-      modules: ["node_modules", path.resolve(opts.cwd)],
+      // modules: [],
       // resolve: {
       //   extensions: [".ts", ".tsx", ".js"],
       //   plugins: [
@@ -224,13 +224,15 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       //     }),
       //   ],
       //   // mainFields: ['main', 'module'],
-      //   modules: [
-      //     // path.resolve(opts.cwd, 'node_modules'),
-      //     // path.resolve(opts.cwd, "../../packages/@econnessione/shared/node_modules"),
-      //     // path.resolve(opts.cwd, "../../packages/@econnessione/ui/node_modules"),
-      //     path.resolve(opts.cwd, "../../node_modules"),
-      //     path.resolve(opts.cwd, "../../"),
-      //   ],
+      modules: [
+        // "node_modules",
+        // path.resolve(opts.cwd)
+        // path.resolve(opts.cwd, 'node_modules'),
+        // path.resolve(opts.cwd, "../../packages/@econnessione/shared/node_modules"),
+        // path.resolve(opts.cwd, "../../packages/@econnessione/ui/node_modules"),
+        path.resolve(opts.cwd, "../../node_modules"),
+        path.resolve(opts.cwd, "../../"),
+      ],
     },
     plugins: plugins as any,
   };
