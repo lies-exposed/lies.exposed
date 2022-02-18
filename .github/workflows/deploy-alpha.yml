@@ -79,7 +79,7 @@ jobs:
           PUBLIC_URL: https://alpha.lies.exposed/web/
           API_URL: https://alpha.api.lies.exposed/v1
           ADMIN_URL: https://alpha.lies.exposed/admin
-        run: yarn workspace web build
+        run: yarn web build
 
 
       - name: Upload Web build to DO Space

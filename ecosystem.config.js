@@ -46,6 +46,8 @@ module.exports = {
         "yarn shared build",
         "yarn api build",
         "yarn api migration:run",
+        "node -v",
+        "ls -la",
         "yarn web build",
         "pm2 reload ecosystem.config.js",
       ].join(" && "),
