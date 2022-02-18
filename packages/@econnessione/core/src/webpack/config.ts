@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import * as path from "path";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import DotenvWebpackPlugin from "dotenv-webpack";
-import { pipe } from "fp-ts/lib/function";
 import * as R from "fp-ts/lib/Record";
+import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import * as path from "path";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";

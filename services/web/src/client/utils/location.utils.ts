@@ -1,12 +1,12 @@
-import { available, queryStrict } from "avenger";
 import { Buffer } from "buffer";
+import { available, queryStrict } from "avenger";
+import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 // import {
 //   getCurrentView,
 //   getDoUpdateCurrentView,
 //   HistoryLocation,
 // } from "avenger/lib/browser";
-import * as TE from "fp-ts/lib/TaskEither";
 
 interface CommonViewArgs {
   tab?: number;
@@ -395,6 +395,7 @@ export const currentView = queryStrict<any, any, any>(
 export const doUpdateCurrentView: (
   input: CurrentView
 ) => TE.TaskEither<void, void> = (input) => {
+  // eslint-disable-next-line
   console.log(input);
   return TE.right(undefined);
-}; // Command
+};

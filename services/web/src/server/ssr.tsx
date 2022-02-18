@@ -1,8 +1,8 @@
+import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
 import { getServer } from "@econnessione/ui/react/ssr";
 import dotenv from "dotenv";
 import express from "express";
-import * as path from "path";
 import { App } from "../client/App";
 
 dotenv.config({

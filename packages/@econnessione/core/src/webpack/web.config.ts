@@ -1,8 +1,8 @@
+import * as path from "path";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as t from 'io-ts';
-import * as path from "path";
 import * as webpack from 'webpack';
 import { getConfig, GetConfigParams } from "./config";
 

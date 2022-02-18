@@ -1,10 +1,10 @@
-import { EventsPanel } from "@containers/EventsPanel";
 import { formatDate } from "@econnessione/shared/utils/date";
 import SEO from "@econnessione/ui/components/SEO";
 import { Grid } from "@material-ui/core";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { EventsView } from "../utils/location.utils";
+import { EventsPanel } from "@containers/EventsPanel";
 
 const MIN_DATE = formatDate(subYears(new Date(), 100));
 const MAX_DATE = formatDate(new Date());
