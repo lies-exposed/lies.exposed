@@ -1,3 +1,4 @@
+import "@econnessione/ui/theme/font.css";
 import { ECOTheme } from "@econnessione/ui/theme";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import debug from "debug";
