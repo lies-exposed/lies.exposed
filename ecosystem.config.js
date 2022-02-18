@@ -46,7 +46,7 @@ module.exports = {
         "yarn shared build",
         "yarn api build",
         "yarn api migration:run",
-        "DEBUG=@eco* NODE_ENV=production yarn web build",
+        "DEBUG=* NODE_ENV=production yarn web build",
         "pm2 reload ecosystem.config.js",
       ].join(" && "),
     },
