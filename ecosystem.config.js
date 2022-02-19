@@ -44,7 +44,7 @@ module.exports = {
         "cp -r ~/certs/dev-certificate.crt ~/node/app/source/services/api/certs/alpha-db-ca-certificate.crt",
         "yarn",
         "yarn packages:build",
-        "NODE_ENV=production yarn admin build",
+        "NODE_ENV=production yarn admin-web build",
         "ln -s ~/node/app/source/services/admin-web/build /var/www/alpha.lies.exposed/admin",
         "NODE_ENV=production yarn web build",
         "NODE_ENV=production yarn api build",
