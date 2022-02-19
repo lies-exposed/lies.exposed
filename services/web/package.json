@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf build",
     "watch": "NODE_ENV=development webpack watch",
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' webpack",
+    "build": "webpack",
     "test": "jest",
     "tsc:build": "tsc -b",
     "tsc:watch": "tsc -b --watch",
