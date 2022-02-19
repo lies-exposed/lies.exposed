@@ -9,7 +9,7 @@ module.exports = {
       cwd: path.resolve(__dirname, "./services/web"),
       script: "./build/server/ssr.js",
       listen_timeout: 100000,
-      watch: ['src', 'build'],
+      watch: ["src", "build"],
       watch_delay: 1000,
       env: dotenv.parse(
         fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")
@@ -46,7 +46,9 @@ module.exports = {
         "yarn packages:build",
         "yarn api build",
         "yarn api migration:run",
-        "NODE_ENV=production yarn web build --stats verbose",
+        "NODE_ENV=production yarn web build",
+        "NODE_ENV=production yarn admin build",
+        "ln -s ~/node/app/source/services/admin-web/build /var/www/alpha.lies.exposed/admin",
         "pm2 reload ecosystem.config.js",
       ].join(" && "),
     },
