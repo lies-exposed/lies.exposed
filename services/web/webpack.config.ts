@@ -1,10 +1,10 @@
-import { getWebConfig } from "../../packages/@econnessione/core/src/webpack/web.config";
 import path from "path";
-import nodeExternals from "webpack-node-externals";
+// import nodeExternals from "webpack-node-externals";
 import {
   defineEnv,
-  getConfig,
+  getConfig
 } from "../../packages/@econnessione/core/src/webpack/config";
+import { getWebConfig } from "../../packages/@econnessione/core/src/webpack/web.config";
 
 const AppEnv = defineEnv((t) => ({
   NODE_ENV: t.string,

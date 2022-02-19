@@ -173,6 +173,10 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         {
           test: /\.(t|j)sx?$/,
           exclude: /node_modules/,
+          // include: [
+          //   path.resolve(opts.cwd, 'src'),
+          //   /node_modules\/@material-ui/
+          // ],
           use: [
             {
               loader: "ts-loader",
