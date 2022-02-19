@@ -37,7 +37,10 @@ module.exports = {
       ref: process.env.REF ?? "origin/release/alpha",
       path: "/root/node/app",
       repo: "https://github.com/lies-exposed/lies.exposed.git",
-      "pre-deploy-local": "echo 'This is a local executed command'",
+      "pre-deploy-local": [
+        "scp ./services/web/.env.alpha alpha.api.lies.exposed:env/web/.env",
+        "scp ./services/admin-web/.env.alpha alpha.api.lies.exposed:env/admin/.env",
+      ].join(" && "),
       "post-deploy": [
         "set -e -x",
         "cp ~/.env ~/node/app/source/.env",
