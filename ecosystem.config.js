@@ -43,7 +43,7 @@ module.exports = {
         "cp ~/.env ~/node/app/source/.env",
         "cp -r ~/certs/dev-certificate.crt ~/node/app/source/services/api/certs/alpha-db-ca-certificate.crt",
         "yarn",
-        "yarn shared build",
+        "yarn packages:build",
         "yarn api build",
         "yarn api migration:run",
         "NODE_ENV=production yarn web build --stats verbose",
