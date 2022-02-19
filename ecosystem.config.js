@@ -46,7 +46,7 @@ module.exports = {
         "yarn shared build",
         "yarn api build",
         "yarn api migration:run",
-        "DOTENV_CONFIG_PATH=.env.alpha yarn web build",
+        "NODE_ENV=production yarn web build --stats verbose",
         "pm2 reload ecosystem.config.js",
       ].join(" && "),
     },
