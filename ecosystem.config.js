@@ -45,7 +45,7 @@ module.exports = {
         "yarn",
         "yarn packages:build",
         "NODE_ENV=production yarn admin-web build",
-        "ln -s ~/node/app/source/services/admin-web/build /var/www/alpha.lies.exposed/admin",
+        "ln -s ~/node/app/source/services/admin-web/build /var/www/html/alpha.lies.exposed/admin",
         "NODE_ENV=production yarn web build",
         "NODE_ENV=production yarn api build",
         "yarn api migration:run",
