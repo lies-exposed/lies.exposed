@@ -38,12 +38,14 @@ module.exports = {
       path: "/root/node/app",
       repo: "https://github.com/lies-exposed/lies.exposed.git",
       "pre-deploy-local": [
-        "scp ./services/web/.env.alpha alpha.api.lies.exposed:env/web/.env",
-        "scp ./services/admin-web/.env.alpha alpha.api.lies.exposed:env/admin/.env",
+        "scp ./services/web/.env.alpha alpha.api.lies.exposed:envs/web/.env",
+        "scp ./services/admin-web/.env.alpha alpha.api.lies.exposed:envs/admin/.env",
       ].join(" && "),
       "post-deploy": [
         "set -e -x",
         "cp ~/.env ~/node/app/source/.env",
+        "cp ~/envs/admin/.env ~/node/app/source/services/admin/.env",
+        "cp ~/envs/web/.env ~/node/app/source/services/web/.env",
         "cp -r ~/certs/dev-certificate.crt ~/node/app/source/services/api/certs/alpha-db-ca-certificate.crt",
         "yarn",
         "yarn packages:build",
