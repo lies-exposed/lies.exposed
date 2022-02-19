@@ -6,6 +6,7 @@ import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
 import { ECOTheme } from "../theme";
+import { Helmet } from "react-helmet";
 
 const ssrLog = GetLogger("ssr");
 
@@ -33,17 +34,22 @@ export const getServer = (
       );
       // Grab the CSS from the sheets.
       const css = sheets.toString();
-
-      return res
-        .setHeader("Content-Type", "text/html")
-        .send(
-          data
-            .replace(
-              '<style id="jss-server-side"></style>',
-              `<style id="jss-server-side">${css}</style>`
-            )
-            .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
-        );
+      const helmet = Helmet.renderStatic();
+      return res.setHeader("Content-Type", "text/html").send(
+        data
+          .replace(
+            "</head>",
+            [helmet.meta, helmet.title, helmet.script]
+              .map((m) => m.toString())
+              .join("")
+              .concat("</head>")
+          )
+          .replace(
+            '<style id="jss-server-side"></style>',
+            `<style id="jss-server-side">${css}</style>`
+          )
+          .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+      );
     });
   });
 
