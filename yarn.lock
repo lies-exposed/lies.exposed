@@ -2050,7 +2050,7 @@ __metadata:
     "@types/react": ^16.14.23
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.8
-    "@types/react-virtualized": ^9.21.19
+    "@types/react-virtualized": ^9.21.20
     "@types/throttle-debounce": ^2.1.0
     "@types/topojson-client": ^3.1.0
     "@types/topojson-specification": ^1.0.2
@@ -6165,13 +6165,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized@npm:^9.21.19":
-  version: 9.21.19
-  resolution: "@types/react-virtualized@npm:9.21.19"
+"@types/react-virtualized@npm:^9.21.20":
+  version: 9.21.20
+  resolution: "@types/react-virtualized@npm:9.21.20"
   dependencies:
     "@types/prop-types": "*"
     "@types/react": "*"
-  checksum: e46a94ac599d0980df03ca54609c09ccb9b687d3c51ee0a560bd7c73b696f3c5603a000df04c369a582dc10cfe2d5e3258a73ef8c686043a9004f64ee53b7efe
+  checksum: 70fd77d9a0fc498b4eb29a195f218fd10f6ca935025813d53d3937e1464580bfbfd3a0c84806530f21cf810c1f6cf1789656052a9714b23de46702b1ac1b73c5
   languageName: node
   linkType: hard
 
@@ -7552,7 +7552,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.12.0
     debug: ^4.3.3
     eslint: ^8.9.0
-    eslint-config-prettier: ^8.3.0
+    eslint-config-prettier: ^8.4.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
@@ -7907,13 +7907,13 @@ __metadata:
     "@types/pg": ^8.6.4
     "@types/supertest": ^2.0.11
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1075.0
+    aws-sdk: ^2.1077.0
     axios: ^0.25.0
     cors: 2.8.5
     debug: ^4.3.3
     domino: ^2.1.6
     eslint: ^8.9.0
-    eslint-config-prettier: ^8.3.0
+    eslint-config-prettier: ^8.4.0
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
     express: 4.17.3
@@ -8417,9 +8417,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1075.0":
-  version: 2.1075.0
-  resolution: "aws-sdk@npm:2.1075.0"
+"aws-sdk@npm:^2.1077.0":
+  version: 2.1077.0
+  resolution: "aws-sdk@npm:2.1077.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -8430,7 +8430,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 0f9e6ff0a252becf84de8216ca2c16b15ada2615e19b1249ba373cb4c9b55ebe041f870d43d5b31f2c1c829a93b4d8bde7c7de78b930a8957b51b208d5e50ee3
+  checksum: 728e8f2dfb1751d050ba5fdb032c78a8748ea3d8d13c898efdb0c68db3cd4a5369fab782d0d827a0cb8830372fabf2621e2824a8838d152eec2b8726f30f1a42
   languageName: node
   linkType: hard
 
@@ -12046,7 +12046,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.12.0
     "@typescript-eslint/parser": ^5.12.0
     eslint: ^8.9.0
-    eslint-config-prettier: ^8.3.0
+    eslint-config-prettier: ^8.4.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
@@ -12457,14 +12457,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.3.0":
-  version: 8.3.0
-  resolution: "eslint-config-prettier@npm:8.3.0"
+"eslint-config-prettier@npm:^8.4.0":
+  version: 8.4.0
+  resolution: "eslint-config-prettier@npm:8.4.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: df4cea3032671995bb5ab07e016169072f7fa59f44a53251664d9ca60951b66cdc872683b5c6a3729c91497c11490ca44a79654b395dd6756beb0c3903a37196
+  checksum: ee8dc343f1fed15dc0658e190a966cc23644477f2331a7f56ae2bb79dd74892e3cde8ea5c142e7a3329a8291a1de041e13ca96e54d0c85ff4a2aba13390c5f10
   languageName: node
   linkType: hard
 
@@ -26555,7 +26555,7 @@ __metadata:
     debug: ^4.3.3
     dotenv: ^16.0.0
     eslint: ^8.9.0
-    eslint-config-prettier: ^8.3.0
+    eslint-config-prettier: ^8.4.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4

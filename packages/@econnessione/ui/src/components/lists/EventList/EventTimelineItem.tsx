@@ -87,6 +87,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
   event: e,
   isLast,
   style,
+  onKeywordClick,
   ...props
 }) => {
   const classes = useStyles();
@@ -144,7 +145,11 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
               {!isLast ? <TimelineConnector /> : null}
             </TimelineSeparator>
             <TimelineContent className={classes.content}>
-              <EventListItem event={e} {...props} />
+              <EventListItem
+                event={e}
+                onKeywordClick={onKeywordClick}
+                {...props}
+              />
             </TimelineContent>
           </TimelineItem>
         </Grid>

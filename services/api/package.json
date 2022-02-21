@@ -26,7 +26,7 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
-    "aws-sdk": "^2.1075.0",
+    "aws-sdk": "^2.1077.0",
     "axios": "^0.25.0",
     "cors": "2.8.5",
     "debug": "^4.3.3",
@@ -72,7 +72,7 @@
     "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.4",
     "eslint": "^8.9.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.4.0",
     "eslint-import-resolver-typescript": "^2.5.0",
     "eslint-plugin-import": "^2.25.4",
     "fast-check": "^2.22.0",

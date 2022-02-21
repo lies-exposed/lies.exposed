@@ -32,12 +32,29 @@ const useStyles = makeStyles((props) => ({
 }));
 
 const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
-  const { index, event, ...listItemProps } = props;
+  const {
+    event,
+    onClick,
+    onKeywordClick,
+    onActorClick,
+    onGroupClick,
+    onGroupMemberClick,
+    isLast,
+  } = props;
   if (!event) {
     return <FullSizeLoader style={{ height: 100 }} />;
   }
   return (
-    <EventTimelineItem {...listItemProps} key={event.id} event={{ ...event }} />
+    <EventTimelineItem
+      isLast={isLast}
+      key={event.id}
+      event={{ ...event }}
+      onClick={onClick}
+      onKeywordClick={onKeywordClick}
+      onActorClick={onActorClick}
+      onGroupClick={onGroupClick}
+      onGroupMemberClick={onGroupMemberClick}
+    />
   );
 };
 
