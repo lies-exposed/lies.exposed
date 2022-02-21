@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   oppositeContent: {
-    flex: 0,
+    flexGrow: 0,
+    flexShrink: 1,
     display: "flex",
     flexDirection: "column",
     [theme.breakpoints.down("md")]: {
@@ -45,10 +46,6 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 10,
       width: "100%",
     },
-  },
-  subjectsBox: {
-    display: "flex",
-    flexGrow: 1,
   },
   editButtonBox: {
     display: "flex",
@@ -66,6 +63,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   content: {
+    flexGrow: 1,
+    flexShrink: 0,
     paddingBottom: 20,
   },
 }));
@@ -126,7 +125,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
               <Typography variant="subtitle1" color="primary">
                 {formatDate(e.date)}
               </Typography>
-              <TimelineEventSubjects className={classes.subjectsBox} event={e} {...props} />
+              <TimelineEventSubjects event={e} {...props} />
 
               <Box className={classes.editButtonBox}>
                 <Link

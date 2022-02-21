@@ -1,3 +1,4 @@
+import { GetSearchEVentsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
 import {
@@ -27,13 +28,15 @@ import {
   Tab,
   Tabs,
   Toolbar,
-  useTheme,
 } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import clsx from "clsx";
+import { number } from "fp-ts";
 import * as O from "fp-ts/lib/Option";
+import qs from "qs";
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 import { IndexRange } from "react-virtualized";
 import EventsAppBar from "../components/events/EventsAppBar";
 import EventsFilter from "../components/events/EventsFilter";
@@ -43,6 +46,8 @@ import {
   CurrentView,
   doUpdateCurrentView,
   EventsView,
+  useNavigate,
+  useRouteQuery,
 } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 
@@ -134,26 +139,27 @@ const useStyles = makeStyles((theme: ECOTheme) =>
 );
 
 interface EventsPanelProps {
-  view: CurrentView;
-  showFilters: boolean;
-  filters: Required<Omit<EventsView, "view">>;
+  query: Omit<GetSearchEVentsQueryInput, "startDate" | "endDate"> & {
+    hash: string;
+    tab: number;
+    page: number;
+    startDate: string;
+    endDate: string;
+  };
 }
 export const EventsPanel: React.FC<EventsPanelProps> = ({
-  view,
-  showFilters,
-  filters: {
+  query: {
     tab = 0,
-    hash,
+    hash = "default",
     startDate,
     endDate,
-    actors: actorIds,
-    groups: groupIds,
-    groupsMembers: groupsMembersIds,
-    keywords: keywordIds,
+    actors: actorIds = [],
+    groups: groupIds = [],
+    groupsMembers: groupsMembersIds = [],
+    keywords: keywordIds = [],
     ...filtersRest
   },
 }) => {
-
   const params = {
     ...filtersRest,
     startDate,
@@ -162,12 +168,14 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     groups: groupIds,
     groupsMembers: groupsMembersIds,
     keywords: keywordIds,
-    hash,
+    hash: hash,
     tab,
   };
 
   const classes = useStyles();
-  const theme = useTheme();
+
+  const navigateTo = useNavigate();
+
   const [open, setOpen] = React.useState(true);
   const [searchEvents, setSearchEvents] =
     React.useState<SearchEventQueryResult>({
@@ -201,11 +209,14 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   const handleUpdateCurrentView = React.useCallback(
     (update: Partial<Omit<CurrentView, "view">>): void => {
-      void doUpdateCurrentView({
-        ...view,
-        ...params,
-        ...update,
-      })();
+      navigateTo({ ...params, ...update, view: "events" });
+      // const q = qs.stringify({ ...params, ...update });
+      // history.push(`/events?${q}`);
+      // void doUpdateCurrentView({
+      //   ...view,
+      //   ...params,
+      //   ...update,
+      // })();
     },
     [hash, tab, params]
   );

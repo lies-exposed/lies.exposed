@@ -3,33 +3,38 @@ import SEO from "@econnessione/ui/components/SEO";
 import { Grid } from "@material-ui/core";
 import { subYears } from "date-fns";
 import * as React from "react";
-import { EventsView } from "../utils/location.utils";
+import { EventsView, useRouteQuery } from "../utils/location.utils";
 import { EventsPanel } from "@containers/EventsPanel";
 
 const MIN_DATE = formatDate(subYears(new Date(), 100));
 const MAX_DATE = formatDate(new Date());
 
-interface EventsPageProps extends EventsView {}
+interface EventsPageProps extends Omit<EventsView, "view"> {}
 
-const EventsPage: React.FC<EventsPageProps> = ({
-  actors: actorIds = [],
-  groups: groupIds = [],
-  groupsMembers: groupsMembersIds = [],
-  keywords: keywordIds = [],
-  startDate = MIN_DATE,
-  endDate = MAX_DATE,
-  tab = 0,
-  hash = "default",
-}) => {
+const EventsPage: React.FC<EventsPageProps> = () => {
+  const {
+    actors: actorIds = [],
+    groups: groupIds = [],
+    groupsMembers: groupsMembersIds = [],
+    keywords: keywordIds = [],
+    startDate = MIN_DATE,
+    endDate = MAX_DATE,
+    tab = 0,
+    hash = "default",
+  } = useRouteQuery() as any;
+
   const filters = {
     startDate,
     endDate,
-    keywords: keywordIds,
-    groups: groupIds,
-    actors: actorIds,
-    groupsMembers: groupsMembersIds,
+    keywords: typeof keywordIds === "string" ? [keywordIds] : keywordIds,
+    groups: typeof groupIds === "string" ? [groupIds] : groupIds,
+    actors: typeof actorIds === "string" ? [actorIds] : actorIds,
+    groupsMembers:
+      typeof groupsMembersIds === "string"
+        ? [groupsMembersIds]
+        : groupsMembersIds,
     hash,
-    tab,
+    tab: typeof tab === "string" ? parseInt(tab, 10) : tab,
   };
 
   return (
@@ -49,13 +54,7 @@ const EventsPage: React.FC<EventsPageProps> = ({
         sm={12}
         style={{ maxWidth: "100%", height: "100%", width: "100%" }}
       >
-        <EventsPanel
-          view={{
-            view: "events",
-          }}
-          showFilters={true}
-          filters={{ page: 1, ...filters, hash, tab }}
-        />
+        <EventsPanel query={{ page: 1, ...filters } as any} />
       </Grid>
     </Grid>
   );

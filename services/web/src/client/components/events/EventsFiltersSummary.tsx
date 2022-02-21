@@ -3,7 +3,7 @@ import GroupList from "@econnessione/ui/components/lists/GroupList";
 import { GroupsMembersList } from "@econnessione/ui/components/lists/GroupMemberList";
 import KeywordList from "@econnessione/ui/components/lists/KeywordList";
 import { SearchEventQueryResult } from "@econnessione/ui/state/queries/SearchEventsQuery";
-import { Grid, makeStyles, Typography, useTheme } from "@material-ui/core";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import * as React from "react";
 import { EventsView } from "../../utils/location.utils";
@@ -42,7 +42,6 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
     groupsMembers,
     queryFilters: { startDate, endDate },
   } = props;
-  const theme = useTheme();
 
   const classes = useStyles();
   return (

@@ -1,5 +1,3 @@
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 import { Media } from "@econnessione/shared/io/http";
 import * as React from "react";
 import * as SlickSlider from "react-slick";

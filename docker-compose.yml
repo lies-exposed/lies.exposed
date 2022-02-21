@@ -97,7 +97,7 @@ services:
     container_name: econnessione-admin-web
     image: econnessione_base
     env_file:
-      - ./services/admin-web/.env
+      - ./services/admin-web/.env.development
     ports:
       - "4001:4001"
     volumes:

@@ -121,7 +121,7 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(endDate)) {
-              q.andWhere("event.date < :endDate", {
+              q.andWhere("event.date =< :endDate", {
                 endDate: endDate.value.toDateString(),
               });
             }

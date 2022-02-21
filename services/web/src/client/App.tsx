@@ -1,7 +1,7 @@
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import {
   FullSizeLoader,
-  LazyFullSizeLoader
+  LazyFullSizeLoader,
 } from "@econnessione/ui/components/Common/FullSizeLoader";
 import "@econnessione/ui/components/Common/Icons/library";
 import { Footer } from "@econnessione/ui/components/Footer";
@@ -12,12 +12,13 @@ import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import IndexPage from './pages';
 import ProjectPage from "./pages/project";
 import {
   CurrentView,
   currentView,
-  doUpdateCurrentView
+  doUpdateCurrentView,
 } from "./utils/location.utils";
 
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
@@ -121,7 +122,7 @@ const getCurrentComponent = (currentView: CurrentView): React.ReactElement => {
 
     case "events":
     default:
-      return <EventsPage {...{ ...currentView, view: "events" }} />;
+      return <EventsPage {...{ ...(currentView as any) }} />;
     // return <IndexPage default={true} />;
   }
 };
@@ -131,11 +132,6 @@ export const App: React.FC = () => {
     <div style={{ height: "100%", display: "flex" }}>
       <Helmet.Helmet
         link={[
-          {
-            rel: "stylesheet",
-            type: "text/css",
-            href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
-          },
           {
             rel: "stylesheet",
             type: "text/css",
@@ -187,7 +183,10 @@ export const App: React.FC = () => {
                 >
                   <React.Suspense fallback={<FullSizeLoader />}>
                     <BrowserRouter>
-                      <Route render={() => <EventsPage view="events" />} />
+                      <Switch>
+                        <Route path="/events" render={() => <EventsPage />} />
+                        <Route render={(props) => <IndexPage />} />
+                      </Switch>
                     </BrowserRouter>
                   </React.Suspense>
                 </Grid>

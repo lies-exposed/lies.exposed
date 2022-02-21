@@ -2,6 +2,9 @@ import { Buffer } from "buffer";
 import { available, queryStrict } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { useHistory, useLocation } from "react-router-dom";
+import React from "react";
+import qs from "query-string";
 // import {
 //   getCurrentView,
 //   getDoUpdateCurrentView,
@@ -399,3 +402,20 @@ export const doUpdateCurrentView: (
   console.log(input);
   return TE.right(undefined);
 };
+
+export function useNavigate(): (v: CurrentView) => void {
+  const h = useHistory();
+  return ({ view, ...search }: CurrentView) => {
+    const query = qs.stringify(search, { arrayFormat: "comma" });
+    h.push(`${view}?${query}`);
+  };
+}
+
+export function useRouteQuery(): qs.ParsedQuery<string> {
+  const { search } = useLocation();
+
+  return React.useMemo(
+    () => qs.parse(search, { arrayFormat: "comma" }),
+    [search]
+  );
+}

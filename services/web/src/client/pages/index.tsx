@@ -2,6 +2,7 @@ import { PageContent } from "@econnessione/ui/components/PageContent";
 import { Grid } from "@material-ui/core";
 import * as React from "react";
 import * as Helmet from "react-helmet";
+import { Link } from "react-router-dom";
 
 export default class IndexPage extends React.PureComponent<any> {
   render(): JSX.Element {
@@ -22,6 +23,7 @@ export default class IndexPage extends React.PureComponent<any> {
             />
           </Helmet.Helmet>
           <PageContent queries={{ pageContent: { path: "index" } }} />
+          <Link to="/events">Events</Link>
         </Grid>
       </Grid>
     );
