@@ -18,7 +18,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
       src={media.location}
       style={{
         display: "flex",
-        minHeight: 300,
+        minHeight: 400,
         maxWidth: 800,
         width: "100%",
         ...props.style,

@@ -6,9 +6,11 @@ import { Box } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { doUpdateCurrentView } from "../utils/location.utils";
+import { useNavigate } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
+  const navigateTo = useNavigate();
+
   return (
     <WithQueries
       queries={{
@@ -23,28 +25,16 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
             <EventPageContent
               event={event as any}
               onGroupClick={(g) => {
-                void doUpdateCurrentView({
-                  view: "group",
-                  groupId: g.id,
-                })();
+                navigateTo.groups({ id: g.id });
               }}
               onKeywordClick={(k) => {
-                void doUpdateCurrentView({
-                  view: "keyword",
-                  keywordId: k.id,
-                })();
+                navigateTo.keywords({ id: k.id });
               }}
               onActorClick={(a) => {
-                void doUpdateCurrentView({
-                  view: "actor",
-                  actorId: a.id,
-                })();
+                navigateTo.actors({ id: a.id });
               }}
               onGroupMemberClick={(g) => {
-                void doUpdateCurrentView({
-                  view: "actor",
-                  actorId: g.actor.id,
-                })();
+                navigateTo.actors({ id: g.actor.id });
               }}
               onLinkClick={() => {}}
             />

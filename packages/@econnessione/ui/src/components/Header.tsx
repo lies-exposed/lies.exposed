@@ -30,6 +30,7 @@ const useStyles = makeStyles<ECOTheme>((theme) =>
       boxShadow: "none",
       zIndex: theme.zIndex.drawer + 1,
       flexGrow: 0,
+      maxHeight: 64
     },
     menuButton: {
       marginRight: theme.spacing(2),

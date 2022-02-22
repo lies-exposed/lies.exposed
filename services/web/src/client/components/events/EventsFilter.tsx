@@ -1,3 +1,4 @@
+import { GetSearchEventsQueryInput } from '@econnessione/shared/io/http/Events/SearchEventsQuery';
 import DatePicker from "@econnessione/ui/components/Common/DatePicker";
 import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
 import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
@@ -15,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 interface EventsFilterProps
   extends Omit<SearchEventQueryResult, "events" | "totals"> {
-  queryFilters: Omit<EventsView, "view">;
-  onQueryFilterChange: (f: Omit<EventsView, "view">) => void;
+  queryFilters: Partial<GetSearchEventsQueryInput>;
+  onQueryFilterChange: (f: Partial<GetSearchEventsQueryInput>) => void;
 }
 
 const EventsFilter: React.FC<EventsFilterProps> = ({
@@ -146,10 +147,8 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
               groups: [],
               groupsMembers: [],
               keywords: [],
-              tab: 0,
               startDate: undefined,
               endDate: undefined,
-              hash: undefined,
             })
           }
         >

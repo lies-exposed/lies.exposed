@@ -1,15 +1,11 @@
-import { Buffer } from "buffer";
+import * as io from "@econnessione/shared/io";
 import { available, queryStrict } from "avenger";
-import * as TE from "fp-ts/lib/TaskEither";
+import { Buffer } from "buffer";
 import { pipe } from "fp-ts/lib/function";
-import { useHistory, useLocation } from "react-router-dom";
-import React from "react";
+import * as TE from "fp-ts/lib/TaskEither";
 import qs from "query-string";
-// import {
-//   getCurrentView,
-//   getDoUpdateCurrentView,
-//   HistoryLocation,
-// } from "avenger/lib/browser";
+import React from "react";
+import { useHistory, useLocation } from "react-router-dom";
 
 interface CommonViewArgs {
   tab?: number;
@@ -327,30 +323,27 @@ export function viewToLocation(view: CurrentView): any {
           tab: view.tab?.toString(),
         },
       };
-    case "events":
-      // eslint-disable-next-line no-case-declarations
-      const query = {
-        actors: view.actors,
-        groups: view.groups,
-        groupsMembers: view.groupsMembers,
-        keywords: view.keywords,
-        startDate: view.startDate,
-        endDate: view.endDate,
-        tab: view.tab,
-      };
+    // case "events":
+    //   // eslint-disable-next-line no-case-declarations
+    //   const query = {
+    //     actors: view.actors,
+    //     groups: view.groups,
+    //     groupsMembers: view.groupsMembers,
+    //     keywords: view.keywords,
+    //     startDate: view.startDate,
+    //     endDate: view.endDate,
+    //     tab: view.tab,
+    //   };
 
-      // eslint-disable-next-line no-case-declarations
-      const hash = !isEventsQueryEmpty(query)
-        ? toBase64(toBase64(JSON.stringify(query)))
-        : undefined;
+    //   // eslint-disable-next-line no-case-declarations
 
-      return {
-        pathname,
-        search: {
-          path: `/dashboard/events/`,
-          hash,
-        },
-      };
+    //   return {
+    //     pathname,
+    //     search: {
+    //       path: `/dashboard/events/`,
+    //       hash,
+    //     },
+    //   };
     case "event":
       return {
         pathname,
@@ -395,19 +388,54 @@ export const currentView = queryStrict<any, any, any>(
   available
 );
 
-export const doUpdateCurrentView: (
-  input: CurrentView
-) => TE.TaskEither<void, void> = (input) => {
-  // eslint-disable-next-line
-  console.log(input);
-  return TE.right(undefined);
-};
 
-export function useNavigate(): (v: CurrentView) => void {
+type NavigateToResource = (f: { id?: string }, search?: any) => void;
+
+interface NavigationHooks {
+  actors: NavigateToResource;
+  events: NavigateToResource;
+  groups: NavigateToResource;
+  keywords: NavigateToResource;
+  navigate: (path: string, search?: any) => void;
+}
+
+export function useNavigate(): NavigationHooks {
   const h = useHistory();
-  return ({ view, ...search }: CurrentView) => {
+
+  const navigateToResource =
+    <K extends io.http.ResourcesNames>(resourceName: K) =>
+    (f: { id?: string }, search?: any): void => {
+      switch (resourceName) {
+        case `articles`:
+        case "events":
+        case "actors":
+        case "topics":
+        case "projects":
+        case "groups": {
+          const query = search
+            ? "?".concat(qs.stringify(search, { arrayFormat: "comma" }))
+            : "";
+          const id = f.id ? `/${f.id}` : "";
+          h.push(`/${resourceName}${id}${query}`);
+
+          break;
+        }
+        default:
+          break;
+      }
+    };
+
+  const navigate = (view: string, search?: any): void => {
     const query = qs.stringify(search, { arrayFormat: "comma" });
     h.push(`${view}?${query}`);
+  };
+
+  return {
+    actors: navigateToResource("actors"),
+    events: navigateToResource("events"),
+    groups: navigateToResource("groups"),
+    keywords: navigateToResource('keywords'),
+    navigate,
   };
 }
 
@@ -417,5 +445,33 @@ export function useRouteQuery(): qs.ParsedQuery<string> {
   return React.useMemo(
     () => qs.parse(search, { arrayFormat: "comma" }),
     [search]
+  );
+}
+
+export const queryToHash = (q: any): string => {
+  return toBase64(toBase64(JSON.stringify(q)));
+};
+
+export const hashToQuery = (h: string): any => {
+  return fromBase64(fromBase64(h));
+};
+
+export function useQueryHash(
+  query: Omit<EventsView, "view">
+): string | undefined {
+  return React.useMemo(
+    () => (!isEventsQueryEmpty(query) ? queryToHash(query) : undefined),
+    [query]
+  );
+}
+
+export function useQueryFromHash(hash: string): any {
+  return React.useMemo(
+    () =>
+      pipe(
+        hash !== undefined && hash !== "" ? hashToQuery(hash) : "{}",
+        JSON.parse
+      ),
+    [hash]
   );
 }

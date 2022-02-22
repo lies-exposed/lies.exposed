@@ -5,6 +5,7 @@ import { MainContent } from "@econnessione/ui/components/MainContent";
 import { PageContent } from "@econnessione/ui/components/PageContent";
 import SEO from "@econnessione/ui/components/SEO";
 import { Queries } from "@econnessione/ui/providers/DataProvider";
+import { navigateTo } from '@econnessione/ui/utils/links.utils';
 import {
   Button,
   Card,
@@ -18,7 +19,6 @@ import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { doUpdateCurrentView } from "../utils/location.utils";
 
 export default class BlogPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
@@ -76,10 +76,9 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
                                 size="small"
                                 color="primary"
                                 onClick={() => {
-                                  void doUpdateCurrentView({
-                                    view: "article",
-                                    articlePath: a.path,
-                                  })();
+                                  // navigateTo.articles({
+                                  //   articlePath: a.path,
+                                  // });
                                 }}
                               >
                                 Leggi

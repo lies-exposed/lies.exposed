@@ -1,4 +1,4 @@
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import {
   AutoSizer,
@@ -109,10 +109,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     onGroupMemberClick,
     ...listProps
   } = props;
-  // const orderedEvents = React.useMemo(
-  //   () => pipe(events, groupBy(byEqualDate)),
-  //   [events]
-  // );
 
   const theme = useTheme();
   const classes = useStyles();
@@ -141,10 +137,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     return params.index <= searchEvents.events.length;
   };
 
-  React.useEffect(() => {
-    void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 });
-  }, []);
-
   // const allEvents = pipe(
   //   filters.deaths
   //     ? searchEvents.events.filter((e) => e.type === Death.DEATH.value)
@@ -159,7 +151,11 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     searchEvents.totals.deaths +
     searchEvents.totals.scientificStudies;
 
-  return (
+  return searchEvents.events.length === 0 ? (
+    <Box>
+      <FullSizeLoader />
+    </Box>
+  ) : (
     <InfiniteLoader
       isRowLoaded={isRowLoaded}
       loadMoreRows={handleLoadMoreRows}
@@ -179,6 +175,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                 onRowsRendered={onRowsRendered}
                 rowRenderer={(props) => {
                   const event = searchEvents.events[props.index];
+                  console.log({ event });
                   const isLast = props.index === searchEvents.events.length - 1;
 
                   return (

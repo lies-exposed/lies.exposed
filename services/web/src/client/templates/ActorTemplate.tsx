@@ -1,3 +1,5 @@
+import { DeathBox } from "@containers/DeathBox";
+import { EventsPanel } from "@containers/EventsPanel";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
@@ -8,13 +10,10 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
 import * as React from "react";
-import { ActorView, doUpdateCurrentView } from "../utils/location.utils";
-import { DeathBox } from "@containers/DeathBox";
-import { EventsPanel } from "@containers/EventsPanel";
+import { useNavigate } from "../utils/location.utils";
 
-interface ActorTemplateProps extends ActorView {}
-
-const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId, tab = 0 }) => {
+const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
+  const navigateTo = useNavigate();
   return (
     <WithQueries
       queries={{
@@ -39,15 +38,13 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId, tab = 0 }) => {
               <ActorPageContent
                 actor={actor}
                 groups={groups}
-                onGroupClick={(g) =>
-                  doUpdateCurrentView({ view: "group", groupId: g.id })()
-                }
+                onGroupClick={(g) => navigateTo.groups({ id: g.id })}
               />
               {actor.death ? <DeathBox id={actor.death} /> : null}
 
               <EventsPanel
-                showFilters={false}
-                filters={{
+                hash={`actor-${actorId}`}
+                query={{
                   startDate: subYears(new Date(), 1).toDateString(),
                   endDate: new Date().toDateString(),
                   actors: [actorId],
@@ -55,13 +52,8 @@ const ActorTemplate: React.FC<ActorTemplateProps> = ({ actorId, tab = 0 }) => {
                   groupsMembers: [],
                   keywords: [],
                   tab: 0,
-                  page: 1,
-                  hash: `actor-${actorId}`,
                 }}
-                view={{
-                  view: "actor",
-                  actorId,
-                }}
+                onQueryChange={() => {}}
               />
             </MainContent>
           );

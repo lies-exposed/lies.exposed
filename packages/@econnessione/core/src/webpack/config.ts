@@ -165,6 +165,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
     output: {
       path: opts.outputDir ?? path.resolve(opts.cwd, "build"),
+      publicPath: '/',
       filename: "[name].js",
     },
 

@@ -9,9 +9,13 @@ import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";
-import { doUpdateCurrentView, GroupView } from "../utils/location.utils";
+import {
+  GroupView,
+  useNavigate,
+} from "../utils/location.utils";
 
 const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
+  const navigateTo = useNavigate();
   return (
     <WithQueries
       queries={{
@@ -53,29 +57,23 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
               funds={[]}
               projects={[]}
               onMemberClick={async (a) => {
-                void doUpdateCurrentView({
-                  view: "actor",
-                  actorId: a.id,
-                })();
+                navigateTo.actors({
+                  id: a.id,
+                });
               }}
             />
             <EventsPanel
-              view={{
-                view: "group",
-                groupId,
-              }}
-              showFilters={false}
-              filters={{
+              hash={`group-${groupId}`}
+              query={{
                 groups: [group.id],
                 groupsMembers: group.members,
                 keywords: [],
                 actors: [],
-                hash: `group-${groupId}`,
                 tab: tab ?? 0,
-                page: 1,
                 startDate: subYears(new Date(), 1).toDateString(),
                 endDate: new Date().toDateString(),
               }}
+              onQueryChange={() => undefined}
             />
           </MainContent>
         );

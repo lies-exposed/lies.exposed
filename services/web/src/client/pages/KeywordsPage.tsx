@@ -9,10 +9,11 @@ import { Queries } from "@econnessione/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { doUpdateCurrentView } from "../utils/location.utils";
+import { useNavigate } from "../utils/location.utils";
 
 export default class KeywordsPage extends React.PureComponent {
   render(): JSX.Element {
+    const navigateTo = useNavigate();
     return (
       <MainContent>
         <PageContent queries={{ pageContent: { path: "keywords" } }} />
@@ -44,18 +45,12 @@ export default class KeywordsPage extends React.PureComponent {
                     <KeywordListItem
                       item={item}
                       onClick={async (keyword) => {
-                        void doUpdateCurrentView({
-                          view: "keyword",
-                          keywordId: keyword.id,
-                        })();
+                        navigateTo.keywords({ id: keyword.id });
                       }}
                     />
                   )}
                   onSelectItem={async (item) => {
-                    void doUpdateCurrentView({
-                      view: "keyword",
-                      keywordId: item.id,
-                    })();
+                    navigateTo.keywords({ id: item.id });
                   }}
                   onUnselectItem={() => {}}
                 />

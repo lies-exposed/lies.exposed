@@ -12,10 +12,11 @@ import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { doUpdateCurrentView } from "../utils/location.utils";
+import { useNavigate } from "../utils/location.utils";
 
 export default class ActorsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
+    const navigateTo = useNavigate();
     return (
       <>
         <MainContent>
@@ -43,10 +44,9 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                   <AutocompleteActorInput
                     selectedItems={[]}
                     onChange={(c) => {
-                      void doUpdateCurrentView({
-                        view: "actor",
-                        actorId: c[0].id,
-                      })();
+                      navigateTo.actors({
+                        id: c[0].id,
+                      });
                     }}
                   />
 
@@ -56,10 +56,7 @@ export default class ActorsPage extends React.PureComponent<RouteComponentProps>
                       selected: false,
                     }))}
                     onActorClick={(a) => {
-                      void doUpdateCurrentView({
-                        view: "actor",
-                        actorId: a.id,
-                      })();
+                      navigateTo.actors({ id: a.id });
                     }}
                   />
                 </>

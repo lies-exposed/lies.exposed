@@ -13,13 +13,10 @@ import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import IndexPage from './pages';
+import IndexPage from "./pages";
 import ProjectPage from "./pages/project";
-import {
-  CurrentView,
-  currentView,
-  doUpdateCurrentView,
-} from "./utils/location.utils";
+import { routes } from "./routes";
+import { CurrentView, currentView, useNavigate } from "./utils/location.utils";
 
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
 const BlogPage = React.lazy(() => import("./pages/BlogPage"));
@@ -128,6 +125,7 @@ const getCurrentComponent = (currentView: CurrentView): React.ReactElement => {
 };
 
 export const App: React.FC = () => {
+  const navigateTo = useNavigate();
   return (
     <div style={{ height: "100%", display: "flex" }}>
       <Helmet.Helmet
@@ -148,14 +146,10 @@ export const App: React.FC = () => {
                 <Header
                   menu={mainMenu}
                   onTitleClick={() => {
-                    void doUpdateCurrentView({
-                      view: "index",
-                    })();
+                    navigateTo.navigate('/');
                   }}
                   onMenuItemClick={(m) => {
-                    void doUpdateCurrentView({
-                      view: m.view as any,
-                    })();
+                    navigateTo.navigate(m.view);
                   }}
                 />
 
@@ -184,8 +178,9 @@ export const App: React.FC = () => {
                   <React.Suspense fallback={<FullSizeLoader />}>
                     <BrowserRouter>
                       <Switch>
-                        <Route path="/events" render={() => <EventsPage />} />
-                        <Route render={(props) => <IndexPage />} />
+                        {routes.map((r) => (
+                          <Route key={r.path} path={r.path} render={r.route} />
+                        ))}
                       </Switch>
                     </BrowserRouter>
                   </React.Suspense>

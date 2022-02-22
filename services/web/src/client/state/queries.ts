@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import { Events } from "@econnessione/shared/io/http";
-import { GetSearchEVentsQueryInput } from '@econnessione/shared/io/http/Events/SearchEventsQuery';
+import { GetSearchEventsQueryInput } from '@econnessione/shared/io/http/Events/SearchEventsQuery';
 import { APIError } from "@econnessione/shared/providers/api.provider";
 import { queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";

@@ -29,7 +29,7 @@ import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
-import { doUpdateCurrentView } from "../../utils/location.utils";
+import { useNavigate } from "client/utils/location.utils";
 
 const LAST_DAY_2020 = new Date("2020-12-31");
 const LAST_DAY_2021 = new Date("2021-12-31");
@@ -116,6 +116,8 @@ interface VaccineDashboardProps {
 const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
   // deaths
   const deathsKeys = ["covid", "total"];
+
+  const navigateTo = useNavigate();
 
   return (
     <WithQueries
@@ -289,10 +291,9 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                   <Tabs
                     value={adrTab}
                     onChange={(e, v) => {
-                      void doUpdateCurrentView({
-                        view: "vaccines-dashboard",
+                      void navigateTo.navigate("/dashboard/covid19-vaccines", {
                         adrTab: v,
-                      })();
+                      });
                     }}
                   >
                     <Tab label="All" {...a11yProps(0)} />

@@ -13,10 +13,11 @@ import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { doUpdateCurrentView } from "../utils/location.utils";
+import { useNavigate } from "../utils/location.utils";
 
 export default class GroupsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
+    const navigateTo = useNavigate();
     return (
       <MainContent>
         <PageContent queries={{ pageContent: { path: "groups " } }} />
@@ -38,10 +39,9 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
               <AutocompleteGroupInput
                 selectedItems={[]}
                 onChange={(gg) => {
-                  void doUpdateCurrentView({
-                    view: "group",
-                    groupId: gg[0].id,
-                  })();
+                  navigateTo.groups({
+                    id: gg[0].id,
+                  });
                 }}
               />
               <Typography variant="subtitle1">{groups.total}</Typography>
@@ -51,10 +51,9 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
                   selected: false,
                 }))}
                 onItemClick={async (g) => {
-                  void doUpdateCurrentView({
-                    view: "group",
-                    groupId: g.id,
-                  })();
+                  navigateTo.groups({
+                    id: g.id,
+                  });
                 }}
               />
             </>

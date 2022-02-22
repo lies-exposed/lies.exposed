@@ -8,7 +8,7 @@ import {
   Keyword,
   Media,
 } from "@econnessione/shared/io/http";
-import { GetSearchEVentsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
+import { GetSearchEventsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { APIError } from "@econnessione/shared/providers/api.provider";
 import { available } from "avenger";
 import { queryStrict } from "avenger/lib/Query";
@@ -363,7 +363,7 @@ const getStateByHash = (
 // };
 
 export interface SearchEventQueryInput
-  extends Omit<Partial<GetSearchEVentsQueryInput>, "_start" | "_end"> {
+  extends Omit<Partial<GetSearchEventsQueryInput>, "_start" | "_end"> {
   _start: number;
   _end: number;
   hash: string;
