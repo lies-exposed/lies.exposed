@@ -1,4 +1,3 @@
-import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
 import { GetSearchEventsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
@@ -35,6 +34,7 @@ import {
   useQueryFromHash,
   useRouteQuery,
 } from "../utils/location.utils";
+import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
 
 const MIN_DATE = formatDate(subYears(new Date(), 100));
 const MAX_DATE = formatDate(new Date());

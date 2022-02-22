@@ -1,8 +1,8 @@
+import { Buffer } from "buffer";
 import * as io from "@econnessione/shared/io";
 import { available, queryStrict } from "avenger";
-import { Buffer } from "buffer";
-import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
 import qs from "query-string";
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";

@@ -1,5 +1,3 @@
-import { DeathBox } from "@containers/DeathBox";
-import { EventsPanel } from "@containers/EventsPanel";
 import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
@@ -11,6 +9,8 @@ import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { useNavigate } from "../utils/location.utils";
+import { DeathBox } from "@containers/DeathBox";
+import { EventsPanel } from "@containers/EventsPanel";
 
 const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
   const navigateTo = useNavigate();
