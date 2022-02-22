@@ -83,7 +83,6 @@ export const getItemHeight = (e: SearchEvent, isDownMD: boolean): number => {
 
 export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
   className?: string;
-  style?: React.CSSProperties;
   hash: string;
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
   data: SearchEventQueryResult;
@@ -122,11 +121,13 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     onKeywordClick,
   };
 
+  const totalEvents =
+    searchEvents.totals.uncategorized +
+    searchEvents.totals.deaths +
+    searchEvents.totals.scientificStudies;
+
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
-    if (
-      params.startIndex < searchEvents.events.length &&
-      params.stopIndex < searchEvents.events.length
-    ) {
+    if (params.startIndex >= totalEvents) {
       return await Promise.resolve(undefined);
     }
 
@@ -146,13 +147,8 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   //   A.sort(eventsSort)
   // );
 
-  const totalEvents =
-    searchEvents.totals.uncategorized +
-    searchEvents.totals.deaths +
-    searchEvents.totals.scientificStudies;
-
   return searchEvents.events.length === 0 ? (
-    <Box>
+    <Box height={150}>
       <FullSizeLoader />
     </Box>
   ) : (
@@ -163,7 +159,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
       minimumBatchSize={20}
     >
       {({ onRowsRendered, registerChild }) => (
-        <AutoSizer>
+        <AutoSizer style={{ height: "100%" }} defaultHeight={800}>
           {({ width, height }) => {
             return (
               <List
@@ -172,10 +168,10 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                 ref={registerChild}
                 width={width}
                 height={height}
+                estimatedRowSize={200}
                 onRowsRendered={onRowsRendered}
                 rowRenderer={(props) => {
                   const event = searchEvents.events[props.index];
-                  console.log({ event });
                   const isLast = props.index === searchEvents.events.length - 1;
 
                   return (

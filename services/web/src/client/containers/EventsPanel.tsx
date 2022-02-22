@@ -298,7 +298,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             data={searchEvents}
             onLoadMoreEvents={onLoadMoreEvents}
             filters={filters}
-            style={{ height: "100vh" }}
             onClick={handleEventClick}
             onGroupClick={(g) => {
               onGroupsChange(

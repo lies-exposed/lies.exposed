@@ -12,6 +12,7 @@ import "@econnessione/ui/theme/font.css";
 import "ol/ol.css";
 import "react-virtualized/styles.css";
 import "./scss/main.css";
+import { BrowserRouter } from "react-router-dom";
 
 debug.enable("*");
 
@@ -33,7 +34,9 @@ function Main(): JSX.Element {
 ReactDOM.hydrate(
   <React.StrictMode>
     <CssBaseline />
-    <Main />
+    <BrowserRouter>
+      <Main />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

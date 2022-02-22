@@ -203,7 +203,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
           }) => {
             const eventFilters = (
               <EventsFilter
-                queryFilters={query}
+                queryFilters={params}
                 actors={filterActors.data}
                 groups={filterGroups.data}
                 groupsMembers={filterGroupsMembers.data}
@@ -260,17 +260,24 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                           onQueryChange={handleUpdateEventsSearch}
                           groupsMembers={filterGroupsMembers.data}
                           keywords={filterKeywords.data}
-                          totals={{ uncategorized: 0, scientificStudies: 0, patents: 0, deaths: 0 }}
+                          totals={{
+                            uncategorized: 0,
+                            scientificStudies: 0,
+                            patents: 0,
+                            deaths: 0,
+                          }}
                         />
                       }
                       expanded={eventFilters}
                     />
                   </Hidden>
-                  <EventsPanel
-                    hash={hash}
-                    query={params}
-                    onQueryChange={handleUpdateEventsSearch}
-                  />
+                  <main className={classes.content}>
+                    <EventsPanel
+                      hash={hash}
+                      query={params}
+                      onQueryChange={handleUpdateEventsSearch}
+                    />
+                  </main>
                 </Grid>
               </Box>
             );

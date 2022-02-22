@@ -1,6 +1,6 @@
 import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
-import { useNavigateTo } from 'client/utils/history.utils';
 import * as React from "react";
+import { useNavigateTo } from '../../utils/history.utils';
 import { useNavigateToResource } from "../../utils/location.utils";
 
 const dataMenuItem = {
