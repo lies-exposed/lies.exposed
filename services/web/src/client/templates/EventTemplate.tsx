@@ -6,10 +6,10 @@ import { Box } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { useNavigate } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
-  const navigateTo = useNavigate();
+  const navigateTo = useNavigateToResource();
 
   return (
     <WithQueries

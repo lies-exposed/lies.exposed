@@ -22,7 +22,7 @@ import * as React from "react";
 import { IndexRange } from "react-virtualized";
 import EventsTotals from "../components/events/EventsTotals";
 import {
-  useNavigate
+  useNavigateToResource
 } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 
@@ -147,7 +147,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 }) => {
   const classes = useStyles();
 
-  const navigateTo = useNavigate();
+  const navigateTo = useNavigateToResource();
 
   const [open, setOpen] = React.useState(true);
   const [searchEvents, setSearchEvents] = React.useState(initialState);

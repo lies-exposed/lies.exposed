@@ -6,6 +6,7 @@ import { pipe } from "fp-ts/lib/function";
 import qs from "query-string";
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { queryToHash, useNavigateTo } from "./history.utils";
 
 interface CommonViewArgs {
   tab?: number;
@@ -110,158 +111,6 @@ const keywordRegex = /^\/dashboard\/keywords\/([^/]+)$/;
 const eventsRegex = /^\/dashboard\/events\/$/;
 const eventRegex = /^\/dashboard\/events\/([^/]+)$/;
 const vaccinesDashboardRegex = /^\/dashboard\/vaccines\/$/;
-
-// const parseQuery = (s: string): qs.ParsedQuery =>
-//   qs.parse(s.replace("?", ""), { arrayFormat: "comma" });
-
-// const stringifyQuery = (search: { [key: string]: string | string[] }): string =>
-//   qs.stringify(search, { arrayFormat: "comma" });
-
-const toBase64 = (data: string): string => {
-  return Buffer.from(data).toString("base64");
-};
-
-const fromBase64 = (hash: string): string => {
-  return Buffer.from(hash, "base64").toString();
-};
-
-const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
-  return (
-    (v.actors ?? []).length === 0 &&
-    (v.groups ?? []).length === 0 &&
-    (v.groupsMembers ?? []).length === 0 &&
-    (v.keywords ?? []).length === 0 &&
-    v.startDate === undefined &&
-    v.endDate === undefined &&
-    (v.tab ?? 0) === 0
-  );
-};
-
-export function locationToView(location: any): CurrentView {
-  const { path: currentPath = "", hash, ...search } = location.search;
-  const blogMatch = currentPath.match(blogRegex);
-  if (blogMatch !== null) {
-    return {
-      view: "blog",
-      ...search,
-    };
-  }
-
-  const articleMatch = currentPath.match(articleRegex);
-  if (articleMatch !== null) {
-    return {
-      view: "article",
-      articlePath: articleMatch[1],
-      ...search,
-    };
-  }
-
-  const docsMatch = currentPath.match(docsRegex);
-  if (docsMatch !== null) {
-    return {
-      view: "docs",
-      ...search,
-    };
-  }
-
-  const aboutMatch = currentPath.match(aboutRegex);
-  if (aboutMatch !== null) {
-    return {
-      view: "about",
-      ...search,
-    };
-  }
-
-  const actorMatch = currentPath.match(actorRegex);
-  if (actorMatch !== null) {
-    return {
-      ...search,
-      view: "actor",
-      actorId: actorMatch[1],
-      tab: search.tab !== undefined ? parseInt(search.tab) : undefined,
-    };
-  }
-
-  const actorsViewMatch = currentPath.match(actorsRegex);
-
-  if (actorsViewMatch !== null) {
-    return {
-      view: "actors",
-      ...search,
-    };
-  }
-
-  const groupMatch = currentPath.match(groupRegex);
-
-  if (groupMatch !== null) {
-    return {
-      ...search,
-      view: "group",
-      groupId: groupMatch[1],
-      tab: search.tab !== undefined ? parseInt(search.tab) : undefined,
-    };
-  }
-
-  const groupsViewMatch = currentPath.match(groupsRegex);
-
-  if (groupsViewMatch !== null) {
-    return {
-      view: "groups",
-      ...search,
-    };
-  }
-
-  const eventMatch = currentPath.match(eventRegex);
-  if (eventMatch !== null) {
-    return {
-      view: "event",
-      eventId: eventMatch[1],
-      ...search,
-    };
-  }
-
-  const eventsViewMatch = currentPath.match(eventsRegex);
-
-  if (eventsViewMatch !== null) {
-    const decodedSearch = pipe(
-      hash !== undefined && hash !== "" ? fromBase64(fromBase64(hash)) : "{}",
-      JSON.parse
-    );
-
-    return {
-      view: "events",
-      ...decodedSearch,
-      tab: parseInt(decodedSearch.tab ?? "0", 10),
-      hash,
-    };
-  }
-
-  const keywordsViewMatch = currentPath.match(keywordsRegex);
-  if (keywordsViewMatch !== null) {
-    return {
-      view: "keywords",
-    };
-  }
-
-  const keywordViewMatch = currentPath.match(keywordRegex);
-  if (keywordViewMatch !== null) {
-    return {
-      view: "keyword",
-      keywordId: keywordViewMatch[1],
-    };
-  }
-
-  const vaccineDashboardMatch = currentPath.match(vaccinesDashboardRegex);
-  if (vaccineDashboardMatch !== null) {
-    return {
-      view: "vaccines-dashboard",
-      ...search,
-      adrTab: parseInt(location.search.adrTab ?? "0", 10),
-    };
-  }
-
-  return { view: "index" };
-}
 
 export function viewToLocation(view: CurrentView): any {
   const pathname =
@@ -388,72 +237,16 @@ export const currentView = queryStrict<any, any, any>(
   available
 );
 
-
-type NavigateToResource = (f: { id?: string }, search?: any) => void;
-
-interface NavigationHooks {
-  actors: NavigateToResource;
-  events: NavigateToResource;
-  groups: NavigateToResource;
-  keywords: NavigateToResource;
-  navigate: (path: string, search?: any) => void;
-}
-
-export function useNavigate(): NavigationHooks {
-  const h = useHistory();
-
-  const navigateToResource =
-    <K extends io.http.ResourcesNames>(resourceName: K) =>
-    (f: { id?: string }, search?: any): void => {
-      switch (resourceName) {
-        case `articles`:
-        case "events":
-        case "actors":
-        case "topics":
-        case "projects":
-        case "groups": {
-          const query = search
-            ? "?".concat(qs.stringify(search, { arrayFormat: "comma" }))
-            : "";
-          const id = f.id ? `/${f.id}` : "";
-          h.push(`/${resourceName}${id}${query}`);
-
-          break;
-        }
-        default:
-          break;
-      }
-    };
-
-  const navigate = (view: string, search?: any): void => {
-    const query = qs.stringify(search, { arrayFormat: "comma" });
-    h.push(`${view}?${query}`);
-  };
-
-  return {
-    actors: navigateToResource("actors"),
-    events: navigateToResource("events"),
-    groups: navigateToResource("groups"),
-    keywords: navigateToResource('keywords'),
-    navigate,
-  };
-}
-
-export function useRouteQuery(): qs.ParsedQuery<string> {
-  const { search } = useLocation();
-
-  return React.useMemo(
-    () => qs.parse(search, { arrayFormat: "comma" }),
-    [search]
+const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
+  return (
+    (v.actors ?? []).length === 0 &&
+    (v.groups ?? []).length === 0 &&
+    (v.groupsMembers ?? []).length === 0 &&
+    (v.keywords ?? []).length === 0 &&
+    v.startDate === undefined &&
+    v.endDate === undefined &&
+    (v.tab ?? 0) === 0
   );
-}
-
-export const queryToHash = (q: any): string => {
-  return toBase64(toBase64(JSON.stringify(q)));
-};
-
-export const hashToQuery = (h: string): any => {
-  return fromBase64(fromBase64(h));
 };
 
 export function useQueryHash(
@@ -465,13 +258,48 @@ export function useQueryHash(
   );
 }
 
-export function useQueryFromHash(hash: string): any {
-  return React.useMemo(
-    () =>
-      pipe(
-        hash !== undefined && hash !== "" ? hashToQuery(hash) : "{}",
-        JSON.parse
-      ),
-    [hash]
-  );
+type NavigateToResource = (f: { id?: string }, search?: any) => void;
+
+interface NavigationHooks {
+  index: NavigateToResource;
+  actors: NavigateToResource;
+  events: NavigateToResource;
+  groups: NavigateToResource;
+  keywords: NavigateToResource;
+}
+
+export function useNavigateToResource(): NavigationHooks {
+  const n = useNavigateTo();
+
+  return React.useMemo(() => {
+    const navigateToResource =
+      <K extends io.http.ResourcesNames>(resourceName: K) =>
+      (f: { id?: string }, search?: any): void => {
+        switch (resourceName) {
+          case "index":
+            n.navigateTo("/");
+            break;
+          case `articles`:
+          case "events":
+          case "actors":
+          case "topics":
+          case "projects":
+          case "groups": {
+            const id = f.id ? `/${f.id}` : "";
+            n.navigateTo(`/${resourceName}${id}`, search);
+            break;
+          }
+          default:
+            break;
+        }
+      };
+
+    return {
+      index: navigateToResource('index'),
+      actors: navigateToResource("actors"),
+      events: navigateToResource("events"),
+      groups: navigateToResource("groups"),
+      keywords: navigateToResource("keywords"),
+    };
+  }, [n.location]);
 }

@@ -11,11 +11,11 @@ import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";
 import {
   GroupView,
-  useNavigate,
+  useNavigateToResource,
 } from "../utils/location.utils";
 
 const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
-  const navigateTo = useNavigate();
+  const navigateTo = useNavigateToResource();
   return (
     <WithQueries
       queries={{

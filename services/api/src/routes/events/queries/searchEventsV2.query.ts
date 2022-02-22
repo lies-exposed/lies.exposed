@@ -3,7 +3,7 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { In } from "typeorm";
+import { Brackets, In } from "typeorm";
 import { RouteContext } from "../../route.types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
@@ -107,80 +107,89 @@ export const searchEventV2Query =
               q.withDeleted();
             }
 
-            if (O.isSome(title)) {
-              q.andWhere(
-                "event.type IN ('Uncategorized', 'ScientificStudy') AND \"event\".\"payload\" ->> lower('title') LIKE :title",
-                { title: `%${title.value.toLocaleLowerCase()}%` }
-              );
-            }
-
-            if (O.isSome(startDate)) {
-              q.andWhere("event.date >= :startDate", {
-                startDate: startDate.value.toDateString(),
-              });
-            }
-
-            if (O.isSome(endDate)) {
-              q.andWhere("event.date =< :endDate", {
-                endDate: endDate.value.toDateString(),
-              });
-            }
-
-            let hasWhere = false;
-            if (O.isSome(actors)) {
-              q.andWhere(
-                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors])`,
-                {
-                  actors: actors.value,
+            q.andWhere(
+              new Brackets((qb) => {
+                if (O.isSome(title)) {
+                  qb.andWhere(
+                    "event.type IN ('Uncategorized', 'ScientificStudy') AND \"event\".\"payload\" ->> lower('title') LIKE :title",
+                    { title: `%${title.value.toLocaleLowerCase()}%` }
+                  );
                 }
-              ).orWhere(
-                `(event.type = 'Death' AND "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors])`,
-                {
-                  actors: actors.value,
+
+                if (O.isSome(startDate)) {
+                  qb.andWhere("event.date >= :startDate", {
+                    startDate: startDate.value.toDateString(),
+                  });
                 }
-              );
-              hasWhere = true;
-            }
 
-            if (O.isSome(groups)) {
-              q.andWhere(
-                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) OR (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`,
-                {
-                  groups: groups.value,
+                if (O.isSome(endDate)) {
+                  qb.andWhere("event.date <= :endDate", {
+                    endDate: endDate.value.toDateString(),
+                  });
                 }
-              );
-              hasWhere = true;
-            }
 
-            if (groupsMembers.length > 0) {
-              const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
-              where(
-                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers])`,
-                {
-                  groupsMembers: groupsMembers,
+                let hasWhere = false;
+                if (O.isSome(actors)) {
+                  qb.andWhere(
+                    `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors])`,
+                    {
+                      actors: actors.value,
+                    }
+                  ).orWhere(
+                    `(event.type = 'Death' AND "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors])`,
+                    {
+                      actors: actors.value,
+                    }
+                  );
+                  hasWhere = true;
                 }
-              );
-              hasWhere = true;
-            }
 
-            if (O.isSome(keywords)) {
-              q.andWhere("keywords.id IN (:...keywords)", {
-                keywords: keywords.value,
-              });
-            }
+                if (O.isSome(groups)) {
+                  qb.andWhere(
+                    `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) OR (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`,
+                    {
+                      groups: groups.value,
+                    }
+                  );
+                  hasWhere = true;
+                }
 
-            if (O.isSome(media)) {
-              q.andWhere("media.id IN (:...media)", {
-                media: media.value,
-              });
-            }
+                if (groupsMembers.length > 0) {
+                  const where = hasWhere
+                    ? qb.orWhere.bind(q)
+                    : qb.andWhere.bind(q);
+                  where(
+                    `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers])`,
+                    {
+                      groupsMembers: groupsMembers,
+                    }
+                  );
+                  hasWhere = true;
+                }
 
-            if (O.isSome(links)) {
-              const where = hasWhere ? q.orWhere.bind(q) : q.where.bind(q);
-              where("links.id IN (:...links)", {
-                links: links.value,
-              });
-            }
+                if (O.isSome(keywords)) {
+                  qb.andWhere("keywords.id IN (:...keywords)", {
+                    keywords: keywords.value,
+                  });
+                }
+
+                if (O.isSome(media)) {
+                  qb.andWhere("media.id IN (:...media)", {
+                    media: media.value,
+                  });
+                }
+
+                if (O.isSome(links)) {
+                  const where = hasWhere
+                    ? qb.orWhere.bind(q)
+                    : qb.andWhere.bind(q);
+                  where("links.id IN (:...links)", {
+                    links: links.value,
+                  });
+                }
+                return qb;
+              })
+            );
 
             if (order !== undefined) {
               addOrder(order, q);
@@ -193,19 +202,19 @@ export const searchEventV2Query =
 
             const uncategorizedCount = q
               .clone()
-              .andWhere(" event.type = 'Uncategorized' ");
+              .andWhere("event.type = 'Uncategorized' ");
 
-            // logger.debug.log(
-            //   `Uncategorized count query %O`,
-            //   ...uncategorizedCount.getQueryAndParameters()
-            // );
+            logger.debug.log(
+              `Uncategorized count query %O`,
+              ...uncategorizedCount.getQueryAndParameters()
+            );
 
             const deathsCount = q.clone().andWhere(" event.type = 'Death' ");
 
-            // logger.debug.log(
-            //   `Deaths count query %O`,
-            //   ...deathsCount.getQueryAndParameters()
-            // );
+            logger.debug.log(
+              `Deaths count query %O`,
+              ...deathsCount.getQueryAndParameters()
+            );
 
             const scientificStudiesCount = q
               .clone()

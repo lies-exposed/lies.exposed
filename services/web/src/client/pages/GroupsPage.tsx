@@ -13,11 +13,11 @@ import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { useNavigate } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils";
 
 export default class GroupsPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
-    const navigateTo = useNavigate();
+    const navigateTo = useNavigateToResource();
     return (
       <MainContent>
         <PageContent queries={{ pageContent: { path: "groups " } }} />

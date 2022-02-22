@@ -8,12 +8,12 @@ import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
 import * as React from "react";
-import { useNavigate } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils";
 import { DeathBox } from "@containers/DeathBox";
 import { EventsPanel } from "@containers/EventsPanel";
 
 const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
-  const navigateTo = useNavigate();
+  const navigateTo = useNavigateToResource();
   return (
     <WithQueries
       queries={{

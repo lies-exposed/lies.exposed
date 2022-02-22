@@ -3,7 +3,7 @@ import {
   Covid19EUDR,
   Covid19VAERS,
   Covid19WorldVaccineDistribution,
-  CovidWHOWorldData,
+  CovidWHOWorldData
 } from "@econnessione/shared/endpoints/graph.endpoints";
 import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
@@ -12,7 +12,7 @@ import { StatAccordion } from "@econnessione/ui/components/Common/StatAccordion"
 // import { VaccineEffectivenessIndicators } from "@econnessione/ui/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
 import {
   a11yProps,
-  TabPanel,
+  TabPanel
 } from "@econnessione/ui/components/Common/TabPanel";
 import { VaccineADRGraph } from "@econnessione/ui/components/Graph/covid/vaccines/VaccineADRGraph";
 import { jsonData } from "@econnessione/ui/providers/DataProvider";
@@ -23,13 +23,13 @@ import { WithQueries } from "avenger/lib/react";
 import { isAfter, isBefore } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
+import { pipe } from "fp-ts/lib/function";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
-import { useNavigate } from "client/utils/location.utils";
+import { useNavigateTo } from '../../utils/history.utils';
 
 const LAST_DAY_2020 = new Date("2020-12-31");
 const LAST_DAY_2021 = new Date("2021-12-31");
@@ -117,7 +117,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
   // deaths
   const deathsKeys = ["covid", "total"];
 
-  const navigateTo = useNavigate();
+  const navigateTo = useNavigateTo();
 
   return (
     <WithQueries
@@ -291,7 +291,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                   <Tabs
                     value={adrTab}
                     onChange={(e, v) => {
-                      void navigateTo.navigate("/dashboard/covid19-vaccines", {
+                      void navigateTo.navigateTo("/dashboard/covid19-vaccines", {
                         adrTab: v,
                       });
                     }}

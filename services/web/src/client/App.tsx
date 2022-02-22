@@ -5,7 +5,6 @@ import {
 } from "@econnessione/ui/components/Common/FullSizeLoader";
 import "@econnessione/ui/components/Common/Icons/library";
 import { Footer } from "@econnessione/ui/components/Footer";
-import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
 import { Grid } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -13,10 +12,11 @@ import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import AppHeader from "./components/header/AppHeader";
 import IndexPage from "./pages";
 import ProjectPage from "./pages/project";
 import { routes } from "./routes";
-import { CurrentView, currentView, useNavigate } from "./utils/location.utils";
+import { CurrentView, currentView } from "./utils/location.utils";
 
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
 const BlogPage = React.lazy(() => import("./pages/BlogPage"));
@@ -32,45 +32,6 @@ const ArticleTemplate = React.lazy(() => import("./templates/ArticleTemplate"));
 const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate"));
 const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
 const EventTemplate = React.lazy(() => import("./templates/EventTemplate"));
-
-const dataMenuItem = {
-  view: "index",
-  label: "Dashboards",
-  subItems: [
-    {
-      view: "events",
-      label: "Events",
-    },
-    {
-      view: "vaccines-dashboard",
-      label: "Covid19 Vaccines",
-    },
-  ],
-};
-
-const projectMenuItem = {
-  view: "project",
-  label: "Project",
-  subItems: [
-    {
-      view: "docs",
-      label: "Docs",
-    },
-  ],
-};
-
-export const mainMenu: HeaderMenuItem[] =
-  process.env.NODE_ENV === "development"
-    ? [
-        // projectMenuItem,
-        // {
-        //   view: "blog",
-        //   label: "Blog",
-        //   subItems: [],
-        // },
-        // dataMenuItem,
-      ]
-    : [dataMenuItem];
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
@@ -125,7 +86,6 @@ const getCurrentComponent = (currentView: CurrentView): React.ReactElement => {
 };
 
 export const App: React.FC = () => {
-  const navigateTo = useNavigate();
   return (
     <div style={{ height: "100%", display: "flex" }}>
       <Helmet.Helmet
@@ -138,22 +98,10 @@ export const App: React.FC = () => {
         ]}
       />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <WithQueries
-          queries={{ currentView: currentView }}
-          render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ currentView }) => {
-            return (
-              <Grid container style={{ minHeight: "100%", width: "100%" }}>
-                <Header
-                  menu={mainMenu}
-                  onTitleClick={() => {
-                    navigateTo.navigate('/');
-                  }}
-                  onMenuItemClick={(m) => {
-                    navigateTo.navigate(m.view);
-                  }}
-                />
-
-                {/* <Grid style={{ margin: 20 }}>
+        <Grid container style={{ minHeight: "100%", width: "100%" }}>
+          <BrowserRouter>
+            <AppHeader />
+            {/* <Grid style={{ margin: 20 }}>
                      <BreadCrumb
                       view={currentView}
                       segments={{
@@ -169,27 +117,23 @@ export const App: React.FC = () => {
                     /> 
                     </Grid> */}
 
-                <Grid
-                  style={{
-                    width: "100%",
-                    height: `calc(100% - 64px)`,
-                  }}
-                >
-                  <React.Suspense fallback={<FullSizeLoader />}>
-                    <BrowserRouter>
-                      <Switch>
-                        {routes.map((r) => (
-                          <Route key={r.path} path={r.path} render={r.route} />
-                        ))}
-                      </Switch>
-                    </BrowserRouter>
-                  </React.Suspense>
-                </Grid>
-                <Footer />
-              </Grid>
-            );
-          })}
-        />
+            <Grid
+              style={{
+                width: "100%",
+                height: `calc(100% - 64px)`,
+              }}
+            >
+              <React.Suspense fallback={<FullSizeLoader />}>
+                <Switch>
+                  {routes.map((r) => (
+                    <Route key={r.path} path={r.path} render={r.route} />
+                  ))}
+                </Switch>
+              </React.Suspense>
+            </Grid>
+            <Footer />
+          </BrowserRouter>
+        </Grid>
       </ErrorBoundary>
     </div>
   );

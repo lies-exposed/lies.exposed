@@ -1,3 +1,4 @@
+import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
 import { GetSearchEventsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { formatDate } from "@econnessione/shared/utils/date";
 import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
@@ -24,17 +25,15 @@ import { WithQueries } from "avenger/lib/react";
 import clsx from "clsx";
 import { subYears } from "date-fns";
 import * as React from "react";
-import EventsAppBar from "..//components/events/EventsAppBar";
+import EventsAppBar from "../components/events/EventsAppBar";
 import EventsFilter from "../components/events/EventsFilter";
 import EventsFilterSummary from "../components/events/EventsFiltersSummary";
 import {
-  EventsView,
   queryToHash,
-  useNavigate,
   useQueryFromHash,
   useRouteQuery,
-} from "../utils/location.utils";
-import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
+} from "../utils/history.utils";
+import { EventsView, useNavigateToResource } from "../utils/location.utils";
 
 const MIN_DATE = formatDate(subYears(new Date(), 100));
 const MAX_DATE = formatDate(new Date());
@@ -133,7 +132,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   const query = useQueryFromHash(hash) as GetSearchEventsQueryInput & {
     tab?: string;
   };
-  const navigateTo = useNavigate();
+  const navigateTo = useNavigateToResource();
   const tab = parseInt(query.tab ?? "0", 10);
   const classes = useStyles();
 
@@ -261,7 +260,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                           onQueryChange={handleUpdateEventsSearch}
                           groupsMembers={filterGroupsMembers.data}
                           keywords={filterKeywords.data}
-                          totals={0}
+                          totals={{ uncategorized: 0, scientificStudies: 0, patents: 0, deaths: 0 }}
                         />
                       }
                       expanded={eventFilters}

@@ -23,6 +23,7 @@ import * as Video from "./Video";
 
 export const ResourcesNames = t.keyof(
   {
+    index: null,
     events: null,
     keywords: null,
     actors: null,
