@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { GetLogger } from "@econnessione/core/logger";
+import { CssBaseline } from "@material-ui/core";
 import { ServerStyleSheets, ThemeProvider } from "@material-ui/core/styles";
 import * as express from "express";
 import * as React from "react";
@@ -8,7 +9,6 @@ import * as ReactDOMServer from "react-dom/server";
 import { Helmet } from "react-helmet";
 import { StaticRouter } from "react-router";
 import { ECOTheme } from "../theme";
-import { CssBaseline } from "@material-ui/core";
 
 const ssrLog = GetLogger("ssr");
 

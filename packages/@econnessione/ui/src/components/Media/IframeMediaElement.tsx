@@ -10,7 +10,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   media,
   ...props
 }) => {
-  const ref = React.useRef<HTMLIFrameElement|null>(null);
+  const ref = React.useRef<HTMLIFrameElement | null>(null);
   const [loaded, setLoaded] = React.useState(false);
 
   return loaded ? (
@@ -28,23 +28,21 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
       loading="lazy"
       allowFullScreen={true}
       sandbox=""
-      onLoad={e => {
-        console.log('on load', e);
+      onLoad={(e) => {
+        // console.log('on load', e);
         // ref.current?.src = "";
-        e.preventDefault();
-
+        // e.preventDefault();
       }}
       onLoadCapture={(e) => {
-        console.log('on load capture', e);
-        e.preventDefault();
-        
+        // console.log('on load capture', e);
+        // e.preventDefault();
       }}
       onError={(e) => {
-        console.log('on error', e)
+        // console.log('on error', e)
       }}
       onErrorCapture={(e) => {
-        console.log('on error capture', e);
-        e.preventDefault();
+        // console.log('on error capture', e);
+        // e.preventDefault();
       }}
     />
   ) : (

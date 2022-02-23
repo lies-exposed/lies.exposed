@@ -41,11 +41,12 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
     onGroupClick,
     onGroupMemberClick,
     isLast,
+    key,
   } = props;
   return (
     <EventTimelineItem
+      key={key}
       isLast={isLast}
-      key={event.id}
       event={{ ...event }}
       onClick={onClick}
       onKeywordClick={onKeywordClick}
@@ -100,7 +101,6 @@ const initialState: SearchEventQueryResult = {
   keywords: [],
   totals: { uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0 },
 };
-
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
@@ -196,7 +196,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   //   A.sort(eventsSort)
   // );
 
-  console.log(totalEvents, searchEvents.events);
+  // console.log(totalEvents, searchEvents.events);
 
   return searchEvents.events.length === 0 ? (
     <Box height={150}>

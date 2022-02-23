@@ -1,5 +1,5 @@
-import * as io from "@econnessione/shared/io";
 import { Buffer } from "buffer";
+import * as io from "@econnessione/shared/io";
 import { pipe } from "fp-ts/lib/function";
 import { History } from 'history';
 import qs from "query-string";
