@@ -127,15 +127,16 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     searchEvents.totals.scientificStudies;
 
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
+    console.log("load more ", { params, totalEvents });
     if (params.startIndex >= totalEvents) {
       return await Promise.resolve(undefined);
     }
 
-    void onLoadMoreEvents(params);
+    await onLoadMoreEvents(params);
   };
 
   const isRowLoaded = (params: Index): boolean => {
-    return params.index <= searchEvents.events.length;
+    return params.index < searchEvents.events.length;
   };
 
   // const allEvents = pipe(
@@ -159,7 +160,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
       minimumBatchSize={20}
     >
       {({ onRowsRendered, registerChild }) => (
-        <AutoSizer style={{ height: "100%" }} defaultHeight={800}>
+        <AutoSizer defaultHeight={800}>
           {({ width, height }) => {
             return (
               <List
@@ -168,11 +169,16 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                 ref={registerChild}
                 width={width}
                 height={height}
-                estimatedRowSize={200}
+                estimatedRowSize={100}
+                overscanRowCount={5}
                 onRowsRendered={onRowsRendered}
                 rowRenderer={(props) => {
                   const event = searchEvents.events[props.index];
-                  const isLast = props.index === searchEvents.events.length - 1;
+                  const isLast = props.index === totalEvents - 1;
+
+                  if (props.index >= searchEvents.events.length) {
+                    return null;
+                  }
 
                   return (
                     <Row
