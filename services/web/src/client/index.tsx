@@ -3,7 +3,9 @@ import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
+
 
 // all css
 import "slick-carousel/slick/slick-theme.css";
@@ -12,7 +14,7 @@ import "@econnessione/ui/theme/font.css";
 import "ol/ol.css";
 import "react-virtualized/styles.css";
 import "./scss/main.css";
-import { BrowserRouter } from "react-router-dom";
+
 
 debug.enable("*");
 

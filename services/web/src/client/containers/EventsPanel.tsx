@@ -115,14 +115,6 @@ const useStyles = makeStyles((theme: ECOTheme) =>
 
 // interface EventsPanelProps {}
 
-const initialState: SearchEventQueryResult = {
-  events: [],
-  actors: [],
-  groups: [],
-  groupsMembers: [],
-  keywords: [],
-  totals: { uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0 },
-};
 
 export interface EventsQueryParams {
   actors: string[];
@@ -150,7 +142,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   const navigateTo = useNavigateToResource();
 
   const [open, setOpen] = React.useState(true);
-  const [searchEvents, setSearchEvents] = React.useState(initialState);
 
   const handleDrawerOpen = (): void => {
     setOpen(true);
@@ -223,29 +214,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     [query]
   );
 
-  const onLoadMoreEvents = async (range: IndexRange): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/return-await
-    return searchEventsQuery
-      .run({
-        ...query,
-        hash,
-        _start: range.startIndex as any,
-        _end: range.stopIndex as any,
-      })()
-      .then((result) => {
-        if (result._tag === "Right") {
-          setSearchEvents(result.right);
-        }
-
-        return new Promise((resolve) => {
-          setTimeout(resolve, 100);
-        });
-      });
-  };
-
-  React.useEffect(() => {
-    void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 });
-  }, [hash]);
 
   return (
     <Box className={classes.content}>
@@ -265,7 +233,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         <EventsTotals
           appBarClassName={classes.appBar}
           filters={filters}
-          totals={searchEvents.totals}
+          totals={{ uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0 }}
           onFilterChange={(f) =>
             updateState({
               ...filters,
@@ -295,8 +263,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           <EventsTimeline
             hash={hash}
             queryParams={query}
-            data={searchEvents}
-            onLoadMoreEvents={onLoadMoreEvents}
             filters={filters}
             onClick={handleEventClick}
             onGroupClick={(g) => {

@@ -8,6 +8,7 @@ import * as ReactDOMServer from "react-dom/server";
 import { Helmet } from "react-helmet";
 import { StaticRouter } from "react-router";
 import { ECOTheme } from "../theme";
+import { CssBaseline } from "@material-ui/core";
 
 const ssrLog = GetLogger("ssr");
 
@@ -35,11 +36,14 @@ export const getServer = (
       const sheets = new ServerStyleSheets();
       const html = ReactDOMServer.renderToString(
         sheets.collect(
-          <ThemeProvider theme={ECOTheme}>
-            <StaticRouter location={req.url} context={context}>
-              <App />
-            </StaticRouter>
-          </ThemeProvider>
+          <React.StrictMode>
+            <CssBaseline />
+            <ThemeProvider theme={ECOTheme}>
+              <StaticRouter location={req.url} context={context}>
+                <App />
+              </StaticRouter>
+            </ThemeProvider>
+          </React.StrictMode>
         )
       );
 

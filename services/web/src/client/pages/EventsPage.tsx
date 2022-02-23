@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
     root: {
       display: "flex",
       flexDirection: "row",
-      [theme.breakpoints.down("md")]: {
+      [theme.breakpoints.down("sm")]: {
         flexDirection: "column",
       },
     },
@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
     },
     tabs: {
       width: "100%",
-      [theme.breakpoints.down("md")]: {
+      [theme.breakpoints.down("sm")]: {
         paddingTop: 60,
       },
     },
@@ -112,11 +112,14 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       display: "flex",
     },
     content: {
-      flexGrow: 1,
+      // flexGrow: 1,
       height: "100%",
       width: "100%",
       display: "flex",
       flexDirection: "column",
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: 0
+      }
     },
     eventFiltersBox: {
       display: "flex",

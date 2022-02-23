@@ -13,7 +13,7 @@ export const TabPanel: React.FC<any> = (props) => {
       {...other}
     >
       {value === index && (
-        <Box height="100%" width="100%" padding={0}>
+        <Box display="flex" height="100%" width="100%" padding={0}>
           {children}
         </Box>
       )}
