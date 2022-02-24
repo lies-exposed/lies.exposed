@@ -1,22 +1,12 @@
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import {
-  FullSizeLoader,
-  LazyFullSizeLoader,
-} from "@econnessione/ui/components/Common/FullSizeLoader";
 import "@econnessione/ui/components/Common/Icons/library";
 import { Footer } from "@econnessione/ui/components/Footer";
-import { Grid } from "@material-ui/core";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
+import { Grid, useMediaQuery, useTheme, } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import AppHeader from "./components/header/AppHeader";
-import IndexPage from "./pages";
-import ProjectPage from "./pages/project";
 import { routes } from "./routes";
-import { CurrentView, currentView } from "./utils/location.utils";
 
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
@@ -30,6 +20,10 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
 };
 
 export const App: React.FC = () => {
+  const location = useLocation();
+  const theme = useTheme();
+  const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <div style={{ height: "100%", display: "flex" }}>
       <Helmet.Helmet
@@ -72,7 +66,12 @@ export const App: React.FC = () => {
               ))}
             </Switch>
           </Grid>
-          <Footer />
+          <Footer
+            style={{
+              paddingLeft:
+                location.pathname === "/events" && !isDownSM ? 240 : 0,
+            }}
+          />
         </Grid>
       </ErrorBoundary>
     </div>

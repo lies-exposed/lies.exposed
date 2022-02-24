@@ -231,9 +231,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         }}
       >
         <EventsTotals
+          query={query}
+          hash={hash}
           appBarClassName={classes.appBar}
           filters={filters}
-          totals={{ uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0 }}
           onFilterChange={(f) =>
             updateState({
               ...filters,

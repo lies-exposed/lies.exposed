@@ -41,7 +41,7 @@ const useStyles = makeStyles<ECOTheme>((theme) =>
   })
 );
 
-export const Footer: React.FC = () => {
+export const Footer: React.FC<{ style?: React.CSSProperties }> = (props) => {
   const {
     site: {
       siteMetadata: { title, github, mattermost },
@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <footer className={classes.root}>
+    <footer className={classes.root} style={props.style}>
       <Container>
         <Grid container>
           <Grid item sm={4}>

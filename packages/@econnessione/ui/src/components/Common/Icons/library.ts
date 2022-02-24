@@ -1,4 +1,4 @@
-import { dom, library } from "@fortawesome/fontawesome-svg-core";
+import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab, faGithub, faPaypal } from "@fortawesome/free-brands-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { faCircleDollarToSlot } from "@fortawesome/free-solid-svg-icons/faCircleDollarToSlot";
@@ -16,5 +16,3 @@ library.add(
     faEdit,
   ] as any[])
 );
-
-dom.watch();

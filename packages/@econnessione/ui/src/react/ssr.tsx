@@ -9,6 +9,7 @@ import * as ReactDOMServer from "react-dom/server";
 import { Helmet } from "react-helmet";
 import { StaticRouter } from "react-router";
 import { ECOTheme } from "../theme";
+import { dom } from "@fortawesome/fontawesome-svg-core";
 
 const ssrLog = GetLogger("ssr");
 
@@ -53,6 +54,7 @@ export const getServer = (
         // Grab the CSS from the sheets.
         const css = sheets.toString();
         const helmet = Helmet.renderStatic();
+        const fontawesomeCss = dom.css();
         return res.setHeader("Content-Type", "text/html").send(
           data
             .replace(
@@ -65,6 +67,10 @@ export const getServer = (
             .replace(
               '<style id="jss-server-side"></style>',
               `<style id="jss-server-side">${css}</style>`
+            )
+            .replace(
+              '<style id="font-awesome-css"></style>',
+              `<style id="font-awesome-css">${fontawesomeCss}</style>`
             )
             .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
         );

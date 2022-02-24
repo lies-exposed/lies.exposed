@@ -4,11 +4,16 @@ import * as React from "react";
 
 const DonateButton: React.FC = () => {
   return (
-    <form action="https://www.paypal.com/donate" method="post" target="_top" style={{ width: 32, height: 32 }}>
+    <form
+      action="https://www.paypal.com/donate"
+      method="post"
+      target="_top"
+      style={{ display: 'flex', flex: "0 0 auto", height: 32 }}
+    >
       <input type="hidden" name="hosted_button_id" value="BNAGL4D89LJDE" />
       <input type="hidden" name="no_recurring" value="0" />
-      <input type="hidden" name="item_name" value="Friends of the Park" />
-      <input type="hidden" name="item_number" value="Fall Cleanup Campaign" />
+      <input type="hidden" name="item_name" value="Support for lies.exposed" />
+      <input type="hidden" name="item_number" value="lies.exposed support" />
       <input type="hidden" name="amount" value="5.00" />
       <IconButton
         type="submit"

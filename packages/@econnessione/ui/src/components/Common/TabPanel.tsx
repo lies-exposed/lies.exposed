@@ -1,4 +1,3 @@
-import { Box } from "@material-ui/core";
 import * as React from "react";
 
 export const TabPanel: React.FC<any> = (props) => {
@@ -12,11 +11,7 @@ export const TabPanel: React.FC<any> = (props) => {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box display="flex" height="100%" width="100%" padding={0}>
-          {children}
-        </Box>
-      )}
+      {value === index ? children : null}
     </div>
   );
 };
