@@ -1,5 +1,5 @@
 import {
-  GetSearchEVentsQueryInput
+  GetSearchEventsQueryInput
 } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
@@ -12,7 +12,7 @@ import { LazyLoader } from "../Common/Loader";
 import { EventListItem, SearchEvent } from "../lists/EventList/EventListItem";
 
 export interface EventSliderProps {
-  params: GetSearchEVentsQueryInput;
+  params: GetSearchEventsQueryInput;
   onClick: (e: SearchEvent) => void;
 }
 

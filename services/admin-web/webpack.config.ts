@@ -1,10 +1,10 @@
 import {
-  getConfig,
-  defineEnv,
+  defineEnv
 } from "../../packages/@econnessione/core/src/webpack/config";
+import { getWebConfig } from "../../packages/@econnessione/core/src/webpack/web.config";
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4001;
-const config = getConfig({
+const config = getWebConfig({
   cwd: __dirname,
   env: defineEnv((t) => ({
     NODE_ENV: t.string,
@@ -14,12 +14,9 @@ const config = getConfig({
   })),
   envFileDir: __dirname,
   port,
+  devServer: true,
+  hot: true,
+  target: "web",
 });
 
-module.exports = {
-  ...config,
-  resolve: {
-    ...config.resolve,
-    // mainFields: ["main", "browser", "module"],
-  },
-};
+module.exports = config;

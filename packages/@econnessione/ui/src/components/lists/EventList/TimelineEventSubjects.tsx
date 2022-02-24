@@ -4,7 +4,7 @@ import {
   GroupMember,
   Events,
 } from "@econnessione/shared/io/http";
-import { Box, BoxProps } from "@material-ui/core";
+import { Box, BoxProps, makeStyles } from "@material-ui/core";
 import * as React from "react";
 import { ActorList } from "../ActorList";
 import GroupsList from "../GroupList";
@@ -18,19 +18,27 @@ export interface EventListItemProps extends BoxProps {
   onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
 }
 
-const style: React.CSSProperties = {
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "flex-end",
-};
+const useStyles = makeStyles((theme) => ({
+  subjectsBox: {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1,
+    justifyContent: "flex-end",
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "row",
+    },
+  },
+}));
 
 export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   event: e,
+  style,
   onActorClick,
   onGroupClick,
   onGroupMemberClick,
   ...props
 }) => {
+  const classes = useStyles();
   const actors =
     e.type === Events.Death.DEATH.value
       ? [e.payload.victim]
@@ -73,7 +81,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
         );
       default: {
         return (
-          <Box {...props} style={{ ...props.style, ...style }}>
+          <Box {...props} style={style}>
             <ActorList
               style={style}
               actors={actors.map((a) => ({ ...a, selected: true }))}
@@ -99,7 +107,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   }, [e.type]);
 
   return (
-    <Box {...props} style={{ ...style, ...props.style }}>
+    <Box className={classes.subjectsBox} {...props}>
       {content}
     </Box>
   );

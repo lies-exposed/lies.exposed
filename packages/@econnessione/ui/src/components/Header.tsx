@@ -22,12 +22,15 @@ import GithubButton from "./GithubButton";
 const useStyles = makeStyles<ECOTheme>((theme) =>
   createStyles({
     root: {
-      flexGrow: 1,
+      flexGrow: 0,
+      flexShrink: 0
     },
     appBar: {
       backgroundColor: theme.overrides?.MuiAppBar?.colorPrimary as any,
       boxShadow: "none",
       zIndex: theme.zIndex.drawer + 1,
+      flexGrow: 0,
+      maxHeight: 64
     },
     menuButton: {
       marginRight: theme.spacing(2),

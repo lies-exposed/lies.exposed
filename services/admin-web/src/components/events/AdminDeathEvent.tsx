@@ -3,7 +3,7 @@ import { uuid } from "@econnessione/shared/utils/uuid";
 import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType
+  MapInputType,
 } from "@econnessione/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -26,7 +26,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -95,6 +95,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
     <TabbedForm>
       <FormTab label="Generals">
         <WebPreviewButton resource="/dashboard/events" source="id" />
+        <BooleanInput source="draft" defaultValue={false} />
         <ReferenceInput
           source="payload.victim"
           reference="actors"

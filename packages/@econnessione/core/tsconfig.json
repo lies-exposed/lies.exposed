@@ -4,6 +4,7 @@
     "composite": true,
     "noEmit": false,
     "lib": ["DOM", "ESNext"],
+    "jsx": "react",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",

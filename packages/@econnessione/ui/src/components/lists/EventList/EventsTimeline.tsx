@@ -1,4 +1,4 @@
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { Box, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import {
   AutoSizer,
@@ -8,10 +8,10 @@ import {
   List,
   ListRowProps,
 } from "react-virtualized";
-import "react-virtualized/styles.css";
 import {
   SearchEventQueryInput,
   SearchEventQueryResult,
+  searchEventsQuery,
 } from "../../../state/queries/SearchEventsQuery";
 import { isValidValue } from "../../Common/Editor";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
@@ -33,12 +33,27 @@ const useStyles = makeStyles((props) => ({
 }));
 
 const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
-  const { index, event, ...listItemProps } = props;
-  if (!event) {
-    return <FullSizeLoader style={{ height: 100 }} />;
-  }
+  const {
+    event,
+    onClick,
+    onKeywordClick,
+    onActorClick,
+    onGroupClick,
+    onGroupMemberClick,
+    isLast,
+    key,
+  } = props;
   return (
-    <EventTimelineItem {...listItemProps} key={event.id} event={{ ...event }} />
+    <EventTimelineItem
+      key={key}
+      isLast={isLast}
+      event={{ ...event }}
+      onClick={onClick}
+      onKeywordClick={onKeywordClick}
+      onActorClick={onActorClick}
+      onGroupClick={onGroupClick}
+      onGroupMemberClick={onGroupMemberClick}
+    />
   );
 };
 
@@ -67,25 +82,31 @@ export const getItemHeight = (e: SearchEvent, isDownMD: boolean): number => {
 
 export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
   className?: string;
-  style?: React.CSSProperties;
   hash: string;
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
-  data: SearchEventQueryResult;
+  // data: SearchEventQueryResult;
   filters: {
     uncategorized: boolean;
     deaths: boolean;
     scientificStudies: boolean;
   };
-  onLoadMoreEvents: (params: IndexRange) => Promise<void>;
+  // onLoadMoreEvents: (params: IndexRange) => Promise<void>;
 }
+
+const initialState: SearchEventQueryResult = {
+  events: [],
+  actors: [],
+  groups: [],
+  groupsMembers: [],
+  keywords: [],
+  totals: { uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0 },
+};
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
     hash,
     queryParams,
-    data: searchEvents,
     filters,
-    onLoadMoreEvents,
     onClick,
     onActorClick,
     onGroupClick,
@@ -93,14 +114,11 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     onGroupMemberClick,
     ...listProps
   } = props;
-  // const orderedEvents = React.useMemo(
-  //   () => pipe(events, groupBy(byEqualDate)),
-  //   [events]
-  // );
 
   const theme = useTheme();
   const classes = useStyles();
   const isDownMD = useMediaQuery(theme.breakpoints.down("md"));
+  const [searchEvents, setSearchEvents] = React.useState(initialState);
 
   const itemProps = {
     onClick,
@@ -110,19 +128,59 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     onKeywordClick,
   };
 
-  const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
-    if (
-      params.startIndex < searchEvents.events.length &&
-      params.stopIndex < searchEvents.events.length
-    ) {
-      return await Promise.resolve(undefined);
+  const totalEvents =
+    searchEvents.totals.uncategorized +
+    searchEvents.totals.deaths +
+    searchEvents.totals.scientificStudies;
+
+  const handleLoadMoreRows = async ({
+    startIndex,
+    stopIndex,
+  }: IndexRange): Promise<void> => {
+    console.log("load more rows", { startIndex, stopIndex, totalEvents });
+    if (startIndex >= totalEvents) {
+      await Promise.resolve(undefined);
     }
 
-    void onLoadMoreEvents(params);
+    void onLoadMoreEvents({ startIndex, stopIndex });
   };
 
-  const isRowLoaded = (params: Index): boolean => {
-    return params.index <= searchEvents.events.length;
+  const isRowLoaded = React.useCallback(
+    (params: Index): boolean => {
+      const rowLoaded = searchEvents.events[params.index] !== undefined;
+      console.log("row loaded", { ...params, rowLoaded });
+      return rowLoaded;
+    },
+    [searchEvents.events.length]
+  );
+
+  const getRowHeight = React.useCallback(
+    ({ index }: Index) => {
+      const event = searchEvents.events[index];
+
+      return event ? getItemHeight(event, isDownMD) : 150;
+    },
+    [searchEvents.events.length]
+  );
+
+  const onLoadMoreEvents = async (range: IndexRange): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/return-await
+    return searchEventsQuery
+      .run({
+        ...queryParams,
+        hash,
+        _start: range.startIndex as any,
+        _end: range.stopIndex as any,
+      })()
+      .then((result) => {
+        if (result._tag === "Right") {
+          setSearchEvents(result.right);
+        }
+
+        return new Promise((resolve) => {
+          setTimeout(resolve, 100);
+        });
+      });
   };
 
   React.useEffect(() => {
@@ -138,53 +196,66 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   //   A.sort(eventsSort)
   // );
 
-  const totalEvents =
-    searchEvents.totals.uncategorized +
-    searchEvents.totals.deaths +
-    searchEvents.totals.scientificStudies;
+  // console.log(totalEvents, searchEvents.events);
 
-  return (
-    <InfiniteLoader
-      isRowLoaded={isRowLoaded}
-      loadMoreRows={handleLoadMoreRows}
-      rowCount={totalEvents}
-      minimumBatchSize={20}
+  return searchEvents.events.length === 0 ? (
+    <Box height={150}>
+      <FullSizeLoader />
+    </Box>
+  ) : (
+    <Box
+      display={"flex"}
+      style={{
+        flexGrow: 1,
+        flexShrink: 1,
+        flexBasis: "auto",
+      }}
     >
-      {({ onRowsRendered, registerChild }) => (
-        <AutoSizer>
-          {({ width, height }) => {
-            return (
-              <List
-                {...listProps}
-                className={classes.timeline}
-                ref={registerChild}
-                width={width}
-                height={height}
-                onRowsRendered={onRowsRendered}
-                rowRenderer={(props) => {
-                  const event = searchEvents.events[props.index];
-                  const isLast = props.index === searchEvents.events.length - 1;
+      <InfiniteLoader
+        isRowLoaded={isRowLoaded}
+        loadMoreRows={handleLoadMoreRows}
+        rowCount={totalEvents}
+        minimumBatchSize={20}
+      >
+        {({ onRowsRendered, registerChild }) => (
+          <AutoSizer defaultHeight={800}>
+            {({ width, height }) => {
+              return (
+                <List
+                  {...listProps}
+                  className={classes.timeline}
+                  ref={registerChild}
+                  width={width}
+                  height={height}
+                  estimatedRowSize={100}
+                  overscanRowCount={5}
+                  onRowsRendered={onRowsRendered}
+                  rowRenderer={(props) => {
+                    if (props.index >= searchEvents.events.length) {
+                      return <div style={{ height: 100 }} />;
+                    }
 
-                  return (
-                    <Row
-                      {...itemProps}
-                      {...props}
-                      event={event}
-                      isLast={isLast}
-                    />
-                  );
-                }}
-                rowCount={totalEvents}
-                rowHeight={({ index }) => {
-                  const event = searchEvents.events[index];
-                  return event ? getItemHeight(event, isDownMD) : 150;
-                }}
-              />
-            );
-          }}
-        </AutoSizer>
-      )}
-    </InfiniteLoader>
+                    const event = searchEvents.events[props.index];
+                    const isLast = props.index === totalEvents - 1;
+
+                    return (
+                      <Row
+                        {...itemProps}
+                        {...props}
+                        event={event}
+                        isLast={isLast}
+                      />
+                    );
+                  }}
+                  rowCount={totalEvents}
+                  rowHeight={getRowHeight}
+                />
+              );
+            }}
+          </AutoSizer>
+        )}
+      </InfiniteLoader>
+    </Box>
   );
 };
 

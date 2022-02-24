@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as path from "path";
-import CopyWebpackPlugin from "copy-webpack-plugin";
-import DotenvPlugin from "dotenv-webpack";
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import DotenvWebpackPlugin from "dotenv-webpack";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
-import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
-import HtmlWebpackPlugin from "html-webpack-plugin";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
-import { Configuration, DefinePlugin } from "webpack";
+import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { GetLogger } from "../logger";
 
@@ -24,19 +22,26 @@ const NODE_ENV = t.union(
   "NODE_ENV"
 );
 
-interface GetConfigParams<A extends Record<string, t.Mixed>> {
+export interface GetConfigParams<A extends Record<string, t.Mixed>> {
   cwd: string;
-  env: t.Type<A, unknown, unknown>;
+  env: t.ExactC<t.TypeC<A>>;
   envFileDir: string;
-  port: number;
+  port?: number;
+  entry?: { [key: string]: string };
+  devServer?: boolean;
+  target: webpack.Configuration["target"];
+  outputDir?: string;
+  hot: boolean;
 }
 
 const getConfig = <A extends Record<string, t.Mixed>>(
   opts: GetConfigParams<A>
-): Configuration => {
+): webpack.Configuration => {
+  webpackLogger.debug.log("Getting config for options %O", opts);
   // webpackLogger.debug.log("Initial process.env %O", process.env);
-  const mode: Configuration["mode"] =
-    (process.env.NODE_ENV as Configuration["mode"]) ?? ("development" as const);
+  const mode: webpack.Configuration["mode"] =
+    (process.env.NODE_ENV as webpack.Configuration["mode"]) ??
+    ("development" as const);
   const DOTENV_CONFIG_PATH =
     process.env.DOTENV_CONFIG_PATH ?? path.resolve(opts.envFileDir, ".env");
 
@@ -88,48 +93,40 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     return validation.right;
   });
 
-  const stringifiedAppEnv = pipe(
-    appEnv,
-    R.reduceWithIndex(
-      {
-        "process.env.BUILD_DATE": JSON.stringify(new Date().toISOString()),
-        "process.env.NODE_ENV": JSON.stringify(mode),
-      },
-      (key, acc, v) => ({
-        ...acc,
-        [`process.env.${key}`]: JSON.stringify(v),
-      })
-    )
-  );
+  const plugins = [];
 
-  const plugins = [
-    new DefinePlugin(stringifiedAppEnv) as any,
-
-    new DotenvPlugin({
-      path: DOTENV_CONFIG_PATH,
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
+  if (opts.target === "web" ?? opts.target === "electron-renderer") {
+    const stringifiedAppEnv = pipe(
+      appEnv,
+      R.reduceWithIndex(
         {
-          from: path.resolve(opts.cwd, "public"),
-          filter: (file: string) => {
-            return file !== path.resolve(opts.cwd, "public", "index.html");
-          },
+          "process.env.BUILD_DATE": JSON.stringify(new Date().toISOString()),
+          "process.env.NODE_ENV": JSON.stringify(mode),
         },
-      ],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(opts.cwd, "public/index.html"),
-      inject: true,
-      showErrors: true,
-    }),
-    new HtmlReplaceWebpackPlugin([
-      {
-        pattern: "%PUBLIC_URL%",
-        replacement: process.env.PUBLIC_URL ?? "/",
-      },
-    ]),
-  ];
+        (key, acc, v) => ({
+          ...acc,
+          [`process.env.${key}`]: JSON.stringify(v),
+        })
+      )
+    );
+
+    webpackLogger.debug.log(
+      "Process env for define plugin %O",
+      stringifiedAppEnv
+    );
+
+    plugins.push(new webpack.DefinePlugin(stringifiedAppEnv));
+    plugins.push(
+      new DotenvWebpackPlugin({
+        path: DOTENV_CONFIG_PATH,
+        silent: true,
+      })
+    );
+  }
+
+  if (opts.hot && opts.target === "web" && mode === "development") {
+    plugins.push(new ReactRefreshWebpackPlugin());
+  }
 
   if (mode === "production") {
     plugins.push(new MiniCssExtractPlugin());
@@ -144,43 +141,57 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     );
   }
 
-  const devServerConf = {
-    devServer: {
-      static: {
-        directory: path.join(opts.cwd, "build"),
-      },
-      host: "0.0.0.0",
-      compress: true,
-      port: opts.port,
-    },
-  };
+  const devServerConf = opts.devServer
+    ? {
+        devServer: {
+          static: {
+            directory: opts.outputDir ?? path.join(opts.cwd, "build"),
+          },
+          host: "0.0.0.0",
+          compress: true,
+          port: opts.port,
+        },
+      }
+    : {};
 
   return {
     mode,
     ...devServerConf,
-    entry: {
+    target: opts.target,
+    context: opts.cwd,
+    entry: opts.entry ?? {
       app: path.resolve(opts.cwd, "src/index.tsx"),
     },
 
-    context: opts.cwd,
-
     output: {
-      path: path.resolve(opts.cwd, "build"),
+      path: opts.outputDir ?? path.resolve(opts.cwd, "build"),
+      publicPath: '/',
       filename: "[name].js",
     },
 
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
+          test: /\.(t|j)sx?$/,
           exclude: /node_modules/,
+          // include: [
+          //   path.resolve(opts.cwd, 'src'),
+          //   /node_modules\/@material-ui/
+          // ],
           use: [
             {
               loader: "ts-loader",
               options: {
                 context: opts.cwd,
-                transpileOnly: false,
                 projectReferences: true,
+                transpileOnly: true,
+                // getCustomTransformers: () => ({
+                //   before: [
+                //     mode === 'development' &&
+                //       opts.hot &&
+                //       ReactRefreshTypescript(),
+                //   ].filter(Boolean),
+                // }),
               },
             },
           ],
@@ -202,27 +213,39 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     devtool: "source-map",
 
     resolve: {
-      extensions: [".ts", ".tsx", ".js"],
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
       plugins: [
         new TsconfigPathsPlugin({
-          context: opts.cwd,
+          // configFile: tsConfigFile,
+          // context: opts.cwd,
         }),
       ],
-      // mainFields: ['main', 'module'],
+      // modules: [],
+      // resolve: {
+      //   extensions: [".ts", ".tsx", ".js"],
+      //   plugins: [
+      //     new TsconfigPathsPlugin({
+      //       context: opts.cwd,
+      //     }),
+      //   ],
+      //   // mainFields: ['main', 'module'],
       modules: [
+        // path.resolve(opts.cwd)
         // path.resolve(opts.cwd, 'node_modules'),
         // path.resolve(opts.cwd, "../../packages/@econnessione/shared/node_modules"),
         // path.resolve(opts.cwd, "../../packages/@econnessione/ui/node_modules"),
-        path.resolve(opts.cwd, "../../node_modules"),
-        path.resolve(opts.cwd, "../../"),
+        "node_modules",
+        path.resolve(opts.cwd),
       ],
     },
-    plugins,
+    plugins: plugins as any,
   };
 };
 
-const defineEnv = (fn: (io: typeof t) => t.Props): t.Type<t.Props> => {
-  return t.strict(fn(t), "AppEnv");
+const defineEnv = <P extends t.Props>(
+  fn: (io: typeof t) => P
+): t.ExactC<t.TypeC<P>> => {
+  return t.strict<P>(fn(t), "AppEnv");
 };
 
 export { getConfig, defineEnv };

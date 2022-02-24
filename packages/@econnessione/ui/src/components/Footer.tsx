@@ -16,7 +16,7 @@ import { GithubIcon } from "./Common/Icons";
 const useStyles = makeStyles<ECOTheme>((theme) =>
   createStyles({
     root: {
-      display: 'flex',
+      display: "flex",
       width: "100%",
       paddingTop: "20px",
       paddingBottom: "20px",
@@ -72,7 +72,7 @@ export const Footer: React.FC = () => {
           <Grid item sm={4}></Grid>
           <Grid className={classes.rightColumn} item sm={4}>
             <Typography
-            component="div"
+              component="div"
               variant="h6"
               style={{
                 textTransform: "uppercase",

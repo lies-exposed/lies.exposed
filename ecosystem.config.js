@@ -5,6 +5,17 @@ const fs = require("fs");
 module.exports = {
   apps: [
     {
+      name: "web",
+      cwd: path.resolve(__dirname, "./services/web"),
+      script: "./build/server/ssr.js",
+      listen_timeout: 100000,
+      watch: ["src", "build"],
+      watch_delay: 1000,
+      env: dotenv.parse(
+        fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")
+      ),
+    },
+    {
       name: "api",
       cwd: path.resolve(__dirname, "./services/api"),
       script: "./build/run.js",
@@ -23,18 +34,30 @@ module.exports = {
       user: process.env.SSH_USERNAME,
       // where to connect
       host: [process.env.SSH_HOST],
-      ref: process.env.REF ?? 'origin/release/alpha',
+      ref: process.env.REF ?? "origin/release/alpha",
       path: "/root/node/app",
       repo: "https://github.com/lies-exposed/lies.exposed.git",
-      "pre-deploy-local": "echo 'This is a local executed command'",
+      "pre-deploy-local": [
+        "scp ./services/web/.env.alpha alpha.api.lies.exposed:envs/web/.env",
+        "scp ./services/admin-web/.env.alpha alpha.api.lies.exposed:envs/admin/.env",
+      ].join(" && "),
       "post-deploy": [
         "set -e -x",
-        "cp ~/.env ~/node/app/source/.env",
-        "cp -r ~/certs/dev-certificate.crt ~/node/app/source/services/api/certs/alpha-db-ca-certificate.crt",
+        "cp ~/.env ./.env",
+        "cp ~/envs/admin/.env ./services/admin-web/.env",
+        "cp ~/envs/web/.env ./services/web/.env",
+        "cp -r ~/certs/dev-certificate.crt ./services/api/certs/alpha-db-ca-certificate.crt",
         "yarn",
-        "yarn api build",
-        "yarn api migration:run",
-        "pm2 reload ecosystem.config.js api",
+        "yarn packages:build",
+        "NODE_ENV=production yarn admin-web build",
+        "mkdir -p /var/www/html/alpha.lies.exposed/admin",
+        "cp -r /root/node/app/current/services/admin-web/build/* /var/www/html/alpha.lies.exposed/admin",
+        "sudo chown -R www-data:www-data /var/www/html/alpha.lies.exposed",
+        "NODE_ENV=production yarn web build",
+        "NODE_ENV=production yarn api build",
+        "NODE_ENV=production yarn api migration:run",
+        "sudo nginx -s reload",
+        "pm2 reload ecosystem.config.js",
       ].join(" && "),
     },
   },
