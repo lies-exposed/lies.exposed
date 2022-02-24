@@ -204,17 +204,17 @@ export const searchEventV2Query =
               .clone()
               .andWhere("event.type = 'Uncategorized' ");
 
-            logger.debug.log(
-              `Uncategorized count query %O`,
-              ...uncategorizedCount.getQueryAndParameters()
-            );
+            // logger.debug.log(
+            //   `Uncategorized count query %O`,
+            //   ...uncategorizedCount.getQueryAndParameters()
+            // );
 
             const deathsCount = q.clone().andWhere(" event.type = 'Death' ");
 
-            logger.debug.log(
-              `Deaths count query %O`,
-              ...deathsCount.getQueryAndParameters()
-            );
+            // logger.debug.log(
+            //   `Deaths count query %O`,
+            //   ...deathsCount.getQueryAndParameters()
+            // );
 
             const scientificStudiesCount = q
               .clone()
@@ -239,6 +239,8 @@ export const searchEventV2Query =
             };
           }
         );
+
+        // console.log({ skip, take })
 
         return sequenceS(TE.ApplicativePar)({
           results: db.execQuery(() =>

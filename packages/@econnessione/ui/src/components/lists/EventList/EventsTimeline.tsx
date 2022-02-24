@@ -126,7 +126,7 @@ const initialState: SearchEventQueryResult = {
   totals: { uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0 },
 };
 
-let _loadedRowsMap: Record<number, JSX.Element> = {};
+const _loadedRowsMap: Record<number, JSX.Element> = {};
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
@@ -163,7 +163,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     const rowLoaded =
       searchEvents.events[params.index] !== undefined &&
       _loadedRowsMap[params.index] !== undefined;
-    console.log("row loaded", { ...params, rowLoaded });
+    // console.log("row loaded", { ...params, rowLoaded });
     return rowLoaded;
   };
 
@@ -203,7 +203,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     ) {
       return await Promise.resolve(undefined);
     }
-    console.log("load more rows", { ...params, totalEvents });
+    // console.log("load more rows", { ...params, totalEvents });
     void onLoadMoreEvents(params);
   };
 
@@ -220,7 +220,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   //   A.sort(eventsSort)
   // );
 
-  console.log("events", { totalEvents, events: searchEvents.events });
+  // console.log("events", { totalEvents, events: searchEvents.events });
 
   return (
     <Box

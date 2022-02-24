@@ -16,7 +16,7 @@ module.exports = {
       cwd: path.resolve(__dirname, "./services/web"),
       script: "./build/server/ssr.js",
       listen_timeout: 100000,
-      watch: ["src", "build"],
+      watch: ["build"],
       watch_delay: 1000,
       env: dotenv.parse(
         fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")
@@ -26,8 +26,11 @@ module.exports = {
       name: "api",
       cwd: path.resolve(__dirname, "./services/api"),
       script: "./build/run.js",
+      watch: ["build"],
+      watch_delay: 1000,
       wait_ready: true,
       listen_timeout: 10000,
+      kill_timeout : 3000,
       env: dotenv.parse(
         fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")
       ),

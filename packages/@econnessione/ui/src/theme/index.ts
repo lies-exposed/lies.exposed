@@ -1,20 +1,16 @@
-import {
-  darken,
-  lighten, makeStyles,
-  useTheme,
-} from "@material-ui/core";
-import { createTheme } from '@material-ui/core/styles';
+import { darken, lighten, makeStyles, useTheme } from "@material-ui/core";
+import { createTheme } from "@material-ui/core/styles";
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
 
 const primary = "#FF5E5B";
-const primaryLight = lighten(primary, .5);
-const primaryDark = darken(primary, .5);
+const primaryLight = lighten(primary, 0.5);
+const primaryDark = darken(primary, 0.5);
 
 const secondary = "#17B9B6";
-const secondaryLight = lighten(secondary, .5);
-const secondaryDark = darken(primary, .5);
+const secondaryLight = lighten(secondary, 0.5);
+const secondaryDark = darken(primary, 0.5);
 
 const ECOTheme = createTheme({
   palette: {
@@ -88,14 +84,15 @@ const ECOTheme = createTheme({
       colorPrimary: primary as any,
       colorDefault: "#FFF" as any,
     },
+    ...({
+      MuiTimelineDot: {
+        root: {
+          borderColor: "#fff",
+        },
+      },
+    } as any),
   },
 });
-
-(ECOTheme.overrides as any).MuiTimelineDot = {
-  root: {
-    borderColor: "#fff",
-  },
-};
 
 type ECOTheme = typeof ECOTheme;
 
