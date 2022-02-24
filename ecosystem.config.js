@@ -2,6 +2,13 @@ const dotenv = require("dotenv");
 const path = require("path");
 const fs = require("fs");
 
+const {
+  SSH_KEY,
+  SSH_USERNAME,
+  SSH_HOST,
+  REF = "origin/release/alpha",
+} = process.env;
+
 module.exports = {
   apps: [
     {
@@ -29,17 +36,17 @@ module.exports = {
   deploy: {
     alpha: {
       // path.resolve(os.homedir(), ".ssh/lies_exposed_api"),
-      key: process.env.SSH_KEY, // path to the public key to authenticate
+      key: SSH_KEY, // path to the public key to authenticate
       // user used to authenticate
-      user: process.env.SSH_USERNAME,
+      user: SSH_USERNAME,
       // where to connect
-      host: [process.env.SSH_HOST],
-      ref: process.env.REF ?? "origin/release/alpha",
+      host: [SSH_HOST],
+      ref: REF,
       path: "/root/node/app",
       repo: "https://github.com/lies-exposed/lies.exposed.git",
       "pre-deploy-local": [
-        "scp ./services/web/.env.alpha alpha.api.lies.exposed:envs/web/.env",
-        "scp ./services/admin-web/.env.alpha alpha.api.lies.exposed:envs/admin/.env",
+        `scp ./services/web/.env.alpha ${SSH_HOST}:envs/web/.env`,
+        `scp ./services/admin-web/.env.alpha ${SSH_HOST}:envs/admin/.env`,
       ].join(" && "),
       "post-deploy": [
         "set -e -x",
