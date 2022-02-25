@@ -1,9 +1,9 @@
 {
-  "name": "econnessione",
+  "name": "lies.exposed",
   "version": "0.1.0",
-  "description": "Econnessione's project monorepo",
+  "description": "lies.exposed project monorepo",
   "main": "index.js",
-  "repository": "git@github.com:ascariandrea/econnessione.git",
+  "repository": "git@github.com:lies.exposed/lies-exposed.git",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "license": "MIT",
   "private": true,

@@ -16,9 +16,9 @@ jobs:
       pg-db:
         image: postgres:12
         env:
-          POSTGRES_USER: econnessione
-          POSTGRES_PASSWORD: econnessione-password
-          POSTGRES_DB: econnessione
+          POSTGRES_USER: liexp
+          POSTGRES_PASSWORD: liexp-password
+          POSTGRES_DB: liexp
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -30,9 +30,9 @@ jobs:
       pg-db-test:
         image: postgres:12
         env:
-          POSTGRES_USER: econnessione
-          POSTGRES_PASSWORD: econnessione-password
-          POSTGRES_DB: econnessione-test
+          POSTGRES_USER: liexp
+          POSTGRES_PASSWORD: liexp-password
+          POSTGRES_DB: liexp-test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s

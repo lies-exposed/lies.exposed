@@ -12,9 +12,9 @@ services:
     ports:
       - "127.0.0.1:9432:5432"
     environment:
-      POSTGRES_USER: econnessione
-      POSTGRES_PASSWORD: econnessione-password
-      POSTGRES_DB: econnessione-test
+      POSTGRES_USER: liexp
+      POSTGRES_PASSWORD: liexp-password
+      POSTGRES_DB: liexp-test
     volumes:
       - db-test-data:/var/lib/postgresql/data
 
@@ -25,9 +25,9 @@ services:
     expose:
       - "8432"
     environment:
-      POSTGRES_USER: econnessione
-      POSTGRES_PASSWORD: econnessione-password
-      POSTGRES_DB: econnessione
+      POSTGRES_USER: liexp
+      POSTGRES_PASSWORD: liexp-password
+      POSTGRES_DB: liexp
     volumes:
       - ./services/api/db/dump/:/docker-entrypoint-initdb.d/
       - db-data:/var/lib/postgresql/data
@@ -50,13 +50,13 @@ services:
       retries: 3
 
   api:
-    container_name: econnessione-api
-    image: econnessione_base
+    container_name: liexp-api
+    image: liexp_base
     env_file:
       - .env
       # - .env.alpha
     environment:
-      DEBUG: "@eco*"
+      DEBUG: "@liexp*"
       DB_HOST: db
       DB_PORT: 5432
       DEV_DATA_HOST: http://localhost:9007
@@ -75,8 +75,8 @@ services:
     restart: always
 
   web:
-    container_name: econnessione-web
-    image: econnessione_base
+    container_name: liexp-web
+    image: liexp_base
     env_file:
       - ./services/web/.env
     ports:
@@ -94,8 +94,8 @@ services:
       - space
 
   admin-web:
-    container_name: econnessione-admin-web
-    image: econnessione_base
+    container_name: liexp-admin-web
+    image: liexp_base
     env_file:
       - ./services/admin-web/.env.development
     ports:
@@ -113,8 +113,8 @@ services:
       - space
 
   storybook:
-    container_name: econnessione-storybook
-    image: econnessione_base
+    container_name: liexp-storybook
+    image: liexp_base
     ports:
       - "6006:6006"
     volumes_from:

@@ -6,7 +6,7 @@ const customSlate = slate((def) => {
   return {
     ...def,
     id: "eco-slate-plugin",
-    title: "Econnessione Slate plugin",
+    title: "@liexp Slate plugin",
     description: "Slate plugin with components used in @liexp.",
     plugins: {
       ...def.plugins,

@@ -2,7 +2,7 @@ import path from "path";
 // import nodeExternals from "webpack-node-externals";
 import {
   defineEnv,
-  getConfig
+  getConfig,
 } from "../../packages/@liexp/core/src/webpack/config";
 import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
 
@@ -40,7 +40,7 @@ const srvConfig = getConfig({
   env: SrvEnv,
   envFileDir: __dirname,
   hot: false,
-  outputDir: path.resolve(__dirname, "build/server"),
+  output: { path: path.resolve(__dirname, "build/server") },
   entry: {
     ssr: path.resolve(__dirname, "src/server/ssr.tsx"),
   },
@@ -49,11 +49,5 @@ const srvConfig = getConfig({
 
 export default [
   webConfig,
-  {
-    ...srvConfig,
-    // externals: [
-      // nodeExternals(),
-      // /@material-ui\/.*/
-    // ],
-  },
+  srvConfig,
 ];

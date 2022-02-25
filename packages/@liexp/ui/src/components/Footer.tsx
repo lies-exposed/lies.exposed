@@ -50,7 +50,7 @@ export const Footer: React.FC<{ style?: React.CSSProperties }> = (props) => {
     site: {
       siteMetadata: {
         title: "lies.exposed",
-        github: { link: "https://github.com/ascariandrea/econnessione" },
+        github: { link: "https://github.com/lies.exposed/lies-exposed" },
         mattermost: { link: "https://community.econnessione.org" },
       },
     },

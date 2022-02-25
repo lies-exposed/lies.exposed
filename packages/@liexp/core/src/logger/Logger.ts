@@ -3,7 +3,7 @@ import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 
-const baseLogger = debug("@eco");
+const baseLogger = debug("@liexp");
 
 export interface FPTSLogger {
   log: (message: string, ...args: any[]) => void;

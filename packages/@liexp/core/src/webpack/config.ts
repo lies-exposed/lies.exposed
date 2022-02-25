@@ -30,7 +30,7 @@ export interface GetConfigParams<A extends Record<string, t.Mixed>> {
   entry?: { [key: string]: string };
   devServer?: boolean;
   target: webpack.Configuration["target"];
-  outputDir?: string;
+  output?: webpack.Configuration['output']
   hot: boolean;
 }
 
@@ -145,7 +145,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     ? {
         devServer: {
           static: {
-            directory: opts.outputDir ?? path.join(opts.cwd, "build"),
+            directory: opts.output?.path ?? path.join(opts.cwd, "build"),
           },
           host: "0.0.0.0",
           compress: true,
@@ -164,8 +164,8 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     },
 
     output: {
-      path: opts.outputDir ?? path.resolve(opts.cwd, "build"),
-      publicPath: "/",
+      path: opts.output?.path ?? path.resolve(opts.cwd, "build"),
+      publicPath: opts.output?.publicPath ?? "/",
       filename: "[name].js",
     },
 

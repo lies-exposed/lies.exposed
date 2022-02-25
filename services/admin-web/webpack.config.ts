@@ -14,6 +14,9 @@ const config = getWebConfig({
   })),
   envFileDir: __dirname,
   port,
+  output: {
+    publicPath: '/admin'
+  },
   devServer: true,
   hot: true,
   target: "web",
