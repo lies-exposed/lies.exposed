@@ -21,7 +21,7 @@ interface SearchEventQuery {
   keywords: O.Option<string[]>;
   links: O.Option<string[]>;
   media: O.Option<string[]>;
-  type: O.Option<string>;
+  type: O.Option<string[]>;
   title: O.Option<string>;
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;

@@ -110,11 +110,6 @@ export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   hash: string;
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
-  filters: {
-    uncategorized: boolean;
-    deaths: boolean;
-    scientificStudies: boolean;
-  };
 }
 
 const initialState: SearchEventQueryResult = {
@@ -132,7 +127,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
     hash,
     queryParams,
-    filters,
     onClick,
     onActorClick,
     onGroupClick,
@@ -210,15 +204,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   React.useEffect(() => {
     void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 });
   }, [hash]);
-
-  // const allEvents = pipe(
-  //   filters.deaths
-  //     ? searchEvents.events.filter((e) => e.type === Death.DEATH.value)
-  //     : filters.scientificStudies
-  //     ? events.filter((e) => ScientificStudy.ScientificStudyType.is(e.type))
-  //     : events,
-  //   A.sort(eventsSort)
-  // );
 
   // console.log("events", { totalEvents, events: searchEvents.events });
 

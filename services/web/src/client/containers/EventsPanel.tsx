@@ -1,4 +1,14 @@
-import { EventType } from "@liexp/shared/io/http/Events";
+import {
+  Death,
+  EventType,
+  Patent,
+  Uncategorized,
+} from "@liexp/shared/io/http/Events";
+import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import {
+  ScientificStudy,
+  ScientificStudyType,
+} from "@liexp/shared/io/http/Events/ScientificStudy";
 import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsMap from "@liexp/ui/components/EventsMap";
 import { SearchEvent } from "@liexp/ui/components/lists/EventList/EventListItem";
@@ -121,7 +131,7 @@ export interface EventsQueryParams {
   startDate: string;
   endDate: string;
   tab: number;
-  type?: EventType;
+  type?: EventType[];
 }
 
 interface EventsPanelProps {
@@ -149,7 +159,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     setOpen(false);
   };
 
-  const [filters, updateState] = React.useState<{
+  const [filters, setTypeFilters] = React.useState<{
     deaths: boolean;
     uncategorized: boolean;
     scientificStudies: boolean;
@@ -230,18 +240,26 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         <EventsTotals
           query={query}
           hash={hash}
-          appBarClassName={classes.appBar}
           filters={filters}
           onFilterChange={(f) => {
-            const type = f.deaths
-              ? "Death"
-              : f.scientificStudies
-              ? "ScientificStudy"
-              : f.patents
-              ? "Patent"
-              : f.uncategorized
-              ? "Uncategorized"
-              : undefined;
+            const type: EventType[] = [];
+            if (f.deaths) {
+              type.push(Death.DEATH.value);
+            }
+
+            if (f.scientificStudies) {
+              type.push(ScientificStudyType.value);
+            }
+
+            if (f.patents) {
+              type.push(Patent.PATENT.value);
+            }
+
+            if (f.uncategorized) {
+              type.push(Uncategorized.UncategorizedType.value);
+            }
+
+            setTypeFilters(f);
 
             handleUpdateEventsSearch({
               type: type,
@@ -270,7 +288,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           <EventsTimeline
             hash={hash}
             queryParams={query}
-            filters={filters}
             onClick={handleEventClick}
             onGroupClick={(g) => {
               onGroupsChange(

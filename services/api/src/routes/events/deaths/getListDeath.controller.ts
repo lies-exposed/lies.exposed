@@ -32,7 +32,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query(ctx)({
           ...query,
-          type: O.some(DEATH.value),
+          type: O.some([DEATH.value]),
           actors: pipe(
             victim,
             O.map((v) => [v] as any[])

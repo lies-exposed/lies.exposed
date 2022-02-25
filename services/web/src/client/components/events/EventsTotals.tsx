@@ -5,10 +5,20 @@ import {
   SearchEventQueryInput,
   searchEventsQuery,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { Box, IconButton, Typography } from "@material-ui/core";
+import { Box, IconButton, makeStyles, Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
+import clsx from "clsx";
 import * as React from "react";
+
+const useStyles = makeStyles((theme) => ({
+  iconButton: {
+    marginRight: 10
+  },
+  iconButtonSelected: {
+    background: theme.palette.grey[200],
+  },
+}));
 
 export interface EventsTotalsProps {
   query: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
@@ -19,7 +29,6 @@ export interface EventsTotalsProps {
     scientificStudies: boolean;
     patents: boolean;
   };
-  appBarClassName: string;
   onFilterChange: (f: EventsTotalsProps["filters"]) => void;
 }
 
@@ -28,8 +37,9 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
   hash,
   filters,
   onFilterChange,
-  appBarClassName,
 }) => {
+  const classes = useStyles();
+
   return (
     <WithQueries
       queries={{ searchEvents: searchEventsQuery }}
@@ -53,6 +63,9 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
             <Box width="100%">
               <Box display="flex">
                 <IconButton
+                  className={clsx(classes.iconButton, {
+                    [classes.iconButtonSelected]: filters.uncategorized,
+                  })}
                   color="primary"
                   style={{ marginRight: 10 }}
                   onClick={() => {
@@ -69,7 +82,9 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
                 </IconButton>
                 <IconButton
                   color="primary"
-                  style={{ marginRight: 10 }}
+                  className={clsx(classes.iconButton, {
+                    [classes.iconButtonSelected]: filters.deaths,
+                  })}
                   onClick={() => {
                     onFilterChange({
                       ...filters,
@@ -82,7 +97,9 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
                 </IconButton>
                 <IconButton
                   color="primary"
-                  style={{ marginRight: 10 }}
+                  className={clsx(classes.iconButton, {
+                    [classes.iconButtonSelected]: filters.scientificStudies,
+                  })}
                   onClick={() => {
                     onFilterChange({
                       ...filters,
@@ -100,7 +117,9 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
                 </IconButton>
                 <IconButton
                   color="primary"
-                  style={{ marginRight: 10 }}
+                  className={clsx(classes.iconButton, {
+                    [classes.iconButtonSelected]: filters.patents,
+                  })}
                   onClick={() => {
                     onFilterChange({
                       ...filters,

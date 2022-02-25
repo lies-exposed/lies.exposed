@@ -148,7 +148,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     groupsMembers: query.groupsMembers ?? [],
     keywords: query.keywords ?? [],
     tab,
-    type: query.type as EventType | undefined,
+    type: query.type as EventType[] | undefined,
   };
 
   const handleUpdateEventsSearch = React.useCallback(
@@ -213,7 +213,10 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 groups={filterGroups.data}
                 groupsMembers={filterGroupsMembers.data}
                 keywords={filterKeywords.data}
-                onQueryFilterChange={handleUpdateEventsSearch as any}
+                onQueryChange={handleUpdateEventsSearch as any}
+                onQueryClear={() => {
+                  navigateTo.events({}, {});
+                }}
               />
             );
 
