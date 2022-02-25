@@ -110,7 +110,7 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
 
 export const PatentCreate: React.FC<CreateProps> = (props) => (
   <Create
-    title="Create a Death Event"
+    title="Create a Patent Event"
     {...props}
     transform={(data) => transformEvent(uuid(), data)}
   >
@@ -125,7 +125,7 @@ export const PatentCreate: React.FC<CreateProps> = (props) => (
         source="payload.owners.actors"
         defaultValue={[]}
       />
-      <ReferenceArrayActorInput
+      <ReferenceArrayGroupInput
         source="payload.owners.groups"
         defaultValue={[]}
       />
