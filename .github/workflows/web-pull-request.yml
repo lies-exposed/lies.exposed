@@ -78,6 +78,8 @@ jobs:
           key: web-build
 
       - name: Build web
+        env:
+          DOTENV_CONFIG_PATH: .env.development
         run: |
           yarn packages:build
           yarn web build
