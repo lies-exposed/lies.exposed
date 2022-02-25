@@ -227,7 +227,9 @@ export const searchEventV2Query =
             const patentCount = q.clone().andWhere("event.type = 'Patent'");
 
             if (O.isSome(type)) {
-              q.andWhere("event.type = :type", { type: type.value });
+              q.andWhere("event.type::text IN (:...types)", {
+                types: type.value,
+              });
             }
 
             return {

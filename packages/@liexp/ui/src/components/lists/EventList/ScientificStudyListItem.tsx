@@ -2,7 +2,7 @@ import * as io from "@liexp/shared/io";
 import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
 import { SearchScientificStudyEvent } from "./EventListItem";
-import EventListItemBase from "./EventListItemHeader";
+import EventListItemBase from "./EventListItemBase";
 
 interface ScientificStudyListItemProps {
   item: SearchScientificStudyEvent;

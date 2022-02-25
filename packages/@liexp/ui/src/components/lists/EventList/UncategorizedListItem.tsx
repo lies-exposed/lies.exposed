@@ -2,7 +2,7 @@ import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
 import { SearchUncategorizedEvent } from "./EventListItem";
-import EventListItemBase from "./EventListItemHeader";
+import EventListItemBase from "./EventListItemBase";
 
 interface UncategorizedListItemProps {
   item: SearchUncategorizedEvent;

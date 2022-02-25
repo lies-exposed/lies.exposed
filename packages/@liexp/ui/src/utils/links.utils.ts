@@ -12,10 +12,10 @@ export const getAdminLink = <K extends io.http.ResourcesNames>(
     case "topics":
     case "actors":
     case "groups": {
-      return `/admin/#/collections/${key}/entries/${f.id}`;
+      return `/admin/index.html?#/${key}/${f.id}`;
     }
     default:
-      return "/admin/#/";
+      return "/admin/index.html?";
   }
 };
 

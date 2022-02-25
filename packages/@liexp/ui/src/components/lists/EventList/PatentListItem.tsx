@@ -1,11 +1,8 @@
 import { Actor, Keyword } from "@liexp/shared/io/http";
-import { Box, Grid, Link } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import { Box } from "@material-ui/core";
 import * as React from "react";
-import Editor from "../../Common/Editor/index";
-import { LinksBox } from "../../LinksBox";
-import KeywordList from "../KeywordList";
 import { SearchPatentEvent } from "./EventListItem";
+import EventListItemBase from './EventListItemBase';
 
 interface PatentListItemProps {
   item: SearchPatentEvent;
@@ -29,30 +26,17 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
       style={{
         width: "100%",
         marginBottom: 40,
-        maxHeight: 300,
-        overflow: "hidden",
       }}
       onClick={() => onClick?.(item)}
     >
-      <Grid container spacing={2}>
-        <Grid item md={12} sm={12} lg={12}>
-          <Typography variant="h6">Patent: {item.payload.title}</Typography>
-          <Link href={item.payload.source} rel="noreferrer" target="_blank">
-            {item.payload.source}
-          </Link>
-          <KeywordList
-            style={{ marginBottom: 10 }}
-            keywords={item.keywords.map((k) => ({ ...k, selected: true }))}
-            onItemClick={(k) => onKeywordClick?.(k)}
-          />
-        </Grid>
-        <Grid item lg={8} md={8} sm={12}>
-          <Editor value={item.excerpt as any} readOnly />
-        </Grid>
-        <Grid item lg={8} md={12} sm={12} xs={12}>
-          <LinksBox ids={item.links} />
-        </Grid>
-      </Grid>
+      <EventListItemBase
+        title={item.payload.title}
+        excerpt={item.excerpt}
+        keywords={item.keywords}
+        media={item.media}
+        links={item.links}
+        onKeywordClick={onKeywordClick}
+      />
     </Box>
   );
 };

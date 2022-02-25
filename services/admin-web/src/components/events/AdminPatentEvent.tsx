@@ -101,6 +101,7 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
           source="payload.owners.groups"
           defaultValue={[]}
         />
+        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
         <ReactPageInput source="excerpt" onlyText />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />

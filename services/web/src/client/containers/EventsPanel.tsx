@@ -98,6 +98,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
     },
     tabPanel: {
       maxHeight: "100%",
+      minHeight: 500,
       width: "100%",
       flexGrow: 1,
       flexShrink: 0,
@@ -165,10 +166,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     scientificStudies: boolean;
     patents: boolean;
   }>({
-    deaths: false,
-    uncategorized: false,
-    scientificStudies: false,
-    patents: false,
+    deaths: !!query.type?.includes(Death.DEATH.value),
+    uncategorized: !!query.type?.includes(Uncategorized.UncategorizedType.value),
+    scientificStudies: !!query.type?.includes(ScientificStudyType.value),
+    patents: !!query.type?.includes(Patent.PATENT.value),
   });
 
   const handleUpdateEventsSearch = React.useCallback(

@@ -1,3 +1,4 @@
+import { Death, EventType } from "@liexp/shared/io/http/Events";
 import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
@@ -52,6 +53,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                   groupsMembers: [],
                   keywords: [],
                   tab: 0,
+                  type: EventType.types.map((t) => t.value),
                 }}
                 onQueryChange={() => {}}
               />

@@ -148,7 +148,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     groupsMembers: query.groupsMembers ?? [],
     keywords: query.keywords ?? [],
     tab,
-    type: query.type as EventType[] | undefined,
+    type: query.type as EventType[] ?? EventType.types.map(t => t.value),
   };
 
   const handleUpdateEventsSearch = React.useCallback(

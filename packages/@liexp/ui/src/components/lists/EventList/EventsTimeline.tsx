@@ -1,4 +1,10 @@
 import {
+  Death,
+  Patent,
+  ScientificStudy,
+  Uncategorized,
+} from "@liexp/shared/io/http/Events";
+import {
   Box,
   CircularProgress,
   makeStyles,
@@ -88,7 +94,7 @@ export const getItemHeight = (e: SearchEvent, isDownMD: boolean): number => {
     default: {
       if (isDownMD) {
         return (
-          150 +
+          180 +
           (isValidValue(e.excerpt as any) ? 100 : 0) +
           (e.keywords.length > 0 ? 50 : 0) +
           (e.media.length > 0 ? 400 : 0) +
@@ -96,7 +102,7 @@ export const getItemHeight = (e: SearchEvent, isDownMD: boolean): number => {
         );
       }
       return (
-        100 +
+        180 +
         (isValidValue(e.excerpt as any) ? 100 : 0) +
         (e.keywords.length > 0 ? 50 : 0) +
         (e.media.length > 0 ? 400 : 0) +
@@ -148,10 +154,24 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     onKeywordClick,
   };
 
-  const totalEvents =
-    searchEvents.totals.uncategorized +
-    searchEvents.totals.deaths +
-    searchEvents.totals.scientificStudies;
+  const totalEvents = React.useMemo(
+    () =>
+      [
+        queryParams.type?.includes(Death.DEATH.value)
+          ? searchEvents.totals.deaths
+          : 0,
+        queryParams.type?.includes(Uncategorized.UncategorizedType.value)
+          ? searchEvents.totals.uncategorized
+          : 0,
+        queryParams.type?.includes(ScientificStudy.ScientificStudyType.value)
+          ? searchEvents.totals.scientificStudies
+          : 0,
+        queryParams.type?.includes(Patent.PATENT.value)
+          ? searchEvents.totals.patents
+          : 0,
+      ].reduce((acc, tot) => acc + tot, 0),
+    [searchEvents.totals]
+  );
 
   const isRowLoaded = (params: Index): boolean => {
     const rowLoaded =
@@ -215,6 +235,8 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         flexShrink: 1,
         flexBasis: "auto",
         height: "100%",
+        minHeight: 600,
+        paddingBottom: 100,
       }}
     >
       <InfiniteLoader

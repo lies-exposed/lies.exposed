@@ -220,21 +220,10 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           // context: opts.cwd,
         }),
       ],
-      // modules: [],
-      // resolve: {
-      //   extensions: [".ts", ".tsx", ".js"],
-      //   plugins: [
-      //     new TsconfigPathsPlugin({
-      //       context: opts.cwd,
-      //     }),
-      //   ],
-      //   // mainFields: ['main', 'module'],
       modules: [
         // path.resolve(opts.cwd)
-        // path.resolve(opts.cwd, 'node_modules'),
-        // path.resolve(opts.cwd, "../../packages/@liexp/shared/node_modules"),
-        // path.resolve(opts.cwd, "../../packages/@liexp/ui/node_modules"),
         "node_modules",
+        path.resolve(opts.cwd, "../../packages"),
         path.resolve(opts.cwd),
       ],
     },
