@@ -1,8 +1,8 @@
-import { fc } from "@econnessione/core/tests";
-import * as http from "@econnessione/shared/io/http";
-import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
-import { CreateEventBodyArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
-import { KeywordArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
+import { fc } from "@liexp/core/tests";
+import * as http from "@liexp/shared/io/http";
+import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
+import { CreateEventBodyArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
+import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";

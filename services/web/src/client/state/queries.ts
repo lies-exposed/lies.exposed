@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { Events } from "@econnessione/shared/io/http";
-import { GetSearchEventsQueryInput } from '@econnessione/shared/io/http/Events/SearchEventsQuery';
-import { APIError } from "@econnessione/shared/providers/api.provider";
+import { Events } from "@liexp/shared/io/http";
+import { GetSearchEventsQueryInput } from '@liexp/shared/io/http/Events/SearchEventsQuery';
+import { APIError } from "@liexp/shared/providers/api.provider";
 import { queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";

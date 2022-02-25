@@ -1,4 +1,4 @@
-import { DEATH } from "@econnessione/shared/io/http/Events/Death";
+import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,

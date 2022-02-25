@@ -1,4 +1,4 @@
-import { Avatar } from "@econnessione/ui/components/Common/Avatar";
+import { Avatar } from "@liexp/ui/components/Common/Avatar";
 import get from "lodash/get";
 import has from "lodash/has";
 import { FieldProps } from "ra-ui-materialui";

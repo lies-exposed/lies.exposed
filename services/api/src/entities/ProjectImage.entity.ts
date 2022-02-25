@@ -1,4 +1,4 @@
-import { http } from "@econnessione/shared/io";
+import { http } from "@liexp/shared/io";
 import {
   Column,
   CreateDateColumn,

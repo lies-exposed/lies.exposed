@@ -1,4 +1,4 @@
-import Header, { HeaderMenuItem } from "@econnessione/ui/components/Header";
+import Header, { HeaderMenuItem } from "@liexp/ui/components/Header";
 import * as React from "react";
 import { useNavigateTo } from '../../utils/history.utils';
 import { useNavigateToResource } from "../../utils/location.utils";

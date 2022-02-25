@@ -7,8 +7,8 @@ COPY package.json .
 COPY yarn.lock .
 COPY .yarnrc.yml .
 COPY tsconfig.json .
-COPY packages/@econnessione/core ./packages/@econnessione/core
-COPY packages/@econnessione/shared ./packages/@econnessione/shared
+COPY packages/@liexp/core ./packages/@liexp/core
+COPY packages/@liexp/shared ./packages/@liexp/shared
 COPY services/api ./services/api
 
 RUN yarn install
@@ -21,8 +21,8 @@ WORKDIR /deps
 COPY package.json .yarnrc.yml yarn.lock ./
 
 COPY --from=build /app/.yarn /deps/.yarn
-COPY --from=build /app/packages/@econnessione/core/package.json /deps/packages/@econnessione/core/package.json
-COPY --from=build /app/packages/@econnessione/shared/package.json /deps/packages/@econnessione/shared/package.json
+COPY --from=build /app/packages/@liexp/core/package.json /deps/packages/@liexp/core/package.json
+COPY --from=build /app/packages/@liexp/shared/package.json /deps/packages/@liexp/shared/package.json
 COPY --from=build /app/services/api/package.json /deps/services/api/package.json
 
 RUN yarn install
@@ -40,8 +40,8 @@ COPY services/api/package.json /app/services/api/package.json
 COPY --from=build /app/.yarn /app/.yarn
 
 # packages
-COPY --from=build /app/packages/@econnessione/core/lib /app/packages/@econnessione/core/lib
-COPY --from=build /app/packages/@econnessione/shared/lib /app/packages/@econnessione/shared/lib
+COPY --from=build /app/packages/@liexp/core/lib /app/packages/@liexp/core/lib
+COPY --from=build /app/packages/@liexp/shared/lib /app/packages/@liexp/shared/lib
 
 # API service
 COPY --from=build /app/services/api/package.json /app/services/api/package.json

@@ -1,4 +1,4 @@
-import { Tag, Color } from "@econnessione/shared/io/http/Common";
+import { Tag, Color } from "@liexp/shared/io/http/Common";
 import {
   Column,
   CreateDateColumn,

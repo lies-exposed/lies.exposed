@@ -1,8 +1,8 @@
 // import * as fs from "fs";
 import * as path from "path";
-import { GetLogger } from "@econnessione/core/logger";
-import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { distanceFromNow } from "@econnessione/shared/utils/date";
+import { GetLogger } from "@liexp/core/logger";
+import { GetCSVUtil } from "@liexp/shared/utils/csv.utils";
+import { distanceFromNow } from "@liexp/shared/utils/date";
 import { parse } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";

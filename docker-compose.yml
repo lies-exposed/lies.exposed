@@ -66,7 +66,7 @@ services:
     ports:
       - "4010:4010"
     volumes:
-      - ./packages/@econnessione:/app/packages/@econnessione
+      - ./packages/@liexp:/app/packages/@liexp
       - ./services/api:/app/services/api
     tty: true
     stdin_open: true
@@ -84,7 +84,7 @@ services:
     volumes:
       - ./.eslintrc:/app/.eslintrc
       - ./tsconfig.json:/app/tsconfig.json
-      - ./packages/@econnessione:/app/packages/@econnessione:cached
+      - ./packages/@liexp:/app/packages/@liexp:cached
       - ./services/web:/app/services/web:cached
     working_dir: /app/services/web
     command: yarn start
@@ -103,7 +103,7 @@ services:
     volumes:
       - ./.eslintrc:/app/.eslintrc
       - ./tsconfig.json:/app/tsconfig.json
-      - ./packages/@econnessione:/app/packages/@econnessione:cached
+      - ./packages/@liexp:/app/packages/@liexp:cached
       - ./services/admin-web:/app/services/admin-web:cached
     working_dir: /app/services/admin-web
     command: yarn start

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { GetLogger, Logger } from "@econnessione/core/logger";
+import { GetLogger, Logger } from "@liexp/core/logger";
 import {
   AgeGroup,
   NotSpecified,
@@ -14,19 +14,19 @@ import {
   Female,
   Male,
   Sex,
-} from "@econnessione/shared/io/http/covid/VaccineDatum";
+} from "@liexp/shared/io/http/covid/VaccineDatum";
 import {
   MakePuppeteerClient,
   PuppeteerError,
   PuppeteerProvider,
   toPuppeteerError,
-} from "@econnessione/shared/providers/Puppeteer";
+} from "@liexp/shared/providers/Puppeteer";
 import { differenceInDays } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 // eslint-disable-next-line import/default
-import type puppeteer from "puppeteer";
+import type puppeteer from "puppeteer-core";
 import pup from "puppeteer-extra";
 
 const DATA_DIR_PATH = path.resolve(

@@ -1,6 +1,6 @@
-import { fc } from "@econnessione/core/tests";
-import { http } from "@econnessione/shared/io";
-import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
+import { fc } from "@liexp/core/tests";
+import { http } from "@liexp/shared/io";
+import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";

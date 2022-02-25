@@ -1,4 +1,4 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";

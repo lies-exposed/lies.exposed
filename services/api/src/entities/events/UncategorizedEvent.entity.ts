@@ -1,4 +1,4 @@
-import { UncategorizedV2Payload } from "@econnessione/shared/io/http/Events/Uncategorized";
+import { UncategorizedV2Payload } from "@liexp/shared/io/http/Events/Uncategorized";
 import { ViewColumn, ViewEntity } from "typeorm";
 import { LinkEntity } from "../Link.entity";
 import { ActorEntity } from "@entities/Actor.entity";

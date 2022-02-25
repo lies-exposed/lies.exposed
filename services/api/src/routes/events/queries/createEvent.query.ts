@@ -1,5 +1,5 @@
-import * as http from "@econnessione/shared/io/http";
-import { uuid } from "@econnessione/shared/utils/uuid";
+import * as http from "@liexp/shared/io/http";
+import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";

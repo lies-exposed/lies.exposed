@@ -1,4 +1,4 @@
-import * as tests from "@econnessione/core/tests";
+import * as tests from "@liexp/core/tests";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";

@@ -1,6 +1,6 @@
 import * as path from "path";
-import * as logger from "@econnessione/core/logger";
-import { MakeURLMetadata } from "@econnessione/shared/providers/URLMetadata.provider";
+import * as logger from "@liexp/core/logger";
+import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
 import * as AWS from "aws-sdk";
 import axios from "axios";
 import cors from "cors";

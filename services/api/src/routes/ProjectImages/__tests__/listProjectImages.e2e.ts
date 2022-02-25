@@ -1,6 +1,6 @@
-import { fc } from "@econnessione/core/tests";
-import { http } from "@econnessione/shared/io";
-import { MediaArb, ProjectArb } from "@econnessione/shared/tests";
+import { fc } from "@liexp/core/tests";
+import { http } from "@liexp/shared/io";
+import { MediaArb, ProjectArb } from "@liexp/shared/tests";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";

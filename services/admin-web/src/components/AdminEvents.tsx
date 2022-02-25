@@ -1,16 +1,16 @@
-import * as io from "@econnessione/shared/io";
-import { http } from "@econnessione/shared/io";
-import { Events } from "@econnessione/shared/io/http";
-import { Event } from "@econnessione/shared/io/http/Events";
-import { DEATH } from "@econnessione/shared/io/http/Events/Death";
-import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
+import * as io from "@liexp/shared/io";
+import { http } from "@liexp/shared/io";
+import { Events } from "@liexp/shared/io/http";
+import { Event } from "@liexp/shared/io/http/Events";
+import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
 import {
   getTextContentsCapped
-} from "@econnessione/ui/components/Common/Editor";
-import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
-import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
-import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+} from "@liexp/ui/components/Common/Editor";
+import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
+import { EventPageContent } from "@liexp/ui/components/EventPageContent";
+import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as E from "fp-ts/lib/Either";

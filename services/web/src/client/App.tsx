@@ -1,5 +1,5 @@
-import "@econnessione/ui/components/Common/Icons/library";
-import { Footer } from "@econnessione/ui/components/Footer";
+import "@liexp/ui/components/Common/Icons/library";
+import { Footer } from "@liexp/ui/components/Footer";
 import { Grid, useMediaQuery, useTheme, } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
@@ -58,6 +58,7 @@ export const App: React.FC = () => {
             style={{
               width: "100%",
               height: `calc(100% - 64px)`,
+              marginBottom: 50
             }}
           >
             <Switch>

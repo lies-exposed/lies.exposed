@@ -9,16 +9,16 @@
       "path": ".github"
     },
     {
-      "name": "📦 @econnessione/core",
-      "path": "packages/@econnessione/core"
+      "name": "📦 @liexp/core",
+      "path": "packages/@liexp/core"
     },
     {
-      "name": "📦 @econnessione/shared",
-      "path": "packages/@econnessione/shared"
+      "name": "📦 @liexp/shared",
+      "path": "packages/@liexp/shared"
     },
     {
-      "name": "📦 @econnessione/ui",
-      "path": "packages/@econnessione/ui"
+      "name": "📦 @liexp/ui",
+      "path": "packages/@liexp/ui"
     },
     {
       "name": "🚀 admin-web",
@@ -50,8 +50,8 @@
       "lib/**": true,
     },
     "eslint.workingDirectories": [
-      "./packages/@econnessione/core",
-      "./packages/@econnessione/shared",
+      "./packages/@liexp/core",
+      "./packages/@liexp/shared",
       "./services/api",
       "./services/web",
       "./services/admin-web"

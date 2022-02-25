@@ -1,4 +1,4 @@
-import { MediaType } from "@econnessione/shared/io/http/Media";
+import { MediaType } from "@liexp/shared/io/http/Media";
 import { Box } from "@material-ui/core";
 import { FormDataConsumer } from "ra-core";
 import {

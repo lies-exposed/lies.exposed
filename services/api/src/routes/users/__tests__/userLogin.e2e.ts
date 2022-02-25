@@ -1,5 +1,5 @@
-import { fc } from "@econnessione/core/tests";
-import { uuid } from "@econnessione/shared/utils/uuid";
+import { fc } from "@liexp/core/tests";
+import { uuid } from "@liexp/shared/utils/uuid";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { AppTest, initAppTest } from "../../../../test/AppTest";

@@ -20,16 +20,16 @@
       "@providers/*": ["providers/*"],
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"],
-      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
-      "@econnessione/shared/*": ["../../../packages/@econnessione/shared/src/*"]
+      "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
+      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"]
     }
   },
   "references": [
     {
-      "path": "../../packages/@econnessione/core"
+      "path": "../../packages/@liexp/core"
     },
     {
-      "path": "../../packages/@econnessione/shared"
+      "path": "../../packages/@liexp/shared"
     }
   ],
   "include": ["./src"]

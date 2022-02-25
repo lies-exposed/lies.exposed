@@ -1,5 +1,5 @@
-import * as logger from "@econnessione/core/logger";
-import { URLMetadataClient } from "@econnessione/shared/providers/URLMetadata.provider";
+import * as logger from "@liexp/core/logger";
+import { URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
 import { Router } from "express";
 import { ENV } from "@io/ENV";
 import { JWTClient } from "@providers/jwt/JWTClient";

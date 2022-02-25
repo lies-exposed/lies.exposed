@@ -1,5 +1,5 @@
 import * as path from "path";
-import * as logger from "@econnessione/core/logger";
+import * as logger from "@liexp/core/logger";
 import { Body } from "aws-sdk/clients/s3";
 import { AxiosInstance, AxiosResponse } from "axios";
 import FormData from "form-data";

@@ -1,4 +1,4 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
+import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { AreaEntity } from "../../entities/Area.entity";

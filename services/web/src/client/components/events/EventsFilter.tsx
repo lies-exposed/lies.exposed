@@ -1,10 +1,10 @@
-import { GetSearchEventsQueryInput } from '@econnessione/shared/io/http/Events/SearchEventsQuery';
-import DatePicker from "@econnessione/ui/components/Common/DatePicker";
-import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
-import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
-import { AutocompleteGroupMemberInput } from "@econnessione/ui/components/Input/AutocompleteGroupMemberInput";
-import { AutocompleteKeywordInput } from "@econnessione/ui/components/Input/AutocompleteKeywordInput";
-import { SearchEventQueryResult } from "@econnessione/ui/state/queries/SearchEventsQuery";
+import { GetSearchEventsQueryInput } from '@liexp/shared/io/http/Events/SearchEventsQuery';
+import DatePicker from "@liexp/ui/components/Common/DatePicker";
+import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
+import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
+import { AutocompleteGroupMemberInput } from "@liexp/ui/components/Input/AutocompleteGroupMemberInput";
+import { AutocompleteKeywordInput } from "@liexp/ui/components/Input/AutocompleteKeywordInput";
+import { SearchEventQueryResult } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Button, Grid, makeStyles } from "@material-ui/core";
 import * as React from "react";
 import { EventsView } from "../../utils/location.utils";

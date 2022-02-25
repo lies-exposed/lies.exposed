@@ -1,6 +1,6 @@
-import * as tests from "@econnessione/core/tests";
-import { TagArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
-import { ColorArb } from '@econnessione/shared/tests/arbitrary/common/Color.arbitrary';
+import * as tests from "@liexp/core/tests";
+import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
+import { ColorArb } from '@liexp/shared/tests/arbitrary/common/Color.arbitrary';
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";

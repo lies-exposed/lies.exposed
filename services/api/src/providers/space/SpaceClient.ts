@@ -1,4 +1,4 @@
-import * as logger from "@econnessione/core/logger";
+import * as logger from "@liexp/core/logger";
 import type * as AWS from "aws-sdk";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";

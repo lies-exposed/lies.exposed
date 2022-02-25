@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
+import { VaccineDatum } from "@liexp/shared/io/http/covid/VaccineDatum";
 import * as t from "io-ts";
 
 const {

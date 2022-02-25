@@ -1,8 +1,8 @@
-import { fc } from "@econnessione/core/tests";
-import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
-import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
-import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
-import { CreateScientificStudyArb } from "@econnessione/shared/tests/arbitrary/ScientificStudy.arbitrary";
+import { fc } from "@liexp/core/tests";
+import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
+import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
+import { CreateScientificStudyArb } from "@liexp/shared/tests/arbitrary/ScientificStudy.arbitrary";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";

@@ -1,6 +1,6 @@
-import * as tests from "@econnessione/core/tests";
-import { http } from "@econnessione/shared/io";
-import { LinkArb, UncategorizedArb } from "@econnessione/shared/tests";
+import * as tests from "@liexp/core/tests";
+import { http } from "@liexp/shared/io";
+import { LinkArb, UncategorizedArb } from "@liexp/shared/tests";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";

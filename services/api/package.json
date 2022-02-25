@@ -90,8 +90,8 @@
     "@providers": "build/providers",
     "@routes": "build/routes",
     "@utils": "build/utils",
-    "@econnessione/core": "../../packages/@econnessione/core/lib",
-    "@econnessione/shared": "../../packages/@econnessione/shared/lib"
+    "@liexp/core": "../../packages/@liexp/core/lib",
+    "@liexp/shared": "../../packages/@liexp/shared/lib"
   },
   "license": "MIT",
   "lint-staged": {

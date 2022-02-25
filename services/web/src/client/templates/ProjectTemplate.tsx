@@ -1,10 +1,10 @@
-import { eventMetadataMapEmpty } from "@econnessione/shared/mock-data/events/events-metadata";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { Loader } from "@econnessione/ui/components/Common/Loader";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import { ProjectPageContent } from "@econnessione/ui/components/ProjectPageContent";
-import SEO from "@econnessione/ui/components/SEO";
-import { Queries } from "@econnessione/ui/providers/DataProvider";
+import { eventMetadataMapEmpty } from "@liexp/shared/mock-data/events/events-metadata";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { Loader } from "@liexp/ui/components/Common/Loader";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import { ProjectPageContent } from "@liexp/ui/components/ProjectPageContent";
+import SEO from "@liexp/ui/components/SEO";
+import { Queries } from "@liexp/ui/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

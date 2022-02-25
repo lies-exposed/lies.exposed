@@ -1,10 +1,10 @@
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import {
   SearchEventQueryInput,
   searchEventsQuery
-} from "@econnessione/ui/state/queries/SearchEventsQuery";
+} from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Box, IconButton, Typography } from "@material-ui/core";
 import * as QR from 'avenger/lib/QueryResult';
 import { WithQueries } from "avenger/lib/react";

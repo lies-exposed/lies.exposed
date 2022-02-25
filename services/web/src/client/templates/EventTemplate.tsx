@@ -1,7 +1,7 @@
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { Loader } from "@econnessione/ui/components/Common/Loader";
-import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
-import { Queries } from "@econnessione/ui/providers/DataProvider";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { Loader } from "@liexp/ui/components/Common/Loader";
+import { EventPageContent } from "@liexp/ui/components/EventPageContent";
+import { Queries } from "@liexp/ui/providers/DataProvider";
 import { Box } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

@@ -1,5 +1,5 @@
-import * as tests from "@econnessione/core/tests";
-import { ActorArb, GroupArb } from "@econnessione/shared/tests";
+import * as tests from "@liexp/core/tests";
+import { ActorArb, GroupArb } from "@liexp/shared/tests";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";

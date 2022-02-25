@@ -1,5 +1,5 @@
-import { Endpoints, AddEndpoint } from "@econnessione/shared/endpoints";
-import { uuid } from "@econnessione/shared/utils/uuid";
+import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
+import { uuid } from "@liexp/shared/utils/uuid";
 import { Router } from "express";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";

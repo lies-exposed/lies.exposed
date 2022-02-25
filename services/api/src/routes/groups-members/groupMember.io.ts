@@ -1,5 +1,5 @@
-import * as io from "@econnessione/shared/io";
-import { toColor } from "@econnessione/shared/io/http/Common";
+import * as io from "@liexp/shared/io";
+import { toColor } from "@liexp/shared/io/http/Common";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import { GroupMemberEntity } from "../../entities/GroupMember.entity";

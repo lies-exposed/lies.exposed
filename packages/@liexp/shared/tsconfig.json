@@ -1,0 +1,33 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react",
+    "noEmit": false,
+    "composite": true,
+    "declaration": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "outDir": "./lib",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "typeRoots": ["node_modules/@types", "../../../node_modules/@types"],
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
+    "paths": {
+      "@helpers/*": ["./helpers/*"],
+      "@io/*": ["./io/*"],
+      "@mock-data/*": ["./mock-data/*"],
+      "@providers/*": ["./providers/*"],
+      "@utils/*": ["./utils/*"],
+      "@liexp/core/*": ["../../core/src/*"]
+    }
+  },
+  "references": [
+    {
+      "path": "../core"
+    }
+  ],
+  "include": ["./src", "./typings", "src/**/*.json"],
+  "exclude": ["node_modules", "lib"]
+}

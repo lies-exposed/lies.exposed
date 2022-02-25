@@ -1,7 +1,7 @@
-import * as http from "@econnessione/shared/io/http";
-import { CreateLink } from "@econnessione/shared/io/http/Link";
-import { URLMetadataClient } from "@econnessione/shared/providers/URLMetadata.provider";
-import { uuid } from "@econnessione/shared/utils/uuid";
+import * as http from "@liexp/shared/io/http";
+import { CreateLink } from "@liexp/shared/io/http/Link";
+import { URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
+import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";

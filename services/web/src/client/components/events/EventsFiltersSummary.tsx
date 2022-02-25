@@ -1,8 +1,8 @@
-import { ActorList } from "@econnessione/ui/components/lists/ActorList";
-import GroupList from "@econnessione/ui/components/lists/GroupList";
-import { GroupsMembersList } from "@econnessione/ui/components/lists/GroupMemberList";
-import KeywordList from "@econnessione/ui/components/lists/KeywordList";
-import { SearchEventQueryResult } from "@econnessione/ui/state/queries/SearchEventsQuery";
+import { ActorList } from "@liexp/ui/components/lists/ActorList";
+import GroupList from "@liexp/ui/components/lists/GroupList";
+import { GroupsMembersList } from "@liexp/ui/components/lists/GroupMemberList";
+import KeywordList from "@liexp/ui/components/lists/KeywordList";
+import { SearchEventQueryResult } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Grid, makeStyles, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import * as React from "react";

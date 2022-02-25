@@ -1,5 +1,5 @@
-import * as ScientificStudy from "@econnessione/shared/io/http/Events/ScientificStudy";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import * as ScientificStudy from "@liexp/shared/io/http/Events/ScientificStudy";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
   BooleanField, BooleanInput, Create,

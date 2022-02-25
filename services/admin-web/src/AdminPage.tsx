@@ -1,4 +1,4 @@
-import { ECOTheme } from "@econnessione/ui/theme";
+import { ECOTheme } from "@liexp/ui/theme";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";

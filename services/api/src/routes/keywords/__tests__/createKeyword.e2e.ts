@@ -1,7 +1,7 @@
-import { fc } from '@econnessione/core/tests';
-import { http } from "@econnessione/shared/io";
-import { TagArb } from '@econnessione/shared/tests/arbitrary/Keyword.arbitrary';
-import { ColorArb } from '@econnessione/shared/tests/arbitrary/common/Color.arbitrary';
+import { fc } from '@liexp/core/tests';
+import { http } from "@liexp/shared/io";
+import { TagArb } from '@liexp/shared/tests/arbitrary/Keyword.arbitrary';
+import { ColorArb } from '@liexp/shared/tests/arbitrary/common/Color.arbitrary';
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
 

@@ -1,13 +1,13 @@
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import { AutocompleteActorInput } from "@econnessione/ui/components/Input/AutocompleteActorInput";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import { PageContent } from "@econnessione/ui/components/PageContent";
-import { ActorList } from "@econnessione/ui/components/lists/ActorList";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import { PageContent } from "@liexp/ui/components/PageContent";
+import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import {
   pageContentByPath,
   Queries,
-} from "@econnessione/ui/providers/DataProvider";
+} from "@liexp/ui/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

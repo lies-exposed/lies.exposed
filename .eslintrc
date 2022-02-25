@@ -11,8 +11,8 @@
   "parserOptions": {
     "project": [
       "./tsconfig.test.json",
-      "./packages/@econnessione/shared/tsconfig.test.json",
-      "./packages/@econnessione/ui/tsconfig.test.json",
+      "./packages/@liexp/shared/tsconfig.test.json",
+      "./packages/@liexp/ui/tsconfig.test.json",
       "./services/admin-web/tsconfig.json",
       "./services/api/tsconfig.test.json",
       "./services/web/tsconfig.json"

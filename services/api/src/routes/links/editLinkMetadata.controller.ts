@@ -1,5 +1,5 @@
-import { AddEndpoint } from "@econnessione/shared/endpoints";
-import { UpdateMetadata } from "@econnessione/shared/endpoints/link.endpoints";
+import { AddEndpoint } from "@liexp/shared/endpoints";
+import { UpdateMetadata } from "@liexp/shared/endpoints/link.endpoints";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";

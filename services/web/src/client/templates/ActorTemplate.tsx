@@ -1,9 +1,9 @@
-import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import SEO from "@econnessione/ui/components/SEO";
-import { Queries } from "@econnessione/ui/providers/DataProvider";
+import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import SEO from "@liexp/ui/components/SEO";
+import { Queries } from "@liexp/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";

@@ -4,18 +4,18 @@ import {
   Covid19VAERS,
   Covid19WorldVaccineDistribution,
   CovidWHOWorldData
-} from "@econnessione/shared/endpoints/graph.endpoints";
-import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import { StatAccordion } from "@econnessione/ui/components/Common/StatAccordion";
-// import { VaccineEffectivenessIndicators } from "@econnessione/ui/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
+} from "@liexp/shared/endpoints/graph.endpoints";
+import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import { StatAccordion } from "@liexp/ui/components/Common/StatAccordion";
+// import { VaccineEffectivenessIndicators } from "@liexp/ui/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
 import {
   a11yProps,
   TabPanel
-} from "@econnessione/ui/components/Common/TabPanel";
-import { VaccineADRGraph } from "@econnessione/ui/components/Graph/covid/vaccines/VaccineADRGraph";
-import { jsonData } from "@econnessione/ui/providers/DataProvider";
+} from "@liexp/ui/components/Common/TabPanel";
+import { VaccineADRGraph } from "@liexp/ui/components/Graph/covid/vaccines/VaccineADRGraph";
+import { jsonData } from "@liexp/ui/providers/DataProvider";
 import { Box, Grid, Tab, Tabs, Typography } from "@material-ui/core";
 import { scaleOrdinal } from "@vx/scale";
 import * as QR from "avenger/lib/QueryResult";

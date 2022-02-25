@@ -1,5 +1,5 @@
-import { UUID } from "@econnessione/shared/io/http/Common/UUID";
-import * as Query from "@econnessione/shared/io/http/Query";
+import { UUID } from "@liexp/shared/io/http/Common/UUID";
+import * as Query from "@liexp/shared/io/http/Query";
 import * as O from "fp-ts/lib/Option";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";

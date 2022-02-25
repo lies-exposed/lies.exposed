@@ -1,7 +1,7 @@
 import {
   CO2LevelsGraph,
   CO2LevelsGraphProps,
-} from "@econnessione/ui/components/Graph/CO2LevelsGraph";
+} from "@liexp/ui/components/Graph/CO2LevelsGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

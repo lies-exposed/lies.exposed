@@ -1,8 +1,8 @@
-import { http } from "@econnessione/shared/io";
-import { AreaPageContent } from "@econnessione/ui/components/AreaPageContent";
-import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import { MapInput } from "@econnessione/ui/components/admin/MapInput";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import { http } from "@liexp/shared/io";
+import { AreaPageContent } from "@liexp/ui/components/AreaPageContent";
+import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
+import { MapInput } from "@liexp/ui/components/admin/MapInput";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import GeometryType from "ol/geom/GeometryType";

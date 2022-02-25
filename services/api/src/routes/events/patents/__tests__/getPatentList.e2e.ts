@@ -1,5 +1,5 @@
-import { fc } from "@econnessione/core/tests";
-import { PatentEventArb } from "@econnessione/shared/tests/arbitrary/events/PatentEvent.arbitrary";
+import { fc } from "@liexp/core/tests";
+import { PatentEventArb } from "@liexp/shared/tests/arbitrary/events/PatentEvent.arbitrary";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 

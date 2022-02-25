@@ -1,6 +1,6 @@
-import AreasMap from "@econnessione/ui/components/AreasMap";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import { PageContent } from "@econnessione/ui/components/PageContent";
+import AreasMap from "@liexp/ui/components/AreasMap";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import { PageContent } from "@liexp/ui/components/PageContent";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
 

@@ -1,6 +1,6 @@
-import { fc } from "@econnessione/core/tests";
-import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
-import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
+import { fc } from "@liexp/core/tests";
+import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
+import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";

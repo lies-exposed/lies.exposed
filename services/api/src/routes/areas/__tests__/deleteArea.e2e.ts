@@ -1,6 +1,6 @@
-import * as tests from "@econnessione/core/tests";
-import { http } from "@econnessione/shared/io";
-import { AreaArb } from "@econnessione/shared/tests/arbitrary/Area.arbitrary";
+import * as tests from "@liexp/core/tests";
+import { http } from "@liexp/shared/io";
+import { AreaArb } from "@liexp/shared/tests/arbitrary/Area.arbitrary";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { AreaEntity } from "@entities/Area.entity";
 

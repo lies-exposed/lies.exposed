@@ -1,4 +1,4 @@
-import { Media } from "@econnessione/shared/io/http";
+import { Media } from "@liexp/shared/io/http";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";

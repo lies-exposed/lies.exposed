@@ -1,10 +1,10 @@
 import * as fs from "fs";
 import * as path from "path";
-import { GetLogger } from "@econnessione/core/logger";
-import { VaccineDistributionDatum } from "@econnessione/shared/io/http/covid/VaccineDistributionDatum";
-import { groupBy } from "@econnessione/shared/utils/array.utils";
-import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { distanceFromNow } from "@econnessione/shared/utils/date";
+import { GetLogger } from "@liexp/core/logger";
+import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
+import { groupBy } from "@liexp/shared/utils/array.utils";
+import { GetCSVUtil } from "@liexp/shared/utils/csv.utils";
+import { distanceFromNow } from "@liexp/shared/utils/date";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
 import * as E from "fp-ts/lib/Either";

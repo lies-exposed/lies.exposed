@@ -16,22 +16,22 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "paths": {
-      "@econnessione/core/*": ["../../../packages/@econnessione/core/src/*"],
-      "@econnessione/shared/*": [
-        "../../../packages/@econnessione/shared/src/*"
+      "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
+      "@liexp/shared/*": [
+        "../../../packages/@liexp/shared/src/*"
       ],
-      "@econnessione/ui/*": ["../../../packages/@econnessione/ui/src/*"]
+      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
     }
   },
   "references": [
     {
-      "path": "../../packages/@econnessione/core"
+      "path": "../../packages/@liexp/core"
     },
     {
-      "path": "../../packages/@econnessione/shared"
+      "path": "../../packages/@liexp/shared"
     },
     {
-      "path": "../../packages/@econnessione/ui"
+      "path": "../../packages/@liexp/ui"
     }
   ],
   "include": ["./src"],

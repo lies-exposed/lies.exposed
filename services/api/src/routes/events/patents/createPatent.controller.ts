@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { PATENT } from "@econnessione/shared/io/http/Events/Patent";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";

@@ -1,6 +1,6 @@
-import { DEATH } from "@econnessione/shared/io/http/Events/Death";
-import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
-import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
+import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { UncategorizedType } from "@liexp/shared/io/http/Events/Uncategorized";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";

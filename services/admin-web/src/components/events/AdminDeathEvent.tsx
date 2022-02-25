@@ -1,10 +1,10 @@
-import { Death } from "@econnessione/shared/io/http/Events";
-import { uuid } from "@econnessione/shared/utils/uuid";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import { Death } from "@liexp/shared/io/http/Events";
+import { uuid } from "@liexp/shared/utils/uuid";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
   MapInputType,
-} from "@econnessione/ui/src/components/admin/MapInput";
+} from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
   AutocompleteInput,

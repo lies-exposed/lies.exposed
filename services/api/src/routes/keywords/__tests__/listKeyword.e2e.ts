@@ -1,6 +1,6 @@
-import * as tests from "@econnessione/core/tests";
-import { http } from "@econnessione/shared/io";
-import { KeywordArb } from "@econnessione/shared/tests/arbitrary/Keyword.arbitrary";
+import * as tests from "@liexp/core/tests";
+import { http } from "@liexp/shared/io";
+import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
 

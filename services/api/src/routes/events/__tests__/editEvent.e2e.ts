@@ -1,10 +1,10 @@
-import { fc } from "@econnessione/core/tests";
-import * as http from "@econnessione/shared/io/http";
-import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
-import { UncategorizedArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
-import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
-import { LinkArb } from "@econnessione/shared/tests/arbitrary/Link.arbitrary";
-import { MediaArb } from "@econnessione/shared/tests/arbitrary/Media.arbitrary";
+import { fc } from "@liexp/core/tests";
+import * as http from "@liexp/shared/io/http";
+import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
+import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
+import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
+import { LinkArb } from "@liexp/shared/tests/arbitrary/Link.arbitrary";
+import { MediaArb } from "@liexp/shared/tests/arbitrary/Media.arbitrary";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";

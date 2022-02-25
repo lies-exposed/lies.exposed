@@ -1,15 +1,16 @@
-import { GetSearchEventsQueryInput } from "@econnessione/shared/io/http/Events/SearchEventsQuery";
-import { formatDate } from "@econnessione/shared/utils/date";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import SEO from "@econnessione/ui/components/SEO";
+import { EventType } from '@liexp/shared/io/http/Events';
+import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { formatDate } from "@liexp/shared/utils/date";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import SEO from "@liexp/ui/components/SEO";
 import {
   actorsDiscreteQuery,
   groupsDiscreteQuery,
   groupsMembersDiscreteQuery,
   keywordsDiscreteQuery,
-} from "@econnessione/ui/state/queries/DiscreteQueries";
-import { ECOTheme } from "@econnessione/ui/theme";
+} from "@liexp/ui/state/queries/DiscreteQueries";
+import { ECOTheme } from "@liexp/ui/theme";
 import {
   Box,
   createStyles,
@@ -34,7 +35,6 @@ import {
 } from "../utils/history.utils";
 import { EventsView, useNavigateToResource } from "../utils/location.utils";
 import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
-import { EventType } from '@econnessione/shared/io/http/Events';
 
 const MIN_DATE = formatDate(subYears(new Date(), 100));
 const MAX_DATE = formatDate(new Date());

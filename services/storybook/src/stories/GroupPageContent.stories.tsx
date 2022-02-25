@@ -1,8 +1,8 @@
 import {
   GroupPageContent,
   GroupPageContentProps,
-} from "@econnessione/ui/components/GroupPageContent";
-import { groupPageContentArgs } from "@econnessione/ui/components/examples/GroupPageContentExample";
+} from "@liexp/ui/components/GroupPageContent";
+import { groupPageContentArgs } from "@liexp/ui/components/examples/GroupPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
