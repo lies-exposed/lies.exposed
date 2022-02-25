@@ -34,6 +34,7 @@ import {
 } from "../utils/history.utils";
 import { EventsView, useNavigateToResource } from "../utils/location.utils";
 import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
+import { EventType } from '@econnessione/shared/io/http/Events';
 
 const MIN_DATE = formatDate(subYears(new Date(), 100));
 const MAX_DATE = formatDate(new Date());
@@ -147,6 +148,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     groupsMembers: query.groupsMembers ?? [],
     keywords: query.keywords ?? [],
     tab,
+    type: query.type as EventType | undefined
   };
 
   const handleUpdateEventsSearch = React.useCallback(
