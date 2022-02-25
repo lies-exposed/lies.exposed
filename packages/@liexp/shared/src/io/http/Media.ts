@@ -7,7 +7,7 @@ const JpegType = t.literal("image/jpeg");
 const PngType = t.literal("image/png");
 
 export const MP4Type = t.literal("video/mp4");
-export type MP4Type = t.TypeOf<typeof MP4Type>
+export type MP4Type = t.TypeOf<typeof MP4Type>;
 export const PDFType = t.literal("application/pdf");
 export type PDFType = t.TypeOf<typeof PDFType>;
 export const IframeVideoType = t.literal("iframe/video");

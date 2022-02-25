@@ -29,19 +29,19 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
       allowFullScreen={true}
       // sandbox=""
       // onLoad={(e) => {
-        // console.log('on load', e);
-        // ref.current?.src = "";
-        // e.preventDefault();
+      // console.log('on load', e);
+      // ref.current?.src = "";
+      // e.preventDefault();
       // }}
       // onLoadCapture={(e) => {
-        // console.log('on load capture', e);
-        // e.preventDefault();
+      // console.log('on load capture', e);
+      // e.preventDefault();
       // }}
       onError={(e) => {
         // console.log('on error', e)
       }}
       onErrorCapture={(e) => {
-        console.log('on error capture', e);
+        console.log("on error capture", e);
         // e.preventDefault();
       }}
     />

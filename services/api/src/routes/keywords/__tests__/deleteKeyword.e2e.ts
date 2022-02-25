@@ -1,6 +1,6 @@
 import * as tests from "@liexp/core/tests";
 import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
-import { ColorArb } from '@liexp/shared/tests/arbitrary/common/Color.arbitrary';
+import { ColorArb } from "@liexp/shared/tests/arbitrary/common/Color.arbitrary";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
@@ -21,7 +21,7 @@ describe("Delete Keyword", () => {
         .set("Authorization", authorizationToken)
         .send({
           tag: tests.fc.sample(TagArb(), 1)[0],
-          color: tests.fc.sample(ColorArb, 1)[0]
+          color: tests.fc.sample(ColorArb, 1)[0],
         })
     ).body.data;
   });

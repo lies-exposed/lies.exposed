@@ -4,10 +4,7 @@ import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteA
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
-import {
-  pageContentByPath,
-  Queries,
-} from "@liexp/ui/providers/DataProvider";
+import { pageContentByPath, Queries } from "@liexp/ui/providers/DataProvider";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";

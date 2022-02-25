@@ -9,10 +9,7 @@ import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";
-import {
-  GroupView,
-  useNavigateToResource,
-} from "../utils/location.utils";
+import { GroupView, useNavigateToResource } from "../utils/location.utils";
 
 const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
   const navigateTo = useNavigateToResource();

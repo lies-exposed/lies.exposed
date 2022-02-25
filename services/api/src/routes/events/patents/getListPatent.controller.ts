@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { PATENT } from '@liexp/shared/io/http/Events/Patent';
+import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";

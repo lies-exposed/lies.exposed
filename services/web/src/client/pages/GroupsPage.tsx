@@ -4,10 +4,7 @@ import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteG
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import GroupList from "@liexp/ui/components/lists/GroupList";
-import {
-  pageContentByPath,
-  Queries,
-} from "@liexp/ui/providers/DataProvider";
+import { pageContentByPath, Queries } from "@liexp/ui/providers/DataProvider";
 import { Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";

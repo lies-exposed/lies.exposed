@@ -1,7 +1,5 @@
 import { AddEndpoint } from "@liexp/shared/endpoints";
-import {
-  GetSignedURL
-} from "@liexp/shared/endpoints/upload.endpoints";
+import { GetSignedURL } from "@liexp/shared/endpoints/upload.endpoints";
 import { fileExtFromContentType } from "@liexp/shared/utils/media.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { Router } from "express";

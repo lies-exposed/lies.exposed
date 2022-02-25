@@ -3,17 +3,14 @@ import {
   Covid19EUDR,
   Covid19VAERS,
   Covid19WorldVaccineDistribution,
-  CovidWHOWorldData
+  CovidWHOWorldData,
 } from "@liexp/shared/endpoints/graph.endpoints";
 import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { StatAccordion } from "@liexp/ui/components/Common/StatAccordion";
 // import { VaccineEffectivenessIndicators } from "@liexp/ui/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
-import {
-  a11yProps,
-  TabPanel
-} from "@liexp/ui/components/Common/TabPanel";
+import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import { VaccineADRGraph } from "@liexp/ui/components/Graph/covid/vaccines/VaccineADRGraph";
 import { jsonData } from "@liexp/ui/providers/DataProvider";
 import { Box, Grid, Tab, Tabs, Typography } from "@material-ui/core";
@@ -29,7 +26,7 @@ import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
-import { useNavigateTo } from '../../utils/history.utils';
+import { useNavigateTo } from "../../utils/history.utils";
 
 const LAST_DAY_2020 = new Date("2020-12-31");
 const LAST_DAY_2021 = new Date("2021-12-31");
@@ -291,9 +288,12 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                   <Tabs
                     value={adrTab}
                     onChange={(e, v) => {
-                      void navigateTo.navigateTo("/dashboard/covid19-vaccines", {
-                        adrTab: v,
-                      });
+                      void navigateTo.navigateTo(
+                        "/dashboard/covid19-vaccines",
+                        {
+                          adrTab: v,
+                        }
+                      );
                     }}
                   >
                     <Tab label="All" {...a11yProps(0)} />

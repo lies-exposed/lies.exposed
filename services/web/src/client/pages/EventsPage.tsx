@@ -1,4 +1,4 @@
-import { EventType } from '@liexp/shared/io/http/Events';
+import { EventType } from "@liexp/shared/io/http/Events";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { formatDate } from "@liexp/shared/utils/date";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
@@ -117,10 +117,10 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       width: "100%",
       display: "flex",
       flexDirection: "column",
-      overflow: 'hidden',
-      [theme.breakpoints.down('sm')]: {
-        paddingLeft: 0
-      }
+      overflow: "hidden",
+      [theme.breakpoints.down("sm")]: {
+        paddingLeft: 0,
+      },
     },
     eventFiltersBox: {
       display: "flex",
@@ -148,7 +148,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     groupsMembers: query.groupsMembers ?? [],
     keywords: query.keywords ?? [],
     tab,
-    type: query.type as EventType | undefined
+    type: query.type as EventType | undefined,
   };
 
   const handleUpdateEventsSearch = React.useCallback(

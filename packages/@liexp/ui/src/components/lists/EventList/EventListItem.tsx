@@ -4,7 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
-  Media
+  Media,
 } from "@liexp/shared/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
@@ -81,8 +81,6 @@ export interface EventListItemProps {
   onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
 }
-
-
 
 export const EventListItem: React.FC<EventListItemProps> = ({
   event: e,

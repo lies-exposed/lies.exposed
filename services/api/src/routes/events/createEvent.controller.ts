@@ -8,7 +8,6 @@ import { Route } from "@routes/route.types";
 
 export const MakeCreateEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Create, ({ body }) => {
-
     return pipe(
       createEventQuery(ctx)(body),
       ctx.logger.info.logInTaskEither("Create data %O"),

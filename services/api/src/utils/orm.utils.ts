@@ -5,12 +5,7 @@ import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { BigIntFromString } from "io-ts-types/lib/BigIntFromString";
-import {
-  Equal,
-  FindOperator,
-  In,
-  Like, SelectQueryBuilder
-} from "typeorm";
+import { Equal, FindOperator, In, Like, SelectQueryBuilder } from "typeorm";
 
 interface ORMOrder {
   order: { [key: string]: "ASC" | "DESC" };
@@ -92,7 +87,7 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
 };
 
 export const addOrder = <T>(
-  order: ORMOrder['order'],
+  order: ORMOrder["order"],
   q: SelectQueryBuilder<T>,
   prefix?: string
 ): SelectQueryBuilder<T> => {

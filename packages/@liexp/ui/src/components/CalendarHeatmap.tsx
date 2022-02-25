@@ -11,7 +11,7 @@ import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { getDualOrd } from "fp-ts/lib/Ord";
-import { identity , pipe } from "fp-ts/lib/function";
+import { identity, pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
 const green = "#21f440";

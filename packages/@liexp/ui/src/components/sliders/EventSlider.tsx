@@ -1,6 +1,4 @@
-import {
-  GetSearchEventsQueryInput
-} from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
@@ -26,7 +24,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
       params={{
         events: {
           hash: "slider",
-          ...params as any,
+          ...(params as any),
         },
       }}
       render={QR.fold(

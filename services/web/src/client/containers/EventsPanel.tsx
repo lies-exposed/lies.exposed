@@ -1,8 +1,5 @@
 import { EventType } from "@liexp/shared/io/http/Events";
-import {
-  a11yProps,
-  TabPanel,
-} from "@liexp/ui/components/Common/TabPanel";
+import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsMap from "@liexp/ui/components/EventsMap";
 import { SearchEvent } from "@liexp/ui/components/lists/EventList/EventListItem";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";

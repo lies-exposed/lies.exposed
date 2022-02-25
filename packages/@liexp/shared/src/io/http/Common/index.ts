@@ -6,7 +6,7 @@ export * from "./JSONFromString";
 export * from "./MoneyAmount";
 export * from "./Point";
 export * from "./Polygon";
-export * from './Color';
+export * from "./Color";
 export * from "./Tag";
 export * from "./Output";
 export * from "./URL";

@@ -84,7 +84,7 @@ const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "keywords",
   "createdAt",
   "updatedAt",
-  'deletedAt',
+  "deletedAt",
 ]);
 
 export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =

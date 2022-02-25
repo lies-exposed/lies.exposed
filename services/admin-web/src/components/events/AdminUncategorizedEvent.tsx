@@ -3,10 +3,7 @@ import { Uncategorized } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import Editor from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
-import {
-  MapInput,
-  MapInputType
-} from "@liexp/ui/components/admin/MapInput";
+import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as React from "react";
@@ -28,7 +25,7 @@ import {
   required,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { LinkArrayInput } from "../Common/LinkArrayInput";

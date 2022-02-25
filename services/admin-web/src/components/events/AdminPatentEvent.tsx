@@ -15,11 +15,12 @@ import {
   Filter,
   FormTab,
   List,
-  ListProps, SimpleForm,
+  ListProps,
+  SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
-  UrlField
+  UrlField,
 } from "react-admin";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";

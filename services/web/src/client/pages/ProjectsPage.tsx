@@ -7,10 +7,7 @@ import { PageContent } from "@liexp/ui/components/PageContent";
 import SEO from "@liexp/ui/components/SEO";
 import { TableOfContents } from "@liexp/ui/components/TableOfContents";
 import ProjectList from "@liexp/ui/components/lists/ProjectList";
-import {
-  pageContentByPath,
-  Queries,
-} from "@liexp/ui/providers/DataProvider";
+import { pageContentByPath, Queries } from "@liexp/ui/providers/DataProvider";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { navigate, RouteComponentProps } from "@reach/router";

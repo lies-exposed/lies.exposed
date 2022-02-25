@@ -295,7 +295,7 @@ export function useNavigateToResource(): NavigationHooks {
       };
 
     return {
-      index: navigateToResource('index'),
+      index: navigateToResource("index"),
       actors: navigateToResource("actors"),
       events: navigateToResource("events"),
       groups: navigateToResource("groups"),

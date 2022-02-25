@@ -1,5 +1,5 @@
 import * as E from "fp-ts/lib/Either";
-import * as Json from 'fp-ts/lib/Json';
+import * as Json from "fp-ts/lib/Json";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 

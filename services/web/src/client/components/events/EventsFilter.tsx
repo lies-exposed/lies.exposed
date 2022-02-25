@@ -1,4 +1,4 @@
-import { GetSearchEventsQueryInput } from '@liexp/shared/io/http/Events/SearchEventsQuery';
+import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
 import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
@@ -36,7 +36,11 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
   ]);
 
   return (
-    <Grid container style={{ padding: 0, margin: 0, width: '100%' }} spacing={2}>
+    <Grid
+      container
+      style={{ padding: 0, margin: 0, width: "100%" }}
+      spacing={2}
+    >
       <Grid item md={12} sm={6} xs={6}>
         <DatePicker
           className={classes.input}

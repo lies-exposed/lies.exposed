@@ -1,6 +1,6 @@
 import Header, { HeaderMenuItem } from "@liexp/ui/components/Header";
 import * as React from "react";
-import { useNavigateTo } from '../../utils/history.utils';
+import { useNavigateTo } from "../../utils/history.utils";
 import { useNavigateToResource } from "../../utils/location.utils";
 
 const dataMenuItem = {
@@ -43,7 +43,7 @@ export const mainMenu: HeaderMenuItem[] =
     : [dataMenuItem];
 
 const AppHeader: React.FC = () => {
-    const navigateTo = useNavigateTo();
+  const navigateTo = useNavigateTo();
   const navigateToResource = useNavigateToResource();
 
   return (

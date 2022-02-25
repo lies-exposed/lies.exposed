@@ -37,7 +37,7 @@ export const MediaField: React.FC<MediaFieldProps> = (props) => {
         >
           <source src={src} />
         </video>
-      )
+      );
     default:
       return <ImageField {...props} />;
   }

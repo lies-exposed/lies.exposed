@@ -1,7 +1,7 @@
-import { fc } from '@liexp/core/tests';
+import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
-import { TagArb } from '@liexp/shared/tests/arbitrary/Keyword.arbitrary';
-import { ColorArb } from '@liexp/shared/tests/arbitrary/common/Color.arbitrary';
+import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
+import { ColorArb } from "@liexp/shared/tests/arbitrary/common/Color.arbitrary";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
@@ -45,7 +45,7 @@ describe("Create Keyword", () => {
       .set("Authorization", authorizationToken)
       .send({
         tag: fc.sample(TagArb(), 1)[0],
-        color: fc.sample(ColorArb, 1)[0]
+        color: fc.sample(ColorArb, 1)[0],
       });
 
     expect(response.status).toEqual(201);

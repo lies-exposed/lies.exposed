@@ -60,7 +60,7 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
           alignItems: "center",
           justifyContent: "center",
           height: 100,
-          ...props.style
+          ...props.style,
         }}
       >
         <CircularProgress />

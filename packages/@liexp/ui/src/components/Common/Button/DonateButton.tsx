@@ -8,7 +8,7 @@ const DonateButton: React.FC = () => {
       action="https://www.paypal.com/donate"
       method="post"
       target="_top"
-      style={{ display: 'flex', flex: "0 0 auto", height: 32 }}
+      style={{ display: "flex", flex: "0 0 auto", height: 32 }}
     >
       <input type="hidden" name="hosted_button_id" value="BNAGL4D89LJDE" />
       <input type="hidden" name="no_recurring" value="0" />

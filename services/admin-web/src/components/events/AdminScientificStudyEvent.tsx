@@ -2,7 +2,9 @@ import * as ScientificStudy from "@liexp/shared/io/http/Events/ScientificStudy";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
-  BooleanField, BooleanInput, Create,
+  BooleanField,
+  BooleanInput,
+  Create,
   CreateProps,
   Datagrid,
   DateField,
@@ -13,9 +15,11 @@ import {
   FormTab,
   List,
   ListProps,
-  ReferenceArrayField, ReferenceField, SimpleForm,
+  ReferenceArrayField,
+  ReferenceField,
+  SimpleForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";

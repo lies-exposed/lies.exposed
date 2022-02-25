@@ -23,7 +23,8 @@ const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title }) => {
     site: {
       siteMetadata: {
         title: "Lies Exposed",
-        description: "A chronological exposure of lies perpetrated against humanity.",
+        description:
+          "A chronological exposure of lies perpetrated against humanity.",
         author: "lies.exposed",
       },
     },

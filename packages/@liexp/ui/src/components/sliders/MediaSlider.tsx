@@ -38,8 +38,13 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
             draggable={true}
             dots={true}
             slides={data}
-            style={{ maxWidth: 800, maxHeight: 500, margin: 'auto' }}
-            itemStyle={{ maxWidth: 800, maxHeight: 500, margin: 'auto', ...itemStyle }}
+            style={{ maxWidth: 800, maxHeight: 500, margin: "auto" }}
+            itemStyle={{
+              maxWidth: 800,
+              maxHeight: 500,
+              margin: "auto",
+              ...itemStyle,
+            }}
           />
         );
       })}

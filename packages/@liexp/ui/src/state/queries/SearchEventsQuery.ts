@@ -377,12 +377,7 @@ const searchEventsQ = ({
 }: SearchEventQueryInput): TE.TaskEither<APIError, SearchEventQueryResult> => {
   const cacheKey = toKey("events-search", hash);
 
-  log.debug.log(
-    "Search events for %s from %d to %d",
-    cacheKey,
-    _start,
-    _end
-  );
+  log.debug.log("Search events for %s from %d to %d", cacheKey, _start, _end);
 
   return pipe(
     getStateByHash(cacheKey, _end),

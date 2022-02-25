@@ -1,7 +1,7 @@
 import { Buffer } from "buffer";
 import * as io from "@liexp/shared/io";
 import { pipe } from "fp-ts/lib/function";
-import { History } from 'history';
+import { History } from "history";
 import qs from "query-string";
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
@@ -60,7 +60,7 @@ export function useNavigateTo(): HistoryWithNavigateTo {
     };
 
     return {
-        ...h,
+      ...h,
       navigateTo,
     };
   }, [h.location]);

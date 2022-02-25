@@ -5,7 +5,7 @@ import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import SEO from "@liexp/ui/components/SEO";
 import { Queries } from "@liexp/ui/providers/DataProvider";
-import { navigateTo } from '@liexp/ui/utils/links.utils';
+import { navigateTo } from "@liexp/ui/utils/links.utils";
 import {
   Button,
   Card,

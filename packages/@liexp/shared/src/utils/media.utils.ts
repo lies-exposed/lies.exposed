@@ -1,6 +1,4 @@
-import {
-  ValidContentType
-} from "../endpoints/upload.endpoints";
+import { ValidContentType } from "../endpoints/upload.endpoints";
 import * as Media from "../io/http/Media";
 
 export const fileExtFromContentType = (c: ValidContentType): string => {

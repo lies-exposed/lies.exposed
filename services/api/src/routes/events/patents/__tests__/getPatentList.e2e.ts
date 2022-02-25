@@ -17,7 +17,6 @@ describe("Get Patent List", () => {
     appTest = await initAppTest();
 
     await appTest.ctx.db.save(EventV2Entity, eventsData as any[])();
-
   });
 
   afterAll(async () => {

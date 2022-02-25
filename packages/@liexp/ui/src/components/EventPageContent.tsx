@@ -3,7 +3,7 @@ import {
   Events,
   Group,
   GroupMember,
-  Keyword
+  Keyword,
 } from "@liexp/shared/io/http";
 import { Link } from "@liexp/shared/io/http/Link";
 import { formatDateToShort } from "@liexp/shared/utils/date";

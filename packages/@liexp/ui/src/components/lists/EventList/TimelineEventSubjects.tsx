@@ -1,9 +1,4 @@
-import {
-  Actor,
-  Group,
-  GroupMember,
-  Events,
-} from "@liexp/shared/io/http";
+import { Actor, Group, GroupMember, Events } from "@liexp/shared/io/http";
 import { Box, BoxProps, makeStyles } from "@material-ui/core";
 import * as React from "react";
 import { ActorList } from "../ActorList";

@@ -22,7 +22,7 @@ import {
   SimpleForm,
   TextField,
   TextInput,
-  useRefresh
+  useRefresh,
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
@@ -130,7 +130,7 @@ export const LinkCreate: React.FC<CreateProps> = (props) => {
   return (
     <Create title="Create a Link" {...props}>
       <SimpleForm>
-        <URLMetadataInput source="url" type={'Link'} />
+        <URLMetadataInput source="url" type={"Link"} />
         <DateInput source="publishDate" />
         <ReferenceArrayEventInput
           source="events"

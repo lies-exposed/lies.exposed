@@ -24,7 +24,7 @@ import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeEventRoutes } from "@routes/events/event.routes";
-import { MakePatentEventsRoutes } from '@routes/events/patents/patent.routes';
+import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";

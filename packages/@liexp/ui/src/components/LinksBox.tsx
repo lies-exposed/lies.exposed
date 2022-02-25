@@ -86,7 +86,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids }) => {
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
-              padding: 0
+              padding: 0,
             }}
           >
             <Box display="flex" width="100%" padding={0}>

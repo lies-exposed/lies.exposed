@@ -16,14 +16,14 @@ import type {
   GetListParams,
   GetListResult,
   GetOneParams,
-  GetOneResult
+  GetOneResult,
 } from "react-admin";
 import {
   EndpointInstance,
   InferEndpointParams,
   MinimalEndpoint,
   MinimalEndpointInstance,
-  TypeOfEndpointInstance
+  TypeOfEndpointInstance,
 } from "ts-endpoint";
 import { serializedType } from "ts-io-error/lib/Codec";
 import { APIRESTClient } from "../http";

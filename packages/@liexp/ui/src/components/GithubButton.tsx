@@ -27,7 +27,7 @@ const GithubButton: React.FC<GithubButtonProps> = ({ user, repo }) => {
               window.open(`https://github.com/${user}/${repo}`, "_blank");
             }}
             style={{
-              color: 'white'
+              color: "white",
             }}
           >
             <GithubIcon style={{ color: "white", marginRight: 10 }} />

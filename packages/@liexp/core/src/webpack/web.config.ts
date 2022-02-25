@@ -2,11 +2,13 @@ import * as path from "path";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import * as t from 'io-ts';
-import * as webpack from 'webpack';
+import * as t from "io-ts";
+import * as webpack from "webpack";
 import { getConfig, GetConfigParams } from "./config";
 
-export const getWebConfig = <A  extends Record<string, t.Mixed>>(opts: GetConfigParams<A>): webpack.Configuration => {
+export const getWebConfig = <A extends Record<string, t.Mixed>>(
+  opts: GetConfigParams<A>
+): webpack.Configuration => {
   const config = getConfig(opts);
 
   config.plugins?.push(

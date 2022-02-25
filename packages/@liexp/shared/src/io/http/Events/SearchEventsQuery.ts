@@ -18,10 +18,10 @@ export const GetSearchEventsQuery = t.strict(
     endDate: optionFromUndefined(DateFromISOString),
     title: optionFromUndefined(t.string),
     withDeleted: optionFromUndefined(BooleanFromString),
-    withDrafts: optionFromUndefined(BooleanFromString)
+    withDrafts: optionFromUndefined(BooleanFromString),
   },
   "GetEventsQueryFilter"
 );
 
 export type GetSearchEventsQuery = t.TypeOf<typeof GetSearchEventsQuery>;
-export type GetSearchEventsQueryInput = t.OutputOf<typeof GetSearchEventsQuery>
+export type GetSearchEventsQueryInput = t.OutputOf<typeof GetSearchEventsQuery>;

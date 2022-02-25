@@ -94,7 +94,7 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
   );
 };
 
-interface EventsMapProps extends Omit<EventsMapComponentProps, 'events'> {
+interface EventsMapProps extends Omit<EventsMapComponentProps, "events"> {
   filter: any;
 }
 

@@ -6,13 +6,17 @@ import {
   ListItem,
   ListSubheader,
   makeStyles,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
-import { EventListItem, EventListItemProps, SearchEvent } from "./EventListItem";
+import {
+  EventListItem,
+  EventListItemProps,
+  SearchEvent,
+} from "./EventListItem";
 
 const byEqualDate = pipe(
   S.Eq,

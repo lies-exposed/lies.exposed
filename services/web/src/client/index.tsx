@@ -1,4 +1,4 @@
-import { dom } from '@fortawesome/fontawesome-svg-core'
+import { dom } from "@fortawesome/fontawesome-svg-core";
 import { ECOTheme } from "@liexp/ui/theme";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import debug from "debug";
@@ -6,8 +6,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
-
-
 
 // all css
 import "slick-carousel/slick/slick-theme.css";
