@@ -26,9 +26,11 @@ export const App: React.FC = () => {
 
   return (
     <div style={{ height: "100%", display: "flex" }}>
+      
       <Helmet.Helmet
         link={[
           {
+            key: 'slick-carousel-css',
             rel: "stylesheet",
             type: "text/css",
             href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
