@@ -2,7 +2,7 @@ import { Actor, Keyword } from "@liexp/shared/io/http";
 import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
 import { SearchDeathEvent } from "./EventListItem";
-import EventListItemBase from "./EventListItemHeader";
+import EventListItemBase from "./EventListItemBase";
 
 interface DeathListItemProps {
   item: SearchDeathEvent;
@@ -21,11 +21,9 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
 
   return (
     <Box
-      key={item.id}
       id={item.id}
       style={{
         width: "100%",
-        marginBottom: 40,
       }}
       onClick={() => onClick?.(item)}
     >

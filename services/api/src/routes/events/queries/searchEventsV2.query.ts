@@ -21,7 +21,7 @@ interface SearchEventQuery {
   keywords: O.Option<string[]>;
   links: O.Option<string[]>;
   media: O.Option<string[]>;
-  type: O.Option<string>;
+  type: O.Option<string[]>;
   title: O.Option<string>;
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;
@@ -227,7 +227,9 @@ export const searchEventV2Query =
             const patentCount = q.clone().andWhere("event.type = 'Patent'");
 
             if (O.isSome(type)) {
-              q.andWhere("event.type = :type", { type: type.value });
+              q.andWhere("event.type::text IN (:...types)", {
+                types: type.value,
+              });
             }
 
             return {

@@ -3,10 +3,10 @@ import {
   Death,
   Event,
   Patent,
-  ScientificStudy,
+  ScientificStudy
 } from "@liexp/shared/io/http/Events";
 import { SvgIconProps } from "@material-ui/core";
-import { EventNote, Radio } from "@material-ui/icons";
+import { EventNote } from "@material-ui/icons";
 import * as React from "react";
 
 interface EventIconProps extends SvgIconProps {
@@ -34,7 +34,14 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         />
       );
     case Patent.PATENT.value:
-      return <Radio {...props} style={{ ...props.style, color: "purple" }} />;
+      return (
+        <FontAwesomeIcon
+          {...props}
+          mask={undefined}
+          icon={"barcode"}
+          style={{ ...props.style, color: "purple" }}
+        />
+      );
     default:
       return <EventNote {...props} />;
   }

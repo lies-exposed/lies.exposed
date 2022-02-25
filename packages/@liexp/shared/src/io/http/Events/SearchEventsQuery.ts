@@ -7,7 +7,7 @@ import { GetListQuery } from "../Query";
 export const GetSearchEventsQuery = t.strict(
   {
     ...GetListQuery.props,
-    type: optionFromUndefined(t.string),
+    type: optionFromUndefined(t.array(t.string)),
     groupsMembers: optionFromUndefined(t.array(t.string)),
     actors: optionFromUndefined(t.array(t.string)),
     groups: optionFromUndefined(t.array(t.string)),

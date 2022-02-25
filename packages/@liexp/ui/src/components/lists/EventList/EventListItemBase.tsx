@@ -30,7 +30,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
 }) => {
   return (
     <Grid item lg={10} md={10} style={{ maxWidth: "100%" }}>
-      <Typography variant="h6">{title}</Typography>
+      <Typography variant="h6" gutterBottom={true}>{title}</Typography>
       {pipe(
         keywords,
         O.fromPredicate(A.isNonEmpty),
@@ -39,6 +39,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
           (kk) => (
             <KeywordList
               style={{
+                padding: 0,
                 marginBottom: 20,
               }}
               keywords={kk.map((k) => ({ ...k, selected: true }))}
@@ -112,7 +113,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
         O.fold(
           () => null,
           (ll) => (
-            <Grid item lg={8} md={12} sm={12} xs={12}>
+            <Grid item lg={12} md={12} sm={12} xs={12}>
               <LinksBox ids={ll} />
             </Grid>
           )

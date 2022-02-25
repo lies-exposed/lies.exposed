@@ -1,11 +1,11 @@
 {
   "folders": [
     {
-      "name": "✨ lies-exposed",
+      "name": "✨ liexp",
       "path": "."
     },
     {
-      "name": "github-ci",
+      "name": "ci",
       "path": ".github"
     },
     {

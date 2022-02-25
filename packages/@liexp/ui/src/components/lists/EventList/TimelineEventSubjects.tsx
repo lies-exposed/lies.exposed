@@ -18,9 +18,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
-    justifyContent: "flex-end",
-    [theme.breakpoints.down("md")]: {
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+    [theme.breakpoints.down("sm")]: {
       flexDirection: "row",
+      justifyContent: "flex-end",
     },
   },
 }));
@@ -41,6 +43,8 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       ? e.payload.authors
       : e.type === Events.Uncategorized.UncategorizedType.value
       ? e.payload.actors
+      : e.type === Events.Patent.PATENT.value
+      ? e.payload.owners.actors
       : [];
 
   const groups =
@@ -48,6 +52,8 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       ? e.payload.groups
       : e.type === Events.ScientificStudy.ScientificStudyType.value
       ? [e.payload.publisher]
+      : e.type === Events.Patent.PATENT.value
+      ? e.payload.owners.groups
       : [];
   const groupsMembers =
     e.type === Events.Uncategorized.UncategorizedType.value

@@ -1,3 +1,4 @@
+import { Death } from '@liexp/shared/io/http/Events';
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
@@ -17,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 interface EventsFilterProps
   extends Omit<SearchEventQueryResult, "events" | "totals"> {
   queryFilters: Partial<GetSearchEventsQueryInput>;
-  onQueryFilterChange: (f: Partial<GetSearchEventsQueryInput>) => void;
+  onQueryChange: (f: Partial<GetSearchEventsQueryInput>) => void;
+  onQueryClear: () => void;
 }
 
 const EventsFilter: React.FC<EventsFilterProps> = ({
@@ -26,7 +28,8 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
   groups,
   groupsMembers,
   keywords,
-  onQueryFilterChange,
+  onQueryChange,
+  onQueryClear
 }) => {
   const classes = useStyles();
 
@@ -53,7 +56,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
             setCurrentDateRange([e.target.value, currentDateRange[1]])
           }
           onBlur={(e) => {
-            onQueryFilterChange({
+            onQueryChange({
               ...queryFilters,
               startDate: e.target.value,
               endDate: currentDateRange[1],
@@ -73,7 +76,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
             setCurrentDateRange([currentDateRange[0], e.target.value])
           }
           onBlur={(e) =>
-            onQueryFilterChange({
+            onQueryChange({
               ...queryFilters,
               startDate: currentDateRange[1],
               endDate: e.target.value,
@@ -87,7 +90,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           className={classes.input}
           selectedItems={keywords}
           onItemClick={(kk) =>
-            onQueryFilterChange({
+            onQueryChange({
               ...queryFilters,
               keywords: kk.map((k) => k.id),
             })
@@ -100,7 +103,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           className={classes.input}
           selectedItems={actors}
           onChange={(aa) =>
-            onQueryFilterChange({
+            onQueryChange({
               ...queryFilters,
               actors: aa.map((a) => a.id),
             })
@@ -112,7 +115,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           className={classes.input}
           selectedItems={groups}
           onChange={(gg) =>
-            onQueryFilterChange({
+            onQueryChange({
               ...queryFilters,
               groups: gg.map((g) => g.id),
             })
@@ -124,7 +127,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           className={classes.input}
           selectedItems={groupsMembers}
           onItemClick={(gms) =>
-            onQueryFilterChange({
+            onQueryChange({
               ...queryFilters,
               groupsMembers: gms.map((gm) => gm.id),
             })
@@ -146,14 +149,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           variant="contained"
           size="small"
           onClick={() =>
-            onQueryFilterChange({
-              actors: [],
-              groups: [],
-              groupsMembers: [],
-              keywords: [],
-              startDate: undefined,
-              endDate: undefined,
-            })
+            onQueryClear()
           }
         >
           Clear filters

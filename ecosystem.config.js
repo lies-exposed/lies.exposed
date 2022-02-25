@@ -9,33 +9,38 @@ const {
   REF = "origin/release/alpha",
 } = process.env;
 
+const apiServe = {
+  name: "api-serve",
+  cwd: path.resolve(__dirname, "./services/api"),
+  script: "./build/run.js",
+  watch: ["build"],
+  watch_delay: 1000,
+  wait_ready: true,
+  listen_timeout: 10000,
+  kill_timeout: 3000,
+  env: dotenv.parse(fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")),
+};
+
+const webServe = {
+  name: "web-serve",
+  cwd: path.resolve(__dirname, "./services/web"),
+  script: "./build/server/ssr.js",
+  listen_timeout: 100000,
+  watch: true,
+  watch: ["build"],
+  watch_delay: 1000,
+  env: dotenv.parse(
+    fs.readFileSync(
+      path.resolve(__dirname, "./services/web/.env.development"),
+      "utf-8"
+    )
+  ),
+};
+
 module.exports = {
-  apps: [
-    {
-      name: "web",
-      cwd: path.resolve(__dirname, "./services/web"),
-      script: "./build/server/ssr.js",
-      listen_timeout: 100000,
-      watch: ["build"],
-      watch_delay: 1000,
-      env: dotenv.parse(
-        fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")
-      ),
-    },
-    {
-      name: "api",
-      cwd: path.resolve(__dirname, "./services/api"),
-      script: "./build/run.js",
-      watch: ["build"],
-      watch_delay: 1000,
-      wait_ready: true,
-      listen_timeout: 10000,
-      kill_timeout : 3000,
-      env: dotenv.parse(
-        fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")
-      ),
-    },
-  ],
+  apiServe,
+  webServe,
+  apps: [apiServe, webServe],
   deploy: {
     alpha: {
       // path.resolve(os.homedir(), ".ssh/lies_exposed_api"),

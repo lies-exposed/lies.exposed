@@ -20,11 +20,12 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  UrlField,
+  UrlField
 } from "react-admin";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
+import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import URLMetadataInput from "../Common/URLMetadataInput";
@@ -90,7 +91,17 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Generals">
         <WebPreviewButton resource="/dashboard/events" source="id" />
         <TextInput source="payload.title" />
+        <URLMetadataInput type="Link" source="payload.source" />
         <DateInput source="date" />
+        <ReferenceArrayActorInput
+          source="payload.owners.actors"
+          defaultValue={[]}
+        />
+        <ReferenceArrayGroupInput
+          source="payload.owners.groups"
+          defaultValue={[]}
+        />
+        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
         <ReactPageInput source="excerpt" onlyText />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
@@ -110,7 +121,7 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
 
 export const PatentCreate: React.FC<CreateProps> = (props) => (
   <Create
-    title="Create a Death Event"
+    title="Create a Patent Event"
     {...props}
     transform={(data) => transformEvent(uuid(), data)}
   >
@@ -125,7 +136,7 @@ export const PatentCreate: React.FC<CreateProps> = (props) => (
         source="payload.owners.actors"
         defaultValue={[]}
       />
-      <ReferenceArrayActorInput
+      <ReferenceArrayGroupInput
         source="payload.owners.groups"
         defaultValue={[]}
       />

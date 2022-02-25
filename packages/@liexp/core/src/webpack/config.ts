@@ -30,7 +30,7 @@ export interface GetConfigParams<A extends Record<string, t.Mixed>> {
   entry?: { [key: string]: string };
   devServer?: boolean;
   target: webpack.Configuration["target"];
-  output?: webpack.Configuration['output']
+  output?: webpack.Configuration["output"];
   hot: boolean;
 }
 
@@ -42,8 +42,10 @@ const getConfig = <A extends Record<string, t.Mixed>>(
   const mode: webpack.Configuration["mode"] =
     (process.env.NODE_ENV as webpack.Configuration["mode"]) ??
     ("development" as const);
-  const DOTENV_CONFIG_PATH =
-    process.env.DOTENV_CONFIG_PATH ?? path.resolve(opts.envFileDir, ".env");
+  const DOTENV_CONFIG_PATH = path.resolve(
+    opts.envFileDir,
+    process.env.DOTENV_CONFIG_PATH ?? ".env"
+  );
 
   webpackLogger.debug.log(`DOTENV_CONFIG_PATH %s`, DOTENV_CONFIG_PATH);
 
@@ -220,21 +222,10 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           // context: opts.cwd,
         }),
       ],
-      // modules: [],
-      // resolve: {
-      //   extensions: [".ts", ".tsx", ".js"],
-      //   plugins: [
-      //     new TsconfigPathsPlugin({
-      //       context: opts.cwd,
-      //     }),
-      //   ],
-      //   // mainFields: ['main', 'module'],
       modules: [
         // path.resolve(opts.cwd)
-        // path.resolve(opts.cwd, 'node_modules'),
-        // path.resolve(opts.cwd, "../../packages/@liexp/shared/node_modules"),
-        // path.resolve(opts.cwd, "../../packages/@liexp/ui/node_modules"),
         "node_modules",
+        path.resolve(opts.cwd, "../../packages"),
         path.resolve(opts.cwd),
       ],
     },

@@ -41,7 +41,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
         // console.log('on error', e)
       }}
       onErrorCapture={(e) => {
-        console.log("on error capture", e);
+        // console.log("on error capture", e);
         // e.preventDefault();
       }}
     />

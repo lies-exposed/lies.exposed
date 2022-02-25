@@ -30,7 +30,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query(ctx)({
           ...query,
-          type: O.some(PATENT.value),
+          type: O.some([PATENT.value]),
           actors: O.none,
           keywords,
           links,

@@ -22,7 +22,7 @@ export const MakeListScientificStudyRoute: Route = (
 
       return pipe(
         searchEventV2Query({ db, logger, env, ...ctx })({
-          type: O.some(ScientificStudyType.value),
+          type: O.some([ScientificStudyType.value]),
           groups: publishedBy,
           actors: O.none,
           groupsMembers: O.none,
