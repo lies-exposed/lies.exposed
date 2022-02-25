@@ -80,7 +80,7 @@ jobs:
       - name: Build web
         env:
           DEBUG: "@liexp*"
-          DOTENV_CONFIG_PATH: ./services/web/.env.development
+          DOTENV_CONFIG_PATH: .env.development
         run: |
           yarn packages:build
           yarn web build
