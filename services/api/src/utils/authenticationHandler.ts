@@ -1,4 +1,4 @@
-import * as logger from "@econnessione/core/logger";
+import * as logger from "@liexp/core/logger";
 import * as express from "express";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";

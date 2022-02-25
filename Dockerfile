@@ -3,9 +3,9 @@ FROM node:14-slim as build
 WORKDIR /app
 
 COPY .yarn  ./.yarn
-COPY packages/@econnessione/core ./packages/@econnessione/core
-COPY packages/@econnessione/shared ./packages/@econnessione/shared
-COPY packages/@econnessione/ui ./packages/@econnessione/ui
+COPY packages/@liexp/core ./packages/@liexp/core
+COPY packages/@liexp/shared ./packages/@liexp/shared
+COPY packages/@liexp/ui ./packages/@liexp/ui
 
 COPY services/api ./services/api
 COPY services/web ./services/web

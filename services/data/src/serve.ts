@@ -3,7 +3,7 @@
 require("module-alias")(process.cwd());
 import * as fs from "fs";
 import * as path from "path";
-import { GetLogger } from "@econnessione/core/logger";
+import { GetLogger } from "@liexp/core/logger";
 import cors from "cors";
 import express from "express";
 import multer from "multer";

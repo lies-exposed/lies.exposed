@@ -1,5 +1,5 @@
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import SEO from "@econnessione/ui/components/SEO";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import SEO from "@liexp/ui/components/SEO";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
 

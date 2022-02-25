@@ -1,7 +1,7 @@
 import {
   WealthDistributionGraph,
   WealthDistributionGraphProps,
-} from "@econnessione/ui/components/Graph/WealthDistributionGraph/WealthDistributionGraph";
+} from "@liexp/ui/components/Graph/WealthDistributionGraph/WealthDistributionGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

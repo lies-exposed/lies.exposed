@@ -1,29 +1,27 @@
-import {
-  a11yProps,
-  TabPanel
-} from "@econnessione/ui/components/Common/TabPanel";
-import EventsMap from "@econnessione/ui/components/EventsMap";
-import { SearchEvent } from "@econnessione/ui/components/lists/EventList/EventListItem";
-import EventsTimeline from "@econnessione/ui/src/components/lists/EventList/EventsTimeline";
+import { EventType } from "@liexp/shared/io/http/Events";
+import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
+import EventsMap from "@liexp/ui/components/EventsMap";
+import { SearchEvent } from "@liexp/ui/components/lists/EventList/EventListItem";
+import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
 import {
   SearchEventQueryResult,
-  searchEventsQuery
-} from "@econnessione/ui/state/queries/SearchEventsQuery";
-import { ECOTheme } from "@econnessione/ui/theme";
+  searchEventsQuery,
+} from "@liexp/ui/state/queries/SearchEventsQuery";
+import { ECOTheme } from "@liexp/ui/theme";
 import {
   Box,
-  createStyles, Grid, makeStyles,
+  createStyles,
+  Grid,
+  makeStyles,
   Tab,
-  Tabs
+  Tabs,
 } from "@material-ui/core";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import { IndexRange } from "react-virtualized";
 import EventsTotals from "../components/events/EventsTotals";
-import {
-  useNavigateToResource
-} from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 
 const drawerWidth = 240;
@@ -115,7 +113,6 @@ const useStyles = makeStyles((theme: ECOTheme) =>
 
 // interface EventsPanelProps {}
 
-
 export interface EventsQueryParams {
   actors: string[];
   groups: string[];
@@ -124,6 +121,7 @@ export interface EventsQueryParams {
   startDate: string;
   endDate: string;
   tab: number;
+  type?: EventType;
 }
 
 interface EventsPanelProps {
@@ -172,9 +170,9 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   const handleEventClick = React.useCallback((e: SearchEvent) => {
     if (e.type === "Death") {
-      navigateTo.actors({ id: e.payload.victim.id});
+      navigateTo.actors({ id: e.payload.victim.id });
     } else if (e.type === "Uncategorized") {
-      navigateTo.events({ id: e.id});
+      navigateTo.events({ id: e.id });
     }
   }, []);
 
@@ -214,7 +212,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     [query]
   );
 
-
   return (
     <Box className={classes.content}>
       <Grid
@@ -235,12 +232,21 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           hash={hash}
           appBarClassName={classes.appBar}
           filters={filters}
-          onFilterChange={(f) =>
-            updateState({
-              ...filters,
-              ...f,
-            })
-          }
+          onFilterChange={(f) => {
+            const type = f.deaths
+              ? "Death"
+              : f.scientificStudies
+              ? "ScientificStudy"
+              : f.patents
+              ? "Patent"
+              : f.uncategorized
+              ? "Uncategorized"
+              : undefined;
+
+            handleUpdateEventsSearch({
+              type: type,
+            });
+          }}
         />
         <Tabs
           className={classes.tabs}

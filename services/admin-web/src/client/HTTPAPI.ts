@@ -1,4 +1,4 @@
-import * as http from "@econnessione/ui/http";
+import * as http from "@liexp/ui/http";
 import { AuthProvider } from "react-admin";
 import { createProject } from "./ProjectAPI";
 

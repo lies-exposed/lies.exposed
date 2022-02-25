@@ -1,7 +1,7 @@
-import { formatDate } from "@econnessione/shared/utils/date";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import { Queries } from "@econnessione/ui/providers/DataProvider";
+import { formatDate } from "@liexp/shared/utils/date";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import { Queries } from "@liexp/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";

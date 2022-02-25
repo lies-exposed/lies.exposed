@@ -1,4 +1,4 @@
-import { PageContent } from "@econnessione/ui/components/PageContent";
+import { PageContent } from "@liexp/ui/components/PageContent";
 import { Grid } from "@material-ui/core";
 import * as React from "react";
 import * as Helmet from "react-helmet";

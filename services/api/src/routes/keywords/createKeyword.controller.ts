@@ -1,4 +1,4 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -16,7 +16,9 @@ export const MakeCreateKeywordRoute: Route = (r, { db, logger }) => {
 
       return pipe(
         db.findOne(KeywordEntity, { where: { tag: body.tag } }),
-        TE.filterOrElse(O.isNone, () => ServerError([`Keyword ${body.tag} already exists.`])),
+        TE.filterOrElse(O.isNone, () =>
+          ServerError([`Keyword ${body.tag} already exists.`])
+        ),
         TE.chain(() => db.save(KeywordEntity, [body])),
         TE.chain(([keyword]) =>
           db.findOneOrFail(KeywordEntity, {

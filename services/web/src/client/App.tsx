@@ -1,6 +1,6 @@
-import "@econnessione/ui/components/Common/Icons/library";
-import { Footer } from "@econnessione/ui/components/Footer";
-import { Grid, useMediaQuery, useTheme, } from "@material-ui/core";
+import "@liexp/ui/components/Common/Icons/library";
+import { Footer } from "@liexp/ui/components/Footer";
+import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import * as Helmet from "react-helmet";
@@ -26,9 +26,11 @@ export const App: React.FC = () => {
 
   return (
     <div style={{ height: "100%", display: "flex" }}>
+      
       <Helmet.Helmet
         link={[
           {
+            key: 'slick-carousel-css',
             rel: "stylesheet",
             type: "text/css",
             href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
@@ -58,6 +60,7 @@ export const App: React.FC = () => {
             style={{
               width: "100%",
               height: `calc(100% - 64px)`,
+              marginBottom: 50,
             }}
           >
             <Switch>

@@ -1,4 +1,4 @@
-import * as tests from "@econnessione/core/tests";
+import * as tests from "@liexp/core/tests";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("Create Actor", () => {

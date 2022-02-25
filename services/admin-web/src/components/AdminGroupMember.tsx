@@ -1,4 +1,4 @@
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { FormControl, Grid } from "@material-ui/core";
 import * as React from "react";
 import {

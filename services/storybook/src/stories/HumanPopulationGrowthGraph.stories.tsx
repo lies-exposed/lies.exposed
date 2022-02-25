@@ -1,7 +1,7 @@
 import {
   HumanPopulationGrowthGraph,
   HumanPopulationGrowthGraphProps,
-} from "@econnessione/ui/components/Graph/HumanPopulationGrowthGraph";
+} from "@liexp/ui/components/Graph/HumanPopulationGrowthGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

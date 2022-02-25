@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { Patent } from "@econnessione/shared/io/http/Events";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { Patent } from "@liexp/shared/io/http/Events";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { Route } from "../../route.types";

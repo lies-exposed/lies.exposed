@@ -1,8 +1,8 @@
 import * as fs from "fs";
-import { GetLogger } from "@econnessione/core/logger";
-import { VaccineDatum } from "@econnessione/shared/io/http/covid/VaccineDatum";
-import { GetCSVUtil } from "@econnessione/shared/utils/csv.utils";
-import { distanceFromNow } from "@econnessione/shared/utils/date";
+import { GetLogger } from "@liexp/core/logger";
+import { VaccineDatum } from "@liexp/shared/io/http/covid/VaccineDatum";
+import { GetCSVUtil } from "@liexp/shared/utils/csv.utils";
+import { distanceFromNow } from "@liexp/shared/utils/date";
 import * as A from "fp-ts/lib/Array";
 import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";

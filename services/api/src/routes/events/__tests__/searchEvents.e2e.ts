@@ -1,8 +1,8 @@
-import { fc } from "@econnessione/core/tests";
-import { GroupMemberArb } from "@econnessione/shared/tests";
-import { ActorArb } from "@econnessione/shared/tests/arbitrary/Actor.arbitrary";
-import { UncategorizedArb } from "@econnessione/shared/tests/arbitrary/Event.arbitrary";
-import { GroupArb } from "@econnessione/shared/tests/arbitrary/Group.arbitrary";
+import { fc } from "@liexp/core/tests";
+import { GroupMemberArb } from "@liexp/shared/tests";
+import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
+import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
+import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";

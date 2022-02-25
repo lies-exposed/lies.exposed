@@ -1,6 +1,6 @@
 import * as path from "path";
-import * as logger from "@econnessione/core/logger";
-import { MakeURLMetadata } from "@econnessione/shared/providers/URLMetadata.provider";
+import * as logger from "@liexp/core/logger";
+import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
 import * as AWS from "aws-sdk";
 import axios from "axios";
 import cors from "cors";
@@ -24,7 +24,7 @@ import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
 import { MakeEventRoutes } from "@routes/events/event.routes";
-import { MakePatentEventsRoutes } from '@routes/events/patents/patent.routes';
+import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";

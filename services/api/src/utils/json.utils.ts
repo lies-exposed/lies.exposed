@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { Logger } from "@econnessione/core/logger";
+import { Logger } from "@liexp/core/logger";
 import * as E from "fp-ts/lib/Either";
 import * as IOE from "fp-ts/lib/IOEither";
 import * as TE from "fp-ts/lib/TaskEither";

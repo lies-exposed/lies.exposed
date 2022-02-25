@@ -1,4 +1,4 @@
-import { ECOTheme } from "@econnessione/ui/theme";
+import { ECOTheme } from "@liexp/ui/theme";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EventIcon from "@material-ui/icons/Event";
 import GroupIcon from "@material-ui/icons/Group";
@@ -14,13 +14,13 @@ import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
 import {
   ArticleCreate,
   ArticleEdit,
-  ArticleList
+  ArticleList,
 } from "./components/AdminArticles";
 import { EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList
+  GroupMemberList,
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { AdminKeywordResource } from "./components/AdminKeyword";
@@ -31,17 +31,17 @@ import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import {
   DeathCreate,
   DeathEdit,
-  DeathList
+  DeathList,
 } from "./components/events/AdminDeathEvent";
 import {
   PatentCreate,
   PatentEdit,
-  PatentList
+  PatentList,
 } from "./components/events/AdminPatentEvent";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
-  ScientificStudyEdit
+  ScientificStudyEdit,
 } from "./components/events/AdminScientificStudyEvent";
 import { UncategorizedEventCreate } from "./components/events/AdminUncategorizedEvent";
 import englishMessages from "./i18n/en-US";

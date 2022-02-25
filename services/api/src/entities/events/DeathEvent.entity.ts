@@ -1,4 +1,4 @@
-import { DeathPayload } from "@econnessione/shared/io/http/Events/Death";
+import { DeathPayload } from "@liexp/shared/io/http/Events/Death";
 import { ViewColumn, ViewEntity } from "typeorm";
 import { LinkEntity } from "../Link.entity";
 import { ActorEntity } from "@entities/Actor.entity";

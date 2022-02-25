@@ -1,11 +1,12 @@
-import * as io from "@econnessione/shared/io";
+import * as io from "@liexp/shared/io";
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, OneToMany,
+  Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { GroupMemberEntity } from "./GroupMember.entity";
 

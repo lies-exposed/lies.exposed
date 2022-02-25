@@ -1,4 +1,4 @@
-import { toColor } from "@econnessione/shared/io/http/Common";
+import { toColor } from "@liexp/shared/io/http/Common";
 import * as React from "react";
 import {
   AutocompleteArrayInput,

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
-import { Events } from "@econnessione/shared/io/http";
-import { GetSearchEventsQueryInput } from '@econnessione/shared/io/http/Events/SearchEventsQuery';
-import { APIError } from "@econnessione/shared/providers/api.provider";
+import { Events } from "@liexp/shared/io/http";
+import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { APIError } from "@liexp/shared/providers/api.provider";
 import { queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -14,7 +14,7 @@ import {
   buildFromCache,
   getFromCache,
   infiniteListCache,
-  toKey
+  toKey,
 } from "../utils/state.utils";
 
 export const IL_EVENT_KEY_PREFIX = "events";
@@ -24,7 +24,6 @@ export const IL_ACTORS_KEY_PREFIX = "actors";
 export const IL_SCIENTIFIC_STUDIES_KEY_PREFIX = "scientific-studies";
 
 export type InfiniteEventListParams = Omit<EventsView, "view">;
-
 
 export interface InfiniteEventListMetadata {
   actors: UUID[];

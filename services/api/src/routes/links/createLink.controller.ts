@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { sanitizeURL } from "@econnessione/shared/utils/url.utils";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { sanitizeURL } from "@liexp/shared/utils/url.utils";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -17,10 +17,12 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
     };
     return pipe(
       ctx.urlMetadata.fetchMetadata(body.url, (e) => ServerError()),
-      TE.orElse((e) => TE.right({
-        title: "error fetching metadata: title",
-        description: "error fetching metadata: description"
-      })),
+      TE.orElse((e) =>
+        TE.right({
+          title: "error fetching metadata: title",
+          description: "error fetching metadata: description",
+        })
+      ),
       TE.chain((meta) =>
         ctx.db.save(LinkEntity, [
           {

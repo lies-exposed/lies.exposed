@@ -1,8 +1,8 @@
-import { http } from "@econnessione/shared/io";
-import { uuid } from "@econnessione/shared/utils/uuid";
-import { ActorPageContent } from "@econnessione/ui/components/ActorPageContent";
-import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import { http } from "@liexp/shared/io";
+import { uuid } from "@liexp/shared/utils/uuid";
+import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
+import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";

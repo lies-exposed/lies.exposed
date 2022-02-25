@@ -7,7 +7,7 @@ import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import * as logger from "../../../packages/@econnessione/core/src/logger";
+import * as logger from "../../../packages/@liexp/core/src/logger";
 import * as orm from "../src/providers/orm";
 import { getDBOptions } from "../src/utils/getDBOptions";
 import { TestENV } from "./TestENV";

@@ -1,8 +1,8 @@
 import {
   KeywordPageContent,
   KeywordPageContentProps,
-} from "@econnessione/ui/components/KeywordPageContent";
-import { keywordPageContentArgs } from "@econnessione/ui/components/examples/KeywordPageContentExample";
+} from "@liexp/ui/components/KeywordPageContent";
+import { keywordPageContentArgs } from "@liexp/ui/components/examples/KeywordPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 

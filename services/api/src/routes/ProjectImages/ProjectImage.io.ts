@@ -1,4 +1,4 @@
-import * as io from "@econnessione/shared/io";
+import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";

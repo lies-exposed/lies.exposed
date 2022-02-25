@@ -1,6 +1,6 @@
-import { fc } from "@econnessione/core/tests";
-import { http } from "@econnessione/shared/io";
-import { MediaArb, ProjectArb } from "@econnessione/shared/tests";
+import { fc } from "@liexp/core/tests";
+import { http } from "@liexp/shared/io";
+import { MediaArb, ProjectArb } from "@liexp/shared/tests";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";

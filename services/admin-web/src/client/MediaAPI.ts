@@ -1,6 +1,6 @@
 import * as qs from "querystring";
-import { MediaType } from "@econnessione/shared/io/http/Media";
-import * as http from "@econnessione/ui/http";
+import { MediaType } from "@liexp/shared/io/http/Media";
+import * as http from "@liexp/ui/http";
 import axios from "axios";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";

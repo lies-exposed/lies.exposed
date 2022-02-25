@@ -1,4 +1,4 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -28,6 +28,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
       withDrafts,
       ...queryRest
     } = query;
+
     const findOptions = getORMOptions(
       {
         ...queryRest,
@@ -38,6 +39,8 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
       },
       ctx.env.DEFAULT_PAGE_SIZE
     );
+
+    ctx.logger.debug.log("find options %O", findOptions);
 
     return pipe(
       searchEventV2Query(ctx)({

@@ -1,6 +1,6 @@
 import * as path from "path";
-import { GetLogger } from "@econnessione/core/logger";
-import { getServer } from "@econnessione/ui/react/ssr";
+import { GetLogger } from "@liexp/core/logger";
+import { getServer } from "@liexp/ui/react/ssr";
 import dotenv from "dotenv";
 import express from "express";
 import { App } from "../client/App";

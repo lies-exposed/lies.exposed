@@ -1,4 +1,4 @@
-import { Actor } from "@econnessione/shared/io/http/Actor";
+import { Actor } from "@liexp/shared/io/http/Actor";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,

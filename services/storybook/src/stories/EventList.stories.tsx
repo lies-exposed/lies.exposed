@@ -1,8 +1,8 @@
-import { Events } from "@econnessione/shared/io/http";
-import { events } from "@econnessione/shared/mock-data/events";
+import { Events } from "@liexp/shared/io/http";
+import { events } from "@liexp/shared/mock-data/events";
 import EventList, {
   EventListProps,
-} from "@econnessione/ui/components/lists/EventList/EventList";
+} from "@liexp/ui/components/lists/EventList/EventList";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";

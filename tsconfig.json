@@ -11,24 +11,24 @@
     "resolveJsonModule": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["node_modules/@types", "packages/@econnessione/*/typings"],
+    "typeRoots": ["node_modules/@types", "packages/@liexp/*/typings"],
     "baseUrl": ".",
     "paths": {
-      "@econnessione/core/*": ["packages/@econnessione/core/src/*"],
-      "@econnessione/shared/*": ["packages/@econnessione/shared/src/*"],
-      "@econnessione/ui/*": ["packages/@econnessione/ui/src/*"]
+      "@liexp/core/*": ["packages/@liexp/core/src/*"],
+      "@liexp/shared/*": ["packages/@liexp/shared/src/*"],
+      "@liexp/ui/*": ["packages/@liexp/ui/src/*"]
     }
   },
   "exclude": ["node_modules"],
   "references": [
     {
-      "path": "./packages/@econnessione/core"
+      "path": "./packages/@liexp/core"
     },
     {
-      "path": "./packages/@econnessione/shared"
+      "path": "./packages/@liexp/shared"
     },
     {
-      "path": "./packages/@econnessione/ui"
+      "path": "./packages/@liexp/ui"
     }
   ]
 }

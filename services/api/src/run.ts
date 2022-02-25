@@ -2,7 +2,7 @@
 import path from "path";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("module-alias")(path.resolve(__dirname, "../"));
-import * as logger from "@econnessione/core/logger";
+import * as logger from "@liexp/core/logger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { failure } from "io-ts/lib/PathReporter";
@@ -61,7 +61,7 @@ export const run = (): Promise<void> => {
             ctx.logger.info.log(`Server is listening ${ctx.env.API_PORT}`)
           );
 
-          process.on("disconnect", () => {
+          process.on("SIGINT", () => {
             // eslint-disable-next-line no-console
             serverLogger.debug.log(
               "Removing vaccine data download cron task..."
@@ -70,7 +70,13 @@ export const run = (): Promise<void> => {
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");
             server.close();
+            void ctx.db
+              .close()()
+              .then((e) => {
+                process.exit(e._tag === "Right" ? 0 : 1);
+              });
           });
+
           server.on("error", (e) => {
             serverLogger.error.log("An error occured %O", e);
           });

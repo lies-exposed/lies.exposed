@@ -1,16 +1,14 @@
-import * as io from "@econnessione/shared/io";
-import { http } from "@econnessione/shared/io";
-import { Events } from "@econnessione/shared/io/http";
-import { Event } from "@econnessione/shared/io/http/Events";
-import { DEATH } from "@econnessione/shared/io/http/Events/Death";
-import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
-import {
-  getTextContentsCapped
-} from "@econnessione/ui/components/Common/Editor";
-import { EventIcon } from "@econnessione/ui/components/Common/Icons/EventIcon";
-import { EventPageContent } from "@econnessione/ui/components/EventPageContent";
-import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import * as io from "@liexp/shared/io";
+import { http } from "@liexp/shared/io";
+import { Events } from "@liexp/shared/io/http";
+import { Event } from "@liexp/shared/io/http/Events";
+import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
+import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
+import { EventPageContent } from "@liexp/ui/components/EventPageContent";
+import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as E from "fp-ts/lib/Either";
@@ -36,7 +34,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -48,16 +46,16 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 

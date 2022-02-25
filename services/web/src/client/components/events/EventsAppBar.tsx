@@ -2,7 +2,8 @@ import {
   AppBar,
   Grid,
   IconButton,
-  makeStyles, useTheme
+  makeStyles,
+  useTheme,
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Slide from "@material-ui/core/Slide";

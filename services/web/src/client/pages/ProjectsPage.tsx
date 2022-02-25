@@ -1,16 +1,13 @@
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import { ContentWithSidebar } from "@econnessione/ui/components/ContentWithSidebar";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import { ProjectsMap } from "@econnessione/ui/components/Map/ProjectsMap";
-import { PageContent } from "@econnessione/ui/components/PageContent";
-import SEO from "@econnessione/ui/components/SEO";
-import { TableOfContents } from "@econnessione/ui/components/TableOfContents";
-import ProjectList from "@econnessione/ui/components/lists/ProjectList";
-import {
-  pageContentByPath,
-  Queries,
-} from "@econnessione/ui/providers/DataProvider";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import { ContentWithSidebar } from "@liexp/ui/components/ContentWithSidebar";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import { ProjectsMap } from "@liexp/ui/components/Map/ProjectsMap";
+import { PageContent } from "@liexp/ui/components/PageContent";
+import SEO from "@liexp/ui/components/SEO";
+import { TableOfContents } from "@liexp/ui/components/TableOfContents";
+import ProjectList from "@liexp/ui/components/lists/ProjectList";
+import { pageContentByPath, Queries } from "@liexp/ui/providers/DataProvider";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { navigate, RouteComponentProps } from "@reach/router";

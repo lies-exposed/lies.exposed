@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import * as io from "@econnessione/shared/io";
+import * as io from "@liexp/shared/io";
 import { available, queryStrict } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -295,7 +295,7 @@ export function useNavigateToResource(): NavigationHooks {
       };
 
     return {
-      index: navigateToResource('index'),
+      index: navigateToResource("index"),
       actors: navigateToResource("actors"),
       events: navigateToResource("events"),
       groups: navigateToResource("groups"),

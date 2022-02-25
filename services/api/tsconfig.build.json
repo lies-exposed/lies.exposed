@@ -17,10 +17,10 @@
   },
   "references": [
     {
-      "path": "../../packages/@econnessione/core"
+      "path": "../../packages/@liexp/core"
     },
     {
-      "path": "../../packages/@econnessione/shared"
+      "path": "../../packages/@liexp/shared"
     }
   ],
   "include": ["./src"],

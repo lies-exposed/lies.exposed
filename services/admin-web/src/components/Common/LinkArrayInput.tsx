@@ -1,9 +1,12 @@
 import { Box } from "@material-ui/core";
 import { FormDataConsumer } from "ra-core";
 import {
-    ArrayInput,
-    ArrayInputProps, BooleanInput, DateInput, SimpleFormIterator,
-    TextInput
+  ArrayInput,
+  ArrayInputProps,
+  BooleanInput,
+  DateInput,
+  SimpleFormIterator,
+  TextInput,
 } from "ra-ui-materialui";
 import * as React from "react";
 import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput";

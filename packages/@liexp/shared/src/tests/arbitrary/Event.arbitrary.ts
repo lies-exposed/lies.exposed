@@ -1,0 +1,112 @@
+import { fc, getArbitrary } from "@liexp/core/tests";
+import * as t from "io-ts";
+import * as http from "../../io/http";
+import { DateArb } from "./Date.arbitrary";
+import { CreateKeywordArb, TagArb } from "./Keyword.arbitrary";
+import { URLArb } from "./URL.arbitrary";
+import { propsOmit } from "./utils.arbitrary";
+
+interface CreateEventBodyArbOpts {
+  linksIds?: boolean;
+  mediaIds?: boolean;
+  keywordIds?: boolean;
+}
+
+const createEventProps = propsOmit(http.Events.CreateEventBody.types[3], [
+  "excerpt",
+  "body",
+  "date",
+  "media",
+  "links",
+  "keywords",
+  "payload",
+]);
+
+export const CreateEventBodyArb = ({
+  linksIds = false,
+  mediaIds = false,
+  keywordIds = false,
+}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventBody> =>
+  getArbitrary(t.strict(createEventProps)).map((b) => ({
+    ...b,
+    excerpt: {},
+    body: {},
+    payload: {
+      title: "",
+      actors: fc.sample(fc.uuidV(4)) as any,
+      groups: fc.sample(fc.uuidV(4)) as any,
+      groupsMembers: fc.sample(fc.uuidV(4)) as any,
+      location: undefined as any,
+      endDate: fc.sample(
+        fc.oneof(fc.constant(undefined), DateArb),
+        1
+      )[0] as any,
+    },
+    media: fc.sample(
+      fc.record({
+        location: URLArb,
+        description: fc.string(),
+      })
+    ) as any,
+    links: fc.sample(
+      linksIds
+        ? fc.oneof(
+            fc.record({
+              url: URLArb,
+              publishDate: DateArb,
+            }),
+            fc.uuidV(4)
+          )
+        : fc.record({
+            url: URLArb,
+            publishDate: DateArb,
+          })
+    ) as any,
+    keywords: fc.sample(
+      keywordIds
+        ? CreateKeywordArb
+        : fc.record({
+            tag: TagArb(),
+          }),
+      5
+    ) as any,
+    date: fc.sample(DateArb, 1)[0],
+  }));
+
+const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
+  "id",
+  "date",
+  "excerpt",
+  "body",
+  "payload",
+  "media",
+  "links",
+  "keywords",
+  "createdAt",
+  "updatedAt",
+  "deletedAt",
+]);
+
+export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
+  getArbitrary(t.strict(uncategorizedProps)).map((u) => ({
+    ...u,
+    id: fc.sample(fc.uuid(), 1)[0] as any,
+    type: http.Events.Uncategorized.UncategorizedType.value,
+    date: fc.sample(DateArb, 1)[0],
+    createdAt: fc.sample(DateArb, 1)[0],
+    updatedAt: fc.sample(DateArb, 1)[0],
+    deletedAt: undefined,
+    excerpt: {},
+    body: {},
+    media: fc.sample(fc.uuid(), 5) as any[],
+    keywords: fc.sample(fc.uuid(), 5) as any[],
+    links: fc.sample(fc.uuid(), 5) as any[],
+    payload: {
+      title: fc.sample(fc.string(), 1)[0],
+      location: undefined,
+      actors: fc.sample(fc.uuid(), 5) as any[],
+      groups: fc.sample(fc.uuid(), 5) as any[],
+      groupsMembers: fc.sample(fc.uuid(), 5) as any[],
+      endDate: undefined,
+    },
+  }));

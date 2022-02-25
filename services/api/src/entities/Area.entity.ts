@@ -1,4 +1,4 @@
-import { Polygon } from "@econnessione/shared/io/http/Common";
+import { Polygon } from "@liexp/shared/io/http/Common";
 import {
   Column,
   CreateDateColumn,

@@ -1,5 +1,5 @@
-import * as tests from "@econnessione/core/tests";
-import { MediaArb } from "@econnessione/shared/tests";
+import * as tests from "@liexp/core/tests";
+import { MediaArb } from "@liexp/shared/tests";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("Create Area", () => {

@@ -1,10 +1,10 @@
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import {
   EventsNetworkGraph,
   EventsNetworkGraphProps,
-} from "@econnessione/ui/components/Graph/EventsNetworkGraph";
-import { searchEventsQuery } from "@econnessione/ui/state/queries/SearchEventsQuery";
+} from "@liexp/ui/components/Graph/EventsNetworkGraph";
+import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";

@@ -1,5 +1,5 @@
-import { PageContent } from "@econnessione/ui/components/PageContent";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import { PageContent } from "@liexp/ui/components/PageContent";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
   Create,

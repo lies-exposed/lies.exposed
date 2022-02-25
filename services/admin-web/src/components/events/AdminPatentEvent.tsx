@@ -1,6 +1,6 @@
-import { Patent } from "@econnessione/shared/io/http/Events";
-import { uuid } from "@econnessione/shared/utils/uuid";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import { Patent } from "@liexp/shared/io/http/Events";
+import { uuid } from "@liexp/shared/utils/uuid";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
   BooleanField,
@@ -15,11 +15,12 @@ import {
   Filter,
   FormTab,
   List,
-  ListProps, SimpleForm,
+  ListProps,
+  SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
-  UrlField
+  UrlField,
 } from "react-admin";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";

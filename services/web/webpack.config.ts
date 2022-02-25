@@ -3,8 +3,8 @@ import path from "path";
 import {
   defineEnv,
   getConfig
-} from "../../packages/@econnessione/core/src/webpack/config";
-import { getWebConfig } from "../../packages/@econnessione/core/src/webpack/web.config";
+} from "../../packages/@liexp/core/src/webpack/config";
+import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
 
 const AppEnv = defineEnv((t) => ({
   NODE_ENV: t.string,

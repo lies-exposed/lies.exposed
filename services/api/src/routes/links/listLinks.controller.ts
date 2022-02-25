@@ -1,4 +1,4 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/lib/function";
 import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
-import { getORMOptions , addOrder } from "@utils/orm.utils";
+import { getORMOptions, addOrder } from "@utils/orm.utils";
 
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
@@ -55,7 +55,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         },
         (q) => {
           if (findOptions.order) {
-            return addOrder(findOptions.order, q, 'link');
+            return addOrder(findOptions.order, q, "link");
           }
           return q;
         },

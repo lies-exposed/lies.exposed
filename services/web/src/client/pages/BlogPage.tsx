@@ -1,11 +1,11 @@
-import { formatDate } from "@econnessione/shared/utils/date";
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@econnessione/ui/components/Common/FullSizeLoader";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import { PageContent } from "@econnessione/ui/components/PageContent";
-import SEO from "@econnessione/ui/components/SEO";
-import { Queries } from "@econnessione/ui/providers/DataProvider";
-import { navigateTo } from '@econnessione/ui/utils/links.utils';
+import { formatDate } from "@liexp/shared/utils/date";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import { PageContent } from "@liexp/ui/components/PageContent";
+import SEO from "@liexp/ui/components/SEO";
+import { Queries } from "@liexp/ui/providers/DataProvider";
+import { navigateTo } from "@liexp/ui/utils/links.utils";
 import {
   Button,
   Card,

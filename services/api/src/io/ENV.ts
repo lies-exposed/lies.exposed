@@ -12,23 +12,29 @@ const TEST = t.literal("test");
 
 const ENV = t.intersection(
   [
-    t.union([
-      t.strict({
-        NODE_ENV: t.union([DEVELOPMENT, TEST]),
-        DEV_DATA_HOST: t.string,
-      }),
-      t.strict({
-        NODE_ENV: PRODUCTION,
-      }),
-    ], 'NODE_ENV'),
-    t.strict({
-      DEBUG: t.string,
-      API_PORT: NumberFromString,
-      API_HOST: t.string,
-      DEFAULT_PAGE_SIZE: NumberFromString,
-      JWT_SECRET: t.string,
-      DOWNLOAD_VACCINE_DATA_CRON: t.string,
-    }, 'API_ENV'),
+    t.union(
+      [
+        t.strict({
+          NODE_ENV: t.union([DEVELOPMENT, TEST]),
+          DEV_DATA_HOST: t.string,
+        }),
+        t.strict({
+          NODE_ENV: PRODUCTION,
+        }),
+      ],
+      "NODE_ENV"
+    ),
+    t.strict(
+      {
+        DEBUG: t.string,
+        API_PORT: NumberFromString,
+        API_HOST: t.string,
+        DEFAULT_PAGE_SIZE: NumberFromString,
+        JWT_SECRET: t.string,
+        DOWNLOAD_VACCINE_DATA_CRON: t.string,
+      },
+      "API_ENV"
+    ),
     t.strict(
       {
         // SPACES
@@ -41,13 +47,16 @@ const ENV = t.intersection(
     ),
     t.intersection(
       [
-        t.strict({
-          DB_USERNAME: t.string,
-          DB_PASSWORD: t.string,
-          DB_HOST: t.string,
-          DB_PORT: NumberFromString,
-          DB_DATABASE: t.string,
-        }, 'DB_BASE_ENV'),
+        t.strict(
+          {
+            DB_USERNAME: t.string,
+            DB_PASSWORD: t.string,
+            DB_HOST: t.string,
+            DB_PORT: NumberFromString,
+            DB_DATABASE: t.string,
+          },
+          "DB_BASE_ENV"
+        ),
         t.union([
           t.strict({
             DB_SSL_MODE: t.literal("require"),

@@ -1,5 +1,5 @@
-import * as http from "@econnessione/shared/io/http";
-import { UncategorizedType } from "@econnessione/shared/io/http/Events/Uncategorized";
+import * as http from "@liexp/shared/io/http";
+import { UncategorizedType } from "@liexp/shared/io/http/Events/Uncategorized";
 import {
   Column,
   CreateDateColumn,

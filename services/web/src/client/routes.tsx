@@ -9,7 +9,6 @@ import EventTemplate from "./templates/EventTemplate";
 import GroupTemplate from "./templates/GroupTemplate";
 import KeywordTemplate from "./templates/KeywordTemplate";
 
-
 export const routes = [
   {
     path: "/groups/:groupId",

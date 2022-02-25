@@ -1,5 +1,5 @@
 import * as path from "path";
-import { APIRESTClient } from "@econnessione/ui/http";
+import { APIRESTClient } from "@liexp/ui/http";
 import { DownloadTask } from "../utils/download.utils";
 
 const WHO_DATA_DIR = path.resolve(

@@ -1,4 +1,4 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { toEventV2IO } from "./eventV2.io";
@@ -8,7 +8,6 @@ import { Route } from "@routes/route.types";
 
 export const MakeCreateEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Create, ({ body }) => {
-
     return pipe(
       createEventQuery(ctx)(body),
       ctx.logger.info.logInTaskEither("Create data %O"),

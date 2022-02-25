@@ -11,12 +11,12 @@ module.exports = {
   },
   moduleDirectories: ["node_modules"],
   moduleNameMapper: {
-    "^@econnessione/core/(.*)$":
-      "<rootDir>/../../packages/@econnessione/core/src/$1",
-    "^@econnessione/shared/(.*)$":
-      "<rootDir>/../../packages/@econnessione/shared/src/$1",
-    "^@econnessione/ui/(.*)$":
-      "<rootDir>/../../packages/@econnessione/ui/src/$1",
+    "^@liexp/core/(.*)$":
+      "<rootDir>/../../packages/@liexp/core/src/$1",
+    "^@liexp/shared/(.*)$":
+      "<rootDir>/../../packages/@liexp/shared/src/$1",
+    "^@liexp/ui/(.*)$":
+      "<rootDir>/../../packages/@liexp/ui/src/$1",
   },
   transform: {
     ...tsjPresets.defaults.transform,

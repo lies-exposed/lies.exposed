@@ -1,5 +1,5 @@
-import { AddEndpoint, Endpoints } from "@econnessione/shared/endpoints";
-import { ScientificStudyType } from "@econnessione/shared/io/http/Events/ScientificStudy";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -15,7 +15,9 @@ export const MakeListScientificStudyRoute: Route = (
 ) => {
   AddEndpoint(r)(
     Endpoints.ScientificStudy.List,
-    ({ query: { publishedDate, publishedBy, title, withDrafts, ...query } }) => {
+    ({
+      query: { publishedDate, publishedBy, title, withDrafts, ...query },
+    }) => {
       const queryOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
 
       return pipe(

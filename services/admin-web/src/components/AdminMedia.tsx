@@ -1,5 +1,5 @@
-import { MediaType } from "@econnessione/shared/io/http/Media";
-import { uuid } from "@econnessione/shared/utils/uuid";
+import { MediaType } from "@liexp/shared/io/http/Media";
+import { uuid } from "@liexp/shared/utils/uuid";
 import { Box } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -41,7 +41,8 @@ const bitchuteVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?bitchute\.com\/video\/([\w\-_]*)/;
 const odyseeVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?odysee\.com\/\$\/download\/([^/]+)\/([^/]+)$/;
-const peertubeVideoRegExp = /http(?:s?):\/\/([^/]+)\/videos\/watch\/([^/]+)(&(amp;)?[\w?=]*)?/;
+const peertubeVideoRegExp =
+  /http(?:s?):\/\/([^/]+)\/videos\/watch\/([^/]+)(&(amp;)?[\w?=]*)?/;
 
 export const parsePlatformURL = (url: string): E.Either<Error, string> => {
   const match = url.match(ytVideoRegExp);

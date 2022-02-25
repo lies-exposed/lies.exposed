@@ -1,7 +1,7 @@
 import "ol/ol.css";
 import { ThemeProvider } from "@material-ui/core";
 import * as React from "react";
-import { ECOTheme } from "@econnessione/ui/theme";
+import { ECOTheme } from "@liexp/ui/theme";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

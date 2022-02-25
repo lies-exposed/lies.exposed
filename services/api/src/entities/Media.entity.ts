@@ -1,4 +1,4 @@
-import { MediaType } from "@econnessione/shared/io/http/Media";
+import { MediaType } from "@liexp/shared/io/http/Media";
 import {
   Column,
   CreateDateColumn,

@@ -5,7 +5,7 @@
     "typeRoots": [
       "./typings",
       "node_modules/@types",
-      "../../packages/@econnessione/shared/typings",
+      "../../packages/@liexp/shared/typings",
       "../../node_modules/@types",
     ],
     "declaration": false,

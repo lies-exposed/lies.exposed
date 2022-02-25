@@ -1,4 +1,4 @@
-import * as logger from "@econnessione/core/logger";
+import * as logger from "@liexp/core/logger";
 import * as E from "fp-ts/lib/Either";
 // eslint-disable-next-line no-restricted-imports
 import { GetLocalSpaceClient } from "../LocalSpaceClient";

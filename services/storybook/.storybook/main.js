@@ -30,7 +30,7 @@ module.exports = {
 
     const coreBaseUrl = path.resolve(
       process.cwd(),
-      "../../packages/@econnessione/core/tsconfig.json"
+      "../../packages/@liexp/core/tsconfig.json"
     );
 
     config.resolve.plugins = [];
@@ -43,7 +43,7 @@ module.exports = {
 
     const sharedBaseUrl = path.resolve(
       process.cwd(),
-      "../../packages/@econnessione/shared/tsconfig.json"
+      "../../packages/@liexp/shared/tsconfig.json"
     );
 
     // console.log(sharedBaseUrl);
@@ -55,7 +55,7 @@ module.exports = {
 
     const uiConfigFile = path.resolve(
       process.cwd(),
-      "../../packages/@econnessione/ui/tsconfig.json"
+      "../../packages/@liexp/ui/tsconfig.json"
     );
 
     config.resolve.plugins.push(

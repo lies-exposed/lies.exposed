@@ -1,6 +1,6 @@
-import { Group } from "@econnessione/shared/io/http/Group";
-import { MediaType } from "@econnessione/shared/io/http/Media";
-import { APIRESTClient } from "@econnessione/ui/http";
+import { Group } from "@liexp/shared/io/http/Group";
+import { MediaType } from "@liexp/shared/io/http/Media";
+import { APIRESTClient } from "@liexp/ui/http";
 import * as E from "fp-ts/lib/Either";
 import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";

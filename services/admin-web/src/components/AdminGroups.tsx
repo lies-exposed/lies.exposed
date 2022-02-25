@@ -1,9 +1,9 @@
-import * as io from "@econnessione/shared/io";
-import { Media } from "@econnessione/shared/io/http";
-import { uuid } from "@econnessione/shared/utils/uuid";
-import { GroupPageContent } from "@econnessione/ui/components/GroupPageContent";
-import { ValidationErrorsLayout } from "@econnessione/ui/components/ValidationErrorsLayout";
-import ReactPageInput from "@econnessione/ui/components/admin/ReactPageInput";
+import * as io from "@liexp/shared/io";
+import { Media } from "@liexp/shared/io/http";
+import { uuid } from "@liexp/shared/utils/uuid";
+import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
+import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Typography } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";

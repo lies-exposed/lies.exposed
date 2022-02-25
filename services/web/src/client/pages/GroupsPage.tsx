@@ -1,13 +1,10 @@
-import { ErrorBox } from "@econnessione/ui/components/Common/ErrorBox";
-import { Loader } from "@econnessione/ui/components/Common/Loader";
-import { AutocompleteGroupInput } from "@econnessione/ui/components/Input/AutocompleteGroupInput";
-import { MainContent } from "@econnessione/ui/components/MainContent";
-import { PageContent } from "@econnessione/ui/components/PageContent";
-import GroupList from "@econnessione/ui/components/lists/GroupList";
-import {
-  pageContentByPath,
-  Queries,
-} from "@econnessione/ui/providers/DataProvider";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { Loader } from "@liexp/ui/components/Common/Loader";
+import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import { PageContent } from "@liexp/ui/components/PageContent";
+import GroupList from "@liexp/ui/components/lists/GroupList";
+import { pageContentByPath, Queries } from "@liexp/ui/providers/DataProvider";
 import { Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
