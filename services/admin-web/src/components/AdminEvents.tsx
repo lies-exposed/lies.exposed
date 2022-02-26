@@ -59,6 +59,7 @@ import {
   UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
+import * as R from "fp-ts/lib/Record";
 
 const RESOURCE = "events";
 
