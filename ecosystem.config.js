@@ -31,7 +31,7 @@ const webServe = {
   watch_delay: 1000,
   env: dotenv.parse(
     fs.readFileSync(
-      path.resolve(__dirname, "./services/web/.env.development"),
+      path.resolve(__dirname, "./services/web/.env"),
       "utf-8"
     )
   ),

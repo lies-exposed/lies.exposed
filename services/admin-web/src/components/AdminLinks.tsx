@@ -1,3 +1,4 @@
+import { apiProvider } from "@client/HTTPAPI";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import * as React from "react";
 import {
@@ -22,13 +23,12 @@ import {
   SimpleForm,
   TextField,
   TextInput,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
 import RichTextInput from "./Common/RichTextInput";
 import URLMetadataInput from "./Common/URLMetadataInput";
-import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "links";
 

@@ -58,6 +58,7 @@ import {
   UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
+import * as R from "fp-ts/lib/Record";
 
 const RESOURCE = "events";
 
@@ -134,7 +135,11 @@ export const EventList: React.FC<ListProps> = (props) => (
       />
       <FunctionField
         label="excerpt"
-        render={(r: any) => getTextContentsCapped(r.excerpt, 60)}
+        render={(r: any) => {
+          return !R.isEmpty(r.excerpt)
+            ? getTextContentsCapped(r.excerpt, 60)
+            : "";
+        }}
       />
       <FunctionField
         label="actors"

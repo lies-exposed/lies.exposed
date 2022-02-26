@@ -113,7 +113,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
         <Grid
           item
           md={12}
-          lg={8}
+          lg={10}
           style={{
             flexGrow: 1,
             display: "flex",
