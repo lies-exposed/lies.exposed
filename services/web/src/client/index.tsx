@@ -30,6 +30,7 @@ function Main(): JSX.Element {
 
   return (
     <ThemeProvider theme={ECOTheme}>
+      <CssBaseline />
       <App />
     </ThemeProvider>
   );
@@ -37,7 +38,6 @@ function Main(): JSX.Element {
 
 ReactDOM.hydrate(
   <React.StrictMode>
-    <CssBaseline />
     <BrowserRouter>
       <Main />
     </BrowserRouter>

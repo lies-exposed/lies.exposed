@@ -6,6 +6,7 @@ interface SEOProps {
   lang?: string;
   meta?: any[];
   title: string;
+  image: string;
 }
 
 interface QueryResults {
@@ -18,7 +19,7 @@ interface QueryResults {
   };
 }
 
-const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title }) => {
+const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title, image }) => {
   const { site }: QueryResults = {
     site: {
       siteMetadata: {
@@ -61,6 +62,10 @@ const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title }) => {
           content: `website`,
         },
         {
+          property: 'og:image',
+          content: image
+        },
+        {
           name: `twitter:card`,
           content: `summary`,
         },
@@ -88,3 +93,5 @@ SEO.defaultProps = {
 };
 
 export default SEO;
+
+export const SEOHelmet = Helmet.Helmet as any

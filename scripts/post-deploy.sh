@@ -11,8 +11,9 @@ yarn packages:build
 mkdir -p /var/www/html/alpha.lies.exposed/admin
 cp -r /root/node/app/current/services/admin-web/build/* /var/www/html/alpha.lies.exposed/admin
 sudo chown -R www-data:www-data /var/www/html/alpha.lies.exposed
-NODE_ENV=production yarn web build
-NODE_ENV=production yarn api build
-NODE_ENV=production yarn api migration:run
+export NODE_ENV=production
+yarn web build
+yarn api build
+yarn api migration:run
 sudo nginx -s reload
 pm2 reload ecosystem.config.js

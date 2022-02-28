@@ -39,7 +39,11 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   const theme = useTheme();
   return (
     <MainContent>
-      <SEO title={event.payload.title} />
+      <SEO
+        title={event.payload.title}
+        description={""}
+        image={"/liexp-log.png"}
+      />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Grid container alignItems="flex-start">
