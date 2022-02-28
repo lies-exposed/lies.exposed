@@ -5,17 +5,14 @@ import { useNavigateToResource } from "../../utils/location.utils";
 
 const dataMenuItem = {
   view: "index",
-  label: "Dashboards",
+  label: "Events",
   subItems: [
     {
-      view: "events",
-      label: "Events",
-    },
-    {
-      view: "vaccines-dashboard",
-      label: "Covid19 Vaccines",
+      view: "/events",
+      label: "Search",
     },
   ],
+
 };
 
 const projectMenuItem = {
@@ -29,18 +26,7 @@ const projectMenuItem = {
   ],
 };
 
-export const mainMenu: HeaderMenuItem[] =
-  process.env.NODE_ENV === "development"
-    ? [
-        // projectMenuItem,
-        // {
-        //   view: "blog",
-        //   label: "Blog",
-        //   subItems: [],
-        // },
-        // dataMenuItem,
-      ]
-    : [dataMenuItem];
+export const mainMenu: HeaderMenuItem[] = [dataMenuItem];
 
 const AppHeader: React.FC = () => {
   const navigateTo = useNavigateTo();

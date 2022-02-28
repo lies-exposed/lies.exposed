@@ -99,6 +99,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
       style={{
         overflow: "hidden",
         ...style,
+        marginBottom: isLast ? 100 : style?.marginBottom
       }}
     >
       <Grid

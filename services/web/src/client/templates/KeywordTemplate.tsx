@@ -6,6 +6,7 @@ import SEO from "@liexp/ui/components/SEO";
 import { Queries } from "@liexp/ui/providers/DataProvider";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { Box } from '@material-ui/core';
 import * as QR from "avenger/lib/QueryResult";
 import { useQueries } from "avenger/lib/react";
 import { pipe } from "fp-ts/lib/function";
@@ -33,8 +34,8 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
     queries,
     QR.fold(LazyFullSizeLoader, ErrorBox, ({ keyword }) => {
       return (
-        <ContentWithSideNavigation items={[]}>
-          <SEO title={"keywords"} />
+        <Box display="flex" flexDirection="column" height="100%"> 
+          <SEO title={"keywords"} image="/liexp-log.png" />
           <KeywordPageContent {...keyword} />
           <EventsTimeline
             hash={`keyword-${keywordId}`}
@@ -47,7 +48,7 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
             onGroupMemberClick={() => {}}
             onKeywordClick={() => {}}
           />
-        </ContentWithSideNavigation>
+        </Box>
       );
     })
   );

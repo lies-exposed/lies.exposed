@@ -18,7 +18,7 @@ interface PackProps {
   height: number;
   pack: HierarchyNode<PackDatum>;
   variant: "text" | "circle";
-  onClick?: () => void;
+  onClick?: (d: any) => void;
 }
 
 const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
@@ -51,12 +51,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
 
   return (
     <div>
-      <svg
-        width={width}
-        height={height}
-        style={{ position: "relative" }}
-        onClick={onClick}
-      >
+      <svg width={width} height={height} style={{ position: "relative" }}>
         <rect width={width} height={height} rx={14} fill="#ffffff" />
         <VXPack root={pack} size={[width, height]}>
           {(pack) => {
@@ -69,7 +64,13 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
               const circle = circles[i];
 
               return (
-                <Group key={i}>
+                <Group
+                  key={i}
+                  onClick={() => onClick?.(circle.data)}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                >
                   <animated.circle
                     key={`cir-${i}`}
                     r={circle.r}
@@ -86,15 +87,14 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                     y={circle.y}
                     width={circle.r}
                     height={circle.r}
-                    fill={
-                      variant === "text" ? `#FFFFFF` : "#000000"
-                    }
+                    fill={variant === "text" ? `#FFFFFF` : "#000000"}
                     style={{
                       fontWeight: 600,
                       textAlign: "center",
                       padding: 10,
-                      fontSize: circle.r / 2,
+                      fontSize: circle.r * 0.3,
                       overflow: "hidden",
+                      transform: `translateX(-${circle.r / 2 + 5}px)`,
                     }}
                   >
                     #{circle.data.label}

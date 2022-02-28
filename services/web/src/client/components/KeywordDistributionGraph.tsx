@@ -6,13 +6,15 @@ import { ParentSize } from "@vx/responsive";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
+import { useNavigateTo } from "client/utils/history.utils";
+import { useNavigateToResource } from "client/utils/location.utils";
 
 const KeywordsDistributionGraphComponent: React.FC<{ data: any[] }> = ({
   data,
 }) => {
-  console.log(data);
+  const navigateTo = useNavigateToResource();
   return (
-    <ParentSize style={{ height: 400 }}>
+    <ParentSize style={{ height: 600 }}>
       {({ width, height }) => (
         <>
           <BubbleGraph
@@ -20,11 +22,14 @@ const KeywordsDistributionGraphComponent: React.FC<{ data: any[] }> = ({
             width={width}
             height={height}
             data={data.map((d) => ({
+              ...d,
               count: d.events ?? 0,
               label: d.tag,
               color: d.color,
             }))}
-            onClick={() => {}}
+            onClick={(d) => {
+              navigateTo.keywords({ id: d.id });
+            }}
           />
         </>
       )}
@@ -48,7 +53,6 @@ const KeywordsDistributionGraph: React.FC = () => {
         LazyFullSizeLoader,
         ErrorBox,
         ({ keywordDistribution }) => {
-          console.log("keywords", keywordDistribution);
           return (
             <KeywordsDistributionGraphComponent
               data={keywordDistribution.data}

@@ -6,7 +6,7 @@ interface BubbleGraphProps<D extends PackDatum> {
   width: number;
   height: number;
   data: D[];
-  onClick?: () => void;
+  onClick?: (d: D) => void;
   variant: 'text' | 'circle'
 }
 

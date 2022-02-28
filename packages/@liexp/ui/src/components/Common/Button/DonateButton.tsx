@@ -2,9 +2,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton, Typography } from "@material-ui/core";
 import * as React from "react";
 
-const DonateButton: React.FC = () => {
+const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <form
+      className={className}
       action="https://www.paypal.com/donate"
       method="post"
       target="_top"
