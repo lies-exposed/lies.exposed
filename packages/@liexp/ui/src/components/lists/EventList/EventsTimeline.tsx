@@ -236,7 +236,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         flexBasis: "auto",
         height: "100%",
         minHeight: 600,
-        paddingBottom: 100,
       }}
     >
       <InfiniteLoader

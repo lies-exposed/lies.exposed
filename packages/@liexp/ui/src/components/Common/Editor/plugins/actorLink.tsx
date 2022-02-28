@@ -3,7 +3,7 @@ import { RaSelectReferenceInputField } from "@react-page/react-admin";
 import * as React from "react";
 import { ActorsBox } from "../../../ActorsBox";
 
-const ActorIdSelector = (props: any) => (
+const ActorIdSelector = (props: any): JSX.Element => (
   <RaSelectReferenceInputField
     {...props}
     optionText="fullName"
@@ -25,7 +25,6 @@ export const actorLinkPlugin = pluginFactories.createComponentPlugin<{
   // render the data as usual
   getStyle: () => ({ display: "inline-block" }),
   Component: (props) => {
-    console.log("props", props);
     return (
       <ActorsBox
         style={props.style}

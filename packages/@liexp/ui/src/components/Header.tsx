@@ -37,12 +37,14 @@ const useStyles = makeStyles<ECOTheme>((theme) =>
     },
     menuItem: {
       color: theme.palette.common.white,
-      fontWeight: theme.typography.fontWeightBold as any,
+      ...theme.typography.subtitle1 as any
     },
     menuItemLink: {
       color: theme.palette.text.primary,
       fontWeight: theme.typography.fontWeightBold as any,
       textTransform: "uppercase",
+      ...theme.typography.subtitle1 as any,
+      fontSize: 14,
       margin: 0,
     },
     title: {
@@ -158,8 +160,8 @@ const Header: React.FC<HeaderProps> = ({
           {title}
         </Typography>
 
-        <DonateButton />
-        <GithubButton {...github} />
+        <DonateButton className={classes.menuItem} />
+        <GithubButton className={classes.menuItem} {...github} />
         {menu.map((m) => {
           const buttonRef =
             m.subItems.length > 0

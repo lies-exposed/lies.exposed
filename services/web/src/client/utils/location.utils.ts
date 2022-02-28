@@ -282,7 +282,7 @@ export function useNavigateToResource(): NavigationHooks {
           case `articles`:
           case "events":
           case "actors":
-          case "topics":
+          case "keywords":
           case "projects":
           case "groups": {
             const id = f.id ? `/${f.id}` : "";

@@ -75,6 +75,7 @@ export const WealthDistributionGraph: React.FC<WealthDistributionGraphProps> = (
         {({ width, height }) => (
           <>
             <BubbleGraph
+              variant="circle"
               width={width / 2}
               height={height}
               data={wealthDistributionData.reverse().map((d) => ({

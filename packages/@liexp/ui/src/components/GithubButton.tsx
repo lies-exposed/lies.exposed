@@ -10,8 +10,9 @@ import { GithubIcon } from "./Common/Icons";
 interface GithubButtonProps {
   user: string;
   repo: string;
+  className?: string;
 }
-const GithubButton: React.FC<GithubButtonProps> = ({ user, repo }) => {
+const GithubButton: React.FC<GithubButtonProps> = ({ user, repo, className }) => {
   return (
     <WithQueries
       queries={{
@@ -23,6 +24,7 @@ const GithubButton: React.FC<GithubButtonProps> = ({ user, repo }) => {
       render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ github }) => {
         return (
           <IconButton
+            className={className}
             onClick={() => {
               window.open(`https://github.com/${user}/${repo}`, "_blank");
             }}

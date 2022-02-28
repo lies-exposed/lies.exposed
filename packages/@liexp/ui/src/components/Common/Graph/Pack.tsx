@@ -17,12 +17,14 @@ interface PackProps {
   width: number;
   height: number;
   pack: HierarchyNode<PackDatum>;
-  onClick?: () => void;
+  variant: "text" | "circle";
+  onClick?: (d: any) => void;
 }
 
 const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
   width,
   height,
+  variant,
   pack,
   onClick,
   showTooltip,
@@ -49,12 +51,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
 
   return (
     <div>
-      <svg
-        width={width}
-        height={height}
-        style={{ position: "relative" }}
-        onClick={onClick}
-      >
+      <svg width={width} height={height} style={{ position: "relative" }}>
         <rect width={width} height={height} rx={14} fill="#ffffff" />
         <VXPack root={pack} size={[width, height]}>
           {(pack) => {
@@ -67,7 +64,13 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
               const circle = circles[i];
 
               return (
-                <Group key={i}>
+                <Group
+                  key={i}
+                  onClick={() => onClick?.(circle.data)}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                >
                   <animated.circle
                     key={`cir-${i}`}
                     r={circle.r}
@@ -78,18 +81,24 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                     onMouseOver={handleMouseOver(circle.data)}
                     style={style}
                   />
-                  <text
+
+                  <animated.text
                     x={circle.x}
                     y={circle.y}
-                    color={"#000"}
+                    width={circle.r}
+                    height={circle.r}
+                    fill={variant === "text" ? `#FFFFFF` : "#000000"}
                     style={{
                       fontWeight: 600,
                       textAlign: "center",
                       padding: 10,
+                      fontSize: circle.r * 0.3,
+                      overflow: "hidden",
+                      transform: `translateX(-${circle.r / 2 + 5}px)`,
                     }}
                   >
-                    {circle.data.label}
-                  </text>
+                    #{circle.data.label}
+                  </animated.text>
                 </Group>
               );
             });
