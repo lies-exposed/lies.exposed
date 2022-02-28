@@ -24,6 +24,6 @@ const data = [
 }));
 
 const BubbleGraphExample: React.FC = () => {
-  return <BubbleGraph data={data} width={600} height={300} />;
+  return <BubbleGraph variant='circle' data={data} width={600} height={300} />;
 };
 export default BubbleGraphExample;

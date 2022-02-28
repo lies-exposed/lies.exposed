@@ -17,12 +17,14 @@ interface PackProps {
   width: number;
   height: number;
   pack: HierarchyNode<PackDatum>;
+  variant: "text" | "circle";
   onClick?: () => void;
 }
 
 const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
   width,
   height,
+  variant,
   pack,
   onClick,
   showTooltip,
@@ -78,18 +80,25 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
                     onMouseOver={handleMouseOver(circle.data)}
                     style={style}
                   />
-                  <text
+
+                  <animated.text
                     x={circle.x}
                     y={circle.y}
-                    color={"#000"}
+                    width={circle.r}
+                    height={circle.r}
+                    fill={
+                      variant === "text" ? `#FFFFFF` : "#000000"
+                    }
                     style={{
                       fontWeight: 600,
                       textAlign: "center",
                       padding: 10,
+                      fontSize: circle.r / 2,
+                      overflow: "hidden",
                     }}
                   >
-                    {circle.data.label}
-                  </text>
+                    #{circle.data.label}
+                  </animated.text>
                 </Group>
               );
             });

@@ -7,6 +7,7 @@ interface BubbleGraphProps<D extends PackDatum> {
   height: number;
   data: D[];
   onClick?: () => void;
+  variant: 'text' | 'circle'
 }
 
 export const BubbleGraph = <D extends PackDatum>({
