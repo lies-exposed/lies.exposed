@@ -1,12 +1,12 @@
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { ControllerError } from "@io/ControllerError";
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { RouteContext } from "@routes/route.types";
-import { getORMOptions } from "@utils/orm.utils";
 import { Router } from "express";
-import { pipe } from "fp-ts/lib/function";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
+import { KeywordEntity } from "@entities/Keyword.entity";
+import { ControllerError } from "@io/ControllerError";
+import { RouteContext } from "@routes/route.types";
+import { getORMOptions } from "@utils/orm.utils";
 
 export const MakeKeywordsDistributionRoute = (
   r: Router,
