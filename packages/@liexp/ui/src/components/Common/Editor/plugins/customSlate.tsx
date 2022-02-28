@@ -1,6 +1,7 @@
 import { List, ListItem, ListItemText, Typography } from "@material-ui/core";
 import slate from "@react-page/plugins-slate";
 import * as React from "react";
+import { actorLinkPlugin } from "./actorLink";
 
 const customSlate = slate((def) => {
   return {
@@ -100,7 +101,11 @@ const customSlate = slate((def) => {
           ),
         })),
       },
+      custom: {
+        actorLink: actorLinkPlugin,
+      },
     },
+
     // other overrides
   };
 });

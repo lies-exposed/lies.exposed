@@ -224,15 +224,15 @@ const toQueries = <
     ),
     Custom: pipe(
       e.Custom as any,
-      R.map((e: MinimalEndpointInstance) => {
+      R.map((ee: MinimalEndpointInstance) => {
         const fetch = (
-          params: TypeOfEndpointInstance<typeof e>["Input"]
+          params: TypeOfEndpointInstance<typeof ee>["Input"]
         ): TE.TaskEither<APIError, any> =>
           liftFetch(
             () =>
               dataProvider.request({
-                method: e.Method,
-                url: e.getPath((params as any).Params),
+                method: ee.Method,
+                url: ee.getPath((params as any).Params),
                 params: (params as any).Query,
                 data: (params as any).Body,
                 responseType: "json",
@@ -241,13 +241,13 @@ const toQueries = <
                   ...(params as any).Headers,
                 },
               }),
-            e.Output.decode
+            ee.Output.decode
           );
 
         return queryShallow<
-          TypeOfEndpointInstance<typeof e>["Input"],
+          TypeOfEndpointInstance<typeof ee>["Input"],
           APIError,
-          TypeOfEndpointInstance<typeof e>["Output"]
+          TypeOfEndpointInstance<typeof ee>["Output"]
         >(fetch, available);
       })
     ) as any,

@@ -12,6 +12,7 @@ import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as E from "fp-ts/lib/Either";
+import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
@@ -58,7 +59,6 @@ import {
   UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
-import * as R from "fp-ts/lib/Record";
 
 const RESOURCE = "events";
 
