@@ -53,11 +53,26 @@ export const Delete = Endpoint({
   Output: SingleKeywordOutput,
 });
 
+export const Distribution = Endpoint({
+  Method: "GET",
+  getPath: () => "/keywords/distribution",
+  Input: {
+    Query: Keyword.ListQuery,
+  },
+  Output: t.strict({
+    data: t.any,
+    total: t.number
+  }),
+});
+
+
 export const keywords = ResourceEndpoints({
   Get,
   List,
   Edit,
   Create,
   Delete,
-  Custom: {},
+  Custom: {
+    Distribution
+  },
 });

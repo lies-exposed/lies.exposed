@@ -75,7 +75,14 @@ export const KeywordEdit: React.FC<EditProps> = (props: EditProps) => {
 
 export const KeywordCreate: React.FC<CreateProps> = (props) => {
   return (
-    <Create title="Create a Keyword" {...props}>
+    <Create
+      title="Create a Keyword"
+      {...props}
+      transform={(r) => ({
+        ...r,
+        color: r.color.replace("#", ""),
+      })}
+    >
       <SimpleForm>
         <TextInput source="tag" type="string" />
         <ColorInput source="color" />

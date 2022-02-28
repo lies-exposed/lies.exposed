@@ -68,6 +68,9 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids }) => {
         <Accordion
           defaultExpanded={expanded}
           expanded={expanded}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
           onChange={(e, expanded) => {
             setExpanded(expanded);
           }}

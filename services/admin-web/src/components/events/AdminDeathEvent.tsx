@@ -3,7 +3,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType,
+  MapInputType
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -25,10 +25,10 @@ import {
   SelectInput,
   SimpleForm,
   TabbedForm,
-  TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
+import ExcerptField from '../Common/ExcerptField';
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
@@ -60,7 +60,7 @@ export const DeathList: React.FC<ListProps> = (props) => (
       <ReferenceField source="payload.victim" reference="actors">
         <AvatarField source="avatar" />
       </ReferenceField>
-      <TextField source="payload.location.coordinates" />
+      <ExcerptField source="excerpt" />
       <DateField source="date" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />

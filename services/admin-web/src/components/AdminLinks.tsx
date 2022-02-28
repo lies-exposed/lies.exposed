@@ -22,7 +22,7 @@ import {
   SimpleForm,
   TextField,
   TextInput,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
