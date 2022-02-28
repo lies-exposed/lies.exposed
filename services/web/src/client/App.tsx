@@ -1,9 +1,9 @@
 import "@liexp/ui/components/Common/Icons/library";
 import { Footer } from "@liexp/ui/components/Footer";
+import { SEOHelmet } from '@liexp/ui/components/SEO';
 import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-import * as Helmet from "react-helmet";
 import { Route, Switch, useLocation } from "react-router-dom";
 import AppHeader from "./components/header/AppHeader";
 import { routes } from "./routes";
@@ -26,8 +26,7 @@ export const App: React.FC = () => {
 
   return (
     <div style={{ height: "100%", display: "flex" }}>
-      
-      <Helmet.Helmet
+      <SEOHelmet
         link={[
           {
             key: 'slick-carousel-css',

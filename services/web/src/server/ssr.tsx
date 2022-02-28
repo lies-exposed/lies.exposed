@@ -1,5 +1,6 @@
 import * as path from "path";
 import { GetLogger } from "@liexp/core/logger";
+import { SEOHelmet } from "@liexp/ui/components/SEO";
 import { getServer } from "@liexp/ui/react/ssr";
 import dotenv from "dotenv";
 import express from "express";
@@ -13,7 +14,13 @@ dotenv.config({
 const webSrvLog = GetLogger("web");
 
 const run = (): void => {
-  const app = getServer(express(), App, path.resolve(__dirname, "../"), routes);
+  const app = getServer(
+    express(),
+    App,
+    SEOHelmet,
+    path.resolve(__dirname, "../"),
+    routes
+  );
 
   webSrvLog.debug.log("port", process.env.PUBLIC_URL);
 

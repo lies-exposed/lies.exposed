@@ -1,4 +1,5 @@
 import { PageContent } from "@liexp/ui/components/PageContent";
+import SEO from "@liexp/ui/components/SEO";
 import { Grid } from "@material-ui/core";
 import * as React from "react";
 import * as Helmet from "react-helmet";
@@ -10,18 +11,10 @@ export default class IndexPage extends React.PureComponent<any> {
       <Grid container style={{ width: "100%" }}>
         <Grid item lg={1} />
         <Grid item lg={10} md={12} xs={12}>
-          <Helmet.Helmet>
-            <link
-              rel="stylesheet"
-              type="text/css"
-              href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-            />
-            <link
-              rel="stylesheet"
-              type="text/css"
-              href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-            />
-          </Helmet.Helmet>
+          <SEO
+            title="lies.exposed"
+            image={`${process.env.PUBLIC_URL}/liexp-log.png`}
+          />
           <PageContent queries={{ pageContent: { path: "index" } }} />
           <Link to="/events">Events</Link>
         </Grid>

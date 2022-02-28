@@ -16,6 +16,7 @@ const ssrLog = GetLogger("ssr");
 export const getServer = (
   app: express.Express,
   App: React.ComponentType,
+  helmet: typeof Helmet,
   publicDir: string,
   routes: Array<{ path: string; route: React.FC }>
 ): express.Express => {
@@ -38,8 +39,8 @@ export const getServer = (
       const html = ReactDOMServer.renderToString(
         sheets.collect(
           <React.StrictMode>
-            <CssBaseline />
             <ThemeProvider theme={ECOTheme}>
+              <CssBaseline />
               <StaticRouter location={req.url} context={context}>
                 <App />
               </StaticRouter>
@@ -53,27 +54,29 @@ export const getServer = (
       } else {
         // Grab the CSS from the sheets.
         const css = sheets.toString();
-        const helmet = Helmet.renderStatic();
+        const h = helmet.renderStatic();
         const fontawesomeCss = dom.css();
-        return res.setHeader("Content-Type", "text/html").send(
-          data
-            .replace(
-              "</head>",
-              [helmet.meta, helmet.title, helmet.script]
-                .map((m) => m.toString())
-                .join("")
-                .concat("</head>")
-            )
-            .replace(
-              '<style id="jss-server-side"></style>',
-              `<style id="jss-server-side">${css}</style>`
-            )
-            .replace(
-              '<style id="font-awesome-css"></style>',
-              `<style id="font-awesome-css">${fontawesomeCss}</style>`
-            )
-            .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
-        );
+        const head = [h.title, h.meta, h.script]
+          .map((m) => m.toString())
+          .join("\n");
+
+        return res
+          .setHeader("Content-Type", "text/html")
+          .send(
+            data
+              .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
+              .replace('<meta id="helmet-head" />', head)
+              .replace(
+                '<style id="jss-server-side"></style>',
+                `<style id="jss-server-side">${css}</style>`
+              )
+              .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
+              .replace(
+                '<style id="font-awesome-css"></style>',
+                `<style id="font-awesome-css">${fontawesomeCss}</style>`
+              )
+              .replace('<div id="root"></div>', `<div id="root">${html}</div>`)
+          );
       }
     });
   };
