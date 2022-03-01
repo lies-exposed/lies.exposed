@@ -118,7 +118,13 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       stringifiedAppEnv
     );
 
-    plugins.push(new webpack.DefinePlugin(stringifiedAppEnv));
+    plugins.push(
+      new webpack.ProgressPlugin({
+        entries: true,
+        percentBy: "entries",
+      }),
+      new webpack.DefinePlugin(stringifiedAppEnv)
+    );
     plugins.push(
       new DotenvWebpackPlugin({
         path: DOTENV_CONFIG_PATH,
