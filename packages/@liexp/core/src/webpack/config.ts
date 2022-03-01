@@ -254,10 +254,11 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     },
     plugins: plugins as any,
   };
+  if (config.mode === "production") {
+    return config;
+  }
 
-  const smp = new SpeedMeasurePlugin({
-    disabled: config.mode === "production",
-  });
+  const smp = new SpeedMeasurePlugin({});
 
   return smp.wrap(config);
 };
