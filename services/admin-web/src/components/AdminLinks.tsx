@@ -79,8 +79,8 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
         <>
           <Button
             label="resources.links.actions.update_metadata"
-            onClick={async () => {
-              await apiProvider
+            onClick={() => {
+              void apiProvider
                 .put(`/links/${props.id}/metadata`)
                 .then(() => refresh());
             }}

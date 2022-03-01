@@ -4,10 +4,9 @@ import { ContentWithSidebar } from "@liexp/ui/components/ContentWithSidebar";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { ProjectsMap } from "@liexp/ui/components/Map/ProjectsMap";
 import { PageContent } from "@liexp/ui/components/PageContent";
-import SEO from "@liexp/ui/components/SEO";
 import { TableOfContents } from "@liexp/ui/components/TableOfContents";
 import ProjectList from "@liexp/ui/components/lists/ProjectList";
-import { pageContentByPath, Queries } from "@liexp/ui/providers/DataProvider";
+import { Queries } from "@liexp/ui/providers/DataProvider";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { navigate, RouteComponentProps } from "@reach/router";
@@ -53,7 +52,7 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                   renderInput={(params: any) => (
                     <TextField {...params} label="Project" variant="outlined" />
                   )}
-                  onSelect={async (event: any) => {
+                  onSelect={(event: any) => {
                     if (this.props.navigate !== undefined) {
                       // await navigateTo(this.props.navigate, "projects", item);
                     }
@@ -66,8 +65,8 @@ export default class ProjectsPage extends React.PureComponent<RouteComponentProp
                 />
                 <ProjectList
                   projects={projects.map((p) => ({ ...p, selected: false }))}
-                  onProjectClick={async (p) => {
-                    await navigate(`/projects/${p.id}`);
+                  onProjectClick={(p) => {
+                    void navigate(`/projects/${p.id}`);
                   }}
                 />
               </MainContent>
