@@ -12,6 +12,7 @@ import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { GetLogger } from "../logger";
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const webpackLogger = GetLogger("webpack");
 
@@ -178,7 +179,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         }
       : {};
 
-  return {
+  const config = {
     mode,
     ...devServerConf,
     target: opts.target,
@@ -207,7 +208,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
               loader: "ts-loader",
               options: {
                 context: opts.cwd,
-                projectReferences: true,
+                projectReferences: false,
                 transpileOnly: true,
                 // getCustomTransformers: () => ({
                 //   before: [
@@ -253,6 +254,12 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     },
     plugins: plugins as any,
   };
+
+  const smp = new SpeedMeasurePlugin({
+    disabled: config.mode === "production",
+  });
+
+  return smp.wrap(config);
 };
 
 const defineEnv = <P extends t.Props>(

@@ -39,5 +39,7 @@ export const getWebConfig = <A extends Record<string, t.Mixed>>(
       },
     ]) as any
   );
+
+
   return config;
 };
