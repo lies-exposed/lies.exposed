@@ -46,14 +46,14 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
       render={QR.fold(Loader, ErrorBox, ({ group, groupsMembers, events }) => {
         return (
           <MainContent>
-            <SEO title={group.name} />
+            <SEO title={group.name} image="/liexp-logo.png" />
             <GroupPageContent
               {...group}
               groupsMembers={groupsMembers.data}
               events={events.data}
               funds={[]}
               projects={[]}
-              onMemberClick={async (a) => {
+              onMemberClick={(a) => {
                 navigateTo.actors({
                   id: a.id,
                 });

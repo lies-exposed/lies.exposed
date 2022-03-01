@@ -47,7 +47,7 @@ export default class GroupsPage extends React.PureComponent<RouteComponentProps>
                   ...a,
                   selected: false,
                 }))}
-                onItemClick={async (g) => {
+                onItemClick={(g) => {
                   navigateTo.groups({
                     id: g.id,
                   });

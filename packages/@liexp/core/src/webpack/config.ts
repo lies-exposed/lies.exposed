@@ -156,6 +156,28 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       }
     : {};
 
+  const optimization: webpack.Configuration["optimization"] =
+    mode === "production"
+      ? {
+          chunkIds: "deterministic",
+          minimize: true,
+          splitChunks: {
+            cacheGroups: {
+              liexp: {
+                name: "@liexp",
+                test: /[\\/]@liexp[\\/]/,
+                chunks: "all",
+              },
+              vendor: {
+                name: "node_vendors",
+                test: /[\\/]node_modules[\\/]/,
+                chunks: "all",
+              },
+            },
+          },
+        }
+      : {};
+
   return {
     mode,
     ...devServerConf,
@@ -170,7 +192,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       publicPath: opts.output?.publicPath ?? "/",
       filename: "[name].js",
     },
-
+    optimization,
     module: {
       rules: [
         {
@@ -199,7 +221,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           ],
         },
         {
-          test: /\.(ttf|svg|eot|woff|woff2|otf|png|gif)$/,
+          test: /\.(png|gif)$/,
           type: "asset/inline",
         },
         {
