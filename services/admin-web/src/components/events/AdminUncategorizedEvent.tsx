@@ -120,7 +120,7 @@ export const UncategorizedEventEditTab: React.FC<EditProps> = (
     <FormTab label="Payload" {...props}>
       <TextInput
         source="type"
-        defaultValue={Events.Uncategorized.UncategorizedType.value}
+        defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
         hidden={true}
       />
       <TextInput source="payload.title" />
@@ -173,7 +173,7 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => (
         <BooleanInput source="draft" defaultValue={false} />
         <TextInput
           source="type"
-          defaultValue={Events.Uncategorized.UncategorizedType.value}
+          defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
           hidden={true}
         />
         <TextInput source="payload.title" validation={[required()]} />

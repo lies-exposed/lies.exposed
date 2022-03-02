@@ -138,7 +138,7 @@ export const createEventQuery =
               media,
             });
           }
-          case http.Events.Uncategorized.UncategorizedType.value:
+          case http.Events.Uncategorized.UNCATEGORIZED.value:
           default: {
             const { excerpt, type, draft, date, payload } = input;
             const uncategorizedEvent: DeepPartial<EventV2Entity> = {

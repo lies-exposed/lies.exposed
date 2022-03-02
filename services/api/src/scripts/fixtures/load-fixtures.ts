@@ -1,6 +1,6 @@
 import { fc } from "@liexp/core/tests";
 import { URL } from "@liexp/shared/io/http/Common/URL";
-import { UncategorizedType } from "@liexp/shared/io/http/Events/Uncategorized";
+import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
@@ -145,7 +145,7 @@ const run = (): Promise<void> => {
                     events.map((e) => ({
                       ...e,
                       excerpt: e.excerpt as any,
-                      type: UncategorizedType.value,
+                      type: UNCATEGORIZED.value,
                       payload: {
                         ...e.payload,
                         groupsMembers: results.map((g) => g.id) as any,

@@ -69,7 +69,7 @@ export type EventPayload = t.TypeOf<typeof EventPayload>;
 export const EventType = t.union(
   [
     Death.DEATH,
-    Uncategorized.UncategorizedType,
+    Uncategorized.UNCATEGORIZED,
     ScientificStudy.ScientificStudyType,
     Patent.PATENT,
     Documentary.DOCUMENTARY,

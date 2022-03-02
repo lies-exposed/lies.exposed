@@ -183,7 +183,7 @@ export const editEventQuery =
               ...commonData,
             });
           }
-          case http.Events.Uncategorized.UncategorizedType.value:
+          case http.Events.Uncategorized.UNCATEGORIZED.value:
           default: {
             const { type, excerpt, draft, date, body, payload } = input;
 

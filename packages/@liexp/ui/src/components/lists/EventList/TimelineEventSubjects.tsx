@@ -41,7 +41,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       ? [e.payload.victim]
       : e.type === Events.ScientificStudy.ScientificStudyType.value
       ? e.payload.authors
-      : e.type === Events.Uncategorized.UncategorizedType.value
+      : e.type === Events.Uncategorized.UNCATEGORIZED.value
       ? e.payload.actors
       : e.type === Events.Patent.PATENT.value
       ? e.payload.owners.actors
@@ -50,7 +50,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       : [];
 
   const groups =
-    e.type === Events.Uncategorized.UncategorizedType.value
+    e.type === Events.Uncategorized.UNCATEGORIZED.value
       ? e.payload.groups
       : e.type === Events.ScientificStudy.ScientificStudyType.value
       ? [e.payload.publisher]
@@ -60,7 +60,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       ? [...e.payload.authors.groups, ...e.payload.subjects.groups]
       : [];
   const groupsMembers =
-    e.type === Events.Uncategorized.UncategorizedType.value
+    e.type === Events.Uncategorized.UNCATEGORIZED.value
       ? e.payload.groupsMembers
       : [];
 

@@ -121,7 +121,7 @@ export const EventList: React.FC<ListProps> = (props) => (
                 {r.type}
               </Typography>{" "}
               {[
-                io.http.Events.Uncategorized.UncategorizedType.value,
+                io.http.Events.Uncategorized.UNCATEGORIZED.value,
                 io.http.Events.ScientificStudy.ScientificStudyType.value,
               ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
@@ -146,7 +146,7 @@ export const EventList: React.FC<ListProps> = (props) => (
         label="actors"
         source="payload"
         render={(r: Record | undefined) => {
-          if (r?.type === Events.Uncategorized.UncategorizedType.value) {
+          if (r?.type === Events.Uncategorized.UNCATEGORIZED.value) {
             return r.payload.actors.length;
           }
 

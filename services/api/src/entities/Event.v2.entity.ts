@@ -1,5 +1,5 @@
 import * as http from "@liexp/shared/io/http";
-import { UncategorizedType } from "@liexp/shared/io/http/Events/Uncategorized";
+import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import {
   Column,
   CreateDateColumn,
@@ -36,7 +36,7 @@ export class EventV2Entity {
   @Column({
     type: "enum",
     enum: http.Events.Event.types.map((eventC) => eventC.type.props.type.value),
-    default: UncategorizedType.value,
+    default: UNCATEGORIZED.value,
   })
   type: http.Events.Event["type"];
 

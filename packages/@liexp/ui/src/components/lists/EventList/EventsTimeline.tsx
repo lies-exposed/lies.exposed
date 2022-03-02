@@ -160,7 +160,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         queryParams.type?.includes(Death.DEATH.value)
           ? searchEvents.totals.deaths
           : 0,
-        queryParams.type?.includes(Uncategorized.UncategorizedType.value)
+        queryParams.type?.includes(Uncategorized.UNCATEGORIZED.value)
           ? searchEvents.totals.uncategorized
           : 0,
         queryParams.type?.includes(ScientificStudy.ScientificStudyType.value)

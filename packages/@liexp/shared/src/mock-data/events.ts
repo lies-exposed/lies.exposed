@@ -15,7 +15,7 @@ const today = new Date();
 // events
 export const firstEvent: Events.Uncategorized.Uncategorized = {
   id: uuid() as any,
-  type: Events.Uncategorized.UncategorizedType.value,
+  type: Events.Uncategorized.UNCATEGORIZED.value,
   payload: {
     title: "First Event",
     actors: [goodActor.id],
@@ -38,7 +38,7 @@ export const firstEvent: Events.Uncategorized.Uncategorized = {
 
 export const secondEvent: Events.Event = {
   id: uuid() as any,
-  type: Events.Uncategorized.UncategorizedType.value,
+  type: Events.Uncategorized.UNCATEGORIZED.value,
   draft: false,
   payload: {
     title: "Second Event",
@@ -61,7 +61,7 @@ export const secondEvent: Events.Event = {
 
 export const thirdEvent: Events.Event = {
   id: uuid() as any,
-  type: Events.Uncategorized.UncategorizedType.value,
+  type: Events.Uncategorized.UNCATEGORIZED.value,
   payload: {
     title: "Third Event",
     actors: [badActor.id],
@@ -84,7 +84,7 @@ export const thirdEvent: Events.Event = {
 
 export const fourthEvent: Events.Event = {
   id: uuid() as any,
-  type: Events.Uncategorized.UncategorizedType.value,
+  type: Events.Uncategorized.UNCATEGORIZED.value,
   payload: {
     title: "Fourth Event",
     actors: [goodActor.id],

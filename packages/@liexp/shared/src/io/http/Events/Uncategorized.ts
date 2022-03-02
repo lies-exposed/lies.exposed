@@ -5,13 +5,13 @@ import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { Point, UUID } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 
-export const UncategorizedType = t.literal("Uncategorized");
-export type UncategorizedType = t.TypeOf<typeof UncategorizedType>;
+export const UNCATEGORIZED = t.literal("Uncategorized");
+export type UNCATEGORIZED = t.TypeOf<typeof UNCATEGORIZED>;
 
 export const CreateEventBody = t.strict(
   {
     ...CreateEventCommon.type.props,
-    type: UncategorizedType,
+    type: UNCATEGORIZED,
     payload: t.strict({
       title: t.string,
       actors: t.array(UUID),
@@ -29,7 +29,7 @@ export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 export const EditEventBody = nonEmptyRecordFromType(
   {
     ...EditEventCommon.type.props,
-    type: UncategorizedType,
+    type: UNCATEGORIZED,
     payload: t.strict({
       title: t.string,
       location: optionFromUndefined(Point),
@@ -61,7 +61,7 @@ export type UncategorizedV2Payload = t.TypeOf<typeof UncategorizedV2Payload>;
 export const Uncategorized = t.strict(
   {
     ...EventCommon.type.props,
-    type: UncategorizedType,
+    type: UNCATEGORIZED,
     payload: UncategorizedV2Payload,
   },
   "UncategorizedEventV2"

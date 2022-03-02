@@ -167,7 +167,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     patents: boolean;
   }>({
     deaths: !!query.type?.includes(Death.DEATH.value),
-    uncategorized: !!query.type?.includes(Uncategorized.UncategorizedType.value),
+    uncategorized: !!query.type?.includes(Uncategorized.UNCATEGORIZED.value),
     scientificStudies: !!query.type?.includes(ScientificStudyType.value),
     patents: !!query.type?.includes(Patent.PATENT.value),
   });
@@ -257,7 +257,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             }
 
             if (f.uncategorized) {
-              type.push(Uncategorized.UncategorizedType.value);
+              type.push(Uncategorized.UNCATEGORIZED.value);
             }
 
             setTypeFilters(f);
