@@ -13,7 +13,7 @@ export interface GroupPageContentProps extends Group.Group {
   groupsMembers: GroupMember[];
   events: Events.Event[];
   projects: Project.Project[];
-  funds: Events.ProjectTransaction[];
+  funds: any[];
   onMemberClick: (m: Actor.Actor) => void;
 }
 

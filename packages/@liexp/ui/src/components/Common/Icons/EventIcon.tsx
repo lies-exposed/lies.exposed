@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Death,
+  Documentary,
   Event,
   Patent,
-  ScientificStudy
+  ScientificStudy,
 } from "@liexp/shared/io/http/Events";
 import { SvgIconProps } from "@material-ui/core";
 import { EventNote } from "@material-ui/icons";
@@ -15,7 +16,7 @@ interface EventIconProps extends SvgIconProps {
 
 export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
   switch (type) {
-    case ScientificStudy.ScientificStudyType.value:
+    case ScientificStudy.SCIENTIFIC_STUDY.value:
       return (
         <FontAwesomeIcon
           {...props}
@@ -40,6 +41,15 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
           mask={undefined}
           icon={"barcode"}
           style={{ ...props.style, color: "purple" }}
+        />
+      );
+    case Documentary.DOCUMENTARY.value:
+      return (
+        <FontAwesomeIcon
+          {...props}
+          mask={undefined}
+          icon={"film"}
+          style={{ ...props.style, color: "lightblue" }}
         />
       );
     default:

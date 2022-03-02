@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -22,7 +22,7 @@ export const MakeListScientificStudyRoute: Route = (
 
       return pipe(
         searchEventV2Query({ db, logger, env, ...ctx })({
-          type: O.some([ScientificStudyType.value]),
+          type: O.some([SCIENTIFIC_STUDY.value]),
           groups: publishedBy,
           actors: O.none,
           groupsMembers: O.none,

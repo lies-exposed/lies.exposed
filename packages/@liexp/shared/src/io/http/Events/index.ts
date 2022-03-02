@@ -70,7 +70,7 @@ export const EventType = t.union(
   [
     Death.DEATH,
     Uncategorized.UNCATEGORIZED,
-    ScientificStudy.ScientificStudyType,
+    ScientificStudy.SCIENTIFIC_STUDY,
     Patent.PATENT,
     Documentary.DOCUMENTARY,
   ],

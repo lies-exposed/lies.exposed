@@ -1,4 +1,7 @@
-import { eqByUUID, ordEventDate } from "@liexp/shared/helpers/event";
+import {
+  eqByUUID,
+  ordEventDate,
+} from "@liexp/shared/helpers/event";
 import {
   Actor,
   Common,
@@ -526,24 +529,29 @@ export function createEventNetworkGraphProps({
 
       if (isBetweenDateRange) {
         const eventTitle = e.type === "Death" ? "Died" : e.payload.title;
+
         const eventActors =
-          e.type === "Death"
+          e.type === Events.Death.DEATH.value
             ? e.payload.victim !== undefined
               ? [e.payload.victim]
               : []
-            : e.type === "ScientificStudy"
+            : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
             ? e.payload.authors
             : e.type === Events.Patent.PATENT.value
             ? e.payload.owners.actors
+            : e.type === Events.Documentary.DOCUMENTARY.value
+            ? [...e.payload.authors.actors, ...e.payload.subjects.actors]
             : e.payload.actors;
 
         const eventGroups =
           e.type === Events.Death.DEATH.value
             ? []
-            : e.type === Events.ScientificStudy.ScientificStudyType.value
+            : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
             ? [e.payload.publisher]
             : e.type === Events.Patent.PATENT.value
             ? e.payload.owners.groups
+            :  e.type === Events.Documentary.DOCUMENTARY.value
+            ? [...e.payload.authors.groups, ...e.payload.subjects.groups]
             : e.payload.groups;
 
         const eventKeywords = e.keywords;

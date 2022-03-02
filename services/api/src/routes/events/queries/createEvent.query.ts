@@ -112,7 +112,7 @@ export const createEventQuery =
               media,
             });
           }
-          case http.Events.ScientificStudy.ScientificStudyType.value: {
+          case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
             const { type, draft, excerpt, date, payload } = input;
             return TE.right({
               type,

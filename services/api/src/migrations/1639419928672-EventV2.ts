@@ -1,5 +1,5 @@
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
@@ -135,7 +135,7 @@ export class EventV21639419928672 implements MigrationInterface {
           (s): EventV2Entity => ({
             ...s,
             draft: false,
-            type: ScientificStudyType.value,
+            type: SCIENTIFIC_STUDY.value,
             payload: {
               title: s.title,
               url: s.url as any,

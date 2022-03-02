@@ -39,7 +39,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   const actors =
     e.type === Events.Death.DEATH.value
       ? [e.payload.victim]
-      : e.type === Events.ScientificStudy.ScientificStudyType.value
+      : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
       ? e.payload.authors
       : e.type === Events.Uncategorized.UNCATEGORIZED.value
       ? e.payload.actors
@@ -52,7 +52,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   const groups =
     e.type === Events.Uncategorized.UNCATEGORIZED.value
       ? e.payload.groups
-      : e.type === Events.ScientificStudy.ScientificStudyType.value
+      : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
       ? [e.payload.publisher]
       : e.type === Events.Patent.PATENT.value
       ? e.payload.owners.groups
@@ -75,7 +75,7 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
             onActorClick={onActorClick}
           />
         );
-      case Events.ScientificStudy.ScientificStudyType.value:
+      case Events.ScientificStudy.SCIENTIFIC_STUDY.value:
         return (
           <GroupsList
             style={style}

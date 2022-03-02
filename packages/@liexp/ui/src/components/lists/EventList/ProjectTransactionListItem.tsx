@@ -1,10 +1,10 @@
-import { Actor, Common, Events, Group } from "@liexp/shared/io/http";
+import { Actor, Common, Group } from "@liexp/shared/io/http";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as React from "react";
 import { ListItemProps } from "../../Common/List";
 
 export interface ProjectTransactionListItemProps {
-  event: Events.ProjectTransaction;
+  event: any;
   selected: boolean;
   actors: Actor.Actor[];
   groups: Group.Group[];

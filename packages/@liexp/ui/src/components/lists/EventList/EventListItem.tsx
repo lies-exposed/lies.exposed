@@ -118,7 +118,7 @@ export const EventListItem: React.FC<EventListItemProps> = ({
     case Events.Death.DEATH.value: {
       return <DeathListItem item={e} {...props} />;
     }
-    case Events.ScientificStudy.ScientificStudyType.value: {
+    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
       return <ScientificStudyListItem item={e} {...props} />;
     }
     case Events.Patent.PATENT.value: {

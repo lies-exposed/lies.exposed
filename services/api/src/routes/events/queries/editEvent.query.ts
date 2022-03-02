@@ -164,7 +164,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.ScientificStudy.ScientificStudyType.value: {
+          case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
             const { type, date, draft, excerpt, body, payload } = input;
             const baseProps = optionalsToUndefined({
               date,

@@ -76,7 +76,7 @@ export const DocumentaryReleaseTitle: React.FC<{
 }> = ({ record }) => {
   return (
     <span>
-      Documentary: {record.payload.title} on {record.date}
+      Documentary: {record.payload.title}
     </span>
   );
 };

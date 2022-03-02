@@ -113,9 +113,6 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             /> */}
           </div>
           <div>
-            <Typography variant="h4">
-              Impacts: {metadata.ProjectImpact.length}
-            </Typography>
             [tabella degli impatti del progetto]
           </div>
           <div>

@@ -27,6 +27,7 @@ import { AdminKeywordResource } from "./components/AdminKeyword";
 import { AdminLinksResource } from "./components/AdminLinks";
 import { MediaCreate, MediaEdit, MediaList } from "./components/AdminMedia";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
+import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import {
   DeathCreate,
   DeathEdit,
@@ -48,7 +49,6 @@ import {
   ScientificStudyEdit
 } from "./components/events/AdminScientificStudyEvent";
 import { UncategorizedEventCreate } from "./components/events/AdminUncategorizedEvent";
-import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import englishMessages from "./i18n/en-US";
 import "./index.css";
 

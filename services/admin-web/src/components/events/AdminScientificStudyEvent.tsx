@@ -92,7 +92,7 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
     <SimpleForm>
       <TextInput
         source="type"
-        defaultValue={ScientificStudy.ScientificStudyType.value}
+        defaultValue={ScientificStudy.SCIENTIFIC_STUDY.value}
         hidden
       />
       <WebPreviewButton resource="/dashboard/events" source="id" />
@@ -100,7 +100,7 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
       <TextInput source="payload.title" />
       <URLMetadataInput
         source="payload.url"
-        type={ScientificStudy.ScientificStudyType.value}
+        type={ScientificStudy.SCIENTIFIC_STUDY.value}
       />
       <DateInput source="date" />
       <ReactPageInput source="excerpt" onlyText />
@@ -128,7 +128,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
       {/* <BooleanInput source="draft" defaultValue={false} /> */}
       <URLMetadataInput
         source="url"
-        type={ScientificStudy.ScientificStudyType.value}
+        type={ScientificStudy.SCIENTIFIC_STUDY.value}
       />
       {/* <TextInput source="payload.title" />
       <DateInput source="date" />

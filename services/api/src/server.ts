@@ -23,6 +23,7 @@ import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
+import { MakeDocumentaryReleaseRoutes } from '@routes/events/documentary/documentary.routes';
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
@@ -40,7 +41,6 @@ import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDBOptions } from "@utils/getDBOptions";
-import { MakeDocumentaryReleaseRoutes } from '@routes/events/documentary/documentary.routes';
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {

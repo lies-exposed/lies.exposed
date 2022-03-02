@@ -3,17 +3,20 @@ import { http } from "@liexp/shared/io";
 import { Events } from "@liexp/shared/io/http";
 import { Event } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
-import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { DOCUMENTARY } from '@liexp/shared/io/http/Events/Documentary';
+import { PATENT } from '@liexp/shared/io/http/Events/Patent';
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { UNCATEGORIZED } from '@liexp/shared/io/http/Events/Uncategorized';
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
 import * as R from "fp-ts/lib/Record";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
   BooleanField,
@@ -101,7 +104,7 @@ export const EventList: React.FC<ListProps> = (props) => (
   >
     <Datagrid
       rowClick={(_props, _id, record) => {
-        if (record.type === ScientificStudyType.value) {
+        if (record.type === SCIENTIFIC_STUDY.value) {
           return `scientific-studies/${record.id}`;
         }
         if (record.type === DEATH.value) {
@@ -122,7 +125,7 @@ export const EventList: React.FC<ListProps> = (props) => (
               </Typography>{" "}
               {[
                 io.http.Events.Uncategorized.UNCATEGORIZED.value,
-                io.http.Events.ScientificStudy.ScientificStudyType.value,
+                io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
               ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
               ) : (
@@ -150,7 +153,7 @@ export const EventList: React.FC<ListProps> = (props) => (
             return r.payload.actors.length;
           }
 
-          if (r?.type === Events.ScientificStudy.ScientificStudyType.value) {
+          if (r?.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value) {
             return r.payload.authors.length;
           }
 
@@ -207,15 +210,15 @@ export const EventList: React.FC<ListProps> = (props) => (
 
 const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
   switch (record.type) {
-    case "Uncategorized":
+    case UNCATEGORIZED.value:
       return <UncategorizedEventTitle record={record} />;
-    case "ScientificStudy":
+    case SCIENTIFIC_STUDY.value:
       return <ScientificStudyEventTitle record={record} />;
-    case "Death":
+    case DEATH.value:
       return <DeathEventTitle record={record} />;
-    case "Patent":
+    case PATENT.value:
       return <PatentEventTitle record={record} />;
-    case "DocumentaryRelease":
+    case DOCUMENTARY.value:
       return <DocumentaryReleaseTitle record={record} />;
   }
 };

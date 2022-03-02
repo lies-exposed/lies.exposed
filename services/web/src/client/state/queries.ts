@@ -122,7 +122,7 @@ const reduceEvent = (
   acc: InfiniteEventListMetadata,
   e: Events.Event
 ): InfiniteEventListMetadata => {
-  if (e.type === Events.ScientificStudy.ScientificStudyType.value) {
+  if (e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value) {
     return {
       ...acc,
       groups:

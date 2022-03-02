@@ -12,7 +12,7 @@ const createScientificStudyProps = propsOmit(
 
 export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.ScientificStudy.CreateScientificStudyBody> =
   tests.getArbitrary(t.strict(createScientificStudyProps)).map((body) => ({
-    type: "ScientificStudy",
+    type: http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
     draft: false,
     date: tests.fc.sample(DateArb, 1)[0],
     excerpt: {},

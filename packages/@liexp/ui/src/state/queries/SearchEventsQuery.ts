@@ -34,6 +34,7 @@ export interface EventTotals {
   deaths: number;
   scientificStudies: number;
   patents: number;
+  documentaries: number;
 }
 
 export interface SearchEventQueryResult {
@@ -193,6 +194,7 @@ const mergeState = (
           scientificStudies: update.events.totals.scientificStudies,
           uncategorized: update.events.totals.uncategorized,
           patents: update.events.totals.patents,
+          documentaries: update.events.totals.documentaries
         },
       })),
       O.getOrElse(
@@ -329,7 +331,7 @@ const toSearchEvent = (
               ...e,
               payload: {
                 ...e.payload,
-                media: media[0],
+                media: media.find((m) => m.id === e.payload.media) ??  media[0],
                 authors: {
                   actors: actors.filter((a) =>
                     e.payload.authors.actors.includes(a.id)

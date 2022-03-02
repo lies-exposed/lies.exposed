@@ -266,11 +266,16 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
     ? e.payload.groupsMembers
     : [];
 
+  const eventMedia =
+    Events.Documentary.DOCUMENTARY.value === e.type
+      ? [e.payload.media]
+      : e.media;
+
   return {
     actors: eventActors,
     groups: eventGroups,
     groupsMembers: eventGroupMembers,
-    media: e.media,
+    media: eventMedia,
     keywords: e.keywords,
   };
 };
