@@ -10,7 +10,7 @@ import { formatDateToShort } from "@liexp/shared/utils/date";
 import { Box, Grid, Typography, useTheme } from "@material-ui/core";
 import * as React from "react";
 import { ActorsBox } from "./ActorsBox";
-import Editor from "./Common/Editor";
+import Editor, { getTextContentsCapped } from "./Common/Editor";
 import { GroupMembersBox } from "./GroupMembersBox";
 import { GroupsBox } from "./GroupsBox";
 import { KeywordsBox } from "./KeywordsBox";
@@ -41,8 +41,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
     <MainContent>
       <SEO
         title={event.payload.title}
-        description={""}
-        image={"/liexp-log.png"}
+        description={
+          event.excerpt !== undefined ? getTextContentsCapped(event.excerpt as any, 230) : ""
+        }
+        image={`${process.env.PUBLIC_URL}liexp-logo.png`}
       />
       <Grid container spacing={2}>
         <Grid item xs={12}>

@@ -13,7 +13,7 @@ export default class IndexPage extends React.PureComponent<any> {
         <Grid item lg={10} md={12} xs={12}>
           <SEO
             title="lies.exposed"
-            image={`${process.env.PUBLIC_URL}/liexp-log.png`}
+            image={`${process.env.PUBLIC_URL}/liexp-logo.png`}
           />
           <PageContent queries={{ pageContent: { path: "index" } }} />
           <KeywordsDistributionGraph />

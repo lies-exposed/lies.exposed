@@ -137,10 +137,6 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     plugins.push(new ReactRefreshWebpackPlugin());
   }
 
-  if (mode === "production") {
-    plugins.push(new MiniCssExtractPlugin());
-  }
-
   if (buildENV.BUNDLE_STATS) {
     plugins.push(
       new BundleAnalyzerPlugin({
@@ -233,10 +229,12 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         },
         {
           test: /\.css$/,
-          use:
+          use: [
             mode === "development"
-              ? ["style-loader", "css-loader"]
-              : [MiniCssExtractPlugin.loader, "css-loader"],
+              ? "style-loader"
+              : MiniCssExtractPlugin.loader,
+            "css-loader",
+          ],
         },
       ],
     },
@@ -260,13 +258,18 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     },
     plugins: plugins as any,
   };
-  if (config.mode === "production") {
-    return config;
+
+  // if (config.mode === "production") {
+  //   return config;
+  // }
+
+  const configWithTimeMeasures = new SpeedMeasurePlugin({}).wrap(config);
+
+  if (mode === "production") {
+    configWithTimeMeasures.plugins.push(new MiniCssExtractPlugin({}));
   }
 
-  const smp = new SpeedMeasurePlugin({});
-
-  return smp.wrap(config);
+  return configWithTimeMeasures;
 };
 
 const defineEnv = <P extends t.Props>(

@@ -35,7 +35,7 @@ export const PageContent = withQueries(({ queries }): React.ReactElement => {
         return (
           <div className="page-content" style={{ marginBottom: 100 }}>
             <Helmet>
-              <SEO title={title} description={body} image="/liexp-log.png" />
+              <SEO title={title} description={body} image={`${process.env.PUBLIC_URL}liexp-logo.png`} />
             </Helmet>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <MarkdownRenderer>{body}</MarkdownRenderer>

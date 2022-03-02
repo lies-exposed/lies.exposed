@@ -6,7 +6,7 @@ import SEO from "@liexp/ui/components/SEO";
 import { Queries } from "@liexp/ui/providers/DataProvider";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { Box } from '@material-ui/core';
+import { Box } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { useQueries } from "avenger/lib/react";
 import { pipe } from "fp-ts/lib/function";
@@ -34,8 +34,11 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
     queries,
     QR.fold(LazyFullSizeLoader, ErrorBox, ({ keyword }) => {
       return (
-        <Box display="flex" flexDirection="column" height="100%"> 
-          <SEO title={"keywords"} image="/liexp-log.png" />
+        <Box display="flex" flexDirection="column" height="100%">
+          <SEO
+            title={"keywords"}
+            image={`${process.env.PUBLIC_URL}liexp-logo.png`}
+          />
           <KeywordPageContent {...keyword} />
           <EventsTimeline
             hash={`keyword-${keywordId}`}
