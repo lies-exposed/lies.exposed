@@ -6,8 +6,8 @@ import { ParentSize } from "@vx/responsive";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { useNavigateTo } from "client/utils/history.utils";
-import { useNavigateToResource } from "client/utils/location.utils";
+import { queryToHash, useNavigateTo } from "../utils/history.utils";
+import { useNavigateToResource } from "../utils/location.utils";
 
 const KeywordsDistributionGraphComponent: React.FC<{ data: any[] }> = ({
   data,
@@ -28,7 +28,10 @@ const KeywordsDistributionGraphComponent: React.FC<{ data: any[] }> = ({
               color: d.color,
             }))}
             onClick={(d) => {
-              navigateTo.keywords({ id: d.id });
+              navigateTo.events(
+                {},
+                { hash: queryToHash({ keywords: [d.id] }) }
+              );
             }}
           />
         </>

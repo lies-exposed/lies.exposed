@@ -31,6 +31,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
     >
       <EventListItemBase
         title={item.payload.title}
+        url={item.payload.source}
         excerpt={item.excerpt}
         keywords={item.keywords}
         media={item.media}

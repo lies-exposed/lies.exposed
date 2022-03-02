@@ -4,16 +4,16 @@ import { Events } from "@liexp/shared/io/http";
 import { Event } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
-import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as E from "fp-ts/lib/Either";
-import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
+import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import {
   BooleanField,
@@ -35,7 +35,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -47,16 +47,17 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
+import { DocumentaryReleaseTitle } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -214,6 +215,8 @@ const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
       return <DeathEventTitle record={record} />;
     case "Patent":
       return <PatentEventTitle record={record} />;
+    case "DocumentaryRelease":
+      return <DocumentaryReleaseTitle record={record} />;
   }
 };
 

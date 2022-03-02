@@ -11,6 +11,7 @@ const config = getWebConfig({
     PUBLIC_URL: t.string,
     API_URL: t.string,
     DEBUG: t.string,
+    WEB_URL: t.string
   })),
   envFileDir: __dirname,
   port,
@@ -18,7 +19,7 @@ const config = getWebConfig({
     publicPath: '/admin/'
   },
   devServer: true,
-  hot: true,
+  hot: false,
   target: "web",
 });
 

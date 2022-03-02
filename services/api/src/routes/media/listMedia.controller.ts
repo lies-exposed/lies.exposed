@@ -14,30 +14,42 @@ import { getORMOptions } from "@utils/orm.utils";
 export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Media.List,
-    ({ query: { events, ids, description, ...query } }) => {
+    ({ query: { events, ids, description, type, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
       );
 
-      ctx.logger.debug.log(`Find Options %O`, { ...findOptions, events });
+      ctx.logger.debug.log(`Find Options %O`, {
+        events,
+        ids,
+        description,
+        type,
+        ...findOptions,
+      });
 
       const findTask = pipe(
-        ctx.db.manager.createQueryBuilder(MediaEntity, "image"),
+        ctx.db.manager.createQueryBuilder(MediaEntity, "media"),
         (q) => {
           if (O.isSome(description)) {
-            return q.where("lower(image.description) LIKE :description", {
+            return q.where("lower(media.description) LIKE :description", {
               description: `%${description.value}%`,
             });
           }
           if (O.isSome(ids)) {
-            return q.where("image.id IN (:...ids)", {
+            return q.where("media.id IN (:...ids)", {
               ids: ids.value,
             });
           }
           if (O.isSome(events)) {
             return q.where("events.id IN (:...events)", {
               events: events.value,
+            });
+          }
+
+          if (O.isSome(type)) {
+            return q.where("media.type IN (:...types)", {
+              types: type.value,
             });
           }
           return q;
@@ -49,7 +61,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
               findOptions.order,
               R.reduceWithIndex({}, (k, acc, v) => ({
                 ...acc,
-                [`image.${k}`]: v,
+                [`media.${k}`]: v,
               }))
             );
             return q.orderBy(order);

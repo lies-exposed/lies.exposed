@@ -45,6 +45,8 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       ? e.payload.actors
       : e.type === Events.Patent.PATENT.value
       ? e.payload.owners.actors
+      : e.type === Events.Documentary.DOCUMENTARY.value
+      ? [...e.payload.authors.actors, ...e.payload.subjects.actors]
       : [];
 
   const groups =
@@ -54,6 +56,8 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       ? [e.payload.publisher]
       : e.type === Events.Patent.PATENT.value
       ? e.payload.owners.groups
+      : e.type === Events.Documentary.DOCUMENTARY.value
+      ? [...e.payload.authors.groups, ...e.payload.subjects.groups]
       : [];
   const groupsMembers =
     e.type === Events.Uncategorized.UncategorizedType.value

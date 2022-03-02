@@ -119,9 +119,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
                   {...p}
                   metadata={{
                     Arrest: [],
-                    ProjectImpact: [],
                     Protest: [],
-                    ProjectTransaction: [],
                     Death: [],
                     Condemned: [],
                     PublicAnnouncement: [],

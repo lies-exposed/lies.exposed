@@ -40,6 +40,7 @@ import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDBOptions } from "@utils/getDBOptions";
+import { MakeDocumentaryReleaseRoutes } from '@routes/events/documentary/documentary.routes';
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -164,6 +165,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   MakeDeathEventsRoutes(router, ctx);
   MakeScientificStudyRoutes(router, ctx);
   MakePatentEventsRoutes(router, ctx);
+  MakeDocumentaryReleaseRoutes(router, ctx);
 
   // links
   MakeLinkRoutes(router, ctx);

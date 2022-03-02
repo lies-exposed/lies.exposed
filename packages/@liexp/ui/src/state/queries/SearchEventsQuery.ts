@@ -323,6 +323,35 @@ const toSearchEvent = (
             },
           ]);
         }
+        case Events.EventType.types[4].value: {
+          return acc.concat([
+            {
+              ...e,
+              payload: {
+                ...e.payload,
+                media: media[0],
+                authors: {
+                  actors: actors.filter((a) =>
+                    e.payload.authors.actors.includes(a.id)
+                  ),
+                  groups: groups.filter((g) =>
+                    e.payload.authors.groups.includes(g.id)
+                  ),
+                },
+                subjects: {
+                  actors: actors.filter((a) =>
+                    e.payload.subjects.actors.includes(a.id)
+                  ),
+                  groups: groups.filter((g) =>
+                    e.payload.subjects.groups.includes(g.id)
+                  ),
+                },
+              },
+              media,
+              keywords,
+            },
+          ]);
+        }
         default: {
           return acc.concat([
             {

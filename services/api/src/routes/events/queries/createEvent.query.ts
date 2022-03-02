@@ -125,6 +125,19 @@ export const createEventQuery =
               media,
             });
           }
+          case http.Events.Documentary.DOCUMENTARY.value: {
+            const { type, draft, excerpt, date, payload } = input;
+            return TE.right({
+              type,
+              draft,
+              excerpt,
+              date,
+              payload,
+              keywords,
+              links,
+              media,
+            });
+          }
           case http.Events.Uncategorized.UncategorizedType.value:
           default: {
             const { excerpt, type, draft, date, payload } = input;
