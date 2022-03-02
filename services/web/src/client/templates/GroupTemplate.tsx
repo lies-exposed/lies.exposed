@@ -46,7 +46,10 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
       render={QR.fold(Loader, ErrorBox, ({ group, groupsMembers, events }) => {
         return (
           <MainContent>
-            <SEO title={group.name} image="/liexp-logo.png" />
+            <SEO
+              title={group.name}
+              image={`${process.env.PUBLIC_URL}liexp-logo.png`}
+            />
             <GroupPageContent
               {...group}
               groupsMembers={groupsMembers.data}
