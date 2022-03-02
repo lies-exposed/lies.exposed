@@ -119,7 +119,7 @@ const Pack: React.FC<PackProps & WithTooltipProvidedProps<PackDatum>> = ({
         >
           <div>
             <strong>{tooltipData.label}</strong>{" "}
-            <strong>({tooltipData.count.toFixed(2)})</strong>
+            <strong>({tooltipData.count})</strong>
           </div>
         </TooltipWithBounds>
       ) : null}

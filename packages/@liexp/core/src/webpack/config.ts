@@ -171,11 +171,6 @@ const getConfig = <A extends Record<string, t.Mixed>>(
                 test: /[\\/]@liexp[\\/]/,
                 chunks: "all",
               },
-              vendor: {
-                name: "node_vendors",
-                test: /[\\/]node_modules[\\/]/,
-                chunks: "all",
-              },
             },
           },
         }
@@ -224,8 +219,8 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           ],
         },
         {
-          test: /\.(png|gif)$/,
-          type: "asset/inline",
+          test: /\.(png|gif|svg)$/,
+          use: 'file-loader'
         },
         {
           test: /\.css$/,

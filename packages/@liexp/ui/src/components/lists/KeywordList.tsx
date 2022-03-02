@@ -26,6 +26,7 @@ export const KeywordListItem: React.FC<ListItemProps<KeywordListTopic>> = ({
       color: `#${t.color}`,
       fontWeight: 700,
       display: "inline",
+      cursor: 'pointer'
     }}
     onClick={() => onClick?.(t)}
   >
