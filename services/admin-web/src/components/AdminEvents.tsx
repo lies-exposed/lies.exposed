@@ -3,7 +3,10 @@ import { http } from "@liexp/shared/io";
 import { Events } from "@liexp/shared/io/http";
 import { Event } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { DOCUMENTARY } from '@liexp/shared/io/http/Events/Documentary';
+import { PATENT } from '@liexp/shared/io/http/Events/Patent';
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { UNCATEGORIZED } from '@liexp/shared/io/http/Events/Uncategorized';
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
@@ -35,7 +38,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -47,16 +50,17 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
+import { DocumentaryReleaseTitle } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -100,7 +104,7 @@ export const EventList: React.FC<ListProps> = (props) => (
   >
     <Datagrid
       rowClick={(_props, _id, record) => {
-        if (record.type === ScientificStudyType.value) {
+        if (record.type === SCIENTIFIC_STUDY.value) {
           return `scientific-studies/${record.id}`;
         }
         if (record.type === DEATH.value) {
@@ -120,8 +124,8 @@ export const EventList: React.FC<ListProps> = (props) => (
                 {r.type}
               </Typography>{" "}
               {[
-                io.http.Events.Uncategorized.UncategorizedType.value,
-                io.http.Events.ScientificStudy.ScientificStudyType.value,
+                io.http.Events.Uncategorized.UNCATEGORIZED.value,
+                io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
               ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
               ) : (
@@ -145,11 +149,11 @@ export const EventList: React.FC<ListProps> = (props) => (
         label="actors"
         source="payload"
         render={(r: Record | undefined) => {
-          if (r?.type === Events.Uncategorized.UncategorizedType.value) {
+          if (r?.type === Events.Uncategorized.UNCATEGORIZED.value) {
             return r.payload.actors.length;
           }
 
-          if (r?.type === Events.ScientificStudy.ScientificStudyType.value) {
+          if (r?.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value) {
             return r.payload.authors.length;
           }
 
@@ -206,14 +210,16 @@ export const EventList: React.FC<ListProps> = (props) => (
 
 const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
   switch (record.type) {
-    case "Uncategorized":
+    case UNCATEGORIZED.value:
       return <UncategorizedEventTitle record={record} />;
-    case "ScientificStudy":
+    case SCIENTIFIC_STUDY.value:
       return <ScientificStudyEventTitle record={record} />;
-    case "Death":
+    case DEATH.value:
       return <DeathEventTitle record={record} />;
-    case "Patent":
+    case PATENT.value:
       return <PatentEventTitle record={record} />;
+    case DOCUMENTARY.value:
+      return <DocumentaryReleaseTitle record={record} />;
   }
 };
 

@@ -39,6 +39,7 @@ interface SearchEventOutput {
     deaths: number;
     scientificStudies: number;
     patents: number;
+    documentaries: number;
   };
 }
 
@@ -89,6 +90,7 @@ export const searchEventV2Query =
             groupsMembers,
             keywords,
             links,
+            media,
           }
         );
 
@@ -107,92 +109,107 @@ export const searchEventV2Query =
               q.withDeleted();
             }
 
-            q.andWhere(
-              new Brackets((qb) => {
-                if (O.isSome(title)) {
-                  qb.andWhere(
-                    "event.type IN ('Uncategorized', 'ScientificStudy') AND \"event\".\"payload\" ->> lower('title') LIKE :title",
-                    { title: `%${title.value.toLocaleLowerCase()}%` }
-                  );
-                }
+            if (O.isSome(title)) {
+              q.andWhere(
+                `event.type IN ('Uncategorized', 'ScientificStudy') AND "event"."payload" ->> lower('title') LIKE :title`,
+                { title: `%${title.value.toLocaleLowerCase()}%` }
+              );
+            }
 
-                if (O.isSome(startDate)) {
-                  qb.andWhere("event.date >= :startDate", {
-                    startDate: startDate.value.toDateString(),
-                  });
-                }
+            if (O.isSome(startDate)) {
+              q.andWhere("event.date >= :startDate", {
+                startDate: startDate.value.toDateString(),
+              });
+            }
 
-                if (O.isSome(endDate)) {
-                  qb.andWhere("event.date <= :endDate", {
-                    endDate: endDate.value.toDateString(),
-                  });
-                }
+            if (O.isSome(endDate)) {
+              q.andWhere("event.date <= :endDate", {
+                endDate: endDate.value.toDateString(),
+              });
+            }
 
-                let hasWhere = false;
-                if (O.isSome(actors)) {
-                  qb.andWhere(
-                    `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors])`,
-                    {
-                      actors: actors.value,
-                    }
-                  ).orWhere(
-                    `(event.type = 'Death' AND "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors])`,
-                    {
-                      actors: actors.value,
-                    }
-                  );
-                  hasWhere = true;
-                }
+            if (O.isSome(actors)) {
+              q.orWhere(
+                new Brackets((qqb) => {
+                  return qqb
+                    .where(
+                      `event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors]`,
+                      {
+                        actors: actors.value,
+                      }
+                    )
+                    .orWhere(
+                      `event.type = 'Death' AND "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors]`,
+                      {
+                        actors: actors.value,
+                      }
+                    )
+                    .orWhere(
+                      `event.type = 'Documentary' AND "event"."payload"::jsonb -> 'subjects' -> 'actors' ?| ARRAY[:...actors] OR "event"."payload"::jsonb -> 'authors' -> 'actors' ?| ARRAY[:...actors]`,
+                      {
+                        actors: actors.value,
+                      }
+                    );
+                })
+              );
+            }
 
-                if (O.isSome(groups)) {
-                  qb.andWhere(
-                    `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]) OR (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`,
-                    {
-                      groups: groups.value,
-                    }
-                  );
-                  hasWhere = true;
-                }
+            if (O.isSome(groups)) {
+              q.andWhere(
+                new Brackets((qqb) => {
+                  qqb
+                    .where(
+                      `event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]`,
+                      {
+                        groups: groups.value,
+                      }
+                    )
+                    .orWhere(
+                      `event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups]`,
+                      {
+                        groups: groups.value,
+                      }
+                    )
+                    .orWhere(
+                      `event.type = 'Documentary' AND "event"."payload"::jsonb -> 'subjects' -> 'groups' ?| ARRAY[:...groups] OR "event"."payload"::jsonb -> 'authors' -> 'groups' ?| ARRAY[:...groups]`,
+                      {
+                        groups: groups.value,
+                      }
+                    );
+                  return qqb;
+                })
+              );
+            }
 
-                if (groupsMembers.length > 0) {
-                  const where = hasWhere
-                    ? qb.orWhere.bind(q)
-                    : qb.andWhere.bind(q);
-                  where(
-                    `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers])`,
-                    {
-                      groupsMembers: groupsMembers,
-                    }
-                  );
-                  hasWhere = true;
+            if (groupsMembers.length > 0) {
+              q.andWhere(
+                `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers])`,
+                {
+                  groupsMembers: groupsMembers,
                 }
+              );
+            }
 
-                if (O.isSome(keywords)) {
-                  qb.andWhere("keywords.id IN (:...keywords)", {
-                    keywords: keywords.value,
-                  });
-                }
+            if (O.isSome(keywords)) {
+              q.orWhere("keywords.id IN (:...keywords)", {
+                keywords: keywords.value,
+              });
+            }
 
-                if (O.isSome(media)) {
-                  qb.andWhere("media.id IN (:...media)", {
-                    media: media.value,
-                  });
-                }
+            if (O.isSome(media)) {
+              q.orWhere("media.id IN (:...media)", {
+                media: media.value,
+              });
+            }
 
-                if (O.isSome(links)) {
-                  const where = hasWhere
-                    ? qb.orWhere.bind(q)
-                    : qb.andWhere.bind(q);
-                  where("links.id IN (:...links)", {
-                    links: links.value,
-                  });
-                }
-                return qb;
-              })
-            );
+            if (O.isSome(links)) {
+              q.orWhere("links.id IN (:...links)", {
+                links: links.value,
+              });
+            }
 
             if (order !== undefined) {
-              addOrder(order, q);
+              addOrder(order, q, "event");
             }
 
             // logger.debug.log(
@@ -226,6 +243,15 @@ export const searchEventV2Query =
             // );
             const patentCount = q.clone().andWhere("event.type = 'Patent'");
 
+            const documentariesCount = q
+              .clone()
+              .andWhere("event.type = 'Documentary'");
+
+            // logger.debug.log(
+            //   `Documentary count query %O`,
+            //   ...documentariesCount.getQueryAndParameters()
+            // );
+
             if (O.isSome(type)) {
               q.andWhere("event.type::text IN (:...types)", {
                 types: type.value,
@@ -238,11 +264,10 @@ export const searchEventV2Query =
               deathsCount,
               scientificStudiesCount,
               patentCount,
+              documentariesCount,
             };
           }
         );
-
-        // console.log({ skip, take })
 
         return sequenceS(TE.ApplicativePar)({
           results: db.execQuery(() =>
@@ -261,6 +286,9 @@ export const searchEventV2Query =
             searchV2Query.scientificStudiesCount.getCount()
           ),
           patents: db.execQuery(() => searchV2Query.patentCount.getCount()),
+          documentaries: db.execQuery(() =>
+            searchV2Query.documentariesCount.getCount()
+          ),
         });
       }),
       TE.map(({ results, ...totals }) => ({ results, totals }))

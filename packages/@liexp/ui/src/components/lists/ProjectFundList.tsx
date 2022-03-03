@@ -1,4 +1,3 @@
-import { Events } from "@liexp/shared/io/http";
 import * as React from "react";
 import { List } from "../Common/List";
 import {
@@ -8,7 +7,7 @@ import {
 
 interface ProjectListProps {
   funds: Array<ProjectTransactionListItemProps["event"]>;
-  onClickItem: (item: Events.ProjectTransaction) => void;
+  onClickItem: (item: any) => void;
 }
 
 const ProjectFundList: React.FC<ProjectListProps> = ({

@@ -23,6 +23,7 @@ import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
+import { MakeDocumentaryReleaseRoutes } from '@routes/events/documentary/documentary.routes';
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
@@ -164,6 +165,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   MakeDeathEventsRoutes(router, ctx);
   MakeScientificStudyRoutes(router, ctx);
   MakePatentEventsRoutes(router, ctx);
+  MakeDocumentaryReleaseRoutes(router, ctx);
 
   // links
   MakeLinkRoutes(router, ctx);

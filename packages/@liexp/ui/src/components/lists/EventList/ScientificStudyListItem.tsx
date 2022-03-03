@@ -29,6 +29,7 @@ export const ScientificStudyListItem: React.FC<
       <Grid container spacing={2}>
         <EventListItemBase
           title={item.payload.title}
+          url={item.payload.url}
           excerpt={item.excerpt}
           keywords={item.keywords}
           media={item.media}

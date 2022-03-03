@@ -21,6 +21,7 @@ export const List = Endpoint({
         deaths: t.number,
         scientificStudies: t.number,
         patents: t.number,
+        documentaries: t.number
       }),
     },
     "Events"

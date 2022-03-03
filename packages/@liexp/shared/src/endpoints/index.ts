@@ -9,6 +9,7 @@ import * as Area from "./area.endpoints";
 import * as Article from "./article.endpoints";
 import * as Event from "./event.endpoints";
 import * as DeathEvent from "./events/death.endpoint";
+import * as DocumentaryEvent from './events/documentary.endpoints';
 import * as PatentEvent from "./events/patent.endpoint";
 import * as Graph from "./graph.endpoints";
 import * as Group from "./group.endpoints";
@@ -24,20 +25,22 @@ const Endpoints = {
   Actor: Actor.actors,
   Area: Area.areas,
   Article: Article.articles,
-  Event: Event.events,
-  DeathEvent: DeathEvent.deaths,
-  PatentEvent: PatentEvent.patents,
   Graph: Graph.graphs,
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,
   Media: Media.media,
-  OpenGraph: OpenGraph.openGraphs,
   Keyword: Keyword.keywords,
   Link: Link.links,
+  // events
+  Event: Event.events,
+  DeathEvent: DeathEvent.deaths,
+  PatentEvent: PatentEvent.patents,
+  ScientificStudy: ScientificStudy.scientificStudies,
+  DocumentaryEvent: DocumentaryEvent.documentaries,
+  OpenGraph: OpenGraph.openGraphs,
   Page: Page.pages,
   Project: Project.projects,
   ProjectImage: ProjectImage.projectImages,
-  ScientificStudy: ScientificStudy.scientificStudies,
   // Uploads: Uploads.uploads,
   User: User.users,
 };

@@ -2,19 +2,16 @@ import * as t from "io-ts";
 import * as Arrest from "./Arrest";
 import * as Condemned from "./Condemned";
 import * as Death from "./Death";
+import * as Documentary from "./Documentary";
 import * as Fined from "./Fined";
 import * as Patent from "./Patent";
 import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
 import * as ScientificStudy from "./ScientificStudy";
 import * as Uncategorized from "./Uncategorized";
-import { ProjectImpact } from "./project/ProjectImpact";
-import { ProjectTransaction } from "./project/ProjectTransaction";
 
 export interface EventListMap {
   Protest: Protest.Protest[];
-  ProjectImpact: ProjectImpact[];
-  ProjectTransaction: ProjectTransaction[];
   Condemned: Condemned.Condemned[];
   Arrest: Arrest.Arrest[];
   Death: Death.Death[];
@@ -27,6 +24,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   Patent: Patent.Patent,
   ScientificStudy: ScientificStudy.ScientificStudy,
   Uncategorized: Uncategorized.Uncategorized,
+  Documentary: Documentary.Documentary,
 };
 
 export const CreateEventBody = t.union(
@@ -35,6 +33,7 @@ export const CreateEventBody = t.union(
     Patent.CreatePatentBody,
     ScientificStudy.CreateScientificStudyBody,
     Uncategorized.CreateEventBody,
+    Documentary.CreateDocumentaryBody
   ],
   "CreateEventBody"
 );
@@ -47,6 +46,7 @@ export const EditEventBody = t.union(
     Patent.EditPatentBody,
     ScientificStudy.EditScientificStudyBody,
     Uncategorized.EditEventBody,
+    Documentary.EditDocumentaryBody,
   ],
   "EditEventBody"
 );
@@ -59,6 +59,7 @@ export const EventPayload = t.union(
     Patent.PatentPayload,
     ScientificStudy.ScientificStudyPayload,
     Uncategorized.Uncategorized,
+    Documentary.Documentary
   ],
   "EventPayload"
 );
@@ -68,9 +69,10 @@ export type EventPayload = t.TypeOf<typeof EventPayload>;
 export const EventType = t.union(
   [
     Death.DEATH,
-    Uncategorized.UncategorizedType,
-    ScientificStudy.ScientificStudyType,
+    Uncategorized.UNCATEGORIZED,
+    ScientificStudy.SCIENTIFIC_STUDY,
     Patent.PATENT,
+    Documentary.DOCUMENTARY,
   ],
   "EventType"
 );
@@ -82,6 +84,7 @@ export const Event = t.union(
     ScientificStudy.ScientificStudy,
     Uncategorized.Uncategorized,
     Patent.Patent,
+    Documentary.Documentary,
   ],
   "EventV2"
 );
@@ -94,10 +97,11 @@ export {
   Condemned,
   Arrest,
   PublicAnnouncement,
-  ProjectImpact,
-  ProjectTransaction,
+  // ProjectImpact,
+  // ProjectTransaction,
   Death,
   ScientificStudy,
   Uncategorized,
   Patent,
+  Documentary,
 };

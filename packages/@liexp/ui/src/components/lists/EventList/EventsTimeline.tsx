@@ -1,5 +1,6 @@
 import {
   Death,
+  Documentary,
   Patent,
   ScientificStudy,
   Uncategorized,
@@ -124,7 +125,7 @@ const initialState: SearchEventQueryResult = {
   groups: [],
   groupsMembers: [],
   keywords: [],
-  totals: { uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0 },
+  totals: { uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0, documentaries: 0 },
 };
 
 const _loadedRowsMap: Record<number, JSX.Element> = {};
@@ -160,14 +161,17 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         queryParams.type?.includes(Death.DEATH.value)
           ? searchEvents.totals.deaths
           : 0,
-        queryParams.type?.includes(Uncategorized.UncategorizedType.value)
+        queryParams.type?.includes(Uncategorized.UNCATEGORIZED.value)
           ? searchEvents.totals.uncategorized
           : 0,
-        queryParams.type?.includes(ScientificStudy.ScientificStudyType.value)
+        queryParams.type?.includes(ScientificStudy.SCIENTIFIC_STUDY.value)
           ? searchEvents.totals.scientificStudies
           : 0,
         queryParams.type?.includes(Patent.PATENT.value)
           ? searchEvents.totals.patents
+          : 0,
+        queryParams.type?.includes(Documentary.DOCUMENTARY.value)
+          ? searchEvents.totals.documentaries
           : 0,
       ].reduce((acc, tot) => acc + tot, 0),
     [searchEvents.totals]

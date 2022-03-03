@@ -1,3 +1,4 @@
+import { Documentary } from "@liexp/shared/io/http/Events";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
@@ -13,7 +14,7 @@ import * as React from "react";
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
-    marginRight: 10
+    marginRight: 10,
   },
   iconButtonSelected: {
     background: theme.palette.grey[200],
@@ -28,6 +29,7 @@ export interface EventsTotalsProps {
     deaths: boolean;
     scientificStudies: boolean;
     patents: boolean;
+    documentaries: boolean
   };
   onFilterChange: (f: EventsTotalsProps["filters"]) => void;
 }
@@ -114,6 +116,24 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
                   <Typography variant="caption">
                     {totals.scientificStudies}
                   </Typography>
+                </IconButton>
+                <IconButton
+                  color="primary"
+                  className={clsx(classes.iconButton, {
+                    [classes.iconButtonSelected]: filters.documentaries,
+                  })}
+                  onClick={() => {
+                    onFilterChange({
+                      ...filters,
+                      documentaries: !filters.documentaries,
+                    });
+                  }}
+                >
+                  <EventIcon
+                    type={Documentary.DOCUMENTARY.value}
+                    style={{ marginRight: 10 }}
+                  />
+                  <Typography variant="caption">{totals.documentaries}</Typography>
                 </IconButton>
                 <IconButton
                   color="primary"

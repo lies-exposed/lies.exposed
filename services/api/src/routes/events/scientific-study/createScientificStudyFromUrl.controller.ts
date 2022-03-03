@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -21,7 +21,7 @@ export const MakeCreateScientificStudyFromURLRoute: Route = (
         db.execQuery(() =>
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
-            .where("type = :type", { type: ScientificStudyType.value })
+            .where("type = :type", { type: SCIENTIFIC_STUDY.value })
             .where("payload::jsonb ->> 'url' = :url", {
               url,
             })
@@ -54,7 +54,7 @@ export const MakeCreateScientificStudyFromURLRoute: Route = (
                 db.save(EventV2Entity, [
                   {
                     date: new Date(),
-                    type: ScientificStudyType.value,
+                    type: SCIENTIFIC_STUDY.value,
                     excerpt: {},
                     body: {},
                     payload: {

@@ -1,5 +1,5 @@
 import { fc } from "@liexp/core/tests";
-import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { CreateScientificStudyArb } from "@liexp/shared/tests/arbitrary/ScientificStudy.arbitrary";
@@ -58,7 +58,7 @@ describe("Create Scientific Study", () => {
     const body = response.body.data;
     expect(response.status).toEqual(201);
 
-    expect(body.type).toBe(ScientificStudyType.value);
+    expect(body.type).toBe(SCIENTIFIC_STUDY.value);
     expect(body.date).toBeDefined();
     expect(body.payload.url).toBeDefined();
     expect(body.payload.title).toBeDefined();

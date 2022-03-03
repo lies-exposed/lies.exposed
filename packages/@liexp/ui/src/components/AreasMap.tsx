@@ -66,7 +66,7 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
                         features={features}
                         center={center}
                         zoom={zoom}
-                        onMapClick={async (features) => {
+                        onMapClick={(features) => {
                           onMapClick(features);
                         }}
                         interactions={{

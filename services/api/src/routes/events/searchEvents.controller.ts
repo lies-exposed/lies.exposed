@@ -34,7 +34,7 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
         ...queryRest,
         _sort: pipe(
           queryRest._sort,
-          O.alt(() => O.some("startDate"))
+          O.alt(() => O.some("date"))
         ),
       },
       ctx.env.DEFAULT_PAGE_SIZE
@@ -74,7 +74,8 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
             totals.deaths +
             totals.scientificStudies +
             totals.uncategorized +
-            totals.patents,
+            totals.patents +
+            totals.documentaries,
           totals,
         },
         statusCode: 200,

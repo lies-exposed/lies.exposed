@@ -1,11 +1,11 @@
-import { ScientificStudyType } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { Box, Button, TextField } from "@material-ui/core";
 import * as React from "react";
 import { TextInput, TextInputProps, useInput } from "react-admin";
 import { dataProvider } from "../../client/HTTPAPI";
 
 interface URLMetadataInputProps extends TextInputProps {
-  type: ScientificStudyType | "Link";
+  type: SCIENTIFIC_STUDY | "Link";
 }
 
 const URLMetadataInput: React.FC<URLMetadataInputProps> = ({

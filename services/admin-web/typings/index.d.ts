@@ -3,5 +3,6 @@ declare namespace NodeJS {
     readonly NODE_ENV: "development" | "production" | "test";
     readonly PUBLIC_URL: string;
     readonly API_URL: string;
+    readonly WEB_URL: string;
   }
 }

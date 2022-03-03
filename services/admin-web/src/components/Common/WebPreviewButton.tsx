@@ -20,7 +20,7 @@ export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
       variant="contained"
       onClick={() => {
         window.open(
-          `http://localhost:4000/index.html?path=${resource}${
+          `${process.env.PUBLIC_URL}/index.html?path=${resource}${
             id ? `/${id}` : ""
           }`
         );

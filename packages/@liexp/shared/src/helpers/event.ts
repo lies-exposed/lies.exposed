@@ -142,6 +142,7 @@ const colorMap: Record<Events.Event["type"], string> = {
   ScientificStudy: "green",
   Uncategorized: "grey",
   Patent: "lightblue",
+  Documentary: "orange",
 };
 export const getColorByEventType = ({
   type,
@@ -248,6 +249,8 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
     ? e.payload.actors
     : Events.Patent.Patent.is(e)
     ? e.payload.owners.actors
+    : Events.Documentary.Documentary.is(e)
+    ? [...e.payload.authors.actors, ...e.payload.subjects.actors]
     : e.payload.authors;
   const eventGroups = Events.Uncategorized.Uncategorized.is(e)
     ? e.payload.groups
@@ -256,16 +259,23 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
     ? [e.payload.publisher]
     : Events.Patent.Patent.is(e)
     ? e.payload.owners.groups
+    : Events.Documentary.Documentary.is(e)
+    ? [...e.payload.authors.groups, ...e.payload.subjects.groups]
     : [];
   const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
     ? e.payload.groupsMembers
     : [];
 
+  const eventMedia =
+    Events.Documentary.DOCUMENTARY.value === e.type
+      ? [e.payload.media]
+      : e.media;
+
   return {
     actors: eventActors,
     groups: eventGroups,
     groupsMembers: eventGroupMembers,
-    media: e.media,
+    media: eventMedia,
     keywords: e.keywords,
   };
 };

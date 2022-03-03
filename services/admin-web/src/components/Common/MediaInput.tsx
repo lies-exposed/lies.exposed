@@ -8,20 +8,22 @@ import { MediaField } from "./MediaField";
 interface MediaInputProps extends Omit<InputProps, "source"> {
   sourceType: string;
   sourceLocation: string;
+  supportedTypes?: MediaType[];
 }
 
 export const MediaInput: React.FC<MediaInputProps> = ({
   sourceType,
   sourceLocation,
+  supportedTypes,
   ...props
 }) => {
+  const types = supportedTypes ?? MediaType.types.map((a) => a.value);
+
   return (
     <Box>
       <FileInput
         source={sourceLocation}
-        accept={MediaType.types
-          .map((a) => `.${a.value.split("/")[1]}`)
-          .join(",")}
+        accept={types.map((a) => `.${a.split("/")[1]}`).join(",")}
         {...props}
       >
         <MediaField source={sourceType} />

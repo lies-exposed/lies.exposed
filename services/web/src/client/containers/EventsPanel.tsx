@@ -1,14 +1,11 @@
 import {
   Death,
+  Documentary,
   EventType,
   Patent,
   Uncategorized,
-} from "@liexp/shared/io/http/Events";
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import {
   ScientificStudy,
-  ScientificStudyType,
-} from "@liexp/shared/io/http/Events/ScientificStudy";
+} from "@liexp/shared/io/http/Events";
 import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsMap from "@liexp/ui/components/EventsMap";
 import { SearchEvent } from "@liexp/ui/components/lists/EventList/EventListItem";
@@ -165,11 +162,13 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     uncategorized: boolean;
     scientificStudies: boolean;
     patents: boolean;
+    documentaries: boolean;
   }>({
     deaths: !!query.type?.includes(Death.DEATH.value),
-    uncategorized: !!query.type?.includes(Uncategorized.UncategorizedType.value),
-    scientificStudies: !!query.type?.includes(ScientificStudyType.value),
+    uncategorized: !!query.type?.includes(Uncategorized.UNCATEGORIZED.value),
+    scientificStudies: !!query.type?.includes(ScientificStudy.SCIENTIFIC_STUDY.value),
     patents: !!query.type?.includes(Patent.PATENT.value),
+    documentaries: !!query.type?.includes(Documentary.DOCUMENTARY.value),
   });
 
   const handleUpdateEventsSearch = React.useCallback(
@@ -249,7 +248,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             }
 
             if (f.scientificStudies) {
-              type.push(ScientificStudyType.value);
+              type.push(ScientificStudy.SCIENTIFIC_STUDY.value);
             }
 
             if (f.patents) {
@@ -257,7 +256,11 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             }
 
             if (f.uncategorized) {
-              type.push(Uncategorized.UncategorizedType.value);
+              type.push(Uncategorized.UNCATEGORIZED.value);
+            }
+
+            if (f.documentaries) {
+              type.push(Documentary.DOCUMENTARY.value)
             }
 
             setTypeFilters(f);
