@@ -51,7 +51,7 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "^4.6.2",
     "url-loader": "^4.1.1",
-    "webpack": "^5.69.1",
+    "webpack": "^5.70.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-dev-server": "^4.7.4",
     "webpack-node-externals": "^3.0.0"

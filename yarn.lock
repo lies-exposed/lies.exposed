@@ -2518,7 +2518,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^3.5.2
     typescript: ^4.6.2
     url-loader: ^4.1.1
-    webpack: ^5.69.1
+    webpack: ^5.70.0
     webpack-bundle-analyzer: ^4.5.0
     webpack-dev-server: ^4.7.4
     webpack-node-externals: ^3.0.0
@@ -3000,23 +3000,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/command@npm:^1.8.0, @oclif/command@npm:^1.8.9":
-  version: 1.8.9
-  resolution: "@oclif/command@npm:1.8.9"
+"@oclif/command@npm:^1.8.16":
+  version: 1.8.16
+  resolution: "@oclif/command@npm:1.8.16"
   dependencies:
     "@oclif/config": ^1.18.2
     "@oclif/errors": ^1.3.5
+    "@oclif/help": ^1.0.1
     "@oclif/parser": ^3.8.6
-    "@oclif/plugin-help": ^3.2.13
     debug: ^4.1.1
     semver: ^7.3.2
   peerDependencies:
     "@oclif/config": ^1
-  checksum: a70e58278d7437005321cf3c76307a759525c5e824e1db23f1c304d79ae22adf3997bbf8e6f950a92c59236dbe96ac52a7527d3f8e2249ffaca8072f3c3f572e
+  checksum: c7cac8e1f9a7e5d9d88a316becc6f7f3bc72fce1a2d583d39b0b08cd98c13f0fe71e256f90ac586d7bd21054c8e76c0fef0b823bb7d108977d777e10c2678e7d
   languageName: node
   linkType: hard
 
-"@oclif/config@npm:^1.18.2":
+"@oclif/config@npm:1.18.2, @oclif/config@npm:^1.18.2":
   version: 1.18.2
   resolution: "@oclif/config@npm:1.18.2"
   dependencies:
@@ -3030,7 +3030,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oclif/errors@npm:^1.2.2, @oclif/errors@npm:^1.3.3, @oclif/errors@npm:^1.3.5":
+"@oclif/errors@npm:1.3.5, @oclif/errors@npm:^1.2.2, @oclif/errors@npm:^1.3.3, @oclif/errors@npm:^1.3.5":
   version: 1.3.5
   resolution: "@oclif/errors@npm:1.3.5"
   dependencies:
@@ -3040,6 +3040,23 @@ __metadata:
     strip-ansi: ^6.0.0
     wrap-ansi: ^7.0.0
   checksum: abce216ff1321ac4924fe405c50e9b2a93cfb51ad229d7e6ced8ee1c4bd01a85ee270b4433a12c73da9394dd8e9f6ec73443f8582da7ac46379b7e4991c3fa50
+  languageName: node
+  linkType: hard
+
+"@oclif/help@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@oclif/help@npm:1.0.1"
+  dependencies:
+    "@oclif/config": 1.18.2
+    "@oclif/errors": 1.3.5
+    chalk: ^4.1.2
+    indent-string: ^4.0.0
+    lodash: ^4.17.21
+    string-width: ^4.2.0
+    strip-ansi: ^6.0.0
+    widest-line: ^3.1.0
+    wrap-ansi: ^6.2.0
+  checksum: 26cdde82ca98f34bc57f7c7513b151f5fc2a6332f37b2f1186fe6d946011b7a4cc11e91053c569ebd28ad2b2ea90fd4a0851a21167e7780041a0caf369a8b277
   languageName: node
   linkType: hard
 
@@ -3059,24 +3076,6 @@ __metadata:
     chalk: ^4.1.0
     tslib: ^2.0.0
   checksum: 833450bafb86630f4b887e52477136abe368e1702f93d4aa81ef26bb208afa2183d48ca833898f8164cd56ed8489564fc59d4f58c7b6ea9d3d918a7754be7535
-  languageName: node
-  linkType: hard
-
-"@oclif/plugin-help@npm:^3.2.13":
-  version: 3.2.14
-  resolution: "@oclif/plugin-help@npm:3.2.14"
-  dependencies:
-    "@oclif/command": ^1.8.9
-    "@oclif/config": ^1.18.2
-    "@oclif/errors": ^1.3.5
-    chalk: ^4.1.2
-    indent-string: ^4.0.0
-    lodash: ^4.17.21
-    string-width: ^4.2.0
-    strip-ansi: ^6.0.0
-    widest-line: ^3.1.0
-    wrap-ansi: ^6.2.0
-  checksum: 5dbb0265b9edb88d35b948e8795b5aeed8370dff0bc6c4053fb5191983f2cdc3b9345ecc7f8a9415821c25fea9668ef9e6894dfae8e160606931364bcc6549b6
   languageName: node
   linkType: hard
 
@@ -7562,7 +7561,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.13.0
     debug: ^4.3.3
     eslint: ^8.10.0
-    eslint-config-prettier: ^8.4.0
+    eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
@@ -7592,7 +7591,7 @@ __metadata:
     typescript: ^4.6.2
     uuid: ^8.3.2
     web-vitals: ^0.2.4
-    webpack: ^5.69.1
+    webpack: ^5.70.0
     webpack-bundle-analyzer: ^4.5.0
     webpack-cli: ^4.9.2
   languageName: unknown
@@ -7910,13 +7909,13 @@ __metadata:
     "@types/pg": ^8.6.4
     "@types/supertest": ^2.0.11
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1084.0
+    aws-sdk: ^2.1085.0
     axios: ^0.25.0
     cors: 2.8.5
     debug: ^4.3.3
     domino: ^2.1.6
     eslint: ^8.10.0
-    eslint-config-prettier: ^8.4.0
+    eslint-config-prettier: ^8.5.0
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
     express: 4.17.3
@@ -7945,7 +7944,7 @@ __metadata:
     ts-node: ^10.6.0
     ts-shared: 2.0.0-alpha.6
     typeorm: ^0.2.44
-    typeorm-uml: ^1.6.4
+    typeorm-uml: ^1.6.5
     typescript: ^4.6.2
     uuid: ^8.3.2
   languageName: unknown
@@ -8397,9 +8396,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1084.0":
-  version: 2.1084.0
-  resolution: "aws-sdk@npm:2.1084.0"
+"aws-sdk@npm:^2.1085.0":
+  version: 2.1085.0
+  resolution: "aws-sdk@npm:2.1085.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -8410,7 +8409,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 1854bd426ee604eacc37740b0bb47b13cd40893de076d8118e91780350293d06acdad649e84aa843d4c4c140d6ec90191fe6b41665c6e16c8e502df37e7d1e0b
+  checksum: 0545a4a4459b78773b87407e4a163bbe83cee52568121549506db5d4ab1caecb7abcd6d40208638fc24599c7df256944e4d265e039fc8976714c23426aaf53a8
   languageName: node
   linkType: hard
 
@@ -12029,6 +12028,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"enhanced-resolve@npm:^5.9.2":
+  version: 5.9.2
+  resolution: "enhanced-resolve@npm:5.9.2"
+  dependencies:
+    graceful-fs: ^4.2.4
+    tapable: ^2.2.0
+  checksum: 792b7a01abb4ee4433b658c71f92d5948675938e0c03cad1732abe843b87395f15cb880ace4f819f78ead94163278283afc79b8be63c0eddca8ab45f7d8c515d
+  languageName: node
+  linkType: hard
+
 "enquire.js@npm:^2.1.6":
   version: 2.1.6
   resolution: "enquire.js@npm:2.1.6"
@@ -12267,14 +12276,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.4.0":
-  version: 8.4.0
-  resolution: "eslint-config-prettier@npm:8.4.0"
+"eslint-config-prettier@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "eslint-config-prettier@npm:8.5.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: ee8dc343f1fed15dc0658e190a966cc23644477f2331a7f56ae2bb79dd74892e3cde8ea5c142e7a3329a8291a1de041e13ca96e54d0c85ff4a2aba13390c5f10
+  checksum: 0d0f5c32e7a0ad91249467ce71ca92394ccd343178277d318baf32063b79ea90216f4c81d1065d60f96366fdc60f151d4d68ae7811a58bd37228b84c2083f893
   languageName: node
   linkType: hard
 
@@ -17029,7 +17038,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.13.0
     "@typescript-eslint/parser": ^5.13.0
     eslint: ^8.10.0
-    eslint-config-prettier: ^8.4.0
+    eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
@@ -17045,7 +17054,7 @@ __metadata:
     prettier: ^2.5.1
     ts-jest: ^27.1.3
     typescript: ^4.6.2
-    webpack: ^5.69.1
+    webpack: ^5.70.0
   languageName: unknown
   linkType: soft
 
@@ -23422,7 +23431,7 @@ __metadata:
     react-dom: ^16.14.0
     react-spring: ^9.4.3
     typescript: ^4.6.2
-    webpack: ^5.69.1
+    webpack: ^5.70.0
   languageName: unknown
   linkType: soft
 
@@ -24862,17 +24871,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm-uml@npm:^1.6.4":
-  version: 1.6.4
-  resolution: "typeorm-uml@npm:1.6.4"
+"typeorm-uml@npm:^1.6.5":
+  version: 1.6.5
+  resolution: "typeorm-uml@npm:1.6.5"
   dependencies:
-    "@oclif/command": ^1.8.0
+    "@oclif/command": ^1.8.16
     plantuml-encoder: ^1.4.0
   peerDependencies:
     typeorm: ^0.2.0
   bin:
     typeorm-uml: bin/run
-  checksum: 5ebdecdb653a8c8f5f0d8fb2289f4acb0a629ea9c329b54cab97495589e5e82ec3e75d5ed4bd56e260ae59df84b5d63c4663980c891a4051c21637070c422473
+  checksum: c78bc41b94991199c085d5a0458e47d9b7b03c3a0efe850c7dc5b15d51b045e64dce21d9f6734a424e5c483a60b8608b1e2b1fec9fb46803f12278bcd86a745f
   languageName: node
   linkType: hard
 
@@ -25821,7 +25830,7 @@ __metadata:
     debug: ^4.3.3
     dotenv: ^16.0.0
     eslint: ^8.10.0
-    eslint-config-prettier: ^8.4.0
+    eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.5.0
     eslint-plugin-import: ^2.25.4
@@ -25858,7 +25867,7 @@ __metadata:
     tsconfig-paths-webpack-plugin: ^3.5.2
     typescript: ^4.6.2
     uuid: ^8.3.2
-    webpack: ^5.69.1
+    webpack: ^5.70.0
     webpack-bundle-analyzer: ^4.5.0
     webpack-cli: ^4.9.2
     webpack-node-externals: ^3.0.0
@@ -26200,9 +26209,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.69.1":
-  version: 5.69.1
-  resolution: "webpack@npm:5.69.1"
+"webpack@npm:^5.70.0":
+  version: 5.70.0
+  resolution: "webpack@npm:5.70.0"
   dependencies:
     "@types/eslint-scope": ^3.7.3
     "@types/estree": ^0.0.51
@@ -26213,7 +26222,7 @@ __metadata:
     acorn-import-assertions: ^1.7.6
     browserslist: ^4.14.5
     chrome-trace-event: ^1.0.2
-    enhanced-resolve: ^5.8.3
+    enhanced-resolve: ^5.9.2
     es-module-lexer: ^0.9.0
     eslint-scope: 5.1.1
     events: ^3.2.0
@@ -26233,7 +26242,7 @@ __metadata:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 490a6e9e4cd9d0ed3b6c7ca08015da2628919fda8fcf9c36f0f6c0e3ad71eaaaf4b0d12753109f22a4faf79fe9a9063552d9708e0ee2352cf8568433b8e296a7
+  checksum: 00439884a9cdd5305aed3ce93735635785a15c5464a6d2cfce87e17727a07585de02420913e82aa85ddd2ae7322175d2cfda6ac0878a17f061cb605e6a7db57a
   languageName: node
   linkType: hard
 
