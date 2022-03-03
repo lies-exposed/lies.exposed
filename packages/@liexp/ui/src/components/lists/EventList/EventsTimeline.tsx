@@ -125,7 +125,13 @@ const initialState: SearchEventQueryResult = {
   groups: [],
   groupsMembers: [],
   keywords: [],
-  totals: { uncategorized: 0, deaths: 0, patents: 0, scientificStudies: 0, documentaries: 0 },
+  totals: {
+    uncategorized: 0,
+    deaths: 0,
+    patents: 0,
+    scientificStudies: 0,
+    documentaries: 0,
+  },
 };
 
 const _loadedRowsMap: Record<number, JSX.Element> = {};
@@ -266,7 +272,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                     }
 
                     const event = searchEvents.events[props.index];
-                    const isLast = props.index === totalEvents - 1;
+                    const isLast = searchEvents.events[props.index + 1] === undefined;
 
                     const row = (
                       <Row

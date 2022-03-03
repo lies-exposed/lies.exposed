@@ -1,5 +1,7 @@
-import { Actor, Group, GroupMember, Events } from "@liexp/shared/io/http";
+import { Actor, Events, Group, GroupMember } from "@liexp/shared/io/http";
 import { Box, BoxProps, makeStyles } from "@material-ui/core";
+import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { ActorList } from "../ActorList";
 import GroupsList from "../GroupList";
@@ -46,7 +48,10 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
       : e.type === Events.Patent.PATENT.value
       ? e.payload.owners.actors
       : e.type === Events.Documentary.DOCUMENTARY.value
-      ? [...e.payload.authors.actors, ...e.payload.subjects.actors]
+      ? pipe(
+          [...e.payload.authors.actors, ...e.payload.subjects.actors],
+          A.uniq({ equals: (a1, a2) => a1.id === a2.id })
+        )
       : [];
 
   const groups =

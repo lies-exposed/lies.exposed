@@ -101,14 +101,6 @@ export const searchEventV2Query =
             .leftJoinAndSelect("event.media", "media")
             .leftJoinAndSelect("event.links", "links"),
           (q) => {
-            if (!withDrafts) {
-              q.where("event.draft = :draft", { draft: false });
-            }
-
-            if (withDeleted) {
-              q.withDeleted();
-            }
-
             if (O.isSome(title)) {
               q.andWhere(
                 `event.type IN ('Uncategorized', 'ScientificStudy') AND "event"."payload" ->> lower('title') LIKE :title`,
@@ -129,23 +121,35 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(actors)) {
-              q.orWhere(
+              q.andWhere(
                 new Brackets((qqb) => {
                   return qqb
                     .where(
-                      `event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors]`,
+                      `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'actors' ?| ARRAY[:...actors] )`,
                       {
                         actors: actors.value,
                       }
                     )
                     .orWhere(
-                      `event.type = 'Death' AND "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors]`,
+                      `(event.type = 'Death' AND "event"."payload"::jsonb -> 'victim' ?| ARRAY[:...actors] )`,
                       {
                         actors: actors.value,
                       }
                     )
                     .orWhere(
-                      `event.type = 'Documentary' AND "event"."payload"::jsonb -> 'subjects' -> 'actors' ?| ARRAY[:...actors] OR "event"."payload"::jsonb -> 'authors' -> 'actors' ?| ARRAY[:...actors]`,
+                      `(event.type = 'Documentary' AND "event"."payload"::jsonb -> 'subjects' -> 'actors' ?| ARRAY[:...actors] OR "event"."payload"::jsonb -> 'authors' -> 'actors' ?| ARRAY[:...actors])`,
+                      {
+                        actors: actors.value,
+                      }
+                    )
+                    .orWhere(
+                      `(event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'authors' ?| ARRAY[:...actors] )`,
+                      {
+                        actors: actors.value,
+                      }
+                    )
+                    .orWhere(
+                      `( event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'actors' ?| ARRAY[:...actors] )`,
                       {
                         actors: actors.value,
                       }
@@ -158,20 +162,26 @@ export const searchEventV2Query =
               q.andWhere(
                 new Brackets((qqb) => {
                   qqb
-                    .where(
-                      `event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups]`,
+                    .orWhere(
+                      `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups])`,
                       {
                         groups: groups.value,
                       }
                     )
                     .orWhere(
-                      `event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups]`,
+                      `(event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`,
                       {
                         groups: groups.value,
                       }
                     )
                     .orWhere(
-                      `event.type = 'Documentary' AND "event"."payload"::jsonb -> 'subjects' -> 'groups' ?| ARRAY[:...groups] OR "event"."payload"::jsonb -> 'authors' -> 'groups' ?| ARRAY[:...groups]`,
+                      `(event.type = 'Documentary' AND "event"."payload"::jsonb -> 'subjects' -> 'groups' ?| ARRAY[:...groups]) OR ("event"."payload"::jsonb -> 'authors' -> 'groups' ?| ARRAY[:...groups])`,
+                      {
+                        groups: groups.value,
+                      }
+                    )
+                    .orWhere(
+                      `( event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups] )`,
                       {
                         groups: groups.value,
                       }
@@ -182,7 +192,7 @@ export const searchEventV2Query =
             }
 
             if (groupsMembers.length > 0) {
-              q.andWhere(
+              q.orWhere(
                 `(event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers])`,
                 {
                   groupsMembers: groupsMembers,
@@ -217,6 +227,14 @@ export const searchEventV2Query =
             //   ...q.getQueryAndParameters()
             // );
 
+            if (!withDrafts) {
+              q.andWhere("event.draft = :draft", { draft: false });
+            }
+
+            if (withDeleted) {
+              q.withDeleted();
+            }
+
             const uncategorizedCount = q
               .clone()
               .andWhere("event.type = 'Uncategorized' ");
@@ -241,7 +259,7 @@ export const searchEventV2Query =
             //   `Scientific Studies count query %O`,
             //   ...scientificStudiesCount.getQueryAndParameters()
             // );
-            const patentCount = q.clone().andWhere("event.type = 'Patent'");
+            const patentCount = q.clone().andWhere(" event.type = 'Patent' ");
 
             const documentariesCount = q
               .clone()
@@ -270,14 +288,17 @@ export const searchEventV2Query =
         );
 
         return sequenceS(TE.ApplicativePar)({
-          results: db.execQuery(() =>
-            searchV2Query.resultsQuery
+          results: db.execQuery(() => {
+            const resultQ = searchV2Query.resultsQuery
               .loadAllRelationIds({ relations: ["keywords", "links", "media"] })
               .skip(skip)
               .take(take)
-              .orderBy("event.date", "DESC")
-              .getMany()
-          ),
+              .orderBy("event.date", "DESC");
+
+            logger.debug.log("Result query %s", resultQ.getSql());
+
+            return resultQ.getMany();
+          }),
           uncategorized: db.execQuery(() =>
             searchV2Query.uncategorizedCount.getCount()
           ),
