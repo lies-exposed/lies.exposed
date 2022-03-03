@@ -116,7 +116,7 @@ describe("Search Events", () => {
 
       expect(response.status).toEqual(200);
       // events include also events where actor is a group member
-      expect(totals.uncategorized).toBeGreaterThanOrEqual(40);
+      expect(totals.uncategorized).toBeGreaterThanOrEqual(20);
       // expect(response.body.data[0]).toMatchObject({
       //   payload: {
       //     actors: [firstActor.id],
@@ -133,7 +133,7 @@ describe("Search Events", () => {
       const { totals } = response.body;
 
       expect(response.status).toEqual(200);
-      expect(totals.uncategorized).toBeGreaterThanOrEqual(40);
+      expect(totals.uncategorized).toBe(30);
     });
   });
 

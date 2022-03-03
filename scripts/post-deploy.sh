@@ -30,4 +30,4 @@ DEBUG="@liexp*" yarn web build
 
 # reload services
 sudo nginx -s reload
-pm2 startOrReload ecosystem.config.js
+pm2 restart ecosystem.config.js

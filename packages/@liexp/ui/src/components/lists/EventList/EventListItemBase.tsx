@@ -101,7 +101,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
                 itemStyle={{
                   maxWidth: 800,
                   maxHeight: 400,
-                  minHeight: 300,
+                  minHeight: 400,
                 }}
               />
             </Box>

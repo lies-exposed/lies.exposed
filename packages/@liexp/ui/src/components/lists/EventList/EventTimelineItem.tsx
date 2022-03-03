@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    flexShrink: 0,
+    flexShrink: 1,
     paddingBottom: 20,
   },
 }));
@@ -108,7 +108,6 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
         style={{
           display: "flex",
           height: "100%",
-          width: "100%",
         }}
       >
         <Grid
@@ -117,9 +116,9 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
           lg={10}
           style={{
             flexGrow: 1,
+            flexShrink: 1,
             display: "flex",
             height: "100%",
-            width: "100%",
           }}
         >
           <TimelineItem className={classes.wrapper}>
