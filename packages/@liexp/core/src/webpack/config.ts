@@ -164,15 +164,15 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       ? {
           chunkIds: "deterministic",
           minimize: true,
-          splitChunks: {
-            cacheGroups: {
-              liexp: {
-                name: "@liexp",
-                test: /[\\/]@liexp[\\/]/,
-                chunks: "all",
-              },
-            },
-          },
+          // splitChunks: {
+          //   cacheGroups: {
+          //     liexp: {
+          //       name: "@liexp",
+          //       test: /[\\/]@liexp[\\/]/,
+          //       chunks: "all",
+          //     },
+          //   },
+          // },
         }
       : {};
 
