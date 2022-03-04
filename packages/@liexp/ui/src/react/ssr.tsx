@@ -22,7 +22,8 @@ export const getServer = (
 ): express.Express => {
   const requestHandler = (
     req: express.Request,
-    res: express.Response
+    res: express.Response,
+    next: () => void
   ): void => {
     const indexFile = path.resolve(publicDir, "./index.html");
 
@@ -50,7 +51,7 @@ export const getServer = (
       );
 
       if (context.url) {
-        return res.redirect(context.url);
+        return next();
       } else {
         // Grab the CSS from the sheets.
         const css = sheets.toString();
@@ -65,7 +66,7 @@ export const getServer = (
           .send(
             data
               .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
-              .replace('<meta id="helmet-head" />', head)
+              .replace('<meta id="helmet-head"/>', head)
               .replace(
                 '<style id="jss-server-side"></style>',
                 `<style id="jss-server-side">${css}</style>`
