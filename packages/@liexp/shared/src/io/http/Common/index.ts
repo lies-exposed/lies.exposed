@@ -1,5 +1,5 @@
 export * from "./BaseProps";
-export * from "./ByGroupOrActor";
+export * from "./BySubject";
 export * from "./For";
 export * from "./Impact";
 export * from "./JSONFromString";

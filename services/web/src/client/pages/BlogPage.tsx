@@ -26,7 +26,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
 
     return (
       <>
-        <SEO title="Blog" />
+        <SEO title="Blog" image="" />
         <MainContent>
           <PageContent
             queries={{

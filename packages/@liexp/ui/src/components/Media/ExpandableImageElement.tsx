@@ -22,15 +22,22 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2),
   },
+  image: {
+    width: "auto",
+    maxWidth: '100%',
+    height: "100%",
+  },
 }));
 
 interface ExpandableImageElementProps {
+  className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.ImageType };
   style?: React.CSSProperties;
 }
 
 const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   media,
+  className,
   ...props
 }) => {
   const classes = useStyles();
@@ -38,12 +45,14 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
 
   return (
     <Box
+      className={className}
       height="100%"
       display="flex"
       alignItems="center"
       justifyContent="center"
     >
       <img
+        className={classes.image}
         src={media.location}
         style={props.style}
         onClick={() => {
@@ -82,7 +91,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
                 width="100%"
                 height="100%"
               >
-                <img src={media.location} width="100%" />
+                <img className={classes.image} src={media.location} />
               </Box>
             </Box>
           </div>

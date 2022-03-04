@@ -1,12 +1,12 @@
 import * as io from "@liexp/shared/io";
+import { Events } from '@liexp/shared/io/http';
 import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
-import { SearchScientificStudyEvent } from "./EventListItem";
 import EventListItemBase from "./EventListItemBase";
 
 interface ScientificStudyListItemProps {
-  item: SearchScientificStudyEvent;
-  onClick?: (e: SearchScientificStudyEvent) => void;
+  item: Events.SearchEvent.SearchScientificStudyEvent;
+  onClick?: (e: Events.SearchEvent.SearchScientificStudyEvent) => void;
   onActorClick?: (e: io.http.Actor.Actor) => void;
   onKeywordClick?: (e: io.http.Keyword.Keyword) => void;
 }

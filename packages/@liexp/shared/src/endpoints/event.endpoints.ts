@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
-import { GetSearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
+import { EventTotals, GetSearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
@@ -16,13 +16,7 @@ export const List = Endpoint({
     {
       data: t.array(http.Events.Event),
       total: t.number,
-      totals: t.strict({
-        uncategorized: t.number,
-        deaths: t.number,
-        scientificStudies: t.number,
-        patents: t.number,
-        documentaries: t.number
-      }),
+      totals: EventTotals,
     },
     "Events"
   ),

@@ -10,7 +10,7 @@ const SupportPage: React.FunctionComponent = () => (
       onMenuItemClick: () => undefined,
     }}
   >
-    <SEO title="Home" />
+    <SEO title="Home" image="" />
     <div>
       <div>
         <p>In sviluppo</p>

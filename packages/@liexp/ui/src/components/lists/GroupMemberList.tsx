@@ -71,6 +71,7 @@ export const GroupMemberListItem: React.FC<
 };
 
 interface GroupMemberListProps {
+  className?: string;
   groupsMembers: GroupMember[];
   onItemClick: (actor: GroupMember) => void;
   avatarSize?: AvatarSize;
@@ -79,6 +80,7 @@ interface GroupMemberListProps {
 }
 
 export const GroupsMembersList: React.FC<GroupMemberListProps> = ({
+  className,
   groupsMembers,
   onItemClick,
   avatarSize,
@@ -87,6 +89,7 @@ export const GroupsMembersList: React.FC<GroupMemberListProps> = ({
 }) => {
   return (
     <List
+      className={className}
       style={style}
       data={groupsMembers}
       getKey={(a) => a.id}

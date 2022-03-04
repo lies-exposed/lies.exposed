@@ -1,3 +1,4 @@
+import { Events } from '@liexp/shared/io/http';
 import { formatDate } from "@liexp/shared/utils/date";
 import { Box, Grid, Link, makeStyles, Typography } from "@material-ui/core";
 import {
@@ -14,7 +15,6 @@ import { EventIcon } from "../../Common/Icons/EventIcon";
 import {
   EventListItem,
   EventListItemProps,
-  SearchEvent,
 } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 
@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const getItemHeight = (e: SearchEvent): number => {
+export const getItemHeight = (e: Events.SearchEvent.SearchEvent): number => {
   switch (e.type) {
     default: {
       return (
@@ -98,6 +98,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
       className={classes.root}
       style={{
         overflow: "hidden",
+        width: '100%',
         ...style,
         marginBottom: isLast ? 100 : style?.marginBottom
       }}
@@ -119,6 +120,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
             flexShrink: 1,
             display: "flex",
             height: "100%",
+            maxWidth: '100%'
           }}
         >
           <TimelineItem className={classes.wrapper}>

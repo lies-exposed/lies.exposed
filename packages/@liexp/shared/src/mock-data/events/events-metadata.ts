@@ -189,4 +189,5 @@ export const eventMetadataMapEmpty = {
   Death: [],
   Condemned: [],
   Uncategorized: [],
+  Transaction: []
 };

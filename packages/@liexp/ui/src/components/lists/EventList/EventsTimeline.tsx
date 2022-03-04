@@ -4,7 +4,9 @@ import {
   Patent,
   ScientificStudy,
   Uncategorized,
+  SearchEvent
 } from "@liexp/shared/io/http/Events";
+import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import {
   Box,
   CircularProgress,
@@ -27,7 +29,7 @@ import {
   searchEventsQuery,
 } from "../../../state/queries/SearchEventsQuery";
 import { isValidValue } from "../../Common/Editor";
-import { EventListItemProps, SearchEvent } from "./EventListItem";
+import { EventListItemProps } from "./EventListItem";
 import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
 
 const useStyles = makeStyles((props) => ({
@@ -67,6 +69,7 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
           alignItems: "center",
           justifyContent: "center",
           height: 100,
+          width: "100%",
           ...props.style,
         }}
       >
@@ -90,16 +93,22 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
   );
 };
 
-export const getItemHeight = (e: SearchEvent, isDownMD: boolean): number => {
+export const getItemHeight = (e: SearchEvent.SearchEvent, isDownMD: boolean): number => {
   switch (e.type) {
+    case TRANSACTION.value:
+      return isDownMD ? 200 : 180;
     default: {
       if (isDownMD) {
+        const scientificStudyHeight =
+          e.type === "ScientificStudy" && e.payload.url ? 50 : 0;
+
         return (
-          180 +
+          200 +
           (isValidValue(e.excerpt as any) ? 100 : 0) +
           (e.keywords.length > 0 ? 50 : 0) +
           (e.media.length > 0 ? 400 : 0) +
-          (e.links.length > 0 ? 50 : 0)
+          (e.links.length > 0 ? 50 : 0) +
+          scientificStudyHeight
         );
       }
       return (
@@ -131,6 +140,7 @@ const initialState: SearchEventQueryResult = {
     patents: 0,
     scientificStudies: 0,
     documentaries: 0,
+    transactions: 0,
   },
 };
 
@@ -272,7 +282,8 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                     }
 
                     const event = searchEvents.events[props.index];
-                    const isLast = searchEvents.events[props.index + 1] === undefined;
+                    const isLast =
+                      searchEvents.events[props.index + 1] === undefined;
 
                     const row = (
                       <Row

@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { ByGroupOrActor, For } from "../Common";
+import { BySubject, For } from "../Common";
 import { BaseProps } from "../Common/BaseProps";
 import { markdownRemark } from "../Common/Markdown";
 import { Media } from "../Media";
@@ -14,7 +14,7 @@ export const Protest = t.strict(
     title: t.string,
     type: PROTEST,
     for: For,
-    organizers: t.array(ByGroupOrActor),
+    organizers: t.array(BySubject),
     media: optionFromNullable(nonEmptyArray(Media)),
     date: DateFromISOString,
   },

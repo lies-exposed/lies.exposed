@@ -1,14 +1,14 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { BaseProps } from "../Common/BaseProps";
-import { ByGroupOrActor } from "../Common/ByGroupOrActor";
+import { BySubject } from "../Common/BySubject";
 
 export const Condemned = t.strict(
   {
     ...BaseProps.type.props,
     title: t.string,
     type: t.literal("Condemned"),
-    who: ByGroupOrActor,
+    who: BySubject,
     date: DateFromISOString,
   },
   "Condemned"

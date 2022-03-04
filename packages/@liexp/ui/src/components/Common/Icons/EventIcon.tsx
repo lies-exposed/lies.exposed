@@ -5,6 +5,7 @@ import {
   Event,
   Patent,
   ScientificStudy,
+  Transaction,
 } from "@liexp/shared/io/http/Events";
 import { SvgIconProps } from "@material-ui/core";
 import { EventNote } from "@material-ui/icons";
@@ -52,6 +53,15 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
           style={{ ...props.style, color: "lightblue" }}
         />
       );
+      case Transaction.TRANSACTION.value:
+        return (
+          <FontAwesomeIcon
+            {...props}
+            mask={undefined}
+            icon={"money-bill-1-wave"}
+            style={{ ...props.style, color: "green" }}
+          />
+        );
     default:
       return <EventNote {...props} />;
   }

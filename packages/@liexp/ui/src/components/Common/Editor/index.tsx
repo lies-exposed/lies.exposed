@@ -38,8 +38,9 @@ export const cellPlugins = [
   gridCellPlugin,
 ] as any[];
 
-export const isValidValue = (v: Value): boolean => {
+export const isValidValue = (v?: any): v is Value => {
   return (
+    !!v &&
     !!v.id &&
     !!v.version &&
     v?.rows?.length > 0 &&

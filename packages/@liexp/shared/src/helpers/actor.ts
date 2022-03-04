@@ -12,10 +12,10 @@ export const getActors =
 
 export const isByActor =
   (actor: Actor.Actor) =>
-  (by: Common.ByGroupOrActor): boolean =>
-    by.type === "Actor" && by.actor === actor.id;
+  (by: Common.BySubject): boolean =>
+    by.type === "Actor" && by.id === actor.id;
 
 export const isByGroup =
   (group: Group.Group) =>
-  (by: Common.ByGroupOrActor): boolean =>
-    by.type === "Group" && by.group === group.id;
+  (by: Common.BySubject): boolean =>
+    by.type === "Group" && by.id === group.id;

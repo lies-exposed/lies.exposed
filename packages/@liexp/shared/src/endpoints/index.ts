@@ -11,6 +11,7 @@ import * as Event from "./event.endpoints";
 import * as DeathEvent from "./events/death.endpoint";
 import * as DocumentaryEvent from './events/documentary.endpoints';
 import * as PatentEvent from "./events/patent.endpoint";
+import * as Transaction from './events/transactions.endpoints'
 import * as Graph from "./graph.endpoints";
 import * as Group from "./group.endpoints";
 import * as Keyword from "./keyword.endpoints";
@@ -37,6 +38,8 @@ const Endpoints = {
   PatentEvent: PatentEvent.patents,
   ScientificStudy: ScientificStudy.scientificStudies,
   DocumentaryEvent: DocumentaryEvent.documentaries,
+  TransactionEvent: Transaction.transactions,
+  // other
   OpenGraph: OpenGraph.openGraphs,
   Page: Page.pages,
   Project: Project.projects,

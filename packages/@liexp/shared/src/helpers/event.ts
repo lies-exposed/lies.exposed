@@ -1,11 +1,17 @@
+
 import { format, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as Eq from "fp-ts/lib/Eq";
+import { pipe } from "fp-ts/lib/function";
 import * as Map from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/function";
-import { Actor, Common, Events, Project } from "../io/http";
+import {
+  Actor, Common,
+  Events, Group, GroupMember, Keyword,
+  Media, Project
+} from "../io/http";
+import { SearchEvent } from "../io/http/Events/SearchEvent";
 import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
 
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
@@ -139,10 +145,11 @@ export const ordEventDate = Ord.ord.contramap(
 
 const colorMap: Record<Events.Event["type"], string> = {
   Death: "black",
-  ScientificStudy: "green",
+  ScientificStudy: "lightblue",
   Uncategorized: "grey",
-  Patent: "lightblue",
+  Patent: "purple",
   Documentary: "orange",
+  Transaction: "green",
 };
 export const getColorByEventType = ({
   type,
@@ -242,40 +249,163 @@ interface EventRelationIds {
   keywords: string[];
   media: string[];
 }
+
 export const getRelationIds = (e: Events.Event): EventRelationIds => {
-  const eventActors = Events.Death.Death.is(e)
-    ? [e.payload.victim]
-    : Events.Uncategorized.Uncategorized.is(e)
-    ? e.payload.actors
-    : Events.Patent.Patent.is(e)
-    ? e.payload.owners.actors
-    : Events.Documentary.Documentary.is(e)
-    ? [...e.payload.authors.actors, ...e.payload.subjects.actors]
-    : e.payload.authors;
-  const eventGroups = Events.Uncategorized.Uncategorized.is(e)
-    ? e.payload.groups
-    : Events.ScientificStudy.ScientificStudy.is(e) &&
-      e.payload.publisher !== undefined
-    ? [e.payload.publisher]
-    : Events.Patent.Patent.is(e)
-    ? e.payload.owners.groups
-    : Events.Documentary.Documentary.is(e)
-    ? [...e.payload.authors.groups, ...e.payload.subjects.groups]
-    : [];
-  const eventGroupMembers = Events.Uncategorized.Uncategorized.is(e)
-    ? e.payload.groupsMembers
-    : [];
-
-  const eventMedia =
-    Events.Documentary.DOCUMENTARY.value === e.type
-      ? [e.payload.media]
-      : e.media;
-
-  return {
-    actors: eventActors,
-    groups: eventGroups,
-    groupsMembers: eventGroupMembers,
-    media: eventMedia,
+  const commonIds = {
+    media: e.media,
     keywords: e.keywords,
   };
+
+  switch (e.type) {
+    case Events.Death.DEATH.value: {
+      return {
+        ...commonIds,
+        actors: [e.payload.victim],
+        groups: [],
+        groupsMembers: [],
+      };
+    }
+    case Events.Transaction.TRANSACTION.value: {
+      const actors = [
+        e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
+        e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
+      ].filter((e): e is string => e !== undefined);
+      const groups = [
+        e.payload.from.type === "Group" ? e.payload.from.id : undefined,
+        e.payload.to.type === "Group" ? e.payload.to.id : undefined,
+      ].filter((e): e is string => e !== undefined);
+      return {
+        ...commonIds,
+        actors,
+        groups,
+        groupsMembers: [],
+      };
+    }
+    case Events.Patent.PATENT.value: {
+      return {
+        ...commonIds,
+        actors: e.payload.owners.actors,
+        groups: e.payload.owners.groups,
+        groupsMembers: [],
+      };
+    }
+
+    case Events.Documentary.DOCUMENTARY.value: {
+      return {
+        ...commonIds,
+        actors: [
+          ...e.payload.authors.actors,
+          ...e.payload.subjects.actors,
+        ].filter((a) => a !== undefined),
+        groups: [
+          ...e.payload.authors.groups,
+          ...e.payload.subjects.groups,
+        ].filter((a) => a !== undefined),
+        groupsMembers: [],
+        media: [...commonIds.media, e.payload.media],
+      };
+    }
+
+    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+      return {
+        ...commonIds,
+        actors: e.payload.authors,
+        groups: e.payload.publisher ? [e.payload.publisher] : [],
+        groupsMembers: [],
+      };
+    }
+
+    case Events.Uncategorized.UNCATEGORIZED.value: {
+      return {
+        ...commonIds,
+        actors: [],
+        groups: [],
+        groupsMembers: [],
+      };
+    }
+  }
+};
+
+interface EventRelations {
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  groupsMembers: GroupMember.GroupMember[];
+  keywords: Keyword.Keyword[];
+  media: Media.Media[];
+}
+
+export const getEventsMetadata = (e: SearchEvent): EventRelations => {
+  const commonIds = {
+    media: e.media,
+    keywords: e.keywords,
+  };
+
+  switch (e.type) {
+    case Events.Death.DEATH.value: {
+      return {
+        ...commonIds,
+        actors: [e.payload.victim],
+        groups: [],
+        groupsMembers: [],
+      };
+    }
+    case Events.Transaction.TRANSACTION.value: {
+      const actors = [
+        e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
+        e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
+      ].filter((e): e is Actor.Actor => e !== undefined);
+      const groups = [
+        e.payload.from.type === "Group" ? e.payload.from.id : undefined,
+        e.payload.to.type === "Group" ? e.payload.to.id : undefined,
+      ].filter((e): e is Group.Group => e !== undefined);
+      return {
+        ...commonIds,
+        actors,
+        groups,
+        groupsMembers: [],
+      };
+    }
+    case Events.Patent.PATENT.value: {
+      return {
+        ...commonIds,
+        actors: e.payload.owners.actors,
+        groups: e.payload.owners.groups,
+        groupsMembers: [],
+      };
+    }
+
+    case Events.Documentary.DOCUMENTARY.value: {
+      return {
+        ...commonIds,
+        actors: [
+          ...e.payload.authors.actors,
+          ...e.payload.subjects.actors,
+        ].filter((a) => a !== undefined),
+        groups: [
+          ...e.payload.authors.groups,
+          ...e.payload.subjects.groups,
+        ].filter((_) => _ !== undefined),
+        groupsMembers: [],
+        media: [...commonIds.media, e.payload.media],
+      };
+    }
+
+    case Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
+      return {
+        ...commonIds,
+        actors: e.payload.authors,
+        groups: e.payload.publisher ? [e.payload.publisher] : [],
+        groupsMembers: [],
+      };
+    }
+
+    case Events.Uncategorized.UNCATEGORIZED.value: {
+      return {
+        ...commonIds,
+        actors: [],
+        groups: [],
+        groupsMembers: [],
+      };
+    }
+  }
 };

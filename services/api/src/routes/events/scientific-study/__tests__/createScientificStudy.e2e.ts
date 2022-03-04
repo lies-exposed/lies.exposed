@@ -2,7 +2,7 @@ import { fc } from "@liexp/core/tests";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
-import { CreateScientificStudyArb } from "@liexp/shared/tests/arbitrary/ScientificStudy.arbitrary";
+import { CreateScientificStudyArb } from "@liexp/shared/tests/arbitrary/events/ScientificStudy.arbitrary";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";

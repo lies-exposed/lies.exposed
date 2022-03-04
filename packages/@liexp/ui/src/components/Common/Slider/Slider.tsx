@@ -7,6 +7,17 @@ import MediaElement from "../../Media/MediaElement";
 const useStyles = makeStyles((theme) => ({
   mediaSlider: {
     margin: 0,
+    maxWidth: 800,
+    maxHeight: 400,
+    width: "100%",
+  },
+  item: {
+    maxWidth: 800,
+    maxHeight: 400,
+    minHeight: 400,
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
 }));
 
@@ -57,6 +68,7 @@ export const Slider: React.FC<SliderProps> = ({
         >
           <MediaElement
             media={s}
+            className={classes.item}
             style={{
               height: "100%",
               margin: "auto",

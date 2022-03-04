@@ -1,3 +1,4 @@
+import { Events } from '@liexp/shared/io/http';
 import { groupBy } from "@liexp/shared/utils/array.utils";
 import { distanceFromNow } from "@liexp/shared/utils/date";
 import {
@@ -15,12 +16,11 @@ import * as React from "react";
 import {
   EventListItem,
   EventListItemProps,
-  SearchEvent,
 } from "./EventListItem";
 
 const byEqualDate = pipe(
   S.Eq,
-  Eq.contramap((e: SearchEvent): string => {
+  Eq.contramap((e: Events.SearchEvent.SearchEvent): string => {
     return distanceFromNow(e.date);
   })
 );
@@ -38,7 +38,7 @@ const useStyles = makeStyles((props) => ({
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
   style?: React.CSSProperties;
-  events: SearchEvent[];
+  events: Events.SearchEvent.SearchEvent[];
 }
 
 const renderRow = (props: {

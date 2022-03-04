@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
 import { propsOmit } from "../../utils";
+import { BySubject } from "../Common/BySubject";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
 
@@ -18,16 +18,10 @@ export type TransactionListQuery = t.TypeOf<typeof TransactionListQuery>;
 export const TransactionPayload = t.strict(
   {
     title: t.string,
-    media: UUID,
-    website: t.union([t.string, t.undefined]),
-    authors: t.strict({
-      actors: t.array(UUID),
-      groups: t.array(UUID),
-    }),
-    subjects: t.strict({
-      actors: t.array(UUID),
-      groups: t.array(UUID),
-    }),
+    total: t.number,
+    currency: t.string,
+    from: BySubject,
+    to: BySubject,
   },
   "TransactionPayload"
 );

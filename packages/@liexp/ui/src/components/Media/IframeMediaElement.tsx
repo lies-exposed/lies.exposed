@@ -1,8 +1,20 @@
 import { Media } from "@liexp/shared/io/http";
+import { makeStyles } from "@material-ui/core";
+import clsx from 'clsx';
 import * as React from "react";
+
+const useStyles = makeStyles(() => ({
+  iframe: {
+    display: "flex",
+    minHeight: 400,
+    maxWidth: 800,
+    width: "100%",
+  },
+}));
 
 interface IframeMediaElementProps {
   media: Omit<Media.Media, "type"> & { type: Media.IframeVideoType };
+  className?: string;
   style?: React.CSSProperties;
 }
 
@@ -10,21 +22,16 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   media,
   ...props
 }) => {
+  const classes = useStyles();
   const ref = React.useRef<HTMLIFrameElement | null>(null);
   const [loaded, setLoaded] = React.useState(true);
 
   return loaded ? (
     <iframe
+      className={clsx(classes.iframe, props.className)}
       {...props}
       src={media.location}
       ref={ref}
-      style={{
-        display: "flex",
-        minHeight: 400,
-        maxWidth: 800,
-        width: "100%",
-        ...props.style,
-      }}
       loading="lazy"
       allowFullScreen={true}
       // sandbox=""
