@@ -7590,7 +7590,7 @@ __metadata:
     ts-jest: ^27.1.3
     typescript: ^4.6.2
     uuid: ^8.3.2
-    web-vitals: ^0.2.4
+    web-vitals: ^2.1.4
     webpack: ^5.70.0
     webpack-bundle-analyzer: ^4.5.0
     webpack-cli: ^4.9.2
@@ -24158,13 +24158,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"throttle-debounce@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "throttle-debounce@npm:2.3.0"
-  checksum: 6d90aa2ddb294f8dad13d854a1cfcd88fdb757469669a096a7da10f515ee466857ac1e750649cb9da931165c6f36feb448318e7cb92570f0a3679d20e860a925
-  languageName: node
-  linkType: hard
-
 "throttle-debounce@npm:^3.0.1":
   version: 3.0.1
   resolution: "throttle-debounce@npm:3.0.1"
@@ -25775,10 +25768,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^0.2.4":
-  version: 0.2.4
-  resolution: "web-vitals@npm:0.2.4"
-  checksum: 128a4e87730b0a02fb6af3eef7d31f9a79b4646e83cfe4465aa8ce6054fe16f7b1f4125a384f1b4f039091bd9513cb54b4e559c0b10ae953c01900786a16b1c2
+"web-vitals@npm:^2.1.4":
+  version: 2.1.4
+  resolution: "web-vitals@npm:2.1.4"
+  checksum: 03d3f47dbf55c3dce07beb0ff5de8ddd52e2d0a53a8df5c84e7a16dda93543341d67231fa79b1d9772b091419af4ec0fd395b8bcf451a0e26846e3f76b3d0efc
   languageName: node
   linkType: hard
 
@@ -25861,7 +25854,7 @@ __metadata:
     react-spring: ^9.4.3
     react-toc: ^2.1.0
     slick-carousel: ^1.8.1
-    throttle-debounce: ^2.3.0
+    throttle-debounce: ^3.0.1
     topojson-client: 3.1.0
     topojson-server: 3.0.1
     ts-node-dev: ^1.1.8
