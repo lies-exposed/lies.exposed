@@ -1,9 +1,9 @@
 import * as tests from "@liexp/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
+import { propsOmit } from "../../io/utils";
 import { MIN_DATE, MAX_DATE, DateArb } from "./Date.arbitrary";
 import { URLArb } from "./URL.arbitrary";
-import { propsOmit } from "./utils.arbitrary";
 
 const createScientificStudyProps = propsOmit(
   http.Events.ScientificStudy.CreateScientificStudyBody,

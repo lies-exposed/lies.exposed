@@ -2,9 +2,9 @@ import { fc } from "@liexp/core/tests";
 import { getArbitrary } from "fast-check-io-ts";
 import * as t from "io-ts";
 import * as Events from "../../../io/http/Events";
+import { propsOmit } from "../../../io/utils";
 import { DateArb } from "../Date.arbitrary";
 import { URLArb } from "../URL.arbitrary";
-import { propsOmit } from "../utils.arbitrary";
 
 export const PatentEventArb = getArbitrary(
   t.strict(

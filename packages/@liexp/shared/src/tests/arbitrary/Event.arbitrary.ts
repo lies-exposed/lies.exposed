@@ -1,10 +1,10 @@
 import { fc, getArbitrary } from "@liexp/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
+import { propsOmit } from "../../io/utils";
 import { DateArb } from "./Date.arbitrary";
 import { CreateKeywordArb, TagArb } from "./Keyword.arbitrary";
 import { URLArb } from "./URL.arbitrary";
-import { propsOmit } from "./utils.arbitrary";
 
 interface CreateEventBodyArbOpts {
   linksIds?: boolean;

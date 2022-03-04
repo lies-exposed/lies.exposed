@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { propsOmit } from "../../../tests/arbitrary/utils.arbitrary";
+import { propsOmit } from "../../utils";
 import { URL } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";

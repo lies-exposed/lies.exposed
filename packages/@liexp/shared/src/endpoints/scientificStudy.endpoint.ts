@@ -10,7 +10,7 @@ import {
   ScientificStudy,
 } from "../io/http/Events/ScientificStudy";
 import { GetListQuery } from "../io/http/Query";
-import { propsOmit } from "../tests/arbitrary/utils.arbitrary";
+import { propsOmit } from "../io/utils";
 import { ResourceEndpoints } from "./types";
 
 const SingleStudyOutput = Output(ScientificStudy, "Death");

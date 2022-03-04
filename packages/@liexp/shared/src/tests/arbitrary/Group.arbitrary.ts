@@ -1,9 +1,9 @@
 import * as tests from "@liexp/core/tests";
 import * as t from "io-ts";
 import * as http from "../../io/http";
+import { propsOmit } from "../../io/utils";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 import { ColorArb } from "./common/Color.arbitrary";
-import { propsOmit } from "./utils.arbitrary";
 
 export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
   .getArbitrary(
