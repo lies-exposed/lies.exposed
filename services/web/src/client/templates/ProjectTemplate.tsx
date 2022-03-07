@@ -26,7 +26,10 @@ export default class ProjectTemplate extends React.PureComponent<
             params={{ project: { id: projectId } }}
             render={QR.fold(Loader, ErrorBox, ({ project }) => (
               <MainContent>
-                <SEO title={project.name} />
+                <SEO
+                  title={project.name}
+                  image={project.media[0]?.thumbnail ?? ""}
+                />
                 <ProjectPageContent
                   {...project}
                   metadata={eventMetadataMapEmpty}

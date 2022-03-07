@@ -2,15 +2,15 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray";
 import { BaseProps } from "../Common/BaseProps";
-import { ByGroupOrActor } from "../Common/ByGroupOrActor";
+import { BySubject } from "../Common/BySubject";
 
 export const PublicAnnouncement = t.strict(
   {
     ...BaseProps.type.props,
     title: t.string,
     type: t.literal("PublicAnnouncement"),
-    from: nonEmptyArray(ByGroupOrActor),
-    publishedBy: nonEmptyArray(ByGroupOrActor),
+    from: nonEmptyArray(BySubject),
+    publishedBy: nonEmptyArray(BySubject),
     // for: For,
     date: DateFromISOString,
   },

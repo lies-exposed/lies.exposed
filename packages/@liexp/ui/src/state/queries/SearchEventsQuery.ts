@@ -19,7 +19,6 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
-import { SearchEvent } from "../../components/lists/EventList/EventListItem";
 import { api } from "../api";
 
 const log = GetLogger("search-events-query");
@@ -35,10 +34,11 @@ export interface EventTotals {
   scientificStudies: number;
   patents: number;
   documentaries: number;
+  transactions: number;
 }
 
 export interface SearchEventQueryResult {
-  events: SearchEvent[];
+  events: Events.SearchEvent.SearchEvent[];
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
@@ -194,7 +194,8 @@ const mergeState = (
           scientificStudies: update.events.totals.scientificStudies,
           uncategorized: update.events.totals.uncategorized,
           patents: update.events.totals.patents,
-          documentaries: update.events.totals.documentaries
+          documentaries: update.events.totals.documentaries,
+          transactions: update.events.totals.transactions,
         },
       })),
       O.getOrElse(
@@ -241,10 +242,10 @@ const mergeState = (
 const toSearchEvent = (
   events: Events.Event[],
   s: SearchEventsQueryCache
-): SearchEvent[] => {
+): Events.SearchEvent.SearchEvent[] => {
   return pipe(
     events,
-    A.reduce([] as SearchEvent[], (acc, e) => {
+    A.reduce([] as Events.SearchEvent.SearchEvent[], (acc, e) => {
       const {
         actors: actorIds,
         groups: groupIds,
@@ -331,7 +332,7 @@ const toSearchEvent = (
               ...e,
               payload: {
                 ...e.payload,
-                media: media.find((m) => m.id === e.payload.media) ??  media[0],
+                media: media.find((m) => m.id === e.payload.media) ?? media[0],
                 authors: {
                   actors: actors.filter((a) =>
                     e.payload.authors.actors.includes(a.id)
@@ -348,6 +349,30 @@ const toSearchEvent = (
                     e.payload.subjects.groups.includes(g.id)
                   ),
                 },
+              },
+              media,
+              keywords,
+            },
+          ]);
+        }
+        case Events.EventType.types[5].value: {
+          const from =
+            e.payload.from.type === "Group"
+              ? groups.find((g) => g.id === e.payload.from.id)
+              : actors.find((a) => a.id === e.payload.from.id);
+
+          const to =
+            e.payload.to.type === "Group"
+              ? groups.find((g) => g.id === e.payload.to.id)
+              : actors.find((a) => a.id === e.payload.to.id);
+
+          return acc.concat([
+            {
+              ...e,
+              payload: {
+                ...e.payload,
+                from: { ...e.payload.from, id: from as any },
+                to: { ...e.payload.to, id: to as any },
               },
               media,
               keywords,

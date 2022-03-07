@@ -90,20 +90,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
                 margin: 0,
               }}
             >
-              <Slider
-                slides={media}
-                style={{
-                  maxWidth: 800,
-                  maxHeight: 400,
-                  margin: "auto",
-                  width: "100%",
-                }}
-                itemStyle={{
-                  maxWidth: 800,
-                  maxHeight: 400,
-                  minHeight: 400,
-                }}
-              />
+              <Slider slides={media} />
             </Box>
           </Grid>
         )),

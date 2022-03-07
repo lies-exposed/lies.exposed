@@ -30,6 +30,7 @@ export interface EventsTotalsProps {
     scientificStudies: boolean;
     patents: boolean;
     documentaries: boolean
+    transactions: boolean
   };
   onFilterChange: (f: EventsTotalsProps["filters"]) => void;
 }
@@ -149,6 +150,21 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
                 >
                   <EventIcon type="Patent" style={{ marginRight: 10 }} />
                   <Typography variant="caption">{totals.patents}</Typography>
+                </IconButton>
+                <IconButton
+                  color="primary"
+                  className={clsx(classes.iconButton, {
+                    [classes.iconButtonSelected]: filters.transactions,
+                  })}
+                  onClick={() => {
+                    onFilterChange({
+                      ...filters,
+                      transactions: !filters.transactions,
+                    });
+                  }}
+                >
+                  <EventIcon type="Transaction" style={{ marginRight: 10 }} />
+                  <Typography variant="caption">{totals.transactions}</Typography>
                 </IconButton>
                 <Typography
                   display="inline"

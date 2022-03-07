@@ -27,6 +27,7 @@ import { MakeDocumentaryReleaseRoutes } from '@routes/events/documentary/documen
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
+import { MakeTransactionEventsRoutes } from '@routes/events/transactions/transaction.routes';
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
@@ -166,6 +167,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   MakeScientificStudyRoutes(router, ctx);
   MakePatentEventsRoutes(router, ctx);
   MakeDocumentaryReleaseRoutes(router, ctx);
+  MakeTransactionEventsRoutes(router, ctx);
 
   // links
   MakeLinkRoutes(router, ctx);

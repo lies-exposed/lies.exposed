@@ -24,12 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface MediaElementProps {
+interface PDFMediaElementProps {
+  className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.PDFType };
   style?: React.CSSProperties;
 }
 
-const PDFMediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
+const PDFMediaElement: React.FC<PDFMediaElementProps> = ({ media, className, ...props }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -40,7 +41,7 @@ const PDFMediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
       alignItems="center"
       justifyContent="center"
     >
-      {media.thumbnail ?? <img src={media.thumbnail} />}
+      {media.thumbnail ?? <img className={className} src={media.thumbnail} />}
       <Button
         variant="contained"
         onClick={() => {

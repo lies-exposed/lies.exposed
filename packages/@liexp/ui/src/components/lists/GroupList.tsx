@@ -1,5 +1,5 @@
 import { Group } from "@liexp/shared/io/http";
-import { Box, ListProps, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
@@ -10,7 +10,8 @@ export interface Group extends Group.Group {
   selected: boolean;
 }
 
-interface GroupListProps extends ListProps {
+interface GroupListProps {
+  className?: string;
   groups: Group[];
   onItemClick: (actor: Group) => void;
   avatarSize?: AvatarSize;
@@ -18,15 +19,19 @@ interface GroupListProps extends ListProps {
 }
 
 export const GroupListItem: React.FC<
-  ListItemProps<Group> & { avatarSize?: AvatarSize; displayName?: boolean }
-> = ({ item, avatarSize, displayName = false, onClick }) => {
+  ListItemProps<Group> & {
+    avatarSize?: AvatarSize;
+    displayName?: boolean;
+    style?: React.CSSProperties;
+  }
+> = ({ item, avatarSize, displayName = false, onClick, style }) => {
   return (
     <Box
       key={item.id}
       display="flex"
       alignItems="center"
       margin={0}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", ...style }}
       onClick={() => onClick?.(item)}
     >
       {pipe(
@@ -62,7 +67,6 @@ export const GroupListItem: React.FC<
 const GroupList: React.FC<GroupListProps> = ({
   groups,
   onItemClick: onGroupClick,
-  onClick,
   ...props
 }) => {
   return (

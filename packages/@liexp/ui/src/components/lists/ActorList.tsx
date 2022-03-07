@@ -1,7 +1,7 @@
 import * as io from "@liexp/shared/io/http";
 import { Box, Typography } from "@material-ui/core";
-import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import { Avatar, AvatarSize } from "../Common/Avatar";
 import { List, ListItemProps } from "../Common/List";
@@ -11,15 +11,19 @@ export interface Actor extends io.Actor.Actor {
 }
 
 export const ActorListItem: React.FC<
-  ListItemProps<Actor> & { avatarSize?: AvatarSize; displayFullName?: boolean }
-> = ({ item, avatarSize, displayFullName = false, onClick }) => {
+  ListItemProps<Actor> & {
+    avatarSize?: AvatarSize;
+    displayFullName?: boolean;
+    style?: React.CSSProperties;
+  }
+> = ({ item, avatarSize, displayFullName = false, onClick, style }) => {
   return (
     <Box
       key={item.id}
       display="flex"
       alignItems="center"
       margin={0}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", ...style }}
       onClick={() => onClick?.(item)}
     >
       {pipe(
@@ -51,6 +55,7 @@ export const ActorListItem: React.FC<
 };
 
 interface ActorListProps {
+  className?: string;
   actors: Actor[];
   onActorClick: (actor: Actor) => void;
   avatarSize?: AvatarSize;
@@ -59,6 +64,7 @@ interface ActorListProps {
 }
 
 export const ActorList: React.FC<ActorListProps> = ({
+  className,
   actors,
   onActorClick,
   avatarSize,
@@ -67,6 +73,7 @@ export const ActorList: React.FC<ActorListProps> = ({
 }) => {
   return (
     <List
+      className={className}
       style={style}
       data={actors}
       getKey={(a) => a.id}

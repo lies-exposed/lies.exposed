@@ -1,12 +1,11 @@
-import { Actor, Keyword } from "@liexp/shared/io/http";
+import { Actor, Keyword, Events } from "@liexp/shared/io/http";
 import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
-import { SearchDeathEvent } from "./EventListItem";
 import EventListItemBase from "./EventListItemBase";
 
 interface DeathListItemProps {
-  item: SearchDeathEvent;
-  onClick?: (e: SearchDeathEvent) => void;
+  item: Events.SearchEvent.SearchDeathEvent;
+  onClick?: (e: Events.SearchEvent.SearchDeathEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }

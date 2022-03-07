@@ -3,102 +3,18 @@ import {
   Events,
   Group,
   GroupMember,
-  Keyword,
-  Media,
+  Keyword
 } from "@liexp/shared/io/http";
 import * as React from "react";
 import { DeathListItem } from "./DeathListItem";
 import { DocumentaryListItem } from "./DocumentaryListItem";
 import PatentListItem from "./PatentListItem";
 import { ScientificStudyListItem } from "./ScientificStudyListItem";
+import { TransactionListItem } from "./TransactionListItem";
 import { UncategorizedListItem } from "./UncategorizedListItem";
 
-export interface SearchUncategorizedEvent
-  extends Omit<
-    Events.Uncategorized.Uncategorized,
-    "payload" | "media" | "keywords"
-  > {
-  payload: Omit<
-    Events.Uncategorized.Uncategorized["payload"],
-    "actors" | "groups" | "groupsMembers"
-  > & {
-    actors: Actor.Actor[];
-    groups: Group.Group[];
-    groupsMembers: GroupMember.GroupMember[];
-  };
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-}
-
-export interface SearchDeathEvent
-  extends Omit<Events.Death.Death, "payload" | "media" | "keywords"> {
-  payload: Omit<Events.Death.Death["payload"], "victim"> & {
-    victim: Actor.Actor;
-  };
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-}
-
-export interface SearchScientificStudyEvent
-  extends Omit<
-    Events.ScientificStudy.ScientificStudy,
-    "payload" | "media" | "keywords"
-  > {
-  payload: Omit<
-    Events.ScientificStudy.ScientificStudy["payload"],
-    "authors" | "publisher"
-  > & {
-    authors: Actor.Actor[];
-    publisher: Group.Group;
-  };
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-}
-
-export interface SearchPatentEvent
-  extends Omit<Events.Patent.Patent, "payload" | "media" | "keywords"> {
-  payload: Omit<Events.Patent.Patent["payload"], "owners"> & {
-    owners: {
-      actors: Actor.Actor[];
-      groups: Group.Group[];
-    };
-  };
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-}
-
-export interface SearchDocumentaryEvent
-  extends Omit<
-    Events.Documentary.Documentary,
-    "payload" | "media" | "keywords"
-  > {
-  payload: Omit<
-    Events.Documentary.DocumentaryPayload,
-    "media" | "authors" | "subjects"
-  > & {
-    media: Media.Media;
-    authors: {
-      actors: Actor.Actor[];
-      groups: Group.Group[];
-    };
-    subjects: {
-      actors: Actor.Actor[];
-      groups: Group.Group[];
-    };
-  };
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-}
-
-export type SearchEvent =
-  | SearchDeathEvent
-  | SearchScientificStudyEvent
-  | SearchUncategorizedEvent
-  | SearchPatentEvent
-  | SearchDocumentaryEvent;
-
 export interface EventListItemProps {
-  event: SearchEvent;
+  event: Events.SearchEvent.SearchEvent;
   style?: React.CSSProperties;
   onClick: (e: any) => void;
   onActorClick: (a: Actor.Actor) => void;
@@ -112,6 +28,9 @@ export const EventListItem: React.FC<EventListItemProps> = ({
   ...props
 }) => {
   switch (e.type) {
+    case Events.Transaction.TRANSACTION.value: {
+      return <TransactionListItem item={e} {...props} />;
+    }
     case Events.Documentary.DOCUMENTARY.value: {
       return <DocumentaryListItem item={e} {...props} />;
     }

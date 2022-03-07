@@ -1,12 +1,11 @@
-import { Actor, Keyword } from "@liexp/shared/io/http";
+import { Actor, Events, Keyword } from "@liexp/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
-import { SearchPatentEvent } from "./EventListItem";
 import EventListItemBase from './EventListItemBase';
 
 interface PatentListItemProps {
-  item: SearchPatentEvent;
-  onClick?: (e: SearchPatentEvent) => void;
+  item: Events.SearchEvent.SearchPatentEvent;
+  onClick?: (e: Events.SearchEvent.SearchPatentEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
 }

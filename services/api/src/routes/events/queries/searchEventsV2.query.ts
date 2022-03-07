@@ -1,3 +1,6 @@
+// https://www.postgresql.org/docs/12/functions-json.html
+
+import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
@@ -34,13 +37,7 @@ interface SearchEventQuery {
 
 interface SearchEventOutput {
   results: EventV2Entity[];
-  totals: {
-    uncategorized: number;
-    deaths: number;
-    scientificStudies: number;
-    patents: number;
-    documentaries: number;
-  };
+  totals: EventTotals;
 }
 
 export const searchEventV2Query =
@@ -177,6 +174,14 @@ export const searchEventV2Query =
                               ` "event"."payload"::jsonb -> 'owners' -> 'actors' ?| ARRAY[:...actors] `
                             );
                           })
+                        )
+                        .orWhere(
+                          new Brackets((qb) => {
+                            qb.where(" event.type = 'Transaction' ").andWhere(
+                              `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...actors]) OR ` +
+                                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Actor' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...actors]) )`
+                            );
+                          })
                         );
                     })
                   );
@@ -202,6 +207,14 @@ export const searchEventV2Query =
                         )
                         .orWhere(
                           ` (event.type = 'Patent' AND "event"."payload"::jsonb -> 'owners' -> 'groups' ?| ARRAY[:...groups])`
+                        )
+                        .orWhere(
+                          new Brackets((qb) => {
+                            qb.where(" event.type = 'Transaction' ").andWhere(
+                              `( ("event"."payload"::jsonb -> 'from' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'from' -> 'id' ?| ARRAY[:...groups]) OR ` +
+                                ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...groups]) )`
+                            );
+                          })
                         );
                     })
                   );
@@ -288,6 +301,15 @@ export const searchEventV2Query =
             //   ...documentariesCount.getQueryAndParameters()
             // );
 
+            const transactionsCount = q
+              .clone()
+              .andWhere("event.type = 'Transaction'");
+
+            // logger.debug.log(
+            //   `Transaction count query %O`,
+            //   ...transactions.getQueryAndParameters()
+            // );
+
             if (order !== undefined) {
               addOrder(order, q, "event");
             }
@@ -305,6 +327,7 @@ export const searchEventV2Query =
               scientificStudiesCount,
               patentCount,
               documentariesCount,
+              transactionsCount,
             };
           }
         );
@@ -331,6 +354,9 @@ export const searchEventV2Query =
           patents: db.execQuery(() => searchV2Query.patentCount.getCount()),
           documentaries: db.execQuery(() =>
             searchV2Query.documentariesCount.getCount()
+          ),
+          transactions: db.execQuery(() =>
+            searchV2Query.transactionsCount.getCount()
           ),
         });
       }),

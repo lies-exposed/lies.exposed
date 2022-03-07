@@ -1,7 +1,19 @@
 import { MP4Type } from "@liexp/shared/io/http/Media";
+import { makeStyles } from "@material-ui/core";
 import * as React from "react";
 
+const useStyles = makeStyles(() => ({
+  wrapper: {
+    width: "100%",
+    minWidth: 400,
+    maxWidth: 800,
+    minHeight: 300,
+    maxHeight: 400,
+  },
+}));
+
 interface VideoProps {
+  className?: string;
   src: string;
   type: MP4Type;
   controls: boolean;
@@ -20,10 +32,11 @@ export const Video: React.FC<VideoProps> = ({
   muted,
   style,
 }) => {
+  const classes = useStyles();
   const [loaded, setLoaded] = React.useState(true);
 
   return (
-    <div className="video" style={style} onClick={() => setLoaded(true)}>
+    <div className={classes.wrapper} style={style} onClick={() => setLoaded(true)}>
       {loaded ? (
         <video
           controls={controls}

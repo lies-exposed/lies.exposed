@@ -7,7 +7,8 @@ export interface ListItemProps<A> {
   onClick?: (a: A) => void;
 }
 
-interface ListProps<A> {
+export interface ListProps<A> {
+  className?: string;
   data: A[];
   getKey: (a: A) => string;
   ListItem: React.FC<ListItemProps<A>>;
@@ -17,6 +18,7 @@ interface ListProps<A> {
 }
 
 export const List = <A extends any>({
+  className,
   ListItem,
   data,
   style = {},
@@ -24,7 +26,7 @@ export const List = <A extends any>({
   onItemClick,
 }: ListProps<A>): JSX.Element => {
   return (
-    <MUIList style={style}>
+    <MUIList className={className} style={style}>
       {data.map((d, i) => (
         <ListItem key={getKey(d)} item={d} onClick={onItemClick} index={i} />
       ))}

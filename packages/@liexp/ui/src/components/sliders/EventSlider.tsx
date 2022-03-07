@@ -1,3 +1,4 @@
+import { Events } from '@liexp/shared/io/http';
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { Typography } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
@@ -7,11 +8,11 @@ import SlickSlider from "react-slick";
 import { searchEventsQuery } from "../../state/queries/SearchEventsQuery";
 import { ErrorBox } from "../Common/ErrorBox";
 import { LazyLoader } from "../Common/Loader";
-import { EventListItem, SearchEvent } from "../lists/EventList/EventListItem";
+import { EventListItem } from "../lists/EventList/EventListItem";
 
 export interface EventSliderProps {
   params: GetSearchEventsQueryInput;
-  onClick: (e: SearchEvent) => void;
+  onClick: (e: Events.SearchEvent.SearchEvent) => void;
 }
 
 export const EventSlider: React.FC<EventSliderProps> = ({

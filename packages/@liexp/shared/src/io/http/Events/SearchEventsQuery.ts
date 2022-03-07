@@ -25,3 +25,17 @@ export const GetSearchEventsQuery = t.strict(
 
 export type GetSearchEventsQuery = t.TypeOf<typeof GetSearchEventsQuery>;
 export type GetSearchEventsQueryInput = t.OutputOf<typeof GetSearchEventsQuery>;
+
+export const EventTotals = t.strict(
+  {
+    uncategorized: t.number,
+    deaths: t.number,
+    scientificStudies: t.number,
+    patents: t.number,
+    documentaries: t.number,
+    transactions: t.number,
+  },
+  "EventTotals"
+);
+
+export type EventTotals = t.TypeOf<typeof EventTotals>;

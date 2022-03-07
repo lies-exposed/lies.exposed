@@ -274,6 +274,8 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                             scientificStudies: 0,
                             patents: 0,
                             deaths: 0,
+                            documentaries: 0,
+                            transactions: 0
                           }}
                         />
                       }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
+import { getRelationIds } from "@liexp/shared/helpers/event";
 import { Events } from "@liexp/shared/io/http";
-import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { APIError } from "@liexp/shared/providers/api.provider";
 import { queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -14,7 +14,7 @@ import {
   buildFromCache,
   getFromCache,
   infiniteListCache,
-  toKey,
+  toKey
 } from "../utils/state.utils";
 
 export const IL_EVENT_KEY_PREFIX = "events";
@@ -118,54 +118,23 @@ const paginatedCachedQuery =
     );
   };
 
+
 const reduceEvent = (
   acc: InfiniteEventListMetadata,
   e: Events.Event
 ): InfiniteEventListMetadata => {
-  if (e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value) {
-    return {
-      ...acc,
-      groups:
-        e.payload.publisher === undefined ||
-        acc.groups.includes(e.payload.publisher)
-          ? acc.groups
-          : acc.groups.concat(e.payload.publisher),
-    };
-  }
-  if (e.type === Events.Death.DEATH.value) {
-    return {
-      ...acc,
-      actors: acc.actors.includes(e.payload.victim)
-        ? acc.actors
-        : acc.actors.concat(e.payload.victim),
-    };
-  }
 
-  if (e.type === Events.Patent.PATENT.value) {
-    return {
-      ...acc,
-      actors: acc.actors.concat(
-        e.payload.owners.actors.filter((a) => !acc.actors.includes(a))
-      ),
-      groups: acc.groups.concat(
-        e.payload.owners.groups.filter((a) => !acc.groups.includes(a))
-      ),
-    };
-  }
+  const { actors, groups, groupsMembers } = getRelationIds(e);
 
   return {
-    actors: acc.actors
-      .filter((a) => !(e.payload.actors ?? []).includes(a))
-      .concat(e.payload.actors),
-    groups: acc.groups
-      .filter((a) => !(e.payload.groups ?? []).includes(a))
-      .concat(e.payload.groups),
+    actors: acc.actors.filter((a) => !actors.includes(a)).concat(actors as any[]),
+    groups: acc.groups.filter((a) => !groups.includes(a)).concat(groups as any[]),
     keywords: acc.keywords
-      .filter((a) => !(e.keywords ?? []).includes(a))
+      .filter((a) => !e.keywords.includes(a))
       .concat(e.keywords),
     groupsMembers: acc.groupsMembers
-      .filter((a) => !(e.payload.groupsMembers ?? []).includes(a))
-      .concat(e.payload.groupsMembers),
+      .filter((a) => !groupsMembers.includes(a))
+      .concat(groupsMembers as any[]),
     media: acc.media
       .filter((a) => !(e.media ?? []).includes(a))
       .concat(e.media),

@@ -75,7 +75,8 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
             totals.scientificStudies +
             totals.uncategorized +
             totals.patents +
-            totals.documentaries,
+            totals.documentaries +
+            totals.transactions,
           totals,
         },
         statusCode: 200,

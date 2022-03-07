@@ -1,5 +1,4 @@
 import { Media } from "@liexp/shared/io/http";
-import { Box } from "@material-ui/core";
 import * as React from "react";
 import { Video } from "../Video/Video";
 import ExpandableImageElement from "./ExpandableImageElement";
@@ -8,15 +7,21 @@ import PDFMediaElement from "./PDFMediaElement";
 
 interface MediaElementProps {
   media: Media.Media;
+  className?: string;
   style?: React.CSSProperties;
 }
 
-const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
+const MediaElement: React.FC<MediaElementProps> = ({
+  media,
+  className,
+  ...props
+}) => {
   const mediaElement = React.useMemo(() => {
     switch (media.type) {
       case Media.MediaType.types[5].value:
         return (
           <IframeMediaElement
+            className={className}
             media={{ ...media, type: "iframe/video" }}
             style={{
               width: "100%",
@@ -30,6 +35,7 @@ const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
       case Media.MediaType.types[4].value: {
         return (
           <PDFMediaElement
+            className={className}
             media={{ ...media, type: "application/pdf" }}
             style={props.style}
           />
@@ -37,29 +43,23 @@ const MediaElement: React.FC<MediaElementProps> = ({ media, ...props }) => {
       }
       case Media.MediaType.types[3].value: {
         return (
-          <Box>
-            <Video
-              src={media.location}
-              type={"video/mp4"}
-              muted={false}
-              loop={false}
-              style={{
-                width: "100%",
-                minWidth: 400,
-                maxWidth: 800,
-                minHeight: 300,
-                maxHeight: 400,
-                ...props.style,
-              }}
-              controls={true}
-              autoPlay={false}
-            />
-          </Box>
+          <Video
+            className={className}
+            src={media.location}
+            type={"video/mp4"}
+            muted={false}
+            loop={false}
+            controls={true}
+            autoPlay={false}
+          />
         );
       }
       default:
         return (
-          <ExpandableImageElement media={media as any} style={props.style} />
+          <ExpandableImageElement
+            className={className}
+            media={media as any}
+          />
         );
     }
   }, [media]);

@@ -35,7 +35,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
         ({ actor, groups: { data: groups } }) => {
           return (
             <MainContent>
-              <SEO title={actor.fullName} />
+              <SEO title={actor.fullName} image={actor.avatar ?? ""} />
               <ActorPageContent
                 actor={actor}
                 groups={groups}

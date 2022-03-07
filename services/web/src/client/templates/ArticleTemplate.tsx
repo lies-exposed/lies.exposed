@@ -24,7 +24,7 @@ export default class ArticleTemplate extends React.PureComponent<
             params={{ article: { path: articlePath } }}
             render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ article }) => (
               <>
-                <SEO title={article.title} />
+                <SEO title={article.title} image={article.featuredImage} />
                 <ArticlePageContent {...article} />
               </>
             ))}

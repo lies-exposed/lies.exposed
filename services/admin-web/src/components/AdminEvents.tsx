@@ -1,12 +1,12 @@
 import * as io from "@liexp/shared/io";
 import { http } from "@liexp/shared/io";
 import { Events } from "@liexp/shared/io/http";
-import { Event } from "@liexp/shared/io/http/Events";
+import { Documentary, Event } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { DOCUMENTARY } from '@liexp/shared/io/http/Events/Documentary';
-import { PATENT } from '@liexp/shared/io/http/Events/Patent';
+import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
+import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { UNCATEGORIZED } from '@liexp/shared/io/http/Events/Uncategorized';
+import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
@@ -38,7 +38,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -50,17 +50,20 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
-import { DocumentaryReleaseTitle } from "./events/AdminDocumentaryEvent";
+import {
+  DocumentaryEditFormTab,
+  DocumentaryReleaseTitle,
+} from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -259,6 +262,9 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
 
         <FormDataConsumer>
           {({ formData, getSource, scopedFormData, ...rest }) => {
+            if (formData.type === Documentary.DOCUMENTARY.value) {
+              return <DocumentaryEditFormTab {...rest} />;
+            }
             if (formData.type === "Death") {
               return <DeathEventEditFormTab {...rest} />;
             }

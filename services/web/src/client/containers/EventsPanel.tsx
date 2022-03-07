@@ -2,18 +2,12 @@ import {
   Death,
   Documentary,
   EventType,
-  Patent,
-  Uncategorized,
-  ScientificStudy,
+  Patent, ScientificStudy, Transaction, Uncategorized,
+  SearchEvent
 } from "@liexp/shared/io/http/Events";
 import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsMap from "@liexp/ui/components/EventsMap";
-import { SearchEvent } from "@liexp/ui/components/lists/EventList/EventListItem";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
-import {
-  SearchEventQueryResult,
-  searchEventsQuery,
-} from "@liexp/ui/state/queries/SearchEventsQuery";
 import { ECOTheme } from "@liexp/ui/theme";
 import {
   Box,
@@ -21,12 +15,11 @@ import {
   Grid,
   makeStyles,
   Tab,
-  Tabs,
+  Tabs
 } from "@material-ui/core";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
-import { IndexRange } from "react-virtualized";
 import EventsTotals from "../components/events/EventsTotals";
 import { useNavigateToResource } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
@@ -157,18 +150,13 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     setOpen(false);
   };
 
-  const [filters, setTypeFilters] = React.useState<{
-    deaths: boolean;
-    uncategorized: boolean;
-    scientificStudies: boolean;
-    patents: boolean;
-    documentaries: boolean;
-  }>({
+  const [filters, setTypeFilters] = React.useState({
     deaths: !!query.type?.includes(Death.DEATH.value),
     uncategorized: !!query.type?.includes(Uncategorized.UNCATEGORIZED.value),
     scientificStudies: !!query.type?.includes(ScientificStudy.SCIENTIFIC_STUDY.value),
     patents: !!query.type?.includes(Patent.PATENT.value),
     documentaries: !!query.type?.includes(Documentary.DOCUMENTARY.value),
+    transactions: !!query.type?.includes(Transaction.TRANSACTION.value)
   });
 
   const handleUpdateEventsSearch = React.useCallback(
@@ -178,7 +166,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
     [hash, tab, query]
   );
 
-  const handleEventClick = React.useCallback((e: SearchEvent) => {
+  const handleEventClick = React.useCallback((e: SearchEvent.SearchEvent) => {
     if (e.type === "Death") {
       navigateTo.actors({ id: e.payload.victim.id });
     } else if (e.type === "Uncategorized") {
@@ -261,6 +249,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
             if (f.documentaries) {
               type.push(Documentary.DOCUMENTARY.value)
+            }
+
+            if (f.transactions) {
+              type.push(Transaction.TRANSACTION.value)
             }
 
             setTypeFilters(f);

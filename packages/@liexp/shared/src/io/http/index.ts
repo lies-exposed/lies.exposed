@@ -17,7 +17,6 @@ import * as Project from "./Project";
 import * as ProjectImage from "./ProjectImage";
 import * as Query from "./Query";
 import * as Topic from "./Topic";
-import * as Transaction from "./Transaction";
 import * as User from "./User";
 import * as Video from "./Video";
 
@@ -56,6 +55,5 @@ export {
   Page,
   Query,
   Network,
-  Transaction,
   Topic,
 };

@@ -1,70 +1,121 @@
 import { subYears } from "date-fns";
-import { Transaction } from "../io/http";
+import * as Transaction from "../io/http/Events/Transaction";
 import { uuid } from "../utils/uuid";
 import { badActor, goodActor, goodSecondActor } from "./actors";
 import { badGroup, goodGroup } from "./groups";
 
-export const firstFund: Transaction.TransactionFrontmatter = {
+export const firstFund: Transaction.Transaction = {
   id: uuid() as any,
-  type: Transaction.TRANSACTION_FRONTMATTER.value,
-  amount: 100000,
-  by: { type: "Actor", actor: goodActor.id },
-  to: { type: "Actor", actor: goodSecondActor.id },
+  type: Transaction.TRANSACTION.value,
+  payload: {
+    title: "employment",
+    total: 100000,
+    currency: "euro",
+    from: { type: "Actor", id: goodActor.id },
+    to: { type: "Actor", id: goodSecondActor.id },
+  },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
   updatedAt: new Date(),
-  sources: ["first source"],
+  draft: false,
+  excerpt: {},
+  body: {},
+  links: [],
+  media: [],
+  keywords: [],
+  deletedAt: undefined
 };
 
-export const secondFund: Transaction.TransactionFrontmatter = {
+export const secondFund: Transaction.Transaction = {
   id: uuid() as any,
-  type: Transaction.TRANSACTION_FRONTMATTER.value,
-  amount: 40000,
-  by: { type: "Actor", actor: badActor.id },
-  to: { type: "Group", group: badGroup.id },
+  type: Transaction.TRANSACTION.value,
+  payload: {
+    title: "media coverage",
+    total: 40000,
+    currency: "euro",
+    from: { type: "Actor", id: badActor.id },
+    to: { type: "Group", id: badGroup.id },
+  },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
   updatedAt: new Date(),
-  sources: ["second source"],
+  draft: false,
+  excerpt: {},
+  body: {},
+  links: [],
+  media: [],
+  keywords: [],
+  deletedAt: undefined,
 };
 
-export const thirdFund: Transaction.TransactionFrontmatter = {
+export const thirdFund: Transaction.Transaction = {
   id: uuid() as any,
-  type: Transaction.TRANSACTION_FRONTMATTER.value,
-  amount: 150000,
-  by: { type: "Group", group: goodGroup.id },
-  to: { type: "Group", group: badGroup.id },
+  type: Transaction.TRANSACTION.value,
+  payload: {
+    title: "cinema",
+    total: 150000,
+    currency: "euro",
+    from: { type: "Group", id: goodGroup.id },
+    to: { type: "Group", id: badGroup.id },
+  },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
   updatedAt: new Date(),
-  sources: ["third sources"],
+  draft: false,
+  excerpt: {},
+  body: {},
+  links: [],
+  media: [],
+  keywords: [],
+  deletedAt: undefined,
 };
 
-export const fourthFund: Transaction.TransactionFrontmatter = {
+export const fourthFund: Transaction.Transaction = {
   id: uuid() as any,
-  type: Transaction.TRANSACTION_FRONTMATTER.value,
-  amount: 200000,
-  by: { type: "Group", group: goodGroup.id },
-  to: { type: "Actor", actor: goodActor.id },
+  type: Transaction.TRANSACTION.value,
+
+  payload: {
+    title: "transaction title",
+    total: 200000,
+    currency: "dollar",
+    from: { type: "Group", id: goodGroup.id },
+    to: { type: "Actor", id: goodActor.id },
+  },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
   updatedAt: new Date(),
-  sources: ["third sources"],
+  draft: false,
+  excerpt: {},
+  body: {},
+  links: [],
+  media: [],
+  keywords: [],
+  deletedAt: undefined,
 };
 
-export const fifthFund: Transaction.TransactionFrontmatter = {
+export const fifthFund: Transaction.Transaction = {
   id: uuid() as any,
-  type: Transaction.TRANSACTION_FRONTMATTER.value,
-  amount: 200000,
-  by: { type: "Actor", actor: goodActor.id },
-  to: { type: "Actor", actor: goodSecondActor.id },
+  type: Transaction.TRANSACTION.value,
+  payload: {
+    title: "dasdsa",
+    total: 200000,
+    currency: "euro",
+    from: { type: "Actor", id: goodActor.id },
+    to: { type: "Actor", id: goodSecondActor.id },
+  },
   date: subYears(new Date(), 1),
   createdAt: new Date(),
   updatedAt: new Date(),
-  sources: ["third sources"],
+  draft: false,
+  excerpt: {},
+  body: {},
+  links: [],
+  media: [],
+  keywords: [],
+  deletedAt: undefined,
 };
 
-export const funds: Transaction.TransactionFrontmatter[] = [
+export const funds: Transaction.Transaction[] = [
   firstFund,
   secondFund,
   thirdFund,

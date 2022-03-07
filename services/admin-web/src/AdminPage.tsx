@@ -1,3 +1,4 @@
+import "./index.css";
 import { ECOTheme } from "@liexp/ui/theme";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EventIcon from "@material-ui/icons/Event";
@@ -48,9 +49,14 @@ import {
   ScientificStudyCreate,
   ScientificStudyEdit
 } from "./components/events/AdminScientificStudyEvent";
+import {
+  TransactionCreate,
+  TransactionEdit,
+  TransactionList
+} from "./components/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./components/events/AdminUncategorizedEvent";
 import englishMessages from "./i18n/en-US";
-import "./index.css";
+
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -147,6 +153,12 @@ const AdminPage: React.FC = () => {
         list={DocumentaryList}
         edit={DocumentaryEdit}
         create={DocumentaryCreate}
+      />
+      <Resource
+        name="transactions"
+        list={TransactionList}
+        edit={TransactionEdit}
+        create={TransactionCreate}
       />
       <AdminLinksResource name="links" />
       <AdminKeywordResource name="keywords" />

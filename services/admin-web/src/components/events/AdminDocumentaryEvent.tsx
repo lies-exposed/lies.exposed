@@ -1,4 +1,5 @@
 import * as Events from "@liexp/shared/io/http/Events";
+import { DOCUMENTARY } from '@liexp/shared/io/http/Events/Documentary';
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
@@ -37,10 +38,10 @@ import ReferenceMediaInput from "../Common/ReferenceMediaInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
-const DeathEventsFilter: React.FC = (props: any) => {
+const TransactionEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <TextInput source="type" value="Death" />
+      <TextInput source="type" value={DOCUMENTARY.value} />
       <ReferenceActorInput source="victim" alwaysOn />
       <DateInput source="date" />
     </Filter>
@@ -50,7 +51,7 @@ const DeathEventsFilter: React.FC = (props: any) => {
 export const DocumentaryList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={<DeathEventsFilter />}
+    filters={<TransactionEventsFilter />}
     perPage={20}
     filterDefaultValues={{
       _sort: "date",
@@ -81,7 +82,7 @@ export const DocumentaryReleaseTitle: React.FC<{
   );
 };
 
-export const DocumentaryReleaseEditFormTab: React.FC<EditProps> = (
+export const DocumentaryEditFormTab: React.FC<EditProps> = (
   props: EditProps
 ) => (
   <FormTab label="Payload" {...props}>

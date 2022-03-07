@@ -1,6 +1,6 @@
 import {
   eqByUUID,
-  ordEventDate,
+  getEventsMetadata, ordEventDate
 } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -9,8 +9,9 @@ import {
   Group,
   Keyword,
   Page,
-  Topic,
+  Topic
 } from "@liexp/shared/io/http";
+import { SearchEvent } from '@liexp/shared/io/http/Events/SearchEvent';
 import { Box, Grid } from "@material-ui/core";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { Link } from "@vx/network/lib/types";
@@ -29,10 +30,10 @@ import * as React from "react";
 import Network, { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode,
+  NetworkPointNode
 } from "../Common/Graph/Network/NetworkNode";
 import { ActorList } from "../lists/ActorList";
-import { EventListItem, SearchEvent } from "../lists/EventList/EventListItem";
+import { EventListItem } from "../lists/EventList/EventListItem";
 import GroupList from "../lists/GroupList";
 import KeywordList from "../lists/KeywordList";
 
@@ -530,29 +531,7 @@ export function createEventNetworkGraphProps({
       if (isBetweenDateRange) {
         const eventTitle = e.type === "Death" ? "Died" : e.payload.title;
 
-        const eventActors =
-          e.type === Events.Death.DEATH.value
-            ? e.payload.victim !== undefined
-              ? [e.payload.victim]
-              : []
-            : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
-            ? e.payload.authors
-            : e.type === Events.Patent.PATENT.value
-            ? e.payload.owners.actors
-            : e.type === Events.Documentary.DOCUMENTARY.value
-            ? [...e.payload.authors.actors, ...e.payload.subjects.actors]
-            : e.payload.actors;
-
-        const eventGroups =
-          e.type === Events.Death.DEATH.value
-            ? []
-            : e.type === Events.ScientificStudy.SCIENTIFIC_STUDY.value
-            ? [e.payload.publisher]
-            : e.type === Events.Patent.PATENT.value
-            ? e.payload.owners.groups
-            :  e.type === Events.Documentary.DOCUMENTARY.value
-            ? [...e.payload.authors.groups, ...e.payload.subjects.groups]
-            : e.payload.groups;
+        const { actors: eventActors, groups: eventGroups } = getEventsMetadata(e);
 
         const eventKeywords = e.keywords;
 
