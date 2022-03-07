@@ -37,7 +37,6 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
         <Box display="flex" flexDirection="column" height="100%">
           <SEO
             title={"keywords"}
-            image={`${process.env.PUBLIC_URL}liexp-logo.png`}
           />
           <KeywordPageContent {...keyword} />
           <EventsTimeline
