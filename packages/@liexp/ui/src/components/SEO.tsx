@@ -1,12 +1,15 @@
 import * as React from "react";
 import * as Helmet from "react-helmet";
 
+
+const defaultImage =`${process.env.PUBLIC_URL}/liexp-logo-1200x630.png`
+
 interface SEOProps {
   description?: string;
   lang?: string;
   meta?: any[];
   title: string;
-  image: string;
+  image?: string;
 }
 
 interface QueryResults {
@@ -19,7 +22,7 @@ interface QueryResults {
   };
 }
 
-const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title, image }) => {
+const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title, image = defaultImage }) => {
   const { site }: QueryResults = {
     site: {
       siteMetadata: {

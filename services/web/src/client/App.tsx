@@ -58,8 +58,7 @@ export const App: React.FC = () => {
           <Grid
             style={{
               width: "100%",
-              minHeight: 600,
-              height: `calc(100% - 64px)`,
+              minHeight: `calc(100% - 64px)`,
               marginBottom: 50,
             }}
           >

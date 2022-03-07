@@ -44,7 +44,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         description={
           event.excerpt !== undefined ? getTextContentsCapped(event.excerpt as any, 230) : ""
         }
-        image={`${process.env.PUBLIC_URL}liexp-logo.png`}
+        image={`${process.env.PUBLIC_URL}/liexp-logo.png`}
       />
       <Grid container spacing={2}>
         <Grid item xs={12}>

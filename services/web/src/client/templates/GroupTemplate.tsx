@@ -48,7 +48,6 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
           <MainContent>
             <SEO
               title={group.name}
-              image={`${process.env.PUBLIC_URL}liexp-logo.png`}
             />
             <GroupPageContent
               {...group}
