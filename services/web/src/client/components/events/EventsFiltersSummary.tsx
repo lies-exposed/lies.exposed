@@ -40,7 +40,8 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
     groups,
     keywords,
     groupsMembers,
-    queryFilters: { startDate, endDate },
+    queryFilters: { startDate, endDate, ...query },
+    onQueryChange,
   } = props;
 
   const classes = useStyles();
@@ -63,9 +64,6 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
         }}
       >
         <Box className={classes.filterBox}>
-          <Typography variant="caption" className={classes.filterLabel}>
-            from
-          </Typography>
           {startDate ? (
             <Typography
               display="inline"
@@ -77,7 +75,7 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
             </Typography>
           ) : null}
           <Typography variant="caption" className={classes.filterLabel}>
-            until
+            -
           </Typography>
           {endDate ? (
             <Typography
@@ -92,50 +90,47 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
         </Box>
         {keywords.length > 0 ? (
           <Box className={classes.filterBox}>
-            <Typography
-              variant="subtitle1"
-              display="inline"
-              className={classes.filterLabel}
-              gutterBottom={false}
-            >
-              Keywords:
-            </Typography>
             <KeywordList
               style={{ display: "flex", flexDirection: "row" }}
               keywords={keywords.map((a) => ({ ...a, selected: true }))}
-              onItemClick={() => {}}
+              onItemClick={(keyword) => {
+                onQueryChange({
+                  ...query,
+                  startDate,
+                  endDate,
+                  keywords: query.keywords.filter((k) => k !== keyword.id),
+                });
+              }}
             />
           </Box>
         ) : null}
         {actors.length > 0 ? (
           <Box className={classes.filterBox}>
-            <Typography
-              variant="subtitle1"
-              display="inline"
-              className={classes.filterLabel}
-              gutterBottom={false}
-            >
-              Actors:
-            </Typography>
             <ActorList
               actors={actors.map((a) => ({ ...a, selected: true }))}
-              onActorClick={() => {}}
+              onActorClick={(actor) => {
+                onQueryChange({
+                  ...query,
+                  startDate,
+                  endDate,
+                  actors: query.actors.filter((aId) => aId !== actor.id),
+                });
+              }}
             />
           </Box>
         ) : null}
         {groups.length > 0 ? (
           <Box className={classes.filterBox}>
-            <Typography
-              variant="subtitle1"
-              display="inline"
-              className={classes.filterLabel}
-              gutterBottom={false}
-            >
-              Groups:
-            </Typography>
             <GroupList
               groups={groups.map((g) => ({ ...g, selected: true }))}
-              onItemClick={() => {}}
+              onItemClick={(group) => {
+                onQueryChange({
+                  ...query,
+                  startDate,
+                  endDate,
+                  groups: query.groups.filter((aId) => aId !== group.id),
+                });
+              }}
             />
           </Box>
         ) : null}
@@ -155,7 +150,14 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
                 ...g,
                 selected: true,
               }))}
-              onItemClick={() => {}}
+              onItemClick={(gm) => {
+                onQueryChange({
+                  ...query,
+                  startDate,
+                  endDate,
+                  groupsMembers: query.groupsMembers.filter((aId) => aId !== gm.id),
+                });
+              }}
             />
           </Box>
         ) : null}

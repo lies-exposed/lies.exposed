@@ -2,8 +2,11 @@ import {
   Death,
   Documentary,
   EventType,
-  Patent, ScientificStudy, Transaction, Uncategorized,
-  SearchEvent
+  Patent,
+  ScientificStudy,
+  Transaction,
+  Uncategorized,
+  SearchEvent,
 } from "@liexp/shared/io/http/Events";
 import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsMap from "@liexp/ui/components/EventsMap";
@@ -15,7 +18,7 @@ import {
   Grid,
   makeStyles,
   Tab,
-  Tabs
+  Tabs,
 } from "@material-ui/core";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
@@ -153,10 +156,12 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   const [filters, setTypeFilters] = React.useState({
     deaths: !!query.type?.includes(Death.DEATH.value),
     uncategorized: !!query.type?.includes(Uncategorized.UNCATEGORIZED.value),
-    scientificStudies: !!query.type?.includes(ScientificStudy.SCIENTIFIC_STUDY.value),
+    scientificStudies: !!query.type?.includes(
+      ScientificStudy.SCIENTIFIC_STUDY.value
+    ),
     patents: !!query.type?.includes(Patent.PATENT.value),
     documentaries: !!query.type?.includes(Documentary.DOCUMENTARY.value),
-    transactions: !!query.type?.includes(Transaction.TRANSACTION.value)
+    transactions: !!query.type?.includes(Transaction.TRANSACTION.value),
   });
 
   const handleUpdateEventsSearch = React.useCallback(
@@ -248,11 +253,11 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             }
 
             if (f.documentaries) {
-              type.push(Documentary.DOCUMENTARY.value)
+              type.push(Documentary.DOCUMENTARY.value);
             }
 
             if (f.transactions) {
-              type.push(Transaction.TRANSACTION.value)
+              type.push(Transaction.TRANSACTION.value);
             }
 
             setTypeFilters(f);
@@ -280,41 +285,49 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         value={tab}
         index={0}
       >
-        {tab === 0 ? (
-          <EventsTimeline
-            hash={hash}
-            queryParams={query}
-            onClick={handleEventClick}
-            onGroupClick={(g) => {
-              onGroupsChange(
-                query.groups.includes(g.id)
-                  ? query.groups.filter((aa) => g.id !== aa)
-                  : query.groups.concat(g.id)
-              );
-            }}
-            onGroupMemberClick={(gm) => {
-              onGroupMembersChange(
-                query.groupsMembers.includes(gm.id)
-                  ? query.groupsMembers.filter((aa) => gm.id !== aa)
-                  : query.groupsMembers.concat(gm.id)
-              );
-            }}
-            onActorClick={(a) => {
-              onActorsChange(
-                query.actors.includes(a.id)
-                  ? query.actors.filter((aa) => a.id !== aa)
-                  : query.actors.concat(a.id)
-              );
-            }}
-            onKeywordClick={(k) => {
-              onKeywordsChange(
-                query.keywords.includes(k.id)
-                  ? query.keywords.filter((aa) => k.id !== aa)
-                  : query.keywords.concat(k.id)
-              );
-            }}
-          />
-        ) : null}
+        <Grid
+          container
+          justifyContent="center"
+          style={{ height: "100%", flexDirection: "column" }}
+        >
+          <Grid item lg={10} style={{ height: "100%" }}>
+            {tab === 0 ? (
+              <EventsTimeline
+                hash={hash}
+                queryParams={query}
+                onClick={handleEventClick}
+                onGroupClick={(g) => {
+                  onGroupsChange(
+                    query.groups.includes(g.id)
+                      ? query.groups.filter((aa) => g.id !== aa)
+                      : query.groups.concat(g.id)
+                  );
+                }}
+                onGroupMemberClick={(gm) => {
+                  onGroupMembersChange(
+                    query.groupsMembers.includes(gm.id)
+                      ? query.groupsMembers.filter((aa) => gm.id !== aa)
+                      : query.groupsMembers.concat(gm.id)
+                  );
+                }}
+                onActorClick={(a) => {
+                  onActorsChange(
+                    query.actors.includes(a.id)
+                      ? query.actors.filter((aa) => a.id !== aa)
+                      : query.actors.concat(a.id)
+                  );
+                }}
+                onKeywordClick={(k) => {
+                  onKeywordsChange(
+                    query.keywords.includes(k.id)
+                      ? query.keywords.filter((aa) => k.id !== aa)
+                      : query.keywords.concat(k.id)
+                  );
+                }}
+              />
+            ) : null}
+          </Grid>
+        </Grid>
       </TabPanel>
       <TabPanel
         className={clsx(classes.tabPanel, {
