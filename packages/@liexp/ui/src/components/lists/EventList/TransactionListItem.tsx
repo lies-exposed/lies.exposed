@@ -43,7 +43,6 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
   onActorClick,
   onKeywordClick,
 }) => {
-  console.log(item);
 
   return (
     <Box

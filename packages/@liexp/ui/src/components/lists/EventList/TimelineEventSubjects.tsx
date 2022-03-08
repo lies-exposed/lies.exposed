@@ -21,22 +21,23 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     justifyContent: "flex-start",
     alignItems: "flex-end",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "row",
       justifyContent: "flex-end",
     },
   },
   subjectInnerBox: {
     display: "flex",
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
+    flexDirection: "column",
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "row",
       justifyContent: "flex-end",
     },
   },
   subjectsList: {
     display: "flex",
     flexDirection: "column",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "row",
       justifyContent: "flex-end",
     },
