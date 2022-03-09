@@ -16,7 +16,7 @@ export const AutocompleteKeywordInput: React.FC<
   return (
     <AutocompleteInput<Keyword.Keyword>
       placeholder="Keyword..."
-      searchToFilter={(tag) => ({ tag })}
+      searchToFilter={(search) => ({ search })}
       selectedItems={selectedItems}
       getValue={(k) => k.tag}
       query={Queries.Keyword.getList}
