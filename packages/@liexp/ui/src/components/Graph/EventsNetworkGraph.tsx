@@ -1,6 +1,7 @@
 import {
   eqByUUID,
-  getEventsMetadata, ordEventDate
+  getEventsMetadata,
+  ordEventDate,
 } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -9,7 +10,7 @@ import {
   Group,
   Keyword,
   Page,
-  Topic
+  Topic,
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
@@ -31,9 +32,9 @@ import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode
+  NetworkPointNode,
 } from "../Common/Graph/Network/NetworkNode";
-import SankeyGraph from '../Common/Graph/SankeyGraph';
+import SankeyGraph from "../Common/Graph/SankeyGraph";
 import { ActorList } from "../lists/ActorList";
 import GroupList from "../lists/GroupList";
 import KeywordList from "../lists/KeywordList";

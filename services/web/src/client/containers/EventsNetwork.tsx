@@ -51,6 +51,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
         LazyFullSizeLoader,
         ErrorBox,
         ({ events: { events, actors, groups, keywords } }) => {
+
           return (
             <Box
               style={{

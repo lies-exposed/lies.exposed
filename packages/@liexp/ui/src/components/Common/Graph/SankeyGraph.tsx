@@ -112,7 +112,7 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
 
     // const color = chroma.scale("Set3").classes(nodes.length);
 
-  //     const colorScale = d3.scaleLinear().domain([0, nodes.length]).range([0, 1]);
+    // const colorScale = d3.scaleLinear().domain([0, nodes.length]).range([0, 1]);
 
     return { nodes, links };
   }, [props.graph.nodes.length, props.graph.links.length, width, height]);
