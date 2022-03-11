@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import * as path from "path";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import DotenvWebpackPlugin from "dotenv-webpack";
-import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
+import * as R from "fp-ts/lib/Record";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import * as path from "path";
+import TerserPlugin from 'terser-webpack-plugin';
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -164,6 +165,11 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       ? {
           chunkIds: "deterministic",
           minimize: true,
+          minimizer: [
+            new TerserPlugin({
+              parallel: false
+            })
+          ]
           // splitChunks: {
           //   cacheGroups: {
           //     liexp: {

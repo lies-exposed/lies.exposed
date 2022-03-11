@@ -10,7 +10,9 @@
   "workspaces": {
     "packages": [
       "packages/@liexp/*",
-      "services/*"
+      "services/api",
+      "services/admin-web",
+      "services/web"
     ]
   },
   "scripts": {
