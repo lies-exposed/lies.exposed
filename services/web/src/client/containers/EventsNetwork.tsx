@@ -5,6 +5,7 @@ import {
   EventsNetworkGraphProps,
 } from "@liexp/ui/components/Graph/EventsNetworkGraph";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { Box } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
@@ -29,10 +30,12 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   filter,
   ...props
 }) => {
+  // console.log(filter);
+
   const eventsFilter = {
     ...filter,
     _start: 0,
-    _end: 100,
+    _end: 40,
   };
 
   return (
@@ -49,16 +52,22 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
         ErrorBox,
         ({ events: { events, actors, groups, keywords } }) => {
           return (
-            <EventsNetworkGraph
-              {...props}
-              events={events}
-              actors={actors}
-              groups={groups}
-              keywords={keywords}
-              selectedActorIds={filter.actors ?? []}
-              selectedGroupIds={filter.groups ?? []}
-              selectedKeywordIds={filter.keywords ?? []}
-            />
+            <Box
+              style={{
+                width: 1000,
+              }}
+            >
+              <EventsNetworkGraph
+                {...props}
+                events={events}
+                actors={actors}
+                groups={groups}
+                keywords={keywords}
+                selectedActorIds={filter.actors ?? []}
+                selectedGroupIds={filter.groups ?? []}
+                selectedKeywordIds={filter.keywords ?? []}
+              />
+            </Box>
           );
         }
       )}

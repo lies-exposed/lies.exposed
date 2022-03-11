@@ -1,4 +1,3 @@
-
 import { format, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as Eq from "fp-ts/lib/Eq";
@@ -7,9 +6,14 @@ import * as Map from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import {
-  Actor, Common,
-  Events, Group, GroupMember, Keyword,
-  Media, Project
+  Actor,
+  Common,
+  Events,
+  Group,
+  GroupMember,
+  Keyword,
+  Media,
+  Project,
 } from "../io/http";
 import { SearchEvent } from "../io/http/Events/SearchEvent";
 import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
@@ -318,9 +322,9 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
     case Events.Uncategorized.UNCATEGORIZED.value: {
       return {
         ...commonIds,
-        actors: [],
-        groups: [],
-        groupsMembers: [],
+        actors: e.payload.actors,
+        groups: e.payload.actors,
+        groupsMembers: e.payload.groupsMembers,
       };
     }
   }
@@ -335,6 +339,7 @@ interface EventRelations {
 }
 
 export const getEventsMetadata = (e: SearchEvent): EventRelations => {
+  // console.log("event", e);
   const commonIds = {
     media: e.media,
     keywords: e.keywords,
@@ -344,7 +349,7 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
     case Events.Death.DEATH.value: {
       return {
         ...commonIds,
-        actors: [e.payload.victim],
+        actors: e.payload.victim ? [e.payload.victim] : [],
         groups: [],
         groupsMembers: [],
       };
@@ -400,11 +405,12 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
     }
 
     case Events.Uncategorized.UNCATEGORIZED.value: {
+      console.log("event metadata", e.payload);
       return {
         ...commonIds,
-        actors: [],
-        groups: [],
-        groupsMembers: [],
+        actors: e.payload.actors,
+        groups: e.payload.groups,
+        groupsMembers: e.payload.groupsMembers,
       };
     }
   }

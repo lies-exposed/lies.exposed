@@ -52,7 +52,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                   groups: [],
                   groupsMembers: [],
                   keywords: [],
-                  tab: 0,
+                  tab: 2,
                   type: EventType.types.map((t) => t.value),
                 }}
                 onQueryChange={() => {}}
