@@ -1,6 +1,7 @@
 import {
   eqByUUID,
-  getEventsMetadata, ordEventDate
+  getEventsMetadata,
+  ordEventDate
 } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -11,29 +12,30 @@ import {
   Page,
   Topic
 } from "@liexp/shared/io/http";
-import { SearchEvent } from '@liexp/shared/io/http/Events/SearchEvent';
+import { UUID } from "@liexp/shared/io/http/Common/UUID";
+import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
 import { Box, Grid } from "@material-ui/core";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { Link } from "@vx/network/lib/types";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import ordinalScale from "@vx/scale/lib/scales/ordinal";
 import { ScaleOrdinal } from "d3-scale";
-import { differenceInCalendarDays, subWeeks } from "date-fns";
+import { subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
-import * as Eq from "fp-ts/lib/Eq";
+import { pipe } from "fp-ts/lib/function";
 import * as Map from "fp-ts/lib/Map";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/function";
+import * as S from "fp-ts/lib/string";
 import * as React from "react";
-import Network, { NetworkScale } from "../Common/Graph/Network/Network";
+import { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
   NetworkPointNode
 } from "../Common/Graph/Network/NetworkNode";
+import SankeyGraph from "../Common/Graph/SankeyGraph";
 import { ActorList } from "../lists/ActorList";
-import { EventListItem } from "../lists/EventList/EventListItem";
 import GroupList from "../lists/GroupList";
 import KeywordList from "../lists/KeywordList";
 
@@ -49,8 +51,9 @@ type EventNetworkDatum = NetworkDatum & {
   selected: boolean;
 };
 
-interface NetworkLink extends Link<NetworkPointNode<EventNetworkDatum>> {
+interface NetworkLink extends Link<UUID> {
   fill: string;
+  value: number;
   stroke: string;
 }
 
@@ -97,6 +100,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
             height: 400,
             margin: { vertical: 40, horizontal: 40 },
           });
+
           return (
             <Grid container spacing={3}>
               <Grid item md={12}>
@@ -127,8 +131,9 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 )}
               </Grid>
               <Grid item md={11}>
-                <div style={{ overflow: "auto" }}>
-                  <Network<NetworkLink, EventNetworkDatum>
+                <div style={{ overflow: "auto", width: '100%' }}>
+                  <SankeyGraph {...networkProps} />
+                  {/* <Network<NetworkLink, EventNetworkDatum>
                     onDoubleClick={() => {}}
                     onNodeClick={() => {}}
                     onEventLabelClick={() => {}}
@@ -156,7 +161,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                       );
                     }}
                     {...networkProps}
-                  />
+                  /> */}
                 </div>
                 <div className="legends">
                   <LegendDemo title="Topics">
@@ -321,37 +326,37 @@ function LegendDemo({
 // calculate x based on date
 // (date - minDate) : (maxDate - minDate) = x : width
 // x = (date - minDate) * width / (maxDate - minDate)
-const getX = (
-  date: Date,
-  minDate: Date,
-  maxDate: Date,
-  width: number
-): number => {
-  const pad = width / differenceInCalendarDays(maxDate, minDate);
+// const getX = (
+//   date: Date,
+//   minDate: Date,
+//   maxDate: Date,
+//   width: number
+// ): number => {
+//   const pad = width / differenceInCalendarDays(maxDate, minDate);
 
-  const x = differenceInCalendarDays(maxDate, date) * pad;
+//   const x = differenceInCalendarDays(maxDate, date) * pad;
 
-  return x;
-};
+//   return x;
+// };
 
-const getY =
-  (topics: Array<{ id: string }>, margin: number, height: number) =>
-  (itemId: string | undefined) => {
-    const defaultY = height - margin;
-    if (itemId) {
-      return pipe(
-        topics,
-        A.findIndex((t) => Eq.eqString.equals(t.id, itemId)),
-        O.fold(
-          () => defaultY,
-          (index) => {
-            return margin + index * ((height - margin * 2) / topics.length);
-          }
-        )
-      );
-    }
-    return defaultY;
-  };
+// const getY =
+//   (topics: Array<{ id: string }>, margin: number, height: number) =>
+//   (itemId: string | undefined) => {
+//     const defaultY = height - margin;
+//     if (itemId) {
+//       return pipe(
+//         topics,
+//         A.findIndex((t) => S.Eq.equals(t.id, itemId)),
+//         O.fold(
+//           () => defaultY,
+//           (index) => {
+//             return margin + index * ((height - margin * 2) / topics.length);
+//           }
+//         )
+//       );
+//     }
+//     return defaultY;
+//   };
 
 const updateMap =
   <F extends Common.BaseProps>(acc: Map<string, F>) =>
@@ -362,16 +367,13 @@ const updateMap =
         if (Map.elem(eqByUUID)(t, r)) {
           return r;
         }
-        return Map.upsertAt(Eq.eqString)(t.id, t)(r);
+        return Map.upsertAt(S.Eq)(t.id, t)(r);
       })
     );
   };
 
 const getLinks =
-  (
-    nodes: Array<NetworkPointNode<EventNetworkDatum>>,
-    relationLinks: Map<string, NetworkLink[]>
-  ) =>
+  (nodes: EventNetworkDatum[], relationLinks: Map<string, NetworkLink[]>) =>
   (
     relations: Array<Common.BaseProps & { color: string }>
   ): Map<string, NetworkLink[]> => {
@@ -382,35 +384,51 @@ const getLinks =
           relations,
           A.reduce(acc, (acc1, relation) => {
             const lastLinks = pipe(
-              Map.lookup(Ord.ordString)(relation.id, acc1),
+              Map.lookup(S.Ord)(relation.id, acc1),
               O.getOrElse((): NetworkLink[] => [])
             );
 
-            return pipe(
-              acc1,
-              Map.insertAt(Eq.eqString)(relation.id, [
-                ...lastLinks,
-                {
-                  source: pipe(
-                    A.last(lastLinks),
-                    O.map((l) => l.target),
-                    O.getOrElse(() => p)
-                  ),
-                  target: p,
-                  stroke: `#${relation.color}`,
-                  fill: `#${relation.color}`,
-                },
-              ])
-            );
+            // console.log('last links', lastLinks);
+
+            if (lastLinks.length === 0) {
+              return pipe(
+                acc1,
+                Map.upsertAt(S.Eq)(relation.id, [
+                  {
+                    source: relation.id,
+                    target: p.id,
+                    value: (1 / relations.length) * 100,
+                    stroke: `#${relation.color}`,
+                    fill: `#${relation.color}`,
+                  },
+                ])
+              );
+            }
+
+            const lastLink = lastLinks[lastLinks.length - 1];
+
+            const eventLinks = [
+              ...lastLinks,
+              {
+                source: lastLink.target,
+                target: p.id,
+                value: (1 / relations.length) * 100,
+                stroke: `#${relation.color}`,
+                fill: `#${relation.color}`,
+              },
+            ];
+
+            return pipe(acc1, Map.upsertAt(S.Eq)(relation.id, eventLinks));
           })
         );
+
         return newLinks;
       })
     );
   };
 
 interface Result {
-  eventNodes: Array<NetworkPointNode<EventNetworkDatum>>;
+  eventNodes: EventNetworkDatum[];
   selectedEvents: SearchEvent[];
   // group by
   groupByItems: Map<string, GroupByItem>;
@@ -445,7 +463,7 @@ export interface EventsNetworkGraphDataProps {
   scale: NetworkScale;
   groupBy: "actor" | "group" | "keyword";
   graph: {
-    nodes: Array<NetworkPointNode<EventNetworkDatum>>;
+    nodes: EventNetworkDatum[];
     links: NetworkLink[];
   };
   selectedEvents: SearchEvent[];
@@ -489,16 +507,19 @@ export function createEventNetworkGraphProps({
     O.getOrElse(() => new Date())
   );
 
-  const networkWidth = differenceInCalendarDays(maxDate, minDate) * 10;
+  // console.log({ minDate, maxDate });
 
-  const yList =
-    groupBy === "group"
-      ? allGroups
-      : groupBy === "actor"
-      ? allActors
-      : allKeywords;
+  // const networkWidth = differenceInCalendarDays(maxDate, minDate) * 2;
 
-  const yGetter = getY(yList, margin.vertical, height);
+  // console.log({ networkWidth });
+  // const yList =
+  //   groupBy === "group"
+  //     ? allGroups
+  //     : groupBy === "actor"
+  //     ? allActors
+  //     : allKeywords;
+
+  // const yGetter = getY(yList, margin.vertical, height);
 
   const result: Result = {
     eventNodes: [],
@@ -511,17 +532,19 @@ export function createEventNetworkGraphProps({
     selectedEvents: [],
   };
 
+  // console.log({ groupBy });
+
   const {
     eventNodes,
     selectedEvents,
-    groupByLinks: topicLinks,
+    // groupByLinks,
     actorLinks,
     groupLinks,
     groupByItems,
     actors,
     groups,
   } = pipe(
-    events,
+    orderedEvents,
     A.reduce(result, (acc, e) => {
       // get topic from relative directory
       const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
@@ -531,9 +554,13 @@ export function createEventNetworkGraphProps({
       if (isBetweenDateRange) {
         const eventTitle = e.type === "Death" ? "Died" : e.payload.title;
 
-        const { actors: eventActors, groups: eventGroups } = getEventsMetadata(e);
+        const {
+          actors: eventActors,
+          groups: eventGroups,
+          keywords: eventKeywords,
+        } = getEventsMetadata(e);
 
-        const eventKeywords = e.keywords;
+        // console.log("event actors", eventActors);
 
         const groupByEventList: GroupByItem[] =
           groupBy === "group"
@@ -544,45 +571,38 @@ export function createEventNetworkGraphProps({
 
         const groupByItem: GroupByItem | undefined = groupByEventList[0];
 
-        const eventNodes: Array<NetworkPointNode<EventNetworkDatum>> = [
+        const eventNodes: EventNetworkDatum[] = [
           {
-            x:
-              margin.horizontal +
-              getX(
-                e.date,
-                minDate,
-                maxDate,
-                networkWidth - margin.horizontal * 2
-              ),
-            y: yGetter(groupByItem?.id),
-            data: {
-              ...e,
-              title: eventTitle,
-              selected: !!groupByItem,
-              date: e.date,
-              groupBy: groupByItem ? [groupByItem] : [],
-              actors: pipe(eventActors, O.fromPredicate(A.isNonEmpty)),
-              groups: pipe(eventGroups, O.fromPredicate(A.isNonEmpty)),
-              label: eventTitle,
-              innerColor: groupByItem?.color
-                ? `#${groupByItem.color}`
-                : "#FF0000",
-              outerColor: groupByItem?.color
-                ? `#${groupByItem.color}`
-                : "#FF0000",
-            },
+            ...e,
+            title: eventTitle,
+            selected: !!groupByItem,
+            date: e.date,
+            groupBy: groupByItem ? [groupByItem] : [],
+            actors: pipe(eventActors, O.fromPredicate(A.isNonEmpty)),
+            groups: pipe(eventGroups, O.fromPredicate(A.isNonEmpty)),
+            label: eventTitle,
+            innerColor: groupByItem?.color
+              ? `#${groupByItem.color}`
+              : "#FF0000",
+            outerColor: groupByItem?.color
+              ? `#${groupByItem.color}`
+              : "#FF0000",
           },
         ];
 
+        // console.log(
+        //   "event actors",
+        //   eventActors
+        // );
+
         const actors = pipe(
-          eventActors,
+          allActors.filter((a) => eventActors.some((aa) => aa.id === a.id)),
           O.fromPredicate(A.isNonEmpty),
-          O.map((acts) =>
-            allActors.filter((a) => acts.some((aa) => aa.id === a.id))
-          ),
           O.getOrElse((): Actor.Actor[] => []),
           updateMap(acc.actors)
         );
+
+        // console.log("actors", actors);
 
         const groups = pipe(
           eventGroups,
@@ -594,50 +614,52 @@ export function createEventNetworkGraphProps({
           updateMap(acc.groups)
         );
 
+        // console.log("groups", groups);
+
         const groupByItems = updateMap(acc.groupByItems)(groupByEventList);
 
-        const groupByLinks = pipe(groupByEventList, (items: GroupByItem[]) => {
-          const emptyMap: Map<string, NetworkLink[]> = Map.empty;
-          return pipe(
-            items.map((item) =>
-              getLinks(
-                eventNodes.filter(
-                  (e) =>
-                    e.data.groupBy.findIndex((tt) => tt.id === item.id) === 0
-                ),
-                acc.groupByLinks
-              )([])
-            ),
-            A.reduce(emptyMap, (mm, m) => {
-              return pipe(
-                m,
-                Map.keys(Ord.ordString),
-                A.reduce(mm, (acc, key) => {
-                  return pipe(
-                    Map.lookup(Eq.eqString)(key, m),
-                    O.map((mapLinks) =>
-                      pipe(
-                        Map.lookup(Eq.eqString)(key, acc),
-                        O.map((accLinks) => [...accLinks, ...mapLinks]),
-                        O.getOrElse(() => mapLinks),
-                        (links) => Map.insertAt(Eq.eqString)(key, links)(acc)
-                      )
-                    ),
-                    O.getOrElse((): Map<string, NetworkLink[]> => acc)
-                  );
-                })
-              );
-            })
-          );
-        });
+        // const groupByLinks = pipe(groupByEventList, (items: GroupByItem[]) => {
+        //   const emptyMap: Map<string, NetworkLink[]> = Map.empty;
+        //   return pipe(
+        //     items.map((item) =>
+        //       getLinks(
+        //         eventNodes.filter(
+        //           (e) =>
+        //             e.data.groupBy.findIndex((tt) => tt.id === item.id) === 0
+        //         ),
+        //         acc.groupByLinks
+        //       )([])
+        //     ),
+        //     A.reduce(emptyMap, (mm, m) => {
+        //       return pipe(
+        //         m,
+        //         Map.keys(Ord.ordString),
+        //         A.reduce(mm, (acc, key) => {
+        //           return pipe(
+        //             Map.lookup(Eq.eqString)(key, m),
+        //             O.map((mapLinks) =>
+        //               pipe(
+        //                 Map.lookup(Eq.eqString)(key, acc),
+        //                 O.map((accLinks) => [...accLinks, ...mapLinks]),
+        //                 O.getOrElse(() => mapLinks),
+        //                 (links) => Map.insertAt(Eq.eqString)(key, links)(acc)
+        //               )
+        //             ),
+        //             O.getOrElse((): Map<string, NetworkLink[]> => acc)
+        //           );
+        //         })
+        //       );
+        //     })
+        //   );
+        // });
 
+        // console.log('actor links in acc', acc.actorLinks);
         const actorLinks = pipe(
-          actors,
-          Map.toArray(Ord.ordString),
-          A.map((v) => v[1]),
-          // A.filter((a) => selectedActorIds.includes(a.id)),
+          eventActors,
           getLinks(eventNodes, acc.actorLinks)
         );
+
+        // console.log('actor links', actorLinks);
 
         const groupLinks = pipe(
           eventGroups,
@@ -649,9 +671,9 @@ export function createEventNetworkGraphProps({
 
         return {
           eventNodes: [...acc.eventNodes, ...eventNodes],
-          actorLinks,
-          groupByLinks,
-          groupLinks,
+          actorLinks: actorLinks,
+          groupByLinks: Map.empty,
+          groupLinks: groupLinks,
           groupByItems,
           actors,
           groups,
@@ -691,9 +713,41 @@ export function createEventNetworkGraphProps({
     range: groupsArray.map((a) => `#${a.color}`),
   });
 
-  const actorLinksList = Map.toArray(Ord.ordString)(actorLinks).flatMap(
-    ([_k, links]) => links
+  // const actorLinksList = Map.toArray(Ord.ordString)(actorLinks).flatMap(
+  //   ([_k, links]) => links
+  // );
+
+  // console.log("actors", actors);
+
+  const groupingByNodes = pipe(
+    (groupBy === "group" ? groups : actors) as Map<string, any>,
+    Map.toArray(S.Ord),
+    A.map(([key, items]) => items)
   );
+  const groupingByLinks = groupBy === "group" ? groupLinks : actorLinks;
+
+  // console.log("group by nodes", groupingByNodes);
+  const nodes = [...groupingByNodes, ...eventNodes];
+  // console.log("all nodes", nodes);
+
+  const links = [
+    ...Map.toArray(Ord.ordString)(groupingByLinks).flatMap(
+      ([_k, links]) => links
+    ),
+    // ...Map.toArray(Ord.ordString)(topicLinks).flatMap(
+    //   ([_k, links]) => links
+    // ),
+    // ...actorLinksList,
+    // ...Map.toArray(Ord.ordString)(groupLinks).flatMap(
+    //   ([_k, links]) => links
+    // ),
+  ].filter(
+    (l) => l.target !== l.source
+    // && nodes.some((n) => n.id === l.target || n.id === l.source)
+  );
+
+  // console.log("group by links", links);
+  // console.log("group by nodes", nodes);
 
   return {
     minDate: pipe(
@@ -705,25 +759,14 @@ export function createEventNetworkGraphProps({
     scale,
     groupBy,
     graph: {
-      nodes: eventNodes,
-      links: [
-        ...Map.toArray(Ord.ordString)(actorLinks).flatMap(
-          ([_k, links]) => links
-        ),
-        ...Map.toArray(Ord.ordString)(topicLinks).flatMap(
-          ([_k, links]) => links
-        ),
-        ...actorLinksList,
-        ...Map.toArray(Ord.ordString)(groupLinks).flatMap(
-          ([_k, links]) => links
-        ),
-      ],
+      nodes,
+      links,
     },
     groupByScale: groupByScale,
     actorsScale: actorsScale,
     groupsScale: groupsScale,
     selectedEvents,
-    width: networkWidth,
+    width: width,
     height: height,
   };
 }

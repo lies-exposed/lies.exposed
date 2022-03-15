@@ -19,6 +19,7 @@ import {
   makeStyles,
   Tab,
   Tabs,
+  useTheme
 } from "@material-ui/core";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
@@ -140,6 +141,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   onQueryChange,
 }) => {
   const classes = useStyles();
+  const theme = useTheme();
 
   const navigateTo = useNavigateToResource();
 
@@ -288,9 +290,11 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         <Grid
           container
           justifyContent="center"
-          style={{ height: "100%", flexDirection: "column" }}
+          style={{
+            height: "100%",
+          }}
         >
-          <Grid item lg={10} style={{ height: "100%" }}>
+          <Grid item lg={10} xs={12} style={{ height: "100%" }}>
             {tab === 0 ? (
               <EventsTimeline
                 hash={hash}

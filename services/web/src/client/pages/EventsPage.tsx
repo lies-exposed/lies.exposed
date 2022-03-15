@@ -148,7 +148,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     groupsMembers: query.groupsMembers ?? [],
     keywords: query.keywords ?? [],
     tab,
-    type: query.type as EventType[] ?? EventType.types.map(t => t.value),
+    type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
   };
 
   const handleUpdateEventsSearch = React.useCallback(
@@ -255,7 +255,11 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                   lg={12}
                   md={12}
                   sm={12}
-                  style={{ maxWidth: "100%", height: "100%", width: "100%" }}
+                  style={{
+                    maxWidth: `calc(100% - ${drawerWidth})`,
+                    height: "100%",
+                    width: "100%",
+                  }}
                 >
                   <Hidden mdUp>
                     <EventsAppBar
@@ -274,7 +278,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                             patents: 0,
                             deaths: 0,
                             documentaries: 0,
-                            transactions: 0
+                            transactions: 0,
                           }}
                         />
                       }

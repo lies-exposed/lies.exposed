@@ -14,7 +14,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "dependencies": {
-    "d3": "^6.7.0",
+    "d3": "^5",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-spring": "^9.4.4"

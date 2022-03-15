@@ -94,10 +94,12 @@ const getNewRelationIds = (
     A.reduce(init, (acc, e) => {
       const { actors, groups, groupsMembers, media, keywords } =
         getRelationIds(e);
+      log.debug.log('actors', actors);
 
       const newActors = actors.filter(
         (a) => ![...actorIds, ...acc.actors].includes(a)
       );
+      log.debug.log('new actors', newActors);
       const newGroups = groups.filter(
         (a) => ![...groupIds, ...acc.groups].includes(a)
       );
@@ -141,24 +143,26 @@ const mergeState = (
     })
   );
 
+  log.debug.log("merge state: actors", actors);
+
   const groups = pipe(
     update.groups,
-    A.reduce(s.groups, (accActors, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accActors);
+    A.reduce(s.groups, (accGroups, a) => {
+      return M.upsertAt(S.Eq)(a.id, a)(accGroups);
     })
   );
 
   const groupsMembers = pipe(
     update.groupsMembers,
-    A.reduce(s.groupsMembers, (accActors, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accActors);
+    A.reduce(s.groupsMembers, (accGroupsMembers, a) => {
+      return M.upsertAt(S.Eq)(a.id, a)(accGroupsMembers);
     })
   );
 
   const media = pipe(
     update.media,
-    A.reduce(s.media, (accActors, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accActors);
+    A.reduce(s.media, (accMedia, a) => {
+      return M.upsertAt(S.Eq)(a.id, a)(accMedia);
     })
   );
 
@@ -254,7 +258,7 @@ const toSearchEvent = (
         keywords: keywordIds,
       } = getRelationIds(e);
 
-      // log.debug.log("Relation Ids %O", { actors: actorIds });
+      log.debug.log("Relation Ids %O", { actors: actorIds });
       const actors = pipe(
         actorIds,
         A.map((a) => pipe(s.actors, M.lookup(S.Eq)(a))),
@@ -461,8 +465,9 @@ const searchEventsQ = ({
           return pipe(
             getNewRelationIds(response.data, searchEventsQueryCache),
             TE.right,
-            TE.chain(({ actors, groups, groupsMembers, media, keywords }) =>
-              sequenceS(TE.ApplicativePar)({
+            TE.chain(({ actors, groups, groupsMembers, media, keywords }) => {
+              log.debug.log('actors ', actors);
+              return sequenceS(TE.ApplicativePar)({
                 actors:
                   actors.length === 0
                     ? TE.right({ data: [] })
@@ -505,8 +510,8 @@ const searchEventsQ = ({
                           ids: keywords,
                         } as any,
                       }),
-              })
-            ),
+              });
+            }),
             TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
               return mergeState(cacheKey, searchEventsQueryCache, {
                 events: response,
