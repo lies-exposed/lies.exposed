@@ -50,6 +50,12 @@ describe("Create Scientific Study", () => {
         // },
       }))[0];
 
+    appTest.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
+      title: "link title",
+      description: "link description",
+      keywords: [],
+    });
+
     const response = await appTest.req
       .post(`/v1/scientific-studies`)
       .set("Authorization", authorizationToken)

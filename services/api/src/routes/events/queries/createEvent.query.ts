@@ -48,7 +48,7 @@ export const createEventQuery =
       A.filter(t.type({ url: http.Common.URL }).is),
       A.map((link) =>
         pipe(
-          urlMetadata.fetchMetadata(link.url, (e) => ServerError()),
+          urlMetadata.fetchMetadata(link.url, {}, (e) => ServerError()),
           TE.map((metadata) => ({ ...link, ...metadata, keywords: [] }))
         )
       ),

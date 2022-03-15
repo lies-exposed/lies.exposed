@@ -2,13 +2,13 @@
 // import { sankeyCircular } from "d3-sankey-circular";
 import {
   sankey,
-  sankeyCenter,
+  sankeyLeft,
   // sankeyJustify,
   // sankeyLeft,
   sankeyLinkHorizontal,
 } from "d3-sankey";
 import * as React from "react";
-import { EventTypeColor } from "../Icons";
+import { EventIcon, EventTypeColor } from "../Icons";
 
 const SankeyNode: React.FC<any> = ({
   color,
@@ -30,7 +30,7 @@ const SankeyNode: React.FC<any> = ({
   if (type === undefined) {
     // console.log("draw avatar");
     // console.log({ x, y, x0, x1, y0, y1, height, ...props });
-    return (<circle cy={y1 - 5} cx={x1 - 5} r={10} fill={`#${color}`} />)
+    return <circle cy={y1 - 5} cx={x1 - 5} r={10} fill={`#${color}`} />;
     // return (
     //   <image
     //     key={id}
@@ -55,6 +55,10 @@ const SankeyNode: React.FC<any> = ({
       height={y1 - y0}
       fill={(EventTypeColor as any)[type]}
     >
+      <g>
+        <EventIcon type={type} width={10} height={10} />
+      </g>
+
       <title>{payload.title}</title>
     </rect>
   );
@@ -103,8 +107,7 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
       .nodeWidth(30)
       .nodePadding(10)
       .nodeId((n: any) => n.id)
-      .nodeAlign(sankeyCenter)
-      .iterations(2)
+      .nodeAlign(sankeyLeft)
       .extent([
         [0, 0],
         [width, height],

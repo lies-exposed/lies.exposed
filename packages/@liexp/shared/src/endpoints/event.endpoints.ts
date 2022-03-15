@@ -1,10 +1,28 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
-import { EventTotals, GetSearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
+import {
+  EventTotals,
+  GetSearchEventsQuery,
+} from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
+const ListEventOutput = t.strict(
+  {
+    data: t.array(
+      t.intersection([
+        http.Events.Event,
+        t.partial({
+          score: t.number,
+        }),
+      ])
+    ),
+    total: t.number,
+    totals: EventTotals,
+  },
+  "Events"
+);
 
 export const List = Endpoint({
   Method: "GET",
@@ -12,14 +30,7 @@ export const List = Endpoint({
   Input: {
     Query: GetSearchEventsQuery.type,
   },
-  Output: t.strict(
-    {
-      data: t.array(http.Events.Event),
-      total: t.number,
-      totals: EventTotals,
-    },
-    "Events"
-  ),
+  Output: ListEventOutput,
 });
 
 export const Create = Endpoint({
@@ -31,6 +42,17 @@ export const Create = Endpoint({
   Output: SingleEventOutput,
 });
 
+export const CreateFromLink = Endpoint({
+  Method: "POST",
+  getPath: () => `/events/from-link`,
+  Input: {
+    Body: t.strict({
+      url: t.string,
+    }),
+  },
+  Output: SingleEventOutput,
+});
+
 export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/events/${id}`,
@@ -38,6 +60,15 @@ export const Get = Endpoint({
     Params: t.type({ id: t.string }),
   },
   Output: SingleEventOutput,
+});
+
+export const GetFromLink = Endpoint({
+  Method: "GET",
+  getPath: () => `/events-from-link`,
+  Input: {
+    Query: t.type({ url: t.string }),
+  },
+  Output: ListEventOutput,
 });
 
 export const Edit = Endpoint({
@@ -65,7 +96,10 @@ const events = ResourceEndpoints({
   List,
   Edit,
   Delete,
-  Custom: {},
+  Custom: {
+    CreateFromLink,
+    GetFromLink,
+  },
 });
 
 export { events };

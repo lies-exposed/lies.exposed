@@ -131,7 +131,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 )}
               </Grid>
               <Grid item md={11}>
-                <div style={{ overflow: "auto", width: '100%' }}>
+                <div style={{ width: '100%', }}>
                   <SankeyGraph {...networkProps} />
                   {/* <Network<NetworkLink, EventNetworkDatum>
                     onDoubleClick={() => {}}

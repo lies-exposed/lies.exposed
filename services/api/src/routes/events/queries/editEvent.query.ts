@@ -45,7 +45,7 @@ const linkTask =
               newLinks,
               A.map((link) =>
                 pipe(
-                  urlMetadata.fetchMetadata(link.url, (e) => ServerError()),
+                  urlMetadata.fetchMetadata(link.url, {}, (e) => ServerError()),
                   TE.map((metadata) => ({
                     ...link,
                     ...metadata,
