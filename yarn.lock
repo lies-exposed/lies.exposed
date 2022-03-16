@@ -1203,7 +1203,7 @@ __metadata:
     fast-check-io-ts: ^0.5.0
     file-loader: ^6.2.0
     filemanager-webpack-plugin: ^6.1.7
-    fp-ts: ^2.11.8
+    fp-ts: ^2.11.9
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.0
     io-ts: ^2.2.16
@@ -1242,7 +1242,7 @@ __metadata:
     bs58: ^4.0.1
     date-fns: ^1.30.1
     domino: ^2.1.6
-    fp-ts: ^2.11.8
+    fp-ts: ^2.11.9
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     jest: ^27.5.1
@@ -1330,7 +1330,7 @@ __metadata:
     date-fns: ^1.30.1
     eslint: ^8.11.0
     eslint-plugin-import: ^2.25.4
-    fp-ts: ^2.11.8
+    fp-ts: ^2.11.9
     geotiff: ^1.0.9
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
@@ -4623,7 +4623,7 @@ __metadata:
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
     final-form: ^4.20.6
-    fp-ts: ^2.11.8
+    fp-ts: ^2.11.9
     history: ^4.10.1
     is-plain-object: ^5.0.0
     jest: ^27.5.1
@@ -4900,7 +4900,7 @@ __metadata:
     fast-check: ^2.23.0
     fast-csv: ^4.3.6
     form-data: ^4.0.0
-    fp-ts: ^2.11.8
+    fp-ts: ^2.11.9
     front-matter: 4.0.2
     gray-matter: ^4.0.3
     io-ts: ^2.2.16
@@ -9312,10 +9312,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.11.8":
-  version: 2.11.8
-  resolution: "fp-ts@npm:2.11.8"
-  checksum: 481b824797ba59f3f5549810e8f6688b27554790d11a470ccdf4fc086a1cb4993ffb9060131b054abccca703f2776993e12f649865143e178e9b7c9e5b295ea7
+"fp-ts@npm:^2.11.9":
+  version: 2.11.9
+  resolution: "fp-ts@npm:2.11.9"
+  checksum: bcab4b9d97f9b77fa7283d5834fd847e58955067d5560eb0a9316900d6c92e959d8109038caf78ffb8ba93015ba8044a7a922c5acae8ca2fda4067f7e4e24bab
   languageName: node
   linkType: hard
 
@@ -18900,7 +18900,7 @@ __metadata:
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
     express: ^4.17.3
-    fp-ts: ^2.11.8
+    fp-ts: ^2.11.9
     history: ^4.10.1
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
