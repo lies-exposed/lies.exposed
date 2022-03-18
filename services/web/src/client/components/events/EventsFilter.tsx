@@ -152,33 +152,6 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           Clear filters
         </Button>
       </Grid>
-      <Grid
-        item
-        md={12}
-        sm={12}
-        xs={12}
-        style={{
-          textAlign: "right",
-        }}
-      >
-        <Button
-          color="secondary"
-          variant="contained"
-          size="small"
-          onClick={() => {
-            void createEventFromLink({
-              url: "https://www.ndtv.com/world-news/ukraine-war-over-300-000-volunteer-hackers-come-together-to-fight-russia-says-report-2824436",
-            }, {
-              searchEventsQuery: {
-                ...(queryFilters as any),
-                hash: ''
-              }
-            })();
-          }}
-        >
-          Add Link
-        </Button>
-      </Grid>
     </Grid>
   );
 };
