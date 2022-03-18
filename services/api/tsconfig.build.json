@@ -9,7 +9,7 @@
       "./typings",
       "node_modules/@types",
       "../../packages/@liexp/shared/typings",
-      "../../node_modules/@types",
+      "../../node_modules/@types"
     ],
     "declaration": false,
     "skipLibCheck": true,

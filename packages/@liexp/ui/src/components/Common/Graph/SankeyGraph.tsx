@@ -104,8 +104,8 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
     // console.log("graph", props.graph);
 
     const { nodes, links } = sankey()
-      .nodeWidth(30)
-      .nodePadding(10)
+      .nodeWidth(20)
+      .nodePadding(5)
       .nodeId((n: any) => n.id)
       .nodeAlign(sankeyLeft)
       .extent([
