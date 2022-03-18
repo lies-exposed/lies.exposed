@@ -20,13 +20,13 @@ describe("Get event from link", () => {
     actor: firstActor.id,
     group: groups[i].id,
   }));
-  const eventTitle = "supercalifragilistichespiralidoso";
-  const eventsData = fc.sample(UncategorizedArb, 2).map((e) => ({
+  const eventTitle = "very complicated title supercalifragilistichespiralidoso";
+  const eventsData = fc.sample(UncategorizedArb, 2).map((e, i) => ({
     ...e,
     date: new Date(),
     payload: {
       ...e.payload,
-      title: eventTitle,
+      title: i === 0 ? eventTitle : e.payload.title,
       actors: [firstActor.id],
       groups: groups.map((g) => g.id),
       location: undefined,
