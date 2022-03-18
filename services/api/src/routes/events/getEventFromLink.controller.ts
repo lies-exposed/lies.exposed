@@ -1,6 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import addWeek from "date-fns/add_weeks";
-import subWeek from "date-fns/sub_weeks";
+import { addWeeks, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
@@ -18,8 +17,8 @@ export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
       ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError()),
       TE.chain((metadata) => {
         const urlDate = metadata.date ?? new Date();
-        const minDate = subWeek(urlDate, 1);
-        const maxDate = addWeek(urlDate, 1);
+        const minDate = subWeeks(urlDate, 1);
+        const maxDate = addWeeks(urlDate, 1);
 
         return searchEventV2Query(ctx)({
           withDeleted: false,

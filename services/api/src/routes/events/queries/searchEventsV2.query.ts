@@ -102,7 +102,7 @@ export const searchEventV2Query =
             let hasWhere = false;
             if (O.isSome(title)) {
               const trimmedWords = title.value.replace(
-                /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi,
+                /[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi,
                 " "
               );
 
