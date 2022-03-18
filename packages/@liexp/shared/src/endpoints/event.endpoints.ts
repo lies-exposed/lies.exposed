@@ -68,7 +68,10 @@ export const GetFromLink = Endpoint({
   Input: {
     Query: t.type({ url: t.string }),
   },
-  Output: ListEventOutput,
+  Output: t.intersection([
+    ListEventOutput,
+    t.type({ suggestions: t.array(http.Events.CreateEventBody) }),
+  ]),
 });
 
 export const Edit = Endpoint({

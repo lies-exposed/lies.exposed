@@ -1,4 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { Events } from "@liexp/shared/io/http";
 import { addWeeks, subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -20,33 +21,56 @@ export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
         const minDate = subWeeks(urlDate, 1);
         const maxDate = addWeeks(urlDate, 1);
 
-        return searchEventV2Query(ctx)({
-          withDeleted: false,
-          withDrafts: false,
-          skip: 0,
-          take: 10,
-          type: O.none,
-          actors: O.none,
-          groups: O.none,
-          groupsMembers: O.none,
-          keywords: O.none,
-          media: O.none,
-          links: O.none,
-          startDate: O.some(minDate),
-          endDate: O.some(maxDate),
-          title: O.some(metadata.title ?? ""),
-        });
+        const suggestions: Events.CreateEventBody[] = [
+          {
+            type: Events.Uncategorized.UNCATEGORIZED.value,
+            excerpt: {},
+            body: {},
+            draft: true,
+            payload: {
+              title: metadata.title,
+              actors: [],
+              groups: [],
+              groupsMembers: [],
+              endDate: undefined as any,
+              location: undefined as any,
+            },
+            date: urlDate,
+            keywords: [],
+            links: [],
+            media: [],
+          },
+        ];
+
+        return pipe(
+          searchEventV2Query(ctx)({
+            withDeleted: false,
+            withDrafts: false,
+            skip: 0,
+            take: 10,
+            type: O.none,
+            actors: O.none,
+            groups: O.none,
+            groupsMembers: O.none,
+            keywords: O.none,
+            media: O.none,
+            links: O.none,
+            startDate: O.some(minDate),
+            endDate: O.some(maxDate),
+            title: O.some(metadata.title ?? ""),
+          }),
+          ctx.logger.debug.logInTaskEither("Events %O"),
+          TE.chain(({ results, ...rest }) =>
+            pipe(
+              results,
+              A.map(toEventV2IO),
+              A.sequence(E.Applicative),
+              E.map((data) => ({ data, suggestions, ...rest })),
+              TE.fromEither
+            )
+          )
+        );
       }),
-      ctx.logger.debug.logInTaskEither("Events %O"),
-      TE.chain(({ results, ...rest }) =>
-        pipe(
-          results,
-          A.map(toEventV2IO),
-          A.sequence(E.Applicative),
-          E.map((data) => ({ data, ...rest })),
-          TE.fromEither
-        )
-      ),
       TE.map((body) => ({
         body: body,
         statusCode: 200,
