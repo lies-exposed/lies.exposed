@@ -66,11 +66,12 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
         container={() => document.querySelector(`#${props.container}`)}
       >
         <DialogTitle>Add event from link</DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ width: "100%" }}>
           <DialogContentText>
             Submit a link to create an event
           </DialogContentText>
           <Input
+            fullWidth
             type="url"
             value={url}
             placeholder="http://my.url/..."
