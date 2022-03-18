@@ -13,3 +13,11 @@ export const createEventFromLink = command(
     searchEventsQuery,
   }
 );
+
+export const getEventFromLink = command((params: { url: string }) =>
+  api.Event.Custom.GetFromLink({
+    Query: {
+      url: params.url,
+    },
+  })
+);

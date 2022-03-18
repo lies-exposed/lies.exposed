@@ -1,3 +1,4 @@
+import { Event } from "@liexp/shared/io/http/Events";
 import {
   Box,
   Button,
@@ -13,7 +14,7 @@ import {
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import * as React from "react";
-import { createEventFromLink } from "../../state/commands";
+import { createEventFromLink, getEventFromLink } from "../../state/commands";
 
 interface AddEventModalProps {
   query: any;
@@ -26,19 +27,16 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
 
   const [open, setOpen] = React.useState(false);
   const [url, setUrl] = React.useState("");
+  const [matchedEvents, setMatchedEvents] = React.useState<Event[]>([]);
 
   const handleSubmit = (): void => {
-    void createEventFromLink(
-      {
-        url,
-      },
-      {
-        searchEventsQuery: {
-          ...props.query,
-          hash: props.hash,
-        },
+    void getEventFromLink({
+      url,
+    })().then((result) => {
+      if (result._tag === "Right") {
+        setMatchedEvents(result.right.data as any[]);
       }
-    )();
+    });
   };
   return (
     <div>
@@ -78,6 +76,18 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
             placeholder="http://my.url/..."
             onChange={(e) => setUrl(e.target.value)}
           />
+          <Box>
+            {matchedEvents.map((e) => {
+              if (e.type === "Uncategorized") {
+                return (
+                  <Box key={e.id}>
+                    <span>{e.payload.title}</span>
+                  </Box>
+                );
+              }
+              return <div key={e.id} />;
+            })}
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button

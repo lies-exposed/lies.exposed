@@ -7,9 +7,10 @@ import { Metadata, metadataRuleSets } from "page-metadata-parser";
 metadataRuleSets.date = {
   rules: [
     [
-      'meta[name="article:publish_date"]',
+      'meta[name="article:published_time"]',
       (element: Element) => element.getAttribute("content"),
     ],
+    ["time", (el: Element) => el.getAttribute("datetime")],
   ],
 };
 

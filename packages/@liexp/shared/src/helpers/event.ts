@@ -405,7 +405,6 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
     }
 
     case Events.Uncategorized.UNCATEGORIZED.value: {
-      console.log("event metadata", e.payload);
       return {
         ...commonIds,
         actors: e.payload.actors,

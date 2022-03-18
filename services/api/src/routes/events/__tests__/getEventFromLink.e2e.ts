@@ -1,15 +1,15 @@
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import {
   ActorArb,
   GroupArb,
   GroupMemberArb,
-  UncategorizedArb
+  UncategorizedArb,
 } from "@liexp/shared/tests";
 import fc from "fast-check";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
 
 describe("Get event from link", () => {
   let appTest: AppTest;
@@ -20,9 +20,10 @@ describe("Get event from link", () => {
     actor: firstActor.id,
     group: groups[i].id,
   }));
-  const eventTitle = "very complicated title with long words like this one: supercalifragilistichespiralidoso";
+  const eventTitle = "supercalifragilistichespiralidoso";
   const eventsData = fc.sample(UncategorizedArb, 2).map((e) => ({
     ...e,
+    date: new Date(),
     payload: {
       ...e.payload,
       title: eventTitle,
@@ -81,21 +82,32 @@ describe("Get event from link", () => {
 
   test("Return events sorted by score", async () => {
     appTest.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
-      title: "complicated words",
+      title:
+        "very complicated title with long words like this one: supercalifragilistichespiralidoso",
       description: eventsData[0].payload.title,
       keywords: [],
+      date: new Date(),
     });
+
     const response = await appTest.req
       .get(`/v1/events-from-link`)
       .query({ url: "http://lies.exposed" });
 
+
+    const {
+      deletedAt,
+      payload: { location, endDate, ...expectedPayload },
+      ...expectedEvent
+    } = eventsData[0];
+
     expect(response.status).toBe(200);
     expect(response.body.data[0]).toMatchObject({
-      score: 100,
-      ...eventsData[0],
-      date: eventsData[0].date.toISOString(),
-      createdAt: eventsData[0].createdAt.toISOString(),
-      updatedAt: eventsData[0].updatedAt.toISOString(),
+      ...expectedEvent,
+      date: expectedEvent.date.toISOString(),
+      createdAt: expectedEvent.createdAt.toISOString(),
+      updatedAt: expectedEvent.updatedAt.toISOString(),
     });
+
+    expect(response.body.data[0].payload).toMatchObject(expectedPayload);
   });
 });
