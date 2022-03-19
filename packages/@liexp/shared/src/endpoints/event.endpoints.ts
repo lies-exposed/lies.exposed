@@ -8,7 +8,7 @@ import {
 import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
-const ListEventOutput = t.strict(
+export const ListEventOutput = t.strict(
   {
     data: t.array(
       t.intersection([
@@ -23,6 +23,7 @@ const ListEventOutput = t.strict(
   },
   "Events"
 );
+export type ListEventOutput = t.TypeOf<typeof ListEventOutput>
 
 export const List = Endpoint({
   Method: "GET",

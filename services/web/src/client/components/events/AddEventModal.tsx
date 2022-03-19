@@ -1,4 +1,9 @@
 import { Event } from "@liexp/shared/io/http/Events";
+import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
+import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
+import { Loader } from '@liexp/ui/components/Common/Loader';
+import { getEventsFromLinkQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
   Box,
   Button,
@@ -8,11 +13,14 @@ import {
   DialogContentText,
   DialogProps,
   DialogTitle,
+  Grid,
   IconButton,
   Input,
   useTheme,
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import * as QR from "avenger/lib/QueryResult";
+import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { createEventFromLink, getEventFromLink } from "../../state/commands";
 
@@ -26,16 +34,16 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   const theme = useTheme();
 
   const [open, setOpen] = React.useState(false);
-  const [url, setUrl] = React.useState("");
+  const [url, setUrl] = React.useState({
+    value: "",
+    submitted: "",
+  });
   const [matchedEvents, setMatchedEvents] = React.useState<Event[]>([]);
 
   const handleSubmit = (): void => {
-    void getEventFromLink({
-      url,
-    })().then((result) => {
-      if (result._tag === "Right") {
-        setMatchedEvents(result.right.data as any[]);
-      }
+    setUrl({
+      value: "",
+      submitted: url.value,
     });
   };
   return (
@@ -73,21 +81,36 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
           <Input
             fullWidth
             type="url"
-            value={url}
+            value={url.value}
             placeholder="http://my.url/..."
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => setUrl({ value: e.target.value, submitted: "" })}
           />
-          <Box>
-            {matchedEvents.map((e) => {
-              if (e.type === "Uncategorized") {
-                return (
-                  <Box key={e.id}>
-                    <span>{e.payload.title}</span>
-                  </Box>
-                );
-              }
-              return <div key={e.id} />;
-            })}
+          <Box marginTop={2} marginBottom={2}>
+            {url.submitted !== "" ? (
+              <WithQueries
+                queries={{
+                  events: getEventsFromLinkQuery,
+                }}
+                params={{
+                  events: {
+                    url: url.submitted,
+                  } as any,
+                }}
+                render={QR.fold(() => <Loader />, ErrorBox, ({ events }) => {
+                  return (
+                    <Grid container spacing={2}>
+                      {events.events.map((e) => {
+                        return (
+                          <Grid key={e.id} item md={4}>
+                            <EventCard event={e} />
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
+                  );
+                })}
+              />
+            ) : null}
           </Box>
         </DialogContent>
         <DialogActions>
