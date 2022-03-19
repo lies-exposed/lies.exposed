@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 require("module-alias")(process.cwd());
 const path = require("path");
-const { getDBOptions } = require("./build/utils/getDBOptions");
+const { getDataSource } = require("./build/utils/data-source");
 const { ENV } = require("./build/io/ENV");
 const { PathReporter } = require("io-ts/lib/PathReporter");
 
@@ -22,4 +22,10 @@ if (decodedEnv._tag === "Left") {
 }
 const env = decodedEnv.right;
 
-module.exports = getDBOptions(env, true);
+const dataSource = getDataSource(env, true)
+
+dataSource.initialize()
+
+module.exports = {
+  default: dataSource
+};

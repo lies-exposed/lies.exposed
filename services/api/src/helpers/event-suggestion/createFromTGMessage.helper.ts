@@ -4,6 +4,7 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import TelegramBot from "node-telegram-bot-api";
+import { Equal } from 'typeorm';
 import * as linkHelpers from "../link.helper";
 import { searchEventSuggestion } from "./searchEventSuggestion.helper";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -180,7 +181,7 @@ export const createFromTGMessage =
                         TE.chain((hh) =>
                           ctx.db.find(KeywordEntity, {
                             where: {
-                              tag: hh,
+                              tag: Equal( hh),
                             },
                           })
                         )

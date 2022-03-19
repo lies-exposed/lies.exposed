@@ -5,6 +5,7 @@ import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from "typeorm";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { ServerError } from "@io/ControllerError";
@@ -16,7 +17,7 @@ export const MakeEditLinkMetadataRoute = (
 ): void => {
   AddEndpoint(r)(UpdateMetadata, ({ params: { id } }) => {
     return pipe(
-      ctx.db.findOneOrFail(LinkEntity, { where: { id } }),
+      ctx.db.findOneOrFail(LinkEntity, { where: { id: Equal(id) } }),
       TE.chain((link) =>
         sequenceS(TE.ApplicativePar)({
           link: TE.right(link),
@@ -44,7 +45,7 @@ export const MakeEditLinkMetadataRoute = (
       ),
       TE.chain(() =>
         ctx.db.findOneOrFail(LinkEntity, {
-          where: { id },
+          where: { id: Equal(id) },
           loadRelationIds: { relations: ["events"] },
         })
       ),

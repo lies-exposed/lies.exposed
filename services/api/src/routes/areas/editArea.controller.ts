@@ -1,6 +1,7 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { Route } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
@@ -23,7 +24,7 @@ export const MakeEditAreaRoute: Route = (r, { db, env, logger }) => {
         db.save(AreaEntity, [updateData]),
         TE.chain(() =>
           db.findOneOrFail(AreaEntity, {
-            where: { id },
+            where: { id: Equal(id) },
             loadRelationIds: true,
           })
         ),

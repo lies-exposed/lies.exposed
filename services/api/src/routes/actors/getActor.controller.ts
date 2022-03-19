@@ -3,7 +3,7 @@ import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { Raw } from "typeorm";
+import { Equal, Raw } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { RouteContext } from "../route.types";
 import { toActorIO } from "./actor.io";
@@ -14,7 +14,7 @@ export const MakeGetActorRoute = (r: Router, ctx: RouteContext): void => {
     return pipe(
       sequenceS(TE.ApplicativePar)({
         actor: ctx.db.findOneOrFail(ActorEntity, {
-          where: { id },
+          where: { id: Equal(id) },
           loadRelationIds: {
             relations: ["memberIn"],
           },

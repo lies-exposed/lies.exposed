@@ -9,7 +9,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as logger from "../../../packages/@liexp/core/src/logger";
 import * as orm from "../src/providers/orm";
-import { getDBOptions } from "../src/utils/getDBOptions";
+import { getDataSource } from "../src/utils/data-source";
 import { TestENV } from "./TestENV";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 
@@ -38,7 +38,7 @@ export default async (): Promise<void> => {
           return TE.right(undefined);
         }
         return pipe(
-          orm.GetTypeORMClient(getDBOptions(env, false)),
+          orm.GetTypeORMClient(getDataSource(env, false)),
           TE.orElse(TE.throwError)
         );
       }),

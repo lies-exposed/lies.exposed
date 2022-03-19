@@ -1,6 +1,7 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from "typeorm";
 import { AreaEntity } from "../../entities/Area.entity";
 import { Route } from "../route.types";
 import { toAreaIO } from "./Area.io";
@@ -16,7 +17,7 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger }) => {
         db.save(AreaEntity, [body]),
         TE.chain(([actor]) =>
           db.findOneOrFail(AreaEntity, {
-            where: { id: actor.id },
+            where: { id: Equal(actor.id) },
             loadRelationIds: true,
           })
         ),

@@ -8,7 +8,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as path from "path";
 import * as orm from "../src/providers/orm";
-import { getDBOptions } from "../src/utils/getDBOptions";
+import { getDataSource } from "../src/utils/data-source";
 import { TestENV } from "./TestENV";
 const moduleAlias = require("module-alias");
 moduleAlias(path.resolve(__dirname, "../package.json"));
@@ -37,7 +37,7 @@ export default async (): Promise<void> => {
         }
 
         return pipe(
-          orm.GetTypeORMClient(getDBOptions(env, false)),
+          orm.GetTypeORMClient(getDataSource(env, false)),
           TE.chain((db) => db.close()),
           TE.orElse(TE.throwError)
         );

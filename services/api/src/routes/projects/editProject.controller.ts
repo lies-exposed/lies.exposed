@@ -4,6 +4,7 @@ import { Router } from "express";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { RouteContext } from "../route.types";
 import { toProjectIO } from "./project.io";
 import { ProjectEntity } from "@entities/Project.entity";
@@ -46,13 +47,13 @@ export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
 
     return pipe(
       ctx.db.findOneOrFail(ProjectEntity, {
-        where: { id },
+        where: { id: Equal(id) },
         relations: ["media", "areas"],
       }),
       TE.chain(() => ctx.db.save(ProjectEntity, [{ id, ...projectData }])),
       TE.chain(() =>
         ctx.db.findOneOrFail(ProjectEntity, {
-          where: { id },
+          where: { id: Equal(id) },
           relations: ["media", "areas"],
         })
       ),

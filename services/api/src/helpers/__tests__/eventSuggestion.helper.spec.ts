@@ -89,12 +89,12 @@ describe("Event Suggestion Helper", () => {
 
       [link] = await throwTE(Test.ctx.db.save(LinkEntity, [link]));
 
-      const events = fc.sample(UncategorizedArb, 1).map((e) => ({
+      let [event]: any[] = fc.sample(UncategorizedArb, 1).map((e) => ({
         ...e,
         links: [link],
       }));
 
-      await throwTE(Test.ctx.db.save(EventV2Entity, events as any));
+      [event] = await throwTE(Test.ctx.db.save(EventV2Entity, [event] as any[]));
 
       const result = await throwTE(
         createFromTGMessage(Test.ctx)(
@@ -116,16 +116,16 @@ describe("Event Suggestion Helper", () => {
       );
 
       expect(result).toMatchObject({
-        type: "Uncategorized",
-        links: [link.id],
+        id: event.id,
       });
 
       await throwTE(
         Test.ctx.db.delete(
           EventV2Entity,
-          events.map((e) => e.id)
+          event.id
         )
       );
+
       await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
     });
 

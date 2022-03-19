@@ -2,6 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
@@ -10,7 +11,7 @@ export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(LinkEntity, {
-        where: { id },
+        where: { id: Equal(id) },
         relations: ['image'],
         loadRelationIds: { relations: ["events", "keywords"] },
       }),

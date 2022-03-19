@@ -5,7 +5,7 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { UUID } from "io-ts-types/lib/UUID";
-import { In } from "typeorm";
+import { Equal, In } from "typeorm";
 import { Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { createEventQuery } from "../queries/createEvent.query";
@@ -77,7 +77,7 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
         TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
         TE.chain(([event]) =>
           ctx.db.findOneOrFail(EventV2Entity, {
-            where: { id: event.id },
+            where: { id: Equal( event.id) },
             loadRelationIds: true,
           })
         ),

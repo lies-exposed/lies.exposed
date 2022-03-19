@@ -9,7 +9,7 @@ import { RouteContext } from "../route.types";
 export const MakeDeleteManyPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(PageDeleteMany, ({ query: { ids } }) => {
     return pipe(
-      ctx.db.find(PageEntity, { where: { uuid: In(ids) } }),
+      ctx.db.find(PageEntity, { where: { id: In(ids) } }),
       TE.chainFirst(() => ctx.db.softDelete(PageEntity, ids)),
       TE.map(() => ({
         body: { data: ids },

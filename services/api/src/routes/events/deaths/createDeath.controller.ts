@@ -1,6 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -24,7 +25,7 @@ export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
 
         TE.chain(([event]) =>
           db.findOneOrFail(EventV2Entity, {
-            where: { id: event.id },
+            where: { id: Equal( event.id) },
             loadRelationIds: true,
           })
         ),

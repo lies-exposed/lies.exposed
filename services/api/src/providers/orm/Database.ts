@@ -9,7 +9,9 @@ import { pipe } from "fp-ts/lib/function";
 import {
   Connection,
   ConnectionManager,
-  ConnectionOptions,
+  
+  DataSource,
+  
   DeepPartial,
   DeleteResult,
   EntityManager,
@@ -21,7 +23,6 @@ import {
   SaveOptions,
   UpdateResult,
 } from "typeorm";
-import { AuroraDataApiPostgresConnectionOptions } from "typeorm/driver/aurora-data-api-pg/AuroraDataApiPostgresConnectionOptions";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { ControllerError } from "../../io/ControllerError";
@@ -45,11 +46,11 @@ interface DatabaseClient {
   execQuery: <T>(q: () => Promise<T>) => TE.TaskEither<DBError, T>;
   findOne: <Entity>(
     entityClass: EntityTarget<Entity>,
-    options?: FindOneOptions<Entity>
+    options: FindOneOptions<Entity>
   ) => TE.TaskEither<DBError, O.Option<Entity>>;
   findOneOrFail: <Entity>(
     entityClass: EntityTarget<Entity>,
-    options?: FindOneOptions<Entity>
+    options: FindOneOptions<Entity>
   ) => TE.TaskEither<DBError, Entity>;
   find: <Entity>(
     entityClass: EntityTarget<Entity>,
@@ -278,8 +279,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
 };
 
 type DatabaseConnectionOpts =
-  | PostgresConnectionOptions
-  | AuroraDataApiPostgresConnectionOptions;
+  | PostgresConnectionOptions;
 
 interface MakeDatabaseClientCtx {
   connectionName: string;
@@ -289,31 +289,31 @@ interface MakeDatabaseClientCtx {
 
 type MakeDatabaseClient = (
   ctx: MakeDatabaseClientCtx
-) => (ctx: DatabaseConnectionOpts) => TE.TaskEither<DBError, DatabaseClient>;
+) => (ctx: DataSource) => TE.TaskEither<DBError, DatabaseClient>;
 
 const MakeDatabaseClient: MakeDatabaseClient =
   ({ connectionManager: cm, connectionName, logger }) =>
   (ctx) => {
     const getConnection = (
       cm: ConnectionManager,
-      opts: ConnectionOptions
-    ): TE.TaskEither<DBError, Connection> => {
+      dataSource: DataSource
+    ): TE.TaskEither<DBError, DataSource> => {
       logger.debug.log("Getting connection %s", connectionName);
       if (cm.has(connectionName)) {
         logger.debug.log(
           "The connection is already present in connection manager..."
         );
         const conn = cm.get(connectionName);
+
         return TE.tryCatch(
-          () => (conn.isConnected ? Promise.resolve(conn) : conn.connect()),
+          () => (conn.isInitialized ? Promise.resolve(conn) : conn.initialize()),
           toError(logger)()
         );
       }
 
       logger.debug.log("Connection %s not found, creating...", connectionName);
-      logger.debug.log("Creating connection %O", opts);
 
-      return TE.tryCatch(() => cm.create(opts).connect(), toError(logger)());
+      return TE.tryCatch(() => dataSource.initialize(), toError(logger)());
     };
 
     return pipe(
@@ -325,7 +325,7 @@ const MakeDatabaseClient: MakeDatabaseClient =
   };
 
 const GetTypeORMClient: Reader.Reader<
-  DatabaseConnectionOpts,
+  DataSource,
   TE.TaskEither<DBError, DatabaseClient>
 > = MakeDatabaseClient({
   connectionManager: getConnectionManager(),

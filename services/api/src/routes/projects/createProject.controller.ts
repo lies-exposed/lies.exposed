@@ -3,6 +3,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { Route } from "../route.types";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
@@ -34,7 +35,7 @@ export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
         ),
         TE.chain(({ project: page }) =>
           db.findOneOrFail(ProjectEntity, {
-            where: { id: page.id },
+            where: { id: Equal( page.id) },
             loadRelationIds: true,
           })
         ),

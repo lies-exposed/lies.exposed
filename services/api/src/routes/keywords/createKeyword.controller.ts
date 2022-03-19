@@ -2,6 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { Route } from "../route.types";
 import { toKeywordIO } from "./keyword.io";
 import { KeywordEntity } from "@entities/Keyword.entity";
@@ -15,7 +16,7 @@ export const MakeCreateKeywordRoute: Route = (r, { db, logger }) => {
       logger.debug.log("Headers %O", { headers, body });
 
       return pipe(
-        db.findOne(KeywordEntity, { where: { tag: body.tag } }),
+        db.findOne(KeywordEntity, { where: { tag: Equal(body.tag) } }),
         TE.filterOrElse(O.isNone, () =>
           ServerError([`Keyword ${body.tag} already exists.`])
         ),
