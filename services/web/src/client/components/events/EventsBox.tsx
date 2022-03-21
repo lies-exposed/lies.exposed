@@ -37,7 +37,6 @@ const EventsBox: React.FC<EventsBoxProps> = (props) => {
         ),
         ErrorBox,
         ({ events }) => {
-          console.log("events", events);
 
           return (
             <Grid container spacing={2}>

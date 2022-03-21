@@ -1,30 +1,27 @@
 import { Event } from "@liexp/shared/io/http/Events";
+import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { Loader } from "@liexp/ui/components/Common/Loader";
 import { getEventsFromLinkQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
-  Accordion,
-  AccordionSummary,
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogProps,
   DialogTitle,
   Grid,
   IconButton,
   Input,
+  Typography,
   useTheme,
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { createEventFromLink, getEventFromLink } from "../../state/commands";
 
 interface AddEventModalProps {
   query: any;
@@ -96,7 +93,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
                 params={{
                   events: {
                     url: url.submitted,
-                  } as any,
+                  },
                 }}
                 render={QR.fold(
                   () => (
@@ -104,17 +101,31 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
                   ),
                   ErrorBox,
                   ({ events }) => {
-
                     return (
                       <Grid container spacing={2}>
-                        {events.events.map((e) => {
+                        {events.events.events.map((e) => {
                           return (
                             <Grid key={e.id} item md={4}>
                               <EventCard event={e} showRelations={false} />
                             </Grid>
                           );
                         })}
-                        <Grid item md={12}></Grid>
+                        <Grid item md={12}>
+                          <Typography variant="h6">
+                            Or suggest new one
+                          </Typography>
+                        </Grid>
+
+                        {events.suggestions.map((e, i) => {
+                          return (
+                            <Grid key={i} item md={4}>
+                              <CreateEventCard
+                                event={e as any}
+                                showRelations={false}
+                              />
+                            </Grid>
+                          );
+                        })}
                       </Grid>
                     );
                   }

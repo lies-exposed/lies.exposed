@@ -1,7 +1,6 @@
 import { Events } from "@liexp/shared/io/http";
 import { Uncategorized } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
-import Editor from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
@@ -25,9 +24,10 @@ import {
   required,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
+import ExcerptField from "../Common/ExcerptField";
 import { LinkArrayInput } from "../Common/LinkArrayInput";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
@@ -35,7 +35,6 @@ import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import { transformEvent } from "./utils";
-import ExcerptField from "../Common/ExcerptField";
 
 const RESOURCE = "events";
 

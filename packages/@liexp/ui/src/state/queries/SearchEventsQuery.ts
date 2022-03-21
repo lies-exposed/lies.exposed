@@ -43,6 +43,7 @@ export interface SearchEventQueryResult {
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
+  media: Media.Media[];
   keywords: Keyword.Keyword[];
   totals: EventTotals;
 }
@@ -192,8 +193,9 @@ const mergeState = (
         ),
         actors: r.actors,
         groups: r.groups,
-        keywords: r.keywords,
         groupsMembers: r.groupsMembers,
+        keywords: r.keywords,
+        media: r.media,
         totals: {
           deaths: update.events.totals.deaths,
           scientificStudies: update.events.totals.scientificStudies,
@@ -223,6 +225,11 @@ const mergeState = (
           ),
           keywords: pipe(
             keywords,
+            M.toArray(S.Ord),
+            A.map((v) => v[1])
+          ),
+          media: pipe(
+            media,
             M.toArray(S.Ord),
             A.map((v) => v[1])
           ),
@@ -423,6 +430,68 @@ const getStateByHash = (
 //   );
 // };
 
+const fetchRelations = ({
+  actors,
+  groups,
+  groupsMembers,
+  media,
+  keywords,
+}: EventRelationIds): TE.TaskEither<
+  APIError,
+  {
+    actors: { data: Actor.Actor[] };
+    groups: { data: Group.Group[] };
+    groupsMembers: { data: GroupMember.GroupMember[] };
+    keywords: { data: Keyword.Keyword[] };
+    media: { data: Media.Media[] };
+  }
+> => {
+  return sequenceS(TE.ApplicativePar)({
+    actors:
+      actors.length === 0
+        ? TE.right({ data: [] })
+        : api.Actor.List({
+            Query: {
+              _start: 0,
+              perPage: actors.length,
+              ids: actors,
+            } as any,
+          }),
+    groups:
+      groups.length === 0
+        ? TE.right({ data: [] })
+        : api.Group.List({
+            Query: {
+              ids: groups,
+            } as any,
+          }),
+    groupsMembers:
+      groupsMembers.length === 0
+        ? TE.right({ data: [] })
+        : api.GroupMember.List({
+            Query: {
+              ids: groupsMembers,
+            } as any,
+          }),
+    media:
+      media.length === 0
+        ? TE.right({ data: [] })
+        : api.Media.List({
+            Query: {
+              ids: media,
+            } as any,
+          }),
+    keywords:
+      keywords.length === 0
+        ? TE.right({ data: [] })
+        : api.Keyword.List({
+            Query: {
+              ids: keywords,
+            } as any,
+          }),
+  });
+};
+
 export interface SearchEventQueryInput
   extends Omit<Partial<GetSearchEventsQueryInput>, "_start" | "_end"> {
   _start: number;
@@ -471,53 +540,7 @@ const searchEventsQ =
             return pipe(
               getNewRelationIds(response.data, searchEventsQueryCache),
               TE.right,
-              TE.chain(({ actors, groups, groupsMembers, media, keywords }) => {
-                log.debug.log("actors ", actors);
-                return sequenceS(TE.ApplicativePar)({
-                  actors:
-                    actors.length === 0
-                      ? TE.right({ data: [] })
-                      : api.Actor.List({
-                          Query: {
-                            _start: 0,
-                            perPage: actors.length,
-                            ids: actors,
-                          } as any,
-                        }),
-                  groups:
-                    groups.length === 0
-                      ? TE.right({ data: [] })
-                      : api.Group.List({
-                          Query: {
-                            ids: groups,
-                          } as any,
-                        }),
-                  groupsMembers:
-                    groupsMembers.length === 0
-                      ? TE.right({ data: [] })
-                      : api.GroupMember.List({
-                          Query: {
-                            ids: groupsMembers,
-                          } as any,
-                        }),
-                  media:
-                    media.length === 0
-                      ? TE.right({ data: [] })
-                      : api.Media.List({
-                          Query: {
-                            ids: media,
-                          } as any,
-                        }),
-                  keywords:
-                    keywords.length === 0
-                      ? TE.right({ data: [] })
-                      : api.Keyword.List({
-                          Query: {
-                            ids: keywords,
-                          } as any,
-                        }),
-                });
-              }),
+              TE.chain(fetchRelations),
               TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
                 return mergeState(cacheKey, searchEventsQueryCache, {
                   events: response,
@@ -547,12 +570,43 @@ export const searchEventsQuery = queryStrict(
 );
 
 export const getEventsFromLinkQuery = queryStrict(
-  ({ url }: { url: string }) =>
-    searchEventsQ(api.Event.Custom.GetFromLink)({
-      hash: url,
-      url,
-      _start: 0,
-      _end: 20,
-    } as any),
+  ({ url }: { url: string }) => {
+    const cacheKey = toKey("event-from-url", url);
+    return pipe(
+      api.Event.Custom.GetFromLink({
+        Query: {
+          url,
+          _start: 0,
+          _end: 20,
+        },
+      } as any),
+      TE.chain(({ data, suggestions, totals }) => {
+        return pipe(
+          getNewRelationIds(data, searchEventsQueryCache),
+          TE.right,
+          TE.chain(fetchRelations),
+          TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
+            return mergeState(cacheKey, searchEventsQueryCache, {
+              events: { data, totals },
+              actors: actors.data,
+              groups: groups.data,
+              groupsMembers: groupsMembers.data,
+              media: media.data,
+              keywords: keywords.data,
+            });
+          }),
+          TE.map((state) => {
+            searchEventsQueryCache = state;
+            log.debug.log("Cache updated %O", state);
+            return searchEventsQueryCache;
+          }),
+          TE.map((state) => ({
+            events: state.hashes.get(cacheKey) ?? { events: [] },
+            suggestions,
+          }))
+        );
+      })
+    );
+  },
   available
 );

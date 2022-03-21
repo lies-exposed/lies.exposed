@@ -134,6 +134,7 @@ const initialState: SearchEventQueryResult = {
   groups: [],
   groupsMembers: [],
   keywords: [],
+  media: [],
   totals: {
     uncategorized: 0,
     deaths: 0,

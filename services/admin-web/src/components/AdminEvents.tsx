@@ -12,6 +12,7 @@ import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { ECOTheme } from '@liexp/ui/theme';
 import { Box, Typography, ThemeProvider } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as E from "fp-ts/lib/Either";
@@ -66,7 +67,6 @@ import {
   UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
-import { ECOTheme } from '@liexp/ui/theme';
 
 const RESOURCE = "events";
 
