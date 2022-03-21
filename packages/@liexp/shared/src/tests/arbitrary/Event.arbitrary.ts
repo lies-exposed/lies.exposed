@@ -29,8 +29,8 @@ export const CreateEventBodyArb = ({
 }: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventBody> =>
   getArbitrary(t.strict(createEventProps)).map((b) => ({
     ...b,
-    excerpt: {},
-    body: {},
+    excerpt: {} as any,
+    body: {} as any,
     payload: {
       title: "",
       actors: fc.sample(fc.uuidV(4)) as any,
