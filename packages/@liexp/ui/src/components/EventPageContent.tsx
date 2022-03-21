@@ -41,9 +41,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
     <MainContent>
       <SEO
         title={event.payload.title}
-        description={
-          event.excerpt !== undefined ? getTextContentsCapped(event.excerpt as any, 230) : ""
-        }
+        description={getTextContentsCapped(event.excerpt as any, 230)}
         image={`${process.env.PUBLIC_URL}/liexp-logo.png`}
       />
       <Grid container spacing={2}>
@@ -98,7 +96,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 <KeywordsBox ids={event.keywords} />
               </Box>
 
-              <Editor value={event.excerpt as any} readOnly={true} />
+              <Editor
+                value={(event.excerpt as any) ?? { rows: [] }}
+                readOnly={true}
+              />
             </Grid>
           </Grid>
         </Grid>

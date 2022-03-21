@@ -35,6 +35,7 @@ import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import { transformEvent } from "./utils";
+import ExcerptField from "../Common/ExcerptField";
 
 const RESOURCE = "events";
 
@@ -69,10 +70,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
           return <EventIcon color="primary" type={r.type} />;
         }}
       />
-      <FunctionField
-        label="excerpt"
-        render={(r: any) => <Editor readOnly value={r.excerpt} />}
-      />
+      <ExcerptField source="excerpt" />
       <FunctionField
         label="actors"
         source="payload"

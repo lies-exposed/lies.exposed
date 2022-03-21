@@ -12,7 +12,7 @@ import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, ThemeProvider } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as E from "fp-ts/lib/Either";
 import * as R from "fp-ts/lib/Record";
@@ -66,6 +66,7 @@ import {
   UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
+import { ECOTheme } from '@liexp/ui/theme';
 
 const RESOURCE = "events";
 
@@ -312,18 +313,22 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
               return pipe(
                 http.Events.Uncategorized.Uncategorized.decode(formData),
                 E.fold(ValidationErrorsLayout, (p) => (
-                  <EventPageContent
-                    event={{
-                      ...p,
-                      keywords: [],
-                      links: [],
-                    }}
-                    onActorClick={() => undefined}
-                    onGroupClick={() => undefined}
-                    onKeywordClick={() => undefined}
-                    onLinkClick={() => undefined}
-                    onGroupMemberClick={() => undefined}
-                  />
+                  <ThemeProvider theme={ECOTheme}>
+                    <EventPageContent
+                      event={{
+                        ...p,
+                        excerpt: undefined,
+                        body: undefined,
+                        keywords: [],
+                        links: [],
+                      }}
+                      onActorClick={() => undefined}
+                      onGroupClick={() => undefined}
+                      onKeywordClick={() => undefined}
+                      onLinkClick={() => undefined}
+                      onGroupMemberClick={() => undefined}
+                    />
+                  </ThemeProvider>
                 ))
               );
             }}

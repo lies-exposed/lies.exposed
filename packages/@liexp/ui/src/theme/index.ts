@@ -1,3 +1,9 @@
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import "./font.css";
+import "ol/ol.css";
+import "react-virtualized/styles.css";
+
 import { darken, lighten, makeStyles, useTheme } from "@material-ui/core";
 import { createTheme } from "@material-ui/core/styles";
 

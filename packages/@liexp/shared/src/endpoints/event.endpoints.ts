@@ -11,19 +11,23 @@ const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
 export const ListEventOutput = t.strict(
   {
     data: t.array(
-      t.intersection([
-        http.Events.Event,
-        t.partial({
-          score: t.number,
-        }),
-      ])
+      t.intersection(
+        [
+          http.Events.Event,
+          t.partial({
+            score: t.number,
+          }),
+        ],
+        "EventWithScore"
+      ),
+      "Data"
     ),
     total: t.number,
     totals: EventTotals,
   },
   "Events"
 );
-export type ListEventOutput = t.TypeOf<typeof ListEventOutput>
+export type ListEventOutput = t.TypeOf<typeof ListEventOutput>;
 
 export const List = Endpoint({
   Method: "GET",

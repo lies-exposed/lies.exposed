@@ -2,9 +2,11 @@ import { Event } from "@liexp/shared/io/http/Events";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
-import { Loader } from '@liexp/ui/components/Common/Loader';
+import { Loader } from "@liexp/ui/components/Common/Loader";
 import { getEventsFromLinkQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
+  Accordion,
+  AccordionSummary,
   Box,
   Button,
   Dialog,
