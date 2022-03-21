@@ -120,7 +120,7 @@ export const searchEventV2Query =
                 tsQueryTitle
               );
 
-              q.where(
+              q.orWhere(
                 `ts_rank_cd(
                   to_tsvector(
                     'english',
@@ -304,7 +304,10 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(links)) {
-              q.andWhere("links.id IN (:...links)", {
+              const where = hasWhere
+              ? q.orWhere.bind(q)
+              : q.andWhere.bind(q);
+              where("links.id IN (:...links)", {
                 links: links.value,
               });
             }
