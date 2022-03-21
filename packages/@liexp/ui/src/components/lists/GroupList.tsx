@@ -16,6 +16,7 @@ interface GroupListProps {
   onItemClick: (actor: Group) => void;
   avatarSize?: AvatarSize;
   displayName?: boolean;
+  style?: React.CSSProperties
 }
 
 export const GroupListItem: React.FC<

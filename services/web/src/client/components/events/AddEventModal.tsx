@@ -98,19 +98,27 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
                     url: url.submitted,
                   } as any,
                 }}
-                render={QR.fold(() => <Loader />, ErrorBox, ({ events }) => {
-                  return (
-                    <Grid container spacing={2}>
-                      {events.events.map((e) => {
-                        return (
-                          <Grid key={e.id} item md={4}>
-                            <EventCard event={e} />
-                          </Grid>
-                        );
-                      })}
-                    </Grid>
-                  );
-                })}
+                render={QR.fold(
+                  () => (
+                    <Loader />
+                  ),
+                  ErrorBox,
+                  ({ events }) => {
+
+                    return (
+                      <Grid container spacing={2}>
+                        {events.events.map((e) => {
+                          return (
+                            <Grid key={e.id} item md={4}>
+                              <EventCard event={e} showRelations={false} />
+                            </Grid>
+                          );
+                        })}
+                        <Grid item md={12}></Grid>
+                      </Grid>
+                    );
+                  }
+                )}
               />
             ) : null}
           </Box>

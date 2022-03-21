@@ -35,7 +35,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   const eventsFilter = {
     ...filter,
     _start: 0,
-    _end: 40,
+    _end: 60,
   };
 
   return (
@@ -50,7 +50,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
       render={QR.fold(
         LazyFullSizeLoader,
         ErrorBox,
-        ({ events: { events, actors, groups, keywords } }) => {
+        ({ events: { events, actors, groups, keywords, } }) => {
 
           return (
             <Box

@@ -1,8 +1,8 @@
 import { PageContent } from "@liexp/ui/components/PageContent";
 import SEO from "@liexp/ui/components/SEO";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import * as React from "react";
-import * as Helmet from "react-helmet";
+import EventsBox from "../components/events/EventsBox";
 import KeywordsDistributionGraph from "../components/KeywordDistributionGraph";
 
 export default class IndexPage extends React.PureComponent<any> {
@@ -14,6 +14,12 @@ export default class IndexPage extends React.PureComponent<any> {
           <SEO title="lies.exposed" />
           <PageContent queries={{ pageContent: { path: "index" } }} />
           <KeywordsDistributionGraph />
+          <EventsBox
+            query={{
+              _start: 0,
+              _end: 0,
+            }}
+          />
         </Grid>
       </Grid>
     );

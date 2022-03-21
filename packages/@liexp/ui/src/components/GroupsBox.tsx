@@ -17,40 +17,6 @@ interface GroupsBoxProps {
   style?: React.CSSProperties;
 }
 
-export const GroupsList: React.FC<{
-  ids: NEA.NonEmptyArray<string>;
-  onItemClick: (g: Group.Group) => void;
-  style?: React.CSSProperties;
-}> = ({ ids, ...props }) => {
-  return (
-    <WithQueries
-      queries={{ groups: Queries.Group.getList }}
-      params={{
-        groups: {
-          pagination: { page: 1, perPage: 10 },
-          sort: { field: "createdAt", order: "DESC" },
-          filter: {
-            ids,
-          },
-        },
-      }}
-      render={QR.fold(
-        LazyFullSizeLoader,
-        ErrorBox,
-        ({ groups: { data: groups } }) => {
-          // eslint-disable-next-line react/jsx-key
-          return (
-            <GroupList
-              {...props}
-              groups={groups.map((a) => ({ ...a, selected: true }))}
-            />
-          );
-        }
-      )}
-    />
-  );
-};
-
 export const GroupsBox: React.FC<GroupsBoxProps> = ({
   ids,
   style,
@@ -65,7 +31,32 @@ export const GroupsBox: React.FC<GroupsBoxProps> = ({
         O.fold(
           () => <Typography>-</Typography>,
           (ids) => (
-            <GroupsList ids={ids} style={style} onItemClick={onItemClick} />
+            <WithQueries
+              queries={{ groups: Queries.Group.getList }}
+              params={{
+                groups: {
+                  pagination: { page: 1, perPage: 10 },
+                  sort: { field: "createdAt", order: "DESC" },
+                  filter: {
+                    ids,
+                  },
+                },
+              }}
+              render={QR.fold(
+                LazyFullSizeLoader,
+                ErrorBox,
+                ({ groups: { data: groups } }) => {
+                  // eslint-disable-next-line react/jsx-key
+                  return (
+                    <GroupList
+                      style={style}
+                      onItemClick={onItemClick}
+                      groups={groups.map((a) => ({ ...a, selected: true }))}
+                    />
+                  );
+                }
+              )}
+            />
           )
         )
       )}
