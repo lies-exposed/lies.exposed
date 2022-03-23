@@ -7,29 +7,32 @@ import {
   CardActions,
   CardHeader,
   CardMedia,
+  CardProps,
 } from "@material-ui/core";
 import * as React from "react";
 import { EventIcon } from "../../Common/Icons";
 import KeywordList from "../../lists/KeywordList";
 
-interface EventCardProps {
+interface EventCardProps extends Omit<CardProps, "onClick"> {
   event: Events.SearchEvent.SearchEvent;
   showRelations: boolean;
+  onClick: (e: Events.SearchEvent.SearchEvent) => void;
 }
 
 const CreateEventCard: React.FC<EventCardProps> = ({
   event,
   showRelations,
+  onClick,
+  ...props
 }) => {
-
-  const { keywords }= event;
+  const { keywords } = event;
   const title =
     event.type === Events.Death.DEATH.value ? `Death` : event.payload.title;
   const image = "";
 
   return (
-    <Box>
-      <Card>
+    <Box onClick={() => onClick(event)}>
+      <Card {...props}>
         <CardActionArea>
           <CardMedia component="img" image={image} />
           <CardHeader

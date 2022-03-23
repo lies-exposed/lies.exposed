@@ -58,12 +58,10 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
     isLast,
     style,
     isVisible,
-    key,
   } = props;
   if (!isVisible) {
     return (
       <div
-        key={key}
         style={{
           display: "flex",
           alignItems: "center",
@@ -80,7 +78,6 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
 
   return (
     <EventTimelineItem
-      key={key}
       isLast={isLast}
       event={event}
       onClick={onClick}

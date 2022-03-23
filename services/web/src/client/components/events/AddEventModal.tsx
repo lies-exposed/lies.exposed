@@ -1,4 +1,5 @@
-import { Event } from "@liexp/shared/io/http/Events";
+import { http } from "@liexp/shared/io";
+import { Events } from "@liexp/shared/io/http";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
@@ -22,6 +23,44 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
+import { createEventSuggestion } from "../../state/commands";
+
+interface EventSuggestionsListProps {
+  suggestions: Events.EventSuggestion[];
+  selected?: Events.EventSuggestion;
+  onSelect: (e: Events.EventSuggestion) => void;
+}
+
+const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
+  suggestions,
+  selected,
+  onSelect,
+}) => {
+  const cachedSuggestions = React.useMemo(
+    () => suggestions,
+    [suggestions.length]
+  );
+
+  return (
+    <Grid container spacing={2}>
+      {cachedSuggestions.map((e, i) => {
+        return (
+          <Grid key={e.id} item md={4}>
+            <CreateEventCard
+              event={e as any}
+              showRelations={false}
+              variant={e.id === selected?.id ? "outlined" : "elevation"}
+              elevation={e.id === selected?.id ? 0 : 2}
+              onClick={() => {
+                onSelect(e);
+              }}
+            />
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
+};
 
 interface AddEventModalProps {
   query: any;
@@ -32,19 +71,31 @@ interface AddEventModalProps {
 const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   const theme = useTheme();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [url, setUrl] = React.useState({
-    value: "",
+    value:
+      "https://www.grupolaprovincia.com/sociedad/fallece-en-un-accidente-nora-etchenique-directora-de-hemoterapia-bonaerense-543461?",
     submitted: "",
   });
-  const [matchedEvents, setMatchedEvents] = React.useState<Event[]>([]);
+
+  const [selectedSuggestion, setSelectedSuggestion] = React.useState<
+    http.Events.EventSuggestion | undefined
+  >(undefined);
 
   const handleSubmit = (): void => {
-    setUrl({
-      value: "",
-      submitted: url.value,
-    });
+    if (selectedSuggestion) {
+      void createEventSuggestion(selectedSuggestion)();
+    } else {
+      setUrl({
+        value: "",
+        submitted: url.value,
+      });
+    }
   };
+  const createDisabled = false;
+
+  // console.log({ url, selectedSuggestion, createDisabled });
+
   return (
     <div>
       <Box
@@ -115,17 +166,11 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
                             Or suggest new one
                           </Typography>
                         </Grid>
-
-                        {events.suggestions.map((e, i) => {
-                          return (
-                            <Grid key={i} item md={4}>
-                              <CreateEventCard
-                                event={e as any}
-                                showRelations={false}
-                              />
-                            </Grid>
-                          );
-                        })}
+                        <EventSuggestionsList
+                          suggestions={events.suggestions}
+                          selected={selectedSuggestion}
+                          onSelect={setSelectedSuggestion}
+                        />
                       </Grid>
                     );
                   }
@@ -143,7 +188,14 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
           >
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>Create</Button>
+          <Button
+            color="primary"
+            variant="outlined"
+            disabled={createDisabled}
+            onClick={handleSubmit}
+          >
+            Create
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

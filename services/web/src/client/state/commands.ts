@@ -1,5 +1,8 @@
+import { http } from "@liexp/shared/io";
+import { APIError } from "@liexp/shared/providers/api.provider";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { command } from "avenger";
+import * as TE from "fp-ts/lib/TaskEither";
 import { api } from "../api";
 
 export const createEventFromLink = command(
@@ -20,4 +23,11 @@ export const getEventFromLink = command((params: { url: string }) =>
       url: params.url,
     },
   })
+);
+
+export const createEventSuggestion = command(
+  (params: http.Events.EventSuggestion) =>
+    api.Event.Custom.CreateSuggestion({
+      Body: params,
+    })
 );
