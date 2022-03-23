@@ -1,19 +1,19 @@
-import { LinkEntity } from "@entities/Link.entity";
-import { ControllerError, ServerError } from "@io/ControllerError";
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { Route } from "@routes/route.types";
 import { addWeeks, subWeeks } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
 import { Metadata } from "page-metadata-parser";
 import { toEventV2IO } from "./eventV2.io";
 import { searchEventV2Query } from "./queries/searchEventsV2.query";
+import { LinkEntity } from "@entities/Link.entity";
+import { ControllerError, ServerError } from "@io/ControllerError";
+import { Route } from "@routes/route.types";
 
 export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Custom.GetFromLink, ({ query: { url } }) => {
@@ -60,105 +60,101 @@ export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
               ),
               O.getOrElse(() => "")
             );
+            const suggestedEventLinks = pipe(
+              link,
+              O.map((l) => [l.id]),
+              O.getOrElse((): any[] => [{ url: metadata.url }])
+            );
 
-            const suggestions: Events.CreateEventBody[] = [
+            const commonSuggestion = {
+              id: uuid() as any,
+              excerpt: {},
+              body: {},
+              draft: true,
+              date: urlDate,
+              media: [],
+              links: suggestedEventLinks,
+              keywords: [],
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              deletedAt: undefined
+            };
+
+            const suggestions: Events.EventSuggestion[] = [
               {
-                type: Events.Documentary.DOCUMENTARY.value,
-                excerpt: {},
-                body: {},
-                draft: true,
-                date: urlDate,
-                payload: {
-                  title: suggestedTitle,
-                  website: metadata.url,
-                  media: uuid() as any,
-                  authors: {
-                    actors: [],
-                    groups: [],
+                type: Events.EventSuggestionType.types[0].value,
+                event: {
+                  ...commonSuggestion,
+                  type: Events.Documentary.DOCUMENTARY.value,
+                  payload: {
+                    title: suggestedTitle,
+                    website: metadata.url,
+                    media: uuid() as any,
+                    authors: {
+                      actors: [],
+                      groups: [],
+                    },
+                    subjects: {
+                      actors: [],
+                      groups: [],
+                    },
                   },
-                  subjects: {
-                    actors: [],
-                    groups: [],
+                },
+              },
+              {
+                type: Events.EventSuggestionType.types[0].value,
+                event: {
+                  ...commonSuggestion,
+                  type: Events.Patent.PATENT.value,
+                  payload: {
+                    title: suggestedTitle,
+                    source: metadata.url as any,
+                    owners: {
+                      actors: [],
+                      groups: [],
+                    } as any,
                   },
                 },
-                media: [],
-                links: [],
-                keywords: [],
               },
               {
-                type: Events.Patent.PATENT.value,
-                excerpt: {},
-                body: {},
-                draft: true,
-                date: urlDate,
-                payload: {
-                  title: suggestedTitle,
-                  source: metadata.url as any,
-                  owners: {
+                type: Events.EventSuggestionType.types[0].value,
+                event: {
+                  ...commonSuggestion,
+                  type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+                  payload: {
+                    title: suggestedTitle,
+                    url: metadata.url as any,
+                    image: metadata.image,
+                    publisher: undefined,
+                    authors: [],
+                  },
+                },
+              },
+              {
+                type: Events.EventSuggestionType.types[0].value,
+                event: {
+                  ...commonSuggestion,
+                  type: Events.Death.DEATH.value,
+                  payload: {
+                    victim: uuid() as any,
+                    location: undefined as any,
+                  },
+                },
+              },
+              {
+                type: Events.EventSuggestionType.types[0].value,
+                event: {
+                  ...commonSuggestion,
+                  type: Events.Uncategorized.UNCATEGORIZED.value,
+                  payload: {
+                    title: suggestedTitle,
                     actors: [],
                     groups: [],
-                  } as any,
+                    groupsMembers: [],
+                    endDate: undefined as any,
+                    location: undefined as any,
+                  },
                 },
-                media: [],
-                links: [],
-                keywords: [],
-              },
-              {
-                type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
-                excerpt: {},
-                body: {},
-                draft: true,
-                date: urlDate,
-                payload: {
-                  title: suggestedTitle,
-                  url: metadata.url as any,
-                  image: metadata.image,
-                  publisher: undefined,
-                  authors: [],
-                },
-                media: [],
-                links: [],
-                keywords: [],
-              },
-              {
-                type: Events.Death.DEATH.value,
-                excerpt: {},
-                body: {},
-                draft: true,
-                date: urlDate,
-                payload: {
-                  victim: uuid() as any,
-                  location: undefined as any,
-                },
-                media: [],
-                keywords: [],
-                links: pipe(
-                  link,
-                  O.map((l) => [{ url: l.url }]),
-                  O.getOrElse((): any[] => [])
-                ),
-              },
-              {
-                type: Events.Uncategorized.UNCATEGORIZED.value,
-                excerpt: {},
-                body: {},
-                draft: true,
-                payload: {
-                  title: pipe(
-                    link,
-                    O.map((l) => l.title),
-                    O.getOrElse(() => metadata.title)
-                  ),
-                  actors: [],
-                  groups: [],
-                  groupsMembers: [],
-                  endDate: undefined as any,
-                  location: undefined as any,
-                },
-                date: urlDate,
-                keywords: [],
-                links: [],
-                media: [],
               },
             ];
 

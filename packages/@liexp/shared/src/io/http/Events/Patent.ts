@@ -50,8 +50,8 @@ export const CreatePatentBody = t.strict(
     payload: t.strict({
       title: t.string,
       owners: t.strict({
-        actors: optionFromNullable(t.array(UUID)),
-        groups: optionFromNullable(t.array(UUID)),
+        actors: t.array(UUID),
+        groups: t.array(UUID),
       }),
       source: URL,
     }),

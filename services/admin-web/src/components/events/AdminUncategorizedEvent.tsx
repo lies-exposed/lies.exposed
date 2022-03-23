@@ -24,7 +24,7 @@ import {
   required,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -110,9 +110,9 @@ export const UncategorizedEventTitle: React.FC<{
   return <span>Event: {record.payload.title}</span>;
 };
 
-export const UncategorizedEventEditTab: React.FC<EditProps> = (
-  props: EditProps
-) => {
+export const UncategorizedEventEditTab: React.FC<
+  EditProps & { record?: any }
+> = (props) => {
   return (
     <FormTab label="Payload" {...props}>
       <TextInput

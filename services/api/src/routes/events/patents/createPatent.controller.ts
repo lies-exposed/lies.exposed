@@ -36,7 +36,7 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
       const fetchOwnersTask = sequenceS(TE.ApplicativePar)({
         actors: pipe(
           owners.actors,
-          O.filter((arr) => arr.length > 0),
+          O.fromPredicate((arr) => arr.length > 0),
           O.map((gg) =>
             ctx.db.find(ActorEntity, {
               where: { id: In(gg) },
@@ -46,7 +46,7 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
         ),
         groups: pipe(
           owners.groups,
-          O.filter((arr) => arr.length > 0),
+          O.fromPredicate((arr) => arr.length > 0),
           O.map((gg) =>
             ctx.db.find(GroupEntity, {
               where: { id: In(gg) },
@@ -65,8 +65,8 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
             payload: {
               ...payload,
               owners: {
-                actors: O.some(actors.map((a) => a.id as UUID)),
-                groups: O.some(groups.map((g) => g.id as UUID)),
+                actors: actors.map((a) => a.id as UUID),
+                groups: groups.map((g) => g.id as UUID),
               },
             },
             media,

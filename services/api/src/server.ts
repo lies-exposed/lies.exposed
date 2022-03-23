@@ -124,6 +124,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         { url: "/v1/users/login", method: "POST" },
         { url: /\/v1\/*/, method: "GET" },
         { url: /\/v1\/uploads*\//, method: "PUT" },
+        { url: '/v1/events/suggestion', method: 'POST'},
         { url: /\/media\/*/ },
       ],
     })

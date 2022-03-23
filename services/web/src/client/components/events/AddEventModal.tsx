@@ -1,5 +1,6 @@
 import { http } from "@liexp/shared/io";
 import { Events } from "@liexp/shared/io/http";
+import { uuid } from "@liexp/shared/utils/uuid";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
@@ -27,8 +28,8 @@ import { createEventSuggestion } from "../../state/commands";
 
 interface EventSuggestionsListProps {
   suggestions: Events.EventSuggestion[];
-  selected?: Events.EventSuggestion;
-  onSelect: (e: Events.EventSuggestion) => void;
+  selected?: Events.EventSuggestion & { id: string };
+  onSelect: (e: Events.EventSuggestion & { id: string }) => void;
 }
 
 const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
@@ -37,7 +38,7 @@ const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
   onSelect,
 }) => {
   const cachedSuggestions = React.useMemo(
-    () => suggestions,
+    () => suggestions.map((s) => ({ ...s, id: uuid() })),
     [suggestions.length]
   );
 
@@ -47,7 +48,7 @@ const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
         return (
           <Grid key={e.id} item md={4}>
             <CreateEventCard
-              event={e as any}
+              event={e.event as any}
               showRelations={false}
               variant={e.id === selected?.id ? "outlined" : "elevation"}
               elevation={e.id === selected?.id ? 0 : 2}
@@ -79,7 +80,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   });
 
   const [selectedSuggestion, setSelectedSuggestion] = React.useState<
-    http.Events.EventSuggestion | undefined
+    http.Events.EventSuggestion & { id: string } | undefined
   >(undefined);
 
   const handleSubmit = (): void => {

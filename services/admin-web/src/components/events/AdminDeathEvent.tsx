@@ -78,8 +78,8 @@ export const DeathEventTitle: React.FC<{ record: Death.Death }> = ({
   );
 };
 
-export const DeathEventEditFormTab: React.FC<EditProps> = (
-  props: EditProps
+export const DeathEventEditFormTab: React.FC<EditProps  & { record?: any }> = (
+  props
 ) => (
   <FormTab label="Payload" {...props}>
     <ReferenceActorInput source="payload.victim" />
