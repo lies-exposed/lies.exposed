@@ -1,9 +1,9 @@
 import { PageContent } from "@liexp/ui/components/PageContent";
 import SEO from "@liexp/ui/components/SEO";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import * as React from "react";
-import * as Helmet from "react-helmet";
 import KeywordsDistributionGraph from "../components/KeywordDistributionGraph";
+import EventsBox from "../components/events/EventsBox";
 
 export default class IndexPage extends React.PureComponent<any> {
   render(): JSX.Element {

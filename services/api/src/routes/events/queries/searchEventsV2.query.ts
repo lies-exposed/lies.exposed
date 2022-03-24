@@ -38,6 +38,7 @@ interface SearchEventQuery {
 interface SearchEventOutput {
   results: EventV2Entity[];
   totals: EventTotals;
+  total: number;
 }
 
 export const searchEventV2Query =
@@ -100,10 +101,67 @@ export const searchEventV2Query =
           (q) => {
             let hasWhere = false;
             if (O.isSome(title)) {
-              q.where(
-                `event.type IN ('Uncategorized', 'ScientificStudy') AND "event"."payload" ->> lower('title') LIKE :title`,
-                { title: `%${title.value.toLocaleLowerCase()}%` }
+              const trimmedWords = title.value.replace(
+                /[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi,
+                " "
               );
+
+              const tsQueryTitle = trimmedWords
+                .split(" ")
+                .filter((l) => l.length >= 3)
+                .sort((a, b) => b.length - a.length)
+                .slice(0, 3)
+                .join(" | ")
+                .toLowerCase();
+
+              logger.debug.log(
+                "PG ts_query for title '%s' \n '%s'",
+                trimmedWords,
+                tsQueryTitle
+              );
+
+              q.orWhere(
+                `ts_rank_cd(
+                  to_tsvector(
+                    'english',
+                    CASE
+                      WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy') THEN "event"."payload"::jsonb ->> lower('title')
+                      WHEN event.type IN ('Death') THEN "event"."payload"::jsonb ->> 'victim'::text
+                    END
+                  ),
+                  to_tsquery(:q)
+                ) > 0.001`,
+                {
+                  q: tsQueryTitle,
+                }
+              );
+              // q.addSelect((selectQb) => {
+              //   return selectQb
+              //     .select(
+              //       `ts_rank_cd(
+              //         to_tsvector(
+              //           'english',
+              //           CASE
+              //             WHEN ev.type IN ('Uncategorized', 'Documentary', 'ScientificStudy') THEN "ev"."payload"::jsonb ->> lower('title')
+              //             WHEN ev.type IN ('Death') THEN "ev"."payload"::jsonb ->> 'victim'::text
+              //           END
+              //         ),
+              //         to_tsquery(:q)
+              //       )`,
+              //       "title_score"
+              //     )
+              //     .from(EventV2Entity, "ev")
+              //     .limit(1)
+              //     .addOrderBy("title_score", "DESC")
+              //     .setParameter("q", tsQueryTitle);
+
+              // }, '"event"."title_score"')
+              // .where('"event"."title_score" >= 0.02');
+
+              // q.where(
+              //   `event.type IN ('Uncategorized', 'ScientificStudy') AND "event"."payload" ->> lower('title') LIKE :title`,
+              //   { title: `%${title.value.toLocaleLowerCase()}%` }
+              // );
               hasWhere = true;
             }
 
@@ -246,7 +304,10 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(links)) {
-              q.andWhere("links.id IN (:...links)", {
+              const where = hasWhere
+              ? q.orWhere.bind(q)
+              : q.andWhere.bind(q);
+              where("links.id IN (:...links)", {
                 links: links.value,
               });
             }
@@ -360,6 +421,16 @@ export const searchEventV2Query =
           ),
         });
       }),
-      TE.map(({ results, ...totals }) => ({ results, totals }))
+      TE.map(({ results, ...totals }) => ({
+        results,
+        totals,
+        total:
+          totals.deaths +
+          totals.documentaries +
+          totals.patents +
+          totals.scientificStudies +
+          totals.scientificStudies +
+          totals.transactions,
+      }))
     );
   };

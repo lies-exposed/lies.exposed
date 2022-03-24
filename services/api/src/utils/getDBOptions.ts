@@ -5,6 +5,7 @@ import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { ArticleEntity } from "@entities/Article.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { EventSuggestionEntity } from '@entities/EventSuggestion.entity';
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
@@ -51,6 +52,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       LinkEntity,
       KeywordEntity,
       UserEntity,
+      EventSuggestionEntity,
       // old
       EventEntity,
       DeathEventEntity,

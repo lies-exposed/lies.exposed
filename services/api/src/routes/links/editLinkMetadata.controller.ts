@@ -19,7 +19,7 @@ export const MakeEditLinkMetadataRoute = (
       TE.chain((link) =>
         sequenceS(TE.ApplicativePar)({
           link: TE.right(link),
-          meta: ctx.urlMetadata.fetchMetadata(link.url, (e) => {
+          meta: ctx.urlMetadata.fetchMetadata(link.url, {}, (e) => {
             ctx.logger.error.log("Error fetching data %O", e);
             return ServerError();
           }),

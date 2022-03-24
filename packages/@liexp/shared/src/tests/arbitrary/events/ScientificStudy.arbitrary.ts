@@ -15,8 +15,8 @@ export const CreateScientificStudyArb: tests.fc.Arbitrary<http.Events.Scientific
     type: http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
     draft: false,
     date: tests.fc.sample(DateArb, 1)[0],
-    excerpt: {},
-    body: {},
+    excerpt: {} as any,
+    body: {} as any,
     payload: {
       title: tests.fc.sample(tests.fc.string(), 1)[0] as any,
       authors: tests.fc.sample(tests.fc.uuidV(4), 2) as any,

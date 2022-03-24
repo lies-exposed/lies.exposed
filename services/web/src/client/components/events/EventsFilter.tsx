@@ -1,4 +1,3 @@
-import { Death } from '@liexp/shared/io/http/Events';
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
@@ -8,7 +7,7 @@ import { AutocompleteKeywordInput } from "@liexp/ui/components/Input/Autocomplet
 import { SearchEventQueryResult } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Button, Grid, makeStyles } from "@material-ui/core";
 import * as React from "react";
-import { EventsView } from "../../utils/location.utils";
+import { createEventFromLink } from "../../state/commands";
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -29,7 +28,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
   groupsMembers,
   keywords,
   onQueryChange,
-  onQueryClear
+  onQueryClear,
 }) => {
   const classes = useStyles();
 
@@ -148,9 +147,7 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
           color="secondary"
           variant="contained"
           size="small"
-          onClick={() =>
-            onQueryClear()
-          }
+          onClick={() => onQueryClear()}
         >
           Clear filters
         </Button>

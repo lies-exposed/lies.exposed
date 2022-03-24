@@ -6,13 +6,15 @@ import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box, Typography } from "@material-ui/core";
+import { ECOTheme } from "@liexp/ui/theme";
+import { Box, ThemeProvider, Typography } from "@material-ui/core";
 import PinDropIcon from "@material-ui/icons/PinDrop";
 import * as E from "fp-ts/lib/Either";
 import * as R from "fp-ts/lib/Record";
@@ -38,7 +40,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
@@ -50,20 +52,21 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle,
+  DocumentaryReleaseTitle
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
+import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -211,7 +214,7 @@ export const EventList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
+export const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
   switch (record.type) {
     case UNCATEGORIZED.value:
       return <UncategorizedEventTitle record={record} />;
@@ -223,6 +226,8 @@ const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
       return <PatentEventTitle record={record} />;
     case DOCUMENTARY.value:
       return <DocumentaryReleaseTitle record={record} />;
+    case TRANSACTION.value:
+      return <TransactionTitle record={record} />;
   }
 };
 
@@ -312,18 +317,22 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
               return pipe(
                 http.Events.Uncategorized.Uncategorized.decode(formData),
                 E.fold(ValidationErrorsLayout, (p) => (
-                  <EventPageContent
-                    event={{
-                      ...p,
-                      keywords: [],
-                      links: [],
-                    }}
-                    onActorClick={() => undefined}
-                    onGroupClick={() => undefined}
-                    onKeywordClick={() => undefined}
-                    onLinkClick={() => undefined}
-                    onGroupMemberClick={() => undefined}
-                  />
+                  <ThemeProvider theme={ECOTheme}>
+                    <EventPageContent
+                      event={{
+                        ...p,
+                        excerpt: undefined,
+                        body: undefined,
+                        keywords: [],
+                        links: [],
+                      }}
+                      onActorClick={() => undefined}
+                      onGroupClick={() => undefined}
+                      onKeywordClick={() => undefined}
+                      onLinkClick={() => undefined}
+                      onGroupMemberClick={() => undefined}
+                    />
+                  </ThemeProvider>
                 ))
               );
             }}

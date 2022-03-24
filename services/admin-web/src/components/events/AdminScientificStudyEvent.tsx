@@ -66,7 +66,7 @@ export const ScientificStudyEventTitle: React.FC<{
   return <span>Scientific Study: {record.payload.title}</span>;
 };
 
-export const EditScientificStudyEvent: React.FC = (props) => {
+export const EditScientificStudyEvent: React.FC<EditProps &{ record?: any }> = (props) => {
   return (
     <FormTab label="Payload" {...props}>
       <TextInput source="title" />

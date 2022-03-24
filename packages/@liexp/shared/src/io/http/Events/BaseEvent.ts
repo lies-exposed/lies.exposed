@@ -9,10 +9,19 @@ import { CreateMedia } from "../Media";
 const createLinkProps = propsOmit(CreateLink, ["events"]);
 const CreateEventLink = t.strict(createLinkProps, "CreateEventLink");
 
+const SlateValue = t.partial(
+  {
+    id: t.string,
+    rows: t.array(t.any),
+    version: t.number,
+  },
+  "SlateValue"
+);
+
 export const CreateEventCommon = t.strict(
   {
-    excerpt: t.union([t.UnknownRecord, t.undefined]),
-    body: t.union([t.UnknownRecord, t.undefined]),
+    excerpt: t.union([SlateValue, t.undefined]),
+    body: t.union([SlateValue, t.undefined]),
     date: DateFromISOString,
     draft: t.boolean,
     media: t.array(t.union([UUID, CreateMedia])),
@@ -25,8 +34,8 @@ export type CreateEventCommon = t.TypeOf<typeof CreateEventCommon>;
 
 export const EditEventCommon = t.strict(
   {
-    excerpt: optionFromUndefined(t.UnknownRecord),
-    body: optionFromUndefined(t.UnknownRecord),
+    excerpt: optionFromUndefined(SlateValue),
+    body: optionFromUndefined(SlateValue),
     draft: optionFromUndefined(t.boolean),
     date: optionFromUndefined(DateFromISOString),
     keywords: optionFromUndefined(t.array(UUID)),

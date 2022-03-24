@@ -33,23 +33,28 @@ export const MakeCreateScientificStudyFromURLRoute: Route = (
         TE.chain((existingEvent) => {
           if (!existingEvent) {
             return pipe(
-              urlMetadata.fetchMetadata(url, (e) => ServerError()),
+              urlMetadata.fetchMetadata(url, {}, (e) => ServerError()),
               logger.debug.logInTaskEither(`URL metadata %O`),
-              TE.chain((meta) =>
-                pipe(
-                  db.findOne(GroupEntity, {
-                    where: { name: Like(`%${meta.provider.toLowerCase()}%`) },
-                  }),
-                  TE.map((p) => ({
-                    ...meta,
-                    publisher: pipe(
-                      p,
-                      O.map((_) => _.id),
-                      O.toUndefined
-                    ),
-                  }))
-                )
-              ),
+              TE.chain((meta) => {
+                if (meta.provider) {
+                  return pipe(
+                    db.findOne(GroupEntity, {
+                      where: {
+                        name: Like(`%${meta.provider.toLowerCase()}%`),
+                      },
+                    }),
+                    TE.map((p) => ({
+                      ...meta,
+                      publisher: pipe(
+                        p,
+                        O.map((_) => _.id),
+                        O.toUndefined
+                      ),
+                    }))
+                  );
+                }
+                return TE.right({ ...meta, publisher: undefined });
+              }),
               TE.chain((meta) =>
                 db.save(EventV2Entity, [
                   {

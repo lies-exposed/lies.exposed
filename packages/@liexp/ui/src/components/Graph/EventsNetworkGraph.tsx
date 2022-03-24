@@ -1,7 +1,7 @@
 import {
   eqByUUID,
   getEventsMetadata,
-  ordEventDate
+  ordEventDate,
 } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -10,7 +10,7 @@ import {
   Group,
   Keyword,
   Page,
-  Topic
+  Topic,
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
@@ -22,17 +22,17 @@ import ordinalScale from "@vx/scale/lib/scales/ordinal";
 import { ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
 import * as Map from "fp-ts/lib/Map";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
+import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode
+  NetworkPointNode,
 } from "../Common/Graph/Network/NetworkNode";
 import SankeyGraph from "../Common/Graph/SankeyGraph";
 import { ActorList } from "../lists/ActorList";
@@ -127,11 +127,18 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 ) : groupBy === "group" ? (
                   <GroupList groups={groups} onItemClick={() => {}} />
                 ) : (
-                  <KeywordList keywords={keywords} onItemClick={() => {}} />
+                  <KeywordList
+                    keywords={keywords}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                    onItemClick={() => {}}
+                  />
                 )}
               </Grid>
               <Grid item md={11}>
-                <div style={{ overflow: "auto", width: '100%' }}>
+                <div style={{ width: "100%" }}>
                   <SankeyGraph {...networkProps} />
                   {/* <Network<NetworkLink, EventNetworkDatum>
                     onDoubleClick={() => {}}

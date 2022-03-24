@@ -15,15 +15,21 @@ import gridCellPlugin from "./plugins/gridCellPlugin";
 
 export const minimalCellPlugins = [customSlate] as any[];
 
-export const getTextContentsCapped = (v: Value, end: number): string => {
-  const contents = getTextContents(v, {
-    lang: "en",
-    cellPlugins: minimalCellPlugins,
-  })
-    .join("\n")
-    .substring(0, end);
+export const getTextContentsCapped = (
+  v: Value | undefined,
+  end: number
+): string => {
+  if (v) {
+    const contents = getTextContents(v, {
+      lang: "en",
+      cellPlugins: minimalCellPlugins,
+    })
+      .join("\n")
+      .substring(0, end);
 
-  return contents;
+    return contents;
+  }
+  return "";
 };
 
 // Define which plugins we want to use.

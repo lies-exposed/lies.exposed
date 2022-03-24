@@ -1,4 +1,5 @@
 import { GetLogger } from "@liexp/core/logger";
+import { ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -42,6 +43,7 @@ export interface SearchEventQueryResult {
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
+  media: Media.Media[];
   keywords: Keyword.Keyword[];
   totals: EventTotals;
 }
@@ -94,12 +96,12 @@ const getNewRelationIds = (
     A.reduce(init, (acc, e) => {
       const { actors, groups, groupsMembers, media, keywords } =
         getRelationIds(e);
-      log.debug.log('actors', actors);
+      log.debug.log("actors", actors);
 
       const newActors = actors.filter(
         (a) => ![...actorIds, ...acc.actors].includes(a)
       );
-      log.debug.log('new actors', newActors);
+      log.debug.log("new actors", newActors);
       const newGroups = groups.filter(
         (a) => ![...groupIds, ...acc.groups].includes(a)
       );
@@ -191,8 +193,9 @@ const mergeState = (
         ),
         actors: r.actors,
         groups: r.groups,
-        keywords: r.keywords,
         groupsMembers: r.groupsMembers,
+        keywords: r.keywords,
+        media: r.media,
         totals: {
           deaths: update.events.totals.deaths,
           scientificStudies: update.events.totals.scientificStudies,
@@ -222,6 +225,11 @@ const mergeState = (
           ),
           keywords: pipe(
             keywords,
+            M.toArray(S.Ord),
+            A.map((v) => v[1])
+          ),
+          media: pipe(
+            media,
             M.toArray(S.Ord),
             A.map((v) => v[1])
           ),
@@ -422,6 +430,68 @@ const getStateByHash = (
 //   );
 // };
 
+const fetchRelations = ({
+  actors,
+  groups,
+  groupsMembers,
+  media,
+  keywords,
+}: EventRelationIds): TE.TaskEither<
+  APIError,
+  {
+    actors: { data: Actor.Actor[] };
+    groups: { data: Group.Group[] };
+    groupsMembers: { data: GroupMember.GroupMember[] };
+    keywords: { data: Keyword.Keyword[] };
+    media: { data: Media.Media[] };
+  }
+> => {
+  return sequenceS(TE.ApplicativePar)({
+    actors:
+      actors.length === 0
+        ? TE.right({ data: [] })
+        : api.Actor.List({
+            Query: {
+              _start: 0,
+              perPage: actors.length,
+              ids: actors,
+            } as any,
+          }),
+    groups:
+      groups.length === 0
+        ? TE.right({ data: [] })
+        : api.Group.List({
+            Query: {
+              ids: groups,
+            } as any,
+          }),
+    groupsMembers:
+      groupsMembers.length === 0
+        ? TE.right({ data: [] })
+        : api.GroupMember.List({
+            Query: {
+              ids: groupsMembers,
+            } as any,
+          }),
+    media:
+      media.length === 0
+        ? TE.right({ data: [] })
+        : api.Media.List({
+            Query: {
+              ids: media,
+            } as any,
+          }),
+    keywords:
+      keywords.length === 0
+        ? TE.right({ data: [] })
+        : api.Keyword.List({
+            Query: {
+              ids: keywords,
+            } as any,
+          }),
+  });
+};
+
 export interface SearchEventQueryInput
   extends Omit<Partial<GetSearchEventsQueryInput>, "_start" | "_end"> {
   _start: number;
@@ -429,110 +499,114 @@ export interface SearchEventQueryInput
   hash: string;
 }
 
-const searchEventsQ = ({
-  _start,
-  _end,
-  hash,
-  ...query
-}: SearchEventQueryInput): TE.TaskEither<APIError, SearchEventQueryResult> => {
-  const cacheKey = toKey("events-search", hash);
+const searchEventsQ =
+  (getEvents: (input: any) => TE.TaskEither<APIError, ListEventOutput>) =>
+  ({
+    _start,
+    _end,
+    hash,
+    ...query
+  }: SearchEventQueryInput): TE.TaskEither<
+    APIError,
+    SearchEventQueryResult
+  > => {
+    const cacheKey = toKey("events-search", hash);
 
-  log.debug.log("Search events for %s from %d to %d", cacheKey, _start, _end);
+    log.debug.log("Search events for %s from %d to %d", cacheKey, _start, _end);
 
-  return pipe(
-    getStateByHash(cacheKey, _end),
-    TE.right,
-    TE.chain((state) => {
-      if (O.isSome(state)) {
-        return pipe(state.value, TE.right);
-      }
+    return pipe(
+      getStateByHash(cacheKey, _end),
+      TE.right,
+      TE.chain((state) => {
+        if (O.isSome(state)) {
+          return pipe(state.value, TE.right);
+        }
 
-      return pipe(
-        api.Event.List({
-          Query: {
-            ...query,
-            _start,
-            _end: _end,
-          } as any,
-        }),
-        TE.mapLeft((e) => {
-          log.error.log(`API Error %O`, e.details);
-          return e;
-        }),
-        TE.chain((response) => {
-          log.debug.log("[%s] API response %O", cacheKey, response);
+        return pipe(
+          getEvents({
+            Query: {
+              ...query,
+              _start,
+              _end: _end,
+            } as any,
+          }),
+          TE.mapLeft((e) => {
+            log.error.log(`API Error %O`, e.details);
+            return e;
+          }),
+          TE.chain((response) => {
+            log.debug.log("[%s] API response %O", cacheKey, response);
 
-          return pipe(
-            getNewRelationIds(response.data, searchEventsQueryCache),
-            TE.right,
-            TE.chain(({ actors, groups, groupsMembers, media, keywords }) => {
-              log.debug.log('actors ', actors);
-              return sequenceS(TE.ApplicativePar)({
-                actors:
-                  actors.length === 0
-                    ? TE.right({ data: [] })
-                    : api.Actor.List({
-                        Query: {
-                          _start: 0,
-                          perPage: actors.length,
-                          ids: actors,
-                        } as any,
-                      }),
-                groups:
-                  groups.length === 0
-                    ? TE.right({ data: [] })
-                    : api.Group.List({
-                        Query: {
-                          ids: groups,
-                        } as any,
-                      }),
-                groupsMembers:
-                  groupsMembers.length === 0
-                    ? TE.right({ data: [] })
-                    : api.GroupMember.List({
-                        Query: {
-                          ids: groupsMembers,
-                        } as any,
-                      }),
-                media:
-                  media.length === 0
-                    ? TE.right({ data: [] })
-                    : api.Media.List({
-                        Query: {
-                          ids: media,
-                        } as any,
-                      }),
-                keywords:
-                  keywords.length === 0
-                    ? TE.right({ data: [] })
-                    : api.Keyword.List({
-                        Query: {
-                          ids: keywords,
-                        } as any,
-                      }),
-              });
-            }),
-            TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
-              return mergeState(cacheKey, searchEventsQueryCache, {
-                events: response,
-                actors: actors.data,
-                groups: groups.data,
-                groupsMembers: groupsMembers.data,
-                media: media.data,
-                keywords: keywords.data,
-              });
-            }),
-            TE.map((state) => {
-              searchEventsQueryCache = state;
-              log.debug.log("Cache updated %O", state);
-              return searchEventsQueryCache;
-            }),
-            TE.map((state) => state.hashes.get(cacheKey) as any)
-          );
-        })
-      );
-    })
-  );
-};
+            return pipe(
+              getNewRelationIds(response.data, searchEventsQueryCache),
+              TE.right,
+              TE.chain(fetchRelations),
+              TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
+                return mergeState(cacheKey, searchEventsQueryCache, {
+                  events: response,
+                  actors: actors.data,
+                  groups: groups.data,
+                  groupsMembers: groupsMembers.data,
+                  media: media.data,
+                  keywords: keywords.data,
+                });
+              }),
+              TE.map((state) => {
+                searchEventsQueryCache = state;
+                log.debug.log("Cache updated %O", state);
+                return searchEventsQueryCache;
+              }),
+              TE.map((state) => state.hashes.get(cacheKey) as any)
+            );
+          })
+        );
+      })
+    );
+  };
 
-export const searchEventsQuery = queryStrict(searchEventsQ, available);
+export const searchEventsQuery = queryStrict(
+  searchEventsQ(api.Event.List),
+  available
+);
+
+export const getEventsFromLinkQuery = queryStrict(
+  ({ url }: { url: string }) => {
+    const cacheKey = toKey("event-from-url", url);
+    return pipe(
+      api.Event.Custom.GetFromLink({
+        Query: {
+          url,
+          _start: 0,
+          _end: 20,
+        },
+      } as any),
+      TE.chain(({ data, suggestions, totals }) => {
+        return pipe(
+          getNewRelationIds(data, searchEventsQueryCache),
+          TE.right,
+          TE.chain(fetchRelations),
+          TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
+            return mergeState(cacheKey, searchEventsQueryCache, {
+              events: { data, totals },
+              actors: actors.data,
+              groups: groups.data,
+              groupsMembers: groupsMembers.data,
+              media: media.data,
+              keywords: keywords.data,
+            });
+          }),
+          TE.map((state) => {
+            searchEventsQueryCache = state;
+            log.debug.log("Cache updated %O", state);
+            return searchEventsQueryCache;
+          }),
+          TE.map((state) => ({
+            events: state.hashes.get(cacheKey) ?? { events: [] },
+            suggestions,
+          }))
+        );
+      })
+    );
+  },
+  available
+);

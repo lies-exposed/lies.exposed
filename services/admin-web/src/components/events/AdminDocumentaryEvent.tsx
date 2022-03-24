@@ -1,5 +1,5 @@
 import * as Events from "@liexp/shared/io/http/Events";
-import { DOCUMENTARY } from '@liexp/shared/io/http/Events/Documentary';
+import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
@@ -38,7 +38,7 @@ import ReferenceMediaInput from "../Common/ReferenceMediaInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
-const TransactionEventsFilter: React.FC = (props: any) => {
+const DocumentaryEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <TextInput source="type" value={DOCUMENTARY.value} />
@@ -51,7 +51,7 @@ const TransactionEventsFilter: React.FC = (props: any) => {
 export const DocumentaryList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={<TransactionEventsFilter />}
+    filters={<DocumentaryEventsFilter />}
     perPage={20}
     filterDefaultValues={{
       _sort: "date",
@@ -75,15 +75,11 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
 export const DocumentaryReleaseTitle: React.FC<{
   record: Events.Documentary.Documentary;
 }> = ({ record }) => {
-  return (
-    <span>
-      Documentary: {record.payload.title}
-    </span>
-  );
+  return <span>Documentary: {record.payload.title}</span>;
 };
 
-export const DocumentaryEditFormTab: React.FC<EditProps> = (
-  props: EditProps
+export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
+  props
 ) => (
   <FormTab label="Payload" {...props}>
     <ReferenceActorInput source="payload.victim" />

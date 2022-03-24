@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { UUID } from "io-ts-types";
 import * as Arrest from "./Arrest";
 import * as Condemned from "./Condemned";
 import * as Death from "./Death";
@@ -8,8 +9,8 @@ import * as Patent from "./Patent";
 import * as Protest from "./Protest";
 import * as PublicAnnouncement from "./PublicAnnouncement";
 import * as ScientificStudy from "./ScientificStudy";
-import * as SearchEvent from './SearchEvent';
-import * as Transaction from './Transaction';
+import * as SearchEvent from "./SearchEvent";
+import * as Transaction from "./Transaction";
 import * as Uncategorized from "./Uncategorized";
 
 export interface EventListMap {
@@ -19,7 +20,7 @@ export interface EventListMap {
   Death: Death.Death[];
   PublicAnnouncement: PublicAnnouncement.PublicAnnouncement[];
   Uncategorized: Uncategorized.Uncategorized[];
-  Transaction: Transaction.Transaction[]
+  Transaction: Transaction.Transaction[];
 }
 
 export const EventMap: { [key in Event["type"]]: t.Mixed } = {
@@ -28,7 +29,7 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   ScientificStudy: ScientificStudy.ScientificStudy,
   Uncategorized: Uncategorized.Uncategorized,
   Documentary: Documentary.Documentary,
-  Transaction: Transaction.Transaction
+  Transaction: Transaction.Transaction,
 };
 
 export const CreateEventBody = t.union(
@@ -38,7 +39,7 @@ export const CreateEventBody = t.union(
     ScientificStudy.CreateScientificStudyBody,
     Uncategorized.CreateEventBody,
     Documentary.CreateDocumentaryBody,
-    Transaction.CreateTransactionBody
+    Transaction.CreateTransactionBody,
   ],
   "CreateEventBody"
 );
@@ -52,7 +53,7 @@ export const EditEventBody = t.union(
     ScientificStudy.EditScientificStudyBody,
     Uncategorized.EditEventBody,
     Documentary.EditDocumentaryBody,
-    Transaction.EditTransactionBody
+    Transaction.EditTransactionBody,
   ],
   "EditEventBody"
 );
@@ -66,7 +67,7 @@ export const EventPayload = t.union(
     ScientificStudy.ScientificStudyPayload,
     Uncategorized.UncategorizedV2Payload,
     Documentary.DocumentaryPayload,
-    Transaction.TransactionPayload
+    Transaction.TransactionPayload,
   ],
   "EventPayload"
 );
@@ -80,7 +81,7 @@ export const EventType = t.union(
     ScientificStudy.SCIENTIFIC_STUDY,
     Patent.PATENT,
     Documentary.DOCUMENTARY,
-    Transaction.TRANSACTION
+    Transaction.TRANSACTION,
   ],
   "EventType"
 );
@@ -93,12 +94,52 @@ export const Event = t.union(
     Uncategorized.Uncategorized,
     Patent.Patent,
     Documentary.Documentary,
-    Transaction.Transaction
+    Transaction.Transaction,
   ],
   "EventV2"
 );
 
 export type Event = t.TypeOf<typeof Event>;
+
+const EventSuggestionNewType = t.literal("New");
+const EventSuggestionUpdateType = t.literal("Update");
+
+export const EventSuggestionType = t.union(
+  [EventSuggestionNewType, EventSuggestionUpdateType],
+  "EventSuggestionType"
+);
+export type EventSuggestionType = t.TypeOf<typeof EventSuggestionType>;
+
+const PendingStatus = t.literal("PENDING");
+const CompletedStatus = t.literal("COMPLETED");
+const DiscardedStatus = t.literal("DISCARDED");
+
+export const EventSuggestionStatus = t.union(
+  [PendingStatus, CompletedStatus, DiscardedStatus],
+  "EventSuggestionStatus"
+);
+export type EventSuggestionStatus = t.TypeOf<typeof EventSuggestionStatus>;
+
+const UpdateEventSuggestion = t.type(
+  {
+    type: EventSuggestionUpdateType,
+    eventId: UUID,
+    event: Event,
+  },
+  "UpdateEventSuggestion"
+);
+
+const NewEventSuggestion = t.strict({
+  type: EventSuggestionNewType,
+  event: Event,
+});
+
+export const EventSuggestion = t.union(
+  [UpdateEventSuggestion, NewEventSuggestion],
+  "EventSuggestion"
+);
+
+export type EventSuggestion = t.TypeOf<typeof EventSuggestion>;
 
 export {
   Protest,
@@ -112,5 +153,5 @@ export {
   Patent,
   Documentary,
   Transaction,
-  SearchEvent
+  SearchEvent,
 };

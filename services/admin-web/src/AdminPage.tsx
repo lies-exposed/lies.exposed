@@ -15,13 +15,13 @@ import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
 import {
   ArticleCreate,
   ArticleEdit,
-  ArticleList
+  ArticleList,
 } from "./components/AdminArticles";
 import { EventEdit, EventList } from "./components/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
-  GroupMemberList
+  GroupMemberList,
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { AdminKeywordResource } from "./components/AdminKeyword";
@@ -32,31 +32,31 @@ import { PageCreate, PageEdit, PageList } from "./components/Pages";
 import {
   DeathCreate,
   DeathEdit,
-  DeathList
+  DeathList,
 } from "./components/events/AdminDeathEvent";
 import {
   DocumentaryCreate,
   DocumentaryEdit,
-  DocumentaryList
+  DocumentaryList,
 } from "./components/events/AdminDocumentaryEvent";
 import {
   PatentCreate,
   PatentEdit,
-  PatentList
+  PatentList,
 } from "./components/events/AdminPatentEvent";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
-  ScientificStudyEdit
+  ScientificStudyEdit,
 } from "./components/events/AdminScientificStudyEvent";
 import {
   TransactionCreate,
   TransactionEdit,
-  TransactionList
+  TransactionList,
 } from "./components/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./components/events/AdminUncategorizedEvent";
+import { EventSuggestionEdit, EventSuggestionList } from "./components/events/suggestions/AdminEventSuggestion";
 import englishMessages from "./i18n/en-US";
-
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -120,6 +120,8 @@ const AdminPage: React.FC = () => {
         edit={AreaEdit}
         icon={MapIcon}
       />
+
+      <Resource name="events/suggestions" list={EventSuggestionList} edit={EventSuggestionEdit} />
 
       <Resource
         name="events"

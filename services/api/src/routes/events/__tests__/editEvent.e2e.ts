@@ -151,6 +151,11 @@ describe("Edit Event", () => {
   });
 
   test("Should edit event links", async () => {
+    appTest.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
+      title: "link title",
+      description: "link description",
+      keywords: [],
+    });
     const links = fc
       .sample(LinkArb, 5)
       .map(({ provider, keywords, ...linkProps }) => ({

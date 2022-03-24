@@ -51,7 +51,7 @@ export const MakeCreateScientificStudyRoute: Route = (
       const scientificStudyPayloadData = payload;
 
       return pipe(
-        urlMetadata.fetchMetadata(payload.url, (e) => ServerError()),
+        urlMetadata.fetchMetadata(payload.url, {}, (e) => ServerError()),
         logger.debug.logInTaskEither(`URL metadata %O`),
         TE.chain((meta) =>
           db.save(EventV2Entity, [

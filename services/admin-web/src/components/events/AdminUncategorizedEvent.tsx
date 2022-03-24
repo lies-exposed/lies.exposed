@@ -1,7 +1,6 @@
 import { Events } from "@liexp/shared/io/http";
 import { Uncategorized } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
-import Editor from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
@@ -28,6 +27,7 @@ import {
   TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
+import ExcerptField from "../Common/ExcerptField";
 import { LinkArrayInput } from "../Common/LinkArrayInput";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
@@ -69,10 +69,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
           return <EventIcon color="primary" type={r.type} />;
         }}
       />
-      <FunctionField
-        label="excerpt"
-        render={(r: any) => <Editor readOnly value={r.excerpt} />}
-      />
+      <ExcerptField source="excerpt" />
       <FunctionField
         label="actors"
         source="payload"
@@ -113,34 +110,38 @@ export const UncategorizedEventTitle: React.FC<{
   return <span>Event: {record.payload.title}</span>;
 };
 
-export const UncategorizedEventEditTab: React.FC<EditProps> = (
-  props: EditProps
-) => {
+export const UncategorizedEventEditTab: React.FC<
+  EditProps & { record?: any; sourcePrefix?: string }
+> = (props) => {
+  const source = (s: string): string =>
+    `${
+      typeof props.sourcePrefix === "undefined" ? "" : `${props.sourcePrefix}.`
+    }${s}`;
   return (
     <FormTab label="Payload" {...props}>
       <TextInput
-        source="type"
+        source={source("type")}
         defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
         hidden={true}
       />
-      <TextInput source="payload.title" />
-      <DateInput source="payload.endDate" />
+      <TextInput source={source("payload.title")} />
+      <DateInput source={source("payload.endDate")} />
       <MapInput
-        source="payload.location"
+        source={source("payload.location")}
         type={MapInputType.POINT}
         defaultValue={undefined}
       />
-      <ReferenceArrayActorInput source="payload.actors" />
-      <ReferenceArrayField source="payload.actors" reference="actors">
+      <ReferenceArrayActorInput source={source("payload.actors")} />
+      <ReferenceArrayField source={source("payload.actors")} reference="actors">
         <Datagrid rowClick="edit">
           <TextField source="id" />
           <TextField source="fullName" />
           <AvatarField source="avatar" />
         </Datagrid>
       </ReferenceArrayField>
-      <ReferenceArrayGroupMemberInput source="payload.groupsMembers" />
+      <ReferenceArrayGroupMemberInput source={source("payload.groupsMembers")} />
       <ReferenceArrayField
-        source="payload.groupsMembers"
+        source={source("payload.groupsMembers")}
         reference="groups-members"
       >
         <Datagrid rowClick="edit">
@@ -151,8 +152,8 @@ export const UncategorizedEventEditTab: React.FC<EditProps> = (
         </Datagrid>
       </ReferenceArrayField>
 
-      <ReferenceArrayGroupInput source="payload.groups" />
-      <ReferenceArrayField reference="groups" source="payload.groups">
+      <ReferenceArrayGroupInput source={source("payload.groups")} />
+      <ReferenceArrayField reference="groups" source={source("payload.groups")}>
         <Datagrid rowClick="edit">
           <TextField source="name" />
           <AvatarField source="avatar" fullWidth={false} />

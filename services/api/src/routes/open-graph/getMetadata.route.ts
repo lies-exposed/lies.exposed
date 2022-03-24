@@ -10,7 +10,7 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
     Endpoints.OpenGraph.Custom.GetMetadata,
     ({ query: { url } }) => {
       return pipe(
-        ctx.urlMetadata.fetchMetadata(url, (e) => {
+        ctx.urlMetadata.fetchMetadata(url, {}, (e) => {
           ctx.logger.error.log("Error fetching data %O", e);
           return ServerError();
         }),

@@ -6,9 +6,10 @@
     "rootDir": "./",
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
+      "./typings",
       "node_modules/@types",
-      "../../node_modules/@types",
-      "./typings"
+      "../../packages/@liexp/shared/typings",
+      "../../node_modules/@types"
     ],
     "declaration": false,
     "skipLibCheck": true,

@@ -1,10 +1,35 @@
 import * as t from "io-ts";
+import { UUID } from "io-ts-types";
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable';
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
-import { EventTotals, GetSearchEventsQuery } from "../io/http/Events/SearchEventsQuery";
+import {
+  EventTotals,
+  GetSearchEventsQuery
+} from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
+export const ListEventOutput = t.strict(
+  {
+    data: t.array(
+      t.intersection(
+        [
+          http.Events.Event,
+          t.partial({
+            score: t.number,
+          }),
+        ],
+        "EventWithScore"
+      ),
+      "Data"
+    ),
+    total: t.number,
+    totals: EventTotals,
+  },
+  "Events"
+);
+export type ListEventOutput = t.TypeOf<typeof ListEventOutput>;
 
 export const List = Endpoint({
   Method: "GET",
@@ -12,14 +37,7 @@ export const List = Endpoint({
   Input: {
     Query: GetSearchEventsQuery.type,
   },
-  Output: t.strict(
-    {
-      data: t.array(http.Events.Event),
-      total: t.number,
-      totals: EventTotals,
-    },
-    "Events"
-  ),
+  Output: ListEventOutput,
 });
 
 export const Create = Endpoint({
@@ -31,6 +49,43 @@ export const Create = Endpoint({
   Output: SingleEventOutput,
 });
 
+export const CreateFromLink = Endpoint({
+  Method: "POST",
+  getPath: () => `/events/from-link`,
+  Input: {
+    Body: t.strict({
+      url: t.string,
+    }),
+  },
+  Output: SingleEventOutput,
+});
+
+export const CreateSuggestion = Endpoint({
+  Method: "POST",
+  getPath: () => `/events/suggestions`,
+  Input: {
+    Body: http.Events.EventSuggestion,
+  },
+  Output: t.strict(
+    {
+      data: t.any,
+    },
+    "CreateSuggestionOutput"
+  ),
+});
+
+export const CreateFromSuggestion = Endpoint({
+  Method: "PUT",
+  getPath: ({ id }) => `/events/suggestions/${id}`,
+  Input: {
+    Params: t.type({ id: t.string }),
+    Body: http.Events.EventSuggestion,
+  },
+  Output: t.strict({
+    data: t.any,
+  }),
+});
+
 export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/events/${id}`,
@@ -38,6 +93,44 @@ export const Get = Endpoint({
     Params: t.type({ id: t.string }),
   },
   Output: SingleEventOutput,
+});
+
+export const GetFromLink = Endpoint({
+  Method: "GET",
+  getPath: () => `/events-from-link`,
+  Input: {
+    Query: t.type({ url: t.string }),
+  },
+  Output: t.intersection([
+    ListEventOutput,
+    t.type({
+      suggestions: t.array(http.Events.EventSuggestion),
+    }),
+  ]),
+});
+
+export const GetSuggestion = Endpoint({
+  Method: "GET",
+  getPath: ({ id }) => `/events/suggestions/${id}`,
+  Input: { Params: t.type({ id: UUID }) },
+  Output: http.Common.ListOutput(
+    http.Events.EventSuggestion,
+    "EventSuggestionListOutput"
+  ),
+});
+
+export const GetSuggestions = Endpoint({
+  Method: "GET",
+  getPath: () => `/events/suggestions`,
+  Input: {
+    Query: t.type({
+      status: optionFromNullable(t.string)
+    })
+  },
+  Output: http.Common.ListOutput(
+    http.Events.EventSuggestion,
+    "EventSuggestionListOutput"
+  ),
 });
 
 export const Edit = Endpoint({
@@ -65,7 +158,14 @@ const events = ResourceEndpoints({
   List,
   Edit,
   Delete,
-  Custom: {},
+  Custom: {
+    CreateFromLink,
+    CreateSuggestion,
+    CreateFromSuggestion,
+    GetFromLink,
+    GetSuggestions,
+    GetSuggestion,
+  },
 });
 
 export { events };
