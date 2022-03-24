@@ -110,6 +110,16 @@ export const EventSuggestionType = t.union(
 );
 export type EventSuggestionType = t.TypeOf<typeof EventSuggestionType>;
 
+const PendingStatus = t.literal("PENDING");
+const CompletedStatus = t.literal("COMPLETED");
+const DiscardedStatus = t.literal("DISCARDED");
+
+export const EventSuggestionStatus = t.union(
+  [PendingStatus, CompletedStatus, DiscardedStatus],
+  "EventSuggestionStatus"
+);
+export type EventSuggestionStatus = t.TypeOf<typeof EventSuggestionStatus>;
+
 const UpdateEventSuggestion = t.type(
   {
     type: EventSuggestionUpdateType,
@@ -119,15 +129,15 @@ const UpdateEventSuggestion = t.type(
   "UpdateEventSuggestion"
 );
 
-const NewEventSuggestion = t.type({
+const NewEventSuggestion = t.strict({
   type: EventSuggestionNewType,
   event: Event,
 });
 
-export const EventSuggestion = t.union([
-  UpdateEventSuggestion,
-  NewEventSuggestion,
-]);
+export const EventSuggestion = t.union(
+  [UpdateEventSuggestion, NewEventSuggestion],
+  "EventSuggestion"
+);
 
 export type EventSuggestion = t.TypeOf<typeof EventSuggestion>;
 

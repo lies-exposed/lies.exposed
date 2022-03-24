@@ -46,7 +46,7 @@ const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
     <Grid container spacing={2}>
       {cachedSuggestions.map((e, i) => {
         return (
-          <Grid key={e.id} item md={4}>
+          <Grid key={e.id} item md={4} sm={12}>
             <CreateEventCard
               event={e.event as any}
               showRelations={false}
@@ -72,20 +72,25 @@ interface AddEventModalProps {
 const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   const theme = useTheme();
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [url, setUrl] = React.useState({
-    value:
-      "https://www.grupolaprovincia.com/sociedad/fallece-en-un-accidente-nora-etchenique-directora-de-hemoterapia-bonaerense-543461?",
+    value: "",
     submitted: "",
   });
 
   const [selectedSuggestion, setSelectedSuggestion] = React.useState<
-    http.Events.EventSuggestion & { id: string } | undefined
+    (http.Events.EventSuggestion & { id: string }) | undefined
   >(undefined);
 
   const handleSubmit = (): void => {
     if (selectedSuggestion) {
-      void createEventSuggestion(selectedSuggestion)();
+      void createEventSuggestion(selectedSuggestion)().then(() =>{
+        setOpen(false)
+        setUrl({
+          value: "",
+          submitted: ""
+        })
+      });
     } else {
       setUrl({
         value: "",

@@ -6,7 +6,7 @@ import {
   Entity,
   Index,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 
 @Entity("event_suggestion")
@@ -18,8 +18,11 @@ export class EventSuggestionEntity {
   @Column({ type: "json", nullable: true })
   payload: http.Events.EventSuggestion;
 
-  @Column({ type: 'enum', enum: ['PENDING', 'COMPLETED', 'DISCARDED']})
-  status: any;
+  @Column({
+    type: "enum",
+    enum: http.Events.EventSuggestionStatus.types.map((t) => t.value),
+  })
+  status: http.Events.EventSuggestionStatus;
 
   @CreateDateColumn()
   createdAt: Date;

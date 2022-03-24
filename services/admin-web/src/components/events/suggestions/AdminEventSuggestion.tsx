@@ -1,5 +1,14 @@
+import * as io from "@liexp/shared/io";
+import {
+  Documentary,
+  EventSuggestionStatus,
+} from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
-import { Box, Typography, ThemeProvider } from "@material-ui/core";
+import { EventPageContent } from "@liexp/ui/components/EventPageContent";
+import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { ECOTheme } from "@liexp/ui/theme";
+import { Box, ThemeProvider, Typography } from "@material-ui/core";
+import { FormDataConsumer } from "ra-core";
 import {
   BooleanInput,
   Datagrid,
@@ -15,40 +24,47 @@ import {
   ReferenceField,
   TabbedForm,
   TextField,
+  Filter,
+  SelectInput,
 } from "ra-ui-materialui";
 import * as React from "react";
-import * as io from "@liexp/shared/io";
-import { WebPreviewButton } from "components/Common/WebPreviewButton";
-import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import ReferenceArrayKeywordInput from "components/Common/ReferenceArrayKeywordInput";
-import { transformEvent } from "../utils";
-import { FormDataConsumer } from "ra-core";
-import { Documentary } from "@liexp/shared/io/http/Events";
-import { DocumentaryEditFormTab } from "../AdminDocumentaryEvent";
+import { LinkArrayInput } from "../../Common/LinkArrayInput";
+import { MediaArrayInput } from "../../Common/MediaArrayInput";
+import { MediaField } from "../../Common/MediaField";
+import ReferenceArrayKeywordInput from "../../Common/ReferenceArrayKeywordInput";
+import { WebPreviewButton } from "../../Common/WebPreviewButton";
 import { DeathEventEditFormTab } from "../AdminDeathEvent";
+import { DocumentaryEditFormTab } from "../AdminDocumentaryEvent";
 import { EditScientificStudyEvent } from "../AdminScientificStudyEvent";
 import { UncategorizedEventEditTab } from "../AdminUncategorizedEvent";
-import { MediaArrayInput } from "components/Common/MediaArrayInput";
-import { MediaField } from "components/Common/MediaField";
-import { LinkArrayInput } from "components/Common/LinkArrayInput";
-import { pipe } from "fp-ts/lib/function";
-import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
-import { ECOTheme } from "@liexp/ui/theme";
-import { EventPageContent } from "@liexp/ui/components/EventPageContent";
-import * as http from "@liexp/shared/io/http";
-import { EditTitle } from "../../AdminEvents";
-import * as E from "fp-ts/lib/Either";
-import { uuid } from "@liexp/shared/utils/uuid";
+import { transformEvent } from "../utils";
 
 const RESOURCE = "events/suggestions";
+
+const EventSuggestionListFilter: React.FC = (props: any) => {
+  return (
+    <Filter {...props}>
+      <SelectInput
+        source="status"
+        choices={EventSuggestionStatus.types.map((tt) => ({
+          name: tt.value,
+          id: tt.value,
+        }))}
+        alwaysOpen
+      />
+    </Filter>
+  );
+};
 
 export const EventSuggestionList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     resource={RESOURCE}
+    filters={<EventSuggestionListFilter />}
     filterDefaultValues={{
       _sort: "createdAt",
       _order: "DESC",
+      status: "PENDING",
       withDeleted: true,
     }}
     perPage={20}
@@ -80,6 +96,7 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => (
           );
         }}
       />
+      <TextField source="status" />
       <DateField source="payload.event.date" />
       <FunctionField
         source="payload.event.links"
@@ -106,19 +123,23 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
           />
         </>
       }
-      transform={(r) => {
+      transform={async ({ event, id, ...r }) => {
         // eslint-disable-next-line
-        console.log("transform event for type", { type: r.type, event: r });
-        return transformEvent(r.id as any, r.payload.event).then((event) => ({
-          ...r,
-          event,
-        }));
+        console.log("transform event for type", {
+          type: r.type,
+          event: r.payload.event,
+        });
+
+        const updatedEvent = await transformEvent(id as any, r.payload.event);
+
+        return { id, ...r.payload, event: updatedEvent };
       }}
     >
       <TabbedForm redirect={false}>
         <FormTab label="Generals">
-          <TextField label="type" source="payload.event.type" />
-          <DateInput label="dte" source="payload.event.date" />
+          <TextField label="Suggestion type" source="payload.type" />
+          <TextField label="Suggestion status" source="status" />
+          <DateInput label="date" source="payload.event.date" />
           <BooleanInput label="draft" source="payload.event.draft" />
           <ReactPageInput
             label="excerpt"
@@ -143,33 +164,21 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
 
         <FormDataConsumer>
           {({ formData, getSource, scopedFormData, ...rest }) => {
+            // console.log({ formData, scopedFormData, rest });
+
             if (formData.payload.event.type === Documentary.DOCUMENTARY.value) {
-              return (
-                <DocumentaryEditFormTab
-                  {...rest}
-                  record={formData.payload.event}
-                />
-              );
+              return <DocumentaryEditFormTab {...rest} />;
             }
             if (formData.payload.event.type === "Death") {
-              return (
-                <DeathEventEditFormTab
-                  {...rest}
-                  record={formData.payload.event}
-                />
-              );
+              return <DeathEventEditFormTab {...rest} />;
             }
             if (formData.payload.event.type === "ScientificStudy") {
-              return (
-                <EditScientificStudyEvent
-                  {...rest}
-                  record={formData.payload.event}
-                />
-              );
+              return <EditScientificStudyEvent {...rest} />;
             }
             return (
               <UncategorizedEventEditTab
                 {...rest}
+                sourcePrefix={"payload.event"}
                 record={formData.payload.event}
               />
             );
@@ -184,7 +193,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
           />
 
           <ReferenceArrayField
-            source="media"
+            source="payload.event.media"
             reference="media"
             sortBy="updatedAt"
             sortByOrder="DESC"

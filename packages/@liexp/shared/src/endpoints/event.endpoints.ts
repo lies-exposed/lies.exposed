@@ -1,10 +1,11 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types";
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable';
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
 import {
   EventTotals,
-  GetSearchEventsQuery,
+  GetSearchEventsQuery
 } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
@@ -121,7 +122,11 @@ export const GetSuggestion = Endpoint({
 export const GetSuggestions = Endpoint({
   Method: "GET",
   getPath: () => `/events/suggestions`,
-  Input: undefined,
+  Input: {
+    Query: t.type({
+      status: optionFromNullable(t.string)
+    })
+  },
   Output: http.Common.ListOutput(
     http.Events.EventSuggestion,
     "EventSuggestionListOutput"

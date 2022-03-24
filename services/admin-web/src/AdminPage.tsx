@@ -55,8 +55,8 @@ import {
   TransactionList,
 } from "./components/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./components/events/AdminUncategorizedEvent";
-import englishMessages from "./i18n/en-US";
 import { EventSuggestionEdit, EventSuggestionList } from "./components/events/suggestions/AdminEventSuggestion";
+import englishMessages from "./i18n/en-US";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 

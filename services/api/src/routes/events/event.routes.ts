@@ -1,4 +1,3 @@
-import { RouteContext } from "@routes/route.types";
 import { Router } from "express";
 import { MakeCreateEventRoute } from "./createEvent.controller";
 import { MakeCreateEventFromSuggestionRoute } from './createEventFromSuggestion.controller';
@@ -10,6 +9,7 @@ import { MakeGetEventFromLinkRoute } from './getEventFromLink.controller';
 import { MakeSearchEventRoute } from "./searchEvents.controller";
 import { MakeGetEventSuggestionRoute } from './suggestions/getEventSuggestion.controller';
 import { MakeGetEventSuggestionListRoute } from './suggestions/getEventSuggestionList.controller';
+import { RouteContext } from "@routes/route.types";
 
 
 export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {

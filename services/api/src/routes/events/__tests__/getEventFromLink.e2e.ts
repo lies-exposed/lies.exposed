@@ -110,6 +110,6 @@ describe("Get event from link", () => {
 
     expect(response.body.data[0].payload).toMatchObject(expectedPayload);
     // expect some suggestions
-    expect(response.body.suggestions).toHaveLength(2);
+    expect(response.body.suggestions).toHaveLength(5);
   });
 });

@@ -111,33 +111,37 @@ export const UncategorizedEventTitle: React.FC<{
 };
 
 export const UncategorizedEventEditTab: React.FC<
-  EditProps & { record?: any }
+  EditProps & { record?: any; sourcePrefix?: string }
 > = (props) => {
+  const source = (s: string): string =>
+    `${
+      typeof props.sourcePrefix === "undefined" ? "" : `${props.sourcePrefix}.`
+    }${s}`;
   return (
     <FormTab label="Payload" {...props}>
       <TextInput
-        source="type"
+        source={source("type")}
         defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
         hidden={true}
       />
-      <TextInput source="payload.title" />
-      <DateInput source="payload.endDate" />
+      <TextInput source={source("payload.title")} />
+      <DateInput source={source("payload.endDate")} />
       <MapInput
-        source="payload.location"
+        source={source("payload.location")}
         type={MapInputType.POINT}
         defaultValue={undefined}
       />
-      <ReferenceArrayActorInput source="payload.actors" />
-      <ReferenceArrayField source="payload.actors" reference="actors">
+      <ReferenceArrayActorInput source={source("payload.actors")} />
+      <ReferenceArrayField source={source("payload.actors")} reference="actors">
         <Datagrid rowClick="edit">
           <TextField source="id" />
           <TextField source="fullName" />
           <AvatarField source="avatar" />
         </Datagrid>
       </ReferenceArrayField>
-      <ReferenceArrayGroupMemberInput source="payload.groupsMembers" />
+      <ReferenceArrayGroupMemberInput source={source("payload.groupsMembers")} />
       <ReferenceArrayField
-        source="payload.groupsMembers"
+        source={source("payload.groupsMembers")}
         reference="groups-members"
       >
         <Datagrid rowClick="edit">
@@ -148,8 +152,8 @@ export const UncategorizedEventEditTab: React.FC<
         </Datagrid>
       </ReferenceArrayField>
 
-      <ReferenceArrayGroupInput source="payload.groups" />
-      <ReferenceArrayField reference="groups" source="payload.groups">
+      <ReferenceArrayGroupInput source={source("payload.groups")} />
+      <ReferenceArrayField reference="groups" source={source("payload.groups")}>
         <Datagrid rowClick="edit">
           <TextField source="name" />
           <AvatarField source="avatar" fullWidth={false} />

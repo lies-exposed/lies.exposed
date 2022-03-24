@@ -38,7 +38,7 @@ import ReferenceMediaInput from "../Common/ReferenceMediaInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
-const TransactionEventsFilter: React.FC = (props: any) => {
+const DocumentaryEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <TextInput source="type" value={DOCUMENTARY.value} />
@@ -51,7 +51,7 @@ const TransactionEventsFilter: React.FC = (props: any) => {
 export const DocumentaryList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={<TransactionEventsFilter />}
+    filters={<DocumentaryEventsFilter />}
     perPage={20}
     filterDefaultValues={{
       _sort: "date",
