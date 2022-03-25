@@ -1,9 +1,9 @@
 # lies.exposed
 
-![GitHub issues](https://img.shields.io/github/issues/lies.exposed/lies-exposed)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/lies.exposed/lies-exposed)
-![GitHub Workflow Tests Spec Status](https://img.shields.io/github/workflow/status/lies.exposed/lies-exposed/tests-spec)
-![GitHub Workflow Tests E2E Status](https://img.shields.io/github/workflow/status/lies.exposed/lies-exposed/tests-e2e)
+![GitHub issues](https://img.shields.io/github/issues/lies-exposed/lies.exposed)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/lies-exposed/lies.exposed)
+![GitHub Workflow Tests Spec Status](https://img.shields.io/github/workflow/status/lies-exposed/lies.exposed/tests-spec)
+![GitHub Workflow Tests E2E Status](https://img.shields.io/github/workflow/status/lies-exposed/lies.exposed/tests-e2e)
 
 ---
 
