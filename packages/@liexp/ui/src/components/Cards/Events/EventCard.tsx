@@ -9,9 +9,10 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia,
+  CardMedia
 } from "@material-ui/core";
 import * as React from "react";
+import Editor from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
 import { ActorList } from "../../lists/ActorList";
 import GroupsList from "../../lists/GroupList";
@@ -42,22 +43,27 @@ const EventCard: React.FC<EventCardProps> = ({ event, showRelations }) => {
             title={title}
             subheader={formatDate(event.date)}
           />
-          {showRelations ? (
-            <CardContent>
-              <ActorList
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-                actors={actors.map((a) => ({ ...a, selected: true }))}
-                onActorClick={() => {}}
-              />
-              <GroupsList
-                groups={groups.map((g) => ({ ...g, selected: true }))}
-                onItemClick={() => undefined}
-              />
-            </CardContent>
-          ) : null}
+
+          <CardContent>
+            {event.excerpt ? <Editor value={event.excerpt as any} readOnly /> : null}
+
+            {showRelations ? (
+              <Box>
+                <ActorList
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                  actors={actors.map((a) => ({ ...a, selected: true }))}
+                  onActorClick={() => {}}
+                />
+                <GroupsList
+                  groups={groups.map((g) => ({ ...g, selected: true }))}
+                  onItemClick={() => undefined}
+                />
+              </Box>
+            ) : null}
+          </CardContent>
         </CardActionArea>
         <CardActions disableSpacing>
           <KeywordList

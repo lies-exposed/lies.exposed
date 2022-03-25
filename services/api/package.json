@@ -26,6 +26,8 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
+    "@react-page/editor": "^4.7.1",
+    "@react-page/plugins-slate": "4.7.1",
     "aws-sdk": "^2.1100.0",
     "axios": "^0.26.1",
     "cors": "2.8.5",
@@ -91,7 +93,8 @@
     "@routes": "build/routes",
     "@utils": "build/utils",
     "@liexp/core": "../../packages/@liexp/core/lib",
-    "@liexp/shared": "../../packages/@liexp/shared/lib"
+    "@liexp/shared": "../../packages/@liexp/shared/lib",
+    "@liexp/ui": "../../packages/@liexp/ui/lib"
   },
   "license": "MIT",
   "lint-staged": {

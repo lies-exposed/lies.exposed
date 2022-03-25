@@ -4,6 +4,7 @@
     "outDir": "./build",
     "baseUrl": "./src",
     "rootDir": "./src",
+    "jsx": "react",
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
       "./typings",
@@ -22,6 +23,9 @@
     },
     {
       "path": "../../packages/@liexp/shared"
+    },
+    {
+      "path": "../../packages/@liexp/ui"
     }
   ],
   "include": ["./src"],

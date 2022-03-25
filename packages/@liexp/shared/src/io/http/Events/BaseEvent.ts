@@ -50,11 +50,11 @@ export const EventCommon = t.strict(
   {
     ...CreateEventCommon.type.props,
     id: UUID,
-    media: t.array(UUID),
-    links: t.array(UUID),
+    media: t.array(UUID, 'media'),
+    links: t.array(UUID, "links"),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
-    deletedAt: t.union([DateFromISOString, t.undefined]),
+    deletedAt: t.union([DateFromISOString, t.undefined], 'deletedAt'),
   },
   "EventCommon"
 );

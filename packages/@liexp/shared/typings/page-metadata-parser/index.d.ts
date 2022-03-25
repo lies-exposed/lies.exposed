@@ -8,7 +8,7 @@ declare module "page-metadata-parser" {
     provider: string;
     type: string;
     url: string;
-    date?: Date;
+    date?: string;
   }
 
   export function getMetadata(doc: Document, url: string): Metadata;

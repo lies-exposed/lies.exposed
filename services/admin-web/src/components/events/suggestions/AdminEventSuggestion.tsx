@@ -2,6 +2,7 @@ import * as io from "@liexp/shared/io";
 import {
   Documentary,
   EventSuggestionStatus,
+  Patent,
 } from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
@@ -35,6 +36,7 @@ import ReferenceArrayKeywordInput from "../../Common/ReferenceArrayKeywordInput"
 import { WebPreviewButton } from "../../Common/WebPreviewButton";
 import { DeathEventEditFormTab } from "../AdminDeathEvent";
 import { DocumentaryEditFormTab } from "../AdminDocumentaryEvent";
+import { PatentEventEditFormTab } from '../AdminPatentEvent';
 import { EditScientificStudyEvent } from "../AdminScientificStudyEvent";
 import { UncategorizedEventEditTab } from "../AdminUncategorizedEvent";
 import { transformEvent } from "../utils";
@@ -174,6 +176,9 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
             }
             if (formData.payload.event.type === "ScientificStudy") {
               return <EditScientificStudyEvent {...rest} />;
+            }
+            if (formData.payload.event.type === Patent.PATENT.value) {
+              return <PatentEventEditFormTab {...rest} sourcePrefix={"payload.event"} />
             }
             return (
               <UncategorizedEventEditTab

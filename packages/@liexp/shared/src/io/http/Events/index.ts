@@ -1,5 +1,7 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types";
+import { DateFromISOString, UUID } from "io-ts-types";
+import { propsOmit } from "../../utils";
+import { URL } from "../Common";
 import * as Arrest from "./Arrest";
 import * as Condemned from "./Condemned";
 import * as Death from "./Death";
@@ -129,9 +131,56 @@ const UpdateEventSuggestion = t.type(
   "UpdateEventSuggestion"
 );
 
+const EventSuggestionLinks = t.array(
+  t.union([
+    UUID,
+    t.type({
+      url: URL,
+      publishDate: DateFromISOString,
+    }),
+  ])
+);
+
+const NewDeathEvent = t.strict(
+  { ...propsOmit(Death.Death, ["links"]), links: EventSuggestionLinks },
+  "NewDeathEvent"
+);
+const NewScientificStudyEvent = t.strict(
+  {
+    ...propsOmit(ScientificStudy.ScientificStudy, ["links"]),
+    links: EventSuggestionLinks,
+  },
+  "NewScientificStudyEvent"
+);
+const NewPatentEvent = t.strict(
+  { ...propsOmit(Patent.Patent, ["links"]), links: EventSuggestionLinks },
+  "NewPatentEvent"
+);
+const NewDocumentaryEvent = t.strict(
+  { ...propsOmit(Documentary.Documentary, ["links"]), links: EventSuggestionLinks },
+  "NewDocumentaryEvent"
+);
+
+const NewUncategorizedEvent = t.strict(
+  {
+    ...propsOmit(Uncategorized.Uncategorized, ["links"]),
+    links: EventSuggestionLinks,
+  },
+  "NewUncategorizedEvent"
+);
+
 const NewEventSuggestion = t.strict({
   type: EventSuggestionNewType,
-  event: Event,
+  event: t.union(
+    [
+      NewDeathEvent,
+      NewScientificStudyEvent,
+      NewPatentEvent,
+      NewUncategorizedEvent,
+      NewDocumentaryEvent
+    ],
+    "Event"
+  ),
 });
 
 export const EventSuggestion = t.union(

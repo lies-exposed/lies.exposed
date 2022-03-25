@@ -2,14 +2,14 @@ import { Events } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
 import {
   Box,
-  Card,
-  CardActionArea,
-  CardActions,
+  Card, CardActions,
+  CardContent,
   CardHeader,
   CardMedia,
-  CardProps,
+  CardProps
 } from "@material-ui/core";
 import * as React from "react";
+import Editor from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
 import KeywordList from "../../lists/KeywordList";
 
@@ -33,14 +33,17 @@ const CreateEventCard: React.FC<EventCardProps> = ({
   return (
     <Box onClick={() => onClick(event)}>
       <Card {...props}>
-        <CardActionArea>
-          <CardMedia component="img" image={image} />
-          <CardHeader
-            avatar={<EventIcon type={event.type} />}
-            title={title}
-            subheader={formatDate(event.date)}
-          />
-        </CardActionArea>
+        <CardMedia component="img" image={image} />
+        <CardHeader
+          avatar={<EventIcon type={event.type} />}
+          title={title}
+          subheader={formatDate(event.date)}
+        />
+        <CardContent>
+          {event.excerpt ? (
+            <Editor value={event.excerpt as any} readOnly />
+          ) : null}
+        </CardContent>
         <CardActions disableSpacing>
           <KeywordList
             keywords={keywords.map((k) => ({ ...k, selected: true }))}

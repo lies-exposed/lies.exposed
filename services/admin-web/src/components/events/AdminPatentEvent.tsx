@@ -73,13 +73,18 @@ export const PatentEventTitle: React.FC<{ record: Patent.Patent }> = ({
   );
 };
 
-export const PatentEventEditFormTab: React.FC<EditProps> = (
-  props: EditProps
-) => (
-  <FormTab label="Payload" {...props}>
-    <ReferenceActorInput source="payload.victim" />
-  </FormTab>
-);
+export const PatentEventEditFormTab: React.FC<
+  EditProps & { sourcePrefix?: string }
+> = ({ sourcePrefix, ...props }) => {
+  const source = (s: string): string =>
+    `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
+
+  return (
+    <FormTab label="Payload" {...props}>
+      <ReferenceActorInput source={source("payload.victim")} />
+    </FormTab>
+  );
+};
 
 export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
