@@ -26,7 +26,7 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
-    "aws-sdk": "^2.1095.0",
+    "aws-sdk": "^2.1100.0",
     "axios": "^0.26.1",
     "cors": "2.8.5",
     "debug": "^4.3.4",
@@ -48,7 +48,7 @@
     "pg": "^8.7.3",
     "puppeteer-core": "^13.5.1",
     "ts-endpoint-express": "^2.0.0",
-    "ts-jest": "^27.1.3",
+    "ts-jest": "^27.1.4",
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.2.45",
     "uuid": "^8.3.2"
@@ -73,16 +73,16 @@
     "@types/uuid": "^8.3.4",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-import-resolver-typescript": "^2.7.0",
     "eslint-plugin-import": "^2.25.4",
     "fast-check": "^2.23.2",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
-    "prettier": "^2.6.0",
+    "prettier": "^2.6.1",
     "supertest": "^6.2.2",
     "ts-node": "^10.7.0",
     "typeorm-uml": "^1.6.5",
-    "typescript": "^4.6.2"
+    "typescript": "^4.6.3"
   },
   "_moduleAliases": {
     "@io": "build/io",
