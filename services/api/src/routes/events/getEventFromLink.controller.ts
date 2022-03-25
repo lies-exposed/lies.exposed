@@ -1,6 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { createExcerptValue } from "@liexp/ui/components/Common/Editor/index";
 import { addWeeks, subWeeks } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -28,7 +29,7 @@ export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
         const linkAndMetadata = sequenceS(TE.ApplicativePar)({
           metadata: O.isSome(link)
             ? TE.right<ControllerError, Metadata>({
-                date: link.value.publishDate ?? undefined,
+                date: link.value.publishDate?.toISOString() ?? undefined,
                 title: undefined as any,
                 description: link.value.description,
                 keywords: [],
@@ -46,7 +47,9 @@ export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
           linkAndMetadata,
           TE.chain(({ link, metadata }) => {
             ctx.logger.debug.log("Link %O with metadata %O", link, metadata);
-            const urlDate = metadata.date ?? new Date();
+            const urlDate = metadata.date
+              ? new Date(metadata.date)
+              : new Date();
             const minDate = subWeeks(urlDate, 1);
             const maxDate = addWeeks(urlDate, 1);
 
@@ -60,15 +63,25 @@ export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
               ),
               O.getOrElse(() => "")
             );
+
+            const suggestedExcerpt = metadata.description
+              ? createExcerptValue(metadata.description)
+              : undefined;
+
             const suggestedEventLinks = pipe(
               link,
               O.map((l) => [l.id]),
-              O.getOrElse((): any[] => [{ url: metadata.url }])
+              O.getOrElse((): any[] => [
+                {
+                  url: metadata.url,
+                  publishDate: urlDate.toISOString(),
+                },
+              ])
             );
 
             const commonSuggestion = {
               id: uuid() as any,
-              excerpt: {},
+              excerpt: suggestedExcerpt,
               body: {},
               draft: true,
               date: urlDate,
@@ -77,7 +90,7 @@ export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
               keywords: [],
               createdAt: new Date(),
               updatedAt: new Date(),
-              deletedAt: undefined
+              deletedAt: undefined,
             };
 
             const suggestions: Events.EventSuggestion[] = [

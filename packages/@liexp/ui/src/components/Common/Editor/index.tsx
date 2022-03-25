@@ -2,6 +2,7 @@ import RPEditor, {
   EditorProps,
   Value,
   getTextContents,
+  createValue,
 } from "@react-page/editor";
 import background from "@react-page/plugins-background";
 import divider from "@react-page/plugins-divider";
@@ -51,6 +52,32 @@ export const isValidValue = (v?: any): v is Value => {
     !!v.version &&
     v?.rows?.length > 0 &&
     getTextContentsCapped(v, 10) !== ""
+  );
+};
+
+export const createExcerptValue = (text: string): Value => {
+  return createValue(
+    {
+      rows: [
+        [
+          {
+            id: customSlate.id,
+            data: customSlate.createData((def) => ({
+              children: [
+                {
+                  plugin: def.plugins.paragraphs.paragraph,
+                  children: [text],
+                },
+              ],
+            })),
+          },
+        ],
+      ],
+    },
+    {
+      lang: "en",
+      cellPlugins: minimalCellPlugins,
+    }
   );
 };
 

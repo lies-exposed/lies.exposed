@@ -106,7 +106,7 @@ export const GetFromLink = Endpoint({
     t.type({
       suggestions: t.array(http.Events.EventSuggestion),
     }),
-  ]),
+  ], 'GetEventsFromLinkOutput'),
 });
 
 export const GetSuggestion = Endpoint({

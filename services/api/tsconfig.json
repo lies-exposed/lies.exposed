@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",
+    "jsx": "react",
     "rootDir": "./",
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
@@ -22,7 +23,8 @@
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"],
       "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
-      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"]
+      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"],
+      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
     }
   },
   "references": [
@@ -31,6 +33,9 @@
     },
     {
       "path": "../../packages/@liexp/shared"
+    },
+    {
+      "path": "../../packages/@liexp/ui"
     }
   ],
   "include": ["./src"]

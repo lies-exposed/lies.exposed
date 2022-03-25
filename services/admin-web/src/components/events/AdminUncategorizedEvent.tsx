@@ -112,10 +112,10 @@ export const UncategorizedEventTitle: React.FC<{
 
 export const UncategorizedEventEditTab: React.FC<
   EditProps & { record?: any; sourcePrefix?: string }
-> = (props) => {
+> = ({ sourcePrefix, ...props }) => {
   const source = (s: string): string =>
     `${
-      typeof props.sourcePrefix === "undefined" ? "" : `${props.sourcePrefix}.`
+      typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`
     }${s}`;
   return (
     <FormTab label="Payload" {...props}>
@@ -139,7 +139,9 @@ export const UncategorizedEventEditTab: React.FC<
           <AvatarField source="avatar" />
         </Datagrid>
       </ReferenceArrayField>
-      <ReferenceArrayGroupMemberInput source={source("payload.groupsMembers")} />
+      <ReferenceArrayGroupMemberInput
+        source={source("payload.groupsMembers")}
+      />
       <ReferenceArrayField
         source={source("payload.groupsMembers")}
         reference="groups-members"
