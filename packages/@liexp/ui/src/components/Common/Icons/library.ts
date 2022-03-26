@@ -1,5 +1,5 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab, faGithub, faPaypal } from "@fortawesome/free-brands-svg-icons";
+import { fab, faGithub, faPaypal, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { faEdit, faBarcode, faLink, faFilm, faMoneyBill1Wave, faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { faCircleDollarToSlot } from "@fortawesome/free-solid-svg-icons/faCircleDollarToSlot";
 import { faFlask } from "@fortawesome/free-solid-svg-icons/faFlask";
@@ -7,9 +7,12 @@ import { faSkullCrossbones } from "@fortawesome/free-solid-svg-icons/faSkullCros
 
 library.add(
   ...([
+    // brands
     fab,
     faGithub,
     faPaypal,
+    faTelegram,
+    // solid
     faCalendar,
     faFlask,
     faCircleDollarToSlot,
