@@ -60,6 +60,21 @@ export const CreateFromLink = Endpoint({
   Output: SingleEventOutput,
 });
 
+export const PostToPlatform = Endpoint({
+  Method: "POST",
+  getPath: ({ id }) => `/events/${id}/share`,
+  Input: {
+    Params: t.type({ id: t.string }),
+    Body: t.type({
+      title: t.string,
+      content: t.string,
+      media: t.string,
+      url: t.string
+    }),
+  },
+  Output: t.any,
+});
+
 export const CreateSuggestion = Endpoint({
   Method: "POST",
   getPath: () => `/events/suggestions`,
@@ -197,6 +212,7 @@ const events = ResourceEndpoints({
     EditSuggestion,
     DeleteSuggestion,
     CreateFromSuggestion,
+    PostToPlatform,
     GetFromLink,
     GetSuggestions,
     GetSuggestion,

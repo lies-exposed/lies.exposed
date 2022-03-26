@@ -41,7 +41,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
@@ -51,24 +51,25 @@ import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { ReferenceMediaDataGrid } from "./Common/ReferenceMediaDataGrid";
+import { TGPostButton } from "./Common/TGPostButton";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle,
+  DocumentaryReleaseTitle
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -241,13 +242,14 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
       title={<EditTitle {...props} />}
       {...props}
       actions={
-        <>
+        <Box style={{ display: "flex", margin: 10 }}>
           <WebPreviewButton
             resource="/dashboard/events"
             source="id"
             record={{ id: props.id } as any}
           />
-        </>
+          <TGPostButton id={props.id} />
+        </Box>
       }
       transform={(r) => {
         // eslint-disable-next-line
@@ -261,7 +263,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
           <DateInput source="date" />
           <BooleanInput source="draft" />
           <ReactPageInput label="excerpt" source="excerpt" onlyText />
-          <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
+          <ReferenceArrayKeywordInput showAdd source="keywords" />
           <DateField source="updatedAt" showTime={true} />
           <DateField source="createdAt" showTime={true} />
         </FormTab>

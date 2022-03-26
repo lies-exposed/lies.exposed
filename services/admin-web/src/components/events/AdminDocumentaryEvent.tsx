@@ -34,6 +34,7 @@ import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import ReferenceArrayMediaInput from "../Common/ReferenceArrayMediaInput";
 import ReferenceMediaInput from "../Common/ReferenceMediaInput";
+import { TGPostButton } from '../Common/TGPostButton';
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
@@ -93,6 +94,7 @@ export const DocumentaryEdit: React.FC<EditProps> = (props: EditProps) => (
     actions={
       <>
         <WebPreviewButton resource="/events" source="id" {...props} />
+        <TGPostButton id={props.id} />
       </>
     }
     transform={(r) => transformEvent(r.id as any, r)}

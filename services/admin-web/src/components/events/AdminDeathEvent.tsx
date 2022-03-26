@@ -3,14 +3,11 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType,
+  MapInputType
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
-  AutocompleteInput,
-  BooleanInput,
-  BooleanField,
-  Create,
+  AutocompleteInput, BooleanField, BooleanInput, Create,
   CreateProps,
   Datagrid,
   DateField,
@@ -25,7 +22,7 @@ import {
   ReferenceInput,
   SelectInput,
   SimpleForm,
-  TabbedForm,
+  TabbedForm
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -34,6 +31,7 @@ import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../Common/ReferenceMediaDataGrid";
+import { TGPostButton } from '../Common/TGPostButton';
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
@@ -96,6 +94,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
     actions={
       <>
         <WebPreviewButton resource="/dashboard/events" source="id" {...props} />
+        <TGPostButton id={props.id} />
       </>
     }
     transform={(r) => transformEvent(r.id as any, r)}

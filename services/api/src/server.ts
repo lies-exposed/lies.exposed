@@ -18,16 +18,17 @@ import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
 import { GetTypeORMClient } from "@providers/orm";
 import { S3Client } from "@providers/space";
+import { TGBotProvider } from "@providers/tg/tg.provider";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
 import { MakeArticlesRoutes } from "@routes/articles/articles.route";
 import { MakeDeathEventsRoutes } from "@routes/events/deaths/death.routes";
-import { MakeDocumentaryReleaseRoutes } from '@routes/events/documentary/documentary.routes';
+import { MakeDocumentaryReleaseRoutes } from "@routes/events/documentary/documentary.routes";
 import { MakeEventRoutes } from "@routes/events/event.routes";
 import { MakePatentEventsRoutes } from "@routes/events/patents/patent.routes";
 import { MakeScientificStudyRoutes } from "@routes/events/scientific-study/ScientificStudyRoute.route";
-import { MakeTransactionEventsRoutes } from '@routes/events/transactions/transaction.routes';
+import { MakeTransactionEventsRoutes } from "@routes/events/transactions/transaction.routes";
 import { MakeGraphsRoute } from "@routes/graphs/getGraph.controller";
 import { MakeGroupMemberRoutes } from "@routes/groups-members/GroupMember.route";
 import { MakeGroupRoutes } from "@routes/groups/groups.route";
@@ -100,6 +101,12 @@ export const makeContext = (
           })
         ),
         env: TE.right(env),
+        tg: TE.right(
+          TGBotProvider({
+            token: env.TG_BOT_TOKEN,
+            chat: env.TG_BOT_CHAT,
+          })
+        ),
       });
     }),
     TE.mapLeft((e) => ({
@@ -124,7 +131,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
         { url: "/v1/users/login", method: "POST" },
         { url: /\/v1\/*/, method: "GET" },
         { url: /\/v1\/uploads*\//, method: "PUT" },
-        { url: '/v1/events/suggestions', method: 'POST'},
+        { url: "/v1/events/suggestions", method: "POST" },
         { url: /\/media\/*/ },
       ],
     })

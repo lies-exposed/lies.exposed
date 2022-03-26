@@ -5,6 +5,7 @@ import { ENV } from "@io/ENV";
 import { JWTClient } from "@providers/jwt/JWTClient";
 import { DatabaseClient } from "@providers/orm";
 import { SpaceClient } from "@providers/space";
+import { TGBotProvider } from '@providers/tg/tg.provider';
 
 export interface RouteContext {
   db: DatabaseClient;
@@ -13,6 +14,7 @@ export interface RouteContext {
   logger: logger.Logger;
   jwt: JWTClient;
   urlMetadata: URLMetadataClient;
+  tg: TGBotProvider
 }
 
 export type Route = (r: Router, ctx: RouteContext) => void;

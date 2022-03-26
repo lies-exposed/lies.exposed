@@ -28,7 +28,8 @@ import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
-import { ReferenceMediaDataGrid } from '../Common/ReferenceMediaDataGrid';
+import { ReferenceMediaDataGrid } from "../Common/ReferenceMediaDataGrid";
+import { TGPostButton } from '../Common/TGPostButton';
 import URLMetadataInput from "../Common/URLMetadataInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
@@ -51,7 +52,7 @@ export const PatentList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
-      widthDrafts: false
+      widthDrafts: false,
     }}
   >
     <Datagrid rowClick="edit">
@@ -92,6 +93,11 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<PatentEventTitle {...(props as any)} />}
     {...props}
+    actions={
+      <>
+        <TGPostButton id={props.id} />
+      </>
+    }
     transform={(r) => transformEvent(r.id as any, r)}
   >
     <TabbedForm>
@@ -108,7 +114,11 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
           source="payload.owners.groups"
           defaultValue={[]}
         />
-        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
+        <ReferenceArrayKeywordInput
+          source="keywords"
+          defaultValue={[]}
+          showAdd
+        />
         <ReactPageInput source="excerpt" onlyText />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />

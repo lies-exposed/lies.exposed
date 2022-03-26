@@ -8,6 +8,7 @@ import { EditEventRoute } from "./editEvent.controller";
 import { EditEventSuggestionRoute } from "./editEventSuggestion.controller";
 import { GetEventRoute } from "./getEvent.controller";
 import { GetEventFromLinkRoute } from "./getEventFromLink.controller";
+import { PostEventToPlatformRoute } from "./postEventToPlatform.controller";
 import { SearchEventRoute } from "./searchEvents.controller";
 import { GetEventSuggestionRoute } from "./suggestions/getEventSuggestion.controller";
 import { GetEventSuggestionListRoute } from "./suggestions/getEventSuggestionList.controller";
@@ -18,6 +19,7 @@ export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
   CreateEventFromSuggestionRoute(router, ctx);
   CreateEventSuggestionRoute(router, ctx);
   CreateEventRoute(router, ctx);
+  PostEventToPlatformRoute(router, ctx);
   EditEventSuggestionRoute(router, ctx);
   EditEventRoute(router, ctx);
   DeleteEventSuggestionRoute(router, ctx);
