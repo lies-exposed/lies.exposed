@@ -22,11 +22,11 @@ import ordinalScale from "@vx/scale/lib/scales/ordinal";
 import { ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
 import * as Map from "fp-ts/lib/Map";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
+import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
@@ -778,7 +778,6 @@ export function createEventNetworkGraphProps({
   // console.log("group by links", links);
   // console.log("group by nodes", nodes);
 
-  console.log({ maxSize });
   return {
     minDate: pipe(
       A.head(selectedEvents),

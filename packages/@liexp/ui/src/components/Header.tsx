@@ -4,19 +4,21 @@ import {
   ClickAwayListener,
   createStyles,
   Grow,
+  Link,
   makeStyles,
   MenuItem,
   MenuList,
   Paper,
   Popper,
   Toolbar,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { ECOTheme } from "../theme/index";
 import DonateButton from "./Common/Button/DonateButton";
+import { TelegramIcon } from "./Common/Icons";
 import GithubButton from "./GithubButton";
 
 const useStyles = makeStyles<ECOTheme>((theme) =>
@@ -37,13 +39,13 @@ const useStyles = makeStyles<ECOTheme>((theme) =>
     },
     menuItem: {
       color: theme.palette.common.white,
-      ...theme.typography.subtitle1 as any
+      ...(theme.typography.subtitle1 as any),
     },
     menuItemLink: {
       color: theme.palette.text.primary,
       fontWeight: theme.typography.fontWeightBold as any,
       textTransform: "uppercase",
-      ...theme.typography.subtitle1 as any,
+      ...(theme.typography.subtitle1 as any),
       fontSize: 14,
       margin: 0,
     },
@@ -86,14 +88,14 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const {
     site: {
-      siteMetadata: { title, github },
+      siteMetadata: { title, github, telegram },
     },
   } = {
     site: {
       siteMetadata: {
         title: "lies.exposed",
         github: { user: "lies-exposed", repo: "lies.exposed" },
-        // communityURL: "https://community.econnessione.org/",
+        telegram: { href: "https://t.me/lies_exposed" },
       },
     },
   };
@@ -161,6 +163,9 @@ const Header: React.FC<HeaderProps> = ({
         </Typography>
 
         <DonateButton className={classes.menuItem} />
+        <Link href={telegram.href} target="_blank" style={{ display: "flex" }}>
+          <TelegramIcon size="1x" className={classes.menuItem} />
+        </Link>
         <GithubButton className={classes.menuItem} {...github} />
         {menu.map((m) => {
           const buttonRef =

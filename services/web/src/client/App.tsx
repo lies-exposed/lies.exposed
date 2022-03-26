@@ -1,6 +1,6 @@
 import "@liexp/ui/components/Common/Icons/library";
 import { Footer } from "@liexp/ui/components/Footer";
-import { SEOHelmet } from '@liexp/ui/components/SEO';
+import { SEOHelmet } from "@liexp/ui/components/SEO";
 import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
@@ -29,7 +29,7 @@ export const App: React.FC = () => {
       <SEOHelmet
         link={[
           {
-            key: 'slick-carousel-css',
+            key: "slick-carousel-css",
             rel: "stylesheet",
             type: "text/css",
             href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
@@ -68,12 +68,14 @@ export const App: React.FC = () => {
               ))}
             </Switch>
           </Grid>
-          <Footer
-            style={{
-              paddingLeft:
-                location.pathname === "/events" && !isDownSM ? 240 : 0,
-            }}
-          />
+          <Grid item xs={12}>
+            <Footer
+              style={{
+                paddingLeft:
+                  location.pathname === "/events" && !isDownSM ? 240 : 0,
+              }}
+            />
+          </Grid>
         </Grid>
       </ErrorBoundary>
     </div>

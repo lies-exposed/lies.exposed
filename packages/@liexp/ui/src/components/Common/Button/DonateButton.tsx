@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconButton, Typography } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import * as React from "react";
 
 const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
@@ -25,17 +25,8 @@ const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
         <FontAwesomeIcon
           icon={"circle-dollar-to-slot"}
           style={{ marginRight: 10, color: "white" }}
+          size="1x"
         />
-        <Typography
-          display="inline"
-          variant="subtitle2"
-          style={{
-            color: "white",
-            fontWeight: 600,
-          }}
-        >
-          Donate
-        </Typography>
       </IconButton>
     </form>
   );
