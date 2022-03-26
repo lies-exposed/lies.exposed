@@ -25,7 +25,7 @@ const uncategorizedEvents: Events.Uncategorized.Uncategorized[] = pipe(
   A.mapWithIndex((index, e) => ({
     ...e,
     title: `Event ${index}`,
-    body: "",
+    body: {},
     tableOfContents: O.some({ items: [] }),
     timeToRead: O.some(1),
     actors: actors.map((a) => a.id),
@@ -49,7 +49,8 @@ const args: EventsNetworkGraphProps = {
   scale: "all" as "all",
   groupBy: "group",
   scalePoint: O.none,
-  events: uncategorizedEvents,
+  events: uncategorizedEvents as any[],
+  includeEmptyRelations: false,
   actors,
   groups,
   keywords: [],

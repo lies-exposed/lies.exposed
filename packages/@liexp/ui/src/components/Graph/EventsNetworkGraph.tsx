@@ -22,11 +22,11 @@ import ordinalScale from "@vx/scale/lib/scales/ordinal";
 import { ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
 import * as Map from "fp-ts/lib/Map";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
@@ -63,6 +63,7 @@ export interface EventsNetworkGraphProps {
   groups: Group.Group[];
   keywords: Keyword.Keyword[];
   groupBy: "group" | "actor" | "keyword";
+  includeEmptyRelations: boolean;
   selectedActorIds: string[];
   selectedGroupIds: string[];
   selectedKeywordIds: string[];
@@ -97,7 +98,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
             ...props,
             groupBy,
             width,
-            height: 400,
+            height: 800,
             margin: { vertical: 40, horizontal: 40 },
           });
 
@@ -437,6 +438,7 @@ const getLinks =
 interface Result {
   eventNodes: EventNetworkDatum[];
   selectedEvents: SearchEvent[];
+  maxSize: number;
   // group by
   groupByItems: Map<string, GroupByItem>;
   groupByLinks: Map<string, NetworkLink[]>;
@@ -488,6 +490,7 @@ export function createEventNetworkGraphProps({
   keywords: allKeywords,
   groupBy,
   scale,
+  includeEmptyRelations,
   scalePoint,
   selectedActorIds,
   selectedGroupIds,
@@ -530,6 +533,7 @@ export function createEventNetworkGraphProps({
 
   const result: Result = {
     eventNodes: [],
+    maxSize: 0,
     groupByLinks: Map.empty,
     actorLinks: Map.empty,
     groupLinks: Map.empty,
@@ -550,6 +554,7 @@ export function createEventNetworkGraphProps({
     groupByItems,
     actors,
     groups,
+    maxSize,
   } = pipe(
     orderedEvents,
     A.reduce(result, (acc, e) => {
@@ -567,125 +572,142 @@ export function createEventNetworkGraphProps({
           keywords: eventKeywords,
         } = getEventsMetadata(e);
 
-        // console.log("event actors", eventActors);
-
-        const groupByEventList: GroupByItem[] =
-          groupBy === "group"
-            ? eventGroups
-            : groupBy === "actor"
-            ? eventActors
-            : eventKeywords;
-
-        const groupByItem: GroupByItem | undefined = groupByEventList[0];
-
-        const eventNodes: EventNetworkDatum[] = [
-          {
-            ...e,
-            title: eventTitle,
-            selected: !!groupByItem,
-            date: e.date,
-            groupBy: groupByItem ? [groupByItem] : [],
-            actors: pipe(eventActors, O.fromPredicate(A.isNonEmpty)),
-            groups: pipe(eventGroups, O.fromPredicate(A.isNonEmpty)),
-            label: eventTitle,
-            innerColor: groupByItem?.color
-              ? `#${groupByItem.color}`
-              : "#FF0000",
-            outerColor: groupByItem?.color
-              ? `#${groupByItem.color}`
-              : "#FF0000",
-          },
-        ];
-
-        // console.log(
-        //   "event actors",
-        //   eventActors
-        // );
-
-        const actors = pipe(
-          allActors.filter((a) => eventActors.some((aa) => aa.id === a.id)),
-          O.fromPredicate(A.isNonEmpty),
-          O.getOrElse((): Actor.Actor[] => []),
-          updateMap(acc.actors)
-        );
-
-        // console.log("actors", actors);
-
-        const groups = pipe(
-          eventGroups,
-          O.fromPredicate(A.isNonEmpty),
-          O.map((acts) =>
-            allGroups.filter((a) => acts.some((aa) => aa.id === a.id))
-          ),
-          O.getOrElse((): Group.Group[] => []),
-          updateMap(acc.groups)
-        );
-
-        // console.log("groups", groups);
-
-        const groupByItems = updateMap(acc.groupByItems)(groupByEventList);
-
-        // const groupByLinks = pipe(groupByEventList, (items: GroupByItem[]) => {
-        //   const emptyMap: Map<string, NetworkLink[]> = Map.empty;
-        //   return pipe(
-        //     items.map((item) =>
-        //       getLinks(
-        //         eventNodes.filter(
-        //           (e) =>
-        //             e.data.groupBy.findIndex((tt) => tt.id === item.id) === 0
-        //         ),
-        //         acc.groupByLinks
-        //       )([])
-        //     ),
-        //     A.reduce(emptyMap, (mm, m) => {
-        //       return pipe(
-        //         m,
-        //         Map.keys(Ord.ordString),
-        //         A.reduce(mm, (acc, key) => {
-        //           return pipe(
-        //             Map.lookup(Eq.eqString)(key, m),
-        //             O.map((mapLinks) =>
-        //               pipe(
-        //                 Map.lookup(Eq.eqString)(key, acc),
-        //                 O.map((accLinks) => [...accLinks, ...mapLinks]),
-        //                 O.getOrElse(() => mapLinks),
-        //                 (links) => Map.insertAt(Eq.eqString)(key, links)(acc)
-        //               )
-        //             ),
-        //             O.getOrElse((): Map<string, NetworkLink[]> => acc)
-        //           );
-        //         })
-        //       );
-        //     })
-        //   );
-        // });
-
-        // console.log('actor links in acc', acc.actorLinks);
-        const actorLinks = pipe(
+        const filteredEventActors = pipe(
           eventActors,
-          getLinks(eventNodes, acc.actorLinks)
+          O.fromPredicate(A.isNonEmpty)
         );
-
-        // console.log('actor links', actorLinks);
-
-        const groupLinks = pipe(
+        const filteredEventGroups = pipe(
           eventGroups,
-          O.fromPredicate((items) => items.length > 0),
-          O.getOrElse((): Group.Group[] => []),
-          // A.filter((a) => selectedGroupIds.includes(a.id)),
-          getLinks(eventNodes, acc.groupLinks)
+          O.fromPredicate(A.isNonEmpty)
         );
 
-        return {
-          eventNodes: [...acc.eventNodes, ...eventNodes],
-          actorLinks: actorLinks,
-          groupByLinks: Map.empty,
-          groupLinks: groupLinks,
-          groupByItems,
-          actors,
-          groups,
-          selectedEvents: [...acc.selectedEvents, e],
-        };
+        if (
+          !includeEmptyRelations &&
+          (O.isSome(filteredEventActors) ?? O.isSome(filteredEventGroups))
+        ) {
+          // console.log("event actors", eventActors);
+
+          const groupByEventList: GroupByItem[] =
+            groupBy === "group"
+              ? eventGroups
+              : groupBy === "actor"
+              ? eventActors
+              : eventKeywords;
+
+          const groupByItem: GroupByItem | undefined = groupByEventList[0];
+
+          const eventNodes: EventNetworkDatum[] = [
+            {
+              ...e,
+              title: eventTitle,
+              selected: !!groupByItem,
+              date: e.date,
+              groupBy: groupByItem ? [groupByItem] : [],
+              actors: filteredEventActors,
+              groups: filteredEventGroups,
+              label: eventTitle,
+              innerColor: groupByItem?.color
+                ? `#${groupByItem.color}`
+                : "#FF0000",
+              outerColor: groupByItem?.color
+                ? `#${groupByItem.color}`
+                : "#FF0000",
+            },
+          ];
+
+          // console.log(
+          //   "event actors",
+          //   eventActors
+          // );
+
+          const actors = pipe(
+            allActors.filter((a) => eventActors.some((aa) => aa.id === a.id)),
+            O.fromPredicate(A.isNonEmpty),
+            O.getOrElse((): Actor.Actor[] => []),
+            updateMap(acc.actors)
+          );
+
+          // console.log("actors", actors);
+
+          const groups = pipe(
+            eventGroups,
+            O.fromPredicate(A.isNonEmpty),
+            O.map((acts) =>
+              allGroups.filter((a) => acts.some((aa) => aa.id === a.id))
+            ),
+            O.getOrElse((): Group.Group[] => []),
+            updateMap(acc.groups)
+          );
+
+          // console.log("groups", groups);
+
+          const groupByItems = updateMap(acc.groupByItems)(groupByEventList);
+
+          // const groupByLinks = pipe(groupByEventList, (items: GroupByItem[]) => {
+          //   const emptyMap: Map<string, NetworkLink[]> = Map.empty;
+          //   return pipe(
+          //     items.map((item) =>
+          //       getLinks(
+          //         eventNodes.filter(
+          //           (e) =>
+          //             e.data.groupBy.findIndex((tt) => tt.id === item.id) === 0
+          //         ),
+          //         acc.groupByLinks
+          //       )([])
+          //     ),
+          //     A.reduce(emptyMap, (mm, m) => {
+          //       return pipe(
+          //         m,
+          //         Map.keys(Ord.ordString),
+          //         A.reduce(mm, (acc, key) => {
+          //           return pipe(
+          //             Map.lookup(Eq.eqString)(key, m),
+          //             O.map((mapLinks) =>
+          //               pipe(
+          //                 Map.lookup(Eq.eqString)(key, acc),
+          //                 O.map((accLinks) => [...accLinks, ...mapLinks]),
+          //                 O.getOrElse(() => mapLinks),
+          //                 (links) => Map.insertAt(Eq.eqString)(key, links)(acc)
+          //               )
+          //             ),
+          //             O.getOrElse((): Map<string, NetworkLink[]> => acc)
+          //           );
+          //         })
+          //       );
+          //     })
+          //   );
+          // });
+
+          // console.log('actor links in acc', acc.actorLinks);
+          const actorLinks = pipe(
+            eventActors,
+            getLinks(eventNodes, acc.actorLinks)
+          );
+
+          // console.log('actor links', actorLinks);
+
+          const groupLinks = pipe(
+            eventGroups,
+            O.fromPredicate((items) => items.length > 0),
+            O.getOrElse((): Group.Group[] => []),
+            // A.filter((a) => selectedGroupIds.includes(a.id)),
+            getLinks(eventNodes, acc.groupLinks)
+          );
+
+          const evNodes = [...acc.eventNodes, ...eventNodes]
+          return {
+            eventNodes: evNodes,
+            maxSize:
+              evNodes.length > acc.maxSize ? evNodes.length : acc.maxSize,
+            actorLinks: actorLinks,
+            groupByLinks: Map.empty,
+            groupLinks: groupLinks,
+            groupByItems,
+            actors,
+            groups,
+            selectedEvents: [...acc.selectedEvents, e],
+          };
+        }
       }
 
       return acc;
@@ -756,6 +778,7 @@ export function createEventNetworkGraphProps({
   // console.log("group by links", links);
   // console.log("group by nodes", nodes);
 
+  console.log({ maxSize });
   return {
     minDate: pipe(
       A.head(selectedEvents),
@@ -774,6 +797,6 @@ export function createEventNetworkGraphProps({
     groupsScale: groupsScale,
     selectedEvents,
     width: width,
-    height: height,
+    height: maxSize * (45 + 10),
   };
 }
