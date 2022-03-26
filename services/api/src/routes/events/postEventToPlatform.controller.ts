@@ -1,0 +1,27 @@
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
+import { ServerError } from "@io/ControllerError";
+import { Route } from "@routes/route.types";
+
+export const PostEventToPlatformRoute: Route = (r, ctx) => {
+  AddEndpoint(r)(
+    Endpoints.Event.Custom.PostToPlatform,
+    ({ body }) => {
+      const text = `<a href="${body.url}"><b>${body.title}</b></a>\n${body.content}`;
+
+      ctx.logger.info.log("Posting %s with caption %s", body.media, text);
+
+      return pipe(
+        ctx.tg.postPhoto(body.media, text),
+        TE.mapLeft((e) => ServerError([e.message])),
+        TE.map((data) => ({
+          body: {
+            data,
+          },
+          statusCode: 201,
+        }))
+      );
+    }
+  );
+};

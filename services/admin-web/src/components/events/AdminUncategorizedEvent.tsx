@@ -189,7 +189,7 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => (
         />
         <DateInput source="payload.endDate" />
         <ReactPageInput source="excerpt" onlyText />
-        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+        <ReferenceArrayKeywordInput showAdd source="keywords" defaultValue={[]} />
       </FormTab>
       <FormTab label="body">
         <ReactPageInput source="body" />

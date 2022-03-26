@@ -6,11 +6,10 @@ import * as React from "react";
 
 interface WebPreviewButtonProps extends FieldProps {
   resource: string;
-  id?: string
+  id?: string;
 }
 
 export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
-
   const { resource, source, record } = props;
   // console.log({ resource, source, record });
   const id =
@@ -20,15 +19,12 @@ export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
     <Button
       color="secondary"
       variant="contained"
+      style={{ marginRight: 10 }}
       onClick={() => {
-        window.open(
-          `${process.env.WEB_URL}/${resource}${
-            id ? `/${id}` : ""
-          }`
-        );
+        window.open(`${process.env.WEB_URL}/${resource}${id ? `/${id}` : ""}`);
       }}
     >
-      Go to {resource}/{id}
+      Open {resource}
     </Button>
   );
 };

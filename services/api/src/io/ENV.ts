@@ -32,6 +32,7 @@ const ENV = t.intersection(
         DEFAULT_PAGE_SIZE: NumberFromString,
         JWT_SECRET: t.string,
         DOWNLOAD_VACCINE_DATA_CRON: t.string,
+        WEB_URL: t.string,
       },
       "API_ENV"
     ),
@@ -68,6 +69,13 @@ const ENV = t.intersection(
         ]),
       ],
       "DB_ENV"
+    ),
+    t.strict(
+      {
+        TG_BOT_TOKEN: t.string,
+        TG_BOT_CHAT: t.string,
+      },
+      "TG_BOT_ENV"
     ),
   ],
   "ENV"

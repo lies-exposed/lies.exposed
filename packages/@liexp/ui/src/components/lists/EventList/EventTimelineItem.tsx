@@ -140,6 +140,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
             </TimelineContent>
           </TimelineItem>
         </Grid>
+        <Grid item lg={2} md={1} sm={false} xs={false} />
       </Grid>
     </div>
   );

@@ -6,6 +6,28 @@ import { pipe } from "fp-ts/lib/function";
 import { Metadata } from "page-metadata-parser";
 import { createExcerptValue } from "../components/Common/Editor";
 
+export const getTitle = (e: http.Events.Event): string => {
+  switch (e.type) {
+    case http.Events.Documentary.DOCUMENTARY.value:
+    case http.Events.Patent.PATENT.value:
+    case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value:
+    case http.Events.Transaction.TRANSACTION.value:
+    case http.Events.Uncategorized.UNCATEGORIZED.value:
+      return e.payload.title;
+    case http.Events.Death.DEATH.value:
+      return `Death of ${e.payload.victim}`;
+  }
+};
+
+export const getShareMedia = (
+  media: http.Media.Media[],
+  defaultImage: string
+): string => {
+  return (
+    media.find((m) => http.Media.ImageType.is(m.type))?.location ?? defaultImage
+  );
+};
+
 export const getSuggestions = (
   m: Metadata,
   link: O.Option<http.Link.Link>
@@ -131,7 +153,10 @@ export const getSuggestions = (
   return suggestions;
 };
 
-export const getTotal = (totals: EventTotals, filters: { [K in keyof EventTotals]: boolean}): number => {
+export const getTotal = (
+  totals: EventTotals,
+  filters: { [K in keyof EventTotals]: boolean }
+): number => {
   return (
     (filters.deaths ? totals.deaths : 0) +
     (filters.documentaries ? totals.documentaries : 0) +
