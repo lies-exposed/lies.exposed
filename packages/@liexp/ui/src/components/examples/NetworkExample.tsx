@@ -43,6 +43,7 @@ const NetworkExample: React.FC = () => {
         {!showGroupLinks ? "show" : "hide"} groups links
       </button>
       <EventsNetworkGraph
+        includeEmptyRelations={false}
         groupBy="actor"
         scale={"all"}
         scalePoint={O.none}

@@ -35,7 +35,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   const eventsFilter = {
     ...filter,
     _start: 0,
-    _end: 60,
+    _end: 100,
   };
 
   return (

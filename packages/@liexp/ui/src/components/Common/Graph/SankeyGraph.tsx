@@ -1,5 +1,6 @@
 // import chroma from "chroma-js";
 // import { sankeyCircular } from "d3-sankey-circular";
+import { alpha } from "@material-ui/core";
 import {
   sankey,
   sankeyLeft,
@@ -9,6 +10,9 @@ import {
 } from "d3-sankey";
 import * as React from "react";
 import { EventIcon, EventTypeColor } from "../Icons";
+
+export const nodeWidth = 45;
+export const nodePadding = 10;
 
 const SankeyNode: React.FC<any> = ({
   color,
@@ -26,41 +30,70 @@ const SankeyNode: React.FC<any> = ({
   type,
   ...props
 }) => {
+  const width = x1 - x0;
+
   // console.log({ x, y, x0, x1, y0, y1, height, ...props });
   if (type === undefined) {
     // console.log("draw avatar");
     // console.log({ x, y, x0, x1, y0, y1, height, ...props });
-    return <circle cy={y1 - 5} cx={x1 - 5} r={10} fill={`#${color}`} />;
-    // return (
-    //   <image
-    //     key={id}
-    //     x={x0}
-    //     y={y0 - 15}
-    //     href={props.avatar}
-    //     width={30}
-    //     height={30}
-    //     style={{
-    //       borderRadius: 10,
-    //     }}
-    //   />
-    // );
+    // return <circle cy={y1 - 5} cx={x1 - 5} r={10} fill={`#${color}`} />;
+    const imageId = `relation-${id}`;
+    const imageD = width - nodePadding / 2;
+    return (
+      <g key={id} x={x0} y={y0} width={width} height={width}>
+        <svg x={x0} y={y0} width={imageD} height={imageD}>
+          <defs>
+            <pattern
+              id={imageId}
+              x={0}
+              y={0}
+              patternUnits="userSpaceOnUse"
+              height={imageD}
+              width={imageD}
+            >
+              <image
+                x={0}
+                y={0}
+                xlinkHref={props.avatar}
+                width={imageD}
+                height={imageD}
+                preserveAspectRatio="xMidYMid slice"
+              />
+            </pattern>
+          </defs>
+          <circle
+            id={`circle-${imageId}`}
+            cx={imageD / 2}
+            cy={imageD / 2}
+            r={imageD / 2}
+            fill={`url(#${imageId})`}
+          />
+          <title>{props.fullName ?? props.name ?? props.tag}</title>
+        </svg>
+      </g>
+    );
   }
 
+  const iconD = width - nodePadding;
+  const rectHeight = y1 - y0
   return (
-    <rect
-      key={id}
-      x={x0}
-      y={y0}
-      width={x1 - x0}
-      height={y1 - y0}
-      fill={(EventTypeColor as any)[type]}
-    >
-      <g>
-        <EventIcon type={type} width={10} height={10} />
-      </g>
-
+    <g key={id} x={x0} y={y0}>
+      <rect
+        x={x0}
+        y={y0}
+        width={width}
+        height={rectHeight}
+        fill={alpha((EventTypeColor as any)[type], 0.2)}
+      />
+      <EventIcon
+        type={type}
+        width={iconD}
+        height={iconD}
+        x={x0 + nodePadding / 2}
+        y={y0 + rectHeight / 2 - iconD / 2}
+      />
       <title>{payload.title}</title>
-    </rect>
+    </g>
   );
 };
 
@@ -95,8 +128,6 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
   height,
   ...props
 }) => {
-  // console.log(props.graph);
-
   const graph = React.useMemo((): {
     nodes: any[];
     links: any[];
@@ -104,8 +135,8 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
     // console.log("graph", props.graph);
 
     const { nodes, links } = sankey()
-      .nodeWidth(20)
-      .nodePadding(5)
+      .nodeWidth(nodeWidth)
+      .nodePadding(nodePadding)
       .nodeId((n: any) => n.id)
       .nodeAlign(sankeyLeft)
       .extent([

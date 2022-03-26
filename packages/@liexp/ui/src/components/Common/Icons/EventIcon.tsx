@@ -8,18 +8,20 @@ import {
   Transaction,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
-import { SvgIconProps } from "@material-ui/core";
-import { EventNote } from "@material-ui/icons";
+import { makeStyles, SvgIconProps } from "@material-ui/core";
 import * as React from "react";
 
 export const EventTypeColor = {
-  [Uncategorized.UNCATEGORIZED.value]: "red",
-  [Death.DEATH.value]: "black",
-  [ScientificStudy.SCIENTIFIC_STUDY.value]: "lightblue",
-  [Patent.PATENT.value]: "purple",
-  [Documentary.DOCUMENTARY.value]: "lightblue",
-  [Transaction.TRANSACTION.value]: "green",
+  [Uncategorized.UNCATEGORIZED.value]: "#EC3535",
+  [Death.DEATH.value]: "#111111",
+  [ScientificStudy.SCIENTIFIC_STUDY.value]: "#2596be",
+  [Patent.PATENT.value]: "#BE259E",
+  [Documentary.DOCUMENTARY.value]: "#2538BE",
+  [Transaction.TRANSACTION.value]: "#2DBE25",
 };
+
+const ScientificStudyIcon = ["flask", "f0c3"];
+const PatentIcon = ["barcode", "f02a"];
 
 interface EventIconProps extends SvgIconProps {
   type: Event["type"];
@@ -73,6 +75,43 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
         />
       );
     default:
-      return <EventNote {...props} />;
+      return (
+        <FontAwesomeIcon
+          {...props}
+          mask={undefined}
+          icon={"calendar"}
+          style={{
+            ...props.style,
+            color: EventTypeColor.Uncategorized,
+          }}
+        />
+      );
   }
+};
+
+const useStyles = makeStyles(() => ({
+  fontAwesome: {
+    fontFamily: "Font Awesome 6 Free",
+  },
+}));
+
+export const EventIconInSVG: React.FC<
+  EventIconProps & React.SVGProps<SVGTextElement>
+> = ({ type, ...props }) => {
+  const classes = useStyles();
+  const unicode = React.useMemo(() => {
+    switch (type) {
+      case ScientificStudy.SCIENTIFIC_STUDY.value: {
+        return `&#x${ScientificStudyIcon[1]}`;
+      }
+      default:
+        return `&#x${PatentIcon[1]}`;
+    }
+  }, [type]);
+
+  return (
+    <text className={classes.fontAwesome} {...props}>
+      {unicode}
+    </text>
+  );
 };
