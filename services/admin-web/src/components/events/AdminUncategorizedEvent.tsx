@@ -41,6 +41,7 @@ const RESOURCE = "events";
 const EventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
+      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
       <TextInput source="title" alwaysOn size="small" />
       <ReferenceArrayGroupInput source="groups" alwaysOn />
       <ReferenceArrayActorInput source="actors" alwaysOn />
@@ -58,6 +59,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "createdAt",
       _order: "DESC",
+      withDrafts: false
     }}
     filters={<EventsFilter />}
     perPage={20}

@@ -1,10 +1,9 @@
 import * as Events from "@liexp/shared/io/http/Events";
-import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType,
+  MapInputType
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -24,7 +23,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import ExcerptField from "../Common/ExcerptField";
 import { MediaField } from "../Common/MediaField";
@@ -41,7 +40,7 @@ import { transformEvent } from "./utils";
 const DocumentaryEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <TextInput source="type" value={DOCUMENTARY.value} />
+      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
       <ReferenceActorInput source="victim" alwaysOn />
       <DateInput source="date" />
     </Filter>
@@ -56,6 +55,7 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
+      withDrafts: false,
     }}
   >
     <Datagrid rowClick="edit">
