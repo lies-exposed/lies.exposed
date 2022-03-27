@@ -31,6 +31,7 @@ const SankeyNode: React.FC<any> = ({
   ...props
 }) => {
   const width = x1 - x0;
+  const rectHeight = y1 - y0;
 
   // console.log({ x, y, x0, x1, y0, y1, height, ...props });
   if (type === undefined) {
@@ -40,8 +41,13 @@ const SankeyNode: React.FC<any> = ({
     const imageId = `relation-${id}`;
     const imageD = width - nodePadding / 2;
     return (
-      <g key={id} x={x0} y={y0} width={width} height={width}>
-        <svg x={x0} y={y0} width={imageD} height={imageD}>
+      <g key={id} x={x0} y={y0} width={width} height={rectHeight}>
+        <svg
+          x={x0}
+          y={y0 + rectHeight / 2 - imageD / 2}
+          width={imageD}
+          height={rectHeight}
+        >
           <defs>
             <pattern
               id={imageId}
@@ -75,7 +81,7 @@ const SankeyNode: React.FC<any> = ({
   }
 
   const iconD = width - nodePadding;
-  const rectHeight = y1 - y0
+
   return (
     <g key={id} x={x0} y={y0}>
       <rect

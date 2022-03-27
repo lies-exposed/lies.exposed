@@ -1,7 +1,7 @@
 import {
   eqByUUID,
   getEventsMetadata,
-  ordEventDate,
+  ordEventDate
 } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -10,7 +10,7 @@ import {
   Group,
   Keyword,
   Page,
-  Topic,
+  Topic
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
@@ -32,12 +32,9 @@ import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode,
+  NetworkPointNode
 } from "../Common/Graph/Network/NetworkNode";
 import SankeyGraph from "../Common/Graph/SankeyGraph";
-import { ActorList } from "../lists/ActorList";
-import GroupList from "../lists/GroupList";
-import KeywordList from "../lists/KeywordList";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
 
@@ -76,19 +73,19 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
   props
 ) => {
   const [groupBy, setGroupBy] = React.useState(props.groupBy);
-  const actors = props.actors.map((a) => ({
-    ...a,
-    selected: true,
-  }));
-  const groups = props.groups.map((g) => ({
-    ...g,
-    selected: true,
-  }));
+  // const actors = props.actors.map((a) => ({
+  //   ...a,
+  //   selected: true,
+  // }));
+  // const groups = props.groups.map((g) => ({
+  //   ...g,
+  //   selected: true,
+  // }));
 
-  const keywords = props.keywords.map((k) => ({
-    ...k,
-    selected: true,
-  }));
+  // const keywords = props.keywords.map((k) => ({
+  //   ...k,
+  //   selected: true,
+  // }));
 
   return (
     <Box display="flex" flexDirection="column" width="100%">
@@ -122,7 +119,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 </Grid>
               </Grid>
 
-              <Grid item md={1}>
+              {/* <Grid item md={1}>
                 {groupBy === "actor" ? (
                   <ActorList actors={actors} onActorClick={() => {}} />
                 ) : groupBy === "group" ? (
@@ -137,8 +134,8 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                     onItemClick={() => {}}
                   />
                 )}
-              </Grid>
-              <Grid item md={11}>
+              </Grid> */}
+              <Grid item md={12}>
                 <div style={{ width: "100%" }}>
                   <SankeyGraph {...networkProps} />
                   {/* <Network<NetworkLink, EventNetworkDatum>
@@ -503,16 +500,16 @@ export function createEventNetworkGraphProps({
   height: number;
   margin: { vertical: number; horizontal: number };
 }): EventsNetworkGraphDataProps {
-  const orderedEvents = pipe(events, A.sort(Ord.reverse(ordEventDate)));
+  const orderedEvents = pipe(events, A.sort(ordEventDate));
 
   const minDate = pipe(
-    A.last(orderedEvents),
+    A.head(orderedEvents),
     O.map((e) => e.date),
     O.getOrElse(() => subWeeks(new Date(), 1))
   );
 
   const maxDate = pipe(
-    A.head(orderedEvents),
+    A.last(orderedEvents),
     O.map((e) => e.date),
     O.getOrElse(() => new Date())
   );

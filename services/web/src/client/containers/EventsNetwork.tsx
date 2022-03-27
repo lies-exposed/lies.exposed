@@ -56,6 +56,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
             <Box
               style={{
                 width: 1000,
+                padding: 40
               }}
             >
               <EventsNetworkGraph
