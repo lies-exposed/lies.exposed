@@ -627,11 +627,8 @@ export function createEventNetworkGraphProps({
           // console.log("actors", actors);
 
           const groups = pipe(
-            eventGroups,
+            allGroups.filter((a) => eventGroups.some((aa) => aa.id === a.id)),
             O.fromPredicate(A.isNonEmpty),
-            O.map((acts) =>
-              allGroups.filter((a) => acts.some((aa) => aa.id === a.id))
-            ),
             O.getOrElse((): Group.Group[] => []),
             updateMap(acc.groups)
           );
@@ -691,7 +688,7 @@ export function createEventNetworkGraphProps({
             getLinks(eventNodes, acc.groupLinks)
           );
 
-          const evNodes = [...acc.eventNodes, ...eventNodes]
+          const evNodes = [...acc.eventNodes, ...eventNodes];
           return {
             eventNodes: evNodes,
             maxSize:
