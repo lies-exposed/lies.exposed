@@ -317,9 +317,7 @@ export const searchEventV2Query =
             //   ...q.getQueryAndParameters()
             // );
 
-            if (!withDrafts) {
-              q.andWhere("event.draft = :draft", { draft: false });
-            }
+            q.andWhere("event.draft = :draft", { draft: withDrafts });
 
             if (withDeleted) {
               q.withDeleted();

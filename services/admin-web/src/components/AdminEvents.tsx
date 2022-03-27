@@ -76,6 +76,7 @@ const EventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <TextInput source="title" alwaysOn size="small" />
+      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
       <BooleanInput source="withDeleted" alwaysOn />
       <SelectInput
         source="type"
