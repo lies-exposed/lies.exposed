@@ -1196,7 +1196,7 @@ __metadata:
     copy-webpack-plugin: ^10.2.4
     css-loader: ^6.7.1
     dotenv-webpack: ^7.1.0
-    eslint: ^8.11.0
+    eslint: ^8.12.0
     eslint-plugin-import: ^2.25.4
     express: ^4.17.3
     fast-check: ^2.23.2
@@ -1328,14 +1328,14 @@ __metadata:
     d3-sankey: ^0.12.3
     d3-sankey-circular: ^0.34.0
     date-fns: ^1.30.1
-    eslint: ^8.11.0
+    eslint: ^8.12.0
     eslint-plugin-import: ^2.25.4
     fp-ts: ^2.11.9
     geotiff: ^1.0.9
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     jest: ^27.5.1
-    ol: ^6.13.0
+    ol: ^6.14.1
     prettier: ^2.6.1
     query-string: ^7.1.1
     react: ^16.14.0
@@ -1345,7 +1345,7 @@ __metadata:
     react-helmet: ^6.1.0
     react-slick: ^0.28.1
     react-spring: ^9.4.4
-    react-toc: ^2.1.0
+    react-toc: ^2.1.1
     react-virtualized: ^9.22.3
     throttle-debounce: ^3.0.1
     topojson-client: ^3.1.0
@@ -2342,9 +2342,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.11.4":
-  version: 8.11.4
-  resolution: "@testing-library/dom@npm:8.11.4"
+"@testing-library/dom@npm:^8.12.0":
+  version: 8.12.0
+  resolution: "@testing-library/dom@npm:8.12.0"
   dependencies:
     "@babel/code-frame": ^7.10.4
     "@babel/runtime": ^7.12.5
@@ -2354,7 +2354,7 @@ __metadata:
     dom-accessibility-api: ^0.5.9
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
-  checksum: fb0206bae868288cab57435423ed384ed6ebdc81efd0d15a85b4c1181cf7182c55b42f0a65bdba2211c372b66de21144455433ac5d11c72a89ce5ba4d38fb005
+  checksum: 2bbf5fa5c1e883571c440ccee76c0568fa5153b43c097456dd7146797256687352bfca9db574e0e78a022ce14722a6acaaba5f680ee16b95e12405501713d34d
   languageName: node
   linkType: hard
 
@@ -4613,7 +4613,7 @@ __metadata:
     "@material-ui/icons": ^4.11.2
     "@material-ui/lab": ^4.0.0-alpha.60
     "@material-ui/styles": ^4.11.4
-    "@testing-library/dom": ^8.11.4
+    "@testing-library/dom": ^8.12.0
     "@testing-library/jest-dom": ^5.16.3
     "@testing-library/react": ^12.1.4
     "@testing-library/user-event": ^13.5.0
@@ -4629,7 +4629,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.16.0
     "@typescript-eslint/parser": ^5.16.0
     debug: ^4.3.4
-    eslint: ^8.11.0
+    eslint: ^8.12.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.0
@@ -4904,12 +4904,12 @@ __metadata:
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1100.0
+    aws-sdk: ^2.1101.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
     domino: ^2.1.6
-    eslint: ^8.11.0
+    eslint: ^8.12.0
     eslint-config-prettier: ^8.5.0
     eslint-import-resolver-typescript: ^2.7.0
     eslint-plugin-import: ^2.25.4
@@ -5302,9 +5302,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1100.0":
-  version: 2.1100.0
-  resolution: "aws-sdk@npm:2.1100.0"
+"aws-sdk@npm:^2.1101.0":
+  version: 2.1101.0
+  resolution: "aws-sdk@npm:2.1101.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5315,7 +5315,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 0c5570364d80c650a2a07e3baee5ee8097e16f490026eff6035cd02d33193cc1c1e91f40d66cec1a9fa42e02b38ee3e7a57130c2a5034bd2267fa3ad5c885d81
+  checksum: e0df61cce4724d7873872dfe8c4c052f70207c8e33dec235aa503b073c371eedc8d77044050803685d1b309835e7a45fb666e05e6efd4abced4d1cb4f901d84f
   languageName: node
   linkType: hard
 
@@ -8515,9 +8515,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.11.0":
-  version: 8.11.0
-  resolution: "eslint@npm:8.11.0"
+"eslint@npm:^8.12.0":
+  version: 8.12.0
+  resolution: "eslint@npm:8.12.0"
   dependencies:
     "@eslint/eslintrc": ^1.2.1
     "@humanwhocodes/config-array": ^0.9.2
@@ -8556,7 +8556,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: a06a2ea37002d6c0a4f462fe31b4411185dc3da7857fafb896eb392ba95a1289cc3538056474b2f44f08012f265bede01a39d46df4ac39ebc6d7be90e2c8f9fa
+  checksum: 111bf9046b7a463049788dd00d7f4cd91e024029982352dff4811ce5dfa8cb1136aa127cd8a7a91508234d3e1b4fb6f638a1f5ef9ea08b1af93a18703a4a8dc1
   languageName: node
   linkType: hard
 
@@ -12139,7 +12139,7 @@ __metadata:
     "@types/prettier": ^2.4.4
     "@typescript-eslint/eslint-plugin": ^5.16.0
     "@typescript-eslint/parser": ^5.16.0
-    eslint: ^8.11.0
+    eslint: ^8.12.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.0
@@ -13609,26 +13609,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol-mapbox-style@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "ol-mapbox-style@npm:7.0.0"
+"ol-mapbox-style@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "ol-mapbox-style@npm:7.1.1"
   dependencies:
     "@mapbox/mapbox-gl-style-spec": ^13.20.1
     mapbox-to-css-font: ^2.4.1
     webfont-matcher: ^1.1.0
-  checksum: a18b0049850845fb35b69fee6ec95c45c7d7b78a212174f819a88aacf2012666f33d98fd9cb1a21e41eb085309b2b94fa8801bd99ed56e52d2d53dc2dfa59009
+  checksum: 3f5f9c528163a0f74a582c0cbec58b833cc76b212d334a497a085e0b562164a05054ab2a5a78cde92e9ea560433bbae9511344e894d5440700515af07365426c
   languageName: node
   linkType: hard
 
-"ol@npm:^6.13.0":
-  version: 6.13.0
-  resolution: "ol@npm:6.13.0"
+"ol@npm:^6.14.1":
+  version: 6.14.1
+  resolution: "ol@npm:6.14.1"
   dependencies:
     geotiff: ^2.0.2
-    ol-mapbox-style: ^7.0.0
+    ol-mapbox-style: ^7.1.1
     pbf: 3.2.1
     rbush: ^3.0.1
-  checksum: 1655d87a47338bcc42ff011b516804759d9c8be0c1bc0d732092792bf53c64f8f5f2998004016771f085b44fef238f3508e95364b7a3ef3ba8d8cae8b6207953
+  checksum: 118ae5b40fb3f98efb7c2cbf230edc3788567fac872f80e09b9dbcc3845c0179de95c2ef771be2307e6f8b4162e9dbc68818757c874d7d4fdd855e56dd43ea12
   languageName: node
   linkType: hard
 
@@ -15545,14 +15545,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-toc@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "react-toc@npm:2.1.0"
+"react-toc@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "react-toc@npm:2.1.1"
   peerDependencies:
     prop-types: ^15.5.4
     react: ^15.0.0 || ^16.0.0
     react-dom: ^15.0.0 || ^16.0.0
-  checksum: 3a6304ddab002951684cb56909ad2699e376a745f3e4522f9a4ebffdcbb33505eec21f25cb6f7f50c967e28f0eab9cbfeff78409671a88223e4f82fd62a4c7f3
+  checksum: 58efa60c3a8e9539c2431f05dbe3d1428d3398664860cef10e6f9a7b9a19cfbdf1ab48bc136fb9b5013d7101350bf1aff562689afbf85e165518a291651ad046
   languageName: node
   linkType: hard
 
@@ -18938,7 +18938,7 @@ __metadata:
     d3: ^5.16.0
     debug: ^4.3.4
     dotenv: ^16.0.0
-    eslint: ^8.11.0
+    eslint: ^8.12.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.0
@@ -18954,7 +18954,7 @@ __metadata:
     io-ts-types: ^0.5.16
     is-plain-object: ^5.0.0
     mime: ^1.6.0
-    ol: ^6.13.0
+    ol: ^6.14.1
     prettier: ^2.6.1
     prop-types: ^15.8.1
     query-string: ^7.1.1
@@ -18967,7 +18967,7 @@ __metadata:
     react-router-dom: ^5.3.0
     react-slick: ^0.28.1
     react-spring: ^9.4.4
-    react-toc: ^2.1.0
+    react-toc: ^2.1.1
     slick-carousel: ^1.8.1
     throttle-debounce: ^3.0.1
     topojson-client: 3.1.0
