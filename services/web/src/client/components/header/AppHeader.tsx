@@ -5,11 +5,19 @@ import { useNavigateToResource } from "../../utils/location.utils";
 
 const dataMenuItem = {
   view: "index",
-  label: "Events",
+  label: "Explore",
   subItems: [
     {
       view: "/events",
-      label: "Search",
+      label: "Events",
+    },
+    {
+      view: "/actors",
+      label: "Actors",
+    },
+    {
+      view: "/groups",
+      label: "Groups",
     },
   ],
 
