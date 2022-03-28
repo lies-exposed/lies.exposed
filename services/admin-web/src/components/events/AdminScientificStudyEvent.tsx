@@ -34,6 +34,7 @@ import { transformEvent } from "./utils";
 const ListFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
+      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
       <ReferenceArrayActorInput source="payload.authors" alwaysOn />
       <DateInput source="date" />
     </Filter>
@@ -45,7 +46,7 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
     {...props}
     filters={<ListFilter />}
     perPage={20}
-    filter={{ type: "ScientificStudy", withDrafts: true }}
+    filterDefaultValues={{ type: "ScientificStudy", withDrafts: true }}
   >
     <Datagrid rowClick="edit">
       <TextField source="payload.title" />
@@ -66,7 +67,9 @@ export const ScientificStudyEventTitle: React.FC<{
   return <span>Scientific Study: {record.payload.title}</span>;
 };
 
-export const EditScientificStudyEvent: React.FC<EditProps &{ record?: any }> = (props) => {
+export const EditScientificStudyEvent: React.FC<
+  EditProps & { record?: any }
+> = (props) => {
   return (
     <FormTab label="Payload" {...props}>
       <TextInput source="title" />

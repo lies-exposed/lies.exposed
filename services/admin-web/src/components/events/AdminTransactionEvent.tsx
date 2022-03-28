@@ -8,6 +8,7 @@ import {
 import * as React from "react";
 import {
   BooleanInput,
+  BooleanField,
   Create,
   CreateProps,
   Datagrid,
@@ -38,8 +39,7 @@ import { transformEvent } from "./utils";
 const TransactionEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <TextInput source="type" value="Transaction" />
-      <ReferenceActorInput source="victim" alwaysOn />
+      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
       <DateInput source="date" />
     </Filter>
   );
@@ -53,9 +53,11 @@ export const TransactionList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
+      withDrafts: false
     }}
   >
     <Datagrid rowClick="edit">
+      <BooleanField source="draft" />
       <TextField source="payload.title" />
       <ReferenceBySubjectField source="payload.from" />
       <NumberField source="payload.total" />

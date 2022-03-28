@@ -35,7 +35,7 @@ import { transformEvent } from "./utils";
 const PatentEventsFilter: React.FC = (props: any) => {
   return (
     <Filter {...props}>
-      <TextInput source="type" value="Death" />
+      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
       <ReferenceActorInput source="victim" alwaysOn />
       <DateInput source="date" />
     </Filter>
@@ -50,6 +50,7 @@ export const PatentList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
+      widthDrafts: false
     }}
   >
     <Datagrid rowClick="edit">

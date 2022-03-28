@@ -187,6 +187,7 @@ export const searchEventV2Query =
                   hasWhere = true;
                 }
 
+                let hasWhereActor = false;
                 if (O.isSome(actors)) {
                   const where = hasWhere
                     ? qb.andWhere.bind(qb)
@@ -245,12 +246,15 @@ export const searchEventV2Query =
                   );
                   q.setParameter("actors", actors.value);
                   hasWhere = true;
+                  hasWhereActor = true;
                 }
 
                 if (O.isSome(groups)) {
-                  const where = hasWhere
+                  const where = hasWhereActor
                     ? qb.orWhere.bind(qb)
-                    : qb.andWhere.bind(qb);
+                    : hasWhere
+                    ? qb.andWhere.bind(qb)
+                    : qb.where.bind(qb);
                   where(
                     new Brackets((groupQb) => {
                       groupQb
@@ -304,9 +308,7 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(links)) {
-              const where = hasWhere
-              ? q.orWhere.bind(q)
-              : q.andWhere.bind(q);
+              const where = hasWhere ? q.orWhere.bind(q) : q.andWhere.bind(q);
               where("links.id IN (:...links)", {
                 links: links.value,
               });
