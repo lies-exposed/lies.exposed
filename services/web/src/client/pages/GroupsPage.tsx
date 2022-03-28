@@ -16,21 +16,19 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
   return (
     <MainContent>
-      <PageContent queries={{ pageContent: { path: "groups " } }} />
+      <PageContent queries={{ pageContent: { path: "groups" } }} />
       <WithQueries
         queries={{
           groups: Queries.Group.getList,
-          pageContent: pageContentByPath,
         }}
         params={{
-          pageContent: { path: "groups" },
           groups: {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
           },
         }}
-        render={QR.fold(Loader, ErrorBox, ({ pageContent, groups }) => (
+        render={QR.fold(Loader, ErrorBox, ({ groups }) => (
           <>
             <AutocompleteGroupInput
               selectedItems={[]}
@@ -42,6 +40,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
             />
             <Typography variant="subtitle1">{groups.total}</Typography>
             <GroupList
+              style={{ display: "flex", flexDirection: "row" }}
               groups={groups.data.map((a) => ({
                 ...a,
                 selected: false,
