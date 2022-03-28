@@ -147,6 +147,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     groups: query.groups ?? [],
     groupsMembers: query.groupsMembers ?? [],
     keywords: query.keywords ?? [],
+    media: query.media ?? [],
     tab,
     type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
   };
@@ -213,6 +214,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 groups={filterGroups.data}
                 groupsMembers={filterGroupsMembers.data}
                 keywords={filterKeywords.data}
+                media={[]}
                 onQueryChange={handleUpdateEventsSearch as any}
                 onQueryClear={() => {
                   navigateTo.events({}, {});
@@ -272,6 +274,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                           onQueryChange={handleUpdateEventsSearch}
                           groupsMembers={filterGroupsMembers.data}
                           keywords={filterKeywords.data}
+                          media={[]}
                           totals={{
                             uncategorized: 0,
                             scientificStudies: 0,

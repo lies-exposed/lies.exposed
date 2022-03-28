@@ -29,7 +29,8 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
       });
 
       const findTask = pipe(
-        ctx.db.manager.createQueryBuilder(MediaEntity, "media"),
+        ctx.db.manager.createQueryBuilder(MediaEntity, "media")
+        .leftJoinAndSelect("media.events", "events"),
         (q) => {
           if (O.isSome(description)) {
             return q.where("lower(media.description) LIKE :description", {

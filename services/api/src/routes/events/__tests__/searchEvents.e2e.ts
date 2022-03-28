@@ -180,7 +180,7 @@ describe("Search Events", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(totals.uncategorized).toBeLessThanOrEqual(totalEvents);
+    expect(totals.uncategorized).toBeGreaterThanOrEqual(totalEvents);
   });
 
   afterAll(async () => {

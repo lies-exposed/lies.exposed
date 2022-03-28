@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 import {
   Death,
   Documentary,
@@ -8,7 +8,7 @@ import {
   Transaction,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
-import { makeStyles, SvgIconProps } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import * as React from "react";
 
 export const EventTypeColor = {
@@ -23,7 +23,7 @@ export const EventTypeColor = {
 const ScientificStudyIcon = ["flask", "f0c3"];
 const PatentIcon = ["barcode", "f02a"];
 
-interface EventIconProps extends SvgIconProps {
+interface EventIconProps extends Omit<FontAwesomeIconProps, 'icon'> {
   type: Event["type"];
 }
 

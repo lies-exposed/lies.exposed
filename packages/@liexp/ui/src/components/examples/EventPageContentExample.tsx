@@ -18,6 +18,7 @@ export const eventPageContentArgs: EventPageContentProps = {
     keywords: [],
     links: [],
   },
+  media: [],
   onActorClick: () => undefined,
   onGroupClick: () => undefined,
   onKeywordClick: () => undefined,

@@ -29,66 +29,54 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   const theme = useTheme();
 
   return (
-    <Grid container>
-      <Grid container direction="column">
-        <Grid
-          container
-          direction="row"
-          alignItems="center"
-          spacing={2}
-          style={{ marginBottom: theme.spacing(2) }}
-        >
-          <Grid item>
-            {pipe(
-              O.fromNullable(group.avatar),
-              O.fold(
-                () => <div />,
-                (src) => (
-                  <img src={src} style={{ width: "100px", marginRight: 20 }} />
-                )
+    <Grid container direction="column">
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        spacing={2}
+        style={{ padding: theme.spacing(2), marginBottom: theme.spacing(2) }}
+      >
+        <Grid item>
+          {pipe(
+            O.fromNullable(group.avatar),
+            O.fold(
+              () => <div />,
+              (src) => (
+                <img src={src} style={{ width: "100px", marginRight: 20 }} />
               )
-            )}
-          </Grid>
-          <Grid item>
-            <Typography variant="h2" style={{ marginBottom: 0 }}>
-              {group.name}
-            </Typography>
-            <Editor value={group.excerpt as any} readOnly={true} />
-          </Grid>
+            )
+          )}
         </Grid>
-        <Grid container style={{ marginBottom: 20 }}>
-          <Grid item md={6}>
-            <Typography variant="h6">Sotto Gruppi</Typography>
-            <GroupList groups={[]} onItemClick={() => {}} />
-          </Grid>
-
-          <Grid item md={6}>
-            <Typography variant="h6">Members</Typography>
-            <ActorList
-              actors={groupsMembers.map((g) => ({
-                ...g.actor,
-                selected: false,
-              }))}
-              onActorClick={onMemberClick}
-              avatarSize="small"
-            />
-          </Grid>
-        </Grid>
-
-        <Grid>
-          <MarkdownRenderer>{body}</MarkdownRenderer>
+        <Grid item>
+          <Typography variant="h2" style={{ marginBottom: 0 }}>
+            {group.name}
+          </Typography>
+          <Editor value={group.excerpt as any} readOnly={true} />
         </Grid>
       </Grid>
-      {/* <Grid width="100%">
-        <EventsNetwork
-          events={events.filter(UncategorizedMD.is)}
-          selectedGroupIds={[frontmatter.id]}
-          selectedActorIds={[]}
-          selectedTopicIds={[]}
-          scale={"all"}
-          scalePoint={O.none}
-        />
-      </Grid> */}
+      <Grid container style={{ marginBottom: 20 }}>
+        <Grid item md={6}>
+          <Typography variant="h6">Sotto Gruppi</Typography>
+          <GroupList groups={[]} onItemClick={() => {}} />
+        </Grid>
+
+        <Grid item md={6}>
+          <Typography variant="h6">Members</Typography>
+          <ActorList
+            actors={groupsMembers.map((g) => ({
+              ...g.actor,
+              selected: false,
+            }))}
+            onActorClick={onMemberClick}
+            avatarSize="small"
+          />
+        </Grid>
+      </Grid>
+
+      <Grid>
+        <MarkdownRenderer>{body}</MarkdownRenderer>
+      </Grid>
     </Grid>
   );
 };

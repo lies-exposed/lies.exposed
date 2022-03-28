@@ -9,7 +9,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia
+  CardMedia,
 } from "@material-ui/core";
 import * as React from "react";
 import Editor from "../../Common/Editor";
@@ -39,16 +39,23 @@ const EventCard: React.FC<EventCardProps> = ({ event, showRelations }) => {
         <CardActionArea>
           <CardMedia component="img" image={image} />
           <CardHeader
-            avatar={<EventIcon type={event.type} />}
+            avatar={<EventIcon size="2x" type={event.type} />}
             title={title}
             subheader={formatDate(event.date)}
           />
 
           <CardContent>
-            {event.excerpt ? <Editor value={event.excerpt as any} readOnly /> : null}
+            {event.excerpt ? (
+              <Editor value={event.excerpt as any} readOnly />
+            ) : null}
 
             {showRelations ? (
-              <Box>
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
                 <ActorList
                   style={{
                     display: "flex",
@@ -58,6 +65,10 @@ const EventCard: React.FC<EventCardProps> = ({ event, showRelations }) => {
                   onActorClick={() => {}}
                 />
                 <GroupsList
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
                   groups={groups.map((g) => ({ ...g, selected: true }))}
                   onItemClick={() => undefined}
                 />

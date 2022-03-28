@@ -43,7 +43,7 @@ const EventsBox: React.FC<EventsBoxProps> = (props) => {
               {events.events.map((e) => {
                 return (
                   <Grid key={e.id} item md={4}>
-                    <EventCard event={e} showRelations={false} />
+                    <EventCard event={e} showRelations={true} />
                   </Grid>
                 );
               })}

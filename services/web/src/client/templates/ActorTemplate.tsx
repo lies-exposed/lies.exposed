@@ -1,20 +1,23 @@
-import { Death, EventType } from "@liexp/shared/io/http/Events";
+import { DeathBox } from "@containers/DeathBox";
+import { EventsPanel } from "@containers/EventsPanel";
+import { EventType } from "@liexp/shared/io/http/Events";
 import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
+import ActorsBox from "@liexp/ui/containers/ActorsBox";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import SEO from "@liexp/ui/components/SEO";
 import { Queries } from "@liexp/ui/providers/DataProvider";
+import { Box } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
-import { DeathBox } from "@containers/DeathBox";
-import { EventsPanel } from "@containers/EventsPanel";
 
 const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
-  const navigateTo = useNavigateToResource();
+  const navigateToResource = useNavigateToResource();
+
   return (
     <WithQueries
       queries={{
@@ -34,15 +37,16 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
         ErrorBox,
         ({ actor, groups: { data: groups } }) => {
           return (
-            <MainContent>
-              <SEO title={actor.fullName} image={actor.avatar ?? ""} />
-              <ActorPageContent
-                actor={actor}
-                groups={groups}
-                onGroupClick={(g) => navigateTo.groups({ id: g.id })}
-              />
-              {actor.death ? <DeathBox id={actor.death} /> : null}
-
+            <Box>
+              <MainContent>
+                <SEO title={actor.fullName} image={actor.avatar ?? ""} />
+                <ActorPageContent
+                  actor={actor}
+                  groups={groups}
+                  onGroupClick={(g) => navigateToResource.groups({ id: g.id })}
+                />
+                {actor.death ? <DeathBox id={actor.death} /> : null}
+              </MainContent>
               <EventsPanel
                 hash={`actor-${actorId}`}
                 query={{
@@ -55,9 +59,23 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                   tab: 0,
                   type: EventType.types.map((t) => t.value),
                 }}
-                onQueryChange={() => {}}
+                onQueryChange={(q) => {
+                  // navigateToResource.actors({ id: actor.id}, q)
+                }}
               />
-            </MainContent>
+              <ActorsBox
+                params={{
+                  sort: { field: "updatedAt", order: "DESC" },
+                  pagination: {
+                    page: 1,
+                    perPage: 3,
+                  },
+                }}
+                onItemClick={(a) => {
+                  navigateToResource.actors({ id: a.id });
+                }}
+              />
+            </Box>
           );
         }
       )}

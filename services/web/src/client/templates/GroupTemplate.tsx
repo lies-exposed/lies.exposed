@@ -4,6 +4,7 @@ import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import SEO from "@liexp/ui/components/SEO";
 import { Queries } from "@liexp/ui/providers/DataProvider";
+import { Box } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
@@ -45,22 +46,22 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
       }}
       render={QR.fold(Loader, ErrorBox, ({ group, groupsMembers, events }) => {
         return (
-          <MainContent>
-            <SEO
-              title={group.name}
-            />
-            <GroupPageContent
-              {...group}
-              groupsMembers={groupsMembers.data}
-              events={events.data}
-              funds={[]}
-              projects={[]}
-              onMemberClick={(a) => {
-                navigateTo.actors({
-                  id: a.id,
-                });
-              }}
-            />
+          <Box>
+            <MainContent>
+              <SEO title={group.name} />
+              <GroupPageContent
+                {...group}
+                groupsMembers={groupsMembers.data}
+                events={events.data}
+                funds={[]}
+                projects={[]}
+                onMemberClick={(a) => {
+                  navigateTo.actors({
+                    id: a.id,
+                  });
+                }}
+              />
+            </MainContent>
             <EventsPanel
               hash={`group-${groupId}`}
               query={{
@@ -74,7 +75,7 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
               }}
               onQueryChange={() => undefined}
             />
-          </MainContent>
+          </Box>
         );
       })}
     />
