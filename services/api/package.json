@@ -26,8 +26,6 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
-    "@react-page/editor": "^4.7.1",
-    "@react-page/plugins-slate": "4.7.1",
     "aws-sdk": "^2.1101.0",
     "axios": "^0.26.1",
     "cors": "2.8.5",

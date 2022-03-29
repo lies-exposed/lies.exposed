@@ -1,12 +1,10 @@
-import { DeathBox } from "@containers/DeathBox";
-import { EventsPanel } from "@containers/EventsPanel";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
-import ActorsBox from "@liexp/ui/containers/ActorsBox";
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
 import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import SEO from "@liexp/ui/components/SEO";
+import ActorsBox from "@liexp/ui/containers/ActorsBox";
 import { Queries } from "@liexp/ui/providers/DataProvider";
 import { Box } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
@@ -14,6 +12,8 @@ import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
+import { DeathBox } from "@containers/DeathBox";
+import { EventsPanel } from "@containers/EventsPanel";
 
 const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
   const navigateToResource = useNavigateToResource();

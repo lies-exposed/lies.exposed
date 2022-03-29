@@ -62,6 +62,7 @@ export const createExcerptValue = (text: string): Value => {
         [
           {
             id: customSlate.id,
+            plugin: customSlate.id,
             data: customSlate.createData((def) => ({
               children: [
                 {

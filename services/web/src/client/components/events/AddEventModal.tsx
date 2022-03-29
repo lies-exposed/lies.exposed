@@ -3,9 +3,7 @@ import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
-import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { Loader } from "@liexp/ui/components/Common/Loader";
-import { getEventsFromLinkQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import {
   Box,
   Button,
@@ -18,13 +16,12 @@ import {
   IconButton,
   Input,
   Typography,
-  useTheme,
+  useTheme
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
+import * as O from 'fp-ts/lib/Option';
 import * as React from "react";
-import { createEventSuggestion } from "../../state/commands";
+import { createEventSuggestion, getURLMetadata } from "../../state/commands";
 
 interface EventSuggestionsListProps {
   suggestions: Events.EventSuggestion[];
@@ -76,6 +73,8 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   const [url, setUrl] = React.useState({
     value: "",
     submitted: "",
+    suggestions: [] as any[],
+    events: [] as any[],
   });
 
   const [selectedSuggestion, setSelectedSuggestion] = React.useState<
@@ -84,17 +83,31 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
 
   const handleSubmit = (): void => {
     if (selectedSuggestion) {
-      void createEventSuggestion(selectedSuggestion)().then(() =>{
-        setOpen(false)
+      void createEventSuggestion(selectedSuggestion)().then(() => {
+        setOpen(false);
         setUrl({
           value: "",
-          submitted: ""
-        })
+          submitted: "",
+          suggestions: [],
+          events: [],
+        });
       });
     } else {
-      setUrl({
-        value: "",
-        submitted: url.value,
+      void getURLMetadata({
+        url: url.value,
+      })().then((result) => {
+
+        if (result._tag === "Right") {
+          setUrl({
+            value: "",
+            submitted: url.value,
+            suggestions: getSuggestions(
+              result.right.data.metadata,
+              O.fromNullable(result.right.data.link)
+            ),
+            events: [],
+          });
+        }
       });
     }
   };
@@ -139,49 +152,34 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
             type="url"
             value={url.value}
             placeholder="http://my.url/..."
-            onChange={(e) => setUrl({ value: e.target.value, submitted: "" })}
+            onChange={(e) =>
+              setUrl({
+                value: e.target.value,
+                submitted: "",
+                suggestions: [],
+                events: [],
+              })
+            }
           />
           <Box marginTop={2} marginBottom={2}>
             {url.submitted !== "" ? (
-              <WithQueries
-                queries={{
-                  events: getEventsFromLinkQuery,
-                }}
-                params={{
-                  events: {
-                    url: url.submitted,
-                  },
-                }}
-                render={QR.fold(
-                  () => (
-                    <Loader />
-                  ),
-                  ErrorBox,
-                  ({ events }) => {
-                    return (
-                      <Grid container spacing={2}>
-                        {events.events.events.map((e) => {
-                          return (
-                            <Grid key={e.id} item md={4}>
-                              <EventCard event={e} showRelations={false} />
-                            </Grid>
-                          );
-                        })}
-                        <Grid item md={12}>
-                          <Typography variant="h6">
-                            Or suggest new one
-                          </Typography>
-                        </Grid>
-                        <EventSuggestionsList
-                          suggestions={events.suggestions}
-                          selected={selectedSuggestion}
-                          onSelect={setSelectedSuggestion}
-                        />
-                      </Grid>
-                    );
-                  }
-                )}
-              />
+              <Grid container spacing={2}>
+                {url.events.map((e) => {
+                  return (
+                    <Grid key={e.id} item md={4}>
+                      <EventCard event={e} showRelations={false} />
+                    </Grid>
+                  );
+                })}
+                <Grid item md={12}>
+                  <Typography variant="h6">Or suggest new one</Typography>
+                </Grid>
+                <EventSuggestionsList
+                  suggestions={url.suggestions}
+                  selected={selectedSuggestion}
+                  onSelect={setSelectedSuggestion}
+                />
+              </Grid>
             ) : null}
           </Box>
         </DialogContent>

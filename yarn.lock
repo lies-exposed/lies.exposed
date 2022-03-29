@@ -4888,8 +4888,6 @@ __metadata:
     "@dicebear/avatars": ^4.10.2
     "@dicebear/avatars-avataaars-sprites": ^4.10.2
     "@dicebear/avatars-bottts-sprites": ^4.10.2
-    "@react-page/editor": ^4.7.1
-    "@react-page/plugins-slate": 4.7.1
     "@types/cors": ^2.8.12
     "@types/debug": ^4.1.7
     "@types/eslint": ^8.4.1
