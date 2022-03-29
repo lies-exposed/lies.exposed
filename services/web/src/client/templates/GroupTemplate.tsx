@@ -1,5 +1,5 @@
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { Loader } from "@liexp/ui/components/Common/Loader";
+import { LazyFullSizeLoader } from '@liexp/ui/components/Common/FullSizeLoader';
 import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import SEO from "@liexp/ui/components/SEO";
@@ -10,10 +10,14 @@ import { WithQueries } from "avenger/lib/react";
 import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";
+import { useRouteQuery } from "../utils/history.utils";
 import { GroupView, useNavigateToResource } from "../utils/location.utils";
 
-const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
+const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId }) => {
   const navigateTo = useNavigateToResource();
+  const { tab: _tab = "0" } = useRouteQuery();
+  const tab = parseInt(_tab, 10);
+
   return (
     <WithQueries
       queries={{
@@ -44,11 +48,11 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
           },
         },
       }}
-      render={QR.fold(Loader, ErrorBox, ({ group, groupsMembers, events }) => {
+      render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ group, groupsMembers, events }) => {
         return (
           <Box>
             <MainContent>
-              <SEO title={group.name} />
+              <SEO title={group.name} image={group.avatar} />
               <GroupPageContent
                 {...group}
                 groupsMembers={groupsMembers.data}
@@ -60,21 +64,29 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId, tab }) => {
                     id: a.id,
                   });
                 }}
+                onGroupClick={(g) => {
+                  navigateTo.groups({
+                    id: g.id,
+                  });
+                }}
+                ownedGroups={[]}
+              />
+              <EventsPanel
+                hash={`group-${groupId}`}
+                query={{
+                  groups: [group.id],
+                  groupsMembers: group.members,
+                  keywords: [],
+                  actors: [],
+                  tab: tab,
+                  startDate: subYears(new Date(), 1).toDateString(),
+                  endDate: new Date().toDateString(),
+                }}
+                onQueryChange={({ tab }) => {
+                  navigateTo.groups({ id: group.id }, { tab });
+                }}
               />
             </MainContent>
-            <EventsPanel
-              hash={`group-${groupId}`}
-              query={{
-                groups: [group.id],
-                groupsMembers: group.members,
-                keywords: [],
-                actors: [],
-                tab: tab ?? 0,
-                startDate: subYears(new Date(), 1).toDateString(),
-                endDate: new Date().toDateString(),
-              }}
-              onQueryChange={() => undefined}
-            />
           </Box>
         );
       })}

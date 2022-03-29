@@ -21,10 +21,10 @@ export const stringifyQuery = (search: {
   [key: string]: string | string[];
 }): string => qs.stringify(search, { arrayFormat: "comma" });
 
-export function useRouteQuery(): qs.ParsedQuery<string> {
+export function useRouteQuery<Q = any>(): qs.ParsedQuery<Q> {
   const { search } = useLocation();
 
-  return React.useMemo(() => parseQuery(search), [search]);
+  return React.useMemo(() => parseQuery(search) as any as qs.ParsedQuery< Q>, [search]);
 }
 
 export const queryToHash = (q: any): string => {

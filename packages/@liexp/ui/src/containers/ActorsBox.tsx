@@ -9,8 +9,9 @@ import { Queries } from "../providers/DataProvider";
 
 const ActorsBox: React.FC<{
   params: any;
+  style?: React.CSSProperties
   onItemClick: (item: Actor) => void;
-}> = ({ params, onItemClick }) => {
+}> = ({ params, onItemClick, style }) => {
   return (
     <WithQueries
       queries={{ actors: Queries.Actor.getList }}
@@ -24,6 +25,7 @@ const ActorsBox: React.FC<{
           // eslint-disable-next-line react/jsx-key
           return (
             <ActorList
+              style={style}
               actors={actors.map((a) => ({ ...a, selected: true }))}
               onActorClick={onItemClick}
             />

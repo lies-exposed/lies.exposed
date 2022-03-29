@@ -1,12 +1,12 @@
 import { formatDate } from "@liexp/shared/utils/date";
-import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
-import { Queries } from "@liexp/ui/providers/DataProvider";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import { ErrorBox } from "../components/Common/ErrorBox";
+import { LazyFullSizeLoader } from "../components/Common/FullSizeLoader";
+import { Queries } from "../providers/DataProvider";
 
 export class DeathBox extends React.PureComponent<{
   id: string;
