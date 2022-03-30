@@ -4,6 +4,7 @@ import {
   Group,
   GroupMember,
   Keyword,
+  Media,
 } from "@liexp/shared/io/http";
 import { Link } from "@liexp/shared/io/http/Link";
 import { formatDateToShort } from "@liexp/shared/utils/date";
@@ -21,6 +22,7 @@ import { MediaSlider } from "./sliders/MediaSlider";
 
 export interface EventPageContentProps {
   event: Events.Uncategorized.Uncategorized;
+  media: Media.Media[];
   onActorClick: (a: Actor.Actor) => void;
   onGroupClick: (a: Group.Group) => void;
   onGroupMemberClick: (g: GroupMember.GroupMember) => void;
@@ -30,6 +32,7 @@ export interface EventPageContentProps {
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   event,
+  media,
   onActorClick,
   onGroupClick,
   onGroupMemberClick,
@@ -37,12 +40,17 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   onLinkClick,
 }) => {
   const theme = useTheme();
+  const seoImage =
+    media[0]?.thumbnail ??
+    media[0]?.location ??
+    `${process.env.PUBLIC_URL}/liexp-logo.png`;
+
   return (
     <MainContent>
       <SEO
         title={event.payload.title}
         description={getTextContentsCapped(event.excerpt as any, 230)}
-        image={`${process.env.PUBLIC_URL}/liexp-logo.png`}
+        image={seoImage}
       />
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -107,9 +115,9 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           <Grid container>
             <Grid item md={2} />
             <Grid item md={10} style={{ marginBottom: theme.spacing(5) }}>
-              {event.media.length > 0 ? (
+              {media.length > 0 ? (
                 <MediaSlider
-                  ids={event.media}
+                  data={media}
                   onClick={() => {}}
                   itemStyle={{
                     height: 400,

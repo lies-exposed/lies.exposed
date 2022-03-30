@@ -1,8 +1,6 @@
 import { http } from "@liexp/shared/io";
-import { APIError } from "@liexp/shared/providers/api.provider";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { command } from "avenger";
-import * as TE from "fp-ts/lib/TaskEither";
 import { api } from "../api";
 
 export const createEventFromLink = command(
@@ -30,4 +28,13 @@ export const createEventSuggestion = command(
     api.Event.Custom.CreateSuggestion({
       Body: params,
     })
+);
+
+export const getURLMetadata = command((params: { url: string }) =>
+  api.OpenGraph.Custom.GetMetadata({
+    Query: {
+      url: params.url as any,
+      type: 'Link'
+    },
+  })
 );

@@ -5,8 +5,7 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  PrimaryGeneratedColumn, UpdateDateColumn
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
 

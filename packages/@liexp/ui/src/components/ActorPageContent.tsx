@@ -3,6 +3,7 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import { DeathBox } from "../containers/DeathBox";
 import { Avatar } from "./Common/Avatar";
 import EditButton from "./Common/Button/EditButton";
 import Editor from "./Common/Editor";
@@ -36,6 +37,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           <div style={{ textAlign: "right", padding: 10 }}>
             <EditButton resourceName="actors" resource={actor} />
           </div>
+          {actor.death ? <DeathBox id={actor.death} /> : null}
           {actor.excerpt ? (
             <Editor value={actor.excerpt as any} readOnly />
           ) : null}

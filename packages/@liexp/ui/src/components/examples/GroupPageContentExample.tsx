@@ -15,6 +15,9 @@ export const groupPageContentArgs: GroupPageContentProps = {
   funds: [],
   groupsMembers: [],
   onMemberClick: () => {},
+  ownedGroups: [],
+  onGroupClick: () => undefined
+  
 };
 
 export const GroupPageContentExample: React.FC<GroupPageContentProps> = (

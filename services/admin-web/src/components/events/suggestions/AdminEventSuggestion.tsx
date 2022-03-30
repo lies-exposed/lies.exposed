@@ -84,6 +84,7 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => (
               {[
                 io.http.Events.Uncategorized.UNCATEGORIZED.value,
                 io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+                io.http.Events.Patent.PATENT.value
               ].includes(r.payload.event.type) ? (
                 <Typography>{r.payload.event.payload.title}</Typography>
               ) : (
@@ -226,7 +227,9 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
                         body: undefined,
                         keywords: [],
                         links: [],
+                        media: []
                       }}
+                      media={[]}
                       onActorClick={() => undefined}
                       onGroupClick={() => undefined}
                       onKeywordClick={() => undefined}

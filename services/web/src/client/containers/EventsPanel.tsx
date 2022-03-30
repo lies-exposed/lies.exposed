@@ -224,7 +224,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         item
         sm={12}
         md={12}
-        lg={10}
+        lg={12}
         style={{
           display: "flex",
           justifyContent: "flex-end",
@@ -295,7 +295,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             height: "100%",
           }}
         >
-          <Grid item lg={10} xs={12} style={{ height: "100%" }}>
+          <Grid item lg={12} xs={12} style={{ height: "100%" }}>
             {tab === 0 ? (
               <EventsTimeline
                 hash={hash}

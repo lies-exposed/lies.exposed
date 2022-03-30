@@ -1,10 +1,10 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
-import { Media } from "../io/http";
 import { URL } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
-import { MediaType } from "../io/http/Media";
+import { Link } from "../io/http/Link";
+import * as Media from "../io/http/Media";
 import { ResourceEndpoints } from "./types";
 
 const SingleMediaOutput = Output(Media.Media, "Media");
@@ -19,7 +19,12 @@ export const GetMetadata = Endpoint({
       type: t.union([t.literal("ScientificStudy"), t.literal("Link")]),
     }),
   },
-  Output: ListMediaOutput,
+  Output: t.strict({
+    data: t.strict({
+      metadata: t.any,
+      link: t.union([Link, t.undefined]),
+    }),
+  }),
 });
 
 export const List = Endpoint({
@@ -28,7 +33,7 @@ export const List = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
   },
-  Output: t.unknown,
+  Output: ListMediaOutput,
 });
 
 export const Get = Endpoint({
@@ -47,7 +52,7 @@ export const Create = Endpoint({
     Query: undefined,
     Body: t.strict(
       {
-        type: MediaType,
+        type: Media.MediaType,
         location: t.string,
         description: t.string,
         // events: t.array(t.string),

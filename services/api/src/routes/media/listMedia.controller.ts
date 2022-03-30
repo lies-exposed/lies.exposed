@@ -29,7 +29,8 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
       });
 
       const findTask = pipe(
-        ctx.db.manager.createQueryBuilder(MediaEntity, "media"),
+        ctx.db.manager
+          .createQueryBuilder(MediaEntity, "media"),
         (q) => {
           if (O.isSome(description)) {
             return q.where("lower(media.description) LIKE :description", {
@@ -42,9 +43,10 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             });
           }
           if (O.isSome(events)) {
-            return q.where("events.id IN (:...events)", {
-              events: events.value,
-            });
+            // return q.where("media.events IN (:...events)", {
+            //   events: events.value,
+            // });
+            return q;
           }
 
           if (O.isSome(type)) {

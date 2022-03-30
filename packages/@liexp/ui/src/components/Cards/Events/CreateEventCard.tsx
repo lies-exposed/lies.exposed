@@ -2,14 +2,18 @@ import { Events } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
 import {
   Box,
-  Card, CardActions,
+  Card,
+  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
   CardProps
 } from "@material-ui/core";
 import * as React from "react";
-import Editor from "../../Common/Editor";
+import {
+  getTextContentsCapped,
+  isValidValue
+} from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
 import KeywordList from "../../lists/KeywordList";
 
@@ -40,9 +44,9 @@ const CreateEventCard: React.FC<EventCardProps> = ({
           subheader={formatDate(event.date)}
         />
         <CardContent>
-          {event.excerpt ? (
-            <Editor value={event.excerpt as any} readOnly />
-          ) : null}
+          {isValidValue(event.excerpt)
+            ? getTextContentsCapped(event.excerpt as any, 200)
+            : null}
         </CardContent>
         <CardActions disableSpacing>
           <KeywordList

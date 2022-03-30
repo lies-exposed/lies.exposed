@@ -1,6 +1,6 @@
 // import chroma from "chroma-js";
 // import { sankeyCircular } from "d3-sankey-circular";
-import { alpha } from "@material-ui/core";
+import { alpha, Box, Typography } from "@material-ui/core";
 import {
   sankey,
   sankeyLeft,
@@ -134,6 +134,19 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
   height,
   ...props
 }) => {
+  if (props.graph.nodes.length === 0) {
+    return (
+      <Box
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography>No data to display</Typography>
+      </Box>
+    );
+  }
   const graph = React.useMemo((): {
     nodes: any[];
     links: any[];
