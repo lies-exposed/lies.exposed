@@ -17,6 +17,7 @@ import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { UserEntity } from "@entities/User.entity";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
+import { MediaV1Entity } from '@entities/archive/Media.v1.entity';
 import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
 import { ENV } from "@io/ENV";
 import { DatabaseConnectionOpts } from "@providers/orm";
@@ -57,6 +58,7 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       EventEntity,
       DeathEventEntity,
       ScientificStudyEntity,
+      MediaV1Entity
     ],
     synchronize: env.NODE_ENV === "test",
     ssl: ssl,

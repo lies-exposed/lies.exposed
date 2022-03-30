@@ -118,6 +118,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
+      padding: theme.spacing(2),
       [theme.breakpoints.down("sm")]: {
         paddingLeft: 0,
       },

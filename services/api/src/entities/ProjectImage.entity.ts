@@ -24,7 +24,6 @@ export class ProjectImageEntity {
   kind: http.ProjectImage.Kind;
 
   @ManyToOne(() => MediaEntity, (a) => a.id, {
-    eager: true,
     cascade: true,
     nullable: false,
   })

@@ -7,10 +7,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
-import { EventV2Entity } from "./Event.v2.entity";
+import { EventEntity } from "./Event.entity";
 
 @Entity("image")
-export class MediaEntity {
+export class MediaV1Entity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -30,8 +30,8 @@ export class MediaEntity {
   })
   type: MediaType;
 
-  @ManyToMany(() => EventV2Entity, (e) => e.media, { cascade: false })
-  events: EventV2Entity[];
+  @ManyToMany(() => EventEntity, (e) => e.media, { cascade: false })
+  events: EventEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

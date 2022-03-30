@@ -94,7 +94,7 @@ export class EventV21639419928672 implements MigrationInterface {
               groups: e.groups as any,
               groupsMembers: e.groupsMembers as any,
             },
-            media: e.media,
+            media: e.media as any[],
             keywords: e.keywords,
             date: e.startDate,
             links: e.links,

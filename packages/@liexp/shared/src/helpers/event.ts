@@ -13,7 +13,7 @@ import {
   GroupMember,
   Keyword,
   Media,
-  Project
+  Project,
 } from "../io/http";
 import { SearchEvent } from "../io/http/Events/SearchEvent";
 import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
@@ -306,7 +306,7 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
           ...e.payload.subjects.groups,
         ].filter((a) => a !== undefined),
         groupsMembers: [],
-        media: [...commonIds.media, e.payload.media],
+        media: [e.payload.media, ...commonIds.media],
       };
     }
 
@@ -414,4 +414,3 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
     }
   }
 };
-
