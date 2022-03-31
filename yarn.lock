@@ -1233,7 +1233,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
-    "@react-page/react-admin": ^4.7.1
+    "@react-page/react-admin": ^4.8.2
     "@types/bs58": ^4.0.1
     "@types/jest": ^27.4.1
     "@types/prettier": ^2.4.4
@@ -1277,14 +1277,14 @@ __metadata:
     "@material-ui/lab": ^4.0.0-alpha.60
     "@material-ui/styles": ^4.11.4
     "@reach/router": ^1.3.4
-    "@react-page/editor": 4.7.1
-    "@react-page/plugins-background": 4.7.1
-    "@react-page/plugins-divider": 4.7.1
-    "@react-page/plugins-html5-video": 4.7.1
-    "@react-page/plugins-image": 4.7.1
-    "@react-page/plugins-slate": 4.7.1
-    "@react-page/plugins-spacer": 4.7.1
-    "@react-page/plugins-video": 4.7.1
+    "@react-page/editor": ^4.8.2
+    "@react-page/plugins-background": ^4.8.2
+    "@react-page/plugins-divider": ^4.8.2
+    "@react-page/plugins-html5-video": ^4.8.2
+    "@react-page/plugins-image": ^4.8.2
+    "@react-page/plugins-slate": ^4.8.2
+    "@react-page/plugins-spacer": ^4.8.2
+    "@react-page/plugins-video": ^4.8.2
     "@types/chroma-js": ^2.1.3
     "@types/d3": ^5.16.4
     "@types/d3-sankey": ^0.11.2
@@ -1894,30 +1894,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-dnd/asap@npm:^4.0.0":
+"@react-dnd/asap@npm:4.0.0":
   version: 4.0.0
   resolution: "@react-dnd/asap@npm:4.0.0"
   checksum: 4c37ef5c4efd5bb37ba938276074e6896f102b459ed462e2e7560bdb5e75500f2beeafd7e089e1ffea4a9fb337f15be7992952a78a9b56d80f372aadadc31eca
   languageName: node
   linkType: hard
 
-"@react-dnd/invariant@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@react-dnd/invariant@npm:2.0.0"
-  checksum: ef1e989920d70b15c80dccb01af9b598081d76993311aa22d2e9a3ec41d10a88540eeec4b4de7a8b2a2ea52dfc3495ab45e39192c2d27795a9258bd6b79d000e
+"@react-dnd/invariant@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@react-dnd/invariant@npm:3.0.0"
+  checksum: 1e8f08ef1e50b75db2e494060d2ae7444554f22036789212ce995296f1f187ee9c2ace5eaa95881b3029ba907eccf2deeacc0334d2870067d444ed683d0a9684
   languageName: node
   linkType: hard
 
-"@react-dnd/shallowequal@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@react-dnd/shallowequal@npm:2.0.0"
-  checksum: b5bbdc795d65945bb7ba2322bed5cf8d4c6fe91dced98c3b10e3d16822c438f558751135ff296f8d1aa1eaa9d0037dacab2b522ca5eb812175123b9996966dcb
+"@react-dnd/shallowequal@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@react-dnd/shallowequal@npm:3.0.0"
+  checksum: 18bcfc74102d33c69fba88308ae2b82bd707d809b0528a34e590fa308b95df24411896392f1976ef203bbafd946eed91ed1073116728a73d9c9cdb231b16703c
   languageName: node
   linkType: hard
 
-"@react-page/editor@npm:4.7.1, @react-page/editor@npm:^4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/editor@npm:4.7.1"
+"@react-page/editor@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/editor@npm:4.8.2"
   dependencies:
     "@loadable/component": ^5.15.0
     "@welldone-software/why-did-you-render": ^6.0.5
@@ -1930,8 +1930,8 @@ __metadata:
     lodash.flatten: ^4.4.0
     lodash.throttle: ^4.1.1
     react-color: ^2.19.3
-    react-dnd: ^14.0.2
-    react-dnd-html5-backend: ^14.0.0
+    react-dnd: ^15.1.1
+    react-dnd-html5-backend: ^15.1.2
     react-draggable: 4.4.3
     react-portal: ^4.2.1
     react-redux: ^7.2.3
@@ -1945,75 +1945,75 @@ __metadata:
   peerDependencies:
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: b078d0c1962b4d648cda99c440a614a481e47118cae2506deedd14fe5c7fbc72facf87016b850da8dfb5fc9b899bda22d6c3fee4620bb9be2999bcd568239352
+  checksum: c1034b94c1413bdb75e8b2ba5e6a169cfd18ab8a03d737008de056acd55fdb495797c905109e35feeea1361e01230eb3f56b7b1b0e09ac29dc485388ce134ba3
   languageName: node
   linkType: hard
 
-"@react-page/plugins-background@npm:4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/plugins-background@npm:4.7.1"
+"@react-page/plugins-background@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/plugins-background@npm:4.8.2"
   dependencies:
-    "@react-page/editor": ^4.7.1
+    "@react-page/editor": ^4.8.2
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: c8bf1c62f57914744443a0d134dd2127c7139eaf71f609225c575f082c1a9734bee00f0802f9dd474f57c84233b5fdb7678f5c2d59886d8f740969edc16ac41d
+  checksum: f6d78de22cdc3f77b5bcd52f4706990a0bd3bd38033d6b233ba40ead874f8d38f42bb6cb602bcaa141e92c74e0c4a854c590ddf4d7ca331059848137f2f79eed
   languageName: node
   linkType: hard
 
-"@react-page/plugins-divider@npm:4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/plugins-divider@npm:4.7.1"
+"@react-page/plugins-divider@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/plugins-divider@npm:4.8.2"
   dependencies:
     "@material-ui/icons": ^4.2.1
-    "@react-page/editor": ^4.7.1
+    "@react-page/editor": ^4.8.2
   peerDependencies:
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 9e95b3283a0bd843715063760c1649e2775aaafcd34d214a58434b1a0552a3920d17cf574e817ac961452de61c4ab13be35914ef1bca12b412010b65d36c7426
+  checksum: b47c39ac85690bb526d2c3e6288f3136a2a6b54f51bbcd8a81d0a45a3a2934e5129e810e62fb9e38dee547aab9d85ee8ca73ac9d58ee1dc19657d50cbdcc24cb
   languageName: node
   linkType: hard
 
-"@react-page/plugins-html5-video@npm:4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/plugins-html5-video@npm:4.7.1"
+"@react-page/plugins-html5-video@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/plugins-html5-video@npm:4.8.2"
   dependencies:
-    "@react-page/editor": ^4.7.1
+    "@react-page/editor": ^4.8.2
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: ab86ef3419146e672415beab5bdb5610f25c2e2fd56af4d991f05c34204d57b6b9c047a1df803b26f6b6025c7f90b8f65f0f1a059a1b4078efac383e5bda6042
+  checksum: 4e035f0ffce12b406340bd015b13f2b7d697a83b164fb4af01d074862f4ef0c63e9dbb130f9ea857324fcf393de57312a3c701e5f9d86ee94979501cc9882cb8
   languageName: node
   linkType: hard
 
-"@react-page/plugins-image@npm:4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/plugins-image@npm:4.7.1"
+"@react-page/plugins-image@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/plugins-image@npm:4.8.2"
   dependencies:
-    "@react-page/editor": ^4.7.1
+    "@react-page/editor": ^4.8.2
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: d8bae4f55c44dd0c45f1014966949e48b6e7c1c30859d0a94df5e5a4044b09e70dc00461e43f7bc5aba84217305a25ae488725f3528dd7abc12afabe145d6fec
+  checksum: 4fa5669988697df5e64f47d6f9c05a0145d4ee1424b164a355c7ec97a73a094c72802da049c690e6d587150c6f5a12aa348cb2eda9c4bfd348d8f50ca90f1e0a
   languageName: node
   linkType: hard
 
-"@react-page/plugins-slate@npm:4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/plugins-slate@npm:4.7.1"
+"@react-page/plugins-slate@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/plugins-slate@npm:4.8.2"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.8
-    "@react-page/editor": ^4.7.1
-    "@react-page/slate-react-presentation": ^0.1.1
+    "@react-page/editor": ^4.8.2
+    "@xmldom/xmldom": ^0.8.1
     cssstyle: ^2.3.0
     deep-rename-keys: ^0.2.1
     is-hotkey: ^0.1.6
@@ -2028,22 +2028,22 @@ __metadata:
     slate: ^0.66.5
     slate-hyperscript: ^0.66.0
     slate-react: ^0.65.3
-    xmldom: ^0.5.0
+    slate-react-presentation: ^0.1.1
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
     "@types/react": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 944de1bdf4924c0e12ac277ff7cdfa6cb47b1e3e7f67f9828b0d12ce675119f35519d1b3e28fe435e91a95c1d379eff1222f854ca77b3593b4ffef534ab1d2bb
+  checksum: f1cbd7c64aa29729954ae77d5db77a75a7eac147e4d4e86fd3bc585995007944223c44787cb19511c7c076c9225a8058dcc368c4a26f4f20ef608e15e552cec2
   languageName: node
   linkType: hard
 
-"@react-page/plugins-spacer@npm:4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/plugins-spacer@npm:4.7.1"
+"@react-page/plugins-spacer@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/plugins-spacer@npm:4.8.2"
   dependencies:
-    "@react-page/editor": ^4.7.1
+    "@react-page/editor": ^4.8.2
     classnames: 2.2.6
     react-resizable: ^1.11.0
   peerDependencies:
@@ -2052,15 +2052,15 @@ __metadata:
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 81182fe7c91828726ba876c34e84e789adc6bb2ee0e05fb7ce137f61c3245adf71160d8171802c5c6d9e310c98b0d7bc1b16cd8c148f3e6de67437e163238480
+  checksum: 4873df881246e99c1445bb7cf3978ab91219010ff6197060050578d74b8f0ffb081682011d3c8d1b451053087a6a09671cb528ddf2535b72919361c3a167710c
   languageName: node
   linkType: hard
 
-"@react-page/plugins-video@npm:4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/plugins-video@npm:4.7.1"
+"@react-page/plugins-video@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/plugins-video@npm:4.8.2"
   dependencies:
-    "@react-page/editor": ^4.7.1
+    "@react-page/editor": ^4.8.2
     react-player: ^1.13.0
   peerDependencies:
     "@material-ui/core": "*"
@@ -2068,15 +2068,15 @@ __metadata:
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: ce2a03213f73b13cf0ff27eab2b5cdf53d51b9d9014e609ac7a9bad906fe745e94449f753658ad1a87e15d577533d6478788a59fd47cd7d809abf9979fa4612e
+  checksum: 571927446d122f9accea817c12f834958b3bc59bbefbbe3b944433387ab603d515cea9e2cb6a933af78fe93b0c5e3f9198ebff78ac1872ba134ceb912f1864c9
   languageName: node
   linkType: hard
 
-"@react-page/react-admin@npm:^4.7.1":
-  version: 4.7.1
-  resolution: "@react-page/react-admin@npm:4.7.1"
+"@react-page/react-admin@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "@react-page/react-admin@npm:4.8.2"
   dependencies:
-    "@react-page/editor": ^4.7.1
+    "@react-page/editor": ^4.8.2
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
@@ -2085,16 +2085,7 @@ __metadata:
     react-dom: ">= 16.14"
     react-final-form: "*"
     uniforms: "*"
-  checksum: cda4fa9bdc6b631d45fc7560da8d939356108e627bacc473c46689e8c0706f570a688a24fff213e87eed8c562faa9b951adda27d3bd3523d78d3528ca161f756
-  languageName: node
-  linkType: hard
-
-"@react-page/slate-react-presentation@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@react-page/slate-react-presentation@npm:0.1.1"
-  peerDependencies:
-    react: ^16.12.0
-  checksum: 62023a0afd6b56043aa8d184c78fee3f69022b90deff4faa7ccbc07fde224766fcf6b22787c194654e8b94427a653c5a8980586d7770c877e815d2db5f751479
+  checksum: 58fa1516adb5fb938caee065b8095cc91faeb5fdcf5e81aa9acfac0012602afe3897353e5587bfde75e45e146c5f916cd6d57ea44a94b2744c02a4bec1f19745
   languageName: node
   linkType: hard
 
@@ -3163,10 +3154,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.180":
-  version: 4.14.180
-  resolution: "@types/lodash@npm:4.14.180"
-  checksum: fc42ae3473695cac6e91553f832fef8eb51a31c1c0381cafa81b00dc3efe18e279786bdda77caf0b90a8340ba2ba7aa46ae6541d69870565f775d04c89128bc1
+"@types/lodash@npm:^4.14.181":
+  version: 4.14.181
+  resolution: "@types/lodash@npm:4.14.181"
+  checksum: 0d1863d8383fd2f8bb42e9e3fc1d6255bb88ff034d6df848941063698944313dae944fc1270315613e3d303fae7c7a9a86085ad3235ed6204c56c4b0b3699aa9
   languageName: node
   linkType: hard
 
@@ -4478,6 +4469,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmldom/xmldom@npm:^0.8.1":
+  version: 0.8.1
+  resolution: "@xmldom/xmldom@npm:0.8.1"
+  checksum: 29020b12d1fdc003b89383bf639862d12aedffefd322b1451c3d24b61f2d8234b99f82a1bbff8f40a15371f34547ee9fe96f6c366f91b433ff61890719ef1a2b
+  languageName: node
+  linkType: hard
+
 "@xobotyi/scrollbar-width@npm:^1.9.5":
   version: 1.9.5
   resolution: "@xobotyi/scrollbar-width@npm:1.9.5"
@@ -4619,7 +4617,7 @@ __metadata:
     "@testing-library/user-event": ^13.5.0
     "@types/debug": ^4.1.7
     "@types/jest": ^27.4.1
-    "@types/lodash": ^4.14.180
+    "@types/lodash": ^4.14.181
     "@types/node": ^16.11.26
     "@types/prettier": ^2.4.4
     "@types/react": ^16.14.24
@@ -7733,14 +7731,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dnd-core@npm:14.0.1":
-  version: 14.0.1
-  resolution: "dnd-core@npm:14.0.1"
+"dnd-core@npm:15.1.1":
+  version: 15.1.1
+  resolution: "dnd-core@npm:15.1.1"
   dependencies:
-    "@react-dnd/asap": ^4.0.0
-    "@react-dnd/invariant": ^2.0.0
+    "@react-dnd/asap": 4.0.0
+    "@react-dnd/invariant": 3.0.0
     redux: ^4.1.1
-  checksum: dbc50727f53baad1cb1e0430a2a1b81c5c291389322f90fdc46edeb2fd49cc206ce4fa30a95afb53d88238945228e34866d7465f7ea49285c296baf883551301
+  checksum: 11cc8dcbab62211ca54c0e42a625b52dcc1970294bd4fc65a8409bf588b0cf13a82bb592e87866b6aae93a310564322c03ea18659d144a75705eaae1023d2d0e
   languageName: node
   linkType: hard
 
@@ -15231,22 +15229,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dnd-html5-backend@npm:^14.0.0":
-  version: 14.0.2
-  resolution: "react-dnd-html5-backend@npm:14.0.2"
+"react-dnd-html5-backend@npm:^15.1.2":
+  version: 15.1.2
+  resolution: "react-dnd-html5-backend@npm:15.1.2"
   dependencies:
-    dnd-core: 14.0.1
-  checksum: c11dca3dcb9218d696d3d8b9a334e9b96952c399ceda159a164a61f44303be0603284e133729ff9a77901023500e92e5539f9b626100907c868ad858ea7c2d23
+    dnd-core: 15.1.1
+  checksum: e6b0a8faad47ec4a7e0ef1da2a45a5f764b629fd216233e3791ef74b25bec27031e6dd4b6fabe9717925182c7b6ad242d6bf79eed5f39d72bb71dec076442017
   languageName: node
   linkType: hard
 
-"react-dnd@npm:^14.0.2":
-  version: 14.0.4
-  resolution: "react-dnd@npm:14.0.4"
+"react-dnd@npm:^15.1.1":
+  version: 15.1.1
+  resolution: "react-dnd@npm:15.1.1"
   dependencies:
-    "@react-dnd/invariant": ^2.0.0
-    "@react-dnd/shallowequal": ^2.0.0
-    dnd-core: 14.0.1
+    "@react-dnd/invariant": 3.0.0
+    "@react-dnd/shallowequal": 3.0.0
+    dnd-core: 15.1.1
     fast-deep-equal: ^3.1.3
     hoist-non-react-statics: ^3.3.2
   peerDependencies:
@@ -15261,7 +15259,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: bcd6d87694b32ba49408c01a648790bf213a94a40a1f3e5c96d754753e1cb30dc7c276aab851c1b42f432bad8155cb8c3cc7053641f8e175fb042bf1e2027c93
+  checksum: 4b3f94bdbd61b5c002fee2175df1aae56890e908271f5b03bc85d984203836f9918579ec7de1f022780b6a691ec85e20a462ede687a962241ef4ad7ae247ac99
   languageName: node
   linkType: hard
 
@@ -15388,17 +15386,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:17.0.2, react-is@npm:^16.8.0 || ^17.0.0, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
-  version: 17.0.2
-  resolution: "react-is@npm:17.0.2"
-  checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
-  languageName: node
-  linkType: hard
-
 "react-is@npm:^16.12.0, react-is@npm:^16.13.1, react-is@npm:^16.5.2, react-is@npm:^16.6.0, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
+  languageName: node
+  linkType: hard
+
+"react-is@npm:^16.8.0 || ^17.0.0, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "react-is@npm:17.0.2"
+  checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
   languageName: node
   linkType: hard
 
@@ -16664,6 +16662,15 @@ __metadata:
   peerDependencies:
     slate: ">=0.65.3"
   checksum: ea49beab25cacf3703f7b5ded64f361d47a00a4e6678739b4387e80a560d9764749fc46d876dc4e5467bd4acc99fc472b0e739288134a3325b01f367d66a9543
+  languageName: node
+  linkType: hard
+
+"slate-react-presentation@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "slate-react-presentation@npm:0.1.1"
+  peerDependencies:
+    react: ^16.12.0
+  checksum: 8e51c5352f915d8d09fd78ec2893563d18ef2975983f6b9f404f9074337c8c9cffb1f098905a52ba717a45349de8660a34614b93a2e1a9a326f18771dff98f75
   languageName: node
   linkType: hard
 
@@ -18961,7 +18968,6 @@ __metadata:
     react-error-boundary: ^3.1.4
     react-graph-vis: ^1.0.7
     react-helmet: ^6.1.0
-    react-is: 17.0.2
     react-router-dom: ^5.3.0
     react-slick: ^0.28.1
     react-spring: ^9.4.4
@@ -19546,13 +19552,6 @@ __metadata:
   version: 2.2.0
   resolution: "xmlchars@npm:2.2.0"
   checksum: 8c70ac94070ccca03f47a81fcce3b271bd1f37a591bf5424e787ae313fcb9c212f5f6786e1fa82076a2c632c0141552babcd85698c437506dfa6ae2d58723062
-  languageName: node
-  linkType: hard
-
-"xmldom@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "xmldom@npm:0.5.0"
-  checksum: 6afbfc9f4de847d1e12a3a95e393750a55f6b074881cd3c6192c99421a8548b0687b7851113d6318ff0121615674d3b064924f1c478da1c840757626bdfe4c18
   languageName: node
   linkType: hard
 

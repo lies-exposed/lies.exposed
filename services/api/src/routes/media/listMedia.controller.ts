@@ -29,24 +29,18 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
       });
 
       const findTask = pipe(
-        ctx.db.manager
-          .createQueryBuilder(MediaEntity, "media"),
+        ctx.db.manager.getRepository(MediaEntity).createQueryBuilder("media"),
         (q) => {
           if (O.isSome(description)) {
             return q.where("lower(media.description) LIKE :description", {
               description: `%${description.value}%`,
             });
           }
+
           if (O.isSome(ids)) {
             return q.where("media.id IN (:...ids)", {
               ids: ids.value,
             });
-          }
-          if (O.isSome(events)) {
-            // return q.where("media.events IN (:...events)", {
-            //   events: events.value,
-            // });
-            return q;
           }
 
           if (O.isSome(type)) {
@@ -54,6 +48,13 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
               types: type.value,
             });
           }
+
+          if (O.isSome(events)) {
+            return q.where("events.id IN (:...eventIds)", {
+              eventIds: events.value,
+            });
+          }
+
           return q;
         },
         (q) => {
@@ -74,6 +75,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
           return q.skip(findOptions.skip).take(findOptions.take);
         },
         (q) => {
+          ctx.logger.debug.log("SQL %s", q.getSql());
           return ctx.db.execQuery(() => q.getManyAndCount());
         }
       );
@@ -83,7 +85,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(([data, total]) =>
           pipe(
             data,
-            A.traverse(E.either)(toImageIO),
+            A.traverse(E.Applicative)(toImageIO),
             TE.fromEither,
             TE.map((results) => ({
               total,

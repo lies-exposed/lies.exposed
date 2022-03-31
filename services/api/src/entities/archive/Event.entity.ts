@@ -7,14 +7,14 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { ActorEntity } from "../Actor.entity";
 import { GroupEntity } from "../Group.entity";
 import { GroupMemberEntity } from "../GroupMember.entity";
 import { KeywordEntity } from "../Keyword.entity";
 import { LinkEntity } from "../Link.entity";
-import { MediaEntity } from "../Media.entity";
+import { MediaV1Entity } from "./Media.v1.entity";
 
 @Entity("event")
 export class EventEntity {
@@ -68,12 +68,12 @@ export class EventEntity {
   @JoinTable()
   links: LinkEntity[];
 
-  @ManyToMany(() => MediaEntity, (a) => a.events, {
+  @ManyToMany(() => MediaV1Entity, (a) => a.events, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
-  media: MediaEntity[];
+  media: MediaV1Entity[];
 
   @ManyToMany(() => KeywordEntity, (a) => a.events, {
     cascade: true,

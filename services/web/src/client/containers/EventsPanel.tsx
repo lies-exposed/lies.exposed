@@ -175,11 +175,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   );
 
   const handleEventClick = React.useCallback((e: SearchEvent.SearchEvent) => {
-    if (e.type === "Death") {
-      navigateTo.actors({ id: e.payload.victim.id });
-    } else if (e.type === "Uncategorized") {
-      navigateTo.events({ id: e.id });
-    }
+    navigateTo.events({ id: e.id });
   }, []);
 
   const onActorsChange = React.useCallback(
