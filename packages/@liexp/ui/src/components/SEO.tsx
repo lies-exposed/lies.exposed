@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as Helmet from "react-helmet";
 
-
-const defaultImage =`${process.env.PUBLIC_URL}/liexp-logo-1200x630.png`
+const defaultImage = `${process.env.PUBLIC_URL}/liexp-logo-1200x630.png`;
 
 interface SEOProps {
   description?: string;
@@ -10,6 +9,7 @@ interface SEOProps {
   meta?: any[];
   title: string;
   image?: string;
+  urlPath: string;
 }
 
 interface QueryResults {
@@ -22,7 +22,14 @@ interface QueryResults {
   };
 }
 
-const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title, image = defaultImage }) => {
+const SEO: React.FC<SEOProps> = ({
+  description,
+  lang,
+  meta = [],
+  title,
+  image = defaultImage,
+  urlPath,
+}) => {
   const { site }: QueryResults = {
     site: {
       siteMetadata: {
@@ -53,6 +60,10 @@ const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title, image = 
           content: metaDescription,
         },
         {
+          property: "og:url",
+          content: `${process.env.PUBLIC_URL}/${urlPath}`,
+        },
+        {
           property: `og:title`,
           content: title,
         },
@@ -65,8 +76,8 @@ const SEO: React.FC<SEOProps> = ({ description, lang, meta = [], title, image = 
           content: `website`,
         },
         {
-          property: 'og:image',
-          content: image
+          property: "og:image",
+          content: image,
         },
         {
           name: `twitter:card`,
@@ -97,4 +108,4 @@ SEO.defaultProps = {
 
 export default SEO;
 
-export const SEOHelmet = Helmet.Helmet as any
+export const SEOHelmet = Helmet.Helmet as any;

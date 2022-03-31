@@ -2,7 +2,7 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import { Events } from "@liexp/shared/io/http";
 import { APIError } from "@liexp/shared/providers/api.provider";
-import { queryStrict, refetch } from "avenger";
+import { available, queryStrict, refetch } from "avenger";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
@@ -14,7 +14,7 @@ import {
   buildFromCache,
   getFromCache,
   infiniteListCache,
-  toKey
+  toKey,
 } from "../utils/state.utils";
 
 export const IL_EVENT_KEY_PREFIX = "events";
@@ -118,17 +118,19 @@ const paginatedCachedQuery =
     );
   };
 
-
 const reduceEvent = (
   acc: InfiniteEventListMetadata,
   e: Events.Event
 ): InfiniteEventListMetadata => {
-
   const { actors, groups, groupsMembers } = getRelationIds(e);
 
   return {
-    actors: acc.actors.filter((a) => !actors.includes(a)).concat(actors as any[]),
-    groups: acc.groups.filter((a) => !groups.includes(a)).concat(groups as any[]),
+    actors: acc.actors
+      .filter((a) => !actors.includes(a))
+      .concat(actors as any[]),
+    groups: acc.groups
+      .filter((a) => !groups.includes(a))
+      .concat(groups as any[]),
     keywords: acc.keywords
       .filter((a) => !e.keywords.includes(a))
       .concat(e.keywords),

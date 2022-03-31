@@ -43,7 +43,11 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({
           return (
             <Box>
               <MainContent>
-                <SEO title={actor.fullName} image={actor.avatar ?? ""} />
+                <SEO
+                  title={actor.fullName}
+                  image={actor.avatar ?? ""}
+                  urlPath={`/actors/${actor.id}`}
+                />
                 <ActorPageContent
                   actor={actor}
                   groups={groups}

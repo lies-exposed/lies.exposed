@@ -28,7 +28,11 @@ export default class AreaTemplate extends React.PureComponent<
             render={QR.fold(Loader, ErrorBox, ({ area }) => {
               return (
                 <MainContent>
-                  <SEO title={area.label} image={""} />
+                  <SEO
+                    title={area.label}
+                    image={""}
+                    urlPath={`/areas/${area.id}`}
+                  />
                   <AreaPageContent
                     {...area}
                     onGroupClick={() => {}}

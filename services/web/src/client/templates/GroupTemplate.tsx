@@ -1,5 +1,5 @@
 import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from '@liexp/ui/components/Common/FullSizeLoader';
+import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import SEO from "@liexp/ui/components/SEO";
@@ -48,48 +48,56 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId }) => {
           },
         },
       }}
-      render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ group, groupsMembers, events }) => {
-        return (
-          <Box>
-            <MainContent>
-              <SEO title={group.name} image={group.avatar} />
-              <GroupPageContent
-                {...group}
-                groupsMembers={groupsMembers.data}
-                events={events.data}
-                funds={[]}
-                projects={[]}
-                onMemberClick={(a) => {
-                  navigateTo.actors({
-                    id: a.id,
-                  });
-                }}
-                onGroupClick={(g) => {
-                  navigateTo.groups({
-                    id: g.id,
-                  });
-                }}
-                ownedGroups={[]}
-              />
-              <EventsPanel
-                hash={`group-${groupId}`}
-                query={{
-                  groups: [group.id],
-                  groupsMembers: group.members,
-                  keywords: [],
-                  actors: [],
-                  tab: tab,
-                  startDate: subYears(new Date(), 1).toDateString(),
-                  endDate: new Date().toDateString(),
-                }}
-                onQueryChange={({ tab }) => {
-                  navigateTo.groups({ id: group.id }, { tab });
-                }}
-              />
-            </MainContent>
-          </Box>
-        );
-      })}
+      render={QR.fold(
+        LazyFullSizeLoader,
+        ErrorBox,
+        ({ group, groupsMembers, events }) => {
+          return (
+            <Box>
+              <MainContent>
+                <SEO
+                  title={group.name}
+                  image={group.avatar}
+                  urlPath={`/groups/${group.id}`}
+                />
+                <GroupPageContent
+                  {...group}
+                  groupsMembers={groupsMembers.data}
+                  events={events.data}
+                  funds={[]}
+                  projects={[]}
+                  onMemberClick={(a) => {
+                    navigateTo.actors({
+                      id: a.id,
+                    });
+                  }}
+                  onGroupClick={(g) => {
+                    navigateTo.groups({
+                      id: g.id,
+                    });
+                  }}
+                  ownedGroups={[]}
+                />
+                <EventsPanel
+                  hash={`group-${groupId}`}
+                  query={{
+                    groups: [group.id],
+                    groupsMembers: group.members,
+                    keywords: [],
+                    actors: [],
+                    tab: tab,
+                    startDate: subYears(new Date(), 1).toDateString(),
+                    endDate: new Date().toDateString(),
+                  }}
+                  onQueryChange={({ tab }) => {
+                    navigateTo.groups({ id: group.id }, { tab });
+                  }}
+                />
+              </MainContent>
+            </Box>
+          );
+        }
+      )}
     />
   );
 };

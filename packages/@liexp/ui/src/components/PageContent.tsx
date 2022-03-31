@@ -31,11 +31,16 @@ export const PageContent = withQueries(({ queries }): React.ReactElement => {
     QR.fold(
       LazyFullSizeLoader,
       ErrorBox,
-      ({ pageContent: { title, body } }) => {
+      ({ pageContent: { title, path, body } }) => {
         return (
           <div className="page-content" style={{ marginBottom: 100 }}>
             <Helmet>
-              <SEO title={title} description={body} image={`${process.env.PUBLIC_URL}liexp-logo.png`} />
+              <SEO
+                title={title}
+                description={body}
+                image={`${process.env.PUBLIC_URL}liexp-logo.png`}
+                urlPath={path}
+              />
             </Helmet>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <MarkdownRenderer>{body}</MarkdownRenderer>
