@@ -1,6 +1,6 @@
 import "@liexp/ui/components/Common/Icons/library";
 import { Footer } from "@liexp/ui/components/Footer";
-import { SEOHelmet } from "@liexp/ui/components/SEO";
+import SEO from "@liexp/ui/components/SEO";
 import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
@@ -26,17 +26,8 @@ export const App: React.FC = () => {
 
   return (
     <div style={{ height: "100%", display: "flex" }}>
-      <SEOHelmet
-        link={[
-          {
-            key: "slick-carousel-css",
-            rel: "stylesheet",
-            type: "text/css",
-            href: "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
-          },
-        ]}
-      />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <SEO title="lies exposed" urlPath={location.pathname} />
         <Grid container style={{ minHeight: "100%", width: "100%" }}>
           <AppHeader />
           {/* <Grid style={{ margin: 20 }}>

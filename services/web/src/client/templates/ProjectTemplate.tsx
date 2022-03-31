@@ -29,6 +29,7 @@ export default class ProjectTemplate extends React.PureComponent<
                 <SEO
                   title={project.name}
                   image={project.media[0]?.thumbnail ?? ""}
+                  urlPath={`projects/${project.id}`}
                 />
                 <ProjectPageContent
                   {...project}

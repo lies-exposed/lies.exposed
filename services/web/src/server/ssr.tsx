@@ -1,6 +1,6 @@
 import * as path from "path";
 import { GetLogger } from "@liexp/core/logger";
-import { SEOHelmet } from "@liexp/ui/components/SEO";
+import { Helmet } from "@liexp/ui/components/SEO";
 import { getServer } from "@liexp/ui/react/ssr";
 import dotenv from "dotenv";
 import express from "express";
@@ -17,7 +17,7 @@ const run = (): void => {
   const app = getServer(
     express(),
     App,
-    SEOHelmet,
+    Helmet,
     path.resolve(__dirname, "../"),
     routes
   );

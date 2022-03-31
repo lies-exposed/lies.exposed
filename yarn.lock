@@ -1343,6 +1343,7 @@ __metadata:
     react-dom: ^16.14.0
     react-error-boundary: ^3.1.4
     react-helmet: ^6.1.0
+    react-helmet-async: ^1.2.3
     react-slick: ^0.28.1
     react-spring: ^9.4.4
     react-toc: ^2.1.1
@@ -10467,7 +10468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"invariant@npm:^2.0.0, invariant@npm:^2.2.3":
+"invariant@npm:^2.0.0, invariant@npm:^2.2.3, invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -15324,7 +15325,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-fast-compare@npm:^3.1.1":
+"react-fast-compare@npm:^3.1.1, react-fast-compare@npm:^3.2.0":
   version: 3.2.0
   resolution: "react-fast-compare@npm:3.2.0"
   checksum: 8ef272c825ae329f61633ce4ce7f15aa5b84e5214d88bc0823880236e03e985a13195befa2c7a4eda7db3b017dc7985729152d88445823f652403cf36c2b86aa
@@ -15369,6 +15370,22 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: f5f6185cff169f541f91a361ea598df13cde429b0ef3c20ee9fe4adc3a0b5d1faf9e692257f2e2a620d606048bb53ce05cd73de8c5988131ac2f4260b70e6d34
+  languageName: node
+  linkType: hard
+
+"react-helmet-async@npm:^1.2.3":
+  version: 1.2.3
+  resolution: "react-helmet-async@npm:1.2.3"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+    invariant: ^2.2.4
+    prop-types: ^15.7.2
+    react-fast-compare: ^3.2.0
+    shallowequal: ^1.1.0
+  peerDependencies:
+    react: ^16.6.0 || ^17.0.0
+    react-dom: ^16.6.0 || ^17.0.0
+  checksum: af7041314f6ebaefa64f3c06f75cf1ad62602b93228798615c2ca3365065688ee2b8c58bde98a9ae0d728aecfda5a757e9fc7695da3af2a504ff7e5291c716c9
   languageName: node
   linkType: hard
 
@@ -16571,6 +16588,13 @@ __metadata:
   dependencies:
     kind-of: ^6.0.2
   checksum: 39b3dd9630a774aba288a680e7d2901f5c0eae7b8387fc5c8ea559918b29b3da144b7bdb990d7ccd9e11be05508ac9e459ce51d01fd65e583282f6ffafcba2e7
+  languageName: node
+  linkType: hard
+
+"shallowequal@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "shallowequal@npm:1.1.0"
+  checksum: f4c1de0837f106d2dbbfd5d0720a5d059d1c66b42b580965c8f06bb1db684be8783538b684092648c981294bf817869f743a066538771dbecb293df78f765e00
   languageName: node
   linkType: hard
 

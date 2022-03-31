@@ -1,4 +1,5 @@
 import path from "path";
+import webpack from "webpack";
 // import nodeExternals from "webpack-node-externals";
 import {
   defineEnv,
@@ -47,7 +48,4 @@ const srvConfig = getConfig({
   target: "node",
 });
 
-export default [
-  webConfig,
-  srvConfig,
-];
+export default [webConfig, srvConfig];

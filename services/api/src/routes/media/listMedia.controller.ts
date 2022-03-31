@@ -72,10 +72,15 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
           return q;
         },
         (q) => {
+          ctx.logger.debug.log(
+            "Skip %d, take %d",
+            findOptions.skip,
+            findOptions.take
+          );
           return q.skip(findOptions.skip).take(findOptions.take);
         },
         (q) => {
-          ctx.logger.debug.log("SQL %s", q.getSql());
+          // ctx.logger.debug.log("SQL %s", q.getSql());
           return ctx.db.execQuery(() => q.getManyAndCount());
         }
       );

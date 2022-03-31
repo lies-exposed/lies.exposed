@@ -12,7 +12,7 @@ import { Box, Grid, Typography, useTheme } from "@material-ui/core";
 import * as QR from "avenger/lib/QueryResult";
 import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { Queries } from "../providers/DataProvider";
+import { mediaDiscreteQuery } from "../state/queries/DiscreteQueries";
 import { ActorsBox } from "./ActorsBox";
 import Editor, { getTextContentsCapped, isValidValue } from "./Common/Editor";
 import { ErrorBox } from "./Common/ErrorBox";
@@ -43,13 +43,13 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   onLinkClick,
 }) => {
   const title = (event.payload as any).title ?? "";
-  const { actors, groups, groupsMembers, media } = getRelationIds(event);
   const theme = useTheme();
+  const { actors, groups, groupsMembers, media } = getRelationIds(event);
 
   return (
     <WithQueries
       queries={{
-        media: Queries.Media.getList,
+        media: mediaDiscreteQuery,
       }}
       params={{
         media: {
@@ -75,6 +75,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 title={title}
                 description={getTextContentsCapped(event.excerpt as any, 230)}
                 image={seoImage}
+                urlPath={`events/${event.id}`}
               />
               <Grid container spacing={2}>
                 <Grid item xs={12}>

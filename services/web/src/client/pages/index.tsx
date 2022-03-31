@@ -11,7 +11,7 @@ export default class IndexPage extends React.PureComponent<any> {
       <Grid container style={{ width: "100%" }}>
         <Grid item lg={1} />
         <Grid item lg={10} md={12} xs={12}>
-          <SEO title="lies.exposed" />
+          <SEO title="lies.exposed" urlPath="/" />
           <PageContent queries={{ pageContent: { path: "index" } }} />
           <KeywordsDistributionGraph />
         </Grid>

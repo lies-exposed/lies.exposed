@@ -1,4 +1,5 @@
 import { dom } from "@fortawesome/fontawesome-svg-core";
+import { HelmetProvider } from "@liexp/ui/components/SEO";
 import { ECOTheme } from "@liexp/ui/theme";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import debug from "debug";
@@ -6,7 +7,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
-
 // all css
 import "./scss/main.css";
 
@@ -25,10 +25,12 @@ function Main(): JSX.Element {
   }, []);
 
   return (
-    <ThemeProvider theme={ECOTheme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider theme={ECOTheme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 

@@ -37,6 +37,7 @@ const KeywordTemplate: React.FunctionComponent<{ keywordId: string }> = ({
         <Box display="flex" flexDirection="column" height="100%">
           <SEO
             title={"keywords"}
+            urlPath={`keywords/${keyword.tag}`}
           />
           <KeywordPageContent {...keyword} />
           <EventsTimeline

@@ -5,7 +5,6 @@ import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import SEO from "@liexp/ui/components/SEO";
 import { Queries } from "@liexp/ui/providers/DataProvider";
-import { navigateTo } from "@liexp/ui/utils/links.utils";
 import {
   Button,
   Card,
@@ -13,7 +12,7 @@ import {
   CardActions,
   CardHeader,
   CardMedia,
-  Grid,
+  Grid
 } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
 import * as QR from "avenger/lib/QueryResult";
@@ -26,7 +25,6 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
 
     return (
       <>
-        <SEO title="Blog" image="" />
         <MainContent>
           <PageContent
             queries={{
@@ -50,6 +48,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
               ({ articles: { data: articles } }) => {
                 return (
                   <div>
+                    <SEO title="Blog" image="" urlPath={`blog`} />
                     <Grid container spacing={2} style={{ marginBottom: 100 }}>
                       {articles.map((a) => (
                         <Grid item key={a.id} xs={6}>
