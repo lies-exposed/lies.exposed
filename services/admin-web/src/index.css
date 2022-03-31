@@ -7,6 +7,6 @@
 @import "~@react-page/plugins-slate/lib/index.css";
 @import "~@react-page/plugins-spacer/lib/index.css";
 @import "~@react-page/plugins-video/lib/index.css";
-@import "~slick-carousel/slick/slick-theme.css";
 @import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
 @import "~react-virtualized/styles.css";

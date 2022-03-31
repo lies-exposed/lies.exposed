@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 interface EventsFilterProps
-  extends Omit<SearchEventQueryResult, "events" | "totals"> {
+  extends Omit<SearchEventQueryResult, "events" | "total" | "totals"> {
   queryFilters: Partial<GetSearchEventsQueryInput>;
   onQueryChange: (f: Partial<GetSearchEventsQueryInput>) => void;
   onQueryClear: () => void;
@@ -88,12 +88,12 @@ const EventsFilter: React.FC<EventsFilterProps> = ({
         <AutocompleteKeywordInput
           className={classes.input}
           selectedItems={keywords}
-          onItemClick={(kk) =>
+          onItemClick={(kk) => {
             onQueryChange({
               ...queryFilters,
               keywords: kk.map((k) => k.id),
-            })
-          }
+            });
+          }}
         />
       </Grid>
 

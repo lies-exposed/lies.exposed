@@ -1,14 +1,11 @@
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import Feature from "ol/Feature";
 import * as React from "react";
-import { Queries } from "../../providers/DataProvider";
+import { useQuery } from "react-query";
 import { geoJSONFormat } from "../../utils/map.utils";
-import { ErrorBox } from "../Common/ErrorBox";
-import { LazyLoader } from "../Common/Loader";
 import Map from "../Map";
+import QueriesRenderer from "../QueriesRenderer";
 
 export interface ProjectsMapProps {
   id: string;
@@ -22,26 +19,16 @@ export const ProjectsMap: React.FC<ProjectsMapProps> = ({
   style,
 }) => {
   return (
-    <WithQueries
+    <QueriesRenderer
       queries={{
-        projects: Queries.Project.getList,
+        projects: useQuery(["projects"], () => Promise.resolve([] as any[])),
       }}
-      params={{
-        projects: {
-          pagination: {
-            perPage: 20,
-            page: 1,
-          },
-          sort: { field: "id", order: "DESC" },
-          filter,
-        },
-      }}
-      render={QR.fold(LazyLoader, ErrorBox, ({ projects: { data, total } }) => {
-        const areas = A.flatten(data.map((p) => p.areas));
+      render={({ projects: data }) => {
+        const areas = A.flatten(data.data.map((p: any) => p.areas));
         return (
           <ParentSize style={{ height: 400, ...style }}>
             {({ width, height }) => {
-              const features = areas.map(({ geometry, ...datum }) => {
+              const features = areas.map(({ geometry, ...datum }: any) => {
                 const geom = geoJSONFormat.readGeometry(geometry);
                 const feature = new Feature(geom);
                 feature.setProperties(datum);
@@ -61,7 +48,7 @@ export const ProjectsMap: React.FC<ProjectsMapProps> = ({
             }}
           </ParentSize>
         );
-      })}
+      }}
     />
   );
 };

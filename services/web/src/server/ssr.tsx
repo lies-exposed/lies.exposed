@@ -17,7 +17,6 @@ const run = (): void => {
   const app = getServer(
     express(),
     App,
-    Helmet,
     path.resolve(__dirname, "../"),
     routes
   );

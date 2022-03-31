@@ -2,8 +2,6 @@ import { Endpoints } from "@liexp/shared/endpoints";
 import { ResourceEndpoints } from "@liexp/shared/endpoints/types";
 import * as io from "@liexp/shared/io/index";
 import { APIError } from "@liexp/shared/providers/api.provider";
-import { available, queryShallow } from "avenger";
-import { CachedQuery, queryStrict } from "avenger/lib/Query";
 import axios from "axios";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
@@ -82,43 +80,51 @@ const liftFetch = <B extends { data: any }>(
   );
 };
 
-export const pageContentByPath = queryStrict<
-  { path: string },
-  APIError,
-  io.http.Page.Page
->(
-  ({ path }) =>
-    pipe(
-      liftFetch<t.TypeOf<Endpoints["Page"]["List"]["Output"]>>(
-        () =>
-          dataProvider.getList<io.http.Page.Page>("/pages", {
-            filter: { path },
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "DESC" },
-          }),
-        Endpoints.Page.List.Output.decode
-      ),
-      TE.map((pages) => A.head(pages.data)),
-      TE.chain(
-        TE.fromOption(
-          (): APIError => ({
-            name: `APIError`,
-            message: `Page ${path} is missing`,
-            details: [],
-          })
-        )
+export const foldTE = <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
+  return pipe(
+    te,
+    TE.fold(
+      (e) => () => Promise.reject(e),
+      (r) => () => Promise.resolve(r)
+    )
+  )();
+};
+
+export const pageContentByPath = ({
+  path,
+}: {
+  path: string;
+}): Promise<io.http.Page.Page> =>
+  pipe(
+    liftFetch<t.TypeOf<Endpoints["Page"]["List"]["Output"]>>(
+      () =>
+        dataProvider.getList<io.http.Page.Page>("/pages", {
+          filter: { path },
+          pagination: { page: 1, perPage: 20 },
+          sort: { field: "id", order: "DESC" },
+        }),
+      Endpoints.Page.List.Output.decode
+    ),
+    TE.map((pages) => A.head(pages.data)),
+    TE.chain(
+      TE.fromOption(
+        (): APIError => ({
+          name: `APIError`,
+          message: `Page ${path} is missing`,
+          details: [],
+        })
       )
     ),
-  available
-);
+    foldTE
+  );
 
 interface Query<G, L, CC> {
-  get: CachedQuery<GetOneParams, APIError, G>;
-  getList: CachedQuery<GetListParams, APIError, L>;
+  get: (params: GetOneParams) => Promise<G>;
+  getList: (params: GetListParams) => Promise<L>;
   Custom: CC extends { [key: string]: MinimalEndpointInstance }
     ? {
-        [K in keyof CC]: CachedQuery<
-          (InferEndpointParams<CC[K]>["headers"] extends t.Mixed
+        [K in keyof CC]: (
+          params: (InferEndpointParams<CC[K]>["headers"] extends t.Mixed
             ? { Headers: serializedType<InferEndpointParams<CC[K]>["headers"]> }
             : {}) &
             (InferEndpointParams<CC[K]>["query"] extends t.Mixed
@@ -131,10 +137,8 @@ interface Query<G, L, CC> {
               ? {}
               : {
                   Body: serializedType<InferEndpointParams<CC[K]>["body"]>;
-                }),
-          APIError,
-          TypeOfEndpointInstance<CC[K]>["Output"]
-        >;
+                })
+        ) => Promise<TypeOfEndpointInstance<CC[K]>["Output"]>;
       }
     : never;
 }
@@ -183,36 +187,34 @@ const toQueries = <
   CC
 > => {
   return {
-    get: queryShallow<
-      GetOneParams,
-      APIError,
+    get: (
+      params: GetOneParams
+    ): Promise<
       InferEndpointParams<G>["output"] extends t.ExactType<infer T>
         ? t.TypeOf<T>["data"]
         : never
-    >(
-      (params: GetOneParams) =>
-        pipe(
-          liftFetch(
-            () =>
-              dataProvider.getOne<
-                serializedType<InferEndpointParams<G>["output"]> & {
-                  id: string;
-                }
-              >(e.Get.getPath(params).split("/")[1], params),
-            e.Get.Output.decode
-          ),
-          TE.map((r) => r.data)
+    > =>
+      pipe(
+        liftFetch(
+          () =>
+            dataProvider.getOne<
+              serializedType<InferEndpointParams<G>["output"]> & {
+                id: string;
+              }
+            >(e.Get.getPath(params).split("/")[1], params),
+          e.Get.Output.decode
         ),
-      available
-    ),
-    getList: queryShallow<
-      GetListParams,
-      APIError,
+        TE.map((r) => r.data),
+        foldTE
+      ),
+    getList: (
+      params: GetListParams
+    ): Promise<
       InferEndpointParams<L>["output"] extends t.ExactType<infer T>
         ? t.TypeOf<T>
         : never
-    >(
-      (params: GetListParams) =>
+    > =>
+      pipe(
         liftFetch(
           () =>
             dataProvider.getList<{
@@ -220,8 +222,8 @@ const toQueries = <
             }>(e.List.getPath(), params),
           e.List.Output.decode
         ),
-      available
-    ),
+        foldTE
+      ),
     Custom: pipe(
       e.Custom as any,
       R.map((ee: MinimalEndpointInstance) => {
@@ -244,11 +246,10 @@ const toQueries = <
             ee.Output.decode
           );
 
-        return queryShallow<
-          TypeOfEndpointInstance<typeof ee>["Input"],
-          APIError,
-          TypeOfEndpointInstance<typeof ee>["Output"]
-        >(fetch, available);
+        return (
+          params: TypeOfEndpointInstance<typeof ee>["Input"]
+        ): Promise<TypeOfEndpointInstance<typeof ee>["Output"]> =>
+          pipe(fetch(params), foldTE);
       })
     ) as any,
   };
@@ -267,28 +268,26 @@ const jsonClient = axios.create({
   baseURL: `${process.env.DATA_URL}/public`,
 });
 
-export const jsonData = <A>(
-  decode: t.Decode<unknown, { data: A }>
-): CachedQuery<{ id: string }, Error, { data: A }> =>
-  queryShallow<{ id: string }, Error, { data: A }>(
-    ({ id }: { id: string }) => liftFetch(() => jsonClient.get(id), decode),
-    available
-  );
-
-export const articleByPath = queryShallow<
-  { path: string },
-  APIError,
-  io.http.Article.Article
->(
-  ({ path }) =>
+export const jsonData =
+  <A>(decode: t.Decode<unknown, { data: A }>) =>
+  ({ id }: { id: string }): Promise<{ data: A }> =>
     pipe(
-      liftFetch(
-        () => dataProvider.get("articles", { path }),
-        io.http.Common.ListOutput(io.http.Article.Article, "Articles").decode
-      ),
-      TE.map((pages) => pages.data[0])
+      liftFetch(() => jsonClient.get(id), decode),
+      foldTE
+    );
+
+export const articleByPath = ({
+  path,
+}: {
+  path: string;
+}): Promise<io.http.Article.Article> =>
+  pipe(
+    liftFetch(
+      () => dataProvider.get("articles", { path }),
+      io.http.Common.ListOutput(io.http.Article.Article, "Articles").decode
     ),
-  available
-);
+    TE.map((pages) => pages.data[0]),
+    foldTE
+  );
 
 export { Queries, Endpoints };

@@ -1,9 +1,6 @@
 import { Actor } from "@liexp/shared/io/http";
-import { available, queryStrict } from "avenger";
-import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
-import { GetListParams } from "react-admin";
-import { Queries } from "../../providers/DataProvider";
+import { useActorsDiscreteQuery } from "../../state/queries/DiscreteQueries";
 import { ActorList, ActorListItem } from "../lists/ActorList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -24,13 +21,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       getValue={(a) => a.fullName}
       searchToFilter={(fullName) => ({ fullName })}
       selectedItems={selectedItems}
-      query={queryStrict(
-        (input: GetListParams) =>
-          input.filter.fullName !== ""
-            ? Queries.Actor.getList.run(input)
-            : TE.right({ data: [], total: 0 }),
-        available
-      )}
+      query={useActorsDiscreteQuery}
       renderTags={(items) => (
         <ActorList
           actors={items.map((i) => ({

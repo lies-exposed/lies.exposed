@@ -6,19 +6,18 @@ import {
   AccordionSummary,
   Box,
   Link,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMoreOutlined";
 import LinkIcon from "@material-ui/icons/LinkOutlined";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import { linksDiscreteQuery } from "../state/queries/DiscreteQueries";
-import { ErrorBox } from "./Common/ErrorBox";
-import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
+import {
+  useLinksQuery
+} from "../state/queries/DiscreteQueries";
+import QueriesRenderer from "./QueriesRenderer";
 
 interface LinkListItemProps {
   data: http.Link.Link;
@@ -100,24 +99,19 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids }) => {
             </Box>
           </AccordionSummary>
           <AccordionDetails>
-            <WithQueries
-              queries={{ links: linksDiscreteQuery }}
-              params={{
-                links: {
+            <QueriesRenderer
+              queries={{
+                links: useLinksQuery({
                   pagination: { page: 1, perPage: 10 },
                   sort: { field: "createdAt", order: "DESC" },
                   filter: {
                     ids: expanded ? ids : [],
                   },
-                },
+                }),
               }}
-              render={QR.fold(
-                LazyFullSizeLoader,
-                ErrorBox,
-                ({ links: { data: links } }) => {
-                  return <LinksList links={links} />;
-                }
-              )}
+              render={({ links: { data: links } }) => {
+                return <LinksList links={links} />;
+              }}
             />
           </AccordionDetails>
         </Accordion>

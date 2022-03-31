@@ -14,6 +14,7 @@ export const actorPageContentArgs: ActorPageContentProps = {
   },
   groups: [],
   onGroupClick: () => {},
+  onActorClick: () => {}
 };
 
 export const ActorPageContentExample: React.FC<ActorPageContentProps> = (

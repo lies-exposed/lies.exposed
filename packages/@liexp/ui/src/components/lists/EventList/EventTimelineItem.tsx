@@ -1,4 +1,3 @@
-import { Events } from '@liexp/shared/io/http';
 import { formatDate } from "@liexp/shared/utils/date";
 import { Box, Grid, Link, makeStyles, Typography } from "@material-ui/core";
 import {
@@ -7,14 +6,13 @@ import {
   TimelineDot,
   TimelineItem,
   TimelineOppositeContent,
-  TimelineSeparator,
+  TimelineSeparator
 } from "@material-ui/lab";
 import * as React from "react";
-import { isValidValue } from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons/EventIcon";
 import {
   EventListItem,
-  EventListItemProps,
+  EventListItemProps
 } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 
@@ -69,19 +67,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const getItemHeight = (e: Events.SearchEvent.SearchEvent): number => {
-  switch (e.type) {
-    default: {
-      return (
-        100 +
-        (isValidValue(e.excerpt as any) ? 100 : 0) +
-        (e.keywords.length > 0 ? 50 : 0) +
-        (e.media.length > 0 ? 400 : 0) +
-        (e.links.length > 0 ? 50 : 0)
-      );
-    }
-  }
-};
 
 const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
   event: e,

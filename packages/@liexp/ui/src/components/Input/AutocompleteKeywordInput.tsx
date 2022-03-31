@@ -1,6 +1,6 @@
 import { Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
-import { Queries } from "../../providers/DataProvider";
+import { useKeywordsDiscreteQuery } from "../../state/queries/DiscreteQueries";
 import KeywordList, { KeywordListItem } from "../lists/KeywordList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -19,9 +19,12 @@ export const AutocompleteKeywordInput: React.FC<
       searchToFilter={(search) => ({ search })}
       selectedItems={selectedItems}
       getValue={(k) => k.tag}
-      query={Queries.Keyword.getList}
+      query={useKeywordsDiscreteQuery}
       renderTags={(items) => (
         <KeywordList
+          style={{
+            maxWidth: "100%",
+          }}
           keywords={items.map((i) => ({
             ...i,
             selected: true,
@@ -29,16 +32,18 @@ export const AutocompleteKeywordInput: React.FC<
           onItemClick={(k) => onItemClick(items.filter((i) => i.id !== k.id))}
         />
       )}
-      renderOption={(item, state) => (
-        <KeywordListItem
-          key={item.id}
-          item={{
-            ...item,
-            selected: selectedItems.some((i) => i.id === item.id),
-          }}
-          onClick={() => {}}
-        />
-      )}
+      renderOption={(item, state) => {
+        return (
+          <KeywordListItem
+            key={item.id}
+            item={{
+              ...item,
+              selected: selectedItems.some((i) => i.id === item.id),
+            }}
+            onClick={() => {}}
+          />
+        );
+      }}
       onItemsChange={onItemClick}
       {...props}
     />

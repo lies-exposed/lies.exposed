@@ -3,7 +3,6 @@ import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
-import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import {
   Box,
   Button,
@@ -16,12 +15,11 @@ import {
   IconButton,
   Input,
   Typography,
-  useTheme
+  useTheme,
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import * as O from 'fp-ts/lib/Option';
 import * as React from "react";
-import { createEventSuggestion, getURLMetadata } from "../../state/commands";
+import { getURLMetadata, createEventSuggestion } from "../../state/commands";
 
 interface EventSuggestionsListProps {
   suggestions: Events.EventSuggestion[];
@@ -83,32 +81,34 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
 
   const handleSubmit = (): void => {
     if (selectedSuggestion) {
-      void createEventSuggestion(selectedSuggestion)().then(() => {
-        setOpen(false);
-        setUrl({
-          value: "",
-          submitted: "",
-          suggestions: [],
-          events: [],
-        });
-      });
+      void createEventSuggestion().mutate(selectedSuggestion);
+      // .then(() => {
+      //   setOpen(false);
+      //   setUrl({
+      //     value: "",
+      //     submitted: "",
+      //     suggestions: [],
+      //     events: [],
+      //   });
+      // });
     } else {
-      void getURLMetadata({
+      void getURLMetadata().mutate({
         url: url.value,
-      })().then((result) => {
-
-        if (result._tag === "Right") {
-          setUrl({
-            value: "",
-            submitted: url.value,
-            suggestions: getSuggestions(
-              result.right.data.metadata,
-              O.fromNullable(result.right.data.link)
-            ),
-            events: [],
-          });
-        }
       });
+      // .then((result) => {
+
+      //   if (result._tag === "Right") {
+      //     setUrl({
+      //       value: "",
+      //       submitted: url.value,
+      //       suggestions: getSuggestions(
+      //         result.right.data.metadata,
+      //         O.fromNullable(result.right.data.link)
+      //       ),
+      //       events: [],
+      //     });
+      //   }
+      // });
     }
   };
   const createDisabled = false;

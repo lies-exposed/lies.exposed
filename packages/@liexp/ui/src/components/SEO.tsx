@@ -31,8 +31,6 @@ const SEO: React.FC<SEOProps> = ({
   urlPath,
 }) => {
 
-  // console.log('SEO', { description, lang, meta, title });
-
   const { site }: QueryResults = {
     site: {
       siteMetadata: {
@@ -64,7 +62,7 @@ const SEO: React.FC<SEOProps> = ({
         },
         {
           property: "og:url",
-          content: `${process.env.PUBLIC_URL}/${urlPath}`,
+          content: `${process.env.PUBLIC_URL}${urlPath}`,
         },
         {
           property: `og:title`,

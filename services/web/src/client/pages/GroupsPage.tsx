@@ -1,14 +1,11 @@
-import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { Loader } from "@liexp/ui/components/Common/Loader";
 import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import GroupList from "@liexp/ui/components/lists/GroupList";
-import { pageContentByPath, Queries } from "@liexp/ui/providers/DataProvider";
+import { useGroupsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Typography } from "@material-ui/core";
 import { RouteComponentProps } from "@reach/router";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
@@ -16,19 +13,16 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
   return (
     <MainContent>
-      <PageContent queries={{ pageContent: { path: "groups" } }} />
-      <WithQueries
+      <PageContent path="groups" />
+      <QueriesRenderer
         queries={{
-          groups: Queries.Group.getList,
-        }}
-        params={{
-          groups: {
+          groups: useGroupsQuery({
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
-          },
+          }),
         }}
-        render={QR.fold(Loader, ErrorBox, ({ groups }) => (
+        render={({ groups }) => (
           <>
             <AutocompleteGroupInput
               selectedItems={[]}
@@ -52,7 +46,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
               }}
             />
           </>
-        ))}
+        )}
       />
     </MainContent>
   );

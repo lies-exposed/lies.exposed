@@ -9,7 +9,7 @@ import {
   TwelveToSixteenYears,
   TwoMonthsToTwoYears,
   VaccineDatum,
-  ZeroToOneMonth,
+  ZeroToOneMonth
 } from "@liexp/shared/io/http/covid/VaccineDatum";
 import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
 import {
@@ -21,7 +21,7 @@ import {
   MenuItem,
   Select,
   Typography,
-  TypographyProps,
+  TypographyProps
 } from "@material-ui/core";
 import { AxisBottom, AxisLeft, AxisRight } from "@vx/axis";
 import { curveLinear } from "@vx/curve";
@@ -33,17 +33,13 @@ import { scaleLinear, scaleTime } from "@vx/scale";
 import { Bar, LinePath } from "@vx/shape";
 import { Accessor } from "@vx/shape/lib/types";
 import { TooltipWithBounds, withTooltip } from "@vx/tooltip";
-import * as QR from "avenger/lib/QueryResult";
-import { declareQueries } from "avenger/lib/react";
 import { format, isDate } from "date-fns";
-import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
-import { jsonData } from "../../../../providers/DataProvider";
+import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries";
 import { ECOTheme } from "../../../../theme/index";
-import { ErrorBox } from "../../../Common/ErrorBox";
-import { LazyFullSizeLoader } from "../../../Common/FullSizeLoader";
 import { StatAccordion } from "../../../Common/StatAccordion";
+import QueriesRenderer from "../../../QueriesRenderer";
 
 const ageGroupColors = {
   all: "#b623ad",
@@ -451,209 +447,211 @@ const adrReportRate10 = 10;
 const adrReportRate1 = 1;
 
 interface VaccineADRGraphProps {
-  queries: QR.QueryResult<Error, { data: { data: VaccineDatum[] } }>;
+  id: string;
   distribution: VaccineDistributionDatum[];
 }
 
-const withQueries = declareQueries({
-  data: jsonData(t.strict({ data: t.array(VaccineDatum) }).decode),
-});
+export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
+  id,
+  distribution,
+}) => {
+  const [adrReportRate, setADRReportRate] = React.useState(adrReportRate100);
+  const [manufacturer, setManufacturer] = React.useState("All");
+  const [ageGroup, setAgeGroup] = React.useState("All" as any);
 
-export const VaccineADRGraph = withQueries<VaccineADRGraphProps>(
-  ({ queries, distribution }) => {
-    const [adrReportRate, setADRReportRate] = React.useState(adrReportRate100);
-    const [manufacturer, setManufacturer] = React.useState("All");
-    const [ageGroup, setAgeGroup] = React.useState("All" as any);
+  const classes = useStyles();
 
-    const classes = useStyles();
+  const handleADRReportRateChange = React.useCallback(
+    (event: React.ChangeEvent<{ name?: string; value: any }>): void => {
+      setADRReportRate(event.target.value);
+    },
+    []
+  );
 
-    const handleADRReportRateChange = React.useCallback(
-      (event: React.ChangeEvent<{ name?: string; value: any }>): void => {
-        setADRReportRate(event.target.value);
-      },
-      []
-    );
+  const handleManufacturerChange = React.useCallback(
+    (event: React.ChangeEvent<{ name?: string; value: any }>): void => {
+      setManufacturer(event.target.value);
+    },
+    []
+  );
 
-    const handleManufacturerChange = React.useCallback(
-      (event: React.ChangeEvent<{ name?: string; value: any }>): void => {
-        setManufacturer(event.target.value);
-      },
-      []
-    );
+  const handlePatientAgeGroupChange = React.useCallback(
+    (e: React.ChangeEvent<{ name?: string; value: any }>): void => {
+      setAgeGroup(e.target.value);
+    },
+    []
+  );
 
-    const handlePatientAgeGroupChange = React.useCallback(
-      (e: React.ChangeEvent<{ name?: string; value: any }>): void => {
-        setAgeGroup(e.target.value);
-      },
-      []
-    );
+  return (
+    <div>
+      <QueriesRenderer
+        queries={{
+          data: useJSONDataQuery(
+            t.strict({ data: t.array(VaccineDatum) }).decode,
+            id
+          ),
+        }}
+        render={({ data: { data } }) => {
+          const rateFactor = 100 / adrReportRate;
 
-    return (
-      <div>
-        {pipe(
-          queries,
-          QR.fold(LazyFullSizeLoader, ErrorBox, ({ data: { data } }) => {
-            const rateFactor = 100 / adrReportRate;
+          const currentVaccinations =
+            distribution[distribution.length - 1].people_vaccinated;
+          const totalVaccinations = currentVaccinations;
+          const todayDatum = data[data.length - 1];
 
-            const currentVaccinations =
-              distribution[distribution.length - 1].people_vaccinated;
-            const totalVaccinations = currentVaccinations;
-            const todayDatum = data[data.length - 1];
+          const totalDeaths =
+            getValueForAgeGroup(todayDatum, ageGroup) * rateFactor;
 
-            const totalDeaths =
-              getValueForAgeGroup(todayDatum, ageGroup) * rateFactor;
+          const deathRate = (totalDeaths / totalVaccinations) * 100;
+          const estimatedDeaths = deathRate * populationNumber;
+          const totalADRs = data[data.length - 1].total_injuries;
+          const ADRRatio = totalADRs / totalVaccinations;
 
-            const deathRate = (totalDeaths / totalVaccinations) * 100;
-            const estimatedDeaths = deathRate * populationNumber;
-            const totalADRs = data[data.length - 1].total_injuries;
-            const ADRRatio = totalADRs / totalVaccinations;
-
-            return (
-              <Grid container spacing={3}>
-                <Grid container spacing={2}>
-                  <Grid item md={2}>
-                    <Typography variant="h5">Filters</Typography>
-                    <FormControl className={classes.formControl} fullWidth>
-                      <InputLabel id="adr-report-rate-select-label">
-                        ADR Rate %
-                      </InputLabel>
-                      <Select
-                        labelId="adr-report-rate-select-label"
-                        id="adr-report-rate-select"
-                        value={adrReportRate}
-                        onChange={handleADRReportRateChange}
-                        MenuProps={MenuProps}
-                      >
-                        <MenuItem value={adrReportRate100}>100%</MenuItem>
-                        <MenuItem value={adrReportRate10}>10%</MenuItem>
-                        <MenuItem value={adrReportRate1}>1%</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <FormControl className={classes.formControl} fullWidth>
-                      <InputLabel id="age-group-select-label">
-                        Age Group
-                      </InputLabel>
-                      <Select
-                        labelId="age-group-select-label"
-                        id="age-group-select"
-                        value={ageGroup}
-                        onChange={handlePatientAgeGroupChange}
-                        MenuProps={MenuProps}
-                      >
-                        <MenuItem value={"All"}>All</MenuItem>
-                        {AgeGroup.types.map((t) => (
-                          <MenuItem key={t.value} value={t.value}>
-                            {t.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <FormControl className={classes.formControl} fullWidth>
-                      <InputLabel id="manufacturer-select-label">
-                        Manufacturer
-                      </InputLabel>
-                      <Select
-                        labelId="manufacturer-select-label"
-                        id="manufacturer-simple-select"
-                        value={manufacturer}
-                        onChange={handleManufacturerChange}
-                        MenuProps={MenuProps}
-                      >
-                        <MenuItem key={"All"} value={"All"}>
-                          All
+          return (
+            <Grid container spacing={3}>
+              <Grid container spacing={2}>
+                <Grid item md={2}>
+                  <Typography variant="h5">Filters</Typography>
+                  <FormControl className={classes.formControl} fullWidth>
+                    <InputLabel id="adr-report-rate-select-label">
+                      ADR Rate %
+                    </InputLabel>
+                    <Select
+                      labelId="adr-report-rate-select-label"
+                      id="adr-report-rate-select"
+                      value={adrReportRate}
+                      onChange={handleADRReportRateChange}
+                      MenuProps={MenuProps}
+                    >
+                      <MenuItem value={adrReportRate100}>100%</MenuItem>
+                      <MenuItem value={adrReportRate10}>10%</MenuItem>
+                      <MenuItem value={adrReportRate1}>1%</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <FormControl className={classes.formControl} fullWidth>
+                    <InputLabel id="age-group-select-label">
+                      Age Group
+                    </InputLabel>
+                    <Select
+                      labelId="age-group-select-label"
+                      id="age-group-select"
+                      value={ageGroup}
+                      onChange={handlePatientAgeGroupChange}
+                      MenuProps={MenuProps}
+                    >
+                      <MenuItem value={"All"}>All</MenuItem>
+                      {AgeGroup.types.map((t) => (
+                        <MenuItem key={t.value} value={t.value}>
+                          {t.name}
                         </MenuItem>
-                        {Manufacturer.types.map((t) => (
-                          <MenuItem key={t.value} value={t.value}>
-                            {t.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item md={10}>
-                    <Grid container spacing={2}>
-                      <Grid item md={12}>
-                        <ParentSize style={{ width: "100%" }}>
-                          {({ width }) => {
-                            return (
-                              <VaccineADRGraphComponent
-                                width={width}
-                                height={500}
-                                data={data}
-                                distribution={distribution}
-                                adrReportFactor={rateFactor}
-                                ageGroup={ageGroup}
-                              />
-                            );
-                          }}
-                        </ParentSize>
-                      </Grid>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl className={classes.formControl} fullWidth>
+                    <InputLabel id="manufacturer-select-label">
+                      Manufacturer
+                    </InputLabel>
+                    <Select
+                      labelId="manufacturer-select-label"
+                      id="manufacturer-simple-select"
+                      value={manufacturer}
+                      onChange={handleManufacturerChange}
+                      MenuProps={MenuProps}
+                    >
+                      <MenuItem key={"All"} value={"All"}>
+                        All
+                      </MenuItem>
+                      {Manufacturer.types.map((t) => (
+                        <MenuItem key={t.value} value={t.value}>
+                          {t.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item md={10}>
+                  <Grid container spacing={2}>
+                    <Grid item md={12}>
+                      <ParentSize style={{ width: "100%" }}>
+                        {({ width }) => {
+                          return (
+                            <VaccineADRGraphComponent
+                              width={width}
+                              height={500}
+                              data={data}
+                              distribution={distribution}
+                              adrReportFactor={rateFactor}
+                              ageGroup={ageGroup}
+                            />
+                          );
+                        }}
+                      </ParentSize>
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid container spacing={2}>
-                  <Grid item md={3}>
-                    <StatAccordion
-                      caption={"Total ADRs"}
-                      summary={totalADRs.toFixed(0)}
-                      details={
-                        <VaccineDatumTable
-                          data={[
-                            ["injuries", "yellow", todayDatum.total_injuries],
-                            ["severe", "red", todayDatum.severe],
-                          ]}
-                        />
-                      }
-                    />
-                    <Typography variant="caption">
-                      Report rate {ADRRatio.toFixed(4)}%
-                    </Typography>
-                  </Grid>
-                  <Grid item md={3}>
-                    <StatAccordion
-                      caption="Total deaths"
-                      summary={totalDeaths.toFixed(0)}
-                      details={
-                        <VaccineDatumTable
-                          data={[
-                            todayDatum.total_death_0_1_month,
-                            todayDatum.total_death_2_month_2_years,
-                            todayDatum.total_death_3_11_years,
-                            todayDatum.total_death_12_17_years,
-                            todayDatum.total_death_18_64_years,
-                            todayDatum.total_death_65_85_years,
-                            todayDatum.total_death_more_than_85_years,
-                            todayDatum.total_death_years_not_specified,
-                            todayDatum.total_deaths,
-                          ].map((v, i) => {
-                            const ageGroup = AgeGroup.types[i]
-                              ? AgeGroup.types[i].value
-                              : "all";
-                            const color = getAgeGroupColor(ageGroup);
-                            return [ageGroup, color, v];
-                          })}
-                        />
-                      }
-                    />
-                  </Grid>
-                  <Grid item md={3} direction="column">
-                    <StatAccordion
-                      summary={deathRate.toFixed(6)}
-                      caption="Death rate (%)"
-                    />
-                  </Grid>
-                  <Grid item md={3} direction="column">
-                    <StatAccordion
-                      caption="Death projection on world population (million)"
-                      summary={toMillion(estimatedDeaths).toFixed(2)}
-                    />
-                  </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item md={3}>
+                  <StatAccordion
+                    caption={"Total ADRs"}
+                    summary={totalADRs.toFixed(0)}
+                    details={
+                      <VaccineDatumTable
+                        data={[
+                          ["injuries", "yellow", todayDatum.total_injuries],
+                          ["severe", "red", todayDatum.severe],
+                        ]}
+                      />
+                    }
+                  />
+                  <Typography variant="caption">
+                    Report rate {ADRRatio.toFixed(4)}%
+                  </Typography>
+                </Grid>
+                <Grid item md={3}>
+                  <StatAccordion
+                    caption="Total deaths"
+                    summary={totalDeaths.toFixed(0)}
+                    details={
+                      <VaccineDatumTable
+                        data={[
+                          todayDatum.total_death_0_1_month,
+                          todayDatum.total_death_2_month_2_years,
+                          todayDatum.total_death_3_11_years,
+                          todayDatum.total_death_12_17_years,
+                          todayDatum.total_death_18_64_years,
+                          todayDatum.total_death_65_85_years,
+                          todayDatum.total_death_more_than_85_years,
+                          todayDatum.total_death_years_not_specified,
+                          todayDatum.total_deaths,
+                        ].map((v, i) => {
+                          const ageGroup = AgeGroup.types[i]
+                            ? AgeGroup.types[i].value
+                            : "all";
+                          const color = getAgeGroupColor(ageGroup);
+                          return [ageGroup, color, v];
+                        })}
+                      />
+                    }
+                  />
+                </Grid>
+                <Grid item md={3} direction="column">
+                  <StatAccordion
+                    summary={deathRate.toFixed(6)}
+                    caption="Death rate (%)"
+                  />
+                </Grid>
+                <Grid item md={3} direction="column">
+                  <StatAccordion
+                    caption="Death projection on world population (million)"
+                    summary={toMillion(estimatedDeaths).toFixed(2)}
+                  />
                 </Grid>
               </Grid>
-            );
-          })
-        )}
-      </div>
-    );
-  }
-);
+            </Grid>
+          );
+        }}
+      />
+    </div>
+  );
+};

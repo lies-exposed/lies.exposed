@@ -1,15 +1,10 @@
 import { APIError } from "@liexp/shared/providers/api.provider";
 import { TextField } from "@material-ui/core";
 import Autocomplete, { AutocompleteProps } from "@material-ui/lab/Autocomplete";
-import { queryStrict, refetch } from "avenger";
-import { CachedQuery, ObservableQuery } from "avenger/lib/Query";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
-import * as TE from "fp-ts/lib/TaskEither";
 import { GetListParams } from "ra-core";
 import * as React from "react";
+import { UseQueryResult } from "react-query";
 import { ErrorBox } from "../Common/ErrorBox";
-import { LazyFullSizeLoader } from "../Common/FullSizeLoader";
 
 interface SearchableItem {
   id: string;
@@ -20,20 +15,14 @@ export interface AutocompleteInputProps<T extends SearchableItem>
     AutocompleteProps<T, boolean, boolean, boolean>,
     "renderInput" | "options"
   > {
-  query: CachedQuery<GetListParams, APIError, { data: T[]; total: number }>;
+  query: (
+    params: GetListParams
+  ) => UseQueryResult<{ data: T[]; total: number }, APIError>;
   searchToFilter: (t: string) => Record<string, string>;
   getValue: (v: T) => string;
   selectedItems: T[];
   onItemsChange: (items: T[]) => void;
 }
-
-const discreteQuery = <L, P>(
-  q: ObservableQuery<GetListParams, L, P>,
-  empty: P
-): CachedQuery<GetListParams, L, P> =>
-  queryStrict<GetListParams, L, P>((input: GetListParams) => {
-    return input.filter.ids === 0 ? TE.right(empty) : q.run(input);
-  }, refetch);
 
 export const AutocompleteInput = <T extends { id: string }>({
   query,
@@ -51,19 +40,17 @@ export const AutocompleteInput = <T extends { id: string }>({
   // const setValueThrottled = throttle(300, setValue, true);
 
   // params
-  const itemQueryParams = React.useMemo(
-    () => ({
+  const itemQueryParams = React.useMemo(() => {
+    const filter =
+      value !== undefined && value !== "" ? searchToFilter(value) : {};
+    return {
       sort: { field: "createdAt", order: "DESC" },
       pagination: { page: 1, perPage: 20 },
-      filter: {
-        ...(value !== undefined || value !== "" ? searchToFilter(value) : {}),
-      },
-    }),
-    [value]
-  );
+      filter,
+    };
+  }, [value]);
 
   // queries
-  const itemsQuery = discreteQuery(query, { total: 0, data: [] });
 
   const handleValueChange = React.useCallback(
     (v: string) => {
@@ -72,55 +59,45 @@ export const AutocompleteInput = <T extends { id: string }>({
     [value]
   );
 
+  const items = query(itemQueryParams);
+
+  if (items.isError) {
+    return <ErrorBox />;
+  }
+
   return (
-    <WithQueries
-      queries={{
-        items: itemsQuery,
-      }}
-      params={{
-        items: itemQueryParams,
-      }}
-      render={QR.fold(
-        LazyFullSizeLoader,
-        ErrorBox,
-        ({ items: { data: items } }) => {
-          return (
-            <Autocomplete<T, boolean, boolean, boolean>
-              {...props}
-              size="small"
-              placeholder={placeholder}
-              inputValue={value}
-              value={selectedItems.filter((i) => selectedIds.includes(i.id))}
-              options={items.filter((i) => !selectedIds.includes(i.id))}
-              onChange={(e, v) => {
-                if (Array.isArray(v)) {
-                  onItemsChange(v as T[]);
-                  handleValueChange("");
-                }
-              }}
-              getOptionLabel={getValue}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder={placeholder}
-                  variant="standard"
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    handleValueChange(v);
-                  }}
-                />
-              )}
-              disablePortal={true}
-              multiple={true}
-              getOptionSelected={(op, value) => {
-                return op.id === value.id;
-              }}
-              renderTags={renderTags}
-              renderOption={renderOption}
-            />
-          );
-        }
+    <Autocomplete<T, boolean, boolean, boolean>
+      {...props}
+      size="small"
+      placeholder={placeholder}
+      inputValue={value}
+      value={selectedItems.filter((i) => selectedIds.includes(i.id))}
+      options={(items.data?.data ?? []).filter(
+        (i) => !selectedIds.includes(i.id)
       )}
+      onChange={(e, v) => {
+        if (Array.isArray(v)) {
+          onItemsChange(v as T[]);
+          handleValueChange("");
+        }
+      }}
+      getOptionLabel={getValue}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          placeholder={placeholder}
+          variant="standard"
+          onChange={(e) => {
+            const v = e.target.value;
+            handleValueChange(v);
+          }}
+        />
+      )}
+      disablePortal={true}
+      multiple={true}
+      getOptionSelected={(op, value) => op.id === value.id}
+      renderTags={renderTags}
+      renderOption={renderOption}
     />
   );
 };

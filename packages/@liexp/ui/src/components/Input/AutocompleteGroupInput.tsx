@@ -1,9 +1,6 @@
 import { Group } from "@liexp/shared/io/http";
-import { available, queryStrict } from "avenger";
-import * as TE from "fp-ts/lib/TaskEither";
 import * as React from "react";
-import { GetListParams } from "react-admin";
-import { Queries } from "../../providers/DataProvider";
+import { useGroupsDiscreteQuery } from '../../state/queries/DiscreteQueries';
 import GroupList, { GroupListItem } from "../lists/GroupList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -24,13 +21,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       getValue={(a) => a.name}
       searchToFilter={(name) => ({ name })}
       selectedItems={selectedItems}
-      query={queryStrict(
-        (input: GetListParams) =>
-          input.filter.fullName !== ""
-            ? Queries.Group.getList.run(input)
-            : TE.right({ data: [], total: 0 }),
-        available
-      )}
+      query={useGroupsDiscreteQuery}
       renderTags={(items) => (
         <GroupList
           groups={items.map((i) => ({

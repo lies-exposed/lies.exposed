@@ -1,12 +1,12 @@
-import SEO from "@liexp/ui/components/SEO";
+
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import AdminPage from "./AdminPage";
 import reportWebVitals from "./reportWebVitals";
 
+
 ReactDOM.render(
   <React.StrictMode>
-    <SEO title="admin" urlPath="" />
     <AdminPage />
   </React.StrictMode>,
   document.getElementById("root")

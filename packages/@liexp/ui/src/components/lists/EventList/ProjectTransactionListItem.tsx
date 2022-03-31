@@ -16,8 +16,6 @@ export const ProjectTransactionListItem: React.FC<
   const transactionBy = item.event.transaction;
 
   // eslint-disable-next-line
-  console.log(PathReporter.report(Common.ByGroup.decode(transactionBy)));
-  // eslint-disable-next-line
   console.log(PathReporter.report(Common.ByActor.decode(transactionBy)));
   return (
     <div

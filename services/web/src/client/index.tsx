@@ -5,10 +5,14 @@ import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Hydrate, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
+import { queryClient } from "./state/queries";
+
 // all css
 import "./scss/main.css";
+
 
 
 debug.enable("*");
@@ -24,11 +28,17 @@ function Main(): JSX.Element {
     }
   }, []);
 
+  const dehydratedState = (window as any).__REACT_QUERY_STATE__;
+
   return (
     <HelmetProvider>
       <ThemeProvider theme={ECOTheme}>
-        <CssBaseline />
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={dehydratedState}>
+            <CssBaseline />
+            <App />
+          </Hydrate>
+        </QueryClientProvider>
       </ThemeProvider>
     </HelmetProvider>
   );

@@ -15,7 +15,6 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.OpenGraph.Custom.GetMetadata,
     ({ query: { url } }) => {
-      
       return pipe(
         ctx.db.findOne(LinkEntity, {
           where: {

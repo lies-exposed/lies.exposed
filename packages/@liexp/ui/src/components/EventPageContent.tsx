@@ -8,20 +8,23 @@ import {
 } from "@liexp/shared/io/http";
 import { Link } from "@liexp/shared/io/http/Link";
 import { formatDateToShort } from "@liexp/shared/utils/date";
-import { Box, Grid, Typography, useTheme } from "@material-ui/core";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
+import {
+  Box,
+  Grid,
+  Typography,
+  useTheme,
+  useMediaQuery as useMuiMediaQuery,
+} from "@material-ui/core";
 import * as React from "react";
-import { mediaDiscreteQuery } from "../state/queries/DiscreteQueries";
-import { ActorsBox } from "./ActorsBox";
+import ActorsBox from "../containers/ActorsBox";
+import { useMediaQuery } from "../state/queries/DiscreteQueries";
 import Editor, { getTextContentsCapped, isValidValue } from "./Common/Editor";
-import { ErrorBox } from "./Common/ErrorBox";
-import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
 import { GroupMembersBox } from "./GroupMembersBox";
 import { GroupsBox } from "./GroupsBox";
 import { KeywordsBox } from "./KeywordsBox";
 import { LinksBox } from "./LinksBox";
 import { MainContent } from "./MainContent";
+import QueriesRenderer from "./QueriesRenderer";
 import SEO from "./SEO";
 import { MediaSlider } from "./sliders/MediaSlider";
 
@@ -46,49 +49,52 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   const theme = useTheme();
   const { actors, groups, groupsMembers, media } = getRelationIds(event);
 
+  const isDownSM = useMuiMediaQuery(theme.breakpoints.down("sm"));
+
   return (
-    <WithQueries
+    <QueriesRenderer
       queries={{
-        media: mediaDiscreteQuery,
-      }}
-      params={{
-        media: {
+        media: useMediaQuery({
           pagination: { page: 1, perPage: media.length },
           sort: { field: "updatedAt", order: "DESC" },
           filter: {
             ids: media,
           },
-        },
+        }),
       }}
-      render={QR.fold(
-        LazyFullSizeLoader,
-        ErrorBox,
-        ({ media: { data: media } }) => {
-          const seoImage =
-            media[0]?.thumbnail ??
-            media[0]?.location ??
-            `${process.env.PUBLIC_URL}/liexp-logo.png`;
+      render={({ media: { data: media } }) => {
+        const seoImage =
+          media[0]?.thumbnail ??
+          media[0]?.location ??
+          `${process.env.PUBLIC_URL}/liexp-logo.png`;
 
-          return (
-            <MainContent>
-              <SEO
-                title={title}
-                description={getTextContentsCapped(event.excerpt as any, 230)}
-                image={seoImage}
-                urlPath={`events/${event.id}`}
-              />
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Grid container alignItems="flex-start">
-                    <Grid
-                      item
-                      md={2}
+        return (
+          <MainContent>
+            <SEO
+              title={title}
+              description={getTextContentsCapped(event.excerpt as any, 230)}
+              image={seoImage}
+              urlPath={`events/${event.id}`}
+            />
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Grid container alignItems="flex-start">
+                  <Grid
+                    item
+                    md={2}
+                    sm={12}
+                    style={{
+                      display: "flex",
+                      flexDirection: isDownSM ? "row" : "column",
+                      alignItems: isDownSM ? "center" : "flex-end",
+                      justifyContent: isDownSM ? "flex-start" : "flex-end",
+                      paddingRight: 20,
+                    }}
+                  >
+                    <Box
                       style={{
                         display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-end",
-                        justifyContent: "flex-end",
-                        paddingRight: 20,
+                        flexDirection: isDownSM ? "row" : "column",
                       }}
                     >
                       {formatDateToShort(event.date)
@@ -103,79 +109,91 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                             {chunk}
                           </Typography>
                         ))}
+                    </Box>
 
-                      <GroupsBox
-                        ids={groups}
-                        style={{ flexDirection: "row-reverse" }}
-                        onItemClick={onGroupClick}
-                      />
+                    <GroupsBox
+                      ids={groups}
+                      style={{
+                        display: "flex",
+                        flexDirection: isDownSM ? "row" : "row-reverse",
+                      }}
+                      onItemClick={onGroupClick}
+                    />
 
-                      <ActorsBox
-                        ids={actors}
-                        style={{ flexDirection: "row-reverse" }}
-                        onItemClick={onActorClick}
-                      />
+                    <ActorsBox
+                      params={{
+                        filter: { ids: actors },
+                        pagination: { perPage: actors.length, page: 1 },
+                        sort: { field: "createdAt", order: "DESC" },
+                      }}
+                      style={{
+                        display: "flex",
+                        flexDirection: isDownSM ? "row" : "row-reverse",
+                      }}
+                      onItemClick={onActorClick}
+                    />
 
-                      <GroupMembersBox
-                        ids={groupsMembers}
-                        style={{ flexDirection: "row-reverse" }}
-                        onItemClick={onGroupMemberClick}
-                      />
-                    </Grid>
-
-                    <Grid item md={10}>
-                      <Typography variant="h3">{title}</Typography>
-                      <Box>
-                        <KeywordsBox ids={event.keywords} />
-                      </Box>
-                      {isValidValue(event.excerpt) ? (
-                        <Editor
-                          value={(event.excerpt as any) ?? { rows: [] }}
-                          readOnly={true}
-                        />
-                      ) : null}
-                    </Grid>
+                    <GroupMembersBox
+                      ids={groupsMembers}
+                      style={{
+                        display: "flex",
+                        flexDirection: isDownSM ? "row" : "row-reverse",
+                      }}
+                      onItemClick={onGroupMemberClick}
+                    />
                   </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                  <Grid container>
-                    <Grid item md={2} />
-                    <Grid
-                      item
-                      md={10}
-                      style={{ marginBottom: theme.spacing(5) }}
-                    >
-                      {media.length > 0 ? (
-                        <MediaSlider
-                          data={media}
-                          onClick={() => {}}
-                          itemStyle={{
-                            height: 400,
-                            maxWidth: 800,
-                            maxHeight: 500,
-                            margin: "auto",
-                          }}
-                        />
-                      ) : null}
-                    </Grid>
-                  </Grid>
-                  <Grid container>
-                    {isValidValue(event.body) ? (
-                      <Grid item md={12} sm={12} xs={12}>
-                        <Editor value={event.body} readOnly={true} />
-                      </Grid>
+
+                  <Grid item md={10}>
+                    <Typography variant="h3">{title}</Typography>
+                    <Box>
+                      <KeywordsBox ids={event.keywords} />
+                    </Box>
+                    {isValidValue(event.excerpt) ? (
+                      <Editor value={event.excerpt} readOnly={true} />
                     ) : null}
-                    <Grid item md={2} />
-                    <Grid item md={10} sm={12} xs={12}>
-                      <LinksBox ids={event.links} />
-                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </MainContent>
-          );
-        }
-      )}
+              <Grid item xs={12}>
+                <Grid container>
+                  <Grid item md={2} xs={false} />
+                  <Grid
+                    item
+                    lg={10}
+                    md={10}
+                    xs={12}
+                    style={{ marginBottom: theme.spacing(5) }}
+                  >
+                    {media.length > 0 ? (
+                      <MediaSlider
+                        data={media}
+                        onClick={() => {}}
+                        itemStyle={{
+                          height: 400,
+                          maxWidth: 800,
+                          maxHeight: 500,
+                          margin: "auto",
+                        }}
+                      />
+                    ) : null}
+                  </Grid>
+                </Grid>
+                <Grid container>
+                  {isValidValue(event.body) ? (
+                    <Grid item md={12} sm={12} xs={12}>
+                      <Editor value={event.body} readOnly={true} />
+                    </Grid>
+                  ) : null}
+                  <Grid item md={2} />
+                  <Grid item md={10} sm={12} xs={12}>
+                    <LinksBox ids={event.links} />
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </MainContent>
+        );
+      }}
     />
   );
 };

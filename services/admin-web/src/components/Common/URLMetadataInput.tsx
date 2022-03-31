@@ -45,9 +45,10 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
       <Button disabled={inputRest.value.length < 5} onClick={() => {}}>
         Create
       </Button>
-      {metadata ? (
+      {metadata?.link ? <Box>Link found: {metadata.link.id}</Box> : null}
+      {metadata?.metadata ? (
         <Box display="inline" marginLeft={2} flexBasis={"60%"}>
-          {Object.entries<string>(metadata).map(([key, value]) => {
+          {Object.entries<string>(metadata.metadata).map(([key, value]) => {
             return (
               <Box key={key} width={"100%"}>
                 <label>{key}</label>

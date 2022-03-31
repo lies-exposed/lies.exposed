@@ -1,12 +1,9 @@
-import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import { BubbleGraph } from "@liexp/ui/components/Common/Graph/BubbleGraph";
-import { Queries } from "@liexp/ui/providers/DataProvider";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import { useKeywordsDistributionQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { ParentSize } from "@vx/responsive";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { queryToHash, useNavigateTo } from "../utils/history.utils";
+import { queryToHash } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const KeywordsDistributionGraphComponent: React.FC<{ data: any[] }> = ({
@@ -42,27 +39,18 @@ const KeywordsDistributionGraphComponent: React.FC<{ data: any[] }> = ({
 
 const KeywordsDistributionGraph: React.FC = () => {
   return (
-    <WithQueries
-      queries={{ keywordDistribution: Queries.Keyword.Custom.Distribution }}
-      params={{
-        keywordDistribution: {
-          Query: {
-            _start: "0",
-            _stop: "50",
-          },
-        },
+    <QueriesRenderer
+      queries={{
+        keywordDistribution: useKeywordsDistributionQuery({
+          _start: "0",
+          _stop: "50",
+        }),
       }}
-      render={QR.fold(
-        LazyFullSizeLoader,
-        ErrorBox,
-        ({ keywordDistribution }) => {
-          return (
-            <KeywordsDistributionGraphComponent
-              data={keywordDistribution.data}
-            />
-          );
-        }
-      )}
+      render={({ keywordDistribution }) => {
+        return (
+          <KeywordsDistributionGraphComponent data={keywordDistribution.data} />
+        );
+      }}
     />
   );
 };
