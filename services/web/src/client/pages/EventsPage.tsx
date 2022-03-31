@@ -165,6 +165,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
       <SEO
         title="lies.exposed - events timeline"
         description="A chronological timeline of events related to crimes and lies."
+        urlPath='events'
       />
       {/* <Grid item lg={12} md={12} sm={12}>
         <PageContent queries={{ pageContent: { path: "events" } }} />

@@ -48,7 +48,7 @@ export default class BlogPage extends React.PureComponent<RouteComponentProps> {
               ({ articles: { data: articles } }) => {
                 return (
                   <div>
-                    <SEO title="Blog" image="" urlPath={`/blog`} />
+                    <SEO title="Blog" image="" urlPath={`blog`} />
                     <Grid container spacing={2} style={{ marginBottom: 100 }}>
                       {articles.map((a) => (
                         <Grid item key={a.id} xs={6}>

@@ -46,7 +46,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({
                 <SEO
                   title={actor.fullName}
                   image={actor.avatar ?? ""}
-                  urlPath={`/actors/${actor.id}`}
+                  urlPath={`actors/${actor.id}`}
                 />
                 <ActorPageContent
                   actor={actor}

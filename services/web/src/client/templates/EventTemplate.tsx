@@ -9,6 +9,7 @@ import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
+
   const navigateTo = useNavigateToResource();
 
   return (
@@ -20,6 +21,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
         event: { id: eventId },
       }}
       render={QR.fold(Loader, ErrorBox, ({ event }) => {
+
         return (
           <Box style={{ margin: 20, marginBottom: 100 }}>
             <EventPageContent

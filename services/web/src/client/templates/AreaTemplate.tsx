@@ -31,7 +31,7 @@ export default class AreaTemplate extends React.PureComponent<
                   <SEO
                     title={area.label}
                     image={""}
-                    urlPath={`/areas/${area.id}`}
+                    urlPath={`areas/${area.id}`}
                   />
                   <AreaPageContent
                     {...area}

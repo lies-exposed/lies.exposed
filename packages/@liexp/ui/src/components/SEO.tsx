@@ -1,5 +1,5 @@
-import * as React from "react";
-import * as Helmet from "react-helmet";
+import React from "react";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const defaultImage = `${process.env.PUBLIC_URL}/liexp-logo-1200x630.png`;
 
@@ -30,6 +30,9 @@ const SEO: React.FC<SEOProps> = ({
   image = defaultImage,
   urlPath,
 }) => {
+
+  // console.log('SEO', { description, lang, meta, title });
+
   const { site }: QueryResults = {
     site: {
       siteMetadata: {
@@ -44,7 +47,7 @@ const SEO: React.FC<SEOProps> = ({
   const metaDescription = description ?? site.siteMetadata.description;
 
   return (
-    <Helmet.Helmet
+    <Helmet
       htmlAttributes={
         lang !== undefined
           ? {
@@ -73,7 +76,7 @@ const SEO: React.FC<SEOProps> = ({
         },
         {
           property: `og:type`,
-          content: `website`,
+          content: `article`,
         },
         {
           property: "og:image",
@@ -108,4 +111,4 @@ SEO.defaultProps = {
 
 export default SEO;
 
-export const SEOHelmet = Helmet.Helmet as any;
+export { Helmet, HelmetProvider }

@@ -7,8 +7,8 @@ import { ServerStyleSheets, ThemeProvider } from "@material-ui/core/styles";
 import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
-import { Helmet } from "react-helmet";
-import { StaticRouter } from "react-router";
+import { StaticRouter } from "react-router-dom";
+import { Helmet, HelmetProvider } from "../components/SEO";
 import { ECOTheme } from "../theme";
 
 const ssrLog = GetLogger("ssr");
@@ -36,17 +36,19 @@ export const getServer = (
       const context = {
         url: undefined,
       };
+      const helmetContext = {};
+
       const sheets = new ServerStyleSheets();
       const html = ReactDOMServer.renderToString(
         sheets.collect(
-          <React.StrictMode>
+          <HelmetProvider context={helmetContext}>
             <ThemeProvider theme={ECOTheme}>
               <CssBaseline />
               <StaticRouter location={req.url} context={context}>
                 <App />
               </StaticRouter>
             </ThemeProvider>
-          </React.StrictMode>
+          </HelmetProvider>
         )
       );
 
@@ -55,18 +57,24 @@ export const getServer = (
       } else {
         // Grab the CSS from the sheets.
         const css = sheets.toString();
-        const h = helmet.renderStatic();
+        const h = (helmetContext as any).helmet;
+
+        console.log('helmet', h.meta.toString());
+
         const fontawesomeCss = dom.css();
-        const head = [h.title, h.meta, h.script]
-          .map((m) => m.toString())
-          .join("\n");
+        const head = `
+          ${h.title.toString()}
+          ${h.meta.toString()}
+          ${h.script.toString()}
+        `;
+
 
         return res
           .setHeader("Content-Type", "text/html")
           .send(
             data
               .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
-              .replace('<meta id="helmet-head"/>', head)
+              .replace('<meta id="helmet-head" />', head)
               .replace(
                 '<style id="jss-server-side"></style>',
                 `<style id="jss-server-side">${css}</style>`

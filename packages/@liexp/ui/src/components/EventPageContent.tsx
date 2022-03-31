@@ -75,7 +75,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 title={title}
                 description={getTextContentsCapped(event.excerpt as any, 230)}
                 image={seoImage}
-                urlPath={`/events/${event.id}`}
+                urlPath={`events/${event.id}`}
               />
               <Grid container spacing={2}>
                 <Grid item xs={12}>

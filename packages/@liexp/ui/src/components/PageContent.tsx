@@ -4,7 +4,6 @@ import { declareQueries } from "avenger/lib/react";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-import { Helmet } from "react-helmet";
 import { pageContentByPath } from "../providers/DataProvider";
 import { ErrorBox } from "./Common/ErrorBox";
 import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
@@ -34,14 +33,12 @@ export const PageContent = withQueries(({ queries }): React.ReactElement => {
       ({ pageContent: { title, path, body } }) => {
         return (
           <div className="page-content" style={{ marginBottom: 100 }}>
-            <Helmet>
-              <SEO
-                title={title}
-                description={body}
-                image={`${process.env.PUBLIC_URL}liexp-logo.png`}
-                urlPath={path}
-              />
-            </Helmet>
+            <SEO
+              title={title}
+              description={body}
+              image={`${process.env.PUBLIC_URL}liexp-logo.png`}
+              urlPath={path}
+            />
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <MarkdownRenderer>{body}</MarkdownRenderer>
             </ErrorBoundary>

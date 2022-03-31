@@ -58,7 +58,7 @@ const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId }) => {
                 <SEO
                   title={group.name}
                   image={group.avatar}
-                  urlPath={`/groups/${group.id}`}
+                  urlPath={`groups/${group.id}`}
                 />
                 <GroupPageContent
                   {...group}
