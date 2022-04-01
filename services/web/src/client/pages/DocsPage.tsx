@@ -21,7 +21,7 @@ class DocsPage extends React.PureComponent<RouteComponentProps> {
         )}
       >
         <MainContent>
-          <PageContent queries={{ pageContent: { path: "docs" } }} />
+          <PageContent path="docs" />
         </MainContent>
       </ContentWithSidebar>
     );

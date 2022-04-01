@@ -1,9 +1,10 @@
-import * as http from '@liexp/shared/io/http';
-import { uuid } from '@liexp/shared/utils/uuid';
+import * as http from "@liexp/shared/io/http";
+import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { uuid } from "@liexp/shared/utils/uuid";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from 'fp-ts/lib/function';
-import { Metadata } from 'page-metadata-parser';
-import { createExcerptValue } from '../components/Common/Editor';
+import { pipe } from "fp-ts/lib/function";
+import { Metadata } from "page-metadata-parser";
+import { createExcerptValue } from "../components/Common/Editor";
 
 export const getSuggestions = (
   m: Metadata,
@@ -128,4 +129,15 @@ export const getSuggestions = (
     },
   ];
   return suggestions;
+};
+
+export const getTotal = (totals: EventTotals): number => {
+  return (
+    totals.deaths +
+    totals.documentaries +
+    totals.patents +
+    totals.scientificStudies +
+    totals.transactions +
+    totals.uncategorized
+  );
 };

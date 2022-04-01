@@ -1,12 +1,9 @@
 import { Keyword } from "@liexp/shared/io/http";
-import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { Loader } from "@liexp/ui/components/Common/Loader";
 import SearchableInput from "@liexp/ui/components/Input/SearchableInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { KeywordListItem } from "@liexp/ui/components/lists/KeywordList";
-import { Queries } from "@liexp/ui/providers/DataProvider";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
+import { useKeywordsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
@@ -15,45 +12,38 @@ const KeywordsPage: React.FC = () => {
   return (
     <MainContent>
       {/* <PageContent queries={{ pageContent: { path: "keywords" } }} /> */}
-      <WithQueries
+      <QueriesRenderer
         queries={{
-          keywords: Queries.Keyword.getList,
-        }}
-        params={{
-          keywords: {
+          keywords: useKeywordsQuery({
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
-          },
+          }),
         }}
-        render={QR.fold(
-          Loader,
-          ErrorBox,
-          ({ keywords: { data: keywords } }) => (
-            <>
-              <SearchableInput<Keyword.Keyword & { selected: boolean }>
-                label="keywords"
-                items={keywords.map((k) => ({
-                  ...k,
-                  selected: false,
-                }))}
-                getValue={(t) => t.tag}
-                selectedItems={[]}
-                renderOption={(item, state) => (
-                  <KeywordListItem
-                    item={item}
-                    onClick={(keyword) => {
-                      // navigateTo.keywords({ id: keyword.id });
-                    }}
-                  />
-                )}
-                onSelectItem={(item) => {
-                  navigateTo.keywords({ id: item.id });
-                }}
-                onUnselectItem={() => {}}
-              />
-            </>
-          )
+        render={({ keywords: { data: keywords } }) => (
+          <>
+            <SearchableInput<Keyword.Keyword & { selected: boolean }>
+              label="keywords"
+              items={keywords.map((k) => ({
+                ...k,
+                selected: false,
+              }))}
+              getValue={(t) => t.tag}
+              selectedItems={[]}
+              renderOption={(item, state) => (
+                <KeywordListItem
+                  item={item}
+                  onClick={(keyword) => {
+                    // navigateTo.keywords({ id: keyword.id });
+                  }}
+                />
+              )}
+              onSelectItem={(item) => {
+                navigateTo.keywords({ id: item.id });
+              }}
+              onUnselectItem={() => {}}
+            />
+          </>
         )}
       />
     </MainContent>

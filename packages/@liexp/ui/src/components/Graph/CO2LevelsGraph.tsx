@@ -1,14 +1,11 @@
 import { Checkbox } from "@material-ui/core";
 import { LinearGradient } from "@vx/gradient";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as t from "io-ts";
 import * as React from "react";
-import { Queries } from "../../providers/DataProvider";
-import { ErrorBox } from "../Common/ErrorBox";
+import { useGraphQuery } from "../../state/queries/DiscreteQueries";
 import { AxisGraph } from "../Common/Graph/AxisGraph";
-import { Loader } from "../Common/Loader";
+import QueriesRenderer from "../QueriesRenderer";
 
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets
@@ -107,10 +104,9 @@ export class CO2LevelsGraph extends React.PureComponent<
         : "ghg-concentrations_800k-hundred-years-aggregated";
 
     return (
-      <WithQueries
-        queries={{ data: Queries.Graph.get }}
-        params={{ data: { id } }}
-        render={QR.fold(Loader, ErrorBox, ({ data }) => (
+      <QueriesRenderer
+        queries={{ data: useGraphQuery(id) }}
+        render={({ data }) => (
           <ParentSize
             style={{ height: 400, width: "100%", ...style }}
             debounceTime={30}
@@ -177,7 +173,7 @@ export class CO2LevelsGraph extends React.PureComponent<
               </div>
             )}
           </ParentSize>
-        ))}
+        )}
       />
     );
   }

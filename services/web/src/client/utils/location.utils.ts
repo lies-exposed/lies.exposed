@@ -1,11 +1,5 @@
-import { Buffer } from "buffer";
 import * as io from "@liexp/shared/io";
-import { available, queryStrict } from "avenger";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
-import qs from "query-string";
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
 import { queryToHash, useNavigateTo } from "./history.utils";
 
 interface CommonViewArgs {
@@ -227,15 +221,6 @@ export function viewToLocation(view: CurrentView): any {
       return { pathname, search: {} };
   }
 }
-
-// export const currentView = getCurrentView(locationToView); // ObservableQuery
-export const currentView = queryStrict<any, any, any>(
-  (input) =>
-    TE.right({
-      view: "events",
-    }),
-  available
-);
 
 const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
   return (

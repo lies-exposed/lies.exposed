@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface EventsFilterSummaryProps
-  extends Omit<SearchEventQueryResult, "events"> {
+  extends Omit<SearchEventQueryResult, "events" | 'total'> {
   className: string;
   queryFilters: Required<Omit<EventsView, "view" | "page">>;
   onQueryChange: (f: EventsFilterSummaryProps["queryFilters"]) => void;

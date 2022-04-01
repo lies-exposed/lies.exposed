@@ -1,61 +1,269 @@
-import { ListActorOutput } from "@liexp/shared/endpoints/actor.endpoints";
+import {
+  Actor,
+  Article,
+  Events,
+  Group,
+  GroupMember,
+  Keyword,
+  Link,
+  Media,
+  Page,
+  Project,
+} from "@liexp/shared/io/http";
 import { APIError } from "@liexp/shared/providers/api.provider";
-import { available, queryStrict } from "avenger";
+import * as A from "fp-ts/lib/Array";
+import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
-import { GetListParams } from "react-admin";
-import { Queries } from "../../providers/DataProvider";
+import { pipe } from "fp-ts/lib/function";
+import * as t from "io-ts";
+import { GetListParams, GetOneParams } from "react-admin";
+import { useQuery, UseQueryResult } from "react-query";
+import {
+  articleByPath,
+  foldTE,
+  jsonData,
+  Queries,
+} from "../../providers/DataProvider";
 
-export const emptyQuery = TE.right({
-  data: [],
-  total: 0,
-});
+export const emptyQuery = (): Promise<any> =>
+  Promise.resolve({
+    data: [],
+    total: 0,
+  });
 
-export const actorsDiscreteQuery = queryStrict<
-  GetListParams,
-  APIError,
-  ListActorOutput
->((input: GetListParams) => {
-  return input.filter.ids.length === 0
-    ? emptyQuery
-    : Queries.Actor.getList.run(input as any);
-}, available);
+export const useEventsQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Events.Event[]; total: number }, APIError> => {
+  return useQuery(["events"], async () => {
+    return (params.filter.ids ?? []).length === 0
+      ? await emptyQuery()
+      : await Queries.Event.getList(params);
+  });
+};
 
-export const groupsDiscreteQuery = queryStrict(
-  (input: GetListParams) =>
-    input.filter.ids.length === 0
-      ? emptyQuery
-      : Queries.Group.getList.run(input as any),
-  available
-);
+export const useActorsQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
+  return useQuery(["actors"], async () => {
+    return await Queries.Actor.getList(params);
+  });
+};
 
-export const groupsMembersDiscreteQuery = queryStrict(
-  (input: GetListParams) =>
-    input.filter.ids.length === 0
-      ? emptyQuery
-      : Queries.GroupMember.getList.run(input as any),
-  available
-);
+export const useActorsDiscreteQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
+  return useQuery(["discrete", "actors", params.filter], async () => {
+    return R.isEmpty(params.filter)
+      ? await emptyQuery()
+      : await Queries.Actor.getList(params);
+  });
+};
 
-export const keywordsDiscreteQuery = queryStrict(
-  (input: GetListParams) =>
-    input.filter.ids.length === 0
-      ? emptyQuery
-      : Queries.Keyword.getList.run(input as any),
-  available
-);
+export const fetchActor = async ({ queryKey }: any): Promise<Actor.Actor> =>
+  await Queries.Actor.get({ id: queryKey[1].id });
 
-export const mediaDiscreteQuery = queryStrict(
-  (input: GetListParams) =>
-    input.filter.ids.length === 0
-      ? emptyQuery
-      : Queries.Media.getList.run(input as any),
-  available
-);
+export const useActorQuery = (
+  params: GetOneParams
+): UseQueryResult<Actor.Actor, APIError> => {
+  return useQuery(["actors", params], fetchActor);
+};
 
-export const linksDiscreteQuery = queryStrict(
-  (input: GetListParams) =>
-    input.filter.ids.length === 0
-      ? emptyQuery
-      : Queries.Link.getList.run(input as any),
-  available
-);
+export const fetchGroups = async ({
+  queryKey,
+}: any): Promise<{ data: Group.Group[]; total: number }> => {
+  return await Queries.Group.getList(queryKey[1]);
+};
+
+export const useGroupsQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Group.Group[]; total: number }, APIError> => {
+  return useQuery(["groups", params], fetchGroups);
+};
+
+export const useGroupsDiscreteQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Group.Group[]; total: number }, APIError> => {
+  return useQuery(["discrete", "groups", params.filter], async () => {
+    return R.isEmpty(params.filter)
+      ? await emptyQuery()
+      : await Queries.Group.getList(params);
+  });
+};
+
+export const fetchGroup = async ({ queryKey }: any): Promise<Group.Group> => {
+  return await Queries.Group.get({ id: queryKey[1].id });
+};
+
+export const useGroupQuery = (
+  params: GetOneParams
+): UseQueryResult<Group.Group, APIError> => {
+  return useQuery(["groups", params], fetchGroup);
+};
+
+export const fetchGroupsMembers = async ({
+  queryKey,
+}: any): Promise<{ data: GroupMember.GroupMember[]; total: number }> => {
+  return await Queries.GroupMember.getList(queryKey[1]);
+};
+
+export const useGroupMembersQuery = (
+  params: GetListParams
+): UseQueryResult<
+  { data: GroupMember.GroupMember[]; total: number },
+  APIError
+> => {
+  return useQuery(["groups-members", params], fetchGroupsMembers);
+};
+
+export const useGroupsMembersDiscreteQuery = (
+  params: GetListParams
+): UseQueryResult<
+  { data: GroupMember.GroupMember[]; total: number },
+  APIError
+> => {
+  return useQuery(["discrete", "groups-members", params.filter], async () => {
+    return R.isEmpty(params.filter)
+      ? await emptyQuery()
+      : await Queries.GroupMember.getList(params);
+  });
+};
+
+export const useKeywordsQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
+  return useQuery(["keywords"], async () => {
+    return await Queries.Keyword.getList(params);
+  });
+};
+
+export const useKeywordsDiscreteQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
+  return useQuery(["keywords", params.filter], async () => {
+    return R.isEmpty(params.filter)
+      ? await emptyQuery()
+      : await Queries.Keyword.getList(params);
+  });
+};
+
+export const useKeywordQuery = (
+  params: GetOneParams
+): UseQueryResult<{ data: Keyword.Keyword; total: number }, APIError> => {
+  return useQuery(["keywords", params.id], async () => {
+    return await Queries.Keyword.get(params);
+  });
+};
+
+export const useKeywordsDistributionQuery = (
+  params: any
+): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
+  return useQuery(["keywords", "distribution"], async () => {
+    return await Queries.Keyword.Custom.Distribution({ Query: params });
+  });
+};
+
+export const useMediaQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Media.Media[]; total: number }, any> => {
+  return useQuery(["media"], async () => {
+    return params.filter.ids?.length === 0
+      ? await emptyQuery()
+      : await Queries.Media.getList(params);
+  });
+};
+
+export const useLinksQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Link.Link[]; total: number }, APIError> => {
+  return useQuery(["links"], async () => {
+    return params.filter.ids?.length === 0
+      ? await emptyQuery()
+      : await Queries.Link.getList(params);
+  });
+};
+
+export const usePageContentByPathQuery = ({
+  path,
+}: {
+  path: string;
+}): UseQueryResult<Page.Page, APIError> =>
+  useQuery(["pages", path], async () => {
+    return await pipe(
+      TE.tryCatch(
+        () =>
+          Queries.Page.getList({
+            pagination: {
+              page: 1,
+              perPage: 1,
+            },
+            filter: {
+              path,
+            },
+            sort: { field: "createdAt", order: "DESC" },
+          }),
+        (e) => e as any as APIError
+      ),
+      TE.map((pages) => A.head(pages.data)),
+      TE.chain(
+        TE.fromOption(
+          (): APIError => ({
+            name: `APIError`,
+            message: `Page ${path} is missing`,
+            details: [],
+          })
+        )
+      ),
+      foldTE
+    );
+  });
+
+export const useArticleByPathQuery = ({
+  path,
+}: {
+  path: string;
+}): UseQueryResult<Article.Article, APIError> =>
+  useQuery(["articles", path], async () => {
+    return await articleByPath({ path });
+  });
+
+export const useArticlesQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Article.Article[]; total: number }, APIError> => {
+  return useQuery(["articles"], async () => {
+    return params.filter.ids?.length === 0
+      ? await emptyQuery()
+      : await Queries.Article.getList(params);
+  });
+};
+
+export const fetchEvent = async ({ queryKey }: any): Promise<Events.Event> =>
+  await Queries.Event.get(queryKey[1]);
+
+export const useEventQuery = (
+  params: GetOneParams
+): UseQueryResult<Events.Event, any> => {
+  return useQuery(["event", params], fetchEvent);
+};
+
+export const useProjectQuery = (
+  params: GetOneParams
+): UseQueryResult<Project.Project, any> => {
+  return useQuery(["project", params.id], async () => {
+    return await Queries.Project.get(params);
+  });
+};
+
+export const useJSONDataQuery = <A>(
+  c: t.Decode<unknown, { data: A }>,
+  id: string
+): UseQueryResult<{ data: A }, APIError> => {
+  return useQuery(["json", id], async () => {
+    return await jsonData(c)({ id });
+  });
+};
+
+export const useGraphQuery = (id: string): UseQueryResult<any, APIError> => {
+  return useQuery(["graph", id], async () => {
+    return await Queries.Graph.get({ id });
+  });
+};

@@ -1,16 +1,13 @@
 import { Typography } from "@material-ui/core";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import Feature from "ol/Feature";
 import { Polygon } from "ol/geom";
 import { getArea } from "ol/sphere";
 import * as React from "react";
-import { Queries } from "../providers/DataProvider";
+import { useQuery } from "react-query";
 import { geoJSONFormat } from "../utils/map.utils";
-import { ErrorBox } from "./Common/ErrorBox";
-import { Loader } from "./Common/Loader";
 import Map, { MapProps } from "./Map";
+import QueriesRenderer from "./QueriesRenderer";
 
 interface AreasMapProps extends Pick<MapProps<any>, "onMapClick"> {
   center?: [number, number];
@@ -21,24 +18,19 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
   render(): JSX.Element {
     const { center = [9.18951, 45.46427], zoom = 12, onMapClick } = this.props;
     return (
-      <WithQueries
-        queries={{ areas: Queries.Area.getList }}
-        params={{
-          areas: {
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "DESC" },
-            filter: {},
-          },
+      <QueriesRenderer
+        queries={{
+          areas: useQuery(["areas"], () => Promise.resolve({ data: [] })),
         }}
-        render={QR.fold(Loader, ErrorBox, ({ areas }) => {
-          const features = areas.data.map(({ geometry, ...datum }) => {
+        render={({ areas }) => {
+          const features = areas.data.map(({ geometry, ...datum }: any) => {
             const geom = geoJSONFormat.readGeometry(geometry);
             const feature = new Feature(geom);
             feature.setProperties(datum);
             return feature;
           });
 
-          const totalArea = areas.data.reduce((acc, a) => {
+          const totalArea = areas.data.reduce((acc: number, a: any) => {
             const polygon = new Polygon(a.geometry.coordinates);
             const area = getArea(polygon, {
               projection: "EPSG:4326",
@@ -85,7 +77,7 @@ class AreasMap extends React.PureComponent<AreasMapProps> {
               </div>
             </>
           );
-        })}
+        }}
       />
     );
   }

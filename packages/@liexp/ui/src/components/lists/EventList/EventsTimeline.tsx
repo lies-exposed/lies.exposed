@@ -3,9 +3,10 @@ import {
   Documentary,
   Patent,
   ScientificStudy,
+  SearchEvent,
   Uncategorized,
-  SearchEvent
 } from "@liexp/shared/io/http/Events";
+import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import {
   Box,
@@ -25,10 +26,10 @@ import {
 } from "react-virtualized";
 import {
   SearchEventQueryInput,
-  SearchEventQueryResult,
-  searchEventsQuery,
+  searchEventsInfiniteQuery,
 } from "../../../state/queries/SearchEventsQuery";
 import { isValidValue } from "../../Common/Editor";
+import { FullSizeLoader } from "../../Common/FullSizeLoader";
 import { EventListItemProps } from "./EventListItem";
 import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
 
@@ -90,7 +91,11 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
   );
 };
 
-export const getItemHeight = (e: SearchEvent.SearchEvent, isDownMD: boolean): number => {
+export const getItemHeight = (
+  e: SearchEvent.SearchEvent,
+  isDownMD: boolean
+): number => {
+
   switch (e.type) {
     case TRANSACTION.value:
       return isDownMD ? 200 : 180;
@@ -125,24 +130,7 @@ export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
 }
 
-const initialState: SearchEventQueryResult = {
-  events: [],
-  actors: [],
-  groups: [],
-  groupsMembers: [],
-  keywords: [],
-  media: [],
-  totals: {
-    uncategorized: 0,
-    deaths: 0,
-    patents: 0,
-    scientificStudies: 0,
-    documentaries: 0,
-    transactions: 0,
-  },
-};
-
-const _loadedRowsMap: Record<number, JSX.Element> = {};
+let _loadedRowsMap: Record<number, JSX.Element> = {};
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
@@ -159,7 +147,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const theme = useTheme();
   const classes = useStyles();
   const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
-  const [searchEvents, setSearchEvents] = React.useState(initialState);
 
   const itemProps = {
     onClick,
@@ -169,81 +156,91 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     onKeywordClick,
   };
 
+  const {
+    data,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    isRefetching,
+    refetch,
+  } = searchEventsInfiniteQuery(queryParams);
+
+  const searchEvents =
+    data?.pages !== undefined
+      ? data.pages.reduce(
+          (acc, p) => ({
+            events: acc.events.concat(p.events),
+            actors: acc.actors.concat(p.actors),
+            groups: acc.groups.concat(p.groups),
+            groupsMembers: acc.groupsMembers.concat(p.groupsMembers),
+            total: p.total,
+            totals: p.totals,
+          }),
+
+          {
+            events: [] as any[],
+            actors: [] as any[],
+            groups: [] as any[],
+            groupsMembers: [] as any[],
+            total: 0,
+            totals: {} as any as EventTotals,
+          }
+        )
+      : undefined;
+
   const totalEvents = React.useMemo(
     () =>
       [
         queryParams.type?.includes(Death.DEATH.value)
-          ? searchEvents.totals.deaths
+          ? searchEvents?.totals.deaths ?? 0
           : 0,
         queryParams.type?.includes(Uncategorized.UNCATEGORIZED.value)
-          ? searchEvents.totals.uncategorized
+          ? searchEvents?.totals.uncategorized ?? 0
           : 0,
         queryParams.type?.includes(ScientificStudy.SCIENTIFIC_STUDY.value)
-          ? searchEvents.totals.scientificStudies
+          ? searchEvents?.totals.scientificStudies ?? 0
           : 0,
         queryParams.type?.includes(Patent.PATENT.value)
-          ? searchEvents.totals.patents
+          ? searchEvents?.totals.patents ?? 0
           : 0,
         queryParams.type?.includes(Documentary.DOCUMENTARY.value)
-          ? searchEvents.totals.documentaries
+          ? searchEvents?.totals.documentaries ?? 0
           : 0,
       ].reduce((acc, tot) => acc + tot, 0),
-    [searchEvents.totals]
+    [searchEvents?.totals ?? {}]
   );
 
   const isRowLoaded = (params: Index): boolean => {
     const rowLoaded =
-      searchEvents.events[params.index] !== undefined &&
+      searchEvents?.events[params.index] !== undefined &&
       _loadedRowsMap[params.index] !== undefined;
-    // console.log("row loaded", { ...params, rowLoaded });
     return rowLoaded;
   };
 
   const getRowHeight = React.useCallback(
     ({ index }: Index) => {
-      const event = searchEvents.events[index];
+      const event = searchEvents?.events[index];
 
       return event ? getItemHeight(event, isDownSM) : 150;
     },
-    [searchEvents.events.length]
+    [searchEvents?.events.length ?? 0]
   );
 
-  const onLoadMoreEvents = async (range: IndexRange): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/return-await
-    return searchEventsQuery
-      .run({
-        ...queryParams,
-        hash,
-        _start: range.startIndex as any,
-        _end: range.stopIndex as any,
-      })()
-      .then((result) => {
-        if (result._tag === "Right") {
-          setSearchEvents(result.right);
-        }
-
-        return new Promise((resolve) => {
-          setTimeout(resolve, 100);
-        });
-      });
-  };
-
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
-    if (
-      params.startIndex < searchEvents.events.length &&
-      params.stopIndex < searchEvents.events.length
-    ) {
-      return await Promise.resolve(undefined);
+    if (hasNextPage && !isFetchingNextPage) {
+      void fetchNextPage({ pageParam: params });
     }
-    // console.log("load more rows", { ...params, totalEvents });
-    void onLoadMoreEvents(params);
+    return undefined;
   };
 
   React.useEffect(() => {
-    void onLoadMoreEvents({ startIndex: 0, stopIndex: 20 });
+    _loadedRowsMap = {};
+    void refetch({ refetchPage: () => true });
   }, [hash]);
 
-  // console.log("events", { totalEvents, events: searchEvents.events });
+  if (isRefetching || !searchEvents) {
+    return <FullSizeLoader />;
+  }
 
   return (
     <Box
@@ -260,6 +257,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
         isRowLoaded={isRowLoaded}
         loadMoreRows={handleLoadMoreRows}
         rowCount={totalEvents}
+        minimumBatchSize={20}
       >
         {({ onRowsRendered, registerChild }) => (
           <AutoSizer defaultHeight={800}>
@@ -275,13 +273,13 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                   overscanRowCount={10}
                   onRowsRendered={onRowsRendered}
                   rowRenderer={(props) => {
-                    if (props.index >= searchEvents.events.length) {
+                    if (props.index >= searchEvents?.events.length) {
                       return <div key={props.key} style={{ height: 100 }} />;
                     }
 
-                    const event = searchEvents.events[props.index];
+                    const event = searchEvents?.events[props.index];
                     const isLast =
-                      searchEvents.events[props.index + 1] === undefined;
+                      searchEvents?.events[props.index + 1] === undefined;
 
                     const row = (
                       <Row

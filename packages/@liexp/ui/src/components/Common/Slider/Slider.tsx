@@ -12,9 +12,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   item: {
-    maxWidth: 800,
-    maxHeight: 400,
-    minHeight: 400,
+    margin: "auto",
+    height: "100%",
+    width: "100%",
+    display: "block",
+    objectFit: "contain",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
@@ -44,6 +46,7 @@ export const Slider: React.FC<SliderProps> = ({
       infinite={false}
       arrows={true}
       draggable={true}
+      centerMode={true}
       dots={true}
       responsive={[
         {
@@ -57,23 +60,12 @@ export const Slider: React.FC<SliderProps> = ({
       {...{ ...props }}
     >
       {slides.map((s) => (
-        <div
-          key={s.location}
-          style={{
-            textAlign: "center",
-            maxHeight,
-            maxWidth: 600,
-            margin: "auto",
-          }}
-        >
+        <div key={s.id}>
           <MediaElement
+            key={s.id}
             media={s}
             className={classes.item}
-            style={{
-              height: "100%",
-              margin: "auto",
-              ...itemStyle,
-            }}
+            style={itemStyle}
           />
         </div>
       ))}

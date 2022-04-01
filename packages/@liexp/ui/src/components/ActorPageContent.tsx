@@ -3,6 +3,7 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import ActorsBox from "../containers/ActorsBox";
 import { DeathBox } from "../containers/DeathBox";
 import { Avatar } from "./Common/Avatar";
 import EditButton from "./Common/Button/EditButton";
@@ -13,12 +14,14 @@ export interface ActorPageContentProps {
   actor: Actor.Actor;
   groups: Group.Group[];
   onGroupClick: (a: Group.Group) => void;
+  onActorClick: (a: Actor.Actor) => void;
 }
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   actor,
   groups,
   onGroupClick,
+  onActorClick,
 }) => {
   return (
     <Grid container>
@@ -53,6 +56,21 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
               onItemClick={onGroupClick}
             />
           </Box>
+        </Grid>
+        <Grid item md={12}>
+          <Typography variant="h4">Related actors</Typography>
+          <ActorsBox
+            style={{ display: "flex", flexDirection: "row" }}
+            params={{
+              sort: { field: "updatedAt", order: "DESC" },
+              pagination: {
+                page: 1,
+                perPage: 3,
+              },
+              filter: {},
+            }}
+            onItemClick={onActorClick}
+          />
         </Grid>
       </Grid>
     </Grid>

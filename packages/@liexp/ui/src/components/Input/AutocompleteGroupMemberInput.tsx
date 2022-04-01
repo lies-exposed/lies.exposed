@@ -1,9 +1,9 @@
 import { GroupMember } from "@liexp/shared/io/http";
 import * as React from "react";
-import { Queries } from "../../providers/DataProvider";
+import { useGroupsMembersDiscreteQuery } from '../../state/queries/DiscreteQueries';
 import {
   GroupMemberListItem,
-  GroupsMembersList,
+  GroupsMembersList
 } from "../lists/GroupMemberList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -22,7 +22,7 @@ export const AutocompleteGroupMemberInput: React.FC<
       searchToFilter={(tag) => ({ tag })}
       selectedItems={selectedItems}
       getValue={(k) => `${k.group.name} - ${k.actor.fullName}`}
-      query={Queries.GroupMember.getList}
+      query={useGroupsMembersDiscreteQuery}
       renderTags={(items) => (
         <GroupsMembersList
           groupsMembers={items.map((i) => ({

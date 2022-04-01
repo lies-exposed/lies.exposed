@@ -1,15 +1,11 @@
-import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { LazyFullSizeLoader } from "@liexp/ui/components/Common/FullSizeLoader";
 import {
   EventsNetworkGraph,
-  EventsNetworkGraphProps,
+  EventsNetworkGraphProps
 } from "@liexp/ui/components/Graph/EventsNetworkGraph";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Box } from "@material-ui/core";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
-import { InfiniteEventListParams } from "../state/queries";
 
 interface EventsNetworkProps
   extends Omit<
@@ -23,7 +19,7 @@ interface EventsNetworkProps
     | "selectedGroupIds"
     | "selectedKeywordIds"
   > {
-  filter: Omit<InfiniteEventListParams, "page">;
+  filter: any;
 }
 
 export const EventsNetwork: React.FC<EventsNetworkProps> = ({
@@ -39,40 +35,34 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   };
 
   return (
-    <WithQueries
-      queries={{ events: searchEventsQuery }}
-      params={{
-        events: {
+    <QueriesRenderer
+      queries={{
+        events: searchEventsQuery({
           hash: "events-network",
           ...(eventsFilter as any),
-        },
+        }),
       }}
-      render={QR.fold(
-        LazyFullSizeLoader,
-        ErrorBox,
-        ({ events: { events, actors, groups, keywords, } }) => {
-
-          return (
-            <Box
-              style={{
-                width: 1000,
-                padding: 40
-              }}
-            >
-              <EventsNetworkGraph
-                {...props}
-                events={events}
-                actors={actors}
-                groups={groups}
-                keywords={keywords}
-                selectedActorIds={filter.actors ?? []}
-                selectedGroupIds={filter.groups ?? []}
-                selectedKeywordIds={filter.keywords ?? []}
-              />
-            </Box>
-          );
-        }
-      )}
+      render={({ events: { events, actors, groups, keywords } }) => {
+        return (
+          <Box
+            style={{
+              width: 1000,
+              padding: 40,
+            }}
+          >
+            <EventsNetworkGraph
+              {...props}
+              events={events}
+              actors={actors}
+              groups={groups}
+              keywords={keywords}
+              selectedActorIds={filter.actors ?? []}
+              selectedGroupIds={filter.groups ?? []}
+              selectedKeywordIds={filter.keywords ?? []}
+            />
+          </Box>
+        );
+      }}
     />
   );
 };

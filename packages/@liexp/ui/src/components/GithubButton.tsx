@@ -1,11 +1,8 @@
 import { Box, IconButton, Typography } from "@material-ui/core";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as React from "react";
 import { githubRepo } from "../state/queries/github";
-import { ErrorBox } from "./Common/ErrorBox";
-import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
 import { GithubIcon } from "./Common/Icons";
+import QueriesRenderer from "./QueriesRenderer";
 
 interface GithubButtonProps {
   user: string;
@@ -19,14 +16,11 @@ const GithubButton: React.FC<GithubButtonProps> = ({
 }) => {
   return (
     <Box display="inline">
-      <WithQueries
+      <QueriesRenderer
         queries={{
-          github: githubRepo,
+          github: githubRepo({ user, repo }),
         }}
-        params={{
-          github: { user, repo },
-        }}
-        render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ github }) => {
+        render={({ github }) => {
           return (
             <IconButton
               className={className}
@@ -39,11 +33,11 @@ const GithubButton: React.FC<GithubButtonProps> = ({
             >
               <GithubIcon style={{ color: "white", marginRight: 10 }} />
               <Typography variant="subtitle1" display="inline">
-                {(github as any).stargazers_count}
+                {github.stargazers_count}
               </Typography>
             </IconButton>
           );
-        })}
+        }}
       />
     </Box>
   );

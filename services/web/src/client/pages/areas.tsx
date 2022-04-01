@@ -8,7 +8,7 @@ export default class AreasPage extends React.PureComponent<RouteComponentProps> 
   render(): JSX.Element {
     return (
       <MainContent>
-        <PageContent queries={{ pageContent: { path: "areas" } }} />
+        <PageContent path="areas" />
         <AreasMap
           center={[9.18951, 45.46427]}
           zoom={11}

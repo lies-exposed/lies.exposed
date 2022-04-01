@@ -1,17 +1,14 @@
 import { Events } from "@liexp/shared/io/http";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import Feature from "ol/Feature";
 import * as React from "react";
-import { Queries } from "../providers/DataProvider";
+import { useEventsQuery } from '../state/queries/DiscreteQueries';
 import { geoJSONFormat } from "../utils/map.utils";
-import { ErrorBox } from "./Common/ErrorBox";
-import { LazyFullSizeLoader } from "./Common/FullSizeLoader";
 import Map from "./Map";
+import QueriesRenderer from "./QueriesRenderer";
 
 interface EventsMapComponentProps {
   events: Events.Event[];
@@ -104,13 +101,9 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
     ...rest
   } = props;
   return (
-    <WithQueries
+    <QueriesRenderer
       queries={{
-        events: Queries.Event.getList,
-        deaths: Queries.DeathEvent.getList,
-      }}
-      params={{
-        events: {
+        events: useEventsQuery({
           pagination: { page: 1, perPage: 100 },
           sort: { field: "startDate", order: "DESC" },
           filter: {
@@ -125,18 +118,11 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
                 : undefined,
             ...filters,
           },
-        },
-        deaths: {
-          pagination: { page: 1, perPage: 20 },
-          sort: { field: "date", order: "DESC" },
-          filter: {
-            groups: filters.groups ? O.toUndefined(filters.groups) : undefined,
-          },
-        },
+        }),
       }}
-      render={QR.fold(LazyFullSizeLoader, ErrorBox, ({ events }) => {
+      render={({ events }) => {
         return <EventsMapComponent {...rest} events={events.data} />;
-      })}
+      }}
     />
   );
 };

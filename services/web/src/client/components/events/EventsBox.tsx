@@ -1,56 +1,51 @@
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
-import { ErrorBox } from "@liexp/ui/components/Common/ErrorBox";
-import { Loader } from "@liexp/ui/components/Common/Loader";
-import {
-    searchEventsQuery
-} from "@liexp/ui/state/queries/SearchEventsQuery";
-import {
-    Grid, useTheme
-} from "@material-ui/core";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { Grid, Typography, useTheme } from "@material-ui/core";
 import * as React from "react";
+import { useNavigateToResource } from "../../utils/location.utils";
 
 interface EventsBoxProps {
+  title: string;
   query: any;
 }
 
 const EventsBox: React.FC<EventsBoxProps> = (props) => {
   const theme = useTheme();
-
-
+  const navigateToResource = useNavigateToResource();
   return (
-    <WithQueries
+    <QueriesRenderer
       queries={{
-        events: searchEventsQuery,
-      }}
-      params={{
-        events: {
-            ...props.query,
+        events: searchEventsQuery({
           _start: 0,
           _end: 10,
-        } as any,
+          ...props.query,
+        }),
       }}
-      render={QR.fold(
-        () => (
-          <Loader />
-        ),
-        ErrorBox,
-        ({ events }) => {
-
-          return (
-            <Grid container spacing={2}>
-              {events.events.map((e) => {
-                return (
-                  <Grid key={e.id} item md={4}>
-                    <EventCard event={e} showRelations={true} />
-                  </Grid>
-                );
-              })}
-            </Grid>
-          );
-        }
-      )}
+      render={({ events }) => {
+        return (
+          <Grid container spacing={2}>
+            {events.events.length > 0 ? (
+              <Grid item md={12}>
+                <Typography variant="h5">{props.title}</Typography>
+              </Grid>
+            ) : null}
+            {events.events.map((e) => {
+              return (
+                <Grid key={e.id} item sm={4} xs={12}>
+                  <EventCard
+                    event={e}
+                    showRelations={true}
+                    onEventClick={(e) =>
+                      navigateToResource.events({ id: e.id })
+                    }
+                  />
+                </Grid>
+              );
+            })}
+          </Grid>
+        );
+      }}
     />
   );
 };

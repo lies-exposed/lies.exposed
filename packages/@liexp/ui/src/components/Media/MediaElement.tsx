@@ -17,6 +17,13 @@ const MediaElement: React.FC<MediaElementProps> = ({
   ...props
 }) => {
   const mediaElement = React.useMemo(() => {
+    const commonStyle = {
+      width: "100%",
+      minWidth: 400,
+      maxWidth: 800,
+      minHeight: 400,
+    };
+
     switch (media.type) {
       case Media.MediaType.types[5].value:
         return (
@@ -24,10 +31,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             className={className}
             media={{ ...media, type: "iframe/video" }}
             style={{
-              width: "100%",
-              minWidth: 400,
-              maxWidth: 800,
-              minHeight: 400,
+              ...commonStyle,
               ...props.style,
             }}
           />
@@ -37,7 +41,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
           <PDFMediaElement
             className={className}
             media={{ ...media, type: "application/pdf" }}
-            style={props.style}
+            style={{ ...commonStyle, ...props.style }}
           />
         );
       }
@@ -51,6 +55,10 @@ const MediaElement: React.FC<MediaElementProps> = ({
             loop={false}
             controls={true}
             autoPlay={false}
+            style={{
+              ...commonStyle,
+              ...props.style,
+            }}
           />
         );
       }
@@ -59,6 +67,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
           <ExpandableImageElement
             className={className}
             media={media as any}
+            style={{ ...commonStyle, ...props.style }}
           />
         );
     }

@@ -21,9 +21,14 @@ import KeywordList from "../../lists/KeywordList";
 interface EventCardProps {
   event: SearchEvent.SearchEvent;
   showRelations: boolean;
+  onEventClick: (e: SearchEvent.SearchEvent) => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event, showRelations }) => {
+const EventCard: React.FC<EventCardProps> = ({
+  event,
+  showRelations,
+  onEventClick,
+}) => {
   const { actors, groups, media, keywords } = getEventsMetadata(event);
   const title =
     event.type === Events.Death.DEATH.value
@@ -35,7 +40,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, showRelations }) => {
       : media[0]?.thumbnail;
   return (
     <Box>
-      <Card>
+      <Card onClick={() => onEventClick(event)}>
         <CardActionArea>
           <CardMedia component="img" image={image} />
           <CardHeader
@@ -46,7 +51,14 @@ const EventCard: React.FC<EventCardProps> = ({ event, showRelations }) => {
 
           <CardContent>
             {event.excerpt ? (
-              <Editor value={event.excerpt as any} readOnly />
+              <Box
+                style={{
+                  maxHeight: 100,
+                  overflow: "hidden",
+                }}
+              >
+                <Editor value={event.excerpt as any} readOnly />
+              </Box>
             ) : null}
 
             {showRelations ? (

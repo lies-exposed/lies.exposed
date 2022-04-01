@@ -1,7 +1,7 @@
 import { pluginFactories } from "@react-page/plugins-slate";
 import { RaSelectReferenceInputField } from "@react-page/react-admin";
 import * as React from "react";
-import { ActorsBox } from "../../../ActorsBox";
+import ActorsBox from "../../../../containers/ActorsBox";
 
 const ActorIdSelector = (props: any): JSX.Element => (
   <RaSelectReferenceInputField
@@ -28,7 +28,11 @@ export const actorLinkPlugin = pluginFactories.createComponentPlugin<{
     return (
       <ActorsBox
         style={props.style}
-        ids={[props.actorId]}
+        params={{
+          pagination: { perPage: 1, page: 1 },
+          filter: { ids: [props.actorId] },
+          sort: { field: "createdAt", order: "DESC" },
+        }}
         onItemClick={() => {}}
       />
     );

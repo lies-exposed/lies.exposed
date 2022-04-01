@@ -1,6 +1,6 @@
 import {
   ClimateChangeForecast,
-  ClimateChangeHistoryOfSummits,
+  ClimateChangeHistoryOfSummits
 } from "@liexp/shared/endpoints/graph.endpoints";
 import { Forecast } from "@liexp/shared/io/http/climate-change/Forecast";
 import { numTicksForWidth } from "@liexp/shared/utils/graph.utils";
@@ -15,16 +15,13 @@ import { Bar, Line, LinePath } from "@vx/shape";
 import { Text } from "@vx/text";
 import { Threshold } from "@vx/threshold";
 import { defaultStyles, Tooltip, withTooltip } from "@vx/tooltip";
-import * as QR from "avenger/lib/QueryResult";
-import { WithQueries } from "avenger/lib/react";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
-import { jsonData } from "../../../providers/DataProvider";
-import { ErrorBox } from "../../Common/ErrorBox";
-import { LazyLoader } from "../../Common/Loader";
+import { useJSONDataQuery } from "../../../state/queries/DiscreteQueries";
+import QueriesRenderer from "../../QueriesRenderer";
 
 const tooltipStyles = {
   ...defaultStyles,
@@ -384,21 +381,19 @@ export const SocietyCollapseForecastGraph = withTooltip<
 export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
   render(): JSX.Element {
     return pipe(
-      <WithQueries
+      <QueriesRenderer
         queries={{
-          data: jsonData(
-            t.strict({ data: t.array(ClimateChangeForecast.types[1]) }).decode
+          data: useJSONDataQuery(
+            t.strict({ data: t.array(ClimateChangeForecast.types[1]) }).decode,
+            "climate-change/forecast.csv"
           ),
-          events: jsonData(
+          events: useJSONDataQuery(
             t.strict({ data: t.array(ClimateChangeHistoryOfSummits.types[1]) })
-              .decode
+              .decode,
+            "climate-change/history-of-climate-summits.csv"
           ),
         }}
-        params={{
-          data: { id: "climate-change/forecast.csv" },
-          events: { id: "climate-change/history-of-climate-summits.csv" },
-        }}
-        render={QR.fold(LazyLoader, ErrorBox, ({ events, data }) => {
+        render={({ events, data }) => {
           return (
             <ParentSize
               style={{ height: 600, width: "100%" }}
@@ -422,7 +417,7 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
               }}
             </ParentSize>
           );
-        })}
+        }}
       />
     );
   }
