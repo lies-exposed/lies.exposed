@@ -3,6 +3,7 @@ import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
+import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import {
   Box,
   Button,
@@ -18,8 +19,9 @@ import {
   useTheme,
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import * as O from "fp-ts/lib/Option";
 import * as React from "react";
-import { getURLMetadata, createEventSuggestion } from "../../state/commands";
+import { createEventSuggestion, getURLMetadata } from "../../state/commands";
 
 interface EventSuggestionsListProps {
   suggestions: Events.EventSuggestion[];
@@ -79,36 +81,41 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
     (http.Events.EventSuggestion & { id: string }) | undefined
   >(undefined);
 
+  const createEventSuggestionM = createEventSuggestion();
+  const getURLMetadataM = getURLMetadata();
+
   const handleSubmit = (): void => {
     if (selectedSuggestion) {
-      void createEventSuggestion().mutate(selectedSuggestion);
-      // .then(() => {
-      //   setOpen(false);
-      //   setUrl({
-      //     value: "",
-      //     submitted: "",
-      //     suggestions: [],
-      //     events: [],
-      //   });
-      // });
-    } else {
-      void getURLMetadata().mutate({
-        url: url.value,
+      void createEventSuggestionM.mutate(selectedSuggestion, {
+        onSuccess: () => {
+          setOpen(false);
+          setUrl({
+            value: "",
+            submitted: "",
+            suggestions: [],
+            events: [],
+          });
+        },
       });
-      // .then((result) => {
-
-      //   if (result._tag === "Right") {
-      //     setUrl({
-      //       value: "",
-      //       submitted: url.value,
-      //       suggestions: getSuggestions(
-      //         result.right.data.metadata,
-      //         O.fromNullable(result.right.data.link)
-      //       ),
-      //       events: [],
-      //     });
-      //   }
-      // });
+    } else {
+      void getURLMetadataM.mutate(
+        {
+          url: url.value,
+        },
+        {
+          onSuccess: (data) => {
+            setUrl({
+              value: "",
+              submitted: url.value,
+              suggestions: getSuggestions(
+                data.metadata,
+                O.fromNullable(data.link)
+              ),
+              events: [],
+            });
+          },
+        }
+      );
     }
   };
   const createDisabled = false;
@@ -167,7 +174,11 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
                 {url.events.map((e) => {
                   return (
                     <Grid key={e.id} item md={4}>
-                      <EventCard event={e} showRelations={false} />
+                      <EventCard
+                        event={e}
+                        showRelations={false}
+                        onEventClick={() => {}}
+                      />
                     </Grid>
                   );
                 })}

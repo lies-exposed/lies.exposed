@@ -6,11 +6,17 @@ import { pipe } from "fp-ts/lib/function";
 import { In } from "typeorm";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";
+import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const MakeGetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.GetSuggestions,
-    ({ query: { status } }) => {
+    ({ query: { status, _order, _sort } }) => {
+      const ordering = foldOptionals({
+        _sort,
+        _order,
+      });
+
 
       const statusFilter = pipe(
         status,
@@ -26,6 +32,9 @@ export const MakeGetEventSuggestionListRoute: Route = (r, ctx) => {
           data: ctx.db.find(EventSuggestionEntity, {
             where: {
               status: statusFilter,
+            },
+            order: {
+              [ordering._sort]: ordering._order,
             },
           }),
           total: ctx.db.count(EventSuggestionEntity),

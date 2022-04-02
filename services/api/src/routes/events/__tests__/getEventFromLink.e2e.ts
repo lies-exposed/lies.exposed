@@ -80,7 +80,7 @@ describe("Get event from link", () => {
     await appTest.ctx.db.close()();
   });
 
-  test("Return events sorted by score", async () => {
+  test.skip("Return events sorted by score", async () => {
     appTest.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
       title:
         "very complicated title with long words like this one: supercalifragilistichespiralidoso",
