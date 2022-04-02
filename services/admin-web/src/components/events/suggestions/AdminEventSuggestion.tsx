@@ -229,7 +229,6 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
                         links: [],
                         media: []
                       }}
-                      media={[]}
                       onActorClick={() => undefined}
                       onGroupClick={() => undefined}
                       onKeywordClick={() => undefined}

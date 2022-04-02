@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types";
-import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable';
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
 import {
@@ -101,12 +101,15 @@ export const GetFromLink = Endpoint({
   Input: {
     Query: t.type({ url: t.string }),
   },
-  Output: t.intersection([
-    ListEventOutput,
-    t.type({
-      suggestions: t.array(http.Events.EventSuggestion),
-    }),
-  ], 'GetEventsFromLinkOutput'),
+  Output: t.intersection(
+    [
+      ListEventOutput,
+      t.type({
+        suggestions: t.array(http.Events.EventSuggestion),
+      }),
+    ],
+    "GetEventsFromLinkOutput"
+  ),
 });
 
 export const GetSuggestion = Endpoint({
@@ -124,8 +127,9 @@ export const GetSuggestions = Endpoint({
   getPath: () => `/events/suggestions`,
   Input: {
     Query: t.type({
-      status: optionFromNullable(t.string)
-    })
+      ...http.Query.SortQuery.props,
+      status: optionFromNullable(t.string),
+    }),
   },
   Output: http.Common.ListOutput(
     http.Events.EventSuggestion,

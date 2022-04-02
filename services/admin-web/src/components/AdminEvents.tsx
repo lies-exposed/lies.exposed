@@ -42,6 +42,7 @@ import {
   TextField,
   TextInput
 } from "react-admin";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
 import { MediaField } from "./Common/MediaField";
@@ -315,25 +316,28 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="Preview">
           <FormDataConsumer>
             {({ formData, ...rest }) => {
+              const qc = new QueryClient();
               return pipe(
                 http.Events.Uncategorized.Uncategorized.decode(formData),
                 E.fold(ValidationErrorsLayout, (p) => (
                   <ThemeProvider theme={ECOTheme}>
-                    <EventPageContent
-                      event={{
-                        ...p,
-                        excerpt: undefined,
-                        body: undefined,
-                        keywords: [],
-                        links: [],
-                        media: []
-                      }}
-                      onActorClick={() => undefined}
-                      onGroupClick={() => undefined}
-                      onKeywordClick={() => undefined}
-                      onLinkClick={() => undefined}
-                      onGroupMemberClick={() => undefined}
-                    />
+                    <QueryClientProvider client={qc}>
+                      <EventPageContent
+                        event={{
+                          ...p,
+                          excerpt: undefined,
+                          body: undefined,
+                          keywords: [],
+                          links: [],
+                          media: [],
+                        }}
+                        onActorClick={() => undefined}
+                        onGroupClick={() => undefined}
+                        onKeywordClick={() => undefined}
+                        onLinkClick={() => undefined}
+                        onGroupMemberClick={() => undefined}
+                      />
+                    </QueryClientProvider>
                   </ThemeProvider>
                 ))
               );

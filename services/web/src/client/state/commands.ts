@@ -1,6 +1,7 @@
 import { http } from "@liexp/shared/io";
 import { APIError } from "@liexp/shared/providers/api.provider";
 import { foldTE } from "@liexp/ui/providers/DataProvider";
+import * as TE from 'fp-ts/lib/TaskEither';
 import { pipe } from "fp-ts/lib/function";
 import { useMutation, UseMutationResult } from "react-query";
 import { api } from "../api";
@@ -63,6 +64,7 @@ export const getURLMetadata = (): UseMutationResult<
           type: "Link",
         },
       }),
+      TE.map(d => d.data),
       foldTE
     )
   );

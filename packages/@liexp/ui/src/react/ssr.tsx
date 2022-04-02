@@ -71,8 +71,6 @@ export const getServer = (
           .then(() => {
             const dehydratedState = dehydrate(queryClient);
 
-            console.log(dehydratedState);
-
             const sheets = new ServerStyleSheets();
             const html = ReactDOMServer.renderToString(
               sheets.collect(
