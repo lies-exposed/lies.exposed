@@ -4,6 +4,7 @@ import { Box } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import * as t from "io-ts";
 import * as React from "react";
 import {
   Create,
@@ -41,6 +42,9 @@ const bitchuteVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?bitchute\.com\/video\/([\w\-_]*)/;
 const odyseeVideoRegExp =
   /http(?:s?):\/\/(?:www\.)?odysee\.com\/\$\/download\/([^/]+)\/([^/]+)$/;
+const rumbleVideoRegExp =
+  /http(?:s?):\/\/(?:www\.)?rumble\.com\/embed\/([\w\-_]*)\/?([\w?=]*)/;
+
 const peertubeVideoRegExp =
   /http(?:s?):\/\/([^/]+)\/videos\/watch\/([^/]+)(&(amp;)?[\w?=]*)?/;
 
@@ -56,6 +60,7 @@ export const parsePlatformURL = (url: string): E.Either<Error, string> => {
     return E.right(`https://www.bitchute.com/embed/${matchBitchute[1]}/`);
   }
 
+  // Odysee
   const odyseeMatch = url.match(odyseeVideoRegExp);
   if (
     typeof odyseeMatch?.[1] === "string" &&
@@ -64,6 +69,16 @@ export const parsePlatformURL = (url: string): E.Either<Error, string> => {
     return E.right(
       `https://odysee.com/$/embed/${odyseeMatch[1]}/${odyseeMatch[2]}`
     );
+  }
+
+  // rumble
+  const rumbleMatch = url.match(rumbleVideoRegExp);
+  if (
+    t.string.is(rumbleMatch?.[1]) &&
+    t.string.is(rumbleMatch?.[2]) &&
+    rumbleMatch[2].startsWith("?pub=")
+  ) {
+    return E.right(url);
   }
 
   const peertubeMatch = url.match(peertubeVideoRegExp);
@@ -108,6 +123,7 @@ const parseURL = (
     "youtu.be",
     "bitchute.com",
     "odysee.com",
+    "rumble.com",
     // peertube video pattern
     "/videos/watch",
   ].some((v) => url.includes(v));
