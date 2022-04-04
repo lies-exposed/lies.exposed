@@ -285,11 +285,27 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                   />
                 </Hidden>
                 <main className={classes.content}>
-                  <EventsPanel
-                    hash={hash}
-                    query={params}
-                    onQueryChange={handleUpdateEventsSearch}
-                  />
+                  <Grid
+                    container
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{ height: "100%" }}
+                  >
+                    <Grid
+                      item
+                      lg={10}
+                      md={12}
+                      sm={12}
+                      xs={12}
+                      style={{ height: "100%" }}
+                    >
+                      <EventsPanel
+                        hash={hash}
+                        query={params}
+                        onQueryChange={handleUpdateEventsSearch}
+                      />
+                    </Grid>
+                  </Grid>
                 </main>
               </Grid>
             </Box>

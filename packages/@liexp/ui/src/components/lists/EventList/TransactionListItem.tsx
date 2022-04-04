@@ -3,14 +3,13 @@ import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
 import { Box, Grid, Typography } from "@material-ui/core";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import * as React from "react";
-import { getTextContentsCapped, isValidValue } from '../../Common/Editor';
+import { getTextContentsCapped, isValidValue } from "../../Common/Editor";
 import { ActorListItem } from "../ActorList";
 import { GroupListItem } from "../GroupList";
 
 const getSubject = (
   subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"]
 ): JSX.Element => {
-
   if (subject.type === ByActor.type.props.type.value) {
     return (
       <ActorListItem
@@ -43,7 +42,6 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
   onActorClick,
   onKeywordClick,
 }) => {
-
   return (
     <Box
       id={item.id}
@@ -66,17 +64,15 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
             // justifyContent: 'center'
           }}
         >
-          <Box>{getSubject(item.payload.from)}</Box>
-          <Box>
+          <Box display={"flex"}>{getSubject(item.payload.from)}</Box>
+          <Box display={"flex"}>
+            <ArrowRightIcon />
+            <Typography variant="subtitle1">
+              {item.payload.total} {item.payload.currency}
+            </Typography>
             <ArrowRightIcon />
           </Box>
-          <Typography variant="subtitle1">
-            {item.payload.total} {item.payload.currency}
-          </Typography>
-          <Box>
-            <ArrowRightIcon />
-          </Box>
-          <Box>{getSubject(item.payload.to)}</Box>
+          <Box display="flex">{getSubject(item.payload.to)}</Box>
         </Grid>
 
         {isValidValue(item.excerpt as any) ? (

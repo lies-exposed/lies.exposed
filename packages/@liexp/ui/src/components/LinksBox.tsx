@@ -6,7 +6,7 @@ import {
   AccordionSummary,
   Box,
   Link,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMoreOutlined";
 import LinkIcon from "@material-ui/icons/LinkOutlined";
@@ -14,9 +14,7 @@ import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import {
-  useLinksQuery
-} from "../state/queries/DiscreteQueries";
+import { useLinksQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";
 
 interface LinkListItemProps {
@@ -26,13 +24,15 @@ interface LinkListItemProps {
 const LinkListItem: React.FC<LinkListItemProps> = ({ data }) => {
   return (
     <Box>
-      <Link href={data.url}>{data.title}</Link>
       {data.publishDate ? (
         <Typography variant="caption">
           {" "}
           ({formatDate(data.publishDate)})
         </Typography>
-      ) : null}
+      ) : (
+        " "
+      )}{" "}
+      - <Link href={data.url}>{data.title}</Link>
     </Box>
   );
 };
@@ -53,10 +53,11 @@ export const LinksList: React.FC<LinksListProps> = ({ links }) => {
 
 interface LinksBoxProps {
   ids: string[];
+  defaultExpanded?: boolean
 }
 
-export const LinksBox: React.FC<LinksBoxProps> = ({ ids }) => {
-  const [expanded, setExpanded] = React.useState(false);
+export const LinksBox: React.FC<LinksBoxProps> = ({ ids, defaultExpanded = false }) => {
+  const [expanded, setExpanded] = React.useState(defaultExpanded);
 
   return pipe(
     ids,
