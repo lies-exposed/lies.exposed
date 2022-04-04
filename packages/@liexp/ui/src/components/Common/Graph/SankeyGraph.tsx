@@ -147,13 +147,14 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
       </Box>
     );
   }
+
   const graph = React.useMemo((): {
     nodes: any[];
     links: any[];
   } => {
     // console.log("graph", props.graph);
 
-    const { nodes, links } = sankey()
+    const graph = sankey()
       .nodeWidth(nodeWidth)
       .nodePadding(nodePadding)
       .nodeId((n: any) => n.id)
@@ -167,8 +168,12 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
 
     // const colorScale = d3.scaleLinear().domain([0, nodes.length]).range([0, 1]);
 
-    return { nodes, links };
+    return graph;
   }, [props.graph.nodes.length, props.graph.links.length, width, height]);
+
+  // const graph = React.useMemo(() => {
+  //   return sankey().update(_graph);
+  // }, [_graph.nodes.length, _graph.links.length, width, height]);
 
   // console.log(props.graph.nodes[0]);
   // console.log(props.graph.links[0]);

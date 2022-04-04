@@ -1,7 +1,15 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const path = require("path");
 const fs = require("fs");
 const { webServe, apiServe } = require("./ecosystem.config");
+
+const webEnv = dotenv.parse(
+  fs.readFileSync(
+    path.resolve(__dirname, "./services/web/.env.development"),
+    "utf-8"
+  )
+);
+
 
 module.exports = {
   apps: [
@@ -10,14 +18,12 @@ module.exports = {
       cwd: path.resolve(__dirname, "./services/web"),
       script: "yarn watch",
       watch: false,
-      env: dotenv.parse(
-        fs.readFileSync(
-          path.resolve(__dirname, "./services/web/.env.development"),
-          "utf-8"
-        )
-      ),
+      env: webEnv,
     },
-    webServe,
+    {
+      ...webServe,
+      env: webEnv,
+    },
     {
       name: "api-watch",
       cwd: path.resolve(__dirname, "./services/api"),

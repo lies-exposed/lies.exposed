@@ -1,6 +1,5 @@
 import * as path from "path";
 import { GetLogger } from "@liexp/core/logger";
-import { Helmet } from "@liexp/ui/components/SEO";
 import { getServer } from "@liexp/ui/react/ssr";
 import dotenv from "dotenv";
 import express from "express";

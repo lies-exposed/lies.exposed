@@ -38,18 +38,22 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
             />
             <Box padding={theme.spacing(1)}>
               <Grid container justifyContent="center">
-                <Grid item md={10} xs={12}>
-                  <EventsBox
-                    title="More events by actors"
-                    query={{ actors, _start: 0, _end: 3 }}
-                  />
-                </Grid>
-                <Grid item md={10} xs={12}>
-                  <EventsBox
-                    title="More events by groups"
-                    query={{ groups, _start: 0, _end: 3 }}
-                  />
-                </Grid>
+                {actors.length > 0 ? (
+                  <Grid item md={10} xs={12}>
+                    <EventsBox
+                      title="More events by actors"
+                      query={{ actors, _start: 0, _end: 3 }}
+                    />
+                  </Grid>
+                ) : null}
+                {groups.length > 0 ? (
+                  <Grid item md={10} xs={12}>
+                    <EventsBox
+                      title="More events by groups"
+                      query={{ groups, _start: 0, _end: 3 }}
+                    />
+                  </Grid>
+                ) : null}
               </Grid>
             </Box>
           </Box>

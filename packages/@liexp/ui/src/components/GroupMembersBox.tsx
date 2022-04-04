@@ -1,12 +1,12 @@
 import { GroupMember } from "@liexp/shared/io/http";
 import { Box, Typography } from "@material-ui/core";
+import { pipe } from "fp-ts/lib/function";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
-import QueriesRenderer from "./QueriesRenderer";
+import { useGroupsMembersDiscreteQuery } from "../state/queries/DiscreteQueries";
 import { GroupsMembersList } from "./lists/GroupMemberList";
+import QueriesRenderer from "./QueriesRenderer";
 
 interface GroupMembersBoxProps {
   ids: string[];
@@ -22,7 +22,7 @@ const GroupMembersList: React.FC<{
   return (
     <QueriesRenderer
       queries={{
-        groupsMembers: useGroupMembersQuery({
+        groupsMembers: useGroupsMembersDiscreteQuery({
           pagination: { page: 1, perPage: 10 },
           sort: { field: "createdAt", order: "DESC" },
           filter: {
