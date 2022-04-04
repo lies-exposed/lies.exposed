@@ -1,4 +1,10 @@
-import { Actor, Group, GroupMember, Keyword, Events } from "@liexp/shared/io/http";
+import {
+  Actor,
+  Group,
+  GroupMember,
+  Keyword,
+  Events,
+} from "@liexp/shared/io/http";
 import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
 
@@ -35,6 +41,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
     >
       <Grid container spacing={2} style={{ width: "100%", maxWidth: "100%" }}>
         <EventListItemBase
+          type={Events.Uncategorized.UNCATEGORIZED.value}
           title={item.payload.title}
           excerpt={item.excerpt}
           keywords={item.keywords}

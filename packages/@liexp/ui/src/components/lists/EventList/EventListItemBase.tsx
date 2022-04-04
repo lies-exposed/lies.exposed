@@ -1,16 +1,36 @@
 import * as http from "@liexp/shared/io/http";
-import { Box, Grid, Link, Typography } from "@material-ui/core";
+import { EventType } from "@liexp/shared/io/http/Events";
+import { Box, Grid, Link, makeStyles, Typography } from "@material-ui/core";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { getTextContentsCapped, isValidValue } from "../../Common/Editor";
+import { EventIcon } from "../../Common/Icons";
 import { Slider } from "../../Common/Slider/Slider";
 import { LinksBox } from "../../LinksBox";
 import KeywordList from "../KeywordList";
 
+const useStyles = makeStyles((theme) => ({
+  title: {
+    display: "flex",
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "row",
+    },
+  },
+  eventIcon: {
+    display: 'none',
+
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      marginRight: theme.spacing(2)
+    }
+  }
+}));
+
 interface EventListItemBaseProps {
   title: string;
+  type: EventType;
   url?: string;
   excerpt: any;
   keywords: http.Keyword.Keyword[];
@@ -22,17 +42,35 @@ interface EventListItemBaseProps {
 const EventListItemBase: React.FC<EventListItemBaseProps> = ({
   title,
   url,
+  type,
   excerpt,
   keywords,
   media,
   links,
   onKeywordClick,
 }) => {
+  const classes = useStyles();
+
   return (
-    <Grid item lg={10} md={10} style={{ maxWidth: "100%", width: "100%" }}>
-      <Typography variant="h6" gutterBottom={true}>
-        {title}
-      </Typography>
+    <Grid
+      item
+      lg={10}
+      md={12}
+      sm={12}
+      xs={12}
+      style={{ maxWidth: "100%", width: "100%" }}
+    >
+      <Box className={classes.title}>
+        <EventIcon
+          className={classes.eventIcon}
+          type={type}
+          size="2x"
+        />
+        <Typography variant="h6" gutterBottom={true}>
+          {title}
+        </Typography>
+      </Box>
+
       {pipe(
         keywords,
         O.fromPredicate(A.isNonEmpty),

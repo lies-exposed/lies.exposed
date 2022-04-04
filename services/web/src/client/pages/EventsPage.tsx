@@ -94,23 +94,6 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
-    tabs: {
-      width: "100%",
-      [theme.breakpoints.down("sm")]: {
-        paddingTop: 60,
-      },
-    },
-    tabPanel: {
-      maxHeight: "100%",
-      width: "100%",
-      flexGrow: 1,
-      flexShrink: 0,
-      height: "100%",
-      display: "none",
-    },
-    tabPanelSelected: {
-      display: "flex",
-    },
     content: {
       height: "100%",
       width: "100%",

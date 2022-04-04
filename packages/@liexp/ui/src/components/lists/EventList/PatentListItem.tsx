@@ -1,7 +1,7 @@
 import { Actor, Events, Keyword } from "@liexp/shared/io/http";
 import { Box } from "@material-ui/core";
 import * as React from "react";
-import EventListItemBase from './EventListItemBase';
+import EventListItemBase from "./EventListItemBase";
 
 interface PatentListItemProps {
   item: Events.SearchEvent.SearchPatentEvent;
@@ -29,6 +29,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <EventListItemBase
+        type={Events.Patent.PATENT.value}
         title={item.payload.title}
         url={item.payload.source}
         excerpt={item.excerpt}
