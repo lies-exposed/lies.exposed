@@ -38,7 +38,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         direction="row"
         alignItems="center"
         spacing={2}
-        style={{ marginBottom: theme.spacing(2) }}
+        style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}
       >
         <Grid item>
           {pipe(
@@ -63,6 +63,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           <Grid item md={6}>
             <Typography variant="h6">Owned groups</Typography>
             <GroupList
+              style={{ display: "flex", flexDirection: "column" }}
               groups={ownedGroups.map((gg) => ({ ...gg, selected: true }))}
               onItemClick={onGroupClick}
             />
@@ -72,6 +73,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         <Grid item md={6}>
           <Typography variant="h6">Members</Typography>
           <ActorList
+            style={{ display: "flex", flexDirection: "row" }}
             actors={groupsMembers.map((g) => ({
               ...g.actor,
               selected: false,

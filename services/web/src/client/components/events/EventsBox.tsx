@@ -24,7 +24,11 @@ const EventsBox: React.FC<EventsBoxProps> = (props) => {
       }}
       render={({ events }) => {
         return (
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            style={{ marginBottom: theme.spacing(2) }}
+          >
             {events.events.length > 0 ? (
               <Grid item xs={12}>
                 <Typography variant="h5">{props.title}</Typography>

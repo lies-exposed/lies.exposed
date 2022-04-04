@@ -323,7 +323,7 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
       return {
         ...commonIds,
         actors: e.payload.actors,
-        groups: e.payload.actors,
+        groups: e.payload.groups,
         groupsMembers: e.payload.groupsMembers,
       };
     }
