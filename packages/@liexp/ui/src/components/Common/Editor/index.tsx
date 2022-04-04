@@ -46,13 +46,13 @@ export const cellPlugins = [
 ] as any[];
 
 export const isValidValue = (v?: any): v is Value => {
-  return (
+  const valid =
     !!v &&
-    !!v.id &&
     !!v.version &&
     v?.rows?.length > 0 &&
-    getTextContentsCapped(v, 10) !== ""
-  );
+    getTextContentsCapped(v, 10) !== "";
+
+  return valid;
 };
 
 export const createExcerptValue = (text: string): Value => {

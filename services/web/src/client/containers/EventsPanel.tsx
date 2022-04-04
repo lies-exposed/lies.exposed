@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
     },
     tabs: {
       width: "100%",
-      [theme.breakpoints.down("md")]: {
+      [theme.breakpoints.down("sm")]: {
         paddingTop: 60,
       },
     },

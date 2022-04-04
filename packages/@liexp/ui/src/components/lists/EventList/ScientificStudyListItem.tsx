@@ -1,5 +1,5 @@
 import * as io from "@liexp/shared/io";
-import { Events } from '@liexp/shared/io/http';
+import { Events } from "@liexp/shared/io/http";
 import { Box, Grid } from "@material-ui/core";
 import * as React from "react";
 import EventListItemBase from "./EventListItemBase";
@@ -28,6 +28,7 @@ export const ScientificStudyListItem: React.FC<
     >
       <Grid container spacing={2}>
         <EventListItemBase
+          type={Events.ScientificStudy.SCIENTIFIC_STUDY.value}
           title={item.payload.title}
           url={item.payload.url}
           excerpt={item.excerpt}
