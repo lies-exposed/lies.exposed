@@ -11,6 +11,7 @@ import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
+import { HelmetProvider } from '@liexp/ui/components/SEO';
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
@@ -40,7 +41,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
@@ -53,21 +54,21 @@ import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle
+  DocumentaryReleaseTitle,
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -320,25 +321,27 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
               return pipe(
                 http.Events.Uncategorized.Uncategorized.decode(formData),
                 E.fold(ValidationErrorsLayout, (p) => (
-                  <ThemeProvider theme={ECOTheme}>
-                    <QueryClientProvider client={qc}>
-                      <EventPageContent
-                        event={{
-                          ...p,
-                          excerpt: undefined,
-                          body: undefined,
-                          keywords: [],
-                          links: [],
-                          media: [],
-                        }}
-                        onActorClick={() => undefined}
-                        onGroupClick={() => undefined}
-                        onKeywordClick={() => undefined}
-                        onLinkClick={() => undefined}
-                        onGroupMemberClick={() => undefined}
-                      />
-                    </QueryClientProvider>
-                  </ThemeProvider>
+                  <HelmetProvider>
+                    <ThemeProvider theme={ECOTheme}>
+                      <QueryClientProvider client={qc}>
+                        <EventPageContent
+                          event={{
+                            ...p,
+                            excerpt: undefined,
+                            body: undefined,
+                            keywords: [],
+                            links: [],
+                            media: [],
+                          }}
+                          onActorClick={() => undefined}
+                          onGroupClick={() => undefined}
+                          onKeywordClick={() => undefined}
+                          onLinkClick={() => undefined}
+                          onGroupMemberClick={() => undefined}
+                        />
+                      </QueryClientProvider>
+                    </ThemeProvider>
+                  </HelmetProvider>
                 ))
               );
             }}
