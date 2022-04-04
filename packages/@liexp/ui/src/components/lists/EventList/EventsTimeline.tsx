@@ -95,10 +95,9 @@ export const getItemHeight = (
   e: SearchEvent.SearchEvent,
   isDownMD: boolean
 ): number => {
-
   switch (e.type) {
     case TRANSACTION.value:
-      return isDownMD ? 200 : 180;
+      return isDownMD ? 180 : 200;
     default: {
       if (isDownMD) {
         const scientificStudyHeight =

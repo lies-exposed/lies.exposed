@@ -86,14 +86,15 @@ const EventCard: React.FC<EventCardProps> = ({
                 />
               </Box>
             ) : null}
+            <Box>
+              <KeywordList
+                keywords={keywords.map((k) => ({ ...k, selected: true }))}
+                onItemClick={() => undefined}
+              />
+            </Box>
           </CardContent>
         </CardActionArea>
-        <CardActions disableSpacing>
-          <KeywordList
-            keywords={keywords.map((k) => ({ ...k, selected: true }))}
-            onItemClick={() => undefined}
-          />
-        </CardActions>
+        <CardActions disableSpacing></CardActions>
       </Card>
     </Box>
   );

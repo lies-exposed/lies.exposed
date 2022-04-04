@@ -26,7 +26,7 @@ const EventsBox: React.FC<EventsBoxProps> = (props) => {
         return (
           <Grid container spacing={2}>
             {events.events.length > 0 ? (
-              <Grid item md={12}>
+              <Grid item xs={12}>
                 <Typography variant="h5">{props.title}</Typography>
               </Grid>
             ) : null}

@@ -143,7 +143,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                     />
                   </Grid>
 
-                  <Grid item md={10}>
+                  <Grid item md={10} style={{ alignItems: "flex-start" }}>
                     <Typography variant="h3">{title}</Typography>
                     <Box>
                       <KeywordsBox ids={event.keywords} />
@@ -162,7 +162,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                     lg={10}
                     md={10}
                     xs={12}
-                    style={{ marginBottom: theme.spacing(5) }}
+                    style={{
+                      alignContent: "flex-start",
+                      marginBottom: theme.spacing(5),
+                    }}
                   >
                     {media.length > 0 ? (
                       <MediaSlider
@@ -186,7 +189,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                   ) : null}
                   <Grid item md={2} />
                   <Grid item md={10} sm={12} xs={12}>
-                    <LinksBox ids={event.links} />
+                    <LinksBox ids={event.links} defaultExpanded={true} />
                   </Grid>
                 </Grid>
               </Grid>
