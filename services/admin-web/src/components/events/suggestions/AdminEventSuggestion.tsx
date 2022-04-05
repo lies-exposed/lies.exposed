@@ -36,10 +36,11 @@ import ReferenceArrayKeywordInput from "../../Common/ReferenceArrayKeywordInput"
 import { WebPreviewButton } from "../../Common/WebPreviewButton";
 import { DeathEventEditFormTab } from "../AdminDeathEvent";
 import { DocumentaryEditFormTab } from "../AdminDocumentaryEvent";
-import { PatentEventEditFormTab } from '../AdminPatentEvent';
+import { PatentEventEditFormTab } from "../AdminPatentEvent";
 import { EditScientificStudyEvent } from "../AdminScientificStudyEvent";
 import { UncategorizedEventEditTab } from "../AdminUncategorizedEvent";
 import { transformEvent } from "../utils";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const RESOURCE = "events/suggestions";
 
@@ -52,7 +53,6 @@ const EventSuggestionListFilter: React.FC = (props: any) => {
           name: tt.value,
           id: tt.value,
         }))}
-        alwaysOpen
       />
     </Filter>
   );
@@ -84,7 +84,7 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => (
               {[
                 io.http.Events.Uncategorized.UNCATEGORIZED.value,
                 io.http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
-                io.http.Events.Patent.PATENT.value
+                io.http.Events.Patent.PATENT.value,
               ].includes(r.payload.event.type) ? (
                 <Typography>{r.payload.event.payload.title}</Typography>
               ) : (
@@ -179,7 +179,12 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
               return <EditScientificStudyEvent {...rest} />;
             }
             if (formData.payload.event.type === Patent.PATENT.value) {
-              return <PatentEventEditFormTab {...rest} sourcePrefix={"payload.event"} />
+              return (
+                <PatentEventEditFormTab
+                  {...rest}
+                  sourcePrefix={"payload.event"}
+                />
+              );
             }
             return (
               <UncategorizedEventEditTab
@@ -217,28 +222,31 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="Preview">
           <FormDataConsumer>
             {({ formData, ...rest }) => {
+              const qc = new QueryClient();
               return (
-                <ThemeProvider theme={ECOTheme}>
-                  {formData.payload.event.type === "Uncategorized" ? (
-                    <EventPageContent
-                      event={{
-                        ...formData.payload.event,
-                        excerpt: undefined,
-                        body: undefined,
-                        keywords: [],
-                        links: [],
-                        media: []
-                      }}
-                      onActorClick={() => undefined}
-                      onGroupClick={() => undefined}
-                      onKeywordClick={() => undefined}
-                      onLinkClick={() => undefined}
-                      onGroupMemberClick={() => undefined}
-                    />
-                  ) : (
-                    <div />
-                  )}
-                </ThemeProvider>
+                <QueryClientProvider client={qc}>
+                  <ThemeProvider theme={ECOTheme}>
+                    {formData.payload.event.type === "Uncategorized" ? (
+                      <EventPageContent
+                        event={{
+                          ...formData.payload.event,
+                          excerpt: undefined,
+                          body: undefined,
+                          keywords: [],
+                          links: [],
+                          media: [],
+                        }}
+                        onActorClick={() => undefined}
+                        onGroupClick={() => undefined}
+                        onKeywordClick={() => undefined}
+                        onLinkClick={() => undefined}
+                        onGroupMemberClick={() => undefined}
+                      />
+                    ) : (
+                      <div />
+                    )}
+                  </ThemeProvider>
+                </QueryClientProvider>
               );
             }}
           </FormDataConsumer>
