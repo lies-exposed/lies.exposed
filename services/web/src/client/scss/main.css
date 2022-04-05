@@ -1,8 +1,8 @@
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
-@import "@liexp/ui/theme/font.css";
 @import "~ol/ol.css";
 @import "~react-virtualized/styles.css";
+@import "@liexp/ui/theme/font.css";
 
 html,
 body,

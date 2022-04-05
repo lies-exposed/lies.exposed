@@ -123,6 +123,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   const tab = parseInt(query.tab ?? "0", 10);
   const classes = useStyles();
 
+
   const params = {
     startDate: query.startDate ?? MIN_DATE,
     endDate: query.endDate ?? MAX_DATE,

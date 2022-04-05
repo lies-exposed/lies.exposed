@@ -105,6 +105,7 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateInput source="date" />
         <ReferenceBySubjectInput source="payload.from" />
         <ReferenceBySubjectInput source="payload.to" />
+        <ReactPageInput source="excerpt" onlyText />
         <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />

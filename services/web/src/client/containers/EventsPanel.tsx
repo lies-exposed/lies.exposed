@@ -146,15 +146,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   const navigateTo = useNavigateToResource();
 
-  const [open, setOpen] = React.useState(true);
-
-  const handleDrawerOpen = (): void => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = (): void => {
-    setOpen(false);
-  };
 
   const [filters, setTypeFilters] = React.useState({
     deaths: !!query.type?.includes(Death.DEATH.value),
@@ -262,7 +253,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             setTypeFilters(f);
 
             handleUpdateEventsSearch({
-              type: type,
+              type,
             });
           }}
         />
