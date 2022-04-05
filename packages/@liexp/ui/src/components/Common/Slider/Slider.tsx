@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  mediaSliderDownMD: {
+    "& > .slick-list > .slick-track": {
+      margin: 0,
+    },
+  },
 }));
 
 interface SliderProps extends SlickSlider.Settings {
@@ -48,12 +53,15 @@ export const Slider: React.FC<SliderProps> = ({
       draggable={true}
       centerMode={true}
       dots={true}
+      slidesToShow={1}
+      slidesPerRow={1}
+      lazyLoad="progressive"
       responsive={[
         {
           breakpoint: theme.breakpoints.values.md,
           settings: {
-            variableWidth: false,
             ...props,
+            className: classes.mediaSliderDownMD,
           },
         },
       ]}
