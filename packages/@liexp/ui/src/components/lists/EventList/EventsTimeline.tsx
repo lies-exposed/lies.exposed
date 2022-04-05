@@ -95,9 +95,18 @@ export const getItemHeight = (
   e: SearchEvent.SearchEvent,
   isDownMD: boolean
 ): number => {
+  const excerptHeight = isValidValue(e.excerpt as any) ? 100 : 0;
+
+  const keywordsHeight = e.keywords.length > 0 ? 50 : 0;
+  const mediaHeight = e.media.length > 0 ? 400 : 0;
+  const linksHeight = e.links.length > 0 ? 50 : 0;
   switch (e.type) {
     case TRANSACTION.value:
-      return isDownMD ? 180 : 200;
+      if (isDownMD) {
+        return 180 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
+      }
+
+      return 200 + excerptHeight;
     default: {
       if (isDownMD) {
         const scientificStudyHeight =
@@ -105,10 +114,10 @@ export const getItemHeight = (
 
         return (
           200 +
-          (isValidValue(e.excerpt as any) ? 100 : 0) +
-          (e.keywords.length > 0 ? 50 : 0) +
-          (e.media.length > 0 ? 400 : 0) +
-          (e.links.length > 0 ? 50 : 0) +
+          excerptHeight +
+          keywordsHeight +
+          mediaHeight +
+          linksHeight +
           scientificStudyHeight
         );
       }

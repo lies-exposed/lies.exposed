@@ -13,6 +13,8 @@ export const MediaSlider: React.FC<MediaSliderProps> = ({
   itemStyle,
   onClick,
 }) => {
+
+
   return (
     <Slider
       adaptiveHeight={true}

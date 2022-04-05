@@ -29,6 +29,7 @@ import {
   SelectInput,
 } from "ra-ui-materialui";
 import * as React from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "../../Common/LinkArrayInput";
 import { MediaArrayInput } from "../../Common/MediaArrayInput";
 import { MediaField } from "../../Common/MediaField";
@@ -40,7 +41,6 @@ import { PatentEventEditFormTab } from "../AdminPatentEvent";
 import { EditScientificStudyEvent } from "../AdminScientificStudyEvent";
 import { UncategorizedEventEditTab } from "../AdminUncategorizedEvent";
 import { transformEvent } from "../utils";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 const RESOURCE = "events/suggestions";
 
