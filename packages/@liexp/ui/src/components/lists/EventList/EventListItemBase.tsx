@@ -20,10 +20,14 @@ const useStyles = makeStyles((theme) => ({
   },
   eventIcon: {
     display: 'none',
-
     [theme.breakpoints.down('md')]: {
       display: 'flex',
       marginRight: theme.spacing(2)
+    }
+  },
+  eventMedia: {
+    [theme.breakpoints.down('md')]: {
+      padding: 0
     }
   }
 }));
@@ -117,7 +121,6 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
             style={{
               justifyContent: "center",
               alignItems: "center",
-              padding: 20,
             }}
           >
             <Box

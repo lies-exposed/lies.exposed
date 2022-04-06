@@ -103,6 +103,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       padding: theme.spacing(2),
       [theme.breakpoints.down("sm")]: {
         paddingLeft: 0,
+        paddingRight: 0
       },
     },
     eventFiltersBox: {
