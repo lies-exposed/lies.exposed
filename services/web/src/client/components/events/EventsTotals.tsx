@@ -1,9 +1,10 @@
 import { Documentary } from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import { getTotal } from "@liexp/ui/helpers/event.helper";
 import {
   SearchEventQueryInput,
-  searchEventsQuery
+  searchEventsQuery,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Box, IconButton, makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
@@ -51,10 +52,7 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
         }),
       }}
       render={({ searchEvents: { totals } }) => {
-        const totalEvents = Object.entries(totals).reduce(
-          (acc, [, tot]) => acc + tot,
-          0
-        );
+        const totalEvents = getTotal(totals, filters);
         return (
           <Box width="100%">
             <Box display="flex">
