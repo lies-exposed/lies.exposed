@@ -18,7 +18,7 @@ export const MediaArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">
 > = (props) => {
   return (
-    <ArrayInput {...props}>
+    <ArrayInput {...props} style={{ width: "100%" }}>
       <SimpleFormIterator>
         <BooleanInput source="addNew" />
         <FormDataConsumer>
@@ -26,7 +26,7 @@ export const MediaArrayInput: React.FC<
             const getSrc = getSource ?? ((s: string) => s);
             if (scopedFormData?.addNew) {
               return (
-                <Box>
+                <Box style={{ width: "100%" }}>
                   <BooleanInput
                     label="fromURL"
                     source={getSrc("fromURL")}
@@ -45,6 +45,7 @@ export const MediaArrayInput: React.FC<
                       //   getNewSource,
                       //   newRest,
                       // });
+                      
                       if (scopedFormData?.fromURL) {
                         return (
                           <Box>
@@ -79,15 +80,15 @@ export const MediaArrayInput: React.FC<
                       return (
                         <Box>
                           <TextInput
+                            {...newRest}
                             source={getSrc("description")}
                             record={newFormData}
-                            {...newRest}
                           />
                           <MediaInput
+                            {...newRest}
                             sourceLocation={getSrc("location")}
                             sourceType={getSrc("type")}
                             record={newFormData}
-                            {...newRest}
                           />
                         </Box>
                       );
@@ -97,7 +98,7 @@ export const MediaArrayInput: React.FC<
               );
             }
             return (
-              <Box>
+              <Box style={{ width: "100%" }}>
                 <ReferenceArrayInput
                   source={getSrc("ids")}
                   reference="media"

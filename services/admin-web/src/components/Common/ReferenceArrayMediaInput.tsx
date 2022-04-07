@@ -22,6 +22,10 @@ const ReferenceArrayMediaInput: React.FC<
       filterToQuery={(description: string) => ({
         description: description === "" ? undefined : description,
       })}
+      style={{
+        ...props.style,
+        width: '100%'
+      }}
     >
       <AutocompleteArrayInput
         source="id"

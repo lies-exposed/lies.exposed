@@ -1,5 +1,7 @@
+import { Box } from "@material-ui/core";
 import {
   AutocompleteArrayInput,
+  Link,
   ReferenceArrayInput,
   ReferenceInputProps,
 } from "ra-ui-materialui";
@@ -9,13 +11,16 @@ const ReferenceArrayKeywordInput: React.FC<
   Omit<ReferenceInputProps, "children"> & { source: string }
 > = (props) => {
   return (
-    <ReferenceArrayInput
-      {...props}
-      reference="keywords"
-      filterToQuery={(search: string) => ({ search })}
-    >
-      <AutocompleteArrayInput optionText="tag" />
-    </ReferenceArrayInput>
+    <Box>
+      <ReferenceArrayInput
+        {...props}
+        reference="keywords"
+        filterToQuery={(search: string) => ({ search })}
+      >
+        <AutocompleteArrayInput optionText="tag" />
+      </ReferenceArrayInput>
+      <Link to="/keywords" target="_blank">Add new keyword</Link>
+    </Box>
   );
 };
 

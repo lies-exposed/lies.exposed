@@ -16,9 +16,9 @@ import {
   ResourceProps,
   SimpleForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
-import { ColorField, ColorInput } from "react-admin-color-input";
+import { ColorInput } from "react-admin-color-input";
 
 const RESOURCE = "keywords";
 
@@ -39,9 +39,13 @@ export const KeywordList: React.FC<ListProps> = (props) => (
     filters={<KeywordsFilter />}
     perPage={20}
   >
-    <Datagrid rowClick="edit">
+    <Datagrid
+      rowClick="edit"
+      rowStyle={(r) => ({
+        borderLeft: `5px solid #${r.color}`,
+      })}
+    >
       <TextField source="tag" />
-      <ColorField source="color" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>

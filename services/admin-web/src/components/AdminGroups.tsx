@@ -221,6 +221,9 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
                 E.fold(ValidationErrorsLayout, (p) => (
                   <GroupPageContent
                     {...p}
+                    ownedGroups={[]}
+                    subGroups={[]}
+                    onGroupClick={() => {}}
                     groupsMembers={[]}
                     events={[]}
                     projects={[]}
