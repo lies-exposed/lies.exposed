@@ -3,7 +3,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType
+  MapInputType,
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -25,14 +25,15 @@ import {
   ReferenceInput,
   SelectInput,
   SimpleForm,
-  TabbedForm
+  TabbedForm,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
-import ExcerptField from '../Common/ExcerptField';
+import ExcerptField from "../Common/ExcerptField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
+import { ReferenceMediaDataGrid } from "../Common/ReferenceMediaDataGrid";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
@@ -54,7 +55,7 @@ export const DeathList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
-      withDrafts: false
+      withDrafts: false,
     }}
   >
     <Datagrid rowClick="edit">
@@ -80,7 +81,7 @@ export const DeathEventTitle: React.FC<{ record: Death.Death }> = ({
   );
 };
 
-export const DeathEventEditFormTab: React.FC<EditProps  & { record?: any }> = (
+export const DeathEventEditFormTab: React.FC<EditProps & { record?: any }> = (
   props
 ) => (
   <FormTab label="Payload" {...props}>
@@ -92,11 +93,15 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<DeathEventTitle {...(props as any)} />}
     {...props}
+    actions={
+      <>
+        <WebPreviewButton resource="/dashboard/events" source="id" {...props} />
+      </>
+    }
     transform={(r) => transformEvent(r.id as any, r)}
   >
     <TabbedForm>
       <FormTab label="Generals">
-        <WebPreviewButton resource="/dashboard/events" source="id" />
         <BooleanInput source="draft" defaultValue={false} />
         <ReferenceInput
           source="payload.victim"
@@ -114,7 +119,11 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         </ReferenceInput>
         <DateInput source="date" />
         <ReactPageInput source="excerpt" onlyText />
-        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+        <ReferenceArrayKeywordInput
+          source="keywords"
+          defaultValue={[]}
+          showAdd
+        />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
@@ -126,6 +135,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
       </FormTab>
       <FormTab label="Media">
         <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
+        <ReferenceMediaDataGrid source="media" />
       </FormTab>
       <FormTab label="Links">
         <ReferenceArrayLinkInput source="links" />
@@ -152,7 +162,7 @@ export const DeathCreate: React.FC<CreateProps> = (props) => (
         <AutocompleteInput source="id" optionText="fullName" />
       </ReferenceInput>
       <DateInput source="date" />
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
       <MediaArrayInput
         label="media"

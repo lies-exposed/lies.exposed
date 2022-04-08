@@ -39,35 +39,43 @@ export const MediaArrayInput: React.FC<
                       getSource: getNewSource,
                       ...newRest
                     }) => {
+                      const descriptionSource = getSrc("description");
+                      const locationSource = getSrc("location");
                       // console.log({
                       //   newFormData,
                       //   newScopedData,
                       //   getNewSource,
                       //   newRest,
+                      //   locationSource,
+                      //   descriptionSource,
+                      //   typeSource,
                       // });
-                      
+
                       if (scopedFormData?.fromURL) {
+                        const typeSource = getSrc("type");
                         return (
                           <Box>
                             <Box>
                               <TextInput
+                                {...newRest}
                                 label="location"
-                                source={getSrc("location")}
+                                source={locationSource}
                                 type={"url"}
                                 record={newFormData}
                               />
                             </Box>
                             <Box>
                               <TextInput
+                                {...newRest}
                                 label="description"
-                                source={getSrc("description")}
+                                source={descriptionSource}
                                 record={newFormData}
                               />
                             </Box>
                             <Box>
                               <SelectInput
                                 label="type"
-                                source={getSrc("type")}
+                                source={typeSource}
                                 choices={MediaType.types.map((v) => ({
                                   id: v.value,
                                   name: v.value,
@@ -77,17 +85,18 @@ export const MediaArrayInput: React.FC<
                           </Box>
                         );
                       }
+
                       return (
                         <Box>
                           <TextInput
                             {...newRest}
-                            source={getSrc("description")}
+                            source={descriptionSource}
                             record={newFormData}
                           />
                           <MediaInput
                             {...newRest}
-                            sourceLocation={getSrc("location")}
-                            sourceType={getSrc("type")}
+                            sourceLocation={locationSource}
+                            sourceType={`src`}
                             record={newFormData}
                           />
                         </Box>

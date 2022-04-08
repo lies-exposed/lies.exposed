@@ -20,6 +20,7 @@ import {
   SimpleForm,
   TextField,
   TextInput,
+  TabbedForm,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -27,6 +28,7 @@ import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import ReferenceGroupInput from "../Common/ReferenceGroupInput";
+import { ReferenceMediaDataGrid } from "../Common/ReferenceMediaDataGrid";
 import URLMetadataInput from "../Common/URLMetadataInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
@@ -90,30 +92,47 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<ScientificStudyEventTitle {...(props as any)} />}
     {...props}
+    actions={
+      <>
+        <WebPreviewButton resource="/dashboard/events" source="id" />
+      </>
+    }
     transform={(r) => transformEvent(r.id as any, r)}
   >
-    <SimpleForm>
-      <TextInput
-        source="type"
-        defaultValue={ScientificStudy.SCIENTIFIC_STUDY.value}
-        hidden
-      />
-      <WebPreviewButton resource="/dashboard/events" source="id" />
-      <BooleanInput source="draft" />
-      <TextInput source="payload.title" />
-      <URLMetadataInput
-        source="payload.url"
-        type={ScientificStudy.SCIENTIFIC_STUDY.value}
-      />
-      <DateInput source="date" />
-      <ReactPageInput source="excerpt" onlyText />
-      <ReactPageInput source="body" />
-      <ReferenceArrayActorInput source="payload.authors" />
-      <ReferenceGroupInput source="payload.publisher" />
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
-      <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-      <MediaArrayInput source="newMedia" defaultValue={[]} />
-    </SimpleForm>
+    <TabbedForm>
+      <FormTab label="General">
+        <TextInput
+          source="type"
+          defaultValue={ScientificStudy.SCIENTIFIC_STUDY.value}
+          hidden
+        />
+
+        <BooleanInput source="draft" />
+        <TextInput source="payload.title" />
+        <URLMetadataInput
+          source="payload.url"
+          type={ScientificStudy.SCIENTIFIC_STUDY.value}
+        />
+        <DateInput source="date" />
+        <ReactPageInput source="excerpt" onlyText />
+        <ReferenceArrayKeywordInput
+          source="keywords"
+          defaultValue={[]}
+          showAdd
+        />
+        <ReferenceArrayActorInput source="payload.authors" />
+        <ReferenceGroupInput source="payload.publisher" />
+        <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+      </FormTab>
+      <FormTab label="body">
+        <ReactPageInput source="body" />
+      </FormTab>
+
+      <FormTab label="media">
+        <MediaArrayInput source="newMedia" defaultValue={[]} />
+        <ReferenceMediaDataGrid source="media" />
+      </FormTab>
+    </TabbedForm>
   </Edit>
 );
 

@@ -6,21 +6,23 @@ import * as React from "react";
 
 interface WebPreviewButtonProps extends FieldProps {
   resource: string;
+  id?: string
 }
 
 export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
+
   const { resource, source, record } = props;
   // console.log({ resource, source, record });
   const id =
-    source && record && has(record, source) ? get(record, source) : undefined;
-
+    props.id ??
+    (source && record && has(record, source) ? get(record, source) : undefined);
   return (
     <Button
       color="secondary"
       variant="contained"
       onClick={() => {
         window.open(
-          `${process.env.PUBLIC_URL}/index.html?path=${resource}${
+          `${process.env.WEB_URL}/${resource}${
             id ? `/${id}` : ""
           }`
         );

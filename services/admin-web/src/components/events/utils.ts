@@ -59,12 +59,12 @@ export const transformEvent = async (
 
   const mediaTask = pipe(
     A.sequence(TE.ApplicativePar)(
-      rawMedia.map((r: any) =>
+      rawMedia.map((r: RawMedia) =>
         uploadFile(dataProvider)(
           "media",
           id,
           r.location.rawFile,
-          r.location.rawFile.type
+          r.location.rawFile.type as any
         )
       )
     ),

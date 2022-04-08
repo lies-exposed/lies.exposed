@@ -8,8 +8,8 @@ import {
 import React from "react";
 
 const ReferenceArrayKeywordInput: React.FC<
-  Omit<ReferenceInputProps, "children"> & { source: string }
-> = (props) => {
+  Omit<ReferenceInputProps, "children"> & { source: string; showAdd: boolean }
+> = ({ showAdd, ...props }) => {
   return (
     <Box>
       <ReferenceArrayInput
@@ -19,7 +19,11 @@ const ReferenceArrayKeywordInput: React.FC<
       >
         <AutocompleteArrayInput optionText="tag" />
       </ReferenceArrayInput>
-      <Link to="/keywords" target="_blank">Add new keyword</Link>
+      {props.showAdd ? (
+        <Link to="/keywords" target="_blank">
+          Add new keyword
+        </Link>
+      ) : null}
     </Box>
   );
 };

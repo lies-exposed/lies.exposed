@@ -179,6 +179,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
                   actor={p}
                   groups={[]}
                   onGroupClick={() => {}}
+                  onActorClick={() => {}}
                 />
               ))
             );

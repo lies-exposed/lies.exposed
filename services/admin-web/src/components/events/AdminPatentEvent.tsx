@@ -28,6 +28,7 @@ import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
+import { ReferenceMediaDataGrid } from '../Common/ReferenceMediaDataGrid';
 import URLMetadataInput from "../Common/URLMetadataInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
@@ -107,7 +108,7 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
           source="payload.owners.groups"
           defaultValue={[]}
         />
-        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
         <ReactPageInput source="excerpt" onlyText />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
@@ -117,6 +118,7 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
       </FormTab>
       <FormTab label="Media">
         <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
+        <ReferenceMediaDataGrid source="media" />
       </FormTab>
       <FormTab label="Links">
         <ReferenceArrayLinkInput source="links" />
@@ -146,7 +148,7 @@ export const PatentCreate: React.FC<CreateProps> = (props) => (
         source="payload.owners.groups"
         defaultValue={[]}
       />
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
       <MediaArrayInput
         label="media"

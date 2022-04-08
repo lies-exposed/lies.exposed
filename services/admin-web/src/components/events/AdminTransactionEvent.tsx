@@ -3,7 +3,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType
+  MapInputType,
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -26,7 +26,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
@@ -53,7 +53,7 @@ export const TransactionList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
-      withDrafts: false
+      withDrafts: false,
     }}
   >
     <Datagrid rowClick="edit">
@@ -87,11 +87,15 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<TransactionTitle {...(props as any)} />}
     {...props}
+    actions={
+      <>
+        <WebPreviewButton resource="/events" source="id" {...props} />
+      </>
+    }
     transform={(r) => transformEvent(r.id as any, r)}
   >
     <TabbedForm>
       <FormTab label="Generals">
-        <WebPreviewButton resource="/events" source="id" />
         <BooleanInput source="draft" defaultValue={false} />
         <TextInput fullWidth source="payload.title" />
         <NumberInput source="payload.total" />
@@ -106,7 +110,11 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
         <ReferenceBySubjectInput source="payload.from" />
         <ReferenceBySubjectInput source="payload.to" />
         <ReactPageInput source="excerpt" onlyText />
-        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+        <ReferenceArrayKeywordInput
+          source="keywords"
+          defaultValue={[]}
+          showAdd
+        />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
@@ -147,7 +155,7 @@ export const TransactionCreate: React.FC<CreateProps> = (props) => (
       <ReactPageInput source="excerpt" onlyText />
       <ReactPageInput source="body" />
 
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
     </SimpleForm>
   </Create>
