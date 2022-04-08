@@ -1281,7 +1281,7 @@ __metadata:
     "@types/react": ^16.14.24
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.8
-    "@types/react-virtualized": ^9.21.20
+    "@types/react-virtualized": ^9.21.21
     "@types/throttle-debounce": ^2.1.0
     "@types/topojson-client": ^3.1.1
     "@types/topojson-specification": ^1.0.2
@@ -3391,13 +3391,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-virtualized@npm:^9.21.20":
-  version: 9.21.20
-  resolution: "@types/react-virtualized@npm:9.21.20"
+"@types/react-virtualized@npm:^9.21.21":
+  version: 9.21.21
+  resolution: "@types/react-virtualized@npm:9.21.21"
   dependencies:
     "@types/prop-types": "*"
-    "@types/react": "*"
-  checksum: 70fd77d9a0fc498b4eb29a195f218fd10f6ca935025813d53d3937e1464580bfbfd3a0c84806530f21cf810c1f6cf1789656052a9714b23de46702b1ac1b73c5
+    "@types/react": ^17
+  checksum: 7f360746ae926c93ba07d830a33940ab1598f6966263594896d0dc746d704f9c0e0d1692cf543e925bcca7b007d70d3cc53379a9b1810f60c2d43ee5cfdb591e
   languageName: node
   linkType: hard
 
@@ -3420,6 +3420,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 823f3fc6219f59dff7a005ca33adbac70e7ef7a5e15a844c40ba36247c007bd1e1fbfc784052336f60ecbee09f06b7c6c7433e8cece3a87247061bbac74b2576
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^17":
+  version: 17.0.44
+  resolution: "@types/react@npm:17.0.44"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: ebee02778ca08f954c316dc907802264e0121c87b8fa2e7e0156ab0ef2a1b0a09d968c016a3600ec4c9a17dc09b4274f292d9b15a1a5369bb7e4072def82808f
   languageName: node
   linkType: hard
 
@@ -4817,7 +4828,7 @@ __metadata:
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1109.0
+    aws-sdk: ^2.1110.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
@@ -5196,9 +5207,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1109.0":
-  version: 2.1109.0
-  resolution: "aws-sdk@npm:2.1109.0"
+"aws-sdk@npm:^2.1110.0":
+  version: 2.1110.0
+  resolution: "aws-sdk@npm:2.1110.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5209,7 +5220,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 00da745b0cd08e810e9d3de30931dd982d412ffb58765a2a74a8df29f2e7c7c42f0f655cf323a8b201f763f4d066591f982a6b951f6feaddf49a7e7576a4da99
+  checksum: 2ecefa7c55f45c207a59a276596a5c4a63716c2c096335c6397bb45067cd87d92e4cfa3e4e4a34890737946b2171d6e4d609e235b73025ddc8de1bf99bf90141
   languageName: node
   linkType: hard
 
