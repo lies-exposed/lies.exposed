@@ -22,9 +22,9 @@ export const MediaInput: React.FC<MediaInputProps> = ({
   return (
     <Box>
       <FileInput
+        {...props}
         source={sourceLocation}
         accept={types.map((a) => `.${a.split("/")[1]}`).join(",")}
-        {...props}
       >
         <MediaField source={sourceType} />
       </FileInput>

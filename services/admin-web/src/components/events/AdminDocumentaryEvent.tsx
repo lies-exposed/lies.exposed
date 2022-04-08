@@ -3,7 +3,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType
+  MapInputType,
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -23,7 +23,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import ExcerptField from "../Common/ExcerptField";
 import { MediaField } from "../Common/MediaField";
@@ -90,11 +90,15 @@ export const DocumentaryEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<DocumentaryReleaseTitle {...(props as any)} />}
     {...props}
+    actions={
+      <>
+        <WebPreviewButton resource="/events" source="id" {...props} />
+      </>
+    }
     transform={(r) => transformEvent(r.id as any, r)}
   >
     <TabbedForm>
       <FormTab label="Generals">
-        <WebPreviewButton resource="/events" source="id" />
         <BooleanInput source="draft" defaultValue={false} />
         <TextInput fullWidth source="payload.title" />
         <TextInput type="url" fullWidth source="payload.website" />
@@ -124,7 +128,7 @@ export const DocumentaryEdit: React.FC<EditProps> = (props: EditProps) => (
           source="payload.subjects.groups"
           defaultValue={[]}
         />
-        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd={true} />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
@@ -187,7 +191,7 @@ export const DocumentaryCreate: React.FC<CreateProps> = (props) => (
 
       <ReactPageInput source="body" />
 
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
+      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
       <ReferenceArrayLinkInput source="links" defaultValue={[]} />
     </SimpleForm>
   </Create>

@@ -11,7 +11,7 @@ import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
-import { HelmetProvider } from '@liexp/ui/components/SEO';
+import { HelmetProvider } from "@liexp/ui/components/SEO";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
@@ -41,34 +41,34 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
 import { MediaArrayInput } from "./Common/MediaArrayInput";
-import { MediaField } from "./Common/MediaField";
 import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
+import { ReferenceMediaDataGrid } from './Common/ReferenceMediaDataGrid';
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle,
+  DocumentaryReleaseTitle
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -89,7 +89,7 @@ const EventsFilter: React.FC = (props: any) => {
           name: t.value,
         }))}
       />
-      <ReferenceArrayKeywordInput source="keywords" alwaysOn />
+      <ReferenceArrayKeywordInput source="keywords" showAdd={false} alwaysOn />
       <ReferenceArrayGroupInput source="groups" />
       <ReferenceArrayActorInput source="actors" />
       <ReferenceArrayGroupMemberInput source="groupsMembers" />
@@ -154,6 +154,8 @@ export const EventList: React.FC<ListProps> = (props) => (
             : "";
         }}
       />
+      <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
+      <FunctionField source="media" render={(r: any) => r.media?.length ?? 0} />
       <FunctionField
         label="actors"
         source="payload"
@@ -179,7 +181,7 @@ export const EventList: React.FC<ListProps> = (props) => (
           }
 
           if (r?.type === "ScientificStudy") {
-            return 1;
+            return r.payload.publisher ? 1 : 0;
           }
 
           return 0;
@@ -207,8 +209,7 @@ export const EventList: React.FC<ListProps> = (props) => (
           r?.location?.coordinates ? <PinDropIcon /> : "-"
         }
       />
-      <FunctionField source="links" render={(r: any) => r.links?.length ?? 0} />
-      <FunctionField source="media" render={(r: any) => r.media?.length ?? 0} />
+
       <DateField source="date" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
@@ -260,7 +261,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
           <DateInput source="date" />
           <BooleanInput source="draft" />
           <ReactPageInput label="excerpt" source="excerpt" onlyText />
-          <ReferenceArrayKeywordInput source="keywords" />
+          <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
           <DateField source="updatedAt" showTime={true} />
           <DateField source="createdAt" showTime={true} />
         </FormTab>
@@ -290,18 +291,8 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
             defaultValue={[]}
           />
 
-          <ReferenceArrayField
-            source="media"
-            reference="media"
-            sortBy="updatedAt"
-            sortByOrder="DESC"
-          >
-            <Datagrid rowClick="edit">
-              <TextField source="id" />
-              <MediaField source="location" fullWidth={false} />
-              <TextField source="description" />
-            </Datagrid>
-          </ReferenceArrayField>
+          <ReferenceMediaDataGrid source="media" />
+
         </FormTab>
         <FormTab label="Links">
           <LinkArrayInput source="newLinks" />

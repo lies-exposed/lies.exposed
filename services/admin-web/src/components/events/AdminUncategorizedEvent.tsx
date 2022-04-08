@@ -34,6 +34,7 @@ import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
+import { ReferenceMediaDataGrid } from '../Common/ReferenceMediaDataGrid';
 import { transformEvent } from "./utils";
 
 const RESOURCE = "events";
@@ -59,7 +60,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "createdAt",
       _order: "DESC",
-      withDrafts: false
+      withDrafts: false,
     }}
     filters={<EventsFilter />}
     perPage={20}
@@ -116,9 +117,7 @@ export const UncategorizedEventEditTab: React.FC<
   EditProps & { record?: any; sourcePrefix?: string }
 > = ({ sourcePrefix, ...props }) => {
   const source = (s: string): string =>
-    `${
-      typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`
-    }${s}`;
+    `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
   return (
     <FormTab label="Payload" {...props}>
       <TextInput
@@ -232,6 +231,7 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => (
       </FormTab>
       <FormTab label="Media">
         <MediaArrayInput source="newMedia" defaultValue={[]} />
+        <ReferenceMediaDataGrid source="media" />
       </FormTab>
     </TabbedForm>
   </Create>
