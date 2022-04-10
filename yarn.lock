@@ -1174,14 +1174,14 @@ __metadata:
     "@types/html-replace-webpack-plugin": ^2.6.1
     "@types/mime": ^1.3.2
     "@types/mini-css-extract-plugin": ^2.5.1
-    "@types/prettier": ^2.4.4
+    "@types/prettier": ^2.6.0
     "@types/react": ^16.14.24
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@types/webpack-node-externals": ^2.5.3
     copy-webpack-plugin: ^10.2.4
     css-loader: ^6.7.1
     dotenv-webpack: ^7.1.0
-    eslint: ^8.12.0
+    eslint: ^8.13.0
     eslint-plugin-import: ^2.26.0
     express: ^4.17.3
     fast-check: ^2.24.0
@@ -1218,10 +1218,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/shared@workspace:packages/@liexp/shared"
   dependencies:
-    "@react-page/react-admin": ^4.8.2
+    "@react-page/react-admin": ^4.8.3
     "@types/bs58": ^4.0.1
     "@types/jest": ^27.4.1
-    "@types/prettier": ^2.4.4
+    "@types/prettier": ^2.6.0
     "@types/throttle-debounce": ^2.1.0
     axios: ^0.26.1
     bs58: ^4.0.1
@@ -1262,21 +1262,21 @@ __metadata:
     "@material-ui/lab": ^4.0.0-alpha.61
     "@material-ui/styles": ^4.11.5
     "@reach/router": ^1.3.4
-    "@react-page/editor": ^4.8.2
-    "@react-page/plugins-background": ^4.8.2
-    "@react-page/plugins-divider": ^4.8.2
-    "@react-page/plugins-html5-video": ^4.8.2
-    "@react-page/plugins-image": ^4.8.2
-    "@react-page/plugins-slate": ^4.8.2
-    "@react-page/plugins-spacer": ^4.8.2
-    "@react-page/plugins-video": ^4.8.2
+    "@react-page/editor": ^4.8.3
+    "@react-page/plugins-background": ^4.8.3
+    "@react-page/plugins-divider": ^4.8.3
+    "@react-page/plugins-html5-video": ^4.8.3
+    "@react-page/plugins-image": ^4.8.3
+    "@react-page/plugins-slate": ^4.8.3
+    "@react-page/plugins-spacer": ^4.8.3
+    "@react-page/plugins-video": ^4.8.3
     "@types/chroma-js": ^2.1.3
     "@types/d3": ^5.16.4
     "@types/d3-sankey": ^0.11.2
     "@types/eslint": ^8.4.1
     "@types/jest": ^27.4.1
     "@types/ol": ^6.5.3
-    "@types/prettier": ^2.4.4
+    "@types/prettier": ^2.6.0
     "@types/reach__router": ^1.3.10
     "@types/react": ^16.14.24
     "@types/react-helmet": ^6.1.5
@@ -1312,7 +1312,7 @@ __metadata:
     d3-sankey: ^0.12.3
     d3-sankey-circular: ^0.34.0
     date-fns: ^1.30.1
-    eslint: ^8.12.0
+    eslint: ^8.13.0
     eslint-plugin-import: ^2.26.0
     fp-ts: ^2.11.9
     geotiff: ^1.0.9
@@ -1901,9 +1901,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-page/editor@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/editor@npm:4.8.2"
+"@react-page/editor@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/editor@npm:4.8.3"
   dependencies:
     "@loadable/component": ^5.15.0
     "@welldone-software/why-did-you-render": ^6.0.5
@@ -1931,74 +1931,74 @@ __metadata:
   peerDependencies:
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: c1034b94c1413bdb75e8b2ba5e6a169cfd18ab8a03d737008de056acd55fdb495797c905109e35feeea1361e01230eb3f56b7b1b0e09ac29dc485388ce134ba3
+  checksum: dad08cf6d53c638ac24f602fb814ca596eb6b27c7df53829cb11d82f9c78cee63988c3a7450ffefdf1a37d520a19e9f98f4ef1af78142756ea2d15ed964fce91
   languageName: node
   linkType: hard
 
-"@react-page/plugins-background@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/plugins-background@npm:4.8.2"
+"@react-page/plugins-background@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/plugins-background@npm:4.8.3"
   dependencies:
-    "@react-page/editor": ^4.8.2
+    "@react-page/editor": ^4.8.3
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: f6d78de22cdc3f77b5bcd52f4706990a0bd3bd38033d6b233ba40ead874f8d38f42bb6cb602bcaa141e92c74e0c4a854c590ddf4d7ca331059848137f2f79eed
+  checksum: 4e3f283d7a3753e7628c0f27c9b62fc2aab6b5e2692eb088748a08c4746bff428377b9116360d18c737a58c17286d7a9bdc01d9203c424e0cd3e5712f6ca5dc4
   languageName: node
   linkType: hard
 
-"@react-page/plugins-divider@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/plugins-divider@npm:4.8.2"
+"@react-page/plugins-divider@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/plugins-divider@npm:4.8.3"
   dependencies:
     "@material-ui/icons": ^4.2.1
-    "@react-page/editor": ^4.8.2
+    "@react-page/editor": ^4.8.3
   peerDependencies:
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: b47c39ac85690bb526d2c3e6288f3136a2a6b54f51bbcd8a81d0a45a3a2934e5129e810e62fb9e38dee547aab9d85ee8ca73ac9d58ee1dc19657d50cbdcc24cb
+  checksum: aea6314186449443955ede6214d0447cd96091c66710a064d03c3b8aaa8150c258076fd1bab97dab67e45b5bbcc724044a6ed243e8704f78e32b4c21c29eea98
   languageName: node
   linkType: hard
 
-"@react-page/plugins-html5-video@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/plugins-html5-video@npm:4.8.2"
+"@react-page/plugins-html5-video@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/plugins-html5-video@npm:4.8.3"
   dependencies:
-    "@react-page/editor": ^4.8.2
+    "@react-page/editor": ^4.8.3
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 4e035f0ffce12b406340bd015b13f2b7d697a83b164fb4af01d074862f4ef0c63e9dbb130f9ea857324fcf393de57312a3c701e5f9d86ee94979501cc9882cb8
+  checksum: 47fe9be9d4b120b9fac61dcbf297493fe96a769f99ca4af19249c9c7d5e70ccad0af915d9d063a6036d1f7657a7363cfba25ae1c5a8e377294d0dabe6cba0545
   languageName: node
   linkType: hard
 
-"@react-page/plugins-image@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/plugins-image@npm:4.8.2"
+"@react-page/plugins-image@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/plugins-image@npm:4.8.3"
   dependencies:
-    "@react-page/editor": ^4.8.2
+    "@react-page/editor": ^4.8.3
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 4fa5669988697df5e64f47d6f9c05a0145d4ee1424b164a355c7ec97a73a094c72802da049c690e6d587150c6f5a12aa348cb2eda9c4bfd348d8f50ca90f1e0a
+  checksum: 84f61ba9522c64b43fab563cb710ce2ac57e2d12d5eff591078fef180b76592d98d48fccc613b2a73e5219e5074425a35fcb895b19479c026e522a8d477b5fdd
   languageName: node
   linkType: hard
 
-"@react-page/plugins-slate@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/plugins-slate@npm:4.8.2"
+"@react-page/plugins-slate@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/plugins-slate@npm:4.8.3"
   dependencies:
     "@emotion/is-prop-valid": ^0.8.8
-    "@react-page/editor": ^4.8.2
+    "@react-page/editor": ^4.8.3
     "@xmldom/xmldom": ^0.8.1
     cssstyle: ^2.3.0
     deep-rename-keys: ^0.2.1
@@ -2021,15 +2021,15 @@ __metadata:
     "@types/react": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: f1cbd7c64aa29729954ae77d5db77a75a7eac147e4d4e86fd3bc585995007944223c44787cb19511c7c076c9225a8058dcc368c4a26f4f20ef608e15e552cec2
+  checksum: 1024ecc6dda4faeb4e8ef1fc282781a92f65f1bc40355839814e1ec8bae32dfd07860a5d0502b9a65c3a8ed8e6d6e1862f3fd5b24cce3cefaa654927bfa41752
   languageName: node
   linkType: hard
 
-"@react-page/plugins-spacer@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/plugins-spacer@npm:4.8.2"
+"@react-page/plugins-spacer@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/plugins-spacer@npm:4.8.3"
   dependencies:
-    "@react-page/editor": ^4.8.2
+    "@react-page/editor": ^4.8.3
     classnames: 2.2.6
     react-resizable: ^1.11.0
   peerDependencies:
@@ -2038,15 +2038,15 @@ __metadata:
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 4873df881246e99c1445bb7cf3978ab91219010ff6197060050578d74b8f0ffb081682011d3c8d1b451053087a6a09671cb528ddf2535b72919361c3a167710c
+  checksum: 37f39cf746b84d7fb01b57c0bd2c5b83062b0cab12d0ac58969a8d07df433b04e87a4311f4a3143e35fe9e7b28eb3db6357aeb67047423d0d58b5cdb0c259430
   languageName: node
   linkType: hard
 
-"@react-page/plugins-video@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/plugins-video@npm:4.8.2"
+"@react-page/plugins-video@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/plugins-video@npm:4.8.3"
   dependencies:
-    "@react-page/editor": ^4.8.2
+    "@react-page/editor": ^4.8.3
     react-player: ^1.13.0
   peerDependencies:
     "@material-ui/core": "*"
@@ -2054,15 +2054,15 @@ __metadata:
     "@material-ui/styles": "*"
     react: ">= 16.14"
     react-dom: ">= 16.14"
-  checksum: 571927446d122f9accea817c12f834958b3bc59bbefbbe3b944433387ab603d515cea9e2cb6a933af78fe93b0c5e3f9198ebff78ac1872ba134ceb912f1864c9
+  checksum: a9bf66cdd1661f8229095c1afdaaf64fb212380c82468043aa1a483d156bf9721819248de1885438e22652c59c523db2aefacadf235e3f9d6d8708455c3d805d
   languageName: node
   linkType: hard
 
-"@react-page/react-admin@npm:^4.8.2":
-  version: 4.8.2
-  resolution: "@react-page/react-admin@npm:4.8.2"
+"@react-page/react-admin@npm:^4.8.3":
+  version: 4.8.3
+  resolution: "@react-page/react-admin@npm:4.8.3"
   dependencies:
-    "@react-page/editor": ^4.8.2
+    "@react-page/editor": ^4.8.3
   peerDependencies:
     "@material-ui/core": "*"
     "@material-ui/icons": "*"
@@ -2071,7 +2071,7 @@ __metadata:
     react-dom: ">= 16.14"
     react-final-form: "*"
     uniforms: "*"
-  checksum: 58fa1516adb5fb938caee065b8095cc91faeb5fdcf5e81aa9acfac0012602afe3897353e5587bfde75e45e146c5f916cd6d57ea44a94b2744c02a4bec1f19745
+  checksum: 686e22b144dfd11a62385366b9ec2ff188cb0f02486c9a396ceb40f79b3198338cca94fbdd7bbb1593ea0e225c697d6147c651d879ebd54ee06a7ea16abf40a2
   languageName: node
   linkType: hard
 
@@ -3233,10 +3233,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2.1.5, @types/prettier@npm:^2.4.4":
+"@types/prettier@npm:^2.1.5":
   version: 2.4.4
   resolution: "@types/prettier@npm:2.4.4"
   checksum: 2c2cc57efd49c7d8907415a72f96c84a6dd8696dd3bf8aa4ca3a667427bebf71cbfbc912673624bdfc935d272d1c008c639cf155f6449315990a4dc110f0d216
+  languageName: node
+  linkType: hard
+
+"@types/prettier@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "@types/prettier@npm:2.6.0"
+  checksum: 946f1f82ce6f31664e023a5d65931c31b7d677b454f528f67dce851d72e7fcfe713076f4251b16c3646eecf1545f5f5b909b4962966341ed9ddf5b80113b3674
   languageName: node
   linkType: hard
 
@@ -4546,7 +4553,7 @@ __metadata:
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.181
     "@types/node": ^16.11.26
-    "@types/prettier": ^2.4.4
+    "@types/prettier": ^2.6.0
     "@types/react": ^16.14.24
     "@types/react-dom": ^16.9.14
     "@types/react-redux": ^7.1.23
@@ -4554,7 +4561,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.18.0
     "@typescript-eslint/parser": ^5.18.0
     debug: ^4.3.4
-    eslint: ^8.12.0
+    eslint: ^8.13.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.1
@@ -4828,12 +4835,12 @@ __metadata:
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1110.0
+    aws-sdk: ^2.1111.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
     domino: ^2.1.6
-    eslint: ^8.12.0
+    eslint: ^8.13.0
     eslint-config-prettier: ^8.5.0
     eslint-import-resolver-typescript: ^2.7.1
     eslint-plugin-import: ^2.26.0
@@ -5207,9 +5214,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1110.0":
-  version: 2.1110.0
-  resolution: "aws-sdk@npm:2.1110.0"
+"aws-sdk@npm:^2.1111.0":
+  version: 2.1111.0
+  resolution: "aws-sdk@npm:2.1111.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5220,7 +5227,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 2ecefa7c55f45c207a59a276596a5c4a63716c2c096335c6397bb45067cd87d92e4cfa3e4e4a34890737946b2171d6e4d609e235b73025ddc8de1bf99bf90141
+  checksum: 1e918377e23704b1656aa5b9072ef8d8166198b14a4cdfd313745f7d4a3f826e3c14f4806e5b985fd67139a2a4cf30d65a0024cec16fbb6daa3ae99287951b76
   languageName: node
   linkType: hard
 
@@ -8344,9 +8351,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.12.0":
-  version: 8.12.0
-  resolution: "eslint@npm:8.12.0"
+"eslint@npm:^8.13.0":
+  version: 8.13.0
+  resolution: "eslint@npm:8.13.0"
   dependencies:
     "@eslint/eslintrc": ^1.2.1
     "@humanwhocodes/config-array": ^0.9.2
@@ -8385,7 +8392,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 111bf9046b7a463049788dd00d7f4cd91e024029982352dff4811ce5dfa8cb1136aa127cd8a7a91508234d3e1b4fb6f638a1f5ef9ea08b1af93a18703a4a8dc1
+  checksum: bc7d2fc9a046d42cb2c8987573ecaf534c1fae14747c4695e32388e179c5f21b83eefdb3e4f35924bf76152e226d7cc9dfb21f12348baf12c803109005b17439
   languageName: node
   linkType: hard
 
@@ -11857,10 +11864,10 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^16.2.3
     "@commitlint/config-conventional": ^16.2.1
-    "@types/prettier": ^2.4.4
+    "@types/prettier": ^2.6.0
     "@typescript-eslint/eslint-plugin": ^5.18.0
     "@typescript-eslint/parser": ^5.18.0
-    eslint: ^8.12.0
+    eslint: ^8.13.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.1
@@ -18543,7 +18550,7 @@ __metadata:
     d3: ^5.16.0
     debug: ^4.3.4
     dotenv: ^16.0.0
-    eslint: ^8.12.0
+    eslint: ^8.13.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.1
