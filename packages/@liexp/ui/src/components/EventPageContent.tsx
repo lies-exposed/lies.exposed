@@ -49,9 +49,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   onLinkClick,
 }) => {
   const title =
-    (event.payload as any).title ?? event.type === Death.DEATH.value
+    (event.payload as any).title ??
+    (event.type === Death.DEATH.value
       ? `Death: ${(event.payload as any).victim}`
-      : "";
+      : "");
   const theme = useTheme();
   const { actors, groups, groupsMembers } = getRelationIds(event);
 
