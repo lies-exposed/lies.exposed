@@ -10,6 +10,7 @@ const {
 } = process.env;
 
 const apiServe = {
+  namespace: 'liexp',
   name: "api-serve",
   cwd: path.resolve(__dirname, "./services/api"),
   script: "./build/run.js",
@@ -22,6 +23,7 @@ const apiServe = {
 };
 
 const webServe = {
+  namespace: 'liexp',
   name: "web-serve",
   cwd: path.resolve(__dirname, "./services/web"),
   script: "./build/server/ssr.js",

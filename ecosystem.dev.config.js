@@ -15,6 +15,7 @@ module.exports = {
   apps: [
     {
       name: "web-watch",
+      namespace: 'liexp',
       cwd: path.resolve(__dirname, "./services/web"),
       script: "yarn watch",
       watch: false,
@@ -26,6 +27,7 @@ module.exports = {
     },
     {
       name: "api-watch",
+      namespace: 'liexp',
       cwd: path.resolve(__dirname, "./services/api"),
       script: "yarn watch",
       watch: false,
@@ -33,6 +35,7 @@ module.exports = {
     apiServe,
     {
       name: "admin",
+      namespace: 'liexp',
       cwd: path.resolve(__dirname, "./services/admin-web"),
       script: "yarn start",
       watch: false,
