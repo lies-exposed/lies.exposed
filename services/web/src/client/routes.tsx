@@ -4,6 +4,7 @@ import {
   fetchGroup,
   fetchGroups,
   fetchGroupsMembers,
+  fetchMedia,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import * as React from "react";
@@ -19,7 +20,8 @@ import KeywordTemplate from "./templates/KeywordTemplate";
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
-  queryFn: fetchGithubRepo,
+  queryFn:
+    fetchGithubRepo,
 } as any;
 
 const commonQueries = [githubQuery];
@@ -59,9 +61,7 @@ export const routes = [
   {
     path: "/groups",
     route: (props: any) => <GroupsPage />,
-    queries: () => [
-      ...commonQueries,
-    ],
+    queries: () => [...commonQueries],
   },
   {
     path: "/actors/:actorId",
@@ -92,9 +92,7 @@ export const routes = [
   {
     path: "/actors",
     route: (props: any) => <ActorsPage />,
-    queries: () => [
-      ...commonQueries,
-    ],
+    queries: () => [...commonQueries],
   },
   {
     path: "/events/:eventId",
@@ -108,6 +106,23 @@ export const routes = [
       {
         queryKey: ["event", { id: eventId }],
         queryFn: fetchEvent,
+      },
+      {
+        queryKey: [
+          "media",
+          {
+            sort: {
+              field: "createdAt",
+              order: "DESC",
+            },
+            pagination: {
+              perPage: 1,
+              page: 1,
+            },
+            filter: { events: [eventId] },
+          },
+        ],
+        queryFn: fetchMedia,
       },
     ],
   },
