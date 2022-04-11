@@ -1,12 +1,10 @@
 import { GroupMember } from "@liexp/shared/io/http";
-import { Box, Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { useGroupsMembersDiscreteQuery } from "../state/queries/DiscreteQueries";
-import QueriesRenderer from "./QueriesRenderer";
 import { GroupsMembersList } from "./lists/GroupMemberList";
+import QueriesRenderer from "./QueriesRenderer";
 
 interface GroupMembersBoxProps {
   ids: string[];
@@ -21,6 +19,7 @@ const GroupMembersList: React.FC<{
 }> = ({ ids, ...props }) => {
   return (
     <QueriesRenderer
+      loader="default"
       queries={{
         groupsMembers: useGroupsMembersDiscreteQuery({
           pagination: { page: 1, perPage: 10 },
@@ -51,22 +50,18 @@ export const GroupMembersBox: React.FC<GroupMembersBoxProps> = ({
   style,
   onItemClick,
 }) => {
+  if (ids.length === 0) {
+    return null;
+  }
+
   return (
     <Box>
-      {pipe(
-        ids,
-        NEA.fromArray,
-        O.fold(
-          () => <Typography>-</Typography>,
-          (ids) => (
-            <GroupMembersList
-              ids={ids}
-              style={style}
-              onItemClick={onItemClick}
-            />
-          )
-        )
-      )}
+      <GroupMembersList
+        key="non-empty"
+        ids={ids as NEA.NonEmptyArray<string>}
+        style={style}
+        onItemClick={onItemClick}
+      />
     </Box>
   );
 };

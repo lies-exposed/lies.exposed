@@ -29,7 +29,10 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
       });
 
       const findTask = pipe(
-        ctx.db.manager.getRepository(MediaEntity).createQueryBuilder("media"),
+        ctx.db.manager
+          .getRepository(MediaEntity)
+          .createQueryBuilder("media")
+          .leftJoinAndSelect("media.events", "events"),
         (q) => {
           if (O.isSome(description)) {
             return q.where("lower(media.description) LIKE :description", {
@@ -90,6 +93,10 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(([data, total]) =>
           pipe(
             data,
+            A.map((d) => ({
+              ...d,
+              events: d.events.map((e) => e.id) as any[],
+            })),
             A.traverse(E.Applicative)(toImageIO),
             TE.fromEither,
             TE.map((results) => ({

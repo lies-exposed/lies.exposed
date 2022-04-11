@@ -10,11 +10,11 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { GroupMemberEntity } from "../GroupMember.entity";
 import { LinkEntity } from "../Link.entity";
-import { MediaEntity } from "../Media.entity";
+import { MediaV1Entity } from './Media.v1.entity';
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 
@@ -36,12 +36,12 @@ export class DeathEventEntity {
   })
   news: LinkEntity[];
 
-  @ManyToMany(() => MediaEntity, (a) => a.events, {
+  @ManyToMany(() => MediaV1Entity, (a) => a.events, {
     cascade: true,
     nullable: true,
   })
   @JoinTable()
-  media: MediaEntity[];
+  media: MediaV1Entity[];
 
   @OneToOne(() => ActorEntity, (v) => v.id, { nullable: false })
   @JoinColumn()

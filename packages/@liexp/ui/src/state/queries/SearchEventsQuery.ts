@@ -512,9 +512,13 @@ const searchEventsQ =
 export const searchEventsQuery = (
   input: any
 ): UseQueryResult<SearchEventQueryResult, APIError> => {
-  return useQuery(["events", "search", input], async () => {
-    return await pipe(searchEventsQ(api.Event.List)(input), foldTE);
-  });
+  return useQuery(
+    ["events", "search", input],
+    async () => {
+      return await pipe(searchEventsQ(api.Event.List)(input), foldTE);
+    },
+    { refetchOnWindowFocus: false, optimisticResults: false }
+  );
 };
 
 export const searchEventsInfiniteQuery = (

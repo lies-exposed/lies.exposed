@@ -14,7 +14,7 @@ describe("List Keywords", () => {
       id: "1",
     } as any)()}`;
 
-    keywords = tests.fc.sample(KeywordArb, 100);
+    keywords = tests.fc.sample(KeywordArb, 50);
 
     await Test.ctx.db.save(
       KeywordEntity,
@@ -41,6 +41,6 @@ describe("List Keywords", () => {
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toHaveLength(20);
-    expect(response.body.total).toBeGreaterThanOrEqual(100);
+    expect(response.body.total).toBeGreaterThanOrEqual(50);
   });
 });

@@ -1,7 +1,10 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { useEventQuery } from "@liexp/ui/state/queries/DiscreteQueries";
+import {
+  useEventQuery,
+  useMediaQuery,
+} from "@liexp/ui/state/queries/DiscreteQueries";
 import { Box, Grid, Typography, useTheme } from "@material-ui/core";
 import * as React from "react";
 import EventsBox from "../components/events/EventsBox";
@@ -13,15 +16,28 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
 
   return (
     <QueriesRenderer
+      loader="fullsize"
       queries={{
         event: useEventQuery({ id: eventId }),
+        media: useMediaQuery({
+          filter: { events: [eventId] },
+          pagination: {
+            perPage: 1,
+            page: 1,
+          },
+          sort: {
+            field: "createdAt",
+            order: "DESC",
+          },
+        }),
       }}
-      render={({ event }) => {
+      render={({ event, media }) => {
         const { actors, groups, keywords } = getRelationIds(event);
         return (
           <Box style={{ margin: 20, marginBottom: 100 }}>
             <EventPageContent
               event={event}
+              media={media.data}
               onGroupClick={(g) => {
                 navigateTo.groups({ id: g.id });
               }}

@@ -40,6 +40,7 @@ import { APIRESTClient } from "../http";
 // }
 
 const toError = (e: unknown): APIError => {
+  // console.error(e);
   if (e instanceof Error) {
     return {
       name: "APIError",
