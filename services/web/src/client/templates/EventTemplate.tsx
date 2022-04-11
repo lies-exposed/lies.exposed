@@ -16,6 +16,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
 
   return (
     <QueriesRenderer
+      loader="fullsize"
       queries={{
         event: useEventQuery({ id: eventId }),
         media: useMediaQuery({

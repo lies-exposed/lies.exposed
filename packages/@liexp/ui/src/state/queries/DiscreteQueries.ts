@@ -162,14 +162,17 @@ export const useKeywordsDistributionQuery = (
   });
 };
 
+export const fetchMedia = async ({
+  queryKey,
+}: any): Promise<{ data: Media.Media[]; total: number }> => {
+  const params = queryKey[1];
+  return await Queries.Media.getList(params);
+};
+
 export const useMediaQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Media.Media[]; total: number }, any> => {
-  return useQuery(["media"], async () => {
-    return params.filter.ids?.length === 0
-      ? await emptyQuery()
-      : await Queries.Media.getList(params);
-  });
+  return useQuery(["media", params], fetchMedia);
 };
 
 export const useLinksQuery = (

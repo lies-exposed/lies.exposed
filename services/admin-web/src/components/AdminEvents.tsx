@@ -41,7 +41,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
@@ -50,25 +50,25 @@ import ReferenceArrayActorInput from "./Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "./Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "./Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "./Common/ReferenceArrayKeywordInput";
-import { ReferenceMediaDataGrid } from './Common/ReferenceMediaDataGrid';
+import { ReferenceMediaDataGrid } from "./Common/ReferenceMediaDataGrid";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle
+  DocumentaryReleaseTitle,
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -292,7 +292,6 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
           />
 
           <ReferenceMediaDataGrid source="media" />
-
         </FormTab>
         <FormTab label="Links">
           <LinkArrayInput source="newLinks" />
@@ -324,6 +323,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
                             links: [],
                             media: [],
                           }}
+                          media={[]}
                           onActorClick={() => undefined}
                           onGroupClick={() => undefined}
                           onKeywordClick={() => undefined}

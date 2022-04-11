@@ -46,9 +46,9 @@ const QueriesRenderer = <
 
   if (isLoading) {
     if (loader === 'default') {
-      return <Loader />
+      return <Loader key="loader" />
     }
-    return <FullSizeLoader />;
+    return <FullSizeLoader key="full-size-loader" />;
   }
 
   if (isError) {
