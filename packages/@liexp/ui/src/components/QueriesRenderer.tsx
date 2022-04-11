@@ -3,10 +3,12 @@ import * as React from "react";
 import { QueryObserverSuccessResult, UseQueryResult } from "react-query";
 import { ErrorBox } from "./Common/ErrorBox";
 import { FullSizeLoader } from "./Common/FullSizeLoader";
+import { Loader } from './Common/Loader';
 
 interface QueriesRendererProps<
   Q extends { [key: string]: UseQueryResult<any, APIError> }
-> {
+> { 
+  loader?: 'fullsize' | 'default';
   queries: Q;
   render: (data: {
     [K in keyof Q]: QueryObserverSuccessResult<
@@ -19,10 +21,10 @@ interface QueriesRendererProps<
 const QueriesRenderer = <
   Q extends { [key: string]: UseQueryResult<any, APIError> }
 >(
-  props: QueriesRendererProps<Q>
+  { queries, loader = 'default', ...props }: QueriesRendererProps<Q>
 ): JSX.Element => {
 
-  const { isLoading, isError, data } = Object.entries(props.queries).reduce(
+  const { isLoading, isError, data } = Object.entries(queries).reduce(
     (acc, [key, value]) => ({
       isLoading: !acc.isLoading ? value.isLoading : acc.isLoading,
       isError: !acc.isError ? value.isError : acc.isError,
@@ -43,6 +45,9 @@ const QueriesRenderer = <
   // console.log("query render", { isLoading, data });
 
   if (isLoading) {
+    if (loader === 'default') {
+      return <Loader />
+    }
     return <FullSizeLoader />;
   }
 

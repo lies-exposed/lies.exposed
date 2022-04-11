@@ -26,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
     height: "auto",
     maxWidth: "100%",
-    maxHeight: "100%",
-    objectFit: 'contain'
+    maxHeight: 800,
+    objectFit: "contain",
   },
 }));
 
@@ -76,15 +76,11 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
               flexDirection="column"
               style={{ position: "relative", height: "100%" }}
             >
-              <Box display="inline">
+              <Box
+                display="flex"
+                style={{ flexDirection: "column", alignItems: "flex-end" }}
+              >
                 <CloseOutlined onClick={() => setOpen(false)} />
-                <Typography
-                  id="alert-dialog-title"
-                  variant="h4"
-                  display="inline"
-                >
-                  {media.description}
-                </Typography>
               </Box>
 
               <Box
@@ -92,8 +88,15 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
                 display={"flex"}
                 width="100%"
                 height="100%"
+                style={{
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
               >
                 <img className={classes.image} src={media.location} />
+                <Typography id="alert-dialog-title" variant="body2">
+                  {media.description}
+                </Typography>
               </Box>
             </Box>
           </div>

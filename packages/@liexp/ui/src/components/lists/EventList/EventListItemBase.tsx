@@ -103,7 +103,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
         </Link>
       ) : null}
       {isValidValue(excerpt) ? (
-        <Typography style={{ display: "flex" }} variant="body1">
+        <Typography style={{ display: "flex", marginBottom: 20 }} variant="body1">
           {getTextContentsCapped(excerpt, 300)}
         </Typography>
       ) : null}
@@ -121,6 +121,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
             style={{
               justifyContent: "center",
               alignItems: "center",
+              marginBottom: 20
             }}
           >
             <Box

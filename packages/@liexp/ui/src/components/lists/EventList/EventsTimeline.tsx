@@ -95,10 +95,10 @@ export const getItemHeight = (
   e: SearchEvent.SearchEvent,
   isDownMD: boolean
 ): number => {
-  const excerptHeight = isValidValue(e.excerpt as any) ? 100 : 0;
+  const excerptHeight = isValidValue(e.excerpt as any) ? 120 : 0;
 
   const keywordsHeight = e.keywords.length > 0 ? 50 : 0;
-  const mediaHeight = e.media.length > 0 ? 400 : 0;
+  const mediaHeight = e.media.length > 0 ? 450 : 0;
   const linksHeight = e.links.length > 0 ? 50 : 0;
   switch (e.type) {
     case TRANSACTION.value:
