@@ -16,7 +16,7 @@ export NODE_ENV=production
 yarn packages:build
 
 # admin web
-DEBUG="@liexp*" yarn admin-web build
+yarn admin-web build
 mkdir -p /var/www/html/alpha.lies.exposed/admin
 cp -r /root/node/app/current/services/admin-web/build/* /var/www/html/alpha.lies.exposed/admin
 sudo chown -R www-data:www-data /var/www/html/alpha.lies.exposed
@@ -26,7 +26,7 @@ yarn api build
 yarn api migration:run
 
 # web
-DEBUG="@liexp*" yarn web build
+yarn web build
 
 # reload services
 sudo nginx -s reload
