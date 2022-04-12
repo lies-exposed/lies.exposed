@@ -525,7 +525,7 @@ export const searchEventsInfiniteQuery = (
   input: any
 ): UseInfiniteQueryResult<SearchEventQueryResult, APIError> => {
   return useInfiniteQuery(
-    ["events-search-infinite", input.hash],
+    ["events-search-infinite", input],
     async (params) => {
       return await pipe(
         searchEventsQ(api.Event.List)({

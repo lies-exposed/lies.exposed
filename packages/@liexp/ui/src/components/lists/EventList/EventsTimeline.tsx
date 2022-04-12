@@ -167,6 +167,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
     data,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     fetchNextPage,
     isRefetching,
@@ -235,10 +236,13 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   );
 
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
-    if (hasNextPage && !isFetchingNextPage) {
-      void fetchNextPage({ pageParam: params });
+    if (hasNextPage && !isFetchingNextPage && !isFetching) {
+      const cacheSize = searchEvents?.events.length ?? 0;
+      if (params.startIndex >= cacheSize && params.stopIndex > cacheSize) {
+        await fetchNextPage({ pageParam: params });
+      }
     }
-    return undefined;
+    return await Promise.resolve(undefined);
   };
 
   React.useEffect(() => {
