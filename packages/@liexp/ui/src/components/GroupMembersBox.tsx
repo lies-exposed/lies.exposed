@@ -3,8 +3,8 @@ import { Box } from "@material-ui/core";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as React from "react";
 import { useGroupsMembersDiscreteQuery } from "../state/queries/DiscreteQueries";
-import { GroupsMembersList } from "./lists/GroupMemberList";
 import QueriesRenderer from "./QueriesRenderer";
+import { GroupsMembersList } from "./lists/GroupMemberList";
 
 interface GroupMembersBoxProps {
   ids: string[];

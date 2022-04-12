@@ -6,6 +6,7 @@ import {
 } from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
+import { HelmetProvider } from '@liexp/ui/components/SEO';
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
 import { Box, ThemeProvider, Typography } from "@material-ui/core";
@@ -149,7 +150,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
             source="payload.event.excerpt"
             onlyText
           />
-          <ReferenceArrayKeywordInput source="payload.event.keywords" />
+          <ReferenceArrayKeywordInput source="payload.event.keywords" showAdd />
           <DateField
             label="updatedAt"
             source="payload.event.updatedAt"
@@ -224,29 +225,32 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
             {({ formData, ...rest }) => {
               const qc = new QueryClient();
               return (
-                <QueryClientProvider client={qc}>
-                  <ThemeProvider theme={ECOTheme}>
-                    {formData.payload.event.type === "Uncategorized" ? (
-                      <EventPageContent
-                        event={{
-                          ...formData.payload.event,
-                          excerpt: undefined,
-                          body: undefined,
-                          keywords: [],
-                          links: [],
-                          media: [],
-                        }}
-                        onActorClick={() => undefined}
-                        onGroupClick={() => undefined}
-                        onKeywordClick={() => undefined}
-                        onLinkClick={() => undefined}
-                        onGroupMemberClick={() => undefined}
-                      />
-                    ) : (
-                      <div />
-                    )}
-                  </ThemeProvider>
-                </QueryClientProvider>
+                <HelmetProvider>
+                  <QueryClientProvider client={qc}>
+                    <ThemeProvider theme={ECOTheme}>
+                      {formData.payload.event.type === "Uncategorized" ? (
+                        <EventPageContent
+                          event={{
+                            ...formData.payload.event,
+                            excerpt: undefined,
+                            body: undefined,
+                            keywords: [],
+                            links: [],
+                            media: [],
+                          }}
+                          media={[]}
+                          onActorClick={() => undefined}
+                          onGroupClick={() => undefined}
+                          onKeywordClick={() => undefined}
+                          onLinkClick={() => undefined}
+                          onGroupMemberClick={() => undefined}
+                        />
+                      ) : (
+                        <div />
+                      )}
+                    </ThemeProvider>
+                  </QueryClientProvider>
+                </HelmetProvider>
               );
             }}
           </FormDataConsumer>
