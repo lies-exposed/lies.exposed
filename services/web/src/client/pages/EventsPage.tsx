@@ -7,7 +7,7 @@ import {
   useActorsDiscreteQuery,
   useGroupsDiscreteQuery,
   useGroupsMembersDiscreteQuery,
-  useKeywordsDiscreteQuery,
+  useKeywordsDiscreteQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { clearSearchEventsQueryCache } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { ECOTheme } from "@liexp/ui/theme";
@@ -18,7 +18,7 @@ import {
   Grid,
   Hidden,
   makeStyles,
-  Toolbar,
+  Toolbar
 } from "@material-ui/core";
 import clsx from "clsx";
 import { subYears } from "date-fns";
@@ -30,7 +30,7 @@ import { queryClient } from "../state/queries";
 import {
   queryToHash,
   useQueryFromHash,
-  useRouteQuery,
+  useRouteQuery
 } from "../utils/history.utils";
 import { EventsView, useNavigateToResource } from "../utils/location.utils";
 import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       padding: theme.spacing(2),
       [theme.breakpoints.down("sm")]: {
         paddingLeft: 0,
-        paddingRight: 0
+        paddingRight: 0,
       },
     },
     eventFiltersBox: {
@@ -124,7 +124,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   const tab = parseInt(query.tab ?? "0", 10);
   const classes = useStyles();
 
-
   const params = {
     startDate: query.startDate ?? MIN_DATE,
     endDate: query.endDate ?? MAX_DATE,
@@ -135,7 +134,9 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     media: query.media ?? [],
     tab,
     type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
-    title: query.title
+    title: query.title,
+    _order: query._order,
+    _sort: 'date'
   };
 
   const handleUpdateEventsSearch = React.useCallback(
@@ -288,6 +289,10 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                       <EventsPanel
                         hash={hash}
                         query={params}
+                        actors={filterActors.data}
+                        groups={filterGroups.data}
+                        keywords={filterKeywords.data}
+                        groupsMembers={filterGroupsMembers.data}
                         onQueryChange={handleUpdateEventsSearch}
                       />
                     </Grid>

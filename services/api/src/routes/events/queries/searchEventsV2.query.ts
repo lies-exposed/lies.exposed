@@ -89,6 +89,7 @@ export const searchEventV2Query =
             keywords,
             links,
             media,
+            order
           }
         );
 
@@ -288,11 +289,6 @@ export const searchEventV2Query =
               });
             }
 
-            // logger.debug.log(
-            //   `Search event v2 query %s with params %O`,
-            //   ...q.getQueryAndParameters()
-            // );
-
             q.andWhere("event.draft = :draft", { draft: withDrafts });
 
             if (withDeleted) {
@@ -355,6 +351,11 @@ export const searchEventV2Query =
               });
             }
 
+            // logger.debug.log(
+            //   `Search event v2 query %s with params %O`,
+            //   ...q.getQueryAndParameters()
+            // );
+
             return {
               resultsQuery: q,
               uncategorizedCount,
@@ -372,8 +373,7 @@ export const searchEventV2Query =
             const resultQ = searchV2Query.resultsQuery
               .loadAllRelationIds({ relations: ["keywords", "links", "media"] })
               .skip(skip)
-              .take(take)
-              .orderBy("event.date", "DESC");
+              .take(take);
 
             // logger.debug.log("Result query %s", resultQ.getSql());
 

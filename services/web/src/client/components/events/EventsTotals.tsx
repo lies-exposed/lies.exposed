@@ -1,24 +1,31 @@
+import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import { Documentary } from "@liexp/shared/io/http/Events";
+import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
+import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
+import { AutocompleteGroupInput } from "@liexp/ui/components/Input/AutocompleteGroupInput";
+import { AutocompleteGroupMemberInput } from "@liexp/ui/components/Input/AutocompleteGroupMemberInput";
+import { AutocompleteKeywordInput } from '@liexp/ui/components/Input/AutocompleteKeywordInput';
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { getTotal } from "@liexp/ui/helpers/event.helper";
 import {
   SearchEventQueryInput,
-  searchEventsQuery,
+  searchEventsQuery
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import {
   alpha,
   Box,
+  Grid,
   IconButton,
   InputBase,
   makeStyles,
-  Typography,
+  Typography
 } from "@material-ui/core";
+import ArrowDownIcon from "@material-ui/icons/ArrowDownward";
+import ArrowUpIcon from "@material-ui/icons/ArrowUpward";
 import SearchIcon from "@material-ui/icons/Search";
 import clsx from "clsx";
-import TileState from "ol/TileState";
 import * as React from "react";
-import { debounce, throttle } from "throttle-debounce";
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
@@ -51,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
+  dateInput: {
+    marginBottom: theme.spacing(2),
+  },
   inputRoot: {
     color: "inherit",
   },
@@ -70,6 +80,10 @@ type Query = Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
 export interface EventsTotalsProps {
   query: Query;
   hash: string;
+  keywords: Keyword.Keyword[]
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  groupsMembers: GroupMember.GroupMember[];
   filters: {
     uncategorized: boolean;
     deaths: boolean;
@@ -85,6 +99,10 @@ export interface EventsTotalsProps {
 const EventsTotals: React.FC<EventsTotalsProps> = ({
   query,
   hash,
+  keywords,
+  actors,
+  groups,
+  groupsMembers,
   filters,
   onFilterChange,
   onQueryChange,
@@ -92,6 +110,11 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
   const classes = useStyles();
 
   const [title, setTitle] = React.useState(query.title ?? "");
+
+  const [currentDateRange, setCurrentDateRange] = React.useState([
+    query.startDate,
+    query.endDate,
+  ]);
 
   return (
     <QueriesRenderer
@@ -108,31 +131,128 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
         return (
           <Box width="100%">
             <Box display="flex">
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  value={title}
-                  inputProps={{ "aria-label": "search" }}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
+              <Grid container>
+                <Grid item md={6}>
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      placeholder="Search…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      value={title}
+                      inputProps={{ "aria-label": "search" }}
+                      onChange={(e) => {
+                        setTitle(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          onQueryChange({
+                            ...query,
+                            title: title === "" ? undefined : title,
+                          });
+                        }
+                      }}
+                    />
+                  </div>
+                </Grid>
+                <Grid item md={3} sm={4} xs={6}>
+                  <DatePicker
+                    className={classes.dateInput}
+                    size="small"
+                    value={currentDateRange[0]}
+                    variant="standard"
+                    datatype="date"
+                    InputLabelProps={{
+                      disabled: true,
+                    }}
+                    onChange={(e) =>
+                      setCurrentDateRange([e.target.value, currentDateRange[1]])
+                    }
+                    onBlur={(e) => {
                       onQueryChange({
                         ...query,
-                        title: title === "" ? undefined : title,
+                        startDate: e.target.value,
+                        endDate: currentDateRange[1],
+                      });
+                    }}
+                    style={{ width: "100%" }}
+                  />
+                </Grid>
+                <Grid item md={3} sm={4} xs={6}>
+                  <DatePicker
+                    className={classes.dateInput}
+                    size="small"
+                    value={currentDateRange[1]}
+                    variant="standard"
+                    InputLabelProps={{
+                      disabled: true,
+                    }}
+                    onChange={(e) =>
+                      setCurrentDateRange([currentDateRange[0], e.target.value])
+                    }
+                    onBlur={(e) =>
+                      onQueryChange({
+                        ...query,
+                        startDate: currentDateRange[1],
+                        endDate: e.target.value,
                       })
                     }
-                  }}
+                    style={{ width: "100%" }}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+            <Box display="flex">
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <AutocompleteKeywordInput
+                    selectedItems={keywords}
+                    onItemClick={(kk) => {
+                      onQueryChange({
+                        ...query,
+                        keywords: kk.map((k) => k.id),
+                      });
+                    }}
+                  />
+                </Grid>
+                <Grid item md={12} sm={6} xs={6}>
+                  <AutocompleteActorInput
+                    selectedItems={actors}
+                    onChange={(aa) =>
+                      onQueryChange({
+                        ...query,
+                        actors: aa.map((a) => a.id),
+                      })
+                    }
+                  />
+                </Grid>
+              </Grid>
+              <Grid item md={12} sm={6} xs={6}>
+                <AutocompleteGroupInput
+                  selectedItems={groups}
+                  onChange={(gg) =>
+                    onQueryChange({
+                      ...query,
+                      groups: gg.map((g) => g.id),
+                    })
+                  }
                 />
-              </div>
+              </Grid>
+              <Grid item xs={12}>
+                <AutocompleteGroupMemberInput
+                  selectedItems={groupsMembers}
+                  onItemClick={(gms) =>
+                    onQueryChange({
+                      ...query,
+                      groupsMembers: gms.map((gm) => gm.id),
+                    })
+                  }
+                />
+              </Grid>
             </Box>
             <Box display="flex">
               <IconButton
@@ -246,6 +366,16 @@ const EventsTotals: React.FC<EventsTotalsProps> = ({
               >
                 {totalEvents}
               </Typography>
+              <IconButton
+                onClick={() => {
+                  onQueryChange({
+                    ...query,
+                    _order: query._order === "DESC" ? "ASC" : "DESC",
+                  });
+                }}
+              >
+                {query._order === "DESC" ? <ArrowDownIcon /> : <ArrowUpIcon />}
+              </IconButton>
             </Box>
           </Box>
         );

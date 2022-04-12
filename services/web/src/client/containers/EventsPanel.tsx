@@ -1,3 +1,4 @@
+import { Actor, Group, GroupMember, Keyword } from '@liexp/shared/io/http';
 import {
   Death,
   Documentary,
@@ -6,7 +7,7 @@ import {
   ScientificStudy,
   SearchEvent,
   Transaction,
-  Uncategorized,
+  Uncategorized
 } from "@liexp/shared/io/http/Events";
 import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsMap from "@liexp/ui/components/EventsMap";
@@ -19,7 +20,7 @@ import {
   makeStyles,
   Tab,
   Tabs,
-  useTheme,
+  useTheme
 } from "@material-ui/core";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
@@ -135,12 +136,20 @@ export interface EventsQueryParams {
 interface EventsPanelProps {
   hash: string;
   query: EventsQueryParams;
+  keywords: Keyword.Keyword[];
+  actors: Actor.Actor[]
+  groups: Group.Group[]
+  groupsMembers: GroupMember.GroupMember[]
   onQueryChange: (q: EventsQueryParams) => void;
 }
 
 export const EventsPanel: React.FC<EventsPanelProps> = ({
   hash,
   query: { tab, ...query },
+  keywords,
+  actors,
+  groups,
+  groupsMembers,
   onQueryChange,
 }) => {
   const classes = useStyles();
@@ -224,6 +233,10 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
         <EventsTotals
           query={query}
           hash={hash}
+          keywords={keywords}
+          actors={actors}
+          groups={groups}
+          groupsMembers={groupsMembers}
           filters={filters}
           onFilterChange={(f) => {
             const type: EventType[] = [];
