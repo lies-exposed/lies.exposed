@@ -16,20 +16,21 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
+      alignItems: "center",
     },
   },
   eventIcon: {
-    display: 'none',
-    [theme.breakpoints.down('md')]: {
-      display: 'flex',
-      marginRight: theme.spacing(2)
-    }
+    display: "none",
+    [theme.breakpoints.down("md")]: {
+      display: "flex",
+      marginRight: theme.spacing(2),
+    },
   },
   eventMedia: {
-    [theme.breakpoints.down('md')]: {
-      padding: 0
-    }
-  }
+    [theme.breakpoints.down("md")]: {
+      padding: 0,
+    },
+  },
 }));
 
 interface EventListItemBaseProps {
@@ -65,11 +66,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
       style={{ maxWidth: "100%", width: "100%" }}
     >
       <Box className={classes.title}>
-        <EventIcon
-          className={classes.eventIcon}
-          type={type}
-          size="2x"
-        />
+        <EventIcon className={classes.eventIcon} type={type} size="2x" />
         <Typography variant="h6" gutterBottom={true}>
           {title}
         </Typography>
@@ -103,7 +100,10 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
         </Link>
       ) : null}
       {isValidValue(excerpt) ? (
-        <Typography style={{ display: "flex", marginBottom: 20 }} variant="body1">
+        <Typography
+          style={{ display: "flex", marginBottom: 20 }}
+          variant="body1"
+        >
           {getTextContentsCapped(excerpt, 300)}
         </Typography>
       ) : null}
@@ -121,7 +121,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
             style={{
               justifyContent: "center",
               alignItems: "center",
-              marginBottom: 20
+              marginBottom: 20,
             }}
           >
             <Box

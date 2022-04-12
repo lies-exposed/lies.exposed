@@ -19,7 +19,6 @@ const MediaElement: React.FC<MediaElementProps> = ({
   const mediaElement = React.useMemo(() => {
     const commonStyle = {
       width: "100%",
-      minWidth: 400,
       maxWidth: 800,
       minHeight: 400,
     };

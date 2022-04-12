@@ -62,6 +62,7 @@ export const Slider: React.FC<SliderProps> = ({
           settings: {
             ...props,
             className: classes.mediaSliderDownMD,
+            centerPadding: "0px",
           },
         },
       ]}
