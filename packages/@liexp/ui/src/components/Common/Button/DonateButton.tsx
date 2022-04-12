@@ -9,7 +9,7 @@ const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
       action="https://www.paypal.com/donate"
       method="post"
       target="_top"
-      style={{ display: "flex", flex: "0 0 auto", height: 32 }}
+      style={{ display: "flex", flex: "0 0 auto" }}
     >
       <input type="hidden" name="hosted_button_id" value="BNAGL4D89LJDE" />
       <input type="hidden" name="no_recurring" value="0" />
@@ -21,10 +21,11 @@ const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
         disableFocusRipple={true}
         disableRipple={true}
         focusRipple={false}
+        style={{ padding: 0, marginRight: 10, fontSize: undefined }}
       >
         <FontAwesomeIcon
           icon={"circle-dollar-to-slot"}
-          style={{ marginRight: 10, color: "white" }}
+          style={{ color: "white" }}
           size="1x"
         />
       </IconButton>

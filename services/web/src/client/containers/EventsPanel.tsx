@@ -88,7 +88,9 @@ const useStyles = makeStyles((theme: ECOTheme) =>
     tabs: {
       width: "100%",
       [theme.breakpoints.down("sm")]: {
-        paddingTop: 60,
+        paddingTop: 20,
+        display: "flex",
+        alignItems: "center",
       },
     },
     tabPanel: {
@@ -145,7 +147,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   const theme = useTheme();
 
   const navigateTo = useNavigateToResource();
-
 
   const [filters, setTypeFilters] = React.useState({
     deaths: !!query.type?.includes(Death.DEATH.value),

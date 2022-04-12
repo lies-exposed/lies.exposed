@@ -5,7 +5,6 @@ import * as React from "react";
 const useStyles = makeStyles(() => ({
   wrapper: {
     width: "100%",
-    minWidth: 400,
     maxWidth: 800,
     minHeight: 300,
     maxHeight: 400,
