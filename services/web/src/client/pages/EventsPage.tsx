@@ -135,6 +135,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     media: query.media ?? [],
     tab,
     type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
+    title: query.title
   };
 
   const handleUpdateEventsSearch = React.useCallback(

@@ -257,6 +257,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
               type,
             });
           }}
+          onQueryChange={(q) => handleUpdateEventsSearch({ ...q, type: query.type })}
         />
         <Tabs
           className={classes.tabs}

@@ -106,9 +106,9 @@ export const searchEventV2Query =
                 " "
               );
 
+
               const tsQueryTitle = trimmedWords
                 .split(" ")
-                .filter((l) => l.length >= 3)
                 .sort((a, b) => b.length - a.length)
                 .slice(0, 3)
                 .join(" | ")
@@ -125,7 +125,7 @@ export const searchEventV2Query =
                   to_tsvector(
                     'english',
                     CASE
-                      WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy') THEN "event"."payload"::jsonb ->> lower('title')
+                      WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy', 'Patent') THEN "event"."payload"::jsonb ->> 'title'
                       WHEN event.type IN ('Death') THEN "event"."payload"::jsonb ->> 'victim'::text
                     END
                   ),
@@ -135,33 +135,7 @@ export const searchEventV2Query =
                   q: tsQueryTitle,
                 }
               );
-              // q.addSelect((selectQb) => {
-              //   return selectQb
-              //     .select(
-              //       `ts_rank_cd(
-              //         to_tsvector(
-              //           'english',
-              //           CASE
-              //             WHEN ev.type IN ('Uncategorized', 'Documentary', 'ScientificStudy') THEN "ev"."payload"::jsonb ->> lower('title')
-              //             WHEN ev.type IN ('Death') THEN "ev"."payload"::jsonb ->> 'victim'::text
-              //           END
-              //         ),
-              //         to_tsquery(:q)
-              //       )`,
-              //       "title_score"
-              //     )
-              //     .from(EventV2Entity, "ev")
-              //     .limit(1)
-              //     .addOrderBy("title_score", "DESC")
-              //     .setParameter("q", tsQueryTitle);
 
-              // }, '"event"."title_score"')
-              // .where('"event"."title_score" >= 0.02');
-
-              // q.where(
-              //   `event.type IN ('Uncategorized', 'ScientificStudy') AND "event"."payload" ->> lower('title') LIKE :title`,
-              //   { title: `%${title.value.toLocaleLowerCase()}%` }
-              // );
               hasWhere = true;
             }
 
