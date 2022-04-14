@@ -5,7 +5,7 @@ import { Endpoint } from "ts-endpoint";
 import * as http from "../io/http";
 import {
   EventTotals,
-  GetSearchEventsQuery
+  GetSearchEventsQuery,
 } from "../io/http/Events/SearchEventsQuery";
 import { ResourceEndpoints } from "./types";
 
@@ -74,12 +74,41 @@ export const CreateSuggestion = Endpoint({
   ),
 });
 
-export const CreateFromSuggestion = Endpoint({
+export const EditSuggestion = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/events/suggestions/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: http.Events.EventSuggestion,
+  },
+  Output: t.strict(
+    {
+      data: t.any,
+    },
+    "CreateSuggestionOutput"
+  ),
+});
+
+export const DeleteSuggestion = Endpoint({
+  Method: "DELETE",
+  getPath: ({ id }) => `/events/suggestions/${id}`,
+  Input: {
+    Params: t.type({ id: UUID }),
+  },
+  Output: t.strict(
+    {
+      data: t.any,
+    },
+    "DeleteSuggestionOutput"
+  ),
+});
+
+export const CreateFromSuggestion = Endpoint({
+  Method: "POST",
+  getPath: ({ id }) => `/events/suggestions/${id}/event`,
+  Input: {
+    Params: t.type({ id: t.string }),
+    Body: t.unknown,
   },
   Output: t.strict({
     data: t.any,
@@ -165,6 +194,8 @@ const events = ResourceEndpoints({
   Custom: {
     CreateFromLink,
     CreateSuggestion,
+    EditSuggestion,
+    DeleteSuggestion,
     CreateFromSuggestion,
     GetFromLink,
     GetSuggestions,

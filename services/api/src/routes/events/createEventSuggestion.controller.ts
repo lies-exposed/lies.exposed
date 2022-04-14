@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/lib/function";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";
 
-export const MakeCreateEventSuggestionRoute: Route = (r, ctx) => {
+export const CreateEventSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Custom.CreateSuggestion, ({ body }) => {
     return pipe(
       ctx.db.save(EventSuggestionEntity, [{ payload: body, status: 'PENDING' }]),

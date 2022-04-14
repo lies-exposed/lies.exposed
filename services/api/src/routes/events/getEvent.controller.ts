@@ -6,7 +6,7 @@ import { RouteContext } from "../route.types";
 import { toEventV2IO } from "./eventV2.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 
-export const MakeGetEventRoute = (r: Router, ctx: RouteContext): void => {
+export const GetEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.Get, ({ params: { id } }) => {
     const selectEventTask = pipe(
       ctx.db.manager

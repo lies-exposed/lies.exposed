@@ -6,28 +6,30 @@ import {
 } from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
-import { HelmetProvider } from '@liexp/ui/components/SEO';
+import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
 import { Box, ThemeProvider, Typography } from "@material-ui/core";
 import { FormDataConsumer } from "ra-core";
+import refresh from "ra-core/esm/sideEffect/refresh";
 import {
   BooleanInput,
+  Button,
   Datagrid,
   DateField,
   DateInput,
   Edit,
   EditProps,
+  Filter,
   FormTab,
   FunctionField,
   List,
   ListProps,
   ReferenceArrayField,
   ReferenceField,
+  SelectInput,
   TabbedForm,
   TextField,
-  Filter,
-  SelectInput,
 } from "ra-ui-materialui";
 import * as React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -42,6 +44,7 @@ import { PatentEventEditFormTab } from "../AdminPatentEvent";
 import { EditScientificStudyEvent } from "../AdminScientificStudyEvent";
 import { UncategorizedEventEditTab } from "../AdminUncategorizedEvent";
 import { transformEvent } from "../utils";
+import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "events/suggestions";
 
@@ -119,13 +122,21 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
     <Edit
       {...props}
       actions={
-        <>
+        <Box style={{ padding: 10 }}>
           <WebPreviewButton
             resource="/dashboard/events"
             source="id"
             record={{ id: props.id } as any}
           />
-        </>
+          <Button
+            label="Create event"
+            onClick={() => {
+              void apiProvider
+                .create(`/events/suggestions/${props.id}/event`, { data: {} })
+                .then(() => refresh());
+            }}
+          />
+        </Box>
       }
       transform={async ({ event, id, ...r }) => {
         // eslint-disable-next-line

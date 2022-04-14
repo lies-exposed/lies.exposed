@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/lib/function";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { Route } from "@routes/route.types";
 
-export const MakeDeleteEventRoute: Route = (r, { db, logger, urlMetadata }) => {
+export const DeleteEventRoute: Route = (r, { db, logger, urlMetadata }) => {
   AddEndpoint(r)(Endpoints.Event.Delete, ({ params: { id } }) => {
     return pipe(
       db.softDelete(EventV2Entity, id),

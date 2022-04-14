@@ -8,7 +8,7 @@ import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 
-export const MakeGetEventSuggestionListRoute: Route = (r, ctx) => {
+export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.GetSuggestions,
     ({ query: { status, _order, _sort } }) => {
