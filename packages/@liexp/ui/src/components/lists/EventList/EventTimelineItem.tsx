@@ -6,14 +6,11 @@ import {
   TimelineDot,
   TimelineItem,
   TimelineOppositeContent,
-  TimelineSeparator
+  TimelineSeparator,
 } from "@material-ui/lab";
 import * as React from "react";
 import { EventIcon } from "../../Common/Icons/EventIcon";
-import {
-  EventListItem,
-  EventListItemProps
-} from "./EventListItem";
+import { EventListItem, EventListItemProps } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 
 export interface EventTimelineItemProps extends EventListItemProps {
@@ -60,13 +57,15 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  dot: {
+    padding: 8,
+  },
   content: {
     flexGrow: 1,
     flexShrink: 1,
     paddingBottom: 20,
   },
 }));
-
 
 const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
   event: e,
@@ -83,9 +82,9 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
       className={classes.root}
       style={{
         overflow: "hidden",
-        width: '100%',
+        width: "100%",
         ...style,
-        marginBottom: isLast ? 100 : style?.marginBottom
+        marginBottom: isLast ? 100 : style?.marginBottom,
       }}
     >
       <Grid
@@ -105,7 +104,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
             flexShrink: 1,
             display: "flex",
             height: "100%",
-            maxWidth: '100%'
+            maxWidth: "100%",
           }}
         >
           <TimelineItem className={classes.wrapper}>
@@ -126,8 +125,12 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
               </Box>
             </TimelineOppositeContent>
             <TimelineSeparator className={classes.separator}>
-              <TimelineDot variant="outlined" color="inherit">
-                <EventIcon type={e.type} />
+              <TimelineDot
+                className={classes.dot}
+                variant="outlined"
+                color="inherit"
+              >
+                <EventIcon type={e.type} size="2x" />
               </TimelineDot>
               {!isLast ? <TimelineConnector /> : null}
             </TimelineSeparator>

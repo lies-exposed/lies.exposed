@@ -3322,7 +3322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-redux@npm:^7.1.20, @types/react-redux@npm:^7.1.23":
+"@types/react-redux@npm:^7.1.20":
   version: 7.1.23
   resolution: "@types/react-redux@npm:7.1.23"
   dependencies:
@@ -3331,6 +3331,18 @@ __metadata:
     hoist-non-react-statics: ^3.3.0
     redux: ^4.0.0
   checksum: 7cedb0f20806ce67255f676fab2d4d9534c12705d43636df95224cfa77fdf5a2e792dc76c6e072c02cad1c88030aea822c14f36fe85d459b898ee68fcff6f05c
+  languageName: node
+  linkType: hard
+
+"@types/react-redux@npm:^7.1.24":
+  version: 7.1.24
+  resolution: "@types/react-redux@npm:7.1.24"
+  dependencies:
+    "@types/hoist-non-react-statics": ^3.3.0
+    "@types/react": "*"
+    hoist-non-react-statics: ^3.3.0
+    redux: ^4.0.0
+  checksum: 6582246581331ac7fbbd44aa1f1c136c8a9c8febbcf462432ac81302263308c21e1a2e7868beb7f73bbcb52a8e67935d133cb37f5bdcb6564eaff3a811805101
   languageName: node
   linkType: hard
 
@@ -4520,7 +4532,7 @@ __metadata:
     "@types/prettier": ^2.6.0
     "@types/react": ^16.14.24
     "@types/react-dom": ^16.9.14
-    "@types/react-redux": ^7.1.23
+    "@types/react-redux": ^7.1.24
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@typescript-eslint/eslint-plugin": ^5.19.0
     "@typescript-eslint/parser": ^5.19.0
@@ -4799,7 +4811,7 @@ __metadata:
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1112.0
+    aws-sdk: ^2.1114.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
@@ -5178,9 +5190,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1112.0":
-  version: 2.1112.0
-  resolution: "aws-sdk@npm:2.1112.0"
+"aws-sdk@npm:^2.1114.0":
+  version: 2.1114.0
+  resolution: "aws-sdk@npm:2.1114.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5191,7 +5203,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 9ba89b82f0cf3e667fe56e5aab2270d0b5c5ff5a209c43c65b4e00573e68d23149da002a827bcd69236bf591bb50d02b587ff91ce6034ee48ab0b5e538694c75
+  checksum: 86ff9d693a4c409de87db08f7942dbece3295263ded7262ca8cdfdc112e6c25d96b1a1198c0ea07dc234a86910f6fe4e798348930d1f353d7524be0b437b991e
   languageName: node
   linkType: hard
 

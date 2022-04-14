@@ -1,4 +1,4 @@
-import { Actor, Group, GroupMember, Keyword } from '@liexp/shared/io/http';
+import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import {
   Death,
   Documentary,
@@ -7,7 +7,7 @@ import {
   ScientificStudy,
   SearchEvent,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsMap from "@liexp/ui/components/EventsMap";
@@ -20,13 +20,13 @@ import {
   makeStyles,
   Tab,
   Tabs,
-  useTheme
+  useTheme,
 } from "@material-ui/core";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import AddEventModal from "../components/events/AddEventModal";
-import EventsTotals from "../components/events/EventsTotals";
+import EventsTotals from "../components/events/inputs/SearchEventInput";
 import { useNavigateToResource } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 
@@ -43,9 +43,6 @@ const useStyles = makeStyles((theme: ECOTheme) =>
     },
     menuButton: {
       marginRight: 36,
-    },
-    hide: {
-      display: "none",
     },
     drawer: {
       width: drawerWidth,
@@ -130,17 +127,21 @@ export interface EventsQueryParams {
   startDate: string;
   endDate: string;
   tab: number;
+  title?: string;
   type?: EventType[];
+  _sort: any;
+  _order: any;
 }
 
 interface EventsPanelProps {
   hash: string;
   query: EventsQueryParams;
   keywords: Keyword.Keyword[];
-  actors: Actor.Actor[]
-  groups: Group.Group[]
-  groupsMembers: GroupMember.GroupMember[]
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  groupsMembers: GroupMember.GroupMember[];
   onQueryChange: (q: EventsQueryParams) => void;
+  onQueryClear: () => void;
 }
 
 export const EventsPanel: React.FC<EventsPanelProps> = ({
@@ -151,22 +152,12 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   groups,
   groupsMembers,
   onQueryChange,
+  onQueryClear,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
 
   const navigateTo = useNavigateToResource();
-
-  const [filters, setTypeFilters] = React.useState({
-    deaths: !!query.type?.includes(Death.DEATH.value),
-    uncategorized: !!query.type?.includes(Uncategorized.UNCATEGORIZED.value),
-    scientificStudies: !!query.type?.includes(
-      ScientificStudy.SCIENTIFIC_STUDY.value
-    ),
-    patents: !!query.type?.includes(Patent.PATENT.value),
-    documentaries: !!query.type?.includes(Documentary.DOCUMENTARY.value),
-    transactions: !!query.type?.includes(Transaction.TRANSACTION.value),
-  });
 
   const handleUpdateEventsSearch = React.useCallback(
     (update: Partial<EventsQueryParams>): void => {
@@ -230,56 +221,38 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           width: "100%",
         }}
       >
-        <EventsTotals
-          query={query}
-          hash={hash}
-          keywords={keywords}
-          actors={actors}
-          groups={groups}
-          groupsMembers={groupsMembers}
-          filters={filters}
-          onFilterChange={(f) => {
-            const type: EventType[] = [];
-            if (f.deaths) {
-              type.push(Death.DEATH.value);
-            }
-
-            if (f.scientificStudies) {
-              type.push(ScientificStudy.SCIENTIFIC_STUDY.value);
-            }
-
-            if (f.patents) {
-              type.push(Patent.PATENT.value);
-            }
-
-            if (f.uncategorized) {
-              type.push(Uncategorized.UNCATEGORIZED.value);
-            }
-
-            if (f.documentaries) {
-              type.push(Documentary.DOCUMENTARY.value);
-            }
-
-            if (f.transactions) {
-              type.push(Transaction.TRANSACTION.value);
-            }
-
-            setTypeFilters(f);
-
-            handleUpdateEventsSearch({
-              type,
-            });
-          }}
-          onQueryChange={(q) => handleUpdateEventsSearch({ ...q, type: query.type })}
-        />
         <Tabs
           className={classes.tabs}
           value={tab}
           onChange={(e, tab) => handleUpdateEventsSearch({ tab })}
         >
-          <Tab label="list" {...a11yProps(0)} />
-          <Tab label="map" {...a11yProps(1)} />
-          <Tab label="network" {...a11yProps(2)} />
+          <Tab
+            label="list"
+            {...a11yProps(0)}
+            style={{
+              display: "flex",
+              flexGrow: 1,
+              maxWidth: "100%",
+            }}
+          />
+          <Tab
+            label="map"
+            {...a11yProps(1)}
+            style={{
+              display: "flex",
+              flexGrow: 1,
+              maxWidth: "100%",
+            }}
+          />
+          <Tab
+            label="network"
+            {...a11yProps(2)}
+            style={{
+              display: "flex",
+              flexGrow: 1,
+              maxWidth: "100%",
+            }}
+          />
         </Tabs>
       </Grid>
 

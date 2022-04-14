@@ -41,12 +41,16 @@ export const useEventsQuery = (
   });
 };
 
+export const fetchActors = async ({
+  queryKey,
+}: any): Promise<{ data: Actor.Actor[]; total: number }> => {
+  return await Queries.Actor.getList(queryKey[1]);
+};
+
 export const useActorsQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
-  return useQuery(["actors"], async () => {
-    return await Queries.Actor.getList(params);
-  });
+  return useQuery(["actors", params], fetchActors);
 };
 
 export const useActorsDiscreteQuery = (
@@ -128,12 +132,16 @@ export const useGroupsMembersDiscreteQuery = (
   });
 };
 
+export const fetchKeywords = async ({
+  queryKey,
+}: any): Promise<{ data: Keyword.Keyword[]; total: number }> => {
+  return await Queries.Keyword.getList(queryKey[1]);
+};
+
 export const useKeywordsQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
-  return useQuery(["keywords"], async () => {
-    return await Queries.Keyword.getList(params);
-  });
+  return useQuery(["keywords", params], fetchKeywords);
 };
 
 export const useKeywordsDiscreteQuery = (
