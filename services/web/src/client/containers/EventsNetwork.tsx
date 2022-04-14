@@ -6,6 +6,7 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Box } from "@material-ui/core";
 import * as React from "react";
+import { EventsQueryParams } from './EventsPanel';
 
 interface EventsNetworkProps
   extends Omit<
@@ -19,7 +20,7 @@ interface EventsNetworkProps
     | "selectedGroupIds"
     | "selectedKeywordIds"
   > {
-  filter: any;
+  filter: Omit<EventsQueryParams, 'tab'>;
 }
 
 export const EventsNetwork: React.FC<EventsNetworkProps> = ({
@@ -39,10 +40,12 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
       queries={{
         events: searchEventsQuery({
           hash: "events-network",
-          ...(eventsFilter as any),
+          ...eventsFilter,
         }),
       }}
       render={({ events: { events, actors, groups, keywords } }) => {
+        // console.log({ events, actors, groups, keywords });
+
         return (
           <Box
             style={{

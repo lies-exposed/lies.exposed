@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
-      padding: theme.spacing(2),
+      padding: 0,
       [theme.breakpoints.down("sm")]: {
         paddingLeft: 0,
         paddingRight: 0,
@@ -246,40 +246,24 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                     />
                     <div
                       style={{
-                        height: 40,
+                        height: 80,
                       }}
                     />
                   </Grid>
                 </Grid>
                 <main className={classes.content}>
-                  <Grid
-                    container
-                    alignItems="center"
-                    justifyContent="center"
-                    style={{ height: "100%" }}
-                  >
-                    <Grid
-                      item
-                      lg={10}
-                      md={12}
-                      sm={12}
-                      xs={12}
-                      style={{ height: "100%" }}
-                    >
-                      <EventsPanel
-                        hash={hash}
-                        query={params}
-                        actors={filterActors.data}
-                        groups={filterGroups.data}
-                        keywords={filterKeywords.data}
-                        groupsMembers={filterGroupsMembers.data}
-                        onQueryChange={handleUpdateEventsSearch}
-                        onQueryClear={() => {
-                          navigateTo.events({}, {});
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
+                  <EventsPanel
+                    hash={hash}
+                    query={params}
+                    actors={filterActors.data}
+                    groups={filterGroups.data}
+                    keywords={filterKeywords.data}
+                    groupsMembers={filterGroupsMembers.data}
+                    onQueryChange={handleUpdateEventsSearch}
+                    onQueryClear={() => {
+                      navigateTo.events({}, {});
+                    }}
+                  />
                 </main>
               </Grid>
             </Box>

@@ -174,7 +174,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
     transactions: !!query.type?.includes(Transaction.TRANSACTION.value),
   });
 
-  const [isExpanded, setIsExpanded] = React.useState(true);
+  const [isExpanded, setIsExpanded] = React.useState(false);
 
   const handleSearchChange = (options: SearchOption[]): void => {
     const queryUpdate = serializeOption(options);

@@ -26,4 +26,5 @@ export const githubRepo = ({
   useQuery(["github", { user, repo }], fetchGithubRepo, {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    cacheTime: 10 * 60 * 60,
   });

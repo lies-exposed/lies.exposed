@@ -28,6 +28,7 @@ const SankeyNode: React.FC<any> = ({
   payload,
   id,
   type,
+  onClick,
   ...props
 }) => {
   const width = x1 - x0;
@@ -41,7 +42,14 @@ const SankeyNode: React.FC<any> = ({
     const imageId = `relation-${id}`;
     const imageD = width - nodePadding / 2;
     return (
-      <g key={id} x={x0} y={y0} width={width} height={rectHeight}>
+      <g
+        key={id}
+        x={x0}
+        y={y0}
+        width={width}
+        height={rectHeight}
+        onClick={() => onClick(props)}
+      >
         <svg
           x={x0}
           y={y0 + rectHeight / 2 - imageD / 2}
@@ -83,7 +91,7 @@ const SankeyNode: React.FC<any> = ({
   const iconD = width - nodePadding;
 
   return (
-    <g key={id} x={x0} y={y0}>
+    <g key={id} x={x0} y={y0} onClick={() => onClick(props)}>
       <rect
         x={x0}
         y={y0}
@@ -124,14 +132,16 @@ interface SankeyGraphProps {
   width: number;
   height: number;
   graph: {
-    nodes: any[];
     links: any[];
+    nodes: any[];
   };
+  onEventClick: (e: any) => void;
 }
 
 const SankeyGraph: React.FC<SankeyGraphProps> = ({
   width,
   height,
+  onEventClick,
   ...props
 }) => {
   if (props.graph.nodes.length === 0) {
@@ -184,7 +194,7 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
           <SankeyLink key={`${link.source.id}-${link.target.id}`} link={link} />
         ))}
         {graph.nodes.map((node, i) => (
-          <SankeyNode key={node.id} {...node} />
+          <SankeyNode key={node.id} {...node} onClick={onEventClick} />
         ))}
       </g>
     </svg>
