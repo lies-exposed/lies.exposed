@@ -29,6 +29,8 @@ export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
       ...queryRest
     } = query;
 
+    ctx.logger.debug.log("query %O", queryRest);
+
     const findOptions = getORMOptions(
       {
         ...queryRest,

@@ -2,7 +2,7 @@ import { TextField, TextFieldProps } from "@material-ui/core";
 import * as React from "react";
 
 type DatePickerProps = TextFieldProps;
-const DatePicker: React.FC<DatePickerProps> = (props) => {
+const DatePicker: React.FC<DatePickerProps> = ({ InputLabelProps, ...props}) => {
   return (
     <TextField
       {...props}
@@ -10,6 +10,7 @@ const DatePicker: React.FC<DatePickerProps> = (props) => {
       placeholder="YYYY/MM/DD – YYYY/MM/DD"
       InputLabelProps={{
         shrink: true,
+        ...InputLabelProps,
       }}
     />
   );

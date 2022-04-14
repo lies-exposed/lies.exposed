@@ -537,6 +537,8 @@ export const searchEventsInfiniteQuery = (
       );
     },
     {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
       getNextPageParam: (lastPage, allPages) => {
         const loadedEvents = allPages
           .map((p) => p.events)

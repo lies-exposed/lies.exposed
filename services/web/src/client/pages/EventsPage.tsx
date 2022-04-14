@@ -24,7 +24,6 @@ import clsx from "clsx";
 import { subYears } from "date-fns";
 import * as React from "react";
 import EventsAppBar from "../components/events/EventsAppBar";
-import EventsFilter from "../components/events/EventsFilter";
 import EventsFilterSummary from "../components/events/EventsFiltersSummary";
 import { queryClient } from "../state/queries";
 import {
@@ -103,7 +102,7 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       padding: theme.spacing(2),
       [theme.breakpoints.down("sm")]: {
         paddingLeft: 0,
-        paddingRight: 0
+        paddingRight: 0,
       },
     },
     eventFiltersBox: {
@@ -124,7 +123,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   const tab = parseInt(query.tab ?? "0", 10);
   const classes = useStyles();
 
-
   const params = {
     startDate: query.startDate ?? MIN_DATE,
     endDate: query.endDate ?? MAX_DATE,
@@ -135,7 +133,9 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     media: query.media ?? [],
     tab,
     type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
-    title: query.title
+    title: query.title,
+    _order: query._order,
+    _sort: "date",
   };
 
   const handleUpdateEventsSearch = React.useCallback(
@@ -191,21 +191,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
           filterGroupsMembers,
           filterKeywords,
         }) => {
-          const eventFilters = (
-            <EventsFilter
-              queryFilters={params}
-              actors={filterActors.data}
-              groups={filterGroups.data}
-              groupsMembers={filterGroupsMembers.data}
-              keywords={filterKeywords.data}
-              media={[]}
-              onQueryChange={handleUpdateEventsSearch as any}
-              onQueryClear={() => {
-                navigateTo.events({}, {});
-              }}
-            />
-          );
-
           return (
             <Box
               className={classes.root}
@@ -215,7 +200,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 height: "100%",
               }}
             >
-              <Hidden smDown>
+              {/* <Hidden smDown>
                 <Drawer
                   variant="permanent"
                   className={clsx(classes.drawer, {
@@ -232,7 +217,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                   <Toolbar />
                   <div className={classes.drawerContainer}>{eventFilters}</div>
                 </Drawer>
-              </Hidden>
+              </Hidden> */}
 
               <Grid
                 item
@@ -245,31 +230,27 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                   width: "100%",
                 }}
               >
-                <Hidden mdUp>
-                  <EventsAppBar
-                    summary={
-                      <EventsFilterSummary
-                        className={classes.appBar}
-                        queryFilters={{ ...params, tab, hash }}
-                        actors={filterActors.data}
-                        groups={filterGroups.data}
-                        onQueryChange={handleUpdateEventsSearch}
-                        groupsMembers={filterGroupsMembers.data}
-                        keywords={filterKeywords.data}
-                        media={[]}
-                        totals={{
-                          uncategorized: 0,
-                          scientificStudies: 0,
-                          patents: 0,
-                          deaths: 0,
-                          documentaries: 0,
-                          transactions: 0,
-                        }}
-                      />
-                    }
-                    expanded={eventFilters}
-                  />
-                </Hidden>
+                <Grid container justifyContent="center">
+                  <Grid item md={10}>
+                    <EventsAppBar
+                      hash={hash}
+                      query={{ ...params, tab }}
+                      actors={filterActors.data}
+                      groups={filterGroups.data}
+                      groupsMembers={filterGroupsMembers.data}
+                      keywords={filterKeywords.data}
+                      onQueryChange={handleUpdateEventsSearch}
+                      onQueryClear={() => {
+                        navigateTo.events({}, {});
+                      }}
+                    />
+                    <div
+                      style={{
+                        height: 40,
+                      }}
+                    />
+                  </Grid>
+                </Grid>
                 <main className={classes.content}>
                   <Grid
                     container
@@ -288,7 +269,14 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                       <EventsPanel
                         hash={hash}
                         query={params}
+                        actors={filterActors.data}
+                        groups={filterGroups.data}
+                        keywords={filterKeywords.data}
+                        groupsMembers={filterGroupsMembers.data}
                         onQueryChange={handleUpdateEventsSearch}
+                        onQueryClear={() => {
+                          navigateTo.events({}, {});
+                        }}
                       />
                     </Grid>
                   </Grid>
