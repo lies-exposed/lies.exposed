@@ -1,7 +1,7 @@
 import {
   eqByUUID,
   getEventsMetadata,
-  ordEventDate
+  ordEventDate,
 } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -10,7 +10,7 @@ import {
   Group,
   Keyword,
   Page,
-  Topic
+  Topic,
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
@@ -32,7 +32,7 @@ import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode
+  NetworkPointNode,
 } from "../Common/Graph/Network/NetworkNode";
 import SankeyGraph from "../Common/Graph/SankeyGraph";
 
@@ -137,7 +137,10 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
               </Grid> */}
               <Grid item md={12}>
                 <div style={{ width: "100%" }}>
-                  <SankeyGraph {...networkProps} />
+                  <SankeyGraph
+                    {...networkProps}
+                    onEventClick={props.onEventClick}
+                  />
                   {/* <Network<NetworkLink, EventNetworkDatum>
                     onDoubleClick={() => {}}
                     onNodeClick={() => {}}
@@ -578,12 +581,12 @@ export function createEventNetworkGraphProps({
           O.fromPredicate(A.isNonEmpty)
         );
 
+        // console.log({ filteredEventActors, filteredEventGroups });
+
         if (
           !includeEmptyRelations &&
-          (O.isSome(filteredEventActors) ?? O.isSome(filteredEventGroups))
+          (O.isSome(filteredEventActors) || O.isSome(filteredEventGroups))
         ) {
-          // console.log("event actors", eventActors);
-
           const groupByEventList: GroupByItem[] =
             groupBy === "group"
               ? eventGroups
@@ -591,6 +594,7 @@ export function createEventNetworkGraphProps({
               ? eventActors
               : eventKeywords;
 
+          // console.log("event actors", groupByEventList)
           const groupByItem: GroupByItem | undefined = groupByEventList[0];
 
           const eventNodes: EventNetworkDatum[] = [
@@ -682,8 +686,8 @@ export function createEventNetworkGraphProps({
 
           const groupLinks = pipe(
             eventGroups,
-            O.fromPredicate((items) => items.length > 0),
-            O.getOrElse((): Group.Group[] => []),
+            // O.fromPredicate((items) => items.length > 0),
+            // O.getOrElse((): Group.Group[] => []),
             // A.filter((a) => selectedGroupIds.includes(a.id)),
             getLinks(eventNodes, acc.groupLinks)
           );
@@ -742,28 +746,28 @@ export function createEventNetworkGraphProps({
 
   // console.log("actors", actors);
 
-  const groupingByNodes = pipe(
-    (groupBy === "group" ? groups : actors) as Map<string, any>,
-    Map.toArray(S.Ord),
-    A.map(([key, items]) => items)
-  );
-  const groupingByLinks = groupBy === "group" ? groupLinks : actorLinks;
+  // const groupingByNodes = pipe(
+  //   (groupBy === "group" ? groups : actors) as Map<string, any>,
+  //   Map.toArray(S.Ord),
+  //   A.map(([key, items]) => items)
+  // );
+  // const groupingByLinks = groupBy === "group" ? groupLinks : actorLinks;
 
   // console.log("group by nodes", groupingByNodes);
-  const nodes = [...groupingByNodes, ...eventNodes];
+  const nodes = [
+    ...(actorsArray as any),
+    ...(groupsArray as any),
+    ...eventNodes,
+  ];
   // console.log("all nodes", nodes);
 
   const links = [
-    ...Map.toArray(Ord.ordString)(groupingByLinks).flatMap(
-      ([_k, links]) => links
-    ),
+    ...Map.toArray(S.Ord)(actorLinks).flatMap(([_k, links]) => links),
+    ...Map.toArray(S.Ord)(groupLinks).flatMap(([_k, links]) => links),
     // ...Map.toArray(Ord.ordString)(topicLinks).flatMap(
     //   ([_k, links]) => links
     // ),
     // ...actorLinksList,
-    // ...Map.toArray(Ord.ordString)(groupLinks).flatMap(
-    //   ([_k, links]) => links
-    // ),
   ].filter(
     (l) => l.target !== l.source
     // && nodes.some((n) => n.id === l.target || n.id === l.source)

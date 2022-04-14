@@ -24,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
   wrapper: {
     display: "flex",
+    height: "100%",
+    maxWidth: "100%",
+    justifyContent: "center",
+    flexGrow: 1,
+  },
+  timelineItem: {
+    display: "flex",
     width: "100%",
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
@@ -95,19 +102,9 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
           height: "100%",
         }}
       >
-        <Grid
-          item
-          md={12}
-          lg={10}
-          style={{
-            flexGrow: 1,
-            flexShrink: 1,
-            display: "flex",
-            height: "100%",
-            maxWidth: "100%",
-          }}
-        >
-          <TimelineItem className={classes.wrapper}>
+        <Grid item lg={2} md={1} sm={false} xs={false} />
+        <Grid className={classes.wrapper} item sm={12} md={10} lg={8}>
+          <TimelineItem className={classes.timelineItem}>
             <TimelineOppositeContent className={classes.oppositeContent}>
               <Typography variant="subtitle1" color="primary">
                 {formatDate(e.date)}

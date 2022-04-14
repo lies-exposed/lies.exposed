@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/lib/function";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";
 
-export const MakeGetEventSuggestionRoute: Route = (r, ctx) => {
+export const GetEventSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Custom.GetSuggestion, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(EventSuggestionEntity, { where: { id } }),

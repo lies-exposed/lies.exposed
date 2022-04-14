@@ -8,7 +8,7 @@ import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";
 
-export const MakeCreateEventFromSuggestionRoute: Route = (r, ctx) => {
+export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.CreateFromSuggestion,
     ({ params: { id }, body }) => {
@@ -17,17 +17,17 @@ export const MakeCreateEventFromSuggestionRoute: Route = (r, ctx) => {
         TE.chain((suggestion) => {
           return pipe(
             fetchRelations(ctx)({
-              links: O.fromNullable(body.event.links),
-              media: O.fromNullable(body.event.media),
-              keywords: O.fromNullable(body.event.keywords),
+              links: O.fromNullable(suggestion.payload.event.links),
+              media: O.fromNullable(suggestion.payload.event.media),
+              keywords: O.fromNullable(suggestion.payload.event.keywords),
             }),
             TE.map((relations) => ({
-              ...body.event,
+              ...suggestion.payload.event,
               ...relations,
               id:
-                body.type === Events.EventSuggestionType.types[1].value
-                  ? body.eventId
-                  : body.event.id,
+                suggestion.payload.type === Events.EventSuggestionType.types[1].value
+                  ? suggestion.payload.eventId
+                  : suggestion.payload.event.id,
             })),
             TE.chain((event) => ctx.db.save(EventV2Entity, [event])),
             TE.chainFirst(() =>

@@ -10,7 +10,7 @@ import { searchEventV2Query } from "./queries/searchEventsV2.query";
 import { RouteContext } from "@routes/route.types";
 import { getORMOptions } from "@utils/orm.utils";
 
-export const MakeSearchEventRoute = (r: Router, ctx: RouteContext): void => {
+export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
     ctx.logger.debug.log("Query %O", query);
     const {

@@ -60,6 +60,7 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
     style,
     isVisible,
   } = props;
+
   if (!isVisible) {
     return (
       <div

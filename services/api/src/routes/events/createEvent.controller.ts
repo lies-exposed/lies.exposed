@@ -6,7 +6,7 @@ import { createEventQuery } from "./queries/createEvent.query";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { Route } from "@routes/route.types";
 
-export const MakeCreateEventRoute: Route = (r, ctx) => {
+export const CreateEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Create, ({ body }) => {
     return pipe(
       createEventQuery(ctx)(body),

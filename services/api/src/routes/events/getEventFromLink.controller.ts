@@ -16,7 +16,7 @@ import { LinkEntity } from "@entities/Link.entity";
 import { ControllerError, ServerError } from "@io/ControllerError";
 import { Route } from "@routes/route.types";
 
-export const MakeGetEventFromLinkRoute: Route = (r, ctx) => {
+export const GetEventFromLinkRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Custom.GetFromLink, ({ query: { url } }) => {
     ctx.logger.debug.log("Get event from link %s", url);
     return pipe(
