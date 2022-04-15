@@ -8,6 +8,11 @@ import {
   Transaction,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
+import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
+import { PATENT } from "@liexp/shared/io/http/Events/Patent";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
@@ -37,15 +42,10 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import SearchIcon from "@material-ui/icons/Search";
 import clsx from "clsx";
+import { boolean } from "fp-ts";
 import * as React from "react";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
 import { EventsQueryParams } from "@containers/EventsPanel";
-import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
-import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
-import { PATENT } from "@liexp/shared/io/http/Events/Patent";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { boolean } from "fp-ts";
 import { queryClient } from "client/state/queries";
 
 const eventIconProps = {
