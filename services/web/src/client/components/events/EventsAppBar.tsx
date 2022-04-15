@@ -2,10 +2,11 @@ import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import {
   Death,
   Documentary,
+  EventType,
   Patent,
   ScientificStudy,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
@@ -21,11 +22,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   alpha,
-  AppBar, Grid,
+  AppBar,
+  Grid,
   IconButton,
   makeStyles,
   Typography,
-  useTheme
+  useTheme,
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import ArrowDownIcon from "@material-ui/icons/ArrowDownward";
@@ -38,6 +40,13 @@ import clsx from "clsx";
 import * as React from "react";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
 import { EventsQueryParams } from "@containers/EventsPanel";
+import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
+import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
+import { PATENT } from "@liexp/shared/io/http/Events/Patent";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { boolean } from "fp-ts";
+import { queryClient } from "client/state/queries";
 
 const eventIconProps = {
   size: "sm" as const,
@@ -114,6 +123,7 @@ const useStyles = makeStyles((theme) => ({
 const serializeOption = (
   options: SearchOption[]
 ): {
+  title: string | undefined;
   groups: Group.Group[];
   actors: Actor.Actor[];
   keywords: Keyword.Keyword[];
@@ -121,12 +131,14 @@ const serializeOption = (
   return options.reduce(
     (acc, o) => {
       return {
+        title: acc.title ?? (o.type === "Search" ? o.item : undefined),
         groups: acc.groups.concat(o.type === "Group" ? [o.item] : []),
         actors: acc.actors.concat(o.type === "Actor" ? [o.item] : []),
         keywords: acc.keywords.concat(o.type === "Keyword" ? [o.item] : []),
       };
     },
     {
+      title: undefined as any as string,
       groups: [] as Group.Group[],
       actors: [] as Actor.Actor[],
       keywords: [] as Keyword.Keyword[],
@@ -178,8 +190,10 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
 
   const handleSearchChange = (options: SearchOption[]): void => {
     const queryUpdate = serializeOption(options);
+
     onQueryChange({
       ...query,
+      ...queryUpdate,
       groups: (query.groups ?? []).concat(queryUpdate.groups.map((g) => g.id)),
       actors: (query.actors ?? []).concat(queryUpdate.actors.map((g) => g.id)),
       keywords: (query.keywords ?? []).concat(
@@ -187,6 +201,30 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
       ),
     });
   };
+
+  const handleTypeChange = React.useCallback(
+    (f: typeof filters) => {
+      setTypeFilters({
+        ...f,
+      });
+
+      const type = [
+        [f.uncategorized, UNCATEGORIZED.value],
+        [f.deaths, DEATH.value],
+        [f.documentaries, DOCUMENTARY.value],
+        [f.patents, PATENT.value],
+        [f.scientificStudies, SCIENTIFIC_STUDY.value],
+      ]
+        .map(([enabled, key]: any[]) => (enabled ? key : undefined))
+        .filter((a) => a !== undefined);
+
+      onQueryChange({
+        ...query,
+        type,
+      });
+    },
+    [query]
+  );
 
   const toggleBox = (
     <Box style={{ display: "flex", justifyContent: "center" }}>
@@ -306,6 +344,28 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           </div>
         );
 
+        const searchTermBox = query.title ? (
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginRight: theme.spacing(2)
+            }}
+          >
+            <Typography
+              onClick={() => {
+                onQueryChange({
+                  ...query,
+                  title: undefined,
+                });
+              }}
+              variant="subtitle1"
+            >
+              {query.title}
+            </Typography>
+          </Box>
+        ) : null;
+
         const eventTotal = (
           <Box
             style={{
@@ -355,7 +415,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               color="primary"
               style={{ marginRight: 10 }}
               onClick={() => {
-                setTypeFilters({
+                handleTypeChange({
                   ...filters,
                   uncategorized: !filters.uncategorized,
                 });
@@ -370,7 +430,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.deaths,
               })}
               onClick={() => {
-                setTypeFilters({
+                handleTypeChange({
                   ...filters,
                   deaths: !filters.deaths,
                 });
@@ -385,7 +445,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.scientificStudies,
               })}
               onClick={() => {
-                setTypeFilters({
+                handleTypeChange({
                   ...filters,
                   scientificStudies: !filters.scientificStudies,
                 });
@@ -402,7 +462,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.documentaries,
               })}
               onClick={() => {
-                setTypeFilters({
+                handleTypeChange({
                   ...filters,
                   documentaries: !filters.documentaries,
                 });
@@ -420,7 +480,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.patents,
               })}
               onClick={() => {
-                setTypeFilters({
+                handleTypeChange({
                   ...filters,
                   patents: !filters.patents,
                 });
@@ -435,7 +495,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.transactions,
               })}
               onClick={() => {
-                setTypeFilters({
+                handleTypeChange({
                   ...filters,
                   transactions: !filters.transactions,
                 });
@@ -454,6 +514,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               width: "100%",
             }}
           >
+            {searchTermBox}
             {actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
               <Box
                 style={{

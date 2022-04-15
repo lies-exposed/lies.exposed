@@ -529,7 +529,7 @@ export const searchEventsInfiniteQuery = (
     async (params) => {
       return await pipe(
         searchEventsQ(api.Event.List)({
-          ...input,
+          ...params.queryKey[1],
           _start: params.pageParam?.startIndex ?? 0,
           _end: params.pageParam?.stopIndex ?? 20,
         }),
