@@ -1175,7 +1175,7 @@ __metadata:
     "@types/mime": ^1.3.2
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^2.6.0
-    "@types/react": ^16.14.24
+    "@types/react": ^16.14.25
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@types/webpack-node-externals": ^2.5.3
     copy-webpack-plugin: ^10.2.4
@@ -1188,7 +1188,7 @@ __metadata:
     fast-check-io-ts: ^0.5.0
     file-loader: ^6.2.0
     filemanager-webpack-plugin: ^6.1.7
-    fp-ts: ^2.11.9
+    fp-ts: ^2.11.10
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.0
     io-ts: ^2.2.16
@@ -1227,7 +1227,7 @@ __metadata:
     bs58: ^4.0.1
     date-fns: ^1.30.1
     domino: ^2.1.6
-    fp-ts: ^2.11.9
+    fp-ts: ^2.11.10
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     jest: ^27.5.1
@@ -1278,7 +1278,7 @@ __metadata:
     "@types/ol": ^6.5.3
     "@types/prettier": ^2.6.0
     "@types/reach__router": ^1.3.10
-    "@types/react": ^16.14.24
+    "@types/react": ^16.14.25
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.8
     "@types/react-virtualized": ^9.21.21
@@ -1314,7 +1314,7 @@ __metadata:
     date-fns: ^1.30.1
     eslint: ^8.13.0
     eslint-plugin-import: ^2.26.0
-    fp-ts: ^2.11.9
+    fp-ts: ^2.11.10
     geotiff: ^1.0.9
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
@@ -3171,10 +3171,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.26":
-  version: 16.11.26
-  resolution: "@types/node@npm:16.11.26"
-  checksum: 57757caaba3f0d95de82198cb276a1002c49b710108c932a1d02d7c91ff2fa57cfe2dd19fde60853b6dd90b0964b3cf35557981d2628e20aed6a909057aedfe6
+"@types/node@npm:^16.11.27":
+  version: 16.11.27
+  resolution: "@types/node@npm:16.11.27"
+  checksum: 6ed0c8c4d29a549d0cfd607d19edf9a4668fbd39087701d923b4a04cd760564e47ad27f9403968cb9c11ee006f0ea6ab698b2491b4b2d2dec3f4a53d0fc22df7
   languageName: node
   linkType: hard
 
@@ -3406,7 +3406,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^16, @types/react@npm:^16.14.24":
+"@types/react@npm:^16":
   version: 16.14.24
   resolution: "@types/react@npm:16.14.24"
   dependencies:
@@ -3414,6 +3414,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 823f3fc6219f59dff7a005ca33adbac70e7ef7a5e15a844c40ba36247c007bd1e1fbfc784052336f60ecbee09f06b7c6c7433e8cece3a87247061bbac74b2576
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^16.14.25":
+  version: 16.14.25
+  resolution: "@types/react@npm:16.14.25"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 3a06cf26f2cad40b14bea707a0ca5343d6bcce133a27ecc291c269d65d9998fd56807371c8e912b95c6fe5c426751ac2e419ae6df0e69bba59e4d84e1165f48f
   languageName: node
   linkType: hard
 
@@ -4528,9 +4539,9 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.181
-    "@types/node": ^16.11.26
+    "@types/node": ^16.11.27
     "@types/prettier": ^2.6.0
-    "@types/react": ^16.14.24
+    "@types/react": ^16.14.25
     "@types/react-dom": ^16.9.14
     "@types/react-redux": ^7.1.24
     "@types/webpack-bundle-analyzer": ^4.4.1
@@ -4547,7 +4558,7 @@ __metadata:
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
     final-form: ^4.20.6
-    fp-ts: ^2.11.9
+    fp-ts: ^2.11.10
     history: ^4.10.1
     is-plain-object: ^5.0.0
     jest: ^27.5.1
@@ -4806,12 +4817,12 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.26
+    "@types/node": ^16.11.27
     "@types/node-cron": ^2.0.5
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1114.0
+    aws-sdk: ^2.1115.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
@@ -4825,7 +4836,7 @@ __metadata:
     fast-check: ^2.24.0
     fast-csv: ^4.3.6
     form-data: ^4.0.0
-    fp-ts: ^2.11.9
+    fp-ts: ^2.11.10
     front-matter: 4.0.2
     gray-matter: ^4.0.3
     io-ts: ^2.2.16
@@ -5190,9 +5201,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1114.0":
-  version: 2.1114.0
-  resolution: "aws-sdk@npm:2.1114.0"
+"aws-sdk@npm:^2.1115.0":
+  version: 2.1115.0
+  resolution: "aws-sdk@npm:2.1115.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5203,7 +5214,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 86ff9d693a4c409de87db08f7942dbece3295263ded7262ca8cdfdc112e6c25d96b1a1198c0ea07dc234a86910f6fe4e798348930d1f353d7524be0b437b991e
+  checksum: d6bec85d99617bc0ba2afdcb55deb16b9808dadf1e0d0a079b41cf51ee2d4c4ba4da747319fdf5f13bdc84d5eb64ac29c97bd1bbf006596bf7b165179c083aba
   languageName: node
   linkType: hard
 
@@ -9089,10 +9100,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.0.0, fp-ts@npm:^2.11.9":
+"fp-ts@npm:^2.0.0":
   version: 2.11.9
   resolution: "fp-ts@npm:2.11.9"
   checksum: bcab4b9d97f9b77fa7283d5834fd847e58955067d5560eb0a9316900d6c92e959d8109038caf78ffb8ba93015ba8044a7a922c5acae8ca2fda4067f7e4e24bab
+  languageName: node
+  linkType: hard
+
+"fp-ts@npm:^2.11.10":
+  version: 2.11.10
+  resolution: "fp-ts@npm:2.11.10"
+  checksum: 4a6b5f99eeb2876bba85674d058b034f5bb3a728c4339f9ef7d45be36f100255eed3d5fe2c067b4a2a0efc00cda544895d43e30f90683e4bfc9b1a03d9b8d541
   languageName: node
   linkType: hard
 
@@ -18522,7 +18540,7 @@ __metadata:
     "@types/express": ^4.17.13
     "@types/mime": ^1.3.2
     "@types/ol": ^6.5.3
-    "@types/react": ^16.14.24
+    "@types/react": ^16.14.25
     "@types/react-calendar-heatmap": ^1.6.3
     "@types/react-helmet": ^6.1.5
     "@types/react-router-dom": ^5.3.3
@@ -18557,7 +18575,7 @@ __metadata:
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
     express: ^4.17.3
-    fp-ts: ^2.11.9
+    fp-ts: ^2.11.10
     history: ^4.10.1
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
