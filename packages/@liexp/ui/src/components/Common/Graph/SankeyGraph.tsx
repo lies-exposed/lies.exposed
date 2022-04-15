@@ -123,7 +123,7 @@ const SankeyLink: React.FC<{ link: any }> = ({ link }) => {
         fill: "none",
         strokeOpacity: ".5",
         stroke: link.stroke,
-        strokeWidth: link.width,
+        strokeWidth: 3,
       }}
     />
   );
