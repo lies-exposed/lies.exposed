@@ -1,21 +1,18 @@
 import { Actor, Group, Keyword } from "@liexp/shared/io/http";
 import { ActorListItem } from "@liexp/ui/components/lists/ActorList";
 import { GroupListItem } from "@liexp/ui/components/lists/GroupList";
-import {
-  KeywordListItem
-} from "@liexp/ui/components/lists/KeywordList";
+import { KeywordListItem } from "@liexp/ui/components/lists/KeywordList";
 import {
   fetchActors,
+  fetchEvent,
   fetchGroups,
-  fetchKeywords
+  fetchKeywords,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import {
-  TextField
-} from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 import {
   Autocomplete,
   AutocompleteInputChangeReason,
-  AutocompleteProps
+  AutocompleteProps,
 } from "@material-ui/lab";
 import * as React from "react";
 import { EventsQueryParams } from "@containers/EventsPanel";
@@ -32,6 +29,10 @@ export type SearchOption =
   | {
       type: "Keyword";
       item: Keyword.Keyword;
+    }
+  | {
+      type: "Search";
+      item: string;
     };
 
 type OnQueryChange = (q: EventsQueryParams) => void;
@@ -49,8 +50,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
   onQueryChange,
   ...props
 }) => {
-  const [title, setTitle] = React.useState(query.title ?? "");
-  const [search, setSearch] = React.useState("");
+  const [search, setSearch] = React.useState(query.title ?? "");
   const [searchOptions, setSearchOptions] = React.useState<SearchOption[]>([]);
 
   const handleSearchChange = React.useCallback(
@@ -114,6 +114,13 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
             groups.data.map((g) => ({ type: "Group", item: g }))
           );
         });
+      } else {
+        setSearchOptions([
+          {
+            type: "Search",
+            item: q,
+          },
+        ]);
       }
 
       setSearch(q);
@@ -143,6 +150,13 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         />
       )}
       renderOption={(params) => {
+        if (params.type === "Search") {
+          return (
+            <Typography key={params.item} variant="subtitle1">
+              {params.item}
+            </Typography>
+          );
+        }
         if (params.type === "Actor") {
           return (
             <ActorListItem
@@ -173,8 +187,17 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       renderTags={(value) => undefined}
       onChange={(e, v) => {
         if (Array.isArray(v)) {
+          const values: SearchOption[] = v.map((vv) => {
+            if (typeof vv === "string") {
+              return {
+                type: "Search",
+                item: vv,
+              };
+            }
+            return vv;
+          });
           setSearchOptions([]);
-          onQueryChange(v as any);
+          onQueryChange(values);
         }
       }}
       onKeyDown={(e) => {
