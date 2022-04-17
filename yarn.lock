@@ -1329,7 +1329,7 @@ __metadata:
     react-helmet: ^6.1.0
     react-helmet-async: ^1.3.0
     react-query: ^3.34.20
-    react-slick: ^0.28.1
+    react-slick: ^0.29.0
     react-spring: ^9.4.4
     react-toc: ^2.1.1
     react-virtualized: ^9.22.3
@@ -15254,9 +15254,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-slick@npm:^0.28.1":
-  version: 0.28.1
-  resolution: "react-slick@npm:0.28.1"
+"react-slick@npm:^0.29.0":
+  version: 0.29.0
+  resolution: "react-slick@npm:0.29.0"
   dependencies:
     classnames: ^2.2.5
     enquire.js: ^2.1.6
@@ -15264,9 +15264,9 @@ __metadata:
     lodash.debounce: ^4.0.8
     resize-observer-polyfill: ^1.5.0
   peerDependencies:
-    react: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0
-    react-dom: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0
-  checksum: 399ad43b9e10dfd66a000dd00faf1f476428ff8b9e70705d253056d279a9297b441d08fe7255b5ffea6f6e05ce63fb6c36f86fddcdffd453ee8f47ca9d958f72
+    react: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 67ce4981914da8a76c6efb4bc8ee7ab69e04c33bd4b3517419ab2165679a3c701dae781556149713fe2c542f84188b7ca101ea58883537be5c05756408f48c8b
   languageName: node
   linkType: hard
 
@@ -18629,7 +18629,7 @@ __metadata:
     react-helmet: ^6.1.0
     react-router-dom: ^5.3.1
     react-share: ^4.4.0
-    react-slick: ^0.28.1
+    react-slick: ^0.29.0
     react-spring: ^9.4.4
     react-toc: ^2.1.1
     slick-carousel: ^1.8.1
