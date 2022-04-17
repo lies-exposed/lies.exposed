@@ -1328,7 +1328,7 @@ __metadata:
     react-error-boundary: ^3.1.4
     react-helmet: ^6.1.0
     react-helmet-async: ^1.3.0
-    react-query: ^3.34.19
+    react-query: ^3.34.20
     react-slick: ^0.28.1
     react-spring: ^9.4.4
     react-toc: ^2.1.1
@@ -2336,9 +2336,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^13.0.1":
-  version: 13.0.1
-  resolution: "@testing-library/react@npm:13.0.1"
+"@testing-library/react@npm:^13.1.1":
+  version: 13.1.1
+  resolution: "@testing-library/react@npm:13.1.1"
   dependencies:
     "@babel/runtime": ^7.12.5
     "@testing-library/dom": ^8.5.0
@@ -2346,16 +2346,16 @@ __metadata:
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
-  checksum: fb38255439eeb79118f4704d3e37eb2435fdd2ccaa709298a3ee04c1fcf630731bcd96937a50203f3c1b60a6886d1490493a2e360f9bcac76571edb52fd4a2c3
+  checksum: 9a0043be5623630936e6badcd87bcbed14d6d6c64c2b16413b66de90c36670bbd6766b7fc6c09cfc67aa6c1c49d8123ed97d3897c4103836c77de40349b187c6
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.1.0":
-  version: 14.1.0
-  resolution: "@testing-library/user-event@npm:14.1.0"
+"@testing-library/user-event@npm:^14.1.1":
+  version: 14.1.1
+  resolution: "@testing-library/user-event@npm:14.1.1"
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: 6fabd42a0ea747912183d1780063a1128609007703647ce5e4f2d88a43c9db02771e737403722a7ee5211dbe47b14fd3088aaaafa24d341ca086875546e5a83b
+  checksum: dd02aecbde64002aa3c58392137672156101fc3bb821f43db99e3c652e6a6d34b3eb29b2524eb41ad2a317cfdff6ab2e88d7027605d88dccaacf4f07a08dc7a9
   languageName: node
   linkType: hard
 
@@ -4534,8 +4534,8 @@ __metadata:
     "@material-ui/styles": ^4.11.5
     "@testing-library/dom": ^8.13.0
     "@testing-library/jest-dom": ^5.16.4
-    "@testing-library/react": ^13.0.1
-    "@testing-library/user-event": ^14.1.0
+    "@testing-library/react": ^13.1.1
+    "@testing-library/user-event": ^14.1.1
     "@types/debug": ^4.1.7
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.181
@@ -4575,7 +4575,7 @@ __metadata:
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
     react-helmet: ^6.1.0
-    react-query: ^3.34.19
+    react-query: ^3.34.20
     ts-jest: ^27.1.4
     typescript: ^4.6.3
     uuid: ^8.3.2
@@ -4822,7 +4822,7 @@ __metadata:
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1115.0
+    aws-sdk: ^2.1116.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
@@ -5201,9 +5201,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1115.0":
-  version: 2.1115.0
-  resolution: "aws-sdk@npm:2.1115.0"
+"aws-sdk@npm:^2.1116.0":
+  version: 2.1116.0
+  resolution: "aws-sdk@npm:2.1116.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5214,7 +5214,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: d6bec85d99617bc0ba2afdcb55deb16b9808dadf1e0d0a079b41cf51ee2d4c4ba4da747319fdf5f13bdc84d5eb64ac29c97bd1bbf006596bf7b165179c083aba
+  checksum: 9042676e51c7bf52b30924daac864637e712e9d6cac7616b98e2adb3fea0f9c87005eea86f98ec4b167edd65716cf78f018cd9666d03080c76ae990b02132e09
   languageName: node
   linkType: hard
 
@@ -11881,7 +11881,7 @@ __metadata:
     husky: ^7.0.4
     is-ci: ^3.0.1
     jest: ^27.5.1
-    lint-staged: ^12.3.7
+    lint-staged: ^12.3.8
     pinst: ^2.1.6
     pm2: ^5.2.0
     prettier: ^2.6.2
@@ -11905,9 +11905,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.3.7":
-  version: 12.3.7
-  resolution: "lint-staged@npm:12.3.7"
+"lint-staged@npm:^12.3.8":
+  version: 12.3.8
+  resolution: "lint-staged@npm:12.3.8"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -11925,7 +11925,7 @@ __metadata:
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: b595097556880eb2ab7ce2cf105047f6f22525ccfd608fbdc63ab243259aa36a26949576fadff673748fb885e7cb37ad3f4471d964ad54c1205d57a58999ba24
+  checksum: af6a89ae4244e4eac7180c6e7da452f378fd156ff38eaa666ecbb78f1e2efb7f1a9fc766dcc1cdde2bd76e03da68e602056ca9d2f1c6e46cf10aa83d20bf4d49
   languageName: node
   linkType: hard
 
@@ -15107,9 +15107,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.34.19":
-  version: 3.34.19
-  resolution: "react-query@npm:3.34.19"
+"react-query@npm:^3.34.20":
+  version: 3.34.20
+  resolution: "react-query@npm:3.34.20"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
@@ -15121,7 +15121,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 765bec81e521a78ef04a8feb6710041ce838ef82bf6e1d35c7e9327cc242b232b242fd89f3604adf6747dce2df055d12b15e8e4208687cc5eb493c1c0bf71d34
+  checksum: 4381936f051b3ac90435f700ebe83a73cfb210f90acd7914ca0b5d6a85d89cfc31ace918fdce9ba1cfb0b404e86c522407a843cd9991a2526d6f4826ff3c0522
   languageName: node
   linkType: hard
 
@@ -15159,7 +15159,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^5.1.0, react-router-dom@npm:^5.3.0":
+"react-router-dom@npm:^5.1.0":
   version: 5.3.0
   resolution: "react-router-dom@npm:5.3.0"
   dependencies:
@@ -15173,6 +15173,23 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 47584fd629ecca52398d7888cab193b8a74057cc99a7ef44410c405d4082f618c3c0399db5325bc3524f9c511404086169570013b61a94dfa6acdfdc850d7a1f
+  languageName: node
+  linkType: hard
+
+"react-router-dom@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "react-router-dom@npm:5.3.1"
+  dependencies:
+    "@babel/runtime": ^7.12.13
+    history: ^4.9.0
+    loose-envify: ^1.3.1
+    prop-types: ^15.6.2
+    react-router: 5.3.1
+    tiny-invariant: ^1.0.2
+    tiny-warning: ^1.0.0
+  peerDependencies:
+    react: ">=15"
+  checksum: efbf80c91d64bf51e61fa5dd9e4b7e9c350a0a560d575992d3ee214e0e48da38210b5d8a03c6b270a21f8fd6fa020d076f2af191db5a722c28a68fcad9cefde6
   languageName: node
   linkType: hard
 
@@ -15193,6 +15210,26 @@ __metadata:
   peerDependencies:
     react: ">=15"
   checksum: 7daae084bf64531eb619cc5f4cc40ce5ae0a541b64f71d74ec71a38cbf6130ebdbb7cf38f157303fad5846deec259401f96c4d6c7386466dcc989719e01f9aaa
+  languageName: node
+  linkType: hard
+
+"react-router@npm:5.3.1":
+  version: 5.3.1
+  resolution: "react-router@npm:5.3.1"
+  dependencies:
+    "@babel/runtime": ^7.12.13
+    history: ^4.9.0
+    hoist-non-react-statics: ^3.1.0
+    loose-envify: ^1.3.1
+    mini-create-react-context: ^0.4.0
+    path-to-regexp: ^1.7.0
+    prop-types: ^15.6.2
+    react-is: ^16.6.0
+    tiny-invariant: ^1.0.2
+    tiny-warning: ^1.0.0
+  peerDependencies:
+    react: ">=15"
+  checksum: b85c7b4dee5a011f542a654a673489bdedb8cd217e32838d13bc9b2c93f068fd37777bc7ef6cbebd6675cadc4e89add75f5e52e452be6c5b1f92070ad7f7e505
   languageName: node
   linkType: hard
 
@@ -18590,7 +18627,7 @@ __metadata:
     react-error-boundary: ^3.1.4
     react-graph-vis: ^1.0.7
     react-helmet: ^6.1.0
-    react-router-dom: ^5.3.0
+    react-router-dom: ^5.3.1
     react-share: ^4.4.0
     react-slick: ^0.28.1
     react-spring: ^9.4.4
