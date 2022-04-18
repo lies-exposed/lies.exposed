@@ -24,6 +24,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  RaRecord
 } from "react-admin";
 import ExcerptField from "../Common/ExcerptField";
 import { MediaField } from "../Common/MediaField";
@@ -78,10 +79,10 @@ export const DocumentaryReleaseTitle: React.FC<{
   return <span>Documentary: {record.payload.title}</span>;
 };
 
-export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
+export const DocumentaryEditFormTab: React.FC<EditProps & { record?: RaRecord }> = (
   props
 ) => (
-  <FormTab label="Payload" {...props}>
+  <FormTab label="Payload" {...(props as any)}>
     <ReferenceActorInput source="payload.victim" />
   </FormTab>
 );
@@ -95,7 +96,7 @@ export const DocumentaryEdit: React.FC<EditProps> = (props: EditProps) => (
         <WebPreviewButton resource="/events" source="id" {...props} />
       </>
     }
-    transform={(r) => transformEvent(r.id as any, r)}
+    transform={(r) => transformEvent(r.id , r)}
   >
     <TabbedForm>
       <FormTab label="Generals">

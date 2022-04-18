@@ -3,14 +3,11 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType,
+  MapInputType
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
-  AutocompleteInput,
-  BooleanInput,
-  BooleanField,
-  Create,
+  AutocompleteInput, BooleanField, BooleanInput, Create,
   CreateProps,
   Datagrid,
   DateField,
@@ -26,6 +23,7 @@ import {
   SelectInput,
   SimpleForm,
   TabbedForm,
+  RaRecord
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -81,10 +79,10 @@ export const DeathEventTitle: React.FC<{ record: Death.Death }> = ({
   );
 };
 
-export const DeathEventEditFormTab: React.FC<EditProps & { record?: any }> = (
+export const DeathEventEditFormTab: React.FC<EditProps & { record?: RaRecord }> = (
   props
 ) => (
-  <FormTab label="Payload" {...props}>
+  <FormTab label="Payload" {...(props as any)}>
     <ReferenceActorInput source="payload.victim" />
   </FormTab>
 );
@@ -98,7 +96,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
         <WebPreviewButton resource="/dashboard/events" source="id" {...props} />
       </>
     }
-    transform={(r) => transformEvent(r.id as any, r)}
+    transform={(r) => transformEvent(r.id , r)}
   >
     <TabbedForm>
       <FormTab label="Generals">

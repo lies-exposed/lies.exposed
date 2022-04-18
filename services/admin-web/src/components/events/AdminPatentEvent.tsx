@@ -82,7 +82,7 @@ export const PatentEventEditFormTab: React.FC<
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
 
   return (
-    <FormTab label="Payload" {...props}>
+    <FormTab label="Payload" {...(props as any)}>
       <ReferenceActorInput source={source("payload.victim")} />
     </FormTab>
   );
@@ -92,7 +92,7 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<PatentEventTitle {...(props as any)} />}
     {...props}
-    transform={(r) => transformEvent(r.id as any, r)}
+    transform={(r) => transformEvent(r.id , r)}
   >
     <TabbedForm>
       <FormTab label="Generals">

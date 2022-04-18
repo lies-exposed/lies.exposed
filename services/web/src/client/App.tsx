@@ -4,7 +4,7 @@ import SEO from "@liexp/ui/components/SEO";
 import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import AppHeader from "./components/header/AppHeader";
 import { routes } from "./routes";
 
@@ -53,11 +53,11 @@ export const App: React.FC = () => {
               marginBottom: 50,
             }}
           >
-            <Switch>
+            <Routes>
               {routes.map((r) => (
-                <Route key={r.path} path={r.path} render={r.route} strict />
+                <Route key={r.path} path={r.path} element={r.route} />
               ))}
-            </Switch>
+            </Routes>
           </Grid>
           <Grid item xs={12}>
             <Footer
