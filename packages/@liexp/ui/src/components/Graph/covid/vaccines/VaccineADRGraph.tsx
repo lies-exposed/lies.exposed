@@ -12,6 +12,7 @@ import {
   ZeroToOneMonth
 } from "@liexp/shared/io/http/covid/VaccineDatum";
 import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
+import { formatDate } from '@liexp/shared/utils/date';
 import {
   Box,
   FormControl,
@@ -33,7 +34,7 @@ import { scaleLinear, scaleTime } from "@vx/scale";
 import { Bar, LinePath } from "@vx/shape";
 import { Accessor } from "@vx/shape/lib/types";
 import { TooltipWithBounds, withTooltip } from "@vx/tooltip";
-import { format, isDate } from "date-fns";
+import { isDate } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
 import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries";
@@ -302,7 +303,7 @@ const VaccineADRGraphComponent = withTooltip<
       const { x } = localPoint(event) ?? { x: 0 };
       const x0 = xScale.invert(x);
 
-      const d = data.find((d) => format(d.date) === format(x0));
+      const d = data.find((d) => formatDate(d.date) === formatDate(x0));
       if (d) {
         if (tooltipOpen) {
           updateTooltip({
@@ -399,7 +400,7 @@ const VaccineADRGraphComponent = withTooltip<
               label="Date"
               tickFormat={(d) => {
                 if (isDate(d)) {
-                  return format(d as any);
+                  return formatDate(d as any);
                 }
                 return d.valueOf().toString();
               }}

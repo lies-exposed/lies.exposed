@@ -55,6 +55,7 @@ export const App: React.FC = () => {
           >
             <Routes>
               {routes.map((r) => (
+                // eslint-disable-next-line react/no-children-prop
                 <Route key={r.path} path={r.path} element={r.route} />
               ))}
             </Routes>

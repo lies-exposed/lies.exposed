@@ -3,14 +3,16 @@ import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import {
   useEventQuery,
-  useMediaQuery,
+  useMediaQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Box, Grid, Typography, useTheme } from "@material-ui/core";
+import { Box, Grid, useTheme } from "@material-ui/core";
 import * as React from "react";
+import { useParams } from "react-router-dom";
 import EventsBox from "../components/events/EventsBox";
 import { useNavigateToResource } from "../utils/location.utils";
 
-const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
+const EventTemplate: React.FC = () => {
+  const { eventId } = useParams();
   const theme = useTheme();
   const navigateTo = useNavigateToResource();
 
