@@ -1328,7 +1328,7 @@ __metadata:
     react-error-boundary: ^3.1.4
     react-helmet: ^6.1.0
     react-helmet-async: ^1.3.0
-    react-query: ^3.34.20
+    react-query: ^3.35.0
     react-slick: ^0.29.0
     react-spring: ^9.4.4
     react-toc: ^2.1.1
@@ -4575,7 +4575,7 @@ __metadata:
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
     react-helmet: ^6.1.0
-    react-query: ^3.34.20
+    react-query: ^3.35.0
     ts-jest: ^27.1.4
     typescript: ^4.6.3
     uuid: ^8.3.2
@@ -15107,21 +15107,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.34.20":
-  version: 3.34.20
-  resolution: "react-query@npm:3.34.20"
+"react-query@npm:^3.35.0":
+  version: 3.35.0
+  resolution: "react-query@npm:3.35.0"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
     match-sorter: ^6.0.2
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: 4381936f051b3ac90435f700ebe83a73cfb210f90acd7914ca0b5d6a85d89cfc31ace918fdce9ba1cfb0b404e86c522407a843cd9991a2526d6f4826ff3c0522
+  checksum: 07f5986a85c78274f25d5f725eb11b7abe9248d771b5c72397cd9fbc183acafbb5d1db5d426e833aeb28aeb42934035370e7b1cdc52c185733ea3035dced40a5
   languageName: node
   linkType: hard
 
