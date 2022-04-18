@@ -13,7 +13,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "react-query";
-import { StaticRouter } from "react-router-dom/server";
+import { StaticRouter } from "react-router-dom";
 import { HelmetProvider } from "../components/SEO";
 import { ECOTheme } from "../theme";
 
@@ -79,7 +79,7 @@ export const getServer = (
                     <Hydrate state={dehydratedState}>
                       <ThemeProvider theme={ECOTheme}>
                         <CssBaseline />
-                        <StaticRouter location={req.url}>
+                        <StaticRouter location={req.url} context={context}>
                           <App />
                         </StaticRouter>
                       </ThemeProvider>

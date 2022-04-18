@@ -36,7 +36,7 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
   const inputProps = useInput(props);
 
   const {
-    field: { value, onChange },
+    input: { value, onChange },
   } = inputProps;
 
   const [id] = React.useState(uuid());

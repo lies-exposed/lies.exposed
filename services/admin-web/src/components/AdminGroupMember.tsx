@@ -12,12 +12,12 @@ import {
   FormTab,
   List,
   ListProps,
+  Record,
   ReferenceField,
   ReferenceManyField,
   SimpleForm,
   TabbedForm,
   TextField,
-  RaRecord
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
@@ -28,7 +28,7 @@ import { WebPreviewButton } from "./Common/WebPreviewButton";
 const transformGroupMember = ({
   endDate,
   ...r
-}: RaRecord): RaRecord | Promise<RaRecord> => {
+}: Record): Record | Promise<Record> => {
   return {
     ...r,
     group: r.group.id,

@@ -21,7 +21,6 @@ import {
   TextField,
   TextInput,
   TabbedForm,
-  RaRecord,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -71,10 +70,10 @@ export const ScientificStudyEventTitle: React.FC<{
 };
 
 export const EditScientificStudyEvent: React.FC<
-  EditProps & { record?: RaRecord }
+  EditProps & { record?: any }
 > = (props) => {
   return (
-    <FormTab label="Payload" {...(props as any)}>
+    <FormTab label="Payload" {...props}>
       <TextInput source="title" />
       <ReferenceGroupInput source="payload.publisher" />
       <ReferenceArrayActorInput source="newAuthors" />
@@ -98,7 +97,7 @@ export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
         <WebPreviewButton resource="/dashboard/events" source="id" />
       </>
     }
-    transform={(r) => transformEvent(r.id , r)}
+    transform={(r) => transformEvent(r.id as any, r)}
   >
     <TabbedForm>
       <FormTab label="General">

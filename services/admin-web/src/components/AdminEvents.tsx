@@ -35,7 +35,7 @@ import {
   FunctionField,
   List,
   ListProps,
-  RaRecord,
+  Record,
   ReferenceArrayField,
   ReferenceField,
   SelectInput,
@@ -159,7 +159,7 @@ export const EventList: React.FC<ListProps> = (props) => (
       <FunctionField
         label="actors"
         source="payload"
-        render={(r: RaRecord | undefined) => {
+        render={(r: Record | undefined) => {
           if (r?.type === Events.Uncategorized.UNCATEGORIZED.value) {
             return r.payload.actors.length;
           }
@@ -175,7 +175,7 @@ export const EventList: React.FC<ListProps> = (props) => (
       <FunctionField
         label="groups"
         source="payload"
-        render={(r: RaRecord | undefined) => {
+        render={(r: Record | undefined) => {
           if (r?.type === "Uncategorized") {
             return r.payload.groups.length;
           }
@@ -190,7 +190,7 @@ export const EventList: React.FC<ListProps> = (props) => (
       <FunctionField
         label="groupsMembers"
         source="payload"
-        render={(r: RaRecord | undefined) => {
+        render={(r: Record | undefined) => {
           if (r?.type === "Uncategorized") {
             return r.payload.groupsMembers.length;
           }
@@ -205,7 +205,7 @@ export const EventList: React.FC<ListProps> = (props) => (
       <FunctionField
         label="Location"
         source="payload.location.coordinates"
-        render={(r: RaRecord | undefined) =>
+        render={(r: Record | undefined) =>
           r?.location?.coordinates ? <PinDropIcon /> : "-"
         }
       />
@@ -252,7 +252,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
       transform={(r) => {
         // eslint-disable-next-line
         console.log("transform event for type", { type: r.type, event: r });
-        return transformEvent(r.id , r);
+        return transformEvent(r.id as any, r);
       }}
     >
       <TabbedForm redirect={false}>

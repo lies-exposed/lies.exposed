@@ -37,5 +37,5 @@ export const ReferenceBySubjectField: React.FC<ReferenceBySubjectFieldProps> = (
       </ReferenceField>
     );
   }
-  return <div>Not set</div>;
+  return 'Not set';
 };

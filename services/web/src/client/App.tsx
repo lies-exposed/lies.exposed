@@ -4,7 +4,7 @@ import SEO from "@liexp/ui/components/SEO";
 import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import AppHeader from "./components/header/AppHeader";
 import { routes } from "./routes";
 
@@ -53,12 +53,11 @@ export const App: React.FC = () => {
               marginBottom: 50,
             }}
           >
-            <Routes>
+            <Switch>
               {routes.map((r) => (
-                // eslint-disable-next-line react/no-children-prop
                 <Route key={r.path} path={r.path} element={r.route} />
               ))}
-            </Routes>
+            </Switch>
           </Grid>
           <Grid item xs={12}>
             <Footer

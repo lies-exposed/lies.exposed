@@ -25,7 +25,7 @@ import {
   ImageInput,
   List,
   ListProps,
-  RaRecord,
+  Record,
   ReferenceArrayField,
   ReferenceInput,
   ReferenceManyField,
@@ -66,7 +66,7 @@ export const ActorList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const transformActor = async (id: string, data: RaRecord): Promise<RaRecord> => {
+const transformActor = async (id: string, data: Record): Promise<Record> => {
   const imagesTask = data.avatar?.rawFile
     ? uploadImages(dataProvider)("actors", id, [
         { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
@@ -103,7 +103,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
       </>
     }
     transform={({ newMemberIn, ...a }) =>
-      transformActor(a.id , {
+      transformActor(a.id as any, {
         ...a,
         memberIn: a.memberIn.concat(
           newMemberIn.map((m: any) => ({
