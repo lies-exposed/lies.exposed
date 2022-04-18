@@ -17,6 +17,7 @@ import {
   useMediaQuery as useMuiMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { parseISO } from "date-fns/esm";
 import * as React from "react";
 import ActorsBox from "../containers/ActorsBox";
 import { ShareButtons } from "./Common/Button/ShareButtons";
@@ -63,6 +64,8 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
     media[0]?.location ??
     `${process.env.PUBLIC_URL}/liexp-logo.png`;
 
+  const date =
+    typeof event.date === "string" ? parseISO(event.date) : event.date;
   return (
     <MainContent>
       <SEO
@@ -92,7 +95,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                   flexDirection: isDownSM ? "row" : "column",
                 }}
               >
-                {formatDateToShort(event.date)
+                {formatDateToShort(date)
                   .split(" ")
                   .map((chunk, k) => (
                     <Typography
