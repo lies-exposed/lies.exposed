@@ -9,11 +9,14 @@ interface URLMetadataInputProps extends TextInputProps {
 }
 
 const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
+  onMetadataReceived,
   type,
   ...props
 }) => {
-  const { onChange, ...rest } = props;
-  const inputProps = useInput(props);
+  const {
+    input: { onChange, ...inputRest },
+    ...rest
+  } = useInput(props);
 
   const [metadata, setMetadata] = React.useState(undefined);
 
@@ -35,11 +38,11 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
       <TextInput
         {...props}
         {...rest}
-        {...(inputProps as any)}
+        {...(inputRest as any)}
         onChange={handleChange}
       />
 
-      <Button disabled={inputProps.field.value.length < 5} onClick={() => {}}>
+      <Button disabled={inputRest.value.length < 5} onClick={() => {}}>
         Create
       </Button>
       {metadata?.link ? <Box>Link found: {metadata.link.id}</Box> : null}

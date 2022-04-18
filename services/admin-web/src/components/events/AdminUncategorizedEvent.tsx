@@ -19,7 +19,7 @@ import {
   FunctionField,
   List,
   ListProps,
-  RaRecord,
+  Record,
   ReferenceArrayField,
   required,
   TabbedForm,
@@ -34,7 +34,7 @@ import ReferenceArrayActorInput from "../Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
-import { ReferenceMediaDataGrid } from "../Common/ReferenceMediaDataGrid";
+import { ReferenceMediaDataGrid } from '../Common/ReferenceMediaDataGrid';
 import { transformEvent } from "./utils";
 
 const RESOURCE = "events";
@@ -76,7 +76,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
       <FunctionField
         label="actors"
         source="payload"
-        render={(r: RaRecord | undefined) => {
+        render={(r: Record | undefined) => {
           if (r?.type === "Uncategorized") {
             return r.payload.actors.length;
           }
@@ -87,14 +87,14 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
 
       <FunctionField
         source="payload.groups"
-        render={(r: RaRecord | undefined) =>
+        render={(r: Record | undefined) =>
           r ? (r.payload.groups ?? []).length : 0
         }
       />
       <FunctionField
         label="Location"
         source="payload.location"
-        render={(r: RaRecord | undefined) =>
+        render={(r: Record | undefined) =>
           r?.location?.coordinates ? <PinDropIcon /> : "-"
         }
       />
@@ -114,12 +114,12 @@ export const UncategorizedEventTitle: React.FC<{
 };
 
 export const UncategorizedEventEditTab: React.FC<
-  EditProps & { record?: RaRecord; sourcePrefix?: string }
+  EditProps & { record?: any; sourcePrefix?: string }
 > = ({ sourcePrefix, ...props }) => {
   const source = (s: string): string =>
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
   return (
-    <FormTab label="Payload" {...(props as any)}>
+    <FormTab label="Payload" {...props}>
       <TextInput
         source={source("type")}
         defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
@@ -180,20 +180,16 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => (
           defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
           hidden={true}
         />
-        <TextInput source="payload.title" validate={[required()]} />
+        <TextInput source="payload.title" validation={[required()]} />
         <MapInput source="payload.location" type={MapInputType.POINT} />
         <DateInput
           source="date"
-          validate={[required()]}
+          validation={[required()]}
           defaultValue={new Date()}
         />
         <DateInput source="payload.endDate" />
         <ReactPageInput source="excerpt" onlyText />
-        <ReferenceArrayKeywordInput
-          showAdd
-          source="keywords"
-          defaultValue={[]}
-        />
+        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
       </FormTab>
       <FormTab label="body">
         <ReactPageInput source="body" />

@@ -23,7 +23,7 @@ import {
   ImageInput,
   List,
   ListProps,
-  RaRecord,
+  Record,
   required,
   SimpleForm,
   SimpleFormIterator,
@@ -53,7 +53,7 @@ export const ArticleList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const transformArticle = (data: RaRecord): RaRecord | Promise<RaRecord> => {
+const transformArticle = (data: Record): Record | Promise<Record> => {
   if (data.featuredImage?.rawFile) {
     return pipe(
       uploadImages(apiProvider)("articles", data.path, [

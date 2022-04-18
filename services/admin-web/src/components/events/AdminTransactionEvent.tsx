@@ -78,7 +78,7 @@ export const TransactionTitle: React.FC<{
 export const TransactionEditFormTab: React.FC<EditProps> = (
   props: EditProps
 ) => (
-  <FormTab label="Payload" {...(props as any)}>
+  <FormTab label="Payload" {...props}>
     <ReferenceActorInput source="payload.victim" />
   </FormTab>
 );
@@ -92,7 +92,7 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
         <WebPreviewButton resource="/events" source="id" {...props} />
       </>
     }
-    transform={(r) => transformEvent(r.id , r)}
+    transform={(r) => transformEvent(r.id as any, r)}
   >
     <TabbedForm>
       <FormTab label="Generals">

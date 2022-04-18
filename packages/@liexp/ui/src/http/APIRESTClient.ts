@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import * as E from "fp-ts/lib/Either";
 import * as Task from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -9,35 +9,35 @@ export interface APIRESTClient {
   request: <T = any>(config: AxiosRequestConfig<T>) => Promise<any>;
   get: (resource: string, params: any) => Promise<any>;
   put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
-  getList: <R extends RA.RaRecord>(
+  getList: <R extends RA.Record>(
     resource: string,
     params: RA.GetListParams
   ) => Promise<RA.GetListResult<R>>;
-  getOne: <R extends RA.RaRecord>(
+  getOne: <R extends RA.Record>(
     resource: string,
     params: RA.GetOneParams
   ) => Promise<RA.GetOneResult<R>>;
-  getMany: <R extends RA.RaRecord>(
+  getMany: <R extends RA.Record>(
     resource: string,
     params: RA.GetManyParams
   ) => Promise<RA.GetManyResult<R>>;
-  getManyReference: <R extends RA.RaRecord>(
+  getManyReference: <R extends RA.Record>(
     resource: string,
     params: RA.GetManyReferenceParams
   ) => Promise<RA.GetManyReferenceResult<R>>;
-  update: <R extends RA.RaRecord>(
+  update: <R extends RA.Record>(
     resource: string,
-    params: RA.UpdateParams<R>
+    params: RA.UpdateParams
   ) => Promise<RA.UpdateResult<R>>;
   updateMany: (
     resource: string,
     params: RA.UpdateManyParams
   ) => Promise<RA.UpdateManyResult>;
-  create: <R extends Omit<RA.RaRecord, "id">>(
+  create: <R extends Omit<RA.Record, "id">>(
     resource: string,
     params: RA.CreateParams
   ) => Promise<RA.CreateResult<R & { id: string }>>;
-  delete: <R extends RA.RaRecord>(
+  delete: <R extends RA.Record>(
     resource: string,
     params: RA.DeleteParams
   ) => Promise<RA.DeleteResult<R>>;
@@ -134,7 +134,7 @@ export const APIRESTClient = ({
       )();
     },
     update: (resource, params) => {
-      return liftClientRequest<RA.UpdateResult>(() =>
+      return liftClientRequest<RA.UpdateParams>(() =>
         client.put(`${resource}/${params.id}`, params.data)
       )();
     },
