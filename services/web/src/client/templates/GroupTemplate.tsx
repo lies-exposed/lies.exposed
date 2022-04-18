@@ -3,18 +3,18 @@ import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import {
-  useEventsQuery,
-  useGroupQuery,
-  useGroupMembersQuery,
+  useEventsQuery, useGroupMembersQuery, useGroupQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Box } from "@material-ui/core";
 import { subYears } from "date-fns";
 import * as React from "react";
+import { useParams } from "react-router-dom";
 import { EventsPanel } from "../containers/EventsPanel";
 import { useRouteQuery } from "../utils/history.utils";
-import { GroupView, useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils";
 
-const GroupTemplate: React.FC<Omit<GroupView, "view">> = ({ groupId }) => {
+const GroupTemplate: React.FC = () => {
+  const { groupId } = useParams();
   const navigateTo = useNavigateToResource();
   const { tab: _tab = "0" } = useRouteQuery();
   const tab = parseInt(_tab, 10);

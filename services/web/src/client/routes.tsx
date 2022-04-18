@@ -20,8 +20,7 @@ import KeywordTemplate from "./templates/KeywordTemplate";
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
-  queryFn:
-    fetchGithubRepo,
+  queryFn: fetchGithubRepo,
 } as any;
 
 const commonQueries = [githubQuery];
@@ -29,11 +28,7 @@ const commonQueries = [githubQuery];
 export const routes = [
   {
     path: "/groups/:groupId",
-    route: ({
-      match: {
-        params: { groupId },
-      },
-    }: any) => <GroupTemplate groupId={groupId} />,
+    route: <GroupTemplate />,
     queries: ({ groupId }: any) => [
       ...commonQueries,
       {
@@ -60,16 +55,12 @@ export const routes = [
   },
   {
     path: "/groups",
-    route: (props: any) => <GroupsPage />,
+    route: <GroupsPage />,
     queries: () => [...commonQueries],
   },
   {
     path: "/actors/:actorId",
-    route: ({
-      match: {
-        params: { actorId },
-      },
-    }: any) => <ActorTemplate actorId={actorId} />,
+    route: <ActorTemplate />,
     queries: ({ actorId }: { actorId: string }) => [
       ...commonQueries,
       {
@@ -91,16 +82,12 @@ export const routes = [
   },
   {
     path: "/actors",
-    route: (props: any) => <ActorsPage />,
+    route: <ActorsPage />,
     queries: () => [...commonQueries],
   },
   {
     path: "/events/:eventId",
-    route: ({
-      match: {
-        params: { eventId },
-      },
-    }: any) => <EventTemplate eventId={eventId} />,
+    route: <EventTemplate />,
     queries: ({ eventId }: any) => [
       ...commonQueries,
       {
@@ -128,26 +115,22 @@ export const routes = [
   },
   {
     path: "/events",
-    route: () => <EventsPage />,
+    route: <EventsPage />,
     queries: () => [...commonQueries],
   },
   {
     path: "/keywords/:keywordId",
-    route: ({
-      match: {
-        params: { keywordId },
-      },
-    }: any) => <KeywordTemplate keywordId={keywordId} />,
+    route: <KeywordTemplate />,
     queries: () => [...commonQueries],
   },
   {
     path: "/keywords",
-    route: () => <KeywordsPage />,
+    route: <KeywordsPage />,
     queries: () => [...commonQueries],
   },
   {
     path: "/",
-    route: () => <IndexPage />,
+    route: <IndexPage />,
     queries: () => [...commonQueries],
   },
 ];
