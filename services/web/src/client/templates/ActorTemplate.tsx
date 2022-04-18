@@ -8,7 +8,7 @@ import {
   useGroupsQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Box } from "@material-ui/core";
-import subYears from "date-fns/sub_years";
+import {subYears} from "date-fns";
 import * as React from "react";
 import { useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
