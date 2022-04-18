@@ -1,8 +1,8 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
 import * as Task from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
 import type * as RA from "react-admin";
 
 export interface APIRESTClient {
