@@ -6,7 +6,7 @@ import {
   useEventsQuery, useGroupMembersQuery, useGroupQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Box } from "@material-ui/core";
-import { subYears } from "date-fns";
+import subYears from "date-fns/sub_years";
 import * as React from "react";
 import { useParams } from "react-router-dom";
 import { EventsPanel } from "../containers/EventsPanel";
