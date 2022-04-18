@@ -75,7 +75,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
           </SimpleFormIterator>
         </ArrayInput>
 
-        <ArrayField source="areas" fieldKey="id" resource="areas">
+        <ArrayField source="areas" resource="areas">
           <SingleFieldList>
             <MapField source="geometry" type={GeometryType.POLYGON} />
           </SingleFieldList>
@@ -124,6 +124,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
                     Condemned: [],
                     PublicAnnouncement: [],
                     Uncategorized: [],
+                    Transaction: [],
                   }}
                 />
               ))

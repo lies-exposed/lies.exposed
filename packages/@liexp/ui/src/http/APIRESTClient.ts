@@ -1,43 +1,43 @@
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/function";
 import * as Task from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
 import type * as RA from "react-admin";
 
 export interface APIRESTClient {
   request: <T = any>(config: AxiosRequestConfig<T>) => Promise<any>;
   get: (resource: string, params: any) => Promise<any>;
   put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
-  getList: <R extends RA.Record>(
+  getList: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetListParams
   ) => Promise<RA.GetListResult<R>>;
-  getOne: <R extends RA.Record>(
+  getOne: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetOneParams
   ) => Promise<RA.GetOneResult<R>>;
-  getMany: <R extends RA.Record>(
+  getMany: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetManyParams
   ) => Promise<RA.GetManyResult<R>>;
-  getManyReference: <R extends RA.Record>(
+  getManyReference: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetManyReferenceParams
   ) => Promise<RA.GetManyReferenceResult<R>>;
-  update: <R extends RA.Record>(
+  update: <R extends RA.RaRecord>(
     resource: string,
-    params: RA.UpdateParams
+    params: RA.UpdateParams<R>
   ) => Promise<RA.UpdateResult<R>>;
   updateMany: (
     resource: string,
     params: RA.UpdateManyParams
   ) => Promise<RA.UpdateManyResult>;
-  create: <R extends Omit<RA.Record, "id">>(
+  create: <R extends Omit<RA.RaRecord, "id">>(
     resource: string,
     params: RA.CreateParams
   ) => Promise<RA.CreateResult<R & { id: string }>>;
-  delete: <R extends RA.Record>(
+  delete: <R extends RA.RaRecord>(
     resource: string,
     params: RA.DeleteParams
   ) => Promise<RA.DeleteResult<R>>;
@@ -134,7 +134,7 @@ export const APIRESTClient = ({
       )();
     },
     update: (resource, params) => {
-      return liftClientRequest<RA.UpdateParams>(() =>
+      return liftClientRequest<RA.UpdateResult>(() =>
         client.put(`${resource}/${params.id}`, params.data)
       )();
     },

@@ -10,8 +10,7 @@ import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
 import { Box, ThemeProvider, Typography } from "@material-ui/core";
-import { FormDataConsumer } from "ra-core";
-import refresh from "ra-core/esm/sideEffect/refresh";
+import { FormDataConsumer, useRefresh } from "ra-core";
 import {
   BooleanInput,
   Button,
@@ -118,6 +117,7 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => (
 );
 
 export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
+  const refresh = useRefresh();
   return (
     <Edit
       {...props}
@@ -145,7 +145,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
           event: r.payload.event,
         });
 
-        const updatedEvent = await transformEvent(id as any, r.payload.event);
+        const updatedEvent = await transformEvent(id , r.payload.event);
 
         return { id, ...r.payload, event: updatedEvent };
       }}
@@ -202,7 +202,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
               <UncategorizedEventEditTab
                 {...rest}
                 sourcePrefix={"payload.event"}
-                record={formData.payload.event}
+                record={formData.payload.event }
               />
             );
           }}

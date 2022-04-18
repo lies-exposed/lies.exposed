@@ -1,12 +1,13 @@
 import { Button } from "@material-ui/core";
 import get from "lodash/get";
 import has from "lodash/has";
+import { Identifier } from 'ra-core';
 import { FieldProps } from "ra-ui-materialui";
 import * as React from "react";
 
 interface WebPreviewButtonProps extends FieldProps {
   resource: string;
-  id?: string
+  id?: Identifier
 }
 
 export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {

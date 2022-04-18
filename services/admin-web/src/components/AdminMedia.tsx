@@ -18,7 +18,7 @@ import {
   FormTab,
   List,
   ListProps,
-  Record,
+  RaRecord,
   ReferenceManyField,
   required,
   SelectInput,
@@ -170,7 +170,7 @@ export const MediaList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const transformMedia = (data: Record): Record | Promise<Record> => {
+const transformMedia = (data: RaRecord): RaRecord | Promise<RaRecord> => {
   const mediaTask =
     data._type === "fromFile" && data.location.rawFile
       ? uploadFile(apiProvider)(

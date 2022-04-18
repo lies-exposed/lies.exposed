@@ -2,14 +2,14 @@ import { Media } from "@liexp/shared/io/http";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { Record } from "ra-core";
+import { RaRecord } from "ra-core";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
 
 export const transformEvent = async (
   id: string,
-  data: Record
-): Promise<Record> => {
+  data: RaRecord
+): Promise<RaRecord> => {
   const newLinks = (data.newLinks ?? []).reduce((acc, l) => {
     if (l.fromURL) {
       return acc.concat({ url: l.url, publishDate: l.publishDate });
