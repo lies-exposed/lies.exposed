@@ -54,6 +54,7 @@ module.exports = {
       "pre-deploy-local": [
         `scp ./services/web/.env.alpha ${SSH_HOST}:envs/web/.env`,
         `scp ./services/admin-web/.env.alpha ${SSH_HOST}:envs/admin/.env`,
+        `scp .env.alpha ${SSH_HOST}:envs/.env`,
       ].join(" && "),
       "post-deploy": "scripts/post-deploy.sh",
     },
