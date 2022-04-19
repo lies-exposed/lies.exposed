@@ -1,11 +1,23 @@
 import { Actor, Events, Keyword } from "@liexp/shared/io/http";
 import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
-import { Box, Grid, Typography } from "@material-ui/core";
+import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
+import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import * as React from "react";
 import { getTextContentsCapped, isValidValue } from "../../Common/Editor";
+import { EventIcon } from "../../Common/Icons";
 import { ActorListItem } from "../ActorList";
 import { GroupListItem } from "../GroupList";
+
+const useStyles = makeStyles((theme) => ({
+  eventIcon: {
+    display: "none",
+    [theme.breakpoints.down("md")]: {
+      display: "flex",
+      marginRight: theme.spacing(2),
+    },
+  },
+}))
 
 const getSubject = (
   subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"]
@@ -42,6 +54,9 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
   onActorClick,
   onKeywordClick,
 }) => {
+
+  const classes = useStyles();
+
   return (
     <Box
       id={item.id}
@@ -51,8 +66,11 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h6">{item.payload.title}</Typography>
+        <Grid item xs={12} style={{ display: "flex", flexDirection: "row" }}>
+          <EventIcon className={classes.eventIcon} type={TRANSACTION.value} size="2x" />
+          <Typography variant="h6">
+            {item.payload.title}
+          </Typography>
         </Grid>
         <Grid
           item

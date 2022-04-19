@@ -7,7 +7,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ InputLabelProps, ...props}) => 
     <TextField
       {...props}
       type="date"
-      placeholder="YYYY/MM/DD – YYYY/MM/DD"
+      placeholder=""
       InputLabelProps={{
         shrink: true,
         ...InputLabelProps,

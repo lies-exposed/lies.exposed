@@ -226,23 +226,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
     [query]
   );
 
-  const toggleBox = (
-    <Box style={{ display: "flex", justifyContent: "center" }}>
-      <IconButton
-        style={{
-          padding: 0,
-        }}
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {isExpanded ? (
-          <ExpandLessIcon fontSize="small" />
-        ) : (
-          <ExpandMoreIcon fontSize="small" />
-        )}
-      </IconButton>
-    </Box>
-  );
-
   const clearButton =
     actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
       <IconButton
@@ -275,12 +258,14 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               flexDirection: "row",
             }}
             actors={actors.map((a) => ({ ...a, selected: true }))}
-            onActorClick={(gms) =>
-              onQueryChange({
-                ...query,
-                actors: query.actors?.filter((g) => g !== gms.id),
-              })
-            }
+            onActorClick={(gms) => {
+              if (isExpanded) {
+                onQueryChange({
+                  ...query,
+                  actors: query.actors?.filter((g) => g !== gms.id),
+                });
+              }
+            }}
           />
         );
 
@@ -291,12 +276,14 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               flexDirection: "row",
             }}
             groups={groups.map((g) => ({ ...g, selected: true }))}
-            onItemClick={(g) =>
-              onQueryChange({
-                ...query,
-                groups: query.groups?.filter((gg) => gg !== g.id),
-              })
-            }
+            onItemClick={(g) => {
+              if (isExpanded) {
+                onQueryChange({
+                  ...query,
+                  groups: query.groups?.filter((gg) => gg !== g.id),
+                });
+              }
+            }}
           />
         );
 
@@ -308,10 +295,12 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
             }}
             keywords={keywords.map((k) => ({ ...k, selected: true }))}
             onItemClick={(k) => {
-              onQueryChange({
-                ...query,
-                keywords: query.keywords?.filter((kk) => kk !== k.id),
-              });
+              if (isExpanded) {
+                onQueryChange({
+                  ...query,
+                  keywords: query.keywords?.filter((kk) => kk !== k.id),
+                });
+              }
             }}
           />
         );
@@ -320,10 +309,14 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           <GroupsMembersList
             groupsMembers={groupsMembers.map((g) => ({ ...g, selected: true }))}
             onItemClick={(gm) => {
-              onQueryChange({
-                ...query,
-                groupsMembers: query.groupsMembers?.filter((g) => gm.id !== g),
-              });
+              if (isExpanded) {
+                onQueryChange({
+                  ...query,
+                  groupsMembers: query.groupsMembers?.filter(
+                    (g) => gm.id !== g
+                  ),
+                });
+              }
             }}
           />
         );
@@ -344,20 +337,38 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           </div>
         );
 
+        const dateRangeBox =
+          query.startDate ?? query.endDate ? (
+            <Box style={{ display: "flex", alignItems: "center" }}>
+              {query.startDate ? (
+                <Typography variant="subtitle1" style={{ marginRight: 10 }}>
+                  From <b>{query.startDate}</b>
+                </Typography>
+              ) : null}
+              {query.endDate ? (
+                <Typography variant="subtitle1" style={{ marginRight: 10 }}>
+                  To <b>{query.endDate}</b>
+                </Typography>
+              ) : null}
+            </Box>
+          ) : null;
+
         const searchTermBox = query.title ? (
           <Box
             style={{
               display: "flex",
               alignItems: "center",
-              marginRight: theme.spacing(2)
+              marginRight: theme.spacing(2),
             }}
           >
             <Typography
               onClick={() => {
-                onQueryChange({
-                  ...query,
-                  title: undefined,
-                });
+                if (isExpanded) {
+                  onQueryChange({
+                    ...query,
+                    title: undefined,
+                  });
+                }
               }}
               variant="subtitle1"
             >
@@ -389,7 +400,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               style={{
                 padding: theme.spacing(0, 1),
               }}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 onQueryChange({
                   ...query,
                   _order: query._order === "DESC" ? "ASC" : "DESC",
@@ -514,6 +526,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               width: "100%",
             }}
           >
+            {dateRangeBox}
             {searchTermBox}
             {actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
               <Box
@@ -546,10 +559,10 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         const expanded = (
           <Box display="flex" style={{ width: "100%" }}>
             <Grid container>
-              <Grid item md={6} sm={6} xs={12}>
+              <Grid item md={8} sm={6} xs={12}>
                 {searchBox}
               </Grid>
-              <Grid item md={3} sm={3} xs={6}>
+              <Grid item md={2} sm={3} xs={6}>
                 <DatePicker
                   className={classes.dateInput}
                   size="small"
@@ -559,20 +572,24 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   InputLabelProps={{
                     disabled: true,
                   }}
-                  onChange={(e) =>
-                    setCurrentDateRange([e.target.value, currentDateRange[1]])
-                  }
+                  onChange={(e) => {
+                    setCurrentDateRange([
+                      e.target.value === "" ? undefined : e.target.value,
+                      currentDateRange[1],
+                    ]);
+                  }}
                   onBlur={(e) => {
                     onQueryChange({
                       ...query,
-                      startDate: e.target.value,
+                      startDate:
+                        e.target.value === "" ? undefined : e.target.value,
                       endDate: currentDateRange[1],
                     });
                   }}
                   style={{ width: "100%" }}
                 />
               </Grid>
-              <Grid item md={3} sm={3} xs={6}>
+              <Grid item md={2} sm={3} xs={6}>
                 <DatePicker
                   className={classes.dateInput}
                   size="small"
@@ -581,14 +598,18 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   InputLabelProps={{
                     disabled: true,
                   }}
-                  onChange={(e) =>
-                    setCurrentDateRange([currentDateRange[0], e.target.value])
-                  }
+                  onChange={(e) => {
+                    setCurrentDateRange([
+                      currentDateRange[0],
+                      e.target.value === "" ? undefined : e.target.value,
+                    ]);
+                  }}
                   onBlur={(e) =>
                     onQueryChange({
                       ...query,
                       startDate: currentDateRange[1],
-                      endDate: e.target.value,
+                      endDate:
+                        e.target.value === "" ? undefined : e.target.value,
                     })
                   }
                   style={{ width: "100%" }}

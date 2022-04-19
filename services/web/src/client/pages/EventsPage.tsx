@@ -124,8 +124,8 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   const classes = useStyles();
 
   const params = {
-    startDate: query.startDate ?? MIN_DATE,
-    endDate: query.endDate ?? MAX_DATE,
+    startDate: query.startDate,
+    endDate: query.endDate,
     actors: query.actors ?? [],
     groups: query.groups ?? [],
     groupsMembers: query.groupsMembers ?? [],
@@ -231,7 +231,15 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 }}
               >
                 <Grid container justifyContent="center">
-                  <Grid item md={10}>
+                  <Grid
+                    item
+                    md={10}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyItems: "center",
+                    }}
+                  >
                     <EventsAppBar
                       hash={hash}
                       query={{ ...params, tab }}
@@ -246,7 +254,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                     />
                     <div
                       style={{
-                        height: 80,
+                        height: 60,
                       }}
                     />
                   </Grid>

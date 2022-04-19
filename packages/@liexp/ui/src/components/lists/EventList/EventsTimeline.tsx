@@ -104,10 +104,10 @@ export const getItemHeight = (
   switch (e.type) {
     case TRANSACTION.value:
       if (isDownMD) {
-        return 180 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
+        return 240 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
       }
 
-      return 200 + excerptHeight;
+      return 200 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
     default: {
       if (isDownMD) {
         const scientificStudyHeight =
