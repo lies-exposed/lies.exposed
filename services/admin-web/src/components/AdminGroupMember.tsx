@@ -12,7 +12,7 @@ import {
   FormTab,
   List,
   ListProps,
-  Record,
+  RaRecord,
   ReferenceField,
   ReferenceManyField,
   SimpleForm,
@@ -28,7 +28,7 @@ import { WebPreviewButton } from "./Common/WebPreviewButton";
 const transformGroupMember = ({
   endDate,
   ...r
-}: Record): Record | Promise<Record> => {
+}: RaRecord): RaRecord | Promise<RaRecord> => {
   return {
     ...r,
     group: r.group.id,

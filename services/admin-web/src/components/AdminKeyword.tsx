@@ -18,7 +18,7 @@ import {
   TextField,
   TextInput
 } from "react-admin";
-import { ColorInput } from "react-admin-color-input";
+import { ColorInput } from "./Common/ColorInput";
 
 const RESOURCE = "keywords";
 

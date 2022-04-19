@@ -1,4 +1,4 @@
-import * as path from "path";
+import path from "path";
 import { GetLogger } from "@liexp/core/logger";
 import { getServer } from "@liexp/ui/react/ssr";
 import dotenv from "dotenv";

@@ -82,7 +82,7 @@ export const DocumentaryReleaseTitle: React.FC<{
 export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
   props
 ) => (
-  <FormTab label="Payload" {...props}>
+  <FormTab label="Payload" {...(props as any)}>
     <ReferenceActorInput source="payload.victim" />
   </FormTab>
 );
@@ -93,11 +93,11 @@ export const DocumentaryEdit: React.FC<EditProps> = (props: EditProps) => (
     {...props}
     actions={
       <>
-        <WebPreviewButton resource="/events" source="id" {...props} />
+        <WebPreviewButton resource="/events" source="id" {...(props as any)} />
         <TGPostButton id={props.id} />
       </>
     }
-    transform={(r) => transformEvent(r.id as any, r)}
+    transform={(r) => transformEvent(r.id , r)}
   >
     <TabbedForm>
       <FormTab label="Generals">

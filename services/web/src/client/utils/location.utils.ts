@@ -286,5 +286,5 @@ export function useNavigateToResource(): NavigationHooks {
       groups: navigateToResource("groups"),
       keywords: navigateToResource("keywords"),
     };
-  }, [n.location]);
+  }, [n.pathname]);
 }

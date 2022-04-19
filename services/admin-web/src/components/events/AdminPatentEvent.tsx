@@ -20,7 +20,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  UrlField
+  UrlField,
 } from "react-admin";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
@@ -29,7 +29,7 @@ import ReferenceArrayGroupInput from "../Common/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../Common/ReferenceMediaDataGrid";
-import { TGPostButton } from '../Common/TGPostButton';
+import { TGPostButton } from "../Common/TGPostButton";
 import URLMetadataInput from "../Common/URLMetadataInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
@@ -83,7 +83,7 @@ export const PatentEventEditFormTab: React.FC<
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
 
   return (
-    <FormTab label="Payload" {...props}>
+    <FormTab {...(props as any)} label="Payload">
       <ReferenceActorInput source={source("payload.victim")} />
     </FormTab>
   );
@@ -98,7 +98,7 @@ export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
         <TGPostButton id={props.id} />
       </>
     }
-    transform={(r) => transformEvent(r.id as any, r)}
+    transform={(r) => transformEvent(r.id , r)}
   >
     <TabbedForm>
       <FormTab label="Generals">

@@ -13,7 +13,7 @@ import {
   ArrayInput,
   ArrayInputProps,
   AutocompleteArrayInput,
-  ChoicesInputProps,
+  SelectInputProps,
   Create,
   CreateProps,
   Datagrid,
@@ -28,7 +28,7 @@ import {
   ImageInput,
   List,
   ListProps,
-  Record,
+  RaRecord,
   ReferenceArrayInput,
   ReferenceManyField,
   SelectInput,
@@ -38,8 +38,8 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
-import { ColorInput } from "react-admin-color-input";
 import { AvatarField } from "./Common/AvatarField";
+import { ColorInput } from "./Common/ColorInput";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";
@@ -47,7 +47,7 @@ import { uploadImages } from "@client/MediaAPI";
 
 const RESOURCE = "groups";
 
-const GroupKindInput: React.FC<ChoicesInputProps> = (props) => (
+const GroupKindInput: React.FC<SelectInputProps> = (props) => (
   <SelectInput
     {...props}
     choices={io.http.Group.GroupKind.types.map((t) => ({
@@ -116,7 +116,7 @@ export const GroupList: React.FC<ListProps> = (props) => (
 const transformGroup = ({
   newMembers,
   ...data
-}: Record): Record | Promise<Record> => {
+}: RaRecord): RaRecord | Promise<RaRecord> => {
   const uploadAvatar = data.avatar?.rawFile
     ? uploadImages(apiProvider)("groups", data.id as string, [
         { file: data.avatar.rawFile, type: data.avatar.rawFile.type },

@@ -11,12 +11,13 @@ import {
   Link,
   Typography,
 } from "@material-ui/core";
+import { Identifier } from "ra-core";
 import { FieldProps } from "ra-ui-materialui";
 import * as React from "react";
 import { apiProvider } from "@client/HTTPAPI";
 
 interface TGPostButtonProps extends FieldProps {
-  id?: string;
+  id?: Identifier;
 }
 
 const emptySharePayload = {
@@ -67,7 +68,13 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
             })
             .then((event) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-              const title = getTitle(event as any);
+              const title = getTitle(event as any, {
+                actors: [],
+                groups: [],
+                groupsMembers: [],
+                keywords: [],
+                media: []
+              });
               const date = formatDate(event.date);
               const media = getShareMedia(
                 event.media,

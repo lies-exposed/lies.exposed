@@ -1,10 +1,8 @@
 import { Buffer } from "buffer";
-import * as io from "@liexp/shared/io";
 import { pipe } from "fp-ts/lib/function";
-import { History } from "history";
 import qs from "query-string";
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { NavigateFunction, useLocation, useNavigate, Location } from "react-router";
 
 const toBase64 = (data: string): string => {
   return Buffer.from(data).toString("base64");
@@ -24,7 +22,10 @@ export const stringifyQuery = (search: {
 export function useRouteQuery<Q = any>(): qs.ParsedQuery<Q> {
   const { search } = useLocation();
 
-  return React.useMemo(() => parseQuery(search) as any as qs.ParsedQuery< Q>, [search]);
+  return React.useMemo(
+    () => parseQuery(search) as any as qs.ParsedQuery<Q>,
+    [search]
+  );
 }
 
 export const queryToHash = (q: any): string => {
@@ -46,22 +47,25 @@ export function useQueryFromHash(hash: string): any {
   );
 }
 
-interface HistoryWithNavigateTo extends History<unknown> {
+interface HistoryWithNavigateTo extends Location {
+  navigate: NavigateFunction;
   navigateTo: (path: string, search?: any) => void;
 }
 
 export function useNavigateTo(): HistoryWithNavigateTo {
-  const h = useHistory();
+  const l = useLocation();
+  const h = useNavigate();
 
   return React.useMemo(() => {
     const navigateTo = (view: string, search?: any): void => {
       const query = stringifyQuery(search);
-      h.push(`${view}?${query}`);
+      h(`${view}?${query}`);
     };
 
     return {
-      ...h,
+      ...l,
+      navigate: h,
       navigateTo,
     };
-  }, [h.location]);
+  }, [l.pathname]);
 }
