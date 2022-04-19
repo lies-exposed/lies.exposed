@@ -5,10 +5,8 @@ import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimel
 import { useKeywordQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Box } from "@material-ui/core";
 import * as React from "react";
-import { useParams } from "react-router-dom";
 
-const KeywordTemplate: React.FC = () => {
-  const { keywordId } = useParams();
+const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
   return (
     <QueriesRenderer
       queries={{ keyword: useKeywordQuery({ id: keywordId }) }}

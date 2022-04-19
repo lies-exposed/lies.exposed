@@ -1,4 +1,5 @@
 import { PageContent } from "@liexp/ui/components/PageContent";
+import { HelmetProvider } from '@liexp/ui/components/SEO';
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
@@ -18,6 +19,7 @@ import {
   TextField,
   TextInput,
 } from "react-admin";
+import { QueryClient, QueryClientProvider } from "react-query";
 import RichTextInput from "./Common/RichTextInput";
 
 export const PageList: React.FC<ListProps> = (props) => (
@@ -50,7 +52,14 @@ export const PageEdit: React.FC<EditProps> = (props) => (
       <FormTab label="preview">
         <FormDataConsumer>
           {({ formData, ...rest }) => {
-            return <PageContent {...formData} />;
+            const qc = new QueryClient();
+            return (
+              <HelmetProvider>
+                <QueryClientProvider client={qc}>
+                  <PageContent {...formData} />
+                </QueryClientProvider>
+              </HelmetProvider>
+            );
           }}
         </FormDataConsumer>
       </FormTab>

@@ -11,8 +11,8 @@ import { useParams } from "react-router-dom";
 import EventsBox from "../components/events/EventsBox";
 import { useNavigateToResource } from "../utils/location.utils";
 
-const EventTemplate: React.FC = () => {
-  const { eventId } = useParams();
+const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
+
   const theme = useTheme();
   const navigateTo = useNavigateToResource();
 

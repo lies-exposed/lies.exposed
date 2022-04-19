@@ -55,7 +55,7 @@ export const App: React.FC = () => {
           >
             <Switch>
               {routes.map((r) => (
-                <Route key={r.path} path={r.path} element={r.route} />
+                <Route key={r.path} path={r.path} render={r.route} />
               ))}
             </Switch>
           </Grid>

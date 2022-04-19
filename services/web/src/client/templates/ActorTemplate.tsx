@@ -15,19 +15,19 @@ import { useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 import { EventsPanel } from "@containers/EventsPanel";
 
-const ActorTemplate: React.FC = ({ ...props }) => {
-  const params = useParams();
+const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
+  // const params = useParams();
   const navigateToResource = useNavigateToResource();
   const { tab = 0 } = useRouteQuery<{ tab?: string }>();
 
   return (
     <QueriesRenderer
       queries={{
-        actor: useActorQuery({ id: params.actorId }),
+        actor: useActorQuery({ id: actorId }),
         groups: useGroupsQuery({
           pagination: { perPage: 20, page: 1 },
           sort: { field: "createdAt", order: "DESC" },
-          filter: { members: [params.actorId] },
+          filter: { members: [actorId] },
         }),
       }}
       render={({ actor, groups: { data: groups } }) => {
@@ -46,7 +46,7 @@ const ActorTemplate: React.FC = ({ ...props }) => {
                 onActorClick={(a) => navigateToResource.actors({ id: a.id })}
               />
               <EventsPanel
-                hash={`actor-${params.actorId}`}
+                hash={`actor-${actorId}`}
                 keywords={[]}
                 actors={[]}
                 groups={[]}
@@ -54,7 +54,7 @@ const ActorTemplate: React.FC = ({ ...props }) => {
                 query={{
                   startDate: subYears(new Date(), 1).toDateString(),
                   endDate: new Date().toDateString(),
-                  actors: params.actorId ? [params.actorId] : [],
+                  actors: actorId ? [actorId] : [],
                   groups: [],
                   groupsMembers: [],
                   keywords: [],
