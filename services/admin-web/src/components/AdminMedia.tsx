@@ -5,7 +5,7 @@ import { Box, Button, Typography } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import refresh from "ra-core/esm/sideEffect/refresh";
+import { useRecordContext, useRefresh } from "ra-core";
 import * as React from "react";
 import {
   Create,
@@ -19,7 +19,7 @@ import {
   FormTab,
   List,
   ListProps,
-  Record,
+  RaRecord,
   ReferenceManyField,
   required,
   SelectInput,
@@ -109,16 +109,28 @@ export const MediaList: React.FC<ListProps> = (props) => (
     perPage={20}
   >
     <Datagrid rowClick="edit">
-      <ImageField source="thumbnail" />
+      <ImageField
+        source="thumbnail"
+        sx={() => ({
+          "& .RaImageField-image": {
+            maxWidth: "100%",
+          },
+        })}
+      />
       <FunctionField
         label="events"
         render={(r) => {
           const url = new URL(r.location);
           return (
             <Box>
-              <Typography variant="h6" style={{
-                fontSize: 14
-              }}>{url.hostname}</Typography>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: 14,
+                }}
+              >
+                {url.hostname}
+              </Typography>
               <Typography variant="subtitle1">{r.type}</Typography>
               <Typography variant="body1">{r.description}</Typography>
             </Box>
@@ -138,7 +150,7 @@ export const MediaList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const transformMedia = (data: Record): Record | Promise<Record> => {
+const transformMedia = (data: RaRecord): RaRecord | Promise<RaRecord> => {
   const mediaTask =
     data._type === "fromFile" && data.location.rawFile
       ? uploadFile(apiProvider)(
@@ -173,12 +185,14 @@ const EditTitle: React.FC<EditProps> = ({ record }: any) => {
 };
 
 const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
+  const refresh = useRefresh();
+  const record = useRecordContext();
   return (
     <Button
       onClick={() => {
         void apiProvider
-          .put(`media/${props.record.id}`, {
-            ...props.record,
+          .put(`media/${record.id}`, {
+            ...record,
             overrideThumbnail: true,
           })
           .then(() => {
@@ -197,7 +211,12 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
     <Box>
       {!loaded ? (
         <Box>
-          <TextInput {...props} source="thumbnail" type={"url"} />
+          <TextInput
+            {...props}
+            label="thumbnail"
+            source="thumbnail"
+            type={"url"}
+          />
           <Box
             onClick={() => {
               setLoaded(true);
@@ -209,7 +228,12 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
       ) : (
         <Box>
           <MediaField {...props} source="location" />
-          <MediaInput {...props} sourceLocation="location" sourceType="type" />
+          <MediaInput
+            {...props}
+            label="Location"
+            sourceLocation="location"
+            sourceType="type"
+          />
           <Button
             onClick={() => {
               setLoaded(false);

@@ -35,7 +35,7 @@ import {
   FunctionField,
   List,
   ListProps,
-  Record,
+  RaRecord as Record,
   ReferenceArrayField,
   ReferenceField,
   SelectInput,
@@ -252,7 +252,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
       transform={(r) => {
         // eslint-disable-next-line
         console.log("transform event for type", { type: r.type, event: r });
-        return transformEvent(r.id as any, r);
+        return transformEvent(r.id , r);
       }}
     >
       <TabbedForm redirect={false}>

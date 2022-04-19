@@ -4,7 +4,7 @@ import SEO from "@liexp/ui/components/SEO";
 import { Grid, useMediaQuery, useTheme } from "@material-ui/core";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router";
 import AppHeader from "./components/header/AppHeader";
 import { routes } from "./routes";
 
@@ -49,16 +49,18 @@ export const App: React.FC = () => {
           <Grid
             style={{
               width: "100%",
-              minHeight: `calc(100% - ${theme.mixins.toolbar.height ?? 64}px - 100px)`,
+              minHeight: `calc(100% - ${
+                theme.mixins.toolbar.height ?? 64
+              }px - 100px)`,
               marginTop: theme.mixins.toolbar.height ?? 64,
               marginBottom: 100,
             }}
           >
-            <Switch>
+            <Routes>
               {routes.map((r) => (
-                <Route key={r.path} path={r.path} render={r.route} />
+                <Route key={r.path} path={r.path} element={<r.route />} />
               ))}
-            </Switch>
+            </Routes>
           </Grid>
           <Grid item xs={12}>
             <Footer

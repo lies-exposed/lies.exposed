@@ -9,12 +9,11 @@ interface URLMetadataInputProps extends TextInputProps {
 }
 
 const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
-  onMetadataReceived,
   type,
   ...props
 }) => {
   const {
-    input: { onChange, ...inputRest },
+    field: { onChange, ...inputRest },
     ...rest
   } = useInput(props);
 

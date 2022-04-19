@@ -30,7 +30,7 @@ export const MediaArrayInput: React.FC<
                   <BooleanInput
                     label="fromURL"
                     source={getSrc("fromURL")}
-                    record={formData}
+                    {...({ record: formData } as any)}
                   />
                   <FormDataConsumer>
                     {({
@@ -61,7 +61,7 @@ export const MediaArrayInput: React.FC<
                                 label="location"
                                 source={locationSource}
                                 type={"url"}
-                                record={newFormData}
+                                {...{ record: newFormData }}
                               />
                             </Box>
                             <Box>
@@ -69,7 +69,7 @@ export const MediaArrayInput: React.FC<
                                 {...newRest}
                                 label="description"
                                 source={descriptionSource}
-                                record={newFormData}
+                                {...{ record: newFormData }}
                               />
                             </Box>
                             <Box>
@@ -91,13 +91,13 @@ export const MediaArrayInput: React.FC<
                           <TextInput
                             {...newRest}
                             source={descriptionSource}
-                            record={newFormData}
+                            {...{record: newFormData}}
                           />
                           <MediaInput
                             {...newRest}
                             sourceLocation={locationSource}
                             sourceType={`src`}
-                            record={newFormData}
+                            {...{record: newFormData}}
                           />
                         </Box>
                       );

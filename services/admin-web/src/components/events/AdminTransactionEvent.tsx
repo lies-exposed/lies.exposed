@@ -27,6 +27,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  FormTabProps
 } from "react-admin";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
@@ -75,10 +76,10 @@ export const TransactionTitle: React.FC<{
   return <span>Transaction: {record.payload.total}</span>;
 };
 
-export const TransactionEditFormTab: React.FC<EditProps> = (
-  props: EditProps
+export const TransactionEditFormTab: React.FC<FormTabProps> = (
+  props
 ) => (
-  <FormTab label="Payload" {...props}>
+  <FormTab {...props} label="Payload">
     <ReferenceActorInput source="payload.victim" />
   </FormTab>
 );
@@ -89,10 +90,10 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
     {...props}
     actions={
       <>
-        <WebPreviewButton resource="/events" source="id" {...props} />
+        <WebPreviewButton resource="/events" source="id" {...(props as any)} />
       </>
     }
-    transform={(r) => transformEvent(r.id as any, r)}
+    transform={(r) => transformEvent(r.id , r)}
   >
     <TabbedForm>
       <FormTab label="Generals">
