@@ -18,7 +18,8 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
     // uploads.single('media'),
     bodyParser.urlencoded({
       extended: false,
-      limit: 2048 * 1000,
+      // 2 GB
+      limit: 2048 * 1000 * 1000,
       type: ["image/jpeg", "image/png"],
     }),
     async (req, res) => {

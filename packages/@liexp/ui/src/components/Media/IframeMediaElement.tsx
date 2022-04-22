@@ -1,6 +1,6 @@
 import { Media } from "@liexp/shared/io/http";
 import { makeStyles } from "@material-ui/core";
-import clsx from 'clsx';
+import clsx from "clsx";
 import * as React from "react";
 
 const useStyles = makeStyles(() => ({
@@ -24,7 +24,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
 }) => {
   const classes = useStyles();
   const ref = React.useRef<HTMLIFrameElement | null>(null);
-  const [loaded, setLoaded] = React.useState(true);
+  const [loaded, setLoaded] = React.useState(false);
 
   return loaded ? (
     <iframe
@@ -53,8 +53,20 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
       }}
     />
   ) : (
-    <div onClick={() => setLoaded(true)} style={props.style}>
-      {media.description}
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        setLoaded(true);
+      }}
+      style={props.style}
+    >
+      <img
+        src={media.thumbnail}
+        style={{
+          width: "100%",
+          height: "auto",
+        }}
+      />
     </div>
   );
 };

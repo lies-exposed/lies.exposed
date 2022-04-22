@@ -1,11 +1,12 @@
 import * as logger from "@liexp/core/logger";
 import { URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
+import { PuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
 import { Router } from "express";
 import { ENV } from "@io/ENV";
 import { JWTClient } from "@providers/jwt/JWTClient";
 import { DatabaseClient } from "@providers/orm";
 import { SpaceClient } from "@providers/space";
-import { TGBotProvider } from '@providers/tg/tg.provider';
+import { TGBotProvider } from "@providers/tg/tg.provider";
 
 export interface RouteContext {
   db: DatabaseClient;
@@ -14,7 +15,8 @@ export interface RouteContext {
   logger: logger.Logger;
   jwt: JWTClient;
   urlMetadata: URLMetadataClient;
-  tg: TGBotProvider
+  puppeteer: PuppeteerProvider;
+  tg: TGBotProvider;
 }
 
 export type Route = (r: Router, ctx: RouteContext) => void;

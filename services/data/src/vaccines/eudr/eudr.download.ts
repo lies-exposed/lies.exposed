@@ -1,33 +1,32 @@
-import * as fs from "fs";
-import * as path from "path";
 import { GetLogger, Logger } from "@liexp/core/logger";
 import {
   AgeGroup,
-  NotSpecified,
-  ThreeToTwelveYears,
-  TwelveToSixteenYears,
-  ZeroToOneMonth,
-  TwoMonthsToTwoYears,
-  MoreThanEightyFiveYears,
   EighteenToSixtyFourYears,
-  SixtyFiveToEightyfiveYears,
   Female,
   Male,
+  MoreThanEightyFiveYears,
+  NotSpecified,
   Sex,
+  SixtyFiveToEightyfiveYears,
+  ThreeToTwelveYears,
+  TwelveToSixteenYears,
+  TwoMonthsToTwoYears,
+  ZeroToOneMonth
 } from "@liexp/shared/io/http/covid/VaccineDatum";
 import {
-  MakePuppeteerClient,
+  GetPuppeteerProvider,
   PuppeteerError,
-  PuppeteerProvider,
-  toPuppeteerError,
-} from "@liexp/shared/providers/Puppeteer";
+  toPuppeteerError
+} from "@liexp/shared/providers/puppeteer.provider";
 import { differenceInDays } from "date-fns";
 import * as A from "fp-ts/lib/Array";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/lib/TaskEither";
+import * as fs from "fs";
+import * as path from "path";
 // eslint-disable-next-line import/default
 import type puppeteer from "puppeteer-core";
-import pup from "puppeteer-extra";
+import extraPup from "puppeteer-extra";
 
 const DATA_DIR_PATH = path.resolve(
   __dirname,
@@ -110,7 +109,7 @@ const getFilePath = (
 };
 
 export const GetDownloadCSV =
-  (log: Logger, pup: PuppeteerProvider, opts: GetDownloadCSVOptions) =>
+  (log: Logger, b: puppeteer.Browser, opts: GetDownloadCSVOptions) =>
   (
     page: puppeteer.Page,
     indexes: ValuesIndexes<number>,
@@ -212,7 +211,7 @@ export const GetDownloadCSV =
 
       log.debug.log("Running listing...");
       const [target] = await Promise.all<puppeteer.Target>([
-        new Promise((resolve) => pup.browser.once("targetcreated", resolve)),
+        new Promise((resolve) => page.browser().once("targetcreated", resolve)),
         page.click(runListingButtonSelector) as any,
       ]);
 
@@ -284,10 +283,10 @@ export const GetDownloadCSV =
   };
 
 export const GetManufacturerDataProcess =
-  (log: Logger, pup: PuppeteerProvider, opts: GetDownloadCSVOptions) =>
+  (log: Logger, b: puppeteer.Browser, opts: GetDownloadCSVOptions) =>
   (manufacturer: string, url: string) => {
     return pipe(
-      pup.getBrowserFirstPage(),
+      TE.tryCatch(() => b.pages().then((pages) => pages[0]), toPuppeteerError),
       TE.chain((page) => {
         return TE.tryCatch(async () => {
           log.debug.log("Donwloading data for manufacturer %s", manufacturer);
@@ -315,7 +314,7 @@ export const GetManufacturerDataProcess =
           const yearOptionIndexes = A.range(0, 1);
           const genderOptionIndexes = A.range(0, 2);
 
-          const downloadCSV = GetDownloadCSV(log, pup, opts);
+          const downloadCSV = GetDownloadCSV(log, b, opts);
           await TE.sequenceSeqArray(
             pipe(
               ageGroupOptionIndexes.map((d) =>
@@ -356,7 +355,7 @@ const modernaEMAURL = [
 
 export const runDownload = (): TE.TaskEither<Error, void> => {
   const log = GetLogger("adr-reports-download");
-  const pupClient = MakePuppeteerClient(pup, {});
+  const pupClient = GetPuppeteerProvider(extraPup, {});
 
   const dateDownloadPath = path.resolve(DATA_DIR_PATH);
   const dateDownloadPathExists = fs.existsSync(dateDownloadPath);
@@ -370,7 +369,7 @@ export const runDownload = (): TE.TaskEither<Error, void> => {
   }
 
   return pipe(
-    pupClient.launch({
+    pupClient.getBrowser('about:blank', {
       headless: true,
       args: ["--no-sandbox"],
     }),
@@ -390,7 +389,7 @@ export const runDownload = (): TE.TaskEither<Error, void> => {
 
       return pipe(
         TE.sequenceSeqArray(tasks),
-        TE.chain(() => pup.close())
+        TE.chain(() => TE.tryCatch(() => pup.close(), toPuppeteerError))
       );
     })
   );
