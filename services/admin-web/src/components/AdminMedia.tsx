@@ -1,10 +1,11 @@
+import { parsePlatformURL } from "@liexp/shared/helpers/media";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { Box } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import * as t from "io-ts";
+import refresh from "ra-core/esm/sideEffect/refresh";
 import * as React from "react";
 import {
   Create,
@@ -26,73 +27,16 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  ImageField,
+  FieldProps,
 } from "react-admin";
 import { MediaField } from "./Common/MediaField";
 import { MediaInput } from "./Common/MediaInput";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
-import RichTextInput from "./Common/RichTextInput";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "media";
-
-const ytVideoRegExp =
-  /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-_]*)(&(amp;)?[\w?=]*)?/;
-const bitchuteVideoRegExp =
-  /http(?:s?):\/\/(?:www\.)?bitchute\.com\/video\/([\w\-_]*)/;
-const odyseeVideoRegExp =
-  /http(?:s?):\/\/(?:www\.)?odysee\.com\/\$\/download\/([^/]+)\/([^/]+)$/;
-const rumbleVideoRegExp =
-  /http(?:s?):\/\/(?:www\.)?rumble\.com\/embed\/([\w\-_]*)\/?([\w?=]*)/;
-
-const peertubeVideoRegExp =
-  /http(?:s?):\/\/([^/]+)\/videos\/watch\/([^/]+)(&(amp;)?[\w?=]*)?/;
-
-export const parsePlatformURL = (url: string): E.Either<Error, string> => {
-  const match = url.match(ytVideoRegExp);
-  if (match !== null && typeof match[1] === "string") {
-    return E.right(`https://www.youtube.com/embed/${match[1]}`);
-  }
-
-  const matchBitchute = url.match(bitchuteVideoRegExp);
-
-  if (matchBitchute !== null && typeof matchBitchute[1] === "string") {
-    return E.right(`https://www.bitchute.com/embed/${matchBitchute[1]}/`);
-  }
-
-  // Odysee
-  const odyseeMatch = url.match(odyseeVideoRegExp);
-  if (
-    typeof odyseeMatch?.[1] === "string" &&
-    typeof odyseeMatch?.[2] === "string"
-  ) {
-    return E.right(
-      `https://odysee.com/$/embed/${odyseeMatch[1]}/${odyseeMatch[2]}`
-    );
-  }
-
-  // rumble
-  const rumbleMatch = url.match(rumbleVideoRegExp);
-  if (
-    t.string.is(rumbleMatch?.[1]) &&
-    t.string.is(rumbleMatch?.[2]) &&
-    rumbleMatch[2].startsWith("?pub=")
-  ) {
-    return E.right(url);
-  }
-
-  const peertubeMatch = url.match(peertubeVideoRegExp);
-  if (
-    typeof peertubeMatch?.[1] === "string" &&
-    typeof peertubeMatch?.[2] === "string"
-  ) {
-    return E.right(
-      `https://${peertubeMatch[1]}/videos/embed/${peertubeMatch[2]}`
-    );
-  }
-
-  return E.left(new Error(`Cant parse url ${url}`));
-};
 
 const parseURL = (
   url: string
@@ -162,7 +106,7 @@ export const MediaList: React.FC<ListProps> = (props) => (
   >
     <Datagrid rowClick="edit">
       <TextField source="type" />
-      <MediaField source="location" />
+      <ImageField source="thumbnail" />
       <TextField source="description" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
@@ -204,17 +148,56 @@ const EditTitle: React.FC<EditProps> = ({ record }: any) => {
   return <span>Media {record?.description}</span>;
 };
 
+const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
+  return (
+    <Button
+      onClick={() => {
+        void apiProvider
+          .put(`media/${props.record.id}`, {
+            ...props.record,
+            overrideThumbnail: true,
+          })
+          .then(() => {
+            refresh();
+          });
+      }}
+    >
+      Generate Thumbnail
+    </Button>
+  );
+};
+
+export const ThumbnailField: React.FC<FieldProps> = (props) => {
+  const [loaded, setLoaded] = React.useState(false);
+  return (
+    <Box>
+      {!loaded ? (
+        <Box onClick={() => {
+          setLoaded(true)
+        }}>
+          <TextInput {...props} source="thumbnail" type={"url"} />
+          <ImageField {...props} source="thumbnail" />
+        </Box>
+      ) : (
+        <Box>
+          <MediaField {...props} source="location" />
+          <MediaInput {...props} sourceLocation="location" sourceType="type" />
+        </Box>
+      )}
+
+      <GenerateThumbnailButton {...props} />
+    </Box>
+  );
+};
+
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit title={<EditTitle {...props} />} {...props} transform={transformMedia}>
     <TabbedForm>
       <FormTab label="general">
-        <TextInput source="location" type={"url"} />
-        <MediaField source="location" />
-        <MediaInput sourceLocation="location" sourceType="type" />
+        <ThumbnailField />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
-
-        <RichTextInput source="description" />
+        <TextInput source="description" />
       </FormTab>
       <FormTab label="events">
         <ReferenceArrayEventInput source="events" defaultValue={[]} />
@@ -261,7 +244,7 @@ export const MediaCreate: React.FC<CreateProps> = (props) => (
           return (
             <Box>
               <MediaInput sourceType="type" sourceLocation="location" />
-              <RichTextInput
+              <TextInput
                 source="description"
                 defaultValue=""
                 validate={[required()]}

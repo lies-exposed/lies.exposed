@@ -18,16 +18,24 @@ export interface AppTest {
 }
 
 export const initAppTest = async (): Promise<AppTest> => {
+  const fetchHTML = jest.fn();
   const fetchMetadata = jest.fn();
 
   return pipe(
     makeContext(process.env),
     TE.map((ctx) => ({
       ...ctx,
+      puppeteer: {} as any,
       s3: MakeSpaceClient({
         client: awsMock as any,
       }),
       urlMetadata: {
+        fetchHTML: (url: string, opts: any) => {
+          return TE.tryCatch(
+            () => fetchHTML(url, opts) as any as Promise<any>,
+            (e) => e as any
+          );
+        },
         fetchMetadata: (url: string, opts: any) => {
           return TE.tryCatch(
             () => fetchMetadata(url, opts) as any as Promise<any>,
@@ -40,7 +48,8 @@ export const initAppTest = async (): Promise<AppTest> => {
       ctx: ctx,
       mocks: {
         urlMetadata: {
-          fetchMetadata,
+          fetchHTML: fetchHTML as any,
+          fetchMetadata: fetchMetadata as any,
         },
       },
       req: supertest(makeApp(ctx)),

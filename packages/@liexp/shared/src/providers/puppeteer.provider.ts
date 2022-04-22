@@ -1,5 +1,7 @@
 /* eslint-disable import/default */
+import * as fs from "fs";
 import * as logger from "@liexp/core/logger";
+import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import type * as puppeteer from "puppeteer-core";
@@ -78,8 +80,36 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
 const makePuppeteerError = (name: string, message: string): PuppeteerError =>
   toPuppeteerError({ name, message });
 
+export function getChromePath(): E.Either<PuppeteerError, string> {
+  const knownPaths = [
+    '/usr/bin/chromium-browser',
+    "/usr/bin/google-chrome",
+    "/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+    "/Program Files/Google/Chrome/Application/chrome.exe",
+    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  ];
+
+  const chromePath = knownPaths.find((p) => fs.existsSync(p));
+
+  puppeteerLogger.debug.log("Chrome path %s", chromePath);
+
+  if (!chromePath) {
+    return E.left(toPuppeteerError(new Error("Can't find chrome path")));
+  }
+
+  return E.right(chromePath);
+}
+
+type BrowserLaunchOpts = puppeteer.LaunchOptions &
+  puppeteer.BrowserLaunchArgumentOptions;
+
 export interface PuppeteerProvider {
-  browser: puppeteer.Browser;
+  getBrowser: (
+    url: string,
+    opts: BrowserLaunchOpts
+  ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>;
   goToPage: (
     url: string
   ) => (
@@ -90,37 +120,96 @@ export interface PuppeteerProvider {
   getPageText: (
     r: puppeteer.HTTPResponse
   ) => TE.TaskEither<error.CoreError, string>;
-  close: () => TE.TaskEither<error.CoreError, void>;
 }
 
 // const browserPages = (b: puppeteer.Browser) => TE.tryCatch(() => b.pages(), toPuppeteerError);
 // const closePage = (p: puppeteer.Page) => TE.tryCatch(() => p.close(), toPuppeteerError);
 
-type MakeCOPPuppeteerClient = (browser: puppeteer.Browser) => PuppeteerProvider;
-
-const MakeCOPPuppeteerClient = (
+export type GetPuppeteerProvider = (
   browser: puppeteer.Browser
+) => PuppeteerProvider;
+
+export const GetPuppeteerProvider = (
+  pup: VanillaPuppeteer,
+  defaultOpts: BrowserLaunchOpts
 ): PuppeteerProvider => {
-  browser.on("disconnected", (e) => {
-    puppeteerLogger.debug.log("browser disconnected", e);
-  });
+  puppeteerLogger.debug.log(`PuppeteerClient with options %O`, defaultOpts);
+
+  const launch = (
+    launchOpts: BrowserLaunchOpts
+  ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
+    return pipe(
+      getChromePath(),
+      TE.fromEither,
+      TE.chain((executablePath) => {
+        return TE.tryCatch(() => {
+          const p = addExtra(pup as any);
+          p.use(puppeteerStealth());
+
+          const options = {
+            executablePath,
+            ...(defaultOpts as any),
+            ...launchOpts,
+          }
+          return pup.launch({
+            ...options,
+            headless: true
+          }) as Promise<any> as Promise<puppeteer.Browser>;
+        }, toPuppeteerError);
+      }),
+      TE.map((b) => {
+        b.on("disconnected", (e) => {
+          puppeteerLogger.debug.log("browser disconnected", e);
+        });
+        return b;
+      })
+    );
+  };
+
+  const execute = (
+    launchOpts: BrowserLaunchOpts,
+    te: (
+      b: puppeteer.Browser
+    ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>
+  ): TE.TaskEither<PuppeteerError, void> => {
+    return pipe(
+      launch(launchOpts),
+      TE.chain((b) => te(b)),
+      TE.chain((b) => TE.tryCatch(() => b.close(), toPuppeteerError))
+    );
+  };
+
+  const getBrowser = (
+    url: string,
+    opts: BrowserLaunchOpts
+  ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
+    return launch({ ...defaultOpts, ...opts });
+  };
 
   const download = (url: string): TE.TaskEither<PuppeteerError, void> => {
-    return TE.tryCatch(async () => {
-      const page = await browser.newPage();
-      await page.goto(url);
-      await page.click("button");
-    }, toPuppeteerError);
+    return execute(defaultOpts, (b) => {
+      return TE.tryCatch(async () => {
+        const page = await b.newPage();
+        await page.goto(url);
+        await page.click("button");
+        return b;
+      }, toPuppeteerError);
+    });
   };
 
   const getBrowserFirstPage = (): TE.TaskEither<
     PuppeteerError,
     puppeteer.Page
   > => {
-    return TE.tryCatch(() => {
-      puppeteerLogger.debug.log("getting first browser page");
-      return browser.pages().then((pages) => pages[0]);
-    }, toPuppeteerError);
+    return pipe(
+      launch(defaultOpts),
+      TE.chain((browser) => {
+        return TE.tryCatch(() => {
+          puppeteerLogger.debug.log("getting first browser page");
+          return browser.pages().then((pages) => pages[0]);
+        }, toPuppeteerError);
+      })
+    );
   };
 
   const goToPage = (url: string) => (page: puppeteer.Page) => {
@@ -156,40 +245,10 @@ const MakeCOPPuppeteerClient = (
   };
 
   return {
-    browser,
+    getBrowser,
     goToPage,
     download,
     getBrowserFirstPage,
     getPageText,
-    close: () => TE.tryCatch(() => browser.close(), toPuppeteerError),
-  };
-};
-
-export interface PuppeteerClient {
-  launch: (
-    opts?: puppeteer.BrowserLaunchArgumentOptions
-  ) => TE.TaskEither<PuppeteerError, PuppeteerProvider>;
-}
-
-export type MakePuppeteerClient = (
-  p: VanillaPuppeteer,
-  launchOpts: puppeteer.LaunchOptions & puppeteer.BrowserLaunchArgumentOptions
-) => PuppeteerClient;
-export const MakePuppeteerClient: MakePuppeteerClient = (p, launchOpts) => {
-  puppeteerLogger.debug.log(
-    `PuppeteerClient with options paths %O`,
-    launchOpts
-  );
-  const pup = addExtra(p);
-  pup.use(puppeteerStealth());
-
-  return {
-    launch: (opts) =>
-      pipe(
-        TE.tryCatch(() => {
-          return pup.launch({ ...launchOpts, ...(opts as any) });
-        }, toPuppeteerError),
-        TE.map((b) => MakeCOPPuppeteerClient(b as any))
-      ),
   };
 };

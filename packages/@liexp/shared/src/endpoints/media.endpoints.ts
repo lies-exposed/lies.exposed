@@ -60,9 +60,11 @@ export const Edit = Endpoint({
     Params: t.type({ id: t.string }),
     Body: nonEmptyRecordFromType({
       type: Media.MediaType,
+      thumbnail: t.string,
       location: t.string,
       description: t.string,
       events: t.array(t.string),
+      overrideThumbnail: t.boolean,
     }),
   },
   Output: SingleMediaOutput,

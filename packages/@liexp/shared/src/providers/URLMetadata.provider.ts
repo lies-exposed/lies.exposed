@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import domino from "domino";
+import domino from 'domino';
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { Metadata, metadataRuleSets } from "page-metadata-parser";
@@ -20,12 +20,16 @@ export interface URLMetadataClient {
     opts: any,
     toError: (e: unknown) => E
   ) => TE.TaskEither<E, Metadata>;
+  fetchHTML: <E>(
+    url: string,
+    opts: any,
+    toError: (e: unknown) => E
+  ) => TE.TaskEither<E, string>;
 }
 
 interface MakeURLMetadataContext {
   client: AxiosInstance;
   parser: {
-    toDOM: (html: string) => Document;
     getMetadata: (dom: Document, url: string, opts?: any) => Metadata;
   };
 }
@@ -33,22 +37,38 @@ interface MakeURLMetadataContext {
 export const MakeURLMetadata = (
   ctx: MakeURLMetadataContext
 ): URLMetadataClient => {
-  const fetchMetadata = <E>(
+
+  const fetchHTML = <E>(
     url: string,
     opts: any,
     toError: (e: unknown) => E
-  ): TE.TaskEither<E, Metadata> => {
+  ): TE.TaskEither<E, string> => {
     return pipe(
       TE.tryCatch(
         () =>
           ctx.client.get<any, { data: string }>(url, { responseType: "text" }),
         toError
       ),
-      TE.map((data) => data.data),
-      TE.map((html) => domino.createWindow(html).document),
-      TE.map((dom) => ctx.parser.getMetadata(dom, url, metadataRuleSets))
+      TE.map((data) => data.data)
     );
   };
 
-  return { fetchMetadata };
+  const fetchMetadata = <E>(
+    url: string,
+    opts: any,
+    toError: (e: unknown) => E
+  ): TE.TaskEither<E, Metadata> => {
+    return pipe(
+      fetchHTML(url, opts, toError),
+      TE.map((dom) =>
+        ctx.parser.getMetadata(
+          domino.createWindow(dom).document,
+          url,
+          metadataRuleSets
+        )
+      )
+    );
+  };
+
+  return { fetchHTML, fetchMetadata };
 };

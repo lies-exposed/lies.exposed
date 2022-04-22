@@ -1,10 +1,10 @@
 import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
+import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
 import * as AWS from "aws-sdk";
 import axios from "axios";
 import cors from "cors";
-import domino from "domino";
 import express from "express";
 import jwt from "express-jwt";
 import { sequenceS } from "fp-ts/lib/Apply";
@@ -13,6 +13,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
+import puppeteer from "puppeteer-core";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -95,7 +96,6 @@ export const makeContext = (
           MakeURLMetadata({
             client: axios,
             parser: {
-              toDOM: (html) => domino.createWindow(html).document,
               getMetadata: metadataParser.getMetadata,
             },
           })
@@ -105,6 +105,12 @@ export const makeContext = (
           TGBotProvider({
             token: env.TG_BOT_TOKEN,
             chat: env.TG_BOT_CHAT,
+          })
+        ),
+        puppeteer: TE.right(
+          GetPuppeteerProvider(puppeteer as any, {
+            headless: true,
+            args: ["--no-sandbox"],
           })
         ),
       });
