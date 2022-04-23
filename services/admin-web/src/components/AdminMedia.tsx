@@ -1,7 +1,7 @@
 import { parsePlatformURL } from "@liexp/shared/helpers/media";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { Box, Button } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -29,6 +29,8 @@ import {
   TextInput,
   ImageField,
   FieldProps,
+  FunctionField,
+  BooleanInput,
 } from "react-admin";
 import { MediaField } from "./Common/MediaField";
 import { MediaInput } from "./Common/MediaInput";
@@ -89,6 +91,7 @@ const MediaFilters: React.FC = (props: any) => {
   return (
     <Filter {...props}>
       <TextInput source="description" alwaysOn size="small" />
+      <BooleanInput source="emptyEvents" alwaysOn size="small" />
     </Filter>
   );
 };
@@ -101,13 +104,34 @@ export const MediaList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "createdAt",
       _order: "DESC",
+      emptyValues: false,
     }}
     perPage={20}
   >
     <Datagrid rowClick="edit">
-      <TextField source="type" />
       <ImageField source="thumbnail" />
-      <TextField source="description" />
+      <FunctionField
+        label="events"
+        render={(r) => {
+          const url = new URL(r.location);
+          return (
+            <Box>
+              <Typography variant="h6" style={{
+                fontSize: 14
+              }}>{url.hostname}</Typography>
+              <Typography variant="subtitle1">{r.type}</Typography>
+              <Typography variant="body1">{r.description}</Typography>
+            </Box>
+          );
+        }}
+      />
+      <FunctionField
+        label="events"
+        render={(r) => {
+          return r.events.length;
+        }}
+      />
+
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -174,13 +198,13 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
       {!loaded ? (
         <Box>
           <TextInput {...props} source="thumbnail" type={"url"} />
-          <ImageField
-            {...props}
-            source="thumbnail"
+          <Box
             onClick={() => {
               setLoaded(true);
             }}
-          />
+          >
+            <ImageField {...props} source="thumbnail" />
+          </Box>
         </Box>
       ) : (
         <Box>

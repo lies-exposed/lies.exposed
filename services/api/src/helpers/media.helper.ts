@@ -1,4 +1,5 @@
 import { getPlatform, VideoPlatformMatch } from "@liexp/shared/helpers/media";
+import { Media } from "@liexp/shared/io/http";
 import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as E from "fp-ts/lib/Either";
@@ -27,7 +28,7 @@ export const extractThumbnail = (
 
             const coverUrl = style
               ?.replace('background-image: url("', "")
-              .replace(';")', "");
+              .replace('");', "");
 
             return coverUrl;
           });
@@ -55,7 +56,7 @@ export const extractThumbnail = (
 
             const coverUrl = style
               ?.replace('background-image: url("', "")
-              .replace('")', "");
+              .replace('");', "");
 
             return coverUrl;
           });
@@ -84,16 +85,21 @@ export const extractThumbnail = (
 
 export const createThumbnail =
   (ctx: RouteContext) =>
-  (location: string): TE.TaskEither<ControllerError, string> => {
+  (location: Media.Media): TE.TaskEither<ControllerError, string> => {
     ctx.logger.debug.log("Extracting thumbnail from url %s", location);
+
+    if (Media.ImageType.is(location.type)) {
+      return TE.right(location.location);
+    }
+
     return pipe(
       sequenceS(TE.ApplyPar)({
         html: pipe(
-          ctx.puppeteer.getBrowser(location, {}),
+          ctx.puppeteer.getBrowser(location.location, {}),
           TE.chain((b) => {
             return TE.tryCatch(async () => {
               const page = await b.pages().then((p) => p[0]);
-              await page.goto(location, { waitUntil: "networkidle0" });
+              await page.goto(location.location, { waitUntil: "networkidle0" });
 
               return page;
             }, toPuppeteerError);
@@ -101,7 +107,7 @@ export const createThumbnail =
           TE.mapLeft((e) => ServerError(e as any))
         ),
         match: pipe(
-          getPlatform(location),
+          getPlatform(location.location),
           E.mapLeft((e) => ServerError(e as any)),
           TE.fromEither
         ),

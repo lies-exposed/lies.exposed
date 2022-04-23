@@ -14,7 +14,7 @@ import { getORMOptions } from "@utils/orm.utils";
 export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Media.List,
-    ({ query: { events, ids, description, type, ...query } }) => {
+    ({ query: { events, ids, description, type, emptyEvents, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -56,6 +56,10 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             return q.where("events.id IN (:...eventIds)", {
               eventIds: events.value,
             });
+          } else if (O.isSome(emptyEvents)) {
+            if (emptyEvents) {
+              return q.where('events.id IS NULL')
+            }
           }
 
           return q;

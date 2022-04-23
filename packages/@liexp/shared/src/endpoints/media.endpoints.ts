@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { BooleanFromString } from 'io-ts-types';
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
@@ -21,7 +22,8 @@ export const List = Endpoint({
       events: optionFromNullable(t.array(t.string)),
       ids: optionFromNullable(t.array(t.string)),
       description: optionFromNullable(t.string),
-    }),
+      emptyEvents: optionFromNullable(BooleanFromString)
+    }, 'MediaListQuery'),
   },
   Output: ListMediaOutput,
 });

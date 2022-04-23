@@ -82,7 +82,7 @@ const makePuppeteerError = (name: string, message: string): PuppeteerError =>
 
 export function getChromePath(): E.Either<PuppeteerError, string> {
   const knownPaths = [
-    '/usr/bin/chromium-browser',
+    "/usr/bin/chromium-browser",
     "/usr/bin/google-chrome",
     "/Program Files (x86)/Google/Chrome/Application/chrome.exe",
     "/Program Files/Google/Chrome/Application/chrome.exe",
@@ -135,6 +135,8 @@ export const GetPuppeteerProvider = (
 ): PuppeteerProvider => {
   puppeteerLogger.debug.log(`PuppeteerClient with options %O`, defaultOpts);
 
+  // let _pup: puppeteer.Browser;
+
   const launch = (
     launchOpts: BrowserLaunchOpts
   ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
@@ -150,11 +152,15 @@ export const GetPuppeteerProvider = (
             executablePath,
             ...(defaultOpts as any),
             ...launchOpts,
-          }
-          return pup.launch({
-            ...options,
-            headless: true
-          }) as Promise<any> as Promise<puppeteer.Browser>;
+          };
+
+          return pup
+            .launch({
+              ...options,
+              headless: true,
+            })
+            .then((b) => b as any as puppeteer.Browser);
+
         }, toPuppeteerError);
       }),
       TE.map((b) => {

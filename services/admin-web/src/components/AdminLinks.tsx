@@ -2,6 +2,7 @@ import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
+  BooleanInput,
   Button,
   Create,
   CreateProps,
@@ -39,6 +40,7 @@ const LinksFilter: React.FC = (props: any) => {
       <ReferenceArrayInput source="events" reference="events" alwaysOn>
         <AutocompleteArrayInput optionText="payload.title" />
       </ReferenceArrayInput>
+      <BooleanInput source="emptyEvents" alwaysOn />
     </Filter>
   );
 };

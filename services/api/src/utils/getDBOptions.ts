@@ -5,7 +5,7 @@ import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";
 import { ArticleEntity } from "@entities/Article.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { EventSuggestionEntity } from '@entities/EventSuggestion.entity';
+import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
@@ -17,12 +17,15 @@ import { ProjectImageEntity } from "@entities/ProjectImage.entity";
 import { UserEntity } from "@entities/User.entity";
 import { DeathEventEntity } from "@entities/archive/DeathEvent.entity";
 import { EventEntity } from "@entities/archive/Event.entity";
-import { MediaV1Entity } from '@entities/archive/Media.v1.entity';
+import { MediaV1Entity } from "@entities/archive/Media.v1.entity";
 import { ScientificStudyEntity } from "@entities/archive/ScientificStudy.entity";
 import { ENV } from "@io/ENV";
 import { DatabaseConnectionOpts } from "@providers/orm";
 
-export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
+export const getDBOptions = (
+  env: ENV,
+  forMigration: boolean
+): DatabaseConnectionOpts => {
   const ssl =
     env.DB_SSL_MODE === "require"
       ? {
@@ -40,6 +43,17 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
     database: env.DB_DATABASE,
     port: env.DB_PORT,
     entities: [
+      ...(forMigration
+        ? [
+            // old
+            EventEntity,
+            DeathEventEntity,
+            ScientificStudyEntity,
+            MediaV1Entity,
+          ]
+        : []),
+
+      // current
       PageEntity,
       ActorEntity,
       GroupEntity,
@@ -54,11 +68,6 @@ export const getDBOptions = (env: ENV): DatabaseConnectionOpts => {
       KeywordEntity,
       UserEntity,
       EventSuggestionEntity,
-      // old
-      EventEntity,
-      DeathEventEntity,
-      ScientificStudyEntity,
-      MediaV1Entity
     ],
     synchronize: env.NODE_ENV === "test",
     ssl: ssl,

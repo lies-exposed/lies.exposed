@@ -22,4 +22,4 @@ if (decodedEnv._tag === "Left") {
 }
 const env = decodedEnv.right;
 
-module.exports = getDBOptions(env);
+module.exports = getDBOptions(env, true);
