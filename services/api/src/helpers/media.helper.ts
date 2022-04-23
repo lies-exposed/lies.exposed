@@ -27,7 +27,7 @@ export const extractThumbnail = (
 
             const coverUrl = style
               ?.replace('background-image: url("', "")
-              .replace('")', "");
+              .replace(';")', "");
 
             return coverUrl;
           });

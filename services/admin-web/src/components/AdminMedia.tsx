@@ -172,16 +172,27 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
   return (
     <Box>
       {!loaded ? (
-        <Box onClick={() => {
-          setLoaded(true)
-        }}>
+        <Box>
           <TextInput {...props} source="thumbnail" type={"url"} />
-          <ImageField {...props} source="thumbnail" />
+          <ImageField
+            {...props}
+            source="thumbnail"
+            onClick={() => {
+              setLoaded(true);
+            }}
+          />
         </Box>
       ) : (
         <Box>
           <MediaField {...props} source="location" />
           <MediaInput {...props} sourceLocation="location" sourceType="type" />
+          <Button
+            onClick={() => {
+              setLoaded(false);
+            }}
+          >
+            Preview
+          </Button>
         </Box>
       )}
 
