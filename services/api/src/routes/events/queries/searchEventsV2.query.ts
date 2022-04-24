@@ -28,6 +28,7 @@ interface SearchEventQuery {
   title: O.Option<string>;
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;
+  exclude: O.Option<string[]>
   withDeleted: boolean;
   withDrafts: boolean;
   skip: number;
@@ -44,6 +45,7 @@ interface SearchEventOutput {
 export const searchEventV2Query =
   ({ db, logger }: RouteContext) =>
   ({
+    exclude,
     actors,
     groups,
     groupsMembers: _groupsMembers,
@@ -101,6 +103,13 @@ export const searchEventV2Query =
             .leftJoinAndSelect("event.links", "links"),
           (q) => {
             let hasWhere = false;
+
+            if (O.isSome(exclude)) {
+              q.where('event.id NOT IN (:...ids)', {
+                ids: exclude.value
+              })
+            }
+
             if (O.isSome(title)) {
               const trimmedWords = title.value.replace(
                 /[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi,

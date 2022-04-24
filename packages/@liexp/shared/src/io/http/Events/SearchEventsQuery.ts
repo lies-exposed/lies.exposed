@@ -17,6 +17,7 @@ export const GetSearchEventsQuery = t.strict(
     startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
     title: optionFromUndefined(t.string),
+    exclude: optionFromUndefined(t.array(t.string)),
     withDeleted: optionFromUndefined(BooleanFromString),
     withDrafts: optionFromUndefined(BooleanFromString),
   },
