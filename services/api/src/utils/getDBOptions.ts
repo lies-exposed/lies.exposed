@@ -24,7 +24,7 @@ import { DatabaseConnectionOpts } from "@providers/orm";
 
 export const getDBOptions = (
   env: ENV,
-  forMigration: boolean
+  includeOldEntities: boolean
 ): DatabaseConnectionOpts => {
   const ssl =
     env.DB_SSL_MODE === "require"
@@ -43,7 +43,7 @@ export const getDBOptions = (
     database: env.DB_DATABASE,
     port: env.DB_PORT,
     entities: [
-      ...(forMigration
+      ...(includeOldEntities
         ? [
             // old
             EventEntity,

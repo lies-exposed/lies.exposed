@@ -36,7 +36,7 @@ export default async (): Promise<void> => {
           return TE.right(undefined);
         }
         return pipe(
-          orm.GetTypeORMClient(getDBOptions(env)),
+          orm.GetTypeORMClient(getDBOptions(env, false)),
           TE.orElse(TE.throwError)
         );
       })

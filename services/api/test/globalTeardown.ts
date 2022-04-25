@@ -38,7 +38,7 @@ export default async (): Promise<void> => {
         }
 
         return pipe(
-          orm.GetTypeORMClient(getDBOptions(env)),
+          orm.GetTypeORMClient(getDBOptions(env, false)),
           TE.chain((db) => db.close()),
           TE.orElse(TE.throwError)
         );
