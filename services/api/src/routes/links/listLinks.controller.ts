@@ -22,6 +22,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         events,
         ids,
         title,
+        emptyEvents,
         ...findOptions,
       });
 
@@ -43,14 +44,16 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
             });
           }
 
+          if (emptyEvents._tag === "Some") {
+            if (emptyEvents.value) {
+              return q.where("events.id IS NULL");
+            }
+          }
+
           if (events._tag === "Some") {
             return q.where("events.id IN (:...events)", {
               events: events.value,
             });
-          } else if (emptyEvents._tag === "Some") {
-            if (emptyEvents.value) {
-              return q.where("events.id IS NULL");
-            }
           }
 
           return q;
@@ -62,11 +65,11 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
           return q;
         },
         (q) => {
-          //   ctx.logger.debug.log(
-          //     "Get links query %s, %O",
-          //     q.getSql(),
-          //     q.getParameters()
-          //   );
+            // ctx.logger.debug.log(
+            //   "Get links query %s, %O",
+            //   q.getSql(),
+            //   q.getParameters()
+            // );
           return ctx.db.execQuery(() =>
             q.skip(findOptions.skip).take(findOptions.take).getManyAndCount()
           );
