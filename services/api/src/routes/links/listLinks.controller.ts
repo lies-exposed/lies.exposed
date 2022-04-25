@@ -12,7 +12,7 @@ import { getORMOptions, addOrder } from "@utils/orm.utils";
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Link.List,
-    ({ query: { events, ids, title, ...query } }) => {
+    ({ query: { events, ids, title, emptyEvents, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -22,17 +22,15 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         events,
         ids,
         title,
+        emptyEvents,
         ...findOptions,
       });
 
       const listGroupsMembersTE = pipe(
         ctx.db.manager
           .createQueryBuilder(LinkEntity, "link")
-          .select()
-          .distinct()
-          .loadAllRelationIds({
-            relations: ["events", "keywords"],
-          }),
+          .leftJoinAndSelect("link.events", "events")
+          .leftJoinAndSelect("link.keywords", "keywords"),
         (q) => {
           if (title._tag === "Some") {
             return q.where("lower(link.title) LIKE :title", {
@@ -46,11 +44,18 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
             });
           }
 
+          if (emptyEvents._tag === "Some") {
+            if (emptyEvents.value) {
+              return q.where("events.id IS NULL");
+            }
+          }
+
           if (events._tag === "Some") {
             return q.where("events.id IN (:...events)", {
               events: events.value,
             });
           }
+
           return q;
         },
         (q) => {
@@ -60,11 +65,11 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
           return q;
         },
         (q) => {
-          //   ctx.logger.debug.log(
-          //     "Get links query %s, %O",
-          //     q.getSql(),
-          //     q.getParameters()
-          //   );
+            // ctx.logger.debug.log(
+            //   "Get links query %s, %O",
+            //   q.getSql(),
+            //   q.getParameters()
+            // );
           return ctx.db.execQuery(() =>
             q.skip(findOptions.skip).take(findOptions.take).getManyAndCount()
           );
@@ -75,7 +80,10 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         listGroupsMembersTE,
         TE.chainEitherK(([results, total]) =>
           pipe(
-            results,
+            results.map((r) => ({
+              ...r,
+              events: r.events.map((e) => e.id) as any[],
+            })),
             A.traverse(E.Applicative)(toLinkIO),
             E.map((data) => ({ data, total }))
           )

@@ -144,7 +144,11 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 <ShareButtons
                   urlPath={`/events/${event.id}`}
                   title={title}
-                  message={getTextContentsCapped(event.excerpt as any, 100)}
+                  message={
+                    isValidValue(event.excerpt)
+                      ? getTextContentsCapped(event.excerpt, 100)
+                      : ""
+                  }
                   keywords={[]}
                   style={{
                     display: "flex",

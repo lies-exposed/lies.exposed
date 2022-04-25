@@ -28,9 +28,15 @@ interface PDFMediaElementProps {
   className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.PDFType };
   style?: React.CSSProperties;
+  onLoad?: () => void;
 }
 
-const PDFMediaElement: React.FC<PDFMediaElementProps> = ({ media, className, ...props }) => {
+const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
+  media,
+  className,
+  onLoad,
+  ...props
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -40,6 +46,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({ media, className, ...
       display="flex"
       alignItems="center"
       justifyContent="center"
+      onLoad={onLoad}
     >
       {media.thumbnail ?? <img className={className} src={media.thumbnail} />}
       <Button

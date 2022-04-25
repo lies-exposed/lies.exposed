@@ -33,12 +33,14 @@ interface SliderProps extends SlickSlider.Settings {
   maxHeight?: number;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
+  onLoad?: () => void
 }
 
 export const Slider: React.FC<SliderProps> = ({
   slides,
   maxHeight = 400,
   itemStyle,
+  onLoad,
   ...props
 }) => {
   const theme = useTheme();
@@ -75,6 +77,7 @@ export const Slider: React.FC<SliderProps> = ({
             media={s}
             className={classes.item}
             style={itemStyle}
+            onLoad={onLoad}
           />
         </div>
       ))}

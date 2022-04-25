@@ -798,9 +798,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "@eslint/eslintrc@npm:1.2.1"
+"@eslint/eslintrc@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "@eslint/eslintrc@npm:1.2.2"
   dependencies:
     ajv: ^6.12.4
     debug: ^4.3.2
@@ -811,7 +811,7 @@ __metadata:
     js-yaml: ^4.1.0
     minimatch: ^3.0.4
     strip-json-comments: ^3.1.1
-  checksum: 1f797b9f94d71b965992cf6c44e3bcb574643014fd1e3d4862d25056bd5568f59c488461a7e9a1c1758ca7f0def5d3cb69c3d8b38581bcf4a53af74371243797
+  checksum: d891036bbffb0efec1462aa4a603ed6e349d546b1632dde7d474ddd15c2a8b6895671b25293f1d3ba10ff629c24a3649ad049373fe695a0e44b612537088563c
   languageName: node
   linkType: hard
 
@@ -1181,14 +1181,14 @@ __metadata:
     copy-webpack-plugin: ^10.2.4
     css-loader: ^6.7.1
     dotenv-webpack: ^7.1.0
-    eslint: ^8.13.0
+    eslint: ^8.14.0
     eslint-plugin-import: ^2.26.0
     express: ^4.17.3
     fast-check: ^2.24.0
     fast-check-io-ts: ^0.5.0
     file-loader: ^6.2.0
     filemanager-webpack-plugin: ^6.1.7
-    fp-ts: ^2.11.10
+    fp-ts: ^2.12.0
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.0
     io-ts: ^2.2.16
@@ -1228,7 +1228,7 @@ __metadata:
     cheerio: ^1.0.0-rc.10
     date-fns: ^1.30.1
     domino: ^2.1.6
-    fp-ts: ^2.11.10
+    fp-ts: ^2.12.0
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     jest: ^27.5.1
@@ -1313,10 +1313,10 @@ __metadata:
     d3-sankey: ^0.12.3
     d3-sankey-circular: ^0.34.0
     date-fns: ^1.30.1
-    eslint: ^8.13.0
+    eslint: ^8.14.0
     eslint-plugin-import: ^2.26.0
-    fp-ts: ^2.11.10
-    geotiff: ^2.0.4
+    fp-ts: ^2.12.0
+    geotiff: ^2.0.5
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     jest: ^27.5.1
@@ -1329,7 +1329,7 @@ __metadata:
     react-error-boundary: ^3.1.4
     react-helmet: ^6.1.0
     react-helmet-async: ^1.3.0
-    react-query: ^3.35.0
+    react-query: ^3.38.0
     react-slick: ^0.29.0
     react-spring: ^9.4.4
     react-toc: ^2.1.1
@@ -3189,10 +3189,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.27":
-  version: 16.11.27
-  resolution: "@types/node@npm:16.11.27"
-  checksum: 6ed0c8c4d29a549d0cfd607d19edf9a4668fbd39087701d923b4a04cd760564e47ad27f9403968cb9c11ee006f0ea6ab698b2491b4b2d2dec3f4a53d0fc22df7
+"@types/node@npm:^16.11.28":
+  version: 16.11.28
+  resolution: "@types/node@npm:16.11.28"
+  checksum: aba39c8a9fdac1d73f69e5308b669952d607504ac2bd6f9f99201b8b974baedd52ca43f8cbbbb2e5015269eb2c680a85f80a4416816accb6019029bae3a7714c
   languageName: node
   linkType: hard
 
@@ -4553,7 +4553,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.182
-    "@types/node": ^16.11.27
+    "@types/node": ^16.11.28
     "@types/prettier": ^2.6.0
     "@types/react": ^16.14.25
     "@types/react-dom": ^16.9.14
@@ -4562,7 +4562,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.20.0
     "@typescript-eslint/parser": ^5.20.0
     debug: ^4.3.4
-    eslint: ^8.13.0
+    eslint: ^8.14.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.1
@@ -4572,7 +4572,7 @@ __metadata:
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
     final-form: ^4.20.6
-    fp-ts: ^2.11.10
+    fp-ts: ^2.12.0
     history: ^4.10.1
     is-plain-object: ^5.0.0
     jest: ^27.5.1
@@ -4589,7 +4589,7 @@ __metadata:
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
     react-helmet: ^6.1.0
-    react-query: ^3.35.0
+    react-query: ^3.38.0
     ts-jest: ^27.1.4
     typescript: ^4.6.3
     uuid: ^8.3.2
@@ -4831,27 +4831,27 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.27
+    "@types/node": ^16.11.28
     "@types/node-cron": ^2.0.5
     "@types/node-telegram-bot-api": ^0.56.2
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1116.0
+    aws-sdk: ^2.1120.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
     domino: ^2.1.6
-    eslint: ^8.13.0
+    eslint: ^8.14.0
     eslint-config-prettier: ^8.5.0
     eslint-import-resolver-typescript: ^2.7.1
     eslint-plugin-import: ^2.26.0
     express: 4.17.3
-    express-jwt: ^6.1.1
+    express-jwt: ^6.1.2
     fast-check: ^2.24.0
     fast-csv: ^4.3.6
     form-data: ^4.0.0
-    fp-ts: ^2.11.10
+    fp-ts: ^2.12.0
     front-matter: 4.0.2
     gray-matter: ^4.0.3
     io-ts: ^2.2.16
@@ -5188,13 +5188,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:^1.5.0":
-  version: 1.5.2
-  resolution: "async@npm:1.5.2"
-  checksum: fe5d6214d8f15bd51eee5ae8ec5079b228b86d2d595f47b16369dec2e11b3ff75a567bb5f70d12d79006665fbbb7ee0a7ec0e388524eefd454ecbe651c124ebd
-  languageName: node
-  linkType: hard
-
 "async@npm:^2.6.2, async@npm:^2.6.3, async@npm:~2.6.1":
   version: 2.6.3
   resolution: "async@npm:2.6.3"
@@ -5204,7 +5197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:^3.2.0, async@npm:~3.2.0":
+"async@npm:^3.2.0, async@npm:^3.2.2, async@npm:~3.2.0":
   version: 3.2.3
   resolution: "async@npm:3.2.3"
   checksum: c4bee57ab2249af3dc83ca3ef9acfa8e822c0d5e5aa41bae3eaf7f673648343cd64ecd7d26091ffd357f3f044428b17b5f00098494b6cf8b6b3e9681f0636ca1
@@ -5243,9 +5236,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1116.0":
-  version: 2.1116.0
-  resolution: "aws-sdk@npm:2.1116.0"
+"aws-sdk@npm:^2.1120.0":
+  version: 2.1120.0
+  resolution: "aws-sdk@npm:2.1120.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5256,7 +5249,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 9042676e51c7bf52b30924daac864637e712e9d6cac7616b98e2adb3fea0f9c87005eea86f98ec4b167edd65716cf78f018cd9666d03080c76ae990b02132e09
+  checksum: 3ff5aed04001da73177bfa33ebf15fe7e8803e587433428377abbb59014d1a28c97b0f6d154a4e1ad0b1754eb182db13f46c3062c3915023c7489d43f7a66755
   languageName: node
   linkType: hard
 
@@ -8521,11 +8514,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.13.0":
-  version: 8.13.0
-  resolution: "eslint@npm:8.13.0"
+"eslint@npm:^8.14.0":
+  version: 8.14.0
+  resolution: "eslint@npm:8.14.0"
   dependencies:
-    "@eslint/eslintrc": ^1.2.1
+    "@eslint/eslintrc": ^1.2.2
     "@humanwhocodes/config-array": ^0.9.2
     ajv: ^6.10.0
     chalk: ^4.0.0
@@ -8562,7 +8555,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: bc7d2fc9a046d42cb2c8987573ecaf534c1fae14747c4695e32388e179c5f21b83eefdb3e4f35924bf76152e226d7cc9dfb21f12348baf12c803109005b17439
+  checksum: 87d2e3e5eb93216d4ab36006e7b8c0bfad02f40b0a0f193f1d42754512cd3a9d8244152f1c69df5db2e135b3c4f1c10d0ed2f0881fe8a8c01af55465968174c1
   languageName: node
   linkType: hard
 
@@ -8747,15 +8740,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-jwt@npm:^6.1.1":
-  version: 6.1.1
-  resolution: "express-jwt@npm:6.1.1"
+"express-jwt@npm:^6.1.2":
+  version: 6.1.2
+  resolution: "express-jwt@npm:6.1.2"
   dependencies:
-    async: ^1.5.0
+    async: ^3.2.2
     express-unless: ^1.0.0
     jsonwebtoken: ^8.1.0
     lodash: ^4.17.21
-  checksum: 91b3da4c2bb080a2c3d125327a492f6f2b90a55c3b0fbdf51c78e979b636a6c94cb73fd2dbcebbdd5eedd9dcfe858f2b4ea4ce9c1285e60547f246546d31d9c1
+  checksum: 3263e10197e1d94585adc8c0e3b2d857a37443ae3feb7612264ac7bacfe348b0d8b9d80c6306c7172c7257a0fe2e9abc5983207524a1b51cb258b3efe866e76b
   languageName: node
   linkType: hard
 
@@ -9326,10 +9319,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.0.0, fp-ts@npm:^2.11.10":
+"fp-ts@npm:^2.0.0":
   version: 2.11.10
   resolution: "fp-ts@npm:2.11.10"
   checksum: 4a6b5f99eeb2876bba85674d058b034f5bb3a728c4339f9ef7d45be36f100255eed3d5fe2c067b4a2a0efc00cda544895d43e30f90683e4bfc9b1a03d9b8d541
+  languageName: node
+  linkType: hard
+
+"fp-ts@npm:^2.12.0":
+  version: 2.12.0
+  resolution: "fp-ts@npm:2.12.0"
+  checksum: 0f078feb261529f1b709a791016ecaee1b8d64a69bf7d999c6dcfcf058b4150e8deab4ee8074a0840f5c237711a9680f06a8b46ff59ef27efddfaea6d2810c45
   languageName: node
   linkType: hard
 
@@ -9506,7 +9506,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"geotiff@npm:^2.0.4":
+"geotiff@npm:^2.0.5":
   version: 2.0.5
   resolution: "geotiff@npm:2.0.5"
   dependencies:
@@ -12152,7 +12152,7 @@ __metadata:
     "@types/prettier": ^2.6.0
     "@typescript-eslint/eslint-plugin": ^5.20.0
     "@typescript-eslint/parser": ^5.20.0
-    eslint: ^8.13.0
+    eslint: ^8.14.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.1
@@ -12163,7 +12163,7 @@ __metadata:
     husky: ^7.0.4
     is-ci: ^3.0.1
     jest: ^27.5.1
-    lint-staged: ^12.3.8
+    lint-staged: ^12.4.0
     pinst: ^2.1.6
     pm2: ^5.2.0
     prettier: ^2.6.2
@@ -12187,9 +12187,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.3.8":
-  version: 12.3.8
-  resolution: "lint-staged@npm:12.3.8"
+"lint-staged@npm:^12.4.0":
+  version: 12.4.0
+  resolution: "lint-staged@npm:12.4.0"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -12207,7 +12207,7 @@ __metadata:
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: af6a89ae4244e4eac7180c6e7da452f378fd156ff38eaa666ecbb78f1e2efb7f1a9fc766dcc1cdde2bd76e03da68e602056ca9d2f1c6e46cf10aa83d20bf4d49
+  checksum: e25b273a73b79f224ff1ccb22432c34a9050fe8318b9cf7e08c748e2efc80e1f48ed4f2aa61cd16a701bb7fd6323ecf0d94a497c97732db04f2b5382d6b70131
   languageName: node
   linkType: hard
 
@@ -15455,9 +15455,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.35.0":
-  version: 3.35.0
-  resolution: "react-query@npm:3.35.0"
+"react-query@npm:^3.38.0":
+  version: 3.38.0
+  resolution: "react-query@npm:3.38.0"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
@@ -15469,7 +15469,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 07f5986a85c78274f25d5f725eb11b7abe9248d771b5c72397cd9fbc183acafbb5d1db5d426e833aeb28aeb42934035370e7b1cdc52c185733ea3035dced40a5
+  checksum: 9318952a3e09f1716edd7f934c6d78b8bb94d1b1cce2d6e8fe5b9298009394da0ef16c5ad57797561bb2bee894a9bce9ffeacdf9276466270e5ed232f5d5097f
   languageName: node
   linkType: hard
 
@@ -19006,7 +19006,7 @@ __metadata:
     d3: ^5.16.0
     debug: ^4.3.4
     dotenv: ^16.0.0
-    eslint: ^8.13.0
+    eslint: ^8.14.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
     eslint-import-resolver-typescript: ^2.7.1
@@ -19016,7 +19016,7 @@ __metadata:
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
     express: ^4.17.3
-    fp-ts: ^2.11.10
+    fp-ts: ^2.12.0
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     is-plain-object: ^5.0.0

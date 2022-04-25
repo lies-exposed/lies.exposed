@@ -23,9 +23,18 @@ export const getShareMedia = (
   media: http.Media.Media[],
   defaultImage: string
 ): string => {
-  return (
-    media.find((m) => http.Media.ImageType.is(m.type))?.location ?? defaultImage
-  );
+  const cover = media.reduce<string | undefined>((cover, m) => {
+    if (!cover) {
+      if (http.Media.IframeVideoType.is(m.type)) {
+        return m.thumbnail;
+      } else if (http.Media.ImageType.is(m.type)) {
+        return m.thumbnail;
+      }
+    }
+    return cover;
+  }, undefined);
+
+  return cover ?? defaultImage;
 };
 
 export const getSuggestions = (

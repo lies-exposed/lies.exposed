@@ -252,12 +252,14 @@ interface EventRelationIds {
   groupsMembers: string[];
   keywords: string[];
   media: string[];
+  links: string[]
 }
 
 export const getRelationIds = (e: Events.Event): EventRelationIds => {
   const commonIds = {
     media: e.media,
     keywords: e.keywords,
+    links: e.links
   };
 
   switch (e.type) {

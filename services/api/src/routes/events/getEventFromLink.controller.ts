@@ -183,6 +183,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 groupsMembers: O.none,
                 keywords: O.none,
                 media: O.none,
+                exclude: O.none,
                 links: pipe(
                   link,
                   O.map((l) => [l.id])

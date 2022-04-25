@@ -47,6 +47,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
                     onGroupClick={() => {}}
                     onGroupMemberClick={() => {}}
                     onKeywordClick={() => {}}
+                    onRowInvalidate={() => {}}
                   />
                 );
               })}

@@ -46,6 +46,7 @@ interface TransactionListItemProps {
   onClick?: (e: Events.SearchEvent.SearchTransactionEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
+  onRowInvalidate: (e: Events.SearchEvent.SearchTransactionEvent) => void;
 }
 
 export const TransactionListItem: React.FC<TransactionListItemProps> = ({

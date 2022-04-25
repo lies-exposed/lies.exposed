@@ -61,7 +61,7 @@ export const makeContext = (
     TE.chain((env) => {
       return sequenceS(TE.ApplicativePar)({
         logger: TE.right(serverLogger),
-        db: GetTypeORMClient(getDBOptions(env)),
+        db: GetTypeORMClient(getDBOptions(env, false)),
         s3:
           env.NODE_ENV === "development" || env.NODE_ENV === "test"
             ? TE.right(

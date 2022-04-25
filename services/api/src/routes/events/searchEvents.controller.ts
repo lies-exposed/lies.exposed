@@ -24,6 +24,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
       endDate,
       type,
       title,
+      exclude,
       withDeleted,
       withDrafts,
       ...queryRest
@@ -56,6 +57,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
         startDate,
         endDate,
         media,
+        exclude,
         withDeleted: O.getOrElse(() => false)(withDeleted),
         withDrafts: O.getOrElse(() => false)(withDrafts),
         ...findOptions,

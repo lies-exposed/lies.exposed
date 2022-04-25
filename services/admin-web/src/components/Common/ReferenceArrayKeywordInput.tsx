@@ -19,7 +19,7 @@ const ReferenceArrayKeywordInput: React.FC<
       >
         <AutocompleteArrayInput optionText="tag" />
       </ReferenceArrayInput>
-      {props.showAdd ? (
+      {showAdd ? (
         <Link to="/keywords" target="_blank">
           Add new keyword
         </Link>

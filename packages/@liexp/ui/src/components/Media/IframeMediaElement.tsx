@@ -16,10 +16,12 @@ interface IframeMediaElementProps {
   media: Omit<Media.Media, "type"> & { type: Media.IframeVideoType };
   className?: string;
   style?: React.CSSProperties;
+  onLoad?: () => void;
 }
 
 const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   media,
+  onLoad,
   ...props
 }) => {
   const classes = useStyles();
@@ -51,6 +53,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
         // console.log("on error capture", e);
         // e.preventDefault();
       }}
+      onLoad={onLoad}
     />
   ) : (
     <div
@@ -62,6 +65,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
     >
       <img
         src={media.thumbnail}
+        onLoad={onLoad}
         style={{
           width: "100%",
           height: "auto",

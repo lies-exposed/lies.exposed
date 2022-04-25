@@ -183,14 +183,19 @@ export const useMediaQuery = (
   return useQuery(["media", params], fetchMedia);
 };
 
+export const fetchLinks = async ({
+  queryKey,
+}: any): Promise<{ data: Link.Link[]; total: number }> => {
+  const params = queryKey[1];
+  return R.isEmpty(params.filter)
+    ? await emptyQuery()
+    : await Queries.Link.getList(params);
+};
+
 export const useLinksQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Link.Link[]; total: number }, APIError> => {
-  return useQuery(["links"], async () => {
-    return params.filter.ids?.length === 0
-      ? await emptyQuery()
-      : await Queries.Link.getList(params);
-  });
+  return useQuery(["links", params], fetchLinks);
 };
 
 export const usePageContentByPathQuery = ({

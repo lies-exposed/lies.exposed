@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface EventListItemBaseProps {
+interface EventListItemBaseProps<E> {
+  event: E;
   title: string;
   type: EventType;
   url?: string;
@@ -42,9 +43,12 @@ interface EventListItemBaseProps {
   media: http.Media.Media[];
   links: string[];
   onKeywordClick?: (k: http.Keyword.Keyword) => void;
+  onRowInvalidate: (e: E) => void;
+  onLoad?: () => void;
 }
 
-const EventListItemBase: React.FC<EventListItemBaseProps> = ({
+const EventListItemBase = <E extends any>({
+  event,
   title,
   url,
   type,
@@ -53,7 +57,9 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
   media,
   links,
   onKeywordClick,
-}) => {
+  onRowInvalidate,
+  onLoad,
+}: EventListItemBaseProps<E>): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -135,6 +141,7 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
               <Slider
                 slides={media}
                 itemStyle={{ minHeight: 400, maxHeight: 400 }}
+                onLoad={onLoad}
               />
             </Box>
           </Grid>
@@ -147,8 +154,22 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
         O.fold(
           () => null,
           (ll) => (
-            <Grid item lg={12} md={12} sm={12} xs={12}>
-              <LinksBox ids={ll} />
+            <Grid
+              item
+              lg={12}
+              md={12}
+              sm={12}
+              xs={12}
+            >
+              <LinksBox
+                ids={ll}
+                onOpen={() => {
+                  onRowInvalidate(event);
+                }}
+                onClose={() => {
+                  onRowInvalidate(event);
+                }}
+              />
             </Grid>
           )
         )

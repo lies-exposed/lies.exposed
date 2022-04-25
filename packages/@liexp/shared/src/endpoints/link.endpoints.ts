@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { BooleanFromString } from "io-ts-types";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output, UUID } from "../io/http/Common";
@@ -18,6 +19,7 @@ export const List = Endpoint({
       title: optionFromNullable(t.string),
       events: optionFromNullable(t.array(UUID)),
       ids: optionFromNullable(t.array(UUID)),
+      emptyEvents: optionFromNullable(BooleanFromString),
     }),
   },
   Output: ManyLinkOutput,

@@ -21,10 +21,13 @@ export interface EventListItemProps {
   onGroupClick: (g: Group.Group) => void;
   onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
   onKeywordClick: (k: Keyword.Keyword) => void;
+  onRowInvalidate: (e: Events.SearchEvent.SearchEvent) => void;
+  onLoad?: () => void;
 }
 
 export const EventListItem: React.FC<EventListItemProps> = ({
   event: e,
+  onLoad,
   ...props
 }) => {
   switch (e.type) {

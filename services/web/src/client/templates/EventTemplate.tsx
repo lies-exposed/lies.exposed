@@ -3,7 +3,7 @@ import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import {
   useEventQuery,
-  useMediaQuery
+  useMediaQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Box, Grid, useTheme } from "@material-ui/core";
 import * as React from "react";
@@ -12,7 +12,6 @@ import EventsBox from "../components/events/EventsBox";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
-
   const theme = useTheme();
   const navigateTo = useNavigateToResource();
 
@@ -54,13 +53,13 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
               }}
               onLinkClick={() => {}}
             />
-            <Box padding={theme.spacing(1)}>
+            <Box padding={theme.spacing(2)}>
               <Grid container justifyContent="center">
                 {keywords.length > 0 ? (
                   <Grid item md={8} sm={12} xs={12}>
                     <EventsBox
                       title="More events by keywords"
-                      query={{ keywords, _start: 0, _end: 3 }}
+                      query={{ keywords, _start: 0, _end: 3, exclude: [event.id] }}
                     />
                   </Grid>
                 ) : null}
@@ -68,7 +67,12 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                   <Grid item md={8} sm={12} xs={12}>
                     <EventsBox
                       title="More events by actors"
-                      query={{ actors, _start: 0, _end: 3 }}
+                      query={{
+                        actors,
+                        _start: 0,
+                        _end: 5,
+                        exclude: [event.id],
+                      }}
                     />
                   </Grid>
                 ) : null}
@@ -76,7 +80,12 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                   <Grid item md={8} sm={12} xs={12}>
                     <EventsBox
                       title="More events by groups"
-                      query={{ groups, _start: 0, _end: 3 }}
+                      query={{
+                        groups,
+                        _start: 0,
+                        _end: 3,
+                        exclude: [event.id],
+                      }}
                     />
                   </Grid>
                 ) : null}
