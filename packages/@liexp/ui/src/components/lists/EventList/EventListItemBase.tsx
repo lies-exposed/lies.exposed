@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface EventListItemBaseProps {
+interface EventListItemBaseProps<E> {
+  event: E;
   title: string;
   type: EventType;
   url?: string;
@@ -42,9 +43,11 @@ interface EventListItemBaseProps {
   media: http.Media.Media[];
   links: string[];
   onKeywordClick?: (k: http.Keyword.Keyword) => void;
+  onRowInvalidate: (e: E) => void;
 }
 
-const EventListItemBase: React.FC<EventListItemBaseProps> = ({
+const EventListItemBase = <E extends any>({
+  event,
   title,
   url,
   type,
@@ -53,7 +56,8 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
   media,
   links,
   onKeywordClick,
-}) => {
+  onRowInvalidate,
+}: EventListItemBaseProps<E>): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -147,8 +151,20 @@ const EventListItemBase: React.FC<EventListItemBaseProps> = ({
         O.fold(
           () => null,
           (ll) => (
-            <Grid item lg={12} md={12} sm={12} xs={12}>
-              <LinksBox ids={ll} />
+            <Grid item lg={12} md={12} sm={12} xs={12} style={{ height: 300 }}>
+              <LinksBox
+                ids={ll}
+                style={{
+                  maxHeight: 300
+                }}
+                defaultExpanded={true}
+                onOpen={() => {
+                  onRowInvalidate(event);
+                }}
+                onClose={() => {
+                  onRowInvalidate(event);
+                }}
+              />
             </Grid>
           )
         )

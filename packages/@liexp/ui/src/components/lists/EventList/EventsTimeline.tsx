@@ -59,6 +59,7 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
     isLast,
     style,
     isVisible,
+    onRowInvalidate,
   } = props;
 
   if (!isVisible) {
@@ -82,25 +83,27 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
     <EventTimelineItem
       isLast={isLast}
       event={event}
+      style={style}
       onClick={onClick}
       onKeywordClick={onKeywordClick}
       onActorClick={onActorClick}
       onGroupClick={onGroupClick}
       onGroupMemberClick={onGroupMemberClick}
-      style={style}
+      onRowInvalidate={onRowInvalidate}
     />
   );
 };
 
 export const getItemHeight = (
   e: SearchEvent.SearchEvent,
-  isDownMD: boolean
+  isDownMD: boolean,
+  linksOpen: boolean
 ): number => {
   const excerptHeight = isValidValue(e.excerpt as any) ? 120 : 0;
 
   const keywordsHeight = e.keywords.length > 0 ? 50 : 0;
   const mediaHeight = e.media.length > 0 ? 450 : 0;
-  const linksHeight = e.links.length > 0 ? 50 : 0;
+  const linksHeight = e.links.length > 0 ? (linksOpen ? 300 : 50) : 0;
   switch (e.type) {
     case TRANSACTION.value:
       if (isDownMD) {
@@ -122,13 +125,7 @@ export const getItemHeight = (
           scientificStudyHeight
         );
       }
-      return (
-        180 +
-        (isValidValue(e.excerpt as any) ? 100 : 0) +
-        (e.keywords.length > 0 ? 50 : 0) +
-        (e.media.length > 0 ? 400 : 0) +
-        (e.links.length > 0 ? 50 : 0)
-      );
+      return 180 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
     }
   }
 };
@@ -139,7 +136,8 @@ export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
 }
 
-let _loadedRowsMap: Record<number, JSX.Element> = {};
+let _linksOpenInRowMap: Record<number, boolean> = {};
+let _loadedRowsMap: Record<number, JSX.Element | undefined> = {};
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
@@ -227,14 +225,13 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     return rowLoaded;
   };
 
-  const getRowHeight = React.useCallback(
-    ({ index }: Index) => {
-      const event = searchEvents?.events[index];
+  const getRowHeight = ({ index }: Index): number => {
+    const event = searchEvents?.events[index];
+    const linksOpen = _linksOpenInRowMap[index] ?? false;
+    _linksOpenInRowMap[index] = linksOpen;
 
-      return event ? getItemHeight(event, isDownSM) : 150;
-    },
-    [searchEvents?.events.length ?? 0]
-  );
+    return event ? getItemHeight(event, isDownSM, true) : 150;
+  };
 
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
     if (hasNextPage && !isFetchingNextPage && !isFetching) {
@@ -248,6 +245,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
 
   React.useEffect(() => {
     _loadedRowsMap = {};
+    _linksOpenInRowMap = {};
     void refetch({ refetchPage: () => true });
   }, [hash]);
 
@@ -301,6 +299,11 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                         key={event.id}
                         event={event}
                         isLast={isLast}
+                        onRowInvalidate={() => {
+                          _loadedRowsMap[props.index] = undefined;
+                          _linksOpenInRowMap[props.index] = !_linksOpenInRowMap[props.index];
+
+                        }}
                       />
                     );
                     _loadedRowsMap[props.index] = row;

@@ -17,6 +17,7 @@ interface UncategorizedListItemProps {
   onGroupClick?: (e: Group.Group) => void;
   onGroupMemberClick?: (g: GroupMember.GroupMember) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
+  onRowInvalidate: (e: Events.SearchEvent.SearchUncategorizedEvent) => void;
 }
 
 export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
@@ -26,7 +27,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   onGroupClick,
   onGroupMemberClick,
   onKeywordClick,
-  ...props
+  onRowInvalidate,
 }) => {
   return (
     <Box
@@ -41,6 +42,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
     >
       <Grid container spacing={2} style={{ width: "100%", maxWidth: "100%" }}>
         <EventListItemBase
+          event={item}
           type={Events.Uncategorized.UNCATEGORIZED.value}
           title={item.payload.title}
           excerpt={item.excerpt}
@@ -48,6 +50,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
           media={item.media}
           links={item.links}
           onKeywordClick={onKeywordClick}
+          onRowInvalidate={onRowInvalidate}
         />
       </Grid>
     </Box>

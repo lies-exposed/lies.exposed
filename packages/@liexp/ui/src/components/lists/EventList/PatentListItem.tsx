@@ -8,6 +8,7 @@ interface PatentListItemProps {
   onClick?: (e: Events.SearchEvent.SearchPatentEvent) => void;
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
+  onRowInvalidate: (e: Events.SearchEvent.SearchPatentEvent) => void;
 }
 
 const PatentListItem: React.FC<PatentListItemProps> = ({
@@ -15,6 +16,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
   onClick,
   onActorClick,
   onKeywordClick,
+  onRowInvalidate,
 }) => {
   // const victim = actors.find((a) => a.id === item.payload.victim);
 
@@ -29,6 +31,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <EventListItemBase
+        event={item}
         type={Events.Patent.PATENT.value}
         title={item.payload.title}
         url={item.payload.source}
@@ -37,6 +40,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
         media={item.media}
         links={item.links}
         onKeywordClick={onKeywordClick}
+        onRowInvalidate={onRowInvalidate}
       />
     </Box>
   );

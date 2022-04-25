@@ -4,6 +4,7 @@ import {
   fetchGroup,
   fetchGroups,
   fetchGroupsMembers,
+  fetchLinks,
   fetchMedia,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
@@ -123,6 +124,23 @@ export const routes = [
           },
         ],
         queryFn: fetchMedia,
+      },
+      {
+        queryKey: [
+          "links",
+          {
+            sort: {
+              field: "createdAt",
+              order: "DESC",
+            },
+            pagination: {
+              perPage: 1,
+              page: 1,
+            },
+            filter: { events: [eventId] },
+          },
+        ],
+        queryFn: fetchLinks,
       },
     ],
   },

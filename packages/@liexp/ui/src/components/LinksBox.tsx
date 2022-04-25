@@ -1,11 +1,11 @@
 import { http } from "@liexp/shared/io";
-import { formatDate } from "@liexp/shared/utils/date";
+// import { formatDate } from "@liexp/shared/utils/date";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
-  Link,
+  Grid,
   Typography,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMoreOutlined";
@@ -15,27 +15,28 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { useLinksQuery } from "../state/queries/DiscreteQueries";
+import LinkCard from "./Cards/LinkCard";
 import QueriesRenderer from "./QueriesRenderer";
 
-interface LinkListItemProps {
-  data: http.Link.Link;
-}
+// interface LinkListItemProps {
+//   data: http.Link.Link;
+// }
 
-const LinkListItem: React.FC<LinkListItemProps> = ({ data }) => {
-  return (
-    <Box>
-      {data.publishDate ? (
-        <Typography variant="caption">
-          {" "}
-          ({formatDate(data.publishDate)})
-        </Typography>
-      ) : (
-        " "
-      )}{" "}
-      - <Link href={data.url}>{data.title}</Link>
-    </Box>
-  );
-};
+// const LinkListItem: React.FC<LinkListItemProps> = ({ data }) => {
+//   return (
+//     <Box>
+//       {data.publishDate ? (
+//         <Typography variant="caption">
+//           {" "}
+//           ({formatDate(data.publishDate)})
+//         </Typography>
+//       ) : (
+//         " "
+//       )}{" "}
+//       - <Link href={data.url}>{data.title}</Link>
+//     </Box>
+//   );
+// };
 
 interface LinksListProps {
   links: http.Link.Link[];
@@ -43,20 +44,31 @@ interface LinksListProps {
 
 export const LinksList: React.FC<LinksListProps> = ({ links }) => {
   return (
-    <Box>
+    <Grid container spacing={2}>
       {links.map((l, i) => (
-        <LinkListItem key={l.id} data={l} />
+        <Grid key={l.id} item md={3} sm={4} xs={2}>
+          <LinkCard link={l} />
+        </Grid>
       ))}
-    </Box>
+    </Grid>
   );
 };
 
 interface LinksBoxProps {
   ids: string[];
-  defaultExpanded?: boolean
+  defaultExpanded?: boolean;
+  style?: React.CSSProperties;
+  onOpen?: () => void;
+  onClose?: () => void;
 }
 
-export const LinksBox: React.FC<LinksBoxProps> = ({ ids, defaultExpanded = false }) => {
+export const LinksBox: React.FC<LinksBoxProps> = ({
+  ids,
+  defaultExpanded = false,
+  onOpen,
+  onClose,
+  style,
+}) => {
   const [expanded, setExpanded] = React.useState(defaultExpanded);
 
   return pipe(
@@ -73,11 +85,17 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids, defaultExpanded = false
           }}
           onChange={(e, expanded) => {
             setExpanded(expanded);
+            if (expanded) {
+              onOpen?.();
+            } else {
+              onClose?.();
+            }
           }}
           elevation={0}
           style={{
             width: "100%",
             background: "transparent",
+            maxHeight: "100%",
           }}
         >
           <AccordionSummary
@@ -90,6 +108,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids, defaultExpanded = false
               justifyContent: "center",
               width: "100%",
               padding: 0,
+              height: "100%",
             }}
           >
             <Box display="flex" width="100%" padding={0}>
@@ -99,11 +118,15 @@ export const LinksBox: React.FC<LinksBoxProps> = ({ ids, defaultExpanded = false
               </Typography>
             </Box>
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails
+            style={{
+              maxHeight: "100%",
+            }}
+          >
             <QueriesRenderer
               queries={{
                 links: useLinksQuery({
-                  pagination: { page: 1, perPage: 10 },
+                  pagination: { page: 1, perPage: ids.length },
                   sort: { field: "createdAt", order: "DESC" },
                   filter: {
                     ids: expanded ? ids : [],
