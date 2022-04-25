@@ -36,6 +36,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
       <Button
         color="secondary"
         variant="contained"
+        size="small"
         onClick={() => {
           void apiProvider
             .getOne(`events`, { id })
