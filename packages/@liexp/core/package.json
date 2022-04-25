@@ -12,7 +12,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "dependencies": {
-    "fp-ts": "^2.11.10",
+    "fp-ts": "^2.12.0",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16"
   },
@@ -33,7 +33,7 @@
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.7.1",
     "dotenv-webpack": "^7.1.0",
-    "eslint": "^8.13.0",
+    "eslint": "^8.14.0",
     "eslint-plugin-import": "^2.26.0",
     "express": "^4.17.3",
     "fast-check": "^2.24.0",
