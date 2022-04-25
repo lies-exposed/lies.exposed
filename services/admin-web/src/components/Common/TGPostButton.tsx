@@ -1,3 +1,4 @@
+import { formatDate } from "@liexp/shared/utils/date";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { getShareMedia, getTitle } from "@liexp/ui/helpers/event.helper";
 import {
@@ -20,6 +21,7 @@ interface TGPostButtonProps extends FieldProps {
 
 const emptySharePayload = {
   title: undefined,
+  date: undefined,
   media: undefined,
   content: undefined,
   url: undefined,
@@ -65,7 +67,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
             .then((event) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
               const title = getTitle(event as any);
-
+              const date = formatDate(event.date);
               const media = getShareMedia(
                 event.media,
                 `${process.env.WEB_URL}/liexp-logo-1200x630.png`
@@ -74,6 +76,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
               const url = `${process.env.WEB_URL}/events/${id}`;
               setSharePayload({
                 title,
+                date,
                 media,
                 content,
                 url,
@@ -88,10 +91,20 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
         <DialogContent>
           {sharePayload ? (
             <Box style={{ width: "100%" }}>
-              <Typography>{sharePayload.title}</Typography>
+              <Typography>
+                <Link href={sharePayload.url}>{sharePayload.title}</Link>
+              </Typography>
               <img src={sharePayload.media} style={{ width: "100%" }} />
-              <Typography>{sharePayload.content}</Typography>
-              <Link href={sharePayload.url}>{sharePayload.url}</Link>
+              <Typography>
+                <Link
+                  href={`${process.env.WEB_URL}/events?startDate=${formatDate(
+                    sharePayload.date
+                  )}`}
+                >
+                  {sharePayload.date}
+                </Link>
+                - {sharePayload.content}
+              </Typography>
             </Box>
           ) : null}
         </DialogContent>

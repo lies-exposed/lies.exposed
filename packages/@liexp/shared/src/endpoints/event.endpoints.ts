@@ -67,6 +67,7 @@ export const PostToPlatform = Endpoint({
     Params: t.type({ id: t.string }),
     Body: t.type({
       title: t.string,
+      date: t.string,
       content: t.string,
       media: t.string,
       url: t.string
