@@ -44,6 +44,7 @@ interface EventListItemBaseProps<E> {
   links: string[];
   onKeywordClick?: (k: http.Keyword.Keyword) => void;
   onRowInvalidate: (e: E) => void;
+  onLoad?: () => void;
 }
 
 const EventListItemBase = <E extends any>({
@@ -57,6 +58,7 @@ const EventListItemBase = <E extends any>({
   links,
   onKeywordClick,
   onRowInvalidate,
+  onLoad,
 }: EventListItemBaseProps<E>): JSX.Element => {
   const classes = useStyles();
 
@@ -139,6 +141,7 @@ const EventListItemBase = <E extends any>({
               <Slider
                 slides={media}
                 itemStyle={{ minHeight: 400, maxHeight: 400 }}
+                onLoad={onLoad}
               />
             </Box>
           </Grid>
@@ -151,13 +154,15 @@ const EventListItemBase = <E extends any>({
         O.fold(
           () => null,
           (ll) => (
-            <Grid item lg={12} md={12} sm={12} xs={12} style={{ height: 300 }}>
+            <Grid
+              item
+              lg={12}
+              md={12}
+              sm={12}
+              xs={12}
+            >
               <LinksBox
                 ids={ll}
-                style={{
-                  maxHeight: 300
-                }}
-                defaultExpanded={true}
                 onOpen={() => {
                   onRowInvalidate(event);
                 }}

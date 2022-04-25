@@ -9,11 +9,13 @@ interface MediaElementProps {
   media: Media.Media;
   className?: string;
   style?: React.CSSProperties;
+  onLoad?: () => void;
 }
 
 const MediaElement: React.FC<MediaElementProps> = ({
   media,
   className,
+  style,
   ...props
 }) => {
   const mediaElement = React.useMemo(() => {
@@ -27,26 +29,29 @@ const MediaElement: React.FC<MediaElementProps> = ({
       case Media.MediaType.types[5].value:
         return (
           <IframeMediaElement
+            {...props}
             className={className}
             media={{ ...media, type: "iframe/video" }}
             style={{
               ...commonStyle,
-              ...props.style,
+              ...style,
             }}
           />
         );
       case Media.MediaType.types[4].value: {
         return (
           <PDFMediaElement
+            {...props}
             className={className}
             media={{ ...media, type: "application/pdf" }}
-            style={{ ...commonStyle, ...props.style }}
+            style={{ ...commonStyle, ...style }}
           />
         );
       }
       case Media.MediaType.types[3].value: {
         return (
           <Video
+            {...props}
             className={className}
             src={media.location}
             type={"video/mp4"}
@@ -56,7 +61,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             autoPlay={false}
             style={{
               ...commonStyle,
-              ...props.style,
+              ...style,
             }}
           />
         );
@@ -64,9 +69,10 @@ const MediaElement: React.FC<MediaElementProps> = ({
       default:
         return (
           <ExpandableImageElement
+            {...props}
             className={className}
             media={media as any}
-            style={{ ...commonStyle, ...props.style }}
+            style={{ ...commonStyle, ...style }}
           />
         );
     }

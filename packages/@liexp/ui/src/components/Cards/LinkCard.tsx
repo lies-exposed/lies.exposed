@@ -18,10 +18,17 @@ interface LinkCardProps {
 }
 
 const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
+  const title = link.title?.substring(0, 20).concat("...");
   return (
-    <Card>
+    <Card
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        maxHeight: 300,
+      }}
+    >
       <CardHeader
-        title={<Typography variant="subtitle1">{link.title}</Typography>}
+        title={<Typography variant="subtitle1">{title}</Typography>}
         subheader={
           link.publishDate ? (
             <Typography variant="caption">
@@ -30,8 +37,13 @@ const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
           ) : undefined
         }
       />
-      <CardHeader>{link.title}</CardHeader>
-      <CardMedia component="img" image={link.image} />
+      <CardMedia
+        component="img"
+        image={link.image}
+        style={{
+          maxHeight: 100,
+        }}
+      />
 
       <CardContent>
         <Typography variant="body2">

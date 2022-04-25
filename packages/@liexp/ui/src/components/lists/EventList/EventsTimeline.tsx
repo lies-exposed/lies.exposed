@@ -3,21 +3,15 @@ import {
   Documentary,
   Patent,
   ScientificStudy,
-  SearchEvent,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
-import {
-  Box,
-  CircularProgress,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Box, makeStyles } from "@material-ui/core";
 import * as React from "react";
 import {
   AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
   Index,
   IndexRange,
   InfiniteLoader,
@@ -28,7 +22,6 @@ import {
   SearchEventQueryInput,
   searchEventsInfiniteQuery,
 } from "../../../state/queries/SearchEventsQuery";
-import { isValidValue } from "../../Common/Editor";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
 import { EventListItemProps } from "./EventListItem";
 import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
@@ -48,8 +41,16 @@ const useStyles = makeStyles((props) => ({
   },
 }));
 
-const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
+const cellCache = new CellMeasurerCache({
+  fixedWidth: true,
+  minWidth: 200,
+});
+
+const Row: React.FC<
+  ListRowProps & Omit<EventTimelineItemProps, "onLoad" | "onRowInvalidate">
+> = (props) => {
   const {
+    key,
     event,
     onClick,
     onKeywordClick,
@@ -57,9 +58,10 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
     onGroupClick,
     onGroupMemberClick,
     isLast,
-    style,
     isVisible,
-    onRowInvalidate,
+    style,
+    parent,
+    index,
   } = props;
 
   if (!isVisible) {
@@ -73,71 +75,89 @@ const Row: React.FC<ListRowProps & EventTimelineItemProps> = (props) => {
           width: "100%",
           ...props.style,
         }}
-      >
-        <CircularProgress />
-      </div>
+      />
     );
   }
 
   return (
-    <EventTimelineItem
-      isLast={isLast}
-      event={event}
-      style={style}
-      onClick={onClick}
-      onKeywordClick={onKeywordClick}
-      onActorClick={onActorClick}
-      onGroupClick={onGroupClick}
-      onGroupMemberClick={onGroupMemberClick}
-      onRowInvalidate={onRowInvalidate}
-    />
+    <CellMeasurer
+      key={key}
+      cache={cellCache}
+      columnIndex={0}
+      rowIndex={index}
+      parent={parent}
+    >
+      {({ registerChild, measure }) => {
+        return (
+          <EventTimelineItem
+            ref={registerChild}
+            isLast={isLast}
+            event={event}
+            style={style}
+            onClick={onClick}
+            onKeywordClick={onKeywordClick}
+            onActorClick={onActorClick}
+            onGroupClick={onGroupClick}
+            onGroupMemberClick={onGroupMemberClick}
+            onRowInvalidate={() => {
+              cellCache.clear(index, 0);
+              setTimeout(() => {
+                measure();
+              }, 300);
+            }}
+            onLoad={measure}
+          />
+        );
+      }}
+    </CellMeasurer>
   );
 };
 
-export const getItemHeight = (
-  e: SearchEvent.SearchEvent,
-  isDownMD: boolean,
-  linksOpen: boolean
-): number => {
-  const excerptHeight = isValidValue(e.excerpt as any) ? 120 : 0;
+// export const getItemHeight = (
+//   e: SearchEvent.SearchEvent,
+//   isDownMD: boolean,
+//   linksOpen: boolean
+// ): number => {
+//   const excerptHeight = isValidValue(e.excerpt as any) ? 120 : 0;
 
-  const keywordsHeight = e.keywords.length > 0 ? 50 : 0;
-  const mediaHeight = e.media.length > 0 ? 450 : 0;
-  const linksHeight = e.links.length > 0 ? (linksOpen ? 300 : 50) : 0;
-  switch (e.type) {
-    case TRANSACTION.value:
-      if (isDownMD) {
-        return 240 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
-      }
+//   const keywordsHeight = e.keywords.length > 0 ? 50 : 0;
+//   const mediaHeight = e.media.length > 0 ? 450 : 0;
+//   const linksHeight = e.links.length > 0 ? (linksOpen ? 380 : 50) : 0;
+//   switch (e.type) {
+//     case TRANSACTION.value:
+//       if (isDownMD) {
+//         return 240 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
+//       }
 
-      return 200 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
-    default: {
-      if (isDownMD) {
-        const scientificStudyHeight =
-          e.type === "ScientificStudy" && e.payload.url ? 50 : 0;
+//       return 200 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
+//     default: {
+//       if (isDownMD) {
+//         const scientificStudyHeight =
+//           e.type === "ScientificStudy" && e.payload.url ? 50 : 0;
 
-        return (
-          200 +
-          excerptHeight +
-          keywordsHeight +
-          mediaHeight +
-          linksHeight +
-          scientificStudyHeight
-        );
-      }
-      return 180 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
-    }
-  }
-};
+//         return (
+//           200 +
+//           excerptHeight +
+//           keywordsHeight +
+//           mediaHeight +
+//           linksHeight +
+//           scientificStudyHeight
+//         );
+//       }
+//       return 180 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
+//     }
+//   }
+// };
 
-export interface EventsTimelineProps extends Omit<EventListItemProps, "event"> {
+export interface EventsTimelineProps
+  extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
   className?: string;
   hash: string;
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
 }
 
-let _linksOpenInRowMap: Record<number, boolean> = {};
-let _loadedRowsMap: Record<number, JSX.Element | undefined> = {};
+// let _linksOpenInRowMap: Record<number, boolean> = {};
+const _loadedRowsMap: Record<number, JSX.Element | undefined> = {};
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
@@ -151,9 +171,9 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     ...listProps
   } = props;
 
-  const theme = useTheme();
+  // const theme = useTheme();
   const classes = useStyles();
-  const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const itemProps = {
     onClick,
@@ -225,13 +245,13 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     return rowLoaded;
   };
 
-  const getRowHeight = ({ index }: Index): number => {
-    const event = searchEvents?.events[index];
-    const linksOpen = _linksOpenInRowMap[index] ?? false;
-    _linksOpenInRowMap[index] = linksOpen;
+  // const getRowHeight = ({ index }: Index): number => {
+  //   const event = searchEvents?.events[index];
+  //   const linksOpen = _linksOpenInRowMap[index] ?? false;
+  //   _linksOpenInRowMap[index] = linksOpen;
 
-    return event ? getItemHeight(event, isDownSM, true) : 150;
-  };
+  //   return event ? getItemHeight(event, isDownSM, true) : 150;
+  // };
 
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
     if (hasNextPage && !isFetchingNextPage && !isFetching) {
@@ -244,8 +264,8 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   };
 
   React.useEffect(() => {
-    _loadedRowsMap = {};
-    _linksOpenInRowMap = {};
+    // _loadedRowsMap = {};
+    // _linksOpenInRowMap = {};
     void refetch({ refetchPage: () => true });
   }, [hash]);
 
@@ -299,18 +319,14 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                         key={event.id}
                         event={event}
                         isLast={isLast}
-                        onRowInvalidate={() => {
-                          _loadedRowsMap[props.index] = undefined;
-                          _linksOpenInRowMap[props.index] = !_linksOpenInRowMap[props.index];
-
-                        }}
                       />
                     );
-                    _loadedRowsMap[props.index] = row;
+                    // _loadedRowsMap[props.index] = row;
                     return row;
                   }}
                   rowCount={searchEvents.events.length}
-                  rowHeight={getRowHeight}
+                  rowHeight={cellCache.rowHeight}
+                  deferredMeasurementCache={cellCache}
                 />
               );
             }}

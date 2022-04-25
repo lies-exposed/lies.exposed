@@ -35,12 +35,14 @@ interface ExpandableImageElementProps {
   className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.ImageType };
   style?: React.CSSProperties;
+  onLoad?: () => void
 }
 
 const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   media,
   className,
-  ...props
+  style,
+  onLoad
 }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -56,10 +58,11 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
       <img
         className={classes.image}
         src={media.location}
-        style={props.style}
+        style={style}
         onClick={() => {
           setOpen(true);
         }}
+        onLoad={onLoad}
         loading="lazy"
       />
 

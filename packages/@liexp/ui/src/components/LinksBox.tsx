@@ -44,9 +44,26 @@ interface LinksListProps {
 
 export const LinksList: React.FC<LinksListProps> = ({ links }) => {
   return (
-    <Grid container spacing={2}>
+    <Grid
+      container
+      spacing={2}
+      style={{
+        maxHeight: "100%",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
       {links.map((l, i) => (
-        <Grid key={l.id} item md={3} sm={4} xs={2}>
+        <Grid
+          key={l.id}
+          item
+          md={4}
+          sm={6}
+          xs={6}
+          style={{
+            display: "flex",
+          }}
+        >
           <LinkCard link={l} />
         </Grid>
       ))}
@@ -95,7 +112,6 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
           style={{
             width: "100%",
             background: "transparent",
-            maxHeight: "100%",
           }}
         >
           <AccordionSummary
@@ -128,9 +144,11 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
                 links: useLinksQuery({
                   pagination: { page: 1, perPage: ids.length },
                   sort: { field: "createdAt", order: "DESC" },
-                  filter: {
-                    ids: expanded ? ids : [],
-                  },
+                  filter: expanded
+                    ? {
+                        ids,
+                      }
+                    : {},
                 }),
               }}
               render={({ links: { data: links } }) => {

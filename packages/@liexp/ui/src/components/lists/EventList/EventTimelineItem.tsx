@@ -14,6 +14,7 @@ import { EventListItem, EventListItemProps } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 
 export interface EventTimelineItemProps extends EventListItemProps {
+  ref?: (el: Element | undefined) => void;
   isLast: boolean;
 }
 
@@ -75,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
+  ref,
   event: e,
   isLast,
   style,
@@ -86,6 +88,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
   return (
     <div
       key={`event-list-item-${e.id}`}
+      ref={ref as any}
       className={classes.root}
       style={{
         overflow: "hidden",

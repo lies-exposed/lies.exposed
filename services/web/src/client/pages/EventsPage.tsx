@@ -254,7 +254,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                     />
                     <div
                       style={{
-                        height: 60,
+                        height: 80,
                       }}
                     />
                   </Grid>
