@@ -42,8 +42,8 @@ const KeywordsDistributionGraph: React.FC = () => {
     <QueriesRenderer
       queries={{
         keywordDistribution: useKeywordsDistributionQuery({
-          _start: "0",
-          _stop: "50",
+          _start: 0,
+          _end: 50,
         }),
       }}
       render={({ keywordDistribution }) => {

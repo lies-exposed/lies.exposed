@@ -165,8 +165,8 @@ export const useKeywordQuery = (
 export const useKeywordsDistributionQuery = (
   params: any
 ): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
-  return useQuery(["keywords", "distribution"], async () => {
-    return await Queries.Keyword.Custom.Distribution({ Query: params });
+  return useQuery(["keywords", "distribution", params], async ({ queryKey }) => {
+    return await Queries.Keyword.Custom.Distribution({ Query: queryKey[1] });
   });
 };
 

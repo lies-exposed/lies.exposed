@@ -58,7 +58,7 @@ export const MakeKeywordsDistributionRoute = (
 
       return pipe(
         findTask,
-        ctx.logger.info.logInTaskEither(`find results %O`),
+        // ctx.logger.info.logInTaskEither(`find results %O`),
         TE.chain(([data, total]) =>
           pipe(
             TE.right<ControllerError, any>(
