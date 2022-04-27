@@ -105,8 +105,6 @@ export const EventList: React.FC<ListProps> = (props) => (
     {...props}
     resource={RESOURCE}
     filterDefaultValues={{
-      _sort: "createdAt",
-      _order: "DESC",
       withDeleted: true,
     }}
     filters={<EventsFilter />}
@@ -244,7 +242,7 @@ export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
       actions={
         <Box style={{ display: "flex", margin: 10 }}>
           <WebPreviewButton
-            resource="/dashboard/events"
+            resource="/events"
             source="id"
             record={{ id: props.id } as any}
           />

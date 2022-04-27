@@ -44,7 +44,10 @@ export const useEventsQuery = (
 export const fetchActors = async ({
   queryKey,
 }: any): Promise<{ data: Actor.Actor[]; total: number }> => {
-  return await Queries.Actor.getList(queryKey[1]);
+  const params = queryKey[1];
+  return (params.filter.ids ?? []).length === 0
+    ? await emptyQuery()
+    : await Queries.Actor.getList(params);
 };
 
 export const useActorsQuery = (
@@ -156,8 +159,8 @@ export const useKeywordsDiscreteQuery = (
 
 export const useKeywordQuery = (
   params: GetOneParams
-): UseQueryResult<{ data: Keyword.Keyword; total: number }, APIError> => {
-  return useQuery(["keywords", params.id], async () => {
+): UseQueryResult<Keyword.Keyword, APIError> => {
+  return useQuery(["keywords", params], async () => {
     return await Queries.Keyword.get(params);
   });
 };
@@ -165,9 +168,12 @@ export const useKeywordQuery = (
 export const useKeywordsDistributionQuery = (
   params: any
 ): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
-  return useQuery(["keywords", "distribution", params], async ({ queryKey }) => {
-    return await Queries.Keyword.Custom.Distribution({ Query: queryKey[1] });
-  });
+  return useQuery(
+    ["keywords", "distribution", params],
+    async ({ queryKey }) => {
+      return await Queries.Keyword.Custom.Distribution({ Query: queryKey[1] });
+    }
+  );
 };
 
 export const fetchMedia = async ({

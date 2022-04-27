@@ -10,7 +10,7 @@ const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
   return (
     <QueriesRenderer
       queries={{ keyword: useKeywordQuery({ id: keywordId }) }}
-      render={({ keyword: { data: keyword } }) => {
+      render={({ keyword }) => {
         return (
           <Box display="flex" flexDirection="column" height="100%">
             <SEO title={"keywords"} urlPath={`keywords/${keyword.tag}`} />

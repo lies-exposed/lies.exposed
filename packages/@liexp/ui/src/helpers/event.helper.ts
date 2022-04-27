@@ -1,3 +1,4 @@
+import { EventRelations } from '@liexp/shared/helpers/event';
 import * as http from "@liexp/shared/io/http";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { uuid } from "@liexp/shared/utils/uuid";
@@ -6,7 +7,7 @@ import { pipe } from "fp-ts/lib/function";
 import { Metadata } from "page-metadata-parser";
 import { createExcerptValue } from "../components/Common/Editor";
 
-export const getTitle = (e: http.Events.Event): string => {
+export const getTitle = (e: http.Events.Event, relations: EventRelations): string => {
   switch (e.type) {
     case http.Events.Documentary.DOCUMENTARY.value:
     case http.Events.Patent.PATENT.value:
@@ -14,8 +15,11 @@ export const getTitle = (e: http.Events.Event): string => {
     case http.Events.Transaction.TRANSACTION.value:
     case http.Events.Uncategorized.UNCATEGORIZED.value:
       return e.payload.title;
-    case http.Events.Death.DEATH.value:
-      return `Death of ${e.payload.victim}`;
+    case http.Events.Death.DEATH.value: {
+      const victimName = relations.actors.find(a => a.id 
+         === e.payload.victim)?.fullName ?? 'unknown'
+      return `Death of ${victimName}`;
+    }
   }
 };
 
@@ -181,8 +185,8 @@ interface EventCommonProps {
   url?: string;
 }
 
-export const getEventCommonProps = (e: http.Events.Event): EventCommonProps => {
-  const title = getTitle(e);
+export const getEventCommonProps = (e: http.Events.Event, relations: EventRelations): EventCommonProps => {
+  const title = getTitle(e, relations);
   switch (e.type) {
     case http.Events.ScientificStudy.SCIENTIFIC_STUDY.value: {
       return {

@@ -1198,7 +1198,7 @@ __metadata:
     sass: ^1.51.0
     speed-measure-webpack-plugin: ^1.5.0
     style-loader: ^3.3.1
-    ts-loader: ^9.2.8
+    ts-loader: ^9.2.9
     tsconfig-paths-webpack-plugin: ^3.5.2
     typescript: ^4.6.3
     url-loader: ^4.1.1
@@ -3189,10 +3189,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.29":
-  version: 16.11.29
-  resolution: "@types/node@npm:16.11.29"
-  checksum: efb3a716a638baa7bf8f281d8f91102a7df452804f4cfbdd3a0f36d581cddc56446eac6b1ed041e27841f316de5d858080f98516ccf306fda9d6f8c3c68c2e17
+"@types/node@npm:^16.11.31":
+  version: 16.11.31
+  resolution: "@types/node@npm:16.11.31"
+  checksum: 0bad289e12c7066cd2ea7a204d051a0bb09a32a29da39850812ea14c075f9e2b4aeaab23aa23447ef9e3aa6a30173bf3d3524e37bbeeb56fb8ffa4bbd783c5db
   languageName: node
   linkType: hard
 
@@ -4553,7 +4553,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.182
-    "@types/node": ^16.11.29
+    "@types/node": ^16.11.31
     "@types/prettier": ^2.6.0
     "@types/react": ^16.14.25
     "@types/react-dom": ^16.9.15
@@ -4571,7 +4571,8 @@ __metadata:
     eslint-plugin-promise: ^6.0.0
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
-    final-form: ^4.20.6
+    final-form: ^4.20.7
+    final-form-arrays: ^3.0.2
     fp-ts: ^2.12.0
     history: ^4.10.1
     is-plain-object: ^5.0.0
@@ -4588,6 +4589,8 @@ __metadata:
     react-admin: ^3.19.11
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
+    react-final-form: ^6.5.7
+    react-final-form-arrays: ^3.1.3
     react-helmet: ^6.1.0
     react-query: ^3.38.0
     ts-jest: ^27.1.4
@@ -4831,13 +4834,13 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.29
+    "@types/node": ^16.11.31
     "@types/node-cron": ^2.0.5
     "@types/node-telegram-bot-api": ^0.56.2
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1121.0
+    aws-sdk: ^2.1123.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
@@ -4867,7 +4870,7 @@ __metadata:
     pg: ^8.7.3
     prettier: ^2.6.2
     puppeteer-core: ^13.6.0
-    supertest: ^6.2.2
+    supertest: ^6.2.3
     ts-endpoint-express: ^2.0.0
     ts-jest: ^27.1.4
     ts-node: ^10.7.0
@@ -5236,9 +5239,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1121.0":
-  version: 2.1121.0
-  resolution: "aws-sdk@npm:2.1121.0"
+"aws-sdk@npm:^2.1123.0":
+  version: 2.1123.0
+  resolution: "aws-sdk@npm:2.1123.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5249,7 +5252,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: ab85098e8dc3cfc5eb6486e9a04131d3fb411f472d5bd8a52c35021d4e871338cc2f4455983c6abdaefc18838381ef433d85fdcd7d2561c9c483a64bc1636229
+  checksum: e3e9eba5a4afd42aa2ee8ff4fa20ab2fbcde975b77ebcf3e12b4a44b17fd85f285e3840e94449d3fe848af8b6aeab74bf3f7c5314fc0c87e24d41ef47fe9c04e
   languageName: node
   linkType: hard
 
@@ -9226,12 +9229,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"final-form@npm:^4.20.4, final-form@npm:^4.20.6":
+"final-form@npm:^4.20.4":
   version: 4.20.6
   resolution: "final-form@npm:4.20.6"
   dependencies:
     "@babel/runtime": ^7.10.0
   checksum: 6f8ac3643f0cd0cb34b204c41dec114382a3542d839b73e1376d6360da35eac3cd3e1c59b5ba8cfe915fe39d110af7178134131fe8ad667e23e657f682cbf359
+  languageName: node
+  linkType: hard
+
+"final-form@npm:^4.20.7":
+  version: 4.20.7
+  resolution: "final-form@npm:4.20.7"
+  dependencies:
+    "@babel/runtime": ^7.10.0
+  checksum: 0e2a9a9cf70814e1099da38e8a79ff6dc2862f07217dae041ba70c5a4bcc8284c74b0500f00b4935331f5fbe7dc119f63ca4776495ecc8c486c939daa23598ec
   languageName: node
   linkType: hard
 
@@ -12271,7 +12283,7 @@ __metadata:
     husky: ^7.0.4
     is-ci: ^3.0.1
     jest: ^27.5.1
-    lint-staged: ^12.4.0
+    lint-staged: ^12.4.1
     pinst: ^2.1.6
     pm2: ^5.2.0
     prettier: ^2.6.2
@@ -12295,9 +12307,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^12.4.0":
-  version: 12.4.0
-  resolution: "lint-staged@npm:12.4.0"
+"lint-staged@npm:^12.4.1":
+  version: 12.4.1
+  resolution: "lint-staged@npm:12.4.1"
   dependencies:
     cli-truncate: ^3.1.0
     colorette: ^2.0.16
@@ -12315,7 +12327,7 @@ __metadata:
     yaml: ^1.10.2
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: e25b273a73b79f224ff1ccb22432c34a9050fe8318b9cf7e08c748e2efc80e1f48ed4f2aa61cd16a701bb7fd6323ecf0d94a497c97732db04f2b5382d6b70131
+  checksum: b57183b537064cda6caef6679918bf271903145f7c28d09567e918b8b13094048b579f8df808ea590dbd7ea2ec332327c5e372cf3d77e85b7b0254f6541ce4c3
   languageName: node
   linkType: hard
 
@@ -15029,7 +15041,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:6.10.3, qs@npm:^6.10.1, qs@npm:^6.9.4":
+"qs@npm:6.10.3, qs@npm:^6.10.3, qs@npm:^6.9.4":
   version: 6.10.3
   resolution: "qs@npm:6.10.3"
   dependencies:
@@ -16642,6 +16654,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semver@npm:^7.3.7":
+  version: 7.3.7
+  resolution: "semver@npm:7.3.7"
+  dependencies:
+    lru-cache: ^6.0.0
+  bin:
+    semver: bin/semver.js
+  checksum: 2fa3e877568cd6ce769c75c211beaed1f9fce80b28338cadd9d0b6c40f2e2862bafd62c19a6cff42f3d54292b7c623277bcab8816a2b5521cf15210d43e75232
+  languageName: node
+  linkType: hard
+
 "semver@npm:~7.2.0":
   version: 7.2.3
   resolution: "semver@npm:7.2.3"
@@ -17651,32 +17674,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superagent@npm:^7.1.0":
-  version: 7.1.1
-  resolution: "superagent@npm:7.1.1"
+"superagent@npm:^7.1.3":
+  version: 7.1.3
+  resolution: "superagent@npm:7.1.3"
   dependencies:
     component-emitter: ^1.3.0
     cookiejar: ^2.1.3
-    debug: ^4.3.3
+    debug: ^4.3.4
     fast-safe-stringify: ^2.1.1
     form-data: ^4.0.0
     formidable: ^2.0.1
     methods: ^1.1.2
     mime: ^2.5.0
-    qs: ^6.10.1
+    qs: ^6.10.3
     readable-stream: ^3.6.0
-    semver: ^7.3.5
-  checksum: 8710b84cf538f0b3e467b2e9be5ac41a169fe49656769301e01128fc5532900f5e447b9fb740cad2171a36b13b6939cd0f495e7ab4e805043b5cb13fe3051766
+    semver: ^7.3.7
+  checksum: 436045d555d35c282de7bcba85102b1421470bdc80781c9a0b7ab7c639675b4eca026a71301974935f3de0d33782a0392274e24f3915335b81a78a04b48eeee5
   languageName: node
   linkType: hard
 
-"supertest@npm:^6.2.2":
-  version: 6.2.2
-  resolution: "supertest@npm:6.2.2"
+"supertest@npm:^6.2.3":
+  version: 6.2.3
+  resolution: "supertest@npm:6.2.3"
   dependencies:
     methods: ^1.1.2
-    superagent: ^7.1.0
-  checksum: 3c1956d57e32db1dfc17b4e4eb3eb3c80a29f9ed1b5209e0425b796df0eda7fce8a5c6485a6e666c6d3019c44e238c0494d6851c18e11a2c8bec01ff32dc06e3
+    superagent: ^7.1.3
+  checksum: c1bed86c31723a4bc461153a58176fd80d675deb7d23ab7bd170213040673b35c38e3cbeab9a4eb8a325cf736176c08c6f6522e42f0293314f183e192a6681fa
   languageName: node
   linkType: hard
 
@@ -18211,9 +18234,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:^9.2.8":
-  version: 9.2.8
-  resolution: "ts-loader@npm:9.2.8"
+"ts-loader@npm:^9.2.9":
+  version: 9.2.9
+  resolution: "ts-loader@npm:9.2.9"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.0.0
@@ -18222,7 +18245,7 @@ __metadata:
   peerDependencies:
     typescript: "*"
     webpack: ^5.0.0
-  checksum: 3afd9a4cc1d46738ac3f2decc7dfa655e0183d4d2d48c7a113ea9f3ac313304f54be59252cde2ef04757c791e28cfcfc63323d3dd1f2f949485242c1ea4835e5
+  checksum: de817d4b7073bb029ca3e0742b5ef9432fdebb9f80707249b2121c09bb6ae6332ec755ab8e572f475ebfe5525a380a78b4e78a32b4d1c207a8fb1a2a0a490bac
   languageName: node
   linkType: hard
 
