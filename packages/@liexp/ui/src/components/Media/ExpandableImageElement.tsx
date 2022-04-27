@@ -1,6 +1,12 @@
 import { Media } from "@liexp/shared/io/http";
-import { Box, makeStyles, Modal, Typography } from "@material-ui/core";
-import { CloseOutlined } from "@material-ui/icons";
+import {
+  Box,
+  IconButton,
+  makeStyles,
+  Modal,
+  Typography,
+} from "@material-ui/core";
+import { CloseOutlined, ExpandMore } from "@material-ui/icons";
 import * as React from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,14 +41,14 @@ interface ExpandableImageElementProps {
   className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.ImageType };
   style?: React.CSSProperties;
-  onLoad?: () => void
+  onLoad?: () => void;
 }
 
 const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   media,
   className,
   style,
-  onLoad
+  onLoad,
 }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -55,13 +61,21 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
       alignItems="center"
       justifyContent="center"
     >
+      <IconButton
+        aria-label="expand"
+        onClick={(e) => {
+          setOpen(true);
+        }}
+        style={{
+          position: 'absolute'
+        }}
+      >
+        <ExpandMore />
+      </IconButton>
       <img
         className={classes.image}
         src={media.location}
         style={style}
-        onClick={() => {
-          setOpen(true);
-        }}
         onLoad={onLoad}
         loading="lazy"
       />
@@ -81,7 +95,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
             >
               <Box
                 display="flex"
-                style={{ flexDirection: "column", alignItems: "flex-end" }}
+                style={{ position: 'absolute', flexDirection: "column", alignItems: "flex-end" }}
               >
                 <CloseOutlined onClick={() => setOpen(false)} />
               </Box>
@@ -96,7 +110,9 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
                   flexDirection: "column",
                 }}
               >
-                <img className={classes.image} src={media.location} />
+                <img className={classes.image} src={media.location} style={{
+                  maxHeight: '100%'
+                }} />
                 <Typography id="alert-dialog-title" variant="body2">
                   {media.description}
                 </Typography>

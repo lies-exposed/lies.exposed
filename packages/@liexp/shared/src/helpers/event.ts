@@ -332,7 +332,7 @@ export const getRelationIds = (e: Events.Event): EventRelationIds => {
   }
 };
 
-interface EventRelations {
+export interface EventRelations {
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];

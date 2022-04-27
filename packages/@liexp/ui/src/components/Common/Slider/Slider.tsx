@@ -33,7 +33,7 @@ interface SliderProps extends SlickSlider.Settings {
   maxHeight?: number;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
-  onLoad?: () => void
+  onLoad?: () => void;
 }
 
 export const Slider: React.FC<SliderProps> = ({
@@ -71,7 +71,12 @@ export const Slider: React.FC<SliderProps> = ({
       {...{ ...props }}
     >
       {slides.map((s) => (
-        <div key={s.id}>
+        <div
+          key={s.id}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <MediaElement
             key={s.id}
             media={s}

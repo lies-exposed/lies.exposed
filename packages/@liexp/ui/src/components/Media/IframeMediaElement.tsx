@@ -61,17 +61,13 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
         e.stopPropagation();
         setLoaded(true);
       }}
-      style={props.style}
-    >
-      <img
-        src={media.thumbnail}
-        onLoad={onLoad}
-        style={{
-          width: "100%",
-          height: "auto",
-        }}
-      />
-    </div>
+      style={{
+        ...props.style,
+        background: `url(${media.thumbnail}) no-repeat center center`,
+        backgroundSize: 'contain'
+      }}
+      onLoad={onLoad}
+    />
   );
 };
 

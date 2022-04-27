@@ -1,3 +1,4 @@
+import { Keyword } from '@liexp/shared/io/http';
 import { Box, Typography } from "@material-ui/core";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
@@ -9,9 +10,10 @@ import KeywordList from "./lists/KeywordList";
 
 interface KeywordsBoxProps {
   ids: string[];
+  onItemClick: (k: Keyword.Keyword) => void;
 }
 
-export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids }) => {
+export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids, onItemClick }) => {
   return (
     <QueriesRenderer
       queries={{
@@ -28,7 +30,7 @@ export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids }) => {
         return (
           <KeywordList
             keywords={keywords.map((a) => ({ ...a, selected: true }))}
-            onItemClick={() => undefined}
+            onItemClick={onItemClick}
           />
         );
       }}
@@ -36,7 +38,7 @@ export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids }) => {
   );
 };
 
-export const KeywordsBox: React.FC<KeywordsBoxProps> = ({ ids }) => {
+export const KeywordsBox: React.FC<KeywordsBoxProps> = ({ ids, onItemClick }) => {
   return (
     <Box>
       {/* <Typography variant="subtitle1" display="inline">
@@ -47,7 +49,7 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({ ids }) => {
         NEA.fromArray,
         O.fold(
           () => <Typography display="inline">-</Typography>,
-          (ids) => <KeywordsList ids={ids} />
+          (ids) => <KeywordsList ids={ids} onItemClick={onItemClick} />
         )
       )}
     </Box>
