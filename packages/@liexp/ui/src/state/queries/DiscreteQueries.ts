@@ -180,7 +180,9 @@ export const fetchMedia = async ({
   queryKey,
 }: any): Promise<{ data: Media.Media[]; total: number }> => {
   const params = queryKey[1];
-  return await Queries.Media.getList(params);
+  return (params.filter.ids ?? []).length === 0
+    ? await emptyQuery()
+    : await Queries.Media.getList(params);
 };
 
 export const useMediaQuery = (
