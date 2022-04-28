@@ -4571,8 +4571,6 @@ __metadata:
     eslint-plugin-promise: ^6.0.0
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
-    final-form: ^4.20.7
-    final-form-arrays: ^3.0.2
     fp-ts: ^2.12.0
     history: ^4.10.1
     is-plain-object: ^5.0.0
@@ -4590,7 +4588,6 @@ __metadata:
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
     react-final-form: ^6.5.7
-    react-final-form-arrays: ^3.1.3
     react-helmet: ^6.1.0
     react-query: ^3.38.0
     ts-jest: ^27.1.4
@@ -9235,15 +9232,6 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.10.0
   checksum: 6f8ac3643f0cd0cb34b204c41dec114382a3542d839b73e1376d6360da35eac3cd3e1c59b5ba8cfe915fe39d110af7178134131fe8ad667e23e657f682cbf359
-  languageName: node
-  linkType: hard
-
-"final-form@npm:^4.20.7":
-  version: 4.20.7
-  resolution: "final-form@npm:4.20.7"
-  dependencies:
-    "@babel/runtime": ^7.10.0
-  checksum: 0e2a9a9cf70814e1099da38e8a79ff6dc2862f07217dae041ba70c5a4bcc8284c74b0500f00b4935331f5fbe7dc119f63ca4776495ecc8c486c939daa23598ec
   languageName: node
   linkType: hard
 
