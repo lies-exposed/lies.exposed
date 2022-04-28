@@ -95,6 +95,6 @@
     "@liexp/shared": "../../packages/@liexp/shared/lib"
   },
   "resolutions": {
-    "react-final-form": "^6.5.2"
+    "react-final-form": "^6.5.9"
   }
 }

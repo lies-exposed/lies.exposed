@@ -1,32 +1,20 @@
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import {
-  Death,
-  Documentary,
-  EventType,
-  Patent,
-  ScientificStudy,
-  SearchEvent,
-  Transaction,
-  Uncategorized,
+  EventType, SearchEvent
 } from "@liexp/shared/io/http/Events";
-import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
-import EventsMap from "@liexp/ui/components/EventsMap";
+import { TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
 import { ECOTheme } from "@liexp/ui/theme";
 import {
   Box,
   createStyles,
   Grid,
-  makeStyles,
-  Tab,
-  Tabs,
-  useTheme,
+  makeStyles, useTheme
 } from "@material-ui/core";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import AddEventModal from "../components/events/AddEventModal";
-import EventsTotals from "../components/events/inputs/SearchEventInput";
 import { useNavigateToResource } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 

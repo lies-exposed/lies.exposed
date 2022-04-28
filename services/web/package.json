@@ -127,5 +127,8 @@
     "@liexp/core": "../../packages/@liexp/core/lib",
     "@liexp/shared": "../../packages/@liexp/shared/lib",
     "@liexp/ui": "../../packages/@liexp/ui/lib"
+  },
+  "resolutions": {
+    "react-final-form": "^6.5.9"
   }
 }

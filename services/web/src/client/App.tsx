@@ -49,8 +49,9 @@ export const App: React.FC = () => {
           <Grid
             style={{
               width: "100%",
-              minHeight: `calc(100% - 64px)`,
-              marginBottom: 50,
+              minHeight: `calc(100% - ${theme.mixins.toolbar.height ?? 64}px - 100px)`,
+              marginTop: theme.mixins.toolbar.height ?? 64,
+              marginBottom: 100,
             }}
           >
             <Switch>

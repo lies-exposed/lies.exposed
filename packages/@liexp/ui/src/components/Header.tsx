@@ -11,7 +11,7 @@ import {
   Paper,
   Popper,
   Toolbar,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -28,6 +28,7 @@ const useStyles = makeStyles<ECOTheme>((theme) =>
       flexShrink: 0,
     },
     appBar: {
+      position: 'fixed',
       backgroundColor: theme.overrides?.MuiAppBar?.colorPrimary as any,
       boxShadow: "none",
       zIndex: theme.zIndex.drawer + 1,
@@ -152,7 +153,7 @@ const Header: React.FC<HeaderProps> = ({
   }, [open]);
 
   return (
-    <AppBar className={classes.appBar} position="relative">
+    <AppBar className={classes.appBar} position="fixed">
       <Toolbar>
         <Typography
           variant="h6"

@@ -1,12 +1,10 @@
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import {
   Death,
-  Documentary,
-  EventType,
-  Patent,
+  Documentary, Patent,
   ScientificStudy,
   Transaction,
-  Uncategorized,
+  Uncategorized
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -15,7 +13,7 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
-import { a11yProps } from '@liexp/ui/components/Common/TabPanel';
+import { a11yProps } from "@liexp/ui/components/Common/TabPanel";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import GroupList from "@liexp/ui/components/lists/GroupList";
@@ -27,29 +25,24 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  alpha,
-  AppBar,
-  Grid,
+  alpha, Grid,
   IconButton,
   makeStyles,
   Tab,
   Tabs,
+  Toolbar,
   Typography,
-  useTheme,
+  useTheme
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import ArrowDownIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpIcon from "@material-ui/icons/ArrowUpward";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import SearchIcon from "@material-ui/icons/Search";
 import clsx from "clsx";
-import { boolean } from "fp-ts";
 import * as React from "react";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
 import { EventsQueryParams } from "@containers/EventsPanel";
-import { queryClient } from "client/state/queries";
 
 const eventIconProps = {
   size: "sm" as const,
@@ -584,7 +577,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
             <Tabs
               className={classes.tabs}
               value={query.tab}
-              onChange={(e, tab) => onQueryChange({...query, tab })}
+              onChange={(e, tab) => onQueryChange({ ...query, tab })}
             >
               <Tab
                 label="list"
@@ -699,10 +692,14 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         );
 
         return (
-          <AppBar
-            position="fixed"
-            color="transparent"
+          <Toolbar
+            disableGutters
+            color="white"
+            variant="dense"
             style={{
+              // position: 'relative',
+              // top: theme.mixins.toolbar.height,
+              width: "100%",
               background: theme.palette.common.white,
             }}
           >
@@ -711,13 +708,13 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               onChange={() => {
                 setIsExpanded(!isExpanded);
               }}
+              style={{ width: "100%" }}
             >
               <AccordionSummary>
                 <Box
                   style={{
                     display: "flex",
                     width: "100%",
-                    marginTop: 60,
                     alignItems: "center",
                     justifyItems: "center",
                     flexDirection: "column",
@@ -726,41 +723,15 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   {summary}
                 </Box>
               </AccordionSummary>
-              <AccordionDetails>{expanded}</AccordionDetails>
-            </Accordion>
-            {/* <Slide
-              mountOnEnter={true}
-              appear={false}
-              in={!isExpanded}
-              direction="down"
-            >
-              <Box
+              <AccordionDetails
                 style={{
-                  display: "flex",
-                  width: "100%",
-                  minHeight: 60,
-                  marginTop: !isExpanded ? 60 : 0,
-                  alignItems: "center",
-                  justifyItems: "center",
-                  flexDirection: "column",
+                  height: 300,
                 }}
               >
-                {summary}
-                {toggleBox}
-              </Box>
-            </Slide> */}
-            {/* <Slide
-              mountOnEnter={true}
-              appear={false}
-              in={isExpanded}
-              direction="down"
-            >
-              <Box width="100%" style={{ margin: 0 }}>
                 {expanded}
-                {toggleBox}
-              </Box>
-            </Slide> */}
-          </AppBar>
+              </AccordionDetails>
+            </Accordion>
+          </Toolbar>
         );
       }}
     />

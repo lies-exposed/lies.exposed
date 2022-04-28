@@ -234,38 +234,24 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                   maxWidth: `calc(100% - ${drawerWidth})`,
                   height: "100%",
                   width: "100%",
+                  marginTop: 64
                 }}
               >
                 <Grid container justifyContent="center">
-                  <Grid
-                    item
-                    md={10}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyItems: "center",
+                  <EventsAppBar
+                    hash={hash}
+                    query={{ ...params, tab }}
+                    actors={filterActors.data}
+                    groups={filterGroups.data}
+                    groupsMembers={filterGroupsMembers.data}
+                    keywords={filterKeywords.data}
+                    onQueryChange={handleUpdateEventsSearch}
+                    onQueryClear={() => {
+                      navigateTo.events({}, {});
                     }}
-                  >
-                    <EventsAppBar
-                      hash={hash}
-                      query={{ ...params, tab }}
-                      actors={filterActors.data}
-                      groups={filterGroups.data}
-                      groupsMembers={filterGroupsMembers.data}
-                      keywords={filterKeywords.data}
-                      onQueryChange={handleUpdateEventsSearch}
-                      onQueryClear={() => {
-                        navigateTo.events({}, {});
-                      }}
-                    />
-                  </Grid>
+                  />
                 </Grid>
-                <main
-                  className={classes.content}
-                  style={{
-                    paddingTop: hasFilters ? 80 : 60,
-                  }}
-                >
+                <main className={classes.content}>
                   <EventsPanel
                     hash={hash}
                     query={params}
