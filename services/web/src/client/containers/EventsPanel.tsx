@@ -200,21 +200,21 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   return (
     <Box id="events-panel" className={classes.content}>
-      <TabPanel
-        className={clsx(classes.tabPanel, {
-          [classes.tabPanelSelected]: tab === 0,
-        })}
-        value={tab}
-        index={0}
+      <Grid
+        container
+        justifyContent="center"
+        style={{
+          height: "100%",
+        }}
       >
-        <Grid
-          container
-          justifyContent="center"
-          style={{
-            height: "100%",
-          }}
-        >
-          <Grid item lg={12} xs={12} style={{ height: "100%" }}>
+        <Grid item lg={12} xs={12} style={{ height: "100%" }}>
+          <TabPanel
+            className={clsx(classes.tabPanel, {
+              [classes.tabPanelSelected]: tab === 0,
+            })}
+            value={tab}
+            index={0}
+          >
             {tab === 0 ? (
               <EventsTimeline
                 hash={hash}
@@ -250,10 +250,42 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                 }}
               />
             ) : null}
-          </Grid>
+          </TabPanel>
+          <TabPanel
+            className={clsx(classes.tabPanel, {
+              [classes.tabPanelSelected]: tab === 1,
+            })}
+            value={tab}
+            index={1}
+          >
+            {tab === 1 ? (
+              <Grid
+                item
+                lg={10}
+                style={{
+                  margin: "auto",
+                }}
+              >
+                <EventsNetwork
+                  includeEmptyRelations={false}
+                  filter={query}
+                  groupBy={"actor"}
+                  scale={"all"}
+                  scalePoint={O.none}
+                  onEventClick={(e) => {
+                    navigateTo.events({
+                      id: e.id,
+                    });
+                  }}
+                />
+              </Grid>
+            ) : null}
+            <div />
+          </TabPanel>
         </Grid>
-      </TabPanel>
-      <TabPanel
+      </Grid>
+
+      {/* <TabPanel
         className={clsx(classes.tabPanel, {
           [classes.tabPanelSelected]: tab === 1,
         })}
@@ -269,30 +301,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
             onMapClick={() => {}}
           />
         ) : null}
-      </TabPanel>
-      <TabPanel
-        className={clsx(classes.tabPanel, {
-          [classes.tabPanelSelected]: tab === 2,
-        })}
-        value={tab}
-        index={2}
-      >
-        {tab === 2 ? (
-          <EventsNetwork
-            includeEmptyRelations={false}
-            filter={query}
-            groupBy={"actor"}
-            scale={"all"}
-            scalePoint={O.none}
-            onEventClick={(e) => {
-              navigateTo.events({
-                id: e.id,
-              });
-            }}
-          />
-        ) : null}
-        <div />
-      </TabPanel>
+      </TabPanel> */}
+
       <AddEventModal query={query} hash={hash} container={"events-panel"} />
     </Box>
   );

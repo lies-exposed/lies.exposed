@@ -3,7 +3,7 @@ import {
   Documentary,
   Patent,
   ScientificStudy,
-  Uncategorized,
+  Uncategorized
 } from "@liexp/shared/io/http/Events";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { Box, makeStyles } from "@material-ui/core";
@@ -16,11 +16,11 @@ import {
   IndexRange,
   InfiniteLoader,
   List,
-  ListRowProps,
+  ListRowProps
 } from "react-virtualized";
 import {
   SearchEventQueryInput,
-  searchEventsInfiniteQuery,
+  searchEventsInfiniteQuery
 } from "../../../state/queries/SearchEventsQuery";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
 import { EventListItemProps } from "./EventListItem";
@@ -256,7 +256,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
     if (hasNextPage && !isFetchingNextPage && !isFetching) {
       const cacheSize = searchEvents?.events.length ?? 0;
-      if (params.startIndex >= cacheSize && params.stopIndex > cacheSize) {
+      if (params.startIndex >= cacheSize || params.stopIndex > cacheSize) {
         await fetchNextPage({ pageParam: params });
       }
     }
@@ -301,12 +301,12 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                   width={width}
                   height={height}
                   estimatedRowSize={100}
-                  overscanRowCount={10}
+                  overscanRowCount={5}
                   onRowsRendered={onRowsRendered}
                   rowRenderer={(props) => {
-                    if (props.index >= searchEvents?.events.length) {
-                      return <div key={props.key} style={{ height: 100 }} />;
-                    }
+                    // if (props.index >= searchEvents?.events.length) {
+                    //   return <div key={props.key} style={{ height: 100 }} />;
+                    // }
 
                     const event = searchEvents?.events[props.index];
                     const isLast =

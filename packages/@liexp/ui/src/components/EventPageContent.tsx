@@ -121,6 +121,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         display: "flex",
                         flexDirection: isDownSM ? "row" : "column",
                         flexGrow: isDownSM ? 1 : 0,
+                        alignItems: 'flex-end'
                       }}
                     >
                       {formatDateToShort(date)

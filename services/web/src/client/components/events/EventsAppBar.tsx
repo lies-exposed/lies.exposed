@@ -595,7 +595,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   maxWidth: "100%",
                 }}
               />
-              <Tab
+              {/* <Tab
                 label="map"
                 {...a11yProps(1)}
                 style={{
@@ -603,10 +603,10 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   flexGrow: 1,
                   maxWidth: "100%",
                 }}
-              />
+              /> */}
               <Tab
                 label="network"
-                {...a11yProps(2)}
+                {...a11yProps(1)}
                 style={{
                   display: "flex",
                   flexGrow: 1,

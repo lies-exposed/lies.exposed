@@ -4,6 +4,7 @@ import * as React from "react";
 
 const useStyles = makeStyles(() => ({
   wrapper: {
+    display: 'flex',
     width: "100%",
     maxWidth: 800,
     minHeight: 300,
