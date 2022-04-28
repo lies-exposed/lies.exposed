@@ -21,13 +21,19 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
       loader="fullsize"
       queries={{
         event: useEventQuery({ id: eventId }),
-        
       }}
       render={({ event }) => {
         const relationIds = getRelationIds(event);
 
         return (
-          <Box style={{ margin: 20, marginBottom: 100 }}>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              margin: 20,
+              marginBottom: 100,
+            }}
+          >
             <EventPageContent
               event={event}
               onGroupClick={(g) => {

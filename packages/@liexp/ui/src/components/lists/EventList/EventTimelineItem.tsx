@@ -1,14 +1,15 @@
 import { formatDate } from "@liexp/shared/utils/date";
-import { Box, Grid, Link, makeStyles, Typography } from "@material-ui/core";
+import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import {
   TimelineConnector,
   TimelineContent,
   TimelineDot,
   TimelineItem,
   TimelineOppositeContent,
-  TimelineSeparator,
+  TimelineSeparator
 } from "@material-ui/lab";
 import * as React from "react";
+import EditButton from '../../Common/Button/EditButton';
 import { EventIcon } from "../../Common/Icons/EventIcon";
 import { EventListItem, EventListItemProps } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
@@ -115,13 +116,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
               <TimelineEventSubjects event={e} {...props} />
 
               <Box className={classes.editButtonBox}>
-                <Link
-                  href={`${process.env.ADMIN_URL}/index.html?#events/${e.id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Edit
-                </Link>
+                <EditButton resourceName='events' resource={{ id: e.id }} />
               </Box>
             </TimelineOppositeContent>
             <TimelineSeparator className={classes.separator}>

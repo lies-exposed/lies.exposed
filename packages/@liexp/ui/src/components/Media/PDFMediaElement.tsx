@@ -35,6 +35,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
   media,
   className,
   onLoad,
+  style,
   ...props
 }) => {
   const classes = useStyles();
@@ -46,11 +47,15 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
       display="flex"
       alignItems="center"
       justifyContent="center"
+      style={style}
       onLoad={onLoad}
     >
       {media.thumbnail ?? <img className={className} src={media.thumbnail} />}
       <Button
         variant="contained"
+        style={{
+          position: 'absolute'
+        }}
         onClick={() => {
           setOpen(true);
         }}

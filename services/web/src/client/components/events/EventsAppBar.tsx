@@ -15,6 +15,7 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
+import { a11yProps } from '@liexp/ui/components/Common/TabPanel';
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import GroupList from "@liexp/ui/components/lists/GroupList";
@@ -31,6 +32,8 @@ import {
   Grid,
   IconButton,
   makeStyles,
+  Tab,
+  Tabs,
   Typography,
   useTheme,
 } from "@material-ui/core";
@@ -116,6 +119,14 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
+    },
+  },
+  tabs: {
+    width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: 20,
+      display: "flex",
+      alignItems: "center",
     },
   },
 }));
@@ -556,6 +567,56 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           </Box>
         );
 
+        const tabs = (
+          <Grid
+            item
+            sm={12}
+            md={12}
+            lg={12}
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              flexDirection: "column",
+              margin: "auto",
+              width: "100%",
+            }}
+          >
+            <Tabs
+              className={classes.tabs}
+              value={query.tab}
+              onChange={(e, tab) => onQueryChange({...query, tab })}
+            >
+              <Tab
+                label="list"
+                {...a11yProps(0)}
+                style={{
+                  display: "flex",
+                  flexGrow: 1,
+                  maxWidth: "100%",
+                }}
+              />
+              <Tab
+                label="map"
+                {...a11yProps(1)}
+                style={{
+                  display: "flex",
+                  flexGrow: 1,
+                  maxWidth: "100%",
+                }}
+              />
+              <Tab
+                label="network"
+                {...a11yProps(2)}
+                style={{
+                  display: "flex",
+                  flexGrow: 1,
+                  maxWidth: "100%",
+                }}
+              />
+            </Tabs>
+          </Grid>
+        );
+
         const expanded = (
           <Box display="flex" style={{ width: "100%" }}>
             <Grid container>
@@ -632,6 +693,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 {typeFilters}
                 {eventTotal}
               </Grid>
+              {tabs}
             </Grid>
           </Box>
         );

@@ -148,6 +148,12 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     [hash, tab, params]
   );
 
+  const hasFilters =
+    params.actors.length > 0 ||
+    params.groups.length > 0 ||
+    params.keywords.length > 0 ||
+    params.media.length > 0;
+
   return (
     <Grid container justifyContent="center" style={{ height: "100%" }}>
       <SEO
@@ -252,14 +258,14 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                         navigateTo.events({}, {});
                       }}
                     />
-                    <div
-                      style={{
-                        height: 80,
-                      }}
-                    />
                   </Grid>
                 </Grid>
-                <main className={classes.content}>
+                <main
+                  className={classes.content}
+                  style={{
+                    paddingTop: hasFilters ? 80 : 60,
+                  }}
+                >
                   <EventsPanel
                     hash={hash}
                     query={params}

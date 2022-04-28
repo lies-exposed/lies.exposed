@@ -83,14 +83,6 @@ const useStyles = makeStyles((theme: ECOTheme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },
-    tabs: {
-      width: "100%",
-      [theme.breakpoints.down("sm")]: {
-        paddingTop: 20,
-        display: "flex",
-        alignItems: "center",
-      },
-    },
     tabPanel: {
       maxHeight: "100%",
       minHeight: 500,
@@ -208,54 +200,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   return (
     <Box id="events-panel" className={classes.content}>
-      <Grid
-        item
-        sm={12}
-        md={12}
-        lg={12}
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          flexDirection: "column",
-          margin: "auto",
-          width: "100%",
-        }}
-      >
-        <Tabs
-          className={classes.tabs}
-          value={tab}
-          onChange={(e, tab) => handleUpdateEventsSearch({ tab })}
-        >
-          <Tab
-            label="list"
-            {...a11yProps(0)}
-            style={{
-              display: "flex",
-              flexGrow: 1,
-              maxWidth: "100%",
-            }}
-          />
-          <Tab
-            label="map"
-            {...a11yProps(1)}
-            style={{
-              display: "flex",
-              flexGrow: 1,
-              maxWidth: "100%",
-            }}
-          />
-          <Tab
-            label="network"
-            {...a11yProps(2)}
-            style={{
-              display: "flex",
-              flexGrow: 1,
-              maxWidth: "100%",
-            }}
-          />
-        </Tabs>
-      </Grid>
-
       <TabPanel
         className={clsx(classes.tabPanel, {
           [classes.tabPanelSelected]: tab === 0,

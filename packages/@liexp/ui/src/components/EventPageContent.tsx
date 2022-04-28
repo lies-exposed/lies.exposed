@@ -15,6 +15,7 @@ import {
   useActorsQuery,
   useMediaQuery,
 } from "../state/queries/DiscreteQueries";
+import EditButton from "./Common/Button/EditButton";
 import { ShareButtons } from "./Common/Button/ShareButtons";
 import Editor, { getTextContentsCapped, isValidValue } from "./Common/Editor";
 import { GroupMembersBox } from "./GroupMembersBox";
@@ -79,7 +80,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         }),
       }}
       render={({ actors: { data: actors }, media: { data: media } }) => {
-
         const { title, url } = getEventCommonProps(event, {
           actors,
           groups: [],
@@ -120,6 +120,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                       style={{
                         display: "flex",
                         flexDirection: isDownSM ? "row" : "column",
+                        flexGrow: isDownSM ? 1 : 0,
                       }}
                     >
                       {formatDateToShort(date)
@@ -129,7 +130,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                             key={k}
                             variant="h6"
                             color="primary"
-                            style={{ marginBottom: 0 }}
+                            style={{
+                              marginBottom: 0,
+                              marginLeft: k > 0 ? theme.spacing(1) : 0,
+                            }}
                           >
                             {chunk}
                           </Typography>
@@ -164,6 +168,12 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                       }}
                       onItemClick={onGroupMemberClick}
                     />
+                    <Box>
+                      <EditButton
+                        resourceName="events"
+                        resource={{ id: event.id }}
+                      />
+                    </Box>
                   </Grid>
 
                   <Grid
@@ -175,7 +185,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                       marginBottom: theme.spacing(2),
                     }}
                   >
-                    <Typography variant="h3">{title}</Typography>
+                    <Typography variant="h4">{title}</Typography>
                     <Box style={{ marginBottom: theme.spacing(3) }}>
                       <ShareButtons
                         urlPath={`/events/${event.id}`}
@@ -227,10 +237,14 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                     </Grid>
 
                     {isValidValue(event.excerpt) ? (
-                      <Editor value={event.excerpt} readOnly={true} />
+                      <Box style={{ marginBottom: theme.spacing(2) }}>
+                        <Editor value={event.excerpt} readOnly={true} />
+                      </Box>
                     ) : null}
                     {isValidValue(event.body) ? (
-                      <Editor value={event.body} readOnly={true} />
+                      <Box style={{ marginBottom: theme.spacing(2) }}>
+                        <Editor value={event.body} readOnly={true} />
+                      </Box>
                     ) : null}
                   </Grid>
                 </Grid>

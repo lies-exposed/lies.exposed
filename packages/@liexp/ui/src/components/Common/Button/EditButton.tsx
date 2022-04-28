@@ -14,6 +14,7 @@ const EditButton: React.FC<EditButtonProps> = (props) => {
     <Link
       href={getAdminLink(props.resourceName, props.resource)}
       target="_blank"
+      rel="noreferrer"
     >
       <FontAwesomeIcon icon="edit" />
     </Link>
