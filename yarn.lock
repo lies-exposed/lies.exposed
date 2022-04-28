@@ -1188,7 +1188,7 @@ __metadata:
     fast-check-io-ts: ^0.5.0
     file-loader: ^6.2.0
     filemanager-webpack-plugin: ^6.1.7
-    fp-ts: ^2.12.0
+    fp-ts: ^2.12.1
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.0
     io-ts: ^2.2.16
@@ -1228,7 +1228,7 @@ __metadata:
     cheerio: ^1.0.0-rc.10
     date-fns: ^1.30.1
     domino: ^2.1.6
-    fp-ts: ^2.12.0
+    fp-ts: ^2.12.1
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     jest: ^27.5.1
@@ -1315,7 +1315,7 @@ __metadata:
     date-fns: ^1.30.1
     eslint: ^8.14.0
     eslint-plugin-import: ^2.26.0
-    fp-ts: ^2.12.0
+    fp-ts: ^2.12.1
     geotiff: ^2.0.5
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
@@ -4571,7 +4571,7 @@ __metadata:
     eslint-plugin-promise: ^6.0.0
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
-    fp-ts: ^2.12.0
+    fp-ts: ^2.12.1
     history: ^4.10.1
     is-plain-object: ^5.0.0
     jest: ^27.5.1
@@ -4587,7 +4587,7 @@ __metadata:
     react-admin: ^3.19.11
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
-    react-final-form: ^6.5.7
+    react-final-form: ^6.5.9
     react-helmet: ^6.1.0
     react-query: ^3.38.0
     ts-jest: ^27.1.4
@@ -4851,7 +4851,7 @@ __metadata:
     fast-check: ^2.25.0
     fast-csv: ^4.3.6
     form-data: ^4.0.0
-    fp-ts: ^2.12.0
+    fp-ts: ^2.12.1
     front-matter: 4.0.2
     gray-matter: ^4.0.3
     io-ts: ^2.2.16
@@ -4866,7 +4866,7 @@ __metadata:
     page-metadata-parser: ^1.1.4
     pg: ^8.7.3
     prettier: ^2.6.2
-    puppeteer-core: ^13.6.0
+    puppeteer-core: ^13.7.0
     supertest: ^6.2.3
     ts-endpoint-express: ^2.0.0
     ts-jest: ^27.1.4
@@ -9421,10 +9421,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fp-ts@npm:^2.12.0":
-  version: 2.12.0
-  resolution: "fp-ts@npm:2.12.0"
-  checksum: 0f078feb261529f1b709a791016ecaee1b8d64a69bf7d999c6dcfcf058b4150e8deab4ee8074a0840f5c237711a9680f06a8b46ff59ef27efddfaea6d2810c45
+"fp-ts@npm:^2.12.1":
+  version: 2.12.1
+  resolution: "fp-ts@npm:2.12.1"
+  checksum: 1e20e6b468191640a5f83cd52ccbfb361d27a6afbc47230870e63094b569cd9ae8763d0b9dee50eaed568bce8dd72e32ad1d695161bda8ec73e0296a02359832
   languageName: node
   linkType: hard
 
@@ -10327,13 +10327,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"https-proxy-agent@npm:5, https-proxy-agent@npm:5.0.0, https-proxy-agent@npm:^5.0.0":
+"https-proxy-agent@npm:5, https-proxy-agent@npm:^5.0.0":
   version: 5.0.0
   resolution: "https-proxy-agent@npm:5.0.0"
   dependencies:
     agent-base: 6
     debug: 4
   checksum: 165bfb090bd26d47693597661298006841ab733d0c7383a8cb2f17373387a94c903a3ac687090aa739de05e379ab6f868bae84ab4eac288ad85c328cd1ec9e53
+  languageName: node
+  linkType: hard
+
+"https-proxy-agent@npm:5.0.1":
+  version: 5.0.1
+  resolution: "https-proxy-agent@npm:5.0.1"
+  dependencies:
+    agent-base: 6
+    debug: 4
+  checksum: 571fccdf38184f05943e12d37d6ce38197becdd69e58d03f43637f7fa1269cf303a7d228aa27e5b27bbd3af8f09fd938e1c91dcfefff2df7ba77c20ed8dfc765
   languageName: node
   linkType: hard
 
@@ -14927,15 +14937,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-core@npm:^13.6.0":
-  version: 13.6.0
-  resolution: "puppeteer-core@npm:13.6.0"
+"puppeteer-core@npm:^13.7.0":
+  version: 13.7.0
+  resolution: "puppeteer-core@npm:13.7.0"
   dependencies:
     cross-fetch: 3.1.5
     debug: 4.3.4
     devtools-protocol: 0.0.981744
     extract-zip: 2.0.1
-    https-proxy-agent: 5.0.0
+    https-proxy-agent: 5.0.1
     pkg-dir: 4.2.0
     progress: 2.0.3
     proxy-from-env: 1.1.0
@@ -14943,7 +14953,7 @@ __metadata:
     tar-fs: 2.1.1
     unbzip2-stream: 1.4.3
     ws: 8.5.0
-  checksum: 7d94f0a17504db2e94220dd93f0416188bee017c8f96f07e497f4ec72cf8f1e45e985eedb35dd52fdc768a3340b549ac16a3eb6c17c4912acc4128d1995767fb
+  checksum: 652c4cfc9d228a8c5162227368a78a3a28ea6f287b4bfb359fa84cb83109e8203b4251103f8b0f7eca173a2a3f5d8cb8a7b664cc958a13d536ec91b5e729e731
   languageName: node
   linkType: hard
 
@@ -15491,6 +15501,18 @@ __metadata:
     final-form: 4.20.4
     react: ^16.8.0 || ^17.0.0
   checksum: fd0069a96007618daf0bd2d12f4851f8c3b008d345a83b5817083f52b8025fc7b18602384490066a06545997486150631f72e702da72dcdf58f00af4977c04ec
+  languageName: node
+  linkType: hard
+
+"react-final-form@npm:^6.5.9":
+  version: 6.5.9
+  resolution: "react-final-form@npm:6.5.9"
+  dependencies:
+    "@babel/runtime": ^7.15.4
+  peerDependencies:
+    final-form: ^4.20.4
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 2ab79b1b0230545af1b93b324e2ce61992087beda344f762e1c1306867c177ca6258651e992515fa6681a790f94380a388c18e898ffb20468562e62c83c6b289
   languageName: node
   linkType: hard
 
@@ -19196,7 +19218,7 @@ __metadata:
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
     express: ^4.18.0
-    fp-ts: ^2.12.0
+    fp-ts: ^2.12.1
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     is-plain-object: ^5.0.0

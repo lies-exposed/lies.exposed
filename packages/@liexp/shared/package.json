@@ -19,7 +19,7 @@
     "cheerio": "^1.0.0-rc.10",
     "date-fns": "^1.30.1",
     "domino": "^2.1.6",
-    "fp-ts": "^2.12.0",
+    "fp-ts": "^2.12.1",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
     "page-metadata-parser": "^1.1.4",
