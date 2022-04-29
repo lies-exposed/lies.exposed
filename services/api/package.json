@@ -27,7 +27,7 @@
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
     "aws-sdk": "^2.1124.0",
-    "axios": "^0.26.1",
+    "axios": "^0.27.2",
     "cors": "2.8.5",
     "debug": "^4.3.4",
     "domino": "^2.1.6",
@@ -44,7 +44,7 @@
     "module-alias": "^2.2.2",
     "multer": "^1.4.4",
     "node-cron": "^3.0.0",
-    "node-telegram-bot-api": "^0.56.0",
+    "node-telegram-bot-api": "^0.57.0",
     "page-metadata-parser": "^1.1.4",
     "pg": "^8.7.3",
     "puppeteer-core": "^13.7.0",
@@ -84,7 +84,7 @@
     "supertest": "^6.2.3",
     "ts-node": "^10.7.0",
     "typeorm-uml": "^1.6.5",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.4"
   },
   "_moduleAliases": {
     "@io": "build/io",
