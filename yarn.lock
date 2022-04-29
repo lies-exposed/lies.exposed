@@ -1200,7 +1200,7 @@ __metadata:
     style-loader: ^3.3.1
     ts-loader: ^9.2.9
     tsconfig-paths-webpack-plugin: ^3.5.2
-    typescript: ^4.6.3
+    typescript: ^4.6.4
     url-loader: ^4.1.1
     webpack: ^5.72.0
     webpack-bundle-analyzer: ^4.5.0
@@ -1223,7 +1223,7 @@ __metadata:
     "@types/jest": ^27.4.1
     "@types/prettier": ^2.6.0
     "@types/throttle-debounce": ^2.1.0
-    axios: ^0.26.1
+    axios: ^0.27.2
     bs58: ^4.0.1
     cheerio: ^1.0.0-rc.10
     date-fns: ^1.30.1
@@ -1242,7 +1242,7 @@ __metadata:
     ts-endpoint-express: ^2.0.0
     ts-io-error: ^2.0.0
     ts-jest: ^27.1.4
-    typescript: ^4.6.3
+    typescript: ^4.6.4
     uuid: ^8.3.2
   peerDependencies:
     express: ^4.17.1
@@ -1306,7 +1306,7 @@ __metadata:
     "@vx/threshold": ^0.0.199
     "@vx/tooltip": 0.0.199
     "@vx/zoom": 0.0.199
-    axios: ^0.26.1
+    axios: ^0.27.2
     chroma-js: ^2.4.2
     clsx: ^1.1.1
     d3: ^5.16.0
@@ -1339,7 +1339,7 @@ __metadata:
     ts-endpoint: ^2.0.0
     ts-io-error: ^2.0.0
     ts-jest: ^27.1.4
-    typescript: ^4.6.3
+    typescript: ^4.6.4
   peerDependencies:
     "@material-ui/icons": ^4.11.2
     react-admin: ^3.18.2
@@ -4591,7 +4591,7 @@ __metadata:
     react-helmet: ^6.1.0
     react-query: ^3.38.0
     ts-jest: ^27.1.4
-    typescript: ^4.6.3
+    typescript: ^4.6.4
     uuid: ^8.3.2
     web-vitals: ^2.1.4
     webpack: ^5.72.0
@@ -4838,7 +4838,7 @@ __metadata:
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
     aws-sdk: ^2.1124.0
-    axios: ^0.26.1
+    axios: ^0.27.2
     cors: 2.8.5
     debug: ^4.3.4
     domino: ^2.1.6
@@ -4861,7 +4861,7 @@ __metadata:
     module-alias: ^2.2.2
     multer: ^1.4.4
     node-cron: ^3.0.0
-    node-telegram-bot-api: ^0.56.0
+    node-telegram-bot-api: ^0.57.0
     nodemon: ^2.0.15
     page-metadata-parser: ^1.1.4
     pg: ^8.7.3
@@ -4874,7 +4874,7 @@ __metadata:
     ts-shared: 2.0.0-alpha.6
     typeorm: ^0.2.45
     typeorm-uml: ^1.6.5
-    typescript: ^4.6.3
+    typescript: ^4.6.4
     uuid: ^8.3.2
   languageName: unknown
   linkType: soft
@@ -5276,12 +5276,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "axios@npm:0.26.1"
+"axios@npm:^0.27.2":
+  version: 0.27.2
+  resolution: "axios@npm:0.27.2"
   dependencies:
-    follow-redirects: ^1.14.8
-  checksum: d9eb58ff4bc0b36a04783fc9ff760e9245c829a5a1052ee7ca6013410d427036b1d10d04e7380c02f3508c5eaf3485b1ae67bd2adbfec3683704745c8d7a6e1a
+    follow-redirects: ^1.14.9
+    form-data: ^4.0.0
+  checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
   languageName: node
   linkType: hard
 
@@ -9311,7 +9312,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.8":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.9":
   version: 1.14.9
   resolution: "follow-redirects@npm:1.14.9"
   peerDependenciesMeta:
@@ -12286,7 +12287,7 @@ __metadata:
     pm2: ^5.2.0
     prettier: ^2.6.2
     ts-jest: ^27.1.4
-    typescript: ^4.6.3
+    typescript: ^4.6.4
     webpack: ^5.72.0
   languageName: unknown
   linkType: soft
@@ -13485,9 +13486,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-telegram-bot-api@npm:^0.56.0":
-  version: 0.56.0
-  resolution: "node-telegram-bot-api@npm:0.56.0"
+"node-telegram-bot-api@npm:^0.57.0":
+  version: 0.57.0
+  resolution: "node-telegram-bot-api@npm:0.57.0"
   dependencies:
     array.prototype.findindex: ^2.0.2
     bl: ^1.2.3
@@ -13500,7 +13501,7 @@ __metadata:
     pump: ^2.0.0
     request: ^2.83.0
     request-promise: ^4.2.2
-  checksum: 2f02792b218b005af2a4c4323898d2f1b66dd6959eb9ff5243ee0c64a916e6e62b99013afc6a4862703779d2483ab751b9963595333e88838b722c667c0c75d6
+  checksum: b25b166aaafab15f514b1fee749cc37ca6e7b03a2420f5f525bd3b223dc4ed0b6ba509f7722aff69d78bfd6a99974e00753a4b1271cc5ac62e49e524b490e978
   languageName: node
   linkType: hard
 
@@ -18666,7 +18667,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.4.3, typescript@npm:^4.6.3":
+"typescript@npm:^4.4.3":
   version: 4.6.3
   resolution: "typescript@npm:4.6.3"
   bin:
@@ -18676,13 +18677,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.3#~builtin<compat/typescript>":
+"typescript@npm:^4.6.4":
+  version: 4.6.4
+  resolution: "typescript@npm:4.6.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: e7bfcc39cd4571a63a54e5ea21f16b8445268b9900bf55aee0e02ad981be576acc140eba24f1af5e3c1457767c96cea6d12861768fb386cf3ffb34013718631a
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.4.3#~builtin<compat/typescript>":
   version: 4.6.3
   resolution: "typescript@patch:typescript@npm%3A4.6.3#~builtin<compat/typescript>::version=4.6.3&hash=493e53"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: fe6bdc1afb2f145ddb7b0a3a31f96352209f6a5704d97f038414ea22ff9d8dd42f32cfb6652e30458d7d958d2d4e85de2df11c574899c6f750a6b3c0e90a3a76
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
+  version: 4.6.4
+  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=493e53"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 8cff08bf66d9ecfbf9fcc5edde04a5a7923e6cac3b21d99b4e9a06973bf5bd7f9a83ec7eed24129c1b9e13fd861de8c1070110d4b9ce9f18ab57c6999e9c9a6f
   languageName: node
   linkType: hard
 
@@ -19202,7 +19223,7 @@ __metadata:
     "@vx/network": ^0.0.199
     "@vx/responsive": ^0.0.199
     "@vx/tooltip": ^0.0.199
-    axios: ^0.26.1
+    axios: ^0.27.2
     bs58: ^4.0.1
     clsx: ^1.1.1
     d3: ^5.16.0
@@ -19243,7 +19264,7 @@ __metadata:
     topojson-server: 3.0.1
     ts-node-dev: ^1.1.8
     tsconfig-paths-webpack-plugin: ^3.5.2
-    typescript: ^4.6.3
+    typescript: ^4.6.4
     uuid: ^8.3.2
     webpack: ^5.72.0
     webpack-bundle-analyzer: ^4.5.0
