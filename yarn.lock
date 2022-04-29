@@ -4587,7 +4587,7 @@ __metadata:
     react-admin: ^3.19.11
     react-admin-color-input: ^3.0.0-beta.0
     react-dom: ^16.14.0
-    react-final-form: ^6.5.9
+    react-final-form: ^6.5.7
     react-final-form-arrays: ^3.1.3
     react-helmet: ^6.1.0
     react-query: ^3.38.0
@@ -15503,18 +15503,6 @@ __metadata:
     final-form: 4.20.4
     react: ^16.8.0 || ^17.0.0
   checksum: fd0069a96007618daf0bd2d12f4851f8c3b008d345a83b5817083f52b8025fc7b18602384490066a06545997486150631f72e702da72dcdf58f00af4977c04ec
-  languageName: node
-  linkType: hard
-
-"react-final-form@npm:^6.5.9":
-  version: 6.5.9
-  resolution: "react-final-form@npm:6.5.9"
-  dependencies:
-    "@babel/runtime": ^7.15.4
-  peerDependencies:
-    final-form: ^4.20.4
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 2ab79b1b0230545af1b93b324e2ce61992087beda344f762e1c1306867c177ca6258651e992515fa6681a790f94380a388c18e898ffb20468562e62c83c6b289
   languageName: node
   linkType: hard
 

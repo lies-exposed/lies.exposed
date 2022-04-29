@@ -234,7 +234,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                   maxWidth: `calc(100% - ${drawerWidth})`,
                   height: "100%",
                   width: "100%",
-                  marginTop: 64
                 }}
               >
                 <Grid container justifyContent="center">

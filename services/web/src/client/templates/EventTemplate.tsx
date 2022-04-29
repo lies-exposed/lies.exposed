@@ -31,7 +31,6 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
               display: "flex",
               flexDirection: "column",
               margin: 20,
-              marginTop: theme.mixins.toolbar.height,
               marginBottom: 100,
             }}
           >
