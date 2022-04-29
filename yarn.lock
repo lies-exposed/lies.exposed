@@ -3189,10 +3189,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.31":
-  version: 16.11.31
-  resolution: "@types/node@npm:16.11.31"
-  checksum: 0bad289e12c7066cd2ea7a204d051a0bb09a32a29da39850812ea14c075f9e2b4aeaab23aa23447ef9e3aa6a30173bf3d3524e37bbeeb56fb8ffa4bbd783c5db
+"@types/node@npm:^16.11.32":
+  version: 16.11.32
+  resolution: "@types/node@npm:16.11.32"
+  checksum: 21f1bcd4f47a443f8a78a58b6ca3488dd9418c71b1185ba067d02222047fb194a3bfba244c32259bcb0cae4d55870b43a908b1f2832ec4aa4f31158f809625fe
   languageName: node
   linkType: hard
 
@@ -4553,7 +4553,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.182
-    "@types/node": ^16.11.31
+    "@types/node": ^16.11.32
     "@types/prettier": ^2.6.0
     "@types/react": ^16.14.25
     "@types/react-dom": ^16.9.15
@@ -4831,13 +4831,13 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.31
+    "@types/node": ^16.11.32
     "@types/node-cron": ^2.0.5
     "@types/node-telegram-bot-api": ^0.56.2
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1123.0
+    aws-sdk: ^2.1124.0
     axios: ^0.26.1
     cors: 2.8.5
     debug: ^4.3.4
@@ -5236,9 +5236,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1123.0":
-  version: 2.1123.0
-  resolution: "aws-sdk@npm:2.1123.0"
+"aws-sdk@npm:^2.1124.0":
+  version: 2.1124.0
+  resolution: "aws-sdk@npm:2.1124.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5249,7 +5249,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: e3e9eba5a4afd42aa2ee8ff4fa20ab2fbcde975b77ebcf3e12b4a44b17fd85f285e3840e94449d3fe848af8b6aeab74bf3f7c5314fc0c87e24d41ef47fe9c04e
+  checksum: a6ca56ff65d7c2769bc33c3c210cdb4f11d6e7e090d28f9a17f5b5b265542f2e4d62b970e240676f4e41b3ce03b0ef82a3d23aa5fd9df7cad700349441fcc184
   languageName: node
   linkType: hard
 
