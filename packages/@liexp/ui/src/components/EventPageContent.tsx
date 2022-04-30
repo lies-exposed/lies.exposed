@@ -97,7 +97,11 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           <MainContent>
             <SEO
               title={title}
-              description={getTextContentsCapped(event.excerpt as any, 230)}
+              description={
+                isValidValue(event.excerpt)
+                  ? getTextContentsCapped(event.excerpt, 230)
+                  : ""
+              }
               image={seoImage}
               urlPath={`/events/${event.id}`}
             />
@@ -121,7 +125,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         display: "flex",
                         flexDirection: isDownSM ? "row" : "column",
                         flexGrow: isDownSM ? 1 : 0,
-                        alignItems: 'flex-end'
+                        alignItems: "flex-end",
                       }}
                     >
                       {formatDateToShort(date)

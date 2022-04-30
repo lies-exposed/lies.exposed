@@ -48,7 +48,13 @@ const SankeyNode: React.FC<any> = ({
         y={y0}
         width={width}
         height={rectHeight}
-        onClick={() => onClick(props)}
+        onClick={() =>
+          onClick({
+            ...props,
+            id,
+            payload,
+          })
+        }
       >
         <svg
           x={x0}
@@ -91,7 +97,7 @@ const SankeyNode: React.FC<any> = ({
   const iconD = width - nodePadding;
 
   return (
-    <g key={id} x={x0} y={y0} onClick={() => onClick(props)}>
+    <g key={id} x={x0} y={y0} onClick={() => onClick({ ...props, payload, id })}>
       <rect
         x={x0}
         y={y0}
