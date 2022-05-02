@@ -1183,7 +1183,7 @@ __metadata:
     dotenv-webpack: ^7.1.0
     eslint: ^8.14.0
     eslint-plugin-import: ^2.26.0
-    express: ^4.18.0
+    express: ^4.18.1
     fast-check: ^2.25.0
     fast-check-io-ts: ^0.5.0
     file-loader: ^6.2.0
@@ -1329,7 +1329,7 @@ __metadata:
     react-error-boundary: ^3.1.4
     react-helmet: ^6.1.0
     react-helmet-async: ^1.3.0
-    react-query: ^3.38.0
+    react-query: ^3.38.1
     react-slick: ^0.29.0
     react-spring: ^9.4.4
     react-toc: ^2.1.1
@@ -3189,10 +3189,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.32":
-  version: 16.11.32
-  resolution: "@types/node@npm:16.11.32"
-  checksum: 21f1bcd4f47a443f8a78a58b6ca3488dd9418c71b1185ba067d02222047fb194a3bfba244c32259bcb0cae4d55870b43a908b1f2832ec4aa4f31158f809625fe
+"@types/node@npm:^16.11.33":
+  version: 16.11.33
+  resolution: "@types/node@npm:16.11.33"
+  checksum: 5c86d3f1e3b996607b41405d368d2e19d410eee0054595cef73d230368a609a2863926e75ad19f5091f0fd742cd018b667d54c51292018dd8020a202a5b29fa9
   languageName: node
   linkType: hard
 
@@ -4553,7 +4553,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.4.1
     "@types/lodash": ^4.14.182
-    "@types/node": ^16.11.32
+    "@types/node": ^16.11.33
     "@types/prettier": ^2.6.0
     "@types/react": ^16.14.25
     "@types/react-dom": ^16.9.15
@@ -4590,7 +4590,7 @@ __metadata:
     react-final-form: ^6.5.7
     react-final-form-arrays: ^3.1.3
     react-helmet: ^6.1.0
-    react-query: ^3.38.0
+    react-query: ^3.38.1
     ts-jest: ^27.1.4
     typescript: ^4.6.4
     uuid: ^8.3.2
@@ -4832,13 +4832,13 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.32
+    "@types/node": ^16.11.33
     "@types/node-cron": ^2.0.5
     "@types/node-telegram-bot-api": ^0.56.2
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1124.0
+    aws-sdk: ^2.1125.0
     axios: ^0.27.2
     cors: 2.8.5
     debug: ^4.3.4
@@ -4847,7 +4847,7 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-import-resolver-typescript: ^2.7.1
     eslint-plugin-import: ^2.26.0
-    express: ^4.18.0
+    express: ^4.18.1
     express-jwt: ^6.1.2
     fast-check: ^2.25.0
     fast-csv: ^4.3.6
@@ -4863,7 +4863,7 @@ __metadata:
     multer: ^1.4.4
     node-cron: ^3.0.0
     node-telegram-bot-api: ^0.57.0
-    nodemon: ^2.0.15
+    nodemon: ^2.0.16
     page-metadata-parser: ^1.1.4
     pg: ^8.7.3
     prettier: ^2.6.2
@@ -5237,9 +5237,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1124.0":
-  version: 2.1124.0
-  resolution: "aws-sdk@npm:2.1124.0"
+"aws-sdk@npm:^2.1125.0":
+  version: 2.1125.0
+  resolution: "aws-sdk@npm:2.1125.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5250,7 +5250,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: a6ca56ff65d7c2769bc33c3c210cdb4f11d6e7e090d28f9a17f5b5b265542f2e4d62b970e240676f4e41b3ce03b0ef82a3d23aa5fd9df7cad700349441fcc184
+  checksum: 78bffeea24ac47b9159dbf14aa405fb6c12ba1c749464e42a97b07d806a6290a9490f1453386afd7835166290dbfebf6561082c6b166e1353ccf2b4da482c6e7
   languageName: node
   linkType: hard
 
@@ -8840,9 +8840,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:^4.18.0":
-  version: 4.18.0
-  resolution: "express@npm:4.18.0"
+"express@npm:^4.18.1":
+  version: 4.18.1
+  resolution: "express@npm:4.18.1"
   dependencies:
     accepts: ~1.3.8
     array-flatten: 1.1.1
@@ -8875,7 +8875,7 @@ __metadata:
     type-is: ~1.6.18
     utils-merge: 1.0.1
     vary: ~1.1.2
-  checksum: 2d83ccb02aedfc68ae99ff13b97f65896f4e0866a92f34e041fa3de858ce862bcb5ecd0cf43f266514eda777b8e0d55627a2430894a6ce17e30febf78da40c60
+  checksum: c3d44c92e48226ef32ec978becfedb0ecf0ca21316bfd33674b3c5d20459840584f2325726a4f17f33d9c99f769636f728982d1c5433a5b6fe6eb95b8cf0c854
   languageName: node
   linkType: hard
 
@@ -13506,9 +13506,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemon@npm:^2.0.15":
-  version: 2.0.15
-  resolution: "nodemon@npm:2.0.15"
+"nodemon@npm:^2.0.16":
+  version: 2.0.16
+  resolution: "nodemon@npm:2.0.16"
   dependencies:
     chokidar: ^3.5.2
     debug: ^3.2.7
@@ -13522,7 +13522,7 @@ __metadata:
     update-notifier: ^5.1.0
   bin:
     nodemon: bin/nodemon.js
-  checksum: 0569b09b713fdcc76f06734d7cc106950e69e02069cbf44bda3fae8d266926bdfa003aeddd22f8fcdf46ea6ff51ca64f5528f8006536e79820a26e648ef346cf
+  checksum: ff818aa91b283bd0f1f6cfb8fdc9b5c3e74d5efa0cb72276dc242b742dc35d3f0720d35d99dbe85ecf6df7185f083ef9b1f7908094e43fd4e2508b6805d644dc
   languageName: node
   linkType: hard
 
@@ -15596,9 +15596,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.38.0":
-  version: 3.38.0
-  resolution: "react-query@npm:3.38.0"
+"react-query@npm:^3.38.1":
+  version: 3.38.1
+  resolution: "react-query@npm:3.38.1"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
@@ -15610,7 +15610,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 9318952a3e09f1716edd7f934c6d78b8bb94d1b1cce2d6e8fe5b9298009394da0ef16c5ad57797561bb2bee894a9bce9ffeacdf9276466270e5ed232f5d5097f
+  checksum: 2edb95dbc0184aa1858e7a47161372c871d0077583e439cfce4473231f426a222990ad313ad1eaf6fca1025e502d006f4f92008b346a83900be148a7e3ededc2
   languageName: node
   linkType: hard
 
@@ -19227,7 +19227,7 @@ __metadata:
     eslint-plugin-promise: ^6.0.0
     eslint-plugin-react: 7.29.4
     eslint-webpack-plugin: ^3.1.1
-    express: ^4.18.0
+    express: ^4.18.1
     fp-ts: ^2.12.1
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
