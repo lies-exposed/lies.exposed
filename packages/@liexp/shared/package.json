@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/bs58": "^4.0.1",
-    "@types/jest": "^27.4.1",
+    "@types/jest": "^27.5.0",
     "@types/prettier": "^2.6.0",
     "@types/throttle-debounce": "^2.1.0",
     "jest": "^27.5.1",
