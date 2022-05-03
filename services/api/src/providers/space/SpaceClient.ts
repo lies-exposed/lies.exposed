@@ -68,6 +68,7 @@ export interface MakeSpaceClientConfig {
 
 export const MakeSpaceClient = (config: MakeSpaceClientConfig): SpaceClient => {
   return {
+
     createBucket: (params: AWS.S3.Types.CreateBucketRequest) => {
       return TE.tryCatch(
         () => config.client.createBucket(params).promise(),

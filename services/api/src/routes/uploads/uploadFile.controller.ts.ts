@@ -50,8 +50,8 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
           statusCode: 200,
         })),
         TE.fold(
-          (e) => T.task.of(res.status(500).send(e)),
-          ({ body, statusCode }) => T.task.of(res.status(statusCode).send(body))
+          (e) => T.of(res.status(500).send(e)),
+          ({ body, statusCode }) => T.of(res.status(statusCode).send(body))
         )
       )();
     }

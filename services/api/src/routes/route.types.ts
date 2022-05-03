@@ -1,5 +1,6 @@
 import * as logger from "@liexp/core/logger";
 import { URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
+import { FFMPEGProvider } from '@liexp/shared/providers/ffmpeg.provider';
 import { PuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
 import { Router } from "express";
 import { ENV } from "@io/ENV";
@@ -17,6 +18,7 @@ export interface RouteContext {
   urlMetadata: URLMetadataClient;
   puppeteer: PuppeteerProvider;
   tg: TGBotProvider;
+  ffmpeg: FFMPEGProvider
 }
 
 export type Route = (r: Router, ctx: RouteContext) => void;

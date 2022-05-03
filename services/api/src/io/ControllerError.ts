@@ -79,3 +79,20 @@ export const DecodeError = (
     },
   };
 };
+
+export const toControllerError = (e: unknown): ControllerError => {
+  if (e instanceof ControllerError) {
+    return e;
+  }
+
+  return {
+    name: "ControllerError",
+    status: 500,
+    message: "Unknown Error",
+    details: {
+      kind: "ServerError",
+      meta: [],
+      status: "Unknown Error",
+    },
+  };
+};

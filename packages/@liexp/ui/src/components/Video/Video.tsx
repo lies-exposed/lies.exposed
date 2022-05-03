@@ -4,7 +4,7 @@ import * as React from "react";
 
 const useStyles = makeStyles(() => ({
   wrapper: {
-    display: 'flex',
+    display: "flex",
     width: "100%",
     maxWidth: 800,
     minHeight: 300,
@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
 
 interface VideoProps {
   className?: string;
+  thumbnail?: string;
   src: string;
   type: MP4Type;
   controls: boolean;
@@ -21,9 +22,11 @@ interface VideoProps {
   muted: boolean;
   loop: boolean;
   style?: React.CSSProperties;
+  onLoad?: () => void;
 }
 
 export const Video: React.FC<VideoProps> = ({
+  thumbnail,
   src,
   type,
   controls,
@@ -31,12 +34,17 @@ export const Video: React.FC<VideoProps> = ({
   loop,
   muted,
   style,
+  onLoad,
 }) => {
   const classes = useStyles();
-  const [loaded, setLoaded] = React.useState(true);
+  const [loaded, setLoaded] = React.useState(!(thumbnail !== undefined));
 
   return (
-    <div className={classes.wrapper} style={style} onClick={() => setLoaded(true)}>
+    <div
+      className={classes.wrapper}
+      style={style}
+      onClick={() => setLoaded(true)}
+    >
       {loaded ? (
         <video
           controls={controls}
@@ -52,7 +60,18 @@ export const Video: React.FC<VideoProps> = ({
           <source src={src} type={type} />
         </video>
       ) : (
-        <div>{"load video"}</div>
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setLoaded(true);
+          }}
+          style={{
+            ...style,
+            background: `url(${thumbnail}) no-repeat center center`,
+            backgroundSize: "contain",
+          }}
+          onLoad={onLoad}
+        />
       )}
     </div>
   );

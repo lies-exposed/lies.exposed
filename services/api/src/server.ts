@@ -1,12 +1,14 @@
 import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
+import { GetFFMPEGProvider } from '@liexp/shared/providers/ffmpeg.provider';
 import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
 import * as AWS from "aws-sdk";
 import axios from "axios";
 import cors from "cors";
 import express from "express";
 import jwt from "express-jwt";
+import ffmpeg from 'fluent-ffmpeg';
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -113,6 +115,9 @@ export const makeContext = (
             args: ["--no-sandbox"],
           })
         ),
+        ffmpeg: TE.right(
+          GetFFMPEGProvider(ffmpeg)
+        )
       });
     }),
     TE.mapLeft((e) => ({
