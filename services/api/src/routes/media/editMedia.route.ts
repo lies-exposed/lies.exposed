@@ -18,6 +18,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             overrideThumbnail
               ? createThumbnail(ctx)({
                   thumbnail,
+                  id,
                   ...body,
                 } as any)
               : TE.right(thumbnail),

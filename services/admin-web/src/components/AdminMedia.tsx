@@ -230,6 +230,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
     <TabbedForm>
       <FormTab label="general">
         <ThumbnailField />
+        <TextInput source="location" type="url" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
         <TextInput source="description" />

@@ -53,6 +53,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
           <Video
             {...props}
             className={className}
+            thumbnail={media.thumbnail}
             src={media.location}
             type={"video/mp4"}
             muted={false}
