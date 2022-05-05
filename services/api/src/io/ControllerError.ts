@@ -81,6 +81,8 @@ export const DecodeError = (
 };
 
 export const toControllerError = (e: unknown): ControllerError => {
+  // eslint-disable-next-line no-console
+  console.error(e);
   if (e instanceof ControllerError) {
     return e;
   }
