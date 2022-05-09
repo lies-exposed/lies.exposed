@@ -19,7 +19,10 @@ const apiServe = {
   wait_ready: true,
   listen_timeout: 10000,
   kill_timeout: 3000,
-  env: dotenv.parse(fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")),
+  env: {
+    ...dotenv.parse(fs.readFileSync(path.resolve(__dirname, ".env"), "utf-8")),
+    DEBUG: "@liexp*"
+  }
 };
 
 const webServe = {

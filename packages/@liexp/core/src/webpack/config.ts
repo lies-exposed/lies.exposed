@@ -121,7 +121,6 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
     plugins.push(
       new webpack.ProgressPlugin({
-        entries: true,
         percentBy: "entries",
       }),
       new webpack.DefinePlugin(stringifiedAppEnv)
