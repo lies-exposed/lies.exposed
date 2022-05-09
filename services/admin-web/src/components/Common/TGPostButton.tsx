@@ -97,7 +97,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
       <Dialog open={!!sharePayload.title}>
         <DialogTitle>Post on Telegram</DialogTitle>
         <DialogContent>
-          {sharePayload ? (
+          {sharePayload?.date ? (
             <Box style={{ width: "100%" }}>
               <Typography>
                 <Link href={sharePayload.url}>{sharePayload.title}</Link>

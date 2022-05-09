@@ -24,6 +24,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useRecordContext,
 } from "react-admin";
 import ExcerptField from "../Common/ExcerptField";
 import { MediaField } from "../Common/MediaField";
@@ -34,7 +35,7 @@ import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../Common/ReferenceArrayLinkInput";
 import ReferenceArrayMediaInput from "../Common/ReferenceArrayMediaInput";
 import ReferenceMediaInput from "../Common/ReferenceMediaInput";
-import { TGPostButton } from '../Common/TGPostButton';
+import { TGPostButton } from "../Common/TGPostButton";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
@@ -74,9 +75,9 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
 );
 
 export const DocumentaryReleaseTitle: React.FC<{
-  record: Events.Documentary.Documentary;
+  record?: Events.Documentary.Documentary;
 }> = ({ record }) => {
-  return <span>Documentary: {record.payload.title}</span>;
+  return <span>Documentary: {record?.payload?.title}</span>;
 };
 
 export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
@@ -87,65 +88,71 @@ export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
   </FormTab>
 );
 
-export const DocumentaryEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit
-    title={<DocumentaryReleaseTitle {...(props as any)} />}
-    {...props}
-    actions={
-      <>
-        <WebPreviewButton resource="/events" source="id" {...(props as any)} />
-        <TGPostButton id={props.id} />
-      </>
-    }
-    transform={(r) => transformEvent(r.id , r)}
-  >
-    <TabbedForm>
-      <FormTab label="Generals">
-        <BooleanInput source="draft" defaultValue={false} />
-        <TextInput fullWidth source="payload.title" />
-        <TextInput type="url" fullWidth source="payload.website" />
-        <DateInput source="date" />
-        <ReferenceMediaInput
-          allowedTypes={["video/mp4", "iframe/video"]}
-          source="payload.media"
-        />
-        <ReactPageInput source="excerpt" onlyText />
+export const DocumentaryEdit: React.FC = () => {
+  const record = useRecordContext<Events.Documentary.Documentary>();
+  return (
+    <Edit
+      title={<DocumentaryReleaseTitle record={record} />}
+      actions={
+        <>
+          <WebPreviewButton resource="/events" source="id" record={record} />
+          <TGPostButton id={record?.id} />
+        </>
+      }
+      transform={(r) => transformEvent(r.id, r)}
+    >
+      <TabbedForm>
+        <FormTab label="Generals">
+          <BooleanInput source="draft" defaultValue={false} />
+          <TextInput fullWidth source="payload.title" />
+          <TextInput type="url" fullWidth source="payload.website" />
+          <DateInput source="date" />
+          <ReferenceMediaInput
+            allowedTypes={["video/mp4", "iframe/video"]}
+            source="payload.media"
+          />
+          <ReactPageInput source="excerpt" onlyText />
 
-        {/** Authors */}
-        <ReferenceArrayActorInput
-          source="payload.authors.actors"
-          defaultValue={[]}
-        />
-        <ReferenceArrayGroupInput
-          source="payload.authors.groups"
-          defaultValue={[]}
-        />
+          {/** Authors */}
+          <ReferenceArrayActorInput
+            source="payload.authors.actors"
+            defaultValue={[]}
+          />
+          <ReferenceArrayGroupInput
+            source="payload.authors.groups"
+            defaultValue={[]}
+          />
 
-        {/** Subjects */}
-        <ReferenceArrayActorInput
-          source="payload.subjects.actors"
-          defaultValue={[]}
-        />
-        <ReferenceArrayGroupInput
-          source="payload.subjects.groups"
-          defaultValue={[]}
-        />
-        <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd={true} />
-        <DateField source="updatedAt" showTime={true} />
-        <DateField source="createdAt" showTime={true} />
-      </FormTab>
-      <FormTab label="Body">
-        <ReactPageInput source="body" />
-      </FormTab>
-      <FormTab label="Location">
-        <MapInput source="payload.location" type={MapInputType.POINT} />
-      </FormTab>
-      <FormTab label="Links">
-        <ReferenceArrayLinkInput source="links" />
-      </FormTab>
-    </TabbedForm>
-  </Edit>
-);
+          {/** Subjects */}
+          <ReferenceArrayActorInput
+            source="payload.subjects.actors"
+            defaultValue={[]}
+          />
+          <ReferenceArrayGroupInput
+            source="payload.subjects.groups"
+            defaultValue={[]}
+          />
+          <ReferenceArrayKeywordInput
+            source="keywords"
+            defaultValue={[]}
+            showAdd={true}
+          />
+          <DateField source="updatedAt" showTime={true} />
+          <DateField source="createdAt" showTime={true} />
+        </FormTab>
+        <FormTab label="Body">
+          <ReactPageInput source="body" />
+        </FormTab>
+        <FormTab label="Location">
+          <MapInput source="payload.location" type={MapInputType.POINT} />
+        </FormTab>
+        <FormTab label="Links">
+          <ReferenceArrayLinkInput source="links" />
+        </FormTab>
+      </TabbedForm>
+    </Edit>
+  );
+};
 
 export const DocumentaryCreate: React.FC<CreateProps> = (props) => (
   <Create

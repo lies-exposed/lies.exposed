@@ -21,7 +21,8 @@ import {
   TextField,
   TextInput,
   TabbedForm,
-  RaRecord
+  RaRecord,
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -65,9 +66,9 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
 );
 
 export const ScientificStudyEventTitle: React.FC<{
-  record: ScientificStudy.ScientificStudy;
-}> = ({ record }: any) => {
-  return <span>Scientific Study: {record.payload.title}</span>;
+  record?: ScientificStudy.ScientificStudy;
+}> = ({ record }) => {
+  return <span>Scientific Study: {record?.payload?.title}</span>;
 };
 
 export const EditScientificStudyEvent: React.FC<
@@ -89,53 +90,55 @@ export const EditScientificStudyEvent: React.FC<
   );
 };
 
-export const ScientificStudyEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit
-    title={<ScientificStudyEventTitle {...(props as any)} />}
-    {...props}
-    actions={
-      <>
-        <WebPreviewButton resource="/dashboard/events" source="id" />
-      </>
-    }
-    transform={(r) => transformEvent(r.id , r)}
-  >
-    <TabbedForm>
-      <FormTab label="General">
-        <TextInput
-          source="type"
-          defaultValue={ScientificStudy.SCIENTIFIC_STUDY.value}
-          hidden
-        />
+export const ScientificStudyEdit: React.FC = () => {
+  const record = useRecordContext<ScientificStudy.ScientificStudy>();
+  return (
+    <Edit
+      title={<ScientificStudyEventTitle record={record} />}
+      actions={
+        <>
+          <WebPreviewButton resource="/dashboard/events" source="id" />
+        </>
+      }
+      transform={(r) => transformEvent(r.id, r)}
+    >
+      <TabbedForm>
+        <FormTab label="General">
+          <TextInput
+            source="type"
+            defaultValue={ScientificStudy.SCIENTIFIC_STUDY.value}
+            hidden
+          />
 
-        <BooleanInput source="draft" />
-        <TextInput source="payload.title" />
-        <URLMetadataInput
-          source="payload.url"
-          type={ScientificStudy.SCIENTIFIC_STUDY.value}
-        />
-        <DateInput source="date" />
-        <ReactPageInput source="excerpt" onlyText />
-        <ReferenceArrayKeywordInput
-          source="keywords"
-          defaultValue={[]}
-          showAdd
-        />
-        <ReferenceArrayActorInput source="payload.authors" />
-        <ReferenceGroupInput source="payload.publisher" />
-        <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-      </FormTab>
-      <FormTab label="body">
-        <ReactPageInput source="body" />
-      </FormTab>
+          <BooleanInput source="draft" />
+          <TextInput source="payload.title" />
+          <URLMetadataInput
+            source="payload.url"
+            type={ScientificStudy.SCIENTIFIC_STUDY.value}
+          />
+          <DateInput source="date" />
+          <ReactPageInput source="excerpt" onlyText />
+          <ReferenceArrayKeywordInput
+            source="keywords"
+            defaultValue={[]}
+            showAdd
+          />
+          <ReferenceArrayActorInput source="payload.authors" />
+          <ReferenceGroupInput source="payload.publisher" />
+          <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+        </FormTab>
+        <FormTab label="body">
+          <ReactPageInput source="body" />
+        </FormTab>
 
-      <FormTab label="media">
-        <MediaArrayInput source="newMedia" defaultValue={[]} />
-        <ReferenceMediaDataGrid source="media" />
-      </FormTab>
-    </TabbedForm>
-  </Edit>
-);
+        <FormTab label="media">
+          <MediaArrayInput source="newMedia" defaultValue={[]} />
+          <ReferenceMediaDataGrid source="media" />
+        </FormTab>
+      </TabbedForm>
+    </Edit>
+  );
+};
 
 export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
   <Create
