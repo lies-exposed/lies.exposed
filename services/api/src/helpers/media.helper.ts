@@ -172,6 +172,7 @@ export const createThumbnail =
                 Body: fs.createReadStream(tempThumbnail),
                 ContentType: "image/png",
                 Bucket: ctx.env.SPACE_BUCKET,
+                ACL: 'public-read'
               });
             }),
             TE.map((thumb) => thumb.Location),
