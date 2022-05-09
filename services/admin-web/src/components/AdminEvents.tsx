@@ -28,20 +28,19 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps,
   Filter,
   FormDataConsumer,
   FormTab,
   FunctionField,
   List,
-  ListProps,
   RaRecord as Record,
   ReferenceArrayField,
   ReferenceField,
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
+  useEditContext,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
@@ -55,21 +54,21 @@ import { TGPostButton } from "./Common/TGPostButton";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle
+  DocumentaryReleaseTitle,
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
@@ -100,9 +99,8 @@ const EventsFilter: React.FC = (props: any) => {
   );
 };
 
-export const EventList: React.FC<ListProps> = (props) => (
+export const EventList: React.FC = () => (
   <List
-    {...props}
     resource={RESOURCE}
     filterDefaultValues={{
       withDeleted: true,
@@ -113,12 +111,12 @@ export const EventList: React.FC<ListProps> = (props) => (
     <Datagrid
       rowClick={(_props, _id, record) => {
         if (record.type === SCIENTIFIC_STUDY.value) {
-          return `scientific-studies/${record.id}`;
+          return `/scientific-studies/${record.id}`;
         }
         if (record.type === DEATH.value) {
-          return `deaths/${record.id}`;
+          return `/deaths/${record.id}`;
         }
-        return `events/${record.id}`;
+        return `/events/${record.id}`;
       }}
     >
       <BooleanField source="draft" />
@@ -217,42 +215,45 @@ export const EventList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const EditTitle: React.FC<any> = ({ record }: { record: Event }) => {
-  switch (record.type) {
-    case UNCATEGORIZED.value:
-      return <UncategorizedEventTitle record={record} />;
-    case SCIENTIFIC_STUDY.value:
-      return <ScientificStudyEventTitle record={record} />;
-    case DEATH.value:
-      return <DeathEventTitle record={record} />;
-    case PATENT.value:
-      return <PatentEventTitle record={record} />;
-    case DOCUMENTARY.value:
-      return <DocumentaryReleaseTitle record={record} />;
-    case TRANSACTION.value:
-      return <TransactionTitle record={record} />;
+export const EditTitle: React.FC<{ record?: Event }> = ({ record }) => {
+  if (record) {
+    switch (record.type) {
+      case UNCATEGORIZED.value:
+        return <UncategorizedEventTitle record={record} />;
+      case SCIENTIFIC_STUDY.value:
+        return <ScientificStudyEventTitle record={record} />;
+      case DEATH.value:
+        return <DeathEventTitle record={record} />;
+      case PATENT.value:
+        return <PatentEventTitle record={record} />;
+      case DOCUMENTARY.value:
+        return <DocumentaryReleaseTitle record={record} />;
+      case TRANSACTION.value:
+        return <TransactionTitle record={record} />;
+    }
   }
+  return <span>No record</span>;
 };
 
-export const EventEdit: React.FC<EditProps> = (props: EditProps) => {
+export const EventEdit: React.FC = () => {
+  const { record } = useEditContext();
   return (
     <Edit
-      title={<EditTitle {...props} />}
-      {...props}
+      title={<EditTitle record={record} />}
       actions={
         <Box style={{ display: "flex", margin: 10 }}>
           <WebPreviewButton
-            resource="/events"
+            resource="events"
             source="id"
-            record={{ id: props.id } as any}
+            record={{ id: record?.id }}
           />
-          <TGPostButton id={props.id} />
+          <TGPostButton id={record?.id} />
         </Box>
       }
       transform={(r) => {
         // eslint-disable-next-line
         console.log("transform event for type", { type: r.type, event: r });
-        return transformEvent(r.id , r);
+        return transformEvent(r.id, r);
       }}
     >
       <TabbedForm redirect={false}>

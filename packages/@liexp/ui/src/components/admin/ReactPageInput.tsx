@@ -2,17 +2,19 @@
 import { RaReactPageInput } from "@react-page/react-admin";
 import "is-plain-object";
 import * as React from "react";
-import { InputProps } from "react-admin";
+import { InputProps, useRecordContext } from "react-admin";
 import { cellPlugins, minimalCellPlugins } from "../Common/Editor";
 
 const ReactPageInput: React.FC<InputProps & { onlyText?: boolean }> = ({
   onlyText = false,
   ...props
 }) => {
+  const record= useRecordContext();
   return (
     <RaReactPageInput
       label={props.source}
       {...props}
+      record={record}
       cellPlugins={onlyText ? minimalCellPlugins : cellPlugins}
       lang="en"
     />

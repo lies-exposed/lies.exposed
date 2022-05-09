@@ -1,9 +1,7 @@
-
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import AdminPage from "./AdminPage";
 import reportWebVitals from "./reportWebVitals";
-
 
 ReactDOM.render(
   <React.StrictMode>

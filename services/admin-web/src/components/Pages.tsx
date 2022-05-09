@@ -1,5 +1,6 @@
+import { http } from "@liexp/shared/io";
 import { PageContent } from "@liexp/ui/components/PageContent";
-import { HelmetProvider } from '@liexp/ui/components/SEO';
+import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
@@ -18,6 +19,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useRecordContext
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import RichTextInput from "./Common/RichTextInput";
@@ -33,39 +35,42 @@ export const PageList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC = ({ record }: any) => {
-  return <span>Page {record.title}</span>;
+const EditTitle: React.FC<{ record?: http.Page.Page }> = ({ record }) => {
+  return <span>Page {record?.title}</span>;
 };
 
-export const PageEdit: React.FC<EditProps> = (props) => (
-  <Edit title={<EditTitle {...props} />} {...props}>
-    <TabbedForm>
-      <FormTab label="Generals">
-        <TextInput source="title" />
-        <TextInput source="path" />
-        <RichTextInput source="excerpt" />
-        <RichTextInput source="body" />
-        <ReactPageInput source="body2" />
-        <DateField source="createdAt" />
-        <DateField source="updatedAt" />
-      </FormTab>
-      <FormTab label="preview">
-        <FormDataConsumer>
-          {({ formData, ...rest }) => {
-            const qc = new QueryClient();
-            return (
-              <HelmetProvider>
-                <QueryClientProvider client={qc}>
-                  <PageContent {...formData} />
-                </QueryClientProvider>
-              </HelmetProvider>
-            );
-          }}
-        </FormDataConsumer>
-      </FormTab>
-    </TabbedForm>
-  </Edit>
-);
+export const PageEdit: React.FC<EditProps> = (props) => {
+  const record = useRecordContext<http.Page.Page>();
+  return (
+    <Edit title={<EditTitle record={record} />} {...props}>
+      <TabbedForm>
+        <FormTab label="Generals">
+          <TextInput source="title" />
+          <TextInput source="path" />
+          <RichTextInput source="excerpt" />
+          <RichTextInput source="body" />
+          <ReactPageInput source="body2" />
+          <DateField source="createdAt" />
+          <DateField source="updatedAt" />
+        </FormTab>
+        <FormTab label="preview">
+          <FormDataConsumer>
+            {({ formData, ...rest }) => {
+              const qc = new QueryClient();
+              return (
+                <HelmetProvider>
+                  <QueryClientProvider client={qc}>
+                    <PageContent {...formData} />
+                  </QueryClientProvider>
+                </HelmetProvider>
+              );
+            }}
+          </FormDataConsumer>
+        </FormTab>
+      </TabbedForm>
+    </Edit>
+  );
+};
 
 export const PageCreate: React.FC<CreateProps> = (props) => (
   <Create title="Create Page" {...props}>

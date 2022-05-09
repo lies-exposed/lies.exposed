@@ -1,3 +1,4 @@
+import * as http from '@liexp/shared/io/http';
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { FormControl, Grid } from "@material-ui/core";
 import * as React from "react";
@@ -7,9 +8,7 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  Edit,
-  EditProps,
-  FormTab,
+  Edit, FormTab,
   List,
   ListProps,
   RaRecord,
@@ -17,7 +16,7 @@ import {
   ReferenceManyField,
   SimpleForm,
   TabbedForm,
-  TextField,
+  TextField, useRecordContext
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import ReferenceActorInput from "./Common/ReferenceActorInput";
@@ -56,15 +55,15 @@ export const GroupMemberList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC = ({ record }: any) => {
-  return <span>Actor {record.fullName}</span>;
+const EditTitle: React.FC<{ record?: http.GroupMember.GroupMember }> = ({ record }) => {
+  return <span>Actor {record?.actor.fullName}</span>;
 };
 
-export const GroupMemberEdit: React.FC<EditProps> = (props) => {
+export const GroupMemberEdit: React.FC = () => {
+  const record = useRecordContext<http.GroupMember.GroupMember>();
   return (
     <Edit
-      title={<EditTitle {...props} />}
-      {...props}
+      title={<EditTitle record={record} />}
       transform={transformGroupMember}
     >
       <TabbedForm>

@@ -9,8 +9,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
   ArrayInput,
-  AutocompleteInput,
-  Create,
+  AutocompleteInput, Create,
   CreateProps,
   Datagrid,
   DateField,
@@ -33,7 +32,7 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput, useRecordContext
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { ColorInput } from "./Common/ColorInput";
@@ -89,13 +88,15 @@ const transformActor = async (id: string, data: RaRecord): Promise<RaRecord> => 
   });
 };
 
-const EditTitle: React.FC = ({ record }: any) => {
+const EditTitle: React.FC<{ record?: http.Actor.Actor }> = ({ record }) => {
   return <span>Actor {record.fullName}</span>;
 };
 
-export const ActorEdit: React.FC<EditProps> = (props) => (
+export const ActorEdit: React.FC<EditProps> = (props) => {
+  const record = useRecordContext<http.Actor.Actor>();
+  return (
   <Edit
-    title={<EditTitle {...props} />}
+    title={<EditTitle record={record} />}
     {...props}
     actions={
       <>
@@ -189,6 +190,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => (
     </TabbedForm>
   </Edit>
 );
+        }
 
 export const ActorCreate: React.FC<CreateProps> = (props) => (
   <Create
