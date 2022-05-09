@@ -14,9 +14,7 @@ import {
   Filter,
   FunctionField,
   ImageField,
-  List,
-  ListProps,
-  ReferenceArrayInput,
+  List, ReferenceArrayInput,
   ReferenceManyField,
   Resource,
   ResourceProps,
@@ -33,9 +31,9 @@ import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "links";
 
-const LinksFilter: React.FC = (props: any) => {
+const LinksFilter: React.FC = () => {
   return (
-    <Filter {...props}>
+    <Filter>
       <TextInput source="title" alwaysOn />
       <ReferenceArrayInput source="events" reference="events" alwaysOn>
         <AutocompleteArrayInput optionText="payload.title" />
@@ -45,11 +43,10 @@ const LinksFilter: React.FC = (props: any) => {
   );
 };
 
-export const LinkList: React.FC<ListProps> = (props) => (
+export const LinkList: React.FC = () => (
   <List
-    {...props}
     resource={RESOURCE}
-    filters={<LinksFilter {...props} />}
+    filters={<LinksFilter />}
     perPage={20}
     filterDefaultValues={{ _sort: "createdAt", _order: "DESC" }}
   >

@@ -1,3 +1,4 @@
+import { http } from '@liexp/shared/io';
 import { Death } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
@@ -11,8 +12,7 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput,
-  Edit,
+  DateInput, Edit,
   EditProps,
   Filter,
   FormTab,
@@ -22,7 +22,7 @@ import {
   ReferenceInput,
   SelectInput,
   SimpleForm,
-  TabbedForm
+  TabbedForm, useRecordContext
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -73,9 +73,7 @@ export const DeathEventTitle: React.FC<{ record: Death.Death }> = ({
   record,
 }) => {
   return (
-    <span>
-      Event: {record.payload.victim} on {record.date}
-    </span>
+    <span>Event: {record.payload.victim} on {record.date.toISOString()}</span>
   );
 };
 
@@ -87,14 +85,16 @@ export const DeathEventEditFormTab: React.FC<EditProps & { record?: any }> = (
   </FormTab>
 );
 
-export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
+export const DeathEdit: React.FC = () => {
+  const record = useRecordContext<http.Events.Death.Death>();
+
+  return(
   <Edit
-    title={<DeathEventTitle {...(props as any)} />}
-    {...props}
+    title={<DeathEventTitle record={record} />}
     actions={
       <>
-        <WebPreviewButton resource="/dashboard/events" source="id" {...(props as any)} />
-        <TGPostButton id={props.id} />
+        <WebPreviewButton resource="/dashboard/events" source="id" record={record} />
+        <TGPostButton id={record?.id} />
       </>
     }
     transform={(r) => transformEvent(r.id , r)}
@@ -142,6 +142,7 @@ export const DeathEdit: React.FC<EditProps> = (props: EditProps) => (
     </TabbedForm>
   </Edit>
 );
+          }
 
 export const DeathCreate: React.FC<CreateProps> = (props) => (
   <Create

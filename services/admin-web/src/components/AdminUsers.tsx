@@ -14,6 +14,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
+  useRecordContext,
   TextInput,
 } from "react-admin";
 import RichTextInput from "./Common/RichTextInput";
@@ -31,12 +32,13 @@ export const UserList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC = ({ record }: any) => {
-  return <span>user {record.fullName}</span>;
+const EditTitle: React.FC = () => {
+  const record = useRecordContext();
+  return <span>user {record?.fullName}</span>;
 };
 
 export const UserEdit: React.FC<EditProps> = (props) => (
-  <Edit title={<EditTitle {...props} />} {...props}>
+  <Edit title={<EditTitle />} {...props}>
     <TabbedForm>
       <FormTab label="generals">
         <ImageField source="avatar" />

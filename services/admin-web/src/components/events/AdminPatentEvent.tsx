@@ -21,6 +21,7 @@ import {
   TextField,
   TextInput,
   UrlField,
+  useRecordContext
 } from "react-admin";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
@@ -66,14 +67,12 @@ export const PatentList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const PatentEventTitle: React.FC<{ record: Patent.Patent }> = ({
+export const PatentEventTitle: React.FC<{ record?: Patent.Patent }> = ({
   record,
 }) => {
-  return (
-    <span>
-      Event: {record.payload.title} on {record.date}
-    </span>
-  );
+  return record ? (
+    <span>{`Event: ${record.payload.title} on ${record.date}`}</span>
+  ) : null;
 };
 
 export const PatentEventEditFormTab: React.FC<
@@ -89,53 +88,55 @@ export const PatentEventEditFormTab: React.FC<
   );
 };
 
-export const PatentEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit
-    title={<PatentEventTitle {...(props as any)} />}
-    {...props}
-    actions={
-      <>
-        <TGPostButton id={props.id} />
-      </>
-    }
-    transform={(r) => transformEvent(r.id , r)}
-  >
-    <TabbedForm>
-      <FormTab label="Generals">
-        <WebPreviewButton resource="/dashboard/events" source="id" />
-        <TextInput source="payload.title" />
-        <URLMetadataInput type="Link" source="payload.source" />
-        <DateInput source="date" />
-        <ReferenceArrayActorInput
-          source="payload.owners.actors"
-          defaultValue={[]}
-        />
-        <ReferenceArrayGroupInput
-          source="payload.owners.groups"
-          defaultValue={[]}
-        />
-        <ReferenceArrayKeywordInput
-          source="keywords"
-          defaultValue={[]}
-          showAdd
-        />
-        <ReactPageInput source="excerpt" onlyText />
-        <DateField source="updatedAt" showTime={true} />
-        <DateField source="createdAt" showTime={true} />
-      </FormTab>
-      <FormTab label="Body">
-        <ReactPageInput source="body" />
-      </FormTab>
-      <FormTab label="Media">
-        <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
-        <ReferenceMediaDataGrid source="media" />
-      </FormTab>
-      <FormTab label="Links">
-        <ReferenceArrayLinkInput source="links" />
-      </FormTab>
-    </TabbedForm>
-  </Edit>
-);
+export const PatentEdit: React.FC = () => {
+  const record = useRecordContext<Patent.Patent>();
+  return (
+    <Edit
+      title={<PatentEventTitle record={record} />}
+      actions={
+        <>
+          <TGPostButton id={record?.id} />
+        </>
+      }
+      transform={(r) => transformEvent(r.id, r)}
+    >
+      <TabbedForm>
+        <FormTab label="Generals">
+          <WebPreviewButton resource="/dashboard/events" source="id" />
+          <TextInput source="payload.title" />
+          <URLMetadataInput type="Link" source="payload.source" />
+          <DateInput source="date" />
+          <ReferenceArrayActorInput
+            source="payload.owners.actors"
+            defaultValue={[]}
+          />
+          <ReferenceArrayGroupInput
+            source="payload.owners.groups"
+            defaultValue={[]}
+          />
+          <ReferenceArrayKeywordInput
+            source="keywords"
+            defaultValue={[]}
+            showAdd
+          />
+          <ReactPageInput source="excerpt" onlyText />
+          <DateField source="updatedAt" showTime={true} />
+          <DateField source="createdAt" showTime={true} />
+        </FormTab>
+        <FormTab label="Body">
+          <ReactPageInput source="body" />
+        </FormTab>
+        <FormTab label="Media">
+          <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
+          <ReferenceMediaDataGrid source="media" />
+        </FormTab>
+        <FormTab label="Links">
+          <ReferenceArrayLinkInput source="links" />
+        </FormTab>
+      </TabbedForm>
+    </Edit>
+  );
+};
 
 export const PatentCreate: React.FC<CreateProps> = (props) => (
   <Create

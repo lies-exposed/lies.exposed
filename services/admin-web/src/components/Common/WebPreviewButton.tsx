@@ -15,6 +15,7 @@ export const WebPreviewButton: React.FC<WebPreviewButtonProps> = (props) => {
   const id =
     props.id ??
     (source && record && has(record, source) ? get(record, source) : undefined);
+
   return (
     <Button
       color="secondary"
