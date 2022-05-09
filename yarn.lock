@@ -1726,7 +1726,6 @@ __metadata:
     typescript: ^4.6.4
   peerDependencies:
     "@material-ui/icons": ^4.11.2
-    react-admin: ^3.18.2
   languageName: unknown
   linkType: soft
 
