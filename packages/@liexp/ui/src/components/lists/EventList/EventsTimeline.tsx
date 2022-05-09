@@ -3,7 +3,7 @@ import {
   Documentary,
   Patent,
   ScientificStudy,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { Box, makeStyles } from "@material-ui/core";
@@ -16,11 +16,11 @@ import {
   IndexRange,
   InfiniteLoader,
   List,
-  ListRowProps
+  ListRowProps,
 } from "react-virtualized";
 import {
   SearchEventQueryInput,
-  searchEventsInfiniteQuery
+  searchEventsInfiniteQuery,
 } from "../../../state/queries/SearchEventsQuery";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
 import { EventListItemProps } from "./EventListItem";
@@ -47,37 +47,38 @@ const cellCache = new CellMeasurerCache({
 });
 
 const Row: React.FC<
-  ListRowProps & Omit<EventTimelineItemProps, "onLoad" | "onRowInvalidate">
+  ListRowProps &
+    Omit<EventTimelineItemProps, "onLoad" | "onRowInvalidate">
 > = (props) => {
   const {
-    key,
     event,
     onClick,
     onKeywordClick,
     onActorClick,
     onGroupClick,
     onGroupMemberClick,
+    // isVisible,
     isLast,
-    isVisible,
     style,
     parent,
     index,
+    key,
   } = props;
 
-  if (!isVisible) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: 100,
-          width: "100%",
-          ...props.style,
-        }}
-      />
-    );
-  }
+  // if (!isVisible) {
+  //   return (
+  //     <div
+  //       style={{
+  //         display: "flex",
+  //         alignItems: "center",
+  //         justifyContent: "center",
+  //         height: 100,
+  //         width: "100%",
+  //         ...props.style,
+  //       }}
+  //     />
+  //   );
+  // }
 
   return (
     <CellMeasurer
@@ -245,13 +246,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     return rowLoaded;
   };
 
-  // const getRowHeight = ({ index }: Index): number => {
-  //   const event = searchEvents?.events[index];
-  //   const linksOpen = _linksOpenInRowMap[index] ?? false;
-  //   _linksOpenInRowMap[index] = linksOpen;
-
-  //   return event ? getItemHeight(event, isDownSM, true) : 150;
-  // };
 
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
     if (hasNextPage && !isFetchingNextPage && !isFetching) {
@@ -304,9 +298,9 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                   overscanRowCount={5}
                   onRowsRendered={onRowsRendered}
                   rowRenderer={(props) => {
-                    // if (props.index >= searchEvents?.events.length) {
-                    //   return <div key={props.key} style={{ height: 100 }} />;
-                    // }
+                    if (props.index >= searchEvents?.events.length) {
+                      return <div key={props.key} style={{ height: 100 }} />;
+                    }
 
                     const event = searchEvents?.events[props.index];
                     const isLast =
@@ -316,7 +310,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                       <Row
                         {...itemProps}
                         {...props}
-                        key={event.id}
                         event={event}
                         isLast={isLast}
                       />

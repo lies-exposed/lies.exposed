@@ -72,31 +72,31 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
                 }}
                 ownedGroups={[]}
               />
-              <EventsPanel
-                hash={`group-${groupId}`}
-                query={{
-                  groups: [group.id],
-                  groupsMembers: group.members,
-                  keywords: [],
-                  actors: [],
-                  tab: tab,
-                  startDate: subYears(new Date(), 1).toDateString(),
-                  endDate: new Date().toDateString(),
-                  _sort: "createdAt",
-                  _order: "DESC",
-                }}
-                actors={[]}
-                groups={[]}
-                groupsMembers={[]}
-                keywords={[]}
-                onQueryChange={({ tab }) => {
-                  navigateTo.groups({ id: group.id }, { tab });
-                }}
-                onQueryClear={() => {
-                  navigateTo.groups({ id: group.id }, {});
-                }}
-              />
             </MainContent>
+            <EventsPanel
+              hash={`group-${groupId}`}
+              query={{
+                groups: [group.id],
+                groupsMembers: group.members,
+                keywords: [],
+                actors: [],
+                tab: tab,
+                startDate: subYears(new Date(), 1).toDateString(),
+                endDate: new Date().toDateString(),
+                _sort: "createdAt",
+                _order: "DESC",
+              }}
+              actors={[]}
+              groups={[]}
+              groupsMembers={[]}
+              keywords={[]}
+              onQueryChange={({ tab }) => {
+                navigateTo.groups({ id: group.id }, { tab });
+              }}
+              onQueryClear={() => {
+                navigateTo.groups({ id: group.id }, {});
+              }}
+            />
           </Box>
         );
       }}

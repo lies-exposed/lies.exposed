@@ -45,31 +45,30 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                 onGroupClick={(g) => navigateToResource.groups({ id: g.id })}
                 onActorClick={(a) => navigateToResource.actors({ id: a.id })}
               />
-              <EventsPanel
-                hash={`actor-${actorId}`}
-                keywords={[]}
-                actors={[]}
-                groups={[]}
-                groupsMembers={[]}
-                query={{
-                  startDate: subYears(new Date(), 1).toDateString(),
-                  endDate: new Date().toDateString(),
-                  actors: actorId ? [actorId] : [],
-                  groups: [],
-                  groupsMembers: [],
-                  keywords: [],
-                  tab:
-                    typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
-                  type: EventType.types.map((t) => t.value),
-                  _sort: "createdAt",
-                  _order: "DESC",
-                }}
-                onQueryChange={({ tab }) => {
-                  navigateToResource.actors({ id: actor.id }, { tab });
-                }}
-                onQueryClear={() => {}}
-              />
             </MainContent>
+            <EventsPanel
+              hash={`actor-${actorId}`}
+              keywords={[]}
+              actors={[]}
+              groups={[]}
+              groupsMembers={[]}
+              query={{
+                startDate: subYears(new Date(), 1).toDateString(),
+                endDate: new Date().toDateString(),
+                actors: actorId ? [actorId] : [],
+                groups: [],
+                groupsMembers: [],
+                keywords: [],
+                tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
+                type: EventType.types.map((t) => t.value),
+                _sort: "createdAt",
+                _order: "DESC",
+              }}
+              onQueryChange={({ tab }) => {
+                navigateToResource.actors({ id: actor.id }, { tab });
+              }}
+              onQueryClear={() => {}}
+            />
           </Box>
         );
       }}
