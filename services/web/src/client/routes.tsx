@@ -5,7 +5,7 @@ import {
   fetchGroups,
   fetchGroupsMembers,
   fetchLinks,
-  fetchMedia,
+  fetchMedia
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import * as React from "react";
@@ -159,11 +159,13 @@ export const routes = [
   },
   {
     path: "/keywords/:keywordId",
-    route: ({
-      match: {
-        params: { keywordId },
-      },
-    }: any) => <KeywordTemplate keywordId={keywordId} />,
+    route: () => {
+      const params = useParams<{ keywordId: string }>();
+      if (params.keywordId) {
+        return <KeywordTemplate keywordId={params.keywordId} />;
+      }
+      return <NotFoundPage />;
+    },
     queries: () => [...commonQueries],
   },
   {

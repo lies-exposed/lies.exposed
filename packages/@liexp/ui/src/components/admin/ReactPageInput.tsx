@@ -4,7 +4,7 @@ import type { EditorProps } from "@react-page/editor";
 import Editor from "@react-page/editor";
 import "is-plain-object";
 import * as React from "react";
-import { InputProps, Labeled, useRecordContext, useInput, RaRecord } from "react-admin";
+import { InputProps, Labeled, RaRecord, useInput, useRecordContext } from "react-admin";
 import { cellPlugins, minimalCellPlugins } from "../Common/Editor";
 
 export type RaReactPageInputProps = {
