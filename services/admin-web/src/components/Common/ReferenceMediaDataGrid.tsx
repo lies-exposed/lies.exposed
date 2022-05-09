@@ -19,7 +19,7 @@ export const ReferenceMediaDataGrid: React.FC<
     >
       <Datagrid rowClick="edit">
         <TextField source="id" />
-        <MediaField source="location" fullWidth={false} />
+        <MediaField source="thumbnail" fullWidth={false} />
         <TextField source="description" />
       </Datagrid>
     </ReferenceArrayField>

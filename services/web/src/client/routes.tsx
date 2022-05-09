@@ -5,11 +5,13 @@ import {
   fetchGroups,
   fetchGroupsMembers,
   fetchLinks,
-  fetchMedia,
+  fetchMedia
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import * as React from "react";
+import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
+import NotFoundPage from "./pages/404";
 import ActorsPage from "./pages/ActorsPage";
 import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
@@ -21,8 +23,7 @@ import KeywordTemplate from "./templates/KeywordTemplate";
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
-  queryFn:
-    fetchGithubRepo,
+  queryFn: fetchGithubRepo,
 } as any;
 
 const commonQueries = [githubQuery];
@@ -30,11 +31,13 @@ const commonQueries = [githubQuery];
 export const routes = [
   {
     path: "/groups/:groupId",
-    route: ({
-      match: {
-        params: { groupId },
-      },
-    }: any) => <GroupTemplate groupId={groupId} />,
+    route: () => {
+      const params = useParams<{ groupId: string }>();
+      if (params.groupId) {
+        return <GroupTemplate groupId={params.groupId} />;
+      }
+      return <NotFoundPage />;
+    },
     queries: ({ groupId }: any) => [
       ...commonQueries,
       {
@@ -66,11 +69,13 @@ export const routes = [
   },
   {
     path: "/actors/:actorId",
-    route: ({
-      match: {
-        params: { actorId },
-      },
-    }: any) => <ActorTemplate actorId={actorId} />,
+    route: () => {
+      const params = useParams<{ actorId: string }>();
+      if (params.actorId) {
+        return <ActorTemplate actorId={params.actorId} />;
+      }
+      return <NotFoundPage />;
+    },
     queries: ({ actorId }: { actorId: string }) => [
       ...commonQueries,
       {
@@ -97,11 +102,14 @@ export const routes = [
   },
   {
     path: "/events/:eventId",
-    route: ({
-      match: {
-        params: { eventId },
-      },
-    }: any) => <EventTemplate eventId={eventId} />,
+    route: () => {
+      const params = useParams<{ eventId: string }>();
+      if (params.eventId) {
+        return <EventTemplate eventId={params.eventId} />;
+      }
+
+      return <NotFoundPage />;
+    },
     queries: ({ eventId }: any) => [
       ...commonQueries,
       {
@@ -151,11 +159,13 @@ export const routes = [
   },
   {
     path: "/keywords/:keywordId",
-    route: ({
-      match: {
-        params: { keywordId },
-      },
-    }: any) => <KeywordTemplate keywordId={keywordId} />,
+    route: () => {
+      const params = useParams<{ keywordId: string }>();
+      if (params.keywordId) {
+        return <KeywordTemplate keywordId={params.keywordId} />;
+      }
+      return <NotFoundPage />;
+    },
     queries: () => [...commonQueries],
   },
   {

@@ -82,6 +82,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
   isLast,
   style,
   onKeywordClick,
+  onRowInvalidate,
   ...props
 }) => {
   const classes = useStyles();
@@ -133,6 +134,7 @@ const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
               <EventListItem
                 event={e}
                 onKeywordClick={onKeywordClick}
+                onRowInvalidate={onRowInvalidate}
                 {...props}
               />
             </TimelineContent>

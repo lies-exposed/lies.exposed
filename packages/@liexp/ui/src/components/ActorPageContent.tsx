@@ -26,7 +26,16 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   return (
     <Grid container>
       <Grid container direction="row" alignItems="center">
-        <Grid item md={3}>
+        <Grid
+          item
+          md={3}
+          sm={4}
+          style={{
+            display: 'flex',
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           {pipe(
             O.fromNullable(actor.avatar),
             O.fold(
@@ -35,7 +44,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
             )
           )}
         </Grid>
-        <Grid item md={9}>
+        <Grid item md={9} sm={8}>
           <Typography variant="h2">{actor.fullName}</Typography>
           <div style={{ textAlign: "right", padding: 10 }}>
             <EditButton resourceName="actors" resource={actor} />
@@ -48,17 +57,19 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
         </Grid>
       </Grid>
       <Grid container>
-        <Grid item md={12}>
-          <Box>
-            <Typography variant="h4">Gruppi</Typography>
+        <Grid item md={6} sm={6} xs={12}>
+          <Box style={{ display: "flex" }}>
             <GroupList
               groups={groups.map((g) => ({ ...g, selected: false }))}
               onItemClick={onGroupClick}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
             />
           </Box>
         </Grid>
-        <Grid item md={12}>
-          <Typography variant="h4">Related actors</Typography>
+        <Grid item md={6} sm={6} xs={12}>
           <ActorsBox
             style={{ display: "flex", flexDirection: "row" }}
             params={{
@@ -67,7 +78,9 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                 page: 1,
                 perPage: 3,
               },
-              filter: {},
+              filter: {
+                group: groups.map((g) => g.id),
+              },
             }}
             onItemClick={onActorClick}
           />

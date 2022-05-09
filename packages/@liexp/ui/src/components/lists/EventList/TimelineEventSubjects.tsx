@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   event: e,
   style,
+  onClick,
   onActorClick,
   onGroupClick,
   onGroupMemberClick,
