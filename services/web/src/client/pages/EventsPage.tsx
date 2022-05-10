@@ -1,116 +1,132 @@
 import { EventType } from "@liexp/shared/io/http/Events";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { formatDate } from "@liexp/shared/utils/date";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import {
   useActorsDiscreteQuery,
   useGroupsDiscreteQuery,
   useGroupsMembersDiscreteQuery,
-  useKeywordsDiscreteQuery,
+  useKeywordsDiscreteQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { clearSearchEventsQueryCache } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { ECOTheme } from "@liexp/ui/theme";
+import { styled } from "@liexp/ui/theme";
 import {
-  Box,
-  createStyles,
-  Drawer,
-  Grid,
-  Hidden,
-  makeStyles,
-  Toolbar,
-} from "@material-ui/core";
-import clsx from "clsx";
-import { subYears } from "date-fns";
+  Box, Grid
+} from "@mui/material";
 import * as React from "react";
 import EventsAppBar from "../components/events/EventsAppBar";
-import EventsFilterSummary from "../components/events/EventsFiltersSummary";
 import { queryClient } from "../state/queries";
 import {
   queryToHash,
   useQueryFromHash,
-  useRouteQuery,
+  useRouteQuery
 } from "../utils/history.utils";
 import { EventsView, useNavigateToResource } from "../utils/location.utils";
 import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
 
-const MIN_DATE = formatDate(subYears(new Date(), 100));
-const MAX_DATE = formatDate(new Date());
+const PREFIX = "EventsPage";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  menuButton: `${PREFIX}-menuButton`,
+  hide: `${PREFIX}-hide`,
+  drawer: `${PREFIX}-drawer`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  appBar: `${PREFIX}-appBar`,
+  drawerOpen: `${PREFIX}-drawerOpen`,
+  drawerClose: `${PREFIX}-drawerClose`,
+  drawerContainer: `${PREFIX}-drawerContainer`,
+  toolbar: `${PREFIX}-toolbar`,
+  content: `${PREFIX}-content`,
+  eventFiltersBox: `${PREFIX}-eventFiltersBox`,
+};
+
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    display: "flex",
+    flexDirection: "row",
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "column",
+    },
+  },
+
+  [`& .${classes.menuButton}`]: {
+    marginRight: 36,
+  },
+
+  [`& .${classes.hide}`]: {
+    display: "none",
+  },
+
+  [`& .${classes.drawer}`]: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+
+  [`& .${classes.drawerPaper}`]: {
+    width: drawerWidth,
+  },
+
+  [`& .${classes.appBar}`]: {
+    paddingLeft: drawerWidth,
+  },
+
+  [`& .${classes.drawerOpen}`]: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+
+  [`& .${classes.drawerClose}`]: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1,
+    },
+  },
+
+  [`& .${classes.drawerContainer}`]: {
+    overflow: "auto",
+  },
+
+  [`& .${classes.toolbar}`]: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+
+  [`& .${classes.content}`]: {
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    overflow: "hidden",
+    padding: 0,
+    [theme.breakpoints.down("md")]: {
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
+  },
+
+  [`& .${classes.eventFiltersBox}`]: {
+    display: "flex",
+    flexDirection: "column",
+  },
+}));
+
+// const MIN_DATE = formatDate(subYears(new Date(), 100));
+// const MAX_DATE = formatDate(new Date());
 
 const drawerWidth = 240;
-
-const useStyles = makeStyles((theme: ECOTheme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      flexDirection: "row",
-      [theme.breakpoints.down("sm")]: {
-        flexDirection: "column",
-      },
-    },
-    menuButton: {
-      marginRight: 36,
-    },
-    hide: {
-      display: "none",
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    appBar: {
-      paddingLeft: drawerWidth,
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerClose: {
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: "hidden",
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9) + 1,
-      },
-    },
-    drawerContainer: {
-      overflow: "auto",
-    },
-    toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-    },
-    content: {
-      height: "100%",
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      overflow: "hidden",
-      padding: 0,
-      [theme.breakpoints.down("sm")]: {
-        paddingLeft: 0,
-        paddingRight: 0,
-      },
-    },
-    eventFiltersBox: {
-      display: "flex",
-      flexDirection: "column",
-    },
-  })
-);
 
 interface EventsPageProps extends Omit<EventsView, "view"> {}
 
@@ -121,7 +137,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   };
   const navigateTo = useNavigateToResource();
   const tab = parseInt(query.tab ?? "0", 10);
-  const classes = useStyles();
 
   const params = {
     startDate: query.startDate,
@@ -148,14 +163,14 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     [hash, tab, params]
   );
 
-  const hasFilters =
-    params.actors.length > 0 ||
-    params.groups.length > 0 ||
-    params.keywords.length > 0 ||
-    params.media.length > 0;
+  // const hasFilters =
+  //   params.actors.length > 0 ||
+  //   params.groups.length > 0 ||
+  //   params.keywords.length > 0 ||
+  //   params.media.length > 0;
 
   return (
-    <Grid container justifyContent="center" style={{ height: "100%" }}>
+    <StyledGrid container justifyContent="center" style={{ height: "100%" }}>
       <SEO
         title="lies.exposed - events timeline"
         description="A chronological timeline of events related to crimes and lies."
@@ -269,7 +284,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
           );
         }}
       />
-    </Grid>
+    </StyledGrid>
   );
 };
 

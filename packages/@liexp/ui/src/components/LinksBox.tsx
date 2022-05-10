@@ -1,5 +1,7 @@
 import { http } from "@liexp/shared/io";
 // import { formatDate } from "@liexp/shared/utils/date";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMoreOutlined";
+import LinkIcon from "@mui/icons-material/LinkOutlined";
 import {
   Accordion,
   AccordionDetails,
@@ -7,9 +9,7 @@ import {
   Box,
   Grid,
   Typography,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMoreOutlined";
-import LinkIcon from "@material-ui/icons/LinkOutlined";
+} from "@mui/material";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";

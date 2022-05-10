@@ -18,7 +18,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
   return (
     <AutocompleteInput<Actor.Actor>
       placeholder="Actors..."
-      getValue={(a) => a.fullName}
+      getValue={(a) => (typeof a === "string" ? a : a.fullName)}
       searchToFilter={(fullName) => ({ fullName })}
       selectedItems={selectedItems}
       query={useActorsDiscreteQuery}
@@ -31,7 +31,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
           onActorClick={(a) => onChange(items.filter((i) => i.id !== a.id))}
         />
       )}
-      renderOption={(item, state) => (
+      renderOption={(props, item, state) => (
         <ActorListItem
           key={item.id}
           displayFullName={true}

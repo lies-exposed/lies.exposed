@@ -1,5 +1,5 @@
 import { Keyword } from "@liexp/shared/io/http";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 import * as React from "react";
 
 export interface KeywordPageContentProps extends Keyword.Keyword {}

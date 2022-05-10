@@ -10,7 +10,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-} from "@material-ui/core";
+} from "@mui/material";
 import * as React from "react";
 import Editor from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";

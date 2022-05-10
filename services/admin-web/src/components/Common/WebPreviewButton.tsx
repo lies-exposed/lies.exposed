@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import get from "lodash/get";
 import has from "lodash/has";
 import { FieldProps } from "ra-ui-materialui";

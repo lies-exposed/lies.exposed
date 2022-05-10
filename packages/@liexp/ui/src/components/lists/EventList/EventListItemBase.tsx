@@ -1,6 +1,7 @@
 import * as http from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
-import { Box, Grid, Link, makeStyles, Typography } from "@material-ui/core";
+import { Box, Grid, Link, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -11,22 +12,32 @@ import { Slider } from "../../Common/Slider/Slider";
 import { LinksBox } from "../../LinksBox";
 import KeywordList from "../KeywordList";
 
-const useStyles = makeStyles((theme) => ({
-  title: {
+const PREFIX = "EventListItemBase";
+
+const classes = {
+  title: `${PREFIX}-title`,
+  eventIcon: `${PREFIX}-eventIcon`,
+  eventMedia: `${PREFIX}-eventMedia`,
+};
+
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  [`& .${classes.title}`]: {
     display: "flex",
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
       alignItems: "center",
     },
   },
-  eventIcon: {
+
+  [`& .${classes.eventIcon}`]: {
     display: "none",
     [theme.breakpoints.down("md")]: {
       display: "flex",
       marginRight: theme.spacing(2),
     },
   },
-  eventMedia: {
+
+  [`& .${classes.eventMedia}`]: {
     [theme.breakpoints.down("md")]: {
       padding: 0,
     },
@@ -60,10 +71,8 @@ const EventListItemBase = <E extends any>({
   onRowInvalidate,
   onLoad,
 }: EventListItemBaseProps<E>): JSX.Element => {
-  const classes = useStyles();
-
   return (
-    <Grid
+    <StyledGrid
       item
       lg={10}
       md={12}
@@ -118,32 +127,39 @@ const EventListItemBase = <E extends any>({
         O.fromPredicate((arr) => arr.length > 0),
         O.map((media) => (
           // eslint-disable-next-line react/jsx-key
-          <Grid
-            item
-            lg={12}
-            md={12}
-            sm={12}
-            xs={12}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: 30,
-            }}
-          >
-            <Box
+          <Grid container>
+            <Grid
+              item
+              lg={10}
+              md={10}
+              sm={12}
+              xs={12}
               style={{
-                height: "100%",
-                width: "100%",
-                position: "relative",
-                margin: 0,
+                display: 'flex',
+                maxWidth: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: 30,
               }}
             >
-              <Slider
-                slides={media}
-                itemStyle={{ minHeight: 400, maxHeight: 400 }}
-                onLoad={onLoad}
-              />
-            </Box>
+              <Box
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: 'flex',
+                  maxWidth: 400,
+                  flexGrow: 0,
+                  margin: 0,
+                }}
+              >
+                <Slider
+                  slides={media}
+                  style={{ width: '100%'}}
+                  itemStyle={{ minHeight: 300, maxHeight: 300, maxWidth: 400 }}
+                  onLoad={onLoad}
+                />
+              </Box>
+            </Grid>
           </Grid>
         )),
         O.toNullable
@@ -154,13 +170,7 @@ const EventListItemBase = <E extends any>({
         O.fold(
           () => null,
           (ll) => (
-            <Grid
-              item
-              lg={12}
-              md={12}
-              sm={12}
-              xs={12}
-            >
+            <Grid item lg={12} md={12} sm={12} xs={12}>
               <LinksBox
                 ids={ll}
                 onOpen={() => {
@@ -174,7 +184,7 @@ const EventListItemBase = <E extends any>({
           )
         )
       )}
-    </Grid>
+    </StyledGrid>
   );
 };
 

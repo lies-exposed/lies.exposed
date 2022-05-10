@@ -1,7 +1,8 @@
-import { Box, ThemeProvider } from "@material-ui/core";
+import { Box, ThemeProvider, StyledEngineProvider } from "@mui/material";
 import { CellPlugin } from "@react-page/editor";
 import * as React from "react";
 import { ECOTheme } from "../../../../theme/index";
+
 
 interface GridCellData {
   column: boolean;
@@ -23,7 +24,9 @@ const gridCellPlugin: CellPlugin<GridCellData> = {
     );
   },
   Provider: ({ children }) => (
-    <ThemeProvider theme={ECOTheme}>{children}</ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={ECOTheme}>{children}</ThemeProvider>
+    </StyledEngineProvider>
   ),
 
   cellSpacing: () => 1,

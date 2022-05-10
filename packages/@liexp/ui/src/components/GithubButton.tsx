@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from "@material-ui/core";
+import { Box, IconButton, Typography } from "@mui/material";
 import * as React from "react";
 import { githubRepo } from "../state/queries/github";
 import { GithubIcon } from "./Common/Icons";
@@ -30,7 +30,7 @@ const GithubButton: React.FC<GithubButtonProps> = ({
               style={{
                 color: "white",
               }}
-            >
+              size="large">
               <GithubIcon style={{ color: "white", marginRight: 10 }} />
               <Typography variant="subtitle1" display="inline">
                 {github.stargazers_count}

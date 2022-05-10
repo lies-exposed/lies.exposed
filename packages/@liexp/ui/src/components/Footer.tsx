@@ -3,47 +3,64 @@ import {
   Container,
   Grid,
   Link,
-  makeStyles,
   MenuItem,
   MenuList,
   Typography,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
-import { ECOTheme } from "../theme/index";
 import DonateButton from "./Common/Button/DonateButton";
 import { GithubIcon, TelegramIcon } from "./Common/Icons";
 
-const useStyles = makeStyles<ECOTheme>((theme) => ({
-  root: {
+const PREFIX = 'Footer';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  title: `${PREFIX}-title`,
+  link: `${PREFIX}-link`,
+  linkText: `${PREFIX}-linkText`,
+  rightColumn: `${PREFIX}-rightColumn`
+};
+
+const Root = styled('footer')((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.root}`]: {
     display: "flex",
     width: "100%",
     paddingTop: "20px",
     paddingBottom: "20px",
     // backgroundColor: theme.palette.secondary.main,
   },
-  title: {
+
+  [`& .${classes.title}`]: {
     color: theme.palette.common.white,
     fontSize: 18,
     // fontWeight: theme.typography.fontWeightBold?.valueOf(),
   },
-  link: {
+
+  [`& .${classes.link}`]: {
     color: theme.palette.common.white,
     display: "flex",
     alignItems: "center",
   },
-  linkText: {
+
+  [`& .${classes.linkText}`]: {
     marginLeft: 10,
     color: theme.palette.common.white,
   },
-  rightColumn: {
+
+  [`& .${classes.rightColumn}`]: {
     textAlign: "left",
-  },
+  }
 }));
 
 export const Footer: React.FC<{ style?: React.CSSProperties }> = (props) => {
   const theme = useTheme();
-  const classes = useStyles();
+
 
   const {
     site: {
@@ -60,7 +77,7 @@ export const Footer: React.FC<{ style?: React.CSSProperties }> = (props) => {
   };
 
   return (
-    <footer
+    <Root
       className={classes.root}
       style={{
         width: "100%",
@@ -147,6 +164,6 @@ export const Footer: React.FC<{ style?: React.CSSProperties }> = (props) => {
           </Grid>
         </Grid>
       </Container>
-    </footer>
+    </Root>
   );
 };

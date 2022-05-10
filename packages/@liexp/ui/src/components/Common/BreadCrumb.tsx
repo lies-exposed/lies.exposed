@@ -1,4 +1,4 @@
-import { Breadcrumbs, Link, Typography, useTheme } from "@material-ui/core";
+import { Breadcrumbs, Link, Typography, useTheme } from "@mui/material";
 import * as React from "react";
 
 interface BreadCrumbProps {

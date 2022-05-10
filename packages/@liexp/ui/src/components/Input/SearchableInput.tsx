@@ -1,5 +1,4 @@
-import { TextField } from "@material-ui/core";
-import Autocomplete, { AutocompleteProps } from "@material-ui/lab/Autocomplete";
+import { TextField, Autocomplete, AutocompleteProps } from "@mui/material";
 import * as React from "react";
 
 export interface SearchableItem {
@@ -15,7 +14,7 @@ export interface SearchableInputProps<I extends SearchableItem>
   label: string;
   items: I[];
   selectedItems: I[];
-  getValue: (v: I) => string;
+  getValue: (v: string | I) => string;
   onTextChange?: (text: string) => void;
   onSelectItem: (item: I, selectedItems: I[]) => void;
   onUnselectItem: (item: I, selectedItems: I[]) => void;

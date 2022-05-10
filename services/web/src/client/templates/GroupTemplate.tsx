@@ -7,7 +7,7 @@ import {
   useGroupMembersQuery,
   useGroupQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";

@@ -4,7 +4,7 @@ import {
 } from "@liexp/ui/components/Graph/EventsNetworkGraph";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import * as React from "react";
 import { EventsQueryParams } from "./EventsPanel";
 

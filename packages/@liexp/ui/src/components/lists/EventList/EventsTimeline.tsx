@@ -6,7 +6,8 @@ import {
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { Box, makeStyles } from "@material-ui/core";
+import { Box } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import * as React from "react";
 import {
   AutoSizer,
@@ -26,16 +27,26 @@ import { FullSizeLoader } from "../../Common/FullSizeLoader";
 import { EventListItemProps } from "./EventListItem";
 import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
 
-const useStyles = makeStyles((props) => ({
-  timeline: {
+const PREFIX = "EventsTimeline";
+
+const classes = {
+  timeline: `${PREFIX}-timeline`,
+  listSubheader: `${PREFIX}-listSubheader`,
+  listItemUList: `${PREFIX}-listItemUList`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`& .${classes.timeline}`]: {
     padding: 0,
     paddingTop: 20,
     width: "100%",
   },
-  listSubheader: {
-    backgroundColor: props.palette.common.white,
+
+  [`& .${classes.listSubheader}`]: {
+    backgroundColor: theme.palette.common.white,
   },
-  listItemUList: {
+
+  [`& .${classes.listItemUList}`]: {
     padding: 0,
     width: "100%",
   },
@@ -48,7 +59,7 @@ const cellCache = new CellMeasurerCache({
 
 const Row: React.FC<
   ListRowProps &
-    Omit<EventTimelineItemProps, "onLoad" | "onRowInvalidate">
+    Omit<EventTimelineItemProps, "onLoad" | "onRowInvalidate"> & { k: string }
 > = (props) => {
   const {
     event,
@@ -62,8 +73,12 @@ const Row: React.FC<
     style,
     parent,
     index,
-    key,
+    k: key,
   } = props;
+
+  if (!event) {
+    return <div key={key} style={{ height: 100 }} />;
+  }
 
   // if (!isVisible) {
   //   return (
@@ -114,51 +129,12 @@ const Row: React.FC<
   );
 };
 
-// export const getItemHeight = (
-//   e: SearchEvent.SearchEvent,
-//   isDownMD: boolean,
-//   linksOpen: boolean
-// ): number => {
-//   const excerptHeight = isValidValue(e.excerpt as any) ? 120 : 0;
-
-//   const keywordsHeight = e.keywords.length > 0 ? 50 : 0;
-//   const mediaHeight = e.media.length > 0 ? 450 : 0;
-//   const linksHeight = e.links.length > 0 ? (linksOpen ? 380 : 50) : 0;
-//   switch (e.type) {
-//     case TRANSACTION.value:
-//       if (isDownMD) {
-//         return 240 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
-//       }
-
-//       return 200 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
-//     default: {
-//       if (isDownMD) {
-//         const scientificStudyHeight =
-//           e.type === "ScientificStudy" && e.payload.url ? 50 : 0;
-
-//         return (
-//           200 +
-//           excerptHeight +
-//           keywordsHeight +
-//           mediaHeight +
-//           linksHeight +
-//           scientificStudyHeight
-//         );
-//       }
-//       return 180 + excerptHeight + keywordsHeight + mediaHeight + linksHeight;
-//     }
-//   }
-// };
-
 export interface EventsTimelineProps
   extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
   className?: string;
   hash: string;
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;
 }
-
-// let _linksOpenInRowMap: Record<number, boolean> = {};
-const _loadedRowsMap: Record<number, JSX.Element | undefined> = {};
 
 const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const {
@@ -173,7 +149,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   } = props;
 
   // const theme = useTheme();
-  const classes = useStyles();
+
   // const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const itemProps = {
@@ -240,12 +216,9 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   );
 
   const isRowLoaded = (params: Index): boolean => {
-    const rowLoaded =
-      searchEvents?.events[params.index] !== undefined &&
-      _loadedRowsMap[params.index] !== undefined;
+    const rowLoaded = searchEvents?.events[params.index] !== undefined;
     return rowLoaded;
   };
-
 
   const handleLoadMoreRows = async (params: IndexRange): Promise<void> => {
     if (hasNextPage && !isFetchingNextPage && !isFetching) {
@@ -268,11 +241,11 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   }
 
   return (
-    <Box
+    <StyledBox
       display={"flex"}
       style={{
         flexGrow: 1,
-        flexShrink: 1,
+        flexShrink: 0,
         flexBasis: "auto",
         height: "100%",
         minHeight: 600,
@@ -294,28 +267,24 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
                   ref={registerChild}
                   width={width}
                   height={height}
-                  estimatedRowSize={100}
+                  estimatedRowSize={totalEvents}
                   overscanRowCount={5}
                   onRowsRendered={onRowsRendered}
-                  rowRenderer={(props) => {
-                    if (props.index >= searchEvents?.events.length) {
-                      return <div key={props.key} style={{ height: 100 }} />;
-                    }
-
+                  rowRenderer={({ key, ...props }) => {
                     const event = searchEvents?.events[props.index];
                     const isLast =
                       searchEvents?.events[props.index + 1] === undefined;
 
-                    const row = (
+                    return (
                       <Row
                         {...itemProps}
                         {...props}
+                        key={key}
+                        k={key}
                         event={event}
                         isLast={isLast}
                       />
                     );
-                    // _loadedRowsMap[props.index] = row;
-                    return row;
                   }}
                   rowCount={searchEvents.events.length}
                   rowHeight={cellCache.rowHeight}
@@ -326,7 +295,7 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
           </AutoSizer>
         )}
       </InfiniteLoader>
-    </Box>
+    </StyledBox>
   );
 };
 

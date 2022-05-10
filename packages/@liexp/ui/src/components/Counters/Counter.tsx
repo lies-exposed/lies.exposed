@@ -1,19 +1,25 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 import * as React from "react";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      margin: "20px 0",
-    },
-    counter: {
-      fontFamily: theme.typography.fontFamily,
-      fontSize: theme.typography.fontSize * 3,
-      color: theme.palette.common.black,
-      fontWeight: theme.typography.fontWeightBold as any,
-    },
-  })
-);
+const PREFIX = "Counter";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  counter: `${PREFIX}-counter`,
+};
+
+const Root = styled("div")(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    margin: "20px 0",
+  },
+
+  [`& .${classes.counter}`]: {
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.typography.fontSize * 3,
+    color: theme.palette.common.black,
+    fontWeight: theme.typography.fontWeightBold as any,
+  },
+}));
 
 interface CounterProps {
   message?: string;
@@ -30,10 +36,8 @@ export const Counter: React.FC<CounterProps> = (props) => {
     return () => clearTimeout(countdownTimer);
   });
 
-  const classes = useStyles();
-
   return (
-    <div style={{ textAlign: "center" }}>
+    <Root style={{ textAlign: "center" }}>
       <div className={classes.root}>
         <div className={classes.counter}>{count.toLocaleString()}</div>
 
@@ -53,6 +57,6 @@ export const Counter: React.FC<CounterProps> = (props) => {
           </a>
         ))}
       </p>
-    </div>
+    </Root>
   );
 };

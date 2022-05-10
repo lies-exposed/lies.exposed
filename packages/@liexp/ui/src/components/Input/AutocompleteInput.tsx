@@ -1,6 +1,5 @@
 import { APIError } from "@liexp/shared/providers/api.provider";
-import { TextField } from "@material-ui/core";
-import Autocomplete, { AutocompleteProps } from "@material-ui/lab/Autocomplete";
+import { TextField, Autocomplete, AutocompleteProps } from "@mui/material";
 import { GetListParams } from "ra-core";
 import * as React from "react";
 import { UseQueryResult } from "react-query";
@@ -19,7 +18,7 @@ export interface AutocompleteInputProps<T extends SearchableItem>
     params: GetListParams
   ) => UseQueryResult<{ data: T[]; total: number }, APIError>;
   searchToFilter: (t: string) => Record<string, string>;
-  getValue: (v: T) => string;
+  getValue: (v: T | string) => string;
   selectedItems: T[];
   onItemsChange: (items: T[]) => void;
 }
@@ -95,7 +94,6 @@ export const AutocompleteInput = <T extends { id: string }>({
       )}
       disablePortal={true}
       multiple={true}
-      getOptionSelected={(op, value) => op.id === value.id}
       renderTags={renderTags}
       renderOption={renderOption}
     />

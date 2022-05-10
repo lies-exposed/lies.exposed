@@ -17,7 +17,6 @@ module.exports = {
   },
   rules: {
     "react/prop-types": ["off"],
-    "@typescript-eslint/no-unused-vars": ["off"],
     "@typescript-eslint/no-unnecessary-type-assertion": ["off"],
   },
 };

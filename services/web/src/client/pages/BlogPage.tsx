@@ -12,13 +12,12 @@ import {
   CardHeader,
   CardMedia,
   Grid
-} from "@material-ui/core";
+} from "@mui/material";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
 
 export default class BlogPage extends React.PureComponent<RouteComponentProps> {
   render(): JSX.Element {
-    const { navigate } = this.props;
 
     return (
       <>

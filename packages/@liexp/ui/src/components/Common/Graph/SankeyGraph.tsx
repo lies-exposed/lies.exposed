@@ -1,6 +1,6 @@
 // import chroma from "chroma-js";
 // import { sankeyCircular } from "d3-sankey-circular";
-import { alpha, Box, Typography } from "@material-ui/core";
+import { alpha, Box, Typography } from "@mui/material";
 import {
   sankey,
   sankeyLeft,

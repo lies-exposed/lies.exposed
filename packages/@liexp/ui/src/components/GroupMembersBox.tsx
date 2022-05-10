@@ -1,5 +1,5 @@
 import { GroupMember } from "@liexp/shared/io/http";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as React from "react";
 import { useGroupsMembersDiscreteQuery } from "../state/queries/DiscreteQueries";

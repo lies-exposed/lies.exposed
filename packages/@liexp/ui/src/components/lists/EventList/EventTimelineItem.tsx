@@ -1,44 +1,61 @@
 import { formatDate } from "@liexp/shared/utils/date";
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import {
   TimelineConnector,
   TimelineContent,
   TimelineDot,
   TimelineItem,
   TimelineOppositeContent,
-  TimelineSeparator
-} from "@material-ui/lab";
+  TimelineSeparator,
+} from "@mui/lab";
+import { Box, Grid, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import * as React from "react";
-import EditButton from '../../Common/Button/EditButton';
+import EditButton from "../../Common/Button/EditButton";
 import { EventIcon } from "../../Common/Icons/EventIcon";
 import { EventListItem, EventListItemProps } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 
-export interface EventTimelineItemProps extends EventListItemProps {
-  ref?: (el: Element | undefined) => void;
-  isLast: boolean;
-}
+const PREFIX = "EventTimelineItem";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const classes = {
+  root: `${PREFIX}-root`,
+  wrapper: `${PREFIX}-wrapper`,
+  timelineItem: `${PREFIX}-timelineItem`,
+  oppositeContent: `${PREFIX}-oppositeContent`,
+  editButtonBox: `${PREFIX}-editButtonBox`,
+  separator: `${PREFIX}-separator`,
+  dot: `${PREFIX}-dot`,
+  content: `${PREFIX}-content`,
+};
+
+const Root = styled("div")(({ theme }) => ({
+  [`&.${classes.root}`]: {
     display: "flex",
     width: "100%",
   },
-  wrapper: {
+
+  [`& .${classes.wrapper}`]: {
     display: "flex",
     height: "100%",
     maxWidth: "100%",
     justifyContent: "center",
     flexGrow: 1,
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "auto",
+      flexGrow: 0,
+    },
   },
-  timelineItem: {
+
+  [`& .${classes.timelineItem}`]: {
     display: "flex",
     width: "100%",
+    flexGrow: 0,
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
   },
-  oppositeContent: {
+
+  [`& .${classes.oppositeContent}`]: {
     flexGrow: 0,
     flexShrink: 1,
     display: "flex",
@@ -51,7 +68,8 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
-  editButtonBox: {
+
+  [`& .${classes.editButtonBox}`]: {
     display: "flex",
     flexDirection: "row",
     alignItems: "flex-end",
@@ -61,89 +79,85 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 0,
     },
   },
-  separator: {
+
+  [`& .${classes.separator}`]: {
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
   },
-  dot: {
+
+  [`& .${classes.dot}`]: {
     padding: 8,
   },
-  content: {
+
+  [`& .${classes.content}`]: {
+    maxWidth: "100%",
     flexGrow: 1,
-    flexShrink: 1,
+    flexShrink: 0,
     paddingBottom: 20,
   },
 }));
 
-const EventTimelineItem: React.FC<EventTimelineItemProps> = ({
-  ref,
-  event: e,
-  isLast,
-  style,
-  onKeywordClick,
-  onRowInvalidate,
-  ...props
-}) => {
-  const classes = useStyles();
+export interface EventTimelineItemProps extends EventListItemProps {
+  ref?: (el: Element | undefined) => void;
+  isLast: boolean;
+}
 
-  return (
-    <div
-      key={`event-list-item-${e.id}`}
-      ref={ref as any}
-      className={classes.root}
-      style={{
-        overflow: "hidden",
-        width: "100%",
-        ...style,
-        marginBottom: isLast ? 100 : style?.marginBottom,
-      }}
-    >
-      <Grid
-        container
-        justifyContent="center"
+// eslint-disable-next-line react/display-name
+const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
+  (
+    { event: e, isLast, style, onKeywordClick, onRowInvalidate, ...props },
+    ref
+  ) => {
+    return (
+      <Root
+        key={`event-list-item-${e.id}`}
+        ref={ref}
+        className={classes.root}
         style={{
-          display: "flex",
-          height: "100%",
+          overflow: "hidden",
+          width: "100%",
+          ...style,
+          marginBottom: isLast ? 100 : style?.marginBottom,
         }}
       >
-        <Grid item lg={2} md={1} sm={false} xs={false} />
-        <Grid className={classes.wrapper} item sm={12} md={10} lg={8}>
-          <TimelineItem className={classes.timelineItem}>
-            <TimelineOppositeContent className={classes.oppositeContent}>
-              <Typography variant="subtitle1" color="primary">
-                {formatDate(e.date)}
-              </Typography>
-              <TimelineEventSubjects event={e} {...props} />
+        <Grid container alignContent="center" justifyContent="center">
+          <Grid item lg={8} md={8} sm={12} xs={12}>
+            <TimelineItem className={classes.timelineItem}>
+              <TimelineOppositeContent className={classes.oppositeContent}>
+                <Typography variant="subtitle1" color="primary">
+                  {formatDate(e.date)}
+                </Typography>
+                <TimelineEventSubjects event={e} {...props} />
 
-              <Box className={classes.editButtonBox}>
-                <EditButton resourceName='events' resource={{ id: e.id }} />
-              </Box>
-            </TimelineOppositeContent>
-            <TimelineSeparator className={classes.separator}>
-              <TimelineDot
-                className={classes.dot}
-                variant="outlined"
-                color="inherit"
-              >
-                <EventIcon type={e.type} size="2x" />
-              </TimelineDot>
-              {!isLast ? <TimelineConnector /> : null}
-            </TimelineSeparator>
-            <TimelineContent className={classes.content}>
-              <EventListItem
-                event={e}
-                onKeywordClick={onKeywordClick}
-                onRowInvalidate={onRowInvalidate}
-                {...props}
-              />
-            </TimelineContent>
-          </TimelineItem>
+                <Box className={classes.editButtonBox}>
+                  <EditButton resourceName="events" resource={{ id: e.id }} />
+                </Box>
+              </TimelineOppositeContent>
+              <TimelineSeparator className={classes.separator}>
+                <TimelineDot
+                  className={classes.dot}
+                  variant="outlined"
+                  color="inherit"
+                >
+                  <EventIcon type={e.type} size="2x" />
+                </TimelineDot>
+                {!isLast ? <TimelineConnector /> : null}
+              </TimelineSeparator>
+              <TimelineContent className={classes.content}>
+                <EventListItem
+                  event={e}
+                  onKeywordClick={onKeywordClick}
+                  onRowInvalidate={onRowInvalidate}
+                  {...props}
+                />
+              </TimelineContent>
+            </TimelineItem>
+          </Grid>
         </Grid>
-        <Grid item lg={2} md={1} sm={false} xs={false} />
-      </Grid>
-    </div>
-  );
-};
+      </Root>
+    );
+  }
+);
 
 export default EventTimelineItem;

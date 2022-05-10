@@ -21,60 +21,80 @@ import { GroupsMembersList } from "@liexp/ui/components/lists/GroupMemberList";
 import KeywordList from "@liexp/ui/components/lists/KeywordList";
 import { getTotal } from "@liexp/ui/helpers/event.helper";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
+import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   alpha, Grid,
   IconButton,
-  makeStyles,
   Tab,
   Tabs,
   Toolbar,
   Typography,
   useTheme
-} from "@material-ui/core";
-import Box from "@material-ui/core/Box";
-import ArrowDownIcon from "@material-ui/icons/ArrowDownward";
-import ArrowUpIcon from "@material-ui/icons/ArrowUpward";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import SearchIcon from "@material-ui/icons/Search";
+} from "@mui/material";
+import Box from "@mui/material/Box";
+import { styled } from '@mui/material/styles';
 import clsx from "clsx";
 import * as React from "react";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
 import { EventsQueryParams } from "@containers/EventsPanel";
 
-const eventIconProps = {
-  size: "sm" as const,
-  style: {
-    marginRight: 10,
-  },
+const PREFIX = 'EventsAppBar';
+
+const classes = {
+  filterBox: `${PREFIX}-filterBox`,
+  filterLabel: `${PREFIX}-filterLabel`,
+  filterValue: `${PREFIX}-filterValue`,
+  offset: `${PREFIX}-offset`,
+  iconButton: `${PREFIX}-iconButton`,
+  iconButtonSelected: `${PREFIX}-iconButtonSelected`,
+  search: `${PREFIX}-search`,
+  searchIcon: `${PREFIX}-searchIcon`,
+  dateInput: `${PREFIX}-dateInput`,
+  inputRoot: `${PREFIX}-inputRoot`,
+  inputInput: `${PREFIX}-inputInput`,
+  tabs: `${PREFIX}-tabs`
 };
 
-const useStyles = makeStyles((theme) => ({
-  filterBox: {
+const StyledToolbar = styled(Toolbar)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.filterBox}`]: {
     display: "flex",
     alignItems: "center",
   },
-  filterLabel: {
+
+  [`& .${classes.filterLabel}`]: {
     marginBottom: 0,
     marginRight: theme.spacing(1),
   },
-  filterValue: {
+
+  [`& .${classes.filterValue}`]: {
     marginRight: theme.spacing(1),
   },
-  offset: {
+
+  [`& .${classes.offset}`]: {
     height: 200,
     minHeight: 200,
   },
-  iconButton: {
+
+  [`& .${classes.iconButton}`]: {
     marginRight: 10,
     opacity: 0.5,
   },
-  iconButtonSelected: {
+
+  [`& .${classes.iconButtonSelected}`]: {
     opacity: 1,
   },
-  search: {
+
+  [`& .${classes.search}`]: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -88,7 +108,8 @@ const useStyles = makeStyles((theme) => ({
       width: "auto",
     },
   },
-  searchIcon: {
+
+  [`& .${classes.searchIcon}`]: {
     padding: theme.spacing(0, 2, 0, 0),
     height: "100%",
     position: "absolute",
@@ -97,32 +118,43 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  dateInput: {
+
+  [`& .${classes.dateInput}`]: {
     marginBottom: theme.spacing(2),
   },
-  inputRoot: {
+
+  [`& .${classes.inputRoot}`]: {
     color: "inherit",
     paddingLeft: theme.spacing(3),
   },
-  inputInput: {
+
+  [`& .${classes.inputInput}`]: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
     },
   },
-  tabs: {
+
+  [`& .${classes.tabs}`]: {
     width: "100%",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('md')]: {
       paddingTop: 20,
       display: "flex",
       alignItems: "center",
     },
-  },
+  }
 }));
+
+const eventIconProps = {
+  size: "sm" as const,
+  style: {
+    marginRight: 10,
+  },
+};
 
 const serializeOption = (
   options: SearchOption[]
@@ -172,7 +204,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   onQueryClear,
 }) => {
   const theme = useTheme();
-  const classes = useStyles();
+
 
   const [currentDateRange, setCurrentDateRange] = React.useState([
     query.startDate,
@@ -237,7 +269,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           padding: 0,
         }}
         onClick={() => onQueryClear()}
-      >
+        size="large">
         <HighlightOffIcon />
       </IconButton>
     ) : null;
@@ -411,7 +443,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   _order: query._order === "DESC" ? "ASC" : "DESC",
                 });
               }}
-            >
+              size="large">
               {query._order === "DESC" ? <ArrowDownIcon /> : <ArrowUpIcon />}
             </IconButton>
           </Box>
@@ -436,7 +468,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   uncategorized: !filters.uncategorized,
                 });
               }}
-            >
+              size="large">
               <EventIcon type="Uncategorized" {...eventIconProps} />
               <Typography variant="caption">{totals.uncategorized}</Typography>
             </IconButton>
@@ -451,7 +483,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   deaths: !filters.deaths,
                 });
               }}
-            >
+              size="large">
               <EventIcon type="Death" {...eventIconProps} />
               <Typography variant="caption">{totals.deaths}</Typography>
             </IconButton>
@@ -466,7 +498,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   scientificStudies: !filters.scientificStudies,
                 });
               }}
-            >
+              size="large">
               <EventIcon type="ScientificStudy" {...eventIconProps} />
               <Typography variant="caption">
                 {totals.scientificStudies}
@@ -483,7 +515,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   documentaries: !filters.documentaries,
                 });
               }}
-            >
+              size="large">
               <EventIcon
                 type={Documentary.DOCUMENTARY.value}
                 {...eventIconProps}
@@ -501,7 +533,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   patents: !filters.patents,
                 });
               }}
-            >
+              size="large">
               <EventIcon type="Patent" {...eventIconProps} />
               <Typography variant="caption">{totals.patents}</Typography>
             </IconButton>
@@ -516,7 +548,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   transactions: !filters.transactions,
                 });
               }}
-            >
+              size="large">
               <EventIcon type="Transaction" {...eventIconProps} />
               <Typography variant="caption">{totals.transactions}</Typography>
             </IconButton>
@@ -678,7 +710,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   flexDirection: "row",
                   maxWidth: "100%",
                   width: "100%",
-                  [theme.breakpoints.down("md")]: {
+                  [theme.breakpoints.down('md')]: {
                     flexDirection: "column",
                   },
                 }}
@@ -692,7 +724,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         );
 
         return (
-          <Toolbar
+          <StyledToolbar
             disableGutters
             color="white"
             variant="dense"
@@ -731,7 +763,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 {expanded}
               </AccordionDetails>
             </Accordion>
-          </Toolbar>
+          </StyledToolbar>
         );
       }}
     />

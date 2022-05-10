@@ -1,6 +1,6 @@
 import { Article } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
-import { Grid, Typography, useTheme } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@mui/material";
 import * as React from "react";
 import EditButton from "./Common/Button/EditButton";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";

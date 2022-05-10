@@ -2,18 +2,16 @@ import { getRelationIds } from "@liexp/shared/helpers/event";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import {
-  useActorsQuery,
-  useEventQuery,
-  useMediaQuery,
+  useEventQuery
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Box, Grid, useTheme } from "@material-ui/core";
+import { Box, Grid } from "@mui/material";
 import * as React from "react";
 import EventsBox from "../components/events/EventsBox";
 import { queryToHash } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
-  const theme = useTheme();
+
   const navigateTo = useNavigateToResource();
 
   return (

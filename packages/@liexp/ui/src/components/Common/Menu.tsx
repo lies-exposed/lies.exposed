@@ -1,4 +1,4 @@
-import { ListItem } from "@material-ui/core";
+import { ListItem } from "@mui/material";
 import * as React from "react";
 
 interface MenuItem {

@@ -8,7 +8,7 @@
     "no-restricted-imports": [
       "error",
       {
-        "patterns": ["@material-ui/*/*/*", "!@material-ui/core/test-utils/*"]
+        "patterns": ["@mui/*/*/*", "!@mui/core/test-utils/*"]
       }
     ],
     "react/prop-types": ["off"],

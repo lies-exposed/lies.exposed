@@ -1,11 +1,25 @@
-import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import TreeItem from "@material-ui/lab/TreeItem";
-import TreeView from "@material-ui/lab/TreeView";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import TreeItem from "@mui/lab/TreeItem";
+import TreeView from "@mui/lab/TreeView";
+import { Grid } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
 import { MainContent } from "./MainContent";
+
+const PREFIX = 'ContentWithSideNavigation';
+
+const classes = {
+  root: `${PREFIX}-root`
+};
+
+const StyledGrid = styled(Grid)({
+  [`& .${classes.root}`]: {
+    height: 240,
+    flexGrow: 1,
+    maxWidth: 400,
+  },
+});
 
 export interface NavigationItem {
   itemId: string;
@@ -17,21 +31,13 @@ interface ContentWithSideNavigationProps {
   items: any[];
 }
 
-const useStyles = makeStyles({
-  root: {
-    height: 240,
-    flexGrow: 1,
-    maxWidth: 400,
-  },
-});
-
 export const ContentWithSideNavigation: React.FC<
   ContentWithSideNavigationProps
 > = ({ items, children }) => {
-  const classes = useStyles();
+
 
   return (
-    <Grid container direction="column">
+    <StyledGrid container direction="column">
       <Grid item>
         <TreeView
           classes={classes}
@@ -52,6 +58,6 @@ export const ContentWithSideNavigation: React.FC<
       </Grid>
       <Grid item />
       <Grid item />
-    </Grid>
+    </StyledGrid>
   );
 };

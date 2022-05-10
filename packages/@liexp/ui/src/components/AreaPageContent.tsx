@@ -1,5 +1,5 @@
 import { Area, Group, Topic } from "@liexp/shared/io/http";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import Feature from "ol/Feature";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils";

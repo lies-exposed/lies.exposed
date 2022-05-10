@@ -9,7 +9,7 @@ import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
-import { Box, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, ThemeProvider, Typography } from "@mui/material";
 import { FormDataConsumer , useRefresh } from "ra-core";
 import {
   BooleanInput,

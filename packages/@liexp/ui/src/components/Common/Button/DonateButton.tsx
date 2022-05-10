@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconButton } from "@material-ui/core";
+import { IconButton } from "@mui/material";
 import * as React from "react";
 
 const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
@@ -22,7 +22,7 @@ const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
         disableRipple={true}
         focusRipple={false}
         style={{ padding: 0, marginRight: 10, fontSize: undefined }}
-      >
+        size="large">
         <FontAwesomeIcon
           icon={"circle-dollar-to-slot"}
           style={{ color: "white" }}

@@ -1,4 +1,4 @@
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as React from "react";
 

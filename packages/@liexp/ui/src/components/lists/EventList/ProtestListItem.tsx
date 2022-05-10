@@ -1,6 +1,6 @@
 import { Events } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";

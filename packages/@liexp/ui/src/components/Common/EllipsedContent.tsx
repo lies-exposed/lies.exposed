@@ -1,4 +1,4 @@
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { Value } from "@react-page/editor";
 import * as React from "react";
 import Editor from "./Editor";

@@ -1,16 +1,28 @@
 import { Media } from "@liexp/shared/io/http";
+import { CloseOutlined, ExpandMore } from "@mui/icons-material";
 import {
   Box,
   IconButton,
-  makeStyles,
   Modal,
   Typography,
-} from "@material-ui/core";
-import { CloseOutlined, ExpandMore } from "@material-ui/icons";
+} from "@mui/material";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
 
-const useStyles = makeStyles((theme) => ({
-  modalContainer: {
+const PREFIX = 'ExpandableImageElement';
+
+const classes = {
+  modalContainer: `${PREFIX}-modalContainer`,
+  paper: `${PREFIX}-paper`,
+  image: `${PREFIX}-image`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.modalContainer}`]: {
     position: "absolute",
     top: 0,
     left: 0,
@@ -20,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     width: "80%",
     minHeight: 400,
     maxHeight: "90%",
@@ -28,13 +41,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2),
   },
-  image: {
+
+  [`& .${classes.image}`]: {
     width: "auto",
     height: "auto",
     maxWidth: "100%",
     maxHeight: 800,
     objectFit: "contain",
-  },
+  }
 }));
 
 interface ExpandableImageElementProps {
@@ -50,11 +64,11 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   style,
   onLoad,
 }) => {
-  const classes = useStyles();
+
   const [open, setOpen] = React.useState(false);
 
   return (
-    <Box
+    <StyledBox
       className={className}
       height="100%"
       display="flex"
@@ -69,7 +83,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
         style={{
           position: 'absolute'
         }}
-      >
+        size="large">
         <ExpandMore />
       </IconButton>
       <img
@@ -121,7 +135,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
           </div>
         </div>
       </Modal>
-    </Box>
+    </StyledBox>
   );
 };
 

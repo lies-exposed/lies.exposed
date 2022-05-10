@@ -1,5 +1,7 @@
 import { http } from "@liexp/shared/io";
 import { formatDate } from "@liexp/shared/utils/date";
+import LinkIcon from "@mui/icons-material/LinkOutlined";
+import ShareIcon from "@mui/icons-material/ShareOutlined";
 import {
   Card,
   CardActions,
@@ -8,9 +10,7 @@ import {
   CardMedia,
   IconButton,
   Typography,
-} from "@material-ui/core";
-import LinkIcon from "@material-ui/icons/LinkOutlined";
-import ShareIcon from "@material-ui/icons/ShareOutlined";
+} from "@mui/material";
 import * as React from "react";
 
 interface LinkCardProps {
@@ -56,10 +56,10 @@ const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
           onClick={() => {
             window.open(link.url, "_blank");
           }}
-        >
+          size="large">
           <LinkIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" size="large">
           <ShareIcon />
         </IconButton>
       </CardActions>

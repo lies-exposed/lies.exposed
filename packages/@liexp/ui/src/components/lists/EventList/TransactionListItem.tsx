@@ -1,23 +1,34 @@
 import { Actor, Events, Keyword } from "@liexp/shared/io/http";
 import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { Box, Grid, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
 import { getTextContentsCapped, isValidValue } from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
 import { ActorListItem } from "../ActorList";
 import { GroupListItem } from "../GroupList";
 
-const useStyles = makeStyles((theme) => ({
-  eventIcon: {
+const PREFIX = 'TransactionListItem';
+
+const classes = {
+  eventIcon: `${PREFIX}-eventIcon`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.eventIcon}`]: {
     display: "none",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down('md')]: {
       display: "flex",
       marginRight: theme.spacing(2),
     },
-  },
-}))
+  }
+}));
 
 const getSubject = (
   subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"]
@@ -56,10 +67,10 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
   onKeywordClick,
 }) => {
 
-  const classes = useStyles();
+
 
   return (
-    <Box
+    <StyledBox
       id={item.id}
       style={{
         width: "100%",
@@ -102,6 +113,6 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
           </Grid>
         ) : null}
       </Grid>
-    </Box>
+    </StyledBox>
   );
 };

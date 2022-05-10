@@ -1,5 +1,5 @@
 import { Keyword } from "@liexp/shared/io/http";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import * as React from "react";
 import { List, ListItemProps } from "../Common/List";
 

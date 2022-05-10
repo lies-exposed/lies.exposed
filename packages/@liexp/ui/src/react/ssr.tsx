@@ -2,8 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { GetLogger } from "@liexp/core/logger";
-import { CssBaseline } from "@material-ui/core";
-import { ServerStyleSheets, ThemeProvider } from "@material-ui/core/styles";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider, Theme, StyledEngineProvider } from "@mui/material/styles";
+import { ServerStyleSheets } from "@mui/styles";
 import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
@@ -11,11 +12,18 @@ import {
   dehydrate,
   Hydrate,
   QueryClient,
-  QueryClientProvider,
+  QueryClientProvider
 } from "react-query";
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider } from "../components/SEO";
 import { ECOTheme } from "../theme";
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 const ssrLog = GetLogger("ssr");
 
@@ -77,12 +85,14 @@ export const getServer = (
                 <HelmetProvider context={helmetContext}>
                   <QueryClientProvider client={queryClient}>
                     <Hydrate state={dehydratedState}>
-                      <ThemeProvider theme={ECOTheme}>
-                        <CssBaseline />
-                        <StaticRouter location={req.url}>
-                          <App />
-                        </StaticRouter>
-                      </ThemeProvider>
+                      <StyledEngineProvider injectFirst>
+                        <ThemeProvider theme={ECOTheme}>
+                          <CssBaseline />
+                          <StaticRouter location={req.url}>
+                            <App />
+                          </StaticRouter>
+                        </ThemeProvider>
+                      </StyledEngineProvider>
                     </Hydrate>
                   </QueryClientProvider>
                 </HelmetProvider>

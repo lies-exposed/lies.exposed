@@ -1,7 +1,7 @@
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
 import { ECOTheme } from "@liexp/ui/theme";
-import { CssBaseline, ThemeProvider } from "@material-ui/core";
+import { CssBaseline, ThemeProvider, StyledEngineProvider } from "@mui/material";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -12,7 +12,6 @@ import { queryClient } from "./state/queries";
 
 // all css
 import "./scss/main.css";
-
 
 
 debug.enable("*");
@@ -32,14 +31,16 @@ function Main(): JSX.Element {
 
   return (
     <HelmetProvider>
-      <ThemeProvider theme={ECOTheme}>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={dehydratedState}>
-            <CssBaseline />
-            <App />
-          </Hydrate>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={ECOTheme}>
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={dehydratedState}>
+              <CssBaseline />
+              <App />
+            </Hydrate>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </HelmetProvider>
   );
 }

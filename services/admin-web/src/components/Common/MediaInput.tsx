@@ -1,5 +1,5 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import { FormDataConsumer, InputProps } from "ra-core";
 import { FileInput, SelectInput } from "ra-ui-materialui";
 import * as React from "react";

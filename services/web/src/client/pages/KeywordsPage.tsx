@@ -28,9 +28,9 @@ const KeywordsPage: React.FC = () => {
                 ...k,
                 selected: false,
               }))}
-              getValue={(t) => t.tag}
+              getValue={(t) => (typeof t === "string" ? t : t.tag)}
               selectedItems={[]}
-              renderOption={(item, state) => (
+              renderOption={(props, item, state) => (
                 <KeywordListItem
                   item={item}
                   onClick={(keyword) => {
