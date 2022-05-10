@@ -4,16 +4,16 @@ import { GroupListItem } from "@liexp/ui/components/lists/GroupList";
 import { KeywordListItem } from "@liexp/ui/components/lists/KeywordList";
 import {
   fetchActors,
-  fetchEvent,
   fetchGroups,
   fetchKeywords,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { TextField, Typography } from "@material-ui/core";
 import {
   Autocomplete,
   AutocompleteInputChangeReason,
   AutocompleteProps,
-} from "@material-ui/lab";
+  TextField,
+  Typography,
+} from "@mui/material";
 import * as React from "react";
 import { EventsQueryParams } from "@containers/EventsPanel";
 
@@ -35,7 +35,7 @@ export type SearchOption =
       item: string;
     };
 
-type OnQueryChange = (q: EventsQueryParams) => void;
+
 interface SearchInputProps
   extends Omit<
     AutocompleteProps<any, true, undefined, true>,
@@ -138,7 +138,6 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       inputValue={search}
       onInputChange={handleSearchChange}
       getOptionLabel={(o) => o.item.id}
-      getOptionSelected={(op, value) => op.item.id === value.item.id}
       filterOptions={(options) => options}
       renderInput={(params) => (
         <TextField
@@ -149,38 +148,38 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
           }}
         />
       )}
-      renderOption={(params) => {
-        if (params.type === "Search") {
+      renderOption={(props, item) => {
+        if (item.type === "Search") {
           return (
-            <Typography key={params.item} variant="subtitle1">
-              {params.item}
+            <Typography key={item.id} variant="subtitle1">
+              {item}
             </Typography>
           );
         }
-        if (params.type === "Actor") {
+        if (item.type === "Actor") {
           return (
             <ActorListItem
               displayFullName
-              key={params.item.id}
+              key={item.id}
               avatarSize="small"
-              item={{ ...params.item, selected: true }}
+              item={{ ...item, selected: true }}
             />
           );
         }
-        if (params.type === "Group") {
+        if (item.type === "Group") {
           return (
             <GroupListItem
-              key={params.item.id}
+              key={item.id}
               avatarSize="small"
-              item={{ ...params.item, selected: true }}
+              item={{ ...item, selected: true }}
             />
           );
         }
 
         return (
           <KeywordListItem
-            key={params.item.id}
-            item={{ ...params.item, selected: true }}
+            key={item.id}
+            item={{ ...item, selected: true }}
           />
         );
       }}

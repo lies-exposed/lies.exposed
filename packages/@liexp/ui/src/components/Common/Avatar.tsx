@@ -1,44 +1,54 @@
 import {
-  AvatarProps as MUIAvatarProps,
   Avatar as MUIAvatar,
-} from "@material-ui/core";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
+  AvatarProps as MUIAvatarProps
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import * as React from "react";
-import { ECOTheme } from "../../theme/index";
 
-const useStyles = makeStyles<
-  ECOTheme,
-  { fit: React.CSSProperties["objectFit"] }
->((theme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      "& .MuiAvatar-img": {
-        objectFit: (props) => props.fit,
-      },
+const PREFIX = "Avatar";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  xsmall: `${PREFIX}-xsmall`,
+  small: `${PREFIX}-small`,
+  medium: `${PREFIX}-medium`,
+  large: `${PREFIX}-large`,
+  xlarge: `${PREFIX}-xlarge`,
+};
+
+const StyledMUIAvatar = styled(MUIAvatar)(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    display: "flex",
+    "& .MuiAvatar-img": {
+      objectFit: (props: any) => props.fit,
     },
-    xsmall: {
-      width: theme.spacing(3),
-      height: theme.spacing(3),
-    },
-    small: {
-      width: theme.spacing(4),
-      height: theme.spacing(4),
-    },
-    medium: {
-      width: theme.spacing(6),
-      height: theme.spacing(6),
-    },
-    large: {
-      width: theme.spacing(12),
-      height: theme.spacing(12),
-    },
-    xlarge: {
-      width: theme.spacing(16),
-      height: theme.spacing(16),
-    },
-  })
-);
+  },
+
+  [`& .${classes.xsmall}`]: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+
+  [`& .${classes.small}`]: {
+    width: theme.spacing(4),
+    height: theme.spacing(4),
+  },
+
+  [`& .${classes.medium}`]: {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+  },
+
+  [`& .${classes.large}`]: {
+    width: theme.spacing(12),
+    height: theme.spacing(12),
+  },
+
+  [`& .${classes.xlarge}`]: {
+    width: theme.spacing(16),
+    height: theme.spacing(16),
+  },
+}));
 
 export type AvatarSize = "xsmall" | "small" | "medium" | "large" | "xlarge";
 
@@ -52,11 +62,9 @@ export const Avatar: React.FC<AvatarProps> = ({
   fit = "cover",
   ...props
 }) => {
-  const classes = useStyles({ fit });
-
   return (
-    <MUIAvatar
-      className={`${classes.root} ${classes[size]}`}
+    <StyledMUIAvatar
+      className={`${classes.root} ${size}}`}
       imgProps={{
         decoding: "async",
       }}

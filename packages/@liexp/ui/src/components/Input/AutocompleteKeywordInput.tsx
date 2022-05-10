@@ -18,7 +18,7 @@ export const AutocompleteKeywordInput: React.FC<
       placeholder="Keyword..."
       searchToFilter={(search) => ({ search })}
       selectedItems={selectedItems}
-      getValue={(k) => k.tag}
+      getValue={(k) => (typeof k === "string" ? k : k.tag)}
       query={useKeywordsDiscreteQuery}
       renderTags={(items) => (
         <KeywordList
@@ -32,7 +32,7 @@ export const AutocompleteKeywordInput: React.FC<
           onItemClick={(k) => onItemClick(items.filter((i) => i.id !== k.id))}
         />
       )}
-      renderOption={(item, state) => {
+      renderOption={(props, item, state) => {
         return (
           <KeywordListItem
             key={item.id}

@@ -1,14 +1,23 @@
-import { makeStyles } from "@material-ui/core";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
 import ReactTOC from "react-toc";
-import { ECOTheme } from "../../theme";
 
-const useStyles = makeStyles<ECOTheme>((props) => ({
-  root: {
+const PREFIX = 'TOC';
+
+const classes = {
+  root: `${PREFIX}-root`
+};
+
+const StyledReactTOC = styled(ReactTOC)((
+  {
+    theme
+  }
+) => ({
+  [`&.${classes.root}`]: {
     margin: "10px 0",
     padding: 0,
-    fontFamily: props.typography.h1.fontFamily,
-  },
+    fontFamily: theme.typography.h1.fontFamily,
+  }
 }));
 
 interface TOCProps {
@@ -21,6 +30,6 @@ interface TOCProps {
   customMatchers?: any;
 }
 export const TOC: React.FC<TOCProps> = (props) => {
-  const classes = useStyles();
-  return <ReactTOC className={classes.root} {...props} />;
+
+  return <StyledReactTOC className={classes.root} {...props} />;
 };

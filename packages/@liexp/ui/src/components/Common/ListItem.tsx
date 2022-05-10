@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import * as React from "react";
 
 export const ListItem: React.FC<any> = ({ children, ...props }) => {

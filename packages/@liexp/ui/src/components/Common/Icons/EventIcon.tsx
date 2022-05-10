@@ -8,8 +8,20 @@ import {
   Transaction,
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
-import { makeStyles } from "@material-ui/core";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
+
+const PREFIX = 'EventTypeColor';
+
+const classes = {
+  fontAwesome: `${PREFIX}-fontAwesome`
+};
+
+const Root = styled('text')(() => ({
+  [`&.${classes.fontAwesome}`]: {
+    fontFamily: "Font Awesome 6 Free",
+  }
+}));
 
 export const EventTypeColor = {
   [Uncategorized.UNCATEGORIZED.value]: "#EC3535",
@@ -89,16 +101,10 @@ export const EventIcon: React.FC<EventIconProps> = ({ type, ...props }) => {
   }
 };
 
-const useStyles = makeStyles(() => ({
-  fontAwesome: {
-    fontFamily: "Font Awesome 6 Free",
-  },
-}));
-
 export const EventIconInSVG: React.FC<
   EventIconProps & React.SVGProps<SVGTextElement>
 > = ({ type, ...props }) => {
-  const classes = useStyles();
+
   const unicode = React.useMemo(() => {
     switch (type) {
       case ScientificStudy.SCIENTIFIC_STUDY.value: {
@@ -110,8 +116,8 @@ export const EventIconInSVG: React.FC<
   }, [type]);
 
   return (
-    <text className={classes.fontAwesome} {...props}>
+    <Root className={classes.fontAwesome} {...props}>
       {unicode}
-    </text>
+    </Root>
   );
 };

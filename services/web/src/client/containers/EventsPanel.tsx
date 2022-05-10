@@ -4,13 +4,10 @@ import {
 } from "@liexp/shared/io/http/Events";
 import { TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
-import { ECOTheme } from "@liexp/ui/theme";
 import {
-  Box,
-  createStyles,
-  Grid,
-  makeStyles, useTheme
-} from "@material-ui/core";
+  Box, Grid,
+} from "@mui/material";
+import { styled } from '@mui/material/styles';
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
@@ -18,84 +15,116 @@ import AddEventModal from "../components/events/AddEventModal";
 import { useNavigateToResource } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 
-const drawerWidth = 240;
+const PREFIX = 'EventsPanel';
 
-const useStyles = makeStyles((theme: ECOTheme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      flexDirection: "row",
-      [theme.breakpoints.down("md")]: {
-        flexDirection: "column",
-      },
-    },
-    menuButton: {
-      marginRight: 36,
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    appBar: {
-      paddingLeft: drawerWidth,
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerClose: {
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: "hidden",
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9) + 1,
-      },
-    },
-    drawerContainer: {
-      overflow: "auto",
-    },
-    toolbar: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end",
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-    },
-    tabPanel: {
-      maxHeight: "100%",
-      minHeight: 500,
-      width: "100%",
-      flexGrow: 1,
-      flexShrink: 0,
-      height: "100%",
-      display: "none",
-    },
-    tabPanelSelected: {
-      display: "flex",
-    },
-    content: {
-      flexGrow: 1,
-      height: "100%",
-      width: "100%",
-      display: "flex",
+const classes = {
+  root: `${PREFIX}-root`,
+  menuButton: `${PREFIX}-menuButton`,
+  drawer: `${PREFIX}-drawer`,
+  drawerPaper: `${PREFIX}-drawerPaper`,
+  appBar: `${PREFIX}-appBar`,
+  drawerOpen: `${PREFIX}-drawerOpen`,
+  drawerClose: `${PREFIX}-drawerClose`,
+  drawerContainer: `${PREFIX}-drawerContainer`,
+  toolbar: `${PREFIX}-toolbar`,
+  tabPanel: `${PREFIX}-tabPanel`,
+  tabPanelSelected: `${PREFIX}-tabPanelSelected`,
+  content: `${PREFIX}-content`,
+  eventFiltersBox: `${PREFIX}-eventFiltersBox`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.root}`]: {
+    display: "flex",
+    flexDirection: "row",
+    [theme.breakpoints.down('md')]: {
       flexDirection: "column",
     },
-    eventFiltersBox: {
-      display: "flex",
-      flexDirection: "column",
+  },
+
+  [`& .${classes.menuButton}`]: {
+    marginRight: 36,
+  },
+
+  [`& .${classes.drawer}`]: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+
+  [`& .${classes.drawerPaper}`]: {
+    width: drawerWidth,
+  },
+
+  [`& .${classes.appBar}`]: {
+    paddingLeft: drawerWidth,
+  },
+
+  [`& .${classes.drawerOpen}`]: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+
+  [`& .${classes.drawerClose}`]: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing(9) + 1,
     },
-  })
-);
+  },
+
+  [`& .${classes.drawerContainer}`]: {
+    overflow: "auto",
+  },
+
+  [`& .${classes.toolbar}`]: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+
+  [`& .${classes.tabPanel}`]: {
+    maxHeight: "100%",
+    minHeight: 500,
+    width: "100%",
+    flexGrow: 1,
+    flexShrink: 0,
+    height: "100%",
+    display: "none",
+  },
+
+  [`& .${classes.tabPanelSelected}`]: {
+    display: "flex",
+  },
+
+  [`&.${classes.content}`]: {
+    flexGrow: 1,
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+
+  [`& .${classes.eventFiltersBox}`]: {
+    display: "flex",
+    flexDirection: "column",
+  }
+}));
+
+const drawerWidth = 240;
 
 // interface EventsPanelProps {}
 
@@ -134,8 +163,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   onQueryChange,
   onQueryClear,
 }) => {
-  const classes = useStyles();
-  const theme = useTheme();
 
   const navigateTo = useNavigateToResource();
 
@@ -187,7 +214,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   );
 
   return (
-    <Box id="events-panel" className={classes.content}>
+    <StyledBox id="events-panel" className={classes.content}>
       <Grid
         container
         justifyContent="center"
@@ -292,6 +319,6 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
       </TabPanel> */}
 
       <AddEventModal query={query} hash={hash} container={"events-panel"} />
-    </Box>
+    </StyledBox>
   );
 };

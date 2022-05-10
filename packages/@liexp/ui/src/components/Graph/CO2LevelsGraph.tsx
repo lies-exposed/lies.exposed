@@ -1,4 +1,4 @@
-import { Checkbox } from "@material-ui/core";
+import { Checkbox } from "@mui/material";
 import { LinearGradient } from "@vx/gradient";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as t from "io-ts";

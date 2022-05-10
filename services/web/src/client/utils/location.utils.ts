@@ -92,19 +92,19 @@ export type CurrentView =
   | VaccineDashboardView
   | IndexView;
 
-const blogRegex = /^\/blog\/$/;
-const articleRegex = /^\/blog\/([^/]+)$/;
-const docsRegex = /^\/docs\/$/;
-const aboutRegex = /^\/about\/$/;
-const actorsRegex = /^\/dashboard\/actors\/$/;
-const actorRegex = /^\/dashboard\/actors\/([^/]+)$/;
-const groupsRegex = /^\/dashboard\/groups\/$/;
-const groupRegex = /^\/dashboard\/groups\/([^/]+)$/;
-const keywordsRegex = /^\/dashboard\/keywords\/$/;
-const keywordRegex = /^\/dashboard\/keywords\/([^/]+)$/;
-const eventsRegex = /^\/dashboard\/events\/$/;
-const eventRegex = /^\/dashboard\/events\/([^/]+)$/;
-const vaccinesDashboardRegex = /^\/dashboard\/vaccines\/$/;
+// const blogRegex = /^\/blog\/$/;
+// const articleRegex = /^\/blog\/([^/]+)$/;
+// const docsRegex = /^\/docs\/$/;
+// const aboutRegex = /^\/about\/$/;
+// const actorsRegex = /^\/dashboard\/actors\/$/;
+// const actorRegex = /^\/dashboard\/actors\/([^/]+)$/;
+// const groupsRegex = /^\/dashboard\/groups\/$/;
+// const groupRegex = /^\/dashboard\/groups\/([^/]+)$/;
+// const keywordsRegex = /^\/dashboard\/keywords\/$/;
+// const keywordRegex = /^\/dashboard\/keywords\/([^/]+)$/;
+// const eventsRegex = /^\/dashboard\/events\/$/;
+// const eventRegex = /^\/dashboard\/events\/([^/]+)$/;
+// const vaccinesDashboardRegex = /^\/dashboard\/vaccines\/$/;
 
 export function viewToLocation(view: CurrentView): any {
   const pathname =

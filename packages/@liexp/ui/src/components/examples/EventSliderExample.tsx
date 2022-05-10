@@ -1,4 +1,4 @@
-import { Card } from "@material-ui/core";
+import { Card } from "@mui/material";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { EventSlider, EventSliderProps } from "../sliders/EventSlider";

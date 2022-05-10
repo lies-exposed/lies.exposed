@@ -10,7 +10,7 @@ import {
   DialogTitle,
   Link,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Identifier } from "ra-core";
 import { FieldProps } from "ra-ui-materialui";
 import * as React from "react";

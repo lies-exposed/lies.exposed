@@ -1,4 +1,4 @@
-import { IconProps } from "@material-ui/core/Icon";
+import { IconProps } from "@mui/material/Icon";
 import * as React from "react";
 import GreyIcon from "./mattermost-logomark-grey.png";
 import WhiteIcon from "./mattermost-logomark-white.png";

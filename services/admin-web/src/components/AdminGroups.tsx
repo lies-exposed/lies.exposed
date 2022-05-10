@@ -4,7 +4,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";

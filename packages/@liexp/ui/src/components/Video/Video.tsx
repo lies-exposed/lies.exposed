@@ -1,15 +1,21 @@
 import { MP4Type } from "@liexp/shared/io/http/Media";
-import { makeStyles } from "@material-ui/core";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
 
-const useStyles = makeStyles(() => ({
-  wrapper: {
+const PREFIX = 'Video';
+
+const classes = {
+  wrapper: `${PREFIX}-wrapper`
+};
+
+const Root = styled('div')(() => ({
+  [`&.${classes.wrapper}`]: {
     display: "flex",
     width: "100%",
     maxWidth: 800,
     minHeight: 300,
     maxHeight: 400,
-  },
+  }
 }));
 
 interface VideoProps {
@@ -36,11 +42,11 @@ export const Video: React.FC<VideoProps> = ({
   style,
   onLoad,
 }) => {
-  const classes = useStyles();
+
   const [loaded, setLoaded] = React.useState(!(thumbnail !== undefined));
 
   return (
-    <div
+    <Root
       className={classes.wrapper}
       style={style}
       onClick={() => setLoaded(true)}
@@ -73,6 +79,6 @@ export const Video: React.FC<VideoProps> = ({
           onLoad={onLoad}
         />
       )}
-    </div>
+    </Root>
   );
 };

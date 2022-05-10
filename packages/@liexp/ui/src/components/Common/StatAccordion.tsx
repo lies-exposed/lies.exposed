@@ -1,11 +1,11 @@
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Typography,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+} from "@mui/material";
 import * as React from "react";
 
 interface StatAccordionProps {
@@ -27,9 +27,6 @@ export const StatAccordion: React.FC<StatAccordionProps> = ({
     <Accordion>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        IconButtonProps={{
-          edge: "end",
-        }}
         aria-controls="panel1a-content"
         id="panel1a-header"
       >

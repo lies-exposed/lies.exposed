@@ -1,7 +1,7 @@
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { Grid, Typography, useTheme } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@mui/material";
 import * as React from "react";
 import { useNavigateToResource } from "../../utils/location.utils";
 

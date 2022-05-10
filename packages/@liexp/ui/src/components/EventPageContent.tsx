@@ -8,7 +8,7 @@ import {
   Typography,
   useMediaQuery as useMuiMediaQuery,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 import * as React from "react";
 import { getEventCommonProps } from "../helpers/event.helper";
 import {
@@ -48,7 +48,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   const theme = useTheme();
   const { actors, groups, groupsMembers, media } = getRelationIds(event);
 
-  const isDownSM = useMuiMediaQuery(theme.breakpoints.down("sm"));
+  const isDownSM = useMuiMediaQuery(theme.breakpoints.down('md'));
 
   const date =
     typeof event.date === "string" ? new Date(event.date) : event.date;

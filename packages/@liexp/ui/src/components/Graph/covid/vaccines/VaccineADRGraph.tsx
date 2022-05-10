@@ -9,21 +9,22 @@ import {
   TwelveToSixteenYears,
   TwoMonthsToTwoYears,
   VaccineDatum,
-  ZeroToOneMonth
+  ZeroToOneMonth,
 } from "@liexp/shared/io/http/covid/VaccineDatum";
 import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
-import { formatDate } from '@liexp/shared/utils/date';
+import { formatDate } from "@liexp/shared/utils/date";
 import {
   Box,
   FormControl,
   Grid,
   InputLabel,
-  makeStyles,
   MenuItem,
   Select,
   Typography,
-  TypographyProps
-} from "@material-ui/core";
+  TypographyProps,
+  SelectChangeEvent,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { AxisBottom, AxisLeft, AxisRight } from "@vx/axis";
 import { curveLinear } from "@vx/curve";
 import { localPoint } from "@vx/event";
@@ -38,9 +39,33 @@ import { isDate } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
 import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries";
-import { ECOTheme } from "../../../../theme/index";
 import { StatAccordion } from "../../../Common/StatAccordion";
 import QueriesRenderer from "../../../QueriesRenderer";
+
+const PREFIX = "VaccineADRGraph";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  formControl: `${PREFIX}-formControl`,
+  graphAccordionHeading: `${PREFIX}-graphAccordionHeading`,
+};
+
+const Root = styled("div")(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    width: "100%",
+  },
+
+  [`& .${classes.formControl}`]: {
+    position: "relative",
+    minWidth: 120,
+    marginBottom: theme.spacing(2),
+  },
+
+  [`& .${classes.graphAccordionHeading}`]: {
+    fontSize: theme.typography.pxToRem(16),
+    fontWeight: theme.typography.fontWeightRegular as any,
+  },
+}));
 
 const ageGroupColors = {
   all: "#b623ad",
@@ -87,21 +112,6 @@ const getValueForAgeGroup = (v: VaccineDatum, ageGroup?: AgeGroup): number => {
 };
 
 const getAgeGroupColor = getByAgeGroup(ageGroupColors);
-
-const useStyles = makeStyles<ECOTheme>((theme) => ({
-  root: {
-    width: "100%",
-  },
-  formControl: {
-    position: "relative",
-    minWidth: 120,
-    marginBottom: theme.spacing(2),
-  },
-  graphAccordionHeading: {
-    fontSize: theme.typography.pxToRem(16),
-    fontWeight: theme.typography.fontWeightRegular as any,
-  },
-}));
 
 const populationNumber = 8 * 10e8;
 
@@ -326,7 +336,7 @@ const VaccineADRGraphComponent = withTooltip<
 
   return (
     <React.Fragment>
-      <div style={{ position: "relative", width }}>
+      <Root style={{ position: "relative", width }}>
         <svg width={width} height={height}>
           {/** EUDRVIGILANCE */}
           <LinearGradient
@@ -431,7 +441,7 @@ const VaccineADRGraphComponent = withTooltip<
             {renderTooltip(tooltipData)}
           </TooltipWithBounds>
         ) : null}
-      </div>
+      </Root>
     </React.Fragment>
   );
 });
@@ -460,24 +470,26 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
   const [manufacturer, setManufacturer] = React.useState("All");
   const [ageGroup, setAgeGroup] = React.useState("All" as any);
 
-  const classes = useStyles();
-
   const handleADRReportRateChange = React.useCallback(
-    (event: React.ChangeEvent<{ name?: string; value: any }>): void => {
-      setADRReportRate(event.target.value);
+    (event: SelectChangeEvent<number>): void => {
+      setADRReportRate(
+        typeof event.target.value === "string"
+          ? parseInt(event.target.value, 10)
+          : event.target.value
+      );
     },
     []
   );
 
   const handleManufacturerChange = React.useCallback(
-    (event: React.ChangeEvent<{ name?: string; value: any }>): void => {
+    (event: SelectChangeEvent<string>): void => {
       setManufacturer(event.target.value);
     },
     []
   );
 
   const handlePatientAgeGroupChange = React.useCallback(
-    (e: React.ChangeEvent<{ name?: string; value: any }>): void => {
+    (e: SelectChangeEvent<string>): void => {
       setAgeGroup(e.target.value);
     },
     []

@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import Feature from "ol/Feature";
 import { Polygon } from "ol/geom";

@@ -1,4 +1,4 @@
-import { Card, Grid, Typography } from "@material-ui/core";
+import { Card, Grid, Typography } from "@mui/material";
 import * as React from "react";
 
 export const ErrorBox: (e: any) => React.ReactElement = (e: any) => {

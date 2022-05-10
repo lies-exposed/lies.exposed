@@ -1,5 +1,5 @@
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import { Box, Button, TextField } from "@material-ui/core";
+import { Box, Button, TextField } from "@mui/material";
 import * as React from "react";
 import { TextInput, TextInputProps, useInput } from "react-admin";
 import { dataProvider } from "../../client/HTTPAPI";

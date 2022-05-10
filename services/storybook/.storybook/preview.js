@@ -1,5 +1,5 @@
 import "ol/ol.css";
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider } from "@mui/material";
 import * as React from "react";
 import { ECOTheme } from "@liexp/ui/theme";
 

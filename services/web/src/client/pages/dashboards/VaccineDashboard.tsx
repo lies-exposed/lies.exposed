@@ -12,7 +12,7 @@ import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
 import { VaccineADRGraph } from "@liexp/ui/components/Graph/covid/vaccines/VaccineADRGraph";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useJSONDataQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Box, Grid, Tab, Tabs, Typography } from "@material-ui/core";
+import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { scaleOrdinal } from "@vx/scale";
 import { isAfter, isBefore } from "date-fns";
 import * as A from "fp-ts/lib/Array";
@@ -28,8 +28,8 @@ import { useNavigateTo } from "../../utils/history.utils";
 const LAST_DAY_2020 = new Date("2020-12-31");
 const LAST_DAY_2021 = new Date("2021-12-31");
 
-const infectedColor = "#bd0303";
-const healthyColor = "#43e5a2";
+// const infectedColor = "#bd0303";
+// const healthyColor = "#43e5a2";
 
 const colorDomain = [
   "#FF0000",
@@ -105,7 +105,7 @@ interface VaccineDashboardProps {
 
 const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
   // deaths
-  const deathsKeys = ["covid", "total"];
+  // const deathsKeys = ["covid", "total"];
 
   const navigateTo = useNavigateTo();
 

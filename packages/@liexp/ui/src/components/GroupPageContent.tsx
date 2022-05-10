@@ -1,6 +1,6 @@
 import { Actor, Events, Group, Project } from "@liexp/shared/io/http";
 import { GroupMember } from "@liexp/shared/io/http/GroupMember";
-import { Grid, Typography, useTheme } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@mui/material";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";

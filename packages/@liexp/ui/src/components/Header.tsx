@@ -2,69 +2,83 @@ import {
   AppBar,
   Button,
   ClickAwayListener,
-  createStyles,
   Grow,
   Link,
-  makeStyles,
   MenuItem,
   MenuList,
   Paper,
   Popper,
   Toolbar,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import { ECOTheme } from "../theme/index";
 import DonateButton from "./Common/Button/DonateButton";
 import { TelegramIcon } from "./Common/Icons";
 import GithubButton from "./GithubButton";
 
-const useStyles = makeStyles<ECOTheme>((theme) =>
-  createStyles({
-    root: {
-      flexGrow: 0,
-      flexShrink: 0,
-    },
-    appBar: {
-      position: 'fixed',
-      backgroundColor: theme.overrides?.MuiAppBar?.colorPrimary as any,
-      boxShadow: "none",
-      zIndex: theme.zIndex.drawer + 1,
-      flexGrow: 0,
-      maxHeight: 64,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    menuItem: {
-      color: theme.palette.common.white,
-      ...(theme.typography.subtitle1 as any),
-    },
-    menuItemLink: {
-      color: theme.palette.text.primary,
-      fontWeight: theme.typography.fontWeightBold as any,
-      textTransform: "uppercase",
-      ...(theme.typography.subtitle1 as any),
-      fontSize: 14,
-      margin: 0,
-    },
-    title: {
-      flexGrow: 1,
-      margin: 0,
-      color: theme.palette.common.white,
-      fontWeight: theme.typography.fontWeightBold as any,
-    },
-    titleLink: {
-      color: theme.palette.common.black,
-      fontWeight: theme.typography.fontWeightBold as any,
-      fontFamily: theme.typography.h6.fontFamily,
-      letterSpacing: 1.1,
-      textDecoration: "none",
-    },
-  })
-);
+const PREFIX = "Header";
+
+const classes = {
+  root: `${PREFIX}-root`,
+  appBar: `${PREFIX}-appBar`,
+  menuButton: `${PREFIX}-menuButton`,
+  menuItem: `${PREFIX}-menuItem`,
+  menuItemLink: `${PREFIX}-menuItemLink`,
+  title: `${PREFIX}-title`,
+  titleLink: `${PREFIX}-titleLink`,
+};
+
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  [`& .${classes.root}`]: {
+    flexGrow: 0,
+    flexShrink: 0,
+  },
+
+  [`&.${classes.appBar}`]: {
+    position: "fixed",
+    backgroundColor: theme.components?.MuiAppBar?.styleOverrides?.colorPrimary,
+    boxShadow: "none",
+    zIndex: theme.zIndex.drawer + 1,
+    flexGrow: 0,
+    maxHeight: 64,
+  },
+
+  [`& .${classes.menuButton}`]: {
+    marginRight: theme.spacing(2),
+  },
+
+  [`& .${classes.menuItem}`]: {
+    color: theme.palette.common.white,
+    ...(theme.typography.subtitle1 as any),
+  },
+
+  [`& .${classes.menuItemLink}`]: {
+    color: theme.palette.text.primary,
+    fontWeight: theme.typography.fontWeightBold as any,
+    textTransform: "uppercase",
+    ...(theme.typography.subtitle1 as any),
+    fontSize: 14,
+    margin: 0,
+  },
+
+  [`& .${classes.title}`]: {
+    flexGrow: 1,
+    margin: 0,
+    color: theme.palette.common.white,
+    fontWeight: theme.typography.fontWeightBold as any,
+  },
+
+  [`& .${classes.titleLink}`]: {
+    color: theme.palette.common.black,
+    fontWeight: theme.typography.fontWeightBold as any,
+    fontFamily: theme.typography.h6.fontFamily,
+    letterSpacing: 1.1,
+    textDecoration: "none",
+  },
+}));
 
 interface View {
   view: string;
@@ -101,8 +115,6 @@ const Header: React.FC<HeaderProps> = ({
     },
   };
 
-  const classes = useStyles();
-
   const [open, setOpen] = React.useState(false);
   const [anchorRef, setAnchorRef] =
     React.useState<React.RefObject<HTMLButtonElement> | null>(
@@ -125,7 +137,7 @@ const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  const handleClose = (event: React.MouseEvent<EventTarget>): void => {
+  const handleClose = (event: React.MouseEvent | React.TouchEvent): void => {
     if (anchorRef?.current?.contains(event.target as HTMLElement)) {
       return;
     }
@@ -153,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({
   }, [open]);
 
   return (
-    <AppBar className={classes.appBar} position="fixed">
+    <StyledAppBar className={classes.appBar} position="fixed">
       <Toolbar>
         <Typography
           variant="h6"
@@ -207,7 +219,9 @@ const Header: React.FC<HeaderProps> = ({
                   }}
                 >
                   <Paper>
-                    <ClickAwayListener onClickAway={handleClose}>
+                    <ClickAwayListener
+                      onClickAway={(e) => handleClose(e as any)}
+                    >
                       <MenuList
                         autoFocusItem={open}
                         id={`menu-list-${m.view}`}
@@ -218,7 +232,7 @@ const Header: React.FC<HeaderProps> = ({
                             key={item.view}
                             className={classes.menuItem}
                             onClick={(e) => {
-                              handleClose(e);
+                              handleClose(e as any);
                               onMenuItemClick({ subItems: [], ...item });
                             }}
                           >
@@ -240,7 +254,7 @@ const Header: React.FC<HeaderProps> = ({
           O.toNullable
         )}
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
 };
 

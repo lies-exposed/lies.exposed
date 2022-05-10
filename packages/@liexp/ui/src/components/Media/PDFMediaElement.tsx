@@ -1,10 +1,22 @@
 import { Media } from "@liexp/shared/io/http";
-import { Box, Button, makeStyles, Modal, Typography } from "@material-ui/core";
-import { CloseOutlined } from "@material-ui/icons";
+import { CloseOutlined } from "@mui/icons-material";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
 
-const useStyles = makeStyles((theme) => ({
-  modalContainer: {
+const PREFIX = 'PDFMediaElement';
+
+const classes = {
+  modalContainer: `${PREFIX}-modalContainer`,
+  paper: `${PREFIX}-paper`
+};
+
+const StyledBox = styled(Box)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.modalContainer}`]: {
     position: "absolute",
     top: 0,
     left: 0,
@@ -14,14 +26,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  paper: {
+
+  [`& .${classes.paper}`]: {
     width: "80%",
     minHeight: 400,
     maxHeight: "90%",
     height: "100%",
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(2),
-  },
+  }
 }));
 
 interface PDFMediaElementProps {
@@ -38,11 +51,11 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
   style,
   ...props
 }) => {
-  const classes = useStyles();
+
   const [open, setOpen] = React.useState(false);
 
   return (
-    <Box
+    <StyledBox
       height="100%"
       display="flex"
       alignItems="center"
@@ -105,7 +118,7 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
           </div>
         </div>
       </Modal>
-    </Box>
+    </StyledBox>
   );
 };
 

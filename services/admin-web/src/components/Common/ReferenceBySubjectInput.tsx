@@ -1,5 +1,5 @@
 import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import _ from "lodash";
 import { FormDataConsumer } from "ra-core";
 import { ReferenceInputProps, SelectInput } from "ra-ui-materialui";

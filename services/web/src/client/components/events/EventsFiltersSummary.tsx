@@ -3,27 +3,44 @@ import GroupList from "@liexp/ui/components/lists/GroupList";
 import { GroupsMembersList } from "@liexp/ui/components/lists/GroupMemberList";
 import KeywordList from "@liexp/ui/components/lists/KeywordList";
 import { SearchEventQueryResult } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
+import { Grid, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import { styled } from '@mui/material/styles';
 import * as React from "react";
 import { EventsView } from "../../utils/location.utils";
 
-const useStyles = makeStyles((theme) => ({
-  filterBox: {
+const PREFIX = 'EventsFilterSummary';
+
+const classes = {
+  filterBox: `${PREFIX}-filterBox`,
+  filterLabel: `${PREFIX}-filterLabel`,
+  filterValue: `${PREFIX}-filterValue`,
+  offset: `${PREFIX}-offset`
+};
+
+const StyledGrid = styled(Grid)((
+  {
+    theme
+  }
+) => ({
+  [`& .${classes.filterBox}`]: {
     display: "flex",
     alignItems: "center",
   },
-  filterLabel: {
+
+  [`& .${classes.filterLabel}`]: {
     marginBottom: 0,
     marginRight: theme.spacing(1),
   },
-  filterValue: {
+
+  [`& .${classes.filterValue}`]: {
     marginRight: theme.spacing(1),
   },
-  offset: {
+
+  [`& .${classes.offset}`]: {
     height: 200,
     minHeight: 200,
-  },
+  }
 }));
 
 export interface EventsFilterSummaryProps
@@ -44,9 +61,9 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
     onQueryChange,
   } = props;
 
-  const classes = useStyles();
+
   return (
-    <Grid
+    <StyledGrid
       container
       style={{
         padding: 20,
@@ -165,7 +182,7 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
       <Grid item sm={12}>
         {children}
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 };
 

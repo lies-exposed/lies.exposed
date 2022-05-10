@@ -4,7 +4,7 @@ import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import GroupList from "@liexp/ui/components/lists/GroupList";
 import { useGroupsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";

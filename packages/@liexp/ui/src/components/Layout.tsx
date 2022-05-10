@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import * as React from "react";
 import { Footer } from "./Footer";
 import Header, { HeaderProps } from "./Header";

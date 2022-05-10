@@ -4,6 +4,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
 import { getSuggestions } from "@liexp/ui/helpers/event.helper";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   Box,
   Button,
@@ -17,8 +18,7 @@ import {
   Input,
   Typography,
   useTheme,
-} from "@material-ui/core";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+} from "@mui/material";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import { createEventSuggestion, getURLMetadata } from "../../state/commands";

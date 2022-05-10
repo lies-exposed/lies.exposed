@@ -1,21 +1,23 @@
 import { getEventsMetadata } from "@liexp/shared/helpers/event";
 import { Actor, Group, GroupMember } from "@liexp/shared/io/http";
 import { SearchEvent } from "@liexp/shared/io/http/Events";
-import { Box, BoxProps, makeStyles } from "@material-ui/core";
+import { Box, BoxProps } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { ActorList } from "../ActorList";
 import GroupsList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";
 
-export interface EventListItemProps extends BoxProps {
-  event: SearchEvent.SearchEvent;
-  onActorClick: (a: Actor.Actor) => void;
-  onGroupClick: (g: Group.Group) => void;
-  onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
-}
+const PREFIX = "TimelineEventSubjects";
 
-const useStyles = makeStyles((theme) => ({
-  subjectsBox: {
+const classes = {
+  subjectsBox: `${PREFIX}-subjectsBox`,
+  subjectInnerBox: `${PREFIX}-subjectInnerBox`,
+  subjectsList: `${PREFIX}-subjectsList`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`& .${classes.subjectsBox}`]: {
     display: "flex",
     flexDirection: "column",
     flexGrow: 1,
@@ -26,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "flex-end",
     },
   },
-  subjectInnerBox: {
+
+  [`&.${classes.subjectInnerBox}`]: {
     display: "flex",
     flexDirection: "column",
     [theme.breakpoints.down("md")]: {
@@ -34,7 +37,8 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "flex-end",
     },
   },
-  subjectsList: {
+
+  [`& .${classes.subjectsList}`]: {
     display: "flex",
     flexDirection: "column",
     [theme.breakpoints.down("md")]: {
@@ -43,6 +47,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+export interface EventListItemProps extends BoxProps {
+  event: SearchEvent.SearchEvent;
+  onActorClick: (a: Actor.Actor) => void;
+  onGroupClick: (g: Group.Group) => void;
+  onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
+}
 
 export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   event: e,
@@ -53,8 +64,6 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   onGroupMemberClick,
   ...props
 }) => {
-  const classes = useStyles();
-
   const { actors, groups, groupsMembers } = getEventsMetadata(e);
 
   const content = React.useMemo(() => {
@@ -67,17 +76,19 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
     }
 
     return (
-      <Box {...props} className={classes.subjectInnerBox}>
+      <StyledBox {...props} className={classes.subjectInnerBox}>
         <ActorList
           className={classes.subjectsList}
           style={style}
           actors={actors.map((a) => ({ ...a, selected: true }))}
           onActorClick={onActorClick}
+          avatarSize="xsmall"
         />
         <GroupsList
           className={classes.subjectsList}
           groups={groups.map((a) => ({ ...a, selected: true }))}
           onItemClick={onGroupClick}
+          avatarSize="xsmall"
         />
         <GroupsMembersList
           className={classes.subjectsList}
@@ -86,8 +97,9 @@ export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
             selected: true,
           }))}
           onItemClick={onGroupMemberClick}
+          avatarSize="xsmall"
         />
-      </Box>
+      </StyledBox>
     );
   }, [e.id]);
 

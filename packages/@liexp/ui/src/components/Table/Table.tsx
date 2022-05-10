@@ -1,4 +1,4 @@
-import { DataGrid as BTable } from "@material-ui/data-grid";
+import { DataGrid as BTable } from "@mui/x-data-grid";
 import * as React from "react";
 // import { htmlTabletToBaseWebTablet } from "./htmlTableToBaseWebTable"
 

@@ -1,5 +1,5 @@
 import { Group } from "@liexp/shared/io/http";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
@@ -44,7 +44,7 @@ export const GroupListItem: React.FC<
             size={avatarSize}
             style={{ margin: 5 }}
             fit="contain"
-            variant="square"
+            variant="circular"
           />
         )),
         O.toNullable

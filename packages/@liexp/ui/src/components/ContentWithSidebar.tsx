@@ -1,6 +1,6 @@
-import { Box, Grid } from "@material-ui/core";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, Grid } from "@mui/material";
 import * as React from "react";
 
 interface ContentWithSidebarProps {

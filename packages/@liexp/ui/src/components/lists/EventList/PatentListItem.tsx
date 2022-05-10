@@ -1,5 +1,5 @@
 import { Actor, Events, Keyword } from "@liexp/shared/io/http";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import * as React from "react";
 import EventListItemBase from "./EventListItemBase";
 

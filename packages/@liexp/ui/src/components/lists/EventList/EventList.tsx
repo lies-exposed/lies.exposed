@@ -1,22 +1,31 @@
-import { Events } from '@liexp/shared/io/http';
+import { Events } from "@liexp/shared/io/http";
 import { groupBy } from "@liexp/shared/utils/array.utils";
 import { distanceFromNow } from "@liexp/shared/utils/date";
-import {
-  Grid,
-  List,
-  ListItem,
-  ListSubheader,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Grid, List, ListItem, ListSubheader, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
-import {
-  EventListItem,
-  EventListItemProps,
-} from "./EventListItem";
+import { EventListItem, EventListItemProps } from "./EventListItem";
+
+const PREFIX = "EventList";
+
+const classes = {
+  listSubheader: `${PREFIX}-listSubheader`,
+  listItemUList: `${PREFIX}-listItemUList`,
+};
+
+const StyledList = styled(List)(({ theme }) => ({
+  [`& .${classes.listSubheader}`]: {
+    backgroundColor: theme.palette.common.white,
+  },
+
+  [`&.${classes.listItemUList}`]: {
+    padding: 0,
+    width: "100%",
+  },
+}));
 
 const byEqualDate = pipe(
   S.Eq,
@@ -24,16 +33,6 @@ const byEqualDate = pipe(
     return distanceFromNow(e.date);
   })
 );
-
-const useStyles = makeStyles((props) => ({
-  listSubheader: {
-    backgroundColor: props.palette.common.white,
-  },
-  listItemUList: {
-    padding: 0,
-    width: "100%",
-  },
-}));
 
 export interface EventListProps extends Omit<EventListItemProps, "event"> {
   className?: string;
@@ -69,7 +68,7 @@ const renderHeaderRow: React.FC<{
   };
 }> = (props) => {
   const {
-    data: { classes, ...data },
+    data: { ...data },
   } = props;
   const events = data.events;
 
@@ -94,14 +93,14 @@ const renderHeaderRow: React.FC<{
           </Grid>
         </Grid>
       </ListSubheader>
-      <List className={classes.listItemUList}>
+      <StyledList className={classes.listItemUList}>
         {events.map((e, i) =>
           renderRow({
             data: { ...data, events },
             index: i,
           })
         )}
-      </List>
+      </StyledList>
     </div>
   );
 };
@@ -113,7 +112,7 @@ const EventList: React.FC<EventListProps> = ({
   ...props
 }) => {
   const orderedEvents = pipe(events, groupBy(byEqualDate));
-  const classes = useStyles();
+
   return (
     <List className={`events ${className}`} subheader={<div />} style={style}>
       {orderedEvents.map((ee, i) =>

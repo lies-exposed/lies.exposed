@@ -1,11 +1,11 @@
 import "./index.css";
 import { ECOTheme } from "@liexp/ui/theme";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import EventIcon from "@material-ui/icons/Event";
-import GroupIcon from "@material-ui/icons/Group";
-import MapIcon from "@material-ui/icons/Map";
-import PostAddIcon from "@material-ui/icons/PostAdd";
-import RecentActorsIcon from "@material-ui/icons/RecentActors";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import EventIcon from "@mui/icons-material/Event";
+import GroupIcon from "@mui/icons-material/Group";
+import MapIcon from "@mui/icons-material/Map";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";

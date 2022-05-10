@@ -23,17 +23,6 @@ const dataMenuItem = {
 
 };
 
-const projectMenuItem = {
-  view: "project",
-  label: "Project",
-  subItems: [
-    {
-      view: "docs",
-      label: "Docs",
-    },
-  ],
-};
-
 export const mainMenu: HeaderMenuItem[] = [dataMenuItem];
 
 const AppHeader: React.FC = () => {

@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardMedia,
   CardProps
-} from "@material-ui/core";
+} from "@mui/material";
 import * as React from "react";
 import {
   getTextContentsCapped,

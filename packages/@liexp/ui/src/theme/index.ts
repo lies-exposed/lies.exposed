@@ -1,5 +1,9 @@
-import { darken, lighten, makeStyles, useTheme } from "@material-ui/core";
-import { createTheme } from "@material-ui/core/styles";
+import { darken, lighten, useTheme } from "@mui/material";
+import {
+  CreateMUIStyled,
+  createTheme,
+  styled as _styled,
+} from "@mui/material/styles";
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
@@ -14,7 +18,7 @@ const secondaryDark = darken(primary, 0.5);
 
 const ECOTheme = createTheme({
   palette: {
-    // type: "dark",
+    // mode: "dark",
     primary: {
       main: primary,
       light: primaryLight,
@@ -70,7 +74,7 @@ const ECOTheme = createTheme({
       fontWeight: 300,
     },
   }),
-  overrides: {
+  components: {
     MuiCssBaseline: {
       "@global": {
         html: {
@@ -96,4 +100,5 @@ const ECOTheme = createTheme({
 
 type ECOTheme = typeof ECOTheme;
 
-export { ECOTheme, makeStyles, useTheme };
+const styled = _styled as any as CreateMUIStyled<ECOTheme>;
+export { ECOTheme, useTheme, styled };
