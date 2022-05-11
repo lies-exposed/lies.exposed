@@ -1610,7 +1610,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/core@workspace:packages/@liexp/core"
   dependencies:
-    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.5
+    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.6
     "@types/copy-webpack-plugin": ^10.1.0
     "@types/debug": ^4.1.7
     "@types/dotenv-webpack": ^7.0.3
@@ -2642,9 +2642,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.5":
-  version: 0.5.5
-  resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.5"
+"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.6":
+  version: 0.5.6
+  resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.6"
   dependencies:
     ansi-html-community: ^0.0.8
     common-path-prefix: ^3.0.0
@@ -2677,7 +2677,7 @@ __metadata:
       optional: true
     webpack-plugin-serve:
       optional: true
-  checksum: 9914430fc3c5bb6a907cc94faaf6232ee7fdcc8b631a33d3541ae1273f46cdd719eca87932755abf8433c9297666484ed6707c568a131a7a0f55bb442b0e6243
+  checksum: 21ab1157c3b8f5d9a1114cc25f14692757506aa47117ffdeeaf484a71ceeba114d9f9a33b705c51b0991f66f573dc30298eb246b939b4e5afb7592add25fb987
   languageName: node
   linkType: hard
 
@@ -4307,10 +4307,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.33":
-  version: 16.11.33
-  resolution: "@types/node@npm:16.11.33"
-  checksum: 5c86d3f1e3b996607b41405d368d2e19d410eee0054595cef73d230368a609a2863926e75ad19f5091f0fd742cd018b667d54c51292018dd8020a202a5b29fa9
+"@types/node@npm:^16.11.34":
+  version: 16.11.34
+  resolution: "@types/node@npm:16.11.34"
+  checksum: 8dad6065b13a4b68a036e878989a481795bf80a360224c2c72b49ec7b94c8c68fef27a220f3bf6388f5420ca76b95cb9ffa6ada8d8c346c55b11c379f1cf172d
   languageName: node
   linkType: hard
 
@@ -5753,7 +5753,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.0
     "@types/lodash": ^4.14.182
-    "@types/node": ^16.11.33
+    "@types/node": ^16.11.34
     "@types/prettier": ^2.6.0
     "@types/react": ^17.0.45
     "@types/react-dom": ^17.0.16
@@ -6032,13 +6032,13 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.33
+    "@types/node": ^16.11.34
     "@types/node-cron": ^2.0.5
     "@types/node-telegram-bot-api": ^0.57.0
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1131.0
+    aws-sdk: ^2.1132.0
     axios: ^0.27.2
     cors: 2.8.5
     debug: ^4.3.4
@@ -6437,9 +6437,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1131.0":
-  version: 2.1131.0
-  resolution: "aws-sdk@npm:2.1131.0"
+"aws-sdk@npm:^2.1132.0":
+  version: 2.1132.0
+  resolution: "aws-sdk@npm:2.1132.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -6450,7 +6450,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 479bc014d767cab9064286f01f63a8643ee0e1959e3235b74407ee7f916a6aae805229444a176361f7dd4d3c5e455e809908cda6333ab9324b9265c158583602
+  checksum: db1dd4589f68b39a0584d06572560d04f044e9be94cb468c711d631e7982b65c0bee115e0490859c19d496d62ce3ede9f96304b89b0df233616d22ac7e510667
   languageName: node
   linkType: hard
 
@@ -9111,10 +9111,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.0":
-  version: 16.0.0
-  resolution: "dotenv@npm:16.0.0"
-  checksum: 664cebb51f0a9a1d1b930f51f0271e72e26d62feaecc9dc03df39453dd494b4e724809ca480fb3ec3213382b1ed3f791aaeb83569a137f9329ce58efd4853dbf
+"dotenv@npm:^16.0.1":
+  version: 16.0.1
+  resolution: "dotenv@npm:16.0.1"
+  checksum: f459ffce07b977b7f15d8cc4ee69cdff77d4dd8c5dc8c85d2d485ee84655352c2415f9dd09d42b5b5985ced3be186130871b34e2f3e2569ebc72fbc2e8096792
   languageName: node
   linkType: hard
 
@@ -20120,7 +20120,7 @@ __metadata:
     clsx: ^1.1.1
     d3: ^5.16.0
     debug: ^4.3.4
-    dotenv: ^16.0.0
+    dotenv: ^16.0.1
     eslint: ^8.15.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^21.0.1
