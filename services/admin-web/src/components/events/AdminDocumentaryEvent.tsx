@@ -74,9 +74,8 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const DocumentaryReleaseTitle: React.FC<{
-  record?: Events.Documentary.Documentary;
-}> = ({ record }) => {
+export const DocumentaryReleaseTitle: React.FC = () => {
+  const record = useRecordContext<Events.Documentary.Documentary>();
   return <span>Documentary: {record?.payload?.title}</span>;
 };
 
@@ -89,14 +88,13 @@ export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
 );
 
 export const DocumentaryEdit: React.FC = () => {
-  const record = useRecordContext<Events.Documentary.Documentary>();
   return (
     <Edit
-      title={<DocumentaryReleaseTitle record={record} />}
+      title={<DocumentaryReleaseTitle />}
       actions={
         <>
-          <WebPreviewButton resource="/events" source="id" record={record} />
-          <TGPostButton id={record?.id} />
+          <WebPreviewButton resource="/events" source="id" />
+          <TGPostButton />
         </>
       }
       transform={(r) => transformEvent(r.id, r)}
@@ -154,10 +152,9 @@ export const DocumentaryEdit: React.FC = () => {
   );
 };
 
-export const DocumentaryCreate: React.FC<CreateProps> = (props) => (
+export const DocumentaryCreate: React.FC<CreateProps> = () => (
   <Create
     title="Create a Documentary"
-    {...props}
     transform={(data) =>
       transformEvent(uuid(), data).then((record) => ({
         ...record,

@@ -4,8 +4,18 @@ import type { EditorProps } from "@react-page/editor";
 import Editor from "@react-page/editor";
 import "is-plain-object";
 import * as React from "react";
-import { InputProps, Labeled, RaRecord, useInput, useRecordContext } from "react-admin";
-import { cellPlugins, minimalCellPlugins } from "../Common/Editor";
+import {
+  InputProps,
+  Labeled,
+  RaRecord,
+  useInput,
+  useRecordContext,
+} from "react-admin";
+import {
+  cellPlugins,
+  isValidValue,
+  minimalCellPlugins,
+} from "../Common/Editor";
 
 export type RaReactPageInputProps = {
   label?: string;
@@ -35,7 +45,9 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
             ...style,
           }}
         >
-          <Editor value={value} onChange={onChange} {...editorProps} />
+          {isValidValue(value) ? (
+            <Editor value={value} onChange={onChange} {...editorProps} />
+          ) : null}
         </Paper>
       </>
     </Labeled>

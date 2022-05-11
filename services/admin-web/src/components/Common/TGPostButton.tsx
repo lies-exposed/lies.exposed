@@ -1,4 +1,4 @@
-import { formatDate } from "@liexp/shared/utils/date";
+import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { getShareMedia, getTitle } from "@liexp/ui/helpers/event.helper";
 import {
@@ -11,7 +11,7 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { FieldProps, Identifier } from "react-admin";
+import { FieldProps, Identifier, useRecordContext } from "react-admin";
 import * as React from "react";
 import { apiProvider } from "@client/HTTPAPI";
 
@@ -27,8 +27,8 @@ const emptySharePayload = {
   url: undefined,
 };
 
-export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
-  const { id } = props;
+export const TGPostButton: React.FC<TGPostButtonProps> = () => {
+  const record = useRecordContext();
   const [sharePayload, setSharePayload] = React.useState(emptySharePayload);
 
   return (
@@ -39,7 +39,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
         size="small"
         onClick={() => {
           void apiProvider
-            .getOne(`events`, { id })
+            .getOne(`events`, { id: record?.id })
             .then(({ data: event }) => {
               if (event.media.length === 0) {
                 return Promise.resolve(event);
@@ -72,15 +72,16 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
                 groups: [],
                 groupsMembers: [],
                 keywords: [],
-                media: []
+                media: [],
               });
-              const date = formatDate(event.date);
+              console.log(parseISO(event.date));
+              const date = formatDate(parseISO(event.date));
               const media = getShareMedia(
                 event.media,
                 `${process.env.WEB_URL}/liexp-logo-1200x630.png`
               );
               const content = getTextContentsCapped(event.excerpt, 100);
-              const url = `${process.env.WEB_URL}/events/${id}`;
+              const url = `${process.env.WEB_URL}/events/${record?.id}`;
               setSharePayload({
                 title,
                 date,
@@ -104,9 +105,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
               <img src={sharePayload.media} style={{ width: "100%" }} />
               <Typography>
                 <Link
-                  href={`${process.env.WEB_URL}/events?startDate=${formatDate(
-                    sharePayload.date
-                  )}`}
+                  href={`${process.env.WEB_URL}/events?startDate=${sharePayload.date}`}
                 >
                   {sharePayload.date}
                 </Link>
@@ -126,7 +125,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = (props) => {
           <Button
             onClick={() => {
               void apiProvider
-                .create(`/events/${id}/share`, {
+                .create(`/events/${record?.id}/share`, {
                   data: sharePayload,
                 })
                 .then((result) => {

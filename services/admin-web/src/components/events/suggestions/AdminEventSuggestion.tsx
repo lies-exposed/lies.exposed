@@ -10,7 +10,12 @@ import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
 import { Box, ThemeProvider, Typography } from "@mui/material";
-import { FormDataConsumer , useRefresh } from "ra-core";
+import {
+  FormDataConsumer,
+  useEditContext,
+  useRecordContext,
+  useRefresh,
+} from "ra-core";
 import {
   BooleanInput,
   Button,
@@ -116,26 +121,29 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
+const CreateEventButton = () => {
   const refresh = useRefresh();
+  const record = useRecordContext();
+
+  return (
+    <Button
+      label="Create event"
+      onClick={() => {
+        void apiProvider
+          .create(`/events/suggestions/${record?.id}/event`, { data: {} })
+          .then(() => refresh());
+      }}
+    />
+  );
+};
+
+export const EventSuggestionEdit: React.FC<EditProps> = (props) => {
   return (
     <Edit
-      {...props}
       actions={
         <Box style={{ padding: 10 }}>
-          <WebPreviewButton
-            resource="/dashboard/events"
-            source="id"
-            record={{ id: props.id } as any}
-          />
-          <Button
-            label="Create event"
-            onClick={() => {
-              void apiProvider
-                .create(`/events/suggestions/${props.id}/event`, { data: {} })
-                .then(() => refresh());
-            }}
-          />
+          <WebPreviewButton resource="/dashboard/events" source="id" />
+          <CreateEventButton />
         </Box>
       }
       transform={async ({ event, id, ...r }) => {
@@ -145,7 +153,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = (props: EditProps) => {
           event: r.payload.event,
         });
 
-        const updatedEvent = await transformEvent(id , r.payload.event);
+        const updatedEvent = await transformEvent(id, r.payload.event);
 
         return { id, ...r.payload, event: updatedEvent };
       }}

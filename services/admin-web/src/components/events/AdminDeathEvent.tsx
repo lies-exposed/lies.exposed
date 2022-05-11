@@ -4,7 +4,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType
+  MapInputType,
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -16,7 +16,8 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  Edit, Filter,
+  Edit,
+  Filter,
   FormTab,
   List,
   ListProps,
@@ -25,7 +26,7 @@ import {
   SelectInput,
   SimpleForm,
   TabbedForm,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -72,9 +73,8 @@ export const DeathList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const DeathEventTitle: React.FC<{ record?: Death.Death }> = ({
-  record,
-}) => {
+export const DeathEventTitle: React.FC = () => {
+  const record = useRecordContext<http.Events.Death.Death>();
   return (
     <span>
       Event: {record?.payload?.victim} on {record?.date?.toISOString()}
@@ -95,13 +95,12 @@ export const DeathEdit: React.FC = () => {
 
   return (
     <Edit
-      title={<DeathEventTitle record={record} />}
+      title={<DeathEventTitle />}
       actions={
         <>
           <WebPreviewButton
             resource="/dashboard/events"
             source="id"
-            record={record}
           />
           <TGPostButton id={record?.id} />
         </>

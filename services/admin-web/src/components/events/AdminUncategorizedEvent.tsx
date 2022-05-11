@@ -1,10 +1,9 @@
 import { Events } from "@liexp/shared/io/http";
 import { Uncategorized } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { isValidValue } from "@liexp/ui/components/Common/Editor";
-import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as React from "react";
 import {
@@ -26,7 +25,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useCreateContext,
+  useCreateContext
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -173,7 +172,6 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => {
   return (
     <Create
       title="Create a Event"
-      {...props}
       transform={(data) => transformEvent(uuid(), data)}
     >
       <TabbedForm>
@@ -192,9 +190,7 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => {
             defaultValue={new Date()}
           />
           <DateInput source="payload.endDate" />
-          {isValidValue(record?.excerpt) ? (
-            <ReactPageInput source="excerpt" onlyText />
-          ) : null}
+          <ReactPageInput source="excerpt" onlyText />
           <ReferenceArrayKeywordInput
             showAdd
             source="keywords"
@@ -202,7 +198,7 @@ export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => {
           />
         </FormTab>
         <FormTab label="body">
-          {isValidValue(record?.body) ? <ReactPageInput source="body" /> : null}
+          <ReactPageInput source="body" />
           <ReferenceArrayActorInput source="payload.actors" defaultValue={[]} />
           <ReferenceArrayField source="payload.actors" reference="actors">
             <Datagrid rowClick="edit">
