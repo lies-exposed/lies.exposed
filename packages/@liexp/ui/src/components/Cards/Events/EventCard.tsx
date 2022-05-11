@@ -42,7 +42,9 @@ const EventCard: React.FC<EventCardProps> = ({
     <Box>
       <Card onClick={() => onEventClick(event)}>
         <CardActionArea>
-          <CardMedia component="img" image={image} />
+          {image ? (
+            <CardMedia component="img" image={image} style={{ height: 200 }} />
+          ) : null}
           <CardHeader
             avatar={<EventIcon size="2x" type={event.type} />}
             title={title}
