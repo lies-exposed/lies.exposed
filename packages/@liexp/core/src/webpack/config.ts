@@ -167,7 +167,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           minimize: true,
           minimizer: [
             new TerserPlugin({
-              parallel: true
+              parallel: false
             })
           ]
           // splitChunks: {
