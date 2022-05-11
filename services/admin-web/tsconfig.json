@@ -23,7 +23,7 @@
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    // "isolatedModules": true,
+    "isolatedModules": true,
     "paths": {
       "@client/*": ["./client/*"],
       "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
