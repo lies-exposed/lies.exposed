@@ -25,7 +25,12 @@ import {
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
 import { AdminKeywordResource } from "./components/AdminKeyword";
-import { AdminLinksResource } from "./components/AdminLinks";
+import {
+  AdminLinksResource,
+  LinkEdit,
+  LinkList,
+  LinkCreate
+} from "./components/AdminLinks";
 import { MediaCreate, MediaEdit, MediaList } from "./components/AdminMedia";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./components/Pages";
@@ -55,7 +60,10 @@ import {
   TransactionList,
 } from "./components/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./components/events/AdminUncategorizedEvent";
-import { EventSuggestionEdit, EventSuggestionList } from "./components/events/suggestions/AdminEventSuggestion";
+import {
+  EventSuggestionEdit,
+  EventSuggestionList,
+} from "./components/events/suggestions/AdminEventSuggestion";
 import englishMessages from "./i18n/en-US";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
@@ -94,6 +102,13 @@ const AdminPage: React.FC = () => {
       />
 
       <Resource
+        name="links"
+        list={LinkList}
+        edit={LinkEdit}
+        create={LinkCreate}
+      />
+
+      <Resource
         name="actors"
         list={ActorList}
         edit={ActorEdit}
@@ -121,7 +136,11 @@ const AdminPage: React.FC = () => {
         icon={MapIcon}
       />
 
-      <Resource name="events/suggestions" list={EventSuggestionList} edit={EventSuggestionEdit} />
+      <Resource
+        name="events/suggestions"
+        list={EventSuggestionList}
+        edit={EventSuggestionEdit}
+      />
 
       <Resource
         name="events"

@@ -14,14 +14,15 @@ import {
   Filter,
   FunctionField,
   ImageField,
-  List, ReferenceArrayInput,
+  List,
+  ReferenceArrayInput,
   ReferenceManyField,
   Resource,
   ResourceProps,
   SimpleForm,
   TextField,
   TextInput,
-  useRefresh
+  useRefresh,
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
@@ -52,7 +53,10 @@ export const LinkList: React.FC = () => (
   >
     <Datagrid rowClick="edit">
       <TextField source="title" />
-      <ImageField source="image" />
+      <ImageField
+        source="image"
+        sx={{ ["& .RaImageField-image"]: { width: 200 } }}
+      />
       <DateField source="publishDate" />
       <TextField source="provider" />
       <FunctionField
