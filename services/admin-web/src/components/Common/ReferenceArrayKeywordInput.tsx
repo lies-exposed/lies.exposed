@@ -4,7 +4,7 @@ import {
   Link,
   ReferenceArrayInput,
   ReferenceInputProps,
-} from "ra-ui-materialui";
+} from "react-admin";
 import React from "react";
 
 const ReferenceArrayKeywordInput: React.FC<

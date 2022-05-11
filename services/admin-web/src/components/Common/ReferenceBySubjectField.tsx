@@ -1,6 +1,5 @@
 import get from "lodash/get";
-import { useRecordContext } from "ra-core";
-import { FieldProps, ReferenceField } from "ra-ui-materialui";
+import { FieldProps, ReferenceField, useRecordContext } from "react-admin";
 import * as React from "react";
 import { AvatarField } from "./AvatarField";
 

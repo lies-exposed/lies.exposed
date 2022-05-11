@@ -7,7 +7,7 @@ import {
   DateInput,
   SimpleFormIterator,
   TextInput
-} from "ra-ui-materialui";
+} from "react-admin";
 import * as React from "react";
 import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput";
 

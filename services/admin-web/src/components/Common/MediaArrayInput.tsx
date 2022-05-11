@@ -10,7 +10,7 @@ import {
   SelectInput,
   SimpleFormIterator,
   TextInput,
-} from "ra-ui-materialui";
+} from "react-admin";
 import * as React from "react";
 import { MediaInput } from "./MediaInput";
 

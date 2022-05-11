@@ -2,7 +2,7 @@ import {
   AutocompleteInput,
   ReferenceInput,
   ReferenceInputProps,
-} from "ra-ui-materialui";
+} from "react-admin";
 import React from "react";
 
 const ReferenceActorInput: React.FC<

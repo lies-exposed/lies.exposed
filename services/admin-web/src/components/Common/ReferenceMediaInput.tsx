@@ -3,7 +3,7 @@ import {
   AutocompleteInput,
   ReferenceInput,
   ReferenceInputProps,
-} from "ra-ui-materialui";
+} from "react-admin";
 import React from "react";
 
 const ReferenceMediaInput: React.FC<

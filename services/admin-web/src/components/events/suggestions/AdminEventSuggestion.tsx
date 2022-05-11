@@ -29,7 +29,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-} from "ra-ui-materialui";
+} from "react-admin";
 import * as React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "../../Common/LinkArrayInput";

@@ -1706,6 +1706,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.1.1
     "@fortawesome/react-fontawesome": ^0.1.18
     "@material-ui/core": ^4.12.4
+    "@material-ui/lab": ^4.0.0-alpha.61
     "@mui/icons-material": ^5.6.2
     "@mui/lab": ^5.0.0-alpha.81
     "@mui/material": ^5.7.0
@@ -1888,6 +1889,27 @@ __metadata:
     "@types/react":
       optional: true
   checksum: f849a8c4fecddc112cfa94105a2c72e763ff76b9f8da74135b7bbadfd294ed6685897cbea6a2128099be0ce37843784893d8c64da6bde37d020956ab9067206c
+  languageName: node
+  linkType: hard
+
+"@material-ui/lab@npm:^4.0.0-alpha.61":
+  version: 4.0.0-alpha.61
+  resolution: "@material-ui/lab@npm:4.0.0-alpha.61"
+  dependencies:
+    "@babel/runtime": ^7.4.4
+    "@material-ui/utils": ^4.11.3
+    clsx: ^1.0.4
+    prop-types: ^15.7.2
+    react-is: ^16.8.0 || ^17.0.0
+  peerDependencies:
+    "@material-ui/core": ^4.12.1
+    "@types/react": ^16.8.6 || ^17.0.0
+    react: ^16.8.0 || ^17.0.0
+    react-dom: ^16.8.0 || ^17.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 8774a07d72615301e0099415580f87ea8f3d1d106f79e0b014738e302dd3e21959abf01d6c0a629e2e9afb8cb91abd8e9686c2886cddff06c27e6a8a8e063ea0
   languageName: node
   linkType: hard
 
@@ -5745,6 +5767,7 @@ __metadata:
   resolution: "admin-web@workspace:services/admin-web"
   dependencies:
     "@material-ui/core": ^4.12.4
+    "@material-ui/lab": ^4.0.0-alpha.61
     "@mui/material": ^5.7.0
     "@testing-library/dom": ^8.13.0
     "@testing-library/jest-dom": ^5.16.4
@@ -20089,6 +20112,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.1.1
     "@fortawesome/react-fontawesome": ^0.1.18
     "@material-ui/core": ^4.12.4
+    "@material-ui/lab": ^4.0.0-alpha.61
     "@mui/material": ^5.7.0
     "@types/bs58": ^4.0.1
     "@types/d3": ^5.16.4

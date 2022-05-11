@@ -11,8 +11,7 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { Identifier } from "ra-core";
-import { FieldProps } from "ra-ui-materialui";
+import { FieldProps, Identifier } from "react-admin";
 import * as React from "react";
 import { apiProvider } from "@client/HTTPAPI";
 

@@ -26,7 +26,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useCreateContext,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -169,7 +169,7 @@ export const UncategorizedEventEditTab: React.FC<
 };
 
 export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => {
-  const { record } = useRecordContext();
+  const { record } = useCreateContext();
   return (
     <Create
       title="Create a Event"

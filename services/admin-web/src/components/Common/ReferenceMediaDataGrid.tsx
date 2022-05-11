@@ -3,7 +3,7 @@ import {
   ReferenceArrayField,
   ReferenceArrayFieldProps,
   TextField,
-} from "ra-ui-materialui";
+} from "react-admin";
 import * as React from "react";
 import { MediaField } from "./MediaField";
 

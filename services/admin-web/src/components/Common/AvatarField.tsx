@@ -1,7 +1,7 @@
 import { Avatar } from "@liexp/ui/components/Common/Avatar";
 import get from "lodash/get";
 import has from "lodash/has";
-import { FieldProps } from "ra-ui-materialui";
+import { FieldProps } from "react-admin";
 import * as React from "react";
 
 export const AvatarField: React.FC<FieldProps> = (props) => {
@@ -9,5 +9,6 @@ export const AvatarField: React.FC<FieldProps> = (props) => {
     props.source && has(props.record, props.source)
       ? get(props.record, props.source)
       : undefined;
+
   return src ? <Avatar src={src} /> : null;
 };
