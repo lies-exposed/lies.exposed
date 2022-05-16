@@ -1,10 +1,10 @@
+import * as React from "react";
 import {
   Datagrid,
   ReferenceArrayField,
   ReferenceArrayFieldProps,
   TextField,
 } from "react-admin";
-import * as React from "react";
 import { MediaField } from "./MediaField";
 
 export const ReferenceMediaDataGrid: React.FC<

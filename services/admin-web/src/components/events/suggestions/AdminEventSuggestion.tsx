@@ -12,10 +12,10 @@ import { ECOTheme } from "@liexp/ui/theme";
 import { Box, ThemeProvider, Typography } from "@mui/material";
 import {
   FormDataConsumer,
-  useEditContext,
   useRecordContext,
   useRefresh,
 } from "ra-core";
+import * as React from "react";
 import {
   BooleanInput,
   Button,
@@ -35,7 +35,6 @@ import {
   TabbedForm,
   TextField,
 } from "react-admin";
-import * as React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "../../Common/LinkArrayInput";
 import { MediaArrayInput } from "../../Common/MediaArrayInput";
@@ -121,7 +120,7 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const CreateEventButton = () => {
+const CreateEventButton: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext();
 
@@ -137,7 +136,7 @@ const CreateEventButton = () => {
   );
 };
 
-export const EventSuggestionEdit: React.FC<EditProps> = (props) => {
+export const EventSuggestionEdit: React.FC<EditProps> = () => {
   return (
     <Edit
       actions={

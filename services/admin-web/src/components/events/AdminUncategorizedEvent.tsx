@@ -8,9 +8,7 @@ import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as React from "react";
 import {
   BooleanInput,
-  Create,
-  CreateProps,
-  Datagrid,
+  Create, Datagrid,
   DateField,
   DateInput,
   EditProps,
@@ -24,8 +22,7 @@ import {
   required,
   TabbedForm,
   TextField,
-  TextInput,
-  useCreateContext
+  TextInput
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -167,8 +164,8 @@ export const UncategorizedEventEditTab: React.FC<
   );
 };
 
-export const UncategorizedEventCreate: React.FC<CreateProps> = (props) => {
-  const { record } = useCreateContext();
+export const UncategorizedEventCreate: React.FC = () => {
+
   return (
     <Create
       title="Create a Event"

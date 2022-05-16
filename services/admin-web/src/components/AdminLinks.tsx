@@ -55,7 +55,7 @@ export const LinkList: React.FC = () => (
       <TextField source="title" />
       <ImageField
         source="image"
-        sx={{ ["& .RaImageField-image"]: { width: 200 } }}
+        sx={{ "& .RaImageField-image": { width: 200 } }}
       />
       <DateField source="publishDate" />
       <TextField source="provider" />

@@ -1,7 +1,7 @@
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import * as R from "fp-ts/lib/Record";
-import { FunctionField, FieldProps } from "react-admin";
 import * as React from "react";
+import { FunctionField, FieldProps } from "react-admin";
 
 const ExcerptField: React.FC<FieldProps> = (props) => {
   return (

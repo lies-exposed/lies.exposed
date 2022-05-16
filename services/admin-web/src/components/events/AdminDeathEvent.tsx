@@ -1,10 +1,9 @@
 import { http } from "@liexp/shared/io";
-import { Death } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
   MapInput,
-  MapInputType,
+  MapInputType
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
@@ -26,7 +25,7 @@ import {
   SelectInput,
   SimpleForm,
   TabbedForm,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";

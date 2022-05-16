@@ -1,10 +1,10 @@
 import { Media, MediaType } from "@liexp/shared/io/http/Media";
+import React from "react";
 import {
   AutocompleteInput,
   ReferenceInput,
   ReferenceInputProps,
 } from "react-admin";
-import React from "react";
 
 const ReferenceMediaInput: React.FC<
   Omit<ReferenceInputProps, "children"> & {
@@ -19,13 +19,13 @@ const ReferenceMediaInput: React.FC<
       filter={{
         type: allowedTypes,
       }}
-      filterToQuery={(name) => ({ name })}
     >
       <AutocompleteInput
         source="id"
         optionText={(a: Partial<Media>) =>
           a?.id ? `${a.description}` : "No media"
         }
+        filterToQuery={(name) => ({ name })}
       />
     </ReferenceInput>
   );

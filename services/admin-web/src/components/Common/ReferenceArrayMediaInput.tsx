@@ -1,10 +1,10 @@
 import { Media, MediaType } from "@liexp/shared/io/http/Media";
+import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
   ReferenceArrayInputProps,
 } from "react-admin";
-import React from "react";
 
 const ReferenceArrayMediaInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & {
@@ -19,12 +19,9 @@ const ReferenceArrayMediaInput: React.FC<
       filter={{
         type: allowedTypes,
       }}
-      filterToQuery={(description: string) => ({
-        description: description === "" ? undefined : description,
-      })}
       style={{
         ...props.style,
-        width: '100%'
+        width: "100%",
       }}
     >
       <AutocompleteArrayInput
@@ -32,6 +29,9 @@ const ReferenceArrayMediaInput: React.FC<
         optionText={(a: Partial<Media>) =>
           a?.id ? `${a.description}` : "No media"
         }
+        filterToQuery={(description: string) => ({
+          description: description === "" ? undefined : description,
+        })}
       />
     </ReferenceArrayInput>
   );

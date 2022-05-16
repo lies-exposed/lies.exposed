@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { FormDataConsumer } from "ra-core";
+import * as React from "react";
 import {
   ArrayInput,
   ArrayInputProps,
@@ -8,7 +9,6 @@ import {
   SimpleFormIterator,
   TextInput
 } from "react-admin";
-import * as React from "react";
 import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput";
 
 export const LinkArrayInput: React.FC<

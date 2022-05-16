@@ -1,6 +1,6 @@
 import get from "lodash/get";
-import { FieldProps, ReferenceField, useRecordContext } from "react-admin";
 import * as React from "react";
+import { FieldProps, ReferenceField, useRecordContext } from "react-admin";
 import { AvatarField } from "./AvatarField";
 
 interface ReferenceBySubjectFieldProps extends FieldProps {

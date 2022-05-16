@@ -1,6 +1,7 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { Box } from "@mui/material";
 import { FormDataConsumer } from "ra-core";
+import * as React from "react";
 import {
   ArrayInput,
   ArrayInputProps,
@@ -11,7 +12,6 @@ import {
   SimpleFormIterator,
   TextInput,
 } from "react-admin";
-import * as React from "react";
 import { MediaInput } from "./MediaInput";
 
 export const MediaArrayInput: React.FC<

@@ -9,10 +9,10 @@ import {
   DialogContent,
   DialogTitle,
   Link,
-  Typography,
+  Typography
 } from "@mui/material";
-import { FieldProps, Identifier, useRecordContext } from "react-admin";
 import * as React from "react";
+import { FieldProps, Identifier, useRecordContext } from "react-admin";
 import { apiProvider } from "@client/HTTPAPI";
 
 interface TGPostButtonProps extends FieldProps {
@@ -74,7 +74,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                 keywords: [],
                 media: [],
               });
-              console.log(parseISO(event.date));
+
               const date = formatDate(parseISO(event.date));
               const media = getShareMedia(
                 event.media,
