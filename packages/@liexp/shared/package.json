@@ -13,7 +13,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },
   "dependencies": {
-    "@react-page/react-admin": "^4.9.0",
+    "@react-page/react-admin": "^4.10.0",
     "axios": "^0.27.2",
     "bs58": "^4.0.1",
     "cheerio": "^1.0.0-rc.10",
