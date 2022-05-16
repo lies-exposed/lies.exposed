@@ -163,7 +163,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
   const optimization: webpack.Configuration["optimization"] =
     mode === "production"
       ? {
-          chunkIds: "deterministic",
+          // chunkIds: "deterministic",
           minimize: true,
           minimizer: [
             new TerserPlugin({
