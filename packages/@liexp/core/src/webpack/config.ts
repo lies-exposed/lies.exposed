@@ -8,7 +8,7 @@ import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import TerserPlugin from 'terser-webpack-plugin';
+import TerserPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -167,9 +167,9 @@ const getConfig = <A extends Record<string, t.Mixed>>(
           minimize: true,
           minimizer: [
             new TerserPlugin({
-              parallel: false
-            })
-          ]
+              parallel: false,
+            }),
+          ],
           // splitChunks: {
           //   cacheGroups: {
           //     liexp: {
@@ -226,7 +226,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
         },
         {
           test: /\.(png|gif|svg)$/,
-          use: 'file-loader'
+          use: "file-loader",
         },
         {
           test: /\.css$/,
@@ -240,7 +240,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       ],
     },
 
-    devtool: "source-map",
+    devtool: mode === "production" ? undefined : "source-map",
 
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],
