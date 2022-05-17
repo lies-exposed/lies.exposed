@@ -4,12 +4,13 @@ import * as React from "react";
 import { ECOTheme } from "../../../../theme/index";
 
 
-interface GridCellData {
-  column: boolean;
-  backgroundColor: string;
-}
+// interface GridCellData {
+//   [index: string]: unknown
+//   column: boolean;
+//   backgroundColor: string;
+// }
 
-const gridCellPlugin: CellPlugin<GridCellData> = {
+const gridCellPlugin: CellPlugin = {
   Renderer: ({ children, data }) => {
     return (
       <Box
