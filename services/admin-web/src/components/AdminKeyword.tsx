@@ -6,37 +6,34 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  Edit,
-  EditProps,
-  Filter,
-  List,
+  Edit, List,
   ListProps,
   ReferenceArrayInput,
-  Resource,
-  ResourceProps,
   SimpleForm,
   TextField,
-  TextInput
+  TextInput,
+  useRecordContext
 } from "react-admin";
 import { ColorInput } from "./Common/ColorInput";
 
 const RESOURCE = "keywords";
 
-const KeywordsFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <ReferenceArrayInput source="events" reference="events" alwaysOn>
-        <AutocompleteArrayInput optionText="title" />
-      </ReferenceArrayInput>
-    </Filter>
-  );
-};
+const keywordsFilter = [
+  <ReferenceArrayInput
+    key="keywords"
+    source="events"
+    reference="events"
+    alwaysOn
+  >
+    <AutocompleteArrayInput optionText="title" />
+  </ReferenceArrayInput>,
+];
 
 export const KeywordList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     resource={RESOURCE}
-    filters={<KeywordsFilter />}
+    filters={keywordsFilter}
     perPage={20}
   >
     <Datagrid
@@ -52,15 +49,16 @@ export const KeywordList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Keyword {record.title}</span>;
+const EditTitle: React.FC = () => {
+  const record = useRecordContext();
+
+  return <span>Keyword {record?.title}</span>;
 };
 
-export const KeywordEdit: React.FC<EditProps> = (props: EditProps) => {
+export const KeywordEdit: React.FC = () => {
   return (
     <Edit
-      title={<EditTitle {...props} />}
-      {...props}
+      title={<EditTitle />}
       transform={({ newEvents, ...r }) => {
         return {
           ...r,
@@ -92,17 +90,5 @@ export const KeywordCreate: React.FC<CreateProps> = (props) => {
         <ColorInput source="color" />
       </SimpleForm>
     </Create>
-  );
-};
-
-export const AdminKeywordResource: React.FC<ResourceProps> = (props) => {
-  return (
-    <Resource
-      {...props}
-      name={RESOURCE}
-      list={KeywordList}
-      edit={KeywordEdit}
-      create={KeywordCreate}
-    />
   );
 };

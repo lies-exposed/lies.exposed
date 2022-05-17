@@ -15,16 +15,12 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps,
-  Filter,
-  FormDataConsumer,
+  EditProps, FormDataConsumer,
   FormTab,
   FunctionField,
   ImageField,
   ImageInput,
-  List,
-  ListProps,
-  RaRecord,
+  List, RaRecord,
   ReferenceArrayField,
   ReferenceInput,
   ReferenceManyField,
@@ -40,16 +36,12 @@ import { WebPreviewButton } from "./Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
 
-const ActorFilters: React.FC = (props) => {
-  return (
-    <Filter {...props}>
-      <TextInput label="fullName" source="fullName" alwaysOn size="small" />
-    </Filter>
-  );
-};
+const actorFilters = [
+      <TextInput key="fullName" label="fullName" source="fullName" alwaysOn size="small" />
+]
 
-export const ActorList: React.FC<ListProps> = (props) => (
-  <List {...props} resource="actors" filters={<ActorFilters />} perPage={50}>
+export const ActorList: React.FC = () => (
+  <List resource="actors" filters={actorFilters} perPage={50}>
     <Datagrid
       rowClick="edit"
       rowStyle={(r) => ({

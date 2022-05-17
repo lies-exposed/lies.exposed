@@ -21,13 +21,11 @@ import {
   DateInput,
   Edit,
   EditProps,
-  Filter,
   FormDataConsumer,
   FormTab,
   ImageField,
   ImageInput,
   List,
-  ListProps,
   RaRecord,
   ReferenceArrayInput,
   ReferenceManyField,
@@ -72,32 +70,29 @@ const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
   );
 };
 
-const GroupFilters: React.FC = (props) => {
-  return (
-    <Filter {...props}>
-      <TextInput label="name" source="name" alwaysOn size="small" />
-      <ReferenceArrayInput
-        source="members"
-        reference="actors"
-        alwaysOn
-        size="small"
-        filterToQuery={(ids: string[]) => ({
-          members: ids,
-        })}
-      >
-        <AutocompleteArrayInput
-          source="id"
-          optionText={(r: any) => {
-            return r?.fullName !== undefined ? `${r.fullName}` : "No actor";
-          }}
-        />
-      </ReferenceArrayInput>
-    </Filter>
-  );
-};
+const groupFilters = [
+  <TextInput key="name" label="name" source="name" alwaysOn size="small" />,
+  <ReferenceArrayInput
+    key="members"
+    source="members"
+    reference="actors"
+    alwaysOn
+    size="small"
+    filterToQuery={(ids: string[]) => ({
+      members: ids,
+    })}
+  >
+    <AutocompleteArrayInput
+      source="id"
+      optionText={(r: any) => {
+        return r?.fullName !== undefined ? `${r.fullName}` : "No actor";
+      }}
+    />
+  </ReferenceArrayInput>,
+];
 
-export const GroupList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE} perPage={50} filters={<GroupFilters />}>
+export const GroupList: React.FC = () => (
+  <List resource={RESOURCE} perPage={50} filters={groupFilters}>
     <Datagrid
       rowClick="edit"
       rowStyle={(r) => ({

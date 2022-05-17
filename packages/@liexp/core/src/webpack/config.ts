@@ -240,7 +240,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       ],
     },
 
-    devtool: mode === "production" ? undefined : "source-map",
+    devtool: "source-map",
 
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],

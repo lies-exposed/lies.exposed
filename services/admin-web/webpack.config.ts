@@ -23,4 +23,5 @@ const config = getWebConfig({
   target: "web",
 });
 
-module.exports = config;
+
+module.exports = {...config, devtool: undefined };

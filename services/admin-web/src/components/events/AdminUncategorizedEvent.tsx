@@ -1,18 +1,18 @@
 import { Events } from "@liexp/shared/io/http";
 import { Uncategorized } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as React from "react";
 import {
   BooleanInput,
-  Create, Datagrid,
+  Create,
+  Datagrid,
   DateField,
   DateInput,
   EditProps,
-  Filter,
   FormTab,
   FunctionField,
   List,
@@ -22,7 +22,7 @@ import {
   required,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -37,19 +37,15 @@ import { transformEvent } from "./utils";
 
 const RESOURCE = "events";
 
-const EventsFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
-      <TextInput source="title" alwaysOn size="small" />
-      <ReferenceArrayGroupInput source="groups" alwaysOn />
-      <ReferenceArrayActorInput source="actors" alwaysOn />
-      <ReferenceArrayGroupMemberInput source="groupsMembers" />
-      <DateInput source="startDate" />
-      <DateInput source="endDate" />
-    </Filter>
-  );
-};
+const eventsFilter = [
+  <BooleanInput key="withDrafts" label="Draft only" source="withDrafts" alwaysOn />,
+  <TextInput key="title" source="title" alwaysOn size="small" />,
+  <ReferenceArrayGroupInput key="groups" source="groups" alwaysOn />,
+  <ReferenceArrayActorInput key="actors" source="actors" alwaysOn />,
+  <ReferenceArrayGroupMemberInput key="groupsMembers" source="groupsMembers" />,
+  <DateInput key="startDate" source="startDate" />,
+  <DateInput key="endDate" source="endDate" />,
+];
 
 export const UncategorizedEventList: React.FC<ListProps> = (props) => (
   <List
@@ -60,7 +56,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
       _order: "DESC",
       withDrafts: false,
     }}
-    filters={<EventsFilter />}
+    filters={eventsFilter}
     perPage={20}
   >
     <Datagrid rowClick="edit">
@@ -165,7 +161,6 @@ export const UncategorizedEventEditTab: React.FC<
 };
 
 export const UncategorizedEventCreate: React.FC = () => {
-
   return (
     <Create
       title="Create a Event"

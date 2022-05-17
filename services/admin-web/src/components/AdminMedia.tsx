@@ -8,16 +8,13 @@ import { pipe } from "fp-ts/lib/function";
 import { useRecordContext, useRefresh } from "ra-core";
 import * as React from "react";
 import {
-  Create,
+  BooleanInput, Create,
   CreateProps,
   Datagrid,
   DateField,
   Edit,
-  EditProps,
-  Filter,
-  FormDataConsumer,
-  FormTab,
-  List,
+  EditProps, FieldProps, FormDataConsumer,
+  FormTab, FunctionField, ImageField, List,
   ListProps,
   RaRecord,
   ReferenceManyField,
@@ -26,11 +23,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput,
-  ImageField,
-  FieldProps,
-  FunctionField,
-  BooleanInput,
+  TextInput
 } from "react-admin";
 import { MediaField } from "./Common/MediaField";
 import { MediaInput } from "./Common/MediaInput";
@@ -87,20 +80,16 @@ const parseURL = (
   return E.left(new Error(`No matching media for given url: ${url}`));
 };
 
-const MediaFilters: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <TextInput source="description" alwaysOn size="small" />
-      <BooleanInput source="emptyEvents" alwaysOn size="small" />
-    </Filter>
-  );
-};
+const mediaFilters = [
+  <TextInput key="description" source="description" alwaysOn size="small" />,
+  <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn size="small" />,
+];
 
 export const MediaList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     resource={RESOURCE}
-    filters={<MediaFilters />}
+    filters={mediaFilters}
     filterDefaultValues={{
       _sort: "createdAt",
       _order: "DESC",

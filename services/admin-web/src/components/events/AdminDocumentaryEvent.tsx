@@ -15,7 +15,6 @@ import {
   DateInput,
   Edit,
   EditProps,
-  Filter,
   FormTab,
   List,
   ListProps,
@@ -39,20 +38,21 @@ import { TGPostButton } from "../Common/TGPostButton";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
-const DocumentaryEventsFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
-      <ReferenceActorInput source="victim" alwaysOn />
-      <DateInput source="date" />
-    </Filter>
-  );
-};
+const documentaryEventsFilter = [
+  <BooleanInput
+    key="withDrafts"
+    label="Draft only"
+    source="withDrafts"
+    alwaysOn
+  />,
+  <ReferenceActorInput key="victim" source="victim" alwaysOn />,
+  <DateInput key="date" source="date" />,
+];
 
 export const DocumentaryList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={<DocumentaryEventsFilter />}
+    filters={documentaryEventsFilter}
     perPage={20}
     filterDefaultValues={{
       _sort: "date",

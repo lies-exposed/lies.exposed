@@ -16,7 +16,6 @@ import {
   DateInput,
   Edit,
   EditProps,
-  Filter,
   FormTab,
   List,
   ListProps,
@@ -27,7 +26,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  FormTabProps
+  FormTabProps,
 } from "react-admin";
 import ReferenceActorInput from "../Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../Common/ReferenceArrayKeywordInput";
@@ -37,19 +36,20 @@ import ReferenceBySubjectInput from "../Common/ReferenceBySubjectInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
-const TransactionEventsFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
-      <DateInput source="date" />
-    </Filter>
-  );
-};
+const transactionEventsFilter = [
+  <BooleanInput
+    key="withDrafts"
+    label="Draft only"
+    source="withDrafts"
+    alwaysOn
+  />,
+  <DateInput key="date" source="date" />,
+];
 
 export const TransactionList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={<TransactionEventsFilter />}
+    filters={transactionEventsFilter}
     perPage={20}
     filterDefaultValues={{
       _sort: "date",
@@ -76,9 +76,7 @@ export const TransactionTitle: React.FC<{
   return <span>Transaction: {record.payload.total}</span>;
 };
 
-export const TransactionEditFormTab: React.FC<FormTabProps> = (
-  props
-) => (
+export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (
   <FormTab {...props} label="Payload">
     <ReferenceActorInput source="payload.victim" />
   </FormTab>
@@ -93,7 +91,7 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
         <WebPreviewButton resource="/events" source="id" {...(props as any)} />
       </>
     }
-    transform={(r) => transformEvent(r.id , r)}
+    transform={(r) => transformEvent(r.id, r)}
   >
     <TabbedForm>
       <FormTab label="Generals">

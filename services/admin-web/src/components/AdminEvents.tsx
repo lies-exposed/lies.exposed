@@ -1,7 +1,7 @@
 import * as io from "@liexp/shared/io";
 import { http } from "@liexp/shared/io";
 import { Events } from "@liexp/shared/io/http";
-import { Documentary, Event } from "@liexp/shared/io/http/Events";
+import { Documentary } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import { PATENT } from "@liexp/shared/io/http/Events/Patent";
@@ -27,9 +27,7 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  Edit,
-  Filter,
-  FormDataConsumer,
+  Edit, FormDataConsumer,
   FormTab,
   FunctionField,
   List,
@@ -40,7 +38,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useEditContext,
+  useEditContext
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
@@ -54,50 +52,47 @@ import { TGPostButton } from "./Common/TGPostButton";
 import { WebPreviewButton } from "./Common/WebPreviewButton";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle,
+  DocumentaryReleaseTitle
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEvent,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { transformEvent } from "./events/utils";
 
 const RESOURCE = "events";
 
-const EventsFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <TextInput source="title" alwaysOn size="small" />
-      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
-      <BooleanInput source="withDeleted" alwaysOn />
-      <SelectInput
-        source="type"
-        alwaysOn
-        size="small"
-        choices={io.http.Events.EventType.types.map((t) => ({
-          id: t.value,
-          name: t.value,
-        }))}
-      />
-      <ReferenceArrayKeywordInput source="keywords" showAdd={false} alwaysOn />
-      <ReferenceArrayGroupInput source="groups" />
-      <ReferenceArrayActorInput source="actors" />
-      <ReferenceArrayGroupMemberInput source="groupsMembers" />
-      <DateInput source="startDate" />
-      <DateInput source="endDate" />
-    </Filter>
-  );
-};
+const eventsFilter = [
+  <TextInput key="title" source="title" alwaysOn size="small" />,
+  <BooleanInput key="withDrafts" label="Draft only" source="withDrafts" alwaysOn />,
+  <BooleanInput key="withDeleted" source="withDeleted" alwaysOn />,
+  <SelectInput
+  key="type"
+    source="type"
+    alwaysOn
+    size="small"
+    choices={io.http.Events.EventType.types.map((t) => ({
+      id: t.value,
+      name: t.value,
+    }))}
+  />,
+  <ReferenceArrayKeywordInput key="keywords" source="keywords" showAdd={false} alwaysOn />,
+  <ReferenceArrayGroupInput key="groups" source="groups" />,
+  <ReferenceArrayActorInput key="actors" source="actors" />,
+  <ReferenceArrayGroupMemberInput key="groupsMembers" source="groupsMembers" />,
+  <DateInput key="startDate" source="startDate" />,
+  <DateInput key="endDate" source="endDate" />,
+];
 
 export const EventList: React.FC = () => (
   <List
@@ -105,7 +100,7 @@ export const EventList: React.FC = () => (
     filterDefaultValues={{
       withDeleted: true,
     }}
-    filters={<EventsFilter />}
+    filters={eventsFilter}
     perPage={20}
   >
     <Datagrid
@@ -215,7 +210,8 @@ export const EventList: React.FC = () => (
   </List>
 );
 
-export const EditTitle: React.FC<{ record?: Event }> = ({ record }) => {
+export const EditTitle: React.FC = () => {
+  const record = useRecordContext();
   if (record) {
     switch (record.type) {
       case UNCATEGORIZED.value:

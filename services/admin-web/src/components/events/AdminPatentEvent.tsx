@@ -1,4 +1,3 @@
-import { Patent } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
@@ -11,9 +10,7 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps,
-  Filter,
-  FormTab,
+  EditProps, FormTab,
   List,
   ListProps,
   SimpleForm,
@@ -35,20 +32,21 @@ import URLMetadataInput from "../Common/URLMetadataInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
-const PatentEventsFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
-      <ReferenceActorInput source="victim" alwaysOn />
-      <DateInput source="date" />
-    </Filter>
-  );
-};
+const patentEventsFilter = [
+  <BooleanInput
+    key="withDrafts"
+    label="Draft only"
+    source="withDrafts"
+    alwaysOn
+  />,
+  <ReferenceActorInput key="victim" source="victim" alwaysOn />,
+  <DateInput key="date" source="date" />,
+];
 
 export const PatentList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={<PatentEventsFilter />}
+    filters={patentEventsFilter}
     perPage={20}
     filterDefaultValues={{
       _sort: "date",
@@ -67,9 +65,8 @@ export const PatentList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const PatentEventTitle: React.FC<{ record?: Patent.Patent }> = ({
-  record,
-}) => {
+export const PatentEventTitle: React.FC = () => {
+  const record = useRecordContext();
   return record ? (
     <span>{`Event: ${record.payload.title} on ${record.date}`}</span>
   ) : null;
@@ -89,13 +86,12 @@ export const PatentEventEditFormTab: React.FC<
 };
 
 export const PatentEdit: React.FC = () => {
-  const record = useRecordContext<Patent.Patent>();
   return (
     <Edit
-      title={<PatentEventTitle record={record} />}
+      title={<PatentEventTitle />}
       actions={
         <>
-          <TGPostButton id={record?.id} />
+          <TGPostButton />
         </>
       }
       transform={(r) => transformEvent(r.id, r)}

@@ -10,19 +10,12 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps,
-  Filter,
-  FormTab,
+  EditProps, FormTab,
   List,
-  ListProps,
-  ReferenceArrayField,
+  ListProps, RaRecord, ReferenceArrayField,
   ReferenceField,
-  SimpleForm,
-  TextField,
-  TextInput,
-  TabbedForm,
-  RaRecord,
-  useRecordContext,
+  SimpleForm, TabbedForm, TextField,
+  TextInput, useRecordContext
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import { MediaArrayInput } from "../Common/MediaArrayInput";
@@ -35,20 +28,21 @@ import URLMetadataInput from "../Common/URLMetadataInput";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
-const ListFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
-      <ReferenceArrayActorInput source="payload.authors" alwaysOn />
-      <DateInput source="date" />
-    </Filter>
-  );
-};
+const listFilter = [
+  <BooleanInput
+    key="withDrafts"
+    label="Draft only"
+    source="withDrafts"
+    alwaysOn
+  />,
+  <ReferenceArrayActorInput key="authors" source="payload.authors" alwaysOn />,
+  <DateInput key="date" source="date" />,
+];
 
 export const ScientificStudiesList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={<ListFilter />}
+    filters={listFilter}
     perPage={20}
     filterDefaultValues={{ type: "ScientificStudy", withDrafts: true }}
   >

@@ -1,4 +1,4 @@
-import { darken, lighten, useTheme } from "@mui/material";
+import { darken, lighten, useTheme, ThemeOptions } from "@mui/material";
 import {
   CreateMUIStyled,
   createTheme,
@@ -16,7 +16,7 @@ const secondary = "#17B9B6";
 const secondaryLight = lighten(secondary, 0.5);
 const secondaryDark = darken(primary, 0.5);
 
-const ECOTheme = createTheme({
+const themeOptions: ThemeOptions = {
   palette: {
     // mode: "dark",
     primary: {
@@ -76,29 +76,36 @@ const ECOTheme = createTheme({
   }),
   components: {
     MuiCssBaseline: {
-      "@global": {
-        html: {
-          WebkitFontSmoothing: "auto",
-          // html: "100%",
-          fontFamily: primaryFontFamily,
-        },
+      styleOverrides: {
+        WebkitFontSmoothing: "auto",
+        // html: "100%",
+        fontFamily: primaryFontFamily,
       },
     },
     MuiAppBar: {
-      colorPrimary: primary as any,
-      colorDefault: "#FFF" as any,
-    },
-    ...({
-      MuiTimelineDot: {
+      defaultProps: {
+        color: "primary",
+      },
+      styleOverrides: {
         root: {
-          borderColor: "#fff",
+          color: "#FFF",
         },
       },
-    } as any),
+    },
   },
-});
+};
+
+(themeOptions.components as any)["MuiTimelineDot"] = {
+  styleOverrides: {
+    root: {
+      borderColor: "#fff",
+    },
+  },
+};
+
+const ECOTheme = createTheme(themeOptions);
 
 type ECOTheme = typeof ECOTheme;
 
 const styled = _styled as any as CreateMUIStyled<ECOTheme>;
-export { ECOTheme, useTheme, styled };
+export { ECOTheme, useTheme, styled, themeOptions };

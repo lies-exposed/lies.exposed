@@ -1,5 +1,4 @@
-import "./index.css";
-import { ECOTheme } from "@liexp/ui/theme";
+import { themeOptions } from "@liexp/ui/theme";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";
@@ -24,12 +23,15 @@ import {
   GroupMemberList,
 } from "./components/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
-import { AdminKeywordResource } from "./components/AdminKeyword";
 import {
-  AdminLinksResource,
+  KeywordEdit,
+  KeywordList,
+  KeywordCreate,
+} from "./components/AdminKeyword";
+import {
+  LinkCreate,
   LinkEdit,
   LinkList,
-  LinkCreate
 } from "./components/AdminLinks";
 import { MediaCreate, MediaEdit, MediaList } from "./components/AdminMedia";
 import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
@@ -65,6 +67,7 @@ import {
   EventSuggestionList,
 } from "./components/events/suggestions/AdminEventSuggestion";
 import englishMessages from "./i18n/en-US";
+import "./index.css";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -76,7 +79,7 @@ const AdminPage: React.FC = () => {
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}
-      theme={ECOTheme}
+      theme={themeOptions}
     >
       <Resource
         name="pages"
@@ -181,8 +184,18 @@ const AdminPage: React.FC = () => {
         edit={TransactionEdit}
         create={TransactionCreate}
       />
-      <AdminLinksResource name="links" />
-      <AdminKeywordResource name="keywords" />
+      <Resource
+        name="links"
+        list={LinkList}
+        edit={LinkEdit}
+        create={LinkCreate}
+      />
+      <Resource
+        name="keywords"
+        list={KeywordList}
+        edit={KeywordEdit}
+        create={KeywordCreate}
+      />
       <Resource
         name="users"
         list={UserList}

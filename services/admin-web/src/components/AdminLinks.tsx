@@ -5,24 +5,17 @@ import {
   BooleanInput,
   Button,
   Create,
-  CreateProps,
   Datagrid,
   DateField,
   DateInput,
-  Edit,
-  EditProps,
-  Filter,
-  FunctionField,
+  Edit, FunctionField,
   ImageField,
   List,
   ReferenceArrayInput,
   ReferenceManyField,
-  Resource,
-  ResourceProps,
   SimpleForm,
   TextField,
-  TextInput,
-  useRefresh,
+  TextInput, useRecordContext, useRefresh
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
@@ -32,22 +25,18 @@ import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "links";
 
-const LinksFilter: React.FC = () => {
-  return (
-    <Filter>
-      <TextInput source="title" alwaysOn />
-      <ReferenceArrayInput source="events" reference="events" alwaysOn>
-        <AutocompleteArrayInput optionText="payload.title" />
-      </ReferenceArrayInput>
-      <BooleanInput source="emptyEvents" alwaysOn />
-    </Filter>
-  );
-};
+const linksFilter = [
+  <TextInput key="title" source="title" alwaysOn />,
+  <ReferenceArrayInput key="events" source="events" reference="events" alwaysOn>
+    <AutocompleteArrayInput optionText="payload.title" size='small' />
+  </ReferenceArrayInput>,
+  <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
+];
 
 export const LinkList: React.FC = () => (
   <List
     resource={RESOURCE}
-    filters={<LinksFilter />}
+    filters={linksFilter}
     perPage={20}
     filterDefaultValues={{ _sort: "createdAt", _order: "DESC" }}
   >
@@ -69,28 +58,29 @@ export const LinkList: React.FC = () => (
   </List>
 );
 
-const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Link {record.title}</span>;
+const EditTitle: React.FC = () => {
+  const record = useRecordContext();
+  return <span>Link {record?.title}</span>;
 };
 
-export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
+export const LinkEdit: React.FC = () => {
   const refresh = useRefresh();
+  const record = useRecordContext();
   return (
     <Edit
-      title={<EditTitle {...props} />}
+      title={<EditTitle />}
       actions={
         <>
           <Button
             label="resources.links.actions.update_metadata"
             onClick={() => {
               void apiProvider
-                .put(`/links/${props.id}/metadata`)
+                .put(`/links/${record?.id}/metadata`)
                 .then(() => refresh());
             }}
           />
         </>
       }
-      {...props}
       transform={({ newEvents, ...r }) => {
         return {
           ...r,
@@ -129,9 +119,9 @@ export const LinkEdit: React.FC<EditProps> = (props: EditProps) => {
   );
 };
 
-export const LinkCreate: React.FC<CreateProps> = (props) => {
+export const LinkCreate: React.FC = () => {
   return (
-    <Create title="Create a Link" {...props}>
+    <Create title="Create a Link">
       <SimpleForm>
         <URLMetadataInput source="url" type={"Link"} />
         <DateInput source="publishDate" />
@@ -142,17 +132,5 @@ export const LinkCreate: React.FC<CreateProps> = (props) => {
         />
       </SimpleForm>
     </Create>
-  );
-};
-
-export const AdminLinksResource: React.FC<ResourceProps> = (props) => {
-  return (
-    <Resource
-      {...props}
-      name={RESOURCE}
-      list={LinkList}
-      edit={LinkEdit}
-      create={LinkCreate}
-    />
   );
 };

@@ -2,7 +2,7 @@ import * as io from "@liexp/shared/io";
 import {
   Documentary,
   EventSuggestionStatus,
-  Patent,
+  Patent
 } from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
@@ -10,11 +10,7 @@ import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
 import { Box, ThemeProvider, Typography } from "@mui/material";
-import {
-  FormDataConsumer,
-  useRecordContext,
-  useRefresh,
-} from "ra-core";
+import { FormDataConsumer, useRecordContext, useRefresh } from "ra-core";
 import * as React from "react";
 import {
   BooleanInput,
@@ -23,9 +19,7 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps,
-  Filter,
-  FormTab,
+  EditProps, FormTab,
   FunctionField,
   List,
   ListProps,
@@ -33,7 +27,7 @@ import {
   ReferenceField,
   SelectInput,
   TabbedForm,
-  TextField,
+  TextField
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "../../Common/LinkArrayInput";
@@ -51,25 +45,22 @@ import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "events/suggestions";
 
-const EventSuggestionListFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <SelectInput
-        source="status"
-        choices={EventSuggestionStatus.types.map((tt) => ({
-          name: tt.value,
-          id: tt.value,
-        }))}
-      />
-    </Filter>
-  );
-};
+const eventSuggestionListFilter = [
+  <SelectInput
+    key="status"
+    source="status"
+    choices={EventSuggestionStatus.types.map((tt) => ({
+      name: tt.value,
+      id: tt.value,
+    }))}
+  />,
+];
 
 export const EventSuggestionList: React.FC<ListProps> = (props) => (
   <List
     {...props}
     resource={RESOURCE}
-    filters={<EventSuggestionListFilter />}
+    filters={eventSuggestionListFilter}
     filterDefaultValues={{
       _sort: "createdAt",
       _order: "DESC",

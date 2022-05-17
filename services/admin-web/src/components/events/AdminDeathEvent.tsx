@@ -15,9 +15,7 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  Edit,
-  Filter,
-  FormTab,
+  Edit, FormTab,
   List,
   ListProps,
   ReferenceField,
@@ -38,20 +36,21 @@ import { TGPostButton } from "../Common/TGPostButton";
 import { WebPreviewButton } from "../Common/WebPreviewButton";
 import { transformEvent } from "./utils";
 
-const DeathEventsFilter: React.FC = (props: any) => {
-  return (
-    <Filter {...props}>
-      <BooleanInput label="Draft only" source="withDrafts" alwaysOn />
-      <ReferenceActorInput source="victim" alwaysOn />
-      <DateInput source="date" />
-    </Filter>
-  );
-};
+const deathEventsFilter = [
+  <BooleanInput
+    key="withDrafts"
+    label="Draft only"
+    source="withDrafts"
+    alwaysOn
+  />,
+  <ReferenceActorInput key="victim" source="victim" alwaysOn />,
+  <DateInput key="date" source="date" />,
+];
 
 export const DeathList: React.FC<ListProps> = (props) => (
   <List
     {...props}
-    filters={<DeathEventsFilter />}
+    filters={deathEventsFilter}
     perPage={20}
     filterDefaultValues={{
       _sort: "date",
@@ -97,10 +96,7 @@ export const DeathEdit: React.FC = () => {
       title={<DeathEventTitle />}
       actions={
         <>
-          <WebPreviewButton
-            resource="/dashboard/events"
-            source="id"
-          />
+          <WebPreviewButton resource="/dashboard/events" source="id" />
           <TGPostButton id={record?.id} />
         </>
       }
