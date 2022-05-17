@@ -37,8 +37,7 @@ import {
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
-  useEditContext
+  TextInput, useRecordContext
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "./Common/LinkArrayInput";
@@ -211,19 +210,19 @@ export const EventList: React.FC = () => (
 );
 
 export const EditTitle: React.FC = () => {
-  const record = useRecordContext();
+  const record = useRecordContext<http.Events.Event>();
   if (record) {
     switch (record.type) {
       case UNCATEGORIZED.value:
-        return <UncategorizedEventTitle record={record} />;
+        return <UncategorizedEventTitle />;
       case SCIENTIFIC_STUDY.value:
-        return <ScientificStudyEventTitle record={record} />;
+        return <ScientificStudyEventTitle />;
       case DEATH.value:
-        return <DeathEventTitle record={record} />;
+        return <DeathEventTitle />;
       case PATENT.value:
-        return <PatentEventTitle record={record} />;
+        return <PatentEventTitle />;
       case DOCUMENTARY.value:
-        return <DocumentaryReleaseTitle record={record} />;
+        return <DocumentaryReleaseTitle />;
       case TRANSACTION.value:
         return <TransactionTitle record={record} />;
     }
@@ -232,18 +231,16 @@ export const EditTitle: React.FC = () => {
 };
 
 export const EventEdit: React.FC = () => {
-  const { record } = useEditContext();
   return (
     <Edit
-      title={<EditTitle record={record} />}
+      title={<EditTitle />}
       actions={
         <Box style={{ display: "flex", margin: 10 }}>
           <WebPreviewButton
             resource="events"
             source="id"
-            record={{ id: record?.id }}
           />
-          <TGPostButton id={record?.id} />
+          <TGPostButton />
         </Box>
       }
       transform={(r) => {

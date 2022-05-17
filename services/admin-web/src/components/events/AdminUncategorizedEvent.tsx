@@ -1,5 +1,4 @@
 import { Events } from "@liexp/shared/io/http";
-import { Uncategorized } from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
@@ -23,6 +22,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "../Common/AvatarField";
 import ExcerptField from "../Common/ExcerptField";
@@ -101,9 +101,8 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const UncategorizedEventTitle: React.FC<{
-  record: Uncategorized.Uncategorized;
-}> = ({ record }: any) => {
+export const UncategorizedEventTitle: React.FC = () => {
+  const record = useRecordContext()
   return <span>Event: {record.payload.title}</span>;
 };
 

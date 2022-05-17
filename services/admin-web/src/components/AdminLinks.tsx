@@ -8,18 +8,20 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  Edit, FunctionField,
+  Edit,
+  FunctionField,
   ImageField,
   List,
   ReferenceArrayInput,
   ReferenceManyField,
   SimpleForm,
   TextField,
-  TextInput, useRecordContext, useRefresh
+  TextInput,
+  useRecordContext,
+  useRefresh,
 } from "react-admin";
 import ReferenceArrayEventInput from "./Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "./Common/ReferenceGroupInput";
-import RichTextInput from "./Common/RichTextInput";
 import URLMetadataInput from "./Common/URLMetadataInput";
 import { apiProvider } from "@client/HTTPAPI";
 
@@ -28,7 +30,7 @@ const RESOURCE = "links";
 const linksFilter = [
   <TextInput key="title" source="title" alwaysOn />,
   <ReferenceArrayInput key="events" source="events" reference="events" alwaysOn>
-    <AutocompleteArrayInput optionText="payload.title" size='small' />
+    <AutocompleteArrayInput optionText="payload.title" size="small" />
   </ReferenceArrayInput>,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
 ];
@@ -89,10 +91,18 @@ export const LinkEdit: React.FC = () => {
       }}
     >
       <SimpleForm>
-        <TextInput source="title" />
+        <TextInput source="title" fullWidth />
         <URLMetadataInput source="url" type="Link" />
-        <ImageField source="image" />
-        <RichTextInput source="description" />
+        <ImageField
+          source="image"
+          fullWidth
+          sx={() => ({
+            "& .RaImageField-image": {
+              maxWidth: "100%",
+            },
+          })}
+        />
+        <TextInput source="description" fullWidth />
         <DateInput source="publishDate" />
         <ReferenceGroupInput source="provider" />
         <ReferenceArrayEventInput

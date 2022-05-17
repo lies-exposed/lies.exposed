@@ -59,9 +59,8 @@ export const ScientificStudiesList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-export const ScientificStudyEventTitle: React.FC<{
-  record?: ScientificStudy.ScientificStudy;
-}> = ({ record }) => {
+export const ScientificStudyEventTitle: React.FC = () => {
+  const record = useRecordContext();
   return <span>Scientific Study: {record?.payload?.title}</span>;
 };
 
