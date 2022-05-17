@@ -135,7 +135,7 @@ const EventListItemBase = <E extends any>({
               sm={12}
               xs={12}
               style={{
-                display: 'flex',
+                display: "flex",
                 maxWidth: "100%",
                 justifyContent: "center",
                 alignItems: "center",
@@ -146,16 +146,15 @@ const EventListItemBase = <E extends any>({
                 style={{
                   height: "100%",
                   width: "100%",
-                  display: 'flex',
-                  maxWidth: 400,
+                  maxWidth: 600,
                   flexGrow: 0,
                   margin: 0,
                 }}
               >
                 <Slider
                   slides={media}
-                  style={{ width: '100%'}}
-                  itemStyle={{ minHeight: 300, maxHeight: 300, maxWidth: 400 }}
+                  style={{ width: "100%" }}
+                  itemStyle={{ minHeight: 300, maxHeight: 400, maxWidth: 600 }}
                   onLoad={onLoad}
                 />
               </Box>

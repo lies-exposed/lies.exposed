@@ -35,7 +35,6 @@ export type SearchOption =
       item: string;
     };
 
-
 interface SearchInputProps
   extends Omit<
     AutocompleteProps<any, true, undefined, true>,
@@ -142,8 +141,10 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       renderInput={(params) => (
         <TextField
           {...params}
+          variant="standard"
           InputLabelProps={{
             ...params.InputLabelProps,
+            style: { border: "none" },
             variant: "standard",
           }}
         />
@@ -152,7 +153,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         if (item.type === "Search") {
           return (
             <Typography key={item.id} variant="subtitle1">
-              {item}
+              {item.item}
             </Typography>
           );
         }
@@ -177,10 +178,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
         }
 
         return (
-          <KeywordListItem
-            key={item.id}
-            item={{ ...item, selected: true }}
-          />
+          <KeywordListItem key={item.id} item={{ ...item, selected: true }} />
         );
       }}
       renderTags={(value) => undefined}

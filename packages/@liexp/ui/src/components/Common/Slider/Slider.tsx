@@ -1,23 +1,19 @@
 import { Media } from "@liexp/shared/io/http";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
-import {  useTheme } from "../../../theme/index";
+import { useTheme } from "../../../theme/index";
 import MediaElement from "../../Media/MediaElement";
 
-const PREFIX = 'Slider';
+const PREFIX = "Slider";
 
 const classes = {
   mediaSlider: `${PREFIX}-mediaSlider`,
   item: `${PREFIX}-item`,
-  mediaSliderDownMD: `${PREFIX}-mediaSliderDownMD`
+  mediaSliderDownMD: `${PREFIX}-mediaSliderDownMD`,
 };
 
-const StyledSlickSliderdefault = styled(SlickSlider.default)((
-  {
-    theme
-  }
-) => ({
+const StyledSlickSlider = styled(SlickSlider.default)(({ theme }) => ({
   [`& .${classes.mediaSlider}`]: {
     margin: 0,
     maxWidth: 800,
@@ -31,16 +27,17 @@ const StyledSlickSliderdefault = styled(SlickSlider.default)((
     width: "100%",
     display: "block",
     objectFit: "contain",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },
 
   [`& .${classes.mediaSliderDownMD}`]: {
+    width: "100%",
     "& > .slick-list > .slick-track": {
       margin: 0,
     },
-  }
+  },
 }));
 
 interface SliderProps extends SlickSlider.Settings {
@@ -60,9 +57,8 @@ export const Slider: React.FC<SliderProps> = ({
 }) => {
   const theme = useTheme();
 
-
   return (
-    <StyledSlickSliderdefault
+    <StyledSlickSlider
       className={classes.mediaSlider}
       adaptiveHeight={true}
       infinite={false}
@@ -83,7 +79,8 @@ export const Slider: React.FC<SliderProps> = ({
           },
         },
       ]}
-      {...{ ...props }}>
+      {...props}
+    >
       {slides.map((s) => (
         <div
           key={s.id}
@@ -100,6 +97,6 @@ export const Slider: React.FC<SliderProps> = ({
           />
         </div>
       ))}
-    </StyledSlickSliderdefault>
+    </StyledSlickSlider>
   );
 };
