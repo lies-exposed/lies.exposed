@@ -11,6 +11,7 @@ import {
   Autocomplete,
   AutocompleteInputChangeReason,
   AutocompleteProps,
+  Box,
   TextField,
   Typography,
 } from "@mui/material";
@@ -136,49 +137,64 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       options={searchOptions}
       inputValue={search}
       onInputChange={handleSearchChange}
-      getOptionLabel={(o) => o.item.id}
+      getOptionLabel={(o) => (o.type === "Search" ? o.item : o.item.id)}
       filterOptions={(options) => options}
       renderInput={(params) => (
         <TextField
           {...params}
           variant="standard"
-          InputLabelProps={{
-            ...params.InputLabelProps,
+          InputProps={{
+            ...params.InputProps,
             style: { border: "none" },
-            variant: "standard",
           }}
         />
       )}
-      renderOption={(props, item) => {
-        if (item.type === "Search") {
+      renderOption={(props, option) => {
+        if (option.type === "Search") {
           return (
-            <Typography key={item.id} variant="subtitle1">
-              {item.item}
+            <Typography key={option.item} variant="subtitle1">
+              {option.item}
             </Typography>
           );
         }
-        if (item.type === "Actor") {
+        if (option.type === "Actor") {
           return (
-            <ActorListItem
-              displayFullName
-              key={item.id}
-              avatarSize="small"
-              item={{ ...item, selected: true }}
-            />
+            <Box key={option.item.id} {...props} component="li">
+              <ActorListItem
+                displayFullName
+                avatarSize="small"
+                item={{ ...option.item, selected: true }}
+              />
+            </Box>
           );
         }
-        if (item.type === "Group") {
+        if (option.type === "Group") {
           return (
-            <GroupListItem
-              key={item.id}
-              avatarSize="small"
-              item={{ ...item, selected: true }}
-            />
+            <Box key={option.item.id} {...props} component="li">
+              <GroupListItem
+                avatarSize="small"
+                item={{ ...option.item, selected: true }}
+              />
+            </Box>
           );
         }
 
         return (
-          <KeywordListItem key={item.id} item={{ ...item, selected: true }} />
+          <Box
+            key={option.item.id}
+            {...props}
+            component="li"
+            sx={{
+              py: 5,
+            }}
+          >
+            <KeywordListItem
+              item={{ ...option.item, selected: true }}
+              onClick={(a) => {
+                (props.onChange as any)?.(null, a);
+              }}
+            />
+          </Box>
         );
       }}
       renderTags={(value) => undefined}

@@ -95,7 +95,7 @@ const themeOptions: ThemeOptions = {
   },
 };
 
-(themeOptions.components as any)["MuiTimelineDot"] = {
+(themeOptions.components as any).MuiTimelineDot = {
   styleOverrides: {
     root: {
       borderColor: "#fff",

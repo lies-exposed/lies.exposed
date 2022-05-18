@@ -756,9 +756,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 </Box>
               </AccordionSummary>
               <AccordionDetails
-                style={{
-                  height: 300,
-                }}
               >
                 {expanded}
               </AccordionDetails>
