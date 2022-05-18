@@ -1,6 +1,6 @@
 import {
   Avatar as MUIAvatar,
-  AvatarProps as MUIAvatarProps
+  AvatarProps as MUIAvatarProps,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import * as React from "react";
@@ -64,11 +64,11 @@ export const Avatar: React.FC<AvatarProps> = ({
 }) => {
   return (
     <StyledMUIAvatar
-      className={`${classes.root} ${size}}`}
+      {...props}
+      className={`${classes.root} ${classes[size]}`}
       imgProps={{
         decoding: "async",
       }}
-      {...props}
     />
   );
 };

@@ -35,7 +35,7 @@ export const useEventsQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Events.Event[]; total: number }, APIError> => {
   return useQuery(["events"], async () => {
-    return R.isEmpty(params.filter)
+    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
       ? await emptyQuery()
       : await Queries.Event.getList(params);
   });
@@ -45,7 +45,7 @@ export const fetchActors = async ({
   queryKey,
 }: any): Promise<{ data: Actor.Actor[]; total: number }> => {
   const params = queryKey[1];
-  return R.isEmpty(params.filter)
+  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
     ? await emptyQuery()
     : await Queries.Actor.getList(params);
 };
@@ -60,7 +60,7 @@ export const useActorsDiscreteQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
   return useQuery(["discrete", "actors", params.filter], async () => {
-    return R.isEmpty(params.filter)
+    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
       ? await emptyQuery()
       : await Queries.Actor.getList(params);
   });
@@ -91,7 +91,7 @@ export const useGroupsDiscreteQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Group.Group[]; total: number }, APIError> => {
   return useQuery(["discrete", "groups", params.filter], async () => {
-    return R.isEmpty(params.filter)
+    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
       ? await emptyQuery()
       : await Queries.Group.getList(params);
   });
@@ -129,7 +129,7 @@ export const useGroupsMembersDiscreteQuery = (
   APIError
 > => {
   return useQuery(["discrete", "groups-members", params.filter], async () => {
-    return R.isEmpty(params.filter)
+    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
       ? await emptyQuery()
       : await Queries.GroupMember.getList(params);
   });
@@ -151,7 +151,7 @@ export const useKeywordsDiscreteQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
   return useQuery(["keywords", params.filter], async () => {
-    return R.isEmpty(params.filter)
+    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
       ? await emptyQuery()
       : await Queries.Keyword.getList(params);
   });
@@ -180,7 +180,7 @@ export const fetchMedia = async ({
   queryKey,
 }: any): Promise<{ data: Media.Media[]; total: number }> => {
   const params = queryKey[1];
-  return R.isEmpty(params.filter)
+  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
     ? await emptyQuery()
     : await Queries.Media.getList(params);
 };
@@ -195,7 +195,7 @@ export const fetchLinks = async ({
   queryKey,
 }: any): Promise<{ data: Link.Link[]; total: number }> => {
   const params = queryKey[1];
-  return R.isEmpty(params.filter)
+  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
     ? await emptyQuery()
     : await Queries.Link.getList(params);
 };
@@ -254,7 +254,7 @@ export const useArticlesQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Article.Article[]; total: number }, APIError> => {
   return useQuery(["articles"], async () => {
-    return R.isEmpty( params.filter)
+    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
       ? await emptyQuery()
       : await Queries.Article.getList(params);
   });

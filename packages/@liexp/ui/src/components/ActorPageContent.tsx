@@ -32,7 +32,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           sm={4}
           style={{
             display: 'flex',
-            alignItems: "center",
+            alignItems: "flex-start",
             justifyContent: "center",
           }}
         >
