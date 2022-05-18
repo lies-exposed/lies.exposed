@@ -9,18 +9,21 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
   ArrayInput,
-  AutocompleteInput, Create,
+  AutocompleteInput,
+  Create,
   CreateProps,
   Datagrid,
   DateField,
   DateInput,
   Edit,
-  EditProps, FormDataConsumer,
+  EditProps,
+  FormDataConsumer,
   FormTab,
   FunctionField,
   ImageField,
   ImageInput,
-  List, RaRecord,
+  List,
+  RaRecord,
   ReferenceArrayField,
   ReferenceInput,
   ReferenceManyField,
@@ -28,7 +31,8 @@ import {
   SimpleFormIterator,
   TabbedForm,
   TextField,
-  TextInput, useRecordContext
+  TextInput,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { ColorInput } from "./Common/ColorInput";
@@ -37,8 +41,14 @@ import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
 
 const actorFilters = [
-      <TextInput key="fullName" label="fullName" source="fullName" alwaysOn size="small" />
-]
+  <TextInput
+    key="fullName"
+    label="fullName"
+    source="fullName"
+    alwaysOn
+    size="small"
+  />,
+];
 
 export const ActorList: React.FC = () => (
   <List resource="actors" filters={actorFilters} perPage={50}>
@@ -57,7 +67,10 @@ export const ActorList: React.FC = () => (
   </List>
 );
 
-const transformActor = async (id: string, data: RaRecord): Promise<RaRecord> => {
+const transformActor = async (
+  id: string,
+  data: RaRecord
+): Promise<RaRecord> => {
   const imagesTask = data.avatar?.rawFile
     ? uploadImages(dataProvider)("actors", id, [
         { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
@@ -80,109 +93,109 @@ const transformActor = async (id: string, data: RaRecord): Promise<RaRecord> => 
   });
 };
 
-const EditTitle: React.FC<{ record?: http.Actor.Actor }> = ({ record }) => {
-  return <span>Actor {record.fullName}</span>;
+const EditTitle: React.FC = () => {
+  const record = useRecordContext()
+  return <span>Actor {record?.fullName}</span>;
 };
 
 export const ActorEdit: React.FC<EditProps> = (props) => {
-  const record = useRecordContext<http.Actor.Actor>();
   return (
-  <Edit
-    title={<EditTitle record={record} />}
-    {...props}
-    actions={
-      <>
-        <WebPreviewButton resource="actors" record={{ id: props.id } as any} />
-      </>
-    }
-    transform={({ newMemberIn, ...a }) =>
-      transformActor(a.id , {
-        ...a,
-        memberIn: a.memberIn.concat(
-          newMemberIn.map((m: any) => ({
-            ...m,
-            endDate: m.endDate !== "" ? m.endDate : undefined,
-          }))
-        ),
-      })
-    }
-  >
-    <TabbedForm>
-      <FormTab label="generals">
-        <ImageField source="avatar" />
-        <ColorInput source="color" />
-        <TextInput source="username" />
-        <TextInput source="fullName" />
-        <ReactPageInput source="excerpt" onlyText={true} />
-        <DateField source="createdAt" />
-        <DateField source="updatedAt" />
-      </FormTab>
-      <FormTab label="Avatar">
-        <ImageInput source="avatar">
-          <ImageField source="src" />
-        </ImageInput>
-      </FormTab>
+    <Edit
+      title={<EditTitle />}
+      {...props}
+      actions={
+        <>
+          <WebPreviewButton resource="actors" />
+        </>
+      }
+      transform={({ newMemberIn, ...a }) =>
+        transformActor(a.id, {
+          ...a,
+          memberIn: a.memberIn.concat(
+            newMemberIn.map((m: any) => ({
+              ...m,
+              endDate: m.endDate !== "" ? m.endDate : undefined,
+            }))
+          ),
+        })
+      }
+    >
+      <TabbedForm>
+        <FormTab label="generals">
+          <ImageField source="avatar" />
+          <ColorInput source="color" />
+          <TextInput source="username" />
+          <TextInput source="fullName" />
+          <ReactPageInput source="excerpt" onlyText={true} />
+          <DateField source="createdAt" />
+          <DateField source="updatedAt" />
+        </FormTab>
+        <FormTab label="Avatar">
+          <ImageInput source="avatar">
+            <ImageField source="src" />
+          </ImageInput>
+        </FormTab>
 
-      <FormTab label="Content">
-        <ReactPageInput source="body" />
-      </FormTab>
+        <FormTab label="Content">
+          <ReactPageInput source="body" />
+        </FormTab>
 
-      <FormTab label="Groups">
-        <ArrayInput source="newMemberIn" defaultValue={[]}>
-          <SimpleFormIterator>
-            <ReferenceInput source="group" reference="groups">
-              <AutocompleteInput optionText="name" />
-            </ReferenceInput>
-            <DateInput source="startDate" />
-            <DateInput source="endDate" />
-            <ReactPageInput onlyText={true} source="body" />
-          </SimpleFormIterator>
-        </ArrayInput>
+        <FormTab label="Groups">
+          <ArrayInput source="newMemberIn" defaultValue={[]}>
+            <SimpleFormIterator>
+              <ReferenceInput source="group" reference="groups">
+                <AutocompleteInput optionText="name" />
+              </ReferenceInput>
+              <DateInput source="startDate" />
+              <DateInput source="endDate" />
+              <ReactPageInput onlyText={true} source="body" />
+            </SimpleFormIterator>
+          </ArrayInput>
 
-        <ReferenceArrayField source="memberIn" reference="groups-members">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField source="group.name" />
-            <DateField source="startDate" />
-            <DateField source="endDate" defaultValue={undefined} />
-          </Datagrid>
-        </ReferenceArrayField>
-      </FormTab>
-      <FormTab label="Events">
-        <ReferenceManyField
-          label="Events"
-          source="id"
-          target="actors[]"
-          reference="events"
-        >
-          <Datagrid>
-            <TextField source="id" />
-            <TextField source="title" />
-            <DateField source="createdAt" />
-          </Datagrid>
-        </ReferenceManyField>
-      </FormTab>
-      <FormTab label="Preview">
-        <FormDataConsumer>
-          {({ formData, ...rest }) => {
-            return pipe(
-              http.Actor.Actor.decode(formData),
-              E.fold(ValidationErrorsLayout, (p) => (
-                <ActorPageContent
-                  actor={p}
-                  groups={[]}
-                  onGroupClick={() => {}}
-                  onActorClick={() => {}}
-                />
-              ))
-            );
-          }}
-        </FormDataConsumer>
-      </FormTab>
-    </TabbedForm>
-  </Edit>
-);
-        }
+          <ReferenceArrayField source="memberIn" reference="groups-members">
+            <Datagrid rowClick="edit">
+              <TextField source="id" />
+              <TextField source="group.name" />
+              <DateField source="startDate" />
+              <DateField source="endDate" defaultValue={undefined} />
+            </Datagrid>
+          </ReferenceArrayField>
+        </FormTab>
+        <FormTab label="Events">
+          <ReferenceManyField
+            label="Events"
+            source="id"
+            target="actors[]"
+            reference="events"
+          >
+            <Datagrid>
+              <TextField source="id" />
+              <TextField source="title" />
+              <DateField source="createdAt" />
+            </Datagrid>
+          </ReferenceManyField>
+        </FormTab>
+        <FormTab label="Preview">
+          <FormDataConsumer>
+            {({ formData, ...rest }) => {
+              return pipe(
+                http.Actor.Actor.decode(formData),
+                E.fold(ValidationErrorsLayout, (p) => (
+                  <ActorPageContent
+                    actor={p}
+                    groups={[]}
+                    onGroupClick={() => {}}
+                    onActorClick={() => {}}
+                  />
+                ))
+              );
+            }}
+          </FormDataConsumer>
+        </FormTab>
+      </TabbedForm>
+    </Edit>
+  );
+};
 
 export const ActorCreate: React.FC<CreateProps> = (props) => (
   <Create
