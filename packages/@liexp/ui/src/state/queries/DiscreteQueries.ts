@@ -35,7 +35,7 @@ export const useEventsQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Events.Event[]; total: number }, APIError> => {
   return useQuery(["events"], async () => {
-    return (params.filter.ids ?? []).length === 0
+    return R.isEmpty(params.filter)
       ? await emptyQuery()
       : await Queries.Event.getList(params);
   });
@@ -45,7 +45,7 @@ export const fetchActors = async ({
   queryKey,
 }: any): Promise<{ data: Actor.Actor[]; total: number }> => {
   const params = queryKey[1];
-  return (params.filter.ids ?? []).length === 0
+  return R.isEmpty(params.filter)
     ? await emptyQuery()
     : await Queries.Actor.getList(params);
 };
@@ -180,7 +180,7 @@ export const fetchMedia = async ({
   queryKey,
 }: any): Promise<{ data: Media.Media[]; total: number }> => {
   const params = queryKey[1];
-  return (params.filter.ids ?? []).length === 0
+  return R.isEmpty(params.filter)
     ? await emptyQuery()
     : await Queries.Media.getList(params);
 };
@@ -254,7 +254,7 @@ export const useArticlesQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Article.Article[]; total: number }, APIError> => {
   return useQuery(["articles"], async () => {
-    return params.filter.ids?.length === 0
+    return R.isEmpty( params.filter)
       ? await emptyQuery()
       : await Queries.Article.getList(params);
   });
