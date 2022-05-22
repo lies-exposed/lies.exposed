@@ -16,7 +16,7 @@
     "@react-page/react-admin": "^4.11.0",
     "axios": "^0.27.2",
     "bs58": "^4.0.1",
-    "cheerio": "^1.0.0-rc.10",
+    "cheerio": "^1.0.0-rc.11",
     "date-fns": "^2.28.0",
     "domino": "^2.1.6",
     "fluent-ffmpeg": "^2.1.2",
