@@ -11,6 +11,7 @@ const ReferenceGroupInput: React.FC<
   return (
     <ReferenceInput {...props} reference="groups">
       <AutocompleteInput
+        size="small"
         optionText="name"
         filterToQuery={(name) => ({ name })}
       />

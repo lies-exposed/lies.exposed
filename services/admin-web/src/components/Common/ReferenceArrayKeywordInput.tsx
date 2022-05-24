@@ -14,6 +14,7 @@ const ReferenceArrayKeywordInput: React.FC<
     <Box>
       <ReferenceArrayInput {...props} reference="keywords">
         <AutocompleteArrayInput
+          size="small"
           optionText="tag"
           filterToQuery={(search: string) => ({ search })}
         />

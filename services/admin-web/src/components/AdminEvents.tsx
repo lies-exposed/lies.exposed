@@ -73,8 +73,8 @@ const RESOURCE = "events";
 
 const eventsFilter = [
   <TextInput key="title" source="title" alwaysOn size="small" />,
-  <BooleanInput key="withDrafts" label="Draft only" source="withDrafts" alwaysOn />,
-  <BooleanInput key="withDeleted" source="withDeleted" alwaysOn />,
+  <BooleanInput key="withDrafts" label="Draft only" source="withDrafts" alwaysOn size='small' />,
+  <BooleanInput key="withDeleted" source="withDeleted" alwaysOn size='small' />,
   <SelectInput
   key="type"
     source="type"
@@ -309,14 +309,7 @@ export const EventEdit: React.FC = () => {
                     <ThemeProvider theme={ECOTheme}>
                       <QueryClientProvider client={qc}>
                         <EventPageContent
-                          event={{
-                            ...p,
-                            excerpt: undefined,
-                            body: undefined,
-                            keywords: [],
-                            links: [],
-                            media: [],
-                          }}
+                          event={p}
                           onActorClick={() => undefined}
                           onGroupClick={() => undefined}
                           onKeywordClick={() => undefined}
