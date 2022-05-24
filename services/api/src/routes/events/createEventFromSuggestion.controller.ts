@@ -1,5 +1,6 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import * as Events from "@liexp/shared/io/http/Events";
+import { uuid } from '@liexp/shared/utils/uuid';
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -27,7 +28,7 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
               id:
                 suggestion.payload.type === Events.EventSuggestionType.types[1].value
                   ? suggestion.payload.eventId
-                  : suggestion.payload.event.id,
+                  : uuid(),
             })),
             TE.chain((event) => ctx.db.save(EventV2Entity, [event])),
             TE.chainFirst(() =>

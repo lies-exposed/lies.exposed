@@ -18,19 +18,27 @@ export const createEventSuggestionFromTGMessage =
     message: TelegramBot.Message,
     metadata: TelegramBot.Metadata
   ): TE.TaskEither<ControllerError, EventSuggestionEntity> => {
-    ctx.logger.info.log('Received message %O with metadata %O', message, metadata);
+    ctx.logger.info.log(
+      "Received message %O with metadata %O",
+      message,
+      metadata
+    );
     // check url exists and is linked to an event
     //  - if found return the event
     // fetch url metadata and create hashtags when given
     // save the event suggestion
 
-    const urlEntity = message.entities?.find((e) => e.type === "url");
-    const url = pipe(
-      O.fromNullable(urlEntity),
-      O.chain((u) =>
-        O.fromNullable(message.text?.slice(u.offset, u.length) as URL)
-      )
-    );
+    const urlEntity = (message.entities ?? []).reduce<URL[]>((acc, e) => {
+      if (e.type === "url") {
+        return acc.concat(message.text?.slice(e.offset, e.length) as any);
+      }
+      if (e.type === "text_link") {
+        return acc.concat(e.url as any);
+      }
+      return acc;
+    }, []);
+
+    const url = pipe(O.fromNullable(urlEntity[0]));
 
     if (O.isNone(url)) {
       ctx.logger.debug.log("No url given, returning...");
@@ -99,9 +107,13 @@ export const createEventSuggestionFromTGMessage =
                               type: "New",
                               event: {
                                 type: "Uncategorized" as const,
-                                title: m.title,
                                 excerpt: suggestedExcerpt,
-                                payload: {},
+                                payload: {
+                                  title: m.title,
+                                  actors: [],
+                                  groups: [],
+                                  groupsMembers: []
+                                },
                                 date: m.publishDate ?? new Date(),
                                 links: [
                                   {

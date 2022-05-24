@@ -6,16 +6,23 @@ import { RaRecord } from "ra-core";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
 
+export const transformLinks = (links: any[]): any[] => {
+  return links.reduce<string[]>((acc, l) => {
+    if (l.fromURL) {
+      return acc.concat({
+        url: l.url,
+        publishDate: l.publishDate ?? new Date(),
+      });
+    }
+    return acc.concat(l.ids);
+  }, []);
+};
+
 export const transformEvent = async (
   id: string,
   data: RaRecord
 ): Promise<RaRecord> => {
-  const newLinks = (data.newLinks ?? []).reduce((acc, l) => {
-    if (l.fromURL) {
-      return acc.concat({ url: l.url, publishDate: l.publishDate });
-    }
-    return acc.concat(l.ids);
-  }, [] as string[]);
+  const newLinks = transformLinks(data.newLinks ?? []);
 
   const links = (data.links ?? []).concat(newLinks);
 
