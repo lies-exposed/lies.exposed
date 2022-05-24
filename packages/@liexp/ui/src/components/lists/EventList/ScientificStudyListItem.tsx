@@ -21,8 +21,6 @@ export const ScientificStudyListItem: React.FC<
       id={item.id}
       style={{
         width: "100%",
-        marginBottom: 40,
-        overflow: "hidden",
       }}
       onClick={() => onClick?.(item)}
     >
