@@ -244,12 +244,9 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
                       {formData.payload.event.type === "Uncategorized" ? (
                         <EventPageContent
                           event={{
-                            ...formData.payload.event,
-                            excerpt: undefined,
-                            body: undefined,
-                            keywords: [],
-                            links: [],
                             media: [],
+                            keywords: [],
+                            ...formData.payload.event,
                           }}
                           onActorClick={() => undefined}
                           onGroupClick={() => undefined}
