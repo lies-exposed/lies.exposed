@@ -108,7 +108,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <WebPreviewButton resource="actors" />
         </>
       }
-      transform={({ newMemberIn, ...a }) =>
+      transform={({ newMemberIn = [], ...a }) =>
         transformActor(a.id, {
           ...a,
           memberIn: a.memberIn.concat(
