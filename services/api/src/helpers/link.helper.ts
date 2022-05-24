@@ -1,7 +1,6 @@
 import { URL } from "@liexp/shared/io/http/Common";
-import { sanitizeURL } from '@liexp/shared/utils/url.utils';
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from 'fp-ts/lib/function';
+import { pipe } from "fp-ts/lib/function";
 import { LinkEntity } from "@entities/Link.entity";
 import { ControllerError, ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
@@ -21,7 +20,7 @@ export const fetchAndCreate =
             title: meta.title,
             description: meta.description,
             keywords: [],
-            url: sanitizeURL(url),
+            url: url,
           },
         ])
       ),

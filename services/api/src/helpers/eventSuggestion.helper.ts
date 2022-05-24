@@ -112,7 +112,7 @@ export const createEventSuggestionFromTGMessage =
                                   title: m.title,
                                   actors: [],
                                   groups: [],
-                                  groupsMembers: []
+                                  groupsMembers: [],
                                 },
                                 date: m.publishDate ?? new Date(),
                                 links: [
