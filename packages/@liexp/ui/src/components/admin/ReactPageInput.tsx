@@ -58,7 +58,8 @@ const ReactPageInput: React.FC<InputProps & { onlyText?: boolean }> = ({
   onlyText = false,
   ...props
 }) => {
-  const record = useRecordContext();
+  const record = useRecordContext(props);
+
   return (
     <RaReactPageInput
       {...props}

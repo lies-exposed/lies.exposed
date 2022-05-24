@@ -35,6 +35,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "./Common/AvatarField";
 import { ColorInput } from "./Common/ColorInput";
@@ -45,15 +46,17 @@ import { uploadImages } from "@client/MediaAPI";
 
 const RESOURCE = "groups";
 
-const GroupKindInput: React.FC<SelectInputProps> = (props) => (
-  <SelectInput
-    {...props}
-    choices={io.http.Group.GroupKind.types.map((t) => ({
-      id: t.value,
-      name: t.value,
-    }))}
-  />
-);
+const GroupKindInput: React.FC<SelectInputProps> = (props) => {
+  return (
+    <SelectInput
+      {...props}
+      choices={io.http.Group.GroupKind.types.map((t) => ({
+        id: t.value,
+        name: t.value,
+      }))}
+    />
+  );
+};
 
 const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
   props
@@ -108,10 +111,7 @@ export const GroupList: React.FC = () => (
   </List>
 );
 
-const transformGroup = ({
-  newMembers,
-  ...data
-}: RaRecord): RaRecord | Promise<RaRecord> => {
+const transformGroup = (data: RaRecord): RaRecord | Promise<RaRecord> => {
   const uploadAvatar = data.avatar?.rawFile
     ? uploadImages(apiProvider)("groups", data.id as string, [
         { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
@@ -120,7 +120,12 @@ const transformGroup = ({
         { location: data.avatar, type: "image/jpeg" as Media.MediaType },
       ]);
 
-  const members = (data.members ?? []).concat(newMembers ?? []);
+  const newMembers = (data.newMembers ?? []).map((m) => ({
+    ...m,
+    body: {},
+  }));
+
+  const members = (data.members ?? []).concat(newMembers);
 
   return pipe(
     uploadAvatar,
@@ -138,8 +143,9 @@ const transformGroup = ({
   });
 };
 
-const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <Typography>Group {record.name}</Typography>;
+const EditTitle: React.FC<EditProps> = () => {
+  const record = useRecordContext();
+  return <Typography>Group {record?.name}</Typography>;
 };
 
 export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
@@ -183,7 +189,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               <ReferenceActorInput source="actor" />
               <DateInput source="startDate" />
               <DateInput source="endDate" />
-              <ReactPageInput onlyText={true} source="body" />
+              {/* <ReactPageInput onlyText={true} source="body" /> */}
             </SimpleFormIterator>
           </ArrayInput>
 
