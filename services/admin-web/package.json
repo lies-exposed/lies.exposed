@@ -26,8 +26,6 @@
     ]
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/lab": "^4.0.0-alpha.61",
     "@mui/material": "^5.8.1",
     "debug": "^4.3.4",
     "final-form": "^4.20.7",
