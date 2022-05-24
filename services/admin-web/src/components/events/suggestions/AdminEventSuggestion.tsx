@@ -2,7 +2,7 @@ import * as io from "@liexp/shared/io";
 import {
   Documentary,
   EventSuggestionStatus,
-  Patent
+  Patent,
 } from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
@@ -19,7 +19,8 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps, FormTab,
+  EditProps,
+  FormTab,
   FunctionField,
   List,
   ListProps,
@@ -27,7 +28,7 @@ import {
   ReferenceField,
   SelectInput,
   TabbedForm,
-  TextField
+  TextField,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { LinkArrayInput } from "../../Common/LinkArrayInput";
@@ -40,7 +41,7 @@ import { DocumentaryEditFormTab } from "../AdminDocumentaryEvent";
 import { PatentEventEditFormTab } from "../AdminPatentEvent";
 import { EditScientificStudyEvent } from "../AdminScientificStudyEvent";
 import { UncategorizedEventEditTab } from "../AdminUncategorizedEvent";
-import { transformEvent } from "../utils";
+import { transformEvent, transformLinks } from "../utils";
 import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "events/suggestions";
@@ -143,7 +144,10 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
           event: r.payload.event,
         });
 
-        const updatedEvent = await transformEvent(id, r.payload.event);
+        const updatedEvent = await transformEvent(id, {
+          ...r.payload.event,
+          links: transformLinks(r.payload.event.links),
+        });
 
         return { id, ...r.payload, event: updatedEvent };
       }}

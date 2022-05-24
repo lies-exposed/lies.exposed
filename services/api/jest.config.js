@@ -27,6 +27,7 @@ module.exports = {
     "/src/migrations",
     "/src/scripts",
   ]),
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   globalSetup: "<rootDir>/test/globalSetup.ts",
   globalTeardown: "<rootDir>/test/globalTeardown.ts",
 };

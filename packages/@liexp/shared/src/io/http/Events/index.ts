@@ -142,28 +142,52 @@ const EventSuggestionLinks = t.array(
 );
 
 const NewDeathEvent = t.strict(
-  { ...propsOmit(Death.Death, ["links"]), links: EventSuggestionLinks },
+  {
+    ...propsOmit(Death.Death, ["id", "links", "createdAt", "updatedAt"]),
+    links: EventSuggestionLinks,
+  },
   "NewDeathEvent"
 );
 const NewScientificStudyEvent = t.strict(
   {
-    ...propsOmit(ScientificStudy.ScientificStudy, ["links"]),
+    ...propsOmit(ScientificStudy.ScientificStudy, [
+      "id",
+      "links",
+      "createdAt",
+      "updatedAt",
+    ]),
     links: EventSuggestionLinks,
   },
   "NewScientificStudyEvent"
 );
 const NewPatentEvent = t.strict(
-  { ...propsOmit(Patent.Patent, ["links"]), links: EventSuggestionLinks },
+  {
+    ...propsOmit(Patent.Patent, ["id", "links", "createdAt", "updatedAt"]),
+    links: EventSuggestionLinks,
+  },
   "NewPatentEvent"
 );
 const NewDocumentaryEvent = t.strict(
-  { ...propsOmit(Documentary.Documentary, ["links"]), links: EventSuggestionLinks },
+  {
+    ...propsOmit(Documentary.Documentary, [
+      "id",
+      "links",
+      "createdAt",
+      "updatedAt",
+    ]),
+    links: EventSuggestionLinks,
+  },
   "NewDocumentaryEvent"
 );
 
 const NewUncategorizedEvent = t.strict(
   {
-    ...propsOmit(Uncategorized.Uncategorized, ["links"]),
+    ...propsOmit(Uncategorized.Uncategorized, [
+      "id",
+      "links",
+      "createdAt",
+      "updatedAt",
+    ]),
     links: EventSuggestionLinks,
   },
   "NewUncategorizedEvent"
@@ -177,7 +201,7 @@ const NewEventSuggestion = t.strict({
       NewScientificStudyEvent,
       NewPatentEvent,
       NewUncategorizedEvent,
-      NewDocumentaryEvent
+      NewDocumentaryEvent,
     ],
     "Event"
   ),

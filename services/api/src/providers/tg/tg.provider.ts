@@ -6,11 +6,15 @@ const chatId = "@lies_exposed";
 export interface TGBotProvider {
   post: (test: string) => TE.TaskEither<Error, any>;
   postPhoto: (image: string, caption: string) => TE.TaskEither<Error, any>;
+  onMessage: (
+    f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void
+  ) => void;
 }
 
 interface TGBotProviderOpts {
   token: string;
   chat: string;
+  polling: boolean;
 }
 
 const toTGError = (e: unknown): Error => {
@@ -18,7 +22,7 @@ const toTGError = (e: unknown): Error => {
 };
 
 export const TGBotProvider = (opts: TGBotProviderOpts): TGBotProvider => {
-  const bot = new TelegramBot(opts.token, { polling: false });
+  const bot = new TelegramBot(opts.token, { polling: opts.polling });
 
   return {
     post: (text) => {
@@ -26,7 +30,7 @@ export const TGBotProvider = (opts: TGBotProviderOpts): TGBotProvider => {
         () =>
           bot.sendMessage(chatId, text, {
             parse_mode: "HTML",
-            disable_web_page_preview: false
+            disable_web_page_preview: false,
           }),
         toTGError
       );
@@ -40,6 +44,11 @@ export const TGBotProvider = (opts: TGBotProviderOpts): TGBotProvider => {
           }),
         toTGError
       );
+    },
+    onMessage: (
+      f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void
+    ) => {
+      bot.on("message", f);
     },
   };
 };

@@ -8,7 +8,7 @@ export const PostEventToPlatformRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Custom.PostToPlatform, ({ body }) => {
     const text = `<a href="${body.url}"><b>${body.title}</b></a>\n<a href="${
       ctx.env.WEB_URL
-    }/events?startDate${body.date}">${body.date}</a> - ${
+    }/events?startDate=${body.date}">${body.date}</a> - ${
       body.content
     }`;
 

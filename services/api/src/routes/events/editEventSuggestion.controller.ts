@@ -8,13 +8,14 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.EditSuggestion,
     ({ params: { id }, body }) => {
+      ctx.logger.debug.log('Suggestion body %O', body);
       return pipe(
         ctx.db.findOneOrFail(EventSuggestionEntity, { where: { id } }),
         TE.chain((suggestion) =>
           ctx.db.save(EventSuggestionEntity, [
             {
               ...suggestion,
-              ...body,
+              payload: body,
               id,
               status: "PENDING",
             },
