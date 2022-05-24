@@ -10,5 +10,9 @@ export const sanitizeURL = (url: URL): URL => {
     R.filterWithIndex((index) => [].some((c) => c === index))
   );
 
-  return `${cleanURL}?${qs.stringify(cleanQuery)}` as URL;
+  if (!R.isEmpty(cleanQuery)) {
+    return `${cleanURL}?${qs.stringify(cleanQuery)}` as URL;
+  }
+
+  return cleanURL as URL;
 };

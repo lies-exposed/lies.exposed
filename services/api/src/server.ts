@@ -1,14 +1,15 @@
 import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
-import { GetFFMPEGProvider } from '@liexp/shared/providers/ffmpeg.provider';
+import { GetFFMPEGProvider } from "@liexp/shared/providers/ffmpeg.provider";
 import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as AWS from "aws-sdk";
 import axios from "axios";
 import cors from "cors";
 import express from "express";
 import jwt from "express-jwt";
-import ffmpeg from 'fluent-ffmpeg';
+import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -16,6 +17,7 @@ import { pipe } from "fp-ts/lib/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
+import { createEventSuggestionFromTGMessage } from "./helpers/eventSuggestion.helper";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -107,6 +109,7 @@ export const makeContext = (
           TGBotProvider({
             token: env.TG_BOT_TOKEN,
             chat: env.TG_BOT_CHAT,
+            polling: env.NODE_ENV !== "test",
           })
         ),
         puppeteer: TE.right(
@@ -115,9 +118,7 @@ export const makeContext = (
             args: ["--no-sandbox"],
           })
         ),
-        ffmpeg: TE.right(
-          GetFFMPEGProvider(ffmpeg)
-        )
+        ffmpeg: TE.right(GetFFMPEGProvider(ffmpeg)),
       });
     }),
     TE.mapLeft((e) => ({
@@ -199,7 +200,21 @@ export const makeApp = (ctx: RouteContext): express.Express => {
   MakeOpenGraphRoutes(router, ctx);
 
   MakeUploadsRoutes(router, ctx);
-  // errors
+
+  const tgLogger = ctx.logger.extend("tg-bot");
+
+  ctx.tg.onMessage((msg, metadata) => {
+    void pipe(
+      createEventSuggestionFromTGMessage({ ...ctx, logger: tgLogger })(
+        msg,
+        metadata
+      ),
+      throwTE
+    ).then(
+      (r) => tgLogger.info.log("Success %O", r),
+      (e) => tgLogger.error.log("Error %O", e)
+    );
+  });
 
   app.use("/v1", router);
 

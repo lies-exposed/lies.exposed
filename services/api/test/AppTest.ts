@@ -21,7 +21,7 @@ export const initAppTest = async (): Promise<AppTest> => {
   const fetchHTML = jest.fn();
   const fetchMetadata = jest.fn();
 
-  return pipe(
+  return await pipe(
     makeContext(process.env),
     TE.map((ctx) => ({
       ...ctx,
@@ -32,13 +32,13 @@ export const initAppTest = async (): Promise<AppTest> => {
       urlMetadata: {
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(
-            () => fetchHTML(url, opts) as any as Promise<any>,
+            () => fetchHTML(url, opts) as Promise<any>,
             (e) => e as any
           );
         },
         fetchMetadata: (url: string, opts: any) => {
           return TE.tryCatch(
-            () => fetchMetadata(url, opts) as any as Promise<any>,
+            () => fetchMetadata(url, opts) as Promise<any>,
             (e) => e as any
           );
         },
