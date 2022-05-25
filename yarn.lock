@@ -1664,7 +1664,7 @@ __metadata:
     style-loader: ^3.3.1
     ts-loader: ^9.3.0
     tsconfig-paths-webpack-plugin: ^3.5.2
-    typescript: ^4.6.4
+    typescript: ^4.7.2
     url-loader: ^4.1.1
     webpack: ^5.72.1
     webpack-bundle-analyzer: ^4.5.0
@@ -1707,7 +1707,7 @@ __metadata:
     ts-endpoint-express: ^2.0.0
     ts-io-error: ^2.0.0
     ts-jest: ^28.0.3
-    typescript: ^4.6.4
+    typescript: ^4.7.2
     uuid: ^8.3.2
   peerDependencies:
     express: ^4.17.1
@@ -1806,7 +1806,7 @@ __metadata:
     ts-endpoint: ^2.0.0
     ts-io-error: ^2.0.0
     ts-jest: ^28.0.3
-    typescript: ^4.6.4
+    typescript: ^4.7.2
   languageName: unknown
   linkType: soft
 
@@ -5707,7 +5707,7 @@ __metadata:
     react-helmet: ^6.1.0
     react-query: ^3.39.0
     ts-jest: ^28.0.3
-    typescript: ^4.6.4
+    typescript: ^4.7.2
     uuid: ^8.3.2
     web-vitals: ^2.1.4
     webpack: ^5.72.1
@@ -5954,7 +5954,7 @@ __metadata:
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1141.0
+    aws-sdk: ^2.1142.0
     axios: ^0.27.2
     cors: 2.8.5
     debug: ^4.3.4
@@ -5991,7 +5991,7 @@ __metadata:
     ts-shared: 2.0.0-alpha.6
     typeorm: ^0.2.45
     typeorm-uml: ^1.6.5
-    typescript: ^4.6.4
+    typescript: ^4.7.2
     uuid: ^8.3.2
   languageName: unknown
   linkType: soft
@@ -6367,9 +6367,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1141.0":
-  version: 2.1141.0
-  resolution: "aws-sdk@npm:2.1141.0"
+"aws-sdk@npm:^2.1142.0":
+  version: 2.1142.0
+  resolution: "aws-sdk@npm:2.1142.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -6380,7 +6380,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: a3ab8a46e2605b6ac7d013807c7a8b07a7b724012bd3e7300fb365d3f6944bae1f9be2a217da153b67aa738b72086ab8d94762ab3f08b5f03d6e78f75b3b47ac
+  checksum: a49ecf4b90b2ed54e46f868baa47a782504328747ae22aa99bedf26faa2da824e20e19626281b9d31e0994b901e95296e1feb06816159ec8c179df1c04ecaf65
   languageName: node
   linkType: hard
 
@@ -13397,7 +13397,7 @@ __metadata:
     pm2: ^5.2.0
     prettier: ^2.6.2
     ts-jest: ^28.0.3
-    typescript: ^4.6.4
+    typescript: ^4.7.2
     webpack: ^5.72.1
   languageName: unknown
   linkType: soft
@@ -19773,13 +19773,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.4":
-  version: 4.6.4
-  resolution: "typescript@npm:4.6.4"
+"typescript@npm:^4.7.2":
+  version: 4.7.2
+  resolution: "typescript@npm:4.7.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: e7bfcc39cd4571a63a54e5ea21f16b8445268b9900bf55aee0e02ad981be576acc140eba24f1af5e3c1457767c96cea6d12861768fb386cf3ffb34013718631a
+  checksum: 5163585e6b56410f77d5483b698d9489bbee8902c99029eb70cf6d21525a186530ce19a00951af84eefd4a131cc51d0959f5118e25e70ab61f45ac4057dbd1ef
   languageName: node
   linkType: hard
 
@@ -19793,13 +19793,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
-  version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=493e53"
+"typescript@patch:typescript@^4.7.2#~builtin<compat/typescript>":
+  version: 4.7.2
+  resolution: "typescript@patch:typescript@npm%3A4.7.2#~builtin<compat/typescript>::version=4.7.2&hash=493e53"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8cff08bf66d9ecfbf9fcc5edde04a5a7923e6cac3b21d99b4e9a06973bf5bd7f9a83ec7eed24129c1b9e13fd861de8c1070110d4b9ce9f18ab57c6999e9c9a6f
+  checksum: 09d93fc0983d38eadd9b0427f790b49b4437f45002a87d447be3fbe53120880e87a91dd03e1d900498f99205d6e0b7c9784fe41fca11d56f4bbce371f74bb160
   languageName: node
   linkType: hard
 
@@ -20337,7 +20337,7 @@ __metadata:
     topojson-server: 3.0.1
     ts-node-dev: ^1.1.8
     tsconfig-paths-webpack-plugin: ^3.5.2
-    typescript: ^4.6.4
+    typescript: ^4.7.2
     uuid: ^8.3.2
     webpack: ^5.72.1
     webpack-bundle-analyzer: ^4.5.0
