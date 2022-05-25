@@ -59,16 +59,16 @@ export type TERequest<E extends MinimalEndpointInstance> = (
 
 type API = {
   [K in keyof Endpoints]: Endpoints[K] extends ResourceEndpoints<
-    any,
-    any,
+    infer Get,
+    infer List,
     any,
     any,
     any,
     infer CC
   >
     ? {
-        List: TERequest<Endpoints[K]["List"]>;
-        Get: TERequest<Endpoints[K]["Get"]>;
+        List: TERequest<List>;
+        Get: TERequest<Get>;
         Custom: CC extends { [key: string]: MinimalEndpointInstance }
           ? {
               [K in keyof CC]: TERequest<CC[K]>;
@@ -179,5 +179,6 @@ const API = (c: AxiosRequestConfig): API => {
     post,
   };
 };
+
 
 export { API };

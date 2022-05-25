@@ -1,5 +1,5 @@
 import path from "path";
-import webpack from "webpack";
+import HTMLWebpackPlugin from 'html-webpack-plugin';
 import {
   defineEnv,
   getConfig,
@@ -46,5 +46,12 @@ const srvConfig = getConfig({
   },
   target: "node",
 });
+
+webConfig.plugins?.push(
+  new HTMLWebpackPlugin({
+    inject: "head",
+    template: path.resolve("./public/index.html"),
+  })
+);
 
 export default [webConfig, srvConfig];

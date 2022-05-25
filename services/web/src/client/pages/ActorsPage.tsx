@@ -4,7 +4,6 @@ import { PageContent } from "@liexp/ui/components/PageContent";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import {
   useActorsQuery,
-  usePageContentByPathQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
@@ -19,13 +18,13 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
     filter: {},
   });
 
-  const pageContentByPath = usePageContentByPathQuery({ path: "actors" });
+  // const pageContentByPath = usePageContentByPathQuery({ path: "actors" });
 
   return (
     <>
       <MainContent>
         <PageContent path="actors" />
-        {actors.data && pageContentByPath.data ? (
+        {actors.data ? (
           <>
             <AutocompleteActorInput
               selectedItems={[]}

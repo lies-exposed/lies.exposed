@@ -39,7 +39,9 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
             ...item,
             selected: false,
           }}
-          onClick={() => {}}
+          onClick={() => {
+            onChange(selectedItems.filter((i) => i.id !== item.id).concat(item))
+          }}
         />
       )}
       onItemsChange={onChange}

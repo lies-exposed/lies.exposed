@@ -1,8 +1,9 @@
-import { darken, lighten, useTheme, ThemeOptions } from "@mui/material";
+import { darken, lighten, useTheme } from "@mui/material";
 import {
   CreateMUIStyled,
   createTheme,
   styled as _styled,
+  ThemeOptions
 } from "@mui/material/styles";
 
 const primaryFontFamily = "Signika";

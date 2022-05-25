@@ -2,8 +2,8 @@ import {
   Avatar as MUIAvatar,
   AvatarProps as MUIAvatarProps,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import * as React from "react";
+import { styled } from "../../theme/index";
 
 const PREFIX = "Avatar";
 
