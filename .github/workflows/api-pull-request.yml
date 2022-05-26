@@ -65,9 +65,13 @@ jobs:
         run: yarn api build
 
       - name: Run tests SPEC
+        env:
+          DEBUG: "@liexp*"
         run: yarn test:spec
 
       - name: Run tests E2E
+        env:
+          DEBUG: "@liexp*"
         run: yarn test:e2e --ci --forceExit
 
       - name: Run migrations

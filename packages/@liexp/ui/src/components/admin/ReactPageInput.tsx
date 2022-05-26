@@ -16,6 +16,7 @@ import {
   isValidValue,
   minimalCellPlugins,
 } from "../Common/Editor";
+import JSONInput from "../Common/JSON/JSONInput";
 
 export type RaReactPageInputProps = {
   label?: string;
@@ -32,9 +33,22 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   const {
     field: { value, onChange },
   } = useInput({ source });
+
+  const isValueValid = isValidValue(value);
+
+  const [toggleEdit, setToggleEditor] = React.useState(!isValueValid);
+
+
   return (
     <Labeled label={label} source={source} fullWidth>
       <>
+        <div
+          onClick={() => {
+            setToggleEditor(!toggleEdit);
+          }}
+        >
+          {toggleEdit ? "Plain" : "Slate"}
+        </div>
         <Paper
           elevation={5}
           style={{
@@ -46,8 +60,14 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
           }}
         >
           {isValidValue(value) ? (
-            <Editor value={value} onChange={onChange} {...editorProps} />
-          ) : null}
+            toggleEdit ? (
+              <JSONInput {...editorProps} source={source} />
+            ) : (
+              <Editor value={value} onChange={onChange} {...editorProps} />
+            )
+          ) : (
+            <JSONInput {...editorProps} source={source} />
+          )}
         </Paper>
       </>
     </Labeled>

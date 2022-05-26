@@ -20,6 +20,7 @@ const ReferenceArrayGroupMemberInput: React.FC<
         filterToQuery={(ids) => ({
           groupsMembers: ids,
         })}
+        fullWidth
       />
     </ReferenceArrayInput>
   );

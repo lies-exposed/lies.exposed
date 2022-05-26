@@ -9,64 +9,56 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
-import { ActorCreate, ActorEdit, ActorList } from "./components/AdminActors";
-import { AreaCreate, AreaEdit, AreaList } from "./components/AdminAreas";
-import {
-  ArticleCreate,
-  ArticleEdit,
-  ArticleList,
-} from "./components/AdminArticles";
-import { EventEdit, EventList } from "./components/AdminEvents";
+import englishMessages from "./i18n/en-US";
+import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
+import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas";
+import { ArticleCreate, ArticleEdit, ArticleList } from "./pages/AdminArticles";
+import { EventEdit, EventList } from "./pages/AdminEvents";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
   GroupMemberList,
-} from "./components/AdminGroupMember";
-import { GroupCreate, GroupEdit, GroupList } from "./components/AdminGroups";
+} from "./pages/AdminGroupMember";
+import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import {
   KeywordEdit,
   KeywordList,
   KeywordCreate,
-} from "./components/AdminKeyword";
-import {
-  LinkCreate,
-  LinkEdit,
-  LinkList,
-} from "./components/AdminLinks";
-import { MediaCreate, MediaEdit, MediaList } from "./components/AdminMedia";
-import { UserCreate, UserEdit, UserList } from "./components/AdminUsers";
-import { PageCreate, PageEdit, PageList } from "./components/Pages";
+} from "./pages/AdminKeyword";
+import { LinkCreate, LinkEdit, LinkList } from "./pages/AdminLinks";
+import { MediaCreate, MediaEdit, MediaList } from "./pages/AdminMedia";
+import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
+import { PageCreate, PageEdit, PageList } from "./pages/Pages";
 import {
   DeathCreate,
   DeathEdit,
   DeathList,
-} from "./components/events/AdminDeathEvent";
+} from "./pages/events/AdminDeathEvent";
 import {
   DocumentaryCreate,
   DocumentaryEdit,
   DocumentaryList,
-} from "./components/events/AdminDocumentaryEvent";
+} from "./pages/events/AdminDocumentaryEvent";
 import {
   PatentCreate,
   PatentEdit,
   PatentList,
-} from "./components/events/AdminPatentEvent";
+} from "./pages/events/AdminPatentEvent";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
   ScientificStudyEdit,
-} from "./components/events/AdminScientificStudyEvent";
+} from "./pages/events/AdminScientificStudyEvent";
 import {
   TransactionCreate,
   TransactionEdit,
   TransactionList,
-} from "./components/events/AdminTransactionEvent";
-import { UncategorizedEventCreate } from "./components/events/AdminUncategorizedEvent";
+} from "./pages/events/AdminTransactionEvent";
+import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
-} from "./components/events/suggestions/AdminEventSuggestion";
-import englishMessages from "./i18n/en-US";
+} from "./pages/events/suggestions/AdminEventSuggestion";
 import "./index.css";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
@@ -79,7 +71,7 @@ const AdminPage: React.FC = () => {
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}
-      theme={themeOptions}
+      theme={themeOptions as any}
     >
       <Resource
         name="pages"

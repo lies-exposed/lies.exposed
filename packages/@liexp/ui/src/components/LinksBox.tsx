@@ -10,9 +10,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import * as NEA from "fp-ts/lib/NonEmptyArray";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { useLinksQuery } from "../state/queries/DiscreteQueries";
 import LinkCard from "./Cards/LinkCard";
@@ -88,76 +85,74 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
 }) => {
   const [expanded, setExpanded] = React.useState(defaultExpanded);
 
-  return pipe(
-    ids,
-    NEA.fromArray,
-    O.fold(
-      () => <span />,
-      (ids) => (
-        <Accordion
-          defaultExpanded={expanded}
-          expanded={expanded}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          onChange={(e, expanded) => {
-            setExpanded(expanded);
-            if (expanded) {
-              onOpen?.();
-            } else {
-              onClose?.();
-            }
-          }}
-          elevation={0}
-          style={{
-            width: "100%",
-            background: "transparent",
-          }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id={"link-accordion"}
+  return (
+    <QueriesRenderer
+      queries={{
+        links: useLinksQuery({
+          pagination: { page: 1, perPage: ids.length },
+          sort: { field: "createdAt", order: "DESC" },
+          filter: expanded
+            ? {
+                ids,
+              }
+            : {},
+        }),
+      }}
+      render={({ links: { data: links } }) => {
+        if (links.length === 0) {
+          return <span />;
+        }
+        return (
+          <Accordion
+            defaultExpanded={expanded}
+            expanded={expanded}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onChange={(e, expanded) => {
+              setExpanded(expanded);
+              if (expanded) {
+                onOpen?.();
+              } else {
+                onClose?.();
+              }
+            }}
+            elevation={0}
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
               width: "100%",
-              padding: 0,
-              height: "100%",
+              background: "transparent",
             }}
           >
-            <Box display="flex" width="100%" padding={0}>
-              <LinkIcon />{" "}
-              <Typography component="span" variant="subtitle2">
-                ({ids.length})
-              </Typography>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails
-            style={{
-              maxHeight: "100%",
-            }}
-          >
-            <QueriesRenderer
-              queries={{
-                links: useLinksQuery({
-                  pagination: { page: 1, perPage: ids.length },
-                  sort: { field: "createdAt", order: "DESC" },
-                  filter: expanded
-                    ? {
-                        ids,
-                      }
-                    : {},
-                }),
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2a-content"
+              id={"link-accordion"}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100%",
+                padding: 0,
+                height: "100%",
               }}
-              render={({ links: { data: links } }) => {
-                return <LinksList links={links} />;
+            >
+              <Box display="flex" width="100%" padding={0}>
+                <LinkIcon />{" "}
+                <Typography component="span" variant="subtitle2">
+                  ({ids.length})
+                </Typography>
+              </Box>
+            </AccordionSummary>
+            <AccordionDetails
+              style={{
+                maxHeight: "100%",
               }}
-            />
-          </AccordionDetails>
-        </Accordion>
-      )
-    )
+            >
+              <LinksList links={links} />
+            </AccordionDetails>
+          </Accordion>
+        );
+      }}
+    />
   );
 };

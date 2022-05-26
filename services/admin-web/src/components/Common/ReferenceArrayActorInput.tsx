@@ -1,9 +1,8 @@
-import { Actor } from "@liexp/shared/io/http/Actor";
 import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  ReferenceArrayInputProps,
+  ReferenceArrayInputProps
 } from "react-admin";
 
 const ReferenceArrayActorInput: React.FC<
@@ -12,11 +11,10 @@ const ReferenceArrayActorInput: React.FC<
   return (
     <ReferenceArrayInput {...props} reference="actors">
       <AutocompleteArrayInput
+        fullWidth
         source="id"
-        optionText={(a: Partial<Actor>) =>
-          a?.id ? `${a.fullName}` : "No actor"
-        }
         filterToQuery={(fullName: string) => ({ fullName })}
+        optionText="fullName"
       />
     </ReferenceArrayInput>
   );
