@@ -1,14 +1,14 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Link } from '@liexp/shared/io/http';
+import { Link } from "@liexp/shared/io/http";
 import { Router } from "express";
-import { sequenceS } from 'fp-ts/lib/Apply';
-import * as O from 'fp-ts/lib/Option';
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { Metadata } from 'page-metadata-parser';
-import { LinkEntity } from '@entities/Link.entity';
+import { Metadata } from "page-metadata-parser";
+import { LinkEntity } from "@entities/Link.entity";
 import { ControllerError, ServerError } from "@io/ControllerError";
-import { toLinkIO } from '@routes/links/link.io';
+import { toLinkIO } from "@routes/links/link.io";
 import { RouteContext } from "@routes/route.types";
 
 export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
@@ -30,7 +30,7 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
                   description: link.value.description,
                   keywords: [],
                   icon: "",
-                  image: link.value.image ?? "",
+                  image: link.value.image?.location ?? null,
                   provider: link.value.provider,
                   type: "article",
                   url: link.value.url,
@@ -40,11 +40,13 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
               link,
               O.map(toLinkIO),
               O.map(TE.fromEither),
-              O.getOrElse(() => TE.right<ControllerError, Link.Link | undefined>(undefined))
+              O.getOrElse(() =>
+                TE.right<ControllerError, Link.Link | undefined>(undefined)
+              )
             ),
-          })
+          });
 
-          return linkAndMetadata
+          return linkAndMetadata;
         }),
         TE.map((data) => ({
           body: {

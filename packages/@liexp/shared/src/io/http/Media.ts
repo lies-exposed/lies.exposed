@@ -43,6 +43,7 @@ export const Media = t.strict(
     description: t.string,
     location: t.string,
     events: t.array(UUID),
+    links: t.array(UUID),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
   },

@@ -36,6 +36,7 @@ import {
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
+import { MediaField } from '../components/Common/MediaField';
 import { WebPreviewButton } from "../components/Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
@@ -122,7 +123,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
     >
       <TabbedForm>
         <FormTab label="generals">
-          <ImageField source="avatar" />
+          <MediaField source="avatar" type='image/jpeg' />
           <ColorInput source="color" />
           <TextInput source="username" />
           <TextInput source="fullName" />

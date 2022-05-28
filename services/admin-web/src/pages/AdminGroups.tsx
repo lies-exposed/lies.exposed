@@ -39,6 +39,7 @@ import {
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
+import { MediaField } from '../components/Common/MediaField';
 import ReferenceActorInput from "../components/Common/ReferenceActorInput";
 import { WebPreviewButton } from "../components/Common/WebPreviewButton";
 import { apiProvider } from "@client/HTTPAPI";
@@ -174,7 +175,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <DateField source="createdAt" showTime={true} />
         </FormTab>
         <FormTab label="Avatar">
-          <ImageField source="avatar" fullWidth={false} />
+          <MediaField source="avatar" type='image/jpeg' />
           <ImageInput source="avatar">
             <ImageField src="src" />
           </ImageInput>

@@ -7,7 +7,8 @@ import { pipe } from "fp-ts/lib/function";
 import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
-import { getORMOptions, addOrder } from "@utils/orm.utils";
+import { toControllerError } from "@io/ControllerError";
+import { addOrder, getORMOptions } from "@utils/orm.utils";
 
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
@@ -26,54 +27,60 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
         ...findOptions,
       });
 
-      const listGroupsMembersTE = pipe(
-        ctx.db.manager
-          .createQueryBuilder(LinkEntity, "link")
-          .leftJoinAndSelect("link.events", "events")
-          .leftJoinAndSelect("link.keywords", "keywords"),
-        (q) => {
-          if (title._tag === "Some") {
-            return q.where("lower(link.title) LIKE :title", {
-              title: `%${title.value.toLowerCase()}%`,
-            });
-          }
+      const listGroupsMembersTE = TE.tryCatch(
+        () =>
+          pipe(
+            ctx.db.manager
+              .createQueryBuilder(LinkEntity, "link")
+              .leftJoinAndSelect("link.image", "image")
+              .leftJoinAndSelect("link.events", "events")
+              .leftJoinAndSelect("link.keywords", "keywords"),
+            (q) => {
+              if (title._tag === "Some") {
+                return q.where("lower(link.title) LIKE :title", {
+                  title: `%${title.value.toLowerCase()}%`,
+                });
+              }
 
-          if (ids._tag === "Some") {
-            return q.where("link.id IN (:...ids)", {
-              ids: ids.value,
-            });
-          }
+              if (ids._tag === "Some") {
+                return q.where("link.id IN (:...ids)", {
+                  ids: ids.value,
+                });
+              }
 
-          if (emptyEvents._tag === "Some") {
-            if (emptyEvents.value) {
-              return q.where("events.id IS NULL");
+              if (emptyEvents._tag === "Some") {
+                if (emptyEvents.value) {
+                  return q.where("events.id IS NULL");
+                }
+              }
+
+              if (events._tag === "Some") {
+                return q.where("events.id IN (:...events)", {
+                  events: events.value,
+                });
+              }
+
+              return q;
+            },
+            (q) => {
+              if (findOptions.order) {
+                return addOrder(findOptions.order, q, "link");
+              }
+              return q;
+            },
+            (q) => {
+              // ctx.logger.debug.log(
+              //   "Get links query %s, %O",
+              //   q.getSql(),
+              //   q.getParameters()
+              // );
+              return q
+                .skip(findOptions.skip)
+                .take(findOptions.take)
+                .getManyAndCount();
             }
-          }
-
-          if (events._tag === "Some") {
-            return q.where("events.id IN (:...events)", {
-              events: events.value,
-            });
-          }
-
-          return q;
-        },
-        (q) => {
-          if (findOptions.order) {
-            return addOrder(findOptions.order, q, "link");
-          }
-          return q;
-        },
-        (q) => {
-            // ctx.logger.debug.log(
-            //   "Get links query %s, %O",
-            //   q.getSql(),
-            //   q.getParameters()
-            // );
-          return ctx.db.execQuery(() =>
-            q.skip(findOptions.skip).take(findOptions.take).getManyAndCount()
-          );
-        }
+          ),
+        toControllerError
       );
 
       return pipe(

@@ -3,15 +3,15 @@ import * as React from "react";
 import {
   Datagrid,
   DateField,
-  FieldProps,
-  ReferenceArrayField,
+  FieldProps, ReferenceArrayField,
   TextField,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { LinkArrayInput } from "../Common/LinkArrayInput";
+import { MediaField } from '../Common/MediaField';
 
 export const ReferenceLinkTab: React.FC<FieldProps> = (props) => {
-  const record = useRecordContext();
+  const record = useRecordContext(props);
   const newLinksSource = props.source
     .split(".")
     .slice(0, -1)
@@ -31,6 +31,7 @@ export const ReferenceLinkTab: React.FC<FieldProps> = (props) => {
       <ReferenceArrayField {...props} reference="links" fullWidth>
         <Datagrid rowClick="edit">
           <TextField source="id" />
+          <MediaField source="image.thumbnail" type="image/jpeg" />
           <TextField source="title" />
           <DateField source="publishDate" />
           <TextField source="url" />

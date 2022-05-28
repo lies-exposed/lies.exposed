@@ -23,18 +23,15 @@ import {
   FormTab,
   FunctionField,
   List,
-  ListProps,
-  ReferenceArrayField,
-  ReferenceField,
+  ListProps, ReferenceField,
   SelectInput,
   TabbedForm,
   TextField
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { LinkArrayInput } from "../../../components/Common/LinkArrayInput";
-import { MediaField } from "../../../components/Common/MediaField";
 import ReferenceArrayKeywordInput from "../../../components/Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "../../../components/Common/WebPreviewButton";
+import { ReferenceLinkTab } from '../../../components/tabs/ReferenceLinkTab';
 import { ReferenceMediaTab } from '../../../components/tabs/ReferenceMediaTab';
 import { transformEvent } from "../../../utils";
 import { DeathEventEditFormTab } from "../AdminDeathEvent";
@@ -139,11 +136,6 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
         </Box>
       }
       transform={async ({ id, ...r }) => {
-        // eslint-disable-next-line
-        console.log("transform event for type", {
-          type: r.type,
-          event: r.payload.event,
-        });
 
         const updatedEvent = await transformEvent(id, r.payload.event);
 
@@ -211,19 +203,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
           <ReferenceMediaTab source="payload.event.media" />
         </FormTab>
         <FormTab label="Links">
-          <LinkArrayInput source="payload.event.newLinks" />
-          <ReferenceArrayField
-            source="payload.event.links"
-            reference="links"
-            sortBy="updatedAt"
-            sortByOrder="DESC"
-          >
-            <Datagrid rowClick="edit">
-              <TextField source="id" />
-              <MediaField source="location" fullWidth={false} />
-              <TextField source="description" />
-            </Datagrid>
-          </ReferenceArrayField>
+          <ReferenceLinkTab source="payload.event.links" />
         </FormTab>
         <FormTab label="Preview">
           <FormDataConsumer>
@@ -238,6 +218,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
                           event={{
                             media: [],
                             keywords: [],
+                            links: [],
                             ...formData.payload.event,
                           }}
                           onActorClick={() => undefined}

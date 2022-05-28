@@ -16,6 +16,7 @@ export const MediaField: React.FC<MediaFieldProps> = (props) => {
     record?.type ??
     props.type ??
     MediaType.types[0].value;
+
   const src = get(record, props.source);
 
   if (src === undefined) {
@@ -39,6 +40,15 @@ export const MediaField: React.FC<MediaFieldProps> = (props) => {
         </video>
       );
     default:
-      return <ImageField {...props} />;
+      return (
+        <ImageField
+          {...props}
+          sx={() => ({
+            "& .RaImageField-image": {
+              maxWidth: "100%",
+            },
+          })}
+        />
+      );
   }
 };

@@ -39,7 +39,7 @@ const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
       />
       <CardMedia
         component="img"
-        image={link.image}
+        image={link.image?.thumbnail}
         style={{
           maxHeight: 100,
         }}

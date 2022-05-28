@@ -3,11 +3,11 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToMany,
-  PrimaryGeneratedColumn,
+  Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
+import { LinkEntity } from "./Link.entity";
 
 @Entity("image")
 export class MediaEntity {
@@ -32,6 +32,9 @@ export class MediaEntity {
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, { cascade: false })
   events: EventV2Entity[];
+
+  @OneToMany(() => LinkEntity, (e) => e.image, { cascade: false })
+  links: LinkEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

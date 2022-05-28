@@ -17,6 +17,7 @@ import {
   useRecordContext,
   TextInput,
 } from "react-admin";
+import { MediaField } from '../components/Common/MediaField';
 import RichTextInput from "../components/Common/RichTextInput";
 
 export const UserList: React.FC<ListProps> = (props) => (
@@ -41,7 +42,7 @@ export const UserEdit: React.FC<EditProps> = (props) => (
   <Edit title={<EditTitle />} {...props}>
     <TabbedForm>
       <FormTab label="generals">
-        <ImageField source="avatar" />
+        <MediaField source="avatar" type='image/jpeg' />
         <TextInput source="username" />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />

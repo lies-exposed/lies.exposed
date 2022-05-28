@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   Link,
-  Typography
+  Typography,
 } from "@mui/material";
 import * as React from "react";
 import { FieldProps, Identifier, useRecordContext } from "react-admin";
@@ -25,6 +25,7 @@ const emptySharePayload = {
   media: undefined,
   content: undefined,
   url: undefined,
+  keywords: [],
 };
 
 export const TGPostButton: React.FC<TGPostButtonProps> = () => {
@@ -40,30 +41,41 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
         onClick={() => {
           void apiProvider
             .getOne(`events`, { id: record?.id })
-            .then(({ data: event }) => {
+            .then(async ({ data: event }) => {
               if (event.media.length === 0) {
-                return Promise.resolve(event);
+                return event;
               } else {
-                return apiProvider
-                  .getMany("media", { ids: event.media })
-                  .then(({ data: media }) => ({ ...event, media }));
+                const { data: media } = await apiProvider.getMany("media", {
+                  ids: event.media,
+                });
+                return { ...event, media };
               }
             })
-            .then((event) => {
-              if (event.type === "Death") {
-                return apiProvider
-                  .getOne("actors", { id: event.payload.victim })
-                  .then(({ data: actor }) => {
-                    return {
-                      ...event,
-                      payload: {
-                        ...event.payload,
-                        victim: actor.fullName,
-                      },
-                    };
-                  });
+            .then(async (event) => {
+              if (event.keywords.length === 0) {
+                return event;
+              } else {
+                const { data: keywords } = await apiProvider.getMany(
+                  "keywords",
+                  { ids: event.keywords }
+                );
+                return { ...event, keywords };
               }
-              return Promise.resolve(event);
+            })
+            .then(async (event) => {
+              if (event.type === "Death") {
+                const { data: actor } = await apiProvider.getOne("actors", {
+                  id: event.payload.victim,
+                });
+                return {
+                  ...event,
+                  payload: {
+                    ...event.payload,
+                    victim: actor.fullName,
+                  },
+                };
+              }
+              return event;
             })
             .then((event) => {
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
@@ -80,14 +92,17 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                 event.media,
                 `${process.env.WEB_URL}/liexp-logo-1200x630.png`
               );
-              const content = getTextContentsCapped(event.excerpt, 100);
+              const content = getTextContentsCapped(event.excerpt, 200);
               const url = `${process.env.WEB_URL}/events/${record?.id}`;
+              const keywords = event.keywords;
+
               setSharePayload({
                 title,
                 date,
                 media,
                 content,
                 url,
+                keywords,
               });
             });
         }}
@@ -102,6 +117,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
               <Typography>
                 <Link href={sharePayload.url}>{sharePayload.title}</Link>
               </Typography>
+              <br />
               <img src={sharePayload.media} style={{ width: "100%" }} />
               <Typography>
                 <Link
@@ -111,6 +127,19 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                 </Link>
                 - {sharePayload.content}
               </Typography>
+              <>
+                {sharePayload.keywords.map((k) => (
+                  <a
+                    key={k.id}
+                    href={`${process.env.WEB_URL}/events?keywords[]=${k.id}`}
+                    style={{ marginRight: 10 }}
+                    target="_blank"
+                    rel='noreferrer'
+                  >
+                    #{k.tag}
+                  </a>
+                ))}
+              </>
             </Box>
           ) : null}
         </DialogContent>

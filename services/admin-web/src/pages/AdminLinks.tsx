@@ -9,17 +9,19 @@ import {
   DateField,
   DateInput,
   Edit,
+  FormTab,
   FunctionField,
-  ImageField,
   List,
   ReferenceArrayInput,
   ReferenceManyField,
   SimpleForm,
+  TabbedForm,
   TextField,
   TextInput,
   useRecordContext,
   useRefresh
 } from "react-admin";
+import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "../components/Common/ReferenceGroupInput";
 import URLMetadataInput from "../components/Common/URLMetadataInput";
@@ -44,10 +46,7 @@ export const LinkList: React.FC = () => (
   >
     <Datagrid rowClick="edit">
       <TextField source="title" />
-      <ImageField
-        source="image"
-        sx={{ "& .RaImageField-image": { width: 200 } }}
-      />
+      <MediaField source="image.thumbnail" type="image/jpeg" />
       <DateField source="publishDate" />
       <TextField source="provider" />
       <FunctionField
@@ -70,6 +69,7 @@ export const LinkEdit: React.FC = () => {
   const record = useRecordContext();
   return (
     <Edit
+      redirect={false}
       title={<EditTitle />}
       actions={
         <>
@@ -90,41 +90,37 @@ export const LinkEdit: React.FC = () => {
         };
       }}
     >
-      <SimpleForm>
-        <TextInput source="title" fullWidth />
-        <URLMetadataInput source="url" type="Link" />
-        <ImageField
-          source="image"
-          fullWidth
-          sx={() => ({
-            "& .RaImageField-image": {
-              maxWidth: "100%",
-            },
-          })}
-        />
-        <TextInput source="description" fullWidth />
-        <DateInput source="publishDate" />
-        <ReferenceGroupInput source="provider" />
-        <ReferenceArrayEventInput
-          source="newEvents"
-          reference="events"
-          defaultValue={[]}
-        />
-        <ReferenceManyField reference="events" target="links[]">
-          <Datagrid rowClick="edit">
-            <FunctionField
-              render={(r: any) => {
-                switch (r.type) {
-                  case DEATH.value:
-                    return `${r.type}: ${r.payload.victim}`;
-                  default:
-                    return `${r.type}: ${r.payload.title}`;
-                }
-              }}
-            />
-          </Datagrid>
-        </ReferenceManyField>
-      </SimpleForm>
+      <TabbedForm>
+        <FormTab label="General">
+          <TextInput source="title" fullWidth />
+          <URLMetadataInput source="url" type="Link" />
+          <MediaField source="image.location" type="image/jpeg" />
+          <TextInput source="description" fullWidth />
+          <DateInput source="publishDate" />
+          <ReferenceGroupInput source="provider" />
+        </FormTab>
+        <FormTab label="Events">
+          <ReferenceArrayEventInput
+            source="newEvents"
+            reference="events"
+            defaultValue={[]}
+          />
+          <ReferenceManyField reference="events" target="links[]">
+            <Datagrid rowClick="edit">
+              <FunctionField
+                render={(r: any) => {
+                  switch (r.type) {
+                    case DEATH.value:
+                      return `${r.type}: ${r.payload.victim}`;
+                    default:
+                      return `${r.type}: ${r.payload.title}`;
+                  }
+                }}
+              />
+            </Datagrid>
+          </ReferenceManyField>
+        </FormTab>
+      </TabbedForm>
     </Edit>
   );
 };

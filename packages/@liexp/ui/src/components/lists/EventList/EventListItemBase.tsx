@@ -127,7 +127,7 @@ const EventListItemBase = <E extends any>({
         O.fromPredicate((arr) => arr.length > 0),
         O.map((media) => (
           // eslint-disable-next-line react/jsx-key
-          <Grid container>
+          <Grid container style={{ width: "100%" }}>
             <Grid
               item
               lg={10}
@@ -137,6 +137,7 @@ const EventListItemBase = <E extends any>({
               style={{
                 display: "flex",
                 maxWidth: "100%",
+                width: '100%',
                 justifyContent: "center",
                 alignItems: "center",
                 marginBottom: 30,

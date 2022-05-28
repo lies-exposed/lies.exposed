@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { URL } from "./Common/URL";
+import { CreateMedia } from "./Media";
 
 export const CreateLink = t.strict(
   {
@@ -36,7 +37,13 @@ export const Link = t.strict(
     title: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),
     publishDate: t.union([DateFromISOString, t.undefined]),
-    image: t.union([t.string, t.undefined]),
+    image: t.union([
+      t.strict({
+        id: UUID,
+        ...CreateMedia.type.props,
+      }),
+      t.undefined,
+    ]),
     keywords: t.array(t.string),
     provider: t.union([t.string, t.undefined]),
     events: t.array(t.string),

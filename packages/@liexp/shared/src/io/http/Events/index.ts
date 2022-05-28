@@ -122,29 +122,33 @@ export const EventSuggestionStatus = t.union(
 );
 export type EventSuggestionStatus = t.TypeOf<typeof EventSuggestionStatus>;
 
-const UpdateEventSuggestion = t.type(
-  {
-    type: EventSuggestionUpdateType,
-    eventId: UUID,
-    event: Event,
-  },
-  "UpdateEventSuggestion"
-);
-
 const EventSuggestionLinks = t.array(
   t.union([
     UUID,
     t.type({
+      fromURL: t.boolean,
       url: URL,
-      publishDate: DateFromISOString,
+      publishDate: t.union([DateFromISOString, t.null]),
     }),
   ])
 );
 
+const UpdateEventSuggestion = t.type(
+  {
+    type: EventSuggestionUpdateType,
+    eventId: UUID,
+    event: t.intersection([
+      Event,
+      t.strict({ newLinks: EventSuggestionLinks }),
+    ]),
+  },
+  "UpdateEventSuggestion"
+);
+
 const NewDeathEvent = t.strict(
   {
-    ...propsOmit(Death.Death, ["id", "links", "createdAt", "updatedAt"]),
-    links: EventSuggestionLinks,
+    ...propsOmit(Death.Death, ["id", "createdAt", "updatedAt"]),
+    newLinks: EventSuggestionLinks,
   },
   "NewDeathEvent"
 );
@@ -152,43 +156,32 @@ const NewScientificStudyEvent = t.strict(
   {
     ...propsOmit(ScientificStudy.ScientificStudy, [
       "id",
-      "links",
       "createdAt",
       "updatedAt",
     ]),
-    links: EventSuggestionLinks,
+    newLinks: EventSuggestionLinks,
   },
   "NewScientificStudyEvent"
 );
 const NewPatentEvent = t.strict(
   {
-    ...propsOmit(Patent.Patent, ["id", "links", "createdAt", "updatedAt"]),
-    links: EventSuggestionLinks,
+    ...propsOmit(Patent.Patent, ["id", "createdAt", "updatedAt"]),
+    newLinks: EventSuggestionLinks,
   },
   "NewPatentEvent"
 );
 const NewDocumentaryEvent = t.strict(
   {
-    ...propsOmit(Documentary.Documentary, [
-      "id",
-      "links",
-      "createdAt",
-      "updatedAt",
-    ]),
-    links: EventSuggestionLinks,
+    ...propsOmit(Documentary.Documentary, ["id", "createdAt", "updatedAt"]),
+    newLinks: EventSuggestionLinks,
   },
   "NewDocumentaryEvent"
 );
 
 const NewUncategorizedEvent = t.strict(
   {
-    ...propsOmit(Uncategorized.Uncategorized, [
-      "id",
-      "links",
-      "createdAt",
-      "updatedAt",
-    ]),
-    links: EventSuggestionLinks,
+    ...propsOmit(Uncategorized.Uncategorized, ["id", "createdAt", "updatedAt"]),
+    newLinks: EventSuggestionLinks,
   },
   "NewUncategorizedEvent"
 );

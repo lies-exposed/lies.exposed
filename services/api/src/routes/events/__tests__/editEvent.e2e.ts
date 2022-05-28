@@ -74,6 +74,7 @@ describe("Edit Event", () => {
 
   test("Should edit the event", async () => {
     const eventData = {
+      ...event,
       payload: {
         ...event.payload,
         title: "First event",
@@ -116,6 +117,7 @@ describe("Edit Event", () => {
       .map(({ id, createdAt, updatedAt, ...image }) => image);
 
     const eventData = {
+      ...event,
       payload: {
         ...event.payload,
         title: "Second edit",
@@ -123,6 +125,7 @@ describe("Edit Event", () => {
       date: new Date().toISOString(),
       media,
     };
+
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
       .set("Authorization", authorizationToken)
@@ -156,6 +159,7 @@ describe("Edit Event", () => {
       description: "link description",
       keywords: [],
     });
+
     const links = fc
       .sample(LinkArb, 5)
       .map(({ provider, keywords, ...linkProps }) => ({
@@ -231,6 +235,7 @@ describe("Edit Event", () => {
         groups: [group.id],
       },
     };
+
     const response = await appTest.req
       .put(`/v1/events/${event.id}`)
       .set("Authorization", authorizationToken)

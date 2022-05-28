@@ -30,6 +30,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
             {
               ...image,
               ...body,
+              links: body.links.map((l) => ({ id: l })),
               events: body.events.map((e) => ({
                 id: e,
               })),
