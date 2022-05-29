@@ -17,21 +17,23 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
     };
     return pipe(
       ctx.urlMetadata.fetchMetadata(body.url, {}, (e) => ServerError()),
-      TE.orElse((e) =>
-        TE.right({
-          title: "error fetching metadata: title",
-          description: "error fetching metadata: description",
-        })
-      ),
       TE.chain((meta) =>
         ctx.db.save(LinkEntity, [
           {
             ...meta,
             ...data,
             title: meta.title,
-            description: meta.description,
-            keywords: [],
+            image: meta.image
+              ? {
+                  description: meta.description,
+                  thumbnail: meta.image,
+                  location: meta.image,
+                  type: "image/jpeg",
+                }
+              : null,
             url: sanitizeURL(body.url),
+            publishDate: meta.date,
+            keywords: [],
           },
         ])
       ),
