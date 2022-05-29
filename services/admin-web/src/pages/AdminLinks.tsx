@@ -13,13 +13,14 @@ import {
   FunctionField,
   List,
   ReferenceArrayInput,
+  ReferenceField,
   ReferenceManyField,
   SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh
+  useRefresh,
 } from "react-admin";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
@@ -94,6 +95,9 @@ export const LinkEdit: React.FC = () => {
         <FormTab label="General">
           <TextInput source="title" fullWidth />
           <URLMetadataInput source="url" type="Link" />
+          <ReferenceField source="image.id" reference="media">
+            <TextField source="location" />
+          </ReferenceField>
           <MediaField source="image.location" type="image/jpeg" />
           <TextInput source="description" fullWidth />
           <DateInput source="publishDate" />
