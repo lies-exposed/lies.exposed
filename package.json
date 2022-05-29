@@ -21,7 +21,7 @@
     "format": "yarn workspaces foreach -v run format",
     "build": "yarn workspaces foreach -v run build",
     "test:spec": "jest spec",
-    "test:e2e": "jest e2e",
+    "test:e2e": "NODE_ENV=test jest e2e",
     "test": "jest",
     "core": "yarn workspace @liexp/core",
     "shared": "yarn workspace @liexp/shared",

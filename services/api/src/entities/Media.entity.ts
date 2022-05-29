@@ -1,4 +1,5 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
+import { UUID } from 'io-ts-types';
 import {
   Column,
   CreateDateColumn,
@@ -12,7 +13,7 @@ import { LinkEntity } from "./Link.entity";
 @Entity("image")
 export class MediaEntity {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "varchar", nullable: true })
   thumbnail: string | null;

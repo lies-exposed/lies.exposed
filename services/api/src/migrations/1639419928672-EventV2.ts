@@ -81,7 +81,7 @@ export class EventV21639419928672 implements MigrationInterface {
       .then((ee) =>
         ee.map(
           (e): EventV2Entity => ({
-            ...e,
+            ...(e as any),
             excerpt: {},
             body: (e.body2 as any) ?? {},
             draft: false,
@@ -108,7 +108,7 @@ export class EventV21639419928672 implements MigrationInterface {
       .then((ss) =>
         ss.map(
           (s): EventV2Entity => ({
-            ...s,
+            ...(s as any),
             draft: false,
             excerpt: {},
             type: DEATH.value,
@@ -133,7 +133,7 @@ export class EventV21639419928672 implements MigrationInterface {
       .then((ss) =>
         ss.map(
           (s): EventV2Entity => ({
-            ...s,
+            ...(s as any),
             draft: false,
             type: SCIENTIFIC_STUDY.value,
             payload: {

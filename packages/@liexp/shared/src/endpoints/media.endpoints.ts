@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { BooleanFromString } from 'io-ts-types';
+import { BooleanFromString, UUID } from "io-ts-types";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Media } from "../io/http";
@@ -15,14 +15,17 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/media",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      type: optionFromNullable(t.array(MediaType)),
-      events: optionFromNullable(t.array(t.string)),
-      ids: optionFromNullable(t.array(t.string)),
-      description: optionFromNullable(t.string),
-      emptyEvents: optionFromNullable(BooleanFromString)
-    }, 'MediaListQuery'),
+    Query: t.type(
+      {
+        ...GetListQuery.props,
+        type: optionFromNullable(t.array(MediaType)),
+        events: optionFromNullable(t.array(t.string)),
+        ids: optionFromNullable(t.array(t.string)),
+        description: optionFromNullable(t.string),
+        emptyEvents: optionFromNullable(BooleanFromString),
+      },
+      "MediaListQuery"
+    ),
   },
   Output: ListMediaOutput,
 });
@@ -58,15 +61,15 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/media/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: t.type({ id: UUID }),
     Body: t.strict({
       type: Media.MediaType,
-      thumbnail: t.string,
+      thumbnail: optionFromNullable(t.string),
       location: t.string,
       description: t.string,
-      links: t.array(t.string),
-      events: t.array(t.string),
-      overrideThumbnail: t.boolean,
+      links: t.array(UUID),
+      events: t.array(UUID),
+      overrideThumbnail: optionFromNullable(t.boolean),
     }),
   },
   Output: SingleMediaOutput,

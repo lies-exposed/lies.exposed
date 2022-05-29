@@ -159,7 +159,9 @@ const transformMedia = (data: RaRecord): RaRecord | Promise<RaRecord> => {
       : TE.right({ type: data.type, location: data.location });
 
   const events = (data.events ?? []).concat(data.newEvents ?? []);
-  const links = (data.links ?? []).concat(data.newLinks.flatMap((l: any) => l.ids));
+  const links = (data.links ?? []).concat(
+    (data.newLinks ?? []).flatMap((l: any) => l.ids)
+  );
 
   return pipe(
     mediaTask,
@@ -184,7 +186,7 @@ const EditTitle: React.FC<EditProps> = ({ record }: any) => {
 
 const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   const refresh = useRefresh();
-  const record = useRecordContext();
+  const record = useRecordContext(props);
   return (
     <Button
       onClick={() => {
@@ -241,8 +243,6 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
           </Button>
         </Box>
       )}
-
-      <GenerateThumbnailButton {...props} />
     </Box>
   );
 };
@@ -256,6 +256,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
   >
     <TabbedForm>
       <FormTab label="general">
+        <GenerateThumbnailButton {...props} />
         <ThumbnailField />
         <TextInput source="location" type="url" />
         <DateField source="updatedAt" showTime={true} />

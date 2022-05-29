@@ -1,5 +1,6 @@
 import * as http from "@liexp/shared/io/http";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
+import { UUID } from 'io-ts-types';
 import {
   Column,
   CreateDateColumn,
@@ -19,7 +20,7 @@ import { MediaEntity } from "./Media.entity";
 export class EventV2Entity {
   @PrimaryGeneratedColumn("uuid")
   @Index()
-  id: string;
+  id: UUID;
 
   @Column({ type: "bool", default: true })
   draft: boolean;
