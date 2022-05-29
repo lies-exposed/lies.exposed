@@ -2,7 +2,6 @@ import * as t from "io-ts";
 import { BooleanFromString } from 'io-ts-types';
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Media } from "../io/http";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { MediaType } from "../io/http/Media";
@@ -60,11 +59,12 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/media/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: nonEmptyRecordFromType({
+    Body: t.strict({
       type: Media.MediaType,
       thumbnail: t.string,
       location: t.string,
       description: t.string,
+      links: t.array(t.string),
       events: t.array(t.string),
       overrideThumbnail: t.boolean,
     }),

@@ -1,9 +1,12 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { sequenceS } from "fp-ts/lib/Apply";
+import * as A from "fp-ts/lib/Array";
+import * as E from 'fp-ts/lib/Either';
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { In } from "typeorm";
+import { toEventSuggestion } from "./eventSuggestion.io";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { Route } from "@routes/route.types";
 import { foldOptionals } from "@utils/foldOptionals.utils";
@@ -16,7 +19,6 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
         _sort,
         _order,
       });
-
 
       const statusFilter = pipe(
         status,
@@ -39,6 +41,14 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           }),
           total: ctx.db.count(EventSuggestionEntity),
         }),
+        TE.chainEitherK(({ data, total }) =>
+          pipe(
+            data,
+            A.map(toEventSuggestion),
+            A.sequence(E.Applicative),
+            E.map((data) => ({ data, total }))
+          )
+        ),
         TE.map(({ data, total }) => ({
           body: {
             data,

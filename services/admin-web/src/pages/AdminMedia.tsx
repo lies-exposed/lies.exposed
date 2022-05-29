@@ -8,13 +8,18 @@ import { pipe } from "fp-ts/lib/function";
 import { useRecordContext, useRefresh } from "ra-core";
 import * as React from "react";
 import {
-  BooleanInput, Create,
+  BooleanInput,
+  Create,
   CreateProps,
   Datagrid,
   DateField,
   Edit,
-  EditProps, FieldProps, FormDataConsumer,
-  FormTab, FunctionField, ImageField, List,
+  EditProps,
+  FieldProps,
+  FormDataConsumer,
+  FormTab,
+  FunctionField,
+  List,
   ListProps,
   RaRecord,
   ReferenceManyField,
@@ -23,11 +28,12 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { MediaField } from "../components/Common/MediaField";
 import { MediaInput } from "../components/Common/MediaInput";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
+import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
 
@@ -98,18 +104,12 @@ export const MediaList: React.FC<ListProps> = (props) => (
     perPage={20}
   >
     <Datagrid rowClick="edit">
-      <ImageField
-        source="thumbnail"
-        sx={() => ({
-          "& .RaImageField-image": {
-            maxWidth: "100%",
-          },
-        })}
-      />
+      <MediaField type="image/jpeg" source="thumbnail" />
       <FunctionField
         label="events"
         render={(r) => {
           const url = new URL(r.location);
+
           return (
             <Box>
               <Typography
@@ -130,6 +130,12 @@ export const MediaList: React.FC<ListProps> = (props) => (
         label="events"
         render={(r) => {
           return r.events.length;
+        }}
+      />
+      <FunctionField
+        label="links"
+        render={(r) => {
+          return r.links.length;
         }}
       />
 
@@ -153,6 +159,8 @@ const transformMedia = (data: RaRecord): RaRecord | Promise<RaRecord> => {
       : TE.right({ type: data.type, location: data.location });
 
   const events = (data.events ?? []).concat(data.newEvents ?? []);
+  const links = (data.links ?? []).concat(data.newLinks.flatMap((l: any) => l.ids));
+
   return pipe(
     mediaTask,
     TE.map((media) => ({
@@ -160,6 +168,7 @@ const transformMedia = (data: RaRecord): RaRecord | Promise<RaRecord> => {
       id: data.id.toString(),
       ...media,
       events,
+      links,
     }))
   )().then((result) => {
     if (E.isLeft(result)) {
@@ -211,7 +220,7 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
               setLoaded(true);
             }}
           >
-            <ImageField {...props} source="thumbnail" />
+            <MediaField {...props} source="thumbnail" type="image/jpeg" />
           </Box>
         </Box>
       ) : (
@@ -239,7 +248,12 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
 };
 
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit title={<EditTitle {...props} />} {...props} transform={transformMedia}>
+  <Edit
+    title={<EditTitle {...props} />}
+    {...props}
+    transform={transformMedia}
+    redirect={false}
+  >
     <TabbedForm>
       <FormTab label="general">
         <ThumbnailField />
@@ -257,6 +271,9 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
             <DateField source="createdAt" />
           </Datagrid>
         </ReferenceManyField>
+      </FormTab>
+      <FormTab label="links">
+        <ReferenceLinkTab source="links" />
       </FormTab>
     </TabbedForm>
   </Edit>

@@ -1,6 +1,5 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { nonEmptyRecordFromType } from "../../Common";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { Point, UUID } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
@@ -26,7 +25,7 @@ export const CreateEventBody = t.strict(
 
 export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
 
-export const EditEventBody = nonEmptyRecordFromType(
+export const EditEventBody = t.strict(
   {
     ...EditEventCommon.type.props,
     type: UNCATEGORIZED,

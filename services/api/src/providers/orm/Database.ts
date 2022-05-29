@@ -164,7 +164,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     },
     findOneOrFail: (entity, options) => {
       ctx.logger.debug.log(
-        `findOne %s with options %O`,
+        `findOneOrFail %s with options %O`,
         entity.valueOf().constructor.name,
         options
       );

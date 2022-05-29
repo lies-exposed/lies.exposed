@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { FormDataConsumer } from "ra-core";
+import { FormDataConsumer, useRecordContext } from "ra-core";
 import * as React from "react";
 import {
   ArrayInput,
@@ -7,15 +7,16 @@ import {
   BooleanInput,
   DateInput,
   SimpleFormIterator,
-  TextInput
+  TextInput,
 } from "react-admin";
 import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput";
 
 export const LinkArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">
 > = (props) => {
+  const record = useRecordContext();
   return (
-    <ArrayInput {...props}>
+    <ArrayInput source={props.source} record={record}>
       <SimpleFormIterator>
         <BooleanInput source="fromURL" />
         <FormDataConsumer>
@@ -24,12 +25,8 @@ export const LinkArrayInput: React.FC<
             if (scopedFormData?.fromURL) {
               return (
                 <Box>
-                  <TextInput source={getSrc("url")} {...formData} {...rest} />
-                  <DateInput
-                    source={getSrc("publishDate")}
-                    {...formData}
-                    {...rest}
-                  />
+                  <TextInput source={getSrc("url")} />
+                  <DateInput source={getSrc("publishDate")} />
                 </Box>
               );
             }

@@ -32,7 +32,7 @@ const run = (): T.Task<void> => {
       const ssl =
         env.DB_SSL_MODE === "require"
           ? {
-              sslmode: "require",
+              sslmode: "verify-ca",
               sslrootcert: path.resolve(process.cwd(), env.DB_SSL_CERT_PATH),
             }
           : {};

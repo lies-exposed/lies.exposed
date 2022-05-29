@@ -32,7 +32,8 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         ctx.db.manager
           .getRepository(MediaEntity)
           .createQueryBuilder("media")
-          .leftJoinAndSelect("media.events", "events"),
+          .leftJoinAndSelect("media.events", "events")
+          .leftJoinAndSelect("media.links", "links"),
         (q) => {
           if (O.isSome(description)) {
             return q.where("lower(media.description) LIKE :description", {
@@ -58,7 +59,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             });
           } else if (O.isSome(emptyEvents)) {
             if (emptyEvents) {
-              return q.where('events.id IS NULL')
+              return q.where("events.id IS NULL");
             }
           }
 
@@ -99,6 +100,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             data,
             A.map((d) => ({
               ...d,
+              links: d.links.map((l) => l.id) as any[],
               events: d.events.map((e) => e.id) as any[],
             })),
             A.traverse(E.Applicative)(toImageIO),

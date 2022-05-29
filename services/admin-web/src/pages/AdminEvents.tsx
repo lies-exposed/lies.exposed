@@ -41,6 +41,7 @@ import {
   useRecordContext
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ImportMediaButton } from '../components/Common/ImportMediaButton';
 import ReferenceArrayActorInput from "../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../components/Common/ReferenceArrayGroupMemberInput";
@@ -241,6 +242,7 @@ export const EditTitle: React.FC = () => {
   return <span>No record</span>;
 };
 
+
 export const EventEdit: React.FC = () => {
   return (
     <Edit
@@ -301,6 +303,7 @@ export const EventEdit: React.FC = () => {
           }}
         </FormDataConsumer>
         <FormTab label="Media">
+          <ImportMediaButton />
           <ReferenceMediaTab source="media" />
         </FormTab>
         <FormTab label="Links">

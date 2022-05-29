@@ -1,5 +1,6 @@
 import { AddEndpoint } from "@liexp/shared/endpoints";
 import { UpdateMetadata } from "@liexp/shared/endpoints/link.endpoints";
+import { uuid } from "@liexp/shared/utils/uuid";
 import { Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -31,7 +32,13 @@ export const MakeEditLinkMetadataRoute = (
             ...link,
             title: meta.title,
             description: meta.description,
-            image: meta.image,
+            image: meta.image
+              ? {
+                  id: uuid(),
+                  location: meta.image,
+                  publishDate: meta.date ?? new Date(),
+                }
+              : null,
           },
         ])
       ),

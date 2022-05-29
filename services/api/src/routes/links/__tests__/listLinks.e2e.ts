@@ -44,6 +44,7 @@ describe("List Links", () => {
   });
 
   describe("Links events", () => {
+
     test("Should return an empty list with 'emptyEvents' query", async () => {
       const events = tests.fc.sample(UncategorizedArb, 1).map((e) => ({
         ...e,

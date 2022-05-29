@@ -3,17 +3,14 @@ import "is-plain-object";
 import * as React from "react";
 import {
   Button,
-  Labeled,
-  RaRecord,
-  useEditContext,
-  useRefresh,
+  Labeled, useEditController,
+  useRefresh
 } from "react-admin";
 import ReactJson from "react-json-view";
 
 export interface JSONInputProps {
   label?: string;
   source: string;
-  record: RaRecord;
   style?: React.CSSProperties;
 }
 
@@ -22,7 +19,7 @@ const JSONInput: React.FC<JSONInputProps> = ({
   style,
   ...props
 }) => {
-  const { record, data, ...editContext } = useEditContext(props);
+  const { record, data, ...editContext } = useEditController(props);
   const [json, setJSON] = React.useState(data?.[props.source]);
   const refresh = useRefresh();
 

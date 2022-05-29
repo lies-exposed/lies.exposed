@@ -1,4 +1,5 @@
 import { URL } from "@liexp/shared/io/http/Common";
+import { uuid } from "@liexp/shared/utils/uuid";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { LinkEntity } from "@entities/Link.entity";
@@ -20,6 +21,13 @@ export const fetchAndCreate =
             title: meta.title,
             description: meta.description,
             keywords: [],
+            image: meta.image
+              ? {
+                  id: uuid(),
+                  location: meta.image,
+                  publishDate: meta.date ?? new Date(),
+                }
+              : null,
             url: url,
           },
         ])

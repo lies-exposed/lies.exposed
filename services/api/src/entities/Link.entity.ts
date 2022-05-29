@@ -3,12 +3,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index, ManyToMany,
-  PrimaryGeneratedColumn,
+  Index,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne, PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
 import { KeywordEntity } from "./Keyword.entity";
+import { MediaEntity } from "./Media.entity";
 
 @Entity("link")
 @Index(["url"], { unique: true })
@@ -25,8 +28,9 @@ export class LinkEntity {
   @Column({ type: "varchar", nullable: true })
   description: string;
 
-  @Column({ type: "varchar", nullable: true })
-  image: string | null;
+  @ManyToOne(() => MediaEntity, { nullable: true, cascade: true })
+  @JoinColumn()
+  image: MediaEntity | null;
 
   @Column({ type: "timestamptz", nullable: true })
   publishDate: Date | null;

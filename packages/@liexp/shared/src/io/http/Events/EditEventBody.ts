@@ -1,13 +1,12 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types";
 import { UUID } from "io-ts-types/lib/UUID";
-import { nonEmptyRecordFromType } from "../../Common";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { Point } from "../Common";
 import { CreateLink } from "../Link";
 import { MediaType } from "../Media";
 
-export const EditEventBody = nonEmptyRecordFromType(
+export const EditEventBody = t.strict(
   {
     title: optionFromUndefined(t.string),
     media: optionFromUndefined(
@@ -32,7 +31,7 @@ export const EditEventBody = nonEmptyRecordFromType(
     startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
     body: optionFromUndefined(t.UnknownRecord),
-    excerpt: optionFromUndefined(t.string),
+    excerpt: optionFromUndefined(t.UnknownRecord),
   },
   "EditEventPayload"
 );

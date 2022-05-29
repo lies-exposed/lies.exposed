@@ -38,7 +38,6 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
 
   const [toggleEdit, setToggleEditor] = React.useState(!isValueValid);
 
-
   return (
     <Labeled label={label} source={source} fullWidth>
       <>
@@ -61,12 +60,12 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
         >
           {isValidValue(value) ? (
             toggleEdit ? (
-              <JSONInput {...editorProps} source={source} />
+              <JSONInput source={source} />
             ) : (
               <Editor value={value} onChange={onChange} {...editorProps} />
             )
           ) : (
-            <JSONInput {...editorProps} source={source} />
+            <JSONInput source={source} />
           )}
         </Paper>
       </>

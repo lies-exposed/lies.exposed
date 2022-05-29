@@ -10,9 +10,7 @@ import {
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { clearSearchEventsQueryCache } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
-import {
-  Box, Grid
-} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import * as React from "react";
 import EventsAppBar from "../components/events/EventsAppBar";
 import { queryClient } from "../state/queries";
@@ -21,7 +19,10 @@ import {
   useQueryFromHash,
   useRouteQuery
 } from "../utils/history.utils";
-import { EventsView, useNavigateToResource } from "../utils/location.utils";
+import {
+  EventsView,
+  useNavigateToResource
+} from "../utils/location.utils";
 import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
 
 const PREFIX = "EventsPage";
@@ -128,13 +129,26 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
 
 const drawerWidth = 240;
 
+const useEventsPageQuery = (): GetSearchEventsQueryInput & {
+  tab?: string;
+  hash: string;
+} => {
+  const query = useRouteQuery();
+
+  const hashQuery = useQueryFromHash(query.hash);
+  return React.useMemo(() => {
+    return {
+      ...query,
+      ...hashQuery,
+    };
+  }, [query]);
+};
+
 interface EventsPageProps extends Omit<EventsView, "view"> {}
 
 const EventsPage: React.FC<EventsPageProps> = () => {
-  const { hash } = useRouteQuery() as { hash: string };
-  const query = useQueryFromHash(hash) as GetSearchEventsQueryInput & {
-    tab?: string;
-  };
+  const { hash, ...query } = useEventsPageQuery();
+
   const navigateTo = useNavigateToResource();
   const tab = parseInt(query.tab ?? "0", 10);
 

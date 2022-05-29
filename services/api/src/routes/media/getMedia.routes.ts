@@ -12,7 +12,7 @@ export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
       ctx.db.findOneOrFail(MediaEntity, {
         where: { id },
         loadRelationIds: {
-          relations: ["events"],
+          relations: ['links', "events"],
         },
       }),
       TE.chain((result) => TE.fromEither(toImageIO(result))),

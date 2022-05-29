@@ -49,6 +49,13 @@ export const fetchLinksT =
                   TE.map((metadata) => ({
                     ...link,
                     ...metadata,
+                    image: metadata.image
+                      ? {
+                          id: uuid(),
+                          thumbnail: metadata.image,
+                          location: metadata.image,
+                        }
+                      : null,
                     keywords: [],
                     events: [],
                     id: uuid(),
@@ -73,7 +80,7 @@ export const fetchLinksT =
   };
 
 export const fetchRelations =
-  ({ urlMetadata }: RouteContext) =>
+  ({ urlMetadata, logger }: RouteContext) =>
   (
     input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media">
   ): TE.TaskEither<
@@ -84,6 +91,9 @@ export const fetchRelations =
       media: Array<DeepPartial<MediaEntity>>;
     }
   > => {
+    logger.debug.log("Links %O", input.links);
+    logger.debug.log("Media %O", input.media);
+    logger.debug.log("Keywords %O", input.keywords);
     return sequenceS(TE.ApplicativePar)({
       links: pipe(
         input.links,

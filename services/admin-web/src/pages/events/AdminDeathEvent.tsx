@@ -1,10 +1,7 @@
 import { http } from "@liexp/shared/io";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import {
-  MapInput,
-  MapInputType
-} from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
   AutocompleteInput,
@@ -15,7 +12,8 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  Edit, FormTab,
+  Edit,
+  FormTab,
   List,
   ListProps,
   ReferenceField,
@@ -23,10 +21,11 @@ import {
   SelectInput,
   SimpleForm,
   TabbedForm,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import ExcerptField from "../../components/Common/ExcerptField";
+import { ImportMediaButton } from "../../components/Common/ImportMediaButton";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
@@ -34,6 +33,7 @@ import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkI
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import { TGPostButton } from "../../components/Common/TGPostButton";
 import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
+import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 
 const deathEventsFilter = [
@@ -75,7 +75,7 @@ export const DeathEventTitle: React.FC = () => {
   const record = useRecordContext<http.Events.Death.Death>();
   return (
     <span>
-      Event: {record?.payload?.victim} on {record?.date?.toISOString()}
+      Event: {record?.payload?.victim} on {record?.date.toString()}
     </span>
   );
 };
@@ -136,11 +136,12 @@ export const DeathEdit: React.FC = () => {
           <MapInput source="payload.location" type={MapInputType.POINT} />
         </FormTab>
         <FormTab label="Media">
+          <ImportMediaButton />
           <MediaArrayInput source="newMedia" defaultValue={[]} fullWidth />
           <ReferenceMediaDataGrid source="media" />
         </FormTab>
         <FormTab label="Links">
-          <ReferenceArrayLinkInput source="links" />
+          <ReferenceLinkTab source="links" />
         </FormTab>
       </TabbedForm>
     </Edit>
