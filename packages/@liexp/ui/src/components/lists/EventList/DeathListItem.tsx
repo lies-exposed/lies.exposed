@@ -9,6 +9,7 @@ interface DeathListItemProps {
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchDeathEvent) => void;
+  onLoad?: () => void;
 }
 
 export const DeathListItem: React.FC<DeathListItemProps> = ({

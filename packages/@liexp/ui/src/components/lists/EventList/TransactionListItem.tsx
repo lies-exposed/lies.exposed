@@ -3,31 +3,27 @@ import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { Box, Grid, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import * as React from "react";
 import { getTextContentsCapped, isValidValue } from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
 import { ActorListItem } from "../ActorList";
 import { GroupListItem } from "../GroupList";
 
-const PREFIX = 'TransactionListItem';
+const PREFIX = "TransactionListItem";
 
 const classes = {
-  eventIcon: `${PREFIX}-eventIcon`
+  eventIcon: `${PREFIX}-eventIcon`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme
-  }
-) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   [`& .${classes.eventIcon}`]: {
     display: "none",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       display: "flex",
       marginRight: theme.spacing(2),
     },
-  }
+  },
 }));
 
 const getSubject = (
@@ -58,6 +54,7 @@ interface TransactionListItemProps {
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchTransactionEvent) => void;
+  onLoad?: () => void;
 }
 
 export const TransactionListItem: React.FC<TransactionListItemProps> = ({
@@ -65,9 +62,11 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
   onClick,
   onActorClick,
   onKeywordClick,
+  onLoad,
 }) => {
-
-
+  React.useEffect(() => {
+    onLoad?.();
+  });
 
   return (
     <StyledBox
@@ -79,10 +78,12 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
     >
       <Grid container spacing={2}>
         <Grid item xs={12} style={{ display: "flex", flexDirection: "row" }}>
-          <EventIcon className={classes.eventIcon} type={TRANSACTION.value} size="2x" />
-          <Typography variant="h6">
-            {item.payload.title}
-          </Typography>
+          <EventIcon
+            className={classes.eventIcon}
+            type={TRANSACTION.value}
+            size="2x"
+          />
+          <Typography variant="h6">{item.payload.title}</Typography>
         </Grid>
         <Grid
           item

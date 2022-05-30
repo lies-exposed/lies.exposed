@@ -10,11 +10,12 @@ interface ScientificStudyListItemProps {
   onActorClick?: (e: io.http.Actor.Actor) => void;
   onKeywordClick?: (e: io.http.Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchScientificStudyEvent) => void;
+  onLoad?: () => void;
 }
 
 export const ScientificStudyListItem: React.FC<
   ScientificStudyListItemProps
-> = ({ item, onClick, onActorClick, onKeywordClick, onRowInvalidate }) => {
+> = ({ item, onClick, onActorClick, onKeywordClick, onRowInvalidate, onLoad }) => {
   return (
     <Box
       key={item.id}
@@ -36,6 +37,7 @@ export const ScientificStudyListItem: React.FC<
           links={item.links}
           onKeywordClick={onKeywordClick}
           onRowInvalidate={onRowInvalidate}
+          onLoad={onLoad}
         />
       </Grid>
     </Box>

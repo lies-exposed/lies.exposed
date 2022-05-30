@@ -9,6 +9,7 @@ interface DocumentaryListItemProps {
   onActorClick?: (e: Actor.Actor) => void;
   onKeywordClick?: (e: Keyword.Keyword) => void;
   onRowInvalidate: (e: Events.SearchEvent.SearchDocumentaryEvent) => void;
+  onLoad?: () => void;
 }
 
 export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
@@ -17,8 +18,8 @@ export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
   onActorClick,
   onKeywordClick,
   onRowInvalidate,
+  onLoad
 }) => {
-  // const victim = actors.find((a) => a.id === item.payload.victim);
 
   return (
     <Box
@@ -40,6 +41,7 @@ export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
           media={[item.payload.media]}
           onKeywordClick={onKeywordClick}
           onRowInvalidate={onRowInvalidate}
+          onLoad={onLoad}
         />
       </Grid>
     </Box>

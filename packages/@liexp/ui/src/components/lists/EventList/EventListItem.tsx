@@ -27,7 +27,6 @@ export interface EventListItemProps {
 
 export const EventListItem: React.FC<EventListItemProps> = ({
   event: e,
-  onLoad,
   ...props
 }) => {
   switch (e.type) {

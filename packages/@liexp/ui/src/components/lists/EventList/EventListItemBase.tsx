@@ -71,6 +71,11 @@ const EventListItemBase = <E extends any>({
   onRowInvalidate,
   onLoad,
 }: EventListItemBaseProps<E>): JSX.Element => {
+
+  React.useEffect(() => {
+    onLoad?.();
+  });
+
   return (
     <StyledGrid
       item
@@ -137,7 +142,7 @@ const EventListItemBase = <E extends any>({
               style={{
                 display: "flex",
                 maxWidth: "100%",
-                width: '100%',
+                width: "100%",
                 justifyContent: "center",
                 alignItems: "center",
                 marginBottom: 30,
@@ -156,7 +161,6 @@ const EventListItemBase = <E extends any>({
                   slides={media}
                   style={{ width: "100%" }}
                   itemStyle={{ minHeight: 300, maxHeight: 400, maxWidth: 600 }}
-                  onLoad={onLoad}
                 />
               </Box>
             </Grid>
