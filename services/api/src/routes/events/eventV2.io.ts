@@ -10,6 +10,7 @@ export const toEventV2IO = (
   return pipe(
     io.http.Events.Event.decode({
       ...event,
+      excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
       date: event.date.toISOString(),
       createdAt: event.createdAt.toISOString(),

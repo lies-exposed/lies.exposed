@@ -1,7 +1,12 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
 import get from "lodash/get";
 import * as React from "react";
-import { FieldProps, ImageField, UrlField, useRecordContext } from "react-admin";
+import {
+  FieldProps,
+  ImageField,
+  UrlField,
+  useRecordContext,
+} from "react-admin";
 
 interface MediaFieldProps extends FieldProps {
   type?: MediaType;
@@ -44,7 +49,7 @@ export const MediaField: React.FC<MediaFieldProps> = (props) => {
           {...props}
           sx={() => ({
             "& .RaImageField-image": {
-              maxWidth: "100%",
+              maxWidth: 300,
             },
           })}
         />

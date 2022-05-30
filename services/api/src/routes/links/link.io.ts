@@ -1,6 +1,7 @@
 import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
+import { UUID } from "io-ts-types/lib/UUID";
 import { LinkEntity } from "@entities/Link.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 
@@ -13,8 +14,8 @@ export const toLinkIO = (
       title: link.title ?? undefined,
       description: link.description ?? undefined,
       image: link.image ?? undefined,
-      keywords: link.keywords,
-      provider: link.provider ?? undefined,
+      keywords: link.keywords ?? [],
+      provider: UUID.is(link.provider) ? link.provider : undefined,
       publishDate: link.publishDate?.toISOString() ?? undefined,
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),

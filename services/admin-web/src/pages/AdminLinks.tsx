@@ -1,4 +1,7 @@
-import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import * as io from "@liexp/shared/io";
+import { getSuggestions } from "@liexp/ui/helpers/event.helper";
+import { Box, MenuItem, Select, Toolbar } from "@mui/material";
+import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -65,24 +68,84 @@ const EditTitle: React.FC = () => {
   return <span>Link {record?.title}</span>;
 };
 
-export const LinkEdit: React.FC = () => {
+const UpdateMetadataButton: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext();
+
+  return (
+    <Button
+      label="resources.links.actions.update_metadata"
+      variant="contained"
+      onClick={() => {
+        void apiProvider
+          .put(`/links/${record?.id}/metadata`)
+          .then(() => refresh());
+      }}
+    />
+  );
+};
+const CreateEventButton: React.FC = () => {
+  const record = useRecordContext();
+  const refresh = useRefresh();
+  const [type, setType] = React.useState(
+    io.http.Events.EventType.types[1].value
+  );
+
+  if (record?.events?.legnth > 0) {
+    return null;
+  }
+  return (
+    <Box>
+      <Select
+        size="small"
+        value={type}
+        onChange={(e) => {
+          setType(e.target.value as any);
+        }}
+      >
+        {io.http.Events.EventType.types.map((t) => (
+          <MenuItem key={t.value} value={t.value}>
+            {t.value}
+          </MenuItem>
+        ))}
+      </Select>
+      <Button
+        label="Create Event"
+        variant="contained"
+        onClick={() => {
+          void apiProvider
+            .get("open-graph/metadata", { url: record.url, type: "Link" })
+            .then((m) => {
+              const suggestion = getSuggestions(m, O.some(record as any)).find(
+                (t) => t.event.type === type
+              );
+
+              const { newLinks, ...event } = suggestion.event;
+              return apiProvider
+                .create(`/events`, {
+                  data: {
+                    ...event,
+                    links: newLinks,
+                  },
+                })
+                .then(() => refresh());
+            });
+        }}
+      />
+    </Box>
+  );
+};
+
+export const LinkEdit: React.FC = () => {
   return (
     <Edit
       redirect={false}
       title={<EditTitle />}
       actions={
-        <>
-          <Button
-            label="resources.links.actions.update_metadata"
-            onClick={() => {
-              void apiProvider
-                .put(`/links/${record?.id}/metadata`)
-                .then(() => refresh());
-            }}
-          />
-        </>
+        <Toolbar>
+          <UpdateMetadataButton />
+          <CreateEventButton />
+        </Toolbar>
       }
       transform={({ newEvents, ...r }) => {
         return {
@@ -114,7 +177,7 @@ export const LinkEdit: React.FC = () => {
               <FunctionField
                 render={(r: any) => {
                   switch (r.type) {
-                    case DEATH.value:
+                    case io.http.Events.Death.DEATH.value:
                       return `${r.type}: ${r.payload.victim}`;
                     default:
                       return `${r.type}: ${r.payload.title}`;
