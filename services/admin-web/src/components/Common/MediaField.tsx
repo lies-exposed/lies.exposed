@@ -1,8 +1,7 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
 import get from "lodash/get";
-import { useRecordContext } from "ra-core";
 import * as React from "react";
-import { FieldProps, ImageField, UrlField } from "react-admin";
+import { FieldProps, ImageField, UrlField, useRecordContext } from "react-admin";
 
 interface MediaFieldProps extends FieldProps {
   type?: MediaType;

@@ -2,7 +2,7 @@ import { Media } from "@liexp/shared/io/http";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { RaRecord } from "ra-core";
+import { RaRecord } from "react-admin";
 import { dataProvider } from "@client/HTTPAPI";
 import { RawMedia, uploadFile } from "@client/MediaAPI";
 

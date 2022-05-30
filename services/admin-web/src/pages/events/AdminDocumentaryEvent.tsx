@@ -84,9 +84,9 @@ export const DocumentaryReleaseTitle: React.FC = () => {
 export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
   props
 ) => (
-  <FormTab label="Payload" {...(props as any)}>
+  <Box>
     <ReferenceActorInput source="payload.victim" />
-  </FormTab>
+  </Box>
 );
 
 export const DocumentaryEdit: React.FC = () => {

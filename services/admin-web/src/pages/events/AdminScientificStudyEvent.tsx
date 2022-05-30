@@ -1,5 +1,6 @@
 import * as ScientificStudy from "@liexp/shared/io/http/Events/ScientificStudy";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { Box } from '@mui/material';
 import * as React from "react";
 import {
   BooleanField,
@@ -64,11 +65,11 @@ export const ScientificStudyEventTitle: React.FC = () => {
   return <span>Scientific Study: {record?.payload?.title}</span>;
 };
 
-export const EditScientificStudyEvent: React.FC<
+export const EditScientificStudyEventPayload: React.FC<
   EditProps & { record?: RaRecord }
 > = (props) => {
   return (
-    <FormTab {...(props as any)} label="Payload">
+    <Box>
       <TextInput source="title" />
       <ReferenceGroupInput source="payload.publisher" />
       <ReferenceArrayActorInput source="newAuthors" />
@@ -79,7 +80,7 @@ export const EditScientificStudyEvent: React.FC<
           <AvatarField source="avatar" />
         </Datagrid>
       </ReferenceArrayField>
-    </FormTab>
+    </Box>
   );
 };
 

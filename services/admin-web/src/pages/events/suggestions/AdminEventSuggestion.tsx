@@ -10,9 +10,9 @@ import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
 import { Box, ThemeProvider, Typography } from "@mui/material";
-import { FormDataConsumer, useRecordContext, useRefresh } from "ra-core";
 import * as React from "react";
 import {
+  FormDataConsumer, useRecordContext, useRefresh,
   BooleanInput,
   Button,
   Datagrid,
@@ -37,7 +37,7 @@ import { transformEvent } from "../../../utils";
 import { DeathEventEditFormTab } from "../AdminDeathEvent";
 import { DocumentaryEditFormTab } from "../AdminDocumentaryEvent";
 import { PatentEventEditFormTab } from "../AdminPatentEvent";
-import { EditScientificStudyEvent } from "../AdminScientificStudyEvent";
+import { EditScientificStudyEventPayload } from "../AdminScientificStudyEvent";
 import { UncategorizedEventEditTab } from "../AdminUncategorizedEvent";
 import { apiProvider } from "@client/HTTPAPI";
 
@@ -180,7 +180,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
               return <DeathEventEditFormTab {...rest} />;
             }
             if (formData.payload.event.type === "ScientificStudy") {
-              return <EditScientificStudyEvent {...rest} />;
+              return <EditScientificStudyEventPayload {...rest} />;
             }
             if (formData.payload.event.type === Patent.PATENT.value) {
               return (

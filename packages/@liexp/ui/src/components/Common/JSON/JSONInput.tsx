@@ -3,8 +3,7 @@ import "is-plain-object";
 import * as React from "react";
 import {
   Button,
-  Labeled, useEditController,
-  useRefresh
+  Labeled, useInput
 } from "react-admin";
 import ReactJson from "react-json-view";
 
@@ -12,30 +11,21 @@ export interface JSONInputProps {
   label?: string;
   source: string;
   style?: React.CSSProperties;
+  onClear?: () => void;
 }
 
 const JSONInput: React.FC<JSONInputProps> = ({
   label = "Content",
   style,
+  source,
+  onClear,
   ...props
 }) => {
-  const { record, data, ...editContext } = useEditController(props);
-  const [json, setJSON] = React.useState(data?.[props.source]);
-  const refresh = useRefresh();
+  const {
+    field: { value, onChange },
+  } = useInput({ source });
 
-  const onSave = (r: any): void => {
-    void editContext.save?.(
-      {
-        ...data,
-        [props.source]: r,
-      },
-      {
-        onSuccess: () => {
-          refresh();
-        },
-      }
-    );
-  };
+  const [json, setJSON] = React.useState(value);
 
   return (
     <Labeled {...props} label={label} fullWidth>
@@ -49,11 +39,11 @@ const JSONInput: React.FC<JSONInputProps> = ({
             setJSON(edit.updated_src);
           }}
           onDelete={(del) => {
-            setJSON(null)
+            setJSON(null);
           }}
         />
-        <Button label="Clear" onClick={() => onSave(null)} />
-        <Button label="Save" onClick={() => onSave(json)} />
+        <Button label="Clear" onClick={() => onClear?.()} />
+        <Button label="Save" onClick={() => onChange(json)} />
       </>
     </Labeled>
   );
