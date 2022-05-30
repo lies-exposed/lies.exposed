@@ -7,7 +7,7 @@ import {
   DateInput,
   SimpleFormIterator,
   TextInput,
-  FormDataConsumer
+  FormDataConsumer,
 } from "react-admin";
 import ReferenceArrayLinkInput from "./ReferenceArrayLinkInput";
 
@@ -24,7 +24,8 @@ export const LinkArrayInput: React.FC<
             if (scopedFormData?.fromURL) {
               return (
                 <Box>
-                  <TextInput source={getSrc("url")} />
+                  <TextInput source={getSrc("url")} fullWidth />
+                  <TextInput source={getSrc("description")} multiline fullWidth />
                   <DateInput source={getSrc("publishDate")} />
                 </Box>
               );

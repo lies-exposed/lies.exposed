@@ -2,7 +2,7 @@ import * as io from "@liexp/shared/io";
 import {
   Documentary,
   EventSuggestionStatus,
-  Patent
+  Patent,
 } from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
@@ -12,7 +12,9 @@ import { ECOTheme } from "@liexp/ui/theme";
 import { Box, ThemeProvider, Typography } from "@mui/material";
 import * as React from "react";
 import {
-  FormDataConsumer, useRecordContext, useRefresh,
+  FormDataConsumer,
+  useRecordContext,
+  useRefresh,
   BooleanInput,
   Button,
   Datagrid,
@@ -23,16 +25,17 @@ import {
   FormTab,
   FunctionField,
   List,
-  ListProps, ReferenceField,
+  ListProps,
+  ReferenceField,
   SelectInput,
   TabbedForm,
-  TextField
+  TextField,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import ReferenceArrayKeywordInput from "../../../components/Common/ReferenceArrayKeywordInput";
 import { WebPreviewButton } from "../../../components/Common/WebPreviewButton";
-import { ReferenceLinkTab } from '../../../components/tabs/ReferenceLinkTab';
-import { ReferenceMediaTab } from '../../../components/tabs/ReferenceMediaTab';
+import { ReferenceLinkTab } from "../../../components/tabs/ReferenceLinkTab";
+import { ReferenceMediaTab } from "../../../components/tabs/ReferenceMediaTab";
 import { transformEvent } from "../../../utils";
 import { DeathEventEditFormTab } from "../AdminDeathEvent";
 import { DocumentaryEditFormTab } from "../AdminDocumentaryEvent";
@@ -136,7 +139,6 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
         </Box>
       }
       transform={async ({ id, ...r }) => {
-
         const updatedEvent = await transformEvent(id, r.payload.event);
 
         return { id, ...r.payload, event: updatedEvent };
@@ -169,36 +171,40 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
           <ReactPageInput label="body" source="payload.event.body" />
         </FormTab>
 
-        <FormDataConsumer>
-          {({ formData, getSource, scopedFormData, ...rest }) => {
-            // console.log({ formData, scopedFormData, rest });
+        <FormTab label="payload">
+          <FormDataConsumer>
+            {({ formData, getSource, scopedFormData, ...rest }) => {
+              // console.log({ formData, scopedFormData, rest });
 
-            if (formData.payload.event.type === Documentary.DOCUMENTARY.value) {
-              return <DocumentaryEditFormTab {...rest} />;
-            }
-            if (formData.payload.event.type === "Death") {
-              return <DeathEventEditFormTab {...rest} />;
-            }
-            if (formData.payload.event.type === "ScientificStudy") {
-              return <EditScientificStudyEventPayload {...rest} />;
-            }
-            if (formData.payload.event.type === Patent.PATENT.value) {
+              if (
+                formData.payload.event.type === Documentary.DOCUMENTARY.value
+              ) {
+                return <DocumentaryEditFormTab {...rest} />;
+              }
+              if (formData.payload.event.type === "Death") {
+                return <DeathEventEditFormTab {...rest} />;
+              }
+              if (formData.payload.event.type === "ScientificStudy") {
+                return <EditScientificStudyEventPayload {...rest} />;
+              }
+              if (formData.payload.event.type === Patent.PATENT.value) {
+                return (
+                  <PatentEventEditFormTab
+                    {...rest}
+                    sourcePrefix={"payload.event"}
+                  />
+                );
+              }
               return (
-                <PatentEventEditFormTab
+                <UncategorizedEventEditTab
                   {...rest}
                   sourcePrefix={"payload.event"}
+                  record={formData.payload.event}
                 />
               );
-            }
-            return (
-              <UncategorizedEventEditTab
-                {...rest}
-                sourcePrefix={"payload.event"}
-                record={formData.payload.event}
-              />
-            );
-          }}
-        </FormDataConsumer>
+            }}
+          </FormDataConsumer>
+        </FormTab>
         <FormTab label="Media">
           <ReferenceMediaTab source="payload.event.media" />
         </FormTab>

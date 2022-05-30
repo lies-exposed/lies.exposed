@@ -1,4 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { parseISO } from "@liexp/shared/utils/date";
 import { sanitizeURL } from "@liexp/shared/utils/url.utils";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
@@ -32,7 +33,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
                 }
               : null,
             url: sanitizeURL(body.url),
-            publishDate: meta.date,
+            publishDate: meta.date ? parseISO(meta.date) : undefined,
             keywords: [],
           },
         ])
