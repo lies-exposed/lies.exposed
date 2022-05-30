@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import { useRecordContext, useRefresh } from "ra-core";
 import * as React from "react";
+import { useRecordContext, useRefresh } from "react-admin";
 import { apiProvider } from "../../client/HTTPAPI";
 
 export const ImportMediaButton: React.FC = () => {

@@ -13,7 +13,9 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
   ...props
 }) => {
   const {
-    field: { onChange, ...inputRest },
+    field: { onChange, value, ...inputRest },
+    formState,
+    fieldState,
     ...rest
   } = useInput(props);
 
@@ -37,11 +39,11 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
       <TextInput
         {...props}
         {...rest}
-        {...(inputRest as any)}
+        {...inputRest}
         onChange={handleChange}
       />
 
-      <Button disabled={inputRest.value?.length < 5} onClick={() => {}}>
+      <Button disabled={value?.length < 5} onClick={() => {}}>
         Create
       </Button>
       {metadata?.link ? <Box>Link found: {metadata.link.id}</Box> : null}

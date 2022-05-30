@@ -1,8 +1,7 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { Box } from "@mui/material";
-import { FormDataConsumer, InputProps } from "ra-core";
 import * as React from "react";
-import { FileInput, SelectInput } from "react-admin";
+import { FileInput, SelectInput, FormDataConsumer, InputProps } from "react-admin";
 import { MediaField } from "./MediaField";
 
 interface MediaInputProps extends Omit<InputProps, "source"> {

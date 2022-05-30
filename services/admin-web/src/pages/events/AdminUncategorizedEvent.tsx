@@ -27,13 +27,12 @@ import {
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import ExcerptField from "../../components/Common/ExcerptField";
-import { LinkArrayInput } from "../../components/Common/LinkArrayInput";
-import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../../components/Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
-import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
+import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
+import { ReferenceMediaTab } from "../../components/tabs/ReferenceMediaTab";
 import { transformEvent } from "../../utils";
 
 const RESOURCE = "events";
@@ -109,7 +108,7 @@ export const UncategorizedEventList: React.FC<ListProps> = (props) => (
 
 export const UncategorizedEventTitle: React.FC = () => {
   const record = useRecordContext();
-  return <span>Event: {record.payload.title}</span>;
+  return <span>Event: {record?.payload?.title}</span>;
 };
 
 export const UncategorizedEventEditTab: React.FC<
@@ -118,7 +117,7 @@ export const UncategorizedEventEditTab: React.FC<
   const source = (s: string): string =>
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
   return (
-    <FormTab {...(props as any)} label="Payload">
+    <Box>
       <Grid container spacing={2}>
         <Grid item md={12}>
           <TextInput source={source("payload.title")} fullWidth />
@@ -184,11 +183,11 @@ export const UncategorizedEventEditTab: React.FC<
           </ReferenceArrayField>
         </Grid>
       </Grid>
-    </FormTab>
+    </Box>
   );
 };
 
-export const UncategorizedEventCreate: React.FC = () => {
+export const UncategorizedEventCreate: React.FC = (props) => {
   return (
     <Create
       title="Create a Event"
@@ -197,6 +196,7 @@ export const UncategorizedEventCreate: React.FC = () => {
       <TabbedForm>
         <FormTab label="General">
           <BooleanInput source="draft" defaultValue={false} />
+          <UncategorizedEventEditTab />
           <TextInput
             source="type"
             defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
@@ -252,11 +252,10 @@ export const UncategorizedEventCreate: React.FC = () => {
         </FormTab>
 
         <FormTab label="Links">
-          <LinkArrayInput source="newLinks" />
+          <ReferenceLinkTab source="links" />
         </FormTab>
         <FormTab label="Media">
-          <MediaArrayInput source="newMedia" defaultValue={[]} />
-          <ReferenceMediaDataGrid source="media" />
+          <ReferenceMediaTab source="media" />
         </FormTab>
       </TabbedForm>
     </Create>

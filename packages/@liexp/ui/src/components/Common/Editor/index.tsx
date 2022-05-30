@@ -50,8 +50,7 @@ export const isValidValue = (v?: any): v is Value => {
     !!v &&
     !!v.version &&
     Array.isArray(v.rows) &&
-    v?.rows?.length > 0 &&
-    getTextContentsCapped(v, 10) !== "";
+    v?.rows?.length > 0;
 
   return valid;
 };

@@ -5,13 +5,11 @@ import {
   DateField,
   FieldProps, ReferenceArrayField,
   TextField,
-  useRecordContext
 } from "react-admin";
 import { LinkArrayInput } from "../Common/LinkArrayInput";
 import { MediaField } from '../Common/MediaField';
 
 export const ReferenceLinkTab: React.FC<FieldProps> = (props) => {
-  const record = useRecordContext(props);
   const newLinksSource = props.source
     .split(".")
     .slice(0, -1)
@@ -21,7 +19,6 @@ export const ReferenceLinkTab: React.FC<FieldProps> = (props) => {
   return (
     <Box>
       <LinkArrayInput
-        {...{ record }}
         label="new links"
         source={newLinksSource}
         fullWidth={true}

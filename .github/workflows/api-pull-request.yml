@@ -64,15 +64,10 @@ jobs:
       - name: Build api
         run: yarn api build
 
-      - name: Run tests SPEC
+      - name: Run tests
         env:
           DEBUG: "@liexp*"
-        run: yarn test:spec
-
-      - name: Run tests E2E
-        env:
-          DEBUG: "@liexp*"
-        run: yarn test:e2e --ci --forceExit --runInBand
+        run: yarn api test --ci --forceExit --runInBand
 
       - name: Run migrations
         env:

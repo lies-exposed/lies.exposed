@@ -1,18 +1,15 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { Box } from "@mui/material";
-import { FormDataConsumer } from "ra-core";
 import * as React from "react";
 import {
   ArrayInput,
-  ArrayInputProps,
-  AutocompleteArrayInput,
-  BooleanInput,
-  ReferenceArrayInput,
-  SelectInput,
+  ArrayInputProps, BooleanInput,
+  FormDataConsumer, SelectInput,
   SimpleFormIterator,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { MediaInput } from "./MediaInput";
+import ReferenceArrayMediaInput from "./ReferenceArrayMediaInput";
 
 export const MediaArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">
@@ -91,13 +88,13 @@ export const MediaArrayInput: React.FC<
                           <TextInput
                             {...newRest}
                             source={descriptionSource}
-                            {...{record: newFormData}}
+                            {...{ record: newFormData }}
                           />
                           <MediaInput
                             {...newRest}
                             sourceLocation={locationSource}
                             sourceType={`src`}
-                            {...{record: newFormData}}
+                            {...{ record: newFormData }}
                           />
                         </Box>
                       );
@@ -108,19 +105,7 @@ export const MediaArrayInput: React.FC<
             }
             return (
               <Box style={{ width: "100%" }}>
-                <ReferenceArrayInput
-                  source={getSrc("ids")}
-                  reference="media"
-                  sortBy="updatedAt"
-                  sortByOrder="DESC"
-                  filterToQuery={(description) => ({ description })}
-                  {...rest}
-                >
-                  <AutocompleteArrayInput
-                    source="id"
-                    optionText="description"
-                  />
-                </ReferenceArrayInput>
+                <ReferenceArrayMediaInput source={getSrc("ids")} />
               </Box>
             );
           }}

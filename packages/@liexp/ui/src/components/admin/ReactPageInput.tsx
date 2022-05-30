@@ -1,18 +1,12 @@
 /* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
 import { Paper } from "@mui/material";
-import type { EditorProps } from "@react-page/editor";
-import Editor from "@react-page/editor";
+import Editor, { EditorProps } from "@react-page/editor";
 import "is-plain-object";
 import * as React from "react";
-import {
-  InputProps,
-  Labeled,
-  RaRecord,
-  useInput,
-  useRecordContext,
-} from "react-admin";
+import { InputProps, Labeled, useInput } from "react-admin";
 import {
   cellPlugins,
+  createExcerptValue,
   isValidValue,
   minimalCellPlugins,
 } from "../Common/Editor";
@@ -21,7 +15,6 @@ import JSONInput from "../Common/JSON/JSONInput";
 export type RaReactPageInputProps = {
   label?: string;
   source: string;
-  record: RaRecord;
   style?: React.CSSProperties;
 } & EditorProps;
 const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
@@ -34,7 +27,10 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
     field: { value, onChange },
   } = useInput({ source });
 
-  const isValueValid = isValidValue(value);
+  const isValueValid = React.useMemo(
+    () => isValidValue(value) || JSON.stringify(value) === "{}",
+    [value]
+  );
 
   const [toggleEdit, setToggleEditor] = React.useState(!isValueValid);
 
@@ -58,14 +54,28 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
             ...style,
           }}
         >
-          {isValidValue(value) ? (
+          {isValueValid ? (
             toggleEdit ? (
-              <JSONInput source={source} />
+              <JSONInput
+                source={source}
+                onClear={() => {
+                  const value = createExcerptValue("");
+                  onChange(value);
+                  setToggleEditor(false);
+                }}
+              />
             ) : (
-              <Editor value={value} onChange={onChange} {...editorProps} />
+              <Editor value={value} {...editorProps} onChange={onChange} />
             )
           ) : (
-            <JSONInput source={source} />
+            <JSONInput
+              source={source}
+              onClear={() => {
+                const value = createExcerptValue("");
+                onChange(value);
+                setToggleEditor(false);
+              }}
+            />
           )}
         </Paper>
       </>
@@ -77,13 +87,10 @@ const ReactPageInput: React.FC<InputProps & { onlyText?: boolean }> = ({
   onlyText = false,
   ...props
 }) => {
-  const record = useRecordContext(props);
-
   return (
     <RaReactPageInput
       {...props}
       label={props.source}
-      record={record}
       cellPlugins={onlyText ? minimalCellPlugins : cellPlugins}
       lang="en"
     />

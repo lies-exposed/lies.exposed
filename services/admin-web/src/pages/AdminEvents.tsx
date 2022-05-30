@@ -41,7 +41,7 @@ import {
   useRecordContext
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ImportMediaButton } from '../components/Common/ImportMediaButton';
+import { ImportMediaButton } from "../components/Common/ImportMediaButton";
 import ReferenceArrayActorInput from "../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../components/Common/ReferenceArrayGroupMemberInput";
@@ -61,7 +61,7 @@ import {
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
-  EditScientificStudyEvent,
+  EditScientificStudyEventPayload,
   ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
@@ -242,7 +242,6 @@ export const EditTitle: React.FC = () => {
   return <span>No record</span>;
 };
 
-
 export const EventEdit: React.FC = () => {
   return (
     <Edit
@@ -288,20 +287,23 @@ export const EventEdit: React.FC = () => {
           <ReactPageInput label="body" source="body" />
         </FormTab>
 
-        <FormDataConsumer>
-          {({ formData, getSource, scopedFormData, ...rest }) => {
-            if (formData.type === Documentary.DOCUMENTARY.value) {
-              return <DocumentaryEditFormTab {...rest} />;
-            }
-            if (formData.type === "Death") {
-              return <DeathEventEditFormTab {...rest} />;
-            }
-            if (formData.type === "ScientificStudy") {
-              return <EditScientificStudyEvent {...rest} />;
-            }
-            return <UncategorizedEventEditTab {...rest} />;
-          }}
-        </FormDataConsumer>
+        <FormTab label="payload">
+          <FormDataConsumer>
+            {({ formData, getSource, scopedFormData, ...rest }) => {
+              if (formData.type === Documentary.DOCUMENTARY.value) {
+                return <DocumentaryEditFormTab />;
+              }
+              if (formData.type === "Death") {
+                return <DeathEventEditFormTab />;
+              }
+              if (formData.type === "ScientificStudy") {
+                return <EditScientificStudyEventPayload />;
+              }
+              return <UncategorizedEventEditTab />;
+            }}
+          </FormDataConsumer>
+        </FormTab>
+
         <FormTab label="Media">
           <ImportMediaButton />
           <ReferenceMediaTab source="media" />
