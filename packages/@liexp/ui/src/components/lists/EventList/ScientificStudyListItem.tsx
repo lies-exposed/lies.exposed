@@ -15,7 +15,7 @@ interface ScientificStudyListItemProps {
 
 export const ScientificStudyListItem: React.FC<
   ScientificStudyListItemProps
-> = ({ item, onClick, onActorClick, onKeywordClick, onRowInvalidate, onLoad }) => {
+> = ({ item, onClick, onActorClick, ...props }) => {
   return (
     <Box
       key={item.id}
@@ -27,6 +27,7 @@ export const ScientificStudyListItem: React.FC<
     >
       <Grid container spacing={2}>
         <EventListItemBase
+          {...props}
           event={item}
           type={Events.ScientificStudy.SCIENTIFIC_STUDY.value}
           title={item.payload.title}
@@ -35,9 +36,6 @@ export const ScientificStudyListItem: React.FC<
           keywords={item.keywords}
           media={item.media}
           links={item.links}
-          onKeywordClick={onKeywordClick}
-          onRowInvalidate={onRowInvalidate}
-          onLoad={onLoad}
         />
       </Grid>
     </Box>

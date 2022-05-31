@@ -99,9 +99,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
         }),
       }}
       render={({ links: { data: links } }) => {
-        if (links.length === 0) {
-          return <span />;
-        }
+
         return (
           <Accordion
             defaultExpanded={expanded}
