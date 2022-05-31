@@ -74,7 +74,7 @@ const EventListItemBase = <E extends any>({
 
   React.useEffect(() => {
     onLoad?.();
-  });
+  }, []);
 
   return (
     <StyledGrid

@@ -34,7 +34,8 @@ import { apiProvider } from "@client/HTTPAPI";
 const RESOURCE = "links";
 
 const linksFilter = [
-  <TextInput key="title" source="title" alwaysOn />,
+  <TextInput key="search" label="Search" source="q" alwaysOn />,
+  <ReferenceGroupInput key="provider" source="provider" alwaysOn />,
   <ReferenceArrayInput key="events" source="events" reference="events" alwaysOn>
     <AutocompleteArrayInput optionText="payload.title" size="small" />
   </ReferenceArrayInput>,
@@ -49,10 +50,25 @@ export const LinkList: React.FC = () => (
     filterDefaultValues={{ _sort: "createdAt", _order: "DESC" }}
   >
     <Datagrid rowClick="edit">
-      <TextField source="title" />
       <MediaField source="image.thumbnail" type="image/jpeg" />
+      <FunctionField
+        render={(r) => {
+          return (
+            <Box style={{ display: "flex", flexDirection: "column" }}>
+              <TextField
+                source="title"
+                style={{ fontWeight: 600, marginBottom: 5 }}
+              />
+              <TextField source="description" />
+            </Box>
+          );
+        }}
+      />
       <DateField source="publishDate" />
-      <TextField source="provider" />
+      <ReferenceField source="provider" reference="groups">
+        <TextField source="name" />
+      </ReferenceField>
+
       <FunctionField
         label="resources.links.fields.events_length"
         render={(r: any | undefined) => (r ? r.events.length : "-")}
@@ -87,7 +103,7 @@ const UpdateMetadataButton: React.FC = () => {
 const CreateEventButton: React.FC = () => {
   const record = useRecordContext();
   const refresh = useRefresh();
-  const [type, setType] = React.useState(
+  const [type, setType] = React.useState<string>(
     io.http.Events.EventType.types[1].value
   );
 
@@ -100,7 +116,7 @@ const CreateEventButton: React.FC = () => {
         size="small"
         value={type}
         onChange={(e) => {
-          setType(e.target.value as any);
+          setType(e.target.value);
         }}
       >
         {io.http.Events.EventType.types.map((t) => (

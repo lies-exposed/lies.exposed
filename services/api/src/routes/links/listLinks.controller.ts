@@ -2,6 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { RouteContext } from "../route.types";
@@ -13,7 +14,7 @@ import { addOrder, getORMOptions } from "@utils/orm.utils";
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Link.List,
-    ({ query: { events, ids, title, emptyEvents, ...query } }) => {
+    ({ query: { events, ids, q: search, emptyEvents, provider, ...query } }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -22,7 +23,7 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
       ctx.logger.debug.log(`find Options %O`, {
         events,
         ids,
-        title,
+        search,
         emptyEvents,
         ...findOptions,
       });
@@ -36,25 +37,31 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               .leftJoinAndSelect("link.events", "events")
               .leftJoinAndSelect("link.keywords", "keywords"),
             (q) => {
-              if (title._tag === "Some") {
-                return q.where("lower(link.title) LIKE :title", {
-                  title: `%${title.value.toLowerCase()}%`,
+              if (O.isSome(search)) {
+                return q.where("lower(link.title) LIKE :q OR lower(link.description) LIKE :q", {
+                  q: `%${search.value.toLowerCase()}%`,
                 });
               }
 
-              if (ids._tag === "Some") {
+              if (O.isSome(provider)) {
+                return q.where("link.provider = :provider", {
+                  provider: provider.value,
+                });
+              }
+
+              if (O.isSome(ids)) {
                 return q.where("link.id IN (:...ids)", {
                   ids: ids.value,
                 });
               }
 
-              if (emptyEvents._tag === "Some") {
+              if (O.isSome(emptyEvents)) {
                 if (emptyEvents.value) {
                   return q.where("events.id IS NULL");
                 }
               }
 
-              if (events._tag === "Some") {
+              if (O.isSome(events)) {
                 return q.where("events.id IN (:...events)", {
                   events: events.value,
                 });

@@ -16,9 +16,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
   item,
   onClick,
   onActorClick,
-  onKeywordClick,
-  onRowInvalidate,
-  onLoad
+  ...props
 }) => {
   // const victim = actors.find((a) => a.id === item.payload.victim);
 
@@ -33,6 +31,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <EventListItemBase
+        {...props}
         event={item}
         type={Events.Patent.PATENT.value}
         title={item.payload.title}
@@ -41,9 +40,6 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
         keywords={item.keywords}
         media={item.media}
         links={item.links}
-        onKeywordClick={onKeywordClick}
-        onRowInvalidate={onRowInvalidate}
-        onLoad={onLoad}
       />
     </Box>
   );
