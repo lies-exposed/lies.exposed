@@ -2,9 +2,7 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
-import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { propsOmit } from "../../utils";
-import { Point } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
 
@@ -28,7 +26,7 @@ export const CreateDeathBody = t.strict(
     type: DEATH,
     payload: t.strict({
       victim: UUID,
-      location: optionFromNullable(Point),
+      location: optionFromNullable(UUID),
     }),
   },
   "CreateDeathBody"
@@ -42,7 +40,7 @@ export const EditDeathBody = t.strict(
     type: DEATH,
     payload: t.strict({
       victim: UUID,
-      location: optionFromUndefined(Point),
+      location: optionFromNullable(UUID),
     }),
   },
   "CreateDeathBody"
@@ -53,7 +51,7 @@ export type EditDeathBody = t.TypeOf<typeof EditDeathBody>;
 export const DeathPayload = t.strict(
   {
     victim: UUID,
-    location: t.union([t.undefined, Point]),
+    location: t.union([UUID, t.undefined]),
   },
   "DeathV2"
 );

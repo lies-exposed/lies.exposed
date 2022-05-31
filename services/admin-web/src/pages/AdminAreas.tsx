@@ -23,13 +23,15 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useRecordContext,
 } from "react-admin";
-import RichTextInput from "../components/Common/RichTextInput";
+import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
+import { ReferenceMediaTab } from "components/tabs/ReferenceMediaTab";
 
 const RESOURCE = "areas";
 
-export const AreaList: React.FC<ListProps> = (props) => (
-  <List {...props} resource={RESOURCE}>
+export const AreaList: React.FC<ListProps> = () => (
+  <List resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <TextField source="label" />
       <DateField source="updatedAt" />
@@ -38,12 +40,13 @@ export const AreaList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC<EditProps> = ({ record }: any) => {
-  return <span>Area {record.title}</span>;
+const EditTitle: React.FC<EditProps> = () => {
+  const record = useRecordContext();
+  return <span>Area {record?.title}</span>;
 };
 
 export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit title={<EditTitle {...props} />} {...props}>
+  <Edit title={<EditTitle />}>
     <TabbedForm>
       <FormTab label="Generals">
         <TextInput source="label" />
@@ -54,7 +57,13 @@ export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
         <MapInput source="geometry" type={GeometryType.POLYGON} />
       </FormTab>
       <FormTab label="Body">
-        <RichTextInput source="body" />
+        <ReactPageInput source="body" />
+      </FormTab>
+      <FormTab label="Events">
+        <ReferenceArrayEventInput source="events" />
+      </FormTab>
+      <FormTab label="Media">
+        <ReferenceMediaTab source="media" />
       </FormTab>
       <FormTab label="Preview">
         <FormDataConsumer>

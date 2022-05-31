@@ -23,10 +23,11 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import ExcerptField from "../../components/Common/ExcerptField";
+import ReferenceAreaInput from '../../components/Common/ReferenceAreaInput';
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../../components/Common/ReferenceArrayGroupMemberInput";
@@ -136,11 +137,7 @@ export const UncategorizedEventEditTab: React.FC<
               </Box>
             </Grid>
             <Grid item md={6}>
-              <MapInput
-                source={source("payload.location")}
-                type={MapInputType.POINT}
-                defaultValue={undefined}
-              />
+              <ReferenceAreaInput source="payload.location" />
             </Grid>
           </Grid>
         </Grid>

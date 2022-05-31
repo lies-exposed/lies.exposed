@@ -1,5 +1,6 @@
 import {
   Actor,
+  Area,
   Article,
   Events,
   Group,
@@ -289,5 +290,15 @@ export const useJSONDataQuery = <A>(
 export const useGraphQuery = (id: string): UseQueryResult<any, APIError> => {
   return useQuery(["graph", id], async () => {
     return await Queries.Graph.get({ id });
+  });
+};
+
+export const useAreasQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Area.Area[]; total: number }, APIError> => {
+  return useQuery(["areas"], async () => {
+    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
+      ? await emptyQuery()
+      : await Queries.Area.getList(params);
   });
 };

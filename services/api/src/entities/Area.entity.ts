@@ -4,9 +4,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
+import { MediaEntity } from './Media.entity';
 
 @Entity("area")
 export class AreaEntity {
@@ -19,8 +21,11 @@ export class AreaEntity {
   @Column({ type: "json", nullable: false })
   geometry: Polygon;
 
-  @Column({ type: "varchar" })
-  body: string;
+  @Column({ type: "json", nullable: true })
+  body: unknown | null;
+
+  @OneToMany(() => MediaEntity, m => m.areas)
+  media: MediaEntity[]
 
   @CreateDateColumn()
   createdAt: Date;

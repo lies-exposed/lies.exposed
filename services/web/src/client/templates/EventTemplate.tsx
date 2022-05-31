@@ -1,9 +1,7 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import {
-  useEventQuery
-} from "@liexp/ui/state/queries/DiscreteQueries";
+import { useEventQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Box, Grid } from "@mui/material";
 import * as React from "react";
 import EventsBox from "../components/events/EventsBox";
@@ -11,7 +9,6 @@ import { queryToHash } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
-
   const navigateTo = useNavigateToResource();
 
   return (
@@ -34,6 +31,9 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
           >
             <EventPageContent
               event={event}
+              onDateClick={(d) => {
+                navigateTo.events({}, { startDate: d.toISOString() });
+              }}
               onGroupClick={(g) => {
                 navigateTo.groups({ id: g.id });
               }}

@@ -1,5 +1,5 @@
 import { Keyword } from '@liexp/shared/io/http';
-import { Box, Typography } from "@mui/material";
+import { Box, BoxProps, Typography } from "@mui/material";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -8,7 +8,7 @@ import { useKeywordsQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";
 import KeywordList from "./lists/KeywordList";
 
-interface KeywordsBoxProps {
+interface KeywordsBoxProps extends BoxProps {
   ids: string[];
   onItemClick: (k: Keyword.Keyword) => void;
 }
@@ -38,9 +38,9 @@ export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids, onItemClick }) =
   );
 };
 
-export const KeywordsBox: React.FC<KeywordsBoxProps> = ({ ids, onItemClick }) => {
+export const KeywordsBox: React.FC<KeywordsBoxProps> = ({ ids, onItemClick, ...props }) => {
   return (
-    <Box>
+    <Box {...props}>
       {/* <Typography variant="subtitle1" display="inline">
         Keywords:{" "}
       </Typography> */}

@@ -1,5 +1,6 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import * as http from "@liexp/shared/io/http";
+import { UUID } from "@liexp/shared/io/http/Common";
 import { formatDateToShort } from "@liexp/shared/utils/date";
 import {
   Box,
@@ -13,6 +14,7 @@ import * as React from "react";
 import { getEventCommonProps } from "../helpers/event.helper";
 import {
   useActorsQuery,
+  useAreasQuery,
   useMediaQuery,
 } from "../state/queries/DiscreteQueries";
 import EditButton from "./Common/Button/EditButton";
@@ -30,6 +32,7 @@ import { MediaSlider } from "./sliders/MediaSlider";
 
 export interface EventPageContentProps {
   event: http.Events.Event;
+  onDateClick: (d: Date) => void;
   onActorClick: (a: http.Actor.Actor) => void;
   onGroupClick: (a: http.Group.Group) => void;
   onGroupMemberClick: (g: http.GroupMember.GroupMember) => void;
@@ -39,6 +42,7 @@ export interface EventPageContentProps {
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   event,
+  onDateClick,
   onActorClick,
   onGroupClick,
   onGroupMemberClick,
@@ -48,7 +52,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   const theme = useTheme();
   const { actors, groups, groupsMembers, media } = getRelationIds(event);
 
-  const isDownSM = useMuiMediaQuery(theme.breakpoints.down('md'));
+  const isDownSM = useMuiMediaQuery(theme.breakpoints.down("md"));
 
   const date =
     typeof event.date === "string" ? new Date(event.date) : event.date;
@@ -78,8 +82,28 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             order: "DESC",
           },
         }),
+        area: useAreasQuery({
+          filter: {
+            ids: UUID.is((event.payload as any).location)
+              ? [(event.payload as any).location]
+              : [],
+          },
+          pagination: {
+            perPage: 1,
+            page: 1,
+          },
+          sort: {
+            field: "createdAt",
+            order: "DESC",
+          },
+        }),
       }}
-      render={({ actors: { data: actors }, media: { data: media } }) => {
+      render={({
+        actors: { data: actors },
+        media: { data: media },
+        area: { data: area },
+      }) => {
+
         const { title, url } = getEventCommonProps(event, {
           actors,
           groups: [],
@@ -126,6 +150,10 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         flexDirection: isDownSM ? "row" : "column",
                         flexGrow: isDownSM ? 1 : 0,
                         alignItems: "flex-end",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        onDateClick(date);
                       }}
                     >
                       {formatDateToShort(date)
@@ -209,10 +237,21 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                       />
                       {url ? <Link href={url}>{url}</Link> : null}
 
-                      <KeywordsBox
-                        ids={event.keywords}
-                        onItemClick={onKeywordClick}
-                      />
+                      <Box style={{ display: "flex", flexDirection: "row" }}>
+                        <KeywordsBox
+                          ids={event.keywords}
+                          onItemClick={onKeywordClick}
+                          style={{ 
+                            display: 'flex',
+                            flexGrow: 1
+                          }}
+                        />
+                        <Box>
+                          {area.length === 1 ? (
+                            <span>{area[0].label}</span>
+                          ) : null}
+                        </Box>
+                      </Box>
                     </Box>
 
                     <Grid container>

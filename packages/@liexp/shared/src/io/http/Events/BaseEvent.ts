@@ -1,8 +1,8 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
 import { propsOmit } from "../../utils";
+import { UUID } from "../Common/UUID";
 import { CreateLink } from "../Link";
 import { CreateMedia } from "../Media";
 

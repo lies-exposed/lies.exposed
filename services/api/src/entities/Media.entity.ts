@@ -1,12 +1,16 @@
 import { MediaType } from "@liexp/shared/io/http/Media";
-import { UUID } from 'io-ts-types';
+import { UUID } from "io-ts-types";
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { AreaEntity } from "./Area.entity";
 import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
 
@@ -36,6 +40,9 @@ export class MediaEntity {
 
   @OneToMany(() => LinkEntity, (e) => e.image, { cascade: false })
   links: LinkEntity[];
+
+  @ManyToMany(() => AreaEntity, (a) => a.media)
+  areas: AreaEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

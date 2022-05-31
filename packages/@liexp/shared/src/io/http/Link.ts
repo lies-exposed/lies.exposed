@@ -1,7 +1,6 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
-import { UUID } from "io-ts-types/lib/UUID";
-import { URL } from "./Common/URL";
+import { URL, UUID } from "./Common";
 import { CreateMedia } from "./Media";
 
 export const CreateLink = t.strict(
