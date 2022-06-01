@@ -50,6 +50,9 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                 navigateTo.actors({ id: g.actor.id });
               }}
               onLinkClick={() => {}}
+              onAreaClick={a => {
+                navigateTo.areas({ id: a.id })
+              }}
             />
 
             <Grid container justifyContent="center">

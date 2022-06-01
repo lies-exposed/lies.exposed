@@ -24,6 +24,7 @@ export const eventPageContentArgs: EventPageContentProps = {
   onKeywordClick: () => undefined,
   onGroupMemberClick: () => undefined,
   onLinkClick: () => undefined,
+  onAreaClick: () => undefined
 };
 
 export const EventPageContentExample: React.FC<EventPageContentProps> = (

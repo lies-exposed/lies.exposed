@@ -1,22 +1,23 @@
-import { Area, Group, Topic } from "@liexp/shared/io/http";
+import { Area, Group } from "@liexp/shared/io/http";
 import { Grid } from "@mui/material";
 import Feature from "ol/Feature";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils";
 import { calculateAreaInSQM } from "../utils/openLayers";
 import EditButton from "./Common/Button/EditButton";
-import { MarkdownRenderer } from "./Common/MarkdownRenderer";
+import Editor from "./Common/Editor/index";
 import Map from "./Map";
 
-export interface AreaPageContentProps extends Area.Area {
+export interface AreaPageContentProps {
+  area: Area.Area;
   onGroupClick: (g: Group.Group) => void;
-  onTopicClick: (t: Topic.TopicFrontmatter) => void;
+  // onTopicClick: (t: Topic.TopicFrontmatter) => void;
 }
 
 export const AreaPageContent: React.FC<AreaPageContentProps> = ({
+  area,
   onGroupClick,
-  onTopicClick,
-  ...area
+  // onTopicClick,
 }) => {
   const features = [area].map(({ geometry, ...datum }) => {
     const geom = geoJSONFormat.readGeometry(geometry);
@@ -83,7 +84,11 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
             )
           )
         )} */}
-        <MarkdownRenderer>{area.body}</MarkdownRenderer>
+        {typeof area.body === "string" ? (
+          <div>{area.body}</div>
+        ) : (
+          <Editor value={area.body as any} readOnly />
+        )}
       </Grid>
     </Grid>
   );

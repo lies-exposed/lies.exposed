@@ -38,6 +38,7 @@ export interface EventPageContentProps {
   onGroupMemberClick: (g: http.GroupMember.GroupMember) => void;
   onLinkClick: (a: http.Link.Link) => void;
   onKeywordClick: (a: http.Keyword.Keyword) => void;
+  onAreaClick: (a: http.Area.Area) => void;
 }
 
 export const EventPageContent: React.FC<EventPageContentProps> = ({
@@ -48,6 +49,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   onGroupMemberClick,
   onKeywordClick,
   onLinkClick,
+  onAreaClick,
 }) => {
   const theme = useTheme();
   const { actors, groups, groupsMembers, media } = getRelationIds(event);
@@ -103,7 +105,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
         media: { data: media },
         area: { data: area },
       }) => {
-
         const { title, url } = getEventCommonProps(event, {
           actors,
           groups: [],
@@ -241,12 +242,16 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                         <KeywordsBox
                           ids={event.keywords}
                           onItemClick={onKeywordClick}
-                          style={{ 
-                            display: 'flex',
-                            flexGrow: 1
+                          style={{
+                            display: "flex",
+                            flexGrow: 1,
                           }}
                         />
-                        <Box>
+                        <Box
+                          onClick={() => {
+                            onAreaClick(area[0]);
+                          }}
+                        >
                           {area.length === 1 ? (
                             <span>{area[0].label}</span>
                           ) : null}

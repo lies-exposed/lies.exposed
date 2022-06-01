@@ -6,7 +6,7 @@ export const Area = t.strict(
   {
     ...BaseProps.type.props,
     label: t.string,
-    body: t.string,
+    body: t.union([t.UnknownRecord, t.string]),
     geometry: Polygon,
   },
   "Area"

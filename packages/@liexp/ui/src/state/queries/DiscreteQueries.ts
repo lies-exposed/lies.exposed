@@ -302,3 +302,13 @@ export const useAreasQuery = (
       : await Queries.Area.getList(params);
   });
 };
+
+export const fetchArea = async ({ queryKey }: any): Promise<Area.Area> => {
+  return await Queries.Area.get({ id: queryKey[1].id });
+};
+
+export const useAreaQuery = (params: {
+  id: string;
+}): UseQueryResult<Area.Area, APIError> => {
+  return useQuery(["areas", params], fetchArea);
+};
