@@ -293,14 +293,19 @@ export const useGraphQuery = (id: string): UseQueryResult<any, APIError> => {
   });
 };
 
+export const fetchAreas = async ({
+  queryKey,
+}: any): Promise<{ data: Area.Area[]; total: number }> => {
+  const params = queryKey[1];
+  return !R.isEmpty(params.filter) || params.filter === null
+    ? await Queries.Area.getList(params)
+    : await emptyQuery();
+};
+
 export const useAreasQuery = (
   params: GetListParams
 ): UseQueryResult<{ data: Area.Area[]; total: number }, APIError> => {
-  return useQuery(["areas"], async () => {
-    return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-      ? await emptyQuery()
-      : await Queries.Area.getList(params);
-  });
+  return useQuery(["areas", params], fetchAreas);
 };
 
 export const fetchArea = async ({ queryKey }: any): Promise<Area.Area> => {

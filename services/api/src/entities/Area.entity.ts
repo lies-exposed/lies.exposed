@@ -4,8 +4,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
+  JoinTable,
+  ManyToMany, PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { MediaEntity } from './Media.entity';
@@ -24,7 +24,8 @@ export class AreaEntity {
   @Column({ type: "json", nullable: true })
   body: unknown | null;
 
-  @OneToMany(() => MediaEntity, m => m.areas)
+  @ManyToMany(() => MediaEntity, m => m.areas)
+  @JoinTable()
   media: MediaEntity[]
 
   @CreateDateColumn()

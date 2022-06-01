@@ -1,13 +1,10 @@
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
-import {
-  EventType, SearchEvent
-} from "@liexp/shared/io/http/Events";
+import { EventType, SearchEvent } from "@liexp/shared/io/http/Events";
 import { TabPanel } from "@liexp/ui/components/Common/TabPanel";
+import useWindowsDimensions from "@liexp/ui/hooks/useWindowsDimensions";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
-import {
-  Box, Grid,
-} from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { Box, Grid } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
@@ -15,7 +12,7 @@ import AddEventModal from "../components/events/AddEventModal";
 import { useNavigateToResource } from "../utils/location.utils";
 import { EventsNetwork } from "./EventsNetwork";
 
-const PREFIX = 'EventsPanel';
+const PREFIX = "EventsPanel";
 
 const classes = {
   root: `${PREFIX}-root`,
@@ -30,18 +27,14 @@ const classes = {
   tabPanel: `${PREFIX}-tabPanel`,
   tabPanelSelected: `${PREFIX}-tabPanelSelected`,
   content: `${PREFIX}-content`,
-  eventFiltersBox: `${PREFIX}-eventFiltersBox`
+  eventFiltersBox: `${PREFIX}-eventFiltersBox`,
 };
 
-const StyledBox = styled(Box)((
-  {
-    theme
-  }
-) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   [`& .${classes.root}`]: {
     display: "flex",
     flexDirection: "row",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
   },
@@ -121,7 +114,7 @@ const StyledBox = styled(Box)((
   [`& .${classes.eventFiltersBox}`]: {
     display: "flex",
     flexDirection: "column",
-  }
+  },
 }));
 
 const drawerWidth = 240;
@@ -163,8 +156,9 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   onQueryChange,
   onQueryClear,
 }) => {
-
   const navigateTo = useNavigateToResource();
+
+  const { height } = useWindowsDimensions();
 
   const handleUpdateEventsSearch = React.useCallback(
     (update: Partial<EventsQueryParams>): void => {
@@ -214,7 +208,13 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   );
 
   return (
-    <StyledBox id="events-panel" className={classes.content}>
+    <StyledBox
+      id="events-panel"
+      className={classes.content}
+      style={{
+        height,
+      }}
+    >
       <Grid
         container
         justifyContent="center"

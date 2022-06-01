@@ -40,6 +40,7 @@ export const ProjectArb: tests.fc.Arbitrary<http.Project.Project> = tests
             ],
           ],
         },
+        media: [],
         createdAt: new Date(),
         updatedAt: new Date(),
       },

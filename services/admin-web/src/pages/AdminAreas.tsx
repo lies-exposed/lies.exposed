@@ -1,8 +1,11 @@
 import { http } from "@liexp/shared/io";
 import { AreaPageContent } from "@liexp/ui/components/AreaPageContent";
+import { HelmetProvider } from "@liexp/ui/components/SEO";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { ECOTheme } from "@liexp/ui/theme";
+import { ThemeProvider } from "@mui/system";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import GeometryType from "ol/geom/GeometryType";
@@ -16,6 +19,7 @@ import {
   EditProps,
   FormDataConsumer,
   FormTab,
+  FunctionField,
   List,
   ListProps,
   required,
@@ -25,8 +29,10 @@ import {
   TextInput,
   useRecordContext,
 } from "react-admin";
+import { QueryClient, QueryClientProvider } from "react-query";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
-import { ReferenceMediaTab } from "components/tabs/ReferenceMediaTab";
+import { ReferenceMediaTab } from "../components/tabs/ReferenceMediaTab";
+import { transformMedia } from "../utils";
 
 const RESOURCE = "areas";
 
@@ -34,6 +40,12 @@ export const AreaList: React.FC<ListProps> = () => (
   <List resource={RESOURCE}>
     <Datagrid rowClick="edit">
       <TextField source="label" />
+      <FunctionField
+        source="media"
+        render={(a) => {
+          return (a.media ?? []).length;
+        }}
+      />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
     </Datagrid>
@@ -45,19 +57,25 @@ const EditTitle: React.FC<EditProps> = () => {
   return <span>Area {record?.title}</span>;
 };
 
-export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit title={<EditTitle />}>
+const transformArea = ({ newMedia = [], newEvents, ...area }: any): any => {
+  const media = transformMedia(newMedia);
+  return {
+    ...area,
+    media: area.media.concat(media),
+  };
+};
+
+export const AreaEdit: React.FC<EditProps> = () => (
+  <Edit title={<EditTitle />} redirect={false} transform={transformArea}>
     <TabbedForm>
       <FormTab label="Generals">
         <TextInput source="label" />
+        <ReactPageInput source="body" onlyText />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
       <FormTab label="Geometry">
         <MapInput source="geometry" type={GeometryType.POLYGON} />
-      </FormTab>
-      <FormTab label="Body">
-        <ReactPageInput source="body" />
       </FormTab>
       <FormTab label="Events">
         <ReferenceArrayEventInput source="events" />
@@ -68,14 +86,20 @@ export const AreaEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Preview">
         <FormDataConsumer>
           {({ formData, ...rest }) => {
+            const qc = new QueryClient();
             return pipe(
               http.Area.Area.decode(formData),
               E.fold(ValidationErrorsLayout, (p) => (
-                <AreaPageContent
-                  {...p}
-                  onGroupClick={() => undefined}
-                  onTopicClick={() => undefined}
-                />
+                <HelmetProvider>
+                  <ThemeProvider theme={ECOTheme}>
+                    <QueryClientProvider client={qc}>
+                      <AreaPageContent
+                        area={p}
+                        onGroupClick={() => undefined}
+                      />
+                    </QueryClientProvider>
+                  </ThemeProvider>
+                </HelmetProvider>
               ))
             );
           }}

@@ -1,6 +1,7 @@
 import {
   fetchActor,
   fetchArea,
+  fetchAreas,
   fetchEvent,
   fetchGroup,
   fetchGroups,
@@ -14,6 +15,7 @@ import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
 import ActorsPage from "./pages/ActorsPage";
+import AreasPage from "./pages/AreasPage";
 import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
 import KeywordsPage from "./pages/KeywordsPage";
@@ -189,6 +191,24 @@ export const routes = [
       {
         queryKey: ["areas", { id: areaId }],
         queryFn: fetchArea,
+      },
+    ],
+  },
+  {
+    path: "/areas",
+    route: () => <AreasPage />,
+    queries: () => [
+      ...commonQueries,
+      {
+        queryKey: [
+          "actors",
+          {
+            filter: null,
+            pagination: { perPage: 20, page: 1 },
+            sort: { field: "createdAt", order: "DESC" },
+          },
+        ],
+        queryFn: fetchAreas,
       },
     ],
   },

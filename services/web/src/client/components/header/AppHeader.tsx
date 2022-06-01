@@ -19,8 +19,11 @@ const dataMenuItem = {
       view: "/groups",
       label: "Groups",
     },
+    {
+      view: "/areas",
+      label: "Locations",
+    },
   ],
-
 };
 
 export const mainMenu: HeaderMenuItem[] = [dataMenuItem];

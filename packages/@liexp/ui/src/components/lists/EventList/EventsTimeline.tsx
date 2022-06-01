@@ -76,10 +76,6 @@ const Row: React.FC<
     k: key,
   } = props;
 
-  if (!event) {
-    return <div key={key} style={{ height: 100 }} />;
-  }
-
   // if (!isVisible) {
   //   return (
   //     <div
@@ -104,6 +100,17 @@ const Row: React.FC<
       parent={parent}
     >
       {({ registerChild, measure }) => {
+        if (!event) {
+          return (
+            <div
+              ref={registerChild as any}
+              key={key}
+              style={{ height: 100 }}
+              onLoad={measure}
+            />
+          );
+        }
+
         return (
           <EventTimelineItem
             ref={registerChild}

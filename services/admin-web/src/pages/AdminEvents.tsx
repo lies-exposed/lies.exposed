@@ -328,6 +328,8 @@ export const EventEdit: React.FC = () => {
                           onKeywordClick={() => undefined}
                           onLinkClick={() => undefined}
                           onGroupMemberClick={() => undefined}
+                          onDateClick={() => undefined}
+                          onAreaClick={() => undefined}
                         />
                       </QueryClientProvider>
                     </ThemeProvider>
