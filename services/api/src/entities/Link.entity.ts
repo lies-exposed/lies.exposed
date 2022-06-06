@@ -1,3 +1,4 @@
+import { UUID } from 'io-ts-types';
 import {
   Column,
   CreateDateColumn,
@@ -17,7 +18,7 @@ import { MediaEntity } from "./Media.entity";
 @Index(["url"], { unique: true })
 export class LinkEntity {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "varchar", nullable: false })
   url: string;

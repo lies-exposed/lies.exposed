@@ -1,6 +1,6 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import * as Events from "@liexp/shared/io/http/Events";
-import { uuid } from '@liexp/shared/utils/uuid';
+import { EventSuggestion } from "@liexp/shared/io/http";
+import { uuid } from "@liexp/shared/utils/uuid";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -26,7 +26,8 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
               ...suggestion.payload.event,
               ...relations,
               id:
-                suggestion.payload.type === Events.EventSuggestionType.types[1].value
+                suggestion.payload.type ===
+                EventSuggestion.EventSuggestionType.types[1].value
                   ? suggestion.payload.eventId
                   : uuid(),
             })),

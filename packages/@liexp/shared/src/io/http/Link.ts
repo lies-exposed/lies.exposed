@@ -7,7 +7,7 @@ import { CreateMedia } from "./Media";
 export const CreateLink = t.strict(
   {
     url: URL,
-    publishDate: t.union([DateFromISOString, t.undefined]),
+    publishDate: t.union([DateFromISOString, t.undefined], "PublishDate"),
     events: t.array(UUID),
   },
   "CreateLink"
@@ -37,13 +37,16 @@ export const Link = t.strict(
     title: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),
     publishDate: t.union([DateFromISOString, t.undefined]),
-    image: t.union([
-      t.strict({
-        id: UUID,
-        ...CreateMedia.type.props,
-      }),
-      t.undefined,
-    ]),
+    image: t.union(
+      [
+        t.strict({
+          id: UUID,
+          ...CreateMedia.type.props,
+        }, 'LinkMedia'),
+        t.undefined,
+      ],
+      "LinkImage"
+    ),
     keywords: t.array(t.string),
     provider: t.union([t.string, t.undefined]),
     events: t.array(t.string),

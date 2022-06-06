@@ -50,7 +50,7 @@ export const getShareMedia = (
 export const getSuggestions = (
   m: Metadata,
   link: O.Option<http.Link.Link>
-): http.Events.EventSuggestion[] => {
+): http.EventSuggestion.EventSuggestion[] => {
   const urlDate = m.date ? new Date(m.date) : new Date();
 
   const suggestedTitle = pipe(
@@ -93,9 +93,9 @@ export const getSuggestions = (
     deletedAt: undefined,
   };
 
-  const suggestions: http.Events.EventSuggestion[] = [
+  const suggestions: http.EventSuggestion.EventSuggestion[] = [
     {
-      type: http.Events.EventSuggestionType.types[0].value,
+      type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
         ...commonSuggestion,
         type: http.Events.Documentary.DOCUMENTARY.value,
@@ -115,7 +115,7 @@ export const getSuggestions = (
       },
     },
     {
-      type: http.Events.EventSuggestionType.types[0].value,
+      type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
         ...commonSuggestion,
         type: http.Events.Patent.PATENT.value,
@@ -130,7 +130,7 @@ export const getSuggestions = (
       },
     },
     {
-      type: http.Events.EventSuggestionType.types[0].value,
+      type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
         ...commonSuggestion,
         type: http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
@@ -144,7 +144,7 @@ export const getSuggestions = (
       },
     },
     {
-      type: http.Events.EventSuggestionType.types[0].value,
+      type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
         ...commonSuggestion,
         type: http.Events.Death.DEATH.value,
@@ -155,7 +155,7 @@ export const getSuggestions = (
       },
     },
     {
-      type: http.Events.EventSuggestionType.types[0].value,
+      type: http.EventSuggestion.EventSuggestionType.types[0].value,
       event: {
         ...commonSuggestion,
         type: http.Events.Uncategorized.UNCATEGORIZED.value,

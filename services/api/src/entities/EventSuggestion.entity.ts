@@ -16,13 +16,13 @@ export class EventSuggestionEntity {
   id: string;
 
   @Column({ type: "json", nullable: true })
-  payload: http.Events.EventSuggestion;
+  payload: http.EventSuggestion.EventSuggestion;
 
   @Column({
     type: "enum",
-    enum: http.Events.EventSuggestionStatus.types.map((t) => t.value),
+    enum: http.EventSuggestion.EventSuggestionStatus.types.map((t) => t.value),
   })
-  status: http.Events.EventSuggestionStatus;
+  status: http.EventSuggestion.EventSuggestionStatus;
 
   @CreateDateColumn()
   createdAt: Date;

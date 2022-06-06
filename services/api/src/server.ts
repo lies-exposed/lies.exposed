@@ -17,7 +17,7 @@ import { pipe } from "fp-ts/lib/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
-import { createEventSuggestionFromTGMessage } from "./helpers/eventSuggestion.helper";
+import { createFromTGMessage } from "@helpers/event-suggestion/createFromTGMessage.helper";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -109,7 +109,7 @@ export const makeContext = (
           TGBotProvider({
             token: env.TG_BOT_TOKEN,
             chat: env.TG_BOT_CHAT,
-            polling: env.NODE_ENV === "production",
+            polling: true, // env.NODE_ENV === "production",
           })
         ),
         puppeteer: TE.right(
@@ -205,13 +205,18 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   ctx.tg.onMessage((msg, metadata) => {
     void pipe(
-      createEventSuggestionFromTGMessage({ ...ctx, logger: tgLogger })(
+      createFromTGMessage({ ...ctx, logger: tgLogger })(
         msg,
         metadata
       ),
       throwTE
     ).then(
-      (r) => tgLogger.info.log("Success %O", r),
+      (r) => {
+        tgLogger.info.log("Success %O", r);
+        void ctx.tg.bot.sendMessage(msg.chat.id, "   🫶", {
+          reply_to_message_id: msg.message_id,
+        });
+      },
       (e) => tgLogger.error.log("Error %O", e)
     );
   });

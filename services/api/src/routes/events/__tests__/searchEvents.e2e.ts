@@ -1,6 +1,3 @@
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import { fc } from "@liexp/core/tests";
 import { GroupMemberArb } from "@liexp/shared/tests";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
@@ -11,6 +8,9 @@ import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 
 describe("Search Events", () => {

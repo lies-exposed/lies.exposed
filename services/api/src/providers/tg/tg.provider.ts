@@ -4,6 +4,7 @@ import TelegramBot from "node-telegram-bot-api";
 const chatId = "@lies_exposed";
 
 export interface TGBotProvider {
+  bot: TelegramBot; 
   post: (test: string) => TE.TaskEither<Error, any>;
   postPhoto: (image: string, caption: string) => TE.TaskEither<Error, any>;
   onMessage: (
@@ -28,6 +29,7 @@ export const TGBotProvider = (opts: TGBotProviderOpts): TGBotProvider => {
   const bot = new TelegramBot(opts.token, { polling: opts.polling });
 
   return {
+    bot,
     post: (text) => {
       return TE.tryCatch(
         () =>

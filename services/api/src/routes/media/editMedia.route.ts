@@ -3,9 +3,9 @@ import { Router } from "express";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { createThumbnail } from "../../helpers/media.helper";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
+import { createThumbnail } from "@helpers/media.helper";
 import { RouteContext } from "@routes/route.types";
 
 export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {

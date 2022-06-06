@@ -153,6 +153,7 @@ const CreateEventButton: React.FC = () => {
 };
 
 export const LinkEdit: React.FC = () => {
+  const record = useRecordContext();
   return (
     <Edit
       redirect={false}
@@ -200,6 +201,18 @@ export const LinkEdit: React.FC = () => {
                   }
                 }}
               />
+            </Datagrid>
+          </ReferenceManyField>
+        </FormTab>
+        <FormTab label="Event Suggestions">
+          <ReferenceManyField
+            reference="events/suggestions"
+            filter={{ links: record?.id ? [record.id] : [] }}
+            target="links[]"
+          >
+            <Datagrid rowClick="edit">
+              <TextField source="id" />
+              <TextField source="payload.event.payload.title" />
             </Datagrid>
           </ReferenceManyField>
         </FormTab>

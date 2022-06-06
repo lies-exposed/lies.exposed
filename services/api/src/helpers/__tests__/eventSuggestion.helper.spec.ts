@@ -6,10 +6,10 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import { createExcerptValue } from "@liexp/ui/components/Common/Editor";
 import * as fc from "fast-check";
 import { AppTest, initAppTest } from "../../../test/AppTest";
-import { createEventSuggestionFromTGMessage } from "../eventSuggestion.helper";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";
+import { createFromTGMessage } from "@helpers/event-suggestion/createFromTGMessage.helper";
 
 describe("Event Suggestion Helper", () => {
   let Test: AppTest;
@@ -30,7 +30,7 @@ describe("Event Suggestion Helper", () => {
         description,
       });
 
-      const result: any = await createEventSuggestionFromTGMessage(Test.ctx)(
+      const result: any = await createFromTGMessage(Test.ctx)(
         {
           message_id: 1,
           text: url,
@@ -93,7 +93,7 @@ describe("Event Suggestion Helper", () => {
       });
 
       const result: any = await throwTE(
-        createEventSuggestionFromTGMessage(Test.ctx)(
+        createFromTGMessage(Test.ctx)(
           {
             message_id: 1,
             text: url,
