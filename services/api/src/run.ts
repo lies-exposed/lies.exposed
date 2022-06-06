@@ -70,6 +70,17 @@ export const run = (): Promise<void> => {
             // eslint-disable-next-line no-console
             serverLogger.debug.log("closing server...");
             server.close();
+            void ctx.tg
+              .stopPolling({})()
+              // eslint-disable-next-line no-console
+              .then(
+                (b) => serverLogger.debug.log(`TG bot polling stop`),
+                (e) =>
+                  serverLogger.error.log(
+                    `TG Bot error during polling stop %O`,
+                    e
+                  )
+              );
             void ctx.db
               .close()()
               .then((e) => {

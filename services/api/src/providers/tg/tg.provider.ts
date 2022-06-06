@@ -9,6 +9,9 @@ export interface TGBotProvider {
   onMessage: (
     f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void
   ) => void;
+  stopPolling: (
+    opts: TelegramBot.StopPollingOptions
+  ) => TE.TaskEither<Error, void>;
 }
 
 interface TGBotProviderOpts {
@@ -49,6 +52,9 @@ export const TGBotProvider = (opts: TGBotProviderOpts): TGBotProvider => {
       f: (message: TelegramBot.Message, metadata: TelegramBot.Metadata) => void
     ) => {
       bot.on("message", f);
+    },
+    stopPolling: (opts: TelegramBot.StopPollingOptions) => {
+      return TE.tryCatch(() => bot.stopPolling(opts), toTGError);
     },
   };
 };
