@@ -17,7 +17,13 @@ export interface AppTest {
   };
 }
 
+let appTest: AppTest;
+
 export const initAppTest = async (): Promise<AppTest> => {
+  if (appTest) {
+    return await Promise.resolve(appTest);
+  }
+
   const fetchHTML = jest.fn();
   const fetchMetadata = jest.fn();
 
@@ -56,7 +62,8 @@ export const initAppTest = async (): Promise<AppTest> => {
     }))
   )().then((value) => {
     if (E.isRight(value)) {
-      return value.right;
+      appTest = value.right;
+      return appTest;
     }
     throw value.left;
   });

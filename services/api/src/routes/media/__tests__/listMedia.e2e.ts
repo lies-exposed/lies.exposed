@@ -4,6 +4,7 @@ import { MediaArb, UncategorizedArb } from "@liexp/shared/tests";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { MediaEntity } from "@entities/Media.entity";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 
 describe("List Media", () => {
   let Test: AppTest,
@@ -18,31 +19,39 @@ describe("List Media", () => {
 
     media = tests.fc.sample(MediaArb, 100);
 
-    await Test.ctx.db.save(
-      MediaEntity,
-      media.map((a) => ({
-        ...(a as any),
-      }))
-    )();
+    await throwTE(
+      Test.ctx.db.save(
+        MediaEntity,
+        media.map((a) => ({
+          ...(a as any),
+        }))
+      )
+    );
 
     [event] = tests.fc.sample(UncategorizedArb, 1);
 
-    await Test.ctx.db.save(EventV2Entity, [
-      { ...event, links: [], media: [{ id: media[0].id }], keywords: [] },
-    ])();
+    await throwTE(
+      Test.ctx.db.save(EventV2Entity, [
+        { ...event, links: [], media: [{ id: media[0].id }], keywords: [] },
+      ])
+    );
   });
 
   afterAll(async () => {
-    await Test.ctx.db.delete(
-      EventV2Entity,
-      [event].map((e) => e.id)
-    )();
+    await throwTE(
+      Test.ctx.db.delete(
+        EventV2Entity,
+        [event].map((e) => e.id)
+      )
+    );
 
-    await Test.ctx.db.delete(
-      MediaEntity,
-      media.map((a) => a.id)
-    )();
-    await Test.ctx.db.close()();
+    await throwTE(
+      Test.ctx.db.delete(
+        MediaEntity,
+        media.map((a) => a.id)
+      )
+    );
+    await throwTE(Test.ctx.db.close());
   });
 
   test("Should list media", async () => {

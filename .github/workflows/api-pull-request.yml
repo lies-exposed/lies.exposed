@@ -67,7 +67,7 @@ jobs:
       - name: Run tests
         env:
           DEBUG: "@liexp*"
-        run: yarn api test --ci --forceExit --runInBand
+        run: yarn api test --ci --forceExit
 
       - name: Run migrations
         env:

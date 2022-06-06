@@ -1,26 +1,29 @@
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
 import { fc } from "@liexp/core/tests";
 import { GroupMemberArb } from "@liexp/shared/tests";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
-import { GroupMemberEntity } from "../../../entities/GroupMember.entity";
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
+import { GroupMemberEntity } from "@entities/GroupMember.entity";
 
 describe("Search Events", () => {
   let appTest: AppTest, authorizationToken: string, totalEvents: number;
   const [firstActor, secondActor] = fc.sample(ActorArb, 2);
   const groups = fc.sample(GroupArb, 10);
+
   const [groupMember] = fc.sample(GroupMemberArb, 1).map((gm) => ({
     ...gm,
     actor: firstActor,
     group: groups[0],
   }));
+
   const eventsData = fc.sample(UncategorizedArb, 100).map((e) => ({
     ...e,
     draft: false,
@@ -32,12 +35,14 @@ describe("Search Events", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, [
-      firstActor,
-      secondActor,
-    ] as any[])();
-    await appTest.ctx.db.save(GroupEntity, groups as any[])();
-    await appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])();
+    await throwTE(
+      appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[])
+    );
+
+    await throwTE(appTest.ctx.db.save(GroupEntity, groups as any[]));
+    await throwTE(
+      appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])
+    );
     const groupMemberEvents = pipe(
       eventsData,
       A.takeLeft(10),
@@ -93,11 +98,9 @@ describe("Search Events", () => {
       ...groupEvents,
     ];
 
-    await appTest.ctx.db.save(EventV2Entity, events as any[])();
+    await throwTE(appTest.ctx.db.save(EventV2Entity, events as any[]));
 
-    totalEvents = await appTest.ctx.db
-      .count(EventV2Entity)()
-      .then((result) => (result as any).right);
+    totalEvents = await throwTE(appTest.ctx.db.count(EventV2Entity));
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
