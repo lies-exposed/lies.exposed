@@ -1,6 +1,7 @@
 import * as tests from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { AreaArb } from "@liexp/shared/tests/arbitrary/Area.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { AreaEntity } from "@entities/Area.entity";
 
@@ -14,11 +15,11 @@ describe("Delete Area", () => {
     } as any)()}`;
 
     areas = tests.fc.sample(AreaArb, 1);
-    await Test.ctx.db.save(AreaEntity, areas)();
+    await throwTE(Test.ctx.db.save(AreaEntity, areas));
   });
 
   afterAll(async () => {
-    await Test.ctx.db.close()();
+    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return a 200", async () => {

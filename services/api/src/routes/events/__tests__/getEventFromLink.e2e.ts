@@ -4,6 +4,7 @@ import {
   GroupMemberArb,
   UncategorizedArb,
 } from "@liexp/shared/tests";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import fc from "fast-check";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -42,16 +43,17 @@ describe("Get event from link", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, [
-      firstActor,
-      secondActor,
-    ] as any[])();
-    await appTest.ctx.db.save(GroupEntity, groups as any[])();
-    await appTest.ctx.db.save(GroupMemberEntity, groupsMembers as any[])();
+    await throwTE(
+      appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[])
+    );
+    await throwTE(appTest.ctx.db.save(GroupEntity, groups as any[]));
+    await throwTE(
+      appTest.ctx.db.save(GroupMemberEntity, groupsMembers as any[])
+    );
 
     const events = [...eventsData];
 
-    await appTest.ctx.db.save(EventV2Entity, events as any[])();
+    await throwTE(appTest.ctx.db.save(EventV2Entity, events as any[]));
 
     // totalEvents = await appTest.ctx.db
     //   .count(EventV2Entity)()
@@ -64,20 +66,26 @@ describe("Get event from link", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(
-      EventV2Entity,
-      eventsData.map((e) => e.id)
-    )();
-    await appTest.ctx.db.delete(
-      GroupMemberEntity,
-      groupsMembers.map((d) => d.id)
-    )();
-    await appTest.ctx.db.delete(ActorEntity, [firstActor.id])();
-    await appTest.ctx.db.delete(
-      GroupEntity,
-      groups.map((g) => g.id)
-    )();
-    await appTest.ctx.db.close()();
+    await throwTE(
+      appTest.ctx.db.delete(
+        EventV2Entity,
+        eventsData.map((e) => e.id)
+      )
+    );
+    await throwTE(
+      appTest.ctx.db.delete(
+        GroupMemberEntity,
+        groupsMembers.map((d) => d.id)
+      )
+    );
+    await throwTE(appTest.ctx.db.delete(ActorEntity, [firstActor.id]));
+    await throwTE(
+      appTest.ctx.db.delete(
+        GroupEntity,
+        groups.map((g) => g.id)
+      )
+    );
+    await throwTE(appTest.ctx.db.close());
   });
 
   test.skip("Return events sorted by score", async () => {
@@ -92,7 +100,6 @@ describe("Get event from link", () => {
     const response = await appTest.req
       .get(`/v1/events-from-link`)
       .query({ url: "http://lies.exposed" });
-
 
     const {
       deletedAt,

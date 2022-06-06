@@ -187,16 +187,20 @@ describe("Search Events", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(
-      EventV2Entity,
-      eventsData.map((e) => e.id)
-    )();
-    await appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id])();
-    await appTest.ctx.db.delete(ActorEntity, [firstActor.id])();
-    await appTest.ctx.db.delete(
-      GroupEntity,
-      groups.map((g) => g.id)
-    )();
-    await appTest.ctx.db.close()();
+    await throwTE(
+      appTest.ctx.db.delete(
+        EventV2Entity,
+        eventsData.map((e) => e.id)
+      )
+    );
+    await throwTE(appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id]));
+    await throwTE(appTest.ctx.db.delete(ActorEntity, [firstActor.id]));
+    await throwTE(
+      appTest.ctx.db.delete(
+        GroupEntity,
+        groups.map((g) => g.id)
+      )
+    );
+    await throwTE(appTest.ctx.db.close());
   });
 });

@@ -11,13 +11,15 @@ import * as logger from "../../../packages/@liexp/core/src/logger";
 import * as orm from "../src/providers/orm";
 import { getDBOptions } from "../src/utils/getDBOptions";
 import { TestENV } from "./TestENV";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 
 export default async (): Promise<void> => {
   try {
     const moduleLogger = logger.GetLogger("tests").extend("teardown");
 
     const dotenvConfigPath = path.resolve(
-      process.env.DOTENV_CONFIG_PATH ?? path.join(__dirname, '/../../../.env.test')
+      process.env.DOTENV_CONFIG_PATH ??
+        path.join(__dirname, "/../../../.env.test")
     );
 
     dotenv.config({ path: dotenvConfigPath });
@@ -39,17 +41,9 @@ export default async (): Promise<void> => {
           orm.GetTypeORMClient(getDBOptions(env, false)),
           TE.orElse(TE.throwError)
         );
-      })
-    )().then((result) => {
-      if (E.isLeft(result)) {
-        if ((result.left as any).details) {
-          moduleLogger.error.log("Errors %O", (result.left as any).details);
-        }
-        throw result.left;
-      }
-
-      moduleLogger.info.log("Done!");
-    });
+      }),
+      (te) => throwTE<any, any>(te)
+    );
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);

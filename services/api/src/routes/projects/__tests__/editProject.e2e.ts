@@ -1,6 +1,7 @@
 import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { MediaArb, ProjectArb } from "@liexp/shared/tests";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";
@@ -19,8 +20,9 @@ describe("Edit Project ", () => {
       TE.map((projects) => {
         project = projects[0];
         return projects;
-      })
-    )().then((r) => (r as any).right);
+      }),
+      throwTE
+    );
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -29,8 +31,8 @@ describe("Edit Project ", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(ProjectEntity, [project.id])();
-    await appTest.ctx.db.close()();
+    await throwTE(appTest.ctx.db.delete(ProjectEntity, [project.id]));
+    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should return a 200", async () => {

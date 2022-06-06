@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable import/order */
-import * as path from "path";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as dotenv from "dotenv";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import * as logger from "../../../packages/@liexp/core/src/logger";
+import * as path from "path";
 import * as orm from "../src/providers/orm";
 import { getDBOptions } from "../src/utils/getDBOptions";
 import { TestENV } from "./TestENV";
@@ -15,7 +15,6 @@ moduleAlias(path.resolve(__dirname, "../package.json"));
 
 export default async (): Promise<void> => {
   try {
-    const moduleLogger = logger.GetLogger("tests");
 
     const dotenvConfigPath = path.resolve(
       process.env.DOTENV_CONFIG_PATH ??
@@ -42,17 +41,9 @@ export default async (): Promise<void> => {
           TE.chain((db) => db.close()),
           TE.orElse(TE.throwError)
         );
-      })
-    )().then((result) => {
-      if (E.isLeft(result)) {
-        if ((result.left as any).details) {
-          moduleLogger.error.log("Errors %O", (result.left as any).details);
-        }
-        throw result.left;
-      }
-
-      moduleLogger.info.log("Done!");
-    });
+      }),
+      (te) => throwTE<any, any>(te)
+    );
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e);

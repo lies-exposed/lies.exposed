@@ -2,6 +2,7 @@ import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { ColorArb } from "@liexp/shared/tests/arbitrary/common/Color.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
@@ -16,8 +17,8 @@ describe("Create Keyword", () => {
   });
 
   afterAll(async () => {
-    await Test.ctx.db.delete(KeywordEntity, keyword.id)();
-    await Test.ctx.db.close()();
+    await throwTE(Test.ctx.db.delete(KeywordEntity, keyword.id));
+    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return a 401", async () => {

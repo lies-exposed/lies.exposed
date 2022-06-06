@@ -1,6 +1,7 @@
 import { fc } from "@liexp/core/tests";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";
@@ -20,9 +21,9 @@ describe("List Groups", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, actors as any[])();
+    await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
 
-    await appTest.ctx.db.save(GroupEntity, groups as any[])();
+    await throwTE(appTest.ctx.db.save(GroupEntity, groups as any[]));
 
     groupMembers = pipe(
       groups,
@@ -35,10 +36,8 @@ describe("List Groups", () => {
       }))
     );
 
-    await appTest.ctx.db.save(GroupMemberEntity, groupMembers)();
-    totalEvents = await appTest.ctx.db
-      .count(GroupEntity)()
-      .then((result) => (result as any).right);
+    await throwTE(appTest.ctx.db.save(GroupMemberEntity, groupMembers));
+    totalEvents = await throwTE(appTest.ctx.db.count(GroupEntity));
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -47,19 +46,25 @@ describe("List Groups", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(
-      GroupMemberEntity,
-      groupMembers.map((g) => g.id)
-    )();
-    await appTest.ctx.db.delete(
-      ActorEntity,
-      actors.map((a) => a.id)
-    )();
-    await appTest.ctx.db.delete(
-      GroupEntity,
-      groups.map((g) => g.id)
-    )();
-    await appTest.ctx.db.close()();
+    await throwTE(
+      appTest.ctx.db.delete(
+        GroupMemberEntity,
+        groupMembers.map((g) => g.id)
+      )
+    );
+    await throwTE(
+      appTest.ctx.db.delete(
+        ActorEntity,
+        actors.map((a) => a.id)
+      )
+    );
+    await throwTE(
+      appTest.ctx.db.delete(
+        GroupEntity,
+        groups.map((g) => g.id)
+      )
+    );
+    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should return all groups", async () => {

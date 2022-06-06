@@ -1,6 +1,7 @@
 import * as tests from "@liexp/core/tests";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -32,25 +33,31 @@ describe("List Group Member", () => {
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
-    await Test.ctx.db.save(ActorEntity, actors)();
-    await Test.ctx.db.save(GroupEntity, groups)();
-    await Test.ctx.db.save(GroupMemberEntity, groupsMembers)();
+    await throwTE(Test.ctx.db.save(ActorEntity, actors));
+    await throwTE(Test.ctx.db.save(GroupEntity, groups));
+    await throwTE(Test.ctx.db.save(GroupMemberEntity, groupsMembers));
   });
 
   afterAll(async () => {
-    await Test.ctx.db.delete(
-      GroupMemberEntity,
-      groupsMembers.map((g) => g.id)
-    )();
-    await Test.ctx.db.delete(
-      GroupEntity,
-      groups.map((g) => g.id)
-    )();
-    await Test.ctx.db.delete(
-      ActorEntity,
-      actors.map((a) => a.id)
-    )();
-    await Test.ctx.db.close()();
+    await throwTE(
+      Test.ctx.db.delete(
+        GroupMemberEntity,
+        groupsMembers.map((g) => g.id)
+      )
+    );
+    await throwTE(
+      Test.ctx.db.delete(
+        GroupEntity,
+        groups.map((g) => g.id)
+      )
+    );
+    await throwTE(
+      Test.ctx.db.delete(
+        ActorEntity,
+        actors.map((a) => a.id)
+      )
+    );
+    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return group member by given search", async () => {

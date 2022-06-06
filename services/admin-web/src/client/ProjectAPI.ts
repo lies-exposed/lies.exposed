@@ -1,9 +1,9 @@
 import { Project } from "@liexp/shared/io/http/Project";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as http from "@liexp/ui/http";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
-import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { CreateParams, CreateResult, UpdateParams } from "react-admin";
@@ -61,8 +61,8 @@ export const editProject =
           E.toError
         );
       }),
-      TE.fold(T.task.of, (result) => T.of(result as any))
-    )();
+      throwTE
+    );
   };
 
 export const createProject =
@@ -86,6 +86,6 @@ export const createProject =
         () => client.create<Project>(resource, createParams),
         E.toError
       ),
-      TE.fold(T.task.of, (result) => T.of(result as any))
-    )();
+      throwTE
+    );
   };

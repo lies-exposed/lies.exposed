@@ -3,6 +3,7 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { CreateScientificStudyArb } from "@liexp/shared/tests/arbitrary/events/ScientificStudy.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -19,10 +20,14 @@ describe("Create Scientific Study", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, [
-      { ...actor, death: undefined, memberIn: [] },
-    ])();
-    await appTest.ctx.db.save(GroupEntity, [{ ...group, members: [] }])();
+    await throwTE(
+      appTest.ctx.db.save(ActorEntity, [
+        { ...actor, death: undefined, memberIn: [] },
+      ])
+    );
+    await throwTE(
+      appTest.ctx.db.save(GroupEntity, [{ ...group, members: [] }])
+    );
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -31,10 +36,10 @@ describe("Create Scientific Study", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(EventV2Entity, [scientificStudy.id])();
-    await appTest.ctx.db.delete(ActorEntity, [actor.id])();
-    await appTest.ctx.db.delete(GroupEntity, [group.id])();
-    await appTest.ctx.db.close()();
+    await throwTE(appTest.ctx.db.delete(EventV2Entity, [scientificStudy.id]));
+    await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
+    await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
+    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should create a scientific study", async () => {

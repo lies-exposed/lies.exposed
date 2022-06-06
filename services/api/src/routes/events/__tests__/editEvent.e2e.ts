@@ -5,6 +5,7 @@ import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary"
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { LinkArb } from "@liexp/shared/tests/arbitrary/Link.arbitrary";
 import { MediaArb } from "@liexp/shared/tests/arbitrary/Media.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -45,17 +46,20 @@ describe("Edit Event", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, [actor] as any[])();
-    await appTest.ctx.db.save(GroupEntity, [group] as any[])();
-    await appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])();
-    const result = await appTest.ctx.db.save(EventV2Entity, [event] as any[])();
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group] as any[]));
+    await throwTE(
+      appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[])
+    );
+    const result = await throwTE(
+      appTest.ctx.db.save(EventV2Entity, [event] as any[])
+    );
 
-    delete (result as any).right[0].endDate;
-    delete (result as any).right[0].deletedAt;
 
+    delete (result[0] as any).deletedAt
     event = {
       ...event,
-      ...(result as any).right[0],
+      ...(result[0] as any),
     };
 
     authorizationToken = `Bearer ${jwt.sign(
@@ -65,11 +69,11 @@ describe("Edit Event", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(EventV2Entity, [event.id])();
-    await appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id])();
-    await appTest.ctx.db.delete(ActorEntity, [actor.id])();
-    await appTest.ctx.db.delete(GroupEntity, [group.id])();
-    await appTest.ctx.db.close()();
+    await throwTE(appTest.ctx.db.delete(EventV2Entity, [event.id]));
+    await throwTE(appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id]));
+    await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
+    await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
+    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should edit the event", async () => {

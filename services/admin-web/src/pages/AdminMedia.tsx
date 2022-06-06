@@ -1,5 +1,6 @@
 import { parsePlatformURL } from "@liexp/shared/helpers/media";
 import { MediaType } from "@liexp/shared/io/http/Media";
+import { throwTE } from '@liexp/shared/utils/task.utils';
 import { uuid } from "@liexp/shared/utils/uuid";
 import { Box, Button, Typography } from "@mui/material";
 import * as E from "fp-ts/lib/Either";
@@ -173,13 +174,9 @@ const transformMedia = (data: RaRecord): RaRecord | Promise<RaRecord> => {
       ...media,
       events,
       links,
-    }))
-  )().then((result) => {
-    if (E.isLeft(result)) {
-      throw result.left;
-    }
-    return result.right;
-  });
+    })),
+    throwTE
+  );
 };
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {

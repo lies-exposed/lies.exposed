@@ -1,6 +1,7 @@
 import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -15,7 +16,7 @@ describe("Create Death Event", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, [actor] as any[])();
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -63,7 +64,7 @@ describe("Create Death Event", () => {
   test.todo("Should create an event with group members");
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(EventV2Entity, [deathEvent.id])();
-    await appTest.ctx.db.delete(ActorEntity, [actor.id])();
+    await throwTE(appTest.ctx.db.delete(EventV2Entity, [deathEvent.id]));
+    await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
   });
 });

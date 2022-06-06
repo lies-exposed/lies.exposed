@@ -1,6 +1,7 @@
 import * as tests from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
+import { throwTE } from '@liexp/shared/utils/task.utils';
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 
@@ -25,11 +26,11 @@ describe("List Actor", () => {
   });
 
   afterAll(async () => {
-    await Test.ctx.db.delete(
+    await throwTE( Test.ctx.db.delete(
       ActorEntity,
       actors.map((a) => a.id)
-    )();
-    await Test.ctx.db.close()();
+    ));
+    await throwTE( Test.ctx.db.close());
   });
 
   test("Should return actors", async () => {

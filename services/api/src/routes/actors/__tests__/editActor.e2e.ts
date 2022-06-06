@@ -1,5 +1,6 @@
 import * as tests from "@liexp/core/tests";
 import { ActorArb, GroupArb } from "@liexp/shared/tests";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
@@ -20,12 +21,12 @@ describe("Edit Actor", () => {
       id: "1",
     } as any)()}`;
 
-    await Test.ctx.db.save(ActorEntity, [actor])();
+    await throwTE(Test.ctx.db.save(ActorEntity, [actor]));
   });
 
   afterAll(async () => {
-    await Test.ctx.db.delete(ActorEntity, [actor.id])();
-    await Test.ctx.db.close()();
+    await throwTE(Test.ctx.db.delete(ActorEntity, [actor.id]));
+    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return a 401", async () => {
@@ -68,12 +69,12 @@ describe("Edit Actor", () => {
         members: [],
       }));
 
-      await Test.ctx.db.save(GroupEntity, groups)();
+      await throwTE(Test.ctx.db.save(GroupEntity, groups));
       const memberIn = groups.map((g) => ({
         group: { id: g.id },
         actor: { id: actor.id },
       }));
-      await Test.ctx.db.save(GroupMemberEntity, memberIn)();
+      await throwTE(Test.ctx.db.save(GroupMemberEntity, memberIn));
 
       const getActor = await Test.req
         .get(`/v1/actors/${actor.id}`)
@@ -87,7 +88,7 @@ describe("Edit Actor", () => {
         members: [],
       }));
 
-      await Test.ctx.db.save(GroupEntity, otherGroups)();
+      await throwTE(Test.ctx.db.save(GroupEntity, otherGroups));
       const alsoMemberIn = groups.map((g) => ({
         group: g.id,
         actor: actor.id,
@@ -109,14 +110,15 @@ describe("Edit Actor", () => {
       });
       expect(response.body.data.memberIn).toHaveLength(20);
 
-      await Test.ctx.db.delete(
-        GroupMemberEntity,
-        response.body.data.memberIn
-      )();
-      await Test.ctx.db.delete(GroupEntity, [
-        ...groups.map((g) => g.id),
-        ...otherGroups.map((g) => g.id),
-      ])();
+      await throwTE(
+        Test.ctx.db.delete(GroupMemberEntity, response.body.data.memberIn)
+      );
+      await throwTE(
+        Test.ctx.db.delete(GroupEntity, [
+          ...groups.map((g) => g.id),
+          ...otherGroups.map((g) => g.id),
+        ])
+      );
     });
   });
 });
