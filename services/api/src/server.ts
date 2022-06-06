@@ -48,6 +48,7 @@ import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDBOptions } from "@utils/getDBOptions";
+import { GetWriteJSON } from "@utils/json.utils";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -205,10 +206,18 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   ctx.tg.onMessage((msg, metadata) => {
     void pipe(
-      createFromTGMessage({ ...ctx, logger: tgLogger })(
-        msg,
-        metadata
-      ),
+      sequenceS(TE.ApplicativePar)({
+        storeMsg: GetWriteJSON(ctx.logger)(
+          path.resolve(
+            process.cwd(),
+            `temp/tg/messages/${msg.message_id}.json`
+          )
+        )(msg),
+        eventSuggestion: createFromTGMessage({ ...ctx, logger: tgLogger })(
+          msg,
+          metadata
+        ),
+      }),
       throwTE
     ).then(
       (r) => {
