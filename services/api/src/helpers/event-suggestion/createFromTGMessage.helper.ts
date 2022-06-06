@@ -42,6 +42,7 @@ const createEventSuggestionFromLink =
               },
               date: publishDate,
               links: [l.id],
+              media: [],
               keywords: hashtags,
             },
           },
@@ -67,15 +68,17 @@ export const createFromTGMessage =
     // fetch url metadata and create hashtags when given
     // save the event suggestion
 
-    const urlEntity = (message.entities ?? []).reduce<URL[]>((acc, e) => {
-      if (e.type === "url") {
-        return acc.concat(message.text?.slice(e.offset, e.length) as any);
-      }
-      if (e.type === "text_link") {
-        return acc.concat(e.url as any);
-      }
-      return acc;
-    }, []);
+    const urlEntity = (message.entities ?? [])
+      .concat(message.caption_entities ?? [])
+      .reduce<URL[]>((acc, e) => {
+        if (e.type === "url") {
+          return acc.concat(message.text?.slice(e.offset, e.length) as any);
+        }
+        if (e.type === "text_link") {
+          return acc.concat(e.url as any);
+        }
+        return acc;
+      }, []);
 
     const url = pipe(O.fromNullable(urlEntity[0]));
 
@@ -134,7 +137,7 @@ export const createFromTGMessage =
                     status: O.none,
                     links: O.some([optLink.value.id]),
                     newLinks: O.none,
-                    order: {}
+                    order: {},
                   }),
                   TE.chain(({ data }) => {
                     ctx.logger.debug.log("Found event suggestions %O", data);
@@ -199,5 +202,11 @@ export const createFromTGMessage =
       })
     );
 
-    return pipe(findLink);
+    return pipe(
+      findLink,
+      TE.mapLeft((e) => {
+        ctx.logger.error.log("Error %O", e);
+        return e;
+      })
+    );
   };
