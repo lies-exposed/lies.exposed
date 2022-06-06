@@ -1,4 +1,5 @@
 import { http } from "@liexp/shared/io";
+import { throwTE } from '@liexp/shared/utils/task.utils';
 import { uuid } from "@liexp/shared/utils/uuid";
 import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
@@ -85,13 +86,9 @@ const transformActor = async (
       ...data,
       id,
       avatar: avatar.location,
-    }))
-  )().then((result) => {
-    if (result._tag === "Left") {
-      return Promise.reject(result.left);
-    }
-    return result.right;
-  });
+    })),
+    throwTE
+  );
 };
 
 const EditTitle: React.FC = () => {

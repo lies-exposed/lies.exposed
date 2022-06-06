@@ -5,6 +5,7 @@ import * as Area from "./Area";
 import * as Article from "./Article";
 import * as Common from "./Common";
 import * as Error from "./Error";
+import * as EventSuggestion from './EventSuggestion'
 import * as Events from "./Events";
 import * as Group from "./Group";
 import * as GroupMember from "./GroupMember";
@@ -56,4 +57,5 @@ export {
   Query,
   Network,
   Topic,
+  EventSuggestion
 };

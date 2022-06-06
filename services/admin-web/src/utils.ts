@@ -1,4 +1,5 @@
 import { Media } from "@liexp/shared/io/http";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -109,11 +110,7 @@ export const transformEvent = async (
       media,
       links,
       endDate: data.endDate?.length > 0 ? data.endDate : undefined,
-    }))
-  )().then((result) => {
-    if (result._tag === "Left") {
-      return Promise.reject(result.left);
-    }
-    return result.right;
-  });
+    })),
+    throwTE
+  );
 };

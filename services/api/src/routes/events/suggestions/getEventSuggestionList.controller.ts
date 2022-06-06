@@ -1,45 +1,39 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { sequenceS } from "fp-ts/lib/Apply";
+import { EventSuggestion } from "@liexp/shared/io/http";
 import * as A from "fp-ts/lib/Array";
-import * as E from 'fp-ts/lib/Either';
+import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { In } from "typeorm";
 import { toEventSuggestion } from "./eventSuggestion.io";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
+import { searchEventSuggestion } from "@helpers/event-suggestion/searchEventSuggestion.helper";
 import { Route } from "@routes/route.types";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.GetSuggestions,
-    ({ query: { status, _order, _sort } }) => {
+    ({ query: { status, links, _order, _sort } }) => {
       const ordering = foldOptionals({
         _sort,
         _order,
       });
 
-      const statusFilter = pipe(
-        status,
-        O.fold(
-          () => ["PENDING", "COMPLETED"],
-          (s) => [s]
-        ),
-        In
-      );
+      const statusFilter: O.Option<EventSuggestion.EventSuggestionStatus[]> =
+        pipe(
+          status,
+          O.map((s) => [s]),
+          O.alt((): O.Option<EventSuggestion.EventSuggestionStatus[]> => O.some(["PENDING", "COMPLETED"]))
+        );
 
       return pipe(
-        sequenceS(TE.ApplicativePar)({
-          data: ctx.db.find(EventSuggestionEntity, {
-            where: {
-              status: statusFilter,
-            },
-            order: {
-              [ordering._sort]: ordering._order,
-            },
-          }),
-          total: ctx.db.count(EventSuggestionEntity),
+        searchEventSuggestion(ctx)({
+          status: statusFilter,
+          links,
+          newLinks: O.none,
+          order: {
+            [ordering._sort]: ordering._order,
+          },
         }),
         TE.chainEitherK(({ data, total }) =>
           pipe(

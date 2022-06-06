@@ -1,5 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { Events } from "@liexp/shared/io/http";
+import { Events, EventSuggestion } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { createExcerptValue } from "@liexp/ui/components/Common/Editor/index";
 import { addWeeks, subWeeks } from "date-fns";
@@ -94,9 +94,9 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               deletedAt: undefined,
             };
 
-            const suggestions: Events.EventSuggestion[] = [
+            const suggestions: EventSuggestion.EventSuggestion[] = [
               {
-                type: Events.EventSuggestionType.types[0].value,
+                type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {
                   ...commonSuggestion,
                   type: Events.Documentary.DOCUMENTARY.value,
@@ -116,7 +116,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
               {
-                type: Events.EventSuggestionType.types[0].value,
+                type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {
                   ...commonSuggestion,
                   type: Events.Patent.PATENT.value,
@@ -131,7 +131,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
               {
-                type: Events.EventSuggestionType.types[0].value,
+                type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {
                   ...commonSuggestion,
                   type: Events.ScientificStudy.SCIENTIFIC_STUDY.value,
@@ -145,7 +145,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
               {
-                type: Events.EventSuggestionType.types[0].value,
+                type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {
                   ...commonSuggestion,
                   type: Events.Death.DEATH.value,
@@ -156,7 +156,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
               {
-                type: Events.EventSuggestionType.types[0].value,
+                type: EventSuggestion.EventSuggestionType.types[0].value,
                 event: {
                   ...commonSuggestion,
                   type: Events.Uncategorized.UNCATEGORIZED.value,

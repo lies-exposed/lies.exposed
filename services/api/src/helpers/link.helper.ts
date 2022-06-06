@@ -24,7 +24,9 @@ export const fetchAndCreate =
             image: meta.image
               ? {
                   id: uuid(),
+                  thumbnail: meta.image,
                   location: meta.image,
+                  description: meta.description ?? meta.url,
                   publishDate: meta.date ?? new Date(),
                 }
               : null,

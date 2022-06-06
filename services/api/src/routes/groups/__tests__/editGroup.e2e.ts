@@ -1,6 +1,7 @@
 import { fc } from "@liexp/core/tests";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -19,9 +20,9 @@ describe("Edit Group", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, actors as any[])();
+    await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
 
-    await appTest.ctx.db.save(GroupEntity, [group] as any[])();
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group] as any[]));
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -30,12 +31,14 @@ describe("Edit Group", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(
-      ActorEntity,
-      actors.map((a) => a.id)
-    )();
-    await appTest.ctx.db.delete(GroupEntity, [group.id])();
-    await appTest.ctx.db.close()();
+    await throwTE(
+      appTest.ctx.db.delete(
+        ActorEntity,
+        actors.map((a) => a.id)
+      )
+    );
+    await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
+    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should edit the group", async () => {

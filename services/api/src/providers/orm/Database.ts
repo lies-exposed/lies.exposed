@@ -139,8 +139,11 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     );
     return format;
   };
+
   const execQuery = <T>(lazyQ: () => Promise<T>): TE.TaskEither<DBError, T> =>
     TE.tryCatch(lazyQ, toError(ctx.logger)());
+
+  const handleError = toError(ctx.logger)
 
   return {
     manager: ctx.connection.manager,
@@ -157,7 +160,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       return pipe(
         TE.tryCatch(
           () => ctx.connection.manager.findOne(entity, options),
-          toError(ctx.logger)()
+          handleError()
         ),
         TE.map(O.fromNullable)
       );
@@ -170,14 +173,14 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.findOneOrFail(entity, options),
-        toError(ctx.logger)({ status: 404 })
+        handleError({ status: 404 })
       );
     },
     find: (entity, options) => {
       ctx.logger.debug.log(`find %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
-        toError(ctx.logger)()
+        handleError()
       );
     },
     findAndCount: (entity, options) => {
@@ -188,14 +191,14 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.findAndCount(entity, options),
-        toError(ctx.logger)()
+        handleError()
       );
     },
     count: (entity, options) => {
       ctx.logger.debug.log(`count %s with options %O`, entity, options);
       return TE.tryCatch(
         () => ctx.connection.manager.count(entity, options),
-        toError(ctx.logger)()
+        handleError()
       );
     },
     save: <E, T extends DeepPartial<E>>(
@@ -214,7 +217,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
           ctx.connection.manager.save(entity, data, options) as any as Promise<
             E[]
           >,
-        toError(ctx.logger)()
+        handleError()
       );
     },
     update: (entity, criteria, data) => {
@@ -226,7 +229,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.update(entity, criteria, data),
-        toError(ctx.logger)()
+        handleError()
       );
     },
     delete: (entity, criteria) => {
@@ -237,7 +240,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.delete(entity, criteria),
-        toError(ctx.logger)()
+        handleError()
       );
     },
     softDelete: (entity, criteria) => {
@@ -248,7 +251,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
       return TE.tryCatch(
         () => ctx.connection.manager.softDelete(entity, criteria),
-        toError(ctx.logger)()
+        handleError()
       );
     },
     transaction: <T>(
@@ -264,13 +267,13 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
               });
               return task(transactionClient)();
             }),
-          toError(ctx.logger)()
+          handleError()
         ),
         TE.chain(TE.fromEither)
       );
     },
     close: () =>
-      TE.tryCatch(() => ctx.connection.close(), toError(ctx.logger)()),
+      TE.tryCatch(() => ctx.connection.close(), handleError()),
   };
 };
 

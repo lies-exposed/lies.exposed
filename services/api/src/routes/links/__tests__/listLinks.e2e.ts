@@ -1,6 +1,7 @@
 import * as tests from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { LinkArb, UncategorizedArb } from "@liexp/shared/tests";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
@@ -19,19 +20,17 @@ describe("List Links", () => {
       keywords: [],
     }));
 
-    await Test.ctx.db
-      .save(LinkEntity, links as any[])()
-      .then((r) => {
-        links = (r as any).right;
-      });
+    links = await throwTE<any, any>(Test.ctx.db.save(LinkEntity, links as any[]));
   });
 
   afterAll(async () => {
-    await Test.ctx.db.delete(
-      LinkEntity,
-      links.map((a) => a.id)
-    )();
-    await Test.ctx.db.close()();
+    await throwTE(
+      Test.ctx.db.delete(
+        LinkEntity,
+        links.map((a) => a.id)
+      )
+    );
+    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return links", async () => {
@@ -44,7 +43,6 @@ describe("List Links", () => {
   });
 
   describe("Links events", () => {
-
     test("Should return an empty list with 'emptyEvents' query", async () => {
       const events = tests.fc.sample(UncategorizedArb, 1).map((e) => ({
         ...e,
@@ -54,7 +52,7 @@ describe("List Links", () => {
         links: [{ id: links[0].id }],
       }));
 
-      await Test.ctx.db.save(EventV2Entity, events as any)();
+      await throwTE(Test.ctx.db.save(EventV2Entity, events as any));
 
       const response = await Test.req
         .get("/v1/links")
@@ -63,10 +61,12 @@ describe("List Links", () => {
           emptyEvents: "true",
         });
 
-      await Test.ctx.db.delete(
-        EventV2Entity,
-        events.map((e) => e.id as any)
-      )();
+      await throwTE(
+        Test.ctx.db.delete(
+          EventV2Entity,
+          events.map((e) => e.id as any)
+        )
+      );
 
       const data = response.body.data;
 
@@ -82,7 +82,7 @@ describe("List Links", () => {
         links: [{ id: links[0].id }],
       }));
 
-      await Test.ctx.db.save(EventV2Entity, events as any)();
+      await throwTE(Test.ctx.db.save(EventV2Entity, events as any));
 
       const response = await Test.req
         .get("/v1/links")
@@ -91,10 +91,12 @@ describe("List Links", () => {
           "events[]": [events[0].id],
         });
 
-      await Test.ctx.db.delete(
-        EventV2Entity,
-        events.map((e) => e.id as any)
-      )();
+      await throwTE(
+        Test.ctx.db.delete(
+          EventV2Entity,
+          events.map((e) => e.id as any)
+        )
+      );
 
       const data = response.body.data;
 

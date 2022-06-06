@@ -1,4 +1,5 @@
 import * as tests from "@liexp/core/tests";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -30,8 +31,8 @@ describe("Delete Actor", () => {
   });
 
   afterAll(async () => {
-    await Test.ctx.db.delete(ActorEntity, [actor.id])();
-    await Test.ctx.db.close()();
+    await throwTE(Test.ctx.db.delete(ActorEntity, [actor.id]));
+    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return a 401", async () => {

@@ -1,4 +1,5 @@
 import * as tests from "@liexp/core/tests";
+import { throwTE } from '@liexp/shared/utils/task.utils';
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 
 describe("Create Actor", () => {
@@ -11,7 +12,7 @@ describe("Create Actor", () => {
   });
 
   afterAll(async () => {
-    await Test.ctx.db.close()();
+    await throwTE( Test.ctx.db.close());
   });
 
   test("Should return a 401", async () => {

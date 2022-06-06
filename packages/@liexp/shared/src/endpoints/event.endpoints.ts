@@ -80,7 +80,7 @@ export const CreateSuggestion = Endpoint({
   Method: "POST",
   getPath: () => `/events/suggestions`,
   Input: {
-    Body: http.Events.EventSuggestion,
+    Body: http.EventSuggestion.EventSuggestion,
   },
   Output: t.strict(
     {
@@ -95,7 +95,7 @@ export const EditSuggestion = Endpoint({
   getPath: ({ id }) => `/events/suggestions/${id}`,
   Input: {
     Params: t.type({ id: UUID }),
-    Body: http.Events.EventSuggestion,
+    Body: http.EventSuggestion.EventSuggestion,
   },
   Output: t.strict(
     {
@@ -150,7 +150,7 @@ export const GetFromLink = Endpoint({
     [
       ListEventOutput,
       t.type({
-        suggestions: t.array(http.Events.EventSuggestion),
+        suggestions: t.array(http.EventSuggestion.EventSuggestion),
       }),
     ],
     "GetEventsFromLinkOutput"
@@ -162,7 +162,7 @@ export const GetSuggestion = Endpoint({
   getPath: ({ id }) => `/events/suggestions/${id}`,
   Input: { Params: t.type({ id: UUID }) },
   Output: http.Common.ListOutput(
-    http.Events.EventSuggestion,
+    http.EventSuggestion.EventSuggestion,
     "EventSuggestionListOutput"
   ),
 });
@@ -173,11 +173,12 @@ export const GetSuggestions = Endpoint({
   Input: {
     Query: t.type({
       ...http.Query.SortQuery.props,
-      status: optionFromNullable(t.string),
+      status: optionFromNullable(http.EventSuggestion.EventSuggestionStatus),
+      links: optionFromNullable(t.array(UUID))
     }),
   },
   Output: http.Common.ListOutput(
-    http.Events.EventSuggestion,
+    http.EventSuggestion.EventSuggestion,
     "EventSuggestionListOutput"
   ),
 });

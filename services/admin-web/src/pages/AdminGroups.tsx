@@ -1,5 +1,6 @@
 import * as io from "@liexp/shared/io";
 import { Media } from "@liexp/shared/io/http";
+import { throwTE } from '@liexp/shared/utils/task.utils';
 import { uuid } from "@liexp/shared/utils/uuid";
 import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
@@ -135,13 +136,9 @@ const transformGroup = (data: RaRecord): RaRecord | Promise<RaRecord> => {
       excerpt: data.excerpt ?? undefined,
       avatar: locations[0].location,
       members,
-    }))
-  )().then((result) => {
-    if (E.isLeft(result)) {
-      throw result.left;
-    }
-    return result.right;
-  });
+    })),
+    throwTE
+  );
 };
 
 const EditTitle: React.FC<EditProps> = () => {

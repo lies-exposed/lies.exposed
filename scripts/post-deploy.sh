@@ -25,6 +25,7 @@ sudo chown -R www-data:www-data /var/www/html/alpha.lies.exposed
 yarn api build
 yarn api migration:run
 mkdir -p ./services/api/temp
+mkdir -p ./services/api/temp/tg/messages
 
 # web
 yarn web build

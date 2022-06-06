@@ -1,8 +1,8 @@
 import { Group } from "@liexp/shared/io/http/Group";
 import { MediaType } from "@liexp/shared/io/http/Media";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { APIRESTClient } from "@liexp/ui/http";
 import * as E from "fp-ts/lib/Either";
-import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import {
@@ -50,8 +50,8 @@ export const createGroup =
           )
         );
       }),
-      TE.fold(T.task.of, (result) => T.of(result as any))
-    )();
+      throwTE
+    );
   };
 
 export const editGroup =
@@ -83,6 +83,6 @@ export const editGroup =
           E.toError
         )
       ),
-      TE.fold(T.of, (result) => T.of(result as any))
-    )();
+      throwTE
+    );
   };

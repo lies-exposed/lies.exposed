@@ -1,5 +1,5 @@
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { MakeSpaceClient } from "@providers/space/SpaceClient";
-import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
 import supertest from "supertest";
@@ -27,7 +27,7 @@ export const initAppTest = async (): Promise<AppTest> => {
   const fetchHTML = jest.fn();
   const fetchMetadata = jest.fn();
 
-  return await pipe(
+  appTest = await pipe(
     makeContext(process.env),
     TE.map((ctx) => ({
       ...ctx,
@@ -59,12 +59,9 @@ export const initAppTest = async (): Promise<AppTest> => {
         },
       },
       req: supertest(makeApp(ctx)),
-    }))
-  )().then((value) => {
-    if (E.isRight(value)) {
-      appTest = value.right;
-      return appTest;
-    }
-    throw value.left;
-  });
+    })),
+    throwTE
+  );
+
+  return appTest;
 };

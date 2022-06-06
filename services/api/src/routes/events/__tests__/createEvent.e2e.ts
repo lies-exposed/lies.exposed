@@ -3,6 +3,7 @@ import * as http from "@liexp/shared/io/http";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { CreateEventBodyArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -29,8 +30,8 @@ describe("Create Event", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(ActorEntity, actors as any[])();
-    await appTest.ctx.db.save(KeywordEntity, keywords)();
+    await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
+    await throwTE(appTest.ctx.db.save(KeywordEntity, keywords));
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -99,29 +100,27 @@ describe("Create Event", () => {
   test.todo("Should create an event with group members");
 
   afterAll(async () => {
-    const keywords = (
-      (await pipe(
-        appTest.ctx.db.find(EventV2Entity, {
-          loadRelationIds: {
-            relations: ["keywords"],
-          },
-          where: {
-            id: In(eventIds),
-          },
-        }),
-        TE.map((events) =>
-          events.reduce<string[]>(
-            (acc, e) => acc.concat(e.keywords as any[] as string[]),
-            []
-          )
+    const keywords = await pipe(
+      appTest.ctx.db.find(EventV2Entity, {
+        loadRelationIds: {
+          relations: ["keywords"],
+        },
+        where: {
+          id: In(eventIds),
+        },
+      }),
+      TE.map((events) =>
+        events.reduce<string[]>(
+          (acc, e) => acc.concat(e.keywords as any[] as string[]),
+          []
         )
-      )()) as any
-    ).right;
+      ),
+      throwTE
+    );
 
-    await appTest.ctx.db.delete(EventV2Entity, eventIds)();
-    await appTest.ctx.db.delete(ActorEntity, actorIds)();
-    await appTest.ctx.db.delete(KeywordEntity, keywords)();
-
-    await appTest.ctx.db.close()();
+    await throwTE(appTest.ctx.db.delete(EventV2Entity, eventIds));
+    await throwTE(appTest.ctx.db.delete(ActorEntity, actorIds));
+    await throwTE(appTest.ctx.db.delete(KeywordEntity, keywords));
+    await throwTE(appTest.ctx.db.close());
   });
 });

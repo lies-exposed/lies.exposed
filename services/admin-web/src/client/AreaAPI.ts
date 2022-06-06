@@ -1,7 +1,7 @@
 import { Area } from "@liexp/shared/io/http/Area";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as http from "@liexp/ui/http";
 import * as E from "fp-ts/lib/Either";
-import * as T from "fp-ts/lib/Task";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { UpdateParams, UpdateResult } from "react-admin";
@@ -19,6 +19,6 @@ export const editArea =
 
     return pipe(
       TE.tryCatch(() => client.update<Area>(resource, updateParams), E.toError),
-      TE.fold(T.task.of, (result) => T.of(result as any))
-    )();
+      throwTE
+    );
   };

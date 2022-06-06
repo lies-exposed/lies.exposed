@@ -1,4 +1,5 @@
 import { http } from "@liexp/shared/io";
+import { throwTE } from '@liexp/shared/utils/task.utils';
 import { ArticlePageContent } from "@liexp/ui/components/ArticlePageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
@@ -59,13 +60,9 @@ const transformArticle = (data: RaRecord): RaRecord | Promise<RaRecord> => {
       uploadImages(apiProvider)("articles", data.path, [
         data.featuredImage.rawFile,
       ]),
-      TE.map((locations) => ({ ...data, featuredImage: locations[0] }))
-    )().then((result) => {
-      if (E.isLeft(result)) {
-        throw result.left;
-      }
-      return result.right;
-    });
+      TE.map((locations) => ({ ...data, featuredImage: locations[0] })),
+      throwTE
+    );
   }
   return data;
 };

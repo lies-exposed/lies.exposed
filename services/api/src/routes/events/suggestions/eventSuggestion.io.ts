@@ -8,14 +8,16 @@ export const toEventSuggestion = (
   event: EventSuggestionEntity
 ): E.Either<
   ControllerError,
-  { id: string; payload: io.http.Events.EventSuggestion }
+  { id: string; payload: io.http.EventSuggestion.EventSuggestion }
 > => {
   const newLinks =
     event.payload.event.newLinks ??
-    event.payload.event.links.map((l: any) => ({
-      ...l,
-      fromURL: true,
-    })) ??
+    event.payload.event.links
+      .filter((l) => typeof l !== "string")
+      .map((l: any) => ({
+        ...l,
+        fromURL: true,
+      })) ??
     [];
 
   const eventEncoded = {
@@ -23,14 +25,13 @@ export const toEventSuggestion = (
     event: {
       ...event.payload.event,
       draft: event.payload.event.draft ?? true,
-      links: [],
       media: [],
       newLinks,
     },
   };
 
   return pipe(
-    io.http.Events.EventSuggestion.decode(eventEncoded),
+    io.http.EventSuggestion.EventSuggestion.decode(eventEncoded),
     E.map((payload) => ({ ...event, payload })),
     E.mapLeft((e) =>
       DecodeError(`Failed to decode Event Suggestion (${event.id})`, e)

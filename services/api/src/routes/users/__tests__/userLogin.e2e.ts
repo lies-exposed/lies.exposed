@@ -1,4 +1,5 @@
 import { fc } from "@liexp/core/tests";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -30,7 +31,7 @@ describe("User login", () => {
   });
 
   afterAll(async () => {
-    await Test.ctx.db.close()();
+    await throwTE(Test.ctx.db.close());
   });
 
   test("Should return bad request", async () => {

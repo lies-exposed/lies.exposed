@@ -17,7 +17,7 @@ import { pipe } from "fp-ts/lib/function";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
-import { createEventSuggestionFromTGMessage } from "./helpers/eventSuggestion.helper";
+import { createFromTGMessage } from "@helpers/event-suggestion/createFromTGMessage.helper";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 import { ENV } from "@io/ENV";
 import { GetJWTClient } from "@providers/jwt/JWTClient";
@@ -48,6 +48,7 @@ import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
 import { getDBOptions } from "@utils/getDBOptions";
+import { GetWriteJSON } from "@utils/json.utils";
 
 // var whitelist = ["http://localhost:8002"]
 const corsOptions: cors.CorsOptions = {
@@ -205,13 +206,26 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   ctx.tg.onMessage((msg, metadata) => {
     void pipe(
-      createEventSuggestionFromTGMessage({ ...ctx, logger: tgLogger })(
-        msg,
-        metadata
-      ),
+      sequenceS(TE.ApplicativePar)({
+        storeMsg: GetWriteJSON(ctx.logger)(
+          path.resolve(
+            process.cwd(),
+            `temp/tg/messages/${msg.message_id}.json`
+          )
+        )(msg),
+        eventSuggestion: createFromTGMessage({ ...ctx, logger: tgLogger })(
+          msg,
+          metadata
+        ),
+      }),
       throwTE
     ).then(
-      (r) => tgLogger.info.log("Success %O", r),
+      (r) => {
+        tgLogger.info.log("Success %O", r);
+        void ctx.tg.bot.sendMessage(msg.chat.id, "   🫶", {
+          reply_to_message_id: msg.message_id,
+        });
+      },
       (e) => tgLogger.error.log("Error %O", e)
     );
   });

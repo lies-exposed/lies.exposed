@@ -1,9 +1,6 @@
 import * as io from "@liexp/shared/io";
-import {
-  Documentary,
-  EventSuggestionStatus,
-  Patent,
-} from "@liexp/shared/io/http/Events";
+import { EventSuggestionStatus } from "@liexp/shared/io/http/EventSuggestion";
+import { Documentary, Patent } from "@liexp/shared/io/http/Events";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import { HelmetProvider } from "@liexp/ui/components/SEO";

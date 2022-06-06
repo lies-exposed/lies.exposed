@@ -1,6 +1,7 @@
 import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { MediaArb, ProjectArb } from "@liexp/shared/tests";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
@@ -19,25 +20,25 @@ describe("List Project Images", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(MediaEntity, media as any[])();
-    projects = (
-      (await appTest.ctx.db.save(ProjectEntity, [
+    await throwTE(appTest.ctx.db.save(MediaEntity, media as any[]));
+    projects = await throwTE(
+      appTest.ctx.db.save(ProjectEntity, [
         {
           ...projectData,
         },
-      ])()) as any
-    ).right;
+      ])
+    );
 
-    projectImages = (
-      (await appTest.ctx.db.save(
+    projectImages = await throwTE(
+      appTest.ctx.db.save(
         ProjectImageEntity,
         media.map((i) => ({
           image: i,
           kind: http.ProjectImage.THEORY_KIND.value,
           project: projects[0],
         })) as any[]
-      )()) as any
-    ).right;
+      )
+    );
 
     authorizationToken = `Bearer ${jwt.sign(
       { id: "1" },
@@ -46,20 +47,27 @@ describe("List Project Images", () => {
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(
-      ProjectImageEntity,
-      projectImages.map((pd) => pd.id)
-    )();
-    await appTest.ctx.db.delete(
-      ProjectEntity,
-      projects.map((p) => p.id)
-    )();
+    await throwTE(
+      appTest.ctx.db.delete(
+        ProjectImageEntity,
+        projectImages.map((pd) => pd.id)
+      )
+    );
 
-    await appTest.ctx.db.delete(
-      MediaEntity,
-      media.map((m) => m.id)
-    )();
-    await appTest.ctx.db.close()();
+    await throwTE(
+      appTest.ctx.db.delete(
+        ProjectEntity,
+        projects.map((p) => p.id)
+      )
+    );
+
+    await throwTE(
+      appTest.ctx.db.delete(
+        MediaEntity,
+        media.map((m) => m.id)
+      )
+    );
+    await throwTE(appTest.ctx.db.close());
   });
 
   test("Should return a 200", async () => {

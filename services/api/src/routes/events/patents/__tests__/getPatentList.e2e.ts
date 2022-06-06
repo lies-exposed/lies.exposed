@@ -1,5 +1,6 @@
 import { fc } from "@liexp/core/tests";
 import { PatentEventArb } from "@liexp/shared/tests/arbitrary/events/PatentEvent.arbitrary";
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 
@@ -16,14 +17,16 @@ describe("Get Patent List", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
-    await appTest.ctx.db.save(EventV2Entity, eventsData as any[])();
+    await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData as any[]));
   });
 
   afterAll(async () => {
-    await appTest.ctx.db.delete(
-      EventV2Entity,
-      eventsData.map((e) => e.id)
-    )();
+    await throwTE(
+      appTest.ctx.db.delete(
+        EventV2Entity,
+        eventsData.map((e) => e.id)
+      )
+    );
   });
 
   test("Should return the patent list", async () => {
