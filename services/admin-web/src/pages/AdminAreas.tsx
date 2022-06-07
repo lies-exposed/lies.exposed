@@ -75,7 +75,7 @@ export const AreaEdit: React.FC<EditProps> = () => (
         <DateField source="createdAt" showTime={true} />
       </FormTab>
       <FormTab label="Geometry">
-        <MapInput source="geometry" type={GeometryType.POLYGON} />
+        <MapInput source="geometry" />
       </FormTab>
       <FormTab label="Events">
         <ReferenceArrayEventInput source="events" />

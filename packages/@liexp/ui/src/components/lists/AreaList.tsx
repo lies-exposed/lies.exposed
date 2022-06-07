@@ -1,12 +1,9 @@
 import * as io from "@liexp/shared/io/http";
 import {
-  Box,
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
+  Box, Card,
+  CardActionArea, CardContent,
   CardMedia,
+  ListProps,
   Typography
 } from "@mui/material";
 import { styled } from "@mui/styles";
@@ -26,7 +23,9 @@ const classes = {
 
 const StyledBox = styled(Box)({
   [`& .${classes.root}`]: {
+    width: "100%",
     maxWidth: 300,
+    marginBottom: 20
   },
   [`& .${classes.media}`]: {
     height: 200,
@@ -47,7 +46,6 @@ export const AreaListItem: React.FC<
     },
   });
 
-
   return (
     <StyledBox
       key={item.id}
@@ -67,7 +65,7 @@ export const AreaListItem: React.FC<
             />
           ) : null}
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom variant="h6" component="h3">
               {item.label}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -77,20 +75,20 @@ export const AreaListItem: React.FC<
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
+        {/* <CardActions>
           <Button size="small" color="primary">
             Share
           </Button>
           <Button size="small" color="primary">
             Learn More
           </Button>
-        </CardActions>
+        </CardActions> */}
       </Card>
     </StyledBox>
   );
 };
 
-interface AreaListProps {
+interface AreaListProps extends ListProps {
   className?: string;
   areas: Area[];
   onAreaClick: (actor: Area) => void;
@@ -101,12 +99,12 @@ export const AreaList: React.FC<AreaListProps> = ({
   className,
   areas,
   onAreaClick,
-  style,
+  ...props
 }) => {
   return (
     <List
+      {...props}
       className={className}
-      style={style}
       data={areas}
       getKey={(a) => a.id}
       filter={(a) => true}

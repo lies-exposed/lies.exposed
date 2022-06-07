@@ -1,8 +1,8 @@
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { ControllerError, DecodeError } from "@io/ControllerError";
 import * as io from "@liexp/shared/io";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
+import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
+import { ControllerError, DecodeError } from "@io/ControllerError";
 
 export const toEventSuggestion = (
   event: EventSuggestionEntity

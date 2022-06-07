@@ -1,4 +1,5 @@
 import { uuid } from "@liexp/shared/utils/uuid";
+import get from "lodash/get";
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import GeoJSON from "ol/format/GeoJSON";
@@ -7,7 +8,13 @@ import Draw from "ol/interaction/Draw.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
 import * as React from "react";
-import { Button, InputProps, useInput } from "react-admin";
+import {
+  Button,
+  FormDataConsumer,
+  InputProps,
+  SelectInput,
+  useInput,
+} from "react-admin";
 
 const formatOptions = {
   dataProjection: "EPSG:4326",
@@ -32,7 +39,7 @@ type MapInputProps = InputProps & {
 
 export const MapInputType = GeometryType;
 
-export const MapInput: React.FC<MapInputProps> = (props) => {
+const MapInput: React.FC<MapInputProps> = (props) => {
   const inputProps = useInput(props);
 
   const {
@@ -99,9 +106,32 @@ export const MapInput: React.FC<MapInputProps> = (props) => {
         <Button
           label="reset"
           variant="outlined"
-          onClick={() => onChange(null)}
+          onClick={() => onChange({ type: props.type, coordinates: [] })}
         />
       </div>
     </>
   );
 };
+
+const MapInputWrapper: React.FC<MapInputProps> = (props) => {
+  return (
+    <>
+      <SelectInput
+        source={`${props.source}.type`}
+        choices={[GeometryType.POINT, GeometryType.POLYGON].map((t) => ({
+          id: t,
+          name: t,
+        }))}
+        defaultValue={GeometryType.POINT}
+      />
+      <FormDataConsumer>
+        {({ formData, ...rest }) => {
+          const type = get(formData, `${props.source}.type`);
+          return <MapInput {...props} type={type} {...rest} />;
+        }}
+      </FormDataConsumer>
+    </>
+  );
+};
+
+export { MapInputWrapper as MapInput };
