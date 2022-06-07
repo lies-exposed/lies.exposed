@@ -12,6 +12,7 @@ export const toProjectIO = (
       ...project,
       areas: project.areas.map((a) => ({
         ...a,
+        media: a.media ?? [],
         geometry: a.geometry,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),

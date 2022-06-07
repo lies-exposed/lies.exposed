@@ -1,6 +1,7 @@
 import { fc } from "@liexp/core/tests";
 import * as http from "@liexp/shared/io/http";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
+import { AreaArb } from "@liexp/shared/tests/arbitrary/Area.arbitrary";
 import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { LinkArb } from "@liexp/shared/tests/arbitrary/Link.arbitrary";
@@ -9,6 +10,7 @@ import { throwTE } from "@liexp/shared/utils/task.utils";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
+import { AreaEntity } from "@entities/Area.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
@@ -17,6 +19,7 @@ describe("Edit Event", () => {
   let appTest: AppTest;
   let authorizationToken: string;
 
+  const [area] = fc.sample(AreaArb, 1);
   const [actor] = fc.sample(ActorArb, 1).map((a) => ({
     ...a,
     memberIn: [],
@@ -34,6 +37,7 @@ describe("Edit Event", () => {
     ...e,
     payload: {
       ...e.payload,
+      location: undefined,
       groups: [],
       actors: [],
       groupsMembers: [],
@@ -46,6 +50,7 @@ describe("Edit Event", () => {
   beforeAll(async () => {
     appTest = await initAppTest();
 
+    await throwTE(appTest.ctx.db.save(AreaEntity, [{ ...area, media: [] }]));
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
     await throwTE(appTest.ctx.db.save(GroupEntity, [group] as any[]));
     await throwTE(
@@ -55,8 +60,7 @@ describe("Edit Event", () => {
       appTest.ctx.db.save(EventV2Entity, [event] as any[])
     );
 
-
-    delete (result[0] as any).deletedAt
+    delete (result[0] as any).deletedAt;
     event = {
       ...event,
       ...(result[0] as any),
@@ -83,7 +87,7 @@ describe("Edit Event", () => {
         ...event.payload,
         title: "First event",
         endDate: new Date().toISOString(),
-        location: { type: "Point", coordinates: [0, 0] },
+        location: area.id,
       },
       date: new Date().toISOString(),
     };

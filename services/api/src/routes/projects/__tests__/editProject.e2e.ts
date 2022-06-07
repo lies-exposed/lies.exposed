@@ -1,26 +1,36 @@
 import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
-import { MediaArb, ProjectArb } from "@liexp/shared/tests";
+import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { AreaEntity } from "@entities/Area.entity";
 import { ProjectEntity } from "@entities/Project.entity";
 
 describe("Edit Project ", () => {
-  let appTest: AppTest, authorizationToken: string, project: ProjectEntity;
+  let appTest: AppTest,
+    authorizationToken: string,
+    project: ProjectEntity,
+    area: AreaEntity;
 
   beforeAll(async () => {
     appTest = await initAppTest();
 
+    const [areaData] = fc.sample(AreaArb, 1).map((a) => ({
+      ...a,
+      media: [],
+    }));
+    [area] = await throwTE(appTest.ctx.db.save(AreaEntity, [areaData]));
     const [projectData] = fc.sample(ProjectArb, 1);
     [project] = await pipe(
-      appTest.ctx.db.save(ProjectEntity, [projectData]),
-      TE.map((projects) => {
-        project = projects[0];
-        return projects;
-      }),
+      appTest.ctx.db.save(ProjectEntity, [
+        {
+          ...projectData,
+          media: [],
+          areas: [area],
+        },
+      ]),
       throwTE
     );
 
@@ -32,6 +42,7 @@ describe("Edit Project ", () => {
 
   afterAll(async () => {
     await throwTE(appTest.ctx.db.delete(ProjectEntity, [project.id]));
+    await throwTE(appTest.ctx.db.delete(AreaEntity, [area.id]));
     await throwTE(appTest.ctx.db.close());
   });
 

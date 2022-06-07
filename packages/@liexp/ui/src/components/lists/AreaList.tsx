@@ -59,7 +59,7 @@ export const AreaListItem: React.FC<
     >
       <Card className={classes.root}>
         <CardActionArea>
-          {(media.data?.data?.length || 0) > 0 ? (
+          {(media.data?.data?.length ?? 0) > 0 ? (
             <CardMedia
               className={classes.media}
               image={(media.data as any).data[0].location}

@@ -15,7 +15,15 @@ describe("Delete Area", () => {
     } as any)()}`;
 
     areas = tests.fc.sample(AreaArb, 1);
-    await throwTE(Test.ctx.db.save(AreaEntity, areas));
+    await throwTE(
+      Test.ctx.db.save(
+        AreaEntity,
+        areas.map((a) => ({
+          ...a,
+          media: [],
+        }))
+      )
+    );
   });
 
   afterAll(async () => {

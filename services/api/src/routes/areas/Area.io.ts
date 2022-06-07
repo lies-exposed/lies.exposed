@@ -10,6 +10,7 @@ export const toAreaIO = (
   return pipe(
     io.http.Area.Area.decode({
       ...a,
+      media: a.media ?? [],
       geometry: a.geometry,
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),

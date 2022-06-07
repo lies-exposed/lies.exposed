@@ -25,6 +25,10 @@ describe("List Project Images", () => {
       appTest.ctx.db.save(ProjectEntity, [
         {
           ...projectData,
+          areas: projectData.areas.map((a) => ({
+            ...a,
+            media: a.media.map((m) => ({ id: m })),
+          })),
         },
       ])
     );

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./build",
     "baseUrl": "./src",
-    "rootDir": "./src",
+    "rootDir": "./",
     "jsx": "react",
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
