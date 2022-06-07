@@ -10,15 +10,27 @@ export const toEventSuggestion = (
   ControllerError,
   { id: string; payload: io.http.EventSuggestion.EventSuggestion }
 > => {
-  const newLinks =
-    event.payload.event.newLinks ??
-    event.payload.event.links
-      .filter((l) => typeof l !== "string")
-      .map((l: any) => ({
-        ...l,
-        fromURL: true,
-      })) ??
-    [];
+  const { links, newLinks } = event.payload.event.links.reduce(
+    (acc, l) => {
+      if (typeof l === "string") {
+        return {
+          ...acc,
+          links: acc.links.concat(l as any),
+        };
+      }
+      return {
+        ...acc,
+        newLinks: acc.newLinks.concat({
+          ...(l as any),
+          fromURL: true,
+        }),
+      };
+    },
+    {
+      links: [],
+      newLinks: [],
+    }
+  );
 
   const eventEncoded = {
     ...event.payload,
@@ -26,7 +38,8 @@ export const toEventSuggestion = (
       ...event.payload.event,
       draft: event.payload.event.draft ?? true,
       media: [],
-      newLinks,
+      links,
+      newLinks: event.payload.event.newLinks.concat(newLinks),
     },
   };
 

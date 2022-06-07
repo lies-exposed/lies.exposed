@@ -24,7 +24,7 @@ import {
 import { AuroraDataApiPostgresConnectionOptions } from "typeorm/driver/aurora-data-api-pg/AuroraDataApiPostgresConnectionOptions";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { ControllerError } from "@io/ControllerError";
+import { ControllerError } from "../../io/ControllerError";
 
 export class DBError extends ControllerError {}
 

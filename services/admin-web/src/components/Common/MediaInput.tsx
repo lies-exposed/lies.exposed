@@ -39,6 +39,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
             <Box>
               <SelectInput
                 {...rest}
+                fullWidth
                 source={sourceType}
                 choices={MediaType.types.map((v) => ({
                   id: v.value,

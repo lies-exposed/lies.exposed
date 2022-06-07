@@ -248,6 +248,7 @@ type NavigateToResource = (f: { id?: string }, search?: any) => void;
 interface NavigationHooks {
   index: NavigateToResource;
   actors: NavigateToResource;
+  areas: NavigateToResource;
   events: NavigateToResource;
   groups: NavigateToResource;
   keywords: NavigateToResource;
@@ -264,7 +265,8 @@ export function useNavigateToResource(): NavigationHooks {
           case "index":
             n.navigateTo("/");
             break;
-          case `articles`:
+          case "areas":
+          case "articles":
           case "events":
           case "actors":
           case "keywords":
@@ -285,6 +287,7 @@ export function useNavigateToResource(): NavigationHooks {
       events: navigateToResource("events"),
       groups: navigateToResource("groups"),
       keywords: navigateToResource("keywords"),
+      areas: navigateToResource("areas"),
     };
   }, [n.pathname]);
 }

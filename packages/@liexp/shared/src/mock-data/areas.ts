@@ -17,6 +17,7 @@ export const firstArea: Area.Area = {
       ],
     ],
   },
+  media: [],
   createdAt: new Date(),
   updatedAt: new Date(),
 };

@@ -224,6 +224,8 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
                             links: [],
                             ...formData.payload.event,
                           }}
+                          onDateClick={() => undefined}
+                          onAreaClick={() => undefined}
                           onActorClick={() => undefined}
                           onGroupClick={() => undefined}
                           onKeywordClick={() => undefined}

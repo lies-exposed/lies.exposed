@@ -61,7 +61,7 @@ jobs:
       - name: Lint code
         run: yarn api lint
 
-      - name: Build api
+      - name: Build API
         run: yarn api build
 
       - name: Run tests

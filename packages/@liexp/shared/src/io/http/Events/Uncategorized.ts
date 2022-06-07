@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
-import { Point, UUID } from "../Common";
+import { UUID } from "../Common";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 
 export const UNCATEGORIZED = t.literal("Uncategorized");
@@ -16,7 +16,7 @@ export const CreateEventBody = t.strict(
       actors: t.array(UUID),
       groups: t.array(UUID),
       groupsMembers: t.array(UUID),
-      location: optionFromUndefined(Point),
+      location: optionFromUndefined(UUID),
       endDate: optionFromUndefined(DateFromISOString),
     }),
   },
@@ -31,7 +31,7 @@ export const EditEventBody = t.strict(
     type: UNCATEGORIZED,
     payload: t.strict({
       title: t.string,
-      location: optionFromUndefined(Point),
+      location: optionFromUndefined(UUID),
       actors: t.array(t.string),
       groups: t.array(t.string),
       groupsMembers: t.array(t.string),
@@ -46,13 +46,13 @@ export type EditEventBody = t.TypeOf<typeof EditEventBody>;
 export const UncategorizedV2Payload = t.strict(
   {
     title: t.string,
-    location: t.union([Point, t.undefined]),
+    location: t.union([UUID, t.undefined]),
     endDate: t.union([DateFromISOString, t.undefined]),
     actors: t.array(UUID),
     groups: t.array(UUID),
     groupsMembers: t.array(UUID),
   },
-  "UncategorizedV2"
+  "UncategorizedV2Payload"
 );
 
 export type UncategorizedV2Payload = t.TypeOf<typeof UncategorizedV2Payload>;

@@ -2,7 +2,6 @@ import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types";
 import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromUndefined } from "../../Common/optionFromUndefined";
-import { Point } from "../Common";
 import { CreateLink } from "../Link";
 import { MediaType } from "../Media";
 
@@ -23,7 +22,7 @@ export const EditEventBody = t.strict(
       )
     ),
     links: optionFromUndefined(t.array(t.union([UUID, CreateLink]))),
-    location: optionFromUndefined(Point),
+    location: optionFromUndefined(UUID),
     actors: optionFromUndefined(t.array(t.string)),
     groups: optionFromUndefined(t.array(t.string)),
     groupsMembers: optionFromUndefined(t.array(t.string)),

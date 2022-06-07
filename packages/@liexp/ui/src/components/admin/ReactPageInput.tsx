@@ -1,9 +1,9 @@
 /* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
 import { Paper } from "@mui/material";
 import Editor, { EditorProps } from "@react-page/editor";
-import "is-plain-object";
+import get from "lodash/get";
 import * as React from "react";
-import { InputProps, Labeled, useInput } from "react-admin";
+import { InputProps, Labeled, useInput, useRecordContext } from "react-admin";
 import {
   cellPlugins,
   createExcerptValue,
@@ -21,14 +21,18 @@ const RaReactPageInput: React.FC<RaReactPageInputProps> = ({
   label = "Content",
   source,
   style,
+  onChange: _onChange,
   ...editorProps
 }) => {
+  const record = useRecordContext();
+
   const {
     field: { value, onChange },
-  } = useInput({ source });
+  } = useInput({ source, defaultValue: get(record, source) });
 
   const isValueValid = React.useMemo(
-    () => isValidValue(value) || JSON.stringify(value) === "{}",
+    () =>
+      value === null || isValidValue(value) || JSON.stringify(value) === "{}",
     [value]
   );
 

@@ -15,7 +15,7 @@ export const MediaArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">
 > = (props) => {
   return (
-    <ArrayInput {...props} style={{ width: "100%" }}>
+    <ArrayInput {...props} style={{ width: "100%" }} fullWidth>
       <SimpleFormIterator>
         <BooleanInput source="addNew" />
         <FormDataConsumer>
@@ -55,15 +55,15 @@ export const MediaArrayInput: React.FC<
                             <Box>
                               <TextInput
                                 {...newRest}
+                                fullWidth
                                 label="location"
                                 source={locationSource}
                                 type={"url"}
                                 {...{ record: newFormData }}
                               />
-                            </Box>
-                            <Box>
                               <TextInput
                                 {...newRest}
+                                fullWidth
                                 label="description"
                                 source={descriptionSource}
                                 {...{ record: newFormData }}

@@ -1,11 +1,13 @@
 import {
   fetchActor,
+  fetchArea,
+  fetchAreas,
   fetchEvent,
   fetchGroup,
   fetchGroups,
   fetchGroupsMembers,
   fetchLinks,
-  fetchMedia
+  fetchMedia,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import * as React from "react";
@@ -13,10 +15,12 @@ import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
 import ActorsPage from "./pages/ActorsPage";
+import AreasPage from "./pages/AreasPage";
 import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
 import KeywordsPage from "./pages/KeywordsPage";
 import ActorTemplate from "./templates/ActorTemplate";
+import AreaTemplate from "./templates/AreaTemplate";
 import EventTemplate from "./templates/EventTemplate";
 import GroupTemplate from "./templates/GroupTemplate";
 import KeywordTemplate from "./templates/KeywordTemplate";
@@ -172,6 +176,41 @@ export const routes = [
     path: "/keywords",
     route: () => <KeywordsPage />,
     queries: () => [...commonQueries],
+  },
+  {
+    path: "/areas/:areaId",
+    route: () => {
+      const params = useParams<{ areaId: string }>();
+      if (params.areaId) {
+        return <AreaTemplate areaId={params.areaId} />;
+      }
+      return <NotFoundPage />;
+    },
+    queries: ({ areaId }: any) => [
+      ...commonQueries,
+      {
+        queryKey: ["areas", { id: areaId }],
+        queryFn: fetchArea,
+      },
+    ],
+  },
+  {
+    path: "/areas",
+    route: () => <AreasPage />,
+    queries: () => [
+      ...commonQueries,
+      {
+        queryKey: [
+          "actors",
+          {
+            filter: null,
+            pagination: { perPage: 20, page: 1 },
+            sort: { field: "createdAt", order: "DESC" },
+          },
+        ],
+        queryFn: fetchAreas,
+      },
+    ],
   },
   {
     path: "/",

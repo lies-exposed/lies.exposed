@@ -12,7 +12,7 @@ export const ReferenceMediaTab: React.FC<FieldProps> = (props) => {
     .join(".");
 
   return (
-    <Box>
+    <Box style={{ width: "100%" }}>
       <MediaArrayInput
         label="media"
         source={newMediaSource}

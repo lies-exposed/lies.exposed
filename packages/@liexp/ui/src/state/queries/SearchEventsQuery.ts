@@ -113,7 +113,6 @@ const getNewRelationIds = (
     A.reduce(init, (acc, e) => {
       const { actors, groups, groupsMembers, media, keywords } =
         getRelationIds(e);
-      log.debug.log("actors", actors);
 
       const newActors = actors.filter(
         (a) => ![...actorIds, ...acc.actors].includes(a)
@@ -166,8 +165,6 @@ const mergeState = (
       return M.upsertAt(S.Eq)(a.id, a)(accActors);
     })
   );
-
-  log.debug.log("merge state: actors", actors);
 
   const groups = pipe(
     update.groups,
@@ -493,7 +490,7 @@ const searchEventsQ =
     APIError,
     SearchEventQueryResult
   > => {
-    log.debug.log("Search events for %s from %d to %d", _start, _end);
+    // log.debug.log("Search events for %s from %d to %d", _start, _end);
 
     return pipe(
       getEvents({
@@ -508,7 +505,7 @@ const searchEventsQ =
         return e;
       }),
       TE.chain(({ data, ...response }) => {
-        log.debug.log("[%s] API response %O", { data, response });
+        // log.debug.log("[%s] API response %O", { data, response });
 
         return pipe(
           getNewRelationIds(data, searchEventsQueryCache),

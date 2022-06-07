@@ -19,8 +19,10 @@ export const ContentWithSidebar: React.FC<ContentWithSidebarProps> = ({
     <Grid
       container
       className="content-with-sidebar"
-      direction="row"
       alignContent="center"
+      style={{
+        flexDirection: 'row'
+      }}
     >
       <Grid item lg={showSidebar ? 3 : false} md={showSidebar ? 3 : false}>
         {showSidebar ? (

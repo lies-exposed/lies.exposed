@@ -18,11 +18,13 @@ export const eventPageContentArgs: EventPageContentProps = {
     keywords: [],
     links: [],
   },
+  onDateClick: () => undefined,
   onActorClick: () => undefined,
   onGroupClick: () => undefined,
   onKeywordClick: () => undefined,
   onGroupMemberClick: () => undefined,
   onLinkClick: () => undefined,
+  onAreaClick: () => undefined
 };
 
 export const EventPageContentExample: React.FC<EventPageContentProps> = (

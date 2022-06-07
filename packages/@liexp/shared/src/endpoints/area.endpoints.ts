@@ -1,9 +1,8 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
-import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord";
 import { Area } from "../io/http/Area";
-import { Polygon } from "../io/http/Common";
+import { Polygon, UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
@@ -15,7 +14,11 @@ const List = Endpoint({
   Method: "GET",
   getPath: () => "/areas",
   Input: {
-    Query: GetListQuery,
+    Query: t.type({
+      ...GetListQuery.props,
+      q: optionFromNullable(t.string),
+      ids: optionFromNullable(t.array(UUID)),
+    }),
   },
   Output: ListAreaOutput,
 });
@@ -48,10 +51,16 @@ const Create = Endpoint({
   Output: SingleAreaOutput,
 });
 
-export const EditAreaBody = nonEmptyRecordFromType({
-  geometry: optionFromNullable(Polygon),
-  label: optionFromNullable(t.string),
-});
+export const EditAreaBody = t.strict(
+  {
+    geometry: optionFromNullable(Polygon),
+    label: optionFromNullable(t.string),
+    body: optionFromNullable(t.UnknownRecord),
+    media: t.array(UUID),
+    events: t.array(UUID)
+  },
+  "EditAreaBody"
+);
 
 export const Edit = Endpoint({
   Method: "PUT",

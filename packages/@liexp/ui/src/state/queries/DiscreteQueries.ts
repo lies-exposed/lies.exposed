@@ -1,5 +1,6 @@
 import {
   Actor,
+  Area,
   Article,
   Events,
   Group,
@@ -290,4 +291,29 @@ export const useGraphQuery = (id: string): UseQueryResult<any, APIError> => {
   return useQuery(["graph", id], async () => {
     return await Queries.Graph.get({ id });
   });
+};
+
+export const fetchAreas = async ({
+  queryKey,
+}: any): Promise<{ data: Area.Area[]; total: number }> => {
+  const params = queryKey[1];
+  return !R.isEmpty(params.filter) || params.filter === null
+    ? await Queries.Area.getList(params)
+    : await emptyQuery();
+};
+
+export const useAreasQuery = (
+  params: GetListParams
+): UseQueryResult<{ data: Area.Area[]; total: number }, APIError> => {
+  return useQuery(["areas", params], fetchAreas);
+};
+
+export const fetchArea = async ({ queryKey }: any): Promise<Area.Area> => {
+  return await Queries.Area.get({ id: queryKey[1].id });
+};
+
+export const useAreaQuery = (params: {
+  id: string;
+}): UseQueryResult<Area.Area, APIError> => {
+  return useQuery(["areas", params], fetchArea);
 };
