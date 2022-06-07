@@ -13,7 +13,7 @@ import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { GetLogger } from "../logger";
-const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+// const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const webpackLogger = GetLogger("webpack");
 
@@ -240,14 +240,8 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],
-      plugins: [
-        new TsconfigPathsPlugin({
-          // configFile: tsConfigFile,
-          // context: opts.cwd,
-        }),
-      ],
+      plugins: [new TsconfigPathsPlugin({})],
       modules: [
-        // path.resolve(opts.cwd)
         "node_modules",
         path.resolve(opts.cwd, "../../packages"),
         path.resolve(opts.cwd),
@@ -256,17 +250,17 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     plugins: plugins as any,
   };
 
+  if (mode === "production") {
+    config.plugins.push(new MiniCssExtractPlugin({}));
+  }
+
   // if (config.mode === "production") {
   //   return config;
   // }
 
-  const configWithTimeMeasures = new SpeedMeasurePlugin({}).wrap(config);
+  // const configWithTimeMeasures = new SpeedMeasurePlugin({}).wrap(config);
 
-  if (mode === "production") {
-    configWithTimeMeasures.plugins.push(new MiniCssExtractPlugin({}));
-  }
-
-  return configWithTimeMeasures;
+  return config;
 };
 
 const defineEnv = <P extends t.Props>(
