@@ -39,7 +39,7 @@ export const toEventSuggestion = (
       draft: event.payload.event.draft ?? true,
       media: [],
       links,
-      newLinks: event.payload.event.newLinks.concat(newLinks),
+      newLinks: (event.payload.event.newLinks ?? []).concat(newLinks),
     },
   };
 
