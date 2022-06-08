@@ -4,7 +4,7 @@
     "outDir": "./build",
     "baseUrl": "./src",
     "jsx": "react",
-    "rootDir": "./src",
+    "rootDir": "./",
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "typeRoots": [
       "./typings",
@@ -39,8 +39,8 @@
       "path": "../../packages/@liexp/ui"
     }
   ],
-  "include": ["./src"],
+  "include": ["./src", "./test"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
-  }
+  },
 }
