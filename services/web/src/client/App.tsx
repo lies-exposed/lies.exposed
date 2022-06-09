@@ -1,7 +1,8 @@
 import "@liexp/ui/components/Common/Icons/library";
 import { Footer } from "@liexp/ui/components/Footer";
 import SEO from "@liexp/ui/components/SEO";
-import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, useMediaQuery } from "@liexp/ui/components/mui";
+import { useTheme } from "@liexp/ui/theme";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { Route, Routes, useLocation } from "react-router";
@@ -22,7 +23,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
 export const App: React.FC = () => {
   const location = useLocation();
   const theme = useTheme();
-  const isDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  const isDownSM = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div style={{ height: "100%", display: "flex" }}>

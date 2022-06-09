@@ -1,5 +1,4 @@
 import { Keyword } from '@liexp/shared/io/http';
-import { Box, BoxProps, Typography } from "@mui/material";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -7,6 +6,7 @@ import * as React from "react";
 import { useKeywordsQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";
 import KeywordList from "./lists/KeywordList";
+import { Box, BoxProps, Typography } from "./mui";
 
 interface KeywordsBoxProps extends BoxProps {
   ids: string[];

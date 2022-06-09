@@ -1,12 +1,13 @@
 import { Article } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
-import { Grid, Typography, useTheme } from "@mui/material";
 import * as React from "react";
+import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { TOC } from "./Common/TOC";
 import { ContentWithSidebar } from "./ContentWithSidebar";
 import { MainContent } from "./MainContent";
+import { Grid, Typography } from "./mui";
 
 export type ArticlePageContentProps = Article.Article;
 

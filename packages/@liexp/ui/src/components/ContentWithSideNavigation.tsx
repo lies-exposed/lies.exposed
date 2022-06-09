@@ -1,16 +1,18 @@
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import TreeItem from "@mui/lab/TreeItem";
-import TreeView from "@mui/lab/TreeView";
-import { Grid } from "@mui/material";
-import { styled } from '@mui/material/styles';
 import * as React from "react";
+import { styled } from "../theme";
 import { MainContent } from "./MainContent";
+import {
+  Grid,
+  TreeItem,
+  TreeView,
+  ExpandMoreIcon,
+  ChevronRightIcon,
+} from "./mui";
 
-const PREFIX = 'ContentWithSideNavigation';
+const PREFIX = "ContentWithSideNavigation";
 
 const classes = {
-  root: `${PREFIX}-root`
+  root: `${PREFIX}-root`,
 };
 
 const StyledGrid = styled(Grid)({
@@ -34,8 +36,6 @@ interface ContentWithSideNavigationProps {
 export const ContentWithSideNavigation: React.FC<
   ContentWithSideNavigationProps
 > = ({ items, children }) => {
-
-
   return (
     <StyledGrid container direction="column">
       <Grid item>

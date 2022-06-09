@@ -1,6 +1,6 @@
-import CircularProgress from "@mui/material/CircularProgress";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as React from "react";
+import { CircularProgress } from "../mui";
 
 export const FullSizeLoader: React.FC<any> = () => {
   return (

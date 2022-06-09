@@ -1,7 +1,7 @@
-import { Box, ThemeProvider, StyledEngineProvider } from "@mui/material";
 import { CellPlugin } from "@react-page/editor";
 import * as React from "react";
 import { ECOTheme } from "../../../../theme/index";
+import { Box, ThemeProvider, StyledEngineProvider } from "../../../mui";
 
 
 // interface GridCellData {

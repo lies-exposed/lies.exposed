@@ -5,8 +5,8 @@ import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { Box, ThemeProvider, Typography } from "@liexp/ui/components/mui";
 import { ECOTheme } from "@liexp/ui/theme";
-import { Box, ThemeProvider, Typography } from "@mui/material";
 import * as React from "react";
 import {
   FormDataConsumer,

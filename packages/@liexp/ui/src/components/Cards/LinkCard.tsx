@@ -2,6 +2,7 @@ import { http } from "@liexp/shared/io";
 import { formatDate } from "@liexp/shared/utils/date";
 import LinkIcon from "@mui/icons-material/LinkOutlined";
 import ShareIcon from "@mui/icons-material/ShareOutlined";
+import * as React from "react";
 import {
   Card,
   CardActions,
@@ -10,8 +11,7 @@ import {
   CardMedia,
   IconButton,
   Typography,
-} from "@mui/material";
-import * as React from "react";
+} from "../mui";
 
 interface LinkCardProps {
   link: http.Link.Link;

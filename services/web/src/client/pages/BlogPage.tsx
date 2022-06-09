@@ -3,7 +3,6 @@ import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
-import { useArticlesQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   Button,
   Card,
@@ -12,7 +11,8 @@ import {
   CardHeader,
   CardMedia,
   Grid
-} from "@mui/material";
+} from "@liexp/ui/components/mui";
+import { useArticlesQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
 

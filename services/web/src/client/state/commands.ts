@@ -40,7 +40,7 @@ export const getEventFromLink = (): UseMutationResult<
 export const createEventSuggestion = (): UseMutationResult<
   any,
   APIError,
-  http.Events.EventSuggestion
+  http.EventSuggestion.EventSuggestion
 > =>
   useMutation((params) =>
     pipe(

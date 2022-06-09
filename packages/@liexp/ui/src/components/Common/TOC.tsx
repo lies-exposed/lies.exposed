@@ -1,6 +1,6 @@
-import { styled } from '@mui/material/styles';
 import * as React from "react";
 import ReactTOC from "react-toc";
+import { styled } from '../../theme';
 
 const PREFIX = 'TOC';
 

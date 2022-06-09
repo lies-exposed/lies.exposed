@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
 import { Value } from "@react-page/editor";
 import * as React from "react";
+import { Box } from "../mui";
 import Editor from "./Editor";
 
 interface EllipsesContentProps {

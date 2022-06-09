@@ -1,5 +1,5 @@
-import { TextField, Autocomplete, AutocompleteProps } from "@mui/material";
 import * as React from "react";
+import { TextField, Autocomplete, AutocompleteProps } from "../mui";
 
 export interface SearchableItem {
   id: string;

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button } from "@liexp/ui/components/mui";
 import get from "lodash/get";
 import has from "lodash/has";
 import * as React from "react";

@@ -1,13 +1,13 @@
 import { Media } from "@liexp/shared/io/http";
 import { CloseOutlined, ExpandMore } from "@mui/icons-material";
+import * as React from "react";
+import { styled } from '../../theme';
 import {
   Box,
   IconButton,
   Modal,
   Typography,
-} from "@mui/material";
-import { styled } from '@mui/material/styles';
-import * as React from "react";
+} from "../mui";
 
 const PREFIX = 'ExpandableImageElement';
 

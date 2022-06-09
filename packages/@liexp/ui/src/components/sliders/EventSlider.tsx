@@ -1,11 +1,11 @@
 import { Events } from "@liexp/shared/io/http";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { Typography } from "@mui/material";
 import * as React from "react";
 import SlickSlider from "react-slick";
 import { searchEventsQuery } from "../../state/queries/SearchEventsQuery";
 import QueriesRenderer from "../QueriesRenderer";
 import { EventListItem } from "../lists/EventList/EventListItem";
+import { Typography } from "../mui";
 
 export interface EventSliderProps {
   params: GetSearchEventsQueryInput;

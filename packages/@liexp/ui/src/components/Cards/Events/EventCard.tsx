@@ -2,6 +2,12 @@ import { getEventsMetadata } from "@liexp/shared/helpers/event";
 import { Events } from "@liexp/shared/io/http";
 import { SearchEvent } from "@liexp/shared/io/http/Events";
 import { formatDate } from "@liexp/shared/utils/date";
+import * as React from "react";
+import Editor from "../../Common/Editor";
+import { EventIcon } from "../../Common/Icons";
+import { ActorList } from "../../lists/ActorList";
+import GroupsList from "../../lists/GroupList";
+import KeywordList from "../../lists/KeywordList";
 import {
   Box,
   Card,
@@ -10,13 +16,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-} from "@mui/material";
-import * as React from "react";
-import Editor from "../../Common/Editor";
-import { EventIcon } from "../../Common/Icons";
-import { ActorList } from "../../lists/ActorList";
-import GroupsList from "../../lists/GroupList";
-import KeywordList from "../../lists/KeywordList";
+} from "../../mui";
 
 interface EventCardProps {
   event: SearchEvent.SearchEvent;

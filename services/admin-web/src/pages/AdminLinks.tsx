@@ -1,6 +1,6 @@
 import * as io from "@liexp/shared/io";
+import { Box, MenuItem, Select, Toolbar } from "@liexp/ui/components/mui";
 import { getSuggestions } from "@liexp/ui/helpers/event.helper";
-import { Box, MenuItem, Select, Toolbar } from "@mui/material";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import {
@@ -23,7 +23,7 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";

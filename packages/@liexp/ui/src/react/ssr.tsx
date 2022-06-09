@@ -2,8 +2,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { GetLogger } from "@liexp/core/logger";
-import { CssBaseline } from "@mui/material";
-import { ThemeProvider, Theme, StyledEngineProvider } from "@mui/material/styles";
 import { ServerStyleSheets } from "@mui/styles";
 import * as express from "express";
 import * as React from "react";
@@ -16,14 +14,13 @@ import {
 } from "react-query";
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider } from "../components/SEO";
-import { ECOTheme } from "../theme";
+import { CssBaseline, StyledEngineProvider, ThemeProvider } from "../components/mui";
+import { ECOTheme, ECOTheme as Theme } from "../theme";
 
-
-declare module '@mui/styles/defaultTheme' {
+declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DefaultTheme extends Theme {}
 }
-
 
 const ssrLog = GetLogger("ssr");
 

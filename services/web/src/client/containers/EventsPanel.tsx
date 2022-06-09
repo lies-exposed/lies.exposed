@@ -1,10 +1,10 @@
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import { EventType, SearchEvent } from "@liexp/shared/io/http/Events";
 import { TabPanel } from "@liexp/ui/components/Common/TabPanel";
+import { Box, Grid } from "@liexp/ui/components/mui";
 import useWindowsDimensions from "@liexp/ui/hooks/useWindowsDimensions";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
-import { Box, Grid } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled } from "@liexp/ui/theme";
 import clsx from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";

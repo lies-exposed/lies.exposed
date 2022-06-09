@@ -8,7 +8,6 @@ import { ECOTheme } from "@liexp/ui/theme";
 import { ThemeProvider } from "@mui/system";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
-import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
   Create,
@@ -110,13 +109,11 @@ export const AreaEdit: React.FC<EditProps> = () => (
 );
 
 export const AreaCreate: React.FC<CreateProps> = (props) => (
-  <Create title="Create a Post" {...props}>
+  <Create title="Create a Post">
     <SimpleForm>
       <TextInput source="label" validate={[required()]} />
       <MapInput
         source="geometry"
-        type={GeometryType.POLYGON}
-        validate={[required()]}
       />
       <ReactPageInput source="body" defaultValue="" validate={[required()]} />
     </SimpleForm>

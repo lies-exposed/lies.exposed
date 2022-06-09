@@ -3,7 +3,7 @@ import { Polygon } from "ol/geom";
 import { getArea } from "ol/sphere";
 
 interface DatumWithGeometry {
-  geometry: http.Common.Polygon;
+  geometry: http.Common.Geometry.Polygon;
 }
 
 /**

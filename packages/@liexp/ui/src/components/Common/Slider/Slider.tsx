@@ -1,8 +1,7 @@
 import { Media } from "@liexp/shared/io/http";
-import { styled } from "@mui/material/styles";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
-import { useTheme } from "../../../theme/index";
+import { styled , useTheme } from "../../../theme";
 import MediaElement from "../../Media/MediaElement";
 
 const PREFIX = "Slider";

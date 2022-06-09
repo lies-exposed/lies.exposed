@@ -2,7 +2,7 @@ import { http } from "@liexp/shared/io";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box } from '@mui/material';
+import { Box } from '@liexp/ui/components/mui';
 import * as React from "react";
 import {
   AutocompleteInput,

@@ -1,12 +1,13 @@
 import { Actor, Events, Group, Project } from "@liexp/shared/io/http";
 import { GroupMember } from "@liexp/shared/io/http/GroupMember";
-import { Grid, Typography, useTheme } from "@mui/material";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import {useTheme} from '../theme'
 import Editor, { isValidValue } from "./Common/Editor/index";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
+import { Grid, Typography } from "./mui";
 
 export interface GroupPageContentProps extends Group.Group {
   groupsMembers: GroupMember[];

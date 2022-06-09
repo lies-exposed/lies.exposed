@@ -3,8 +3,8 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { Box, Grid } from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
-import { Box, Grid } from "@mui/material";
 import * as React from "react";
 import {
   BooleanInput,

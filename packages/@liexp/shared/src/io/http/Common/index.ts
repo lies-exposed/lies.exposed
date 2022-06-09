@@ -4,7 +4,7 @@ export * from "./For";
 export * from "./Impact";
 export * from "./JSONFromString";
 export * from "./MoneyAmount";
-export * from "./Geometry";
+export * as Geometry from "./Geometry";
 export * from "./Color";
 export * from "./Tag";
 export * from "./Output";

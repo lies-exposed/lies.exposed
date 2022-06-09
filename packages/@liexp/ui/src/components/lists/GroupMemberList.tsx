@@ -1,10 +1,10 @@
 import * as io from "@liexp/shared/io/http";
-import { Box, Typography } from "@mui/material";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { Avatar, AvatarSize } from "../Common/Avatar";
 import { List, ListItemProps } from "../Common/List";
+import { Box, Typography } from "../mui";
 
 export interface GroupMember extends io.GroupMember.GroupMember {
   selected: boolean;

@@ -1,15 +1,15 @@
 import * as http from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
-import { Box, Grid, Link, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import { styled } from "../../../theme";
 import { getTextContentsCapped, isValidValue } from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
 import { Slider } from "../../Common/Slider/Slider";
 import { LinksBox } from "../../LinksBox";
+import { Box, Grid, Link, Typography } from "../../mui";
 import KeywordList from "../KeywordList";
 
 const PREFIX = "EventListItemBase";

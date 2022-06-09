@@ -2,10 +2,9 @@ import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import GroupList from "@liexp/ui/components/lists/GroupList";
 import { GroupsMembersList } from "@liexp/ui/components/lists/GroupMemberList";
 import KeywordList from "@liexp/ui/components/lists/KeywordList";
+import { Grid, Typography ,Box} from "@liexp/ui/components/mui";
 import { SearchEventQueryResult } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { Grid, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import { styled } from '@mui/material/styles';
+import { styled } from '@liexp/ui/theme';
 import * as React from "react";
 import { EventsView } from "../../utils/location.utils";
 

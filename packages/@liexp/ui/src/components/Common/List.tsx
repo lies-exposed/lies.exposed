@@ -1,5 +1,5 @@
-import { List as MUIList } from "@mui/material";
 import * as React from "react";
+import { List as MUIList } from "../mui";
 
 export interface ListItemProps<A> {
   item: A;

@@ -1,12 +1,12 @@
 import { Events } from "@liexp/shared/io/http";
 import { groupBy } from "@liexp/shared/utils/array.utils";
 import { distanceFromNow } from "@liexp/shared/utils/date";
-import { Grid, List, ListItem, ListSubheader, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import * as Eq from "fp-ts/lib/Eq";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
+import { styled } from "../../../theme";
+import { Grid, List, ListItem, ListSubheader, Typography } from "../../mui";
 import { EventListItem, EventListItemProps } from "./EventListItem";
 
 const PREFIX = "EventList";

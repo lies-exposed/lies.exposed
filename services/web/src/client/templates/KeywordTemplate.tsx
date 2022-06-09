@@ -1,9 +1,9 @@
 import { KeywordPageContent } from "@liexp/ui/components/KeywordPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
+import { Box } from "@liexp/ui/components/mui";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
 import { useKeywordQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Box } from "@mui/material";
 import * as React from "react";
 
 const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {

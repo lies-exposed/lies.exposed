@@ -3,18 +3,18 @@ import { ActorListItem } from "@liexp/ui/components/lists/ActorList";
 import { GroupListItem } from "@liexp/ui/components/lists/GroupList";
 import { KeywordListItem } from "@liexp/ui/components/lists/KeywordList";
 import {
-  fetchActors,
-  fetchGroups,
-  fetchKeywords,
-} from "@liexp/ui/state/queries/DiscreteQueries";
-import {
   Autocomplete,
   AutocompleteInputChangeReason,
   AutocompleteProps,
   Box,
   TextField,
   Typography,
-} from "@mui/material";
+} from "@liexp/ui/components/mui";
+import {
+  fetchActors,
+  fetchGroups,
+  fetchKeywords,
+} from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
 import { EventsQueryParams } from "@containers/EventsPanel";
 

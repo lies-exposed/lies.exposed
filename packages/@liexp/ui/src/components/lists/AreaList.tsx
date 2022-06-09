@@ -1,16 +1,17 @@
 import * as io from "@liexp/shared/io/http";
-import {
-  Box, Card,
-  CardActionArea, CardContent,
-  CardMedia,
-  ListProps,
-  Typography
-} from "@mui/material";
 import { styled } from "@mui/styles";
 import * as React from "react";
 import { useMediaQuery } from "../../state/queries/DiscreteQueries";
 import { getTextContentsCapped } from "../Common/Editor";
 import { List, ListItemProps } from "../Common/List";
+import {
+   Card,
+  CardActionArea, CardContent,
+  CardMedia,
+  ListProps,
+  Typography,
+  Box
+} from "../mui";
 
 export interface Area extends io.Area.Area {
   selected: boolean;

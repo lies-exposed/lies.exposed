@@ -1,6 +1,6 @@
 import * as t from "io-ts";
-import { Geometry } from './Common/Geometry';
 import { BaseProps } from "./Common/BaseProps";
+import { Geometry } from './Common/Geometry';
 import { UUID } from "./Common/UUID";
 
 export const Area = t.strict(

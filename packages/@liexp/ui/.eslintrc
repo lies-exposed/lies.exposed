@@ -5,7 +5,18 @@
     "project": ["./tsconfig.test.json"]
   },
   "rules": {
-    "react/prop-types": ["off"]
+    "react/prop-types": ["off"],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          "@mui/material",
+          "@mui/material/*/*",
+          "!@mui/material/test-utils/*",
+          "!@mui/material/styles"
+        ]
+      }
+    ]
   },
   "settings": {
     "react": {

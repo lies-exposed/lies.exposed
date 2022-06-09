@@ -1,6 +1,5 @@
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
-import { getShareMedia, getTitle } from "@liexp/ui/helpers/event.helper";
 import {
   Box,
   Button,
@@ -10,7 +9,8 @@ import {
   DialogTitle,
   Link,
   Typography,
-} from "@mui/material";
+} from "@liexp/ui/components/mui";
+import { getShareMedia, getTitle } from "@liexp/ui/helpers/event.helper";
 import * as React from "react";
 import { FieldProps, Identifier, useRecordContext } from "react-admin";
 import { apiProvider } from "@client/HTTPAPI";

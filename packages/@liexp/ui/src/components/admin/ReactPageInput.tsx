@@ -1,5 +1,4 @@
 /* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
-import { Paper } from "@mui/material";
 import Editor, { EditorProps } from "@react-page/editor";
 import get from "lodash/get";
 import * as React from "react";
@@ -11,6 +10,7 @@ import {
   minimalCellPlugins,
 } from "../Common/Editor";
 import JSONInput from "../Common/JSON/JSONInput";
+import { Paper } from "../mui";
 
 export type RaReactPageInputProps = {
   label?: string;

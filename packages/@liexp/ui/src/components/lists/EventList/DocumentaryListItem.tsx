@@ -1,6 +1,6 @@
 import { Actor, Events, Keyword } from "@liexp/shared/io/http";
-import { Box, Grid } from "@mui/material";
 import * as React from "react";
+import { Box, Grid } from "../../mui";
 import EventListItemBase from "./EventListItemBase";
 
 interface DocumentaryListItemProps {

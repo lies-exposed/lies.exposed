@@ -1,12 +1,12 @@
 import { Events, Project } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
-import { Grid, Typography } from "@mui/material";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
 import { Slider } from "./Common/Slider/Slider";
 import { ProjectAreasMap } from "./Graph/ProjectAreasMap";
+import { Grid, Typography } from "./mui";
 
 export interface ProjectPageContentProps extends Project.Project {
   metadata: Events.EventListMap;

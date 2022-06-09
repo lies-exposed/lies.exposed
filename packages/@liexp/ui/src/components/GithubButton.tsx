@@ -1,8 +1,8 @@
-import { Box, IconButton, Typography } from "@mui/material";
 import * as React from "react";
 import { githubRepo } from "../state/queries/github";
 import { GithubIcon } from "./Common/Icons";
 import QueriesRenderer from "./QueriesRenderer";
+import { Box, IconButton, Typography } from "./mui";
 
 interface GithubButtonProps {
   user: string;

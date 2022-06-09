@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ResourcesNames } from "@liexp/shared/io/http";
-import { Link } from "@mui/material";
 import * as React from "react";
 import { getAdminLink } from "../../../utils/links.utils";
+import { Link } from "../../mui";
 
 interface EditButtonProps {
   resourceName: ResourcesNames;

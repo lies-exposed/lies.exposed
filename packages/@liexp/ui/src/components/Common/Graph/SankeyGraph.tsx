@@ -1,6 +1,5 @@
 // import chroma from "chroma-js";
 // import { sankeyCircular } from "d3-sankey-circular";
-import { alpha, Box, Typography } from "@mui/material";
 import {
   sankey,
   sankeyLeft,
@@ -9,6 +8,7 @@ import {
   sankeyLinkHorizontal,
 } from "d3-sankey";
 import * as React from "react";
+import { alpha, Box, Typography } from "../../mui";
 import { EventIcon, EventTypeColor } from "../Icons";
 
 export const nodeWidth = 45;

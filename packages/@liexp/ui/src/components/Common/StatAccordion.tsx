@@ -1,12 +1,12 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import * as React from "react";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Typography,
-} from "@mui/material";
-import * as React from "react";
+} from "../mui";
 
 interface StatAccordionProps {
   summary: string;

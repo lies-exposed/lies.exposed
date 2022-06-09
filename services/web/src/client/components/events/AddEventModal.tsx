@@ -1,10 +1,7 @@
 import { http } from "@liexp/shared/io";
-import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
 import EventCard from "@liexp/ui/components/Cards/Events/EventCard";
-import { getSuggestions } from "@liexp/ui/helpers/event.helper";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   Box,
   Button,
@@ -17,16 +14,18 @@ import {
   IconButton,
   Input,
   Typography,
-  useTheme,
-} from "@mui/material";
+} from "@liexp/ui/components/mui";
+import { getSuggestions } from "@liexp/ui/helpers/event.helper";
+import {useTheme} from '@liexp/ui/theme'
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import { createEventSuggestion, getURLMetadata } from "../../state/commands";
 
 interface EventSuggestionsListProps {
-  suggestions: Events.EventSuggestion[];
-  selected?: Events.EventSuggestion & { id: string };
-  onSelect: (e: Events.EventSuggestion & { id: string }) => void;
+  suggestions: http.EventSuggestion.EventSuggestion[];
+  selected?: http.EventSuggestion.EventSuggestion & { id: string };
+  onSelect: (e: http.EventSuggestion.EventSuggestion & { id: string }) => void;
 }
 
 const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
@@ -78,7 +77,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   });
 
   const [selectedSuggestion, setSelectedSuggestion] = React.useState<
-    (http.Events.EventSuggestion & { id: string }) | undefined
+    (http.EventSuggestion.EventSuggestion & { id: string }) | undefined
   >(undefined);
 
   const createEventSuggestionM = createEventSuggestion();
