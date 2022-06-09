@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import { optionFromNullable } from "io-ts-types";
 import { Endpoint } from "ts-endpoint";
 import { Area } from "../io/http/Area";
-import { Polygon, UUID } from "../io/http/Common";
+import { Geometry, Polygon, UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import { GetListQuery } from "../io/http/Query";
 import { ResourceEndpoints } from "./types";
@@ -53,7 +53,7 @@ const Create = Endpoint({
 
 export const EditAreaBody = t.strict(
   {
-    geometry: optionFromNullable(Polygon),
+    geometry: optionFromNullable(Geometry),
     label: optionFromNullable(t.string),
     body: optionFromNullable(t.UnknownRecord),
     media: t.array(UUID),

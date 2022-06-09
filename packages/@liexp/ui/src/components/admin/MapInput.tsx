@@ -1,19 +1,21 @@
+import { http } from "@liexp/shared/io";
+import { Polygon } from "@liexp/shared/io/http/Common";
 import { uuid } from "@liexp/shared/utils/uuid";
-import get from "lodash/get";
-import Map from "ol/Map.js";
-import View from "ol/View.js";
+import _ from "lodash";
 import GeoJSON from "ol/format/GeoJSON";
 import GeometryType from "ol/geom/GeometryType";
 import Draw from "ol/interaction/Draw.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import Map from "ol/Map.js";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
+import View from "ol/View.js";
 import * as React from "react";
 import {
   Button,
   FormDataConsumer,
   InputProps,
   SelectInput,
-  useInput,
+  useInput
 } from "react-admin";
 
 const formatOptions = {
@@ -34,18 +36,19 @@ const getDefaultMap = (
 };
 
 type MapInputProps = InputProps & {
-  type: string;
+  type: http.Common.Geometry["type"];
+  value: http.Common.Geometry;
+  onReset: () => void;
 };
 
 export const MapInputType = GeometryType;
 
-const MapInput: React.FC<MapInputProps> = (props) => {
-  const inputProps = useInput(props);
-
-  const {
-    field: { value, onChange },
-  } = inputProps;
-
+const MapInput: React.FC<MapInputProps> = ({
+  value,
+  onChange,
+  onReset,
+  ...props
+}) => {
   const [id] = React.useState(uuid());
   const mapContainer = React.createRef<HTMLDivElement>();
   const mapClassName = `map-input-${id}`;
@@ -53,12 +56,18 @@ const MapInput: React.FC<MapInputProps> = (props) => {
   React.useEffect(() => {
     if (document.querySelector(`.${mapClassName}`)?.innerHTML === "") {
       const format = getDefaultFormat();
-      const features = value ? [format.readFeature(value)] : [];
-      const featuresSource = new VectorSource({ features, wrapX: false });
-      const featuresLayer = new VectorLayer({ source: featuresSource });
+
+      const features = value.coordinates ? [format.readFeature(value)] : [];
 
       const target = mapContainer.current;
       if (target) {
+        const featuresSource = new VectorSource(
+          features ? { features, wrapX: false } : { wrapX: true }
+        );
+        const featuresLayer = new VectorLayer(
+          features ? { source: featuresSource } : {}
+        );
+
         const map = getDefaultMap(target, featuresLayer);
         if (features.length > 0) {
           map.getView().fit(featuresSource.getExtent(), {
@@ -78,7 +87,10 @@ const MapInput: React.FC<MapInputProps> = (props) => {
           featuresSource.clear();
           const geometry = opts.feature.getGeometry();
           if (geometry) {
-            onChange(format.writeGeometry(geometry, writeOptions));
+            const geom = JSON.parse(
+              format.writeGeometry(geometry, writeOptions)
+            );
+            onChange?.(geom);
           }
         });
       }
@@ -90,7 +102,7 @@ const MapInput: React.FC<MapInputProps> = (props) => {
         mapDiv.innerHTML = "";
       }
     };
-  });
+  }, [props.type]);
 
   // eslint-disable-next-line
   // console.log({ mapContainer, mapClassName });
@@ -103,31 +115,70 @@ const MapInput: React.FC<MapInputProps> = (props) => {
         style={{ height: 300, width: 600 }}
       />
       <div style={{ marginTop: 20 }}>
-        <Button
-          label="reset"
-          variant="outlined"
-          onClick={() => onChange({ type: props.type, coordinates: [] })}
-        />
+        <Button label="reset" variant="outlined" onClick={() => onReset()} />
       </div>
     </>
   );
 };
 
-const MapInputWrapper: React.FC<MapInputProps> = (props) => {
+const MapInputWrapper: React.FC<Omit<MapInputProps, "type">> = (props) => {
+  const typeSource = `${props.source}.type`;
+  const typeField = useInput({ ...props, source: typeSource });
+  const mapField = useInput({
+    ...props,
+    source: props.source,
+  });
+
+  const handleReset = () => {
+    // _.set(
+    //   value,
+    //   typeSource,
+    //   formData[typeSource] === "Point" ? "Polygon" : "Point"
+    // );
+    // _.set(value, coordinatesSource, []);
+    mapField.field.onChange([]);
+  };
   return (
     <>
       <SelectInput
-        source={`${props.source}.type`}
-        choices={[GeometryType.POINT, GeometryType.POLYGON].map((t) => ({
-          id: t,
-          name: t,
+        label="type"
+        source={typeField.field.name}
+        choices={[GeometryType.POINT, GeometryType.POLYGON].map((g) => ({
+          id: g,
+          name: g,
         }))}
         defaultValue={GeometryType.POINT}
+        onChange={(e) => {
+          typeField.field.onChange({ type: e.target.value, coordinates: [] });
+        }}
       />
       <FormDataConsumer>
-        {({ formData, ...rest }) => {
-          const type = get(formData, `${props.source}.type`);
-          return <MapInput {...props} type={type} {...rest} />;
+        {({ formData }) => {
+          const type = _.get(formData, typeField.field.name);
+
+          if (type === Polygon.type.props.type.value) {
+            return (
+              <MapInput
+                {...props}
+                type={type}
+                source={props.source}
+                onChange={mapField.field.onChange}
+                value={mapField.field.value}
+                onReset={handleReset}
+              />
+            );
+          }
+
+          return (
+            <MapInput
+              {...props}
+              type={type}
+              source={props.source}
+              onChange={mapField.field.onChange}
+              value={mapField.field.value}
+              onReset={handleReset}
+            />
+          );
         }}
       </FormDataConsumer>
     </>
