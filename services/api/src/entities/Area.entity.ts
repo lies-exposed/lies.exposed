@@ -1,4 +1,4 @@
-import { Polygon } from "@liexp/shared/io/http/Common";
+import { Geometry } from "@liexp/shared/io/http/Common";
 import {
   Column,
   CreateDateColumn,
@@ -19,7 +19,7 @@ export class AreaEntity {
   label: string;
 
   @Column({ type: "json", nullable: false })
-  geometry: Polygon;
+  geometry: Geometry;
 
   @Column({ type: "json", nullable: true })
   body: unknown | null;

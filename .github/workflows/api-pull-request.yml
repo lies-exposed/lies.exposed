@@ -62,12 +62,14 @@ jobs:
         run: yarn api lint
 
       - name: Build API
-        run: yarn api build
+        run: |
+          yarn packages:build
+          yarn api build
 
       - name: Run tests
         env:
           DEBUG: "@liexp*"
-        run: yarn api test --ci --forceExit
+        run: yarn api test --ci --runInBand --forceExit
 
       - name: Run migrations
         env:
