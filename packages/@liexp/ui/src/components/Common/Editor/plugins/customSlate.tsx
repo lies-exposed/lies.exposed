@@ -1,6 +1,6 @@
-import { List, ListItem, ListItemText, Typography } from "@mui/material";
 import slate from "@react-page/plugins-slate";
 import * as React from "react";
+import { List, ListItem, ListItemText, Typography } from "../../../mui";
 import { actorLinkPlugin } from "./actorLink";
 
 const customSlate = slate((def) => {

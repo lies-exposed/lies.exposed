@@ -1,3 +1,10 @@
+import * as O from "fp-ts/lib/Option";
+import { pipe } from "fp-ts/lib/function";
+import * as React from "react";
+import { styled } from "../theme";
+import DonateButton from "./Common/Button/DonateButton";
+import { TelegramIcon } from "./Common/Icons";
+import GithubButton from "./GithubButton";
 import {
   AppBar,
   Button,
@@ -10,14 +17,7 @@ import {
   Popper,
   Toolbar,
   Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
-import * as React from "react";
-import DonateButton from "./Common/Button/DonateButton";
-import { TelegramIcon } from "./Common/Icons";
-import GithubButton from "./GithubButton";
+} from "./mui";
 
 const PREFIX = "Header";
 

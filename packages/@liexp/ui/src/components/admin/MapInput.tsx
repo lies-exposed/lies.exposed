@@ -1,21 +1,21 @@
 import { http } from "@liexp/shared/io";
-import { Polygon } from "@liexp/shared/io/http/Common";
+import { Polygon } from "@liexp/shared/io/http/Common/Geometry";
 import { uuid } from "@liexp/shared/utils/uuid";
 import _ from "lodash";
+import Map from "ol/Map.js";
+import View from "ol/View.js";
 import GeoJSON from "ol/format/GeoJSON";
 import GeometryType from "ol/geom/GeometryType";
 import Draw from "ol/interaction/Draw.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
-import Map from "ol/Map.js";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
-import View from "ol/View.js";
 import * as React from "react";
 import {
   Button,
   FormDataConsumer,
   InputProps,
   SelectInput,
-  useInput
+  useInput,
 } from "react-admin";
 
 const formatOptions = {
@@ -36,8 +36,8 @@ const getDefaultMap = (
 };
 
 type MapInputProps = InputProps & {
-  type: http.Common.Geometry["type"];
-  value: http.Common.Geometry;
+  type: http.Common.Geometry.Geometry['type'];
+  value: http.Common.Geometry.Geometry;
   onReset: () => void;
 };
 
@@ -121,15 +121,19 @@ const MapInput: React.FC<MapInputProps> = ({
   );
 };
 
-const MapInputWrapper: React.FC<Omit<MapInputProps, "type">> = (props) => {
+const MapInputWrapper: React.FC<MapInputProps> = (props) => {
   const typeSource = `${props.source}.type`;
-  const typeField = useInput({ ...props, source: typeSource });
+  const typeField = useInput({
+    ...props,
+    source: typeSource,
+    defaultValue: props.type ?? "Point",
+  });
   const mapField = useInput({
     ...props,
     source: props.source,
   });
 
-  const handleReset = () => {
+  const handleReset = (): void => {
     // _.set(
     //   value,
     //   typeSource,

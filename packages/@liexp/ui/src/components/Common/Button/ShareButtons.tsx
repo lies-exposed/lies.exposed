@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import * as React from "react";
 import {
   EmailIcon,
@@ -10,6 +9,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton,
 } from "react-share";
+import { Box } from "../../mui";
 
 interface ShareButtonsProps {
   urlPath: string;

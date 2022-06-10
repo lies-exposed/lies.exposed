@@ -1,5 +1,5 @@
-import CircularProgress from "@mui/material/CircularProgress";
 import * as React from "react";
+import {CircularProgress} from "../mui";
 
 export const Loader: () => React.ReactElement = () => {
   return <CircularProgress />;

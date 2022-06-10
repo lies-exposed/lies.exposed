@@ -1,8 +1,8 @@
 import { firstEvent } from "@liexp/shared/mock-data/events";
-import { Card } from "@mui/material";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { EventPageContent, EventPageContentProps } from "../EventPageContent";
+import { Card } from "../mui";
 
 export const eventPageContentArgs: EventPageContentProps = {
   event: {

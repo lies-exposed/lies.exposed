@@ -6,8 +6,6 @@ import {
   Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { Box } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import * as React from "react";
 import {
   AutoSizer,
@@ -23,7 +21,9 @@ import {
   SearchEventQueryInput,
   searchEventsInfiniteQuery,
 } from "../../../state/queries/SearchEventsQuery";
+import { styled } from "../../../theme";
 import { FullSizeLoader } from "../../Common/FullSizeLoader";
+import { Box } from "../../mui";
 import { EventListItemProps } from "./EventListItem";
 import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
 

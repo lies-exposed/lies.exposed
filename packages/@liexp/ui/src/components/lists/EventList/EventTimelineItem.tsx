@@ -7,11 +7,11 @@ import {
   TimelineOppositeContent,
   TimelineSeparator,
 } from "@mui/lab";
-import { Box, Grid, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import * as React from "react";
+import { styled } from "../../../theme";
 import EditButton from "../../Common/Button/EditButton";
 import { EventIcon } from "../../Common/Icons/EventIcon";
+import { Box, Grid, Typography } from "../../mui";
 import { EventListItem, EventListItemProps } from "./EventListItem";
 import { TimelineEventSubjects } from "./TimelineEventSubjects";
 

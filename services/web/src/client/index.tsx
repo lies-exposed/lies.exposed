@@ -1,7 +1,7 @@
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
+import { CssBaseline, ThemeProvider, StyledEngineProvider } from "@liexp/ui/components/mui";
 import { ECOTheme } from "@liexp/ui/theme";
-import { CssBaseline, ThemeProvider, StyledEngineProvider } from "@mui/material";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom";

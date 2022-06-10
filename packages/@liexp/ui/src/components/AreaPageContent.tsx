@@ -1,5 +1,4 @@
 import { Area, Group } from "@liexp/shared/io/http";
-import { Box, Grid, Typography } from "@mui/material";
 import Feature from "ol/Feature";
 import * as React from "react";
 import MediaSliderBox from "../containers/MediaSliderBox";
@@ -7,6 +6,7 @@ import { geoJSONFormat } from "../utils/map.utils";
 import EditButton from "./Common/Button/EditButton";
 import Editor from "./Common/Editor/index";
 import Map from "./Map";
+import { Box, Grid, Typography } from "./mui";
 
 export interface AreaPageContentProps {
   area: Area.Area;

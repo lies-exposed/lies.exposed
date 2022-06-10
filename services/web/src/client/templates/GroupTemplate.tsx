@@ -2,12 +2,12 @@ import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
+import { Box } from "@liexp/ui/components/mui";
 import {
   useEventsQuery,
   useGroupMembersQuery,
   useGroupQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Box } from "@mui/material";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";

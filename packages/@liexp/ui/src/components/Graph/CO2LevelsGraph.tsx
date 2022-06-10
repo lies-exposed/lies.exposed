@@ -1,4 +1,3 @@
-import { Checkbox } from "@mui/material";
 import { LinearGradient } from "@vx/gradient";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import * as t from "io-ts";
@@ -6,6 +5,7 @@ import * as React from "react";
 import { useGraphQuery } from "../../state/queries/DiscreteQueries";
 import { AxisGraph } from "../Common/Graph/AxisGraph";
 import QueriesRenderer from "../QueriesRenderer";
+import { Checkbox } from "../mui";
 
 /**
  * CO2.Earth Data set: https://www.co2.earth/historical-co2-datasets

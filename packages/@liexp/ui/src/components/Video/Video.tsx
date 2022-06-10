@@ -1,6 +1,6 @@
 import { MP4Type } from "@liexp/shared/io/http/Media";
-import { styled } from '@mui/material/styles';
 import * as React from "react";
+import { styled } from '../../theme';
 
 const PREFIX = 'Video';
 

@@ -2,7 +2,7 @@ import { parsePlatformURL } from "@liexp/shared/helpers/media";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from '@liexp/shared/utils/task.utils';
 import { uuid } from "@liexp/shared/utils/uuid";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@liexp/ui/components/mui";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";

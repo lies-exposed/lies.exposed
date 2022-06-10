@@ -2,14 +2,6 @@ import { getRelationIds } from "@liexp/shared/helpers/event";
 import * as http from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common";
 import { formatDateToShort } from "@liexp/shared/utils/date";
-import {
-  Box,
-  Grid,
-  Link,
-  Typography,
-  useMediaQuery as useMuiMediaQuery,
-  useTheme,
-} from "@mui/material";
 import * as React from "react";
 import { getEventCommonProps } from "../helpers/event.helper";
 import {
@@ -17,6 +9,7 @@ import {
   useAreasQuery,
   useMediaQuery,
 } from "../state/queries/DiscreteQueries";
+import { useTheme } from '../theme';
 import EditButton from "./Common/Button/EditButton";
 import { ShareButtons } from "./Common/Button/ShareButtons";
 import Editor, { getTextContentsCapped, isValidValue } from "./Common/Editor";
@@ -28,6 +21,13 @@ import { MainContent } from "./MainContent";
 import QueriesRenderer from "./QueriesRenderer";
 import SEO from "./SEO";
 import { ActorList } from "./lists/ActorList";
+import {
+  Box,
+  Grid,
+  Link,
+  Typography,
+  useMediaQuery as useMuiMediaQuery,
+} from "./mui";
 import { MediaSlider } from "./sliders/MediaSlider";
 
 export interface EventPageContentProps {

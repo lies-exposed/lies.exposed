@@ -1,8 +1,8 @@
 import { Media } from "@liexp/shared/io/http";
 import { CloseOutlined } from "@mui/icons-material";
-import { Box, Button, Modal, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
 import * as React from "react";
+import { styled } from '../../theme';
+import { Box, Button, Modal, Typography } from "../mui";
 
 const PREFIX = 'PDFMediaElement';
 

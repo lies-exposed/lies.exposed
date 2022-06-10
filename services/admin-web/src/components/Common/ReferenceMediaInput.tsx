@@ -1,6 +1,6 @@
 import { Media, MediaType } from "@liexp/shared/io/http/Media";
 import { Avatar } from "@liexp/ui/components/Common/Avatar";
-import { Typography } from "@mui/material";
+import { Typography } from "@liexp/ui/components/mui";
 import React from "react";
 import {
   AutocompleteInput,

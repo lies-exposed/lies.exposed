@@ -1,5 +1,4 @@
 import { Group } from "@liexp/shared/io/http";
-import { Box, Typography } from "@mui/material";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -7,6 +6,7 @@ import * as React from "react";
 import { useGroupsQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";
 import GroupList from "./lists/GroupList";
+import { Box, Typography } from "./mui";
 
 interface GroupsBoxProps {
   ids: string[];

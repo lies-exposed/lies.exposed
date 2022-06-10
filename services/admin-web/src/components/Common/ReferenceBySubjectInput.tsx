@@ -1,5 +1,5 @@
 import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
-import { Box } from "@mui/material";
+import { Box } from "@liexp/ui/components/mui";
 import _ from "lodash";
 import React from "react";
 import { FormDataConsumer, ReferenceInputProps, SelectInput } from "react-admin";

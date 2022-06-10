@@ -1,7 +1,7 @@
 import { Media } from "@liexp/shared/io/http";
-import { styled } from "@mui/material/styles";
 import clsx from "clsx";
 import * as React from "react";
+import { styled } from "../../theme";
 
 const PREFIX = "IframeMediaElement";
 

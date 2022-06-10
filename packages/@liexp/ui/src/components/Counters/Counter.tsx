@@ -1,5 +1,5 @@
-import { styled } from "@mui/material/styles";
 import * as React from "react";
+import { styled } from "../../theme";
 
 const PREFIX = "Counter";
 

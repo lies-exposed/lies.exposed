@@ -1,5 +1,5 @@
-import { Container, Grid } from "@mui/material";
 import * as React from "react";
+import { Container, Grid } from "./mui";
 
 interface MainContentProps {
   style?: React.CSSProperties;

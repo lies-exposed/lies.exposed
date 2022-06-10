@@ -1,9 +1,9 @@
 import { getEventsMetadata } from "@liexp/shared/helpers/event";
 import { Actor, Group, GroupMember } from "@liexp/shared/io/http";
 import { SearchEvent } from "@liexp/shared/io/http/Events";
-import { Box, BoxProps } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import * as React from "react";
+import { styled } from "../../../theme";
+import { Box, BoxProps } from "../../mui";
 import { ActorList } from "../ActorList";
 import GroupsList from "../GroupList";
 import { GroupsMembersList } from "../GroupMemberList";

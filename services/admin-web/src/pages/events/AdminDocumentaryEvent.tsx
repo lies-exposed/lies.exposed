@@ -1,11 +1,11 @@
 import * as Events from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { Box } from "@liexp/ui/components/mui";
 import {
   MapInput,
   MapInputType
 } from "@liexp/ui/src/components/admin/MapInput";
-import { Box } from "@mui/material";
 import * as React from "react";
 import {
   BooleanInput,

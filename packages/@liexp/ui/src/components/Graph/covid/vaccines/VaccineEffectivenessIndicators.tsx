@@ -1,4 +1,3 @@
-import { Grid, Typography } from "@mui/material";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import { scaleBand, scaleLinear, scaleOrdinal } from "@vx/scale";
 import * as React from "react";
@@ -6,6 +5,7 @@ import {
   BarStackGraph,
   TooltipData,
 } from "../../../Common/Graph/BarStackGraph";
+import { Grid, Typography } from "../../../mui";
 
 type DataGroup = "Vaccine" | "Placebo" | "Vaccine Severe" | "Placebo Severe";
 

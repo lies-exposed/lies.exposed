@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button } from "@liexp/ui/components/mui";
 import * as React from "react";
 import { useRecordContext, useRefresh } from "react-admin";
 import { apiProvider } from "../../client/HTTPAPI";

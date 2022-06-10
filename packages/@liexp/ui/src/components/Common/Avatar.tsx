@@ -1,7 +1,5 @@
-import {
-  Avatar as MUIAvatar,
-  AvatarProps as MUIAvatarProps,
-} from "@mui/material";
+// eslint-disable-next-line no-restricted-imports
+import MUIAvatar, { AvatarProps as MUIAvatarProps } from "@mui/material/Avatar";
 import * as React from "react";
 import { styled } from "../../theme/index";
 

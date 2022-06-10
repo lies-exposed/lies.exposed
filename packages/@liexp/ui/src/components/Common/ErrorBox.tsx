@@ -1,5 +1,5 @@
-import { Card, Grid, Typography } from "@mui/material";
 import * as React from "react";
+import { Card, Grid, Typography } from "../mui";
 
 export const ErrorBox: (e: any) => React.ReactElement = (e: any) => {
   return (

@@ -1,6 +1,6 @@
 import * as http from '@liexp/shared/io/http';
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { FormControl, Grid } from "@mui/material";
+import { FormControl, Grid } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   Create,

@@ -1,9 +1,9 @@
 import { uncategorizedEvents } from "@liexp/shared/mock-data/events";
 import { goodGroup } from "@liexp/shared/mock-data/groups";
-import { Card } from "@mui/material";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { GroupPageContent, GroupPageContentProps } from "../GroupPageContent";
+import { Card } from "../mui";
 
 
 export const groupPageContentArgs: GroupPageContentProps = {

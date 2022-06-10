@@ -5,7 +5,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import supertest from "supertest";
 import { RouteContext } from "../src/routes/route.types";
 import { makeApp, makeContext } from "../src/server";
-import { awsMock } from "./mocks/aws.mock";
+import { awsMock } from "../__mocks__/aws.mock";
 
 export interface AppTest {
   ctx: RouteContext;

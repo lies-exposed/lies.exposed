@@ -1,6 +1,6 @@
-import { Common } from "../io/http";
+import { Polygon } from "../io/http/Common/Geometry";
 
-export const firstPolygon: Common.Polygon = {
+export const firstPolygon: Polygon = {
   type: "Polygon",
   coordinates: [
     [

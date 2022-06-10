@@ -1,6 +1,6 @@
 import * as ScientificStudy from "@liexp/shared/io/http/Events/ScientificStudy";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box } from '@mui/material';
+import { Box } from '@liexp/ui/components/mui';
 import * as React from "react";
 import {
   BooleanField,

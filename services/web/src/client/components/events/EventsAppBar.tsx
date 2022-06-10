@@ -19,26 +19,25 @@ import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import GroupList from "@liexp/ui/components/lists/GroupList";
 import { GroupsMembersList } from "@liexp/ui/components/lists/GroupMemberList";
 import KeywordList from "@liexp/ui/components/lists/KeywordList";
-import { getTotal } from "@liexp/ui/helpers/event.helper";
-import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   alpha, Grid,
   IconButton,
   Tab,
   Tabs,
   Toolbar,
   Typography,
-  useTheme
-} from "@mui/material";
-import Box from "@mui/material/Box";
-import { styled } from '@mui/material/styles';
+} from "@liexp/ui/components/mui";
+import { getTotal } from "@liexp/ui/helpers/event.helper";
+import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
+import {useTheme, styled } from '@liexp/ui/theme'
+import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import SearchIcon from "@mui/icons-material/Search";
 import clsx from "clsx";
 import * as React from "react";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";

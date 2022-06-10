@@ -1,8 +1,8 @@
 import { Media } from "@liexp/shared/io/http";
-import { Box } from "@mui/material";
 import * as React from "react";
 import { GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
+import { Box } from "../components/mui";
 import { MediaSlider } from "../components/sliders/MediaSlider";
 import { useMediaQuery } from "../state/queries/DiscreteQueries";
 

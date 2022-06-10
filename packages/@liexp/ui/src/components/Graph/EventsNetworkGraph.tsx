@@ -14,7 +14,6 @@ import {
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
-import { Box, Grid } from "@mui/material";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
 import { Link } from "@vx/network/lib/types";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
@@ -35,6 +34,7 @@ import {
   NetworkPointNode,
 } from "../Common/Graph/Network/NetworkNode";
 import SankeyGraph from "../Common/Graph/SankeyGraph";
+import { Box, Grid } from "../mui";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
 

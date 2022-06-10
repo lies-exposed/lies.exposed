@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 import { darken, lighten, useTheme } from "@mui/material";
 import {
   CreateMUIStyled,

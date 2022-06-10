@@ -1,6 +1,6 @@
 import { PageContent } from "@liexp/ui/components/PageContent";
 import SEO from "@liexp/ui/components/SEO";
-import { Grid } from "@mui/material";
+import { Grid } from "@liexp/ui/components/mui";
 import * as React from "react";
 import KeywordsDistributionGraph from "../components/KeywordDistributionGraph";
 

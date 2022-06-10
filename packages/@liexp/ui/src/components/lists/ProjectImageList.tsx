@@ -1,6 +1,6 @@
 import * as io from "@liexp/shared/io/http";
-import { Grid, Typography } from "@mui/material";
 import * as React from "react";
+import { Grid, Typography } from "../mui";
 
 export interface ProjectImage extends io.ProjectImage.ProjectImage {
   selected: boolean;

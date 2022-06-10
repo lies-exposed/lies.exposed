@@ -19,7 +19,7 @@ export class AreaEntity {
   label: string;
 
   @Column({ type: "json", nullable: false })
-  geometry: Geometry;
+  geometry: Geometry.Geometry;
 
   @Column({ type: "json", nullable: true })
   body: unknown | null;

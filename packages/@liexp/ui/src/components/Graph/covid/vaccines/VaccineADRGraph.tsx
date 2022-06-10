@@ -13,18 +13,6 @@ import {
 } from "@liexp/shared/io/http/covid/VaccineDatum";
 import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
 import { formatDate } from "@liexp/shared/utils/date";
-import {
-  Box,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-  TypographyProps,
-  SelectChangeEvent,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
 import { AxisBottom, AxisLeft, AxisRight } from "@vx/axis";
 import { curveLinear } from "@vx/curve";
 import { localPoint } from "@vx/event";
@@ -39,8 +27,20 @@ import { isDate } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";
 import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries";
+import { styled } from "../../../../theme";
 import { StatAccordion } from "../../../Common/StatAccordion";
 import QueriesRenderer from "../../../QueriesRenderer";
+import {
+  Box,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+  TypographyProps,
+  SelectChangeEvent,
+} from "../../../mui";
 
 const PREFIX = "VaccineADRGraph";
 

@@ -1,5 +1,12 @@
 import { Events } from "@liexp/shared/io/http";
 import { formatDate } from "@liexp/shared/utils/date";
+import * as React from "react";
+import {
+  getTextContentsCapped,
+  isValidValue
+} from "../../Common/Editor";
+import { EventIcon } from "../../Common/Icons";
+import KeywordList from "../../lists/KeywordList";
 import {
   Box,
   Card,
@@ -8,14 +15,7 @@ import {
   CardHeader,
   CardMedia,
   CardProps
-} from "@mui/material";
-import * as React from "react";
-import {
-  getTextContentsCapped,
-  isValidValue
-} from "../../Common/Editor";
-import { EventIcon } from "../../Common/Icons";
-import KeywordList from "../../lists/KeywordList";
+} from "../../mui";
 
 interface EventCardProps extends Omit<CardProps, "onClick"> {
   event: Events.SearchEvent.SearchEvent;

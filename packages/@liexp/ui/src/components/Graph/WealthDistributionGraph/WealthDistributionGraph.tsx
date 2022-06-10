@@ -1,9 +1,9 @@
-import { Typography } from "@mui/material";
 import ParentSize from "@vx/responsive/lib/components/ParentSize";
 import { scaleOrdinal } from "d3-scale";
 import * as React from "react";
 import { BubbleGraph } from "../../Common/Graph/BubbleGraph";
 import { Legends } from "../../Common/Graph/Legends";
+import { Typography } from "../../mui";
 import data from "./wealth-distribution-data.json";
 
 interface WealthDistributionDatum {

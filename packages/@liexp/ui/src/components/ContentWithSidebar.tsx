@@ -1,7 +1,7 @@
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Box, Grid } from "@mui/material";
 import * as React from "react";
+import { Box, Grid } from "./mui";
 
 interface ContentWithSidebarProps {
   sidebar: React.ReactElement;

@@ -2,6 +2,7 @@ import { EventType } from "@liexp/shared/io/http/Events";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
+import { Box, Grid } from "@liexp/ui/components/mui";
 import {
   useActorsDiscreteQuery,
   useGroupsDiscreteQuery,
@@ -10,7 +11,6 @@ import {
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { clearSearchEventsQueryCache } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
-import { Box, Grid } from "@mui/material";
 import * as React from "react";
 import EventsAppBar from "../components/events/EventsAppBar";
 import { queryClient } from "../state/queries";

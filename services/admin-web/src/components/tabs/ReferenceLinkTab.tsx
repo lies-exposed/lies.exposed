@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   Datagrid,

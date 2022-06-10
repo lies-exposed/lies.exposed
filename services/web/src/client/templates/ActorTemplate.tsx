@@ -3,11 +3,11 @@ import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
+import { Box } from "@liexp/ui/components/mui";
 import {
   useActorQuery,
   useGroupsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { Box } from "@mui/material";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { useRouteQuery } from "../utils/history.utils";

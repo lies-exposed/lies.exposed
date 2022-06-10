@@ -1,10 +1,10 @@
 import { GroupMember } from "@liexp/shared/io/http";
-import { Box } from "@mui/material";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as React from "react";
 import { useGroupsMembersDiscreteQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";
 import { GroupsMembersList } from "./lists/GroupMemberList";
+import { Box } from "./mui";
 
 interface GroupMembersBoxProps {
   ids: string[];
