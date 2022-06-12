@@ -110,4 +110,5 @@ const ECOTheme = createTheme(themeOptions);
 type ECOTheme = typeof ECOTheme;
 
 const styled = _styled as any as CreateMUIStyled<ECOTheme>;
+
 export { ECOTheme, useTheme, styled, themeOptions };

@@ -1,8 +1,9 @@
+import HTMLWebpackPlugin from "html-webpack-plugin";
 import path from "path";
-import HTMLWebpackPlugin from 'html-webpack-plugin';
+import TerserPlugin from "terser-webpack-plugin";
 import {
   defineEnv,
-  getConfig,
+  getConfig
 } from "../../packages/@liexp/core/src/webpack/config";
 import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
 
@@ -34,6 +35,28 @@ const webConfig = getWebConfig({
     app: path.resolve(__dirname, "src/client/index.tsx"),
   },
 });
+
+webConfig.optimization =
+  webConfig.mode === "production"
+    ? {
+        // chunkIds: "deterministic",
+        minimize: true,
+        minimizer: [
+          new TerserPlugin({
+            parallel: false,
+          }),
+        ],
+        // splitChunks: {
+        //   cacheGroups: {
+        //     liexp: {
+        //       name: "@liexp",
+        //       test: /[\\/]@liexp[\\/]/,
+        //       chunks: "all",
+        //     },
+        //   },
+        // },
+      }
+    : {};
 
 const srvConfig = getConfig({
   cwd: __dirname,

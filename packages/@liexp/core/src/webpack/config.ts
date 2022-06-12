@@ -8,7 +8,6 @@ import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import TerserPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -160,27 +159,27 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       }
     : {};
 
-  const optimization: webpack.Configuration["optimization"] =
-    mode === "production"
-      ? {
-          // chunkIds: "deterministic",
-          minimize: true,
-          minimizer: [
-            new TerserPlugin({
-              parallel: false,
-            }),
-          ],
-          // splitChunks: {
-          //   cacheGroups: {
-          //     liexp: {
-          //       name: "@liexp",
-          //       test: /[\\/]@liexp[\\/]/,
-          //       chunks: "all",
-          //     },
-          //   },
-          // },
-        }
-      : {};
+  // const optimization: webpack.Configuration["optimization"] =
+  //   mode === "production"
+  //     ? {
+  //         // chunkIds: "deterministic",
+  //         minimize: true,
+  //         minimizer: [
+  //           new TerserPlugin({
+  //             parallel: false,
+  //           }),
+  //         ],
+  //         // splitChunks: {
+  //         //   cacheGroups: {
+  //         //     liexp: {
+  //         //       name: "@liexp",
+  //         //       test: /[\\/]@liexp[\\/]/,
+  //         //       chunks: "all",
+  //         //     },
+  //         //   },
+  //         // },
+  //       }
+  //     : {};
 
   const config = {
     mode,
@@ -196,7 +195,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       publicPath: opts.output?.publicPath ?? "/",
       filename: "[name].js",
     },
-    optimization,
+    // optimization,
     module: {
       rules: [
         {
