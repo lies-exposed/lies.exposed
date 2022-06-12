@@ -1,6 +1,7 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { Route } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { AreaEntity } from "@entities/Area.entity";
@@ -9,7 +10,7 @@ export const MakeDeleteAreaRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(Endpoints.Area.Delete, ({ params: { id } }) => {
     return pipe(
       db.findOneOrFail(AreaEntity, {
-        where: { id },
+        where: { id: Equal(id) },
       }),
       TE.chainFirst(() => db.softDelete(AreaEntity, id)),
       TE.chainEitherK(toAreaIO),

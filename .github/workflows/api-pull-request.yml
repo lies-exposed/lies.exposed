@@ -66,12 +66,12 @@ jobs:
           yarn packages:build
           yarn api build
 
-      - name: Run tests
-        env:
-          DEBUG: "@liexp*"
-        run: yarn api test --ci --runInBand --forceExit
-
       - name: Run migrations
         env:
           DOTENV_CONFIG_PATH: ../../.env
         run: yarn api migration:run
+
+      - name: Run tests
+        env:
+          DEBUG: "@liexp*"
+        run: yarn api test --ci --runInBand --forceExit

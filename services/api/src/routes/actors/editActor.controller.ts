@@ -4,6 +4,7 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { Route } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -41,13 +42,13 @@ export const MakeEditActorRoute: Route = (r, { db, logger }) => {
 
       logger.info.log("Actor update data %O", updateData);
       return pipe(
-        db.findOneOrFail(ActorEntity, { where: { id } }),
+        db.findOneOrFail(ActorEntity, { where: { id: Equal(id) } }),
         TE.chain((actor) =>
           db.save(ActorEntity, [{ ...actor, id, ...updateData }])
         ),
         TE.chain(() =>
           db.findOneOrFail(ActorEntity, {
-            where: { id },
+            where: { id: Equal(id) },
             loadRelationIds: {
               relations: ["memberIn"],
             },

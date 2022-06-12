@@ -47,7 +47,7 @@ import { RouteContext } from "@routes/route.types";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
-import { getDBOptions } from "@utils/getDBOptions";
+import { getDataSource } from "@utils/data-source";
 import { GetWriteJSON } from "@utils/json.utils";
 
 // var whitelist = ["http://localhost:8002"]
@@ -66,7 +66,7 @@ export const makeContext = (
     TE.chain((env) => {
       return sequenceS(TE.ApplicativePar)({
         logger: TE.right(serverLogger),
-        db: GetTypeORMClient(getDBOptions(env, false)),
+        db: GetTypeORMClient(getDataSource(env, false)),
         s3:
           env.NODE_ENV === "development" || env.NODE_ENV === "test"
             ? TE.right(

@@ -3,7 +3,7 @@ import { sanitizeURL } from "@liexp/shared/utils/url.utils";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { In } from "typeorm";
+import { Equal, In } from "typeorm";
 import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
@@ -45,7 +45,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
         ),
         TE.chain(() =>
           ctx.db.findOneOrFail(LinkEntity, {
-            where: { id },
+            where: { id: Equal(id) },
             loadRelationIds: { relations: ["events", "keywords"] },
           })
         ),

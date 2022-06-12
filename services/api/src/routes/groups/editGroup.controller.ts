@@ -4,6 +4,7 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { UUID } from "io-ts-types/lib/UUID";
+import { Equal } from 'typeorm';
 import { GroupEntity } from "../../entities/Group.entity";
 import { toGroupIO } from "./group.io";
 import { RouteContext } from "@routes/route.types";
@@ -31,13 +32,13 @@ export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
       }),
     };
     return pipe(
-      ctx.db.findOneOrFail(GroupEntity, { where: { id } }),
+      ctx.db.findOneOrFail(GroupEntity, { where: { id: Equal(id) } }),
       TE.chain((group) =>
         ctx.db.save(GroupEntity, [{ ...group, ...groupUpdate, id }])
       ),
       TE.chain(() =>
         ctx.db.findOneOrFail(GroupEntity, {
-          where: { id },
+          where: { id: Equal(id) },
           loadRelationIds: {
             relations: ["members"],
           },

@@ -2,6 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { RouteContext } from "../route.types";
 import { toEventV2IO } from "./eventV2.io";
 import { editEventQuery } from "./queries/editEvent.query";
@@ -12,7 +13,7 @@ export const EditEventRoute = (r: Router, ctx: RouteContext): void => {
     ctx.logger.debug.log("Incoming body %O", body);
 
     return pipe(
-      ctx.db.findOneOrFail(EventV2Entity, { where: { id } }),
+      ctx.db.findOneOrFail(EventV2Entity, { where: { id: Equal(id) } }),
       TE.chain((event) => editEventQuery(ctx)(event, body)),
       ctx.logger.debug.logInTaskEither(`Update data %O`),
       TE.chain((updateData) =>
@@ -20,7 +21,7 @@ export const EditEventRoute = (r: Router, ctx: RouteContext): void => {
       ),
       TE.chain(() =>
         ctx.db.findOneOrFail(EventV2Entity, {
-          where: { id },
+          where: { id: Equal(id) },
           loadRelationIds: {
             relations: ["media", "links", "keywords"],
           },

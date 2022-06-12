@@ -2,6 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { Route } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { ActorEntity } from "@entities/Actor.entity";
@@ -10,7 +11,7 @@ export const MakeDeleteActorRoute: Route = (r, { s3, db, env }) => {
   AddEndpoint(r)(Endpoints.Actor.Delete, ({ params: { id } }) => {
     return pipe(
       db.findOneOrFail(ActorEntity, {
-        where: { id },
+        where: { id: Equal(id) },
       }),
       TE.chainFirst(() =>
         sequenceS(TE.ApplicativeSeq)({

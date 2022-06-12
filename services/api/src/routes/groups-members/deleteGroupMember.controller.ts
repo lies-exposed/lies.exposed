@@ -2,6 +2,7 @@ import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { RouteContext } from "../route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
@@ -15,7 +16,7 @@ export const MakeDeleteGroupMemberRoute = (
 
     return pipe(
       ctx.db.findOneOrFail(GroupMemberEntity, {
-        where: { id },
+        where: { id: Equal(id) },
         loadRelationIds: true,
       }),
       TE.chainFirst(() => ctx.db.softDelete(GroupMemberEntity, id)),

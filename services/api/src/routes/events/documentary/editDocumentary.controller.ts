@@ -2,6 +2,7 @@ import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Documentary } from "@liexp/shared/io/http/Events";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from 'typeorm';
 import { Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";
 import { editEventQuery } from "../queries/editEvent.query";
@@ -15,7 +16,7 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
       body: { payload, media, keywords, links, ...body },
     }) => {
       return pipe(
-        ctx.db.findOneOrFail(EventV2Entity, { where: { id } }),
+        ctx.db.findOneOrFail(EventV2Entity, { where: { id: Equal(id) } }),
         TE.chain((event) =>
           editEventQuery(ctx)(event, {
             ...body,
@@ -29,7 +30,7 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
         TE.chain((event) => ctx.db.save(EventV2Entity, [event])),
         TE.chain(([event]) =>
           ctx.db.findOneOrFail(EventV2Entity, {
-            where: { id: event.id },
+            where: { id: Equal( event.id) },
             loadRelationIds: true,
           })
         ),

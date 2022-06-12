@@ -3,7 +3,7 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { Like } from "typeorm";
+import { Equal, Like } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { ServerError } from "@io/ControllerError";
@@ -74,7 +74,7 @@ export const MakeCreateScientificStudyFromURLRoute: Route = (
               ),
               TE.chain(([result]) =>
                 db.findOneOrFail(EventV2Entity, {
-                  where: { id: result.id },
+                  where: { id: Equal(result.id) },
                   loadRelationIds: {
                     relations: ["media", "links", "keywords"],
                   },

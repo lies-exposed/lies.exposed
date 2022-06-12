@@ -43,7 +43,7 @@ export const createEventQuery =
               keywords,
               links,
               media,
-            });
+            } as any);
           }
           case http.Events.Death.DEATH.value: {
             const { type, date, draft, excerpt, payload } = input;
