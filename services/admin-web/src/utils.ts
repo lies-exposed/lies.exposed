@@ -1,4 +1,4 @@
-import { Media } from "@liexp/shared/io/http";
+import * as http from "@liexp/shared/io/http";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -36,6 +36,21 @@ export const transformMedia = (newMedia: any[]): any[] => {
     }
     return acc.concat(m);
   }, []);
+};
+
+export const transformUncategorized = (
+  data: any
+): http.Events.CreateEventBody & { id: http.Common.UUID } => {
+  return {
+    ...data,
+    payload: {
+      ...data.payload,
+      location:
+        data.payload.location === "" ? undefined : data.payload.location,
+      endDate:
+        data.payload.endDate?.length > 0 ? data.payload.endDate : undefined,
+    },
+  };
 };
 
 export const transformEvent = async (
@@ -90,7 +105,7 @@ export const transformEvent = async (
         A.map(([location, media]) => ({
           ...media,
           ...location,
-          thumbnail: Media.ImageType.is(location.type)
+          thumbnail: http.Media.ImageType.is(location.type)
             ? location.location
             : undefined,
         })),
@@ -102,14 +117,16 @@ export const transformEvent = async (
     )
   );
 
+  const event =
+    data.type === "Uncategorized" ? transformUncategorized(data) : data;
+
   // eslint-disable-next-line @typescript-eslint/return-await
   return pipe(
     mediaTask,
     TE.map((media) => ({
-      ...data,
+      ...event,
       media,
       links,
-      endDate: data.endDate?.length > 0 ? data.endDate : undefined,
     })),
     throwTE
   );

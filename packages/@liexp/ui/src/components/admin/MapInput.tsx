@@ -36,7 +36,7 @@ const getDefaultMap = (
 };
 
 type MapInputProps = InputProps & {
-  type: http.Common.Geometry.Geometry['type'];
+  type: http.Common.Geometry.Geometry["type"];
   value: http.Common.Geometry.Geometry;
   onReset: () => void;
 };
@@ -121,12 +121,16 @@ const MapInput: React.FC<MapInputProps> = ({
   );
 };
 
-const MapInputWrapper: React.FC<MapInputProps> = (props) => {
+const MapInputWrapper: React.FC<
+  Omit<MapInputProps, "value" | "type" | "onReset"> & {
+    type?: MapInputProps["type"];
+  }
+> = (props) => {
   const typeSource = `${props.source}.type`;
   const typeField = useInput({
     ...props,
     source: typeSource,
-    defaultValue: props.type ?? "Point",
+    defaultValue: props?.type ?? "Point",
   });
   const mapField = useInput({
     ...props,

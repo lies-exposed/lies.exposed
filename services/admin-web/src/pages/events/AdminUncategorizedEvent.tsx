@@ -1,8 +1,8 @@
 import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
-import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
+import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as React from "react";
@@ -27,7 +27,7 @@ import {
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import ExcerptField from "../../components/Common/ExcerptField";
-import ReferenceAreaInput from '../../components/Common/ReferenceAreaInput';
+import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../../components/Common/ReferenceArrayGroupMemberInput";
@@ -200,7 +200,7 @@ export const UncategorizedEventCreate: React.FC = (props) => {
             hidden={true}
           />
           <TextInput source="payload.title" validate={[required()]} />
-          <MapInput source="payload.location" type={MapInputType.POINT} />
+          <MapInput source="payload.location" />
           <DateInput
             source="date"
             validate={[required()]}
