@@ -3,8 +3,7 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box } from "@liexp/ui/components/mui";
 import {
-  MapInput,
-  MapInputType
+  MapInput
 } from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {

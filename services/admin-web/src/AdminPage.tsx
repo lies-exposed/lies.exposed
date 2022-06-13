@@ -1,4 +1,3 @@
-import { themeOptions } from "@liexp/ui/theme";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";
@@ -60,6 +59,7 @@ import {
   EventSuggestionList,
 } from "./pages/events/suggestions/AdminEventSuggestion";
 import "./index.css";
+import { adminThemeOptions } from './theme';
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -71,7 +71,7 @@ const AdminPage: React.FC = () => {
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}
-      theme={themeOptions as any}
+      theme={adminThemeOptions}
     >
       <Resource
         name="pages"

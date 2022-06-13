@@ -206,7 +206,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
               loader: "ts-loader",
               options: {
                 context: opts.cwd,
-                projectReferences: false,
+                projectReferences: true,
                 transpileOnly: true,
                 // getCustomTransformers: () => ({
                 //   before: [

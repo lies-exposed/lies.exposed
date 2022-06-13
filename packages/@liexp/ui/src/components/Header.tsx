@@ -39,7 +39,6 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 
   [`&.${classes.appBar}`]: {
     position: "fixed",
-    backgroundColor: theme.components?.MuiAppBar?.styleOverrides?.colorPrimary,
     boxShadow: "none",
     zIndex: theme.zIndex.drawer + 1,
     flexGrow: 0,

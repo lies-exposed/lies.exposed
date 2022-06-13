@@ -14,9 +14,9 @@ const primary = "#FF5E5B";
 const primaryLight = lighten(primary, 0.5);
 const primaryDark = darken(primary, 0.5);
 
-const secondary = "#17B9B6";
-const secondaryLight = lighten(secondary, 0.5);
-const secondaryDark = darken(primary, 0.5);
+export const secondary = "#17B9B6";
+export const secondaryLight = lighten(secondary, 0.5);
+export const secondaryDark = darken(primary, 0.5);
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -85,12 +85,10 @@ const themeOptions: ThemeOptions = {
       },
     },
     MuiAppBar: {
-      defaultProps: {
-        color: "primary",
-      },
       styleOverrides: {
         root: {
           color: "#FFF",
+          backgroundColor: primary
         },
       },
     },
@@ -111,4 +109,4 @@ type ECOTheme = typeof ECOTheme;
 
 const styled = _styled as any as CreateMUIStyled<ECOTheme>;
 
-export { ECOTheme, useTheme, styled, themeOptions };
+export { ECOTheme, useTheme, styled, themeOptions, ThemeOptions };
