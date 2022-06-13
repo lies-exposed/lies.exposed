@@ -15,17 +15,19 @@ interface MediaFieldProps extends FieldProps {
 
 export const MediaField: React.FC<MediaFieldProps> = (props) => {
   const record = useRecordContext(props);
-  const mediaType =
-    record?.rawFile?.type ??
-    record?.type ??
-    props.type ??
-    MediaType.types[0].value;
-
+  console.log(record);
   const src = get(record, props.source);
 
   if (src === undefined) {
     return null;
   }
+
+  const mediaType =
+    record?.rawFile?.type ??
+    props.type ??
+    (src.includes(".png")
+      ? MediaType.types[2].value
+      : record?.type ?? MediaType.types[0].value);
 
   switch (mediaType) {
     case MediaType.types[5].value:
@@ -47,6 +49,7 @@ export const MediaField: React.FC<MediaFieldProps> = (props) => {
       return (
         <ImageField
           {...props}
+          src={src}
           sx={() => ({
             "& .RaImageField-image": {
               maxWidth: 300,

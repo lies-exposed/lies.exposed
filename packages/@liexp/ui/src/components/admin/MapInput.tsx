@@ -135,6 +135,7 @@ const MapInputWrapper: React.FC<
   const mapField = useInput({
     ...props,
     source: props.source,
+    defaultValue: []
   });
 
   const handleReset = (): void => {
@@ -162,7 +163,7 @@ const MapInputWrapper: React.FC<
       />
       <FormDataConsumer>
         {({ formData }) => {
-          const type = _.get(formData, typeField.field.name);
+          const type = _.get(formData, typeField.field.name) ?? typeField.field.value;
 
           if (type === Polygon.type.props.type.value) {
             return (

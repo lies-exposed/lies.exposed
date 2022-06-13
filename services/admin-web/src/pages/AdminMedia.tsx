@@ -221,7 +221,8 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
               setLoaded(true);
             }}
           >
-            <MediaField {...props} source="thumbnail" type="image/jpeg" />
+            <GenerateThumbnailButton {...props} />
+            <MediaField {...props} source="thumbnail" />
           </Box>
         </Box>
       ) : (
@@ -255,9 +256,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
   >
     <TabbedForm>
       <FormTab label="general">
-        <GenerateThumbnailButton {...props} />
         <ThumbnailField />
-        <TextInput source="location" type="url" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
         <TextInput source="description" fullWidth multiline />

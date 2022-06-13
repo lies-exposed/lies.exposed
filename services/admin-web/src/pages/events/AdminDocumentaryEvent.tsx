@@ -144,7 +144,7 @@ export const DocumentaryEdit: React.FC = () => {
           <ReactPageInput source="body" />
         </FormTab>
         <FormTab label="Location">
-          <MapInput source="payload.location" type={MapInputType.POINT} />
+          <MapInput source="payload.location" />
         </FormTab>
         <FormTab label="Links">
           <ReferenceLinkTab source="links" />
