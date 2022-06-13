@@ -260,7 +260,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
         <TextInput source="location" type="url" />
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
-        <TextInput source="description" />
+        <TextInput source="description" fullWidth multiline />
       </FormTab>
       <FormTab label="events">
         <ReferenceArrayEventInput source="events" defaultValue={[]} />

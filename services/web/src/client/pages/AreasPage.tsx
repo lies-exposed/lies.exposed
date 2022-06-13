@@ -1,10 +1,10 @@
 import AreasMap from "@liexp/ui/components/AreasMap";
-import { PageContent } from "@liexp/ui/components/PageContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { AreaList } from "@liexp/ui/components/lists/AreaList";
 import { Grid } from "@liexp/ui/components/mui";
+import { PageContent } from "@liexp/ui/components/PageContent";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useAreasQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import {useTheme} from '@liexp/ui/theme'
+import { useTheme } from "@liexp/ui/theme";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
@@ -37,13 +37,18 @@ const AreasPage: React.FC<RouteComponentProps> = ({ ...props }) => {
                     style={{
                       maxHeight: "100%",
                       paddingLeft: theme.spacing(2),
-                      paddingRight: theme.spacing(2)
+                      paddingRight: theme.spacing(2),
                     }}
                   >
                     <AreasMap
                       areas={areas}
                       height={height}
-                      onMapClick={() => undefined}
+                      onMapClick={(features) => {
+                        if (features.length > 0) {
+                          const area = features[0].getProperties();
+                          navigateTo.areas({ id: area.id });
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid
