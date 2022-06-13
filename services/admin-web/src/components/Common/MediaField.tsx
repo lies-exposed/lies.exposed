@@ -15,7 +15,6 @@ interface MediaFieldProps extends FieldProps {
 
 export const MediaField: React.FC<MediaFieldProps> = (props) => {
   const record = useRecordContext(props);
-  console.log(record);
   const src = get(record, props.source);
 
   if (src === undefined) {
