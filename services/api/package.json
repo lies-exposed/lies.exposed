@@ -52,7 +52,7 @@
     "pg": "^8.7.3",
     "puppeteer-core": "^13.7.0",
     "ts-endpoint-express": "^2.0.0",
-    "ts-jest": "^28.0.4",
+    "ts-jest": "^28.0.5",
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.3.6",
     "uuid": "^8.3.2"
