@@ -806,32 +806,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dicebear/avatars-avataaars-sprites@npm:^4.10.2":
-  version: 4.10.2
-  resolution: "@dicebear/avatars-avataaars-sprites@npm:4.10.2"
+"@dicebear/avatars-avataaars-sprites@npm:^4.10.3":
+  version: 4.10.3
+  resolution: "@dicebear/avatars-avataaars-sprites@npm:4.10.3"
   peerDependencies:
     "@dicebear/avatars": ^4.6.0
-  checksum: 689ba05e6ccde2974529e0e5c64f7f77816397b1ecafe8222dcf882202ef15a5f80d29b7e8bed31d68c03ebc44868b8c7455b302221384141518568596a2442d
+  checksum: 2b8e43244137d3a1c24bf609747a5b543748f68f111edd47058a1184251e9412677dc3e994469c9b387d6ea7a4085181247d7333916b0a19cd45c38b7debeb4c
   languageName: node
   linkType: hard
 
-"@dicebear/avatars-bottts-sprites@npm:^4.10.2":
-  version: 4.10.2
-  resolution: "@dicebear/avatars-bottts-sprites@npm:4.10.2"
+"@dicebear/avatars-bottts-sprites@npm:^4.10.3":
+  version: 4.10.3
+  resolution: "@dicebear/avatars-bottts-sprites@npm:4.10.3"
   peerDependencies:
     "@dicebear/avatars": ^4.6.0
-  checksum: 4bf61862b9c914f2f6da3c9bcc3305ea7ca8585244d40150406bad7bf3996b2746734c3e7ff4f2b6a5477d6927ebf4466297c9151d709c2b9ef4a3882e27bf73
+  checksum: 8ed7daeee3df1bf31fc87dbc9491977cdd2d81caea1992584584464b6c43645dc8e967036cba2912592c1eddacb8e759c5a2bcc3cca5d58ad48219c74307084b
   languageName: node
   linkType: hard
 
-"@dicebear/avatars@npm:^4.10.2":
-  version: 4.10.2
-  resolution: "@dicebear/avatars@npm:4.10.2"
+"@dicebear/avatars@npm:^4.10.3":
+  version: 4.10.3
+  resolution: "@dicebear/avatars@npm:4.10.3"
   dependencies:
     "@types/json-schema": ^7.0.7
     pure-color: ^1.3.0
     svgson: ^5.2.1
-  checksum: 1c3a2de0b02176065ee202f4eb3358658f970ec3d5c67daf87fc3a042be62463a41acf73caec62e2c539b0b48db13314078d0b348d2026f9e3602c9c9892b2c8
+  checksum: 23b9c896316d41733e481fde45ec382bfa5987b21e17a0ac4a684373d826af5aef9839c08c67e3e9cfe31e14e5fdacd47624794a2b1e8ccd4459ba300afee978
   languageName: node
   linkType: hard
 
@@ -1460,7 +1460,7 @@ __metadata:
     "@types/mime": ^1.3.2
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^2.6.3
-    "@types/react": ^17.0.46
+    "@types/react": ^17.0.47
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@types/webpack-node-externals": ^2.5.3
     copy-webpack-plugin: ^10.2.4
@@ -1567,7 +1567,7 @@ __metadata:
     "@types/ol": ^6.5.3
     "@types/prettier": ^2.6.3
     "@types/reach__router": ^1.3.10
-    "@types/react": ^17.0.46
+    "@types/react": ^17.0.47
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.8
     "@types/react-virtualized": ^9.21.21
@@ -4192,14 +4192,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17.0.46":
-  version: 17.0.46
-  resolution: "@types/react@npm:17.0.46"
+"@types/react@npm:^17.0.47":
+  version: 17.0.47
+  resolution: "@types/react@npm:17.0.47"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 10e41e74aef40363a47a7aeb11b0179854eca0e0635300aac54a81f10ab0cbd7b8d099fed19ae919e25ceae42518db8a25d481625c23b97d7fdc10d1934b710c
+  checksum: 2e7fe0eb630cb77da03b6da308c58728c01b38e878118e9ff5cd8045181c8d4f32dc936e328f46a62cadb56e1fe4c5a911b5113584f93a99e1f35df7f059246b
   languageName: node
   linkType: hard
 
@@ -5292,7 +5292,7 @@ __metadata:
     "@types/lodash": ^4.14.182
     "@types/node": ^16.11.41
     "@types/prettier": ^2.6.3
-    "@types/react": ^17.0.46
+    "@types/react": ^17.0.47
     "@types/react-dom": ^17.0.17
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@typescript-eslint/eslint-plugin": ^5.28.0
@@ -5556,9 +5556,9 @@ __metadata:
   dependencies:
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
-    "@dicebear/avatars": ^4.10.2
-    "@dicebear/avatars-avataaars-sprites": ^4.10.2
-    "@dicebear/avatars-bottts-sprites": ^4.10.2
+    "@dicebear/avatars": ^4.10.3
+    "@dicebear/avatars-avataaars-sprites": ^4.10.3
+    "@dicebear/avatars-bottts-sprites": ^4.10.3
     "@mui/material": ^5.8.3
     "@types/cors": ^2.8.12
     "@types/debug": ^4.1.7
@@ -19495,7 +19495,7 @@ __metadata:
     "@types/express": ^4.17.13
     "@types/mime": ^1.3.2
     "@types/ol": ^6.5.3
-    "@types/react": ^17.0.46
+    "@types/react": ^17.0.47
     "@types/react-calendar-heatmap": ^1.6.3
     "@types/react-helmet": ^6.1.5
     "@types/react-router-dom": ^5.3.3

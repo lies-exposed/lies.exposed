@@ -58,9 +58,9 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@dicebear/avatars": "^4.10.2",
-    "@dicebear/avatars-avataaars-sprites": "^4.10.2",
-    "@dicebear/avatars-bottts-sprites": "^4.10.2",
+    "@dicebear/avatars": "^4.10.3",
+    "@dicebear/avatars-avataaars-sprites": "^4.10.3",
+    "@dicebear/avatars-bottts-sprites": "^4.10.3",
     "@types/cors": "^2.8.12",
     "@types/debug": "^4.1.7",
     "@types/eslint": "^8.4.3",
