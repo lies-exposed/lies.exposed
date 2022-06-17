@@ -806,32 +806,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dicebear/avatars-avataaars-sprites@npm:^4.10.2":
-  version: 4.10.2
-  resolution: "@dicebear/avatars-avataaars-sprites@npm:4.10.2"
+"@dicebear/avatars-avataaars-sprites@npm:^4.10.3":
+  version: 4.10.3
+  resolution: "@dicebear/avatars-avataaars-sprites@npm:4.10.3"
   peerDependencies:
     "@dicebear/avatars": ^4.6.0
-  checksum: 689ba05e6ccde2974529e0e5c64f7f77816397b1ecafe8222dcf882202ef15a5f80d29b7e8bed31d68c03ebc44868b8c7455b302221384141518568596a2442d
+  checksum: 2b8e43244137d3a1c24bf609747a5b543748f68f111edd47058a1184251e9412677dc3e994469c9b387d6ea7a4085181247d7333916b0a19cd45c38b7debeb4c
   languageName: node
   linkType: hard
 
-"@dicebear/avatars-bottts-sprites@npm:^4.10.2":
-  version: 4.10.2
-  resolution: "@dicebear/avatars-bottts-sprites@npm:4.10.2"
+"@dicebear/avatars-bottts-sprites@npm:^4.10.3":
+  version: 4.10.3
+  resolution: "@dicebear/avatars-bottts-sprites@npm:4.10.3"
   peerDependencies:
     "@dicebear/avatars": ^4.6.0
-  checksum: 4bf61862b9c914f2f6da3c9bcc3305ea7ca8585244d40150406bad7bf3996b2746734c3e7ff4f2b6a5477d6927ebf4466297c9151d709c2b9ef4a3882e27bf73
+  checksum: 8ed7daeee3df1bf31fc87dbc9491977cdd2d81caea1992584584464b6c43645dc8e967036cba2912592c1eddacb8e759c5a2bcc3cca5d58ad48219c74307084b
   languageName: node
   linkType: hard
 
-"@dicebear/avatars@npm:^4.10.2":
-  version: 4.10.2
-  resolution: "@dicebear/avatars@npm:4.10.2"
+"@dicebear/avatars@npm:^4.10.3":
+  version: 4.10.3
+  resolution: "@dicebear/avatars@npm:4.10.3"
   dependencies:
     "@types/json-schema": ^7.0.7
     pure-color: ^1.3.0
     svgson: ^5.2.1
-  checksum: 1c3a2de0b02176065ee202f4eb3358658f970ec3d5c67daf87fc3a042be62463a41acf73caec62e2c539b0b48db13314078d0b348d2026f9e3602c9c9892b2c8
+  checksum: 23b9c896316d41733e481fde45ec382bfa5987b21e17a0ac4a684373d826af5aef9839c08c67e3e9cfe31e14e5fdacd47624794a2b1e8ccd4459ba300afee978
   languageName: node
   linkType: hard
 
@@ -1460,7 +1460,7 @@ __metadata:
     "@types/mime": ^1.3.2
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^2.6.3
-    "@types/react": ^17.0.46
+    "@types/react": ^17.0.47
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@types/webpack-node-externals": ^2.5.3
     copy-webpack-plugin: ^10.2.4
@@ -1544,11 +1544,11 @@ __metadata:
     "@fortawesome/free-brands-svg-icons": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
     "@fortawesome/react-fontawesome": ^0.1.18
-    "@mui/icons-material": ^5.8.3
+    "@mui/icons-material": ^5.8.2
     "@mui/lab": ^5.0.0-alpha.85
-    "@mui/material": ^5.8.3
-    "@mui/styles": ^5.8.3
-    "@mui/x-data-grid": ^5.12.1
+    "@mui/material": ^5.8.2
+    "@mui/styles": ^5.8.2
+    "@mui/x-data-grid": ^5.12.2
     "@reach/router": ^1.3.4
     "@react-page/editor": ^5.0.0-beta.1
     "@react-page/plugins-background": ^5.0.0-beta.1
@@ -1567,7 +1567,7 @@ __metadata:
     "@types/ol": ^6.5.3
     "@types/prettier": ^2.6.3
     "@types/reach__router": ^1.3.10
-    "@types/react": ^17.0.46
+    "@types/react": ^17.0.47
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.8
     "@types/react-virtualized": ^9.21.21
@@ -1697,6 +1697,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/base@npm:5.0.0-alpha.83":
+  version: 5.0.0-alpha.83
+  resolution: "@mui/base@npm:5.0.0-alpha.83"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+    "@emotion/is-prop-valid": ^1.1.2
+    "@mui/types": ^7.1.3
+    "@mui/utils": ^5.8.0
+    "@popperjs/core": ^2.11.5
+    clsx: ^1.1.1
+    prop-types: ^15.8.1
+    react-is: ^17.0.2
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 0ad413a8da41dd09b018bb4c7961c5937f68e2656b56d4d9ecadc49c3c43a3d7974a52be9fe015df1f8381864fa8eefb98c8599deed991a4741c6287145a1da9
+  languageName: node
+  linkType: hard
+
 "@mui/base@npm:5.0.0-alpha.84":
   version: 5.0.0-alpha.84
   resolution: "@mui/base@npm:5.0.0-alpha.84"
@@ -1720,9 +1743,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.0.1, @mui/icons-material@npm:^5.8.0, @mui/icons-material@npm:^5.8.3":
-  version: 5.8.3
-  resolution: "@mui/icons-material@npm:5.8.3"
+"@mui/icons-material@npm:5.8.2":
+  version: 5.8.2
+  resolution: "@mui/icons-material@npm:5.8.2"
   dependencies:
     "@babel/runtime": ^7.17.2
   peerDependencies:
@@ -1732,7 +1755,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 6c09ab20194904ed755cb595382df8b74ffbf914feaad89d603fd624148944be5e728286eb7b05534c9fc104bf0f765f4d50548e370ee5b3b0f64bfaaec0969a
+  checksum: 120244cf35deb3dc50785e95278b830089c1fd7239faf7086f48590b3d92a3a048585f4c496b6ecb8f0a422fc4b6cde9803ee54b0e9bf1adff92f15dd70638f8
   languageName: node
   linkType: hard
 
@@ -1780,13 +1803,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:5.8.3":
-  version: 5.8.3
-  resolution: "@mui/material@npm:5.8.3"
+"@mui/material@npm:5.8.2":
+  version: 5.8.2
+  resolution: "@mui/material@npm:5.8.2"
   dependencies:
     "@babel/runtime": ^7.17.2
-    "@mui/base": 5.0.0-alpha.84
-    "@mui/system": ^5.8.3
+    "@mui/base": 5.0.0-alpha.83
+    "@mui/system": ^5.8.2
     "@mui/types": ^7.1.3
     "@mui/utils": ^5.8.0
     "@types/react-transition-group": ^4.4.4
@@ -1809,7 +1832,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 5a731721787583710eb24687db37ca7e0f32243478ee96b823fb6db20a1caadf03772c1906ed7b352866cd11b243b3dd587a07f524b51512606e5d4dd81b7eba
+  checksum: 2957cb50478099579f83b187df6faaaf4dc794b7948bdb5263bee68ce005f1037b6a6b78420e60dbacf6911c616601337ca884e118804753d15fbea6364c5626
   languageName: node
   linkType: hard
 
@@ -1827,6 +1850,23 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 6107b579409913a5e0d6d79fbe074ae4ad55e57f7a485da4542a5772be86b835994311609e84e4e881ea187c5b8892e432bcce9ac98d4e69dd7ace55da675f8a
+  languageName: node
+  linkType: hard
+
+"@mui/private-theming@npm:^5.8.4":
+  version: 5.8.4
+  resolution: "@mui/private-theming@npm:5.8.4"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+    "@mui/utils": ^5.8.4
+    prop-types: ^15.8.1
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: edcbd7c19ecda62d66712463dda843913119a5b43c4a8223f2aab9cf765ea7a15fe9fb527d2a25912b68737ff49263d5b8468ee275d16d7123ef0dbf952e42eb
   languageName: node
   linkType: hard
 
@@ -1850,15 +1890,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/styles@npm:^5.8.3":
-  version: 5.8.3
-  resolution: "@mui/styles@npm:5.8.3"
+"@mui/styles@npm:^5.8.2":
+  version: 5.8.4
+  resolution: "@mui/styles@npm:5.8.4"
   dependencies:
     "@babel/runtime": ^7.17.2
     "@emotion/hash": ^0.8.0
-    "@mui/private-theming": ^5.8.0
-    "@mui/types": ^7.1.3
-    "@mui/utils": ^5.8.0
+    "@mui/private-theming": ^5.8.4
+    "@mui/types": ^7.1.4
+    "@mui/utils": ^5.8.4
     clsx: ^1.1.1
     csstype: ^3.1.0
     hoist-non-react-statics: ^3.3.2
@@ -1877,13 +1917,13 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 8f333a020bc81513e7e687ccd301b029d3506dd1b99fc4f91745863a6803bb1a61d95a8927707b9c5c119190c39b008756940bedcbb948af16599259a6c986a4
+  checksum: aeccbfc9d84a1ca7cb071799d567bd868b6efa202d7b0e61405631b7f292830fbb0b360ff4aeceaf9c0f220ca3abe994fb036b555817c9db64a956293272aa86
   languageName: node
   linkType: hard
 
-"@mui/system@npm:^5.8.3":
-  version: 5.8.3
-  resolution: "@mui/system@npm:5.8.3"
+"@mui/system@npm:5.8.2":
+  version: 5.8.2
+  resolution: "@mui/system@npm:5.8.2"
   dependencies:
     "@babel/runtime": ^7.17.2
     "@mui/private-theming": ^5.8.0
@@ -1905,7 +1945,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: e295eafd84e7a2b845c703d3f754ffd170eb061b2cd13af45bbc16cccfc7f11ddf1ff158b1c2e2615843e969ca4f10d2fe815992c2d36587064fbb7f03be59bd
+  checksum: 1d968620bbca0663308b6940252311dcb1c591a0f94a8ad112252d404e2ff52c9eb343a475e32b2bf5ac1ae3b56f349c1ef2a165b60158b8ea752a177acefea6
   languageName: node
   linkType: hard
 
@@ -1918,6 +1958,18 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 4990f505f1058bdd4c01ea21a6a6f788e5d3ff73b50962879d33bbf9c98ef1f18d8b6664025ce1dbd42544a79d7697d0011834f8fd83d12c9705f2c702829bb4
+  languageName: node
+  linkType: hard
+
+"@mui/types@npm:^7.1.4":
+  version: 7.1.4
+  resolution: "@mui/types@npm:7.1.4"
+  peerDependencies:
+    "@types/react": "*"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 861231bdfbd3e352b3efa200415c2723e14eee60d7f63d7e5755b84255ca8a9be022ecd2585c5bb1b7b029b4f145f675d5952a46914d03355a03e53881cf949b
   languageName: node
   linkType: hard
 
@@ -1936,9 +1988,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-data-grid@npm:^5.12.1":
-  version: 5.12.1
-  resolution: "@mui/x-data-grid@npm:5.12.1"
+"@mui/utils@npm:^5.8.4":
+  version: 5.8.4
+  resolution: "@mui/utils@npm:5.8.4"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+    "@types/prop-types": ^15.7.5
+    "@types/react-is": ^16.7.1 || ^17.0.0
+    prop-types: ^15.8.1
+    react-is: ^17.0.2
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+  checksum: 4d36ff74ee231be7f146bde7bb1f31f717c18f9c2617b5100448d827ac6a4e745645fd035be728ac408604ba58e2b375a96b1d50711801a150b2489c0ff2caf2
+  languageName: node
+  linkType: hard
+
+"@mui/x-data-grid@npm:^5.12.2":
+  version: 5.12.2
+  resolution: "@mui/x-data-grid@npm:5.12.2"
   dependencies:
     "@babel/runtime": ^7.17.2
     "@mui/utils": ^5.4.1
@@ -1950,7 +2017,7 @@ __metadata:
     "@mui/system": ^5.4.1
     react: ^17.0.2 || ^18.0.0
     react-dom: ^17.0.2 || ^18.0.0
-  checksum: 9f851e630369f389411be1c6cd439ef2ea27f1c960035c2cba8734146281c77c4b93d1b44d2796f3cfe000ccabb6132da90b4a8474eeb3e4f77b7b3867796e41
+  checksum: e23a45cc64c85996f30bbfb9885ca3a3364b40895eab64d77178b84b07f1c1941df93414896932496eb95e1d0d539c1666e2d729547c45c4c6f80cfbb6294a33
   languageName: node
   linkType: hard
 
@@ -4192,14 +4259,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^17.0.46":
-  version: 17.0.46
-  resolution: "@types/react@npm:17.0.46"
+"@types/react@npm:^17.0.47":
+  version: 17.0.47
+  resolution: "@types/react@npm:17.0.47"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 10e41e74aef40363a47a7aeb11b0179854eca0e0635300aac54a81f10ab0cbd7b8d099fed19ae919e25ceae42518db8a25d481625c23b97d7fdc10d1934b710c
+  checksum: 2e7fe0eb630cb77da03b6da308c58728c01b38e878118e9ff5cd8045181c8d4f32dc936e328f46a62cadb56e1fe4c5a911b5113584f93a99e1f35df7f059246b
   languageName: node
   linkType: hard
 
@@ -5282,7 +5349,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "admin-web@workspace:services/admin-web"
   dependencies:
-    "@mui/material": ^5.8.3
+    "@mui/material": ^5.8.2
     "@testing-library/dom": ^8.13.0
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.3.0
@@ -5292,7 +5359,7 @@ __metadata:
     "@types/lodash": ^4.14.182
     "@types/node": ^16.11.41
     "@types/prettier": ^2.6.3
-    "@types/react": ^17.0.46
+    "@types/react": ^17.0.47
     "@types/react-dom": ^17.0.17
     "@types/webpack-bundle-analyzer": ^4.4.1
     "@typescript-eslint/eslint-plugin": ^5.28.0
@@ -5556,10 +5623,10 @@ __metadata:
   dependencies:
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
-    "@dicebear/avatars": ^4.10.2
-    "@dicebear/avatars-avataaars-sprites": ^4.10.2
-    "@dicebear/avatars-bottts-sprites": ^4.10.2
-    "@mui/material": ^5.8.3
+    "@dicebear/avatars": ^4.10.3
+    "@dicebear/avatars-avataaars-sprites": ^4.10.3
+    "@dicebear/avatars-bottts-sprites": ^4.10.3
+    "@mui/material": ^5.8.2
     "@types/cors": ^2.8.12
     "@types/debug": ^4.1.7
     "@types/eslint": ^8.4.3
@@ -19488,14 +19555,14 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
     "@fortawesome/react-fontawesome": ^0.1.18
-    "@mui/material": ^5.8.3
+    "@mui/material": ^5.8.2
     "@types/bs58": ^4.0.1
     "@types/d3": ^5.16.4
     "@types/debug": ^4.1.7
     "@types/express": ^4.17.13
     "@types/mime": ^1.3.2
     "@types/ol": ^6.5.3
-    "@types/react": ^17.0.46
+    "@types/react": ^17.0.47
     "@types/react-calendar-heatmap": ^1.6.3
     "@types/react-helmet": ^6.1.5
     "@types/react-router-dom": ^5.3.3

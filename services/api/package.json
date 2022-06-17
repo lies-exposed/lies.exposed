@@ -28,7 +28,7 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
-    "@mui/material": "^5.8.3",
+    "@mui/material": "^5.8.2",
     "aws-sdk": "^2.1151.0",
     "axios": "^0.27.2",
     "cors": "2.8.5",
@@ -58,9 +58,9 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@dicebear/avatars": "^4.10.2",
-    "@dicebear/avatars-avataaars-sprites": "^4.10.2",
-    "@dicebear/avatars-bottts-sprites": "^4.10.2",
+    "@dicebear/avatars": "^4.10.3",
+    "@dicebear/avatars-avataaars-sprites": "^4.10.3",
+    "@dicebear/avatars-bottts-sprites": "^4.10.3",
     "@types/cors": "^2.8.12",
     "@types/debug": "^4.1.7",
     "@types/eslint": "^8.4.3",
