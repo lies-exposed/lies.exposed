@@ -44,6 +44,7 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
                 groups: [],
                 groupsMembers: [],
                 keywords: [],
+                locations: [areaId],
                 tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),
                 _sort: "createdAt",

@@ -9,7 +9,7 @@ import {
   useAreasQuery,
   useMediaQuery,
 } from "../state/queries/DiscreteQueries";
-import { useTheme } from '../theme';
+import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
 import { ShareButtons } from "./Common/Button/ShareButtons";
 import Editor, { getTextContentsCapped, isValidValue } from "./Common/Editor";
@@ -85,11 +85,9 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           },
         }),
         area: useAreasQuery({
-          filter: {
-            ids: UUID.is((event.payload as any).location)
-              ? [(event.payload as any).location]
-              : [],
-          },
+          filter: UUID.is((event.payload as any).location)
+            ? { ids: [(event.payload as any).location] }
+            : {},
           pagination: {
             perPage: 1,
             page: 1,

@@ -238,8 +238,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   };
 
   React.useEffect(() => {
-    // _loadedRowsMap = {};
-    // _linksOpenInRowMap = {};
     void refetch({ refetchPage: () => true });
   }, [hash]);
 
