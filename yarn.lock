@@ -1520,8 +1520,8 @@ __metadata:
     jest: ^28.1.1
     page-metadata-parser: ^1.1.4
     prettier: ^2.7.1
-    puppeteer-extra: ^3.2.3
-    puppeteer-extra-plugin-stealth: ^2.9.0
+    puppeteer-extra: ^3.3.0
+    puppeteer-extra-plugin-stealth: ^2.10.0
     query-string: ^7.1.1
     throttle-debounce: ^3.0.1
     ts-endpoint: ^2.0.0
@@ -15526,14 +15526,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-extra-plugin-stealth@npm:^2.9.0":
-  version: 2.9.0
-  resolution: "puppeteer-extra-plugin-stealth@npm:2.9.0"
+"puppeteer-extra-plugin-stealth@npm:^2.10.0":
+  version: 2.10.0
+  resolution: "puppeteer-extra-plugin-stealth@npm:2.10.0"
   dependencies:
     debug: ^4.1.1
     puppeteer-extra-plugin: ^3.2.0
     puppeteer-extra-plugin-user-preferences: ^2.3.1
-  checksum: f8c447d3998a2cef09347b653bf6104aa8776452acd4bf8fe1ecd096940556f89b9e4118d54daa9f10d8fb259956c0c3bbff517208f5683dd6d5305d10614dce
+  checksum: 22e0139f1faeddb5a8fec82170ed56f4843f31ef3841fa3ef952d14345c5643ef7e9cccd4bbeb96161e8ee05f4bc2e9ee7a1d4f31c6abdafb5599096972f0797
   languageName: node
   linkType: hard
 
@@ -15573,9 +15573,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-extra@npm:^3.2.3":
-  version: 3.2.3
-  resolution: "puppeteer-extra@npm:3.2.3"
+"puppeteer-extra@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "puppeteer-extra@npm:3.3.0"
   dependencies:
     "@types/debug": ^4.1.0
     "@types/puppeteer": "*"
@@ -15583,7 +15583,7 @@ __metadata:
     deepmerge: ^4.2.2
   peerDependencies:
     puppeteer: "*"
-  checksum: a49f4b212fb041f6511fbae33be0e235700ee7029aa25c5cde3f37c07af84fd2a8db7a813b86dda29a8ec693d5c283bcc2b4191e21bd08f9c568c8be3b8b4309
+  checksum: 840ac225267436ef4517aa6e14f90aec87f52fc30db58a62b0d38f55777cab3b20e136b7cf7e51a8237ff9d3663717287820aef1e2b25ce2297092aa85bc7288
   languageName: node
   linkType: hard
 
