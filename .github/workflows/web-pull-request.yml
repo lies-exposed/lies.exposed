@@ -78,6 +78,8 @@ jobs:
           key: web-build
 
       - name: Build web
+        env:
+          NODE_ENV: production
         run: |
           yarn packages:build
           yarn web build
