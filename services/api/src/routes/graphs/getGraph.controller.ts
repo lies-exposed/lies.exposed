@@ -1,4 +1,4 @@
-import { AddEndpoint, Graph } from "@liexp/shared/endpoints";
+import { AddEndpoint } from "@liexp/shared/endpoints";
 // import { VaccineDatum } from "@liexp/shared/io/http/covid/VaccineDatum";
 // import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
 import { GetCSVUtil } from "@liexp/shared/utils/csv.utils";
@@ -9,35 +9,9 @@ import * as t from "io-ts";
 import { NotFoundError, ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
-// const getDecoderById = (
-//   id: Graph.GraphId
-// ): [t.Type<any, unknown>, (a: any) => any] => {
-//   switch (id) {
-//     case "covid19/vaccines/distribution/world-distribution.csv":
-//       return [VaccineDistributionDatum, t.identity];
-//     case "covid19/vaccines/eudr/results/eudrvigilance-moderna.csv":
-//     case "covid19/vaccines/eudr/results/eudrvigilance-pfizer-2021.csv":
-//       return [
-//         VaccineDatum,
-//         (r): VaccineDatum => ({
-//           ...r,
-//           // reported: parseInt(r.reported, 10),
-//           // deaths: parseInt(r.deaths, 10),
-//           // injuries: parseInt(r.injuries, 10),
-//           // cumulativeInjuries: parseInt(r.cumulativeInjuries, 10),
-//           // cumulativeDeaths: parseInt(r.cumulativeDeaths, 10),
-//           // cumulativeReported: parseInt(r.cumulativeReported, 10)
-
-//         }),
-//       ];
-//     default:
-//       return [t.any, t.identity];
-//   }
-// };
-
 export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
   const csvUtil = GetCSVUtil({ log: ctx.logger });
-  AddEndpoint(r)(Graph.GetGraph, ({ query: { id } }) => {
+  AddEndpoint(r)(Endpoints.Graph.Get, ({ query: { id } }) => {
     ctx.logger.debug.log("Fetching data from %s", id);
     return pipe(
       ctx.s3.getObject({ Key: `public/${id}`, Bucket: ctx.env.SPACE_BUCKET }),

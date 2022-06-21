@@ -3,24 +3,24 @@ import {
   Covid19EUDR,
   Covid19VAERS,
   Covid19WorldVaccineDistribution,
-  CovidWHOWorldData,
+  CovidWHOWorldData
 } from "@liexp/shared/endpoints/graph.endpoints";
 import { VaccineDistributionDatum } from "@liexp/shared/io/http/covid/VaccineDistributionDatum";
 import { StatAccordion } from "@liexp/ui/components/Common/StatAccordion";
-// import { VaccineEffectivenessIndicators } from "@liexp/ui/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
 import { a11yProps, TabPanel } from "@liexp/ui/components/Common/TabPanel";
+import { ExcessMortalityGraph } from "@liexp/ui/components/Graph/covid/ExcessMortality";
 import { VaccineADRGraph } from "@liexp/ui/components/Graph/covid/vaccines/VaccineADRGraph";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { Box, Grid, Tab, Tabs, Typography } from "@liexp/ui/components/mui";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { useJSONDataQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { scaleOrdinal } from "@vx/scale";
 import { isAfter, isBefore } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";
+import { pipe } from "fp-ts/lib/function";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as React from "react";
 import { useNavigateTo } from "../../utils/history.utils";
@@ -82,6 +82,8 @@ const getColorByRange = (
     [] as number[]
   );
 
+  // eslint-disable-next-line
+  console.log({ range, delta, domain });
   const colorScaleV2 = scaleOrdinal({
     range: colorDomain,
     domain: domain,
@@ -93,6 +95,8 @@ const getColorByRange = (
   // });
 
   const color = colorScaleV2(amount);
+  // eslint-disable-next-line
+  console.log({ amount, color });
   return color;
 };
 
@@ -108,7 +112,6 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
   // const deathsKeys = ["covid", "total"];
 
   const navigateTo = useNavigateTo();
-
   return (
     <QueriesRenderer
       queries={{
@@ -219,98 +222,146 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                     }}
                   />
                 </Grid>
-                <Grid item md={3}>
-                  <StatAccordion
-                    caption="Covid Death Rate in 2020 (%)"
-                    summary={deathRate2020.toFixed(6)}
-                    style={{
-                      summary: {
-                        color: getColorByRange(
-                          deathRate2020,
-                          [0.02, 0.5],
-                          true
-                        ),
-                      },
+              </Grid>
+              <Grid container style={{ background: "white", padding: 60 }}>
+                <Grid container>
+                  <ExcessMortalityGraph id="covid19/excess_mortality/excess_mortality.csv" />
+                </Grid>
+                <Grid container spacing={5} style={{ marginBottom: 40 }}>
+                  <Grid container spacing={3} md={12}>
+                    <Grid item md={3}>
+                      <StatAccordion
+                        caption="Deaths with Covid in 2020"
+                        summary={covid2020TotalDeaths.toFixed(0)}
+                        details={undefined}
+                        style={{
+                          summary: {
+                            color: getColorByRange(
+                              covid2020TotalDeaths,
+                              [0, 2e5],
+                              true
+                            ),
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid item md={3}>
+                      <StatAccordion
+                        caption="Covid Death Rate in 2020 (%)"
+                        summary={deathRate2020.toFixed(6)}
+                        style={{
+                          summary: {
+                            color: getColorByRange(
+                              deathRate2020,
+                              [0.02, 0.5],
+                              true
+                            ),
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid item md={6}>
+                      <StatAccordion
+                        caption="Immunity Rate (%)"
+                        summary={immunityRate2020.toFixed(2)}
+                        style={{
+                          summary: {
+                            color: getColorByRange(immunityRate2020, [0, 100]),
+                          },
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid item md={3}>
+                    <StatAccordion
+                      caption="Covid Death Rate in 2020 (%)"
+                      summary={deathRate2020.toFixed(6)}
+                      style={{
+                        summary: {
+                          color: getColorByRange(
+                            deathRate2020,
+                            [0.02, 0.5],
+                            true
+                          ),
+                        },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    <StatAccordion
+                      caption="Immunity Rate (%)"
+                      summary={immunityRate2020.toFixed(2)}
+                      style={{
+                        summary: {
+                          color: getColorByRange(immunityRate2020, [0, 100]),
+                        },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={3} md={12}>
+                  <Grid item md={3}>
+                    <StatAccordion
+                      caption="Total deaths for Covid"
+                      summary={covid2021TotalDeaths.toFixed(0)}
+                      details={undefined}
+                    />
+                  </Grid>
+                  <Grid item md={3}>
+                    <StatAccordion
+                      caption="Death Rate (%)"
+                      summary={deathRate2021.toFixed(6)}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    <StatAccordion
+                      caption="Immunity Rate (%)"
+                      summary={immunityRate2021.toFixed(2)}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item md={12}>
+                  <Box display="flex">
+                    <Typography variant="h2">Vaccine ADR Graph</Typography>
+                  </Box>
+                  <Tabs
+                    value={adrTab}
+                    onChange={(e, v) => {
+                      navigateTo.navigate(`vaccines?adrTab=${v}`);
                     }}
-                  />
+                  >
+                    <Tab label="All" {...a11yProps(0)} />
+                    <Tab label="VAERS" {...a11yProps(1)} />
+                    <Tab label="EUDR" {...a11yProps(2)} />
+                  </Tabs>
+                  <TabPanel value={adrTab} index={0}>
+                    <VaccineADRGraph
+                      id={Covid19ADRs.types[0].value}
+                      distribution={totalDistribution}
+                    />
+                  </TabPanel>
+                  <TabPanel value={adrTab} index={1}>
+                    <VaccineADRGraph
+                      id={Covid19VAERS.types[0].value}
+                      distribution={distribution.filter(
+                        (d) => d.iso_code === "USA"
+                      )}
+                    />
+                  </TabPanel>
+                  <TabPanel value={adrTab} index={2}>
+                    <VaccineADRGraph
+                      id={Covid19EUDR.types[0].value}
+                      distribution={distribution.filter(
+                        (d) => d.iso_code === "OWID_EUR"
+                      )}
+                    />
+                  </TabPanel>
                 </Grid>
-                <Grid item md={6}>
-                  <StatAccordion
-                    caption="Immunity Rate (%)"
-                    summary={immunityRate2020.toFixed(2)}
-                    style={{
-                      summary: {
-                        color: getColorByRange(immunityRate2020, [0, 100]),
-                      },
-                    }}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={3} md={12}>
-                <Grid item md={3}>
-                  <StatAccordion
-                    caption="Total deaths for Covid"
-                    summary={covid2021TotalDeaths.toFixed(0)}
-                    details={undefined}
-                  />
-                </Grid>
-                <Grid item md={3}>
-                  <StatAccordion
-                    caption="Death Rate (%)"
-                    summary={deathRate2021.toFixed(6)}
-                  />
-                </Grid>
-                <Grid item md={6}>
-                  <StatAccordion
-                    caption="Immunity Rate (%)"
-                    summary={immunityRate2021.toFixed(2)}
-                  />
-                </Grid>
-              </Grid>
-              <Grid item md={12}>
-                <Box display="flex">
-                  <Typography variant="h2">Vaccine ADR Graph</Typography>
-                </Box>
-                <Tabs
-                  value={adrTab}
-                  onChange={(e, v) => {
-                    void navigateTo.navigateTo("/dashboard/covid19-vaccines", {
-                      adrTab: v,
-                    });
-                  }}
-                >
-                  <Tab label="All" {...a11yProps(0)} />
-                  <Tab label="VAERS" {...a11yProps(1)} />
-                  <Tab label="EUDR" {...a11yProps(2)} />
-                </Tabs>
-                <TabPanel value={adrTab} index={0}>
-                  <VaccineADRGraph
-                    id={Covid19ADRs.types[0].value}
-                    distribution={totalDistribution}
-                  />
-                </TabPanel>
-                <TabPanel value={adrTab} index={1}>
-                  <VaccineADRGraph
-                    id={Covid19VAERS.types[0].value}
-                    distribution={distribution.filter(
-                      (d) => d.iso_code === "USA"
-                    )}
-                  />
-                </TabPanel>
-                <TabPanel value={adrTab} index={2}>
-                  <VaccineADRGraph
-                    id={Covid19EUDR.types[0].value}
-                    distribution={distribution.filter(
-                      (d) => d.iso_code === "OWID_EUR"
-                    )}
-                  />
-                </TabPanel>
-              </Grid>
-              {/* <Grid item md={12}>
+                {/* <Grid item md={12}>
                     <VaccineEffectivenessIndicators />
                   </Grid> */}
-              <Grid item md={12}>
-                {/* <Grid item md={8}>
+                <Grid item md={12}>
+                  {/* <Grid item md={8}>
                         <ParentSize style={{ width: "100%" }}>
                           {({ width }) => {
                             return (
@@ -341,6 +392,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                           }}
                         </ParentSize>
                       </Grid> */}
+                </Grid>
               </Grid>
             </Grid>
           </Grid>

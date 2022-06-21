@@ -6,6 +6,7 @@ import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as AWS from "aws-sdk";
 import axios from "axios";
+import compression from "compression";
 import cors from "cors";
 import express from "express";
 import jwt from "express-jwt";
@@ -149,8 +150,11 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       ],
     })
   );
-  const mediaPath = path.resolve(__dirname, "../data");
-  app.use(express.static(mediaPath));
+  app.use(
+    compression({
+      level: 9,
+    })
+  );
 
   const router = express.Router();
 

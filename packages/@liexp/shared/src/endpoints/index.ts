@@ -64,4 +64,4 @@ const AddEndpoint = GetEndpointSubscriber((e): IOError => {
 
 export const UserLogin = User.UserLogin;
 export const PageDeleteMany = Page.DeleteManyPage;
-export { Endpoints, AddEndpoint, Uploads, Graph };
+export { Endpoints, AddEndpoint, Uploads };

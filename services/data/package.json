@@ -12,29 +12,31 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\"",
     "test:e2e": "jest -c jest.config.js e2e",
+    "ts:node": "ts-node -r dotenv/config -r tsconfig-paths/register",
     "serve": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/serve",
-    "vaccines:download": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/download",
-    "vaccines:parse": "DOTENV_CONFIG_PATH=../../.env.local ts-node -r dotenv/config -r tsconfig-paths/register ./src/vaccines/parse",
     "bucket:pull": "aws s3 sync s3://econnessione-alpha/public ./buckets/public --endpoint https://fra1.digitaloceanspaces.com/",
+    "vaccines:download": "DOTENV_CONFIG_PATH=../../.env.local yarn ts:node ./src/covid19/vaccines/download",
+    "vaccines:parse": "DOTENV_CONFIG_PATH=../../.env.local yarn ts:node ./src/covid19/vaccines/parse",
+    "covid19:excess_mortality": "yarn ts:node ./src/covid19/excess-mortality/excess-mortality.parse.ts",
     "clean:data": "rm -rf ./public/media/actors ./public/media/groups ./public/media/images"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "debug": "^4.3.3",
-    "express": "^4.17.3",
-    "fp-ts": "^2.11.8",
+    "debug": "^4.3.4",
+    "express": "^4.18.1",
+    "fp-ts": "^2.12.1",
     "io-ts": "^2.2.16",
     "io-ts-types": "^0.5.16",
     "multer": "^1.4.4"
   },
   "devDependencies": {
-    "@types/node": "^16.11.26",
+    "@types/node": "^16.11.41",
     "dotenv": "^14.3.2",
-    "nodemon": "^2.0.15",
-    "prettier": "^2.5.1",
-    "supertest": "^6.2.2",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.2"
+    "nodemon": "^2.0.16",
+    "prettier": "^2.7.1",
+    "supertest": "^6.2.3",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
   },
   "license": "MIT",
   "lint-staged": {
