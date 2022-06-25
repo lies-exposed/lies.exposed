@@ -12,23 +12,19 @@ yarn
 export "NODE_OPTIONS=--max_old_space_size=4096"
 export NODE_ENV=production
 
+# admin web
+mkdir -p "/var/www/html/${SSH_HOST}/admin"
+cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${SSH_HOST}/admin"
+sudo chown -R www-data:www-data "/var/www/html/${SSH_HOST}"
+
 # build packages
 yarn packages:build
-
-# admin web
-yarn admin-web build
-mkdir -p /var/www/html/alpha.lies.exposed/admin
-cp -r /root/node/app/current/services/admin-web/build/* /var/www/html/alpha.lies.exposed/admin
-sudo chown -R www-data:www-data /var/www/html/alpha.lies.exposed
 
 # api
 yarn api build
 yarn api migration:run
 mkdir -p ./services/api/temp
 mkdir -p ./services/api/temp/tg/messages
-
-# web
-yarn web build
 
 # reload services
 sudo nginx -s reload

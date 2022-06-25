@@ -54,11 +54,7 @@ module.exports = {
       ref: REF,
       path: "/root/node/app",
       repo: "https://github.com/lies-exposed/lies.exposed.git",
-      "pre-deploy-local": [
-        `scp ./services/web/.env.alpha ${SSH_HOST}:envs/web/.env`,
-        `scp ./services/admin-web/.env.alpha ${SSH_HOST}:envs/admin/.env`,
-        `scp .env.alpha ${SSH_HOST}:envs/.env`,
-      ].join(" && "),
+      "pre-deploy-local": "scripts/pre-deploy-local.sh",
       "post-deploy": "scripts/post-deploy.sh",
     },
   },
