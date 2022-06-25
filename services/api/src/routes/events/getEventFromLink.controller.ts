@@ -189,6 +189,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                   link,
                   O.map((l) => [l.id])
                 ),
+                locations: O.none,
                 startDate: O.some(minDate),
                 endDate: O.some(maxDate),
                 title: O.fromNullable(metadata.title),

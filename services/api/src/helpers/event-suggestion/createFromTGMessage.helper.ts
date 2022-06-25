@@ -119,6 +119,7 @@ export const createFromTGMessage =
               groups: O.none,
               groupsMembers: O.none,
               media: O.none,
+              locations: O.none,
               skip: 0,
               take: 1,
             }),

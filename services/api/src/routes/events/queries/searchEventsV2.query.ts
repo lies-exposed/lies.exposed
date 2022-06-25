@@ -24,6 +24,7 @@ interface SearchEventQuery {
   keywords: O.Option<string[]>;
   links: O.Option<string[]>;
   media: O.Option<string[]>;
+  locations: O.Option<string[]>
   type: O.Option<string[]>;
   title: O.Option<string>;
   startDate: O.Option<Date>;
@@ -49,6 +50,7 @@ export const searchEventV2Query =
     actors,
     groups,
     groupsMembers: _groupsMembers,
+    locations,
     keywords,
     media,
     links,
@@ -279,6 +281,19 @@ export const searchEventV2Query =
               })
             );
 
+            if (O.isSome(locations)) {
+              q.andWhere(
+                new Brackets((locationQb) => {
+                  locationQb
+                    .where(
+                      ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `
+                    )
+                })
+              );
+
+              q.setParameter("locations", locations.value);
+            }
+
             if (O.isSome(keywords)) {
               q.andWhere("keywords.id IN (:...keywords)", {
                 keywords: keywords.value,
@@ -360,10 +375,10 @@ export const searchEventV2Query =
               });
             }
 
-            // logger.debug.log(
-            //   `Search event v2 query %s with params %O`,
-            //   ...q.getQueryAndParameters()
-            // );
+            logger.debug.log(
+              `Search event v2 query %s with params %O`,
+              ...q.getQueryAndParameters()
+            );
 
             return {
               resultsQuery: q,

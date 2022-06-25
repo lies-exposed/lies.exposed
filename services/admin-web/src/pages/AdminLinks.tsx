@@ -23,7 +23,7 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh
+  useRefresh,
 } from "react-admin";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
@@ -50,11 +50,11 @@ export const LinkList: React.FC = () => (
     filterDefaultValues={{ _sort: "createdAt", _order: "DESC" }}
   >
     <Datagrid rowClick="edit">
-      <MediaField source="image.thumbnail" type="image/jpeg" />
       <FunctionField
         render={(r) => {
           return (
             <Box style={{ display: "flex", flexDirection: "column" }}>
+              <MediaField source="image.thumbnail" type="image/jpeg" />
               <TextField
                 source="title"
                 style={{ fontWeight: 600, marginBottom: 5 }}

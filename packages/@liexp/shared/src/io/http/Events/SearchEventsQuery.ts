@@ -14,6 +14,7 @@ export const GetSearchEventsQuery = t.strict(
     links: optionFromUndefined(t.array(t.string)),
     keywords: optionFromUndefined(t.array(t.string)),
     media: optionFromUndefined(t.array(t.string)),
+    locations: optionFromUndefined(t.array(t.string)),
     startDate: optionFromUndefined(DateFromISOString),
     endDate: optionFromUndefined(DateFromISOString),
     title: optionFromUndefined(t.string),

@@ -126,6 +126,7 @@ export interface EventsQueryParams {
   groups: string[];
   groupsMembers: string[];
   keywords: string[];
+  locations: string[];
   tab: number;
   startDate?: string;
   endDate?: string;
@@ -149,10 +150,6 @@ interface EventsPanelProps {
 export const EventsPanel: React.FC<EventsPanelProps> = ({
   hash,
   query: { tab, ...query },
-  keywords,
-  actors,
-  groups,
-  groupsMembers,
   onQueryChange,
   onQueryClear,
 }) => {
