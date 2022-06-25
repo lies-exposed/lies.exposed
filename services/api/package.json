@@ -28,8 +28,8 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
-    "@mui/material": "^5.8.2",
-    "aws-sdk": "^2.1151.0",
+    "@mui/material": "^5.8.5",
+    "aws-sdk": "^2.1159.0",
     "axios": "^0.27.2",
     "cors": "2.8.5",
     "debug": "^4.3.4",

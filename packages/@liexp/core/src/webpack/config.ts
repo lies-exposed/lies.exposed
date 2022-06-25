@@ -242,7 +242,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       plugins: [new TsconfigPathsPlugin({})],
       modules: [
         "node_modules",
-        path.resolve(opts.cwd, "../../packages"),
+        // path.resolve(opts.cwd, "../../packages"),
         path.resolve(opts.cwd),
       ],
     },
