@@ -1480,10 +1480,10 @@ __metadata:
     io-ts-types: ^0.5.16
     mini-css-extract-plugin: ^2.6.1
     prettier: ^2.7.1
-    sass: ^1.52.3
+    sass: ^1.53.0
     speed-measure-webpack-plugin: ^1.5.0
     style-loader: ^3.3.1
-    ts-loader: ^9.3.0
+    ts-loader: ^9.3.1
     tsconfig-paths-webpack-plugin: ^3.5.2
     typescript: ^4.7.4
     url-loader: ^4.1.1
@@ -3616,23 +3616,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^8.4.3":
+"@types/eslint@npm:*, @types/eslint@npm:^7.29.0 || ^8.4.1, @types/eslint@npm:^8.4.3":
   version: 8.4.3
   resolution: "@types/eslint@npm:8.4.3"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
   checksum: cc199be84e22754cc625b171c90852da2b563088d32f4161d310b70470eab47f9bc812774c61eab6530083a214fe634abc32d06ef38e0a5e29f68436331cfabb
-  languageName: node
-  linkType: hard
-
-"@types/eslint@npm:^7.28.2":
-  version: 7.29.0
-  resolution: "@types/eslint@npm:7.29.0"
-  dependencies:
-    "@types/estree": "*"
-    "@types/json-schema": "*"
-  checksum: df13991c554954353ce8f3bb03e19da6cc71916889443d68d178d4f858b561ba4cc4a4f291c6eb9eebb7f864b12b9b9313051b3a8dfea3e513dadf3188a77bdf
   languageName: node
   linkType: hard
 
@@ -5373,8 +5363,8 @@ __metadata:
     eslint-plugin-import: ^2.26.0
     eslint-plugin-node: ^11.1.0
     eslint-plugin-promise: ^6.0.0
-    eslint-plugin-react: 7.30.0
-    eslint-webpack-plugin: ^3.1.1
+    eslint-plugin-react: 7.30.1
+    eslint-webpack-plugin: ^3.2.0
     final-form: ^4.20.7
     fp-ts: ^2.12.1
     history: ^5.3.0
@@ -9157,9 +9147,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:7.30.0":
-  version: 7.30.0
-  resolution: "eslint-plugin-react@npm:7.30.0"
+"eslint-plugin-react@npm:7.30.1":
+  version: 7.30.1
+  resolution: "eslint-plugin-react@npm:7.30.1"
   dependencies:
     array-includes: ^3.1.5
     array.prototype.flatmap: ^1.3.0
@@ -9177,7 +9167,7 @@ __metadata:
     string.prototype.matchall: ^4.0.7
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
-  checksum: 729b7682a0fe6eab068171c159503ac57120ecc7b20067e76300b08879745c16a687e2033378ab45d9a3182da8844d06197a89081be83e1eb21fcceb76e79214
+  checksum: 553fb9ece6beb7c14cf6f84670c786c8ac978c2918421994dcc4edd2385302022e5d5ac4a39fafdb35954e29cecddefed61758040c3c530cafcf651f674a9d51
   languageName: node
   linkType: hard
 
@@ -9242,19 +9232,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-webpack-plugin@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "eslint-webpack-plugin@npm:3.1.1"
+"eslint-webpack-plugin@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "eslint-webpack-plugin@npm:3.2.0"
   dependencies:
-    "@types/eslint": ^7.28.2
-    jest-worker: ^27.3.1
-    micromatch: ^4.0.4
+    "@types/eslint": ^7.29.0 || ^8.4.1
+    jest-worker: ^28.0.2
+    micromatch: ^4.0.5
     normalize-path: ^3.0.0
-    schema-utils: ^3.1.1
+    schema-utils: ^4.0.0
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
     webpack: ^5.0.0
-  checksum: 4ff3f3fc8f03a187792f783513c3f4274221623d5f5c16ca90542c1b781fd04ed646ab6043caa55a51a654d5ab2c7039677faedee8bfb526d1310edc3909cbd2
+  checksum: 095034c35e773fdb21ec7e597ae1f8a6899679c290db29d8568ca94619e8c7f4971f0f9edccc8a965322ab8af9286c87205985a38f4fdcf17654aee7cd8bb7b5
   languageName: node
   linkType: hard
 
@@ -12262,7 +12252,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-worker@npm:^27.0.6, jest-worker@npm:^27.3.1":
+"jest-worker@npm:^27.0.6":
   version: 27.5.1
   resolution: "jest-worker@npm:27.5.1"
   dependencies:
@@ -12273,7 +12263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-worker@npm:^28.1.1":
+"jest-worker@npm:^28.0.2, jest-worker@npm:^28.1.1":
   version: 28.1.1
   resolution: "jest-worker@npm:28.1.1"
   dependencies:
@@ -12824,7 +12814,7 @@ __metadata:
     eslint-plugin-import: ^2.26.0
     eslint-plugin-node: ^11.1.0
     eslint-plugin-promise: ^6.0.0
-    eslint-webpack-plugin: ^3.1.1
+    eslint-webpack-plugin: ^3.2.0
     husky: ^7.0.4
     is-ci: ^3.0.1
     jest: ^28.1.1
@@ -17028,16 +17018,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.52.3":
-  version: 1.52.3
-  resolution: "sass@npm:1.52.3"
+"sass@npm:^1.53.0":
+  version: 1.53.0
+  resolution: "sass@npm:1.53.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 175a073c0e7b67d1baff6d3969431228002ece681886cebc2a354c241134ff120fda5c12a0465989966dacfb1ca518d85507304f4d4cd03d4a91d71dbc77d978
+  checksum: 4bcb0617d6a4d1f2c089a1cb5c32f65a9ee874b23559f2742fab07cf8478fb74ad20c0730cf9f93915d7dbfc258901f89970674228c3ac91c3883a0a62a0ddab
   languageName: node
   linkType: hard
 
@@ -18674,9 +18664,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:^9.3.0":
-  version: 9.3.0
-  resolution: "ts-loader@npm:9.3.0"
+"ts-loader@npm:^9.3.1":
+  version: 9.3.1
+  resolution: "ts-loader@npm:9.3.1"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.0.0
@@ -18685,7 +18675,7 @@ __metadata:
   peerDependencies:
     typescript: "*"
     webpack: ^5.0.0
-  checksum: 90755ac5850890ff433f2f8c7186d57ae4e172d389342d874b50ab233675f06c47c69043c517e2a2eeaf2251637ecfac607ac6190c89340f246ceff8c7f4af7a
+  checksum: 462a8ac315017cf4961dafd2be29d5abe7c3af63c4515e325269f79b9d0212b35c59184d7fd01fc378749c88454752e1599301d2190eb6844ea5fe332de5f695
   languageName: node
   linkType: hard
 
@@ -19628,8 +19618,8 @@ __metadata:
     eslint-plugin-import: ^2.26.0
     eslint-plugin-node: ^11.1.0
     eslint-plugin-promise: ^6.0.0
-    eslint-plugin-react: 7.30.0
-    eslint-webpack-plugin: ^3.1.1
+    eslint-plugin-react: 7.30.1
+    eslint-webpack-plugin: ^3.2.0
     express: ^4.18.1
     fp-ts: ^2.12.1
     io-ts: ^2.2.16
