@@ -79,7 +79,7 @@ jobs:
 
       - name: Build web
         env:
-          NODE_ENV: production
+          NODE_ENV: development
         run: |
           yarn packages:build
           yarn web build:app
