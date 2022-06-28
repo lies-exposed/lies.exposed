@@ -23,9 +23,11 @@ export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
 
   return (
     <Box
+      key={item.id}
       id={item.id}
       style={{
         width: "100%",
+        display: 'flex'
       }}
       onClick={() => onClick?.(item)}
     >

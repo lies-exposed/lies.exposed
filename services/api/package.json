@@ -92,7 +92,7 @@
   "_moduleAliases": {
     "@io": "build/io",
     "@entities": "build/entities",
-    "@helpers": "build/helpers",
+    "@flows": "build/flows",
     "@providers": "build/providers",
     "@routes": "build/routes",
     "@utils": "build/utils",

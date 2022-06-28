@@ -19,7 +19,7 @@
     "paths": {
       "@io/*": ["io/*"],
       "@entities/*": ["entities/*"],
-      "@helpers/*": ["helpers/*"],
+      "@flows/*": ["flows/*"],
       "@providers/*": ["providers/*"],
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"],

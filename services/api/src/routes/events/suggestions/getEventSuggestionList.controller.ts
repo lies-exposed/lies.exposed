@@ -1,14 +1,14 @@
+import { searchEventSuggestion } from "@flows/event-suggestion/searchEventSuggestion.flow";
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { EventSuggestion } from "@liexp/shared/io/http";
-import * as A from "fp-ts/lib/Array";
-import * as E from "fp-ts/lib/Either";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
-import { toEventSuggestion } from "./eventSuggestion.io";
-import { searchEventSuggestion } from "@helpers/event-suggestion/searchEventSuggestion.helper";
 import { Route } from "@routes/route.types";
 import { foldOptionals } from "@utils/foldOptionals.utils";
+import * as A from "fp-ts/lib/Array";
+import * as E from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/lib/Option";
+import * as TE from "fp-ts/lib/TaskEither";
+import { toEventSuggestion } from "./eventSuggestion.io";
 
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

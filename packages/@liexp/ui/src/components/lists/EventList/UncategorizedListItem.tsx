@@ -31,7 +31,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
   onRowInvalidate,
   onLoad,
 }) => {
-
   return (
     <Box
       key={item.id}
@@ -40,6 +39,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
         marginBottom: 40,
         width: "100%",
         maxWidth: "100%",
+        display: "flex",
       }}
       onClick={() => onClick?.(item)}
     >
