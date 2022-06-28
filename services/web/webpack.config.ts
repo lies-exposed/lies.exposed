@@ -38,6 +38,7 @@ webConfig.optimization =
         minimizer: [
           new TerserPlugin({
             parallel: false,
+            extractComments: 'all'
           }),
         ],
         // splitChunks: {
