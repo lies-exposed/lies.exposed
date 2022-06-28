@@ -1,12 +1,12 @@
-import { MediaEntity } from "@entities/Media.entity";
-import { ControllerError } from "@io/ControllerError";
 import { Media } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { RouteContext } from "@routes/route.types";
 import { sequenceS } from "fp-ts/lib/Apply";
-import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
+import { pipe } from "fp-ts/lib/function";
 import { createThumbnail } from "./createThumbnail.flow";
+import { MediaEntity } from "@entities/Media.entity";
+import { ControllerError } from "@io/ControllerError";
+import { RouteContext } from "@routes/route.types";
 
 export const createAndUpload =
   (ctx: RouteContext) =>

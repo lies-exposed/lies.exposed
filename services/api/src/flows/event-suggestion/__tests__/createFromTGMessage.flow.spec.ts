@@ -2,11 +2,11 @@ import * as fs from "fs";
 import path from "path";
 import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
+import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
 import {
   TGMessageArb,
   TGPhotoArb,
 } from "@liexp/shared/tests/arbitrary/common/TGMessage.arb";
-import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { createExcerptValue } from "@liexp/ui/components/Common/Editor";

@@ -2,8 +2,8 @@ import { EventRelations } from "@liexp/shared/helpers/event";
 import * as http from "@liexp/shared/io/http";
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { pipe } from "fp-ts/lib/function";
 import * as O from "fp-ts/lib/Option";
+import { pipe } from "fp-ts/lib/function";
 import { Metadata } from "page-metadata-parser";
 import { createExcerptValue } from "../components/Common/Editor";
 
