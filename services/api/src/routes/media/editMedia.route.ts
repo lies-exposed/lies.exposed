@@ -6,7 +6,7 @@ import { pipe } from "fp-ts/lib/function";
 import { Equal } from "typeorm";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
-import { createThumbnail } from "@flows/media.flow";
+import { createThumbnail } from "@flows/media/createThumbnail.flow";
 import { RouteContext } from "@routes/route.types";
 
 export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
@@ -29,9 +29,6 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
               ? createThumbnail(ctx)({
                   ...m,
                   ...body,
-                  events: [],
-                  links: [],
-                  thumbnail: undefined,
                   id,
                 })
               : TE.right(O.toNullable(thumbnail)),

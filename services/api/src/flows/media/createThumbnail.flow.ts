@@ -92,14 +92,16 @@ export const extractThumbnail = (
 
 export const createThumbnail =
   (ctx: RouteContext) =>
-  (location: Media.Media): TE.TaskEither<ControllerError, string> => {
-    ctx.logger.debug.log("Extracting thumbnail from url %s", location);
+  (
+    media: Pick<Media.Media, "id" | "location" | "type">
+  ): TE.TaskEither<ControllerError, string> => {
+    ctx.logger.debug.log("Extracting thumbnail from url %s", media.location);
 
-    if (Media.MP4Type.is(location.type)) {
+    if (Media.MP4Type.is(media.type)) {
       return pipe(
         TE.tryCatch(
           () =>
-            axios.get(location.location, {
+            axios.get(media.location, {
               responseType: "stream",
             }),
           toControllerError
@@ -109,11 +111,11 @@ export const createThumbnail =
 
           const tempVideoFilePath = path.resolve(
             tempFolder,
-            `${location.id}.mp4`
+            `${media.id}.mp4`
           );
           const tempVideoFile = fs.createWriteStream(tempVideoFilePath);
 
-          const filename = `${location.id}-thumb-%i.png`;
+          const filename = `${media.id}-thumb-%i.png`;
           const tempFile = path.resolve(tempFolder, filename);
 
           const tempThumbnail = tempFile.replace("%i", "1");
@@ -157,7 +159,7 @@ export const createThumbnail =
             TE.mapLeft(toControllerError),
             // read file from temp path
             TE.chain(() => {
-              const url = location.location.split("/");
+              const url = media.location.split("/");
               const thumbnailName = url[url.length - 1].replace(
                 ".mp4",
                 "-thumbnail.png"
@@ -172,7 +174,7 @@ export const createThumbnail =
                 Body: fs.createReadStream(tempThumbnail),
                 ContentType: "image/png",
                 Bucket: ctx.env.SPACE_BUCKET,
-                ACL: 'public-read'
+                ACL: "public-read",
               });
             }),
             TE.map((thumb) => thumb.Location),
@@ -188,18 +190,18 @@ export const createThumbnail =
       );
     }
 
-    if (Media.ImageType.is(location.type)) {
-      return TE.right(location.location);
+    if (Media.ImageType.is(media.type)) {
+      return TE.right(media.location);
     }
 
     return pipe(
       sequenceS(TE.ApplyPar)({
         html: pipe(
-          ctx.puppeteer.getBrowser(location.location, {}),
+          ctx.puppeteer.getBrowser(media.location, {}),
           TE.chain((b) => {
             return TE.tryCatch(async () => {
               const page = await b.pages().then((p) => p[0]);
-              await page.goto(location.location, { waitUntil: "networkidle0" });
+              await page.goto(media.location, { waitUntil: "networkidle0" });
 
               return page;
             }, toPuppeteerError);
@@ -207,7 +209,7 @@ export const createThumbnail =
           TE.mapLeft((e) => ServerError(e as any))
         ),
         match: pipe(
-          getPlatform(location.location),
+          getPlatform(media.location),
           E.mapLeft((e) => ServerError(e as any)),
           TE.fromEither
         ),

@@ -1,26 +1,67 @@
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
-import { KeywordEntity } from "@entities/Keyword.entity";
-import { LinkEntity } from "@entities/Link.entity";
-import { ControllerError, ServerError } from "@io/ControllerError";
+import { MediaEntity } from "@entities/Media.entity";
+import {
+  ControllerError,
+  ServerError,
+  toControllerError
+} from "@io/ControllerError";
 import { URL } from "@liexp/shared/io/http/Common";
-import { searchEventV2Query } from "@routes/events/queries/searchEventsV2.query";
+import { MediaType } from "@liexp/shared/io/http/Media";
 import { RouteContext } from "@routes/route.types";
+import { sequenceS } from "fp-ts/lib/Apply";
+import * as A from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
+import * as fs from "fs";
 import TelegramBot from "node-telegram-bot-api";
-import { Equal } from "typeorm";
-import * as linkHelpers from "../link.flow";
-import { createEventSuggestionFromLink } from './createFromLink.flow';
-import { searchEventSuggestion } from "./searchEventSuggestion.flow";
+import path from "path";
+import { createAndUpload } from "../media/createAndUpload.flow";
+import { createEventSuggestionFromMedia } from './createFromMedia.flow';
+import { findEventByLinkOrCreateSuggestion } from "./findEventByLinkOrCreateSuggestion.flow";
+
+type EventResult = Array<EventSuggestionEntity | EventV2Entity>;
+
+const createMedia =
+  (ctx: RouteContext) =>
+  (
+    description: string,
+    photo: TelegramBot.PhotoSize[]
+  ): TE.TaskEither<ControllerError, MediaEntity[]> => {
+    return pipe(
+      photo,
+      A.map((p) => {
+        const tempFolder = path.resolve(process.cwd(), "temp/media");
+
+        return pipe(
+          TE.tryCatch(
+            () => ctx.tg.bot.downloadFile(p.file_id, tempFolder),
+            toControllerError
+          ),
+          TE.chain((f) =>
+            createAndUpload(ctx)(
+              {
+                type: MediaType.types[0].value,
+                location: f,
+                description,
+                thumbnail: undefined,
+              },
+              fs.readFileSync(f)
+            )
+          )
+        );
+      }),
+      A.sequence(TE.ApplicativeSeq)
+    );
+  };
 
 export const createFromTGMessage =
   (ctx: RouteContext) =>
   (
     message: TelegramBot.Message,
     metadata: TelegramBot.Metadata
-  ): TE.TaskEither<ControllerError, EventSuggestionEntity | EventV2Entity> => {
+  ): TE.TaskEither<ControllerError, EventResult> => {
     ctx.logger.info.log(
       "Received message %O with metadata %O",
       message,
@@ -44,130 +85,61 @@ export const createFromTGMessage =
       }, []);
 
     const url = pipe(O.fromNullable(urlEntity[0]));
+    const photo = pipe(
+      message.photo,
+      O.fromPredicate((p) => (p?.length ?? 0) > 0)
+    );
 
     if (O.isNone(url)) {
       ctx.logger.debug.log("No url given, returning...");
-      return TE.left(ServerError(["No url given"]));
+      if (O.isNone(photo)) {
+        ctx.logger.debug.log("No photo given, returning...");
+        return TE.left(ServerError(["No url given", "No photo given"]));
+      }
     }
 
-    const hashtags = message.entities?.filter((e) => e.type === "hashtag");
+    const hashtags = (message.entities ?? [])
+      .filter((e) => e.type === "hashtag")
+      .map((h) => message.text?.slice(h.offset, h.length));
 
-    const findLink = pipe(
-      ctx.db.findOne(LinkEntity, {
-        where: {
-          url: url.value,
-        },
-      }),
-      TE.chain((optLink) => {
-        if (O.isSome(optLink)) {
-          ctx.logger.debug.log(
-            "Looking for existing events with url %s (%s)",
-            optLink.value.url,
-            optLink.value.id
-          );
+    const byURLTask = pipe(
+      url,
+      O.map((u) =>
+        pipe(
+          findEventByLinkOrCreateSuggestion(ctx)(u as any, hashtags),
+          TE.map((l) => O.some(l))
+        )
+      ),
+      O.getOrElse(() =>
+        TE.right<
+          ControllerError,
+          O.Option<EventSuggestionEntity | EventV2Entity>
+        >(O.none)
+      )
+    );
 
-          return pipe(
-            searchEventV2Query(ctx)({
-              title: O.none,
-              type: O.none,
-              startDate: O.none,
-              endDate: O.none,
-              exclude: O.none,
-              withDeleted: true,
-              withDrafts: true,
-              links: O.some([optLink.value.id]),
-              keywords: O.none,
-              actors: O.none,
-              groups: O.none,
-              groupsMembers: O.none,
-              media: O.none,
-              locations: O.none,
-              skip: 0,
-              take: 1,
-            }),
-            TE.map((r) => r.results[0]),
-            TE.chain(
-              (
-                event
-              ): TE.TaskEither<
-                ControllerError,
-                EventV2Entity | EventSuggestionEntity
-              > => {
-                if (event) {
-                  return TE.right(event);
-                }
-                return pipe(
-                  searchEventSuggestion(ctx)({
-                    status: O.none,
-                    links: O.some([optLink.value.id]),
-                    newLinks: O.none,
-                    order: {},
-                  }),
-                  TE.chain(({ data }) => {
-                    ctx.logger.debug.log("Found event suggestions %O", data);
-
-                    if (data.length === 0) {
-                      return createEventSuggestionFromLink(ctx)(
-                        optLink.value,
-                        []
-                      );
-                    }
-                    return TE.right(data[0]);
-                  })
-                );
-              }
-            )
-          );
-        }
-
-        // check exists an "event suggestion" with the given url
-
-        return pipe(
-          searchEventSuggestion(ctx)({
-            status: O.none,
-            links: O.none,
-            newLinks: O.some([{ url: url.value }]),
-            order: {},
-          }),
-          TE.map(({ data }) => O.fromNullable(data[0])),
-          TE.chain((optEventSuggestion) => {
-            if (O.isNone(optEventSuggestion)) {
-              return pipe(
-                linkHelpers.fetchAndCreate(ctx)(url.value),
-                TE.chain((m) => {
-                  const upsertHashtagsT = hashtags
-                    ? pipe(
-                        hashtags.map((h) =>
-                          message.text?.slice(h.offset, h.length)
-                        ),
-                        TE.right,
-                        TE.chain((hh) =>
-                          ctx.db.find(KeywordEntity, {
-                            where: {
-                              tag: Equal(hh),
-                            },
-                          })
-                        )
-                      )
-                    : TE.right([]);
-
-                  return pipe(
-                    upsertHashtagsT,
-                    TE.chain((hashtags) =>
-                      createEventSuggestionFromLink(ctx)(m, hashtags)
-                    )
-                  );
-                })
-              );
-            }
-            return TE.right(optEventSuggestion.value);
-          })
-        );
-      })
+    const byPhotoTask = pipe(
+      createMedia(ctx)(message.caption ?? "", message.photo ?? []),
+      TE.chain((mm) => pipe(
+        mm,
+        A.map(m => createEventSuggestionFromMedia(ctx)(m, [])),
+        A.sequence(TE.ApplicativePar)
+      ))
     );
 
     return pipe(
-      findLink,
+      sequenceS(TE.ApplicativePar)({
+        byUrl: byURLTask,
+        byPhoto: byPhotoTask,
+      }),
+      TE.map(({ byUrl, byPhoto }) => {
+        const byURLEvs: EventResult = pipe(
+          byUrl,
+          O.map((u) => [u]),
+          O.getOrElse((): EventResult => [])
+        );
+        return [...byURLEvs, ...byPhoto];
+      }),
       TE.mapLeft((e) => {
         ctx.logger.error.log("Error %O", e);
         return e;

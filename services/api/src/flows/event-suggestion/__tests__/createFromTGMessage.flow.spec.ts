@@ -2,20 +2,24 @@ import * as fs from "fs";
 import path from "path";
 import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
+import {
+  TGMessageArb,
+  TGPhotoArb,
+} from "@liexp/shared/tests/arbitrary/common/TGMessage.arb";
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { createExcerptValue } from "@liexp/ui/components/Common/Editor";
 import * as fc from "fast-check";
 import { pipe } from "fp-ts/lib/function";
-import { AppTest, initAppTest } from "../../../test/AppTest";
+import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 
-describe("Event Suggestion Helper", () => {
+describe("Create From TG Message", () => {
   let Test: AppTest;
   beforeAll(async () => {
     Test = await initAppTest();
@@ -94,7 +98,9 @@ describe("Event Suggestion Helper", () => {
         links: [link],
       }));
 
-      [event] = await throwTE(Test.ctx.db.save(EventV2Entity, [event] as any[]));
+      [event] = await throwTE(
+        Test.ctx.db.save(EventV2Entity, [event] as any[])
+      );
 
       const result = await throwTE(
         createFromTGMessage(Test.ctx)(
@@ -115,28 +121,96 @@ describe("Event Suggestion Helper", () => {
         )
       );
 
+      await throwTE(Test.ctx.db.delete(EventV2Entity, [event.id]));
+
+      await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
+
       expect(result).toMatchObject({
         id: event.id,
       });
-
-      await throwTE(
-        Test.ctx.db.delete(
-          EventV2Entity,
-          event.id
-        )
-      );
-
-      await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
     });
 
-    test.skip("succeeds with sample message #96", async () => {
+    test.only("succeeds with a photo", async () => {
+      const title = fc.sample(HumanReadableStringArb(), 1)[0];
+
+      const [message] = fc.sample(TGMessageArb, 1).map((m) => ({
+        ...m,
+        photo: fc.sample(TGPhotoArb, 1),
+        caption: title,
+        caption_entities: [],
+      }));
+
+      Test.ctx.logger.debug.log("Message %O", message);
+
+      // // create the media
+
+      const tempFileLocation = path.resolve(
+        process.cwd(),
+        `temp/tg/media/${message.message_id}.png`
+      );
+      fs.writeFileSync(tempFileLocation, new Uint8Array(10));
+
+      // mock tg download
+      Test.mocks.tg.bot.downloadFile.mockImplementationOnce(() =>
+        Promise.resolve(tempFileLocation)
+      );
+
+      // mock s3 upload
+      Test.mocks.s3.upload().promise.mockImplementationOnce(() =>
+        Promise.resolve({
+          Key: fc.sample(fc.string(), 1)[0],
+          Location: fc.sample(fc.webUrl(), 1)[0],
+        })
+      );
+
+      const result = await throwTE(createFromTGMessage(Test.ctx)(message, {}));
+
+      const { id, ...expectedExcerpt } = createExcerptValue(message.caption);
+      expectedExcerpt.rows = expectedExcerpt.rows.map(
+        ({ id, ...r }) => r
+      ) as any[];
+
+      const media = await throwTE(
+        Test.ctx.db.findOneOrFail(MediaEntity, {
+          where: { description: message.caption },
+        })
+      );
+      await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result[0].id]));
+
+      Test.ctx.logger.debug.log("Result %O", result);
+
+      expect(result).toMatchObject([
+        {
+          status: "PENDING",
+          payload: {
+            type: "New",
+            event: {
+              type: "Uncategorized",
+              excerpt: expectedExcerpt,
+              payload: {
+                title,
+                groups: [],
+                groupsMembers: [],
+                actors: [],
+              },
+              media: [media.id],
+              links: [],
+            },
+          },
+        },
+      ]);
+    });
+
+    test("succeeds with sample message #96", async () => {
       const message = pipe(
         fs.readFileSync(
-          path.resolve(__dirname, "../../../temp/tg/messages/96.json"),
+          path.resolve(__dirname, "../../../../temp/tg/messages/96.json"),
           "utf-8"
         ),
         JSON.parse
       );
+
+      Test.ctx.logger.debug.log("Message 96 %O", message);
 
       const title = fc.sample(HumanReadableStringArb(), 1)[0];
       const url = message.caption_entities[0].url;
@@ -168,27 +242,29 @@ describe("Event Suggestion Helper", () => {
         ({ id, ...r }) => r
       ) as any[];
 
-      await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result.id]));
+      await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result[0].id]));
       await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
 
-      expect(result).toMatchObject({
-        status: "PENDING",
-        payload: {
-          type: "New",
-          event: {
-            type: "Uncategorized",
-            excerpt: expectedExcerpt,
-            payload: {
-              title,
-              groups: [],
-              groupsMembers: [],
-              actors: [],
+      expect(result).toMatchObject([
+        {
+          status: "PENDING",
+          payload: {
+            type: "New",
+            event: {
+              type: "Uncategorized",
+              excerpt: expectedExcerpt,
+              payload: {
+                title,
+                groups: [],
+                groupsMembers: [],
+                actors: [],
+              },
+              media: [],
+              links: [link.id],
             },
-            media: [],
-            links: [link.id],
           },
         },
-      });
+      ]);
     });
 
     test.skip("succeeds with sample message #95", async () => {
