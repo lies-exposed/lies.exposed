@@ -52,7 +52,7 @@ export const initAppTest = async (): Promise<AppTest> => {
       env,
       db,
       logger,
-      jwt: GetJWTClient({ secret: "", logger }),
+      jwt: GetJWTClient({ secret: env.JWT_SECRET, logger }),
       ffmpeg: {
         runCommand: () => {
           return TE.right("");

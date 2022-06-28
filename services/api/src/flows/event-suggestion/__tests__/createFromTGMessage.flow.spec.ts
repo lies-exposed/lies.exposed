@@ -19,10 +19,15 @@ import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
 
+const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
+
 describe("Create From TG Message", () => {
   let Test: AppTest;
   beforeAll(async () => {
     Test = await initAppTest();
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
   });
 
   afterAll(async () => {
@@ -145,8 +150,8 @@ describe("Create From TG Message", () => {
       // // create the media
 
       const tempFileLocation = path.resolve(
-        process.cwd(),
-        `temp/tg/media/${message.message_id}.png`
+        tempDir,
+        `${message.message_id}.png`
       );
       fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 

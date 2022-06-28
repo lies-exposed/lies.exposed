@@ -88,7 +88,7 @@ const themeOptions: ThemeOptions = {
       styleOverrides: {
         root: {
           color: "#FFF",
-          backgroundColor: primary
+          backgroundColor: primary,
         },
       },
     },
