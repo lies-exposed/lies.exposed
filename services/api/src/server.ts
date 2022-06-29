@@ -110,7 +110,7 @@ export const makeContext = (
           TGBotProvider({
             token: env.TG_BOT_TOKEN,
             chat: env.TG_BOT_CHAT,
-            polling: env.NODE_ENV === "production",
+            polling: env.TG_BOT_POLLING,
           })
         ),
         puppeteer: TE.right(

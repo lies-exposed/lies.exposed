@@ -3,7 +3,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
-import { MediaEntity } from '@entities/Media.entity';
+import { MediaEntity } from "@entities/Media.entity";
 import { ControllerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 /**
@@ -14,11 +14,11 @@ import { RouteContext } from "@routes/route.types";
 export const createEventSuggestionFromMedia =
   (ctx: RouteContext) =>
   (
-    l: MediaEntity,
+    mm: MediaEntity[],
     hashtags: KeywordEntity[]
   ): TE.TaskEither<ControllerError, EventSuggestionEntity> => {
-    const suggestedExcerpt = l.description
-      ? createExcerptValue(l.description)
+    const suggestedExcerpt = mm[0].description
+      ? createExcerptValue(mm[0].description)
       : undefined;
 
     const publishDate = new Date();
@@ -32,14 +32,14 @@ export const createEventSuggestionFromMedia =
               type: "Uncategorized" as const,
               excerpt: suggestedExcerpt,
               payload: {
-                title: l.description,
+                title: mm[0].description,
                 actors: [],
                 groups: [],
                 groupsMembers: [],
               },
               date: publishDate,
               links: [],
-              media: [l.id],
+              media: mm.map((l) => l.id),
               keywords: hashtags,
             },
           },

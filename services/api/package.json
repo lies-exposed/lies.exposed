@@ -23,7 +23,8 @@
     "db:diagram": "ts-node -r tsconfig-paths/register -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "migration:gen": "typeorm migration:generate -d ./ormconfig.js --check",
     "migration:run": "typeorm migration:run -d ./ormconfig.js",
-    "migration:revert": "typeorm migration:revert -d ./ormconfig.js"
+    "migration:revert": "typeorm migration:revert -d ./ormconfig.js",
+    "parse-tg-message": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/parse-tg-message.ts"
   },
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",

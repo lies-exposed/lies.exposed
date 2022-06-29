@@ -6,6 +6,7 @@ import { UUID } from "io-ts-types";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { ControllerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
+import { addOrder } from '@utils/orm.utils';
 
 interface SearchEventSuggestionFilter {
   status: O.Option<http.EventSuggestion.EventSuggestionStatus[]>;
@@ -53,6 +54,7 @@ export const searchEventSuggestion =
         return q;
       },
       (q) => {
+        addOrder(filter.order, q, "eventSuggestion");
         // ctx.logger.debug.log("Query %O", q.getQueryAndParameters());
         return q;
       }
