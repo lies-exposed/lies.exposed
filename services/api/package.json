@@ -48,7 +48,7 @@
     "module-alias": "^2.2.2",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.1",
-    "node-telegram-bot-api": "^0.57.0",
+    "node-telegram-bot-api": "^0.58.0",
     "page-metadata-parser": "^1.1.4",
     "pg": "^8.7.3",
     "puppeteer-core": "^13.7.0",
