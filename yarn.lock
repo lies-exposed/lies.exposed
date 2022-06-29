@@ -1535,9 +1535,9 @@ __metadata:
     "@types/fluent-ffmpeg": ^2.1.20
     "@types/jest": ^27.5.2
     "@types/prettier": ^2.6.3
-    "@types/throttle-debounce": ^2.1.0
+    "@types/throttle-debounce": ^5.0.0
     axios: ^0.27.2
-    bs58: ^4.0.1
+    bs58: ^5.0.0
     cheerio: ^1.0.0-rc.12
     date-fns: ^2.28.0
     domino: ^2.1.6
@@ -1551,7 +1551,7 @@ __metadata:
     puppeteer-extra: ^3.3.0
     puppeteer-extra-plugin-stealth: ^2.10.1
     query-string: ^7.1.1
-    throttle-debounce: ^3.0.1
+    throttle-debounce: ^5.0.0
     ts-endpoint: ^2.0.0
     ts-endpoint-express: ^2.0.0
     ts-io-error: ^2.0.0
@@ -1601,7 +1601,7 @@ __metadata:
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.9
     "@types/react-virtualized": ^9.21.21
-    "@types/throttle-debounce": ^2.1.0
+    "@types/throttle-debounce": ^5.0.0
     "@types/topojson-client": ^3.1.1
     "@types/topojson-specification": ^1.0.2
     "@vx/axis": 0.0.199
@@ -1653,7 +1653,7 @@ __metadata:
     react-spring: ^9.4.5
     react-toc: ^2.1.1
     react-virtualized: ^9.22.3
-    throttle-debounce: ^3.0.1
+    throttle-debounce: ^5.0.0
     topojson-client: ^3.1.0
     ts-endpoint: ^2.0.0
     ts-io-error: ^2.0.0
@@ -4420,10 +4420,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/throttle-debounce@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@types/throttle-debounce@npm:2.1.0"
-  checksum: 70e219d000595108fce0dc624c8296e37cdb174b528e09c939da18e619da1c6df86b088659f5eb93cb146bd5fe2954597823c2e1f0849dc8f6585d87cbbf71b7
+"@types/throttle-debounce@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@types/throttle-debounce@npm:5.0.0"
+  checksum: f0b1f626816154466a6c7699fa9a87614f2b65c649654d02456e3603c38c29457b40d26c2ac820c2c44574e92f210c21b0cdce747b578d27566d5faa1daaae7e
   languageName: node
   linkType: hard
 
@@ -6229,12 +6229,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base-x@npm:^3.0.2, base-x@npm:^3.0.6":
+"base-x@npm:^3.0.6":
   version: 3.0.9
   resolution: "base-x@npm:3.0.9"
   dependencies:
     safe-buffer: ^5.0.1
   checksum: 957101d6fd09e1903e846fd8f69fd7e5e3e50254383e61ab667c725866bec54e5ece5ba49ce385128ae48f9ec93a26567d1d5ebb91f4d56ef4a9cc0d5a5481e8
+  languageName: node
+  linkType: hard
+
+"base-x@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "base-x@npm:4.0.0"
+  checksum: b25db9e07eb1998472a20557c7f00c797dc0595f79df95155ab74274e7fa98b9f2659b3ee547ac8773666b7f69540656793aeb97ad2b1ceccdb6fa5faaf69ac0
   languageName: node
   linkType: hard
 
@@ -6480,12 +6487,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bs58@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "bs58@npm:4.0.1"
+"bs58@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "bs58@npm:5.0.0"
   dependencies:
-    base-x: ^3.0.2
-  checksum: b3c5365bb9e0c561e1a82f1a2d809a1a692059fae016be233a6127ad2f50a6b986467c3a50669ce4c18929dcccb297c5909314dd347a25a68c21b68eb3e95ac2
+    base-x: ^4.0.0
+  checksum: 2475cb0684e07077521aac718e604a13e0f891d58cff923d437a2f7e9e28703ab39fce9f84c7c703ab369815a675f11e3bd394d38643bfe8969fbe42e6833d45
   languageName: node
   linkType: hard
 
@@ -18609,6 +18616,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"throttle-debounce@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "throttle-debounce@npm:5.0.0"
+  checksum: aa8bf25828b4f8645ce863589de05d6807ea3debc147ce7d89624638ff8a16792d6d0baa0f8a32a260f0b163444d74020c6087b713ae561fde594b97b6e51f28
+  languageName: node
+  linkType: hard
+
 "through2@npm:^4.0.0":
   version: 4.0.2
   resolution: "through2@npm:4.0.2"
@@ -19808,7 +19822,7 @@ __metadata:
     "@types/react-helmet": ^6.1.5
     "@types/react-router-dom": ^5.3.3
     "@types/react-slick": ^0.23.9
-    "@types/throttle-debounce": ^2.1.0
+    "@types/throttle-debounce": ^5.0.0
     "@types/topojson-client": ^3.1.1
     "@types/topojson-server": ^3.0.1
     "@types/uuid": ^8.3.4
@@ -19823,7 +19837,7 @@ __metadata:
     "@vx/responsive": ^0.0.199
     "@vx/tooltip": ^0.0.199
     axios: ^0.27.2
-    bs58: ^4.0.1
+    bs58: ^5.0.0
     clsx: ^1.1.1
     d3: ^5.16.0
     debug: ^4.3.4
@@ -19857,7 +19871,7 @@ __metadata:
     react-spring: ^9.4.5
     react-toc: ^2.1.1
     slick-carousel: ^1.8.1
-    throttle-debounce: ^3.0.1
+    throttle-debounce: ^5.0.0
     topojson-client: 3.1.0
     topojson-server: 3.0.1
     ts-node-dev: ^2.0.0
