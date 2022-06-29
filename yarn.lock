@@ -1109,15 +1109,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fortawesome/react-fontawesome@npm:^0.1.19":
-  version: 0.1.19
-  resolution: "@fortawesome/react-fontawesome@npm:0.1.19"
+"@fortawesome/react-fontawesome@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@fortawesome/react-fontawesome@npm:0.2.0"
   dependencies:
     prop-types: ^15.8.1
   peerDependencies:
     "@fortawesome/fontawesome-svg-core": ~1 || ~6
-    react: ">=16.x"
-  checksum: 77dbe1d5fa156a2ff4aa069d6c11f0ba1fcf43df72c9f03f1eec353d23798513a1f2773957a2bc3107fb8dc79fa606999ed91bf21659745bcc166abc4072819e
+    react: ">=16.3"
+  checksum: f652a0c2172e7b209e2d9e7e511f9b8c17abad85f55e0bd09bb1175ea1927693215da47eb6cd95b1f3a23bd124368553c677907fa76cb17c5093afc1fcffe338
   languageName: node
   linkType: hard
 
@@ -1572,11 +1572,11 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ^6.1.1
     "@fortawesome/free-brands-svg-icons": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
-    "@fortawesome/react-fontawesome": ^0.1.19
-    "@mui/icons-material": 5.8.4
+    "@fortawesome/react-fontawesome": ^0.2.0
+    "@mui/icons-material": ^5.8.4
     "@mui/lab": 5.0.0-alpha.87
-    "@mui/material": 5.8.5
-    "@mui/styles": 5.8.4
+    "@mui/material": ^5.8.5
+    "@mui/styles": ^5.8.5
     "@mui/system": ^5.8.5
     "@mui/x-data-grid": 5.12.3
     "@reach/router": ^1.3.4
@@ -1750,7 +1750,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:5.8.4, @mui/icons-material@npm:^5.0.1, @mui/icons-material@npm:^5.8.0":
+"@mui/icons-material@npm:^5.0.1, @mui/icons-material@npm:^5.8.0, @mui/icons-material@npm:^5.8.4":
   version: 5.8.4
   resolution: "@mui/icons-material@npm:5.8.4"
   dependencies:
@@ -1810,7 +1810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:5.8.5, @mui/material@npm:^5.0.2, @mui/material@npm:^5.8.1, @mui/material@npm:^5.8.5":
+"@mui/material@npm:^5.0.2, @mui/material@npm:^5.8.1, @mui/material@npm:^5.8.5":
   version: 5.8.5
   resolution: "@mui/material@npm:5.8.5"
   dependencies:
@@ -1859,6 +1859,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/private-theming@npm:^5.8.6":
+  version: 5.8.6
+  resolution: "@mui/private-theming@npm:5.8.6"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+    "@mui/utils": ^5.8.6
+    prop-types: ^15.8.1
+  peerDependencies:
+    "@types/react": ^17.0.0 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 8a821793de22f84ba51bee2f67363e26187d1fddc7b2d446477a3fa2131372662a30ec0d94678a3cecab0f7ed8d3116af19422cb651664e5bca664d243478ed4
+  languageName: node
+  linkType: hard
+
 "@mui/styled-engine@npm:^5.8.0":
   version: 5.8.0
   resolution: "@mui/styled-engine@npm:5.8.0"
@@ -1879,15 +1896,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/styles@npm:5.8.4":
-  version: 5.8.4
-  resolution: "@mui/styles@npm:5.8.4"
+"@mui/styles@npm:^5.8.5":
+  version: 5.8.6
+  resolution: "@mui/styles@npm:5.8.6"
   dependencies:
     "@babel/runtime": ^7.17.2
     "@emotion/hash": ^0.8.0
-    "@mui/private-theming": ^5.8.4
+    "@mui/private-theming": ^5.8.6
     "@mui/types": ^7.1.4
-    "@mui/utils": ^5.8.4
+    "@mui/utils": ^5.8.6
     clsx: ^1.1.1
     csstype: ^3.1.0
     hoist-non-react-statics: ^3.3.2
@@ -1906,7 +1923,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: aeccbfc9d84a1ca7cb071799d567bd868b6efa202d7b0e61405631b7f292830fbb0b360ff4aeceaf9c0f220ca3abe994fb036b555817c9db64a956293272aa86
+  checksum: e766102a12c52a8cc27b61774520f5cc5c83b7355d2d629f9a5b04a11b84eed331e5e22c10b2c0edcd45b81c6cecec913e349f084b2190e0343b2495f6691714
   languageName: node
   linkType: hard
 
@@ -1962,6 +1979,21 @@ __metadata:
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
   checksum: 4d36ff74ee231be7f146bde7bb1f31f717c18f9c2617b5100448d827ac6a4e745645fd035be728ac408604ba58e2b375a96b1d50711801a150b2489c0ff2caf2
+  languageName: node
+  linkType: hard
+
+"@mui/utils@npm:^5.8.6":
+  version: 5.8.6
+  resolution: "@mui/utils@npm:5.8.6"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+    "@types/prop-types": ^15.7.5
+    "@types/react-is": ^16.7.1 || ^17.0.0
+    prop-types: ^15.8.1
+    react-is: ^17.0.2
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0
+  checksum: 5141fa15050defe8981041d9a699a595e1b554d5a20125d8e4de2188fb37b37a45907c36ca9885840290f32133af2cb4340e724afdd0f59d27dcf8b863f927bf
   languageName: node
   linkType: hard
 
@@ -19763,7 +19795,7 @@ __metadata:
     "@fortawesome/free-brands-svg-icons": ^6.1.1
     "@fortawesome/free-regular-svg-icons": ^6.1.1
     "@fortawesome/free-solid-svg-icons": ^6.1.1
-    "@fortawesome/react-fontawesome": ^0.1.19
+    "@fortawesome/react-fontawesome": ^0.2.0
     "@mui/material": ^5.8.5
     "@types/bs58": ^4.0.1
     "@types/d3": ^5.16.4

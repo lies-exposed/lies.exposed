@@ -21,7 +21,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/react-fontawesome": "^0.1.19",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@mui/material": "^5.8.5",
     "@vx/axis": "^0.0.199",
     "@vx/gradient": "^0.0.199",
