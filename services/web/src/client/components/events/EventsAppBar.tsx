@@ -1,10 +1,11 @@
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import {
   Death,
-  Documentary, Patent,
+  Documentary,
+  Patent,
   ScientificStudy,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -24,7 +25,8 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  alpha, Grid,
+  alpha,
+  Grid,
   IconButton,
   Tab,
   Tabs,
@@ -33,7 +35,7 @@ import {
 } from "@liexp/ui/components/mui";
 import { getTotal } from "@liexp/ui/helpers/event.helper";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import {useTheme, styled } from '@liexp/ui/theme'
+import { useTheme, styled } from "@liexp/ui/theme";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -43,7 +45,7 @@ import * as React from "react";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
 import { EventsQueryParams } from "@containers/EventsPanel";
 
-const PREFIX = 'EventsAppBar';
+const PREFIX = "EventsAppBar";
 
 const classes = {
   filterBox: `${PREFIX}-filterBox`,
@@ -57,14 +59,11 @@ const classes = {
   dateInput: `${PREFIX}-dateInput`,
   inputRoot: `${PREFIX}-inputRoot`,
   inputInput: `${PREFIX}-inputInput`,
-  tabs: `${PREFIX}-tabs`
+  tabs: `${PREFIX}-tabs`,
+  totalsAndTypes: `${PREFIX}-totals-and-types`,
 };
 
-const StyledToolbar = styled(Toolbar)((
-  {
-    theme
-  }
-) => ({
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   [`& .${classes.filterBox}`]: {
     display: "flex",
     alignItems: "center",
@@ -140,12 +139,21 @@ const StyledToolbar = styled(Toolbar)((
 
   [`& .${classes.tabs}`]: {
     width: "100%",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.up("sm")]: {
       paddingTop: 20,
       display: "flex",
       alignItems: "center",
     },
-  }
+  },
+  [`& .${classes.totalsAndTypes}`]: {
+    display: "flex",
+    flexDirection: "row",
+    maxWidth: "100%",
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "column",
+    },
+  },
 }));
 
 const eventIconProps = {
@@ -203,7 +211,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   onQueryClear,
 }) => {
   const theme = useTheme();
-
 
   const [currentDateRange, setCurrentDateRange] = React.useState([
     query.startDate,
@@ -268,7 +275,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           padding: 0,
         }}
         onClick={() => onQueryClear()}
-        size="large">
+        size="large"
+      >
         <HighlightOffIcon />
       </IconButton>
     ) : null;
@@ -442,7 +450,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   _order: query._order === "DESC" ? "ASC" : "DESC",
                 });
               }}
-              size="large">
+              size="large"
+            >
               {query._order === "DESC" ? <ArrowDownIcon /> : <ArrowUpIcon />}
             </IconButton>
           </Box>
@@ -467,7 +476,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   uncategorized: !filters.uncategorized,
                 });
               }}
-              size="large">
+              size="large"
+            >
               <EventIcon type="Uncategorized" {...eventIconProps} />
               <Typography variant="caption">{totals.uncategorized}</Typography>
             </IconButton>
@@ -482,7 +492,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   deaths: !filters.deaths,
                 });
               }}
-              size="large">
+              size="large"
+            >
               <EventIcon type="Death" {...eventIconProps} />
               <Typography variant="caption">{totals.deaths}</Typography>
             </IconButton>
@@ -497,7 +508,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   scientificStudies: !filters.scientificStudies,
                 });
               }}
-              size="large">
+              size="large"
+            >
               <EventIcon type="ScientificStudy" {...eventIconProps} />
               <Typography variant="caption">
                 {totals.scientificStudies}
@@ -514,7 +526,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   documentaries: !filters.documentaries,
                 });
               }}
-              size="large">
+              size="large"
+            >
               <EventIcon
                 type={Documentary.DOCUMENTARY.value}
                 {...eventIconProps}
@@ -532,7 +545,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   patents: !filters.patents,
                 });
               }}
-              size="large">
+              size="large"
+            >
               <EventIcon type="Patent" {...eventIconProps} />
               <Typography variant="caption">{totals.patents}</Typography>
             </IconButton>
@@ -547,7 +561,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   transactions: !filters.transactions,
                 });
               }}
-              size="large">
+              size="large"
+            >
               <EventIcon type="Transaction" {...eventIconProps} />
               <Typography variant="caption">{totals.transactions}</Typography>
             </IconButton>
@@ -700,20 +715,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   style={{ width: "100%" }}
                 />
               </Grid>
-              <Grid
-                item
-                md={12}
-                sm={12}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  maxWidth: "100%",
-                  width: "100%",
-                  [theme.breakpoints.down('md')]: {
-                    flexDirection: "column",
-                  },
-                }}
-              >
+              <Grid item md={12} sm={12} className={classes.totalsAndTypes}>
                 {typeFilters}
                 {eventTotal}
               </Grid>
@@ -754,10 +756,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   {summary}
                 </Box>
               </AccordionSummary>
-              <AccordionDetails
-              >
-                {expanded}
-              </AccordionDetails>
+              <AccordionDetails>{expanded}</AccordionDetails>
             </Accordion>
           </StyledToolbar>
         );

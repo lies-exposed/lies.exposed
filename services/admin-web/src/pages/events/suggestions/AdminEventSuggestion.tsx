@@ -61,11 +61,11 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => (
     filters={eventSuggestionListFilter}
     filterDefaultValues={{
       _sort: "createdAt",
-      _order: "DESC",
+      _order: "ASC",
       status: "PENDING",
-      withDeleted: true,
+      withDeleted: false,
     }}
-    perPage={20}
+    perPage={25}
   >
     <Datagrid rowClick="edit">
       <FunctionField
@@ -105,6 +105,8 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => (
         source="payload.media"
         render={(r: any) => r.media?.length ?? 0}
       />
+      <DateField source="createdAt" />
+      <DateField source="updatedAt" />
     </Datagrid>
   </List>
 );

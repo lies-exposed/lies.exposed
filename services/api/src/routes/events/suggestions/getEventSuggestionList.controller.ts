@@ -6,7 +6,7 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { toEventSuggestion } from "./eventSuggestion.io";
-import { searchEventSuggestion } from "@helpers/event-suggestion/searchEventSuggestion.helper";
+import { searchEventSuggestion } from "@flows/event-suggestion/searchEventSuggestion.flow";
 import { Route } from "@routes/route.types";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 

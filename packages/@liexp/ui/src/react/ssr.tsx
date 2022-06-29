@@ -1,8 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
+import { CacheProvider } from "@emotion/react";
+import createEmotionServer from "@emotion/server/create-instance";
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import { GetLogger } from "@liexp/core/logger";
-import { ServerStyleSheets } from "@mui/styles";
 import * as express from "express";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
@@ -10,12 +11,13 @@ import {
   dehydrate,
   Hydrate,
   QueryClient,
-  QueryClientProvider
+  QueryClientProvider,
 } from "react-query";
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider } from "../components/SEO";
-import { CssBaseline, StyledEngineProvider, ThemeProvider } from "../components/mui";
+import { CssBaseline, ThemeProvider } from "../components/mui";
 import { ECOTheme, ECOTheme as Theme } from "../theme";
+import createEmotionCache from "./createEmotionCache";
 
 declare module "@mui/styles/defaultTheme" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -55,6 +57,10 @@ export const getServer = (
           helmet: undefined,
         };
 
+        const cache = createEmotionCache();
+        const { extractCriticalToChunks, constructStyleTagsFromChunks } =
+          createEmotionServer(cache);
+
         const queryClient = new QueryClient({
           defaultOptions: {
             queries: {
@@ -76,31 +82,34 @@ export const getServer = (
           .then(() => {
             const dehydratedState = dehydrate(queryClient);
 
-            const sheets = new ServerStyleSheets();
+            // const sheets = new ServerStyleSheets();
+
             const html = ReactDOMServer.renderToString(
-              sheets.collect(
-                <HelmetProvider context={helmetContext}>
-                  <QueryClientProvider client={queryClient}>
-                    <Hydrate state={dehydratedState}>
-                      <StyledEngineProvider injectFirst>
-                        <ThemeProvider theme={ECOTheme}>
-                          <CssBaseline />
-                          <StaticRouter location={req.url}>
-                            <App />
-                          </StaticRouter>
-                        </ThemeProvider>
-                      </StyledEngineProvider>
-                    </Hydrate>
-                  </QueryClientProvider>
-                </HelmetProvider>
-              )
+              <HelmetProvider context={helmetContext}>
+                <QueryClientProvider client={queryClient}>
+                  <Hydrate state={dehydratedState}>
+                    <CacheProvider value={cache}>
+                      <ThemeProvider theme={ECOTheme}>
+                        <CssBaseline />
+                        <StaticRouter location={req.url}>
+                          <App />
+                        </StaticRouter>
+                      </ThemeProvider>
+                    </CacheProvider>
+                  </Hydrate>
+                </QueryClientProvider>
+              </HelmetProvider>
             );
+
+            // Grab the CSS from emotion
+            const emotionChunks = extractCriticalToChunks(html);
+            const emotionCss = constructStyleTagsFromChunks(emotionChunks);
 
             if (context.url) {
               return next();
             } else {
               // Grab the CSS from the sheets.
-              const css = sheets.toString();
+              const css = emotionCss;
               const h = helmetContext.helmet as any;
 
               const fontawesomeCss = dom.css();
@@ -114,10 +123,7 @@ export const getServer = (
                 data
                   .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
                   .replace('<meta id="helmet-head" />', head)
-                  .replace(
-                    '<style id="jss-server-side"></style>',
-                    `<style id="jss-server-side">${css}</style>`
-                  )
+                  .replace('<style id="jss-server-side"></style>', `${css}`)
                   .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
                   .replace(
                     '<style id="font-awesome-css"></style>',

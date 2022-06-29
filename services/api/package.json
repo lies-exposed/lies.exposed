@@ -23,13 +23,14 @@
     "db:diagram": "ts-node -r tsconfig-paths/register -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "migration:gen": "typeorm migration:generate -d ./ormconfig.js --check",
     "migration:run": "typeorm migration:run -d ./ormconfig.js",
-    "migration:revert": "typeorm migration:revert -d ./ormconfig.js"
+    "migration:revert": "typeorm migration:revert -d ./ormconfig.js",
+    "parse-tg-message": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/parse-tg-message.ts"
   },
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
     "@mui/material": "^5.8.5",
-    "aws-sdk": "^2.1159.0",
+    "aws-sdk": "^2.1163.0",
     "axios": "^0.27.2",
     "cors": "2.8.5",
     "debug": "^4.3.4",
@@ -82,7 +83,7 @@
     "eslint-plugin-import": "^2.26.0",
     "fast-check": "^2.25.0",
     "jest": "^28.1.1",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.18",
     "prettier": "^2.7.1",
     "supertest": "^6.2.3",
     "ts-node": "^10.8.1",
@@ -92,7 +93,7 @@
   "_moduleAliases": {
     "@io": "build/io",
     "@entities": "build/entities",
-    "@helpers": "build/helpers",
+    "@flows": "build/flows",
     "@providers": "build/providers",
     "@routes": "build/routes",
     "@utils": "build/utils",

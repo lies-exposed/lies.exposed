@@ -25,6 +25,7 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
       id={item.id}
       style={{
         width: "100%",
+        display: 'flex'
       }}
       onClick={() => onClick?.(item)}
     >

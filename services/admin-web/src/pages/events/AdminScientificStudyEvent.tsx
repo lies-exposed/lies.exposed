@@ -30,6 +30,7 @@ import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
 import { transformEvent } from "../../utils";
 
 const listFilter = [
+  <TextInput key="title" source="title" alwaysOn />,
   <BooleanInput
     key="withDrafts"
     label="Draft only"

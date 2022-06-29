@@ -19,7 +19,7 @@
     "paths": {
       "@io/*": ["io/*"],
       "@entities/*": ["entities/*"],
-      "@helpers/*": ["helpers/*"],
+      "@flows/*": ["flows/*"],
       "@providers/*": ["providers/*"],
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"],
@@ -39,7 +39,7 @@
       "path": "../../packages/@liexp/ui"
     }
   ],
-  "include": ["./src", "./test"],
+  "include": ["./src", "./test", "./bin"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }
