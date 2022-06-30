@@ -5,14 +5,12 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  Input,
+  DialogTitle, FormControl,
+  FormGroup, Input,
   InputLabel,
   MenuItem,
   Select,
-  Toolbar,
-  FormControl,
-  FormGroup,
+  Toolbar
 } from "@liexp/ui/components/mui";
 import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import * as O from "fp-ts/lib/Option";
@@ -33,13 +31,12 @@ import {
   List,
   ReferenceArrayInput,
   ReferenceField,
-  ReferenceManyField,
-  SimpleForm,
+  ReferenceManyField, SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import { useNavigate } from "react-router";
 import { MediaField } from "../components/Common/MediaField";
@@ -60,6 +57,7 @@ const linksFilter = [
 ];
 
 export const SearchLinksButton: React.FC = () => {
+  const refresh = useRefresh();
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState("");
   const [p, setP] = React.useState(1);
@@ -71,7 +69,7 @@ export const SearchLinksButton: React.FC = () => {
         p,
         providers: ["the-guardian", "reuters"],
       },
-    });
+    }).then(() => refresh());
   };
 
   return (

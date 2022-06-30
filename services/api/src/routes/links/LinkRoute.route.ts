@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { MakeCreateLinkRoute } from "./createLink.controller";
+import { MakeDeleteLinkRoute } from "./deleteLink.controller";
 import { MakeEditLinkRoute } from "./editLink.controller";
 import { MakeEditLinkMetadataRoute } from "./editLinkMetadata.controller";
 import { MakeGetLinksRoute } from "./getLink.controller";
@@ -10,6 +11,7 @@ export const MakeLinkRoutes = (router: Router, ctx: RouteContext): void => {
   MakeCreateLinkRoute(router, ctx);
   MakeEditLinkMetadataRoute(router, ctx);
   MakeEditLinkRoute(router, ctx);
+  MakeDeleteLinkRoute(router, ctx);
   MakeGetLinksRoute(router, ctx);
   MakeListLinksRoute(router, ctx);
 };
