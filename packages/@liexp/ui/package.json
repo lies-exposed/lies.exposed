@@ -76,7 +76,7 @@
     "react-query": "^3.39.1",
     "react-slick": "^0.29.0",
     "react-spring": "^9.4.5",
-    "react-toc": "^2.1.1",
+    "react-toc": "^3.0.0",
     "react-virtualized": "^9.22.3",
     "throttle-debounce": "^5.0.0",
     "topojson-client": "^3.1.0",
