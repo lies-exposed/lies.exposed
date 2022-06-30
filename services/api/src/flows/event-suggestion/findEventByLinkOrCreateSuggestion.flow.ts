@@ -101,7 +101,7 @@ export const findEventByLinkOrCreateSuggestion =
           TE.chain((optEventSuggestion) => {
             if (O.isNone(optEventSuggestion)) {
               return pipe(
-                linkFlows.fetchAndCreate(ctx)(url),
+                linkFlows.fetchAndSave(ctx)(url),
                 TE.chain((l) => {
                   const upsertHashtagsT = hashtags
                     ? pipe(

@@ -189,6 +189,7 @@ export const SearchEventsFromProvider = Endpoint({
   Input: {
     Body: t.type({
       q: t.string,
+      p: t.number,
       providers: t.array(t.string),
     }),
   },

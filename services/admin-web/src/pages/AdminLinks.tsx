@@ -1,16 +1,20 @@
 import * as io from "@liexp/shared/io";
+import { parseISO } from '@liexp/shared/utils/date';
+import { LinksList as LinkEntityList } from "@liexp/ui/components/lists/LinkList";
 import {
   Box,
   Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle, FormControl,
-  FormGroup, Input,
+  DialogTitle,
+  FormControl,
+  FormGroup,
+  Input,
   InputLabel,
   MenuItem,
   Select,
-  Toolbar
+  Toolbar,
 } from "@liexp/ui/components/mui";
 import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import * as O from "fp-ts/lib/Option";
@@ -31,12 +35,13 @@ import {
   List,
   ReferenceArrayInput,
   ReferenceField,
-  ReferenceManyField, SimpleForm,
+  ReferenceManyField,
+  SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh
+  useRefresh,
 } from "react-admin";
 import { useNavigate } from "react-router";
 import { MediaField } from "../components/Common/MediaField";
@@ -57,19 +62,28 @@ const linksFilter = [
 ];
 
 export const SearchLinksButton: React.FC = () => {
-  const refresh = useRefresh();
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState("");
   const [p, setP] = React.useState(1);
+  const [links, setLinks] = React.useState([]);
 
   const handleSearch = (): void => {
-    void apiProvider.create("/events/suggestions-by-provider", {
-      data: {
-        q,
-        p,
-        providers: ["the-guardian", "reuters"],
-      },
-    }).then(() => refresh());
+    void apiProvider
+      .create("/events/suggestions-by-provider", {
+        data: {
+          q,
+          p,
+          providers: ["the-guardian", "reuters"],
+        },
+      })
+      .then((r) => {
+        setLinks(
+          (r.data as any).map((ll) => ({
+            ...ll,
+            publishDate: parseISO(ll.publishDate),
+          }))
+        );
+      });
   };
 
   return (
@@ -85,6 +99,7 @@ export const SearchLinksButton: React.FC = () => {
         onClose={() => {
           setOpen(false);
         }}
+        fullWidth
       >
         <DialogTitle>Search in providers</DialogTitle>
         <DialogContent style={{ minHeight: 300 }}>
@@ -112,6 +127,7 @@ export const SearchLinksButton: React.FC = () => {
               <Checkbox />
             </FormControl>
           </FormGroup>
+          <LinkEntityList links={links} />
         </DialogContent>
         <DialogActions>
           <Button label="Cancel" onClick={() => setOpen(false)} />
