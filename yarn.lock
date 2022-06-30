@@ -3970,10 +3970,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.41":
-  version: 16.11.41
-  resolution: "@types/node@npm:16.11.41"
-  checksum: 808e4d65757bb13cf25e88dfa4e65880efef06652b04baecb051eb90cf090dda9812aa3505b31e963a48041eed7dbe0fc59c44c7c5e117da952ff951bf3a584a
+"@types/node@npm:^16.11.42":
+  version: 16.11.42
+  resolution: "@types/node@npm:16.11.42"
+  checksum: a1746910cf27c9e8597805556c943bde5e630c5c4e03bdd2513ccd7fe5fce1ed912f51f5d0ce5dcda0583e5539177f76ad35a19caa9525307d7a722aa9962631
   languageName: node
   linkType: hard
 
@@ -5381,7 +5381,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
     "@types/lodash": ^4.14.182
-    "@types/node": ^16.11.41
+    "@types/node": ^16.11.42
     "@types/prettier": ^2.6.3
     "@types/react": ^17.0.47
     "@types/react-dom": ^17.0.17
@@ -5672,13 +5672,13 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.41
+    "@types/node": ^16.11.42
     "@types/node-cron": ^2.0.5
     "@types/node-telegram-bot-api": ^0.57.1
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1164.0
+    aws-sdk: ^2.1165.0
     axios: ^0.27.2
     cors: 2.8.5
     debug: ^4.3.4
@@ -5713,7 +5713,7 @@ __metadata:
     ts-jest: ^28.0.5
     ts-node: ^10.8.1
     ts-shared: 2.0.0-alpha.6
-    typeorm: ^0.3.6
+    typeorm: ^0.3.7
     typeorm-uml: ^1.6.5
     typescript: ^4.7.4
     uuid: ^8.3.2
@@ -6078,9 +6078,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1164.0":
-  version: 2.1164.0
-  resolution: "aws-sdk@npm:2.1164.0"
+"aws-sdk@npm:^2.1165.0":
+  version: 2.1165.0
+  resolution: "aws-sdk@npm:2.1165.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -6091,7 +6091,7 @@ __metadata:
     url: 0.10.3
     uuid: 8.0.0
     xml2js: 0.4.19
-  checksum: 914e9b983a08f2ded381b9ae63ad36372f89f904788601955025a210e906fff1ee4b0e237a7305a8dacc0a6efc69bd3246cd2434a4e31da2005a9259a54f15de
+  checksum: 0c76d867b95bb4101cbcd0b0f5867a52f631cdce1961971c283d026f474cdde7d221766d50b48428733119d1009050c91cfee8725cc2fe3ba9cc52cd7380900d
   languageName: node
   linkType: hard
 
@@ -19217,9 +19217,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm@npm:^0.3.6":
-  version: 0.3.6
-  resolution: "typeorm@npm:0.3.6"
+"typeorm@npm:^0.3.7":
+  version: 0.3.7
+  resolution: "typeorm@npm:0.3.7"
   dependencies:
     "@sqltools/formatter": ^1.2.2
     app-root-path: ^3.0.0
@@ -19240,12 +19240,12 @@ __metadata:
     yargs: ^17.3.1
   peerDependencies:
     "@google-cloud/spanner": ^5.18.0
-    "@sap/hana-client": ^2.11.14
+    "@sap/hana-client": ^2.12.25
     better-sqlite3: ^7.1.2
     hdb-pool: ^0.1.6
-    ioredis: ^4.28.3
+    ioredis: ^5.0.4
     mongodb: ^3.6.0
-    mssql: ^6.3.1
+    mssql: ^7.3.0
     mysql2: ^2.2.5
     oracledb: ^5.1.0
     pg: ^8.5.1
@@ -19253,7 +19253,7 @@ __metadata:
     pg-query-stream: ^4.0.0
     redis: ^3.1.1 || ^4.0.0
     sql.js: ^1.4.0
-    sqlite3: ^5.0.2
+    sqlite3: ^5.0.3
     ts-node: ^10.7.0
     typeorm-aurora-data-api-driver: ^2.0.0
   peerDependenciesMeta:
@@ -19295,7 +19295,7 @@ __metadata:
     typeorm: cli.js
     typeorm-ts-node-commonjs: cli-ts-node-commonjs.js
     typeorm-ts-node-esm: cli-ts-node-esm.js
-  checksum: 7353b87a8161146c9bab765824857683f4755614c866326b1b260fdddc63470c7679e45c544f4761b7352d26b9f86bc933e1b44b0b1de4512cdc0ca5677db39a
+  checksum: b9a709fa1c103c98340ff055419f5de7fde478e35f246b2f6b212ad6c8954085f347c5a97ed2d94634cf9d51577035d8d71c4c4ccfd58b5f7a9579f434e71802
   languageName: node
   linkType: hard
 
