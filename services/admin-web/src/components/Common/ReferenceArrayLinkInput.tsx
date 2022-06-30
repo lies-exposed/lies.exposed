@@ -13,6 +13,7 @@ const ReferenceArrayLinkInput: React.FC<
       <AutocompleteArrayInput
         source="id"
         optionText="title"
+        fullWidth
         filterToQuery={(title: any) => ({ title })}
       />
     </ReferenceArrayInput>

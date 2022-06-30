@@ -1,11 +1,11 @@
 import * as http from "@liexp/shared/io/http";
+import { DBError } from "@liexp/shared/providers/orm";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { DeepPartial } from "typeorm";
 import { fetchRelations } from "./fetchEventRelations.utils";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { DBError } from "@providers/orm";
 import { RouteContext } from "@routes/route.types";
 import { optionalsToUndefined } from "@utils/foldOptionals.utils";
 

@@ -1,6 +1,7 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { DBError } from "@liexp/shared/providers/orm/Database";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
@@ -10,7 +11,6 @@ import { Brackets, In } from "typeorm";
 import { RouteContext } from "../../route.types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
-import { DBError } from "@providers/orm/Database";
 import { addOrder } from "@utils/orm.utils";
 
 // const toPGArray = (els: string[]): string[] => {
@@ -24,12 +24,12 @@ interface SearchEventQuery {
   keywords: O.Option<string[]>;
   links: O.Option<string[]>;
   media: O.Option<string[]>;
-  locations: O.Option<string[]>
+  locations: O.Option<string[]>;
   type: O.Option<string[]>;
   title: O.Option<string>;
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;
-  exclude: O.Option<string[]>
+  exclude: O.Option<string[]>;
   withDeleted: boolean;
   withDrafts: boolean;
   skip: number;
@@ -93,7 +93,7 @@ export const searchEventV2Query =
             keywords,
             links,
             media,
-            order
+            order,
           }
         );
 
@@ -107,9 +107,9 @@ export const searchEventV2Query =
             let hasWhere = false;
 
             if (O.isSome(exclude)) {
-              q.where('event.id NOT IN (:...ids)', {
-                ids: exclude.value
-              })
+              q.where("event.id NOT IN (:...ids)", {
+                ids: exclude.value,
+              });
             }
 
             if (O.isSome(title)) {
@@ -117,7 +117,6 @@ export const searchEventV2Query =
                 /[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi,
                 " "
               );
-
 
               const tsQueryTitle = trimmedWords
                 .split(" ")
@@ -132,7 +131,7 @@ export const searchEventV2Query =
                 tsQueryTitle
               );
 
-              q.orWhere(
+              q.andWhere(
                 `ts_rank_cd(
                   to_tsvector(
                     'english',
@@ -284,10 +283,9 @@ export const searchEventV2Query =
             if (O.isSome(locations)) {
               q.andWhere(
                 new Brackets((locationQb) => {
-                  locationQb
-                    .where(
-                      ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `
-                    )
+                  locationQb.where(
+                    ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'location' ?| ARRAY[:...locations]) `
+                  );
                 })
               );
 
@@ -307,13 +305,15 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(links)) {
-              const where = hasWhere ? q.orWhere.bind(q) : q.andWhere.bind(q);
+              const where = hasWhere ? q.andWhere.bind(q) : q.andWhere.bind(q);
               where("links.id IN (:...links)", {
                 links: links.value,
               });
             }
 
-            q.andWhere("event.draft = :draft", { draft: withDrafts });
+            if (!withDrafts) {
+              q.andWhere("event.draft = :draft", { draft: false });
+            }
 
             if (withDeleted) {
               q.withDeleted();

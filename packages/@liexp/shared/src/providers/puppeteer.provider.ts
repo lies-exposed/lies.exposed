@@ -155,10 +155,7 @@ export const GetPuppeteerProvider = (
           };
 
           return pup
-            .launch({
-              ...options,
-              headless: true,
-            })
+            .launch(options)
             .then((b) => b as any as puppeteer.Browser);
 
         }, toPuppeteerError);

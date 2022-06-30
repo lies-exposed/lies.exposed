@@ -20,7 +20,6 @@
       "@io/*": ["io/*"],
       "@entities/*": ["entities/*"],
       "@flows/*": ["flows/*"],
-      "@providers/*": ["providers/*"],
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"],
       "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],

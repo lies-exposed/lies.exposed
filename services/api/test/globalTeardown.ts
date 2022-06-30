@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as path from "path";
-import * as orm from "../src/providers/orm";
+import * as orm from "@liexp/shared/providers/orm";
 import { getDataSource } from "../src/utils/data-source";
 import { TestENV } from "./TestENV";
 const moduleAlias = require("module-alias");

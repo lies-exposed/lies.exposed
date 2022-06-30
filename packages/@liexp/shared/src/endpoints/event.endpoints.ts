@@ -70,7 +70,7 @@ export const PostToPlatform = Endpoint({
       date: t.string,
       content: t.string,
       media: t.string,
-      url: t.string
+      url: t.string,
     }),
   },
   Output: t.any,
@@ -174,7 +174,22 @@ export const GetSuggestions = Endpoint({
     Query: t.type({
       ...http.Query.SortQuery.props,
       status: optionFromNullable(http.EventSuggestion.EventSuggestionStatus),
-      links: optionFromNullable(t.array(UUID))
+      links: optionFromNullable(t.array(UUID)),
+    }),
+  },
+  Output: http.Common.ListOutput(
+    http.EventSuggestion.EventSuggestion,
+    "EventSuggestionListOutput"
+  ),
+});
+
+export const SearchEventsFromProvider = Endpoint({
+  Method: "POST",
+  getPath: () => `/events/suggestions-by-provider`,
+  Input: {
+    Body: t.type({
+      q: t.string,
+      providers: t.array(t.string),
     }),
   },
   Output: http.Common.ListOutput(
@@ -218,6 +233,7 @@ const events = ResourceEndpoints({
     GetFromLink,
     GetSuggestions,
     GetSuggestion,
+    SearchEventsFromProvider,
   },
 });
 

@@ -15,7 +15,7 @@ export const LinkArrayInput: React.FC<
   { source: string } & Omit<ArrayInputProps, "children">
 > = (props) => {
   return (
-    <ArrayInput source={props.source}>
+    <ArrayInput source={props.source} fullWidth>
       <SimpleFormIterator>
         <BooleanInput source="fromURL" />
         <FormDataConsumer>
@@ -31,7 +31,7 @@ export const LinkArrayInput: React.FC<
               );
             }
             return (
-              <Box>
+              <Box width="100%">
                 <ReferenceArrayLinkInput source={getSrc("ids")} />
               </Box>
             );

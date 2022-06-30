@@ -62,7 +62,6 @@ export const searchEventSuggestion =
 
     return pipe(
       ctx.db.execQuery(() => query.getManyAndCount()),
-      ctx.logger.debug.logInTaskEither(`Results %O`),
       TE.map(([data, total]) => ({ data, total }))
     );
   };

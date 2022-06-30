@@ -10,6 +10,7 @@ import { GetEventRoute } from "./getEvent.controller";
 import { GetEventFromLinkRoute } from "./getEventFromLink.controller";
 import { PostEventToPlatformRoute } from "./postEventToPlatform.controller";
 import { SearchEventRoute } from "./searchEvents.controller";
+import { SearchEventsFromProviderRoute } from './searchEventsFromProviders.controller';
 import { GetEventSuggestionRoute } from "./suggestions/getEventSuggestion.controller";
 import { GetEventSuggestionListRoute } from "./suggestions/getEventSuggestionList.controller";
 import { RouteContext } from "@routes/route.types";
@@ -17,6 +18,7 @@ import { RouteContext } from "@routes/route.types";
 export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
   // MakeCreateEventFromLinkRoute(router, ctx);
   CreateEventFromSuggestionRoute(router, ctx);
+  SearchEventsFromProviderRoute(router, ctx);
   CreateEventSuggestionRoute(router, ctx);
   CreateEventRoute(router, ctx);
   PostEventToPlatformRoute(router, ctx);
