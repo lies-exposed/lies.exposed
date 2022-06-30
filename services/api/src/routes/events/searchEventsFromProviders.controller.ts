@@ -7,7 +7,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import { LinkEntity } from "@entities/Link.entity";
-import { fetchAndCreate } from "@flows/link.flow";
+import { fetchAsLink } from "@flows/link.flow";
 import { toControllerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
@@ -22,38 +22,54 @@ export const SearchEventsFromProviderRoute = (
 ): void => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.SearchEventsFromProvider,
-    ({ body: { q, providers } }) => {
+    ({ body: { q, p, providers } }) => {
       ctx.logger.debug.log("Query %O", { q, providers });
 
       const tasks = pipe(
-        providers,
-        A.map((p) => {
-          const site = (urls as any)[p];
-          ctx.logger.debug.log("Provider %s (%s)", p, site);
-          return site;
+        ctx.puppeteer.getBrowser(`about:blank`, {
+          headless: true,
         }),
-        A.map((site) => {
-          return pipe(
-            searchWithGoogle(ctx)(site, 5, q),
-            TE.mapLeft(toControllerError),
-            TE.chain((ll) => {
+        TE.mapLeft(toControllerError),
+        TE.chain((browser) =>
+          pipe(
+            providers,
+            A.map((provider) => {
+              const site = (urls as any)[provider];
+              ctx.logger.debug.log("Provider %s (%s)", provider, site);
+              return site;
+            }),
+            A.map((site) => {
               return pipe(
-                ll.map((l) => fetchAndCreate(ctx)(l as any)),
-                A.sequence(TE.ApplicativePar)
+                searchWithGoogle(ctx, browser)(site, p, q),
+                TE.mapLeft(toControllerError),
+                TE.chain((ll) => {
+                  return pipe(
+                    ll.map((l: any) => fetchAsLink(ctx)(l)),
+                    A.sequence(TE.ApplicativePar)
+                  );
+                })
+              );
+            }),
+            A.sequence(TE.ApplicativeSeq),
+            TE.chainFirst(() => {
+              return TE.tryCatch(
+                async () => await browser.close(),
+                toControllerError
               );
             })
-          );
-        })
+          )
+        )
       );
 
       ctx.logger.debug.log("Search tasks %O", tasks);
 
       return pipe(
-        A.sequence(TE.ApplicativeSeq)(tasks),
+        tasks,
         TE.map((links) => {
+          ctx.logger.debug.log("Links found %O", links);
           return pipe(
             A.flatten(links),
-            A.uniq(Ord.contramap((p: LinkEntity) => p.id)(S.Ord)),
+            A.uniq(Ord.contramap((p: LinkEntity) => p.url)(S.Ord)),
             (data) => ({
               data,
               total: data.length,

@@ -36,10 +36,10 @@ webConfig.optimization =
         // chunkIds: "deterministic",
         minimize: true,
         minimizer: [
-          new TerserPlugin({
-            parallel: false,
-            extractComments: 'all'
-          }),
+          // new TerserPlugin({
+          //   parallel: false,
+          //   extractComments: 'all'
+          // }),
         ],
         // splitChunks: {
         //   cacheGroups: {
