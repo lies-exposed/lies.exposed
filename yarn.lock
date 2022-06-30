@@ -1651,7 +1651,7 @@ __metadata:
     react-query: ^3.39.1
     react-slick: ^0.29.0
     react-spring: ^9.4.5
-    react-toc: ^2.1.1
+    react-toc: ^3.0.0
     react-virtualized: ^9.22.3
     throttle-debounce: ^5.0.0
     topojson-client: ^3.1.0
@@ -16481,14 +16481,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-toc@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "react-toc@npm:2.1.1"
+"react-toc@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "react-toc@npm:3.0.0"
   peerDependencies:
     prop-types: ^15.5.4
     react: ^15.0.0 || ^16.0.0
     react-dom: ^15.0.0 || ^16.0.0
-  checksum: 58efa60c3a8e9539c2431f05dbe3d1428d3398664860cef10e6f9a7b9a19cfbdf1ab48bc136fb9b5013d7101350bf1aff562689afbf85e165518a291651ad046
+  checksum: 0b602d642161edbc54be8e80874b180b44a1db38634581f0106883d2a3366429ce685b64a61551c2c0a1f44064fa2e0bb2b04aad40f4a0e62e6d3b67343962fb
   languageName: node
   linkType: hard
 
@@ -19869,7 +19869,7 @@ __metadata:
     react-share: ^4.4.0
     react-slick: ^0.29.0
     react-spring: ^9.4.5
-    react-toc: ^2.1.1
+    react-toc: ^3.0.0
     slick-carousel: ^1.8.1
     throttle-debounce: ^5.0.0
     topojson-client: 3.1.0
