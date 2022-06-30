@@ -2,7 +2,11 @@ import * as path from "path";
 import * as logger from "@liexp/core/logger";
 import { MakeURLMetadata } from "@liexp/shared/providers/URLMetadata.provider";
 import { GetFFMPEGProvider } from "@liexp/shared/providers/ffmpeg.provider";
+import { GetJWTClient } from "@liexp/shared/providers/jwt/JWTClient";
+import { GetTypeORMClient } from "@liexp/shared/providers/orm";
 import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
+import { S3Client } from "@liexp/shared/providers/space";
+import { TGBotProvider } from "@liexp/shared/providers/tg/tg.provider";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as AWS from "aws-sdk";
 import axios from "axios";
@@ -18,12 +22,12 @@ import { PathReporter } from "io-ts/lib/PathReporter";
 import metadataParser from "page-metadata-parser";
 import puppeteer from "puppeteer-core";
 import { createFromTGMessage } from "@flows/event-suggestion/createFromTGMessage.flow";
-import { ControllerError, DecodeError } from "@io/ControllerError";
+import {
+  ControllerError,
+  DecodeError,
+  toControllerError,
+} from "@io/ControllerError";
 import { ENV } from "@io/ENV";
-import { GetJWTClient } from "@providers/jwt/JWTClient";
-import { GetTypeORMClient } from "@providers/orm";
-import { S3Client } from "@providers/space";
-import { TGBotProvider } from "@providers/tg/tg.provider";
 import { MakeProjectImageRoutes } from "@routes/ProjectImages/ProjectImage.routes";
 import { MakeActorRoutes } from "@routes/actors/actors.routes";
 import { MakeAreasRoutes } from "@routes/areas/Areas.routes";
@@ -64,36 +68,36 @@ export const makeContext = (
     E.mapLeft((e) => DecodeError(`Failed to decode process env`, e)),
     TE.fromEither,
     TE.chain((env) => {
+      const s3 =
+        env.NODE_ENV === "development" || env.NODE_ENV === "test"
+          ? S3Client.GetS3Client({
+              endpoint: new AWS.Endpoint(env.DEV_DATA_HOST),
+              credentials: {
+                accessKeyId: env.SPACE_ACCESS_KEY_ID,
+                secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
+              },
+              sslEnabled: false,
+              s3ForcePathStyle: true,
+              signatureVersion: "v4",
+            })
+          : S3Client.GetS3Client({
+              endpoint: new AWS.Endpoint(
+                `${env.SPACE_REGION}.digitaloceanspaces.com`
+              ),
+              region: env.SPACE_REGION,
+              credentials: {
+                accessKeyId: env.SPACE_ACCESS_KEY_ID,
+                secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
+              },
+              signatureVersion: "v4",
+            });
       return sequenceS(TE.ApplicativePar)({
         logger: TE.right(serverLogger),
-        db: GetTypeORMClient(getDataSource(env, false)),
-        s3:
-          env.NODE_ENV === "development" || env.NODE_ENV === "test"
-            ? TE.right(
-                S3Client.GetS3Client({
-                  endpoint: new AWS.Endpoint(env.DEV_DATA_HOST),
-                  credentials: {
-                    accessKeyId: env.SPACE_ACCESS_KEY_ID,
-                    secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
-                  },
-                  sslEnabled: false,
-                  s3ForcePathStyle: true,
-                  signatureVersion: "v4",
-                })
-              )
-            : TE.right(
-                S3Client.GetS3Client({
-                  endpoint: new AWS.Endpoint(
-                    `${env.SPACE_REGION}.digitaloceanspaces.com`
-                  ),
-                  region: env.SPACE_REGION,
-                  credentials: {
-                    accessKeyId: env.SPACE_ACCESS_KEY_ID,
-                    secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
-                  },
-                  signatureVersion: "v4",
-                })
-              ),
+        db: pipe(
+          GetTypeORMClient(getDataSource(env, false)),
+          TE.mapLeft(toControllerError)
+        ),
+        s3: TE.right(s3),
         jwt: TE.right(
           GetJWTClient({ secret: env.JWT_SECRET, logger: serverLogger })
         ),
@@ -208,10 +212,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
     void pipe(
       sequenceS(TE.ApplicativePar)({
         storeMsg: GetWriteJSON(ctx.logger)(
-          path.resolve(
-            process.cwd(),
-            `temp/tg/messages/${msg.message_id}.json`
-          )
+          path.resolve(process.cwd(), `temp/tg/messages/${msg.message_id}.json`)
         )(msg),
         eventSuggestion: createFromTGMessage({ ...ctx, logger: tgLogger })(
           msg,

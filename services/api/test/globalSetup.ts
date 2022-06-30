@@ -8,7 +8,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as TE from "fp-ts/lib/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as logger from "../../../packages/@liexp/core/src/logger";
-import * as orm from "../src/providers/orm";
+import * as orm from "@liexp/shared/providers/orm";
 import { getDataSource } from "../src/utils/data-source";
 import { TestENV } from "./TestENV";
 import { throwTE } from "@liexp/shared/utils/task.utils";

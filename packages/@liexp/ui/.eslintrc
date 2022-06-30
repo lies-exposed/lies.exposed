@@ -6,6 +6,7 @@
   },
   "rules": {
     "react/prop-types": ["off"],
+    "import/named": ["off"],
     "no-restricted-imports": [
       "error",
       {

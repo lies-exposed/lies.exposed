@@ -1,10 +1,10 @@
 import * as logger from "@liexp/core/logger";
-import { User } from "@liexp/shared/io/http/User";
 import * as IO from "fp-ts/lib/IO";
 import * as IOE from "fp-ts/lib/IOEither";
 import { pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import * as jwt from "jsonwebtoken";
+import { User } from "../../io/http/User";
 
 export interface JWTClient {
   signUser: (user: User) => IO.IO<string>;

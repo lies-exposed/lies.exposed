@@ -1,13 +1,29 @@
 import * as io from "@liexp/shared/io";
-import { Box, MenuItem, Select, Toolbar } from "@liexp/ui/components/mui";
+import {
+  Box,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  Toolbar,
+  FormControl,
+  FormGroup,
+} from "@liexp/ui/components/mui";
 import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
+  BooleanField,
   BooleanInput,
   Button,
   Create,
+  CreateButton,
   Datagrid,
   DateField,
   DateInput,
@@ -25,6 +41,7 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
+import { useNavigate } from "react-router";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "../components/Common/ReferenceGroupInput";
@@ -42,12 +59,87 @@ const linksFilter = [
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
 ];
 
+export const SearchLinksButton: React.FC = () => {
+  const [open, setOpen] = React.useState(false);
+  const [q, setQ] = React.useState("");
+  const [p, setP] = React.useState(1);
+
+  const handleSearch = (): void => {
+    void apiProvider.create("/events/suggestions-by-provider", {
+      data: {
+        q,
+        p,
+        providers: ["the-guardian", "reuters"],
+      },
+    });
+  };
+
+  return (
+    <Box display="flex">
+      <Button
+        label="Search"
+        onClick={() => {
+          setOpen(true);
+        }}
+      />
+      <Dialog
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
+        <DialogTitle>Search in providers</DialogTitle>
+        <DialogContent style={{ minHeight: 300 }}>
+          <FormGroup>
+            <FormControl>
+              <InputLabel htmlFor="q">Query</InputLabel>
+              <Input
+                id="q"
+                type="text"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="p">Page</InputLabel>
+              <Input
+                id="p"
+                type="number"
+                value={p}
+                onChange={(e) => setP(+e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl>
+              <Checkbox />
+            </FormControl>
+          </FormGroup>
+        </DialogContent>
+        <DialogActions>
+          <Button label="Cancel" onClick={() => setOpen(false)} />
+          <Button label="Search" onClick={() => handleSearch()} />
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
+};
+
+export const LinkListActions: React.FC = () => {
+  return (
+    <Box>
+      <CreateButton />
+      <SearchLinksButton />
+    </Box>
+  );
+};
+
 export const LinkList: React.FC = () => (
   <List
     resource={RESOURCE}
     filters={linksFilter}
     perPage={20}
     filterDefaultValues={{ _sort: "createdAt", _order: "DESC" }}
+    actions={<LinkListActions />}
   >
     <Datagrid rowClick="edit">
       <FunctionField
@@ -102,14 +194,15 @@ const UpdateMetadataButton: React.FC = () => {
 };
 const CreateEventButton: React.FC = () => {
   const record = useRecordContext();
-  const refresh = useRefresh();
+  const navigate = useNavigate();
   const [type, setType] = React.useState<string>(
     io.http.Events.EventType.types[1].value
   );
 
   if (record?.events?.legnth > 0) {
-    return null;
+    return <Box />;
   }
+
   return (
     <Box>
       <Select
@@ -131,20 +224,19 @@ const CreateEventButton: React.FC = () => {
         onClick={() => {
           void apiProvider
             .get("open-graph/metadata", { url: record.url, type: "Link" })
-            .then((m) => {
+            .then(async ({ data: { metadata: m } }) => {
               const suggestion = getSuggestions(m, O.some(record as any)).find(
                 (t) => t.event.type === type
               );
 
               const { newLinks, ...event } = suggestion.event;
-              return apiProvider
-                .create(`/events`, {
-                  data: {
-                    ...event,
-                    links: newLinks,
-                  },
-                })
-                .then(() => refresh());
+              const { data: e } = await apiProvider.create(`/events`, {
+                data: {
+                  ...event,
+                  links: newLinks,
+                },
+              });
+              return navigate(`/events/${e.id}`);
             });
         }}
       />
@@ -161,7 +253,6 @@ export const LinkEdit: React.FC = () => {
       actions={
         <Toolbar>
           <UpdateMetadataButton />
-          <CreateEventButton />
         </Toolbar>
       }
       transform={({ newEvents, ...r }) => {
@@ -184,13 +275,19 @@ export const LinkEdit: React.FC = () => {
           <ReferenceGroupInput source="provider" />
         </FormTab>
         <FormTab label="Events">
+          <CreateEventButton />
           <ReferenceArrayEventInput
             source="newEvents"
             reference="events"
             defaultValue={[]}
           />
-          <ReferenceManyField reference="events" target="links[]">
+          <ReferenceManyField
+            reference="events"
+            target="links[]"
+            filter={{ withDrafts: true }}
+          >
             <Datagrid rowClick="edit">
+              <BooleanField source="draft" />
               <FunctionField
                 render={(r: any) => {
                   switch (r.type) {

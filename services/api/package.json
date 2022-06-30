@@ -94,7 +94,6 @@
     "@io": "build/io",
     "@entities": "build/entities",
     "@flows": "build/flows",
-    "@providers": "build/providers",
     "@routes": "build/routes",
     "@utils": "build/utils",
     "@liexp/core": "../../packages/@liexp/core/lib",

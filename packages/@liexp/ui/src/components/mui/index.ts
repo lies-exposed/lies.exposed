@@ -32,6 +32,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
+import FormGroup  from '@mui/material/FormGroup';
 import Grid from "@mui/material/Grid";
 import Grow from "@mui/material/Grow";
 import Icon, { IconProps } from "@mui/material/Icon";
@@ -91,6 +92,7 @@ export {
   Button,
   ClickAwayListener,
   Grow,
+  FormGroup,
   Toolbar,
   AppBar,
   Popper,

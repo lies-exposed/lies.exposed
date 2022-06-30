@@ -1,6 +1,7 @@
 import * as http from "@liexp/shared/io/http";
 import { CreateLink } from "@liexp/shared/io/http/Link";
 import { URLMetadataClient } from "@liexp/shared/providers/URLMetadata.provider";
+import { DBError } from "@liexp/shared/providers/orm";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
@@ -13,7 +14,6 @@ import { KeywordEntity } from "@entities/Keyword.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import { ServerError } from "@io/ControllerError";
-import { DBError } from "@providers/orm";
 import { RouteContext } from "@routes/route.types";
 
 export const fetchLinksT =

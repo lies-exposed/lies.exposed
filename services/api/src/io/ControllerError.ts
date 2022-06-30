@@ -1,5 +1,5 @@
+import { DBError } from "@liexp/shared/providers/orm";
 import * as t from "io-ts";
-import { IOError } from "ts-shared/lib/errors";
 
 export const APIStatusCode = t.union(
   [
@@ -15,9 +15,7 @@ export const APIStatusCode = t.union(
 
 export type APIStatusCode = t.TypeOf<typeof APIStatusCode>;
 
-export class ControllerError extends IOError {
-  status: t.TypeOf<typeof APIStatusCode>;
-}
+export type ControllerError = DBError;
 
 export const BadRequestError = (meta: string): ControllerError => ({
   name: "BadRequestError",
@@ -83,8 +81,21 @@ export const DecodeError = (
 export const toControllerError = (e: unknown): ControllerError => {
   // eslint-disable-next-line no-console
   console.error(e);
-  if (e instanceof ControllerError) {
+  if (e instanceof DBError) {
     return e;
+  }
+
+  if (e instanceof Error) {
+    return {
+      name: e.name,
+      status: 500,
+      message: e.message,
+      details: {
+        kind: "ServerError",
+        meta: e.stack,
+        status: "Unknown Error",
+      },
+    };
   }
 
   return {

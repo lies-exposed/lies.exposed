@@ -21,7 +21,7 @@ export const run = (): Promise<void> => {
       (err) => {
         const parsedError =
           err.details.kind === "DecodingError"
-            ? failure(err.details.errors)
+            ? failure(err.details.errors as any[])
             : (err.details.meta as any[]) ?? [];
         serverLogger.error.log(
           "%s\n %O \n\n %O",

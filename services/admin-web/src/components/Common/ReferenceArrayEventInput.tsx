@@ -14,6 +14,7 @@ const ReferenceArrayEventInput: React.FC<
       <AutocompleteArrayInput
         source="id"
         filterToQuery={(title: any) => ({ title })}
+        fullWidth
         optionText={(r) => {
           switch (r.type) {
             case DEATH.value:

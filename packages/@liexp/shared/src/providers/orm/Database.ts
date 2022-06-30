@@ -6,6 +6,7 @@ import * as O from "fp-ts/lib/Option";
 import * as Reader from "fp-ts/lib/Reader";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { IOError } from 'ts-io-error';
 import {
   Connection,
   ConnectionManager,
@@ -25,9 +26,8 @@ import {
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { ControllerError } from "../../io/ControllerError";
 
-export class DBError extends ControllerError {}
+export class DBError extends IOError {}
 
 type Criteria =
   | string
