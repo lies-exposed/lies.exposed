@@ -30,7 +30,7 @@
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
     "@mui/material": "^5.8.5",
-    "aws-sdk": "^2.1164.0",
+    "aws-sdk": "^2.1165.0",
     "axios": "^0.27.2",
     "cors": "2.8.5",
     "debug": "^4.3.4",
@@ -55,7 +55,7 @@
     "ts-endpoint-express": "^2.0.0",
     "ts-jest": "^28.0.5",
     "ts-shared": "2.0.0-alpha.6",
-    "typeorm": "^0.3.6",
+    "typeorm": "^0.3.7",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -71,7 +71,7 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/module-alias": "^2.0.1",
     "@types/multer": "^1.4.7",
-    "@types/node": "^16.11.41",
+    "@types/node": "^16.11.42",
     "@types/node-cron": "^2.0.5",
     "@types/node-telegram-bot-api": "^0.57.1",
     "@types/pg": "^8.6.5",
