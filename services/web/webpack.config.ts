@@ -15,11 +15,6 @@ const AppEnv = defineEnv((t) => ({
   DEBUG: t.string,
 }));
 
-const SrvEnv = defineEnv((t) => ({
-  NODE_ENV: t.string,
-  PORT: t.string,
-}));
-
 const port =
   process.env.PORT !== undefined ? parseInt(process.env.PORT, 10) : 4000;
 
@@ -58,18 +53,6 @@ webConfig.optimization =
       }
     : {};
 
-const srvConfig = getConfig({
-  cwd: __dirname,
-  env: SrvEnv,
-  envFileDir: __dirname,
-  hot: false,
-  output: { path: path.resolve(__dirname, "build/server") },
-  entry: {
-    ssr: path.resolve(__dirname, "src/server/ssr.tsx"),
-  },
-  target: "node",
-});
-
 webConfig.plugins?.push(
   new HTMLWebpackPlugin({
     inject: "head",
@@ -77,4 +60,4 @@ webConfig.plugins?.push(
   })
 );
 
-export default [webConfig, srvConfig];
+export default webConfig;
