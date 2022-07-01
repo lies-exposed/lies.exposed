@@ -14,7 +14,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Toolbar,
+  Toolbar
 } from "@liexp/ui/components/mui";
 import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import * as O from "fp-ts/lib/Option";
@@ -41,7 +41,7 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import { useNavigate } from "react-router";
 import { MediaField } from "../components/Common/MediaField";
@@ -78,7 +78,7 @@ export const SearchLinksButton: React.FC = () => {
       })
       .then((r) => {
         setLinks(
-          (r.data as any).map((ll) => ({
+          (r.data).map((ll: any) => ({
             ...ll,
             publishDate: parseISO(ll.publishDate),
           }))
