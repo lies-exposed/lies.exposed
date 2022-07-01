@@ -21,51 +21,68 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
 
   const [metadata, setMetadata] = React.useState(undefined);
 
+  const handleSubmit = React.useCallback((url: string) => {
+    void dataProvider
+      .get("open-graph/metadata", { url, type })
+      .then((result) => {
+        setMetadata(result.data);
+      });
+  }, [value]);
+
   const handleChange: React.ChangeEventHandler<HTMLInputElement> =
     React.useCallback((e) => {
-      onChange(e);
-      const value = e.currentTarget.value;
-      if (value) {
-        void dataProvider
-          .get("open-graph/metadata", { url: value, type })
-          .then((result) => {
-            setMetadata(result.data);
-          });
-      } else onChange(e.currentTarget.value);
+      onChange(e.currentTarget.value);
     }, []);
 
   return (
     <Box width={"100%"} style={{ display: "flex" }} flexDirection="row">
-      <TextInput
-        {...props}
-        {...rest}
-        {...inputRest}
-        onChange={handleChange}
-      />
-
-      <Button disabled={value?.length < 5} onClick={() => {}}>
-        Create
-      </Button>
-      {metadata?.link ? <Box>Link found: {metadata.link.id}</Box> : null}
-      {metadata?.metadata ? (
-        <Box display="inline" marginLeft={2} flexBasis={"60%"}>
-          {Object.entries<string>(metadata.metadata).map(([k, v]) => {
-            return (
-              <Box key={k} width={"100%"}>
-                <label>{k}</label>
-                <TextField
-                  name={`metadata.${k}`}
-                  type="text"
-                  value={v}
-                  multiline={v.length > 30}
-                  contentEditable={false}
-                  fullWidth={true}
-                />
-              </Box>
-            );
-          })}
+      <Box>
+        <TextInput
+          {...props}
+          {...rest}
+          {...inputRest}
+          type="url"
+          onChange={handleChange}
+        />
+        <Box>
+          {metadata?.link ? <Box>Link found: {metadata.link.id}</Box> : null}
+          {metadata?.metadata ? (
+            <Box display="inline" marginLeft={2} flexBasis={"60%"}>
+              {Object.entries<string>(metadata.metadata).map(([k, v]) => {
+                const value = v ?? ""
+                return (
+                  <Box key={k} width={"100%"}>
+                    <label>{k}</label>
+                    <TextField
+                      name={`metadata.${k}`}
+                      type="text"
+                      value={value}
+                      multiline={value.length > 30}
+                      contentEditable={false}
+                      fullWidth={true}
+                    />
+                  </Box>
+                );
+              })}
+            </Box>
+          ) : null}
         </Box>
-      ) : null}
+      </Box>
+      <Box>
+        <Button
+          disabled={value?.length < 5}
+          onClick={() => {
+            window.open(value, "_blank");
+          }}
+        >
+          Open URL
+        </Button>
+        <Button disabled={value?.length < 5} onClick={() => {
+          handleSubmit(value);
+        }}>
+          Get Metadata
+        </Button>
+      </Box>
     </Box>
   );
 };
