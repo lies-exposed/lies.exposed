@@ -1,0 +1,1 @@
+import("../build/server/ssr");

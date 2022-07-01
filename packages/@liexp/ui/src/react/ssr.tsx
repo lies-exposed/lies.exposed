@@ -153,7 +153,11 @@ export const getServer = (
   };
 
   if (process.env.NODE_ENV === "development") {
-    app.use(webpackDevServer(webpack(webpackConfig)));
+    app.use(
+      webpackDevServer(webpack(webpackConfig), {
+        publicPath: webpackConfig.output?.publicPath,
+      })
+    );
   }
 
   routes.forEach((r) => {

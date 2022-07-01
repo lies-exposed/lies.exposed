@@ -6,8 +6,9 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "scripts": {
     "clean": "rm -rf build",
-    "watch": "DOTENV_CONFIG_PATH=.env.development webpack watch",
-    "serve": "ts-node -r dotenv/config ./src/server/ssr.tsx",
+    "watch:app": "DOTENV_CONFIG_PATH=.env.development webpack watch",
+    "watch:server": "DOTENV_CONFIG_PATH=.env.development webpack watch -c webpack.server.ts",
+    "serve": "ts-node -r dotenv/config ./bin/server.ts",
     "build": "webpack",
     "test": "jest",
     "tsc:build": "tsc -b",

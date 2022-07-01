@@ -34,15 +34,11 @@
   },
   "include": ["./src", "./typings"],
   "ts-node": {
+    "esm": true,
     "require": ["tsconfig-paths/register"],
     "transpileOnly": true,
-    "moduleTypes": {
-      "webpack.config.ts": "cjs",
-      // Globs are also supported with the same behavior as tsconfig "include"
-      "ol/*": "esm"
-    },
     "compilerOptions": {
-      "module": "esnext",
+      "module": "CommonJS",
       "moduleResolution": "node",
       "esModuleInterop": true
     }
