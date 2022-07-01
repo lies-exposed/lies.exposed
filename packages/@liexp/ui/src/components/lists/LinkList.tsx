@@ -1,17 +1,15 @@
-import { http } from "@liexp/shared/io";
-// import { formatDate } from "@liexp/shared/utils/date";
 import * as React from "react";
-import LinkCard from "../Cards/LinkCard";
+import LinkCard, { Link } from "../Cards/LinkCard";
 import {
-    Grid
+  Grid
 } from "../mui";
 
-
 interface LinksListProps {
-  links: http.Link.Link[];
+  links: Link[];
+  onItemClick: (l: Link) => void
 }
 
-export const LinksList: React.FC<LinksListProps> = ({ links }) => {
+export const LinksList: React.FC<LinksListProps> = ({ links, onItemClick }) => {
   return (
     <Grid
       container
@@ -33,7 +31,7 @@ export const LinksList: React.FC<LinksListProps> = ({ links }) => {
             display: "flex",
           }}
         >
-          <LinkCard link={l} />
+          <LinkCard link={l} onClick={onItemClick} />
         </Grid>
       ))}
     </Grid>

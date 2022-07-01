@@ -11,16 +11,20 @@ import { LinkEntity } from "@entities/Link.entity";
 import { ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
-export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Link.Create, ({ body }) => {
+export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
+  AddEndpoint(r)(Endpoints.Link.Custom.CreateMany, ({ body }) => {
     // const data = {
     //   events: body.events.map((e) => ({ id: e })),
     // };
     return pipe(
-      ctx.urlMetadata.fetchMetadata(body.url, {}, (e) => ServerError()),
-      TE.chain((m) =>
-        ctx.db.save(LinkEntity, [
-          {
+      body.map((b) =>
+        ctx.urlMetadata.fetchMetadata(b.url, {}, (e) => ServerError())
+      ),
+      A.sequence(TE.ApplicativeSeq),
+      TE.chain((meta) =>
+        ctx.db.save(
+          LinkEntity,
+          meta.map((m) => ({
             ...m,
             events: [],
             title: m.title,
@@ -35,11 +39,11 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
             url: sanitizeURL(m.url as any),
             publishDate: m.date ? parseISO(m.date) : undefined,
             keywords: [],
-          },
-        ])
+          }))
+        )
       ),
       TE.chainEitherK(A.traverse(E.Applicative)(toLinkIO)),
-      TE.map(([data]) => ({
+      TE.map((data) => ({
         body: { data },
         statusCode: 200,
       }))

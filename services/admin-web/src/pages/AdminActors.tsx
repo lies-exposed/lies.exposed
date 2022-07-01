@@ -1,5 +1,5 @@
 import { http } from "@liexp/shared/io";
-import { throwTE } from '@liexp/shared/utils/task.utils';
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
@@ -33,11 +33,12 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
-import { MediaField } from '../components/Common/MediaField';
+import { MediaField } from "../components/Common/MediaField";
+import { SearchLinksButton } from "../components/Common/SearchLinksButton";
 import { WebPreviewButton } from "../components/Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
@@ -92,8 +93,18 @@ const transformActor = async (
 };
 
 const EditTitle: React.FC = () => {
-  const record = useRecordContext()
+  const record = useRecordContext();
   return <span>Actor {record?.fullName}</span>;
+};
+
+const EditActions: React.FC = () => {
+  const record = useRecordContext();
+  return (
+    <>
+      <WebPreviewButton resource="actors" />{" "}
+      {record?.fullName ? <SearchLinksButton query={record.fullName} /> : null}
+    </>
+  );
 };
 
 export const ActorEdit: React.FC<EditProps> = (props) => {
@@ -101,11 +112,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
     <Edit
       title={<EditTitle />}
       {...props}
-      actions={
-        <>
-          <WebPreviewButton resource="actors" />
-        </>
-      }
+      actions={<EditActions />}
       transform={({ newMemberIn = [], ...a }) =>
         transformActor(a.id, {
           ...a,
@@ -120,7 +127,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
     >
       <TabbedForm>
         <FormTab label="generals">
-          <MediaField source="avatar" type='image/jpeg' />
+          <MediaField source="avatar" type="image/jpeg" />
           <ColorInput source="color" />
           <TextInput source="username" />
           <TextInput source="fullName" />
