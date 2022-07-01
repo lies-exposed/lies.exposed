@@ -16,13 +16,10 @@ import {
 import { StaticRouter } from "react-router-dom/server";
 import { HelmetProvider } from "../components/SEO";
 import { CssBaseline, ThemeProvider } from "../components/mui";
-import { ECOTheme, ECOTheme as Theme } from "../theme";
+import { ECOTheme } from "../theme";
 import createEmotionCache from "./createEmotionCache";
-
-declare module "@mui/styles/defaultTheme" {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
+import webpack from "webpack";
+import webpackDevServer from "webpack-dev-middleware";
 
 const ssrLog = GetLogger("ssr");
 
@@ -36,7 +33,8 @@ export const getServer = (
     queries: (
       params: any
     ) => Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>;
-  }>
+  }>,
+  webpackConfig: webpack.Configuration
 ): express.Express => {
   const requestHandler = (
     req: express.Request,
@@ -153,6 +151,10 @@ export const getServer = (
       }
     });
   };
+
+  if (process.env.NODE_ENV === "development") {
+    app.use(webpackDevServer(webpack(webpackConfig)));
+  }
 
   routes.forEach((r) => {
     app.get(r.path, requestHandler);

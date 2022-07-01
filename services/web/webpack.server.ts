@@ -1,14 +1,13 @@
 import path from "path";
 import {
   defineEnv,
-  getConfig
+  getConfig,
 } from "../../packages/@liexp/core/src/webpack/config";
 
 const SrvEnv = defineEnv((t) => ({
   NODE_ENV: t.string,
   PORT: t.string,
 }));
-
 
 const srvConfig = getConfig({
   cwd: __dirname,
@@ -22,5 +21,4 @@ const srvConfig = getConfig({
   target: "node",
 });
 
-
-export default  srvConfig;
+export default srvConfig;
