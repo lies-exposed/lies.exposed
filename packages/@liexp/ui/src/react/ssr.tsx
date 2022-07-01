@@ -18,8 +18,6 @@ import { HelmetProvider } from "../components/SEO";
 import { CssBaseline, ThemeProvider } from "../components/mui";
 import { ECOTheme } from "../theme";
 import createEmotionCache from "./createEmotionCache";
-import webpack from "webpack";
-import webpackDevServer from "webpack-dev-middleware";
 
 const ssrLog = GetLogger("ssr");
 
@@ -34,7 +32,7 @@ export const getServer = (
       params: any
     ) => Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>;
   }>,
-  webpackConfig: webpack.Configuration
+  // webpackConfig: webpack.Configuration
 ): express.Express => {
   const requestHandler = (
     req: express.Request,
@@ -152,13 +150,13 @@ export const getServer = (
     });
   };
 
-  if (process.env.NODE_ENV === "development") {
-    app.use(
-      webpackDevServer(webpack(webpackConfig), {
-        publicPath: webpackConfig.output?.publicPath,
-      })
-    );
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   app.use(
+  //     webpackDevServer(webpack(webpackConfig), {
+  //       publicPath: webpackConfig.output?.publicPath,
+  //     })
+  //   );
+  // }
 
   routes.forEach((r) => {
     app.get(r.path, requestHandler);

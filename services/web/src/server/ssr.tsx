@@ -3,7 +3,6 @@ import { getServer } from "@liexp/ui/react/ssr";
 import dotenv from "dotenv";
 import express from "express";
 import path from "path";
-import webpackConfig from "../../webpack.config";
 import { App } from "../client/App";
 import { routes } from "../client/routes";
 
@@ -18,8 +17,7 @@ const run = (): void => {
     express(),
     App,
     path.resolve(__dirname, "../"),
-    routes,
-    webpackConfig
+    routes
   );
 
   webSrvLog.debug.log("port", process.env.PUBLIC_URL);

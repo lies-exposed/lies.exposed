@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "build",
     "module": "esnext",
+    "moduleResolution": "node",
     "target": "es5",
     "jsx": "react",
     "noEmit": false,
@@ -32,9 +33,8 @@
       "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
     }
   },
-  "include": ["./src", "./typings"],
+  "include": ["./src", "./typings", "./webpack.*.ts"],
   "ts-node": {
-    "esm": true,
     "require": ["tsconfig-paths/register"],
     "transpileOnly": true,
     "compilerOptions": {

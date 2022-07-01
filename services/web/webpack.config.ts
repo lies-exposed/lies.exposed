@@ -2,8 +2,7 @@ import HTMLWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import TerserPlugin from "terser-webpack-plugin";
 import {
-  defineEnv,
-  getConfig
+  defineEnv
 } from "../../packages/@liexp/core/src/webpack/config";
 import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
 

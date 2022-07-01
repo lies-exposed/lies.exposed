@@ -14,10 +14,18 @@ const webEnv = dotenv.parse(
 module.exports = {
   apps: [
     {
-      name: "web-watch",
+      name: "web-app-watch",
       namespace: 'liexp',
       cwd: path.resolve(__dirname, "./services/web"),
-      script: "yarn watch",
+      script: "yarn watch:app",
+      watch: false,
+      env: webEnv,
+    },
+    {
+      name: "web-server-watch",
+      namespace: 'liexp',
+      cwd: path.resolve(__dirname, "./services/web"),
+      script: "yarn watch:server",
       watch: false,
       env: webEnv,
     },

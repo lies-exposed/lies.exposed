@@ -1,1 +1,1 @@
-import("../build/server/ssr");
+require("../build/server/ssr");
