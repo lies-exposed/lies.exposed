@@ -1,21 +1,5 @@
 import * as io from "@liexp/shared/io";
-import { parseISO } from '@liexp/shared/utils/date';
-import { LinksList as LinkEntityList } from "@liexp/ui/components/lists/LinkList";
-import {
-  Box,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  FormGroup,
-  Input,
-  InputLabel,
-  MenuItem,
-  Select,
-  Toolbar
-} from "@liexp/ui/components/mui";
+import { Box, MenuItem, Select, Toolbar } from "@liexp/ui/components/mui";
 import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
@@ -41,12 +25,13 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh
+  useRefresh,
 } from "react-admin";
 import { useNavigate } from "react-router";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "../components/Common/ReferenceGroupInput";
+import { SearchLinksButton } from "../components/Common/SearchLinksButton";
 import URLMetadataInput from "../components/Common/URLMetadataInput";
 import { apiProvider } from "@client/HTTPAPI";
 
@@ -60,83 +45,6 @@ const linksFilter = [
   </ReferenceArrayInput>,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
 ];
-
-export const SearchLinksButton: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
-  const [q, setQ] = React.useState("");
-  const [p, setP] = React.useState(1);
-  const [links, setLinks] = React.useState([]);
-
-  const handleSearch = (): void => {
-    void apiProvider
-      .create("/events/suggestions-by-provider", {
-        data: {
-          q,
-          p,
-          providers: ["the-guardian", "reuters"],
-        },
-      })
-      .then((r) => {
-        setLinks(
-          (r.data).map((ll: any) => ({
-            ...ll,
-            publishDate: parseISO(ll.publishDate),
-          }))
-        );
-      });
-  };
-
-  return (
-    <Box display="flex">
-      <Button
-        label="Search"
-        onClick={() => {
-          setOpen(true);
-        }}
-      />
-      <Dialog
-        open={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-        fullWidth
-      >
-        <DialogTitle>Search in providers</DialogTitle>
-        <DialogContent style={{ minHeight: 300 }}>
-          <FormGroup>
-            <FormControl>
-              <InputLabel htmlFor="q">Query</InputLabel>
-              <Input
-                id="q"
-                type="text"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="p">Page</InputLabel>
-              <Input
-                id="p"
-                type="number"
-                value={p}
-                onChange={(e) => setP(+e.target.value)}
-              />
-            </FormControl>
-
-            <FormControl>
-              <Checkbox />
-            </FormControl>
-          </FormGroup>
-          <LinkEntityList links={links} />
-        </DialogContent>
-        <DialogActions>
-          <Button label="Cancel" onClick={() => setOpen(false)} />
-          <Button label="Search" onClick={() => handleSearch()} />
-        </DialogActions>
-      </Dialog>
-    </Box>
-  );
-};
 
 export const LinkListActions: React.FC = () => {
   return (
@@ -206,6 +114,7 @@ const UpdateMetadataButton: React.FC = () => {
     />
   );
 };
+
 const CreateEventButton: React.FC = () => {
   const record = useRecordContext();
   const navigate = useNavigate();

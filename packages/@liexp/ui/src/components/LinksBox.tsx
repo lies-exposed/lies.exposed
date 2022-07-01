@@ -61,7 +61,7 @@ export const LinksList: React.FC<LinksListProps> = ({ links }) => {
             display: "flex",
           }}
         >
-          <LinkCard link={l} />
+          <LinkCard link={{ ...l, selected: false }} onClick={() => {}} />
         </Grid>
       ))}
     </Grid>
@@ -99,7 +99,6 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
         }),
       }}
       render={({ links: { data: links } }) => {
-
         return (
           <Accordion
             defaultExpanded={expanded}

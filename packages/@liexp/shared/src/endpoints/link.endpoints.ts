@@ -37,11 +37,20 @@ export const Get = Endpoint({
 
 export const Create = Endpoint({
   Method: "POST",
-  getPath: () => "/links",
+  getPath: () => "/link",
   Input: {
     Body: Link.CreateLink,
   },
   Output: OneLinkOutput,
+});
+
+export const CreateMany = Endpoint({
+  Method: "POST",
+  getPath: () => "/links",
+  Input: {
+    Body: t.array(Link.CreateLink),
+  },
+  Output: ManyLinkOutput,
 });
 
 export const Edit = Endpoint({
@@ -78,5 +87,7 @@ export const links = ResourceEndpoints({
   Edit,
   Create,
   Delete,
-  Custom: {},
+  Custom: {
+    CreateMany
+  },
 });

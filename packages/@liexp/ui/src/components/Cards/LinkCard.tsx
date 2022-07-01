@@ -13,19 +13,26 @@ import {
   Typography,
 } from "../mui";
 
-interface LinkCardProps {
-  link: http.Link.Link;
+export interface Link extends http.Link.Link {
+  selected: boolean;
 }
 
-const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
+interface LinkCardProps {
+  link: Link;
+  onClick: (l: Link) => void;
+}
+
+const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
   const title = link.title?.substring(0, 20).concat("...");
   return (
     <Card
+      variant={link.selected ? "outlined" : "elevation"}
       style={{
         display: "flex",
         flexDirection: "column",
         maxHeight: 300,
       }}
+      onClick={() => onClick(link)}
     >
       <CardHeader
         title={<Typography variant="subtitle1">{title}</Typography>}
@@ -56,7 +63,8 @@ const LinkCard: React.FC<LinkCardProps> = ({ link }) => {
           onClick={() => {
             window.open(link.url, "_blank");
           }}
-          size="large">
+          size="large"
+        >
           <LinkIcon />
         </IconButton>
         <IconButton aria-label="share" size="large">
