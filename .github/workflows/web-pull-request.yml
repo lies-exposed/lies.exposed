@@ -82,4 +82,5 @@ jobs:
           NODE_ENV: production
         run: |
           yarn packages:build
-          yarn web build
+          yarn web build:app
+          yarn web build:server

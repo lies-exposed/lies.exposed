@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "build",
     "module": "esnext",
+    "moduleResolution": "node",
     "target": "es5",
     "jsx": "react",
     "noEmit": false,
@@ -23,23 +24,23 @@
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    // "isolatedModules": true,
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "baseUrl": "./src",
     "paths": {
       "@containers/*": ["./client/containers/*"],
       "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
-      "@liexp/shared/*": [
-        "../../../packages/@liexp/shared/src/*"
-      ],
+      "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"],
       "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
     }
   },
-  "include": ["./src", "./typings"],
+  "include": ["./src", "./typings", "./webpack.*.ts"],
   "ts-node": {
+    "require": ["tsconfig-paths/register"],
+    "transpileOnly": true,
     "compilerOptions": {
-      "module": "CommonJS"
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "esModuleInterop": true
     }
   },
   "references": [

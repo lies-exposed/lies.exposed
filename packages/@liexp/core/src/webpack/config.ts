@@ -4,10 +4,12 @@ import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 import DotenvWebpackPlugin from "dotenv-webpack";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
+import * as S from "fp-ts/lib/string";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import ReactRefreshTypescript from "react-refresh-typescript";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -101,7 +103,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
   if (opts.target === "web" ?? opts.target === "electron-renderer") {
     const stringifiedAppEnv = pipe(
       appEnv,
-      R.reduceWithIndex(
+      R.reduceWithIndex(S.Ord)(
         {
           "process.env.BUILD_DATE": JSON.stringify(new Date().toISOString()),
           "process.env.NODE_ENV": JSON.stringify(mode),
@@ -181,7 +183,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
   //       }
   //     : {};
 
-  const config = {
+  const config: webpack.Configuration = {
     mode,
     ...devServerConf,
     target: opts.target,
@@ -208,13 +210,13 @@ const getConfig = <A extends Record<string, t.Mixed>>(
                 context: opts.cwd,
                 projectReferences: true,
                 transpileOnly: true,
-                // getCustomTransformers: () => ({
-                //   before: [
-                //     mode === 'development' &&
-                //       opts.hot &&
-                //       ReactRefreshTypescript(),
-                //   ].filter(Boolean),
-                // }),
+                getCustomTransformers: () => ({
+                  before: [
+                    mode === "development" &&
+                      opts.hot &&
+                      ReactRefreshTypescript(),
+                  ].filter(Boolean),
+                }),
               },
             },
           ],
@@ -250,7 +252,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
   };
 
   if (mode === "production") {
-    config.plugins.push(new MiniCssExtractPlugin({}));
+    config.plugins?.push(new MiniCssExtractPlugin({}));
   }
 
   // if (config.mode === "production") {

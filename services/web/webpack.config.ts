@@ -2,8 +2,7 @@ import HTMLWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 import TerserPlugin from "terser-webpack-plugin";
 import {
-  defineEnv,
-  getConfig
+  defineEnv
 } from "../../packages/@liexp/core/src/webpack/config";
 import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
 
@@ -13,11 +12,6 @@ const AppEnv = defineEnv((t) => ({
   API_URL: t.string,
   ADMIN_URL: t.string,
   DEBUG: t.string,
-}));
-
-const SrvEnv = defineEnv((t) => ({
-  NODE_ENV: t.string,
-  PORT: t.string,
 }));
 
 const port =
@@ -58,18 +52,6 @@ webConfig.optimization =
       }
     : {};
 
-const srvConfig = getConfig({
-  cwd: __dirname,
-  env: SrvEnv,
-  envFileDir: __dirname,
-  hot: false,
-  output: { path: path.resolve(__dirname, "build/server") },
-  entry: {
-    ssr: path.resolve(__dirname, "src/server/ssr.tsx"),
-  },
-  target: "node",
-});
-
 webConfig.plugins?.push(
   new HTMLWebpackPlugin({
     inject: "head",
@@ -77,4 +59,4 @@ webConfig.plugins?.push(
   })
 );
 
-export default [webConfig, srvConfig];
+export default webConfig;
