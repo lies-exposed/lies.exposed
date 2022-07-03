@@ -2,7 +2,7 @@ import * as fs from "fs";
 import path from "path";
 import { URL } from "@liexp/shared/io/http/Common";
 import { MediaType } from "@liexp/shared/io/http/Media";
-import { uuid } from '@liexp/shared/utils/uuid';
+import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
@@ -18,7 +18,7 @@ import { MediaEntity } from "@entities/Media.entity";
 import {
   ControllerError,
   ServerError,
-  toControllerError
+  toControllerError,
 } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
@@ -203,7 +203,14 @@ export const createFromTGMessage =
       ),
       TE.right,
       TE.chain((pp) => parsePhoto(ctx)(message.caption ?? "", pp.unique)),
-      TE.chain((mm) => createEventSuggestionFromMedia(ctx)(mm, []))
+      TE.chain((mm) =>
+        mm.length > 0
+          ? pipe(
+              createEventSuggestionFromMedia(ctx)(mm, []),
+              TE.map((es) => [es])
+            )
+          : TE.right([])
+      )
     );
 
     const byVideoTask = O.isSome(video)
@@ -222,7 +229,7 @@ export const createFromTGMessage =
           O.map((u) => [u]),
           O.getOrElse((): EventResult => [])
         );
-        return [...byURLEvs, byPhoto];
+        return [...byURLEvs, ...byPhoto];
       }),
       TE.mapLeft((e) => {
         ctx.logger.error.log("Error %O", e);
