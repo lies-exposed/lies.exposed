@@ -68,6 +68,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     margin: 0,
     color: theme.palette.common.white,
     fontWeight: theme.typography.fontWeightBold as any,
+    cursor: 'pointer'
   },
 
   [`& .${classes.titleLink}`]: {

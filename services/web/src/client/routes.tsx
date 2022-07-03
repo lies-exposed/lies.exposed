@@ -154,6 +154,23 @@ export const routes = [
         ],
         queryFn: fetchLinks,
       },
+      {
+        queryKey: [
+          "areas",
+          {
+            sort: {
+              field: "createdAt",
+              order: "DESC",
+            },
+            pagination: {
+              perPage: 1,
+              page: 1,
+            },
+            filter: { events: [eventId] },
+          },
+        ],
+        queryFn: fetchAreas,
+      },
     ],
   },
   {
