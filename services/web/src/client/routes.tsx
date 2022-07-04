@@ -99,7 +99,24 @@ export const routes = [
   {
     path: "/groups",
     route: (props: any) => <GroupsPage />,
-    queries: async () => [...commonQueries],
+    queries: async () => [
+      ...commonQueries,
+      {
+        queryKey: getPageContentByPathQueryKey("groups"),
+        queryFn: fetchPageContentByPath,
+      },
+      {
+        queryKey: getGroupsQueryKey(
+          {
+            pagination: { page: 1, perPage: 20 },
+            sort: { field: "id", order: "ASC" },
+            filter: {},
+          },
+          false
+        ),
+        queryFn: fetchGroups,
+      },
+    ],
   },
   // actors page
   {
