@@ -134,7 +134,24 @@ export const routes = [
   {
     path: "/actors",
     route: (props: any) => <ActorsPage />,
-    queries: async () => [...commonQueries],
+    queries: async () => [
+      ...commonQueries,
+      {
+        queryKey: getPageContentByPathQueryKey("actors"),
+        queryFn: fetchPageContentByPath,
+      },
+      {
+        queryKey: getActorsQueryKey(
+          {
+            pagination: { page: 1, perPage: 20 },
+            sort: { field: "id", order: "ASC" },
+            filter: {},
+          },
+          false
+        ),
+        queryFn: fetchActors,
+      },
+    ],
   },
   // event page
   {
