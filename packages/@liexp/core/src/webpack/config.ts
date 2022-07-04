@@ -127,9 +127,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       stringifiedAppEnv
     );
 
-    plugins.push(
-      new webpack.DefinePlugin(stringifiedAppEnv)
-    );
+    plugins.push(new webpack.DefinePlugin(stringifiedAppEnv));
     plugins.push(
       new DotenvWebpackPlugin({
         path: DOTENV_CONFIG_PATH,
@@ -189,7 +187,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
               loader: "ts-loader",
               options: {
                 context: opts.cwd,
-                projectReferences: true,
+                projectReferences: mode === "development",
                 transpileOnly: true,
                 getCustomTransformers: () => ({
                   before: [

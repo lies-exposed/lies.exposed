@@ -1,5 +1,6 @@
-import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import path from "path";
+import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
 import { defineEnv } from "../../packages/@liexp/core/src/webpack/config";
 import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
 
@@ -26,6 +27,29 @@ const webConfig = getWebConfig({
     app: path.resolve(__dirname, "src/client/index.tsx"),
   },
 });
+
+webConfig.optimization =
+  webConfig.mode === "production"
+    ? {
+        chunkIds: "deterministic",
+        minimize: true,
+        minimizer: [
+          new TerserPlugin({
+            parallel: false,
+            extractComments: 'all'
+          }),
+        ],
+        splitChunks: {
+          cacheGroups: {
+            liexp: {
+              name: "liexp",
+              test: /[\\/]@liexp[\\/]/,
+              chunks: "all",
+            },
+          },
+        },
+      }
+    : {};
 
 webConfig.plugins?.push(
   new HtmlReplaceWebpackPlugin([
