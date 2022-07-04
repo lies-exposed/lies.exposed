@@ -80,11 +80,14 @@ export const routes = [
         queryFn: fetchGroup,
       },
       {
-        queryKey: getGroupsMembersQueryKey({
-          filter: {
-            group: groupId,
+        queryKey: getGroupsMembersQueryKey(
+          {
+            filter: {
+              group: groupId,
+            },
           },
-        }, false),
+          false
+        ),
         queryFn: fetchGroupsMembers,
       },
       {
@@ -390,14 +393,13 @@ export const routes = [
     queries: async () => [
       ...commonQueries,
       {
-        queryKey: [
-          "actors",
-          {
-            filter: null,
-            pagination: { perPage: 20, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-          },
-        ],
+        queryKey: getPageContentByPathQueryKey("areas"),
+        queryFn: fetchPageContentByPath,
+      },
+      {
+        queryKey: getAreaQueryKey({
+          filter: null,
+        }),
         queryFn: fetchAreas,
       },
     ],
