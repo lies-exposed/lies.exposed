@@ -1,12 +1,12 @@
 import { AutocompleteActorInput } from "@liexp/ui/components/Input/AutocompleteActorInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 
 const ActorsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
