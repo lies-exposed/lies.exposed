@@ -160,6 +160,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     groupsMembers: query.groupsMembers ?? [],
     keywords: query.keywords ?? [],
     media: query.media ?? [],
+    locations: query.locations ?? [],
     tab,
     type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
     title: query.title,
@@ -198,17 +199,14 @@ const EventsPage: React.FC<EventsPageProps> = () => {
         queries={{
           filterActors: useActorsDiscreteQuery({
             pagination: { page: 1, perPage: params.actors.length },
-            sort: { field: "updatedAt", order: "DESC" },
             filter: params.actors.length > 0 ? { ids: params.actors } : {},
           }),
           filterGroups: useGroupsDiscreteQuery({
             pagination: { page: 1, perPage: params.groups.length },
-            sort: { field: "updatedAt", order: "DESC" },
             filter: params.groups.length > 0 ? { ids: params.groups } : {},
           }),
           filterGroupsMembers: useGroupsMembersDiscreteQuery({
             pagination: { page: 1, perPage: params.groupsMembers.length },
-            sort: { field: "updatedAt", order: "DESC" },
             filter:
               params.groupsMembers.length > 0
                 ? { ids: params.groupsMembers }

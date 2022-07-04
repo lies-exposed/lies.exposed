@@ -1,15 +1,44 @@
+import { getRelationIds } from "@liexp/shared/helpers/event";
+import { EventType } from "@liexp/shared/io/http/Events";
 import {
+  discreteFetchGroupsDiscrete,
+  discreteFetchGroupsMembers,
+  discreteFetchKeywords,
   fetchActor,
+  fetchActors,
+  fetchActorsDiscreteQuery,
   fetchArea,
   fetchAreas,
   fetchEvent,
+  fetchEvents,
   fetchGroup,
   fetchGroups,
   fetchGroupsMembers,
+  fetchKeywords,
+  fetchKeywordsDistribution,
   fetchLinks,
   fetchMedia,
+  fetchPageContentByPath,
+  getActorQueryKey,
+  getActorsQueryKey,
+  getAreaQueryKey,
+  getEventsQueryKey,
+  getGroupsMembersQueryKey,
+  getGroupsQueryKey,
+  getKeywordsDistributionQueryKey,
+  getKeywordsQueryKey,
+  getLinkQueryKey,
+  getMediaQueryKey,
+  getPageContentByPathQueryKey,
 } from "@liexp/ui/state/queries/DiscreteQueries";
+import {
+  fetchSearchEvents,
+  fetchSearchEventsInfinite,
+  getSearchEventsInfiniteQueryKey,
+  getSearchEventsQueryKey,
+} from "@liexp/ui/state/queries/SearchEventsQuery";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
+import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
@@ -24,6 +53,7 @@ import AreaTemplate from "./templates/AreaTemplate";
 import EventTemplate from "./templates/EventTemplate";
 import GroupTemplate from "./templates/GroupTemplate";
 import KeywordTemplate from "./templates/KeywordTemplate";
+import { hashToQuery } from "./utils/history.utils";
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
@@ -33,6 +63,7 @@ const githubQuery = {
 const commonQueries = [githubQuery];
 
 export const routes = [
+  // group page
   {
     path: "/groups/:groupId",
     route: () => {
@@ -42,35 +73,57 @@ export const routes = [
       }
       return <NotFoundPage />;
     },
-    queries: ({ groupId }: any) => [
+    queries: async ({ groupId }: any) => [
       ...commonQueries,
       {
         queryKey: ["groups", { id: groupId }],
         queryFn: fetchGroup,
       },
       {
-        queryKey: [
-          "groups-members",
+        queryKey: getGroupsMembersQueryKey(
           {
-            pagination: {
-              page: 1,
-              perPage: 20,
-            },
-            sort: { field: "id", order: "DESC" },
             filter: {
               group: groupId,
             },
           },
-        ],
+          false
+        ),
         queryFn: fetchGroupsMembers,
+      },
+      {
+        queryKey: getEventsQueryKey({
+          filter: {
+            groups: [groupId],
+          },
+        }),
+        queryFn: fetchEvents,
       },
     ],
   },
+  // groups
   {
     path: "/groups",
     route: (props: any) => <GroupsPage />,
-    queries: () => [...commonQueries],
+    queries: async () => [
+      ...commonQueries,
+      {
+        queryKey: getPageContentByPathQueryKey("groups"),
+        queryFn: fetchPageContentByPath,
+      },
+      {
+        queryKey: getGroupsQueryKey(
+          {
+            pagination: { page: 1, perPage: 20 },
+            sort: { field: "id", order: "ASC" },
+            filter: {},
+          },
+          false
+        ),
+        queryFn: fetchGroups,
+      },
+    ],
   },
+  // actors page
   {
     path: "/actors/:actorId",
     route: () => {
@@ -80,30 +133,49 @@ export const routes = [
       }
       return <NotFoundPage />;
     },
-    queries: ({ actorId }: { actorId: string }) => [
+    queries: async ({ actorId }: { actorId: string }) => [
       ...commonQueries,
       {
-        queryKey: ["actors", { id: actorId }],
+        queryKey: getActorQueryKey({ id: actorId }),
         queryFn: fetchActor,
       },
       {
-        queryKey: [
-          "groups",
+        queryKey: getGroupsQueryKey(
           {
             pagination: { perPage: 20, page: 1 },
             sort: { field: "createdAt", order: "DESC" },
             filter: { members: [actorId] },
           },
-        ],
+          false
+        ),
         queryFn: fetchGroups,
       },
     ],
   },
+  // actors
   {
     path: "/actors",
     route: (props: any) => <ActorsPage />,
-    queries: () => [...commonQueries],
+    queries: async () => [
+      ...commonQueries,
+      {
+        queryKey: getPageContentByPathQueryKey("actors"),
+        queryFn: fetchPageContentByPath,
+      },
+      {
+        queryKey: getActorsQueryKey(
+          {
+            pagination: { page: 1, perPage: 20 },
+            sort: { field: "id", order: "ASC" },
+            filter: {},
+          },
+          false
+        ),
+        queryFn: fetchActors,
+      },
+    ],
   },
+  // event page
   {
     path: "/events/:eventId",
     route: () => {
@@ -114,69 +186,173 @@ export const routes = [
 
       return <NotFoundPage />;
     },
-    queries: ({ eventId }: any) => [
-      ...commonQueries,
-      {
-        queryKey: ["event", { id: eventId }],
-        queryFn: fetchEvent,
-      },
-      {
-        queryKey: [
-          "media",
-          {
-            sort: {
-              field: "createdAt",
-              order: "DESC",
+    queries: async ({ eventId }: any) => {
+      const eventQueryKey = ["event", { id: eventId }];
+      const event = await fetchEvent({ queryKey: eventQueryKey });
+
+      const { actors, groups, keywords, media } = getRelationIds(event);
+
+      return [
+        ...commonQueries,
+        {
+          queryKey: ["event", { id: eventId }],
+          queryFn: () => Promise.resolve(event),
+        },
+        {
+          queryKey: getActorsQueryKey(
+            {
+              filter: {
+                ids: actors,
+              },
+              pagination: {
+                perPage: actors.length,
+                page: 1,
+              },
             },
+            true
+          ),
+          queryFn: fetchActors,
+        },
+
+        {
+          queryKey: getMediaQueryKey({
+            pagination: {
+              perPage: media.length,
+              page: 1,
+            },
+            filter: { ids: media },
+          }),
+          queryFn: fetchMedia,
+        },
+        {
+          queryKey: getLinkQueryKey({
+            pagination: {
+              perPage: event.links.length,
+              page: 1,
+            },
+            filter: event.links.length > 0 ? { ids: event.links } : {},
+          }),
+          queryFn: fetchLinks,
+        },
+        {
+          queryKey: getAreaQueryKey({
+            filter: UUID.is((event.payload as any).location)
+              ? { ids: [(event.payload as any).location] }
+              : {},
             pagination: {
               perPage: 1,
               page: 1,
             },
-            filter: { events: [eventId] },
-          },
-        ],
-        queryFn: fetchMedia,
-      },
-      {
-        queryKey: [
-          "links",
-          {
-            sort: {
-              field: "createdAt",
-              order: "DESC",
-            },
-            pagination: {
-              perPage: 1,
-              page: 1,
-            },
-            filter: { events: [eventId] },
-          },
-        ],
-        queryFn: fetchLinks,
-      },
-      {
-        queryKey: [
-          "areas",
-          {
-            sort: {
-              field: "createdAt",
-              order: "DESC",
-            },
-            pagination: {
-              perPage: 1,
-              page: 1,
-            },
-            filter: { events: [eventId] },
-          },
-        ],
-        queryFn: fetchAreas,
-      },
-    ],
+          }),
+          queryFn: fetchAreas,
+        },
+        {
+          queryKey: getKeywordsQueryKey({
+            pagination: { page: 1, perPage: 10 },
+            filter:
+              keywords.length > 0
+                ? {
+                    ids: keywords,
+                  }
+                : {},
+          }),
+          queryFn: fetchKeywords,
+        },
+        {
+          queryKey: getSearchEventsQueryKey({
+            keywords: keywords,
+            exclude: [event.id],
+            _start: 0,
+            _end: 3,
+          }),
+          queryFn: fetchSearchEvents,
+        },
+        {
+          queryKey: getSearchEventsQueryKey({
+            actors: actors,
+            exclude: [event.id],
+            _start: 0,
+            _end: 3,
+          }),
+          queryFn: fetchSearchEvents,
+        },
+        {
+          queryKey: getSearchEventsQueryKey({
+            groups: groups,
+            _start: 0,
+            _end: 3,
+            exclude: [event.id],
+          }),
+          queryFn: fetchSearchEvents,
+        },
+      ];
+    },
   },
+  // events
   {
     path: "/events",
     route: () => <EventsPage />,
-    queries: () => [...commonQueries],
+    queries: async (params: any, query: any) => {
+      const q = hashToQuery(query.hash);
+
+      q.startDate = query.startDate;
+      q.endDate = query.endDate;
+      q.media = query.media ?? [];
+      q.locations = query.locations ?? [];
+      q._sort = q._sort ?? "date";
+      q.type = q.type ?? EventType.types.map((t) => t.value);
+      q.keywords = q.keywords ?? [];
+      q.actors = q.actors ?? [];
+      q.groups = q.groups ?? [];
+      q.groupsMembers = q.groupsMembers ?? [];
+
+      return [
+        ...commonQueries,
+        {
+          queryKey: getActorsQueryKey(
+            {
+              pagination: { page: 1, perPage: q.actors.length },
+              filter: q.actors.length > 0 ? { ids: q.actors } : {},
+            },
+            true
+          ),
+          queryFn: fetchActorsDiscreteQuery,
+        },
+        {
+          queryKey: getGroupsQueryKey(
+            {
+              pagination: { page: 1, perPage: q.groups.length },
+              filter: q.groups.length > 0 ? { ids: q.groups } : {},
+            },
+            true
+          ),
+          queryFn: discreteFetchGroupsDiscrete,
+        },
+        {
+          queryKey: getGroupsMembersQueryKey(
+            {
+              pagination: { page: 1, perPage: q.groupsMembers.length },
+              filter:
+                q.groupsMembers.length > 0 ? { ids: q.groupsMembers } : {},
+            },
+            true
+          ),
+          queryFn: discreteFetchGroupsMembers,
+        },
+        {
+          queryKey: getKeywordsQueryKey({
+            pagination: { page: 1, perPage: q.keywords.length },
+            sort: { field: "updatedAt", order: "DESC" },
+            filter: q.keywords.length > 0 ? { ids: q.keywords } : {},
+          }),
+          queryFn: discreteFetchKeywords,
+        },
+        {
+          queryKey: getSearchEventsInfiniteQueryKey(q),
+          queryFn: fetchSearchEventsInfinite,
+        },
+      ];
+    },
   },
   {
     path: "/keywords/:keywordId",
@@ -187,12 +363,12 @@ export const routes = [
       }
       return <NotFoundPage />;
     },
-    queries: () => [...commonQueries],
+    queries: async () => [...commonQueries],
   },
   {
     path: "/keywords",
     route: () => <KeywordsPage />,
-    queries: () => [...commonQueries],
+    queries: async () => [...commonQueries],
   },
   {
     path: "/areas/:areaId",
@@ -203,7 +379,7 @@ export const routes = [
       }
       return <NotFoundPage />;
     },
-    queries: ({ areaId }: any) => [
+    queries: async ({ areaId }: any) => [
       ...commonQueries,
       {
         queryKey: ["areas", { id: areaId }],
@@ -214,17 +390,16 @@ export const routes = [
   {
     path: "/areas",
     route: () => <AreasPage />,
-    queries: () => [
+    queries: async () => [
       ...commonQueries,
       {
-        queryKey: [
-          "actors",
-          {
-            filter: null,
-            pagination: { perPage: 20, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-          },
-        ],
+        queryKey: getPageContentByPathQueryKey("areas"),
+        queryFn: fetchPageContentByPath,
+      },
+      {
+        queryKey: getAreaQueryKey({
+          filter: null,
+        }),
         queryFn: fetchAreas,
       },
     ],
@@ -232,6 +407,19 @@ export const routes = [
   {
     path: "/",
     route: () => <IndexPage />,
-    queries: () => [...commonQueries],
+    queries: async () => [
+      ...commonQueries,
+      {
+        queryKey: getPageContentByPathQueryKey("index"),
+        queryFn: fetchPageContentByPath,
+      },
+      {
+        queryKey: getKeywordsDistributionQueryKey({
+          _start: 0,
+          _end: 50,
+        }),
+        queryFn: fetchKeywordsDistribution,
+      },
+    ],
   },
 ];

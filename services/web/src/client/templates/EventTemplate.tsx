@@ -76,7 +76,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                     query={{
                       actors: relationIds.actors,
                       _start: 0,
-                      _end: 5,
+                      _end: 3,
                       exclude: [event.id],
                     }}
                   />

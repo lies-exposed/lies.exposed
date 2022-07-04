@@ -1,5 +1,5 @@
 import { Media } from "@liexp/shared/io/http";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 

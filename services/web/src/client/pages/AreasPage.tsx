@@ -18,8 +18,6 @@ const AreasPage: React.FC<RouteComponentProps> = ({ ...props }) => {
       queries={{
         areas: useAreasQuery({
           filter: null,
-          pagination: { perPage: 10, page: 1 },
-          sort: { field: "createdAt", order: "DESC" },
         }),
       }}
       render={({ areas: { data: areas } }) => {

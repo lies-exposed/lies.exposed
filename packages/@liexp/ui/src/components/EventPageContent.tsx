@@ -68,10 +68,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             perPage: actors.length,
             page: 1,
           },
-          sort: {
-            field: "fullName",
-            order: "DESC",
-          },
         }),
         media: useMediaQuery({
           filter: { ids: media },
@@ -91,10 +87,6 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
           pagination: {
             perPage: 1,
             page: 1,
-          },
-          sort: {
-            field: "createdAt",
-            order: "DESC",
           },
         }),
       }}

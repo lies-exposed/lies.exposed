@@ -40,7 +40,7 @@ import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import SearchIcon from "@mui/icons-material/Search";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import * as React from "react";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
 import { EventsQueryParams } from "@containers/EventsPanel";

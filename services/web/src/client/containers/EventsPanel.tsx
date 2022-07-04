@@ -5,7 +5,7 @@ import { Box, Grid } from "@liexp/ui/components/mui";
 import useWindowsDimensions from "@liexp/ui/hooks/useWindowsDimensions";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
 import { styled } from "@liexp/ui/theme";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import AddEventModal from "../components/events/AddEventModal";

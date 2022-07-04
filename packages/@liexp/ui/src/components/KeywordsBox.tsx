@@ -19,7 +19,6 @@ export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids, onItemClick }) =
       queries={{
         keywords: useKeywordsQuery({
           pagination: { page: 1, perPage: 10 },
-          sort: { field: "createdAt", order: "DESC" },
           filter: {
             ids,
           },
