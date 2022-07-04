@@ -64,7 +64,7 @@ export const fetchEvents = async ({
 };
 
 export const useEventsQuery = (
-  params: GetListParams
+  params: Partial<GetListParams>
 ): UseQueryResult<{ data: Events.Event[]; total: number }, APIError> => {
   return useQuery(getEventsQueryKey(params), fetchEvents);
 };
@@ -228,7 +228,7 @@ export const fetchGroupsMembers = async ({
 };
 
 export const useGroupMembersQuery = (
-  params: GetListParams
+  params: Partial<GetListParams>
 ): UseQueryResult<
   { data: GroupMember.GroupMember[]; total: number },
   APIError

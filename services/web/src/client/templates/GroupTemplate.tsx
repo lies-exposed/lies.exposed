@@ -24,21 +24,11 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
       queries={{
         group: useGroupQuery({ id: groupId }),
         groupsMembers: useGroupMembersQuery({
-          pagination: {
-            page: 1,
-            perPage: 20,
-          },
-          sort: { field: "id", order: "DESC" },
           filter: {
             group: groupId,
           },
         }),
         events: useEventsQuery({
-          pagination: {
-            page: 1,
-            perPage: 20,
-          },
-          sort: { field: "id", order: "DESC" },
           filter: {
             groups: [groupId],
           },
@@ -79,6 +69,7 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
                 groupsMembers: group.members,
                 keywords: [],
                 actors: [],
+                locations: [],
                 tab: tab,
                 startDate: subYears(new Date(), 1).toDateString(),
                 endDate: new Date().toDateString(),
