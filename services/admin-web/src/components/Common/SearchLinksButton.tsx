@@ -68,7 +68,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
 
   const handleCreate = React.useCallback((): void => {
     void apiProvider
-      .create("/links", {
+      .create("/links/many", {
         data: selectedLinks,
       })
       .then(() => {

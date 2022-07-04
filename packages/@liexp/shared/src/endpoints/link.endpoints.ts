@@ -37,7 +37,7 @@ export const Get = Endpoint({
 
 export const Create = Endpoint({
   Method: "POST",
-  getPath: () => "/link",
+  getPath: () => "/links",
   Input: {
     Body: Link.CreateLink,
   },
@@ -46,7 +46,7 @@ export const Create = Endpoint({
 
 export const CreateMany = Endpoint({
   Method: "POST",
-  getPath: () => "/links",
+  getPath: () => "/links/many",
   Input: {
     Body: t.array(Link.CreateLink),
   },
