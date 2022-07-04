@@ -29,9 +29,10 @@ export const getServer = (
     path: string;
     route: React.FC;
     queries: (
-      params: any
-    ) => Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>;
-  }>,
+      params: any,
+      query: any
+    ) => Promise<Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>>;
+  }>
   // webpackConfig: webpack.Configuration
 ): express.Express => {
   const requestHandler = (
@@ -65,36 +66,42 @@ export const getServer = (
           },
         });
 
-        const routeQueries = routes
-          .filter((r) => r.path === req.route.path)
-          .flatMap((r) => r.queries(req.params));
-
         void Promise.all(
-          routeQueries.map((r) => {
-            // console.log('route queries', r);
-            return queryClient.fetchQuery(r.queryKey, r.queryFn);
-          })
+          routes
+            .filter((r) => r.path === req.route.path)
+            .map((r) => r.queries(req.params, req.query))
         )
+          .then((queries) => {
+            const routeQueries = queries.flatMap(r => r);
+            // eslint-disable-next-line no-console
+            console.log('route queries', routeQueries);
+
+            return Promise.all(
+              routeQueries.map((r) => {
+                return queryClient.prefetchQuery(r.queryKey, r.queryFn);
+              })
+            );
+          })
           .then(() => {
             const dehydratedState = dehydrate(queryClient);
 
             // const sheets = new ServerStyleSheets();
 
             const html = ReactDOMServer.renderToString(
-              <HelmetProvider context={helmetContext}>
-                <QueryClientProvider client={queryClient}>
-                  <Hydrate state={dehydratedState}>
-                    <CacheProvider value={cache}>
-                      <ThemeProvider theme={ECOTheme}>
-                        <CssBaseline />
-                        <StaticRouter location={req.url}>
+              <StaticRouter location={req.url}>
+                <HelmetProvider context={helmetContext}>
+                  <QueryClientProvider client={queryClient}>
+                    <Hydrate state={dehydratedState}>
+                      <CacheProvider value={cache}>
+                        <ThemeProvider theme={ECOTheme}>
+                          <CssBaseline />
                           <App />
-                        </StaticRouter>
-                      </ThemeProvider>
-                    </CacheProvider>
-                  </Hydrate>
-                </QueryClientProvider>
-              </HelmetProvider>
+                        </ThemeProvider>
+                      </CacheProvider>
+                    </Hydrate>
+                  </QueryClientProvider>
+                </HelmetProvider>
+              </StaticRouter>
             );
 
             // Grab the CSS from emotion
@@ -111,7 +118,7 @@ export const getServer = (
               const fontawesomeCss = dom.css();
               const head = `
             ${h.title.toString()}
-            ${h.meta.toString()}
+            ${h.meta.toString().replace("/>", "/>\n")}
             ${h.script.toString()}
           `;
 

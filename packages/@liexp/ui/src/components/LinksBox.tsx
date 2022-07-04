@@ -90,7 +90,6 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
       queries={{
         links: useLinksQuery({
           pagination: { page: 1, perPage: ids.length },
-          sort: { field: "createdAt", order: "DESC" },
           filter: expanded
             ? {
                 ids,

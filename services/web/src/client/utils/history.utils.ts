@@ -2,7 +2,12 @@ import { Buffer } from "buffer";
 import { pipe } from "fp-ts/lib/function";
 import qs from "query-string";
 import React from "react";
-import { NavigateFunction, useLocation, useNavigate, Location } from "react-router";
+import {
+  NavigateFunction,
+  useLocation,
+  useNavigate,
+  Location,
+} from "react-router";
 
 const toBase64 = (data: string): string => {
   return Buffer.from(data).toString("base64");
@@ -13,7 +18,7 @@ const fromBase64 = (hash: string): string => {
 };
 
 const parseQuery = (s: string): qs.ParsedQuery =>
-  qs.parse(s.replace("?", ""), { arrayFormat: "bracket", });
+  qs.parse(s.replace("?", ""), { arrayFormat: "bracket" });
 
 export const stringifyQuery = (search: {
   [key: string]: string | string[];
@@ -32,20 +37,15 @@ export const queryToHash = (q: any): string => {
   return toBase64(toBase64(JSON.stringify(q)));
 };
 
-export const hashToQuery = (h: string): any => {
-  return fromBase64(fromBase64(h));
+export const hashToQuery = (h: string | undefined): any => {
+  return pipe(
+    h !== undefined && h !== "" ? fromBase64(fromBase64(h)) : "{}",
+    JSON.parse
+  );
 };
 
 export function useQueryFromHash(hash: string): any {
-
-  return React.useMemo(
-    () =>
-      pipe(
-        hash !== undefined && hash !== "" ? hashToQuery(hash) : "{}",
-        JSON.parse
-      ),
-    [hash]
-  );
+  return React.useMemo(() => hashToQuery(hash), [hash]);
 }
 
 interface HistoryWithNavigateTo extends Location {

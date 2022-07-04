@@ -538,33 +538,49 @@ const searchEventsQ =
     );
   };
 
+export const getSearchEventsQueryKey = (p: any): [string, string, any] => {
+  return ["events", "search", { _start: 0, _end: 20, ...p }];
+};
+
+export const fetchSearchEvents = async ({
+  queryKey,
+}: any): Promise<SearchEventQueryResult> => {
+  const params = queryKey[1];
+  return await pipe(searchEventsQ(api.Event.List)(params), foldTE);
+};
 export const searchEventsQuery = (
   input: any
 ): UseQueryResult<SearchEventQueryResult, APIError> => {
-  return useQuery(
-    ["events", "search", input],
-    async () => {
-      return await pipe(searchEventsQ(api.Event.List)(input), foldTE);
-    },
-    { refetchOnWindowFocus: false, optimisticResults: false }
+  return useQuery(getSearchEventsQueryKey(input), fetchSearchEvents, {
+    refetchOnWindowFocus: false,
+    optimisticResults: false,
+  });
+};
+
+export const getSearchEventsInfiniteQueryKey = (
+  input: any
+): [string, SearchEventQueryInput] => {
+  return ["events-search-infinite", input];
+};
+
+export const fetchSearchEventsInfinite = async ({ queryKey, pageParam }: any): Promise<SearchEventQueryResult> => {
+  const params = queryKey[1];
+  return await pipe(
+    searchEventsQ(api.Event.List)({
+      ...params,
+      _start: pageParam?.startIndex ?? 0,
+      _end: pageParam?.stopIndex ?? 20,
+    }),
+    foldTE
   );
 };
 
 export const searchEventsInfiniteQuery = (
-  input: any
+  input: Partial<SearchEventQueryInput>
 ): UseInfiniteQueryResult<SearchEventQueryResult, APIError> => {
   return useInfiniteQuery(
-    ["events-search-infinite", input],
-    async (params) => {
-      return await pipe(
-        searchEventsQ(api.Event.List)({
-          ...params.queryKey[1],
-          _start: params.pageParam?.startIndex ?? 0,
-          _end: params.pageParam?.stopIndex ?? 20,
-        }),
-        foldTE
-      );
-    },
+    getSearchEventsInfiniteQueryKey(input),
+    fetchSearchEventsInfinite,
     {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
