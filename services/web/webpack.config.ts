@@ -1,6 +1,5 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
 import path from "path";
-import TerserPlugin from "terser-webpack-plugin";
 import {
   defineEnv
 } from "../../packages/@liexp/core/src/webpack/config";
