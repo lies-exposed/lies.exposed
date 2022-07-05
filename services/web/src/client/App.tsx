@@ -9,6 +9,7 @@ import { Route, Routes, useLocation } from "react-router";
 import AppHeader from "./components/header/AppHeader";
 import { routes } from "./routes";
 
+
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
   console.log(error);
@@ -23,7 +24,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
 export const App: React.FC = () => {
   const location = useLocation();
   const theme = useTheme();
-  const isDownSM = useMediaQuery(theme.breakpoints.down("md"));
+  const isDownSM = useMediaQuery("min-width: 899px");
 
   return (
     <div style={{ height: "100%", display: "flex" }}>

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as path from "path";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import DotenvWebpackPlugin from "dotenv-webpack";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
@@ -10,6 +11,7 @@ import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import ReactRefreshTypescript from "react-refresh-typescript";
+import TerserPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
@@ -251,13 +253,25 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     plugins: plugins as any,
   };
 
-  if (mode === "production") {
-    config.plugins?.push(new MiniCssExtractPlugin({}));
-  }
+  if (config.mode === "production") {
+    config.plugins = [
+      new MiniCssExtractPlugin({
+        filename: "[name].css",
+        chunkFilename: "[id].css",
+      }),
+    ].concat(config.plugins as any[]);
 
-  // if (config.mode === "production") {
-  //   return config;
-  // }
+    config.optimization = {
+      minimize: true,
+      minimizer: [
+        new CssMinimizerPlugin(),
+        new TerserPlugin({
+          parallel: false,
+          extractComments: "all",
+        }),
+      ],
+    };
+  }
 
   // const configWithTimeMeasures = new SpeedMeasurePlugin({}).wrap(config);
 

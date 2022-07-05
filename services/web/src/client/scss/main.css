@@ -3,6 +3,7 @@
 @import "~ol/ol.css";
 @import "~react-virtualized/styles.css";
 @import "@liexp/ui/theme/font.css";
+@import '~@fortawesome/fontawesome-svg-core/styles.css';
 
 html,
 body,
@@ -16,11 +17,12 @@ body > div > div {
 
 .footnotes ol li {
   font-size: 12px;
-  p,
-  a {
-    font-size: 12px;
-    display: inline;
-  }
+}
+
+p,
+a {
+  font-size: 12px;
+  display: inline;
 }
 
 em {

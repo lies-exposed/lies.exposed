@@ -1,10 +1,8 @@
-import { dom } from "@fortawesome/fontawesome-svg-core";
+import { CacheProvider } from "@emotion/react";
+import { dom , config } from "@fortawesome/fontawesome-svg-core";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
-import {
-  CssBaseline,
-  ThemeProvider,
-  StyledEngineProvider,
-} from "@liexp/ui/components/mui";
+import { CssBaseline, ThemeProvider } from "@liexp/ui/components/mui";
+import createEmotionCache from "@liexp/ui/react/createEmotionCache";
 import { ECOTheme } from "@liexp/ui/theme";
 import debug from "debug";
 import * as React from "react";
@@ -13,14 +11,18 @@ import { Hydrate, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { queryClient } from "./state/queries";
-
 // all css
 import "./scss/main.css";
+
+config.autoAddCss = false;
 
 debug.enable("*");
 
 // watch for font awesome icons
 dom.watch();
+
+// create emotion cache
+const cache = createEmotionCache();
 
 function Main(): JSX.Element {
   React.useEffect(() => {
@@ -35,7 +37,7 @@ function Main(): JSX.Element {
   return (
     <BrowserRouter>
       <HelmetProvider>
-        <StyledEngineProvider injectFirst>
+        <CacheProvider value={cache}>
           <ThemeProvider theme={ECOTheme}>
             <QueryClientProvider client={queryClient}>
               <Hydrate state={dehydratedState}>
@@ -44,7 +46,7 @@ function Main(): JSX.Element {
               </Hydrate>
             </QueryClientProvider>
           </ThemeProvider>
-        </StyledEngineProvider>
+        </CacheProvider>
       </HelmetProvider>
     </BrowserRouter>
   );

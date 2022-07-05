@@ -31,7 +31,9 @@ export const getServer = (
     queries: (
       params: any,
       query: any
-    ) => Promise<Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>>;
+    ) => Promise<
+      Array<{ queryKey: string[]; queryFn: (params: any) => Promise<any> }>
+    >;
   }>
   // webpackConfig: webpack.Configuration
 ): express.Express => {
@@ -72,9 +74,9 @@ export const getServer = (
             .map((r) => r.queries(req.params, req.query))
         )
           .then((queries) => {
-            const routeQueries = queries.flatMap(r => r);
+            const routeQueries = queries.flatMap((r) => r);
             // eslint-disable-next-line no-console
-            console.log('route queries', routeQueries);
+            console.log("route queries", routeQueries);
 
             return Promise.all(
               routeQueries.map((r) => {
@@ -126,22 +128,21 @@ export const getServer = (
                 data
                   .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
                   .replace('<meta id="helmet-head" />', head)
-                  .replace('<style id="jss-server-side"></style>', `${css}`)
                   .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
                   .replace(
                     '<style id="font-awesome-css"></style>',
-                    `<style id="font-awesome-css">${fontawesomeCss}</style>`
+                    `<style type="text/css">${fontawesomeCss}</style>`
                   )
+                  .replace('<style id="css-server-side"></style>', css)
                   .replace(
                     '<div id="root"></div>',
+                    `<div id="root">${html}</div>
+                      <script>
+                        window.__REACT_QUERY_STATE__ = ${JSON.stringify(
+                          dehydratedState
+                        )};
+                      </script>
                     `
-                  <div id="root">${html}</div>
-                  <script>
-                    window.__REACT_QUERY_STATE__ = ${JSON.stringify(
-                      dehydratedState
-                    )};
-                  </script>
-                `
                   )
               );
             }
