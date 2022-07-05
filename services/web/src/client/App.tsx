@@ -1,7 +1,7 @@
 import "@liexp/ui/components/Common/Icons/library";
 import { Footer } from "@liexp/ui/components/Footer";
-import { Grid, useMediaQuery } from "@liexp/ui/components/mui";
 import SEO from "@liexp/ui/components/SEO";
+import { Grid, useMediaQuery } from "@liexp/ui/components/mui";
 import { useTheme } from "@liexp/ui/theme";
 import * as React from "react";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";

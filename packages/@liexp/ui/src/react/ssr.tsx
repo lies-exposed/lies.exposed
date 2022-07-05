@@ -128,12 +128,12 @@ export const getServer = (
                 data
                   .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
                   .replace('<meta id="helmet-head" />', head)
-                  .replace('<style id="css-server-side"></style>', `${css}`)
                   .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
                   .replace(
                     '<style id="font-awesome-css"></style>',
                     `<style type="text/css">${fontawesomeCss}</style>`
                   )
+                  .replace('<style id="css-server-side"></style>', css)
                   .replace(
                     '<div id="root"></div>',
                     `<div id="root">${html}</div>

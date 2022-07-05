@@ -16,8 +16,8 @@ const KeywordsDistributionGraphComponent: React.FC<{ data: any[] }> = ({
         <>
           <BubbleGraph
             variant="text"
-            width={width}
-            height={height}
+            height={height === 0 ? 600: height}
+            width={width === 0 ? 1000: width}
             data={data.map((d) => ({
               ...d,
               count: d.events ?? 0,

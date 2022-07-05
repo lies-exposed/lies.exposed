@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import * as path from "path";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import DotenvWebpackPlugin from "dotenv-webpack";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
@@ -8,14 +9,13 @@ import * as S from "fp-ts/lib/string";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { PathReporter } from "io-ts/lib/PathReporter";
-import TerserPlugin from "terser-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import ReactRefreshTypescript from "react-refresh-typescript";
+import TerserPlugin from "terser-webpack-plugin";
 import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
 import * as webpack from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { GetLogger } from "../logger";
-import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
 // const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 const webpackLogger = GetLogger("webpack");
