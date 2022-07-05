@@ -38,7 +38,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ImportMediaButton } from "../components/Common/ImportMediaButton";
@@ -53,21 +53,21 @@ import { ReferenceMediaTab } from "../components/tabs/ReferenceMediaTab";
 import { transformEvent } from "../utils";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle
+  DocumentaryReleaseTitle,
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEventPayload,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 
 const RESOURCE = "events";
@@ -75,9 +75,10 @@ const RESOURCE = "events";
 const eventsFilter = [
   <TextInput key="title" source="title" alwaysOn size="small" />,
   <BooleanInput
-    key="withDrafts"
-    label="Draft only"
-    source="withDrafts"
+    key="draft"
+    label="Draft"
+    source="draft"
+    defaultValue={false}
     alwaysOn
     size="small"
   />,
@@ -110,6 +111,7 @@ export const EventList: React.FC = () => (
     resource={RESOURCE}
     filterDefaultValues={{
       withDeleted: true,
+      draft: undefined,
     }}
     filters={eventsFilter}
     perPage={20}
@@ -214,9 +216,18 @@ export const EventList: React.FC = () => (
       />
 
       <DateField source="date" />
-      <DateField source="updatedAt" />
-      <DateField source="createdAt" />
-      <DateField source="deletedAt" />
+      <FunctionField
+        label="Dates"
+        render={(r: Record | undefined) => {
+          return (
+            <Box>
+              <DateField source="updatedAt" />
+              <DateField source="createdAt" />
+              <DateField source="deletedAt" />
+            </Box>
+          );
+        }}
+      />
     </Datagrid>
   </List>
 );

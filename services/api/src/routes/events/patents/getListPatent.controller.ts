@@ -15,6 +15,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
     Endpoints.PatentEvent.List,
     ({
       query: {
+        draft,
         minDate,
         maxDate,
         keywords,
@@ -32,6 +33,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
         searchEventV2Query(ctx)({
           ...query,
           type: O.some([PATENT.value]),
+          draft,
           actors: O.none,
           keywords,
           links,

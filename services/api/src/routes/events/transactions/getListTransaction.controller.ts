@@ -20,6 +20,7 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
         links,
         withDeleted,
         withDrafts,
+        draft,
         ...query
       },
     }) => {
@@ -29,6 +30,7 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
         searchEventV2Query(ctx)({
           ...query,
           type: O.some([TRANSACTION.value]),
+          draft,
           actors: O.none,
           keywords,
           links,

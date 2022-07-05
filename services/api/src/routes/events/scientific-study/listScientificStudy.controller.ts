@@ -31,6 +31,7 @@ export const MakeListScientificStudyRoute: Route = (
           media: O.none,
           exclude: O.none,
           locations: O.none,
+          draft: O.none,
           title,
           startDate: publishedDate,
           endDate: publishedDate,
