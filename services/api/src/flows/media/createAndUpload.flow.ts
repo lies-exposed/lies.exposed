@@ -22,6 +22,7 @@ export const createAndUpload =
         Bucket: ctx.env.SPACE_BUCKET,
         Key: mediaKey,
         Body: body,
+        ACL: 'public-read'
       }),
       ctx.logger.debug.logInTaskEither("Result %O"),
       TE.chain((upload) =>

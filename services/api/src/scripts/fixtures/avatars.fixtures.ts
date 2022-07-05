@@ -37,6 +37,7 @@ export const AvatarsFixture = ({
             Key: `public/media/${resource}/${id}/${id}.svg`,
             Body: content,
             Bucket: "localhost:3010",
+            ACL: 'public-read'
           })
         ),
         TE.map((data) => data.Location)
@@ -54,6 +55,7 @@ export const AvatarsFixture = ({
             Key: `public/media/${resource}/${id}/${id}.svg`,
             Body: content,
             Bucket: "localhost:3010",
+            ACL: 'public-read'
           })
         ),
         TE.map((data) => data.Location)
