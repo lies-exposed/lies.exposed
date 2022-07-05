@@ -35,6 +35,7 @@ describe("Edit Event", () => {
 
   let [event] = fc.sample(UncategorizedArb, 1).map((e) => ({
     ...e,
+    draft: true,
     payload: {
       ...e.payload,
       location: undefined,
@@ -283,6 +284,34 @@ describe("Edit Event", () => {
 
     expect(body).toMatchObject({
       ...event,
+      payload: {
+        ...event.payload,
+        groupsMembers: eventData.payload.groupsMembers,
+      },
+      date: event.date,
+      updatedAt: body.updatedAt,
+    });
+
+    event = body;
+  });
+
+  test("succeeds when changing `draft` value", async () => {
+    const eventData = {
+      ...event,
+      draft: false,
+    };
+    const response = await appTest.req
+      .put(`/v1/events/${event.id}`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+
+    expect(response.status).toEqual(200);
+
+    expect(body).toMatchObject({
+      ...event,
+      draft: false,
       payload: {
         ...event.payload,
         groupsMembers: eventData.payload.groupsMembers,
