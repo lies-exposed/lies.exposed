@@ -15,6 +15,7 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
     Endpoints.DocumentaryEvent.List,
     ({
       query: {
+        draft,
         startDate,
         endDate,
         keywords,
@@ -30,6 +31,7 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query(ctx)({
           ...query,
+          draft,
           type: O.some([DOCUMENTARY.value]),
           startDate,
           endDate,

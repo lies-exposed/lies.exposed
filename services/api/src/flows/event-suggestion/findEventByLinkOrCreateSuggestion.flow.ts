@@ -38,6 +38,7 @@ export const findEventByLinkOrCreateSuggestion =
             searchEventV2Query(ctx)({
               title: O.none,
               type: O.none,
+              draft: O.none,
               startDate: O.none,
               endDate: O.none,
               exclude: O.none,

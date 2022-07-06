@@ -16,6 +16,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
     ({
       query: {
         victim,
+        draft,
         minDate,
         maxDate,
         keywords,
@@ -32,6 +33,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query(ctx)({
           ...query,
+          draft,
           type: O.some([DEATH.value]),
           actors: pipe(
             victim,

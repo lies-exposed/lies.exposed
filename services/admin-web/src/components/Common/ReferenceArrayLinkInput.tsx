@@ -12,7 +12,14 @@ const ReferenceArrayLinkInput: React.FC<
     <ReferenceArrayInput {...props} reference="links">
       <AutocompleteArrayInput
         source="id"
-        optionText="title"
+        label="title"
+        translate="no"
+        optionText={"title"}
+        matchSuggestion={(filter, suggestion) => {
+          return (suggestion.title ?? suggestion.url)
+            .toLowerCase()
+            .includes(filter.toLowerCase());
+        }}
         fullWidth
         filterToQuery={(title: any) => ({ title })}
       />

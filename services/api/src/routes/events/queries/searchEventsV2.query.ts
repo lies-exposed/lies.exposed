@@ -13,10 +13,6 @@ import { EventV2Entity } from "@entities/Event.v2.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 import { addOrder } from "@utils/orm.utils";
 
-// const toPGArray = (els: string[]): string[] => {
-//   return els.map((el) => `'${el}'`);
-// };
-
 interface SearchEventQuery {
   actors: O.Option<string[]>;
   groups: O.Option<string[]>;
@@ -27,6 +23,7 @@ interface SearchEventQuery {
   locations: O.Option<string[]>;
   type: O.Option<string[]>;
   title: O.Option<string>;
+  draft: O.Option<boolean>
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;
   exclude: O.Option<string[]>;
@@ -60,6 +57,7 @@ export const searchEventV2Query =
     endDate,
     withDeleted,
     withDrafts,
+    draft,
     order,
     skip,
     take,
@@ -313,6 +311,10 @@ export const searchEventV2Query =
 
             if (!withDrafts) {
               q.andWhere("event.draft = :draft", { draft: false });
+            }
+
+            if (O.isSome(draft)) {
+              q.andWhere("event.draft = :draft", { draft: draft.value});
             }
 
             if (withDeleted) {

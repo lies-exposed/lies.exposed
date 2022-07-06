@@ -1,6 +1,7 @@
 import { http } from "@liexp/shared/io";
+import { Point } from '@liexp/shared/io/http/Common/Geometry';
 import { uuid } from "@liexp/shared/utils/uuid";
-import { MapInput, MapInputType } from "@liexp/ui/components/admin/MapInput";
+import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box } from '@liexp/ui/components/mui';
 import * as React from "react";
@@ -134,7 +135,7 @@ export const DeathEdit: React.FC = () => {
           <ReactPageInput source="body" />
         </FormTab>
         <FormTab label="Location">
-          <MapInput source="payload.location" type={MapInputType.POINT} />
+          <MapInput source="payload.location" type={Point.type.props.type.value} />
         </FormTab>
         <FormTab label="Media">
           <ImportMediaButton />

@@ -21,6 +21,7 @@ export const GetSearchEventsQuery = t.strict(
     exclude: optionFromUndefined(t.array(t.string)),
     withDeleted: optionFromUndefined(BooleanFromString),
     withDrafts: optionFromUndefined(BooleanFromString),
+    draft: optionFromUndefined(BooleanFromString)
   },
   "GetEventsQueryFilter"
 );

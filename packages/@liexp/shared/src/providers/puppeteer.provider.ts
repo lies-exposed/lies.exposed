@@ -144,7 +144,7 @@ export const GetPuppeteerProvider = (
       getChromePath(),
       TE.fromEither,
       TE.chain((executablePath) => {
-        return TE.tryCatch(() => {
+        return TE.tryCatch(async () => {
           const p = addExtra(pup as any);
           p.use(puppeteerStealth());
 
@@ -154,14 +154,12 @@ export const GetPuppeteerProvider = (
             ...launchOpts,
           };
 
-          return pup
-            .launch(options)
-            .then((b) => b as any as puppeteer.Browser);
-
+          const b = await (pup.launch(options) as any);
+          return b;
         }, toPuppeteerError);
       }),
       TE.map((b) => {
-        b.on("disconnected", (e) => {
+        b.on("disconnected", (e: any) => {
           puppeteerLogger.debug.log("browser disconnected", e);
         });
         return b;

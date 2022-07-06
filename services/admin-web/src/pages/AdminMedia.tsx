@@ -111,7 +111,9 @@ export const MediaList: React.FC<ListProps> = (props) => (
       <FunctionField
         label="events"
         render={(r) => {
-          const url = new URL(r.location);
+          const url = r.location ? new URL(r.location) : {
+            hostname: "no link given",
+          };
 
           return (
             <Box>
