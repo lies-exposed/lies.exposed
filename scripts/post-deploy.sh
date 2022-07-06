@@ -12,13 +12,18 @@ yarn
 export "NODE_OPTIONS=--max_old_space_size=4096"
 export NODE_ENV=production
 
-# admin web
-mkdir -p "/var/www/html/${SSH_HOST}/admin"
-cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${SSH_HOST}/admin"
-sudo chown -R www-data:www-data "/var/www/html/${SSH_HOST}"
-
 # build packages
 yarn packages:build
+
+# admin web
+# mkdir -p "/var/www/html/${SSH_HOST}/admin"
+yarn admin-web build
+cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${SSH_HOST}/admin/"
+sudo chown -R www-data:www-data "/var/www/html/${SSH_HOST}"
+
+# web
+yarn web build:app
+yarn web build:server
 
 # api
 yarn api build
