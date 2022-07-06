@@ -170,7 +170,11 @@ export const getServer = (
     app.get(r.path, requestHandler);
   });
 
-  app.use(express.static(publicDir));
+  app.use(
+    express.static(publicDir, {
+      index: false,
+    })
+  );
 
   return app;
 };
