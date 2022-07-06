@@ -29,29 +29,6 @@ const webConfig = getWebConfig({
   },
 });
 
-webConfig.optimization =
-  webConfig.mode === "production"
-    ? {
-        // chunkIds: "deterministic",
-        minimize: true,
-        minimizer: [
-          // new TerserPlugin({
-          //   parallel: false,
-          //   extractComments: 'all'
-          // }),
-        ],
-        // splitChunks: {
-        //   cacheGroups: {
-        //     liexp: {
-        //       name: "@liexp",
-        //       test: /[\\/]@liexp[\\/]/,
-        //       chunks: "all",
-        //     },
-        //   },
-        // },
-      }
-    : {};
-
 webConfig.plugins?.push(
   new HTMLWebpackPlugin({
     inject: "head",
