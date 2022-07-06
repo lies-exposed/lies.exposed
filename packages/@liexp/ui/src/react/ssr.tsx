@@ -127,7 +127,7 @@ export const getServer = (
               res.setHeader("Content-Type", "text/html").send(
                 data
                   .replace("<head>", `<head ${h.htmlAttributes.toString()}>`)
-                  .replace('<meta id="helmet-head" />', head)
+                  .replace('<meta id="helmet-head"/>', head)
                   .replace("<body>", `<body ${h.bodyAttributes.toString()}>`)
                   .replace(
                     '<style id="font-awesome-css"></style>',
