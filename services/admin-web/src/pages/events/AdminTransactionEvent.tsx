@@ -1,23 +1,16 @@
 import * as Events from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import {
-  MapInput,
-  MapInputType,
-} from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
-  BooleanInput,
-  BooleanField,
-  Create,
+  BooleanField, BooleanInput, Create,
   CreateProps,
   Datagrid,
   DateField,
   DateInput,
   Edit,
   EditProps,
-  FormTab,
-  List,
+  FormTab, FormTabProps, List,
   ListProps,
   NumberField,
   NumberInput,
@@ -25,10 +18,10 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput,
-  FormTabProps,
+  TextInput
 } from "react-admin";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
+import ReferenceAreaInput from '../../components/Common/ReferenceAreaInput';
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceBySubjectField } from "../../components/Common/ReferenceBySubjectField";
@@ -97,6 +90,7 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
       <FormTab label="Generals">
         <BooleanInput source="draft" defaultValue={false} />
         <TextInput fullWidth source="payload.title" />
+        <ReferenceAreaInput source="payload.location" />
         <NumberInput source="payload.total" />
         <SelectInput
           source="payload.currency"
@@ -119,9 +113,6 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
       </FormTab>
       <FormTab label="Body">
         <ReactPageInput source="body" />
-      </FormTab>
-      <FormTab label="Location">
-        <MapInput source="payload.location" type={MapInputType.POINT} />
       </FormTab>
       <FormTab label="Links">
         <ReferenceArrayLinkInput source="links" />

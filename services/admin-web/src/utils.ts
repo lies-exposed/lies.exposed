@@ -38,6 +38,19 @@ export const transformMedia = (newMedia: any[]): any[] => {
   }, []);
 };
 
+export const transformDeath = (
+  data: any
+): http.Events.CreateEventBody & { id: http.Common.UUID } => {
+  return {
+    ...data,
+    payload: {
+      ...data.payload,
+      location:
+        data.payload.location === "" ? undefined : data.payload.location,
+    },
+  };
+};
+
 export const transformUncategorized = (
   data: any
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
@@ -118,7 +131,11 @@ export const transformEvent = async (
   );
 
   const event =
-    data.type === "Uncategorized" ? transformUncategorized(data) : data;
+    data.type === "Uncategorized"
+      ? transformUncategorized(data)
+      : data.type === "Death"
+      ? transformDeath(data)
+      : data;
 
   // eslint-disable-next-line @typescript-eslint/return-await
   return pipe(

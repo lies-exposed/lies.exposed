@@ -21,8 +21,10 @@ const config = getWebConfig({
   target: "web",
 });
 
-(config.optimization as any).minimizer = [
-  (config.optimization as any).minimizer[0],
-];
+if (config.mode === "production") {
+  (config.optimization as any).minimizer = [
+    (config.optimization as any).minimizer[0],
+  ];
+}
 
 module.exports = { ...config, devtool: undefined };

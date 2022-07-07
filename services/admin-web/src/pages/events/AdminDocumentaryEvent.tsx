@@ -2,9 +2,6 @@ import * as Events from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box } from "@liexp/ui/components/mui";
-import {
-  MapInput
-} from "@liexp/ui/src/components/admin/MapInput";
 import * as React from "react";
 import {
   BooleanInput,
@@ -28,6 +25,7 @@ import {
 import ExcerptField from "../../components/Common/ExcerptField";
 import { MediaField } from "../../components/Common/MediaField";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
+import ReferenceAreaInput from '../../components/Common/ReferenceAreaInput';
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
@@ -104,6 +102,7 @@ export const DocumentaryEdit: React.FC = () => {
         <FormTab label="Generals">
           <BooleanInput source="draft" defaultValue={false} />
           <TextInput fullWidth source="payload.title" />
+          <ReferenceAreaInput source="payload.location" />
           <TextInput type="url" fullWidth source="payload.website" />
           <DateInput source="date" />
           <ReferenceMediaInput
@@ -141,9 +140,6 @@ export const DocumentaryEdit: React.FC = () => {
         </FormTab>
         <FormTab label="Body">
           <ReactPageInput source="body" />
-        </FormTab>
-        <FormTab label="Location">
-          <MapInput source="payload.location" />
         </FormTab>
         <FormTab label="Links">
           <ReferenceLinkTab source="links" />

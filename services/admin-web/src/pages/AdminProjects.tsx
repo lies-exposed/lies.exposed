@@ -1,4 +1,5 @@
 import { http } from "@liexp/shared/io";
+import { Polygon } from '@liexp/shared/io/http/Common/Geometry';
 import { Kind } from "@liexp/shared/io/http/ProjectImage";
 import { ProjectPageContent } from "@liexp/ui/components/ProjectPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
@@ -6,7 +7,6 @@ import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
-import GeometryType from "ol/geom/GeometryType";
 import * as React from "react";
 import {
   ArrayField,
@@ -28,13 +28,11 @@ import {
   SelectInput,
   SimpleForm,
   SimpleFormIterator,
-  SingleFieldList,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import { ColorInput } from "../components/Common/ColorInput";
-import { MapField } from "../components/Common/MapField";
 import RichTextInput from "../components/Common/RichTextInput";
 
 const RESOURCE = "projects";
@@ -66,7 +64,8 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateField source="updatedAt" showTime={true} />
         <DateField source="createdAt" showTime={true} />
       </FormTab>
-      <FormTab label="Location">
+      {/* <FormTab label="Location">
+
         <ArrayInput source="newAreas">
           <SimpleFormIterator>
             <TextInput source="label" />
@@ -80,7 +79,7 @@ export const ProjectEdit: React.FC<EditProps> = (props: EditProps) => (
             <MapField source="geometry" type={GeometryType.POLYGON} />
           </SingleFieldList>
         </ArrayField>
-      </FormTab>
+      </FormTab> */}
       <FormTab label="media">
         <ArrayInput source="newImages">
           <SimpleFormIterator>
@@ -146,7 +145,7 @@ export const ProjectCreate: React.FC<CreateProps> = (props) => (
       <ArrayInput source="areas">
         <SimpleFormIterator>
           <TextInput source="label" />
-          <MapInput source="geometry" type={GeometryType.POLYGON} />
+          <MapInput source="geometry" type={Polygon.type.props.type.value} />
           <RichTextInput source="body" />
         </SimpleFormIterator>
       </ArrayInput>

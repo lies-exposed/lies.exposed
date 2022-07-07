@@ -1,9 +1,7 @@
 import { http } from "@liexp/shared/io";
-import { Point } from '@liexp/shared/io/http/Common/Geometry';
 import { uuid } from "@liexp/shared/utils/uuid";
-import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box } from '@liexp/ui/components/mui';
+import { Box } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   AutocompleteInput,
@@ -23,13 +21,14 @@ import {
   SelectInput,
   SimpleForm,
   TabbedForm,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import ExcerptField from "../../components/Common/ExcerptField";
 import { ImportMediaButton } from "../../components/Common/ImportMediaButton";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
+import ReferenceAreaInput from '../../components/Common/ReferenceAreaInput';
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
@@ -122,6 +121,7 @@ export const DeathEdit: React.FC = () => {
             />
           </ReferenceInput>
           <DateInput source="date" />
+          <ReferenceAreaInput source="payload.location" />
           <ReactPageInput source="excerpt" onlyText />
           <ReferenceArrayKeywordInput
             source="keywords"
@@ -133,9 +133,6 @@ export const DeathEdit: React.FC = () => {
         </FormTab>
         <FormTab label="Body">
           <ReactPageInput source="body" />
-        </FormTab>
-        <FormTab label="Location">
-          <MapInput source="payload.location" type={Point.type.props.type.value} />
         </FormTab>
         <FormTab label="Media">
           <ImportMediaButton />
