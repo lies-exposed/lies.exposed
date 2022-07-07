@@ -9,14 +9,14 @@ const ReferenceArrayLinkInput: React.FC<
   Omit<ReferenceArrayInputProps, "children"> & { source: string }
 > = (props) => {
   return (
-    <ReferenceArrayInput {...props} reference="links">
+    <ReferenceArrayInput {...props} label="Links" reference="links">
       <AutocompleteArrayInput
         source="id"
         label="title"
-        translate="no"
-        optionText={"title"}
+        optionText="title"
+        translateChoice={false}
         matchSuggestion={(filter, suggestion) => {
-          return (suggestion.title ?? suggestion.url)
+          return (suggestion.title ?? suggestion.url ?? suggestion.id)
             .toLowerCase()
             .includes(filter.toLowerCase());
         }}
