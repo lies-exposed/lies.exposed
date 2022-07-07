@@ -96,7 +96,7 @@ export const getServer = (
                     <Hydrate state={dehydratedState}>
                       <CacheProvider value={cache}>
                         <ThemeProvider theme={ECOTheme}>
-                          <CssBaseline />
+                          <CssBaseline enableColorScheme />
                           <App />
                         </ThemeProvider>
                       </CacheProvider>
