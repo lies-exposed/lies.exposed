@@ -41,7 +41,7 @@ function Main(): JSX.Element {
           <ThemeProvider theme={ECOTheme}>
             <QueryClientProvider client={queryClient}>
               <Hydrate state={dehydratedState}>
-                <CssBaseline />
+                <CssBaseline enableColorScheme />
                 <App />
               </Hydrate>
             </QueryClientProvider>

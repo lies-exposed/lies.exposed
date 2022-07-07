@@ -21,7 +21,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
-import Checkbox from '@mui/material/Checkbox'
+import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Container from "@mui/material/Container";
@@ -32,7 +32,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
-import FormGroup  from '@mui/material/FormGroup';
+import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Grid";
 import Grow from "@mui/material/Grow";
 import Icon, { IconProps } from "@mui/material/Icon";
@@ -56,8 +56,8 @@ import Tabs from "@mui/material/Tabs";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography, { TypographyProps } from "@mui/material/Typography";
+import { ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import ThemeProvider from "@mui/styles/ThemeProvider";
 import { alpha } from "@mui/system/colorManipulator";
 
 export {

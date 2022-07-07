@@ -5,7 +5,7 @@ import {
   createTheme,
   styled as _styled,
   ThemeOptions,
-  useTheme
+  useTheme,
 } from "@mui/material/styles";
 
 const primaryFontFamily = "Signika";
@@ -88,9 +88,12 @@ const themeOptions: ThemeOptions = {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          color: "#FFF",
+          color: "red",
           backgroundColor: primary,
         },
+      },
+      defaultProps: {
+        color: "primary",
       },
     },
   },

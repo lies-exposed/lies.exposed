@@ -1,4 +1,5 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
+import { formatDate } from "@liexp/shared/utils/date";
 import { EventPageContent } from "@liexp/ui/components/EventPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { Box, Grid } from "@liexp/ui/components/mui";
@@ -32,7 +33,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
             <EventPageContent
               event={event}
               onDateClick={(d) => {
-                navigateTo.events({}, { startDate: d.toISOString() });
+                navigateTo.events({}, { startDate: formatDate(d) });
               }}
               onGroupClick={(g) => {
                 navigateTo.groups({ id: g.id });
@@ -50,8 +51,8 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                 navigateTo.actors({ id: g.actor.id });
               }}
               onLinkClick={() => {}}
-              onAreaClick={a => {
-                navigateTo.areas({ id: a.id })
+              onAreaClick={(a) => {
+                navigateTo.areas({ id: a.id });
               }}
             />
 
