@@ -538,8 +538,8 @@ const searchEventsQ =
     );
   };
 
-export const getSearchEventsQueryKey = (p: any): [string, string, any] => {
-  return ["events", "search", { _start: 0, _end: 20, ...p }];
+export const getSearchEventsQueryKey = (p: Partial<SearchEventQueryInput>): [string, any] => {
+  return ["events-search", { _start: 0, _end: 20, ...p }];
 };
 
 export const fetchSearchEvents = async ({
@@ -549,7 +549,7 @@ export const fetchSearchEvents = async ({
   return await pipe(searchEventsQ(api.Event.List)(params), foldTE);
 };
 export const searchEventsQuery = (
-  input: any
+  input: SearchEventQueryInput
 ): UseQueryResult<SearchEventQueryResult, APIError> => {
   return useQuery(getSearchEventsQueryKey(input), fetchSearchEvents, {
     refetchOnWindowFocus: false,
@@ -563,7 +563,10 @@ export const getSearchEventsInfiniteQueryKey = (
   return ["events-search-infinite", input];
 };
 
-export const fetchSearchEventsInfinite = async ({ queryKey, pageParam }: any): Promise<SearchEventQueryResult> => {
+export const fetchSearchEventsInfinite = async ({
+  queryKey,
+  pageParam,
+}: any): Promise<SearchEventQueryResult> => {
   const params = queryKey[1];
   return await pipe(
     searchEventsQ(api.Event.List)({

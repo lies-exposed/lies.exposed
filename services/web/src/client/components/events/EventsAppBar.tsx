@@ -201,7 +201,7 @@ interface EventsToolbarProps {
 }
 
 const EventsAppBar: React.FC<EventsToolbarProps> = ({
-  query,
+  query: { tab, ...query },
   hash,
   actors,
   groups,
@@ -236,6 +236,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
     onQueryChange({
       ...query,
       ...queryUpdate,
+      tab,
       groups: (query.groups ?? []).concat(queryUpdate.groups.map((g) => g.id)),
       actors: (query.actors ?? []).concat(queryUpdate.actors.map((g) => g.id)),
       keywords: (query.keywords ?? []).concat(
@@ -263,6 +264,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
       onQueryChange({
         ...query,
         type,
+        tab,
       });
     },
     [query]
@@ -305,6 +307,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               if (isExpanded) {
                 onQueryChange({
                   ...query,
+                  tab,
                   actors: query.actors?.filter((g) => g !== gms.id),
                 });
               }
@@ -323,6 +326,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               if (isExpanded) {
                 onQueryChange({
                   ...query,
+                  tab,
                   groups: query.groups?.filter((gg) => gg !== g.id),
                 });
               }
@@ -341,6 +345,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               if (isExpanded) {
                 onQueryChange({
                   ...query,
+                  tab,
                   keywords: query.keywords?.filter((kk) => kk !== k.id),
                 });
               }
@@ -355,6 +360,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               if (isExpanded) {
                 onQueryChange({
                   ...query,
+                  tab,
                   groupsMembers: query.groupsMembers?.filter(
                     (g) => gm.id !== g
                   ),
@@ -374,7 +380,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              query={query}
+              query={{ ...query, tab }}
               onQueryChange={handleSearchChange}
             />
           </div>
@@ -409,6 +415,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 if (isExpanded) {
                   onQueryChange({
                     ...query,
+                    tab,
                     title: undefined,
                   });
                 }
@@ -447,6 +454,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 e.stopPropagation();
                 onQueryChange({
                   ...query,
+                  tab,
                   _order: query._order === "DESC" ? "ASC" : "DESC",
                 });
               }}
@@ -622,7 +630,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           >
             <Tabs
               className={classes.tabs}
-              value={query.tab}
+              value={tab}
               onChange={(e, tab) => onQueryChange({ ...query, tab })}
             >
               <Tab
@@ -681,6 +689,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   onBlur={(e) => {
                     onQueryChange({
                       ...query,
+                      tab,
                       startDate:
                         e.target.value === "" ? undefined : e.target.value,
                       endDate: currentDateRange[1],
@@ -707,6 +716,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   onBlur={(e) =>
                     onQueryChange({
                       ...query,
+                      tab,
                       startDate: currentDateRange[1],
                       endDate:
                         e.target.value === "" ? undefined : e.target.value,

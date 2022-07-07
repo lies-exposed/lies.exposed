@@ -209,7 +209,7 @@ export const routes = [
                 page: 1,
               },
             },
-            true
+            false
           ),
           queryFn: fetchActors,
         },
@@ -248,7 +248,7 @@ export const routes = [
         },
         {
           queryKey: getKeywordsQueryKey({
-            pagination: { page: 1, perPage: 10 },
+            pagination: { page: 1, perPage: keywords.length },
             filter:
               keywords.length > 0
                 ? {
@@ -295,6 +295,7 @@ export const routes = [
     queries: async (params: any, query: any) => {
       const q = hashToQuery(query.hash);
 
+      q.hash = query.hash;
       q.startDate = query.startDate;
       q.endDate = query.endDate;
       q.media = query.media ?? [];
@@ -308,6 +309,15 @@ export const routes = [
 
       return [
         ...commonQueries,
+        {
+          queryKey: getSearchEventsQueryKey({
+            ...q,
+            hash: undefined,
+            _start: 0,
+            _end: 0,
+          }),
+          queryFn: fetchSearchEvents,
+        },
         {
           queryKey: getActorsQueryKey(
             {

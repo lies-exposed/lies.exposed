@@ -18,7 +18,7 @@ export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids, onItemClick }) =
     <QueriesRenderer
       queries={{
         keywords: useKeywordsQuery({
-          pagination: { page: 1, perPage: 10 },
+          pagination: { page: 1, perPage: ids.length },
           filter: {
             ids,
           },
@@ -40,9 +40,6 @@ export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids, onItemClick }) =
 export const KeywordsBox: React.FC<KeywordsBoxProps> = ({ ids, onItemClick, ...props }) => {
   return (
     <Box {...props}>
-      {/* <Typography variant="subtitle1" display="inline">
-        Keywords:{" "}
-      </Typography> */}
       {pipe(
         ids,
         NEA.fromArray,
