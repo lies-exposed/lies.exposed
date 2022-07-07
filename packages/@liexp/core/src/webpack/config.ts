@@ -163,27 +163,6 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       }
     : {};
 
-  // const optimization: webpack.Configuration["optimization"] =
-  //   mode === "production"
-  //     ? {
-  //         // chunkIds: "deterministic",
-  //         minimize: true,
-  //         minimizer: [
-  //           new TerserPlugin({
-  //             parallel: false,
-  //           }),
-  //         ],
-  //         // splitChunks: {
-  //         //   cacheGroups: {
-  //         //     liexp: {
-  //         //       name: "@liexp",
-  //         //       test: /[\\/]@liexp[\\/]/,
-  //         //       chunks: "all",
-  //         //     },
-  //         //   },
-  //         // },
-  //       }
-  //     : {};
 
   const config: webpack.Configuration = {
     mode,

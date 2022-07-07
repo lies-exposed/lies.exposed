@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# get host
+
+HOST=$1
+
+set -ex
+
 # build setup
 cp ~/envs/.env ./.env
 cp ~/envs/admin/.env ./services/admin-web/.env
@@ -9,17 +15,20 @@ cp -r ~/certs/dev-certificate.crt ./services/api/certs/alpha-db-ca-certificate.c
 # install deps
 yarn
 
+yarn clean
+
 export "NODE_OPTIONS=--max_old_space_size=4096"
 export NODE_ENV=production
+
 
 # build packages
 yarn packages:build
 
 # admin web
-# mkdir -p "/var/www/html/${SSH_HOST}/admin"
+# mkdir -p "/var/www/html/${HOST}/admin"
 yarn admin-web build
-cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${SSH_HOST}/admin/"
-sudo chown -R www-data:www-data "/var/www/html/${SSH_HOST}"
+cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${HOST}/admin/"
+sudo chown -R www-data:www-data "/var/www/html/${HOST}"
 
 # web
 yarn web build:app

@@ -55,7 +55,7 @@ module.exports = {
       path: "/root/node/app",
       repo: "https://github.com/lies-exposed/lies.exposed.git",
       "pre-deploy-local": "scripts/pre-deploy-local.sh",
-      "post-deploy": "scripts/post-deploy.sh",
+      "post-deploy": `scripts/post-deploy.sh ${SSH_HOST}`,
     },
   },
 };

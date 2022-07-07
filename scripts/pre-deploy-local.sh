@@ -6,15 +6,13 @@ yarn clean
 # install deps
 yarn
 
-export NODE_ENV=production
-
 scp ./services/web/.env.alpha "${SSH_HOST}":envs/web/.env
 scp ./services/admin-web/.env.alpha "${SSH_HOST}":envs/admin/.env
 scp .env.alpha "${SSH_HOST}":envs/.env
 
 # build packages
 
-yarn packages:build
+# yarn packages:build
 
 # admin web
 # yarn admin-web build

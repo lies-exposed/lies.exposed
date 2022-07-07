@@ -9,17 +9,20 @@ const config = getWebConfig({
     PUBLIC_URL: t.string,
     API_URL: t.string,
     DEBUG: t.string,
-    WEB_URL: t.string
+    WEB_URL: t.string,
   })),
   envFileDir: __dirname,
   port,
   output: {
-    publicPath: '/admin/'
+    publicPath: "/admin/",
   },
   devServer: true,
   hot: false,
   target: "web",
 });
 
+(config.optimization as any).minimizer = [
+  (config.optimization as any).minimizer[0],
+];
 
-module.exports = {...config, devtool: undefined };
+module.exports = { ...config, devtool: undefined };
