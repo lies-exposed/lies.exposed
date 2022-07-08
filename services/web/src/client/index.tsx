@@ -1,5 +1,5 @@
 import { CacheProvider } from "@emotion/react";
-import { dom , config } from "@fortawesome/fontawesome-svg-core";
+import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
 import { CssBaseline, ThemeProvider } from "@liexp/ui/components/mui";
 import createEmotionCache from "@liexp/ui/react/createEmotionCache";
@@ -11,6 +11,7 @@ import { Hydrate, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { queryClient } from "./state/queries";
+
 // all css
 import "./scss/main.css";
 

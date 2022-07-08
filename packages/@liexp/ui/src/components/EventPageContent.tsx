@@ -1,13 +1,13 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import * as http from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common";
-import { formatDateToShort } from "@liexp/shared/utils/date";
+import { formatDateToShort, parseISO } from "@liexp/shared/utils/date";
 import * as React from "react";
 import { getEventCommonProps } from "../helpers/event.helper";
 import {
   useActorsQuery,
   useAreasQuery,
-  useMediaQuery,
+  useMediaQuery
 } from "../state/queries/DiscreteQueries";
 import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
@@ -26,7 +26,7 @@ import {
   Grid,
   Link,
   Typography,
-  useMediaQuery as useMuiMediaQuery,
+  useMediaQuery as useMuiMediaQuery
 } from "./mui";
 import { MediaSlider } from "./sliders/MediaSlider";
 
@@ -57,7 +57,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   const isDownSM = useMuiMediaQuery(theme.breakpoints.down("md"));
 
   const date =
-    typeof event.date === "string" ? new Date(event.date) : event.date;
+    typeof event.date === "string" ? parseISO(event.date as any) : event.date;
 
   return (
     <QueriesRenderer

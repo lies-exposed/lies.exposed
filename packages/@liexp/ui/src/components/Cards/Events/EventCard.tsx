@@ -2,6 +2,7 @@ import { getEventsMetadata } from "@liexp/shared/helpers/event";
 import { Events } from "@liexp/shared/io/http";
 import { SearchEvent } from "@liexp/shared/io/http/Events";
 import { formatDate } from "@liexp/shared/utils/date";
+import { parseISO } from "date-fns";
 import * as React from "react";
 import Editor from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
@@ -15,7 +16,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia,
+  CardMedia
 } from "../../mui";
 
 interface EventCardProps {
@@ -38,6 +39,11 @@ const EventCard: React.FC<EventCardProps> = ({
     event.type === Events.Death.DEATH.value
       ? event.payload.victim?.avatar
       : media[0]?.thumbnail;
+
+  const date = typeof event.date === 'string'
+    ? parseISO(event.date as any)
+    : event.date;
+
   return (
     <Box>
       <Card onClick={() => onEventClick(event)}>
@@ -48,7 +54,7 @@ const EventCard: React.FC<EventCardProps> = ({
           <CardHeader
             avatar={<EventIcon size="2x" type={event.type} />}
             title={title}
-            subheader={formatDate(event.date)}
+            subheader={formatDate(date)}
           />
 
           <CardContent>
