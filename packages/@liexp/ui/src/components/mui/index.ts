@@ -2,6 +2,7 @@
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PlayCircleOutline from '@mui/icons-material/PlayCircleOutline'
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
 import Accordion from "@mui/material/Accordion";
@@ -127,4 +128,5 @@ export {
   CircularProgress,
   Checkbox,
   CheckBoxIcon,
+  PlayCircleOutline
 };
