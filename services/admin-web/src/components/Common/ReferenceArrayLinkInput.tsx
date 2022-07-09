@@ -2,7 +2,7 @@ import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  ReferenceArrayInputProps,
+  ReferenceArrayInputProps
 } from "react-admin";
 
 const ReferenceArrayLinkInput: React.FC<
@@ -15,13 +15,8 @@ const ReferenceArrayLinkInput: React.FC<
         label="title"
         optionText="title"
         translateChoice={false}
-        matchSuggestion={(filter, suggestion) => {
-          return (suggestion.title ?? suggestion.url ?? suggestion.id)
-            .toLowerCase()
-            .includes(filter.toLowerCase());
-        }}
         fullWidth
-        filterToQuery={(title: any) => ({ title })}
+        filterToQuery={(q: any) => ({ q })}
       />
     </ReferenceArrayInput>
   );

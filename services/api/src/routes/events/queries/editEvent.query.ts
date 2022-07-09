@@ -22,34 +22,36 @@ export const editEventQuery =
     return pipe(
       fetchRelations(ctx)(input),
       TE.chain((commonData) => {
+        const oldMedia = storedEvent.media ?? [];
         const media = commonData.media.concat(
-          storedEvent.media.filter(
-            (l) => !commonData.media.find((ll) => ll.id === l.id)
-          )
+          oldMedia.filter((l) => !commonData.media.find((ll) => ll.id === l.id))
         );
+
+        const oldLinks = storedEvent.links ?? [];
         const links = commonData.links.concat(
-          storedEvent.links.filter(
-            (l) => !commonData.links.find((ll) => ll.id === l.id)
-          )
+          oldLinks.filter((l) => !commonData.links.find((ll) => ll.id === l.id))
         );
+
+        const oldKeywords = storedEvent.keywords ?? [];
         const keywords = commonData.keywords.concat(
-          storedEvent.keywords.filter(
+          oldKeywords.filter(
             (l) => !commonData.keywords.find((ll) => ll.id === l.id)
           )
         );
         const newRelations = {
           links,
           keywords,
-          media
-        }
+          media,
+        };
 
         switch (input.type) {
           case http.Events.Transaction.TRANSACTION.value: {
-            const { excerpt, body, payload, date } = input;
+            const { excerpt, body, payload, date , draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
               body,
               date,
+              draft
             });
             const event: EditEventEntity = {
               ...storedEvent,
@@ -64,11 +66,12 @@ export const editEventQuery =
             return TE.right(event);
           }
           case http.Events.Documentary.DOCUMENTARY.value: {
-            const { excerpt, body, payload, date } = input;
+            const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
               body,
               date,
+              draft
             });
             const event: EditEventEntity = {
               ...storedEvent,
@@ -83,11 +86,12 @@ export const editEventQuery =
             return TE.right(event);
           }
           case http.Events.Patent.PATENT.value: {
-            const { excerpt, body, payload, date } = input;
+            const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
               body,
               date,
+              draft
             });
             const event: EditEventEntity = {
               ...storedEvent,
@@ -102,10 +106,12 @@ export const editEventQuery =
             return TE.right(event);
           }
           case http.Events.Death.DEATH.value: {
-            const { excerpt, body, payload } = input;
+            const { excerpt, body, payload, draft, date } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
               body,
+              date,
+              draft
             });
             const event: EditEventEntity = {
               ...storedEvent,
