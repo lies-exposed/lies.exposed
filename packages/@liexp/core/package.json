@@ -30,7 +30,7 @@
     "@types/react": "^17.0.47",
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@types/webpack-node-externals": "^2.5.3",
-    "copy-webpack-plugin": "^10.2.4",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
     "dotenv-webpack": "^7.1.1",
