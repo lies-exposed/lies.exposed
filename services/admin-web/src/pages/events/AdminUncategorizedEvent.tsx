@@ -117,6 +117,7 @@ export const UncategorizedEventEditTab: React.FC<
 > = ({ sourcePrefix, ...props }) => {
   const source = (s: string): string =>
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
+
   return (
     <Box>
       <Grid container spacing={2}>
