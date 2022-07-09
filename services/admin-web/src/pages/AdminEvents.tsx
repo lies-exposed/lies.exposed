@@ -38,7 +38,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ImportMediaButton } from "../components/Common/ImportMediaButton";
@@ -53,21 +53,21 @@ import { ReferenceMediaTab } from "../components/tabs/ReferenceMediaTab";
 import { transformEvent } from "../utils";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle,
+  DocumentaryReleaseTitle
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEventPayload,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 
 const RESOURCE = "events";
@@ -286,6 +286,22 @@ export const EventEdit: React.FC = () => {
             <Grid item {...{ md: 6, lg: 6 }}>
               <ReferenceArrayKeywordInput showAdd source="keywords" />
             </Grid>
+            <Grid item md={12}>
+              <FormDataConsumer>
+                {({ formData, getSource, scopedFormData, ...rest }) => {
+                  if (formData.type === Documentary.DOCUMENTARY.value) {
+                    return <DocumentaryEditFormTab />;
+                  }
+                  if (formData.type === "Death") {
+                    return <DeathEventEditFormTab />;
+                  }
+                  if (formData.type === "ScientificStudy") {
+                    return <EditScientificStudyEventPayload />;
+                  }
+                  return <UncategorizedEventEditTab />;
+                }}
+              </FormDataConsumer>
+            </Grid>
             <Grid item {...{ md: 12 }}>
               <ReactPageInput label="excerpt" source="excerpt" onlyText />
             </Grid>
@@ -296,23 +312,6 @@ export const EventEdit: React.FC = () => {
         </FormTab>
         <FormTab label="body">
           <ReactPageInput label="body" source="body" />
-        </FormTab>
-
-        <FormTab label="payload">
-          <FormDataConsumer>
-            {({ formData, getSource, scopedFormData, ...rest }) => {
-              if (formData.type === Documentary.DOCUMENTARY.value) {
-                return <DocumentaryEditFormTab />;
-              }
-              if (formData.type === "Death") {
-                return <DeathEventEditFormTab />;
-              }
-              if (formData.type === "ScientificStudy") {
-                return <EditScientificStudyEventPayload />;
-              }
-              return <UncategorizedEventEditTab />;
-            }}
-          </FormDataConsumer>
         </FormTab>
 
         <FormTab label="Media">
