@@ -31,12 +31,12 @@ export const GroupsBox: React.FC<GroupsBoxProps> = ({
             <QueriesRenderer
               queries={{
                 groups: useGroupsQuery({
-                  pagination: { page: 1, perPage: 10 },
+                  pagination: { page: 1, perPage: ids.length },
                   sort: { field: "createdAt", order: "DESC" },
                   filter: {
                     ids,
                   },
-                }),
+                }, true),
               }}
               render={({ groups: { data: groups } }) => {
                 // eslint-disable-next-line react/jsx-key

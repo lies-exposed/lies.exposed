@@ -1,6 +1,6 @@
 import { Group } from "@liexp/shared/io/http";
 import * as React from "react";
-import { useGroupsDiscreteQuery } from "../../state/queries/DiscreteQueries";
+import { useGroupsQuery } from "../../state/queries/DiscreteQueries";
 import GroupList, { GroupListItem } from "../lists/GroupList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -21,7 +21,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       getValue={(a) => (typeof a === "string" ? a : a.name)}
       searchToFilter={(name) => ({ name })}
       selectedItems={selectedItems}
-      query={useGroupsDiscreteQuery}
+      query={p => useGroupsQuery(p, true)}
       renderTags={(items) => (
         <GroupList
           groups={items.map((i) => ({

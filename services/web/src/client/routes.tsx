@@ -1,9 +1,6 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import { EventType } from "@liexp/shared/io/http/Events";
 import {
-  discreteFetchGroupsDiscrete,
-  discreteFetchGroupsMembers,
-  discreteFetchKeywords,
   fetchActor,
   fetchActors,
   fetchArea,
@@ -94,7 +91,7 @@ export const routes = [
           filter: {
             groups: [groupId],
           },
-        }),
+        }, false),
         queryFn: fetchEvents,
       },
     ],
@@ -207,47 +204,56 @@ export const routes = [
         },
 
         {
-          queryKey: getMediaQueryKey({
-            pagination: {
-              perPage: media.length,
-              page: 1,
+          queryKey: getMediaQueryKey(
+            {
+              pagination: {
+                perPage: media.length,
+                page: 1,
+              },
+              filter: { ids: media },
             },
-            filter: { ids: media },
-          }),
+            true
+          ),
           queryFn: fetchMedia,
         },
         {
-          queryKey: getLinkQueryKey({
-            pagination: {
-              perPage: event.links.length,
-              page: 1,
+          queryKey: getLinkQueryKey(
+            {
+              pagination: {
+                perPage: event.links.length,
+                page: 1,
+              },
+              filter: event.links.length > 0 ? { ids: event.links } : {},
             },
-            filter: event.links.length > 0 ? { ids: event.links } : {},
-          }),
+            true
+          ),
           queryFn: fetchLinks,
         },
         {
-          queryKey: getAreaQueryKey({
-            filter: UUID.is((event.payload as any).location)
-              ? { ids: [(event.payload as any).location] }
-              : {},
-            pagination: {
-              perPage: 1,
-              page: 1,
+          queryKey: getAreaQueryKey(
+            {
+              filter: UUID.is((event.payload as any).location)
+                ? { ids: [(event.payload as any).location] }
+                : {},
+              pagination: {
+                perPage: 1,
+                page: 1,
+              },
             },
-          }),
+            true
+          ),
           queryFn: fetchAreas,
         },
         {
-          queryKey: getKeywordsQueryKey({
-            pagination: { page: 1, perPage: keywords.length },
-            filter:
-              keywords.length > 0
-                ? {
-                    ids: keywords,
-                  }
-                : {},
-          }),
+          queryKey: getKeywordsQueryKey(
+            {
+              pagination: { page: 1, perPage: keywords.length },
+              filter: {
+                ids: keywords,
+              },
+            },
+            true
+          ),
           queryFn: fetchKeywords,
         },
         {
@@ -328,7 +334,7 @@ export const routes = [
             },
             true
           ),
-          queryFn: discreteFetchGroupsDiscrete,
+          queryFn: fetchGroups,
         },
         {
           queryKey: getGroupsMembersQueryKey(
@@ -339,15 +345,15 @@ export const routes = [
             },
             true
           ),
-          queryFn: discreteFetchGroupsMembers,
+          queryFn: fetchGroupsMembers,
         },
         {
           queryKey: getKeywordsQueryKey({
             pagination: { page: 1, perPage: q.keywords.length },
             sort: { field: "updatedAt", order: "DESC" },
-            filter: q.keywords.length > 0 ? { ids: q.keywords } : {},
-          }),
-          queryFn: discreteFetchKeywords,
+            filter: { ids: q.keywords },
+          }, true),
+          queryFn: fetchKeywords,
         },
         {
           queryKey: getSearchEventsInfiniteQueryKey(q),
@@ -401,7 +407,7 @@ export const routes = [
       {
         queryKey: getAreaQueryKey({
           filter: null,
-        }),
+        }, true),
         queryFn: fetchAreas,
       },
     ],

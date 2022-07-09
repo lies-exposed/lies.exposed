@@ -79,7 +79,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             field: "createdAt",
             order: "DESC",
           },
-        }),
+        }, true),
         area: useAreasQuery({
           filter: UUID.is((event.payload as any).location)
             ? { ids: [(event.payload as any).location] }
@@ -88,7 +88,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             perPage: 1,
             page: 1,
           },
-        }),
+        }, true),
       }}
       render={({
         actors: { data: actors },

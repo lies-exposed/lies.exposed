@@ -11,7 +11,7 @@ const AreasBox: React.FC<{
 }> = ({ params, onItemClick, style }) => {
   return (
     <QueriesRenderer
-      queries={{ areas: useAreasQuery(params) }}
+      queries={{ areas: useAreasQuery(params, false) }}
       render={({ areas: { data: areas } }) => {
         return (
           <AreaList

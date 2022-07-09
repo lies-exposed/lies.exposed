@@ -1,14 +1,13 @@
-import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
-import { Box, Grid } from "@liexp/ui/components/mui";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
+import { Box, Grid } from "@liexp/ui/components/mui";
 import {
   useActorsQuery,
-  useGroupsDiscreteQuery,
-  useGroupsMembersDiscreteQuery,
-  useKeywordsDiscreteQuery
+  useGroupsQuery,
+  useGroupMembersQuery,
+  useKeywordsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { clearSearchEventsQueryCache } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
@@ -18,12 +17,10 @@ import { queryClient } from "../state/queries";
 import {
   queryToHash,
   useQueryFromHash,
-  useRouteQuery
+  useRouteQuery,
 } from "../utils/history.utils";
-import {
-  EventsView,
-  useNavigateToResource
-} from "../utils/location.utils";
+import { EventsView, useNavigateToResource } from "../utils/location.utils";
+import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
 
 const PREFIX = "EventsPage";
 
@@ -197,26 +194,32 @@ const EventsPage: React.FC<EventsPageProps> = () => {
 
       <QueriesRenderer
         queries={{
-          filterActors: useActorsQuery({
-            pagination: { page: 1, perPage: params.actors.length },
-            filter: params.actors.length > 0 ? { ids: params.actors } : {},
-          }, true),
-          filterGroups: useGroupsDiscreteQuery({
-            pagination: { page: 1, perPage: params.groups.length },
-            filter: params.groups.length > 0 ? { ids: params.groups } : {},
-          }),
-          filterGroupsMembers: useGroupsMembersDiscreteQuery({
-            pagination: { page: 1, perPage: params.groupsMembers.length },
-            filter:
-              params.groupsMembers.length > 0
-                ? { ids: params.groupsMembers }
-                : {},
-          }),
-          filterKeywords: useKeywordsDiscreteQuery({
+          filterActors: useActorsQuery(
+            {
+              pagination: { page: 1, perPage: params.actors.length },
+              filter: params.actors.length > 0 ? { ids: params.actors } : {},
+            },
+            true
+          ),
+          filterGroups: useGroupsQuery(
+            {
+              pagination: { page: 1, perPage: params.groups.length },
+              filter: params.groups.length > 0 ? { ids: params.groups } : {},
+            },
+            true
+          ),
+          filterGroupsMembers: useGroupMembersQuery(
+            {
+              pagination: { page: 1, perPage: params.groupsMembers.length },
+              filter: { ids: params.groupsMembers },
+            },
+            true
+          ),
+          filterKeywords: useKeywordsQuery({
             pagination: { page: 1, perPage: params.keywords.length },
             sort: { field: "updatedAt", order: "DESC" },
-            filter: params.keywords.length > 0 ? { ids: params.keywords } : {},
-          }),
+            filter: { ids: params.keywords },
+          }, true),
         }}
         render={({
           filterActors,

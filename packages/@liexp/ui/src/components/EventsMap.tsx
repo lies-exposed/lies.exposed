@@ -118,7 +118,7 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
                 : undefined,
             ...filters,
           },
-        }),
+        }, false),
       }}
       render={({ events }) => {
         return <EventsMapComponent {...rest} events={events.data} />;

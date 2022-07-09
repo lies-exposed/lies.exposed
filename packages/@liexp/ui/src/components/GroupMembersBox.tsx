@@ -1,7 +1,7 @@
 import { GroupMember } from "@liexp/shared/io/http";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as React from "react";
-import { useGroupsMembersDiscreteQuery } from "../state/queries/DiscreteQueries";
+import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";
 import { GroupsMembersList } from "./lists/GroupMemberList";
 import { Box } from "./mui";
@@ -21,13 +21,13 @@ const GroupMembersList: React.FC<{
     <QueriesRenderer
       loader="default"
       queries={{
-        groupsMembers: useGroupsMembersDiscreteQuery({
+        groupsMembers: useGroupMembersQuery({
           pagination: { page: 1, perPage: 10 },
           sort: { field: "createdAt", order: "DESC" },
           filter: {
             ids,
           },
-        }),
+        }, false),
       }}
       render={({ groupsMembers: { data: groupsMembers } }) => {
         // eslint-disable-next-line react/jsx-key

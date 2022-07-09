@@ -32,9 +32,24 @@ export const emptyQuery = (): Promise<any> =>
     total: 0,
   });
 
+export const fetchQuery =
+  <P extends any, R extends any>(q: (p: P) => Promise<R>) =>
+  async ({ queryKey }: any): Promise<R> => {
+    const params = queryKey[1];
+    const discrete = queryKey[2];
+    if (discrete) {
+      if (R.isEmpty(params.filter) || params.filter.ids?.length === 0) {
+        return await emptyQuery();
+      }
+    }
+
+    return await q(params);
+  };
+
 export const getEventsQueryKey = (
-  p: Partial<GetListParams>
-): [string, GetListParams] => {
+  p: Partial<GetListParams>,
+  discrete: boolean
+): [string, GetListParams, boolean] => {
   return [
     "events",
     {
@@ -50,23 +65,17 @@ export const getEventsQueryKey = (
         ...p.sort,
       },
     },
+    discrete,
   ];
 };
 
-export const fetchEvents = async ({
-  queryKey,
-}: any): Promise<Events.Event[]> => {
-  const params = queryKey[1];
-
-  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-    ? await emptyQuery()
-    : await Queries.Event.getList(params);
-};
+export const fetchEvents = fetchQuery(Queries.Event.getList);
 
 export const useEventsQuery = (
-  params: Partial<GetListParams>
+  params: Partial<GetListParams>,
+  discrete: boolean
 ): UseQueryResult<{ data: Events.Event[]; total: number }, APIError> => {
-  return useQuery(getEventsQueryKey(params), fetchEvents);
+  return useQuery(getEventsQueryKey(params, discrete), fetchEvents);
 };
 
 export const getActorsQueryKey = (
@@ -74,7 +83,7 @@ export const getActorsQueryKey = (
   discrete: boolean
 ): [string, GetListParams, boolean] => {
   return [
-    discrete ? "discrete-actors" : "actors",
+    "actors",
     {
       filter: p.filter ? p.filter : {},
       pagination: {
@@ -92,18 +101,7 @@ export const getActorsQueryKey = (
   ];
 };
 
-export const fetchActors = async ({
-  queryKey,
-}: any): Promise<{ data: Actor.Actor[]; total: number }> => {
-  const params = queryKey[1];
-  const discrete = queryKey[2];
-  if (discrete) {
-    if (R.isEmpty(params.filter) || params.filter.ids?.length === 0) {
-      return await emptyQuery();
-    }
-  }
-  return await Queries.Actor.getList(params);
-};
+export const fetchActors = fetchQuery(Queries.Actor.getList);
 
 export const useActorsQuery = (
   params: Partial<GetListParams>,
@@ -143,9 +141,9 @@ export const useActorQuery = (
 export const getGroupsQueryKey = (
   p: Partial<GetListParams>,
   discrete: boolean
-): [string, GetListParams] | [string, GetListParams, string] => {
+): [string, GetListParams, boolean] => {
   return [
-    discrete ? "discrete-groups" : "groups",
+    "groups",
     {
       filter: p.filter ? p.filter : {},
       pagination: {
@@ -159,34 +157,17 @@ export const getGroupsQueryKey = (
         ...p.sort,
       },
     },
+    discrete,
   ];
 };
 
-export const fetchGroups = async ({
-  queryKey,
-}: any): Promise<{ data: Group.Group[]; total: number }> => {
-  return await Queries.Group.getList(queryKey[1]);
-};
+export const fetchGroups = fetchQuery(Queries.Group.getList);
 
 export const useGroupsQuery = (
-  params: GetListParams
+  params: Partial<GetListParams>,
+  discrete: boolean
 ): UseQueryResult<{ data: Group.Group[]; total: number }, APIError> => {
-  return useQuery(getGroupsQueryKey(params, false), fetchGroups);
-};
-
-export const discreteFetchGroupsDiscrete = async ({
-  queryKey,
-}: any): Promise<{ data: Group.Group[]; total: number }> => {
-  const params = queryKey[1];
-  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-    ? await emptyQuery()
-    : await Queries.Group.getList(params);
-};
-
-export const useGroupsDiscreteQuery = (
-  params: Partial<GetListParams>
-): UseQueryResult<{ data: Group.Group[]; total: number }, APIError> => {
-  return useQuery(getGroupsQueryKey(params, true), discreteFetchGroupsDiscrete);
+  return useQuery(getGroupsQueryKey(params, discrete), fetchGroups);
 };
 
 export const fetchGroup = async ({ queryKey }: any): Promise<Group.Group> => {
@@ -221,51 +202,26 @@ export const getGroupsMembersQueryKey = (
   ];
 };
 
-export const fetchGroupsMembers = async ({
-  queryKey,
-}: any): Promise<{ data: GroupMember.GroupMember[]; total: number }> => {
-  return await Queries.GroupMember.getList(queryKey[1]);
-};
-
+export const fetchGroupsMembers = fetchQuery(Queries.GroupMember.getList);
 export const useGroupMembersQuery = (
-  params: Partial<GetListParams>
-): UseQueryResult<
-  { data: GroupMember.GroupMember[]; total: number },
-  APIError
-> => {
-  return useQuery(getGroupsMembersQueryKey(params, false), fetchGroupsMembers);
-};
-
-export const discreteFetchGroupsMembers = async ({
-  queryKey,
-}: any): Promise<{ data: GroupMember.GroupMember[]; total: number }> => {
-  const params = queryKey[1];
-  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-    ? await emptyQuery()
-    : await Queries.GroupMember.getList(params);
-};
-
-export const useGroupsMembersDiscreteQuery = (
-  params: Partial<GetListParams>
+  params: Partial<GetListParams>,
+  discrete: boolean
 ): UseQueryResult<
   { data: GroupMember.GroupMember[]; total: number },
   APIError
 > => {
   return useQuery(
-    getGroupsMembersQueryKey(params, true),
-    discreteFetchGroupsDiscrete
+    getGroupsMembersQueryKey(params, discrete),
+    fetchGroupsMembers
   );
 };
 
-export const fetchKeywords = async ({
-  queryKey,
-}: any): Promise<{ data: Keyword.Keyword[]; total: number }> => {
-  return await Queries.Keyword.getList(queryKey[1]);
-};
+export const fetchKeywords = fetchQuery(Queries.Keyword.getList);
 
 export const getKeywordsQueryKey = (
-  p: Partial<GetListParams>
-): [string, GetListParams] => {
+  p: Partial<GetListParams>,
+  discrete: boolean
+): [string, GetListParams, boolean] => {
   return [
     "keywords",
     {
@@ -281,28 +237,15 @@ export const getKeywordsQueryKey = (
         ...p.sort,
       },
     },
+    discrete,
   ];
 };
 
 export const useKeywordsQuery = (
-  params: Partial<GetListParams>
+  params: Partial<GetListParams>,
+  discrete: boolean
 ): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
-  return useQuery(getKeywordsQueryKey(params), fetchKeywords);
-};
-
-export const discreteFetchKeywords = async ({
-  queryKey,
-}: any): Promise<Keyword.Keyword[]> => {
-  const params = queryKey[1];
-  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-    ? await emptyQuery()
-    : await Queries.Keyword.getList(params);
-};
-
-export const useKeywordsDiscreteQuery = (
-  params: Partial<GetListParams>
-): UseQueryResult<{ data: Keyword.Keyword[]; total: number }, APIError> => {
-  return useQuery(getKeywordsQueryKey(params), discreteFetchKeywords);
+  return useQuery(getKeywordsQueryKey(params, discrete), fetchKeywords);
 };
 
 export const useKeywordQuery = (
@@ -333,8 +276,9 @@ export const useKeywordsDistributionQuery = (
 };
 
 export const getMediaQueryKey = (
-  p: Partial<GetListParams>
-): [string, GetListParams] => {
+  p: Partial<GetListParams>,
+  discrete: boolean,
+): [string, GetListParams, boolean] => {
   return [
     "media",
     {
@@ -350,27 +294,23 @@ export const getMediaQueryKey = (
         ...p.sort,
       },
     },
+    discrete
   ];
 };
 
-export const fetchMedia = async ({
-  queryKey,
-}: any): Promise<{ data: Media.Media[]; total: number }> => {
-  const params = queryKey[1];
-  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-    ? await emptyQuery()
-    : await Queries.Media.getList(params);
-};
+export const fetchMedia = fetchQuery(Queries.Media.getList);
 
 export const useMediaQuery = (
-  params: Partial<GetListParams>
+  params: Partial<GetListParams>,
+  discrete: boolean
 ): UseQueryResult<{ data: Media.Media[]; total: number }, any> => {
-  return useQuery(getMediaQueryKey(params), fetchMedia);
+  return useQuery(getMediaQueryKey(params, discrete), fetchMedia);
 };
 
 export const getLinkQueryKey = (
-  p: Partial<GetListParams>
-): [string, GetListParams] => {
+  p: Partial<GetListParams>,
+  discrete: boolean
+): [string, GetListParams, boolean] => {
   return [
     "links",
     {
@@ -386,21 +326,16 @@ export const getLinkQueryKey = (
         ...p.sort,
       },
     },
+    discrete,
   ];
 };
-export const fetchLinks = async ({
-  queryKey,
-}: any): Promise<{ data: Link.Link[]; total: number }> => {
-  const params = queryKey[1];
-  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-    ? await emptyQuery()
-    : await Queries.Link.getList(params);
-};
+export const fetchLinks = fetchQuery(Queries.Link.getList);
 
 export const useLinksQuery = (
-  params: Partial<GetListParams>
+  params: Partial<GetListParams>,
+  discrete: boolean
 ): UseQueryResult<{ data: Link.Link[]; total: number }, APIError> => {
-  return useQuery(getLinkQueryKey(params), fetchLinks);
+  return useQuery(getLinkQueryKey(params, discrete), fetchLinks);
 };
 
 export const getPageContentByPathQueryKey = (p: string): any[] => ["pages", p];
@@ -502,8 +437,9 @@ export const useGraphQuery = (id: string): UseQueryResult<any, APIError> => {
 };
 
 export const getAreaQueryKey = (
-  p: Partial<GetListParams>
-): [string, GetListParams] => {
+  p: Partial<GetListParams>,
+  discrete: boolean
+): [string, GetListParams, boolean] => {
   return [
     "areas",
     {
@@ -519,21 +455,16 @@ export const getAreaQueryKey = (
         ...p.sort,
       },
     },
+    discrete,
   ];
 };
-export const fetchAreas = async ({
-  queryKey,
-}: any): Promise<{ data: Area.Area[]; total: number }> => {
-  const params = queryKey[1];
-  return !R.isEmpty(params.filter) || params.filter === null
-    ? await Queries.Area.getList(params)
-    : await emptyQuery();
-};
+export const fetchAreas = fetchQuery(Queries.Area.getList);
 
 export const useAreasQuery = (
-  params: Partial<GetListParams>
+  params: Partial<GetListParams>,
+  discrete: boolean
 ): UseQueryResult<{ data: Area.Area[]; total: number }, APIError> => {
-  return useQuery(getAreaQueryKey(params), fetchAreas);
+  return useQuery(getAreaQueryKey(params, discrete), fetchAreas);
 };
 
 export const fetchArea = async ({ queryKey }: any): Promise<Area.Area> => {

@@ -22,7 +22,7 @@ export const KeywordsList: React.FC<KeywordsBoxProps> = ({ ids, onItemClick }) =
           filter: {
             ids,
           },
-        }),
+        }, true),
       }}
       render={({ keywords: { data: keywords } }) => {
         // eslint-disable-next-line react/jsx-key

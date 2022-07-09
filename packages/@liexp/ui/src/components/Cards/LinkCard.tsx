@@ -1,5 +1,5 @@
 import { http } from "@liexp/shared/io";
-import { formatDate } from "@liexp/shared/utils/date";
+import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import LinkIcon from "@mui/icons-material/LinkOutlined";
 import ShareIcon from "@mui/icons-material/ShareOutlined";
 import * as React from "react";
@@ -24,6 +24,12 @@ interface LinkCardProps {
 
 const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
   const title = link.title?.substring(0, 20).concat("...");
+  const publishDate = link.publishDate
+    ? typeof link.publishDate === "string"
+      ? parseISO(link.publishDate)
+      : link.publishDate
+    : undefined;
+
   return (
     <Card
       variant={link.selected ? "outlined" : "elevation"}
@@ -37,10 +43,8 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
       <CardHeader
         title={<Typography variant="subtitle1">{title}</Typography>}
         subheader={
-          link.publishDate ? (
-            <Typography variant="caption">
-              {formatDate(link.publishDate)}
-            </Typography>
+          publishDate ? (
+            <Typography variant="caption">{formatDate(publishDate)}</Typography>
           ) : undefined
         }
       />

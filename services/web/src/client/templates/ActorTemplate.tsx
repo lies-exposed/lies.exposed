@@ -27,7 +27,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
           pagination: { perPage: 20, page: 1 },
           sort: { field: "createdAt", order: "DESC" },
           filter: { members: [actorId] },
-        }),
+        }, false),
       }}
       render={({ actor, groups: { data: groups } }) => {
         return (
@@ -58,6 +58,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                 groups: [],
                 groupsMembers: [],
                 keywords: [],
+                locations: [],
                 tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),
                 _sort: "createdAt",
