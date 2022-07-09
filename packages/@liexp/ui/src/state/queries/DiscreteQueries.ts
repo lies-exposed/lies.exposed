@@ -106,25 +106,26 @@ export const fetchActors = async ({
 };
 
 export const useActorsQuery = (
-  params: Partial<GetListParams>
+  params: Partial<GetListParams>,
+  discrete: boolean
 ): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
-  return useQuery(getActorsQueryKey(params, false), fetchActors);
+  return useQuery(getActorsQueryKey(params, discrete), fetchActors);
 };
 
-export const fetchActorsDiscreteQuery = async ({
-  queryKey,
-}: any): Promise<Actor.Actor[]> => {
-  const params = queryKey[1];
-  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-    ? await emptyQuery()
-    : await Queries.Actor.getList(params);
-};
+// export const fetchActorsDiscreteQuery = async ({
+//   queryKey,
+// }: any): Promise<Actor.Actor[]> => {
+//   const params = queryKey[1];
+//   return R.isEmpty(params.filter) || params.filter.ids?.length === 0
+//     ? await emptyQuery()
+//     : await Queries.Actor.getList(params);
+// };
 
-export const useActorsDiscreteQuery = (
-  params: Partial<GetListParams>
-): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
-  return useQuery(getActorsQueryKey(params, true), fetchActorsDiscreteQuery);
-};
+// export const useActorsDiscreteQuery = (
+//   params: Partial<GetListParams>
+// ): UseQueryResult<{ data: Actor.Actor[]; total: number }, APIError> => {
+//   return useQuery(getActorsQueryKey(params, true), fetchActorsDiscreteQuery);
+// };
 
 export const getActorQueryKey = (p: GetOneParams): [string, GetOneParams] => {
   return ["actor", p];

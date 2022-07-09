@@ -6,7 +6,6 @@ import {
   discreteFetchKeywords,
   fetchActor,
   fetchActors,
-  fetchActorsDiscreteQuery,
   fetchArea,
   fetchAreas,
   fetchEvent,
@@ -202,7 +201,7 @@ export const routes = [
                 page: 1,
               },
             },
-            false
+            true
           ),
           queryFn: fetchActors,
         },
@@ -319,7 +318,7 @@ export const routes = [
             },
             true
           ),
-          queryFn: fetchActorsDiscreteQuery,
+          queryFn: fetchActors,
         },
         {
           queryKey: getGroupsQueryKey(
