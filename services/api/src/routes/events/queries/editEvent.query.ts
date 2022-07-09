@@ -22,6 +22,26 @@ export const editEventQuery =
     return pipe(
       fetchRelations(ctx)(input),
       TE.chain((commonData) => {
+        const media = commonData.media.concat(
+          storedEvent.media.filter(
+            (l) => !commonData.media.find((ll) => ll.id === l.id)
+          )
+        );
+        const links = commonData.links.concat(
+          storedEvent.links.filter(
+            (l) => !commonData.links.find((ll) => ll.id === l.id)
+          )
+        );
+        const keywords = commonData.keywords.concat(
+          storedEvent.keywords.filter(
+            (l) => !commonData.keywords.find((ll) => ll.id === l.id)
+          )
+        );
+        const newRelations = {
+          links,
+          keywords,
+          media
+        }
 
         switch (input.type) {
           case http.Events.Transaction.TRANSACTION.value: {
@@ -39,7 +59,7 @@ export const editEventQuery =
                 ...storedEvent.payload,
                 ...payload,
               },
-              ...commonData,
+              ...newRelations,
             };
             return TE.right(event);
           }
@@ -58,7 +78,7 @@ export const editEventQuery =
                 ...storedEvent.payload,
                 ...payload,
               },
-              ...commonData,
+              ...newRelations,
             };
             return TE.right(event);
           }
@@ -77,7 +97,7 @@ export const editEventQuery =
                 ...storedEvent.payload,
                 ...payload,
               },
-              ...commonData,
+              ...newRelations,
             };
             return TE.right(event);
           }
@@ -96,7 +116,7 @@ export const editEventQuery =
                 ...payload,
                 location: O.toUndefined(payload.location),
               },
-              ...commonData,
+              ...newRelations,
             };
             return TE.right(event);
           }
@@ -116,7 +136,7 @@ export const editEventQuery =
                 ...storedEvent.payload,
                 ...payload,
               },
-              ...commonData,
+              ...newRelations,
             });
           }
           case http.Events.Uncategorized.UNCATEGORIZED.value:
@@ -141,7 +161,7 @@ export const editEventQuery =
               TE.map((p) => ({
                 ...storedEvent,
                 ...baseProps,
-                ...commonData,
+                ...newRelations,
                 type,
                 payload: p,
               }))

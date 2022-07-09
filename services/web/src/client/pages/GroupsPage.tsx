@@ -16,11 +16,14 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
       <PageContent path="groups" />
       <QueriesRenderer
         queries={{
-          groups: useGroupsQuery({
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "ASC" },
-            filter: {},
-          }, false),
+          groups: useGroupsQuery(
+            {
+              pagination: { page: 1, perPage: 20 },
+              sort: { field: "id", order: "ASC" },
+              filter: {},
+            },
+            false
+          ),
         }}
         render={({ groups }) => (
           <>
@@ -34,7 +37,11 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
             />
             <Typography variant="subtitle1">{groups.total}</Typography>
             <GroupList
-              style={{ display: "flex", flexDirection: "row" }}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+              }}
               groups={groups.data.map((a) => ({
                 ...a,
                 selected: false,

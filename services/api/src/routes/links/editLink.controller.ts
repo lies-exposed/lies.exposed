@@ -36,7 +36,10 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                 events.map((e) => {
                   return {
                     ...e,
-                    links: e.links.concat({ id: link.id } as any),
+                    links: (e.links as any[] as string[])
+                      .filter((l) => l !== link.id)
+                      .map((l) => ({ id: l }))
+                      .concat({ id: link.id } as any),
                   };
                 })
               )
