@@ -68,7 +68,7 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
             perPage: actors.length,
             page: 1,
           },
-        }),
+        }, true),
         media: useMediaQuery({
           filter: { ids: media },
           pagination: {

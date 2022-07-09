@@ -4,7 +4,7 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import {
-  useActorsDiscreteQuery,
+  useActorsQuery,
   useGroupsDiscreteQuery,
   useGroupsMembersDiscreteQuery,
   useKeywordsDiscreteQuery
@@ -197,10 +197,10 @@ const EventsPage: React.FC<EventsPageProps> = () => {
 
       <QueriesRenderer
         queries={{
-          filterActors: useActorsDiscreteQuery({
+          filterActors: useActorsQuery({
             pagination: { page: 1, perPage: params.actors.length },
             filter: params.actors.length > 0 ? { ids: params.actors } : {},
-          }),
+          }, true),
           filterGroups: useGroupsDiscreteQuery({
             pagination: { page: 1, perPage: params.groups.length },
             filter: params.groups.length > 0 ? { ids: params.groups } : {},

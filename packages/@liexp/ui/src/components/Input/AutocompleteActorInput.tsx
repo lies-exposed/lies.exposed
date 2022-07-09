@@ -1,6 +1,6 @@
 import { Actor } from "@liexp/shared/io/http";
 import * as React from "react";
-import { useActorsDiscreteQuery } from "../../state/queries/DiscreteQueries";
+import { useActorsQuery } from "../../state/queries/DiscreteQueries";
 import { ActorList, ActorListItem } from "../lists/ActorList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -21,7 +21,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
       getValue={(a) => (typeof a === "string" ? a : a.fullName)}
       searchToFilter={(fullName) => ({ fullName })}
       selectedItems={selectedItems}
-      query={useActorsDiscreteQuery}
+      query={p => useActorsQuery(p, true)}
       renderTags={(items) => (
         <ActorList
           actors={items.map((i) => ({

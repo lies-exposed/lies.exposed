@@ -3,7 +3,7 @@ import * as React from "react";
 import { GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { ActorList } from "../components/lists/ActorList";
-import { useActorsDiscreteQuery } from "../state/queries/DiscreteQueries";
+import { useActorsQuery } from "../state/queries/DiscreteQueries";
 
 const ActorsBox: React.FC<{
   params: GetListParams;
@@ -17,7 +17,7 @@ const ActorsBox: React.FC<{
 
   return (
     <QueriesRenderer
-      queries={{ actors: useActorsDiscreteQuery(params) }}
+      queries={{ actors: useActorsQuery(params, true) }}
       render={({ actors: { data: actors } }) => {
         return (
           <ActorList
