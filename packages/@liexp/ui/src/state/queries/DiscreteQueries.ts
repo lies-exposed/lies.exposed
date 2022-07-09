@@ -72,7 +72,7 @@ export const useEventsQuery = (
 export const getActorsQueryKey = (
   p: Partial<GetListParams>,
   discrete: boolean
-): [string, GetListParams] | [string, GetListParams, string] => {
+): [string, GetListParams, boolean] => {
   return [
     discrete ? "discrete-actors" : "actors",
     {
@@ -88,6 +88,7 @@ export const getActorsQueryKey = (
         ...p.sort,
       },
     },
+    discrete,
   ];
 };
 
@@ -95,9 +96,13 @@ export const fetchActors = async ({
   queryKey,
 }: any): Promise<{ data: Actor.Actor[]; total: number }> => {
   const params = queryKey[1];
-  return R.isEmpty(params.filter) || params.filter.ids?.length === 0
-    ? await emptyQuery()
-    : await Queries.Actor.getList(params);
+  const discrete = queryKey[2];
+  if (discrete) {
+    if (R.isEmpty(params.filter) || params.filter.ids?.length === 0) {
+      return await emptyQuery();
+    }
+  }
+  return await Queries.Actor.getList(params);
 };
 
 export const useActorsQuery = (
@@ -121,14 +126,8 @@ export const useActorsDiscreteQuery = (
   return useQuery(getActorsQueryKey(params, true), fetchActorsDiscreteQuery);
 };
 
-
-export const getActorQueryKey = (
-  p: GetOneParams
-): [string, GetOneParams] => {
-  return [
-    "actor",
-    p,
-  ];
+export const getActorQueryKey = (p: GetOneParams): [string, GetOneParams] => {
+  return ["actor", p];
 };
 
 export const fetchActor = async ({ queryKey }: any): Promise<Actor.Actor> =>
