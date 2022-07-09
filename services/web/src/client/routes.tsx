@@ -320,7 +320,7 @@ export const routes = [
           queryKey: getActorsQueryKey(
             {
               pagination: { page: 1, perPage: q.actors.length },
-              filter: q.actors.length > 0 ? { ids: q.actors } : {},
+              filter: { ids: q.actors },
             },
             true
           ),
@@ -330,7 +330,7 @@ export const routes = [
           queryKey: getGroupsQueryKey(
             {
               pagination: { page: 1, perPage: q.groups.length },
-              filter: q.groups.length > 0 ? { ids: q.groups } : {},
+              filter: { ids: q.groups },
             },
             true
           ),
@@ -340,8 +340,7 @@ export const routes = [
           queryKey: getGroupsMembersQueryKey(
             {
               pagination: { page: 1, perPage: q.groupsMembers.length },
-              filter:
-                q.groupsMembers.length > 0 ? { ids: q.groupsMembers } : {},
+              filter: { ids: q.groupsMembers },
             },
             true
           ),

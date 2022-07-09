@@ -36,7 +36,6 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       key={item.id}
       id={item.id}
       style={{
-        marginBottom: 40,
         width: "100%",
         maxWidth: "100%",
         display: "flex",

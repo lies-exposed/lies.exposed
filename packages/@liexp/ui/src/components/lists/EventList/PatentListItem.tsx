@@ -26,7 +26,6 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
       id={item.id}
       style={{
         width: "100%",
-        marginBottom: 40,
       }}
       onClick={() => onClick?.(item)}
     >

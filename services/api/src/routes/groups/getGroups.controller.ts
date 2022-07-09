@@ -3,13 +3,12 @@ import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
-import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { GroupEntity } from "../../entities/Group.entity";
 import { RouteContext } from "../route.types";
 import { toGroupIO } from "./group.io";
-import { getORMOptions } from "@utils/orm.utils";
+import { addOrder, getORMOptions } from "@utils/orm.utils";
 
 export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
@@ -49,23 +48,14 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
         },
         (q) => {
           if (findOptions.order) {
-            const order = R.record.reduceWithIndex(
-              findOptions.order,
-              {},
-              (k, acc, v) => ({
-                ...acc,
-                [`group.${k}`]: v,
-              })
-            );
-            ctx.logger.debug.log("Ordering %O", order);
-            return q.orderBy(order);
+            return addOrder(findOptions.order, q, "group");
           }
           return q;
         },
         (q) => {
           const qq = q.skip(findOptions.skip).take(findOptions.take);
 
-          // ctx.logger.debug.log(`SQL query %O`, qq.getQueryAndParameters());
+          ctx.logger.debug.log(`SQL query %O`, qq.getQueryAndParameters());
 
           return ctx.db.execQuery(() => qq.getManyAndCount());
         }

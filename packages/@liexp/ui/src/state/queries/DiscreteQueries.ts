@@ -153,7 +153,7 @@ export const getGroupsQueryKey = (
       },
       sort: {
         order: "DESC",
-        field: "updateAt",
+        field: "updatedAt",
         ...p.sort,
       },
     },
@@ -183,9 +183,9 @@ export const useGroupQuery = (
 export const getGroupsMembersQueryKey = (
   p: Partial<GetListParams>,
   discrete: boolean
-): [string, GetListParams] | [string, GetListParams, string] => {
+): [string, GetListParams, boolean] => {
   return [
-    discrete ? "discrete-groups-members" : "groups-members",
+    "groups-members",
     {
       filter: p.filter ? p.filter : {},
       pagination: {
@@ -195,10 +195,11 @@ export const getGroupsMembersQueryKey = (
       },
       sort: {
         order: "DESC",
-        field: "updateAt",
+        field: "updatedAt",
         ...p.sort,
       },
     },
+    discrete,
   ];
 };
 
@@ -277,7 +278,7 @@ export const useKeywordsDistributionQuery = (
 
 export const getMediaQueryKey = (
   p: Partial<GetListParams>,
-  discrete: boolean,
+  discrete: boolean
 ): [string, GetListParams, boolean] => {
   return [
     "media",
@@ -294,7 +295,7 @@ export const getMediaQueryKey = (
         ...p.sort,
       },
     },
-    discrete
+    discrete,
   ];
 };
 
