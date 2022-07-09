@@ -136,7 +136,7 @@ const EventListItemBase = <E extends any>({
             <Grid
               item
               lg={10}
-              md={10}
+              md={12}
               sm={12}
               xs={12}
               style={{

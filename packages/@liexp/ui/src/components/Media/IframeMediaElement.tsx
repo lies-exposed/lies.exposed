@@ -2,6 +2,7 @@ import { Media } from "@liexp/shared/io/http";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
+import { VideoCover } from "./VideoCover";
 
 const PREFIX = "IframeMediaElement";
 
@@ -63,16 +64,13 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
           onLoad={onLoad}
         />
       ) : (
-        <div
+        <VideoCover
+          thumbnail={media.thumbnail}
           onClick={(e) => {
             e.stopPropagation();
             setLoaded(true);
           }}
-          style={{
-            ...props.style,
-            background: `url(${media.thumbnail}) no-repeat center center`,
-            backgroundSize: "contain",
-          }}
+          style={props.style}
           onLoad={onLoad}
         />
       )}

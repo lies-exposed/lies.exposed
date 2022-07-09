@@ -1,21 +1,21 @@
 import { MP4Type } from "@liexp/shared/io/http/Media";
+import { VideoCover } from "../Media/VideoCover";
 import * as React from "react";
-import { styled } from '../../theme';
+import { styled } from "../../theme";
 
-const PREFIX = 'Video';
+const PREFIX = "Video";
 
 const classes = {
-  wrapper: `${PREFIX}-wrapper`
+  wrapper: `${PREFIX}-wrapper`,
 };
 
-const Root = styled('div')(() => ({
+const Root = styled("div")(() => ({
   [`&.${classes.wrapper}`]: {
     display: "flex",
     width: "100%",
     maxWidth: 800,
     minHeight: 300,
-    maxHeight: 400,
-  }
+  },
 }));
 
 interface VideoProps {
@@ -42,7 +42,6 @@ export const Video: React.FC<VideoProps> = ({
   style,
   onLoad,
 }) => {
-
   const [loaded, setLoaded] = React.useState(!(thumbnail !== undefined));
 
   return (
@@ -66,16 +65,13 @@ export const Video: React.FC<VideoProps> = ({
           <source src={src} type={type} />
         </video>
       ) : (
-        <div
+        <VideoCover
+          thumbnail={thumbnail}
           onClick={(e) => {
             e.stopPropagation();
             setLoaded(true);
           }}
-          style={{
-            ...style,
-            background: `url(${thumbnail}) no-repeat center center`,
-            backgroundSize: "contain",
-          }}
+          style={style}
           onLoad={onLoad}
         />
       )}
