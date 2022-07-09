@@ -20,7 +20,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
-          }),
+          }, false),
         }}
         render={({ groups }) => (
           <>

@@ -5,12 +5,13 @@ import { useMediaQuery } from "../../state/queries/DiscreteQueries";
 import { getTextContentsCapped } from "../Common/Editor";
 import { List, ListItemProps } from "../Common/List";
 import {
-   Card,
-  CardActionArea, CardContent,
+  Card,
+  CardActionArea,
+  CardContent,
   CardMedia,
   ListProps,
   Typography,
-  Box
+  Box,
 } from "../mui";
 
 export interface Area extends io.Area.Area {
@@ -26,7 +27,7 @@ const StyledBox = styled(Box)({
   [`& .${classes.root}`]: {
     width: "100%",
     maxWidth: 300,
-    marginBottom: 20
+    marginBottom: 20,
   },
   [`& .${classes.media}`]: {
     height: 200,
@@ -38,14 +39,17 @@ export const AreaListItem: React.FC<
     style?: React.CSSProperties;
   }
 > = ({ item, onClick, style }) => {
-  const media = useMediaQuery({
-    filter: item.media.length > 0 ? { ids: item.media } : {},
-    pagination: { perPage: 1, page: 1 },
-    sort: {
-      field: "createdAt",
-      order: "DESC",
+  const media = useMediaQuery(
+    {
+      filter: { ids: item.media },
+      pagination: { perPage: 1, page: 1 },
+      sort: {
+        field: "createdAt",
+        order: "DESC",
+      },
     },
-  });
+    true
+  );
 
   return (
     <StyledBox

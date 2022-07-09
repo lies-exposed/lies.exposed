@@ -88,14 +88,17 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
   return (
     <QueriesRenderer
       queries={{
-        links: useLinksQuery({
-          pagination: { page: 1, perPage: ids.length },
-          filter: expanded
-            ? {
-                ids,
-              }
-            : {},
-        }),
+        links: useLinksQuery(
+          {
+            pagination: { page: 1, perPage: ids.length },
+            filter: expanded
+              ? {
+                  ids,
+                }
+              : {},
+          },
+          true
+        ),
       }}
       render={({ links: { data: links } }) => {
         return (

@@ -1,6 +1,6 @@
 import { Keyword } from "@liexp/shared/io/http";
 import * as React from "react";
-import { useKeywordsDiscreteQuery } from "../../state/queries/DiscreteQueries";
+import { useKeywordsQuery } from "../../state/queries/DiscreteQueries";
 import KeywordList, { KeywordListItem } from "../lists/KeywordList";
 import { AutocompleteInput } from "./AutocompleteInput";
 
@@ -19,7 +19,7 @@ export const AutocompleteKeywordInput: React.FC<
       searchToFilter={(search) => ({ search })}
       selectedItems={selectedItems}
       getValue={(k) => (typeof k === "string" ? k : k.tag)}
-      query={useKeywordsDiscreteQuery}
+      query={p=> useKeywordsQuery(p, true)}
       renderTags={(items) => (
         <KeywordList
           style={{

@@ -27,12 +27,12 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
           filter: {
             group: groupId,
           },
-        }),
+        }, false),
         events: useEventsQuery({
           filter: {
             groups: [groupId],
           },
-        }),
+        }, false),
       }}
       render={({ group, groupsMembers, events }) => {
         return (

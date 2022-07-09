@@ -21,7 +21,7 @@ const MediaSliderBox: React.FC<MediaSliderProps> = ({
 }) => {
   return (
     <QueriesRenderer
-      queries={{ media: useMediaQuery(query) }}
+      queries={{ media: useMediaQuery(query, true) }}
       render={({ media: { data: media } }) => {
         return (
           <Box {...props}>

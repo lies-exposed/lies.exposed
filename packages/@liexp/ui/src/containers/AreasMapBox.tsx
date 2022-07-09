@@ -14,7 +14,7 @@ const AreasMapBox: React.FC<AreasMapProps> = (props) => {
             field: "id",
             order: "DESC",
           },
-        }),
+        }, false),
       }}
       render={({ areas }) => {
         return <AreasMap {...props} areas={areas.data} />;

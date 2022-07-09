@@ -18,7 +18,7 @@ const AreasPage: React.FC<RouteComponentProps> = ({ ...props }) => {
       queries={{
         areas: useAreasQuery({
           filter: null,
-        }),
+        }, false),
       }}
       render={({ areas: { data: areas } }) => {
         return (

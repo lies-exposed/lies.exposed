@@ -1,7 +1,7 @@
 import { MP4Type } from "@liexp/shared/io/http/Media";
-import { VideoCover } from "../Media/VideoCover";
 import * as React from "react";
 import { styled } from "../../theme";
+import { VideoCover } from "../Media/VideoCover";
 
 const PREFIX = "Video";
 

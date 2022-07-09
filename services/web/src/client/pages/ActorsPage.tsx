@@ -23,7 +23,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
     <>
       <QueriesRenderer
         queries={{
-          actors: useActorsQuery(queryParams),
+          actors: useActorsQuery(queryParams, false),
         }}
         render={({ actors: { data: actors } }) => {
           return (

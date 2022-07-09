@@ -18,7 +18,7 @@ const KeywordsPage: React.FC = () => {
             pagination: { page: 1, perPage: 20 },
             sort: { field: "id", order: "ASC" },
             filter: {},
-          }),
+          }, false),
         }}
         render={({ keywords: { data: keywords } }) => (
           <>
