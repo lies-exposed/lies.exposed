@@ -8,6 +8,12 @@ import { RouteComponentProps } from "@reach/router";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
+export const queryParams = {
+  pagination: { page: 1, perPage: 40 },
+  sort: { field: "id", order: "ASC" },
+  filter: {},
+};
+
 const ActorsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();
 
@@ -17,11 +23,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
     <>
       <QueriesRenderer
         queries={{
-          actors: useActorsQuery({
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "ASC" },
-            filter: {},
-          }),
+          actors: useActorsQuery(queryParams),
         }}
         render={({ actors: { data: actors } }) => {
           return (
@@ -41,10 +43,11 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                   style={{
                     display: "flex",
                     flexDirection: "row",
+                    flexWrap: "wrap",
                   }}
                   actors={actors.map((a) => ({
                     ...a,
-                    selected: false,
+                    selected: true,
                   }))}
                   onActorClick={(a) => {
                     navigateTo.actors({ id: a.id });

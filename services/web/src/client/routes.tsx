@@ -43,7 +43,7 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 import IndexPage from "./pages";
 import NotFoundPage from "./pages/404";
-import ActorsPage from "./pages/ActorsPage";
+import ActorsPage, { queryParams } from "./pages/ActorsPage";
 import AreasPage from "./pages/AreasPage";
 import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
@@ -163,14 +163,7 @@ export const routes = [
         queryFn: fetchPageContentByPath,
       },
       {
-        queryKey: getActorsQueryKey(
-          {
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "ASC" },
-            filter: {},
-          },
-          false
-        ),
+        queryKey: getActorsQueryKey(queryParams, false),
         queryFn: fetchActors,
       },
     ],
