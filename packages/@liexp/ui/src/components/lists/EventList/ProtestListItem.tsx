@@ -17,7 +17,7 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
       key={item.frontmatter.id}
       id={item.frontmatter.id}
       style={{
-        marginBottom: 40,
+        width: '100%'
       }}
     >
       <div>

@@ -197,14 +197,14 @@ const EventsPage: React.FC<EventsPageProps> = () => {
           filterActors: useActorsQuery(
             {
               pagination: { page: 1, perPage: params.actors.length },
-              filter: params.actors.length > 0 ? { ids: params.actors } : {},
+              filter: { ids: params.actors },
             },
             true
           ),
           filterGroups: useGroupsQuery(
             {
               pagination: { page: 1, perPage: params.groups.length },
-              filter: params.groups.length > 0 ? { ids: params.groups } : {},
+              filter: { ids: params.groups },
             },
             true
           ),
