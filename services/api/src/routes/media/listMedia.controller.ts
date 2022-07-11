@@ -36,7 +36,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         (q) => {
           if (O.isSome(description)) {
             return q.where("lower(media.description) LIKE :description", {
-              description: `%${description.value}%`,
+              description: `%${description.value.toLowerCase()}%`,
             });
           }
 
