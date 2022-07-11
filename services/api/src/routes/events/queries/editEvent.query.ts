@@ -22,27 +22,27 @@ export const editEventQuery =
     return pipe(
       fetchRelations(ctx)(input),
       TE.chain((commonData) => {
-        const oldMedia = storedEvent.media ?? [];
-        const media = commonData.media.concat(
-          oldMedia.filter((l) => !commonData.media.find((ll) => ll.id === l.id))
-        );
+        // const oldMedia = storedEvent.media ?? [];
+        // const media = commonData.media.concat(
+        //   oldMedia.filter((l) => !commonData.media.find((ll) => ll.id === l.id))
+        // );
 
-        const oldLinks = storedEvent.links ?? [];
-        const links = commonData.links.concat(
-          oldLinks.filter((l) => !commonData.links.find((ll) => ll.id === l.id))
-        );
+        // const oldLinks = storedEvent.links ?? [];
+        // const links = commonData.links.concat(
+        //   oldLinks.filter((l) => !commonData.links.find((ll) => ll.id === l.id))
+        // );
 
-        const oldKeywords = storedEvent.keywords ?? [];
-        const keywords = commonData.keywords.concat(
-          oldKeywords.filter(
-            (l) => !commonData.keywords.find((ll) => ll.id === l.id)
-          )
-        );
-        const newRelations = {
-          links,
-          keywords,
-          media,
-        };
+        // const oldKeywords = storedEvent.keywords ?? [];
+        // const keywords = commonData.keywords.concat(
+        //   oldKeywords.filter(
+        //     (l) => !commonData.keywords.find((ll) => ll.id === l.id)
+        //   )
+        // );
+        // const newRelations = {
+        //   links,
+        //   keywords,
+        //   media,
+        // };
 
         switch (input.type) {
           case http.Events.Transaction.TRANSACTION.value: {
@@ -61,7 +61,7 @@ export const editEventQuery =
                 ...storedEvent.payload,
                 ...payload,
               },
-              ...newRelations,
+              ...commonData,
             };
             return TE.right(event);
           }
@@ -81,7 +81,7 @@ export const editEventQuery =
                 ...storedEvent.payload,
                 ...payload,
               },
-              ...newRelations,
+              ...commonData,
             };
             return TE.right(event);
           }
@@ -101,7 +101,7 @@ export const editEventQuery =
                 ...storedEvent.payload,
                 ...payload,
               },
-              ...newRelations,
+              ...commonData,
             };
             return TE.right(event);
           }
@@ -122,7 +122,7 @@ export const editEventQuery =
                 ...payload,
                 location: O.toUndefined(payload.location),
               },
-              ...newRelations,
+              ...commonData,
             };
             return TE.right(event);
           }
@@ -142,7 +142,7 @@ export const editEventQuery =
                 ...storedEvent.payload,
                 ...payload,
               },
-              ...newRelations,
+              ...commonData,
             });
           }
           case http.Events.Uncategorized.UNCATEGORIZED.value:
@@ -167,7 +167,7 @@ export const editEventQuery =
               TE.map((p) => ({
                 ...storedEvent,
                 ...baseProps,
-                ...newRelations,
+                ...commonData,
                 type,
                 payload: p,
               }))
