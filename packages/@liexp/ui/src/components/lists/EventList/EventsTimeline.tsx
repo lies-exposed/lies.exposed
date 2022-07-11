@@ -155,8 +155,6 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
     ...listProps
   } = props;
 
-  // const theme = useTheme();
-
   // const isDownSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const itemProps = {

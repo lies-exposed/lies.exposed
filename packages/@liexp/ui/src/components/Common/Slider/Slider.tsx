@@ -1,7 +1,7 @@
 import { Media } from "@liexp/shared/io/http";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
-import { styled , useTheme } from "../../../theme";
+import { styled, useTheme } from "../../../theme";
 import MediaElement from "../../Media/MediaElement";
 
 const PREFIX = "Slider";
@@ -80,7 +80,7 @@ export const Slider: React.FC<SliderProps> = ({
       ]}
       {...props}
     >
-      {slides.map((s) => (
+      {slides.map((s, i) => (
         <div
           key={s.id}
           onClick={(e) => {
@@ -92,7 +92,7 @@ export const Slider: React.FC<SliderProps> = ({
             media={s}
             className={classes.item}
             style={itemStyle}
-            onLoad={onLoad}
+            onLoad={i === 0 ? onLoad : undefined}
           />
         </div>
       ))}
