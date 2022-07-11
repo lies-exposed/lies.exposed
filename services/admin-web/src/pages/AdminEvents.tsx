@@ -326,7 +326,16 @@ export const EventEdit: React.FC = () => {
             {({ formData, ...rest }) => {
               const qc = new QueryClient();
               return pipe(
-                http.Events.Uncategorized.Uncategorized.decode(formData),
+                http.Events.Uncategorized.Uncategorized.decode({
+                  ...formData,
+                  payload: {
+                    ...formData.payload,
+                    location:
+                      formData.payload.location === ""
+                        ? undefined
+                        : formData.payload.location,
+                  },
+                }),
                 E.fold(ValidationErrorsLayout, (p) => (
                   <HelmetProvider>
                     <ThemeProvider theme={ECOTheme}>
