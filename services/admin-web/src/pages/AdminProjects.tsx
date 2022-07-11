@@ -1,9 +1,7 @@
 import { http } from "@liexp/shared/io";
-import { Polygon } from '@liexp/shared/io/http/Common/Geometry';
 import { Kind } from "@liexp/shared/io/http/ProjectImage";
 import { ProjectPageContent } from "@liexp/ui/components/ProjectPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
-import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
@@ -33,6 +31,7 @@ import {
   TextInput
 } from "react-admin";
 import { ColorInput } from "../components/Common/ColorInput";
+import ReferenceAreaInput from '../components/Common/ReferenceAreaInput';
 import RichTextInput from "../components/Common/RichTextInput";
 
 const RESOURCE = "projects";
@@ -145,7 +144,7 @@ export const ProjectCreate: React.FC<CreateProps> = (props) => (
       <ArrayInput source="areas">
         <SimpleFormIterator>
           <TextInput source="label" />
-          <MapInput source="geometry" type={Polygon.type.props.type.value} />
+          <ReferenceAreaInput source="payload.location" />
           <RichTextInput source="body" />
         </SimpleFormIterator>
       </ArrayInput>

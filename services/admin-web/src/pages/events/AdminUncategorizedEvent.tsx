@@ -1,7 +1,6 @@
 import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
-import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
@@ -201,7 +200,7 @@ export const UncategorizedEventCreate: React.FC = (props) => {
             hidden={true}
           />
           <TextInput source="payload.title" validate={[required()]} />
-          <MapInput source="payload.location" />
+          <ReferenceAreaInput source="payload.location" />
           <DateInput
             source="date"
             validate={[required()]}
