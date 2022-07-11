@@ -2828,9 +2828,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.14.1":
-  version: 8.14.1
-  resolution: "@testing-library/dom@npm:8.14.1"
+"@testing-library/dom@npm:^8.16.0":
+  version: 8.16.0
+  resolution: "@testing-library/dom@npm:8.16.0"
   dependencies:
     "@babel/code-frame": ^7.10.4
     "@babel/runtime": ^7.12.5
@@ -2840,7 +2840,7 @@ __metadata:
     dom-accessibility-api: ^0.5.9
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
-  checksum: d59204b21d4f0ad5809a218b0a3daf44d3ef46bc5b44c9eda793848ebdb3d9e644790e8857c30069fcc8a9f9c0cd1a6c027f22fae8635adfa9a25ec97a65bdfb
+  checksum: 37aabbec872522bcb51106ecb700d9be601293e75445084b6cc195921db4b2d06d6bd4c67ad834174c129f2199c39aa540b6d17c296fcbd701dc99fd800afe36
   languageName: node
   linkType: hard
 
@@ -5468,7 +5468,7 @@ __metadata:
   resolution: "admin-web@workspace:services/admin-web"
   dependencies:
     "@mui/material": 5.8.5
-    "@testing-library/dom": ^8.14.1
+    "@testing-library/dom": ^8.16.0
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.3.0
     "@testing-library/user-event": ^14.2.1
