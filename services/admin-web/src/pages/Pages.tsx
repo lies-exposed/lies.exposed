@@ -19,7 +19,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import RichTextInput from "../components/Common/RichTextInput";
@@ -47,8 +47,7 @@ export const PageEdit: React.FC<EditProps> = (props) => {
         <FormTab label="Generals">
           <TextInput source="title" />
           <TextInput source="path" />
-          <RichTextInput source="excerpt" />
-          <RichTextInput source="body" />
+          <ReactPageInput source="excerpt" />
           <ReactPageInput source="body2" />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />

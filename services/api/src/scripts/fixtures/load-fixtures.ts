@@ -96,7 +96,7 @@ const run = (): Promise<void> => {
                     if (pIdx >= 0) {
                       return acc;
                     }
-                    return acc.concat({ deletedAt: null, ...p });
+                    return acc.concat({ deletedAt: null, excerpt: null, ...p });
                   }, []);
 
                   return tClient.save(PageEntity, pp);
