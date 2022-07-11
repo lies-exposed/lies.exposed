@@ -188,16 +188,16 @@ export const createFromTGMessage =
       (message.photo ?? []).reduce(
         (acc, p) => {
           if (
-            acc.unique.some((u) => u.file_id === p.file_id) &&
-            p.width < 1000
+            !acc.unique.some((u) => u.file_id === p.file_id) &&
+            p.width > 1000
           ) {
-            return acc;
+            return {
+              unique: acc.unique.concat(p),
+              ids: acc.ids.concat(p.file_id),
+            };
           }
 
-          return {
-            unique: acc.unique.concat(p),
-            ids: acc.ids.concat(p.file_id),
-          };
+          return acc;
         },
         { unique: [] as TelegramBot.PhotoSize[], ids: [] as string[] }
       ),
