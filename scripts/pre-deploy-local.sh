@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# clean output dirs
-yarn clean
-
 # install deps
 yarn
 
