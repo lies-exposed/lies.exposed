@@ -23,6 +23,9 @@ export class PageEntity {
   @Column({ type: "varchar", unique: true })
   path: string;
 
+  @Column({ type: 'varchar' })
+  excerpt: Record<string, unknown> | null;
+
   @Column({ type: "varchar" })
   body: string;
 
