@@ -47,7 +47,7 @@ export const PageEdit: React.FC<EditProps> = (props) => {
         <FormTab label="Generals">
           <TextInput source="title" />
           <TextInput source="path" />
-          <ReactPageInput source="excerpt" />
+          <ReactPageInput source="excerpt" onlyText />
           <ReactPageInput source="body2" />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />

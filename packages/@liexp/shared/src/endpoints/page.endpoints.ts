@@ -44,11 +44,7 @@ export const EditPage = Endpoint({
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
     Params: t.type({ id: t.string }),
-    Body: t.strict({
-      title: t.string,
-      path: t.string,
-      body: t.string,
-    }),
+    Body: Page.EditPage,
   },
   Output: t.strict({ data: Page.Page }),
 });
