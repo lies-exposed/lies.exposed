@@ -1,5 +1,4 @@
 import { Media, MediaType } from "@liexp/shared/io/http/Media";
-import { Avatar } from "@liexp/ui/components/Common/Avatar";
 import { Typography } from "@liexp/ui/components/mui";
 import React from "react";
 import {
@@ -12,16 +11,18 @@ import {
 export const matchMediaSuggestions = (
   filterValue: string,
   choice: Media
-): boolean =>
-  choice.description.includes(filterValue);
+): boolean => choice.description.includes(filterValue);
 
 export const MediaAutocompleteOptionText: React.FC = () => {
   const record = useRecordContext();
   return record?.id ? (
-    <>
-      <Avatar src={record.thumbnail} style={{ marginRight: 10 }} />
+    <div style={{ display: "flex" }}>
+      <img
+        src={record.thumbnail}
+        style={{ marginRight: 10, width: 100, height: 100 }}
+      />
       <Typography>{record.description}</Typography>
-    </>
+    </div>
   ) : (
     <span>No media</span>
   );

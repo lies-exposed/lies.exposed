@@ -12,7 +12,6 @@ import {
 @Entity("page")
 @Index(["path"], { unique: true })
 export class PageEntity {
-  type: "PageFrontmatter";
 
   @PrimaryGeneratedColumn("uuid")
   id: UUID;

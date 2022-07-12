@@ -451,7 +451,7 @@ interface Result {
 }
 
 export interface EventsNetworkGraphData {
-  pageContent: Page.PageMD;
+  pageContent: Page.Page;
   topics: {
     nodes: Topic.TopicMD[];
   };
