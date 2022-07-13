@@ -23,6 +23,12 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
         links,
         withDeleted,
         withDrafts,
+        groups,
+        groupsMembers,
+        actors,
+        title,
+        locations,
+        exclude,
         ...query
       },
     }) => {
@@ -30,8 +36,10 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
 
       return pipe(
         searchEventV2Query(ctx)({
-          ...query,
+          // ...query,
           draft,
+          locations,
+          exclude,
           type: O.some([DOCUMENTARY.value]),
           startDate,
           endDate,
@@ -39,16 +47,19 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
           keywords,
           links,
           media,
+          title,
+          groups,
+          groupsMembers,
           withDeleted: O.getOrElse(() => false)(withDeleted),
           withDrafts: O.getOrElse(() => false)(withDrafts),
           ...ormOptions,
         }),
-        TE.chain(({ results, totals: { patents } }) =>
+        TE.chain(({ results, totals: { documentaries } }) =>
           pipe(
             results,
             A.traverse(E.Applicative)(toEventV2IO),
             TE.fromEither,
-            TE.map((data) => ({ data, total: patents }))
+            TE.map((data) => ({ data, total: documentaries }))
           )
         ),
         TE.map((body) => ({
