@@ -20,12 +20,12 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import ExcerptField from "../../components/Common/ExcerptField";
 import { MediaField } from "../../components/Common/MediaField";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
-import ReferenceAreaInput from '../../components/Common/ReferenceAreaInput';
+import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
@@ -34,18 +34,13 @@ import ReferenceArrayMediaInput from "../../components/Common/ReferenceArrayMedi
 import ReferenceMediaInput from "../../components/Common/ReferenceMediaInput";
 import { TGPostButton } from "../../components/Common/TGPostButton";
 import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
-import { ReferenceLinkTab } from '../../components/tabs/ReferenceLinkTab';
+import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 
 const documentaryEventsFilter = [
-  <BooleanInput
-    key="withDrafts"
-    label="Draft only"
-    source="withDrafts"
-    alwaysOn
-  />,
-  <ReferenceActorInput key="victim" source="victim" alwaysOn />,
-  <DateInput key="date" source="date" />,
+  <TextInput key="title" source="title" alwaysOn />,
+  <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
+  <DateInput key="date" source="date" alwaysOn />,
 ];
 
 export const DocumentaryList: React.FC<ListProps> = (props) => (
@@ -56,7 +51,8 @@ export const DocumentaryList: React.FC<ListProps> = (props) => (
     filterDefaultValues={{
       _sort: "date",
       _order: "DESC",
-      withDrafts: false,
+      title: undefined,
+      draft: undefined,
     }}
   >
     <Datagrid rowClick="edit">

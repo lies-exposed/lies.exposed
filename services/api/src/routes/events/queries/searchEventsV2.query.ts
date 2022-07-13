@@ -23,7 +23,7 @@ interface SearchEventQuery {
   locations: O.Option<string[]>;
   type: O.Option<string[]>;
   title: O.Option<string>;
-  draft: O.Option<boolean>
+  draft: O.Option<boolean>;
   startDate: O.Option<Date>;
   endDate: O.Option<Date>;
   exclude: O.Option<string[]>;
@@ -133,12 +133,14 @@ export const searchEventV2Query =
                 `ts_rank_cd(
                   to_tsvector(
                     'english',
-                    CASE
-                      WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy', 'Patent') THEN "event"."payload"::jsonb ->> 'title'
-                      WHEN event.type IN ('Death') THEN "event"."payload"::jsonb ->> 'victim'::text
-                    END
+                    coalesce(
+                      CASE
+                        WHEN event.type IN ('Uncategorized', 'Documentary', 'ScientificStudy', 'Patent') THEN "event"."payload"::jsonb ->> 'title'
+                        WHEN event.type IN ('Death') THEN "event"."payload"::jsonb ->> 'victim'::text
+                      END, ''
+                    )
                   ),
-                  to_tsquery(:q)
+                  to_tsquery('english', :q)
                 ) > 0.001`,
                 {
                   q: tsQueryTitle,
@@ -309,12 +311,12 @@ export const searchEventV2Query =
               });
             }
 
-            if (!withDrafts) {
-              q.andWhere("event.draft = :draft", { draft: false });
-            }
+            // if (!withDrafts) {
+            //   q.andWhere("event.draft = :draft", { draft: false });
+            // }
 
             if (O.isSome(draft)) {
-              q.andWhere("event.draft = :draft", { draft: draft.value});
+              q.andWhere("event.draft = :draft", { draft: draft.value });
             }
 
             if (withDeleted) {
@@ -322,6 +324,10 @@ export const searchEventV2Query =
             }
 
             q.cache(true);
+
+            if (order !== undefined) {
+              addOrder(order, q, "event");
+            }
 
             const uncategorizedCount = q
               .clone()
@@ -351,7 +357,7 @@ export const searchEventV2Query =
 
             const documentariesCount = q
               .clone()
-              .andWhere("event.type = 'Documentary'");
+              .andWhere(" event.type::text = 'Documentary' ");
 
             // logger.debug.log(
             //   `Documentary count query %O`,
@@ -366,10 +372,6 @@ export const searchEventV2Query =
             //   `Transaction count query %O`,
             //   ...transactions.getQueryAndParameters()
             // );
-
-            if (order !== undefined) {
-              addOrder(order, q, "event");
-            }
 
             if (O.isSome(type)) {
               q.andWhere("event.type::text IN (:...types)", {
@@ -395,7 +397,7 @@ export const searchEventV2Query =
         );
 
         return sequenceS(TE.ApplicativePar)({
-          results: db.execQuery(() => {
+          results: db.execQuery(async () => {
             const resultQ = searchV2Query.resultsQuery
               .loadAllRelationIds({ relations: ["keywords", "links", "media"] })
               .skip(skip)
@@ -403,7 +405,11 @@ export const searchEventV2Query =
 
             // logger.debug.log("Result query %s", resultQ.getSql());
 
-            return resultQ.getMany();
+            const results = await resultQ.getRawAndEntities();
+
+            // logger.debug.log("Raw results %O", results.raw[0]);
+
+            return results.entities;
           }),
           uncategorized: db.execQuery(() =>
             searchV2Query.uncategorizedCount.getCount()
