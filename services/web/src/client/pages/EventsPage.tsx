@@ -289,9 +289,6 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                     keywords={filterKeywords.data}
                     groupsMembers={filterGroupsMembers.data}
                     onQueryChange={handleUpdateEventsSearch}
-                    onQueryClear={() => {
-                      navigateTo.events({}, {});
-                    }}
                   />
                 </main>
               </Grid>

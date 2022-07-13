@@ -5,7 +5,7 @@ import {
   Patent,
   ScientificStudy,
   Transaction,
-  Uncategorized,
+  Uncategorized
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -14,7 +14,6 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
 import { EventIcon } from "@liexp/ui/components/Common/Icons";
-import { a11yProps } from "@liexp/ui/components/Common/TabPanel";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import GroupList from "@liexp/ui/components/lists/GroupList";
@@ -23,19 +22,13 @@ import KeywordList from "@liexp/ui/components/lists/KeywordList";
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary,
-  Box,
-  alpha,
-  Grid,
-  IconButton,
-  Tab,
-  Tabs,
-  Toolbar,
-  Typography,
+  AccordionSummary, alpha, Box, Grid,
+  IconButton, Toolbar,
+  Typography
 } from "@liexp/ui/components/mui";
 import { getTotal } from "@liexp/ui/helpers/event.helper";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { useTheme, styled } from "@liexp/ui/theme";
+import { styled, useTheme } from "@liexp/ui/theme";
 import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -628,7 +621,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               width: "100%",
             }}
           >
-            <Tabs
+            {/* <Tabs
               className={classes.tabs}
               value={tab}
               onChange={(e, tab) => onQueryChange({ ...query, tab })}
@@ -642,7 +635,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   maxWidth: "100%",
                 }}
               />
-              {/* <Tab
+               <Tab
                 label="map"
                 {...a11yProps(1)}
                 style={{
@@ -650,8 +643,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   flexGrow: 1,
                   maxWidth: "100%",
                 }}
-              /> */}
-              <Tab
+              />  <Tab
                 label="network"
                 {...a11yProps(1)}
                 style={{
@@ -659,8 +651,8 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   flexGrow: 1,
                   maxWidth: "100%",
                 }}
-              />
-            </Tabs>
+              /> 
+            </Tabs> */}
           </Grid>
         );
 

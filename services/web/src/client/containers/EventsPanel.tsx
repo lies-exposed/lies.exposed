@@ -6,11 +6,9 @@ import useWindowsDimensions from "@liexp/ui/hooks/useWindowsDimensions";
 import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
 import { styled } from "@liexp/ui/theme";
 import { clsx } from "clsx";
-import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import AddEventModal from "../components/events/AddEventModal";
 import { useNavigateToResource } from "../utils/location.utils";
-import { EventsNetwork } from "./EventsNetwork";
 
 const PREFIX = "EventsPanel";
 
@@ -144,14 +142,12 @@ interface EventsPanelProps {
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
   onQueryChange: (q: EventsQueryParams) => void;
-  onQueryClear: () => void;
 }
 
 export const EventsPanel: React.FC<EventsPanelProps> = ({
   hash,
   query: { tab, ...query },
   onQueryChange,
-  onQueryClear,
 }) => {
   const navigateTo = useNavigateToResource();
 
@@ -159,7 +155,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 
   const handleUpdateEventsSearch = React.useCallback(
     (update: Partial<EventsQueryParams>): void => {
-      onQueryChange({ tab, ...query, ...update });
+      onQueryChange({ ...query, ...update, tab: 0 });
     },
     [hash, tab, query]
   );
@@ -263,7 +259,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
               />
             ) : null}
           </TabPanel>
-          <TabPanel
+          {/* <TabPanel
             className={clsx(classes.tabPanel, {
               [classes.tabPanelSelected]: tab === 1,
             })}
@@ -293,7 +289,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
               </Grid>
             ) : null}
             <div />
-          </TabPanel>
+          </TabPanel> */}
         </Grid>
       </Grid>
 

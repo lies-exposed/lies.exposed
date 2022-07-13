@@ -712,9 +712,9 @@ export function createEventNetworkGraphProps({
     })
   );
 
-  const groupByArray: NEA.NonEmptyArray<GroupByItem> = Map.toArray(
-    Ord.ordString
-  )(groupByItems).flatMap(([_k, items]) => items) as any;
+  const groupByArray: NEA.NonEmptyArray<GroupByItem> = Map.toArray(S.Ord)(
+    groupByItems
+  ).flatMap(([_k, items]) => items) as any;
 
   const groupByScale = ordinalScale({
     domain: groupByArray.map((gb: any) =>
@@ -723,7 +723,7 @@ export function createEventNetworkGraphProps({
     range: groupByArray.map((t) => `#${t.color}`),
   });
 
-  const actorsArray = Map.toArray(Ord.ordString)(actors).flatMap(
+  const actorsArray = Map.toArray(S.Ord)(actors).flatMap(
     ([_k, actors]) => actors
   );
   const actorsScale = ordinalScale({
@@ -731,7 +731,7 @@ export function createEventNetworkGraphProps({
     range: actorsArray.map((a) => `#${a.color}`),
   });
 
-  const groupsArray = Map.toArray(Ord.ordString)(groups).flatMap(
+  const groupsArray = Map.toArray(S.Ord)(groups).flatMap(
     ([_k, groups]) => groups
   );
 
