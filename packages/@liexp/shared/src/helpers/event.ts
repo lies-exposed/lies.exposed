@@ -345,6 +345,7 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
   const commonIds = {
     media: e.media,
     keywords: e.keywords,
+    links: e.links
   };
 
   switch (e.type) {
@@ -387,11 +388,11 @@ export const getEventsMetadata = (e: SearchEvent): EventRelations => {
         actors: [
           ...e.payload.authors.actors,
           ...e.payload.subjects.actors,
-        ].filter((a) => a !== undefined),
+        ],
         groups: [
           ...e.payload.authors.groups,
           ...e.payload.subjects.groups,
-        ].filter((_) => _ !== undefined),
+        ],
         groupsMembers: [],
         media: [...commonIds.media, e.payload.media],
       };
