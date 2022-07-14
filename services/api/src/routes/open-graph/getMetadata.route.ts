@@ -6,6 +6,7 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { Metadata } from "page-metadata-parser";
+import { Equal } from 'typeorm';
 import { LinkEntity } from "@entities/Link.entity";
 import { ControllerError, ServerError } from "@io/ControllerError";
 import { toLinkIO } from "@routes/links/link.io";
@@ -18,7 +19,7 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
       return pipe(
         ctx.db.findOne(LinkEntity, {
           where: {
-            url,
+            url: Equal(url),
           },
         }),
         TE.chain((link) => {

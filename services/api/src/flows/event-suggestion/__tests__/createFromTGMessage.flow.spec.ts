@@ -180,30 +180,26 @@ describe("Create From TG Message", () => {
           where: { description: message.caption },
         })
       );
-      await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result[0].id]));
+
+      if (result.link?.id) {
+        await throwTE(Test.ctx.db.delete(LinkEntity, [result.link?.id]));
+      }
+
+      await throwTE(
+        Test.ctx.db.delete(MediaEntity, [
+          ...result.photos.map((m) => m.id),
+          ...result.videos.map((m) => m.id),
+        ])
+      );
 
       Test.ctx.logger.debug.log("Result %O", result);
 
-      expect(result).toMatchObject([
-        {
-          status: "PENDING",
-          payload: {
-            type: "New",
-            event: {
-              type: "Uncategorized",
-              excerpt: expectedExcerpt,
-              payload: {
-                title,
-                groups: [],
-                groupsMembers: [],
-                actors: [],
-              },
-              media: [media.id],
-              links: [],
-            },
-          },
-        },
-      ]);
+      expect(result).toMatchObject({
+        link: undefined,
+        photos: [media],
+        hashtags: [],
+        videos: []
+      });
     });
 
     test("succeeds with sample message #96", async () => {
@@ -247,7 +243,17 @@ describe("Create From TG Message", () => {
         ({ id, ...r }) => r
       ) as any[];
 
-      await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result[0].id]));
+      if (result.link?.id) {
+        await throwTE(Test.ctx.db.delete(LinkEntity, [result.link?.id]));
+      }
+
+      await throwTE(
+        Test.ctx.db.delete(MediaEntity, [
+          ...result.photos.map((m) => m.id),
+          ...result.videos.map((m) => m.id),
+        ])
+      );
+
       await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
 
       expect(result).toMatchObject([
@@ -294,13 +300,8 @@ describe("Create From TG Message", () => {
       });
 
       expect(result).toMatchObject({
-        type: "New",
-        event: {
-          type: "Uncategorized",
-          payload: {},
-          links: [],
-          media: [media.id],
-        },
+        link: undefined,
+        media: [media],
       });
     });
   });

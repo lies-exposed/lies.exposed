@@ -9,8 +9,11 @@ import { URLArb } from "./URL.arbitrary";
 const linksProps = propsOmit(http.Link.Link, [
   "id",
   "url",
-  'image',
+  "image",
   "publishDate",
+  "provider",
+  "keywords",
+  "events",
   "createdAt",
   "updatedAt",
 ]);
@@ -23,6 +26,9 @@ export const LinkArb: tests.fc.Arbitrary<http.Link.Link> = tests
     id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
     url: tests.fc.sample(URLArb, 1)[0],
     publishDate: tests.fc.sample(DateArb, 1)[0],
+    events: [],
+    keywords: [],
+    provider: undefined,
     createdAt: tests.fc.sample(DateArb, 1)[0],
     updatedAt: tests.fc.sample(DateArb, 1)[0],
   }));

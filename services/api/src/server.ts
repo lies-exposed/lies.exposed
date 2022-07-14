@@ -221,9 +221,16 @@ export const makeApp = (ctx: RouteContext): express.Express => {
       }),
       throwTE
     ).then(
-      (r) => {
-        tgLogger.info.log("Success %O", r);
-        void ctx.tg.bot.sendMessage(msg.chat.id, "   🫶", {
+      ({ eventSuggestion, storeMsg }) => {
+        tgLogger.info.log("Success %O", eventSuggestion);
+        const message = [
+          "Thanks for your contribution! 🫶",
+          "\n",
+          `Links: ${eventSuggestion.link ? eventSuggestion.link.url : ""}`,
+          `Photos: ${eventSuggestion.photos.length}`,
+          `Videos: ${eventSuggestion.videos.length}`,
+        ];
+        void ctx.tg.bot.sendMessage(msg.chat.id, message.join("\n"), {
           reply_to_message_id: msg.message_id,
         });
       },

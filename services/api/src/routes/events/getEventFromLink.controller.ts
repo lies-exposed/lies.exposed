@@ -10,6 +10,7 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { Metadata } from "page-metadata-parser";
+import { Equal } from 'typeorm';
 import { toEventV2IO } from "./eventV2.io";
 import { searchEventV2Query } from "./queries/searchEventsV2.query";
 import { LinkEntity } from "@entities/Link.entity";
@@ -22,7 +23,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
     return pipe(
       ctx.db.findOne(LinkEntity, {
         where: {
-          url,
+          url: Equal(url),
         },
       }),
       TE.chain((link) => {
