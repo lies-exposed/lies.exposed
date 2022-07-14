@@ -17,6 +17,7 @@ import {
   FormTab,
   FunctionField,
   List,
+  RaRecord,
   ReferenceArrayInput,
   ReferenceField,
   ReferenceManyField,
@@ -93,9 +94,39 @@ export const LinkList: React.FC = () => (
   </List>
 );
 
+const transformLink = ({ newEvents, ...r }: RaRecord): RaRecord => {
+  return {
+    ...r,
+    events: (r.events ?? []).concat(newEvents ?? []),
+  };
+};
+
 const EditTitle: React.FC = () => {
   const record = useRecordContext();
   return <span>Link {record?.title}</span>;
+};
+
+const OverrideThumbnail: React.FC = () => {
+  const refresh = useRefresh();
+  const record = useRecordContext();
+
+  return (
+    <Button
+      label="resources.links.actions.override_thumbnail"
+      variant="contained"
+      onClick={() => {
+        void apiProvider
+          .put(
+            `/links/${record?.id}`,
+            transformLink({
+              ...record,
+              overrideThumbnail: true,
+            })
+          )
+          .then(() => refresh());
+      }}
+    />
+  );
 };
 
 const UpdateMetadataButton: React.FC = () => {
@@ -178,12 +209,7 @@ export const LinkEdit: React.FC = () => {
           <UpdateMetadataButton />
         </Toolbar>
       }
-      transform={({ newEvents, ...r }) => {
-        return {
-          ...r,
-          events: (r.events ?? []).concat(newEvents ?? []),
-        };
-      }}
+      transform={transformLink}
     >
       <TabbedForm>
         <FormTab label="General">
@@ -193,6 +219,7 @@ export const LinkEdit: React.FC = () => {
             <TextField source="location" />
           </ReferenceField>
           <MediaField source="image.location" type="image/jpeg" />
+          <OverrideThumbnail />
           <TextInput source="description" fullWidth />
           <DateInput source="publishDate" />
           <ReferenceGroupInput source="provider" />

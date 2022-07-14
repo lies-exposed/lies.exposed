@@ -9,11 +9,9 @@ import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import TelegramBot from "node-telegram-bot-api";
+import { Equal } from "typeorm";
 import { createAndUpload } from "../media/createAndUpload.flow";
-import { createEventSuggestionFromMedia } from "./createFromMedia.flow";
-import { findEventByLinkOrCreateSuggestion } from "./findEventByLinkOrCreateSuggestion.flow";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
+import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
 import {
   ControllerError,
@@ -22,7 +20,12 @@ import {
 } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
-type EventResult = Array<EventSuggestionEntity | EventV2Entity>;
+interface EventResult {
+  link: LinkEntity | undefined;
+  photos: MediaEntity[];
+  videos: MediaEntity[];
+  hashtags: string[];
+}
 
 const parseVideo =
   (ctx: RouteContext) =>
@@ -164,24 +167,23 @@ export const createFromTGMessage =
       }
     }
 
-    const hashtags = (message.entities ?? [])
+    const hashtags: string[] = (message.entities ?? [])
       .filter((e) => e.type === "hashtag")
-      .map((h) => message.text?.slice(h.offset, h.length));
+      .map((h) => message.text?.slice(h.offset, h.length))
+      .filter((s): s is string => typeof s !== 'undefined');
 
     const byURLTask = pipe(
       url,
       O.map((u) =>
         pipe(
-          findEventByLinkOrCreateSuggestion(ctx)(u as any, hashtags),
-          TE.map((l) => O.some(l))
+          ctx.db.findOne(LinkEntity, {
+            where: {
+              url: Equal(u),
+            },
+          })
         )
       ),
-      O.getOrElse(() =>
-        TE.right<
-          ControllerError,
-          O.Option<EventSuggestionEntity | EventV2Entity>
-        >(O.none)
-      )
+      O.getOrElse(() => TE.right<ControllerError, O.Option<LinkEntity>>(O.none))
     );
 
     const byPhotoTask = pipe(
@@ -202,15 +204,7 @@ export const createFromTGMessage =
         { unique: [] as TelegramBot.PhotoSize[], ids: [] as string[] }
       ),
       TE.right,
-      TE.chain((pp) => parsePhoto(ctx)(message.caption ?? "", pp.unique)),
-      TE.chain((mm) =>
-        mm.length > 0
-          ? pipe(
-              createEventSuggestionFromMedia(ctx)(mm, []),
-              TE.map((es) => [es])
-            )
-          : TE.right([])
-      )
+      TE.chain((pp) => parsePhoto(ctx)(message.caption ?? "", pp.unique))
     );
 
     const byVideoTask = O.isSome(video)
@@ -219,18 +213,15 @@ export const createFromTGMessage =
 
     return pipe(
       sequenceS(TE.ApplicativePar)({
-        byUrl: byURLTask,
-        byPhoto: byPhotoTask,
-        byVideo: byVideoTask,
+        link: byURLTask,
+        photos: byPhotoTask,
+        videos: byVideoTask,
+        hashtags: TE.right(hashtags),
       }),
-      TE.map(({ byUrl, byPhoto }) => {
-        const byURLEvs: EventResult = pipe(
-          byUrl,
-          O.map((u) => [u]),
-          O.getOrElse((): EventResult => [])
-        );
-        return [...byURLEvs, ...byPhoto];
-      }),
+      TE.map(({ link, ...result }) => ({
+        ...result,
+        link: O.toUndefined(link),
+      })),
       TE.mapLeft((e) => {
         ctx.logger.error.log("Error %O", e);
         return e;

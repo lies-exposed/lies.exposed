@@ -23,7 +23,7 @@ export const findEventByLinkOrCreateSuggestion =
     return pipe(
       ctx.db.findOne(LinkEntity, {
         where: {
-          url: url,
+          url: Equal(url),
         },
       }),
       TE.chain((optLink) => {
@@ -72,7 +72,7 @@ export const findEventByLinkOrCreateSuggestion =
                     newLinks: O.none,
                     order: {},
                     skip: 0,
-                    take: 5
+                    take: 5,
                   }),
                   TE.chain(({ data }) => {
                     ctx.logger.debug.log("Found event suggestions %O", data);

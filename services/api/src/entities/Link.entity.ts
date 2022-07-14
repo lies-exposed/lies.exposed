@@ -1,3 +1,4 @@
+import { URL } from '@liexp/shared/io/http/Common';
 import { UUID } from 'io-ts-types';
 import {
   Column,
@@ -21,7 +22,7 @@ export class LinkEntity {
   id: UUID;
 
   @Column({ type: "varchar", nullable: false })
-  url: string;
+  url: URL;
 
   @Column({ type: "varchar", nullable: true })
   title: string;

@@ -1,6 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { sanitizeURL } from "@liexp/shared/utils/url.utils";
 import { Router } from "express";
+import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { Equal, In } from "typeorm";
@@ -8,11 +9,12 @@ import { RouteContext } from "../route.types";
 import { toLinkIO } from "./link.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
+import { fetchAsLink } from "@flows/link.flow";
 
 export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Link.Edit,
-    ({ params: { id }, body: { events, url, ...body } }) => {
+    ({ params: { id }, body: { events, url, overrideThumbnail, ...body } }) => {
       ctx.logger.debug.log("Update link with dat %O", { events, url, ...body });
       const linkUpdate = {
         ...body,
@@ -22,8 +24,37 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
         id,
       };
       ctx.logger.debug.log("Update link data %O", linkUpdate);
+
       return pipe(
-        ctx.db.save(LinkEntity, [{ ...linkUpdate }]),
+        ctx.db.findOneOrFail(LinkEntity, {
+          where: { id: Equal(id) },
+          relations: ["image"],
+        }),
+        TE.chain((l) => {
+          return pipe(
+            overrideThumbnail,
+            O.map((t) => {
+              if (t) {
+                return pipe(
+                  fetchAsLink(ctx)(l.url as any),
+                  TE.map((ll) => ({
+                    ...ll,
+                    ...l,
+                    ...linkUpdate,
+                    image: ll.image,
+                  }))
+                );
+              }
+
+              return TE.right({
+                ...l,
+                ...linkUpdate,
+              });
+            }),
+            O.getOrElse(() => TE.right({ ...l, ...linkUpdate }))
+          );
+        }),
+        TE.chain((l) => ctx.db.save(LinkEntity, [l])),
         TE.chain(([link]) =>
           pipe(
             ctx.db.find(EventV2Entity, {
@@ -49,6 +80,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
         TE.chain(() =>
           ctx.db.findOneOrFail(LinkEntity, {
             where: { id: Equal(id) },
+            relations: ['image'],
             loadRelationIds: { relations: ["events", "keywords"] },
           })
         ),

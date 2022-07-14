@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { optionFromUndefined } from "../Common/optionFromUndefined";
 import { URL, UUID } from "./Common";
 import { CreateMedia } from "./Media";
 
@@ -18,16 +19,17 @@ export const EditLink = t.strict(
     ...CreateLink.type.props,
     title: t.string,
     description: t.string,
-    keywords: t.array(t.string),
-    provider: t.string,
-    events: t.array(t.string),
+    keywords: t.array(UUID),
+    provider: t.union([UUID, t.undefined]),
+    events: t.array(UUID),
+    overrideThumbnail: optionFromUndefined(t.boolean),
   },
   "EditLinkBody"
 );
 
 export type EditLink = t.TypeOf<typeof EditLink>;
 
-const { events, ...linkBaseProps } = EditLink.type.props;
+const { events, overrideThumbnail, ...linkBaseProps } = EditLink.type.props;
 
 export const Link = t.strict(
   {
@@ -38,17 +40,20 @@ export const Link = t.strict(
     publishDate: t.union([DateFromISOString, t.undefined]),
     image: t.union(
       [
-        t.strict({
-          id: UUID,
-          ...CreateMedia.type.props,
-        }, 'LinkMedia'),
+        t.strict(
+          {
+            id: UUID,
+            ...CreateMedia.type.props,
+          },
+          "LinkMedia"
+        ),
         t.undefined,
       ],
       "LinkImage"
     ),
-    keywords: t.array(t.string),
-    provider: t.union([t.string, t.undefined]),
-    events: t.array(t.string),
+    keywords: t.array(UUID),
+    provider: t.union([UUID, t.undefined]),
+    events: t.array(UUID),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
   },
