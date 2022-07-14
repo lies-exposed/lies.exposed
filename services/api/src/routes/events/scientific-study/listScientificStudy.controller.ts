@@ -16,7 +16,7 @@ export const MakeListScientificStudyRoute: Route = (
   AddEndpoint(r)(
     Endpoints.ScientificStudy.List,
     ({
-      query: { publishedDate, publishedBy, title, withDrafts, ...query },
+      query: { publishedDate, publishedBy, title, draft, ...query },
     }) => {
       const queryOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
 
@@ -31,15 +31,12 @@ export const MakeListScientificStudyRoute: Route = (
           media: O.none,
           exclude: O.none,
           locations: O.none,
-          draft: O.none,
           title,
+          draft,
           startDate: publishedDate,
           endDate: publishedDate,
           withDeleted: false,
-          withDrafts: pipe(
-            withDrafts,
-            O.getOrElse((): boolean => false)
-          ),
+          withDrafts: false,
           ...queryOptions,
         }),
         TE.chain(({ results, totals: { scientificStudies } }) =>

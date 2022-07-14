@@ -22,7 +22,7 @@ export const List = Endpoint({
   Input: {
     Query: t.type({
       ...GetListQuery.props,
-      withDrafts: optionFromNullable(BooleanFromString),
+      draft: optionFromNullable(BooleanFromString),
       title: optionFromNullable(t.string),
       publishedBy: optionFromNullable(t.array(UUID)),
       publishedDate: optionFromNullable(DateFromISOString),

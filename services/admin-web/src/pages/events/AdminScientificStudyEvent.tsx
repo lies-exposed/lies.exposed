@@ -32,9 +32,9 @@ import { transformEvent } from "../../utils";
 const listFilter = [
   <TextInput key="title" source="title" alwaysOn />,
   <BooleanInput
-    key="withDrafts"
+    key="draft"
     label="Draft only"
-    source="withDrafts"
+    source="draft"
     alwaysOn
   />,
   <ReferenceArrayActorInput key="authors" source="payload.authors" alwaysOn />,
