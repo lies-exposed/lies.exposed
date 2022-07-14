@@ -51,7 +51,7 @@
     "react-router-dom": "^6.3.0",
     "react-share": "^4.4.0",
     "react-slick": "^0.29.0",
-    "react-spring": "^9.4.5",
+    "react-spring": "^9.5.0",
     "react-toc": "^3.0.0",
     "slick-carousel": "^1.8.1",
     "throttle-debounce": "^5.0.0",
