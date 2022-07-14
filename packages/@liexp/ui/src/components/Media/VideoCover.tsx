@@ -14,6 +14,10 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
   style,
   onLoad,
 }) => {
+  React.useEffect(() => {
+    onLoad?.();
+  }, []);
+
   return (
     <div
       onClick={onClick}
@@ -26,7 +30,6 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
         backgroundSize: "contain",
         cursor: "pointer",
       }}
-      onLoad={onLoad}
     >
       <PlayCircleOutline style={{ color: "white" }} fontSize="large" />
     </div>
