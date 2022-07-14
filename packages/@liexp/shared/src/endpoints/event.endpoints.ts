@@ -173,6 +173,7 @@ export const GetSuggestions = Endpoint({
   Input: {
     Query: t.type({
       ...http.Query.SortQuery.props,
+      ...http.Query.PaginationQuery.props,
       status: optionFromNullable(http.EventSuggestion.EventSuggestionStatus),
       links: optionFromNullable(t.array(UUID)),
     }),

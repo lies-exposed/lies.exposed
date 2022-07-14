@@ -6,20 +6,24 @@ import { UUID } from "io-ts-types";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { ControllerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
-import { addOrder } from '@utils/orm.utils';
+import { addOrder } from "@utils/orm.utils";
 
 interface SearchEventSuggestionFilter {
   status: O.Option<http.EventSuggestion.EventSuggestionStatus[]>;
   links: O.Option<UUID[]>;
   newLinks: O.Option<Array<Partial<http.Link.CreateLink>>>;
   order: Record<string, "ASC" | "DESC">;
+  skip: number;
+  take: number;
 }
 
 export const searchEventSuggestion =
   (ctx: RouteContext) =>
-  (
-    filter: SearchEventSuggestionFilter
-  ): TE.TaskEither<
+  ({
+    skip,
+    take,
+    ...filter
+  }: SearchEventSuggestionFilter): TE.TaskEither<
     ControllerError,
     { total: number; data: EventSuggestionEntity[] }
   > => {
@@ -56,7 +60,7 @@ export const searchEventSuggestion =
       (q) => {
         addOrder(filter.order, q, "eventSuggestion");
         // ctx.logger.debug.log("Query %O", q.getQueryAndParameters());
-        return q;
+        return q.skip(skip).take(take);
       }
     );
 

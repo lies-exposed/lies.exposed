@@ -13,7 +13,7 @@ import { foldOptionals } from "@utils/foldOptionals.utils";
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.GetSuggestions,
-    ({ query: { status, links, _order, _sort } }) => {
+    ({ query: { status, links, _order, _sort, _start, _end } }) => {
       const ordering = foldOptionals({
         _sort,
         _order,
@@ -23,7 +23,10 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
         pipe(
           status,
           O.map((s) => [s]),
-          O.alt((): O.Option<EventSuggestion.EventSuggestionStatus[]> => O.some(["PENDING", "COMPLETED"]))
+          O.alt(
+            (): O.Option<EventSuggestion.EventSuggestionStatus[]> =>
+              O.some(["PENDING", "COMPLETED"])
+          )
         );
 
       return pipe(
@@ -34,6 +37,8 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           order: {
             [ordering._sort]: ordering._order,
           },
+          skip: O.getOrElse(() => 0)(_start),
+          take: O.getOrElse(() => 20)(_end),
         }),
         TE.chainEitherK(({ data, total }) =>
           pipe(
