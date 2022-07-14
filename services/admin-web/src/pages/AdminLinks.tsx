@@ -97,6 +97,7 @@ export const LinkList: React.FC = () => (
 const transformLink = ({ newEvents, ...r }: RaRecord): RaRecord => {
   return {
     ...r,
+    provider: r.provider === "" ? undefined : r.provider,
     events: (r.events ?? []).concat(newEvents ?? []),
   };
 };
