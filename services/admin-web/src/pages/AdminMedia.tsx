@@ -1,6 +1,6 @@
 import { parsePlatformURL } from "@liexp/shared/helpers/media";
 import { MediaType } from "@liexp/shared/io/http/Media";
-import { throwTE } from '@liexp/shared/utils/task.utils';
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { Box, Button, Typography } from "@liexp/ui/components/mui";
 import * as E from "fp-ts/lib/Either";
@@ -111,9 +111,11 @@ export const MediaList: React.FC<ListProps> = (props) => (
       <FunctionField
         label="events"
         render={(r) => {
-          const url = r.location ? new URL(r.location) : {
-            hostname: "no link given",
-          };
+          const url = r.location
+            ? new URL(r.location)
+            : {
+                hostname: "no link given",
+              };
 
           return (
             <Box>
@@ -289,7 +291,6 @@ export const MediaCreate: React.FC<CreateProps> = (props) => (
     <SimpleForm>
       <SelectInput
         source="_type"
-        defaultValue={"fromURL"}
         choices={[
           { name: "fromURL", id: "fromURL" },
           {
@@ -300,20 +301,25 @@ export const MediaCreate: React.FC<CreateProps> = (props) => (
       />
       <FormDataConsumer>
         {({ formData }) => {
-          if (formData._type === "fromURL") {
+          if (formData._type === "fromFile") {
             return (
               <Box>
-                <TextInput source="url" />
-                <TextInput source="description" />
+                <MediaInput sourceType="type" sourceLocation="location" />
+                <TextInput
+                  source="description"
+                  multiline
+                  validate={[required()]}
+                />
               </Box>
             );
           }
           return (
             <Box>
-              <MediaInput sourceType="type" sourceLocation="location" />
+              <TextInput source="url" />
               <TextInput
                 source="description"
-                defaultValue=""
+                multiline
+                fullWidth
                 validate={[required()]}
               />
             </Box>
