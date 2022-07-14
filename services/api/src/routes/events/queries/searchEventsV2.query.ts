@@ -317,6 +317,8 @@ export const searchEventV2Query =
 
             if (O.isSome(draft)) {
               q.andWhere("event.draft = :draft", { draft: draft.value });
+            } else {
+              q.andWhere("event.draft = false");
             }
 
             if (withDeleted) {
