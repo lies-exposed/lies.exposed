@@ -13,10 +13,11 @@ import { Equal } from "typeorm";
 import { createAndUpload } from "../media/createAndUpload.flow";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
+import { fetchAndSave } from "@flows/link.flow";
 import {
   ControllerError,
   ServerError,
-  toControllerError,
+  toControllerError
 } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
@@ -170,7 +171,7 @@ export const createFromTGMessage =
     const hashtags: string[] = (message.entities ?? [])
       .filter((e) => e.type === "hashtag")
       .map((h) => message.text?.slice(h.offset, h.length))
-      .filter((s): s is string => typeof s !== 'undefined');
+      .filter((s): s is string => typeof s !== "undefined");
 
     const byURLTask = pipe(
       url,
@@ -180,6 +181,16 @@ export const createFromTGMessage =
             where: {
               url: Equal(u),
             },
+          }),
+          TE.chain((link) => {
+            if (O.isSome(link)) {
+              return TE.right(link);
+            }
+            return pipe(
+              fetchAndSave(ctx)(u),
+              TE.mapLeft(toControllerError),
+              TE.map((l) => O.some(l))
+            );
           })
         )
       ),
