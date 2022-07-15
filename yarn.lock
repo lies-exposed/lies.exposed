@@ -2840,12 +2840,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.2.1":
-  version: 14.2.1
-  resolution: "@testing-library/user-event@npm:14.2.1"
+"@testing-library/user-event@npm:^14.2.3":
+  version: 14.2.3
+  resolution: "@testing-library/user-event@npm:14.2.3"
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: 661d61a52a3ec954fe21d799f8203f0eaa7c43ea4f2c1b5916f3bb34a3609a8d7ac3dfaff5247c4511aed7ce122883c297bf59e9ffe086e375f42c98596802b9
+  checksum: 924af3c2d133aa3246e795641daf48a4ad3c8d7a14aece33988f4d58d684d566958ba42f640a860307203a7734bdd0cc98809db3c7e987a98ce66a0802d93b6c
   languageName: node
   linkType: hard
 
@@ -3998,12 +3998,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-cron@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@types/node-cron@npm:2.0.5"
-  dependencies:
-    "@types/tz-offset": "*"
-  checksum: e6b998729c65ce66a375d8b5b41751d3384a8222fc6dc80944ee0f2a07d60f3f6d93ec0c73e50b8c5febffa854cfaf0b83a77e775ff033f070c41aabd4ac6531
+"@types/node-cron@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/node-cron@npm:3.0.2"
+  checksum: 921b1276c793ab6ae095436b8cde8d4d3ab02d8749011bd5b2006a4d921e206ae06de66edd9bccff4b1c09726bad16d9274c1ad104ab2d4370ad910f71cb9db2
   languageName: node
   linkType: hard
 
@@ -4512,13 +4510,6 @@ __metadata:
   version: 4.0.1
   resolution: "@types/tough-cookie@npm:4.0.1"
   checksum: 7570c1c2d74201f4ead3512cf8e4c99e97d92ab8a02ae2fb987fd720ced0ca1a2baf250c98a861a170b86762606c9bf6d32207675f13dffc5ab75c08c96578d2
-  languageName: node
-  linkType: hard
-
-"@types/tz-offset@npm:*":
-  version: 0.0.0
-  resolution: "@types/tz-offset@npm:0.0.0"
-  checksum: 2e7e8beda8fede5c89ea14ff17d09dd7a3d2e90606df569fba711fe9fdd79b9405386e887f21d6600ab62cc2986dfb871aaf5896026f48580c48734a6ca61e56
   languageName: node
   linkType: hard
 
@@ -5429,7 +5420,7 @@ __metadata:
     "@testing-library/dom": ^8.16.0
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.3.0
-    "@testing-library/user-event": ^14.2.1
+    "@testing-library/user-event": ^14.2.3
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
     "@types/lodash": ^4.14.182
@@ -5715,7 +5706,7 @@ __metadata:
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
     "@types/node": ^16.11.44
-    "@types/node-cron": ^2.0.5
+    "@types/node-cron": ^3.0.2
     "@types/node-telegram-bot-api": ^0.57.1
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
