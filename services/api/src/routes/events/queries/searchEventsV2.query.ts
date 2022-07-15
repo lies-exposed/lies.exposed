@@ -311,13 +311,9 @@ export const searchEventV2Query =
               });
             }
 
-            // if (!withDrafts) {
-            //   q.andWhere("event.draft = :draft", { draft: false });
-            // }
-
             if (O.isSome(draft)) {
               q.andWhere("event.draft = :draft", { draft: draft.value });
-            } else {
+            } else if (!withDrafts) {
               q.andWhere("event.draft = false");
             }
 

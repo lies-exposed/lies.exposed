@@ -21,14 +21,14 @@ import {
   SelectInput,
   SimpleForm,
   TabbedForm,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import ExcerptField from "../../components/Common/ExcerptField";
 import { ImportMediaButton } from "../../components/Common/ImportMediaButton";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
-import ReferenceAreaInput from '../../components/Common/ReferenceAreaInput';
+import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
@@ -38,13 +38,13 @@ import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 
 const deathEventsFilter = [
+  <ReferenceActorInput key="victim" source="victim" alwaysOn />,
   <BooleanInput
     key="withDrafts"
     label="Draft only"
     source="withDrafts"
     alwaysOn
   />,
-  <ReferenceActorInput key="victim" source="victim" alwaysOn />,
   <DateInput key="date" source="date" />,
 ];
 

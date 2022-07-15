@@ -192,6 +192,7 @@ export const SearchEventsFromProvider = Endpoint({
       q: t.string,
       p: t.number,
       providers: t.array(t.string),
+      keywords: t.array(t.string)
     }),
   },
   Output: http.Common.ListOutput(

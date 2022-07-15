@@ -30,7 +30,8 @@ export const searchWithGoogle =
   (
     site: string,
     pageTotal: number,
-    q: string
+    q: string,
+    keywords: string[]
   ): TE.TaskEither<PuppeteerError, string[]> => {
     return pipe(
       TE.tryCatch(async () => {
@@ -100,9 +101,15 @@ export const searchWithGoogle =
           `https://www.google.co.uk/advanced_search?q=site:${site}&lr=lang_en`,
           { waitUntil: "networkidle0" }
         );
+
+
         // fill the input with our query
         await page.waitForSelector('[name="as_q"]');
         await page.type('[name="as_q"]', q);
+
+        // fill the input with our query
+        await page.waitForSelector('[name="as_oq"]');
+        await page.type('[name="as_oq"]', keywords.join(' OR '));
 
         // submit form
         await page.click('input[type="submit"]');

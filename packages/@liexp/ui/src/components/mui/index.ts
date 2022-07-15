@@ -33,6 +33,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
+import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Grid";
 import Grow from "@mui/material/Grow";
@@ -121,6 +122,7 @@ export {
   ListItemText,
   ListSubheader,
   FormControl,
+  FormControlLabel,
   Select,
   SelectChangeEvent,
   Icon,

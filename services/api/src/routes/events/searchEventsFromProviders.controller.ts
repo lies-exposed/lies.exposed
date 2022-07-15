@@ -22,8 +22,8 @@ export const SearchEventsFromProviderRoute = (
 ): void => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.SearchEventsFromProvider,
-    ({ body: { q, p, providers } }) => {
-      ctx.logger.debug.log("Query %O", { q, providers });
+    ({ body: { q, p, providers, keywords } }) => {
+      ctx.logger.debug.log("Query %O", { q, providers, keywords });
 
       const tasks = pipe(
         ctx.puppeteer.getBrowser(`about:blank`, {
@@ -40,7 +40,7 @@ export const SearchEventsFromProviderRoute = (
             }),
             A.map((site) => {
               return pipe(
-                searchWithGoogle(ctx, browser)(site, p, q),
+                searchWithGoogle(ctx, browser)(site, p, q, keywords),
                 TE.mapLeft(toControllerError),
                 TE.chain((ll) => {
                   return pipe(

@@ -1,5 +1,5 @@
 import { parseISO } from "@liexp/shared/utils/date";
-import { Link } from "@liexp/ui/components/Cards/LinkCard"
+import { Link } from "@liexp/ui/components/Cards/LinkCard";
 import { LinksList as LinkEntityList } from "@liexp/ui/components/lists/LinkList";
 import {
   Box,
@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   FormGroup,
   Input,
   InputLabel,
@@ -28,9 +29,14 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState(query ?? "");
   const [p, setP] = React.useState(1);
+  const [providers, setProviders] = React.useState([]);
+  const [keywords, setKeywords] = React.useState("");
   const [links, setLinks] = React.useState([]);
 
-  const selectedLinks = React.useMemo(()=> links.filter(l => l.selected), [links]);
+  const selectedLinks = React.useMemo(
+    () => links.filter((l) => l.selected),
+    [links]
+  );
 
   const handleSearch = (): void => {
     void apiProvider
@@ -39,6 +45,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
           q,
           p,
           providers: ["the-guardian", "reuters"],
+          keywords: keywords.split(",").map((k) => k.trim()),
         },
       })
       .then((r) => {
@@ -53,18 +60,21 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
       });
   };
 
-  const handleLinkClick = React.useCallback((l: Link): void => {
-    const ll = links.map((ll) => {
-      if (ll.id === l.id) {
-        return {
-          ...ll,
-          selected: !l.selected,
-        };
-      }
-      return ll;
-    });
-    setLinks(ll);
-  }, [links]);
+  const handleLinkClick = React.useCallback(
+    (l: Link): void => {
+      const ll = links.map((ll) => {
+        if (ll.id === l.id) {
+          return {
+            ...ll,
+            selected: !l.selected,
+          };
+        }
+        return ll;
+      });
+      setLinks(ll);
+    },
+    [links]
+  );
 
   const handleCreate = React.useCallback((): void => {
     void apiProvider
@@ -75,6 +85,21 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
         refresh();
       });
   }, [selectedLinks]);
+
+  React.useEffect(() => {
+    void apiProvider
+      .getList("/groups", {
+        filter: {},
+        pagination: { perPage: 30, page: 1 },
+        sort: {
+          field: "createdAt",
+          order: "DESC",
+        },
+      })
+      .then((r) => {
+        setProviders(r.data);
+      });
+  }, []);
 
   return (
     <Box display="flex">
@@ -92,8 +117,10 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
         fullWidth
       >
         <DialogTitle>Search in providers</DialogTitle>
-        <DialogContent style={{ minHeight: 300 }}>
-          <FormGroup>
+        <DialogContent
+          style={{ display: "flex", flexDirection: "column", minHeight: 300 }}
+        >
+          <FormGroup row>
             <FormControl>
               <InputLabel htmlFor="q">Query</InputLabel>
               <Input
@@ -112,11 +139,28 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
                 onChange={(e) => setP(+e.target.value)}
               />
             </FormControl>
-
-            <FormControl>
-              <Checkbox />
-            </FormControl>
           </FormGroup>
+          <FormControl>
+            <InputLabel htmlFor="keywords">Keywords</InputLabel>
+            <Input
+              id="keywords"
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value)}
+            />
+          </FormControl>
+
+          <FormGroup style={{ overflow: "scroll", maxHeight: 400 }}>
+            {providers.map((p) => {
+              return (
+                <FormControlLabel
+                  key={p.id}
+                  control={<Checkbox />}
+                  label={p.name}
+                />
+              );
+            })}
+          </FormGroup>
+
           <LinkEntityList links={links} onItemClick={handleLinkClick} />
         </DialogContent>
         <DialogActions>
