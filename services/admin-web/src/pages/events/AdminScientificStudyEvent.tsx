@@ -37,7 +37,8 @@ const listFilter = [
     source="draft"
     alwaysOn
   />,
-  <ReferenceArrayActorInput key="authors" source="payload.authors" alwaysOn />,
+  <ReferenceGroupInput key="provider" source="provider" alwaysOn />,
+  <ReferenceArrayActorInput key="authors" source="authors" />,
   <DateInput key="date" source="date" />,
 ];
 

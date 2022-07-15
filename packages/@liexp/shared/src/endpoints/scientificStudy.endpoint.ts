@@ -24,7 +24,7 @@ export const List = Endpoint({
       ...GetListQuery.props,
       draft: optionFromNullable(BooleanFromString),
       title: optionFromNullable(t.string),
-      publishedBy: optionFromNullable(t.array(UUID)),
+      provider: optionFromNullable(UUID),
       publishedDate: optionFromNullable(DateFromISOString),
       authors: optionFromNullable(t.array(UUID)),
     }),
