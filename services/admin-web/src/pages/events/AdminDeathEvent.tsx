@@ -48,8 +48,8 @@ const deathEventsFilter = [
   />,
   <BooleanInput
     key="withDrafts"
-    label="Draft only"
-    source="withDrafts"
+    label="Draft ?"
+    source="draft"
     size="small"
     alwaysOn
   />,
@@ -65,6 +65,7 @@ export const DeathList: React.FC<ListProps> = (props) => (
       _sort: "date",
       _order: "DESC",
       withDrafts: false,
+      draft: true,
       victim: undefined,
     }}
   >
