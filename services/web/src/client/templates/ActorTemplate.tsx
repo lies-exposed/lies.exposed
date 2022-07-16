@@ -67,7 +67,6 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
               onQueryChange={({ tab }) => {
                 navigateToResource.actors({ id: actor.id }, { tab });
               }}
-              onQueryClear={() => {}}
             />
           </Box>
         );

@@ -71,7 +71,7 @@ const AdminPage: React.FC = () => {
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}
-      theme={adminThemeOptions}
+      theme={adminThemeOptions as any}
     >
       <Resource
         name="pages"
