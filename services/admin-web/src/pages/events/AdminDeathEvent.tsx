@@ -29,6 +29,7 @@ import { ImportMediaButton } from "../../components/Common/ImportMediaButton";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
 import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
+import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
@@ -38,14 +39,21 @@ import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 
 const deathEventsFilter = [
-  <ReferenceActorInput key="victim" source="victim" alwaysOn />,
+  <ReferenceArrayActorInput
+    key="victim"
+    label="Victim"
+    source="victim"
+    size="small"
+    alwaysOn
+  />,
   <BooleanInput
     key="withDrafts"
     label="Draft only"
     source="withDrafts"
+    size="small"
     alwaysOn
   />,
-  <DateInput key="date" source="date" />,
+  <DateInput key="date" source="date" size="small" />,
 ];
 
 export const DeathList: React.FC<ListProps> = (props) => (
@@ -57,6 +65,7 @@ export const DeathList: React.FC<ListProps> = (props) => (
       _sort: "date",
       _order: "DESC",
       withDrafts: false,
+      victim: undefined,
     }}
   >
     <Datagrid rowClick="edit">

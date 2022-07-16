@@ -2,7 +2,7 @@ import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  ReferenceArrayInputProps
+  ReferenceArrayInputProps,
 } from "react-admin";
 
 const ReferenceArrayActorInput: React.FC<
@@ -12,9 +12,10 @@ const ReferenceArrayActorInput: React.FC<
     <ReferenceArrayInput {...props} reference="actors">
       <AutocompleteArrayInput
         fullWidth
+        size="small"
         source="id"
-        filterToQuery={(fullName: string) => ({ fullName })}
         optionText="fullName"
+        filterToQuery={(fullName: string) => ({ fullName })}
       />
     </ReferenceArrayInput>
   );

@@ -11,10 +11,10 @@ const ReferenceActorInput: React.FC<
   return (
     <ReferenceInput {...props} reference="actors">
       <AutocompleteInput
-        fullWidth
         size="small"
         optionText="fullName"
         filterToQuery={(fullName) => ({ fullName })}
+        fullWidth
       />
     </ReferenceInput>
   );

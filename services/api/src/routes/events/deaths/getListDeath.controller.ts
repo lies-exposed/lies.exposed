@@ -35,10 +35,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
           ...query,
           draft,
           type: O.some([DEATH.value]),
-          actors: pipe(
-            victim,
-            O.map((v) => [v] as any[])
-          ),
+          actors: victim,
           keywords,
           links,
           media,
