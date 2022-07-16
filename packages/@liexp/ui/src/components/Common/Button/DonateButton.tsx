@@ -8,7 +8,7 @@ const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
       className={className}
       action="https://www.paypal.com/donate"
       method="post"
-      target="_top"
+      target="_blank"
       style={{ display: "flex", flex: "0 0 auto" }}
     >
       <input type="hidden" name="hosted_button_id" value="BNAGL4D89LJDE" />
