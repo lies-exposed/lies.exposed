@@ -27,17 +27,18 @@ import {
   RaRecord,
   ReferenceArrayField,
   ReferenceInput,
-  ReferenceManyField,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
 import { MediaField } from "../components/Common/MediaField";
+import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
+import ReferenceManyEventField from "../components/Common/ReferenceManyEventField";
 import { SearchLinksButton } from "../components/Common/SearchLinksButton";
 import { WebPreviewButton } from "../components/Common/WebPreviewButton";
 import { dataProvider } from "@client/HTTPAPI";
@@ -167,18 +168,8 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           </ReferenceArrayField>
         </FormTab>
         <FormTab label="Events">
-          <ReferenceManyField
-            label="Events"
-            source="id"
-            target="actors[]"
-            reference="events"
-          >
-            <Datagrid>
-              <TextField source="id" />
-              <TextField source="title" />
-              <DateField source="createdAt" />
-            </Datagrid>
-          </ReferenceManyField>
+          <ReferenceArrayEventInput source="newEvents" />
+          <ReferenceManyEventField source="id" target="actors[]" />
         </FormTab>
         <FormTab label="Preview">
           <FormDataConsumer>
