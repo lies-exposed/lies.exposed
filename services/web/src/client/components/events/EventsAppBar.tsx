@@ -5,7 +5,7 @@ import {
   Patent,
   ScientificStudy,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -22,9 +22,13 @@ import KeywordList from "@liexp/ui/components/lists/KeywordList";
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary, alpha, Box, Grid,
-  IconButton, Toolbar,
-  Typography
+  AccordionSummary,
+  alpha,
+  Box,
+  Grid,
+  IconButton,
+  Toolbar,
+  Typography,
 } from "@liexp/ui/components/mui";
 import { getTotal } from "@liexp/ui/helpers/event.helper";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";

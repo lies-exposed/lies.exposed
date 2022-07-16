@@ -1,12 +1,7 @@
 /* eslint-disable no-restricted-imports */
 import { darken, lighten } from "@mui/material";
-import {
-  CreateMUIStyled,
-  createTheme,
-  styled as _styled,
-  ThemeOptions,
-  useTheme,
-} from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
+import { createStyled, ThemeOptions, useTheme } from "@mui/system";
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
@@ -35,7 +30,7 @@ const themeOptions: ThemeOptions = {
       contrastText: "#FFF",
     },
   },
-  typography: (palette) => ({
+  typography: () => ({
     fontWeightRegular: 400,
     fontWeightBold: 600,
     h1: {
@@ -107,10 +102,10 @@ const themeOptions: ThemeOptions = {
   },
 };
 
-const ECOTheme = createTheme(themeOptions);
+const ECOTheme = createTheme(themeOptions as any);
 
 type ECOTheme = typeof ECOTheme;
 
-const styled = _styled as any as CreateMUIStyled<ECOTheme>;
+const styled = createStyled({ defaultTheme: ECOTheme });
 
 export { ECOTheme, useTheme, styled, themeOptions, ThemeOptions };

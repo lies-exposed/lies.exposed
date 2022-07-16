@@ -23,16 +23,22 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
     <QueriesRenderer
       queries={{
         group: useGroupQuery({ id: groupId }),
-        groupsMembers: useGroupMembersQuery({
-          filter: {
-            group: groupId,
+        groupsMembers: useGroupMembersQuery(
+          {
+            filter: {
+              group: groupId,
+            },
           },
-        }, false),
-        events: useEventsQuery({
-          filter: {
-            groups: [groupId],
+          false
+        ),
+        events: useEventsQuery(
+          {
+            filter: {
+              groups: [groupId],
+            },
           },
-        }, false),
+          false
+        ),
       }}
       render={({ group, groupsMembers, events }) => {
         return (

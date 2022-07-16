@@ -1,7 +1,10 @@
 import { CacheProvider } from "@emotion/react";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
-import { CssBaseline, ThemeProvider } from "@liexp/ui/components/mui";
+import {
+  CssBaseline,
+  ThemeProvider,
+} from "@liexp/ui/components/mui";
 import createEmotionCache from "@liexp/ui/react/createEmotionCache";
 import { ECOTheme } from "@liexp/ui/theme";
 import debug from "debug";
