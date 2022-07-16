@@ -65,6 +65,7 @@ export const Slider: React.FC<SliderProps> = ({
       draggable={true}
       centerMode={true}
       dots={true}
+      centerPadding="20px"
       slidesToShow={1}
       slidesPerRow={1}
       lazyLoad="progressive"
