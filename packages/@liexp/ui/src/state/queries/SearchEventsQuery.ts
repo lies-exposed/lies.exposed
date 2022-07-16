@@ -96,7 +96,12 @@ const getNewRelationIds = (
   const actorIds = pipe(s.actors, M.keys(S.Ord));
   const groupIds = pipe(s.groups, M.keys(S.Ord));
   const groupsMemberIds = pipe(s.groupsMembers, M.keys(S.Ord));
-  const mediaIds = pipe(s.media, M.keys(S.Ord));
+  const mediaIds = pipe(s.media, M.keys(S.Ord), (mm) => {
+    if (mm.length > 0) {
+      return [mm[0]];
+    }
+    return [];
+  });
   const keywordIds = pipe(s.keywords, M.keys(S.Ord));
   // const linkIds = pipe(s.links, M.keys(S.Ord));
 
@@ -538,7 +543,9 @@ const searchEventsQ =
     );
   };
 
-export const getSearchEventsQueryKey = (p: Partial<SearchEventQueryInput>): [string, any] => {
+export const getSearchEventsQueryKey = (
+  p: Partial<SearchEventQueryInput>
+): [string, any] => {
   return ["events-search", { _start: 0, _end: 20, ...p }];
 };
 

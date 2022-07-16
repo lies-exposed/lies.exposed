@@ -215,11 +215,14 @@ const EventsPage: React.FC<EventsPageProps> = () => {
             },
             true
           ),
-          filterKeywords: useKeywordsQuery({
-            pagination: { page: 1, perPage: params.keywords.length },
-            sort: { field: "updatedAt", order: "DESC" },
-            filter: { ids: params.keywords },
-          }, true),
+          filterKeywords: useKeywordsQuery(
+            {
+              pagination: { page: 1, perPage: params.keywords.length },
+              sort: { field: "updatedAt", order: "DESC" },
+              filter: { ids: params.keywords },
+            },
+            true
+          ),
         }}
         render={({
           filterActors,
