@@ -453,7 +453,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               }}
               size="large"
             >
-              {query._order === "DESC" ? <ArrowDownIcon /> : <ArrowUpIcon />}
+              {query._order === "DESC" ? <ArrowUpIcon /> : <ArrowDownIcon />}
             </IconButton>
           </Box>
         );
