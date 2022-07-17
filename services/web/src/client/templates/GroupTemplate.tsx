@@ -89,9 +89,6 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
               onQueryChange={({ tab }) => {
                 navigateTo.groups({ id: group.id }, { tab });
               }}
-              onQueryClear={() => {
-                navigateTo.groups({ id: group.id }, {});
-              }}
             />
           </Box>
         );

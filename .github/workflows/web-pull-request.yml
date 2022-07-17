@@ -77,6 +77,9 @@ jobs:
             services/**/build
           key: web-build
 
+      - name: Type Check Web
+        run: yarn web tsc -b
+
       - name: Build web
         env:
           NODE_ENV: development

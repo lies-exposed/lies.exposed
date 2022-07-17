@@ -53,7 +53,6 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
               onQueryChange={({ tab }) => {
                 // navigateToResource.actors({ id: actor.id }, { tab });
               }}
-              onQueryClear={() => {}}
             />
           </Box>
         );
