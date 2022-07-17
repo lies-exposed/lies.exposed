@@ -92,6 +92,8 @@ export const searchEventV2Query =
             links,
             media,
             order,
+            skip,
+            take,
           }
         );
 
@@ -401,11 +403,15 @@ export const searchEventV2Query =
               .skip(skip)
               .take(take);
 
+            if (skip === 0 && take === 0) {
+              return [];
+            }
+
             // logger.debug.log("Result query %s", resultQ.getSql());
 
             const results = await resultQ.getRawAndEntities();
 
-            // logger.debug.log("Raw results %O", results.raw[0]);
+            // logger.debug.log("Raw results %O", results);
 
             return results.entities;
           }),
