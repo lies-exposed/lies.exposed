@@ -52,7 +52,7 @@
     "pg": "^8.7.3",
     "puppeteer-core": "^13.7.0",
     "ts-endpoint-express": "^2.0.0",
-    "ts-jest": "^28.0.6",
+    "ts-jest": "^28.0.7",
     "ts-shared": "2.0.0-alpha.6",
     "typeorm": "^0.3.7",
     "uuid": "^8.3.2"
@@ -76,7 +76,7 @@
     "@types/pg": "^8.6.5",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
-    "eslint": "^8.19.0",
+    "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.2.6",
     "eslint-plugin-import": "^2.26.0",
