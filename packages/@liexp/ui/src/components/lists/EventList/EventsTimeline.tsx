@@ -68,28 +68,13 @@ const Row: React.FC<
     onActorClick,
     onGroupClick,
     onGroupMemberClick,
-    // isVisible,
+    isVisible,
     isLast,
     style,
     parent,
     index,
     k: key,
   } = props;
-
-  // if (!isVisible) {
-  //   return (
-  //     <div
-  //       style={{
-  //         display: "flex",
-  //         alignItems: "center",
-  //         justifyContent: "center",
-  //         height: 100,
-  //         width: "100%",
-  //         ...props.style,
-  //       }}
-  //     />
-  //   );
-  // }
 
   return (
     <CellMeasurer
@@ -107,6 +92,22 @@ const Row: React.FC<
               key={key}
               style={{ height: 100 }}
               onLoad={measure}
+            />
+          );
+        }
+
+        if (!isVisible) {
+          return (
+            <div
+              key={key}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: 100,
+                width: "100%",
+                ...props.style,
+              }}
             />
           );
         }
