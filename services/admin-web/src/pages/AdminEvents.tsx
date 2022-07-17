@@ -84,7 +84,7 @@ const eventsFilter = [
   />,
   <BooleanInput key="withDeleted" source="withDeleted" alwaysOn size="small" />,
   <SelectInput
-    key="type"
+    key="type[]"
     source="type"
     alwaysOn
     size="small"
