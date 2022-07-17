@@ -147,7 +147,7 @@ const EventListItemBase = <E extends any>({
                 justifyContent: "center",
                 alignItems: "center",
                 marginBottom: 30,
-                flexGrow: 1
+                flexGrow: 1,
               }}
             >
               <Box

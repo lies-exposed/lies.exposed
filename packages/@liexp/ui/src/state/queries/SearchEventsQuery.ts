@@ -93,15 +93,12 @@ const getNewRelationIds = (
   events: Events.Event[],
   s: SearchEventsQueryCache
 ): EventRelationIds => {
+  // get relation ids from cache;
+
   const actorIds = pipe(s.actors, M.keys(S.Ord));
   const groupIds = pipe(s.groups, M.keys(S.Ord));
   const groupsMemberIds = pipe(s.groupsMembers, M.keys(S.Ord));
-  const mediaIds = pipe(s.media, M.keys(S.Ord), (mm) => {
-    if (mm.length > 0) {
-      return [mm[0]];
-    }
-    return [];
-  });
+  const mediaIds = pipe(s.media, M.keys(S.Ord));
   const keywordIds = pipe(s.keywords, M.keys(S.Ord));
   // const linkIds = pipe(s.links, M.keys(S.Ord));
 
@@ -113,6 +110,7 @@ const getNewRelationIds = (
     keywords: [],
     // links: [],
   };
+  
   return pipe(
     events,
     A.reduce(init, (acc, e) => {
