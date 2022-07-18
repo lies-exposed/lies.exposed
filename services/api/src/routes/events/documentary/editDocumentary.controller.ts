@@ -22,9 +22,9 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
             ...body,
             type: Documentary.DOCUMENTARY.value,
             payload,
-            media: media,
-            keywords: keywords,
-            links: links,
+            media,
+            keywords,
+            links,
           })
         ),
         TE.chain((event) => ctx.db.save(EventV2Entity, [event])),

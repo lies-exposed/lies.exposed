@@ -15,7 +15,7 @@ export const run = (): Promise<void> => {
     makeContext(process.env),
     TE.map((ctx) => ({
       app: makeApp(ctx),
-      ctx: ctx,
+      ctx,
     })),
     TE.fold(
       (err) => {

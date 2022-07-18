@@ -97,7 +97,7 @@ export const findEventByLinkOrCreateSuggestion =
           searchEventSuggestion(ctx)({
             status: O.none,
             links: O.none,
-            newLinks: O.some([{ url: url }]),
+            newLinks: O.some([{ url }]),
             order: {},
             skip: 0,
             take: 1,

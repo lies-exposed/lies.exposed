@@ -26,7 +26,7 @@ export const MakeListProjectRoute = (r: Router, ctx: RouteContext): void => {
       }),
       TE.map(({ data, count }) => ({
         body: {
-          data: data,
+          data,
           total: count,
         } as any,
         statusCode: 200,

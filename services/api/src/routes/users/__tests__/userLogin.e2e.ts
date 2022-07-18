@@ -36,7 +36,7 @@ describe("User login", () => {
 
   test("Should return bad request", async () => {
     const response = await Test.req.post("/v1/users/login").send({
-      username: username,
+      username,
       password: "my-secure-password",
     });
 
@@ -45,7 +45,7 @@ describe("User login", () => {
 
   test("Should return the access token", async () => {
     const response = await Test.req.post("/v1/users/login").send({
-      username: username,
+      username,
       password: "my-real-secure-password",
     });
 

@@ -76,7 +76,7 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
                 keywords: [],
                 actors: [],
                 locations: [],
-                tab: tab,
+                tab,
                 startDate: subYears(new Date(), 1).toDateString(),
                 endDate: new Date().toDateString(),
                 _sort: "createdAt",

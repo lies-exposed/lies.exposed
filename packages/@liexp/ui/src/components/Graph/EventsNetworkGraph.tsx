@@ -697,9 +697,9 @@ export function createEventNetworkGraphProps({
             eventNodes: evNodes,
             maxSize:
               evNodes.length > acc.maxSize ? evNodes.length : acc.maxSize,
-            actorLinks: actorLinks,
+            actorLinks,
             groupByLinks: Map.empty,
-            groupLinks: groupLinks,
+            groupLinks,
             groupByItems,
             actors,
             groups,
@@ -789,11 +789,11 @@ export function createEventNetworkGraphProps({
       nodes,
       links,
     },
-    groupByScale: groupByScale,
-    actorsScale: actorsScale,
-    groupsScale: groupsScale,
+    groupByScale,
+    actorsScale,
+    groupsScale,
     selectedEvents,
-    width: width,
+    width,
     height: maxSize * (45 + 10),
   };
 }

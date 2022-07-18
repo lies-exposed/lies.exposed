@@ -258,7 +258,7 @@ export const routes = [
         },
         {
           queryKey: getSearchEventsQueryKey({
-            keywords: keywords,
+            keywords,
             exclude: [event.id],
             _start: 0,
             _end: 3,
@@ -267,7 +267,7 @@ export const routes = [
         },
         {
           queryKey: getSearchEventsQueryKey({
-            actors: actors,
+            actors,
             exclude: [event.id],
             _start: 0,
             _end: 3,
@@ -276,7 +276,7 @@ export const routes = [
         },
         {
           queryKey: getSearchEventsQueryKey({
-            groups: groups,
+            groups,
             _start: 0,
             _end: 3,
             exclude: [event.id],

@@ -500,7 +500,7 @@ const searchEventsQ =
         Query: {
           ...query,
           _start,
-          _end: _end,
+          _end,
         } as any,
       }),
       TE.mapLeft((e) => {

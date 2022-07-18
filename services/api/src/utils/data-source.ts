@@ -71,7 +71,7 @@ export const getDataSource = (
       EventSuggestionEntity,
     ],
     synchronize: env.NODE_ENV === "test",
-    ssl: ssl,
+    ssl,
     migrations: [`${process.cwd()}/build/migrations/*.js`],
   });
 };

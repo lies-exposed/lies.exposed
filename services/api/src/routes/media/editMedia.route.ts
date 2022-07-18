@@ -34,7 +34,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
               : TE.right(O.toNullable(thumbnail)),
             TE.map((thumbnail) => ({
               ...m,
-              thumbnail: thumbnail,
+              thumbnail,
             }))
           )
         ),

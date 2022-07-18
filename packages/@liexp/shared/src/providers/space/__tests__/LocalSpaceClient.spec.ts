@@ -61,8 +61,8 @@ describe("LocalSpaceClient", () => {
     expect((result as any).right).toEqual({
       Bucket: "not-relevant",
       ETag: "",
-      Key: Key,
-      Location: Location,
+      Key,
+      Location,
     });
   });
 });
