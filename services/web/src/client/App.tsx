@@ -9,7 +9,6 @@ import { Route, Routes, useLocation } from "react-router";
 import AppHeader from "./components/header/AppHeader";
 import { routes } from "./routes";
 
-
 const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   // eslint-disable-next-line no-console
   console.log(error);
@@ -32,21 +31,6 @@ export const App: React.FC = () => {
         <SEO title="lies exposed" urlPath={location.pathname} />
         <Grid container style={{ minHeight: "100%", width: "100%" }}>
           <AppHeader />
-          {/* <Grid style={{ margin: 20 }}>
-                     <BreadCrumb
-                      view={currentView}
-                      segments={{
-                        events: ["dashboard", "events"],
-                        event: ["dashboard", "events", ":eventId"],
-                        actors: ["dashboard", "actors"],
-                        actor: ["dashboard", "actors", ":actorId"],
-                        groups: ["dashboard", "groups"],
-                        group: ["dashboard", "groups", ":groupId"],
-                        keywords: ["dashboard", "keywords"],
-                        keyword: ["dashboard", "keywords", ":keywordId"],
-                      }}
-                    /> 
-                    </Grid> */}
 
           <Grid
             style={{
