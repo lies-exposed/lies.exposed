@@ -41,6 +41,7 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
         ),
       }}
       render={({ group, groupsMembers, events }) => {
+
         return (
           <Box>
             <MainContent>
