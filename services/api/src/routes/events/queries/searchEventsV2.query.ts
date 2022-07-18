@@ -275,7 +275,7 @@ export const searchEventV2Query =
                   qb.orWhere(
                     `( event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groupsMembers' ?| ARRAY[:...groupsMembers] )`,
                     {
-                      groupsMembers: groupsMembers,
+                      groupsMembers,
                     }
                   );
                 }

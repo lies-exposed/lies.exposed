@@ -84,7 +84,7 @@ const getColorByRange = (
 
   const colorScaleV2 = scaleOrdinal({
     range: colorDomain,
-    domain: domain,
+    domain,
     reverse: reverse ?? false,
   });
   // const colorScale = scaleBand<string>({

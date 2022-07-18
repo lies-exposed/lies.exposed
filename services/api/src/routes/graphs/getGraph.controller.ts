@@ -53,7 +53,7 @@ export const MakeGraphsRoute = (r: Router, ctx: RouteContext): void => {
       }),
       TE.map((data) => ({
         body: {
-          data: data,
+          data,
         },
         statusCode: 200,
       }))

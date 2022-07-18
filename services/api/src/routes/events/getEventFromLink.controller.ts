@@ -211,7 +211,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
         );
       }),
       TE.map((body) => ({
-        body: body,
+        body,
         statusCode: 200,
       }))
     );

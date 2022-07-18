@@ -28,7 +28,7 @@ export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
                   description: i.description,
                 },
                 kind: i.kind,
-                project: project,
+                project,
               }))
             ),
           })

@@ -114,7 +114,7 @@ export const APIRESTClient = ({
     },
     getMany: (resource, params) => {
       return liftClientRequest<RA.GetManyResult<any>>(() =>
-        client.get(`${resource}`, { params: params })
+        client.get(`${resource}`, { params })
       )();
     },
     getManyReference: (resource, params) => {

@@ -26,7 +26,7 @@ export const MakeListProjectImageRoute = (
       }),
       TE.map(({ data, count }) => ({
         body: {
-          data: data,
+          data,
           total: count,
         } as any,
         statusCode: 200,

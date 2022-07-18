@@ -22,9 +22,9 @@ export const MakeEditPatentEventRoute: Route = (r, ctx) => {
             ...body,
             type: Patent.PATENT.value,
             payload,
-            media: media,
-            keywords: keywords,
-            links: links,
+            media,
+            keywords,
+            links,
           })
         ),
         TE.chain((event) => ctx.db.save(EventV2Entity, [event])),

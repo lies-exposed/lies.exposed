@@ -80,7 +80,7 @@ export const MakeListGroupRoute = (r: Router, ctx: RouteContext): void => {
         ),
         TE.map(({ data, count }) => ({
           body: {
-            data: data,
+            data,
             total: count,
           },
           statusCode: 200,

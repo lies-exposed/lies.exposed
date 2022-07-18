@@ -16,7 +16,7 @@ export interface TreeEvent {
 export const TreeEvent: t.Type<TreeEvent> = t.recursion("TreeEvent", () =>
   t.type({
     name: t.string,
-    date: date,
+    date,
     children: t.array(TreeEvent),
   })
 );

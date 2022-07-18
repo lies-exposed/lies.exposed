@@ -33,7 +33,7 @@ export const createEventQuery =
           case http.Events.Patent.PATENT.value: {
             const { type, date, draft, excerpt, payload } = input;
             return TE.right({
-              type: type,
+              type,
               draft,
               payload: {
                 ...payload,
@@ -48,7 +48,7 @@ export const createEventQuery =
           case http.Events.Death.DEATH.value: {
             const { type, date, draft, excerpt, payload } = input;
             return TE.right({
-              type: type,
+              type,
               draft,
               payload: {
                 ...payload,
