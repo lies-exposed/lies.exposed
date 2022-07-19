@@ -1,3 +1,4 @@
+import { defaultSites } from "@liexp/shared/scrapers/defaultSites";
 import { parseISO } from "@liexp/shared/utils/date";
 import { Link } from "@liexp/ui/components/Cards/LinkCard";
 import { LinksList as LinkEntityList } from "@liexp/ui/components/lists/LinkList";
@@ -8,11 +9,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   FormControlLabel,
   FormGroup,
-  Input,
-  InputLabel,
+  TextField,
 } from "@liexp/ui/components/mui";
 import * as React from "react";
 import { Button, useRefresh } from "react-admin";
@@ -29,7 +28,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState(query ?? "");
   const [p, setP] = React.useState(1);
-  const [providers, setProviders] = React.useState([]);
+  const [providers, setProviders] = React.useState(Object.keys(defaultSites));
   const [keywords, setKeywords] = React.useState("");
   const [links, setLinks] = React.useState([]);
 
@@ -44,7 +43,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
         data: {
           q,
           p,
-          providers: ["the-guardian", "reuters"],
+          providers,
           keywords: keywords.split(",").map((k) => k.trim()),
         },
       })
@@ -54,7 +53,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
             ...ll,
             selected: false,
             events: [],
-            publishDate: parseISO(ll.publishDate),
+            publishDate: ll.publishDate ? parseISO(ll.publishDate) : new Date(),
           }))
         );
       });
@@ -82,24 +81,11 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
         data: selectedLinks,
       })
       .then(() => {
+        setOpen(false);
+        setLinks([]);
         refresh();
       });
   }, [selectedLinks]);
-
-  React.useEffect(() => {
-    void apiProvider
-      .getList("/groups", {
-        filter: {},
-        pagination: { perPage: 30, page: 1 },
-        sort: {
-          field: "createdAt",
-          order: "DESC",
-        },
-      })
-      .then((r) => {
-        setProviders(r.data);
-      });
-  }, []);
 
   return (
     <Box display="flex">
@@ -121,41 +107,48 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
           style={{ display: "flex", flexDirection: "column", minHeight: 300 }}
         >
           <FormGroup row>
-            <FormControl>
-              <InputLabel htmlFor="q">Query</InputLabel>
-              <Input
-                id="q"
-                type="text"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-              />
-            </FormControl>
-            <FormControl>
-              <InputLabel htmlFor="p">Page</InputLabel>
-              <Input
-                id="p"
-                type="number"
-                value={p}
-                onChange={(e) => setP(+e.target.value)}
-              />
-            </FormControl>
-          </FormGroup>
-          <FormControl>
-            <InputLabel htmlFor="keywords">Keywords</InputLabel>
-            <Input
+            <TextField
+              label="Query"
+              id="q"
+              type="text"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+            />
+
+            <TextField
+              label="Page"
+              id="p"
+              type="number"
+              value={p}
+              onChange={(e) => setP(+e.target.value)}
+            />
+
+            <TextField
               id="keywords"
+              label="keywords"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
             />
-          </FormControl>
+          </FormGroup>
 
           <FormGroup style={{ overflow: "scroll", maxHeight: 400 }}>
-            {providers.map((p) => {
+            {Object.keys(defaultSites).map((p) => {
               return (
                 <FormControlLabel
-                  key={p.id}
-                  control={<Checkbox />}
-                  label={p.name}
+                  key={p}
+                  control={
+                    <Checkbox
+                      onChange={(_, c) => {
+                        const keys = Object.keys(defaultSites);
+                        if (c) {
+                          setProviders(providers);
+                        } else {
+                          setProviders(keys.filter((k) => k !== p));
+                        }
+                      }}
+                    />
+                  }
+                  label={p}
                 />
               );
             })}

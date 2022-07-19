@@ -1,6 +1,6 @@
 import * as ScientificStudy from "@liexp/shared/io/http/Events/ScientificStudy";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box } from '@liexp/ui/components/mui';
+import { Box } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   BooleanField,
@@ -11,12 +11,18 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps, FormTab,
+  EditProps,
+  FormTab,
   List,
-  ListProps, RaRecord, ReferenceArrayField,
+  ListProps,
+  RaRecord,
+  ReferenceArrayField,
   ReferenceField,
-  SimpleForm, TabbedForm, TextField,
-  TextInput, useRecordContext
+  SimpleForm,
+  TabbedForm,
+  TextField,
+  TextInput,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
@@ -26,17 +32,12 @@ import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkI
 import ReferenceGroupInput from "../../components/Common/ReferenceGroupInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import URLMetadataInput from "../../components/Common/URLMetadataInput";
-import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
 import { transformEvent } from "../../utils";
+import { EventEditActions } from "./actions/EditEventActions";
 
 const listFilter = [
   <TextInput key="title" source="title" alwaysOn />,
-  <BooleanInput
-    key="draft"
-    label="Draft only"
-    source="draft"
-    alwaysOn
-  />,
+  <BooleanInput key="draft" label="Draft only" source="draft" alwaysOn />,
   <ReferenceGroupInput key="provider" source="provider" alwaysOn />,
   <ReferenceArrayActorInput key="authors" source="authors" />,
   <DateInput key="date" source="date" />,
@@ -90,11 +91,7 @@ export const ScientificStudyEdit: React.FC = () => {
   return (
     <Edit
       title={<ScientificStudyEventTitle />}
-      actions={
-        <>
-          <WebPreviewButton resource="/dashboard/events" source="id" />
-        </>
-      }
+      actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
     >
       <TabbedForm>

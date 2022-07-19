@@ -1,47 +1,38 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { parseISO } from "@liexp/shared/utils/date";
 import { sanitizeURL } from "@liexp/shared/utils/url.utils";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { In } from "typeorm";
 import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
-import { ServerError } from "@io/ControllerError";
+import { fetchAndSave } from "@flows/link.flow";
 import { RouteContext } from "@routes/route.types";
 
 export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.Custom.CreateMany, ({ body }) => {
-    // const data = {
-    //   events: body.events.map((e) => ({ id: e })),
-    // };
     return pipe(
-      body.map((b) =>
-        ctx.urlMetadata.fetchMetadata(b.url, {}, (e) => ServerError())
-      ),
-      A.sequence(TE.ApplicativeSeq),
-      TE.chain((meta) =>
-        ctx.db.save(
-          LinkEntity,
-          meta.map((m) => ({
-            ...m,
-            events: [],
-            title: m.title,
-            image: m.image
-              ? {
-                  description: m.description,
-                  thumbnail: m.image,
-                  location: m.image,
-                  type: "image/jpeg" as const,
-                }
-              : null,
-            url: sanitizeURL(m.url as any),
-            publishDate: m.date ? parseISO(m.date) : undefined,
-            keywords: [],
-          }))
-        )
-      ),
+      ctx.db.find(LinkEntity, {
+        where: {
+          url: In(body.map((u) => u.url)),
+        },
+      }),
+      TE.chain((ll) => {
+        return pipe(
+          body,
+          A.map((b) => {
+            const u = ll.find((l) => l.url === sanitizeURL(b.url as any));
+
+            if (!u) {
+              return fetchAndSave(ctx)(b.url);
+            }
+            return TE.right(u);
+          }),
+          A.sequence(TE.ApplicativeSeq)
+        );
+      }),
       TE.chainEitherK(A.traverse(E.Applicative)(toLinkIO)),
       TE.map((data) => ({
         body: { data },

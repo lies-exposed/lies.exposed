@@ -32,10 +32,9 @@ import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKe
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import ReferenceArrayMediaInput from "../../components/Common/ReferenceArrayMediaInput";
 import ReferenceMediaInput from "../../components/Common/ReferenceMediaInput";
-import { TGPostButton } from "../../components/Common/TGPostButton";
-import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
 import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
+import { EventEditActions } from "./actions/EditEventActions";
 
 const documentaryEventsFilter = [
   <TextInput key="title" source="title" alwaysOn />,
@@ -86,12 +85,7 @@ export const DocumentaryEdit: React.FC = () => {
   return (
     <Edit
       title={<DocumentaryReleaseTitle />}
-      actions={
-        <Box display="flex" style={{ flexDirection: "row", padding: 10 }}>
-          <WebPreviewButton resource="/events" source="id" />
-          <TGPostButton />
-        </Box>
-      }
+      actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
     >
       <TabbedForm>

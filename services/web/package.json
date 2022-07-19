@@ -10,6 +10,7 @@
     "watch:server": "DOTENV_CONFIG_PATH=.env.development webpack watch -c webpack.server.ts",
     "build:app": "webpack -c webpack.config.ts",
     "build:server": "webpack -c webpack.server.ts",
+    "build": "yarn build:app && yarn build:server",
     "test": "jest",
     "tsc:build": "tsc -b",
     "tsc:watch": "tsc -b --watch",
