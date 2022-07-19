@@ -2,11 +2,10 @@ import { http } from "@liexp/shared/io";
 import { Polygon } from "@liexp/shared/io/http/Common/Geometry";
 import { uuid } from "@liexp/shared/utils/uuid";
 import _ from "lodash";
-import Map from "ol/Map.js";
-import View from "ol/View.js";
+import Map from "ol/Map";
+import View from "ol/View";
 import GeoJSON from "ol/format/GeoJSON";
-import GeometryType from "ol/geom/GeometryType";
-import Draw from "ol/interaction/Draw.js";
+import Draw from "ol/interaction/Draw";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { OSM as OSMSource, Vector as VectorSource } from "ol/source";
 import * as React from "react";
@@ -41,7 +40,10 @@ type MapInputProps = InputProps & {
   onReset: () => void;
 };
 
-export const MapInputType = GeometryType;
+export const MapInputType = {
+  POINT: 'POINT',
+  POLYGON: 'POLYGON'
+};
 
 const MapInput: React.FC<MapInputProps> = ({
   value,
@@ -135,7 +137,7 @@ const MapInputWrapper: React.FC<
   const mapField = useInput({
     ...props,
     source: props.source,
-    defaultValue: []
+    defaultValue: [],
   });
 
   const handleReset = (): void => {
@@ -152,18 +154,19 @@ const MapInputWrapper: React.FC<
       <SelectInput
         label="type"
         source={typeField.field.name}
-        choices={[GeometryType.POINT, GeometryType.POLYGON].map((g) => ({
+        choices={[MapInputType.POINT, MapInputType.POLYGON].map((g) => ({
           id: g,
           name: g,
         }))}
-        defaultValue={GeometryType.POINT}
+        defaultValue={MapInputType.POINT}
         onChange={(e) => {
           typeField.field.onChange({ type: e.target.value, coordinates: [] });
         }}
       />
       <FormDataConsumer>
         {({ formData }) => {
-          const type = _.get(formData, typeField.field.name) ?? typeField.field.value;
+          const type =
+            _.get(formData, typeField.field.name) ?? typeField.field.value;
 
           if (type === Polygon.type.props.type.value) {
             return (

@@ -1639,7 +1639,7 @@ __metadata:
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     jest: ^28.1.3
-    ol: ^6.14.1
+    ol: ^6.15.1
     prettier: ^2.7.1
     query-string: ^7.1.1
     react: ^17.0.2
@@ -1683,9 +1683,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/mapbox-gl-style-spec@npm:^13.20.1":
-  version: 13.23.0
-  resolution: "@mapbox/mapbox-gl-style-spec@npm:13.23.0"
+"@mapbox/mapbox-gl-style-spec@npm:^13.23.1":
+  version: 13.25.0
+  resolution: "@mapbox/mapbox-gl-style-spec@npm:13.25.0"
   dependencies:
     "@mapbox/jsonlint-lines-primitives": ~2.0.2
     "@mapbox/point-geometry": ^0.1.0
@@ -1696,11 +1696,11 @@ __metadata:
     rw: ^1.3.3
     sort-object: ^0.3.2
   bin:
-    gl-style-composite: bin/gl-style-composite
-    gl-style-format: bin/gl-style-format
-    gl-style-migrate: bin/gl-style-migrate
-    gl-style-validate: bin/gl-style-validate
-  checksum: 6eff7808083eb139ca4d2134ebe8f4360ab56e4768a582a112e99a75cce385a05b3a37d906c092164f0ff0d5068ef07568e8ef2aa91d7ab2f77c32155ede6232
+    gl-style-composite: bin/gl-style-composite.js
+    gl-style-format: bin/gl-style-format.js
+    gl-style-migrate: bin/gl-style-migrate.js
+    gl-style-validate: bin/gl-style-validate.js
+  checksum: a1639069bba39e82755c67ff7218075154459614f0d6f13b7ef478bbcbea4b81e47f23ce5e2ec76ca1f083f3f1e9acd93e8110d1a7bbc3cd443f1a250c971c92
   languageName: node
   linkType: hard
 
@@ -10514,7 +10514,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"geotiff@npm:^2.0.2, geotiff@npm:^2.0.5":
+"geotiff@npm:2.0.4":
+  version: 2.0.4
+  resolution: "geotiff@npm:2.0.4"
+  dependencies:
+    "@petamoriken/float16": ^3.4.7
+    lerc: ^3.0.0
+    lru-cache: ^6.0.0
+    pako: ^2.0.4
+    parse-headers: ^2.0.2
+    web-worker: ^1.2.0
+    xml-utils: ^1.0.2
+  checksum: 68d54ea7b9a8965287b20a7c30b5eb9552bd21ed341edfd65dfd424309b7d91fffb2dc474298f23bc2274ed8b34d1792812fa444385bd6000173d706de675169
+  languageName: node
+  linkType: hard
+
+"geotiff@npm:^2.0.5":
   version: 2.0.5
   resolution: "geotiff@npm:2.0.5"
   dependencies:
@@ -14551,26 +14566,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ol-mapbox-style@npm:^7.1.1":
-  version: 7.1.1
-  resolution: "ol-mapbox-style@npm:7.1.1"
+"ol-mapbox-style@npm:^8.0.5":
+  version: 8.2.0
+  resolution: "ol-mapbox-style@npm:8.2.0"
   dependencies:
-    "@mapbox/mapbox-gl-style-spec": ^13.20.1
+    "@mapbox/mapbox-gl-style-spec": ^13.23.1
     mapbox-to-css-font: ^2.4.1
-    webfont-matcher: ^1.1.0
-  checksum: 3f5f9c528163a0f74a582c0cbec58b833cc76b212d334a497a085e0b562164a05054ab2a5a78cde92e9ea560433bbae9511344e894d5440700515af07365426c
+  checksum: a1bb0a8789e86cba4f1577c22b22add94bc8504a38df2625f1ee40b6bdacb515bfd574ecb738e72af54e2ca9a58764ca25386f931bb76f8b978280a5623b97b6
   languageName: node
   linkType: hard
 
-"ol@npm:^6.14.1":
-  version: 6.14.1
-  resolution: "ol@npm:6.14.1"
+"ol@npm:^6.15.1":
+  version: 6.15.1
+  resolution: "ol@npm:6.15.1"
   dependencies:
-    geotiff: ^2.0.2
-    ol-mapbox-style: ^7.1.1
+    geotiff: 2.0.4
+    ol-mapbox-style: ^8.0.5
     pbf: 3.2.1
     rbush: ^3.0.1
-  checksum: 118ae5b40fb3f98efb7c2cbf230edc3788567fac872f80e09b9dbcc3845c0179de95c2ef771be2307e6f8b4162e9dbc68818757c874d7d4fdd855e56dd43ea12
+  checksum: 61199a0cfd11830919861f92cc7dcd50f94077972cd5777691834186991cfc0f59da69a5c35281047c64a8e0b857a228cc37e663b5579c93b5fb08d2eb0f4b4d
   languageName: node
   linkType: hard
 
@@ -20336,7 +20350,7 @@ __metadata:
     io-ts: ^2.2.16
     io-ts-types: ^0.5.16
     is-plain-object: ^5.0.0
-    ol: ^6.14.1
+    ol: ^6.15.1
     prettier: ^2.7.1
     prop-types: ^15.8.1
     query-string: ^7.1.1
@@ -20367,13 +20381,6 @@ __metadata:
     world-atlas: 2.0.2
   languageName: unknown
   linkType: soft
-
-"webfont-matcher@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "webfont-matcher@npm:1.1.0"
-  checksum: 788b7155157bd33607fd46927b27007a1815a1226db286350961f7f684e7a91d8f1c36ce4032897fe203c4964355111814d5826f0139266d9b4715e91bb06665
-  languageName: node
-  linkType: hard
 
 "webidl-conversions@npm:^3.0.0":
   version: 3.0.1
