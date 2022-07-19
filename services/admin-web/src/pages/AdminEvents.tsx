@@ -38,7 +38,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ImportMediaButton } from "../components/Common/ImportMediaButton";
@@ -46,29 +46,28 @@ import ReferenceArrayActorInput from "../components/Common/ReferenceArrayActorIn
 import ReferenceArrayGroupInput from "../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../components/Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../components/Common/ReferenceArrayKeywordInput";
-import { TGPostButton } from "../components/Common/TGPostButton";
-import { WebPreviewButton } from "../components/Common/WebPreviewButton";
 import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "../components/tabs/ReferenceMediaTab";
 import { transformEvent } from "../utils";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle,
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle,
+  DocumentaryReleaseTitle
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEventPayload,
-  ScientificStudyEventTitle,
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
+import { EventEditActions } from './events/actions/EditEventActions';
 
 const RESOURCE = "events";
 
@@ -253,20 +252,17 @@ export const EditTitle: React.FC = () => {
   return <span>No record</span>;
 };
 
+
+
 export const EventEdit: React.FC = () => {
   return (
     <Edit
       title={<EditTitle />}
       redirect={false}
-      actions={
-        <Box style={{ display: "flex", margin: 10 }}>
-          <WebPreviewButton resource="events" source="id" />
-          <TGPostButton />
-        </Box>
-      }
+      actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
     >
-      <TabbedForm redirect={false}>
+      <TabbedForm>
         <FormTab label="Generals">
           <Grid container>
             <Grid

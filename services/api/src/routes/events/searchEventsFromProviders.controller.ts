@@ -1,4 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { defaultSites } from "@liexp/shared/scrapers/defaultSites";
 import { searchWithGoogle } from "@liexp/shared/scrapers/searchLinksWithGoogle";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
@@ -11,10 +12,6 @@ import { fetchAsLink } from "@flows/link.flow";
 import { toControllerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
-const urls = {
-  "the-guardian": "www.theguardian.com",
-  reuters: "www.reuters.com",
-};
 
 export const SearchEventsFromProviderRoute = (
   r: Router,
@@ -34,7 +31,7 @@ export const SearchEventsFromProviderRoute = (
           pipe(
             providers,
             A.map((provider) => {
-              const site = (urls as any)[provider];
+              const site = (defaultSites as any)[provider];
               ctx.logger.debug.log("Provider %s (%s)", provider, site);
               return site;
             }),

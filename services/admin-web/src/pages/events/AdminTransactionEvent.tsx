@@ -3,14 +3,18 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
-  BooleanField, BooleanInput, Create,
+  BooleanField,
+  BooleanInput,
+  Create,
   CreateProps,
   Datagrid,
   DateField,
   DateInput,
   Edit,
   EditProps,
-  FormTab, FormTabProps, List,
+  FormTab,
+  FormTabProps,
+  List,
   ListProps,
   NumberField,
   NumberInput,
@@ -18,16 +22,16 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
 } from "react-admin";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
-import ReferenceAreaInput from '../../components/Common/ReferenceAreaInput';
+import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceBySubjectField } from "../../components/Common/ReferenceBySubjectField";
 import ReferenceBySubjectInput from "../../components/Common/ReferenceBySubjectInput";
-import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
 import { transformEvent } from "../../utils";
+import { EventEditActions } from "./actions/EditEventActions";
 
 const transactionEventsFilter = [
   <BooleanInput
@@ -79,11 +83,7 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
   <Edit
     title={<TransactionTitle {...(props as any)} />}
     {...props}
-    actions={
-      <>
-        <WebPreviewButton resource="/events" source="id" {...(props as any)} />
-      </>
-    }
+    actions={<EventEditActions />}
     transform={(r) => transformEvent(r.id, r)}
   >
     <TabbedForm>

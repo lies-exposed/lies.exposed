@@ -10,7 +10,8 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps, FormTab,
+  EditProps,
+  FormTab,
   List,
   ListProps,
   SimpleForm,
@@ -18,7 +19,7 @@ import {
   TextField,
   TextInput,
   UrlField,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
@@ -27,10 +28,10 @@ import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGrou
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
-import { TGPostButton } from "../../components/Common/TGPostButton";
 import URLMetadataInput from "../../components/Common/URLMetadataInput";
 import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
 import { transformEvent } from "../../utils";
+import { EventEditActions } from "./actions/EditEventActions";
 
 const patentEventsFilter = [
   <BooleanInput
@@ -89,11 +90,7 @@ export const PatentEdit: React.FC = () => {
   return (
     <Edit
       title={<PatentEventTitle />}
-      actions={
-        <>
-          <TGPostButton />
-        </>
-      }
+      actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
     >
       <TabbedForm>

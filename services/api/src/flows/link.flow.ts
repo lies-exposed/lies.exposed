@@ -1,9 +1,10 @@
 import { URL } from "@liexp/shared/io/http/Common";
-import { parseISO } from "@liexp/shared/utils/date";
 import { uuid } from "@liexp/shared/utils/uuid";
+import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import { DateFromISOString } from "io-ts-types";
 import { Equal } from "typeorm";
 import { LinkEntity } from "@entities/Link.entity";
 import { ControllerError, ServerError } from "@io/ControllerError";
@@ -16,6 +17,12 @@ export const fetchAsLink =
       ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError()),
       TE.map((meta): LinkEntity => {
         ctx.logger.debug.log("Creating link %O", meta);
+        let publishDate: any = DateFromISOString.decode(meta.date);
+        if (E.isRight(publishDate)) {
+          publishDate = publishDate.right;
+        } else {
+          publishDate = undefined;
+        }
 
         const image = meta.image
           ? {
@@ -34,7 +41,7 @@ export const fetchAsLink =
         link.title = meta.title;
         link.url = meta.url as any;
         link.description = meta.description;
-        link.publishDate = meta.date ? parseISO(meta.date) : new Date();
+        link.publishDate = publishDate;
         link.image = image as any;
         link.createdAt = new Date();
         link.updatedAt = new Date();

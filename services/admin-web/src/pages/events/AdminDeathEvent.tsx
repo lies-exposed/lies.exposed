@@ -21,7 +21,7 @@ import {
   SelectInput,
   SimpleForm,
   TabbedForm,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import ExcerptField from "../../components/Common/ExcerptField";
@@ -33,10 +33,9 @@ import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActo
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
-import { TGPostButton } from "../../components/Common/TGPostButton";
-import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
 import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
+import { EventEditActions } from "./actions/EditEventActions";
 
 const deathEventsFilter = [
   <ReferenceArrayActorInput
@@ -100,17 +99,10 @@ export const DeathEventEditFormTab: React.FC = () => {
 };
 
 export const DeathEdit: React.FC = () => {
-  const record = useRecordContext<http.Events.Death.Death>();
-
   return (
     <Edit
       title={<DeathEventTitle />}
-      actions={
-        <>
-          <WebPreviewButton resource="/dashboard/events" source="id" />
-          <TGPostButton id={record?.id} />
-        </>
-      }
+      actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
     >
       <TabbedForm>
