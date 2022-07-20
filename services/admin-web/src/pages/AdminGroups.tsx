@@ -224,7 +224,6 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
                     subGroups={[]}
                     onGroupClick={() => {}}
                     groupsMembers={[]}
-                    events={[]}
                     projects={[]}
                     funds={[]}
                     onMemberClick={() => {}}

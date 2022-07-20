@@ -8,7 +8,6 @@ import {
   useActorQuery,
   useGroupsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { subYears } from "date-fns";
 import * as React from "react";
 import { useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
@@ -52,7 +51,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
               groups={[]}
               groupsMembers={[]}
               query={{
-                startDate: subYears(new Date(), 1).toDateString(),
+                startDate: undefined,
                 endDate: new Date().toDateString(),
                 actors: actorId ? [actorId] : [],
                 groups: [],

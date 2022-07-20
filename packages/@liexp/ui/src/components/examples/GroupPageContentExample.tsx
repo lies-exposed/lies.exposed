@@ -1,4 +1,3 @@
-import { uncategorizedEvents } from "@liexp/shared/mock-data/events";
 import { goodGroup } from "@liexp/shared/mock-data/groups";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
@@ -10,14 +9,12 @@ export const groupPageContentArgs: GroupPageContentProps = {
   ...goodGroup,
   // tableOfContents: O.none,
   // timeToRead: O.none,
-  events: uncategorizedEvents,
   projects: [],
   funds: [],
   groupsMembers: [],
   onMemberClick: () => {},
   ownedGroups: [],
   onGroupClick: () => undefined
-  
 };
 
 export const GroupPageContentExample: React.FC<GroupPageContentProps> = (

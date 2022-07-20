@@ -1,4 +1,4 @@
-import { Actor, Events, Group, Project } from "@liexp/shared/io/http";
+import { Actor, Group, Project } from "@liexp/shared/io/http";
 import { GroupMember } from "@liexp/shared/io/http/GroupMember";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -11,7 +11,6 @@ import { Grid, Typography } from "./mui";
 
 export interface GroupPageContentProps extends Group.Group {
   groupsMembers: GroupMember[];
-  events: Events.Event[];
   projects: Project.Project[];
   funds: any[];
   ownedGroups: Group.Group[];
@@ -23,7 +22,6 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
   onMemberClick,
   projects,
   funds,
-  events,
   body,
   groupsMembers,
   ownedGroups,
