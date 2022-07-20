@@ -2849,12 +2849,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.2.5":
-  version: 14.2.5
-  resolution: "@testing-library/user-event@npm:14.2.5"
+"@testing-library/user-event@npm:^14.3.0":
+  version: 14.3.0
+  resolution: "@testing-library/user-event@npm:14.3.0"
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: 9656b11c8c1682626ff7f0b38b058e1de50d31f801342e9229a7ebaae9cab435411697d0ff180e9e916361e5a831d73ffad74b224da433154ed19e6a54368991
+  checksum: cbd5954460496519cb2ff3fa506ca598d7e4c2e3d2f2e129b21909758f5ec87573aad7d6c79aebffd4bd0ea843315b3064a2a76e545f196bd4c82489cb3afc1d
   languageName: node
   linkType: hard
 
@@ -5429,7 +5429,7 @@ __metadata:
     "@testing-library/dom": ^8.16.0
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.3.0
-    "@testing-library/user-event": ^14.2.5
+    "@testing-library/user-event": ^14.3.0
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
     "@types/lodash": ^4.14.182
@@ -5721,7 +5721,7 @@ __metadata:
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1176.0
+    aws-sdk: ^2.1178.0
     axios: ^0.27.2
     cors: 2.8.5
     debug: ^4.3.4
@@ -6128,9 +6128,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1176.0":
-  version: 2.1176.0
-  resolution: "aws-sdk@npm:2.1176.0"
+"aws-sdk@npm:^2.1178.0":
+  version: 2.1178.0
+  resolution: "aws-sdk@npm:2.1178.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -6142,7 +6142,7 @@ __metadata:
     util: ^0.12.4
     uuid: 8.0.0
     xml2js: 0.4.19
-  checksum: 1f2a89aaff820ba698191a6d2f6f2e8e1680a1d467f1adb35e5b993a19da54441d6807bff2f1deca4b69fb434c70460d14832f6f155adb31214f16ef41c89dae
+  checksum: a8f94182d88636e0d6e5550457d020603aa548c3bbcb8d20b99534d76a1f638c42ac37e68754299ae40bf87879626ec0140c4001543560e7eb5adf4bc21d1ec0
   languageName: node
   linkType: hard
 
