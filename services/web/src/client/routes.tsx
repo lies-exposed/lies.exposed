@@ -6,7 +6,6 @@ import {
   fetchArea,
   fetchAreas,
   fetchEvent,
-  fetchEvents,
   fetchGroup,
   fetchGroups,
   fetchGroupsMembers,
@@ -18,7 +17,6 @@ import {
   getActorQueryKey,
   getActorsQueryKey,
   getAreaQueryKey,
-  getEventsQueryKey,
   getGroupsMembersQueryKey,
   getGroupsQueryKey,
   getKeywordsDistributionQueryKey,
@@ -85,15 +83,7 @@ export const routes = [
           false
         ),
         queryFn: fetchGroupsMembers,
-      },
-      {
-        queryKey: getEventsQueryKey({
-          filter: {
-            groups: [groupId],
-          },
-        }, false),
-        queryFn: fetchEvents,
-      },
+      }
     ],
   },
   // groups

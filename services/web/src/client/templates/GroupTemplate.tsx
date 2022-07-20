@@ -1,14 +1,13 @@
+import { EventType } from '@liexp/shared/io/http/Events';
 import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
 import {
-  useEventsQuery,
   useGroupMembersQuery,
   useGroupQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { subYears } from "date-fns";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";
 import { useRouteQuery } from "../utils/history.utils";
@@ -30,18 +29,9 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
             },
           },
           false
-        ),
-        events: useEventsQuery(
-          {
-            filter: {
-              groups: [groupId],
-            },
-          },
-          false
-        ),
+        )
       }}
-      render={({ group, groupsMembers, events }) => {
-
+      render={({ group, groupsMembers }) => {
         return (
           <Box>
             <MainContent>
@@ -53,7 +43,6 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
               <GroupPageContent
                 {...group}
                 groupsMembers={groupsMembers.data}
-                events={events.data}
                 funds={[]}
                 projects={[]}
                 onMemberClick={(a) => {
@@ -73,13 +62,14 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
               hash={`group-${groupId}`}
               query={{
                 groups: [group.id],
-                groupsMembers: group.members,
+                groupsMembers: [],
                 keywords: [],
                 actors: [],
                 locations: [],
                 tab,
-                startDate: subYears(new Date(), 1).toDateString(),
+                startDate: undefined,
                 endDate: new Date().toDateString(),
+                type: EventType.types.map((t) => t.value),
                 _sort: "createdAt",
                 _order: "DESC",
               }}
