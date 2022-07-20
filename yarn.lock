@@ -5444,7 +5444,7 @@ __metadata:
     eslint: ^8.20.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^22.0.0
-    eslint-import-resolver-typescript: ^3.2.7
+    eslint-import-resolver-typescript: ^3.3.0
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.2.4
     eslint-plugin-node: ^11.1.0
@@ -5728,7 +5728,7 @@ __metadata:
     domino: ^2.1.6
     eslint: ^8.20.0
     eslint-config-prettier: ^8.5.0
-    eslint-import-resolver-typescript: ^3.2.7
+    eslint-import-resolver-typescript: ^3.3.0
     eslint-plugin-import: ^2.26.0
     express: ^4.18.1
     express-jwt: ^6.1.2
@@ -9267,9 +9267,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-typescript@npm:^3.2.7":
-  version: 3.2.7
-  resolution: "eslint-import-resolver-typescript@npm:3.2.7"
+"eslint-import-resolver-typescript@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "eslint-import-resolver-typescript@npm:3.3.0"
   dependencies:
     debug: ^4.3.4
     enhanced-resolve: ^5.10.0
@@ -9281,7 +9281,7 @@ __metadata:
   peerDependencies:
     eslint: "*"
     eslint-plugin-import: "*"
-  checksum: 7f63d58182b77adac3f2cbc4ac5dcd487a5b9acf125ff59d1731dd0e74ffbad7fdbb9ac71c893963e84255cd4d5ff6a6ef3078e5b9ed180c713a2fa82797a51f
+  checksum: c5ccb5c15dbf7a7cddcb5daca9d7a412d523f8009a82e5869ef131f3e8717d501fddd1707528f516d9e54aef2936ea2d1e0f39ae7bfc62efa35ed7e329590c05
   languageName: node
   linkType: hard
 
@@ -13100,7 +13100,7 @@ __metadata:
     eslint: ^8.20.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^22.0.0
-    eslint-import-resolver-typescript: ^3.2.7
+    eslint-import-resolver-typescript: ^3.3.0
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.2.4
     eslint-plugin-node: ^11.1.0
@@ -20338,7 +20338,7 @@ __metadata:
     eslint: ^8.20.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^22.0.0
-    eslint-import-resolver-typescript: ^3.2.7
+    eslint-import-resolver-typescript: ^3.3.0
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.2.4
     eslint-plugin-node: ^11.1.0
