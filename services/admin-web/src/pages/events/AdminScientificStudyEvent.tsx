@@ -9,9 +9,7 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput,
-  Edit,
-  EditProps,
+  DateInput, EditProps,
   FormTab,
   List,
   ListProps,
@@ -25,6 +23,7 @@ import {
   useRecordContext
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
+import { EditEventForm } from '../../components/Common/EditEventForm';
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
@@ -32,6 +31,7 @@ import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkI
 import ReferenceGroupInput from "../../components/Common/ReferenceGroupInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import URLMetadataInput from "../../components/Common/URLMetadataInput";
+import EventPreview from '../../components/previews/EventPreview';
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
@@ -89,10 +89,11 @@ export const EditScientificStudyEventPayload: React.FC<
 
 export const ScientificStudyEdit: React.FC = () => {
   return (
-    <Edit
+    <EditEventForm
       title={<ScientificStudyEventTitle />}
       actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
+      preview={<EventPreview />}
     >
       <TabbedForm>
         <FormTab label="General">
@@ -128,7 +129,7 @@ export const ScientificStudyEdit: React.FC = () => {
           <ReferenceMediaDataGrid source="media" />
         </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditEventForm>
   );
 };
 

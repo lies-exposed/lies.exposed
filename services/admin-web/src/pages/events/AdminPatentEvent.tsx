@@ -8,9 +8,7 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput,
-  Edit,
-  EditProps,
+  DateInput, EditProps,
   FormTab,
   List,
   ListProps,
@@ -19,8 +17,9 @@ import {
   TextField,
   TextInput,
   UrlField,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
+import { EditEventForm } from '../../components/Common/EditEventForm';
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
@@ -30,6 +29,7 @@ import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkI
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import URLMetadataInput from "../../components/Common/URLMetadataInput";
 import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
+import EventPreview from '../../components/previews/EventPreview';
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
@@ -88,10 +88,11 @@ export const PatentEventEditFormTab: React.FC<
 
 export const PatentEdit: React.FC = () => {
   return (
-    <Edit
+    <EditEventForm
       title={<PatentEventTitle />}
       actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
+      preview={<EventPreview />}
     >
       <TabbedForm>
         <FormTab label="Generals">
@@ -127,7 +128,7 @@ export const PatentEdit: React.FC = () => {
           <ReferenceArrayLinkInput source="links" />
         </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditEventForm>
   );
 };
 

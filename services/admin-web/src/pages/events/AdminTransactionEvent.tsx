@@ -22,7 +22,7 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput
 } from "react-admin";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
 import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";

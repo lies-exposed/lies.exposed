@@ -10,42 +10,35 @@ import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
-import { EventPageContent } from "@liexp/ui/components/EventPageContent";
-import { HelmetProvider } from "@liexp/ui/components/SEO";
-import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box, Grid, ThemeProvider, Typography } from "@liexp/ui/components/mui";
-import { ECOTheme } from "@liexp/ui/theme";
+import {
+  Box, Grid, Typography
+} from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
-import * as E from "fp-ts/lib/Either";
 import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
   BooleanField,
   BooleanInput,
   Datagrid,
   DateField,
-  DateInput,
-  Edit,
-  FormDataConsumer,
+  DateInput, FormDataConsumer,
   FormTab,
   FunctionField,
-  List,
-  RaRecord as Record,
+  List, RaRecord as Record,
   ReferenceField,
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput,
-  useRecordContext
+  TextInput, useRecordContext
 } from "react-admin";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { EditEventForm } from "../components/Common/EditEventForm";
 import { ImportMediaButton } from "../components/Common/ImportMediaButton";
 import ReferenceArrayActorInput from "../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../components/Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../components/Common/ReferenceArrayKeywordInput";
+import EventPreview from '../components/previews/EventPreview';
 import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "../components/tabs/ReferenceMediaTab";
 import { transformEvent } from "../utils";
@@ -67,7 +60,7 @@ import {
   UncategorizedEventEditTab,
   UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
-import { EventEditActions } from './events/actions/EditEventActions';
+import { EventEditActions } from "./events/actions/EditEventActions";
 
 const RESOURCE = "events";
 
@@ -253,13 +246,13 @@ export const EditTitle: React.FC = () => {
 };
 
 
-
 export const EventEdit: React.FC = () => {
   return (
-    <Edit
+    <EditEventForm
       title={<EditTitle />}
       redirect={false}
       actions={<EventEditActions />}
+      preview={<EventPreview />}
       transform={(r) => transformEvent(r.id, r)}
     >
       <TabbedForm>
@@ -267,7 +260,7 @@ export const EventEdit: React.FC = () => {
           <Grid container>
             <Grid
               item
-              {...{ md: 2, lg: 4 }}
+              {...{ md: 3, lg: 2 }}
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -276,7 +269,7 @@ export const EventEdit: React.FC = () => {
               <TextField source="type" />
               <BooleanInput source="draft" />
             </Grid>
-            <Grid item {...{ md: 3, lg: 2 }}>
+            <Grid item {...{ md: 3, lg: 4 }}>
               <DateInput source="date" />
             </Grid>
             <Grid item {...{ md: 6, lg: 6 }}>
@@ -317,44 +310,7 @@ export const EventEdit: React.FC = () => {
         <FormTab label="Links">
           <ReferenceLinkTab source="links" />
         </FormTab>
-        <FormTab label="Preview">
-          <FormDataConsumer>
-            {({ formData, ...rest }) => {
-              const qc = new QueryClient();
-              return pipe(
-                http.Events.Uncategorized.Uncategorized.decode({
-                  ...formData,
-                  payload: {
-                    ...formData.payload,
-                    location:
-                      formData.payload.location === ""
-                        ? undefined
-                        : formData.payload.location,
-                  },
-                }),
-                E.fold(ValidationErrorsLayout, (p) => (
-                  <HelmetProvider>
-                    <ThemeProvider theme={ECOTheme}>
-                      <QueryClientProvider client={qc}>
-                        <EventPageContent
-                          event={p}
-                          onActorClick={() => undefined}
-                          onGroupClick={() => undefined}
-                          onKeywordClick={() => undefined}
-                          onLinkClick={() => undefined}
-                          onGroupMemberClick={() => undefined}
-                          onDateClick={() => undefined}
-                          onAreaClick={() => undefined}
-                        />
-                      </QueryClientProvider>
-                    </ThemeProvider>
-                  </HelmetProvider>
-                ))
-              );
-            }}
-          </FormDataConsumer>
-        </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditEventForm>
   );
 };
