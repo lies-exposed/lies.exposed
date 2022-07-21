@@ -9,9 +9,7 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput,
-  Edit,
-  EditProps,
+  DateInput, EditProps,
   FormTab,
   List,
   ListProps,
@@ -20,8 +18,9 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
+import { EditEventForm } from '../../components/Common/EditEventForm';
 import ExcerptField from "../../components/Common/ExcerptField";
 import { MediaField } from "../../components/Common/MediaField";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
@@ -32,6 +31,7 @@ import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKe
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import ReferenceArrayMediaInput from "../../components/Common/ReferenceArrayMediaInput";
 import ReferenceMediaInput from "../../components/Common/ReferenceMediaInput";
+import EventPreview from '../../components/previews/EventPreview';
 import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
@@ -83,10 +83,11 @@ export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
 
 export const DocumentaryEdit: React.FC = () => {
   return (
-    <Edit
+    <EditEventForm
       title={<DocumentaryReleaseTitle />}
       actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
+      preview={<EventPreview />}
     >
       <TabbedForm>
         <FormTab label="Generals">
@@ -135,7 +136,7 @@ export const DocumentaryEdit: React.FC = () => {
           <ReferenceLinkTab source="links" />
         </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditEventForm>
   );
 };
 

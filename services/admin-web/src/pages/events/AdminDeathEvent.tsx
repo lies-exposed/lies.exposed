@@ -11,9 +11,7 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput,
-  Edit,
-  FormTab,
+  DateInput, FormTab,
   List,
   ListProps,
   ReferenceField,
@@ -24,6 +22,7 @@ import {
   useRecordContext
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
+import { EditEventForm } from "../../components/Common/EditEventForm";
 import ExcerptField from "../../components/Common/ExcerptField";
 import { ImportMediaButton } from "../../components/Common/ImportMediaButton";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
@@ -33,6 +32,7 @@ import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActo
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
+import EventPreview from "../../components/previews/EventPreview";
 import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
@@ -100,10 +100,11 @@ export const DeathEventEditFormTab: React.FC = () => {
 
 export const DeathEdit: React.FC = () => {
   return (
-    <Edit
+    <EditEventForm
       title={<DeathEventTitle />}
       actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
+      preview={<EventPreview />}
     >
       <TabbedForm>
         <FormTab label="Generals">
@@ -145,7 +146,7 @@ export const DeathEdit: React.FC = () => {
           <ReferenceLinkTab source="links" />
         </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditEventForm>
   );
 };
 
