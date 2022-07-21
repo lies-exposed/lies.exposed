@@ -1,5 +1,5 @@
 import { defaultSites } from "@liexp/shared/scrapers/defaultSites";
-import { parseISO } from "@liexp/shared/utils/date";
+import { formatDate, parseISO } from "@liexp/shared/utils/date";
 import { Link } from "@liexp/ui/components/Cards/LinkCard";
 import { LinksList as LinkEntityList } from "@liexp/ui/components/lists/LinkList";
 import {
@@ -19,14 +19,17 @@ import { apiProvider } from "@client/HTTPAPI";
 
 interface SearchLinksButtonProps {
   query?: string;
+  date?: string;
 }
 
 export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   query,
+  date: _date,
 }) => {
   const refresh = useRefresh();
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState(query ?? "");
+  const [date, setDate] = React.useState(formatDate(parseISO(_date)));
   const [p, setP] = React.useState(1);
   const [providers, setProviders] = React.useState(Object.keys(defaultSites));
   const [keywords, setKeywords] = React.useState("");
@@ -45,6 +48,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
           p,
           providers,
           keywords: keywords.split(",").map((k) => k.trim()),
+          date: new Date(date).toISOString(),
         },
       })
       .then((r) => {
@@ -113,6 +117,14 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               type="text"
               value={q}
               onChange={(e) => setQ(e.target.value)}
+            />
+            <TextField
+              label="Query"
+              id="date"
+              type="date"
+              name="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             />
 
             <TextField

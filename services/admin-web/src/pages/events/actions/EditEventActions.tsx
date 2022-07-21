@@ -9,14 +9,15 @@ import { WebPreviewButton } from "../../../components/Common/WebPreviewButton";
 
 export const EventEditActions: React.FC = () => {
   const record: any = useRecordContext();
-  const { title } = React.useMemo(() => {
+  const { title, date } = React.useMemo(() => {
     if (record) {
       const relations = getEventsMetadata(record);
       const { title } = getEventCommonProps(record, relations);
-      return { title };
+      return { title, date: record.date };
     }
     return {
       title: "",
+      date: undefined,
     };
   }, [record]);
 
@@ -28,7 +29,7 @@ export const EventEditActions: React.FC = () => {
     <Box style={{ display: "flex", flexDirection: "row", margin: 10 }}>
       <WebPreviewButton resource="events" source="id" />
       <TGPostButton id={record?.id} />
-      <SearchLinksButton query={title} />
+      <SearchLinksButton query={title} date={date} />
     </Box>
   );
 };
