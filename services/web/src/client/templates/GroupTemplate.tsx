@@ -70,7 +70,7 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
                 startDate: undefined,
                 endDate: new Date().toDateString(),
                 type: EventType.types.map((t) => t.value),
-                _sort: "createdAt",
+                _sort: "date",
                 _order: "DESC",
               }}
               actors={[]}

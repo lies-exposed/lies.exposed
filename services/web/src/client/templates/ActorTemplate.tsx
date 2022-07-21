@@ -60,7 +60,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                 locations: [],
                 tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),
-                _sort: "createdAt",
+                _sort: "date",
                 _order: "DESC",
               }}
               onQueryChange={({ tab }) => {
