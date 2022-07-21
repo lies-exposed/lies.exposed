@@ -1,3 +1,4 @@
+import { addDays, parseISO, subDays } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -31,6 +32,7 @@ export const searchWithGoogle =
     site: string,
     pageTotal: number,
     q: string,
+    date: string | undefined,
     keywords: string[]
   ): TE.TaskEither<PuppeteerError, string[]> => {
     return pipe(
@@ -95,24 +97,35 @@ export const searchWithGoogle =
         };
 
         // create new page
+
+        const minDate = date
+          ? subDays(parseISO(date), 5).toLocaleDateString()
+          : undefined;
+        const maxDate = date
+          ? addDays(parseISO(date), 5).toLocaleDateString()
+          : undefined;
+
+        const dateQ = date
+          ? `tbs=cdr:1,cd_min:${minDate},cd_max:${maxDate}`
+          : "";
+
         const page = await browser.newPage();
+        const searchParams = `q=site:${site}&as_qdr=all&lr=lang_en&${dateQ}`;
+        ctx.logger.debug.log("Searching with params %s", searchParams);
+        const searchUrl = `https://www.google.co.uk/search?${searchParams}`;
         // navigate to google advanced search
-        await page.goto(
-          `https://www.google.co.uk/advanced_search?q=site:${site}&lr=lang_en`,
-          { waitUntil: "networkidle0" }
-        );
-
+        await page.goto(searchUrl, { waitUntil: "networkidle0" });
 
         // fill the input with our query
-        await page.waitForSelector('[name="as_q"]');
-        await page.type('[name="as_q"]', q);
+        // await page.waitForSelector('[name="as_q"]');
+        // await page.type('[name="as_q"]', (date ? `${date} ` : "") + q);
 
-        // fill the input with our query
-        await page.waitForSelector('[name="as_oq"]');
-        await page.type('[name="as_oq"]', keywords.join(' OR '));
+        // // fill the input with our query
+        // await page.waitForSelector('[name="as_oq"]');
+        // await page.type('[name="as_oq"]', keywords.join(" OR "));
 
-        // submit form
-        await page.click('input[type="submit"]');
+        // // submit form
+        // await page.click('input[type="submit"]');
 
         await checkCookieModal();
 

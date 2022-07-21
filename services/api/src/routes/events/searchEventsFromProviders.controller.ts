@@ -3,6 +3,7 @@ import { defaultSites } from "@liexp/shared/scrapers/defaultSites";
 import { searchWithGoogle } from "@liexp/shared/scrapers/searchLinksWithGoogle";
 import { Router } from "express";
 import * as A from "fp-ts/lib/Array";
+import * as O from 'fp-ts/lib/Option';
 import * as Ord from "fp-ts/lib/Ord";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
@@ -12,15 +13,15 @@ import { fetchAsLink } from "@flows/link.flow";
 import { toControllerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 
-
 export const SearchEventsFromProviderRoute = (
   r: Router,
   ctx: RouteContext
 ): void => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.SearchEventsFromProvider,
-    ({ body: { q, p, providers, keywords } }) => {
-      ctx.logger.debug.log("Query %O", { q, providers, keywords });
+    ({ body: { q, p, date: _date, providers, keywords } }) => {
+      const date = O.toUndefined(_date);
+      ctx.logger.debug.log("Query %O", { q, providers, keywords, date });
 
       const tasks = pipe(
         ctx.puppeteer.getBrowser(`about:blank`, {
@@ -37,7 +38,7 @@ export const SearchEventsFromProviderRoute = (
             }),
             A.map((site) => {
               return pipe(
-                searchWithGoogle(ctx, browser)(site, p, q, keywords),
+                searchWithGoogle(ctx, browser)(site, p, q, date, keywords),
                 TE.mapLeft(toControllerError),
                 TE.chain((ll) => {
                   return pipe(
