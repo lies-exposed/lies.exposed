@@ -12,7 +12,8 @@
       "packages/@liexp/*",
       "services/api",
       "services/admin-web",
-      "services/web"
+      "services/web",
+      "services/storybook"
     ]
   },
   "scripts": {
