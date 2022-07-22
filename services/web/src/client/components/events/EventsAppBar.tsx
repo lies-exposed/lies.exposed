@@ -5,7 +5,7 @@ import {
   Patent,
   ScientificStudy,
   Transaction,
-  Uncategorized,
+  Uncategorized
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -28,7 +28,7 @@ import {
   Grid,
   IconButton,
   Toolbar,
-  Typography,
+  Typography
 } from "@liexp/ui/components/mui";
 import { getTotal } from "@liexp/ui/helpers/event.helper";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
@@ -38,6 +38,9 @@ import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import SearchIcon from "@mui/icons-material/Search";
 import { clsx } from "clsx";
+import * as R from "fp-ts/lib/Record";
+import { pipe } from "fp-ts/lib/function";
+import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
 import { EventsQueryParams } from "@containers/EventsPanel";
@@ -243,17 +246,37 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   };
 
   const handleTypeChange = React.useCallback(
-    (f: typeof filters) => {
+    (filterK: keyof typeof filters) => {
+      const allEnabled = pipe(
+        filters,
+        R.reduce(S.Ord)(true, (acc, b) => acc && b)
+      );
+
+      const ff = allEnabled
+        ? {
+            documentaries: false,
+            patents: false,
+            transactions: false,
+            uncategorized: false,
+            deaths: false,
+            scientificStudies: false,
+            [filterK]: true,
+          }
+        : {
+            ...filters,
+            [filterK]: !filters[filterK],
+          };
+
       setTypeFilters({
-        ...f,
+        ...ff,
       });
 
       const type = [
-        [f.uncategorized, UNCATEGORIZED.value],
-        [f.deaths, DEATH.value],
-        [f.documentaries, DOCUMENTARY.value],
-        [f.patents, PATENT.value],
-        [f.scientificStudies, SCIENTIFIC_STUDY.value],
+        [ff.uncategorized, UNCATEGORIZED.value],
+        [ff.deaths, DEATH.value],
+        [ff.documentaries, DOCUMENTARY.value],
+        [ff.patents, PATENT.value],
+        [ff.scientificStudies, SCIENTIFIC_STUDY.value],
       ]
         .map(([enabled, key]: any[]) => (enabled ? key : undefined))
         .filter((a) => a !== undefined);
@@ -476,10 +499,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
               color="primary"
               style={{ marginRight: 10 }}
               onClick={() => {
-                handleTypeChange({
-                  ...filters,
-                  uncategorized: !filters.uncategorized,
-                });
+                handleTypeChange("uncategorized");
               }}
               size="large"
             >
@@ -492,10 +512,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.deaths,
               })}
               onClick={() => {
-                handleTypeChange({
-                  ...filters,
-                  deaths: !filters.deaths,
-                });
+                handleTypeChange("deaths");
               }}
               size="large"
             >
@@ -508,10 +525,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.scientificStudies,
               })}
               onClick={() => {
-                handleTypeChange({
-                  ...filters,
-                  scientificStudies: !filters.scientificStudies,
-                });
+                handleTypeChange("scientificStudies");
               }}
               size="large"
             >
@@ -526,10 +540,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.documentaries,
               })}
               onClick={() => {
-                handleTypeChange({
-                  ...filters,
-                  documentaries: !filters.documentaries,
-                });
+                handleTypeChange("documentaries");
               }}
               size="large"
             >
@@ -545,10 +556,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.patents,
               })}
               onClick={() => {
-                handleTypeChange({
-                  ...filters,
-                  patents: !filters.patents,
-                });
+                handleTypeChange("patents");
               }}
               size="large"
             >
@@ -561,10 +569,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 [classes.iconButtonSelected]: filters.transactions,
               })}
               onClick={() => {
-                handleTypeChange({
-                  ...filters,
-                  transactions: !filters.transactions,
-                });
+                handleTypeChange("transactions");
               }}
               size="large"
             >
