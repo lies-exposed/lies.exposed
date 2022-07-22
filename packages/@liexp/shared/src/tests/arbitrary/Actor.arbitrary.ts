@@ -4,6 +4,7 @@ import * as http from "../../io/http";
 import { propsOmit } from "../../io/utils";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 import { ColorArb } from "./common/Color.arbitrary";
+import { placeKitten } from './Media.arbitrary';
 
 export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
   .getArbitrary(
@@ -26,6 +27,7 @@ export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
     fullName: tests.fc.sample(HumanReadableStringArb(), 1)[0],
     username: tests.fc.sample(HumanReadableStringArb({ joinChar: "-" }))[0],
     color: tests.fc.sample(ColorArb, 1)[0],
+    avatar: placeKitten(),
     excerpt: {},
     memberIn: [],
     body: {},

@@ -5,7 +5,7 @@ import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from 'react';
 
 const meta: Meta = {
-  title: "Components/Lists/Link/Card",
+  title: "Components/Lists/Links/LinkCard",
   component: LinkCard,
 };
 

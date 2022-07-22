@@ -5,6 +5,7 @@ import {
 import { groupPageContentArgs } from "@liexp/ui/components/examples/GroupPageContentExample";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
+import { MainContent } from "@liexp/ui/components/MainContent";
 
 const meta: Meta = {
   title: "Components/Pages/GroupPageContent",
@@ -14,7 +15,11 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<GroupPageContentProps> = (props) => {
-  return <GroupPageContent {...props} />;
+  return (
+    <MainContent>
+      <GroupPageContent {...props} />
+    </MainContent>
+  );
 };
 
 const GroupPageContentExample = Template.bind({});

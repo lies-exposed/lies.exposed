@@ -21,4 +21,4 @@ const EventPageContentExample = Template.bind({});
 
 EventPageContentExample.args = eventPageContentArgs;
 
-export { EventPageContentExample };
+export { EventPageContentExample as EventPageContent };

@@ -19,6 +19,7 @@ const LinkCardExample = Template.bind({});
 
 const args: LinksListProps = {
   links: fc.sample(LinkArb, 10).map((l) => ({ ...l, selected: false })),
+  column: 2,
   onItemClick: () => undefined,
 };
 
