@@ -15,31 +15,12 @@ import {
   Typography,
 } from "./mui";
 
-// interface LinkListItemProps {
-//   data: http.Link.Link;
-// }
-
-// const LinkListItem: React.FC<LinkListItemProps> = ({ data }) => {
-//   return (
-//     <Box>
-//       {data.publishDate ? (
-//         <Typography variant="caption">
-//           {" "}
-//           ({formatDate(data.publishDate)})
-//         </Typography>
-//       ) : (
-//         " "
-//       )}{" "}
-//       - <Link href={data.url}>{data.title}</Link>
-//     </Box>
-//   );
-// };
-
 interface LinksListProps {
   links: http.Link.Link[];
+  onClick: (l: http.Link.Link) => void;
 }
 
-export const LinksList: React.FC<LinksListProps> = ({ links }) => {
+export const LinksList: React.FC<LinksListProps> = ({ links, onClick }) => {
   return (
     <Grid
       container
@@ -54,14 +35,15 @@ export const LinksList: React.FC<LinksListProps> = ({ links }) => {
         <Grid
           key={l.id}
           item
-          md={4}
+          lg={6}
+          md={6}
           sm={6}
           xs={6}
           style={{
             display: "flex",
           }}
         >
-          <LinkCard link={{ ...l, selected: false }} onClick={() => {}} />
+          <LinkCard link={{ ...l, selected: false }} onClick={onClick} />
         </Grid>
       ))}
     </Grid>
@@ -72,6 +54,7 @@ interface LinksBoxProps {
   ids: string[];
   defaultExpanded?: boolean;
   style?: React.CSSProperties;
+  onClick: (l: http.Link.Link) => void;
   onOpen?: () => void;
   onClose?: () => void;
 }
@@ -81,6 +64,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
   defaultExpanded = false,
   onOpen,
   onClose,
+  onClick,
   style,
 }) => {
   const [expanded, setExpanded] = React.useState(defaultExpanded);
@@ -147,7 +131,7 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
                 maxHeight: "100%",
               }}
             >
-              <LinksList links={links} />
+              <LinksList links={links} onClick={onClick} />
             </AccordionDetails>
           </Accordion>
         );
