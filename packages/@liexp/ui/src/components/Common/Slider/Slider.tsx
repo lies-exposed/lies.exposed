@@ -81,22 +81,24 @@ export const Slider: React.FC<SliderProps> = ({
       ]}
       {...props}
     >
-      {slides.map((s, i) => (
-        <div
-          key={s.id}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <MediaElement
+      {slides
+        .filter((s) => s !== undefined)
+        .map((s, i) => (
+          <div
             key={s.id}
-            media={s}
-            className={classes.item}
-            style={itemStyle}
-            onLoad={i === 0 ? onLoad : undefined}
-          />
-        </div>
-      ))}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <MediaElement
+              key={s.id}
+              media={s}
+              className={classes.item}
+              style={itemStyle}
+              onLoad={i === 0 ? onLoad : undefined}
+            />
+          </div>
+        ))}
     </StyledSlickSlider>
   );
 };
