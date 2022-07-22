@@ -29,7 +29,9 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   const refresh = useRefresh();
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState(query ?? "");
-  const [date, setDate] = React.useState(formatDate(parseISO(_date)));
+  const [date, setDate] = React.useState(
+    _date ? formatDate(parseISO(_date)) : new Date().toLocaleDateString()
+  );
   const [p, setP] = React.useState(1);
   const [providers, setProviders] = React.useState(Object.keys(defaultSites));
   const [keywords, setKeywords] = React.useState("");
