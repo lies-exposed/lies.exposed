@@ -4,7 +4,7 @@ import {
   Grid
 } from "../mui";
 
-interface LinksListProps {
+export interface LinksListProps {
   links: Link[];
   onItemClick: (l: Link) => void
 }

@@ -7,7 +7,7 @@ import { getEventCommonProps } from "../helpers/event.helper";
 import {
   useActorsQuery,
   useAreasQuery,
-  useMediaQuery
+  useMediaQuery,
 } from "../state/queries/DiscreteQueries";
 import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
@@ -26,7 +26,7 @@ import {
   Grid,
   Link,
   Typography,
-  useMediaQuery as useMuiMediaQuery
+  useMediaQuery as useMuiMediaQuery,
 } from "./mui";
 import { MediaSlider } from "./sliders/MediaSlider";
 
@@ -62,33 +62,42 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
   return (
     <QueriesRenderer
       queries={{
-        actors: useActorsQuery({
-          filter: { ids: actors },
-          pagination: {
-            perPage: actors.length,
-            page: 1,
+        actors: useActorsQuery(
+          {
+            filter: { ids: actors },
+            pagination: {
+              perPage: actors.length,
+              page: 1,
+            },
           },
-        }, true),
-        media: useMediaQuery({
-          filter: { ids: media },
-          pagination: {
-            perPage: media.length,
-            page: 1,
+          true
+        ),
+        media: useMediaQuery(
+          {
+            filter: { ids: media },
+            pagination: {
+              perPage: media.length,
+              page: 1,
+            },
+            sort: {
+              field: "createdAt",
+              order: "DESC",
+            },
           },
-          sort: {
-            field: "createdAt",
-            order: "DESC",
+          true
+        ),
+        area: useAreasQuery(
+          {
+            filter: UUID.is((event.payload as any).location)
+              ? { ids: [(event.payload as any).location] }
+              : {},
+            pagination: {
+              perPage: 1,
+              page: 1,
+            },
           },
-        }, true),
-        area: useAreasQuery({
-          filter: UUID.is((event.payload as any).location)
-            ? { ids: [(event.payload as any).location] }
-            : {},
-          pagination: {
-            perPage: 1,
-            page: 1,
-          },
-        }, true),
+          true
+        ),
       }}
       render={({
         actors: { data: actors },
@@ -292,7 +301,11 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                 <Grid container>
                   <Grid item md={2} />
                   <Grid item md={10} sm={12} xs={12}>
-                    <LinksBox ids={event.links} defaultExpanded={true} />
+                    <LinksBox
+                      ids={event.links}
+                      defaultExpanded={true}
+                      onClick={onLinkClick}
+                    />
                   </Grid>
                 </Grid>
               </Grid>

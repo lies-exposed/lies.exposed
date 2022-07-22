@@ -3,6 +3,7 @@ import * as t from "io-ts";
 import * as http from "../../io/http";
 import { propsOmit } from "../../io/utils";
 import { DateArb } from "./Date.arbitrary";
+import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
 import { MediaArb } from "./Media.arbitrary";
 import { URLArb } from "./URL.arbitrary";
 
@@ -22,6 +23,8 @@ export const LinkArb: tests.fc.Arbitrary<http.Link.Link> = tests
   .getArbitrary(t.strict(linksProps))
   .map((a) => ({
     ...a,
+    title: tests.fc.sample(HumanReadableStringArb(), 3).join(" "),
+    description: tests.fc.sample(HumanReadableStringArb(), 5).join(" "),
     image: tests.fc.sample(MediaArb, 1)[0],
     id: tests.fc.sample(tests.fc.uuid(), 1)[0] as any,
     url: tests.fc.sample(URLArb, 1)[0],
