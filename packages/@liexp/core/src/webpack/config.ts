@@ -163,7 +163,6 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       }
     : {};
 
-
   const config: webpack.Configuration = {
     mode,
     ...devServerConf,
@@ -222,7 +221,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
 
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],
-      plugins: [new TsconfigPathsPlugin({})],
+      plugins: [new TsconfigPathsPlugin({}) as any],
       modules: [
         "node_modules",
         // path.resolve(opts.cwd, "../../packages"),
