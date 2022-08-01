@@ -921,11 +921,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/server@npm:^11.4.0":
-  version: 11.4.0
-  resolution: "@emotion/server@npm:11.4.0"
+"@emotion/server@npm:^11.10.0":
+  version: 11.10.0
+  resolution: "@emotion/server@npm:11.10.0"
   dependencies:
-    "@emotion/utils": ^1.0.0
+    "@emotion/utils": ^1.2.0
     html-tokenize: ^2.0.0
     multipipe: ^1.0.2
     through: ^2.3.8
@@ -934,7 +934,7 @@ __metadata:
   peerDependenciesMeta:
     "@emotion/css":
       optional: true
-  checksum: 41ed2472c3b16e5f28126fed755098d1cc2f189096fa830b98583558d93d153e5b0ced8bd1a7514803f1c29ad218a5cd75dc6a348efcd44167a4cdd11887b2f2
+  checksum: 15b7135a578630e36f551b8856d658a50876fb62fe042819ad57895adaf45b79e2d21b3464f1874319f48b5f6209ce09dd387ce1df6aea6f98a20c43a78221b2
   languageName: node
   linkType: hard
 
@@ -985,6 +985,13 @@ __metadata:
   version: 1.1.0
   resolution: "@emotion/utils@npm:1.1.0"
   checksum: d3b681ca3a23b07033ac6c6937e71010a5549ac8ccec325eb6c91a7e48d9a73db83fa5dadc58be981bb125d7c00fedca868ea4362b1da9e02866615f96be4df1
+  languageName: node
+  linkType: hard
+
+"@emotion/utils@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@emotion/utils@npm:1.2.0"
+  checksum: 55457a49ddd4db6a014ea0454dc09eaa23eedfb837095c8ff90470cb26a303f7ceb5fcc1e2190ef64683e64cfd33d3ba3ca3109cd87d12bc9e379e4195c9a4dd
   languageName: node
   linkType: hard
 
@@ -1569,7 +1576,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@liexp/ui@workspace:packages/@liexp/ui"
   dependencies:
-    "@emotion/server": ^11.4.0
+    "@emotion/server": ^11.10.0
     "@fortawesome/fontawesome-svg-core": ^6.1.2
     "@fortawesome/free-brands-svg-icons": ^6.1.2
     "@fortawesome/free-solid-svg-icons": ^6.1.2
