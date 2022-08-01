@@ -28,10 +28,10 @@ const run = async () => {
     })
   );
 
-  if (result.length > 0) {
-    ctx.logger.debug.log("Remove message file %s", messageFile);
-    fs.rmSync(messageFile);
-  }
+  // if (result.link) {
+  //   ctx.logger.debug.log("Remove message file %s", messageFile);
+  //   fs.rmSync(messageFile);
+  // }
   console.log(result);
 };
 

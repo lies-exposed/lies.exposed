@@ -1,6 +1,6 @@
+import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
 import * as io from "@liexp/shared/io";
 import { Box, MenuItem, Select, Toolbar } from "@liexp/ui/components/mui";
-import { getSuggestions } from "@liexp/ui/helpers/event.helper";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";
 import {

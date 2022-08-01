@@ -1,10 +1,10 @@
 import { Events } from "@liexp/shared/io/http";
-import { formatDate } from "@liexp/shared/utils/date";
-import * as React from "react";
 import {
   getTextContentsCapped,
   isValidValue
-} from "../../Common/Editor";
+} from "@liexp/shared/slate";
+import { formatDate } from "@liexp/shared/utils/date";
+import * as React from "react";
 import { EventIcon } from "../../Common/Icons";
 import KeywordList from "../../lists/KeywordList";
 import {

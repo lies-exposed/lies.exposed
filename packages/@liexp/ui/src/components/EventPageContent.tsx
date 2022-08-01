@@ -1,6 +1,7 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import * as http from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common";
+import  { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatDateToShort, parseISO } from "@liexp/shared/utils/date";
 import * as React from "react";
 import { getEventCommonProps } from "../helpers/event.helper";
@@ -12,7 +13,7 @@ import {
 import { useTheme } from "../theme";
 import EditButton from "./Common/Button/EditButton";
 import { ShareButtons } from "./Common/Button/ShareButtons";
-import Editor, { getTextContentsCapped, isValidValue } from "./Common/Editor";
+import Editor from "./Common/Editor";
 import { GroupMembersBox } from "./GroupMembersBox";
 import { GroupsBox } from "./GroupsBox";
 import { KeywordsBox } from "./KeywordsBox";

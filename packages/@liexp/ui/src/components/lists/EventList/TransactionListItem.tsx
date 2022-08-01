@@ -1,10 +1,10 @@
 import { Actor, Events, Keyword } from "@liexp/shared/io/http";
 import { ByActor, ByGroup } from "@liexp/shared/io/http/Common";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import * as React from "react";
 import { styled } from "../../../theme";
-import { getTextContentsCapped, isValidValue } from "../../Common/Editor";
 import { EventIcon } from "../../Common/Icons";
 import { Box, Grid, Typography } from "../../mui";
 import { ActorListItem } from "../ActorList";

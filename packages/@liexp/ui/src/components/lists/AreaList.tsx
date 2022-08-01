@@ -1,8 +1,8 @@
 import * as io from "@liexp/shared/io/http";
+import  { getTextContentsCapped } from "@liexp/shared/slate";
 import * as React from "react";
 import { useMediaQuery } from "../../state/queries/DiscreteQueries";
 import { styled } from "../../theme";
-import { getTextContentsCapped } from "../Common/Editor";
 import { List, ListItemProps } from "../Common/List";
 import {
   Card,

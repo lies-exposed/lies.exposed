@@ -1,3 +1,4 @@
+import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
 import { http } from "@liexp/shared/io";
 import { uuid } from "@liexp/shared/utils/uuid";
 import CreateEventCard from "@liexp/ui/components/Cards/Events/CreateEventCard";
@@ -13,10 +14,9 @@ import {
   Grid,
   IconButton,
   Input,
-  Typography,
+  Typography
 } from "@liexp/ui/components/mui";
-import { getSuggestions } from "@liexp/ui/helpers/event.helper";
-import {useTheme} from '@liexp/ui/theme'
+import { useTheme } from '@liexp/ui/theme';
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import * as O from "fp-ts/lib/Option";
 import * as React from "react";

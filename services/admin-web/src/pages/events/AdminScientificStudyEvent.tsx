@@ -9,7 +9,8 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput, EditProps,
+  DateInput,
+  EditProps,
   FormTab,
   List,
   ListProps,
@@ -20,18 +21,18 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
-import { EditEventForm } from '../../components/Common/EditEventForm';
+import { EditEventForm } from "../../components/Common/EditEventForm";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import ReferenceGroupInput from "../../components/Common/ReferenceGroupInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import URLMetadataInput from "../../components/Common/URLMetadataInput";
-import EventPreview from '../../components/previews/EventPreview';
+import EventPreview from "../../components/previews/EventPreview";
+import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
@@ -118,7 +119,6 @@ export const ScientificStudyEdit: React.FC = () => {
           />
           <ReferenceArrayActorInput source="payload.authors" />
           <ReferenceGroupInput source="payload.publisher" />
-          <ReferenceArrayLinkInput source="links" defaultValue={[]} />
         </FormTab>
         <FormTab label="body">
           <ReactPageInput source="body" />
@@ -127,6 +127,9 @@ export const ScientificStudyEdit: React.FC = () => {
         <FormTab label="media">
           <MediaArrayInput source="newMedia" defaultValue={[]} />
           <ReferenceMediaDataGrid source="media" />
+        </FormTab>
+        <FormTab label="links">
+          <ReferenceLinkTab source="links" />
         </FormTab>
       </TabbedForm>
     </EditEventForm>

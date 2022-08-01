@@ -1,5 +1,5 @@
+import { getTextContentsCapped } from "@liexp/shared/slate";
 import { formatDate, parseISO } from "@liexp/shared/utils/date";
-import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
 import {
   Box,
   Button,

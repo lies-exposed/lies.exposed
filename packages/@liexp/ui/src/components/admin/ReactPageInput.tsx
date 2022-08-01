@@ -1,14 +1,14 @@
 /* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
+import {
+  createExcerptValue,
+  minimalCellPlugins,
+  isValidValue,
+} from "@liexp/shared/slate";
 import Editor, { EditorProps } from "@react-page/editor";
 import get from "lodash/get";
 import * as React from "react";
 import { InputProps, Labeled, useInput, useRecordContext } from "react-admin";
-import {
-  cellPlugins,
-  createExcerptValue,
-  isValidValue,
-  minimalCellPlugins,
-} from "../Common/Editor";
+import { cellPlugins } from "../Common/Editor";
 import JSONInput from "../Common/JSON/JSONInput";
 import { Paper } from "../mui";
 

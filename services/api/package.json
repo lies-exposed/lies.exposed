@@ -24,7 +24,8 @@
     "migration:gen": "typeorm migration:generate -d ./ormconfig.js --check",
     "migration:run": "typeorm migration:run -d ./ormconfig.js",
     "migration:revert": "typeorm migration:revert -d ./ormconfig.js",
-    "parse-tg-message": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/parse-tg-message.ts"
+    "parse-tg-message": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/parse-tg-message.ts",
+    "extract-events": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/extract-events.ts"
   },
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
