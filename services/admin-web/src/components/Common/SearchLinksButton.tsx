@@ -94,9 +94,12 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   }, [selectedLinks]);
 
   return (
-    <Box display="flex">
+    <Box display="flex" style={{ marginRight: 10 }}>
       <Button
         label="Search"
+        color="secondary"
+        variant="contained"
+        size="small"
         onClick={() => {
           setOpen(true);
         }}

@@ -33,7 +33,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
   const [sharePayload, setSharePayload] = React.useState(emptySharePayload);
 
   return (
-    <Box style={{ display: "flex" }}>
+    <Box style={{ display: "flex", marginRight: 10 }}>
       <Button
         color="secondary"
         variant="contained"
@@ -134,7 +134,7 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                     href={`${process.env.WEB_URL}/events?keywords[]=${k.id}`}
                     style={{ marginRight: 10 }}
                     target="_blank"
-                    rel='noreferrer'
+                    rel="noreferrer"
                   >
                     #{k.tag}
                   </a>

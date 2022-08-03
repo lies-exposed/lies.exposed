@@ -1,6 +1,3 @@
-import { ActorEntity } from "@entities/Actor.entity";
-import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
 import { fc } from "@liexp/core/tests";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
@@ -9,6 +6,9 @@ import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReada
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
+import { ActorEntity } from "@entities/Actor.entity";
+import { EventV2Entity } from "@entities/Event.v2.entity";
+import { GroupEntity } from "@entities/Group.entity";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
