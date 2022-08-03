@@ -63,6 +63,15 @@ export const CreateFromURL = Endpoint({
   Output: SingleStudyOutput,
 });
 
+export const ExtractFromURL = Endpoint({
+  Method: "PUT",
+  getPath: ({ id }) => `/scientific-studies/${id}/extract`,
+  Input: {
+    Params: t.type({ id: UUID }),
+  },
+  Output: SingleStudyOutput,
+});
+
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/scientific-studies/${id}`,
@@ -93,5 +102,6 @@ export const scientificStudies = ResourceEndpoints({
   Delete,
   Custom: {
     CreateFromURL,
+    ExtractFromURL
   },
 });

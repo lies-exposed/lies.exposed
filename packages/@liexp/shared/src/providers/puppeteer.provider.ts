@@ -107,7 +107,6 @@ type BrowserLaunchOpts = puppeteer.LaunchOptions &
 
 export interface PuppeteerProvider {
   getBrowser: (
-    url: string,
     opts: BrowserLaunchOpts
   ) => TE.TaskEither<PuppeteerError, puppeteer.Browser>;
   goToPage: (
@@ -116,7 +115,10 @@ export interface PuppeteerProvider {
     page: puppeteer.Page
   ) => TE.TaskEither<PuppeteerError, puppeteer.HTTPResponse>;
   download: (url: string) => TE.TaskEither<PuppeteerError, any>;
-  getBrowserFirstPage: () => TE.TaskEither<PuppeteerError, puppeteer.Page>;
+  getBrowserFirstPage: (
+    url: string,
+    opts: BrowserLaunchOpts
+  ) => TE.TaskEither<PuppeteerError, puppeteer.Page>;
   getPageText: (
     r: puppeteer.HTTPResponse
   ) => TE.TaskEither<error.CoreError, string>;
@@ -181,7 +183,6 @@ export const GetPuppeteerProvider = (
   };
 
   const getBrowser = (
-    url: string,
     opts: BrowserLaunchOpts
   ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
     return launch({ ...defaultOpts, ...opts });
@@ -198,16 +199,18 @@ export const GetPuppeteerProvider = (
     });
   };
 
-  const getBrowserFirstPage = (): TE.TaskEither<
-    PuppeteerError,
-    puppeteer.Page
-  > => {
+  const getBrowserFirstPage = (
+    url: string,
+    opts: BrowserLaunchOpts
+  ): TE.TaskEither<PuppeteerError, puppeteer.Page> => {
     return pipe(
-      launch(defaultOpts),
+      launch(opts),
       TE.chain((browser) => {
-        return TE.tryCatch(() => {
+        return TE.tryCatch(async () => {
           puppeteerLogger.debug.log("getting first browser page");
-          return browser.pages().then((pages) => pages[0]);
+          const p = await browser.pages().then((pages) => pages[0]);
+          await p.goto(url);
+          return p;
         }, toPuppeteerError);
       })
     );

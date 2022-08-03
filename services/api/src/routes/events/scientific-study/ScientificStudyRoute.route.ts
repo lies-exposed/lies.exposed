@@ -3,6 +3,7 @@ import { Router } from "express";
 import { MakeCreateScientificStudyFromURLRoute } from "./createScientificStudyFromUrl.controller";
 import { MakeDeleteScientificStudyRoute } from "./deleteScientificStudy.controller";
 import { MakeEditScientificStudyRoute } from "./editScientificStudy.controller";
+import { MakeExtractScientificStudyFromURLRoute } from './extractScientificStudyFromUrl.controller';
 import { MakeGetScientificStudyRoute } from "./getScientificStudy.controller";
 import { MakeListScientificStudyRoute } from "./listScientificStudy.controller";
 import { RouteContext } from "@routes/route.types";
@@ -11,6 +12,7 @@ export const MakeScientificStudyRoutes = (
   router: Router,
   ctx: RouteContext
 ): void => {
+  MakeExtractScientificStudyFromURLRoute(router, ctx);
   MakeCreateScientificStudyFromURLRoute(router, ctx);
   // MakeCreateScientificStudyRoute(router, ctx);
   MakeEditScientificStudyRoute(router, ctx);

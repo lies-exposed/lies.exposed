@@ -1,4 +1,7 @@
 import * as http from "@liexp/shared/io/http";
+import { DEATH } from "@liexp/shared/io/http/Events/Death";
+import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
@@ -62,6 +65,19 @@ export const transformUncategorized = (
         data.payload.location === "" ? undefined : data.payload.location,
       endDate:
         data.payload.endDate?.length > 0 ? data.payload.endDate : undefined,
+    },
+  };
+};
+
+export const transformScientificStudy = (
+  data: any
+): http.Events.CreateEventBody & { id: http.Common.UUID } => {
+  return {
+    ...data,
+    payload: {
+      ...data.payload,
+      publisher:
+        data.payload.publisher === "" ? undefined : data.payload.publisher,
     },
   };
 };
@@ -131,10 +147,12 @@ export const transformEvent = async (
   );
 
   const event =
-    data.type === "Uncategorized"
+    data.type === UNCATEGORIZED.value
       ? transformUncategorized(data)
-      : data.type === "Death"
+      : data.type === DEATH.value
       ? transformDeath(data)
+      : data.type === SCIENTIFIC_STUDY.value
+      ? transformScientificStudy(data)
       : data;
 
   // eslint-disable-next-line @typescript-eslint/return-await

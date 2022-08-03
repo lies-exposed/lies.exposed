@@ -3,77 +3,70 @@ import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { Equal, Like } from "typeorm";
+import { Equal } from "typeorm";
+import { findByURL } from "../../../queries/events/scientificStudy.query";
 import { EventV2Entity } from "@entities/Event.v2.entity";
-import { GroupEntity } from "@entities/Group.entity";
-import { ServerError } from "@io/ControllerError";
+import { extractFromURL } from "@flows/events/extractFromURL.flow";
+import { ServerError, toControllerError } from "@io/ControllerError";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { Route } from "@routes/route.types";
 
-export const MakeCreateScientificStudyFromURLRoute: Route = (
-  r,
-  { db, logger, urlMetadata }
-) => {
+export const MakeCreateScientificStudyFromURLRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.ScientificStudy.Custom.CreateFromURL,
     ({ body: { url } }) => {
       return pipe(
-        db.execQuery(() =>
-          db.manager
-            .createQueryBuilder(EventV2Entity, "event")
-            .where("type = :type", { type: SCIENTIFIC_STUDY.value })
-            .where("payload::jsonb ->> 'url' = :url", {
-              url,
-            })
-            .loadAllRelationIds({
-              relations: ["media", "keywords", "links"],
-            })
-            .getOne()
-        ),
+        findByURL(ctx)(url),
         TE.chain((existingEvent) => {
-          if (!existingEvent) {
+          if (O.isNone(existingEvent)) {
+            // TE.chain((meta) => {
+            //   if (meta.provider) {
+            //     return pipe(
+            //       db.findOne(GroupEntity, {
+            //         where: {
+            //           name: Like(`%${meta.provider.toLowerCase()}%`),
+            //         },
+            //       }),
+            //       TE.map((p) => ({
+            //         ...meta,
+            //         publisher: pipe(
+            //           p,
+            //           O.map((_) => _.id),
+            //           O.toUndefined
+            //         ),
+            //       }))
+            //     );
+            //   }
+            //   return TE.right({ ...meta, publisher: undefined });
+            // }),
             return pipe(
-              urlMetadata.fetchMetadata(url, {}, (e) => ServerError()),
-              logger.debug.logInTaskEither(`URL metadata %O`),
-              TE.chain((meta) => {
-                if (meta.provider) {
-                  return pipe(
-                    db.findOne(GroupEntity, {
-                      where: {
-                        name: Like(`%${meta.provider.toLowerCase()}%`),
-                      },
-                    }),
-                    TE.map((p) => ({
-                      ...meta,
-                      publisher: pipe(
-                        p,
-                        O.map((_) => _.id),
-                        O.toUndefined
-                      ),
-                    }))
-                  );
-                }
-                return TE.right({ ...meta, publisher: undefined });
-              }),
-              TE.chain((meta) =>
-                db.save(EventV2Entity, [
-                  {
-                    date: new Date(),
-                    type: SCIENTIFIC_STUDY.value,
-                    excerpt: {},
-                    body: {},
-                    payload: {
-                      title: meta.title,
-                      image: meta.image,
+              ctx.puppeteer.getBrowser({ headless: true }),
+              TE.mapLeft(toControllerError),
+              TE.chain((b) =>
+                pipe(
+                  TE.tryCatch(
+                    () => b.pages().then((p) => p[0]),
+                    toControllerError
+                  ),
+                  TE.chain((p) =>
+                    extractFromURL(ctx)(p, {
+                      type: SCIENTIFIC_STUDY.value,
                       url,
-                      authors: [],
-                      publisher: meta.publisher,
-                    },
-                  },
-                ])
+                    })
+                  ),
+                  TE.chainFirst(() => {
+                    return TE.tryCatch(() => b.close(), toControllerError);
+                  })
+                )
               ),
+              TE.chain((meta) => {
+                if (O.isSome(meta)) {
+                  return ctx.db.save(EventV2Entity, [meta.value]);
+                }
+                return TE.left(ServerError());
+              }),
               TE.chain(([result]) =>
-                db.findOneOrFail(EventV2Entity, {
+                ctx.db.findOneOrFail(EventV2Entity, {
                   where: { id: Equal(result.id) },
                   loadRelationIds: {
                     relations: ["media", "links", "keywords"],
@@ -82,7 +75,7 @@ export const MakeCreateScientificStudyFromURLRoute: Route = (
               )
             );
           }
-          return TE.right(existingEvent);
+          return TE.right(existingEvent.value);
         }),
         TE.chainEitherK(toEventV2IO),
         TE.map((data) => ({

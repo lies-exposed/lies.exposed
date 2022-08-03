@@ -1,4 +1,4 @@
-import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
+import { getTextContentsCapped } from "@liexp/shared/slate";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
 import { FunctionField, FieldProps } from "react-admin";

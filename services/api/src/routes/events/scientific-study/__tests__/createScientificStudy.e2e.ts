@@ -2,7 +2,7 @@ import { fc } from "@liexp/core/tests";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
-import { CreateScientificStudyArb } from "@liexp/shared/tests/arbitrary/events/ScientificStudy.arbitrary";
+import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
@@ -43,23 +43,38 @@ describe("Create Scientific Study", () => {
   });
 
   test("Should create a scientific study", async () => {
-    const scientificStudyData = fc
-      .sample(CreateScientificStudyArb, 1)
-      .map((s) => ({
-        url: s.payload.url,
-        // ...s,
-        // payload: {
-        //   ...s.payload,
-        //   authors: [actor.id],
-        //   publisher: group.id,
-        // },
-      }))[0];
+    const url = `https://www.sciencedirect.com/article/123`;
+    const title = fc.sample(HumanReadableStringArb(), 1)[0];
+    const description = fc.sample(HumanReadableStringArb(), 1)[0];
+
+    const scientificStudyData = { url };
 
     appTest.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
-      title: "link title",
-      description: "link description",
+      title,
+      description,
+      url: scientificStudyData.url,
       keywords: [],
     });
+
+    appTest.mocks.puppeteer.page.goto.mockResolvedValueOnce(undefined);
+    // evaluate title
+    appTest.mocks.puppeteer.page.$eval.mockResolvedValueOnce(title);
+    // evaluate dropdown click
+    appTest.mocks.puppeteer.page.click.mockResolvedValueOnce(undefined);
+    // evaluate date string
+    appTest.mocks.puppeteer.page.$eval.mockResolvedValueOnce([
+      "Received 27 July 2020",
+      "Accepted 1 August 2020",
+    ]);
+    // wait for
+    appTest.mocks.puppeteer.page.waitForSelector.mockResolvedValueOnce(
+      undefined
+    );
+    appTest.mocks.puppeteer.page.$x.mockResolvedValueOnce([
+      {
+        evaluate: jest.fn().mockResolvedValue(description),
+      },
+    ]);
 
     const response = await appTest.req
       .post(`/v1/scientific-studies`)
@@ -71,8 +86,8 @@ describe("Create Scientific Study", () => {
 
     expect(body.type).toBe(SCIENTIFIC_STUDY.value);
     expect(body.date).toBeDefined();
-    expect(body.payload.url).toBeDefined();
-    expect(body.payload.title).toBeDefined();
+    expect(body.payload.url).toEqual(url);
+    expect(body.payload.title).toEqual(title);
 
     scientificStudy = body;
   });

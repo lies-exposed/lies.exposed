@@ -1,10 +1,11 @@
 import { Actor, Group, Project } from "@liexp/shared/io/http";
 import { GroupMember } from "@liexp/shared/io/http/GroupMember";
+import  { isValidValue } from "@liexp/shared/slate";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {useTheme} from '../theme'
-import Editor, { isValidValue } from "./Common/Editor/index";
+import Editor from "./Common/Editor/index";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 import { Grid, Typography } from "./mui";

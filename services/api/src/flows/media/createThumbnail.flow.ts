@@ -197,10 +197,9 @@ export const createThumbnail =
     return pipe(
       sequenceS(TE.ApplyPar)({
         html: pipe(
-          ctx.puppeteer.getBrowser(media.location, {}),
-          TE.chain((b) => {
+          ctx.puppeteer.getBrowserFirstPage(media.location, {}),
+          TE.chain((page) => {
             return TE.tryCatch(async () => {
-              const page = await b.pages().then((p) => p[0]);
               await page.goto(media.location, { waitUntil: "networkidle0" });
 
               return page;

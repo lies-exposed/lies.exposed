@@ -85,6 +85,8 @@ export const searchEventV2Query =
           `Find options for event (type: %O) %O`,
           O.toUndefined(type),
           {
+            startDate,
+            endDate,
             actors,
             groups,
             groupsMembers,
@@ -113,10 +115,9 @@ export const searchEventV2Query =
             }
 
             if (O.isSome(title)) {
-              const trimmedWords = title.value.replace(
-                /[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi,
-                " "
-              );
+              const trimmedWords = title.value
+                .trim()
+                .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi, " ");
 
               const tsQueryTitle = trimmedWords
                 .split(" ")
@@ -125,11 +126,11 @@ export const searchEventV2Query =
                 .join(" | ")
                 .toLowerCase();
 
-              logger.debug.log(
-                "PG ts_query for title '%s' \n '%s'",
-                trimmedWords,
-                tsQueryTitle
-              );
+              // logger.debug.log(
+              //   "PG ts_query for title '%s' \n '%s'",
+              //   trimmedWords,
+              //   tsQueryTitle
+              // );
 
               q.andWhere(
                 `ts_rank_cd(
@@ -379,10 +380,10 @@ export const searchEventV2Query =
               });
             }
 
-            logger.debug.log(
-              `Search event v2 query %s with params %O`,
-              ...q.getQueryAndParameters()
-            );
+            // logger.debug.log(
+            //   `Search event v2 query %s with params %O`,
+            //   ...q.getQueryAndParameters()
+            // );
 
             return {
               resultsQuery: q,

@@ -24,7 +24,7 @@ export const SearchEventsFromProviderRoute = (
       ctx.logger.debug.log("Query %O", { q, providers, keywords, date });
 
       const tasks = pipe(
-        ctx.puppeteer.getBrowser(`about:blank`, {
+        ctx.puppeteer.getBrowser({
           headless: true,
         }),
         TE.mapLeft(toControllerError),

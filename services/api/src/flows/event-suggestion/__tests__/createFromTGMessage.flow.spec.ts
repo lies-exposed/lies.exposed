@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import path from "path";
+import { createExcerptValue } from "@liexp/shared/slate";
 import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
@@ -9,7 +10,6 @@ import {
 } from "@liexp/shared/tests/arbitrary/common/TGMessage.arb";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { createExcerptValue } from "@liexp/ui/components/Common/Editor";
 import * as fc from "fast-check";
 import { pipe } from "fp-ts/lib/function";
 import { AppTest, initAppTest } from "../../../../test/AppTest";

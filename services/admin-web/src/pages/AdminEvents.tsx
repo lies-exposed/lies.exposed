@@ -8,7 +8,7 @@ import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
-import { getTextContentsCapped } from "@liexp/ui/components/Common/Editor";
+import { getTextContentsCapped } from "@liexp/shared/slate";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import {
