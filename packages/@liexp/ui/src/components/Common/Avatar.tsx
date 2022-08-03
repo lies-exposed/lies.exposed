@@ -50,7 +50,7 @@ const StyledMUIAvatar = styled(MUIAvatar)(({ theme }) => ({
 
 export type AvatarSize = "xsmall" | "small" | "medium" | "large" | "xlarge";
 
-interface AvatarProps extends MUIAvatarProps {
+export interface AvatarProps extends MUIAvatarProps {
   size?: AvatarSize;
   fit?: React.CSSProperties["objectFit"];
 }
