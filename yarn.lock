@@ -1523,7 +1523,7 @@ __metadata:
     prettier: ^2.7.1
     react-refresh: ^0.14.0
     react-refresh-typescript: ^2.0.7
-    sass: ^1.54.0
+    sass: ^1.54.1
     speed-measure-webpack-plugin: ^1.5.0
     style-loader: ^3.3.1
     ts-loader: ^9.3.1
@@ -2875,12 +2875,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.3.0":
-  version: 14.3.0
-  resolution: "@testing-library/user-event@npm:14.3.0"
+"@testing-library/user-event@npm:^14.4.1":
+  version: 14.4.1
+  resolution: "@testing-library/user-event@npm:14.4.1"
   peerDependencies:
     "@testing-library/dom": ">=7.21.4"
-  checksum: cbd5954460496519cb2ff3fa506ca598d7e4c2e3d2f2e129b21909758f5ec87573aad7d6c79aebffd4bd0ea843315b3064a2a76e545f196bd4c82489cb3afc1d
+  checksum: 01f2318097d64ab99c400a2825680b241451c7d87e69fbda9135b7c896d4205afff46b55b25fcfff47542732d38918c6ca49d2e937892931f6f93346ccbc1950
   languageName: node
   linkType: hard
 
@@ -4064,10 +4064,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.46":
-  version: 16.11.46
-  resolution: "@types/node@npm:16.11.46"
-  checksum: 9fff6b70fc8a47019c28f080ead5484bd4620fad1d25bfa3c55ebe444a1adbb7e339db5fcc33227d8a272232039221a31bf0b026c1b77410c49760976fa4cce1
+"@types/node@npm:^16.11.47":
+  version: 16.11.47
+  resolution: "@types/node@npm:16.11.47"
+  checksum: 26811000753fd1bb9a90a563fc72942ac3ad5d5b6c97609a090c1e24210e040597ba060e55a7a46cb22cc84dafee112d741f45652139c6166e8ce0c970b4f05a
   languageName: node
   linkType: hard
 
@@ -5482,11 +5482,11 @@ __metadata:
     "@testing-library/dom": ^8.16.0
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.3.0
-    "@testing-library/user-event": ^14.3.0
+    "@testing-library/user-event": ^14.4.1
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
     "@types/lodash": ^4.14.182
-    "@types/node": ^16.11.46
+    "@types/node": ^16.11.47
     "@types/prettier": ^2.6.4
     "@types/react": ^17.0.48
     "@types/react-dom": ^17.0.17
@@ -5768,13 +5768,13 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.46
+    "@types/node": ^16.11.47
     "@types/node-cron": ^3.0.2
     "@types/node-telegram-bot-api": ^0.57.1
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1184.0
+    aws-sdk: ^2.1187.0
     axios: ^0.27.2
     cors: 2.8.5
     debug: ^4.3.4
@@ -6181,9 +6181,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1184.0":
-  version: 2.1184.0
-  resolution: "aws-sdk@npm:2.1184.0"
+"aws-sdk@npm:^2.1187.0":
+  version: 2.1187.0
+  resolution: "aws-sdk@npm:2.1187.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -6195,7 +6195,7 @@ __metadata:
     util: ^0.12.4
     uuid: 8.0.0
     xml2js: 0.4.19
-  checksum: 9cb09ed86670c571f5eb625983fb13518362257964e934630ab47bb19f0a4d43ae560efdc94def59c82a834fc4408537e173640fd33eefc529a08b35f8ed526c
+  checksum: ab56c8de56fbdafa6241abcf33b8f632b5d93d2c0fe48a91d34d20a814c8ccbf240aec6e203119efe970cc2c80edbf65b6703fb12659d07c34403b9c3cc90ef7
   languageName: node
   linkType: hard
 
@@ -17778,16 +17778,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.54.0":
-  version: 1.54.0
-  resolution: "sass@npm:1.54.0"
+"sass@npm:^1.54.1":
+  version: 1.54.1
+  resolution: "sass@npm:1.54.1"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 7d3acf124d771e8811fce876ad37f786faafa9edce64b20dcf32bf6aed5116802c863d3311fd79e7e7682fcccc4dc684960be1365cffa7dad045be7251c40d70
+  checksum: 6ab68b39006db7b015ee710e820c254890a8b503f83516db983896967b965f8114a497615f949a1665634dea11bd9f02c19fc2093d3561515f7c16022c9ab5b5
   languageName: node
   linkType: hard
 
