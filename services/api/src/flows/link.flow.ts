@@ -57,13 +57,16 @@ export const fetchAsLink =
 export const fetchAndSave =
   (ctx: RouteContext) =>
   (url: URL): TE.TaskEither<ControllerError, LinkEntity> => {
+    ctx.logger.debug.log("Searching link with url %s", url);
     return pipe(
       ctx.db.findOne(LinkEntity, { where: { url: Equal(url) } }),
       TE.chain((optLink) => {
         if (O.isSome(optLink)) {
+          ctx.logger.debug.log("Link found! %s", optLink.value.id);
           return TE.right(optLink.value);
         }
 
+        ctx.logger.debug.log("Link not found, fetching...");
         return pipe(
           fetchAsLink(ctx)(url),
           TE.chain((l) => ctx.db.save(LinkEntity, [l])),

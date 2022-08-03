@@ -1,4 +1,5 @@
 import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
+import { URL as URLT } from "@liexp/shared/io/http/Common";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { parse } from "date-fns";
 import * as O from "fp-ts/lib/Option";
@@ -6,6 +7,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { Metadata } from "page-metadata-parser";
 import * as puppeteer from "puppeteer-core";
+import { fetchAndSave } from "../link.flow";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { ControllerError, toControllerError } from "@io/ControllerError";
@@ -29,7 +31,7 @@ const extractEventFromProviderLink =
             .waitForSelector(".AuthorGroups")
             .then(async (d) => {
               const datesLabel = await p.$eval(".AuthorGroups", (el) =>
-                el.nextElementSibling?.innerHTML.split(", ")
+                el.nextElementSibling?.textContent?.split(", ")
               );
 
               ctx.logger.debug.log("Extract date from %s", datesLabel);
@@ -42,13 +44,19 @@ const extractEventFromProviderLink =
             });
 
           // get "Results" element next element sibling
-          const contentTitle = await p
+          let contentTitle = await p
             .$x('//h3[contains(text(), "Results")]')
             .then((els) => els[0]);
 
+          contentTitle =
+            contentTitle ??
+            (await p
+              .$x('//h2[contains(text(), "Abstract")]')
+              .then((els) => els[0]));
+
           // get "Results" element next element sibling
-          const contentText = await contentTitle.evaluate(
-            (el) => el.nextElementSibling?.innerHTML
+          const contentText = await contentTitle?.evaluate(
+            (el) => el.nextElementSibling?.textContent
           );
 
           return O.some({
@@ -199,18 +207,28 @@ const extractByProvider =
     );
   };
 
+export interface DataPayloadLink {
+  url: URLT;
+  type: string;
+}
+
+export interface DataPayload {
+  keywords: string[];
+  links: DataPayloadLink[];
+}
+
 export const extractFromURL =
   (ctx: RouteContext) =>
   (
     p: puppeteer.Page,
-    l: LinkEntity
+    l: DataPayloadLink
   ): TE.TaskEither<ControllerError, O.Option<EventV2Entity>> => {
     const host = new URL(l.url).hostname;
 
     ctx.logger.debug.log("Extracting event from host %s (%s)", host, l.url);
 
     return pipe(
-      TE.right(host),
-      TE.chain((h) => extractByProvider(ctx)(p, h, l))
+      fetchAndSave(ctx)(l.url),
+      TE.chain((le) => extractByProvider(ctx)(p, host, le))
     );
   };

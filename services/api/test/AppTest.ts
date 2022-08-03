@@ -14,7 +14,8 @@ import { RouteContext } from "../src/routes/route.types";
 import { makeApp } from "../src/server";
 import { awsMock } from "../__mocks__/aws.mock";
 import { tgProviderMock } from "../__mocks__/tg.mock";
-
+import puppeteerMocks from "../__mocks__/puppeteer.mock";
+import { GetPuppeteerProvider } from "@liexp/shared/providers/puppeteer.provider";
 export interface AppTest {
   ctx: RouteContext;
   req: supertest.SuperTest<supertest.Test>;
@@ -24,6 +25,7 @@ export interface AppTest {
     urlMetadata: {
       fetchMetadata: jest.Mock<any, any>;
     };
+    puppeteer: typeof puppeteerMocks;
   };
 }
 
@@ -58,7 +60,7 @@ export const initAppTest = async (): Promise<AppTest> => {
           return TE.right("");
         },
       },
-      puppeteer: {} as any,
+      puppeteer: GetPuppeteerProvider(puppeteerMocks, { headless: false }),
       tg: tgProviderMock,
       s3: MakeSpaceClient({
         client: awsMock as any,
@@ -87,7 +89,9 @@ export const initAppTest = async (): Promise<AppTest> => {
           fetchHTML: fetchHTML as any,
           fetchMetadata: fetchMetadata as any,
         },
+        puppeteer: puppeteerMocks,
       },
+
       req: supertest(makeApp(ctx)),
     })),
     throwTE
