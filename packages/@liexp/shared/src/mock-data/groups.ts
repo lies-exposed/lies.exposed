@@ -1,6 +1,6 @@
 import { subYears } from "date-fns";
 import { createExcerptValue } from '../slate';
-import { HumanReadableStringArb } from 'tests/arbitrary/HumanReadableString.arbitrary';
+import { HumanReadableStringArb } from '../tests/arbitrary/HumanReadableString.arbitrary';
 import { Group } from "../io/http";
 import { generateRandomColor } from "../utils/colors";
 import { uuid } from "../utils/uuid";
