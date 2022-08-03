@@ -36,9 +36,9 @@ export const LinksList: React.FC<LinksListProps> = ({ links, onClick }) => {
           key={l.id}
           item
           lg={6}
-          md={6}
-          sm={6}
-          xs={6}
+          md={12}
+          sm={12}
+          xs={12}
           style={{
             display: "flex",
           }}

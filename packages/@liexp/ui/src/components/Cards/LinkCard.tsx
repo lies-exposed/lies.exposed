@@ -51,12 +51,16 @@ const LinkCard: React.FC<LinkCardProps> = ({ link, onClick }) => {
           height: 300,
           width: "100%",
           display: "flex",
+          flexGrow: 0,
+          flexShrink: 1,
         }}
       />
       <Box
         style={{
           display: "flex",
           flexDirection: "column",
+          flexGrow: 3,
+          flexShrink: 0,
         }}
       >
         <CardHeader

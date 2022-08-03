@@ -1,10 +1,10 @@
 import { Actor, Group, Project } from "@liexp/shared/io/http";
 import { GroupMember } from "@liexp/shared/io/http/GroupMember";
-import  { isValidValue } from "@liexp/shared/slate";
+import { isValidValue } from "@liexp/shared/slate";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-import {useTheme} from '../theme'
+import { useTheme } from "../theme";
 import Editor from "./Common/Editor/index";
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
@@ -38,9 +38,14 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         direction="row"
         alignItems="center"
         spacing={2}
-        style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}
+        style={{
+          display: "flex",
+          alignItems: "flex-start",
+          marginTop: theme.spacing(2),
+          marginBottom: theme.spacing(2),
+        }}
       >
-        <Grid item>
+        <Grid item lg={2} md={2}>
           {pipe(
             O.fromNullable(group.avatar),
             O.fold(
@@ -51,7 +56,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
             )
           )}
         </Grid>
-        <Grid item>
+        <Grid item lg={10} md={10}>
           <Typography variant="h2" style={{ marginBottom: 0 }}>
             {group.name}
           </Typography>
