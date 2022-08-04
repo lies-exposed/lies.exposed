@@ -20,7 +20,7 @@ import {
   TextInput,
   useRecordContext
 } from "react-admin";
-import { EditEventForm } from '../../components/Common/EditEventForm';
+import { EditFormWithPreview } from '../../components/Common/EditEventForm';
 import ExcerptField from "../../components/Common/ExcerptField";
 import { MediaField } from "../../components/Common/MediaField";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
@@ -83,7 +83,7 @@ export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
 
 export const DocumentaryEdit: React.FC = () => {
   return (
-    <EditEventForm
+    <EditFormWithPreview
       title={<DocumentaryReleaseTitle />}
       actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
@@ -136,7 +136,7 @@ export const DocumentaryEdit: React.FC = () => {
           <ReferenceLinkTab source="links" />
         </FormTab>
       </TabbedForm>
-    </EditEventForm>
+    </EditFormWithPreview>
   );
 };
 

@@ -1,6 +1,6 @@
 import * as io from "@liexp/shared/io";
 import { Media } from "@liexp/shared/io/http";
-import { throwTE } from '@liexp/shared/utils/task.utils';
+import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
@@ -13,36 +13,31 @@ import * as React from "react";
 import {
   ArrayInput,
   ArrayInputProps,
-  AutocompleteArrayInput,
-  SelectInputProps,
-  Create,
-  CreateProps,
-  Datagrid,
+  AutocompleteArrayInput, Create,
+  CreateProps, Datagrid,
   DateField,
-  DateInput,
-  Edit,
-  EditProps,
+  DateInput, EditProps,
   FormDataConsumer,
-  FormTab,
-  ImageField,
+  FormTab, FunctionField, ImageField,
   ImageInput,
   List,
   RaRecord,
   ReferenceArrayInput,
   ReferenceManyField,
-  SelectInput,
-  SimpleForm,
+  SelectInput, SelectInputProps, SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
-import { MediaField } from '../components/Common/MediaField';
+import { EditFormWithPreview } from '../components/Common/EditEventForm';
+import { MediaField } from "../components/Common/MediaField";
 import ReferenceActorInput from "../components/Common/ReferenceActorInput";
 import { WebPreviewButton } from "../components/Common/WebPreviewButton";
+import GroupPreview from '../components/previews/GroupPreview';
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
 
@@ -106,6 +101,12 @@ export const GroupList: React.FC = () => (
     >
       <AvatarField source="avatar" fullWidth={false} />
       <TextField source="name" />
+      <FunctionField
+        source="members"
+        render={(r) => {
+          return r.members?.length ?? 0;
+        }}
+      />
       <DateField source="date" />
       <DateField source="updatedAt" />
       <DateField source="createdAt" />
@@ -148,7 +149,7 @@ const EditTitle: React.FC<EditProps> = () => {
 
 export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
   return (
-    <Edit
+    <EditFormWithPreview
       title={<EditTitle {...props} />}
       {...props}
       actions={
@@ -161,24 +162,25 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
         </>
       }
       transform={transformGroup}
+      preview={<GroupPreview />}
     >
       <TabbedForm redirect={false}>
         <FormTab label="Generals">
           <TextInput source="name" />
-          <TextInput source="color" />
+          <ColorInput source="color" />
           <DateInput source="date" />
           <GroupKindInput source="kind" />
+          <ReactPageInput label="excerpt" source="excerpt" />
           <DateField source="updatedAt" showTime={true} />
           <DateField source="createdAt" showTime={true} />
         </FormTab>
         <FormTab label="Avatar">
-          <MediaField source="avatar" type='image/jpeg' />
+          <MediaField source="avatar" type="image/jpeg" />
           <ImageInput source="avatar">
             <ImageField src="src" />
           </ImageInput>
         </FormTab>
         <FormTab label="Body">
-          <ReactPageInput label="excerpt" source="excerpt" />
           <ReactPageInput label="body" source="body" />
         </FormTab>
         <FormTab label="Members">
@@ -234,7 +236,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </FormDataConsumer>
         </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditFormWithPreview>
   );
 };
 

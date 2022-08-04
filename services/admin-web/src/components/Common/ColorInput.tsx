@@ -1,6 +1,17 @@
+import get from "lodash/get";
 import * as React from "react";
-import { TextInput, TextInputProps } from "react-admin";
+import { TextInput, TextInputProps, useRecordContext } from "react-admin";
 
 export const ColorInput: React.FC<TextInputProps> = (props) => {
-  return <TextInput {...props} />;
+  const record = useRecordContext();
+  const color = get(record, props.source);
+
+  return (
+    <TextInput
+      {...props}
+      style={{
+        border: color?.length === 6 ? `2px solid #${color}` : undefined,
+      }}
+    />
+  );
 };

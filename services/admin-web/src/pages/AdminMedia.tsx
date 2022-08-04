@@ -9,15 +9,11 @@ import { pipe } from "fp-ts/lib/function";
 
 import * as React from "react";
 import {
-  useRecordContext,
-  useRefresh,
   BooleanInput,
   Create,
   CreateProps,
   Datagrid,
-  DateField,
-  Edit,
-  EditProps,
+  DateField, EditProps,
   FieldProps,
   FormDataConsumer,
   FormTab,
@@ -31,7 +27,8 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput,
+  TextInput, useRecordContext,
+  useRefresh
 } from "react-admin";
 import { MediaField } from "../components/Common/MediaField";
 import { MediaInput } from "../components/Common/MediaInput";
@@ -39,6 +36,8 @@ import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventIn
 import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
+import { EditFormWithPreview } from "components/Common/EditEventForm";
+import MediaPreview from "components/previews/MediaPreview";
 
 const RESOURCE = "media";
 
@@ -252,11 +251,12 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
 };
 
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit
+  <EditFormWithPreview
     title={<EditTitle {...props} />}
     {...props}
     transform={transformMedia}
     redirect={false}
+    preview={<MediaPreview />}
   >
     <TabbedForm>
       <FormTab label="general">
@@ -279,7 +279,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
         <ReferenceLinkTab source="links" />
       </FormTab>
     </TabbedForm>
-  </Edit>
+  </EditFormWithPreview>
 );
 
 export const MediaCreate: React.FC<CreateProps> = (props) => (

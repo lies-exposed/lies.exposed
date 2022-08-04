@@ -2,11 +2,11 @@ import { Button, Grid } from "@liexp/ui/components/mui";
 import { Edit, EditProps } from "ra-ui-materialui";
 import * as React from "react";
 
-interface EditFormProps extends EditProps {
+interface EditFormWithPreviewProps extends EditProps {
   preview: React.ReactNode;
 }
 
-export const EditEventForm: React.FC<EditFormProps> = ({
+export const EditFormWithPreview: React.FC<EditFormWithPreviewProps> = ({
   children,
   title,
   transform,

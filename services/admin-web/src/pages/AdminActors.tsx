@@ -1,10 +1,6 @@
-import { http } from "@liexp/shared/io";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { ActorPageContent } from "@liexp/ui/components/ActorPageContent";
-import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
@@ -15,11 +11,7 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput,
-  Edit,
-  EditProps,
-  FormDataConsumer,
-  FormTab,
+  DateInput, EditProps, FormTab,
   FunctionField,
   ImageField,
   ImageInput,
@@ -36,11 +28,13 @@ import {
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
+import { EditFormWithPreview } from "../components/Common/EditEventForm";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
 import ReferenceManyEventField from "../components/Common/ReferenceManyEventField";
 import { SearchLinksButton } from "../components/Common/SearchLinksButton";
 import { WebPreviewButton } from "../components/Common/WebPreviewButton";
+import ActorPreview from "../components/previews/ActorPreview";
 import { dataProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
 
@@ -110,10 +104,11 @@ const EditActions: React.FC = () => {
 
 export const ActorEdit: React.FC<EditProps> = (props) => {
   return (
-    <Edit
+    <EditFormWithPreview
       title={<EditTitle />}
       {...props}
       actions={<EditActions />}
+      preview={<ActorPreview />}
       transform={({ newMemberIn = [], ...a }) =>
         transformActor(a.id, {
           ...a,
@@ -171,25 +166,8 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <ReferenceArrayEventInput source="newEvents" />
           <ReferenceManyEventField source="id" target="actors[]" />
         </FormTab>
-        <FormTab label="Preview">
-          <FormDataConsumer>
-            {({ formData, ...rest }) => {
-              return pipe(
-                http.Actor.Actor.decode(formData),
-                E.fold(ValidationErrorsLayout, (p) => (
-                  <ActorPageContent
-                    actor={p}
-                    groups={[]}
-                    onGroupClick={() => {}}
-                    onActorClick={() => {}}
-                  />
-                ))
-              );
-            }}
-          </FormDataConsumer>
-        </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditFormWithPreview>
   );
 };
 

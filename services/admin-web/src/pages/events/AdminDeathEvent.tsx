@@ -22,7 +22,7 @@ import {
   useRecordContext
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
-import { EditEventForm } from "../../components/Common/EditEventForm";
+import { EditFormWithPreview } from "../../components/Common/EditEventForm";
 import ExcerptField from "../../components/Common/ExcerptField";
 import { ImportMediaButton } from "../../components/Common/ImportMediaButton";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
@@ -100,7 +100,7 @@ export const DeathEventEditFormTab: React.FC = () => {
 
 export const DeathEdit: React.FC = () => {
   return (
-    <EditEventForm
+    <EditFormWithPreview
       title={<DeathEventTitle />}
       actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
@@ -146,7 +146,7 @@ export const DeathEdit: React.FC = () => {
           <ReferenceLinkTab source="links" />
         </FormTab>
       </TabbedForm>
-    </EditEventForm>
+    </EditFormWithPreview>
   );
 };
 

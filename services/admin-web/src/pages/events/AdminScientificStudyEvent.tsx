@@ -24,7 +24,7 @@ import {
   useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
-import { EditEventForm } from "../../components/Common/EditEventForm";
+import { EditFormWithPreview } from "../../components/Common/EditEventForm";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
@@ -90,7 +90,7 @@ export const EditScientificStudyEventPayload: React.FC<
 
 export const ScientificStudyEdit: React.FC = () => {
   return (
-    <EditEventForm
+    <EditFormWithPreview
       title={<ScientificStudyEventTitle />}
       actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
@@ -132,7 +132,7 @@ export const ScientificStudyEdit: React.FC = () => {
           <ReferenceLinkTab source="links" />
         </FormTab>
       </TabbedForm>
-    </EditEventForm>
+    </EditFormWithPreview>
   );
 };
 
