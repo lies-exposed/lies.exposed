@@ -6,14 +6,14 @@ import { Box, Button, Typography } from "@liexp/ui/components/mui";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-
 import * as React from "react";
 import {
   BooleanInput,
   Create,
   CreateProps,
   Datagrid,
-  DateField, EditProps,
+  DateField,
+  EditProps,
   FieldProps,
   FormDataConsumer,
   FormTab,
@@ -27,17 +27,19 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput, useRecordContext,
-  useRefresh
+  TextInput,
+  useRecordContext,
+  useRefresh,
 } from "react-admin";
+import { CreateEventFromMediaButton } from '../components/Common/CreateEventFromMediaButton';
+import { EditFormWithPreview } from "../components/Common/EditEventForm";
 import { MediaField } from "../components/Common/MediaField";
 import { MediaInput } from "../components/Common/MediaInput";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
+import MediaPreview from "../components/previews/MediaPreview";
 import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadFile } from "@client/MediaAPI";
-import { EditFormWithPreview } from "components/Common/EditEventForm";
-import MediaPreview from "components/previews/MediaPreview";
 
 const RESOURCE = "media";
 
@@ -266,6 +268,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
         <TextInput source="description" fullWidth multiline />
       </FormTab>
       <FormTab label="events">
+        <CreateEventFromMediaButton />
         <ReferenceArrayEventInput source="events" defaultValue={[]} />
         <ReferenceManyField label="Events" target="media[]" reference="events">
           <Datagrid rowClick="edit">

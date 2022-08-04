@@ -15,7 +15,6 @@ import {
   List,
   ListProps,
   RaRecord,
-  ReferenceArrayField,
   ReferenceField,
   SimpleForm,
   TabbedForm,
@@ -27,11 +26,11 @@ import { AvatarField } from "../../components/Common/AvatarField";
 import { EditFormWithPreview } from "../../components/Common/EditEventForm";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
-import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
 import ReferenceGroupInput from "../../components/Common/ReferenceGroupInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import URLMetadataInput from "../../components/Common/URLMetadataInput";
 import EventPreview from "../../components/previews/EventPreview";
+import { EventGeneralTab } from "../../components/tabs/EventGeneralTab";
 import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
@@ -74,16 +73,13 @@ export const EditScientificStudyEventPayload: React.FC<
 > = (props) => {
   return (
     <Box>
-      <TextInput source="title" />
+      <TextInput source="payload.title" fullWidth />
+      <URLMetadataInput
+        source="payload.url"
+        type={ScientificStudy.SCIENTIFIC_STUDY.value}
+      />
       <ReferenceGroupInput source="payload.publisher" />
-      <ReferenceArrayActorInput source="newAuthors" />
-      <ReferenceArrayField source="payload.authors" reference="actors">
-        <Datagrid rowClick="edit">
-          <TextField source="id" />
-          <TextField source="fullName" />
-          <AvatarField source="avatar" />
-        </Datagrid>
-      </ReferenceArrayField>
+      <ReferenceArrayActorInput source="payload.authors" />
     </Box>
   );
 };
@@ -98,27 +94,9 @@ export const ScientificStudyEdit: React.FC = () => {
     >
       <TabbedForm>
         <FormTab label="General">
-          <TextInput
-            source="type"
-            defaultValue={ScientificStudy.SCIENTIFIC_STUDY.value}
-            hidden
-          />
-
-          <BooleanInput source="draft" />
-          <TextInput source="payload.title" />
-          <URLMetadataInput
-            source="payload.url"
-            type={ScientificStudy.SCIENTIFIC_STUDY.value}
-          />
-          <DateInput source="date" />
-          <ReactPageInput source="excerpt" onlyText />
-          <ReferenceArrayKeywordInput
-            source="keywords"
-            defaultValue={[]}
-            showAdd
-          />
-          <ReferenceArrayActorInput source="payload.authors" />
-          <ReferenceGroupInput source="payload.publisher" />
+          <EventGeneralTab>
+            <EditScientificStudyEventPayload />
+          </EventGeneralTab>
         </FormTab>
         <FormTab label="body">
           <ReactPageInput source="body" />

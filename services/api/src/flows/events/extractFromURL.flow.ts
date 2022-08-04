@@ -180,7 +180,8 @@ const extractByProvider =
                     events: [],
                     createdAt: new Date(),
                     updatedAt: new Date(),
-                  })
+                  }),
+                  O.none
                 )
               ),
               O.chain((suggestions) =>

@@ -9,7 +9,8 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput, EditProps,
+  DateInput,
+  EditProps,
   FormTab,
   List,
   ListProps,
@@ -18,12 +19,11 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
-import { EditFormWithPreview } from '../../components/Common/EditEventForm';
+import { EditFormWithPreview } from "../../components/Common/EditEventForm";
 import ExcerptField from "../../components/Common/ExcerptField";
 import { MediaField } from "../../components/Common/MediaField";
-import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
 import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
@@ -31,7 +31,8 @@ import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKe
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import ReferenceArrayMediaInput from "../../components/Common/ReferenceArrayMediaInput";
 import ReferenceMediaInput from "../../components/Common/ReferenceMediaInput";
-import EventPreview from '../../components/previews/EventPreview';
+import EventPreview from "../../components/previews/EventPreview";
+import { EventGeneralTab } from '../../components/tabs/EventGeneralTab';
 import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
@@ -77,7 +78,33 @@ export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
   props
 ) => (
   <Box>
-    <ReferenceActorInput source="payload.victim" />
+    <TextInput fullWidth source="payload.title" />
+    <ReferenceAreaInput source="payload.location" />
+    <TextInput type="url" fullWidth source="payload.website" />
+    <ReferenceMediaInput
+      allowedTypes={["video/mp4", "iframe/video"]}
+      source="payload.media"
+    />
+
+    {/** Authors */}
+    <ReferenceArrayActorInput
+      source="payload.authors.actors"
+      defaultValue={[]}
+    />
+    <ReferenceArrayGroupInput
+      source="payload.authors.groups"
+      defaultValue={[]}
+    />
+
+    {/** Subjects */}
+    <ReferenceArrayActorInput
+      source="payload.subjects.actors"
+      defaultValue={[]}
+    />
+    <ReferenceArrayGroupInput
+      source="payload.subjects.groups"
+      defaultValue={[]}
+    />
   </Box>
 );
 
@@ -91,43 +118,9 @@ export const DocumentaryEdit: React.FC = () => {
     >
       <TabbedForm>
         <FormTab label="Generals">
-          <BooleanInput source="draft" defaultValue={false} />
-          <TextInput fullWidth source="payload.title" />
-          <ReferenceAreaInput source="payload.location" />
-          <TextInput type="url" fullWidth source="payload.website" />
-          <DateInput source="date" />
-          <ReferenceMediaInput
-            allowedTypes={["video/mp4", "iframe/video"]}
-            source="payload.media"
-          />
-          <ReactPageInput source="excerpt" onlyText />
-
-          {/** Authors */}
-          <ReferenceArrayActorInput
-            source="payload.authors.actors"
-            defaultValue={[]}
-          />
-          <ReferenceArrayGroupInput
-            source="payload.authors.groups"
-            defaultValue={[]}
-          />
-
-          {/** Subjects */}
-          <ReferenceArrayActorInput
-            source="payload.subjects.actors"
-            defaultValue={[]}
-          />
-          <ReferenceArrayGroupInput
-            source="payload.subjects.groups"
-            defaultValue={[]}
-          />
-          <ReferenceArrayKeywordInput
-            source="keywords"
-            defaultValue={[]}
-            showAdd={true}
-          />
-          <DateField source="updatedAt" showTime={true} />
-          <DateField source="createdAt" showTime={true} />
+          <EventGeneralTab>
+            <DocumentaryEditFormTab />
+          </EventGeneralTab>
         </FormTab>
         <FormTab label="Body">
           <ReactPageInput source="body" />

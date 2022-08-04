@@ -1,7 +1,11 @@
 import * as io from "@liexp/shared/io";
 import { http } from "@liexp/shared/io";
 import { Events } from "@liexp/shared/io/http";
-import { Documentary } from "@liexp/shared/io/http/Events";
+import {
+  Death,
+  Documentary,
+  ScientificStudy,
+} from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import { PATENT } from "@liexp/shared/io/http/Events/Patent";
@@ -11,9 +15,7 @@ import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { getTextContentsCapped } from "@liexp/shared/slate";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import {
-  Box, Grid, Typography
-} from "@liexp/ui/components/mui";
+import { Box, Typography } from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/lib/Record";
 import * as React from "react";
@@ -22,15 +24,18 @@ import {
   BooleanInput,
   Datagrid,
   DateField,
-  DateInput, FormDataConsumer,
+  DateInput,
+  FormDataConsumer,
   FormTab,
   FunctionField,
-  List, RaRecord as Record,
+  List,
+  RaRecord as Record,
   ReferenceField,
   SelectInput,
   TabbedForm,
   TextField,
-  TextInput, useRecordContext
+  TextInput,
+  useRecordContext,
 } from "react-admin";
 import { EditFormWithPreview } from "../components/Common/EditEventForm";
 import { ImportMediaButton } from "../components/Common/ImportMediaButton";
@@ -38,27 +43,28 @@ import ReferenceArrayActorInput from "../components/Common/ReferenceArrayActorIn
 import ReferenceArrayGroupInput from "../components/Common/ReferenceArrayGroupInput";
 import ReferenceArrayGroupMemberInput from "../components/Common/ReferenceArrayGroupMemberInput";
 import ReferenceArrayKeywordInput from "../components/Common/ReferenceArrayKeywordInput";
-import EventPreview from '../components/previews/EventPreview';
+import EventPreview from "../components/previews/EventPreview";
+import { EventGeneralTab } from "../components/tabs/EventGeneralTab";
 import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
 import { ReferenceMediaTab } from "../components/tabs/ReferenceMediaTab";
 import { transformEvent } from "../utils";
 import {
   DeathEventEditFormTab,
-  DeathEventTitle
+  DeathEventTitle,
 } from "./events/AdminDeathEvent";
 import {
   DocumentaryEditFormTab,
-  DocumentaryReleaseTitle
+  DocumentaryReleaseTitle,
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
   EditScientificStudyEventPayload,
-  ScientificStudyEventTitle
+  ScientificStudyEventTitle,
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
   UncategorizedEventEditTab,
-  UncategorizedEventTitle
+  UncategorizedEventTitle,
 } from "./events/AdminUncategorizedEvent";
 import { EventEditActions } from "./events/actions/EditEventActions";
 
@@ -245,7 +251,6 @@ export const EditTitle: React.FC = () => {
   return <span>No record</span>;
 };
 
-
 export const EventEdit: React.FC = () => {
   return (
     <EditFormWithPreview
@@ -257,44 +262,22 @@ export const EventEdit: React.FC = () => {
     >
       <TabbedForm>
         <FormTab label="Generals">
-          <Grid container>
-            <Grid
-              item
-              {...{ md: 3, lg: 2 }}
-              style={{
-                display: "flex",
-                flexDirection: "column",
+          <EventGeneralTab>
+            <FormDataConsumer>
+              {({ formData, getSource, scopedFormData, ...rest }) => {
+                if (formData.type === Documentary.DOCUMENTARY.value) {
+                  return <DocumentaryEditFormTab />;
+                }
+                if (formData.type === Death.DEATH.value) {
+                  return <DeathEventEditFormTab />;
+                }
+                if (formData.type === ScientificStudy.SCIENTIFIC_STUDY.value) {
+                  return <EditScientificStudyEventPayload />;
+                }
+                return <UncategorizedEventEditTab />;
               }}
-            >
-              <TextField source="type" />
-              <BooleanInput source="draft" />
-            </Grid>
-            <Grid item {...{ md: 3, lg: 4 }}>
-              <DateInput source="date" />
-            </Grid>
-            <Grid item {...{ md: 6, lg: 6 }}>
-              <ReferenceArrayKeywordInput showAdd source="keywords" />
-            </Grid>
-            <Grid item md={12}>
-              <FormDataConsumer>
-                {({ formData, getSource, scopedFormData, ...rest }) => {
-                  if (formData.type === Documentary.DOCUMENTARY.value) {
-                    return <DocumentaryEditFormTab />;
-                  }
-                  if (formData.type === "Death") {
-                    return <DeathEventEditFormTab />;
-                  }
-                  if (formData.type === "ScientificStudy") {
-                    return <EditScientificStudyEventPayload />;
-                  }
-                  return <UncategorizedEventEditTab />;
-                }}
-              </FormDataConsumer>
-            </Grid>
-            <Grid item {...{ md: 12 }}>
-              <ReactPageInput label="excerpt" source="excerpt" onlyText />
-            </Grid>
-          </Grid>
+            </FormDataConsumer>
+          </EventGeneralTab>
 
           <DateField source="updatedAt" showTime={true} />
           <DateField source="createdAt" showTime={true} />
