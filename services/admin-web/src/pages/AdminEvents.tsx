@@ -32,7 +32,7 @@ import {
   TextField,
   TextInput, useRecordContext
 } from "react-admin";
-import { EditEventForm } from "../components/Common/EditEventForm";
+import { EditFormWithPreview } from "../components/Common/EditEventForm";
 import { ImportMediaButton } from "../components/Common/ImportMediaButton";
 import ReferenceArrayActorInput from "../components/Common/ReferenceArrayActorInput";
 import ReferenceArrayGroupInput from "../components/Common/ReferenceArrayGroupInput";
@@ -248,7 +248,7 @@ export const EditTitle: React.FC = () => {
 
 export const EventEdit: React.FC = () => {
   return (
-    <EditEventForm
+    <EditFormWithPreview
       title={<EditTitle />}
       redirect={false}
       actions={<EventEditActions />}
@@ -311,6 +311,6 @@ export const EventEdit: React.FC = () => {
           <ReferenceLinkTab source="links" />
         </FormTab>
       </TabbedForm>
-    </EditEventForm>
+    </EditFormWithPreview>
   );
 };

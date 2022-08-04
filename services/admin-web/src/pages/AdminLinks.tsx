@@ -13,7 +13,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  Edit,
   FormTab,
   FunctionField,
   List,
@@ -26,14 +25,16 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import { useNavigate } from "react-router";
+import { EditFormWithPreview } from "../components/Common/EditEventForm";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "../components/Common/ReferenceGroupInput";
 import { SearchLinksButton } from "../components/Common/SearchLinksButton";
 import URLMetadataInput from "../components/Common/URLMetadataInput";
+import LinkPreview from "../components/previews/LinkPreview";
 import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "links";
@@ -202,7 +203,7 @@ const CreateEventButton: React.FC = () => {
 export const LinkEdit: React.FC = () => {
   const record = useRecordContext();
   return (
-    <Edit
+    <EditFormWithPreview
       redirect={false}
       title={<EditTitle />}
       actions={
@@ -210,19 +211,20 @@ export const LinkEdit: React.FC = () => {
           <UpdateMetadataButton />
         </Toolbar>
       }
+      preview={<LinkPreview />}
       transform={transformLink}
     >
       <TabbedForm>
         <FormTab label="General">
           <TextInput source="title" fullWidth />
           <URLMetadataInput source="url" type="Link" />
+          <DateInput source="publishDate" />
           <ReferenceField source="image.id" reference="media">
             <TextField source="location" />
           </ReferenceField>
           <MediaField source="image.location" type="image/jpeg" />
           <OverrideThumbnail />
-          <TextInput source="description" fullWidth />
-          <DateInput source="publishDate" />
+          <TextInput source="description" fullWidth multiline />
           <ReferenceGroupInput source="provider" />
         </FormTab>
         <FormTab label="Events">
@@ -265,7 +267,7 @@ export const LinkEdit: React.FC = () => {
           </ReferenceManyField>
         </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditFormWithPreview>
   );
 };
 
