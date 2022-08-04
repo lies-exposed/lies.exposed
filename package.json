@@ -63,6 +63,7 @@
     "lint-staged": "^13.0.3",
     "pm2": "^5.2.0",
     "prettier": "^2.7.1",
+    "terser": "^5.14.2",
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4",
     "webpack": "^5.74.0"
@@ -73,6 +74,7 @@
     "@mui/material": "^5.9.3",
     "@mui/styles": "^5.9.3",
     "@mui/system": "^5.9.3",
-    "@mui/x-data-grid": "^5.15.0"
+    "@mui/x-data-grid": "^5.15.0",
+    "terser": ">=5.14.2"
   }
 }
