@@ -15,15 +15,18 @@ import {
   DateField,
   DateInput,
   Edit,
-  EditProps, FormDataConsumer, FormTab,
+  EditProps,
+  FormDataConsumer,
+  FormTab,
   FunctionField,
   List,
   ListProps,
   ReferenceField,
   SelectInput,
   TabbedForm,
-  TextField, useRecordContext,
-  useRefresh
+  TextField,
+  useRecordContext,
+  useRefresh,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
 import ReferenceArrayKeywordInput from "../../../components/Common/ReferenceArrayKeywordInput";
@@ -184,13 +187,9 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
                 return <EditScientificStudyEventPayload {...rest} />;
               }
               if (formData.payload.event.type === Patent.PATENT.value) {
-                return (
-                  <PatentEventEditFormTab
-                    {...rest}
-                    sourcePrefix={"payload.event"}
-                  />
-                );
+                return <PatentEventEditFormTab {...rest} />;
               }
+
               return (
                 <UncategorizedEventEditTab
                   {...rest}

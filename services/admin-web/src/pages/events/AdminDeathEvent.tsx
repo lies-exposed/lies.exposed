@@ -11,15 +11,15 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput, FormTab,
+  DateInput,
+  FormTab,
   List,
   ListProps,
   ReferenceField,
   ReferenceInput,
-  SelectInput,
   SimpleForm,
   TabbedForm,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../../components/Common/AvatarField";
 import { EditFormWithPreview } from "../../components/Common/EditEventForm";
@@ -33,6 +33,7 @@ import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKe
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import EventPreview from "../../components/previews/EventPreview";
+import { EventGeneralTab } from "../../components/tabs/EventGeneralTab";
 import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
@@ -94,6 +95,7 @@ export const DeathEventEditFormTab: React.FC = () => {
   return (
     <Box>
       <ReferenceActorInput source="payload.victim" />
+      <ReferenceAreaInput source="payload.location" />
     </Box>
   );
 };
@@ -108,31 +110,9 @@ export const DeathEdit: React.FC = () => {
     >
       <TabbedForm>
         <FormTab label="Generals">
-          <BooleanInput source="draft" defaultValue={false} />
-          <ReferenceInput
-            source="payload.victim"
-            reference="actors"
-            filterToQuery={(f) => ({ id: f })}
-          >
-            <SelectInput
-              optionText={(r: any) => {
-                if (r) {
-                  return `${r.fullName}`;
-                }
-                return "Unknown";
-              }}
-            />
-          </ReferenceInput>
-          <DateInput source="date" />
-          <ReferenceAreaInput source="payload.location" />
-          <ReactPageInput source="excerpt" onlyText />
-          <ReferenceArrayKeywordInput
-            source="keywords"
-            defaultValue={[]}
-            showAdd
-          />
-          <DateField source="updatedAt" showTime={true} />
-          <DateField source="createdAt" showTime={true} />
+          <EventGeneralTab>
+            <DeathEventEditFormTab />
+          </EventGeneralTab>
         </FormTab>
         <FormTab label="Body">
           <ReactPageInput source="body" />

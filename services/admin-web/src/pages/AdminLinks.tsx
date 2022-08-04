@@ -1,7 +1,5 @@
-import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
 import * as io from "@liexp/shared/io";
-import { Box, MenuItem, Select, Toolbar } from "@liexp/ui/components/mui";
-import * as O from "fp-ts/lib/Option";
+import { Box, Toolbar } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -27,7 +25,7 @@ import {
   useRecordContext,
   useRefresh
 } from "react-admin";
-import { useNavigate } from "react-router";
+import { CreateEventFromLinkButton } from '../components/Common/CreateEventFromLinkButton';
 import { EditFormWithPreview } from "../components/Common/EditEventForm";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
@@ -148,57 +146,7 @@ const UpdateMetadataButton: React.FC = () => {
   );
 };
 
-const CreateEventButton: React.FC = () => {
-  const record = useRecordContext();
-  const navigate = useNavigate();
-  const [type, setType] = React.useState<string>(
-    io.http.Events.EventType.types[1].value
-  );
 
-  if (record?.events?.legnth > 0) {
-    return <Box />;
-  }
-
-  return (
-    <Box>
-      <Select
-        size="small"
-        value={type}
-        onChange={(e) => {
-          setType(e.target.value);
-        }}
-      >
-        {io.http.Events.EventType.types.map((t) => (
-          <MenuItem key={t.value} value={t.value}>
-            {t.value}
-          </MenuItem>
-        ))}
-      </Select>
-      <Button
-        label="Create Event"
-        variant="contained"
-        onClick={() => {
-          void apiProvider
-            .get("open-graph/metadata", { url: record.url, type: "Link" })
-            .then(async ({ data: { metadata: m } }) => {
-              const suggestion = getSuggestions(m, O.some(record as any)).find(
-                (t) => t.event.type === type
-              );
-
-              const { newLinks, ...event } = suggestion.event;
-              const { data: e } = await apiProvider.create(`/events`, {
-                data: {
-                  ...event,
-                  links: newLinks,
-                },
-              });
-              return navigate(`/events/${e.id}`);
-            });
-        }}
-      />
-    </Box>
-  );
-};
 
 export const LinkEdit: React.FC = () => {
   const record = useRecordContext();
@@ -228,7 +176,7 @@ export const LinkEdit: React.FC = () => {
           <ReferenceGroupInput source="provider" />
         </FormTab>
         <FormTab label="Events">
-          <CreateEventButton />
+          <CreateEventFromLinkButton />
           <ReferenceArrayEventInput
             source="newEvents"
             reference="events"

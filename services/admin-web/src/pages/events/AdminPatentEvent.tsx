@@ -1,5 +1,6 @@
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { Box } from '@liexp/ui/components/mui';
 import * as React from "react";
 import {
   BooleanField,
@@ -8,8 +9,7 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput, EditProps,
-  FormTab,
+  DateInput, FormTab,
   List,
   ListProps,
   SimpleForm,
@@ -19,7 +19,7 @@ import {
   UrlField,
   useRecordContext
 } from "react-admin";
-import { EditFormWithPreview } from '../../components/Common/EditEventForm';
+import { EditFormWithPreview } from "../../components/Common/EditEventForm";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
@@ -28,8 +28,8 @@ import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKe
 import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import URLMetadataInput from "../../components/Common/URLMetadataInput";
-import { WebPreviewButton } from "../../components/Common/WebPreviewButton";
-import EventPreview from '../../components/previews/EventPreview';
+import EventPreview from "../../components/previews/EventPreview";
+import { EventGeneralTab } from "../../components/tabs/EventGeneralTab";
 import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
@@ -73,16 +73,20 @@ export const PatentEventTitle: React.FC = () => {
   ) : null;
 };
 
-export const PatentEventEditFormTab: React.FC<
-  EditProps & { sourcePrefix?: string }
-> = ({ sourcePrefix, ...props }) => {
-  const source = (s: string): string =>
-    `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
-
+export const PatentEventEditFormTab: React.FC = () => {
   return (
-    <FormTab {...(props as any)} label="Payload">
-      <ReferenceActorInput source={source("payload.victim")} />
-    </FormTab>
+    <Box>
+      <TextInput source="payload.title" fullWidth />
+      <URLMetadataInput type="Link" source="payload.source" />
+      <ReferenceArrayActorInput
+        source="payload.owners.actors"
+        defaultValue={[]}
+      />
+      <ReferenceArrayGroupInput
+        source="payload.owners.groups"
+        defaultValue={[]}
+      />
+    </Box>
   );
 };
 
@@ -96,26 +100,9 @@ export const PatentEdit: React.FC = () => {
     >
       <TabbedForm>
         <FormTab label="Generals">
-          <WebPreviewButton resource="/dashboard/events" source="id" />
-          <TextInput source="payload.title" />
-          <URLMetadataInput type="Link" source="payload.source" />
-          <DateInput source="date" />
-          <ReferenceArrayActorInput
-            source="payload.owners.actors"
-            defaultValue={[]}
-          />
-          <ReferenceArrayGroupInput
-            source="payload.owners.groups"
-            defaultValue={[]}
-          />
-          <ReferenceArrayKeywordInput
-            source="keywords"
-            defaultValue={[]}
-            showAdd
-          />
-          <ReactPageInput source="excerpt" onlyText />
-          <DateField source="updatedAt" showTime={true} />
-          <DateField source="createdAt" showTime={true} />
+          <EventGeneralTab>
+            <PatentEventEditFormTab />
+          </EventGeneralTab>
         </FormTab>
         <FormTab label="Body">
           <ReactPageInput source="body" />

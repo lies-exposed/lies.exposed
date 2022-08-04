@@ -1,13 +1,14 @@
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
-import { Metadata } from 'page-metadata-parser';
-import { http } from '../io';
+import { Metadata } from "page-metadata-parser";
+import { http } from "../io";
 import { createExcerptValue } from "../slate";
 import { uuid } from "../utils/uuid";
 
 export const getSuggestions = (
   m: Metadata,
-  link: O.Option<http.Link.Link>
+  link: O.Option<http.Link.Link>,
+  media: O.Option<http.Media.Media>
 ): http.EventSuggestion.EventSuggestion[] => {
   const urlDate = m.date ? new Date(m.date) : new Date();
 
@@ -60,7 +61,11 @@ export const getSuggestions = (
         payload: {
           title: suggestedTitle,
           website: m.url,
-          media: uuid() as any,
+          media: pipe(
+            media,
+            O.map((m) => m.id),
+            O.toNullable
+          ) as any,
           authors: {
             actors: [],
             groups: [],
