@@ -1,8 +1,7 @@
 import HTMLWebpackPlugin from "html-webpack-plugin";
+import HtmlReplaceWebpackPlugin from "html-replace-webpack-plugin";
 import path from "path";
-import {
-  defineEnv
-} from "../../packages/@liexp/core/src/webpack/config";
+import { defineEnv } from "../../packages/@liexp/core/src/webpack/config";
 import { getWebConfig } from "../../packages/@liexp/core/src/webpack/web.config";
 
 const AppEnv = defineEnv((t) => ({
@@ -30,10 +29,15 @@ const webConfig = getWebConfig({
 });
 
 webConfig.plugins?.push(
-  new HTMLWebpackPlugin({
-    inject: "head",
-    template: path.resolve("./public/index.html"),
-  })
+  new HtmlReplaceWebpackPlugin([
+    {
+      pattern: "%WEB_ANALYTICS_SCRIPT%",
+      replacement:
+        process.env.NODE_ENV === "production"
+          ? `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`
+          : "",
+    },
+  ]) as any
 );
 
 export default webConfig;
