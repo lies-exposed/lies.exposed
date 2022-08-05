@@ -1,13 +1,13 @@
-import { AxisBottom } from "@vx/axis";
-import { localPoint } from "@vx/event";
-import { Group } from "@vx/group";
-import { Graph } from "@vx/network";
-import { Graph as GraphType } from "@vx/network/lib/types";
-import { scaleTime } from "@vx/scale";
-import { Tooltip } from "@vx/tooltip";
+import { AxisBottom } from "@vsix/axis";
+import { localPoint } from "@vsix/event";
+import { Group } from "@vsix/group";
+import { Graph } from "@vsix/network";
+import { Graph as GraphType } from "@vsix/network/lib/types";
+import { scaleTime } from "@vsix/scale";
+import { Tooltip } from "@vsix/tooltip";
 import withTooltip, {
   WithTooltipProvidedProps,
-} from "@vx/tooltip/lib/enhancers/withTooltip";
+} from "@vsix/tooltip/lib/enhancers/withTooltip";
 import * as A from "fp-ts/lib/Array";
 import * as React from "react";
 import NetworkLink, { NetworkLinkProps } from "./NetworkLink";

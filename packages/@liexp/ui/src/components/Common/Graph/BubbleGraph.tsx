@@ -1,4 +1,4 @@
-import { hierarchy } from "@vx/hierarchy";
+import { hierarchy } from "@vsix/hierarchy";
 import * as React from "react";
 import Pack, { PackDatum } from "./Pack";
 

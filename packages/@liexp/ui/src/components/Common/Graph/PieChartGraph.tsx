@@ -1,7 +1,7 @@
-import { GradientPinkBlue } from "@vx/gradient";
-import { Group } from "@vx/group";
-import { scaleOrdinal } from "@vx/scale";
-import Pie, { PieArcDatum, ProvidedProps } from "@vx/shape/lib/shapes/Pie";
+import { GradientPinkBlue } from "@vsix/gradient";
+import { Group } from "@vsix/group";
+import { scaleOrdinal } from "@vsix/scale";
+import Pie, { PieArcDatum, ProvidedProps } from "@vsix/shape/lib/shapes/Pie";
 import * as React from "react";
 import { animated, to, useTransition } from "react-spring";
 

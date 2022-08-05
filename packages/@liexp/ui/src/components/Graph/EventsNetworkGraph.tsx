@@ -14,10 +14,10 @@ import {
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
-import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
-import { Link } from "@vx/network/lib/types";
-import ParentSize from "@vx/responsive/lib/components/ParentSize";
-import ordinalScale from "@vx/scale/lib/scales/ordinal";
+import { LegendItem, LegendLabel, LegendOrdinal } from "@vsix/legend";
+import { Link } from "@vsix/network/lib/types";
+import ParentSize from "@vsix/responsive/lib/components/ParentSize";
+import ordinalScale from "@vsix/scale/lib/scales/ordinal";
 import { ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";

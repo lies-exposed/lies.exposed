@@ -2,12 +2,12 @@ import {
   numTicksForHeight,
   numTicksForWidth,
 } from "@liexp/shared/utils/graph.utils";
-import { AxisBottom, AxisLeft, AxisRight } from "@vx/axis";
-import { curveLinear } from "@vx/curve";
-import { Grid } from "@vx/grid";
-import { Group } from "@vx/group";
-import { scaleLinear } from "@vx/scale";
-import { Bar, Line, LinePath } from "@vx/shape";
+import { AxisBottom, AxisLeft, AxisRight } from "@vsix/axis";
+import { curveLinear } from "@vsix/curve";
+import { Grid } from "@vsix/grid";
+import { Group } from "@vsix/group";
+import { scaleLinear } from "@vsix/scale";
+import { Bar, Line, LinePath } from "@vsix/shape";
 import * as React from "react";
 
 // accessors

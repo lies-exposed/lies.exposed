@@ -1,7 +1,7 @@
-import { LinearGradient } from "@vx/gradient";
-import { Group } from "@vx/group";
-import { Tree as VXTree } from "@vx/hierarchy";
-import { LinkHorizontal } from "@vx/shape";
+import { LinearGradient } from "@vsix/gradient";
+import { Group } from "@vsix/group";
+import { Tree as VXTree } from "@vsix/hierarchy";
+import { LinkHorizontal } from "@vsix/shape";
 import { hierarchy, HierarchyPointNode } from "d3-hierarchy";
 import * as t from "io-ts";
 import { date } from "io-ts-types/lib/date";

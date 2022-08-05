@@ -1,11 +1,11 @@
-import { CustomProjection, Graticule } from "@vx/geo";
+import { CustomProjection, Graticule } from "@vsix/geo";
 import {
   ProjectionProps,
   ParsedFeature,
-} from "@vx/geo/lib/projections/Projection";
-import { GeoPermissibleObjects } from "@vx/geo/lib/types";
-import { scaleQuantize } from "@vx/scale";
-import { Zoom } from "@vx/zoom";
+} from "@vsix/geo/lib/projections/Projection";
+import { GeoPermissibleObjects } from "@vsix/geo/lib/types";
+import { scaleQuantize } from "@vsix/scale";
+import { Zoom } from "@vsix/zoom";
 import * as React from "react";
 import * as topojson from "topojson-client";
 // eslint-disable-next-line import/no-unresolved
