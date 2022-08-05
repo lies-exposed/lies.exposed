@@ -278,9 +278,6 @@ export const EventEdit: React.FC = () => {
               }}
             </FormDataConsumer>
           </EventGeneralTab>
-
-          <DateField source="updatedAt" showTime={true} />
-          <DateField source="createdAt" showTime={true} />
         </FormTab>
         <FormTab label="body">
           <ReactPageInput label="body" source="body" />

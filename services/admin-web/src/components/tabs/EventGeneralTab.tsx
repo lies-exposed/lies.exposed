@@ -33,7 +33,7 @@ export const EventGeneralTab: React.FC = ({ children }) => {
       </Grid>
       <Grid item {...{ md: 12 }}>
         <ReactPageInput label="excerpt" source="excerpt" onlyText />
-        <Box>
+        <Box style={{ display: "flex", flexDirection: "column" }}>
           <DateField label="Updated At" source="updatedAt" showTime={true} />
           <DateField source="createdAt" showTime={true} />
         </Box>
