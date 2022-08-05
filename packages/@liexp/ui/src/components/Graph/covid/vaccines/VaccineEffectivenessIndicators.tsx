@@ -1,5 +1,5 @@
-import ParentSize from "@vsix/responsive/lib/components/ParentSize";
-import { scaleBand, scaleLinear, scaleOrdinal } from "@vsix/scale";
+import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import { scaleBand, scaleLinear, scaleOrdinal } from "@visx/scale";
 import * as React from "react";
 import {
   BarStackGraph,

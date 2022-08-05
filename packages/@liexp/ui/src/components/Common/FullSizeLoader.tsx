@@ -1,4 +1,4 @@
-import ParentSize from "@vsix/responsive/lib/components/ParentSize";
+import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import * as React from "react";
 import { CircularProgress } from "../mui";
 

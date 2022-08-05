@@ -59,7 +59,7 @@
     "axios": "^0.27.2",
     "chroma-js": "^2.4.2",
     "clsx": "^1.2.1",
-    "d3": "^5.16.0",
+    "d3": "^7.6.1",
     "d3-sankey": "^0.12.3",
     "d3-sankey-circular": "^0.34.0",
     "date-fns": "^2.29.1",
@@ -87,7 +87,7 @@
   },
   "devDependencies": {
     "@types/chroma-js": "^2.1.4",
-    "@types/d3": "^5.16.4",
+    "@types/d3": "^7.4.0",
     "@types/d3-sankey": "^0.11.2",
     "@types/eslint": "^8.4.5",
     "@types/jest": "^27.5.2",

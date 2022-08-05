@@ -1,7 +1,7 @@
 import {
   eqByUUID,
   getEventsMetadata,
-  ordEventDate,
+  ordEventDate
 } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -10,28 +10,28 @@ import {
   Group,
   Keyword,
   Page,
-  Topic,
+  Topic
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
-import { LegendItem, LegendLabel, LegendOrdinal } from "@vsix/legend";
-import { Link } from "@vsix/network/lib/types";
-import ParentSize from "@vsix/responsive/lib/components/ParentSize";
-import ordinalScale from "@vsix/scale/lib/scales/ordinal";
+import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
+import { Link } from "@visx/network/lib/types";
+import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import ordinalScale from "@visx/scale/lib/scales/ordinal";
 import { ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
+import { pipe } from "fp-ts/lib/function";
 import * as Map from "fp-ts/lib/Map";
 import * as NEA from "fp-ts/lib/NonEmptyArray";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode,
+  NetworkPointNode
 } from "../Common/Graph/Network/NetworkNode";
 import SankeyGraph from "../Common/Graph/SankeyGraph";
 import { Box, Grid } from "../mui";
@@ -173,7 +173,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 </div>
                 <div className="legends">
                   <LegendDemo title="Topics">
-                    <LegendOrdinal
+                    <LegendOrdinal<typeof networkProps.groupByScale>
                       scale={networkProps.groupByScale}
                       labelFormat={(datum) => datum}
                     >
@@ -240,7 +240,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                     </LegendOrdinal>
                   </LegendDemo>
                   <LegendDemo title="Groups">
-                    <LegendOrdinal<ScaleOrdinal<string, string>>
+                    <LegendOrdinal
                       scale={networkProps.groupsScale}
                       labelFormat={(datum) => {
                         return datum;

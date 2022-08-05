@@ -1,11 +1,11 @@
-import { CustomProjection, Graticule } from "@vsix/geo";
+import { CustomProjection, Graticule } from "@visx/geo";
 import {
   ProjectionProps,
   ParsedFeature,
-} from "@vsix/geo/lib/projections/Projection";
-import { GeoPermissibleObjects } from "@vsix/geo/lib/types";
-import { scaleQuantize } from "@vsix/scale";
-import { Zoom } from "@vsix/zoom";
+} from "@visx/geo/lib/projections/Projection";
+import { GeoPermissibleObjects } from "@visx/geo/lib/types";
+import { scaleQuantize } from "@visx/scale";
+import { Zoom } from "@visx/zoom";
 import * as React from "react";
 import * as topojson from "topojson-client";
 // eslint-disable-next-line import/no-unresolved
@@ -69,7 +69,7 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
         scaleXMax={1000}
         scaleYMin={100}
         scaleYMax={1000}
-        transformMatrix={{
+        initialTransformMatrix={{
           scaleX: initialScale,
           scaleY: initialScale,
           translateX: centerX,
@@ -77,7 +77,6 @@ const GeoCustom = <P extends GeoPermissibleObjects>({
           skewX: 0,
           skewY: 0,
         }}
-        passive={true}
       >
         {(zoom) => (
           <div style={{ position: "relative" }}>

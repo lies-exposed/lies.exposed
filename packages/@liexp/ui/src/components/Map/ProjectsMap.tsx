@@ -1,4 +1,4 @@
-import ParentSize from "@vsix/responsive/lib/components/ParentSize";
+import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import * as A from "fp-ts/lib/Array";
 import Feature from "ol/Feature";
 import * as React from "react";

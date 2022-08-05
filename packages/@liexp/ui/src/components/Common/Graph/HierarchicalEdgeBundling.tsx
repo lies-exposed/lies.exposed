@@ -1,6 +1,6 @@
 // https://observablehq.com/@d3/bilevel-edge-bundling?collection=@d3/d3-hierarchy
 
-import { Graph } from "@vsix/network/lib/types";
+import { Graph } from "@visx/network/lib/types";
 import * as d3 from "d3";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";

@@ -2,17 +2,17 @@ import {
   numTicksForHeight,
   numTicksForWidth,
 } from "@liexp/shared/utils/graph.utils";
-import { AxisBottom, AxisLeft, AxisRight } from "@vsix/axis";
-import { curveLinear } from "@vsix/curve";
-import { Grid } from "@vsix/grid";
-import { Group } from "@vsix/group";
-import { scaleLinear } from "@vsix/scale";
-import { Bar, Line, LinePath } from "@vsix/shape";
+import { AxisBottom, AxisLeft, AxisRight } from "@visx/axis";
+import { curveLinear } from "@visx/curve";
+import { Grid } from "@visx/grid";
+import { Group } from "@visx/group";
+import { scaleLinear } from "@visx/scale";
+import { Bar, Line, LinePath } from "@visx/shape";
 import * as React from "react";
 
 // accessors
 
-interface AxisGraphProps<D> {
+export interface AxisGraphProps<D> {
   id: string;
   background: (id: string) => JSX.Element;
   linePathElement: (id: string) => JSX.Element;

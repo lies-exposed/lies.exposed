@@ -1,11 +1,11 @@
-import { AxisBottom, AxisLeft } from "@vsix/axis";
-import { AxisProps } from "@vsix/axis/lib/axis/Axis";
-import { Grid } from "@vsix/grid";
-import { Group } from "@vsix/group";
-import { LegendOrdinal } from "@vsix/legend";
-import { BarStack } from "@vsix/shape";
-import { SeriesPoint, StackKey } from "@vsix/shape/lib/types";
-import { defaultStyles, TooltipWithBounds, useTooltip } from "@vsix/tooltip";
+import { AxisBottom, AxisLeft } from "@visx/axis";
+import { AxisProps } from "@visx/axis/lib/axis/Axis";
+import { Grid } from "@visx/grid";
+import { Group } from "@visx/group";
+import { LegendOrdinal } from "@visx/legend";
+import { BarStack } from "@visx/shape";
+import { SeriesPoint, StackKey } from "@visx/shape/lib/types";
+import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
 import { ScaleBand, ScaleLinear, ScaleOrdinal } from "d3-scale";
 import * as React from "react";
 

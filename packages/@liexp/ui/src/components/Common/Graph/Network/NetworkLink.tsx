@@ -1,5 +1,5 @@
-import { Link } from "@vsix/network/lib/types";
-import { LinkVertical } from "@vsix/shape";
+import { Link } from "@visx/network/lib/types";
+import { LinkVertical } from "@visx/shape";
 import * as React from "react";
 import { NetworkNodeDatum, NetworkPointNode } from "./NetworkNode";
 
