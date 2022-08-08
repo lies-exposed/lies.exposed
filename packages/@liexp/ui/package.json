@@ -103,7 +103,7 @@
     "eslint-plugin-import": "^2.26.0",
     "jest": "^28.1.3",
     "prettier": "^2.7.1",
-    "react-admin": "^4.2.5",
+    "react-admin": "^4.2.6",
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
   },
