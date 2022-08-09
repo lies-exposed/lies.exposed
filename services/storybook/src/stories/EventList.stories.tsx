@@ -1,5 +1,13 @@
+import { fc } from "@liexp/core/tests";
 import { Events } from "@liexp/shared/io/http";
 import { events } from "@liexp/shared/mock-data/events";
+import {
+  ActorArb,
+  GroupArb,
+  MediaArb,
+  UncategorizedArb,
+} from "@liexp/shared/tests";
+import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import EventList, {
   EventListProps,
 } from "@liexp/ui/components/lists/EventList/EventList";
@@ -9,7 +17,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/Lists/EventList",
+  title: "Components/Lists/Events/EventList",
   component: EventList,
 };
 
@@ -22,17 +30,23 @@ const Template: Story<EventListProps> = (props) => {
 const EventListExample = Template.bind({});
 
 const args: EventListProps = {
-  events: pipe(
-    events,
-    A.filter(Events.Uncategorized.Uncategorized.is),
-    A.map((f) => ({
-      ...f,
-      // tableOfContents: O.none,
-      // timeToRead: O.none,
-    }))
-  ),
-  actors: [],
-  groups: [],
+  events: fc.sample(UncategorizedArb, 10).map((u) => ({
+    ...u,
+    payload: {
+      ...u.payload,
+      actors: fc.sample(ActorArb, 5),
+      groups: fc.sample(GroupArb, 5),
+      groupsMembers: [],
+    },
+    media: fc.sample(MediaArb, 4),
+    keywords: fc.sample(KeywordArb, 20),
+  })),
+  onActorClick: () => {},
+  onGroupClick(g) {},
+  onKeywordClick(k) {},
+  onGroupMemberClick() {},
+  onRowInvalidate(e) {},
+  onClick(e) {},
 };
 
 EventListExample.args = args;

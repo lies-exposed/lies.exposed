@@ -62,10 +62,6 @@ const args: EventsNetworkGraphProps = {
 
 NetworkGraphExample.args = args;
 
-NetworkGraphExample.argTypes = {
-  minDate: { control: "date" },
-  maxDate: { control: "date" },
-  selectedEvents: { control: "object" },
-};
+NetworkGraphExample.argTypes = {};
 
 export { NetworkGraphExample };

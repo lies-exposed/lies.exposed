@@ -12,12 +12,7 @@ export default meta;
 const Template: Story = (props) => {
   return (
     <div style={{ width: "100%" }}>
-      <VaccineADRGraph
-        distribution={[]}
-        queries={{
-          data: { id: "" },
-        }}
-      />
+      <VaccineADRGraph id="" distribution={[]} />
     </div>
   );
 };

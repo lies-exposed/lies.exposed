@@ -1,8 +1,11 @@
 import { subYears } from "date-fns";
+import { createExcerptValue } from '../slate';
+import { HumanReadableStringArb } from '../tests/arbitrary/HumanReadableString.arbitrary';
 import { Group } from "../io/http";
 import { generateRandomColor } from "../utils/colors";
 import { uuid } from "../utils/uuid";
 import { avatars } from "./avatars";
+import fc from 'fast-check';
 
 const now = new Date();
 
@@ -30,7 +33,7 @@ export const goodGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: now,
   updatedAt: now,
-  excerpt: {},
+  excerpt: createExcerptValue(fc.sample(HumanReadableStringArb(), 100).join(" ")),
   body: {},
 };
 

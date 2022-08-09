@@ -3,6 +3,9 @@ import {
   AreaPageContent,
   AreaPageContentProps,
 } from "@liexp/ui/components/AreaPageContent";
+import { MainContent } from "@liexp/ui/components/MainContent";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import { useActorsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
@@ -15,21 +18,39 @@ export default meta;
 
 const Template: Story<AreaPageContentProps> = (props) => {
   return (
-    <div>
-      <ul>
-        <li>Lista dei progetti in questa area</li>
-      </ul>
-      <AreaPageContent {...props} />
-    </div>
+    <QueriesRenderer
+      queries={{
+        actors: useActorsQuery(
+          {
+            filter: {},
+            pagination: {
+              perPage: 1,
+              page: 1,
+            },
+            sort: {
+              field: "createdAt",
+              order: "DESC",
+            },
+          },
+          false
+        ),
+      }}
+      render={({ actors }) => {
+        return (
+          <MainContent>
+            <AreaPageContent {...props} {...actors.data[0]} />
+          </MainContent>
+        );
+      }}
+    />
   );
 };
 
 const AreaPageContentExample = Template.bind({});
 
 const args: AreaPageContentProps = {
-  ...firstArea,
+  area: firstArea,
   onGroupClick: () => {},
-  onTopicClick: () => {},
 };
 
 AreaPageContentExample.args = args;
