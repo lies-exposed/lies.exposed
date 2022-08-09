@@ -3,8 +3,8 @@ import * as t from "io-ts";
 import * as http from "../../io/http";
 import { propsOmit } from "../../io/utils";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
-import { ColorArb } from "./common/Color.arbitrary";
 import { placeKitten } from './Media.arbitrary';
+import { ColorArb } from "./common/Color.arbitrary";
 
 export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
   .getArbitrary(
