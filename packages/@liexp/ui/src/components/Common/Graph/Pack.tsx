@@ -1,9 +1,9 @@
-import { localPoint } from "@vx/event";
-import { Group } from "@vx/group";
-import { Pack as VXPack } from "@vx/hierarchy";
-import { HierarchyNode } from "@vx/hierarchy/lib/types";
-import { withTooltip, TooltipWithBounds } from "@vx/tooltip";
-import { WithTooltipProvidedProps } from "@vx/tooltip/lib/enhancers/withTooltip";
+import { localPoint } from "@visx/event";
+import { Group } from "@visx/group";
+import { Pack as VXPack } from "@visx/hierarchy";
+import { HierarchyNode } from "@visx/hierarchy/lib/types";
+import { withTooltip, TooltipWithBounds } from "@visx/tooltip";
+import { WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
 import * as React from "react";
 import { useSprings, animated } from "react-spring";
 

@@ -1,5 +1,5 @@
-import { LinearGradient } from "@vx/gradient";
-import ParentSize from "@vx/responsive/lib/components/ParentSize";
+import { LinearGradient } from "@visx/gradient";
+import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import * as t from "io-ts";
 import * as React from "react";
 import { useGraphQuery } from "../../state/queries/DiscreteQueries";

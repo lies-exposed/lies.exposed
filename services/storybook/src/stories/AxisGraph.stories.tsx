@@ -1,9 +1,9 @@
-import { Story, Meta } from "@storybook/react/types-6-0";
-import React from "react";
 import {
   AxisGraph,
   AxisGraphProps,
 } from "@liexp/ui/components/Common/Graph/AxisGraph";
+import { Story, Meta } from "@storybook/react/types-6-0";
+import React from "react";
 
 const meta: Meta = {
   title: "Components/Graph/AxisGraph",

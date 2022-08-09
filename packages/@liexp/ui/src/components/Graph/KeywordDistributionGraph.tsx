@@ -7,6 +7,11 @@ import * as React from "react";
 import { useKeywordsDistributionQuery } from "../../state/queries/DiscreteQueries";
 import QueriesRenderer from "../QueriesRenderer";
 
+interface KeywordDatum extends Keyword.Keyword {
+  text: string;
+  events: number;
+}
+
 export interface KeywordsDistributionGraphProps {
   data: any[];
   onClick: (k: Keyword.Keyword) => void;
@@ -15,35 +20,47 @@ export interface KeywordsDistributionGraphProps {
 const KeywordsDistributionGraphComponent: React.FC<
   KeywordsDistributionGraphProps
 > = ({ data, onClick }) => {
-  // const navigateTo = useNavigateToResource();
+  const { words, minSize, maxSize } = React.useMemo(() => {
+    const words = data
+      .filter((d) => d.events > 0)
+      .sort((a, b) => a.events - b.events)
+      .map(
+        (d): KeywordDatum => ({
+          ...d,
+          text: d.tag,
+        })
+      );
 
-  const words = data.map(d => ({
-    ...d,
-    text: d.tag,
-    value: d.events
-  }));
+    const wordSizes = words.map((w) => w.events);
 
-  const wordsValue = words.map(w => w.value);
+    return {
+      words,
+      minSize: Math.min(...wordSizes),
+      maxSize: Math.max(...wordSizes),
+    };
+  }, [data]);
 
   const fontScale = scaleLog({
-    domain: [
-      Math.min(...wordsValue),
-      Math.max(...wordsValue),
-    ],
-    range: [0, 100],
+    domain: [minSize, maxSize],
+    range: [20, 100],
   });
-  const fontSizeSetter = (datum: any) => fontScale(datum.value);
+  const fontSizeSetter = (datum: KeywordDatum): number => {
+    const fontSize = fontScale(datum.events);
+    const cappedFontsize = isNaN(fontSize) ? 0 : fontSize;
+    return cappedFontsize;
+  };
 
   return (
-    <ParentSize style={{ height: 600 }}>
+    <ParentSize style={{ height: 600, width: "100%" }}>
       {({ width, height }) => (
         <Wordcloud
           words={words}
           width={width}
           height={height}
           fontSize={fontSizeSetter}
+          fontWeight={600}
           padding={2}
-          spiral={"archimedean"}
+          spiral="archimedean"
           rotate={0}
           random={() => 0.5}
         >
@@ -52,11 +69,13 @@ const KeywordsDistributionGraphComponent: React.FC<
               return (
                 <Text
                   key={w.text}
-                  fill={`#000`}
+                  fill={`#${w.color}`}
                   textAnchor={"middle"}
                   transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
                   fontSize={w.size}
                   fontFamily={w.font}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => onClick(w)}
                 >
                   {w.text}
                 </Text>

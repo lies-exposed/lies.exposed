@@ -1,6 +1,6 @@
 // import { PieChartGraph } from "@components/Common/Graph/PieChartGraph";
 // import { Events } from "@liexp/shared/io/http";
-// import ParentSize from "@vx/responsive/lib/components/ParentSize";
+// import ParentSize from "@visx/responsive/lib/components/ParentSize";
 // import * as Array from "fp-ts/lib/Array";
 // import { eqString } from "fp-ts/lib/Eq";
 // import * as Map from "fp-ts/lib/Map";

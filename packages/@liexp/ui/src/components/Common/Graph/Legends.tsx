@@ -1,4 +1,4 @@
-import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
+import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import { ScaleOrdinal } from "d3-scale";
 import * as React from "react";
 

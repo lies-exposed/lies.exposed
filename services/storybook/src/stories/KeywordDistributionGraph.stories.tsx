@@ -1,8 +1,8 @@
-import { Story, Meta } from "@storybook/react/types-6-0";
-import React from "react";
 import KeywordDistributionGraph, {
   KeywordsDistributionGraphProps,
 } from "@liexp/ui/components/Graph/KeywordDistributionGraph";
+import { Story, Meta } from "@storybook/react/types-6-0";
+import React from "react";
 
 const meta: Meta = {
   title: "Components/Graph/KeywordDistribution",
@@ -10,7 +10,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: "Generic component to display axis graph",
+        component: "Display keywords in a distribution graph",
       },
     },
   },
@@ -23,5 +23,7 @@ const Template: Story<KeywordsDistributionGraphProps> = (args) => (
 
 export const KeywordDistributionGraphExample = Template.bind({});
 KeywordDistributionGraphExample.args = {
-  onClick: () => {},
+  onClick: (w: any) => {
+    alert(`${w.tag}: ${w.events}`);
+  },
 };

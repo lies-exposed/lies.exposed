@@ -1,4 +1,4 @@
-import { Group } from "@vx/group";
+import { Group } from "@visx/group";
 import * as React from "react";
 
 export interface NetworkNodeDatum {

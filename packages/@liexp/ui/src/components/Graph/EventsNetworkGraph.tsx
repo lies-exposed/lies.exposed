@@ -1,7 +1,7 @@
 import {
   eqByUUID,
   getEventsMetadata,
-  ordEventDate,
+  ordEventDate
 } from "@liexp/shared/helpers/event";
 import {
   Actor,
@@ -10,14 +10,14 @@ import {
   Group,
   Keyword,
   Page,
-  Topic,
+  Topic
 } from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import { SearchEvent } from "@liexp/shared/io/http/Events/SearchEvent";
-import { LegendItem, LegendLabel, LegendOrdinal } from "@vx/legend";
-import { Link } from "@vx/network/lib/types";
-import ParentSize from "@vx/responsive/lib/components/ParentSize";
-import ordinalScale from "@vx/scale/lib/scales/ordinal";
+import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
+import { Link } from "@visx/network/lib/types";
+import ParentSize from "@visx/responsive/lib/components/ParentSize";
+import ordinalScale from "@visx/scale/lib/scales/ordinal";
 import { ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
 import * as A from "fp-ts/lib/Array";
@@ -31,7 +31,7 @@ import * as React from "react";
 import { NetworkScale } from "../Common/Graph/Network/Network";
 import {
   NetworkNodeDatum,
-  NetworkPointNode,
+  NetworkPointNode
 } from "../Common/Graph/Network/NetworkNode";
 import SankeyGraph from "../Common/Graph/SankeyGraph";
 import { Box, Grid } from "../mui";
@@ -173,7 +173,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                 </div>
                 <div className="legends">
                   <LegendDemo title="Topics">
-                    <LegendOrdinal
+                    <LegendOrdinal<typeof networkProps.groupByScale>
                       scale={networkProps.groupByScale}
                       labelFormat={(datum) => datum}
                     >
@@ -240,7 +240,7 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = (
                     </LegendOrdinal>
                   </LegendDemo>
                   <LegendDemo title="Groups">
-                    <LegendOrdinal<ScaleOrdinal<string, string>>
+                    <LegendOrdinal
                       scale={networkProps.groupsScale}
                       labelFormat={(datum) => {
                         return datum;

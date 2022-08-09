@@ -13,7 +13,7 @@ import { VaccineADRGraph } from "@liexp/ui/components/Graph/covid/vaccines/Vacci
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { Box, Grid, Tab, Tabs, Typography } from "@liexp/ui/components/mui";
 import { useJSONDataQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { scaleOrdinal } from "@vx/scale";
+import { scaleOrdinal } from "@visx/scale";
 import { isAfter, isBefore } from "date-fns";
 import * as A from "fp-ts/lib/Array";
 import * as D from "fp-ts/lib/Date";

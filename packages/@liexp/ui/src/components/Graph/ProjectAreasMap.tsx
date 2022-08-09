@@ -1,5 +1,5 @@
 import { Project } from "@liexp/shared/io/http";
-import ParentSize from "@vx/responsive/lib/components/ParentSize";
+import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import Feature from "ol/Feature";
