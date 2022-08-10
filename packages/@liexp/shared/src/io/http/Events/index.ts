@@ -35,7 +35,7 @@ export const CreateEventBody = t.union(
   [
     Death.CreateDeathBody,
     Patent.CreatePatentBody,
-    ScientificStudy.CreateScientificStudyBody,
+    ScientificStudy.CreateScientificStudyBody.types[0],
     Uncategorized.CreateEventBody,
     Documentary.CreateDocumentaryBody,
     Transaction.CreateTransactionBody,

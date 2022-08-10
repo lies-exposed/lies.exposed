@@ -19,14 +19,23 @@ export const ScientificStudyPayload = t.strict(
 
 export type ScientificStudyPayload = t.TypeOf<typeof ScientificStudyPayload>;
 
-export const CreateScientificStudyBody = t.strict(
+export const CreateScientificStudyPlainBody = t.strict(
   {
     ...CreateEventCommon.type.props,
     type: SCIENTIFIC_STUDY,
     payload: ScientificStudyPayload,
   },
-  "CreateScientificStudy"
+  "CreateScientificStudyPlainBody"
 );
+export type CreateScientificStudyPlainBody = t.TypeOf<
+  typeof CreateScientificStudyPlainBody
+>;
+
+export const CreateScientificStudyBody = t.union(
+  [CreateScientificStudyPlainBody, t.strict({ url: URL })],
+  "CreateScientificStudyBody"
+);
+
 export type CreateScientificStudyBody = t.TypeOf<
   typeof CreateScientificStudyBody
 >;

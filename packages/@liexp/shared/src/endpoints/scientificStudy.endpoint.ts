@@ -3,7 +3,7 @@ import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
-import { URL, UUID } from "../io/http/Common";
+import { UUID } from "../io/http/Common";
 import { ListOutput, Output } from "../io/http/Common/Output";
 import {
   CreateScientificStudyBody,
@@ -51,17 +51,17 @@ export const Create = Endpoint({
   Output: SingleStudyOutput,
 });
 
-export const CreateFromURL = Endpoint({
-  Method: "POST",
-  getPath: () => "/scientific-studies",
-  Input: {
-    Query: undefined,
-    Body: t.strict({
-      url: URL,
-    }),
-  },
-  Output: SingleStudyOutput,
-});
+// export const CreateFromURL = Endpoint({
+//   Method: "POST",
+//   getPath: () => "/scientific-studies/from-url",
+//   Input: {
+//     Query: undefined,
+//     Body: t.strict({
+//       url: URL,
+//     }),
+//   },
+//   Output: SingleStudyOutput,
+// });
 
 export const ExtractFromURL = Endpoint({
   Method: "PUT",
@@ -78,7 +78,7 @@ export const Edit = Endpoint({
   Input: {
     Params: t.type({ id: t.string }),
     Body: t.strict(
-      propsOmit(CreateScientificStudyBody, ["type"]),
+      propsOmit(CreateScientificStudyBody.types[0], ["type"]),
       "CreateScientificStudyBody"
     ),
   },
@@ -101,7 +101,7 @@ export const scientificStudies = ResourceEndpoints({
   Edit,
   Delete,
   Custom: {
-    CreateFromURL,
-    ExtractFromURL
+    // CreateFromURL,
+    ExtractFromURL,
   },
 });

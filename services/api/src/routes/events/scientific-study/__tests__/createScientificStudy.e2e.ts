@@ -1,5 +1,7 @@
 import { fc } from "@liexp/core/tests";
+import { http } from "@liexp/shared/io";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
+import { createExcerptValue } from "@liexp/shared/slate";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
@@ -13,7 +15,7 @@ import { GroupEntity } from "@entities/Group.entity";
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
   let authorizationToken: string;
-  let scientificStudy: EventV2Entity;
+  const scientificStudyIds: any[] = [];
   const [actor] = fc.sample(ActorArb, 1);
   const [group] = fc.sample(GroupArb, 1);
 
@@ -36,14 +38,17 @@ describe("Create Scientific Study", () => {
   });
 
   afterAll(async () => {
-    await throwTE(appTest.ctx.db.delete(EventV2Entity, [scientificStudy.id]));
+    await throwTE(appTest.ctx.db.delete(EventV2Entity, scientificStudyIds));
     await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
     await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
     await throwTE(appTest.ctx.db.close());
   });
 
-  test("Should create a scientific study", async () => {
-    const url = `https://www.sciencedirect.com/article/123`;
+  test("Should create a scientific study from url", async () => {
+    const [url] = fc
+      .sample(fc.nat(), 1)
+      .map((id) => `https://www.sciencedirect.com/article/${id}` as any);
+
     const title = fc.sample(HumanReadableStringArb(), 1)[0];
     const description = fc.sample(HumanReadableStringArb(), 1)[0];
 
@@ -89,6 +94,52 @@ describe("Create Scientific Study", () => {
     expect(body.payload.url).toEqual(url);
     expect(body.payload.title).toEqual(title);
 
-    scientificStudy = body;
+    scientificStudyIds.push(body.id);
+  });
+
+  test("Should create a scientific study from plain object", async () => {
+    const [url] = fc
+      .sample(fc.nat(), 1)
+      .map((id) => `https://www.sciencedirect.com/article/${id}` as any);
+
+    const title = fc.sample(HumanReadableStringArb(), 1)[0];
+    const [excerpt] = fc
+      .sample(HumanReadableStringArb(), 1)
+      .map((d) => createExcerptValue(d));
+
+    const scientificStudyData: http.Events.ScientificStudy.CreateScientificStudyBody =
+      {
+        type: http.Events.ScientificStudy.SCIENTIFIC_STUDY.value,
+        draft: true,
+        date: new Date(),
+        excerpt,
+        body: undefined,
+        payload: {
+          title,
+          url,
+          authors: [],
+          publisher: undefined,
+          image: undefined,
+        },
+        media: [],
+        links: [],
+        keywords: [],
+      };
+
+    const response = await appTest.req
+      .post(`/v1/scientific-studies`)
+      .set("Authorization", authorizationToken)
+      .send(scientificStudyData);
+
+    const body = response.body.data;
+    expect(response.status).toEqual(201);
+
+    expect(body.type).toBe(SCIENTIFIC_STUDY.value);
+    expect(body.date).toBeDefined();
+    expect(body.excerpt).toEqual(excerpt);
+    expect(body.payload.url).toEqual(url);
+    expect(body.payload.title).toEqual(title);
+
+    scientificStudyIds.push(body.id);
   });
 });

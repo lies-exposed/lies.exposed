@@ -6,7 +6,7 @@ import { MIN_DATE, MAX_DATE, DateArb } from "../Date.arbitrary";
 import { URLArb } from "../URL.arbitrary";
 
 const createScientificStudyProps = propsOmit(
-  http.Events.ScientificStudy.CreateScientificStudyBody,
+  http.Events.ScientificStudy.CreateScientificStudyBody.types[0],
   ["excerpt", "body", "date", "draft", "payload", "media", "links", "keywords"]
 );
 
