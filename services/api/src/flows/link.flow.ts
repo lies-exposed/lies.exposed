@@ -14,7 +14,7 @@ export const fetchAsLink =
   (ctx: RouteContext) =>
   (url: URL): TE.TaskEither<ControllerError, LinkEntity> => {
     return pipe(
-      ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError()),
+      ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError([`Error fetching metadata from url ${url}`])),
       TE.map((meta): LinkEntity => {
         ctx.logger.debug.log("Creating link %O", meta);
         let publishDate: any = DateFromISOString.decode(meta.date);

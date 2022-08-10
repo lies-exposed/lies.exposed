@@ -1,4 +1,5 @@
 import * as ScientificStudy from "@liexp/shared/io/http/Events/ScientificStudy";
+import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box } from "@liexp/ui/components/mui";
 import * as React from "react";
@@ -11,6 +12,7 @@ import {
   DateField,
   DateInput,
   EditProps,
+  FormDataConsumer,
   FormTab,
   List,
   ListProps,
@@ -26,6 +28,8 @@ import { AvatarField } from "../../components/Common/AvatarField";
 import { EditFormWithPreview } from "../../components/Common/EditEventForm";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
+import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
 import ReferenceGroupInput from "../../components/Common/ReferenceGroupInput";
 import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
 import URLMetadataInput from "../../components/Common/URLMetadataInput";
@@ -118,35 +122,52 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
   <Create
     title="Create a Scientific Study"
     {...props}
-    // transform={(r) => transformEvent(r.id as any, r)}
+    transform={(r) =>
+      transformEvent(uuid(), {
+        ...r,
+        type: ScientificStudy.SCIENTIFIC_STUDY.value,
+      })
+    }
   >
     <SimpleForm>
-      {/* <TextInput
-        source="type"
-        defaultValue={ScientificStudy.ScientificStudyType.value}
-      /> */}
-      {/* <BooleanInput source="draft" defaultValue={false} /> */}
-      <URLMetadataInput
-        source="url"
-        type={ScientificStudy.SCIENTIFIC_STUDY.value}
-      />
-      {/* <TextInput source="payload.title" />
-      <DateInput source="date" />
-      <ReactPageInput source="excerpt" onlyText />
-      <ReactPageInput source="body" />
-      <ReferenceArrayInput
-        source="payload.authors"
-        reference="actors"
-        initialValue={[]}
-      >
-        <AutocompleteArrayInput source="id" optionText="fullName" />
-      </ReferenceArrayInput>
-      <ReferenceInput source="payload.publisher" reference="groups" alwaysOn>
-        <AutocompleteInput source="id" optionText="name" />
-      </ReferenceInput>
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} />
-      <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-      <MediaArrayInput source="newMedia" defaultValue={[]} /> */}
+      <BooleanInput source="plain" />
+      <FormDataConsumer>
+        {({ formData }) => {
+          if (formData.plain) {
+            return (
+              <Box>
+                <BooleanInput source="draft" defaultValue={false} />
+
+                <DateInput source="date" />
+                <TextInput source="payload.title" />
+                <TextInput source="payload.url" />
+                <ReactPageInput source="excerpt" onlyText />
+                <ReactPageInput source="body" />
+                <ReferenceArrayActorInput
+                  source="payload.authors"
+                  initialValue={[]}
+                />
+
+                <ReferenceGroupInput source="payload.publisher" alwaysOn />
+
+                <ReferenceArrayKeywordInput
+                  source="keywords"
+                  defaultValue={[]}
+                  showAdd={false}
+                />
+                <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+                <MediaArrayInput source="newMedia" defaultValue={[]} />
+              </Box>
+            );
+          }
+          return (
+            <URLMetadataInput
+              source="url"
+              type={ScientificStudy.SCIENTIFIC_STUDY.value}
+            />
+          );
+        }}
+      </FormDataConsumer>
     </SimpleForm>
   </Create>
 );
