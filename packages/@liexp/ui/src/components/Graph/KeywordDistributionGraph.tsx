@@ -74,6 +74,7 @@ const KeywordsDistributionGraphComponent: React.FC<
                   transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
                   fontSize={w.size}
                   fontFamily={w.font}
+                  fontWeight={600}
                   style={{ cursor: "pointer" }}
                   onClick={() => onClick(w)}
                 >
