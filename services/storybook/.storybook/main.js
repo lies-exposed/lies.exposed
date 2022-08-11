@@ -21,6 +21,10 @@ module.exports = {
         prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
     },
   },
+  env: (config) => ({
+    ...config,
+    API_URL: "http://localhost:4010/v1",
+  }),
   webpackFinal: (config) => {
     config.module.rules.push({
       test: /\.scss$/,

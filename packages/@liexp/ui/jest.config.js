@@ -27,4 +27,5 @@ module.exports = {
     "/src/theme",
   ]),
   moduleNameMapper,
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 };

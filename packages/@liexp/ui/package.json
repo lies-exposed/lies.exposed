@@ -9,6 +9,7 @@
     "clean": "rm -rf lib",
     "build": "tsc -b",
     "watch": "tsc -b -w",
+    "test": "jest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
   },

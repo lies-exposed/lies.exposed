@@ -1,12 +1,18 @@
+import { EventType } from "@liexp/shared/io/http/Events";
 import { KeywordPageContent } from "@liexp/ui/components/KeywordPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
-import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
 import { useKeywordQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
+import { EventsPanel } from "../containers/EventsPanel";
+import { useRouteQuery } from "../utils/history.utils";
+import { useNavigateToResource } from '../utils/location.utils';
 
 const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
+  const navigateToResource = useNavigateToResource();
+  const { tab = 0 } = useRouteQuery<{ tab?: string }>();
+
   return (
     <QueriesRenderer
       queries={{ keyword: useKeywordQuery({ id: keywordId }) }}
@@ -15,16 +21,29 @@ const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
           <Box display="flex" flexDirection="column" height="100%">
             <SEO title={"keywords"} urlPath={`keywords/${keyword.tag}`} />
             <KeywordPageContent {...keyword} />
-            <EventsTimeline
+
+            <EventsPanel
               hash={`keyword-${keywordId}`}
-              queryParams={{
+              query={{
                 keywords: [keyword.id],
+                startDate: undefined,
+                endDate: new Date().toDateString(),
+                actors: [],
+                groups: [],
+                groupsMembers: [],
+                locations: [],
+                tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
+                type: EventType.types.map((t) => t.value),
+                _sort: "date",
+                _order: "DESC",
               }}
-              onClick={() => {}}
-              onActorClick={() => {}}
-              onGroupClick={() => {}}
-              onGroupMemberClick={() => {}}
-              onKeywordClick={() => {}}
+              keywords={[keyword]}
+              actors={[]}
+              groups={[]}
+              groupsMembers={[]}
+              onQueryChange={({ tab }) => {
+                navigateToResource.actors({ id: keyword.id }, { tab });
+              }}
             />
           </Box>
         );

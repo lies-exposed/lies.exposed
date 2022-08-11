@@ -27,7 +27,7 @@ const Template: Story<HierarchicalEdgeBundlingProps> = (args) => (
 
 const actors = A.range(0, 60).map(() => uuid().substr(0, 8));
 const nodes = actors.map((a) => ({
-  id: a,
+  id: a as any,
   label: a,
   group: Math.floor(Math.random() * 10).toString(),
   targets: A.range(0, Math.floor(Math.random() * 5)).map(
@@ -38,7 +38,7 @@ const nodes = actors.map((a) => ({
 const links = nodes.flatMap((n) => {
   return n.targets.map((t) => ({
     source: n.id,
-    target: t,
+    target: t as any,
     value: Math.floor(Math.random() * 5 + 1),
   }));
 });
