@@ -9,6 +9,7 @@ import {
   DialogTitle,
   Link,
   Typography,
+  Input
 } from "@liexp/ui/components/mui";
 import { getShareMedia, getTitle } from "@liexp/ui/helpers/event.helper";
 import * as React from "react";
@@ -125,7 +126,22 @@ export const TGPostButton: React.FC<TGPostButtonProps> = () => {
                 >
                   {sharePayload.date}
                 </Link>
-                - {sharePayload.content}
+                -
+                <Box>
+                  <Input
+                    fullWidth
+                    multiline
+                    name="content"
+                    defaultValue={sharePayload.content ?? ""}
+                    value={sharePayload.content ?? ""}
+                    onChange={(e) => {
+                      setSharePayload({
+                        ...sharePayload,
+                        content: e.target.value,
+                      });
+                    }}
+                  />
+                </Box>
               </Typography>
               <>
                 {sharePayload.keywords.map((k) => (
