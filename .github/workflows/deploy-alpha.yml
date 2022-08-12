@@ -54,24 +54,24 @@ jobs:
       #       --acl public-read \
       #       --region fra1
 
-      - name: Build Admin Web
-        run: yarn workspace admin-web build
-        env:
-          NODE_ENV: production
-          PUBLIC_URL: https://alpha.lies.exposed/admin/
-          API_URL: https://alpha.api.lies.exposed/v1
+      # - name: Build Admin Web
+      #   run: yarn workspace admin-web build
+      #   env:
+      #     NODE_ENV: production
+      #     PUBLIC_URL: https://alpha.lies.exposed/admin/
+      #     API_URL: https://alpha.api.lies.exposed/v1
 
-      - name: Upload Admin Web build to DO Space
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 sync ./services/admin-web/build s3://econnessione-alpha/admin \
-            --follow-symlinks \
-            --delete \
-            --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read \
-            --region fra1
+      # - name: Upload Admin Web build to DO Space
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
+      #   run: |
+      #     aws s3 sync ./services/admin-web/build s3://econnessione-alpha/admin \
+      #       --follow-symlinks \
+      #       --delete \
+      #       --endpoint https://fra1.digitaloceanspaces.com/ \
+      #       --acl public-read \
+      #       --region fra1
 
       - name: Build Web
         env:
@@ -82,22 +82,22 @@ jobs:
         run: yarn web build:app
 
 
-      - name: Upload Web build to DO Space
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 sync ./services/web/build s3://econnessione-alpha/web \
-            --follow-symlinks \
-            --delete \
-            --endpoint https://fra1.digitaloceanspaces.com/ \
-            --acl public-read \
-            --region fra1
+      # - name: Upload Web build to DO Space
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.ALPHA_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.ALPHA_SECRET_ACCESS_KEY }}
+      #   run: |
+      #     aws s3 sync ./services/web/build s3://econnessione-alpha/web \
+      #       --follow-symlinks \
+      #       --delete \
+      #       --endpoint https://fra1.digitaloceanspaces.com/ \
+      #       --acl public-read \
+      #       --region fra1
 
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.ALPHA_DO_ACCESS_TOKEN }}
+      # - name: Install doctl
+      #   uses: digitalocean/action-doctl@v2
+      #   with:
+      #     token: ${{ secrets.ALPHA_DO_ACCESS_TOKEN }}
 
-      - name: Flush CDN
-        run: doctl compute cdn flush fbe4de1b-1ca5-46fd-bd75-c57d56b0e0b8
+      # - name: Flush CDN
+      #   run: doctl compute cdn flush fbe4de1b-1ca5-46fd-bd75-c57d56b0e0b8
