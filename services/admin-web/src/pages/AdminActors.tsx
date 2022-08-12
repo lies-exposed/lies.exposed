@@ -1,3 +1,5 @@
+import { http } from "@liexp/shared/io";
+import { createExcerptValue } from "@liexp/shared/slate";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
@@ -11,7 +13,9 @@ import {
   CreateProps,
   Datagrid,
   DateField,
-  DateInput, EditProps, FormTab,
+  DateInput,
+  EditProps,
+  FormTab,
   FunctionField,
   ImageField,
   ImageInput,
@@ -24,10 +28,11 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useRecordContext,
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
+import { CreateEventButton } from "../components/Common/CreateEventButton";
 import { EditFormWithPreview } from "../components/Common/EditEventForm";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
@@ -165,6 +170,27 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
         <FormTab label="Events">
           <ReferenceArrayEventInput source="newEvents" />
           <ReferenceManyEventField source="id" target="actors[]" />
+          <CreateEventButton
+            transform={async (t, r) => {
+              if (t === http.Events.Death.DEATH.value) {
+                return {
+                  draft: true,
+                  type: t,
+                  excerpt: createExcerptValue(""),
+                  body: undefined,
+                  date: new Date(),
+                  payload: {
+                    victim: r.id as any,
+                    location: undefined,
+                  },
+                  media: [],
+                  keywords: [],
+                  links: [],
+                };
+              }
+              return await Promise.reject(new Error(`Can't create event ${t}`));
+            }}
+          />
         </FormTab>
       </TabbedForm>
     </EditFormWithPreview>
