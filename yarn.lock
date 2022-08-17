@@ -3020,7 +3020,7 @@ __metadata:
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^2.7.0
     "@types/react": ^17.0.48
-    "@types/webpack-bundle-analyzer": ^4.4.1
+    "@types/webpack-bundle-analyzer": ^4.4.2
     "@types/webpack-node-externals": ^2.5.3
     copy-webpack-plugin: ^11.0.0
     css-loader: ^6.7.1
@@ -6965,10 +6965,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.149, @types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.172, @types/lodash@npm:^4.14.182":
+"@types/lodash@npm:^4.14.149, @types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.172":
   version: 4.14.182
   resolution: "@types/lodash@npm:4.14.182"
   checksum: 7dd137aa9dbabd632408bd37009d984655164fa1ecc3f2b6eb94afe35bf0a5852cbab6183148d883e9c73a958b7fec9a9bcf7c8e45d41195add6a18c34958209
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4.14.183":
+  version: 4.14.183
+  resolution: "@types/lodash@npm:4.14.183"
+  checksum: 9c754dc7a2e5f26f9c67e494cffbe5447135a4e30eb2fcbc9da05dd5fa5fbf8579059bcf15014307c1c5d1c6d1b7870860618990d96abee9389d8cb79b3ac93c
   languageName: node
   linkType: hard
 
@@ -7082,10 +7089,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.48":
-  version: 16.11.48
-  resolution: "@types/node@npm:16.11.48"
-  checksum: 10cd539cb2cf5a8f51f3c2bd761c093b752e534b1f2dc0d7193debd7986145b68db2a5fd48498af641e8641fb8d24b7c4851ea3e30fb8f56cc13ac719cad1e1f
+"@types/node@npm:^16.11.49":
+  version: 16.11.49
+  resolution: "@types/node@npm:16.11.49"
+  checksum: 05545ee49da3b783ab77cddca45db6f4d47861c2bb148a17b774688e1082f20f27177591d140923724bcd8643b32291203f6f1eadba397e394232d4a1e28e07a
   languageName: node
   linkType: hard
 
@@ -7619,14 +7626,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-bundle-analyzer@npm:^4.4.1":
-  version: 4.4.1
-  resolution: "@types/webpack-bundle-analyzer@npm:4.4.1"
+"@types/webpack-bundle-analyzer@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "@types/webpack-bundle-analyzer@npm:4.4.2"
   dependencies:
     "@types/node": "*"
     tapable: ^2.2.0
     webpack: ^5
-  checksum: 50afdbd2a40545a8acda4adda09b98772dd646dea894dfa95d9f86d224d3df462405b5d0c04077958e87399cda4c9bac7451bbb7285c99e7220806b439ae7f72
+  checksum: 013260f0122e8d9d7041b16eb71cb25695019d57648d96774ad4a73345a25d9cd1e9667073cc8548110a3c1519321c93a085bbfaa479a983fab72d9eab8143b2
   languageName: node
   linkType: hard
 
@@ -8771,12 +8778,12 @@ __metadata:
     "@testing-library/user-event": ^14.4.3
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
-    "@types/lodash": ^4.14.182
-    "@types/node": ^16.11.48
+    "@types/lodash": ^4.14.183
+    "@types/node": ^16.11.49
     "@types/prettier": ^2.7.0
     "@types/react": ^17.0.48
     "@types/react-dom": ^17.0.17
-    "@types/webpack-bundle-analyzer": ^4.4.1
+    "@types/webpack-bundle-analyzer": ^4.4.2
     "@typescript-eslint/eslint-plugin": ^5.33.1
     "@typescript-eslint/parser": ^5.33.1
     debug: ^4.3.4
@@ -9132,7 +9139,7 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.8
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.48
+    "@types/node": ^16.11.49
     "@types/node-cron": ^3.0.2
     "@types/node-telegram-bot-api": ^0.57.1
     "@types/pg": ^8.6.5
@@ -27810,7 +27817,7 @@ __metadata:
     "@types/topojson-client": ^3.1.1
     "@types/topojson-server": ^3.0.1
     "@types/uuid": ^8.3.4
-    "@types/webpack-bundle-analyzer": ^4.4.1
+    "@types/webpack-bundle-analyzer": ^4.4.2
     "@types/webpack-node-externals": ^2.5.3
     "@typescript-eslint/eslint-plugin": ^5.33.1
     "@typescript-eslint/parser": ^5.33.1

@@ -28,7 +28,7 @@
     "@types/mini-css-extract-plugin": "^2.5.1",
     "@types/prettier": "^2.7.0",
     "@types/react": "^17.0.48",
-    "@types/webpack-bundle-analyzer": "^4.4.1",
+    "@types/webpack-bundle-analyzer": "^4.4.2",
     "@types/webpack-node-externals": "^2.5.3",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
