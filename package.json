@@ -71,10 +71,10 @@
   },
   "packageManager": "yarn@3.1.1",
   "resolutions": {
-    "@mui/lab": "5.0.0-alpha.94",
-    "@mui/material": "^5.10.0",
+    "@mui/lab": "5.0.0-alpha.95",
+    "@mui/material": "^5.10.1",
     "@mui/styles": "^5.9.3",
-    "@mui/system": "^5.10.0",
+    "@mui/system": "^5.10.1",
     "@mui/x-data-grid": "^5.15.0",
     "terser": ">=5.14.2"
   }
