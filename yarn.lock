@@ -3089,7 +3089,7 @@ __metadata:
     ts-endpoint: ^2.0.0
     ts-endpoint-express: ^2.0.0
     ts-io-error: ^2.0.0
-    ts-jest: ^28.0.7
+    ts-jest: ^28.0.8
     typescript: ^4.7.4
     uuid: ^8.3.2
   peerDependencies:
@@ -3193,7 +3193,7 @@ __metadata:
     topojson-client: ^3.1.0
     ts-endpoint: ^2.0.0
     ts-io-error: ^2.0.0
-    ts-jest: ^28.0.7
+    ts-jest: ^28.0.8
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft
@@ -8790,7 +8790,7 @@ __metadata:
     eslint: ^8.22.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^22.0.0
-    eslint-import-resolver-typescript: ^3.4.1
+    eslint-import-resolver-typescript: ^3.4.2
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.2.4
     eslint-plugin-node: ^11.1.0
@@ -8817,7 +8817,7 @@ __metadata:
     react-final-form-arrays: ^3.1.3
     react-helmet: ^6.1.0
     react-query: ^3.39.2
-    ts-jest: ^28.0.7
+    ts-jest: ^28.0.8
     typescript: ^4.7.4
     uuid: ^8.3.2
     web-vitals: ^2.1.4
@@ -9152,7 +9152,7 @@ __metadata:
     domino: ^2.1.6
     eslint: ^8.22.0
     eslint-config-prettier: ^8.5.0
-    eslint-import-resolver-typescript: ^3.4.1
+    eslint-import-resolver-typescript: ^3.4.2
     eslint-plugin-import: ^2.26.0
     express: ^4.18.1
     express-jwt: ^6.1.2
@@ -9177,7 +9177,7 @@ __metadata:
     puppeteer-core: ^13.7.0
     supertest: ^6.2.4
     ts-endpoint-express: ^2.0.0
-    ts-jest: ^28.0.7
+    ts-jest: ^28.0.8
     ts-node: ^10.9.1
     ts-shared: 2.0.0-alpha.6
     typeorm: ^0.3.7
@@ -13829,9 +13829,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-typescript@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "eslint-import-resolver-typescript@npm:3.4.1"
+"eslint-import-resolver-typescript@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "eslint-import-resolver-typescript@npm:3.4.2"
   dependencies:
     debug: ^4.3.4
     enhanced-resolve: ^5.10.0
@@ -13839,11 +13839,11 @@ __metadata:
     globby: ^13.1.2
     is-core-module: ^2.9.0
     is-glob: ^4.0.3
-    synckit: ^0.8.1
+    synckit: ^0.8.3
   peerDependencies:
     eslint: "*"
     eslint-plugin-import: "*"
-  checksum: 952aaa4f25435b009e6604bf8a81acee2db064de1cefcac0628fd5167711721829e911910534f8773fbfe6a12c21d60bb0d324351ad25cd092481d9f80f6105d
+  checksum: e54d8c02542cc85fc9703a064111a25585a7189b61445a209792ae50b718d273e5522be44c61f149f59292570eef6a08036d988c8477da9f6d8f3c6177801319
   languageName: node
   linkType: hard
 
@@ -18611,7 +18611,7 @@ __metadata:
     eslint: ^8.22.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^22.0.0
-    eslint-import-resolver-typescript: ^3.4.1
+    eslint-import-resolver-typescript: ^3.4.2
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.2.4
     eslint-plugin-node: ^11.1.0
@@ -18624,7 +18624,7 @@ __metadata:
     pm2: ^5.2.0
     prettier: ^2.7.1
     terser: ^5.14.2
-    ts-jest: ^28.0.7
+    ts-jest: ^28.0.8
     typescript: ^4.7.4
     webpack: ^5.74.0
   languageName: unknown
@@ -25976,13 +25976,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"synckit@npm:^0.8.1":
-  version: 0.8.1
-  resolution: "synckit@npm:0.8.1"
+"synckit@npm:^0.8.3":
+  version: 0.8.3
+  resolution: "synckit@npm:0.8.3"
   dependencies:
     "@pkgr/utils": ^2.3.0
     tslib: ^2.4.0
-  checksum: 36a1b699996f3bb251c8f828364e101cf08b2a20225cb39df9d7c2186380554b8172374babfe10f03f4b52ab8c453c16447c3cbf61108221f2c58c446bf8425a
+  checksum: ba6baa7c32e69b38eebb322a8eb1712a117f7f1eaa42e75623c7d6da43f0e61d3ac33fa962c2c58a8b37742f1e0ae9d21f04c9da0dbf34d618a8780055e9e1fa
   languageName: node
   linkType: hard
 
@@ -26543,9 +26543,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.7":
-  version: 28.0.7
-  resolution: "ts-jest@npm:28.0.7"
+"ts-jest@npm:^28.0.8":
+  version: 28.0.8
+  resolution: "ts-jest@npm:28.0.8"
   dependencies:
     bs-logger: 0.x
     fast-json-stable-stringify: 2.x
@@ -26572,7 +26572,7 @@ __metadata:
       optional: true
   bin:
     ts-jest: cli.js
-  checksum: be6ad6382e3b2e7b0c45d06616a4a02aeb6815bad2026fe8eeb4e0941205faa50ac3f5930adb7ba2fda5fea6a5739bfa507e2eac8764d2c729ddc8010681707a
+  checksum: c72e9292709e77ce47ac7813cb24feaa9d01dc983598d29a821f224b5cc190dc7d67e17379cef089095404c00b9d582ee91c727916f9ec289cb1b723df408ae3
   languageName: node
   linkType: hard
 
@@ -27836,7 +27836,7 @@ __metadata:
     eslint: ^8.22.0
     eslint-config-prettier: ^8.5.0
     eslint-config-standard-with-typescript: ^22.0.0
-    eslint-import-resolver-typescript: ^3.4.1
+    eslint-import-resolver-typescript: ^3.4.2
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.2.4
     eslint-plugin-node: ^11.1.0
