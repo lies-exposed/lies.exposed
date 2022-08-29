@@ -7,7 +7,6 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
-
 export interface HierarchicalEdgeBundlingDatum {
   id: UUID;
   label: string;
@@ -216,20 +215,31 @@ export function HierarchicalEdgeBundling({
           )
       );
 
-    // avatars defs
-    svg.append("g").append("defs");
-
     // avatars
+    svg
+      .append("g")
+      .selectAll("circle")
+      .data(root.leaves())
+      .join("clipPath")
+      .attr("id", (d) => d.data.id)
+      .append("circle")
+      .attr("r", 15)
+      .attr("cx", 15)
+      .attr("cy", 15);
+
     svg
       .append("g")
       .selectAll("image")
       .data(root.leaves())
-      .join("image")
+      .join("g")
       .attr(
         "transform",
         (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`
       )
+      .append("image")
       .attr("xlink:href", (d) => d.data.avatar ?? "")
+      .attr("clip-path", (d) => `url(#${d.data.id})`)
+      .attr("transform", (d) => `rotate(${360 - (d.x * 180) / Math.PI - 270})`)
       .attr("width", 30)
       .attr("height", 30);
 
