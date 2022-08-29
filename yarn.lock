@@ -8684,7 +8684,7 @@ __metadata:
     node-telegram-bot-api: ^0.58.0
     nodemon: ^2.0.19
     page-metadata-parser: ^1.1.4
-    pg: ^8.7.3
+    pg: ^8.8.0
     prettier: ^2.7.1
     puppeteer-core: ^13.7.0
     supertest: ^6.2.4
@@ -8692,7 +8692,7 @@ __metadata:
     ts-jest: ^28.0.8
     ts-node: ^10.9.1
     ts-shared: 2.0.0-alpha.6
-    typeorm: ^0.3.7
+    typeorm: ^0.3.9
     typeorm-uml: ^1.6.5
     typescript: ^4.7.4
     uuid: ^8.3.2
@@ -20468,6 +20468,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pg-pool@npm:^3.5.2":
+  version: 3.5.2
+  resolution: "pg-pool@npm:3.5.2"
+  peerDependencies:
+    pg: ">=8.0"
+  checksum: a5d029200257671f0c17ca54b9ab6213e2060e64e5cc792b78edd50ab471a26cd364890d05d546d9296949e079e943821cf2ceb4d488f4e6a6789fb781a628bf
+  languageName: node
+  linkType: hard
+
 "pg-protocol@npm:*, pg-protocol@npm:^1.5.0":
   version: 1.5.0
   resolution: "pg-protocol@npm:1.5.0"
@@ -20488,7 +20497,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg@npm:^8.4.2, pg@npm:^8.7.3":
+"pg@npm:^8.4.2":
   version: 8.7.3
   resolution: "pg@npm:8.7.3"
   dependencies:
@@ -20505,6 +20514,26 @@ __metadata:
     pg-native:
       optional: true
   checksum: d0e7040967779b9ccea16897f099510bcaf6bc86f77a6d8fa7e293c24d8bd2fd2ec46d99d6d1adc9be4cc8f254aa909361346b693088c1ba4501414f7afb2fe3
+  languageName: node
+  linkType: hard
+
+"pg@npm:^8.8.0":
+  version: 8.8.0
+  resolution: "pg@npm:8.8.0"
+  dependencies:
+    buffer-writer: 2.0.0
+    packet-reader: 1.0.0
+    pg-connection-string: ^2.5.0
+    pg-pool: ^3.5.2
+    pg-protocol: ^1.5.0
+    pg-types: ^2.1.0
+    pgpass: 1.x
+  peerDependencies:
+    pg-native: ">=3.0.1"
+  peerDependenciesMeta:
+    pg-native:
+      optional: true
+  checksum: fa30a85814dd7238b582c3bc6c0b9e2b0ae38dd0a6bb485ef480e64bb5ce589de6cb873ce4d3cd10c37a3e0a1e1281ba75dc7d80b1a68bae91999cd5b70d398b
   languageName: node
   linkType: hard
 
@@ -26018,9 +26047,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typeorm@npm:^0.3.7":
-  version: 0.3.7
-  resolution: "typeorm@npm:0.3.7"
+"typeorm@npm:^0.3.9":
+  version: 0.3.9
+  resolution: "typeorm@npm:0.3.9"
   dependencies:
     "@sqltools/formatter": ^1.2.2
     app-root-path: ^3.0.0
@@ -26096,7 +26125,7 @@ __metadata:
     typeorm: cli.js
     typeorm-ts-node-commonjs: cli-ts-node-commonjs.js
     typeorm-ts-node-esm: cli-ts-node-esm.js
-  checksum: b9a709fa1c103c98340ff055419f5de7fde478e35f246b2f6b212ad6c8954085f347c5a97ed2d94634cf9d51577035d8d71c4c4ccfd58b5f7a9579f434e71802
+  checksum: 5de1e5ac352640ea0b4c41cdfc4da2d3715709e8d0899dc7ec74a81a879dd22d0f99bd8244be3fc6353c2574e6657d3d863b4e4f0337278bb098e81afdacc473
   languageName: node
   linkType: hard
 

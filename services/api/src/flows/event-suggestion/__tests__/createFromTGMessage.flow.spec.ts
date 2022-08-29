@@ -12,6 +12,7 @@ import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as fc from "fast-check";
 import { pipe } from "fp-ts/lib/function";
+import { Equal } from "typeorm";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
@@ -177,7 +178,7 @@ describe("Create From TG Message", () => {
 
       const media = await throwTE(
         Test.ctx.db.findOneOrFail(MediaEntity, {
-          where: { description: message.caption },
+          where: { description: Equal(message.caption) },
         })
       );
 
@@ -198,7 +199,7 @@ describe("Create From TG Message", () => {
         link: undefined,
         photos: [media],
         hashtags: [],
-        videos: []
+        videos: [],
       });
     });
 
