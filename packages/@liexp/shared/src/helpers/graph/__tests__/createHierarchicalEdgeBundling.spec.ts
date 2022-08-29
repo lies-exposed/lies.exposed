@@ -1,6 +1,6 @@
 import { fc } from "@liexp/core/tests";
-import { ActorArb, GroupArb, UncategorizedArb } from "@liexp/shared/tests";
-import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
+import { ActorArb, GroupArb, UncategorizedArb } from "../../../tests";
+import { KeywordArb } from "../../../tests/arbitrary/Keyword.arbitrary";
 import { createHierarchicalEdgeBundling } from "../createHierarchicalEdgeBundlingData";
 
 describe("Create Hierarchy Edge Bundling", () => {

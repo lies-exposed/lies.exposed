@@ -1,7 +1,5 @@
 import { GetLogger } from "@liexp/core/logger";
-import { getEventsMetadata } from "@liexp/shared/helpers/event";
-import { Actor, Events, Group, Keyword } from "@liexp/shared/io/http";
-import { UUID } from "@liexp/shared/io/http/Common";
+import type { Graph } from "@visx/network/lib/types";
 import * as A from "fp-ts/lib/Array";
 import * as Eq from "fp-ts/lib/Eq";
 import * as Map from "fp-ts/lib/Map";
@@ -9,10 +7,9 @@ import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
-import {
-  HierarchicalEdgeBundlingDatum,
-  HierarchicalEdgeBundlingProps,
-} from "./HierarchicalEdgeBundling";
+import { Actor, Events, Group, Keyword } from "../../io/http";
+import { UUID } from "../../io/http/Common";
+import { getEventsMetadata } from "../event";
 
 const logger = GetLogger("hierarchy-edge-bundling");
 
@@ -27,6 +24,27 @@ interface CreateHierarchicalEdgeBundlingData {
 interface LinkMapKeys {
   source: UUID;
   target: UUID;
+}
+
+export interface HierarchicalEdgeBundlingDatum {
+  id: UUID;
+  label: string;
+  avatar?: string;
+  color?: string;
+  text?: string;
+  group: string;
+  targets: string[];
+}
+
+interface Link {
+  source: UUID;
+  target: UUID;
+  value: number;
+}
+
+export interface HierarchicalEdgeBundlingProps {
+  width: number;
+  graph: Graph<Link, HierarchicalEdgeBundlingDatum>;
 }
 
 const eqLinkKeys = Eq.eq.contramap(
@@ -72,18 +90,6 @@ export const createHierarchicalEdgeBundling = ({
           const otherRelations: Array<{ id: UUID }> = eventRelation.filter(
             (_) => _.id !== g.id
           );
-
-          // const group = pipe(
-          //   data.groups,
-          //   A.findFirst((g) => {
-          //     return pipe(
-          //       g.members,
-          //       O.fromPredicate((mm) => mm.length > 0),
-          //       O.chainNullableK((members) => members.includes(g.id)),
-          //       O.isSome
-          //     );
-          //   })
-          // );
 
           return pipe(
             Map.lookup(S.Eq)(g.id, acc1.nodes),

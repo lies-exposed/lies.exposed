@@ -24,6 +24,7 @@
     "migration:gen": "typeorm migration:generate -d ./ormconfig.js --check",
     "migration:run": "typeorm migration:run -d ./ormconfig.js",
     "migration:revert": "typeorm migration:revert -d ./ormconfig.js",
+    "create-event-stats": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/create-event-stats.ts",
     "parse-tg-message": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/parse-tg-message.ts",
     "extract-events": "DOTENV_CONFIG_PATH=../../.env yarn ts:node ./bin/extract-events.ts"
   },

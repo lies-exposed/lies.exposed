@@ -34,7 +34,7 @@ interface SearchEventQuery {
   order?: { [key: string]: "ASC" | "DESC" };
 }
 
-interface SearchEventOutput {
+export interface SearchEventOutput {
   results: EventV2Entity[];
   totals: EventTotals;
   total: number;
@@ -440,7 +440,7 @@ export const searchEventV2Query =
           totals.documentaries +
           totals.patents +
           totals.scientificStudies +
-          totals.scientificStudies +
+          totals.uncategorized +
           totals.transactions,
       }))
     );

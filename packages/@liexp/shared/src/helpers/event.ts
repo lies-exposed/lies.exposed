@@ -5,6 +5,8 @@ import * as Map from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
+import * as N from 'fp-ts/lib/number'
+import * as S from 'fp-ts/lib/string';
 import {
   Actor,
   Common,
@@ -21,7 +23,7 @@ import { eventMetadataMapEmpty } from "../mock-data/events/events-metadata";
 type EventsByYearMap = Map<number, Map<number, Events.Event[]>>;
 
 export const eqByUUID = pipe(
-  Eq.eqString,
+  S.Eq,
   Eq.contramap((f: Common.BaseProps) => f.id)
 );
 
@@ -42,16 +44,16 @@ export const eventsDataToNavigatorItems = (
     const month = frontmatter.date.getUTCMonth();
 
     const value = pipe(
-      Map.lookup(Eq.eqNumber)(year, acc),
+      Map.lookup(N.Eq)(year, acc),
       O.fold(
         () => Map.singleton(month, [e]),
         (monthMap) =>
           pipe(
-            Map.lookupWithKey(Eq.eqNumber)(month, monthMap),
+            Map.lookupWithKey(N.Eq)(month, monthMap),
             O.fold(
-              () => Map.insertAt(Eq.eqNumber)(month, [e])(monthMap),
+              () => Map.upsertAt(N.Eq)(month, [e])(monthMap),
               ([monthKey, eventsInMonth]) => {
-                return Map.insertAt(Eq.eqNumber)(
+                return Map.upsertAt(N.Eq)(
                   monthKey,
                   eventsInMonth.concat(e)
                 )(monthMap);
@@ -61,14 +63,14 @@ export const eventsDataToNavigatorItems = (
       )
     );
 
-    return Map.insertAt(Eq.eqNumber)(year, value)(acc);
+    return Map.upsertAt(N.Eq)(year, value)(acc);
   }, initial);
 
   const initialData: NavigationItem[] = [];
-  return Map.toArray(Ord.getDualOrd(Ord.ordNumber))(yearItems).reduce<
+  return Map.toArray(Ord.reverse(N.Ord))(yearItems).reduce<
     NavigationItem[]
   >((acc, [year, monthMap]) => {
-    const months = Map.toArray(Ord.getDualOrd(Ord.ordNumber))(monthMap).reduce<
+    const months = Map.toArray(Ord.reverse(N.Ord))(monthMap).reduce<
       NavigationItem[]
     >((monthAcc, [month, events]) => {
       return monthAcc.concat({
@@ -246,13 +248,13 @@ export const extractEventsMetadata =
     return results;
   };
 
-interface EventRelationIds {
+export interface EventRelationIds {
   actors: string[];
   groups: string[];
   groupsMembers: string[];
   keywords: string[];
   media: string[];
-  links: string[]
+  // links: string[]
 }
 
 export const getRelationIds = (e: Events.Event): EventRelationIds => {

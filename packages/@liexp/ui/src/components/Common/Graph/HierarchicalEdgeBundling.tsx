@@ -1,32 +1,13 @@
 // https://observablehq.com/@d3/bilevel-edge-bundling?collection=@d3/d3-hierarchy
 
-import { UUID } from "@liexp/shared/io/http/Common";
-import { Graph } from "@visx/network/lib/types";
+import {
+  HierarchicalEdgeBundlingDatum,
+  HierarchicalEdgeBundlingProps,
+} from "@liexp/shared/helpers/graph/createHierarchicalEdgeBundlingData";
 import * as d3 from "d3";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
-
-export interface HierarchicalEdgeBundlingDatum {
-  id: UUID;
-  label: string;
-  avatar?: string;
-  color?: string;
-  text?: string;
-  group: string;
-  targets: string[];
-}
-
-interface Link {
-  source: UUID;
-  target: UUID;
-  value: number;
-}
-
-export interface HierarchicalEdgeBundlingProps {
-  width: number;
-  graph: Graph<Link, HierarchicalEdgeBundlingDatum>;
-}
 
 type HierarchyLinkedNode<N> = N & {
   incoming: Array<[HierarchyLinkedNode<N>, HierarchyLinkedNode<N>]>;
@@ -259,3 +240,5 @@ export function HierarchicalEdgeBundling({
 
   return <svg id={SVG_ID} />;
 }
+
+export { HierarchicalEdgeBundlingProps }

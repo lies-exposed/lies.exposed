@@ -1,27 +1,25 @@
 import { GetLogger } from "@liexp/core/logger";
 import { ListEventOutput } from "@liexp/shared/endpoints/event.endpoints";
-import { getRelationIds } from "@liexp/shared/helpers/event";
+import { EventRelationIds } from "@liexp/shared/helpers/event";
+import { getNewRelationIds, EventTotals, updateCache, SearchEventsQueryCache } from "@liexp/shared/helpers/event/search-event";
 import {
   Actor,
   Events,
   Group,
   GroupMember,
   Keyword,
-  Media,
+  Media
 } from "@liexp/shared/io/http";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { APIError } from "@liexp/shared/providers/api.provider";
 import { sequenceS } from "fp-ts/lib/Apply";
-import * as A from "fp-ts/lib/Array";
-import * as M from "fp-ts/lib/Map";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import * as S from "fp-ts/lib/string";
 import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
   useQuery,
-  UseQueryResult,
+  UseQueryResult
 } from "react-query";
 import { foldTE } from "../../providers/DataProvider";
 import { api } from "../api";
@@ -32,15 +30,6 @@ export const toKey = (cachePrefix: string, hash?: string): string => {
   const cacheKey = hash ? `${cachePrefix}-${hash}` : cachePrefix;
   return cacheKey;
 };
-
-export interface EventTotals {
-  uncategorized: number;
-  deaths: number;
-  scientificStudies: number;
-  patents: number;
-  documentaries: number;
-  transactions: number;
-}
 
 export interface SearchEventQueryResult {
   events: Events.SearchEvent.SearchEvent[];
@@ -54,16 +43,6 @@ export interface SearchEventQueryResult {
   total: number;
 }
 
-interface SearchEventsQueryCache {
-  events: Events.SearchEvent.SearchEvent[];
-  actors: Map<string, Actor.Actor>;
-  groups: Map<string, Group.Group>;
-  groupsMembers: Map<string, GroupMember.GroupMember>;
-  media: Map<string, Media.Media>;
-  keywords: Map<string, Keyword.Keyword>;
-  // links: Map<string, Link.Link>;
-}
-
 const initialSearchEventsQueryCache: SearchEventsQueryCache = {
   events: [],
   actors: new Map(),
@@ -73,315 +52,12 @@ const initialSearchEventsQueryCache: SearchEventsQueryCache = {
   keywords: new Map(),
   // links: new Map(),
 };
+
 let searchEventsQueryCache: SearchEventsQueryCache =
   initialSearchEventsQueryCache;
 
 export const clearSearchEventsQueryCache = (): void => {
   searchEventsQueryCache = initialSearchEventsQueryCache;
-};
-
-interface EventRelationIds {
-  actors: string[];
-  groups: string[];
-  groupsMembers: string[];
-  media: string[];
-  keywords: string[];
-  // links: string[];
-}
-
-const getNewRelationIds = (
-  events: Events.Event[],
-  s: SearchEventsQueryCache
-): EventRelationIds => {
-  // get relation ids from cache;
-
-  const actorIds = pipe(s.actors, M.keys(S.Ord));
-  const groupIds = pipe(s.groups, M.keys(S.Ord));
-  const groupsMemberIds = pipe(s.groupsMembers, M.keys(S.Ord));
-  const mediaIds = pipe(s.media, M.keys(S.Ord));
-  const keywordIds = pipe(s.keywords, M.keys(S.Ord));
-  // const linkIds = pipe(s.links, M.keys(S.Ord));
-
-  const init: EventRelationIds = {
-    actors: [],
-    groups: [],
-    groupsMembers: [],
-    media: [],
-    keywords: [],
-    // links: [],
-  };
-  
-  return pipe(
-    events,
-    A.reduce(init, (acc, e) => {
-      const { actors, groups, groupsMembers, media, keywords } =
-        getRelationIds(e);
-
-      const newActors = actors.filter(
-        (a) => ![...actorIds, ...acc.actors].includes(a)
-      );
-
-      const newGroups = groups.filter(
-        (a) => ![...groupIds, ...acc.groups].includes(a)
-      );
-      const newGroupsMembers = groupsMembers.filter(
-        (g) => ![...groupsMemberIds, ...acc.groupsMembers].includes(g)
-      );
-      const newMediaIds = media.filter(
-        (m) => ![...acc.media, ...mediaIds].includes(m)
-      );
-      const newKeywordIds = keywords.filter(
-        (k) => ![...keywordIds, ...acc.keywords].includes(k)
-      );
-
-      // const newLinkIds = links.filter(
-      //   (k) => ![...linkIds, ...acc.links].includes(k)
-      // );
-
-      return {
-        actors: acc.actors.concat(newActors),
-        groups: acc.groups.concat(newGroups),
-        groupsMembers: acc.groupsMembers.concat(newGroupsMembers),
-        media: acc.media.concat(newMediaIds),
-        keywords: acc.keywords.concat(newKeywordIds),
-        // links: acc.links.concat(newLinkIds),
-      };
-    })
-  );
-};
-
-const mergeState = (
-  s: SearchEventsQueryCache,
-  update: {
-    events: { data: Events.Event[]; total: number; totals: EventTotals };
-    actors: Actor.Actor[];
-    groups: Group.Group[];
-    groupsMembers: GroupMember.GroupMember[];
-    media: Media.Media[];
-    keywords: Keyword.Keyword[];
-    // links: Link.Link[];
-  }
-): SearchEventsQueryCache => {
-  const actors = pipe(
-    update.actors,
-    A.reduce(s.actors, (accActors, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accActors);
-    })
-  );
-
-  const groups = pipe(
-    update.groups,
-    A.reduce(s.groups, (accGroups, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accGroups);
-    })
-  );
-
-  const groupsMembers = pipe(
-    update.groupsMembers,
-    A.reduce(s.groupsMembers, (accGroupsMembers, gm) => {
-      return M.upsertAt(S.Eq)(gm.id, gm)(accGroupsMembers);
-    })
-  );
-
-  const media = pipe(
-    update.media,
-    A.reduce(s.media, (accMedia, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accMedia);
-    })
-  );
-
-  const keywords = pipe(
-    update.keywords,
-    A.reduce(s.keywords, (accActors, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accActors);
-    })
-  );
-
-  // const links = pipe(
-  //   update.links,
-  //   A.reduce(s.links, (accActors, a) => {
-  //     return M.upsertAt(S.Eq)(a.id, a)(accActors);
-  //   })
-  // );
-
-  const newEvents = toSearchEvent(update.events.data, {
-    events: s.events,
-    actors,
-    groups,
-    groupsMembers,
-    media,
-    keywords,
-    // links,
-  });
-
-  return {
-    events: newEvents,
-    actors,
-    groups,
-    groupsMembers,
-    media,
-    keywords,
-    // links,
-  };
-};
-
-const toSearchEvent = (
-  events: Events.Event[],
-  s: SearchEventsQueryCache
-): Events.SearchEvent.SearchEvent[] => {
-  return pipe(
-    events,
-    A.reduce([] as Events.SearchEvent.SearchEvent[], (acc, e) => {
-      const {
-        actors: actorIds,
-        groups: groupIds,
-        groupsMembers: groupsMembersIds,
-        media: mediaIds,
-        keywords: keywordIds,
-      } = getRelationIds(e);
-
-      const actors = pipe(
-        actorIds,
-        A.map((a) => pipe(s.actors, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      const groups = pipe(
-        groupIds,
-        A.map((a) => pipe(s.groups, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      const groupsMembers = pipe(
-        groupsMembersIds,
-        A.map((a) => pipe(s.groupsMembers, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      const media = pipe(
-        mediaIds,
-        A.map((a) => pipe(s.media, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      const keywords = pipe(
-        keywordIds,
-        A.map((a) => pipe(s.keywords, M.lookup(S.Eq)(a))),
-        A.compact
-      );
-
-      switch (e.type) {
-        case Events.EventType.types[0].value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                victim: actors[0],
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.EventType.types[2].value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                authors: actors,
-                publisher: groups[0],
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.EventType.types[3].value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                owners: { actors, groups },
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.EventType.types[4].value: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                media: media.find((m) => m.id === e.payload.media) ?? media[0],
-                authors: {
-                  actors: actors.filter((a) =>
-                    e.payload.authors.actors.includes(a.id)
-                  ),
-                  groups: groups.filter((g) =>
-                    e.payload.authors.groups.includes(g.id)
-                  ),
-                },
-                subjects: {
-                  actors: actors.filter((a) =>
-                    e.payload.subjects.actors.includes(a.id)
-                  ),
-                  groups: groups.filter((g) =>
-                    e.payload.subjects.groups.includes(g.id)
-                  ),
-                },
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        case Events.EventType.types[5].value: {
-          const from =
-            e.payload.from.type === "Group"
-              ? groups.find((g) => g.id === e.payload.from.id)
-              : actors.find((a) => a.id === e.payload.from.id);
-
-          const to =
-            e.payload.to.type === "Group"
-              ? groups.find((g) => g.id === e.payload.to.id)
-              : actors.find((a) => a.id === e.payload.to.id);
-
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                from: { ...e.payload.from, id: from as any },
-                to: { ...e.payload.to, id: to as any },
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-        default: {
-          return acc.concat([
-            {
-              ...e,
-              payload: {
-                ...e.payload,
-                actors,
-                groups,
-                groupsMembers,
-              },
-              media,
-              keywords,
-            },
-          ]);
-        }
-      }
-    })
-  );
 };
 
 // const getStateByHash = (
@@ -515,7 +191,7 @@ const searchEventsQ =
           TE.right,
           TE.chain(fetchRelations),
           TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
-            searchEventsQueryCache = mergeState(searchEventsQueryCache, {
+            searchEventsQueryCache = updateCache(searchEventsQueryCache, {
               events: { data, ...response },
               actors: actors.data,
               groups: groups.data,
@@ -627,7 +303,7 @@ export const getEventsFromLinkQuery = ({
           TE.right,
           TE.chain(fetchRelations),
           TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
-            searchEventsQueryCache = mergeState(searchEventsQueryCache, {
+            searchEventsQueryCache = updateCache(searchEventsQueryCache, {
               events: { data, total, totals },
               actors: actors.data,
               groups: groups.data,
