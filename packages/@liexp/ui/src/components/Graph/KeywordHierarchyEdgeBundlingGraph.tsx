@@ -1,7 +1,7 @@
+import { createHierarchicalEdgeBundling } from "@liexp/shared/helpers/graph/createHierarchicalEdgeBundlingData";
 import * as React from "react";
 import { searchEventsQuery } from "../../state/queries/SearchEventsQuery";
 import { HierarchicalEdgeBundling } from "../Common/Graph/HierarchicalEdgeBundling";
-import { createHierarchicalEdgeBundling } from "../Common/Graph/createHierarchicalEdgeBundlingData";
 import QueriesRenderer from "../QueriesRenderer";
 
 export interface KeywordHierarchyEdgeBundlingGraphProps {
