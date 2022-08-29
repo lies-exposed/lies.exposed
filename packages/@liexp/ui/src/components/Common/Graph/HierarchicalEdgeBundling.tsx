@@ -1,22 +1,26 @@
 // https://observablehq.com/@d3/bilevel-edge-bundling?collection=@d3/d3-hierarchy
 
+import { UUID } from "@liexp/shared/io/http/Common";
 import { Graph } from "@visx/network/lib/types";
 import * as d3 from "d3";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 
+
 export interface HierarchicalEdgeBundlingDatum {
-  id: string;
+  id: UUID;
   label: string;
+  avatar?: string;
+  color?: string;
   text?: string;
   group: string;
   targets: string[];
 }
 
 interface Link {
-  source: string;
-  target: string;
+  source: UUID;
+  target: UUID;
   value: number;
 }
 
@@ -40,7 +44,7 @@ function bilink(
   const leaves = root.leaves();
   for (const d of leaves) {
     d.incoming = [];
-    d.outgoing = d.data.targets.map((i) => [
+    d.outgoing = (d.data.targets ?? []).map((i) => [
       d,
       map.get(i) as HierarchyLinkedNode<
         d3.HierarchyNode<HierarchicalEdgeBundlingDatum>
@@ -81,7 +85,7 @@ export function HierarchicalEdgeBundling({
     children: Array<{ id: string; children: HierarchicalEdgeBundlingDatum[] }>;
   } => {
     const { nodes, links } = graph;
-    const groupById: Map<
+    const nodeMap: Map<
       string,
       { id: string; children: HierarchicalEdgeBundlingDatum[] }
     > = new Map();
@@ -89,21 +93,21 @@ export function HierarchicalEdgeBundling({
 
     for (const node of nodes) {
       const group = pipe(
-        O.fromNullable(groupById.get(node.group)),
+        O.fromNullable(nodeMap.get(node.group)),
         O.getOrElse(() => ({
           id: node.group.toString(),
           children: [] as HierarchicalEdgeBundlingDatum[],
         })),
         (g) => ({ ...g, children: [...g.children, node], targets: [] })
       );
-      groupById.set(node.group, group);
+      nodeMap.set(node.group, group);
     }
 
     for (const { source: sourceId, target: targetId } of links) {
       nodeById.get(sourceId)?.targets.push(targetId);
     }
 
-    return { children: Array.from(groupById.values()) };
+    return { children: Array.from(nodeMap.values()) };
   };
 
   React.useEffect(() => {
@@ -126,18 +130,22 @@ export function HierarchicalEdgeBundling({
       .attr("viewBox", [-width / 2, -width / 2, width, width] as any);
 
     const hovered = function (
-      this: SVGTextElement,
+      this: SVGElement,
+      _: any,
       d: HierarchyLinkedNode<
         d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
       >
     ): void {
       link.style("mix-blend-mode", null);
 
-      const incoming = d.incoming;
+      const incoming = d.incoming ?? [];
+      const outgoing = d.outgoing ?? [];
 
       const incomingPaths = incoming.map((d: any) => d.path);
+      const incomingTexts = incoming.map(([d]: any) => d.text);
 
-      const incomingTexts = incoming.map(([d]: [any, any]) => d.text);
+      const outgoingPaths = outgoing.map((d: any) => d.path);
+      const outgoingText = outgoing.map(([, d]: any) => d.text);
 
       d3.select(this).attr("font-weight", "bold");
       d3.select(this).attr("cursor", "pointer");
@@ -147,33 +155,36 @@ export function HierarchicalEdgeBundling({
         .attr("fill", colorin)
         .attr("font-weight", "bold");
 
-      d3.selectAll(d.outgoing.map((d: any) => d.path))
-        .attr("stroke", colorout)
-        .raise();
+      d3.selectAll(outgoingPaths).attr("stroke", colorout).raise();
 
-      d3.selectAll(d.outgoing.map(([, d]: [any, any]) => d.text))
+      d3.selectAll(outgoingText)
         .attr("fill", colorout)
         .attr("font-weight", "bold");
     };
+
     const outed = function (
-      this: SVGTextElement,
+      this: SVGElement,
+      _: any,
       d: HierarchyLinkedNode<
         d3.HierarchyPointNode<HierarchicalEdgeBundlingDatum>
       >
     ): void {
       link.style("mix-blend-mode", "multiply");
 
+      const incoming = d.incoming ?? [];
+      const outgoing = d.outgoing ?? [];
       d3.select(this).attr("font-weight", null);
-      d3.selectAll(d.incoming.map((d: any) => d.path)).attr("stroke", null);
-      d3.selectAll(d.incoming.map(([d]: [any, any]) => d.text))
+      d3.selectAll(incoming.map((d: any) => d.path)).attr("stroke", null);
+      d3.selectAll(incoming.map(([d]: [any, any]) => d.text))
         .attr("fill", null)
         .attr("font-weight", null);
-      d3.selectAll(d.outgoing.map((d: any) => d.path)).attr("stroke", null);
-      d3.selectAll(d.outgoing.map(([, d]: [any, any]) => d.text))
+      d3.selectAll(outgoing.map((d: any) => d.path)).attr("stroke", null);
+      d3.selectAll(outgoing.map(([, d]: [any, any]) => d.text))
         .attr("fill", null)
         .attr("font-weight", null);
     };
 
+    // labels
     svg
       .append("g")
       .attr("font-family", "sans-serif")
@@ -187,7 +198,7 @@ export function HierarchicalEdgeBundling({
       )
       .append("text")
       .attr("dy", "0.31em")
-      .attr("x", (d) => (d.x < Math.PI ? 6 : -6))
+      .attr("x", (d) => (d.x < Math.PI ? 40 : -40))
       .attr("text-anchor", (d) => (d.x < Math.PI ? "start" : "end"))
       .attr("transform", (d) => (d.x >= Math.PI ? "rotate(180)" : null))
       .text((d) => d.data.label)
@@ -204,6 +215,23 @@ export function HierarchicalEdgeBundling({
               `${d.data.id} ${d.outgoing.length} outgoing ${d.incoming.length} incoming`
           )
       );
+
+    // avatars defs
+    svg.append("g").append("defs");
+
+    // avatars
+    svg
+      .append("g")
+      .selectAll("image")
+      .data(root.leaves())
+      .join("image")
+      .attr(
+        "transform",
+        (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`
+      )
+      .attr("xlink:href", (d) => d.data.avatar ?? "")
+      .attr("width", 30)
+      .attr("height", 30);
 
     const link = svg
       .append("g")

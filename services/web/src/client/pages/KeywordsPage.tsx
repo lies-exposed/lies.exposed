@@ -1,4 +1,5 @@
 import { Keyword } from "@liexp/shared/io/http";
+import KeywordsDistributionGraph from "@liexp/ui/components/Graph/KeywordDistributionGraph";
 import SearchableInput from "@liexp/ui/components/Input/SearchableInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
@@ -14,14 +15,22 @@ const KeywordsPage: React.FC = () => {
       {/* <PageContent queries={{ pageContent: { path: "keywords" } }} /> */}
       <QueriesRenderer
         queries={{
-          keywords: useKeywordsQuery({
-            pagination: { page: 1, perPage: 20 },
-            sort: { field: "id", order: "ASC" },
-            filter: {},
-          }, false),
+          keywords: useKeywordsQuery(
+            {
+              pagination: { page: 1, perPage: 20 },
+              sort: { field: "id", order: "ASC" },
+              filter: {},
+            },
+            false
+          ),
         }}
         render={({ keywords: { data: keywords } }) => (
           <>
+            <KeywordsDistributionGraph
+              onClick={(k) => {
+                navigateTo.keywords({ id: k.id });
+              }}
+            />
             <SearchableInput<Keyword.Keyword & { selected: boolean }>
               label="keywords"
               items={keywords.map((k) => ({

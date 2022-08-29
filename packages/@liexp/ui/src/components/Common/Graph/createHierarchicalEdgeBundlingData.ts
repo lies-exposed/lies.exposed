@@ -1,101 +1,139 @@
-import { Events, Group } from "@liexp/shared/io/http";
+import { GetLogger } from "@liexp/core/logger";
+import { getEventsMetadata } from "@liexp/shared/helpers/event";
+import { Actor, Events, Group, Keyword } from "@liexp/shared/io/http";
+import { UUID } from "@liexp/shared/io/http/Common";
 import * as A from "fp-ts/lib/Array";
 import * as Eq from "fp-ts/lib/Eq";
 import * as Map from "fp-ts/lib/Map";
 import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
+import * as S from "fp-ts/lib/string";
 import {
   HierarchicalEdgeBundlingDatum,
   HierarchicalEdgeBundlingProps,
 } from "./HierarchicalEdgeBundling";
 
+const logger = GetLogger("hierarchy-edge-bundling");
+
 interface CreateHierarchicalEdgeBundlingData {
-  events: Events.Uncategorized.Uncategorized[];
+  events: Events.SearchEvent.SearchEvent[];
   groups: Group.Group[];
+  actors: Actor.Actor[];
+  relation: "actor" | "group" | "keyword";
+  hideEmptyRelations: boolean;
 }
 
 interface LinkMapKeys {
-  source: string;
-  target: string;
+  source: UUID;
+  target: UUID;
 }
 
 const eqLinkKeys = Eq.eq.contramap(
-  Eq.eqString,
+  S.Eq,
   (kk: LinkMapKeys) => `${kk.source}-${kk.target}`
 );
 
-export const createHierarchicalEdgeBundling = (
-  data: CreateHierarchicalEdgeBundlingData
-): HierarchicalEdgeBundlingProps => {
-  const nodesMap: Map<string, HierarchicalEdgeBundlingDatum> = Map.empty;
+export const createHierarchicalEdgeBundling = ({
+  hideEmptyRelations,
+  relation,
+  ...data
+}: CreateHierarchicalEdgeBundlingData): HierarchicalEdgeBundlingProps => {
+  const nodesMap: Map<UUID, HierarchicalEdgeBundlingDatum> = Map.empty;
   const linksMap: Map<LinkMapKeys, number> = Map.empty;
   const init = { nodes: nodesMap, links: linksMap };
+  logger.debug.log("create hierarchy edge bundling from data", data);
   return pipe(
     data.events,
     A.reduce(init, (acc, e) => {
-      const actorIds = pipe(
-        e.payload.actors,
-        O.fromPredicate((i) => i.length > 0),
-        O.getOrElse((): string[] => [])
-      );
+      const {
+        actors: eventActors,
+        groups: eventGroups,
+        keywords: eventKeywords,
+      } = getEventsMetadata(e);
+
+      logger.debug.log("event %O", e);
+      logger.debug.log("relations %O", {
+        actors: eventActors,
+        groups: eventGroups,
+        keywords: eventKeywords,
+      });
+
+      const eventRelation: Array<Keyword.Keyword | Actor.Actor | Group.Group> =
+        relation === "actor"
+          ? eventActors
+          : relation === "group"
+          ? eventGroups
+          : eventKeywords;
 
       const result = pipe(
-        actorIds,
-        A.reduce(acc, (acc1, aId) => {
-          const otherActors = actorIds.filter((_) => _ !== aId).map((_) => _);
-
-          const group = pipe(
-            data.groups,
-            A.findFirst((g) => {
-              return true;
-              // return pipe(
-              //   g.members,
-              //   O.chainNullableK((members) => {
-              //     // return members.find((m) => m === a.id);
-              //   }),
-              //   O.isSome
-              // );
-            })
+        eventRelation,
+        A.reduce(acc, (acc1, g) => {
+          const otherRelations: Array<{ id: UUID }> = eventRelation.filter(
+            (_) => _.id !== g.id
           );
 
+          // const group = pipe(
+          //   data.groups,
+          //   A.findFirst((g) => {
+          //     return pipe(
+          //       g.members,
+          //       O.fromPredicate((mm) => mm.length > 0),
+          //       O.chainNullableK((members) => members.includes(g.id)),
+          //       O.isSome
+          //     );
+          //   })
+          // );
+
           return pipe(
-            Map.lookup(Eq.eqString)(aId, acc1.nodes),
+            Map.lookup(S.Eq)(g.id, acc1.nodes),
             O.alt(() => {
               return pipe(
-                group,
+                O.some(g),
                 O.map(
-                  (g): HierarchicalEdgeBundlingDatum => ({
-                    id: aId,
-                    label: aId,
+                  (g: any): HierarchicalEdgeBundlingDatum => ({
+                    id: g.id,
+                    label: g.tag ?? g.fullName ?? g.name,
+                    avatar: g.avatar ?? "",
+                    color: g.color,
                     group: g.id,
                     targets: [],
                   })
                 )
               );
             }),
-            O.map((n) => ({ ...n, targets: otherActors })),
+            O.map((n) => ({
+              ...n,
+              targets: otherRelations.map((a) => a.id as string),
+            })),
             (n) => {
               return pipe(
                 n,
                 O.map((o) => {
+                  const nodes = hideEmptyRelations
+                    ? o.targets.length > 0
+                      ? Map.upsertAt(S.Eq as Eq.Eq<UUID>)(g.id, o)(acc1.nodes)
+                      : acc1.nodes
+                    : Map.upsertAt(S.Eq as Eq.Eq<UUID>)(g.id, o)(acc1.nodes);
+
                   return {
                     links: pipe(
-                      otherActors,
-                      A.reduce(acc1.links, (linksMap, actorUUID) => {
-                        const linkKey = { source: o.id, target: actorUUID };
+                      otherRelations,
+                      A.reduce(acc1.links, (linksMap, rel) => {
+                        const linkKey = { source: o.id, target: rel.id };
 
                         const value = pipe(
                           Map.lookup(eqLinkKeys)(linkKey, linksMap),
                           O.map((value) => value + 1),
                           O.getOrElse(() => 1)
                         );
-                        return Map.insertAt(eqLinkKeys)(linkKey, value)(
+
+                        return Map.upsertAt(eqLinkKeys)(linkKey, value)(
                           linksMap
                         );
                       })
                     ),
-                    nodes: Map.insertAt(Eq.eqString)(aId, o)(acc1.nodes),
+                    nodes,
                   };
                 }),
                 O.getOrElse(() => ({ links: acc1.links, nodes: acc1.nodes }))
@@ -106,17 +144,27 @@ export const createHierarchicalEdgeBundling = (
       );
       return result;
     }),
-    ({ nodes, links }) => {
+    (results) => {
+      const nodes = Map.toArray(S.Ord)(results.nodes).map(([, n]) => n);
+      const links = pipe(
+        results.links,
+        Map.toArray(
+          Ord.ord.contramap(
+            S.Ord,
+            (kk: LinkMapKeys) => `${kk.source}-${kk.target}`
+          )
+        ),
+        A.map(([kk, value]) => ({ ...kk, value }))
+      );
+
+      logger.debug.log("Result nodes %O", nodes);
+      logger.debug.log("Result links %O", links);
+
       return {
         width: 600,
         graph: {
-          nodes: Map.toArray(Ord.ordString)(nodes).map(([, n]) => n),
-          links: Map.toArray(
-            Ord.ord.contramap(
-              Ord.ordString,
-              (kk: LinkMapKeys) => `${kk.source}-${kk.target}`
-            )
-          )(links).map(([kk, value]) => ({ ...kk, value })),
+          nodes,
+          links,
         },
       };
     }
