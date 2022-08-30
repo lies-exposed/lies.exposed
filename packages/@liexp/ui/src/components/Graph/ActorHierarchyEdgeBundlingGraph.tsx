@@ -1,7 +1,7 @@
+import { StatsType } from "@liexp/shared/io/http/Stats";
 import * as React from "react";
-import { searchEventsQuery } from "../../state/queries/SearchEventsQuery";
+import { useStatsQuery } from "../../state/queries/DiscreteQueries";
 import { HierarchicalEdgeBundling } from "../Common/Graph/HierarchicalEdgeBundling";
-import { createHierarchicalEdgeBundling } from "../Common/Graph/createHierarchicalEdgeBundlingData";
 import QueriesRenderer from "../QueriesRenderer";
 
 export interface ActorHierarchyEdgeBundlingGraphProps {
@@ -15,25 +15,13 @@ export const ActorHierarchyEdgeBundlingGraph: React.FC<
   return (
     <QueriesRenderer
       queries={{
-        events: searchEventsQuery({
-          hash: `actor-edge-bundling-${props.actor}`,
-          actors: [props.actor],
-          _start: 0,
-          _end: 100,
-          _sort: "createdAt",
-          _order: "DESC",
+        graph: useStatsQuery({
+          id: props.actor,
+          type: StatsType.types[1].value,
         }),
       }}
-      render={({ events }) => {
-        const graph = createHierarchicalEdgeBundling({
-          events: events.events,
-          groups: events.groups,
-          actors: events.actors,
-          hideEmptyRelations: true,
-          relation: "actor",
-        });
-
-        return <HierarchicalEdgeBundling {...graph} width={props.width} />;
+      render={({ graph }) => {
+        return <HierarchicalEdgeBundling graph={graph} width={props.width} hideLabels={true} />;
       }}
     />
   );

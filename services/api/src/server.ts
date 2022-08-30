@@ -48,6 +48,7 @@ import { MakeOpenGraphRoutes } from "@routes/open-graph/openGraph.routes";
 import { MakePageRoutes } from "@routes/pages/pages.route";
 import { MakeProjectRoutes } from "@routes/projects/project.routes";
 import { RouteContext } from "@routes/route.types";
+import { MakeStatsRoutes } from "@routes/stats/stats.routes";
 import { MakeUploadsRoutes } from "@routes/uploads/upload.routes";
 import { MakeUploadFileRoute } from "@routes/uploads/uploadFile.controller.ts";
 import { MakeUserRoutes } from "@routes/users/User.routes";
@@ -203,6 +204,9 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   // open graphs
   MakeOpenGraphRoutes(router, ctx);
+
+  // stats
+  MakeStatsRoutes(router, ctx);
 
   MakeUploadsRoutes(router, ctx);
 

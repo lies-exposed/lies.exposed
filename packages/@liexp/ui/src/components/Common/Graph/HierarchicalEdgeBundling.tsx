@@ -54,6 +54,7 @@ const colornone = "#ccc";
 export function HierarchicalEdgeBundling({
   width,
   graph,
+  hideLabels = false,
 }: HierarchicalEdgeBundlingProps): JSX.Element {
   const SVG_ID = "hierararchicalEdgeBundling";
 
@@ -164,37 +165,39 @@ export function HierarchicalEdgeBundling({
         .attr("font-weight", null);
     };
 
-    // labels
-    svg
-      .append("g")
-      .attr("font-family", "sans-serif")
-      .attr("font-size", 10)
-      .selectAll("g")
-      .data(root.leaves())
-      .join("g")
-      .attr(
-        "transform",
-        (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`
-      )
-      .append("text")
-      .attr("dy", "0.31em")
-      .attr("x", (d) => (d.x < Math.PI ? 40 : -40))
-      .attr("text-anchor", (d) => (d.x < Math.PI ? "start" : "end"))
-      .attr("transform", (d) => (d.x >= Math.PI ? "rotate(180)" : null))
-      .text((d) => d.data.label)
-      .each(function (d: any) {
-        d.text = this;
-      })
-      .on("mouseover", hovered)
-      .on("mouseout", outed)
-      .call((text) =>
-        text
-          .append("title")
-          .text(
-            (d) =>
-              `${d.data.id} ${d.outgoing.length} outgoing ${d.incoming.length} incoming`
-          )
-      );
+    if (!hideLabels) {
+      // labels
+      svg
+        .append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 10)
+        .selectAll("g")
+        .data(root.leaves())
+        .join("g")
+        .attr(
+          "transform",
+          (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`
+        )
+        .append("text")
+        .attr("dy", "0.31em")
+        .attr("x", (d) => (d.x < Math.PI ? 40 : -40))
+        .attr("text-anchor", (d) => (d.x < Math.PI ? "start" : "end"))
+        .attr("transform", (d) => (d.x >= Math.PI ? "rotate(180)" : null))
+        .text((d) => d.data.label)
+        .each(function (d: any) {
+          d.text = this;
+        })
+        .on("mouseover", hovered)
+        .on("mouseout", outed)
+        .call((text) =>
+          text
+            .append("title")
+            .text(
+              (d) =>
+                `${d.data.id} ${d.outgoing.length} outgoing ${d.incoming.length} incoming`
+            )
+        );
+    }
 
     // avatars
     svg
@@ -208,7 +211,7 @@ export function HierarchicalEdgeBundling({
       .attr("cx", 15)
       .attr("cy", 15);
 
-    svg
+    const avatars = svg
       .append("g")
       .selectAll("image")
       .data(root.leaves())
@@ -223,6 +226,10 @@ export function HierarchicalEdgeBundling({
       .attr("transform", (d) => `rotate(${360 - (d.x * 180) / Math.PI - 270})`)
       .attr("width", 30)
       .attr("height", 30);
+
+    if (hideLabels) {
+      avatars.on("mouseover", hovered).on("mouseout", outed);
+    }
 
     const link = svg
       .append("g")
@@ -241,4 +248,4 @@ export function HierarchicalEdgeBundling({
   return <svg id={SVG_ID} />;
 }
 
-export { HierarchicalEdgeBundlingProps }
+export { HierarchicalEdgeBundlingProps };

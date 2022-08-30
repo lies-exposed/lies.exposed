@@ -6,6 +6,7 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { useTheme } from "../theme";
 import Editor from "./Common/Editor/index";
+import { GroupHierarchyEdgeBundlingGraph } from './Graph/GroupHierarchyEdgeBundlingGraph';
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 import { Grid, Typography } from "./mui";
@@ -64,6 +65,9 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         </Grid>
       </Grid>
       <Grid container style={{ marginBottom: 20 }}>
+        <Grid item md={6}>
+          <GroupHierarchyEdgeBundlingGraph group={group.id} width={600} />
+        </Grid>
         {ownedGroups.length > 0 ? (
           <Grid item md={6}>
             <Typography variant="h6">Owned groups</Typography>

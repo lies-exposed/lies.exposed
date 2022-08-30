@@ -1,5 +1,6 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import { EventType } from "@liexp/shared/io/http/Events";
+import { StatsType } from "@liexp/shared/io/http/Stats";
 import {
   fetchActor,
   fetchActors,
@@ -14,6 +15,7 @@ import {
   fetchLinks,
   fetchMedia,
   fetchPageContentByPath,
+  fetchStats,
   getActorQueryKey,
   getActorsQueryKey,
   getAreaQueryKey,
@@ -83,7 +85,11 @@ export const routes = [
           false
         ),
         queryFn: fetchGroupsMembers,
-      }
+      },
+      {
+        queryKey: ["stats", { id: groupId, type: StatsType.types[2].value }],
+        queryFn: fetchStats,
+      },
     ],
   },
   // groups
@@ -135,6 +141,10 @@ export const routes = [
           false
         ),
         queryFn: fetchGroups,
+      },
+      {
+        queryKey: ["stats", { id: actorId, type: StatsType.types[1].value }],
+        queryFn: fetchStats,
       },
     ],
   },
@@ -337,11 +347,14 @@ export const routes = [
           queryFn: fetchGroupsMembers,
         },
         {
-          queryKey: getKeywordsQueryKey({
-            pagination: { page: 1, perPage: q.keywords.length },
-            sort: { field: "updatedAt", order: "DESC" },
-            filter: { ids: q.keywords },
-          }, true),
+          queryKey: getKeywordsQueryKey(
+            {
+              pagination: { page: 1, perPage: q.keywords.length },
+              sort: { field: "updatedAt", order: "DESC" },
+              filter: { ids: q.keywords },
+            },
+            true
+          ),
           queryFn: fetchKeywords,
         },
         {
@@ -360,7 +373,15 @@ export const routes = [
       }
       return <NotFoundPage />;
     },
-    queries: async () => [...commonQueries],
+    queries: async (params: any) => {
+      return [
+        ...commonQueries,
+        {
+          queryKey: ["stats", { id: params.id, type: StatsType.types[0].value }],
+          queryFn: fetchStats,
+        },
+      ];
+    },
   },
   {
     path: "/keywords",
@@ -394,9 +415,12 @@ export const routes = [
         queryFn: fetchPageContentByPath,
       },
       {
-        queryKey: getAreaQueryKey({
-          filter: null,
-        }, true),
+        queryKey: getAreaQueryKey(
+          {
+            filter: null,
+          },
+          true
+        ),
         queryFn: fetchAreas,
       },
     ],

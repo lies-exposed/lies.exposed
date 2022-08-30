@@ -7,6 +7,7 @@ import { DeathBox } from "../containers/DeathBox";
 import { Avatar } from "./Common/Avatar";
 import EditButton from "./Common/Button/EditButton";
 import Editor from "./Common/Editor";
+import { ActorHierarchyEdgeBundlingGraph } from "./Graph/ActorHierarchyEdgeBundlingGraph";
 import GroupList from "./lists/GroupList";
 import { Box, Grid, Typography } from "./mui";
 
@@ -31,7 +32,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           md={3}
           sm={4}
           style={{
-            display: 'flex',
+            display: "flex",
             alignItems: "flex-start",
             justifyContent: "center",
           }}
@@ -67,6 +68,9 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
                 flexDirection: "row",
               }}
             />
+          </Box>
+          <Box>
+            <ActorHierarchyEdgeBundlingGraph actor={actor.id} width={600} />
           </Box>
         </Grid>
         <Grid item md={6} sm={6} xs={12}>
