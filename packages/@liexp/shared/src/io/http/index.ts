@@ -17,6 +17,7 @@ import * as Page from "./Page";
 import * as Project from "./Project";
 import * as ProjectImage from "./ProjectImage";
 import * as Query from "./Query";
+import * as Stats from './Stats';
 import * as Topic from "./Topic";
 import * as User from "./User";
 import * as Video from "./Video";
@@ -55,6 +56,7 @@ export {
   User,
   Page,
   Query,
+  Stats,
   Network,
   Topic,
   EventSuggestion

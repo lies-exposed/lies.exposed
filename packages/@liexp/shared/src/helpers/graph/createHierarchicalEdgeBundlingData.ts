@@ -7,7 +7,7 @@ import * as O from "fp-ts/lib/Option";
 import * as Ord from "fp-ts/lib/Ord";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
-import { Actor, Events, Group, Keyword } from "../../io/http";
+import { Actor, Events, Group, Keyword, Stats } from "../../io/http";
 import { UUID } from "../../io/http/Common";
 import { getEventsMetadata } from "../event";
 
@@ -17,7 +17,7 @@ interface CreateHierarchicalEdgeBundlingData {
   events: Events.SearchEvent.SearchEvent[];
   groups: Group.Group[];
   actors: Actor.Actor[];
-  relation: "actor" | "group" | "keyword";
+  relation: Stats.StatsType;
   hideEmptyRelations: boolean;
 }
 
@@ -44,6 +44,7 @@ interface Link {
 
 export interface HierarchicalEdgeBundlingProps {
   width: number;
+  hideLabels?: boolean;
   graph: Graph<Link, HierarchicalEdgeBundlingDatum>;
 }
 
@@ -78,12 +79,11 @@ export const createHierarchicalEdgeBundling = ({
       });
 
       const eventRelation: Array<Keyword.Keyword | Actor.Actor | Group.Group> =
-        relation === "actor"
+        relation === Stats.StatsType.types[1].value
           ? eventActors
-          : relation === "group"
-          ? eventGroups
-          : eventKeywords;
-
+          : relation === Stats.StatsType.types[0].value
+          ? eventKeywords
+          : eventGroups;
       const result = pipe(
         eventRelation,
         A.reduce(acc, (acc1, g) => {

@@ -477,3 +477,32 @@ export const useAreaQuery = (params: {
 }): UseQueryResult<Area.Area, APIError> => {
   return useQuery(["areas", params], fetchArea);
 };
+
+export const fetchStats = async (params: any): Promise<any> => {
+  return await fetchQuery(Queries.Stats.getList)(params).then(
+    (results) => results.data[0]
+  );
+};
+
+export const useStatsQuery = (params: {
+  id: string;
+  type: string;
+}): UseQueryResult<any, APIError> => {
+  return useQuery(
+    [
+      "stats",
+      {
+        filter: params,
+        pagination: {
+          perPage: 1,
+          page: 1,
+        },
+        sort: {
+          order: "DESC",
+          field: "date",
+        },
+      },
+    ],
+    fetchStats
+  );
+};

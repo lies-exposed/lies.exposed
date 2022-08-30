@@ -27,7 +27,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         actors: [],
         groups: [],
         hideEmptyRelations: false,
-        relation: 'keyword'
+        relation: 'keywords'
       });
 
       expect(graph.nodes.length).toBe(10);
@@ -58,7 +58,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         actors,
         groups,
         hideEmptyRelations: false,
-        relation: 'keyword'
+        relation: 'keywords'
       });
 
       expect(graph.nodes.length).toBe(2);
@@ -106,7 +106,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         actors,
         groups,
         hideEmptyRelations: true,
-        relation: 'keyword'
+        relation: 'keywords'
       });
 
       expect(graph.nodes.length).toBe(5);
