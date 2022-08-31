@@ -2,8 +2,9 @@
 
 import {
   HierarchicalEdgeBundlingDatum,
-  HierarchicalEdgeBundlingProps,
+  HierarchicalEdgeBundlingProps as BaseHierarchicalEdgeBundlingProps,
 } from "@liexp/shared/helpers/graph/createHierarchicalEdgeBundlingData";
+import { HierarchyPointNode } from "@visx/hierarchy/lib/types";
 import * as d3 from "d3";
 import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
@@ -51,10 +52,25 @@ const colorin = "#00f";
 const colorout = "#f00";
 const colornone = "#ccc";
 
+export interface HierarchicalEdgeBundlingOnClickProps {
+  onNodeClick: (n: HierarchyPointNode<any>) => void;
+  onLinkClick: (
+    l: [
+      HierarchyLinkedNode<HierarchyPointNode<any>>,
+      HierarchyLinkedNode<HierarchyPointNode<any>>
+    ]
+  ) => void;
+}
+
+type HierarchicalEdgeBundlingProps = BaseHierarchicalEdgeBundlingProps &
+  HierarchicalEdgeBundlingOnClickProps;
+
 export function HierarchicalEdgeBundling({
   width,
   graph,
   hideLabels = false,
+  onNodeClick,
+  onLinkClick,
 }: HierarchicalEdgeBundlingProps): JSX.Element {
   const SVG_ID = "hierararchicalEdgeBundling";
 
@@ -189,6 +205,7 @@ export function HierarchicalEdgeBundling({
         })
         .on("mouseover", hovered)
         .on("mouseout", outed)
+        .on("click", (_, d) => onNodeClick(d))
         .call((text) =>
           text
             .append("title")
@@ -207,9 +224,9 @@ export function HierarchicalEdgeBundling({
       .join("clipPath")
       .attr("id", (d) => d.data.id)
       .append("circle")
-      .attr("r", 15)
-      .attr("cx", 15)
-      .attr("cy", 15);
+      .attr("r", 25)
+      .attr("cx", 25)
+      .attr("cy", 25);
 
     const avatars = svg
       .append("g")
@@ -224,11 +241,14 @@ export function HierarchicalEdgeBundling({
       .attr("xlink:href", (d) => d.data.avatar ?? "")
       .attr("clip-path", (d) => `url(#${d.data.id})`)
       .attr("transform", (d) => `rotate(${360 - (d.x * 180) / Math.PI - 270})`)
-      .attr("width", 30)
-      .attr("height", 30);
+      .attr("width", 50)
+      .attr("height", 50);
 
     if (hideLabels) {
-      avatars.on("mouseover", hovered).on("mouseout", outed);
+      avatars
+        .on("mouseover", hovered)
+        .on("mouseout", outed)
+        .on("click", (_, d) => onNodeClick(d));
     }
 
     const link = svg
@@ -239,9 +259,13 @@ export function HierarchicalEdgeBundling({
       .data(root.leaves().flatMap((leaf) => leaf.outgoing))
       .join("path")
       .style("mix-blend-mode", "multiply")
+      .style("cursor", "pointer")
       .attr("d", ([i, o]) => line(i.path(o)))
       .each(function (d: any) {
         d.path = this;
+      })
+      .on("click", (_, d) => {
+        onLinkClick(d);
       });
   }, [graph.nodes.length]);
 

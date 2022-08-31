@@ -1,15 +1,18 @@
 import { Keyword } from "@liexp/shared/io/http";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";
+import { HierarchicalEdgeBundlingOnClickProps } from "./Common/Graph/HierarchicalEdgeBundling";
 import { KeywordHierarchyEdgeBundlingGraph } from "./Graph/KeywordHierarchyEdgeBundlingGraph";
 import { Grid, Typography } from "./mui";
 
-export interface KeywordPageContentProps extends Keyword.Keyword {}
+export interface KeywordPageContentProps {
+  keyword: Keyword.Keyword;
+  hierarchicalGraph: HierarchicalEdgeBundlingOnClickProps;
+}
 
 export const KeywordPageContent: React.FC<KeywordPageContentProps> = ({
-  id,
-  tag,
-  color,
+  keyword: { id, tag, color },
+  hierarchicalGraph
 }) => {
   return (
     <Grid container>
@@ -29,7 +32,7 @@ export const KeywordPageContent: React.FC<KeywordPageContentProps> = ({
         <ParentSize style={{ maxWidth: 600 }}>
           {({ width }) => {
             return (
-              <KeywordHierarchyEdgeBundlingGraph keyword={id} width={width} />
+              <KeywordHierarchyEdgeBundlingGraph {...hierarchicalGraph} keyword={id} width={width}  />
             );
           }}
         </ParentSize>

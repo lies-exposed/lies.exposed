@@ -4,7 +4,6 @@ import {
 } from "@liexp/ui/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { groupPageContentArgs } from "@liexp/ui/components/examples/GroupPageContentExample";
 import {
   useGroupsQuery,
   useGroupMembersQuery,
@@ -57,7 +56,7 @@ const Template: Story<GroupPageContentProps> = (props) => {
                 <MainContent>
                   <GroupPageContent
                     {...props}
-                    {...group}
+                    group={group}
                     groupsMembers={groupsMembers.data}
                   />
                 </MainContent>
@@ -72,6 +71,12 @@ const Template: Story<GroupPageContentProps> = (props) => {
 
 const GroupPageContentExample = Template.bind({});
 
-GroupPageContentExample.args = groupPageContentArgs;
+GroupPageContentExample.args = {
+  ownedGroups: [],
+  hierarchicalGraph: {
+    onNodeClick(n) {},
+    onLinkClick(ll) {},
+  },
+};
 
 export { GroupPageContentExample };

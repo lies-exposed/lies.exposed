@@ -9,7 +9,7 @@ import {
   useGroupsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
-import { useRouteQuery } from "../utils/history.utils";
+import { queryToHash, useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 import { EventsPanel } from "@containers/EventsPanel";
 
@@ -22,11 +22,14 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
     <QueriesRenderer
       queries={{
         actor: useActorQuery({ id: actorId }),
-        groups: useGroupsQuery({
-          pagination: { perPage: 20, page: 1 },
-          sort: { field: "createdAt", order: "DESC" },
-          filter: { members: [actorId] },
-        }, false),
+        groups: useGroupsQuery(
+          {
+            pagination: { perPage: 20, page: 1 },
+            sort: { field: "createdAt", order: "DESC" },
+            filter: { members: [actorId] },
+          },
+          false
+        ),
       }}
       render={({ actor, groups: { data: groups } }) => {
         return (
@@ -42,6 +45,28 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                 groups={groups}
                 onGroupClick={(g) => navigateToResource.groups({ id: g.id })}
                 onActorClick={(a) => navigateToResource.actors({ id: a.id })}
+                hierarchicalGraph={{
+                  onNodeClick: (n) => {
+                    navigateToResource.events(
+                      {},
+                      {
+                        hash: queryToHash({
+                          actors: [n.data.id],
+                        }),
+                      }
+                    );
+                  },
+                  onLinkClick: (ll) => {
+                    navigateToResource.events(
+                      {},
+                      {
+                        hash: queryToHash({
+                          actors: ll.map((l) => l.data.id),
+                        }),
+                      }
+                    );
+                  },
+                }}
               />
             </MainContent>
             <EventsPanel

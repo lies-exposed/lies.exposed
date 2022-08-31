@@ -12,6 +12,10 @@ const dataMenuItem = {
       label: "Events",
     },
     {
+      view: "/keywords",
+      label: "Keywords",
+    },
+    {
       view: "/actors",
       label: "Actors",
     },

@@ -4,17 +4,18 @@ import * as React from "react";
 import { GroupPageContent, GroupPageContentProps } from "../GroupPageContent";
 import { Card } from "../mui";
 
-
 export const groupPageContentArgs: GroupPageContentProps = {
-  ...goodGroup,
-  // tableOfContents: O.none,
-  // timeToRead: O.none,
+  group: goodGroup,
   projects: [],
   funds: [],
   groupsMembers: [],
   onMemberClick: () => {},
   ownedGroups: [],
-  onGroupClick: () => undefined
+  onGroupClick: () => undefined,
+  hierarchicalGraph: {
+    onNodeClick: () => {},
+    onLinkClick: () => {},
+  },
 };
 
 export const GroupPageContentExample: React.FC<GroupPageContentProps> = (

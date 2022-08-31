@@ -1,10 +1,6 @@
-import { Keyword } from "@liexp/shared/io/http";
 import KeywordsDistributionGraph from "@liexp/ui/components/Graph/KeywordDistributionGraph";
-import SearchableInput from "@liexp/ui/components/Input/SearchableInput";
+import { AutocompleteKeywordInput } from "@liexp/ui/components/Input/AutocompleteKeywordInput";
 import { MainContent } from "@liexp/ui/components/MainContent";
-import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
-import { KeywordListItem } from "@liexp/ui/components/lists/KeywordList";
-import { useKeywordsQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
@@ -12,48 +8,16 @@ const KeywordsPage: React.FC = () => {
   const navigateTo = useNavigateToResource();
   return (
     <MainContent>
-      {/* <PageContent queries={{ pageContent: { path: "keywords" } }} /> */}
-      <QueriesRenderer
-        queries={{
-          keywords: useKeywordsQuery(
-            {
-              pagination: { page: 1, perPage: 20 },
-              sort: { field: "id", order: "ASC" },
-              filter: {},
-            },
-            false
-          ),
+      <AutocompleteKeywordInput
+        selectedItems={[]}
+        onItemClick={(k) => {
+          navigateTo.keywords({ id: k[0].id });
         }}
-        render={({ keywords: { data: keywords } }) => (
-          <>
-            <KeywordsDistributionGraph
-              onClick={(k) => {
-                navigateTo.keywords({ id: k.id });
-              }}
-            />
-            <SearchableInput<Keyword.Keyword & { selected: boolean }>
-              label="keywords"
-              items={keywords.map((k) => ({
-                ...k,
-                selected: false,
-              }))}
-              getValue={(t) => (typeof t === "string" ? t : t.tag)}
-              selectedItems={[]}
-              renderOption={(props, item, state) => (
-                <KeywordListItem
-                  item={item}
-                  onClick={(keyword) => {
-                    // navigateTo.keywords({ id: keyword.id });
-                  }}
-                />
-              )}
-              onSelectItem={(item) => {
-                navigateTo.keywords({ id: item.id });
-              }}
-              onUnselectItem={() => {}}
-            />
-          </>
-        )}
+      />
+      <KeywordsDistributionGraph
+        onClick={(k) => {
+          navigateTo.keywords({ id: k.id });
+        }}
       />
     </MainContent>
   );

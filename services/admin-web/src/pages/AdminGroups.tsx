@@ -2,29 +2,31 @@ import * as io from "@liexp/shared/io";
 import { Media } from "@liexp/shared/io/http";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
-import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Typography } from "@liexp/ui/components/mui";
-import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import {
   ArrayInput,
   ArrayInputProps,
-  AutocompleteArrayInput, Create,
-  CreateProps, Datagrid,
+  AutocompleteArrayInput,
+  Create,
+  CreateProps,
+  Datagrid,
   DateField,
-  DateInput, EditProps,
-  FormDataConsumer,
-  FormTab, FunctionField, ImageField,
+  DateInput,
+  EditProps, FormTab,
+  FunctionField,
+  ImageField,
   ImageInput,
   List,
   RaRecord,
   ReferenceArrayInput,
   ReferenceManyField,
-  SelectInput, SelectInputProps, SimpleForm,
+  SelectInput,
+  SelectInputProps,
+  SimpleForm,
   SimpleFormIterator,
   TabbedForm,
   TextField,
@@ -33,11 +35,11 @@ import {
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
-import { EditFormWithPreview } from '../components/Common/EditEventForm';
+import { EditFormWithPreview } from "../components/Common/EditEventForm";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceActorInput from "../components/Common/ReferenceActorInput";
 import { WebPreviewButton } from "../components/Common/WebPreviewButton";
-import GroupPreview from '../components/previews/GroupPreview';
+import GroupPreview from "../components/previews/GroupPreview";
 import { apiProvider } from "@client/HTTPAPI";
 import { uploadImages } from "@client/MediaAPI";
 
@@ -213,27 +215,6 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               <DateField source="endDate" />
             </Datagrid>
           </ReferenceManyField>
-        </FormTab>
-        <FormTab label="Preview">
-          <FormDataConsumer>
-            {({ formData, ...rest }) => {
-              return pipe(
-                io.http.Group.Group.decode(formData),
-                E.fold(ValidationErrorsLayout, (p) => (
-                  <GroupPageContent
-                    {...p}
-                    ownedGroups={[]}
-                    subGroups={[]}
-                    onGroupClick={() => {}}
-                    groupsMembers={[]}
-                    projects={[]}
-                    funds={[]}
-                    onMemberClick={() => {}}
-                  />
-                ))
-              );
-            }}
-          </FormDataConsumer>
         </FormTab>
       </TabbedForm>
     </EditFormWithPreview>

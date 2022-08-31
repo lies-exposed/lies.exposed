@@ -1,4 +1,4 @@
-import { EventType } from '@liexp/shared/io/http/Events';
+import { EventType } from "@liexp/shared/io/http/Events";
 import { GroupPageContent } from "@liexp/ui/components/GroupPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
@@ -10,7 +10,7 @@ import {
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";
-import { useRouteQuery } from "../utils/history.utils";
+import { queryToHash, useRouteQuery } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 
 const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
@@ -29,7 +29,7 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
             },
           },
           false
-        )
+        ),
       }}
       render={({ group, groupsMembers }) => {
         return (
@@ -41,7 +41,7 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
                 urlPath={`groups/${group.id}`}
               />
               <GroupPageContent
-                {...group}
+                group={group}
                 groupsMembers={groupsMembers.data}
                 funds={[]}
                 projects={[]}
@@ -54,6 +54,28 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
                   navigateTo.groups({
                     id: g.id,
                   });
+                }}
+                hierarchicalGraph={{
+                  onNodeClick: (n) => {
+                    navigateTo.events(
+                      {},
+                      {
+                        hash: queryToHash({
+                          groups: [n.data.id],
+                        }),
+                      }
+                    );
+                  },
+                  onLinkClick: (ll) => {
+                    navigateTo.events(
+                      {},
+                      {
+                        hash: queryToHash({
+                          groups: ll.map((l) => l.data.id),
+                        }),
+                      }
+                    );
+                  },
                 }}
                 ownedGroups={[]}
               />
