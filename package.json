@@ -44,7 +44,7 @@
     "node": ">= 14"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.1.1",
+    "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/prettier": "^2.7.0",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
