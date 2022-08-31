@@ -1,12 +1,11 @@
 import * as fs from "fs";
 import path from "path";
 import { createExcerptValue } from "@liexp/shared/slate";
-import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReadableString.arbitrary";
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
 import {
   TGMessageArb,
-  TGPhotoArb,
+  TGPhotoArb
 } from "@liexp/shared/tests/arbitrary/common/TGMessage.arb";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
@@ -14,7 +13,6 @@ import * as fc from "fast-check";
 import { pipe } from "fp-ts/lib/function";
 import { Equal } from "typeorm";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
-import { EventV2Entity } from "@entities/Event.v2.entity";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { MediaEntity } from "@entities/Media.entity";
@@ -41,6 +39,7 @@ describe("Create From TG Message", () => {
       const description = fc.sample(HumanReadableStringArb(), 1)[0];
 
       Test.mocks.urlMetadata.fetchMetadata.mockResolvedValueOnce({
+        url,
         description,
       });
 
@@ -74,15 +73,9 @@ describe("Create From TG Message", () => {
       );
 
       expect(result).toMatchObject({
-        status: "PENDING",
-        payload: {
-          type: "New",
-          event: {
-            type: "Uncategorized",
-            excerpt: expectedExcerpt,
-            links: [expectedLink.id],
-          },
-        },
+        link: { id: expectedLink.id, description },
+        photos: [],
+        videos: [],
       });
 
       await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result.id]));
@@ -98,15 +91,6 @@ describe("Create From TG Message", () => {
       };
 
       [link] = await throwTE(Test.ctx.db.save(LinkEntity, [link]));
-
-      let [event]: any[] = fc.sample(UncategorizedArb, 1).map((e) => ({
-        ...e,
-        links: [link],
-      }));
-
-      [event] = await throwTE(
-        Test.ctx.db.save(EventV2Entity, [event] as any[])
-      );
 
       const result = await throwTE(
         createFromTGMessage(Test.ctx)(
@@ -127,16 +111,16 @@ describe("Create From TG Message", () => {
         )
       );
 
-      await throwTE(Test.ctx.db.delete(EventV2Entity, [event.id]));
-
       await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
 
       expect(result).toMatchObject({
-        id: event.id,
+        link: {
+          id: link.id,
+        },
       });
     });
 
-    test.only("succeeds with a photo", async () => {
+    test("succeeds with a photo", async () => {
       const title = fc.sample(HumanReadableStringArb(), 1)[0];
 
       const [message] = fc.sample(TGMessageArb, 1).map((m) => ({
@@ -203,7 +187,7 @@ describe("Create From TG Message", () => {
       });
     });
 
-    test("succeeds with sample message #96", async () => {
+    test.skip("succeeds with sample message #96", async () => {
       const message = pipe(
         fs.readFileSync(
           path.resolve(__dirname, "../../../../temp/tg/messages/96.json"),

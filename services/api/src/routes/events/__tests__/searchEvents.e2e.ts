@@ -183,7 +183,7 @@ describe("Search Events", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(totals.uncategorized).toBeGreaterThanOrEqual(totalEvents);
+    expect(totals.uncategorized).toBeLessThanOrEqual(totalEvents);
   });
 
   afterAll(async () => {

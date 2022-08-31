@@ -27,7 +27,7 @@ describe("Create Hierarchy Edge Bundling", () => {
         actors: [],
         groups: [],
         hideEmptyRelations: false,
-        relation: 'keywords'
+        relation: "keywords",
       });
 
       expect(graph.nodes.length).toBe(10);
@@ -58,20 +58,28 @@ describe("Create Hierarchy Edge Bundling", () => {
         actors,
         groups,
         hideEmptyRelations: false,
-        relation: 'keywords'
+        relation: "keywords",
       });
 
       expect(graph.nodes.length).toBe(2);
-      expect(graph.nodes).toMatchObject([
-        {
-          id: keywords[1].id,
-          targets: [keywords[2].id],
-        },
-        {
-          id: keywords[2].id,
-          targets: [keywords[1].id],
-        },
-      ]);
+      expect(
+        graph.nodes.sort((a, b) => a.label.localeCompare(b.label))
+      ).toMatchObject(
+        [
+          {
+            id: keywords[1].id,
+            label: keywords[1].tag,
+            targets: [keywords[2].id],
+          },
+          {
+            id: keywords[2].id,
+            label: keywords[2].tag,
+            targets: [keywords[1].id],
+          },
+        ]
+          .sort((a, b) => a.label.localeCompare(b.label))
+          .map((k) => ({ id: k.id, label: k.label }))
+      );
 
       expect(graph.links.length).toBe(2);
       expect(graph.links).toMatchObject([
@@ -106,29 +114,20 @@ describe("Create Hierarchy Edge Bundling", () => {
         actors,
         groups,
         hideEmptyRelations: true,
-        relation: 'keywords'
+        relation: "keywords",
       });
 
       expect(graph.nodes.length).toBe(5);
-      expect(graph.nodes).toMatchObject([
-        {
-          id: keywords[8].id,
-        },
-        {
-          id: keywords[4].id,
-        },
-        {
-          id: keywords[2].id,
-        },
-        {
-          id: keywords[0].id,
-        },
-        {
-          id: keywords[6].id,
-        },
-      ]);
+      
+      expect(
+        graph.nodes.sort((a, b) => a.label.localeCompare(b.label))
+      ).toMatchObject(
+        [keywords[0], keywords[2], keywords[4], keywords[6], keywords[8]]
+          .sort((a, b) => a.tag.localeCompare(b.tag))
+          .map((k) => ({ id: k.id, label: k.tag }))
+      );
 
-      expect(graph.links.length).toBe(9);
+      expect(graph.links.length).toBe(8);
     });
   });
 });
