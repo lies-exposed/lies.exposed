@@ -132,7 +132,7 @@ export const createStatsByEntityType =
       return pipe(
         searchEventV2Query(ctx)({
           actors: type === StatsType.types[1].value ? O.some([id]) : O.none,
-          groups: O.none,
+          groups: type === StatsType.types[2].value ? O.some([id]): O.none,
           groupsMembers: O.none,
           keywords: type === StatsType.types[0].value ? O.some([id]) : O.none,
           links: O.none,
