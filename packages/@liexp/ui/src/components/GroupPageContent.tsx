@@ -6,29 +6,32 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { useTheme } from "../theme";
 import Editor from "./Common/Editor/index";
+import { HierarchicalEdgeBundlingOnClickProps } from './Common/Graph/HierarchicalEdgeBundling';
 import { GroupHierarchyEdgeBundlingGraph } from './Graph/GroupHierarchyEdgeBundlingGraph';
 import { ActorList } from "./lists/ActorList";
 import GroupList from "./lists/GroupList";
 import { Grid, Typography } from "./mui";
 
-export interface GroupPageContentProps extends Group.Group {
+export interface GroupPageContentProps {
+  group: Group.Group;
   groupsMembers: GroupMember[];
   projects: Project.Project[];
   funds: any[];
   ownedGroups: Group.Group[];
   onMemberClick: (m: Actor.Actor) => void;
   onGroupClick: (g: Group.Group) => void;
+  hierarchicalGraph: HierarchicalEdgeBundlingOnClickProps;
 }
 
 export const GroupPageContent: React.FC<GroupPageContentProps> = ({
+  group,
   onMemberClick,
   projects,
   funds,
-  body,
   groupsMembers,
   ownedGroups,
   onGroupClick,
-  ...group
+  hierarchicalGraph
 }) => {
   const theme = useTheme();
 
@@ -66,7 +69,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
       </Grid>
       <Grid container style={{ marginBottom: 20 }}>
         <Grid item md={6}>
-          <GroupHierarchyEdgeBundlingGraph group={group.id} width={600} />
+          <GroupHierarchyEdgeBundlingGraph {...hierarchicalGraph} group={group.id} width={600} />
         </Grid>
         {ownedGroups.length > 0 ? (
           <Grid item md={6}>
@@ -91,9 +94,9 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
             avatarSize="small"
           />
         </Grid>
-        {isValidValue(body) ? (
+        {isValidValue(group.body) ? (
           <Grid item sm={12}>
-            <Editor value={body} readOnly />
+            <Editor value={group.body} readOnly />
           </Grid>
         ) : null}
       </Grid>

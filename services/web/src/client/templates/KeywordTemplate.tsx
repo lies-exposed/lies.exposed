@@ -6,8 +6,8 @@ import { Box } from "@liexp/ui/components/mui";
 import { useKeywordQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
 import { EventsPanel } from "../containers/EventsPanel";
-import { useRouteQuery } from "../utils/history.utils";
-import { useNavigateToResource } from '../utils/location.utils';
+import { queryToHash, useRouteQuery } from "../utils/history.utils";
+import { useNavigateToResource } from "../utils/location.utils";
 
 const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
   const navigateToResource = useNavigateToResource();
@@ -20,7 +20,31 @@ const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
         return (
           <Box display="flex" flexDirection="column" height="100%">
             <SEO title={"keywords"} urlPath={`keywords/${keyword.tag}`} />
-            <KeywordPageContent {...keyword} />
+            <KeywordPageContent
+              keyword={keyword}
+              hierarchicalGraph={{
+                onNodeClick(n) {
+                  navigateToResource.events(
+                    {},
+                    {
+                      hash: queryToHash({
+                        keywords: [n.data.id],
+                      }),
+                    }
+                  );
+                },
+                onLinkClick: ([firstK, secondK]) => {
+                  navigateToResource.events(
+                    {},
+                    {
+                      hash: queryToHash({
+                        keywords: [firstK.data.id, secondK.data.id],
+                      }),
+                    }
+                  );
+                },
+              }}
+            />
 
             <EventsPanel
               hash={`keyword-${keywordId}`}

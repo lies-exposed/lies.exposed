@@ -7,6 +7,7 @@ import { DeathBox } from "../containers/DeathBox";
 import { Avatar } from "./Common/Avatar";
 import EditButton from "./Common/Button/EditButton";
 import Editor from "./Common/Editor";
+import { HierarchicalEdgeBundlingOnClickProps } from "./Common/Graph/HierarchicalEdgeBundling";
 import { ActorHierarchyEdgeBundlingGraph } from "./Graph/ActorHierarchyEdgeBundlingGraph";
 import GroupList from "./lists/GroupList";
 import { Box, Grid, Typography } from "./mui";
@@ -16,6 +17,7 @@ export interface ActorPageContentProps {
   groups: Group.Group[];
   onGroupClick: (a: Group.Group) => void;
   onActorClick: (a: Actor.Actor) => void;
+  hierarchicalGraph: HierarchicalEdgeBundlingOnClickProps;
 }
 
 export const ActorPageContent: React.FC<ActorPageContentProps> = ({
@@ -23,6 +25,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
   groups,
   onGroupClick,
   onActorClick,
+  hierarchicalGraph,
 }) => {
   return (
     <Grid container>
@@ -70,7 +73,11 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
             />
           </Box>
           <Box>
-            <ActorHierarchyEdgeBundlingGraph actor={actor.id} width={600} />
+            <ActorHierarchyEdgeBundlingGraph
+              {...hierarchicalGraph}
+              actor={actor.id}
+              width={600}
+            />
           </Box>
         </Grid>
         <Grid item md={6} sm={6} xs={12}>

@@ -34,14 +34,17 @@ const GroupPreview: React.FC = () => {
         <QueryClientProvider client={qc}>
           <ThemeProvider theme={ECOTheme}>
             <GroupPageContent
-              {...p}
+              group={p}
               groupsMembers={[]}
               projects={[]}
               funds={[]}
               onMemberClick={() => undefined}
               onGroupClick={() => undefined}
-              subGroups={[]}
               ownedGroups={[]}
+              hierarchicalGraph={{
+                onNodeClick(n) {},
+                onLinkClick(l) {},
+              }}
             />
           </ThemeProvider>
         </QueryClientProvider>

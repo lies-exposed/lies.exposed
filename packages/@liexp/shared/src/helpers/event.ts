@@ -343,7 +343,6 @@ export interface EventRelations {
 }
 
 export const getEventsMetadata = (e: SearchEvent): EventRelations => {
-  // console.log("event", e);
   const commonIds = {
     media: e.media,
     keywords: e.keywords,

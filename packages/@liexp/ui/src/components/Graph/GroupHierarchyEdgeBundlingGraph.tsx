@@ -1,27 +1,37 @@
 import { StatsType } from "@liexp/shared/io/http/Stats";
 import * as React from "react";
 import { useStatsQuery } from "../../state/queries/DiscreteQueries";
-import { HierarchicalEdgeBundling } from "../Common/Graph/HierarchicalEdgeBundling";
+import {
+  HierarchicalEdgeBundling,
+  HierarchicalEdgeBundlingOnClickProps,
+} from "../Common/Graph/HierarchicalEdgeBundling";
 import QueriesRenderer from "../QueriesRenderer";
 
-export interface GroupHierarchyEdgeBundlingGraphProps {
+export interface GroupHierarchyEdgeBundlingGraphProps
+  extends HierarchicalEdgeBundlingOnClickProps {
   group: string;
   width: number;
 }
 
 export const GroupHierarchyEdgeBundlingGraph: React.FC<
   GroupHierarchyEdgeBundlingGraphProps
-> = (props) => {
+> = ({ group, ...props }) => {
   return (
     <QueriesRenderer
       queries={{
         graph: useStatsQuery({
-          id: props.group,
+          id: group,
           type: StatsType.types[2].value,
         }),
       }}
       render={({ graph }) => {
-        return <HierarchicalEdgeBundling graph={graph} width={props.width} hideLabels={true} />;
+        return (
+          <HierarchicalEdgeBundling
+            {...props}
+            graph={graph}
+            hideLabels={true}
+          />
+        );
       }}
     />
   );

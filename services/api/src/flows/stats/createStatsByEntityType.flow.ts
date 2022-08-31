@@ -159,7 +159,7 @@ export const createStatsByEntityType =
           );
           ctx.logger.debug.log("Search results totals %O", results);
 
-          if (results.total === 0) {
+          if (results.results.length === 0 || results.total === 0) {
             return TE.right({
               ...results,
               results: acc,

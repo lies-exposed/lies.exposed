@@ -40,7 +40,7 @@ export const AutocompleteKeywordInput: React.FC<
               ...item,
               selected: selectedItems.some((i) => i.id === item.id),
             }}
-            onClick={() => {}}
+            onClick={() => onItemClick([item])}
           />
         );
       }}

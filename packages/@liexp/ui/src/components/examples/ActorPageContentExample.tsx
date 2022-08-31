@@ -14,7 +14,11 @@ export const actorPageContentArgs: ActorPageContentProps = {
   },
   groups: [],
   onGroupClick: () => {},
-  onActorClick: () => {}
+  onActorClick: () => {},
+  hierarchicalGraph: {
+    onNodeClick: () => {},
+    onLinkClick: () => {},
+  },
 };
 
 export const ActorPageContentExample: React.FC<ActorPageContentProps> = (
