@@ -22,7 +22,7 @@ export const TGPhotoArb: fc.Arbitrary<TelegramBot.PhotoSize> = fc.record({
   file_id: fc.base64String({ minLength: 16, maxLength: 16 }),
   file_unique_id: fc.nat(),
   file_size: fc.nat(),
-  width: fc.nat(),
+  width: fc.constant(1024),
   height: fc.nat(),
 });
 

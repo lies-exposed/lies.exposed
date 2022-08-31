@@ -214,6 +214,7 @@ export const createFromTGMessage =
         },
         { unique: [] as TelegramBot.PhotoSize[], ids: [] as string[] }
       ),
+      ctx.logger.debug.logInPipe('Photo to parse %O'),
       TE.right,
       TE.chain((pp) => parsePhoto(ctx)(message.caption ?? "", pp.unique))
     );
