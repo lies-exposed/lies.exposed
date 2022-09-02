@@ -6,13 +6,11 @@ import * as O from "fp-ts/lib/Option";
 import * as Reader from "fp-ts/lib/Reader";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { IOError } from 'ts-io-error';
+import { IOError } from "ts-io-error";
 import {
   Connection,
   ConnectionManager,
-  
   DataSource,
-  
   DeepPartial,
   DeleteResult,
   EntityManager,
@@ -23,6 +21,7 @@ import {
   ObjectID,
   SaveOptions,
   UpdateResult,
+  ObjectLiteral,
 } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
@@ -78,7 +77,7 @@ interface DatabaseClient {
     target: EntityTarget<Entity>,
     criteria: Criteria
   ) => TE.TaskEither<DBError, DeleteResult>;
-  softDelete: <Entity>(
+  softDelete: <Entity extends ObjectLiteral>(
     target: EntityTarget<Entity>,
     criteria: Criteria
   ) => TE.TaskEither<DBError, DeleteResult>;
@@ -144,7 +143,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
   const execQuery = <T>(lazyQ: () => Promise<T>): TE.TaskEither<DBError, T> =>
     TE.tryCatch(lazyQ, toError(ctx.logger)());
 
-  const handleError = toError(ctx.logger)
+  const handleError = toError(ctx.logger);
 
   return {
     manager: ctx.connection.manager,
@@ -273,13 +272,11 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         TE.chain(TE.fromEither)
       );
     },
-    close: () =>
-      TE.tryCatch(() => ctx.connection.close(), handleError()),
+    close: () => TE.tryCatch(() => ctx.connection.close(), handleError()),
   };
 };
 
-type DatabaseConnectionOpts =
-  | PostgresConnectionOptions;
+type DatabaseConnectionOpts = PostgresConnectionOptions;
 
 interface MakeDatabaseClientCtx {
   connectionName: string;
@@ -306,7 +303,8 @@ const MakeDatabaseClient: MakeDatabaseClient =
         const conn = cm.get(connectionName);
 
         return TE.tryCatch(
-          () => (conn.isInitialized ? Promise.resolve(conn) : conn.initialize()),
+          () =>
+            conn.isInitialized ? Promise.resolve(conn) : conn.initialize(),
           toError(logger)()
         );
       }

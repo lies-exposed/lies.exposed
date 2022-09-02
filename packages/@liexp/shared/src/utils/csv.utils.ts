@@ -23,7 +23,7 @@ export interface CSVUtil {
     parseOptions: csv.ParserOptionsArgs,
     opts: ParseFileOpts<A, O, I>
   ) => TE.TaskEither<Error, A[]>;
-  writeToPath: <T>(
+  writeToPath: <T extends csv.FormatterRow>(
     outputPath: string,
     results: T[]
   ) => TE.TaskEither<Error, void>;
@@ -105,7 +105,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
     );
   };
 
-  const writeToPath = <T>(
+  const writeToPath = <T extends csv.FormatterRow>(
     outputPath: string,
     results: T[]
   ): TE.TaskEither<Error, void> => {
