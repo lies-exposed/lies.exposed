@@ -26,7 +26,7 @@ import {
   useRefresh
 } from "react-admin";
 import { CreateEventFromLinkButton } from '../components/Common/CreateEventFromLinkButton';
-import { EditFormWithPreview } from "../components/Common/EditEventForm";
+import { EditForm } from "../components/Common/EditForm";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
 import ReferenceGroupInput from "../components/Common/ReferenceGroupInput";
@@ -151,7 +151,7 @@ const UpdateMetadataButton: React.FC = () => {
 export const LinkEdit: React.FC = () => {
   const record = useRecordContext();
   return (
-    <EditFormWithPreview
+    <EditForm
       redirect={false}
       title={<EditTitle />}
       actions={
@@ -215,7 +215,7 @@ export const LinkEdit: React.FC = () => {
           </ReferenceManyField>
         </FormTab>
       </TabbedForm>
-    </EditFormWithPreview>
+    </EditForm>
   );
 };
 

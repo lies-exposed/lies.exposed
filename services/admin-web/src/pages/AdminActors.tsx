@@ -33,7 +33,7 @@ import {
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
 import { CreateEventButton } from "../components/Common/CreateEventButton";
-import { EditFormWithPreview } from "../components/Common/EditEventForm";
+import { EditForm,  } from "../components/Common/EditForm";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
 import ReferenceManyEventField from "../components/Common/ReferenceManyEventField";
@@ -109,7 +109,7 @@ const EditActions: React.FC = () => {
 
 export const ActorEdit: React.FC<EditProps> = (props) => {
   return (
-    <EditFormWithPreview
+    <EditForm
       title={<EditTitle />}
       {...props}
       actions={<EditActions />}
@@ -193,7 +193,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           />
         </FormTab>
       </TabbedForm>
-    </EditFormWithPreview>
+    </EditForm>
   );
 };
 
