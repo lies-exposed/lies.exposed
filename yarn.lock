@@ -6653,10 +6653,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-cron@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@types/node-cron@npm:3.0.2"
-  checksum: 921b1276c793ab6ae095436b8cde8d4d3ab02d8749011bd5b2006a4d921e206ae06de66edd9bccff4b1c09726bad16d9274c1ad104ab2d4370ad910f71cb9db2
+"@types/node-cron@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "@types/node-cron@npm:3.0.3"
+  checksum: f236dcd90fbe1b49f8126f2b21b0d5bec2478032698d1aa872a9d43e69a649256c875acbe40bfc1b166c68633df0bb49e554272e97e2ffc85067bf20cc357162
   languageName: node
   linkType: hard
 
@@ -6694,10 +6694,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0, @types/node@npm:^16.11.56":
+"@types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0":
   version: 16.11.56
   resolution: "@types/node@npm:16.11.56"
   checksum: b4efade16eb08a39810921c54a1637e69c8f3184a20d87e8fe74d557d9bda73f0829ac318e2a30a32b1903e4b099812defd1dfe438be70b98dbfbea5b0d99a53
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.11.57":
+  version: 16.11.57
+  resolution: "@types/node@npm:16.11.57"
+  checksum: 7c34f5e50e38460fd0f18ae939ad62d5ecf992be7b9db7b1b86b9cc76a4d153b55bf3a94c6379da23df0803c11ad1a96be54c45d3ce612206cb8a18ce433028b
   languageName: node
   linkType: hard
 
@@ -8307,7 +8314,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
     "@types/lodash": ^4.14.184
-    "@types/node": ^16.11.56
+    "@types/node": ^16.11.57
     "@types/prettier": ^2.7.0
     "@types/react": ^17.0.49
     "@types/react-dom": ^17.0.17
@@ -8655,8 +8662,8 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.9
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.56
-    "@types/node-cron": ^3.0.2
+    "@types/node": ^16.11.57
+    "@types/node-cron": ^3.0.3
     "@types/node-telegram-bot-api": ^0.57.1
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
