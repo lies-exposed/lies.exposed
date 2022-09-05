@@ -1,17 +1,11 @@
 import { http } from "@liexp/shared/io";
-import { PageContent } from "@liexp/ui/components/PageContent";
-import { HelmetProvider } from "@liexp/ui/components/SEO";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import * as React from "react";
 import {
   Create,
   CreateProps,
   Datagrid,
-  DateField,
-  Edit,
-  EditProps,
-  FormDataConsumer,
-  FormTab,
+  DateField, EditProps, FormTab,
   List,
   ListProps,
   required,
@@ -19,10 +13,11 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useRecordContext
 } from "react-admin";
-import { QueryClient, QueryClientProvider } from "react-query";
 import RichTextInput from "../components/Common/RichTextInput";
+import { EditForm } from 'components/Common/EditForm';
+import PagePreview from 'components/previews/PagePreview';
 
 export const PageList: React.FC<ListProps> = (props) => (
   <List {...props}>
@@ -42,7 +37,7 @@ const EditTitle: React.FC<{ record?: http.Page.Page }> = ({ record }) => {
 export const PageEdit: React.FC<EditProps> = (props) => {
   const record = useRecordContext<http.Page.Page>();
   return (
-    <Edit title={<EditTitle record={record} />} {...props}>
+    <EditForm preview={<PagePreview />} title={<EditTitle record={record} />} {...props} redirect={false}>
       <TabbedForm>
         <FormTab label="Generals">
           <TextInput source="title" />
@@ -52,22 +47,8 @@ export const PageEdit: React.FC<EditProps> = (props) => {
           <DateField source="createdAt" />
           <DateField source="updatedAt" />
         </FormTab>
-        <FormTab label="preview">
-          <FormDataConsumer>
-            {({ formData, ...rest }) => {
-              const qc = new QueryClient();
-              return (
-                <HelmetProvider>
-                  <QueryClientProvider client={qc}>
-                    <PageContent {...formData} />
-                  </QueryClientProvider>
-                </HelmetProvider>
-              );
-            }}
-          </FormDataConsumer>
-        </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditForm>
   );
 };
 

@@ -32,7 +32,7 @@ import {
   useRefresh,
 } from "react-admin";
 import { CreateEventFromMediaButton } from '../components/Common/CreateEventFromMediaButton';
-import { EditFormWithPreview } from "../components/Common/EditEventForm";
+import { EditForm } from "../components/Common/EditForm";
 import { MediaField } from "../components/Common/MediaField";
 import { MediaInput } from "../components/Common/MediaInput";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
@@ -253,7 +253,7 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
 };
 
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
-  <EditFormWithPreview
+  <EditForm
     title={<EditTitle {...props} />}
     {...props}
     transform={transformMedia}
@@ -282,7 +282,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
         <ReferenceLinkTab source="links" />
       </FormTab>
     </TabbedForm>
-  </EditFormWithPreview>
+  </EditForm>
 );
 
 export const MediaCreate: React.FC<CreateProps> = (props) => (

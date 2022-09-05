@@ -35,7 +35,7 @@ import {
 } from "react-admin";
 import { AvatarField } from "../components/Common/AvatarField";
 import { ColorInput } from "../components/Common/ColorInput";
-import { EditFormWithPreview } from "../components/Common/EditEventForm";
+import { EditForm } from "../components/Common/EditForm";
 import { MediaField } from "../components/Common/MediaField";
 import ReferenceActorInput from "../components/Common/ReferenceActorInput";
 import { WebPreviewButton } from "../components/Common/WebPreviewButton";
@@ -151,7 +151,7 @@ const EditTitle: React.FC<EditProps> = () => {
 
 export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
   return (
-    <EditFormWithPreview
+    <EditForm
       title={<EditTitle {...props} />}
       {...props}
       actions={
@@ -217,7 +217,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ReferenceManyField>
         </FormTab>
       </TabbedForm>
-    </EditFormWithPreview>
+    </EditForm>
   );
 };
 

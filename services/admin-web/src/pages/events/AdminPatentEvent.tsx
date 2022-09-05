@@ -19,7 +19,7 @@ import {
   UrlField,
   useRecordContext
 } from "react-admin";
-import { EditFormWithPreview } from "../../components/Common/EditEventForm";
+import { EditForm } from "../../components/Common/EditForm";
 import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
 import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
 import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
@@ -92,7 +92,7 @@ export const PatentEventEditFormTab: React.FC = () => {
 
 export const PatentEdit: React.FC = () => {
   return (
-    <EditFormWithPreview
+    <EditForm
       title={<PatentEventTitle />}
       actions={<EventEditActions />}
       transform={(r) => transformEvent(r.id, r)}
@@ -115,7 +115,7 @@ export const PatentEdit: React.FC = () => {
           <ReferenceArrayLinkInput source="links" />
         </FormTab>
       </TabbedForm>
-    </EditFormWithPreview>
+    </EditForm>
   );
 };
 
