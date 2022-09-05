@@ -2764,7 +2764,7 @@ __metadata:
     page-metadata-parser: ^1.1.4
     prettier: ^2.7.1
     puppeteer-extra: ^3.3.4
-    puppeteer-extra-plugin-stealth: ^2.11.0
+    puppeteer-extra-plugin-stealth: ^2.11.1
     query-string: ^7.1.1
     throttle-debounce: ^5.0.0
     ts-endpoint: ^2.0.0
@@ -21735,9 +21735,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"puppeteer-extra-plugin-stealth@npm:^2.11.0":
-  version: 2.11.0
-  resolution: "puppeteer-extra-plugin-stealth@npm:2.11.0"
+"puppeteer-extra-plugin-stealth@npm:^2.11.1":
+  version: 2.11.1
+  resolution: "puppeteer-extra-plugin-stealth@npm:2.11.1"
   dependencies:
     debug: ^4.1.1
     puppeteer-extra-plugin: ^3.2.2
@@ -21750,7 +21750,7 @@ __metadata:
       optional: true
     puppeteer-extra:
       optional: true
-  checksum: 8ec95274e568281630990e23e2058a95f289330d890833e22e32ebe6a6b6db7426a07780ded9e1c38128a8c3dddcf8011167c3bf4c6046345332a4c78ffc685f
+  checksum: 8d5c3c8f650113dd35e9dd8c93617528921b6d5b0331e60006324db4080c56268b0f1a3d7af036cf6741fbdd4587f5d4400545e7d225242a0cce698cd3e51295
   languageName: node
   linkType: hard
 
