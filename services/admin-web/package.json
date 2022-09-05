@@ -72,7 +72,7 @@
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.1",
-    "eslint-plugin-react": "7.31.1",
+    "eslint-plugin-react": "7.31.6",
     "eslint-webpack-plugin": "^3.2.0",
     "jest": "^28.1.3",
     "page-metadata-parser": "^1.1.4",
