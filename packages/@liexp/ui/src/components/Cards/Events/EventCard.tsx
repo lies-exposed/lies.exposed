@@ -16,10 +16,13 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia
+  CardMedia,
+  CardProps,
 } from "../../mui";
 
-interface EventCardProps {
+const defaultImage = "/liexp-logo-1200x630.png";
+
+interface EventCardProps extends CardProps {
   event: SearchEvent.SearchEvent;
   showRelations: boolean;
   onEventClick: (e: SearchEvent.SearchEvent) => void;
@@ -29,6 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({
   event,
   showRelations,
   onEventClick,
+  ...props
 }) => {
   const { actors, groups, media, keywords } = getEventsMetadata(event);
   const title =
@@ -38,73 +42,68 @@ const EventCard: React.FC<EventCardProps> = ({
   const image =
     event.type === Events.Death.DEATH.value
       ? event.payload.victim?.avatar
-      : media[0]?.thumbnail;
+      : media[0]?.thumbnail ?? defaultImage;
 
-  const date = typeof event.date === 'string'
-    ? parseISO(event.date as any)
-    : event.date;
+  const date =
+    typeof event.date === "string" ? parseISO(event.date as any) : event.date;
 
   return (
-    <Box>
-      <Card onClick={() => onEventClick(event)}>
-        <CardActionArea>
-          {image ? (
-            <CardMedia component="img" image={image} style={{ height: 200 }} />
+    <Card onClick={() => onEventClick(event)} {...props}>
+      <CardActionArea>
+        <CardMedia component="img" image={image} style={{ height: 200 }} />
+        <CardHeader
+          avatar={<EventIcon size="2x" type={event.type} />}
+          title={title}
+          subheader={formatDate(date)}
+        />
+
+        <CardContent>
+          {event.excerpt ? (
+            <Box
+              style={{
+                maxHeight: 100,
+                overflow: "hidden",
+              }}
+            >
+              <Editor value={event.excerpt as any} readOnly />
+            </Box>
           ) : null}
-          <CardHeader
-            avatar={<EventIcon size="2x" type={event.type} />}
-            title={title}
-            subheader={formatDate(date)}
-          />
 
-          <CardContent>
-            {event.excerpt ? (
-              <Box
-                style={{
-                  maxHeight: 100,
-                  overflow: "hidden",
-                }}
-              >
-                <Editor value={event.excerpt as any} readOnly />
-              </Box>
-            ) : null}
-
-            {showRelations ? (
-              <Box
+          {showRelations ? (
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              <ActorList
                 style={{
                   display: "flex",
                   flexDirection: "row",
                 }}
-              >
-                <ActorList
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                  actors={actors.map((a) => ({ ...a, selected: true }))}
-                  onActorClick={() => {}}
-                />
-                <GroupsList
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                  groups={groups.map((g) => ({ ...g, selected: true }))}
-                  onItemClick={() => undefined}
-                />
-              </Box>
-            ) : null}
-            <Box>
-              <KeywordList
-                keywords={keywords.map((k) => ({ ...k, selected: true }))}
+                actors={actors.map((a) => ({ ...a, selected: true }))}
+                onActorClick={() => {}}
+              />
+              <GroupsList
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+                groups={groups.map((g) => ({ ...g, selected: true }))}
                 onItemClick={() => undefined}
               />
             </Box>
-          </CardContent>
-        </CardActionArea>
-        <CardActions disableSpacing></CardActions>
-      </Card>
-    </Box>
+          ) : null}
+          <Box>
+            <KeywordList
+              keywords={keywords.map((k) => ({ ...k, selected: true }))}
+              onItemClick={() => undefined}
+            />
+          </Box>
+        </CardContent>
+      </CardActionArea>
+      <CardActions disableSpacing></CardActions>
+    </Card>
   );
 };
 

@@ -5,7 +5,7 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import { useEventQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
-import EventsBox from "../components/events/EventsBox";
+import EventsBox from "@liexp/ui/components/containers/EventsBox";
 import { queryToHash } from "../utils/history.utils";
 import { useNavigateToResource } from "../utils/location.utils";
 
@@ -67,6 +67,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                       _end: 3,
                       exclude: [event.id],
                     }}
+                    onEventClick={(e) => navigateTo.events({ id: e.id })}
                   />
                 </Grid>
               ) : null}
@@ -80,6 +81,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                       _end: 3,
                       exclude: [event.id],
                     }}
+                    onEventClick={(e) => navigateTo.events({ id: e.id })}
                   />
                 </Grid>
               ) : null}
@@ -93,6 +95,7 @@ const EventTemplate: React.FC<{ eventId: string }> = ({ eventId }) => {
                       _end: 3,
                       exclude: [event.id],
                     }}
+                    onEventClick={(e) => navigateTo.events({ id: e.id })}
                   />
                 </Grid>
               ) : null}
