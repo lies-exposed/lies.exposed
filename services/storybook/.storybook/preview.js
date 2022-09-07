@@ -1,9 +1,4 @@
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "ol/ol.css";
-import "react-virtualized/styles.css";
-import "@liexp/ui/theme/font.css";
-import '@fortawesome/fontawesome-svg-core/styles.css';
+import '@liexp/ui/theme/main.css';
 import { ThemeProvider } from "@mui/material";
 import * as React from "react";
 import { ECOTheme } from "@liexp/ui/theme";

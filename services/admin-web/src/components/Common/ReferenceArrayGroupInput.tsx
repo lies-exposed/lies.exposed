@@ -15,6 +15,7 @@ const ReferenceArrayGroupInput: React.FC<
         optionText="name"
         filterToQuery={(name: any) => ({ name })}
         fullWidth
+        size="small"
       />
     </ReferenceArrayInput>
   );

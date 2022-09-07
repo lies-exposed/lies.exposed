@@ -2,7 +2,7 @@ import React from "react";
 import {
   AutocompleteArrayInput,
   ReferenceArrayInput,
-  ReferenceArrayInputProps
+  ReferenceArrayInputProps,
 } from "react-admin";
 
 const ReferenceArrayLinkInput: React.FC<
@@ -17,6 +17,7 @@ const ReferenceArrayLinkInput: React.FC<
         translateChoice={false}
         fullWidth
         filterToQuery={(q: any) => ({ q })}
+        size="small"
       />
     </ReferenceArrayInput>
   );

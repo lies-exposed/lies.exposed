@@ -2,14 +2,13 @@ import * as React from "react";
 import {
   AutoSizer,
   CellMeasurer,
-  CellMeasurerCache, List,
-  ListRowProps
+  CellMeasurerCache,
+  List,
+  ListRowProps,
 } from "react-virtualized";
 import { RenderedRows } from "react-virtualized/dist/es/List";
-import {
-  SearchEventQueryResult
-} from "../../../state/queries/SearchEventsQuery";
-import { styled } from '../../../theme';
+import { SearchEventQueryResult } from "../../../state/queries/SearchEventsQuery";
+import { styled } from "../../../theme";
 import { EventListItemProps } from "./EventListItem";
 import EventTimelineItem, { EventTimelineItemProps } from "./EventTimelineItem";
 
@@ -37,7 +36,6 @@ const StyledList = styled(List)(({ theme }) => ({
     width: "100%",
   },
 }));
-
 
 const cellCache = new CellMeasurerCache({
   fixedWidth: true,
@@ -78,7 +76,6 @@ const Row: React.FC<
               ref={registerChild as any}
               key={key}
               style={{ height: 100 }}
-              onLoad={measure}
             />
           );
         }
@@ -125,20 +122,21 @@ const Row: React.FC<
 };
 
 export interface EventsTimelineListProps
-  extends Omit<EventListItemProps, "event" | 'onRowInvalidate'> {
+  extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
   events: SearchEventQueryResult;
   defaultHeight?: number;
   total: number;
-  ref: React.Ref<any>;
   onRowsRendered: ((info: RenderedRows) => void) | undefined;
 }
 
-const EventsTimelineList: React.FC<EventsTimelineListProps> = (props) => {
+const EventsTimelineList: React.ForwardRefRenderFunction<
+  unknown,
+  EventsTimelineListProps
+> = (props, ref) => {
   const {
     defaultHeight = 800,
     events,
     total,
-    ref,
     onRowsRendered,
     onClick,
     onActorClick,
@@ -173,8 +171,7 @@ const EventsTimelineList: React.FC<EventsTimelineListProps> = (props) => {
             onRowsRendered={onRowsRendered}
             rowRenderer={({ key, ...props }) => {
               const event = events?.events[props.index];
-              const isLast =
-                events?.events[props.index + 1] === undefined;
+              const isLast = events?.events[props.index + 1] === undefined;
 
               return (
                 <Row
@@ -197,4 +194,4 @@ const EventsTimelineList: React.FC<EventsTimelineListProps> = (props) => {
   );
 };
 
-export default EventsTimelineList;
+export default React.forwardRef(EventsTimelineList);

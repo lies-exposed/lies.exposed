@@ -60,6 +60,7 @@ const Root = styled("div")(({ theme }) => ({
     flexShrink: 1,
     display: "flex",
     flexDirection: "column",
+    alignItems: 'flex-end',
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
       alignItems: "center",
