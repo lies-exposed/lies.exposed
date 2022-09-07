@@ -21,6 +21,7 @@ const ReferenceArrayGroupMemberInput: React.FC<
           groupsMembers: ids,
         })}
         fullWidth
+        size="small"
       />
     </ReferenceArrayInput>
   );

@@ -3,12 +3,16 @@ import {
   ActorArb,
   GroupArb,
   MediaArb,
-  UncategorizedArb,
+  UncategorizedArb
 } from "@liexp/shared/tests";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
+import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import EventsTimelineList, {
-  EventsTimelineListProps,
+  EventsTimelineListProps
 } from "@liexp/ui/components/lists/EventList/EventsTimelineList";
+import {
+  searchEventsQuery
+} from "@liexp/ui/state/queries/SearchEventsQuery";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from "react";
 
@@ -20,17 +24,30 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<EventsTimelineListProps> = (props) => {
-  // eslint-disable-next-line react/display-name
-  const ref = React.forwardRef((_node, ref) => {
-    return <div ref={() => ref}>Hello</div>;
-  });
+  const ref = React.createRef();
 
-  return <EventsTimelineList {...props} ref={ref} />;
+  return (
+    <div style={{ height: "100%" }}>
+      <QueriesRenderer
+        queries={{
+          events: searchEventsQuery({
+            hash: "events-timeline-storybook",
+            _start: 0,
+            _end: 100,
+          }),
+        }}
+        render={({ events }) => {
+          return <EventsTimelineList {...props} events={events} ref={ref} />;
+        }}
+      />
+    </div>
+  );
 };
 
 const EventsTimelineListExample = Template.bind({});
 
 const args: Omit<EventsTimelineListProps, "ref"> = {
+  defaultHeight: 600,
   events: {
     events: fc.sample(UncategorizedArb, 10).map((u) => ({
       ...u,

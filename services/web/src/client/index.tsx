@@ -14,9 +14,7 @@ import { Hydrate, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { queryClient } from "./state/queries";
-
-// all css
-import "./scss/main.css";
+import '@liexp/ui/theme/main.css';
 
 config.autoAddCss = false;
 

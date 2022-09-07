@@ -1,4 +1,5 @@
 import { SearchEvent } from "@liexp/shared/io/http/Events";
+import * as A from "fp-ts/lib/Array";
 import * as React from "react";
 import {
   SearchEventQueryInput,
@@ -6,9 +7,8 @@ import {
 } from "../../state/queries/SearchEventsQuery";
 import { useTheme } from "../../theme";
 import EventCard from "../Cards/Events/EventCard";
-import { Grid, Typography } from "../mui";
 import QueriesRenderer from "../QueriesRenderer";
-import * as A from "fp-ts/lib/Array";
+import { Grid, Typography } from "../mui";
 
 export interface EventsBoxProps {
   title: string;
@@ -46,7 +46,7 @@ const EventsBox: React.FC<EventsBoxProps> = ({
             ) : null}
             {A.chunksOf(3)(events.events).map((ev) => {
               return (
-                <Grid item container spacing={2}>
+                <Grid item container spacing={2} key={`events-chunk-container${ev[0].id}`}>
                   {ev.map((e) => (
                     <Grid
                       key={e.id}

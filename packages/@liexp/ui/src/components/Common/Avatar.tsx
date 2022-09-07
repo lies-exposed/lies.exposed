@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-restricted-imports
 import MUIAvatar, { AvatarProps as MUIAvatarProps } from "@mui/material/Avatar";
+import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 
@@ -22,27 +23,26 @@ const StyledMUIAvatar = styled(MUIAvatar)(({ theme }) => ({
     },
   },
 
-  [`& .${classes.xsmall}`]: {
+  [`&.${classes?.xsmall}`]: {
     width: theme.spacing(3),
     height: theme.spacing(3),
   },
 
-  [`& .${classes.small}`]: {
+  [`&.${classes.small}`]: {
     width: theme.spacing(4),
     height: theme.spacing(4),
   },
 
-  [`& .${classes.medium}`]: {
+  [`&.${classes.medium}`]: {
     width: theme.spacing(6),
     height: theme.spacing(6),
   },
 
-  [`& .${classes.large}`]: {
+  [`&.${classes.large}`]: {
     width: theme.spacing(12),
     height: theme.spacing(12),
   },
-
-  [`& .${classes.xlarge}`]: {
+  [`&.${classes.xlarge}`]: {
     width: theme.spacing(16),
     height: theme.spacing(16),
   },
@@ -63,7 +63,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   return (
     <StyledMUIAvatar
       {...props}
-      className={`${classes.root} ${classes[size]}`}
+      className={clsx(classes.root, classes[size])}
       imgProps={{
         decoding: "async",
       }}
