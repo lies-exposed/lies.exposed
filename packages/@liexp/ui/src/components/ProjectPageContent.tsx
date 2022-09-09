@@ -92,32 +92,6 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             /> */}
             {/* <ProjectFundsPieGraph funds={metadata.ProjectTransaction} /> */}
           </div>
-          <div>
-            <Typography variant="h4">
-              Proteste: {metadata.Protest.length}
-            </Typography>
-            {/* <GroupOrActorList
-              by={protesters}
-              onByClick={() => {}}
-              avatarScale="scale1000"
-            /> */}
-          </div>
-          <div>
-            <Typography variant="h4">
-              Arresti: {metadata.Arrest.length}
-            </Typography>
-            {/* <GroupOrActorList
-              by={arrested}
-              onByClick={() => {}}
-              avatarScale="scale1000"
-            /> */}
-          </div>
-          <div>
-            [tabella degli impatti del progetto]
-          </div>
-          <div>
-            <h3>Indagati:</h3> [totale contributori / contributori indagati]
-          </div>
         </Grid>
       </Grid>
       <Grid>

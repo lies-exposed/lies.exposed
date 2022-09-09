@@ -5,7 +5,7 @@ import {
   Patent,
   ScientificStudy,
   Transaction,
-  Uncategorized
+  Uncategorized,
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -13,7 +13,6 @@ import { PATENT } from "@liexp/shared/io/http/Events/Patent";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import DatePicker from "@liexp/ui/components/Common/DatePicker";
-import { EventIcon } from "@liexp/ui/components/Common/Icons";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import { ActorList } from "@liexp/ui/components/lists/ActorList";
 import GroupList from "@liexp/ui/components/lists/GroupList";
@@ -28,7 +27,7 @@ import {
   Grid,
   IconButton,
   Toolbar,
-  Typography
+  Typography,
 } from "@liexp/ui/components/mui";
 import { getTotal } from "@liexp/ui/helpers/event.helper";
 import { searchEventsQuery } from "@liexp/ui/state/queries/SearchEventsQuery";
@@ -37,11 +36,11 @@ import ArrowDownIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpIcon from "@mui/icons-material/ArrowUpward";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import SearchIcon from "@mui/icons-material/Search";
-import { clsx } from "clsx";
 import * as R from "fp-ts/lib/Record";
 import { pipe } from "fp-ts/lib/function";
 import * as S from "fp-ts/lib/string";
 import * as React from "react";
+import { EventTypeFilters } from "./EventTypeFilters";
 import SearchEventInput, { SearchOption } from "./inputs/SearchEventInput";
 import { EventsQueryParams } from "@containers/EventsPanel";
 
@@ -52,15 +51,12 @@ const classes = {
   filterLabel: `${PREFIX}-filterLabel`,
   filterValue: `${PREFIX}-filterValue`,
   offset: `${PREFIX}-offset`,
-  iconButton: `${PREFIX}-iconButton`,
-  iconButtonSelected: `${PREFIX}-iconButtonSelected`,
   search: `${PREFIX}-search`,
   searchIcon: `${PREFIX}-searchIcon`,
   dateInput: `${PREFIX}-dateInput`,
   inputRoot: `${PREFIX}-inputRoot`,
   inputInput: `${PREFIX}-inputInput`,
   tabs: `${PREFIX}-tabs`,
-  totalsAndTypes: `${PREFIX}-totals-and-types`,
 };
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -81,15 +77,6 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   [`& .${classes.offset}`]: {
     height: 200,
     minHeight: 200,
-  },
-
-  [`& .${classes.iconButton}`]: {
-    marginRight: 10,
-    opacity: 0.5,
-  },
-
-  [`& .${classes.iconButtonSelected}`]: {
-    opacity: 1,
   },
 
   [`& .${classes.search}`]: {
@@ -144,24 +131,8 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
       display: "flex",
       alignItems: "center",
     },
-  },
-  [`& .${classes.totalsAndTypes}`]: {
-    display: "flex",
-    flexDirection: "row",
-    maxWidth: "100%",
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      flexDirection: "column",
-    },
-  },
+  }
 }));
-
-const eventIconProps = {
-  size: "sm" as const,
-  style: {
-    marginRight: 10,
-  },
-};
 
 const serializeOption = (
   options: SearchOption[]
@@ -218,14 +189,20 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
   ]);
 
   const [filters, setTypeFilters] = React.useState({
-    deaths: !!query.type?.includes(Death.DEATH.value),
-    uncategorized: !!query.type?.includes(Uncategorized.UNCATEGORIZED.value),
-    scientificStudies: !!query.type?.includes(
+    [Death.DEATH.value]: !!query.type?.includes(Death.DEATH.value),
+    [Uncategorized.UNCATEGORIZED.value]: !!query.type?.includes(
+      Uncategorized.UNCATEGORIZED.value
+    ),
+    [ScientificStudy.SCIENTIFIC_STUDY.value]: !!query.type?.includes(
       ScientificStudy.SCIENTIFIC_STUDY.value
     ),
-    patents: !!query.type?.includes(Patent.PATENT.value),
-    documentaries: !!query.type?.includes(Documentary.DOCUMENTARY.value),
-    transactions: !!query.type?.includes(Transaction.TRANSACTION.value),
+    [Patent.PATENT.value]: !!query.type?.includes(Patent.PATENT.value),
+    [Documentary.DOCUMENTARY.value]: !!query.type?.includes(
+      Documentary.DOCUMENTARY.value
+    ),
+    [Transaction.TRANSACTION.value]: !!query.type?.includes(
+      Transaction.TRANSACTION.value
+    ),
   });
 
   const [isExpanded, setIsExpanded] = React.useState(false);
@@ -254,12 +231,12 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
 
       const ff = allEnabled
         ? {
-            documentaries: false,
-            patents: false,
-            transactions: false,
-            uncategorized: false,
-            deaths: false,
-            scientificStudies: false,
+            [Documentary.DOCUMENTARY.value]: false,
+            [Patent.PATENT.value]: false,
+            [Transaction.TRANSACTION.value]: false,
+            [Uncategorized.UNCATEGORIZED.value]: false,
+            [Death.DEATH.value]: false,
+            [ScientificStudy.SCIENTIFIC_STUDY.value]: false,
             [filterK]: true,
           }
         : {
@@ -314,7 +291,14 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
         }),
       }}
       render={({ searchEvents: { totals } }) => {
-        const totalEvents = getTotal(totals, filters);
+        const totalEvents = getTotal(totals, {
+          transactions: filters.Transaction,
+          documentaries: filters.Documentary,
+          uncategorized: filters.Uncategorized,
+          patents: filters.Patent,
+          scientificStudies: filters.ScientificStudy,
+          deaths: filters.Death,
+        });
 
         const actorsList = (
           <ActorList
@@ -485,100 +469,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
           </Box>
         );
 
-        const typeFilters = (
-          <Box
-            style={{
-              display: "flex",
-              width: "100%",
-            }}
-          >
-            <IconButton
-              className={clsx(classes.iconButton, {
-                [classes.iconButtonSelected]: filters.uncategorized,
-              })}
-              color="primary"
-              style={{ marginRight: 10 }}
-              onClick={() => {
-                handleTypeChange("uncategorized");
-              }}
-              size="large"
-            >
-              <EventIcon type="Uncategorized" {...eventIconProps} />
-              <Typography variant="caption">{totals.uncategorized}</Typography>
-            </IconButton>
-            <IconButton
-              color="primary"
-              className={clsx(classes.iconButton, {
-                [classes.iconButtonSelected]: filters.deaths,
-              })}
-              onClick={() => {
-                handleTypeChange("deaths");
-              }}
-              size="large"
-            >
-              <EventIcon type="Death" {...eventIconProps} />
-              <Typography variant="caption">{totals.deaths}</Typography>
-            </IconButton>
-            <IconButton
-              color="primary"
-              className={clsx(classes.iconButton, {
-                [classes.iconButtonSelected]: filters.scientificStudies,
-              })}
-              onClick={() => {
-                handleTypeChange("scientificStudies");
-              }}
-              size="large"
-            >
-              <EventIcon type="ScientificStudy" {...eventIconProps} />
-              <Typography variant="caption">
-                {totals.scientificStudies}
-              </Typography>
-            </IconButton>
-            <IconButton
-              color="primary"
-              className={clsx(classes.iconButton, {
-                [classes.iconButtonSelected]: filters.documentaries,
-              })}
-              onClick={() => {
-                handleTypeChange("documentaries");
-              }}
-              size="large"
-            >
-              <EventIcon
-                type={Documentary.DOCUMENTARY.value}
-                {...eventIconProps}
-              />
-              <Typography variant="caption">{totals.documentaries}</Typography>
-            </IconButton>
-            <IconButton
-              color="primary"
-              className={clsx(classes.iconButton, {
-                [classes.iconButtonSelected]: filters.patents,
-              })}
-              onClick={() => {
-                handleTypeChange("patents");
-              }}
-              size="large"
-            >
-              <EventIcon type="Patent" {...eventIconProps} />
-              <Typography variant="caption">{totals.patents}</Typography>
-            </IconButton>
-            <IconButton
-              color="primary"
-              className={clsx(classes.iconButton, {
-                [classes.iconButtonSelected]: filters.transactions,
-              })}
-              onClick={() => {
-                handleTypeChange("transactions");
-              }}
-              size="large"
-            >
-              <EventIcon type="Transaction" {...eventIconProps} />
-              <Typography variant="caption">{totals.transactions}</Typography>
-            </IconButton>
-          </Box>
-        );
-
         const summary = (
           <Box
             style={{
@@ -587,12 +477,18 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
             }}
           >
             {dateRangeBox}
-            {searchTermBox}
+            <EventTypeFilters
+              filters={filters}
+              totals={totals}
+              onChange={handleTypeChange}
+            />
+            {!isExpanded ? searchTermBox : null}
             {actors.length > 0 || groups.length > 0 || keywords.length > 0 ? (
               <Box
                 style={{
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: "flex-end",
                   width: "100%",
                 }}
               >
@@ -603,7 +499,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 <Box
                   style={{
                     display: "flex",
-                    flexGrow: 1,
                     justifyContent: "flex-end",
                     marginRight: theme.spacing(2),
                   }}
@@ -612,7 +507,7 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                 </Box>
               </Box>
             ) : null}
-            {!isExpanded ? eventTotal : null}
+            {eventTotal}
           </Box>
         );
 
@@ -725,10 +620,6 @@ const EventsAppBar: React.FC<EventsToolbarProps> = ({
                   }
                   style={{ width: "100%" }}
                 />
-              </Grid>
-              <Grid item md={12} sm={12} className={classes.totalsAndTypes}>
-                {typeFilters}
-                {eventTotal}
               </Grid>
               {tabs}
             </Grid>
