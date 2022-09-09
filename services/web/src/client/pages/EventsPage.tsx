@@ -161,7 +161,7 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     tab,
     type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
     title: query.title,
-    _order: query._order,
+    _order: query._order ?? 'ASC',
     _sort: "date",
   };
 
