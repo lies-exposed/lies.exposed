@@ -150,6 +150,7 @@ export const getServer = (
             queryClient.clear();
           })
           .catch((e) => {
+            ssrLog.error.log('Error %O', e);
             res.status(500).send(e.message);
 
             queryClient.clear();

@@ -55,6 +55,7 @@ const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
                 actors: [],
                 groups: [],
                 groupsMembers: [],
+                media: [],
                 locations: [],
                 tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),

@@ -88,6 +88,7 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
                 keywords: [],
                 actors: [],
                 locations: [],
+                media: [],
                 tab,
                 startDate: undefined,
                 endDate: new Date().toDateString(),
