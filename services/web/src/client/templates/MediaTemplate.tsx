@@ -1,58 +1,61 @@
 import { EventType } from "@liexp/shared/io/http/Events";
-import { AreaPageContent } from "@liexp/ui/components/AreaPageContent";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
+import SEO from "@liexp/ui/components/SEO";
 import { Box } from "@liexp/ui/components/mui";
-import { useAreaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
-import { subYears } from "date-fns";
+import { MediaSlider } from "@liexp/ui/components/sliders/MediaSlider";
+import { useMediaQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import * as React from "react";
 import { useRouteQuery } from "../utils/history.utils";
+import { useNavigateToResource } from "../utils/location.utils";
 import { EventsPanel } from "@containers/EventsPanel";
-// import { useNavigateToResource } from "../utils/location.utils";
 
-const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
+const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
   // const params = useParams();
-  // const navigateToResource = useNavigateToResource();
+  const navigateToResource = useNavigateToResource();
   const { tab = 0 } = useRouteQuery<{ tab?: string }>();
 
   return (
     <QueriesRenderer
       queries={{
-        area: useAreaQuery({ id: areaId }),
+        media: useMediaQuery({ filter: { ids: [mediaId] } }, false),
       }}
-      render={({ area }) => {
+      render={({ media }) => {
+        const m = media.data[0];
         return (
           <Box>
             <MainContent>
-              {/* <SEO
-                title={area.label}
-                image={actor.avatar ?? ""}
-                urlPath={`actors/${actor.id}`}
-              /> */}
-              <AreaPageContent area={area} onGroupClick={() => {}} />
+              <SEO
+                title={m.description}
+                image={m.thumbnail ?? ""}
+                urlPath={`media/${m.id}`}
+              />
+              <Box style={{ padding: 10 }}>
+                <MediaSlider data={[m]} onClick={() => undefined} />
+              </Box>
             </MainContent>
             <EventsPanel
-              hash={`area-${areaId}`}
+              hash={`media-${mediaId}`}
               keywords={[]}
               actors={[]}
               groups={[]}
               groupsMembers={[]}
               query={{
-                startDate: subYears(new Date(), 1).toDateString(),
+                startDate: undefined,
                 endDate: new Date().toDateString(),
+                media: mediaId ? [mediaId] : [],
                 actors: [],
                 groups: [],
                 groupsMembers: [],
-                media: [],
                 keywords: [],
-                locations: [areaId],
+                locations: [],
                 tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),
-                _sort: "createdAt",
+                _sort: "date",
                 _order: "DESC",
               }}
               onQueryChange={({ tab }) => {
-                // navigateToResource.actors({ id: actor.id }, { tab });
+                navigateToResource.media({ id: m.id }, { tab });
               }}
             />
           </Box>
@@ -62,4 +65,4 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
   );
 };
 
-export default AreaTemplate;
+export default MediaTemplate;

@@ -32,6 +32,7 @@ export const ResourcesNames = t.keyof(
     articles: null,
     areas: null,
     projects: null,
+    media: null
   },
   "ResourcesNames"
 );

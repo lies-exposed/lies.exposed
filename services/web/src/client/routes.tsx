@@ -44,11 +44,13 @@ import AreasPage from "./pages/AreasPage";
 import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
 import KeywordsPage from "./pages/KeywordsPage";
+import MediaPage from "./pages/MediaPage";
 import ActorTemplate from "./templates/ActorTemplate";
 import AreaTemplate from "./templates/AreaTemplate";
 import EventTemplate from "./templates/EventTemplate";
 import GroupTemplate from "./templates/GroupTemplate";
 import KeywordTemplate from "./templates/KeywordTemplate";
+import MediaTemplate from "./templates/MediaTemplate";
 import { hashToQuery } from "./utils/history.utils";
 
 const githubQuery = {
@@ -377,7 +379,10 @@ export const routes = [
       return [
         ...commonQueries,
         {
-          queryKey: ["stats", { id: params.id, type: StatsType.types[0].value }],
+          queryKey: [
+            "stats",
+            { id: params.id, type: StatsType.types[0].value },
+          ],
           queryFn: fetchStats,
         },
       ];
@@ -422,6 +427,50 @@ export const routes = [
           true
         ),
         queryFn: fetchAreas,
+      },
+    ],
+  },
+  {
+    path: "/media/:mediaId",
+    route: () => {
+      const params = useParams<{ mediaId: string }>();
+      if (params.mediaId) {
+        return <MediaTemplate mediaId={params.mediaId} />;
+      }
+      return <NotFoundPage />;
+    },
+    queries: async ({ mediaId }: any) => [
+      ...commonQueries,
+      {
+        queryKey: getMediaQueryKey(
+          {
+            filter: {
+              ids: [mediaId],
+            },
+          },
+          false
+        ),
+        queryFn: fetchMedia,
+      },
+    ],
+  },
+  {
+    path: "/media",
+    route: () => <MediaPage />,
+    queries: async () => [
+      ...commonQueries,
+      {
+        queryKey: getPageContentByPathQueryKey("media"),
+        queryFn: fetchPageContentByPath,
+      },
+      {
+        queryKey: getMediaQueryKey(
+          {
+            filter: null,
+          },
+          false
+        ),
+        queryFn: fetchMedia,
       },
     ],
   },

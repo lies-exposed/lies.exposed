@@ -1,4 +1,5 @@
 import { Media } from "@liexp/shared/io/http";
+import { clsx } from "clsx";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
 import { styled, useTheme } from "../../../theme";
@@ -39,12 +40,13 @@ const StyledSlickSlider = styled(SlickSlider.default)(({ theme }) => ({
   },
 }));
 
-interface SliderProps extends SlickSlider.Settings {
+export interface SliderProps extends SlickSlider.Settings {
   slides: Media.Media[];
   maxHeight?: number;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
   onLoad?: () => void;
+  enableDescription?: boolean;
 }
 
 export const Slider: React.FC<SliderProps> = ({
@@ -52,13 +54,15 @@ export const Slider: React.FC<SliderProps> = ({
   maxHeight = 400,
   itemStyle,
   onLoad,
+  enableDescription,
+  className,
   ...props
 }) => {
   const theme = useTheme();
 
   return (
     <StyledSlickSlider
-      className={classes.mediaSlider}
+      className={clsx(classes.mediaSlider, className)}
       adaptiveHeight={true}
       infinite={false}
       arrows={true}
@@ -96,6 +100,7 @@ export const Slider: React.FC<SliderProps> = ({
               className={classes.item}
               style={itemStyle}
               onLoad={i === 0 ? onLoad : undefined}
+              enableDescription={enableDescription}
             />
           </div>
         ))}

@@ -47,7 +47,7 @@ const StyledBox = styled(Box)((
     height: "auto",
     maxWidth: "100%",
     maxHeight: 800,
-    objectFit: "contain",
+    objectFit: "cover",
   }
 }));
 

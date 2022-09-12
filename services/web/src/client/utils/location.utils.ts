@@ -47,6 +47,7 @@ interface NavigationHooks {
   events: NavigateToResource;
   groups: NavigateToResource;
   keywords: NavigateToResource;
+  media: NavigateToResource
 }
 
 export function useNavigateToResource(): NavigationHooks {
@@ -60,6 +61,7 @@ export function useNavigateToResource(): NavigationHooks {
           case "index":
             n.navigateTo("/");
             break;
+          case "media":
           case "areas":
           case "articles":
           case "events":
@@ -83,6 +85,7 @@ export function useNavigateToResource(): NavigationHooks {
       groups: navigateToResource("groups"),
       keywords: navigateToResource("keywords"),
       areas: navigateToResource("areas"),
+      media: navigateToResource("media"),
     };
   }, [n.pathname]);
 }

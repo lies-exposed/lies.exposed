@@ -125,6 +125,7 @@ export interface EventsQueryParams {
   groupsMembers: string[];
   keywords: string[];
   locations: string[];
+  media: string[];
   tab: number;
   startDate?: string;
   endDate?: string;

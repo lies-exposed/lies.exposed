@@ -81,6 +81,7 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                 actors: actorId ? [actorId] : [],
                 groups: [],
                 groupsMembers: [],
+                media: [],
                 keywords: [],
                 locations: [],
                 tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),

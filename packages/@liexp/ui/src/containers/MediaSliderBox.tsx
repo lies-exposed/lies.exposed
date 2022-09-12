@@ -1,22 +1,22 @@
-import { Media } from "@liexp/shared/io/http";
 import * as React from "react";
 import { GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { Box } from "../components/mui";
-import { MediaSlider } from "../components/sliders/MediaSlider";
+import {
+  MediaSlider,
+  MediaSliderProps
+} from "../components/sliders/MediaSlider";
 import { useMediaQuery } from "../state/queries/DiscreteQueries";
 
-export interface MediaSliderProps {
+export interface MediaSliderBoxProps extends Omit<MediaSliderProps, 'data'> {
   query: GetListParams;
-  onClick: (e: Media.Media) => void;
-  style?: React.CSSProperties;
-  itemStyle?: React.CSSProperties;
 }
 
-const MediaSliderBox: React.FC<MediaSliderProps> = ({
+const MediaSliderBox: React.FC<MediaSliderBoxProps> = ({
   query,
   onClick,
   itemStyle,
+  enableDescription,
   ...props
 }) => {
   return (
@@ -25,7 +25,10 @@ const MediaSliderBox: React.FC<MediaSliderProps> = ({
       render={({ media: { data: media } }) => {
         return (
           <Box {...props}>
-            <MediaSlider {...{ onClick, itemStyle }} data={media} />
+            <MediaSlider
+              {...{ enableDescription, onClick, itemStyle }}
+              data={media}
+            />
           </Box>
         );
       }}

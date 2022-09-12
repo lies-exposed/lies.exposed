@@ -27,7 +27,7 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
         alignItems: "center",
         justifyContent: "center",
         background: `url(${thumbnail}) no-repeat center center`,
-        backgroundSize: "contain",
+        backgroundSize: "cover",
         cursor: "pointer",
       }}
     >

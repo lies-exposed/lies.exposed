@@ -7,9 +7,9 @@ import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { styled } from "../../../theme";
 import { EventIcon } from "../../Common/Icons";
-import { Slider } from "../../Common/Slider/Slider";
 import { LinksBox } from "../../LinksBox";
 import { Box, Grid, Link, Typography } from "../../mui";
+import { MediaSlider } from "../../sliders/MediaSlider";
 import KeywordList from "../KeywordList";
 
 const PREFIX = "EventListItemBase";
@@ -159,11 +159,12 @@ const EventListItemBase = <E extends any>({
                   margin: 0,
                 }}
               >
-                <Slider
-                  slides={media}
+                <MediaSlider
+                  data={media}
                   style={{ width: "100%" }}
-                  itemStyle={{ minHeight: 300, maxHeight: 400, maxWidth: 600 }}
+                  itemStyle={{ height: 300, maxWidth: 600 }}
                   onLoad={onLoad}
+                  enableDescription={true}
                 />
               </Box>
             </Grid>

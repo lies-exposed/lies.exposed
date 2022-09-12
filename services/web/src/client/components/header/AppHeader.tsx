@@ -27,6 +27,10 @@ const dataMenuItem = {
       view: "/areas",
       label: "Locations",
     },
+    {
+      view: "/media",
+      label: "Media",
+    },
   ],
 };
 

@@ -1,7 +1,7 @@
 import { getRelationIds } from "@liexp/shared/helpers/event";
 import * as http from "@liexp/shared/io/http";
 import { UUID } from "@liexp/shared/io/http/Common";
-import  { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
+import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
 import { formatDateToShort, parseISO } from "@liexp/shared/utils/date";
 import * as React from "react";
 import { getEventCommonProps } from "../helpers/event.helper";
@@ -275,9 +275,8 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                             data={media}
                             onClick={() => {}}
                             itemStyle={{
-                              height: 400,
                               maxWidth: 800,
-                              maxHeight: 500,
+                              maxHeight: 400,
                               margin: "auto",
                             }}
                           />
