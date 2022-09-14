@@ -7,7 +7,7 @@ import { GetListQuery } from "../Query";
 export const GetSearchEventsQuery = t.strict(
   {
     ...GetListQuery.props,
-    type: optionFromUndefined(t.array(t.string)),
+    type: optionFromUndefined(t.union([t.string, t.array(t.string)])),
     groupsMembers: optionFromUndefined(t.array(t.string)),
     actors: optionFromUndefined(t.array(t.string)),
     groups: optionFromUndefined(t.array(t.string)),
@@ -21,7 +21,7 @@ export const GetSearchEventsQuery = t.strict(
     exclude: optionFromUndefined(t.array(t.string)),
     withDeleted: optionFromUndefined(BooleanFromString),
     withDrafts: optionFromUndefined(BooleanFromString),
-    draft: optionFromUndefined(BooleanFromString)
+    draft: optionFromUndefined(BooleanFromString),
   },
   "GetEventsQueryFilter"
 );

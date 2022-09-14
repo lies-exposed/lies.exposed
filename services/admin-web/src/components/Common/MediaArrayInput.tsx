@@ -1,14 +1,15 @@
-import { MediaType } from "@liexp/shared/io/http/Media";
 import { Box } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   ArrayInput,
-  ArrayInputProps, BooleanInput,
-  FormDataConsumer, SelectInput,
+  ArrayInputProps,
+  BooleanInput,
+  FormDataConsumer,
   SimpleFormIterator,
-  TextInput
+  TextInput,
 } from "react-admin";
 import { MediaInput } from "./MediaInput";
+import { MediaTypeInput } from "./MediaTypeInput";
 import ReferenceArrayMediaInput from "./ReferenceArrayMediaInput";
 
 export const MediaArrayInput: React.FC<
@@ -70,13 +71,9 @@ export const MediaArrayInput: React.FC<
                               />
                             </Box>
                             <Box>
-                              <SelectInput
+                              <MediaTypeInput
                                 label="type"
                                 source={typeSource}
-                                choices={MediaType.types.map((v) => ({
-                                  id: v.value,
-                                  name: v.value,
-                                }))}
                               />
                             </Box>
                           </Box>

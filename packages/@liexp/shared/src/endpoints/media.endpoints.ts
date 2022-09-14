@@ -18,7 +18,7 @@ export const List = Endpoint({
     Query: t.type(
       {
         ...GetListQuery.props,
-        type: optionFromNullable(t.array(MediaType)),
+        type: optionFromNullable(t.union([t.array(MediaType), t.string])),
         events: optionFromNullable(t.array(t.string)),
         ids: optionFromNullable(t.array(t.string)),
         description: optionFromNullable(t.string),
