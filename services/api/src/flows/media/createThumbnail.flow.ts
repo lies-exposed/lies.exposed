@@ -4,10 +4,12 @@ import { getPlatform, VideoPlatformMatch } from "@liexp/shared/helpers/media";
 import { Media } from "@liexp/shared/io/http";
 import { toPuppeteerError } from "@liexp/shared/providers/puppeteer.provider";
 import axios from "axios";
+import * as Canvas from "canvas";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as E from "fp-ts/lib/Either";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import * as pdfJS from "pdfjs-dist/legacy/build/pdf";
 import { Page } from "puppeteer-core";
 import {
   ControllerError,
@@ -97,6 +99,66 @@ export const createThumbnail =
   ): TE.TaskEither<ControllerError, string> => {
     ctx.logger.debug.log("Extracting thumbnail from url %s", media.location);
 
+    if (Media.PDFType.is(media.type)) {
+      return pipe(
+        TE.tryCatch(async () => {
+          const pdf = await pdfJS.getDocument(media.location).promise;
+          const page = await pdf.getPage(1);
+          return page;
+        }, toControllerError),
+        TE.chain((page) => {
+          return pipe(
+            TE.tryCatch(async () => {
+              const scale = 1.5;
+              const viewport = page.getViewport({ scale });
+
+              const outputScale = 1;
+
+              const canvas = Canvas.createCanvas(
+                viewport.width,
+                viewport.height
+              );
+              const context = canvas.getContext("2d");
+
+              const transform =
+                outputScale !== 1
+                  ? [outputScale, 0, 0, outputScale, 0, 0]
+                  : undefined;
+
+              const renderContext = {
+                canvasContext: context,
+                transform,
+                viewport,
+              };
+              await page.render(renderContext).promise;
+              return canvas.toBuffer();
+            }, toControllerError),
+
+            TE.chainFirst(() => TE.fromIO(() => page.cleanup()))
+          );
+        }),
+
+        TE.chain((screenshotPath) => {
+          const url = media.location.split("/");
+          const thumbnailName = url[url.length - 1].replace(
+            ".pdf",
+            "-thumbnail.png"
+          );
+
+          const key = `public/media/${url[url.length - 2]}/${thumbnailName}`;
+
+          return ctx.s3.upload({
+            Key: key,
+            Body: screenshotPath,
+            ContentType: "image/png",
+            Bucket: ctx.env.SPACE_BUCKET,
+            ACL: "public-read",
+          });
+        }),
+        TE.map((s) => s.Location)
+      );
+    }
+
     if (Media.MP4Type.is(media.type)) {
       return pipe(
         TE.tryCatch(
@@ -109,10 +171,7 @@ export const createThumbnail =
         TE.chain((stream) => {
           const tempFolder = path.resolve(process.cwd(), "temp");
 
-          const tempVideoFilePath = path.resolve(
-            tempFolder,
-            `${media.id}.mp4`
-          );
+          const tempVideoFilePath = path.resolve(tempFolder, `${media.id}.mp4`);
           const tempVideoFile = fs.createWriteStream(tempVideoFilePath);
 
           const filename = `${media.id}-thumb-%i.png`;
