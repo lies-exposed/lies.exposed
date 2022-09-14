@@ -5,6 +5,7 @@ import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import * as t from "io-ts";
 import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { RouteContext } from "@routes/route.types";
@@ -13,10 +14,17 @@ import { addOrder, getORMOptions } from "@utils/orm.utils";
 export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Media.List,
-    ({ query: { events, ids, description, type, emptyEvents, ...query } }) => {
+    ({
+      query: { events, ids, description, type: _type, emptyEvents, ...query },
+    }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
+      );
+
+      const type = pipe(
+        _type,
+        O.map((tp) => (t.array(t.string).is(tp) ? tp : [tp]))
       );
 
       ctx.logger.debug.log(`Find Options %O`, {

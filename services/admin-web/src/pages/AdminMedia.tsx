@@ -31,10 +31,11 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { CreateEventFromMediaButton } from '../components/Common/CreateEventFromMediaButton';
+import { CreateEventFromMediaButton } from "../components/Common/CreateEventFromMediaButton";
 import { EditForm } from "../components/Common/EditForm";
 import { MediaField } from "../components/Common/MediaField";
 import { MediaInput } from "../components/Common/MediaInput";
+import { MediaTypeInput } from "../components/Common/MediaTypeInput";
 import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
 import MediaPreview from "../components/previews/MediaPreview";
 import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
@@ -93,6 +94,7 @@ const parseURL = (
 const mediaFilters = [
   <TextInput key="description" source="description" alwaysOn size="small" />,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn size="small" />,
+  <MediaTypeInput key="type" source="type" alwaysOn size="small" />,
 ];
 
 export const MediaList: React.FC<ListProps> = (props) => (

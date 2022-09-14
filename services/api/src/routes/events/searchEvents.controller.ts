@@ -5,6 +5,7 @@ import * as E from "fp-ts/lib/Either";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
+import * as t from "io-ts";
 import { toEventV2IO } from "./eventV2.io";
 import { searchEventV2Query } from "./queries/searchEventsV2.query";
 import { RouteContext } from "@routes/route.types";
@@ -24,7 +25,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
       draft,
       startDate,
       endDate,
-      type,
+      type: _type,
       title,
       exclude,
       withDeleted,
@@ -43,6 +44,13 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
         ),
       },
       ctx.env.DEFAULT_PAGE_SIZE
+    );
+
+    const type = pipe(
+      _type,
+      O.map((tp) => {
+        return t.array(t.string).is(tp) ? tp : [tp];
+      })
     );
 
     ctx.logger.debug.log("find options %O", findOptions);
