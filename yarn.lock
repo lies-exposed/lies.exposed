@@ -1930,32 +1930,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dicebear/avatars-avataaars-sprites@npm:^4.10.3":
-  version: 4.10.3
-  resolution: "@dicebear/avatars-avataaars-sprites@npm:4.10.3"
+"@dicebear/avatars-avataaars-sprites@npm:^4.10.5":
+  version: 4.10.5
+  resolution: "@dicebear/avatars-avataaars-sprites@npm:4.10.5"
   peerDependencies:
     "@dicebear/avatars": ^4.6.0
-  checksum: 2b8e43244137d3a1c24bf609747a5b543748f68f111edd47058a1184251e9412677dc3e994469c9b387d6ea7a4085181247d7333916b0a19cd45c38b7debeb4c
+  checksum: af4d27291019cf2e20da9b7c035a4ae5f175645702249c7e4b81e094bc23541e4fcf53f74f3a5c13a463e2d13f713a1e61d76fe261c99dd4ca9dc2f69668a086
   languageName: node
   linkType: hard
 
-"@dicebear/avatars-bottts-sprites@npm:^4.10.3":
-  version: 4.10.3
-  resolution: "@dicebear/avatars-bottts-sprites@npm:4.10.3"
+"@dicebear/avatars-bottts-sprites@npm:^4.10.5":
+  version: 4.10.5
+  resolution: "@dicebear/avatars-bottts-sprites@npm:4.10.5"
   peerDependencies:
     "@dicebear/avatars": ^4.6.0
-  checksum: 8ed7daeee3df1bf31fc87dbc9491977cdd2d81caea1992584584464b6c43645dc8e967036cba2912592c1eddacb8e759c5a2bcc3cca5d58ad48219c74307084b
+  checksum: 606c0b9524ecb609ee45c9706af5d8fd48e62f1b277e25170d1838e5f8126fc560ac35e406a35392727266d33428536a652e71319921d5859d394d346d7c7f07
   languageName: node
   linkType: hard
 
-"@dicebear/avatars@npm:^4.10.3":
-  version: 4.10.3
-  resolution: "@dicebear/avatars@npm:4.10.3"
+"@dicebear/avatars@npm:^4.10.5":
+  version: 4.10.5
+  resolution: "@dicebear/avatars@npm:4.10.5"
   dependencies:
     "@types/json-schema": ^7.0.7
     pure-color: ^1.3.0
     svgson: ^5.2.1
-  checksum: 23b9c896316d41733e481fde45ec382bfa5987b21e17a0ac4a684373d826af5aef9839c08c67e3e9cfe31e14e5fdacd47624794a2b1e8ccd4459ba300afee978
+  checksum: 04a862696f98cc297e19f9aabd6b289782fd6f0d2f2a853b62d15cf363f69d8fcfd4ce8a3ca5df89509ceac164cf50ba82ea9624d3dce4f676262d342191ef9b
   languageName: node
   linkType: hard
 
@@ -8720,9 +8720,9 @@ __metadata:
   dependencies:
     "@databases/escape-identifier": ^1.0.3
     "@databases/pg": ^5.4.1
-    "@dicebear/avatars": ^4.10.3
-    "@dicebear/avatars-avataaars-sprites": ^4.10.3
-    "@dicebear/avatars-bottts-sprites": ^4.10.3
+    "@dicebear/avatars": ^4.10.5
+    "@dicebear/avatars-avataaars-sprites": ^4.10.5
+    "@dicebear/avatars-bottts-sprites": ^4.10.5
     "@types/cors": ^2.8.12
     "@types/debug": ^4.1.7
     "@types/eslint": ^8.4.6
