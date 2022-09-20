@@ -50,9 +50,9 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@testing-library/dom": "^8.17.1",
+    "@testing-library/dom": "^8.18.1",
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/debug": "^4.1.7",
     "@types/jest": "^27.5.2",
@@ -62,8 +62,8 @@
     "@types/react": "^17.0.50",
     "@types/react-dom": "^17.0.17",
     "@types/webpack-bundle-analyzer": "^4.4.2",
-    "@typescript-eslint/eslint-plugin": "^5.37.0",
-    "@typescript-eslint/parser": "^5.37.0",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^22.0.0",
