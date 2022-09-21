@@ -2726,7 +2726,7 @@ __metadata:
     sass: ^1.54.9
     speed-measure-webpack-plugin: ^1.5.0
     style-loader: ^3.3.1
-    ts-loader: ^9.4.0
+    ts-loader: ^9.4.1
     tsconfig-paths-webpack-plugin: ^3.5.2
     typescript: ^4.8.3
     url-loader: ^4.1.1
@@ -2754,7 +2754,7 @@ __metadata:
     axios: ^0.27.2
     bs58: ^5.0.0
     cheerio: ^1.0.0-rc.12
-    date-fns: ^2.29.2
+    date-fns: ^2.29.3
     domino: ^2.1.6
     fluent-ffmpeg: ^2.1.2
     fp-ts: ^2.12.3
@@ -2847,7 +2847,7 @@ __metadata:
     d3: ^7.6.1
     d3-sankey: ^0.12.3
     d3-sankey-circular: ^0.34.0
-    date-fns: ^2.29.2
+    date-fns: ^2.29.3
     eslint: ^8.23.1
     eslint-plugin-import: ^2.26.0
     fp-ts: ^2.12.3
@@ -3895,6 +3895,13 @@ __metadata:
     react-zdog: ">=1.0"
     zdog: ">=1.0"
   checksum: bf908e5c82fcad48a89873c9426bbfe6b472f41f2305535fb0360ea70afbceb486f3754b370e08825c20955b16faae674a66eae7b2bebd6139db26abd76c5bee
+  languageName: node
+  linkType: hard
+
+"@remix-run/router@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@remix-run/router@npm:1.0.0"
+  checksum: 2e7543c71432c49bc0e6cab287ce561c56bf33ad91f929cdbf4c9bd08636bc676f2bf6b048a95fc1f5c74c40600ab59ce248d1de34a1acb7c2e43f567b0e96b5
   languageName: node
   linkType: hard
 
@@ -8783,7 +8790,7 @@ __metadata:
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
-    aws-sdk: ^2.1187.0
+    aws-sdk: ^2.1220.0
     axios: ^0.27.2
     canvas: ^2.10.1
     cors: 2.8.5
@@ -9295,9 +9302,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1187.0":
-  version: 2.1187.0
-  resolution: "aws-sdk@npm:2.1187.0"
+"aws-sdk@npm:^2.1220.0":
+  version: 2.1220.0
+  resolution: "aws-sdk@npm:2.1220.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -9309,7 +9316,7 @@ __metadata:
     util: ^0.12.4
     uuid: 8.0.0
     xml2js: 0.4.19
-  checksum: ab56c8de56fbdafa6241abcf33b8f632b5d93d2c0fe48a91d34d20a814c8ccbf240aec6e203119efe970cc2c80edbf65b6703fb12659d07c34403b9c3cc90ef7
+  checksum: cb7956bdb0ace48a25182647f61ff019409d8eb490977ea9de2570028c0881e7d7f1407fec1ed2180492b833a5b16e3b67cd1acb193627454991b5370e3e5a4b
   languageName: node
   linkType: hard
 
@@ -12267,10 +12274,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.19.0, date-fns@npm:^2.28.0, date-fns@npm:^2.29.2":
+"date-fns@npm:^2.19.0, date-fns@npm:^2.28.0":
   version: 2.29.2
   resolution: "date-fns@npm:2.29.2"
   checksum: 08bebcceb0a5dbadae4c55e6592b9d5c07dbd7833433c7e9a1d4a424300db32589b8b48e5979b32863c9b00a48d9bab6663e580c2a4f9f203d46cbf9113b5664
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.29.3":
+  version: 2.29.3
+  resolution: "date-fns@npm:2.29.3"
+  checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
   languageName: node
   linkType: hard
 
@@ -22701,7 +22715,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.1.0, react-router-dom@npm:^6.3.0":
+"react-router-dom@npm:^6.1.0":
   version: 6.3.0
   resolution: "react-router-dom@npm:6.3.0"
   dependencies:
@@ -22714,6 +22728,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-router-dom@npm:^6.4.0":
+  version: 6.4.0
+  resolution: "react-router-dom@npm:6.4.0"
+  dependencies:
+    react-router: 6.4.0
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 5595bb168ce4a67ff72c1e3c1a9509bd1931da00f19c29d325b68a5a189577342d071a3c25f7c11dc7b489bcd48144206e4bc65e5be15ee9bc92515f0c1a0737
+  languageName: node
+  linkType: hard
+
 "react-router@npm:6.3.0, react-router@npm:^6.1.0":
   version: 6.3.0
   resolution: "react-router@npm:6.3.0"
@@ -22722,6 +22748,17 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 7be673f5e72104be01e6ab274516bdb932efd93305243170690f6560e3bd1035dd1df3d3c9ce1e0f452638a2529f43a1e77dcf0934fc8031c4783da657be13ca
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.4.0":
+  version: 6.4.0
+  resolution: "react-router@npm:6.4.0"
+  dependencies:
+    "@remix-run/router": 1.0.0
+  peerDependencies:
+    react: ">=16.8"
+  checksum: d2bc04f9a5a931256f35217cbbb0da7047bb5368831d300153155222b2994c9a263f598fe2ef213d530663b86cef59a9bef1912f60bd11779214794164fa290c
   languageName: node
   linkType: hard
 
@@ -25907,9 +25944,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-loader@npm:^9.4.0":
-  version: 9.4.0
-  resolution: "ts-loader@npm:9.4.0"
+"ts-loader@npm:^9.4.1":
+  version: 9.4.1
+  resolution: "ts-loader@npm:9.4.1"
   dependencies:
     chalk: ^4.1.0
     enhanced-resolve: ^5.0.0
@@ -25918,7 +25955,7 @@ __metadata:
   peerDependencies:
     typescript: "*"
     webpack: ^5.0.0
-  checksum: 354319c7c04dc8603d15f9dff53374f3f94f1bf5998ea2cf766515c2915553c052e410e842b078ae955253fc1bffbfed2adc1678d7ee0cfbbedf76101a142e25
+  checksum: b8947f6d396621cc3f6ba8d4c14fa09eba03c4b7eeabbc429481e923a973c244fb80feb44e900f03fc1010755a6bf14fc561c574fb79e324f39b5b6ef1dcca6c
   languageName: node
   linkType: hard
 
@@ -27160,7 +27197,7 @@ __metadata:
     react-error-boundary: ^3.1.4
     react-graph-vis: ^1.0.7
     react-helmet: ^6.1.0
-    react-router-dom: ^6.3.0
+    react-router-dom: ^6.4.0
     react-share: ^4.4.0
     react-slick: ^0.29.0
     react-spring: ^9.5.4
