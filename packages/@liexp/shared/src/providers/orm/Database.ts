@@ -43,23 +43,23 @@ interface DatabaseClient {
   formatQuery: (sql: SQLQuery) => { text: string; values: any };
   execSQL: <T>(sql: SQLQuery) => TE.TaskEither<DBError, T>;
   execQuery: <T>(q: () => Promise<T>) => TE.TaskEither<DBError, T>;
-  findOne: <Entity>(
+  findOne: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
     options: FindOneOptions<Entity>
   ) => TE.TaskEither<DBError, O.Option<Entity>>;
-  findOneOrFail: <Entity>(
+  findOneOrFail: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
     options: FindOneOptions<Entity>
   ) => TE.TaskEither<DBError, Entity>;
-  find: <Entity>(
+  find: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
     options?: FindManyOptions<Entity>
   ) => TE.TaskEither<DBError, Entity[]>;
-  findAndCount: <Entity>(
+  findAndCount: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
     options?: FindManyOptions<Entity>
   ) => TE.TaskEither<DBError, [Entity[], number]>;
-  count: <Entity>(
+  count: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
     options?: FindOneOptions<Entity>
   ) => TE.TaskEither<DBError, number>;
@@ -68,12 +68,12 @@ interface DatabaseClient {
     data: T[],
     opts?: SaveOptions
   ) => TE.TaskEither<DBError, Entity[]>;
-  update: <Entity>(
+  update: <Entity extends ObjectLiteral>(
     target: EntityTarget<Entity>,
     criteria: Criteria,
     partialEntity: QueryDeepPartialEntity<Entity>
   ) => TE.TaskEither<DBError, UpdateResult>;
-  delete: <Entity>(
+  delete: <Entity extends ObjectLiteral>(
     target: EntityTarget<Entity>,
     criteria: Criteria
   ) => TE.TaskEither<DBError, DeleteResult>;
