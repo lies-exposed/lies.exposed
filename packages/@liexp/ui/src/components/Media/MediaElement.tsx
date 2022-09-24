@@ -47,7 +47,9 @@ const MediaElement: React.FC<MediaElementProps> = ({
     const commonStyle = {
       width: "100%",
       maxWidth: 800,
-      minHeight: 300
+      minHeight: 300,
+      margin: "auto",
+      ...style,
     };
 
     switch (media.type) {
@@ -57,10 +59,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             {...props}
             className={className}
             media={{ ...media, type: "iframe/video" }}
-            style={{
-              ...commonStyle,
-              ...style,
-            }}
+            style={commonStyle}
           />
         );
       case Media.MediaType.types[4].value: {
@@ -69,7 +68,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             {...props}
             className={className}
             media={{ ...media, type: "application/pdf" }}
-            style={{ ...commonStyle, ...style }}
+            style={commonStyle}
           />
         );
       }
@@ -85,10 +84,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             loop={false}
             controls={true}
             autoPlay={false}
-            style={{
-              ...commonStyle,
-              ...style,
-            }}
+            style={commonStyle}
           />
         );
       }

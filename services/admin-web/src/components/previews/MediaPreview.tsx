@@ -1,8 +1,8 @@
 import { http } from "@liexp/shared/io";
-import { Slider } from "@liexp/ui/components/Common/Slider/Slider";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import { ThemeProvider } from "@liexp/ui/components/mui";
+import { MediaSlider } from '@liexp/ui/components/sliders/MediaSlider';
 import { ECOTheme } from "@liexp/ui/theme";
 import * as E from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
@@ -33,7 +33,7 @@ const MediaPreview: React.FC = () => {
       <HelmetProvider>
         <QueryClientProvider client={qc}>
           <ThemeProvider theme={ECOTheme}>
-            <Slider slides={[a]} />
+            <MediaSlider data={[a]} />
           </ThemeProvider>
         </QueryClientProvider>
       </HelmetProvider>

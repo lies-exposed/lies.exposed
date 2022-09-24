@@ -32,12 +32,12 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
               <AreaPageContent area={area} onGroupClick={() => {}} />
             </MainContent>
             <EventsPanel
-              hash={`area-${areaId}`}
               keywords={[]}
               actors={[]}
               groups={[]}
               groupsMembers={[]}
               query={{
+                hash: `area-${areaId}`,
                 startDate: subYears(new Date(), 1).toDateString(),
                 endDate: new Date().toDateString(),
                 actors: [],
@@ -46,13 +46,13 @@ const AreaTemplate: React.FC<{ areaId: string }> = ({ areaId }) => {
                 media: [],
                 keywords: [],
                 locations: [areaId],
-                tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),
                 _sort: "createdAt",
                 _order: "DESC",
               }}
-              onQueryChange={({ tab }) => {
-                // navigateToResource.actors({ id: actor.id }, { tab });
+              tab={typeof tab === "string" ? parseInt(tab, 10) : (tab as any)}
+              onQueryChange={(q, tab) => {
+                // navigateToResource.area({ id: actor.id }, { tab });
               }}
             />
           </Box>

@@ -1,12 +1,11 @@
-import { ActorList } from "@liexp/ui/components/lists/ActorList";
-import GroupList from "@liexp/ui/components/lists/GroupList";
-import { GroupsMembersList } from "@liexp/ui/components/lists/GroupMemberList";
-import KeywordList from "@liexp/ui/components/lists/KeywordList";
-import { Grid, Typography ,Box} from "@liexp/ui/components/mui";
-import { SearchEventQueryResult } from "@liexp/ui/state/queries/SearchEventsQuery";
-import { styled } from '@liexp/ui/theme';
 import * as React from "react";
-import { EventsView } from "../../utils/location.utils";
+import { SearchEventQueryResult, SearchEventQueryInput } from "../../state/queries/SearchEventsQuery";
+import { styled } from '../../theme';
+import { ActorList } from "../lists/ActorList";
+import GroupList from "../lists/GroupList";
+import { GroupsMembersList } from "../lists/GroupMemberList";
+import KeywordList from "../lists/KeywordList";
+import { Grid, Typography ,Box} from "../mui";
 
 const PREFIX = 'EventsFilterSummary';
 
@@ -45,8 +44,8 @@ const StyledGrid = styled(Grid)((
 export interface EventsFilterSummaryProps
   extends Omit<SearchEventQueryResult, "events" | 'total'> {
   className: string;
-  queryFilters: Required<Omit<EventsView, "view" | "page">>;
-  onQueryChange: (f: EventsFilterSummaryProps["queryFilters"]) => void;
+  queryFilters: SearchEventQueryInput;
+  onQueryChange: (f: SearchEventQueryInput) => void;
 }
 
 const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
@@ -114,7 +113,7 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
                   ...query,
                   startDate,
                   endDate,
-                  keywords: query.keywords.filter((k) => k !== keyword.id),
+                  keywords: query.keywords?.filter((k) => k !== keyword.id),
                 });
               }}
             />
@@ -129,7 +128,7 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
                   ...query,
                   startDate,
                   endDate,
-                  actors: query.actors.filter((aId) => aId !== actor.id),
+                  actors: query.actors?.filter((aId) => aId !== actor.id),
                 });
               }}
             />
@@ -144,7 +143,7 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
                   ...query,
                   startDate,
                   endDate,
-                  groups: query.groups.filter((aId) => aId !== group.id),
+                  groups: query.groups?.filter((aId) => aId !== group.id),
                 });
               }}
             />
@@ -171,7 +170,7 @@ const EventsFilterSummary: React.FC<EventsFilterSummaryProps> = (props) => {
                   ...query,
                   startDate,
                   endDate,
-                  groupsMembers: query.groupsMembers.filter((aId) => aId !== gm.id),
+                  groupsMembers: query.groupsMembers?.filter((aId) => aId !== gm.id),
                 });
               }}
             />

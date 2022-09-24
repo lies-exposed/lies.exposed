@@ -1,60 +1,89 @@
 import { Events } from "@liexp/shared/io/http";
-import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
+import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import * as React from "react";
-import SlickSlider from "react-slick";
-import { searchEventsQuery } from "../../state/queries/SearchEventsQuery";
-import QueriesRenderer from "../QueriesRenderer";
-import { EventListItem } from "../lists/EventList/EventListItem";
-import { Typography } from "../mui";
+import { styled } from "../../theme";
+import { Slider, SliderProps } from "../Common/Slider/Slider";
+import { Box } from "../mui";
+import EventSliderItem, { EventSliderItemBaseProps } from "./EventSliderItem";
 
-export interface EventSliderProps {
-  params: GetSearchEventsQueryInput;
+const EVENT_SLIDER_PREFIX = "event-slider";
+
+const classes = {
+  root: `${EVENT_SLIDER_PREFIX}-root`,
+  sliderWrapper: `${EVENT_SLIDER_PREFIX}-slider-wrapper`,
+  slider: `${EVENT_SLIDER_PREFIX}-slider`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`&.${classes.root}`]: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    margin: theme.spacing(3),
+  },
+  [`& .${classes.sliderWrapper}`]: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+  },
+  [`& .${classes.slider}`]: {
+    marginBottom: 25,
+    ".slick-prev:before": {
+      color: theme.palette.common.black,
+    },
+    ".slick-next:before": {
+      color: theme.palette.common.black,
+    },
+  },
+}));
+export interface EventSliderProps
+  extends Pick<
+    EventSliderItemBaseProps,
+    "onActorClick" | "onGroupClick" | "onGroupMemberClick" | "onKeywordClick"
+  > {
+  events: Events.SearchEvent.SearchEvent[];
+  totals: EventTotals;
   onClick: (e: Events.SearchEvent.SearchEvent) => void;
+  slider?: Partial<SliderProps>;
 }
 
 export const EventSlider: React.FC<EventSliderProps> = ({
-  params,
   onClick,
+  events,
+  totals,
+  slider,
+  ...props
 }) => {
   return (
-    <QueriesRenderer
-      queries={{
-        events: searchEventsQuery({
-          hash: "slider",
-          ...(params as any),
-        }),
-      }}
-      render={({ events: { events, totals } }) => {
-        return (
-          <div>
-            <Typography variant="body1">
-              Total events: {totals.uncategorized}
-            </Typography>
-            <SlickSlider
-              adaptiveHeight={true}
-              infinite={false}
-              arrows={true}
-              draggable={false}
-              dots={true}
-            >
-              {events.map((e, index) => {
-                return (
-                  <EventListItem
-                    key={e.id}
-                    event={e}
-                    onClick={onClick}
-                    onActorClick={() => {}}
-                    onGroupClick={() => {}}
-                    onGroupMemberClick={() => {}}
-                    onKeywordClick={() => {}}
-                    onRowInvalidate={() => {}}
-                  />
-                );
-              })}
-            </SlickSlider>
-          </div>
-        );
-      }}
-    />
+    <StyledBox className={classes.root}>
+      <Box className={classes.sliderWrapper}>
+        <Slider
+          className={classes.slider}
+          adaptiveHeight={false}
+          infinite={false}
+          arrows={true}
+          draggable={false}
+          dots={true}
+          style={{
+            width: "100%",
+          }}
+          {...slider}
+        >
+          {events.map((e, index) => {
+            return (
+              <EventSliderItem
+                key={e.id}
+                event={e}
+                onClick={onClick}
+                style={{
+                  width: "100%",
+                }}
+                {...props}
+              />
+            );
+          })}
+        </Slider>
+      </Box>
+    </StyledBox>
   );
 };

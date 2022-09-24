@@ -32,6 +32,7 @@ const Root = styled("div")(({ theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
     width: "100%",
+    overflow: "hidden",
   },
 
   [`& .${classes.wrapper}`]: {
@@ -60,7 +61,7 @@ const Root = styled("div")(({ theme }) => ({
     flexShrink: 1,
     display: "flex",
     flexDirection: "column",
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
       alignItems: "center",
@@ -116,8 +117,6 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
         ref={ref}
         className={classes.root}
         style={{
-          overflow: "hidden",
-          width: "100%",
           ...style,
           marginBottom: isLast ? 100 : style?.marginBottom,
         }}

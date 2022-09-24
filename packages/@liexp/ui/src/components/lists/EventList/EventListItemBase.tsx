@@ -78,14 +78,7 @@ const EventListItemBase = <E extends any>({
   }, []);
 
   return (
-    <StyledGrid
-      item
-      lg={10}
-      md={12}
-      sm={12}
-      xs={12}
-      style={{ maxWidth: "100%", width: "100%" }}
-    >
+    <StyledGrid item lg={10} md={12} sm={12} xs={12} style={{ width: "100%" }}>
       <Box className={classes.title}>
         <EventIcon className={classes.eventIcon} type={type} size="2x" />
         <Typography variant="h6" gutterBottom={true}>
@@ -120,58 +113,35 @@ const EventListItemBase = <E extends any>({
           {url}
         </Link>
       ) : null}
-      {isValidValue(excerpt) ? (
-        <Typography
-          style={{ display: "flex", marginBottom: 20 }}
-          variant="body1"
-        >
-          {getTextContentsCapped(excerpt, 300)}
-        </Typography>
-      ) : null}
+
       {pipe(
         media,
         O.fromPredicate((arr) => arr.length > 0),
         O.map((media) => (
           // eslint-disable-next-line react/jsx-key
-          <Grid container style={{ width: "100%" }}>
-            <Grid
-              item
-              lg={10}
-              md={12}
-              sm={12}
-              xs={12}
-              style={{
-                display: "flex",
-                maxWidth: "100%",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: 30,
-                flexGrow: 1,
-              }}
-            >
-              <Box
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  maxWidth: 600,
-                  flexGrow: 0,
-                  margin: 0,
-                }}
-              >
-                <MediaSlider
-                  data={media}
-                  style={{ width: "100%" }}
-                  itemStyle={{ height: 300, maxWidth: 600 }}
-                  onLoad={onLoad}
-                  enableDescription={true}
-                />
-              </Box>
-            </Grid>
-          </Grid>
+          <MediaSlider
+            data={media}
+            style={{
+              width: "100%",
+              height: 300,
+            }}
+            itemStyle={{ height: 300, maxWidth: 600 }}
+            onLoad={onLoad}
+            enableDescription={true}
+          />
         )),
         O.toNullable
       )}
+      {isValidValue(excerpt) ? (
+        <Box>
+          <Typography
+            style={{ display: "flex", marginBottom: 20, flexGrow: 1 }}
+            variant="body1"
+          >
+            {getTextContentsCapped(excerpt, 300)}
+          </Typography>
+        </Box>
+      ) : null}
       {pipe(
         links,
         O.fromPredicate(A.isNonEmpty),

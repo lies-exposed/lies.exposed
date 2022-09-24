@@ -26,6 +26,7 @@ import {
   getLinkQueryKey,
   getMediaQueryKey,
   getPageContentByPathQueryKey,
+  useStatsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import {
   fetchSearchEvents,
@@ -145,7 +146,10 @@ export const routes = [
         queryFn: fetchGroups,
       },
       {
-        queryKey: ["stats", { id: actorId, type: StatsType.types[1].value }],
+        queryKey: useStatsQuery({
+          id: actorId,
+          type: StatsType.types[1].value,
+        }),
         queryFn: fetchStats,
       },
     ],

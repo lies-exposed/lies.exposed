@@ -4,9 +4,9 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { MarkdownRenderer } from "./Common/MarkdownRenderer";
-import { Slider } from "./Common/Slider/Slider";
 import { ProjectAreasMap } from "./Graph/ProjectAreasMap";
 import { Grid, Typography } from "./mui";
+import { MediaSlider } from "./sliders/MediaSlider";
 
 export interface ProjectPageContentProps extends Project.Project {
   metadata: Events.EventListMap;
@@ -71,9 +71,9 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
           {pipe(
             O.fromNullable(props.media),
             O.map((media) => (
-              <Slider
+              <MediaSlider
                 key={`project-${props.id}-slider`}
-                slides={media}
+                data={media}
                 arrows={true}
                 dots={true}
               />

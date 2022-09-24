@@ -45,6 +45,7 @@ const toError = (e: unknown): APIError => {
     return {
       name: "APIError",
       message: e.message,
+      stack: e.stack,
       details: [],
     };
   }

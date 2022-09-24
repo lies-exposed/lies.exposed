@@ -4,8 +4,8 @@ import * as O from "fp-ts/lib/Option";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
 import { MarkdownRenderer } from "../../Common/MarkdownRenderer";
-import { Slider } from "../../Common/Slider/Slider";
 import { Grid } from "../../mui";
+import { MediaSlider } from '../../sliders/MediaSlider';
 
 interface ProtestListItemProps {
   item: Events.Protest.ProtestMD;
@@ -27,12 +27,9 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
             O.map((media) => (
               // eslint-disable-next-line react/jsx-key
               <Grid item>
-                <Slider
+                <MediaSlider
                   key="home-slider"
-                  slides={media}
-                  arrows={true}
-                  adaptiveHeight={true}
-                  dots={true}
+                  data={media}
                 />
               </Grid>
             )),

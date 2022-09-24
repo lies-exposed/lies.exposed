@@ -158,6 +158,8 @@ export interface SearchEventQueryInput
   hash: string;
 }
 
+export interface SearchEventsQueryInputNoPagination extends Omit<SearchEventQueryInput, '_start' | '_end'> {}
+
 const searchEventsQ =
   (getEvents: (input: any) => TE.TaskEither<APIError, ListEventOutput>) =>
   ({
