@@ -70,12 +70,12 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
               />
             </MainContent>
             <EventsPanel
-              hash={`actor-${actorId}`}
               keywords={[]}
               actors={[]}
               groups={[]}
               groupsMembers={[]}
               query={{
+                hash: `actor-${actorId}`,
                 startDate: undefined,
                 endDate: new Date().toDateString(),
                 actors: actorId ? [actorId] : [],
@@ -84,12 +84,12 @@ const ActorTemplate: React.FC<{ actorId: string }> = ({ actorId }) => {
                 media: [],
                 keywords: [],
                 locations: [],
-                tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),
                 _sort: "date",
                 _order: "DESC",
               }}
-              onQueryChange={({ tab }) => {
+              tab={typeof tab === "string" ? parseInt(tab, 10) : (tab as any)}
+              onQueryChange={(q, tab) => {
                 navigateToResource.actors({ id: actor.id }, { tab });
               }}
             />

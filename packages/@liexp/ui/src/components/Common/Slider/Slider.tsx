@@ -1,61 +1,45 @@
-import { Media } from "@liexp/shared/io/http";
 import { clsx } from "clsx";
 import * as React from "react";
 import * as SlickSlider from "react-slick";
 import { styled, useTheme } from "../../../theme";
-import MediaElement from "../../Media/MediaElement";
 
 const PREFIX = "Slider";
 
 const classes = {
   mediaSlider: `${PREFIX}-mediaSlider`,
-  item: `${PREFIX}-item`,
   mediaSliderDownMD: `${PREFIX}-mediaSliderDownMD`,
+  item: `${PREFIX}-item`,
 };
 
 const StyledSlickSlider = styled(SlickSlider.default)(({ theme }) => ({
-  [`& .${classes.mediaSlider}`]: {
+  [`.${classes.mediaSlider}`]: {
     margin: 0,
-    maxWidth: 800,
-    maxHeight: 400,
     width: "100%",
-  },
-
-  [`& .${classes.item}`]: {
-    margin: "auto",
-    height: "100%",
-    width: "100%",
-    display: "block",
-    objectFit: "contain",
-    [theme.breakpoints.down("md")]: {
+    maxHeight: "100%",
+    [`&.${classes.mediaSliderDownMD}`]: {
       width: "100%",
+      "& > .slick-list > .slick-track": {
+        margin: 0,
+      },
     },
-  },
-
-  [`& .${classes.mediaSliderDownMD}`]: {
-    width: "100%",
-    "& > .slick-list > .slick-track": {
-      margin: 0,
+    "& .slick-prev:before": {
+      color: theme.palette.common.black,
+    },
+    "& .slick-next:before": {
+      color: theme.palette.common.black,
     },
   },
 }));
 
 export interface SliderProps extends SlickSlider.Settings {
-  slides: Media.Media[];
   maxHeight?: number;
   style?: React.CSSProperties;
-  itemStyle?: React.CSSProperties;
-  onLoad?: () => void;
-  enableDescription?: boolean;
 }
 
 export const Slider: React.FC<SliderProps> = ({
-  slides,
   maxHeight = 400,
-  itemStyle,
-  onLoad,
-  enableDescription,
   className,
+  children,
   ...props
 }) => {
   const theme = useTheme();
@@ -78,32 +62,14 @@ export const Slider: React.FC<SliderProps> = ({
           breakpoint: theme.breakpoints.values.md,
           settings: {
             ...props,
-            className: classes.mediaSliderDownMD,
+            className: clsx(classes.mediaSlider, classes.mediaSliderDownMD),
             centerPadding: "0px",
           },
         },
       ]}
       {...props}
     >
-      {slides
-        .filter((s) => s !== undefined)
-        .map((s, i) => (
-          <div
-            key={s.id}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <MediaElement
-              key={s.id}
-              media={s}
-              className={classes.item}
-              style={itemStyle}
-              onLoad={i === 0 ? onLoad : undefined}
-              enableDescription={enableDescription}
-            />
-          </div>
-        ))}
+      {children}
     </StyledSlickSlider>
   );
 };

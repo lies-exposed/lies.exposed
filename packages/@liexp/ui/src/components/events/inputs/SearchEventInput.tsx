@@ -1,22 +1,22 @@
 import { Actor, Group, Keyword } from "@liexp/shared/io/http";
-import { ActorListItem } from "@liexp/ui/components/lists/ActorList";
-import { GroupListItem } from "@liexp/ui/components/lists/GroupList";
-import { KeywordListItem } from "@liexp/ui/components/lists/KeywordList";
+import * as React from "react";
+import {
+  fetchActors,
+  fetchGroups,
+  fetchKeywords
+} from "../../../state/queries/DiscreteQueries";
+import { SearchEventsQueryInputNoPagination } from '../../../state/queries/SearchEventsQuery';
+import { ActorListItem } from "../../lists/ActorList";
+import { GroupListItem } from "../../lists/GroupList";
+import { KeywordListItem } from "../../lists/KeywordList";
 import {
   Autocomplete,
   AutocompleteInputChangeReason,
   AutocompleteProps,
   Box,
   TextField,
-  Typography,
-} from "@liexp/ui/components/mui";
-import {
-  fetchActors,
-  fetchGroups,
-  fetchKeywords,
-} from "@liexp/ui/state/queries/DiscreteQueries";
-import * as React from "react";
-import { EventsQueryParams } from "@containers/EventsPanel";
+  Typography
+} from "../../mui";
 
 export type SearchOption =
   | {
@@ -41,7 +41,7 @@ interface SearchInputProps
     AutocompleteProps<any, true, undefined, true>,
     "renderInput" | "options"
   > {
-  query: EventsQueryParams;
+  query: SearchEventsQueryInputNoPagination;
   onQueryChange: (items: SearchOption[]) => void;
 }
 

@@ -16,7 +16,10 @@ export const secondaryDark = darken(primary, 0.5);
 
 const themeOptions: ThemeOptions = {
   palette: {
-    // mode: "dark",
+    common: {
+      white: "#EEE",
+      black: "#111",
+    },
     primary: {
       main: primary,
       light: primaryLight,

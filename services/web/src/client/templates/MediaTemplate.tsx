@@ -35,12 +35,12 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
               </Box>
             </MainContent>
             <EventsPanel
-              hash={`media-${mediaId}`}
               keywords={[]}
               actors={[]}
               groups={[]}
               groupsMembers={[]}
               query={{
+                hash: `media-${mediaId}`,
                 startDate: undefined,
                 endDate: new Date().toDateString(),
                 media: mediaId ? [mediaId] : [],
@@ -49,12 +49,12 @@ const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
                 groupsMembers: [],
                 keywords: [],
                 locations: [],
-                tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),
                 _sort: "date",
                 _order: "DESC",
               }}
-              onQueryChange={({ tab }) => {
+              tab={typeof tab === "string" ? parseInt(tab, 10) : (tab as any)}
+              onQueryChange={(q, tab) => {
                 navigateToResource.media({ id: m.id }, { tab });
               }}
             />

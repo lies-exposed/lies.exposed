@@ -15,9 +15,9 @@ import {
   TextInput,
   useRecordContext
 } from "react-admin";
+import { EditForm } from '../components/Common/EditForm';
 import RichTextInput from "../components/Common/RichTextInput";
-import { EditForm } from 'components/Common/EditForm';
-import PagePreview from 'components/previews/PagePreview';
+import PagePreview from '../components/previews/PagePreview';
 
 export const PageList: React.FC<ListProps> = (props) => (
   <List {...props}>

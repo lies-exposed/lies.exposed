@@ -1,8 +1,10 @@
 /* eslint-disable no-restricted-imports */
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import CloseIcon from "@mui/icons-material/Close";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PlayCircleOutline from '@mui/icons-material/PlayCircleOutline'
+import PlayCircleOutline from '@mui/icons-material/PlayCircleOutline';
+import SearchIcon from '@mui/icons-material/SearchOutlined';
 import TreeItem from "@mui/lab/TreeItem";
 import TreeView from "@mui/lab/TreeView";
 import Accordion from "@mui/material/Accordion";
@@ -11,7 +13,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AppBar from "@mui/material/AppBar";
 import Autocomplete, {
   AutocompleteInputChangeReason,
-  AutocompleteProps,
+  AutocompleteProps
 } from "@mui/material/Autocomplete";
 import Box, { BoxProps } from "@mui/material/Box";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -33,7 +35,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
-import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from "@mui/material/FormGroup";
 import Grid from "@mui/material/Grid";
 import Grow from "@mui/material/Grow";
@@ -48,7 +50,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import Modal from "@mui/material/Modal";
+import Modal, { ModalProps } from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -63,6 +65,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha } from "@mui/system/colorManipulator";
 
 export {
+  SearchIcon,
   Accordion,
   AccordionDetails,
   AccordionSummary,
@@ -101,7 +104,7 @@ export {
   MenuItem,
   MenuList,
   useMediaQuery,
-  Modal,
+  Modal, ModalProps,
   Tab,
   Tabs,
   StyledEngineProvider,
@@ -130,5 +133,6 @@ export {
   CircularProgress,
   Checkbox,
   CheckBoxIcon,
-  PlayCircleOutline
+  PlayCircleOutline,
+  CloseIcon
 };

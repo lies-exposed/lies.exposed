@@ -11,7 +11,7 @@ const classes = {
 };
 
 const Root = styled("div")(() => ({
-  [`& .${classes.iframe}`]: {
+  [`&.${classes.iframe}`]: {
     display: "flex",
     minHeight: 400,
     maxWidth: 800,
@@ -29,6 +29,7 @@ interface IframeMediaElementProps {
 const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   media,
   onLoad,
+  style,
   ...props
 }) => {
   const ref = React.useRef<HTMLIFrameElement | null>(null);
@@ -43,17 +44,8 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
           src={media.location}
           ref={ref}
           loading="lazy"
+          style={style}
           allowFullScreen={true}
-          // sandbox=""
-          // onLoad={(e) => {
-          // console.log('on load', e);
-          // ref.current?.src = "";
-          // e.preventDefault();
-          // }}
-          // onLoadCapture={(e) => {
-          // console.log('on load capture', e);
-          // e.preventDefault();
-          // }}
           onError={(e) => {
             // console.log('on error', e)
           }}
@@ -70,7 +62,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
             e.stopPropagation();
             setLoaded(true);
           }}
-          style={props.style}
+          style={style}
           onLoad={onLoad}
         />
       )}

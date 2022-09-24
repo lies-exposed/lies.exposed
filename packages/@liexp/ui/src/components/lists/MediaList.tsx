@@ -3,6 +3,7 @@ import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme";
 import { ListItemProps } from "../Common/List";
+import { defaultImage } from "../SEO";
 import { Box, Grid, ListProps, Typography } from "../mui";
 
 export interface Media extends io.Media.Media {
@@ -35,6 +36,7 @@ const StyledGridItem = styled(Grid)({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    height: "100%",
   },
   [`& .${classes.media}`]: {
     height: 200,
@@ -56,7 +58,6 @@ export const MediaListItem: React.FC<
     style?: React.CSSProperties;
   }
 > = ({ item, onClick, style }) => {
-
   return (
     <StyledGridItem
       key={item.id}
@@ -70,13 +71,12 @@ export const MediaListItem: React.FC<
       onClick={() => onClick?.(item)}
     >
       <Box className={classes.wrapper}>
-        {item.thumbnail ? (
-          <img
-            className={classes.media}
-            src={item.thumbnail}
-            title={item.description}
-          />
-        ) : null}
+        <img
+          className={classes.media}
+          src={item.thumbnail ?? defaultImage}
+          title={item.description}
+        />
+
         <Box className={classes.description}>
           <Typography gutterBottom variant="body2" component="p" color="white">
             {item.description.substring(0, 100).concat("...")}
@@ -103,6 +103,7 @@ const StyledList = styled(Grid)(() => ({
   [`&.${listClasses.root}`]: {
     display: "flex",
     flexDirection: "row",
+    paddingRight: 0,
   },
 })) as typeof Grid;
 
@@ -116,6 +117,8 @@ export const MediaList: React.FC<MediaListProps> = ({
     <StyledList
       {...props}
       container
+      alignItems="center"
+      justifyItems="center"
       spacing={2}
       className={clsx(listClasses.root, className)}
       component="ul"

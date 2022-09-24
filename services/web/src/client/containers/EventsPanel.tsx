@@ -1,9 +1,13 @@
 import { Actor, Group, GroupMember, Keyword } from "@liexp/shared/io/http";
 import { EventType, SearchEvent } from "@liexp/shared/io/http/Events";
 import { TabPanel } from "@liexp/ui/components/Common/TabPanel";
+import EventSliderModal from "@liexp/ui/components/Modal/EventSliderModal";
+import EventsTimeline from "@liexp/ui/components/lists/EventList/EventsTimeline";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import useWindowsDimensions from "@liexp/ui/hooks/useWindowsDimensions";
-import EventsTimeline from "@liexp/ui/src/components/lists/EventList/EventsTimeline";
+import {
+  SearchEventsQueryInputNoPagination
+} from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
 import { clsx } from "clsx";
 import * as React from "react";
@@ -136,18 +140,18 @@ export interface EventsQueryParams {
 }
 
 interface EventsPanelProps {
-  hash: string;
-  query: EventsQueryParams;
+  query: SearchEventsQueryInputNoPagination;
+  tab: number;
   keywords: Keyword.Keyword[];
   actors: Actor.Actor[];
   groups: Group.Group[];
   groupsMembers: GroupMember.GroupMember[];
-  onQueryChange: (q: EventsQueryParams) => void;
+  onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
 }
 
 export const EventsPanel: React.FC<EventsPanelProps> = ({
-  hash,
-  query: { tab, ...query },
+  tab,
+  query: { hash, ...query },
   onQueryChange,
 }) => {
   const navigateTo = useNavigateToResource();
@@ -155,8 +159,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
   const { height } = useWindowsDimensions();
 
   const handleUpdateEventsSearch = React.useCallback(
-    (update: Partial<EventsQueryParams>): void => {
-      onQueryChange({ ...query, ...update, tab: 0 });
+    (update: Partial<SearchEventsQueryInputNoPagination>): void => {
+      onQueryChange({ ...query, ...update, hash }, tab);
     },
     [hash, tab, query]
   );
@@ -230,31 +234,35 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
                 queryParams={query}
                 onClick={handleEventClick}
                 onGroupClick={(g) => {
+                  const gg = query.groups ?? [];
                   onGroupsChange(
-                    query.groups.includes(g.id)
-                      ? query.groups.filter((aa) => g.id !== aa)
-                      : query.groups.concat(g.id)
+                    gg.includes(g.id)
+                      ? gg.filter((aa) => g.id !== aa)
+                      : gg.concat(g.id)
                   );
                 }}
                 onGroupMemberClick={(gm) => {
+                  const gmgg = query.groupsMembers ?? [];
                   onGroupMembersChange(
-                    query.groupsMembers.includes(gm.id)
-                      ? query.groupsMembers.filter((aa) => gm.id !== aa)
-                      : query.groupsMembers.concat(gm.id)
+                    gmgg.includes(gm.id)
+                      ? gmgg.filter((aa) => gm.id !== aa)
+                      : gmgg.concat(gm.id)
                   );
                 }}
                 onActorClick={(a) => {
+                  const aa = query.actors ?? [];
                   onActorsChange(
-                    query.actors.includes(a.id)
-                      ? query.actors.filter((aa) => a.id !== aa)
-                      : query.actors.concat(a.id)
+                    aa.includes(a.id)
+                      ? aa.filter((aa) => a.id !== aa)
+                      : aa.concat(a.id)
                   );
                 }}
                 onKeywordClick={(k) => {
+                  const kk = query.keywords ?? [];
                   onKeywordsChange(
-                    query.keywords.includes(k.id)
-                      ? query.keywords.filter((aa) => k.id !== aa)
-                      : query.keywords.concat(k.id)
+                    kk.includes(k.id)
+                      ? kk.filter((aa) => k.id !== aa)
+                      : kk.concat(k.id)
                   );
                 }}
               />
@@ -311,7 +319,26 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           />
         ) : null}
       </TabPanel> */}
-
+      <EventSliderModal
+        query={{ ...query, hash }}
+        onQueryChange={handleUpdateEventsSearch}
+        onQueryClear={() => {}}
+        onClick={(e) => {
+          navigateTo.events({ id: e.id });
+        }}
+        onActorClick={(a) => {
+          navigateTo.actors({ id: a.id });
+        }}
+        onGroupClick={(g) => {
+          navigateTo.groups({ id: g.id });
+        }}
+        onKeywordClick={(k) => {
+          navigateTo.keywords({ id: k.id });
+        }}
+        onGroupMemberClick={(g) => {
+          navigateTo.actors({ id: g.actor.id });
+        }}
+      />
       <AddEventModal query={query} hash={hash} container={"events-panel"} />
     </StyledBox>
   );

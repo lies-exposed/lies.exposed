@@ -81,26 +81,26 @@ const GroupTemplate: React.FC<{ groupId: string }> = ({ groupId }) => {
               />
             </MainContent>
             <EventsPanel
-              hash={`group-${groupId}`}
               query={{
+                hash: `group-${groupId}`,
                 groups: [group.id],
                 groupsMembers: [],
                 keywords: [],
                 actors: [],
                 locations: [],
                 media: [],
-                tab,
                 startDate: undefined,
                 endDate: new Date().toDateString(),
                 type: EventType.types.map((t) => t.value),
                 _sort: "date",
                 _order: "DESC",
               }}
+              tab={tab}
               actors={[]}
               groups={[]}
               groupsMembers={[]}
               keywords={[]}
-              onQueryChange={({ tab }) => {
+              onQueryChange={(q, tab) => {
                 navigateTo.groups({ id: group.id }, { tab });
               }}
             />

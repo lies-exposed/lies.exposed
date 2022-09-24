@@ -2,6 +2,7 @@ import { EventType } from "@liexp/shared/io/http/Events";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
+import EventsAppBar from "@liexp/ui/components/events/EventsAppBar";
 import { Box, Grid } from "@liexp/ui/components/mui";
 import {
   useActorsQuery,
@@ -9,10 +10,12 @@ import {
   useGroupMembersQuery,
   useKeywordsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { clearSearchEventsQueryCache } from "@liexp/ui/state/queries/SearchEventsQuery";
+import {
+  clearSearchEventsQueryCache,
+  SearchEventQueryInput,
+} from "@liexp/ui/state/queries/SearchEventsQuery";
 import { styled } from "@liexp/ui/theme";
 import * as React from "react";
-import EventsAppBar from "../components/events/EventsAppBar";
 import { queryClient } from "../state/queries";
 import {
   queryToHash,
@@ -20,7 +23,7 @@ import {
   useRouteQuery,
 } from "../utils/history.utils";
 import { EventsView, useNavigateToResource } from "../utils/location.utils";
-import { EventsPanel, EventsQueryParams } from "@containers/EventsPanel";
+import { EventsPanel } from "@containers/EventsPanel";
 
 const PREFIX = "EventsPage";
 
@@ -149,7 +152,8 @@ const EventsPage: React.FC<EventsPageProps> = () => {
   const navigateTo = useNavigateToResource();
   const tab = parseInt(query.tab ?? "0", 10);
 
-  const params = {
+  const params: Omit<SearchEventQueryInput, '_start' | '_end'> = {
+    hash,
     startDate: query.startDate,
     endDate: query.endDate,
     actors: query.actors ?? [],
@@ -158,18 +162,20 @@ const EventsPage: React.FC<EventsPageProps> = () => {
     keywords: query.keywords ?? [],
     media: query.media ?? [],
     locations: query.locations ?? [],
-    tab,
     type: (query.type as EventType[]) ?? EventType.types.map((t) => t.value),
     title: query.title,
-    _order: query._order ?? 'ASC',
+    _order: query._order ?? "ASC",
     _sort: "date",
   };
 
   const handleUpdateEventsSearch = React.useCallback(
-    (update: EventsQueryParams): void => {
+    (update: Omit<SearchEventQueryInput, '_start' | '_end'>, tab: number): void => {
       clearSearchEventsQueryCache();
       void queryClient.invalidateQueries("events-search-infinite").then(() => {
-        navigateTo.events({}, { hash: queryToHash({ ...params, ...update }) });
+        navigateTo.events(
+          {},
+          { hash: queryToHash({ ...params, ...update }), tab }
+        );
       });
     },
     [hash, tab, params]
@@ -196,28 +202,28 @@ const EventsPage: React.FC<EventsPageProps> = () => {
         queries={{
           filterActors: useActorsQuery(
             {
-              pagination: { page: 1, perPage: params.actors.length },
+              pagination: { page: 1, perPage: params.actors?.length ?? 0 },
               filter: { ids: params.actors },
             },
             true
           ),
           filterGroups: useGroupsQuery(
             {
-              pagination: { page: 1, perPage: params.groups.length },
+              pagination: { page: 1, perPage: params.groups?.length ?? 0 },
               filter: { ids: params.groups },
             },
             true
           ),
           filterGroupsMembers: useGroupMembersQuery(
             {
-              pagination: { page: 1, perPage: params.groupsMembers.length },
+              pagination: { page: 1, perPage: params.groupsMembers?.length ?? 0 },
               filter: { ids: params.groupsMembers },
             },
             true
           ),
           filterKeywords: useKeywordsQuery(
             {
-              pagination: { page: 1, perPage: params.keywords.length },
+              pagination: { page: 1, perPage: params.keywords?.length ?? 0 },
               sort: { field: "updatedAt", order: "DESC" },
               filter: { ids: params.keywords },
             },
@@ -272,7 +278,8 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 <Grid container justifyContent="center">
                   <EventsAppBar
                     hash={hash}
-                    query={{ ...params, tab }}
+                    query={params}
+                    tab={tab}
                     actors={filterActors.data}
                     groups={filterGroups.data}
                     groupsMembers={filterGroupsMembers.data}
@@ -285,8 +292,8 @@ const EventsPage: React.FC<EventsPageProps> = () => {
                 </Grid>
                 <main className={classes.content}>
                   <EventsPanel
-                    hash={hash}
-                    query={params}
+                    query={{...params, hash}}
+                    tab={tab}
                     actors={filterActors.data}
                     groups={filterGroups.data}
                     keywords={filterKeywords.data}

@@ -16,7 +16,7 @@ interface GroupListProps {
   onItemClick: (actor: Group) => void;
   avatarSize?: AvatarSize;
   displayName?: boolean;
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
 }
 
 export const GroupListItem: React.FC<
@@ -68,11 +68,13 @@ export const GroupListItem: React.FC<
 const GroupList: React.FC<GroupListProps> = ({
   groups,
   onItemClick: onGroupClick,
+  style,
   ...props
 }) => {
   return (
     <List
       {...props}
+      style={style}
       data={groups}
       filter={(_) => true}
       onItemClick={onGroupClick}

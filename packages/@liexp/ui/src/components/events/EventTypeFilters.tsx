@@ -1,9 +1,18 @@
-import { Death, Documentary, EventType, Patent, ScientificStudy, Transaction, Uncategorized } from "@liexp/shared/io/http/Events";
-import { EventIcon } from "@liexp/ui/components/Common/Icons";
-import { Box, IconButton, Typography } from "@liexp/ui/components/mui";
-import { styled } from "@liexp/ui/theme";
+import {
+  Death,
+  Documentary,
+  EventType,
+  Patent,
+  ScientificStudy,
+  Transaction,
+  Uncategorized,
+} from "@liexp/shared/io/http/Events";
+import { EventTotals } from '@liexp/shared/io/http/Events/SearchEventsQuery';
 import { clsx } from "clsx";
 import * as React from "react";
+import { styled } from "../../theme";
+import { EventIcon } from "../Common/Icons";
+import { Box, IconButton, Typography } from "../mui";
 
 const PREFIX = "event-type-filters";
 
@@ -28,20 +37,20 @@ const eventIconProps = {
   style: {
     marginRight: 10,
     width: 18,
-    height: 18
+    height: 18,
   },
 };
 
 export interface EventTypeFiltersProps {
-  filters: Record<EventType, boolean>
-  totals: any;
+  filters: { [K in EventType]: boolean };
+  totals: EventTotals;
   onChange: (f: EventType) => void;
 }
 
 export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
   filters,
   totals,
-  onChange
+  onChange,
 }) => {
   return (
     <StyledBox

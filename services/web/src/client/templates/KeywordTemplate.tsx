@@ -47,8 +47,9 @@ const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
             />
 
             <EventsPanel
-              hash={`keyword-${keywordId}`}
+              tab={typeof tab === "string" ? parseInt(tab, 10) : (tab as any)}
               query={{
+                hash: `keyword-${keywordId}`,
                 keywords: [keyword.id],
                 startDate: undefined,
                 endDate: new Date().toDateString(),
@@ -57,7 +58,6 @@ const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
                 groupsMembers: [],
                 media: [],
                 locations: [],
-                tab: typeof tab === "string" ? parseInt(tab, 10) : (tab as any),
                 type: EventType.types.map((t) => t.value),
                 _sort: "date",
                 _order: "DESC",
@@ -66,7 +66,7 @@ const KeywordTemplate: React.FC<{ keywordId: string }> = ({ keywordId }) => {
               actors={[]}
               groups={[]}
               groupsMembers={[]}
-              onQueryChange={({ tab }) => {
+              onQueryChange={(q, tab) => {
                 navigateToResource.actors({ id: keyword.id }, { tab });
               }}
             />
