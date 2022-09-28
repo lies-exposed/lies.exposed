@@ -45,7 +45,7 @@
     "front-matter": "4.0.2",
     "gray-matter": "^4.0.3",
     "io-ts": "^2.2.18",
-    "io-ts-types": "^0.5.16",
+    "io-ts-types": "^0.5.17",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
     "multer": "^1.4.5-lts.1",
