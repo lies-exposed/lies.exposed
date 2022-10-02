@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { DOCUMENTARY } from '@liexp/shared/io/http/Events/Documentary';
+import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { UUID } from "io-ts-types";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { Route } from "@routes/route.types";
@@ -24,16 +24,7 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
             ...l,
           };
         }),
-        media: body.media.map((l) => {
-          if (UUID.is(l)) {
-            return {
-              id: l,
-            };
-          }
-          return {
-            ...l,
-          };
-        }),
+        media: [{ id: payload.media }],
         keywords: body.keywords.map((l) => ({
           id: l,
         })),
@@ -49,7 +40,7 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
         ]),
         TE.chain(([result]) =>
           db.findOneOrFail(EventV2Entity, {
-            where: { id: Equal( result.id) },
+            where: { id: Equal(result.id) },
             loadRelationIds: {
               relations: ["media", "links", "keywords"],
             },

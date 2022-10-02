@@ -22,6 +22,7 @@ export const editEventQuery =
     return pipe(
       fetchRelations(ctx)(input),
       TE.chain((commonData) => {
+        ctx.logger.debug.log('event relations %O', commonData);
         // const oldMedia = storedEvent.media ?? [];
         // const media = commonData.media.concat(
         //   oldMedia.filter((l) => !commonData.media.find((ll) => ll.id === l.id))

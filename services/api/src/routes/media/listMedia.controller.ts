@@ -32,6 +32,7 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
         ids,
         description,
         type,
+        emptyEvents,
         ...findOptions,
       });
 
@@ -42,31 +43,41 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
           .leftJoinAndSelect("media.events", "events")
           .leftJoinAndSelect("media.links", "links"),
         (q) => {
+          let hasWhere = false;
           if (O.isSome(description)) {
-            return q.where("lower(media.description) LIKE :description", {
+            q.where("lower(media.description) LIKE :description", {
               description: `%${description.value.toLowerCase()}%`,
             });
+            hasWhere = true;
           }
 
           if (O.isSome(ids)) {
-            return q.where("media.id IN (:...ids)", {
+            const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+            where("media.id IN (:...ids)", {
               ids: ids.value,
             });
+            hasWhere = true;
           }
 
           if (O.isSome(type)) {
-            return q.where("media.type IN (:...types)", {
+            const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+            where("media.type IN (:...types)", {
               types: type.value,
             });
+            hasWhere = true;
           }
 
           if (O.isSome(events)) {
-            return q.where("events.id IN (:...eventIds)", {
+            const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+            where("events.id IN (:...eventIds)", {
               eventIds: events.value,
             });
+            hasWhere = true;
           } else if (O.isSome(emptyEvents)) {
-            if (emptyEvents) {
-              return q.where("events.id IS NULL");
+            if (emptyEvents.value) {
+              const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+              where("events.id IS NULL");
+              hasWhere = true;
             }
           }
 

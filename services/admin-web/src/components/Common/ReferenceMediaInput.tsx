@@ -11,7 +11,7 @@ import {
 export const matchMediaSuggestions = (
   filterValue: string,
   choice: Media
-): boolean => choice.description.includes(filterValue);
+): boolean => choice?.description?.includes(filterValue);
 
 export const MediaAutocompleteOptionText: React.FC = () => {
   const record = useRecordContext();
