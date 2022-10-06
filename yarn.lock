@@ -2708,7 +2708,7 @@ __metadata:
     "@types/mini-css-extract-plugin": ^2.5.1
     "@types/prettier": ^2.7.1
     "@types/react": ^17.0.50
-    "@types/webpack-bundle-analyzer": ^4.4.2
+    "@types/webpack-bundle-analyzer": ^4.6.0
     "@types/webpack-node-externals": ^2.5.3
     copy-webpack-plugin: ^11.0.0
     css-loader: ^6.7.1
@@ -2818,7 +2818,7 @@ __metadata:
     "@types/jest": ^27.5.2
     "@types/ol": ^6.5.3
     "@types/prettier": ^2.7.1
-    "@types/reach__router": ^1.3.10
+    "@types/reach__router": ^1.3.11
     "@types/react": ^17.0.50
     "@types/react-helmet": ^6.1.5
     "@types/react-slick": ^0.23.10
@@ -6975,12 +6975,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/reach__router@npm:^1.3.10":
-  version: 1.3.10
-  resolution: "@types/reach__router@npm:1.3.10"
+"@types/reach__router@npm:^1.3.11":
+  version: 1.3.11
+  resolution: "@types/reach__router@npm:1.3.11"
   dependencies:
     "@types/react": "*"
-  checksum: fdcb761d3b8cd74530c00490a7b5b1868e82b742e05b03d8fc09d88cc135ec6377556bcc8b345bf0f3aa8c99259e6cecbccf912ef8c9da12611c274a5ffb3fa9
+  checksum: 6bcf40714e0dafff66cbf10a534320eae35dae8344f616d2ddf077937287a0df188dfbfb32fb8045cbc641139d1ab69ee5bb258a51642823cadefbcda020a044
   languageName: node
   linkType: hard
 
@@ -7284,14 +7284,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-bundle-analyzer@npm:^4.4.2":
-  version: 4.4.2
-  resolution: "@types/webpack-bundle-analyzer@npm:4.4.2"
+"@types/webpack-bundle-analyzer@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "@types/webpack-bundle-analyzer@npm:4.6.0"
   dependencies:
     "@types/node": "*"
     tapable: ^2.2.0
     webpack: ^5
-  checksum: 013260f0122e8d9d7041b16eb71cb25695019d57648d96774ad4a73345a25d9cd1e9667073cc8548110a3c1519321c93a085bbfaa479a983fab72d9eab8143b2
+  checksum: 1cd5baa621a1dbe820bacf981d6e48f3423b733fb5e33c1356347e73d5e3e880ae6ebacf8f43d9e47e135d3ed2653ec5e40e12c6ce187f2eb3f548d9c949f6aa
   languageName: node
   linkType: hard
 
@@ -8432,7 +8432,7 @@ __metadata:
     "@types/prettier": ^2.7.1
     "@types/react": ^17.0.50
     "@types/react-dom": ^17.0.17
-    "@types/webpack-bundle-analyzer": ^4.4.2
+    "@types/webpack-bundle-analyzer": ^4.6.0
     "@typescript-eslint/eslint-plugin": ^5.39.0
     "@typescript-eslint/parser": ^5.39.0
     debug: ^4.3.4
@@ -27175,7 +27175,7 @@ __metadata:
     "@types/topojson-client": ^3.1.1
     "@types/topojson-server": ^3.0.1
     "@types/uuid": ^8.3.4
-    "@types/webpack-bundle-analyzer": ^4.4.2
+    "@types/webpack-bundle-analyzer": ^4.6.0
     "@types/webpack-node-externals": ^2.5.3
     "@typescript-eslint/eslint-plugin": ^5.39.0
     "@typescript-eslint/parser": ^5.39.0
