@@ -2826,7 +2826,7 @@ __metadata:
     "@types/throttle-debounce": ^5.0.0
     "@types/topojson-client": ^3.1.1
     "@types/topojson-specification": ^1.0.2
-    "@visx/axis": ^2.12.2
+    "@visx/axis": ^2.14.0
     "@visx/chord": ^2.10.0
     "@visx/clip-path": ^2.10.0
     "@visx/event": ^2.6.0
@@ -2845,7 +2845,7 @@ __metadata:
     "@visx/shape": ^2.12.2
     "@visx/text": ^2.12.2
     "@visx/threshold": ^2.12.2
-    "@visx/tooltip": ^2.10.0
+    "@visx/tooltip": ^2.15.0
     "@visx/wordcloud": ^2.10.0
     "@visx/zoom": ^2.10.0
     axios: ^0.27.2
@@ -7577,9 +7577,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/axis@npm:^2.12.2":
-  version: 2.12.2
-  resolution: "@visx/axis@npm:2.12.2"
+"@visx/axis@npm:^2.14.0":
+  version: 2.14.0
+  resolution: "@visx/axis@npm:2.14.0"
   dependencies:
     "@types/react": "*"
     "@visx/group": 2.10.0
@@ -7591,7 +7591,7 @@ __metadata:
     prop-types: ^15.6.0
   peerDependencies:
     react: ^16.3.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: deabdbb4d3b91b9b52d6f1e27b4c6e0bdadff89ec5e3f362f2f6815a11b8feac8e787bb09cca35e5cc6ebfdbd16c7cdfb456187fba0c5691871cee51ccd3ca46
+  checksum: ce3efbddf8881e2e0e4077a2ec32c5ca745e0cba9e4f1fb4b9ad65c1e418885cc464df3a3f1d38a2dc5c6bbb0d7761479ffb5661d042ea7e5f450173eff4f430
   languageName: node
   linkType: hard
 
@@ -7874,9 +7874,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@visx/tooltip@npm:^2.10.0":
-  version: 2.10.0
-  resolution: "@visx/tooltip@npm:2.10.0"
+"@visx/tooltip@npm:^2.15.0":
+  version: 2.15.0
+  resolution: "@visx/tooltip@npm:2.15.0"
   dependencies:
     "@types/react": "*"
     "@visx/bounds": 2.10.0
@@ -7886,7 +7886,7 @@ __metadata:
   peerDependencies:
     react: ^16.8.0-0 || ^17.0.0-0 || ^18.0.0-0
     react-dom: ^16.8.0-0 || ^17.0.0-0 || ^18.0.0-0
-  checksum: 06ca4b6a7c95a11234c30dbf962c39c2270336f53cc83b4fcadc79c42d3658b6b53c2c94c5faf69cdf6f2edfc1cbfb070b2f3a03900888a81530dcb30c2b5c41
+  checksum: 77df9b9e2c37f00ce9d31f682a8608a379f7a921192a5bc5bcc9c39702da2b601bcade90848a410d24360dbdc366cef1d4fac64590b17f8c05fdd2a9b3762d8b
   languageName: node
   linkType: hard
 
@@ -27179,12 +27179,12 @@ __metadata:
     "@types/webpack-node-externals": ^2.5.3
     "@typescript-eslint/eslint-plugin": ^5.39.0
     "@typescript-eslint/parser": ^5.39.0
-    "@visx/axis": ^2.12.2
+    "@visx/axis": ^2.14.0
     "@visx/gradient": ^2.10.0
     "@visx/legend": ^2.10.0
     "@visx/network": ^2.10.0
     "@visx/responsive": ^2.10.0
-    "@visx/tooltip": ^2.10.0
+    "@visx/tooltip": ^2.15.0
     axios: ^0.27.2
     bs58: ^5.0.0
     clsx: ^1.2.1
