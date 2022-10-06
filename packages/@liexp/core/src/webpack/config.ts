@@ -100,7 +100,12 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     return validation.right;
   });
 
-  const plugins = [];
+  const plugins = [
+    new webpack.ProgressPlugin({
+      entries: true,
+      percentBy: "entries",
+    }),
+  ];
 
   if (opts.target === "web" ?? opts.target === "electron-renderer") {
     const stringifiedAppEnv = pipe(
@@ -123,10 +128,6 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     );
 
     plugins.push(
-      new webpack.ProgressPlugin({
-        entries: true,
-        percentBy: "entries",
-      }),
       new webpack.DefinePlugin(stringifiedAppEnv)
     );
     plugins.push(
