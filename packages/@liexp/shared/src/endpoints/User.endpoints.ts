@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { GetListQuery } from "../io/http/Query";
-import { User } from "../io/http/User";
+import { User, UserPermission } from "../io/http/User";
 import { ResourceEndpoints } from "./types";
 
 export const UserLogin = Endpoint({
@@ -22,6 +22,7 @@ export const UserCreate = Endpoint({
         username: t.string,
         firstName: t.string,
         lastName: t.string,
+        permissions: t.array(UserPermission),
         email: t.string,
         password: t.string,
       },

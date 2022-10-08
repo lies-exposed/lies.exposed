@@ -7,8 +7,8 @@ import { Route } from "../route.types";
 import { toAreaIO } from "./Area.io";
 import { authenticationHandler } from "@utils/authenticationHandler";
 
-export const MakeCreateAreaRoute: Route = (r, { db, logger }) => {
-  AddEndpoint(r, authenticationHandler(logger))(
+export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt }) => {
+  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
     Endpoints.Area.Create,
     ({ body, headers }) => {
       logger.debug.log("Headers %O", { headers, body });

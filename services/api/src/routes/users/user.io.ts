@@ -8,6 +8,7 @@ export const toUserIO = ({
   passwordHash,
   ...user
 }: UserEntity): E.Either<ControllerError, io.http.User.User> => {
+
   return pipe(
     io.http.User.User.decode({
       ...user,

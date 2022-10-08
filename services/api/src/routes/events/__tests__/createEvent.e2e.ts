@@ -7,15 +7,17 @@ import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as A from "fp-ts/lib/Array";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import jwt from "jsonwebtoken";
 import { In } from "typeorm";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Create Event", () => {
-  let appTest: AppTest, authorizationToken: string;
+  let appTest: AppTest;
+    const users: any[] = [];
+    let authorizationToken: string;
 
   let event: http.Events.Uncategorized.Uncategorized;
   const keywords = fc.sample(KeywordArb, 5);
@@ -29,14 +31,12 @@ describe("Create Event", () => {
 
   beforeAll(async () => {
     appTest = await initAppTest();
-
+    const user = await saveUser(appTest, ["admin:create"]);
+    users.push(user);
+    const { authorization } = await loginUser(appTest)(user);
+    authorizationToken = authorization;
     await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
     await throwTE(appTest.ctx.db.save(KeywordEntity, keywords));
-
-    authorizationToken = `Bearer ${jwt.sign(
-      { id: "1" },
-      appTest.ctx.env.JWT_SECRET
-    )}`;
   });
 
   test("Should create an event", async () => {

@@ -10,9 +10,10 @@ import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Link.Create, ({ body }) => {
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:create']))(Endpoints.Link.Create, ({ body }) => {
     // const data = {
     //   events: body.events.map((e) => ({ id: e })),
     // };

@@ -4,9 +4,10 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { GroupEntity } from "../../entities/Group.entity";
 import { RouteContext } from "../route.types";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeDeleteGroupRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Group.Delete, ({ params: { id } }) => {
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:delete']))(Endpoints.Group.Delete, ({ params: { id } }) => {
     return pipe(
       ctx.db.softDelete(GroupEntity, id),
       TE.map((data) => ({

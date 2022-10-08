@@ -2,29 +2,29 @@ import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";
+import { UserEntity } from "@entities/User.entity";
 
 describe("Create Death Event", () => {
   let appTest: AppTest;
+    const users: any[] = [];
   const [actor] = fc.sample(ActorArb, 1);
-  let authorizationToken: string;
+
   let deathEvent: EventV2Entity;
 
   beforeAll(async () => {
     appTest = await initAppTest();
-
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
-
-    authorizationToken = `Bearer ${jwt.sign(
-      { id: "1" },
-      appTest.ctx.env.JWT_SECRET
-    )}`;
   });
 
   test("Should create a death event", async () => {
+    const user = await saveUser(appTest, ["admin:create"]);
+    users.push(user);
+    const { authorization } = await loginUser(appTest)(user);
+
     const deathData = {
       type: http.Events.Death.DEATH.value,
       payload: {
@@ -41,7 +41,7 @@ describe("Create Death Event", () => {
 
     const response = await appTest.req
       .post(`/v1/events`)
-      .set("Authorization", authorizationToken)
+      .set("Authorization", authorization)
       .send(deathData);
 
     const body = response.body.data;
@@ -66,5 +66,11 @@ describe("Create Death Event", () => {
   afterAll(async () => {
     await throwTE(appTest.ctx.db.delete(EventV2Entity, [deathEvent.id]));
     await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
+    await throwTE(
+      appTest.ctx.db.delete(
+        UserEntity,
+        users.map((u) => u.id)
+      )
+    );
   });
 });

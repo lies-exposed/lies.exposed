@@ -6,12 +6,13 @@ import { Equal } from 'typeorm';
 import { RouteContext } from "../route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeDeleteGroupMemberRoute = (
   r: Router,
   ctx: RouteContext
 ): void => {
-  AddEndpoint(r)(Endpoints.GroupMember.Delete, ({ params: { id } }) => {
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:delete']))(Endpoints.GroupMember.Delete, ({ params: { id } }) => {
     ctx.logger.debug.log("Delete group member %s", id);
 
     return pipe(

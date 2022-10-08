@@ -2,20 +2,17 @@ import * as tests from "@liexp/core/tests";
 import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { ColorArb } from "@liexp/shared/tests/arbitrary/common/Color.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../test/user.utils";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Delete Keyword", () => {
-  let Test: AppTest, keyword: any, authorizationToken: string;
+  let Test: AppTest, keyword: any, user: any, authorizationToken: string;
   beforeAll(async () => {
     Test = await initAppTest();
-
-    authorizationToken = `Bearer ${jwt.sign(
-      { id: "1" },
-      Test.ctx.env.JWT_SECRET
-    )}`;
-
+    user = await saveUser(Test, ["admin:create"]);
+    const { authorization } = await loginUser(Test)(user);
+    authorizationToken = authorization;
     keyword = (
       await Test.req
         .post("/v1/keywords")
@@ -33,9 +30,22 @@ describe("Delete Keyword", () => {
   });
 
   test("Should return a 401", async () => {
+    user = await saveUser(Test, ["admin:read"]);
+    const { authorization } = await loginUser(Test)(user);
     const response = await Test.req
       .delete(`/v1/keywords/${keyword.id}`)
-      .set("Authorization", authorizationToken);
+      .set("Authorization", authorization);
+
+    expect(response.status).toEqual(401);
+  });
+
+  test("Should return a 200", async () => {
+    user = await saveUser(Test, ["admin:delete"]);
+    const { authorization } = await loginUser(Test)(user);
+
+    const response = await Test.req
+      .delete(`/v1/keywords/${keyword.id}`)
+      .set("Authorization", authorization);
 
     expect(response.status).toEqual(200);
   });

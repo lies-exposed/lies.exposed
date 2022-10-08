@@ -1,3 +1,4 @@
+import { UserPermission } from "@liexp/shared/io/http/User";
 import { UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
@@ -29,6 +30,9 @@ export class UserEntity {
 
   @Column({ type: "varchar" })
   passwordHash: string;
+
+  @Column({ type: "simple-json", default: [] })
+  permissions: UserPermission[];
 
   @CreateDateColumn()
   createdAt: Date;

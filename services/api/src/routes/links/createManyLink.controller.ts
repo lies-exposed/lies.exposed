@@ -10,9 +10,10 @@ import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { fetchAndSave } from "@flows/link.flow";
 import { RouteContext } from "@routes/route.types";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Link.Custom.CreateMany, ({ body }) => {
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:create']))(Endpoints.Link.Custom.CreateMany, ({ body }) => {
     return pipe(
       ctx.db.find(LinkEntity, {
         where: {

@@ -10,9 +10,10 @@ import { toLinkIO } from "./link.io";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
 import { fetchAsLink } from "@flows/link.flow";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:edit']))(
     Endpoints.Link.Edit,
     ({ params: { id }, body: { events, url, overrideThumbnail, ...body } }) => {
       ctx.logger.debug.log("Update link with dat %O", { events, url, ...body });

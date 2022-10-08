@@ -4,7 +4,7 @@ import * as A from "fp-ts/lib/Array";
 import * as E from "fp-ts/lib/Either";
 import * as R from "fp-ts/lib/Record";
 import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { flow, pipe } from "fp-ts/lib/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { MinimalEndpointInstance, TypeOfEndpointInstance } from "ts-endpoint";
@@ -30,6 +30,12 @@ export const toAPIError = (e: unknown): APIError => {
 
   return new APIError("An error occurred", []);
 };
+
+export const fromValidationErrors = flow(
+  E.mapLeft((e: t.Errors): APIError => {
+    return new APIError("Validation failed.", PathReporter.report(E.left(e)));
+  })
+);
 
 export const liftFetch = <B>(
   lp: () => Promise<AxiosResponse<B>>,
@@ -179,6 +185,5 @@ const API = (c: AxiosRequestConfig): API => {
     post,
   };
 };
-
 
 export { API };
