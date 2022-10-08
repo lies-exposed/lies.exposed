@@ -4,14 +4,15 @@ import * as A from "fp-ts/lib/Array";
 import * as O from "fp-ts/lib/Option";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { Route } from "../route.types";
 import { toActorIO } from "./actor.io";
 import { ActorEntity } from "@entities/Actor.entity";
+import { authenticationHandler } from "@utils/authenticationHandler";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 
-export const MakeEditActorRoute: Route = (r, { db, logger }) => {
-  AddEndpoint(r)(
+export const MakeEditActorRoute: Route = (r, { db, logger, jwt }) => {
+  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
     Endpoints.Actor.Edit,
     ({ params: { id }, body: { memberIn, ...body } }) => {
       const updateData = {

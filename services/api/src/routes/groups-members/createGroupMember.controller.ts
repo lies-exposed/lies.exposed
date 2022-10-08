@@ -6,9 +6,10 @@ import { Equal } from 'typeorm';
 import { Route } from "../route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
-export const MakeCreateGroupMemberRoute: Route = (r, { db }) => {
-  AddEndpoint(r)(Endpoints.GroupMember.Create, ({ body }) => {
+export const MakeCreateGroupMemberRoute: Route = (r, { db, logger, jwt }) => {
+  AddEndpoint(r, authenticationHandler({logger, jwt}, ['admin:create']))(Endpoints.GroupMember.Create, ({ body }) => {
     const saveData = {
       ...body,
       group: { id: body.group },

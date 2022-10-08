@@ -34,7 +34,13 @@ export const authProvider: AuthProvider = {
     localStorage.getItem("auth")
       ? await Promise.resolve()
       : await Promise.reject(new Error("Missing auth")),
-  checkError: () => Promise.resolve(),
+  checkError: (e) => {
+    if (e?.response?.status === 401) {
+      return Promise.reject(new Error(e.response.body.message));
+    }
+
+    return Promise.resolve();
+  },
   getPermissions: () => Promise.resolve(),
 };
 

@@ -2,30 +2,34 @@ import * as tests from "@liexp/core/tests";
 import { ActorArb, GroupArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
+import { UserEntity } from '@entities/User.entity';
 
 describe("Edit Actor", () => {
   let Test: AppTest;
-  let authorizationToken: string;
-  let actor = tests.fc.sample(ActorArb, 1).map((a) => ({
-    ...a,
-    death: undefined,
-    memberIn: [] as any[],
-  }))[0];
+    let user: any;
+    let authorizationToken: string;
+    let actor = tests.fc.sample(ActorArb, 1).map((a) => ({
+      ...a,
+      death: undefined,
+      memberIn: [] as any[],
+    }))[0];
 
   beforeAll(async () => {
     Test = await initAppTest();
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    user = await saveUser(Test, ["admin:create"]);
+    const { authorization } = await loginUser(Test)(user);
+    authorizationToken = authorization;
 
     await throwTE(Test.ctx.db.save(ActorEntity, [actor]));
   });
 
   afterAll(async () => {
     await throwTE(Test.ctx.db.delete(ActorEntity, [actor.id]));
+    await throwTE(Test.ctx.db.delete(UserEntity, [user.id]));
     await throwTE(Test.ctx.db.close());
   });
 

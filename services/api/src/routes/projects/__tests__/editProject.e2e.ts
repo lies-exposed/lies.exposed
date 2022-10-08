@@ -3,20 +3,25 @@ import { http } from "@liexp/shared/io";
 import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { pipe } from "fp-ts/lib/function";
-import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../test/user.utils";
 import { AreaEntity } from "@entities/Area.entity";
 import { ProjectEntity } from "@entities/Project.entity";
+import { UserEntity } from "@entities/User.entity";
 
 describe("Edit Project ", () => {
-  let appTest: AppTest,
-    authorizationToken: string,
-    project: ProjectEntity,
-    area: AreaEntity;
+  let appTest: AppTest;
+    const users: any[] = [];
+    let authorizationToken: string;
+    let project: ProjectEntity;
+    let area: AreaEntity;
 
   beforeAll(async () => {
     appTest = await initAppTest();
-
+    const user = await saveUser(appTest, ["admin:edit"]);
+    users.push(user);
+    const { authorization } = await loginUser(appTest)(user);
+    authorizationToken = authorization;
     const [areaData] = fc.sample(AreaArb, 1).map((a) => ({
       ...a,
       media: [],
@@ -33,16 +38,17 @@ describe("Edit Project ", () => {
       ]),
       throwTE
     );
-
-    authorizationToken = `Bearer ${jwt.sign(
-      { id: "1" },
-      appTest.ctx.env.JWT_SECRET
-    )}`;
   });
 
   afterAll(async () => {
     await throwTE(appTest.ctx.db.delete(ProjectEntity, [project.id]));
     await throwTE(appTest.ctx.db.delete(AreaEntity, [area.id]));
+    await throwTE(
+      appTest.ctx.db.delete(
+        UserEntity,
+        users.map((u) => u.id)
+      )
+    );
     await throwTE(appTest.ctx.db.close());
   });
 

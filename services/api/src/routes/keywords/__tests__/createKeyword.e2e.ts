@@ -4,16 +4,21 @@ import { TagArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { ColorArb } from "@liexp/shared/tests/arbitrary/common/Color.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../test/user.utils";
 import { KeywordEntity } from "@entities/Keyword.entity";
 
 describe("Create Keyword", () => {
-  let Test: AppTest, authorizationToken: string, keyword: http.Keyword.Keyword;
+  let Test: AppTest;
+    const users: any[] = [];
+    let authorizationToken: string;
+    let keyword: http.Keyword.Keyword;
 
   beforeAll(async () => {
     Test = await initAppTest();
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    const user = await saveUser(Test, ["admin:create"]);
+    users.push(user);
+    const { authorization } = await loginUser(Test)(user);
+    authorizationToken = authorization;
   });
 
   afterAll(async () => {
@@ -21,10 +26,25 @@ describe("Create Keyword", () => {
     await throwTE(Test.ctx.db.close());
   });
 
-  test("Should return a 401", async () => {
+  test("Should return a 401 when no Authorization header is present", async () => {
     const response = await Test.req.post("/v1/keywords").send({
       tag: "newkeyword",
     });
+
+    expect(response.status).toEqual(401);
+  });
+
+  test("Should return a 401 when token has no 'admin:create' permission' ", async () => {
+    const user = await saveUser(Test, ["admin:read"]);
+    users.push(user);
+    const { authorization } = await loginUser(Test)(user);
+
+    const response = await Test.req
+      .post("/v1/keywords")
+      .set("Authorization", authorization)
+      .send({
+        tag: "newkeyword",
+      });
 
     expect(response.status).toEqual(401);
   });

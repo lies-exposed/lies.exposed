@@ -3,18 +3,24 @@ import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 import { GroupEntity } from "@entities/Group.entity";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";
 
 describe("Create Group Member", () => {
-  let authorizationToken: string;
   let Test: AppTest;
-  let actors: ActorEntity[];
-  let groups: GroupEntity[];
-  const groupsMembers: GroupMemberEntity[] = [];
+    const users: any[] = [];
+    let authorizationToken: string;
+    let actors: ActorEntity[];
+    let groups: GroupEntity[];
+    const groupsMembers: GroupMemberEntity[] = [];
   beforeAll(async () => {
     Test = await initAppTest();
+    const user = await saveUser(Test, ["admin:create"]);
+    users.push(user);
+    const { authorization } = await loginUser(Test)(user);
+    authorizationToken = authorization;
     actors = tests.fc.sample(ActorArb, 1).map((a) => ({
       ...a,
       death: undefined,
@@ -26,9 +32,6 @@ describe("Create Group Member", () => {
       members: [],
     })) as any[];
 
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
     await throwTE(Test.ctx.db.save(ActorEntity, actors));
     await throwTE(Test.ctx.db.save(GroupEntity, groups));
   });

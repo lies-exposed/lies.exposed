@@ -10,12 +10,13 @@ import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeEditLinkMetadataRoute = (
   r: Router,
   ctx: RouteContext
 ): void => {
-  AddEndpoint(r)(UpdateMetadata, ({ params: { id } }) => {
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:edit']))(UpdateMetadata, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(LinkEntity, { where: { id: Equal(id) } }),
       TE.chain((link) =>

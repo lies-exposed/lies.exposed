@@ -17,7 +17,7 @@ export const KeywordPageContent: React.FC<KeywordPageContentProps> = ({
   return (
     <Grid container>
       <Grid item md={1} sm={1} xs={false} />
-      <Grid item md={5}>
+      <Grid item md={6}>
         <Typography
           variant="h4"
           color={color as any}
@@ -29,7 +29,7 @@ export const KeywordPageContent: React.FC<KeywordPageContentProps> = ({
         </Typography>
       </Grid>
       <Grid item md={5}>
-        <ParentSize style={{ maxWidth: 600 }}>
+        <ParentSize style={{ maxWidth: 400, minWidth: 200 }}>
           {({ width }) => {
             return (
               <KeywordHierarchyEdgeBundlingGraph {...hierarchicalGraph} keyword={id} width={width}  />

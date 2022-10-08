@@ -6,9 +6,10 @@ import { Equal } from "typeorm";
 import { PageEntity } from "../../entities/Page.entity";
 import { RouteContext } from "../route.types";
 import { NotFoundError } from "@io/ControllerError";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeEditPageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Page.Edit, ({ params: { id }, body }) => {
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:edit']))(Endpoints.Page.Edit, ({ params: { id }, body }) => {
     return pipe(
       ctx.db.save(PageEntity, [
         {

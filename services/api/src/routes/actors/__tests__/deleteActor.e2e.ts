@@ -1,18 +1,17 @@
 import * as tests from "@liexp/core/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
+import { loginUser, saveUser } from "../../../../test/user.utils";
 import { ActorEntity } from "@entities/Actor.entity";
 
 describe("Delete Actor", () => {
-  let Test: AppTest, actor: any, authorizationToken: string;
+  let Test: AppTest, user: any, authorizationToken: string, actor: any;
   beforeAll(async () => {
     Test = await initAppTest();
 
-    authorizationToken = `Bearer ${jwt.sign(
-      { id: "1" },
-      Test.ctx.env.JWT_SECRET
-    )}`;
+    user = await saveUser(Test, ["admin:create"]);
+    const {authorization} = await loginUser(Test)(user);
+    authorizationToken = authorization;
 
     actor = (
       await Test.req
@@ -39,6 +38,16 @@ describe("Delete Actor", () => {
     const response = await Test.req
       .delete(`/v1/actors/${actor.id}`)
       .set("Authorization", authorizationToken);
+
+    expect(response.status).toEqual(401);
+  });
+
+  test("Should return a 200", async () => {
+    const user = await saveUser(Test, ["admin:delete"]);
+    const token = await loginUser(Test)(user);
+    const response = await Test.req
+      .delete(`/v1/actors/${actor.id}`)
+      .set("Authorization", token.authorization);
 
     expect(response.status).toEqual(200);
   });

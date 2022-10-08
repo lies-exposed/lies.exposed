@@ -1,16 +1,15 @@
-import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
+import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
 import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
-import { RouteContext } from "@routes/route.types";
+import { Route } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
 import * as passwordUtils from "@utils/password.utils";
 
-export const MakeUserCreateRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx.logger))(
+export const MakeUserCreateRoute: Route = (r, ctx) => {
+  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
     Endpoints.User.Create,
     ({ body: { password, ...userData } }) => {
       ctx.logger.debug.log("Login user with username or email %O", userData);

@@ -5,9 +5,10 @@ import { pipe } from "fp-ts/lib/function";
 import { In } from "typeorm";
 import { PageEntity } from "../../entities/Page.entity";
 import { RouteContext } from "../route.types";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeDeleteManyPageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(PageDeleteMany, ({ query: { ids } }) => {
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:delete']))(PageDeleteMany, ({ query: { ids } }) => {
     return pipe(
       ctx.db.find(PageEntity, { where: { id: In(ids) } }),
       TE.chainFirst(() => ctx.db.softDelete(PageEntity, ids)),

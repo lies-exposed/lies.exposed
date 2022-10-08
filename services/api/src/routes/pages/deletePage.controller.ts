@@ -6,9 +6,10 @@ import { Equal } from 'typeorm';
 import { PageEntity } from "../../entities/Page.entity";
 import { RouteContext } from "../route.types";
 import { NotFoundError } from "@io/ControllerError";
+import { authenticationHandler } from '@utils/authenticationHandler';
 
 export const MakeDeletePageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(Endpoints.Page.Delete, ({ params: { id } }) => {
+  AddEndpoint(r, authenticationHandler(ctx, ['admin:delete']))(Endpoints.Page.Delete, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOne(PageEntity, { where: { id: Equal(id) } }),
       TE.chain(TE.fromOption(() => NotFoundError("Page"))),

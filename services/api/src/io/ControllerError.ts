@@ -1,3 +1,4 @@
+import { JWTError } from '@liexp/shared/providers/jwt/JWTClient';
 import { DBError } from "@liexp/shared/providers/orm";
 import * as t from "io-ts";
 
@@ -15,7 +16,7 @@ export const APIStatusCode = t.union(
 
 export type APIStatusCode = t.TypeOf<typeof APIStatusCode>;
 
-export type ControllerError = DBError;
+export type ControllerError = DBError | JWTError;
 
 export const BadRequestError = (meta: string): ControllerError => ({
   name: "BadRequestError",
@@ -55,7 +56,7 @@ export const NotAuthorizedError = (): ControllerError => {
   return {
     name: "APIError",
     status: 401,
-    message: "Authorization header is missing",
+    message: "Authorization header [Authorization] is missing",
     details: {
       kind: "ClientError",
       status: "401",

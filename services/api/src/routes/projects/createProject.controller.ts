@@ -3,14 +3,15 @@ import { uuid } from "@liexp/shared/utils/uuid";
 import { sequenceS } from "fp-ts/lib/Apply";
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/function";
-import { Equal } from 'typeorm';
+import { Equal } from "typeorm";
 import { Route } from "../route.types";
 import { ProjectEntity } from "@entities/Project.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";
+import { authenticationHandler } from "@utils/authenticationHandler";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 
-export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
-  AddEndpoint(r)(
+export const MakeCreateProjectRoute: Route = (r, { db, logger, jwt }) => {
+  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
     Endpoints.Project.Create,
     ({ body: { endDate, media, ...body } }) => {
       const optionalData = foldOptionals({ endDate });
@@ -35,7 +36,7 @@ export const MakeCreateProjectRoute: Route = (r, { db, env }) => {
         ),
         TE.chain(({ project: page }) =>
           db.findOneOrFail(ProjectEntity, {
-            where: { id: Equal( page.id) },
+            where: { id: Equal(page.id) },
             loadRelationIds: true,
           })
         ),
