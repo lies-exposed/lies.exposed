@@ -14,7 +14,7 @@ import { Page } from "puppeteer-core";
 import {
   ControllerError,
   ServerError,
-  toControllerError,
+  toControllerError
 } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 

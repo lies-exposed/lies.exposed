@@ -29,7 +29,7 @@ import {
   TextField,
   TextInput,
   useRecordContext,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import { CreateEventFromMediaButton } from "../components/Common/CreateEventFromMediaButton";
 import { EditForm } from "../components/Common/EditForm";
@@ -213,6 +213,7 @@ const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
 
 export const ThumbnailField: React.FC<FieldProps> = (props) => {
   const [loaded, setLoaded] = React.useState(false);
+
   return (
     <Box>
       {!loaded ? (
@@ -254,38 +255,44 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
   );
 };
 
-export const MediaEdit: React.FC<EditProps> = (props: EditProps) => (
-  <EditForm
-    title={<EditTitle {...props} />}
-    {...props}
-    transform={transformMedia}
-    redirect={false}
-    preview={<MediaPreview />}
-  >
-    <TabbedForm>
-      <FormTab label="general">
-        <ThumbnailField />
-        <DateField source="updatedAt" showTime={true} />
-        <DateField source="createdAt" showTime={true} />
-        <TextInput source="description" fullWidth multiline />
-      </FormTab>
-      <FormTab label="events">
-        <CreateEventFromMediaButton />
-        <ReferenceArrayEventInput source="events" defaultValue={[]} />
-        <ReferenceManyField label="Events" target="media[]" reference="events">
-          <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField source="title" />
-            <DateField source="createdAt" />
-          </Datagrid>
-        </ReferenceManyField>
-      </FormTab>
-      <FormTab label="links">
-        <ReferenceLinkTab source="links" />
-      </FormTab>
-    </TabbedForm>
-  </EditForm>
-);
+export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
+  return (
+    <EditForm
+      title={<EditTitle {...props} />}
+      {...props}
+      transform={transformMedia}
+      redirect={false}
+      preview={<MediaPreview />}
+    >
+      <TabbedForm>
+        <FormTab label="general">
+          <ThumbnailField />
+          <DateField source="updatedAt" showTime={true} />
+          <DateField source="createdAt" showTime={true} />
+          <TextInput source="description" fullWidth multiline />
+        </FormTab>
+        <FormTab label="events">
+          <CreateEventFromMediaButton />
+          <ReferenceArrayEventInput source="events" defaultValue={[]} />
+          <ReferenceManyField
+            label="Events"
+            target="media[]"
+            reference="events"
+          >
+            <Datagrid rowClick="edit">
+              <TextField source="id" />
+              <TextField source="title" />
+              <DateField source="createdAt" />
+            </Datagrid>
+          </ReferenceManyField>
+        </FormTab>
+        <FormTab label="links">
+          <ReferenceLinkTab source="links" />
+        </FormTab>
+      </TabbedForm>
+    </EditForm>
+  );
+};
 
 export const MediaCreate: React.FC<CreateProps> = (props) => (
   <Create
