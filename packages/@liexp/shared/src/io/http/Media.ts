@@ -6,6 +6,12 @@ const JpgType = t.literal("image/jpg");
 const JpegType = t.literal("image/jpeg");
 const PngType = t.literal("image/png");
 
+/** audio types */
+export const MP3Type = t.literal("audio/mp3");
+export type MP3Type = t.TypeOf<typeof MP3Type>;
+export const OGGType = t.literal("audio/ogg");
+export type OGGType = t.TypeOf<typeof OGGType>;
+
 export const MP4Type = t.literal("video/mp4");
 export type MP4Type = t.TypeOf<typeof MP4Type>;
 export const PDFType = t.literal("application/pdf");
@@ -14,7 +20,16 @@ export const IframeVideoType = t.literal("iframe/video");
 export type IframeVideoType = t.TypeOf<typeof IframeVideoType>;
 
 export const MediaType = t.union(
-  [JpgType, JpegType, PngType, MP4Type, PDFType, IframeVideoType],
+  [
+    JpgType,
+    JpegType,
+    PngType,
+    MP3Type,
+    OGGType,
+    MP4Type,
+    PDFType,
+    IframeVideoType,
+  ],
   "MediaType"
 );
 export type MediaType = t.TypeOf<typeof MediaType>;

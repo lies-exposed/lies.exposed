@@ -71,6 +71,7 @@
     "ol": "^6.15.1",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
+    "react-audio-player": "^0.17.0",
     "react-dom": "^17.0.2",
     "react-error-boundary": "^3.1.4",
     "react-helmet": "^6.1.0",
@@ -84,7 +85,8 @@
     "throttle-debounce": "^5.0.0",
     "topojson-client": "^3.1.0",
     "ts-endpoint": "^2.0.0",
-    "ts-io-error": "^2.0.0"
+    "ts-io-error": "^2.0.0",
+    "waveform-data": "^4.3.0"
   },
   "devDependencies": {
     "@types/chroma-js": "^2.1.4",

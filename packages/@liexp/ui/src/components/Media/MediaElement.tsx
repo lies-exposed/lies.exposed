@@ -3,6 +3,7 @@ import * as React from "react";
 import { styled } from "../../theme";
 import { Video } from "../Video/Video";
 import { Box, Typography } from "../mui";
+import AudioMediaElement from "./AudioMediaElement";
 import ExpandableImageElement from "./ExpandableImageElement";
 import IframeMediaElement from "./IframeMediaElement";
 import PDFMediaElement from "./PDFMediaElement";
@@ -28,7 +29,7 @@ const StyledBox = styled(Box)(() => ({
   },
 })) as typeof Box;
 
-interface MediaElementProps {
+export interface MediaElementProps {
   media: Media.Media;
   className?: string;
   style?: React.CSSProperties;
@@ -53,7 +54,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
     };
 
     switch (media.type) {
-      case Media.MediaType.types[5].value:
+      case Media.MediaType.types[7].value:
         return (
           <IframeMediaElement
             {...props}
@@ -62,7 +63,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             style={commonStyle}
           />
         );
-      case Media.MediaType.types[4].value: {
+      case Media.MediaType.types[6].value: {
         return (
           <PDFMediaElement
             {...props}
@@ -72,7 +73,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
           />
         );
       }
-      case Media.MediaType.types[3].value: {
+      case Media.MediaType.types[5].value: {
         return (
           <Video
             {...props}
@@ -88,6 +89,16 @@ const MediaElement: React.FC<MediaElementProps> = ({
           />
         );
       }
+      case Media.MediaType.types[4].value:
+      case Media.MediaType.types[3].value: {
+        return (
+          <AudioMediaElement
+            media={media as any}
+            style={{ ...commonStyle, ...style }}
+          />
+        );
+      }
+
       default:
         return (
           <ExpandableImageElement

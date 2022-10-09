@@ -2860,6 +2860,7 @@ __metadata:
     query-string: ^7.1.1
     react: ^17.0.2
     react-admin: ^4.4.1
+    react-audio-player: ^0.17.0
     react-dom: ^17.0.2
     react-error-boundary: ^3.1.4
     react-helmet: ^6.1.0
@@ -2876,6 +2877,7 @@ __metadata:
     ts-io-error: ^2.0.0
     ts-jest: ^28.0.8
     typescript: ^4.8.4
+    waveform-data: ^4.3.0
   languageName: unknown
   linkType: soft
 
@@ -22271,6 +22273,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-audio-player@npm:^0.17.0":
+  version: 0.17.0
+  resolution: "react-audio-player@npm:0.17.0"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 03042c6ed663dda5d18cae4f399daa53078deed8f34b1b9f2f634bbc168ee7f4e73686f494c88f3091c534fa90af922bc85d80f081af02e0335782557a4a8715
+  languageName: node
+  linkType: hard
+
 "react-base16-styling@npm:^0.6.0":
   version: 0.6.0
   resolution: "react-base16-styling@npm:0.6.0"
@@ -27013,6 +27027,13 @@ __metadata:
     glob-to-regexp: ^0.4.1
     graceful-fs: ^4.1.2
   checksum: 23d4bc58634dbe13b86093e01c6a68d8096028b664ab7139d58f0c37d962d549a940e98f2f201cecdabd6f9c340338dc73ef8bf094a2249ef582f35183d1a131
+  languageName: node
+  linkType: hard
+
+"waveform-data@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "waveform-data@npm:4.3.0"
+  checksum: e5d160ad09db0c74a4647f541029ab1f35c881b8d78594b595d883438a58b187146aba2eec8b3c927fd676f0978ea23514989a95831967f71032b58f7a796fd0
   languageName: node
   linkType: hard
 

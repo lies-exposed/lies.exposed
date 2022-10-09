@@ -31,7 +31,7 @@ export class UserEntity {
   @Column({ type: "varchar" })
   passwordHash: string;
 
-  @Column({ type: "simple-json", default: [] })
+  @Column({ type: "json", default: [] })
   permissions: UserPermission[];
 
   @CreateDateColumn()
