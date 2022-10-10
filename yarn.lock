@@ -2717,8 +2717,8 @@ __metadata:
     fp-ts: ^2.12.3
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.0
-    io-ts: ^2.2.18
-    io-ts-types: ^0.5.17
+    io-ts: ^2.2.19
+    io-ts-types: ^0.5.18
     mini-css-extract-plugin: ^2.6.1
     prettier: ^2.7.1
     react-refresh: ^0.14.0
@@ -2758,8 +2758,8 @@ __metadata:
     domino: ^2.1.6
     fluent-ffmpeg: ^2.1.2
     fp-ts: ^2.12.3
-    io-ts: ^2.2.18
-    io-ts-types: ^0.5.17
+    io-ts: ^2.2.19
+    io-ts-types: ^0.5.18
     jest: ^28.1.3
     page-metadata-parser: ^1.1.4
     prettier: ^2.7.1
@@ -2852,8 +2852,8 @@ __metadata:
     eslint-plugin-import: ^2.26.0
     fp-ts: ^2.12.3
     geotiff: ^2.0.5
-    io-ts: ^2.2.18
-    io-ts-types: ^0.5.17
+    io-ts: ^2.2.19
+    io-ts-types: ^0.5.18
     jest: ^28.1.3
     ol: ^6.15.1
     prettier: ^2.7.1
@@ -8717,8 +8717,8 @@ __metadata:
     fp-ts: ^2.12.3
     front-matter: 4.0.2
     gray-matter: ^4.0.3
-    io-ts: ^2.2.18
-    io-ts-types: ^0.5.17
+    io-ts: ^2.2.19
+    io-ts-types: ^0.5.18
     jest: ^28.1.3
     jsonwebtoken: ^8.5.1
     module-alias: ^2.2.2
@@ -16107,24 +16107,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"io-ts-types@npm:^0.5.17, io-ts-types@npm:^0.5.8":
-  version: 0.5.17
-  resolution: "io-ts-types@npm:0.5.17"
+"io-ts-types@npm:^0.5.18, io-ts-types@npm:^0.5.8":
+  version: 0.5.18
+  resolution: "io-ts-types@npm:0.5.18"
   peerDependencies:
     fp-ts: ^2.0.0
     io-ts: ^2.0.0
     monocle-ts: ^2.0.0
     newtype-ts: ^0.3.2
-  checksum: e135b32b0e159a1b33918a615f9e6771256e43bf455cba21b1099fd926294525d259eaa84093788bb0f105fb907be7fc876a4de590502deb48c272a50f95729a
+  checksum: c6f7ef4a8f64bdd6bfe703f3fbf66926a6134ce7ecb2ac3063b985be13efaa3c1ac72df8386197ab14ee913ee4141b507dfef2f5ecb1345ce8929d4866905621
   languageName: node
   linkType: hard
 
-"io-ts@npm:^2.2.18":
-  version: 2.2.18
-  resolution: "io-ts@npm:2.2.18"
+"io-ts@npm:^2.2.19":
+  version: 2.2.19
+  resolution: "io-ts@npm:2.2.19"
   peerDependencies:
     fp-ts: ^2.5.0
-  checksum: 8b5a22b0ccc0dd24a2520d9dc27095e144b86426c7cc5ce7a406d1f9cbbde2aa450632e6f3fb435817b6b56ecebea434b049feb2c6752fce0b810787295bf15f
+  checksum: fe6a0203e43a518529ed8ab562db382c25a91b64cb8ba87a3798a6a9f15c834eff69ca85eeb5f2d3196cf92af61fd368239e8c5da5dccd57bf3beed712e91075
   languageName: node
   linkType: hard
 
@@ -21364,18 +21364,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.2.15, postcss@npm:^8.4.7":
-  version: 8.4.14
-  resolution: "postcss@npm:8.4.14"
-  dependencies:
-    nanoid: ^3.3.4
-    picocolors: ^1.0.0
-    source-map-js: ^1.0.2
-  checksum: fe58766ff32e4becf65a7d57678995cfd239df6deed2fe0557f038b47c94e4132e7e5f68b5aa820c13adfec32e523b693efaeb65798efb995ce49ccd83953816
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^8.4.17":
+"postcss@npm:^8.2.15, postcss@npm:^8.4.17, postcss@npm:^8.4.7":
   version: 8.4.17
   resolution: "postcss@npm:8.4.17"
   dependencies:
@@ -27097,8 +27086,8 @@ __metadata:
     eslint-webpack-plugin: ^3.2.0
     express: ^4.18.2
     fp-ts: ^2.12.3
-    io-ts: ^2.2.18
-    io-ts-types: ^0.5.17
+    io-ts: ^2.2.19
+    io-ts-types: ^0.5.18
     is-plain-object: ^5.0.0
     ol: ^6.15.1
     prettier: ^2.7.1
