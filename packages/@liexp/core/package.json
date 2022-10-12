@@ -14,7 +14,7 @@
   "dependencies": {
     "fp-ts": "^2.12.3",
     "io-ts": "^2.2.19",
-    "io-ts-types": "^0.5.18"
+    "io-ts-types": "^0.5.19"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",

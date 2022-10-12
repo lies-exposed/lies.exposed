@@ -2718,7 +2718,7 @@ __metadata:
     html-replace-webpack-plugin: ^2.6.0
     html-webpack-plugin: ^5.5.0
     io-ts: ^2.2.19
-    io-ts-types: ^0.5.18
+    io-ts-types: ^0.5.19
     mini-css-extract-plugin: ^2.6.1
     prettier: ^2.7.1
     react-refresh: ^0.14.0
@@ -2759,7 +2759,7 @@ __metadata:
     fluent-ffmpeg: ^2.1.2
     fp-ts: ^2.12.3
     io-ts: ^2.2.19
-    io-ts-types: ^0.5.18
+    io-ts-types: ^0.5.19
     jest: ^28.1.3
     page-metadata-parser: ^1.1.4
     prettier: ^2.7.1
@@ -2853,7 +2853,7 @@ __metadata:
     fp-ts: ^2.12.3
     geotiff: ^2.0.5
     io-ts: ^2.2.19
-    io-ts-types: ^0.5.18
+    io-ts-types: ^0.5.19
     jest: ^28.1.3
     ol: ^6.15.1
     prettier: ^2.7.1
@@ -6720,13 +6720,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.57.3":
-  version: 0.57.3
-  resolution: "@types/node-telegram-bot-api@npm:0.57.3"
+"@types/node-telegram-bot-api@npm:^0.57.4":
+  version: 0.57.4
+  resolution: "@types/node-telegram-bot-api@npm:0.57.4"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
-  checksum: 38183c61a42e574a600945fc712aa720d02b0655af199a609bc54ced91c4a3b25efff5f25be97624bfe66053436644d0ab2dcfce7ebecd65866a0ebde7cc729f
+  checksum: e67b1a40a9ceb34b663ceecd71bb1806c0ba59e6102f3539529c8b47db64cc88c4b57cd33de3dd0eaca7bf051ffd1db3b9d3052975911f5444deb5ea677c842a
   languageName: node
   linkType: hard
 
@@ -6744,10 +6744,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0, @types/node@npm:^16.11.64":
+"@types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0":
   version: 16.11.64
   resolution: "@types/node@npm:16.11.64"
   checksum: 3634477efbeb586f8cdc1baf7670d8ea89c1eba1beac0354fa9123ca193d794da84ec40d4f8a54f694587ba5469e4124ebbba37542ed88eca95a3980ec45551a
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.11.65":
+  version: 16.11.65
+  resolution: "@types/node@npm:16.11.65"
+  checksum: 81d84cb1e7aa305574cd35acf1a5e47f4a7f52783ba096f4bc511314540dee33a27cbd4fddc8bddd4535f1c87a96a76907157bcde093a25c89e8851d6dd63022
   languageName: node
   linkType: hard
 
@@ -8346,7 +8353,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
     "@types/lodash": ^4.14.186
-    "@types/node": ^16.11.64
+    "@types/node": ^16.11.65
     "@types/prettier": ^2.7.1
     "@types/react": ^17.0.50
     "@types/react-dom": ^17.0.17
@@ -8694,9 +8701,9 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.9
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.64
+    "@types/node": ^16.11.65
     "@types/node-cron": ^3.0.4
-    "@types/node-telegram-bot-api": ^0.57.3
+    "@types/node-telegram-bot-api": ^0.57.4
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
@@ -8719,7 +8726,7 @@ __metadata:
     front-matter: 4.0.2
     gray-matter: ^4.0.3
     io-ts: ^2.2.19
-    io-ts-types: ^0.5.18
+    io-ts-types: ^0.5.19
     jest: ^28.1.3
     jsonwebtoken: ^8.5.1
     module-alias: ^2.2.2
@@ -16108,7 +16115,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"io-ts-types@npm:^0.5.18, io-ts-types@npm:^0.5.8":
+"io-ts-types@npm:^0.5.19":
+  version: 0.5.19
+  resolution: "io-ts-types@npm:0.5.19"
+  peerDependencies:
+    fp-ts: ^2.0.0
+    io-ts: ^2.0.0
+    monocle-ts: ^2.0.0
+    newtype-ts: ^0.3.2
+  checksum: 4cf8688b9fd3878bebc332f9cdf612e72ce45bcc8ab4a534d413a4f80564458482bc1c86eed997ca566e65ac85790d3c7a8ccb511f8c17108cd647e070db7790
+  languageName: node
+  linkType: hard
+
+"io-ts-types@npm:^0.5.8":
   version: 0.5.18
   resolution: "io-ts-types@npm:0.5.18"
   peerDependencies:
@@ -27088,7 +27107,7 @@ __metadata:
     express: ^4.18.2
     fp-ts: ^2.12.3
     io-ts: ^2.2.19
-    io-ts-types: ^0.5.18
+    io-ts-types: ^0.5.19
     is-plain-object: ^5.0.0
     ol: ^6.15.1
     prettier: ^2.7.1
