@@ -4,10 +4,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index,
+  Index, ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { UserEntity } from './User.entity';
 
 @Entity("event_suggestion")
 export class EventSuggestionEntity {
@@ -23,6 +24,12 @@ export class EventSuggestionEntity {
     enum: http.EventSuggestion.EventSuggestionStatus.types.map((t) => t.value),
   })
   status: http.EventSuggestion.EventSuggestionStatus;
+
+  @ManyToOne(() => UserEntity, u => u.eventSuggestions, {
+    cascade: false,
+    nullable: true
+  })
+  createdBy: UserEntity;
 
   @CreateDateColumn()
   createdAt: Date;

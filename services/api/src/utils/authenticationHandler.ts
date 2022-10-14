@@ -1,5 +1,12 @@
 import * as logger from "@liexp/core/logger";
-import { UserPermission } from "@liexp/shared/io/http/User";
+import {
+  AdminCreate,
+  AdminDelete,
+  AdminEdit,
+  AdminRead,
+  EventSuggestionRead,
+  UserPermission,
+} from "@liexp/shared/io/http/User";
 import { JWTClient, JWTError } from "@liexp/shared/providers/jwt/JWTClient";
 import * as express from "express";
 import * as IOE from "fp-ts/IOEither";
@@ -36,7 +43,24 @@ export const authenticationHandler: (
       IOE.mapLeft(() => NotAuthorizedError()),
       IOE.chain((s) => jwt.verifyUser(s.authorization)),
       IOE.filterOrElse(
-        (u) => perms.every((p) => u.permissions.includes(p)),
+        (u) => {
+          if (perms.includes(EventSuggestionRead.value)) {
+            return u.permissions.some((p) => [
+              AdminCreate.value,
+              AdminEdit.value,
+              AdminDelete.value,
+              AdminRead.value,
+              EventSuggestionRead.value,
+            ]);
+          }
+          if (perms.includes("event-suggestion:create")) {
+            return u.permissions.some((p) => [
+              "admin:create",
+              "event-suggestion:read",
+            ]);
+          }
+          return perms.some((p) => u.permissions.includes(p));
+        },
         (p) =>
           new JWTError(`The access token doesn't have the needed permissions`, {
             kind: "ClientError",
@@ -49,8 +73,9 @@ export const authenticationHandler: (
       ),
       IOE.fold(
         (e) => () => next(e),
-        (d) => () => {
+        (user) => () => {
           logger.debug.log("Calling next handler...");
+          req.user = user;
           next();
         }
       )
