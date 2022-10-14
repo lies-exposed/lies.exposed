@@ -1,8 +1,10 @@
 import { http } from "@liexp/shared/io";
 import { throwTE } from '@liexp/shared/utils/task.utils';
+import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
 import { ArticlePageContent } from "@liexp/ui/components/ArticlePageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import RichTextInput from "@liexp/ui/components/admin/common/RichTextInput";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -32,9 +34,7 @@ import {
   TextField,
   TextInput
 } from "react-admin";
-import RichTextInput from "../components/Common/RichTextInput";
 import { apiProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 
 export const ArticleList: React.FC<ListProps> = (props) => (
   <List

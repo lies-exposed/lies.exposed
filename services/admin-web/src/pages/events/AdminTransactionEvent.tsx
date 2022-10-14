@@ -1,6 +1,13 @@
 import * as Events from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
+import ReferenceAreaInput from "@liexp/ui/components/admin/common/ReferenceAreaInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
+import { ReferenceBySubjectField } from "@liexp/ui/components/admin/common/ReferenceBySubjectField";
+import ReferenceBySubjectInput from "@liexp/ui/components/admin/common/ReferenceBySubjectInput";
+import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import * as React from "react";
 import {
   BooleanField,
@@ -22,15 +29,9 @@ import {
   SimpleForm,
   TabbedForm,
   TextField,
-  TextInput
+  TextInput,
+  useDataProvider,
 } from "react-admin";
-import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
-import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
-import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
-import { ReferenceBySubjectField } from "../../components/Common/ReferenceBySubjectField";
-import ReferenceBySubjectInput from "../../components/Common/ReferenceBySubjectInput";
-import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const transactionEventsFilter = [
@@ -79,18 +80,61 @@ export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (
   </FormTab>
 );
 
-export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
-  <Edit
-    title={<TransactionTitle {...(props as any)} />}
-    {...props}
-    actions={<EventEditActions />}
-    transform={(r) => transformEvent(r.id, r)}
-  >
-    <TabbedForm>
-      <FormTab label="Generals">
+export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => {
+  const dataProvider = useDataProvider();
+  return (
+    <Edit
+      title={<TransactionTitle {...(props as any)} />}
+      {...props}
+      actions={<EventEditActions />}
+      transform={(r) => transformEvent(dataProvider)(r.id, r)}
+    >
+      <TabbedForm>
+        <FormTab label="Generals">
+          <BooleanInput source="draft" defaultValue={false} />
+          <TextInput fullWidth source="payload.title" />
+          <ReferenceAreaInput source="payload.location" />
+          <NumberInput source="payload.total" />
+          <SelectInput
+            source="payload.currency"
+            choices={["euro", "dollar"].map((c) => ({
+              id: c,
+              name: c,
+            }))}
+          />
+          <DateInput source="date" />
+          <ReferenceBySubjectInput source="payload.from" />
+          <ReferenceBySubjectInput source="payload.to" />
+          <ReactPageInput source="excerpt" onlyText />
+          <ReferenceArrayKeywordInput
+            source="keywords"
+            defaultValue={[]}
+            showAdd
+          />
+          <DateField source="updatedAt" showTime={true} />
+          <DateField source="createdAt" showTime={true} />
+        </FormTab>
+        <FormTab label="Body">
+          <ReactPageInput source="body" />
+        </FormTab>
+        <FormTab label="Links">
+          <ReferenceArrayLinkInput source="links" />
+        </FormTab>
+      </TabbedForm>
+    </Edit>
+  );
+};
+export const TransactionCreate: React.FC<CreateProps> = (props) => {
+  const dataProvider = useDataProvider();
+  return (
+    <Create
+      title="Create a Transaction"
+      {...props}
+      transform={(data) => transformEvent(dataProvider)(uuid(), data)}
+    >
+      <SimpleForm>
         <BooleanInput source="draft" defaultValue={false} />
         <TextInput fullWidth source="payload.title" />
-        <ReferenceAreaInput source="payload.location" />
         <NumberInput source="payload.total" />
         <SelectInput
           source="payload.currency"
@@ -102,51 +146,17 @@ export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => (
         <DateInput source="date" />
         <ReferenceBySubjectInput source="payload.from" />
         <ReferenceBySubjectInput source="payload.to" />
+
         <ReactPageInput source="excerpt" onlyText />
+        <ReactPageInput source="body" />
+
         <ReferenceArrayKeywordInput
           source="keywords"
           defaultValue={[]}
           showAdd
         />
-        <DateField source="updatedAt" showTime={true} />
-        <DateField source="createdAt" showTime={true} />
-      </FormTab>
-      <FormTab label="Body">
-        <ReactPageInput source="body" />
-      </FormTab>
-      <FormTab label="Links">
-        <ReferenceArrayLinkInput source="links" />
-      </FormTab>
-    </TabbedForm>
-  </Edit>
-);
-
-export const TransactionCreate: React.FC<CreateProps> = (props) => (
-  <Create
-    title="Create a Transaction"
-    {...props}
-    transform={(data) => transformEvent(uuid(), data)}
-  >
-    <SimpleForm>
-      <BooleanInput source="draft" defaultValue={false} />
-      <TextInput fullWidth source="payload.title" />
-      <NumberInput source="payload.total" />
-      <SelectInput
-        source="payload.currency"
-        choices={["euro", "dollar"].map((c) => ({
-          id: c,
-          name: c,
-        }))}
-      />
-      <DateInput source="date" />
-      <ReferenceBySubjectInput source="payload.from" />
-      <ReferenceBySubjectInput source="payload.to" />
-
-      <ReactPageInput source="excerpt" onlyText />
-      <ReactPageInput source="body" />
-
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
-      <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-    </SimpleForm>
-  </Create>
-);
+        <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+      </SimpleForm>
+    </Create>
+  );
+};

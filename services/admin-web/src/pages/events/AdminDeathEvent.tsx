@@ -1,7 +1,20 @@
 import { http } from "@liexp/shared/io";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box } from "@liexp/ui/components/mui";
+import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import ExcerptField from "@liexp/ui/components/admin/common/ExcerptField";
+import { ImportMediaButton } from "@liexp/ui/components/admin/common/ImportMediaButton";
+import { MediaArrayInput } from "@liexp/ui/components/admin/common/MediaArrayInput";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
+import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/common/ReferenceMediaDataGrid";
+import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
+import { DeathEventEditFormTab } from "@liexp/ui/components/admin/tabs/DeathEventEditFormTab";
+import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
+import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
+import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import * as React from "react";
 import {
   AutocompleteInput,
@@ -19,23 +32,9 @@ import {
   ReferenceInput,
   SimpleForm,
   TabbedForm,
+  useDataProvider,
   useRecordContext,
 } from "react-admin";
-import { AvatarField } from "../../components/Common/AvatarField";
-import { EditForm } from "../../components/Common/EditForm";
-import ExcerptField from "../../components/Common/ExcerptField";
-import { ImportMediaButton } from "../../components/Common/ImportMediaButton";
-import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
-import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
-import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
-import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
-import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
-import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
-import EventPreview from "../../components/previews/EventPreview";
-import { EventGeneralTab } from "../../components/tabs/EventGeneralTab";
-import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
-import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const deathEventsFilter = [
@@ -91,21 +90,13 @@ export const DeathEventTitle: React.FC = () => {
   );
 };
 
-export const DeathEventEditFormTab: React.FC = () => {
-  return (
-    <Box>
-      <ReferenceActorInput source="payload.victim" />
-      <ReferenceAreaInput source="payload.location" />
-    </Box>
-  );
-};
-
 export const DeathEdit: React.FC = () => {
+  const dataProvider = useDataProvider();
   return (
     <EditForm
       title={<DeathEventTitle />}
       actions={<EventEditActions />}
-      transform={(r) => transformEvent(r.id, r)}
+      transform={(r) => transformEvent(dataProvider)(r.id, r)}
       preview={<EventPreview />}
     >
       <TabbedForm>
@@ -130,32 +121,39 @@ export const DeathEdit: React.FC = () => {
   );
 };
 
-export const DeathCreate: React.FC<CreateProps> = (props) => (
-  <Create
-    title="Create a Death Event"
-    {...props}
-    transform={(data) => transformEvent(uuid(), data)}
-  >
-    <SimpleForm>
-      <BooleanInput source="draft" defaultValue={false} />
-      <ReactPageInput source="excerpt" onlyText />
-      <ReactPageInput source="body" />
-      <ReferenceInput
-        source="payload.victim"
-        reference="actors"
-        filterToQuery={(fullName) => ({ fullName })}
-      >
-        <AutocompleteInput source="id" optionText="fullName" />
-      </ReferenceInput>
-      <DateInput source="date" />
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
-      <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-      <MediaArrayInput
-        label="media"
-        source="newMedia"
-        fullWidth={true}
-        defaultValue={[]}
-      />
-    </SimpleForm>
-  </Create>
-);
+export const DeathCreate: React.FC<CreateProps> = (props) => {
+  const dataProvider = useDataProvider();
+  return (
+    <Create
+      title="Create a Death Event"
+      {...props}
+      transform={(data) => transformEvent(dataProvider)(uuid(), data)}
+    >
+      <SimpleForm>
+        <BooleanInput source="draft" defaultValue={false} />
+        <ReactPageInput source="excerpt" onlyText />
+        <ReactPageInput source="body" />
+        <ReferenceInput
+          source="payload.victim"
+          reference="actors"
+          filterToQuery={(fullName) => ({ fullName })}
+        >
+          <AutocompleteInput source="id" optionText="fullName" />
+        </ReferenceInput>
+        <DateInput source="date" />
+        <ReferenceArrayKeywordInput
+          source="keywords"
+          defaultValue={[]}
+          showAdd
+        />
+        <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+        <MediaArrayInput
+          label="media"
+          source="newMedia"
+          fullWidth={true}
+          defaultValue={[]}
+        />
+      </SimpleForm>
+    </Create>
+  );
+};

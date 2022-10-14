@@ -2,7 +2,18 @@ import { http } from "@liexp/shared/io";
 import { createExcerptValue } from "@liexp/shared/slate";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
+import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
+import { CreateEventButton } from "@liexp/ui/components/admin/common/CreateEventButton";
+import { EditForm,  } from "@liexp/ui/components/admin/common/EditForm";
+import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
+import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
+import ReferenceManyEventField from "@liexp/ui/components/admin/common/ReferenceManyEventField";
+import { SearchLinksButton } from "@liexp/ui/components/admin/common/SearchLinksButton";
+import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
+import ActorPreview from "@liexp/ui/components/admin/previews/ActorPreview";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -30,18 +41,7 @@ import {
   TextInput,
   useRecordContext,
 } from "react-admin";
-import { AvatarField } from "../components/Common/AvatarField";
-import { ColorInput } from "../components/Common/ColorInput";
-import { CreateEventButton } from "../components/Common/CreateEventButton";
-import { EditForm,  } from "../components/Common/EditForm";
-import { MediaField } from "../components/Common/MediaField";
-import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
-import ReferenceManyEventField from "../components/Common/ReferenceManyEventField";
-import { SearchLinksButton } from "../components/Common/SearchLinksButton";
-import { WebPreviewButton } from "../components/Common/WebPreviewButton";
-import ActorPreview from "../components/previews/ActorPreview";
 import { dataProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 
 const actorFilters = [
   <TextInput

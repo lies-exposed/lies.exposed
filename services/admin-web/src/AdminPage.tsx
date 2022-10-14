@@ -1,3 +1,8 @@
+import {
+  EventSuggestionEdit,
+  EventSuggestionList,
+} from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
+import englishMessages from "@liexp/ui/i18n/en-US";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";
@@ -8,7 +13,6 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
 import { apiProvider, authProvider } from "./client/HTTPAPI";
-import englishMessages from "./i18n/en-US";
 import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas";
 import { ArticleCreate, ArticleEdit, ArticleList } from "./pages/AdminArticles";
@@ -19,11 +23,7 @@ import {
   GroupMemberList,
 } from "./pages/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
-import {
-  KeywordEdit,
-  KeywordList,
-  KeywordCreate,
-} from "./pages/AdminKeyword";
+import { KeywordEdit, KeywordList, KeywordCreate } from "./pages/AdminKeyword";
 import { LinkCreate, LinkEdit, LinkList } from "./pages/AdminLinks";
 import { MediaCreate, MediaEdit, MediaList } from "./pages/AdminMedia";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
@@ -54,12 +54,8 @@ import {
   TransactionList,
 } from "./pages/events/AdminTransactionEvent";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent";
-import {
-  EventSuggestionEdit,
-  EventSuggestionList,
-} from "./pages/events/suggestions/AdminEventSuggestion";
 import "./index.css";
-import { adminThemeOptions } from './theme';
+import { adminThemeOptions } from "./theme";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 

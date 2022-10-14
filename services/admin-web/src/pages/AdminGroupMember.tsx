@@ -1,5 +1,10 @@
 import * as http from '@liexp/shared/io/http';
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
+import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
+import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
+import ReferenceGroupInput from "@liexp/ui/components/admin/common/ReferenceGroupInput";
+import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
 import { FormControl, Grid } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
@@ -18,11 +23,6 @@ import {
   TabbedForm,
   TextField, useRecordContext
 } from "react-admin";
-import { AvatarField } from "../components/Common/AvatarField";
-import ReferenceActorInput from "../components/Common/ReferenceActorInput";
-import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
-import ReferenceGroupInput from "../components/Common/ReferenceGroupInput";
-import { WebPreviewButton } from "../components/Common/WebPreviewButton";
 
 const transformGroupMember = ({
   endDate,

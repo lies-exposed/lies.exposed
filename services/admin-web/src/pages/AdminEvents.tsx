@@ -4,7 +4,7 @@ import { Events } from "@liexp/shared/io/http";
 import {
   Death,
   Documentary,
-  ScientificStudy,
+  ScientificStudy
 } from "@liexp/shared/io/http/Events";
 import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
@@ -15,6 +15,21 @@ import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { getTextContentsCapped } from "@liexp/shared/slate";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import { ImportMediaButton } from "@liexp/ui/components/admin/common/ImportMediaButton";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
+import ReferenceArrayGroupInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupInput";
+import ReferenceArrayGroupMemberInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupMemberInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
+import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
+import { DeathEventEditFormTab } from '@liexp/ui/components/admin/tabs/DeathEventEditFormTab';
+import { DocumentaryEditFormTab } from '@liexp/ui/components/admin/tabs/DocumentaryEditFormTab';
+import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
+import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
+import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMediaTab";
+import { ScientificStudyEventEditTab } from '@liexp/ui/components/admin/tabs/ScientificStudyEventEditTab';
+import { UncategorizedEventEditTab } from '@liexp/ui/components/admin/tabs/UncategorizedEventEditTab';
+import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import { Box, Typography } from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as R from "fp-ts/Record";
@@ -35,36 +50,24 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext,
+  useDataProvider,
+  useRecordContext
 } from "react-admin";
-import { EditForm } from "../components/Common/EditForm";
-import { ImportMediaButton } from "../components/Common/ImportMediaButton";
-import ReferenceArrayActorInput from "../components/Common/ReferenceArrayActorInput";
-import ReferenceArrayGroupInput from "../components/Common/ReferenceArrayGroupInput";
-import ReferenceArrayGroupMemberInput from "../components/Common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayKeywordInput from "../components/Common/ReferenceArrayKeywordInput";
-import EventPreview from "../components/previews/EventPreview";
-import { EventGeneralTab } from "../components/tabs/EventGeneralTab";
-import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
-import { ReferenceMediaTab } from "../components/tabs/ReferenceMediaTab";
-import { transformEvent } from "../utils";
 import {
-  DeathEventEditFormTab,
-  DeathEventTitle,
+
+  DeathEventTitle
 } from "./events/AdminDeathEvent";
 import {
-  DocumentaryEditFormTab,
-  DocumentaryReleaseTitle,
+  DocumentaryReleaseTitle
 } from "./events/AdminDocumentaryEvent";
 import { PatentEventTitle } from "./events/AdminPatentEvent";
 import {
-  EditScientificStudyEventPayload,
-  ScientificStudyEventTitle,
+
+  ScientificStudyEventTitle
 } from "./events/AdminScientificStudyEvent";
 import { TransactionTitle } from "./events/AdminTransactionEvent";
 import {
-  UncategorizedEventEditTab,
-  UncategorizedEventTitle,
+  UncategorizedEventTitle
 } from "./events/AdminUncategorizedEvent";
 import { EventEditActions } from "./events/actions/EditEventActions";
 
@@ -252,13 +255,14 @@ export const EditTitle: React.FC = () => {
 };
 
 export const EventEdit: React.FC = () => {
+  const dataProvider = useDataProvider();
   return (
     <EditForm
       title={<EditTitle />}
       redirect={false}
       actions={<EventEditActions />}
       preview={<EventPreview />}
-      transform={(r) => transformEvent(r.id, r)}
+      transform={(r) => transformEvent(dataProvider)(r.id, r)}
     >
       <TabbedForm>
         <FormTab label="Generals">
@@ -272,7 +276,7 @@ export const EventEdit: React.FC = () => {
                   return <DeathEventEditFormTab />;
                 }
                 if (formData.type === ScientificStudy.SCIENTIFIC_STUDY.value) {
-                  return <EditScientificStudyEventPayload />;
+                  return <ScientificStudyEventEditTab />;
                 }
                 return <UncategorizedEventEditTab />;
               }}

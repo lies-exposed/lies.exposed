@@ -2,7 +2,15 @@ import * as io from "@liexp/shared/io";
 import { Media } from "@liexp/shared/io/http";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
+import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
+import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
+import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
+import GroupPreview from "@liexp/ui/components/admin/previews/GroupPreview";
 import { Typography } from "@liexp/ui/components/mui";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -33,15 +41,7 @@ import {
   TextInput,
   useRecordContext
 } from "react-admin";
-import { AvatarField } from "../components/Common/AvatarField";
-import { ColorInput } from "../components/Common/ColorInput";
-import { EditForm } from "../components/Common/EditForm";
-import { MediaField } from "../components/Common/MediaField";
-import ReferenceActorInput from "../components/Common/ReferenceActorInput";
-import { WebPreviewButton } from "../components/Common/WebPreviewButton";
-import GroupPreview from "../components/previews/GroupPreview";
 import { apiProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 
 const RESOURCE = "groups";
 

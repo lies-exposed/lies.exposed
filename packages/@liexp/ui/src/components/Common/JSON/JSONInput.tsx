@@ -1,11 +1,7 @@
 /* gist.github.com/phanngoc/473229c74d0119704d9c603b1251782a */
 import "is-plain-object";
 import * as React from "react";
-import {
-  Button,
-  Labeled, useInput
-} from "react-admin";
-import ReactJson from "react-json-view";
+import { Button, Labeled, useInput } from "react-admin";
 
 export interface JSONInputProps {
   label?: string;
@@ -25,23 +21,32 @@ const JSONInput: React.FC<JSONInputProps> = ({
     field: { value, onChange },
   } = useInput({ source });
 
+  const JSONView =
+    React.useMemo((): React.ComponentType<any> => {
+      if (typeof window !== "undefined") {
+        return require("react-json-view");
+      }
+      return (p: any) => <div />;
+    }, [typeof window !== "undefined"]);
+
   const [json, setJSON] = React.useState(value);
 
   return (
     <Labeled {...props} label={label} fullWidth>
       <>
-        <ReactJson
+        <JSONView
           src={json}
-          onAdd={(add) => {
+          onAdd={(add: any) => {
             setJSON(add.updated_src);
           }}
-          onEdit={(edit) => {
+          onEdit={(edit: any) => {
             setJSON(edit.updated_src);
           }}
-          onDelete={(del) => {
+          onDelete={(del: any) => {
             setJSON(null);
           }}
         />
+
         <Button label="Clear" onClick={() => onClear?.()} />
         <Button label="Save" onClick={() => onChange(json)} />
       </>

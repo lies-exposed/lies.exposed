@@ -3,6 +3,9 @@ import { Kind } from "@liexp/shared/io/http/ProjectImage";
 import { ProjectPageContent } from "@liexp/ui/components/ProjectPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
+import ReferenceAreaInput from '@liexp/ui/components/admin/common/ReferenceAreaInput';
+import RichTextInput from "@liexp/ui/components/admin/common/RichTextInput";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import * as React from "react";
@@ -30,9 +33,6 @@ import {
   TextField,
   TextInput
 } from "react-admin";
-import { ColorInput } from "../components/Common/ColorInput";
-import ReferenceAreaInput from '../components/Common/ReferenceAreaInput';
-import RichTextInput from "../components/Common/RichTextInput";
 
 const RESOURCE = "projects";
 

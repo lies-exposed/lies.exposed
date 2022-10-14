@@ -1,15 +1,15 @@
+import { MediaArrayInput } from "@liexp/ui/components/admin/common/MediaArrayInput";
+import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/common/ReferenceMediaDataGrid";
 import { Box } from "@liexp/ui/components/mui";
 import * as React from "react";
 import { FieldProps } from "react-admin";
-import { MediaArrayInput } from "../Common/MediaArrayInput";
-import { ReferenceMediaDataGrid } from "../Common/ReferenceMediaDataGrid";
 
 export const ReferenceMediaTab: React.FC<FieldProps> = (props) => {
   const newMediaSource = props.source
-    .split(".")
+    ?.split(".")
     .slice(0, -1)
     .concat("newMedia")
-    .join(".");
+    .join(".") ?? "newMedia";
 
   return (
     <Box style={{ width: "100%" }}>

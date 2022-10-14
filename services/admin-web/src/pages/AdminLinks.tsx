@@ -1,4 +1,12 @@
 import * as io from "@liexp/shared/io";
+import { CreateEventFromLinkButton } from '@liexp/ui/components/admin/common/CreateEventFromLinkButton';
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
+import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
+import ReferenceGroupInput from "@liexp/ui/components/admin/common/ReferenceGroupInput";
+import { SearchLinksButton } from "@liexp/ui/components/admin/common/SearchLinksButton";
+import URLMetadataInput from "@liexp/ui/components/admin/common/URLMetadataInput";
+import LinkPreview from "@liexp/ui/components/admin/previews/LinkPreview";
 import { Box, Toolbar } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
@@ -25,14 +33,6 @@ import {
   useRecordContext,
   useRefresh
 } from "react-admin";
-import { CreateEventFromLinkButton } from '../components/Common/CreateEventFromLinkButton';
-import { EditForm } from "../components/Common/EditForm";
-import { MediaField } from "../components/Common/MediaField";
-import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
-import ReferenceGroupInput from "../components/Common/ReferenceGroupInput";
-import { SearchLinksButton } from "../components/Common/SearchLinksButton";
-import URLMetadataInput from "../components/Common/URLMetadataInput";
-import LinkPreview from "../components/previews/LinkPreview";
 import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "links";

@@ -2,6 +2,15 @@ import { parsePlatformURL } from "@liexp/shared/helpers/media";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { uploadFile } from "@liexp/ui/client/admin/MediaAPI";
+import { CreateEventFromMediaButton } from "@liexp/ui/components/admin/common/CreateEventFromMediaButton";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
+import { MediaInput } from "@liexp/ui/components/admin/common/MediaInput";
+import { MediaTypeInput } from "@liexp/ui/components/admin/common/MediaTypeInput";
+import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
+import MediaPreview from "@liexp/ui/components/admin/previews/MediaPreview";
+import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
 import { Box, Button, Typography } from "@liexp/ui/components/mui";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
@@ -31,16 +40,7 @@ import {
   useRecordContext,
   useRefresh
 } from "react-admin";
-import { CreateEventFromMediaButton } from "../components/Common/CreateEventFromMediaButton";
-import { EditForm } from "../components/Common/EditForm";
-import { MediaField } from "../components/Common/MediaField";
-import { MediaInput } from "../components/Common/MediaInput";
-import { MediaTypeInput } from "../components/Common/MediaTypeInput";
-import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
-import MediaPreview from "../components/previews/MediaPreview";
-import { ReferenceLinkTab } from "../components/tabs/ReferenceLinkTab";
 import { apiProvider } from "@client/HTTPAPI";
-import { uploadFile } from "@client/MediaAPI";
 
 const RESOURCE = "media";
 
