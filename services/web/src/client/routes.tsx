@@ -46,6 +46,7 @@ import EventsPage from "./pages/EventsPage";
 import GroupsPage from "./pages/GroupsPage";
 import KeywordsPage from "./pages/KeywordsPage";
 import MediaPage from "./pages/MediaPage";
+import ProfilePage from "./pages/Profile";
 import ActorTemplate from "./templates/ActorTemplate";
 import AreaTemplate from "./templates/AreaTemplate";
 import EventTemplate from "./templates/EventTemplate";
@@ -477,6 +478,11 @@ export const routes = [
         queryFn: fetchMedia,
       },
     ],
+  },
+  {
+    path: "/profile*",
+    route: () => <ProfilePage />,
+    queries: async () => [],
   },
   {
     path: "/",
