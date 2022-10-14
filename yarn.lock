@@ -6722,13 +6722,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.57.4":
-  version: 0.57.4
-  resolution: "@types/node-telegram-bot-api@npm:0.57.4"
+"@types/node-telegram-bot-api@npm:^0.57.5":
+  version: 0.57.5
+  resolution: "@types/node-telegram-bot-api@npm:0.57.5"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
-  checksum: e67b1a40a9ceb34b663ceecd71bb1806c0ba59e6102f3539529c8b47db64cc88c4b57cd33de3dd0eaca7bf051ffd1db3b9d3052975911f5444deb5ea677c842a
+  checksum: 89eaa513731e43a2c45ab80d7f37b60bf434427b4fefcedab4ce59e6a73ba0a4a91022529b9aa8771e3e7cd43bcae85e497284c00d7186e845bbc54796fce55c
   languageName: node
   linkType: hard
 
@@ -8705,7 +8705,7 @@ __metadata:
     "@types/multer": ^1.4.7
     "@types/node": ^16.11.65
     "@types/node-cron": ^3.0.4
-    "@types/node-telegram-bot-api": ^0.57.4
+    "@types/node-telegram-bot-api": ^0.57.5
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
@@ -8734,7 +8734,7 @@ __metadata:
     module-alias: ^2.2.2
     multer: ^1.4.5-lts.1
     node-cron: ^3.0.2
-    node-telegram-bot-api: ^0.58.0
+    node-telegram-bot-api: ^0.59.0
     nodemon: ^2.0.20
     page-metadata-parser: ^1.1.4
     pdfjs-dist: ^2.16.105
@@ -9646,7 +9646,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bluebird@npm:^3.5.0, bluebird@npm:^3.5.1, bluebird@npm:^3.5.5":
+"bluebird@npm:^3.5.0, bluebird@npm:^3.5.5":
   version: 3.7.2
   resolution: "bluebird@npm:3.7.2"
   checksum: 869417503c722e7dc54ca46715f70e15f4d9c602a423a02c825570862d12935be59ed9c7ba34a9b31f186c017c23cac6b54e35446f8353059c101da73eac22ef
@@ -12202,7 +12202,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:~1.8.24, dayjs@npm:~1.8.25":
+"dayjs@npm:~1.11.5":
+  version: 1.11.5
+  resolution: "dayjs@npm:1.11.5"
+  checksum: e3bbaa7b4883b31be4bf75a181f1447fbb19800c29b332852125aab96baeff3ac232dcba8b88c4ea17d3b636c99dac5fb9d1af4bb6ae26615698bbc4a852dffb
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:~1.8.24":
   version: 1.8.36
   resolution: "dayjs@npm:1.8.36"
   checksum: 27079e08fd2c25178a2027cd5c10d7585e7b4e90f927b7387f9bb3458756205307dc0a980159ac1b1cd3ddba5528329d285ef8cf4ee1a8691bb511bd0e479981
@@ -12237,7 +12244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^3.0.0, debug@npm:^3.1.0, debug@npm:^3.2.6, debug@npm:^3.2.7":
+"debug@npm:^3.0.0, debug@npm:^3.2.6, debug@npm:^3.2.7":
   version: 3.2.7
   resolution: "debug@npm:3.2.7"
   dependencies:
@@ -12435,7 +12442,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"depd@npm:^1.1.1, depd@npm:^1.1.2, depd@npm:~1.1.2":
+"depd@npm:^1.1.2, depd@npm:~1.1.2":
   version: 1.1.2
   resolution: "depd@npm:1.1.2"
   checksum: 6b406620d269619852885ce15965272b829df6f409724415e0002c8632ab6a8c0a08ec1f0bd2add05dc7bd7507606f7e2cc034fa24224ab829580040b835ecd9
@@ -19562,22 +19569,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-telegram-bot-api@npm:^0.58.0":
-  version: 0.58.0
-  resolution: "node-telegram-bot-api@npm:0.58.0"
+"node-telegram-bot-api@npm:^0.59.0":
+  version: 0.59.0
+  resolution: "node-telegram-bot-api@npm:0.59.0"
   dependencies:
     array.prototype.findindex: ^2.0.2
     bl: ^1.2.3
-    bluebird: ^3.5.1
-    debug: ^3.1.0
-    depd: ^1.1.1
+    debug: ^3.2.7
     eventemitter3: ^3.0.0
     file-type: ^3.9.0
     mime: ^1.6.0
     pump: ^2.0.0
     request: ^2.83.0
     request-promise: ^4.2.2
-  checksum: ff54f7687e4459df228c81de6c5ba10f5a11de507792a57b27e24da99f8b1222b14b151edceac2d40fa759e5ec9453c63e36d2c154430e9b66a678aeb8ba5af1
+  checksum: 366f810931a0d816008f88764ff32c7468656ac89458b90fecd57f5780a33594effcdff253f5c7aadb5a92a64a13a55e4ae7f67636e23b58dc4239cbb81c61b9
   languageName: node
   linkType: hard
 
