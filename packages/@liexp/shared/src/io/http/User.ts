@@ -1,13 +1,13 @@
 import * as t from "io-ts";
 import { BaseProps } from "./Common/BaseProps";
 
-const EventSuggestionCreate = t.literal("event-suggestion:create");
-const EventSuggestionRead = t.literal("event-suggestion:read");
-const EventSuggestionEdit = t.literal("event-suggestion:create");
-const AdminRead = t.literal("admin:read");
-const AdminCreate = t.literal("admin:create");
-const AdminEdit = t.literal("admin:edit");
-const AdminDelete = t.literal("admin:delete");
+export const EventSuggestionCreate = t.literal("event-suggestion:create");
+export const EventSuggestionRead = t.literal("event-suggestion:read");
+export const EventSuggestionEdit = t.literal("event-suggestion:create");
+export const AdminRead = t.literal("admin:read");
+export const AdminCreate = t.literal("admin:create");
+export const AdminEdit = t.literal("admin:edit");
+export const AdminDelete = t.literal("admin:delete");
 
 export const UserPermission = t.union(
   [
