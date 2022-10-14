@@ -8365,12 +8365,12 @@ __metadata:
     debug: ^4.3.4
     eslint: ^8.25.0
     eslint-config-prettier: ^8.5.0
-    eslint-config-standard-with-typescript: ^22.0.0
+    eslint-config-standard-with-typescript: ^23.0.0
     eslint-import-resolver-typescript: ^3.5.1
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.3.0
     eslint-plugin-node: ^11.1.0
-    eslint-plugin-promise: ^6.0.1
+    eslint-plugin-promise: ^6.1.0
     eslint-plugin-react: 7.31.10
     eslint-webpack-plugin: ^3.2.0
     final-form: ^4.20.7
@@ -13289,9 +13289,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-standard-with-typescript@npm:^22.0.0":
-  version: 22.0.0
-  resolution: "eslint-config-standard-with-typescript@npm:22.0.0"
+"eslint-config-standard-with-typescript@npm:^23.0.0":
+  version: 23.0.0
+  resolution: "eslint-config-standard-with-typescript@npm:23.0.0"
   dependencies:
     "@typescript-eslint/parser": ^5.0.0
     eslint-config-standard: 17.0.0
@@ -13302,7 +13302,7 @@ __metadata:
     eslint-plugin-n: ^15.0.0
     eslint-plugin-promise: ^6.0.0
     typescript: "*"
-  checksum: 4ed15e7383f8e4d657b5ba1fec52753024c3740decf98a737fe49467f913215f674d74515d40c0b692807f5b3ec519ec5b6a6e36ed39ea96f175e703c809dfa0
+  checksum: a6bc6758e3e203721cfa38a6e5e1437b38016aa72bf2e2855581fa65c0cf96531a3433a3625703a3740c10e9d654c08a8d8b6cc6688b3e8b48259a9390a2fcd7
   languageName: node
   linkType: hard
 
@@ -13437,12 +13437,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-promise@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "eslint-plugin-promise@npm:6.0.1"
+"eslint-plugin-promise@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "eslint-plugin-promise@npm:6.1.0"
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
-  checksum: c1bb3c2e591787e97133dcaf764f908420a3a1959a3132e199db8f14d70dfa79fc9caf991ca60a4b60ae5f1f9823bc96c2e52304828a4278ef2f3964fe121de9
+  checksum: 01c55f6c4ddbb3c1ac6ccd1e834365bf12d3aaf91b562ee9027b1ae3943eb86673d44a68ea3a303a93b9ce43dd51114751c3e644da27a6d4ee4d66c8f67ff72d
   languageName: node
   linkType: hard
 
@@ -18045,12 +18045,12 @@ __metadata:
     "@typescript-eslint/parser": ^5.40.0
     eslint: ^8.25.0
     eslint-config-prettier: ^8.5.0
-    eslint-config-standard-with-typescript: ^22.0.0
+    eslint-config-standard-with-typescript: ^23.0.0
     eslint-import-resolver-typescript: ^3.5.1
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.3.0
     eslint-plugin-node: ^11.1.0
-    eslint-plugin-promise: ^6.0.1
+    eslint-plugin-promise: ^6.1.0
     eslint-webpack-plugin: ^3.2.0
     husky: ^8.0.1
     is-ci: ^3.0.1
@@ -27112,12 +27112,12 @@ __metadata:
     dotenv: ^16.0.3
     eslint: ^8.25.0
     eslint-config-prettier: ^8.5.0
-    eslint-config-standard-with-typescript: ^22.0.0
+    eslint-config-standard-with-typescript: ^23.0.0
     eslint-import-resolver-typescript: ^3.5.1
     eslint-plugin-import: ^2.26.0
     eslint-plugin-n: ^15.3.0
     eslint-plugin-node: ^11.1.0
-    eslint-plugin-promise: ^6.0.1
+    eslint-plugin-promise: ^6.1.0
     eslint-plugin-react: 7.31.10
     eslint-webpack-plugin: ^3.2.0
     express: ^4.18.2
