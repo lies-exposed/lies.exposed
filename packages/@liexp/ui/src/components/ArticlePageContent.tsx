@@ -43,7 +43,7 @@ export const ArticlePageContent: React.FC<ArticlePageContentProps> = (
         <ContentWithSidebar sidebar={<TOC markdownText={props.body} />}>
           <MainContent style={{ marginBottom: 40 }}>
             <div style={{ textAlign: "right", padding: 10 }}>
-              <EditButton resourceName="articles" resource={props} />
+              <EditButton admin={true} resourceName="articles" resource={props} />
             </div>
             <Typography className="label">
               {formatDate(props.createdAt)}

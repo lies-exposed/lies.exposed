@@ -204,7 +204,8 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
                     />
                     <Box>
                       <EditButton
-                        resourceName="events"
+                        admin={false}
+                        resourceName="events/suggestions"
                         resource={{ id: event.id }}
                       />
                     </Box>

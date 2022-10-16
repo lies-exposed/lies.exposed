@@ -1,4 +1,4 @@
-import { EventSuggestionList } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
+import { EventSuggestionList, EventSuggestionEdit } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
 import englishMessages from "@liexp/ui/i18n/en-US";
 import { themeOptions } from "@liexp/ui/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
@@ -25,7 +25,7 @@ const ProfilePage: React.FC = () => {
         name="events/suggestions"
         // edit={PageEdit}
         list={EventSuggestionList}
-        // create={PageCreate}
+        create={EventSuggestionEdit}
         // icon={PostAddIcon}
       />
     </Admin>

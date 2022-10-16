@@ -51,7 +51,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
         <Grid item md={9} sm={8}>
           <Typography variant="h2">{actor.fullName}</Typography>
           <div style={{ textAlign: "right", padding: 10 }}>
-            <EditButton resourceName="actors" resource={actor} />
+            <EditButton admin={true} resourceName="actors" resource={actor} />
           </div>
           {actor.death ? <DeathBox id={actor.death} /> : null}
           {actor.excerpt ? (

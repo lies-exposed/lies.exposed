@@ -131,7 +131,7 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
                 <TimelineEventSubjects event={e} {...props} />
 
                 <Box className={classes.editButtonBox}>
-                  <EditButton resourceName="events" resource={{ id: e.id }} />
+                  <EditButton admin={false} resourceName="events/suggestions" resource={{ id: e.id }} />
                 </Box>
               </TimelineOppositeContent>
               <TimelineSeparator className={classes.separator}>
