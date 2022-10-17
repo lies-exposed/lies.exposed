@@ -1,7 +1,7 @@
 import * as logger from "@liexp/core/logger";
-import * as IO from "fp-ts/lib/IO";
-import * as IOE from "fp-ts/lib/IOEither";
-import { pipe } from "fp-ts/lib/function";
+import * as IO from "fp-ts/IO";
+import * as IOE from "fp-ts/IOEither";
+import { pipe } from "fp-ts/function";
 import * as jwt from "jsonwebtoken";
 import { IOError } from "ts-io-error";
 import { User } from "../../io/http/User";

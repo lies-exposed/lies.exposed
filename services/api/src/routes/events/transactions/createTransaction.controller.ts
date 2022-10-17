@@ -1,8 +1,8 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { TRANSACTION } from "@liexp/shared/io/http/Events/Transaction";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { Route } from "../../route.types";
 import { toEventV2IO } from "../eventV2.io";

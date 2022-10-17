@@ -2,10 +2,10 @@ import * as qs from "querystring";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import * as http from "@liexp/ui/http";
 import axios from "axios";
-import * as A from "fp-ts/lib/Array";
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 
 export interface RawMedia {
   location: {

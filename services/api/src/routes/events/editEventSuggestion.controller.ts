@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { editEventQuery } from "./queries/editEvent.query";
 import { toEventSuggestion } from "./suggestions/eventSuggestion.io";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";

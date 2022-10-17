@@ -1,5 +1,5 @@
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
-import * as A from "fp-ts/lib/Array";
+import * as A from "fp-ts/Array";
 import Feature from "ol/Feature";
 import * as React from "react";
 import { useQuery } from "react-query";

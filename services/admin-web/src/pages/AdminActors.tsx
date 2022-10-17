@@ -3,8 +3,8 @@ import { createExcerptValue } from "@liexp/shared/slate";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   ArrayInput,

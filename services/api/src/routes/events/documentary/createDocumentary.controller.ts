@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { DOCUMENTARY } from "@liexp/shared/io/http/Events/Documentary";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";

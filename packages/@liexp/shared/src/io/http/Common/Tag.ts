@@ -1,6 +1,6 @@
-import * as E from "fp-ts/lib/Either";
-import * as IOE from "fp-ts/lib/IOEither";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import * as IOE from "fp-ts/IOEither";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 
 export interface TagBrand {

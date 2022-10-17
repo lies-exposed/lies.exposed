@@ -1,7 +1,7 @@
 import * as io from "@liexp/shared/io";
 import { toColor } from "@liexp/shared/io/http/Common";
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
 import { GroupMemberEntity } from "../../entities/GroupMember.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";
 

@@ -1,5 +1,5 @@
 import { goodActor } from "@liexp/shared/mock-data/actors";
-import * as R from "fp-ts/lib/Record";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 // import { extractEventsMetadata } from "../../helpers/event";
 // import { events } from "../../mock-data/events";

@@ -2,9 +2,9 @@ import { Group } from "@liexp/shared/io/http/Group";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { APIRESTClient } from "@liexp/ui/http";
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import {
   CreateParams,
   CreateResult,

@@ -1,5 +1,5 @@
 import * as io from "@liexp/shared/io";
-import * as E from "fp-ts/lib/Either";
+import * as E from "fp-ts/Either";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import { IOError } from "ts-shared/lib/errors";

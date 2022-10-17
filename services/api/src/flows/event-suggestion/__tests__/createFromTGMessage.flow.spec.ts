@@ -10,7 +10,7 @@ import {
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as fc from "fast-check";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventSuggestionEntity } from "@entities/EventSuggestion.entity";

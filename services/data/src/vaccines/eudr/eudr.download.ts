@@ -19,9 +19,9 @@ import {
   toPuppeteerError
 } from "@liexp/shared/providers/puppeteer.provider";
 import { differenceInDays } from "date-fns";
-import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
-import * as TE from "fp-ts/lib/TaskEither";
+import * as A from "fp-ts/Array";
+import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/TaskEither";
 import * as fs from "fs";
 import * as path from "path";
 // eslint-disable-next-line import/default

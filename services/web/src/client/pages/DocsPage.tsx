@@ -3,8 +3,8 @@ import { MainContent } from "@liexp/ui/components/MainContent";
 import { PageContent } from "@liexp/ui/components/PageContent";
 import { TableOfContents } from "@liexp/ui/components/TableOfContents";
 import { RouteComponentProps } from "@reach/router";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 
 class DocsPage extends React.PureComponent<RouteComponentProps> {

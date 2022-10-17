@@ -1,5 +1,5 @@
 import { fc } from "@liexp/core/tests";
-import * as E from "fp-ts/lib/Either";
+import * as E from "fp-ts/Either";
 import * as t from "io-ts";
 import { TagArb } from "../../../../tests/arbitrary/Keyword.arbitrary";
 import { Tag } from "../Tag";

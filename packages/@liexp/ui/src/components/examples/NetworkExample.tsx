@@ -1,6 +1,6 @@
 import { actors } from "@liexp/shared/mock-data/actors";
 import { groups } from "@liexp/shared/mock-data/groups";
-import * as O from "fp-ts/lib/Option";
+import * as O from "fp-ts/Option";
 import * as React from "react";
 import { EventsNetworkGraph } from "../Graph/EventsNetworkGraph";
 

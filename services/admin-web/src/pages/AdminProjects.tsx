@@ -3,8 +3,8 @@ import { Kind } from "@liexp/shared/io/http/ProjectImage";
 import { ProjectPageContent } from "@liexp/ui/components/ProjectPageContent";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   ArrayField,

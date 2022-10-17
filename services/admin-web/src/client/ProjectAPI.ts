@@ -1,11 +1,11 @@
 import { Project } from "@liexp/shared/io/http/Project";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as http from "@liexp/ui/http";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as A from "fp-ts/lib/Array";
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { CreateParams, CreateResult, UpdateParams } from "react-admin";
 import { uploadImages } from "./MediaAPI";
 

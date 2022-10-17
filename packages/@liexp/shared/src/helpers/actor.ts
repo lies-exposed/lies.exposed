@@ -1,4 +1,4 @@
-import { eqString } from "fp-ts/lib/Eq";
+import { eqString } from "fp-ts/Eq";
 import { Actor, Common, Group } from "../io/http";
 
 export const getActors =

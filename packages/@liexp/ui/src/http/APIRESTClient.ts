@@ -1,8 +1,8 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
-import * as E from "fp-ts/lib/Either";
-import * as Task from "fp-ts/lib/Task";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import * as Task from "fp-ts/Task";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import type * as RA from "react-admin";
 import { RaRecord } from 'react-admin';
 

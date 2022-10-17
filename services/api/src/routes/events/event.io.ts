@@ -1,6 +1,6 @@
 import * as io from "@liexp/shared/io";
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { EventEntity } from "@entities/archive/Event.entity";
 import { ControllerError, DecodeError } from "@io/ControllerError";

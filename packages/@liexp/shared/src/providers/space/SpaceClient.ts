@@ -1,7 +1,7 @@
 import * as logger from "@liexp/core/logger";
 import type * as AWS from "aws-sdk";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { IOError } from 'ts-io-error';
 
 const s3Logger = logger.GetLogger("space");

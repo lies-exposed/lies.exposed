@@ -1,12 +1,12 @@
 import { format, subWeeks } from "date-fns";
-import * as A from "fp-ts/lib/Array";
-import * as Eq from "fp-ts/lib/Eq";
-import * as Map from "fp-ts/lib/Map";
-import * as O from "fp-ts/lib/Option";
-import * as Ord from "fp-ts/lib/Ord";
-import { pipe } from "fp-ts/lib/function";
-import * as N from 'fp-ts/lib/number'
-import * as S from 'fp-ts/lib/string';
+import * as A from "fp-ts/Array";
+import * as Eq from "fp-ts/Eq";
+import * as Map from "fp-ts/Map";
+import * as O from "fp-ts/Option";
+import * as Ord from "fp-ts/Ord";
+import { pipe } from "fp-ts/function";
+import * as N from 'fp-ts/number'
+import * as S from 'fp-ts/string';
 import {
   Actor,
   Common,

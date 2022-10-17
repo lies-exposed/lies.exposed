@@ -1,5 +1,5 @@
 import { firstEvent } from "@liexp/shared/mock-data/events";
-import * as R from "fp-ts/lib/Record";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 import { EventPageContent, EventPageContentProps } from "../EventPageContent";
 import { Card } from "../mui";

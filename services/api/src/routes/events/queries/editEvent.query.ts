@@ -1,8 +1,8 @@
 import * as http from "@liexp/shared/io/http";
 import { DBError } from "@liexp/shared/providers/orm";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { DeepPartial } from "typeorm";
 import { fetchRelations } from "./fetchEventRelations.utils";
 import { EventV2Entity } from "@entities/Event.v2.entity";

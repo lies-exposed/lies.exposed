@@ -1,5 +1,5 @@
-import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/function";
+import * as R from "fp-ts/Record";
+import { pipe } from "fp-ts/function";
 import * as qs from "qs";
 import { URL } from "../io/http/Common/URL";
 

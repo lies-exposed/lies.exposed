@@ -1,7 +1,7 @@
 import { Group } from "@liexp/shared/io/http";
-import * as NEA from "fp-ts/lib/NonEmptyArray";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as NEA from "fp-ts/NonEmptyArray";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { useGroupsQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";

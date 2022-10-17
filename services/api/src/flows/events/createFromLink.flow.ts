@@ -1,6 +1,6 @@
 import { createExcerptValue } from "@liexp/shared/slate";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { LinkEntity } from "@entities/Link.entity";

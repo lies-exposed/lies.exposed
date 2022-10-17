@@ -3,8 +3,8 @@ import { GetSignedURL } from "@liexp/shared/endpoints/upload.endpoints";
 import { fileExtFromContentType } from "@liexp/shared/utils/media.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { RouteContext } from "../route.types";
 
 export const MakeSignedUrlRoute = (r: Router, ctx: RouteContext): void => {

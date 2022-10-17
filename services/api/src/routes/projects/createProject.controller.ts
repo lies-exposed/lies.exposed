@@ -1,8 +1,8 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { Route } from "../route.types";
 import { ProjectEntity } from "@entities/Project.entity";

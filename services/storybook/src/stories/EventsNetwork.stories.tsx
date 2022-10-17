@@ -7,9 +7,9 @@ import {
   EventsNetworkGraphProps,
 } from "@liexp/ui/components/Graph/EventsNetworkGraph";
 import { Meta, Story } from "@storybook/react/types-6-0";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 
 const meta: Meta = {

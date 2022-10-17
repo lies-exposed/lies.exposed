@@ -1,8 +1,8 @@
 import { WindowLocation } from "@reach/router";
-import * as E from "fp-ts/lib/Either";
-import { eqString } from "fp-ts/lib/Eq";
-import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import { eqString } from "fp-ts/Eq";
+import * as R from "fp-ts/Record";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import * as querystring from "query-string";
 

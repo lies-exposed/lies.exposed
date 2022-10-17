@@ -1,8 +1,8 @@
 import { URL } from "@liexp/shared/io/http/Common";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { findByURL } from "../../../queries/events/scientificStudy.query";
 import { extractFromURL } from "../extractFromURL.flow";

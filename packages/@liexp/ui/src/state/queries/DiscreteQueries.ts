@@ -12,10 +12,10 @@ import {
   Project,
 } from "@liexp/shared/io/http";
 import { APIError } from "@liexp/shared/providers/api.provider";
-import * as A from "fp-ts/lib/Array";
-import * as R from "fp-ts/lib/Record";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as A from "fp-ts/Array";
+import * as R from "fp-ts/Record";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { GetListParams, GetOneParams } from "react-admin";
 import { useQuery, UseQueryResult } from "react-query";

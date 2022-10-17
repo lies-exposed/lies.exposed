@@ -2,11 +2,11 @@
 
 import { EventTotals } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { DBError } from "@liexp/shared/providers/orm/Database";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Brackets, In } from "typeorm";
 import { RouteContext } from "../../route.types";
 import { EventV2Entity } from "@entities/Event.v2.entity";
