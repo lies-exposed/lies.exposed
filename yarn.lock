@@ -6754,10 +6754,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.65":
-  version: 16.11.65
-  resolution: "@types/node@npm:16.11.65"
-  checksum: 81d84cb1e7aa305574cd35acf1a5e47f4a7f52783ba096f4bc511314540dee33a27cbd4fddc8bddd4535f1c87a96a76907157bcde093a25c89e8851d6dd63022
+"@types/node@npm:^16.11.66":
+  version: 16.11.66
+  resolution: "@types/node@npm:16.11.66"
+  checksum: bf190db14d1f32ab10588dd1a1e30bb2e9ba9b78281fce7a81fa80d914f9b3203d48cf1c6a8f96ef6b0edbba281478d2c68d6ebb7719c896f2dd62429c64ef09
   languageName: node
   linkType: hard
 
@@ -8356,7 +8356,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
     "@types/lodash": ^4.14.186
-    "@types/node": ^16.11.65
+    "@types/node": ^16.11.66
     "@types/prettier": ^2.7.1
     "@types/react": ^17.0.50
     "@types/react-dom": ^17.0.17
@@ -8704,7 +8704,7 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.9
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.65
+    "@types/node": ^16.11.66
     "@types/node-cron": ^3.0.4
     "@types/node-telegram-bot-api": ^0.57.5
     "@types/pg": ^8.6.5
