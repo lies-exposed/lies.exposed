@@ -13,7 +13,6 @@ const publicDataProvider = http.APIRESTClient({
 export const httRestClient = http.APIRESTClient({
   url: process.env.API_URL,
   getAuth: () => {
-    console.log('get auth');
     const token = localStorage.getItem("auth");
     return token;
   },
@@ -38,8 +37,8 @@ export const authProvider: AuthProvider = {
   checkAuth: async () =>
     localStorage.getItem("auth")
       ? await Promise.resolve()
-      // eslint-disable-next-line prefer-promise-reject-errors
-      : await Promise.reject(),
+      : // eslint-disable-next-line prefer-promise-reject-errors
+        await Promise.reject(),
   checkError: (e) => {
     if (e?.response?.status === 401) {
       return Promise.reject(new Error(e.response.body.message));

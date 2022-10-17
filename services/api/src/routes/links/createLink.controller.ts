@@ -10,40 +10,45 @@ import { toLinkIO } from "./link.io";
 import { LinkEntity } from "@entities/Link.entity";
 import { ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
-import { authenticationHandler } from '@utils/authenticationHandler';
+import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ['admin:create']))(Endpoints.Link.Create, ({ body }) => {
-    // const data = {
-    //   events: body.events.map((e) => ({ id: e })),
-    // };
-    return pipe(
-      ctx.urlMetadata.fetchMetadata(body.url, {}, (e) => ServerError()),
-      TE.chain((m) =>
-        ctx.db.save(LinkEntity, [
-          {
-            ...m,
-            events: [],
-            title: m.title,
-            image: m.image
-              ? {
-                  description: m.description,
-                  thumbnail: m.image,
-                  location: m.image,
-                  type: "image/jpeg" as const,
-                }
-              : null,
-            url: sanitizeURL(m.url as any),
-            publishDate: m.date ? parseISO(m.date) : undefined,
-            keywords: [],
-          },
-        ])
-      ),
-      TE.chainEitherK(A.traverse(E.Applicative)(toLinkIO)),
-      TE.map(([data]) => ({
-        body: { data },
-        statusCode: 200,
-      }))
-    );
-  });
+  AddEndpoint(r, authenticationHandler(ctx, []))(
+    Endpoints.Link.Create,
+    ({ body }, req) => {
+      // const data = {
+      //   events: body.events.map((e) => ({ id: e })),
+      // };
+      const id = (req.user as any).id;
+      return pipe(
+        ctx.urlMetadata.fetchMetadata(body.url, {}, (e) => ServerError()),
+        TE.chain((m) =>
+          ctx.db.save(LinkEntity, [
+            {
+              ...m,
+              events: [],
+              title: m.title,
+              image: m.image
+                ? {
+                    description: m.description,
+                    thumbnail: m.image,
+                    location: m.image,
+                    type: "image/jpeg" as const,
+                  }
+                : null,
+              url: sanitizeURL(m.url as any),
+              publishDate: m.date ? parseISO(m.date) : undefined,
+              keywords: [],
+              creator: { id },
+            },
+          ])
+        ),
+        TE.chainEitherK(A.traverse(E.Applicative)(toLinkIO)),
+        TE.map(([data]) => ({
+          body: { data },
+          statusCode: 200,
+        }))
+      );
+    }
+  );
 };

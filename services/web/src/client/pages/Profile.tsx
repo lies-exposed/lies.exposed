@@ -1,4 +1,8 @@
-import { EventSuggestionList, EventSuggestionEdit } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
+import {
+  EventSuggestionList,
+  EventSuggestionEdit,
+} from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
+import { LinkCreate, LinkList } from "@liexp/ui/components/admin/AdminLinks";
 import englishMessages from "@liexp/ui/i18n/en-US";
 import { themeOptions } from "@liexp/ui/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
@@ -21,9 +25,10 @@ const ProfilePage: React.FC = () => {
       requireAuth
       basename="/profile"
     >
+      <Resource name="links" list={LinkList} create={LinkCreate} />
       <Resource
         name="events/suggestions"
-        // edit={PageEdit}
+        edit={EventSuggestionEdit}
         list={EventSuggestionList}
         create={EventSuggestionEdit}
         // icon={PostAddIcon}
