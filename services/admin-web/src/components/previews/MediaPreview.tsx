@@ -4,8 +4,8 @@ import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLay
 import { ThemeProvider } from "@liexp/ui/components/mui";
 import { MediaSlider } from '@liexp/ui/components/sliders/MediaSlider';
 import { ECOTheme } from "@liexp/ui/theme";
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";

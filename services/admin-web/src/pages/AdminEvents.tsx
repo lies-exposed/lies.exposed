@@ -17,7 +17,7 @@ import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { Box, Typography } from "@liexp/ui/components/mui";
 import PinDropIcon from "@mui/icons-material/PinDrop";
-import * as R from "fp-ts/lib/Record";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 import {
   BooleanField,

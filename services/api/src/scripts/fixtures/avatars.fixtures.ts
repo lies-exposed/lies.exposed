@@ -2,9 +2,9 @@ import Avatars from "@dicebear/avatars";
 import avataaarsSprites from "@dicebear/avatars-avataaars-sprites";
 import botttsSprites from "@dicebear/avatars-bottts-sprites";
 import { SpaceClient, toError } from "@liexp/shared/providers/space/SpaceClient";
-import * as IOE from "fp-ts/lib/IOEither";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as IOE from "fp-ts/IOEither";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 
 const options = {
   r: 50,

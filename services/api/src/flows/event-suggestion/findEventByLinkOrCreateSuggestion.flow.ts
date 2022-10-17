@@ -1,7 +1,7 @@
 import { URL } from "@liexp/shared/io/http/Common";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import * as linkFlows from "../link.flow";
 import { createEventSuggestionFromLink } from "./createFromLink.flow";

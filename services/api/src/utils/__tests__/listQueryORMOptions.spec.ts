@@ -1,5 +1,5 @@
 import { FilterQuery, GetListQuery } from "@liexp/shared/io/http/Query";
-import * as O from "fp-ts/lib/Option";
+import * as O from "fp-ts/Option";
 import { Like } from "typeorm";
 import { getORMOptions } from "../orm.utils";
 

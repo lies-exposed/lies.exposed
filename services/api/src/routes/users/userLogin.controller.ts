@@ -1,7 +1,7 @@
 import { UserLogin, AddEndpoint } from "@liexp/shared/endpoints";
 import { Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { UserEntity } from "@entities/User.entity";
 import { BadRequestError, NotFoundError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";

@@ -1,10 +1,10 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import { Router } from "express";
-import * as A from "fp-ts/lib/Array";
-import * as E from "fp-ts/lib/Either";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { RouteContext } from "../route.types";
 import { toGroupMemberIO } from "./groupMember.io";
 import { GroupMemberEntity } from "@entities/GroupMember.entity";

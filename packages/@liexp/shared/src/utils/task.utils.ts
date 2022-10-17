@@ -1,4 +1,4 @@
-import * as TE from "fp-ts/lib/TaskEither";
+import * as TE from "fp-ts/TaskEither";
 
 export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
   return await te().then((rr) => {

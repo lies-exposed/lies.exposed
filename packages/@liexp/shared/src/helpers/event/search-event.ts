@@ -1,7 +1,7 @@
-import * as A from "fp-ts/lib/Array";
-import * as M from "fp-ts/lib/Map";
-import { pipe } from "fp-ts/lib/function";
-import * as S from "fp-ts/lib/string";
+import * as A from "fp-ts/Array";
+import * as M from "fp-ts/Map";
+import { pipe } from "fp-ts/function";
+import * as S from "fp-ts/string";
 import {
   Actor,
   Events,

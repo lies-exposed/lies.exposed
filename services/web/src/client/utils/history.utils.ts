@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/function";
 import qs from "query-string";
 import React from "react";
 import {

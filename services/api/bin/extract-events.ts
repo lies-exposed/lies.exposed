@@ -7,10 +7,10 @@ import {
 import { ControllerError, toControllerError } from "@io/ControllerError";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import dotenv from "dotenv";
-import * as A from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
+import * as A from "fp-ts/Array";
+import { pipe } from "fp-ts/function";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
 import * as fs from "fs";
 import * as path from "path";
 import { findByURL } from '../src/queries/events/scientificStudy.query';

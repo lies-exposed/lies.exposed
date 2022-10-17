@@ -1,5 +1,5 @@
 import { GroupMember } from "@liexp/shared/io/http";
-import * as NEA from "fp-ts/lib/NonEmptyArray";
+import * as NEA from "fp-ts/NonEmptyArray";
 import * as React from "react";
 import { useGroupMembersQuery } from "../state/queries/DiscreteQueries";
 import QueriesRenderer from "./QueriesRenderer";

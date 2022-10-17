@@ -1,9 +1,9 @@
 /* eslint-disable import/default */
 import * as fs from "fs";
 import * as logger from "@liexp/core/logger";
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import type * as puppeteer from "puppeteer-core";
 import { addExtra, VanillaPuppeteer } from "puppeteer-extra";
 import puppeteerStealth from "puppeteer-extra-plugin-stealth";

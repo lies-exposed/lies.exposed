@@ -12,9 +12,9 @@ import {
 } from "@liexp/shared/io/http";
 import { GetSearchEventsQueryInput } from "@liexp/shared/io/http/Events/SearchEventsQuery";
 import { APIError } from "@liexp/shared/providers/api.provider";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import {
   useInfiniteQuery,
   UseInfiniteQueryResult,

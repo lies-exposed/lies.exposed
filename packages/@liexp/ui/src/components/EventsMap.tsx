@@ -1,8 +1,8 @@
 import { Events } from "@liexp/shared/io/http";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import Feature from "ol/Feature";
 import * as React from "react";
 import { useEventsQuery } from '../state/queries/DiscreteQueries';

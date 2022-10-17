@@ -18,7 +18,7 @@ import {
 } from "@liexp/ui/components/mui";
 import { useTheme } from '@liexp/ui/theme';
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import * as O from "fp-ts/lib/Option";
+import * as O from "fp-ts/Option";
 import * as React from "react";
 import { createEventSuggestion, getURLMetadata } from "../../state/commands";
 

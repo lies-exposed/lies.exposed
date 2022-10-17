@@ -2,9 +2,9 @@
 /* eslint-disable import/order */
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as dotenv from "dotenv";
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
-import * as TE from "fp-ts/lib/TaskEither";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/TaskEither";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import * as path from "path";
 import * as orm from "@liexp/shared/providers/orm";

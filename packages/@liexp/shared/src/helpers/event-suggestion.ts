@@ -1,5 +1,5 @@
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import { Metadata } from "page-metadata-parser";
 import { http } from "../io";
 import { createExcerptValue } from "../slate";

@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { searchEventV2Query } from "../queries/searchEventsV2.query";
 import { toEventV2IO } from "@routes/events/eventV2.io";
 import { Route } from "@routes/route.types";

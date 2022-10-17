@@ -1,6 +1,6 @@
 import { Actor, Group } from "@liexp/shared/io/http";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import ActorsBox from "../containers/ActorsBox";
 import { DeathBox } from "../containers/DeathBox";

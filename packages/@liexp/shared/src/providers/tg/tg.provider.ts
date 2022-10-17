@@ -1,4 +1,4 @@
-import * as TE from "fp-ts/lib/TaskEither";
+import * as TE from "fp-ts/TaskEither";
 import TelegramBot from "node-telegram-bot-api";
 
 const chatId = "@lies_exposed";

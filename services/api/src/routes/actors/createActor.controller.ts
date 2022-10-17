@@ -1,7 +1,7 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { ActorEntity } from "../../entities/Actor.entity";
 import { Route } from "../route.types";

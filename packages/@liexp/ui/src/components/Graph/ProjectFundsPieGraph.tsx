@@ -1,13 +1,13 @@
 // import { PieChartGraph } from "@components/Common/Graph/PieChartGraph";
 // import { Events } from "@liexp/shared/io/http";
 // import ParentSize from "@visx/responsive/lib/components/ParentSize";
-// import * as Array from "fp-ts/lib/Array";
-// import { eqString } from "fp-ts/lib/Eq";
-// import * as Map from "fp-ts/lib/Map";
-// import * as O from "fp-ts/lib/Option";
-// import { ordString } from "fp-ts/lib/Ord";
-// import * as Tuple from "fp-ts/lib/Tuple";
-// import { pipe } from "fp-ts/lib/function";
+// import * as Array from "fp-ts/Array";
+// import { eqString } from "fp-ts/Eq";
+// import * as Map from "fp-ts/Map";
+// import * as O from "fp-ts/Option";
+// import { ordString } from "fp-ts/Ord";
+// import * as Tuple from "fp-ts/Tuple";
+// import { pipe } from "fp-ts/function";
 // import React from "react";
 
 // interface ProjectFundsPieGraphProps {

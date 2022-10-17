@@ -3,9 +3,9 @@ import * as logger from "@liexp/core/logger";
 import { Body } from "aws-sdk/clients/s3";
 import { AxiosInstance, AxiosResponse } from "axios";
 import FormData from "form-data";
-import { Reader } from "fp-ts/lib/Reader";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { Reader } from "fp-ts/Reader";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { SpaceClient, toError } from "./SpaceClient";
 
 interface LocalSpaceClientCtx {

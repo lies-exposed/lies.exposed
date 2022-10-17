@@ -1,8 +1,8 @@
 import { Endpoints, AddEndpoint } from "@liexp/shared/endpoints";
 import { Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { PageEntity } from "../../entities/Page.entity";
 import { RouteContext } from "../route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";

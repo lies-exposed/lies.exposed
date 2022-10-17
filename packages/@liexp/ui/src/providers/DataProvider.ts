@@ -3,11 +3,11 @@ import { ResourceEndpoints } from "@liexp/shared/endpoints/types";
 import * as io from "@liexp/shared/io/index";
 import { APIError } from "@liexp/shared/providers/api.provider";
 import axios from "axios";
-import * as A from "fp-ts/lib/Array";
-import * as E from "fp-ts/lib/Either";
-import * as R from "fp-ts/lib/Record";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import * as R from "fp-ts/Record";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter";
 import type {

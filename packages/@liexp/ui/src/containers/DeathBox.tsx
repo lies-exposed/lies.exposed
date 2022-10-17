@@ -1,6 +1,6 @@
 import { formatDate } from "@liexp/shared/utils/date";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer";
 import { useEventQuery } from "../state/queries/DiscreteQueries";

@@ -1,7 +1,7 @@
 import { getSuggestions } from "@liexp/shared/helpers/event-suggestion";
 import * as io from "@liexp/shared/io";
 import { Box, MenuItem, Select } from "@liexp/ui/components/mui";
-import * as O from "fp-ts/lib/Option";
+import * as O from "fp-ts/Option";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { Button } from "react-admin";

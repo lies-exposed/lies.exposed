@@ -1,8 +1,8 @@
 import { UUID } from "@liexp/shared/io/http/Common/UUID";
 import * as Query from "@liexp/shared/io/http/Query";
-import * as O from "fp-ts/lib/Option";
-import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import * as R from "fp-ts/Record";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { BigIntFromString } from "io-ts-types/lib/BigIntFromString";
 import { Equal, FindOperator, In, Like, SelectQueryBuilder, ObjectLiteral } from "typeorm";

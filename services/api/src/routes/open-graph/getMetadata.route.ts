@@ -1,10 +1,10 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Link } from "@liexp/shared/io/http";
 import { Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Metadata } from "page-metadata-parser";
 import { Equal } from 'typeorm';
 import { LinkEntity } from "@entities/Link.entity";

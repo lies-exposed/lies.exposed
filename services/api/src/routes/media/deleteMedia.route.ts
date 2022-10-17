@@ -1,8 +1,8 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Equal } from 'typeorm';
 import { MediaEntity } from "@entities/Media.entity";
 import { ProjectImageEntity } from "@entities/ProjectImage.entity";

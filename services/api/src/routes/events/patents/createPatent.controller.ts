@@ -1,9 +1,9 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { PATENT } from "@liexp/shared/io/http/Events/Patent";
-import { sequenceS } from "fp-ts/lib/Apply";
-import * as O from "fp-ts/lib/Option";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import { sequenceS } from "fp-ts/Apply";
+import * as O from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { UUID } from "io-ts-types/lib/UUID";
 import { Equal, In } from "typeorm";
 import { Route } from "../../route.types";

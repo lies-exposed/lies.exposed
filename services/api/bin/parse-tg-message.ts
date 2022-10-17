@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { makeContext } from "../src/server";
-// import * as TE from "fp-ts/lib/TaskEither";
+// import * as TE from "fp-ts/TaskEither";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { createFromTGMessage } from "../src/flows/event-suggestion/createFromTGMessage.flow";
 import dotenv from "dotenv";

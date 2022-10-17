@@ -1,6 +1,6 @@
 import { uuid } from "@liexp/shared/utils/uuid";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { Typography } from "./mui";
 

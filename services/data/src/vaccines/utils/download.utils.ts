@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import { GetLogger } from "@liexp/core/logger";
 import { APIRESTClient } from "@liexp/ui/http";
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
 
 const log = GetLogger("download-utils");
 

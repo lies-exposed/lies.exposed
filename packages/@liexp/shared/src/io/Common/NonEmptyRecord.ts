@@ -1,4 +1,4 @@
-import * as R from "fp-ts/lib/Record";
+import * as R from "fp-ts/Record";
 import * as t from "io-ts";
 
 export interface NonEmptyRecordBrand {
@@ -17,7 +17,7 @@ export interface NonEmptyRecordC<P extends t.Props>
  *
  * @example
  * import { NonEmptyRecord } from 'io-ts-types/lib/NonEmptyRecord'
- * import { right } from 'fp-ts/lib/Either'
+ * import { right } from 'fp-ts/Either'
  * import { PathReporter } from 'io-ts/lib/PathReporter'
  *
  * assert.deepStrictEqual(NonEmptyRecord.decode({ key: 1 }), right({ key: 1 }))

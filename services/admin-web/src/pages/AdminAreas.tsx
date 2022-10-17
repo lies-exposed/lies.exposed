@@ -6,8 +6,8 @@ import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { ECOTheme } from "@liexp/ui/theme";
 import { ThemeProvider } from "@mui/system";
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   Create,

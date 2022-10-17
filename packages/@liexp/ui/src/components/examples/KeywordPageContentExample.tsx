@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/utils/uuid";
-import * as R from "fp-ts/lib/Record";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 import {
   KeywordPageContent,

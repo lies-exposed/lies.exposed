@@ -1,5 +1,5 @@
 import { SearchEvent } from "@liexp/shared/io/http/Events";
-import * as A from "fp-ts/lib/Array";
+import * as A from "fp-ts/Array";
 import * as React from "react";
 import {
   SearchEventQueryInput,

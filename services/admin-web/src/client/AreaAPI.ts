@@ -1,9 +1,9 @@
 import { Area } from "@liexp/shared/io/http/Area";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import * as http from "@liexp/ui/http";
-import * as E from "fp-ts/lib/Either";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { UpdateParams, UpdateResult } from "react-admin";
 
 export const editArea =

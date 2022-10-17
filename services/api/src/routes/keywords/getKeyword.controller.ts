@@ -1,7 +1,7 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither";
-import { pipe } from "fp-ts/lib/function";
+import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { toKeywordIO } from "./keyword.io";
 import { KeywordEntity } from "@entities/Keyword.entity";
 import { RouteContext } from "@routes/route.types";

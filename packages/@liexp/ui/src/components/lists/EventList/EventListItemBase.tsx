@@ -1,9 +1,9 @@
 import * as http from "@liexp/shared/io/http";
 import { EventType } from "@liexp/shared/io/http/Events";
 import { getTextContentsCapped, isValidValue } from "@liexp/shared/slate";
-import * as A from "fp-ts/lib/Array";
-import * as O from "fp-ts/lib/Option";
-import { pipe } from "fp-ts/lib/function";
+import * as A from "fp-ts/Array";
+import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../../../theme";
 import { EventIcon } from "../../Common/Icons";

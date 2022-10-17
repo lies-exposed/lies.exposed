@@ -1,6 +1,6 @@
-import * as O from "fp-ts/lib/Option";
-import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import * as R from "fp-ts/Record";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 
 export const propsOmit = <P extends t.Props, PP extends Array<keyof P>>(

@@ -1,4 +1,4 @@
-import * as R from "fp-ts/lib/Record";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 import { Card } from "../mui";
 import { EventSlider, EventSliderProps } from "../sliders/EventSlider";

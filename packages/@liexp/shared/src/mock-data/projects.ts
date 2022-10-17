@@ -1,5 +1,5 @@
 import { addYears, subDays, subYears } from "date-fns";
-import * as NEA from "fp-ts/lib/NonEmptyArray";
+import * as NEA from "fp-ts/NonEmptyArray";
 import { Project } from "../io/http";
 import { generateRandomColor } from "../utils/colors";
 import { uuid } from "../utils/uuid";

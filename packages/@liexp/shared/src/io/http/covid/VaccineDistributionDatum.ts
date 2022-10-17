@@ -1,5 +1,5 @@
-import * as E from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 

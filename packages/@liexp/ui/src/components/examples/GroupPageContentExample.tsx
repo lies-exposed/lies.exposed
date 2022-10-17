@@ -1,5 +1,5 @@
 import { goodGroup } from "@liexp/shared/mock-data/groups";
-import * as R from "fp-ts/lib/Record";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 import { GroupPageContent, GroupPageContentProps } from "../GroupPageContent";
 import { Card } from "../mui";

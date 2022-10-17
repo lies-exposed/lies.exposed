@@ -1,6 +1,6 @@
-import * as O from "fp-ts/lib/Option";
-import * as R from "fp-ts/lib/Record";
-import { pipe } from "fp-ts/lib/function";
+import * as O from "fp-ts/Option";
+import * as R from "fp-ts/Record";
+import { pipe } from "fp-ts/function";
 
 type OptionalsToUndefined<T extends { [key: string]: O.Option<any> }> = {
   [K in keyof T]: T[K] extends O.Some<infer A> ? A : undefined;
