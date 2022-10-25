@@ -20,6 +20,7 @@ export const List = Endpoint({
       events: optionFromNullable(t.array(UUID)),
       ids: optionFromNullable(t.array(UUID)),
       provider: optionFromNullable(UUID),
+      creator: optionFromNullable(UUID),
       emptyEvents: optionFromNullable(BooleanFromString),
     }),
   },
@@ -88,6 +89,6 @@ export const links = ResourceEndpoints({
   Create,
   Delete,
   Custom: {
-    CreateMany
+    CreateMany,
   },
 });

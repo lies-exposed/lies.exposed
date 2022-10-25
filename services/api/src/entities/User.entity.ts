@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { EventSuggestionEntity } from "./EventSuggestion.entity";
+import { LinkEntity } from "./Link.entity";
 
 @Entity("user")
 export class UserEntity {
@@ -41,6 +42,9 @@ export class UserEntity {
     nullable: true,
   })
   eventSuggestions: EventSuggestionEntity[];
+
+  @OneToMany(() => LinkEntity, (l) => l.creator)
+  links: LinkEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

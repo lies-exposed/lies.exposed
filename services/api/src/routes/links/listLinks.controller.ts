@@ -14,7 +14,17 @@ import { addOrder, getORMOptions } from "@utils/orm.utils";
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Link.List,
-    ({ query: { events, ids, q: search, emptyEvents, provider, ...query } }) => {
+    ({
+      query: {
+        events,
+        ids,
+        q: search,
+        emptyEvents,
+        provider,
+        creator,
+        ...query
+      },
+    }) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -38,8 +48,17 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               .leftJoinAndSelect("link.keywords", "keywords"),
             (q) => {
               if (O.isSome(search)) {
-                return q.where("lower(link.title) LIKE :q OR lower(link.description) LIKE :q", {
-                  q: `%${search.value.toLowerCase()}%`,
+                return q.where(
+                  "lower(link.title) LIKE :q OR lower(link.description) LIKE :q",
+                  {
+                    q: `%${search.value.toLowerCase()}%`,
+                  }
+                );
+              }
+
+              if (O.isSome(creator)) {
+                return q.where("link.creator = :creator", {
+                  creator: creator.value,
                 });
               }
 
