@@ -47,4 +47,15 @@ export const authProvider: AuthProvider = {
     return Promise.resolve();
   },
   getPermissions: () => Promise.resolve(),
+  getIdentity: async () => {
+    try {
+      const user = await httRestClient.get("users/me", {});
+
+      return user;
+    } catch (e) {
+      // eslint-disable-next-line
+      console.error(e);
+      return undefined;
+    }
+  },
 };

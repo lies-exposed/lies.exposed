@@ -59,6 +59,10 @@ export const authenticationHandler: (
               "event-suggestion:read",
             ]);
           }
+
+          if (perms.length === 0) {
+            return true;
+          }
           return perms.some((p) => u.permissions.includes(p));
         },
         (p) =>

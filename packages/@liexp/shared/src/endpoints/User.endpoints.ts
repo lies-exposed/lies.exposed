@@ -44,6 +44,15 @@ export const UserGet = Endpoint({
   Output: t.strict({ data: t.array(User), total: t.number }),
 });
 
+export const GetUserMe = Endpoint({
+  Method: "GET",
+  getPath: () => `/users/me`,
+  Input: {
+    Query: GetListQuery,
+  },
+  Output: User,
+});
+
 export const UserList = Endpoint({
   Method: "GET",
   getPath: () => "/users",
@@ -70,5 +79,7 @@ export const users = ResourceEndpoints({
     getPath: () => `/users`,
     Output: t.undefined,
   }),
-  Custom: {},
+  Custom: {
+    GetUserMe
+  },
 });
