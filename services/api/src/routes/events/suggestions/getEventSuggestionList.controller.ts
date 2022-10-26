@@ -1,5 +1,6 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { EventSuggestion } from "@liexp/shared/io/http";
+import { EventSuggestionRead, User } from "@liexp/shared/io/http/User";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -8,9 +9,8 @@ import { pipe } from "fp-ts/function";
 import { toEventSuggestion } from "./eventSuggestion.io";
 import { searchEventSuggestion } from "@flows/event-suggestion/searchEventSuggestion.flow";
 import { Route } from "@routes/route.types";
-import { foldOptionals } from "@utils/foldOptionals.utils";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { EventSuggestionRead, User } from "@liexp/shared/io/http/User";
+import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:read"]))(

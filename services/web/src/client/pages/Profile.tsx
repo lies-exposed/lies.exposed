@@ -1,8 +1,17 @@
 import {
+  LinkCreate,
+  LinkEdit,
+  LinkList,
+} from "@liexp/ui/components/admin/AdminLinks";
+import {
+  MediaList,
+  MediaCreate,
+  MediaEdit,
+} from "@liexp/ui/components/admin/AdminMedia";
+import {
   EventSuggestionList,
   EventSuggestionEdit,
 } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
-import { LinkCreate, LinkList } from "@liexp/ui/components/admin/AdminLinks";
 import englishMessages from "@liexp/ui/i18n/en-US";
 import { themeOptions } from "@liexp/ui/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
@@ -25,7 +34,18 @@ const ProfilePage: React.FC = () => {
       requireAuth
       basename="/profile"
     >
-      <Resource name="links" list={LinkList} create={LinkCreate} />
+      <Resource
+        name="links"
+        list={LinkList}
+        create={LinkCreate}
+        edit={LinkEdit}
+      />
+      <Resource
+        name="media"
+        list={MediaList}
+        create={MediaCreate}
+        edit={MediaEdit}
+      />
       <Resource
         name="events/suggestions"
         edit={EventSuggestionEdit}

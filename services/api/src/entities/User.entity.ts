@@ -12,6 +12,7 @@ import {
 } from "typeorm";
 import { EventSuggestionEntity } from "./EventSuggestion.entity";
 import { LinkEntity } from "./Link.entity";
+import { MediaEntity } from './Media.entity';
 
 @Entity("user")
 export class UserEntity {
@@ -45,6 +46,9 @@ export class UserEntity {
 
   @OneToMany(() => LinkEntity, (l) => l.creator)
   links: LinkEntity[];
+
+  @OneToMany(() => MediaEntity, (l) => l.creator)
+  media: MediaEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

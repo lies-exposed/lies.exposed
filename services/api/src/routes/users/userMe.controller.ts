@@ -1,12 +1,12 @@
-import { UserEntity } from "@entities/User.entity";
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
-import { RouteContext } from "@routes/route.types";
-import { authenticationHandler } from "@utils/authenticationHandler";
 import { Router } from "express";
-import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { toUserIO } from "./user.io";
+import { UserEntity } from "@entities/User.entity";
+import { RouteContext } from "@routes/route.types";
+import { authenticationHandler } from "@utils/authenticationHandler";
 
 export const MakeUserGetMeRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, []))(
