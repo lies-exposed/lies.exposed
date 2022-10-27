@@ -1,13 +1,4 @@
 import * as io from "@liexp/shared/io";
-import { CreateEventFromLinkButton } from '@liexp/ui/components/admin/common/CreateEventFromLinkButton';
-import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
-import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
-import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
-import ReferenceGroupInput from "@liexp/ui/components/admin/common/ReferenceGroupInput";
-import { SearchLinksButton } from "@liexp/ui/components/admin/common/SearchLinksButton";
-import URLMetadataInput from "@liexp/ui/components/admin/common/URLMetadataInput";
-import LinkPreview from "@liexp/ui/components/admin/previews/LinkPreview";
-import { Box, Toolbar } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -22,6 +13,8 @@ import {
   FormTab,
   FunctionField,
   List,
+  ListProps,
+  LoadingPage,
   RaRecord,
   ReferenceArrayInput,
   ReferenceField,
@@ -30,10 +23,23 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useDataProvider,
+  useGetIdentity,
+  usePermissions,
   useRecordContext,
   useRefresh
 } from "react-admin";
-import { apiProvider } from "@client/HTTPAPI";
+import { checkIsAdmin } from "../../utils/user.utils";
+import { Box, Toolbar } from "../mui";
+import { CreateEventFromLinkButton } from "./common/CreateEventFromLinkButton";
+import { EditForm } from "./common/EditForm";
+import { MediaField } from "./common/MediaField";
+import ReferenceArrayEventInput from "./common/ReferenceArrayEventInput";
+import ReferenceGroupInput from "./common/ReferenceGroupInput";
+import ReferenceUserInput from "./common/ReferenceUserInput";
+import { SearchLinksButton } from "./common/SearchLinksButton";
+import URLMetadataInput from "./common/URLMetadataInput";
+import LinkPreview from "./previews/LinkPreview";
 
 const RESOURCE = "links";
 
@@ -48,50 +54,72 @@ const linksFilter = [
 
 export const LinkListActions: React.FC = () => {
   return (
-    <Box>
+    <Box display="flex" flexDirection="row">
       <CreateButton />
       <SearchLinksButton />
     </Box>
   );
 };
 
-export const LinkList: React.FC = () => (
-  <List
-    resource={RESOURCE}
-    filters={linksFilter}
-    perPage={20}
-    filterDefaultValues={{ _sort: "createdAt", _order: "DESC" }}
-    actions={<LinkListActions />}
-  >
-    <Datagrid rowClick="edit">
-      <FunctionField
-        render={(r) => {
-          return (
-            <Box style={{ display: "flex", flexDirection: "column" }}>
-              <MediaField source="image.thumbnail" type="image/jpeg" />
-              <TextField
-                source="title"
-                style={{ fontWeight: 600, marginBottom: 5 }}
-              />
-              <TextField source="description" />
-            </Box>
-          );
-        }}
-      />
-      <DateField source="publishDate" />
-      <ReferenceField source="provider" reference="groups">
-        <TextField source="name" />
-      </ReferenceField>
+export const LinkList: React.FC<ListProps> = (props) => {
+  const { identity, isLoading } = useGetIdentity();
+  const { permissions, isLoading: isPermsLoading } = usePermissions();
 
-      <FunctionField
-        label="resources.links.fields.events_length"
-        render={(r: any | undefined) => (r ? r.events.length : "-")}
-      />
-      <DateField source="updatedAt" />
-      <DateField source="createdAt" />
-    </Datagrid>
-  </List>
-);
+  if (isLoading || isPermsLoading) {
+    return <LoadingPage />;
+  }
+
+  const isAdmin = checkIsAdmin(permissions);
+  const filter = isAdmin ? {} : { creator: identity?.id };
+
+  return (
+    <List
+      resource={RESOURCE}
+      filters={linksFilter}
+      perPage={20}
+      filter={filter}
+      filterDefaultValues={{
+        _sort: "createdAt",
+        _order: "DESC",
+      }}
+      actions={<LinkListActions />}
+      {...props}
+    >
+      <Datagrid rowClick="edit">
+        <FunctionField
+          render={(r: any) => {
+            return (
+              <Box style={{ display: "flex", flexDirection: "column" }}>
+                <MediaField source="image.thumbnail" type="image/jpeg" />
+                <TextField
+                  source="title"
+                  style={{ fontWeight: 600, marginBottom: 5 }}
+                />
+                <TextField source="description" />
+              </Box>
+            );
+          }}
+        />
+        <DateField source="publishDate" />
+        {isAdmin && (
+          <ReferenceField source="creator" reference="users">
+            <TextField source="firstName" />
+          </ReferenceField>
+        )}
+        <ReferenceField source="provider" reference="groups">
+          <TextField source="name" />
+        </ReferenceField>
+
+        <FunctionField
+          label="resources.links.fields.events_length"
+          render={(r: any | undefined) => (r ? r.events.length : "-")}
+        />
+        <DateField source="updatedAt" />
+        <DateField source="createdAt" />
+      </Datagrid>
+    </List>
+  );
+};
 
 const transformLink = ({ newEvents, ...r }: RaRecord): RaRecord => {
   return {
@@ -109,13 +137,13 @@ const EditTitle: React.FC = () => {
 const OverrideThumbnail: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext();
-
+  const dataProvider = useDataProvider();
   return (
     <Button
       label="resources.links.actions.override_thumbnail"
       variant="contained"
       onClick={() => {
-        void apiProvider
+        void dataProvider
           .put(
             `/links/${record?.id}`,
             transformLink({
@@ -132,13 +160,13 @@ const OverrideThumbnail: React.FC = () => {
 const UpdateMetadataButton: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext();
-
+  const dataProvider = useDataProvider();
   return (
     <Button
       label="resources.links.actions.update_metadata"
       variant="contained"
       onClick={() => {
-        void apiProvider
+        void dataProvider
           .put(`/links/${record?.id}/metadata`)
           .then(() => refresh());
       }}
@@ -146,10 +174,14 @@ const UpdateMetadataButton: React.FC = () => {
   );
 };
 
-
-
 export const LinkEdit: React.FC = () => {
   const record = useRecordContext();
+  const { permissions, isLoading: isLoadingPermissions } = usePermissions();
+  if (isLoadingPermissions) {
+    return <LoadingPage />;
+  }
+  const isAdmin = checkIsAdmin(permissions);
+
   return (
     <EditForm
       redirect={false}
@@ -166,6 +198,8 @@ export const LinkEdit: React.FC = () => {
         <FormTab label="General">
           <TextInput source="title" fullWidth />
           <URLMetadataInput source="url" type="Link" />
+          {isAdmin && <ReferenceUserInput source="creator" />}
+
           <DateInput source="publishDate" />
           <ReferenceField source="image.id" reference="media">
             <TextField source="location" />
@@ -191,12 +225,15 @@ export const LinkEdit: React.FC = () => {
               <BooleanField source="draft" />
               <FunctionField
                 render={(r: any) => {
-                  switch (r.type) {
-                    case io.http.Events.Death.DEATH.value:
-                      return `${r.type}: ${r.payload.victim}`;
-                    default:
-                      return `${r.type}: ${r.payload.title}`;
+                  if (r) {
+                    switch (r.type) {
+                      case io.http.Events.Death.DEATH.value:
+                        return `${r.type}: ${r.payload.victim}`;
+                      default:
+                        return `${r.type}: ${r.payload.title}`;
+                    }
                   }
+                  return "no record";
                 }}
               />
             </Datagrid>
@@ -225,6 +262,7 @@ export const LinkCreate: React.FC = () => {
       <SimpleForm>
         <URLMetadataInput source="url" type={"Link"} />
         <DateInput source="publishDate" />
+        <TextInput source="description" />
         <ReferenceArrayEventInput
           source="events"
           reference="events"

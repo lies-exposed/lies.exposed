@@ -2,16 +2,6 @@ import { parsePlatformURL } from "@liexp/shared/helpers/media";
 import { MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
-import { uploadFile } from "@liexp/ui/client/admin/MediaAPI";
-import { CreateEventFromMediaButton } from "@liexp/ui/components/admin/common/CreateEventFromMediaButton";
-import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
-import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
-import { MediaInput } from "@liexp/ui/components/admin/common/MediaInput";
-import { MediaTypeInput } from "@liexp/ui/components/admin/common/MediaTypeInput";
-import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
-import MediaPreview from "@liexp/ui/components/admin/previews/MediaPreview";
-import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
-import { Box, Button, Typography } from "@liexp/ui/components/mui";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -21,6 +11,7 @@ import {
   Create,
   CreateProps,
   Datagrid,
+  DataProvider,
   DateField,
   EditProps,
   FieldProps,
@@ -29,6 +20,7 @@ import {
   FunctionField,
   List,
   ListProps,
+  LoadingPage,
   RaRecord,
   ReferenceManyField,
   required,
@@ -37,10 +29,21 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useDataProvider,
+  useGetIdentity,
   useRecordContext,
-  useRefresh
+  useRefresh,
 } from "react-admin";
-import { apiProvider } from "@client/HTTPAPI";
+import { uploadFile } from "../../client/admin/MediaAPI";
+import { CreateEventFromMediaButton } from "../admin/common/CreateEventFromMediaButton";
+import { EditForm } from "../admin/common/EditForm";
+import { MediaField } from "../admin/common/MediaField";
+import { MediaInput } from "../admin/common/MediaInput";
+import { MediaTypeInput } from "../admin/common/MediaTypeInput";
+import ReferenceArrayEventInput from "../admin/common/ReferenceArrayEventInput";
+import MediaPreview from "../admin/previews/MediaPreview";
+import { ReferenceLinkTab } from "../admin/tabs/ReferenceLinkTab";
+import { Box, Button, Typography } from "../mui";
 
 const RESOURCE = "media";
 
@@ -68,6 +71,13 @@ const parseURL = (
     });
   }
 
+  if (url.includes(".mp4")) {
+    return E.right({
+      type: MediaType.types[5].value,
+      location: url,
+    });
+  }
+
   const iframeVideosMatch = [
     "youtube.com",
     "youtu.be",
@@ -82,7 +92,7 @@ const parseURL = (
     return pipe(
       parsePlatformURL(url),
       E.map((location) => ({
-        type: MediaType.types[5].value,
+        type: MediaType.types[6].value,
         location,
       }))
     );
@@ -97,94 +107,104 @@ const mediaFilters = [
   <MediaTypeInput key="type" source="type" alwaysOn size="small" />,
 ];
 
-export const MediaList: React.FC<ListProps> = (props) => (
-  <List
-    {...props}
-    resource={RESOURCE}
-    filters={mediaFilters}
-    filterDefaultValues={{
-      _sort: "createdAt",
-      _order: "DESC",
-      emptyValues: false,
-    }}
-    perPage={20}
-  >
-    <Datagrid rowClick="edit">
-      <MediaField type="image/jpeg" source="thumbnail" />
-      <FunctionField
-        label="events"
-        render={(r) => {
-          const url = r.location
-            ? new URL(r.location)
-            : {
-                hostname: "no link given",
-              };
+export const MediaList: React.FC<ListProps> = (props) => {
+  const { identity, isLoading } = useGetIdentity();
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
-          return (
-            <Box>
-              <Typography
-                variant="h6"
-                style={{
-                  fontSize: 14,
-                }}
-              >
-                {url.hostname}
-              </Typography>
-              <Typography variant="subtitle1">{r.type}</Typography>
-              <Typography variant="body1">{r.description}</Typography>
-            </Box>
-          );
-        }}
-      />
-      <FunctionField
-        label="events"
-        render={(r) => {
-          return r.events.length;
-        }}
-      />
-      <FunctionField
-        label="links"
-        render={(r) => {
-          return r.links.length;
-        }}
-      />
+  return (
+    <List
+      {...props}
+      resource={RESOURCE}
+      filters={mediaFilters}
+      filter={{ creator: identity?.id }}
+      filterDefaultValues={{
+        _sort: "createdAt",
+        _order: "DESC",
+        emptyValues: false,
+      }}
+      perPage={20}
+    >
+      <Datagrid rowClick="edit">
+        <MediaField type="image/jpeg" source="thumbnail" />
+        <FunctionField
+          label="events"
+          render={(r: any) => {
+            const url = r.location
+              ? new URL(r.location)
+              : {
+                  hostname: "no link given",
+                };
 
-      <DateField source="updatedAt" />
-      <DateField source="createdAt" />
-    </Datagrid>
-  </List>
-);
+            return (
+              <Box>
+                <Typography
+                  variant="h6"
+                  style={{
+                    fontSize: 14,
+                  }}
+                >
+                  {url.hostname}
+                </Typography>
+                <Typography variant="subtitle1">{r.type}</Typography>
+                <Typography variant="body1">{r.description}</Typography>
+              </Box>
+            );
+          }}
+        />
+        <FunctionField
+          label="events"
+          render={(r: any) => {
+            return r.events.length;
+          }}
+        />
+        <FunctionField
+          label="links"
+          render={(r: any) => {
+            return r.links.length;
+          }}
+        />
 
-const transformMedia = (data: RaRecord): RaRecord | Promise<RaRecord> => {
-  const mediaTask =
-    data._type === "fromFile" && data.location.rawFile
-      ? uploadFile(apiProvider)(
-          "media",
-          data.id.toString(),
-          data.location.rawFile,
-          data.type
-        )
-      : data._type === "fromURL" && data.url
-      ? TE.fromEither(parseURL(data.url))
-      : TE.right({ type: data.type, location: data.location });
-
-  const events = (data.events ?? []).concat(data.newEvents ?? []);
-  const links = (data.links ?? []).concat(
-    (data.newLinks ?? []).flatMap((l: any) => l.ids)
-  );
-
-  return pipe(
-    mediaTask,
-    TE.map((media) => ({
-      ...data,
-      id: data.id.toString(),
-      ...media,
-      events,
-      links,
-    })),
-    throwTE
+        <DateField source="updatedAt" />
+        <DateField source="createdAt" />
+      </Datagrid>
+    </List>
   );
 };
+
+const transformMedia =
+  (apiProvider: DataProvider<string>) =>
+  (data: RaRecord): RaRecord | Promise<RaRecord> => {
+    const mediaTask =
+      data._type === "fromFile" && data.location.rawFile
+        ? uploadFile(apiProvider)(
+            "media",
+            data.id.toString(),
+            data.location.rawFile,
+            data.type
+          )
+        : data._type === "fromURL" && data.url
+        ? TE.fromEither(parseURL(data.url))
+        : TE.right({ type: data.type, location: data.location });
+
+    const events = (data.events ?? []).concat(data.newEvents ?? []);
+    const links = (data.links ?? []).concat(
+      (data.newLinks ?? []).flatMap((l: any) => l.ids)
+    );
+
+    return pipe(
+      mediaTask,
+      TE.map((media) => ({
+        ...data,
+        id: data.id.toString(),
+        ...media,
+        events,
+        links,
+      })),
+      throwTE
+    );
+  };
 
 const EditTitle: React.FC<EditProps> = ({ record }: any) => {
   return <span>Media {record?.description}</span>;
@@ -193,6 +213,7 @@ const EditTitle: React.FC<EditProps> = ({ record }: any) => {
 const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   const refresh = useRefresh();
   const record = useRecordContext(props);
+  const apiProvider = useDataProvider();
   return (
     <Button
       onClick={() => {
@@ -256,11 +277,12 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
 };
 
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
+  const apiProvider = useDataProvider();
   return (
     <EditForm
       title={<EditTitle {...props} />}
       {...props}
-      transform={transformMedia}
+      transform={transformMedia(apiProvider)}
       redirect={false}
       preview={<MediaPreview />}
     >
@@ -294,50 +316,53 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   );
 };
 
-export const MediaCreate: React.FC<CreateProps> = (props) => (
-  <Create
-    title="Create a Media"
-    {...props}
-    transform={(r) => transformMedia({ ...r, id: uuid() })}
-  >
-    <SimpleForm>
-      <SelectInput
-        source="_type"
-        choices={[
-          { name: "fromURL", id: "fromURL" },
-          {
-            name: "fromFile",
-            id: "fromFile",
-          },
-        ]}
-      />
-      <FormDataConsumer>
-        {({ formData }) => {
-          if (formData._type === "fromFile") {
+export const MediaCreate: React.FC<CreateProps> = (props) => {
+  const apiProvider = useDataProvider();
+  return (
+    <Create
+      title="Create a Media"
+      {...props}
+      transform={(r: any) => transformMedia(apiProvider)({ ...r, id: uuid() })}
+    >
+      <SimpleForm>
+        <SelectInput
+          source="_type"
+          choices={[
+            { name: "fromURL", id: "fromURL" },
+            {
+              name: "fromFile",
+              id: "fromFile",
+            },
+          ]}
+        />
+        <FormDataConsumer>
+          {({ formData }) => {
+            if (formData._type === "fromFile") {
+              return (
+                <Box>
+                  <MediaInput sourceType="type" sourceLocation="location" />
+                  <TextInput
+                    source="description"
+                    multiline
+                    validate={[required()]}
+                  />
+                </Box>
+              );
+            }
             return (
               <Box>
-                <MediaInput sourceType="type" sourceLocation="location" />
+                <TextInput source="url" />
                 <TextInput
                   source="description"
                   multiline
+                  fullWidth
                   validate={[required()]}
                 />
               </Box>
             );
-          }
-          return (
-            <Box>
-              <TextInput source="url" />
-              <TextInput
-                source="description"
-                multiline
-                fullWidth
-                validate={[required()]}
-              />
-            </Box>
-          );
-        }}
-      </FormDataConsumer>
-    </SimpleForm>
-  </Create>
-);
+          }}
+        </FormDataConsumer>
+      </SimpleForm>
+    </Create>
+  );
+};

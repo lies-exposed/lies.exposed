@@ -4,7 +4,7 @@ import { DEATH } from "@liexp/shared/io/http/Events/Death";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/io/http/Events/ScientificStudy";
 import { getTextContentsCapped } from "@liexp/shared/slate";
 import PinDropIcon from "@mui/icons-material/PinDrop";
-import * as R from "fp-ts/lib/Record";
+import * as R from "fp-ts/Record";
 import * as React from "react";
 import {
   BooleanField,

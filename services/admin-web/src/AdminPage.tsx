@@ -1,8 +1,11 @@
+import { apiProvider, authProvider } from "@liexp/ui/client/api";
 import {
   EventSuggestionEdit,
   EventSuggestionList,
 } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
 import englishMessages from "@liexp/ui/i18n/en-US";
+import { LinkCreate, LinkEdit, LinkList } from "@liexp/ui/src/components/admin/AdminLinks";
+import { MediaCreate, MediaEdit, MediaList } from "@liexp/ui/src/components/admin/AdminMedia";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import EventIcon from "@mui/icons-material/Event";
 import GroupIcon from "@mui/icons-material/Group";
@@ -12,7 +15,6 @@ import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
-import { apiProvider, authProvider } from "./client/HTTPAPI";
 import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas";
 import { ArticleCreate, ArticleEdit, ArticleList } from "./pages/AdminArticles";
@@ -24,8 +26,6 @@ import {
 } from "./pages/AdminGroupMember";
 import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups";
 import { KeywordEdit, KeywordList, KeywordCreate } from "./pages/AdminKeyword";
-import { LinkCreate, LinkEdit, LinkList } from "./pages/AdminLinks";
-import { MediaCreate, MediaEdit, MediaList } from "./pages/AdminMedia";
 import { UserCreate, UserEdit, UserList } from "./pages/AdminUsers";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages";
 import {

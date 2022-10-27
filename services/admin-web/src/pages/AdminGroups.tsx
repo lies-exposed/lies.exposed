@@ -22,9 +22,11 @@ import {
   Create,
   CreateProps,
   Datagrid,
+  DataProvider,
   DateField,
   DateInput,
-  EditProps, FormTab,
+  EditProps,
+  FormTab,
   FunctionField,
   ImageField,
   ImageInput,
@@ -39,9 +41,9 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useDataProvider,
+  useRecordContext,
 } from "react-admin";
-import { apiProvider } from "@client/HTTPAPI";
 
 const RESOURCE = "groups";
 
@@ -116,33 +118,35 @@ export const GroupList: React.FC = () => (
   </List>
 );
 
-const transformGroup = (data: RaRecord): RaRecord | Promise<RaRecord> => {
-  const uploadAvatar = data.avatar?.rawFile
-    ? uploadImages(apiProvider)("groups", data.id as string, [
-        { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
-      ])
-    : TE.right([
-        { location: data.avatar, type: "image/jpeg" as Media.MediaType },
-      ]);
+const transformGroup =
+  (apiProvider: DataProvider) =>
+  (data: RaRecord): RaRecord | Promise<RaRecord> => {
+    const uploadAvatar = data.avatar?.rawFile
+      ? uploadImages(apiProvider)("groups", data.id as string, [
+          { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+        ])
+      : TE.right([
+          { location: data.avatar, type: "image/jpeg" as Media.MediaType },
+        ]);
 
-  const newMembers = (data.newMembers ?? []).map((m) => ({
-    ...m,
-    body: {},
-  }));
+    const newMembers = (data.newMembers ?? []).map((m) => ({
+      ...m,
+      body: {},
+    }));
 
-  const members = (data.members ?? []).concat(newMembers);
+    const members = (data.members ?? []).concat(newMembers);
 
-  return pipe(
-    uploadAvatar,
-    TE.map((locations) => ({
-      ...data,
-      excerpt: data.excerpt ?? undefined,
-      avatar: locations[0].location,
-      members,
-    })),
-    throwTE
-  );
-};
+    return pipe(
+      uploadAvatar,
+      TE.map((locations) => ({
+        ...data,
+        excerpt: data.excerpt ?? undefined,
+        avatar: locations[0].location,
+        members,
+      })),
+      throwTE
+    );
+  };
 
 const EditTitle: React.FC<EditProps> = () => {
   const record = useRecordContext();
@@ -150,6 +154,7 @@ const EditTitle: React.FC<EditProps> = () => {
 };
 
 export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
+  const dataProvider = useDataProvider();
   return (
     <EditForm
       title={<EditTitle {...props} />}
@@ -163,7 +168,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           />
         </>
       }
-      transform={transformGroup}
+      transform={transformGroup(dataProvider)}
       preview={<GroupPreview />}
     >
       <TabbedForm redirect={false}>
@@ -221,23 +226,26 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
   );
 };
 
-export const GroupCreate: React.FC<CreateProps> = (props) => (
-  <Create
-    title="Create a Group"
-    {...props}
-    transform={(g) => transformGroup({ ...g, id: uuid() })}
-  >
-    <SimpleForm>
-      <ColorInput source="color" />
-      <DateInput source="date" />
-      <TextInput source="name" />
-      <GroupKindInput source="kind" />
-      <GroupMemberArrayInput source="members" />
-      <ImageInput source="avatar">
-        <ImageField src="src" />
-      </ImageInput>
-      <ReactPageInput source="excerpt" onlyText />
-      <ReactPageInput source="body" />
-    </SimpleForm>
-  </Create>
-);
+export const GroupCreate: React.FC<CreateProps> = (props) => {
+  const dataProvider = useDataProvider();
+  return (
+    <Create
+      title="Create a Group"
+      {...props}
+      transform={(g) => transformGroup(dataProvider)({ ...g, id: uuid() })}
+    >
+      <SimpleForm>
+        <ColorInput source="color" />
+        <DateInput source="date" />
+        <TextInput source="name" />
+        <GroupKindInput source="kind" />
+        <GroupMemberArrayInput source="members" />
+        <ImageInput source="avatar">
+          <ImageField src="src" />
+        </ImageInput>
+        <ReactPageInput source="excerpt" onlyText />
+        <ReactPageInput source="body" />
+      </SimpleForm>
+    </Create>
+  );
+};

@@ -7,7 +7,7 @@ import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
 import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
 import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
 import { CreateEventButton } from "@liexp/ui/components/admin/common/CreateEventButton";
-import { EditForm,  } from "@liexp/ui/components/admin/common/EditForm";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
 import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
 import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
 import ReferenceManyEventField from "@liexp/ui/components/admin/common/ReferenceManyEventField";
@@ -23,6 +23,7 @@ import {
   Create,
   CreateProps,
   Datagrid,
+  DataProvider,
   DateField,
   DateInput,
   EditProps,
@@ -39,9 +40,9 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useDataProvider,
   useRecordContext,
 } from "react-admin";
-import { dataProvider } from "@client/HTTPAPI";
 
 const actorFilters = [
   <TextInput
@@ -70,27 +71,26 @@ export const ActorList: React.FC = () => (
   </List>
 );
 
-const transformActor = async (
-  id: string,
-  data: RaRecord
-): Promise<RaRecord> => {
-  const imagesTask = data.avatar?.rawFile
-    ? uploadImages(dataProvider)("actors", id, [
-        { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
-      ])
-    : TE.right([{ location: data.avatar }]);
+const transformActor =
+  (dataProvider: DataProvider<string>) =>
+  async (id: string, data: RaRecord): Promise<RaRecord> => {
+    const imagesTask = data.avatar?.rawFile
+      ? uploadImages(dataProvider)("actors", id, [
+          { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+        ])
+      : TE.right([{ location: data.avatar }]);
 
-  // eslint-disable-next-line @typescript-eslint/return-await
-  return pipe(
-    imagesTask,
-    TE.map(([avatar]) => ({
-      ...data,
-      id,
-      avatar: avatar.location,
-    })),
-    throwTE
-  );
-};
+    // eslint-disable-next-line @typescript-eslint/return-await
+    return pipe(
+      imagesTask,
+      TE.map(([avatar]) => ({
+        ...data,
+        id,
+        avatar: avatar.location,
+      })),
+      throwTE
+    );
+  };
 
 const EditTitle: React.FC = () => {
   const record = useRecordContext();
@@ -108,6 +108,7 @@ const EditActions: React.FC = () => {
 };
 
 export const ActorEdit: React.FC<EditProps> = (props) => {
+  const dataProvider = useDataProvider();
   return (
     <EditForm
       title={<EditTitle />}
@@ -115,7 +116,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
       actions={<EditActions />}
       preview={<ActorPreview />}
       transform={({ newMemberIn = [], ...a }) =>
-        transformActor(a.id, {
+        transformActor(dataProvider)(a.id, {
           ...a,
           memberIn: a.memberIn.concat(
             newMemberIn.map((m: any) => ({
@@ -171,7 +172,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <ReferenceArrayEventInput source="newEvents" />
           <ReferenceManyEventField source="id" target="actors[]" />
           <CreateEventButton
-            transform={async (t, r) => {
+            transform={async (t, r: any) => {
               if (t === http.Events.Death.DEATH.value) {
                 return {
                   draft: true,
@@ -180,7 +181,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
                   body: undefined,
                   date: new Date(),
                   payload: {
-                    victim: r.id as any,
+                    victim: r.id,
                     location: undefined,
                   },
                   media: [],
@@ -197,21 +198,24 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
   );
 };
 
-export const ActorCreate: React.FC<CreateProps> = (props) => (
-  <Create
-    {...props}
-    title="Create an Actor"
-    transform={(a) => transformActor(uuid(), a)}
-  >
-    <SimpleForm>
-      <ColorInput source="color" />
-      <TextInput source="username" />
-      <TextInput source="fullName" />
-      <ImageInput source="avatar">
-        <ImageField />
-      </ImageInput>
-      <ReactPageInput source="excerpt" onlyText={true} />
-      <ReactPageInput source="body" />
-    </SimpleForm>
-  </Create>
-);
+export const ActorCreate: React.FC<CreateProps> = (props) => {
+  const dataProvider = useDataProvider();
+  return (
+    <Create
+      {...props}
+      title="Create an Actor"
+      transform={(a) => transformActor(dataProvider)(uuid(), a)}
+    >
+      <SimpleForm>
+        <ColorInput source="color" />
+        <TextInput source="username" />
+        <TextInput source="fullName" />
+        <ImageInput source="avatar">
+          <ImageField />
+        </ImageInput>
+        <ReactPageInput source="excerpt" onlyText={true} />
+        <ReactPageInput source="body" />
+      </SimpleForm>
+    </Create>
+  );
+};
