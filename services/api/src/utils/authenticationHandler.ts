@@ -78,7 +78,7 @@ export const authenticationHandler: (
       IOE.fold(
         (e) => () => next(e),
         (user) => () => {
-          logger.debug.log("Calling next handler...");
+          logger.debug.log("Calling next handler with user %s", user.id);
           req.user = user;
           next();
         }

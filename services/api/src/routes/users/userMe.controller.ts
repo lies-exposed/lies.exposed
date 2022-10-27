@@ -7,14 +7,18 @@ import { toUserIO } from "./user.io";
 import { UserEntity } from "@entities/User.entity";
 import { RouteContext } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
+import { validateUser } from "@utils/user.utils";
 
 export const MakeUserGetMeRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, []))(
     Endpoints.User.Custom.GetUserMe,
     ({ query }, req) => {
-      const id: any = (req.user as any)?.id;
       return pipe(
-        ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(id) } }),
+        validateUser(req.user),
+        TE.fromEither,
+        TE.chain((u) =>
+          ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(u.id) } })
+        ),
         TE.chainEitherK(toUserIO),
         TE.map((user) => ({
           body: user,

@@ -6,23 +6,26 @@ import { toImageIO } from "./media.io";
 import { MediaEntity } from "@entities/Media.entity";
 import { RouteContext } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
+import { validateUser } from "@utils/user.utils";
 
 export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, []))(
     Endpoints.Media.Create,
     ({ body }, req) => {
-      const id = (req.user as any).id;
-
       return pipe(
-        ctx.db.save(MediaEntity, [
-          {
-            ...body,
-            creator: { id },
-            events: body.events.map((e) => ({
-              id: e,
-            })),
-          },
-        ]),
+        validateUser(req.user),
+        TE.fromEither,
+        TE.chain((u) =>
+          ctx.db.save(MediaEntity, [
+            {
+              ...body,
+              creator: { id: u.id },
+              events: body.events.map((e) => ({
+                id: e,
+              })),
+            },
+          ])
+        ),
         TE.chain((results) => TE.fromEither(toImageIO(results[0]))),
         TE.map((data) => ({
           body: {
