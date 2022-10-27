@@ -14,17 +14,20 @@ import { addOrder, getORMOptions } from "@utils/orm.utils";
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Link.List,
-    ({
-      query: {
-        events,
-        ids,
-        q: search,
-        emptyEvents,
-        provider,
-        creator,
-        ...query
+    (
+      {
+        query: {
+          events,
+          ids,
+          q: search,
+          emptyEvents,
+          provider,
+          creator,
+          ...query
+        },
       },
-    }) => {
+      req
+    ) => {
       const findOptions = getORMOptions(
         { ...query },
         ctx.env.DEFAULT_PAGE_SIZE
@@ -45,7 +48,8 @@ export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
               .createQueryBuilder(LinkEntity, "link")
               .leftJoinAndSelect("link.image", "image")
               .leftJoinAndSelect("link.events", "events")
-              .leftJoinAndSelect("link.keywords", "keywords"),
+              .leftJoinAndSelect("link.keywords", "keywords")
+              .loadAllRelationIds({ relations: ["creator"] }),
             (q) => {
               if (O.isSome(search)) {
                 return q.where(

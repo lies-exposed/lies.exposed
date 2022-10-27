@@ -1,4 +1,5 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
+import { EventSuggestionRead } from "@liexp/shared/io/http/User";
 import { parseISO } from "@liexp/shared/utils/date";
 import { sanitizeURL } from "@liexp/shared/utils/url.utils";
 import { Router } from "express";
@@ -11,18 +12,21 @@ import { LinkEntity } from "@entities/Link.entity";
 import { ServerError } from "@io/ControllerError";
 import { RouteContext } from "@routes/route.types";
 import { authenticationHandler } from "@utils/authenticationHandler";
-import { validateUser } from "@utils/user.utils";
+import { ensureUserExists } from "@utils/user.utils";
 
 export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, []))(
+  AddEndpoint(r, authenticationHandler(ctx, [EventSuggestionRead.value]))(
     Endpoints.Link.Create,
     ({ body }, req) => {
       // const data = {
       //   events: body.events.map((e) => ({ id: e })),
       // };
 
+      ctx.logger.debug.log("Body %O", body);
+      ctx.logger.debug.log("User %O", req.user);
+
       return pipe(
-        validateUser(req.user),
+        ensureUserExists(req.user),
         TE.fromEither,
         TE.chain((u) =>
           pipe(
@@ -35,7 +39,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
                   title: m.title,
                   image: m.image
                     ? {
-                        description: m.description,
+                        description: body.description ?? m.description ?? "",
                         thumbnail: m.image,
                         location: m.image,
                         type: "image/jpeg" as const,
@@ -43,6 +47,7 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
                     : null,
                   url: sanitizeURL(m.url as any),
                   publishDate: m.date ? parseISO(m.date) : undefined,
+                  description: body.description ?? m.description ?? "",
                   keywords: [],
                   creator: { id: u.id },
                 },

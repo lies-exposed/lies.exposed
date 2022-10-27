@@ -27,7 +27,7 @@ import {
   useGetIdentity,
   usePermissions,
   useRecordContext,
-  useRefresh,
+  useRefresh
 } from "react-admin";
 import { checkIsAdmin } from "../../utils/user.utils";
 import { Box, Toolbar } from "../mui";

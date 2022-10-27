@@ -1,3 +1,5 @@
+import { IncomingHttpHeaders } from 'http';
+
 declare global {
   namespace Express {
     interface User {
@@ -9,6 +11,7 @@ declare global {
 
     interface Request {
       user?: User;
+      headers: IncomingHttpHeaders
     }
 
     interface AuthRequest {

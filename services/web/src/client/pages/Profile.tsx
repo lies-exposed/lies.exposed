@@ -1,23 +1,21 @@
+import { authProvider, httpRestClient } from "@liexp/ui/client/api";
 import {
   LinkCreate,
   LinkEdit,
-  LinkList,
+  LinkList
 } from "@liexp/ui/components/admin/AdminLinks";
 import {
-  MediaList,
   MediaCreate,
-  MediaEdit,
+  MediaEdit, MediaList
 } from "@liexp/ui/components/admin/AdminMedia";
 import {
-  EventSuggestionList,
-  EventSuggestionEdit,
+  EventSuggestionEdit, EventSuggestionList
 } from "@liexp/ui/components/admin/events/suggestions/AdminEventSuggestion";
 import englishMessages from "@liexp/ui/i18n/en-US";
 import { themeOptions } from "@liexp/ui/theme";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
 import { Admin, Login, Resource } from "react-admin";
-import { authProvider, httRestClient } from "../api";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
 
@@ -26,7 +24,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Admin
-      dataProvider={httRestClient}
+      dataProvider={httpRestClient}
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}

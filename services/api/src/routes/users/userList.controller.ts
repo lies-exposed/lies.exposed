@@ -14,8 +14,11 @@ import { getORMOptions } from "@utils/orm.utils";
 export const MakeUserListRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
     Endpoints.User.List,
-    ({ query }) => {
-      const findOptions = getORMOptions(query, ctx.env.DEFAULT_PAGE_SIZE);
+    ({ query: { ids: id, ...query } }) => {
+      const findOptions = getORMOptions(
+        { ...query, id },
+        ctx.env.DEFAULT_PAGE_SIZE
+      );
       return pipe(
         sequenceS(TE.ApplicativePar)({
           data: pipe(

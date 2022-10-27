@@ -5,7 +5,14 @@ import * as R from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
 import * as t from "io-ts";
 import { BigIntFromString } from "io-ts-types/lib/BigIntFromString";
-import { Equal, FindOperator, In, Like, SelectQueryBuilder, ObjectLiteral } from "typeorm";
+import {
+  Equal,
+  FindOperator,
+  In,
+  Like,
+  SelectQueryBuilder,
+  ObjectLiteral,
+} from "typeorm";
 
 interface ORMOrder {
   order: { [key: string]: "ASC" | "DESC" };
@@ -67,7 +74,7 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
       if (BigIntFromString.is(e.value)) {
         return Equal(e.value.toString());
       }
-      if (t.array(t.string).is(e.value)) {
+      if (t.array(t.string).is(e.value) || t.array(UUID).is(e.value)) {
         return In(e.value);
       }
       if (key === "path") {

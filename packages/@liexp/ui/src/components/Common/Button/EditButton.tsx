@@ -6,7 +6,7 @@ import { Link } from "../../mui";
 
 interface EditButtonProps {
   admin: boolean;
-  resourceName: ResourcesNames | "events/suggestions";
+  resourceName: ResourcesNames;
   resource: { id: string };
 }
 

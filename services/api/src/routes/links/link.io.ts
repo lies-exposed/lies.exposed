@@ -21,6 +21,7 @@ export const toLinkIO = (
         : undefined,
       keywords: link.keywords ?? [],
       provider: UUID.is(link.provider) ? link.provider : undefined,
+      creator: UUID.is(link.creator) ? link.creator : undefined,
       publishDate: link.publishDate?.toISOString() ?? undefined,
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),

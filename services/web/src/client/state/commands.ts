@@ -1,10 +1,10 @@
 import { http } from "@liexp/shared/io";
 import { APIError } from "@liexp/shared/providers/api.provider";
+import { api } from "@liexp/ui/client/api";
 import { foldTE } from "@liexp/ui/providers/DataProvider";
 import * as TE from 'fp-ts/TaskEither';
 import { pipe } from "fp-ts/function";
 import { useMutation, UseMutationResult } from "react-query";
-import { api } from "../api";
 import { queryClient } from "./queries";
 
 export const createEventFromLink = (): UseMutationResult<any, APIError, { url: string }> =>

@@ -1,4 +1,4 @@
-import { JWTError } from '@liexp/shared/providers/jwt/JWTClient';
+import { JWTError } from "@liexp/shared/providers/jwt/JWTClient";
 import { DBError } from "@liexp/shared/providers/orm";
 import * as t from "io-ts";
 
@@ -82,6 +82,10 @@ export const DecodeError = (
 export const toControllerError = (e: unknown): ControllerError => {
   // eslint-disable-next-line no-console
   console.error(e);
+  if (e instanceof JWTError) {
+    return e;
+  }
+
   if (e instanceof DBError) {
     return e;
   }

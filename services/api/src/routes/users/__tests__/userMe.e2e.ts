@@ -45,13 +45,25 @@ describe("GET User Me", () => {
     await throwTE(Test.ctx.db.close());
   });
 
-  test("Should return 200", async () => {
-    const response = await Test.req.post("/v1/users/me").send({
-      username: adminUsername,
-      password: "admin-password",
-    });
+  test("Should return 401 when no authorization token is given", async () => {
+    await Test.req.get("/v1/users/me").expect(401);
+  });
 
-    expect(response.status).toEqual(201);
+  test("Should return 401 when authorization token is wrong", async () => {
+    await Test.req
+      .get("/v1/users/me")
+      .set("authorization", "wrong-token")
+      .expect(401);
+  });
+
+  test("Should return 200 for admin", async () => {
+    const response = await Test.req
+      .post("/v1/users/login")
+      .send({
+        username: adminUsername,
+        password: "admin-password",
+      })
+      .expect(201);
 
     const token = response.body.data.token;
 
@@ -65,7 +77,7 @@ describe("GET User Me", () => {
     });
   });
 
-  test("Should return 401", async () => {
+  test("Should return 200 for supporter", async () => {
     const response = await Test.req.post("/v1/users/login").send({
       username: supporterUsername,
       password: "supporter-password",
@@ -79,8 +91,8 @@ describe("GET User Me", () => {
       .get("/v1/users/me")
       .set("authorization", token);
 
-    expect(getUserResponse.status).toBe(401);
-    expect(getUserResponse.body).toBe({
+    expect(getUserResponse.status).toBe(200);
+    expect(getUserResponse.body).toMatchObject({
       id: supporterId,
     });
   });
