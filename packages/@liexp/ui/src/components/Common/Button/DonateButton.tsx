@@ -22,11 +22,11 @@ const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
         disableRipple={true}
         focusRipple={false}
         style={{ padding: 0, marginRight: 10, fontSize: undefined }}
-        size="large">
+        size="large"
+      >
         <FontAwesomeIcon
           icon={"circle-dollar-to-slot"}
-          style={{ color: "white" }}
-          size="1x"
+          style={{ color: "white", width: 20, height: 20 }}
         />
       </IconButton>
     </form>
