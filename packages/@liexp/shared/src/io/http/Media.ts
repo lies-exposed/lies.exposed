@@ -57,6 +57,7 @@ export const Media = t.strict(
     thumbnail: t.union([t.string, t.undefined]),
     description: t.string,
     location: t.string,
+    creator: t.union([UUID, t.undefined]),
     events: t.array(UUID),
     links: t.array(UUID),
     createdAt: DateFromISOString,

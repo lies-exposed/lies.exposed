@@ -49,7 +49,8 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
           .getRepository(MediaEntity)
           .createQueryBuilder("media")
           .leftJoinAndSelect("media.events", "events")
-          .leftJoinAndSelect("media.links", "links"),
+          .leftJoinAndSelect("media.links", "links")
+          .loadAllRelationIds({ relations: ["creator"] }),
         (q) => {
           let hasWhere = false;
           if (O.isSome(description)) {

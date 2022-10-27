@@ -37,7 +37,7 @@ export class MediaEntity {
   })
   type: MediaType;
 
-  @ManyToOne(() => UserEntity, (u) => u.media, { nullable: true })
+  @ManyToOne(() => UserEntity, (u) => u.media, { nullable: true, cascade: false })
   creator: UserEntity | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, { cascade: false })

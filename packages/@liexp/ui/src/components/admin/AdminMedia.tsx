@@ -3,8 +3,8 @@ import { MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/TaskEither";
 import * as React from "react";
 import {
   BooleanInput,
@@ -31,9 +31,11 @@ import {
   TextInput,
   useDataProvider,
   useGetIdentity,
+  usePermissions,
   useRecordContext,
   useRefresh,
 } from "react-admin";
+import { checkIsAdmin } from "../../utils/user.utils";
 import { uploadFile } from "../../client/admin/MediaAPI";
 import { CreateEventFromMediaButton } from "../admin/common/CreateEventFromMediaButton";
 import { EditForm } from "../admin/common/EditForm";
@@ -44,6 +46,7 @@ import ReferenceArrayEventInput from "../admin/common/ReferenceArrayEventInput";
 import MediaPreview from "../admin/previews/MediaPreview";
 import { ReferenceLinkTab } from "../admin/tabs/ReferenceLinkTab";
 import { Box, Button, Typography } from "../mui";
+import ReferenceUserInput from './common/ReferenceUserInput';
 
 const RESOURCE = "media";
 
@@ -66,7 +69,7 @@ const parseURL = (
 
   if (url.includes(".pdf")) {
     return E.right({
-      type: MediaType.types[4].value,
+      type: MediaType.types[6].value,
       location: url,
     });
   }
@@ -92,7 +95,7 @@ const parseURL = (
     return pipe(
       parsePlatformURL(url),
       E.map((location) => ({
-        type: MediaType.types[6].value,
+        type: MediaType.types[7].value,
         location,
       }))
     );
@@ -109,16 +112,21 @@ const mediaFilters = [
 
 export const MediaList: React.FC<ListProps> = (props) => {
   const { identity, isLoading } = useGetIdentity();
-  if (isLoading) {
+  const { permissions, isLoading: isLoadingPermissions } = usePermissions();
+  if (isLoading || isLoadingPermissions) {
     return <LoadingPage />;
   }
+
+  const isAdmin = checkIsAdmin(permissions);
+
+  const filter = isAdmin ? {} : { creator: identity?.id };
 
   return (
     <List
       {...props}
       resource={RESOURCE}
       filters={mediaFilters}
-      filter={{ creator: identity?.id }}
+      filter={filter}
       filterDefaultValues={{
         _sort: "createdAt",
         _order: "DESC",
@@ -153,6 +161,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
             );
           }}
         />
+        {isAdmin && <ReferenceUserInput source="creator" />}
         <FunctionField
           label="events"
           render={(r: any) => {
