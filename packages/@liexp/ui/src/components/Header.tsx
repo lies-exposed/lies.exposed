@@ -1,5 +1,5 @@
-import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
+import * as O from "fp-ts/Option";
 import * as React from "react";
 import { styled } from "../theme";
 import DonateButton from "./Common/Button/DonateButton";
@@ -7,6 +7,7 @@ import { TelegramIcon } from "./Common/Icons";
 import GithubButton from "./GithubButton";
 import {
   AppBar,
+  Box,
   Button,
   ClickAwayListener,
   Grow,
@@ -26,6 +27,7 @@ const classes = {
   appBar: `${PREFIX}-appBar`,
   menuButton: `${PREFIX}-menuButton`,
   menuItem: `${PREFIX}-menuItem`,
+  menuLeft: `${PREFIX}-menuLeft`,
   menuItemLink: `${PREFIX}-menuItemLink`,
   title: `${PREFIX}-title`,
   titleLink: `${PREFIX}-titleLink`,
@@ -44,11 +46,27 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     flexGrow: 0,
     maxHeight: 64,
   },
-
-  [`& .${classes.menuButton}`]: {
+  [`& .${classes.title}`]: {
+    margin: 0,
     marginRight: theme.spacing(2),
+    color: theme.palette.common.white,
+    fontWeight: theme.typography.fontWeightBold as any,
+    cursor: "pointer",
   },
 
+  [`& .${classes.titleLink}`]: {
+    color: theme.palette.common.black,
+    fontWeight: theme.typography.fontWeightBold as any,
+    fontFamily: theme.typography.h6.fontFamily,
+    letterSpacing: 1.1,
+    textDecoration: "none",
+  },
+  [`& .${classes.menuLeft}`]: {
+    display: "flex",
+    alignContent: "flex-start",
+    alignItems: "center",
+    flexGrow: 1,
+  },
   [`& .${classes.menuItem}`]: {
     color: theme.palette.common.white,
     ...(theme.typography.subtitle1 as any),
@@ -62,21 +80,8 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     fontSize: 14,
     margin: 0,
   },
-
-  [`& .${classes.title}`]: {
-    flexGrow: 1,
-    margin: 0,
-    color: theme.palette.common.white,
-    fontWeight: theme.typography.fontWeightBold as any,
-    cursor: 'pointer'
-  },
-
-  [`& .${classes.titleLink}`]: {
-    color: theme.palette.common.black,
-    fontWeight: theme.typography.fontWeightBold as any,
-    fontFamily: theme.typography.h6.fontFamily,
-    letterSpacing: 1.1,
-    textDecoration: "none",
+  [`& .${classes.menuButton}`]: {
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -174,12 +179,18 @@ const Header: React.FC<HeaderProps> = ({
         >
           {title}
         </Typography>
+        <Box className={classes.menuLeft}>
+          <GithubButton className={classes.menuItem} {...github} />
+          <Link
+            href={telegram.href}
+            target="_blank"
+            style={{ display: "flex" }}
+          >
+            <TelegramIcon size="1x" className={classes.menuItem} />
+          </Link>
+        </Box>
 
         <DonateButton className={classes.menuItem} />
-        <Link href={telegram.href} target="_blank" style={{ display: "flex" }}>
-          <TelegramIcon size="1x" className={classes.menuItem} />
-        </Link>
-        <GithubButton className={classes.menuItem} {...github} />
         {menu.map((m) => {
           const buttonRef =
             m.subItems.length > 0
