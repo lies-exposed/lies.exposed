@@ -1,4 +1,5 @@
 import { toColor } from "@liexp/shared/io/http/Common";
+import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
 import * as React from "react";
 import {
   AutocompleteArrayInput,
@@ -14,7 +15,6 @@ import {
   TextInput,
   useRecordContext
 } from "react-admin";
-import { ColorInput } from "../components/Common/ColorInput";
 
 const RESOURCE = "keywords";
 

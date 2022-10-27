@@ -1,6 +1,20 @@
 import * as ScientificStudy from "@liexp/shared/io/http/Events/ScientificStudy";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import { MediaArrayInput } from "@liexp/ui/components/admin/common/MediaArrayInput";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
+import ReferenceGroupInput from "@liexp/ui/components/admin/common/ReferenceGroupInput";
+import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/common/ReferenceMediaDataGrid";
+import URLMetadataInput from "@liexp/ui/components/admin/common/URLMetadataInput";
+import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
+import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
+import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
+import { ScientificStudyEventEditTab } from "@liexp/ui/components/admin/tabs/ScientificStudyEventEditTab";
+import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import { Box } from "@liexp/ui/components/mui";
 import * as React from "react";
 import {
@@ -11,32 +25,18 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  EditProps,
   FormDataConsumer,
   FormTab,
   List,
   ListProps,
-  RaRecord,
   ReferenceField,
   SimpleForm,
   TabbedForm,
   TextField,
   TextInput,
+  useDataProvider,
   useRecordContext,
 } from "react-admin";
-import { AvatarField } from "../../components/Common/AvatarField";
-import { EditForm } from "../../components/Common/EditForm";
-import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
-import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
-import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
-import ReferenceGroupInput from "../../components/Common/ReferenceGroupInput";
-import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
-import URLMetadataInput from "../../components/Common/URLMetadataInput";
-import EventPreview from "../../components/previews/EventPreview";
-import { EventGeneralTab } from "../../components/tabs/EventGeneralTab";
-import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
-import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const listFilter = [
@@ -72,34 +72,19 @@ export const ScientificStudyEventTitle: React.FC = () => {
   return <span>Scientific Study: {record?.payload?.title}</span>;
 };
 
-export const EditScientificStudyEventPayload: React.FC<
-  EditProps & { record?: RaRecord }
-> = (props) => {
-  return (
-    <Box>
-      <TextInput source="payload.title" fullWidth />
-      <URLMetadataInput
-        source="payload.url"
-        type={ScientificStudy.SCIENTIFIC_STUDY.value}
-      />
-      <ReferenceGroupInput source="payload.publisher" />
-      <ReferenceArrayActorInput source="payload.authors" />
-    </Box>
-  );
-};
-
 export const ScientificStudyEdit: React.FC = () => {
+  const dataProvider = useDataProvider();
   return (
     <EditForm
       title={<ScientificStudyEventTitle />}
       actions={<EventEditActions />}
-      transform={(r) => transformEvent(r.id, r)}
+      transform={(r) => transformEvent(dataProvider)(r.id, r)}
       preview={<EventPreview />}
     >
       <TabbedForm>
         <FormTab label="General">
           <EventGeneralTab>
-            <EditScientificStudyEventPayload />
+            <ScientificStudyEventEditTab />
           </EventGeneralTab>
         </FormTab>
         <FormTab label="body">
@@ -118,12 +103,14 @@ export const ScientificStudyEdit: React.FC = () => {
   );
 };
 
-export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
+export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
+  const dataProvider = useDataProvider()
+  return (
   <Create
     title="Create a Scientific Study"
     {...props}
     transform={(r) =>
-      transformEvent(uuid(), {
+      transformEvent(dataProvider)(uuid(), {
         ...r,
         type: ScientificStudy.SCIENTIFIC_STUDY.value,
       })
@@ -171,3 +158,4 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => (
     </SimpleForm>
   </Create>
 );
+      }

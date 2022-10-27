@@ -1,7 +1,19 @@
 import * as Events from "@liexp/shared/io/http/Events";
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box } from "@liexp/ui/components/mui";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import ExcerptField from "@liexp/ui/components/admin/common/ExcerptField";
+import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
+import ReferenceArrayGroupInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
+import ReferenceArrayMediaInput from "@liexp/ui/components/admin/common/ReferenceArrayMediaInput";
+import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
+import { DocumentaryEditFormTab } from "@liexp/ui/components/admin/tabs/DocumentaryEditFormTab";
+import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
+import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
+import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import * as React from "react";
 import {
   BooleanInput,
@@ -10,7 +22,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  EditProps,
   FormTab,
   List,
   ListProps,
@@ -19,22 +30,9 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useDataProvider,
   useRecordContext,
 } from "react-admin";
-import { EditForm } from "../../components/Common/EditForm";
-import ExcerptField from "../../components/Common/ExcerptField";
-import { MediaField } from "../../components/Common/MediaField";
-import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
-import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
-import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
-import ReferenceArrayMediaInput from "../../components/Common/ReferenceArrayMediaInput";
-import ReferenceMediaInput from "../../components/Common/ReferenceMediaInput";
-import EventPreview from "../../components/previews/EventPreview";
-import { EventGeneralTab } from '../../components/tabs/EventGeneralTab';
-import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
-import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const documentaryEventsFilter = [
@@ -74,46 +72,13 @@ export const DocumentaryReleaseTitle: React.FC = () => {
   return <span>Documentary: {record?.payload?.title}</span>;
 };
 
-export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
-  props
-) => (
-  <Box>
-    <TextInput fullWidth source="payload.title" />
-    <ReferenceAreaInput source="payload.location" />
-    <TextInput type="url" fullWidth source="payload.website" />
-    <ReferenceMediaInput
-      allowedTypes={["video/mp4", "iframe/video"]}
-      source="payload.media"
-    />
-
-    {/** Authors */}
-    <ReferenceArrayActorInput
-      source="payload.authors.actors"
-      defaultValue={[]}
-    />
-    <ReferenceArrayGroupInput
-      source="payload.authors.groups"
-      defaultValue={[]}
-    />
-
-    {/** Subjects */}
-    <ReferenceArrayActorInput
-      source="payload.subjects.actors"
-      defaultValue={[]}
-    />
-    <ReferenceArrayGroupInput
-      source="payload.subjects.groups"
-      defaultValue={[]}
-    />
-  </Box>
-);
-
 export const DocumentaryEdit: React.FC = () => {
+  const dataProvider = useDataProvider();
   return (
     <EditForm
       title={<DocumentaryReleaseTitle />}
       actions={<EventEditActions />}
-      transform={(r) => transformEvent(r.id, r)}
+      transform={(r) => transformEvent(dataProvider)(r.id, r)}
       preview={<EventPreview />}
     >
       <TabbedForm>
@@ -133,53 +98,60 @@ export const DocumentaryEdit: React.FC = () => {
   );
 };
 
-export const DocumentaryCreate: React.FC<CreateProps> = () => (
-  <Create
-    title="Create a Documentary"
-    transform={(data) =>
-      transformEvent(uuid(), data).then((record) => ({
-        ...record,
-        payload: {
-          ...record.payload,
-          media: record.media[0],
-        },
-      }))
-    }
-  >
-    <SimpleForm>
-      <BooleanInput source="draft" defaultValue={false} />
-      <TextInput fullWidth source="payload.title" />
-      <TextInput type="url" fullWidth source="payload.website" />
-      <DateInput source="date" />
-      <ReferenceArrayMediaInput
-        allowedTypes={["video/mp4", "iframe/video"]}
-        source="newMedia"
-      />
-      <ReactPageInput source="excerpt" onlyText />
-      {/** Authors */}
-      <ReferenceArrayActorInput
-        source="payload.authors.actors"
-        defaultValue={[]}
-      />
-      <ReferenceArrayGroupInput
-        source="payload.authors.groups"
-        defaultValue={[]}
-      />
+export const DocumentaryCreate: React.FC<CreateProps> = () => {
+  const dataProvider = useDataProvider();
+  return (
+    <Create
+      title="Create a Documentary"
+      transform={(data) =>
+        transformEvent(dataProvider)(uuid(), data).then((record) => ({
+          ...record,
+          payload: {
+            ...record.payload,
+            media: record.media[0],
+          },
+        }))
+      }
+    >
+      <SimpleForm>
+        <BooleanInput source="draft" defaultValue={false} />
+        <TextInput fullWidth source="payload.title" />
+        <TextInput type="url" fullWidth source="payload.website" />
+        <DateInput source="date" />
+        <ReferenceArrayMediaInput
+          allowedTypes={["video/mp4", "iframe/video"]}
+          source="newMedia"
+        />
+        <ReactPageInput source="excerpt" onlyText />
+        {/** Authors */}
+        <ReferenceArrayActorInput
+          source="payload.authors.actors"
+          defaultValue={[]}
+        />
+        <ReferenceArrayGroupInput
+          source="payload.authors.groups"
+          defaultValue={[]}
+        />
 
-      {/** Subjects */}
-      <ReferenceArrayActorInput
-        source="payload.subjects.actors"
-        defaultValue={[]}
-      />
-      <ReferenceArrayGroupInput
-        source="payload.subjects.groups"
-        defaultValue={[]}
-      />
+        {/** Subjects */}
+        <ReferenceArrayActorInput
+          source="payload.subjects.actors"
+          defaultValue={[]}
+        />
+        <ReferenceArrayGroupInput
+          source="payload.subjects.groups"
+          defaultValue={[]}
+        />
 
-      <ReactPageInput source="body" />
+        <ReactPageInput source="body" />
 
-      <ReferenceArrayKeywordInput source="keywords" defaultValue={[]} showAdd />
-      <ReferenceArrayLinkInput source="links" defaultValue={[]} />
-    </SimpleForm>
-  </Create>
-);
+        <ReferenceArrayKeywordInput
+          source="keywords"
+          defaultValue={[]}
+          showAdd
+        />
+        <ReferenceArrayLinkInput source="links" defaultValue={[]} />
+      </SimpleForm>
+    </Create>
+  );
+};

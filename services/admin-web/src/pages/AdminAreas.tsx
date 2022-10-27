@@ -4,6 +4,9 @@ import { HelmetProvider } from "@liexp/ui/components/SEO";
 import { ValidationErrorsLayout } from "@liexp/ui/components/ValidationErrorsLayout";
 import { MapInput } from "@liexp/ui/components/admin/MapInput";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import ReferenceArrayEventInput from "@liexp/ui/components/admin/common/ReferenceArrayEventInput";
+import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMediaTab";
+import { transformMedia } from "@liexp/ui/components/admin/transform.utils";
 import { ECOTheme } from "@liexp/ui/theme";
 import { ThemeProvider } from "@mui/system";
 import * as E from "fp-ts/Either";
@@ -29,9 +32,6 @@ import {
   useRecordContext,
 } from "react-admin";
 import { QueryClient, QueryClientProvider } from "react-query";
-import ReferenceArrayEventInput from "../components/Common/ReferenceArrayEventInput";
-import { ReferenceMediaTab } from "../components/tabs/ReferenceMediaTab";
-import { transformMedia } from "../utils";
 
 const RESOURCE = "areas";
 

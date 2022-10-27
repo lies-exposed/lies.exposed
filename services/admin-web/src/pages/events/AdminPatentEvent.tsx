@@ -1,6 +1,18 @@
 import { uuid } from "@liexp/shared/utils/uuid";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box } from '@liexp/ui/components/mui';
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import { MediaArrayInput } from "@liexp/ui/components/admin/common/MediaArrayInput";
+import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
+import ReferenceArrayGroupInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
+import ReferenceArrayLinkInput from "@liexp/ui/components/admin/common/ReferenceArrayLinkInput";
+import { ReferenceMediaDataGrid } from "@liexp/ui/components/admin/common/ReferenceMediaDataGrid";
+import URLMetadataInput from "@liexp/ui/components/admin/common/URLMetadataInput";
+import EventPreview from "@liexp/ui/components/admin/previews/EventPreview";
+import { EventGeneralTab } from "@liexp/ui/components/admin/tabs/EventGeneralTab";
+import { PatentEventEditFormTab } from '@liexp/ui/components/admin/tabs/PatentEventEditTab';
+import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import * as React from "react";
 import {
   BooleanField,
@@ -17,20 +29,9 @@ import {
   TextField,
   TextInput,
   UrlField,
+  useDataProvider,
   useRecordContext
 } from "react-admin";
-import { EditForm } from "../../components/Common/EditForm";
-import { MediaArrayInput } from "../../components/Common/MediaArrayInput";
-import ReferenceActorInput from "../../components/Common/ReferenceActorInput";
-import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
-import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
-import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
-import ReferenceArrayLinkInput from "../../components/Common/ReferenceArrayLinkInput";
-import { ReferenceMediaDataGrid } from "../../components/Common/ReferenceMediaDataGrid";
-import URLMetadataInput from "../../components/Common/URLMetadataInput";
-import EventPreview from "../../components/previews/EventPreview";
-import { EventGeneralTab } from "../../components/tabs/EventGeneralTab";
-import { transformEvent } from "../../utils";
 import { EventEditActions } from "./actions/EditEventActions";
 
 const patentEventsFilter = [
@@ -73,29 +74,13 @@ export const PatentEventTitle: React.FC = () => {
   ) : null;
 };
 
-export const PatentEventEditFormTab: React.FC = () => {
-  return (
-    <Box>
-      <TextInput source="payload.title" fullWidth />
-      <URLMetadataInput type="Link" source="payload.source" />
-      <ReferenceArrayActorInput
-        source="payload.owners.actors"
-        defaultValue={[]}
-      />
-      <ReferenceArrayGroupInput
-        source="payload.owners.groups"
-        defaultValue={[]}
-      />
-    </Box>
-  );
-};
-
 export const PatentEdit: React.FC = () => {
+  const dataProvider = useDataProvider();
   return (
     <EditForm
       title={<PatentEventTitle />}
       actions={<EventEditActions />}
-      transform={(r) => transformEvent(r.id, r)}
+      transform={(r) => transformEvent(dataProvider)(r.id, r)}
       preview={<EventPreview />}
     >
       <TabbedForm>
@@ -119,11 +104,13 @@ export const PatentEdit: React.FC = () => {
   );
 };
 
-export const PatentCreate: React.FC<CreateProps> = (props) => (
+export const PatentCreate: React.FC<CreateProps> = (props) => {
+  const dataProvider = useDataProvider()
+  return (
   <Create
     title="Create a Patent Event"
     {...props}
-    transform={(data) => transformEvent(uuid(), data)}
+    transform={(data) => transformEvent(dataProvider)(uuid(), data)}
   >
     <SimpleForm>
       <TextInput source="payload.title" />
@@ -150,4 +137,4 @@ export const PatentCreate: React.FC<CreateProps> = (props) => (
       />
     </SimpleForm>
   </Create>
-);
+);}

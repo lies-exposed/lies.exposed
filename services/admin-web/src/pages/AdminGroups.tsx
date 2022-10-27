@@ -2,7 +2,15 @@ import * as io from "@liexp/shared/io";
 import { Media } from "@liexp/shared/io/http";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { uploadImages } from "@liexp/ui/client/admin/MediaAPI";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
+import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
+import { ColorInput } from "@liexp/ui/components/admin/common/ColorInput";
+import { EditForm } from "@liexp/ui/components/admin/common/EditForm";
+import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
+import ReferenceActorInput from "@liexp/ui/components/admin/common/ReferenceActorInput";
+import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
+import GroupPreview from "@liexp/ui/components/admin/previews/GroupPreview";
 import { Typography } from "@liexp/ui/components/mui";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -14,9 +22,11 @@ import {
   Create,
   CreateProps,
   Datagrid,
+  DataProvider,
   DateField,
   DateInput,
-  EditProps, FormTab,
+  EditProps,
+  FormTab,
   FunctionField,
   ImageField,
   ImageInput,
@@ -31,17 +41,9 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useDataProvider,
+  useRecordContext,
 } from "react-admin";
-import { AvatarField } from "../components/Common/AvatarField";
-import { ColorInput } from "../components/Common/ColorInput";
-import { EditForm } from "../components/Common/EditForm";
-import { MediaField } from "../components/Common/MediaField";
-import ReferenceActorInput from "../components/Common/ReferenceActorInput";
-import { WebPreviewButton } from "../components/Common/WebPreviewButton";
-import GroupPreview from "../components/previews/GroupPreview";
-import { apiProvider } from "@client/HTTPAPI";
-import { uploadImages } from "@client/MediaAPI";
 
 const RESOURCE = "groups";
 
@@ -116,33 +118,35 @@ export const GroupList: React.FC = () => (
   </List>
 );
 
-const transformGroup = (data: RaRecord): RaRecord | Promise<RaRecord> => {
-  const uploadAvatar = data.avatar?.rawFile
-    ? uploadImages(apiProvider)("groups", data.id as string, [
-        { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
-      ])
-    : TE.right([
-        { location: data.avatar, type: "image/jpeg" as Media.MediaType },
-      ]);
+const transformGroup =
+  (apiProvider: DataProvider) =>
+  (data: RaRecord): RaRecord | Promise<RaRecord> => {
+    const uploadAvatar = data.avatar?.rawFile
+      ? uploadImages(apiProvider)("groups", data.id as string, [
+          { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+        ])
+      : TE.right([
+          { location: data.avatar, type: "image/jpeg" as Media.MediaType },
+        ]);
 
-  const newMembers = (data.newMembers ?? []).map((m) => ({
-    ...m,
-    body: {},
-  }));
+    const newMembers = (data.newMembers ?? []).map((m) => ({
+      ...m,
+      body: {},
+    }));
 
-  const members = (data.members ?? []).concat(newMembers);
+    const members = (data.members ?? []).concat(newMembers);
 
-  return pipe(
-    uploadAvatar,
-    TE.map((locations) => ({
-      ...data,
-      excerpt: data.excerpt ?? undefined,
-      avatar: locations[0].location,
-      members,
-    })),
-    throwTE
-  );
-};
+    return pipe(
+      uploadAvatar,
+      TE.map((locations) => ({
+        ...data,
+        excerpt: data.excerpt ?? undefined,
+        avatar: locations[0].location,
+        members,
+      })),
+      throwTE
+    );
+  };
 
 const EditTitle: React.FC<EditProps> = () => {
   const record = useRecordContext();
@@ -150,6 +154,7 @@ const EditTitle: React.FC<EditProps> = () => {
 };
 
 export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
+  const dataProvider = useDataProvider();
   return (
     <EditForm
       title={<EditTitle {...props} />}
@@ -163,7 +168,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           />
         </>
       }
-      transform={transformGroup}
+      transform={transformGroup(dataProvider)}
       preview={<GroupPreview />}
     >
       <TabbedForm redirect={false}>
@@ -221,23 +226,26 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
   );
 };
 
-export const GroupCreate: React.FC<CreateProps> = (props) => (
-  <Create
-    title="Create a Group"
-    {...props}
-    transform={(g) => transformGroup({ ...g, id: uuid() })}
-  >
-    <SimpleForm>
-      <ColorInput source="color" />
-      <DateInput source="date" />
-      <TextInput source="name" />
-      <GroupKindInput source="kind" />
-      <GroupMemberArrayInput source="members" />
-      <ImageInput source="avatar">
-        <ImageField src="src" />
-      </ImageInput>
-      <ReactPageInput source="excerpt" onlyText />
-      <ReactPageInput source="body" />
-    </SimpleForm>
-  </Create>
-);
+export const GroupCreate: React.FC<CreateProps> = (props) => {
+  const dataProvider = useDataProvider();
+  return (
+    <Create
+      title="Create a Group"
+      {...props}
+      transform={(g) => transformGroup(dataProvider)({ ...g, id: uuid() })}
+    >
+      <SimpleForm>
+        <ColorInput source="color" />
+        <DateInput source="date" />
+        <TextInput source="name" />
+        <GroupKindInput source="kind" />
+        <GroupMemberArrayInput source="members" />
+        <ImageInput source="avatar">
+          <ImageField src="src" />
+        </ImageInput>
+        <ReactPageInput source="excerpt" onlyText />
+        <ReactPageInput source="body" />
+      </SimpleForm>
+    </Create>
+  );
+};

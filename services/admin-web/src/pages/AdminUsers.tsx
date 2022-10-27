@@ -1,3 +1,5 @@
+import { MediaField } from '@liexp/ui/components/admin/common/MediaField';
+import RichTextInput from "@liexp/ui/components/admin/common/RichTextInput";
 import * as React from "react";
 import {
   Create,
@@ -17,8 +19,6 @@ import {
   useRecordContext,
   TextInput,
 } from "react-admin";
-import { MediaField } from '../components/Common/MediaField';
-import RichTextInput from "../components/Common/RichTextInput";
 
 export const UserList: React.FC<ListProps> = (props) => (
   <List {...props} resource="users">

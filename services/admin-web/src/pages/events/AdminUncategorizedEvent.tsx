@@ -2,7 +2,17 @@ import { Events } from "@liexp/shared/io/http";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { EventIcon } from "@liexp/ui/components/Common/Icons/EventIcon";
 import ReactPageInput from "@liexp/ui/components/admin/ReactPageInput";
-import { Box, Grid } from "@liexp/ui/components/mui";
+import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
+import ExcerptField from "@liexp/ui/components/admin/common/ExcerptField";
+import ReferenceAreaInput from "@liexp/ui/components/admin/common/ReferenceAreaInput";
+import ReferenceArrayActorInput from "@liexp/ui/components/admin/common/ReferenceArrayActorInput";
+import ReferenceArrayGroupInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupInput";
+import ReferenceArrayGroupMemberInput from "@liexp/ui/components/admin/common/ReferenceArrayGroupMemberInput";
+import ReferenceArrayKeywordInput from "@liexp/ui/components/admin/common/ReferenceArrayKeywordInput";
+import { ReferenceLinkTab } from "@liexp/ui/components/admin/tabs/ReferenceLinkTab";
+import { ReferenceMediaTab } from "@liexp/ui/components/admin/tabs/ReferenceMediaTab";
+import { UncategorizedEventEditTab } from "@liexp/ui/components/admin/tabs/UncategorizedEventEditTab";
+import { transformEvent } from "@liexp/ui/components/admin/transform.utils";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import * as React from "react";
 import {
@@ -11,7 +21,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  EditProps,
   FormTab,
   FunctionField,
   List,
@@ -22,18 +31,9 @@ import {
   TabbedForm,
   TextField,
   TextInput,
-  useRecordContext
+  useDataProvider,
+  useRecordContext,
 } from "react-admin";
-import { AvatarField } from "../../components/Common/AvatarField";
-import ExcerptField from "../../components/Common/ExcerptField";
-import ReferenceAreaInput from "../../components/Common/ReferenceAreaInput";
-import ReferenceArrayActorInput from "../../components/Common/ReferenceArrayActorInput";
-import ReferenceArrayGroupInput from "../../components/Common/ReferenceArrayGroupInput";
-import ReferenceArrayGroupMemberInput from "../../components/Common/ReferenceArrayGroupMemberInput";
-import ReferenceArrayKeywordInput from "../../components/Common/ReferenceArrayKeywordInput";
-import { ReferenceLinkTab } from "../../components/tabs/ReferenceLinkTab";
-import { ReferenceMediaTab } from "../../components/tabs/ReferenceMediaTab";
-import { transformEvent } from "../../utils";
 
 const RESOURCE = "events";
 
@@ -111,84 +111,12 @@ export const UncategorizedEventTitle: React.FC = () => {
   return <span>Event: {record?.payload?.title}</span>;
 };
 
-export const UncategorizedEventEditTab: React.FC<
-  EditProps & { record?: RaRecord; sourcePrefix?: string }
-> = ({ sourcePrefix, ...props }) => {
-  const source = (s: string): string =>
-    `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
-
-  return (
-    <Box>
-      <Grid container spacing={2}>
-        <Grid item md={12}>
-          <TextInput source={source("payload.title")} fullWidth />
-        </Grid>
-        <Grid item md={12}>
-          <Grid container>
-            <Grid item md={6}>
-              <Box>
-                <TextInput
-                  source={source("type")}
-                  defaultValue={Events.Uncategorized.UNCATEGORIZED.value}
-                  hidden={true}
-                />
-
-                <DateInput source={source("payload.endDate")} />
-              </Box>
-            </Grid>
-            <Grid item md={6}>
-              <ReferenceAreaInput source="payload.location" />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item md={4} sm={12}>
-          <ReferenceArrayActorInput source={source("payload.actors")} />
-          <ReferenceArrayField
-            source={source("payload.actors")}
-            reference="actors"
-          >
-            <Datagrid rowClick="edit">
-              <AvatarField source="avatar" />
-              <TextField source="fullName" />
-            </Datagrid>
-          </ReferenceArrayField>
-        </Grid>
-        <Grid item md={4} sm={12}>
-          <ReferenceArrayGroupMemberInput
-            source={source("payload.groupsMembers")}
-          />
-          <ReferenceArrayField
-            source={source("payload.groupsMembers")}
-            reference="groups-members"
-          >
-            <Datagrid rowClick="edit">
-              <AvatarField source="actor.avatar" />
-              <AvatarField source="group.avatar" />
-            </Datagrid>
-          </ReferenceArrayField>
-        </Grid>
-        <Grid item md={4} sm={12}>
-          <ReferenceArrayGroupInput source={source("payload.groups")} />
-          <ReferenceArrayField
-            reference="groups"
-            source={source("payload.groups")}
-          >
-            <Datagrid rowClick="edit">
-              <TextField source="name" />
-              <AvatarField source="avatar" fullWidth={false} />
-            </Datagrid>
-          </ReferenceArrayField>
-        </Grid>
-      </Grid>
-    </Box>
-  );
-};
-
 export const UncategorizedEventCreate: React.FC = (props) => {
+  const dataProvider = useDataProvider();
   return (
     <Create
       title="Create a Event"
-      transform={(data) => transformEvent(uuid(), data)}
+      transform={(data) => transformEvent(dataProvider)(uuid(), data)}
     >
       <TabbedForm>
         <FormTab label="General">

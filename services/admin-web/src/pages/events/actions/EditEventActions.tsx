@@ -1,13 +1,13 @@
 import { getEventsMetadata } from "@liexp/shared/helpers/event";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
+import { SearchLinksButton } from "@liexp/ui/components/admin/common/SearchLinksButton";
+import { TGPostButton } from "@liexp/ui/components/admin/common/TGPostButton";
+import { UpdateMetadataButton } from '@liexp/ui/components/admin/common/UpdateMetadataButton';
+import { WebPreviewButton } from "@liexp/ui/components/admin/common/WebPreviewButton";
 import { Box } from "@liexp/ui/components/mui";
 import { getEventCommonProps } from "@liexp/ui/helpers/event.helper";
 import * as React from "react";
 import { LoadingIndicator, useRecordContext } from "react-admin";
-import { SearchLinksButton } from "../../../components/Common/SearchLinksButton";
-import { TGPostButton } from "../../../components/Common/TGPostButton";
-import { UpdateMetadataButton } from '../../../components/Common/UpdateMetadataButton';
-import { WebPreviewButton } from "../../../components/Common/WebPreviewButton";
 
 export const EventEditActions: React.FC = () => {
   const record: any = useRecordContext();

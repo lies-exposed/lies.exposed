@@ -1,0 +1,37 @@
+import * as React from "react";
+import { useDataProvider, useRecordContext, useRefresh } from "react-admin";
+import { Button } from "../../mui";
+
+export const ImportMediaButton: React.FC = () => {
+  const record = useRecordContext();
+  const refresh = useRefresh();
+  const apiProvider = useDataProvider();
+  return (
+    <Button
+      onClick={() => {
+        void apiProvider
+          .getList("links", {
+            filter: { events: [record?.id] },
+            pagination: { perPage: 5, page: 1 },
+            sort: { field: "createdAt", order: "DESC" },
+          })
+          .then((results) => {
+            const media = results.data
+              .filter((r) => !!r.image)
+              .map((r) => r.image.id);
+            return apiProvider
+              .update("events", {
+                id: record.id,
+                previousData: record,
+                data: { ...record, media: record.media.concat(media) },
+              })
+              .then(() => {
+                refresh();
+              });
+          });
+      }}
+    >
+      Import from links
+    </Button>
+  );
+};
