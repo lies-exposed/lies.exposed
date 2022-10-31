@@ -4,8 +4,8 @@ import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { useProjectQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { RouteComponentProps } from "@reach/router";
-import { pipe } from "fp-ts/function";
 import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 
 export default class ProjectTemplate extends React.PureComponent<

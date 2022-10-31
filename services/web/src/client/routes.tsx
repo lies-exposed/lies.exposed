@@ -28,13 +28,13 @@ import {
   getPageContentByPathQueryKey,
   useStatsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
-import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
   getSearchEventsQueryKey,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
+import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
 import { useParams } from "react-router-dom";

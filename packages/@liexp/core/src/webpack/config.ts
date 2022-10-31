@@ -36,6 +36,7 @@ export interface GetConfigParams<A extends Record<string, t.Mixed>> {
   devServer?: boolean;
   target: webpack.Configuration["target"];
   output?: webpack.Configuration["output"];
+  tsConfigFile?: string;
   hot: boolean;
 }
 
@@ -199,6 +200,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
                 context: opts.cwd,
                 projectReferences: mode === "development",
                 transpileOnly: true,
+                configFile: opts.tsConfigFile ?? "tsconfig.json",
                 getCustomTransformers: () => ({
                   before: [
                     mode === "development" &&
@@ -231,10 +233,7 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],
       plugins: [new TsconfigPathsPlugin({}) as any],
-      modules: [
-        "node_modules",
-        path.resolve(opts.cwd),
-      ],
+      modules: ["node_modules", path.resolve(opts.cwd)],
     },
     plugins: plugins as any,
   };

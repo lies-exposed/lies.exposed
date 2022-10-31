@@ -26,6 +26,10 @@ const webConfig = getWebConfig({
   entry: {
     app: path.resolve(__dirname, "src/client/index.tsx"),
   },
+  tsConfigFile:
+    process.env.NODE_ENV === "production"
+      ? "tsconfig.build.json"
+      : "tsconfig.json",
 });
 
 webConfig.optimization =
