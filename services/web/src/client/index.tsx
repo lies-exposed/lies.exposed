@@ -1,10 +1,7 @@
 import { CacheProvider } from "@emotion/react";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { HelmetProvider } from "@liexp/ui/components/SEO";
-import {
-  CssBaseline,
-  ThemeProvider,
-} from "@liexp/ui/components/mui";
+import { CssBaseline, ThemeProvider } from "@liexp/ui/components/mui";
 import createEmotionCache from "@liexp/ui/react/createEmotionCache";
 import { ECOTheme } from "@liexp/ui/theme";
 import debug from "debug";
@@ -14,7 +11,7 @@ import { Hydrate, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { queryClient } from "./state/queries";
-import '@liexp/ui/theme/main.css';
+import "@liexp/ui/theme/main.css";
 
 config.autoAddCss = false;
 
@@ -44,7 +41,9 @@ function Main(): JSX.Element {
             <QueryClientProvider client={queryClient}>
               <Hydrate state={dehydratedState}>
                 <CssBaseline enableColorScheme />
-                <App />
+                <React.Suspense fallback="loading">
+                  <App />
+                </React.Suspense>
               </Hydrate>
             </QueryClientProvider>
           </ThemeProvider>

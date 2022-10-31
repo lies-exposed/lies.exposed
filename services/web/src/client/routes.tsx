@@ -26,14 +26,14 @@ import {
   getLinkQueryKey,
   getMediaQueryKey,
   getPageContentByPathQueryKey,
-  useStatsQuery
+  useStatsQuery,
 } from "@liexp/ui/state/queries/DiscreteQueries";
 import { fetchGithubRepo } from "@liexp/ui/state/queries/github";
 import {
   fetchSearchEvents,
   fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
-  getSearchEventsQueryKey
+  getSearchEventsQueryKey,
 } from "@liexp/ui/state/queries/SearchEventsQuery";
 import { UUID } from "io-ts-types/lib/UUID";
 import * as React from "react";
