@@ -20,7 +20,9 @@ describe("List Links", () => {
       keywords: [],
     }));
 
-    links = await throwTE<any, any>(Test.ctx.db.save(LinkEntity, links as any[]));
+    links = await throwTE<any, any>(
+      Test.ctx.db.save(LinkEntity, links as any[])
+    );
   });
 
   afterAll(async () => {
@@ -64,7 +66,7 @@ describe("List Links", () => {
       await throwTE(
         Test.ctx.db.delete(
           EventV2Entity,
-          events.map((e) => e.id as any)
+          events.map((e) => e.id)
         )
       );
 
@@ -94,7 +96,7 @@ describe("List Links", () => {
       await throwTE(
         Test.ctx.db.delete(
           EventV2Entity,
-          events.map((e) => e.id as any)
+          events.map((e) => e.id)
         )
       );
 

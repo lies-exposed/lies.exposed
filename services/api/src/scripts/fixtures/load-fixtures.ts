@@ -144,7 +144,7 @@ const run = (): Promise<void> => {
                     EventV2Entity,
                     events.map((e) => ({
                       ...e,
-                      excerpt: e.excerpt as any,
+                      excerpt: e.excerpt,
                       type: UNCATEGORIZED.value,
                       payload: {
                         ...e.payload,
