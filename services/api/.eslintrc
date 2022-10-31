@@ -15,6 +15,7 @@
     }
   },
   "rules": {
-    "@typescript-eslint/restrict-plus-operands": ["off"]
+    "@typescript-eslint/restrict-plus-operands": ["off"],
+    "@typescript-eslint/no-unnecessary-type-assertion": ["off"]
   }
 }
