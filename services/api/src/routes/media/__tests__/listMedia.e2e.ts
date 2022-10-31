@@ -21,7 +21,6 @@ describe("List Media", () => {
       ...m,
       creator: undefined,
     }));
-    console.log(media[0]);
 
     await throwTE(Test.ctx.db.save(MediaEntity, media as any[]));
 
