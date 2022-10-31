@@ -1,12 +1,8 @@
 {
   "folders": [
     {
-      "name": "✨ liexp",
+      "name": "✨ lies.exposed",
       "path": "."
-    },
-    {
-      "name": "ci",
-      "path": ".github"
     },
     {
       "name": "📦 @liexp/core",
@@ -15,6 +11,10 @@
     {
       "name": "📦 @liexp/shared",
       "path": "packages/@liexp/shared"
+    },
+    {
+      "name": "📦 @liexp/test",
+      "path": "packages/@liexp/test"
     },
     {
       "name": "📦 @liexp/ui",
@@ -29,16 +29,20 @@
       "path": "services/api"
     },
     {
-      "name": "data",
-      "path": "services/data"
-    },
-    {
       "name": "storybook",
       "path": "services/storybook"
     },
     {
       "name": "🚀 web",
       "path": "services/web"
+    },
+    {
+      "name": "ci",
+      "path": ".github"
+    },
+    {
+      "name": "data",
+      "path": "services/data"
     }
   ],
   "settings": {

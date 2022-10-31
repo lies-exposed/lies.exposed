@@ -1,6 +1,6 @@
-import * as tests from "@liexp/core/tests";
 import { MediaArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import * as tests from "@liexp/test";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";
 

@@ -1,7 +1,7 @@
-import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { MediaArb, ProjectArb, AreaArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { loginUser, saveUser } from "../../../../test/user.utils";

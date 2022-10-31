@@ -1,4 +1,3 @@
-import { fc } from "@liexp/core/tests";
 import { URL } from "@liexp/shared/io/http/Common/URL";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
@@ -6,6 +5,7 @@ import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary"
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { PageArb } from "@liexp/shared/tests/arbitrary/Page.arbitrary";
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
+import { fc } from "@liexp/test";
 import { sequenceS } from "fp-ts/Apply";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";

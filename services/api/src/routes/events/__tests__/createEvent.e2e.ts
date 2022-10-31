@@ -1,9 +1,9 @@
-import { fc } from "@liexp/core/tests";
 import * as http from "@liexp/shared/io/http";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { CreateEventBodyArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { KeywordArb } from "@liexp/shared/tests/arbitrary/Keyword.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { fc } from "@liexp/test";
 import * as A from "fp-ts/Array";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";

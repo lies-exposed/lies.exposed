@@ -1,4 +1,4 @@
-import { fc } from "@liexp/core/tests";
+import { fc } from "@liexp/test";
 import { URLArb } from "../../../../tests/arbitrary/URL.arbitrary";
 import { URL } from "../URL";
 

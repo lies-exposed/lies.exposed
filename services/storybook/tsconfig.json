@@ -26,7 +26,8 @@
       "@liexp/shared/*": [
         "../../../packages/@liexp/shared/src/*"
       ],
-      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
+      "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"],
+      "@liexp/test": ["../../../packages/@liexp/ui/src/index"]
     }
   },
   "references": [

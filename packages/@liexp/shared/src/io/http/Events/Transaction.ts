@@ -1,5 +1,5 @@
+import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
-import { propsOmit } from "../../utils";
 import { BySubject } from "../Common/BySubject";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";

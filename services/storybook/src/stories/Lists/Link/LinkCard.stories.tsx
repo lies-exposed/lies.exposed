@@ -1,5 +1,5 @@
-import { fc } from "@liexp/core/tests";
 import { LinkArb } from "@liexp/shared/tests";
+import { fc } from "@liexp/test";
 import LinkCard, { LinkCardProps } from "@liexp/ui/components/Cards/LinkCard";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from 'react';

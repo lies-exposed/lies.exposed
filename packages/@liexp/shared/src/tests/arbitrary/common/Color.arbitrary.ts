@@ -1,4 +1,4 @@
-import { fc } from "@liexp/core/tests";
+import { fc } from "@liexp/test";
 import { Color } from "../../../io/http/Common/Color";
 
 export const ColorArb: fc.Arbitrary<Color> = fc.hexaString({

@@ -1,4 +1,4 @@
-import { fc } from "@liexp/core/tests";
+import { fc } from "@liexp/test";
 import { ActorArb, GroupArb, UncategorizedArb } from "../../../tests";
 import { KeywordArb } from "../../../tests/arbitrary/Keyword.arbitrary";
 import { createHierarchicalEdgeBundling } from "../createHierarchicalEdgeBundlingData";

@@ -1,6 +1,6 @@
+import { propsOmit } from "@liexp/core/io/utils";
 import * as t from 'io-ts';
 import { DateFromISOString, UUID } from 'io-ts-types';
-import { propsOmit } from '../utils';
 import { URL } from './Common';
 import { Death, Documentary, Event, Patent, ScientificStudy, Uncategorized } from './Events';
 

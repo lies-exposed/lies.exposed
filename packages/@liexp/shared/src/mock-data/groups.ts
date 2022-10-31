@@ -1,8 +1,8 @@
+import { fc } from "@liexp/test";
 import { subYears } from "date-fns";
-import fc from 'fast-check';
 import { Group } from "../io/http";
-import { createExcerptValue } from '../slate';
-import { HumanReadableStringArb } from '../tests/arbitrary/HumanReadableString.arbitrary';
+import { createExcerptValue } from "../slate";
+import { HumanReadableStringArb } from "../tests/arbitrary/HumanReadableString.arbitrary";
 import { generateRandomColor } from "../utils/colors";
 import { uuid } from "../utils/uuid";
 import { avatars } from "./avatars";
@@ -33,7 +33,9 @@ export const goodGroup: Group.Group = {
   color: generateRandomColor(),
   createdAt: now,
   updatedAt: now,
-  excerpt: createExcerptValue(fc.sample(HumanReadableStringArb(), 100).join(" ")),
+  excerpt: createExcerptValue(
+    fc.sample(HumanReadableStringArb(), 100).join(" ")
+  ),
   body: {},
 };
 

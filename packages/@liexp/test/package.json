@@ -1,0 +1,32 @@
+{
+  "name": "@liexp/test",
+  "version": "0.1.0",
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "tsc -b",
+    "watch": "tsc -b -w",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,md}\""
+  },
+  "dependencies": {
+    "fp-ts": "^2.13.1",
+    "io-ts": "^2.2.19",
+    "io-ts-types": "^0.5.19"
+  },
+  "devDependencies": {
+    "fast-check": "^2.25.0",
+    "fast-check-io-ts": "^0.5.0"
+  },
+  "peerDependencies": {
+    "debug": "^4.3.1"
+  },
+  "lint-staged": {
+    "**/*.(ts|tsx|js|jsx)": "eslint --fix",
+    "**/*.+(ts|tsx|js|jsx|json|css)": [
+      "prettier --write"
+    ]
+  }
+}

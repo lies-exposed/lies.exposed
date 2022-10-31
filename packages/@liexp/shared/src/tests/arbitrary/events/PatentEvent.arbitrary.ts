@@ -1,8 +1,7 @@
-import { fc } from "@liexp/core/tests";
-import { getArbitrary } from "fast-check-io-ts";
+import { propsOmit } from "@liexp/core/io/utils";
+import { fc, getArbitrary } from "@liexp/test";
 import * as t from "io-ts";
 import * as Events from "../../../io/http/Events";
-import { propsOmit } from "../../../io/utils";
 import { DateArb } from "../Date.arbitrary";
 import { URLArb } from "../URL.arbitrary";
 

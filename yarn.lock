@@ -2710,8 +2710,6 @@ __metadata:
     eslint: ^8.26.0
     eslint-plugin-import: ^2.26.0
     express: ^4.18.2
-    fast-check: ^2.25.0
-    fast-check-io-ts: ^0.5.0
     file-loader: ^6.2.0
     filemanager-webpack-plugin: ^6.1.7
     fp-ts: ^2.13.1
@@ -2776,6 +2774,20 @@ __metadata:
   peerDependencies:
     express: ^4.17.1
     puppeteer-core: ^10.2.0
+  languageName: unknown
+  linkType: soft
+
+"@liexp/test@workspace:packages/@liexp/test":
+  version: 0.0.0-use.local
+  resolution: "@liexp/test@workspace:packages/@liexp/test"
+  dependencies:
+    fast-check: ^2.25.0
+    fast-check-io-ts: ^0.5.0
+    fp-ts: ^2.13.1
+    io-ts: ^2.2.19
+    io-ts-types: ^0.5.19
+  peerDependencies:
+    debug: ^4.3.1
   languageName: unknown
   linkType: soft
 
@@ -8524,7 +8536,6 @@ __metadata:
     eslint-plugin-import: ^2.26.0
     express: ^4.18.2
     express-jwt: ^6.1.2
-    fast-check: ^2.25.0
     fast-csv: ^4.3.6
     form-data: ^4.0.0
     fp-ts: ^2.13.1

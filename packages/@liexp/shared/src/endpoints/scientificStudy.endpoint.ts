@@ -1,3 +1,4 @@
+import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
@@ -10,7 +11,6 @@ import {
   ScientificStudy,
 } from "../io/http/Events/ScientificStudy";
 import { GetListQuery } from "../io/http/Query";
-import { propsOmit } from "../io/utils";
 import { ResourceEndpoints } from "./types";
 
 const SingleStudyOutput = Output(ScientificStudy, "Death");
