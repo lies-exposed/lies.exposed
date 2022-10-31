@@ -71,6 +71,7 @@
   },
   "packageManager": "yarn@3.2.3",
   "resolutions": {
-    "terser": ">=5.14.2"
+    "terser": ">=5.14.2",
+    "webpack": "^5"
   }
 }
