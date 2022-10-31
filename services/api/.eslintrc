@@ -1,5 +1,6 @@
 {
   "extends": "../../.eslintrc",
+  "root": true,
   "parserOptions": {
     "tsconfigRootDir": "./",
     "project": [
