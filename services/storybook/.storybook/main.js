@@ -9,6 +9,7 @@ module.exports = {
     "@storybook/addon-actions",
     "@storybook/addon-docs",
     "@storybook/addon-controls",
+    "@storybook/builder-webpack5"
   ],
   stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
   typescript: {
