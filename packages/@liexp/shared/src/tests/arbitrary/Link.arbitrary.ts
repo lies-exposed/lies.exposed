@@ -12,6 +12,7 @@ const linksProps = propsOmit(http.Link.Link, [
   "url",
   "image",
   "publishDate",
+  "creator",
   "provider",
   "keywords",
   "events",
@@ -32,6 +33,7 @@ export const LinkArb: tests.fc.Arbitrary<http.Link.Link> = tests
     events: [],
     keywords: [],
     provider: undefined,
+    creator: undefined,
     createdAt: tests.fc.sample(DateArb, 1)[0],
     updatedAt: tests.fc.sample(DateArb, 1)[0],
   }));
