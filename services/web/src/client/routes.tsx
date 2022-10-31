@@ -53,6 +53,7 @@ const EventTemplate = React.lazy(() => import("./templates/EventTemplate"));
 const GroupTemplate = React.lazy(() => import("./templates/GroupTemplate"));
 const KeywordTemplate = React.lazy(() => import("./templates/KeywordTemplate"));
 const MediaTemplate = React.lazy(() => import("./templates/MediaTemplate"));
+const ProfilePage = React.lazy(() => import("./pages/ProfilePage"));
 
 const githubQuery = {
   queryKey: ["github", { user: "lies-exposed", repo: "lies.exposed" }],
