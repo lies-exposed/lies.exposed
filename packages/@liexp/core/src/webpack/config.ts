@@ -163,27 +163,31 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       }
     : {};
 
+  const entry = opts.entry ?? {
+    app: path.resolve(opts.cwd, "src/index.tsx"),
+  };
+
+  const entryKeys = Object.keys(entry);
+
   const config: webpack.Configuration = {
     mode,
     ...devServerConf,
     target: opts.target,
     context: opts.cwd,
-    entry: opts.entry ?? {
-      app: path.resolve(opts.cwd, "src/index.tsx"),
-    },
+    entry,
 
     output: {
       path: opts.output?.path ?? path.resolve(opts.cwd, "build"),
       publicPath: opts.output?.publicPath ?? "/",
       chunkFilename: (pathData) => {
-        return pathData.chunk?.name === "app"
+        return entryKeys.some((s) => s === pathData.chunk?.name)
           ? "[name].js"
-          : "[name].[hash].js";
+          : "[name].js";
       },
       filename: (pathData) => {
-        return pathData.chunk?.name === "app"
+        return entryKeys.some((s) => s === pathData.chunk?.name)
           ? "[name].js"
-          : "[name].[hash].js";
+          : "[name].js";
       },
       clean: true,
     },

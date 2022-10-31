@@ -120,7 +120,7 @@ export const MediaList: React.FC<ListProps> = (props) => {
 
   const isAdmin = checkIsAdmin(permissions);
 
-  const filter = isAdmin ? {} : { creator: identity?.id };
+  const filter = !isAdmin && identity?.id ? { creator: identity?.id } : {};
 
   return (
     <List

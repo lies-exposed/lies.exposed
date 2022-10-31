@@ -21,7 +21,7 @@
       "@providers/*": ["./providers/*"],
       "@utils/*": ["./utils/*"],
       "@liexp/core/*": ["../../core/src/*"],
-      "@liexp/test/*": ["../../test/src/*"]
+      "@liexp/test": ["../../test/src/index"]
     }
   },
   "references": [
