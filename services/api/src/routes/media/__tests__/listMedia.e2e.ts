@@ -17,16 +17,13 @@ describe("List Media", () => {
       id: "1",
     } as any)()}`;
 
-    media = tests.fc.sample(MediaArb, 100);
+    media = tests.fc.sample(MediaArb, 100).map((m) => ({
+      ...m,
+      creator: undefined,
+    }));
+    console.log(media[0]);
 
-    await throwTE(
-      Test.ctx.db.save(
-        MediaEntity,
-        media.map((a) => ({
-          ...(a as any),
-        }))
-      )
-    );
+    await throwTE(Test.ctx.db.save(MediaEntity, media as any[]));
 
     [event] = tests.fc.sample(UncategorizedArb, 1);
 
@@ -70,7 +67,7 @@ describe("List Media", () => {
       .query({ "events[]": event.id })
       .set("Authorization", authorizationToken);
 
-    const { updatedAt, createdAt, ...expectedMedia } = media[0];
+    const { updatedAt, createdAt, deletedAt, ...expectedMedia } = media[0] as any;
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toHaveLength(1);
