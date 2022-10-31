@@ -1,7 +1,17 @@
-import { MediaField } from '@liexp/ui/components/admin/common/MediaField';
-import RichTextInput from "@liexp/ui/components/admin/common/RichTextInput";
+import {
+  AdminCreate,
+  AdminDelete,
+  AdminEdit,
+  AdminRead,
+  EventSuggestionCreate,
+  EventSuggestionEdit,
+  EventSuggestionRead
+} from "@liexp/shared/io/http/User";
+import { AvatarField } from "@liexp/ui/components/admin/common/AvatarField";
+import { MediaField } from "@liexp/ui/components/admin/common/MediaField";
 import * as React from "react";
 import {
+  AutocompleteArrayInput,
   Create,
   CreateProps,
   Datagrid,
@@ -9,15 +19,13 @@ import {
   Edit,
   EditProps,
   FormTab,
-  ImageField,
-  ImageInput,
   List,
   ListProps,
   SimpleForm,
   TabbedForm,
   TextField,
-  useRecordContext,
   TextInput,
+  useRecordContext
 } from "react-admin";
 
 export const UserList: React.FC<ListProps> = (props) => (
@@ -27,6 +35,7 @@ export const UserList: React.FC<ListProps> = (props) => (
       <TextField source="lastName" />
       <TextField source="username" />
       <TextField source="email" />
+      <TextField source="permissions" />
       <DateField label="Updated At" source="updatedAt" showTime={true} />
       <DateField label="Created At" source="createdAt" showTime={true} />
     </Datagrid>
@@ -42,19 +51,15 @@ export const UserEdit: React.FC<EditProps> = (props) => (
   <Edit title={<EditTitle />} {...props}>
     <TabbedForm>
       <FormTab label="generals">
-        <MediaField source="avatar" type='image/jpeg' />
+        <AvatarField source="avatar" />
+        <MediaField source="avatar" type="image/jpeg" />
         <TextInput source="username" />
         <DateField source="createdAt" />
         <DateField source="updatedAt" />
       </FormTab>
-      <FormTab label="Avatar">
-        <ImageInput source="avatar">
-          <ImageField />
-        </ImageInput>
-      </FormTab>
 
       <FormTab label="Body">
-        <RichTextInput source="body" />
+        <TextField source="body" />
       </FormTab>
     </TabbedForm>
   </Edit>
@@ -67,6 +72,18 @@ export const UserCreate: React.FC<CreateProps> = (props) => (
       <TextInput source="lastName" />
       <TextInput source="username" />
       <TextInput source="email" />
+      <AutocompleteArrayInput
+        source="permissions"
+        choices={[
+          AdminDelete.value,
+          AdminEdit.value,
+          AdminCreate.value,
+          AdminRead.value,
+          EventSuggestionEdit.value,
+          EventSuggestionCreate.value,
+          EventSuggestionRead.value,
+        ].map((v) => ({ name: v, id: v }))}
+      />
       <TextInput type="password" source="password" />
     </SimpleForm>
   </Create>

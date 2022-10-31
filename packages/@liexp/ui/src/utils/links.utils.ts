@@ -19,10 +19,23 @@ export const getAdminLink = <K extends io.http.ResourcesNames>(
   }
 };
 
+export const getProfileLink = (
+  key: io.http.ResourcesNames,
+  f: { id: string }
+): string => {
+  switch (key) {
+    case "events/suggestions": {
+      return `/profile/${key}/${f.id}`;
+    }
+    default:
+      return `/profile`;
+  }
+};
+
 export const navigateTo = async <K extends io.http.ResourcesNames>(
   nav: NavigateFn,
   resourceName: K,
-  f: { id: string }
+  f: { path?: string; id: string }
 ): Promise<void> => {
   switch (resourceName) {
     case `articles`:
@@ -32,6 +45,25 @@ export const navigateTo = async <K extends io.http.ResourcesNames>(
     case "projects":
     case "groups": {
       await nav(`/${resourceName}/${f.id}`);
+      break;
+    }
+    case "profile": {
+      await nav(`/profile/${f.path}/${f.id}`);
+      break;
+    }
+    default:
+      await Promise.resolve(undefined);
+  }
+};
+
+export const navigateToProfile = async (
+  nav: NavigateFn,
+  resourceName: io.http.ResourcesNames,
+  f: { id: string }
+): Promise<void> => {
+  switch (resourceName) {
+    case "events/suggestions": {
+      await nav(`/profile/${resourceName}/${f.id}`);
       break;
     }
     default:

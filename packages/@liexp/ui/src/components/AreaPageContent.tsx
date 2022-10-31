@@ -33,7 +33,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({ area }) => {
       <Grid item>
         <div style={{ textAlign: "right", margin: 10 }}>
           <div style={{ textAlign: "right", padding: 10 }}>
-            <EditButton resourceName="areas" resource={area} />
+            <EditButton admin={true} resourceName="areas" resource={area} />
           </div>
         </div>
         <Typography variant="h3">{area.label}</Typography>

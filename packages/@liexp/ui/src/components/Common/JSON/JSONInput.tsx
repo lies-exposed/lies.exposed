@@ -26,7 +26,8 @@ const JSONInput: React.FC<JSONInputProps> = ({
       if (typeof window !== "undefined") {
         return require("react-json-view");
       }
-      return (p: any) => <div />;
+      // eslint-disable-next-line react/display-name
+      return () => <div />;
     }, [typeof window !== "undefined"]);
 
   const [json, setJSON] = React.useState(value);

@@ -174,6 +174,7 @@ const extractByProvider =
                     description: l.description,
                     publishDate: l.publishDate ?? undefined,
                     provider: l.provider as any,
+                    creator: l.creator?.id,
                     url: l.url,
                     image: undefined,
                     keywords: [],

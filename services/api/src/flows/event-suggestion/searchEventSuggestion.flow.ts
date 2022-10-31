@@ -15,6 +15,7 @@ interface SearchEventSuggestionFilter {
   order: Record<string, "ASC" | "DESC">;
   skip: number;
   take: number;
+  createdBy: O.Option<UUID>;
 }
 
 export const searchEventSuggestion =
@@ -22,6 +23,7 @@ export const searchEventSuggestion =
   ({
     skip,
     take,
+    createdBy,
     ...filter
   }: SearchEventSuggestionFilter): TE.TaskEither<
     ControllerError,
@@ -32,7 +34,8 @@ export const searchEventSuggestion =
     const query = pipe(
       ctx.db.manager
         .createQueryBuilder(EventSuggestionEntity, "eventSuggestion")
-        .select(),
+        .select()
+        .leftJoinAndSelect("eventSuggestion.createdBy", "createdBy"),
       (q) => {
         if (O.isSome(filter.status)) {
           q.where("status IN (:...status)", { status: filter.status.value });
@@ -54,6 +57,12 @@ export const searchEventSuggestion =
               links: filter.newLinks.value,
             }
           );
+        }
+
+        if (O.isSome(createdBy)) {
+          q.andWhere(`createdBy.id = :createdBy`, {
+            createdBy: createdBy.value,
+          });
         }
         return q;
       },

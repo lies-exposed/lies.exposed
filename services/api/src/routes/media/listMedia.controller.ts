@@ -15,7 +15,15 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(
     Endpoints.Media.List,
     ({
-      query: { events, ids, description, type: _type, emptyEvents, ...query },
+      query: {
+        events,
+        ids,
+        description,
+        type: _type,
+        emptyEvents,
+        creator,
+        ...query
+      },
     }) => {
       const findOptions = getORMOptions(
         { ...query },
@@ -41,7 +49,8 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
           .getRepository(MediaEntity)
           .createQueryBuilder("media")
           .leftJoinAndSelect("media.events", "events")
-          .leftJoinAndSelect("media.links", "links"),
+          .leftJoinAndSelect("media.links", "links")
+          .loadAllRelationIds({ relations: ["creator"] }),
         (q) => {
           let hasWhere = false;
           if (O.isSome(description)) {
@@ -57,6 +66,14 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
               ids: ids.value,
             });
             hasWhere = true;
+          }
+
+          if (O.isSome(creator)) {
+            const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+            where("media.creator = :creator", {
+              creator: creator.value,
+            });
+            return q;
           }
 
           if (O.isSome(type)) {
@@ -122,11 +139,8 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             }))
           )
         ),
-        TE.map(({ data, total }) => ({
-          body: {
-            data,
-            total,
-          },
+        TE.map((body) => ({
+          body,
           statusCode: 200,
         }))
       );

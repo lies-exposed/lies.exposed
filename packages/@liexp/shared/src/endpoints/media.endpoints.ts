@@ -1,5 +1,6 @@
 import * as t from "io-ts";
-import { BooleanFromString, UUID } from "io-ts-types";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
+import { UUID } from "io-ts-types/lib/UUID";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { Media } from "../io/http";
@@ -23,6 +24,7 @@ export const List = Endpoint({
         ids: optionFromNullable(t.array(t.string)),
         description: optionFromNullable(t.string),
         emptyEvents: optionFromNullable(BooleanFromString),
+        creator: optionFromNullable(UUID),
       },
       "MediaListQuery"
     ),

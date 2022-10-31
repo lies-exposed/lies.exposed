@@ -1,5 +1,5 @@
-import { URL } from '@liexp/shared/io/http/Common';
-import { UUID } from 'io-ts-types';
+import { URL } from "@liexp/shared/io/http/Common";
+import { UUID } from "io-ts-types";
 import {
   Column,
   CreateDateColumn,
@@ -8,12 +8,14 @@ import {
   Index,
   JoinColumn,
   ManyToMany,
-  ManyToOne, PrimaryGeneratedColumn,
-  UpdateDateColumn
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity";
 import { KeywordEntity } from "./Keyword.entity";
 import { MediaEntity } from "./Media.entity";
+import { UserEntity } from "./User.entity";
 
 @Entity("link")
 @Index(["url"], { unique: true })
@@ -39,6 +41,9 @@ export class LinkEntity {
 
   @Column({ type: "varchar", nullable: true })
   provider: string;
+
+  @ManyToOne(() => UserEntity, (u) => u.links, { nullable: true, cascade: false })
+  creator: UserEntity | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.links, { cascade: false })
   events: EventV2Entity[];

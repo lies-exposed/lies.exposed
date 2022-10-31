@@ -6,13 +6,15 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
 import { AreaEntity } from "./Area.entity";
 import { EventV2Entity } from "./Event.v2.entity";
 import { LinkEntity } from "./Link.entity";
+import { UserEntity } from "./User.entity";
 
 @Entity("image")
 export class MediaEntity {
@@ -34,6 +36,9 @@ export class MediaEntity {
     default: MediaType.types[0].value,
   })
   type: MediaType;
+
+  @ManyToOne(() => UserEntity, (u) => u.media, { nullable: true, cascade: false })
+  creator: UserEntity | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, { cascade: false })
   events: EventV2Entity[];

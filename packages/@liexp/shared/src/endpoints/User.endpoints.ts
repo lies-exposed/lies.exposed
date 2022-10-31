@@ -1,4 +1,6 @@
 import * as t from "io-ts";
+import { UUID } from "io-ts-types/lib/UUID";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { GetListQuery } from "../io/http/Query";
 import { User, UserPermission } from "../io/http/User";
@@ -44,11 +46,23 @@ export const UserGet = Endpoint({
   Output: t.strict({ data: t.array(User), total: t.number }),
 });
 
+export const GetUserMe = Endpoint({
+  Method: "GET",
+  getPath: () => `/users/me`,
+  Input: {
+    Query: GetListQuery,
+  },
+  Output: User,
+});
+
 export const UserList = Endpoint({
   Method: "GET",
   getPath: () => "/users",
   Input: {
-    Query: GetListQuery,
+    Query: t.type({
+      ...GetListQuery.props,
+      ids: optionFromNullable(t.array(UUID)),
+    }),
   },
   Output: t.strict({ data: t.array(User), total: t.number }),
 });
@@ -70,5 +84,7 @@ export const users = ResourceEndpoints({
     getPath: () => `/users`,
     Output: t.undefined,
   }),
-  Custom: {},
+  Custom: {
+    GetUserMe,
+  },
 });

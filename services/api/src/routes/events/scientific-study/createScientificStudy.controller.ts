@@ -5,7 +5,7 @@ import {
 } from "@liexp/shared/io/http/Events/ScientificStudy";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
-import { UUID } from "io-ts-types";
+import { UUID } from "io-ts-types/lib/UUID";
 import { Equal } from "typeorm";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { createEventFromURL } from "@flows/events/scientific-studies/createFromURL.flow";

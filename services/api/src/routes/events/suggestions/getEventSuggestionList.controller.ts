@@ -1,5 +1,6 @@
 import { AddEndpoint, Endpoints } from "@liexp/shared/endpoints";
 import { EventSuggestion } from "@liexp/shared/io/http";
+import { EventSuggestionRead, User } from "@liexp/shared/io/http/User";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import * as O from "fp-ts/Option";
@@ -8,12 +9,14 @@ import { pipe } from "fp-ts/function";
 import { toEventSuggestion } from "./eventSuggestion.io";
 import { searchEventSuggestion } from "@flows/event-suggestion/searchEventSuggestion.flow";
 import { Route } from "@routes/route.types";
+import { authenticationHandler } from "@utils/authenticationHandler";
 import { foldOptionals } from "@utils/foldOptionals.utils";
 
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(
+  AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:read"]))(
     Endpoints.Event.Custom.GetSuggestions,
-    ({ query: { status, links, _order, _sort, _start, _end } }) => {
+    ({ query: { status, links, _order, _sort, _start, _end } }, { user }) => {
+      const u: User = user as any;
       const ordering = foldOptionals({
         _sort,
         _order,
@@ -29,6 +32,12 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           )
         );
 
+      const createdBy = [EventSuggestionRead.value].some((p) =>
+        u.permissions.includes(p)
+      )
+        ? O.some(u.id)
+        : O.none;
+
       return pipe(
         searchEventSuggestion(ctx)({
           status: statusFilter,
@@ -37,6 +46,7 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           order: {
             [ordering._sort]: ordering._order,
           },
+          createdBy,
           skip: O.getOrElse(() => 0)(_start),
           take: O.getOrElse(() => 20)(_end),
         }),

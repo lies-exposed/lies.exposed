@@ -6,9 +6,13 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { EventSuggestionEntity } from "./EventSuggestion.entity";
+import { LinkEntity } from "./Link.entity";
+import { MediaEntity } from './Media.entity';
 
 @Entity("user")
 export class UserEntity {
@@ -33,6 +37,18 @@ export class UserEntity {
 
   @Column({ type: "json", default: [] })
   permissions: UserPermission[];
+
+  @OneToMany(() => EventSuggestionEntity, (e) => e.createdBy, {
+    cascade: false,
+    nullable: true,
+  })
+  eventSuggestions: EventSuggestionEntity[];
+
+  @OneToMany(() => LinkEntity, (l) => l.creator)
+  links: LinkEntity[];
+
+  @OneToMany(() => MediaEntity, (l) => l.creator)
+  media: MediaEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -33,8 +33,13 @@ const dataMenuItem = {
     },
   ],
 };
+const profileMenuItem: HeaderMenuItem = {
+  view: "/profile",
+  label: "Profile",
+  subItems: []
+};
 
-export const mainMenu: HeaderMenuItem[] = [dataMenuItem];
+export const mainMenu: HeaderMenuItem[] = [dataMenuItem, profileMenuItem];
 
 const AppHeader: React.FC = () => {
   const navigateTo = useNavigateTo();

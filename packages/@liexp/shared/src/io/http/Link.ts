@@ -8,6 +8,7 @@ export const CreateLink = t.strict(
   {
     url: URL,
     publishDate: t.union([DateFromISOString, t.undefined], "PublishDate"),
+    description: t.union([t.string, t.undefined]),
     events: t.array(UUID),
   },
   "CreateLink"
@@ -22,6 +23,7 @@ export const EditLink = t.strict(
     keywords: t.array(UUID),
     provider: t.union([UUID, t.undefined]),
     events: t.array(UUID),
+    creator: optionFromUndefined(UUID),
     overrideThumbnail: optionFromUndefined(t.boolean),
   },
   "EditLinkBody"
@@ -53,6 +55,7 @@ export const Link = t.strict(
     ),
     keywords: t.array(UUID),
     provider: t.union([UUID, t.undefined]),
+    creator: t.union([UUID, t.undefined]),
     events: t.array(UUID),
     createdAt: DateFromISOString,
     updatedAt: DateFromISOString,
