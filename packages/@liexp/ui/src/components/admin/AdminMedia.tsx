@@ -3,8 +3,8 @@ import { MediaType } from "@liexp/shared/io/http/Media";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import * as E from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
 import * as TE from "fp-ts/TaskEither";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import {
   BooleanInput,
@@ -35,8 +35,8 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { checkIsAdmin } from "../../utils/user.utils";
 import { uploadFile } from "../../client/admin/MediaAPI";
+import { checkIsAdmin } from "../../utils/user.utils";
 import { CreateEventFromMediaButton } from "../admin/common/CreateEventFromMediaButton";
 import { EditForm } from "../admin/common/EditForm";
 import { MediaField } from "../admin/common/MediaField";

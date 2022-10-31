@@ -1,5 +1,5 @@
-import { pipe } from "fp-ts/function";
 import * as O from "fp-ts/Option";
+import { pipe } from "fp-ts/function";
 import * as React from "react";
 import { styled } from "../theme";
 import DonateButton from "./Common/Button/DonateButton";
