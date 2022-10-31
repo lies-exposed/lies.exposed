@@ -1,7 +1,7 @@
 import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { UUID } from "io-ts-types/lib/UUID";
 import { URL } from "./Common";
 import {
   Death,
