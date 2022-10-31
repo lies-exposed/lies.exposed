@@ -174,7 +174,17 @@ const getConfig = <A extends Record<string, t.Mixed>>(
     output: {
       path: opts.output?.path ?? path.resolve(opts.cwd, "build"),
       publicPath: opts.output?.publicPath ?? "/",
-      filename: "[name].js",
+      chunkFilename: (pathData) => {
+        return pathData.chunk?.name === "app"
+          ? "[name].js"
+          : "[name].[hash].js";
+      },
+      filename: (pathData) => {
+        return pathData.chunk?.name === "app"
+          ? "[name].js"
+          : "[name].[hash].js";
+      },
+      clean: true,
     },
     // optimization,
     module: {
@@ -223,7 +233,6 @@ const getConfig = <A extends Record<string, t.Mixed>>(
       plugins: [new TsconfigPathsPlugin({}) as any],
       modules: [
         "node_modules",
-        // path.resolve(opts.cwd, "../../packages"),
         path.resolve(opts.cwd),
       ],
     },
