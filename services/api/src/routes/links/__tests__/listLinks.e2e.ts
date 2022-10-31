@@ -1,7 +1,7 @@
-import * as tests from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { LinkArb, UncategorizedArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import * as tests from "@liexp/test";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 import { LinkEntity } from "@entities/Link.entity";
@@ -20,7 +20,9 @@ describe("List Links", () => {
       keywords: [],
     }));
 
-    links = await throwTE<any, any>(Test.ctx.db.save(LinkEntity, links as any[]));
+    links = await throwTE<any, any>(
+      Test.ctx.db.save(LinkEntity, links as any[])
+    );
   });
 
   afterAll(async () => {
@@ -64,7 +66,7 @@ describe("List Links", () => {
       await throwTE(
         Test.ctx.db.delete(
           EventV2Entity,
-          events.map((e) => e.id as any)
+          events.map((e) => e.id)
         )
       );
 
@@ -94,7 +96,7 @@ describe("List Links", () => {
       await throwTE(
         Test.ctx.db.delete(
           EventV2Entity,
-          events.map((e) => e.id as any)
+          events.map((e) => e.id)
         )
       );
 

@@ -28,6 +28,9 @@
       "path": "./packages/@liexp/shared"
     },
     {
+      "path": "./packages/@liexp/test"
+    },
+    {
       "path": "./packages/@liexp/ui"
     }
   ]

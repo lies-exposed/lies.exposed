@@ -23,9 +23,10 @@
     "build": "yarn workspaces foreach -v run build",
     "test:spec": "jest spec",
     "test:e2e": "NODE_ENV=test jest e2e",
-    "test": "jest",
+    "jest": "jest",
     "core": "yarn workspace @liexp/core",
     "shared": "yarn workspace @liexp/shared",
+    "test": "yarn workspace @liexp/test",
     "ui": "yarn workspace @liexp/ui",
     "api": "yarn workspace api",
     "data": "yarn workspace data",
@@ -44,8 +45,8 @@
     "node": ">= 14"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
     "@types/prettier": "^2.7.1",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",

@@ -1,6 +1,6 @@
+import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID";
-import { propsOmit } from "../../utils";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 import { GetSearchEventsQuery } from "./SearchEventsQuery";
 

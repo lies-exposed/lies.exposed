@@ -1,8 +1,8 @@
+import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { Events } from "../../io/http";
 import { ListOutput, Output } from "../../io/http/Common/Output";
-import { propsOmit } from "../../io/utils";
 import { ResourceEndpoints } from "../types";
 
 const SingleTransactionOutput = Output(

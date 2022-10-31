@@ -1,7 +1,7 @@
-import { fc } from "@liexp/core/tests";
 import { http } from "@liexp/shared/io";
 import { MediaArb, ProjectArb } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { fc } from "@liexp/test";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
 import { AppTest, initAppTest } from "../../../../test/AppTest";

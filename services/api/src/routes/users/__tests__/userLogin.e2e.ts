@@ -1,6 +1,6 @@
-import { fc } from "@liexp/core/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { fc } from "@liexp/test";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { AppTest, initAppTest } from "../../../../test/AppTest";

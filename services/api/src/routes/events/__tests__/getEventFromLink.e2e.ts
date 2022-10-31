@@ -5,7 +5,7 @@ import {
   UncategorizedArb,
 } from "@liexp/shared/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
-import fc from "fast-check";
+import { fc } from "@liexp/test";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { EventV2Entity } from "@entities/Event.v2.entity";

@@ -1,4 +1,4 @@
-import * as tests from "@liexp/core/tests";
+import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../io/http";
 

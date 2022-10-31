@@ -23,6 +23,7 @@
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"],
       "@liexp/core/*": ["../../../packages/@liexp/core/src/*"],
+      "@liexp/test/*": ["../../../packages/@liexp/test/src/*"],
       "@liexp/shared/*": ["../../../packages/@liexp/shared/src/*"],
       "@liexp/ui/*": ["../../../packages/@liexp/ui/src/*"]
     }
@@ -33,6 +34,9 @@
     },
     {
       "path": "../../packages/@liexp/shared"
+    },
+    {
+      "path": "../../packages/@liexp/test"
     },
     {
       "path": "../../packages/@liexp/ui"

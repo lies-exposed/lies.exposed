@@ -1,6 +1,6 @@
-import { fc } from "@liexp/core/tests";
 import { PatentEventArb } from "@liexp/shared/tests/arbitrary/events/PatentEvent.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { fc } from "@liexp/test";
 import { AppTest, initAppTest } from "../../../../../test/AppTest";
 import { EventV2Entity } from "@entities/Event.v2.entity";
 

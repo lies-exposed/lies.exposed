@@ -1,5 +1,5 @@
-import { fc } from "@liexp/core/tests";
 import { LinkArb } from "@liexp/shared/tests";
+import { fc } from "@liexp/test/index";
 import { LinksList, LinksListProps } from "@liexp/ui/components/lists/LinkList";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import * as React from 'react';
@@ -18,7 +18,7 @@ const Template: Story<LinksListProps> = (props) => {
 const LinkCardExample = Template.bind({});
 
 const args: LinksListProps = {
-  links: fc.sample(LinkArb, 10).map((l) => ({ ...l, selected: false })),
+  links: fc.sample(LinkArb, 10).map((l: any) => ({ ...l, selected: false })),
   column: 2,
   onItemClick: () => undefined,
 };

@@ -1,4 +1,4 @@
-import { fc } from "@liexp/core/tests";
+import { fc } from "@liexp/test";
 import * as E from "fp-ts/Either";
 import * as t from "io-ts";
 import { TagArb } from "../../../../tests/arbitrary/Keyword.arbitrary";

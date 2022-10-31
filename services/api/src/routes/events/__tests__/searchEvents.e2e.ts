@@ -1,9 +1,9 @@
-import { fc } from "@liexp/core/tests";
 import { GroupMemberArb } from "@liexp/shared/tests";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { UncategorizedArb } from "@liexp/shared/tests/arbitrary/Event.arbitrary";
 import { GroupArb } from "@liexp/shared/tests/arbitrary/Group.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { fc } from "@liexp/test";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
 import jwt from "jsonwebtoken";
@@ -91,14 +91,14 @@ describe("Search Events", () => {
       }))
     );
 
-    const events = [
+    const events: any[] = [
       ...groupMemberEvents,
       ...firstActorEvents,
       ...secondActorEvents,
       ...groupEvents,
     ];
 
-    await throwTE(appTest.ctx.db.save(EventV2Entity, events as any[]));
+    await throwTE(appTest.ctx.db.save(EventV2Entity, events));
 
     totalEvents = await throwTE(appTest.ctx.db.count(EventV2Entity));
 

@@ -1,6 +1,6 @@
-import { fc } from "@liexp/core/tests";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
+import { fc } from "@liexp/test";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { UserEntity } from "@entities/User.entity";
 import { hash } from "@utils/password.utils";

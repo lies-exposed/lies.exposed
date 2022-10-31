@@ -20,12 +20,16 @@
       "@mock-data/*": ["./mock-data/*"],
       "@providers/*": ["./providers/*"],
       "@utils/*": ["./utils/*"],
-      "@liexp/core/*": ["../../core/src/*"]
+      "@liexp/core/*": ["../../core/src/*"],
+      "@liexp/test/*": ["../../test/src/*"]
     }
   },
   "references": [
     {
       "path": "../core"
+    },
+    {
+      "path": "../test"
     }
   ],
   "include": ["./src", "./typings", "src/**/*.json"],

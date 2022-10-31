@@ -1,4 +1,4 @@
-import { fc } from "@liexp/core/tests";
+import { fc } from "@liexp/test";
 import { DateArb } from "./Date.arbitrary";
 import { getRandomInt, name1 } from "./HumanReadableString.arbitrary";
 import { ColorArb } from "./common/Color.arbitrary";

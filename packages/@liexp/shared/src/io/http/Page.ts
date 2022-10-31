@@ -1,5 +1,5 @@
+import { propsOmit } from "@liexp/core/io/utils";
 import * as t from "io-ts";
-import { propsOmit } from "../utils";
 import { BaseProps } from "./Common/BaseProps";
 
 export const Page = t.strict(

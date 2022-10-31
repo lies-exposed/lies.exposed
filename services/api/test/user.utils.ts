@@ -3,7 +3,7 @@ import { UserPermission } from "@liexp/shared/io/http/User";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
 import { hash } from "@utils/password.utils";
-import fc from "fast-check";
+import { fc } from "@liexp/test";
 import { AppTest } from "./AppTest";
 
 export const loginUser =

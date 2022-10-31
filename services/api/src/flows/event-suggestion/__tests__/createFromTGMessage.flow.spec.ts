@@ -5,11 +5,11 @@ import { HumanReadableStringArb } from "@liexp/shared/tests/arbitrary/HumanReada
 import { URLArb } from "@liexp/shared/tests/arbitrary/URL.arbitrary";
 import {
   TGMessageArb,
-  TGPhotoArb
+  TGPhotoArb,
 } from "@liexp/shared/tests/arbitrary/common/TGMessage.arb";
 import { throwTE } from "@liexp/shared/utils/task.utils";
 import { uuid } from "@liexp/shared/utils/uuid";
-import * as fc from "fast-check";
+import { fc } from "@liexp/test";
 import { pipe } from "fp-ts/function";
 import { Equal } from "typeorm";
 import { AppTest, initAppTest } from "../../../../test/AppTest";

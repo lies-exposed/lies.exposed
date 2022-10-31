@@ -3,7 +3,7 @@ import { defaultSites } from "@liexp/shared/scrapers/defaultSites";
 import { searchWithGoogle } from "@liexp/shared/scrapers/searchLinksWithGoogle";
 import { Router } from "express";
 import * as A from "fp-ts/Array";
-import * as O from 'fp-ts/Option';
+import * as O from "fp-ts/Option";
 import * as Ord from "fp-ts/Ord";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -50,10 +50,7 @@ export const SearchEventsFromProviderRoute = (
             }),
             A.sequence(TE.ApplicativeSeq),
             TE.chainFirst(() => {
-              return TE.tryCatch(
-                async () => await browser.close(),
-                toControllerError
-              );
+              return TE.tryCatch(() => browser.close(), toControllerError);
             })
           )
         )

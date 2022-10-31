@@ -1,12 +1,21 @@
 {
   "extends": "../../.eslintrc",
+  "root": true,
   "parserOptions": {
     "tsconfigRootDir": "./",
     "project": [
-      "./tsconfig.test.json"
+      "./tsconfig.json"
     ]
   },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
+    }
+  },
   "rules": {
-    "@typescript-eslint/restrict-plus-operands": ["off"]
+    "@typescript-eslint/restrict-plus-operands": ["off"],
+    "@typescript-eslint/no-unnecessary-type-assertion": ["off"]
   }
 }

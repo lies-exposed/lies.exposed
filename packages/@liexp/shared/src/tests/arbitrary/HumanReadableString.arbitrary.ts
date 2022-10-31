@@ -1,4 +1,4 @@
-import { fc } from "@liexp/core/tests";
+import { fc } from "@liexp/test";
 
 function capFirst(word: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1);

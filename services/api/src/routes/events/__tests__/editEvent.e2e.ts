@@ -1,4 +1,3 @@
-import { fc } from "@liexp/core/tests";
 import * as http from "@liexp/shared/io/http";
 import { ActorArb } from "@liexp/shared/tests/arbitrary/Actor.arbitrary";
 import { AreaArb } from "@liexp/shared/tests/arbitrary/Area.arbitrary";
@@ -8,6 +7,7 @@ import { LinkArb } from "@liexp/shared/tests/arbitrary/Link.arbitrary";
 import { MediaArb } from "@liexp/shared/tests/arbitrary/Media.arbitrary";
 import { UserArb } from "@liexp/shared/tests/arbitrary/User.arbitrary";
 import { throwTE } from "@liexp/shared/utils/task.utils";
+import { fc } from "@liexp/test";
 import { AppTest, initAppTest } from "../../../../test/AppTest";
 import { ActorEntity } from "@entities/Actor.entity";
 import { AreaEntity } from "@entities/Area.entity";

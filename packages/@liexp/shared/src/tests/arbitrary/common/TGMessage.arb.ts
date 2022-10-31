@@ -1,4 +1,4 @@
-import { fc } from "@liexp/core/tests";
+import { fc } from "@liexp/test";
 import TelegramBot from "node-telegram-bot-api";
 
 export const TGFromArb = fc.record({
