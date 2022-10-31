@@ -39,6 +39,9 @@
     },
     {
       "path": "../../packages/@liexp/ui"
+    },
+    {
+      "path": "../../packages/@liexp/test"
     }
   ],
   "include": ["./src"],
