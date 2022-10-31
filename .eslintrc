@@ -14,7 +14,7 @@
       "./packages/@liexp/shared/tsconfig.test.json",
       "./packages/@liexp/ui/tsconfig.test.json",
       "./services/admin-web/tsconfig.json",
-      "./services/api/tsconfig.test.json",
+      "./services/api/tsconfig.json",
       "./services/web/tsconfig.json"
     ]
   },

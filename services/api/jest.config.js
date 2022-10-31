@@ -17,7 +17,7 @@ module.exports = {
   displayName: 'api',
   globals: {
     "ts-jest": {
-      tsconfig: __dirname + "/tsconfig.test.json",
+      tsconfig: __dirname + "/tsconfig.json",
       isolatesModules: true,
     },
   },

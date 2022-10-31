@@ -91,14 +91,14 @@ describe("Search Events", () => {
       }))
     );
 
-    const events = [
+    const events: any[] = [
       ...groupMemberEvents,
       ...firstActorEvents,
       ...secondActorEvents,
       ...groupEvents,
     ];
 
-    await throwTE(appTest.ctx.db.save(EventV2Entity, events as any[]));
+    await throwTE(appTest.ctx.db.save(EventV2Entity, events));
 
     totalEvents = await throwTE(appTest.ctx.db.count(EventV2Entity));
 
