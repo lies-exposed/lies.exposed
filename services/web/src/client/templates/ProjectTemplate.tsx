@@ -1,12 +1,11 @@
-import { eventMetadataMapEmpty } from "@liexp/shared/mock-data/events/events-metadata";
 import { MainContent } from "@liexp/ui/components/MainContent";
 import { ProjectPageContent } from "@liexp/ui/components/ProjectPageContent";
 import QueriesRenderer from "@liexp/ui/components/QueriesRenderer";
 import SEO from "@liexp/ui/components/SEO";
 import { useProjectQuery } from "@liexp/ui/state/queries/DiscreteQueries";
 import { RouteComponentProps } from "@reach/router";
-import * as O from "fp-ts/Option";
 import { pipe } from "fp-ts/function";
+import * as O from "fp-ts/Option";
 import * as React from "react";
 
 export default class ProjectTemplate extends React.PureComponent<
@@ -29,7 +28,15 @@ export default class ProjectTemplate extends React.PureComponent<
                 />
                 <ProjectPageContent
                   {...project}
-                  metadata={eventMetadataMapEmpty}
+                  metadata={{
+                    Protest: [],
+                    Condemned: [],
+                    Arrest: [],
+                    Death: [],
+                    PublicAnnouncement: [],
+                    Uncategorized: [],
+                    Transaction: [],
+                  }}
                 />
               </MainContent>
             )}
