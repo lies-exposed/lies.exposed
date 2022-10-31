@@ -139,11 +139,8 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
             }))
           )
         ),
-        TE.map(({ data, total }) => ({
-          body: {
-            data,
-            total,
-          },
+        TE.map((body) => ({
+          body,
           statusCode: 200,
         }))
       );

@@ -66,12 +66,16 @@ describe("List Media", () => {
       .query({ "events[]": event.id })
       .set("Authorization", authorizationToken);
 
-    const { updatedAt, createdAt, deletedAt, ...expectedMedia } = media[0] as any;
+    const { updatedAt, createdAt, deletedAt, ...expectedMedia } =
+      media[0] as any;
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toHaveLength(1);
     expect(response.body.total).toBe(1);
-    expect(response.body.data[0]).toMatchObject({
+    expect({
+      ...response.body.data[0],
+      creator: response.body.data[0].creator,
+    }).toMatchObject({
       ...expectedMedia,
       events: [event.id],
     });
