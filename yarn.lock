@@ -6728,10 +6728,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-cron@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "@types/node-cron@npm:3.0.4"
-  checksum: 52d87ca7b64a941a2bfcca56dd823456d0cefacdfbfbed1c5d6ba92c8d60205ad0d42d14f676f96b12cc715f671a0392d82e82b79dda7e943398c996f86d2e33
+"@types/node-cron@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "@types/node-cron@npm:3.0.5"
+  checksum: 40347212fad2b1a82b0590edc6c031ccbb173c3d7e3e01e587268deb78865270d70e6a6e2f54de6a92e666fdde00ce56cc1714578edd2af3c302dcc86b7f7c3c
   languageName: node
   linkType: hard
 
@@ -6745,13 +6745,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-telegram-bot-api@npm:^0.57.5":
-  version: 0.57.5
-  resolution: "@types/node-telegram-bot-api@npm:0.57.5"
+"@types/node-telegram-bot-api@npm:^0.57.6":
+  version: 0.57.6
+  resolution: "@types/node-telegram-bot-api@npm:0.57.6"
   dependencies:
     "@types/node": "*"
     "@types/request": "*"
-  checksum: 89eaa513731e43a2c45ab80d7f37b60bf434427b4fefcedab4ce59e6a73ba0a4a91022529b9aa8771e3e7cd43bcae85e497284c00d7186e845bbc54796fce55c
+  checksum: dc2f38305599450a8c122755628465c91ad4b51379dc1239653bf56ebe951f0b385e5e7a63a4423729c409c1f6a6aa62bcac3c27b02069916f2714a0c2695786
   languageName: node
   linkType: hard
 
@@ -6769,10 +6769,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0, @types/node@npm:^16.11.66":
+"@types/node@npm:^14.0.10 || ^16.0.0, @types/node@npm:^14.14.20 || ^16.0.0":
   version: 16.11.66
   resolution: "@types/node@npm:16.11.66"
   checksum: bf190db14d1f32ab10588dd1a1e30bb2e9ba9b78281fce7a81fa80d914f9b3203d48cf1c6a8f96ef6b0edbba281478d2c68d6ebb7719c896f2dd62429c64ef09
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.18.3":
+  version: 16.18.3
+  resolution: "@types/node@npm:16.18.3"
+  checksum: 6b8ba2ea5d842f7986e366cb9184c54d273d492784dc62e08fd5afeae938d9b61aec6e4222d2541cd18f9b1412ba361bbcb3f4204fb003608af80a2a6af959f9
   languageName: node
   linkType: hard
 
@@ -8189,7 +8196,7 @@ __metadata:
     "@types/debug": ^4.1.7
     "@types/jest": ^27.5.2
     "@types/lodash": ^4.14.186
-    "@types/node": ^16.11.66
+    "@types/node": ^16.18.3
     "@types/prettier": ^2.7.1
     "@types/react": ^17.0.50
     "@types/react-dom": ^17.0.17
@@ -8528,9 +8535,9 @@ __metadata:
     "@types/jsonwebtoken": ^8.5.9
     "@types/module-alias": ^2.0.1
     "@types/multer": ^1.4.7
-    "@types/node": ^16.11.66
-    "@types/node-cron": ^3.0.4
-    "@types/node-telegram-bot-api": ^0.57.5
+    "@types/node": ^16.18.3
+    "@types/node-cron": ^3.0.5
+    "@types/node-telegram-bot-api": ^0.57.6
     "@types/pg": ^8.6.5
     "@types/supertest": ^2.0.12
     "@types/uuid": ^8.3.4
