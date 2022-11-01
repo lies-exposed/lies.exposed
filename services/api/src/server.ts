@@ -12,7 +12,7 @@ import * as AWS from "aws-sdk";
 import axios from "axios";
 import cors from "cors";
 import express from "express";
-import jwt from "express-jwt";
+import { expressjwt as jwt } from "express-jwt";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/Apply";
 import * as E from "fp-ts/Either";
@@ -144,6 +144,7 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   app.use(express.json({ limit: 1024 * 1000 }));
   app.use(
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
       path: [
         { url: "/v1/users/login", method: "POST" },
