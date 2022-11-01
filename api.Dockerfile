@@ -1,4 +1,4 @@
-FROM node:14-slim as build
+FROM node:16-slim as build
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ RUN yarn install
 
 RUN yarn build
 
-FROM node:14-slim as deps
+FROM node:16-slim as deps
 
 WORKDIR /deps
 COPY package.json .yarnrc.yml yarn.lock ./
@@ -27,7 +27,7 @@ COPY --from=build /app/services/api/package.json /deps/services/api/package.json
 
 RUN yarn install
 
-FROM node:14-slim as production
+FROM node:16-slim as production
 
 WORKDIR /app
 
