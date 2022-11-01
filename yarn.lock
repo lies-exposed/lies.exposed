@@ -8470,7 +8470,7 @@ __metadata:
     "@types/uuid": ^8.3.4
     aws-sdk: ^2.1226.0
     axios: ^0.27.2
-    canvas: ^2.10.1
+    canvas: ^2.10.2
     cors: 2.8.5
     debug: ^4.3.4
     domino: ^2.1.6
@@ -9821,15 +9821,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"canvas@npm:^2.10.1":
-  version: 2.10.1
-  resolution: "canvas@npm:2.10.1"
+"canvas@npm:^2.10.2":
+  version: 2.10.2
+  resolution: "canvas@npm:2.10.2"
   dependencies:
     "@mapbox/node-pre-gyp": ^1.0.0
-    nan: ^2.15.0
+    nan: ^2.17.0
     node-gyp: latest
     simple-get: ^3.0.3
-  checksum: 29b162a59df8c63e5591cae62711ab3cc3b0a078f260b39b4594b51c5bcb9baa597eff40b52f25bd788aceb81756a41097c2dd0c01cbc17ae4a15e873da44cdf
+  checksum: b2e3eb4c3635fa2f67857619621c3d314f935a9e51904536dadf4908ab580dff4f5bcbaafe6eb0255247fa027ca494d5cd97c33376a49a0f994997263fa9944b
   languageName: node
   linkType: hard
 
@@ -18399,12 +18399,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nan@npm:^2.15.0":
-  version: 2.16.0
-  resolution: "nan@npm:2.16.0"
+"nan@npm:^2.17.0":
+  version: 2.17.0
+  resolution: "nan@npm:2.17.0"
   dependencies:
     node-gyp: latest
-  checksum: cb16937273ea55b01ea47df244094c12297ce6b29b36e845d349f1f7c268b8d7c5abd126a102c5678a1e1afd0d36bba35ea0cc959e364928ce60561c9306064a
+  checksum: ec609aeaf7e68b76592a3ba96b372aa7f5df5b056c1e37410b0f1deefbab5a57a922061e2c5b369bae9c7c6b5e6eecf4ad2dac8833a1a7d3a751e0a7c7f849ed
   languageName: node
   linkType: hard
 
