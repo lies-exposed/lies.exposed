@@ -68,6 +68,8 @@
     "geotiff": "^2.0.5",
     "io-ts": "^2.2.19",
     "io-ts-types": "^0.5.19",
+    "is-plain-object": "^5.0.0",
+    "lodash": "^4.17.21",
     "ol": "^6.15.1",
     "query-string": "^7.1.1",
     "ra-input-rich-text": "^4.4.4",
