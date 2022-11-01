@@ -87,10 +87,7 @@ export const APIRESTClient = ({
 
   if (getAuth !== undefined) {
     client.interceptors.request.use((req) => {
-      req.headers = {
-        ...req.headers,
-        Authorization: `Bearer ${getAuth()}`,
-      };
+      req.headers.set("Authorization", `Bearer ${getAuth()}`);
       return req;
     });
   }
