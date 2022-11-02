@@ -22,6 +22,7 @@ import {
   ListProps,
   LoadingPage,
   RaRecord,
+  ReferenceField,
   ReferenceManyField,
   required,
   SelectInput,
@@ -46,7 +47,7 @@ import ReferenceArrayEventInput from "../admin/common/ReferenceArrayEventInput";
 import MediaPreview from "../admin/previews/MediaPreview";
 import { ReferenceLinkTab } from "../admin/tabs/ReferenceLinkTab";
 import { Box, Button, Typography } from "../mui";
-import ReferenceUserInput from './common/ReferenceUserInput';
+import ReferenceUserInput from "./common/ReferenceUserInput";
 
 const RESOURCE = "media";
 
@@ -161,7 +162,15 @@ export const MediaList: React.FC<ListProps> = (props) => {
             );
           }}
         />
-        {isAdmin && <ReferenceUserInput source="creator" />}
+        {isAdmin && (
+          <ReferenceField source="creator" reference="users">
+            <FunctionField
+              label="creator"
+              render={(r: any) => (r ? `${r.firstName} ${r.lastName}` : "")}
+            />
+          </ReferenceField>
+        )}
+
         <FunctionField
           label="events"
           render={(r: any) => {
@@ -287,6 +296,12 @@ export const ThumbnailField: React.FC<FieldProps> = (props) => {
 
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   const apiProvider = useDataProvider();
+  const { permissions, isLoading: isLoadingPermissions } = usePermissions();
+  if (isLoadingPermissions) {
+    return <LoadingPage />;
+  }
+
+  const isAdmin = checkIsAdmin(permissions);
   return (
     <EditForm
       title={<EditTitle {...props} />}
@@ -300,6 +315,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
           <ThumbnailField />
           <DateField source="updatedAt" showTime={true} />
           <DateField source="createdAt" showTime={true} />
+          {isAdmin && <ReferenceUserInput source="creator" />}
           <TextInput source="description" fullWidth multiline />
         </FormTab>
         <FormTab label="events">
