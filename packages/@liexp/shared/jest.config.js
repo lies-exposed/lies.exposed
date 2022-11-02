@@ -14,11 +14,14 @@ const moduleNameMapper = {
 module.exports = {
   ...jestBaseConfig,
   displayName: "@liexp/shared",
-  globals: {
-    "ts-jest": {
-      tsconfig: __dirname + "/tsconfig.test.json",
-      isolatesModules: true,
-    },
+  transform: {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        tsconfig: __dirname + "/tsconfig.json",
+        isolatesModules: true,
+      },
+    ],
   },
   testPathIgnorePatterns: ["/node_modules/", "/http/Common/__tests__"],
   collectCoverageFrom: ["./src/**/*.ts"],

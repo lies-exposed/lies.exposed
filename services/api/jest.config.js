@@ -14,12 +14,17 @@ const moduleNameMapper = {
 
 module.exports = {
   ...jestBaseConfig,
-  displayName: 'api',
-  globals: {
-    "ts-jest": {
-      tsconfig: __dirname + "/tsconfig.json",
-      isolatesModules: true,
-    },
+  displayName: "api",
+  transform: {
+    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
+    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        tsconfig: __dirname + "/tsconfig.json",
+        isolatesModules: true,
+      },
+    ],
   },
   moduleNameMapper,
   collectCoverageFrom: ["./src/**/*.ts"],
@@ -27,7 +32,7 @@ module.exports = {
     "/src/migrations",
     "/src/scripts",
   ]),
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   globalSetup: "<rootDir>/test/globalSetup.ts",
   globalTeardown: "<rootDir>/test/globalTeardown.ts",
 };
