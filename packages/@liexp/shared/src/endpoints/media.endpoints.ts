@@ -71,6 +71,7 @@ export const Edit = Endpoint({
       description: t.string,
       links: t.array(UUID),
       events: t.array(UUID),
+      creator: optionFromNullable(UUID),
       overrideThumbnail: optionFromNullable(t.boolean),
     }),
   },

@@ -14,7 +14,12 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
     Endpoints.Media.Edit,
     ({
       params: { id },
-      body: { overrideThumbnail: _overrideThumbnail, thumbnail, ...body },
+      body: {
+        overrideThumbnail: _overrideThumbnail,
+        thumbnail,
+        creator,
+        ...body
+      },
     }) => {
       const overrideThumbnail = pipe(
         _overrideThumbnail,
@@ -22,7 +27,12 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
       );
 
       return pipe(
-        ctx.db.findOneOrFail(MediaEntity, { where: { id: Equal(id) } }),
+        ctx.db.findOneOrFail(MediaEntity, {
+          where: { id: Equal(id) },
+          loadRelationIds: {
+            relations: ["creator"],
+          },
+        }),
         TE.chain((m) =>
           pipe(
             O.isSome(overrideThumbnail)
@@ -34,6 +44,9 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
               : TE.right(O.toNullable(thumbnail)),
             TE.map((thumbnail) => ({
               ...m,
+              creator: O.isSome(creator)
+                ? { id: creator.value }
+                : { id: m.creator as any },
               thumbnail,
             }))
           )
@@ -55,6 +68,7 @@ export const MakeEditMediaRoute = (r: Router, ctx: RouteContext): void => {
           TE.fromEither(
             toImageIO({
               ...results[0],
+              creator: results[0].creator?.id as any,
               links: results[0].links.map((l) => l.id) as any[],
               events: results[0].events.map((e) => e.id) as any[],
             })
