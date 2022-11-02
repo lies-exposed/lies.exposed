@@ -16,11 +16,14 @@ const moduleNameMapper = {
 module.exports = {
   ...jestBaseConfig,
   displayName: "@liexp/ui",
-  globals: {
-    "ts-jest": {
-      tsconfig: __dirname + "/tsconfig.test.json",
-      isolatesModules: true,
-    },
+  transform: {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        tsconfig: __dirname + "/tsconfig.json",
+        isolatesModules: true,
+      },
+    ],
   },
   collectCoverageFrom: ["./src/**/*.tsx?"],
   coveragePathIgnorePatterns: jestBaseConfig.coveragePathIgnorePatterns.concat([
