@@ -19,6 +19,8 @@
     "typeRoots": [
       "../../node_modules/@types",
       "node_modules/@types",
+      "../../packages/@liexp/ui/shared",
+      "../../packages/@liexp/ui/typings",
       "typings"
     ],
     "importHelpers": true,

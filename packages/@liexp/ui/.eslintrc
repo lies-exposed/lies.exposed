@@ -2,7 +2,7 @@
   "extends": ["../../../.eslintrc", "plugin:react/recommended"],
   "parserOptions": {
     "tsconfigRootDir": "./",
-    "project": ["./tsconfig.test.json"]
+    "project": ["./tsconfig.json"]
   },
   "rules": {
     "react/prop-types": ["off"],
@@ -21,7 +21,7 @@
   },
   "settings": {
     "react": {
-      "version": "16.12.0"
+      "version": "^17"
     }
   }
 }

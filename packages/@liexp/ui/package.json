@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "tsc -b tsconfig.build.json",
+    "build": "tsc -b",
     "watch": "tsc -b -w",
     "test": "jest",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/",
