@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types";
+import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { UUID, Tag, BaseProps } from "./Common";
 import { Color } from "./Common/Color";
 import { GetListQuery } from "./Query";
