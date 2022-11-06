@@ -1,8 +1,16 @@
 import { propsOmit } from "@liexp/core/io/utils";
-import * as t from 'io-ts';
-import { DateFromISOString, UUID } from 'io-ts-types';
-import { URL } from './Common';
-import { Death, Documentary, Event, Patent, ScientificStudy, Uncategorized } from './Events';
+import * as t from "io-ts";
+import { UUID } from "io-ts-types/lib/UUID";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
+import { URL } from "./Common";
+import {
+  Death,
+  Documentary,
+  Event,
+  Patent,
+  ScientificStudy,
+  Uncategorized,
+} from "./Events";
 
 const EventSuggestionNewType = t.literal("New");
 const EventSuggestionUpdateType = t.literal("Update");
@@ -100,8 +108,7 @@ export const NewEventSuggestion = t.strict({
     "Event"
   ),
 });
-export type NewEventSuggestion = t.TypeOf<typeof NewEventSuggestion>
-
+export type NewEventSuggestion = t.TypeOf<typeof NewEventSuggestion>;
 
 export const EventSuggestion = t.union(
   [UpdateEventSuggestion, NewEventSuggestion],

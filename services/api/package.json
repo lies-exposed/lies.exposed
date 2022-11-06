@@ -31,7 +31,7 @@
   "dependencies": {
     "@databases/escape-identifier": "^1.0.3",
     "@databases/pg": "^5.4.1",
-    "aws-sdk": "^2.1226.0",
+    "aws-sdk": "^2.1248.0",
     "axios": "^0.27.2",
     "canvas": "^2.10.2",
     "cors": "2.8.5",
@@ -99,8 +99,7 @@
     "@routes": "build/routes",
     "@utils": "build/utils",
     "@liexp/core": "../../packages/@liexp/core/lib",
-    "@liexp/shared": "../../packages/@liexp/shared/lib",
-    "@liexp/ui": "../../packages/@liexp/ui/lib"
+    "@liexp/shared": "../../packages/@liexp/shared/lib"
   },
   "license": "MIT",
   "lint-staged": {

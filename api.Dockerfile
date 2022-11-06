@@ -9,23 +9,12 @@ COPY .yarnrc.yml .
 COPY tsconfig.json .
 COPY packages/@liexp/core ./packages/@liexp/core
 COPY packages/@liexp/shared ./packages/@liexp/shared
+COPY packages/@liexp/test ./packages/@liexp/test
 COPY services/api ./services/api
 
 RUN yarn install
 
-RUN yarn build
-
-FROM node:16-slim as deps
-
-WORKDIR /deps
-COPY package.json .yarnrc.yml yarn.lock ./
-
-COPY --from=build /app/.yarn /deps/.yarn
-COPY --from=build /app/packages/@liexp/core/package.json /deps/packages/@liexp/core/package.json
-COPY --from=build /app/packages/@liexp/shared/package.json /deps/packages/@liexp/shared/package.json
-COPY --from=build /app/services/api/package.json /deps/services/api/package.json
-
-RUN yarn install
+RUN yarn api build
 
 FROM node:16-slim as production
 
@@ -48,8 +37,6 @@ COPY --from=build /app/services/api/package.json /app/services/api/package.json
 COPY --from=build /app/services/api/ormconfig.js /app/services/api/ormconfig.js
 COPY --from=build /app/services/api/build /app/services/api/build
 
-# COPY --from=deps /deps/node_modules /app/node_modules
-
-RUN yarn install
+RUN yarn workspaces focus --production
 
 CMD ["yarn", "api", "start"]

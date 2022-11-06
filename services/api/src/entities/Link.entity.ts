@@ -1,5 +1,5 @@
 import { URL } from "@liexp/shared/io/http/Common";
-import { UUID } from "io-ts-types";
+import { UUID } from "io-ts-types/lib/UUID";
 import {
   Column,
   CreateDateColumn,

@@ -50,8 +50,11 @@ services:
       retries: 3
 
   api:
+    build:
+      context: .
+      target: production
+      dockerfile: api.Dockerfile
     container_name: liexp-api
-    image: liexp_base
     env_file:
       - .env
       # - .env.alpha
@@ -65,30 +68,35 @@ services:
       - space
     ports:
       - "4010:4010"
-    volumes:
-      - ./packages/@liexp:/app/packages/@liexp
-      - ./services/api:/app/services/api
+    # volumes:
+    #   - ./packages/@liexp:/app/packages/@liexp
+    #   - ./services/api:/app/services/api
     tty: true
     stdin_open: true
     working_dir: /app/services/api
     command: yarn develop --delay 80ms
     restart: always
+    mem_limit: 1024mb
 
   web:
+    build:
+      context: .
+      target: production
+      dockerfile: web.Dockerfile
     container_name: liexp-web
-    image: liexp_base
     env_file:
       - ./services/web/.env
     ports:
-      - "4000:4000"
-    volumes:
-      - ./.eslintrc:/app/.eslintrc
-      - ./tsconfig.json:/app/tsconfig.json
-      - ./packages/@liexp:/app/packages/@liexp:cached
-      - ./services/web:/app/services/web:cached
+      - "4020:4020"
+    # volumes:
+    #   - ./.eslintrc:/app/.eslintrc
+    #   - ./tsconfig.json:/app/tsconfig.json
+    #   - ./packages/@liexp:/app/packages/@liexp:cached
+    #   - ./services/web:/app/services/web:cached
     working_dir: /app/services/web
-    command: yarn start
+    command: yarn serve
     tty: false
+    stdin_open: true
     depends_on:
       - api
       - space

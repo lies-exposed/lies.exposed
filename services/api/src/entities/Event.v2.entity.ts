@@ -1,6 +1,6 @@
 import * as http from "@liexp/shared/io/http";
 import { UNCATEGORIZED } from "@liexp/shared/io/http/Events/Uncategorized";
-import { UUID } from 'io-ts-types';
+import { UUID } from 'io-ts-types/lib/UUID';
 import {
   Column,
   CreateDateColumn,

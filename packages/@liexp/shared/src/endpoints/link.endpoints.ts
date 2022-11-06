@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output, UUID } from "../io/http/Common";

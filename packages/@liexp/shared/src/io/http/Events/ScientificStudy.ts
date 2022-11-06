@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { UUID } from "io-ts-types";
+import { UUID } from "io-ts-types/lib/UUID";
 import { URL } from "../Common/URL";
 import { CreateEventCommon, EditEventCommon, EventCommon } from "./BaseEvent";
 

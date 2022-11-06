@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types";
+import { NumberFromString } from "io-ts-types/lib/NumberFromString";
 
 export const SummitEvent = t.strict(
   {

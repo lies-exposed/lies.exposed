@@ -23,10 +23,8 @@
     },
     {
       "path": "../../packages/@liexp/shared"
-    },
-    {
-      "path": "../../packages/@liexp/ui"
     }
+    
   ],
   "include": ["./src"],
   "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**"]
